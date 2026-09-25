@@ -1,0 +1,43 @@
+{
+  "_STATUS": "LEER. ENTWURF. NICHT AUSLIEFERN.",
+  "_warum_leer": "Für britisches Fristenrecht lag beim Bau keine belegbare Quelle vor — kein Netz, keine Rechtsdatenbank. Nach der Regel des Hauses wird eine Frist ohne zitierbare Quelle WEGGELASSEN, nicht geschätzt: eine erfundene Frist ist schlimmer als eine fehlende, weil die Bürgerin sich darauf verlässt und sie versäumt. Diese Datei ist darum ein Rechercheauftrag, kein Rechtsinhalt.",
+  "_freigabe": "Rechtsinhalt für ein fremdes Land geht erst nach Produktfreigabe in die Auslieferung. Wer diese Datei füllt, füllt sie nicht allein.",
+  "_form": "Jeder Eintrag braucht `dauer` UND `quelle` — der Kern weist eine Dauer ohne Quelle ab, wie bei `fristRegel` im eingebauten Bestand. Erlaubte Dauern sind die geschlossene Liste des Kerns: P3WERKTAGE, P3W, P6W, P1M, P2M. Reicht keine davon, ist das ein eigener Befund und keine Erlaubnis, die nächstbeste zu nehmen.",
+  "_mechanik_bewiesen": "Dass die Überlagerung Fristen wirklich wechselt, ist belegt — mit einer ausdrücklich benannten Prüf-Fixture (tests/fixtures/rechtsraum-PRUEFFIXTURE-keine-rechtsaussage.json, U2-ADR-309), nicht mit dieser Datei. Was hier fehlt, ist Recht, nicht Mechanik.",
+
+  "rechtsraum": "UK",
+  "moduleVersion": 1,
+  "anbieterId": "vivodepot",
+
+  "_offen": [
+    {
+      "kennung": "sozialversicherung.pflegegrad_bescheid_vom",
+      "eingebaut_de": "P1M · § 84 Abs. 1 SGG (Widerspruchsfrist gegen einen Bescheid)",
+      "frage_uk": "Gibt es eine entsprechende Frist zur Anfechtung einer Pflege-/Sozialleistungsentscheidung? Welche Dauer, welche Fundstelle?"
+    },
+    {
+      "kennung": "sozialversicherung.kuendigungsdatum",
+      "eingebaut_de": "P3W · § 4 Satz 1 KSchG (Kündigungsschutzklage)",
+      "frage_uk": "Frist für einen Antrag beim Employment Tribunal nach einer Kündigung — Dauer und Fundstelle?"
+    },
+    {
+      "kennung": "situation:geburt.geburt_kind_kv",
+      "eingebaut_de": "P2M ab Geburtsdatum · § 198 Abs. 1 VVG (Aufnahme des Kindes in die Krankenversicherung)",
+      "frage_uk": "Entspricht dem im UK-System überhaupt eine Frist? Falls das System keine kennt, ist die richtige Antwort, den Eintrag WEGZULASSEN — nicht, eine zu suchen, bis eine passt."
+    },
+    {
+      "kennung": "situation:erbfall.erb_sterbeurkunde",
+      "eingebaut_de": "P3WERKTAGE ab Sterbedatum · § 28 PStG (Anzeige des Sterbefalls)",
+      "frage_uk": "Frist zur Registrierung eines Todesfalls — Dauer und Fundstelle? Beachten: die Regelung kann sich zwischen England/Wales, Schottland und Nordirland unterscheiden. Ein Modul `UK` müsste dann entweder die strengste nennen oder in mehrere Rechtsräume zerfallen; das ist eine Entscheidung, keine Recherche."
+    },
+    {
+      "kennung": "situation:erbfall.erb_schulden_kenntnis",
+      "eingebaut_de": "P6W · § 1944 BGB (Ausschlagung der Erbschaft)",
+      "frage_uk": "Das englische Erbrecht kennt die Ausschlagung in dieser Form nicht ohne Weiteres. Ob dieser Eintrag im UK-Rechtsraum überhaupt ein Gegenstück hat, ist die erste Frage — nicht, welche Dauer er trägt."
+    }
+  ],
+
+  "_nicht_hier": "gueltigkeitVorschlag (Ausweis-/Passdauer). Er läuft über einen eigenen Weg; die Überlagerung dafür entsteht in einem eigenen Zug. Auch dort gilt: ohne Fundstelle keine Dauer.",
+
+  "felder": {}
+}

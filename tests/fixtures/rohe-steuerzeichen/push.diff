@@ -1,0 +1,17 @@
+diff --git a/tools/beispiel-werkzeug.js b/tools/beispiel-werkzeug.js
+--- a/tools/beispiel-werkzeug.js
++++ b/tools/beispiel-werkzeug.js
+@@ -10,0 +11,2 @@ function beispiel() {
++// Erfunden: gepflanzte neue Zeile, rohes Trenner-Byte: a.b
++// Erfunden: dieselbe Aussage sauber: a.\x1fb
+diff --git a/docs/beispiel.md b/docs/beispiel.md
+--- a/docs/beispiel.md
++++ b/docs/beispiel.md
+@@ -3 +3 @@
+-Erfunden: Altstelle mit rohem Byte: x.y, nur eingerückt verschoben.
++  Erfunden: Altstelle mit rohem Byte: x.y, nur eingerückt verschoben.
+diff --git a/tests/g3-fuzzing-importparser.test.js b/tests/g3-fuzzing-importparser.test.js
+--- a/tests/g3-fuzzing-importparser.test.js
++++ b/tests/g3-fuzzing-importparser.test.js
+@@ -1,0 +2 @@
++// Erfunden: ausgenommene Datei, rohes Byte bleibt grün: z.w

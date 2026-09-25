@@ -1,0 +1,1236 @@
+{
+  "_typ": "vivodepot-klartext-export",
+  "_hinweis": "Offener, UNVERSCHLÜSSELTER Klartext-Export des gesamten Depots. Sicher aufbewahren.",
+  "_version": "v1.0-rc",
+  "_exportiertAm": "<normalisiert>",
+  "depot": {
+    "schemaVersion": 82,
+    "kryptoVersion": 3,
+    "menschen": [
+      {
+        "id": "p-partner",
+        "name": "Maximiliane Alexandra Wredenhagen-Sonnenschein",
+        "beziehung": "partner",
+        "geburtsdatum": "1961-11-02",
+        "tel": "0171 2345678",
+        "email": "maximiliane.wredenhagen-sonnenschein@beispielpost.example",
+        "adresse": "Lindenweg 4, 80331 München"
+      },
+      {
+        "id": "p-kind-1",
+        "name": "Konstantin-Emanuel Wredenhagen-Sonnenschein",
+        "beziehung": "kind",
+        "geburtsdatum": "1994-06-18"
+      },
+      {
+        "id": "p-kind-2",
+        "name": "Mia",
+        "beziehung": "kind",
+        "geburtsdatum": "2016-02-29"
+      },
+      {
+        "id": "p-mutter",
+        "name": "Brunhilde Waltraud Immergrün",
+        "beziehung": "mutter",
+        "geburtsdatum": "1937-08-09"
+      },
+      {
+        "id": "p-hebamme",
+        "name": "Frida Nachtigall",
+        "beziehung": "sonstige",
+        "tel": "089 1122334"
+      },
+      {
+        "id": "p-hausarzt",
+        "name": "Dr. med. Anselm Bergmüller-Kastner",
+        "fachrichtung": "Allgemeinmedizin"
+      },
+      {
+        "id": "p-facharzt-1",
+        "name": "Dr. med. Prof. Cordelia Habichtsberg-von der Marwitz",
+        "fachrichtung": "Kardiologie"
+      },
+      {
+        "id": "p-facharzt-2",
+        "name": "Dr. Tom Nguyen",
+        "fachrichtung": "Neurologie"
+      },
+      {
+        "id": "p-zahnarzt",
+        "name": "Dr. Sibylle Rautenkranz",
+        "fachrichtung": "Zahnmedizin"
+      },
+      {
+        "id": "p-pflegeperson",
+        "name": "Johanna Lichtblau",
+        "beziehung": "sonstige"
+      },
+      {
+        "id": "p-vermieter",
+        "name": "Herbert Osterwald",
+        "beziehung": "sonstige"
+      },
+      {
+        "id": "p-seelsorger",
+        "name": "Pfarrer Matthias Kornblum",
+        "beziehung": "sonstige"
+      },
+      {
+        "id": "p-steuerberater",
+        "name": "Wolf-Dietrich Ellermann",
+        "beziehung": "geschaeftlich"
+      },
+      {
+        "id": "p-finanzberater",
+        "name": "Priska Sandmeier",
+        "beziehung": "geschaeftlich"
+      },
+      {
+        "id": "p-erbe-3",
+        "name": "Onkel Reinhard Wredenhagen",
+        "beziehung": "sonstige"
+      }
+    ],
+    "institutionen": [
+      {
+        "id": "i-arbeitgeber",
+        "name": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH",
+        "adresse": "Industriestraße 88, 81379 München"
+      },
+      {
+        "id": "i-pflegedienst",
+        "name": "Ambulanter Pflegedienst Sonnenschein gGmbH",
+        "tel": "089 998877"
+      },
+      {
+        "id": "i-notar",
+        "name": "Notariat Dr. Sommer & Habicht, Partnerschaft mbB",
+        "tel": "089 554433"
+      },
+      {
+        "id": "i-bestattung",
+        "name": "Bestattungshaus Ehrlich & Söhne KG"
+      }
+    ],
+    "mappe": [],
+    "sektoren": {
+      "identity": {
+        "givenName": "Elisabeth",
+        "familyName": "Wredenhagen-Sonnenschein",
+        "secondLastName": "",
+        "displayFamilyNameFirst": false,
+        "birthDate": "1958-03-14",
+        "yearOfBirthIfTheExactDayIs": "",
+        "telephone": "089 87654321",
+        "streetAddress": "Lindenweg 4",
+        "postcodeCity": "80331 München",
+        "email": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+        "nationality": "deutsch",
+        "birthName": "Immergrün",
+        "birthPlace": "Augsburg",
+        "gender": "w",
+        "maritalStatus": "verh",
+        "maritalPropertyRegime": "zugewinn",
+        "dateOfSeparation": "",
+        "idDocuments": [
+          {
+            "system": "DE",
+            "documentNumber": "T11XXXXX3",
+            "issuedOn": "2011-06-01",
+            "validUntil": "2021-06-01"
+          },
+          {
+            "system": "DE",
+            "documentNumber": "T22XXXXX9",
+            "issuedOn": "2021-06-01",
+            "validUntil": "2031-06-01"
+          }
+        ],
+        "residencePermitType": "",
+        "residencePermit": [
+          {
+            "system": "DE",
+            "number": "AT-XXXXXX1",
+            "issuedOn": "2015-01-01",
+            "validUntil": "2020-01-01",
+            "responsibleImmigration": "",
+            "fileReferenceNumber": ""
+          },
+          {
+            "system": "DE",
+            "number": "AT-XXXXXX2",
+            "issuedOn": "2020-01-01",
+            "validUntil": "2025-01-01",
+            "responsibleImmigration": "",
+            "fileReferenceNumber": ""
+          }
+        ],
+        "profilePhotoCoverPage": {
+          "ref": "",
+          "override": ""
+        },
+        "furtherDetails": "Bevorzugt schriftliche Nachrichten gegenüber Telefonanrufen",
+        "choiceOfNameAfterMarriage": "ehename_meiner",
+        "choiceOfNameAfterMarriage2": "",
+        "taxClass": "IV",
+        "taxClassEarlierEntry": "",
+        "reRegistrationWithTheResidents": "",
+        "pets": [
+          {
+            "petNameSpecies": "Felix, Europäisch Kurzhaar",
+            "emergencyCarePersonContact": {
+              "ref": "p-mutter",
+              "override": ""
+            },
+            "vetNameContact": {
+              "ref": "",
+              "override": ""
+            },
+            "medication": "Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt",
+            "otherNotes": "sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer"
+          },
+          {
+            "petNameSpecies": "Bruno",
+            "emergencyCarePersonContact": {
+              "ref": "",
+              "override": ""
+            },
+            "vetNameContact": {
+              "ref": "",
+              "override": ""
+            },
+            "medication": "",
+            "otherNotes": ""
+          }
+        ],
+        "formerNames": [
+          {
+            "name": "Elisabeth Immergrün",
+            "usedUntil": "1985-06-14",
+            "reason": "heirat",
+            "proofStorageLocation": "Heiratsurkunde, Ordner „Familie\""
+          },
+          {
+            "name": "Elisabeth Wredenhagen",
+            "usedUntil": "2003-02-01",
+            "reason": "scheidung",
+            "proofStorageLocation": ""
+          }
+        ]
+      },
+      "people": {
+        "whoProvidesThePrimaryCare": {
+          "ref": "p-pflegeperson",
+          "override": ""
+        },
+        "careLeaveFamilyCareLeave": "Pflegezeit beim Arbeitgeber der Tochter beantragt, drei Monate ab 09/2026",
+        "spouseOrCivilPartner": {
+          "ref": "p-partner",
+          "override": ""
+        },
+        "childrenAndDependants": [
+          {
+            "person": {
+              "ref": "p-kind-1",
+              "override": ""
+            },
+            "type": "leiblich",
+            "typeAdditionalDetail": "",
+            "legalRepresentationParental": "gemeinsam",
+            "custodyAdditionalDetailPartial": "",
+            "custodyArrangement": "",
+            "training": "ja",
+            "trainingExpectedToEnd": "2027-07-31",
+            "birthCertificateStorage": "Ordner „Familie\", Aktenschrank Wohnzimmer"
+          },
+          {
+            "person": {
+              "ref": "p-kind-2",
+              "override": ""
+            },
+            "type": "leiblich",
+            "typeAdditionalDetail": "aus zweiter Ehe des Vaters, lebt überwiegend bei mir",
+            "legalRepresentationParental": "gemeinsam",
+            "custodyAdditionalDetailPartial": "Aufenthaltsbestimmungsrecht bei mir, im Übrigen gemeinsam mit dem Vater",
+            "custodyArrangement": "Wechselmodell, ca. 60/40 zu meinen Gunsten",
+            "training": "nein",
+            "trainingExpectedToEnd": "",
+            "birthCertificateStorage": ""
+          }
+        ],
+        "maintenanceObligationsAnd": [
+          {
+            "person": {
+              "ref": "p-kind-2",
+              "override": ""
+            },
+            "type": "Kindesunterhalt",
+            "amount": "480 EUR / Monat",
+            "direction": "zahle",
+            "note": "gemäß Vereinbarung vom 03.05.2020, Düsseldorfer Tabelle Stufe 3"
+          },
+          {
+            "person": {
+              "ref": "",
+              "override": ""
+            },
+            "type": "Trennungsunterhalt",
+            "amount": "",
+            "direction": "",
+            "note": ""
+          }
+        ],
+        "guidedBirthEntryChildsNameNot": "",
+        "guidedBirthEntryDateOfBirthNot": "",
+        "guidedBirthEntryRelationship": ""
+      },
+      "mobility": {
+        "drivingLicenceClasses": [
+          "B",
+          "BE"
+        ],
+        "drivingLicenceStorageLocation": "Geldbeutel",
+        "drivingLicenceEarlierEntry": "",
+        "drivingLicenceValidUntil": "2033-09-01",
+        "carInsurance": {
+          "override": "HUK24"
+        },
+        "policyNumber": "4711-0815-X",
+        "deutschlandticketPublic": "Deutschlandticket-Abo bei der MVG",
+        "passportNo": "C1XXXXX45",
+        "passportIssuedOn": "2023-04-01",
+        "passportValidUntil": "2033-04-01",
+        "elefandRegistrations": [
+          {
+            "system": "",
+            "registrationNo": "ELE-2025-58204",
+            "countries": "Thailand",
+            "validUntil": "2026-12-31"
+          },
+          {
+            "system": "",
+            "registrationNo": "ELE-2023-11029",
+            "countries": "Marokko",
+            "validUntil": "2024-01-15"
+          }
+        ],
+        "embassyContact": {
+          "override": "Deutsche Botschaft Bangkok, +66 2 161 2101"
+        },
+        "vehicles": [
+          {
+            "registrationPlate": "VW Golf 8 Variant, 1.5 TSI, Kennzeichen M-EW 4521",
+            "vehicleRegistrationDocument": "Handschuhfach",
+            "leaseAgreementStorageLocation": ""
+          },
+          {
+            "registrationPlate": "Fahrrad, Pedelec Kalkhoff Endeavour",
+            "vehicleRegistrationDocument": "",
+            "leaseAgreementStorageLocation": ""
+          },
+          {
+            "registrationPlate": "Vespa Primavera 125, Kennzeichen M-EW 88",
+            "vehicleRegistrationDocument": "Aktenordner „Fahrzeuge\"",
+            "leaseAgreementStorageLocation": "Sparkassen-Leasing, Vertrag endet 2028"
+          }
+        ]
+      },
+      "finance": {
+        "taxIdsTaxNumbers": [
+          {
+            "system": "",
+            "taxNumber": "12 345 678 901"
+          },
+          {
+            "system": "",
+            "taxNumber": "98 765 432 100"
+          }
+        ],
+        "companyPensionSchemeBav": "Allianz Pensionskasse",
+        "companyPensionScheme": "pensionskasse",
+        "companyPensionPolicyNumber": "APK-XXXXXX",
+        "companyPensionAgreedStartDate": "2045-03-01",
+        "privatePensionProvision": "Cosmos Direkt",
+        "policyContractNumber": "POL-772-4493",
+        "privatePensionProvisionAgreed": "2043-11-01",
+        "taxAdvisor": {
+          "ref": "p-steuerberater",
+          "override": ""
+        },
+        "taxAdvisorContact": "089 12345-678",
+        "latestTaxReturnStorageLocation": "Ordner „Steuern 2025\", Aktenschrank Arbeitszimmer",
+        "taxSoftware": "WISO Steuer 2026",
+        "taxParticulars": "Einkünfte aus Vermietung der Zweitwohnung, Ehegattensplitting",
+        "financialAdvisorNameContact": {
+          "ref": "p-finanzberater",
+          "override": ""
+        },
+        "ongoingLoansDebts": "Baudarlehen bei der DKB, Restlaufzeit 11 Jahre, 1.150 EUR/Monat",
+        "valuablesStorageLocations": "Schmuck im Bankschließfach; Münzsammlung im Wohnzimmerschrank; Gemälde „Herbstwald\" von Tante Gudrun",
+        "digitalBalances": "PayPal-Guthaben ca. 80 EUR",
+        "outstandingClaimsGuarantees": "Bürgschaft für Konstantin-Emanuel, Immobilienkredit bei der Sparkasse München, 20.000 EUR",
+        "assetsForTheEstate": [
+          {
+            "asset": "Eigentumswohnung",
+            "withWhom": "München-Schwabing"
+          },
+          {
+            "asset": "Wertpapierdepot",
+            "withWhom": "DKB"
+          },
+          {
+            "asset": "Lebensversicherung",
+            "withWhom": "Allianz"
+          },
+          {
+            "asset": "Bausparvertrag",
+            "withWhom": "Schwäbisch Hall"
+          }
+        ],
+        "accounts": [
+          {
+            "institution": {
+              "override": "Kreissparkasse Oberbayern-Nord eG"
+            },
+            "accountType": "Girokonto",
+            "iban": "DE89 3704 0044 0532 0130 00",
+            "bankingPowersOfAttorneyFrom": [
+              {
+                "ref": "vi-bank-1",
+                "override": ""
+              }
+            ],
+            "note": "Hauptkonto, monatliche Abbuchungen"
+          },
+          {
+            "institution": {
+              "override": "Deutsche Bank Privat- und Geschäftskunden AG"
+            },
+            "accountType": "Tagesgeldkonto",
+            "iban": "DE12 1203 0000 0000 2020 51",
+            "bankingPowersOfAttorneyFrom": [
+              {
+                "ref": "vi-bank-2",
+                "override": ""
+              }
+            ],
+            "note": ""
+          },
+          {
+            "institution": {
+              "override": "DKB"
+            },
+            "accountType": "Wertpapierdepot",
+            "iban": "DE45 1203 0000 0009 8765 43",
+            "bankingPowersOfAttorneyFrom": [],
+            "note": ""
+          }
+        ],
+        "creditCards": [
+          {
+            "providerLast4Digits": "Visa · …4521",
+            "validUntil": "2028-06-01"
+          },
+          {
+            "providerLast4Digits": "Mastercard Gold · …7788",
+            "validUntil": "2027-11-01"
+          }
+        ]
+      },
+      "assets": {
+        "additionalTypesOfIncome": [
+          "kindergeld",
+          "rente"
+        ],
+        "livingSituation": "mit_angehoerigen",
+        "homeSize": "82",
+        "housingCostsBorneAlone": "",
+        "numberOfPeopleInTheHome": "3",
+        "housingCostsTotal": "1.450",
+        "housingCostsOwnShare": "480",
+        "yourOwnIncomeNetMonthly": "1.850",
+        "maintenanceObligations": "Tochter Mia, 420 EUR monatlich",
+        "incomeOfOtherPeopleInThe": "2.100",
+        "monthlyCommitments": ""
+      },
+      "health": {
+        "generalPractitioner": {
+          "ref": "p-hausarzt",
+          "override": ""
+        },
+        "ongoingTreatmentNext": "Reha-Nachsorge bis 15.09., Kontrolltermine Kardiologie alle drei Monate",
+        "bloodType": "A+",
+        "allergiesMedicationFoodOther": [
+          {
+            "text": "Penicillin"
+          },
+          {
+            "text": "Hausstaubmilben"
+          }
+        ],
+        "chronicConditionsDiagnoses": [
+          {
+            "text": "Diabetes mellitus Typ 2"
+          },
+          {
+            "text": "Bluthochdruck (essentielle Hypertonie)"
+          }
+        ],
+        "healthInsurance": {
+          "override": "AOK Bayern"
+        },
+        "medicationOngoing": [
+          {
+            "text": "Ramipril 5 mg morgens"
+          },
+          {
+            "text": "Metformin 500 mg, zweimal täglich"
+          }
+        ],
+        "insuranceNumber": "A1XXXXX89",
+        "implantsProsthesesPacemakers": "Hüft-TEP rechts (Stryker), seit 2019",
+        "heightCm": "167",
+        "bodyWeightKg": "71",
+        "vaccinationRecordStorage": "Grüner Impfausweis, oberste Schublade im Nachttisch",
+        "emergencyContacts": [
+          {
+            "ref": "p-pflegeperson",
+            "override": ""
+          },
+          {
+            "ref": "p-partner",
+            "override": ""
+          }
+        ],
+        "insuredThrough": "selbst versichert",
+        "supplementaryInsurance": "Zahnzusatzversicherung bei der HUK-Coburg",
+        "healthInsuranceCards": [
+          {
+            "system": "",
+            "storageLocation": "Geldbeutel",
+            "validUntilInclEhic": "2030-03-01"
+          },
+          {
+            "system": "",
+            "storageLocation": "Geldbeutel, altes Fach",
+            "validUntilInclEhic": "2025-01-01"
+          }
+        ],
+        "emergencyCardPatientId": "Geldbeutel, Fach hinter dem Ausweis",
+        "smoking": "ex",
+        "alcohol": "selten",
+        "vaccinations": "Tetanus 2023, Grippe jährlich, COVID-19 Grundimmunisierung + zwei Auffrischungen",
+        "findingsOnAUsbStick": "USB-Stick im Ordner „Gesundheit\", beschriftet",
+        "preventiveCheckUpsLatestDates": "letzte Vorsorgeuntersuchung 03/2026, unauffällig",
+        "dentistNameContact": {
+          "ref": "p-zahnarzt",
+          "override": ""
+        },
+        "dentalBonusBookletStorage": "Ordner „Gesundheit\"",
+        "ehicCardEuropeanHealth": "auf der Rückseite der Krankenversicherungskarte",
+        "operationsProcedures": [
+          {
+            "procedure": "Blinddarm-Entfernung",
+            "year": "1979"
+          },
+          {
+            "procedure": "Hüft-TEP rechts",
+            "year": "2019"
+          },
+          {
+            "procedure": "Kaiserschnitt",
+            "year": "1994"
+          }
+        ],
+        "familyMedicalHistory": [
+          {
+            "familyMember": "Vater",
+            "condition": "Herzinfarkt (verstorben)",
+            "ageAtDiagnosis": "61"
+          },
+          {
+            "familyMember": "Mutter",
+            "condition": "Diabetes Typ 2",
+            "ageAtDiagnosis": "70"
+          },
+          {
+            "familyMember": "Schwester",
+            "condition": "Brustkrebs (behandelt, in Remission)",
+            "ageAtDiagnosis": ""
+          }
+        ],
+        "specialistDoctors": [
+          {
+            "specialistDoctor": {
+              "ref": "p-facharzt-1",
+              "override": ""
+            },
+            "specialty": "Kardiologie"
+          },
+          {
+            "specialistDoctor": {
+              "ref": "p-facharzt-2",
+              "override": ""
+            },
+            "specialty": "Neurologie"
+          }
+        ]
+      },
+      "education": {
+        "schoolLeavingQualification": "abitur",
+        "schoolLeavingQualificationYear": "1978",
+        "schoolLeavingQualification2": "",
+        "school": "Luitpold-Gymnasium München",
+        "vocationalTraining": "ihk",
+        "vocationalTrainingTrained": "Bankkauffrau",
+        "vocationalTrainingCompany": "Bayerische Vereinsbank München",
+        "vocationalTrainingYear": "1978",
+        "vocationalTrainingEarlierEntry": "",
+        "universityDegreeType": "diplom",
+        "universitySubject": "Betriebswirtschaftslehre",
+        "universityInstitution": "Ludwig-Maximilians-Universität München",
+        "universityYear": "",
+        "universityEarlierEntry": "",
+        "certificatesQualifications": "Diplomurkunde, Ordner „Bildung\"",
+        "occupationRole": "Kaufmännische Leiterin (im Ruhestand seit 2023)",
+        "employer": {
+          "ref": "i-arbeitgeber",
+          "override": ""
+        },
+        "employmentContractFixedTerm": "",
+        "employerAddress": "Industriestraße 88, 81379 München",
+        "lastEmployer": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH",
+        "typeOfIncome": [
+          "rente_pension"
+        ],
+        "typeOfIncomeEarlierEntry": "Betriebsrente + gesetzliche Rente",
+        "grossMonthlyIncome": "2.680 EUR (Bruttorente)",
+        "netMonthlyIncome": "2.340 EUR",
+        "payslipStorageLocation": "Ordner „Rente\", Aktenschrank",
+        "qualifications": "IHK-Ausbilderschein, Projektmanagement-Zertifikat (PMP)",
+        "volunteerWork": "Kassenwartin im Gartenbauverein München-Nord seit 2021",
+        "schoolCertificatesStorage": "Ordner „Bildung\"",
+        "trainingCertificateStorage": "Ordner „Bildung\"",
+        "universityDegreeCertificate": "Ordner „Bildung\"",
+        "employmentReferenceStorage": "Ordner „Bildung\", Arbeitszeugnisse"
+      },
+      "socialInsurance": {
+        "pensionInsuranceNumbers": [
+          {
+            "system": "",
+            "pensionInsuranceNumber": "65 120358 A 456"
+          },
+          {
+            "system": "",
+            "pensionInsuranceNumber": "65 120358 A 456-2"
+          }
+        ],
+        "longTermCareFund": {
+          "override": "AOK Bayern — Pflegekasse"
+        },
+        "longTermCareFundNumbers": [
+          {
+            "system": "",
+            "longTermCareFundNumber": "PK-XXXXXXX"
+          },
+          {
+            "system": "",
+            "longTermCareFundNumber": "PK-YYYYYYY (Vorgängernummer)"
+          }
+        ],
+        "longTermCareFundPhone": "089 30909-0",
+        "careLevel": "1",
+        "careLevelSinceYear": "2024",
+        "careLevelTimeLimitedUntil": "",
+        "noticeDated": "2024-03-15",
+        "homeCareServiceNameContact": {
+          "ref": "i-pflegedienst",
+          "override": ""
+        },
+        "longTermCareAllowanceTypeOf": "",
+        "longTermCareAllowanceAmount": "",
+        "longTermCareAllowanceEarlier": "Entlastungsbetrag Pflegegrad 1, 125 EUR/Monat",
+        "degreeOfDisabilityGdb": "30",
+        "markers": [],
+        "gdbReviewReAssessmentDate": "2029-05-01",
+        "severeDisabilityCards": [
+          {
+            "system": "",
+            "storageLocation": "Geldbeutel",
+            "validUntil": "2029-12-31"
+          },
+          {
+            "system": "",
+            "storageLocation": "Geldbeutel, alter Ausweis",
+            "validUntil": "2024-12-31"
+          }
+        ],
+        "careHomeAssistedLiving": "",
+        "careContractStorageLocation": "",
+        "terminationDate": "",
+        "registeredAsJobSeekingOn": "",
+        "registeredAsUnemployedOn": "",
+        "noticeFromTheAgenturFRArbeit": ""
+      },
+      "advanceCare": {
+        "provisionDocumentsCheckedIn": "ja",
+        "contentOfTheAdvanceDirective": "ja",
+        "contentOfTheAdvanceDirective2": "nein",
+        "heirsBriefOverview": [
+          {
+            "ref": "p-partner",
+            "override": ""
+          },
+          {
+            "ref": "p-kind-1",
+            "override": ""
+          },
+          {
+            "ref": "p-erbe-3",
+            "override": ""
+          }
+        ],
+        "personalCareDignity": "Dusche statt Wanne bevorzugt; morgens Haare kämmen und Zopf flechten, das ist mir wichtig",
+        "dietSpecialRequirements": "keine Milchprodukte (Unverträglichkeit); Kaffee mit wenig Milch, keinen Zucker",
+        "dailyRoutineActivities": "Radio Bayern 1 morgens; Fenster auch im Winter kurz lüften",
+        "otherWishesNotes": "Besuch von Pfarrer Kornblum, wenn möglich; Fenster im Zimmer soll offen bleiben können",
+        "aidsEGWalkerHearingAid": "Lesebrille +2,5, Hörgerät rechts",
+        "provisionInstruments": [
+          {
+            "id": "vi-vollmacht-vorsorge",
+            "instrument": "vorsorgevollmacht",
+            "typeOfPowerOfAttorney": "vorsorge",
+            "form": "beurkundet",
+            "certifyingBody": "Notariat Dr. Sommer & Habicht, Urkundenrolle Nr. 118/2019",
+            "storageLocation": "beim Notariat verwahrt; Kopie im Ordner „Vorsorge\"",
+            "dateOfLastChange": "2019-04-03",
+            "morePreciseDescription": "",
+            "authorizedPersons": [
+              {
+                "ref": "p-partner",
+                "override": ""
+              },
+              {
+                "ref": "p-kind-1",
+                "override": ""
+              }
+            ]
+          },
+          {
+            "id": "vi-vollmacht-gesundheit",
+            "instrument": "vorsorgevollmacht",
+            "typeOfPowerOfAttorney": "vorsorge",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "Ordner „Vorsorge\"",
+            "dateOfLastChange": "2019-04-03",
+            "morePreciseDescription": "nur Gesundheitssorge",
+            "authorizedPersons": [
+              {
+                "ref": "p-partner",
+                "override": ""
+              }
+            ],
+            "healthCareGeneralDecision": "ja",
+            "healthCareMedicalProcedures": "ja",
+            "healthCareMedicalRecords": "ja",
+            "healthCarePlacementDepriving": "ja",
+            "healthCareMeasuresDepriving": "ja",
+            "healthCareCompulsoryMedical": "ja",
+            "healthCareAdmissionToHospital": "ja"
+          },
+          {
+            "id": "vi-bank-1",
+            "instrument": "vorsorgevollmacht",
+            "typeOfPowerOfAttorney": "bank",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "Ordner „Vorsorge\"",
+            "dateOfLastChange": "2020-01-15",
+            "morePreciseDescription": "Kreissparkasse Oberbayern-Nord eG, Girokonto",
+            "authorizedPersons": [
+              {
+                "ref": "p-partner",
+                "override": ""
+              }
+            ]
+          },
+          {
+            "id": "vi-bank-2",
+            "instrument": "vorsorgevollmacht",
+            "typeOfPowerOfAttorney": "bank",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "Ordner „Vorsorge\"",
+            "dateOfLastChange": "2022-06-30",
+            "morePreciseDescription": "Deutsche Bank Privat- und Geschäftskunden AG, Tagesgeldkonto",
+            "authorizedPersons": [
+              {
+                "ref": "p-kind-1",
+                "override": ""
+              }
+            ]
+          },
+          {
+            "id": "vi-vollmacht-betreuung",
+            "instrument": "vorsorgevollmacht",
+            "typeOfPowerOfAttorney": "betreuung",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "",
+            "dateOfLastChange": "2019-04-03",
+            "morePreciseDescription": "",
+            "authorizedPersons": [
+              {
+                "ref": "p-partner",
+                "override": ""
+              }
+            ]
+          },
+          {
+            "id": "vi-vollmacht-general",
+            "instrument": "vorsorgevollmacht",
+            "typeOfPowerOfAttorney": "vorsorge",
+            "form": "beglaubigt",
+            "certifyingBody": "Bürgeramt München-Schwabing",
+            "storageLocation": "Ordner „Vorsorge\"",
+            "dateOfLastChange": "2024-02-20",
+            "morePreciseDescription": "für den Notfall, falls die anderen Vollmachten nicht ausreichen",
+            "authorizedPersons": [
+              {
+                "ref": "p-partner",
+                "override": ""
+              },
+              {
+                "ref": "p-kind-1",
+                "override": ""
+              }
+            ],
+            "healthCareGeneralDecision": "ja",
+            "healthCareMedicalProcedures": "ja",
+            "healthCareMedicalRecords": "ja",
+            "healthCarePlacementDepriving": "ja",
+            "healthCareMeasuresDepriving": "ja",
+            "healthCareCompulsoryMedical": "ja",
+            "healthCareAdmissionToHospital": "ja",
+            "determinePlaceOfResidence": "ja",
+            "manageAnExistingTenancyWindUp": "ja",
+            "concludeAndTerminateANew": "ja",
+            "concludeAndTerminateHousingAnd": "ja",
+            "representationWithAuthorities": "ja",
+            "assetManagementGeneral": "ja",
+            "disposeOfAssets": "ja",
+            "acceptPaymentsAndValuables": "ja",
+            "enterIntoLiabilities": "ja",
+            "accountsCustodyAccountsSafes": "ja",
+            "customaryGiftsWithinWhatCare": "ja",
+            "mailAndTelecommunications": "ja",
+            "representationInCourt": "ja",
+            "mayGrantASubPowerOfAttorney": "ja",
+            "alsoProposeTheAuthorizedPerson": "ja",
+            "appliesBeyondDeath": "ja"
+          },
+          {
+            "id": "vi-pv",
+            "instrument": "patientenverfuegung",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "beim Hausarzt hinterlegt",
+            "dateOfLastChange": "2023-05-11",
+            "morePreciseDescription": ""
+          },
+          {
+            "id": "vi-testament",
+            "instrument": "testament",
+            "form": "beurkundet",
+            "certifyingBody": "Notariat Dr. Sommer & Habicht, Urkundenrolle Nr. 204/2021",
+            "storageLocation": "beim Notariat verwahrt",
+            "dateOfLastChange": "2021-09-12",
+            "morePreciseDescription": "",
+            "statutorySuccessionOr": "abweichend",
+            "personalNotesOnThis": "Großmutters Ring an Mia; die Vespa an Konstantin-Emanuel; 5.000 EUR an den örtlichen Tierschutzverein München-Nord"
+          },
+          {
+            "id": "vi-betreuungsvfg",
+            "instrument": "betreuungsverfuegung",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "Ordner „Vorsorge\"",
+            "dateOfLastChange": "2019-04-03",
+            "morePreciseDescription": "",
+            "proposedPerson": {
+              "ref": "p-partner",
+              "override": ""
+            },
+            "alternatePerson": {
+              "ref": "p-kind-1",
+              "override": ""
+            },
+            "whatTheCareArrangementShould": "Wohnung möglichst lange halten; vertraute Hausärztin behalten",
+            "whatTheCareArrangementShould2": "kein Umzug ins Pflegeheim ohne Rücksprache mit beiden Kindern"
+          },
+          {
+            "id": "vi-sorgerecht",
+            "instrument": "sorgerechtsverfuegung",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "beim Notariat",
+            "dateOfLastChange": "2019-04-03",
+            "morePreciseDescription": "",
+            "proposedPerson2": {
+              "ref": "p-partner",
+              "override": ""
+            },
+            "alternatePerson2": {
+              "ref": "p-mutter",
+              "override": ""
+            },
+            "wishesForUpbringingCare": "Mia soll in der gewohnten Schule bleiben; Kontakt zu beiden Großmüttern erhalten"
+          },
+          {
+            "id": "vi-ki",
+            "instrument": "ki-verfuegung",
+            "form": "privat",
+            "certifyingBody": "",
+            "storageLocation": "Ordner „Vorsorge\"",
+            "dateOfLastChange": "2026-03-01",
+            "morePreciseDescription": "",
+            "basicDecision": "erlaubnis",
+            "purpose": [
+              "trauer",
+              "erinnerung"
+            ],
+            "authorizedParties": "benannte",
+            "namedIndividuals": [
+              {
+                "ref": "p-partner",
+                "override": ""
+              },
+              {
+                "ref": "p-kind-1",
+                "override": ""
+              }
+            ],
+            "scope": "privat",
+            "permittedDataTypes": [
+              "schriftverkehr",
+              "fotovideo"
+            ],
+            "timeLimit": "jahre",
+            "numberOfYears": "zehn",
+            "date": "",
+            "behaviouralLimit": "belegt",
+            "digitalEstateAdministration": "benannt",
+            "digitalEstateAdministration2": [
+              {
+                "ref": "p-kind-1",
+                "override": ""
+              }
+            ]
+          },
+          {
+            "id": "vi-betreuerbestellung",
+            "instrument": "betreuerbestellung",
+            "storageLocation": "Betreuerausweis im Ordner „Vorsorge\"",
+            "morePreciseDescription": "",
+            "whoWasAppointedAsCourt": [
+              {
+                "ref": "p-partner",
+                "override": ""
+              }
+            ],
+            "areasOfResponsibility": "Gesundheitssorge; Vermögenssorge",
+            "careCourt": "Amtsgericht München",
+            "fileReferenceNumber": "XVII 1234/25",
+            "appointedSince": "2025-03-10",
+            "nextCourtReviewDateIfKnown": "2032-03-10"
+          }
+        ]
+      },
+      "administration": {
+        "bundid": [
+          {
+            "system": "",
+            "bundidEmailAddress": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+            "bundidDocumentsStorageLocation": "Ordner „Digitale Zugänge\", Schreibtisch"
+          },
+          {
+            "system": "",
+            "bundidEmailAddress": "elisabeth.immergruen@beispielpost.example",
+            "bundidDocumentsStorageLocation": "Ordner „Digitale Zugänge\" — altes Konto, vor der Namensänderung"
+          }
+        ],
+        "bundidVerificationLevel": "hoch",
+        "bundidVerificationLevelEarlier": "",
+        "ongoingAdministrativeCases": [
+          {
+            "authority": "Deutsche Rentenversicherung",
+            "typeOfCase": "Rentenantrag",
+            "fileReferenceNumber": "RV-2026-00417",
+            "start": "2026-03-12",
+            "deadline": "",
+            "amount": "1.240 EUR monatlich",
+            "contactPerson": "Sachbearbeiterin Frau Meyer",
+            "note": "Unterlagen eingereicht, Rückmeldung ausstehend"
+          },
+          {
+            "authority": "Stadt München, Bürgerbüro",
+            "typeOfCase": "Ummeldung",
+            "fileReferenceNumber": "",
+            "start": "2026-06-01",
+            "deadline": "",
+            "amount": "",
+            "contactPerson": "",
+            "note": "Nach Umzug erledigt"
+          },
+          {
+            "authority": "Amtsgericht München",
+            "typeOfCase": "Beratungshilfe",
+            "fileReferenceNumber": "BerH-2026-0912",
+            "start": "2026-08-20",
+            "deadline": "",
+            "amount": "",
+            "contactPerson": "",
+            "opposingParty": "Vermieter Herbert Osterwald",
+            "alreadyAdvisedBy": "Rechtsanwältin Dr. Sommer, 03/2026",
+            "note": "Antrag vorbereitet, Unterlagen vollständig"
+          }
+        ],
+        "passwordManager": "KeePassXC",
+        "masterPasswordStorageLocation": "Tresor, Fach 2",
+        "passwordBackupStorageLocation": "verschlüsselter Stick im Bankschließfach",
+        "computerPasswordStorage": "Passwort-Manager",
+        "smartphonePinStorageLocation": "Passwort-Manager",
+        "computerDevices": "MacBook Air, FileVault aktiv",
+        "smartphone": "iPhone 14, Face ID + Code",
+        "cloudServices": "iCloud, 200 GB",
+        "protonMailEncryptedEmail": "elisabeth.ews@example.de",
+        "socialMedia": "Facebook (selten genutzt)",
+        "alarmSystemCodeStorageLocation": "Tresor, Fach 1",
+        "changingUtilityProviders": "",
+        "safeLocation": "Ankleidezimmer, hinter dem Kleiderschrank",
+        "safeCodeStorageLocation": "Passwort-Manager + Zettel bei der Tochter",
+        "bankSafeDepositBoxBankBranch": "Kreissparkasse Oberbayern-Nord eG, Filiale Schwabing",
+        "keyStorageLocation": "Schlüsselbund im Tresor",
+        "homeKeyWhoHoldsOne": [
+          {
+            "who": {
+              "ref": "p-tochter",
+              "override": ""
+            },
+            "note": "Ersatzschlüssel, Wohnungstür + Keller"
+          },
+          {
+            "who": {
+              "ref": "",
+              "override": ""
+            },
+            "note": "Nachbarin im 2. Stock links, nur Wohnungstür"
+          }
+        ],
+        "mainEmailAddress": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+        "furtherEmailAddress": "elisabeth.ews@altepost.example (alte Adresse)",
+        "cryptoWalletsOverview": "Bitcoin (Hardware-Wallet), Ethereum (Kraken-Konto)",
+        "seedPhraseStorageLocation": "Tresor, Fach 2, auf Papier notiert",
+        "hardwareWallet": "Ledger Nano X, Schreibtischschublade",
+        "olderInheritedCryptoAccess": "Altes Wallet von 2017, Zugang bei der Tochter"
+      },
+      "emergencyPreparedness": {
+        "numberOfPeopleForTheSupply": "3",
+        "drinkingWaterSupplyAmount": "20 Liter",
+        "drinkingWaterSupplyStorage": "Keller, Regal links",
+        "drinkingWaterSupplyCheckShelf": "2027-02-01",
+        "drinkingWaterSupplyEarlierNote": "",
+        "foodSuppliesWhatIsStored": "Reis, Nudeln, Konserven, Trockenobst",
+        "foodSuppliesStorageLocation": "Speisekammer",
+        "foodSuppliesCheckShelfLifeBy": "2026-12-01",
+        "foodSuppliesEarlierNoteOnShelf": "",
+        "torch": "vorhanden, Flur-Schrank",
+        "candles": "vorhanden, Küchenschublade",
+        "batteriesSupply": "AA/AAA, Werkzeugkiste",
+        "crankBatteryRadio": "Kurbelradio, Abstellkammer",
+        "powerBank": "geladen, Schreibtischschublade",
+        "emergencyHeatingOption": "Campingkocher + Gaskartuschen, Balkonschrank",
+        "firstAidKitStorageLocation": "Bad, Spiegelschrank",
+        "firstAidKitLastChecked": "2026-01-15",
+        "medicationSupply": "Schmerzmittel, Fieberzäpfchen, Blutdruckmittel für 2 Wochen",
+        "emergencyBackpackInPlace": "ja",
+        "emergencyBackpackStorage": "Flur, neben der Wohnungstür",
+        "emergencyBackpackContents": "Ausweise-Kopien, Bargeld, Powerbank, Erste-Hilfe, Medikamente",
+        "folderWithImportantDocumentsIn": "ja",
+        "documentFolderStorageLocation": "Aktenschrank, oberes Fach",
+        "cashReserveInPlace": "ja",
+        "cashReserveStorageLocation": "Nicht im Portemonnaie — separates Fach",
+        "hygieneSuppliesWhatIsStored": "Zahnpasta, Seife, Toilettenpapier, Desinfektionsmittel",
+        "hygieneSuppliesStorageLocation": "Badschrank, unteres Fach",
+        "meetingPointFamily": "Spielplatz Ecke Bergstraße",
+        "escapeRouteFromTheHome": "Treppenhaus, Notausgang Hinterhof bei Blockade",
+        "fallbackLocation2ndStage": "Wohnung der Schwester, Musterstraße 5",
+        "neighbourForEmergencies": {
+          "ref": "p-tochter",
+          "override": ""
+        },
+        "specialSituation": "Rollstuhlfahrer, 3. Stock ohne Aufzug",
+        "noteForEmergencyResponders": "Gasflasche im Keller, Haustier im Schlafzimmer"
+      },
+      "housing": {
+        "ownedOrRented": "eigentum",
+        "landlordPropertyManagement": {
+          "ref": "",
+          "override": ""
+        },
+        "landlordPhone": "",
+        "landlordEmail": "",
+        "monthlyRentServiceCharges": "",
+        "currency": "",
+        "rentalDepositBankAmount": "",
+        "tenancyAgreementStorage": "",
+        "tenancyAgreementFixedTermUntil": "",
+        "specialLivingSituation": "Eigentumswohnung, 3 Zimmer, 2. Stock, Aufzug vorhanden",
+        "tenancyTerminationHandover": "",
+        "noticeDate": "",
+        "moveOutDate": "",
+        "handoverDateNewHome": "",
+        "furtherHomes": [
+          {
+            "streetHouseNumber": "Seestraße 12",
+            "postcodeCity": "83209 Prien am Chiemsee",
+            "ownedOrRented": "eigentum",
+            "propertyManagement": {
+              "ref": "",
+              "override": ""
+            },
+            "landlordPhone": "",
+            "landlordEmail": "",
+            "serviceCharges": "",
+            "rentalDepositBankAmount": "",
+            "tenancyAgreementStorage": "",
+            "tenancyAgreementFixedTermUntil": "",
+            "specialLivingSituation": "Ferienwohnung, Mai bis Oktober selbst genutzt, sonst über eine Agentur vermietet"
+          },
+          {
+            "streetHouseNumber": "",
+            "postcodeCity": "",
+            "ownedOrRented": "miete",
+            "propertyManagement": {
+              "ref": "p-vermieter",
+              "override": ""
+            },
+            "landlordPhone": "08051 998877",
+            "landlordEmail": "verwaltung@chiemsee-immo.example",
+            "serviceCharges": "620 EUR warm",
+            "rentalDepositBankAmount": "1.240 EUR (Sparkasse Rosenheim)",
+            "tenancyAgreementStorage": "",
+            "tenancyAgreementFixedTermUntil": "2027-08-31",
+            "specialLivingSituation": ""
+          }
+        ]
+      },
+      "personal": {
+        "physicalPhotosStorageLocation": "mehrere Fotoalben im Wohnzimmerschrank, unteres Fach",
+        "digitalPhotosStorageLocation": "iCloud-Fotos + externe Festplatte im Tresor",
+        "otherKeepsakesStorageLocation": "alte Briefe der Eltern im Sekretär, oberes Fach",
+        "personalBelongingsWishes": "die Standuhr geht an Konstantin-Emanuel; das Klavier an Mia, sobald sie volljährig ist",
+        "householdItemsClothesFurniture": "Kleidung und Bücher an die Diakonie; der Rest darf entrümpelt werden",
+        "notesOnFamilyCircumstances": "mit meinem Bruder Reinhard seit Jahren wenig Kontakt, aber kein offener Streit",
+        "religiousAffiliation": "evangelisch-lutherisch",
+        "chaplainPastoralCarer": {
+          "ref": "p-seelsorger",
+          "override": ""
+        },
+        "ritualsPrayersSpiritualWishes": "Psalm 23 zur Beisetzung; stille, ruhige Musik statt Trauermarsch",
+        "letterForTheEmergencyDoctor": "Liebe Helferin, lieber Helfer — bitte rufen Sie meine Tochter Mia unter der hinterlegten Nummer an, sie kennt meine Wünsche.",
+        "letterForTheHospitalScenario": "Bitte informieren Sie meinen Mann und meine Kinder umgehend. Ich vertraue Ihnen mein Wohl an.",
+        "letterForTheCareHomeAdmission": "Ich mag morgens Kaffee mit wenig Milch, keinen Zucker. Mein Lieblingslied ist „An der schönen blauen Donau\".",
+        "letterForTheDeathScenario": "Bitte feiert mein Leben — trauert nicht zu lange um den Tod. Es war ein gutes, reiches Leben.",
+        "handwrittenLettersStorage": "Schreibtisch, oberste Schublade rechts, blauer Umschlag",
+        "whatElseIWantToSayWhatElse": "Ich hoffe, dass meine Familie zusammenhält, auch wenn ich nicht mehr da bin.",
+        "whoDependsOnMe": [
+          {
+            "whoDependsOnYou": "Mutter Brunhilde (89)",
+            "whatToBearInMind": "lebt im Pflegeheim, ich zahle den Eigenanteil und besuche sie wöchentlich"
+          },
+          {
+            "whoDependsOnYou": "Katze Felix",
+            "whatToBearInMind": "Nachbarin füttert bei kurzer Abwesenheit"
+          }
+        ],
+        "personalLettersWordsToPeople": [
+          {
+            "toWhom": "meine Tochter Mia",
+            "words": "Liebe Mia, du warst das größte Geschenk meines Lebens. Bleib neugierig und mutig …"
+          },
+          {
+            "toWhom": "Konstantin-Emanuel",
+            "words": "Lieber Konstantin, ich bin stolz auf den Menschen, der du geworden bist."
+          }
+        ],
+        "typeOfFuneral": "feuer",
+        "funeralAlreadyPlannedInAdvance": "ja",
+        "funeralHome": "Bestattungshaus Ehrlich & Söhne KG",
+        "preferredLocationGraveUrnSite": "Familiengrab, Waldfriedhof München",
+        "preArrangementContractStorage": "Ordner „Vorsorge\", Wohnzimmerschrank"
+      }
+    },
+    "situationen": {},
+    "empfaengerkreise": [],
+    "blattFelder": {},
+    "angehoerigen_passwort_ort": "",
+    "bevollmaechtigte": [],
+    "todUebergangsWege": null,
+    "ankerWechselEmpfehlung": null,
+    "schwangerschaften": [],
+    "verwaltungsTyp": "eigen",
+    "verselbststaendigungMoeglich": false,
+    "delegationsGeschichte": [],
+    "verwalteteDepots": [],
+    "uebergabeProtokoll": [],
+    "zusammenstellungen": [],
+    "anfragen": [],
+    "urheberschaft": {},
+    "feldGueltigkeit": {},
+    "feldGueltigkeitGerettet": {},
+    "bereicheVerwaist": {},
+    "feldDefinitionenVerwaist": [],
+    "bereichsIdentitaeten": {},
+    "bereicheVerwaistIdentitaet": {},
+    "ausdruecklichKeine": {},
+    "codes": {},
+    "sensibelFelder": {},
+    "dokumente": [],
+    "_letzterAnlass": null,
+    "_wiedereinstiegHinweisGezeigt": false,
+    "inhaberPersonId": null,
+    "feldDefinitionen": [],
+    "codeListen": [],
+    "rechtsraumModule": [],
+    "textsatzModule": [],
+    "institutionsArten": [],
+    "formatModule": [],
+    "bereichsModule": [],
+    "abWerkMitschrift": {
+      "bereich": [],
+      "sprache": null,
+      "logikModul": [],
+      "bereichsErsatz": null,
+      "rechtsraumKatalogQuelle": null,
+      "dokumente": null,
+      "basistemplate": null,
+      "situationen": [],
+      "dokumentModule": [],
+      "wizards": [],
+      "angehoerigen": [],
+      "rechtsraumModule": [],
+      "standardVorlagen": []
+    },
+    "situationsModule": [],
+    "situationFeldDefinitionen": [],
+    "wizardsModule": [],
+    "ereignisAchseModule": [],
+    "bereichssatz": null,
+    "logikModule": []
+  },
+  "_zurueckgehalten": {
+    "abWerkMitschrift": 31
+  }
+}

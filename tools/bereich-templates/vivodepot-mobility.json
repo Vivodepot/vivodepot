@@ -1,0 +1,234 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/mobility",
+  "fassung": 1,
+  "bereiche": {
+    "mobility": {
+      "id": "mobility",
+      "format": "GENERISCH",
+      "icon": "car",
+      "standardDokumente": [
+        {
+          "typ": "passport",
+          "name": "Reisepass",
+          "empfRhythmusMonate": null,
+          "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt.",
+          "felder": [
+            {
+              "sektorId": "mobility",
+              "feldId": "passportValidUntil"
+            }
+          ]
+        },
+        {
+          "typ": "driving-licence",
+          "name": "Führerschein",
+          "empfRhythmusMonate": null,
+          "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Näheres zu Ablauf und Umtausch erfahren Sie bei Ihrer Führerscheinstelle.",
+          "felder": [
+            {
+              "sektorId": "mobility",
+              "feldId": "drivingLicenceValidUntil"
+            }
+          ]
+        },
+        {
+          "typ": "elefand",
+          "name": "ELEFAND-Registrierung",
+          "empfRhythmusMonate": null,
+          "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Registrierungsende, meist an die geplante Reisedauer gekoppelt.",
+          "felder": [
+            {
+              "sektorId": "mobility",
+              "feldId": "elefandRegistrations",
+              "unterfeldId": "validUntil"
+            }
+          ]
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "fahrzeuge-fuehrerschein",
+          "felder": [
+            {
+              "id": "vehicles",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "registrationPlate",
+                  "typ": "text"
+                },
+                {
+                  "id": "vehicleRegistrationDocument",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "leaseAgreementStorageLocation",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "carInsurance",
+              "typ": "ref",
+              "entitaet": "institution",
+              "verweisZweck": "geschaeftlich"
+            },
+            {
+              "id": "policyNumber",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "drivingLicenceClasses",
+              "sensibel": true,
+              "typ": "mehrfachauswahl",
+              "optionen": [
+                {
+                  "wert": "AM"
+                },
+                {
+                  "wert": "A1"
+                },
+                {
+                  "wert": "A2"
+                },
+                {
+                  "wert": "A"
+                },
+                {
+                  "wert": "B"
+                },
+                {
+                  "wert": "BE"
+                },
+                {
+                  "wert": "C1"
+                },
+                {
+                  "wert": "C1E"
+                },
+                {
+                  "wert": "C"
+                },
+                {
+                  "wert": "CE"
+                },
+                {
+                  "wert": "D1"
+                },
+                {
+                  "wert": "D1E"
+                },
+                {
+                  "wert": "D"
+                },
+                {
+                  "wert": "DE"
+                },
+                {
+                  "wert": "L"
+                },
+                {
+                  "wert": "T"
+                }
+              ]
+            },
+            {
+              "id": "drivingLicenceStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "drivingLicenceEarlierEntry",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "drivingLicenceValidUntil",
+              "marken": [
+                "laeuftAb"
+              ],
+              "sensibel": true,
+              "typ": "datum"
+            },
+            {
+              "id": "deutschlandticketPublic",
+              "typ": "text"
+            },
+            {
+              "id": "passportNo",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "passportIssuedOn",
+              "marken": [
+                "giltAb"
+              ],
+              "sensibel": true,
+              "typ": "datum"
+            },
+            {
+              "id": "passportValidUntil",
+              "marken": [
+                "laeuftAb"
+              ],
+              "gueltigkeitVorschlag": {
+                "ausFeld": "passportIssuedOn",
+                "regel": "ausweisdauer"
+              },
+              "sensibel": true,
+              "typ": "datum"
+            },
+            {
+              "id": "elefandRegistrations",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "registrationNo",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "countries",
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Türkei",
+                    "Ägypten",
+                    "Thailand",
+                    "Indien",
+                    "USA",
+                    "Marokko",
+                    "Spanien",
+                    "Italien"
+                  ]
+                },
+                {
+                  "id": "validUntil",
+                  "sensibel": true,
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "embassyContact",
+              "typ": "ref",
+              "entitaet": "institution",
+              "verweisZweck": "krisenvorsorge"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

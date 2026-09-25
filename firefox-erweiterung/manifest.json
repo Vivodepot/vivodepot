@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Vivodepot — Datei überschreiben statt vervielfachen",
+  "short_name": "Vivodepot-Speicherhilfe",
+  "version": "1.0.0",
+  "description": "Behebt das Firefox-eigene Vervielfachen (\"Mein-Vivodepot (1)\", \"(2)\", …) beim wiederholten Speichern derselben .vivodepot-Datei. Kein Login, keine Konten, keine Datenübertragung — reiner Dateinamen-Filter im Downloadmanager. Ohne Erweiterung funktioniert Vivodepot unverändert wie bisher.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "speicherhilfe@vivodepot.de",
+      "strict_min_version": "109.0"
+    }
+  },
+  "icons": {
+    "16": "icons/icon.png",
+    "32": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "permissions": ["downloads"],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

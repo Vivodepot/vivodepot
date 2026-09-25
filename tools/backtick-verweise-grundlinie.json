@@ -1,0 +1,30 @@
+{
+ "_zweck": "Nennungen zurückgehaltener Dateien in Backticks in öffentlichen Texten, Stand bei Einführung der Achse (25.09.2026), gemessen an einem gebauten Zuschnitt. Nur schrumpfen: tote Einträge fallen in tests/oeffentlicher-zuschnitt-ci.test.js. Erhebung: backtickVerweisePruefen(…, {grundlinieBeachten:false}) nach zuschnittBauen.",
+ "eintraege": [
+  "CHANGELOG.md | docs/fassungen.json",
+  "DOCS.md | docs/demo-verweis-ziele.json",
+  "INTEROPERABILITY.md | tests/round-trip-wirkung.test.js",
+  "SECURITY.md | docs/fassungen-register.json",
+  "docs/cra/schwachstellen-priorisierung.md | docs/cra/schwachstellen-register.md",
+  "docs/faktenbasis.md | hooks/pre-push",
+  "docs/faktenbasis.md | tools/a53-coarse-layout-messen.js",
+  "docs/faktenbasis.md | tools/kern-ausliefern.js",
+  "docs/faktenbasis.md | tools/waechter-register.js",
+  "docs/fremdquellen.md | tools/basistemplate-neu-signieren.js",
+  "docs/fremdquellen.md | tools/textsatz-en-vollabdeckung-daten.js",
+  "docs/konformitaet-quellen.md | .github/workflows/konformitaet.yml",
+  "docs/konformitaet-quellen.md | tests/autoritativ-import.test.js",
+  "docs/konformitaet-quellen.md | tests/fix-a110-codeherkunft.test.js",
+  "docs/konformitaet-quellen.md | tools/hl7-validator-alarm-waechter.js",
+  "docs/konformitaet-quellen.md | tools/hl7-validator-beschaffen.js",
+  "docs/pruefebene.md | tools/waechter-register.js",
+  "docs/pruefebene.md | tools/waechter-selbsttest.js",
+  "docs/template-generator/README.md | docs/kontrakt-faktenuebersicht.md",
+  "docs/template-generator/README.md | tests/generator-angehoerigen-blatt.test.js",
+  "docs/template-generator/README.md | tests/generator-arbeitsflaeche.test.js",
+  "docs/template-generator/README.md | tests/template-generator.test.js",
+  "docs/template-generator/README.md | tools/register-ausliefern.js",
+  "docs/template-generator/beispiel-energie-template.md | tests/energie-pilot-durchstich.test.js",
+  "tools/zusicherungen-negativproben.md | tools/zusicherungen-pruefen.js"
+ ]
+}

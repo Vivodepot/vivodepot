@@ -1,0 +1,20 @@
+{
+  "beschreibung": "T-CROSS-06 — Provenienz nach Anker-Wechsel (Marlies → Anja). Anker-Wechsel via Test-Helper, weil das Werkzeug eine eigene Operations-Strecke ist.",
+  "ersterAnker": "Marlies Testanker",
+  "passwort": "cross-e2e-wechsel-123",
+  "felderMarlies": [
+    { "sektor": "identity", "feld": "givenName",  "wert": "Marlies" },
+    { "sektor": "identity", "feld": "familyName", "wert": "Testanker" },
+    { "sektor": "identity", "feld": "birthName", "wert": "Testgeburt" }
+  ],
+  "zweiterAnker": "Anja Testtochter",
+  "felderAnja": [
+    { "sektor": "health", "feld": "bloodType", "wert": "A+" },
+    { "sektor": "advanceCare", "feld": "personalCareDignity", "wert": "Koerperpflege am Morgen (Anja)" }
+  ],
+  "erwartet": {
+    "provenienzMarlies": "von Marlies",
+    "provenienzAnja": "von Anja",
+    "pdfFuss": "Erstellt von Anja"
+  }
+}

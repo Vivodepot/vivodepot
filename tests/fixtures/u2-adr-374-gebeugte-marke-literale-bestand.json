@@ -1,0 +1,126 @@
+{
+  "erhobenGegen": "Auftrag White Label bis ins PDF, Zweig white-label-reichweite, Kanon 6f693e0d (10.09.2026)",
+  "erhobenAm": "2026-09-16",
+  "hinweis": "Diese Datei ist der Massstab von U2-ADR-374 (Bestands-Waechter statt Muster-Waechter, Nachtrag zu U2-ADR-371). Jeder Eintrag ist EINE heute bekannte, geprueft harmlose Fundstelle eines gebeugten 'Vivodepot'-Literals. IDENTITAET eines Eintrags ist datei+treffer (die getroffene Zeichenkette, z. B. 'Vivodepots') — NICHT der Kontext. Kontext ist reine Beschreibung fuer Menschen, keine Aenderung daran macht die Probe rot (Korrektur 08.09.2026, Fund: der erste Entwurf nahm den Kontext als Identitaet und waere bei jedem SCHALEN_STAND-Bump faelschlich rot geworden, weil der Kommentar-Anhang VOR der Fundstelle in derselben Zeile waechst). Aendert die TREFFER-MENGE (Zuwachs oder Verlust je datei+treffer) sich, wird die Probe rot: ein Zuwachs ist meistens ein neuer, ebenso harmloser Kommentar, kann aber ein echter Rueckfall sein (wie die zwei Saetze, die ADR-371 behoben hat) - PRUEFEN, nicht automatisch uebernehmen. Ein Verlust ist meistens ein Fix - BESTAETIGEN, dann diese Datei nachziehen (tools/gebeugte-marke-literale-erheben.js --json).",
+  "eintraege": [
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 12680,
+      "kontext": "/* U2-ADR-384 (08.09.2026) — Vivodepots eigene Marke wird Ab-Werk-Saat, wie",
+      "grund": "Code-Kommentar (SCHALEN_STAND-Historie, Rueckblick auf U2-ADR-384 in einem anderen Zug), keine Buergerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 43955,
+      "kontext": "// gleichheit.test.js hält alle drei zusammen). Vivodepots eigenes, unsigniertes Modul",
+      "grund": "Code-Kommentar (Erbschein-Modul-Herkunft-Erläuterung), keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 4298,
+      "kontext": "// Vivodepots EIGENEN Bezugsort zeigen, unabhängig davon, welchen Bezugs-",
+      "grund": "Code-Kommentar (Auftrag White Label bis ins PDF, Erlaeuterung zu VIVODEPOT_HERKUNFT_LINK), keine Buergerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 34269,
+      "kontext": "// zwischen zwei Depots kurz Vivodepots native Marke. _letztesBrandingOderAbWerk(null) fällt",
+      "grund": "Code-Kommentar (Auftrag White Label bis ins PDF, Erlaeuterung zum Depot-Reset-Rueckfall), keine Buergerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 13364,
+      "kontext": "`eingelassenAm` oben. Kein eingebauter Bestand: Vivodepots eigene Module tragen dieselben zwei",
+      "grund": "Code-Kommentar (Erläuterung zu logikModulPruefterminAnlegen/U2-ADR-370-Umfeld, Konvoi 8 nachgezogen) — 'Vivodepots eigene Module' im Sinne von 'auch die von Vivodepot selbst stammenden', keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 4254,
+      "kontext": "374: identitaet.einfuehrungstext/profilfoto.hint von „Ihres Vivodepots\" (Genitiv, gebeugtes Literal) auf „Ihres Depots\" (generisch",
+      "grund": "Code-Kommentar (SCHALEN_STAND-Historie, U2-ADR-371/374 selbst) — zitiert die alte, behobene Formulierung als Beleg dafür, was geändert wurde."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 12807,
+      "kontext": "8.09.2026): der Kanal trägt heute kein Ab-Werk-Artefakt für Vivodepots eigene",
+      "grund": "Code-Kommentar (U2-ADR-388, korrigierter Kopf-Kommentar an erscheinungAnwenden) — keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 12758,
+      "kontext": "e Fragen fielen zusammen, SOLANGE `_AB_WERK_BRANDING` immer Vivodepots eigener Wert",
+      "grund": "Code-Kommentar (Auftrag White Label bis ins PDF, Kopf-Kommentar zu _markeAnzeigeAnwenden), keine Buergerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 12733,
+      "kontext": "eigenes Branding-Modul zeigt Vivodepots eigene Marke, `_AB_WERK_BRANDING` löst dort ohnehin auf",
+      "grund": "Code-Kommentar (Auftrag White Label bis ins PDF, Kopf-Kommentar zu _markeAnzeigeAnwenden), keine Buergerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 11894,
+      "kontext": "g-Herkunft prüfen, nicht nur auf Anwesenheit — sonst rahmte Vivodepots",
+      "grund": "Code-Kommentar (U2-ADR-236-Erläuterung), keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 4213,
+      "kontext": "K_SPRACHE_PRODUKT — `AB_WERK_BRANDING_PRODUKT` (gewinnt vor Vivodepots eigenem",
+      "grund": "Code-Kommentar (SCHALEN_STAND-Historie zu v651, Auftrag „Zwei ungebaute Achsen\") — keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 12716,
+      "kontext": "K_SPRACHE_PRODUKT (s. dort): `AB_WERK_BRANDING` oben bleibt Vivodepots EIGENE Marke,",
+      "grund": "Code-Kommentar (Kopf-Kommentar zu AB_WERK_BRANDING_PRODUKT, Auftrag „Zwei ungebaute Achsen\") — keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 12688,
+      "kontext": "ngModulPruefen` kennt gar keine reservierte `herkunft`, die Vivodepots eigenen Wert",
+      "grund": "Code-Kommentar (Erläuterung zu _abWerkBrandingErmitteln, U2-ADR-384 selbst), keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 26862,
+      "kontext": "Trägt dieses Depot mindestens ein eingelassenes Modul, das Vivodepots eigene Prüfkette",
+      "grund": "Code-Kommentar (Prüfketten-Erläuterung), keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 27091,
+      "kontext": "true})`), aber ohne Signatur: Vivodepots eigener, eingebackener Inhalt, kein fremdes Modul.",
+      "grund": "Code-Kommentar (U2-ADR-382, Ab-Werk-Saat-Erläuterung an AB_WERK_RECHTSRAUM_DE/_rechtsraumAbWerkRegistrySeed) — keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 706,
+      "kontext": "Vivodepots Bürgerdepot inklusive) bleibt Salbei — die Fallback-Werte s",
+      "grund": "Code-Kommentar (CSS-Fallback-Erklärung), keine Bürgerin-facing Textsatz-Kennung."
+    },
+    {
+      "datei": "vivodepot.html",
+      "treffer": "Vivodepots",
+      "zeilennummer": 26873,
+      "kontext": "Vivodepots eigene signierte Inhalte brauchen kein Fremd-Signal. */",
+      "grund": "Code-Kommentar (Signatur-Filter-Erläuterung), keine Bürgerin-facing Textsatz-Kennung."
+    }
+  ]
+}

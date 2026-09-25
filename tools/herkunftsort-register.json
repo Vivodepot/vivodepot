@@ -1,0 +1,60 @@
+{
+  "_beschreibung": "Führung für tools/herkunftsort-pruefen.js (Invariante 34.7, Absatz 2, und 30.1b). anwendungen: die Artefakte im Wurzelverzeichnis, die nach 30.1 den Herkunftsort tragen müssen; keineAnwendung: was als nicht darunterfallend geführt wird, MIT Grund UND Probe (36.3) — die Probe 'ohne-skript' prüft das Werkzeug selbst. gruppen: welche Kennungen am Herkunftsort zur Urheberin (nicht durch ein Modul ersetzbar) und welche zur Anbieterin (ersetzbar, der Weißmarken-Fall) gehören. Eine Kennung am Herkunftsort, die in keiner Gruppe steht, ist ein Verstoß, keine Lücke im Register: dieses Register wird von Hand ergänzt, und das ist die Stelle, an der jemand entscheidet.",
+  "_herkunft_der_eintraege": "anwendungen: der Kern und die drei öffentlichen weiteren Anwendungen. Nach dem Zuschnitt der Definition of Done vom 06.09.2026: Lese-App, VC-Issuer und Vorlagen-Erzeuger sind öffentlich und ziehen mit; Schlüssel-Teilen und Style-Guide sind intern. Dass andere Werkzeuge (tools/andere-anwendungen-messen.js, tests/js-textschicht.test.js) den Teiler mitzählen, ist deren Zählweise für einen anderen Zweck, kein Beleg für 30.1a. Gruppen: nur was eine Quelle trägt — herkunftPoweredBy und herkunftLizenzhinweis (Zusicherungsliste im Kern), VIVODEPOT_HERKUNFT_LINK (tests/herkunftsort.test.js: der Link darf nicht vom Partner abhängen), URHEBER_LESEN (Lese-App), einstAnbieter (die Anbieterin ist austauschbar, die Urheberin nicht). Kennungen ohne Quelle stehen hier NICHT und werden von der Probe als 'in keiner der beiden Gruppen' gemeldet.",
+  "anwendungen": [
+    {
+      "datei": "vivodepot.html",
+      "name": "Kern"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "name": "Lese-App"
+    },
+    {
+      "datei": "vivodepot-template-generator.html",
+      "name": "Vorlagen-Erzeuger"
+    },
+    {
+      "datei": "vivodepot-vc-issuer.html",
+      "name": "VC-Issuer"
+    }
+  ],
+  "keineAnwendung": [
+    {
+      "datei": "vivodepot-schluessel-teilen.html",
+      "grund": "intern nach dem Zuschnitt der Definition of Done vom 06.09.2026 (Schlüssel teilen und Style-Guide sind intern)",
+      "probe": "nicht-im-dateisatz"
+    },
+    {
+      "datei": "vivodepot-style-guide.html",
+      "grund": "intern nach DoD-Zuschnitt vom 06.09.2026; ein Redesign ist offen, ihn jetzt mitzuziehen hieße, ihn zweimal anzufassen. Zusätzlich eine Beschreibung ohne Skript (30.1a)",
+      "probe": "ohne-skript"
+    }
+  ],
+  "gruppen": {
+    "unersetzbar": [
+      "STRINGS.herkunftPoweredBy",
+      "STRINGS.herkunftLizenzhinweis",
+      "VIVODEPOT_HERKUNFT_LINK",
+      "URHEBER_LESEN"
+    ],
+    "ersetzbar": [
+      "STRINGS.einstAnbieter",
+      "STRINGS.fussKontakt",
+      "STRINGS.herkunftImpressumLink",
+      "STRINGS.herkunftUrheberin",
+      "STRINGS.herkunftLizenzLabel"
+    ]
+  },
+  "_probe": "Die Probe zu einer Ausnahme prüft das Werkzeug selbst: 'ohne-skript' = die Datei trägt kein <script>; 'nicht-im-dateisatz' = der Dateiname steht nicht in DATEISATZ von scripts/ausgeliefertes-dateiset.js. Beides ist eine NOTWENDIGE Bedingung dafür, dass ein Artefakt nicht ausgeliefert wird, keine Definition von 'Anwendung' (30.1a entscheidet die Bestimmung). Ohne Probe wird keine Ausnahme angenommen (36.3).",
+  "_gruppen": "Die Gruppen heißen unersetzbar und ersetzbar, nicht nach den Rollen (Spezifikation 34.7, md5 4373a8f1): die Rolle erklärt, WARUM eine Kennung in ihrer Gruppe steht, taugt aber nicht als Name, weil in der ersetzbaren Gruppe auch Kennungen stehen, die keine Anbieterin-Angabe sind. unersetzbar: die Angabe (Name der Urheberin: Urheberschaft darf nicht entfernbar sein) und die Lizenzkennung (eine falsche Lizenzkennung wäre eine falsche Aussage über die Rechtslage, 25.8) — zwei Gründe, beides unersetzbar. ersetzbar: die Angaben der Anbieterin (Kontakt, Impressum: Pflicht dessen, der das Produkt in Verkehr bringt; Weißmarken-Fall) und jede Beschriftung, die eine Angabe einleitet (Achse Sprache).",
+  "angaben": {
+    "URHEBER_LESEN": {
+      "art": "name"
+    },
+    "VIVODEPOT_HERKUNFT_LINK": {
+      "art": "bezug"
+    }
+  },
+  "_angaben": "Je unersetzbarer KONSTANTE die Art (name | lizenz | bezug). Die Textsatz-Schlüssel des Herkunftsorts und ihre Angaben stehen NICHT mehr hier, sondern in der einen Quelle tools/herkunftsort-angaben.json und im erzeugten Block HERKUNFTSORT_ANGABEN jedes Trägers (Spezifikation 34.7, md5 aa468bfa: eine Quelle); die Prüfung leitet die Art aus dem Block ab. Unersetzbar sind zwei Sorten Angabe, aus zwei Gründen: der Name der Urheberin und die Lizenzkennung (34.7)."
+}

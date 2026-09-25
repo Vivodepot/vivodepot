@@ -1,0 +1,13 @@
+{
+ "beschreibung": "Jede test.fixme/test.skip in tests/e2e und tests/e2e-cross steht hier mit Kennung, Ursache und Verantwortlichem; die Kennung steht als Kommentar FIXME-ID: <kennung> direkt über der Stelle. tests/e2e-fixme-ratsche.test.js prüft beide Richtungen. Die Zahl darf nur sinken.",
+ "eintraege": {
+  "V515-auslieferung-umgebung": {
+   "datei": "tests/e2e/v515-vier-produkte-a-b-abnahme.spec.js",
+   "art": "skip-umgebung",
+   "seit": "2026-09-12",
+   "ursache": "Umgebungsbedingt: die externe Auslieferungs-Wurzel (vivodepot-ios-test) liegt nur auf der Arbeitsmaschine; fehlt sie (CI, anderer Rechner), ist das kein Befund über den Kanon. Kein Defekt — die Probe läuft, sobald die Ablage existiert.",
+   "eigentuemer": "Maschinenbetrieb (Arbeitsmaschine mit der externen Ablage)",
+   "rueckkehr": "nicht nötig (bedingter Skip)"
+  }
+ }
+}

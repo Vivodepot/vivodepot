@@ -1,0 +1,33 @@
+# Spiegel des öffentlichen Repos nach OpenCoDE.
+#
+# Läuft NUR im öffentlichen Repo vivodepot/vivodepot — dieses Workflow-File entsteht im Kanon und wandert mit dem
+# öffentlichen Zuschnitt hinaus; im privaten Repo verhindert die `if`-Bedingung jeden Lauf.
+# Der Zugang (OPENCODE_TOKEN) ist ein Secret des öffentlichen Repos; er steht nie in dieser Datei.
+name: Spiegel nach OpenCoDE
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  spiegeln:
+    if: github.repository == 'vivodepot/vivodepot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Nach OpenCoDE schieben
+        env:
+          OPENCODE_TOKEN: ${{ secrets.OPENCODE_TOKEN }}
+        run: |
+          if [ -z "$OPENCODE_TOKEN" ]; then
+            echo "::error::Das Secret OPENCODE_TOKEN fehlt im Repo vivodepot/vivodepot."
+            exit 1
+          fi
+          git push "https://oauth2:${OPENCODE_TOKEN}@gitlab.opencode.de/vivodepot/vivodepot.git" HEAD:refs/heads/main --force

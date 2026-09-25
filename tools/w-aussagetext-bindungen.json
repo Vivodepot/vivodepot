@@ -1,0 +1,26 @@
+{
+  "_hinweis": "Seit S8 (U2-ADR-428) steht der deutsche Satz im Sprachmodul (JSON ohne Kommentare): die frueheren Zeilenkommentare // ZUSTAND: <Ausdruck> wohnen hier. Kennung im Modul -> Ausdruck (Funktion/Konstante) im Kern. tools/w-aussagetext-pruefen.js prueft beides.",
+  "bindungen": {
+    "strings:saveStatusAenderungEinzahl.text": "saveStatusModell",
+    "strings:saveStatusAenderungMehrzahl.text": "saveStatusModell",
+    "strings:saveStatusKeineDatei.text": "saveStatusModell",
+    "strings:saveStatusInternAktuell.text": "saveStatusModell",
+    "strings:saveStatusAlsDatei.text": "saveStatusModell",
+    "strings:saveStatusFehlgeschlagen.text": "saveStatusModell",
+    "strings:saveStatusFehlgeschlagenWiederholt.text": "saveStatusModell",
+    "strings:saveStatusUnbestaetigt.text": "saveStatusModell",
+    "strings:d40SchliessenTitel.text": "istUngespeichert",
+    "strings:saveStatusQuotaFehlgeschlagen.text": "saveStatusModell",
+    "strings:vivodepotAuszugBadge.text": "_veralteteBasisVorlagen",
+    "strings:ampelStatusGruen.text": "dokumentAmpelStatus",
+    "strings:ampelStatusGelb.text": "dokumentAmpelStatus",
+    "strings:ampelStatusRot.text": "dokumentAmpelStatus",
+    "strings:migrationsHinweisTitel.text": "migrationsHinweisNoetig",
+    "strings:migrationsHinweisText.text": "migrationsHinweisNoetig",
+    "strings:entsiegelt.text": "istEntsiegelt",
+    "strings:notvertretungLaeuftAb.text": "notvertretungAblaufText",
+    "strings:notvertretungAbgelaufen.text": "notvertretungAblaufText",
+    "strings:fristFaelligAm.text": "_fristFaelligkeitText",
+    "strings:fristAbgelaufen.text": "_fristFaelligkeitText"
+  }
+}

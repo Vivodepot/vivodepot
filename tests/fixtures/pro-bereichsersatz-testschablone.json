@@ -1,0 +1,1276 @@
+{
+  "modulTyp": "bereichsErsatz",
+  "ersetzt": [
+    "people",
+    "mobility",
+    "finance",
+    "assets",
+    "health",
+    "education",
+    "socialInsurance",
+    "advanceCare",
+    "administration",
+    "housing",
+    "emergencyPreparedness",
+    "personal"
+  ],
+  "neu": {
+    "pro-vertretung-vollmachten": {
+      "label": "Testbereich-pro-vertretung-vollmachten",
+      "icon": "scale",
+      "merkmale": [
+        "vorsorgeRegal"
+      ],
+      "sektionen": [
+        {
+          "id": "testgruppe-2",
+          "label": "Testgruppe 2",
+          "felder": [
+            {
+              "id": "tpl_testfeld_1",
+              "typ": "auswahl",
+              "label": "Testfeld 1",
+              "optionen": [
+                {
+                  "wert": "ja",
+                  "label": "Ja"
+                },
+                {
+                  "wert": "nein",
+                  "label": "Nein"
+                }
+              ],
+              "pflicht": true
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-4",
+          "label": "Testgruppe 4",
+          "felder": [
+            {
+              "id": "tpl_testfeld_3",
+              "typ": "auswahl",
+              "label": "Testfeld 3",
+              "optionen": [
+                {
+                  "wert": "testcode_1",
+                  "label": "Testoption 5"
+                },
+                {
+                  "wert": "testcode_2",
+                  "label": "Testoption 6"
+                },
+                {
+                  "wert": "testcode_3",
+                  "label": "Testoption 7"
+                },
+                {
+                  "wert": "testcode_4",
+                  "label": "Testoption 8"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-10",
+          "label": "Testgruppe 10",
+          "felder": [
+            {
+              "id": "tpl_testfeld_9",
+              "typ": "text",
+              "label": "Testfeld 9"
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-12",
+          "label": "Testgruppe 12",
+          "felder": [
+            {
+              "id": "tpl_testfeld_11",
+              "typ": "text",
+              "label": "Testfeld 11"
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-14",
+          "label": "Testgruppe 14",
+          "felder": [
+            {
+              "id": "tpl_testfeld_13",
+              "typ": "liste",
+              "label": "Testfeld 13",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_15",
+                  "typ": "text",
+                  "label": "TestUnterfeld 15"
+                },
+                {
+                  "id": "tpl_testunterfeld_16",
+                  "typ": "text",
+                  "label": "TestUnterfeld 16"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-18",
+          "label": "Testgruppe 18",
+          "felder": [
+            {
+              "id": "tpl_testfeld_17",
+              "typ": "liste",
+              "label": "Testfeld 17",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_19",
+                  "typ": "text",
+                  "label": "TestUnterfeld 19"
+                },
+                {
+                  "id": "tpl_testunterfeld_20",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 20"
+                },
+                {
+                  "id": "tpl_testunterfeld_21",
+                  "typ": "text",
+                  "label": "TestUnterfeld 21"
+                },
+                {
+                  "id": "tpl_testunterfeld_22",
+                  "typ": "text",
+                  "label": "TestUnterfeld 22"
+                },
+                {
+                  "id": "tpl_testunterfeld_23",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 23"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-25",
+          "label": "Testgruppe 25",
+          "felder": [
+            {
+              "id": "tpl_testfeld_24",
+              "typ": "liste",
+              "label": "Testfeld 24",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_26",
+                  "typ": "text",
+                  "label": "TestUnterfeld 26"
+                },
+                {
+                  "id": "tpl_testunterfeld_27",
+                  "typ": "text",
+                  "label": "TestUnterfeld 27"
+                },
+                {
+                  "id": "tpl_testunterfeld_28",
+                  "typ": "text",
+                  "label": "TestUnterfeld 28"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-30",
+          "label": "Testgruppe 30",
+          "felder": [
+            {
+              "id": "tpl_testfeld_29",
+              "typ": "text",
+              "label": "Testfeld 29"
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-32",
+          "label": "Testgruppe 32",
+          "felder": [
+            {
+              "id": "tpl_testfeld_31",
+              "typ": "liste",
+              "label": "Testfeld 31",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_33",
+                  "typ": "text",
+                  "label": "TestUnterfeld 33"
+                },
+                {
+                  "id": "tpl_testunterfeld_34",
+                  "typ": "text",
+                  "label": "TestUnterfeld 34"
+                },
+                {
+                  "id": "tpl_testunterfeld_35",
+                  "typ": "text",
+                  "label": "TestUnterfeld 35"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-37",
+          "label": "Testgruppe 37",
+          "felder": [
+            {
+              "id": "tpl_testfeld_36",
+              "typ": "liste",
+              "label": "Testfeld 36",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_38",
+                  "typ": "checkbox",
+                  "label": "TestUnterfeld 38"
+                },
+                {
+                  "id": "tpl_testunterfeld_39",
+                  "typ": "text",
+                  "label": "TestUnterfeld 39"
+                },
+                {
+                  "id": "tpl_testunterfeld_40",
+                  "typ": "text",
+                  "label": "TestUnterfeld 40"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-42",
+          "label": "Testgruppe 42",
+          "felder": [
+            {
+              "id": "tpl_testfeld_41",
+              "typ": "liste",
+              "label": "Testfeld 41",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_43",
+                  "typ": "text",
+                  "label": "TestUnterfeld 43"
+                },
+                {
+                  "id": "tpl_testunterfeld_44",
+                  "typ": "text",
+                  "label": "TestUnterfeld 44"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-194",
+          "label": "Testgruppe 194",
+          "felder": [
+            {
+              "id": "tpl_testfeld_193",
+              "typ": "text",
+              "label": "Testfeld 193"
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-196",
+          "label": "Testgruppe 196",
+          "felder": [
+            {
+              "id": "tpl_testfeld_195",
+              "typ": "text",
+              "label": "Testfeld 195"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Testunterzeile 1",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Testcluster pro-vertretung-nachfolge"
+    },
+    "pro-gesellschaft-nachfolge": {
+      "label": "Testbereich-pro-gesellschaft-nachfolge",
+      "icon": "landmark",
+      "merkmale": [],
+      "sektionen": [
+        {
+          "id": "testgruppe-46",
+          "label": "Testgruppe 46",
+          "felder": [
+            {
+              "id": "tpl_testfeld_45",
+              "typ": "liste",
+              "label": "Testfeld 45",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_47",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 47"
+                },
+                {
+                  "id": "tpl_testunterfeld_48",
+                  "typ": "text",
+                  "label": "TestUnterfeld 48"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-50",
+          "label": "Testgruppe 50",
+          "felder": [
+            {
+              "id": "tpl_testfeld_49",
+              "typ": "liste",
+              "label": "Testfeld 49",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_51",
+                  "typ": "text",
+                  "label": "TestUnterfeld 51"
+                },
+                {
+                  "id": "tpl_testunterfeld_52",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 52"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-54",
+          "label": "Testgruppe 54",
+          "felder": [
+            {
+              "id": "tpl_testfeld_53",
+              "typ": "auswahl",
+              "label": "Testfeld 53",
+              "optionen": [
+                {
+                  "wert": "ja",
+                  "label": "Ja"
+                },
+                {
+                  "wert": "nein",
+                  "label": "Nein"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-56",
+          "label": "Testgruppe 56",
+          "felder": [
+            {
+              "id": "tpl_testfeld_55",
+              "typ": "liste",
+              "label": "Testfeld 55",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_57",
+                  "typ": "text",
+                  "label": "TestUnterfeld 57"
+                },
+                {
+                  "id": "tpl_testunterfeld_58",
+                  "typ": "text",
+                  "label": "TestUnterfeld 58"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-60",
+          "label": "Testgruppe 60",
+          "felder": [
+            {
+              "id": "tpl_testfeld_59",
+              "typ": "liste",
+              "label": "Testfeld 59",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_61",
+                  "typ": "text",
+                  "label": "TestUnterfeld 61"
+                },
+                {
+                  "id": "tpl_testunterfeld_62",
+                  "typ": "text",
+                  "label": "TestUnterfeld 62"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-64",
+          "label": "Testgruppe 64",
+          "felder": [
+            {
+              "id": "tpl_testfeld_63",
+              "typ": "liste",
+              "label": "Testfeld 63",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_65",
+                  "typ": "text",
+                  "label": "TestUnterfeld 65"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-67",
+          "label": "Testgruppe 67",
+          "felder": [
+            {
+              "id": "tpl_testfeld_66",
+              "typ": "liste",
+              "label": "Testfeld 66",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_68",
+                  "typ": "checkbox",
+                  "label": "TestUnterfeld 68"
+                },
+                {
+                  "id": "tpl_testunterfeld_69",
+                  "typ": "text",
+                  "label": "TestUnterfeld 69"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-198",
+          "label": "Testgruppe 198",
+          "felder": [
+            {
+              "id": "tpl_testfeld_197",
+              "typ": "text",
+              "label": "Testfeld 197"
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-200",
+          "label": "Testgruppe 200",
+          "felder": [
+            {
+              "id": "tpl_testfeld_199",
+              "typ": "text",
+              "label": "Testfeld 199"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Testunterzeile 2",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Testcluster pro-vertretung-nachfolge"
+    },
+    "pro-finanzen-verbindlichkeiten": {
+      "label": "Testbereich-pro-finanzen-verbindlichkeiten",
+      "icon": "wallet",
+      "merkmale": [],
+      "sektionen": [
+        {
+          "id": "testgruppe-71",
+          "label": "Testgruppe 71",
+          "felder": [
+            {
+              "id": "tpl_testfeld_70",
+              "typ": "liste",
+              "label": "Testfeld 70",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_72",
+                  "typ": "text",
+                  "label": "TestUnterfeld 72"
+                },
+                {
+                  "id": "tpl_testunterfeld_73",
+                  "typ": "text",
+                  "label": "TestUnterfeld 73"
+                },
+                {
+                  "id": "tpl_testunterfeld_74",
+                  "typ": "checkbox",
+                  "label": "TestUnterfeld 74"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-76",
+          "label": "Testgruppe 76",
+          "felder": [
+            {
+              "id": "tpl_testfeld_75",
+              "typ": "liste",
+              "label": "Testfeld 75",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_77",
+                  "typ": "text",
+                  "label": "TestUnterfeld 77"
+                },
+                {
+                  "id": "tpl_testunterfeld_78",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 78"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-80",
+          "label": "Testgruppe 80",
+          "felder": [
+            {
+              "id": "tpl_testfeld_79",
+              "typ": "liste",
+              "label": "Testfeld 79",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_81",
+                  "typ": "text",
+                  "label": "TestUnterfeld 81"
+                },
+                {
+                  "id": "tpl_testunterfeld_82",
+                  "typ": "text",
+                  "label": "TestUnterfeld 82"
+                },
+                {
+                  "id": "tpl_testunterfeld_83",
+                  "typ": "checkbox",
+                  "label": "TestUnterfeld 83"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-85",
+          "label": "Testgruppe 85",
+          "felder": [
+            {
+              "id": "tpl_testfeld_84",
+              "typ": "liste",
+              "label": "Testfeld 84",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_86",
+                  "typ": "text",
+                  "label": "TestUnterfeld 86"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-88",
+          "label": "Testgruppe 88",
+          "felder": [
+            {
+              "id": "tpl_testfeld_87",
+              "typ": "liste",
+              "label": "Testfeld 87",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_89",
+                  "typ": "text",
+                  "label": "TestUnterfeld 89"
+                },
+                {
+                  "id": "tpl_testunterfeld_90",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 90"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-92",
+          "label": "Testgruppe 92",
+          "felder": [
+            {
+              "id": "tpl_testfeld_91",
+              "typ": "liste",
+              "label": "Testfeld 91",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_93",
+                  "typ": "text",
+                  "label": "TestUnterfeld 93"
+                },
+                {
+                  "id": "tpl_testunterfeld_94",
+                  "typ": "text",
+                  "label": "TestUnterfeld 94"
+                },
+                {
+                  "id": "tpl_testunterfeld_95",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 95"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-97",
+          "label": "Testgruppe 97",
+          "felder": [
+            {
+              "id": "tpl_testfeld_96",
+              "typ": "liste",
+              "label": "Testfeld 96",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_98",
+                  "typ": "text",
+                  "label": "TestUnterfeld 98"
+                },
+                {
+                  "id": "tpl_testunterfeld_99",
+                  "typ": "text",
+                  "label": "TestUnterfeld 99"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-202",
+          "label": "Testgruppe 202",
+          "felder": [
+            {
+              "id": "tpl_testfeld_201",
+              "typ": "text",
+              "label": "Testfeld 201"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Testunterzeile 3",
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Testcluster pro-betrieb-finanzen"
+    },
+    "pro-betrieb-zugaenge": {
+      "label": "Testbereich-pro-betrieb-zugaenge",
+      "icon": "lock",
+      "merkmale": [],
+      "sektionen": [
+        {
+          "id": "testgruppe-101",
+          "label": "Testgruppe 101",
+          "felder": [
+            {
+              "id": "tpl_testfeld_100",
+              "typ": "liste",
+              "label": "Testfeld 100",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_102",
+                  "typ": "text",
+                  "label": "TestUnterfeld 102"
+                },
+                {
+                  "id": "tpl_testunterfeld_103",
+                  "typ": "text",
+                  "label": "TestUnterfeld 103"
+                },
+                {
+                  "id": "tpl_testunterfeld_104",
+                  "typ": "text",
+                  "label": "TestUnterfeld 104"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-106",
+          "label": "Testgruppe 106",
+          "felder": [
+            {
+              "id": "tpl_testfeld_105",
+              "typ": "liste",
+              "label": "Testfeld 105",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_107",
+                  "typ": "text",
+                  "label": "TestUnterfeld 107"
+                },
+                {
+                  "id": "tpl_testunterfeld_108",
+                  "typ": "text",
+                  "label": "TestUnterfeld 108"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-110",
+          "label": "Testgruppe 110",
+          "felder": [
+            {
+              "id": "tpl_testfeld_109",
+              "typ": "liste",
+              "label": "Testfeld 109",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_111",
+                  "typ": "text",
+                  "label": "TestUnterfeld 111"
+                },
+                {
+                  "id": "tpl_testunterfeld_112",
+                  "typ": "text",
+                  "label": "TestUnterfeld 112"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-114",
+          "label": "Testgruppe 114",
+          "felder": [
+            {
+              "id": "tpl_testfeld_113",
+              "typ": "liste",
+              "label": "Testfeld 113",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_115",
+                  "typ": "text",
+                  "label": "TestUnterfeld 115"
+                },
+                {
+                  "id": "tpl_testunterfeld_116",
+                  "typ": "text",
+                  "label": "TestUnterfeld 116"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-118",
+          "label": "Testgruppe 118",
+          "felder": [
+            {
+              "id": "tpl_testfeld_117",
+              "typ": "liste",
+              "label": "Testfeld 117",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_119",
+                  "typ": "text",
+                  "label": "TestUnterfeld 119"
+                },
+                {
+                  "id": "tpl_testunterfeld_120",
+                  "typ": "text",
+                  "label": "TestUnterfeld 120"
+                },
+                {
+                  "id": "tpl_testunterfeld_121",
+                  "typ": "text",
+                  "label": "TestUnterfeld 121"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-123",
+          "label": "Testgruppe 123",
+          "felder": [
+            {
+              "id": "tpl_testfeld_122",
+              "typ": "liste",
+              "label": "Testfeld 122",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_124",
+                  "typ": "text",
+                  "label": "TestUnterfeld 124"
+                },
+                {
+                  "id": "tpl_testunterfeld_125",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 125"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-127",
+          "label": "Testgruppe 127",
+          "felder": [
+            {
+              "id": "tpl_testfeld_126",
+              "typ": "liste",
+              "label": "Testfeld 126",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_128",
+                  "typ": "text",
+                  "label": "TestUnterfeld 128"
+                },
+                {
+                  "id": "tpl_testunterfeld_129",
+                  "typ": "text",
+                  "label": "TestUnterfeld 129"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-157",
+          "label": "Testgruppe 157",
+          "felder": [
+            {
+              "id": "tpl_testfeld_156",
+              "typ": "liste",
+              "label": "Testfeld 156",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_158",
+                  "typ": "text",
+                  "label": "TestUnterfeld 158"
+                },
+                {
+                  "id": "tpl_testunterfeld_159",
+                  "typ": "text",
+                  "label": "TestUnterfeld 159"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-161",
+          "label": "Testgruppe 161",
+          "felder": [
+            {
+              "id": "tpl_testfeld_160",
+              "typ": "liste",
+              "label": "Testfeld 160",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_162",
+                  "typ": "text",
+                  "label": "TestUnterfeld 162"
+                },
+                {
+                  "id": "tpl_testunterfeld_163",
+                  "typ": "text",
+                  "label": "TestUnterfeld 163"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-165",
+          "label": "Testgruppe 165",
+          "felder": [
+            {
+              "id": "tpl_testfeld_164",
+              "typ": "text",
+              "label": "Testfeld 164"
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-167",
+          "label": "Testgruppe 167",
+          "felder": [
+            {
+              "id": "tpl_testfeld_166",
+              "typ": "liste",
+              "label": "Testfeld 166",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_168",
+                  "typ": "text",
+                  "label": "TestUnterfeld 168"
+                },
+                {
+                  "id": "tpl_testunterfeld_169",
+                  "typ": "text",
+                  "label": "TestUnterfeld 169"
+                },
+                {
+                  "id": "tpl_testunterfeld_170",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 170"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-172",
+          "label": "Testgruppe 172",
+          "felder": [
+            {
+              "id": "tpl_testfeld_171",
+              "typ": "liste",
+              "label": "Testfeld 171",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_173",
+                  "typ": "text",
+                  "label": "TestUnterfeld 173"
+                },
+                {
+                  "id": "tpl_testunterfeld_174",
+                  "typ": "text",
+                  "label": "TestUnterfeld 174"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-176",
+          "label": "Testgruppe 176",
+          "felder": [
+            {
+              "id": "tpl_testfeld_175",
+              "typ": "liste",
+              "label": "Testfeld 175",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_177",
+                  "typ": "text",
+                  "label": "TestUnterfeld 177"
+                },
+                {
+                  "id": "tpl_testunterfeld_178",
+                  "typ": "text",
+                  "label": "TestUnterfeld 178"
+                },
+                {
+                  "id": "tpl_testunterfeld_179",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 179"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-181",
+          "label": "Testgruppe 181",
+          "felder": [
+            {
+              "id": "tpl_testfeld_180",
+              "typ": "liste",
+              "label": "Testfeld 180",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_182",
+                  "typ": "text",
+                  "label": "TestUnterfeld 182"
+                },
+                {
+                  "id": "tpl_testunterfeld_183",
+                  "typ": "text",
+                  "label": "TestUnterfeld 183"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-185",
+          "label": "Testgruppe 185",
+          "felder": [
+            {
+              "id": "tpl_testfeld_184",
+              "typ": "liste",
+              "label": "Testfeld 184",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_186",
+                  "typ": "text",
+                  "label": "TestUnterfeld 186"
+                },
+                {
+                  "id": "tpl_testunterfeld_187",
+                  "typ": "text",
+                  "label": "TestUnterfeld 187"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-189",
+          "label": "Testgruppe 189",
+          "felder": [
+            {
+              "id": "tpl_testfeld_188",
+              "typ": "liste",
+              "label": "Testfeld 188",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_190",
+                  "typ": "text",
+                  "label": "TestUnterfeld 190"
+                },
+                {
+                  "id": "tpl_testunterfeld_191",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 191"
+                },
+                {
+                  "id": "tpl_testunterfeld_192",
+                  "typ": "text",
+                  "label": "TestUnterfeld 192"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Testunterzeile 4",
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Testcluster pro-betrieb-finanzen"
+    },
+    "pro-aufbewahrung-ordnung": {
+      "label": "Testbereich-pro-aufbewahrung-ordnung",
+      "icon": "save",
+      "merkmale": [],
+      "sektionen": [
+        {
+          "id": "testgruppe-131",
+          "label": "Testgruppe 131",
+          "felder": [
+            {
+              "id": "tpl_testfeld_130",
+              "typ": "liste",
+              "label": "Testfeld 130",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_132",
+                  "typ": "text",
+                  "label": "TestUnterfeld 132"
+                },
+                {
+                  "id": "tpl_testunterfeld_133",
+                  "typ": "text",
+                  "label": "TestUnterfeld 133"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-135",
+          "label": "Testgruppe 135",
+          "felder": [
+            {
+              "id": "tpl_testfeld_134",
+              "typ": "liste",
+              "label": "Testfeld 134",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_136",
+                  "typ": "text",
+                  "label": "TestUnterfeld 136"
+                },
+                {
+                  "id": "tpl_testunterfeld_137",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 137"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-139",
+          "label": "Testgruppe 139",
+          "felder": [
+            {
+              "id": "tpl_testfeld_138",
+              "typ": "liste",
+              "label": "Testfeld 138",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_140",
+                  "typ": "text",
+                  "label": "TestUnterfeld 140"
+                },
+                {
+                  "id": "tpl_testunterfeld_141",
+                  "typ": "text",
+                  "label": "TestUnterfeld 141"
+                },
+                {
+                  "id": "tpl_testunterfeld_142",
+                  "typ": "text",
+                  "label": "TestUnterfeld 142"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-144",
+          "label": "Testgruppe 144",
+          "felder": [
+            {
+              "id": "tpl_testfeld_143",
+              "typ": "liste",
+              "label": "Testfeld 143",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_145",
+                  "typ": "text",
+                  "label": "TestUnterfeld 145"
+                },
+                {
+                  "id": "tpl_testunterfeld_146",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 146"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-204",
+          "label": "Testgruppe 204",
+          "felder": [
+            {
+              "id": "tpl_testfeld_203",
+              "typ": "datum",
+              "label": "Testfeld 203"
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-206",
+          "label": "Testgruppe 206",
+          "felder": [
+            {
+              "id": "tpl_testfeld_205",
+              "typ": "liste",
+              "label": "Testfeld 205",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_207",
+                  "typ": "text",
+                  "label": "TestUnterfeld 207"
+                },
+                {
+                  "id": "tpl_testunterfeld_208",
+                  "typ": "text",
+                  "label": "TestUnterfeld 208"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Testunterzeile 5",
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Testcluster pro-betrieb-finanzen"
+    },
+    "pro-kontakte-vertretungsplan": {
+      "label": "Testbereich-pro-kontakte-vertretungsplan",
+      "icon": "users",
+      "merkmale": [],
+      "sektionen": [
+        {
+          "id": "testgruppe-148",
+          "label": "Testgruppe 148",
+          "felder": [
+            {
+              "id": "tpl_testfeld_147",
+              "typ": "liste",
+              "label": "Testfeld 147",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_149",
+                  "typ": "text",
+                  "label": "TestUnterfeld 149"
+                },
+                {
+                  "id": "tpl_testunterfeld_150",
+                  "typ": "text",
+                  "label": "TestUnterfeld 150"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "testgruppe-152",
+          "label": "Testgruppe 152",
+          "felder": [
+            {
+              "id": "tpl_testfeld_151",
+              "typ": "liste",
+              "label": "Testfeld 151",
+              "unterFelder": [
+                {
+                  "id": "tpl_testunterfeld_153",
+                  "typ": "text",
+                  "label": "TestUnterfeld 153"
+                },
+                {
+                  "id": "tpl_testunterfeld_154",
+                  "typ": "text",
+                  "label": "TestUnterfeld 154"
+                },
+                {
+                  "id": "tpl_testunterfeld_155",
+                  "typ": "datum",
+                  "label": "TestUnterfeld 155"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Testunterzeile 6",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Testcluster pro-vertretung-nachfolge"
+    }
+  }
+}

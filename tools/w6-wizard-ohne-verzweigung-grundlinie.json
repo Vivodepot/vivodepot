@@ -1,0 +1,29 @@
+[
+ {
+  "carrier": "Wizard-Schritt",
+  "id": "geburt_hebamme",
+  "label": "Wer ist Ihre Hebamme — und wie ist sie erreichbar?",
+  "beispiel": "Name und Telefon genügen. Falls noch keine feststeht, lassen Sie das Feld frei.",
+  "ort": "gebwiz",
+  "vermerk": "begründete Ausnahme",
+  "begruendung": "Die Bedingung („falls noch keine feststeht“) betrifft nicht die SICHTBARKEIT des Schritts, sondern erlaubt ein leeres Feld — eine echte Verzweigung hätte hier kein Ziel-Feld zum Ausblenden. Eher ein Hinweis auf freiwillige Beantwortung als ein verborgenWenn-Kandidat; vom Auftrag nicht genannt. Bestätigt durch Auftrag \"Assistenten fragen, was nicht gelten kann\" (11.08.2026, Zug 2): kein verborgenWenn-Kandidat, da kein einzelner Vorwert prüfbar ist."
+ },
+ {
+  "carrier": "Wizard-Schritt",
+  "id": "ownAdditionalSituation",
+  "label": "Möchten Sie eine eigene Anwendungssituation ergänzen?",
+  "beispiel": "Nur wenn keine der obigen passt oder Sie ergänzen möchten. Beschreiben Sie nur Situationen, die mit einer Einwilligungsunfähigkeit einhergehen können.",
+  "ort": "pvwiz",
+  "vermerk": "begründete Ausnahme",
+  "begruendung": "Bedingung ist offen formuliert („falls keine passt ODER Sie ergänzen möchten“) — kein einzelner Vorwert einer vorherigen Auswahl, den verborgenWenn prüfen könnte. Der Schritt ist als optionaler Zusatz gedacht, nicht als Verzweigung. Bestätigt durch Auftrag \"Assistenten fragen, was nicht gelten kann\" (11.08.2026, Zug 2): kein verborgenWenn-Kandidat, da kein einzelner Vorwert prüfbar ist."
+ },
+ {
+  "carrier": "Wizard-Schritt",
+  "id": "vaccinations",
+  "label": "Welche Impfungen sind bei Ihnen bekannt?",
+  "beispiel": "Falls Sie ein Impfbuch haben, genügt eine Kurzfassung der wichtigsten Impfungen.",
+  "ort": "anamwiz",
+  "vermerk": "begründete Ausnahme",
+  "begruendung": "Bedingung betrifft die QUELLE der Angabe (Impfbuch vorhanden oder nicht), nicht die Sichtbarkeit der Frage selbst — die Frage bleibt in jedem Fall sinnvoll. Kein verborgenWenn-Kandidat im engeren Sinn, aber vom Muster erfasst; vom Auftrag nicht genannt. Bestätigt durch Auftrag \"Assistenten fragen, was nicht gelten kann\" (11.08.2026, Zug 2): kein verborgenWenn-Kandidat, da kein einzelner Vorwert prüfbar ist."
+ }
+]

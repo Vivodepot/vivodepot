@@ -1,0 +1,71 @@
+{
+  "submissionId": "3f2504e0-4f89-41d3-9a0c-0305e82c3301",
+  "submissionTimestamp": "2026-05-31T12:00:00Z",
+  "generatorVersion": "v1.0",
+  "anbieter": {
+    "anbieterId": "institution/pflegeheim-musterstadt-de",
+    "anbieterName": "Seniorenresidenz Musterstadt",
+    "anbieterTyp": "institution/pflegeheim-de",
+    "rechtsform": "GmbH",
+    "ustId": "DE123456789",
+    "adresse": {
+      "strasse": "Lindenallee 12",
+      "plz": "12345",
+      "ort": "Musterstadt",
+      "land": "Deutschland"
+    },
+    "kontakt": {
+      "name": "Petra Beispiel",
+      "funktion": "Pflegedienstleitung",
+      "email": "p.beispiel@seniorenresidenz-musterstadt.example.de",
+      "telefon": "+49 30 1234567"
+    },
+    "bereich": "health",
+    "useCase": "Aufnahmebogen fuer neue Bewohnerinnen und Bewohner: Erfassung von Stammdaten, Pflegegrad und Notfallkontakten zur Uebergabe an das Pflegeteam und behandelnde Aerzte."
+  },
+  "publicKeyJwk": {
+    "kty": "OKP",
+    "crv": "Ed25519",
+    "alg": "Ed25519",
+    "x": "kmz5gD4oi4pZe0CdR7FhXahRnjZqrAkKCe0VNskNf60",
+    "kid": "vivodepot-test-sentinel-do-not-use-in-production"
+  },
+  "templates": [
+    {
+      "felder": [
+        {
+          "feldname": "Vollständiger Name",
+          "feldtyp": "text",
+          "pflicht": true,
+          "bereich": "identity",
+          "provenienzPflichtig": true
+        },
+        {
+          "feldname": "Aufnahmedatum",
+          "feldtyp": "datum",
+          "pflicht": true,
+          "bereich": "health",
+          "provenienzPflichtig": true
+        },
+        {
+          "feldname": "Pflegegrad",
+          "feldtyp": "auswahl",
+          "pflicht": true,
+          "bereich": "health",
+          "provenienzPflichtig": true,
+          "codeSystem": "vivodepot/pflegegrad-de",
+          "codeWerte": [
+            { "code": "1", "anzeige": "Pflegegrad 1" },
+            { "code": "2", "anzeige": "Pflegegrad 2" },
+            { "code": "3", "anzeige": "Pflegegrad 3" },
+            { "code": "4", "anzeige": "Pflegegrad 4" },
+            { "code": "5", "anzeige": "Pflegegrad 5" }
+          ]
+        }
+      ],
+      "ankerTauglich": true,
+      "subTauglich": true,
+      "sorgerechtTauglich": false
+    }
+  ]
+}

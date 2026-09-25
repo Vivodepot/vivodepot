@@ -1,0 +1,3733 @@
+{
+  "hinweis": "ERZEUGT von tools/build-feldkatalog.js aus vivodepot.html SEKTOREN und tools/bereich-templates/*.json. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
+  "schluesselraum": "kennung",
+  "anzahl": 621,
+  "felder": [
+    {
+      "kennung": "administration.bundid",
+      "bereich": "administration",
+      "label": "BundID",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.bundid/system",
+      "bereich": "administration",
+      "label": "Land / System",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.bundid/bundidEmailAddress",
+      "bereich": "administration",
+      "label": "BundID — E-Mail-Adresse",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.bundid/bundidDocumentsStorageLocation",
+      "bereich": "administration",
+      "label": "BundID — Unterlagen (Ablageort)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.bundidVerificationLevel",
+      "bereich": "administration",
+      "label": "BundID — Verifizierungsstufe",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.bundidVerificationLevelEarlier",
+      "bereich": "administration",
+      "label": "BundID — Verifizierungsstufe (frühere Angabe)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases",
+      "bereich": "administration",
+      "label": "Laufende Verwaltungsvorgänge",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/authority",
+      "bereich": "administration",
+      "label": "Behörde",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/typeOfCase",
+      "bereich": "administration",
+      "label": "Art des Vorgangs",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/fileReferenceNumber",
+      "bereich": "administration",
+      "label": "Aktenzeichen",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/start",
+      "bereich": "administration",
+      "label": "Datum (Antrag/Beginn)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/deadline",
+      "bereich": "administration",
+      "label": "Gültig bis / Frist",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/amount",
+      "bereich": "administration",
+      "label": "Betrag",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/direction",
+      "bereich": "administration",
+      "label": "Richtung",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/currency",
+      "bereich": "administration",
+      "label": "Währung",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/frequency",
+      "bereich": "administration",
+      "label": "Häufigkeit",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/contactPerson",
+      "bereich": "administration",
+      "label": "Referenz / Kontaktperson",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/note",
+      "bereich": "administration",
+      "label": "Notiz",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/opposingParty",
+      "bereich": "administration",
+      "label": "Gegenseite",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/alreadyAdvisedBy",
+      "bereich": "administration",
+      "label": "Bereits beraten durch",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.changingUtilityProviders",
+      "bereich": "administration",
+      "label": "Versorger-Wechsel & Adressänderungen",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.computerDevices",
+      "bereich": "administration",
+      "label": "Computer / Geräte",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.smartphone",
+      "bereich": "administration",
+      "label": "Smartphone",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.cloudServices",
+      "bereich": "administration",
+      "label": "Cloud-Dienste",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.mainEmailAddress",
+      "bereich": "administration",
+      "label": "Haupt-E-Mail-Adresse",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.furtherEmailAddress",
+      "bereich": "administration",
+      "label": "Weitere E-Mail-Adresse",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.protonMailEncryptedEmail",
+      "bereich": "administration",
+      "label": "Proton Mail / verschlüsselte E-Mail",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.socialMedia",
+      "bereich": "administration",
+      "label": "Social Media",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.passwordManager",
+      "bereich": "administration",
+      "label": "Passwort-Manager",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.masterPasswordStorageLocation",
+      "bereich": "administration",
+      "label": "Master-Passwort (Ablageort)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.passwordBackupStorageLocation",
+      "bereich": "administration",
+      "label": "Passwort-Backup (Ablageort)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.computerPasswordStorage",
+      "bereich": "administration",
+      "label": "Computer-Passwort (Ablageort)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.smartphonePinStorageLocation",
+      "bereich": "administration",
+      "label": "Smartphone-PIN (Ablageort)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.safeLocation",
+      "bereich": "administration",
+      "label": "Tresor / Safe — Standort",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.safeCodeStorageLocation",
+      "bereich": "administration",
+      "label": "Tresor-Code — Ablageort",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.bankSafeDepositBoxBankBranch",
+      "bereich": "administration",
+      "label": "Bankschließfach — Bank & Filiale",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.keyStorageLocation",
+      "bereich": "administration",
+      "label": "Schlüssel — Ablageort",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.alarmSystemCodeStorageLocation",
+      "bereich": "administration",
+      "label": "Alarmanlage-Code (Ablageort)",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.homeKeyWhoHoldsOne",
+      "bereich": "administration",
+      "label": "Wohnungsschlüssel — wer hat einen?",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.homeKeyWhoHoldsOne/who",
+      "bereich": "administration",
+      "label": "Wer",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.homeKeyWhoHoldsOne/note",
+      "bereich": "administration",
+      "label": "Anmerkung",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.cryptoWalletsOverview",
+      "bereich": "administration",
+      "label": "Krypto-Wallets — Übersicht",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.seedPhraseStorageLocation",
+      "bereich": "administration",
+      "label": "Seed-Phrase — Ablageort",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.hardwareWallet",
+      "bereich": "administration",
+      "label": "Hardware-Wallet",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "administration.olderInheritedCryptoAccess",
+      "bereich": "administration",
+      "label": "Ältere/geerbte Krypto-Zugänge",
+      "template": "vivodepot-administration.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments",
+      "bereich": "advanceCare",
+      "label": "Vorsorge-Instrumente",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/instrument",
+      "bereich": "advanceCare",
+      "label": "Instrument",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/form",
+      "bereich": "advanceCare",
+      "label": "Form",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/certifyingBody",
+      "bereich": "advanceCare",
+      "label": "Beurkundende / beglaubigende Stelle",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storageLocation",
+      "bereich": "advanceCare",
+      "label": "Ablageort",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/dateOfLastChange",
+      "bereich": "advanceCare",
+      "label": "Datum der letzten Änderung",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/timeLimitedUntilIfAgreed",
+      "bereich": "advanceCare",
+      "label": "Befristet gültig bis (falls vereinbart)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/typeOfPowerOfAttorney",
+      "bereich": "advanceCare",
+      "label": "Art der Vollmacht",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/note",
+      "bereich": "advanceCare",
+      "label": "Hinweis",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/morePreciseDescription",
+      "bereich": "advanceCare",
+      "label": "Genauer bezeichnen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/authorizedPersons",
+      "bereich": "advanceCare",
+      "label": "Bevollmächtigte Person(en)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/howDoThePeopleRepresentYou",
+      "bereich": "advanceCare",
+      "label": "Wie vertreten die Personen?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/healthCareGeneralDecision",
+      "bereich": "advanceCare",
+      "label": "Gesundheitssorge — allgemein entscheiden",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/healthCareMedicalProcedures",
+      "bereich": "advanceCare",
+      "label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr (§ 1829 BGB)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/healthCareMedicalRecords",
+      "bereich": "advanceCare",
+      "label": "Gesundheitssorge — Krankenunterlagen, Schweigepflichtentbindung",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/healthCarePlacementDepriving",
+      "bereich": "advanceCare",
+      "label": "Gesundheitssorge — freiheitsentziehende Unterbringung (§ 1831 Absatz 1 BGB)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/healthCareMeasuresDepriving",
+      "bereich": "advanceCare",
+      "label": "Gesundheitssorge — freiheitsentziehende Maßnahmen in Einrichtung (§ 1831 Absatz 4 BGB)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/healthCareCompulsoryMedical",
+      "bereich": "advanceCare",
+      "label": "Gesundheitssorge — ärztliche Zwangsmaßnahmen (§ 1832 Absatz 1 BGB)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/healthCareAdmissionToHospital",
+      "bereich": "advanceCare",
+      "label": "Gesundheitssorge — Verbringung ins Krankenhaus bei drohender Zwangsmaßnahme (§ 1832 Absatz 4 BGB)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/determinePlaceOfResidence",
+      "bereich": "advanceCare",
+      "label": "Aufenthalt bestimmen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/manageAnExistingTenancyWindUp",
+      "bereich": "advanceCare",
+      "label": "Bestehenden Mietvertrag wahrnehmen, Haushalt auflösen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/concludeAndTerminateANew",
+      "bereich": "advanceCare",
+      "label": "Neuen Mietvertrag abschließen und kündigen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/concludeAndTerminateHousingAnd",
+      "bereich": "advanceCare",
+      "label": "Wohn- und Betreuungsvertrag abschließen und kündigen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/representationWithAuthorities",
+      "bereich": "advanceCare",
+      "label": "Vertretung bei Behörden, Versicherungen, Sozialleistungsträgern",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/assetManagementGeneral",
+      "bereich": "advanceCare",
+      "label": "Vermögensverwaltung — allgemein",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/disposeOfAssets",
+      "bereich": "advanceCare",
+      "label": "Über Vermögensgegenstände verfügen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/acceptPaymentsAndValuables",
+      "bereich": "advanceCare",
+      "label": "Zahlungen und Wertgegenstände annehmen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/enterIntoLiabilities",
+      "bereich": "advanceCare",
+      "label": "Verbindlichkeiten eingehen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/accountsCustodyAccountsSafes",
+      "bereich": "advanceCare",
+      "label": "Konten, Depots, Safes — Geschäftsverkehr mit Kreditinstituten",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/customaryGiftsWithinWhatCare",
+      "bereich": "advanceCare",
+      "label": "Übliche Schenkungen im betreuungsrechtlich zulässigen Rahmen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/transactionsExpresslyExcluded",
+      "bereich": "advanceCare",
+      "label": "Ausdrücklich ausgeschlossene Geschäfte",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/mailAndTelecommunications",
+      "bereich": "advanceCare",
+      "label": "Post und Fernmeldeverkehr (auch elektronisch)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/representationInCourt",
+      "bereich": "advanceCare",
+      "label": "Vertretung vor Gericht",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/mayGrantASubPowerOfAttorney",
+      "bereich": "advanceCare",
+      "label": "Untervollmacht erteilen dürfen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/alsoProposeTheAuthorizedPerson",
+      "bereich": "advanceCare",
+      "label": "Bevollmächtigte Person auch als Betreuer/in vorschlagen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/appliesBeyondDeath",
+      "bereich": "advanceCare",
+      "label": "Geltung über den Tod hinaus",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/furtherProvisions",
+      "bereich": "advanceCare",
+      "label": "Weitere Regelungen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/note2",
+      "bereich": "advanceCare",
+      "label": "Hinweis",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/centralRegisterOfPowersOf",
+      "bereich": "advanceCare",
+      "label": "Zentrales Vorsorgeregister — Eintragungsnummer",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/copyDepositedInTheRegister",
+      "bereich": "advanceCare",
+      "label": "Abschrift im Register hinterlegt",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/copyDepositedOn",
+      "bereich": "advanceCare",
+      "label": "Abschrift hinterlegt am",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/depositedBy",
+      "bereich": "advanceCare",
+      "label": "Hinterlegt durch",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/medicalSupervisionBy",
+      "bereich": "advanceCare",
+      "label": "Ärztlich begleitet durch",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/organDonation",
+      "bereich": "advanceCare",
+      "label": "Organspende",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/whatRestriction",
+      "bereich": "advanceCare",
+      "label": "Welche Einschränkung?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/organDonationRegister",
+      "bereich": "advanceCare",
+      "label": "Organspende-Register — Erklärungs-ID",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/statutorySuccessionOr",
+      "bereich": "advanceCare",
+      "label": "Gesetzliche Erbfolge oder abweichender Wille?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/personsNamedInTheWill",
+      "bereich": "advanceCare",
+      "label": "Im Testament bedachte Person(en)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/aboutTheWill",
+      "bereich": "advanceCare",
+      "label": "Zum Testament",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/personalNotesOnThis",
+      "bereich": "advanceCare",
+      "label": "Persönliche Notizen dazu",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/proposedPerson",
+      "bereich": "advanceCare",
+      "label": "Vorgeschlagene Person",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/alternatePerson",
+      "bereich": "advanceCare",
+      "label": "Ersatzperson",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/whoShouldNotBeAppointed",
+      "bereich": "advanceCare",
+      "label": "Wer nicht bestellt werden soll",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/whatTheCareArrangementShould",
+      "bereich": "advanceCare",
+      "label": "Was die Betreuung regeln soll",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/whatTheCareArrangementShould2",
+      "bereich": "advanceCare",
+      "label": "Was die Betreuung nicht soll",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/proposedPerson2",
+      "bereich": "advanceCare",
+      "label": "Vorgeschlagene Person",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/alternatePerson2",
+      "bereich": "advanceCare",
+      "label": "Ersatzperson",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/wishesForUpbringingCare",
+      "bereich": "advanceCare",
+      "label": "Wünsche zur Erziehung & Betreuung",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/basicDecision",
+      "bereich": "advanceCare",
+      "label": "Grundentscheidung",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/purpose",
+      "bereich": "advanceCare",
+      "label": "Zweck",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/authorizedParties",
+      "bereich": "advanceCare",
+      "label": "Berechtigte",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/namedIndividuals",
+      "bereich": "advanceCare",
+      "label": "Namentlich benannte Personen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/scope",
+      "bereich": "advanceCare",
+      "label": "Raum",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/permittedDataTypes",
+      "bereich": "advanceCare",
+      "label": "Zulässige Datenarten",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/timeLimit",
+      "bereich": "advanceCare",
+      "label": "Befristung",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/numberOfYears",
+      "bereich": "advanceCare",
+      "label": "Anzahl Jahre",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/date",
+      "bereich": "advanceCare",
+      "label": "Zeitpunkt",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/behaviouralLimit",
+      "bereich": "advanceCare",
+      "label": "Verhaltensgrenze",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/digitalEstateAdministration",
+      "bereich": "advanceCare",
+      "label": "Digitale Nachlassverwaltung",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/digitalEstateAdministration2",
+      "bereich": "advanceCare",
+      "label": "Digitale Nachlassverwaltung — Person",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/whoWasAppointedAsCourt",
+      "bereich": "advanceCare",
+      "label": "Wer wurde als Betreuer/in bestellt?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/areasOfResponsibility",
+      "bereich": "advanceCare",
+      "label": "Aufgabenbereiche",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/careCourt",
+      "bereich": "advanceCare",
+      "label": "Betreuungsgericht",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/fileReferenceNumber",
+      "bereich": "advanceCare",
+      "label": "Aktenzeichen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/appointedSince",
+      "bereich": "advanceCare",
+      "label": "Bestellt seit",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/nextCourtReviewDateIfKnown",
+      "bereich": "advanceCare",
+      "label": "Nächster gerichtlicher Überprüfungstermin (falls bekannt)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.heirsBriefOverview",
+      "bereich": "advanceCare",
+      "label": "Erben — Kurzübersicht",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.personalCareDignity",
+      "bereich": "advanceCare",
+      "label": "Körperpflege & Würde",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.dietSpecialRequirements",
+      "bereich": "advanceCare",
+      "label": "Ernährung & Besonderheiten",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.dailyRoutineActivities",
+      "bereich": "advanceCare",
+      "label": "Alltag & Aktivitäten",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.otherWishesNotes",
+      "bereich": "advanceCare",
+      "label": "Sonstige Wünsche & Hinweise",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.aidsEGWalkerHearingAid",
+      "bereich": "advanceCare",
+      "label": "Hilfsmittel (z. B. Rollator, Hörgerät, Rollstuhl)",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.contentOfTheAdvanceDirective",
+      "bereich": "advanceCare",
+      "label": "Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.contentOfTheAdvanceDirective2",
+      "bereich": "advanceCare",
+      "label": "Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionDocumentsCheckedIn",
+      "bereich": "advanceCare",
+      "label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "assets.additionalTypesOfIncome",
+      "bereich": "assets",
+      "label": "Weitere Einkommensarten",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.livingSituation",
+      "bereich": "assets",
+      "label": "Wohnsituation",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.homeSize",
+      "bereich": "assets",
+      "label": "Wohnungsgröße",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.housingCostsBorneAlone",
+      "bereich": "assets",
+      "label": "Wohnkosten — allein getragen",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.numberOfPeopleInTheHome",
+      "bereich": "assets",
+      "label": "Personenzahl in der Wohnung",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.housingCostsTotal",
+      "bereich": "assets",
+      "label": "Wohnkosten — gesamt",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.housingCostsOwnShare",
+      "bereich": "assets",
+      "label": "Wohnkosten — eigener Anteil",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.yourOwnIncomeNetMonthly",
+      "bereich": "assets",
+      "label": "Eigenes Einkommen (netto, monatlich)",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.maintenanceObligations",
+      "bereich": "assets",
+      "label": "Unterhaltsverpflichtungen",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.incomeOfOtherPeopleInThe",
+      "bereich": "assets",
+      "label": "Einkommen weiterer Personen im Haushalt",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "assets.monthlyCommitments",
+      "bereich": "assets",
+      "label": "Monatliche Belastungen",
+      "template": "vivodepot-assets.json"
+    },
+    {
+      "kennung": "education.schoolLeavingQualification",
+      "bereich": "education",
+      "label": "Schulabschluss",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.schoolLeavingQualificationYear",
+      "bereich": "education",
+      "label": "Schulabschluss — Jahr",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.schoolLeavingQualification2",
+      "bereich": "education",
+      "label": "Schulabschluss — frühere Angabe",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.school",
+      "bereich": "education",
+      "label": "Schule",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.vocationalTraining",
+      "bereich": "education",
+      "label": "Berufsausbildung — Abschlussart",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.vocationalTrainingTrained",
+      "bereich": "education",
+      "label": "Berufsausbildung — Ausbildungsberuf",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.vocationalTrainingCompany",
+      "bereich": "education",
+      "label": "Berufsausbildung — Betrieb / Kammer",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.vocationalTrainingYear",
+      "bereich": "education",
+      "label": "Berufsausbildung — Jahr",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.vocationalTrainingEarlierEntry",
+      "bereich": "education",
+      "label": "Berufsausbildung — frühere Angabe",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.universityDegreeType",
+      "bereich": "education",
+      "label": "Studium — Abschlussart",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.universitySubject",
+      "bereich": "education",
+      "label": "Studium — Fach",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.universityInstitution",
+      "bereich": "education",
+      "label": "Studium — Hochschule",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.universityYear",
+      "bereich": "education",
+      "label": "Studium — Jahr",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.universityEarlierEntry",
+      "bereich": "education",
+      "label": "Studium — frühere Angabe",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.certificatesQualifications",
+      "bereich": "education",
+      "label": "Zeugnisse / Abschlüsse — Ablageort",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.occupationRole",
+      "bereich": "education",
+      "label": "Beruf / Tätigkeit",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.employer",
+      "bereich": "education",
+      "label": "Arbeitgeber",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.employmentContractFixedTerm",
+      "bereich": "education",
+      "label": "Arbeitsvertrag — befristet bis (falls befristet)",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.employerAddress",
+      "bereich": "education",
+      "label": "Arbeitgeber-Adresse",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.lastEmployer",
+      "bereich": "education",
+      "label": "Letzter Arbeitgeber",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.typeOfIncome",
+      "bereich": "education",
+      "label": "Einkommensart",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.typeOfIncomeEarlierEntry",
+      "bereich": "education",
+      "label": "Einkommensart — frühere Angabe",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.grossMonthlyIncome",
+      "bereich": "education",
+      "label": "Brutto-Monatseinkommen",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.netMonthlyIncome",
+      "bereich": "education",
+      "label": "Netto-Monatseinkommen",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.payslipStorageLocation",
+      "bereich": "education",
+      "label": "Gehaltsnachweis (Ablageort)",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.qualifications",
+      "bereich": "education",
+      "label": "Qualifikationen",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.volunteerWork",
+      "bereich": "education",
+      "label": "Ehrenamt",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.schoolCertificatesStorage",
+      "bereich": "education",
+      "label": "Schulzeugnisse (Ablageort)",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.trainingCertificateStorage",
+      "bereich": "education",
+      "label": "Ausbildungszeugnis (Ablageort)",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.universityDegreeCertificate",
+      "bereich": "education",
+      "label": "Hochschulzeugnis (Ablageort)",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "education.employmentReferenceStorage",
+      "bereich": "education",
+      "label": "Arbeitszeugnis (Ablageort)",
+      "template": "vivodepot-education.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.numberOfPeopleForTheSupply",
+      "bereich": "emergencyPreparedness",
+      "label": "Personenzahl für die Vorratsrechnung",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.drinkingWaterSupplyAmount",
+      "bereich": "emergencyPreparedness",
+      "label": "Trinkwasser-Vorrat — Menge",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.drinkingWaterSupplyStorage",
+      "bereich": "emergencyPreparedness",
+      "label": "Trinkwasser-Vorrat — Ablageort",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.drinkingWaterSupplyCheckShelf",
+      "bereich": "emergencyPreparedness",
+      "label": "Trinkwasser-Vorrat — Haltbarkeit prüfen bis",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.drinkingWaterSupplyEarlierNote",
+      "bereich": "emergencyPreparedness",
+      "label": "Trinkwasser-Vorrat — frühere Angabe zur Haltbarkeit",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.foodSuppliesWhatIsStored",
+      "bereich": "emergencyPreparedness",
+      "label": "Vorräte — was ist eingelagert",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.foodSuppliesStorageLocation",
+      "bereich": "emergencyPreparedness",
+      "label": "Vorräte — Ablageort",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.foodSuppliesCheckShelfLifeBy",
+      "bereich": "emergencyPreparedness",
+      "label": "Vorräte — Haltbarkeit prüfen bis",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.foodSuppliesEarlierNoteOnShelf",
+      "bereich": "emergencyPreparedness",
+      "label": "Vorräte — frühere Angabe zur Haltbarkeit",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.torch",
+      "bereich": "emergencyPreparedness",
+      "label": "Taschenlampe",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.candles",
+      "bereich": "emergencyPreparedness",
+      "label": "Kerzen",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.batteriesSupply",
+      "bereich": "emergencyPreparedness",
+      "label": "Batterien (Vorrat)",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.crankBatteryRadio",
+      "bereich": "emergencyPreparedness",
+      "label": "Kurbelradio / Batterieradio",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.powerBank",
+      "bereich": "emergencyPreparedness",
+      "label": "Powerbank",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.emergencyHeatingOption",
+      "bereich": "emergencyPreparedness",
+      "label": "Heizmöglichkeit im Notfall",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.firstAidKitStorageLocation",
+      "bereich": "emergencyPreparedness",
+      "label": "Erste-Hilfe-Set — Ablageort",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.firstAidKitLastChecked",
+      "bereich": "emergencyPreparedness",
+      "label": "Erste-Hilfe-Set — zuletzt geprüft",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.medicationSupply",
+      "bereich": "emergencyPreparedness",
+      "label": "Medikamenten-Vorrat",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.emergencyBackpackInPlace",
+      "bereich": "emergencyPreparedness",
+      "label": "Notfallrucksack vorhanden?",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.emergencyBackpackStorage",
+      "bereich": "emergencyPreparedness",
+      "label": "Notfallrucksack — Ablageort",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.emergencyBackpackContents",
+      "bereich": "emergencyPreparedness",
+      "label": "Notfallrucksack — Inhalt",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.folderWithImportantDocumentsIn",
+      "bereich": "emergencyPreparedness",
+      "label": "Mappe mit wichtigen Dokumenten vorhanden?",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.documentFolderStorageLocation",
+      "bereich": "emergencyPreparedness",
+      "label": "Dokumenten-Mappe — Ablageort",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.cashReserveInPlace",
+      "bereich": "emergencyPreparedness",
+      "label": "Bargeld-Reserve vorhanden?",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.cashReserveStorageLocation",
+      "bereich": "emergencyPreparedness",
+      "label": "Bargeld-Reserve — Ablageort",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.hygieneSuppliesWhatIsStored",
+      "bereich": "emergencyPreparedness",
+      "label": "Hygiene-Vorrat — was ist eingelagert",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.hygieneSuppliesStorageLocation",
+      "bereich": "emergencyPreparedness",
+      "label": "Hygiene-Vorrat — Ablageort",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.meetingPointFamily",
+      "bereich": "emergencyPreparedness",
+      "label": "Sammelplatz (Familie/Nachbarschaft)",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.escapeRouteFromTheHome",
+      "bereich": "emergencyPreparedness",
+      "label": "Fluchtweg aus der Wohnung",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.fallbackLocation2ndStage",
+      "bereich": "emergencyPreparedness",
+      "label": "Ausweichort (2. Stufe)",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.neighbourForEmergencies",
+      "bereich": "emergencyPreparedness",
+      "label": "Nachbar für den Notfall",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.specialSituation",
+      "bereich": "emergencyPreparedness",
+      "label": "Besondere Situation",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "emergencyPreparedness.noteForEmergencyResponders",
+      "bereich": "emergencyPreparedness",
+      "label": "Hinweis für Rettungskräfte",
+      "template": "vivodepot-emergencyPreparedness.json"
+    },
+    {
+      "kennung": "finance.taxIdsTaxNumbers",
+      "bereich": "finance",
+      "label": "Steuer-IDs / Steuernummern",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.taxIdsTaxNumbers/system",
+      "bereich": "finance",
+      "label": "Land / System",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.taxIdsTaxNumbers/taxNumber",
+      "bereich": "finance",
+      "label": "Steuer-ID / Steuernummer",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.companyPensionSchemeBav",
+      "bereich": "finance",
+      "label": "Betriebliche Altersvorsorge (bAV) — Anbieter",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.companyPensionScheme",
+      "bereich": "finance",
+      "label": "Betriebliche Altersvorsorge — Durchführungsweg",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.companyPensionPolicyNumber",
+      "bereich": "finance",
+      "label": "Versichertennummer bAV",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.companyPensionAgreedStartDate",
+      "bereich": "finance",
+      "label": "bAV — vereinbarter Rentenbeginn",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privatePensionProvision",
+      "bereich": "finance",
+      "label": "Private Altersvorsorge — Institut",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.policyContractNumber",
+      "bereich": "finance",
+      "label": "Policen- / Vertragsnummer",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privatePensionProvisionAgreed",
+      "bereich": "finance",
+      "label": "Private Altersvorsorge — vereinbarter Ablauf/Rentenbeginn",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privateInsurancePolicies",
+      "bereich": "finance",
+      "label": "Private Sachversicherungen",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privateInsurancePolicies/insuranceType",
+      "bereich": "finance",
+      "label": "Art der Versicherung",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privateInsurancePolicies/insurer",
+      "bereich": "finance",
+      "label": "Versicherer",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privateInsurancePolicies/insurancePolicyNumber",
+      "bereich": "finance",
+      "label": "Versicherungsschein-Nummer",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privateInsurancePolicies/insuranceContactPerson",
+      "bereich": "finance",
+      "label": "Ansprechpartner",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privateInsurancePolicies/insuranceTerminationMethod",
+      "bereich": "finance",
+      "label": "Kündigungsweg",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.privateInsurancePolicies/note",
+      "bereich": "finance",
+      "label": "Notiz",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.accounts",
+      "bereich": "finance",
+      "label": "Konten",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.accounts/institution",
+      "bereich": "finance",
+      "label": "Bank / Institut",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.accounts/accountType",
+      "bereich": "finance",
+      "label": "Art des Kontos",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.accounts/iban",
+      "bereich": "finance",
+      "label": "IBAN",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.accounts/bankingPowersOfAttorneyFrom",
+      "bereich": "finance",
+      "label": "Bankvollmacht(en) (aus Vorsorge)",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.accounts/note",
+      "bereich": "finance",
+      "label": "Notiz",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.accounts/garnishmentProtection",
+      "bereich": "finance",
+      "label": "Pfändungsschutzkonto (P-Konto)",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.taxAdvisor",
+      "bereich": "finance",
+      "label": "Steuerberater",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.taxAdvisorContact",
+      "bereich": "finance",
+      "label": "Kontakt Steuerberater",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.latestTaxReturnStorageLocation",
+      "bereich": "finance",
+      "label": "Letzte Steuererklärung — Ablageort",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.taxSoftware",
+      "bereich": "finance",
+      "label": "Steuer-Software",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.taxParticulars",
+      "bereich": "finance",
+      "label": "Steuerliche Besonderheiten",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.financialAdvisorNameContact",
+      "bereich": "finance",
+      "label": "Finanzberatung — Name & Kontakt",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.ongoingLoansDebts",
+      "bereich": "finance",
+      "label": "Laufende Kredite & Schulden",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.valuablesStorageLocations",
+      "bereich": "finance",
+      "label": "Wertgegenstände & Ablageorte",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.digitalBalances",
+      "bereich": "finance",
+      "label": "Digitale Guthaben",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.creditCards",
+      "bereich": "finance",
+      "label": "Kreditkarten",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.creditCards/providerLast4Digits",
+      "bereich": "finance",
+      "label": "Anbieter · letzte 4 Ziffern",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.creditCards/validUntil",
+      "bereich": "finance",
+      "label": "Gültig bis",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.outstandingClaimsGuarantees",
+      "bereich": "finance",
+      "label": "Offene Forderungen & Bürgschaften",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.assetsForTheEstate",
+      "bereich": "finance",
+      "label": "Vermögenswerte für den Nachlass",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.assetsForTheEstate/asset",
+      "bereich": "finance",
+      "label": "Vermögenswert",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "finance.assetsForTheEstate/withWhom",
+      "bereich": "finance",
+      "label": "Wo / bei wem",
+      "template": "vivodepot-finance.json"
+    },
+    {
+      "kennung": "health.generalPractitioner",
+      "bereich": "health",
+      "label": "Hausärztin / Hausarzt",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.specialistDoctors",
+      "bereich": "health",
+      "label": "Fachärztinnen und Fachärzte",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.specialistDoctors/specialistDoctor",
+      "bereich": "health",
+      "label": "Fachärztin / Facharzt",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.specialistDoctors/specialty",
+      "bereich": "health",
+      "label": "Fachgebiet",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.ongoingTreatmentNext",
+      "bereich": "health",
+      "label": "Laufende Behandlung / nächste Termine",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.bloodType",
+      "bereich": "health",
+      "label": "Blutgruppe",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.allergiesMedicationFoodOther",
+      "bereich": "health",
+      "label": "Allergien (Medikamente, Nahrung, Sonstiges)",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.chronicConditionsDiagnoses",
+      "bereich": "health",
+      "label": "Chronische Erkrankungen / Diagnosen",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.healthInsurance",
+      "bereich": "health",
+      "label": "Krankenversicherung",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.medicationOngoing",
+      "bereich": "health",
+      "label": "Medikamente (laufend)",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.insuranceNumber",
+      "bereich": "health",
+      "label": "Versichertennummer",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.implantsProsthesesPacemakers",
+      "bereich": "health",
+      "label": "Implantate / Prothesen / Schrittmacher",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.heightCm",
+      "bereich": "health",
+      "label": "Körpergröße (cm)",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.bodyWeightKg",
+      "bereich": "health",
+      "label": "Körpergewicht (kg)",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.vaccinationRecordStorage",
+      "bereich": "health",
+      "label": "Impfbuch — Ablageort",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.emergencyContacts",
+      "bereich": "health",
+      "label": "Notfallkontakte",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.insuredThrough",
+      "bereich": "health",
+      "label": "Versichert über",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.supplementaryInsurance",
+      "bereich": "health",
+      "label": "Zusatzversicherungen",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.healthInsuranceCards",
+      "bereich": "health",
+      "label": "Krankenkassenkarten",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.healthInsuranceCards/system",
+      "bereich": "health",
+      "label": "Land / System",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.healthInsuranceCards/storageLocation",
+      "bereich": "health",
+      "label": "Ablageort",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.healthInsuranceCards/validUntilInclEhic",
+      "bereich": "health",
+      "label": "Gültig bis (inkl. EHIC)",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.emergencyCardPatientId",
+      "bereich": "health",
+      "label": "Notfallkarte / Patientenausweis",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.smoking",
+      "bereich": "health",
+      "label": "Rauchen",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.alcohol",
+      "bereich": "health",
+      "label": "Alkohol",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.vaccinations",
+      "bereich": "health",
+      "label": "Impfungen",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.findingsOnAUsbStick",
+      "bereich": "health",
+      "label": "Befunde auf USB-Stick?",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.preventiveCheckUpsLatestDates",
+      "bereich": "health",
+      "label": "Vorsorgeuntersuchungen — letzte Termine",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.dentistNameContact",
+      "bereich": "health",
+      "label": "Zahnarzt — Name & Kontakt",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.dentalBonusBookletStorage",
+      "bereich": "health",
+      "label": "Bonusheft — Ablageort",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.ehicCardEuropeanHealth",
+      "bereich": "health",
+      "label": "EHIC-Karte (Europäische Krankenversicherungskarte)",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.operationsProcedures",
+      "bereich": "health",
+      "label": "Operationen / Eingriffe",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.operationsProcedures/procedure",
+      "bereich": "health",
+      "label": "Eingriff",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.operationsProcedures/year",
+      "bereich": "health",
+      "label": "Jahr",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.familyMedicalHistory",
+      "bereich": "health",
+      "label": "Familienanamnese",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.familyMedicalHistory/familyMember",
+      "bereich": "health",
+      "label": "Angehörige / Angehöriger",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.familyMedicalHistory/condition",
+      "bereich": "health",
+      "label": "Erkrankung",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.familyMedicalHistory/ageAtDiagnosis",
+      "bereich": "health",
+      "label": "Alter bei Erkrankung",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "housing.ownedOrRented",
+      "bereich": "housing",
+      "label": "Eigentum oder Miete?",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.landlordPropertyManagement",
+      "bereich": "housing",
+      "label": "Vermieter / Hausverwaltung",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.landlordPhone",
+      "bereich": "housing",
+      "label": "Vermieter — Telefon",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.landlordEmail",
+      "bereich": "housing",
+      "label": "Vermieter — E-Mail",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.monthlyRentServiceCharges",
+      "bereich": "housing",
+      "label": "Monatliche Miete / HV-Kosten",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.currency",
+      "bereich": "housing",
+      "label": "Währung",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.rentalDepositBankAmount",
+      "bereich": "housing",
+      "label": "Mietkaution — Bank & Betrag",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.tenancyAgreementStorage",
+      "bereich": "housing",
+      "label": "Mietvertrag — Ablageort",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.tenancyAgreementFixedTermUntil",
+      "bereich": "housing",
+      "label": "Mietvertrag — befristet bis (falls Zeitmietvertrag)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.specialLivingSituation",
+      "bereich": "housing",
+      "label": "Besondere Wohnsituation",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.tenancyTerminationHandover",
+      "bereich": "housing",
+      "label": "Mietverhältnis — Kündigung & Übergabe",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.noticeDate",
+      "bereich": "housing",
+      "label": "Kündigungstermin",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.moveOutDate",
+      "bereich": "housing",
+      "label": "Auszugstermin",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.handoverDateNewHome",
+      "bereich": "housing",
+      "label": "Übergabetermin (neue Wohnung)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes",
+      "bereich": "housing",
+      "label": "Weitere Wohnungen",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/streetHouseNumber",
+      "bereich": "housing",
+      "label": "Straße & Hausnummer",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/postcodeCity",
+      "bereich": "housing",
+      "label": "PLZ & Ort",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/ownedOrRented",
+      "bereich": "housing",
+      "label": "Eigentum oder Miete?",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/propertyManagement",
+      "bereich": "housing",
+      "label": "Vermieter / Hausverwaltung",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/landlordPhone",
+      "bereich": "housing",
+      "label": "Vermieter — Telefon",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/landlordEmail",
+      "bereich": "housing",
+      "label": "Vermieter — E-Mail",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/serviceCharges",
+      "bereich": "housing",
+      "label": "Monatliche Miete / HV-Kosten",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/rentalDepositBankAmount",
+      "bereich": "housing",
+      "label": "Mietkaution — Bank & Betrag",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/tenancyAgreementStorage",
+      "bereich": "housing",
+      "label": "Mietvertrag — Ablageort",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/tenancyAgreementFixedTermUntil",
+      "bereich": "housing",
+      "label": "Mietvertrag — befristet bis (falls Zeitmietvertrag)",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "housing.furtherHomes/specialLivingSituation",
+      "bereich": "housing",
+      "label": "Besondere Wohnsituation",
+      "template": "vivodepot-housing.json"
+    },
+    {
+      "kennung": "identity.givenName",
+      "bereich": "identity",
+      "label": "Vorname",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.familyName",
+      "bereich": "identity",
+      "label": "Nachname",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.secondLastName",
+      "bereich": "identity",
+      "label": "Zweiter Nachname",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.displayFamilyNameFirst",
+      "bereich": "identity",
+      "label": "Familienname zuerst anzeigen",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.birthDate",
+      "bereich": "identity",
+      "label": "Geburtsdatum",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.yearOfBirthIfTheExactDayIs",
+      "bereich": "identity",
+      "label": "Geburtsjahr (falls der Tag unbekannt ist)",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.telephone",
+      "bereich": "identity",
+      "label": "Telefon",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.streetAddress",
+      "bereich": "identity",
+      "label": "Straße & Hausnummer",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.postcodeCity",
+      "bereich": "identity",
+      "label": "PLZ & Ort",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.email",
+      "bereich": "identity",
+      "label": "E-Mail",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.nationality",
+      "bereich": "identity",
+      "label": "Staatsangehörigkeit",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.birthName",
+      "bereich": "identity",
+      "label": "Geburtsname",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.birthPlace",
+      "bereich": "identity",
+      "label": "Geburtsort",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.gender",
+      "bereich": "identity",
+      "label": "Geschlecht",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.maritalStatus",
+      "bereich": "identity",
+      "label": "Familienstand",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.maritalPropertyRegime",
+      "bereich": "identity",
+      "label": "Güterstand",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.dateOfSeparation",
+      "bereich": "identity",
+      "label": "Trennungsdatum",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.choiceOfNameAfterMarriage",
+      "bereich": "identity",
+      "label": "Namenswahl nach der Heirat",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.choiceOfNameAfterMarriage2",
+      "bereich": "identity",
+      "label": "Namenswahl nach der Heirat — frühere Angabe",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.idDocuments",
+      "bereich": "identity",
+      "label": "Ausweisdokumente",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.idDocuments/system",
+      "bereich": "identity",
+      "label": "Land / System",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.idDocuments/documentNumber",
+      "bereich": "identity",
+      "label": "Ausweisnummer",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.idDocuments/issuedOn",
+      "bereich": "identity",
+      "label": "Ausgestellt am",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.idDocuments/validUntil",
+      "bereich": "identity",
+      "label": "Gültig bis",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermitType",
+      "bereich": "identity",
+      "label": "Aufenthaltstitel — Art",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermit",
+      "bereich": "identity",
+      "label": "Aufenthaltstitel",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermit/system",
+      "bereich": "identity",
+      "label": "Land / System",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermit/number",
+      "bereich": "identity",
+      "label": "Nummer",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermit/issuedOn",
+      "bereich": "identity",
+      "label": "Ausgestellt am",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermit/validUntil",
+      "bereich": "identity",
+      "label": "Gültig bis",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermit/responsibleImmigration",
+      "bereich": "identity",
+      "label": "Zuständige Ausländerbehörde",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.residencePermit/fileReferenceNumber",
+      "bereich": "identity",
+      "label": "Aktenzeichen",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.profilePhotoCoverPage",
+      "bereich": "identity",
+      "label": "Profilfoto (Deckblatt)",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.furtherDetails",
+      "bereich": "identity",
+      "label": "Weitere Angaben",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.taxClass",
+      "bereich": "identity",
+      "label": "Steuerklasse",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.taxClassEarlierEntry",
+      "bereich": "identity",
+      "label": "Steuerklasse — frühere Angabe",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.reRegistrationWithTheResidents",
+      "bereich": "identity",
+      "label": "Ummeldung beim Einwohnermeldeamt",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.formerNames",
+      "bereich": "identity",
+      "label": "Frühere Namen",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.formerNames/name",
+      "bereich": "identity",
+      "label": "Name",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.formerNames/usedUntil",
+      "bereich": "identity",
+      "label": "geführt bis",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.formerNames/reason",
+      "bereich": "identity",
+      "label": "Anlass",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.formerNames/note",
+      "bereich": "identity",
+      "label": "Hinweis",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.formerNames/proofStorageLocation",
+      "bereich": "identity",
+      "label": "Nachweis — Ablageort",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.pets",
+      "bereich": "identity",
+      "label": "Tiere",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.pets/petNameSpecies",
+      "bereich": "identity",
+      "label": "Tier — Name & Art",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.pets/emergencyCarePersonContact",
+      "bereich": "identity",
+      "label": "Betreuung im Notfall — Person & Kontakt",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.pets/vetNameContact",
+      "bereich": "identity",
+      "label": "Tierarzt — Name & Kontakt",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.pets/medication",
+      "bereich": "identity",
+      "label": "Futter / Besonderheiten / Medikamente",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.pets/otherNotes",
+      "bereich": "identity",
+      "label": "Weitere Hinweise",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "mobility.vehicles",
+      "bereich": "mobility",
+      "label": "Fahrzeuge",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.vehicles/registrationPlate",
+      "bereich": "mobility",
+      "label": "Marke / Modell / Kennzeichen",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.vehicles/vehicleRegistrationDocument",
+      "bereich": "mobility",
+      "label": "Fahrzeugausweis — Ablageort",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.vehicles/leaseAgreementStorageLocation",
+      "bereich": "mobility",
+      "label": "Leasingvertrag — Ablageort",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.carInsurance",
+      "bereich": "mobility",
+      "label": "KFZ-Versicherung",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.policyNumber",
+      "bereich": "mobility",
+      "label": "Versicherungsschein-Nummer",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.drivingLicenceClasses",
+      "bereich": "mobility",
+      "label": "Führerschein — Klassen",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.drivingLicenceStorageLocation",
+      "bereich": "mobility",
+      "label": "Führerschein — Ablageort",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.drivingLicenceEarlierEntry",
+      "bereich": "mobility",
+      "label": "Führerschein — frühere Angabe",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.drivingLicenceValidUntil",
+      "bereich": "mobility",
+      "label": "Führerschein — gültig bis",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.deutschlandticketPublic",
+      "bereich": "mobility",
+      "label": "Deutschlandticket / ÖPNV",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.passportNo",
+      "bereich": "mobility",
+      "label": "Reisepass-Nr.",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.passportIssuedOn",
+      "bereich": "mobility",
+      "label": "Reisepass — ausgestellt am",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.passportValidUntil",
+      "bereich": "mobility",
+      "label": "Reisepass — gültig bis",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.elefandRegistrations",
+      "bereich": "mobility",
+      "label": "ELEFAND-Registrierungen",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.elefandRegistrations/system",
+      "bereich": "mobility",
+      "label": "System",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.elefandRegistrations/registrationNo",
+      "bereich": "mobility",
+      "label": "Registrierungsnr.",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.elefandRegistrations/countries",
+      "bereich": "mobility",
+      "label": "Länder",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.elefandRegistrations/validUntil",
+      "bereich": "mobility",
+      "label": "Gültig bis",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "mobility.embassyContact",
+      "bereich": "mobility",
+      "label": "Botschaftskontakt",
+      "template": "vivodepot-mobility.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants",
+      "bereich": "people",
+      "label": "Kinder und Schutzbefohlene",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/person",
+      "bereich": "people",
+      "label": "Person",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/type",
+      "bereich": "people",
+      "label": "Art",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/typeAdditionalDetail",
+      "bereich": "people",
+      "label": "Art — Ergänzung",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/note",
+      "bereich": "people",
+      "label": "Anmerkung",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/legalRepresentationParental",
+      "bereich": "people",
+      "label": "Gesetzliche Vertretung (elterliche Sorge)",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/custodyAdditionalDetailPartial",
+      "bereich": "people",
+      "label": "Sorgerecht — Ergänzung (Teilsorge u. Ä.)",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/custodyArrangement",
+      "bereich": "people",
+      "label": "Betreuungsmodell",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/training",
+      "bereich": "people",
+      "label": "In Ausbildung / Studium",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/trainingExpectedToEnd",
+      "bereich": "people",
+      "label": "Ausbildung voraussichtlich bis",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/birthCertificateStorage",
+      "bereich": "people",
+      "label": "Geburtsurkunde — Ablageort",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/basisOfRepresentation",
+      "bereich": "people",
+      "label": "Grundlage der Vertretung",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/areasOfResponsibility",
+      "bereich": "people",
+      "label": "Aufgabenbereiche",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/careCourt",
+      "bereich": "people",
+      "label": "Betreuungsgericht",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/fileReferenceNumber",
+      "bereich": "people",
+      "label": "Aktenzeichen",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.childrenAndDependants/validSince",
+      "bereich": "people",
+      "label": "Bestellt / gültig seit",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.guidedBirthEntryChildsNameNot",
+      "bereich": "people",
+      "label": "Geburts-Assistent — Name des Kindes (noch nicht übernommen)",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.guidedBirthEntryDateOfBirthNot",
+      "bereich": "people",
+      "label": "Geburts-Assistent — Geburtsdatum (noch nicht übernommen)",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.guidedBirthEntryRelationship",
+      "bereich": "people",
+      "label": "Geburts-Assistent — Verhältnis (noch nicht übernommen)",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd",
+      "bereich": "people",
+      "label": "Unterhaltsverpflichtungen und -ansprüche",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/person",
+      "bereich": "people",
+      "label": "Person",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/type",
+      "bereich": "people",
+      "label": "Art",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/amount",
+      "bereich": "people",
+      "label": "Betrag",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/currency",
+      "bereich": "people",
+      "label": "Währung",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/frequency",
+      "bereich": "people",
+      "label": "Häufigkeit",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/direction",
+      "bereich": "people",
+      "label": "Richtung",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/start",
+      "bereich": "people",
+      "label": "Beginn",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/end",
+      "bereich": "people",
+      "label": "Ende",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/note",
+      "bereich": "people",
+      "label": "Anmerkung",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.whoProvidesThePrimaryCare",
+      "bereich": "people",
+      "label": "Wer übernimmt die Hauptpflege?",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.careLeaveFamilyCareLeave",
+      "bereich": "people",
+      "label": "Pflegezeit / Familienpflegezeit",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "people.spouseOrCivilPartner",
+      "bereich": "people",
+      "label": "Ehepartnerin/Ehepartner oder Lebenspartnerin/Lebenspartner",
+      "template": "vivodepot-people.json"
+    },
+    {
+      "kennung": "personal.physicalPhotosStorageLocation",
+      "bereich": "personal",
+      "label": "Physische Fotos (Ablageort)",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.digitalPhotosStorageLocation",
+      "bereich": "personal",
+      "label": "Digitale Fotos (Ablageort)",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.otherKeepsakesStorageLocation",
+      "bereich": "personal",
+      "label": "Weitere Erinnerungsstücke — Ablageort",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.personalBelongingsWishes",
+      "bereich": "personal",
+      "label": "Persönliche Gegenstände & Wünsche",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.householdItemsClothesFurniture",
+      "bereich": "personal",
+      "label": "Haushalt, Kleider, Möbel — Wünsche",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.whoDependsOnMe",
+      "bereich": "personal",
+      "label": "Wer ist auf mich angewiesen?",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.whoDependsOnMe/whoDependsOnYou",
+      "bereich": "personal",
+      "label": "Wer ist auf Sie angewiesen?",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.whoDependsOnMe/whatToBearInMind",
+      "bereich": "personal",
+      "label": "Situation / was zu beachten ist",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.notesOnFamilyCircumstances",
+      "bereich": "personal",
+      "label": "Hinweise zu familiären Besonderheiten",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.religiousAffiliation",
+      "bereich": "personal",
+      "label": "Religionszugehörigkeit / Konfession",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.chaplainPastoralCarer",
+      "bereich": "personal",
+      "label": "Seelsorgerin / Seelsorger",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.ritualsPrayersSpiritualWishes",
+      "bereich": "personal",
+      "label": "Rituale, Gebete, spirituelle Wünsche",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.letterForTheEmergencyDoctor",
+      "bereich": "personal",
+      "label": "Brief für Szenario „Notarzt“",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.letterForTheHospitalScenario",
+      "bereich": "personal",
+      "label": "Brief für Szenario „Krankenhaus“",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.letterForTheCareHomeAdmission",
+      "bereich": "personal",
+      "label": "Brief für Szenario „Pflegeheim-Aufnahme“",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.letterForTheDeathScenario",
+      "bereich": "personal",
+      "label": "Brief für Szenario „Todesfall“",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.handwrittenLettersStorage",
+      "bereich": "personal",
+      "label": "Handgeschriebene Briefe — Ablageort",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.personalLettersWordsToPeople",
+      "bereich": "personal",
+      "label": "Persönliche Briefe / Worte an Personen",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.personalLettersWordsToPeople/toWhom",
+      "bereich": "personal",
+      "label": "An wen?",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.personalLettersWordsToPeople/words",
+      "bereich": "personal",
+      "label": "Brief / Worte",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.whatElseIWantToSayWhatElse",
+      "bereich": "personal",
+      "label": "Was ich noch sagen möchte — was noch wichtig ist",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.typeOfFuneral",
+      "bereich": "personal",
+      "label": "Bestattungsart",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.funeralAlreadyPlannedInAdvance",
+      "bereich": "personal",
+      "label": "Bestattung bereits vorausgeplant?",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.funeralHome",
+      "bereich": "personal",
+      "label": "Bestattungsunternehmen",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.preferredLocationGraveUrnSite",
+      "bereich": "personal",
+      "label": "Gewünschter Ort / Grab / Urnenstätte / Friedhof",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "personal.preArrangementContractStorage",
+      "bereich": "personal",
+      "label": "Vorsorgevertrag — Ablageort",
+      "template": "vivodepot-personal.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_geschaeftsunterlagen",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Geschäftsunterlagen",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_geschaeftsunterlagen/tpl_ort",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Ort",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_geschaeftsunterlagen/tpl_systematik",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Systematik",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_aufbewahrungsfrist",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Aufbewahrungsfrist",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_aufbewahrungsfrist/tpl_unterlagenart",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Unterlagenart",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_aufbewahrungsfrist/tpl_fristende",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Fristende",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_archivdienstleister",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Archivdienstleister",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_archivdienstleister/tpl_dienstleister",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Dienstleister",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_archivdienstleister/tpl_vertragsnummer",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Vertragsnummer",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_archivdienstleister/tpl_zugriffsregeln",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Zugriffsregeln",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_branchenpflicht",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Branchenpflicht",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_branchenpflicht/tpl_pflicht",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Pflicht",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_branchenpflicht/tpl_frist",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Frist",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_depot_zuletzt_durchgesehen_am",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Depot zuletzt durchgesehen am",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Wer von diesem Depot weiß",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_name",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Name",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_rolle",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Rolle",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.notiz",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Notiz",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_fachanwendung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Fachanwendung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_fachanwendung/tpl_anbieter",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Anbieter",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_fachanwendung/tpl_ansprechpartner",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Ansprechpartner",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_fachanwendung/tpl_vertragsnummer",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Vertragsnummer",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_behoerdenzugang",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Behördenzugang",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_behoerdenzugang/tpl_postfach",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Postfach",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_behoerdenzugang/tpl_zugangsmittel_liegt_bei",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Zugangsmittel liegt bei",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_zugangsmittel",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Zugangsmittel",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_zugangsmittel/tpl_bezeichnung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_zugangsmittel/tpl_verwahrort",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Verwahrort",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Administration (intern/extern)",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern/tpl_name",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Name",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern/tpl_erreichbarkeit",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Erreichbarkeit",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_personal",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Personal",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_personal/tpl_anzahl_struktur",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Anzahl/Struktur",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_personal/tpl_ansprechpartner",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Ansprechpartner",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_personal/tpl_vertraege_liegen_bei",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Verträge liegen bei",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_raeume",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Räume",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_raeume/tpl_mietvertrag_liegt_bei",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Mietvertrag liegt bei",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_raeume/tpl_kuendigungsfrist",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Kündigungsfrist",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_datensicherung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Datensicherung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_datensicherung/tpl_ort_verfahren",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Ort/Verfahren",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_datensicherung/tpl_wer_kann_zurueckspielen",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Wer kann zurückspielen",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_schluessel_und_schliessanlage",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Schlüssel und Schließanlage",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_schluessel_und_schliessanlage/tpl_bezeichnung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_schluessel_und_schliessanlage/tpl_verwahrort",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Verwahrort",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tresor_und_bankschliessfach",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Tresor und Bankschließfach",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tresor_und_bankschliessfach/tpl_ort",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Ort",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tresor_und_bankschliessfach/tpl_zugangsberechtigte",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Zugangsberechtigte",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_laufender_auftrags_projektstand",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Laufender Auftrags-/Projektstand",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Genehmigung oder berufsrechtliche Zulassung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung/tpl_bezeichnung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung/tpl_inhaber",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Inhaber",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung/tpl_frist_ablauf",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Frist/Ablauf",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_immobilie_im_eigentum",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Immobilie im Eigentum",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_immobilie_im_eigentum/tpl_adresse",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Adresse",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_immobilie_im_eigentum/tpl_grundbuchblatt",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Grundbuchblatt",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_schutzrecht_patent_marke_rezeptur",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Schutzrecht, Patent, Marke, Rezeptur",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_schutzrecht_patent_marke_rezeptur/tpl_bezeichnung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_schutzrecht_patent_marke_rezeptur/tpl_registernummer",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Registernummer",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_schutzrecht_patent_marke_rezeptur/tpl_gueltig_bis",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Gültig bis",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_fuhrpark",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Fuhrpark",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_fuhrpark/tpl_bezeichnung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_fuhrpark/tpl_standort",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Standort",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_maschine_oder_betriebsausstattung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Maschine oder Betriebsausstattung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_maschine_oder_betriebsausstattung/tpl_bezeichnung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_maschine_oder_betriebsausstattung/tpl_standort",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Standort",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_laufender_rechtsstreit",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Laufender Rechtsstreit",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_laufender_rechtsstreit/tpl_gegenstand",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Gegenstand",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_laufender_rechtsstreit/tpl_frist",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Frist",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_laufender_rechtsstreit/tpl_vertretung",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Vertretung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.notiz",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Notiz",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_bankverbindung",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Bankverbindung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_bankverbindung/tpl_institut",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Institut",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_bankverbindung/tpl_vollmacht_inhaber",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Vollmacht-Inhaber",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_bankverbindung/tpl_gilt_ueber_den_tod_hinaus",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Gilt über den Tod hinaus",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_wiederkehrende_zahlung",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Wiederkehrende Zahlung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_wiederkehrende_zahlung/tpl_bezeichnung",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_wiederkehrende_zahlung/tpl_faelligkeit",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Fälligkeit",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_kredit",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Kredit",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_kredit/tpl_bezeichnung",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Bezeichnung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_kredit/tpl_ansprechpartner",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Ansprechpartner",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_kredit/tpl_kuendigungsrecht_bei_fuehrungswechsel",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Kündigungsrecht bei Führungswechsel",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_persoenliche_sicherheit_buergschaft",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Persönliche Sicherheit (Bürgschaft)",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_persoenliche_sicherheit_buergschaft/tpl_wofuer_gegenueber_wem",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Wofür/gegenüber wem",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_steuerfrist",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Steuerfrist",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_steuerfrist/tpl_anmeldung_vorauszahlung",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Anmeldung/Vorauszahlung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_steuerfrist/tpl_termin",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Termin",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_versicherung",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Versicherung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_versicherung/tpl_art",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Art",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_versicherung/tpl_ansprechpartner",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Ansprechpartner",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_versicherung/tpl_meldefrist",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Meldefrist",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_vertrag_mit_kontrollwechsel_klausel",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Vertrag mit Kontrollwechsel-Klausel",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_vertrag_mit_kontrollwechsel_klausel/tpl_vertrag",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Vertrag",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_vertrag_mit_kontrollwechsel_klausel/tpl_ansprechpartner",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Ansprechpartner",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_versorgungslage_der_familie_im_ausfall",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Versorgungslage der Familie im Ausfall",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.notiz",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Notiz",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_gesellschafterliste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Gesellschafterliste",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_gesellschafterliste/tpl_fassung_vom",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Fassung vom",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_gesellschafterliste/tpl_original_liegt_bei",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Original liegt bei",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_gesellschaftsvertrag",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Gesellschaftsvertrag",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_gesellschaftsvertrag/tpl_fundort",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Fundort",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_gesellschaftsvertrag/tpl_letzte_aenderung",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Letzte Änderung",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Nachfolgeklausel im Gesellschaftsvertrag vorhanden",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_notar",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Notar",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_notar/tpl_kanzlei",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Kanzlei",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_notar/tpl_urkundenverzeichnis_liegt_bei",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Urkundenverzeichnis liegt bei",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_steuerberatung",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Steuerberatung",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_steuerberatung/tpl_buero",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Büro",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_steuerberatung/tpl_buchhaltung_liegt_bei",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Buchhaltung liegt bei",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_aufsichtsgremium_beirat_aufsichtsrat",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Aufsichtsgremium (Beirat/Aufsichtsrat)",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_aufsichtsgremium_beirat_aufsichtsrat/tpl_mitglied",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Mitglied",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_erbregelung_auf_die_gesellschaft_abgestimmt",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Erbregelung auf die Gesellschaft abgestimmt",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_erbregelung_auf_die_gesellschaft_abgestimmt/tpl_abgestimmt",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Abgestimmt",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_erbregelung_auf_die_gesellschaft_abgestimmt/tpl_unterlage_liegt_bei",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Unterlage liegt bei",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_testament_oder_erbvertrag_ablageort",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Testament oder Erbvertrag — Ablageort",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_jahresabschluss_wo_der_aktuelle_stand_liegt",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Jahresabschluss — wo der aktuelle Stand liegt",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.notiz",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Notiz",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Nicht zu benachrichtigende Personen",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Name",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Erreichbarkeit",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Wer übernimmt welche Aufgabe",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_aufgabe",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Aufgabe",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_person",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Person",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_vertretung_ab_wann",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Vertretung ab wann",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.notiz",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Notiz",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_weitere_vertretungsberechtigte_person_vorhanden",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Weitere vertretungsberechtigte Person vorhanden",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vertretungsregelung",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vertretungsregelung",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_zustaendiges_registergericht",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Zuständiges Registergericht",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_registernummer",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Registernummer",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_weitere_geschaeftsfuehrer_vorstaende",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Weitere Geschäftsführer/Vorstände",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_weitere_geschaeftsfuehrer_vorstaende/tpl_name",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Name",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_weitere_geschaeftsfuehrer_vorstaende/tpl_erreichbarkeit",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Erreichbarkeit",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Prokura",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura/tpl_wer",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Wer",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura/tpl_seit",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Seit",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura/tpl_urkunde_liegt_bei",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Urkunde liegt bei",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura/tpl_beschraenkung",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Beschränkung",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura/tpl_befristet_bis",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Befristet bis",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Handlungsvollmacht",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht/tpl_wer",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Wer",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht/tpl_wofuer",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Wofür",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht/tpl_urkunde_liegt_bei",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Urkunde liegt bei",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vorsorgevollmacht_privat_ablageort",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vorsorgevollmacht privat — Ablageort",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_unternehmervollmacht",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Unternehmervollmacht",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_unternehmervollmacht/tpl_notar",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Notar",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_unternehmervollmacht/tpl_urkundennummer",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Urkundennummer",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_unternehmervollmacht/tpl_verwahrort",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Verwahrort",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vollmacht über den Tod hinaus",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_gilt",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Gilt",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_bevollmaechtigter",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Bevollmächtigter",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_urkunde_liegt_bei",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Urkunde liegt bei",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Benannte Person (Wunsch, keine Bestellung)",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung/tpl_name",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Name",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung/tpl_erreichbarkeit",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Erreichbarkeit",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_patientenverfuegung_ablageort",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Patientenverfügung — Ablageort",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_betreuungsverfuegung_ablageort",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Betreuungsverfügung — Ablageort",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.notiz",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Notiz",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "socialInsurance.pensionInsuranceNumbers",
+      "bereich": "socialInsurance",
+      "label": "Rentenversicherungsnummern",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.pensionInsuranceNumbers/system",
+      "bereich": "socialInsurance",
+      "label": "Land / System",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.pensionInsuranceNumbers/pensionInsuranceNumber",
+      "bereich": "socialInsurance",
+      "label": "Rentenversicherungsnummer",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFund",
+      "bereich": "socialInsurance",
+      "label": "Pflegekasse",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundNumbers",
+      "bereich": "socialInsurance",
+      "label": "Pflegekasse-Nummern",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundNumbers/system",
+      "bereich": "socialInsurance",
+      "label": "Land / System",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundNumbers/longTermCareFundNumber",
+      "bereich": "socialInsurance",
+      "label": "Pflegekasse-Nummer",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundPhone",
+      "bereich": "socialInsurance",
+      "label": "Pflegekasse — Telefon",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.careLevel",
+      "bereich": "socialInsurance",
+      "label": "Pflegegrad",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.careLevelSinceYear",
+      "bereich": "socialInsurance",
+      "label": "Pflegegrad seit (Jahr)",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.noticeDated",
+      "bereich": "socialInsurance",
+      "label": "Bescheid vom",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.careLevelTimeLimitedUntil",
+      "bereich": "socialInsurance",
+      "label": "Pflegegrad befristet bis",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareAllowanceTypeOf",
+      "bereich": "socialInsurance",
+      "label": "Pflegegeld — Leistungsart",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareAllowanceAmount",
+      "bereich": "socialInsurance",
+      "label": "Pflegegeld — Betrag",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareAllowanceEarlier",
+      "bereich": "socialInsurance",
+      "label": "Pflegegeld — frühere Angabe",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.degreeOfDisabilityGdb",
+      "bereich": "socialInsurance",
+      "label": "Grad der Behinderung (GdB)",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.markers",
+      "bereich": "socialInsurance",
+      "label": "Merkzeichen",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.gdbReviewReAssessmentDate",
+      "bereich": "socialInsurance",
+      "label": "GdB — Nachprüfung / Heilungsbewährung am",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.severeDisabilityCards",
+      "bereich": "socialInsurance",
+      "label": "Schwerbehindertenausweise",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.severeDisabilityCards/system",
+      "bereich": "socialInsurance",
+      "label": "Land / System",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.severeDisabilityCards/storageLocation",
+      "bereich": "socialInsurance",
+      "label": "Ablageort",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.severeDisabilityCards/validUntil",
+      "bereich": "socialInsurance",
+      "label": "Gültig bis",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.homeCareServiceNameContact",
+      "bereich": "socialInsurance",
+      "label": "Ambulanter Pflegedienst — Name & Kontakt",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.careHomeAssistedLiving",
+      "bereich": "socialInsurance",
+      "label": "Pflegeheim / Betreutes Wohnen",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.careContractStorageLocation",
+      "bereich": "socialInsurance",
+      "label": "Pflegevertrag — Ablageort",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.terminationDate",
+      "bereich": "socialInsurance",
+      "label": "Kündigungsdatum",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.registeredAsJobSeekingOn",
+      "bereich": "socialInsurance",
+      "label": "Meldung arbeitsuchend am",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.registeredAsUnemployedOn",
+      "bereich": "socialInsurance",
+      "label": "Arbeitslosmeldung am",
+      "template": "vivodepot-socialInsurance.json"
+    },
+    {
+      "kennung": "socialInsurance.noticeFromTheAgenturFRArbeit",
+      "bereich": "socialInsurance",
+      "label": "Bescheid der Agentur für Arbeit",
+      "template": "vivodepot-socialInsurance.json"
+    }
+  ]
+}

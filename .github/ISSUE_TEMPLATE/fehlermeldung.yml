@@ -1,0 +1,41 @@
+name: Fehlermeldung
+description: Etwas verhält sich nicht so, wie es sollte.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Wichtig: Keine Depot-Datei und keine echten Daten anhängen — auch nicht
+        verschlüsselt.** Ein öffentliches Issue ist der falsche Ort dafür.
+  - type: textarea
+    id: beschreibung
+    attributes:
+      label: Was ist passiert?
+      description: Was hast du erwartet, und was ist stattdessen passiert?
+    validations:
+      required: true
+  - type: textarea
+    id: schritte
+    attributes:
+      label: Schritte zum Nachstellen
+      description: Wie kommt man vom leeren Zustand zum Fehler?
+      placeholder: |
+        1. …
+        2. …
+        3. …
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser (Name + Version)
+      placeholder: z. B. Safari 17.5
+    validations:
+      required: true
+  - type: input
+    id: betriebssystem
+    attributes:
+      label: Betriebssystem
+      placeholder: z. B. macOS 15, iOS 18, Windows 11
+    validations:
+      required: true

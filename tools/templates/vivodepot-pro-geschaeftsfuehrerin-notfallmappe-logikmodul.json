@@ -1,0 +1,82 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-geschaeftsfuehrerin-notfallmappe",
+  "titel": "Geschäftsführerin — Vertretung, Nachfolge, Notfall",
+  "sektor": "pro-vertretung-vollmachten",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretungsregelung": { "typ": "feld", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_vertretungsregelung" },
+    "prokura_inhaber": { "typ": "listenfeldAlle", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_prokura",
+      "unterfeld": "tpl_wer" },
+    "nachfolgeklausel": { "typ": "feld", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden" },
+    "gesellschafterliste_stand": { "typ": "listenfeldAlle", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_gesellschafterliste", "unterfeld": "tpl_fassung_vom" },
+    "testament_erbvertrag_ablageort": { "typ": "feld", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_testament_oder_erbvertrag_ablageort" },
+    "vertretungsplan_aufgabe": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_aufgabe" },
+    "vertretungsplan_person": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_person" },
+    "wer_weiss_vom_depot": { "typ": "listenfeldAlle", "sektor": "pro-aufbewahrung-ordnung",
+      "feld": "tpl_wer_von_diesem_depot_weiss", "unterfeld": "tpl_name" },
+    "patientenverfuegung_ablageort": { "typ": "feld", "sektor": "pro-vertretung-vollmachten",
+      "feld": "tpl_patientenverfuegung_ablageort" },
+    "kontakt_telefon": { "typ": "feld", "sektor": "identity", "feld": "telephone" },
+    "kontakt_email": { "typ": "feld", "sektor": "identity", "feld": "email" }
+  },
+  "abschnitte": [
+    {
+      "titel": "Teil A — Vertretung",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Wer handelt für die Gesellschaft, wenn die Geschäftsführerin kurzfristig ausfällt? Dieser Auszug sammelt, was das Pro-Depot dazu bereits hält. Er ersetzt weder eine Handlungsvollmacht selbst noch eine Auskunft des Registergerichts."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
+          "frage": "Vertretungsregelung der Gesellschaft?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "prokura_inhaber",
+          "frage": "Prokura erteilt an?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" }
+      ]
+    },
+    {
+      "titel": "Teil B — Nachfolge",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Die folgenden Angaben stammen aus dem Pro-Modul „Gesellschaft und Nachfolgeregelung“ — derselben Datengrundlage, die auch eine Übergabe oder einen Notfall trägt, hier auf die Nachfolge der Geschäftsführung gelesen."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "nachfolgeklausel",
+          "frage": "Nachfolgeklausel im Gesellschaftsvertrag vorhanden?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "gesellschafterliste_stand",
+          "frage": "Gesellschafterliste — Fassung(en) vom?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "testament_erbvertrag_ablageort",
+          "frage": "Testament oder Erbvertrag — Ablageort?", "luecke": "— nicht erfasst —" }
+      ]
+    },
+    {
+      "titel": "Teil C — Notfall",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Hinweis: „Aufgabe“ und „Person“ werden als zwei getrennte Listen gelesen (dieselbe Zeilen-Reihenfolge, keine automatische Paar-Zusammenfassung) — der Bau selbst kann das Sichten von Zeile zu Zeile ergänzen, wenn gebraucht."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_aufgabe",
+          "frage": "Vertretungsplan — welche Aufgaben sind zugeteilt?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_person",
+          "frage": "Vertretungsplan — wer übernimmt sie?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "wer_weiss_vom_depot",
+          "frage": "Wer weiß, dass dieses Depot existiert?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "patientenverfuegung_ablageort",
+          "frage": "Patientenverfügung — Ablageort?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_telefon",
+          "frage": "Telefon?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_email",
+          "frage": "E-Mail?", "luecke": "— nicht erfasst —" }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Geschäftsführerin — Vertretung, Nachfolge, Notfall",
+    "klasse": "pro-geschaeftsfuehrerin-notfallmappe-dok",
+    "herkunftText": "Zusammenstellung dieser Anwendung aus den Pro-Modul- und Depot-Angaben — keine amtliche Vorlage, keine Rechtsberatung, keine Verbindung zum Registergericht.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder eine Handlungsvollmacht noch einen Gesellschafterbeschluss selbst — beide bleiben Sache der Gesellschaft und ihrer Berater.",
+    "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",
+    "knopfAttr": "pro-geschaeftsfuehrerin-notfallmappe-dokument",
+    "dateiBasis": "Geschaeftsfuehrerin-Notfallmappe",
+    "toolbarHinweis": "Dieser Auszug hilft, Vertretung, Nachfolge und Notfall der Geschäftsführung vorzubereiten. Er ersetzt keine rechtliche Beratung, und er wird an niemanden übermittelt."
+  }
+}

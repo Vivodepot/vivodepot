@@ -1,0 +1,542 @@
+{
+  "modulTyp": "angehoerigenVorlage",
+  "moduleVersion": 1,
+  "herkunft": "ab-werk-de",
+  "sprache": "de",
+  "rechtsraum": "DE",
+  "rechtsraumName": "Deutschland",
+  "situationen": {
+    "krankenhausakut": {
+      "titel": "Krankenhaus",
+      "icon": "heartPulse",
+      "einfuehrung": "Aufnahme und längerer Aufenthalt — was die Klinik wissen muss.",
+      "baustein": {
+        "id": "notfall",
+        "weit": false,
+        "label": "Im Notfall (Krankenhaus)",
+        "hint": "Blutgruppe, Allergien, Krankheiten, Medikamente, Versicherung, Patientenverfügung, Ihre Personen."
+      },
+      "bloecke": [
+        {
+          "id": "aus-gesundheit",
+          "titel": "Aus Gesundheit",
+          "eintraege": [
+            {
+              "quelle": "health",
+              "feld": "bloodType"
+            },
+            {
+              "quelle": "health",
+              "feld": "allergiesMedicationFoodOther"
+            },
+            {
+              "quelle": "health",
+              "feld": "chronicConditionsDiagnoses"
+            },
+            {
+              "quelle": "health",
+              "feld": "medicationOngoing"
+            },
+            {
+              "quelle": "health",
+              "feld": "implantsProsthesesPacemakers"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "aidsEGWalkerHearingAid"
+            },
+            {
+              "quelle": "health",
+              "feld": "ongoingTreatmentNext"
+            },
+            {
+              "quelle": "health",
+              "feld": "healthInsurance"
+            },
+            {
+              "quelle": "health",
+              "feld": "insuranceNumber"
+            }
+          ]
+        },
+        {
+          "id": "aus-vorsorge",
+          "titel": "Aus Vorsorge",
+          "eintraege": [
+            {
+              "quelle": "advanceCare",
+              "feld": "instrument:living-will"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "liste:provisionInstruments:living-will:storageLocation"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "instrument:enduring-power-of-attorney"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "provisionInstruments"
+            }
+          ]
+        },
+        {
+          "id": "people",
+          "titel": "Meine Menschen",
+          "eintraege": [
+            {
+              "quelle": "people",
+              "feld": "menschen"
+            }
+          ]
+        },
+        {
+          "id": "hinterlegter-brief",
+          "titel": "Hinterlegter Brief",
+          "eintraege": [
+            {
+              "quelle": "personal",
+              "feld": "letterForTheHospitalScenario"
+            }
+          ]
+        }
+      ],
+      "dokumenttypen": [
+        "living-will",
+        "enduring-power-of-attorney"
+      ],
+      "dokumenttypenVorschlag": true
+    },
+    "pflegeheimakut": {
+      "titel": "Pflegeheim-Aufnahme",
+      "icon": "shield",
+      "einfuehrung": "Einzug und Übergabe an die Pflege.",
+      "baustein": {
+        "id": "pflege",
+        "weit": false,
+        "label": "Bei Pflege (Heimaufnahme)",
+        "hint": "Pflegegrad, Pflegekasse, Pflegewünsche, Medikamente, Vorsorgevollmacht, Ihre Personen — dazu Name, Geburtsdatum und Krankenversicherung für die Aufnahme."
+      },
+      "bloecke": [
+        {
+          "id": "zur-person",
+          "titel": "Zur Person",
+          "eintraege": [
+            {
+              "quelle": "identity",
+              "feld": "givenName"
+            },
+            {
+              "quelle": "identity",
+              "feld": "familyName"
+            },
+            {
+              "quelle": "identity",
+              "feld": "birthDate"
+            }
+          ]
+        },
+        {
+          "id": "krankenversicherung",
+          "titel": "Krankenversicherung",
+          "eintraege": [
+            {
+              "quelle": "health",
+              "feld": "healthInsurance"
+            },
+            {
+              "quelle": "health",
+              "feld": "insuranceNumber"
+            }
+          ]
+        },
+        {
+          "id": "aus-gesundheit",
+          "titel": "Aus Gesundheit",
+          "eintraege": [
+            {
+              "quelle": "health",
+              "feld": "chronicConditionsDiagnoses"
+            },
+            {
+              "quelle": "health",
+              "feld": "medicationOngoing"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "aidsEGWalkerHearingAid"
+            },
+            {
+              "quelle": "health",
+              "feld": "allergiesMedicationFoodOther"
+            }
+          ]
+        },
+        {
+          "id": "pflege-und-versicherung",
+          "titel": "Pflege & Versicherung",
+          "eintraege": [
+            {
+              "quelle": "socialInsurance",
+              "feld": "careLevel"
+            },
+            {
+              "quelle": "socialInsurance",
+              "feld": "careLevelSinceYear"
+            },
+            {
+              "quelle": "socialInsurance",
+              "feld": "careLevelTimeLimitedUntil"
+            },
+            {
+              "quelle": "socialInsurance",
+              "feld": "longTermCareFund"
+            },
+            {
+              "quelle": "socialInsurance",
+              "feld": "longTermCareFundNumbers"
+            },
+            {
+              "quelle": "socialInsurance",
+              "feld": "longTermCareFundPhone"
+            },
+            {
+              "quelle": "socialInsurance",
+              "feld": "homeCareServiceNameContact"
+            }
+          ]
+        },
+        {
+          "id": "aus-vorsorge",
+          "titel": "Aus Vorsorge",
+          "eintraege": [
+            {
+              "quelle": "advanceCare",
+              "feld": "instrument:enduring-power-of-attorney"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "provisionInstruments"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "instrument:custodianship-declaration"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "liste:provisionInstruments:living-will:storageLocation"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "personalCareDignity"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "dietSpecialRequirements"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "dailyRoutineActivities"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "otherWishesNotes"
+            }
+          ]
+        },
+        {
+          "id": "people",
+          "titel": "Meine Menschen",
+          "eintraege": [
+            {
+              "quelle": "people",
+              "feld": "menschen"
+            },
+            {
+              "quelle": "health",
+              "feld": "emergencyContacts"
+            }
+          ]
+        },
+        {
+          "id": "hinterlegter-brief",
+          "titel": "Hinterlegter Brief",
+          "eintraege": [
+            {
+              "quelle": "personal",
+              "feld": "letterForTheCareHomeAdmission"
+            }
+          ]
+        }
+      ],
+      "dokumenttypen": [
+        "enduring-power-of-attorney",
+        "custodianship-declaration"
+      ],
+      "dokumenttypenVorschlag": true
+    },
+    "beerdigung": {
+      "titel": "Beerdigung und Nachlass",
+      "icon": "fileText",
+      "einfuehrung": "Was für die Bestattung zuerst zählt — Wünsche, Unternehmen, Ort, hinterlegter Brief.",
+      "baustein": {
+        "id": "bestattung",
+        "weit": false,
+        "label": "Für die Bestattung",
+        "hint": "Bestattungsart, Bestatter, Ort, Vorsorgevertrag, Ihr hinterlegter Brief, Ihre Personen."
+      },
+      "bloecke": [
+        {
+          "id": "bestattung",
+          "titel": "Bestattung",
+          "eintraege": [
+            {
+              "quelle": "personal",
+              "feld": "typeOfFuneral"
+            },
+            {
+              "quelle": "personal",
+              "feld": "funeralHome"
+            },
+            {
+              "quelle": "personal",
+              "feld": "preferredLocationGraveUrnSite"
+            },
+            {
+              "quelle": "personal",
+              "feld": "funeralAlreadyPlannedInAdvance"
+            },
+            {
+              "quelle": "personal",
+              "feld": "preArrangementContractStorage"
+            }
+          ]
+        },
+        {
+          "id": "people",
+          "titel": "Meine Menschen",
+          "eintraege": [
+            {
+              "quelle": "people",
+              "feld": "menschen"
+            }
+          ]
+        },
+        {
+          "id": "hinterlegter-brief",
+          "titel": "Hinterlegter Brief",
+          "eintraege": [
+            {
+              "quelle": "personal",
+              "feld": "letterForTheDeathScenario"
+            }
+          ]
+        }
+      ]
+    },
+    "behoerden_nachlass": {
+      "titel": "Behörden und Nachlass",
+      "icon": "scale",
+      "einfuehrung": "Was Angehörige bei Behörden und im Nachlass regeln müssen — geordnet, mit Ablageorten und Kontakten.",
+      "baustein": {
+        "id": "erbe",
+        "weit": true,
+        "label": "Im Todesfall (Erbe und Behörden)",
+        "hint": "Alles, was in Ihrem Depot steht. Im Todesfall kann niemand mehr nachfragen, was fehlt — darum ist dieser Baustein weit. Sie können einzelne Angaben ausnehmen."
+      },
+      "bloecke": [
+        {
+          "id": "aus-vorsorge",
+          "titel": "Aus Vorsorge",
+          "eintraege": [
+            {
+              "quelle": "advanceCare",
+              "feld": "instrument:will"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "liste:provisionInstruments:will:storageLocation"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "heirsBriefOverview"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "liste:provisionInstruments:enduring-power-of-attorney:centralRegisterOfPowersOf"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "instrument:enduring-power-of-attorney"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "provisionInstruments"
+            }
+          ]
+        },
+        {
+          "id": "die-ersten-schritte",
+          "titel": "Die ersten Schritte",
+          "eintraege": [
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_sterbeurkunde"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_erbschein"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_testament_eroeffnung"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_nachlassgericht"
+            }
+          ]
+        },
+        {
+          "id": "wo-die-originale-liegen",
+          "titel": "Wo die Originale liegen",
+          "eintraege": [
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_originaldokumente"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_stammbuch"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_personenstand"
+            }
+          ]
+        },
+        {
+          "id": "versicherungen",
+          "titel": "Versicherungen",
+          "eintraege": [
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_lebensversicherung"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_sterbegeld"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_unfallversicherung"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_versicherungen_kuendigen"
+            }
+          ]
+        },
+        {
+          "id": "konten-und-vermoegen",
+          "titel": "Konten & Vermögen",
+          "eintraege": [
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_konten"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_geldanlagen"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_immobilien"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_schulden"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_wertgegenstaende"
+            }
+          ]
+        },
+        {
+          "id": "vertraege-und-laufende-zahlungen",
+          "titel": "Verträge & laufende Zahlungen",
+          "eintraege": [
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_vertraege_kuendigen"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_wohnung"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_renten"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_digitales"
+            }
+          ]
+        },
+        {
+          "id": "kontakte-fuers-erbe",
+          "titel": "Kontakte fürs Erbe",
+          "eintraege": [
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_notar"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_steuerberater"
+            },
+            {
+              "quelle": "sit:erbfall",
+              "feld": "erb_zu_informieren"
+            }
+          ]
+        },
+        {
+          "id": "people",
+          "titel": "Meine Menschen",
+          "eintraege": [
+            {
+              "quelle": "people",
+              "feld": "menschen"
+            }
+          ]
+        }
+      ],
+      "dokumenttypen": [
+        "will",
+        "enduring-power-of-attorney"
+      ],
+      "dokumenttypenVorschlag": true
+    },
+    "meine_menschen": {
+      "titel": "Meine Menschen",
+      "icon": "users",
+      "einfuehrung": "Alle hinterlegten Personen — Angehörige, Ärzte, Notar, Vertrauenspersonen — mit Kontakt und Rolle.",
+      "bloecke": [
+        {
+          "id": "menschen",
+          "titel": "Menschen",
+          "eintraege": [
+            {
+              "quelle": "people",
+              "feld": "menschen"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "beschreibung": "A356 — der durchgehende Weg der Bürgerin: anlegen, füllen, speichern, schliessen, wieder öffnen, Sub-Depot übergeben, in der Lese-App ansehen.",
+  "ankerName": "Durchgang Test",
+  "ankerPasswort": "cross-e2e-durchgang-123",
+  "identity": {
+    "givenName": "Hanna",
+    "familyName": "Durchgang"
+  },
+  "gueltigkeitsfeld": {
+    "sektor": "mobility",
+    "feld": "passportValidUntil",
+    "wert": "2031-04-05"
+  },
+  "sensibel": {
+    "sektor": "health",
+    "feld": "bloodType",
+    "wert": "AB-"
+  },
+  "subInhaberin": "Marta Durchgang",
+  "subPasswort": "cross-e2e-durchgang-sub-456",
+  "subDaten": {
+    "sektor": "identity",
+    "feld": "givenName",
+    "wert": "Marta"
+  }
+}

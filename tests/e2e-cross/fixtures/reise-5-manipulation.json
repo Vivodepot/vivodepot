@@ -1,0 +1,6 @@
+{
+  "beschreibung": "T-CROSS-05 — wie Reise 4, aber Payload manipuliert (anbieterName geaendert) → Bürger-App LEHNT ab.",
+  "basiert_auf": "reise-4-vertrauenskette.json",
+  "manipulation": { "feld": "credentialSubject.anbieterName", "neuerWert": "Boese Institution (manipuliert)" },
+  "erwartet": { "verifikation": "abgelehnt", "grund": "Signatur-Fehler" }
+}

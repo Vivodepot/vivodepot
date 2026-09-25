@@ -1,0 +1,170 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-notar-kanzleivertretung",
+  "titel": "Testmodul-Titel 23",
+  "sektor": "pro-vertretung-vollmachten",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretungsregelung": {
+      "typ": "feld",
+      "sektor": "pro-vertretung-vollmachten",
+      "feld": "tpl_leuchtturm_1"
+    },
+    "prokura_inhaber": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-vertretung-vollmachten",
+      "feld": "tpl_leuchtturm_2",
+      "unterfeld": "tpl_leuchtturm_3"
+    },
+    "zulassung_bezeichnung": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-betrieb-zugaenge",
+      "feld": "tpl_leuchtturm_4",
+      "unterfeld": "tpl_leuchtturm_5"
+    },
+    "zulassung_frist": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-betrieb-zugaenge",
+      "feld": "tpl_leuchtturm_4",
+      "unterfeld": "tpl_leuchtturm_6"
+    },
+    "vertretungsplan_aufgabe": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_leuchtturm_7",
+      "unterfeld": "tpl_leuchtturm_8"
+    },
+    "vertretungsplan_person": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_leuchtturm_7",
+      "unterfeld": "tpl_leuchtturm_9"
+    },
+    "nachfolgeklausel": {
+      "typ": "feld",
+      "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_leuchtturm_10"
+    },
+    "kontakt_telefon": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "telephone"
+    },
+    "kontakt_email": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "email"
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "Testabschnitt 1",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 11"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsregelung",
+          "frage": "Testfrage 12",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "prokura_inhaber",
+          "frage": "Testfrage 13",
+          "luecke": "— nicht erfasst —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "nachfolgeklausel",
+          "frage": "Testfrage 14",
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    },
+    {
+      "titel": "Testabschnitt 2",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 15"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "zulassung_bezeichnung",
+          "frage": "Testfrage 16",
+          "luecke": "— nicht erfasst —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "zulassung_frist",
+          "frage": "Testfrage 17",
+          "luecke": "— nicht erfasst —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 18"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_aufgabe",
+          "frage": "Testfrage 19",
+          "luecke": "— nicht erfasst —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_person",
+          "frage": "Testfrage 20",
+          "luecke": "— nicht erfasst —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_telefon",
+          "frage": "Testfrage 21",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_email",
+          "frage": "Testfrage 22",
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Test-H1 24",
+    "klasse": "test-logikmodul-dok",
+    "herkunftText": "Test-Herkunftstext 25",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Test-Hinweis 26",
+    "fussText": "Test-Fusstext 27",
+    "knopfAttr": "test-logikmodul-dokument",
+    "dateiBasis": "Test-Logikmodul",
+    "toolbarHinweis": "Test-Toolbarhinweis 28"
+  }
+}

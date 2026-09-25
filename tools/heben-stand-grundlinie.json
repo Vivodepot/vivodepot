@@ -1,0 +1,7 @@
+{
+ "stand": "2026-08-19",
+ "satzKennungen": 2380,
+ "strings_gesamt": 945,
+ "strings_im_satz": 944,
+ "grund": "A354: der erste gemessene STAND des Hebens, nicht die Gesamtmenge. Der Beschluss vom 18.08.2026 verlangt nach jeder Tranche eine Zahl mit Zaehlgegenstand — die gab es bisher nur als Gesamtmenge (5288, tools/lokalisierbarkeit-erheben.js), nie als Fortschritt. Die Zahlen duerfen nur STEIGEN: `satzKennungen` und `strings_im_satz` sind Ratschen. Wer sie senkt, dreht eine gefahrene Tranche zurueck und braucht dafuer einen datierten Grund an dieser Stelle. `strings_gesamt` ist KEINE Ratsche — die Tabelle darf schrumpfen, wenn ein Text entfaellt. · NACHGEZOGEN 19.08.2026 (A360): die Tranche ist gefahren — 943 flache Schluessel sind ueber `tools/strings-heben.js` in den Satz gezogen (Form B, Entscheidung vom 19.08.). Offen bleibt EINER: `importKlartext`, ein verschachtelter Wert mit 17 Format-Klartexten; er braucht eine eigene Kennungsform (A361)."
+}

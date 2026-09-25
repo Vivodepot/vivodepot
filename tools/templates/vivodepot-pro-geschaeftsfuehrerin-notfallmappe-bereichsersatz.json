@@ -1,0 +1,1115 @@
+{
+  "modulTyp": "bereichsErsatz",
+  "ersetzt": [
+    "people",
+    "mobility",
+    "finance",
+    "assets",
+    "health",
+    "education",
+    "socialInsurance",
+    "advanceCare",
+    "administration",
+    "housing",
+    "emergencyPreparedness",
+    "personal"
+  ],
+  "neu": {
+    "pro-vertretung-vollmachten": {
+      "label": "Vertretung und Vollmachten",
+      "icon": "scale",
+      "merkmale": [
+        "vorsorgeRegal"
+      ],
+      "sektionen": [
+        {
+          "id": "wer-darf-handeln",
+          "label": "Wer darf handeln",
+          "felder": [
+            {
+              "id": "tpl_weitere_vertretungsberechtigte_person_vorhanden",
+              "typ": "auswahl",
+              "label": "Weitere vertretungsberechtigte Person vorhanden",
+              "optionen": [
+                {
+                  "wert": "ja",
+                  "label": "Ja"
+                },
+                {
+                  "wert": "nein",
+                  "label": "Nein"
+                }
+              ],
+              "pflicht": true
+            },
+            {
+              "id": "tpl_vertretungsregelung",
+              "typ": "auswahl",
+              "label": "Vertretungsregelung",
+              "optionen": [
+                {
+                  "wert": "einzel",
+                  "label": "Einzelvertretungsberechtigt"
+                },
+                {
+                  "wert": "gesamt",
+                  "label": "Gesamtvertretungsberechtigt"
+                },
+                {
+                  "wert": "einzel_befreit",
+                  "label": "Einzelvertretungsberechtigt, befreit von §181 BGB"
+                },
+                {
+                  "wert": "gesamt_befreit",
+                  "label": "Gesamtvertretungsberechtigt, befreit von §181 BGB"
+                }
+              ]
+            },
+            {
+              "id": "tpl_zustaendiges_registergericht",
+              "typ": "text",
+              "label": "Zuständiges Registergericht"
+            },
+            {
+              "id": "tpl_registernummer",
+              "typ": "text",
+              "label": "Registernummer"
+            },
+            {
+              "id": "tpl_weitere_geschaeftsfuehrer_vorstaende",
+              "typ": "liste",
+              "label": "Weitere Geschäftsführer/Vorstände",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text",
+                  "label": "Erreichbarkeit"
+                }
+              ]
+            },
+            {
+              "id": "tpl_prokura",
+              "typ": "liste",
+              "label": "Prokura",
+              "unterFelder": [
+                {
+                  "id": "tpl_wer",
+                  "typ": "text",
+                  "label": "Wer"
+                },
+                {
+                  "id": "tpl_seit",
+                  "typ": "datum",
+                  "label": "Seit"
+                },
+                {
+                  "id": "tpl_urkunde_liegt_bei",
+                  "typ": "text",
+                  "label": "Urkunde liegt bei"
+                },
+                {
+                  "id": "tpl_beschraenkung",
+                  "typ": "text",
+                  "label": "Beschränkung"
+                },
+                {
+                  "id": "tpl_befristet_bis",
+                  "typ": "datum",
+                  "label": "Befristet bis"
+                }
+              ]
+            },
+            {
+              "id": "tpl_handlungsvollmacht",
+              "typ": "liste",
+              "label": "Handlungsvollmacht",
+              "unterFelder": [
+                {
+                  "id": "tpl_wer",
+                  "typ": "text",
+                  "label": "Wer"
+                },
+                {
+                  "id": "tpl_wofuer",
+                  "typ": "text",
+                  "label": "Wofür"
+                },
+                {
+                  "id": "tpl_urkunde_liegt_bei",
+                  "typ": "text",
+                  "label": "Urkunde liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_vorsorgevollmacht_privat_ablageort",
+              "typ": "text",
+              "label": "Vorsorgevollmacht privat — Ablageort"
+            },
+            {
+              "id": "tpl_unternehmervollmacht",
+              "typ": "liste",
+              "label": "Unternehmervollmacht",
+              "unterFelder": [
+                {
+                  "id": "tpl_notar",
+                  "typ": "text",
+                  "label": "Notar"
+                },
+                {
+                  "id": "tpl_urkundennummer",
+                  "typ": "text",
+                  "label": "Urkundennummer"
+                },
+                {
+                  "id": "tpl_verwahrort",
+                  "typ": "text",
+                  "label": "Verwahrort"
+                }
+              ]
+            },
+            {
+              "id": "tpl_vollmacht_ueber_den_tod_hinaus",
+              "typ": "liste",
+              "label": "Vollmacht über den Tod hinaus",
+              "unterFelder": [
+                {
+                  "id": "tpl_gilt",
+                  "typ": "checkbox",
+                  "label": "Gilt"
+                },
+                {
+                  "id": "tpl_bevollmaechtigter",
+                  "typ": "text",
+                  "label": "Bevollmächtigter"
+                },
+                {
+                  "id": "tpl_urkunde_liegt_bei",
+                  "typ": "text",
+                  "label": "Urkunde liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_benannte_person_wunsch_keine_bestellung",
+              "typ": "liste",
+              "label": "Benannte Person (Wunsch, keine Bestellung)",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text",
+                  "label": "Erreichbarkeit"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vollmachten",
+          "label": "Vollmachten",
+          "felder": [
+            {
+              "id": "tpl_patientenverfuegung_ablageort",
+              "typ": "text",
+              "label": "Patientenverfügung — Ablageort"
+            },
+            {
+              "id": "tpl_betreuungsverfuegung_ablageort",
+              "typ": "text",
+              "label": "Betreuungsverfügung — Ablageort"
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "label": "Allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea",
+              "label": "Notiz"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Prokura und Verfügungen",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge"
+    },
+    "pro-gesellschaft-nachfolge": {
+      "label": "Gesellschaft und Nachfolgeregelung",
+      "icon": "landmark",
+      "sektionen": [
+        {
+          "id": "was-die-gesellschaft-handlungsfaehig-mac",
+          "label": "Was die Gesellschaft handlungsfähig macht",
+          "felder": [
+            {
+              "id": "tpl_gesellschafterliste",
+              "typ": "liste",
+              "label": "Gesellschafterliste",
+              "unterFelder": [
+                {
+                  "id": "tpl_fassung_vom",
+                  "typ": "datum",
+                  "label": "Fassung vom"
+                },
+                {
+                  "id": "tpl_original_liegt_bei",
+                  "typ": "text",
+                  "label": "Original liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_gesellschaftsvertrag",
+              "typ": "liste",
+              "label": "Gesellschaftsvertrag",
+              "unterFelder": [
+                {
+                  "id": "tpl_fundort",
+                  "typ": "text",
+                  "label": "Fundort"
+                },
+                {
+                  "id": "tpl_letzte_aenderung",
+                  "typ": "datum",
+                  "label": "Letzte Änderung"
+                }
+              ]
+            },
+            {
+              "id": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden",
+              "typ": "auswahl",
+              "label": "Nachfolgeklausel im Gesellschaftsvertrag vorhanden",
+              "optionen": [
+                {
+                  "wert": "ja",
+                  "label": "Ja"
+                },
+                {
+                  "wert": "nein",
+                  "label": "Nein"
+                }
+              ]
+            },
+            {
+              "id": "tpl_notar",
+              "typ": "liste",
+              "label": "Notar",
+              "unterFelder": [
+                {
+                  "id": "tpl_kanzlei",
+                  "typ": "text",
+                  "label": "Kanzlei"
+                },
+                {
+                  "id": "tpl_urkundenverzeichnis_liegt_bei",
+                  "typ": "text",
+                  "label": "Urkundenverzeichnis liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_steuerberatung",
+              "typ": "liste",
+              "label": "Steuerberatung",
+              "unterFelder": [
+                {
+                  "id": "tpl_buero",
+                  "typ": "text",
+                  "label": "Büro"
+                },
+                {
+                  "id": "tpl_buchhaltung_liegt_bei",
+                  "typ": "text",
+                  "label": "Buchhaltung liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_aufsichtsgremium_beirat_aufsichtsrat",
+              "typ": "liste",
+              "label": "Aufsichtsgremium (Beirat/Aufsichtsrat)",
+              "unterFelder": [
+                {
+                  "id": "tpl_mitglied",
+                  "typ": "text",
+                  "label": "Mitglied"
+                }
+              ]
+            },
+            {
+              "id": "tpl_erbregelung_auf_die_gesellschaft_abgestimmt",
+              "typ": "liste",
+              "label": "Erbregelung auf die Gesellschaft abgestimmt",
+              "unterFelder": [
+                {
+                  "id": "tpl_abgestimmt",
+                  "typ": "checkbox",
+                  "label": "Abgestimmt"
+                },
+                {
+                  "id": "tpl_unterlage_liegt_bei",
+                  "typ": "text",
+                  "label": "Unterlage liegt bei"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rechtliche-grundlagen",
+          "label": "Rechtliche Grundlagen",
+          "felder": [
+            {
+              "id": "tpl_testament_oder_erbvertrag_ablageort",
+              "typ": "text",
+              "label": "Testament oder Erbvertrag — Ablageort"
+            }
+          ]
+        },
+        {
+          "id": "finanzieller-ueberblick",
+          "label": "Finanzieller Überblick",
+          "felder": [
+            {
+              "id": "tpl_jahresabschluss_wo_der_aktuelle_stand_liegt",
+              "typ": "text",
+              "label": "Jahresabschluss — wo der aktuelle Stand liegt"
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "label": "Allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea",
+              "label": "Notiz"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Notar, Steuerberatung, Erbe",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge"
+    },
+    "pro-finanzen-verbindlichkeiten": {
+      "label": "Finanzen und Verbindlichkeiten",
+      "icon": "wallet",
+      "sektionen": [
+        {
+          "id": "fristen-und-geld",
+          "label": "Fristen und Geld",
+          "felder": [
+            {
+              "id": "tpl_bankverbindung",
+              "typ": "liste",
+              "label": "Bankverbindung",
+              "unterFelder": [
+                {
+                  "id": "tpl_institut",
+                  "typ": "text",
+                  "label": "Institut"
+                },
+                {
+                  "id": "tpl_vollmacht_inhaber",
+                  "typ": "text",
+                  "label": "Vollmacht-Inhaber"
+                },
+                {
+                  "id": "tpl_gilt_ueber_den_tod_hinaus",
+                  "typ": "checkbox",
+                  "label": "Gilt über den Tod hinaus"
+                }
+              ]
+            },
+            {
+              "id": "tpl_wiederkehrende_zahlung",
+              "typ": "liste",
+              "label": "Wiederkehrende Zahlung",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_faelligkeit",
+                  "typ": "datum",
+                  "label": "Fälligkeit"
+                }
+              ]
+            },
+            {
+              "id": "tpl_kredit",
+              "typ": "liste",
+              "label": "Kredit",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_kuendigungsrecht_bei_fuehrungswechsel",
+                  "typ": "checkbox",
+                  "label": "Kündigungsrecht bei Führungswechsel"
+                }
+              ]
+            },
+            {
+              "id": "tpl_persoenliche_sicherheit_buergschaft",
+              "typ": "liste",
+              "label": "Persönliche Sicherheit (Bürgschaft)",
+              "unterFelder": [
+                {
+                  "id": "tpl_wofuer_gegenueber_wem",
+                  "typ": "text",
+                  "label": "Wofür/gegenüber wem"
+                }
+              ]
+            },
+            {
+              "id": "tpl_steuerfrist",
+              "typ": "liste",
+              "label": "Steuerfrist",
+              "unterFelder": [
+                {
+                  "id": "tpl_anmeldung_vorauszahlung",
+                  "typ": "text",
+                  "label": "Anmeldung/Vorauszahlung"
+                },
+                {
+                  "id": "tpl_termin",
+                  "typ": "datum",
+                  "label": "Termin"
+                }
+              ]
+            },
+            {
+              "id": "tpl_versicherung",
+              "typ": "liste",
+              "label": "Versicherung",
+              "unterFelder": [
+                {
+                  "id": "tpl_art",
+                  "typ": "text",
+                  "label": "Art"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_meldefrist",
+                  "typ": "datum",
+                  "label": "Meldefrist"
+                }
+              ]
+            },
+            {
+              "id": "tpl_vertrag_mit_kontrollwechsel_klausel",
+              "typ": "liste",
+              "label": "Vertrag mit Kontrollwechsel-Klausel",
+              "unterFelder": [
+                {
+                  "id": "tpl_vertrag",
+                  "typ": "text",
+                  "label": "Vertrag"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "private-absicherung",
+          "label": "Private Absicherung",
+          "felder": [
+            {
+              "id": "tpl_versorgungslage_der_familie_im_ausfall",
+              "typ": "text",
+              "label": "Versorgungslage der Familie im Ausfall"
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "label": "Allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea",
+              "label": "Notiz"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Konten, Kredite, Fristen",
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Betrieb & Finanzen"
+    },
+    "pro-betrieb-zugaenge": {
+      "label": "Betrieb und Zugänge",
+      "icon": "lock",
+      "sektionen": [
+        {
+          "id": "betrieb-und-zugaenge",
+          "label": "Betrieb und Zugänge",
+          "felder": [
+            {
+              "id": "tpl_fachanwendung",
+              "typ": "liste",
+              "label": "Fachanwendung",
+              "unterFelder": [
+                {
+                  "id": "tpl_anbieter",
+                  "typ": "text",
+                  "label": "Anbieter"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_vertragsnummer",
+                  "typ": "text",
+                  "label": "Vertragsnummer"
+                }
+              ]
+            },
+            {
+              "id": "tpl_behoerdenzugang",
+              "typ": "liste",
+              "label": "Behördenzugang",
+              "unterFelder": [
+                {
+                  "id": "tpl_postfach",
+                  "typ": "text",
+                  "label": "Postfach"
+                },
+                {
+                  "id": "tpl_zugangsmittel_liegt_bei",
+                  "typ": "text",
+                  "label": "Zugangsmittel liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_zugangsmittel",
+              "typ": "liste",
+              "label": "Zugangsmittel",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_verwahrort",
+                  "typ": "text",
+                  "label": "Verwahrort"
+                }
+              ]
+            },
+            {
+              "id": "tpl_administration_intern_extern",
+              "typ": "liste",
+              "label": "Administration (intern/extern)",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text",
+                  "label": "Erreichbarkeit"
+                }
+              ]
+            },
+            {
+              "id": "tpl_personal",
+              "typ": "liste",
+              "label": "Personal",
+              "unterFelder": [
+                {
+                  "id": "tpl_anzahl_struktur",
+                  "typ": "text",
+                  "label": "Anzahl/Struktur"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_vertraege_liegen_bei",
+                  "typ": "text",
+                  "label": "Verträge liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_raeume",
+              "typ": "liste",
+              "label": "Räume",
+              "unterFelder": [
+                {
+                  "id": "tpl_mietvertrag_liegt_bei",
+                  "typ": "text",
+                  "label": "Mietvertrag liegt bei"
+                },
+                {
+                  "id": "tpl_kuendigungsfrist",
+                  "typ": "datum",
+                  "label": "Kündigungsfrist"
+                }
+              ]
+            },
+            {
+              "id": "tpl_datensicherung",
+              "typ": "liste",
+              "label": "Datensicherung",
+              "unterFelder": [
+                {
+                  "id": "tpl_ort_verfahren",
+                  "typ": "text",
+                  "label": "Ort/Verfahren"
+                },
+                {
+                  "id": "tpl_wer_kann_zurueckspielen",
+                  "typ": "text",
+                  "label": "Wer kann zurückspielen"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "zugaenge",
+          "label": "Zugänge",
+          "felder": [
+            {
+              "id": "tpl_schluessel_und_schliessanlage",
+              "typ": "liste",
+              "label": "Schlüssel und Schließanlage",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_verwahrort",
+                  "typ": "text",
+                  "label": "Verwahrort"
+                }
+              ]
+            },
+            {
+              "id": "tpl_tresor_und_bankschliessfach",
+              "typ": "liste",
+              "label": "Tresor und Bankschließfach",
+              "unterFelder": [
+                {
+                  "id": "tpl_ort",
+                  "typ": "text",
+                  "label": "Ort"
+                },
+                {
+                  "id": "tpl_zugangsberechtigte",
+                  "typ": "text",
+                  "label": "Zugangsberechtigte"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "geschaeftsbeziehungen",
+          "label": "Geschäftsbeziehungen",
+          "felder": [
+            {
+              "id": "tpl_laufender_auftrags_projektstand",
+              "typ": "text",
+              "label": "Laufender Auftrags-/Projektstand"
+            }
+          ]
+        },
+        {
+          "id": "zulassungen",
+          "label": "Zulassungen",
+          "felder": [
+            {
+              "id": "tpl_genehmigung_oder_berufsrechtliche_zulassung",
+              "typ": "liste",
+              "label": "Genehmigung oder berufsrechtliche Zulassung",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_inhaber",
+                  "typ": "text",
+                  "label": "Inhaber"
+                },
+                {
+                  "id": "tpl_frist_ablauf",
+                  "typ": "datum",
+                  "label": "Frist/Ablauf"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sachwerte",
+          "label": "Sachwerte",
+          "felder": [
+            {
+              "id": "tpl_immobilie_im_eigentum",
+              "typ": "liste",
+              "label": "Immobilie im Eigentum",
+              "unterFelder": [
+                {
+                  "id": "tpl_adresse",
+                  "typ": "text",
+                  "label": "Adresse"
+                },
+                {
+                  "id": "tpl_grundbuchblatt",
+                  "typ": "text",
+                  "label": "Grundbuchblatt"
+                }
+              ]
+            },
+            {
+              "id": "tpl_schutzrecht_patent_marke_rezeptur",
+              "typ": "liste",
+              "label": "Schutzrecht, Patent, Marke, Rezeptur",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_registernummer",
+                  "typ": "text",
+                  "label": "Registernummer"
+                },
+                {
+                  "id": "tpl_gueltig_bis",
+                  "typ": "datum",
+                  "label": "Gültig bis"
+                }
+              ]
+            },
+            {
+              "id": "tpl_fuhrpark",
+              "typ": "liste",
+              "label": "Fuhrpark",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_standort",
+                  "typ": "text",
+                  "label": "Standort"
+                }
+              ]
+            },
+            {
+              "id": "tpl_maschine_oder_betriebsausstattung",
+              "typ": "liste",
+              "label": "Maschine oder Betriebsausstattung",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text",
+                  "label": "Bezeichnung"
+                },
+                {
+                  "id": "tpl_standort",
+                  "typ": "text",
+                  "label": "Standort"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rechtliches",
+          "label": "Rechtliches",
+          "felder": [
+            {
+              "id": "tpl_laufender_rechtsstreit",
+              "typ": "liste",
+              "label": "Laufender Rechtsstreit",
+              "unterFelder": [
+                {
+                  "id": "tpl_gegenstand",
+                  "typ": "text",
+                  "label": "Gegenstand"
+                },
+                {
+                  "id": "tpl_frist",
+                  "typ": "datum",
+                  "label": "Frist"
+                },
+                {
+                  "id": "tpl_vertretung",
+                  "typ": "text",
+                  "label": "Vertretung"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "label": "Allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea",
+              "label": "Notiz"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Personal, Räume, Technik",
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Betrieb & Finanzen"
+    },
+    "pro-aufbewahrung-ordnung": {
+      "label": "Aufbewahrung und Ordnung",
+      "icon": "save",
+      "sektionen": [
+        {
+          "id": "aufbewahrung-und-ordnung",
+          "label": "Aufbewahrung und Ordnung",
+          "felder": [
+            {
+              "id": "tpl_geschaeftsunterlagen",
+              "typ": "liste",
+              "label": "Geschäftsunterlagen",
+              "unterFelder": [
+                {
+                  "id": "tpl_ort",
+                  "typ": "text",
+                  "label": "Ort"
+                },
+                {
+                  "id": "tpl_systematik",
+                  "typ": "text",
+                  "label": "Systematik"
+                }
+              ]
+            },
+            {
+              "id": "tpl_aufbewahrungsfrist",
+              "typ": "liste",
+              "label": "Aufbewahrungsfrist",
+              "unterFelder": [
+                {
+                  "id": "tpl_unterlagenart",
+                  "typ": "text",
+                  "label": "Unterlagenart"
+                },
+                {
+                  "id": "tpl_fristende",
+                  "typ": "datum",
+                  "label": "Fristende"
+                }
+              ]
+            },
+            {
+              "id": "tpl_archivdienstleister",
+              "typ": "liste",
+              "label": "Archivdienstleister",
+              "unterFelder": [
+                {
+                  "id": "tpl_dienstleister",
+                  "typ": "text",
+                  "label": "Dienstleister"
+                },
+                {
+                  "id": "tpl_vertragsnummer",
+                  "typ": "text",
+                  "label": "Vertragsnummer"
+                },
+                {
+                  "id": "tpl_zugriffsregeln",
+                  "typ": "text",
+                  "label": "Zugriffsregeln"
+                }
+              ]
+            },
+            {
+              "id": "tpl_branchenpflicht",
+              "typ": "liste",
+              "label": "Branchenpflicht",
+              "unterFelder": [
+                {
+                  "id": "tpl_pflicht",
+                  "typ": "text",
+                  "label": "Pflicht"
+                },
+                {
+                  "id": "tpl_frist",
+                  "typ": "datum",
+                  "label": "Frist"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ueber-dieses-depot",
+          "label": "Über dieses Depot",
+          "felder": [
+            {
+              "id": "tpl_depot_zuletzt_durchgesehen_am",
+              "typ": "datum",
+              "label": "Depot zuletzt durchgesehen am"
+            },
+            {
+              "id": "tpl_wer_von_diesem_depot_weiss",
+              "typ": "liste",
+              "label": "Wer von diesem Depot weiß",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_rolle",
+                  "typ": "text",
+                  "label": "Rolle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "label": "Allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea",
+              "label": "Notiz"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Unterlagen und Archiv",
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Betrieb & Finanzen"
+    },
+    "pro-kontakte-vertretungsplan": {
+      "label": "Kontakte und Vertretungsplan",
+      "icon": "users",
+      "sektionen": [
+        {
+          "id": "kontakte",
+          "label": "Kontakte",
+          "felder": [
+            {
+              "id": "tpl_nicht_zu_benachrichtigende_personen",
+              "typ": "liste",
+              "label": "Nicht zu benachrichtigende Personen",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text",
+                  "label": "Erreichbarkeit"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vertretungsplan",
+          "label": "Vertretungsplan",
+          "felder": [
+            {
+              "id": "tpl_wer_uebernimmt_welche_aufgabe",
+              "typ": "liste",
+              "label": "Wer übernimmt welche Aufgabe",
+              "unterFelder": [
+                {
+                  "id": "tpl_aufgabe",
+                  "typ": "text",
+                  "label": "Aufgabe"
+                },
+                {
+                  "id": "tpl_person",
+                  "typ": "text",
+                  "label": "Person"
+                },
+                {
+                  "id": "tpl_vertretung_ab_wann",
+                  "typ": "datum",
+                  "label": "Vertretung ab wann"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "label": "Allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea",
+              "label": "Notiz"
+            }
+          ]
+        }
+      ],
+      "navUnterzeile": "Aufgaben und Ansprechpartner",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge"
+    }
+  }
+}

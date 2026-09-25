@@ -1,0 +1,5 @@
+{
+ "stand": "2026-09-19",
+ "moduleBloeckeOhneEnglisch": 0,
+ "grund": "GEN1: Textknoten und Platzhalter ohne englische Fassung im Markup der Modul-Bausteine hinter „Weitere Möglichkeiten“ (Anfrage, Angebot, Kennung, Institutions-Art, Bereich, Rechtsraum, Datei-Kanal, Erscheinungsbild). Stand 0: das Markup ist vollständig zweisprachig; der Deckel hält es dort. Die Laufzeit-Texte dieser Bausteine hält ein eigener Test ohne Deckel (tests/generator-arbeitsflaeche.test.js)."
+}

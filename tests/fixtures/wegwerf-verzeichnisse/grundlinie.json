@@ -1,0 +1,6 @@
+{
+ "_beschreibung": "Grundlinie DER FIXTURE (nicht des echten Repos, s. tools/wegwerf-verzeichnisse-grundlinie.json). tests/beispiel-ohne-aufraeumen.js ist absichtlich schlecht und hier bewusst gelistet, damit der Standardlauf ohne Argument grün ist; tests/wegwerf-verzeichnisse-pruefen.test.js entfernt den Eintrag testweise (in einer temporären Kopie), um den Rot-Beweis zu führen.",
+ "ohneAufraeumen": [
+  "tests/beispiel-ohne-aufraeumen.js"
+ ]
+}

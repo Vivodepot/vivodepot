@@ -1,0 +1,985 @@
+{
+  "modulTyp": "dokumente",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "dokumente": {
+    "pvBmj": {
+      "eingangsformel": "Ich (Name, Vorname, geboren am, wohnhaft in) bestimme hiermit für den Fall, dass ich meinen Willen nicht mehr bilden oder verständlich äußern kann:",
+      "steps": [
+        {
+          "dokEinleitung": "Diese Patientenverfügung gilt, wenn",
+          "feld": {
+            "id": "applicableSituations",
+            "typ": "mehrfachauswahl",
+            "optionen": [
+              {
+                "wert": "sterbeprozess"
+              },
+              {
+                "wert": "endstadium"
+              },
+              {
+                "wert": "gehirnschaedigung"
+              },
+              {
+                "wert": "hirnabbau"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "ownAdditionalSituation",
+            "typ": "textarea",
+            "beispiel": ""
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich,",
+          "feld": {
+            "id": "lifeSustainingMeasures",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ausschoepfen"
+              },
+              {
+                "wert": "unterlassen"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich eine fachgerechte Schmerz- und Symptombehandlung,",
+          "feld": {
+            "id": "painAndSymptomTreatment",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ohne_daempfung"
+              },
+              {
+                "wert": "mit_daempfung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "acceptsLifeShorteningFromPain",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich,",
+          "feld": {
+            "id": "artificialNutritionAndHydration",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich",
+          "feld": {
+            "id": "resuscitationInDescribedSituations",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "emergencyDoctorNotified",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Nicht nur in den oben beschriebenen Situationen, sondern in allen Fällen eines Kreislaufstillstands oder Atemversagens",
+          "feld": {
+            "id": "resuscitationInAllCases",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ab"
+              },
+              {
+                "wert": "ab_ausser_op"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich",
+          "feld": {
+            "id": "artificialVentilation",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich",
+          "feld": {
+            "id": "dialysis",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich",
+          "feld": {
+            "id": "antibiotics",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "In den oben beschriebenen Situationen wünsche ich",
+          "feld": {
+            "id": "bloodAndBloodProducts",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Ich möchte",
+          "feld": {
+            "id": "placeOfTreatmentOrDeath",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "krankenhaus"
+              },
+              {
+                "wert": "zuhause"
+              },
+              {
+                "wert": "hospiz"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "supportFromThesePersons",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          }
+        },
+        {
+          "feld": {
+            "id": "supportFromChurchOrCommunity",
+            "typ": "text",
+            "beispiel": ""
+          }
+        },
+        {
+          "feld": {
+            "id": "hospiceSupport",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "confidentialityWaiverFor",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfUnregulated",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt"
+              },
+              {
+                "wert": "betreuer"
+              },
+              {
+                "wert": "arzt"
+              },
+              {
+                "wert": "andere"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersOtherPersonName",
+            "typ": "text",
+            "beispiel": ""
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfDeviatingWill",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt"
+              },
+              {
+                "wert": "betreuer"
+              },
+              {
+                "wert": "arzt"
+              },
+              {
+                "wert": "andere"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfDeviatingOther",
+            "typ": "text",
+            "beispiel": ""
+          }
+        },
+        {
+          "feld": {
+            "id": "personalValuesOrFurtherDocuments",
+            "typ": "textarea",
+            "beispiel": ""
+          }
+        },
+        {
+          "feld": {
+            "id": "organDonationDecision",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "zustimmung"
+              },
+              {
+                "wert": "ablehnung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "priorityIfOrganDonationConflict",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "organspende"
+              },
+              {
+                "wert": "patientenverfuegung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "waivesFurtherMedicalInformation",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "informationOrCounsellingReceived",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "validityDuration",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "unbefristet"
+              },
+              {
+                "wert": "befristet"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "validityDurationDeadline",
+            "typ": "text"
+          }
+        }
+      ],
+      "verbindlichkeitKlauseln": [
+        "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
+        "Sollte eine Ärztin oder ein Arzt oder das Behandlungsteam nicht bereit sein, meinen in dieser Patientenverfügung geäußerten Willen zu befolgen, erwarte ich, dass für eine anderweitige medizinische und/oder pflegerische Behandlung gesorgt wird. Von meiner Vertreterin/meinem Vertreter (z. B. Bevollmächtigte(r)/Betreuer(in)) erwarte ich, dass sie/er die weitere Behandlung so organisiert, dass meinem Willen entsprochen wird."
+      ],
+      "reichweiteEinleitung": "In Lebens- und Behandlungssituationen, die in dieser Patientenverfügung nicht konkret geregelt sind, ist mein mutmaßlicher Wille möglichst im Konsens aller Beteiligten zu ermitteln. Dafür soll diese Patientenverfügung als Richtschnur maßgeblich sein. Bei unterschiedlichen Meinungen über anzuwendende oder zu unterlassende ärztliche/pflegerische Maßnahmen soll der Auffassung folgender Person besondere Bedeutung zukommen:",
+      "widerrufEinleitung": "Wenn ich meine Patientenverfügung nicht widerrufen habe, wünsche ich nicht, dass mir in der konkreten Anwendungssituation eine Änderung meines Willens unterstellt wird. Wenn aber die behandelnden Ärztinnen und Ärzte/das Behandlungsteam/mein(e) Bevollmächtigte(r)/Betreuer(in) aufgrund meiner Gesten, Blicke oder anderen Äußerungen die Auffassung vertreten, dass ich entgegen den Festlegungen in meiner Patientenverfügung doch behandelt oder nicht behandelt werden möchte, dann ist möglichst im Konsens aller Beteiligten zu ermitteln, ob die Festlegungen in meiner Patientenverfügung noch meinem aktuellen Willen entsprechen. Bei unterschiedlichen Meinungen soll in diesen Fällen der Auffassung folgender Person besondere Bedeutung zukommen:",
+      "schlussbemerkungen": [
+        "Mir ist die Möglichkeit der Änderung und des Widerrufs einer Patientenverfügung bekannt.",
+        "Ich bin mir des Inhalts und der Konsequenzen meiner darin getroffenen Entscheidungen bewusst.",
+        "Ich habe die Patientenverfügung in eigener Verantwortung und ohne äußeren Druck erstellt.",
+        "Ich bin im Vollbesitz meiner geistigen Kräfte."
+      ],
+      "aerztlicheBestaetigung": "Herr/Frau … wurde von mir am … bezüglich der möglichen Folgen dieser Patientenverfügung aufgeklärt. Er/Sie war in vollem Umfang einwilligungsfähig. Datum · Unterschrift/Stempel der Ärztin/des Arztes."
+    },
+    "kiKorpus": {
+      "zweckEinleitung": "Die Nachbildung darf ausschließlich genutzt werden",
+      "steps": [
+        {
+          "feld": {
+            "id": "basicDecision",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "untersagung"
+              },
+              {
+                "wert": "erlaubnis"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "purpose",
+            "typ": "mehrfachauswahl",
+            "optionen": [
+              {
+                "wert": "trauer"
+              },
+              {
+                "wert": "erinnerung"
+              },
+              {
+                "wert": "bildung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "authorizedParties",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "benannte"
+              },
+              {
+                "wert": "angehoerige"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "namedIndividuals",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          }
+        },
+        {
+          "feld": {
+            "id": "scope",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "privat"
+              },
+              {
+                "wert": "oeffentlich"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "permittedDataTypes",
+            "typ": "mehrfachauswahl",
+            "optionen": [
+              {
+                "wert": "schriftverkehr"
+              },
+              {
+                "wert": "sprache"
+              },
+              {
+                "wert": "fotovideo"
+              },
+              {
+                "wert": "hinterlegt"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "timeLimit",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "jahre"
+              },
+              {
+                "wert": "letzte_person"
+              },
+              {
+                "wert": "zeitpunkt"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "numberOfYears",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "date",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "behaviouralLimit",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "belegt"
+              },
+              {
+                "wert": "frei"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "digitalEstateAdministration",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "benannt"
+              },
+              {
+                "wert": "angehoerige"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "digitalEstateAdministration2",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          }
+        }
+      ],
+      "ausschluss": "Ausgeschlossen sind in jedem Fall: Werbung, kommerzielle Verwertung, politische oder weltanschauliche Aussagen sowie jeder öffentliche Auftritt im Namen meiner Person.",
+      "alterVertraulichkeit": [
+        "Der Zugang ist auf volljährige Personen beschränkt.",
+        "Die Kommunikation mit der Nachbildung ist vertraulich; ein Mithören oder Aufzeichnen durch Dritte ist ausgeschlossen."
+      ],
+      "quellenbegrenzung": "Es dürfen ausschließlich die von mir freigegebenen oder eigens hinterlegten Materialien verwendet werden. Ein nachträgliches Zusammentragen weiterer Daten aus öffentlichen oder privaten Quellen ist untersagt.",
+      "kennzeichnung": "Die Nachbildung ist bei jeder Nutzung deutlich und dauerhaft als KI-Nachbildung einer verstorbenen Person zu kennzeichnen.",
+      "grundverbot": "Untersagt ist jede Nutzung, die den Eindruck erweckt, ich sei noch am Leben oder träfe gegenwärtige Entscheidungen.",
+      "widerruf": "Diese Verfügung kann ich zu Lebzeiten jederzeit formlos widerrufen oder ändern.",
+      "optoutKonflikt": [
+        "Auf Wunsch einer zugangsberechtigten Person ist die Nutzung für diese Person jederzeit zu beenden.",
+        "Bei Uneinigkeit unter den Angehörigen über Fortbestand oder Nutzung entscheidet die von mir benannte Person; im Zweifel ist die Nutzung einzustellen."
+      ],
+      "schlussformel": "Diese Verfügung habe ich bei klarem Verstand und ohne Zwang errichtet."
+    },
+    "vollmachtBmj": {
+      "steps": [
+        {
+          "frage": "Darf die bevollmächtigte Person in allen Angelegenheiten der Gesundheitssorge entscheiden? (1)",
+          "feld": {
+            "id": "healthCareGeneralDecision",
+            "label": "Gesundheitssorge — allgemein",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie in ärztliche Eingriffe einwilligen, auch bei Lebensgefahr? (§ 1829 BGB)",
+          "feld": {
+            "id": "healthCareMedicalProcedures",
+            "label": "Ärztliche Eingriffe",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Krankenunterlagen einsehen — Schweigepflichtentbindung?",
+          "feld": {
+            "id": "healthCareMedicalRecords",
+            "label": "Krankenunterlagen, Schweigepflicht",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie über Ihre freiheitsentziehende Unterbringung entscheiden? (§ 1831 Absatz 1 BGB)",
+          "feld": {
+            "id": "healthCarePlacementDepriving",
+            "label": "Freiheitsentziehende Unterbringung",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie über freiheitsentziehende Maßnahmen in einer Einrichtung entscheiden (z. B. Bettgitter, Medikamente)? (§ 1831 Absatz 4 BGB)",
+          "feld": {
+            "id": "healthCareMeasuresDepriving",
+            "label": "Freiheitsentziehende Maßnahmen in Einrichtung",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie über ärztliche Zwangsmaßnahmen entscheiden? (§ 1832 Absatz 1 BGB)",
+          "feld": {
+            "id": "healthCareCompulsoryMedical",
+            "label": "Ärztliche Zwangsmaßnahmen",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie über Ihre Verbringung ins Krankenhaus entscheiden, wenn eine ärztliche Zwangsmaßnahme in Betracht kommt? (§ 1832 Absatz 4 BGB)",
+          "feld": {
+            "id": "healthCareAdmissionToHospital",
+            "label": "Verbringung ins Krankenhaus",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Ihren Aufenthalt bestimmen? (2)",
+          "feld": {
+            "id": "determinePlaceOfResidence",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie den bestehenden Mietvertrag wahrnehmen und den Haushalt auflösen?",
+          "feld": {
+            "id": "manageAnExistingTenancyWindUp",
+            "label": "Bestehender Mietvertrag, Haushaltsauflösung",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie einen neuen Wohnungsmietvertrag abschließen und kündigen?",
+          "feld": {
+            "id": "concludeAndTerminateANew",
+            "label": "Neuer Mietvertrag",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie einen Wohn- und Betreuungsvertrag (ehemals Heimvertrag) abschließen und kündigen?",
+          "feld": {
+            "id": "concludeAndTerminateHousingAnd",
+            "label": "Wohn- und Betreuungsvertrag",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Sie bei Behörden, Versicherungen und Sozialleistungsträgern vertreten? (3)",
+          "feld": {
+            "id": "representationWithAuthorities",
+            "label": "Behörden, Versicherungen",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Ihr Vermögen verwalten? (4)",
+          "feld": {
+            "id": "assetManagementGeneral",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie über Vermögensgegenstände jeder Art verfügen?",
+          "feld": {
+            "id": "disposeOfAssets",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Zahlungen und Wertgegenstände annehmen?",
+          "feld": {
+            "id": "acceptPaymentsAndValuables",
+            "label": "Zahlungen, Wertgegenstände annehmen",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Verbindlichkeiten eingehen?",
+          "feld": {
+            "id": "enterIntoLiabilities",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie im Geschäftsverkehr mit Kreditinstituten (Konten, Depots, Safes) vertreten?",
+          "feld": {
+            "id": "accountsCustodyAccountsSafes",
+            "label": "Konten, Depots, Safes",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie übliche Schenkungen im betreuungsrechtlich zulässigen Rahmen vornehmen?",
+          "feld": {
+            "id": "customaryGiftsWithinWhatCare",
+            "label": "Übliche Schenkungen",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Gibt es Geschäfte, die sie ausdrücklich NICHT wahrnehmen soll?",
+          "hilfetext": "Freitext — nur ausfüllen, wenn Sie bestimmte Geschäfte ausdrücklich ausschließen möchten.",
+          "feld": {
+            "id": "transactionsExpresslyExcluded",
+            "typ": "textarea"
+          }
+        },
+        {
+          "frage": "Darf sie Post entgegennehmen, öffnen und lesen — auch elektronisch? (5)",
+          "feld": {
+            "id": "mailAndTelecommunications",
+            "label": "Post- und Fernmeldeverkehr",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Sie vor Gericht vertreten? (6)",
+          "feld": {
+            "id": "representationInCourt",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Darf sie Untervollmacht erteilen? (7)",
+          "feld": {
+            "id": "mayGrantASubPowerOfAttorney",
+            "label": "Untervollmacht erteilen",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Soll die bevollmächtigte Person, falls dennoch eine rechtliche Betreuung nötig wird, als Betreuer/in vorgeschlagen werden? (8)",
+          "feld": {
+            "id": "alsoProposeTheAuthorizedPerson",
+            "label": "Als Betreuer/in vorschlagen",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Soll die Vollmacht über den Tod hinaus gelten? (9)",
+          "feld": {
+            "id": "appliesBeyondDeath",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "frage": "Möchten Sie weitere Regelungen aufnehmen? (10)",
+          "hilfetext": "Freitext — optional.",
+          "feld": {
+            "id": "furtherProvisions",
+            "typ": "textarea"
+          }
+        }
+      ]
+    }
+  },
+  "korpusWizard": [
+    {
+      "id": "pvwiz",
+      "icon": "fileText",
+      "ziel": {
+        "sektor": "advanceCare",
+        "liste": "provisionInstruments",
+        "instrument": "living-will"
+      },
+      "abschluss": {
+        "dokument": "living-will"
+      }
+    },
+    {
+      "id": "kiwiz",
+      "icon": "fileText",
+      "ziel": {
+        "sektor": "advanceCare",
+        "liste": "provisionInstruments",
+        "instrument": "ki-verfuegung"
+      },
+      "abschluss": {
+        "dokument": "ki-verfuegung"
+      }
+    }
+  ]
+}

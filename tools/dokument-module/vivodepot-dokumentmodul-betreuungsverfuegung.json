@@ -1,0 +1,62 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/betreuungsverfuegung",
+  "fassung": 1,
+  "dokumentModule": {
+    "betreuungsverfuegung": {
+      "motor": "bv",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "Vorgeschlagene Betreuerin / vorgeschlagener Betreuer",
+          "bloecke": [
+            {
+              "typ": "refMehrfachVoll",
+              "feldId": "proposedPerson",
+              "satz": "Zu meinem Betreuer/meiner Betreuerin soll bestellt werden: {namen}."
+            }
+          ]
+        },
+        {
+          "titel": "Ersatzperson",
+          "bloecke": [
+            {
+              "typ": "refMehrfachVoll",
+              "feldId": "alternatePerson",
+              "satz": "Falls die vorstehende Person nicht zum Betreuer oder zur Betreuerin bestellt werden kann, soll folgende Person bestellt werden: {namen}."
+            }
+          ]
+        },
+        {
+          "titel": "Ausschluss",
+          "bloecke": [
+            {
+              "typ": "refMehrfachVoll",
+              "feldId": "whoShouldNotBeAppointed",
+              "satz": "Auf keinen Fall soll zum Betreuer/zur Betreuerin bestellt werden: {namen}."
+            }
+          ]
+        },
+        {
+          "titel": "Wünsche zur Wahrnehmung der Betreuung",
+          "bloecke": [
+            {
+              "typ": "freitextSatz",
+              "feldId": "whatTheCareArrangementShould",
+              "satz": "Zur Wahrnehmung meiner Angelegenheiten durch den Betreuer/die Betreuerin habe ich folgende Wünsche: {text}."
+            },
+            {
+              "typ": "freitext",
+              "feldId": "whatTheCareArrangementShould2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Realistische Minimal-Fixture: XÖV-Meldewesen (XMeld), natürliche Person.
+     Namensraum-Präfixe (xmeld:) sind bewusst gesetzt; der Parser ist Namensraum-agnostisch. -->
+<xmeld:meldung xmlns:xmeld="urn:xoev-de:bmi:xmeld:standard">
+  <xmeld:nachrichtenkopf>
+    <xmeld:nachrichtentyp>xmeld.rueckmeldung.0401</xmeld:nachrichtentyp>
+    <xmeld:erstellungszeitpunkt>2026-06-01T08:00:00</xmeld:erstellungszeitpunkt>
+  </xmeld:nachrichtenkopf>
+  <xmeld:person>
+    <xmeld:natuerlichePerson>
+      <xmeld:name>
+        <xmeld:familienname><xmeld:name>Mustermann</xmeld:name></xmeld:familienname>
+        <xmeld:vorname>Maria</xmeld:vorname>
+        <xmeld:geburtsname><xmeld:name>Müller</xmeld:name></xmeld:geburtsname>
+      </xmeld:name>
+      <xmeld:geburt>
+        <xmeld:geburtsdatum>1980-05-15</xmeld:geburtsdatum>
+        <xmeld:geburtsort>Augsburg</xmeld:geburtsort>
+      </xmeld:geburt>
+      <xmeld:staatsangehoerigkeit>deutsch</xmeld:staatsangehoerigkeit>
+      <xmeld:familienstand>
+        <xmeld:familienstandsangabe>VH</xmeld:familienstandsangabe>
+      </xmeld:familienstand>
+      <xmeld:ausweisdaten>
+        <xmeld:ausweisnummer>T012345678</xmeld:ausweisnummer>
+      </xmeld:ausweisdaten>
+      <xmeld:anschrift>
+        <xmeld:strasse>Lindenweg</xmeld:strasse>
+        <xmeld:hausnummer>4</xmeld:hausnummer>
+        <xmeld:postleitzahl>80331</xmeld:postleitzahl>
+        <xmeld:wohnort>München</xmeld:wohnort>
+      </xmeld:anschrift>
+    </xmeld:natuerlichePerson>
+  </xmeld:person>
+</xmeld:meldung>

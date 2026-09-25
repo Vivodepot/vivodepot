@@ -1,0 +1,20 @@
+{
+ "funktionen": [
+  "_setzeIntern",
+  "angehoerigenBlattZurueck",
+  "oeffneAnfrage",
+  "oeffneAngehoerigenBlatt",
+  "oeffneBestandsAuswahl",
+  "oeffneEintragenUebersicht",
+  "oeffneLebenslage",
+  "oeffneMappe",
+  "oeffnePrueftermine",
+  "oeffneSektor",
+  "oeffneSituation",
+  "oeffneSubKonzept",
+  "oeffneUebergabeProtokoll",
+  "oeffneVerwaltung",
+  "oeffneZusammenstellen",
+  "wizardAbschluss"
+ ]
+}

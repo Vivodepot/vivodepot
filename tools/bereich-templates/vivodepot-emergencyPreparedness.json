@@ -1,0 +1,201 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/emergencyPreparedness",
+  "fassung": 1,
+  "bereiche": {
+    "emergencyPreparedness": {
+      "id": "emergencyPreparedness",
+      "format": "GENERISCH",
+      "icon": "package",
+      "merkmale": [
+        "bedarfsrechnung"
+      ],
+      "sektionen": [
+        {
+          "id": "preparedness",
+          "felder": [
+            {
+              "id": "numberOfPeopleForTheSupply",
+              "typ": "text"
+            },
+            {
+              "id": "drinkingWaterSupplyAmount",
+              "typ": "text"
+            },
+            {
+              "id": "drinkingWaterSupplyStorage",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "drinkingWaterSupplyCheckShelf",
+              "marken": [
+                "laeuftAb"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "drinkingWaterSupplyEarlierNote",
+              "typ": "text"
+            },
+            {
+              "id": "foodSuppliesWhatIsStored",
+              "typ": "textarea"
+            },
+            {
+              "id": "foodSuppliesStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "foodSuppliesCheckShelfLifeBy",
+              "marken": [
+                "laeuftAb"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "foodSuppliesEarlierNoteOnShelf",
+              "typ": "text"
+            },
+            {
+              "id": "torch",
+              "typ": "text"
+            },
+            {
+              "id": "candles",
+              "typ": "text"
+            },
+            {
+              "id": "batteriesSupply",
+              "typ": "text"
+            },
+            {
+              "id": "crankBatteryRadio",
+              "typ": "text"
+            },
+            {
+              "id": "powerBank",
+              "typ": "text"
+            },
+            {
+              "id": "emergencyHeatingOption",
+              "typ": "text"
+            },
+            {
+              "id": "firstAidKitStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "firstAidKitLastChecked",
+              "typ": "datum"
+            },
+            {
+              "id": "medicationSupply",
+              "sensibel": true,
+              "typ": "textarea"
+            },
+            {
+              "id": "emergencyBackpackInPlace",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                }
+              ]
+            },
+            {
+              "id": "emergencyBackpackStorage",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "emergencyBackpackContents",
+              "typ": "textarea"
+            },
+            {
+              "id": "folderWithImportantDocumentsIn",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                }
+              ]
+            },
+            {
+              "id": "documentFolderStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "cashReserveInPlace",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                }
+              ]
+            },
+            {
+              "id": "cashReserveStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "hygieneSuppliesWhatIsStored",
+              "typ": "textarea"
+            },
+            {
+              "id": "hygieneSuppliesStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "meetingPointFamily",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "escapeRouteFromTheHome",
+              "sensibel": true,
+              "typ": "textarea"
+            },
+            {
+              "id": "fallbackLocation2ndStage",
+              "typ": "text"
+            },
+            {
+              "id": "neighbourForEmergencies",
+              "typ": "ref",
+              "entitaet": "person",
+              "verweisZweck": "krisenvorsorge"
+            },
+            {
+              "id": "specialSituation",
+              "sensibel": true,
+              "typ": "textarea"
+            },
+            {
+              "id": "noteForEmergencyResponders",
+              "sensibel": true,
+              "typ": "textarea"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

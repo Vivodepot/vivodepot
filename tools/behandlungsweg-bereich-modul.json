@@ -1,0 +1,20 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "bereiche": {
+    "treatmentJourney": {
+      "id": "treatmentJourney",
+      "format": "GENERISCH",
+      "icon": "heartPulse",
+      "label": "Mein Behandlungsweg",
+      "sektionen": [
+        {
+          "id": "behandlungsweg-haupt",
+          "felder": []
+        }
+      ]
+    }
+  }
+}

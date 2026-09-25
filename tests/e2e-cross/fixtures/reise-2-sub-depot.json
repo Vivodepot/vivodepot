@@ -1,0 +1,13 @@
+{
+  "beschreibung": "T-CROSS-02 — Sub-Depot-Blackbox Bürger → Lese-App. Sub-Modus + Schieferblau (#3d5878).",
+  "ankerName": "Vertrauensperson Test",
+  "ankerPasswort": "cross-e2e-anker-123",
+  "subBezeichnung": "Sub-Depot der verstorbenen Mutter",
+  "subInhaberin": "Margarete Testmutter",
+  "subPasswort": "cross-e2e-sub-456",
+  "subDaten": { "sektor": "identity", "feld": "givenName", "wert": "Margarete" },
+  "erwartet": {
+    "schieferblau": "#3d5878",
+    "subModus": true
+  }
+}

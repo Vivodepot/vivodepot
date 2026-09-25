@@ -1,0 +1,45 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "identifier": { "system": "urn:vivodepot:eigenprobe", "value": "urn:uuid:eigenprobe-0001" },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Composition",
+        "title": "Kontrollbericht der Testpraxis Musterhausen",
+        "text": {
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Zusammenfassung der heutigen Kontrolle, ohne besonderen Befund.</div>"
+        },
+        "section": [
+          {
+            "title": "Diagnosen",
+            "text": {
+              "div": "<div>Verdachtsdiagnose A, weiter zu beobachten.</div><div>Nebendiagnose B, gesichert.</div>"
+            }
+          },
+          {
+            "title": "Medikation",
+            "text": {
+              "div": "<div>Einnahme υπό την προϋπόθεση ⌬ πρωί ⧖ βράδυ, wie besprochen.</div>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "code": { "text": "Kalium Serum" },
+        "valueQuantity": { "value": 4.2, "code": "mmol/l" },
+        "effectiveDateTime": "2026-09-12"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "code": { "text": "Herzauskultation" },
+        "valueString": "regelmaessig, kein Herzgeraeusch"
+      }
+    }
+  ]
+}

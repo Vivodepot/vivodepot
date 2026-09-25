@@ -1,0 +1,18 @@
+[
+  {
+    "carrier": "EXPORT_FORMATE",
+    "id": "vcard-menschen",
+    "ziel": "vcardMenschen",
+    "ergebnis": "kein feldIstSensibel/unterfeldIstSensibel im Körper, kein bekannter Zwischenschritt",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "Liest ausschließlich das Menschen-Register (data.menschen[] — Name/Telefon/E-Mail/Beziehung), kein Sektorfeld mit sensibel-Flag. Das Register selbst kennt den Sensibel-Mechanismus nicht (eigenes Datenmodell, U2-ADR-022) — kein Fund im hier geprüften Sinn."
+  },
+  {
+    "carrier": "EXPORT_FORMATE",
+    "id": "ics-vorsorge",
+    "ziel": "icsKalender",
+    "ergebnis": "kein feldIstSensibel/unterfeldIstSensibel im Körper, kein bekannter Zwischenschritt",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "Liest Prüftermine (Datum/Anlass für den Kalender-Export), kein Sektorfeld mit sensibel-Flag betroffen — kein Fund im hier geprüften Sinn."
+  }
+]

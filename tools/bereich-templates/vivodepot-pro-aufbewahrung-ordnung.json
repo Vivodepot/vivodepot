@@ -1,0 +1,116 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-aufbewahrung-ordnung",
+  "fassung": 1,
+  "bereiche": {
+    "pro-aufbewahrung-ordnung": {
+      "id": "pro-aufbewahrung-ordnung",
+      "icon": "save",
+      "sektionen": [
+        {
+          "id": "aufbewahrung-und-ordnung",
+          "felder": [
+            {
+              "id": "tpl_geschaeftsunterlagen",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_ort",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_systematik",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_aufbewahrungsfrist",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_unterlagenart",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_fristende",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_archivdienstleister",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_dienstleister",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_vertragsnummer",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_zugriffsregeln",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_branchenpflicht",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_pflicht",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_frist",
+                  "typ": "datum"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ueber-dieses-depot",
+          "felder": [
+            {
+              "id": "tpl_depot_zuletzt_durchgesehen_am",
+              "typ": "datum"
+            },
+            {
+              "id": "tpl_wer_von_diesem_depot_weiss",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_rolle",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea"
+            }
+          ]
+        }
+      ],
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Betrieb & Finanzen",
+      "clusterRang": 2
+    }
+  }
+}

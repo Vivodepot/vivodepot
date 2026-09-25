@@ -1,0 +1,1442 @@
+[
+ {
+  "sektor": "health",
+  "feld": "generalPractitioner",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "specialistDoctors",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "specialistDoctors",
+  "unterfeld": "specialistDoctor",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "specialistDoctors",
+  "unterfeld": "specialty",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "ongoingTreatmentNext",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "bloodType",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "allergiesMedicationFoodOther",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "chronicConditionsDiagnoses",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "healthInsurance",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "medicationOngoing",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "insuranceNumber",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "implantsProsthesesPacemakers",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "heightCm",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "bodyWeightKg",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "vaccinationRecordStorage",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "insuredThrough",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "supplementaryInsurance",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "healthInsuranceCards",
+  "unterfeld": "storageLocation",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "healthInsuranceCards",
+  "unterfeld": "validUntilInclEhic",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "emergencyCardPatientId",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "smoking",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "alcohol",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "vaccinations",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "findingsOnAUsbStick",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "preventiveCheckUpsLatestDates",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "dentistNameContact",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "dentalBonusBookletStorage",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "ehicCardEuropeanHealth",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "operationsProcedures",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "operationsProcedures",
+  "unterfeld": "procedure",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "operationsProcedures",
+  "unterfeld": "year",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "familyMedicalHistory",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "familyMedicalHistory",
+  "unterfeld": "familyMember",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "familyMedicalHistory",
+  "unterfeld": "condition",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "familyMedicalHistory",
+  "unterfeld": "ageAtDiagnosis",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "administration",
+  "feld": "bundid",
+  "unterfeld": "bundidDocumentsStorageLocation",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "passwordManager",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "masterPasswordStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "passwordBackupStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "computerPasswordStorage",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "smartphonePinStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "alarmSystemCodeStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "safeLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "safeCodeStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "bankSafeDepositBoxBankBranch",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "keyStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "homeKeyWhoHoldsOne",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "homeKeyWhoHoldsOne",
+  "unterfeld": "who",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "homeKeyWhoHoldsOne",
+  "unterfeld": "note",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "cryptoWalletsOverview",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "seedPhraseStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "hardwareWallet",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "olderInheritedCryptoAccess",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "mainEmailAddress",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "medicationSupply",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "specialSituation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "noteForEmergencyResponders",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "longTermCareFund",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "longTermCareFundNumbers",
+  "unterfeld": "longTermCareFundNumber",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "longTermCareFundPhone",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "careLevel",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "careLevelSinceYear",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "careLevelTimeLimitedUntil",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "noticeDated",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "longTermCareAllowanceTypeOf",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "degreeOfDisabilityGdb",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "markers",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "gdbReviewReAssessmentDate",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "severeDisabilityCards",
+  "unterfeld": "storageLocation",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "severeDisabilityCards",
+  "unterfeld": "validUntil",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "homeCareServiceNameContact",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "careHomeAssistedLiving",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "careContractStorageLocation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "pensionInsuranceNumbers",
+  "unterfeld": "pensionInsuranceNumber",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "storageLocation",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "healthCareGeneralDecision",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "healthCareMedicalProcedures",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "healthCareMedicalRecords",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "healthCarePlacementDepriving",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "healthCareMeasuresDepriving",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "healthCareCompulsoryMedical",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "healthCareAdmissionToHospital",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "medicalSupervisionBy",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "organDonation",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "whatRestriction",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "organDonationRegister",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "whatTheCareArrangementShould",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "centralRegisterOfPowersOf",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "copyDepositedInTheRegister",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "copyDepositedOn",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "depositedBy",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "personalCareDignity",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "dietSpecialRequirements",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "dailyRoutineActivities",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "otherWishesNotes",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "aidsEGWalkerHearingAid",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "finance",
+  "feld": "valuablesStorageLocations",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "finance",
+  "feld": "assetsForTheEstate",
+  "unterfeld": "withWhom",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "finance",
+  "feld": "taxIdsTaxNumbers",
+  "unterfeld": "taxNumber",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "companyPensionPolicyNumber",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "policyContractNumber",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "accounts",
+  "unterfeld": "iban",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "latestTaxReturnStorageLocation",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "taxParticulars",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "ongoingLoansDebts",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "digitalBalances",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "creditCards",
+  "unterfeld": "providerLast4Digits",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "outstandingClaimsGuarantees",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "finance",
+  "feld": "assetsForTheEstate",
+  "unterfeld": "asset",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_originaldokumente",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_wertgegenstaende",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_digitales",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_personenstand",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_lebensversicherung",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_sterbegeld",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_unfallversicherung",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_konten",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_geldanlagen",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_immobilien",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_schulden",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:erbfall",
+  "feld": "erb_renten",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:notar",
+  "feld": "notar_urkunde",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "sit:notar",
+  "feld": "bank_vollmacht",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "sit:notar",
+  "feld": "bank_schliessfach",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "sit:arzt",
+  "feld": "arzt_termin",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:arzt",
+  "feld": "arzt_anliegen",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:arzt",
+  "feld": "arzt_fragen",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:arzt",
+  "feld": "arzt_mitbringen",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:arzt",
+  "feld": "arzt_ergebnis",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:krankenhaus",
+  "feld": "kh_termin",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:krankenhaus",
+  "feld": "kh_grund",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:krankenhaus",
+  "feld": "kh_entlassung",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:krankenhaus",
+  "feld": "kh_zuhause",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "sit:pflegeheim",
+  "feld": "ph_einrichtung",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:pflegeheim",
+  "feld": "ph_einzug",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:pflegeheim",
+  "feld": "ph_heimvertrag",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:pflegeheim",
+  "feld": "ph_kosten",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "sit:geburt",
+  "feld": "geburt_klinik",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:geburt",
+  "feld": "geburt_hebamme",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:geburt",
+  "feld": "geburt_kind_kv",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:volljaehrig",
+  "feld": "vj_krankenversicherung",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "sit:volljaehrig",
+  "feld": "vj_konto",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "sit:hauskauf",
+  "feld": "hk_finanzierung",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "sit:hauskauf",
+  "feld": "hk_grundbuch",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "people",
+  "feld": "childrenAndDependants",
+  "unterfeld": "basisOfRepresentation",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "people",
+  "feld": "childrenAndDependants",
+  "unterfeld": "areasOfResponsibility",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "people",
+  "feld": "childrenAndDependants",
+  "unterfeld": "careCourt",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "people",
+  "feld": "childrenAndDependants",
+  "unterfeld": "fileReferenceNumber",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "areasOfResponsibility",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "careCourt",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "fileReferenceNumber",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "provisionInstruments",
+  "unterfeld": "personsNamedInTheWill",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "people",
+  "feld": "careLeaveFamilyCareLeave",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "people",
+  "feld": "maintenanceObligationsAnd",
+  "unterfeld": "amount",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "personal",
+  "feld": "whoDependsOnMe",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "whoDependsOnMe",
+  "unterfeld": "whatToBearInMind",
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "religiousAffiliation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "chaplainPastoralCarer",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "ritualsPrayersSpiritualWishes",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "typeOfFuneral",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "drivingLicenceClasses",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "drivingLicenceValidUntil",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "policyNumber",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "passportNo",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "passportIssuedOn",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "passportValidUntil",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "elefandRegistrations",
+  "unterfeld": "registrationNo",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "elefandRegistrations",
+  "unterfeld": "validUntil",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "vehicles",
+  "unterfeld": "vehicleRegistrationDocument",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "typeOfIncome",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "grossMonthlyIncome",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "netMonthlyIncome",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "payslipStorageLocation",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "monthlyRentServiceCharges",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "rentalDepositBankAmount",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "furtherHomes",
+  "unterfeld": "serviceCharges",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "furtherHomes",
+  "unterfeld": "rentalDepositBankAmount",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "idDocuments",
+  "unterfeld": "documentNumber",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "idDocuments",
+  "unterfeld": "issuedOn",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "idDocuments",
+  "unterfeld": "validUntil",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "residencePermitType",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "residencePermit",
+  "unterfeld": "number",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "residencePermit",
+  "unterfeld": "issuedOn",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "residencePermit",
+  "unterfeld": "validUntil",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "residencePermit",
+  "unterfeld": "responsibleImmigration",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "residencePermit",
+  "unterfeld": "fileReferenceNumber",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "nationality",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "education",
+  "feld": "volunteerWork",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "escapeRouteFromTheHome",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "meetingPointFamily",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "housing",
+  "feld": "specialLivingSituation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "personal",
+  "feld": "notesOnFamilyCircumstances",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "personalLettersWordsToPeople",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "whatElseIWantToSayWhatElse",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "identity",
+  "feld": "birthName",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "taxClass",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "people",
+  "feld": "maintenanceObligationsAnd",
+  "unterfeld": "currency",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "people",
+  "feld": "maintenanceObligationsAnd",
+  "unterfeld": "frequency",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "currency",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "typeOfIncomeEarlierEntry",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "drivingLicenceStorageLocation",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "drivingLicenceEarlierEntry",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "longTermCareAllowanceAmount",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "socialInsurance",
+  "feld": "longTermCareAllowanceEarlier",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "identity",
+  "feld": "formerNames",
+  "unterfeld": "name",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "formerNames",
+  "unterfeld": "usedUntil",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "formerNames",
+  "unterfeld": "reason",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "identity",
+  "feld": "formerNames",
+  "unterfeld": "proofStorageLocation",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "people",
+  "feld": "childrenAndDependants",
+  "unterfeld": "birthCertificateStorage",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "mobility",
+  "feld": "vehicles",
+  "unterfeld": "leaseAgreementStorageLocation",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "certificatesQualifications",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "schoolCertificatesStorage",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "trainingCertificateStorage",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "universityDegreeCertificate",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "education",
+  "feld": "employmentReferenceStorage",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "tenancyAgreementStorage",
+  "unterfeld": null,
+  "gruppe": "C"
+ },
+ {
+  "sektor": "housing",
+  "feld": "furtherHomes",
+  "unterfeld": "tenancyAgreementStorage",
+  "gruppe": "C"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "drinkingWaterSupplyStorage",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "foodSuppliesStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "firstAidKitStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "emergencyBackpackStorage",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "documentFolderStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "cashReserveStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "emergencyPreparedness",
+  "feld": "hygieneSuppliesStorageLocation",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "personal",
+  "feld": "physicalPhotosStorageLocation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "digitalPhotosStorageLocation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "otherKeepsakesStorageLocation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "handwrittenLettersStorage",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "personal",
+  "feld": "preArrangementContractStorage",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "assets",
+  "feld": "additionalTypesOfIncome",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "assets",
+  "feld": "housingCostsBorneAlone",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "assets",
+  "feld": "housingCostsTotal",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "assets",
+  "feld": "housingCostsOwnShare",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "assets",
+  "feld": "yourOwnIncomeNetMonthly",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "assets",
+  "feld": "maintenanceObligations",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "assets",
+  "feld": "incomeOfOtherPeopleInThe",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "assets",
+  "feld": "monthlyCommitments",
+  "unterfeld": null,
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "ongoingAdministrativeCases",
+  "unterfeld": "opposingParty",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "administration",
+  "feld": "ongoingAdministrativeCases",
+  "unterfeld": "alreadyAdvisedBy",
+  "gruppe": "B"
+ },
+ {
+  "sektor": "finance",
+  "feld": "privateInsurancePolicies",
+  "unterfeld": "insurancePolicyNumber",
+  "gruppe": "C"
+ }
+]

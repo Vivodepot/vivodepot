@@ -1,0 +1,16 @@
+<!doctype html><html><body><script>
+/* Erfundenes Gerüst-Fragment, sauber: dieselben Formen stehen NUR in Kommentaren und in einer markierten Region. */
+// { quelle: 'health', feld: 'bloodType' } — nur ein Zeilenkommentar
+/* { id: 'krankenhausakut', bloecke: [ { id: 'x' } ] } — nur ein Blockkommentar */
+/* AB_WERK_BEISPIEL_QUELLEN:BEGIN */
+const AB_WERK_BEISPIEL_QUELLEN = Object.freeze([{ situationen: { krankenhausakut: { bloecke: [ { id: 'b', eintraege: [ { quelle: 'health', feld: 'bloodType' } ] } ] } } }]);
+/* AB_WERK_BEISPIEL_QUELLEN:END */
+function angSituationen() { return registry.slice(); }
+const _ANG_CACHE_ERLAUBT = (() => {
+  const s = new Set([
+  'krankenhausakut|health|bloodType',
+  'beerdigung|personal|letterForTheDeathScenario',
+  ]);
+  return s;
+})();
+</script></body></html>

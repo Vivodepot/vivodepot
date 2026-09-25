@@ -1,0 +1,59 @@
+{
+  "stand": "19.09.2026",
+  "messweg": "node tools/modul-text-lese-app-ausgabe-messen.js --grundlinie-schreiben",
+  "hinweis": "Je Gruppe: so viele Kern-Kennungen erscheinen in der Lese-App nie, mit Grund. Die Zahl darf nur sinken; eine Kennung ohne Gruppe ist rot.",
+  "gruppen": {
+    "seitenleiste": {
+      "anzahl": 19,
+      "grund": "Unterzeile der Kern-Seitenleiste"
+    },
+    "katalog-kern": {
+      "anzahl": 77,
+      "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
+    },
+    "unterfeld-beschriftung": {
+      "anzahl": 272,
+      "grund": "Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen"
+    },
+    "hinweis-beispiel": {
+      "anzahl": 432,
+      "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
+    },
+    "feldgruppen": {
+      "anzahl": 70,
+      "grund": "Feldgruppen und Vorschlagslisten des Kerns (Eingabe)"
+    },
+    "feld-nur-im-kern": {
+      "anzahl": 10,
+      "grund": "Feld oder Sektion, die die Lese-App nicht führt"
+    },
+    "situationsblaetter": {
+      "anzahl": 87,
+      "grund": "Situationsblätter (Bauteil 3, eigener Zweig): Beispiele werden nie angezeigt; die übrigen Texte sinken, sobald die Blätter über textLesen laufen"
+    },
+    "menschen-register": {
+      "anzahl": 22,
+      "grund": "Beschriftung der Eingabemaske des Menschen-Registers"
+    },
+    "assistenten": {
+      "anzahl": 320,
+      "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
+    },
+    "vollmacht-formular": {
+      "anzahl": 156,
+      "grund": "Vollmacht-Formular und Korpus des Kerns"
+    },
+    "dokumentgenerator": {
+      "anzahl": 86,
+      "grund": "Dokumentgenerator des Kerns; die Lese-App hat keine Dokumentansicht"
+    },
+    "dokumenttext-art": {
+      "anzahl": 6,
+      "grund": "Textart eines Logikmoduls, die die Lese-App nie liest (Einleitung, Unterschrift-Hinweis, Fußtext, Toolbar-Hinweis)"
+    },
+    "hilfe-themen": {
+      "anzahl": 46,
+      "grund": "Hilfe-Themen des Kerns (Hilfe-Overlay, U2-ADR-425); die Lese-App führt für die Empfängerin eine eigene kurze Hilfe aus strings: und zeigt diese Themen nie"
+    }
+  }
+}

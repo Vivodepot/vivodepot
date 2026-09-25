@@ -1,0 +1,14 @@
+feldname,feldtyp,pflicht,bereich,gruppe,entitaet,rolle,code_werte,hilfetext
+Type of handover,auswahl,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,familienintern:within the family;verkauf:Sale;schenkung:Gift;verpachtung:Lease;offen:still open,"Sample for demonstration. The issuing bank is responsible for the content of a real template. Articles of association, succession clause, notary and tax advisor are in this area under “Block 2 — What keeps the company able to act”, the filing location of the will or inheritance contract under “Legal foundations”."
+Planned date and next step,textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,Year of the planned handover and the next agreed step.
+Successor,ref,nein,pro-gesellschaft-nachfolge,Planned handover (sample),person,Nachfolge,,The person who is to take over the business. Their current role in the business goes into the free-text field. If not yet decided: enter “still open”.
+Business valuation,textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,"Whether one exists, who prepared it, how current it is and where it is kept."
+Loan agreements and collateral,textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,"Which agreements exist, which collateral belongs to them, where the documents are kept and who the contact person at the bank is."
+Personal guarantees of the owner,textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,Which agreements they cover and what is to happen to them at handover.
+"Accounts, powers of attorney and signing authority",textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,Who signs today and what changes at handover. The rules of representation are in the area “Authority and powers of attorney”.
+Financing of the takeover,textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,Whether the successor has to finance the takeover and how far talks about it have progressed.
+Advisors,refMehrfach,nein,pro-gesellschaft-nachfolge,Planned handover (sample),person,Beratung,,"Legal advice, chamber and other contact persons for the handover. Notary and tax advisor are already under “Block 2”."
+Consultation records and bank documents,ref,nein,pro-gesellschaft-nachfolge,Planned handover (sample),mappe,,,"Records and documents from the talks with the bank, as a document in the folder."
+Milestones until handover,textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,Dates and steps until the handover.
+People involved,refMehrfach,nein,pro-gesellschaft-nachfolge,Planned handover (sample),person,Beteiligte,,"Co-shareholders, managers, family: who is involved in the handover."
+Retirement of the owner,textarea,nein,pro-gesellschaft-nachfolge,Planned handover (sample),,,,"Whether the planning for it is in place, where the documents are kept and who advises on it."

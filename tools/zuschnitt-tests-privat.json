@@ -1,0 +1,816 @@
+{
+ "stand": "2026-09-25",
+ "messweg": "node tools/zuschnitt-tests-messen.js --ziel <leer> --liste-schreiben --fixpunkt",
+ "deckel": 114,
+ "privat": [
+  {
+   "datei": "tests/a112-hilfetext-feld.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/a378-code-fall.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/a382-folgezeilen-erzeuger.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/a405-widerrufsliste-lese-app.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/a443-andock-regeln.test.js",
+   "fehlt": [
+    "tools/w3-schema-sensibel-pruefen.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/w3-schema-sensibel-pruefen.js'"
+  },
+  {
+   "datei": "tests/a447-codelisten-schreibweg.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/a5-fehlstellen-auskunft.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/a5-messwerkzeuge-keine-alten-kennungen.test.js",
+   "fehlt": [
+    "tools/heben-stand-messen.js",
+    "tools/lese-app-bereichsluecke-messen.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/lese-app-bereichsluecke-messen.js'"
+  },
+  {
+   "datei": "tests/adr-nummern-ueber-zweige.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/altdatei-keine-unbekannten-schluessel.test.js",
+   "fehlt": [
+    "docs/umbau-englisch-vor-v1/kennung-mapping.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/umbau-englisch-vor-v1/kennung-mapping."
+  },
+  {
+   "datei": "tests/alte-sektorkennungen-pruefen.test.js",
+   "fehlt": [
+    "docs/umbau-englisch-vor-v1/kennung-mapping.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/umbau-englisch-vor-v1/kennung-mapping."
+  },
+  {
+   "datei": "tests/ausgabewege-artefakte.test.js",
+   "fehlt": [
+    "tests/fixtures/referenzdepot.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tests/fixtures/referenzdepot.js'"
+  },
+  {
+   "datei": "tests/auslieferung-stand-gegen-kanon-pruefen.test.js",
+   "fehlt": [
+    "docs/auslieferung-stand.md"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/auslieferung-stand.md'"
+  },
+  {
+   "datei": "tests/aussenaussagen-pruefen.test.js",
+   "fehlt": [
+    "docs/aussenaussagen.md"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/aussenaussagen.md'"
+  },
+  {
+   "datei": "tests/buergermodul-bereich-erzeugen-u2-adr-319.test.js",
+   "fehlt": [
+    "docs/umbau-englisch-vor-v1/kennung-mapping.json"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'docs/umbau-englisch-vor-v1/kennung-mapping.json'"
+  },
+  {
+   "datei": "tests/build-bereiche-drift.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/d43-etappe8-serviceworker.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'sw.js'"
+  },
+  {
+   "datei": "tests/demo-verweise-erreichbar-pruefen.test.js",
+   "fehlt": [
+    "docs/demo-verweis-ziele.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/demo-verweis-ziele.json'"
+  },
+  {
+   "datei": "tests/e2e-cross/T-CROSS-07-krypto-block-gate.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/e2e-cross/T-CROSS-08-submission-schema.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/e2e-gate-im-pre-push.test.js",
+   "fehlt": [
+    "hooks/pre-push",
+    "tools/arbeitsbaum-einsatzbereit-machen.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/arbeitsbaum-einsatzbereit-machen.js'"
+  },
+  {
+   "datei": "tests/en-audit-laufzeit.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/en-audit-reparatur-textsatz-anbindung.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/energie-pilot-durchstich.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/englische-kennungen-pruefen.test.js",
+   "fehlt": [
+    "docs/umbau-englisch-vor-v1/kennung-mapping.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/umbau-englisch-vor-v1/kennung-mapping."
+  },
+  {
+   "datei": "tests/erste-partei-zone.test.js",
+   "fehlt": [
+    "tools/nur-vom-test-erreicht-grundlinie.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/nur-vom-test-erreicht-grundlinie.json"
+  },
+  {
+   "datei": "tests/erzeuger-exit-bindung.test.js",
+   "fehlt": [
+    "tools/zwei-achsen-erzeugen.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/zwei-achsen-erzeugen.js'"
+  },
+  {
+   "datei": "tests/erzeuger-marken-palette-pruefen.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/fassungen-register.test.js",
+   "fehlt": [
+    "docs/cra/schwachstellen-register.md"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/cra/schwachstellen-register.md'"
+  },
+  {
+   "datei": "tests/feldkennung-katalog-vorlagefeld.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/fremdweg-messung.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/frischer-blick-vc-issuer-generator.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-alt-label-heutige-bereiche.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-angehoerigen-blatt.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-arbeitsflaeche.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-drag-zustand.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-empfangs-schluessel.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-feld-eigenschaften.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-feldkatalog-drift.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-modul-kacheln-erreichbar.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-schluessel-tresor.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-signierwege.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-sprachmodul.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/generator-typlisten-gegen-kern.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/herkunftsort-invariante.test.js",
+   "fehlt": [
+    "tests/fixtures/achse-branding-berliner-sparkasse.json"
+   ],
+   "fehlerzeile": "Error: Unsignierte Modul-Datei nicht lesbar/kein JSON: tests/fixtures/achse-branding-berlin"
+  },
+  {
+   "datei": "tests/hilfe-website-export-erzeugen.test.js",
+   "fehlt": [
+    "docs/hilfe-website-export.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/hilfe-website-export.json'"
+  },
+  {
+   "datei": "tests/hooks-node-test-context-schutz.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/https-adressen-positivliste.test.js",
+   "fehlt": [
+    "tools/register-ausliefern.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/register-ausliefern.js'"
+  },
+  {
+   "datei": "tests/inline-texte-ratsche.test.js",
+   "fehlt": [
+    "tools/inline-texte-messen.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/inline-texte-messen.js'"
+  },
+  {
+   "datei": "tests/kalendertag-lokal.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/kennung-vorschlag-generator.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/kette-07-die-anfrage.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/kette-08-der-rueckweg.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/lese-app-altdatei-kennungen.test.js",
+   "fehlt": [
+    "docs/umbau-englisch-vor-v1/kennung-mapping.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/umbau-englisch-vor-v1/kennung-mapping."
+  },
+  {
+   "datei": "tests/lese-app-bereichsluecke-messen.test.js",
+   "fehlt": [
+    "tools/lese-app-bereichsluecke-messen.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/lese-app-bereichsluecke-messen.js'"
+  },
+  {
+   "datei": "tests/messwerkzeuge-laufen.test.js",
+   "fehlt": [
+    "tools/reisebestand-scope-messen.js",
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/mitschrift-faecher-a-b-ausnahme-vollstaendig.test.js",
+   "fehlt": [
+    "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tests/e2e/nativ-auslieferung-a-b-abnahme.sp"
+  },
+  {
+   "datei": "tests/mitschrift-regionen-tabelle.test.js",
+   "fehlt": [
+    "tools/mitschrift-regionen-grundlinie.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/mitschrift-regionen-grundlinie.json'"
+  },
+  {
+   "datei": "tests/modul-app-packen.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, copyfile 'sw.js' -> '/var/folders/lj/ykfcvvbs4qx3"
+  },
+  {
+   "datei": "tests/modulpruefung-posten3-auffaelligkeiten-sammelstelle.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/navigationsgruppe-kein-modul-wort.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/oeffentlicher-zuschnitt-betrag-schluesselgebunden.test.js",
+   "fehlt": [
+    "tools/ausschluss-waechter-pruefen.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/ausschluss-waechter-pruefen.js'"
+  },
+  {
+   "datei": "tests/passphrase-eingabe-pty.test.js",
+   "fehlt": [
+    "tests/helfer/passphrase-pty-harness.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tests/helfer/passphrase-pty-harness.js'"
+  },
+  {
+   "datei": "tests/pbkdf2-staerke-pruefen.test.js",
+   "fehlt": [
+    "tools/schluesseluebergabe-messen.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/schluesseluebergabe-messen.js'"
+  },
+  {
+   "datei": "tests/personas-durchlauf.test.js",
+   "fehlt": [
+    "tests/fixtures/persona-p1.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module './fixtures/persona-p1.js'"
+  },
+  {
+   "datei": "tests/pre-depot-en-sync.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/pre-push-standzahlen-faktenbasis-check.test.js",
+   "fehlt": [
+    "hooks/pre-push"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-push'"
+  },
+  {
+   "datei": "tests/pro-geplante-uebergabe-vorlage.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/pruefstand-tmp-nicht-committet.test.js",
+   "fehlt": [
+    ".gitignore"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open '.gitignore'"
+  },
+  {
+   "datei": "tests/reiner-dokument-commit-pruefen.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/rundlauf-alle-formate.test.js",
+   "fehlt": [
+    "tests/fixtures/referenzdepot.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tests/fixtures/referenzdepot.js'"
+  },
+  {
+   "datei": "tests/schalen-stand-sw-lockstep.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'sw.js'"
+  },
+  {
+   "datei": "tests/schema-wirkt-nicht-nachtrag.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/shl-abruf-einordnen.test.js",
+   "fehlt": [
+    "tools/shl-belegstrecke.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/shl-belegstrecke.js'"
+  },
+  {
+   "datei": "tests/sichten-erhebung.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/standzahl-frei-pruefen.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'sw.js'"
+  },
+  {
+   "datei": "tests/stresstest-01-boesartiges-modul.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/styleguide-inhaltsabgleich.test.js",
+   "fehlt": [
+    "vivodepot-style-guide.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-style-guide.html'"
+  },
+  {
+   "datei": "tests/styleguide-klassen-vollstaendig.test.js",
+   "fehlt": [
+    "vivodepot-style-guide.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-style-guide.html'"
+  },
+  {
+   "datei": "tests/styleguide-zuschnitt.test.js",
+   "fehlt": [
+    "vivodepot-style-guide.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-style-guide.html'"
+  },
+  {
+   "datei": "tests/suite-beleg.test.js",
+   "fehlt": [
+    "hooks/pre-push"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-push'"
+  },
+  {
+   "datei": "tests/sw-aktivierung-bedingtes-skipwaiting.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'sw.js'"
+  },
+  {
+   "datei": "tests/sw-update-lieferweg.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'sw.js'"
+  },
+  {
+   "datei": "tests/sw-update-zustellung.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'sw.js'"
+  },
+  {
+   "datei": "tests/template-generator.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/test-erreichbarkeit.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/testfassung-legen.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, copyfile 'sw.js' -> '/var/folders/lj/ykfcvvbs4qx3"
+  },
+  {
+   "datei": "tests/tests-alte-kennungen-finden.test.js",
+   "fehlt": [
+    "docs/umbau-englisch-vor-v1/kennung-mapping.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/umbau-englisch-vor-v1/kennung-mapping."
+  },
+  {
+   "datei": "tests/tests-schreiben-nicht-in-den-baum.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/textsatz-de-modul-erzeugen.test.js",
+   "fehlt": [
+    "tools/textsatz-de-pro-bereich-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-de-pro-bereich-daten.js'"
+  },
+  {
+   "datei": "tests/textsatz-eingebaut-lesen-generator.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/textsatz-en-begriffe-pruefen.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/textsatz-erzeuger-laufen-drift-frei.test.js",
+   "fehlt": [
+    "tools/textsatz-de-pro-bereich-daten.js",
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-de-pro-bereich-daten.js'"
+  },
+  {
+   "datei": "tests/textsatz-offen-juristisch-paritaet.test.js",
+   "fehlt": [
+    "tools/textsatz-de-pro-bereich-daten.js",
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-de-pro-bereich-daten.js'"
+  },
+  {
+   "datei": "tests/textsatz-verweise-pruefen.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/textsatz-vier-anwendungen.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/tmp-eindeutigkeit-waechter.test.js",
+   "fehlt": [
+    "tools/waechter-register.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/waechter-register.js'"
+  },
+  {
+   "datei": "tests/trust-1b-generator-signatur.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/trust-basistemplate-signatur.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/u2-adr-293-sprachmodul-struktur-invarianz.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/u2-adr-323-angedockte-bereiche-lese-app.test.js",
+   "fehlt": [
+    "tools/betriebssatz-inhalte.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/betriebssatz-inhalte.js'"
+  },
+  {
+   "datei": "tests/u2-adr-334-bereichslabel-textsatz-lese-app.test.js",
+   "fehlt": [
+    "tools/betriebssatz-inhalte.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/betriebssatz-inhalte.js'"
+  },
+  {
+   "datei": "tests/u2-adr-338-vollmacht-bmj-schluessel.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/u2-adr-343-vollmacht-vorsorge-pdf-beleg.test.js",
+   "fehlt": [
+    "tools/textsatz-en-vollabdeckung-daten.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/textsatz-en-vollabdeckung-daten.js'"
+  },
+  {
+   "datei": "tests/vc-issuer-modul-umschlag.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/vereinbarung-generator-kern.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/verweis-erzeuger.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/vor-umzug-a1-situationen.test.js",
+   "fehlt": [
+    "docs/umbau-englisch-vor-v1/kennung-mapping.json"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'docs/umbau-englisch-vor-v1/kennung-mapping."
+  },
+  {
+   "datei": "tests/waechter-probe-laesst-nichts-zurueck.test.js",
+   "fehlt": [
+    "tools/waechter-selbsttest.js"
+   ],
+   "fehlerzeile": "Error: Cannot find module 'tools/waechter-selbsttest.js'"
+  },
+  {
+   "datei": "tests/waechter-reichweiten-zensus.test.js",
+   "fehlt": [
+    "hooks/pre-commit"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-commit'"
+  },
+  {
+   "datei": "tests/waechter-selbsttest-gate-verankert.test.js",
+   "fehlt": [
+    "hooks/pre-push"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'hooks/pre-push'"
+  },
+  {
+   "datei": "tests/widerruf-notfall-veroeffentlichen.test.js",
+   "fehlt": [
+    "sw.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, copyfile 'sw.js' -> '/var/folders/lj/ykfcvvbs4qx3"
+  },
+  {
+   "datei": "tests/zertifikat-slot-stufe66.test.js",
+   "fehlt": [
+    "vivodepot-template-generator.html"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'vivodepot-template-generator.html'"
+  },
+  {
+   "datei": "tests/zug3-messwerkzeuge-leseart.test.js",
+   "fehlt": [
+    "tools/vd-privat-struktur-bundle-erzeugen.js"
+   ],
+   "fehlerzeile": "Error: ENOENT: no such file or directory, open 'tools/vd-privat-struktur-bundle-erzeugen.js"
+  }
+ ],
+ "anders": [],
+ "letzteMessung": {
+  "tests": 6147,
+  "gruen": 6065,
+  "rot": 0
+ }
+}

@@ -1,0 +1,41 @@
+{
+  "modulTyp": "vorlage",
+  "anbieterId": "vivodepot-wallet-selbstauskunft",
+  "felder": [
+    {
+      "feldname": "Wallet-App und Gerät",
+      "feldtyp": "text",
+      "bereich": "verwaltung",
+      "gruppe": "Digitale Brieftasche",
+      "hilfetext": "Welche App, auf welchem Gerät installiert."
+    },
+    {
+      "feldname": "Wiederherstellung — wo?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digitale Brieftasche",
+      "hilfetext": "Wo der Wiederherstellungsweg liegt — nie der Code selbst."
+    },
+    {
+      "feldname": "Wer darf im Verhinderungsfall handeln?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digitale Brieftasche",
+      "hilfetext": "Eine eigene Festlegung, keine Vollmacht und keine Wallet-Funktion."
+    },
+    {
+      "feldname": "Was soll im Notfall gelten?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digitale Brieftasche",
+      "hilfetext": "Freie Angabe — keine Wallet führt das."
+    },
+    {
+      "feldname": "Welche Regelungen bestehen, und wo liegen sie?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digitale Brieftasche",
+      "hilfetext": "Zum Beispiel eine eigene Notiz oder ein Schriftstück — kein Nachweis aus der Wallet."
+    }
+  ]
+}

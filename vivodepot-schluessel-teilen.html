@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ══════════════════════════════════════════════════════════════════════════
+     Vivodepot · Schlüssel teilen — Schwellenwert-Aufteilung eines Ed25519-JWK
+     SPDX-License-Identifier: EUPL-1.2
+     Copyright (c) 2026 Vivodepot GmbH, Berlin.
+     Teil des Template-/Trust-Authority-Mechanismus — Lizenz siehe LICENSE, Teil 1.
+     ──────────────────────────────────────────────────────────────────────────
+     WAS DAS IST. Der Trust-Authority-Schlüssel ist der Anker, gegen den jede
+     Vorlage und jedes Anbieter-Zertifikat geprüft wird; sein öffentlicher Teil
+     ist in die ausgelieferte Anwendung einkompiliert. Liegt er als EINE Datei
+     bei EINER Person, ist sein Verlust kein behebbarer Zwischenfall, sondern
+     das Ende der Vertrauenskette — eine Bürgerin, die die App einmal geladen
+     hat, sieht kein neues Release. Dieses Werkzeug teilt einen solchen
+     Schlüssel nach Shamirs Verfahren in n Anteile, von denen k genügen.
+
+     WAS DAS NICHT IST. Es ist keine der vier ausgelieferten Anwendungen. Es hat
+     keinen Bürger- und keinen Institutionskontakt, keine Speicherung, kein
+     Netz. Es wird von einer Person auf einem dedizierten Gerät bedient.
+
+     UNABHÄNGIGKEIT, BERICHTIGT (23.08.2026, Auftrag „Der Teiler sichert
+     geschützt", Entscheidung „Teiler-Isolation" vom selben Tag).
+     Diese Datei trägt seither den VdCrypto-Block als weiteren Verbatim-Träger,
+     byte-identisch zu `vivodepot-krypto-kern-PORT-VERBATIM.js`
+     (`tools/krypto-block-propagation-pruefen.js` wacht darüber) — damit der
+     zusammengesetzte Anker als geschützte `.vdkey` gesichert werden kann, ohne
+     ein zweites Verschlüsselungsverfahren im Haus. Die Isolation ist für GENAU
+     diesen einen Block aufgehoben, für keinen anderen: der JWS-Block bleibt
+     draußen, und die Shamir-/Reed-Solomon-Arithmetik unten bleibt eigen und
+     unberührt — sie ist keine Kopie und läuft nirgends sonst.
+
+     ZUFALL. Ausschließlich `crypto.getRandomValues`. Kein `Math.random`, an
+     keiner Stelle, auch nicht für Hilfsgrößen.
+     ══════════════════════════════════════════════════════════════════════════ -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Vivodepot · Schlüssel teilen</title>
+<style>
+  :root {
+    --grund: #ffffff;
+    --schrift: #1b2318;
+    --gedaempft: #4a5545;
+    --linie: #c9d2c2;
+    --flaeche: #f3f6f1;
+    --salbei: #4d6b45;
+    --salbei-dunkel: #35502f;
+    --warn-rand: #a32020;
+    --warn-flaeche: #fdeceb;
+    --fokus: #1f4fd8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 1.5rem;
+    background: var(--grund); color: var(--schrift);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px; line-height: 1.55;
+  }
+  main { max-width: 54rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.15rem; margin: 2rem 0 .5rem; }
+  .karte { border: 1px solid var(--linie); border-radius: .5rem; padding: 1rem 1.15rem; margin: 1rem 0; background: var(--flaeche); }
+  .warnung { border: 2px solid var(--warn-rand); background: var(--warn-flaeche); border-radius: .5rem; padding: 1rem 1.15rem; margin: 1rem 0; }
+  .warnung strong { color: var(--warn-rand); }
+  :focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+  label { display: block; font-weight: 600; margin: .75rem 0 .25rem; }
+  input[type="number"], input[type="file"], input[type="text"], textarea {
+    font: inherit; padding: .5rem .6rem; border: 1px solid var(--linie);
+    border-radius: .35rem; background: var(--grund); color: var(--schrift); width: 100%; max-width: 34rem;
+  }
+  input[type="number"] { max-width: 8rem; }
+  textarea { min-height: 9rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .95rem; }
+  button {
+    font: inherit; font-weight: 600; min-height: 44px; padding: .55rem 1.1rem;
+    border: 1px solid var(--salbei-dunkel); border-radius: .35rem;
+    background: var(--salbei); color: #fff; cursor: pointer; margin: .75rem .5rem .25rem 0;
+  }
+  button:hover { background: var(--salbei-dunkel); }
+  button[disabled] { opacity: .5; cursor: not-allowed; }
+  code, .zeichen { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .hinweis-klein { font-size: .92rem; color: var(--gedaempft); margin: .3rem 0 0; max-width: 34rem; }
+  .lage { margin: .6rem 0; }
+  .lage[data-art="fehler"] { color: var(--warn-rand); font-weight: 600; }
+  dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; margin: .5rem 0; }
+  dt { font-weight: 600; }
+  dd { margin: 0; overflow-wrap: anywhere; }
+  .anteilsblatt {
+    border: 1px solid var(--linie); border-radius: .5rem;
+    padding: 1rem 1.15rem; margin: 1rem 0; background: var(--grund);
+  }
+  .anteilsblatt h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
+  .anteilswerte { border: 1px solid var(--linie); border-radius: .35rem; padding: .6rem .7rem; background: var(--flaeche); overflow-wrap: anywhere; }
+  .unterschrift { margin-top: 1.25rem; }
+  .unterschrift .linie { border-bottom: 1px solid var(--schrift); height: 2.2rem; margin-bottom: .2rem; }
+  .unterschrift .beschriftung { font-size: .85rem; color: var(--gedaempft); }
+  .schere { border: 0; border-top: 1px dashed var(--gedaempft); margin: 1.5rem 0; }
+  @media print {
+    body { padding: 0; }
+    .nicht-drucken { display: none !important; }
+    .anteilsblatt { border: 0; padding: 0; margin: 0; break-after: page; page-break-after: always; }
+    .anteilsblatt:last-child { break-after: auto; page-break-after: auto; }
+    .schere { display: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Vivodepot · Schlüssel teilen</h1>
+  <p>Schwellenwert-Aufteilung eines Ed25519-Schlüssels nach Shamirs Verfahren:
+     <strong>n Anteile, von denen k genügen.</strong> Offline, ohne Netz, ohne Speicherung.</p>
+
+  <div class="warnung nicht-drucken" id="ehrlicher-hinweis">
+    <p><strong>Dies ist die einzige Stelle der Vivodepot-Werkzeuge, an der privates
+       Schlüsselmaterial im Klartext verarbeitet wird.</strong></p>
+    <p>Der VC-Issuer importiert einen Schlüssel als nicht-exportierbar und wischt den privaten
+       Teil sofort. Hier ist der private Teil der Gegenstand selbst — er wird gelesen, geteilt
+       und in Anteile geschrieben. Daraus folgt, ohne Ausnahme:</p>
+    <ul>
+      <li><strong>Dediziertes Gerät.</strong> Kein Alltagsrechner, kein Gerät mit fremder Software.</li>
+      <li><strong>Kein Netz.</strong> Vor dem Öffnen trennen, nicht danach.</li>
+      <li><strong>Kein Drucker mit Speicher.</strong> Netzwerk- und Bürodrucker legen Druckaufträge ab;
+          ein direkt angeschlossenes Gerät ohne Festplatte, sonst gar keiner.</li>
+      <li><strong>Fenster nach der Sitzung schließen</strong> und das Gerät herunterfahren —
+          nicht nur den Tab wechseln.</li>
+    </ul>
+    <p><strong>Wird der Schlüssel hier erzeugt, gibt es ihn danach ausschließlich als Anteile.</strong>
+       Wer die Anteile verliert, verliert den Schlüssel — es gibt keine zweite Quelle, keine
+       Sicherungskopie und keinen Weg zurück. Das ist die Absicht dieses Vorgangs und keine
+       Nebenwirkung.</p>
+  </div>
+
+  <p class="lage nicht-drucken" id="krypto-lage" role="status" aria-live="polite"></p>
+
+  <section class="nicht-drucken" id="abschnitt-erzeugen">
+    <h2>Erzeugen und sofort aufteilen</h2>
+    <p>Ein neues Ed25519-Schlüsselpaar entsteht hier und zerfällt im selben Vorgang in Anteile.
+       Der private Teil wird <strong>nie als Datei ausgegeben und nie angezeigt</strong>. Heraus
+       kommen die Anteile und der öffentliche Teil — sonst nichts.</p>
+    <p>Der Unterschied zum Abschnitt darunter ist keine Bequemlichkeit: ein Schlüssel, der erst
+       erzeugt, dann abgelegt und später geteilt wird, liegt eine Zeit lang als ganze Datei
+       herum. Ein Schlüssel, der im selben Vorgang entsteht und zerfällt, hat diese Zeit nie.</p>
+
+    <label for="feld-rolle">Kennung des Schlüssels (Rolle und Fassung, ohne Datum)</label>
+    <input type="text" id="feld-rolle" value="vivodepot-trust-authority-v2" spellcheck="false" autocomplete="off">
+    <p class="hinweis-klein">Das Erzeugungsdatum hängt das Werkzeug an — es kennt den Tag, an dem
+       der Schlüssel wirklich entstanden ist. Rolle und Fassung entscheidet die Zeremonie.</p>
+
+    <label for="feld-erz-n">Zahl der Anteile (n)</label>
+    <input type="number" id="feld-erz-n" value="5" min="2" max="255" step="1" autocomplete="off">
+
+    <label for="feld-erz-k">Schwelle — so viele genügen (k)</label>
+    <input type="number" id="feld-erz-k" value="3" min="2" max="255" step="1" autocomplete="off">
+
+    <p class="lage" id="erzeugen-lage" role="status" aria-live="polite"></p>
+
+    <button type="button" id="knopf-erzeugen">Schlüssel erzeugen, aufteilen und prüfen</button>
+    <button type="button" id="knopf-oeffentlich-sichern" disabled>Öffentlichen Teil als JWK-Datei sichern</button>
+    <button type="button" id="knopf-drucken-erz" disabled>Anteile drucken</button>
+    <p class="hinweis" style="margin:6px 0 0">Derselbe Druck wie unten im Abschnitt „Teilen" — er
+       steht hier ein zweites Mal, weil der Zeremonie-Ablauf ihn an dieser Stelle braucht.
+       Eine Seite je Anteil; Erklärtexte und Warnkästen werden nicht mitgedruckt.</p>
+  </section>
+
+  <section class="nicht-drucken" id="abschnitt-teilen">
+    <h2>Teilen</h2>
+    <p>Einen Ed25519-Schlüssel (JWK) laden und in Anteile zerlegen. Die Anteile erscheinen erst,
+       wenn das Werkzeug sie <strong>nachweislich</strong> wieder zum geladenen Schlüssel
+       zusammengesetzt hat.</p>
+
+    <label for="jwk-datei">Schlüsseldatei (JWK, JSON)</label>
+    <input type="file" id="jwk-datei" accept=".json,.jwk,application/json" autocomplete="off">
+
+    <label for="feld-n">Zahl der Anteile (n)</label>
+    <input type="number" id="feld-n" value="5" min="2" max="255" step="1" autocomplete="off">
+
+    <label for="feld-k">Schwelle — so viele genügen (k)</label>
+    <input type="number" id="feld-k" value="3" min="2" max="255" step="1" autocomplete="off">
+
+    <p class="lage" id="teilen-lage" role="status" aria-live="polite"></p>
+    <div id="sentinel-warnung" hidden></div>
+
+    <button type="button" id="knopf-teilen">Anteile erzeugen und prüfen</button>
+    <button type="button" id="knopf-drucken" disabled>Anteile drucken</button>
+    <button type="button" id="knopf-anteile-sichern" disabled>Anteile als Dateien sichern</button>
+  </section>
+
+  <div id="teilen-ergebnis"></div>
+
+  <section class="nicht-drucken" id="abschnitt-zusammensetzen">
+    <hr class="schere">
+    <h2>Zusammensetzen</h2>
+    <p>k Anteile einlesen oder eingeben und den Schlüssel zurückgewinnen. Ausgegeben wird nur ein
+       Schlüssel, der zu dem auf den Anteilen genannten Thumbprint passt.</p>
+
+    <label for="anteile-datei">Anteilsdateien (JSON, mehrere möglich)</label>
+    <input type="file" id="anteile-datei" accept=".json" multiple autocomplete="off">
+
+    <label for="anteile-eingabe">oder Anteile eingeben</label>
+    <textarea autocomplete="off" id="anteile-eingabe" spellcheck="false"
+      placeholder="Ein Anteil je Abschnitt — JSON-Blätter oder abgetippte Anteilszeilen."></textarea>
+
+    <p class="lage" id="zusammen-lage" role="status" aria-live="polite"></p>
+    <button type="button" id="knopf-zusammensetzen">Schlüssel zusammensetzen</button>
+    <button type="button" id="knopf-jwk-sichern" disabled>Schlüssel als JWK-Datei sichern</button>
+
+    <p class="hinweis-klein">Oder geschützt sichern (23.08.2026, „Der Teiler sichert geschützt"):
+    der rohe private Schlüssel verlässt das Werkzeug dann nie — nur eine passphrasengeschützte
+    <code>.vdkey</code>-Datei, die der Zertifikator über seinen bestehenden Weg öffnet.</p>
+    <label for="schuetzen-zweck">Zweck dieses Schlüssels (erscheint im Dateinamen, z. B. „anker")</label>
+    <input type="text" id="schuetzen-zweck" autocomplete="off" placeholder="anker">
+    <label for="schuetzen-pw1">Passphrase für die geschützte Datei</label>
+    <input type="password" id="schuetzen-pw1" autocomplete="off">
+    <div id="schuetzen-staerke" class="hinweis-klein" hidden></div>
+    <label for="schuetzen-pw2">Passphrase wiederholen</label>
+    <input type="password" id="schuetzen-pw2" autocomplete="off">
+    <button type="button" id="knopf-vdkey-sichern" disabled>Schlüssel geschützt sichern (.vdkey)</button>
+
+    <div id="zusammen-ergebnis"></div>
+  </section>
+</main>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   ANMERKUNG SP — kein Code, sondern Hinweis für den Bau (29.05.2026)
+
+   Dies ist die geprüfte Krypto-Kern-Schicht, WÖRTLICH aus VIVODEPOT.html
+   (Schema 19) extrahiert. Sie ist NICHT neu zu generieren — sie ist zu
+   portieren. Gib sie dem bauenden Modell als fertigen, unveränderlichen
+   Block mit und lass es Hülle, Datenmodell, Modus und Design darum herum
+   bauen.
+
+   Regeln für das bauende Modell:
+   • Diese Funktionen NICHT umschreiben, umbenennen oder "verbessern".
+   • Die einzige nach außen gedachte API ist das Objekt VdCrypto am Ende:
+       VdCrypto.setupSession(passwort, saltBytes)  -> Promise<void>
+       VdCrypto.encryptDepot(obj, key, aad?)       -> Promise<{iv, ct}>
+       VdCrypto.decryptDepot(stored, key, aad?)    -> Promise<obj>
+   • Verschlüsselungs-Parameter sind in den AAD-Blöcken gebunden — beim
+     Entschlüsseln dieselbe AAD übergeben, sonst schlägt GCM fehl (das ist
+     gewollt: Manipulations- und Falschpasswort-Erkennung).
+   • Klartext wird NIE auf den Stick geschrieben. removePassword() existiert
+     nicht und darf nicht entstehen.
+
+   Herkunft (Zeilen in VIVODEPOT.html):
+     Konstanten            13610–13616, 14138–14151
+     Modul-Zustand         14153, 14164–14165
+     deriveMasterBits      14285–14295
+     importMasterAesKey    14298–14303
+     importMasterHkdfKey   14306–14310
+     deriveKey             14218–14226
+     deriveKeyLegacy       14229–14238
+     encryptData           14240–14250
+     decryptData           14252–14259
+     deriveSubKey (v1)     14317–14331
+     deriveDepotKeyV2      14344–14364
+     _deriveHkdfRaw (Test) 14371–14382
+     base64-Helfer         14386–14392
+     setupMasterSession    14406–14411
+     VdCrypto-Surface      14437–14442
+
+   Nicht in diesem Block (kommen mit den jeweiligen Modulen):
+     • Angehörigen-Krypto (eigener Salt/IV, Klasse-A-Trennung, ADR-052)
+       → gehört zum Übergaben-Modul (ca. Z. 14444 ff.).
+     • _verifyJWS (in der VdCrypto-Surface referenziert) → gehört zur
+       VC-/Issuer-Schicht. Solange kein VC-Modul andockt, kann der Verweis
+       auf verifyJWS in der Surface entfallen oder auf eine Stub-Funktion
+       zeigen.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════════════════
+   WAS DIESER BLOCK IST (Nachtrag 18.09.2026, Krypto-Kapselung Weg A)
+   ────────────────────────────────────────────────────────────────────────
+   Dieser Block wird WORTGLEICH — byte für byte — in seine Träger übernommen.
+   Die Kapselung hat daran nichts geändert, nur WAS innerhalb des Blocks
+   geschieht (der lebende Sitzungsschlüssel `sessionHkdfKey` ist seither
+   closure-privat in `VdCrypto`, nicht mehr ein plain-script-globaler Name).
+
+   EINE Quelle, SECHS Träger — alle byte-identisch zu genau diesem Block:
+     vivodepot.html (dieser Block), vivodepot-lesen.html,
+     vivodepot-schluessel-teilen.html, vivodepot-template-generator.html,
+     vivodepot-vc-issuer.html, und die kanonische Quelle
+     vivodepot-krypto-kern-PORT-VERBATIM.js.
+
+   Das hält nicht dieser Kommentar, sondern ein Prüfer:
+     node tools/krypto-block-propagation-pruefen.js
+   Er vergleicht jeden Träger byte-genau gegen die kanonische Quelle, hält
+   eine Mindestzahl (`TRAEGER_MINDESTZAHL`) gegen ein stilles Herausfallen,
+   und prüft jede Pin-Stelle (Voll- und Kurz-Hash) im übrigen Repo gegen den
+   aktuellen Block-Hash. Ein Name kann diese Zusicherung nicht tragen — nur
+   ein Lauf, der grün oder rot wird.
+   ════════════════════════════════════════════════════════════════════════ */
+
+
+/* ── Konstanten ───────────────────────────────────────────────────────── */
+
+// Check if encryption is available
+const CRYPTO_AVAILABLE = !!(window.crypto && window.crypto.subtle);
+
+// AP1-Krypto-Aufrüstung: Iterationszahl als Konstante (OWASP PBKDF2-HMAC-SHA256 Empfehlung 2024)
+const PBKDF2_ITERATIONS = 600000;
+// B2/v3 (2026-06-12): Legacy-200k-Pfad ersatzlos entfernt (deriveKeyLegacy + PBKDF2_ITERATIONS_LEGACY).
+
+const HKDF_INFO_SUBDEPOT_V1   = 'vivodepot-subdepot-v1';
+// KRYPTO-KRITISCH (B2/v3): EIN Domain-Sep-Pfad für Anker UND Sub (ADR-068 v2: „Anker IST ein Depot").
+// Identifier-Name als stabiles Label belassen (in Hülle/Tests verdrahtet); Krypto-Generation = v3.
+// Domain-separiert/präfixfrei: 'vivodepot/v3/depot/' + depotUUID. Kein String ist Präfix eines anderen.
+const HKDF_INFO_DEPOT_V2_PREFIX = 'vivodepot/v3/depot/';
+const HKDF_HASH = 'SHA-256';
+const HKDF_KEY_LENGTH_BITS = 256;
+const SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES = 32;
+const CRYPTO_VERSION_AKTUELL = 3; // B2/v3 (2026-06-12): Schlüsseltrennung — PBKDF2-Bits nur noch HKDF-Eingang; war 2.
+// ADR-085-Nachtrag: Harte Allowlist — kein Try-Catch-Fallback für unbekannte Versionen.
+// B2/v3 (2026-06-12): Release ist v3-only. Keine Lese-Pfade für v1/v2 mehr.
+/* ZERFALL IN FELD-EINHEITEN (18.08.2026) — Krypto-Generation 4.
+   `KRYPTO_VERSION_ALLOWLIST` trägt BEIDE: v3 ist nicht nur der Migrationsweg, sondern der
+   RÜCKWEG, falls sich der Zerfall als falsch erweist. Er wird nicht entfernt, und wer ihn
+   entfernen will, braucht dafür eine eigene Entscheidung (Auflage A2 zum Bauauftrag).
+   Warum die Version überhaupt steigt, und das ist keine Wahl, sondern eine Folge: eine
+   zerfallene Datei mit `kryptoVersion: 3` käme durch das Gate und scheiterte danach — ein
+   verwirrender Fehler statt eines klaren. */
+const CRYPTO_VERSION_ZERFALL = 4;
+const KRYPTO_VERSION_ALLOWLIST = [3, 4];
+// ADR-085-Nachtrag: AAD-Blöcke für AES-GCM-Bindung der Krypto-Parameter.
+// Depot-Pfad (HKDF-abgeleitete Sub-Keys): kdfTyp 'hkdf-sha256'.
+// Übergabe-Pfad (direkter PBKDF2-Schlüssel): kdfTyp 'pbkdf2-sha256'.
+// Identifier-Namen (_AAD_*_V2) als stabile Labels belassen; kryptoVersion-Feld = 3.
+const _AAD_DEPOT_V2 = Object.freeze({ kryptoVersion: 3, iterationen: PBKDF2_ITERATIONS, kdfTyp: 'hkdf-sha256' });
+const _AAD_UEBERGABE_V2 = Object.freeze({ kryptoVersion: 3, iterationen: PBKDF2_ITERATIONS, kdfTyp: 'pbkdf2-sha256' });
+
+
+/* ── Modul-Zustand (Session-only, NIE persistieren) ───────────────────── */
+
+// `sessionKey` (18.09.2026, Krypto-Kapselung Weg A): ENTFERNT, nicht nur
+// versteckt — war seit der Schlüsseltrennung (B2/v3, 2026-06-12) bereits tot (immer `null`,
+// nie geschrieben, nur in Kommentaren referenziert, s. Herkunfts-Kommentar zu
+// setupMasterSession unten). Ein toter Name kostet beim Neu-Pinnen genauso wie ein lebender —
+// er fliegt im selben Zug raus.
+// AP 5.2 (ADR-052): Master-Schlüssel-Doppel-Repräsentation und Salt-Speicher.
+//
+// `sessionHkdfKey` (18.09.2026): war bis heute ein plain-script-globaler
+// `let` — in einem <script>-Block ohne Modul-/IIFE-Grenze ist JEDE Top-Level-Deklaration
+// vom gesamten Rest der Seite aus erreichbar. `extractable: false` schützt die BYTES des
+// CryptoKey, nicht seine BENUTZUNG — wer den lebenden Sitzungsschlüssel erreicht, leitet
+// und entschlüsselt, ohne je zu exportieren. Zehn Lesestellen im Kern fragten nur „ist eine
+// Sitzung offen" (jetzt `VdCrypto.sitzungOffen()`), zwei setzten zurück (jetzt
+// `VdCrypto.sitzungBeenden()`), drei leiteten direkt damit ab (jetzt `VdCrypto.depotSchluessel()`/
+// `VdCrypto.adressKey()`, beide ohne Master-Parameter — der Schlüssel bleibt in der Hülle).
+// GRUNDSATZ (18.09.2026): geschützt wird das GEHEIMNIS, nicht der ALGORITHMUS —
+// `deriveDepotKeyV2`/`deriveAdressKeyV4`/`encryptData`/`decryptData` u. a. bleiben bewusst
+// globale, direkt aufrufbare Primitiven (s. Kommentar an `deriveDepotKeyV2`). Ohne den
+// lebenden Schlüssel ist eine Ableitungsfunktion für einen Angreifer wertlos — ein
+// erreichbarer Schlüssel ist alles. Nur `sessionHkdfKey` selbst zieht darum in die
+// closure-private Variable unten, direkt vor `setupMasterSession`, ihrem einzigen Schreiber.
+let storedPbkdf2Salt = null;
+
+
+/* ── Master-Bit-Ableitung und Schlüssel-Import ────────────────────────── */
+
+// PBKDF2-600k → 256 raw bits (ArrayBuffer). Wird zwei Mal verwendet
+// (importMasterAesKey + importMasterHkdfKey), danach defensiv überschrieben.
+async function deriveMasterBits(password, salt) {
+  const enc = new TextEncoder();
+  const km = await crypto.subtle.importKey(
+    'raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']
+  );
+  return crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' },
+    km,
+    HKDF_KEY_LENGTH_BITS
+  );
+}
+
+// Bits → AES-GCM-CryptoKey für ankerPerson-Verschlüsselung.
+async function importMasterAesKey(bits) {
+  return crypto.subtle.importKey(
+    'raw', bits, { name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS },
+    false, ['encrypt', 'decrypt']
+  );
+}
+
+// Bits → HKDF-CryptoKey für Sub-Schlüssel-Ableitung (RFC 5869).
+async function importMasterHkdfKey(bits) {
+  return crypto.subtle.importKey(
+    'raw', bits, { name: 'HKDF' }, false, ['deriveKey', 'deriveBits']
+  );
+}
+
+
+/* ── deriveKey (Übergabe-Pfad, PBKDF2-600k → AES; Design, NICHT Legacy) ── */
+
+// B2-Abgrenzung: Dieser direkte PBKDF2→AES-Pfad bleibt für Übergabe-Container
+// (Empfänger ohne HKDF-Wurzel), inkl. AAD-kdfTyp 'pbkdf2-sha256'. Er ist die
+// EINZIGE legitime Direkt-Bit→AES-Verwendung; der Session-/Anker-Pfad nutzt
+// ausschließlich HKDF (Schlüsseltrennung).
+async function deriveKey(password, salt) {
+  // AP 5.2 (ADR-052, Plan §1.7): intern auf zwei-Schritt-Sequenz umgestellt
+  // (deriveMasterBits + importMasterAesKey), Signatur unverändert. Funktional
+  // identisch zur Beta-17-Implementation.
+  const bits = await deriveMasterBits(password, salt);
+  return importMasterAesKey(bits);
+}
+
+// B2/v3 (2026-06-12): deriveKeyLegacy (200k) ersatzlos entfernt — v3-only Release.
+
+
+/* ── encryptData / decryptData (AES-256-GCM, optionaler AAD-Block) ────── */
+
+// S17 (CC-Auftrag „Die Base64-Grenzen", 09.08.2026): Array.from+join legte für jedes
+// Ciphertext-Byte ein eigenes Ein-Zeichen-String-Objekt an. Bei einem ~90-100 MB großen
+// Depot (im Alltag erreichbar — z. B. zwanzig Fotos üblicher Handygröße in der Mappe)
+// schlug das fehl: RangeError „Invalid array length" (gemessen: Chromium/Node ab ~129 MB;
+// Firefox ab ~270 MB, dort als rohe Zeichenkette "out of memory" geworfen, kein
+// Error-Objekt). Blockweise Umwandlung ist byte-identisch zum alten Verfahren (belegt:
+// tests/vdcrypto-block-base64-chunking.test.js) und übersteht denselben Kipppunkt.
+function _bytesAlsBinaerstring(bytes) {
+  const CHUNK = 8192;
+  const teile = [];
+  for (let i = 0; i < bytes.length; i += CHUNK) teile.push(String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK)));
+  return teile.join('');
+}
+
+async function encryptData(obj, key, aad = null) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const enc = new TextEncoder();
+  const params = { name: 'AES-GCM', iv };
+  if (aad !== null) params.additionalData = new TextEncoder().encode(JSON.stringify(aad));
+  const ciphertext = await crypto.subtle.encrypt(params, key, enc.encode(JSON.stringify(obj)));
+  return {
+    iv: btoa(String.fromCharCode(...iv)),
+    ct: btoa(_bytesAlsBinaerstring(new Uint8Array(ciphertext)))
+  };
+}
+
+async function decryptData(stored, key, aad = null) {
+  const iv = Uint8Array.from(atob(stored.iv), c=>c.charCodeAt(0));
+  const ct = Uint8Array.from(atob(stored.ct), c=>c.charCodeAt(0));
+  const params = { name: 'AES-GCM', iv };
+  if (aad !== null) params.additionalData = new TextEncoder().encode(JSON.stringify(aad));
+  const plain = await crypto.subtle.decrypt(params, key, ct);
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+
+/* ── Sub-Schlüssel-Ableitung (HKDF) — für Sub-Depots / Übergaben ──────── */
+
+// HKDF mit fest codiertem Info-String → AES-GCM-Sub-Key für ein Sub-Depot.
+// HISTORISCH (cryptoVersion 1): kein aktiver Aufrufer; v1-Container werden im
+// v3-Release nicht mehr gelesen (Allowlist [3]). Funktion verbatim belassen
+// (nicht zum Ausbau autorisiert). KRYPTO-KRITISCH.
+async function deriveSubKey(masterHkdfKey, cryptoSalt) {
+  const enc = new TextEncoder();
+  return crypto.subtle.deriveKey(
+    {
+      name: 'HKDF',
+      hash: HKDF_HASH,
+      salt: cryptoSalt,
+      info: enc.encode(HKDF_INFO_SUBDEPOT_V1),
+    },
+    masterHkdfKey,
+    { name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS },
+    false,
+    ['encrypt', 'decrypt']
+  );
+}
+
+// KRYPTO-KRITISCH (ADR-068 v2 Sprint 1): HKDF-Sub-Schlüssel pro Depot mit
+// depotUUID als Info-String — pro-Depot-Eindeutigkeit für Anker UND Sub-Depots.
+// Produktions-API für cryptoVersion 3 (B2/v3: Info-Pfad 'vivodepot/v3/depot/').
+// Funktionsname als stabiles Label belassen (in Hülle/Tests verdrahtet).
+//
+// BLEIBT ABSICHTLICH GLOBAL, NICHT IN DER VdCrypto-HÜLLE (18.09.2026,
+// Krypto-Kapselung Weg A): geschützt wird das GEHEIMNIS, nicht der ALGORITHMUS. Diese
+// Funktion nimmt ihren Master als expliziten Parameter — sie hat kein eigenes Geheimnis,
+// nur eine Ableitungsvorschrift, die jeder mit Code-Ausführung in fünf Zeilen selbst
+// schreiben könnte. Sie wird heute schon LEGITIM mit einem NICHT-Sitzungs-Master direkt
+// aufgerufen (fremde, empfängerspezifische Master aus Passwörtern Dritter — s.
+// `_fachTuerSchluessel`, `_passwortProbeRoundtrip`, `subDepotVersiegeln`/`subDepotEntsiegeln`)
+// — sie zu verstecken wäre Sicherheit durch Verbergen, nicht durch Kapselung. Der einzige
+// Schutzgegenstand ist der LEBENDE SITZUNGSSCHLÜSSEL selbst (`sessionHkdfKey`, jetzt
+// closure-privat in VdCrypto, s. dort `depotSchluessel`) — nicht die Funktion, die ihn
+// verwendet. Wer diese Funktion "reparieren" und verstecken will, braucht dafür eine eigene
+// Entscheidung, keinen Refaktor-Nebeneffekt.
+async function deriveDepotKeyV2(masterHkdfKey, cryptoSalt, depotUUID) {
+  if (!depotUUID || typeof depotUUID !== 'string' || depotUUID.length === 0) {
+    throw new Error('deriveDepotKeyV2: depotUUID required (non-empty string)');
+  }
+  if (!(cryptoSalt instanceof Uint8Array) || cryptoSalt.length !== SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES) {
+    throw new Error('deriveDepotKeyV2: cryptoSalt must be Uint8Array of length ' + SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES);
+  }
+  const enc = new TextEncoder();
+  return crypto.subtle.deriveKey(
+    {
+      name: 'HKDF',
+      hash: HKDF_HASH,
+      salt: cryptoSalt,
+      info: enc.encode(HKDF_INFO_DEPOT_V2_PREFIX + depotUUID),
+    },
+    masterHkdfKey,
+    { name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS },
+    false,
+    ['encrypt', 'decrypt']
+  );
+}
+
+/* ══ ZERFALL IN FELD-EINHEITEN — die Primitiven (18.08.2026) ═══════════════════════════
+   Entschieden am 18.08.2026: Der Depot-Inhalt zerfällt vor v1 in Feld-Einheiten mit je
+   eigenem Inhaltsschlüssel. Die Feld-Stufe ist die einzige, die die heutige Angehörigensicht
+   verlustfrei abbildet (A331: 528 Einheiten; Sektions- und Bereichsschnitt legen 49 bzw. 53
+   Felder zu viel offen).
+
+   DREI BAUSTEINE, und jeder hat seinen eigenen Grund:
+
+   1 · DIE PSEUDONYME ADRESSE. Ohne sie verrät die Datei OHNE JEDES PASSWORT, welche Felder
+   ausgefüllt sind — `socialInsurance.degreeOfDisabilityGdb` vorhanden heisst: es gibt einen Grad der
+   Behinderung. Das wäre qualitativ schlechter als heute, und es folgt aus genau dem, was den
+   Zerfall attraktiv macht: der Adressierbarkeit. HMAC-SHA256 über den Namen unter einem
+   eigenen, aus dem Depot-Schlüssel abgeleiteten Adress-Schlüssel, auf 16 Byte gekürzt
+   (Geburtstagsgrenze 2^64 — bei 528 Einheiten mit sehr grossem Abstand kollisionsfrei, A332).
+
+   **Keine Rotation beim Speichern.** Pseudonyme sind je Depot stabil; wer zwei Fassungen
+   derselben Datei sieht, erkennt an gleichbleibenden Adressen, WELCHE Einheiten sich geändert
+   haben. Das Restrisiko ist benannt und getragen, nicht stillschweigend übergangen.
+
+   2 · DER NAME REIST IN DER EINHEIT MIT (`{name, wert}`). Das ist die Bedingung, unter der
+   alles trägt: dann ist die Pseudonymisierung eine Eigenschaft der DATEI und nicht der
+   Laufzeit — Migrationskette, Blackbox-Export und `depotNormalisieren` arbeiten auf dem
+   entschlüsselten `data` und sehen nie ein Pseudonym. Und A317 hat gemessen, dass
+   `depotNormalisieren` die inneren Schlüssel gerade NICHT filtert: eine Datei kann Adressen
+   mitbringen, die der heutige Katalog nicht kennt. Mit dem Namen in der Einheit ist ihr
+   Urbild immer rückgewinnbar; ohne ihn wäre es verloren.
+
+   3 · DIE AAD BINDET DIE EINHEIT AN IHREN PLATZ. `_AAD_DEPOT_V2` identifiziert keine Einheit
+   — blieben alle unter derselben AAD gebunden, liesse sich der Ciphertext von
+   `health.bloodType` an die Stelle von `identity.givenName` legen und entschlüsselte
+   fehlerfrei (A331, ein Befund, der in keinem Papier stand). Darum trägt die AAD je Einheit
+   zusätzlich `depotUUID` und die ADRESSE. Pseudonym und AAD stützen einander: das Pseudonym
+   ist genau die stabile, eindeutige, ohnehin vorhandene Kennung, die eine AAD braucht. */
+const ZERFALL_ADRESSE_BYTES = 16;
+const HKDF_INFO_ADRESSE_V4_PREFIX = 'vivodepot/v4/adressen/';
+
+// Der Adress-Schlüssel: HKDF aus demselben Master wie der Depot-Schlüssel, aber mit EIGENEM
+// Info-Pfad — domain-separiert und präfixfrei gegen 'vivodepot/v3/depot/'. Ein HMAC-Schlüssel,
+// kein AES-Schlüssel: er verschlüsselt nie, er benennt nur.
+async function deriveAdressKeyV4(masterHkdfKey, cryptoSalt, depotUUID) {
+  if (!depotUUID || typeof depotUUID !== 'string' || depotUUID.length === 0) {
+    throw new Error('deriveAdressKeyV4: depotUUID required (non-empty string)');
+  }
+  if (!(cryptoSalt instanceof Uint8Array) || cryptoSalt.length !== SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES) {
+    throw new Error('deriveAdressKeyV4: cryptoSalt must be Uint8Array of length ' + SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES);
+  }
+  const enc = new TextEncoder();
+  return crypto.subtle.deriveKey(
+    { name: 'HKDF', hash: HKDF_HASH, salt: cryptoSalt,
+      info: enc.encode(HKDF_INFO_ADRESSE_V4_PREFIX + depotUUID) },
+    masterHkdfKey,
+    { name: 'HMAC', hash: HKDF_HASH, length: HKDF_KEY_LENGTH_BITS },
+    false,
+    ['sign']
+  );
+}
+
+// Die Adresse EINER Einheit. Rein: derselbe Name unter demselben Schlüssel ergibt dieselbe
+// Adresse — das ist der Grund, warum die Datei ohne Rotation stabil bleibt, und zugleich das
+// benannte Restrisiko.
+async function feldAdresseV4(adressKey, name) {
+  const enc = new TextEncoder();
+  const mac = await crypto.subtle.sign('HMAC', adressKey, enc.encode(String(name)));
+  return bytesToBase64(new Uint8Array(mac).slice(0, ZERFALL_ADRESSE_BYTES));
+}
+
+// Die AAD einer Einheit — `_AAD_DEPOT_V2` plus die zwei Angaben, die sie an ihren Platz binden.
+function _aadEinheitV4(depotUUID, adresse) {
+  return Object.freeze({
+    kryptoVersion: CRYPTO_VERSION_ZERFALL,
+    iterationen: PBKDF2_ITERATIONS,
+    kdfTyp: 'hkdf-sha256',
+    depotUUID: String(depotUUID),
+    adresse: String(adresse),
+  });
+}
+
+/* Ein frischer Inhaltsschlüssel je Einheit — und er entsteht als ROHE ZUFALLSBYTES,
+   nicht als `generateKey`. Der Grund ist ein Wächter, und er hat recht behalten:
+   der erste Entwurf erzeugte einen EXTRAHIERBAREN Schlüssel und holte die Bytes mit
+   `crypto.subtle.exportKey` wieder heraus — beides machte Klasse-A rot
+   (`u2-062-geheime-schluessel-nie-extrahierbar` und `G13-Kein-Export`), und beide
+   Wächter bleiben unangetastet. Gewickelt werden die BYTES, nicht der Schlüssel;
+   damit existiert zu keinem Zeitpunkt ein extrahierbarer Schlüssel im Browser und
+   `exportKey` kommt im ganzen Kern weiterhin nicht vor.
+   Die Bytes leben nur bis zum Wickeln und werden dort überschrieben — dieselbe
+   Disziplin wie bei den Master-Bits in `setupMasterSession`. */
+async function _einheitSchluesselNeu() {
+  const roh = crypto.getRandomValues(new Uint8Array(HKDF_KEY_LENGTH_BITS / 8));
+  const key = await crypto.subtle.importKey('raw', roh, { name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS },
+    false, ['encrypt']);
+  return { key, roh };
+}
+// Nimmt die ROHEN Bytes, nicht den Schlüssel — siehe oben. Nullt sie danach.
+async function _einheitSchluesselWickeln(rohBytes, umschlagKey, aad) {
+  const gewickelt = await encryptData(bytesToBase64(rohBytes), umschlagKey, aad);
+  rohBytes.fill(0);
+  return gewickelt;
+}
+/* NICHT extrahierbar, und das ist kein Detail: auf dem LESE-Weg wird der
+   Inhaltsschlüssel nur zum Entschlüsseln gebraucht, nie zum Wickeln. Der Wächter
+   u2-062 („geheime Schlüssel nie extrahierbar") hat den ersten Entwurf mit
+   `true` zu Recht rot gemacht — das war eine Schlüssel-Oberfläche ohne Zweck. */
+async function _einheitSchluesselEntwickeln(gewickelt, umschlagKey, aad) {
+  const b64 = await decryptData(gewickelt, umschlagKey, aad);
+  return crypto.subtle.importKey('raw', base64ToBytes(b64), { name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS },
+    false, ['decrypt']);
+}
+
+// Test-Helper: HKDF mit VARIABLEM Info-String und VARIABLER Bit-Länge.
+// Liefert raw bits (ArrayBuffer), nicht CryptoKey — für RFC-5869-Test-
+// Vektor-Vergleich. NICHT vom Produktions-Code aufrufen.
+async function _deriveHkdfRaw(masterHkdfKey, salt, info, lengthBits) {
+  return crypto.subtle.deriveBits(
+    {
+      name: 'HKDF',
+      hash: HKDF_HASH,
+      salt,
+      info,
+    },
+    masterHkdfKey,
+    lengthBits
+  );
+}
+
+
+/* ── Base64-Helfer für Krypto-Bytes (Salt, IV, Ciphertext) ────────────── */
+
+function bytesToBase64(bytes) {
+  const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  return btoa(_bytesAlsBinaerstring(arr));
+}
+function base64ToBytes(b64) {
+  return Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+}
+
+
+/* ── Master-Session-Setup + Krypto-Modul-Surface (stabile Außen-API,
+   ADR-085-Nachtrag D.9; Kapselung 18.09.2026, Weg A) ────
+   `sessionHkdfKey` ist hier die EINZIGE closure-private Variable — der Rest
+   des Blocks (Konstanten, Ableitungs-/Verschlüsselungs-Funktionen) bleibt
+   UNVERÄNDERT global; sie brauchen kein Verstecken, weil sie ohne den
+   lebenden Schlüssel wertlos sind (s. Kommentar am Modul-Zustand oben). Die
+   IIFE ist eine reine Oberflächen-Änderung — kein Algorithmus, kein
+   Parameter, keine Ableitungsreihenfolge ändert sich gegenüber vorher. */
+const VdCrypto = (function () {
+  // Der einzige Ort, an dem der lebende Sitzungsschlüssel noch existiert — kein Export,
+  // kein Getter, kein Objektliteral trägt ihn nach draußen (s. Surface unten).
+  let sessionHkdfKey = null;
+
+  // Zentrale Master-Session-Setup-Sequenz.
+  // B2/v3 (2026-06-12) — SCHLÜSSELTRENNUNG: Die PBKDF2-Bits werden NUR noch als
+  // HKDF-Eingangsmaterial importiert (sessionHkdfKey). Die frühere zweite
+  // Verwendung derselben Bits direkt als AES-GCM-Master-Schlüssel (`sessionKey =
+  // importMasterAesKey(bits)`) ist ENTFERNT — sie war in der Hülle nie gelesen
+  // (Anker wird via deriveDepotKeyV2/HKDF verschlüsselt, ADR-068 v2); der tote
+  // Name `sessionKey` selbst ist seit heute ebenfalls entfernt (s. o.).
+  // ArrayBuffer-Overwrite-Disziplin: nach dem Import werden die raw bits via
+  // Uint8Array-View überschrieben (defensiv).
+  async function setupMasterSession(password, salt) {
+    const bits = await deriveMasterBits(password, salt);
+    sessionHkdfKey = await importMasterHkdfKey(bits);
+    new Uint8Array(bits).fill(0);
+  }
+
+  // Hinweis SP: _verifyJWS gehört zur VC-/Issuer-Schicht und ist NICHT in
+  // diesem Basis-Block. Solange kein VC-Modul andockt, den verifyJWS-Eintrag
+  // hier weglassen oder auf eine Stub-Funktion zeigen lassen.
+  return Object.freeze({
+    setupSession:  setupMasterSession,
+    encryptDepot:  encryptData,
+    decryptDepot:  decryptData,
+    // Zerfall in Feld-Einheiten (18.08.2026): der Kern spricht auch hierüber ausschliesslich
+    // mit der Surface, nicht mit den Block-Internen.
+    //
+    // adressKey OHNE Master-Parameter (18.09.2026): vorher `deriveAdressKeyV4` direkt
+    // durchgereicht — ein Aufrufer musste den lebenden Sitzungsschlüssel BESITZEN, um ihn
+    // hereinzureichen. Jetzt leitet die Hülle selbst ab, aus dem eigenen, verborgenen Zustand.
+    adressKey: (cryptoSalt, depotUUID) => {
+      if (!sessionHkdfKey) throw new Error('VdCrypto.adressKey: keine offene Session.');
+      return deriveAdressKeyV4(sessionHkdfKey, cryptoSalt, depotUUID);
+    },
+    feldAdresse:   feldAdresseV4,
+    aadEinheit:    _aadEinheitV4,
+    einheitSchluessel:   _einheitSchluesselNeu,
+    schluesselWickeln:   _einheitSchluesselWickeln,
+    schluesselEntwickeln: _einheitSchluesselEntwickeln,
+    // verifyJWS:  _verifyJWS,   // ← erst aktivieren, wenn die VC-Schicht andockt
+
+    // DREI NEUE OPERATIONEN (18.09.2026) — ersetzen zehn direkte Lesestellen und
+    // zwei Rücksetz-Stellen im Kern, die vorher `sessionHkdfKey` selbst prüften/nullten, und
+    // drei Stellen, die direkt mit ihm ableiteten. Der Sitzungsschlüssel selbst verlässt die
+    // Hülle in keinem der drei Fälle.
+    sitzungOffen: () => !!sessionHkdfKey,
+    sitzungBeenden: () => { sessionHkdfKey = null; },
+    // Die "engere Schlüsselableitung": dieselbe deriveDepotKeyV2-Operation wie die direkten
+    // Aufrufer mit fremdem Master (Sub-Depots, Empfängerkreise — die bleiben unverändert,
+    // s. Kommentar an deriveDepotKeyV2), aber ohne dass der Aufrufer den Sitzungsschlüssel
+    // je in der Hand hält.
+    depotSchluessel: (cryptoSalt, depotUUID) => {
+      if (!sessionHkdfKey) throw new Error('VdCrypto.depotSchluessel: keine offene Session.');
+      return deriveDepotKeyV2(sessionHkdfKey, cryptoSalt, depotUUID);
+    },
+  });
+})();
+</script>
+
+<script>
+'use strict';
+/* Auftrag "Der Teiler sichert geschützt" (23.08.2026, Entscheidung „Teiler-Isolation"
+   vom selben Tag):
+   der VdCrypto-Block oben ist ab heute ein weiterer Verbatim-Träger, byte-identisch zu
+   `vivodepot-krypto-kern-PORT-VERBATIM.js` (Wächter: `tools/krypto-block-propagation-pruefen.js`).
+   Die Isolations-Klausel im Dateikopf ist entsprechend berichtigt (s. dort) — sie gilt
+   weiterhin uneingeschränkt für die Shamir-/Reed-Solomon-Arithmetik unten und den JWS-Block
+   (der bleibt draußen), nicht mehr für diesen einen Block. */
+/* ════════════════════════════════════════════════════════════════════════════
+   1 — Rechnen in GF(2^m)
+   ────────────────────────────────────────────────────────────────────────────
+   Shamirs Verfahren braucht einen Körper. Über den ganzen Zahlen ginge es auch,
+   aber dann wären die Anteile größer als das Geheimnis und die Arithmetik
+   müsste mit Brüchen umgehen. Über GF(2^8) ist ein Byte des Geheimnisses genau
+   ein Byte je Anteil — ein Anteil ist so lang wie der Schlüssel.
+
+   Die Tabellen werden BEIM START BERECHNET, nicht eingetragen. Eine eingetragene
+   256-Zeilen-Tabelle kann einen Tippfehler tragen, den niemand sieht, und der
+   sich erst bei einer bestimmten Anteilsnummer zeigt — also erst dann, wenn es
+   darauf ankommt. Die Berechnung ist zehn Zeilen und prüft sich beim Bau selbst
+   (jedes Element ungleich null hat genau einen Logarithmus).
+
+   ZWEI KÖRPER, EINE FABRIK. GF(256) trägt die Aufteilung (Abschnitt 3). GF(32)
+   trägt die Prüfsumme der abtippbaren Papierform (Abschnitt 12) — dort ist ein
+   Symbol ein Zeichen des 32er-Alphabets, nicht ein Byte. Beide über dieselbe
+   Fabrik, damit die Reduktion nicht zweimal geschrieben und einmal falsch ist.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Erzeugt Logarithmus- und Exponentialtabelle zu GF(2^bits) mit dem
+   angegebenen Reduktionspolynom (mit gesetztem Höchstbit) und dem Erzeuger 2.
+   `poly` MUSS primitiv sein — sonst durchläuft 2 nicht alle Elemente ungleich
+   null, und genau das prüft die Funktion nach. */
+function gfTabellen(bits, poly) {
+  const groesse = 1 << bits;
+  const ordnung = groesse - 1;                 // Zahl der Elemente ungleich null
+  const exp = new Uint8Array(2 * ordnung);     // doppelt: erspart das Modulo beim Multiplizieren
+  const log = new Uint8Array(groesse);
+  let x = 1;
+  for (let i = 0; i < ordnung; i++) {
+    exp[i] = x;
+    log[x] = i;
+    x <<= 1;
+    if (x & groesse) x ^= poly;                // Reduktion modulo dem Polynom
+  }
+  for (let i = ordnung; i < 2 * ordnung; i++) exp[i] = exp[i - ordnung];
+  // Selbstprüfung: 2 ist Erzeuger genau dann, wenn jedes Element ungleich null
+  // getroffen wurde. Ein nicht-primitives Polynom fällt hier auf, nicht später.
+  for (let e = 1; e < groesse; e++) {
+    if (exp[log[e]] !== e) throw new Error('gfTabellen: ' + poly + ' ist kein primitives Polynom für GF(2^' + bits + ').');
+  }
+  return Object.freeze({ bits, groesse, ordnung, exp, log });
+}
+
+/* x^8 + x^4 + x^3 + x^2 + 1 — primitiv, Erzeuger 2. */
+const GF256 = gfTabellen(8, 0x11d);
+/* x^5 + x^2 + 1 — primitiv, Erzeuger 2. */
+const GF32 = gfTabellen(5, 0x25);
+
+function gfMal(T, a, b) {
+  if (a === 0 || b === 0) return 0;
+  return T.exp[T.log[a] + T.log[b]];
+}
+function gfGeteilt(T, a, b) {
+  if (b === 0) throw new Error('gfGeteilt: Division durch null.');
+  if (a === 0) return 0;
+  return T.exp[(T.log[a] - T.log[b] + T.ordnung) % T.ordnung];
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   2 — Zufall
+   ────────────────────────────────────────────────────────────────────────────
+   `crypto.getRandomValues` ist die EINZIGE Zufallsquelle dieser Datei. Sie wird
+   hier gekapselt, damit es genau eine Stelle gibt, an der das nachzusehen ist,
+   und damit ein `Math.random` nirgends unauffällig danebenstehen kann.
+
+   Die Koeffizienten eines Aufteilungs-Polynoms sind kein „Hilfszufall": wer sie
+   erraten kann, kann aus WENIGER als k Anteilen auf das Geheimnis schließen.
+   Deshalb gibt es hier keine zweite, schwächere Quelle für Nebensachen.
+   ════════════════════════════════════════════════════════════════════════════ */
+function zufallBytes(anzahl) {
+  if (!Number.isInteger(anzahl) || anzahl < 1) throw new Error('zufallBytes: Anzahl muss eine positive ganze Zahl sein.');
+  // getRandomValues füllt höchstens 65536 Byte je Aufruf; hier geht es um
+  // Dutzende, die Schleife ist trotzdem da, damit die Grenze nie zur Falle wird.
+  const aus = new Uint8Array(anzahl);
+  for (let ab = 0; ab < anzahl; ab += 65536) {
+    crypto.getRandomValues(aus.subarray(ab, Math.min(ab + 65536, anzahl)));
+  }
+  return aus;
+}
+
+/* Eine Anteilsnummer ist ein Element ungleich null von GF(256) — die Null ist
+   die Auswertungsstelle des Geheimnisses selbst und darf nie ein Anteil sein. */
+function zufallNummerUngleichNull() {
+  for (;;) {
+    const b = zufallBytes(1)[0];
+    if (b !== 0) return b;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   3 — Shamirs Verfahren, roh
+   ────────────────────────────────────────────────────────────────────────────
+   Je Byte des Geheimnisses ein Polynom vom Grad k-1 über GF(256), dessen
+   konstantes Glied das Geheimnis-Byte ist und dessen übrige k-1 Koeffizienten
+   zufällig sind. Anteil Nummer x ist die Auswertung an der Stelle x.
+
+   k Punkte bestimmen ein Polynom vom Grad k-1 eindeutig; k-1 Punkte lassen für
+   JEDEN denkbaren Wert des konstanten Glieds genau ein passendes Polynom zu.
+   Daher: aus k Anteilen folgt das Geheimnis, aus k-1 folgt gar nichts — nicht
+   „fast nichts", sondern nichts.
+
+   `anteilNummern` ist ausschließlich für Proben und für den Rot-Beleg gedacht;
+   der Alltagsweg vergibt 1..n.
+   ════════════════════════════════════════════════════════════════════════════ */
+/* Ist der Wert ein Byte-Feld?
+
+   `x instanceof Uint8Array` steht hier NICHT, und der Grund ist kein
+   Geschmack: `instanceof` vergleicht Prototyp-IDENTITÄT. Ein Byte-Feld, das
+   in einem anderen Kontext entstanden ist — im Test-Harnisch, in einem
+   Worker, in einem eingebetteten Rahmen — trägt einen anderen
+   Uint8Array-Prototyp und fiele durch, obwohl es genau das Richtige ist.
+   `Object.prototype.toString` fragt nach der ART, nicht nach der Herkunft,
+   und ist trotzdem streng: ein Int8Array oder ein gewöhnliches Feld kommt
+   damit nicht durch. */
+function istByteFeld(x) {
+  return Object.prototype.toString.call(x) === '[object Uint8Array]';
+}
+
+function polynomAnteile(geheimnis, n, k, anteilNummern) {
+  if (!istByteFeld(geheimnis) || geheimnis.length === 0) {
+    throw new Error('polynomAnteile: Das Geheimnis muss ein nicht-leeres Byte-Feld sein.');
+  }
+  if (!Number.isInteger(k) || k < 2) throw new Error('Die Schwelle k muss mindestens 2 sein — bei k = 1 wäre ein Anteil der ganze Schlüssel.');
+  if (!Number.isInteger(n) || n < k) throw new Error('Die Zahl der Anteile n darf nicht kleiner sein als die Schwelle k — sonst ließe sich der Schlüssel nie wieder zusammensetzen.');
+  if (n > 255) throw new Error('Höchstens 255 Anteile — GF(256) hat nicht mehr Auswertungsstellen ungleich null.');
+
+  const nummern = anteilNummern || Array.from({ length: n }, (_, i) => i + 1);
+  if (nummern.length !== n) throw new Error('polynomAnteile: Es müssen genau n Anteilsnummern sein.');
+  for (const nr of nummern) {
+    if (!Number.isInteger(nr) || nr < 1 || nr > 255) throw new Error('Eine Anteilsnummer muss zwischen 1 und 255 liegen (0 ist die Stelle des Geheimnisses selbst).');
+  }
+  if (new Set(nummern).size !== n) throw new Error('Zwei Anteile dürfen nicht dieselbe Nummer tragen — sie wären derselbe Punkt und trügen nichts bei.');
+
+  const laenge = geheimnis.length;
+  const grad = k - 1;
+  // Alle Koeffizienten a_1..a_{k-1} für alle Bytes auf einmal — ein Aufruf der
+  // Zufallsquelle statt laenge*(k-1) Aufrufe.
+  const koeffizienten = zufallBytes(laenge * grad);
+
+  const anteile = [];
+  for (const nr of nummern) {
+    const y = new Uint8Array(laenge);
+    for (let b = 0; b < laenge; b++) {
+      // Horner von oben nach unten: acc = ((a_{k-1}·x + a_{k-2})·x + …)·x + a_0
+      let acc = 0;
+      for (let j = grad; j >= 1; j--) acc = gfMal(GF256, acc, nr) ^ koeffizienten[b * grad + (j - 1)];
+      acc = gfMal(GF256, acc, nr) ^ geheimnis[b];
+      y[b] = acc;
+    }
+    anteile.push({ nr, y });
+  }
+  // Die Koeffizienten sind ab hier so geheim wie der Schlüssel selbst und
+  // werden nicht mehr gebraucht. Überschreiben ist billig und kostet nichts.
+  koeffizienten.fill(0);
+  return anteile;
+}
+
+/* Lagrange-Interpolation an der Stelle 0. In GF(2^m) ist Subtraktion gleich
+   Addition gleich XOR — deshalb steht unten `xj ^ xi`, wo über den reellen
+   Zahlen `xj - xi` stünde. */
+function lagrangeBeiNull(punkte) {
+  const m = punkte.length;
+  if (m < 1) throw new Error('lagrangeBeiNull: keine Punkte.');
+  const laenge = punkte[0].y.length;
+  for (const p of punkte) {
+    if (!istByteFeld(p.y)) throw new Error('Ein Anteil trägt kein Byte-Feld.');
+    if (!Number.isInteger(p.nr) || p.nr < 1 || p.nr > 255) throw new Error('Eine Anteilsnummer muss zwischen 1 und 255 liegen (0 ist die Stelle des Geheimnisses selbst).');
+    if (p.y.length !== laenge) throw new Error('Die Anteile sind unterschiedlich lang — sie gehören nicht zu derselben Aufteilung.');
+  }
+  const basis = new Uint8Array(m);
+  for (let i = 0; i < m; i++) {
+    let zaehler = 1, nenner = 1;
+    for (let j = 0; j < m; j++) {
+      if (j === i) continue;
+      zaehler = gfMal(GF256, zaehler, punkte[j].nr);
+      nenner = gfMal(GF256, nenner, punkte[j].nr ^ punkte[i].nr);
+    }
+    basis[i] = gfGeteilt(GF256, zaehler, nenner);
+  }
+  const aus = new Uint8Array(laenge);
+  for (let b = 0; b < laenge; b++) {
+    let s = 0;
+    for (let i = 0; i < m; i++) s ^= gfMal(GF256, basis[i], punkte[i].y[b]);
+    aus[b] = s;
+  }
+  return aus;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   4 — Der Anteil als Gegenstand: die Durchgangs-Bindung
+   ────────────────────────────────────────────────────────────────────────────
+   Die rohe Arithmetik oben kennt nur Punkte. Sie kann nicht wissen, ob zwei
+   Punkte aus derselben Aufteilung stammen — und genau das ist die Gefahr, die
+   in einer Zeremonie tatsächlich eintritt: derselbe Schlüssel wird zweimal
+   geteilt (Übung und Ernstfall, oder eine Nachverteilung an einen neuen
+   Verwahrenden), und Jahre später liegen Zettel aus beiden Läufen im selben
+   Umschlag. Gemischt ergeben sie ein Ergebnis. Ein falsches.
+
+   Deshalb trägt jeder Anteil eine DURCHGANGS-KENNUNG: acht zufällige Byte,
+   einmal je Aufteilung gezogen. Sie ist kein Geheimnis — sie verrät nichts über
+   den Schlüssel — und sie ist keine Prüfsumme. Sie beantwortet genau eine
+   Frage: gehören diese Zettel zusammen?
+
+   Acht Byte, weil die Kennung nicht gegen einen Angreifer stehen muss, sondern
+   gegen ein Versehen; sie muss nur so lang sein, dass zwei Läufe nie zufällig
+   dieselbe ziehen.
+   ════════════════════════════════════════════════════════════════════════════ */
+const ANTEIL_FORMAT_VERSION = 1;
+const DURCHGANG_BYTES = 8;
+
+function anteileErzeugen(geheimnis, n, k, opt) {
+  const o = opt || {};
+  const durchgang = istByteFeld(o.durchgang) ? o.durchgang : zufallBytes(DURCHGANG_BYTES);
+  if (durchgang.length !== DURCHGANG_BYTES) throw new Error('Die Durchgangs-Kennung muss ' + DURCHGANG_BYTES + ' Byte lang sein.');
+  const roh = polynomAnteile(geheimnis, n, k, o.anteilNummern);
+  return Object.freeze({
+    version: ANTEIL_FORMAT_VERSION,
+    durchgang,
+    n, k,
+    laenge: geheimnis.length,
+    anteile: roh.map((a) => Object.freeze({
+      version: ANTEIL_FORMAT_VERSION,
+      durchgang, nr: a.nr, k, n, y: a.y,
+    })),
+  });
+}
+
+/* Setzt das Geheimnis aus Anteilen zusammen.
+
+   WAS DIESE FUNKTION FÄNGT: zu wenige Anteile, doppelte Anteilsnummern,
+   unterschiedliche Längen, unterschiedliche Durchgangs-Kennungen, eine
+   Schwellen-Angabe, die zwischen den Anteilen streitet.
+
+   WAS SIE AUSDRÜCKLICH NICHT FÄNGT: ein verfälschtes Byte IM Anteil. Dagegen
+   ist Lagrange-Interpolation blind — jede Byte-Kombination ist ein gültiger
+   Punkt. Ein Tippfehler ergibt hier ein falsches Ergebnis, keinen Absturz. Der
+   Schutz dagegen liegt eine Ebene höher: die Prüfsumme des Anteilsblattes
+   (Abschnitt 7), die der Papierform (Abschnitt 12) und die Selbstprobe gegen
+   den öffentlichen Teil (Abschnitt 8).
+   Diese Arbeitsteilung ist Absicht und muss beim Lesen klar sein, sonst hält
+   jemand die Interpolation für eine Prüfung, die sie nicht ist. */
+function geheimnisAusAnteilen(anteile) {
+  if (!Array.isArray(anteile) || anteile.length === 0) throw new Error('Keine Anteile übergeben.');
+  const erste = anteile[0];
+  const k = erste.k;
+  for (const a of anteile) {
+    if (a.version !== ANTEIL_FORMAT_VERSION) throw new Error('Ein Anteil trägt eine unbekannte Formatversion (' + a.version + ').');
+    if (a.k !== k) throw new Error('Die Anteile nennen verschiedene Schwellen (' + k + ' und ' + a.k + ') — sie gehören nicht zu derselben Aufteilung.');
+    if (!gleicheBytes(a.durchgang, erste.durchgang)) {
+      throw new Error('Die Anteile stammen aus verschiedenen Durchgängen. Zusammensetzen würde ein falsches Ergebnis liefern, das niemand als falsch erkennt — deshalb wird hier abgebrochen.');
+    }
+  }
+  const nummern = anteile.map((a) => a.nr);
+  if (new Set(nummern).size !== nummern.length) throw new Error('Ein Anteil ist doppelt vorhanden. Zwei gleiche Zettel sind ein Punkt, nicht zwei.');
+  if (anteile.length < k) throw new Error('Zu wenige Anteile: ' + anteile.length + ' vorhanden, ' + k + ' nötig.');
+  // Mehr als k schaden nicht — die Interpolation verträgt jede Teilmenge; genau
+  // k zu nehmen macht das Verhalten aber vorhersagbar und die Rechnung kürzer.
+  return lagrangeBeiNull(anteile.slice(0, k).map((a) => ({ nr: a.nr, y: a.y })));
+}
+
+function gleicheBytes(a, b) {
+  if (!istByteFeld(a) || !istByteFeld(b) || a.length !== b.length) return false;
+  let unterschied = 0;
+  for (let i = 0; i < a.length; i++) unterschied |= a[i] ^ b[i];
+  return unterschied === 0;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   6 — Der Schlüssel: base64url, Thumbprint, öffentlicher Teil aus dem Seed
+   ────────────────────────────────────────────────────────────────────────────
+   Alles hier ist eigen geschrieben, nicht aus der Suite geholt. Das ist der
+   Preis der Unabhängigkeit dieser Datei und ausdrücklich gewollt: das Werkzeug
+   soll auch dann noch tun, was es tut, wenn im Kern etwas umgebaut wird.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function b64uAusBytes(bytes) {
+  if (!istByteFeld(bytes)) throw new Error('b64uAusBytes: kein Byte-Feld.');
+  const CHUNK = 8192;
+  const teile = [];
+  for (let i = 0; i < bytes.length; i += CHUNK) teile.push(String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK)));
+  return btoa(teile.join('')).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function bytesAusB64u(text) {
+  if (typeof text !== 'string' || text.length === 0 || !/^[A-Za-z0-9_-]+$/.test(text)) {
+    throw new Error('Das ist keine base64url-Zeichenkette (erlaubt sind A-Z, a-z, 0-9, „-" und „_", ohne Polsterung).');
+  }
+  let b = text.replace(/-/g, '+').replace(/_/g, '/');
+  while (b.length % 4 !== 0) b += '=';
+  const roh = atob(b);
+  const aus = new Uint8Array(roh.length);
+  for (let i = 0; i < roh.length; i++) aus[i] = roh.charCodeAt(i);
+  return aus;
+}
+
+async function sha256Bytes(bytes) {
+  return new Uint8Array(await crypto.subtle.digest('SHA-256', bytes));
+}
+
+/* RFC 7638 §3.2 — der Thumbprint deckt NUR die verpflichtenden Glieder des
+   Schlüsseltyps, in lexikographischer Reihenfolge, ohne Leerraum. Für OKP sind
+   das crv, kty, x. `d` steht ausdrücklich NICHT darin, und das ist der ganze
+   Grund, warum der Thumbprint als Kennung auf einem Zettel stehen darf: er ist
+   öffentlich. Wer ihn sieht, weiß WELCHER Schlüssel gemeint ist, und nichts
+   über ihn. */
+async function jwkThumbprintRfc7638(jwk) {
+  if (!jwk || jwk.kty !== 'OKP') throw new Error('jwkThumbprintRfc7638: nur OKP-Schlüssel (Ed25519).');
+  if (typeof jwk.crv !== 'string' || typeof jwk.x !== 'string') throw new Error('jwkThumbprintRfc7638: crv und x fehlen.');
+  const kanonisch = JSON.stringify({ crv: jwk.crv, kty: jwk.kty, x: jwk.x });
+  return b64uAusBytes(await sha256Bytes(new TextEncoder().encode(kanonisch)));
+}
+
+/* Ed25519-PKCS-8-Kopf: SEQUENCE { INTEGER 0, SEQUENCE { OID 1.3.101.112 },
+   OCTET STRING { OCTET STRING (32) } }. Für Ed25519 ist er konstant, weil die
+   Schlüssellänge konstant ist — deshalb steht er hier als Byte-Folge und nicht
+   als DER-Bauwerk. */
+const PKCS8_ED25519_KOPF = Uint8Array.from([
+  0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20,
+]);
+
+/* Rechnet den ÖFFENTLICHEN Teil aus dem 32-Byte-Seed zurück.
+
+   Das ist der Trägerbalken der Selbstprobe. Ohne ihn müsste das Werkzeug den
+   öffentlichen Teil aus der geladenen Datei glauben — und dann wäre eine
+   Aufteilung, die auf einem verlesenen `d` beruht, von einer richtigen nicht zu
+   unterscheiden. Mit ihm gilt: was hier herauskommt, ist aus dem Geheimnis
+   selbst gerechnet, nicht daneben abgeschrieben. */
+async function oeffentlicherTeilAusSeed(seed) {
+  if (!istByteFeld(seed) || seed.length !== 32) throw new Error('Ein Ed25519-Seed ist genau 32 Byte lang.');
+  const der = new Uint8Array(PKCS8_ED25519_KOPF.length + 32);
+  der.set(PKCS8_ED25519_KOPF, 0);
+  der.set(seed, PKCS8_ED25519_KOPF.length);
+  let jwk;
+  try {
+    const key = await crypto.subtle.importKey('pkcs8', der, { name: 'Ed25519' }, true, ['sign']);
+    jwk = await crypto.subtle.exportKey('jwk', key);
+  } finally {
+    der.fill(0);                                  // die Hülle trug den Seed
+  }
+  return { kty: 'OKP', crv: 'Ed25519', x: jwk.x };
+}
+
+/* Der Test-Sentinel. Der Wert ist DIESELBE Zeichenkette wie in `vivodepot.html`
+   und `vivodepot-vc-issuer.html` — eine bewusste dritte Kopie, keine
+   Nachlässigkeit: dieses Werkzeug importiert nichts aus der Suite, also kann es
+   auch den Sentinel nicht importieren. Ändert sich der Sentinel im Kern, MUSS
+   er hier nachgezogen werden; die Probe in
+   `tests/schluessel-teilen-werkzeug.test.js` hält beide gegeneinander und wird
+   rot, wenn sie auseinanderlaufen. Das ist die Bindung, die ein Kommentar
+   allein nicht leisten könnte. */
+const TEST_SENTINEL_X = 'kmz5gD4oi4pZe0CdR7FhXahRnjZqrAkKCe0VNskNf60';
+function istTestSentinelSchluessel(oeffentlichX) { return oeffentlichX === TEST_SENTINEL_X; }
+
+/* Erkennt die geschützte Schlüsseldatei des VC-Issuers (`.vdkey`). Sie wird hier
+   NICHT entsperrt — das Werkzeug sagt stattdessen, was zu tun ist. Eine zweite
+   Entschlüsselungs-Implementierung neben der des Issuers wäre eine Kopie, die
+   auseinanderlaufen kann, und der Gewinn wäre gering: die Zeremonie beginnt
+   ohnehin damit, den Schlüssel zu entsperren. */
+function istGeschuetzteSchluesseldatei(geparst) {
+  return !!(geparst && typeof geparst === 'object' && PROTECTED_KEY_VERSION_ALLOWLIST.includes(geparst.vivodepotProtectedKey));
+}
+
+function pruefeEd25519PrivatJwk(jwk) {
+  if (!jwk || typeof jwk !== 'object') throw new Error('Die Datei enthält kein JSON-Objekt.');
+  if (istGeschuetzteSchluesseldatei(jwk)) {
+    throw new Error('Das ist eine geschützte Vivodepot-Schlüsseldatei (.vdkey), kein roher JWK. Dieses Werkzeug entsperrt sie bewusst nicht — entsperren Sie sie zuerst dort, wo sie entstanden ist, und laden Sie hier den entsperrten JWK.');
+  }
+  if (jwk.kty !== 'OKP' || jwk.crv !== 'Ed25519') {
+    throw new Error('Erwartet wird ein Ed25519-Schlüssel (kty „OKP", crv „Ed25519"). Gefunden: kty „' + jwk.kty + '", crv „' + jwk.crv + '".');
+  }
+  if (typeof jwk.d !== 'string' || jwk.d.length === 0) {
+    throw new Error('Die Datei trägt keinen privaten Teil (Feld „d"). Ein öffentlicher Schlüssel lässt sich nicht aufteilen — es gäbe nichts zu schützen.');
+  }
+  return true;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   7 — Das Anteilsblatt
+   ────────────────────────────────────────────────────────────────────────────
+   Ein Anteil verlässt das Werkzeug nie als nackte Byte-Folge, sondern als Blatt
+   mit allem, was ein Mensch in fünf Jahren braucht, um zu wissen, was er da in
+   der Hand hält: welcher Schlüssel (öffentlicher Thumbprint), welcher
+   Durchgang, welche Nummer, welche Schwelle, welches Datum.
+
+   Die Prüfsumme deckt GENAU DIESE FELDER MIT. Sie ist nicht nur eine Prüfsumme
+   über die Anteils-Bytes: eine geänderte Anteilsnummer oder eine geänderte
+   Schwelle richtet denselben Schaden an wie ein geändertes Byte, und beides
+   wäre ohne Mitdeckung unsichtbar.
+   ════════════════════════════════════════════════════════════════════════════ */
+const ANTEIL_KENNUNG = 'vivodepot-schluessel-anteil';
+const PRUEFSUMME_BYTES = 6;
+
+/* Kanonische Byte-Folge eines Blattes — die Vorlage der Prüfsumme. Die Felder
+   stehen in FESTER Reihenfolge und mit Trennzeichen, das in keinem der Werte
+   vorkommen kann; `JSON.stringify` über ein Objekt täte es auch, hinge dann
+   aber an der Einfügereihenfolge der Schlüssel und damit an etwas, das ein
+   Umbau versehentlich ändert. */
+function anteilKanonisch(blatt) {
+  return new TextEncoder().encode([
+    ANTEIL_KENNUNG, blatt.version, blatt.nr, blatt.k, blatt.n,
+    blatt.durchgang, blatt.schluessel, blatt.datum, blatt.y,
+  ].join('\x1f'));
+}
+
+async function anteilBlattBauen(anteil, thumbprint, datum) {
+  const blatt = {
+    format: ANTEIL_KENNUNG,
+    version: anteil.version,
+    nr: anteil.nr,
+    k: anteil.k,
+    n: anteil.n,
+    durchgang: b64uAusBytes(anteil.durchgang),
+    schluessel: thumbprint,
+    datum,
+    y: b64uAusBytes(anteil.y),
+  };
+  blatt.pruefsumme = b64uAusBytes((await sha256Bytes(anteilKanonisch(blatt))).subarray(0, PRUEFSUMME_BYTES));
+  return blatt;
+}
+
+async function anteilBlattPruefen(blatt) {
+  if (!blatt || blatt.format !== ANTEIL_KENNUNG) throw new Error('Das ist kein Vivodepot-Anteilsblatt.');
+  if (blatt.version !== ANTEIL_FORMAT_VERSION) throw new Error('Das Anteilsblatt trägt eine unbekannte Formatversion (' + blatt.version + ').');
+  const erwartet = b64uAusBytes((await sha256Bytes(anteilKanonisch(blatt))).subarray(0, PRUEFSUMME_BYTES));
+  if (blatt.pruefsumme !== erwartet) {
+    throw new Error('Die Prüfsumme von Anteil ' + blatt.nr + ' stimmt nicht. Das Blatt ist verändert oder falsch übertragen worden — es wird nicht verwendet.');
+  }
+  return true;
+}
+
+function blattZuAnteil(blatt) {
+  return {
+    version: blatt.version,
+    durchgang: bytesAusB64u(blatt.durchgang),
+    nr: blatt.nr, k: blatt.k, n: blatt.n,
+    y: bytesAusB64u(blatt.y),
+  };
+}
+
+/* Der lokale Kalendertag, aus den Kalender-Feldern gebaut — NICHT aus einer
+   ISO-Zeichenkette geschnitten. Eine Zeremonie am späten Abend fiele sonst auf
+   den Folgetag, und das Datum auf dem Zettel widerspräche dem Protokoll. */
+function kalendertagHeute(jetzt) {
+  const d = jetzt || new Date();
+  const zwei = (z) => (z < 10 ? '0' : '') + z;
+  return d.getFullYear() + '-' + zwei(d.getMonth() + 1) + '-' + zwei(d.getDate());
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   8 — Teilen, mit der nicht abschaltbaren Selbstprobe
+   ────────────────────────────────────────────────────────────────────────────
+   Der wichtigste Teil dieses Werkzeugs ist nicht das Teilen. Es ist, dass
+   NICHTS herauskommt, was nicht bewiesen zurückführt.
+
+   Der Schaden, gegen den das steht, ist leise: Jemand hält fünf Zettel in der
+   Hand, verteilt sie an fünf Verwahrende, schließt das Gerät weg — und merkt
+   erst in dem Moment, in dem es darauf ankommt, dass die Zettel nichts ergeben.
+   Bis dahin sieht alles richtig aus. Genau deshalb ist die Selbstprobe kein
+   Schalter und keine Empfehlung, sondern der Weg selbst: `schluesselTeilen`
+   gibt entweder geprüfte Anteile zurück oder wirft.
+
+   Drei Eigenschaften machen sie zu einer echten Probe und nicht zu einer Geste:
+
+   (1) Sie läuft über die SERIALISIERTEN Blätter, nicht über die Anteile im
+       Speicher — also über genau die Zeichenketten, die auf dem Papier landen.
+       Ein Fehler in der Kodierung fällt damit hier auf und nicht erst später.
+   (2) Sie zieht eine ZUFÄLLIGE k-Teilmenge. Immer die ersten k zu nehmen
+       prüfte einen Weg und ließe n-k Anteile ungeprüft; die Zufallswahl macht
+       aus vielen Zeremonien eine Stichprobe über alle Teilmengen.
+   (3) Sie vergleicht gegen den ABGELEITETEN öffentlichen Teil, nicht gegen den
+       in der Datei mitgelieferten. Sonst prüfte sie eine Angabe gegen sich
+       selbst.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Gleichverteilter Index ohne Modulo-Schieflage: Werte oberhalb des größten
+   vollen Vielfachen werden verworfen und neu gezogen. `zufall % obergrenze`
+   allein bevorzugte die kleinen Indizes — bei fünf Anteilen unmerklich, und
+   genau deshalb eine Stelle, an der man es sich angewöhnt. */
+function zufallIndex(obergrenze) {
+  if (!Number.isInteger(obergrenze) || obergrenze < 1 || obergrenze > 256) {
+    throw new Error('zufallIndex: Obergrenze muss zwischen 1 und 256 liegen.');
+  }
+  const grenze = 256 - (256 % obergrenze);
+  for (;;) {
+    const b = zufallBytes(1)[0];
+    if (b < grenze) return b % obergrenze;
+  }
+}
+
+function zufallTeilmenge(feld, k) {
+  if (!Array.isArray(feld) || k > feld.length) throw new Error('zufallTeilmenge: k ist größer als die Menge.');
+  const kopie = feld.slice();
+  for (let i = kopie.length - 1; i > 0; i--) {
+    const j = zufallIndex(i + 1);
+    const t = kopie[i]; kopie[i] = kopie[j]; kopie[j] = t;
+  }
+  return kopie.slice(0, k);
+}
+
+async function selbstprobe(blaetter, thumbprintErwartet, xErwartet, k) {
+  const gewaehlt = zufallTeilmenge(blaetter, k);
+  const punkte = [];
+  for (const b of gewaehlt) {
+    await anteilBlattPruefen(b);
+    punkte.push(blattZuAnteil(b));
+  }
+  const seed = geheimnisAusAnteilen(punkte);
+  let x, thumbprint;
+  try {
+    const pub = await oeffentlicherTeilAusSeed(seed);
+    x = pub.x;
+    thumbprint = await jwkThumbprintRfc7638(pub);
+  } finally {
+    seed.fill(0);
+  }
+  return Object.freeze({
+    bestanden: x === xErwartet && thumbprint === thumbprintErwartet,
+    gewaehlt: gewaehlt.map((b) => b.nr),
+    abgeleiteterThumbprint: thumbprint,
+  });
+}
+
+async function schluesselTeilen(privatJwk, n, k, opt) {
+  const o = opt || {};
+  pruefeEd25519PrivatJwk(privatJwk);
+  const seed = bytesAusB64u(privatJwk.d);
+  if (seed.length !== 32) {
+    seed.fill(0);
+    throw new Error('Der private Teil („d") ist ' + seed.length + ' Byte lang; ein Ed25519-Seed ist genau 32 Byte.');
+  }
+  let ergebnis;
+  try {
+    const abgeleitet = await oeffentlicherTeilAusSeed(seed);
+    // Trägt die Datei ein `x`, MUSS es zum privaten Teil passen. Tut es das
+    // nicht, ist die Datei in sich widersprüchlich — und dann ist jede weitere
+    // Aussage über „welcher Schlüssel" geraten.
+    if (typeof privatJwk.x === 'string' && privatJwk.x !== abgeleitet.x) {
+      throw new Error('Die Datei widerspricht sich: der mitgelieferte öffentliche Teil passt nicht zum privaten. Es wird nichts geteilt.');
+    }
+    const thumbprint = await jwkThumbprintRfc7638(abgeleitet);
+    const datum = o.datum || kalendertagHeute();
+    const satz = anteileErzeugen(seed, n, k);
+    const blaetter = [];
+    for (const a of satz.anteile) blaetter.push(await anteilBlattBauen(a, thumbprint, datum));
+
+    const probe = await selbstprobe(blaetter, thumbprint, abgeleitet.x, k);
+    if (!probe.bestanden) {
+      throw new Error('Die Selbstprobe ist fehlgeschlagen: aus den erzeugten Anteilen ' + probe.gewaehlt.join(', ') + ' ergibt sich NICHT der geladene Schlüssel. Es werden keine Anteile ausgegeben.');
+    }
+    ergebnis = Object.freeze({
+      thumbprint, n, k, datum,
+      oeffentlichX: abgeleitet.x,
+      istTestSentinel: istTestSentinelSchluessel(abgeleitet.x),
+      selbstprobe: probe,
+      anteile: blaetter,
+    });
+  } finally {
+    seed.fill(0);
+  }
+  return ergebnis;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   8b — Erzeugen und im selben Vorgang aufteilen
+   ────────────────────────────────────────────────────────────────────────────
+   Der Grund, warum dieser Abschnitt existiert, ist ein Zeitfenster.
+
+   Ein Schlüssel, der erst erzeugt, dann als Datei abgelegt und später geteilt
+   wird, liegt zwischen diesen Schritten als GANZE Datei auf einem Datenträger.
+   In dieser Zeit ist er genau das, wogegen die Aufteilung gebaut wurde: ein
+   einzelner Punkt, dessen Verlust die Vertrauenskette beendet. Ein Schlüssel,
+   der im selben Vorgang entsteht und zerfällt, hat dieses Fenster nie.
+
+   ZWEI DINGE, DIE HIER STRENGER SIND ALS BEIM TEILEN EINER DATEI:
+
+   (1) Die Selbstprobe ist dieselbe, aber ihr Fehlschlag wiegt schwerer. Beim
+       Teilen einer bestehenden Datei ist ein Fehlschlag ärgerlich — die Datei
+       liegt noch da. Hier ist er endgültig: der private Teil existiert danach
+       nirgends sonst. Deshalb gibt dieser Weg im Fehlfall NICHTS heraus, auch
+       nicht den öffentlichen Teil. Er wird erst gebaut, nachdem
+       `schluesselTeilen` zurückgekehrt ist — und `schluesselTeilen` kehrt nur
+       zurück, wenn die Probe bestanden hat.
+
+   (2) Der private Teil wird nie zurückgegeben und nie angezeigt. Was dieses
+       Werkzeug an dieser Stelle NICHT kann und was darum hier steht statt in
+       einer Fußnote: ein JavaScript-String lässt sich nicht überschreiben. Der
+       exportierte JWK trägt `d` als String; die Referenz wird gelöst, das
+       Wegräumen entscheidet die Laufzeit. Die Seed-Bytes, die daraus entstehen,
+       werden in `schluesselTeilen` gewischt — die sind ein `Uint8Array` und
+       damit überschreibbar. Diese Asymmetrie ist der Grund, warum die
+       Zeremonie auf einem dedizierten Gerät läuft, das danach heruntergefahren
+       wird: der Schutz kommt hier vom Gerät, nicht vom Code.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Die `kid`-Konvention wird FORTGEFÜHRT, nicht neu erfunden. Der bisherige Anker
+   heißt `vivodepot-trust-authority-v1-11052026`: Rolle und Fassung, dann der
+   Erzeugungstag als TTMMJJJJ.
+
+   Die Aufteilung zwischen Werkzeug und Zeremonie folgt daraus, wer was
+   BESSER weiß: den Tag kennt das Werkzeug sicher, weil der Schlüssel gerade
+   hier entsteht — ein von Hand eingetippter Tag könnte falsch sein und wäre
+   dann für immer falsch, denn der `kid` reist in jedem Zertifikat mit. Rolle
+   und Fassung dagegen sind eine Entscheidung (ist das die zweite Fassung der
+   Trust Authority oder ein anderer Schlüssel?), und Entscheidungen trifft das
+   Werkzeug nicht. */
+const KID_ROLLE_MUSTER = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+function kidDatumsteil(jetzt) {
+  const d = jetzt || new Date();
+  const zwei = (z) => (z < 10 ? '0' : '') + z;
+  return zwei(d.getDate()) + zwei(d.getMonth() + 1) + d.getFullYear();
+}
+
+function kidBauen(rolle, jetzt) {
+  const r = String(rolle == null ? '' : rolle).trim();
+  if (!r) throw new Error('Ohne Kennung kein Schlüssel: Rolle und Fassung müssen benannt sein (z. B. „vivodepot-trust-authority-v2").');
+  if (!KID_ROLLE_MUSTER.test(r)) {
+    throw new Error('Die Kennung darf nur Kleinbuchstaben, Ziffern und einfache Bindestriche enthalten — gefunden: „' + r + '". Das Erzeugungsdatum hängt das Werkzeug selbst an; es gehört nicht in die Eingabe.');
+  }
+  if (/-\d{8}$/.test(r)) {
+    throw new Error('Die Kennung trägt schon ein Datum am Ende. Das Werkzeug hängt den Erzeugungstag selbst an — bitte nur Rolle und Fassung eingeben.');
+  }
+  return r + '-' + kidDatumsteil(jetzt);
+}
+
+async function schluesselErzeugenUndTeilen(n, k, opt) {
+  const o = opt || {};
+  // Die Kennung wird VOR der Erzeugung geprüft. Ein Schlüssel, der entsteht und
+  // dann an einer Eingabeprüfung scheitert, wäre für nichts erzeugt worden.
+  const kid = kidBauen(o.rolle, o.jetzt);
+  const paar = await crypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
+  const privat = await crypto.subtle.exportKey('jwk', paar.privateKey);
+  let geteilt;
+  try {
+    // Enthält die volle Selbstprobe (Abschnitt 8) und wirft, wenn sie fällt.
+    geteilt = await schluesselTeilen(privat, n, k, o);
+  } finally {
+    // Kein Wischen möglich (s. Kopfkommentar) — nur die Referenz lösen.
+    privat.d = null;
+  }
+  // ERST HIER, nach der bestandenen Probe: der öffentliche Teil. Die Form folgt
+  // dem eingebauten Anker in `vivodepot.html` (kty/crv/alg/x/kid), damit der
+  // Wechsel ein Wertetausch ist und keine Umformung.
+  const oeffentlichJwk = Object.freeze({
+    kty: 'OKP',
+    crv: 'Ed25519',
+    alg: 'Ed25519',
+    x: geteilt.oeffentlichX,
+    kid: kid,
+  });
+  return Object.freeze({
+    kid: kid,
+    oeffentlichJwk: oeffentlichJwk,
+    thumbprint: geteilt.thumbprint,
+    n: geteilt.n, k: geteilt.k, datum: geteilt.datum,
+    oeffentlichX: geteilt.oeffentlichX,
+    istTestSentinel: geteilt.istTestSentinel,
+    selbstprobe: geteilt.selbstprobe,
+    anteile: geteilt.anteile,
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   9 — Zusammensetzen
+   ────────────────────────────────────────────────────────────────────────────
+   Der Rückweg prüft dreifach, und jede Stufe fängt etwas anderes:
+   die Prüfsumme fängt das falsch übertragene Blatt, die Durchgangs-Kennung
+   fängt den Zettel aus dem falschen Lauf, und der Abgleich des abgeleiteten
+   Thumbprints gegen den auf den Blättern genannten fängt alles Übrige — auch
+   den Fall, dass jemand k gültige Blätter aus einer Aufteilung eines ANDEREN
+   Schlüssels beibringt.
+   ════════════════════════════════════════════════════════════════════════════ */
+/* Die vergleichbare Kennung eines Anteils. Ein Blatt aus einer Datei trägt den
+   vollen Thumbprint, ein abgetipptes nur dessen erste 12 Byte (Abschnitt 12).
+   Vergleichbar sind sie über die kurze Form — der volle Vergleich kommt
+   zusätzlich dazu, wo die volle Form vorliegt, und ersetzt sie nicht. */
+function kennungKurz(blatt) {
+  if (typeof blatt.schluessel === 'string') return papierKennungAus(blatt.schluessel);
+  if (typeof blatt.schluesselKurz === 'string') return blatt.schluesselKurz;
+  throw new Error('Ein Anteil nennt keinen Schlüssel — er lässt sich keinem zuordnen.');
+}
+
+/* Ein abgetippter Anteil hat seine Prüfung schon hinter sich: die
+   Papier-Prüfsumme hat gehalten, sonst gäbe es ihn nicht. Ein Blatt aus einer
+   Datei bringt seine eigene Prüfsumme mit und wird hier geprüft. */
+async function blattAnnehmen(blatt) {
+  if (!blatt || typeof blatt !== 'object') throw new Error('Ein Anteil ist kein Objekt.');
+  if (!blatt.ausPapier) await anteilBlattPruefen(blatt);
+  return blattZuAnteil(blatt);
+}
+
+async function schluesselZusammensetzen(blaetter) {
+  if (!Array.isArray(blaetter) || blaetter.length === 0) throw new Error('Keine Anteile übergeben.');
+  const punkte = [];
+  for (const b of blaetter) punkte.push(await blattAnnehmen(b));
+  const kurzMenge = new Set(blaetter.map(kennungKurz));
+  if (kurzMenge.size > 1) {
+    throw new Error('Die Anteile nennen verschiedene Schlüssel. Sie gehören nicht zusammen.');
+  }
+  const genanntKurz = kennungKurz(blaetter[0]);
+  const seed = geheimnisAusAnteilen(punkte);
+  let jwk, thumbprint;
+  try {
+    const pub = await oeffentlicherTeilAusSeed(seed);
+    thumbprint = await jwkThumbprintRfc7638(pub);
+    if (papierKennungAus(thumbprint) !== genanntKurz) {
+      throw new Error('Der zusammengesetzte Schlüssel ist NICHT der, den die Anteile nennen. Die Blätter sind gültig, aber ihr Inhalt führt woanders hin — es wird kein Schlüssel ausgegeben.');
+    }
+    for (const b of blaetter) {
+      if (typeof b.schluessel === 'string' && b.schluessel !== thumbprint) {
+        throw new Error('Der zusammengesetzte Schlüssel ist NICHT der, den die Anteile nennen. Die Blätter sind gültig, aber ihr Inhalt führt woanders hin — es wird kein Schlüssel ausgegeben.');
+      }
+    }
+    jwk = { kty: 'OKP', crv: 'Ed25519', alg: 'Ed25519', x: pub.x, d: b64uAusBytes(seed) };
+  } finally {
+    seed.fill(0);
+  }
+  return Object.freeze({
+    jwk, thumbprint,
+    istTestSentinel: istTestSentinelSchluessel(jwk.x),
+    verwendet: blaetter.map((b) => b.nr),
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   10 — Darstellung: das Blatt zum Ausschneiden
+   ────────────────────────────────────────────────────────────────────────────
+   Die Bau-Funktionen hier geben ZEICHENKETTEN zurück und fassen kein DOM an.
+   Das ist kein Stilentscheid: nur so ist die Ausgabe prüfbar. Ein Werkzeug, das
+   sein Ergebnis direkt in Elemente schreibt, lässt sich außerhalb eines echten
+   Browsers nicht daraufhin befragen, ob auf dem Blatt steht, was daraufstehen
+   muss — und dieses Blatt geht in eine Verwahrung, aus der es Jahre später
+   wieder auftaucht.
+   ════════════════════════════════════════════════════════════════════════════ */
+function h(text) {
+  return String(text)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function anteilsblattHTML(blatt) {
+  return [
+    '<div class="anteilsblatt">',
+    '<h3>Vivodepot · Schlüssel-Anteil ' + h(blatt.nr) + ' von ' + h(blatt.n) + '</h3>',
+    '<p>Dieses Blatt ist <strong>ein Anteil</strong>. Allein ist es wertlos und verrät nichts. ',
+    /* Ein Blatt, das in Jahren von jemandem gelesen wird, der bei der Zeremonie nicht dabei
+       war, darf grammatisch nicht stolpern: bei Schwelle 2 stand hier „mit 1 weiteren
+       Anteilen". Gemessen am 22.08.2026 an einem echten Ausdruck. */
+    (blatt.k - 1 === 1
+      ? 'Zusammen mit <strong>einem weiteren</strong> Anteil desselben Durchgangs '
+      : 'Zusammen mit <strong>' + h(blatt.k - 1) + ' weiteren</strong> Anteilen desselben Durchgangs '),
+    'ergibt es den vollständigen Schlüssel.</p>',
+    /* Was ein Finder wissen muss, ohne jemanden fragen zu können. Es steht auf dem Blatt und
+       nicht nur im Zeremonie-Protokoll — das Protokoll liegt woanders. */
+    '<p><strong>Für den, der dieses Blatt findet:</strong> Nicht kopieren, nicht abfotografieren, ',
+    'nicht abtippen außer zum Zusammensetzen. Verwahrt gehört es verschlossen und getrennt von ',
+    'den übrigen Anteilen. Wer es hat, hat einen Teil eines Schlüssels der Vivodepot GmbH — ',
+    'allein ist er nutzlos, zusammen mit genügend anderen ist er der Schlüssel selbst.</p>',
+    '<dl>',
+    '<dt>Schlüssel</dt><dd class="zeichen">' + h(blatt.schluessel) + '</dd>',
+    '<dt>Durchgang</dt><dd class="zeichen">' + h(blatt.durchgang) + '</dd>',
+    '<dt>Anteil</dt><dd>' + h(blatt.nr) + ' von ' + h(blatt.n) + ', Schwelle ' + h(blatt.k) + '</dd>',
+    '<dt>Erzeugt am</dt><dd>' + h(blatt.datum) + '</dd>',
+    '<dt>Prüfsumme</dt><dd class="zeichen">' + h(blatt.pruefsumme) + '</dd>',
+    '</dl>',
+    '<p>Anteilswert — <strong>Zeile für Zeile abtippbar.</strong> Ziffern und Großbuchstaben ',
+    'ohne I, L, O und U; Leerzeichen sind nur zum Lesen da. Ein einzelnes falsch ',
+    'abgetipptes Zeichen wird erkannt, und das Werkzeug nennt Zeile und Stelle.</p>',
+    '<pre class="anteilswerte zeichen">' + h(papierZeilen(blatt).join('\n')) + '</pre>',
+    '<div class="unterschrift">',
+    '<div class="linie"></div><div class="beschriftung">Name des oder der Verwahrenden</div>',
+    '</div>',
+    '<div class="unterschrift">',
+    '<div class="linie"></div><div class="beschriftung">Unterschrift · Datum der Übernahme</div>',
+    '</div>',
+    '</div>',
+  ].join('');
+}
+
+function teilenErgebnisHTML(ergebnis) {
+  const kopf = [
+    '<section class="karte nicht-drucken">',
+    '<h2>Selbstprobe bestanden</h2>',
+    '<p>Aus den Anteilen <strong>' + h(ergebnis.selbstprobe.gewaehlt.join(', ')) + '</strong> ',
+    '(zufällig gewählt) wurde der Schlüssel zurückgerechnet; sein öffentlicher Teil stimmt mit dem ',
+    'des geladenen Schlüssels überein. Erst deshalb stehen die Anteile unten.</p>',
+    '<dl>',
+    '<dt>Schlüssel</dt><dd class="zeichen">' + h(ergebnis.thumbprint) + '</dd>',
+    '<dt>Aufteilung</dt><dd>' + h(ergebnis.n) + ' Anteile, ' + h(ergebnis.k) + ' genügen</dd>',
+    '<dt>Datum</dt><dd>' + h(ergebnis.datum) + '</dd>',
+    '</dl>',
+    '<p>Jedes Blatt beginnt beim Drucken auf einer eigenen Seite.</p>',
+    '</section>',
+  ].join('');
+  return kopf + ergebnis.anteile.map((b, i) =>
+    anteilsblattHTML(b) + (i < ergebnis.anteile.length - 1 ? '<hr class="schere">' : '')).join('');
+}
+
+/* Der öffentliche Teil, als Karte über dem Anteilsblock. Sie steht bewusst VOR
+   den Blättern: der öffentliche Teil ist das Einzige, was die Zeremonie mitnimmt
+   und was danach in die Anwendung eingebaut wird — die Blätter gehen auseinander.
+   Der private Teil kommt hier nicht vor, auch nicht angedeutet. */
+function erzeugungsKopfHTML(ergebnis) {
+  return [
+    '<section class="karte nicht-drucken">',
+    '<h2>Neuer Schlüssel — erzeugt und im selben Vorgang aufgeteilt</h2>',
+    '<p>Der private Teil hat dieses Werkzeug nie als Datei verlassen und wurde nie angezeigt. ',
+    'Ab jetzt existiert er ausschließlich in den Anteilen unten.</p>',
+    '<dl>',
+    '<dt>Kennung (kid)</dt><dd class="zeichen">' + h(ergebnis.kid) + '</dd>',
+    '<dt>Thumbprint</dt><dd class="zeichen">' + h(ergebnis.thumbprint) + '</dd>',
+    '</dl>',
+    '<p>Öffentlicher Teil, wie er in die Anwendung eingebaut wird:</p>',
+    '<pre class="anteilswerte zeichen">' + h(JSON.stringify(ergebnis.oeffentlichJwk, null, 2)) + '</pre>',
+    '</section>',
+  ].join('');
+}
+
+function sentinelWarnungHTML() {
+  return [
+    '<div class="warnung">',
+    '<p><strong>Test-Sentinel erkannt.</strong> Der geladene Schlüssel ist der öffentlich bekannte ',
+    'Test-Schlüssel der Vivodepot-Suite, nicht der Trust-Authority-Schlüssel. Anteile davon sind ',
+    'für eine Übung brauchbar und für nichts sonst — sie schützen nichts.</p>',
+    '</div>',
+  ].join('');
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   12 — Der Rückweg auf Papier
+   ────────────────────────────────────────────────────────────────────────────
+   Ein Anteil, der nur als Datei existiert, ist gegen genau den Fall nicht
+   abgesichert, für den er gedacht ist: der Datenträger ist unlesbar, das
+   Dateiformat ist in zehn Jahren fremd, das Gerät fährt nicht mehr hoch. Ein
+   Anteil muss abtippbar sein.
+
+   DREI ENTSCHEIDUNGEN, und jede hat einen Grund, der über Geschmack hinausgeht.
+
+   (1) ZEICHENVORRAT OHNE VERWECHSLUNG. 32 Zeichen nach Crockford:
+       0-9 und A-Z ohne I, L, O, U. Damit fällt das Paar 1/I weg und das Paar
+       0/O, und U, das handschriftlich zu V wird. Beim Einlesen werden I und L
+       als 1 gelesen und O als 0 — nicht aus Nachsicht, sondern weil jemand,
+       der ein Zeichen schreibt, das es im Vorrat nicht gibt, mit Sicherheit
+       eines der beiden gemeint hat.
+
+   (2) BLÖCKE ZU 18 ZEICHEN, JEDER MIT DREI PRÜFZEICHEN. Die Prüfung ist ein
+       Reed-Solomon-Code über GF(32) mit Mindestabstand 4. Was daraus folgt,
+       steht hier vollständig — auch der unbequeme dritte Punkt:
+
+         · EIN falsches Zeichen: erkannt, Stelle benannt, richtiger Wert
+           genannt. Das ist der Tippfehler, um den es geht.
+         · ZWEI falsche Zeichen in einer Zeile: erkannt, und sie können NICHT
+           für eines gehalten werden — die Meldung sagt ausdrücklich, dass sich
+           die Stelle nicht benennen lässt.
+         · DREI falsche Zeichen in einer Zeile: ebenfalls IMMER erkannt, aber
+           die Meldung kann dann eine FALSCHE Stelle nennen. Angenommen wird
+           trotzdem nichts.
+         · VIER oder mehr in einer Zeile: eine Zeichenkette kann durchgehen.
+
+       DER GRUND FÜR DAS DRITTE PRÜFZEICHEN ist der zweite Punkt. Mit nur zwei
+       Prüfzeichen (Abstand 3) sind zwei Fehler zwar erkennbar, aber von einem
+       einzelnen nicht unterscheidbar — die Rechnung lieferte dann eine Stelle,
+       und das Werkzeug behauptete etwas, das es nicht weiß. Mit drei gilt
+       S₁² = S₀·S₂ für einen Doppelfehler nie: sonst wäre die Summe aus Einzel-
+       und Doppelfehler ein Codewort vom Gewicht ≤ 3, und Gewicht 3 < 4 gibt es
+       nicht. Für DREI Fehler trägt dieses Argument nicht mehr (Gewicht ≤ 4 ist
+       möglich) — deshalb steht der dritte Punkt oben so da und nicht schöner.
+       Das dritte Prüfzeichen kostet fünf Bit je Zeile.
+
+   (3) EINE ZEILE JE BLOCK. Die Meldung kann dadurch sagen „Zeile 3, Zeichen
+       11" statt „Zeichen 53" — jemand mit einem Zettel in der Hand findet das
+       eine und sucht das andere.
+   ════════════════════════════════════════════════════════════════════════════ */
+const PAPIER_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';   // Crockford: ohne I, L, O, U
+const BLOCK_DATEN = 18;
+const BLOCK_PRUEF = 3;
+const BLOCK_GESAMT = BLOCK_DATEN + BLOCK_PRUEF;
+const GRUPPE = 3;
+const PAPIER_VERSION = 1;
+
+/* Kopf der Papier-Nutzlast: Version, Anteilsnummer, Schwelle, Länge der
+   Anteils-Bytes, Durchgangs-Kennung, Schlüssel-Kennung.
+
+   Die Schlüssel-Kennung sind die ERSTEN 12 BYTE des RFC-7638-Thumbprints, nicht
+   der ganze. Der ganze wäre 32 Byte und kostete 32 weitere Zeichen zum
+   Abtippen; 12 Byte sind 96 Bit und beantworten die Frage, um die es geht —
+   „ist das derselbe Schlüssel?" — mit einer Sicherheit, die kein Versehen und
+   kein Zufall unterläuft. Der volle Thumbprint steht ohnehin lesbar auf dem
+   Blatt; abgetippt wird nur, was die Maschine braucht. */
+const PAPIER_KENNUNG_BYTES = 12;
+const PAPIER_KOPF_BYTES = 4 + DURCHGANG_BYTES + PAPIER_KENNUNG_BYTES;   // = 24
+
+function papierKennungAus(thumbprint) {
+  return b64uAusBytes(bytesAusB64u(thumbprint).subarray(0, PAPIER_KENNUNG_BYTES));
+}
+
+/* Bytes → Symbolwerte (je 5 Bit, höchstwertig zuerst). Die letzten Bits des
+   letzten Symbols werden mit Nullen gefüllt und beim Lesen wieder als Null
+   verlangt — sonst gäbe es zu einer Nutzlast mehrere gültige Zeichenketten. */
+function symboleAusBytes(bytes) {
+  const symbole = [];
+  let sammler = 0, bits = 0;
+  for (let i = 0; i < bytes.length; i++) {
+    sammler = ((sammler << 8) | bytes[i]) >>> 0;
+    bits += 8;
+    while (bits >= 5) { bits -= 5; symbole.push((sammler >>> bits) & 31); }
+  }
+  if (bits > 0) symbole.push((sammler << (5 - bits)) & 31);
+  return symbole;
+}
+
+function bytesAusSymbolen(symbole, byteAnzahl) {
+  const aus = new Uint8Array(byteAnzahl);
+  let sammler = 0, bits = 0, geschrieben = 0;
+  for (const s of symbole) {
+    sammler = ((sammler << 5) | s) >>> 0;
+    bits += 5;
+    if (bits >= 8) {
+      bits -= 8;
+      if (geschrieben < byteAnzahl) aus[geschrieben++] = (sammler >>> bits) & 255;
+    }
+  }
+  if (geschrieben !== byteAnzahl) throw new Error('Die abgetippten Zeichen ergeben nicht die erwartete Zahl von Bytes.');
+  if ((sammler & ((1 << bits) - 1)) !== 0) {
+    throw new Error('Am Ende stehen Bits, die dort nicht hingehören — die Zeichenkette ist verändert.');
+  }
+  return aus;
+}
+
+/* Das Erzeugerpolynom g(x) = ∏ (x + α^i), i = 0 … anzahl-1. Ein Codewort ist
+   genau dann heil, wenn es durch g teilbar ist — also wenn α^0, α^1, α^2 seine
+   Nullstellen sind. Polynome stehen hier mit dem HÖCHSTEN Grad an Stelle 0. */
+function rsErzeuger(anzahl) {
+  let g = [1];
+  for (let i = 0; i < anzahl; i++) {
+    const neu = new Array(g.length + 1).fill(0);
+    const a = GF32.exp[i % GF32.ordnung];
+    for (let j = 0; j < g.length; j++) {
+      neu[j] ^= g[j];                             // · x
+      neu[j + 1] ^= gfMal(GF32, g[j], a);         // · α^i
+    }
+    g = neu;
+  }
+  return g;
+}
+const RS_ERZEUGER = Object.freeze(rsErzeuger(BLOCK_PRUEF));
+
+/* Die Prüfzeichen sind der Rest der Division von daten(x)·x^BLOCK_PRUEF durch
+   g(x) — die klassische systematische Reed-Solomon-Kodierung: die Daten stehen
+   unverändert vorn, die Prüfzeichen hinten. */
+function blockPruefzeichen(daten) {
+  const rest = new Array(BLOCK_PRUEF).fill(0);
+  for (const d of daten) {
+    const faktor = d ^ rest[0];
+    rest.shift();
+    rest.push(0);
+    if (faktor !== 0) {
+      for (let j = 0; j < BLOCK_PRUEF; j++) rest[j] ^= gfMal(GF32, RS_ERZEUGER[j + 1], faktor);
+    }
+  }
+  return rest;
+}
+
+/* Die drei Syndrome eines Blocks: S_m = C(α^m), m = 0,1,2. */
+function blockSyndrome(block) {
+  const N = block.length;
+  const s = [];
+  for (let m = 0; m < BLOCK_PRUEF; m++) {
+    let wert = 0;
+    for (let i = 0; i < N; i++) {
+      const grad = ((N - 1 - i) * m) % GF32.ordnung;
+      wert ^= gfMal(GF32, block[i], GF32.exp[grad]);
+    }
+    s.push(wert);
+  }
+  return s;
+}
+
+/* Prüft einen vollständigen Block (Daten + Prüfzeichen).
+   { heil:true } — oder { heil:false, stelle, vorschlag } bei genau EINEM
+   falschen Zeichen — oder { heil:false, stelle:null } sonst.
+
+   Die Fallunterscheidung ist die Stelle, an der das dritte Prüfzeichen
+   arbeitet: bei genau einem Fehler mit Wert e an der Stelle i gilt
+   S₀ = e, S₁ = e·X, S₂ = e·X² mit X = α^(N-1-i) — und daraus folgt
+   S₁² = S₀·S₂. Ist diese Gleichung verletzt, sind es MEHRERE Fehler, und dann
+   wird keine Stelle behauptet. */
+function blockPruefen(block) {
+  const syndrome = blockSyndrome(block);
+  const s0 = syndrome[0], s1 = syndrome[1], s2 = syndrome[2];
+  if (s0 === 0 && s1 === 0 && s2 === 0) return { heil: true, stelle: null, vorschlag: null };
+  const mehrere = { heil: false, stelle: null, vorschlag: null };
+  if (s0 === 0) return mehrere;
+  if (gfMal(GF32, s1, s1) !== gfMal(GF32, s0, s2)) return mehrere;
+  const X = gfGeteilt(GF32, s1, s0);
+  if (X === 0) return mehrere;
+  const stelle = block.length - 1 - GF32.log[X];
+  if (stelle < 0 || stelle >= block.length) return mehrere;
+  return { heil: false, stelle, vorschlag: block[stelle] ^ s0 };
+}
+
+/* Anteil → Papierform. Gibt die ZEILEN zurück, nicht eine Zeichenkette: die
+   Zeilen SIND die Blöcke, und die Fehlermeldung nennt eine Zeile. */
+function papierZeilen(blatt) {
+  const y = bytesAusB64u(blatt.y);
+  if (y.length < 1 || y.length > 255) throw new Error('Auf Papier passt ein Anteil von 1 bis 255 Byte; dieser ist ' + y.length + ' Byte.');
+  const kennung = bytesAusB64u(blatt.schluessel ? papierKennungAus(blatt.schluessel) : blatt.schluesselKurz);
+  const durchgang = bytesAusB64u(blatt.durchgang);
+  const nutzlast = new Uint8Array(PAPIER_KOPF_BYTES + y.length);
+  nutzlast[0] = PAPIER_VERSION;
+  nutzlast[1] = blatt.nr;
+  nutzlast[2] = blatt.k;
+  nutzlast[3] = y.length;
+  nutzlast.set(durchgang, 4);
+  nutzlast.set(kennung, 4 + DURCHGANG_BYTES);
+  nutzlast.set(y, PAPIER_KOPF_BYTES);
+
+  const daten = symboleAusBytes(nutzlast);
+  while (daten.length % BLOCK_DATEN !== 0) daten.push(0);   // Füllzeichen, beim Lesen als Null verlangt
+
+  const zeilen = [];
+  for (let b = 0; b < daten.length; b += BLOCK_DATEN) {
+    const teil = daten.slice(b, b + BLOCK_DATEN);
+    const zeichen = teil.concat(blockPruefzeichen(teil)).map((v) => PAPIER_ALPHABET[v]).join('');
+    const gruppen = [];
+    for (let g = 0; g < zeichen.length; g += GRUPPE) gruppen.push(zeichen.slice(g, g + GRUPPE));
+    zeilen.push(gruppen.join(' '));
+  }
+  nutzlast.fill(0);
+  return zeilen;
+}
+
+/* Normalisiert eine abgetippte Eingabe: Großschreibung, Leerraum und
+   Bindestriche weg, die zwei klassischen Verlesungen abgefangen. */
+function papierNormalisieren(text) {
+  return String(text).toUpperCase()
+    .replace(/[\s\-–—_.]/g, '')
+    .replace(/[IL]/g, '1')
+    .replace(/O/g, '0');
+}
+
+/* Benennt eine Stelle der normalisierten Zeichenkette als Zeile und Spalte. */
+function stelleBenennen(index) {
+  return { zeile: Math.floor(index / BLOCK_GESAMT) + 1, spalte: (index % BLOCK_GESAMT) + 1 };
+}
+
+/* Papierform → Anteil. Jede Ablehnung benennt die Stelle. */
+function anteilAusPapier(text) {
+  const roh = papierNormalisieren(text);
+  if (roh.length === 0) throw new Error('Es wurde nichts eingegeben.');
+  for (let i = 0; i < roh.length; i++) {
+    if (PAPIER_ALPHABET.indexOf(roh[i]) < 0) {
+      const st = stelleBenennen(i);
+      throw new Error('Zeile ' + st.zeile + ', Zeichen ' + st.spalte + ': „' + roh[i] + '" gehört nicht zum Zeichenvorrat. Erlaubt sind Ziffern und Großbuchstaben ohne I, L, O und U.');
+    }
+  }
+  if (roh.length % BLOCK_GESAMT !== 0) {
+    throw new Error('Die Eingabe hat ' + roh.length + ' Zeichen; jede Zeile trägt ' + BLOCK_GESAMT + '. Es fehlt etwas oder es steht zu viel da.');
+  }
+  const daten = [];
+  for (let b = 0; b < roh.length; b += BLOCK_GESAMT) {
+    const block = [];
+    for (let i = 0; i < BLOCK_GESAMT; i++) block.push(PAPIER_ALPHABET.indexOf(roh[b + i]));
+    const befund = blockPruefen(block);
+    if (!befund.heil) {
+      const zeile = (b / BLOCK_GESAMT) + 1;
+      if (befund.stelle === null) {
+        throw new Error('Zeile ' + zeile + ' ist fehlerhaft, und es ist mehr als ein Zeichen — die Stelle lässt sich nicht benennen. Bitte die ganze Zeile neu abschreiben.');
+      }
+      throw new Error('Zeile ' + zeile + ', Zeichen ' + (befund.stelle + 1) + ': hier stimmt etwas nicht. Dort gehört vermutlich „' + PAPIER_ALPHABET[befund.vorschlag] + '" statt „' + PAPIER_ALPHABET[block[befund.stelle]] + '".');
+    }
+    for (let i = 0; i < BLOCK_DATEN; i++) daten.push(block[i]);
+  }
+  // Der Kopf steckt in den ersten Symbolen; fünf Byte brauchen acht davon.
+  const kopf = bytesAusSymbolen(daten.slice(0, 8), 5);
+  if (kopf[0] !== PAPIER_VERSION) throw new Error('Die abgetippte Zeichenkette trägt eine unbekannte Formatversion (' + kopf[0] + ').');
+  const yLaenge = kopf[3];
+  if (yLaenge < 1) throw new Error('Die abgetippte Zeichenkette nennt eine Anteilslänge von null.');
+  const nutzBytes = PAPIER_KOPF_BYTES + yLaenge;
+  const nutzSymbole = Math.ceil((nutzBytes * 8) / 5);
+  if (nutzSymbole > daten.length) {
+    throw new Error('Es fehlen Zeilen: die Zeichenkette nennt einen Anteil von ' + yLaenge + ' Byte, dafür reichen die abgetippten Zeichen nicht.');
+  }
+  for (let i = nutzSymbole; i < daten.length; i++) {
+    if (daten[i] !== 0) throw new Error('Nach dem Ende des Anteils stehen Zeichen, die dort nicht hingehören — die Zeichenkette ist verändert.');
+  }
+  const nutzlast = bytesAusSymbolen(daten.slice(0, nutzSymbole), nutzBytes);
+  const anteil = {
+    format: ANTEIL_KENNUNG,
+    version: ANTEIL_FORMAT_VERSION,
+    nr: nutzlast[1],
+    k: nutzlast[2],
+    durchgang: b64uAusBytes(nutzlast.subarray(4, 4 + DURCHGANG_BYTES)),
+    schluesselKurz: b64uAusBytes(nutzlast.subarray(4 + DURCHGANG_BYTES, PAPIER_KOPF_BYTES)),
+    y: b64uAusBytes(nutzlast.subarray(PAPIER_KOPF_BYTES)),
+    ausPapier: true,
+  };
+  nutzlast.fill(0);
+  if (anteil.nr < 1) throw new Error('Die abgetippte Zeichenkette nennt die Anteilsnummer 0 — die gibt es nicht.');
+  if (anteil.k < 2) throw new Error('Die abgetippte Zeichenkette nennt eine Schwelle unter 2.');
+  return anteil;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   11 — Bedienung
+   ────────────────────────────────────────────────────────────────────────────
+   Dünn gehalten: Lesen, Aufrufen, Schreiben. Alles, was eine Entscheidung
+   trifft, steht oben und ist geprüft.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Ist Ed25519 in dieser Umgebung überhaupt da? Ohne diese Frage stünde die
+   Bürgerin — hier: die Zeremonienleitung — vor einer wortkargen Ausnahme
+   mitten in der Sitzung. Ed25519 in WebCrypto ist neu genug, dass ein älterer
+   Browser es nicht kennt. */
+async function ed25519Verfuegbar() {
+  try {
+    await oeffentlicherTeilAusSeed(new Uint8Array(32));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function setzeLage(id, text, art) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.dataset.art = art || 'hinweis';
+}
+
+function ladeDownload(dateiname, inhalt) {
+  const blob = new Blob([inhalt], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = dateiname;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* Zerlegt eine Eingabe in einzelne Anteile — JSON-Blätter oder abgetippte
+   Papierform, einzeln oder durch eine Leerzeile getrennt.
+
+   Die Reihenfolge der Versuche ist nicht beliebig: erst JSON, dann Papier. Eine
+   Papierform scheitert an `JSON.parse` mit einer Meldung, die man verwerfen
+   kann; ein JSON-Blatt scheiterte an der Papier-Prüfung mit einer Meldung über
+   Zeichenvorräte, die niemandem hilft. Deshalb wird im Fehlerfall die
+   Papier-Meldung weitergereicht — sie ist die brauchbare. */
+function anteileAusText(text) {
+  const roh = String(text).trim();
+  if (!roh) return [];
+  try {
+    const geparst = JSON.parse(roh);
+    return Array.isArray(geparst) ? geparst : [geparst];
+  } catch (e) { /* kein zusammenhängendes JSON — abschnittsweise versuchen */ }
+  const gefunden = [];
+  for (const t of roh.split(/\n\s*\n/)) {
+    const s = t.trim();
+    if (!s) continue;
+    try { gefunden.push(JSON.parse(s)); continue; } catch (e) { /* dann Papier */ }
+    gefunden.push(anteilAusPapier(s));
+  }
+  return gefunden;
+}
+
+let _letztesTeilergebnis = null;
+let _letzterSchluessel = null;
+let _letzterOeffentlicherTeil = null;
+
+/* Beide Wege — Erzeugen und Teilen — schreiben in DASSELBE Ergebnisfeld und
+   räumen es gemeinsam. Zwei Ergebnisflächen nebeneinander wären die Sorte
+   Doppelung, bei der am Ende ein alter Stand neben einem neuen steht und
+   niemand sagen kann, welche Anteile gerade gedruckt werden. */
+function ergebnisflaecheLeeren() {
+  _letztesTeilergebnis = null;
+  _letzterOeffentlicherTeil = null;
+  const ergebnisFeld = document.getElementById('teilen-ergebnis');
+  const sentinelFeld = document.getElementById('sentinel-warnung');
+  if (ergebnisFeld) ergebnisFeld.innerHTML = '';
+  if (sentinelFeld) { sentinelFeld.innerHTML = ''; sentinelFeld.hidden = true; }
+  for (const id of ['knopf-drucken', 'knopf-drucken-erz', 'knopf-anteile-sichern', 'knopf-oeffentlich-sichern']) {
+    const kn = document.getElementById(id);
+    if (kn) kn.disabled = true;
+  }
+}
+
+async function onErzeugen() {
+  ergebnisflaecheLeeren();
+  try {
+    const rolle = (document.getElementById('feld-rolle') || {}).value;
+    const n = Number(document.getElementById('feld-erz-n').value);
+    const k = Number(document.getElementById('feld-erz-k').value);
+    setzeLage('erzeugen-lage', 'Erzeugt, teilt und prüft …');
+    const ergebnis = await schluesselErzeugenUndTeilen(n, k, { rolle: rolle });
+    _letztesTeilergebnis = ergebnis;
+    _letzterOeffentlicherTeil = ergebnis;
+    const ergebnisFeld = document.getElementById('teilen-ergebnis');
+    if (ergebnisFeld) ergebnisFeld.innerHTML = erzeugungsKopfHTML(ergebnis) + teilenErgebnisHTML(ergebnis);
+    for (const id of ['knopf-drucken', 'knopf-drucken-erz', 'knopf-anteile-sichern', 'knopf-oeffentlich-sichern']) {
+      const kn = document.getElementById(id);
+      if (kn) kn.disabled = false;
+    }
+    setzeLage('erzeugen-lage', 'Selbstprobe bestanden — ' + ergebnis.n + ' Anteile stehen bereit, der private Teil existiert nur noch in ihnen.');
+  } catch (e) {
+    // Der Fehlfall gibt nichts heraus: die Fläche ist oben geleert, und
+    // `schluesselErzeugenUndTeilen` hat nichts zurückgegeben.
+    setzeLage('erzeugen-lage', e.message, 'fehler');
+  }
+}
+
+async function onTeilen() {
+  const dateiFeld = document.getElementById('jwk-datei');
+  const ergebnisFeld = document.getElementById('teilen-ergebnis');
+  const sentinelFeld = document.getElementById('sentinel-warnung');
+  const druckKnopf = document.getElementById('knopf-drucken');
+  const sicherKnopf = document.getElementById('knopf-anteile-sichern');
+  ergebnisflaecheLeeren();
+  try {
+    const datei = dateiFeld && dateiFeld.files && dateiFeld.files[0];
+    if (!datei) throw new Error('Bitte zuerst eine Schlüsseldatei wählen.');
+    const n = Number(document.getElementById('feld-n').value);
+    const k = Number(document.getElementById('feld-k').value);
+    const jwk = JSON.parse(await datei.text());
+    setzeLage('teilen-lage', 'Teilt und prüft …');
+    const ergebnis = await schluesselTeilen(jwk, n, k);
+    _letztesTeilergebnis = ergebnis;
+    if (ergebnis.istTestSentinel && sentinelFeld) {
+      sentinelFeld.innerHTML = sentinelWarnungHTML();
+      sentinelFeld.hidden = false;
+    }
+    if (ergebnisFeld) ergebnisFeld.innerHTML = teilenErgebnisHTML(ergebnis);
+    if (druckKnopf) druckKnopf.disabled = false;
+  const druckKnopfErz = document.getElementById('knopf-drucken-erz');
+  if (druckKnopfErz) druckKnopfErz.disabled = false;
+    if (sicherKnopf) sicherKnopf.disabled = false;
+    setzeLage('teilen-lage', 'Selbstprobe bestanden — ' + ergebnis.n + ' Anteile stehen bereit.');
+  } catch (e) {
+    setzeLage('teilen-lage', e.message, 'fehler');
+  }
+}
+
+/* ── Geschützt sichern (23.08.2026, "Der Teiler sichert geschützt") ───────────
+   `schuetzeSchluesselJwk`/`_aadFuerSchluesselhuelle`/`PROTECTED_KEY_MARKER_VERSION` sind
+   wortgleich zu `vivodepot-vc-issuer.html` übernommen (dieselbe Funktion, nicht nachgebaut —
+   die Arithmetik, die eine zweite Implementierung wäre, ist die des VdCrypto-Blocks oben, und
+   der ist jetzt Verbatim-Träger). `deriveKey`/`encryptData`/`bytesToBase64`/`_AAD_UEBERGABE_V2`
+   kommen aus genau diesem Block. */
+const PROTECTED_KEY_MARKER_VERSION = 1;
+// U2-ADR-249 (04.09.2026, Zuschnitt Sperrposten 1): Harte Allowlist statt strikter Gleichheit —
+// dasselbe Muster wie KRYPTO_VERSION_ALLOWLIST im Kern (vivodepot.html). Fassung 1 wird NICHT
+// entfernt, auch wenn eine Fassung 2 hinzukommt; wer sie entfernen will, braucht dafür eine
+// eigene Entscheidung. Warum die Prüfung überhaupt eine Liste statt einer Gleichheit braucht:
+// eine Hülle mit vivodepotProtectedKey: 2 fiel bisher wortlos aus der Erkennung — nicht „falsche
+// Fassung", sondern „gar keine geschützte Datei" —, ein verwirrender Fehler statt eines klaren.
+const PROTECTED_KEY_VERSION_ALLOWLIST = [1];
+
+// Derselbe Zweck-im-Dateinamen-Wächter wie im Zertifikator (23.08.2026, "Zertifikatsbetrieb
+// ohne Terminal", Posten 3) — sonst trägt jede hier gesicherte Datei denselben Namen, egal ob
+// Anker oder ein künftiger anderer geteilter Schlüssel.
+function _zweckSlug(roh) {
+  return String(roh || '').trim().toLowerCase()
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function _aadFuerSchluesselhuelle(w) {
+  return { kryptoVersion: _AAD_UEBERGABE_V2.kryptoVersion, iterationen: w.iterationen, kdfTyp: w.kdf };
+}
+
+async function schuetzeSchluesselJwk(jwk, passphrase) {
+  if (!passphrase) throw new Error('Passphrase fehlt.');
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKey(passphrase, salt);
+  const kopfdaten = { kdf: 'pbkdf2-sha256', iterationen: PBKDF2_ITERATIONS };
+  const { iv, ct } = await encryptData(jwk, key, _aadFuerSchluesselhuelle(kopfdaten));
+  return {
+    vivodepotProtectedKey: PROTECTED_KEY_MARKER_VERSION,
+    kdf: kopfdaten.kdf,
+    iterationen: kopfdaten.iterationen,
+    salt: bytesToBase64(salt),
+    iv, ct,
+  };
+}
+
+// Dieselbe Bewertung wie im Zertifikator (Trust-Authority-Passphrase-Kontext, ein Operator,
+// kein Massenmarkt) — eigene, kleinere Blockliste statt der vollen PW_BLOCKLISTE des Kerns.
+const TEILER_PW_BLOCKLISTE = ['passwort', 'password', 'passwort123', 'password123', 'qwertz', 'qwerty', '123456', '12345678', 'trustauthority', 'vivodepot', 'geheim', 'admin', 'letmein', 'welcome', 'changeme'];
+function passphraseStaerke(pw) {
+  pw = String(pw == null ? '' : pw);
+  if (!pw) return { stufe: 'schwach', bekannt: false };
+  const klein = pw.toLowerCase();
+  const bekannt = TEILER_PW_BLOCKLISTE.indexOf(klein) !== -1
+    || /^[0-9]+$/.test(pw)
+    || /^(.)\1+$/.test(pw);
+  let klassen = 0;
+  if (/[a-zäöüß]/.test(pw)) klassen++;
+  if (/[A-ZÄÖÜ]/.test(pw)) klassen++;
+  if (/[0-9]/.test(pw)) klassen++;
+  if (/[^A-Za-z0-9äöüßÄÖÜ]/.test(pw)) klassen++;
+  if (pw.length < 8 || bekannt) return { stufe: 'schwach', bekannt };
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (pw.length >= 16) score++;
+  if (klassen >= 2) score++;
+  if (klassen >= 3) score++;
+  let stufe = 'schwach';
+  if (score >= 5) stufe = 'stark';
+  else if (score >= 3) stufe = 'mittel';
+  return { stufe, bekannt: false };
+}
+
+async function onZusammensetzen() {
+  const ergebnisFeld = document.getElementById('zusammen-ergebnis');
+  const sicherKnopf = document.getElementById('knopf-jwk-sichern');
+  const vdkeyKnopf = document.getElementById('knopf-vdkey-sichern');
+  _letzterSchluessel = null;
+  if (ergebnisFeld) ergebnisFeld.innerHTML = '';
+  if (sicherKnopf) sicherKnopf.disabled = true;
+  if (vdkeyKnopf) vdkeyKnopf.disabled = true;
+  try {
+    const blaetter = [];
+    const dateiFeld = document.getElementById('anteile-datei');
+    const dateien = (dateiFeld && dateiFeld.files) ? Array.from(dateiFeld.files) : [];
+    for (const d of dateien) {
+      const geparst = JSON.parse(await d.text());
+      if (Array.isArray(geparst)) blaetter.push.apply(blaetter, geparst);
+      else blaetter.push(geparst);
+    }
+    const feld = document.getElementById('anteile-eingabe');
+    blaetter.push.apply(blaetter, anteileAusText(feld ? feld.value : ''));
+    if (blaetter.length === 0) throw new Error('Keine Anteile eingelesen.');
+    setzeLage('zusammen-lage', 'Prüft und setzt zusammen …');
+    const ergebnis = await schluesselZusammensetzen(blaetter);
+    _letzterSchluessel = ergebnis;
+    if (sicherKnopf) sicherKnopf.disabled = false;
+    if (vdkeyKnopf) vdkeyKnopf.disabled = false;
+    if (ergebnisFeld) {
+      ergebnisFeld.innerHTML = '<div class="karte"><dl>'
+        + '<dt>Schlüssel</dt><dd class="zeichen">' + h(ergebnis.thumbprint) + '</dd>'
+        + '<dt>Verwendete Anteile</dt><dd>' + h(ergebnis.verwendet.join(', ')) + '</dd>'
+        + '</dl><p>Der private Teil wird <strong>nicht angezeigt</strong> — er verlässt das Werkzeug '
+        + 'nur als Datei.</p></div>'
+        + (ergebnis.istTestSentinel ? sentinelWarnungHTML() : '');
+    }
+    setzeLage('zusammen-lage', 'Zusammengesetzt und gegen den genannten Schlüssel geprüft.');
+  } catch (e) {
+    setzeLage('zusammen-lage', e.message, 'fehler');
+  }
+}
+
+function boot() {
+  ed25519Verfuegbar().then((da) => {
+    setzeLage('krypto-lage',
+      da ? 'Ed25519 steht in dieser Umgebung zur Verfügung.'
+         : 'Ed25519 fehlt in dieser Umgebung — das Werkzeug kann keinen Schlüssel prüfen und darf hier nicht verwendet werden.',
+      da ? 'hinweis' : 'fehler');
+  });
+  const e = document.getElementById('knopf-erzeugen');
+  if (e) e.addEventListener('click', onErzeugen);
+  const t = document.getElementById('knopf-teilen');
+  if (t) t.addEventListener('click', onTeilen);
+  const z = document.getElementById('knopf-zusammensetzen');
+  if (z) z.addEventListener('click', onZusammensetzen);
+  const d = document.getElementById('knopf-drucken');
+  if (d) d.addEventListener('click', () => window.print());
+  /* Zweiter Auslöser, gleiche Wirkung: der Zeremonie-Ablauf braucht den Druck im
+     Erzeugen-Abschnitt. Beide Wege schreiben in DIESELBE Ergebnisfläche — es wird
+     gedruckt, was dort steht, egal welcher Knopf ihn auslöst. */
+  const dErz = document.getElementById('knopf-drucken-erz');
+  if (dErz) dErz.addEventListener('click', () => window.print());
+  const a = document.getElementById('knopf-anteile-sichern');
+  if (a) a.addEventListener('click', () => {
+    if (!_letztesTeilergebnis) return;
+    // Je Anteil eine eigene Datei. Ein Bündel wäre bequemer und wäre genau das
+    // Falsche: die Anteile gehen an verschiedene Menschen, und was in einer
+    // Datei zusammensteht, wird auch zusammen weitergegeben.
+    for (const b of _letztesTeilergebnis.anteile) {
+      ladeDownload('vivodepot-anteil-' + b.nr + '-von-' + b.n + '-' + b.durchgang + '.json',
+        JSON.stringify(b, null, 2));
+    }
+  });
+  const oe = document.getElementById('knopf-oeffentlich-sichern');
+  if (oe) oe.addEventListener('click', () => {
+    if (!_letzterOeffentlicherTeil) return;
+    // Der Dateiname trägt den `kid`, nicht den Thumbprint: dieser Schlüssel wird
+    // unter seiner Kennung in die Anwendung eingebaut, und zwei Dateien mit
+    // demselben Namen sind auf einem Zeremonietisch ein echter Fehler.
+    ladeDownload('vivodepot-oeffentlich-' + _letzterOeffentlicherTeil.kid + '.json',
+      JSON.stringify(_letzterOeffentlicherTeil.oeffentlichJwk, null, 2));
+  });
+  const s = document.getElementById('knopf-jwk-sichern');
+  if (s) s.addEventListener('click', () => {
+    if (!_letzterSchluessel) return;
+    ladeDownload('vivodepot-schluessel-' + _letzterSchluessel.thumbprint.slice(0, 12) + '.json',
+      JSON.stringify(_letzterSchluessel.jwk, null, 2));
+  });
+  // 23.08.2026, "Der Teiler sichert geschützt" — der rohe Ausgang (oben) bleibt unverändert
+  // bestehen; dieser zweite Ausgang steht daneben, nicht an seiner Stelle.
+  const pw1El = document.getElementById('schuetzen-pw1');
+  if (pw1El) pw1El.addEventListener('input', () => {
+    const anzeige = document.getElementById('schuetzen-staerke');
+    if (!anzeige) return;
+    const wert = pw1El.value;
+    if (!wert) { anzeige.hidden = true; return; }
+    const st = passphraseStaerke(wert);
+    anzeige.hidden = false;
+    anzeige.textContent = 'Stärke: ' + st.stufe + (st.bekannt ? ' (verbreitet — bitte anders wählen)' : '');
+  });
+  const v = document.getElementById('knopf-vdkey-sichern');
+  if (v) v.addEventListener('click', async () => {
+    if (!_letzterSchluessel) return;
+    const zweckEl = document.getElementById('schuetzen-zweck');
+    const zweck = _zweckSlug(zweckEl ? zweckEl.value : '');
+    if (!zweck) { setzeLage('zusammen-lage', 'Zweck fehlt — er steht danach im Dateinamen.', 'fehler'); return; }
+    const pw2El = document.getElementById('schuetzen-pw2');
+    const pw1 = pw1El ? pw1El.value : '', pw2 = pw2El ? pw2El.value : '';
+    if (!pw1 || pw1.length < 8) { setzeLage('zusammen-lage', 'Passphrase zu kurz (mindestens 8 Zeichen).', 'fehler'); return; }
+    if (pw1 !== pw2) { setzeLage('zusammen-lage', 'Die beiden Passphrase-Eingaben stimmen nicht überein.', 'fehler'); return; }
+    let geschuetzt;
+    try { geschuetzt = await schuetzeSchluesselJwk(_letzterSchluessel.jwk, pw1); }
+    catch (e) { setzeLage('zusammen-lage', 'Schützen fehlgeschlagen: ' + e.message, 'fehler'); return; }
+    if (pw1El) pw1El.value = ''; if (pw2El) pw2El.value = '';
+    ladeDownload('vivodepot-' + zweck + '-' + _letzterSchluessel.thumbprint.slice(0, 12) + '.vdkey',
+      JSON.stringify(geschuetzt, null, 2));
+    setzeLage('zusammen-lage', 'Geschützte Datei (.vdkey) heruntergeladen. Die Passphrase getrennt vom Schlüssel verwahren.');
+  });
+}
+/* Der Browser stellt Formularfelder nach einem Neuladen wieder her — auch die
+   abgetippten Anteile. Das ist an dieser Stelle Schlüsselmaterial und darf ein
+   Neuladen nicht überleben. `autocomplete="off"` allein reicht nicht: die
+   Sitzungswiederherstellung mancher Browser greift daran vorbei. Darum wird beim
+   Laden ausdrücklich geräumt — gemessen am 22.08.2026, als nach einem Neuladen
+   zwei Anteile wieder im Feld standen. */
+function felderRaeumen() {
+  for (const id of ['anteile-eingabe']) {
+    const f = document.getElementById(id);
+    if (f) f.value = '';
+  }
+  for (const id of ['jwk-datei', 'anteile-datei']) {
+    const f = document.getElementById(id);
+    if (f) f.value = '';
+  }
+}
+document.addEventListener('DOMContentLoaded', () => { felderRaeumen(); boot(); });
+</script>
+</body>
+</html>

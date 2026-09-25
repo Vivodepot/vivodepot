@@ -1,0 +1,105 @@
+# ════════════════════════════════════════════════════════════════════════════
+# Vier-Komponenten-E2E (Cross-Component-Verifikation)
+# ----------------------------------------------------------------------------
+# Verifiziert die Architektur ÜBER die vier Komponenten hinweg: was die Bürger-App
+# schreibt, liest/signiert/verifiziert die jeweils andere Komponente korrekt.
+# Sechs Reisen (T-CROSS-01..06, Playwright, zwei+ Browser-Kontexte) plus zwei
+# browser-freie Gates (T-CROSS-07 Krypto-Block-Hash, T-CROSS-08 Submission-Schema).
+#
+# Eigene Action, weil der Lauf länger ist (mehrere HTMLs gleichzeitig, Datei-
+# Transfer-Simulation). Trigger (Pre-Demo-Absicherung 12.06.): Push + PR auf
+# clean-rebuild PLUS manuell (workflow_dispatch) PLUS wöchentlicher Cron.
+#
+# Lokal in der Bau-Sandbox NICHT lauffähig: @playwright/test und die Browser-
+# Binaries waren nicht beschaffbar (npm-Registry 403). Hier in CI werden beide
+# installiert. Die browser-freien Gates laufen zusätzlich in der schnellen
+# Schicht-1-Suite (node --test) und sind dort bereits grün.
+#
+# Krypto unberührt: Playwright lädt die HTMLs nur über file://. Das Krypto-Block-
+# Hash-Gate (732ff4b0…) wird vor jedem Browser-Lauf als globalSetup geprüft.
+# ════════════════════════════════════════════════════════════════════════════
+name: E2E-Cross (Vier-Komponenten)
+
+on:
+  # Pre-Demo-Absicherung (12.06.): die Komponenten-Grenze ist Demo-kritisch (25.06.),
+  # darum zusätzlich bei Push + PR auf clean-rebuild — nicht erst beim Wochen-Cron.
+  push:
+    branches: [main, clean-rebuild, ci-probe-2026-07-02, u2-kanon]
+  pull_request:
+    branches: [main, clean-rebuild, ci-probe-2026-07-02]
+  workflow_dispatch: {}
+  schedule:
+    # Wöchentlich, Montag 04:30 UTC — abseits der Stoßzeiten, vor dem Wochenstart.
+    - cron: '30 4 * * 1'
+
+# Cross-Läufe nicht überlappen lassen (Datei-Transfer-Simulation ist seriell).
+concurrency:
+  group: e2e-cross
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Gate 1 (schnell, offline, kein Browser): Hash + Schema in der Schicht-1-Suite.
+  gates-schicht1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Im öffentlichen Repo fehlt der Template-Generator noch (zurückgehalten, bis sein Kommentarbestand neutral ist);
+      # ohne ihn gibt es keine vier Komponenten. Dann laufen die übrigen Schritte nicht, und der Lauf sagt es sichtbar.
+      - name: Liegen alle vier Komponenten im Stand?
+        id: vier
+        run: |
+          if [ -f vivodepot-template-generator.html ]; then echo "da=ja" >> "$GITHUB_OUTPUT"; else
+            echo "::notice title=E2E-Cross übersprungen::vivodepot-template-generator.html liegt in diesem Stand nicht (öffentlicher Zuschnitt); die Vier-Komponenten-Prüfung läuft im privaten Repo."
+            echo "da=nein" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.vier.outputs.da == 'ja'
+        with:
+          node-version: '24'
+      - name: Krypto-Block-Hash-Gate (T-CROSS-07) + Submission-Schema (T-CROSS-08)
+        if: steps.vier.outputs.da == 'ja'
+        run: node --test tests/e2e-cross/*.test.js
+
+  # ── Gate 2 (langsamer, Browser): die sechs Cross-Reisen.
+  cross-reisen:
+    runs-on: ubuntu-latest
+    needs: gates-schicht1
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      # Im öffentlichen Repo fehlt der Template-Generator noch (zurückgehalten, bis sein Kommentarbestand neutral ist);
+      # ohne ihn gibt es keine vier Komponenten. Dann laufen die übrigen Schritte nicht, und der Lauf sagt es sichtbar.
+      - name: Liegen alle vier Komponenten im Stand?
+        id: vier
+        run: |
+          if [ -f vivodepot-template-generator.html ]; then echo "da=ja" >> "$GITHUB_OUTPUT"; else
+            echo "::notice title=E2E-Cross übersprungen::vivodepot-template-generator.html liegt in diesem Stand nicht (öffentlicher Zuschnitt); die Vier-Komponenten-Prüfung läuft im privaten Repo."
+            echo "da=nein" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.vier.outputs.da == 'ja'
+        with:
+          node-version: '24'
+
+      - name: Abhängigkeiten installieren (@playwright/test)
+        if: steps.vier.outputs.da == 'ja'
+        # npm ci seit 07.08.2026 — package-lock.json ist seit dem 28.07. getrackt, siehe
+        # konformitaet.yml.
+        run: npm ci
+
+      - name: Playwright-Browser (chromium) installieren
+        if: steps.vier.outputs.da == 'ja'
+        run: npx playwright install --with-deps chromium
+
+      - name: Cross-Component-Reisen (T-CROSS-01..06)
+        if: steps.vier.outputs.da == 'ja'
+        run: npx playwright test --config=playwright.config.cross.js
+
+      - name: Playwright-Report als Artefakt
+        if: ${{ !cancelled() && steps.vier.outputs.da == 'ja' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-cross
+          path: playwright-report/
+          retention-days: 14

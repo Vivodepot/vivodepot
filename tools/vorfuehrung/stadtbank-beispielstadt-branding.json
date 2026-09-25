@@ -1,0 +1,13 @@
+{
+  "modulTyp": "branding",
+  "moduleVersion": 1,
+  "herkunft": "vorfuehrung/stadtbank-beispielstadt",
+  "name": "Stadtbank Beispielstadt",
+  "domain": "stadtbank-beispielstadt.example.org",
+  "kontakt": "beratung@stadtbank-beispielstadt.example.org",
+  "aktualisierungen": "https://stadtbank-beispielstadt.example.org/app",
+  "farbePrimaer": "#1B3A5C",
+  "farbeSekundaer": "#8A9BB0",
+  "schriftart": "Inter",
+  "logo": null
+}

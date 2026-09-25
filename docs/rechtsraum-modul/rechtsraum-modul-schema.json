@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/rechtsraum-modul-schema.json",
+  "title": "Vivodepot Rechtsraum-Modul — Payload-Vertrag für einen zweiten Rechtsraum (U2-ADR-121, Posten 8)",
+  "description": "Der signierte Nutzlast-Vertrag (JWS-Payload) eines Rechtsraum-Moduls: rechtsraumspezifischer Inhalt (Wortlaut/Textbausteine, Formvorschriften, Fristen-/Vorrangregeln, Zweck), der neben dem eingebauten deutschen Katalog (RECHTSRAUM_KATALOG) angedockt wird. Reist als Daten im Depot (data.rechtsraumModule[], U2-ADR-051-Muster) — NICHT als Quelltext. Verifikation laeuft ueber dieselbe zweistufige JWS-Kette wie Institutions-Templates (verifiziereTemplateKette): ein Anbieter-Zertifikat gegen den Trust-Authority-Anker, dieses Modul signiert mit dem im Zertifikat genannten Anbieter-Schluessel. ANDERS als feldDefinitionen/codeListen (die beim Import fuer immer einfrieren): ein Modul mit hoeherer moduleVersion AKTUALISIERT den gespeicherten Stand desselben rechtsraum-Codes (_rechtsraumModulEinbetten) — Rechtsinhalt soll aktuell bleiben, nicht wie eine Bestandsaufnahme zum Importzeitpunkt einfrieren. Ausdruecklich NICHT Teil dieses Vertrags: wer ein Modul signieren/liefern darf (Contributor-Vertrauensweg) — das bleibt laut ADR unentschieden.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "rechtsraum", "moduleVersion", "typen"],
+  "properties": {
+    "schemaVersion": {
+      "description": "Kellerwand 1 (Versions-Marke, U2-ADR-037-Muster): die App-Schema-Version, GEGEN DIE dieses Modul gebaut wurde — nicht 'die aktuelle Version'.",
+      "type": "integer",
+      "minimum": 47
+    },
+    "rechtsraum": {
+      "description": "Der Rechtsraum-Code, den dieses Modul beliefert (z. B. 'FR', 'AT'). 'DE' bleibt fuer DIESEN allgemeinen Weg (Einstellungen -> Module -> Einlassen, EINLASS_REGISTER in vivodepot.html) ausnahmslos reserviert -- ein ueber diesen Weg eingelassenes Modul kann 'DE' nie tragen, code-durchgesetzt in validateRechtsraumModul, unabhaengig von diesem Schema. Ein JSON-Schema kann diese Ausnahme nicht selbst ausdruecken (deklarativ, ohne Aufrufstelle) -- seit U2-ADR-285 darf EIN eng benannter, TA-signatur-verifizierter Ladeweg (_rechtsraumGeruestModulLaden, Basistemplate-Form/1E, U2-ADR-040) ein Modul mit rechtsraum:'DE' annehmen, weil es nie aus den Bürgerdaten gelesen wird. Der eingebaute Katalog (RECHTSRAUM_KATALOG) bleibt fuer alle heute bekannten Instrument-Typen die alleinige, nicht ueberschreibbare Quelle (_rechtsraumKatalogLesen fragt ihn zuerst) -- ein Modul kann nur NEUE, tpl_-namensraum-geschuetzte Typen ergaenzen, nichts Bestehendes ersetzen.",
+      "type": "string",
+      "minLength": 1
+    },
+    "moduleVersion": {
+      "description": "Aktualisieren-Zaehler (Entscheidung 8, Abweichung 1): monoton steigend. Ein erneut geladenes Modul mit hoeherer moduleVersion ERSETZT den fuer denselben rechtsraum-Code gespeicherten Stand; gleiche oder niedrigere Version aendert nichts (kein Rueckschritt).",
+      "type": "integer",
+      "minimum": 1
+    },
+    "typen": {
+      "description": "Rechtsraumspezifischer Inhalt je Instrument-Typ. Ein Schluessel, den der eingebaute Katalog bereits kennt (z. B. 'vorsorgevollmacht'), fuegt DIESEM Rechtsraum eigenen Inhalt hinzu (kein Ueberschreiben — der Slot liegt ohnehin nach {typ, rechtsraum} getrennt). Ein NEUER Typ (den der eingebaute Katalog nicht kennt, Punkt 4 'Instrument ohne deutsches Gegenstueck') MUSS den tpl_-Namensraum tragen (Namensraum-Schutz, U2-ADR-037-Muster) — sonst koennte ein kuenftiger eingebauter Typ mit demselben Namen von einem alten Modul beschattet werden.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["katalogVersion"],
+        "properties": {
+          "katalogVersion": {
+            "description": "Kellerwand 1 fuer DIESEN Typ-Eintrag: die Version, GEGEN DIE er gebaut wurde. Aendert sich ein Paragraf spaeter, bekommt NUR der betroffene Eintrag eine neue Zahl.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "wortlaut": {
+            "description": "Amtlicher Textbaustein/Wortlaut, falls vorhanden. null (nicht Feld weglassen), wenn dieser Typ keinen eigenen Wortlaut hat (Muster wie RECHTSRAUM_KATALOG.testament.DE.wortlaut = null). `wortlaut` und `bauplan` schliessen einander nicht aus — ein Typ kann nur einen Textbaustein, nur einen Bauplan, oder beides tragen.",
+            "type": ["string", "null"]
+          },
+          "bauplan": {
+            "description": "Die Anweisung, wie dieses Instrument in diesem Rechtsraum entsteht — Wortlaut, Reihenfolge und Bedingungen zusammen, fuer Instrumente mit mehrschrittigem Bauplan (z. B. Patientenverfuegung/Vollmacht, U2-ADR-NNN Korpus-Zuordnung). null, wenn dieser Typ keinen mehrschrittigen Bauplan hat (nur `wortlaut`, oder keins von beiden). Jeder Schritt traegt die gemeinsame Wurzel {feld, verborgenWenn?} plus die Korpus-Erweiterung {dokEinleitung?, bezug?, hilfetext?, frage?} — dieselbe Wurzel wie die Wizard-Erweiterung {feld, verborgenWenn?, ziel?} in BUERGERMODUL_BUENDEL.wizards, aber mit den Korpus-eigenen statt den Wizard-eigenen Zusatzfeldern.",
+            "type": ["array", "null"],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["feld"],
+              "properties": {
+                "feld": {
+                  "description": "Das Feld dieses Schritts (Unterobjekt, kein blosser Kennung-String — gemessen an _pvBmjSchrittZuWizardSchritt, das s.feld.id liest). Freie Form je Feldtyp (id/typ Pflicht, dazu je nach typ z. B. optionen/katalogOptionenAus/beispiel/eingabeTyp) — derselbe Freiheitsgrad wie formvorschriften/fristenVorrang oben, kein zweites, engeres Feld-Schema hier nachgebaut.",
+                  "type": "object",
+                  "required": ["id", "typ"],
+                  "properties": {
+                    "id": { "type": "string", "minLength": 1 },
+                    "typ": { "type": "string", "minLength": 1 }
+                  }
+                },
+                "verborgenWenn": {
+                  "description": "Optionale Bedingung, unter der dieser Schritt uebersprungen wird (Negativ-Form: nennt nur die ausschliessenden Katalogwerte, s. Kern-Kommentar an PV_VERBORGEN_WENN). Freie Form, wie am Wizard-Pendant.",
+                  "type": "object"
+                },
+                "dokEinleitung": {
+                  "description": "Einleitender Text vor diesem Schritt im erzeugten Dokument (Korpus-eigen, kein Wizard-Aequivalent).",
+                  "type": "string"
+                },
+                "bezug": {
+                  "description": "Bezugssatz, der diesem Schritt im erzeugten Dokument vorangestellt wird (Korpus-eigen).",
+                  "type": "string"
+                },
+                "hilfetext": {
+                  "description": "Erlaeuternder Hilfetext zu diesem Schritt (Korpus-eigen, auch am Wizard-Pendant bekannt).",
+                  "type": "string"
+                },
+                "frage": {
+                  "description": "Die Frage, die dieser Schritt der Buergerin stellt (Korpus-eigen, auch am Wizard-Pendant bekannt).",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "formvorschriften": {
+            "description": "Formvorschrift-Struktur (freie Form je Rechtsraum — der eingebaute Katalog nutzt z. B. {paragraf, hinweis}). null, wenn keine gesonderte Formvorschrift gilt.",
+            "type": ["object", "null"]
+          },
+          "fristenVorrang": {
+            "description": "Fristen-/Vorrangregel-Struktur (freie Form — der eingebaute Katalog nutzt z. B. {auswahlform, paragraf, hinweis, monate}). Wird vom Kontrollfluss gelesen (Entscheidung 8, Abweichung 2) — anders als feldDefinitionen, die laut U2-ADR-037 reine Struktur ohne Gueltigkeitsbindung sind.",
+            "type": ["object", "null"]
+          },
+          "zweck": {
+            "description": "Rechtsraumunabhaengige Zweck-Markierung (Punkt 3) fuer Cross-Jurisdiktions-Matching — dasselbe Vokabular-Prinzip wie am eingebauten Katalog, nicht zwingend dieselbe geschlossene Werteliste (ein Modul kann eigene Zweck-Werte einfuehren). null, wenn (noch) keine Zuordnung getroffen wurde.",
+            "type": ["array", "null"],
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  }
+}

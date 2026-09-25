@@ -1,0 +1,16 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/fixture-a",
+  "fassung": 1,
+  "bereiche": {
+    "fixture-thema-a": {
+      "id": "fixture-thema-a",
+      "format": "GENERISCH", "label": "Fixture Thema A",
+      "icon": "briefcase",
+      "sektionen": [{ "id": "fixture-a-haupt", "felder": [{ "id": "fixture-feld-a", "typ": "text" }] }]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "modulTyp": "bereich",
+  "sprache": "de",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot-pro-geschaeftsfuehrerin",
+  "bereiche": {
+    "pro-vertretung-vollmachten": { "label": "Vertretung und Vollmachten", "icon": "folder" },
+    "pro-gesellschaft-nachfolge": { "label": "Gesellschaft und Nachfolgeregelung", "icon": "folder" },
+    "pro-finanzen-verbindlichkeiten": { "label": "Finanzen und Verbindlichkeiten", "icon": "folder" },
+    "pro-betrieb-zugaenge": { "label": "Betrieb und Zugänge", "icon": "folder" },
+    "pro-aufbewahrung-ordnung": { "label": "Aufbewahrung und Ordnung", "icon": "folder" },
+    "pro-kontakte-vertretungsplan": { "label": "Kontakte und Vertretungsplan", "icon": "folder" }
+  }
+}

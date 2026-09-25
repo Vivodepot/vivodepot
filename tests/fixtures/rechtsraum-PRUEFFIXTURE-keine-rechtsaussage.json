@@ -1,0 +1,50 @@
+{
+  "_WARNUNG": "PRÜF-FIXTURE. KEINE RECHTSAUSSAGE. Nicht ausliefern, nicht zitieren, nicht als Vorlage für ein echtes Rechtsraum-Modul nehmen.",
+  "_zweck": "Beweist, dass die Rechtsraum-Überlagerung (U2-ADR-307) die Fristen wirklich wechselt — die B-Seite des A/B-Beweises. Jede Frist trägt bewusst eine ANDERE Dauer als der eingebaute Bestand, damit der Vergleich nicht zufällig gleich ausfallen kann.",
+  "_quellen": "Die `quelle`-Felder unten sind ERFUNDENE Platzhalter und benennen sich selbst als solche. Der Kern verlangt eine Quelle (wie bei `fristRegel`), er kann sie aber nicht prüfen — diese Fixture setzt darum eine, die niemand für eine Norm halten kann.",
+  "_gueltigkeitVorschlag": "Seit U2-ADR-314 mit abgedeckt: das Modul trägt `monate` (eine Zahl) statt eines Regel-Namens, der Kern rechnet. Die eingebaute deutsche Regel bleibt trotzdem im Kern — sie ist BEDINGT (unter 24 bei Ausstellung sechs Jahre statt zehn) und als eine einzelne Zahl nicht ausdrückbar. Diese Fixture setzt darum eine schlichte Dauer, wie sie ein Rechtsraum mit einfacher Regel hätte.",
+  "rechtsraum": "ZZ-PRUEFUNG",
+  "moduleVersion": 1,
+  "anbieterId": "vivodepot-pruefung",
+  "felder": {
+    "socialInsurance.noticeDated": {
+      "fristRegel": {
+        "dauer": "P2M",
+        "quelle": "PRÜF-FIXTURE — keine Norm (eingebaut: ein Monat)"
+      }
+    },
+    "socialInsurance.terminationDate": {
+      "fristRegel": {
+        "dauer": "P6W",
+        "quelle": "PRÜF-FIXTURE — keine Norm (eingebaut: drei Wochen)"
+      }
+    },
+    "situation:geburt.geburt_kind_kv": {
+      "fristRegel": {
+        "abFeld": "geburt_datum",
+        "dauer": "P1M",
+        "quelle": "PRÜF-FIXTURE — keine Norm (eingebaut: zwei Monate)"
+      }
+    },
+    "situation:erbfall.erb_sterbeurkunde": {
+      "fristRegel": {
+        "abFeld": "erb_sterbedatum",
+        "dauer": "P3W",
+        "quelle": "PRÜF-FIXTURE — keine Norm (eingebaut: drei Werktage)"
+      }
+    },
+    "situation:erbfall.erb_schulden_kenntnis": {
+      "fristRegel": {
+        "dauer": "P3WERKTAGE",
+        "quelle": "PRÜF-FIXTURE — keine Norm (eingebaut: sechs Wochen)"
+      }
+    },
+    "mobility.passportValidUntil": {
+      "gueltigkeitVorschlag": {
+        "ausFeld": "passportIssuedOn",
+        "monate": 60,
+        "quelle": "PRÜF-FIXTURE — keine Norm (eingebaut: bedingt zehn oder sechs Jahre)"
+      }
+    }
+  }
+}

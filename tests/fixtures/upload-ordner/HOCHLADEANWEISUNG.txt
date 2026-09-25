@@ -1,0 +1,5 @@
+Beispiel — Hochladeanweisung
+
+NICHT hochladen: HOCHLADEANWEISUNG.txt · bauen.py
+
+Ende.

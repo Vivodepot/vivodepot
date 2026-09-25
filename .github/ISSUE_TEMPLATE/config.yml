@@ -1,0 +1,7 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Sicherheitslücke melden
+    url: https://github.com/vivodepot/vivodepot/blob/main/SECURITY.md
+    about: >-
+      Sicherheitslücken werden NICHT über ein öffentliches Issue gemeldet.
+      Der Meldeweg steht in SECURITY.md.

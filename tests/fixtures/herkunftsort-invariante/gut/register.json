@@ -1,0 +1,50 @@
+{
+  "anwendungen": [
+    {
+      "datei": "anwendung-a.html",
+      "name": "Anwendung A"
+    },
+    {
+      "datei": "anwendung-b.html",
+      "name": "Anwendung B"
+    }
+  ],
+  "keineAnwendung": [
+    {
+      "datei": "beschreibung.html",
+      "grund": "Beschreibung, kein Skript",
+      "probe": "ohne-skript"
+    },
+    {
+      "datei": "intern.html",
+      "grund": "intern, nicht ausgeliefert (erfundene Fixture)",
+      "probe": "nicht-im-dateisatz"
+    }
+  ],
+  "gruppen": {
+    "unersetzbar": [
+      "STRINGS.herkunftUrheberinA",
+      "STRINGS.herkunftLizenzA",
+      "HERKUNFT_LINK_A",
+      "URHEBER_B"
+    ],
+    "ersetzbar": [
+      "STRINGS.anbieterZeileA",
+      "STRINGS.beschriftungB"
+    ]
+  },
+  "angaben": {
+    "STRINGS.herkunftUrheberinA": {
+      "art": "name"
+    },
+    "STRINGS.herkunftLizenzA": {
+      "art": "lizenz"
+    },
+    "HERKUNFT_LINK_A": {
+      "art": "bezug"
+    },
+    "URHEBER_B": {
+      "art": "name"
+    }
+  }
+}

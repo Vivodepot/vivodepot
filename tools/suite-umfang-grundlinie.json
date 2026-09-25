@@ -1,0 +1,5 @@
+{
+  "dateien_test_js": 1363,
+  "datum": "2026-09-25",
+  "grund": "Ausgangswert nach Auftrag Suite-Differenz-210 (11.08.2026). Der Verdacht eines Testverlusts zwischen A147 (3327) und A148 (3117) war eine Messmethoden-Verwechslung: 'node --test tests/*.js' (Shell-Glob, flach, schliesst tests/mit-modul/ und tests/e2e-cross/ still aus) gegen 'npm test'/'node --test' (rekursiv, CI-Massstab). Kein Test wurde entfernt oder verloren; die Differenz war immer 217 (3327 vs. 3110 am selben Commit 409594d, gemessen). CI (.github/workflows/e2e.yml, 'npm test') lief immer rekursiv und war nie betroffen. Dieser Wert ist die rekursive Datei-Zaehlung ('find tests -name *.test.js'), nicht die shallow-Glob-Zaehlung."
+}

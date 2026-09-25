@@ -1,0 +1,34 @@
+{
+ "stand": "2026-09-16",
+ "grund": "Rest je Aufnahme nach Herausrechnen des Kennungs-Umbaus (tools/lib/v515-rest.js). Ein wachsender Rest macht rot; ein geschrumpfter ist ein Hinweis, die Grundlinie nachzuziehen.",
+ "rest": {
+  "privat-de": {
+   "leer__identity": 14,
+   "befuellt__identity": 14,
+   "leer__people": 13,
+   "befuellt__people": 14,
+   "leer__mobility": 6,
+   "befuellt__mobility": 8,
+   "leer__finance": 9,
+   "befuellt__finance": 13,
+   "leer__assets": 6,
+   "befuellt__assets": 6,
+   "leer__health": 15,
+   "befuellt__health": 24,
+   "leer__education": 6,
+   "befuellt__education": 7,
+   "leer__socialInsurance": 8,
+   "befuellt__socialInsurance": 9,
+   "leer__advanceCare": 42,
+   "befuellt__advanceCare": 103,
+   "leer__administration": 8,
+   "befuellt__administration": 9,
+   "leer__housing": 7,
+   "befuellt__housing": 7,
+   "leer__emergencyPreparedness": 4,
+   "befuellt__emergencyPreparedness": 4,
+   "leer__personal": 5,
+   "befuellt__personal": 6
+  }
+ }
+}

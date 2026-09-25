@@ -1,0 +1,39 @@
+{
+  "submissionId": "3f2504e0-4f89-41d3-9a0c-0305e82c3305",
+  "submissionTimestamp": "2026-09-13T12:00:00Z",
+  "generatorVersion": "v1.0",
+  "anbieter": {
+    "anbieterId": "institution/pflegeheim-musterstadt-de",
+    "anbieterName": "Seniorenresidenz Musterstadt",
+    "anbieterTyp": "institution/pflegeheim-de",
+    "rechtsform": "GmbH",
+    "adresse": {
+      "strasse": "Lindenallee 12",
+      "plz": "12345",
+      "ort": "Musterstadt",
+      "land": "Deutschland"
+    },
+    "kontakt": {
+      "name": "Petra Beispiel",
+      "funktion": "Pflegedienstleitung",
+      "email": "p.beispiel@seniorenresidenz-musterstadt.example.de",
+      "telefon": "+49 30 1234567"
+    },
+    "bereich": "health",
+    "useCase": "Aufnahmebogen fuer neue Bewohnerinnen und Bewohner: Erfassung von Stammdaten, Pflegegrad und Notfallkontakten zur Uebergabe an das Pflegeteam und behandelnde Aerzte."
+  },
+  "publicKeyJwk": {
+    "kty": "OKP",
+    "crv": "Ed25519",
+    "alg": "Ed25519",
+    "x": "kmz5gD4oi4pZe0CdR7FhXahRnjZqrAkKCe0VNskNf60",
+    "kid": "vivodepot-test-sentinel-do-not-use-in-production"
+  },
+  "kennungVorschlaege": [
+    {
+      "kennung": "health.secondOpinionContact",
+      "label": { "de": "Kontakt fuer Zweitmeinung" },
+      "begruendung": "Diese Angabe fehlt der englischen Beschriftung -- U2-ADR-409 Punkt 12 verlangt beide Sprachen zwingend."
+    }
+  ]
+}

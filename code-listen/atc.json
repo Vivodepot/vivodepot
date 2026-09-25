@@ -1,0 +1,18 @@
+{
+  "systemId": "atc",
+  "uri": "http://www.whocc.no/atc",
+  "version": "ATC-GM-2026-amtlich",
+  "kuerzel": "ATC",
+  "lizenz": "Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM mit DDD, die auf dem vom WHO Collaborating Centre for Drug Statistics Methodology herausgegebenen Werk mit dem Titel „ATC Index with DDDs and Guidelines for ATC Classification and DDD Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM). Auszug aus der amtlichen Fassung 2026, Codes und Bezeichnungen unverändert übernommen (§ 62 UrhG).",
+  "status": "seed",
+  "hinweis": "Auszug aus der amtlichen Fassung 2026 (BfArM), Vollliste ausstehend",
+  "daten": [
+    { "code": "J01CE01", "anzeigeName": "Benzylpenicillin", "synonyme": ["Penicillin G", "Penicillin"], "kategorie": "Antibiotikum" },
+    { "code": "J01CA04", "anzeigeName": "Amoxicillin", "synonyme": ["Penicillin"], "kategorie": "Antibiotikum" },
+    { "code": "J01CA01", "anzeigeName": "Ampicillin", "synonyme": ["Penicillin"], "kategorie": "Antibiotikum" },
+    { "code": "C09AA05", "anzeigeName": "Ramipril", "kategorie": "ACE-Hemmer" },
+    { "code": "A10BA02", "anzeigeName": "Metformin", "kategorie": "Antidiabetikum" },
+    { "code": "M01AE01", "anzeigeName": "Ibuprofen", "kategorie": "Schmerzmittel" },
+    { "code": "N02BE01", "anzeigeName": "Paracetamol", "kategorie": "Schmerzmittel" }
+  ]
+}

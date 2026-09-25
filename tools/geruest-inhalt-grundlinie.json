@@ -1,0 +1,11 @@
+{
+ "erlaubt": [
+  {
+   "kennung": "_ANG_CACHE_ERLAUBT",
+   "beginn": "const _ANG_CACHE_ERLAUBT = (() => {",
+   "ende": "\n})();",
+   "hoechstens": 75,
+   "grund": "Kern-feste Cache-Allowlist: welche Felder ein Angehöriger ohne Depot-Passwort sehen darf (Schlüssel blatt|quelle|feld). Bleibt im Kern, damit eine Vorlage nichts freischalten kann (tests/angehoerigen-vorlage-cache-allowlist.test.js). Die Zahl darf nur sinken."
+  }
+ ]
+}

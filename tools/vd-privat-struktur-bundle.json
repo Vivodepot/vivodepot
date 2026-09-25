@@ -1,0 +1,4646 @@
+{
+ "modulTyp": "bereich",
+ "moduleVersion": 1,
+ "herkunft": "vivodepot",
+ "sprache": "de",
+ "bereiche": {
+  "identity": {
+   "id": "identity",
+   "format": "SD_JWT_VC",
+   "icon": "user",
+   "merkmale": [
+    "ankerIdentitaet"
+   ],
+   "rollen": {
+    "ankerNameFelder": [
+     "givenName",
+     "familyName",
+     "secondLastName",
+     "displayFamilyNameFirst"
+    ],
+    "familienstandFeld": "maritalStatus",
+    "telefonFeld": "telephone",
+    "emailFeld": "email",
+    "adresseFelder": [
+     "streetAddress",
+     "postcodeCity"
+    ]
+   },
+   "exporte": [
+    {
+     "format": "sd-jwt-vc-identitaet",
+     "labelSchluessel": "exportIdentitaetLabel"
+    },
+    {
+     "format": "vcard-identitaet",
+     "labelSchluessel": "exportVcardLabel"
+    }
+   ],
+   "wizards": [
+    "heirwiz",
+    "umzwiz"
+   ],
+   "deckblatt": {
+    "fotoFeld": "profilePhotoCoverPage",
+    "nameFelder": [
+     "givenName",
+     "familyName",
+     "secondLastName"
+    ]
+   },
+   "standardDokumente": [
+    {
+     "typ": "national-id-card",
+     "name": "Personalausweis",
+     "empfRhythmusMonate": null,
+     "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt.",
+     "felder": [
+      {
+       "sektorId": "identity",
+       "feldId": "idDocuments",
+       "unterfeldId": "validUntil"
+      }
+     ]
+    },
+    {
+     "typ": "residence-permit",
+     "name": "Aufenthaltstitel",
+     "empfRhythmusMonate": null,
+     "vorlaufTage": 90,
+     "hinweis": "Kein fester Rhythmus und kein berechneter Vorschlag — die Frist hängt von Art und Grundlage ab. Empfehlung: rechtzeitig vor Ablauf verlängern, üblich sind drei Monate Vorlauf.",
+     "felder": [
+      {
+       "sektorId": "identity",
+       "feldId": "residencePermit",
+       "unterfeldId": "validUntil"
+      }
+     ]
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "person",
+     "felder": [
+      {
+       "id": "givenName",
+       "typ": "text"
+      },
+      {
+       "id": "familyName",
+       "typ": "text"
+      },
+      {
+       "id": "secondLastName",
+       "typ": "text"
+      },
+      {
+       "id": "displayFamilyNameFirst",
+       "typ": "checkbox"
+      },
+      {
+       "id": "birthDate",
+       "typ": "datum",
+       "keineZukunft": true,
+       "datumJahrMin": 1900
+      },
+      {
+       "id": "yearOfBirthIfTheExactDayIs",
+       "typ": "text",
+       "eingabeTyp": "numeric"
+      },
+      {
+       "id": "telephone",
+       "typ": "text",
+       "eingabeTyp": "tel"
+      },
+      {
+       "id": "streetAddress",
+       "typ": "text"
+      },
+      {
+       "id": "postcodeCity",
+       "typ": "text"
+      },
+      {
+       "id": "email",
+       "typ": "text",
+       "eingabeTyp": "email"
+      },
+      {
+       "id": "nationality",
+       "sensibel": true,
+       "typ": "text",
+       "vorschlaege": [
+        "deutsch",
+        "österreichisch",
+        "schweizerisch",
+        "türkisch",
+        "polnisch",
+        "italienisch",
+        "französisch",
+        "US-amerikanisch",
+        "staatenlos"
+       ]
+      },
+      {
+       "id": "birthName",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "birthPlace",
+       "typ": "text"
+      },
+      {
+       "id": "gender",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "m"
+        },
+        {
+         "wert": "w"
+        },
+        {
+         "wert": "d"
+        },
+        {
+         "wert": "k"
+        }
+       ]
+      },
+      {
+       "id": "maritalStatus",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ledig"
+        },
+        {
+         "wert": "verh"
+        },
+        {
+         "wert": "elp"
+        },
+        {
+         "wert": "getrennt"
+        },
+        {
+         "wert": "geschieden"
+        },
+        {
+         "wert": "verwitwet"
+        }
+       ]
+      },
+      {
+       "id": "maritalPropertyRegime",
+       "typ": "auswahl",
+       "sichtbarWenn": {
+        "feld": "maritalStatus",
+        "wert": [
+         "verh",
+         "elp"
+        ]
+       },
+       "optionen": [
+        {
+         "wert": "zugewinn"
+        },
+        {
+         "wert": "guetertrenn"
+        },
+        {
+         "wert": "guetergem"
+        }
+       ]
+      },
+      {
+       "id": "dateOfSeparation",
+       "typ": "datum",
+       "keineZukunft": true,
+       "sichtbarWenn": {
+        "feld": "maritalStatus",
+        "wert": [
+         "getrennt",
+         "geschieden"
+        ]
+       }
+      },
+      {
+       "id": "choiceOfNameAfterMarriage",
+       "typ": "auswahl",
+       "sichtbarWenn": {
+        "feld": "maritalStatus",
+        "wert": [
+         "verh",
+         "elp"
+        ]
+       },
+       "optionen": [
+        {
+         "wert": "ehename_meiner"
+        },
+        {
+         "wert": "ehename_partner"
+        },
+        {
+         "wert": "eigener_name"
+        },
+        {
+         "wert": "begleitname"
+        }
+       ]
+      },
+      {
+       "id": "choiceOfNameAfterMarriage2",
+       "typ": "text",
+       "sichtbarWenn": {
+        "feld": "maritalStatus",
+        "wert": [
+         "verh",
+         "elp"
+        ]
+       }
+      },
+      {
+       "id": "idDocuments",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "documentNumber",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "issuedOn",
+         "sensibel": true,
+         "typ": "datum"
+        },
+        {
+         "id": "validUntil",
+         "sensibel": true,
+         "typ": "datum"
+        }
+       ]
+      },
+      {
+       "id": "residencePermitType",
+       "sensibel": true,
+       "typ": "text",
+       "vorschlaege": [
+        "Aufenthaltserlaubnis",
+        "Niederlassungserlaubnis",
+        "Blaue Karte EU",
+        "Visum",
+        "Duldung",
+        "Fiktionsbescheinigung"
+       ]
+      },
+      {
+       "id": "residencePermit",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "number",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "issuedOn",
+         "sensibel": true,
+         "typ": "datum"
+        },
+        {
+         "id": "validUntil",
+         "sensibel": true,
+         "typ": "datum"
+        },
+        {
+         "id": "responsibleImmigration",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "fileReferenceNumber",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "profilePhotoCoverPage",
+       "typ": "ref",
+       "entitaet": "mappe"
+      },
+      {
+       "id": "furtherDetails",
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "taxClass",
+       "sensibel": true,
+       "typ": "auswahl",
+       "ebene": "modul",
+       "optionen": [
+        {
+         "wert": "I"
+        },
+        {
+         "wert": "II"
+        },
+        {
+         "wert": "III"
+        },
+        {
+         "wert": "IV"
+        },
+        {
+         "wert": "IV_faktor"
+        },
+        {
+         "wert": "V"
+        },
+        {
+         "wert": "VI"
+        }
+       ]
+      },
+      {
+       "id": "taxClassEarlierEntry",
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "reRegistrationWithTheResidents",
+       "typ": "text",
+       "ebene": "modul"
+      }
+     ]
+    },
+    {
+     "id": "fruehere-namen",
+     "felder": [
+      {
+       "id": "formerNames",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "name",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "usedUntil",
+         "sensibel": true,
+         "typ": "datum"
+        },
+        {
+         "id": "reason",
+         "sensibel": true,
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "heirat"
+          },
+          {
+           "wert": "scheidung"
+          },
+          {
+           "wert": "namensaenderung"
+          },
+          {
+           "wert": "adoption"
+          },
+          {
+           "wert": "einbuergerung"
+          },
+          {
+           "wert": "personenstand"
+          },
+          {
+           "wert": "transkription"
+          },
+          {
+           "wert": "sonstiges"
+          }
+         ]
+        },
+        {
+         "id": "note",
+         "typ": "hinweis",
+         "sichtbarWenn": {
+          "feld": "reason",
+          "wert": "personenstand"
+         }
+        },
+        {
+         "id": "proofStorageLocation",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pets",
+     "felder": [
+      {
+       "id": "pets",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "petNameSpecies",
+         "typ": "text"
+        },
+        {
+         "id": "emergencyCarePersonContact",
+         "typ": "ref",
+         "entitaet": "person"
+        },
+        {
+         "id": "vetNameContact",
+         "typ": "ref",
+         "entitaet": "person"
+        },
+        {
+         "id": "medication",
+         "typ": "text"
+        },
+        {
+         "id": "otherNotes",
+         "typ": "text"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "people": {
+   "id": "people",
+   "format": "GENERISCH",
+   "icon": "users",
+   "merkmale": [
+    "personenRegister"
+   ],
+   "rollen": {
+    "personenListe": "menschen",
+    "schutzbefohleneListe": "childrenAndDependants",
+    "personenSektion": "menschen-liste",
+    "schutzbefohleneSektion": "kinder-sek"
+   },
+   "exporte": [
+    {
+     "format": "vcard-menschen",
+     "labelSchluessel": "exportVcardMenschenLabel"
+    }
+   ],
+   "wizards": [
+    "pflwiz",
+    "heirwiz"
+   ],
+   "sektionen": [
+    {
+     "id": "menschen-liste",
+     "felder": []
+    },
+    {
+     "id": "kinder-sek",
+     "felder": [
+      {
+       "id": "childrenAndDependants",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "person",
+         "typ": "ref",
+         "entitaet": "person",
+         "mitGeburt": true,
+         "verweisZweck": "familiaer"
+        },
+        {
+         "id": "type",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "leiblich"
+          },
+          {
+           "wert": "adoptiert"
+          },
+          {
+           "wert": "pflege"
+          },
+          {
+           "wert": "stief"
+          },
+          {
+           "wert": "muendel"
+          },
+          {
+           "wert": "betreuter_erwachsener"
+          }
+         ]
+        },
+        {
+         "id": "typeAdditionalDetail",
+         "typ": "text"
+        },
+        {
+         "id": "note",
+         "typ": "textarea",
+         "beispiel": ""
+        },
+        {
+         "id": "legalRepresentationParental",
+         "typ": "auswahl",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": "betreuter_erwachsener"
+         },
+         "optionen": [
+          {
+           "wert": "gemeinsam"
+          },
+          {
+           "wert": "allein"
+          },
+          {
+           "wert": "vormund"
+          },
+          {
+           "wert": "andere"
+          }
+         ]
+        },
+        {
+         "id": "custodyAdditionalDetailPartial",
+         "typ": "text",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": "betreuter_erwachsener"
+         }
+        },
+        {
+         "id": "custodyArrangement",
+         "typ": "text",
+         "vorschlaege": [
+          "Residenzmodell",
+          "Wechselmodell",
+          "Wechselmodell 50/50",
+          "Nestmodell",
+          "erweiterter Umgang"
+         ],
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": "betreuter_erwachsener"
+         }
+        },
+        {
+         "id": "training",
+         "typ": "auswahl",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": "betreuter_erwachsener"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "trainingExpectedToEnd",
+         "typ": "datum",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": "betreuter_erwachsener"
+         }
+        },
+        {
+         "id": "birthCertificateStorage",
+         "sensibel": true,
+         "typ": "text",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": "betreuter_erwachsener"
+         }
+        },
+        {
+         "id": "basisOfRepresentation",
+         "sensibel": true,
+         "typ": "auswahl",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": [
+           "leiblich",
+           "adoptiert",
+           "pflege",
+           "stief",
+           "muendel"
+          ]
+         },
+         "optionen": [
+          {
+           "wert": "betreuung"
+          },
+          {
+           "wert": "vorsorgevollmacht"
+          },
+          {
+           "wert": "ehegattennotvertretung"
+          }
+         ]
+        },
+        {
+         "id": "areasOfResponsibility",
+         "sensibel": true,
+         "typ": "textarea",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": [
+           "leiblich",
+           "adoptiert",
+           "pflege",
+           "stief",
+           "muendel"
+          ]
+         }
+        },
+        {
+         "id": "careCourt",
+         "sensibel": true,
+         "typ": "text",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": [
+           "leiblich",
+           "adoptiert",
+           "pflege",
+           "stief",
+           "muendel"
+          ]
+         }
+        },
+        {
+         "id": "fileReferenceNumber",
+         "sensibel": true,
+         "typ": "text",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": [
+           "leiblich",
+           "adoptiert",
+           "pflege",
+           "stief",
+           "muendel"
+          ]
+         }
+        },
+        {
+         "id": "validSince",
+         "marken": [
+          "giltAb"
+         ],
+         "typ": "datum",
+         "verborgenWenn": {
+          "feld": "type",
+          "wert": [
+           "leiblich",
+           "adoptiert",
+           "pflege",
+           "stief",
+           "muendel"
+          ]
+         }
+        }
+       ]
+      },
+      {
+       "id": "guidedBirthEntryChildsNameNot",
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "guidedBirthEntryDateOfBirthNot",
+       "typ": "datum",
+       "ebene": "modul"
+      },
+      {
+       "id": "guidedBirthEntryRelationship",
+       "typ": "auswahl",
+       "ebene": "modul",
+       "optionen": [
+        {
+         "wert": "leiblich"
+        },
+        {
+         "wert": "adoptiert"
+        },
+        {
+         "wert": "pflege"
+        },
+        {
+         "wert": "stief"
+        },
+        {
+         "wert": "muendel"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "unterhalt-sek",
+     "felder": [
+      {
+       "id": "maintenanceObligationsAnd",
+       "typ": "liste",
+       "ebene": "modul",
+       "unterFelder": [
+        {
+         "id": "person",
+         "typ": "ref",
+         "entitaet": "person",
+         "verweisZweck": "familiaer"
+        },
+        {
+         "id": "type",
+         "typ": "text",
+         "vorschlaege": [
+          "Kindesunterhalt",
+          "Trennungsunterhalt",
+          "Nachehelicher Ehegattenunterhalt",
+          "Elternunterhalt",
+          "Betreuungsunterhalt"
+         ]
+        },
+        {
+         "id": "amount",
+         "sensibel": true,
+         "typ": "text",
+         "inputmode": "decimal"
+        },
+        {
+         "id": "currency",
+         "sensibel": true,
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "EUR"
+          },
+          {
+           "wert": "USD"
+          },
+          {
+           "wert": "GBP"
+          },
+          {
+           "wert": "CHF"
+          },
+          {
+           "wert": "sonstige"
+          }
+         ]
+        },
+        {
+         "id": "frequency",
+         "sensibel": true,
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "monatlich"
+          },
+          {
+           "wert": "jaehrlich"
+          },
+          {
+           "wert": "einmalig"
+          }
+         ]
+        },
+        {
+         "id": "direction",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "zahle"
+          },
+          {
+           "wert": "bekomme"
+          }
+         ]
+        },
+        {
+         "id": "start",
+         "marken": [
+          "giltAb"
+         ],
+         "typ": "datum"
+        },
+        {
+         "id": "end",
+         "typ": "datum"
+        },
+        {
+         "id": "note",
+         "typ": "text"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pflege-sek",
+     "felder": [
+      {
+       "id": "whoProvidesThePrimaryCare",
+       "typ": "ref",
+       "entitaet": "person",
+       "rolle": "pflegeperson",
+       "verweisZweck": "familiaer"
+      },
+      {
+       "id": "careLeaveFamilyCareLeave",
+       "sensibel": true,
+       "typ": "text"
+      }
+     ]
+    },
+    {
+     "id": "partnerschaft-sek",
+     "felder": [
+      {
+       "id": "spouseOrCivilPartner",
+       "typ": "ref",
+       "entitaet": "person",
+       "rolle": "partner",
+       "verweisZweck": "familiaer"
+      }
+     ]
+    }
+   ]
+  },
+  "mobility": {
+   "id": "mobility",
+   "format": "GENERISCH",
+   "icon": "car",
+   "standardDokumente": [
+    {
+     "typ": "passport",
+     "name": "Reisepass",
+     "empfRhythmusMonate": null,
+     "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt.",
+     "felder": [
+      {
+       "sektorId": "mobility",
+       "feldId": "passportValidUntil"
+      }
+     ]
+    },
+    {
+     "typ": "driving-licence",
+     "name": "Führerschein",
+     "empfRhythmusMonate": null,
+     "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Näheres zu Ablauf und Umtausch erfahren Sie bei Ihrer Führerscheinstelle.",
+     "felder": [
+      {
+       "sektorId": "mobility",
+       "feldId": "drivingLicenceValidUntil"
+      }
+     ]
+    },
+    {
+     "typ": "elefand",
+     "name": "ELEFAND-Registrierung",
+     "empfRhythmusMonate": null,
+     "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Registrierungsende, meist an die geplante Reisedauer gekoppelt.",
+     "felder": [
+      {
+       "sektorId": "mobility",
+       "feldId": "elefandRegistrations",
+       "unterfeldId": "validUntil"
+      }
+     ]
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "fahrzeuge-fuehrerschein",
+     "felder": [
+      {
+       "id": "vehicles",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "registrationPlate",
+         "typ": "text"
+        },
+        {
+         "id": "vehicleRegistrationDocument",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "leaseAgreementStorageLocation",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "carInsurance",
+       "typ": "ref",
+       "entitaet": "institution",
+       "verweisZweck": "geschaeftlich"
+      },
+      {
+       "id": "policyNumber",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "drivingLicenceClasses",
+       "sensibel": true,
+       "typ": "mehrfachauswahl",
+       "optionen": [
+        {
+         "wert": "AM"
+        },
+        {
+         "wert": "A1"
+        },
+        {
+         "wert": "A2"
+        },
+        {
+         "wert": "A"
+        },
+        {
+         "wert": "B"
+        },
+        {
+         "wert": "BE"
+        },
+        {
+         "wert": "C1"
+        },
+        {
+         "wert": "C1E"
+        },
+        {
+         "wert": "C"
+        },
+        {
+         "wert": "CE"
+        },
+        {
+         "wert": "D1"
+        },
+        {
+         "wert": "D1E"
+        },
+        {
+         "wert": "D"
+        },
+        {
+         "wert": "DE"
+        },
+        {
+         "wert": "L"
+        },
+        {
+         "wert": "T"
+        }
+       ]
+      },
+      {
+       "id": "drivingLicenceStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "drivingLicenceEarlierEntry",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "drivingLicenceValidUntil",
+       "marken": [
+        "laeuftAb"
+       ],
+       "sensibel": true,
+       "typ": "datum"
+      },
+      {
+       "id": "deutschlandticketPublic",
+       "typ": "text"
+      },
+      {
+       "id": "passportNo",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "passportIssuedOn",
+       "marken": [
+        "giltAb"
+       ],
+       "sensibel": true,
+       "typ": "datum"
+      },
+      {
+       "id": "passportValidUntil",
+       "marken": [
+        "laeuftAb"
+       ],
+       "gueltigkeitVorschlag": {
+        "ausFeld": "passportIssuedOn",
+        "regel": "ausweisdauer"
+       },
+       "sensibel": true,
+       "typ": "datum"
+      },
+      {
+       "id": "elefandRegistrations",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "registrationNo",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "countries",
+         "typ": "text",
+         "vorschlaege": [
+          "Türkei",
+          "Ägypten",
+          "Thailand",
+          "Indien",
+          "USA",
+          "Marokko",
+          "Spanien",
+          "Italien"
+         ]
+        },
+        {
+         "id": "validUntil",
+         "sensibel": true,
+         "typ": "datum"
+        }
+       ]
+      },
+      {
+       "id": "embassyContact",
+       "typ": "ref",
+       "entitaet": "institution",
+       "verweisZweck": "krisenvorsorge"
+      }
+     ]
+    }
+   ]
+  },
+  "finance": {
+   "id": "finance",
+   "format": "SD_JWT_VC",
+   "icon": "wallet",
+   "exporte": [
+    {
+     "format": "sd-jwt-vc-finanzen",
+     "labelSchluessel": "exportFinanzenLabel"
+    }
+   ],
+   "wizards": [],
+   "standardDokumente": [
+    {
+     "typ": "bank-power-of-attorney",
+     "name": "Bankvollmacht",
+     "empfRhythmusMonate": 12,
+     "felder": [
+      {
+       "sektorId": "advanceCare",
+       "feldId": "provisionInstruments"
+      }
+     ]
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "konten-steuern-vorsorge",
+     "felder": [
+      {
+       "id": "taxIdsTaxNumbers",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "taxNumber",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "companyPensionSchemeBav",
+       "typ": "text"
+      },
+      {
+       "id": "companyPensionScheme",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "direktversicherung"
+        },
+        {
+         "wert": "pensionskasse"
+        },
+        {
+         "wert": "pensionsfonds"
+        },
+        {
+         "wert": "direktzusage"
+        },
+        {
+         "wert": "unterstuetzungskasse"
+        }
+       ]
+      },
+      {
+       "id": "companyPensionPolicyNumber",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "companyPensionAgreedStartDate",
+       "marken": [
+        "giltAb"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "privatePensionProvision",
+       "typ": "text"
+      },
+      {
+       "id": "policyContractNumber",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "privatePensionProvisionAgreed",
+       "marken": [
+        "laeuftAb"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "privateInsurancePolicies",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "insuranceType",
+         "typ": "text",
+         "vorschlaege": [
+          "Haftpflichtversicherung",
+          "Hausratversicherung",
+          "Rechtsschutzversicherung",
+          "Unfallversicherung",
+          "Berufsunfähigkeitsversicherung",
+          "Kfz-Versicherung"
+         ]
+        },
+        {
+         "id": "insurer",
+         "typ": "ref",
+         "entitaet": "institution",
+         "verweisZweck": "geschaeftlich"
+        },
+        {
+         "id": "insurancePolicyNumber",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "insuranceContactPerson",
+         "typ": "text"
+        },
+        {
+         "id": "insuranceTerminationMethod",
+         "typ": "text"
+        },
+        {
+         "id": "note",
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "accounts",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "institution",
+         "typ": "ref",
+         "entitaet": "institution",
+         "verweisZweck": "geschaeftlich"
+        },
+        {
+         "id": "accountType",
+         "typ": "text",
+         "vorschlaege": [
+          "Girokonto",
+          "Sparkonto",
+          "Tagesgeld",
+          "Festgeld",
+          "Depot",
+          "Darlehenskonto",
+          "Treuhandkonto",
+          "Bausparvertrag",
+          "Basiskonto"
+         ]
+        },
+        {
+         "id": "iban",
+         "sensibel": true,
+         "typ": "text",
+         "eingabeTyp": "iban"
+        },
+        {
+         "id": "bankingPowersOfAttorneyFrom",
+         "typ": "refMehrfach",
+         "entitaet": "bank-power-of-attorney"
+        },
+        {
+         "id": "note",
+         "typ": "text"
+        },
+        {
+         "id": "garnishmentProtection",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "taxAdvisor",
+       "typ": "ref",
+       "entitaet": "person",
+       "ebene": "modul",
+       "verweisZweck": "geschaeftlich"
+      },
+      {
+       "id": "taxAdvisorContact",
+       "typ": "text",
+       "eingabeTyp": "tel",
+       "ebene": "modul"
+      },
+      {
+       "id": "latestTaxReturnStorageLocation",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "taxSoftware",
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "taxParticulars",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "financialAdvisorNameContact",
+       "typ": "ref",
+       "entitaet": "person",
+       "ebene": "modul",
+       "verweisZweck": "geschaeftlich"
+      },
+      {
+       "id": "ongoingLoansDebts",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "valuablesStorageLocations",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "digitalBalances",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "creditCards",
+       "typ": "liste",
+       "ebene": "modul",
+       "unterFelder": [
+        {
+         "id": "providerLast4Digits",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "validUntil",
+         "marken": [
+          "laeuftAb"
+         ],
+         "typ": "datum"
+        }
+       ]
+      },
+      {
+       "id": "outstandingClaimsGuarantees",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "assetsForTheEstate",
+       "typ": "liste",
+       "ebene": "modul",
+       "unterFelder": [
+        {
+         "id": "asset",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "withWhom",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "assets": {
+   "id": "assets",
+   "format": "GENERISCH",
+   "icon": "landmark",
+   "rollen": {
+    "auszugSektion": "einkommen-wohnsituation"
+   },
+   "sektionen": [
+    {
+     "id": "einkommen-wohnsituation",
+     "felder": [
+      {
+       "id": "additionalTypesOfIncome",
+       "sensibel": true,
+       "typ": "mehrfachauswahl",
+       "optionen": [
+        {
+         "wert": "unterhaltszahlungen"
+        },
+        {
+         "wert": "arbeitslosengeld"
+        },
+        {
+         "wert": "wohngeld"
+        },
+        {
+         "wert": "kindergeld"
+        },
+        {
+         "wert": "bafoeg"
+        },
+        {
+         "wert": "krankengeld"
+        },
+        {
+         "wert": "rente"
+        },
+        {
+         "wert": "elterngeld"
+        },
+        {
+         "wert": "insolvenzgeld"
+        },
+        {
+         "wert": "ueberbrueckungsgeld"
+        },
+        {
+         "wert": "sonstiges"
+        },
+        {
+         "wert": "keine"
+        }
+       ]
+      },
+      {
+       "id": "livingSituation",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "alleine"
+        },
+        {
+         "wert": "mit_angehoerigen"
+        },
+        {
+         "wert": "mit_anderen"
+        }
+       ]
+      },
+      {
+       "id": "homeSize",
+       "typ": "text",
+       "inputmode": "numeric"
+      },
+      {
+       "id": "housingCostsBorneAlone",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "numberOfPeopleInTheHome",
+       "typ": "text",
+       "inputmode": "numeric"
+      },
+      {
+       "id": "housingCostsTotal",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "housingCostsOwnShare",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "yourOwnIncomeNetMonthly",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "maintenanceObligations",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "incomeOfOtherPeopleInThe",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "monthlyCommitments",
+       "sensibel": true,
+       "typ": "textarea"
+      }
+     ]
+    }
+   ]
+  },
+  "health": {
+   "id": "health",
+   "format": "FHIR_IPS",
+   "icon": "heartPulse",
+   "exporte": [
+    {
+     "format": "fhir-ips",
+     "labelSchluessel": "fhirExportKurz"
+    }
+   ],
+   "wizards": [
+    "anamwiz",
+    "pflwiz"
+   ],
+   "standardDokumente": [
+    {
+     "typ": "health-insurance-card",
+     "name": "Krankenkassenkarte (inkl. EHIC)",
+     "empfRhythmusMonate": null,
+     "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Steht aufgedruckt auf der Karte, meist 5–6 Jahre gültig.",
+     "felder": [
+      {
+       "sektorId": "health",
+       "feldId": "healthInsuranceCards",
+       "unterfeldId": "validUntilInclEhic"
+      }
+     ]
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "notfall-aerzte",
+     "felder": [
+      {
+       "id": "generalPractitioner",
+       "sensibel": true,
+       "typ": "ref",
+       "entitaet": "person",
+       "rolle": "arzt",
+       "verweisZweck": "aerztlich"
+      },
+      {
+       "id": "specialistDoctors",
+       "sensibel": true,
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "specialistDoctor",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "facharzt",
+         "verweisZweck": "aerztlich",
+         "verweisKontextFeld": "specialty"
+        },
+        {
+         "id": "specialty",
+         "sensibel": true,
+         "typ": "text",
+         "vorschlaege": [
+          "Allgemeinmedizin",
+          "Innere Medizin",
+          "Kardiologie",
+          "Neurologie",
+          "Orthopädie",
+          "Gynäkologie",
+          "Urologie",
+          "Dermatologie",
+          "Augenheilkunde",
+          "Hals-Nasen-Ohrenheilkunde",
+          "Psychiatrie und Psychotherapie",
+          "Onkologie"
+         ]
+        }
+       ]
+      },
+      {
+       "id": "ongoingTreatmentNext",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "bloodType",
+       "sensibel": true,
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "0+"
+        },
+        {
+         "wert": "0-"
+        },
+        {
+         "wert": "A+"
+        },
+        {
+         "wert": "A-"
+        },
+        {
+         "wert": "B+"
+        },
+        {
+         "wert": "B-"
+        },
+        {
+         "wert": "AB+"
+        },
+        {
+         "wert": "AB-"
+        },
+        {
+         "wert": "unbekannt"
+        }
+       ]
+      },
+      {
+       "id": "allergiesMedicationFoodOther",
+       "sensibel": true,
+       "typ": "text",
+       "codeListe": "snomedAllergen"
+      },
+      {
+       "id": "chronicConditionsDiagnoses",
+       "sensibel": true,
+       "typ": "text",
+       "codeListe": "icd10"
+      },
+      {
+       "id": "healthInsurance",
+       "sensibel": true,
+       "typ": "ref",
+       "entitaet": "institution",
+       "verweisZweck": "aerztlich"
+      },
+      {
+       "id": "medicationOngoing",
+       "sensibel": true,
+       "typ": "text",
+       "codeListe": "atc"
+      },
+      {
+       "id": "insuranceNumber",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "implantsProsthesesPacemakers",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "heightCm",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "bodyWeightKg",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "vaccinationRecordStorage",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "emergencyContacts",
+       "typ": "refMehrfach",
+       "entitaet": "person",
+       "rolle": "pflegeperson",
+       "ebene": "modul",
+       "verweisZweck": "pflege"
+      },
+      {
+       "id": "insuredThrough",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "supplementaryInsurance",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul",
+       "vorschlaege": [
+        "Auslandsreisekrankenversicherung",
+        "Zahnzusatzversicherung",
+        "Krankenhaustagegeld",
+        "Pflegezusatzversicherung",
+        "Krankentagegeld",
+        "Brillenversicherung"
+       ]
+      },
+      {
+       "id": "healthInsuranceCards",
+       "typ": "liste",
+       "ebene": "modul",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "storageLocation",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "validUntilInclEhic",
+         "sensibel": true,
+         "typ": "datum"
+        }
+       ]
+      },
+      {
+       "id": "emergencyCardPatientId",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "smoking",
+       "sensibel": true,
+       "typ": "auswahl",
+       "ebene": "modul",
+       "optionen": [
+        {
+         "wert": "nie"
+        },
+        {
+         "wert": "ex"
+        },
+        {
+         "wert": "leicht"
+        },
+        {
+         "wert": "taegl"
+        }
+       ]
+      },
+      {
+       "id": "alcohol",
+       "sensibel": true,
+       "typ": "auswahl",
+       "ebene": "modul",
+       "optionen": [
+        {
+         "wert": "nie"
+        },
+        {
+         "wert": "selten"
+        },
+        {
+         "wert": "maess"
+        },
+        {
+         "wert": "taegl"
+        }
+       ]
+      },
+      {
+       "id": "vaccinations",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul",
+       "vorschlaege": [
+        "Tetanus",
+        "Diphtherie",
+        "Pertussis",
+        "Poliomyelitis",
+        "Masern",
+        "Mumps",
+        "Röteln",
+        "Influenza",
+        "Pneumokokken",
+        "Herpes Zoster",
+        "FSME",
+        "Hepatitis A",
+        "Hepatitis B",
+        "COVID-19"
+       ]
+      },
+      {
+       "id": "findingsOnAUsbStick",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "preventiveCheckUpsLatestDates",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "dentistNameContact",
+       "sensibel": true,
+       "typ": "ref",
+       "entitaet": "person",
+       "rolle": "zahnarzt",
+       "ebene": "modul",
+       "verweisZweck": "aerztlich"
+      },
+      {
+       "id": "dentalBonusBookletStorage",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "ehicCardEuropeanHealth",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "operationsProcedures",
+       "sensibel": true,
+       "typ": "liste",
+       "ebene": "modul",
+       "unterFelder": [
+        {
+         "id": "procedure",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "year",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "familyMedicalHistory",
+       "sensibel": true,
+       "typ": "liste",
+       "ebene": "modul",
+       "unterFelder": [
+        {
+         "id": "familyMember",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "condition",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "ageAtDiagnosis",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "education": {
+   "id": "education",
+   "format": "EDCI",
+   "icon": "graduationCap",
+   "exporte": [
+    {
+     "format": "edci-bildung",
+     "labelSchluessel": "exportBildungLabel"
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "ausbildung-beruf",
+     "felder": [
+      {
+       "id": "schoolLeavingQualification",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "kein_abschluss"
+        },
+        {
+         "wert": "hauptschulabschluss"
+        },
+        {
+         "wert": "mittlere_reife"
+        },
+        {
+         "wert": "fachhochschulreife"
+        },
+        {
+         "wert": "abitur"
+        },
+        {
+         "wert": "ausland"
+        }
+       ]
+      },
+      {
+       "id": "schoolLeavingQualificationYear",
+       "typ": "text"
+      },
+      {
+       "id": "schoolLeavingQualification2",
+       "typ": "text"
+      },
+      {
+       "id": "school",
+       "typ": "text"
+      },
+      {
+       "id": "vocationalTraining",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ihk"
+        },
+        {
+         "wert": "hwk"
+        },
+        {
+         "wert": "schulisch"
+        },
+        {
+         "wert": "umschulung"
+        },
+        {
+         "wert": "ohne_abschluss"
+        },
+        {
+         "wert": "ausland"
+        }
+       ]
+      },
+      {
+       "id": "vocationalTrainingTrained",
+       "typ": "text"
+      },
+      {
+       "id": "vocationalTrainingCompany",
+       "typ": "text"
+      },
+      {
+       "id": "vocationalTrainingYear",
+       "typ": "text"
+      },
+      {
+       "id": "vocationalTrainingEarlierEntry",
+       "typ": "text"
+      },
+      {
+       "id": "universityDegreeType",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "bachelor"
+        },
+        {
+         "wert": "master"
+        },
+        {
+         "wert": "diplom"
+        },
+        {
+         "wert": "magister"
+        },
+        {
+         "wert": "staatsexamen"
+        },
+        {
+         "wert": "promotion"
+        },
+        {
+         "wert": "ohne_abschluss"
+        },
+        {
+         "wert": "ausland"
+        }
+       ]
+      },
+      {
+       "id": "universitySubject",
+       "typ": "text"
+      },
+      {
+       "id": "universityInstitution",
+       "typ": "text"
+      },
+      {
+       "id": "universityYear",
+       "typ": "text"
+      },
+      {
+       "id": "universityEarlierEntry",
+       "typ": "text"
+      },
+      {
+       "id": "certificatesQualifications",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "occupationRole",
+       "typ": "text",
+       "vorschlaege": [
+        "Angestellte/r",
+        "Selbstständig",
+        "Beamtin/Beamter",
+        "Rentnerin/Rentner",
+        "Studierende/r",
+        "Hausfrau/Hausmann",
+        "Arbeitslos"
+       ]
+      },
+      {
+       "id": "employer",
+       "typ": "ref",
+       "entitaet": "institution",
+       "verweisZweck": "geschaeftlich"
+      },
+      {
+       "id": "employmentContractFixedTerm",
+       "marken": [
+        "laeuftAb"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "employerAddress",
+       "typ": "text"
+      },
+      {
+       "id": "lastEmployer",
+       "typ": "text"
+      },
+      {
+       "id": "typeOfIncome",
+       "sensibel": true,
+       "typ": "mehrfachauswahl",
+       "optionen": [
+        {
+         "wert": "angestellt"
+        },
+        {
+         "wert": "selbststaendig"
+        },
+        {
+         "wert": "beamtet"
+        },
+        {
+         "wert": "rente_pension"
+        },
+        {
+         "wert": "ausbildung_studium"
+        },
+        {
+         "wert": "arbeitslos"
+        },
+        {
+         "wert": "ohne_einkommen"
+        }
+       ]
+      },
+      {
+       "id": "typeOfIncomeEarlierEntry",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "grossMonthlyIncome",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "netMonthlyIncome",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "payslipStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "qualifications",
+       "typ": "text"
+      },
+      {
+       "id": "volunteerWork",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "schoolCertificatesStorage",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "trainingCertificateStorage",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "universityDegreeCertificate",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "employmentReferenceStorage",
+       "sensibel": true,
+       "typ": "text"
+      }
+     ]
+    }
+   ]
+  },
+  "socialInsurance": {
+   "id": "socialInsurance",
+   "format": "SD_JWT_VC",
+   "icon": "shield",
+   "exporte": [
+    {
+     "format": "sd-jwt-vc-sozialversicherung",
+     "labelSchluessel": "exportSozialversicherungLabel"
+    }
+   ],
+   "wizards": [
+    "pflwiz"
+   ],
+   "standardDokumente": [
+    {
+     "typ": "severe-disability-card",
+     "name": "Schwerbehindertenausweis",
+     "empfRhythmusMonate": null,
+     "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Ausweise sind oft befristet (5 Jahre); Verlängerung 3 Monate vor Ablauf beim Versorgungsamt beantragen.",
+     "felder": [
+      {
+       "sektorId": "socialInsurance",
+       "feldId": "severeDisabilityCards",
+       "unterfeldId": "validUntil"
+      }
+     ]
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "renten-pflege-soz",
+     "felder": [
+      {
+       "id": "pensionInsuranceNumbers",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "pensionInsuranceNumber",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "longTermCareFund",
+       "sensibel": true,
+       "typ": "ref",
+       "entitaet": "institution",
+       "verweisZweck": "pflege"
+      },
+      {
+       "id": "longTermCareFundNumbers",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "longTermCareFundNumber",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "longTermCareFundPhone",
+       "sensibel": true,
+       "typ": "text",
+       "eingabeTyp": "tel"
+      },
+      {
+       "id": "careLevel",
+       "sensibel": true,
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "1"
+        },
+        {
+         "wert": "2"
+        },
+        {
+         "wert": "3"
+        },
+        {
+         "wert": "4"
+        },
+        {
+         "wert": "5"
+        }
+       ]
+      },
+      {
+       "id": "careLevelSinceYear",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "numeric",
+       "sichtbarWenn": {
+        "feld": "careLevel",
+        "wert": [
+         "1",
+         "2",
+         "3",
+         "4",
+         "5"
+        ]
+       }
+      },
+      {
+       "id": "noticeDated",
+       "sensibel": true,
+       "typ": "datum",
+       "marken": [
+        "frist"
+       ],
+       "fristRegel": {
+        "dauer": "P1M",
+        "quelle": "§ 84 Abs. 1 SGG"
+       },
+       "sichtbarWenn": {
+        "feld": "careLevel",
+        "wert": [
+         "1",
+         "2",
+         "3",
+         "4",
+         "5"
+        ]
+       }
+      },
+      {
+       "id": "careLevelTimeLimitedUntil",
+       "marken": [
+        "laeuftAb"
+       ],
+       "sensibel": true,
+       "typ": "datum",
+       "sichtbarWenn": {
+        "feld": "careLevel",
+        "wert": [
+         "1",
+         "2",
+         "3",
+         "4",
+         "5"
+        ]
+       }
+      },
+      {
+       "id": "longTermCareAllowanceTypeOf",
+       "sensibel": true,
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "pflegegeld"
+        },
+        {
+         "wert": "sachleistung"
+        },
+        {
+         "wert": "kombinationsleistung"
+        }
+       ]
+      },
+      {
+       "id": "longTermCareAllowanceAmount",
+       "sensibel": true,
+       "typ": "text",
+       "inputmode": "decimal"
+      },
+      {
+       "id": "longTermCareAllowanceEarlier",
+       "sensibel": true,
+       "typ": "text"
+      }
+     ]
+    },
+    {
+     "id": "schwerbehinderung-pflege",
+     "felder": [
+      {
+       "id": "degreeOfDisabilityGdb",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "markers",
+       "sensibel": true,
+       "typ": "mehrfachauswahl",
+       "optionen": [
+        {
+         "wert": "G"
+        },
+        {
+         "wert": "aG"
+        },
+        {
+         "wert": "H"
+        },
+        {
+         "wert": "Bl"
+        },
+        {
+         "wert": "Gl"
+        },
+        {
+         "wert": "B"
+        },
+        {
+         "wert": "RF"
+        },
+        {
+         "wert": "TBl"
+        }
+       ]
+      },
+      {
+       "id": "gdbReviewReAssessmentDate",
+       "sensibel": true,
+       "marken": [
+        "frist"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "severeDisabilityCards",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "storageLocation",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "validUntil",
+         "sensibel": true,
+         "typ": "datum"
+        }
+       ]
+      },
+      {
+       "id": "homeCareServiceNameContact",
+       "sensibel": true,
+       "typ": "ref",
+       "entitaet": "institution",
+       "art": "pflegedienst",
+       "verweisZweck": "aerztlich"
+      },
+      {
+       "id": "careHomeAssistedLiving",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "careContractStorageLocation",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      }
+     ]
+    },
+    {
+     "id": "unemployment",
+     "felder": [
+      {
+       "id": "terminationDate",
+       "typ": "datum",
+       "keineZukunft": true,
+       "marken": [
+        "frist"
+       ],
+       "fristRegel": {
+        "dauer": "P3W",
+        "quelle": "§ 4 Satz 1 KSchG"
+       }
+      },
+      {
+       "id": "registeredAsJobSeekingOn",
+       "marken": [
+        "frist"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "registeredAsUnemployedOn",
+       "marken": [
+        "frist"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "noticeFromTheAgenturFRArbeit",
+       "typ": "text"
+      }
+     ]
+    }
+   ]
+  },
+  "advanceCare": {
+   "id": "advanceCare",
+   "format": "GENERISCH",
+   "icon": "scale",
+   "merkmale": [
+    "vorsorgeRegal"
+   ],
+   "rollen": {
+    "instrumenteListe": "provisionInstruments",
+    "auszugSektion": "erbschein-vorbereitung",
+    "instrumentTypUnterfeld": "instrument"
+   },
+   "exporte": [
+    {
+     "format": "ics-vorsorge",
+     "labelSchluessel": "exportIcsLabel"
+    }
+   ],
+   "wizards": [
+    "pvwiz",
+    "kiwiz",
+    "pflwiz",
+    "heirwiz"
+   ],
+   "wizardId": null,
+   "standardDokumente": [
+    {
+     "typ": "enduring-power-of-attorney",
+     "name": "Vorsorgevollmacht",
+     "empfRhythmusMonate": 12,
+     "hinweis": "In der Praxis wird empfohlen, eine Vorsorgevollmacht gelegentlich erneut zu datieren und zu unterschreiben — das erleichtert es Dritten, sie als aktuellen Willen anzuerkennen.",
+     "felder": [
+      {
+       "sektorId": "advanceCare",
+       "feldId": "provisionInstruments"
+      }
+     ]
+    },
+    {
+     "typ": "living-will",
+     "name": "Patientenverfügung",
+     "empfRhythmusMonate": 12,
+     "hinweis": "Eine Patientenverfügung gilt unbefristet. In der Praxis wird empfohlen, sie gelegentlich erneut zu datieren und zu unterschreiben — das erleichtert es Ärztinnen und Ärzten, sie als aktuellen Willen anzuerkennen.",
+     "felder": [
+      {
+       "sektorId": "advanceCare",
+       "feldId": "provisionInstruments"
+      }
+     ]
+    },
+    {
+     "typ": "custodianship-declaration",
+     "name": "Betreuungsverfügung",
+     "empfRhythmusMonate": 12,
+     "felder": [
+      {
+       "sektorId": "advanceCare",
+       "feldId": "provisionInstruments"
+      }
+     ]
+    },
+    {
+     "typ": "guardian-nomination",
+     "name": "Sorgerechtsverfügung",
+     "empfRhythmusMonate": 12,
+     "felder": [
+      {
+       "sektorId": "advanceCare",
+       "feldId": "provisionInstruments"
+      }
+     ]
+    },
+    {
+     "typ": "ki-verfuegung",
+     "name": "Verfügung zur digitalen Nachbildung",
+     "empfRhythmusMonate": 12,
+     "felder": [
+      {
+       "sektorId": "advanceCare",
+       "feldId": "provisionInstruments"
+      }
+     ]
+    },
+    {
+     "typ": "will",
+     "name": "Testament",
+     "empfRhythmusMonate": null,
+     "hinweis": "Kein fester Rhythmus — bei Änderung der Lebensumstände (Heirat, Geburt, Trennung, Vermögen) prüfen.",
+     "felder": [
+      {
+       "sektorId": "advanceCare",
+       "feldId": "provisionInstruments"
+      }
+     ]
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "meine-vorsorge",
+     "felder": [
+      {
+       "id": "provisionInstruments",
+       "typ": "liste",
+       "zusammenfassungFelder": [
+        "instrument",
+        "typeOfPowerOfAttorney",
+        "morePreciseDescription",
+        "authorizedPersons",
+        "proposedPerson",
+        "alternatePerson",
+        "proposedPerson2",
+        "alternatePerson2",
+        "namedIndividuals",
+        "digitalEstateAdministration2",
+        "whoWasAppointedAsCourt",
+        "personsNamedInTheWill"
+       ],
+       "unterFelder": [
+        {
+         "id": "instrument",
+         "typ": "auswahl",
+         "pflicht": true,
+         "unterdrueckeInZusammenfassungWennGesetzt": "typeOfPowerOfAttorney",
+         "optionen": [
+          {
+           "wert": "enduring-power-of-attorney"
+          },
+          {
+           "wert": "living-will"
+          },
+          {
+           "wert": "will"
+          },
+          {
+           "wert": "custodianship-declaration"
+          },
+          {
+           "wert": "guardian-nomination"
+          },
+          {
+           "wert": "ki-verfuegung"
+          },
+          {
+           "wert": "custodian-appointment"
+          }
+         ]
+        },
+        {
+         "id": "form",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": [
+           "enduring-power-of-attorney",
+           "living-will",
+           "will",
+           "custodianship-declaration",
+           "guardian-nomination",
+           "ki-verfuegung"
+          ]
+         },
+         "optionen": [
+          {
+           "wert": "privat"
+          },
+          {
+           "wert": "beglaubigt"
+          },
+          {
+           "wert": "beurkundet"
+          }
+         ]
+        },
+        {
+         "id": "certifyingBody",
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "form",
+          "wert": [
+           "beurkundet",
+           "beglaubigt"
+          ]
+         }
+        },
+        {
+         "id": "storageLocation",
+         "sensibel": true,
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": [
+           "enduring-power-of-attorney",
+           "living-will",
+           "will",
+           "custodianship-declaration",
+           "guardian-nomination",
+           "ki-verfuegung",
+           "custodian-appointment"
+          ]
+         }
+        },
+        {
+         "id": "dateOfLastChange",
+         "typ": "datum",
+         "keineZukunft": true,
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": [
+           "enduring-power-of-attorney",
+           "living-will",
+           "will",
+           "custodianship-declaration",
+           "guardian-nomination",
+           "ki-verfuegung"
+          ]
+         }
+        },
+        {
+         "id": "timeLimitedUntilIfAgreed",
+         "typ": "datum",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         }
+        },
+        {
+         "id": "typeOfPowerOfAttorney",
+         "typ": "auswahl",
+         "pflicht": true,
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "vorsorge"
+          },
+          {
+           "wert": "bank"
+          },
+          {
+           "wert": "betreuung"
+          }
+         ]
+        },
+        {
+         "id": "note",
+         "typ": "hinweis",
+         "sichtbarWenn": {
+          "feld": "typeOfPowerOfAttorney",
+          "wert": "betreuung"
+         }
+        },
+        {
+         "id": "morePreciseDescription",
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": [
+           "enduring-power-of-attorney",
+           "living-will",
+           "will",
+           "custodianship-declaration",
+           "guardian-nomination",
+           "ki-verfuegung"
+          ]
+         }
+        },
+        {
+         "id": "authorizedPersons",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "rolle": "bevollmaechtigte",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "verweisZweck": "vollmacht",
+         "verweisKontextFeld": "certifyingBody"
+        },
+        {
+         "id": "howDoThePeopleRepresentYou",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "authorizedPersons",
+          "minAnzahl": 2
+         },
+         "optionen": [
+          {
+           "wert": "gleichwertig"
+          },
+          {
+           "wert": "nacheinander"
+          }
+         ]
+        },
+        {
+         "id": "healthCareGeneralDecision",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "healthCareMedicalProcedures",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "healthCareMedicalRecords",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "healthCarePlacementDepriving",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "healthCareMeasuresDepriving",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "healthCareCompulsoryMedical",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "healthCareAdmissionToHospital",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "determinePlaceOfResidence",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "manageAnExistingTenancyWindUp",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "concludeAndTerminateANew",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "concludeAndTerminateHousingAnd",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "representationWithAuthorities",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "assetManagementGeneral",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "disposeOfAssets",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "acceptPaymentsAndValuables",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "enterIntoLiabilities",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "accountsCustodyAccountsSafes",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "customaryGiftsWithinWhatCare",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "transactionsExpresslyExcluded",
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         }
+        },
+        {
+         "id": "mailAndTelecommunications",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "representationInCourt",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "mayGrantASubPowerOfAttorney",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "alsoProposeTheAuthorizedPerson",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "appliesBeyondDeath",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "furtherProvisions",
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         }
+        },
+        {
+         "id": "note2",
+         "typ": "hinweis",
+         "sichtbarWenn": {
+          "feld": "typeOfPowerOfAttorney",
+          "wert": [
+           "bank"
+          ]
+         }
+        },
+        {
+         "id": "centralRegisterOfPowersOf",
+         "sensibel": true,
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "enduring-power-of-attorney"
+         }
+        },
+        {
+         "id": "copyDepositedInTheRegister",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": [
+           "enduring-power-of-attorney",
+           "custodianship-declaration",
+           "living-will"
+          ]
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "nein"
+          }
+         ]
+        },
+        {
+         "id": "copyDepositedOn",
+         "sensibel": true,
+         "typ": "datum",
+         "sichtbarWenn": {
+          "feld": "copyDepositedInTheRegister",
+          "wert": "ja"
+         }
+        },
+        {
+         "id": "depositedBy",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "institution",
+         "sichtbarWenn": {
+          "feld": "copyDepositedInTheRegister",
+          "wert": "ja"
+         }
+        },
+        {
+         "id": "medicalSupervisionBy",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "arzt",
+         "verweisZweck": "aerztlich",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "living-will"
+         }
+        },
+        {
+         "id": "organDonation",
+         "sensibel": true,
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "living-will"
+         },
+         "optionen": [
+          {
+           "wert": "ja"
+          },
+          {
+           "wert": "teil"
+          },
+          {
+           "wert": "nein"
+          },
+          {
+           "wert": "familie"
+          }
+         ]
+        },
+        {
+         "id": "whatRestriction",
+         "sensibel": true,
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "organDonation",
+          "wert": "teil"
+         }
+        },
+        {
+         "id": "organDonationRegister",
+         "sensibel": true,
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "living-will"
+         }
+        },
+        {
+         "id": "statutorySuccessionOr",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "will"
+         },
+         "optionen": [
+          {
+           "wert": "gesetzlich"
+          },
+          {
+           "wert": "abweichend"
+          },
+          {
+           "wert": "unklar"
+          }
+         ]
+        },
+        {
+         "id": "personsNamedInTheWill",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "sensibel": true,
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "will"
+         }
+        },
+        {
+         "id": "aboutTheWill",
+         "typ": "hinweis",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "will"
+         }
+        },
+        {
+         "id": "personalNotesOnThis",
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "will"
+         }
+        },
+        {
+         "id": "proposedPerson",
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "bevollmaechtigte",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodianship-declaration"
+         }
+        },
+        {
+         "id": "alternatePerson",
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "bevollmaechtigte",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodianship-declaration"
+         }
+        },
+        {
+         "id": "whoShouldNotBeAppointed",
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "bevollmaechtigte",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodianship-declaration"
+         }
+        },
+        {
+         "id": "whatTheCareArrangementShould",
+         "sensibel": true,
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodianship-declaration"
+         }
+        },
+        {
+         "id": "whatTheCareArrangementShould2",
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodianship-declaration"
+         }
+        },
+        {
+         "id": "proposedPerson2",
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "familie",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "guardian-nomination"
+         }
+        },
+        {
+         "id": "alternatePerson2",
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "familie",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "guardian-nomination"
+         }
+        },
+        {
+         "id": "wishesForUpbringingCare",
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "guardian-nomination"
+         }
+        },
+        {
+         "id": "basicDecision",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "untersagung"
+          },
+          {
+           "wert": "erlaubnis"
+          }
+         ]
+        },
+        {
+         "id": "purpose",
+         "typ": "mehrfachauswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "trauer"
+          },
+          {
+           "wert": "erinnerung"
+          },
+          {
+           "wert": "bildung"
+          }
+         ]
+        },
+        {
+         "id": "authorizedParties",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "benannte"
+          },
+          {
+           "wert": "angehoerige"
+          }
+         ]
+        },
+        {
+         "id": "namedIndividuals",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         }
+        },
+        {
+         "id": "scope",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "privat"
+          },
+          {
+           "wert": "oeffentlich"
+          }
+         ]
+        },
+        {
+         "id": "permittedDataTypes",
+         "typ": "mehrfachauswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "schriftverkehr"
+          },
+          {
+           "wert": "sprache"
+          },
+          {
+           "wert": "fotovideo"
+          },
+          {
+           "wert": "hinterlegt"
+          }
+         ]
+        },
+        {
+         "id": "timeLimit",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "jahre"
+          },
+          {
+           "wert": "letzte_person"
+          },
+          {
+           "wert": "zeitpunkt"
+          }
+         ]
+        },
+        {
+         "id": "numberOfYears",
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "timeLimit",
+          "wert": "jahre"
+         }
+        },
+        {
+         "id": "date",
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "timeLimit",
+          "wert": "zeitpunkt"
+         }
+        },
+        {
+         "id": "behaviouralLimit",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "belegt"
+          },
+          {
+           "wert": "frei"
+          }
+         ]
+        },
+        {
+         "id": "digitalEstateAdministration",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         },
+         "optionen": [
+          {
+           "wert": "benannt"
+          },
+          {
+           "wert": "angehoerige"
+          }
+         ]
+        },
+        {
+         "id": "digitalEstateAdministration2",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "ki-verfuegung"
+         }
+        },
+        {
+         "id": "whoWasAppointedAsCourt",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodian-appointment"
+         }
+        },
+        {
+         "id": "areasOfResponsibility",
+         "sensibel": true,
+         "typ": "textarea",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodian-appointment"
+         }
+        },
+        {
+         "id": "careCourt",
+         "sensibel": true,
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodian-appointment"
+         }
+        },
+        {
+         "id": "fileReferenceNumber",
+         "sensibel": true,
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodian-appointment"
+         }
+        },
+        {
+         "id": "appointedSince",
+         "marken": [
+          "giltAb"
+         ],
+         "typ": "datum",
+         "keineZukunft": true,
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodian-appointment"
+         }
+        },
+        {
+         "id": "nextCourtReviewDateIfKnown",
+         "typ": "datum",
+         "sichtbarWenn": {
+          "feld": "instrument",
+          "wert": "custodian-appointment"
+         }
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "estate",
+     "felder": [
+      {
+       "id": "heirsBriefOverview",
+       "typ": "refMehrfach",
+       "entitaet": "person",
+       "verweisZweck": "familiaer"
+      }
+     ]
+    },
+    {
+     "id": "erbschein-vorbereitung",
+     "felder": []
+    },
+    {
+     "id": "care-preferences",
+     "felder": [
+      {
+       "id": "personalCareDignity",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "dietSpecialRequirements",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "dailyRoutineActivities",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "otherWishesNotes",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "aidsEGWalkerHearingAid",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "contentOfTheAdvanceDirective",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "contentOfTheAdvanceDirective2",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "provisionDocumentsCheckedIn",
+       "typ": "auswahl",
+       "ebene": "modul",
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "teil"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "administration": {
+   "id": "administration",
+   "format": "XOEV",
+   "icon": "landmark",
+   "exporte": [
+    {
+     "format": "xoev-verwaltung",
+     "labelSchluessel": "exportVerwaltungLabel"
+    },
+    {
+     "format": "fim-json",
+     "labelSchluessel": "exportFimLabel"
+    }
+   ],
+   "wizards": [
+    "umzwiz"
+   ],
+   "sektionen": [
+    {
+     "id": "bundid-vorgaenge",
+     "felder": [
+      {
+       "id": "bundid",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "system",
+         "typ": "text"
+        },
+        {
+         "id": "bundidEmailAddress",
+         "typ": "text",
+         "eingabeTyp": "email"
+        },
+        {
+         "id": "bundidDocumentsStorageLocation",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "bundidVerificationLevel",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "niedrig"
+        },
+        {
+         "wert": "substanziell"
+        },
+        {
+         "wert": "hoch"
+        }
+       ]
+      },
+      {
+       "id": "bundidVerificationLevelEarlier",
+       "typ": "text"
+      },
+      {
+       "id": "ongoingAdministrativeCases",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "authority",
+         "typ": "text"
+        },
+        {
+         "id": "typeOfCase",
+         "typ": "text",
+         "vorschlaege": [
+          "Rentenantrag",
+          "Personalausweis beantragen",
+          "Ummeldung",
+          "Elterngeld",
+          "Kindergeld",
+          "Wohngeld",
+          "Grundsicherung",
+          "Schwerbehindertenausweis"
+         ]
+        },
+        {
+         "id": "fileReferenceNumber",
+         "typ": "text"
+        },
+        {
+         "id": "start",
+         "typ": "datum"
+        },
+        {
+         "id": "deadline",
+         "typ": "datum"
+        },
+        {
+         "id": "amount",
+         "typ": "text"
+        },
+        {
+         "id": "direction",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "zahle"
+          },
+          {
+           "wert": "bekomme"
+          }
+         ]
+        },
+        {
+         "id": "currency",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "EUR"
+          },
+          {
+           "wert": "USD"
+          },
+          {
+           "wert": "GBP"
+          },
+          {
+           "wert": "CHF"
+          },
+          {
+           "wert": "sonstige"
+          }
+         ]
+        },
+        {
+         "id": "frequency",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "monatlich"
+          },
+          {
+           "wert": "jaehrlich"
+          },
+          {
+           "wert": "einmalig"
+          }
+         ]
+        },
+        {
+         "id": "contactPerson",
+         "typ": "text"
+        },
+        {
+         "id": "note",
+         "typ": "textarea"
+        },
+        {
+         "id": "opposingParty",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "alreadyAdvisedBy",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "changingUtilityProviders",
+       "typ": "textarea",
+       "ebene": "modul"
+      }
+     ]
+    },
+    {
+     "id": "geraete-digitale-zugaenge",
+     "felder": [
+      {
+       "id": "computerDevices",
+       "typ": "text"
+      },
+      {
+       "id": "smartphone",
+       "typ": "text"
+      },
+      {
+       "id": "cloudServices",
+       "typ": "text"
+      },
+      {
+       "id": "mainEmailAddress",
+       "sensibel": true,
+       "typ": "text",
+       "eingabeTyp": "email",
+       "ebene": "modul"
+      },
+      {
+       "id": "furtherEmailAddress",
+       "typ": "text",
+       "eingabeTyp": "email",
+       "ebene": "modul"
+      },
+      {
+       "id": "protonMailEncryptedEmail",
+       "typ": "text",
+       "eingabeTyp": "email"
+      },
+      {
+       "id": "socialMedia",
+       "typ": "text"
+      },
+      {
+       "id": "passwordManager",
+       "sensibel": true,
+       "typ": "text",
+       "vorschlaege": [
+        "Bitwarden",
+        "1Password",
+        "KeePass",
+        "Dashlane",
+        "NordPass",
+        "Proton Pass",
+        "Apple Kennwörter",
+        "Google Passwortmanager"
+       ]
+      },
+      {
+       "id": "masterPasswordStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "passwordBackupStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "computerPasswordStorage",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "smartphonePinStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "safeLocation",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "safeCodeStorageLocation",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "bankSafeDepositBoxBankBranch",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "keyStorageLocation",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "alarmSystemCodeStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "homeKeyWhoHoldsOne",
+       "sensibel": true,
+       "typ": "liste",
+       "ebene": "modul",
+       "unterFelder": [
+        {
+         "id": "who",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "person",
+         "verweisZweck": "wohnen"
+        },
+        {
+         "id": "note",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "cryptoWalletsOverview",
+       "sensibel": true,
+       "typ": "textarea",
+       "ebene": "modul"
+      },
+      {
+       "id": "seedPhraseStorageLocation",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "hardwareWallet",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      },
+      {
+       "id": "olderInheritedCryptoAccess",
+       "sensibel": true,
+       "typ": "text",
+       "ebene": "modul"
+      }
+     ]
+    }
+   ]
+  },
+  "housing": {
+   "id": "housing",
+   "format": "GENERISCH",
+   "icon": "home",
+   "wizards": [
+    "umzwiz"
+   ],
+   "sektionen": [
+    {
+     "id": "wohnen-haupt",
+     "felder": [
+      {
+       "id": "ownedOrRented",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "eigentum"
+        },
+        {
+         "wert": "miete"
+        },
+        {
+         "wert": "sonstige"
+        }
+       ]
+      },
+      {
+       "id": "landlordPropertyManagement",
+       "typ": "ref",
+       "entitaet": "person",
+       "rolle": "vermieter",
+       "verweisZweck": "wohnen",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       }
+      },
+      {
+       "id": "landlordPhone",
+       "typ": "text",
+       "eingabeTyp": "tel",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       }
+      },
+      {
+       "id": "landlordEmail",
+       "typ": "text",
+       "eingabeTyp": "email",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       }
+      },
+      {
+       "id": "monthlyRentServiceCharges",
+       "sensibel": true,
+       "typ": "text",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       }
+      },
+      {
+       "id": "currency",
+       "sensibel": true,
+       "typ": "auswahl",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       },
+       "optionen": [
+        {
+         "wert": "EUR"
+        },
+        {
+         "wert": "USD"
+        },
+        {
+         "wert": "GBP"
+        },
+        {
+         "wert": "CHF"
+        },
+        {
+         "wert": "sonstige"
+        }
+       ]
+      },
+      {
+       "id": "rentalDepositBankAmount",
+       "sensibel": true,
+       "typ": "text",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       }
+      },
+      {
+       "id": "tenancyAgreementStorage",
+       "sensibel": true,
+       "typ": "text",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       }
+      },
+      {
+       "id": "tenancyAgreementFixedTermUntil",
+       "marken": [
+        "laeuftAb"
+       ],
+       "typ": "datum",
+       "sichtbarWenn": {
+        "feld": "ownedOrRented",
+        "wert": "miete"
+       }
+      },
+      {
+       "id": "specialLivingSituation",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "tenancyTerminationHandover",
+       "typ": "textarea",
+       "ebene": "modul"
+      },
+      {
+       "id": "noticeDate",
+       "marken": [
+        "frist"
+       ],
+       "typ": "datum",
+       "ebene": "modul"
+      },
+      {
+       "id": "moveOutDate",
+       "marken": [
+        "frist"
+       ],
+       "typ": "datum",
+       "ebene": "modul"
+      },
+      {
+       "id": "handoverDateNewHome",
+       "marken": [
+        "frist"
+       ],
+       "typ": "datum",
+       "ebene": "modul"
+      }
+     ]
+    },
+    {
+     "id": "wohnen-zweit",
+     "felder": [
+      {
+       "id": "furtherHomes",
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "streetHouseNumber",
+         "typ": "text"
+        },
+        {
+         "id": "postcodeCity",
+         "typ": "text"
+        },
+        {
+         "id": "ownedOrRented",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "eigentum"
+          },
+          {
+           "wert": "miete"
+          },
+          {
+           "wert": "sonstige"
+          }
+         ]
+        },
+        {
+         "id": "propertyManagement",
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "vermieter",
+         "verweisZweck": "wohnen"
+        },
+        {
+         "id": "landlordPhone",
+         "typ": "text",
+         "eingabeTyp": "tel"
+        },
+        {
+         "id": "landlordEmail",
+         "typ": "text",
+         "eingabeTyp": "email"
+        },
+        {
+         "id": "serviceCharges",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "rentalDepositBankAmount",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "tenancyAgreementStorage",
+         "sensibel": true,
+         "typ": "text"
+        },
+        {
+         "id": "tenancyAgreementFixedTermUntil",
+         "marken": [
+          "laeuftAb"
+         ],
+         "typ": "datum"
+        },
+        {
+         "id": "specialLivingSituation",
+         "typ": "textarea"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "emergencyPreparedness": {
+   "id": "emergencyPreparedness",
+   "format": "GENERISCH",
+   "icon": "package",
+   "merkmale": [
+    "bedarfsrechnung"
+   ],
+   "sektionen": [
+    {
+     "id": "preparedness",
+     "felder": [
+      {
+       "id": "numberOfPeopleForTheSupply",
+       "typ": "text"
+      },
+      {
+       "id": "drinkingWaterSupplyAmount",
+       "typ": "text"
+      },
+      {
+       "id": "drinkingWaterSupplyStorage",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "drinkingWaterSupplyCheckShelf",
+       "marken": [
+        "laeuftAb"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "drinkingWaterSupplyEarlierNote",
+       "typ": "text"
+      },
+      {
+       "id": "foodSuppliesWhatIsStored",
+       "typ": "textarea"
+      },
+      {
+       "id": "foodSuppliesStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "foodSuppliesCheckShelfLifeBy",
+       "marken": [
+        "laeuftAb"
+       ],
+       "typ": "datum"
+      },
+      {
+       "id": "foodSuppliesEarlierNoteOnShelf",
+       "typ": "text"
+      },
+      {
+       "id": "torch",
+       "typ": "text"
+      },
+      {
+       "id": "candles",
+       "typ": "text"
+      },
+      {
+       "id": "batteriesSupply",
+       "typ": "text"
+      },
+      {
+       "id": "crankBatteryRadio",
+       "typ": "text"
+      },
+      {
+       "id": "powerBank",
+       "typ": "text"
+      },
+      {
+       "id": "emergencyHeatingOption",
+       "typ": "text"
+      },
+      {
+       "id": "firstAidKitStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "firstAidKitLastChecked",
+       "typ": "datum"
+      },
+      {
+       "id": "medicationSupply",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "emergencyBackpackInPlace",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "emergencyBackpackStorage",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "emergencyBackpackContents",
+       "typ": "textarea"
+      },
+      {
+       "id": "folderWithImportantDocumentsIn",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "documentFolderStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "cashReserveInPlace",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "cashReserveStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "hygieneSuppliesWhatIsStored",
+       "typ": "textarea"
+      },
+      {
+       "id": "hygieneSuppliesStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "meetingPointFamily",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "escapeRouteFromTheHome",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "fallbackLocation2ndStage",
+       "typ": "text"
+      },
+      {
+       "id": "neighbourForEmergencies",
+       "typ": "ref",
+       "entitaet": "person",
+       "verweisZweck": "krisenvorsorge"
+      },
+      {
+       "id": "specialSituation",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "noteForEmergencyResponders",
+       "sensibel": true,
+       "typ": "textarea"
+      }
+     ]
+    }
+   ]
+  },
+  "personal": {
+   "id": "personal",
+   "format": "GENERISCH",
+   "icon": "star",
+   "standardDokumente": [
+    {
+     "typ": "vivodepot",
+     "name": "Vivodepot",
+     "empfRhythmusMonate": 12,
+     "hinweis": "Prüf dein Depot — einmal im Jahr alle Bereiche durchsehen, ob noch alles aktuell ist."
+    }
+   ],
+   "sektionen": [
+    {
+     "id": "erinnerungen-briefe",
+     "felder": [
+      {
+       "id": "physicalPhotosStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "digitalPhotosStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "otherKeepsakesStorageLocation",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "personalBelongingsWishes",
+       "typ": "textarea"
+      },
+      {
+       "id": "householdItemsClothesFurniture",
+       "typ": "textarea"
+      },
+      {
+       "id": "whoDependsOnMe",
+       "sensibel": true,
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "whoDependsOnYou",
+         "typ": "text"
+        },
+        {
+         "id": "whatToBearInMind",
+         "sensibel": true,
+         "typ": "text"
+        }
+       ]
+      },
+      {
+       "id": "notesOnFamilyCircumstances",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "religiousAffiliation",
+       "sensibel": true,
+       "typ": "text",
+       "vorschlaege": [
+        "römisch-katholisch",
+        "evangelisch",
+        "konfessionslos",
+        "jüdisch",
+        "muslimisch",
+        "freikirchlich",
+        "orthodox",
+        "buddhistisch"
+       ]
+      },
+      {
+       "id": "chaplainPastoralCarer",
+       "sensibel": true,
+       "typ": "ref",
+       "entitaet": "person",
+       "rolle": "seelsorger",
+       "verweisZweck": "vollmacht"
+      },
+      {
+       "id": "ritualsPrayersSpiritualWishes",
+       "sensibel": true,
+       "typ": "textarea"
+      },
+      {
+       "id": "letterForTheEmergencyDoctor",
+       "typ": "textarea"
+      },
+      {
+       "id": "letterForTheHospitalScenario",
+       "typ": "textarea"
+      },
+      {
+       "id": "letterForTheCareHomeAdmission",
+       "typ": "textarea"
+      },
+      {
+       "id": "letterForTheDeathScenario",
+       "typ": "textarea"
+      },
+      {
+       "id": "handwrittenLettersStorage",
+       "sensibel": true,
+       "typ": "text"
+      },
+      {
+       "id": "personalLettersWordsToPeople",
+       "sensibel": true,
+       "typ": "liste",
+       "unterFelder": [
+        {
+         "id": "toWhom",
+         "typ": "text"
+        },
+        {
+         "id": "words",
+         "typ": "textarea"
+        }
+       ]
+      },
+      {
+       "id": "whatElseIWantToSayWhatElse",
+       "sensibel": true,
+       "typ": "textarea"
+      }
+     ]
+    },
+    {
+     "id": "bestattung-abschied",
+     "felder": [
+      {
+       "id": "typeOfFuneral",
+       "sensibel": true,
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "erd"
+        },
+        {
+         "wert": "feuer"
+        },
+        {
+         "wert": "see"
+        },
+        {
+         "wert": "naturbest"
+        },
+        {
+         "wert": "anonym"
+        },
+        {
+         "wert": "offen"
+        }
+       ]
+      },
+      {
+       "id": "funeralAlreadyPlannedInAdvance",
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        },
+        {
+         "wert": "teil"
+        }
+       ]
+      },
+      {
+       "id": "funeralHome",
+       "typ": "text"
+      },
+      {
+       "id": "preferredLocationGraveUrnSite",
+       "typ": "text"
+      },
+      {
+       "id": "preArrangementContractStorage",
+       "sensibel": true,
+       "typ": "text"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,1069 @@
+{
+  "_hinweis": "v515-Testdepot — Teil 3 der DoD-Abnahme (07.09.2026). Erzeugt aus der v515-Referenzdatei (nicht dem heutigen Kern) — beweist Rückwärts-verträglichkeit, kein Depot von heute.",
+  "_quelleSha256": "be33cb739c3d801f178043d8295027589313c7d1e8e6db3b1880bba66a006b1f",
+  "_quelleSchalenStand": "v515",
+  "export": {
+    "_typ": "vivodepot-klartext-export",
+    "_hinweis": "Offener, UNVERSCHLÜSSELTER Klartext-Export des gesamten Depots. Sicher aufbewahren.",
+    "_version": "v1.0-rc",
+    "_exportiertAm": "2026-09-07T17:26:03.493Z",
+    "depot": {
+      "schemaVersion": 75,
+      "kryptoVersion": 3,
+      "menschen": [],
+      "institutionen": [],
+      "mappe": [],
+      "sektoren": {
+        "identitaet": {
+          "vorname": "Elisabeth",
+          "nachname": "Wredenhagen-Sonnenschein",
+          "geburtsdatum": "1958-03-14",
+          "telefon": "089 87654321",
+          "strasse": "Lindenweg 4",
+          "plz_ort": "80331 München",
+          "email": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+          "geburtsort": "Augsburg",
+          "geschlecht": "w",
+          "familienstand": "verh",
+          "gueterstand": "zugewinn",
+          "ausweis": [
+            {
+              "system": "DE",
+              "id": "504dcd4f-473c-405e-9903-32ef516c4429"
+            },
+            {
+              "system": "DE",
+              "id": "4edfc50d-6458-458e-afc5-5897c6916d2c"
+            }
+          ],
+          "aufenthaltstitel": [
+            {
+              "system": "DE",
+              "id": "2a1cfda4-2502-45da-b38a-78859b4125cf"
+            },
+            {
+              "system": "DE",
+              "id": "40c7415c-4621-4b97-8dea-118408478117"
+            }
+          ],
+          "profilfoto": {
+            "ref": "",
+            "override": ""
+          },
+          "notizen_start": "Bevorzugt schriftliche Nachrichten gegenüber Telefonanrufen",
+          "heirat_namenswahl": "ehename_meiner",
+          "haustiere": [
+            {
+              "name": "Felix, Europäisch Kurzhaar",
+              "betreuung": {
+                "ref": "p-mutter",
+                "override": ""
+              },
+              "tierarzt": {
+                "ref": "",
+                "override": ""
+              },
+              "futter": "Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt",
+              "sonstiges": "sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer",
+              "id": "289bec25-0891-40c0-bfd5-803897501322"
+            },
+            {
+              "name": "Bruno",
+              "betreuung": {
+                "ref": "",
+                "override": ""
+              },
+              "tierarzt": {
+                "ref": "",
+                "override": ""
+              },
+              "futter": "",
+              "sonstiges": "",
+              "id": "bd0bcc17-b1e9-4dee-b5cf-c96130abbeb9"
+            }
+          ],
+          "fruehere_namen": [
+            {
+              "id": "33739dcf-4f3c-4bf4-8424-656e16fc69bf"
+            },
+            {
+              "id": "b04910d9-2746-4082-9764-9210a2817758"
+            }
+          ]
+        },
+        "meine-menschen": {
+          "pflege_hauptperson": {
+            "ref": "p-pflegeperson",
+            "override": ""
+          },
+          "ehepartner": {
+            "ref": "p-partner",
+            "override": ""
+          },
+          "kinder": [
+            {
+              "person": {
+                "ref": "p-kind-1",
+                "override": ""
+              },
+              "art": "leiblich",
+              "kind_beziehung_zusatz": "",
+              "sorgerecht_kind": "gemeinsam",
+              "sorgerecht_kind_zusatz": "",
+              "betreuungsmodell": "",
+              "in_ausbildung": "ja",
+              "ausbildung_ende": "2027-07-31",
+              "id": "35ff5f9e-56d0-4727-8709-6ec704fd44ff"
+            },
+            {
+              "person": {
+                "ref": "p-kind-2",
+                "override": ""
+              },
+              "art": "leiblich",
+              "kind_beziehung_zusatz": "aus zweiter Ehe des Vaters, lebt überwiegend bei mir",
+              "sorgerecht_kind": "gemeinsam",
+              "sorgerecht_kind_zusatz": "Aufenthaltsbestimmungsrecht bei mir, im Übrigen gemeinsam mit dem Vater",
+              "betreuungsmodell": "Wechselmodell, ca. 60/40 zu meinen Gunsten",
+              "in_ausbildung": "nein",
+              "ausbildung_ende": "",
+              "id": "a153f8b2-556a-40d0-8e2b-620e9ba4e17f"
+            }
+          ],
+          "unterhalt": [
+            {
+              "person": {
+                "ref": "p-kind-2",
+                "override": ""
+              },
+              "art": "Kindesunterhalt",
+              "richtung": "zahle",
+              "anmerkung": "gemäß Vereinbarung vom 03.05.2020, Düsseldorfer Tabelle Stufe 3",
+              "id": "b0cb57d8-803e-4251-abfa-747d205da5db"
+            },
+            {
+              "person": {
+                "ref": "",
+                "override": ""
+              },
+              "art": "Trennungsunterhalt",
+              "richtung": "",
+              "anmerkung": "",
+              "id": "d7fb3185-0be0-4b07-ab9e-d4bc557e8c0b"
+            }
+          ]
+        },
+        "mobilitaet": {
+          "kfz_versicherung": {
+            "override": "HUK24"
+          },
+          "d_ticket": "Deutschlandticket-Abo bei der MVG",
+          "elefand": [
+            {
+              "system": "",
+              "laender": "Thailand",
+              "id": "2c726c60-e3d5-46ef-815d-62e88132d726"
+            },
+            {
+              "system": "",
+              "laender": "Marokko",
+              "id": "00edeede-054d-4db5-8a2a-3a97f6fb80b4"
+            }
+          ],
+          "botschaft": {
+            "override": "Deutsche Botschaft Bangkok, +66 2 161 2101"
+          },
+          "fahrzeuge": [
+            {
+              "bezeichnung": "VW Golf 8 Variant, 1.5 TSI, Kennzeichen M-EW 4521",
+              "id": "fff3890d-186a-4d23-a55f-6ecb48079a94"
+            },
+            {
+              "bezeichnung": "Fahrrad, Pedelec Kalkhoff Endeavour",
+              "id": "9af7ef65-582b-49ed-b59d-21509c4697bb"
+            },
+            {
+              "bezeichnung": "Vespa Primavera 125, Kennzeichen M-EW 88",
+              "id": "321081da-fa4a-4b9d-9726-cec5deb698f9"
+            }
+          ]
+        },
+        "finanzen": {
+          "steuerid": [
+            {
+              "system": "",
+              "id": "1ad7b838-8f96-4dc7-ae52-1cea696d6eeb"
+            },
+            {
+              "system": "",
+              "id": "2755f39d-9855-4709-8415-5fa8b5d2000b"
+            }
+          ],
+          "bav_name": "Allianz Pensionskasse",
+          "bav_durchfuehrungsweg": "pensionskasse",
+          "private_av_institut": "Cosmos Direkt",
+          "steuerberater": {
+            "ref": "p-steuerberater",
+            "override": ""
+          },
+          "steuerberater_tel": "089 12345-678",
+          "steuer_software": "WISO Steuer 2026",
+          "finanzberater": {
+            "ref": "p-finanzberater",
+            "override": ""
+          },
+          "nachlass_vermoegen": [
+            {
+              "id": "467605e8-7ff9-47bf-9eb1-b19406abaa8f"
+            },
+            {
+              "id": "168852ac-a0d4-4800-8370-d74e9ef57cda"
+            },
+            {
+              "id": "abd09d61-4ae4-41fa-9d6a-cfca4d41fa20"
+            },
+            {
+              "id": "3b69c038-896a-48c9-b9cc-afc3f3301aec"
+            }
+          ],
+          "konten": [
+            {
+              "bank": {
+                "override": "Kreissparkasse Oberbayern-Nord eG"
+              },
+              "art": "Girokonto",
+              "bankvollmacht": [
+                {
+                  "ref": "vi-bank-1",
+                  "override": ""
+                }
+              ],
+              "notiz": "Hauptkonto, monatliche Abbuchungen",
+              "id": "f1c58e56-e964-4a95-872a-864fa1dcc4f2"
+            },
+            {
+              "bank": {
+                "override": "Deutsche Bank Privat- und Geschäftskunden AG"
+              },
+              "art": "Tagesgeldkonto",
+              "bankvollmacht": [
+                {
+                  "ref": "vi-bank-2",
+                  "override": ""
+                }
+              ],
+              "notiz": "",
+              "id": "1d572f6e-af36-44a6-b662-522a9c581f3b"
+            },
+            {
+              "bank": {
+                "override": "DKB"
+              },
+              "art": "Wertpapierdepot",
+              "bankvollmacht": [],
+              "notiz": "",
+              "id": "518dbec4-d546-4a34-915e-57ce03b19c13"
+            }
+          ],
+          "kreditkarten": [
+            {
+              "karte_gueltig": "2028-06-01",
+              "id": "9c8d1fe4-b100-47a7-ad90-522d127ac772"
+            },
+            {
+              "karte_gueltig": "2027-11-01",
+              "id": "799254fd-30d2-4d83-ba3c-68e7fc40101a"
+            }
+          ]
+        },
+        "vermoegen": {
+          "wohnsituation": "mit_angehoerigen",
+          "wohnung_groesse_qm": "82",
+          "wohnung_personenzahl": "3"
+        },
+        "gesundheit": {
+          "hauptpflegeperson": [
+            {
+              "ref": "p-pflegeperson",
+              "override": ""
+            },
+            {
+              "ref": "p-partner",
+              "override": ""
+            }
+          ],
+          "krankenkassenkarte": [
+            {
+              "system": "",
+              "id": "e6890282-95ff-4d61-8905-4dfe17dc4201"
+            },
+            {
+              "system": "",
+              "id": "69983688-df8b-4893-a253-1439cc0829f8"
+            }
+          ]
+        },
+        "bildung": {
+          "schulabschluss": "abitur",
+          "schulabschluss_jahr": "1978",
+          "schule_name": "Luitpold-Gymnasium München",
+          "ausbildung": "ihk",
+          "ausbildung_beruf": "Bankkauffrau",
+          "ausbildung_betrieb": "Bayerische Vereinsbank München",
+          "ausbildung_jahr": "1978",
+          "studium": "diplom",
+          "studium_fach": "Betriebswirtschaftslehre",
+          "studium_hochschule": "Ludwig-Maximilians-Universität München",
+          "beruf": "Kaufmännische Leiterin (im Ruhestand seit 2023)",
+          "arbeitgeber": {
+            "ref": "i-arbeitgeber",
+            "override": ""
+          },
+          "arbeitgeber_adresse": "Industriestraße 88, 81379 München",
+          "letzter_arbeitgeber": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH",
+          "qualifikationen": "IHK-Ausbilderschein, Projektmanagement-Zertifikat (PMP)"
+        },
+        "sozialversicherung": {
+          "rentenversicherung": [
+            {
+              "system": "",
+              "id": "df3ba4f7-7a07-485a-b146-67446ffc140d"
+            },
+            {
+              "system": "",
+              "id": "cc483116-46f5-4e56-af72-7ad0158faeea"
+            }
+          ],
+          "pflegekasse_nummer": [
+            {
+              "system": "",
+              "id": "ebd34617-d27b-4450-a9c4-be9d9afa9836"
+            },
+            {
+              "system": "",
+              "id": "d3171536-bbbd-4298-ba55-701c5308b3a6"
+            }
+          ],
+          "schwerbehindertenausweis": [
+            {
+              "system": "",
+              "id": "c3538d6a-74f5-4e3c-93cb-fd222915d52e"
+            },
+            {
+              "system": "",
+              "id": "d6c35af1-825a-439c-9ed8-570be6fc9f8d"
+            }
+          ]
+        },
+        "vorsorge": {
+          "pflege_vorsorge_geprueft": "ja",
+          "pv_vollmacht_besprochen": "ja",
+          "pv_betreuung_besprochen": "nein",
+          "erben": [
+            {
+              "ref": "p-partner",
+              "override": ""
+            },
+            {
+              "ref": "p-kind-1",
+              "override": ""
+            },
+            {
+              "ref": "p-erbe-3",
+              "override": ""
+            }
+          ],
+          "vorsorge_instrumente": [
+            {
+              "id": "vi-vollmacht-vorsorge",
+              "typ": "vorsorgevollmacht",
+              "art": "vorsorge",
+              "form": "beurkundet",
+              "stelle": "Notariat Dr. Sommer & Habicht, Urkundenrolle Nr. 118/2019",
+              "datum": "2019-04-03",
+              "zusatz": "",
+              "bevollmaechtigter": [
+                {
+                  "ref": "p-partner",
+                  "override": ""
+                },
+                {
+                  "ref": "p-kind-1",
+                  "override": ""
+                }
+              ],
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-vollmacht-gesundheit",
+              "typ": "vorsorgevollmacht",
+              "art": "vorsorge",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2019-04-03",
+              "zusatz": "nur Gesundheitssorge",
+              "bevollmaechtigter": [
+                {
+                  "ref": "p-partner",
+                  "override": ""
+                }
+              ],
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-bank-1",
+              "typ": "vorsorgevollmacht",
+              "art": "bank",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2020-01-15",
+              "zusatz": "Kreissparkasse Oberbayern-Nord eG, Girokonto",
+              "bevollmaechtigter": [
+                {
+                  "ref": "p-partner",
+                  "override": ""
+                }
+              ],
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-bank-2",
+              "typ": "vorsorgevollmacht",
+              "art": "bank",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2022-06-30",
+              "zusatz": "Deutsche Bank Privat- und Geschäftskunden AG, Tagesgeldkonto",
+              "bevollmaechtigter": [
+                {
+                  "ref": "p-kind-1",
+                  "override": ""
+                }
+              ],
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-vollmacht-betreuung",
+              "typ": "vorsorgevollmacht",
+              "art": "betreuung",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2019-04-03",
+              "zusatz": "",
+              "bevollmaechtigter": [
+                {
+                  "ref": "p-partner",
+                  "override": ""
+                }
+              ],
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-vollmacht-general",
+              "typ": "vorsorgevollmacht",
+              "art": "vorsorge",
+              "form": "beglaubigt",
+              "stelle": "Bürgeramt München-Schwabing",
+              "datum": "2024-02-20",
+              "zusatz": "für den Notfall, falls die anderen Vollmachten nicht ausreichen",
+              "bevollmaechtigter": [
+                {
+                  "ref": "p-partner",
+                  "override": ""
+                },
+                {
+                  "ref": "p-kind-1",
+                  "override": ""
+                }
+              ],
+              "vm_aufenthalt_bestimmen": "ja",
+              "vm_wohnung_mietvertrag": "ja",
+              "vm_wohnung_neuer_mietvertrag": "ja",
+              "vm_wohnung_betreuungsvertrag": "ja",
+              "vm_behoerden": "ja",
+              "vm_vermoegen_verwalten": "ja",
+              "vm_vermoegen_verfuegen": "ja",
+              "vm_vermoegen_zahlungen": "ja",
+              "vm_vermoegen_verbindlichkeiten": "ja",
+              "vm_vermoegen_konten": "ja",
+              "vm_vermoegen_schenkungen": "ja",
+              "vm_post_fernmeldeverkehr": "ja",
+              "vm_gericht": "ja",
+              "vm_untervollmacht": "ja",
+              "vm_betreuungsverfuegung_verweis": "ja",
+              "vm_tod_hinaus": "ja",
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-pv",
+              "typ": "patientenverfuegung",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2023-05-11",
+              "zusatz": "",
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-testament",
+              "typ": "testament",
+              "form": "beurkundet",
+              "stelle": "Notariat Dr. Sommer & Habicht, Urkundenrolle Nr. 204/2021",
+              "datum": "2021-09-12",
+              "zusatz": "",
+              "erbfolge_hinweis": "abweichend",
+              "vermaechtnisse": "Großmutters Ring an Mia; die Vespa an Konstantin-Emanuel; 5.000 EUR an den örtlichen Tierschutzverein München-Nord",
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-betreuungsvfg",
+              "typ": "betreuungsverfuegung",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2019-04-03",
+              "zusatz": "",
+              "betreuung_person": {
+                "ref": "p-partner",
+                "override": ""
+              },
+              "betreuung_ersatz": {
+                "ref": "p-kind-1",
+                "override": ""
+              },
+              "betreuung_ausschluss": "kein Umzug ins Pflegeheim ohne Rücksprache mit beiden Kindern",
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-sorgerecht",
+              "typ": "sorgerechtsverfuegung",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2019-04-03",
+              "zusatz": "",
+              "sorgerechtsverfuegung_person": {
+                "ref": "p-partner",
+                "override": ""
+              },
+              "sorgerechtsverfuegung_ersatz": {
+                "ref": "p-mutter",
+                "override": ""
+              },
+              "sorgerechtsverfuegung_wuensche": "Mia soll in der gewohnten Schule bleiben; Kontakt zu beiden Großmüttern erhalten",
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": null
+            },
+            {
+              "id": "vi-ki",
+              "typ": "ki-verfuegung",
+              "form": "privat",
+              "stelle": "",
+              "datum": "2026-03-01",
+              "zusatz": "",
+              "ki_grundentscheidung": "erlaubnis",
+              "ki_zweck": [
+                "trauer",
+                "erinnerung"
+              ],
+              "ki_berechtigte": "benannte",
+              "ki_berechtigte_personen": [
+                {
+                  "ref": "p-partner",
+                  "override": ""
+                },
+                {
+                  "ref": "p-kind-1",
+                  "override": ""
+                }
+              ],
+              "ki_raum": "privat",
+              "ki_datenarten": [
+                "schriftverkehr",
+                "fotovideo"
+              ],
+              "ki_befristung": "jahre",
+              "ki_befristung_jahre": "zehn",
+              "ki_befristung_zeitpunkt": "",
+              "ki_verhaltensgrenze": "belegt",
+              "ki_nachlassverwaltung": "benannt",
+              "ki_nachlassverwalter": [
+                {
+                  "ref": "p-kind-1",
+                  "override": ""
+                }
+              ],
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": 1
+            },
+            {
+              "id": "vi-betreuerbestellung",
+              "typ": "betreuerbestellung",
+              "zusatz": "",
+              "betreuerbestellung_person": [
+                {
+                  "ref": "p-partner",
+                  "override": ""
+                }
+              ],
+              "betreuerbestellung_seit": "2025-03-10",
+              "betreuerbestellung_ueberpruefung": "2032-03-10",
+              "rechtsraum": "DE",
+              "rechtsraumAngenommen": false,
+              "katalogStand": null
+            }
+          ]
+        },
+        "verwaltung": {
+          "bundid": [
+            {
+              "system": "",
+              "email": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+              "id": "10d8a959-3f4c-4466-a0a6-f986920e1c05"
+            },
+            {
+              "system": "",
+              "email": "elisabeth.immergruen@beispielpost.example",
+              "id": "c7ed0137-c1ff-4694-acda-393487b0264a"
+            }
+          ],
+          "bundid_status": "hoch",
+          "verwaltung_vorgaenge": [
+            {
+              "behoerde": "Deutsche Rentenversicherung",
+              "vorgangstyp": "Rentenantrag",
+              "aktenzeichen": "RV-2026-00417",
+              "datum": "2026-03-12",
+              "gueltig_bis": "",
+              "betrag": "1.240 EUR monatlich",
+              "referenz": "Sachbearbeiterin Frau Meyer",
+              "notiz": "Unterlagen eingereicht, Rückmeldung ausstehend",
+              "id": "7512e723-d8c3-44d9-aae5-b72e7df4d7cd"
+            },
+            {
+              "behoerde": "Stadt München, Bürgerbüro",
+              "vorgangstyp": "Ummeldung",
+              "aktenzeichen": "",
+              "datum": "2026-06-01",
+              "gueltig_bis": "",
+              "betrag": "",
+              "referenz": "",
+              "notiz": "Nach Umzug erledigt",
+              "id": "9fb4d3d9-a2d7-4064-b763-156aa3cbd31f"
+            },
+            {
+              "behoerde": "Amtsgericht München",
+              "vorgangstyp": "Beratungshilfe",
+              "aktenzeichen": "BerH-2026-0912",
+              "datum": "2026-08-20",
+              "gueltig_bis": "",
+              "betrag": "",
+              "referenz": "",
+              "gegenseite": "Vermieter Herbert Osterwald",
+              "beratung_bisher": "Rechtsanwältin Dr. Sommer, 03/2026",
+              "notiz": "Antrag vorbereitet, Unterlagen vollständig",
+              "id": "572229da-4e64-4cc1-9e1c-2e8fb2a260c1"
+            }
+          ],
+          "computer": "MacBook Air, FileVault aktiv",
+          "smartphone": "iPhone 14, Face ID + Code",
+          "cloud_dienst": "iCloud, 200 GB",
+          "proton_email": "elisabeth.ews@example.de",
+          "social_media": "Facebook (selten genutzt)",
+          "email2": "elisabeth.ews@altepost.example (alte Adresse)"
+        },
+        "krisenvorsorge": {
+          "ks_bedarf_personen": "3",
+          "ks_wasser_liter": "20 Liter",
+          "ks_lebensmittel_was": "Reis, Nudeln, Konserven, Trockenobst",
+          "ks_taschenlampe": "vorhanden, Flur-Schrank",
+          "ks_kerzen": "vorhanden, Küchenschublade",
+          "ks_batterien": "AA/AAA, Werkzeugkiste",
+          "ks_radio": "Kurbelradio, Abstellkammer",
+          "ks_powerbank": "geladen, Schreibtischschublade",
+          "ks_heizung_notfall": "Campingkocher + Gaskartuschen, Balkonschrank",
+          "ks_erstehilfe_datum": "2026-01-15",
+          "ks_rucksack_vorhanden": "ja",
+          "ks_rucksack_liste": "Ausweise-Kopien, Bargeld, Powerbank, Erste-Hilfe, Medikamente",
+          "ks_dokumente_vorhanden": "ja",
+          "ks_bargeld_vorhanden": "ja",
+          "ks_hygiene_liste": "Zahnpasta, Seife, Toilettenpapier, Desinfektionsmittel",
+          "ks_ausweichort_2": "Wohnung der Schwester, Musterstraße 5",
+          "ks_nachbar": {
+            "ref": "p-tochter",
+            "override": ""
+          }
+        },
+        "wohnen": {
+          "wohnung_typ": "eigentum",
+          "vermieter": {
+            "ref": "",
+            "override": ""
+          },
+          "weitere_wohnungen": [
+            {
+              "strasse": "Seestraße 12",
+              "plz_ort": "83209 Prien am Chiemsee",
+              "typ": "eigentum",
+              "vermieter": {
+                "ref": "",
+                "override": ""
+              },
+              "vermieter_tel": "",
+              "vermieter_email": "",
+              "mietvertrag_befristet_bis": "",
+              "wohnsituation_bem": "Ferienwohnung, Mai bis Oktober selbst genutzt, sonst über eine Agentur vermietet",
+              "id": "000f8ef7-89ad-4e54-ac6f-61fbf38d8e2e"
+            },
+            {
+              "strasse": "",
+              "plz_ort": "",
+              "typ": "miete",
+              "vermieter": {
+                "ref": "p-vermieter",
+                "override": ""
+              },
+              "vermieter_tel": "08051 998877",
+              "vermieter_email": "verwaltung@chiemsee-immo.example",
+              "mietvertrag_befristet_bis": "2027-08-31",
+              "wohnsituation_bem": "",
+              "id": "0e64e14f-87cb-427a-b39d-aeaeeb57d5a9"
+            }
+          ]
+        },
+        "persoenliches": {
+          "gegenstaende_wuensche": "die Standuhr geht an Konstantin-Emanuel; das Klavier an Mia, sobald sie volljährig ist",
+          "haushalt_spenden": "Kleidung und Bücher an die Diakonie; der Rest darf entrümpelt werden",
+          "brief_notarzt": "Liebe Helferin, lieber Helfer — bitte rufen Sie meine Tochter Mia unter der hinterlegten Nummer an, sie kennt meine Wünsche.",
+          "brief_krankenhaus": "Bitte informieren Sie meinen Mann und meine Kinder umgehend. Ich vertraue Ihnen mein Wohl an.",
+          "brief_pflegeheim": "Ich mag morgens Kaffee mit wenig Milch, keinen Zucker. Mein Lieblingslied ist „An der schönen blauen Donau\".",
+          "brief_todesfall": "Bitte feiert mein Leben — trauert nicht zu lange um den Tod. Es war ein gutes, reiches Leben.",
+          "bestattung_voraus": "ja",
+          "bestattung_unternehmen": "Bestattungshaus Ehrlich & Söhne KG",
+          "bestattung_ort": "Familiengrab, Waldfriedhof München"
+        }
+      },
+      "situationen": {},
+      "empfaengerkreise": [],
+      "blattFelder": {},
+      "angehoerigen_passwort_ort": "",
+      "bevollmaechtigte": [],
+      "todUebergangsWege": null,
+      "ankerWechselEmpfehlung": null,
+      "schwangerschaften": [],
+      "verwaltungsTyp": "eigen",
+      "verselbststaendigungMoeglich": false,
+      "delegationsGeschichte": [],
+      "verwalteteDepots": [],
+      "uebergabeProtokoll": [],
+      "zusammenstellungen": [],
+      "anfragen": [],
+      "urheberschaft": {},
+      "feldGueltigkeit": {
+        "finanzen": {
+          "bav_rentenbeginn": {
+            "von": "2045-03-01"
+          },
+          "private_av_ablauf": {
+            "bis": "2043-11-01"
+          }
+        },
+        "krisenvorsorge": {
+          "ks_wasser_haltbar": {
+            "bis": "2027-02-01"
+          },
+          "ks_lebensmittel_haltbar": {
+            "bis": "2026-12-01"
+          }
+        }
+      },
+      "feldGueltigkeitGerettet": {},
+      "bereicheVerwaist": {},
+      "feldDefinitionenVerwaist": [],
+      "bereichsIdentitaeten": {},
+      "bereicheVerwaistIdentitaet": {},
+      "ausdruecklichKeine": {},
+      "codes": {
+        "identitaet": {
+          "vorname": null,
+          "nachname": null,
+          "geburtsdatum": null,
+          "telefon": null,
+          "strasse": null,
+          "plz_ort": null,
+          "email": null,
+          "nationalitaet": null,
+          "geburtsname": null,
+          "geburtsort": null,
+          "geschlecht": null,
+          "familienstand": null,
+          "gueterstand": null,
+          "ausweis": null,
+          "aufenthaltstitel": null,
+          "profilfoto": null,
+          "notizen_start": null,
+          "heirat_namenswahl": null,
+          "steuerklasse": null,
+          "haustiere": null,
+          "fruehere_namen": null
+        },
+        "meine-menschen": {
+          "pflege_hauptperson": null,
+          "pflegezeit": null,
+          "ehepartner": null,
+          "kinder": null,
+          "unterhalt": null
+        },
+        "mobilitaet": {
+          "fuehrerschein": null,
+          "fuehrerschein_ort": null,
+          "kfz_versicherung": null,
+          "kfz_versicherung_nr": null,
+          "d_ticket": null,
+          "reisepass_nr": null,
+          "elefand": null,
+          "botschaft": null,
+          "fahrzeuge": null
+        },
+        "finanzen": {
+          "steuerid": null,
+          "bav_name": null,
+          "bav_durchfuehrungsweg": null,
+          "bav_nr": null,
+          "private_av_institut": null,
+          "private_av_nr": null,
+          "steuerberater": null,
+          "steuerberater_tel": null,
+          "steuer_ablage": null,
+          "steuer_software": null,
+          "steuer_besonders": null,
+          "finanzberater": null,
+          "schulden": null,
+          "wertgegenstaende": null,
+          "digitale_guthaben": null,
+          "forderungen": null,
+          "nachlass_vermoegen": null,
+          "konten": null,
+          "kreditkarten": null
+        },
+        "vermoegen": {
+          "weitere_einkommensarten": null,
+          "wohnsituation": null,
+          "wohnung_groesse_qm": null,
+          "wohnung_personenzahl": null,
+          "wohnkosten_gesamt": null,
+          "wohnkosten_eigenanteil": null
+        },
+        "gesundheit": {
+          "hausarzt": null,
+          "behandlung_aktuell": null,
+          "blutgruppe": null,
+          "allergien": null,
+          "krankheiten": null,
+          "kv_art": null,
+          "medikamente": null,
+          "kv_nummer": null,
+          "implantate": null,
+          "koerpergroesse": null,
+          "koerpergewicht": null,
+          "impfbuch_ort": null,
+          "hauptpflegeperson": null,
+          "kv_versicherter": null,
+          "kv_zusatz": null,
+          "krankenkassenkarte": null,
+          "notfallkarte_ort": null,
+          "rauchen": null,
+          "alkohol": null,
+          "impfungen": null,
+          "arztberichte_stick": null,
+          "vorsorge_uebersicht": null,
+          "zahnarzt": null,
+          "bonusheft_ort": null,
+          "ehic_nr": null,
+          "voroperationen": null,
+          "familienanamnese": null,
+          "fachaerzte": null
+        },
+        "bildung": {
+          "schulabschluss": null,
+          "schulabschluss_jahr": null,
+          "schule_name": null,
+          "ausbildung": null,
+          "ausbildung_beruf": null,
+          "ausbildung_betrieb": null,
+          "ausbildung_jahr": null,
+          "studium": null,
+          "studium_fach": null,
+          "studium_hochschule": null,
+          "dok_abschluss": null,
+          "beruf": null,
+          "arbeitgeber": null,
+          "arbeitgeber_adresse": null,
+          "letzter_arbeitgeber": null,
+          "einkommensart": null,
+          "einkommensart_frueher": null,
+          "brutto_monat": null,
+          "netto_monat": null,
+          "gehaltsnachweis_ort": null,
+          "qualifikationen": null,
+          "ehrenamt": null,
+          "zeugnis_schule_ort": null,
+          "zeugnis_ausbildung_ort": null,
+          "zeugnis_studium_ort": null,
+          "zeugnis_arbeit_ort": null
+        },
+        "sozialversicherung": {
+          "rentenversicherung": null,
+          "pflegekasse": null,
+          "pflegekasse_nummer": null,
+          "pflegekasse_tel": null,
+          "pflegegrad": null,
+          "pflegegrad_seit": null,
+          "pflegegrad_bescheid_vom": null,
+          "pflegedienst": null,
+          "pflegegeld_frueher": null,
+          "gdb": null,
+          "gdb_merkmale": null,
+          "gdb_nachpruefung": null,
+          "schwerbehindertenausweis": null
+        },
+        "vorsorge": {
+          "pflege_vorsorge_geprueft": null,
+          "pv_vollmacht_besprochen": null,
+          "pv_betreuung_besprochen": null,
+          "erben": null,
+          "pflegewuensche_koerper": null,
+          "pflegewuensche_ernaehrung": null,
+          "pflegewuensche_alltag": null,
+          "pflegewuensche_sonstiges": null,
+          "hilfsmittel": null,
+          "vorsorge_instrumente": null
+        },
+        "verwaltung": {
+          "bundid": null,
+          "bundid_status": null,
+          "verwaltung_vorgaenge": null,
+          "pw_manager": null,
+          "pw_masterkey_ort": null,
+          "pw_backup_ort": null,
+          "computer_pw_ort": null,
+          "smartphone_pin_ort": null,
+          "computer": null,
+          "smartphone": null,
+          "cloud_dienst": null,
+          "proton_email": null,
+          "social_media": null,
+          "alarm_code_ort": null,
+          "tresor_ort": null,
+          "tresor_code_ort": null,
+          "schliessf_ort": null,
+          "schliessf_schluessel": null,
+          "wohnungsschluessel_ort": null,
+          "email_haupt": null,
+          "email2": null,
+          "krypto": null,
+          "krypto_seed_ort": null,
+          "krypto_hardware": null,
+          "krypto_legacy": null
+        },
+        "krisenvorsorge": {
+          "ks_bedarf_personen": null,
+          "ks_wasser_liter": null,
+          "ks_wasser_ort": null,
+          "ks_lebensmittel_was": null,
+          "ks_lebensmittel_ort": null,
+          "ks_taschenlampe": null,
+          "ks_kerzen": null,
+          "ks_batterien": null,
+          "ks_radio": null,
+          "ks_powerbank": null,
+          "ks_heizung_notfall": null,
+          "ks_erstehilfe_ort": null,
+          "ks_erstehilfe_datum": null,
+          "ks_medikamente_vorrat": null,
+          "ks_rucksack_vorhanden": null,
+          "ks_rucksack_ort": null,
+          "ks_rucksack_liste": null,
+          "ks_dokumente_vorhanden": null,
+          "ks_dokumente_ort": null,
+          "ks_bargeld_vorhanden": null,
+          "ks_bargeld_ort": null,
+          "ks_hygiene_liste": null,
+          "ks_hygiene_ort": null,
+          "ks_sammelplatz": null,
+          "ks_fluchtweg": null,
+          "ks_ausweichort_2": null,
+          "ks_nachbar": null,
+          "ks_besondere_situation": null,
+          "ks_feuerwehr_notiz": null
+        },
+        "wohnen": {
+          "wohnung_typ": null,
+          "vermieter": null,
+          "wohnsituation_bem": null,
+          "weitere_wohnungen": null
+        },
+        "persoenliches": {
+          "fotos_physisch": null,
+          "fotos_digital": null,
+          "erinnerungen_sonstiges": null,
+          "gegenstaende_wuensche": null,
+          "haushalt_spenden": null,
+          "konflikte_hinweise": null,
+          "religion": null,
+          "seelsorger": null,
+          "spirituelle_wuensche": null,
+          "brief_notarzt": null,
+          "brief_krankenhaus": null,
+          "brief_pflegeheim": null,
+          "brief_todesfall": null,
+          "briefe_ablage": null,
+          "sonstiges_persoenlich": null,
+          "abhaengige_personen": null,
+          "persoenliche_briefe": null,
+          "bestattung_art": null,
+          "bestattung_voraus": null,
+          "bestattung_unternehmen": null,
+          "bestattung_ort": null,
+          "bestattung_vorsorge_nachweis": null
+        }
+      },
+      "sensibelFelder": {},
+      "dokumente": [],
+      "_letzterAnlass": null,
+      "_wiedereinstiegHinweisGezeigt": false,
+      "inhaberPersonId": null,
+      "feldDefinitionen": [],
+      "codeListen": [],
+      "rechtsraumModule": [],
+      "textsatzModule": [],
+      "institutionsArten": [],
+      "formatModule": [],
+      "bereichsModule": [],
+      "bereichssatz": null
+    },
+    "_zurueckgehalten": {
+      "feldGueltigkeit": 3,
+      "menschen": 16,
+      "urheberschaft": 13,
+      "dokumente": 6
+    }
+  }
+}

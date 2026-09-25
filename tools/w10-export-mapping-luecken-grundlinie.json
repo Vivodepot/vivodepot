@@ -1,0 +1,110 @@
+[
+ {
+  "format": "sd-jwt-vc-identitaet",
+  "sektorId": "identity",
+  "mappingName": "VC_IDENTITAET_MAPPING",
+  "gesamt": 25,
+  "gedeckt": 10,
+  "ungedeckt": [
+   "secondLastName",
+   "displayFamilyNameFirst",
+   "yearOfBirthIfTheExactDayIs",
+   "gender",
+   "maritalStatus",
+   "maritalPropertyRegime",
+   "dateOfSeparation",
+   "choiceOfNameAfterMarriage",
+   "choiceOfNameAfterMarriage2",
+   "residencePermitType",
+   "profilePhotoCoverPage",
+   "furtherDetails",
+   "taxClass",
+   "taxClassEarlierEntry",
+   "reRegistrationWithTheResidents"
+  ],
+  "grundJeFeld": {
+   "displayFamilyNameFirst": "Anzeige-Einstellung der Inhaberin (U2-ADR-254), keine Tatsache über die Person — ein Credential trägt Tatsachen; beim Prüfer wäre die Reihenfolge der Namensanzeige ohne Bedeutung. Gehört darum in diese Grundlinie und nicht ins Mapping."
+  }
+ },
+ {
+  "format": "xoev-fim-verwaltung",
+  "sektorId": "administration",
+  "mappingName": "XOEV_VERWALTUNG_MAPPING",
+  "gesamt": 24,
+  "gedeckt": 5,
+  "ungedeckt": [
+   "changingUtilityProviders",
+   "computerDevices",
+   "smartphone",
+   "cloudServices",
+   "socialMedia",
+   "passwordManager",
+   "masterPasswordStorageLocation",
+   "passwordBackupStorageLocation",
+   "computerPasswordStorage",
+   "smartphonePinStorageLocation",
+   "safeLocation",
+   "safeCodeStorageLocation",
+   "bankSafeDepositBoxBankBranch",
+   "keyStorageLocation",
+   "alarmSystemCodeStorageLocation",
+   "cryptoWalletsOverview",
+   "seedPhraseStorageLocation",
+   "hardwareWallet",
+   "olderInheritedCryptoAccess"
+  ]
+ },
+ {
+  "format": "edci-bildung",
+  "sektorId": "education",
+  "mappingName": "EDCI_BILDUNG_MAPPING",
+  "gesamt": 31,
+  "gedeckt": 14,
+  "ungedeckt": [
+   "schoolLeavingQualification2",
+   "vocationalTrainingTrained",
+   "vocationalTrainingCompany",
+   "vocationalTrainingYear",
+   "vocationalTrainingEarlierEntry",
+   "universityEarlierEntry",
+   "certificatesQualifications",
+   "employmentContractFixedTerm",
+   "typeOfIncome",
+   "typeOfIncomeEarlierEntry",
+   "grossMonthlyIncome",
+   "netMonthlyIncome",
+   "payslipStorageLocation",
+   "schoolCertificatesStorage",
+   "trainingCertificateStorage",
+   "universityDegreeCertificate",
+   "employmentReferenceStorage"
+  ]
+ },
+ {
+  "format": "sd-jwt-vc-finanzen",
+  "sektorId": "finance",
+  "mappingName": "VC_FINANZEN_MAPPING",
+  "gesamt": 17,
+  "gedeckt": 7,
+  "ungedeckt": [
+   "taxAdvisor",
+   "taxAdvisorContact",
+   "latestTaxReturnStorageLocation",
+   "taxSoftware",
+   "taxParticulars",
+   "financialAdvisorNameContact",
+   "ongoingLoansDebts",
+   "valuablesStorageLocations",
+   "digitalBalances",
+   "outstandingClaimsGuarantees"
+  ]
+ },
+ {
+  "format": "sd-jwt-vc-sozialversicherung",
+  "sektorId": "socialInsurance",
+  "mappingName": "VC_SOZIALVERSICHERUNG_MAPPING",
+  "gesamt": 19,
+  "gedeckt": 19,
+  "ungedeckt": []
+ }
+]

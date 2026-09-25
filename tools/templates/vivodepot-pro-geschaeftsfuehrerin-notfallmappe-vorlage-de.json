@@ -1,0 +1,815 @@
+{
+  "modulTyp": "vorlage",
+  "anbieterId": "vivodepot-pro",
+  "felder": [
+    {
+      "feldname": "Weitere vertretungsberechtigte Person vorhanden",
+      "feldtyp": "jaNein",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "pflicht": true
+    },
+    {
+      "feldname": "Vertretungsregelung",
+      "feldtyp": "auswahl",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "codeWerte": [
+        {
+          "code": "einzel",
+          "anzeige": "Einzelvertretungsberechtigt"
+        },
+        {
+          "code": "gesamt",
+          "anzeige": "Gesamtvertretungsberechtigt"
+        },
+        {
+          "code": "einzel_befreit",
+          "anzeige": "Einzelvertretungsberechtigt, befreit von §181 BGB"
+        },
+        {
+          "code": "gesamt_befreit",
+          "anzeige": "Gesamtvertretungsberechtigt, befreit von §181 BGB"
+        }
+      ]
+    },
+    {
+      "feldname": "Zuständiges Registergericht",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln"
+    },
+    {
+      "feldname": "Registernummer",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln"
+    },
+    {
+      "feldname": "Weitere Geschäftsführer/Vorstände",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Erreichbarkeit",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Prokura",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "unterFelder": [
+        {
+          "feldname": "Wer",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Seit",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Urkunde liegt bei",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Beschränkung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Befristet bis",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Handlungsvollmacht",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "unterFelder": [
+        {
+          "feldname": "Wer",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Wofür",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Urkunde liegt bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Vorsorgevollmacht privat — Ablageort",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln"
+    },
+    {
+      "feldname": "Unternehmervollmacht",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "unterFelder": [
+        {
+          "feldname": "Notar",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Urkundennummer",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Verwahrort",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Vollmacht über den Tod hinaus",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "unterFelder": [
+        {
+          "feldname": "Gilt",
+          "feldtyp": "jaNein"
+        },
+        {
+          "feldname": "Bevollmächtigter",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Urkunde liegt bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Benannte Person (Wunsch, keine Bestellung)",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Wer darf handeln",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Erreichbarkeit",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Gesellschafterliste",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Was die Gesellschaft handlungsfähig macht",
+      "unterFelder": [
+        {
+          "feldname": "Fassung vom",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Original liegt bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Gesellschaftsvertrag",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Was die Gesellschaft handlungsfähig macht",
+      "unterFelder": [
+        {
+          "feldname": "Fundort",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Letzte Änderung",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Nachfolgeklausel im Gesellschaftsvertrag vorhanden",
+      "feldtyp": "jaNein",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Was die Gesellschaft handlungsfähig macht"
+    },
+    {
+      "feldname": "Notar",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Was die Gesellschaft handlungsfähig macht",
+      "unterFelder": [
+        {
+          "feldname": "Kanzlei",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Urkundenverzeichnis liegt bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Steuerberatung",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Was die Gesellschaft handlungsfähig macht",
+      "unterFelder": [
+        {
+          "feldname": "Büro",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Buchhaltung liegt bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Aufsichtsgremium (Beirat/Aufsichtsrat)",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Was die Gesellschaft handlungsfähig macht",
+      "unterFelder": [
+        {
+          "feldname": "Mitglied",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Erbregelung auf die Gesellschaft abgestimmt",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Was die Gesellschaft handlungsfähig macht",
+      "unterFelder": [
+        {
+          "feldname": "Abgestimmt",
+          "feldtyp": "jaNein"
+        },
+        {
+          "feldname": "Unterlage liegt bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Bankverbindung",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Fristen und Geld",
+      "unterFelder": [
+        {
+          "feldname": "Institut",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Vollmacht-Inhaber",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Gilt über den Tod hinaus",
+          "feldtyp": "jaNein"
+        }
+      ]
+    },
+    {
+      "feldname": "Wiederkehrende Zahlung",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Fristen und Geld",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Fälligkeit",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Kredit",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Fristen und Geld",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Ansprechpartner",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Kündigungsrecht bei Führungswechsel",
+          "feldtyp": "jaNein"
+        }
+      ]
+    },
+    {
+      "feldname": "Persönliche Sicherheit (Bürgschaft)",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Fristen und Geld",
+      "unterFelder": [
+        {
+          "feldname": "Wofür/gegenüber wem",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Steuerfrist",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Fristen und Geld",
+      "unterFelder": [
+        {
+          "feldname": "Anmeldung/Vorauszahlung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Termin",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Versicherung",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Fristen und Geld",
+      "unterFelder": [
+        {
+          "feldname": "Art",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Ansprechpartner",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Meldefrist",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Vertrag mit Kontrollwechsel-Klausel",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Fristen und Geld",
+      "unterFelder": [
+        {
+          "feldname": "Vertrag",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Ansprechpartner",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Fachanwendung",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Betrieb und Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Anbieter",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Ansprechpartner",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Vertragsnummer",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Behördenzugang",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Betrieb und Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Postfach",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Zugangsmittel liegt bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Zugangsmittel",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Betrieb und Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Verwahrort",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Administration (intern/extern)",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Betrieb und Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Erreichbarkeit",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Personal",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Betrieb und Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Anzahl/Struktur",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Ansprechpartner",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Verträge liegen bei",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Räume",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Betrieb und Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Mietvertrag liegt bei",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Kündigungsfrist",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Datensicherung",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Betrieb und Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Ort/Verfahren",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Wer kann zurückspielen",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Geschäftsunterlagen",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Aufbewahrung und Ordnung",
+      "unterFelder": [
+        {
+          "feldname": "Ort",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Systematik",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Aufbewahrungsfrist",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Aufbewahrung und Ordnung",
+      "unterFelder": [
+        {
+          "feldname": "Unterlagenart",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Fristende",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Archivdienstleister",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Aufbewahrung und Ordnung",
+      "unterFelder": [
+        {
+          "feldname": "Dienstleister",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Vertragsnummer",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Zugriffsregeln",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Branchenpflicht",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Aufbewahrung und Ordnung",
+      "unterFelder": [
+        {
+          "feldname": "Pflicht",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Frist",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Nicht zu benachrichtigende Personen",
+      "feldtyp": "liste",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "gruppe": "Kontakte",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Erreichbarkeit",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Wer übernimmt welche Aufgabe",
+      "feldtyp": "liste",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "gruppe": "Vertretungsplan",
+      "unterFelder": [
+        {
+          "feldname": "Aufgabe",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Person",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Vertretung ab wann",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Schlüssel und Schließanlage",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Verwahrort",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Tresor und Bankschließfach",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Zugänge",
+      "unterFelder": [
+        {
+          "feldname": "Ort",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Zugangsberechtigte",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Laufender Auftrags-/Projektstand",
+      "feldtyp": "text",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Geschäftsbeziehungen"
+    },
+    {
+      "feldname": "Genehmigung oder berufsrechtliche Zulassung",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Zulassungen",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Inhaber",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Frist/Ablauf",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Immobilie im Eigentum",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Sachwerte",
+      "unterFelder": [
+        {
+          "feldname": "Adresse",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Grundbuchblatt",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Schutzrecht, Patent, Marke, Rezeptur",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Sachwerte",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Registernummer",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Gültig bis",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Fuhrpark",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Sachwerte",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Standort",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Maschine oder Betriebsausstattung",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Sachwerte",
+      "unterFelder": [
+        {
+          "feldname": "Bezeichnung",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Standort",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Laufender Rechtsstreit",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Rechtliches",
+      "unterFelder": [
+        {
+          "feldname": "Gegenstand",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Frist",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Vertretung",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Patientenverfügung — Ablageort",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Vollmachten"
+    },
+    {
+      "feldname": "Betreuungsverfügung — Ablageort",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Vollmachten"
+    },
+    {
+      "feldname": "Testament oder Erbvertrag — Ablageort",
+      "feldtyp": "text",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Rechtliche Grundlagen"
+    },
+    {
+      "feldname": "Jahresabschluss — wo der aktuelle Stand liegt",
+      "feldtyp": "text",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Finanzieller Überblick"
+    },
+    {
+      "feldname": "Versorgungslage der Familie im Ausfall",
+      "feldtyp": "text",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Private Absicherung"
+    },
+    {
+      "feldname": "Depot zuletzt durchgesehen am",
+      "feldtyp": "datum",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Über dieses Depot"
+    },
+    {
+      "feldname": "Wer von diesem Depot weiß",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Über dieses Depot",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Rolle",
+          "feldtyp": "text"
+        }
+      ]
+    }
+  ]
+}

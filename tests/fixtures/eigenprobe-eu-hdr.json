@@ -1,0 +1,40 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "identifier": { "system": "urn:vivodepot:eigenprobe", "value": "urn:uuid:eigenprobe-eu-hdr-0001" },
+  "meta": { "profile": ["https://fhir.hl7.eu/hdr/StructureDefinition/bundle-eu-hdr"] },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Composition",
+        "title": "Entlassbrief der Testklinik Musterhausen",
+        "author": [{ "display": "Testklinik Musterhausen" }],
+        "text": {
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Verlaufsbericht des stationären Aufenthalts.</div>"
+        },
+        "section": [
+          {
+            "title": "Diagnosen",
+            "text": {
+              "div": "<div>Verdachtsdiagnose A, weiter zu beobachten.</div><div>Nebendiagnose B, gesichert.</div>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "name": "Testklinik Musterhausen"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "code": { "text": "Glucose SerPl-mCnc" },
+        "valueQuantity": { "value": 135, "code": "mg/dl" },
+        "effectiveDateTime": "2026-09-12"
+      }
+    }
+  ]
+}

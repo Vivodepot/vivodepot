@@ -1,0 +1,375 @@
+{
+ "beschreibung": "Grundlinie für tests/geruest-waechter-pruefen.test.js (W0, 20.09.2026). Achse 1 (Diagnose, sagt WO): je AB_WERK_*-Konstante der Byte-Deckel (UTF-8, das ganze Statement) und ob sie einen Andockpunkt NAME:BEGIN trägt. Achse 2 (bindend, sagt OB): die Zeichenketten außerhalb aller Marker-Regionen, in DREI Eimern. fremdcode: Zeichenketten in Skriptblöcken, die hier NAMENTLICH mit Herkunft stehen (Register, keine Erkennung); struktur: was keinen natürlichen Text tragen kann (Bezeichner, Markup ohne Wort, Selektoren, technischeWoerter), darf steigen, aber jeder Zuwachs steht namentlich in zuwaechse; satz: alles Satzförmige und jedes großgeschriebene Einzelwort, byte-exakt, nur sinkend, nie eine Ausnahme. Zuwachs und Senkung stehen je Eimer da, nie als Bilanz: das Register trennt, was das Werkzeug trennt; eine Zahl, die zwei Eimer zusammenfasst, hebt die Trennung auf, sie ist nicht ein Guthaben, sondern eine Bilanz. Wer eine Zeichenkette in fremdcode oder technischeWoerter aufnimmt, nimmt ihr den byte-exakten Schutz: im Zweifel NICHT aufnehmen. Gemessen mit tools/geruest-waechter-pruefen.js, exakt, kein Puffer.",
+ "konstanten": [
+  {
+   "name": "AB_WERK_ANGEHOERIGEN_QUELLEN",
+   "bytes": 55,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_AUSGABE",
+   "bytes": 29,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_BASISTEMPLATE_DE",
+   "bytes": 51,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_BEDINGUNGSKATALOG",
+   "bytes": 352,
+   "marker": false
+  },
+  {
+   "name": "AB_WERK_BEREICH_QUELLEN",
+   "bytes": 50,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_BEREICHE_BEKANNT",
+   "bytes": 38,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_BRANDING",
+   "bytes": 241,
+   "marker": false
+  },
+  {
+   "name": "AB_WERK_BRANDING_PRODUKT",
+   "bytes": 38,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_DOKUMENT_MODULE",
+   "bytes": 50,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_DOKUMENTE_DE",
+   "bytes": 34,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_LOGIK_MODUL_AUSZUEGE_QUELLEN",
+   "bytes": 65,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_LOGIK_MODUL_QUELLEN",
+   "bytes": 54,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_RECHTSRAUM_DE",
+   "bytes": 157,
+   "marker": false
+  },
+  {
+   "name": "AB_WERK_RECHTSRAUM_KATALOG_QUELLE",
+   "bytes": 60,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_RECHTSRAUM_PRODUKT",
+   "bytes": 38,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_SHOWCASE",
+   "bytes": 30,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_SITUATIONEN_QUELLEN",
+   "bytes": 54,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_SPRACHANGEBOT_QUELLEN",
+   "bytes": 56,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_SPRACHE_PRODUKT",
+   "bytes": 37,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_STANDARD_VORLAGEN",
+   "bytes": 52,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_SUBDEPOT_PALETTE_PRODUKT",
+   "bytes": 46,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_VORLAGEN_QUELLEN",
+   "bytes": 51,
+   "marker": true
+  },
+  {
+   "name": "AB_WERK_WIZARD_QUELLEN",
+   "bytes": 49,
+   "marker": true
+  }
+ ],
+ "eimer": {
+  "struktur": {
+   "bytes": 218051
+  },
+  "satz": {
+   "bytes": 29725
+  }
+ },
+ "fremdcode": [
+  {
+   "name": "jsPDF",
+   "herkunft": "jsPDF (MrRio/yWorks), eingebettet als eigener Skriptblock; Version aus dem @license-Kopf",
+   "version": "4.2.1",
+   "erkennung": {
+    "lizenzKopf": "jsPDF - PDF Document creation from JavaScript"
+   },
+   "bytes": 47142
+  },
+  {
+   "name": "qrcode",
+   "herkunft": "QR Code Generator for JavaScript (Kazuhiko Arase, MIT), eingebettet als eigener Skriptblock; der Kopf nennt keine Version",
+   "version": "ohne Versionsangabe",
+   "erkennung": {
+    "scriptId": "qrcode_VivodepotInline"
+   },
+   "bytes": 1354
+  },
+  {
+   "name": "inter",
+   "herkunft": "Inter (Schrift) als Base64 zwischen PDF-INTER-B64:BEGIN/END, eingebettet als eigener Skriptblock; nur die Restzeichenketten außerhalb der Region zählen hier",
+   "version": "ohne Versionsangabe",
+   "erkennung": {
+    "scriptId": "inter_pdf_font_VivodepotInline"
+   },
+   "bytes": 143
+  }
+ ],
+ "technischeWoerter": [
+  "Alphanumeric",
+  "Arguments",
+  "Bundle",
+  "Composition",
+  "Condition",
+  "Courier",
+  "Decode",
+  "Device",
+  "English",
+  "Enter",
+  "Escape",
+  "Fields",
+  "Height",
+  "Helvetica",
+  "Indexed",
+  "Inter",
+  "Length",
+  "Numeric",
+  "Object",
+  "Observation",
+  "Organization",
+  "Parent",
+  "Password",
+  "Practitioner",
+  "Predictor",
+  "Procedure",
+  "Promise",
+  "Provenance",
+  "Range",
+  "Resources",
+  "Subtype",
+  "Supplement",
+  "Times",
+  "Unicode",
+  "Ustrd",
+  "Vivodepot",
+  "Width",
+  "Acct",
+  "Bal",
+  "Ccy",
+  "Ntry",
+  "Stmt",
+  "Svcr",
+  "Data",
+  "Map",
+  "Set",
+  "Type",
+  "Size",
+  "Rect",
+  "Mask",
+  "Byte",
+  "None",
+  "Off",
+  "Opt"
+ ],
+ "regionen": {
+  "uebergangDeckel": 0,
+  "uebergang": [],
+  "dauerhaft": [
+   {
+    "name": "CODE-LISTEN",
+    "satz": 1945,
+    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten (etwa der WIdO-Hinweis zur ATC-GM): Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein.",
+    "probe": "tests/code-listen-lizenzhinweise-im-kern.test.js"
+   },
+   {
+    "name": "HERKUNFTSORT-ANGABEN",
+    "satz": 20,
+    "grund": "Der Name der Urheberin und die Lizenzkennung am Herkunftsort: Text, den wir führen müssen — die Urheberschaft darf nicht entfernbar sein (Spezifikation 34.7), und eine falsche Lizenzkennung wäre eine falsche Aussage (25.8). Der Block ist aus tools/herkunftsort-angaben.json erzeugt und in Kern und Lese-App byte-gleich. Die Probe sichert sein VORHANDENSEIN und seine Gleichheit, nicht das Weglassen.",
+    "probe": "tests/herkunftsort-angaben-gleich.test.js"
+   }
+  ]
+ },
+ "zuwaechse": [
+  {
+   "ziel": "struktur",
+   "von": 383727,
+   "auf": 383906,
+   "daneben": {
+    "satz": -42
+   },
+   "grund": "Markup des Sprach-Umschalters in den Einstellungen (U2-ADR-429): die Bausteine des select-Elements und seiner option-Elemente (Kennung einst-sprache, Klassenname einst-zeile, Attributnamen) und der Name der Konstante SPRACHE_ANKER; Struktur, kein Inhalt. Der satzförmige Anker Language / Sprache steht jetzt einmal statt zweimal (Senkung im Satz-Eimer). Die Namen der Sprachen kommen aus Intl.DisplayNames."
+  },
+  {
+   "ziel": "struktur",
+   "von": 224420,
+   "auf": 224490,
+   "daneben": {},
+   "grund": "Die Meldung der Vollständigkeitsprüfung nennt Eintrag und Unterfeld statt nur des Listenfeld-Labels. Bestandteile, einzeln: die Platzhalter {feld} (6 B), {n} (3 B) und {unterfeld} (11 B, zweimal); die Gründe liste-eintrag (13 B, zweimal) und pflicht (7 B); der Typ-Vergleich string (6 B, zweimal); ein Trennzeichen mit Leerzeichen (2 B): zusammen 78 B, abzüglich der vier entfallenen Trennzeichen-Aufrufe an den Stellen, die die Meldung bauten (4 x 2 B), netto 70 B. Die zwei Textkennungen stehen als Eigenschaftszugriff auf STRINGS, nicht als Zeichenkette, und zählen hier nicht. Satz unverändert: der Wortlaut steht im Sprachmodul, nichts ist ins Gerüst zurückgewandert. Der Zuwachs ist Struktur, und sein Gegenwert ist die Adresse in der Meldung."
+  },
+  {
+   "ziel": "struktur",
+   "von": 223636,
+   "auf": 223786,
+   "daneben": {},
+   "grund": "Die Angaben am Herkunftsort in EINER Quelle (Spezifikation 34.7, md5 aa468bfa): die Lese- und Prüfstellen im Kern für die zwei Herkunftsort-Schlüssel — Kennungsnamen (herkunftPoweredBy, herkunftLizenzhinweis), die Platzhalter {urheberin}/{lizenz}, zwei Ablehnungsgründe (herkunftsort-marke, herkunftsort-angabe) und das Trennzeichen der Ausgangsprüfung. Alles Bezeichner und Platzhalter, kein Satz: der Satz-Eimer wächst nicht (34510 vor und nach dieser Änderung)."
+  },
+  {
+   "ziel": "struktur",
+   "von": 223786,
+   "auf": 223866,
+   "daneben": {},
+   "grund": "+80 Byte struktur = die neun Feldnamen von UMSCHLAG_FELDER_BEKANNT: kryptoVersion (13) + depotUUID (9) + pbkdf2 (6) + depotSalt (9) + iv (2) + ct (2) + einheiten (9) + umschlagTabelle (15) + angehoerigenOrt (15) = 80. Maschinenwerte des Dateiformats, kein Buergersatz. Zuwachs vollstaendig erklaert, kein Rest. satz unveraendert. Gegenwert: ein unbekanntes Umschlag-Feld (etwa das der Wiederherstellungs-Huelle) geht beim Speichern nicht mehr still verloren (U2-ADR-430 Ziffer 5)."
+  },
+  {
+   "ziel": "struktur",
+   "von": 223866,
+   "auf": 223881,
+   "daneben": {},
+   "grund": "22.09.2026, Einlass-Fix U2-ADR-303-Muster: textsatzModulPruefen bekommt _einlassHinweisFuerLeer(verworfene) fuer den Leer-Fall (0 uebernommene Texte) — +15 Byte Struktur-Eimer, keine neue AB_WERK-Konstante"
+  },
+  {
+   "ziel": "struktur",
+   "von": 223881,
+   "auf": 223925,
+   "daneben": {},
+   "grund": "F4-Fix: zwei kurze technische Kennungen im Eingangsweg ('[Eingang]' Log-Tag, 'eingang-fehler-hinweis' als getElementById-Argument) — der Text der Meldung selbst steht als statisches Markup, nicht im Skript."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217040,
+   "auf": 217195,
+   "daneben": {},
+   "grund": "Schema 88: Alt->Neu-Tabelle PERSONEN_SCHLUESSEL_ALT_ZU_NEU_88, Stufe 87->88 und personPatchAusInlineNeuanlage (Personenregister englisch)"
+  },
+  {
+   "ziel": "struktur",
+   "von": 217195,
+   "auf": 217216,
+   "daneben": {},
+   "grund": "Schema 88: Sicherungskopie _migrationSicherung88 der Stufe 88, nie im Export"
+  },
+  {
+   "ziel": "struktur",
+   "von": 217216,
+   "auf": 217228,
+   "daneben": {},
+   "grund": "S5: subKontextBetreten normalisiert wie depotLaden (U2-ADR-002)"
+  },
+  {
+   "ziel": "struktur",
+   "von": 217151,
+   "auf": 217206,
+   "daneben": {},
+   "grund": "Bereiche als Bausteine der Empfängerkreis-Fächer (U2-ADR-156): Kennungs-Präfix bereich:, Personenlisten-Rolle und der Dialog-Helfer _kreisBereichsbausteineSichtbar — Struktur, kein Satz; der Erklärungssatz steht im Sprachmodul."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217206,
+   "auf": 217372,
+   "daneben": {},
+   "grund": "Versionstor: eine Datei aus einer neueren Fassung wird nur gelesen (VERSIONSSCHRAEGE)"
+  },
+  {
+   "ziel": "struktur",
+   "von": 217372,
+   "auf": 217378,
+   "daneben": {},
+   "grund": "Ortshinweis reist mit Blackbox und Einhängen: _ortHinweisFeld trägt ihn nur als Text (typeof 'string') oder null weiter; dieselbe Funktion prüft beim Einhängen"
+  },
+  {
+   "ziel": "struktur",
+   "von": 217378,
+   "auf": 217392,
+   "daneben": {},
+   "grund": "Fix-Satz Ausgabe (23.09.2026): Export-Auswahl hält das Depot fest (const depot = data), der PDF-Torwächter entfernt das weiche Trennzeichen, die Notfallkarte zeichnet ohne anrufbaren Kontakt keinen QR — Mechanismus, kein Satz."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217392,
+   "auf": 217453,
+   "daneben": {},
+   "grund": "Standardvorlage nur deutsch und QR-Lese-Adresse (23.09.2026): die Sprache jeder Standardvorlage wird beim Zusammenführen neben den signierten Objekten gemerkt (_standardVorlageSprache), wortlautVorlageHTML zeigt den Sprach-Hinweis; der Empfänger-QR zeigt auf die ausgelieferte Lese-App — Mechanismus, kein Satz."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217453,
+   "auf": 217654,
+   "daneben": {},
+   "grund": "Darstellung (24.09.2026): die Vorführungskarte bekommt ihren eigenen Platz — _vorfuehrungBandMessen/_vorfuehrungBandLoesen setzen die Bandhöhe, die Ansicht endet darüber; Mechanismus, kein Satz."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217654,
+   "auf": 217736,
+   "daneben": {},
+   "grund": "Quellcode öffentlich (24.09.2026, Nachtrag zu U2-ADR-260): die Fußzeile verlinkt das öffentliche Repo wieder (QUELLCODE_LINK, <a target=_blank>) — Mechanismus, kein Satz."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217736,
+   "auf": 217770,
+   "daneben": {},
+   "grund": "Quellcode öffentlich (24.09.2026, Nachtrag zu U2-ADR-260): die Fußzeile verlinkt das öffentliche Repo wieder (QUELLCODE_LINK, <a target=_blank>), unter einer Partnermarke als Text ohne Link (White Label) — Mechanismus, kein Satz."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217770,
+   "auf": 217896,
+   "daneben": {},
+   "grund": "PDF-Kästchen als Vektor an der PDF-Engstelle (Befund VOLLMACHT-PDF-KAESTCHEN): Maß- und Zeichenhelfer, Umbruch und Zeilenzerlegung — Struktur, auf die jedes PDF verzweigt, kein Inhalt."
+  },
+  {
+   "ziel": "struktur",
+   "von": 217896,
+   "auf": 217974,
+   "daneben": {},
+   "grund": "kein Verweis reist ohne sein Ziel: verweisZieleNachziehen, die Rolle personenListe im Bereichs-Zweig und der Vorrang der Kreis-Ausnahmen (Befund SUB-DEPOT-PERSONEN)"
+  },
+  {
+   "ziel": "struktur",
+   "von": 217974,
+   "auf": 218051,
+   "daneben": {},
+   "grund": "DATENSATZ-ROH (25.09.2026): _rohFuerAusgabe, ROH_ZEILEN_METADATEN, verborgenWennTrifft, assistentVerborgenWenn — der Datensatz-Rohwert hält zurück, was die Anzeige zurückhält"
+  }
+ ]
+}

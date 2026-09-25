@@ -1,0 +1,46 @@
+# ════════════════════════════════════════════════════════════════════════════
+# OSV-Schwachstellen-Scan — echter Gate, bei JEDEM Commit (D55 Schritt 2.1)
+# ----------------------------------------------------------------------------
+# Prüft die inline eingebetteten Paket-Abhängigkeiten der V1-SBOM
+# (vivodepot.sbom.cdx.json) gegen die OSV.dev-Datenbank.
+# Echter Gate (keine Deklaration): eine gefundene Schwachstelle ODER ein
+# Scan-Fehler (API/Netz nicht erreichbar) macht den Lauf ROT — scripts/osv-scan.py
+# beendet sich mit Exit 1 (Vuln) bzw. Exit 2 (SCAN_ERROR). Damit stimmt die
+# Webseiten-Behauptung „Schwachstellen-Scan bei jedem Commit" für V1.
+#
+# Eigenständig im clean-rebuild-Repo (Skript + SBOM lokal; keine Cross-Repo-
+# Abhängigkeit). Krypto/HTML werden NICHT berührt.
+# ════════════════════════════════════════════════════════════════════════════
+name: OSV-Schwachstellen-Scan
+
+on:
+  push:
+    branches: [main, clean-rebuild, ci-probe-2026-07-02, u2-kanon]
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  osv-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: OSV.dev-Scan gegen die V1-SBOM (rot bei Vuln ODER Scan-Fehler)
+        run: python3 scripts/osv-scan.py --out "${RUNNER_TEMP}/osv"
+
+      - name: Scan-Ergebnis als Artefakt (Audit-Spur)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: osv-scan-result
+          path: ${{ runner.temp }}/osv/*.json
+          if-no-files-found: warn

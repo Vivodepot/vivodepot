@@ -1,0 +1,13 @@
+{
+ "stand": "2026-09-19",
+ "anzahl": 2,
+ "ausserhalbDesLaufs": [
+  {
+   "ordner": "tests/demo",
+   "dateien": 2,
+   "grund": "Rohaufnahmen der beiden Demo-Clips (Videos für die Vertonung), keine Proben; laufen von Hand über playwright.config.demo.js."
+  }
+ ],
+ "grundsatz": "Die Liste kann nur schrumpfen. Ein neuer Ordner ohne Lauf macht tests/test-erreichbarkeit.test.js rot; ein Ordner, der erreicht wird, muss hier gestrichen werden.",
+ "gestrichen": "tests/e2e-firefox: seit 19.09.2026 im pre-push-Gate (anlassbezogen, scripts/pruefe-e2e-bereich.js), Firefox-Binary über tools/arbeitsbaum-einsatzbereit-machen.js."
+}

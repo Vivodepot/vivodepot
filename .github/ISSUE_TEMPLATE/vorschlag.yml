@@ -1,0 +1,22 @@
+name: Vorschlag
+description: Eine Idee für eine neue Funktion oder eine Verbesserung.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Welches Problem löst der Vorschlag?
+      description: Beschreibe zuerst die Situation, nicht die Lösung.
+    validations:
+      required: true
+  - type: textarea
+    id: vorschlag
+    attributes:
+      label: Vorschlag
+      description: Was schlägst du konkret vor?
+    validations:
+      required: true
+  - type: textarea
+    id: alternativen
+    attributes:
+      label: Erwogene Alternativen (optional)

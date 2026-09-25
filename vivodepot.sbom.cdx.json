@@ -1,0 +1,650 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 3,
+  "metadata": {
+    "timestamp": "2026-09-23T00:00:00Z",
+    "authors": [
+      {
+        "name": "Vivodepot GmbH"
+      }
+    ],
+    "supplier": {
+      "name": "Vivodepot GmbH",
+      "url": [
+        "https://vivodepot.de"
+      ]
+    },
+    "component": {
+      "bom-ref": "vivodepot",
+      "type": "application",
+      "name": "vivodepot",
+      "licenses": [
+        {
+          "license": {
+            "id": "EUPL-1.2"
+          }
+        }
+      ],
+      "description": "Vivodepot Bürger-App — Single-File-HTML (clean-rebuild), EUPL-1.2. Inline eingebettete Drittsoftware/Daten werden hier geführt; nichts wird zur Laufzeit geladen. Dieses SBOM bildet den TATSÄCHLICHEN Stand ab: jsPDF 4.2.1 und qrcode-generator 1.4.4 inline; Code-Listen als SEED/STUB inline (Volllisten ausstehend). docx ist am 21.08.2026 entfallen und nicht mehr vorgesehen."
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "jspdf",
+      "type": "library",
+      "name": "jspdf",
+      "version": "4.2.1",
+      "description": "PDF-Erzeugung — §5.4 Export-Modul, inline & offline (3. Skript-Block). Status: inline.",
+      "purl": "pkg:npm/jspdf@4.2.1",
+      "author": "James Hall",
+      "supplier": {
+        "name": "parallax",
+        "url": [
+          "https://github.com/parallax/jsPDF"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0bd87ba718f9d4ecbd3fba86bdb86ac4e0fdf2b1e2203c87a4ecc130d4bed379"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "83996a469cfae981a895b412ccba604d2f26c2ae343935be525a1cf6874d00935ca7a858448d6c6cd1e365f8337f8846f4717d9ad0cdd0a85990e7c7cb0cd8b5"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "jspdf.umd.min.js"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ],
+      "components": [
+        {
+          "bom-ref": "pako",
+          "type": "library",
+          "name": "pako",
+          "version": "2.1.0",
+          "description": "Bestandteil des jsPDF-Bundles (Kompression), mit ihm im selben Skriptblock eingebettet; kein eigener Hash, die Bytes deckt der Hash von jspdf.",
+          "purl": "pkg:npm/pako@2.1.0",
+          "author": "Vitaly Puzrin, Andrei Tuputcyn",
+          "supplier": {
+            "name": "nodeca",
+            "url": [
+              "https://github.com/nodeca/pako"
+            ]
+          },
+          "licenses": [
+            {
+              "expression": "MIT AND Zlib"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bom-ref": "qrcode-generator",
+      "type": "library",
+      "name": "qrcode-generator",
+      "version": "1.4.4",
+      "description": "QR-Code-Erzeugung — inline & offline (eigener Skript-Block id=qrcode_VivodepotInline). Konsument: Notfall-QR (flowNotfallQR), Papier-Notfallkarte, Selbstverif-QR im Gesamt-PDF. Status: inline.",
+      "purl": "pkg:npm/qrcode-generator@1.4.4",
+      "author": "Kazuhiko Arase",
+      "supplier": {
+        "name": "Kazuhiko Arase",
+        "url": [
+          "https://github.com/kazuhikoarase/qrcode-generator"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5acc9afb7b602986a62f79e46956cde71716d019816f44b7b3f93039c8b6b345"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "167b0c585f2747d9903a6f794fdbe41acc7ee68181ed1ff7892be2e99ebdf749aa4672183af95352f177edbf927417c38ccc5303a53b06e9b3500e3628380bf2"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "qrcode.js"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "font-inter",
+      "type": "file",
+      "name": "font-inter",
+      "version": "bundled-woff2",
+      "description": "Schriftfamilie Inter — inline als base64-WOFF2 (@font-face, CSS-Head), as-is/kein Subset. Schnitte: 400=InterDisplay-Regular, 500=Inter-Medium, 600=Inter-SemiBold, 700=Inter-Bold; kein Italic. Lizenz-Nachweis: OFL.txt. Status: inline. (file-Komponente analog Code-Listen; eingebettete libraries: jsPDF + qrcode-generator.)",
+      "author": "The Inter Project Authors",
+      "supplier": {
+        "name": "The Inter Project Authors",
+        "url": [
+          "https://github.com/rsms/inter"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "OFL-1.1"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b5e27f7279d34c5d7d7873b4b777f315a1a02449965fb4b5e6d9ec32abfc1ac5"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "d39e9467721dc4f7ad075b72da90b2d8474662f9ad4df368cbb98a58efab36376c553f6784f2c8cc60f5ee62955bc08930a5fbdbe7da0245c0af66e4a57ba2a7"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "441877ba4dc5fe7a35a5f77c60d433f3a9d2e7804af9c0587ebc7f7c529a07ee"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "0f13e9578c3e528a371071e5e4f874393cf08ff77806c81d711536dc603d70418b0d0a3020fccbacc4c4ef685558da4cc5b8e21f9d1ba67bff68e5f054ba06f7"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "a5edc8bfa7b46bdfd02ff7ccc85b086b3d4f0ffe7014c626831f97b73f27ac3b"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "c825f28c8df5e4a7aeb49b8930d81329a3dafea309924f015a940384929c2285ee6c44bd28c6839cce7b967618ae193701a892fec44df80abb6657bc88718e14"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "41ae603be86af1eb304c4b1620531ca6f3948ab8998cfbab858be9bc957b5669"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "abb9eb8a75adf398bdac1571eb829ee016670887622ba22f2d6ac084aa2973d4db29eece2adf92c591ab0ddef0a868231a2fb8a096079c37251d6edec26ddf55"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "InterDisplay-Regular.woff2 (weight 400)"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "Inter-Medium.woff2 (weight 500)"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "Inter-SemiBold.woff2 (weight 600)"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "Inter-Bold.woff2 (weight 700)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "font-inter-pdf",
+      "type": "file",
+      "name": "font-inter-pdf",
+      "version": "pdf-subset-2026-09-13",
+      "description": "Schriftfamilie Inter, PDF-Einbettung (U2-ADR-263-Nachtrag) — inline als base64-TrueType, jsPDF addFileToVFS/addFont. GETRENNT von font-inter (dort: UI-Schrift, woff2/@font-face, kein Subset). Hier: auf tatsächlich gebrauchte Codepunkte zugeschnittene Statik-Instanzen Regular/Bold/Italic, Bau-Rezept in tools/build-pdf-inter-einbetten.js. Status: inline.",
+      "author": "The Inter Project Authors",
+      "supplier": {
+        "name": "The Inter Project Authors",
+        "url": [
+          "https://github.com/rsms/inter"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "OFL-1.1"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3ec64dedf4cc3fbbb996a6eca47c1afd317fd14ca67e4dc13931d9ad1fd79b49"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "a5ebb120188c79bb6ef8b1bfbd3fd316002910f0f0839057b965ce331e5760c8755d0040272c48fc7b0c9353b543d3ce0222e0c76ae3fa96e0d5e20f543024f3"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "93d436b13f081429158388735a3a3984b7f6e47ff8b372673dfee73ffbbf49f4"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "5899fea51676d8296c9adca45fe25e053a27e7924d48022ea703f4ed64c5c1d41a1ef19d249ec7c99edf0fefb614286c550b82dac3df9ba1f11723ca305f80ec"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "6b61c36b249d1ca07d659437c4bca4050e3dfd4a8c5f791b85d895fb9cc55957"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "63e2e894ff0f14e6987c5c17e02a5e7f324e196b641a52516607159dfa7cc74cfa65276f6873c99ac0a3513e6e9709a6893024395669b6242b425847be8bbac5"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "tools/schrift-pdf-quellen/Inter-Regular-pdf-subset.ttf"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "tools/schrift-pdf-quellen/Inter-Bold-pdf-subset.ttf"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "tools/schrift-pdf-quellen/Inter-Italic-pdf-subset.ttf"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "code-liste-atc",
+      "type": "file",
+      "name": "code-liste-atc",
+      "version": "ATC-GM-2026-amtlich",
+      "description": "Code-Liste ATC (Wirkstoffe). Inline SEED (echte Codes, Auszug); Vollliste ~5.000 Codes ausstehend. systemId=atc, URI http://www.whocc.no/atc.",
+      "supplier": {
+        "name": "Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM)",
+        "url": [
+          "https://www.bfarm.de/DE/Kodiersysteme/Klassifikationen/ATC/_node.html"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM mit DDD, die auf dem vom WHO Collaborating Centre for Drug Statistics Methodology herausgegebenen Werk mit dem Titel „ATC Index with DDDs and Guidelines for ATC Classification and DDD Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM). Auszug aus der amtlichen Fassung 2026, Codes und Bezeichnungen unverändert übernommen (§ 62 UrhG)."
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "5d1316fc2071d2299ef2c7e9b3d171e96ae7ea97834d74f8436e9bdf326fb3d4"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "2a91395d17c4b3fd8c52dcbb2461fe91cdc0065a3a3f9b1b580be39359603dc1493c8cb09b823b381fa671496dcf751582e9fcbf91a9312990a83e616d6de768"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "code-listen/atc.json"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "code-liste-icd10gm",
+      "type": "file",
+      "name": "code-liste-icd10gm",
+      "version": "SEED-2026-05",
+      "description": "Code-Liste ICD-10-GM (Diagnosen). Inline SEED (echte Codes, Auszug); Vollliste ~15.000 Codes ausstehend. systemId=icd10, URI http://hl7.org/fhir/sid/icd-10-gm.",
+      "supplier": {
+        "name": "Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM)",
+        "url": [
+          "https://www.bfarm.de"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "ICD-10-GM, BfArM — amtliches Werk (§ 5 Abs. 2 UrhG): Änderungsverbot (§ 62) und Quellenangabe (§ 63) beachten, keine kommerzielle Werbung im Werk; Quellenangaben nach Anhang der BfArM-Downloadbedingungen"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c920f331383eb458d3e74c29bc75c2c23a38fb0ab105711b83e57488845805df"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "0de02d8398a80489c50ddda61e63de2cc58e3f3ca82c0447d9e8baf4defca08fed27df9e0f896a12bb25ae880a70745b54d9381b24c79cd3047fc263ba384608"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "code-listen/icd10.json"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "code-liste-loinc",
+      "type": "file",
+      "name": "code-liste-loinc",
+      "version": "SEED-2026-05",
+      "description": "Code-Liste LOINC (Beobachtungen/IPS-Sektionen). Inline SEED (echte Codes, Auszug). systemId=loinc, URI http://loinc.org.",
+      "supplier": {
+        "name": "Regenstrief Institute",
+        "url": [
+          "https://loinc.org"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "LOINC, Regenstrief Institute — kostenlos unter der LOINC-Lizenz (loinc.org/license), kommerzielle Nutzung erlaubt; Pflichthinweis mitliefern, siehe THIRD_PARTY_LICENSES; LOINC ist eine eingetragene Marke des Regenstrief Institute, Inc."
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "86df27de6c3b24597136b3fc6a27d43a5b3951c762b8c450daa1301e8486c2a9"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "1df995ff0c6381c8cdb8fd4cc107fd76b28262c1fba52db68525756b6d5bb199f31dc495dd6b44607c85946fc52d1cea6a42d859cdbc6edd9a653b081e5f5608"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "code-listen/loinc.json"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "code-liste-snomed-allergen",
+      "type": "file",
+      "name": "code-liste-snomed-allergen",
+      "version": "SEED-2026-05",
+      "description": "Code-Liste SNOMED-CT Allergen-Subset. Inline SEED — NUR kleines Allergen-Sample (Lizenz erforderlich). systemId=snomedAllergen, URI http://snomed.info/sct.",
+      "supplier": {
+        "name": "SNOMED International",
+        "url": [
+          "https://www.snomed.org"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "SNOMED CT, IHTSDO/SNOMED International — Lizenz erforderlich (Affiliate); nur kleines Sample ausgeliefert"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "6a2e68d43b9edb18e266df5da5f4357dfebd724fdf7bbec84a9cfb1719fdccb8"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "f21e8c76019dc4435f28ccfe6fa4faafe8d3b1a3f3d367ee65cdd163c7393bead19b4d58bb8232836e6255f2be080142a8ef4941fb14e3bbde88d5d2f47ba05a"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "code-listen/snomedAllergen.json"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "xshare-yellow-button",
+      "type": "file",
+      "name": "xshare-yellow-button",
+      "version": "visual-identity-kit-2026-07-22",
+      "description": "Programmzeichen am Knopf der Funktion (Herunterladen, Hochladen, einmaliges Teilen), Variante „Full – light background\", verkleinert, sonst unverändert. Nachweis: NOTICE.md, docs/fremdquellen.md.",
+      "supplier": {
+        "name": "xShare (Horizon Europe, Grant Agreement No. 101136734)",
+        "url": [
+          "https://xshare-project.eu"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "xShare Yellow Button Visual Identity Kit, zur Verwendung in Yellow-Button-Implementierungen bereitgestellt; ohne eigene Nutzungsbedingungen"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f5599731dc86b826c9a90aa492bb064197593e11d7bf2514c28d32001771f801"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "857e3d941f68bda196670696534017eb915779c419f10a739e67e6d68c0712a9c58fceff933a360cd0d1069ad9a40be7554e03c530f19bc1b4908897c0ed68ef"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "6168049b21a9e90e9b0da267c6b07a90cec8569a01205b698fae5d41ee23671f"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "a7c8df26fe6ac18e3621755a57cc40604f5408ef1cb491bf3f090d7316d8b6217382b0db676abe7fe9b786931c0ecbbcfa59a642993efe6e530a2b5af60d402f"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "907c17c92ead486bd9bf9a1eded46240254af84f674af47a7d695a9e391697f7"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "8c43048f511c754ca4c18a122160a8f02b8a44fff9d5eeba219c8119a6a6ce9ea1ce7d8aabb18c21cf073bffc7ccfcacaf3d42213739b1decfe47eaeacb9935f"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "yb-download.png"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "yb-upload.png"
+        },
+        {
+          "name": "bsi:component:filename",
+          "value": "yb-share.png"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "vivodepot",
+      "dependsOn": [
+        "jspdf",
+        "qrcode-generator",
+        "font-inter",
+        "font-inter-pdf",
+        "code-liste-atc",
+        "code-liste-icd10gm",
+        "code-liste-loinc",
+        "code-liste-snomed-allergen",
+        "xshare-yellow-button"
+      ]
+    },
+    {
+      "ref": "jspdf",
+      "dependsOn": [
+        "pako"
+      ]
+    },
+    {
+      "ref": "qrcode-generator",
+      "dependsOn": []
+    },
+    {
+      "ref": "font-inter",
+      "dependsOn": []
+    },
+    {
+      "ref": "font-inter-pdf",
+      "dependsOn": []
+    },
+    {
+      "ref": "code-liste-atc",
+      "dependsOn": []
+    },
+    {
+      "ref": "code-liste-icd10gm",
+      "dependsOn": []
+    },
+    {
+      "ref": "code-liste-loinc",
+      "dependsOn": []
+    },
+    {
+      "ref": "code-liste-snomed-allergen",
+      "dependsOn": []
+    },
+    {
+      "ref": "xshare-yellow-button",
+      "dependsOn": []
+    },
+    {
+      "ref": "pako",
+      "dependsOn": []
+    }
+  ],
+  "annotations": [
+    {
+      "subjects": [
+        "vivodepot"
+      ],
+      "text": "Stand 16.06.2026: jsPDF 4.2.1 und qrcode-generator 1.4.4 sind tatsächlich inline eingebettet (eigene Skript-Blöcke; window.jspdf bzw. window.qrcode zur Laufzeit vorhanden). docx 8.5.0 war bis zum 21.08.2026 als pending-inline gefuehrt und NIE eingebettet (Blocker C-4 vom 26.07.2026: window.docx fuenfmal gelesen, nie zugewiesen). Man hat den Weg gestrichen statt die Bibliothek nachzuliefern; der Slot am Dateiende ist fort, und kein Ausgabeweg liest window.docx mehr. Es wird hier bewusst NICHTS als eingebettet geführt, was nicht im Code steht."
+    },
+    {
+      "subjects": [
+        "vivodepot"
+      ],
+      "text": "Paket 3 (text+code-Andock): Die Code-Listen liegen inline als @vd-codeliste-Blöcke (Quellen: code-listen/<systemId>.json). Stand: SEED (echte Standard-Codes, kuratierter Auszug) für atc/icd10/loinc/snomedAllergen; STUB (leer, Codes ausstehend) für esco, xoev-rollencode (von Export-Generatoren als _codeStand gelesen). snomedImpfstoff/snomedImplantat wurden ersatzlos ausgetragen (U2-ADR-051): Impf-/Implantat-Codes reisen künftig als Template-Code-Listen (data.codeListen[], tpl_-Namensraum) mit dem signierten Template — Lizenzverantwortung liegt beim Template-Anbieter. Die Volllisten werden über die JSON-Quellen + tools/build-code-listen.js nachgezogen; danach Version/Hash hier aktualisieren. SNOMED braucht eine Lizenz und wird nur als kleines Sample ausgeliefert."
+    }
+  ]
+}

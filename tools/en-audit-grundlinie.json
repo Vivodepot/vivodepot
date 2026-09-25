@@ -1,0 +1,113 @@
+{
+  "beschreibung": "Grundlinie für tests/en-audit-laufzeit.test.js (28.08.2026, „Laufzeit-Audit Sprachmodule\", Produktvorgabe: bevor IRGENDEIN Sprachmodul an IRGENDEINE Institution geht). Erste Erhebung 28.08.2026: 58 Funde, 47 davon echte Lücken. Phase 2 (28.08.2026, Entscheidung „ALLE!\"): 44 der 47 repariert (Textsatz-Anbindung für Feldgruppen-Karten-Titel/Dokument-Katalog/Datalist-Vorschläge, s. _feldgruppeLabelText/_dokumentTextsatzText/_vorschlaegeTextsatz in vivodepot.html) — nur die 3 ICD-10-Diagnose-Vorschläge bleiben offen (eigener, größerer Befund, keine Textsatz-Reparatur, s. u.). Jeder verbleibende Eintrag einzeln klassifiziert, mit Grund und Datum. Die Probe erlaubt KEINEN neuen, nicht katalogisierten Fund (Ratsche) — jeder künftige Fund muss hier entweder als `ausnahme` (legitim deutsch) begründet oder als `fund` aufgenommen UND in einem Reparatur-Auftrag behoben werden. `ausnahme` niemals ohne echten Grund setzen — im Zweifel `fund`.",
+  "einstufungen": {
+    "ausnahme": "legitim deutsch — Rechtsraum-Begriff, Eigenname, offizielles Kürzel ohne Entsprechung, oder Beispiel-Platzhalter mit echtem deutschen Bezugspunkt (Konvention aus tools/textsatz-en-daten.js)",
+    "fund": "echte Lücke — sollte übersetzt sein, ist es (noch) nicht. Reparatur folgt in eigenem Auftrag, NICHT stillschweigend als Ausnahme geführt."
+  },
+  "eintraege": [
+    {
+      "quelle": "sektor:identity",
+      "art": "text",
+      "text": "A change of address must be reported to the registration office (Meldebehörde) within two weeks.",
+      "einstufung": "ausnahme",
+      "grund": "Englischer Satz, deutscher Behördenname in Klammern zur Orientierung — Konvention „Rechtsraum bleibt Deutschland\".",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "sektor:socialInsurance",
+      "art": "text",
+      "text": "Notice from the Agentur für Arbeit",
+      "einstufung": "ausnahme",
+      "grund": "Deutscher Behördenname als Eigenname innerhalb englischen Labels.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "sektor:socialInsurance",
+      "art": "attribut",
+      "text": "aria-label=\"Notice from the Agentur für Arbeit\"",
+      "einstufung": "ausnahme",
+      "grund": "Dieselbe Begründung wie das zugehörige Feld-Label.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "sektor:emergencyPreparedness",
+      "art": "attribut",
+      "text": "placeholder=\"playground at the corner of Bergstraße\"",
+      "einstufung": "ausnahme",
+      "grund": "Englischer Beispieltext, deutscher Straßenname als Platzhalter-Beispiel — Konvention „Beispiele behalten deutsche Platzhalter\".",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "sektor:emergencyPreparedness",
+      "art": "attribut",
+      "text": "placeholder=\"Sister’s flat, Musterstraße 5\"",
+      "einstufung": "ausnahme",
+      "grund": "„Musterstraße\" ist selbst der deutsche Platzhalter-Name (wörtlich „Example Street\") — Konvention wie oben.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "anlass:geburt",
+      "art": "attribut",
+      "text": "placeholder=\"Klinikum Großhadern, Munich\"",
+      "einstufung": "ausnahme",
+      "grund": "Echter deutscher Klinikname als Beispiel — Konvention „Beispiele behalten deutsche Platzhalter\".",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "anlass:krankenhaus",
+      "art": "attribut",
+      "text": "placeholder=\"Klinikum Großhadern, ward C2, admission 12 Aug\"",
+      "einstufung": "ausnahme",
+      "grund": "Dieselbe Begründung wie oben.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "anlass:volljaehrig",
+      "art": "text",
+      "text": "Training / studies — funding (BAföG)",
+      "einstufung": "ausnahme",
+      "grund": "BAföG ist ein amtliches deutsches Förder-Programm ohne direkte Entsprechung, wie ein Eigenname behandelt.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "anlass:volljaehrig",
+      "art": "attribut",
+      "text": "placeholder=\"Studies starting 10/2026; BAföG application submitted\"",
+      "einstufung": "ausnahme",
+      "grund": "Dieselbe Begründung wie oben.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "anlass:volljaehrig",
+      "art": "attribut",
+      "text": "aria-label=\"Training / studies — funding (BAföG)\"",
+      "einstufung": "ausnahme",
+      "grund": "Dieselbe Begründung wie oben.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "sektor:health",
+      "art": "attribut",
+      "text": "value=\"Essentielle (primäre) Hypertonie\"",
+      "einstufung": "fund",
+      "grund": "ICD-10-Diagnose-Vorschlagsliste (code-listen/icd10.json) — GRÖSSERER, EIGENER Befund: der komplette medizinische Codekatalog ist nur deutsch hinterlegt (mehrere tausend Einträge), keine schnelle Textsatz-Reparatur wie die übrigen 44 — braucht eine eigene Quellen-Entscheidung (lizenziertes englisches ICD-10/SNOMED-Set oder Produktentscheidung „bleibt deutsch\"). Drei Beispiele stellvertretend von Hand zu übersetzen wäre irreführend (täuscht Vollständigkeit vor, die nicht besteht) — bewusst NICHT repariert, Phase-2-Auftrag „ALLE 47\" schließt diese drei explizit als eigene, separat einzuordnende Baustelle aus.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "sektor:health",
+      "art": "attribut",
+      "text": "value=\"Asthma bronchiale, nicht näher bezeichnet\"",
+      "einstufung": "fund",
+      "grund": "Derselbe ICD-10-Katalog-Befund wie oben.",
+      "datum": "2026-08-28"
+    },
+    {
+      "quelle": "sektor:assets",
+      "art": "text",
+      "text": "BAföG (student grant)",
+      "einstufung": "ausnahme",
+      "grund": "Dieselbe Begründung wie bei anlass:volljaehrig — BAföG ist ein amtliches deutsches Förder-Programm ohne direkte Entsprechung, wie ein Eigenname behandelt.",
+      "datum": "2026-08-30"
+    }
+  ]
+}

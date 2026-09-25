@@ -1,0 +1,963 @@
+{
+ "beschreibung": "Satzförmiger Rest im Kern, je Träger (oberste Konstante oder Funktion), außerhalb der Regionen. Gemessen mit tools/geruest-leer-messen.js --stellen (Zählung des Gerüst-Wächters). Die Zahlen können nur sinken; ein neuer oder wachsender Träger ist ein Fund. Senken: node tools/geruest-leer-messen.js --stellen --grundlinie-schreiben.",
+ "summe": 29725,
+ "anzahl": 239,
+ "traeger": {
+  "ALT_LABEL_REGISTER": {
+   "bytes": 1778,
+   "stuecke": 58
+  },
+  "validateTemplate": {
+   "bytes": 1511,
+   "stuecke": 51
+  },
+  "_pruefeBlackboxUmschlagV4": {
+   "bytes": 1118,
+   "stuecke": 20
+  },
+  "SEKTION_STATUSKARTEN_CLUSTER": {
+   "bytes": 1105,
+   "stuecke": 56
+  },
+  "_vmEingangsformel": {
+   "bytes": 970,
+   "stuecke": 8
+  },
+  "_wizardOptionenAusMaterialisieren": {
+   "bytes": 871,
+   "stuecke": 14
+  },
+  "fhirIpsBundle": {
+   "bytes": 812,
+   "stuecke": 32
+  },
+  "BEZIEHUNGS_CODES": {
+   "bytes": 690,
+   "stuecke": 21
+  },
+  "_b16Felder": {
+   "bytes": 524,
+   "stuecke": 22
+  },
+  "EREIGNIS_ACHSE_FELDER": {
+   "bytes": 491,
+   "stuecke": 19
+  },
+  "_FORMAT_SCHREIBER_LUECKEN": {
+   "bytes": 475,
+   "stuecke": 3
+  },
+  "dokumentPanelHTML": {
+   "bytes": 430,
+   "stuecke": 10
+  },
+  "_pruefeBlackboxUmschlagV3": {
+   "bytes": 365,
+   "stuecke": 7
+  },
+  "sdJwtVcSozialversicherung": {
+   "bytes": 352,
+   "stuecke": 2
+  },
+  "_zerfallEintragLesen": {
+   "bytes": 343,
+   "stuecke": 8
+  },
+  "sektorFeldSetzen": {
+   "bytes": 323,
+   "stuecke": 7
+  },
+  "inhaberAkteurEtablieren": {
+   "bytes": 301,
+   "stuecke": 5
+  },
+  "parseXML": {
+   "bytes": 297,
+   "stuecke": 14
+  },
+  "vorDepotKonfigurationAnwenden": {
+   "bytes": 277,
+   "stuecke": 2
+  },
+  "_alleModulRegisterAusDepotAnmelden": {
+   "bytes": 277,
+   "stuecke": 2
+  },
+  "feldInputHTML": {
+   "bytes": 248,
+   "stuecke": 10
+  },
+  "VORSORGE_MODULE": {
+   "bytes": 241,
+   "stuecke": 13
+  },
+  "_dokumenteAusBuendelMaterialisieren": {
+   "bytes": 239,
+   "stuecke": 3
+  },
+  "_verifyJWS": {
+   "bytes": 238,
+   "stuecke": 10
+  },
+  "_bvEingangsformel": {
+   "bytes": 232,
+   "stuecke": 3
+  },
+  "validateRechtsraumModul": {
+   "bytes": 227,
+   "stuecke": 8
+  },
+  "buergermodulBuendelAnwenden": {
+   "bytes": 225,
+   "stuecke": 4
+  },
+  "_situationBedingungAuswerten": {
+   "bytes": 223,
+   "stuecke": 4
+  },
+  "subDepotAushaengen": {
+   "bytes": 215,
+   "stuecke": 5
+  },
+  "_refmZeileHTML": {
+   "bytes": 210,
+   "stuecke": 4
+  },
+  "STRINGS": {
+   "bytes": 209,
+   "stuecke": 4
+  },
+  "_idbIndexedDbBackend": {
+   "bytes": 204,
+   "stuecke": 6
+  },
+  "_dokumentModuleUndVorlagenAbWerkSeed": {
+   "bytes": 202,
+   "stuecke": 4
+  },
+  "sdJwtVcFinanzen": {
+   "bytes": 200,
+   "stuecke": 1
+  },
+  "ausdruecklichKeineSetzen": {
+   "bytes": 194,
+   "stuecke": 5
+  },
+  "renderVerwalteteDepots": {
+   "bytes": 190,
+   "stuecke": 9
+  },
+  "RECHTSGRUNDLAGEN_VERTRETUNG": {
+   "bytes": 186,
+   "stuecke": 7
+  },
+  "setzeSitzungsAkteur": {
+   "bytes": 185,
+   "stuecke": 3
+  },
+  "einstellungenHTML": {
+   "bytes": 181,
+   "stuecke": 7
+  },
+  "erbscheinAuszugXML": {
+   "bytes": 180,
+   "stuecke": 2
+  },
+  "_pvwizEigeneSchritte": {
+   "bytes": 177,
+   "stuecke": 4
+  },
+  "uebergabeProtokollEintragen": {
+   "bytes": 176,
+   "stuecke": 3
+  },
+  "subDepotEinhaengen": {
+   "bytes": 176,
+   "stuecke": 3
+  },
+  "bereicheNachCluster": {
+   "bytes": 174,
+   "stuecke": 4
+  },
+  "AUSSER_BETRACHT": {
+   "bytes": 172,
+   "stuecke": 2
+  },
+  "SUCHE_ALLTAGSBEGRIFFE": {
+   "bytes": 167,
+   "stuecke": 18
+  },
+  "situationFeldExportAnmelden": {
+   "bytes": 165,
+   "stuecke": 4
+  },
+  "eudiwOid4vpWrapper": {
+   "bytes": 165,
+   "stuecke": 1
+  },
+  "sdJwtVcIdentitaet": {
+   "bytes": 159,
+   "stuecke": 1
+  },
+  "depotAusIdbLaden": {
+   "bytes": 158,
+   "stuecke": 4
+  },
+  "kernAPI": {
+   "bytes": 157,
+   "stuecke": 7
+  },
+  "flowPersonRegisterEntfernen": {
+   "bytes": 157,
+   "stuecke": 5
+  },
+  "subDepotReaktivieren": {
+   "bytes": 153,
+   "stuecke": 4
+  },
+  "_pdfAnhangEinbetten": {
+   "bytes": 152,
+   "stuecke": 8
+  },
+  "personAktualisieren": {
+   "bytes": 151,
+   "stuecke": 3
+  },
+  "importPlanGeprueft": {
+   "bytes": 145,
+   "stuecke": 5
+  },
+  "_ANG_CACHE_ERLAUBT": {
+   "bytes": 142,
+   "stuecke": 3
+  },
+  "subDepotBlackboxExportieren": {
+   "bytes": 140,
+   "stuecke": 3
+  },
+  "_personInstitution": {
+   "bytes": 140,
+   "stuecke": 2
+  },
+  "_pvRolleLabel": {
+   "bytes": 134,
+   "stuecke": 4
+  },
+  "crossSektorAnmelden": {
+   "bytes": 133,
+   "stuecke": 4
+  },
+  "_situationFeldOptionen": {
+   "bytes": 131,
+   "stuecke": 5
+  },
+  "depotNormalisieren": {
+   "bytes": 130,
+   "stuecke": 2
+  },
+  "flowExportUebersicht": {
+   "bytes": 123,
+   "stuecke": 5
+  },
+  "_BEREICH_ALT_LABEL": {
+   "bytes": 122,
+   "stuecke": 12
+  },
+  "_verifiziereTemplateSignatur": {
+   "bytes": 122,
+   "stuecke": 3
+  },
+  "internSpeicherFunktionsprobe": {
+   "bytes": 120,
+   "stuecke": 3
+  },
+  "renderWelcome": {
+   "bytes": 118,
+   "stuecke": 2
+  },
+  "renderCryptoOverlay": {
+   "bytes": 118,
+   "stuecke": 2
+  },
+  "_dokumentModulAusBuendelErzeugen": {
+   "bytes": 118,
+   "stuecke": 2
+  },
+  "renderWizard": {
+   "bytes": 117,
+   "stuecke": 2
+  },
+  "renderSubDepotKonzept": {
+   "bytes": 117,
+   "stuecke": 1
+  },
+  "bedingungFestlegen": {
+   "bytes": 116,
+   "stuecke": 3
+  },
+  "deriveAdressKeyV4": {
+   "bytes": 115,
+   "stuecke": 2
+  },
+  "deriveDepotKeyV2": {
+   "bytes": 113,
+   "stuecke": 2
+  },
+  "empfaengerkreisFachEinrichten": {
+   "bytes": 112,
+   "stuecke": 5
+  },
+  "_zerfallLesen": {
+   "bytes": 111,
+   "stuecke": 2
+  },
+  "passwortWechselDurchfuehren": {
+   "bytes": 111,
+   "stuecke": 3
+  },
+  "_listenEintragRefPruefen": {
+   "bytes": 111,
+   "stuecke": 2
+  },
+  "renderAnlassAuswahl": {
+   "bytes": 111,
+   "stuecke": 1
+  },
+  "zeigeSchlussSicht": {
+   "bytes": 111,
+   "stuecke": 1
+  },
+  "ui": {
+   "bytes": 106,
+   "stuecke": 5
+  },
+  "flowListenEintragEntfernen": {
+   "bytes": 106,
+   "stuecke": 5
+  },
+  "mappeBereichKnopfreiheHTML": {
+   "bytes": 104,
+   "stuecke": 4
+  },
+  "flowPersonRegisterBearbeiten": {
+   "bytes": 103,
+   "stuecke": 2
+  },
+  "feldGueltigkeitZeileHTML": {
+   "bytes": 102,
+   "stuecke": 3
+  },
+  "depotLaden": {
+   "bytes": 101,
+   "stuecke": 3
+  },
+  "VdCrypto": {
+   "bytes": 98,
+   "stuecke": 3
+  },
+  "feldZeileHTML": {
+   "bytes": 98,
+   "stuecke": 4
+  },
+  "_ereignisAchseEintragFuer": {
+   "bytes": 96,
+   "stuecke": 1
+  },
+  "umschlagAusDatei": {
+   "bytes": 95,
+   "stuecke": 2
+  },
+  "SORGERECHT_LABEL": {
+   "bytes": 95,
+   "stuecke": 4
+  },
+  "personLoeschen": {
+   "bytes": 94,
+   "stuecke": 3
+  },
+  "wizardListenZeileSetzen": {
+   "bytes": 93,
+   "stuecke": 2
+  },
+  "_kreisBausteinZeileHTML": {
+   "bytes": 92,
+   "stuecke": 3
+  },
+  "shlProviderPayload": {
+   "bytes": 90,
+   "stuecke": 3
+  },
+  "fimVerwaltung": {
+   "bytes": 87,
+   "stuecke": 2
+  },
+  "importPlan": {
+   "bytes": 87,
+   "stuecke": 2
+  },
+  "flowInstitutionBearbeiten": {
+   "bytes": 86,
+   "stuecke": 1
+  },
+  "mappeEintragHinzufuegen": {
+   "bytes": 85,
+   "stuecke": 3
+  },
+  "vollExportJSON": {
+   "bytes": 84,
+   "stuecke": 1
+  },
+  "_elsterFelder": {
+   "bytes": 80,
+   "stuecke": 6
+  },
+  "shlDateiHochladen": {
+   "bytes": 79,
+   "stuecke": 1
+  },
+  "_idbOeffnen": {
+   "bytes": 74,
+   "stuecke": 2
+  },
+  "provenancEintrag": {
+   "bytes": 74,
+   "stuecke": 1
+  },
+  "_MONATE_DE": {
+   "bytes": 72,
+   "stuecke": 12
+  },
+  "_pvEingangsformel": {
+   "bytes": 71,
+   "stuecke": 4
+  },
+  "wizardZielSetzen": {
+   "bytes": 70,
+   "stuecke": 2
+  },
+  "verdrahteSektorEingaben": {
+   "bytes": 70,
+   "stuecke": 2
+  },
+  "bestaetigeEinhaengen": {
+   "bytes": 70,
+   "stuecke": 1
+  },
+  "_markeAnzeigeAnwenden": {
+   "bytes": 68,
+   "stuecke": 1
+  },
+  "_dokumentWirksamkeitPlain": {
+   "bytes": 68,
+   "stuecke": 1
+  },
+  "_refMehrfachVerdrahten": {
+   "bytes": 68,
+   "stuecke": 3
+  },
+  "verifiziereProviderCredential": {
+   "bytes": 67,
+   "stuecke": 2
+  },
+  "codeListeAnmelden": {
+   "bytes": 66,
+   "stuecke": 2
+  },
+  "pruefeBlackboxUmschlag": {
+   "bytes": 66,
+   "stuecke": 2
+  },
+  "blackboxDateiAusUmschlag": {
+   "bytes": 65,
+   "stuecke": 1
+  },
+  "_korpusWizardAusAbWerkErzeugen": {
+   "bytes": 63,
+   "stuecke": 1
+  },
+  "empfaengerDateiErzeugen": {
+   "bytes": 63,
+   "stuecke": 3
+  },
+  "empfaengerQrPayloadBauen": {
+   "bytes": 63,
+   "stuecke": 3
+  },
+  "_probeOeffnen": {
+   "bytes": 62,
+   "stuecke": 2
+  },
+  "setzeSubDepotAkzent": {
+   "bytes": 62,
+   "stuecke": 4
+  },
+  "erstePartieBloeckeEintraegePruefen": {
+   "bytes": 61,
+   "stuecke": 3
+  },
+  "_feldAutosaveSignalisieren": {
+   "bytes": 61,
+   "stuecke": 3
+  },
+  "VERTRETUNG_ART_LABEL": {
+   "bytes": 60,
+   "stuecke": 3
+  },
+  "wizardSchrittSetzen": {
+   "bytes": 60,
+   "stuecke": 2
+  },
+  "_zeilenPfeileHTML": {
+   "bytes": 60,
+   "stuecke": 2
+  },
+  "zeichneDokumentPdf": {
+   "bytes": 58,
+   "stuecke": 1
+  },
+  "_katalogOptionen": {
+   "bytes": 57,
+   "stuecke": 2
+  },
+  "_vorfuehrungKarteSetzen": {
+   "bytes": 56,
+   "stuecke": 2
+  },
+  "_jwsImportVerifyKey": {
+   "bytes": 55,
+   "stuecke": 1
+  },
+  "antwortAufTemplateErzeugen": {
+   "bytes": 55,
+   "stuecke": 1
+  },
+  "_jwsImportSignKey": {
+   "bytes": 53,
+   "stuecke": 1
+  },
+  "listenEintragAktualisieren": {
+   "bytes": 52,
+   "stuecke": 2
+  },
+  "listenEintragEntfernen": {
+   "bytes": 52,
+   "stuecke": 2
+  },
+  "_jwsAlgFuerKey": {
+   "bytes": 50,
+   "stuecke": 1
+  },
+  "_anfrageAntwortSchreiben": {
+   "bytes": 50,
+   "stuecke": 2
+  },
+  "prueftermineSektionHTML": {
+   "bytes": 49,
+   "stuecke": 2
+  },
+  "empfaengerkreisSetzen": {
+   "bytes": 49,
+   "stuecke": 2
+  },
+  "renderZusammenstellen": {
+   "bytes": 49,
+   "stuecke": 3
+  },
+  "_anlegenAbgebrochenFehler": {
+   "bytes": 48,
+   "stuecke": 1
+  },
+  "_vollDepotParsen": {
+   "bytes": 47,
+   "stuecke": 1
+  },
+  "institutionAktualisieren": {
+   "bytes": 47,
+   "stuecke": 2
+  },
+  "betreteApp": {
+   "bytes": 46,
+   "stuecke": 1
+  },
+  "edciBildung": {
+   "bytes": 45,
+   "stuecke": 1
+  },
+  "SUBDEPOT_FARB_NAMEN": {
+   "bytes": 44,
+   "stuecke": 8
+  },
+  "modulDokumentAbschnitte": {
+   "bytes": 44,
+   "stuecke": 1
+  },
+  "_wizardSchrittFalten": {
+   "bytes": 41,
+   "stuecke": 1
+  },
+  "xoevVerwaltung": {
+   "bytes": 40,
+   "stuecke": 1
+  },
+  "feldGueltigkeitVorschlagPruefen": {
+   "bytes": 40,
+   "stuecke": 3
+  },
+  "vereinbarungAngebotErzeugen": {
+   "bytes": 39,
+   "stuecke": 1
+  },
+  "mappeDateiAufnehmen": {
+   "bytes": 39,
+   "stuecke": 2
+  },
+  "flowMappeMetadaten": {
+   "bytes": 39,
+   "stuecke": 1
+  },
+  "blattFeldHeben": {
+   "bytes": 38,
+   "stuecke": 2
+  },
+  "renderSektor": {
+   "bytes": 38,
+   "stuecke": 2
+  },
+  "_depotBlobSpeichern": {
+   "bytes": 37,
+   "stuecke": 1
+  },
+  "flowDepotListe": {
+   "bytes": 37,
+   "stuecke": 2
+  },
+  "renderSidebar": {
+   "bytes": 36,
+   "stuecke": 6
+  },
+  "verifiziereTemplateKette": {
+   "bytes": 35,
+   "stuecke": 2
+  },
+  "farbwahlAuswahlHTML": {
+   "bytes": 34,
+   "stuecke": 2
+  },
+  "vereinbarungAusgabeVermerken": {
+   "bytes": 34,
+   "stuecke": 1
+  },
+  "parseXMeld": {
+   "bytes": 32,
+   "stuecke": 1
+  },
+  "formatModulZuExportKanal": {
+   "bytes": 32,
+   "stuecke": 1
+  },
+  "antwortEntschluesselnPasswort": {
+   "bytes": 29,
+   "stuecke": 1
+  },
+  "antwortEntschluesselnSchluessel": {
+   "bytes": 29,
+   "stuecke": 1
+  },
+  "subKontextBetreten": {
+   "bytes": 28,
+   "stuecke": 1
+  },
+  "flowBereichPdf": {
+   "bytes": 28,
+   "stuecke": 4
+  },
+  "importAutoritativDokument": {
+   "bytes": 27,
+   "stuecke": 2
+  },
+  "antwortVerschluesselnSchluessel": {
+   "bytes": 27,
+   "stuecke": 1
+  },
+  "subDepotVertrauenOeffnen": {
+   "bytes": 26,
+   "stuecke": 1
+  },
+  "istStandaloneWebApp": {
+   "bytes": 26,
+   "stuecke": 1
+  },
+  "subDepotAkzentStark": {
+   "bytes": 25,
+   "stuecke": 1
+  },
+  "pdfFussZeichnen": {
+   "bytes": 25,
+   "stuecke": 2
+  },
+  "_verifiziereZertifikatGegenSchluessel": {
+   "bytes": 24,
+   "stuecke": 1
+  },
+  "_templateFeldZuModell": {
+   "bytes": 24,
+   "stuecke": 2
+  },
+  "flowSituationPdf": {
+   "bytes": 24,
+   "stuecke": 4
+  },
+  "_depotSymbolSVG": {
+   "bytes": 24,
+   "stuecke": 1
+  },
+  "subDepotNeuVersiegeln": {
+   "bytes": 23,
+   "stuecke": 1
+  },
+  "_jwsWebCryptoParams": {
+   "bytes": 22,
+   "stuecke": 1
+  },
+  "_vorfuehrungStationWeiter": {
+   "bytes": 22,
+   "stuecke": 1
+  },
+  "_sucheVerdrahten": {
+   "bytes": 22,
+   "stuecke": 1
+  },
+  "renderAngehoerigenBlatt": {
+   "bytes": 22,
+   "stuecke": 1
+  },
+  "antwortVerschluesseln": {
+   "bytes": 22,
+   "stuecke": 1
+  },
+  "depotSerialisierenV3": {
+   "bytes": 21,
+   "stuecke": 1
+  },
+  "depotSerialisierenV4": {
+   "bytes": 21,
+   "stuecke": 1
+  },
+  "empfaengerDateiname": {
+   "bytes": 20,
+   "stuecke": 2
+  },
+  "_personalienSatz": {
+   "bytes": 20,
+   "stuecke": 2
+  },
+  "antwortVerschluesselnPasswort": {
+   "bytes": 20,
+   "stuecke": 1
+  },
+  "booteEingang": {
+   "bytes": 20,
+   "stuecke": 1
+  },
+  "Modus": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "importAnwenden": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "subDepotAnlegen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "uebergabeProtokollLoeschen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "personSicherstellen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "personHinzufuegen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "personFindenOderAnlegen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "institutionHinzufuegen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "urheberschaftAnhaengen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "fassungenZusammenfuehren": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "codeSlotSicherstellen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "sensibelFeldSetzen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "situationFeldSetzen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "listenEintragHinzufuegen": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "listenEintragVerschieben": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "fehlermeldungFuer": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "zeigeKernFehler": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "exportAuswahlEphemerAnwenden": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "zusammenstellungSpeichern": {
+   "bytes": 19,
+   "stuecke": 1
+  },
+  "SPRACHE_ANKER": {
+   "bytes": 18,
+   "stuecke": 1
+  },
+  "_bereichssatzAuswahlHTML": {
+   "bytes": 18,
+   "stuecke": 2
+  },
+  "_teilenBevorzugt": {
+   "bytes": 17,
+   "stuecke": 1
+  },
+  "renderFooter": {
+   "bytes": 16,
+   "stuecke": 1
+  },
+  "flowMappeOriginalHerunterladen": {
+   "bytes": 16,
+   "stuecke": 2
+  },
+  "shlUriBauen": {
+   "bytes": 15,
+   "stuecke": 1
+  },
+  "_templateCodeListenUebersetzen": {
+   "bytes": 15,
+   "stuecke": 1
+  },
+  "erstePartieFeldDefsPruefen": {
+   "bytes": 14,
+   "stuecke": 1
+  },
+  "institutionReferenzStellen": {
+   "bytes": 14,
+   "stuecke": 1
+  },
+  "bankvollmachtVorschlag": {
+   "bytes": 13,
+   "stuecke": 1
+  },
+  "feldFristRegelPruefen": {
+   "bytes": 12,
+   "stuecke": 1
+  },
+  "_vorlageDokAusgabe": {
+   "bytes": 12,
+   "stuecke": 1
+  },
+  "icon": {
+   "bytes": 11,
+   "stuecke": 1
+  },
+  "_sprachWahlHTML": {
+   "bytes": 9,
+   "stuecke": 1
+  },
+  "flowDelegationsExportEntscheid": {
+   "bytes": 9,
+   "stuecke": 1
+  },
+  "_dokumentRhythmusOptionenHTML": {
+   "bytes": 9,
+   "stuecke": 1
+  },
+  "bedingungAbschnittHTML": {
+   "bytes": 9,
+   "stuecke": 1
+  },
+  "vertretungsGrundlageOptionenHTML": {
+   "bytes": 9,
+   "stuecke": 1
+  },
+  "flowFassungenDialog": {
+   "bytes": 8,
+   "stuecke": 1
+  },
+  "_refmBankvollmachtHTML": {
+   "bytes": 8,
+   "stuecke": 1
+  },
+  "flowMappeEigenesHerunterladen": {
+   "bytes": 8,
+   "stuecke": 1
+  },
+  "TEXTSATZ_SPRACH_ENDONYME": {
+   "bytes": 7,
+   "stuecke": 1
+  },
+  "_fhirIpsFelder": {
+   "bytes": 7,
+   "stuecke": 1
+  },
+  "feldgruppenKarteHTML": {
+   "bytes": 7,
+   "stuecke": 1
+  },
+  "listenEintragInputsHTML": {
+   "bytes": 7,
+   "stuecke": 1
+  },
+  "_vorfuehrungAnsichtZeigen": {
+   "bytes": 6,
+   "stuecke": 1
+  },
+  "notfallKernModell": {
+   "bytes": 6,
+   "stuecke": 1
+  },
+  "parseCamt053": {
+   "bytes": 6,
+   "stuecke": 2
+  },
+  "MODUL_BLOCK_HANDLER": {
+   "bytes": 6,
+   "stuecke": 1
+  },
+  "zeichneSituationPdf": {
+   "bytes": 5,
+   "stuecke": 1
+  },
+  "zeichneVollDepotPdf": {
+   "bytes": 5,
+   "stuecke": 1
+  }
+ }
+}

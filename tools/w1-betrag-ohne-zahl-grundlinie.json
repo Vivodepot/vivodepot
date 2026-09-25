@@ -1,0 +1,128 @@
+[
+ {
+  "carrier": "Sektorfeld",
+  "id": "ongoingLoansDebts",
+  "label": "Laufende Kredite & Schulden",
+  "beispiel": "Baudarlehen bei DKB, 1.200 EUR/Monat",
+  "ort": "finance",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Sammelfeld für mehrere Schuldposten als Freitext — der Geldwert steckt hier zusätzlich in einer Aufzählung, nicht in einem einzelnen Betragsfeld. Eine Zerlegung in eine eigene Liste (Gläubiger/Betrag/Rate) wäre eine größere Schema-Änderung als bei den übrigen Funden."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "grossMonthlyIncome",
+  "label": "Brutto-Monatseinkommen",
+  "beispiel": "5.200 EUR",
+  "ort": "education",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Reiner Geldbetrag als Freitext, kein Einheitenfeld daneben (Frequenz „Monat“ bereits im Feldnamen, nicht im Wert). Klarster Kandidat für `typ:'zahl'`, sobald der Typ existiert."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "netMonthlyIncome",
+  "label": "Netto-Monatseinkommen",
+  "beispiel": "3.150 EUR",
+  "ort": "education",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Dieselbe Lage wie `brutto_monat` (Geschwisterfeld, selbe Sektion)."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "longTermCareAllowanceTypeOf",
+  "label": "Pflegegeld / Pflegeleistungen",
+  "beispiel": "Pflegegeld Pflegegrad 3, 599 EUR/Monat; Kombinationsleistung",
+  "ort": "socialInsurance",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Freitextfeld, das Leistungsart UND Betrag zusammen trägt (Nachbarschaft zu W-11 — mehrere Sachverhalte in einem Feld). Eine reine Zahl-Umstellung würde die Leistungsart verlieren; die Zerlegung ist größer als bei einem reinen Betragsfeld."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "rentalDepositBankAmount",
+  "label": "Mietkaution — Bank & Betrag",
+  "beispiel": "Sparkasse München, 3.000 EUR auf Sperrkonto",
+  "ort": "housing",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Bank, Betrag und Kontoart in einem Feld (Nachbarschaft zu W-11). Der Geldwert ist nur ein Teil des Sachverhalts, den dieses Feld trägt."
+ },
+ {
+  "carrier": "Listen-Unterfeld",
+  "id": "serviceCharges",
+  "label": "Monatliche Miete / HV-Kosten",
+  "beispiel": "650 EUR warm",
+  "ort": "housing.furtherHomes",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Dieselbe Lage wie das Sektorfeld `wohnen.miete`, hier in der Liste weiterer Wohnungen."
+ },
+ {
+  "carrier": "Listen-Unterfeld",
+  "id": "rentalDepositBankAmount",
+  "label": "Mietkaution — Bank & Betrag",
+  "beispiel": "Sparkasse Rosenheim, 1.500 EUR",
+  "ort": "housing.furtherHomes",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Dieselbe Lage wie das Sektorfeld `wohnen.kaution`, hier in der Liste weiterer Wohnungen."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "longTermCareAllowanceAmount",
+  "label": "Pflegegeld — Betrag",
+  "beispiel": "599 EUR/Monat",
+  "ort": "socialInsurance",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "F4 Zug 3 (11.08.2026): reines Betragsfeld, entstanden aus der Trennung von pflegegeld (vormals Leistungsart+Betrag gemischt). Derselbe offene Zahl-Umstellungs-Kandidat wie brutto_monat/netto_monat (typ:zahl ist noch nicht produktionsreif, s. A133 Zug 3)."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "longTermCareAllowanceEarlier",
+  "label": "Pflegegeld — frühere Angabe",
+  "beispiel": "Pflegegeld Pflegegrad 3, 599 EUR/Monat; Kombinationsleistung",
+  "ort": "socialInsurance",
+  "vermerk": "begründete Ausnahme",
+  "begruendung": "F4 Zug 3 (11.08.2026): Rettungsfeld der Migration (U2-ADR-050) — traegt nur Alt-Text zur Nachpruefung, bleibt bewusst Freitext, keine Zahl-Umstellung vorgesehen."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "housingCostsBorneAlone",
+  "label": "Wohnkosten — allein getragen",
+  "beispiel": "780 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Zugang-zum-Recht Zug 1 (30.08.2026): reiner Geldbetrag als Freitext, kein Einheitenfeld daneben — dieselbe Lage wie brutto_monat/netto_monat."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "housingCostsTotal",
+  "label": "Wohnkosten — gesamt",
+  "beispiel": "1.450 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Zugang-zum-Recht Zug 1 (30.08.2026): dieselbe Lage wie wohnkosten_allein (Geschwisterfeld, selbe Sektion)."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "housingCostsOwnShare",
+  "label": "Wohnkosten — eigener Anteil",
+  "beispiel": "480 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Zugang-zum-Recht Zug 1 (30.08.2026): dieselbe Lage wie wohnkosten_allein (Geschwisterfeld, selbe Sektion)."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "yourOwnIncomeNetMonthly",
+  "label": "Eigenes Einkommen (netto, monatlich)",
+  "beispiel": "1.850 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "U2-ADR-326: Betrag als Freitext mit inputmode decimal, wie die sieben Nachbarfelder derselben Sektion (wohnkosten_*). Ein eigener typ:\"zahl\" existiert im Schema nirgends (s. die zweite Probe dieser Klasse); ein Sonderweg fuer genau dieses Feld waere eine Schema-Aenderung, die den ganzen Einkommen-Wohnsituation-Cluster betraefe und nicht Teil dieses Zuges ist."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "incomeOfOtherPeopleInThe",
+  "label": "Einkommen weiterer Personen im Haushalt",
+  "beispiel": "2.100 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "U2-ADR-326: derselbe Fall wie einkommen_netto_monat in derselben Sektion — Betrag als Freitext, gleiche Bauform wie die bestehenden Wohnkosten-Felder. Zusammen zu entscheiden, nicht einzeln."
+ }
+]

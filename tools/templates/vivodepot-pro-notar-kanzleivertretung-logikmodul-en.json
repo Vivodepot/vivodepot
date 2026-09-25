@@ -1,0 +1,69 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-notar-kanzleivertretung",
+  "titel": "Notary — locum representation",
+  "sektor": "pro-vertretung-vollmachten",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretungsregelung": { "typ": "feld", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_vertretungsregelung" },
+    "prokura_inhaber": { "typ": "listenfeldAlle", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_prokura",
+      "unterfeld": "tpl_wer" },
+    "zulassung_bezeichnung": { "typ": "listenfeldAlle", "sektor": "pro-betrieb-zugaenge",
+      "feld": "tpl_genehmigung_oder_berufsrechtliche_zulassung", "unterfeld": "tpl_bezeichnung" },
+    "zulassung_frist": { "typ": "listenfeldAlle", "sektor": "pro-betrieb-zugaenge",
+      "feld": "tpl_genehmigung_oder_berufsrechtliche_zulassung", "unterfeld": "tpl_frist_ablauf" },
+    "vertretungsplan_aufgabe": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_aufgabe" },
+    "vertretungsplan_person": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_person" },
+    "nachfolgeklausel": { "typ": "feld", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden" },
+    "kontakt_telefon": { "typ": "feld", "sektor": "identity", "feld": "telephone" },
+    "kontakt_email": { "typ": "feld", "sektor": "identity", "feld": "email" }
+  },
+  "abschnitte": [
+    {
+      "titel": "Part A — who acts if the notary is unavailable",
+      "bloecke": [
+        { "typ": "immer", "texte": ["For the locum case of a notary's office, the competent chamber of notaries appoints a substitute. This extract collects what the depot already holds on it and replaces neither the appointment nor information from the chamber."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
+          "frage": "Practice's representation arrangement?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "prokura_inhaber",
+          "frage": "Statutory power of representation (Prokura) granted to?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "nachfolgeklausel",
+          "frage": "Succession clause (Nachfolgeklausel) in the articles of association (Gesellschaftsvertrag) present?", "luecke": "— not recorded —" }
+      ]
+    },
+    {
+      "titel": "Part B — admission and cover plan",
+      "bloecke": [
+        { "typ": "immer", "texte": ["The following details come from the Pro module \"Business handover\" — the same underlying data that also supports a handover or an emergency, read here for the locum case."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_bezeichnung",
+          "frage": "Professional admission(s)/license(s)?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_frist",
+          "frage": "Deadline/expiry of admission(s)?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "immer", "texte": ["Note: \"Task\" and \"Person\" are read as two separate lists (same line order, no automatic pairing) — the extract itself can be extended to cross-reference line by line, if needed."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_aufgabe",
+          "frage": "Cover plan — which tasks are assigned?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_person",
+          "frage": "Cover plan — who takes each one on?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_telefon",
+          "frage": "Phone?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_email",
+          "frage": "Email?", "luecke": "— not recorded —" }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Notary — locum representation",
+    "klasse": "pro-notar-vertretung-dok",
+    "herkunftText": "Compilation by this application from the Pro module and depot data — not an official template, no connection to a chamber of notaries.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "This extract does not replace the appointment of a substitute itself — that remains a matter for the competent chamber of notaries.",
+    "fussText": " · Preparation aid, not an official document",
+    "knopfAttr": "pro-notar-vertretung-dokument",
+    "dateiBasis": "Notary-locum-representation",
+    "toolbarHinweis": "This extract helps prepare the practice's locum case. It replaces neither the appointment of a substitute nor information from the chamber of notaries, and it is transmitted to no one."
+  }
+}

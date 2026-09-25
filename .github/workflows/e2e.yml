@@ -1,0 +1,107 @@
+# ════════════════════════════════════════════════════════════════════════════
+# E2E-Reise-Ebene (Teil 7) — Playwright + axe gegen vivodepot.html
+# ----------------------------------------------------------------------------
+# Lokal in der Bau-Sandbox NICHT lauffähig: @playwright/test und die Browser-
+# Binaries waren nicht beschaffbar (npm-Registry 403). Hier in CI installieren wir
+# beides und lassen die echten Durchklick-Reisen + axe-Scans (WCAG 2.2 AA) laufen.
+#
+# Die Krypto bleibt unberührt — Playwright lädt die HTML nur über file://; der
+# VdCrypto-Block-Hash wird weiter von der Schicht-1-Suite
+# (vdcrypto-block-integritaet.test.js) mitgeprüft (separater Job).
+# ════════════════════════════════════════════════════════════════════════════
+name: E2E-Reisen
+
+on:
+  # push ohne paths-Filter (25.09.2026): jeder öffentliche Stand ist ein großer Commit, und GitHub wertet paths nur über
+  # die ersten 300 geänderten Dateien aus — der erste öffentliche Stand ließ diesen Workflow darum still aus.
+  push:
+    branches: [main, clean-rebuild, ci-probe-2026-07-02, u2-kanon]
+  pull_request:
+    paths:
+      - 'vivodepot.html'
+      - 'tests/**'
+      - 'playwright.config.js'
+      - 'package.json'
+      - '.github/workflows/e2e.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  # Schicht 1 bleibt der schnelle, offline laufende Gate (kein Browser nötig).
+  schicht1-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Der BUILD_DATUM-Waechter braucht Historie. Mit der Vorgabe (Tiefe 1)
+          # hat kein Commit einen Vorgaenger, also gilt jeder als inhaltliche
+          # Aenderung an vivodepot.html — der Lauf zu `a1d923a` meldete genau das
+          # fuer einen Commit, der nur tools/lib/kontrast.js beruehrt hat.
+          # Der Waechter erkennt den flachen Klon seit `4da04cc` selbst und meldet
+          # dann UNGEMESSEN; hier bekommt er den Boden zurueck, damit er misst
+          # statt zu schweigen.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      # Neun Testdateien brauchen inzwischen ein externes Modul — playwright fuer
+      # die sieben Buergerwege und die Mobile-Schrift-Pruefung, axe-core, fast-check
+      # fuer die Eigenschaftspruefungen. Ohne Installation faellt der Job an
+      # fehlenden Modulen, nicht am Produkt.
+      # `npm ci` und nicht `npm install`: es installiert GENAU die Fassungen aus
+      # package-lock.json und schlaegt fehl, wenn Sperrdatei und package.json
+      # auseinanderlaufen. Damit traegt jede Suite-Zahl aus CI die Fassungen mit,
+      # unter denen sie gemessen wurde. Die Sperrdatei liegt seit dem 28.07. im
+      # Repo — vorher war das nicht moeglich.
+      - name: Abhaengigkeiten installieren
+        run: npm ci
+      - name: Playwright-Browser (chromium)
+        run: npx playwright install --with-deps chromium
+      # pdftotext (poppler-utils): Proben am echten PDF lesen den Text damit aus; der Läufer bringt es nicht mit
+      # (erster öffentlicher CI-Lauf, 25.09.2026: „spawnSync pdftotext ENOENT").
+      - name: Fremdwerkzeuge für die Artefakt-Proben (pdftotext, pdfinfo, xmllint)
+        run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils libxml2-utils
+      - name: Schicht-1-Suite (node --test)
+        run: npm test
+
+  # Schicht 2 — die echten Bürgerinnen-Reisen + axe.
+  e2e-reisen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Der BUILD_DATUM-Waechter braucht Historie. Mit der Vorgabe (Tiefe 1)
+          # hat kein Commit einen Vorgaenger, also gilt jeder als inhaltliche
+          # Aenderung an vivodepot.html — der Lauf zu `a1d923a` meldete genau das
+          # fuer einen Commit, der nur tools/lib/kontrast.js beruehrt hat.
+          # Der Waechter erkennt den flachen Klon seit `4da04cc` selbst und meldet
+          # dann UNGEMESSEN; hier bekommt er den Boden zurueck, damit er misst
+          # statt zu schweigen.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Abhängigkeiten installieren (@playwright/test, @axe-core/playwright)
+        # npm ci seit 07.08.2026 — package-lock.json ist seit dem 28.07. getrackt, siehe
+        # konformitaet.yml.
+        run: npm ci
+
+      - name: Playwright-Browser (chromium) installieren
+        run: npx playwright install --with-deps chromium
+
+      - name: Fremdwerkzeuge für die Artefakt-Proben (pdftotext, pdfinfo, xmllint)
+        run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils libxml2-utils
+
+      - name: E2E-Reisen + axe-Scans
+        run: npm run test:e2e
+
+      - name: Playwright-Report als Artefakt
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14

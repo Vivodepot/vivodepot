@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "Wenn Sie diese Software zitieren, verwenden Sie bitte die folgenden Angaben."
+title: "Vivodepot"
+type: software
+authors:
+  - name: "Vivodepot GmbH"
+repository-code: "https://github.com/vivodepot/vivodepot"
+# Sammel-DOI („Cite all versions"), nicht der DOI einer einzelnen Fassung — damit
+# ein Zitat auf die jeweils aktuelle zeigt. Nachzusehen mit
+#   curl -s https://zenodo.org/api/records/22708071
+# Feld `conceptdoi` (die Version steht daneben als `doi`).
+doi: 10.5281/zenodo.22708070
+license: EUPL-1.2

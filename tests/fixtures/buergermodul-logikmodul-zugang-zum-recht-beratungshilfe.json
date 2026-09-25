@@ -1,0 +1,336 @@
+{
+  "modulTyp": "logikModul",
+  "id": "zugang-zum-recht-beratungshilfe",
+  "titel": "Beratungshilfe — Vorbereitungsauszug",
+  "sektor": "assets",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "person_vorname": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "givenName"
+    },
+    "person_nachname": {
+      "typ": "verbinden",
+      "teile": [
+        {
+          "sektor": "identity",
+          "feld": "familyName"
+        },
+        {
+          "sektor": "identity",
+          "feld": "secondLastName"
+        }
+      ],
+      "trenner": " "
+    },
+    "person_geburtsdatum": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "birthDate"
+    },
+    "person_anschrift": {
+      "typ": "verbinden",
+      "teile": [
+        {
+          "sektor": "identity",
+          "feld": "streetAddress"
+        },
+        {
+          "sektor": "identity",
+          "feld": "postcodeCity"
+        }
+      ],
+      "trenner": ", "
+    },
+    "person_telefon": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "telephone"
+    },
+    "person_email": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "email"
+    },
+    "einkommen_netto": {
+      "typ": "feld",
+      "sektor": "assets",
+      "feld": "yourOwnIncomeNetMonthly",
+      "sensibelErlaubt": true
+    },
+    "haushalt_einkommen": {
+      "typ": "feld",
+      "sektor": "assets",
+      "feld": "incomeOfOtherPeopleInThe",
+      "sensibelErlaubt": true
+    },
+    "unterhalt": {
+      "typ": "feld",
+      "sektor": "assets",
+      "feld": "maintenanceObligations",
+      "sensibelErlaubt": true
+    },
+    "belastungen": {
+      "typ": "feld",
+      "sektor": "assets",
+      "feld": "monthlyCommitments",
+      "sensibelErlaubt": true
+    },
+    "wohnsituation": {
+      "typ": "feld",
+      "sektor": "assets",
+      "feld": "livingSituation"
+    },
+    "wohnkosten_eigenanteil": {
+      "typ": "feld",
+      "sektor": "assets",
+      "feld": "housingCostsOwnShare",
+      "sensibelErlaubt": true
+    },
+    "personen_im_haushalt": {
+      "typ": "feld",
+      "sektor": "assets",
+      "feld": "numberOfPeopleInTheHome"
+    },
+    "schulden": {
+      "typ": "feld",
+      "sektor": "finance",
+      "feld": "ongoingLoansDebts",
+      "sensibelErlaubt": true
+    },
+    "wertgegenstaende": {
+      "typ": "feld",
+      "sektor": "finance",
+      "feld": "valuablesStorageLocations",
+      "sensibelErlaubt": true
+    },
+    "vorgang_stellen": {
+      "typ": "listenfeldAlle",
+      "sektor": "administration",
+      "feld": "ongoingAdministrativeCases",
+      "unterfeld": "authority"
+    },
+    "vorgang_art": {
+      "typ": "listenfeldAlle",
+      "sektor": "administration",
+      "feld": "ongoingAdministrativeCases",
+      "unterfeld": "typeOfCase"
+    },
+    "gegenseite": {
+      "typ": "listenfeldAlle",
+      "sektor": "administration",
+      "feld": "ongoingAdministrativeCases",
+      "unterfeld": "opposingParty",
+      "sensibelErlaubt": true
+    },
+    "beratung_bisher": {
+      "typ": "listenfeldAlle",
+      "sektor": "administration",
+      "feld": "ongoingAdministrativeCases",
+      "unterfeld": "alreadyAdvisedBy",
+      "sensibelErlaubt": true
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "Teil 0 — die Person",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Diese Angaben stehen ohnehin in Ihrem Depot. Der Auszug führt sie mit, damit die Stelle sie nicht noch einmal erfragen muss — das ist der Sinn des Vor-Sammelns."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "person_vorname",
+          "frage": "Vorname?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "person_nachname",
+          "frage": "Nachname?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "person_geburtsdatum",
+          "frage": "Geburtsdatum?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "person_anschrift",
+          "frage": "Anschrift?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "person_telefon",
+          "frage": "Telefon?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "person_email",
+          "frage": "E-Mail?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Vor- und Nachname stehen getrennt, wie das Antragsformular sie erfragt — nicht als ein zusammengesetzter Anzeigename. Wer den Familiennamen zuerst führt, ändert damit die Anzeige im Depot, nicht die Zuordnung hier."
+          ]
+        }
+      ]
+    },
+    {
+      "titel": "Teil A — Ihre wirtschaftlichen Verhältnisse",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Beratungshilfe und Prozesskostenhilfe verlangen dieselbe Erklärung über die persönlichen und wirtschaftlichen Verhältnisse. Was hier steht, ist Ihre eigene Depot-Angabe, aufbereitet zum Vorbereiten — kein Antrag und keine amtliche Erklärung."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "einkommen_netto",
+          "frage": "Wie hoch ist Ihr eigenes monatliches Nettoeinkommen?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "haushalt_einkommen",
+          "frage": "Welches Einkommen haben weitere Personen in Ihrem Haushalt?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "personen_im_haushalt",
+          "frage": "Wie viele Personen leben in der Wohnung?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "unterhalt",
+          "frage": "Wen unterhalten Sie, und mit welchem Betrag?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "wohnsituation",
+          "frage": "Wie wohnen Sie?",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "assets",
+            "feld": "livingSituation"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "wohnkosten_eigenanteil",
+          "frage": "Welchen Anteil der Wohnkosten tragen Sie selbst?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "belastungen",
+          "frage": "Welche monatlichen Belastungen kommen dazu?",
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    },
+    {
+      "titel": "Teil B — Vermögen",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "schulden",
+          "frage": "Welche laufenden Kredite und Schulden bestehen?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "wertgegenstaende",
+          "frage": "Welche Wertgegenstände sind vorhanden?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Kontostände führt diese Anwendung bewusst nicht — die Konten-Liste nennt, welche Konten es gibt, nicht wie viel darauf liegt. Diese Angabe bleibt darum immer Lücke und ist beim Antrag selbst zu ergänzen."
+          ]
+        }
+      ]
+    },
+    {
+      "titel": "Teil C — die Angelegenheit",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Diese Angaben stammen aus Ihren laufenden Verwaltungsvorgängen. Steht dort nichts, ist der Vorgang im Depot noch nicht angelegt."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vorgang_art",
+          "frage": "Worum geht es?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vorgang_stellen",
+          "frage": "Bei welcher Stelle läuft der Vorgang?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "gegenseite",
+          "frage": "Wer steht Ihnen in dieser Sache gegenüber?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "beratung_bisher",
+          "frage": "Wurden Sie in dieser Angelegenheit schon anwaltlich beraten?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Beratungshilfe — Vorbereitungsauszug",
+    "klasse": "zugang-recht-dok",
+    "herkunftText": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, kein Antrag.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Dieser Auszug ist kein Antrag. Den Antrag auf Beratungshilfe stellen Sie beim Amtsgericht, mit dessen eigenem Formular und Ihrer eigenen Unterschrift.",
+    "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",
+    "knopfAttr": "zugang-recht-dokument",
+    "dateiBasis": "Beratungshilfe-Vorbereitung",
+    "toolbarHinweis": "Dieser Auszug hilft Ihnen, die Erklärung über Ihre persönlichen und wirtschaftlichen Verhältnisse vorzubereiten. Er ersetzt das amtliche Formular nicht und wird an keine Stelle übermittelt.",
+    "karte": {
+      "klasse": "zugang-recht-auszug-karte",
+      "hinweisKennung": "zugangRechtAuszugHint",
+      "knopfKennung": "zugangRechtAuszugKnopf",
+      "zusatzKnoepfe": []
+    }
+  }
+}

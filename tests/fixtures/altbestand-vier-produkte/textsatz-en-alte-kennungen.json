@@ -1,0 +1,13 @@
+{
+  "modulTyp": "textsatz",
+  "sprache": "en",
+  "moduleVersion": 1,
+  "anbieterId": "vivodepot",
+  "texte": {
+    "identitaet.label": "Identity & person",
+    "identitaet.vorname.label": "First name",
+    "identitaet.nachname.label": "Last name",
+    "gesundheit.label": "Health",
+    "gesundheit.blutgruppe.label": "Blood type"
+  }
+}

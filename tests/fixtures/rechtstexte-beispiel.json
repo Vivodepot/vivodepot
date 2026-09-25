@@ -1,0 +1,10 @@
+[
+  {
+    "id": "beispiel-aktuell",
+    "wortlautQuelle": { "behoerde": "Fixture", "titel": "Erfundene Vorlage A", "stand": "Januar 2025" }
+  },
+  {
+    "id": "beispiel-fehlt",
+    "wortlautQuelle": { "behoerde": "Fixture", "titel": "Erfundene Vorlage B" }
+  }
+]

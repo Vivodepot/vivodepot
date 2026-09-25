@@ -1,0 +1,19 @@
+{
+  "systemId": "loinc",
+  "uri": "http://loinc.org",
+  "version": "SEED-2026-05",
+  "kuerzel": "LOINC",
+  "lizenz": "LOINC, Regenstrief Institute — kostenlos unter der LOINC-Lizenz (loinc.org/license), kommerzielle Nutzung erlaubt; Pflichthinweis mitliefern, siehe THIRD_PARTY_LICENSES; LOINC ist eine eingetragene Marke des Regenstrief Institute, Inc.",
+  "status": "seed",
+  "hinweis": "Sample/Seed, häufige Observation-/Sektions-Codes; erweiterbar",
+  "daten": [
+    { "code": "48765-2", "anzeigeName": "Allergien und Unverträglichkeiten (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "10160-0", "anzeigeName": "Medikation (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "11450-4", "anzeigeName": "Problemliste (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "883-9", "anzeigeName": "ABO-Blutgruppe", "synonyme": ["Blutgruppe"], "kategorie": "Labor" },
+    { "code": "8302-2", "anzeigeName": "Körpergröße", "synonyme": ["Größe"], "kategorie": "Vitalwert" },
+    { "code": "29463-7", "anzeigeName": "Körpergewicht", "synonyme": ["Gewicht"], "kategorie": "Vitalwert" },
+    { "code": "8867-4", "anzeigeName": "Herzfrequenz", "synonyme": ["Puls"], "kategorie": "Vitalwert" },
+    { "code": "85354-9", "anzeigeName": "Blutdruck (Panel)", "synonyme": ["Blutdruck", "RR"], "kategorie": "Vitalwert" }
+  ]
+}

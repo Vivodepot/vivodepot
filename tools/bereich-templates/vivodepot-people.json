@@ -1,0 +1,418 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/people",
+  "fassung": 1,
+  "bereiche": {
+    "people": {
+      "id": "people",
+      "format": "GENERISCH",
+      "icon": "users",
+      "merkmale": [
+        "personenRegister"
+      ],
+      "rollen": {
+        "personenListe": "menschen",
+        "schutzbefohleneListe": "childrenAndDependants",
+        "personenSektion": "menschen-liste",
+        "schutzbefohleneSektion": "kinder-sek"
+      },
+      "exporte": [
+        {
+          "format": "vcard-menschen",
+          "labelSchluessel": "exportVcardMenschenLabel"
+        }
+      ],
+      "wizards": [
+        "pflwiz",
+        "heirwiz"
+      ],
+      "sektionen": [
+        {
+          "id": "menschen-liste",
+          "felder": []
+        },
+        {
+          "id": "kinder-sek",
+          "felder": [
+            {
+              "id": "childrenAndDependants",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "person",
+                  "typ": "ref",
+                  "entitaet": "person",
+                  "mitGeburt": true,
+                  "verweisZweck": "familiaer"
+                },
+                {
+                  "id": "type",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "leiblich"
+                    },
+                    {
+                      "wert": "adoptiert"
+                    },
+                    {
+                      "wert": "pflege"
+                    },
+                    {
+                      "wert": "stief"
+                    },
+                    {
+                      "wert": "muendel"
+                    },
+                    {
+                      "wert": "betreuter_erwachsener"
+                    }
+                  ]
+                },
+                {
+                  "id": "typeAdditionalDetail",
+                  "typ": "text"
+                },
+                {
+                  "id": "note",
+                  "typ": "textarea",
+                  "beispiel": ""
+                },
+                {
+                  "id": "legalRepresentationParental",
+                  "typ": "auswahl",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": "betreuter_erwachsener"
+                  },
+                  "optionen": [
+                    {
+                      "wert": "gemeinsam"
+                    },
+                    {
+                      "wert": "allein"
+                    },
+                    {
+                      "wert": "vormund"
+                    },
+                    {
+                      "wert": "andere"
+                    }
+                  ]
+                },
+                {
+                  "id": "custodyAdditionalDetailPartial",
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": "betreuter_erwachsener"
+                  }
+                },
+                {
+                  "id": "custodyArrangement",
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Residenzmodell",
+                    "Wechselmodell",
+                    "Wechselmodell 50/50",
+                    "Nestmodell",
+                    "erweiterter Umgang"
+                  ],
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": "betreuter_erwachsener"
+                  }
+                },
+                {
+                  "id": "training",
+                  "typ": "auswahl",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": "betreuter_erwachsener"
+                  },
+                  "optionen": [
+                    {
+                      "wert": "ja"
+                    },
+                    {
+                      "wert": "nein"
+                    }
+                  ]
+                },
+                {
+                  "id": "trainingExpectedToEnd",
+                  "typ": "datum",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": "betreuter_erwachsener"
+                  }
+                },
+                {
+                  "id": "birthCertificateStorage",
+                  "sensibel": true,
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": "betreuter_erwachsener"
+                  }
+                },
+                {
+                  "id": "basisOfRepresentation",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": [
+                      "leiblich",
+                      "adoptiert",
+                      "pflege",
+                      "stief",
+                      "muendel"
+                    ]
+                  },
+                  "optionen": [
+                    {
+                      "wert": "betreuung"
+                    },
+                    {
+                      "wert": "vorsorgevollmacht"
+                    },
+                    {
+                      "wert": "ehegattennotvertretung"
+                    }
+                  ]
+                },
+                {
+                  "id": "areasOfResponsibility",
+                  "sensibel": true,
+                  "typ": "textarea",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": [
+                      "leiblich",
+                      "adoptiert",
+                      "pflege",
+                      "stief",
+                      "muendel"
+                    ]
+                  }
+                },
+                {
+                  "id": "careCourt",
+                  "sensibel": true,
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": [
+                      "leiblich",
+                      "adoptiert",
+                      "pflege",
+                      "stief",
+                      "muendel"
+                    ]
+                  }
+                },
+                {
+                  "id": "fileReferenceNumber",
+                  "sensibel": true,
+                  "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": [
+                      "leiblich",
+                      "adoptiert",
+                      "pflege",
+                      "stief",
+                      "muendel"
+                    ]
+                  }
+                },
+                {
+                  "id": "validSince",
+                  "marken": [
+                    "giltAb"
+                  ],
+                  "typ": "datum",
+                  "verborgenWenn": {
+                    "feld": "type",
+                    "wert": [
+                      "leiblich",
+                      "adoptiert",
+                      "pflege",
+                      "stief",
+                      "muendel"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "guidedBirthEntryChildsNameNot",
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "guidedBirthEntryDateOfBirthNot",
+              "typ": "datum",
+              "ebene": "modul"
+            },
+            {
+              "id": "guidedBirthEntryRelationship",
+              "typ": "auswahl",
+              "ebene": "modul",
+              "optionen": [
+                {
+                  "wert": "leiblich"
+                },
+                {
+                  "wert": "adoptiert"
+                },
+                {
+                  "wert": "pflege"
+                },
+                {
+                  "wert": "stief"
+                },
+                {
+                  "wert": "muendel"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "unterhalt-sek",
+          "felder": [
+            {
+              "id": "maintenanceObligationsAnd",
+              "typ": "liste",
+              "ebene": "modul",
+              "unterFelder": [
+                {
+                  "id": "person",
+                  "typ": "ref",
+                  "entitaet": "person",
+                  "verweisZweck": "familiaer"
+                },
+                {
+                  "id": "type",
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Kindesunterhalt",
+                    "Trennungsunterhalt",
+                    "Nachehelicher Ehegattenunterhalt",
+                    "Elternunterhalt",
+                    "Betreuungsunterhalt"
+                  ]
+                },
+                {
+                  "id": "amount",
+                  "sensibel": true,
+                  "typ": "text",
+                  "inputmode": "decimal"
+                },
+                {
+                  "id": "currency",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "EUR"
+                    },
+                    {
+                      "wert": "USD"
+                    },
+                    {
+                      "wert": "GBP"
+                    },
+                    {
+                      "wert": "CHF"
+                    },
+                    {
+                      "wert": "sonstige"
+                    }
+                  ]
+                },
+                {
+                  "id": "frequency",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "monatlich"
+                    },
+                    {
+                      "wert": "jaehrlich"
+                    },
+                    {
+                      "wert": "einmalig"
+                    }
+                  ]
+                },
+                {
+                  "id": "direction",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "zahle"
+                    },
+                    {
+                      "wert": "bekomme"
+                    }
+                  ]
+                },
+                {
+                  "id": "start",
+                  "marken": [
+                    "giltAb"
+                  ],
+                  "typ": "datum"
+                },
+                {
+                  "id": "end",
+                  "typ": "datum"
+                },
+                {
+                  "id": "note",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pflege-sek",
+          "felder": [
+            {
+              "id": "whoProvidesThePrimaryCare",
+              "typ": "ref",
+              "entitaet": "person",
+              "rolle": "pflegeperson",
+              "verweisZweck": "familiaer"
+            },
+            {
+              "id": "careLeaveFamilyCareLeave",
+              "sensibel": true,
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "partnerschaft-sek",
+          "felder": [
+            {
+              "id": "spouseOrCivilPartner",
+              "typ": "ref",
+              "entitaet": "person",
+              "rolle": "partner",
+              "verweisZweck": "familiaer"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

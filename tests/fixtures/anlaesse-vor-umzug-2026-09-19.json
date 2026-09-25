@@ -1,0 +1,199 @@
+{
+ "_zweck": "Eingefrorene Kachel-Liste des Standard-Produkts (privat-de) am Tag, an dem die zehn Kacheln der Situationen ins Template gingen (SIT2b, 19.09.2026): Reihenfolge, Klasse, Symbol, Ziel, versteckt, deutscher Wortlaut. Verlust verboten.",
+ "kacheln": [
+  {
+   "id": "geburt",
+   "klasse": 1,
+   "icon": "baby",
+   "ziel": {
+    "wizard": "gebwiz"
+   },
+   "versteckt": false,
+   "label": "Geburt eines Kindes"
+  },
+  {
+   "id": "volljaehrig",
+   "klasse": 1,
+   "icon": "user",
+   "ziel": {
+    "step": "start"
+   },
+   "versteckt": false,
+   "label": "Volljährigkeit oder Auszug"
+  },
+  {
+   "id": "hauskauf",
+   "klasse": 1,
+   "icon": "home",
+   "ziel": {
+    "step": "immobilien"
+   },
+   "versteckt": false,
+   "label": "Hauskauf oder Heirat"
+  },
+  {
+   "id": "notar",
+   "klasse": 1,
+   "icon": "scale",
+   "ziel": {
+    "step": "testament"
+   },
+   "versteckt": false,
+   "label": "Termin beim Notar oder bei der Bank"
+  },
+  {
+   "id": "umzug",
+   "klasse": 1,
+   "icon": "home",
+   "ziel": {
+    "wizard": "umzwiz"
+   },
+   "versteckt": false,
+   "label": "Umzug oder Haushaltsauflösung"
+  },
+  {
+   "id": "krisenvorsorge",
+   "klasse": 1,
+   "icon": "package",
+   "ziel": {
+    "lage": "ausst-krisenvorsorge"
+   },
+   "versteckt": false,
+   "label": "Krisenvorsorge"
+  },
+  {
+   "id": "trennung-scheidung",
+   "klasse": 1,
+   "icon": "users",
+   "ziel": {
+    "lage": "trennung-scheidung"
+   },
+   "versteckt": false,
+   "label": "Trennung oder Scheidung"
+  },
+  {
+   "id": "arbeitslosigkeit",
+   "klasse": 1,
+   "icon": "wallet",
+   "ziel": {
+    "lage": "arbeitslosigkeit"
+   },
+   "versteckt": false,
+   "label": "Arbeitslosigkeit"
+  },
+  {
+   "id": "arzt",
+   "klasse": 2,
+   "icon": "stethoscope",
+   "ziel": {
+    "sbl": 2
+   },
+   "versteckt": false,
+   "label": "Arzttermin"
+  },
+  {
+   "id": "krankenhaus",
+   "klasse": 2,
+   "icon": "heartPulse",
+   "ziel": {
+    "sbl": 5
+   },
+   "versteckt": false,
+   "label": "Krankenhaus-Aufenthalt"
+  },
+  {
+   "id": "pflegeheim",
+   "klasse": 2,
+   "icon": "shield",
+   "ziel": {
+    "wizard": "pflwiz"
+   },
+   "versteckt": false,
+   "label": "Einzug ins Pflegeheim"
+  },
+  {
+   "id": "rechtliche-betreuung",
+   "klasse": 2,
+   "icon": "shield",
+   "ziel": {
+    "lage": "rechtliche-betreuung"
+   },
+   "versteckt": false,
+   "label": "Rechtliche Betreuung"
+  },
+  {
+   "id": "todesfall",
+   "klasse": 3,
+   "icon": "fileText",
+   "ziel": {
+    "zwischenfrage": [
+     "erbfall",
+     "todesfall-uebernahme",
+     "verwitwung"
+    ]
+   },
+   "versteckt": false,
+   "label": "Ein Todesfall ist eingetreten"
+  },
+  {
+   "id": "erbfall",
+   "klasse": 3,
+   "icon": "fileText",
+   "ziel": {
+    "sbl": "erbfall"
+   },
+   "versteckt": true,
+   "label": "Erbfall"
+  },
+  {
+   "id": "todesfall-uebernahme",
+   "klasse": 3,
+   "icon": "fileText",
+   "ziel": {
+    "sbl": "todesfall-uebernahme"
+   },
+   "versteckt": true,
+   "label": "Todesfall"
+  },
+  {
+   "id": "verwitwung",
+   "klasse": 3,
+   "icon": "fileText",
+   "ziel": {
+    "lage": "verwitwung"
+   },
+   "versteckt": true,
+   "label": "Verwitwung"
+  },
+  {
+   "id": "eigene-vorsorge",
+   "klasse": 3,
+   "icon": "shield",
+   "ziel": {
+    "lage": "eigene-vorsorge"
+   },
+   "versteckt": false,
+   "label": "Vorsorge treffen"
+  },
+  {
+   "id": "einfach-so",
+   "klasse": 0,
+   "icon": "star",
+   "ziel": {
+    "step": "assistenten"
+   },
+   "versteckt": false,
+   "label": "Einfach so — weil es Zeit wird"
+  },
+  {
+   "id": "umsehen",
+   "klasse": 0,
+   "icon": "chevronRight",
+   "ziel": {
+    "demo": true
+   },
+   "versteckt": false,
+   "label": "Ich schaue mich erst einmal um"
+  }
+ ]
+}

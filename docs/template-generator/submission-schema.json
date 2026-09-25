@@ -1,0 +1,1381 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/submission-schema.json",
+  "title": "Vivodepot Submission-Paket",
+  "description": "Gemeinsamer Vertrag zwischen Template-Generator (Komponente 4, erzeugt) und VC-Issuer (Komponente 3, importiert). Template-Generator-Spec F-8. Der Generator produziert ein Paket nach diesem Schema; der VC-Issuer importiert es und übernimmt anbieter-Stammdaten und publicKeyJwk in das auszustellende VivodepotProviderCredential.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "submissionId",
+    "submissionTimestamp",
+    "generatorVersion",
+    "anbieter",
+    "publicKeyJwk"
+  ],
+  "anyOf": [
+    {
+      "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): eine Submission trägt Vorlagen, einen Kennungs-Vorschlag ohne Vorlage, oder beides -- nie keins von beiden.",
+      "required": ["templates"]
+    },
+    {
+      "required": ["kennungVorschlaege"]
+    }
+  ],
+  "properties": {
+    "submissionId": {
+      "description": "Eindeutige Kennung der Submission (UUID v4). Wird dem Einreicher für Rückfragen angezeigt; geht ins Audit-Log des VC-Issuers ein.",
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+    },
+    "submissionTimestamp": {
+      "description": "Erzeugungszeitpunkt der Submission im Browser der Institution (ISO 8601, UTC).",
+      "type": "string",
+      "format": "date-time"
+    },
+    "generatorVersion": {
+      "description": "Version des Template-Generators, der das Paket erzeugt hat.",
+      "type": "string",
+      "minLength": 1
+    },
+    "anbieter": {
+      "description": "Stammdaten der einreichenden Institution (Template-Generator F-2). Der VC-Issuer leitet daraus anbieterId, anbieterName, anbieterTyp ab (VC-Issuer F-4).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anbieterId",
+        "anbieterName",
+        "anbieterTyp",
+        "rechtsform",
+        "adresse",
+        "kontakt",
+        "bereich",
+        "useCase"
+      ],
+      "properties": {
+        "anbieterId": {
+          "description": "Technische ID, z. B. 'institution/sparkasse-musterstadt-de'.",
+          "type": "string",
+          "minLength": 1
+        },
+        "anbieterName": {
+          "description": "Klartext-Name der Institution.",
+          "type": "string",
+          "minLength": 1
+        },
+        "anbieterTyp": {
+          "description": "Strukturierte Kategorie, z. B. 'institution/sparkasse-de', 'institution/pflegeheim-de', 'notariat-de'.",
+          "type": "string",
+          "minLength": 1
+        },
+        "rechtsform": {
+          "type": "string",
+          "enum": [
+            "e.V.",
+            "GmbH",
+            "AG",
+            "Anstalt öffentlichen Rechts",
+            "Behörde",
+            "sonstige Körperschaft"
+          ]
+        },
+        "ustId": {
+          "description": "USt-ID falls vorhanden (optional).",
+          "type": "string"
+        },
+        "adresse": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "strasse",
+            "plz",
+            "ort",
+            "land"
+          ],
+          "properties": {
+            "strasse": {
+              "type": "string",
+              "minLength": 1
+            },
+            "plz": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ort": {
+              "type": "string",
+              "minLength": 1
+            },
+            "land": {
+              "type": "string",
+              "minLength": 1,
+              "default": "Deutschland"
+            }
+          }
+        },
+        "kontakt": {
+          "description": "Kontaktperson für Rückfragen.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "funktion",
+            "email",
+            "telefon"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "funktion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "telefon": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "bereich": {
+          "description": "Geplanter Anwendungs-Bereich. Einer der dreizehn Vivodepot-Bereiche.",
+          "type": "string",
+          "enum": [
+            "identity",
+            "people",
+            "mobility",
+            "finance",
+            "assets",
+            "health",
+            "education",
+            "socialInsurance",
+            "advanceCare",
+            "administration",
+            "housing",
+            "emergencyPreparedness",
+            "personal",
+            "pro-vertretung-vollmachten",
+            "pro-gesellschaft-nachfolge",
+            "pro-finanzen-verbindlichkeiten",
+            "pro-betrieb-zugaenge",
+            "pro-aufbewahrung-ordnung",
+            "pro-kontakte-vertretungsplan"
+          ]
+        },
+        "useCase": {
+          "description": "Beschreibung des Use Cases (Freitext, 50–500 Zeichen).",
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 500
+        }
+      }
+    },
+    "publicKeyJwk": {
+      "description": "Public-Key der Institution als JSON Web Key (RFC 7517). Ed25519 (OKP) primär, P-256 (EC) als Fallback. Geht in credentialSubject.publicKeyJwk des ausgestellten VC ein.",
+      "type": "object",
+      "required": [
+        "kty"
+      ],
+      "properties": {
+        "kty": {
+          "type": "string",
+          "enum": [
+            "OKP",
+            "EC"
+          ]
+        },
+        "crv": {
+          "type": "string",
+          "enum": [
+            "Ed25519",
+            "P-256"
+          ]
+        },
+        "x": {
+          "type": "string",
+          "minLength": 1
+        },
+        "y": {
+          "type": "string"
+        },
+        "alg": {
+          "type": "string",
+          "enum": [
+            "Ed25519",
+            "ES256",
+            "EdDSA"
+          ]
+        },
+        "use": {
+          "type": "string"
+        },
+        "kid": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kty": {
+                "const": "OKP"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "crv",
+              "x"
+            ],
+            "properties": {
+              "crv": {
+                "const": "Ed25519"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kty": {
+                "const": "EC"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "crv",
+              "x",
+              "y"
+            ],
+            "properties": {
+              "crv": {
+                "const": "P-256"
+              }
+            }
+          }
+        }
+      ],
+      "not": {
+        "description": "Eine Submission darf NIE einen Private-Key enthalten ('d').",
+        "required": [
+          "d"
+        ]
+      }
+    },
+    "templates": {
+      "description": "Die eingereichten Daten-Templates (Template-Generator F-4 bis F-7). Mindestens ein Template. Schnitt 24.08.2026 (A523/Sammelvorlagen): vorher `template` (genau ein Objekt) -- ein Vorgang trug genau eine Vorlage. Additiv am Leseweg: eine Alt-Submission mit `template` (Objekt) wird beim Einlesen als `templates: [template]` normalisiert, nicht abgelehnt.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "description": "Ein definiertes Daten-Template (Template-Generator F-4 bis F-7).",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "felder"
+        ],
+        "properties": {
+          "felder": {
+            "description": "Liste der Template-Felder. Mindestens ein Feld (F-7 blockierende Prüfung).",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "feldname",
+                "feldtyp",
+                "pflicht"
+              ],
+              "properties": {
+                "feldname": {
+                  "description": "Schnitt Glied 6 (23.08.2026, 1.4b, U2-ADR-164): entweder ein einfacher String (Normalfall) oder Sprachvarianten {sprache: text, ...} -- der Kern zeigt die zur aktiven Sprache passende Variante, sonst den Standardwert.",
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "object",
+                      "minProperties": 1,
+                      "propertyNames": {
+                        "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+                      },
+                      "additionalProperties": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  ]
+                },
+                "feldtyp": {
+                  "type": "string",
+                  "enum": [
+                    "text",
+                    "textarea",
+                    "zahl",
+                    "datum",
+                    "jaNein",
+                    "auswahl",
+                    "mehrfachauswahl",
+                    "liste",
+                    "ref",
+                    "refMehrfach",
+                    "verweis"
+                  ]
+                },
+                "pflicht": {
+                  "type": "boolean"
+                },
+                "bereich": {
+                  "type": "string",
+                  "enum": [
+                    "identity",
+                    "people",
+                    "mobility",
+                    "finance",
+                    "assets",
+                    "health",
+                    "education",
+                    "socialInsurance",
+                    "advanceCare",
+                    "administration",
+                    "housing",
+                    "emergencyPreparedness",
+                    "personal",
+                    "pro-vertretung-vollmachten",
+                    "pro-gesellschaft-nachfolge",
+                    "pro-finanzen-verbindlichkeiten",
+                    "pro-betrieb-zugaenge",
+                    "pro-aufbewahrung-ordnung",
+                    "pro-kontakte-vertretungsplan"
+                  ]
+                },
+                "quelle": {
+                  "description": "Auftrag 'Modul-/Vorlage-Erstellung automatisieren', Erweiterung Depot-Referenz (30.08.2026): Herkunft des Feldwerts. 'neu' (Default) ist ein leeres Formularfeld, das die Bürgerin beim Vorgang selbst ausfüllt. 'depot' liest den Wert automatisch aus einem bereits vorhandenen Depot-Feld — depotSchema nennt, aus welchem; die Bürgerin tippt nichts (Erbschein-Fall).",
+                  "type": "string",
+                  "enum": [
+                    "neu",
+                    "depot"
+                  ],
+                  "default": "neu"
+                },
+                "depotSchema": {
+                  "description": "Nur bei quelle: 'depot'. Dieselbe Selektor-Form wie datenSchema im Kern (LOGIK_DATEN_TYPEN/logikModulPruefen/datenSchemaLesen, vivodepot.html) — keine zweite Referenz-Sprache für dieselbe Sache.",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "typ"
+                  ],
+                  "properties": {
+                    "typ": {
+                      "type": "string",
+                      "enum": [
+                        "feld",
+                        "verbinden",
+                        "listenfeld",
+                        "personenNamen",
+                        "listenfeldPersonenNamen"
+                      ]
+                    },
+                    "sektor": {
+                      "type": "string",
+                      "enum": [
+                        "identity",
+                        "people",
+                        "mobility",
+                        "finance",
+                        "health",
+                        "education",
+                        "socialInsurance",
+                        "advanceCare",
+                        "administration",
+                        "housing",
+                        "emergencyPreparedness",
+                        "personal"
+                      ]
+                    },
+                    "feld": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "teile": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "sektor",
+                          "feld"
+                        ],
+                        "properties": {
+                          "sektor": {
+                            "type": "string",
+                            "enum": [
+                              "identity",
+                              "people",
+                              "mobility",
+                              "finance",
+                              "health",
+                              "education",
+                              "socialInsurance",
+                              "advanceCare",
+                              "administration",
+                              "housing",
+                              "emergencyPreparedness",
+                              "personal"
+                            ]
+                          },
+                          "feld": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    },
+                    "trenner": {
+                      "type": "string"
+                    },
+                    "diskriminante": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "feld",
+                        "wert"
+                      ],
+                      "properties": {
+                        "feld": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "wert": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "unterfeld": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "typ": {
+                            "const": "feld"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "sektor",
+                          "feld"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "typ": {
+                            "const": "verbinden"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "teile"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "typ": {
+                            "const": "listenfeld"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "sektor",
+                          "feld",
+                          "diskriminante",
+                          "unterfeld"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "typ": {
+                            "const": "personenNamen"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "sektor",
+                          "feld",
+                          "unterfeld"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "typ": {
+                            "const": "listenfeldPersonenNamen"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "sektor",
+                          "feld",
+                          "diskriminante",
+                          "unterfeld"
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "provenienzPflichtig": {
+                  "description": "F-6: ob ein Provenienz-Stempel angehängt wird (Default true).",
+                  "type": "boolean",
+                  "default": true
+                },
+                "gruppe": {
+                  "description": "Optionale Sektions-Überschrift zur Gruppierung.",
+                  "type": "string"
+                },
+                "hilfetext": {
+                  "description": "Optionaler Hilfetext/Eingabe-Hinweis für die Bürgerin, wird beim Feld angezeigt (Z32, A112).",
+                  "type": "string"
+                },
+                "ziel": {
+                  "description": "Nur bei feldtyp 'verweis': die externe Adresse, auf die das Feld zeigt (z. B. ein amtliches Register). Fixer Bestandteil der Feld-Definition, kein Bürgerin-Eintrag — die Bürgerin sieht nur den Link, sie füllt hier nichts aus. Nur https: erlaubt (kein javascript:/data:/file: — das sind Ausführungs-/Lokal-Schemata, keine Adressen).",
+                  "type": "string",
+                  "pattern": "^https://"
+                },
+                "codeSystem": {
+                  "description": "Code-System-URI/ID, falls codiertes Feld (z. B. LOINC, ICD-10-GM, ATC, SNOMED, XÖV, ESCO).",
+                  "type": "string"
+                },
+                "codeWerte": {
+                  "description": "Erlaubte Codes bei Auswahl-Liste / codiertem Feld.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "code",
+                      "anzeige"
+                    ],
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "anzeige": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "synonym": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "marken": {
+                  "description": "Kette Auftrag 5 Zug 2 (20.08.2026): Feld-Marken, die im Kern WIRKEN — heute laeuftAb (aus dem Wert entsteht ein Prueftermin). Vorher wurde die Angabe angenommen und weggeworfen; der Erzeuger meldete das nur.",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "laeuftAb"
+                    ]
+                  }
+                },
+                "sensibel": {
+                  "description": "Kette Auftrag 5 Zug 2: das Feld ist von sich aus sensibel und wird in Ausgaben ohne ausdrueckliche Freigabe zurueckgehalten. Der Kern liest es ueber feldIstSensibel; das Sensibel-System selbst ist unveraendert.",
+                  "type": "boolean"
+                },
+                "einheit": {
+                  "description": "Einheit des Werts (z. B. mg/dl, kg). Der Kern rechnet nicht damit, er ZEIGT sie — eine Zahl ohne Einheit ist im Zweifel die falsche Zahl.",
+                  "type": "string"
+                },
+                "referenzbereich": {
+                  "description": "Referenzbereich als Text, z. B. 70 bis 110. Reine Anzeige, keine Auswertung.",
+                  "type": "string"
+                },
+                "warnWennJa": {
+                  "description": "Warn-Semantik: ein Ja, das rot bedeutet (MRT-Kontraindikation, schwierige Intubation). Ohne sie steht eine Sicherheitsangabe wie jede andere Zeile da.",
+                  "type": "boolean"
+                },
+                "mitMessdatum": {
+                  "description": "Der Wert traegt ein Messdatum (Laborwert, Gewicht). Getrennt vom Gueltigkeits-Datum (U2-ADR-148): gemessen ist nicht abgelaufen.",
+                  "type": "boolean"
+                },
+                "unterFelder": {
+                  "description": "Kette Auftrag 5 Zug 1: die Unterfelder einer liste (Medikamentenplan, Kinderliste, Kontaktliste). Ohne sie ist eine Liste ein Name fuer nichts.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "feldname",
+                      "feldtyp"
+                    ],
+                    "properties": {
+                      "feldname": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "feldtyp": {
+                        "type": "string",
+                        "enum": [
+                          "text",
+                          "textarea",
+                          "zahl",
+                          "datum",
+                          "jaNein",
+                          "auswahl",
+                          "mehrfachauswahl",
+                          "ref",
+                          "refMehrfach"
+                        ]
+                      },
+                      "pflicht": {
+                        "type": "boolean"
+                      },
+                      "sensibel": {
+                        "type": "boolean"
+                      },
+                      "codeWerte": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "code",
+                            "anzeige"
+                          ],
+                          "properties": {
+                            "code": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "anzeige": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      },
+                      "entitaet": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. U2-ADR-253 Teil 2: Verweis-Art; geschlossenes Set im Kern (_TEMPLATE_ENTITAET_BEKANNT).",
+                        "type": "string",
+                        "enum": [
+                          "person",
+                          "institution",
+                          "mappe",
+                          "bank-power-of-attorney"
+                        ]
+                      },
+                      "rolle": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. U2-ADR-253 Teil 2: freie Rolle des Verweises.",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "verweisZweck": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. U2-ADR-253 Teil 2: freier Zweck des Verweises.",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "beispiel": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. Platzhaltertext.",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "ebene": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "eingabeTyp": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "inputmode": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "vorschlaege": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "keineZukunft": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "boolean"
+                      },
+                      "datumJahrMin": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "integer"
+                      },
+                      "gueltigkeitVorschlag": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "ausFeld"
+                        ],
+                        "properties": {
+                          "ausFeld": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "regel": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "fristRegel": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. stelle nach U2-ADR-284.",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "dauer"
+                        ],
+                        "properties": {
+                          "dauer": {},
+                          "quelle": {
+                            "type": "string"
+                          },
+                          "stelle": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "codeListe": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "art": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "verweisKontextFeld": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "zusammenfassungFelder": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mitGeburt": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "boolean"
+                      },
+                      "unterdrueckeInZusammenfassungWennGesetzt": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sichtbarWenn": {
+                        "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. Kehrseite von verborgenWenn; zwei Formen: {feld, wert} oder {feld, minAnzahl}.",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "feld"
+                        ],
+                        "properties": {
+                          "feld": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "wert": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            ]
+                          },
+                          "minAnzahl": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "verborgenWenn": {
+                  "description": "Kette Auftrag 5 Zug 3: bedingte Sichtbarkeit, NEGATIV formuliert wie im Kern (U2-ADR-109) — das Feld verschwindet nur, wenn die Diskriminante einen der genannten Werte traegt. Ein positives Gate wuerde bei fehlender Angabe ALLES verstecken.",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "feld",
+                    "wert"
+                  ],
+                  "properties": {
+                    "feld": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "wert": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "kennung": {
+                  "description": "Register-Katalog-Plan §6 Schritt 8 (15.09.2026): optionale Referenz auf eine Kennung aus FELDKATALOG (tools/build-feldkatalog.js, aus dem Kern erzeugt) — dieselbe Kennungs-Form wie im Anfrage-Weg (anfrageFeldkatalogKennt). Geprueft wird hier nur die FORM; ob die Kennung wirklich im Katalog steht, prueft der Erzeuger beim Bauen (_normalisiereFeldRein) und meldet eine unbekannte als Angleichung, statt das Buendel abzuweisen.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "situation": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. U2-ADR-246: Alternative zu bereich — genau eins von beiden je Feld. Der Erzeuger prüft gegen die nativen Situationen des Kerns (KERN_TORWAECHTER.SITUATION_IDS).",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "mehrzeilig": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "boolean"
+                },
+                "pruefIntervallMonate": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "integer"
+                },
+                "entitaet": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. U2-ADR-253 Teil 2: Verweis-Art; geschlossenes Set im Kern (_TEMPLATE_ENTITAET_BEKANNT).",
+                  "type": "string",
+                  "enum": [
+                    "person",
+                    "institution",
+                    "mappe",
+                    "bank-power-of-attorney"
+                  ]
+                },
+                "rolle": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. U2-ADR-253 Teil 2: freie Rolle des Verweises.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "verweisZweck": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. U2-ADR-253 Teil 2: freier Zweck des Verweises.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "beispiel": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. Platzhaltertext.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ebene": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "eingabeTyp": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "inputmode": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "vorschlaege": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "keineZukunft": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "boolean"
+                },
+                "datumJahrMin": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "integer"
+                },
+                "gueltigkeitVorschlag": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "ausFeld"
+                  ],
+                  "properties": {
+                    "ausFeld": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "regel": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "fristRegel": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. stelle nach U2-ADR-284.",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "dauer"
+                  ],
+                  "properties": {
+                    "dauer": {},
+                    "quelle": {
+                      "type": "string"
+                    },
+                    "stelle": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "codeListe": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "art": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "verweisKontextFeld": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "zusammenfassungFelder": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "mitGeburt": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "boolean"
+                },
+                "unterdrueckeInZusammenfassungWennGesetzt": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. ",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sichtbarWenn": {
+                  "description": "Kern-Feldeigenschaft (16.09.2026, Auftrag „alle Feld-Eigenschaften“): der Kern liest sie in _templateFeldZuModell (_TEMPLATE_FELD_BEKANNTE_SCHLUESSEL); Form wie dort gemessen. Kehrseite von verborgenWenn; zwei Formen: {feld, wert} oder {feld, minAnzahl}.",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "feld"
+                  ],
+                  "properties": {
+                    "feld": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "wert": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    },
+                    "minAnzahl": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "bereich"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "situation"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "not": {
+                    "required": [
+                      "bereich",
+                      "situation"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "feldtyp": {
+                        "enum": [
+                          "auswahl",
+                          "mehrfachauswahl"
+                        ]
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "codeWerte"
+                    ],
+                    "properties": {
+                      "codeWerte": {
+                        "minItems": 1
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "feldtyp": {
+                        "const": "verweis"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "ziel"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "quelle": {
+                        "const": "depot"
+                      }
+                    },
+                    "required": [
+                      "quelle"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "depotSchema"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "not": {
+                      "properties": {
+                        "quelle": {
+                          "const": "depot"
+                        }
+                      },
+                      "required": [
+                        "quelle"
+                      ]
+                    }
+                  },
+                  "then": {
+                    "not": {
+                      "required": [
+                        "depotSchema"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "codeListen": {
+            "description": "U2-ADR-051 (Reise-als-Daten): eigene Code-Listen des Templates. Ein Feld referenziert sie über codeSystem = systemId; die App namespaced auf tpl_<slug> (App-Listen strukturell unbeschattbar; Template-gegen-Template gewinnt die erste). Lizenzverantwortung für mitgelieferte Codes liegt beim Template-Anbieter; die Liste reist im templateJws mitsigniert.",
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "systemId",
+                "eintraege"
+              ],
+              "properties": {
+                "systemId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 120
+                },
+                "uri": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "kuerzel": {
+                  "type": "string"
+                },
+                "lizenz": {
+                  "type": "string"
+                },
+                "eintraege": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "code",
+                      "anzeige"
+                    ],
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "anzeige": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "synonym": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "ankerTauglich": {
+            "description": "ENTFALLEN am 20.08.2026 (Produktentscheidung). Wird vom Erzeuger nicht mehr geschrieben und von keiner Lese-Seite ausgewertet. Bleibt hier, damit BEREITS SIGNIERTE Bündel gültig bleiben: bei additionalProperties:false wäre das Streichen aus properties ein Bruch der Signatur-Kette.",
+            "type": "boolean"
+          },
+          "subTauglich": {
+            "description": "ENTFALLEN am 20.08.2026, s. ankerTauglich. Geduldet und ignoriert, nicht verlangt.",
+            "type": "boolean"
+          },
+          "sorgerechtTauglich": {
+            "description": "ENTFALLEN am 20.08.2026. Eigener Grund: eine Institution WEISS, dass sie ein Elternteil anschreibt — nur richtet das Häkchen nichts aus. Wem ein Wert gehört, entscheidet sich daran, in welches Depot eingelesen wird, und das entscheidet der Mensch beim Import.",
+            "type": "boolean"
+          },
+          "wortlaut": {
+            "description": "1E (signierte Standard-Vorlage): unveränderter amtlicher Wortlaut (amtliches Werk § 5 UrhG), EIN zusammenhängender Block. Optional/additiv, getrennt von `felder` (Eingabestruktur) und von Hilfetext. Im templateJws automatisch mitsigniert.",
+            "type": "string",
+            "maxLength": 60000
+          },
+          "wortlautQuelle": {
+            "description": "1E: Herkunft + Lizenz des amtlichen Wortlauts. Empfänger-seitig Pflicht, wenn `wortlaut` gesetzt ist (validateTemplate).",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "behoerde",
+              "titel",
+              "lizenz"
+            ],
+            "properties": {
+              "behoerde": {
+                "type": "string",
+                "minLength": 1
+              },
+              "titel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "stand": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "lizenz": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "wortlautQuelleBroschuere": {
+            "description": "1E: optionale zweite Quelle — die übergeordnete Broschüre/das Portal, aus dem der Wortlaut stammt (Behörde/Titel/URL). Additiv; im templateJws mitsigniert.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "behoerde",
+              "titel",
+              "url"
+            ],
+            "properties": {
+              "behoerde": {
+                "type": "string",
+                "minLength": 1
+              },
+              "titel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "vorlageId": {
+            "description": "Kette Auftrag 6 Zug 2 (20.08.2026): stabile Kennung DIESER Vorlage beim Anbieter. Zusammen mit anbieterId ist sie die IDENTITAET der Vorlage — ueber den Wortlaut zu deduplizieren hiess: eine geaenderte Fassung war eine NEUE Vorlage, und die alte blieb daneben stehen.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "version": {
+            "description": "Kette Auftrag 6 Zug 2: Fassung dieser Vorlage. Eine hoehere Fassung AKTUALISIERT die angedockte (Definitionen aendern sich, eingetragene Werte bleiben); eine gleiche oder aeltere wird abgewiesen und benannt.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "gueltigBis": {
+            "description": "Kette Auftrag 6 Zug 4: die Untergrenze ohne jede Rueckverbindung. Nach diesem Datum sagt das Dokument, dass die Vorlage abgelaufen ist — die eingetragenen Werte bleiben. Ohne Angabe: unbefristet.",
+            "type": "string",
+            "format": "date"
+          },
+          "widerruf": {
+            "description": "Kette Auftrag 6 Zug 4: der Widerruf reist mit der naechsten Aktualisierung mit, ueber denselben Mechanismus wie Zug 2 — kein zweiter Weg. Er NENNT DEN GRUND und LOESCHT KEINE WERTE: die Definition ist falsch, nicht das, was der Mensch eingetragen hat.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "grund"
+            ],
+            "properties": {
+              "grund": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 300
+              }
+            }
+          },
+          "dokument": {
+            "description": "Kette Auftrag 6 Zug 1: WELCHE Felder in WELCHER Anordnung das fertige Blatt traegt — mit Ueberschriften, Reihenfolge und erklaerendem Text. An diesem Zug haengen fuenfzehn der dreissig herausgenommenen Inhalte. Es erfindet KEIN Format: die Abschnitte gehen in dieselbe Ausgabeschicht wie die vier amtlichen Vorsorge-Dokumente.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "abschnitte"
+            ],
+            "properties": {
+              "titel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "abschnitte": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "titel": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "description": "Erklaerender Satz vor den Feldern des Abschnitts.",
+                      "type": "string"
+                    },
+                    "felder": {
+                      "description": "Feldnamen (oder Feld-Ids) in der Reihenfolge, in der sie auf dem Blatt stehen.",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templatesJws": {
+      "description": "Trust-1B Schritt 3, Schnitt 24.08.2026 (A523/Sammelvorlagen): je Eintrag in `templates[]` eine eigene JWS-Signatur des Anbieters ueber genau dieses Template-Objekt, an derselben Stelle im Array (Index-gleich). Ersetzt das vormals einzelne `templateJws`. Additiv am Leseweg: eine Alt-Submission mit `templateJws` (String) wird als `templatesJws: [templateJws]` normalisiert. Fehlt ein Eintrag (kuerzeres Array oder Luecke durch null), gilt das zugehoerige Template als PLAIN und wird ohne gueltige Signatur verworfen (die cert-attestierten Werte laufen weiter) -- dieselbe Regel wie zuvor, jetzt pro Template statt pro Submission. Die Buerger-App prueft jeden Eintrag einzeln gegen publicKeyJwk des TA-zertifizierten Provider-Credentials.",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "kennungVorschlaege": {
+      "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag OHNE Vorlage drumherum -- die fünfte Ausgabeart neben `templates`, gebaut nach dem Muster von `codeListen` (U2-ADR-051). Mindestens `templates` oder `kennungVorschlaege` ist Pflicht (s. `anyOf` auf oberster Ebene). Die Prüfung gegen den bestehenden Katalog (Dublette, auch gegen inaktivierte Kennungen) läuft NICHT hier -- das leistet `tools/kennung-vorschlag-pruefen.js` gegen den erzeugten Feldkatalog, den dieses Schema nicht kennt.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kennung", "label", "begruendung"],
+        "properties": {
+          "kennung": {
+            "description": "Die vorgeschlagene Kennung. ASCII, englisch in lowerCamelCase, Form <bereich>.<name> bzw. <bereich>.<listenfeld>/<unterfeld> (Kennungs-Umbau „Englisch vor v1“, 13.09.2026 — überholt U2-ADR-409 Punkt 12). Der Bereich muss einer der dreizehn bestehenden sein (Punkt 8) -- über die tatsächliche Zuordnung entscheidet die Freigabe, nicht die Einreichung.",
+            "type": "string",
+            "pattern": "^(identity|people|mobility|finance|assets|health|education|socialInsurance|advanceCare|administration|housing|emergencyPreparedness|personal)\\.[a-z][a-zA-Z0-9]*(/[a-z][a-zA-Z0-9]*)?$"
+          },
+          "label": {
+            "description": "Beschriftung je Sprache, Pflicht in beiden (U2-ADR-409 Punkt 12).",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["de", "en"],
+            "properties": {
+              "de": { "type": "string", "minLength": 1 },
+              "en": { "type": "string", "minLength": 1 }
+            }
+          },
+          "begruendung": {
+            "description": "Wofür die Angabe steht, wer sie braucht und wozu -- die Unterscheidung, die den Vorgang vom 30.08.2026 entschied (dauerhafte Tatsache über die Bürgerin vs. fallspezifische Frage, U2-ADR-409 Punkt 3).",
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 1000
+          }
+        }
+      }
+    }
+  }
+}

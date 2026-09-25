@@ -1,0 +1,17 @@
+/* FIXTURE für tests/eine-leseart-waechter.test.js — KEIN lauffähiges Werkzeug.
+   Endung .txt, damit weder die Suite noch der Wächter es als Werkzeug einsammelt.
+
+   Diese Datei ist der ANKER der Positivkontrolle und bildet den Fall nach, an dem der
+   Wächter im ersten Anlauf zerbrach: ein Regex-Literal mit einem Apostroph darin, VOR der
+   echten Lesestelle. Der erste Anlauf las das `'` als String-Anfang und verdarb alles
+   danach — die Lesestelle unten verschwand, und er meldete „liest es nicht mehr".
+
+   WARUM EIN FIXTURE UND NICHT EINE ECHTE DATEI: die Positivkontrolle hing zuerst an
+   `gueltigkeitsbeginn-messen.js`. Dieselbe Kampagne, die den Wächter baute, hat diese Datei
+   dann gezogen — und die Kontrolle fiel, weil ihr Anker sich unter ihr wegbewegte. Ein
+   Anker, der sich ändern DARF, ist kein Anker. */
+const treffer = /if \(feld\.typ !== 'datum' && !mitMarke\) return '';/.test(text);
+const zweiter = /data-gueltig-von="' \+ bezug/.test(text);
+for (const s of V.SEKTOREN) {
+  raus[s.id] = s.label;
+}

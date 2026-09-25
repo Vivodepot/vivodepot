@@ -1,0 +1,1398 @@
+{
+ "_zweck": "Eingefrorener Bestand der zehn SITUATIONEN in der Lese-App vor dem Abriss des generierten Blocks (SIT2a, 19.09.2026). Verlust verboten, Wachstum erlaubt.",
+ "situationen": [
+  {
+   "id": "geburt",
+   "icon": "baby",
+   "modus": "eigen",
+   "titel": "Bei der Geburt eines Kindes",
+   "einfuehrung": "Was rund um die Geburt zu regeln ist — und wo die Unterlagen hingehören. Für das Kind lässt sich ein eigenes, getrennt verschlüsseltes Depot anlegen — der Knopf dafür sitzt im Bereich „Meine Menschen“ bei der Kinder-Liste, sobald das Kind dort eingetragen ist.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "identity",
+       "feld": "givenName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "familyName"
+      },
+      {
+       "quelle": "people",
+       "feld": "childrenAndDependants"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "rund-um-die-geburt",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "geburt_datum",
+        "typ": "datum",
+        "keineZukunft": true,
+        "label": "Geburtsdatum des Kindes"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_klinik",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Geburtsklinik / Geburtsort",
+        "beispiel": "Klinikum Großhadern, München"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_hebamme",
+        "sensibel": true,
+        "typ": "ref",
+        "entitaet": "person",
+        "label": "Hebamme — Name & Kontakt"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_urkunde",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Geburtsurkunde — beantragt / Ablageort",
+        "beispiel": "beim Standesamt beantragt; Ordner „Kind“"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_elterngeld",
+        "typ": "text",
+        "label": "Elterngeld — Antrag",
+        "beispiel": "Antrag bei der Elterngeldstelle gestellt 06/2026"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_kindergeld",
+        "typ": "text",
+        "label": "Kindergeld — Familienkasse",
+        "beispiel": "Antrag bei der Familienkasse; Kindergeld-Nr. folgt"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_elternzeit",
+        "typ": "text",
+        "label": "Elternzeit — geplant",
+        "beispiel": "12 Monate, Arbeitgeber informiert"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_kind_kv",
+        "sensibel": true,
+        "typ": "auswahl",
+        "fristRegel": {
+         "abFeld": "geburt_datum",
+         "dauer": "P2M",
+         "quelle": "§ 198 Abs. 1 VVG"
+        },
+        "optionen": [
+         {
+          "wert": "familienversicherung_gesetzlich",
+          "label": "Familienversicherung gesetzlich"
+         },
+         {
+          "wert": "anderer_elternteil",
+          "label": "beim anderen Elternteil"
+         },
+         {
+          "wert": "eigene_privat",
+          "label": "eigene private Versicherung"
+         }
+        ],
+        "label": "Krankenversicherung des Kindes"
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_kind_kv_frueher",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Krankenversicherung des Kindes — frühere Angabe",
+        "hint": "Automatisch übernommen, weil die alte Angabe keinem Katalogwert eindeutig entsprach."
+       }
+      },
+      {
+       "feld": {
+        "id": "geburt_vaterschaft",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Vaterschaftsanerkennung — Ablageort",
+        "hint": "Bei unverheirateten Eltern: ohne Anerkennung kein gemeinsames Sorgerecht.",
+        "beispiel": "beim Jugendamt; Kopie Ordner „Kind“"
+       }
+      }
+     ],
+     "titel": "Rund um die Geburt"
+    }
+   ]
+  },
+  {
+   "id": "volljaehrig",
+   "icon": "user",
+   "modus": "eigen",
+   "titel": "Bei Volljährigkeit oder Auszug",
+   "einfuehrung": "Mit 18 oder beim ersten eigenen Zuhause wird vieles zum ersten Mal selbst geregelt — hier sammeln Sie, was ansteht und wo die Unterlagen liegen. Ein eigenes Depot kann das Kind mit der Volljährigkeit selbst mitnehmen: die Eltern geben die verschlüsselte Datei heraus, das Kind öffnet sie wie ein normales Depot über „Schon ein Depot? Datei öffnen“ und setzt in den Einstellungen ein eigenes Passwort — ohne weitere Mitwirkung der Eltern. Die Kopie bei den Eltern bleibt dabei mit dem alten Passwort lesbar; das Mitnehmen entwertet sie nicht.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "identity",
+       "feld": "givenName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "familyName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "birthDate"
+      },
+      {
+       "quelle": "identity",
+       "feld": "idDocuments"
+      },
+      {
+       "quelle": "identity",
+       "feld": "streetAddress"
+      },
+      {
+       "quelle": "identity",
+       "feld": "postcodeCity"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "rund-um-volljaehrigkeit-auszug",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "vj_ummeldung",
+        "typ": "text",
+        "label": "Ummeldung beim Einwohnermeldeamt",
+        "beispiel": "Termin Bürgerbüro 12.07.; ummelden binnen zwei Wochen"
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_mietvertrag",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Mietvertrag — Vermieter & Ablageort",
+        "beispiel": "Vermieterin Frau Berg; Vertrag im Ordner „Wohnung“"
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_konto",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Eigenes Bankkonto — Bank & Unterlagen",
+        "beispiel": "Girokonto Sparkasse; Karte und PIN getrennt"
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_krankenversicherung",
+        "sensibel": true,
+        "typ": "auswahl",
+        "optionen": [
+         {
+          "wert": "familienversicherung",
+          "label": "Familienversicherung"
+         },
+         {
+          "wert": "eigene_gesetzlich",
+          "label": "eigene gesetzliche"
+         },
+         {
+          "wert": "privat",
+          "label": "private"
+         },
+         {
+          "wert": "studentisch",
+          "label": "studentische Versicherung"
+         }
+        ],
+        "label": "Krankenversicherung — eigene oder Familienversicherung"
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_krankenversicherung_frueher",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Krankenversicherung — frühere Angabe",
+        "hint": "Automatisch übernommen, weil die alte Angabe keinem Katalogwert eindeutig entsprach."
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_ausbildung",
+        "typ": "text",
+        "label": "Ausbildung / Studium — Förderung (BAföG)",
+        "beispiel": "Studium ab 10/2026; BAföG-Antrag gestellt"
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_versicherungen",
+        "typ": "text",
+        "vorschlaege": [
+         "Haftpflichtversicherung",
+         "Hausratversicherung",
+         "Rechtsschutzversicherung",
+         "Unfallversicherung",
+         "Berufsunfähigkeitsversicherung",
+         "Kfz-Versicherung"
+        ],
+        "label": "Eigene Versicherungen",
+        "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — frei eintragen bleibt möglich.",
+        "beispiel": "Privathaftpflicht eigener Vertrag; Hausrat für die Wohnung"
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_rundfunk",
+        "typ": "text",
+        "label": "Rundfunkbeitrag — eigener Haushalt",
+        "beispiel": "Wohnung angemeldet; Beitragsnummer notiert"
+       }
+      },
+      {
+       "feld": {
+        "id": "vj_vorsorge",
+        "typ": "text",
+        "label": "Vollmacht & Patientenverfügung",
+        "hint": "Ab 18 entscheidet niemand mehr automatisch für Sie — auch nicht die Eltern. Eine Vollmacht regelt, wer im Ernstfall handeln darf.",
+        "beispiel": "Vorsorgevollmacht für die Eltern hinterlegt"
+       }
+      }
+     ],
+     "titel": "Rund um Volljährigkeit & Auszug"
+    }
+   ]
+  },
+  {
+   "id": "hauskauf",
+   "icon": "home",
+   "modus": "eigen",
+   "titel": "Beim Hauskauf oder einer Heirat",
+   "einfuehrung": "Zwei große Schritte, die oft zusammenfallen — ein eigenes Zuhause und eine Heirat. Hier sammeln Sie, was beim Notar, beim Standesamt und bei der Bank zu regeln ist.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "identity",
+       "feld": "givenName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "familyName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "maritalStatus"
+      },
+      {
+       "quelle": "identity",
+       "feld": "birthName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "maritalPropertyRegime"
+      },
+      {
+       "quelle": "identity",
+       "feld": "choiceOfNameAfterMarriage"
+      },
+      {
+       "quelle": "housing",
+       "feld": "ownedOrRented"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "rund-um-den-hauskauf",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "hk_notartermin",
+        "typ": "text",
+        "label": "Notartermin für den Kaufvertrag",
+        "beispiel": "Notariat Dr. Kessler, 18.08. 10 Uhr"
+       }
+      },
+      {
+       "feld": {
+        "id": "hk_kaufvertrag",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Kaufvertrag — Ablageort",
+        "beispiel": "Ordner „Haus“; Kopie auch digital"
+       }
+      },
+      {
+       "feld": {
+        "id": "hk_finanzierung",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Finanzierung / Darlehen — Bank & Nummer",
+        "beispiel": "Sparkasse; Darlehensnummer 4711, Rate ab 09/2026"
+       }
+      },
+      {
+       "feld": {
+        "id": "hk_grundbuch",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Grundbuch & Grundschuld",
+        "beispiel": "Grundbuch Amtsgericht München, Blatt 1234; Grundschuld eingetragen"
+       }
+      },
+      {
+       "feld": {
+        "id": "hk_nebenkosten",
+        "typ": "text",
+        "label": "Kaufnebenkosten",
+        "beispiel": "Grunderwerbsteuer, Notar, Makler — rund 12 % bedacht"
+       }
+      },
+      {
+       "feld": {
+        "id": "hk_gebaeudeversicherung",
+        "typ": "text",
+        "label": "Wohngebäudeversicherung",
+        "hint": "Banken verlangen die Wohngebäudeversicherung meist vor der Auszahlung des Darlehens.",
+        "beispiel": "Police bei Versicherung abgeschlossen; Ablage Ordner „Haus“"
+       }
+      }
+     ],
+     "titel": "Rund um den Hauskauf"
+    },
+    {
+     "id": "rund-um-die-heirat",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "heirat_standesamt",
+        "typ": "text",
+        "label": "Standesamt — Termin & Unterlagen",
+        "beispiel": "Standesamt München, 12.09.; Geburtsurkunden besorgt"
+       }
+      },
+      {
+       "feld": {
+        "id": "heirat_name_frueher",
+        "typ": "text",
+        "label": "Namenswahl — frühere Angabe (entfallenes Feld)",
+        "hint": "Automatisch übernommen aus einem entfallenen Feld. Die aktuelle Namenswahl steht jetzt unter Identität (oben gezogen). Steht hier ein tatsächlicher Name, gehört er unter Identität in die Liste „Frühere Namen“ — dieses Feld ist ein Verweis, kein zweiter Namens-Ort."
+       }
+      },
+      {
+       "feld": {
+        "id": "heirat_ehevertrag_vorhanden",
+        "typ": "auswahl",
+        "optionen": [
+         {
+          "wert": "ja",
+          "label": "ja"
+         },
+         {
+          "wert": "nein",
+          "label": "nein"
+         }
+        ],
+        "label": "Ehevertrag vorhanden?"
+       }
+      },
+      {
+       "feld": {
+        "id": "heirat_ehevertrag_ort",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Ehevertrag — Ablageort",
+        "beispiel": "Ordner „Vorsorge“"
+       }
+      },
+      {
+       "feld": {
+        "id": "heirat_ehevertrag_frueher",
+        "typ": "text",
+        "label": "Ehevertrag / Güterstand — frühere Angabe",
+        "hint": "Automatisch übernommen. Nennt die alte Angabe einen Güterstand: er steht bereits im Bereich Identität — dorthin wird verwiesen, nicht kopiert."
+       }
+      },
+      {
+       "feld": {
+        "id": "heirat_ummeldungen",
+        "typ": "text",
+        "label": "Ummeldungen nach der Heirat",
+        "beispiel": "Ausweis, Bank, Versicherungen, Steuerklasse anpassen"
+       }
+      }
+     ],
+     "titel": "Rund um die Heirat"
+    }
+   ]
+  },
+  {
+   "id": "notar",
+   "icon": "scale",
+   "modus": "eigen",
+   "titel": "Beim Notar oder bei der Bank",
+   "einfuehrung": "Ein Termin beim Notar oder bei der Bank steht an — für eine Vollmacht, ein Testament oder den Zugang zu Ihren Konten. Hier sehen Sie, was schon hinterlegt ist, und sammeln, was Sie mitnehmen und regeln müssen.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:vorsorgevollmacht"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "provisionInstruments"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:testament"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "liste:provisionInstruments:testament:storageLocation"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:betreuungsverfuegung"
+      },
+      {
+       "quelle": "finance",
+       "feld": "accounts"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "beim-notar",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "notar_termin",
+        "typ": "text",
+        "label": "Notartermin — Datum & Notariat",
+        "beispiel": "Notariat Dr. Kessler, 18.08. 10 Uhr"
+       }
+      },
+      {
+       "feld": {
+        "id": "notar_anliegen",
+        "typ": "text",
+        "label": "Anliegen",
+        "beispiel": "Vorsorgevollmacht beurkunden; Testament aufsetzen"
+       }
+      },
+      {
+       "feld": {
+        "id": "notar_unterlagen",
+        "typ": "text",
+        "label": "Mitzubringende Unterlagen",
+        "beispiel": "Personalausweis, Vermögensübersicht, ggf. Grundbuchauszug"
+       }
+      },
+      {
+       "feld": {
+        "id": "notar_urkunde",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Beurkundetes — Ablageort der Urkunde",
+        "hint": "Notariell beurkundete Vollmachten und Testamente werden oft beim Notar verwahrt und ins Zentrale Vorsorgeregister eingetragen.",
+        "beispiel": "Original beim Notar; Ausfertigung im Ordner „Vorsorge“"
+       }
+      }
+     ],
+     "titel": "Beim Notar"
+    },
+    {
+     "id": "bei-der-bank",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "bank_termin",
+        "typ": "text",
+        "label": "Banktermin — Filiale & Berater",
+        "beispiel": "Sparkasse Sendling, Frau Berg, 21.08."
+       }
+      },
+      {
+       "feld": {
+        "id": "bank_vollmacht",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Bank- / Kontovollmacht",
+        "hint": "Eine Bankvollmacht „über den Tod hinaus“ erspart Angehörigen den Erbschein für den Zugriff aufs Konto.",
+        "beispiel": "Konto-Vollmacht für die Tochter, über den Tod hinaus"
+       }
+      },
+      {
+       "feld": {
+        "id": "bank_schliessfach",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Bankschließfach — Zugang & Schlüssel",
+        "beispiel": "Fach 214; Schlüssel in der Flurschublade"
+       }
+      },
+      {
+       "feld": {
+        "id": "bank_anliegen",
+        "typ": "text",
+        "label": "Anliegen",
+        "beispiel": "Daueraufträge prüfen; Wertpapierdepot, Zugang ordnen"
+       }
+      }
+     ],
+     "titel": "Bei der Bank"
+    }
+   ]
+  },
+  {
+   "id": "arzt",
+   "icon": "stethoscope",
+   "modus": "eigen",
+   "titel": "Vor einem Arzttermin",
+   "einfuehrung": "Vor dem Termin alles beisammen: was Sie fragen wollen, was Sie mitnehmen — und was schon hinterlegt ist: Medikamente, Diagnosen, Versicherung.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "health",
+       "feld": "generalPractitioner"
+      },
+      {
+       "quelle": "health",
+       "feld": "ongoingTreatmentNext"
+      },
+      {
+       "quelle": "health",
+       "feld": "chronicConditionsDiagnoses"
+      },
+      {
+       "quelle": "health",
+       "feld": "allergiesMedicationFoodOther"
+      },
+      {
+       "quelle": "health",
+       "feld": "medicationOngoing"
+      },
+      {
+       "quelle": "health",
+       "feld": "healthInsurance"
+      },
+      {
+       "quelle": "health",
+       "feld": "insuranceNumber"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "fuer-den-arzttermin",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "arzt_termin",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Termin — Datum, Praxis, Arzt",
+        "beispiel": "Dr. Vogel, Kardiologie, 14.07. 9:30 Uhr"
+       }
+      },
+      {
+       "feld": {
+        "id": "arzt_anliegen",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Anliegen / Beschwerden",
+        "beispiel": "Herzstolpern seit drei Wochen, abends Atemnot"
+       }
+      },
+      {
+       "feld": {
+        "id": "arzt_fragen",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Meine Fragen an die Ärztin / den Arzt",
+        "beispiel": "Kann ich das neue Medikament mit Ramipril kombinieren?"
+       }
+      },
+      {
+       "feld": {
+        "id": "arzt_mitbringen",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Mitzubringen",
+        "beispiel": "Überweisung, Medikamentenplan, Vorbefunde, Versichertenkarte"
+       }
+      },
+      {
+       "feld": {
+        "id": "arzt_begleitung",
+        "typ": "text",
+        "label": "Begleitung",
+        "hint": "Eine Begleitperson hilft, sich an alles zu erinnern — gerade bei wichtigen Gesprächen.",
+        "beispiel": "Tochter Anna kommt mit"
+       }
+      },
+      {
+       "feld": {
+        "id": "arzt_ergebnis",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Ergebnis & nächste Schritte",
+        "beispiel": "neues Rezept; Kontroll-EKG in 4 Wochen; Überweisung Radiologie"
+       }
+      }
+     ],
+     "titel": "Für den Arzttermin"
+    }
+   ]
+  },
+  {
+   "id": "einfach-so",
+   "icon": "star",
+   "modus": "eigen",
+   "titel": "Einfach so — weil es Zeit wird",
+   "einfuehrung": "Kein besonderer Anlass — einfach, weil es Zeit wird. Das Wichtigste auf einen Blick; fangen Sie an, wo Sie möchten — jede Zeile bringt Sie in den passenden Bereich.",
+   "bloecke": [
+    {
+     "id": "wer-sie-sind",
+     "eintraege": [
+      {
+       "quelle": "identity",
+       "feld": "givenName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "familyName"
+      },
+      {
+       "quelle": "identity",
+       "feld": "birthDate"
+      },
+      {
+       "quelle": "identity",
+       "feld": "streetAddress"
+      },
+      {
+       "quelle": "identity",
+       "feld": "postcodeCity"
+      }
+     ],
+     "titel": "Wer Sie sind"
+    },
+    {
+     "id": "im-ernstfall-wichtig",
+     "eintraege": [
+      {
+       "quelle": "people",
+       "feld": "menschen"
+      },
+      {
+       "quelle": "health",
+       "feld": "generalPractitioner"
+      },
+      {
+       "quelle": "health",
+       "feld": "allergiesMedicationFoodOther"
+      },
+      {
+       "quelle": "health",
+       "feld": "medicationOngoing"
+      },
+      {
+       "quelle": "health",
+       "feld": "bloodType"
+      },
+      {
+       "quelle": "health",
+       "feld": "healthInsurance"
+      },
+      {
+       "quelle": "administration",
+       "feld": "passwordManager"
+      }
+     ],
+     "titel": "Im Ernstfall wichtig"
+    },
+    {
+     "id": "was-geregelt-sein-sollte",
+     "eintraege": [
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:vorsorgevollmacht"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:patientenverfuegung"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:testament"
+      },
+      {
+       "quelle": "finance",
+       "feld": "accounts"
+      }
+     ],
+     "titel": "Was geregelt sein sollte"
+    }
+   ]
+  },
+  {
+   "id": "krankenhaus",
+   "icon": "heartPulse",
+   "modus": "eigen",
+   "titel": "Vor einem Krankenhaus-Aufenthalt",
+   "einfuehrung": "Ein Klinik-Aufenthalt steht an. Hier liegt beisammen, was die Klinik wissen muss — und was Sie regeln, bevor Sie gehen: Tasche, Zuhause, Ansprechpartner.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "health",
+       "feld": "chronicConditionsDiagnoses"
+      },
+      {
+       "quelle": "health",
+       "feld": "allergiesMedicationFoodOther"
+      },
+      {
+       "quelle": "health",
+       "feld": "medicationOngoing"
+      },
+      {
+       "quelle": "health",
+       "feld": "bloodType"
+      },
+      {
+       "quelle": "health",
+       "feld": "implantsProsthesesPacemakers"
+      },
+      {
+       "quelle": "health",
+       "feld": "healthInsurance"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:patientenverfuegung"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "liste:provisionInstruments:patientenverfuegung:storageLocation"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "provisionInstruments"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "fuer-den-aufenthalt",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "kh_termin",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Aufnahme — Datum, Klinik, Station",
+        "beispiel": "Klinikum Großhadern, Station C2, Aufnahme 12.08."
+       }
+      },
+      {
+       "feld": {
+        "id": "kh_grund",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Grund / geplanter Eingriff",
+        "beispiel": "Hüft-OP rechts; Voruntersuchung war 05.08."
+       }
+      },
+      {
+       "feld": {
+        "id": "kh_tasche",
+        "typ": "text",
+        "label": "Kliniktasche — was mitkommt",
+        "beispiel": "Ausweis, Versichertenkarte, Medikamentenplan, Patientenverfügung, Kulturbeutel, Ladekabel"
+       }
+      },
+      {
+       "feld": {
+        "id": "kh_zuhause",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Zuhause regeln während der Abwesenheit",
+        "beispiel": "Nachbarin gießt Blumen; Post & Katze versorgt; Schlüssel bei Anna"
+       }
+      },
+      {
+       "feld": {
+        "id": "kh_ansprechpartner",
+        "typ": "text",
+        "label": "Ansprechpartner — wer wird informiert",
+        "beispiel": "Tochter Anna 0151…; Station meldet sich bei ihr"
+       }
+      },
+      {
+       "feld": {
+        "id": "kh_entlassung",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Entlassung & Anschlussversorgung",
+        "hint": "Die Anschlussversorgung (Reha, Kurzzeitpflege, Hilfsmittel) wird oft schon im Krankenhaus über den Sozialdienst geregelt.",
+        "beispiel": "Reha beantragt; wer holt ab; Pflege für die erste Woche"
+       }
+      }
+     ],
+     "titel": "Für den Aufenthalt"
+    }
+   ]
+  },
+  {
+   "id": "pflegeheim",
+   "icon": "shield",
+   "modus": "eigen",
+   "titel": "Beim Einzug ins Pflegeheim",
+   "einfuehrung": "Der Einzug ins Pflegeheim ist ein großer Schritt. Hier liegt beisammen, was die Einrichtung und die Pflegekasse brauchen — und was rund um den Umzug zu regeln ist: Vertrag, Kosten, die alte Wohnung.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "socialInsurance",
+       "feld": "careLevel"
+      },
+      {
+       "quelle": "socialInsurance",
+       "feld": "careLevelSinceYear"
+      },
+      {
+       "quelle": "socialInsurance",
+       "feld": "degreeOfDisabilityGdb"
+      },
+      {
+       "quelle": "socialInsurance",
+       "feld": "longTermCareFund"
+      },
+      {
+       "quelle": "health",
+       "feld": "chronicConditionsDiagnoses"
+      },
+      {
+       "quelle": "health",
+       "feld": "medicationOngoing"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:betreuungsverfuegung"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "provisionInstruments"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "fuer-den-einzug",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "ph_einrichtung",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Einrichtung — Name & Adresse",
+        "beispiel": "Caritas-Seniorenheim, München-Schwabing"
+       }
+      },
+      {
+       "feld": {
+        "id": "ph_einzug",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Einzugstermin & Zimmer",
+        "beispiel": "Einzug 01.09., Zimmer 214"
+       }
+      },
+      {
+       "feld": {
+        "id": "ph_kosten",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Heimkosten & Finanzierung",
+        "hint": "Reicht das Einkommen für den Eigenanteil nicht, springt „Hilfe zur Pflege“ beim Sozialamt ein — Antrag frühzeitig stellen.",
+        "beispiel": "Eigenanteil ~2.400 EUR; Pflegekasse-Zuschuss; ggf. Hilfe zur Pflege beim Sozialamt"
+       }
+      },
+      {
+       "feld": {
+        "id": "ph_heimvertrag",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Heimvertrag — Ablageort",
+        "beispiel": "Ordner „Pflege“; Kopie bei der Tochter"
+       }
+      },
+      {
+       "feld": {
+        "id": "ph_mitnahme",
+        "typ": "text",
+        "label": "Was mitkommt",
+        "beispiel": "Lieblingssessel, Fotos, Hörgerät, Rollator; Wäsche mit Namen"
+       }
+      },
+      {
+       "feld": {
+        "id": "ph_wohnung",
+        "typ": "text",
+        "label": "Bisherige Wohnung — was damit geschieht",
+        "beispiel": "Mietwohnung zum 30.09. gekündigt; Auflösung über die Familie"
+       }
+      },
+      {
+       "feld": {
+        "id": "ph_ansprechpartner",
+        "typ": "text",
+        "label": "Ansprechpartner im Heim",
+        "beispiel": "Bezugspflegekraft Frau Sauer; Heimleitung Herr Klein"
+       }
+      }
+     ],
+     "titel": "Für den Einzug"
+    }
+   ]
+  },
+  {
+   "id": "erbfall",
+   "icon": "fileText",
+   "modus": "eigen",
+   "titel": "Im Erbfall",
+   "einfuehrung": "Im Erbfall müssen Angehörige vieles zugleich regeln — und finden oft nicht, was sie brauchen. Hier legen Sie es ihnen geordnet hin: was schon entschieden ist, wo die Papiere liegen, welche Verträge enden und wen man informieren muss.",
+   "bloecke": [
+    {
+     "id": "aus-ihren-bereichen",
+     "eintraege": [
+      {
+       "quelle": "advanceCare",
+       "feld": "instrument:testament"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "liste:provisionInstruments:testament:storageLocation"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "heirsBriefOverview"
+      },
+      {
+       "quelle": "advanceCare",
+       "feld": "liste:provisionInstruments:vorsorgevollmacht:centralRegisterOfPowersOf"
+      },
+      {
+       "quelle": "personal",
+       "feld": "typeOfFuneral"
+      },
+      {
+       "quelle": "personal",
+       "feld": "funeralHome"
+      },
+      {
+       "quelle": "personal",
+       "feld": "preferredLocationGraveUrnSite"
+      },
+      {
+       "quelle": "personal",
+       "feld": "personalBelongingsWishes"
+      },
+      {
+       "quelle": "finance",
+       "feld": "accounts"
+      }
+     ],
+     "titel": "Aus Ihren Bereichen"
+    },
+    {
+     "id": "die-ersten-schritte",
+     "eintraege": [
+      {
+       "feld": {
+        "id": "erb_sterbedatum",
+        "typ": "datum",
+        "keineZukunft": true,
+        "label": "Sterbedatum"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_sterbeurkunde",
+        "typ": "text",
+        "fristRegel": {
+         "abFeld": "erb_sterbedatum",
+         "dauer": "P3WERKTAGE",
+         "quelle": "§ 28 PStG"
+        },
+        "label": "Sterbeurkunde — wie viele, wofür",
+        "beispiel": "mehrere Ausfertigungen beim Standesamt; für Banken, Versicherer, Rente"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_erbschein",
+        "typ": "auswahl",
+        "optionen": [
+         {
+          "wert": "nicht_noetig",
+          "label": "nicht nötig"
+         },
+         {
+          "wert": "noetig",
+          "label": "nötig"
+         },
+         {
+          "wert": "beantragt",
+          "label": "beantragt"
+         },
+         {
+          "wert": "erteilt",
+          "label": "erteilt"
+         }
+        ],
+        "label": "Erbschein — nötig / beantragt?",
+        "hint": "Mit einer Bankvollmacht über den Tod hinaus oder einem notariellen Testament ist oft kein Erbschein nötig."
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_erbschein_frueher",
+        "typ": "text",
+        "label": "Erbschein — frühere Angabe",
+        "hint": "Automatisch übernommen, weil die alte Angabe keinem Katalogwert eindeutig entsprach."
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_testament_eroeffnung",
+        "typ": "text",
+        "label": "Testamentseröffnung — Nachlassgericht",
+        "beispiel": "Amtsgericht München, Nachlassgericht"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_nachlassgericht",
+        "typ": "text",
+        "label": "Zuständiges Nachlassgericht",
+        "beispiel": "Amtsgericht am letzten Wohnsitz"
+       }
+      }
+     ],
+     "titel": "Die ersten Schritte"
+    },
+    {
+     "id": "wo-die-originale-liegen",
+     "klappbar": true,
+     "eintraege": [
+      {
+       "feld": {
+        "id": "erb_originaldokumente",
+        "sensibel": true,
+        "typ": "textarea",
+        "label": "Wichtige Originale — Ablageort",
+        "beispiel": "Ordner „Wichtiges“ im Wohnzimmerschrank: Testament, Urkunden, Verträge"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_stammbuch",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Familienstammbuch — Ablageort",
+        "beispiel": "Schreibtisch, untere Schublade"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_personenstand",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Geburts-/Heiratsurkunde — Ablageort",
+        "beispiel": "Mappe „Urkunden“; benötigt fürs Nachlassgericht"
+       }
+      }
+     ],
+     "titel": "Wo die Originale liegen"
+    },
+    {
+     "id": "versicherungen",
+     "klappbar": true,
+     "eintraege": [
+      {
+       "feld": {
+        "id": "erb_lebensversicherung",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Lebensversicherung — Anbieter & Police",
+        "hint": "Lebensversicherungen mit Bezugsberechtigten fallen oft nicht in den Nachlass — direkt beim Versicherer melden.",
+        "beispiel": "Allianz, Police 4711; Bezugsberechtigte: Tochter Anna"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_sterbegeld",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Sterbegeldversicherung",
+        "beispiel": "Monuta, Police 8820"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_unfallversicherung",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Unfall- / weitere Versicherungen",
+        "beispiel": "private Unfallversicherung; Risikolebensversicherung"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_versicherungen_kuendigen",
+        "typ": "textarea",
+        "label": "Laufende Versicherungen kündigen",
+        "beispiel": "Haftpflicht, Hausrat, Kfz — nach dem Todesfall kündigen oder umschreiben"
+       }
+      }
+     ],
+     "titel": "Versicherungen"
+    },
+    {
+     "id": "konten-vermoegen",
+     "klappbar": true,
+     "eintraege": [
+      {
+       "feld": {
+        "id": "erb_konten",
+        "sensibel": true,
+        "typ": "textarea",
+        "label": "Konten & Depots — Banken",
+        "beispiel": "Girokonto Sparkasse; Tagesgeld DKB; Depot ING — Zugang/Vollmacht im Bereich Finanzen"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_geldanlagen",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Bausparen, Fonds, Wertpapiere",
+        "beispiel": "Bausparvertrag LBS; Fondssparplan"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_immobilien",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Immobilien — Grundbuch & Belastungen",
+        "beispiel": "Eigentumswohnung München, Grundbuch Blatt 1234; Restdarlehen"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_schulden",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Schulden & Verbindlichkeiten",
+        "hint": "Erben treten auch in Schulden ein — Überblick erspart böse Überraschungen und ermöglicht die Frist für eine Ausschlagung.",
+        "beispiel": "Restkredit Hauskauf; Bürgschaft für die Tochter"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_schulden_kenntnis",
+        "typ": "datum",
+        "keineZukunft": true,
+        "marken": [
+         "frist"
+        ],
+        "fristRegel": {
+         "dauer": "P6W",
+         "quelle": "§ 1944 BGB"
+        },
+        "label": "Kenntnis vom Erbfall am",
+        "hint": "Nicht das Sterbedatum — der Zeitpunkt, zu dem Sie vom Erbfall UND vom Grund der Ausschlagung erfahren haben. Daraus errechnet sich die Ausschlagungsfrist."
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_wertgegenstaende",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Wertgegenstände & Verwahrorte",
+        "beispiel": "Schmuck im Bankschließfach; Münzsammlung im Schrank"
+       }
+      }
+     ],
+     "titel": "Konten & Vermögen"
+    },
+    {
+     "id": "vertraege-laufende-zahlungen",
+     "klappbar": true,
+     "eintraege": [
+      {
+       "feld": {
+        "id": "erb_vertraege_kuendigen",
+        "typ": "textarea",
+        "label": "Laufende Verträge kündigen",
+        "beispiel": "Strom, Gas, Telefon, Internet, Streaming, Zeitung, Verein, Fitnessstudio"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_wohnung",
+        "typ": "text",
+        "label": "Mietvertrag / Wohnung — Kündigung & Auflösung",
+        "beispiel": "Mietwohnung kündigen (Sonderkündigungsrecht); Haushaltsauflösung"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_renten",
+        "sensibel": true,
+        "typ": "text",
+        "label": "Renten & Versorgungsbezüge",
+        "hint": "Renten werden nach dem Sterbemonat oft zurückgefordert — Träger zügig informieren.",
+        "beispiel": "Deutsche Rentenversicherung + Betriebsrente informieren"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_digitales",
+        "sensibel": true,
+        "typ": "textarea",
+        "label": "Digitale Konten & Abos",
+        "beispiel": "E-Mail, Social Media (Gedenkzustand), Cloud, PayPal — schließen oder übertragen; Zugänge im Bereich Verwaltung"
+       }
+      }
+     ],
+     "titel": "Verträge & laufende Zahlungen"
+    },
+    {
+     "id": "kontakte-fuers-erbe",
+     "klappbar": true,
+     "eintraege": [
+      {
+       "feld": {
+        "id": "erb_notar",
+        "typ": "ref",
+        "entitaet": "person",
+        "label": "Notar / Nachlassverwalter — Kontakt"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_steuerberater",
+        "typ": "text",
+        "label": "Steuerberater — Erbschaftssteuer",
+        "beispiel": "Kanzlei Berg; für Erbschaftssteuererklärung"
+       }
+      },
+      {
+       "feld": {
+        "id": "erb_zu_informieren",
+        "typ": "textarea",
+        "label": "Wer ist zu informieren",
+        "beispiel": "Arbeitgeber, Krankenkasse, Versicherer, Vereine, Vermieter, Hausverwaltung"
+       }
+      }
+     ],
+     "titel": "Kontakte fürs Erbe"
+    }
+   ]
+  },
+  {
+   "id": "todesfall-uebernahme",
+   "icon": "fileText",
+   "modus": "eigen",
+   "titel": "Nach einem Todesfall",
+   "einfuehrung": "Nach einem Todesfall müssen Sie oft ein Depot übernehmen, das eine andere Person angelegt hat. Hier finden Sie die nötigen Schritte geordnet — was zu besorgen ist, wie Sie an die Daten kommen und was rechtlich zu beachten ist.",
+   "bloecke": [
+    {
+     "id": "die-ersten-unterlagen",
+     "eintraege": [],
+     "hint": "Besorgen Sie die Sterbeurkunde — sie wird für nahezu jeden weiteren Schritt gebraucht. Prüfen Sie außerdem, ob eine Vollmacht über den Tod hinaus vorliegt: Sie kann den Zugang zu Konten und Verträgen erheblich vereinfachen.",
+     "titel": "Die ersten Unterlagen"
+    },
+    {
+     "id": "ueberblick-verschaffen",
+     "eintraege": [],
+     "hint": "Verschaffen Sie sich einen Überblick, welche Sub-Depots die verstorbene Person verwaltet hat — etwa für Kinder oder andere ihr anvertraute Personen. Falls die verstorbene Person selbst Empfehlungen für die Nachfolge hinterlegt hat, stehen sie in ihren eigenen Unterlagen.",
+     "titel": "Überblick verschaffen"
+    },
+    {
+     "id": "ein-sub-depot-uebernehmen",
+     "eintraege": [],
+     "hint": "Ein Sub-Depot wird als verschlüsselte Datei übergeben und lässt sich in Ihre eigene Verwaltung aufnehmen, ohne dass die Datei neu verschlüsselt werden muss. Öffnen Sie dazu in Ihrem Depot die Übersicht „Verwaltete Depots“ (in der Seitenleiste) und wählen Sie dort „Depot einhängen“.",
+     "titel": "Ein Sub-Depot übernehmen"
+    },
+    {
+     "id": "ein-sub-depot-weitergeben",
+     "eintraege": [],
+     "hint": "Führen Sie selbst ein Sub-Depot, das jetzt an eine bevollmächtigte Person gehen soll, stehen in „Verwaltete Depots“ zwei Wege mit unterschiedlicher Folge. „Verschlüsselte Datei exportieren“ gibt eine Kopie heraus — Ihre eigene Verwaltung bleibt bestehen, ein erneuter Export ist jederzeit möglich. „Übergabe abgeschlossen — aus meiner Verwaltung entfernen“ mit der Wahl „Ich gebe es ab.“ löscht den Umschlag bei Ihnen — unumkehrbar, eine spätere Wiederaufnahme ist danach gesperrt.",
+     "titel": "Ein Sub-Depot weitergeben"
+    },
+    {
+     "id": "zugang-zu-den-daten",
+     "eintraege": [],
+     "hint": "Ein übergebenes Sub-Depot hängen Sie wie in Schritt 3 beschrieben in „Verwaltete Depots“ ein — die Datei bleibt dabei mit ihrem eigenen Passwort versiegelt, das Ihnen separat mitgeteilt werden muss. Das ist bei einem übergebenen Sub-Depot der einzige Weg. Nur wenn Sie stattdessen die vollständige Depot-Datei der verstorbenen Person selbst vorliegen haben und diese zu Lebzeiten ein Fach für Sie eingerichtet hatte, öffnen Sie sie über die Willkommensseite mit „Datei öffnen“ und dem Passwort, das sie Ihnen dafür gegeben oder hinterlegt hat — erreichbar nur außerhalb einer bereits offenen Sitzung, also über die Startseite.",
+     "titel": "Zugang zu den Daten"
+    },
+    {
+     "id": "digitale-nachbildung-ki-verfuegung",
+     "bedingung": "ki-hat-daten",
+     "eintraege": [
+      {
+       "quelle": "advanceCare",
+       "feld": "liste:provisionInstruments:ki-verfuegung:basicDecision"
+      }
+     ],
+     "hint": "Die verstorbene Person hat Angaben zu einer digitalen Nachbildung hinterlegt. Das vollständige Dokument finden Sie im Bereich „Vorsorge & Recht“.",
+     "titel": "Digitale Nachbildung (KI-Verfügung)"
+    },
+    {
+     "id": "rechtliche-einordnung",
+     "eintraege": [],
+     "hint": "Eine Vollmacht gilt im Zweifel auch über den Tod hinaus — sie erlischt nicht automatisch mit dem Tod (§ 672 Satz 1, § 168 Satz 1 BGB). Eine ausdrückliche Beschränkung auf die Lebzeit ist möglich, aber die Ausnahme, nicht die Regel. Bevollmächtigte und Erben sind rechtlich unterschiedliche Rollen: eine Vollmacht macht niemanden automatisch zum Erben, und ein Erbe hat nicht automatisch Zugriffsrechte zu Lebzeiten der verstorbenen Person. Dieser Text ersetzt keine Rechtsberatung.",
+     "titel": "Rechtliche Einordnung"
+    }
+   ]
+  }
+ ]
+}

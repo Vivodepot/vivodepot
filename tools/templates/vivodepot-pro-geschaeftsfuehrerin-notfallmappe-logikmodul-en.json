@@ -1,0 +1,82 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-geschaeftsfuehrerin-notfallmappe",
+  "titel": "Managing director — representation, succession, emergency",
+  "sektor": "pro-vertretung-vollmachten",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretungsregelung": { "typ": "feld", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_vertretungsregelung" },
+    "prokura_inhaber": { "typ": "listenfeldAlle", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_prokura",
+      "unterfeld": "tpl_wer" },
+    "nachfolgeklausel": { "typ": "feld", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden" },
+    "gesellschafterliste_stand": { "typ": "listenfeldAlle", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_gesellschafterliste", "unterfeld": "tpl_fassung_vom" },
+    "testament_erbvertrag_ablageort": { "typ": "feld", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_testament_oder_erbvertrag_ablageort" },
+    "vertretungsplan_aufgabe": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_aufgabe" },
+    "vertretungsplan_person": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_person" },
+    "wer_weiss_vom_depot": { "typ": "listenfeldAlle", "sektor": "pro-aufbewahrung-ordnung",
+      "feld": "tpl_wer_von_diesem_depot_weiss", "unterfeld": "tpl_name" },
+    "patientenverfuegung_ablageort": { "typ": "feld", "sektor": "pro-vertretung-vollmachten",
+      "feld": "tpl_patientenverfuegung_ablageort" },
+    "kontakt_telefon": { "typ": "feld", "sektor": "identity", "feld": "telephone" },
+    "kontakt_email": { "typ": "feld", "sektor": "identity", "feld": "email" }
+  },
+  "abschnitte": [
+    {
+      "titel": "Part A — Representation",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Who acts for the company if the managing director is suddenly unavailable? This extract collects what the Pro depot already holds on that question. It replaces neither a commercial power of attorney (Handlungsvollmacht) itself nor information from the commercial register court (Registergericht)."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
+          "frage": "Company's representation arrangement?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "prokura_inhaber",
+          "frage": "Statutory power of representation (Prokura) granted to?", "format": { "typ": "liste" }, "luecke": "— not recorded —" }
+      ]
+    },
+    {
+      "titel": "Part B — Succession",
+      "bloecke": [
+        { "typ": "immer", "texte": ["The following details come from the Pro module \"Company and succession arrangements\" — the same underlying data that also supports a handover or an emergency, read here for managing-director succession."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "nachfolgeklausel",
+          "frage": "Succession clause (Nachfolgeklausel) in the articles of association (Gesellschaftsvertrag) present?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "gesellschafterliste_stand",
+          "frage": "List of shareholders (Gesellschafterliste) — version(s) dated?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "testament_erbvertrag_ablageort",
+          "frage": "Will (Testament) or inheritance contract (Erbvertrag) — where filed?", "luecke": "— not recorded —" }
+      ]
+    },
+    {
+      "titel": "Part C — Emergency",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Note: \"Task\" and \"Person\" are read as two separate lists (same line order, no automatic pairing) — the extract itself can be extended to cross-reference line by line, if needed."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_aufgabe",
+          "frage": "Cover plan — which tasks are assigned?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_person",
+          "frage": "Cover plan — who takes each one on?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "wer_weiss_vom_depot",
+          "frage": "Who knows that this depot exists?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "patientenverfuegung_ablageort",
+          "frage": "Advance healthcare directive (Patientenverfügung) — where filed?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_telefon",
+          "frage": "Phone?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_email",
+          "frage": "Email?", "luecke": "— not recorded —" }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Managing director — representation, succession, emergency",
+    "klasse": "pro-geschaeftsfuehrerin-notfallmappe-dok",
+    "herkunftText": "Compilation by this application from the Pro module and depot data — not an official form, not legal advice, no connection to the commercial register court (Registergericht).",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "This extract replaces neither a commercial power of attorney (Handlungsvollmacht) nor a shareholders' resolution (Gesellschafterbeschluss) itself — both remain a matter for the company and its advisers.",
+    "fussText": " · Preparation aid, not an official document",
+    "knopfAttr": "pro-geschaeftsfuehrerin-notfallmappe-dokument",
+    "dateiBasis": "Geschaeftsfuehrerin-Notfallmappe",
+    "toolbarHinweis": "This extract helps prepare representation, succession and emergency arrangements for the managing director's role. It replaces no legal advice, and it is never transmitted to anyone."
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-kontakte-vertretungsplan",
+  "fassung": 1,
+  "bereiche": {
+    "pro-kontakte-vertretungsplan": {
+      "id": "pro-kontakte-vertretungsplan",
+      "icon": "users",
+      "sektionen": [
+        {
+          "id": "kontakte",
+          "felder": [
+            {
+              "id": "tpl_nicht_zu_benachrichtigende_personen",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vertretungsplan",
+          "felder": [
+            {
+              "id": "tpl_wer_uebernimmt_welche_aufgabe",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_aufgabe",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_person",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_vertretung_ab_wann",
+                  "typ": "datum"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea"
+            }
+          ]
+        }
+      ],
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge",
+      "clusterRang": 1
+    }
+  }
+}

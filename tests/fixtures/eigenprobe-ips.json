@@ -1,0 +1,40 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "identifier": { "system": "urn:vivodepot:eigenprobe", "value": "urn:uuid:eigenprobe-ips-0001" },
+  "meta": { "profile": ["http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips"] },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Composition",
+        "title": "Patientenkurzakte der Testpraxis Musterhausen",
+        "author": [{ "display": "Testpraxis Musterhausen" }],
+        "text": {
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Zusammenfassung der Patientenkurzakte.</div>"
+        },
+        "section": [
+          {
+            "title": "Diagnosen",
+            "text": {
+              "div": "<div>Verdachtsdiagnose A, weiter zu beobachten.</div><div>Nebendiagnose B, gesichert.</div>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "name": "Testpraxis Musterhausen"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "code": { "text": "Glucose SerPl-mCnc" },
+        "valueQuantity": { "value": 135, "code": "mg/dl" },
+        "effectiveDateTime": "2026-09-12"
+      }
+    }
+  ]
+}

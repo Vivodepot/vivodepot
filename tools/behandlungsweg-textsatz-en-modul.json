@@ -1,0 +1,11 @@
+{
+  "modulTyp": "textsatz",
+  "sprache": "en",
+  "moduleVersion": 1,
+  "anbieterId": "vivodepot",
+  "texte": {
+    "treatmentJourney.label": "My treatment journey",
+    "zweitmeinung.label": "Before a second opinion",
+    "reha.label": "Rehabilitation and follow-up care"
+  }
+}

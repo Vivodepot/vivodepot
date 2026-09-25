@@ -1,0 +1,10 @@
+{
+  "systemId": "xoev-rollencode",
+  "uri": "urn:xoev-de:vivodepot:codeliste:rollencode",
+  "version": "STUB-2026-05",
+  "kuerzel": "XÖV",
+  "lizenz": "XÖV-Codelisten, KoSIT/XRepository — frei; Vokabular am Mac ergänzen",
+  "status": "stub",
+  "hinweis": "STUB, Seed ausstehend (XÖV-Codelisten aus XRepository ziehen)",
+  "daten": []
+}

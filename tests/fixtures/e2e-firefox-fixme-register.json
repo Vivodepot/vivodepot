@@ -1,0 +1,6 @@
+{
+ "stand": "2026-09-19 (später am Tag)",
+ "grund": "Diese Firefox-Proben sind rot, weil die Kern-Annahmen (Download-Sichern, #w-anlass, Foto-ref) nicht mehr gelten. Sichtbar stillgelegt statt das pre-push-Gate zu sperren; jede umgestellte Probe streicht ihren Eintrag und senkt die Obergrenze.",
+ "eintraege": [],
+ "erledigt": "Alle sieben (FF-01 bis FF-07) sind umgestellt und laufen grün. Das Register bleibt als leere Ratsche stehen: eine neue fixme/skip in tests/e2e-firefox/ braucht eine FF-ID und einen Eintrag."
+}

@@ -1,0 +1,124 @@
+{
+  "zweck": "Jede fest eingetragene https-Adresse in Kern, Lese-App und den Produkt-Sprachmodulen, mit Grund. Eigene Adressen (*.vivodepot.de) tragen entweder die Auslieferung (Werkzeug + Export, gegen den gehalten) oder den Betrieb. Gehalten von tests/https-adressen-positivliste.test.js (23.09.2026, Befund QR-LESE-ADRESSE).",
+  "eintraege": [
+    {
+      "adresse": "https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js",
+      "quelle": "in der eingebetteten Bibliothek jsPDF, nur für output('pdfobjectnewwindow'), das der Kern nicht aufruft (Nachsehen: grep \"output(.pdfobject\" vivodepot.html)."
+    },
+    {
+      "adresse": "https://github.com/Flamenco",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/Gavvers",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/HackbrettXXX",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/MrRio/jsPDF",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/Pantura",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/acspike",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/chris-rock",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/deanm/omggif",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/diegocr",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/dollaruw",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/fjenett",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/foliojs/pdfkit/blob/master/lib/security.js",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/jmorel",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/juanpgaviria",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/lifof",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/lsdriscoll",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/nodeca/pako",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/pablohess",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/stefslon",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/vivodepot/vivodepot",
+      "quelle": "Das öffentliche Quellcode-Repo von Vivodepot (EUPL-1.2), QUELLCODE_LINK, in der Fußzeile verlinkt (Nachtrag zu U2-ADR-260, 24.09.2026)."
+    },
+    {
+      "adresse": "https://github.com/warrenweckesser",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://github.com/willowsystems",
+      "quelle": "Urheber-/Quellenangabe im Kopf einer eingebetteten Bibliothek (Kommentar), kein Aufruf."
+    },
+    {
+      "adresse": "https://myterms.info/agreements/",
+      "quelle": "Quellenangabe der MyTerms-Vereinbarungsbeispiele (Feld quelle), angezeigt, nicht abgerufen."
+    },
+    {
+      "adresse": "https://register.vivodepot.de/lesen/",
+      "auslieferung": {
+        "werkzeug": "tools/register-ausliefern.js",
+        "export": "LESEN_OEFFENTLICH"
+      }
+    },
+    {
+      "adresse": "https://share.vivodepot.de/",
+      "betrieb": "SHL-Ablage (Smart Health Link), betrieben ausserhalb dieses Repos; derselbe Host wie HOST_UPLOAD in tools/shl-belegstrecke.js."
+    },
+    {
+      "adresse": "https://vivodepot.de",
+      "betrieb": "Webseite, Wurzel der Domain (AKTUALISIERUNGEN_LINK, VIVODEPOT_HERKUNFT_LINK) — keine Datei aus diesem Repo, sondern die Startseite; kein Pfad dahinter."
+    },
+    {
+      "adresse": "https://webpjs.appspot.com",
+      "quelle": "Quellenangabe im Kommentar einer eingebetteten Bibliothek, kein Aufruf."
+    },
+    {
+      "adresse": "https://www.cs.cmu.edu/~dst/Adobe/Gallery/anon21jul01-pdf-encryption.txt",
+      "quelle": "Quellenangabe im Kommentar einer eingebetteten Bibliothek, kein Aufruf."
+    }
+  ]
+}

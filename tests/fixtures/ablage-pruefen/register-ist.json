@@ -1,0 +1,32 @@
+{
+  "dateien": [
+    "brandingregister.json",
+    "brandingregister.json.sha256",
+    "feldregister.json",
+    "feldregister.json.sha256",
+    "generator.html",
+    "index.html",
+    "index.json",
+    "lesen/index.html",
+    "modulregister.json",
+    "modulregister.json.sha256",
+    "rechtsraumregister.json",
+    "rechtsraumregister.json.sha256",
+    "sprachregister.json",
+    "sprachregister.json.sha256",
+    "v718/brandingregister.json",
+    "v718/brandingregister.json.sha256",
+    "v718/feldregister.json",
+    "v718/feldregister.json.sha256",
+    "v718/generator.html",
+    "v718/index.html",
+    "v718/index.json",
+    "v718/lesen/index.html",
+    "v718/modulregister.json",
+    "v718/modulregister.json.sha256",
+    "v718/rechtsraumregister.json",
+    "v718/rechtsraumregister.json.sha256",
+    "v718/sprachregister.json",
+    "v718/sprachregister.json.sha256"
+  ]
+}

@@ -1,0 +1,358 @@
+{
+ "_erhoben": "19.09.2026, unmittelbar vor dem Abriss der Konstante _ANG_SITUATIONEN (ANG1). Aus dem Kern gelesen: id, icon, Bloecke, Eintraege (quelle|feld); Titel und Einfuehrung aus dem deutschen bzw. englischen Textsatz.",
+ "_regel": "Die Angehoerigen-Vorlagen duerfen wachsen, aber nichts hieraus verlieren (Blatt, Block, Eintrag, Titel, Einfuehrung). Diese Datei nur mit ausdruecklichem Grund aendern.",
+ "blaetter": {
+  "krankenhausakut": {
+   "icon": "heartPulse",
+   "titel": {
+    "de": "Krankenhaus",
+    "en": "Hospital"
+   },
+   "bloecke": [
+    {
+     "id": "aus-gesundheit",
+     "titel": {
+      "de": "Aus Gesundheit",
+      "en": "From Health"
+     },
+     "eintraege": [
+      "health|bloodType",
+      "health|allergiesMedicationFoodOther",
+      "health|chronicConditionsDiagnoses",
+      "health|medicationOngoing",
+      "health|implantsProsthesesPacemakers",
+      "advanceCare|aidsEGWalkerHearingAid",
+      "health|ongoingTreatmentNext",
+      "health|healthInsurance",
+      "health|insuranceNumber"
+     ]
+    },
+    {
+     "id": "aus-vorsorge",
+     "titel": {
+      "de": "Aus Vorsorge",
+      "en": "From Provisions & legal"
+     },
+     "eintraege": [
+      "advanceCare|instrument:patientenverfuegung",
+      "advanceCare|liste:provisionInstruments:patientenverfuegung:storageLocation",
+      "advanceCare|instrument:vorsorgevollmacht",
+      "advanceCare|provisionInstruments"
+     ]
+    },
+    {
+     "id": "people",
+     "titel": {
+      "de": "Meine Menschen",
+      "en": "My People"
+     },
+     "eintraege": [
+      "people|menschen"
+     ]
+    },
+    {
+     "id": "hinterlegter-brief",
+     "titel": {
+      "de": "Hinterlegter Brief",
+      "en": "Letter on File"
+     },
+     "eintraege": [
+      "personal|letterForTheHospitalScenario"
+     ]
+    }
+   ],
+   "einfuehrung": {
+    "de": "Aufnahme und längerer Aufenthalt — was die Klinik wissen muss.",
+    "en": "Admission and a longer stay — what the hospital needs to know."
+   }
+  },
+  "pflegeheimakut": {
+   "icon": "shield",
+   "titel": {
+    "de": "Pflegeheim-Aufnahme",
+    "en": "Care Home Admission"
+   },
+   "bloecke": [
+    {
+     "id": "zur-person",
+     "titel": {
+      "de": "Zur Person",
+      "en": "About the Person"
+     },
+     "eintraege": [
+      "identity|givenName",
+      "identity|familyName",
+      "identity|birthDate"
+     ]
+    },
+    {
+     "id": "krankenversicherung",
+     "titel": {
+      "de": "Krankenversicherung",
+      "en": "Health Insurance"
+     },
+     "eintraege": [
+      "health|healthInsurance",
+      "health|insuranceNumber"
+     ]
+    },
+    {
+     "id": "aus-gesundheit",
+     "titel": {
+      "de": "Aus Gesundheit",
+      "en": "From Health"
+     },
+     "eintraege": [
+      "health|chronicConditionsDiagnoses",
+      "health|medicationOngoing",
+      "advanceCare|aidsEGWalkerHearingAid",
+      "health|allergiesMedicationFoodOther"
+     ]
+    },
+    {
+     "id": "pflege-und-versicherung",
+     "titel": {
+      "de": "Pflege & Versicherung",
+      "en": "Care & Insurance"
+     },
+     "eintraege": [
+      "socialInsurance|careLevel",
+      "socialInsurance|careLevelSinceYear",
+      "socialInsurance|careLevelTimeLimitedUntil",
+      "socialInsurance|longTermCareFund",
+      "socialInsurance|longTermCareFundNumbers",
+      "socialInsurance|longTermCareFundPhone",
+      "socialInsurance|homeCareServiceNameContact"
+     ]
+    },
+    {
+     "id": "aus-vorsorge",
+     "titel": {
+      "de": "Aus Vorsorge",
+      "en": "From Provisions & legal"
+     },
+     "eintraege": [
+      "advanceCare|instrument:vorsorgevollmacht",
+      "advanceCare|provisionInstruments",
+      "advanceCare|instrument:betreuungsverfuegung",
+      "advanceCare|liste:provisionInstruments:patientenverfuegung:storageLocation",
+      "advanceCare|personalCareDignity",
+      "advanceCare|dietSpecialRequirements",
+      "advanceCare|dailyRoutineActivities",
+      "advanceCare|otherWishesNotes"
+     ]
+    },
+    {
+     "id": "people",
+     "titel": {
+      "de": "Meine Menschen",
+      "en": "My People"
+     },
+     "eintraege": [
+      "people|menschen",
+      "health|emergencyContacts"
+     ]
+    },
+    {
+     "id": "hinterlegter-brief",
+     "titel": {
+      "de": "Hinterlegter Brief",
+      "en": "Letter on File"
+     },
+     "eintraege": [
+      "personal|letterForTheCareHomeAdmission"
+     ]
+    }
+   ],
+   "einfuehrung": {
+    "de": "Einzug und Übergabe an die Pflege.",
+    "en": "Moving in and handover to the care team."
+   }
+  },
+  "beerdigung": {
+   "icon": "fileText",
+   "titel": {
+    "de": "Beerdigung und Nachlass",
+    "en": "Funeral and Estate"
+   },
+   "bloecke": [
+    {
+     "id": "bestattung",
+     "titel": {
+      "de": "Bestattung",
+      "en": "Funeral"
+     },
+     "eintraege": [
+      "personal|typeOfFuneral",
+      "personal|funeralHome",
+      "personal|preferredLocationGraveUrnSite",
+      "personal|funeralAlreadyPlannedInAdvance",
+      "personal|preArrangementContractStorage"
+     ]
+    },
+    {
+     "id": "people",
+     "titel": {
+      "de": "Meine Menschen",
+      "en": "My People"
+     },
+     "eintraege": [
+      "people|menschen"
+     ]
+    },
+    {
+     "id": "hinterlegter-brief",
+     "titel": {
+      "de": "Hinterlegter Brief",
+      "en": "Letter on File"
+     },
+     "eintraege": [
+      "personal|letterForTheDeathScenario"
+     ]
+    }
+   ],
+   "einfuehrung": {
+    "de": "Was für die Bestattung zuerst zählt — Wünsche, Unternehmen, Ort, hinterlegter Brief.",
+    "en": "What matters first for the funeral — wishes, the funeral director, location, letter on file."
+   }
+  },
+  "behoerden_nachlass": {
+   "icon": "scale",
+   "titel": {
+    "de": "Behörden und Nachlass",
+    "en": "Authorities and Estate"
+   },
+   "bloecke": [
+    {
+     "id": "aus-vorsorge",
+     "titel": {
+      "de": "Aus Vorsorge",
+      "en": "From Provisions & legal"
+     },
+     "eintraege": [
+      "advanceCare|instrument:testament",
+      "advanceCare|liste:provisionInstruments:testament:storageLocation",
+      "advanceCare|heirsBriefOverview",
+      "advanceCare|liste:provisionInstruments:vorsorgevollmacht:centralRegisterOfPowersOf",
+      "advanceCare|instrument:vorsorgevollmacht",
+      "advanceCare|provisionInstruments"
+     ]
+    },
+    {
+     "id": "die-ersten-schritte",
+     "titel": {
+      "de": "Die ersten Schritte",
+      "en": "The First Steps"
+     },
+     "eintraege": [
+      "sit:erbfall|erb_sterbeurkunde",
+      "sit:erbfall|erb_erbschein",
+      "sit:erbfall|erb_testament_eroeffnung",
+      "sit:erbfall|erb_nachlassgericht"
+     ]
+    },
+    {
+     "id": "wo-die-originale-liegen",
+     "titel": {
+      "de": "Wo die Originale liegen",
+      "en": "Where the Originals Are Kept"
+     },
+     "eintraege": [
+      "sit:erbfall|erb_originaldokumente",
+      "sit:erbfall|erb_stammbuch",
+      "sit:erbfall|erb_personenstand"
+     ]
+    },
+    {
+     "id": "versicherungen",
+     "titel": {
+      "de": "Versicherungen",
+      "en": "Insurance Policies"
+     },
+     "eintraege": [
+      "sit:erbfall|erb_lebensversicherung",
+      "sit:erbfall|erb_sterbegeld",
+      "sit:erbfall|erb_unfallversicherung",
+      "sit:erbfall|erb_versicherungen_kuendigen"
+     ]
+    },
+    {
+     "id": "konten-und-vermoegen",
+     "titel": {
+      "de": "Konten & Vermögen",
+      "en": "Accounts & Assets"
+     },
+     "eintraege": [
+      "sit:erbfall|erb_konten",
+      "sit:erbfall|erb_geldanlagen",
+      "sit:erbfall|erb_immobilien",
+      "sit:erbfall|erb_schulden",
+      "sit:erbfall|erb_wertgegenstaende"
+     ]
+    },
+    {
+     "id": "vertraege-und-laufende-zahlungen",
+     "titel": {
+      "de": "Verträge & laufende Zahlungen",
+      "en": "Contracts & Ongoing Payments"
+     },
+     "eintraege": [
+      "sit:erbfall|erb_vertraege_kuendigen",
+      "sit:erbfall|erb_wohnung",
+      "sit:erbfall|erb_renten",
+      "sit:erbfall|erb_digitales"
+     ]
+    },
+    {
+     "id": "kontakte-fuers-erbe",
+     "titel": {
+      "de": "Kontakte fürs Erbe",
+      "en": "Contacts for the Estate"
+     },
+     "eintraege": [
+      "sit:erbfall|erb_notar",
+      "sit:erbfall|erb_steuerberater",
+      "sit:erbfall|erb_zu_informieren"
+     ]
+    },
+    {
+     "id": "people",
+     "titel": {
+      "de": "Meine Menschen",
+      "en": "My People"
+     },
+     "eintraege": [
+      "people|menschen"
+     ]
+    }
+   ],
+   "einfuehrung": {
+    "de": "Was Angehörige bei Behörden und im Nachlass regeln müssen — geordnet, mit Ablageorten und Kontakten.",
+    "en": "What relatives need to settle with authorities and in the estate — organised, with storage locations and contacts."
+   }
+  },
+  "meine_menschen": {
+   "icon": "users",
+   "titel": {
+    "de": "Meine Menschen",
+    "en": "My People"
+   },
+   "bloecke": [
+    {
+     "id": "menschen",
+     "titel": {
+      "de": "Menschen",
+      "en": "People"
+     },
+     "eintraege": [
+      "people|menschen"
+     ]
+    }
+   ],
+   "einfuehrung": {
+    "de": "Alle hinterlegten Personen — Angehörige, Ärzte, Notar, Vertrauenspersonen — mit Kontakt und Rolle.",
+    "en": "Everyone on file — relatives, doctors, notary, trusted contacts — with details and role."
+   }
+  }
+ }
+}

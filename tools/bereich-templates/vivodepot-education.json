@@ -1,0 +1,268 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/education",
+  "fassung": 1,
+  "bereiche": {
+    "education": {
+      "id": "education",
+      "format": "EDCI",
+      "icon": "graduationCap",
+      "exporte": [
+        {
+          "format": "edci-bildung",
+          "labelSchluessel": "exportBildungLabel"
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "ausbildung-beruf",
+          "felder": [
+            {
+              "id": "schoolLeavingQualification",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "kein_abschluss"
+                },
+                {
+                  "wert": "hauptschulabschluss"
+                },
+                {
+                  "wert": "mittlere_reife"
+                },
+                {
+                  "wert": "fachhochschulreife"
+                },
+                {
+                  "wert": "abitur"
+                },
+                {
+                  "wert": "ausland"
+                }
+              ]
+            },
+            {
+              "id": "schoolLeavingQualificationYear",
+              "typ": "text"
+            },
+            {
+              "id": "schoolLeavingQualification2",
+              "typ": "text"
+            },
+            {
+              "id": "school",
+              "typ": "text"
+            },
+            {
+              "id": "vocationalTraining",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ihk"
+                },
+                {
+                  "wert": "hwk"
+                },
+                {
+                  "wert": "schulisch"
+                },
+                {
+                  "wert": "umschulung"
+                },
+                {
+                  "wert": "ohne_abschluss"
+                },
+                {
+                  "wert": "ausland"
+                }
+              ]
+            },
+            {
+              "id": "vocationalTrainingTrained",
+              "typ": "text"
+            },
+            {
+              "id": "vocationalTrainingCompany",
+              "typ": "text"
+            },
+            {
+              "id": "vocationalTrainingYear",
+              "typ": "text"
+            },
+            {
+              "id": "vocationalTrainingEarlierEntry",
+              "typ": "text"
+            },
+            {
+              "id": "universityDegreeType",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "bachelor"
+                },
+                {
+                  "wert": "master"
+                },
+                {
+                  "wert": "diplom"
+                },
+                {
+                  "wert": "magister"
+                },
+                {
+                  "wert": "staatsexamen"
+                },
+                {
+                  "wert": "promotion"
+                },
+                {
+                  "wert": "ohne_abschluss"
+                },
+                {
+                  "wert": "ausland"
+                }
+              ]
+            },
+            {
+              "id": "universitySubject",
+              "typ": "text"
+            },
+            {
+              "id": "universityInstitution",
+              "typ": "text"
+            },
+            {
+              "id": "universityYear",
+              "typ": "text"
+            },
+            {
+              "id": "universityEarlierEntry",
+              "typ": "text"
+            },
+            {
+              "id": "certificatesQualifications",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "occupationRole",
+              "typ": "text",
+              "vorschlaege": [
+                "Angestellte/r",
+                "Selbstständig",
+                "Beamtin/Beamter",
+                "Rentnerin/Rentner",
+                "Studierende/r",
+                "Hausfrau/Hausmann",
+                "Arbeitslos"
+              ]
+            },
+            {
+              "id": "employer",
+              "typ": "ref",
+              "entitaet": "institution",
+              "verweisZweck": "geschaeftlich"
+            },
+            {
+              "id": "employmentContractFixedTerm",
+              "marken": [
+                "laeuftAb"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "employerAddress",
+              "typ": "text"
+            },
+            {
+              "id": "lastEmployer",
+              "typ": "text"
+            },
+            {
+              "id": "typeOfIncome",
+              "sensibel": true,
+              "typ": "mehrfachauswahl",
+              "optionen": [
+                {
+                  "wert": "angestellt"
+                },
+                {
+                  "wert": "selbststaendig"
+                },
+                {
+                  "wert": "beamtet"
+                },
+                {
+                  "wert": "rente_pension"
+                },
+                {
+                  "wert": "ausbildung_studium"
+                },
+                {
+                  "wert": "arbeitslos"
+                },
+                {
+                  "wert": "ohne_einkommen"
+                }
+              ]
+            },
+            {
+              "id": "typeOfIncomeEarlierEntry",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "grossMonthlyIncome",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "netMonthlyIncome",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "payslipStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "qualifications",
+              "typ": "text"
+            },
+            {
+              "id": "volunteerWork",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "schoolCertificatesStorage",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "trainingCertificateStorage",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "universityDegreeCertificate",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "employmentReferenceStorage",
+              "sensibel": true,
+              "typ": "text"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

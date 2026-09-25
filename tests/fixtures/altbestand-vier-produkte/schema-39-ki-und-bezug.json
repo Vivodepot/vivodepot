@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 39,
+  "menschen": [],
+  "sektoren": {
+    "identitaet": { "vorname": "Hedwig", "nachname": "Altbestand" },
+    "verwaltung": {
+      "ki_grundentscheidung": "erlaubnis",
+      "ki_zweck": ["erinnerung", "trauer"],
+      "ki_raum": "privat"
+    },
+    "vorsorge": {
+      "vorsorge_instrumente": [
+        { "id": "zeile-vollmacht", "typ": "vorsorgevollmacht", "ort": "Ordner Vorsorge" },
+        { "id": "zeile-pv", "typ": "patientenverfuegung", "ort": "Schreibtisch" }
+      ]
+    }
+  },
+  "dokumente": [
+    {
+      "id": "doc-pv", "typ": "patientenverfuegung", "name": "Patientenverfügung", "sektorId": "vorsorge",
+      "erstelltAm": "2024-01-01", "felder": [{ "sektorId": "vorsorge", "feldId": "vorsorge_instrumente" }],
+      "mappeRef": null, "istStandard": true, "quelle": "standard", "sensibel": false
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "_beschreibung": "Positivliste kuratierter Zweigmuster fuer landung-vollstaendigkeit-pruefen.js (LS2, 20.09.2026). Ein Kandidaten-Commit, der NUR auf einem hier passenden Zweig liegt, zaehlt nicht als verlorener Fix — er ist bewusst noch nicht eingereichte Arbeit fuer eine SPAETERE Stufe, kein Verlust der laufenden Landung. Jeder Eintrag braucht einen Grund, wie landung-bewusst-draussen.json. Regel: wer einen Zweig fuer eine spaetere Landung anlegt, benennt ihn mit dem Muster -l4- oder traegt ihn selbst hier nach (s. Kopfkommentar des Werkzeugs).",
+  "muster": [
+    { "regex": "^l4-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "-l4-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^cf-l4-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^vdm2-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^institutionscode-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^zurueckgestellt-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^gitwache-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^ls2-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^sicherung-", "grund": "Sicherungsrefs, nie zu landen" },
+    { "regex": "^gen1-schluessel-tresor-", "grund": "Arbeit für eine spätere Landung" },
+    { "regex": "^l5-", "grund": "Arbeit für die auf L4 folgende Landung" },
+    { "regex": "-l5-", "grund": "Arbeit für die auf L4 folgende Landung" },
+    { "regex": "^cf-l5-", "grund": "Arbeit für die auf L4 folgende Landung" }
+  ]
+}

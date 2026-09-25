@@ -1,0 +1,71 @@
+{
+  "hinweis": "ERZEUGT von tools/build-bereiche.js aus vivodepot.html SEKTOREN. Nicht von Hand bearbeiten — der Kern ist die Quelle. Die drei übrigen Anwendungen lesen von hier.",
+  "schluesselraum": "id",
+  "altLabelNurZumLesen": {
+    "Identität": "identity",
+    "Menschen": "people",
+    "Mobilität": "mobility",
+    "Finanzen": "finance",
+    "Gesundheit": "health",
+    "Bildung": "education",
+    "Sozialversicherung": "socialInsurance",
+    "Vorsorge": "advanceCare",
+    "Verwaltung": "administration",
+    "Persönliches": "personal",
+    "Wohnen": "housing"
+  },
+  "bereiche": [
+    {
+      "id": "identity",
+      "label": "Identität & Person"
+    },
+    {
+      "id": "people",
+      "label": "Meine Menschen"
+    },
+    {
+      "id": "mobility",
+      "label": "Mobilität & Reise"
+    },
+    {
+      "id": "finance",
+      "label": "Finanzen & Zahlungen"
+    },
+    {
+      "id": "assets",
+      "label": "Vermögen und Einkommen"
+    },
+    {
+      "id": "health",
+      "label": "Gesundheit"
+    },
+    {
+      "id": "education",
+      "label": "Bildung & Beruf"
+    },
+    {
+      "id": "socialInsurance",
+      "label": "Sozialversicherung"
+    },
+    {
+      "id": "advanceCare",
+      "label": "Vorsorge & Recht"
+    },
+    {
+      "id": "administration",
+      "label": "Verwaltung & Behörden"
+    },
+    {
+      "id": "housing",
+      "label": "Wohnen & Eigentum"
+    },
+    {
+      "id": "emergencyPreparedness",
+      "label": "Krisenvorsorge"
+    },
+    {
+      "id": "personal",
+      "label": "Persönliches"
+    }
+  ]
+}

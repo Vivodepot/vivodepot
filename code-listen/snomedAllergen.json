@@ -1,0 +1,30 @@
+{
+  "systemId": "snomedAllergen",
+  "uri": "http://snomed.info/sct",
+  "version": "SEED-2026-05",
+  "kuerzel": "SNOMED",
+  "teilliste": true,
+  "lizenz": "SNOMED CT, IHTSDO/SNOMED International — Lizenz erforderlich (Affiliate); nur kleines Sample ausgeliefert",
+  "status": "seed",
+  "hinweis": "Sample/Seed, SNOMED-Lizenz beachten — nur kleines Allergen-Sample",
+  "daten": [
+    {
+      "code": "91936005",
+      "anzeigeName": "Allergie gegen Penicillin",
+      "synonyme": [
+        "Penicillin",
+        "Penicillinallergie"
+      ],
+      "kategorie": "Medikament"
+    },
+    {
+      "code": "91935009",
+      "anzeigeName": "Allergie gegen Erdnuss",
+      "synonyme": [
+        "Erdnuss",
+        "Erdnussallergie"
+      ],
+      "kategorie": "Nahrungsmittel"
+    }
+  ]
+}

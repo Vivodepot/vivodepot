@@ -1,0 +1,157 @@
+{
+  "hinweis": "Kern-Funktionen mit Zustands-Vokabular, deren Schlüssel WEDER im Funktionsanker (ZUSTAND_FUNKTIONEN_KERN) NOCH namentlich geschützt (ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT) sind (Stand 19.09.2026), je mit Entscheidung. Die zwölf ursprünglich offenen Funktionen sind entschieden: ihre Vertrauens-/Haftungssätze stehen jetzt in der Sperrliste (Deckel 0). Ein NEUER Fund macht tests/zusicherungs-kandidaten-kern.test.js rot: Schlüssel in ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT (oder Funktion in den Anker) aufnehmen, oder hier mit Grund als kein-zusicherungssatz eintragen.",
+  "funktionen": {
+    "_fristFaelligkeitText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
+    },
+    "_kreisZeileHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines Datums („Stand“ als Wortteil)."
+    },
+    "_situationSichtbarInAuswahl": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "liest STRINGS.leerZustand nur zum Vergleich, ob eine Blattzeile einen Wert trägt (kein Satz über Herkunft/Prüfung, \"Zustand\" nur Wortteil)."
+    },
+    "anfrageZustandText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
+    },
+    "docxBereichModell": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "dokumentPanelHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung einer Handlung der Nutzerin (Dokument als geprüft markieren), keine Aussage der Anwendung."
+    },
+    "einstellungenHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Restschlüssel: einstVersionStandSatz (Versionsstand der Anwendung als Beschriftung) und herkunftImpressumLink (Link-Beschriftung) — keine Vertrauensaussage; die Prüfstufen- und Herkunftssätze der Funktion stehen in ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT."
+    },
+    "exportErinnerungVielleichtZeigen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Erinnerungstext an die Nutzerin."
+    },
+    "feldInputHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "feldWertHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "feldWertText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "flowImportAuto": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "flowImportAutoritativ": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "flowImportDatei": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "flowImportVorschau": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "flowSubDepotEinhaengen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "flowUebergabeWiderrufErzeugen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
+    },
+    "importUngueltigNachricht": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "mappeRefAnzeigeHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "menschRegisterZeile": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "menschenRegisterHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "metaZeile": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "notvertretungAblaufText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
+    },
+    "prueftermineSektionHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
+    },
+    "renderBestandsAuswahl": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Navigationsbeschriftung („Bestand“ als Wortteil), keine Zustandsaussage."
+    },
+    "renderFooter": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines Datums („Stand“ als Wortteil)."
+    },
+    "renderMappe": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Navigationsbeschriftung („Bestand“ als Wortteil), keine Zustandsaussage."
+    },
+    "renderVerwalteteDepots": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "schutzbefohleneRollupHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "stellenRegisterHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "uebergabeWiderrufPdfErzeugen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
+    },
+    "verdrahteDokumentPanel": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung einer Handlung der Nutzerin (Dokument als geprüft markieren), keine Aussage der Anwendung."
+    },
+    "verdrahtePrueftermine": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
+    },
+    "vollimportNichtUebernommenNamen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "vorleseTextSektor": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "vorleseTextSituation": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "zeichneVollDepotPdf": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Restschlüssel: exportGesamtPdfStand (Datums-Beschriftung) und leerZustand (Leerwert-Beschriftung); die pdfHerkunft*-Sätze stehen in ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT."
+    },
+    "zeichneWiderrufPdf": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
+    }
+  }
+}

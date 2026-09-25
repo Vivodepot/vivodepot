@@ -1,0 +1,36 @@
+{
+  "_beschreibung": "Was tools/herkunftsort-pruefen.js am echten Stand findet und noch nicht behoben ist (Befund-Ratsche zu 34.7). tests/herkunftsort-invariante.test.js verlangt: jeder Verstoß des Repos steht hier, und jeder Eintrag hier ist noch ein Verstoß. Die Liste kann nur sinken; ein Eintrag ohne Eigentümer und Frage ist ungültig. Sie ist KEINE Ausnahme im Sinne von 36.3 — das Werkzeug selbst (`node tools/herkunftsort-pruefen.js --depot .`) bleibt rot, solange etwas hier steht. (Die früheren Einträge zu Erzeugnis, signiertem Modul, Marken-Platzhalter und Erzeugen sind mit dem Fix gestrichen, ihre Proben laufen jetzt grün ohne Offen-Liste.)",
+  "stand": "21.09.2026, gegen u2-kanon ea900b97 plus Lese-App-Herkunftsort a9c44dde plus Fix der Angaben (34.7, md5 aa468bfa); nur noch Quelltext-Funde an Erzeuger und Issuer",
+  "offen": [
+    {
+      "traeger": "vivodepot-template-generator.html",
+      "regel": "kopfzeile-fehlt",
+      "kennung": "SPDX",
+      "seit": "2026-09-21",
+      "eigentuemer": "Bau (30.3)",
+      "frage": "Der Vorlagen-Erzeuger ist nach DoD-Zuschnitt 06.09.2026 öffentlich und trägt keine SPDX-Zeile im Kopf."
+    },
+    {
+      "traeger": "vivodepot-template-generator.html",
+      "regel": "kopfzeile-fehlt",
+      "kennung": "Copyright",
+      "seit": "2026-09-21",
+      "eigentuemer": "Bau (30.3)",
+      "frage": "Wie SPDX: kein Copyright im Kopf."
+    },
+    {
+      "traeger": "vivodepot-template-generator.html",
+      "regel": "anker-fehlt",
+      "seit": "2026-09-21",
+      "eigentuemer": "Bau (30.3)",
+      "frage": "Kein Herkunftsort im Vorlagen-Erzeuger (30.3 verlangt ihn für jede weitere Anwendung)."
+    },
+    {
+      "traeger": "vivodepot-vc-issuer.html",
+      "regel": "anker-fehlt",
+      "seit": "2026-09-21",
+      "eigentuemer": "Bau (30.3)",
+      "frage": "Kein Herkunftsort im VC-Issuer (die Kopfzeilen sind da)."
+    }
+  ]
+}

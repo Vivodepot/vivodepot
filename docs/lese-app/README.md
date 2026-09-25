@@ -1,0 +1,3 @@
+# Vivodepot — Lese-Ansicht (`vivodepot-lesen.html`)
+
+Öffnen Sie die Datei `vivodepot-lesen.html` in Ihrem Browser (ein Doppelklick genügt, es braucht kein Internet und kein Konto), und wählen Sie dann einen der drei Wege: eine zugesandte `.vivodepot`-Datei öffnen, einen QR-Code scannen oder einen kopierten QR-Text einfügen. Ist das Material verschlüsselt, geben Sie das Passwort ein, das Ihnen genannt wurde — danach sehen Sie das Depot, die Notfall-Informationen oder das Situationsblatt nur zum Lesen, nichts wird verändert oder gespeichert. Mit „Schließen" oder einem Neuladen der Seite ist alles wieder weg; beim nächsten Mal stellen Sie die Datei oder den QR-Code einfach erneut bereit.

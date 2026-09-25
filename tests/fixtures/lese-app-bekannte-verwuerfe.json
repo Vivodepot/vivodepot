@@ -1,0 +1,39 @@
+{
+ "beschreibung": "Die bekannten Verwürfe der Lese-App beim Öffnen einer Datei, die ein ECHTES Produkt geschrieben hat (Kanon ea900b97, 22.09.2026). Je Produkt und je art|grund die Zahl der Zeilen in _verwuerfeLesen(), exakt. Mehr als die bekannten ist rot (auch eine neue art|grund), weniger ist rot (Grundlinie senken). Zeilen der Arten sprache-text sind je (Sprache, Grund) EINMAL geführt, nicht je Text. Gemessen mit tests/lese-app-stumme-zurueckweisung.test.js; das Verzeichnis dieser Datei erklärt jede Zeile, damit ein Rauschen kein Freibrief wird.",
+ "erklaerung": {
+  "bereich|unbekannt": "Je Mitschrift-Bereichsmodul zwei ignorierte Schlüssel (kennung, fassung), die der Prüfer der Lese-App nicht liest. Kein Inhalt geht verloren. Ob sie zu Recht in der Mitschrift stehen, gehört zur Fassungs-Spur, nicht zu diesem Test.",
+  "bereich|reserviert": "Die eingebaute Lese-App führt die dreizehn nativen Bereiche selbst; der Reserviert-Riegel verwirft die gleichnamigen Bereiche der Datei. Entfällt, wenn die Lese-App nackt wird (Modulweg), dann ist die Zahl zu senken.",
+  "bereich|leer": "Das Mitschrift-Bereichsmodul blieb danach ohne Bereich; jeder verworfene Bereich steht einzeln in der Liste. Folge von reserviert, entfällt mit ihm.",
+  "sprache-mitschrift|reserviert": "Das deutsche Mitschrift-Sprachmodul trägt die eingebaute Sprache und wird nicht angemeldet.",
+  "sprache-text|unbekannt": "Mindestens eine Kennung des englischen Mitschrift-Sprachmoduls kennt die Lese-App nicht (ignoriert).",
+  "sprache-text|zusicherung": "Mindestens ein Zusicherungssatz des englischen Mitschrift-Sprachmoduls: die Mitschrift ist nicht signiert, die Lese-App nimmt Zusicherungssätze nur aus signierten Modulen (Vertrauensgrenze, wie im Kern)."
+ },
+ "produkte": {
+  "privat-de": {
+   "bereich|leer": 13,
+   "bereich|reserviert": 13,
+   "bereich|unbekannt": 26,
+   "sprache-mitschrift|reserviert": 1
+  },
+  "privat-en": {
+   "bereich|leer": 13,
+   "bereich|reserviert": 13,
+   "bereich|unbekannt": 26,
+   "sprache-text|unbekannt": 1,
+   "sprache-text|zusicherung": 1
+  },
+  "pro-de": {
+   "bereich|leer": 1,
+   "bereich|reserviert": 1,
+   "bereich|unbekannt": 14,
+   "sprache-mitschrift|reserviert": 1
+  },
+  "pro-en": {
+   "bereich|leer": 1,
+   "bereich|reserviert": 1,
+   "bereich|unbekannt": 14,
+   "sprache-text|unbekannt": 1,
+   "sprache-text|zusicherung": 1
+  }
+ }
+}

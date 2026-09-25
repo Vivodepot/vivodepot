@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Beispielanwendung A</title>
+<!--
+  SPDX-License-Identifier: EUPL-1.2
+  Copyright (c) 2026 Beispiel GmbH, Musterstadt.
+-->
+</head>
+<body>
+<script>
+// Erfundene Fixture (kein Auszug aus einem echten Artefakt): Form A, Kennungen über STRINGS und eine Konstante.
+const HERKUNFT_LINK_A = 'https://beispiel.example';
+/* ZUSICHERUNG_BEISPIEL:BEGIN */
+const ZUSICHERUNGS_SCHLUESSEL_KERN = Object.freeze([
+  'herkunftLizenzA',
+  'herkunftUrheberinA',
+]);
+/* ZUSICHERUNG_BEISPIEL:END */
+/* NUTZLAST_BEISPIEL:BEGIN */
+const NUTZLAST_BEISPIEL = null;
+/* NUTZLAST_BEISPIEL:END */
+function herkunftsortHTML() {
+  return '<div class="herkunftsort" data-herkunftsort="1">' +
+    '<p>' + escapeHTML(STRINGS.herkunftUrheberinA) + '</p>' +
+    '<p>' + escapeHTML(STRINGS.anbieterZeileA) + '</p>' +
+    '<p>' + escapeHTML(STRINGS.herkunftLizenzA) + ' (EUPL-1.2)</p>' +
+    '<a href="' + escapeHTML(HERKUNFT_LINK_A) + '">Impressum</a>' +
+  '</div>';
+}
+</script>
+</body>
+</html>

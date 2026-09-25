@@ -1,0 +1,452 @@
+{
+  "modulTyp": "lebenslagen",
+  "anbieterId": "vivodepot",
+  "moduleVersion": 1,
+  "bausteine": [
+    {
+      "id": "pflegebeduerftigkeit",
+      "sorte": "zustand",
+      "name": "Pflegebedürftigkeit",
+      "unterlagen": "Pflegegrad-Bescheid, Pflegevertrag, Medikamentenplan, Hilfsmittel",
+      "felder": [
+        "socialInsurance.careLevel",
+        "socialInsurance.careLevelSinceYear",
+        "socialInsurance.careLevelTimeLimitedUntil",
+        "socialInsurance.noticeDated",
+        "socialInsurance.longTermCareAllowanceTypeOf",
+        "socialInsurance.careHomeAssistedLiving",
+        "socialInsurance.careContractStorageLocation",
+        "advanceCare.personalCareDignity",
+        "advanceCare.dietSpecialRequirements",
+        "advanceCare.dailyRoutineActivities",
+        "advanceCare.aidsEGWalkerHearingAid",
+        "advanceCare.provisionDocumentsCheckedIn",
+        "people.careLeaveFamilyCareLeave"
+      ]
+    },
+    {
+      "id": "behinderung",
+      "sorte": "zustand",
+      "name": "Behinderung",
+      "unterlagen": "Schwerbehindertenausweis, Grad, Merkzeichen, Nachteilsausgleiche",
+      "felder": [
+        "socialInsurance.degreeOfDisabilityGdb",
+        "socialInsurance.markers",
+        "socialInsurance.gdbReviewReAssessmentDate",
+        "socialInsurance.severeDisabilityCards"
+      ]
+    },
+    {
+      "id": "miete",
+      "sorte": "zustand",
+      "name": "Miete",
+      "unterlagen": "Mietvertrag, Kaution, Vermieter-Kontakt, Nebenkosten, Hausordnung",
+      "felder": [
+        "housing.ownedOrRented",
+        "housing.monthlyRentServiceCharges",
+        "housing.rentalDepositBankAmount",
+        "housing.tenancyAgreementStorage",
+        "housing.tenancyAgreementFixedTermUntil",
+        "housing.landlordPropertyManagement",
+        "housing.landlordPhone",
+        "housing.landlordEmail",
+        "housing.specialLivingSituation"
+      ]
+    },
+    {
+      "id": "wohneigentum",
+      "sorte": "zustand",
+      "name": "Wohneigentum",
+      "unterlagen": "Grundbuchauszug, Kaufvertrag, Darlehen, Wohngebäudeversicherung, Hausgeld",
+      "felder": [
+        "housing.ownedOrRented",
+        "housing.specialLivingSituation"
+      ]
+    },
+    {
+      "id": "auslandsaufenthalt",
+      "sorte": "zustand",
+      "name": "Auslandsaufenthalt",
+      "unterlagen": "ELEFAND-Registrierung, Botschaftskontakt, EHIC, Auslandskrankenversicherung",
+      "felder": [
+        "mobility.elefandRegistrations",
+        "mobility.embassyContact",
+        "health.ehicCardEuropeanHealth"
+      ]
+    },
+    {
+      "id": "chronische-erkrankung",
+      "sorte": "zustand",
+      "name": "Chronische Erkrankung",
+      "unterlagen": "Diagnosen, Dauermedikation, Arztbriefe, Notfallausweis, Allergiepass",
+      "felder": [
+        "health.chronicConditionsDiagnoses",
+        "health.medicationOngoing",
+        "health.allergiesMedicationFoodOther",
+        "health.findingsOnAUsbStick",
+        "health.ongoingTreatmentNext",
+        "health.implantsProsthesesPacemakers",
+        "health.emergencyCardPatientId",
+        "health.operationsProcedures"
+      ]
+    },
+    {
+      "id": "berufstaetigkeit",
+      "sorte": "zustand",
+      "name": "Berufstätigkeit",
+      "unterlagen": "Arbeitsvertrag, Sozialversicherungsausweis, bAV, Lohnabrechnung",
+      "felder": [
+        "education.occupationRole",
+        "education.vocationalTraining",
+        "education.typeOfIncome",
+        "education.grossMonthlyIncome",
+        "education.netMonthlyIncome",
+        "education.payslipStorageLocation",
+        "education.trainingCertificateStorage",
+        "education.employmentReferenceStorage",
+        "education.qualifications",
+        "education.employmentContractFixedTerm"
+      ]
+    },
+    {
+      "id": "ruhestand",
+      "sorte": "zustand",
+      "name": "Ruhestand / private Vorsorge",
+      "unterlagen": "Rentenbescheid, Zusatzversorgung, KV der Rentner, Steuerbescheid",
+      "felder": [
+        "finance.privatePensionProvision",
+        "finance.policyContractNumber",
+        "finance.privatePensionProvisionAgreed",
+        "finance.companyPensionSchemeBav",
+        "finance.companyPensionPolicyNumber",
+        "finance.companyPensionAgreedStartDate",
+        "socialInsurance.pensionInsuranceNumbers"
+      ]
+    },
+    {
+      "id": "elternschaft-minderjaehrig",
+      "sorte": "zustand",
+      "name": "Elternschaft, minderjährig",
+      "unterlagen": "Geburtsurkunden, Impfpässe, U-Hefte, Kita- und Schulverträge, Sorgerecht",
+      "felder": [
+        "people.childrenAndDependants"
+      ]
+    },
+    {
+      "id": "ehe-partnerschaft",
+      "sorte": "zustand",
+      "name": "Ehe oder Partnerschaft",
+      "unterlagen": "Eheurkunde, Ehevertrag, Güterstand, gegenseitige Vollmacht, gemeinsame Konten",
+      "felder": [
+        "identity.maritalStatus",
+        "identity.maritalPropertyRegime",
+        "identity.choiceOfNameAfterMarriage",
+        "people.spouseOrCivilPartner"
+      ]
+    },
+    {
+      "id": "umzug",
+      "sorte": "ereignis",
+      "name": "Umzug",
+      "unterlagen": "Ummeldung, Versorgerwechsel, Nachsendeauftrag, Übergabeprotokoll",
+      "felder": [
+        "identity.reRegistrationWithTheResidents",
+        "administration.changingUtilityProviders",
+        "housing.tenancyTerminationHandover",
+        "housing.noticeDate",
+        "housing.moveOutDate",
+        "housing.handoverDateNewHome"
+      ]
+    },
+    {
+      "id": "eigene-vorsorge",
+      "sorte": "ereignis",
+      "name": "Eigene Vorsorge treffen",
+      "unterlagen": "Patientenverfügung, Vorsorgevollmacht, Betreuungsverfügung, Testament, Bestattungsvorsorge",
+      "felder": [
+        "advanceCare.provisionInstruments",
+        "advanceCare.heirsBriefOverview",
+        "personal.typeOfFuneral",
+        "personal.funeralAlreadyPlannedInAdvance",
+        "personal.funeralHome",
+        "personal.preferredLocationGraveUrnSite",
+        "personal.preArrangementContractStorage"
+      ]
+    },
+    {
+      "id": "erbfall-abwickeln",
+      "sorte": "ereignis",
+      "name": "Erbfall abwickeln",
+      "unterlagen": "Sterbeurkunde, Erbschein, Nachlassverzeichnis, Ausschlagungsfrist, Kontensperren",
+      "felder": [
+        "finance.assetsForTheEstate",
+        "finance.outstandingClaimsGuarantees"
+      ]
+    },
+    {
+      "id": "trennung-scheidung",
+      "sorte": "ereignis",
+      "name": "Trennung oder Scheidung",
+      "unterlagen": "Trennungsdatum, Güterstand, frühere Namen, Unterhalt",
+      "felder": [
+        "identity.dateOfSeparation",
+        "identity.maritalPropertyRegime",
+        "identity.formerNames",
+        "advanceCare.provisionInstruments"
+      ],
+      "hinweise": [
+        "Lassen Sie sich anwaltlich zum Thema Trennungsunterhalt beraten.",
+        "Dauerndes Getrenntleben kann eine Anzeigepflicht beim Finanzamt auslösen — fragen Sie dort nach.",
+        "Bei einer Scheidung kann der Versorgungsausgleich eine Rolle spielen. Halten Sie Ihre Renteninformation bereit.",
+        "Bleiben Sie nach Trennung oder Scheidung in der Wohnung, zeigt der Mietvertrag, wer Mieterin oder Mieter ist. Klären Sie früh, wie es weitergeht — Fristen können gelten.",
+        "Eine Vorsorgevollmacht kann auch nach einer Trennung oder Scheidung fortgelten. Sehen Sie sie durch: Dort steht, wer bevollmächtigt ist. Prüfen Sie, ob Sie sie ändern möchten."
+      ]
+    },
+    {
+      "id": "verwitwung",
+      "sorte": "ereignis",
+      "name": "Verwitwung",
+      "unterlagen": "Sterbeurkunde, Erbausschlagung, Mietvertrag, Erbschaftsteuer, eigene Vorsorge",
+      "felder": [
+        "finance.assetsForTheEstate",
+        "advanceCare.provisionInstruments"
+      ],
+      "verwandteSituation": "todesfall-uebernahme",
+      "hinweise": [
+        "Eine Erbschaft kann auch Schulden enthalten. Ob Sie annehmen oder ausschlagen, klären Sie früh — kurze Fristen laufen; das Nachlassgericht erklärt, wie eine Ausschlagung geht.",
+        "Ein Todesfall wird zeitnah beim Standesamt angezeigt. Fragen Sie dort oder beim Bestattungsunternehmen, ob das schon veranlasst ist.",
+        "Bezog die verstorbene Person schon Rente, können Hinterbliebene unter Umständen einen Vorschuss beantragen — fragen Sie beim Renten Service (Deutsche Post) oder der Rentenversicherung nach.",
+        "Ihr Mietvertrag zeigt, wer Mieterin oder Mieter ist. Nach dem Tod eines Mitmieters können kurze Fristen gelten — klären Sie früh, wie es weitergeht.",
+        "Ein Erbe kann dem Finanzamt anzuzeigen sein. Ob und bis wann, fragen Sie dort nach.",
+        "Ist in Ihrer Vorsorgevollmacht oder Patientenverfügung Ihr verstorbener Ehepartner genannt, sehen Sie beides durch und aktualisieren Sie es bei Bedarf."
+      ]
+    },
+    {
+      "id": "arbeitslosigkeit",
+      "sorte": "ereignis",
+      "name": "Arbeitslosigkeit",
+      "unterlagen": "Kündigung, Meldung arbeitsuchend, Arbeitslosmeldung, Bescheid",
+      "felder": [
+        "socialInsurance.terminationDate",
+        "socialInsurance.registeredAsJobSeekingOn",
+        "socialInsurance.registeredAsUnemployedOn",
+        "socialInsurance.noticeFromTheAgenturFRArbeit"
+      ],
+      "hinweise": [
+        "Wissen Sie, dass Ihr Arbeitsverhältnis endet, melden Sie sich früh arbeitsuchend bei der Agentur für Arbeit — eine späte Meldung kann Folgen haben.",
+        "Melden Sie sich rechtzeitig bei der Agentur für Arbeit arbeitslos — eine späte Meldung kann Leistungen kosten.",
+        "Nach einer Kündigung klären Sie zeitnah, ob Sie vorgehen möchten — kurze Fristen gelten. Hilfe gibt es bei Fachanwältin/Fachanwalt für Arbeitsrecht, der Gewerkschaft oder dem Arbeitsgericht."
+      ]
+    },
+    {
+      "id": "rechtliche-betreuung",
+      "sorte": "ereignis",
+      "name": "Rechtliche Betreuung",
+      "unterlagen": "Betreuerbestellung, Betreuungsausweis, gerichtlicher Beschluss",
+      "felder": [
+        "advanceCare.provisionInstruments",
+        "people.childrenAndDependants"
+      ],
+      "hinweise": [
+        "Eine rechtliche Betreuung nimmt der betreuten Person nicht automatisch die Fähigkeit, selbst zu entscheiden. Ob das Gericht zusätzlich angeordnet hat, dass bestimmte Entscheidungen der Zustimmung der Betreuerin oder des Betreuers bedürfen, steht im Beschluss.",
+        "Wenn Sie eine Vorsorgevollmacht haben und von einem Betreuungsverfahren erfahren, informieren Sie das Gericht darüber."
+      ]
+    },
+    {
+      "id": "zugang-zum-recht",
+      "sorte": "zustand",
+      "name": "Beratungshilfe oder Prozesskostenhilfe beantragen",
+      "unterlagen": "Einkommensnachweis, Kontoauszüge, Mietvertrag, Nachweise über Vermögen und laufende Zahlungsverpflichtungen",
+      "felder": [
+        "assets.additionalTypesOfIncome",
+        "assets.livingSituation",
+        "assets.homeSize",
+        "assets.housingCostsBorneAlone",
+        "assets.numberOfPeopleInTheHome",
+        "assets.housingCostsTotal",
+        "assets.housingCostsOwnShare"
+      ]
+    },
+    {
+      "id": "ausst-krankenversicherung",
+      "sorte": "ausstattung",
+      "name": "Krankenversicherung",
+      "unterlagen": "Versichertenkarte, Mitgliedsbescheinigung, Zusatzversicherungen, EHIC",
+      "felder": [
+        "health.healthInsurance",
+        "health.insuranceNumber",
+        "health.insuredThrough",
+        "health.supplementaryInsurance",
+        "health.healthInsuranceCards",
+        "health.ehicCardEuropeanHealth",
+        "health.dentalBonusBookletStorage"
+      ]
+    },
+    {
+      "id": "ausst-aerztliche-versorgung",
+      "sorte": "ausstattung",
+      "name": "Ärztliche Versorgung",
+      "unterlagen": "Wer behandelt: Hausarzt, Zahnarzt, Fachärzte",
+      "felder": [
+        "health.generalPractitioner",
+        "health.dentistNameContact",
+        "health.specialistDoctors",
+        "health.emergencyContacts"
+      ]
+    },
+    {
+      "id": "ausst-bankverbindung",
+      "sorte": "ausstattung",
+      "name": "Bankverbindung",
+      "unterlagen": "Kontoauszüge, Karten, Schließfachvertrag, Vollmachten",
+      "felder": [
+        "finance.accounts",
+        "finance.creditCards",
+        "finance.digitalBalances",
+        "administration.bankSafeDepositBoxBankBranch",
+        "administration.keyStorageLocation"
+      ]
+    },
+    {
+      "id": "ausst-pflegekasse-dienst",
+      "sorte": "ausstattung",
+      "name": "Pflegekasse und Pflegedienst",
+      "unterlagen": "Mitgliedsbescheinigung Pflegekasse, Pflegedienstvertrag",
+      "felder": [
+        "socialInsurance.longTermCareFund",
+        "socialInsurance.longTermCareFundNumbers",
+        "socialInsurance.longTermCareFundPhone",
+        "socialInsurance.homeCareServiceNameContact",
+        "socialInsurance.careHomeAssistedLiving",
+        "socialInsurance.careContractStorageLocation",
+        "people.whoProvidesThePrimaryCare"
+      ]
+    },
+    {
+      "id": "ausst-arbeitgeber",
+      "sorte": "ausstattung",
+      "name": "Arbeitgeber",
+      "unterlagen": "Arbeitsvertrag, Betriebsausweis, Ansprechpartner Personal",
+      "felder": [
+        "education.employer",
+        "education.employerAddress",
+        "education.lastEmployer"
+      ]
+    },
+    {
+      "id": "ausst-vermieter",
+      "sorte": "ausstattung",
+      "name": "Vermieter",
+      "unterlagen": "Wer vermietet, wie erreichbar, wo liegt die Kaution",
+      "felder": [
+        "housing.landlordPropertyManagement",
+        "housing.landlordPhone",
+        "housing.landlordEmail",
+        "housing.rentalDepositBankAmount",
+        "housing.furtherHomes"
+      ]
+    },
+    {
+      "id": "ausst-digitale-zugaenge",
+      "sorte": "ausstattung",
+      "name": "Digitale Zugänge und Behördenkonto",
+      "unterlagen": "BundID-Nachweis, ELSTER, Passwortmanager, zweite Adresse, Cloud-Konten, Krypto-Wallets",
+      "felder": [
+        "administration.bundid",
+        "administration.bundidVerificationLevel",
+        "administration.mainEmailAddress",
+        "administration.furtherEmailAddress",
+        "administration.protonMailEncryptedEmail",
+        "administration.passwordManager",
+        "administration.masterPasswordStorageLocation",
+        "administration.passwordBackupStorageLocation",
+        "administration.computerPasswordStorage",
+        "administration.smartphonePinStorageLocation",
+        "administration.cloudServices",
+        "administration.socialMedia",
+        "administration.computerDevices",
+        "administration.smartphone",
+        "administration.cryptoWalletsOverview",
+        "administration.seedPhraseStorageLocation",
+        "administration.hardwareWallet",
+        "administration.olderInheritedCryptoAccess"
+      ]
+    },
+    {
+      "id": "ausst-mobilitaet",
+      "sorte": "ausstattung",
+      "name": "Fahrzeug und Mobilitäts-Abos",
+      "unterlagen": "Fahrzeugschein, Kfz-Versicherung, Deutschlandticket, Führerschein",
+      "felder": [
+        "mobility.vehicles",
+        "mobility.carInsurance",
+        "mobility.deutschlandticketPublic",
+        "mobility.drivingLicenceClasses"
+      ]
+    },
+    {
+      "id": "ausst-beratung",
+      "sorte": "ausstattung",
+      "name": "Steuer- und Finanzberatung",
+      "unterlagen": "Mandatsvertrag, Vollmacht beim Finanzamt, Zugangsdaten Steuersoftware",
+      "felder": [
+        "finance.taxAdvisor",
+        "finance.taxAdvisorContact",
+        "finance.financialAdvisorNameContact",
+        "finance.taxSoftware",
+        "finance.latestTaxReturnStorageLocation",
+        "finance.taxIdsTaxNumbers"
+      ]
+    },
+    {
+      "id": "ausst-schluessel-zutritt",
+      "sorte": "ausstattung",
+      "name": "Schlüssel und Zutritt",
+      "unterlagen": "Wer hat einen Schlüssel, wo liegt der Tresorcode, Alarmanlage",
+      "felder": [
+        "administration.homeKeyWhoHoldsOne",
+        "administration.safeLocation",
+        "administration.safeCodeStorageLocation",
+        "administration.alarmSystemCodeStorageLocation"
+      ]
+    },
+    {
+      "id": "ausst-krisenvorsorge",
+      "sorte": "ausstattung",
+      "name": "Krisenvorsorge",
+      "unterlagen": "Trinkwasser- und Lebensmittelvorrat, Notfallrucksack, Erste-Hilfe-Set, Fluchtweg",
+      "felder": [
+        "emergencyPreparedness.drinkingWaterSupplyAmount",
+        "emergencyPreparedness.drinkingWaterSupplyStorage",
+        "emergencyPreparedness.drinkingWaterSupplyCheckShelf",
+        "emergencyPreparedness.foodSuppliesWhatIsStored",
+        "emergencyPreparedness.foodSuppliesStorageLocation",
+        "emergencyPreparedness.foodSuppliesCheckShelfLifeBy",
+        "emergencyPreparedness.torch",
+        "emergencyPreparedness.candles",
+        "emergencyPreparedness.batteriesSupply",
+        "emergencyPreparedness.crankBatteryRadio",
+        "emergencyPreparedness.powerBank",
+        "emergencyPreparedness.emergencyHeatingOption",
+        "emergencyPreparedness.firstAidKitStorageLocation",
+        "emergencyPreparedness.firstAidKitLastChecked",
+        "emergencyPreparedness.medicationSupply",
+        "emergencyPreparedness.emergencyBackpackInPlace",
+        "emergencyPreparedness.emergencyBackpackStorage",
+        "emergencyPreparedness.emergencyBackpackContents",
+        "emergencyPreparedness.folderWithImportantDocumentsIn",
+        "emergencyPreparedness.documentFolderStorageLocation",
+        "emergencyPreparedness.cashReserveInPlace",
+        "emergencyPreparedness.cashReserveStorageLocation",
+        "emergencyPreparedness.hygieneSuppliesWhatIsStored",
+        "emergencyPreparedness.hygieneSuppliesStorageLocation",
+        "emergencyPreparedness.meetingPointFamily",
+        "emergencyPreparedness.escapeRouteFromTheHome",
+        "emergencyPreparedness.fallbackLocation2ndStage",
+        "emergencyPreparedness.neighbourForEmergencies",
+        "emergencyPreparedness.specialSituation",
+        "emergencyPreparedness.noteForEmergencyResponders"
+      ]
+    }
+  ]
+}

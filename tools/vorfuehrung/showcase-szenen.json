@@ -1,0 +1,79 @@
+{
+  "format": "showcaseSzenen/1",
+  "hinweis": "Stationen der Vorführ-Schleife und Hinweistexte, DE/EN. Reihenfolge: Ordnung zuerst, der Notfall spät und in einem Satz. `ansicht` muss in VORFUEHRUNG_ANSICHTEN des Kerns stehen.",
+  "stationSekunden": 8,
+  "leerlaufSekunden": 90,
+  "warnSekunden": 10,
+  "texte": {
+    "de": {
+      "streifen": "Vorführung · Beispieldaten einer erfundenen Person",
+      "tippen": "Tippen Sie, um das Beispiel-Depot selbst zu öffnen.",
+      "leerlaufHinweis": "Die Vorführung beginnt gleich von vorn.",
+      "weiterAnsehen": "Weiter ansehen",
+      "gesperrt": "In der Vorführung wird nichts gespeichert. Die Anwendung selbst gibt es unter vivodepot.de/iop.",
+      "schliessen": "Schließen",
+      "auszug": "Auszug"
+    },
+    "en": {
+      "streifen": "Demonstration · sample data of a fictional person",
+      "tippen": "Tap to open the example depot yourself.",
+      "leerlaufHinweis": "The demonstration will restart shortly.",
+      "weiterAnsehen": "Keep exploring",
+      "gesperrt": "Nothing is saved in the demonstration. The application itself is at vivodepot.de/iop.",
+      "schliessen": "Close",
+      "auszug": "excerpt"
+    }
+  },
+  "stationen": [
+    {
+      "ansicht": "uebersicht",
+      "titel": { "de": "Bürgerseitige Datenhaltung mit Lebenskontext.", "en": "Citizen-side data custody with life context." },
+      "text": {
+        "de": "Dreizehn Bereiche, von Identität über Gesundheit und Verwaltung bis Wohnen. Eine Person trägt ein, was sonst an vielen Stellen verteilt liegt.",
+        "en": "Thirteen areas, from identity through health and administration to housing. One person records what is otherwise spread across many places."
+      }
+    },
+    {
+      "ansicht": "bereich", "ziel": "advanceCare",
+      "text": {
+        "de": "Eine Brieftasche zeigt vor, was eine Stelle über Sie bescheinigt. Das Depot verwahrt zusätzlich, was Sie selbst festlegen: wer bevollmächtigt ist und wen man anruft.",
+        "en": "A wallet presents what an authority certifies about you. The depot also keeps what you set down yourself: who holds power of attorney and whom to call."
+      }
+    },
+    {
+      "ansicht": "anlass", "ziel": "arzt",
+      "text": {
+        "de": "Für den Arzttermin geht der Ausschnitt hinaus, den dieser Anlass braucht. Das übrige Depot bleibt, wo es ist.",
+        "en": "For a doctor's appointment, only the extract this occasion needs leaves the depot. The rest stays where it is."
+      }
+    },
+    {
+      "ansicht": "fhir-ips",
+      "text": {
+        "de": "Gesundheitsangaben gehen als HL7 FHIR IPS und EU EPS hinaus, mit dem Vermerk, wer sie zusammengestellt hat.",
+        "en": "Health data leaves as HL7 FHIR IPS and EU EPS, stating who compiled it."
+      }
+    },
+    {
+      "ansicht": "notfall",
+      "text": {
+        "de": "Für den Notfall gibt es eine eigene Sicht. Oben stehen Allergien, Medikation und Diagnosen, darunter, wen man anruft.",
+        "en": "For emergencies there is a separate view. Allergies, medication and diagnoses come first, followed by whom to call."
+      }
+    },
+    {
+      "ansicht": "schluss",
+      "text": {
+        "de": "Verschlüsselt mit AES-256-GCM, Schlüssel aus PBKDF2-HMAC-SHA256 mit 600.000 Iterationen. Die Anwendung baut keine Netzverbindung auf. Ist das Passwort verloren, ist das Depot verloren, auch für uns.",
+        "en": "Encrypted with AES-256-GCM, key from PBKDF2-HMAC-SHA256 with 600,000 iterations. The application opens no network connection. If the password is lost, the depot is lost, for us as well."
+      }
+    },
+    {
+      "ansicht": "schluss",
+      "text": {
+        "de": "Anwendung quelloffen unter EUPL-1.2. vivodepot.de/iop · info@vivodepot.de",
+        "en": "Application open source under EUPL-1.2. vivodepot.de/iop · info@vivodepot.de"
+      }
+    }
+  ]
+}

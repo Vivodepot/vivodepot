@@ -1,0 +1,164 @@
+{
+ "beschreibung": "Grundlinie für tools/stumme-zurueckweisung-pruefen.js (22.09.2026): jede Stelle der Form „if (…gueltig…) continue;“ in vivodepot-lesen.html und vivodepot.html, mit Sorte (spur, ausnahme, offen). Ausnahmen tragen Grund und Probe; die Zahl der offenen (offenDeckel) ist exakt und kann nur sinken. Ort ist die umgebende Funktion, nie eine Zeilennummer.",
+ "spurFunktionen": [
+  "_verwurfSpurLesen(",
+  "_VERWORFEN_LESEN.push(",
+  "_VERWORFEN.push("
+ ],
+ "offenDeckel": 6,
+ "dateien": {
+  "vivodepot-lesen.html": [
+   {
+    "ort": "_textsatzModuleBelegPruefen",
+    "bedingung": "!certRes || !certRes.gueltig",
+    "art": "ausnahme",
+    "grund": "Eine Belegprüfung, keine Modul-Zurückweisung: ein Sprachmodul, dessen Beleg (Aussteller-Zertifikat, Signatur) nicht prüfbar ist, bleibt angemeldet und trägt nur keine Zusicherungssätze; das ist die Vertrauensgrenze bei der Arbeit, und der Stand steht als Prüfstand-Marke in der Anzeige, nicht in der Lücken-Spur.",
+    "probe": "tests/sprachmodul-zusicherungen-lese-app.test.js"
+   },
+   {
+    "ort": "_textsatzModuleBelegPruefen",
+    "bedingung": "!tv || !tv.gueltig || !tv.nutzlast || tv.nutzlast.modulTyp !== 'textsatz'",
+    "art": "ausnahme",
+    "grund": "Eine Belegprüfung, keine Modul-Zurückweisung: ein Sprachmodul, dessen Beleg (Aussteller-Zertifikat, Signatur) nicht prüfbar ist, bleibt angemeldet und trägt nur keine Zusicherungssätze; das ist die Vertrauensgrenze bei der Arbeit, und der Stand steht als Prüfstand-Marke in der Anzeige, nicht in der Lücken-Spur.",
+    "probe": "tests/sprachmodul-zusicherungen-lese-app.test.js"
+   },
+   {
+    "ort": "_textsatzModuleAusDepotAnmelden",
+    "bedingung": "!geprueft || !geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_bereichsModuleAusDepotAnmeldenLesen",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_angehoerigenVorlagenAusDepotAnmeldenLesen",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_bereicheVerwaisteRetten",
+    "bedingung": "!g || !g.gueltig",
+    "art": "ausnahme",
+    "grund": "Ein zweiter Durchlauf, der nur die Kennungen gültiger Bereichs-Module sammelt, um verwaiste Bereiche zu erkennen; dasselbe Modul ist in _bereichsModuleAusDepotAnmeldenLesen (bzw. im Kern _bereichsModuleAusDepotAnmelden) mit Grund in der Verwurfsliste erfasst. Hier eine Spur zu schreiben zählte jedes verworfene Modul doppelt.",
+    "probe": "tests/bereich-identitaet-verwaist.test.js"
+   },
+   {
+    "ort": "logikModulAbschnitteHTML",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   }
+  ],
+  "vivodepot.html": [
+   {
+    "ort": "_stellensatzModuleAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "offen",
+    "grund": "Ein ungültiges Stellensatz-Modul: der Rumpf ist ein bloßes `continue;`, ohne Zeile in einer Verwurfsliste (ob die Funktion davor eine schreibt, ist nicht geprüft)."
+   },
+   {
+    "ort": "_textsatzModuleBelegPruefen",
+    "bedingung": "!certRes || !certRes.gueltig",
+    "art": "ausnahme",
+    "grund": "Eine Belegprüfung, keine Modul-Zurückweisung: ein Sprachmodul, dessen Beleg (Aussteller-Zertifikat, Signatur) nicht prüfbar ist, bleibt angemeldet und trägt nur keine Zusicherungssätze; das ist die Vertrauensgrenze bei der Arbeit, und der Stand steht als Prüfstand-Marke in der Anzeige, nicht in der Lücken-Spur.",
+    "probe": "tests/sprachmodul-zusicherungen-signiert.test.js"
+   },
+   {
+    "ort": "_textsatzModuleBelegPruefen",
+    "bedingung": "!tv || !tv.gueltig || !tv.nutzlast || tv.nutzlast.modulTyp !== 'textsatz'",
+    "art": "ausnahme",
+    "grund": "Eine Belegprüfung, keine Modul-Zurückweisung: ein Sprachmodul, dessen Beleg (Aussteller-Zertifikat, Signatur) nicht prüfbar ist, bleibt angemeldet und trägt nur keine Zusicherungssätze; das ist die Vertrauensgrenze bei der Arbeit, und der Stand steht als Prüfstand-Marke in der Anzeige, nicht in der Lücken-Spur.",
+    "probe": "tests/sprachmodul-zusicherungen-signiert.test.js"
+   },
+   {
+    "ort": "_textsatzRueckfallRegistryBauen",
+    "bedingung": "!geprueft.gueltig",
+    "art": "offen",
+    "grund": "Ein ungültiges Sprachmodul im Rückfall-Aufbau: der Rumpf ist ein bloßes `continue;` (ob die Funktion davor eine Spur schreibt, ist nicht geprüft; die Lese-App-Fassung schreibt jetzt eine)."
+   },
+   {
+    "ort": "_bereichModulAbWerkSeed",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_bereichsModuleAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_situationsModuleAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_angehoerigenVorlagenAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_wizardsModuleAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "_blattformatModuleAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "offen",
+    "grund": "Ein ungültiges Blattformat-Modul: der Rumpf ist ein bloßes `continue;`, ohne Zeile in einer Verwurfsliste (ob die Funktion davor eine schreibt, ist nicht geprüft)."
+   },
+   {
+    "ort": "_bedingungskatalogModuleAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "offen",
+    "grund": "Ein ungültiges Bedingungskatalog-Modul: der Rumpf ist ein bloßes `continue;`, ohne Zeile in einer Verwurfsliste (ob die Funktion davor eine schreibt, ist nicht geprüft)."
+   },
+   {
+    "ort": "_institutionsArtenAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "offen",
+    "grund": "Ein ungültiges Institutionsarten-Modul: der Rumpf ist ein bloßes `continue;`, ohne Zeile in einer Verwurfsliste (ob die Funktion davor eine schreibt, ist nicht geprüft)."
+   },
+   {
+    "ort": "eingelasseneModule",
+    "bedingung": "!geprueft || !geprueft.gueltig",
+    "art": "ausnahme",
+    "grund": "Die Zurückweisung wird mit `ausgefallen: true` und Grund in die Ergebnisliste geschrieben, bevor das continue folgt: das IST die Spur, ihr Leser ist die Prüfstufen-Anzeige der eingelassenen Module.",
+    "probe": "tests/modul-pruefstufe-anzeige.test.js"
+   },
+   {
+    "ort": "_ereignisAchseModuleAusDepotAnmelden",
+    "bedingung": "!geprueft.gueltig",
+    "art": "spur"
+   },
+   {
+    "ort": "prueftermineFelder",
+    "bedingung": "!gueltig",
+    "art": "ausnahme",
+    "grund": "Keine Modulprüfung: `gueltig` ist hier das Gültigkeitsobjekt eines Datums (bis, ab), das `continue` überspringt eine Zeile ohne brauchbare Angabe; es wird kein Modul und keine Datei zurückgewiesen.",
+    "probe": "tests/korb1-mehrwertig-pruefermine.test.js"
+   },
+   {
+    "ort": "prueftermineFelder",
+    "bedingung": "e.geprueftAm && String(e.geprueftFuer || '') === String(gueltig.bis || '')",
+    "art": "ausnahme",
+    "grund": "Keine Modulprüfung: `gueltig` ist hier das Gültigkeitsobjekt eines Datums (bis, ab), das `continue` überspringt eine Zeile ohne brauchbare Angabe; es wird kein Modul und keine Datei zurückgewiesen.",
+    "probe": "tests/korb1-mehrwertig-pruefermine.test.js"
+   },
+   {
+    "ort": "_bereicheVerwaisteRetten",
+    "bedingung": "!g || !g.gueltig",
+    "art": "ausnahme",
+    "grund": "Ein zweiter Durchlauf, der nur die Kennungen gültiger Bereichs-Module sammelt, um verwaiste Bereiche zu erkennen; dasselbe Modul ist in _bereichsModuleAusDepotAnmeldenLesen (bzw. im Kern _bereichsModuleAusDepotAnmelden) mit Grund in der Verwurfsliste erfasst. Hier eine Spur zu schreiben zählte jedes verworfene Modul doppelt.",
+    "probe": "tests/bereich-identitaet-verwaist.test.js"
+   },
+   {
+    "ort": "logikModulAuszugKartenHTML",
+    "bedingung": "!geprueft.gueltig",
+    "art": "offen",
+    "grund": "Das Gegenstück zu logikModulAbschnitteHTML der Lese-App: der Rumpf ist ein bloßes `continue;` beim Zeichnen eines ungültigen Logik-Moduls (die Lese-App-Fassung schreibt jetzt eine Spur)."
+   }
+  ]
+ }
+}
