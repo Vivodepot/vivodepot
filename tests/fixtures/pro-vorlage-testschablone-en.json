@@ -1,0 +1,815 @@
+{
+  "modulTyp": "vorlage",
+  "anbieterId": "vivodepot-test",
+  "felder": [
+    {
+      "feldname": "Testfeld 1",
+      "feldtyp": "jaNein",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 2",
+      "pflicht": true
+    },
+    {
+      "feldname": "Testfeld 3",
+      "feldtyp": "auswahl",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 4",
+      "codeWerte": [
+        {
+          "code": "testcode_1",
+          "anzeige": "Testoption 5"
+        },
+        {
+          "code": "testcode_2",
+          "anzeige": "Testoption 6"
+        },
+        {
+          "code": "testcode_3",
+          "anzeige": "Testoption 7"
+        },
+        {
+          "code": "testcode_4",
+          "anzeige": "Testoption 8"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 9",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 10"
+    },
+    {
+      "feldname": "Testfeld 11",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 12"
+    },
+    {
+      "feldname": "Testfeld 13",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 14",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 15",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 16",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 17",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 18",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 19",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 20",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "TestUnterfeld 21",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 22",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 23",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 24",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 25",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 26",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 27",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 28",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 29",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 30"
+    },
+    {
+      "feldname": "Testfeld 31",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 32",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 33",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 34",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 35",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 36",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 37",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 38",
+          "feldtyp": "jaNein"
+        },
+        {
+          "feldname": "TestUnterfeld 39",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 40",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 41",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 42",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 43",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 44",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 45",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 46",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 47",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "TestUnterfeld 48",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 49",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 50",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 51",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 52",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 53",
+      "feldtyp": "jaNein",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 54"
+    },
+    {
+      "feldname": "Testfeld 55",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 56",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 57",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 58",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 59",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 60",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 61",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 62",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 63",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 64",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 65",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 66",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 67",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 68",
+          "feldtyp": "jaNein"
+        },
+        {
+          "feldname": "TestUnterfeld 69",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 70",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 71",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 72",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 73",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 74",
+          "feldtyp": "jaNein"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 75",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 76",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 77",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 78",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 79",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 80",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 81",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 82",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 83",
+          "feldtyp": "jaNein"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 84",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 85",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 86",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 87",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 88",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 89",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 90",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 91",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 92",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 93",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 94",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 95",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 96",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 97",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 98",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 99",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 100",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 101",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 102",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 103",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 104",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 105",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 106",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 107",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 108",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 109",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 110",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 111",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 112",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 113",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 114",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 115",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 116",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 117",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 118",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 119",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 120",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 121",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 122",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 123",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 124",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 125",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 126",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 127",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 128",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 129",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 130",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Testgruppe 131",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 132",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 133",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 134",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Testgruppe 135",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 136",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 137",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 138",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Testgruppe 139",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 140",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 141",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 142",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 143",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Testgruppe 144",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 145",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 146",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 147",
+      "feldtyp": "liste",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "gruppe": "Testgruppe 148",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 149",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 150",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 151",
+      "feldtyp": "liste",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "gruppe": "Testgruppe 152",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 153",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 154",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 155",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 156",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 157",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 158",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 159",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 160",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 161",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 162",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 163",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 164",
+      "feldtyp": "text",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 165"
+    },
+    {
+      "feldname": "Testfeld 166",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 167",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 168",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 169",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 170",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 171",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 172",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 173",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 174",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 175",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 176",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 177",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 178",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 179",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 180",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 181",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 182",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 183",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 184",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 185",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 186",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 187",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 188",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Testgruppe 189",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 190",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 191",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "TestUnterfeld 192",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Testfeld 193",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 194"
+    },
+    {
+      "feldname": "Testfeld 195",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Testgruppe 196"
+    },
+    {
+      "feldname": "Testfeld 197",
+      "feldtyp": "text",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 198"
+    },
+    {
+      "feldname": "Testfeld 199",
+      "feldtyp": "text",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Testgruppe 200"
+    },
+    {
+      "feldname": "Testfeld 201",
+      "feldtyp": "text",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Testgruppe 202"
+    },
+    {
+      "feldname": "Testfeld 203",
+      "feldtyp": "datum",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Testgruppe 204"
+    },
+    {
+      "feldname": "Testfeld 205",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Testgruppe 206",
+      "unterFelder": [
+        {
+          "feldname": "TestUnterfeld 207",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "TestUnterfeld 208",
+          "feldtyp": "text"
+        }
+      ]
+    }
+  ]
+}

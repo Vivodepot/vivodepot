@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/ereignis-achse-modul-schema.json",
+  "title": "Vivodepot Ereignis-Achse-Modul",
+  "description": "Ein Ereignis-Achse-Modul sagt für Felder, die ein Modul mitbringt, welche Lebensereignisse (Familienstand, Tod, Betreuung, Geburt) sie berühren — oder warum ein Feld ausdrücklich ausgenommen ist. Ein Eintrag ist über das Tripel `sektorId.feldId.unterFeldId` bestimmt. Maßstab ist der Kern: ereignisAchseModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-ereignis-achse.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber. Was am laufenden Bestand hängt, prüft nur der Kern: ob `sektorId` ein bekannter Bereich oder eine bekannte Situation ist und ob das Tripel ab Werk belegt ist; solche Einträge verwirft er einzeln, ebenso ein Tripel, das im selben Modul doppelt steht. Bleibt kein Eintrag übrig, lehnt er ab (Grund `leer`).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["moduleVersion", "herkunft", "eintraege"],
+  "properties": {
+    "modulTyp": { "const": "ereignisAchse" },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "herkunft": { "description": "Anbieter-Kennung des Moduls, nicht leer; ein späteres Modul derselben Herkunft mit höherer Fassung ersetzt es.", "type": "string", "pattern": "\\S" },
+    "eintraege": {
+      "description": "Liste der Einträge. Entweder `ereignisse` (aus dem geschlossenen Katalog) oder `ausgenommen` (eine interne Begründung).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sektorId", "feldId"],
+        "properties": {
+          "sektorId": { "description": "Bereichs- oder Situations-Kennung; muss dem Kern bekannt sein.", "type": "string", "pattern": "\\S" },
+          "feldId": { "type": "string", "pattern": "\\S" },
+          "unterFeldId": { "type": "string" },
+          "ereignisse": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "enum": ["familienstand", "tod", "betreuung", "geburt"] }
+          },
+          "ausgenommen": { "description": "Interne Begründung, warum das Feld keine Ereignisse trägt; hat Vorrang vor `ereignisse`.", "type": "string", "pattern": "\\S" }
+        },
+        "anyOf": [
+          { "required": ["ereignisse"], "properties": { "ereignisse": true } },
+          { "required": ["ausgenommen"], "properties": { "ausgenommen": true } }
+        ]
+      }
+    },
+    "sprache": { "description": "Freiwillig; ein Eintrag trägt keinen Anzeigetext.", "type": "string" },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" }
+  }
+}

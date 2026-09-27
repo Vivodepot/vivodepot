@@ -1,0 +1,18 @@
+{
+  "beschreibung": "T-CROSS-01 — Voll-Depot Bürger → Lese-App. Definierte Test-Werte, keine echten Personendaten.",
+  "ankerName": "Marlies Testanker",
+  "passwort": "cross-e2e-voll-123",
+  "identity": { "givenName": "Marlies", "familyName": "Testanker" },
+  "gesundheitAllergie": {
+    "feld": "allergiesMedicationFoodOther",
+    "anzeige": "Allergie gegen Penicillin",
+    "snomedCode": "91936005",
+    "snomedAnzeige": "Allergie gegen Penicillin"
+  },
+  "advanceCare": { "feld": "personalCareDignity", "wert": "Taegliche Koerperpflege am Morgen, moeglichst selbstaendig" },
+  "mappe": { "name": "Patientenverfuegung.txt", "inhalt": "TEST — Patientenverfuegung (Platzhalter)" },
+  "erwartet": {
+    "provenienz": "von Marlies",
+    "snomedAnzeigeName": "Allergie gegen Penicillin"
+  }
+}

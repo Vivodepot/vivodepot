@@ -1,0 +1,318 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/socialInsurance",
+  "fassung": 1,
+  "bereiche": {
+    "socialInsurance": {
+      "id": "socialInsurance",
+      "format": "SD_JWT_VC",
+      "icon": "shield",
+      "exporte": [
+        {
+          "format": "sd-jwt-vc-sozialversicherung",
+          "labelSchluessel": "exportSozialversicherungLabel"
+        }
+      ],
+      "wizards": [
+        "pflwiz"
+      ],
+      "standardDokumente": [
+        {
+          "typ": "severe-disability-card",
+          "name": "Schwerbehindertenausweis",
+          "empfRhythmusMonate": null,
+          "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Ausweise sind oft befristet (5 Jahre); Verlängerung 3 Monate vor Ablauf beim Versorgungsamt beantragen.",
+          "felder": [
+            {
+              "sektorId": "socialInsurance",
+              "feldId": "severeDisabilityCards",
+              "unterfeldId": "validUntil"
+            }
+          ]
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "renten-pflege-soz",
+          "felder": [
+            {
+              "id": "pensionInsuranceNumbers",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "pensionInsuranceNumber",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "longTermCareFund",
+              "sensibel": true,
+              "typ": "ref",
+              "entitaet": "institution",
+              "verweisZweck": "pflege"
+            },
+            {
+              "id": "longTermCareFundNumbers",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "longTermCareFundNumber",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "longTermCareFundPhone",
+              "sensibel": true,
+              "typ": "text",
+              "eingabeTyp": "tel"
+            },
+            {
+              "id": "careLevel",
+              "sensibel": true,
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "1"
+                },
+                {
+                  "wert": "2"
+                },
+                {
+                  "wert": "3"
+                },
+                {
+                  "wert": "4"
+                },
+                {
+                  "wert": "5"
+                }
+              ]
+            },
+            {
+              "id": "careLevelSinceYear",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "numeric",
+              "sichtbarWenn": {
+                "feld": "careLevel",
+                "wert": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            },
+            {
+              "id": "noticeDated",
+              "sensibel": true,
+              "typ": "datum",
+              "marken": [
+                "frist"
+              ],
+              "fristRegel": {
+                "dauer": "P1M",
+                "quelle": "§ 84 Abs. 1 SGG"
+              },
+              "sichtbarWenn": {
+                "feld": "careLevel",
+                "wert": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            },
+            {
+              "id": "careLevelTimeLimitedUntil",
+              "marken": [
+                "laeuftAb"
+              ],
+              "sensibel": true,
+              "typ": "datum",
+              "sichtbarWenn": {
+                "feld": "careLevel",
+                "wert": [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }
+            },
+            {
+              "id": "longTermCareAllowanceTypeOf",
+              "sensibel": true,
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "pflegegeld"
+                },
+                {
+                  "wert": "sachleistung"
+                },
+                {
+                  "wert": "kombinationsleistung"
+                }
+              ]
+            },
+            {
+              "id": "longTermCareAllowanceAmount",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "longTermCareAllowanceEarlier",
+              "sensibel": true,
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "schwerbehinderung-pflege",
+          "felder": [
+            {
+              "id": "degreeOfDisabilityGdb",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "markers",
+              "sensibel": true,
+              "typ": "mehrfachauswahl",
+              "optionen": [
+                {
+                  "wert": "G"
+                },
+                {
+                  "wert": "aG"
+                },
+                {
+                  "wert": "H"
+                },
+                {
+                  "wert": "Bl"
+                },
+                {
+                  "wert": "Gl"
+                },
+                {
+                  "wert": "B"
+                },
+                {
+                  "wert": "RF"
+                },
+                {
+                  "wert": "TBl"
+                }
+              ]
+            },
+            {
+              "id": "gdbReviewReAssessmentDate",
+              "sensibel": true,
+              "marken": [
+                "frist"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "severeDisabilityCards",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "storageLocation",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "validUntil",
+                  "sensibel": true,
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "homeCareServiceNameContact",
+              "sensibel": true,
+              "typ": "ref",
+              "entitaet": "institution",
+              "art": "pflegedienst",
+              "verweisZweck": "aerztlich"
+            },
+            {
+              "id": "careHomeAssistedLiving",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "careContractStorageLocation",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            }
+          ]
+        },
+        {
+          "id": "unemployment",
+          "felder": [
+            {
+              "id": "terminationDate",
+              "typ": "datum",
+              "keineZukunft": true,
+              "marken": [
+                "frist"
+              ],
+              "fristRegel": {
+                "dauer": "P3W",
+                "quelle": "§ 4 Satz 1 KSchG"
+              }
+            },
+            {
+              "id": "registeredAsJobSeekingOn",
+              "marken": [
+                "frist"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "registeredAsUnemployedOn",
+              "marken": [
+                "frist"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "noticeFromTheAgenturFRArbeit",
+              "typ": "text"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

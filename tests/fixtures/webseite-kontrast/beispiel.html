@@ -1,0 +1,13 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Kontrast-Fixture</title>
+<style>
+  body { background: #ffffff; color: #1a1a1a; font-family: system-ui, sans-serif; }
+  .gut   { color: #1a1a1a; background: #ffffff; font-size: 16px; }
+  .knapp { color: #767676; background: #ffffff; font-size: 16px; }   /* 4.54 : 1 — besteht knapp */
+  .rot   { color: #999999; background: #ffffff; font-size: 16px; }   /* 2.85 : 1 — Unterschreitung */
+  .grossRot { color: #949494; background: #ffffff; font-size: 28px; } /* 3.03 : 1 — gross, besteht */
+</style></head><body>
+  <p class="gut">Ein Satz mit sicherem Kontrast.</p>
+  <p class="knapp">Ein Satz, der die Schwelle knapp haelt.</p>
+  <p class="rot">Ein Satz, der die Schwelle unterschreitet.</p>
+  <p class="grossRot">Grosse Schrift mit niedrigerer Schwelle.</p>
+</body></html>

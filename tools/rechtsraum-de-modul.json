@@ -1,0 +1,89 @@
+{
+  "modulTyp": "rechtsraum",
+  "rechtsraum": "DE",
+  "moduleVersion": 1,
+  "sprache": "de",
+  "anbieterId": "vivodepot",
+  "typen": {
+    "enduring-power-of-attorney": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": null,
+      "fristenVorrang": {
+        "auswahlform": "alle"
+      },
+      "zweck": [
+        "vermoegenssorge",
+        "gesundheitssorge"
+      ]
+    },
+    "custodianship-declaration": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": null,
+      "fristenVorrang": {
+        "auswahlform": "neueste"
+      },
+      "zweck": [
+        "vermoegenssorge",
+        "gesundheitssorge"
+      ]
+    },
+    "living-will": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": {
+        "paragraf": "§ 1827 BGB"
+      },
+      "fristenVorrang": {
+        "auswahlform": "neueste",
+        "gueltigkeit": "lebenslang",
+        "paragraf": "§ 1827 BGB"
+      },
+      "zweck": [
+        "gesundheitssorge"
+      ]
+    },
+    "ki-verfuegung": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": {
+        "paragraf": "§ 2247 BGB",
+        "hinweis": null
+      },
+      "fristenVorrang": {
+        "auswahlform": "neueste"
+      },
+      "zweck": [
+        "postmortalespersoenlichkeitsrecht"
+      ]
+    },
+    "will": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": {
+        "paragraf": "§ 2247 BGB",
+        "hinweis": "Eigenhändig geschrieben und unterschrieben; die Bindung einer KI-Verfügung entsteht erst über die Einbettung ins Testament."
+      },
+      "fristenVorrang": {
+        "auswahlform": "neueste",
+        "paragraf": "§ 2258 BGB",
+        "hinweis": "Das jüngere Testament widerruft das frühere."
+      },
+      "zweck": [
+        "nachlass"
+      ]
+    },
+    "spousal-emergency-representation": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": null,
+      "fristenVorrang": {
+        "monate": 6,
+        "paragraf": "§ 1358 Abs. 3 Nr. 4 BGB",
+        "hinweis": "Erlischt sechs Monate nach dem ärztlich festgestellten Zeitpunkt; deckt nur Gesundheitsangelegenheiten (Abs. 1)."
+      },
+      "zweck": null
+    }
+  }
+}

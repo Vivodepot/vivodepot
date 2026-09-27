@@ -1,0 +1,46 @@
+{
+  "modulTyp": "rechtsraum",
+  "rechtsraum": "DE",
+  "moduleVersion": 1,
+  "anbieterId": "vivodepot",
+  "felder": {
+    "mobility.passportValidUntil": {
+      "gueltigkeitVorschlag": {
+        "ausFeld": "passportIssuedOn",
+        "regel": "ausweisdauer"
+      }
+    },
+    "socialInsurance.noticeDated": {
+      "fristRegel": {
+        "dauer": "P1M",
+        "quelle": "§ 84 Abs. 1 SGG"
+      }
+    },
+    "socialInsurance.terminationDate": {
+      "fristRegel": {
+        "dauer": "P3W",
+        "quelle": "§ 4 Satz 1 KSchG"
+      }
+    },
+    "situation:geburt.geburt_kind_kv": {
+      "fristRegel": {
+        "abFeld": "geburt_datum",
+        "dauer": "P2M",
+        "quelle": "§ 198 Abs. 1 VVG"
+      }
+    },
+    "situation:erbfall.erb_sterbeurkunde": {
+      "fristRegel": {
+        "abFeld": "erb_sterbedatum",
+        "dauer": "P3WERKTAGE",
+        "quelle": "§ 28 PStG"
+      }
+    },
+    "situation:erbfall.erb_schulden_kenntnis": {
+      "fristRegel": {
+        "dauer": "P6W",
+        "quelle": "§ 1944 BGB"
+      }
+    }
+  }
+}

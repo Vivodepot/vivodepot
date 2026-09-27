@@ -1,0 +1,143 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-gesellschaft-nachfolge",
+  "fassung": 1,
+  "bereiche": {
+    "pro-gesellschaft-nachfolge": {
+      "id": "pro-gesellschaft-nachfolge",
+      "icon": "landmark",
+      "sektionen": [
+        {
+          "id": "was-die-gesellschaft-handlungsfaehig-mac",
+          "felder": [
+            {
+              "id": "tpl_gesellschafterliste",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_fassung_vom",
+                  "typ": "datum"
+                },
+                {
+                  "id": "tpl_original_liegt_bei",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_gesellschaftsvertrag",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_fundort",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_letzte_aenderung",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                }
+              ]
+            },
+            {
+              "id": "tpl_notar",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_kanzlei",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_urkundenverzeichnis_liegt_bei",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_steuerberatung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_buero",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_buchhaltung_liegt_bei",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_aufsichtsgremium_beirat_aufsichtsrat",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_mitglied",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_erbregelung_auf_die_gesellschaft_abgestimmt",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_abgestimmt",
+                  "typ": "checkbox"
+                },
+                {
+                  "id": "tpl_unterlage_liegt_bei",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rechtliche-grundlagen",
+          "felder": [
+            {
+              "id": "tpl_testament_oder_erbvertrag_ablageort",
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "finanzieller-ueberblick",
+          "felder": [
+            {
+              "id": "tpl_jahresabschluss_wo_der_aktuelle_stand_liegt",
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea"
+            }
+          ]
+        }
+      ],
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge",
+      "clusterRang": 1
+    }
+  }
+}

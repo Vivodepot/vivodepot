@@ -1,0 +1,16 @@
+<!doctype html><html><body><script>
+/* Erfundenes Gerüst-Fragment: ein Angehörigen-Blatt und eine Situation als Literal. */
+const BLATT_ALT = Object.freeze([
+  { id: 'krankenhausakut', icon: 'heartPulse',
+    bloecke: [
+      { id: 'aus-gesundheit', eintraege: [
+        { quelle: 'health', feld: 'bloodType' },
+        { quelle: 'health', feld: 'chronicConditionsDiagnoses' },
+      ] },
+    ] },
+]);
+const SITUATION_ALT = { id: 'geburt', titel: 'Geburt', bloecke: [ { id: 'x', eintraege: [] } ] };
+const DOK_ZUORDNUNG = { krankenhaus: { dokumenttypen: ['patientenverfuegung'] } };
+const TEXTE = { 'angSituation:krankenhausakut.titel': 'Krankenhaus' };
+function abfrage() { return blattId === 'pflegeheimakut'; }
+</script></body></html>

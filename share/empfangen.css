@@ -1,0 +1,72 @@
+/* Nur für empfangen.html. BEWUSST eine eigene Datei und keine Ergänzung in style.css:
+   jenes Blatt trägt die Ablage-Seite mit, und 158 KB wegen vier Regeln erneut hochzuladen
+   wäre das falsche Verhältnis. Das CSP dieser Seite erlaubt `style-src 'self'`, also ein
+   zweites Blatt vom selben Host — aber keine Inline-Stile. Deshalb hier und nicht im HTML.
+
+   Gemessen am 23.09.2026 an der frisch hochgeladenen Seite: ohne diese Regeln stehen
+   Beschriftung und Eingabefeld nebeneinander, und das Feld ist für einen Freigabe-Link von
+   rund 280 Zeichen viel zu klein. */
+
+#link-eingabe {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0 1rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  /* Gleiche Anmutung wie #url-feld auf der Ablage-Seite — dieselbe Sorte Inhalt:
+     eine lange, technische Zeichenkette, die man liest und vergleicht. */
+  font: 13px/1.4 ui-monospace, monospace;
+  border: 1px solid #d7ddd0;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+/* Die Beschriftung gehört über das Feld, nicht daneben. */
+#link-eingabe + button,
+label[for="link-eingabe"] { display: block; }
+
+/* Befund- und Ergebnis-Angaben: zwei Spalten, ohne Tabelle. Auf schmalen Schirmen
+   untereinander — die Seite wird häufiger auf einem Telefon geöffnet als am Schreibtisch,
+   weil der Link per Nachricht ankommt. */
+#befund-liste, #abgeholt-liste {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1rem;
+  margin: 1rem 0;
+}
+#befund-liste dt, #abgeholt-liste dt { font-weight: 600; }
+#befund-liste dd, #abgeholt-liste dd {
+  margin: 0;
+  overflow-wrap: anywhere;   /* eine Adresse darf den Kasten nicht sprengen */
+}
+
+@media (max-width: 480px) {
+  #befund-liste, #abgeholt-liste { grid-template-columns: 1fr; gap: 0.1rem; }
+  #befund-liste dd, #abgeholt-liste dd { margin-bottom: 0.6rem; }
+}
+
+/* Das Manifest sichtbar, aber gezähmt: die eingebettete JWE ist rund 20 KB in einer Zeile.
+   Scrollbar statt seitenfüllend — und umbrechend, damit eine Bildschirmaufnahme den Anfang
+   zeigt und nicht eine einzige lange Zeile. */
+#manifest-text {
+  max-height: 16rem;
+  overflow: auto;
+  margin: 0 0 1rem;
+  padding: 0.5rem;
+  font: 12px/1.45 ui-monospace, monospace;
+  background: #fff;
+  border: 1px solid #d7ddd0;
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+/* Passcode: kurz, aber in derselben Schrift wie der Link — er wird abgetippt und verglichen,
+   und eine Verwechslung von 0/O oder 1/l kostet hier einen von wenigen Versuchen. */
+#passcode-feld { margin: 0 0 1rem; }
+#passcode-feld label { display: block; margin-bottom: 0.35rem; }
+#passcode-eingabe {
+  display: block; width: 14rem; padding: 0.5rem;
+  font: 15px/1.4 ui-monospace, monospace; letter-spacing: 0.08em;
+  border: 1px solid #d7ddd0; border-radius: 4px;
+}

@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/design-modul-schema.json",
+  "title": "Vivodepot Designmodul",
+  "description": "Ein Designmodul setzt freigegebene Design-Tokens der Oberfläche (Name → Wert). Maßstab ist der Kern: designModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-design.test.js hält Schema und Kern im Gleichlauf. Nur die hier aufgeführten Tokens sind setzbar; vom Kern berechnete und vom Markenmodul belegte Tokens sind es nicht. Mindestens ein Token muss gesetzt sein.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tokens"
+  ],
+  "properties": {
+    "tokens": {
+      "description": "Token-Name → Wert in der Form seiner Kategorie.",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "--salbei-dunkel": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--salbei-mid": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--salbei-light": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--gold": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--gold-soft": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--cream": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--papier-bereich": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flaeche-warnung": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flaeche-hinweis": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flaeche-hover": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flaeche-neutral": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ink": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ink2": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ink3": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--line": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--whitelabel-primary": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--white": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--auf-akzent": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--success": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--warning": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--error": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--info": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--teal": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--modus-anker": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--modus-vollmacht": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--modus-angehoerigen": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--modus-notfall": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hafer": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--schilf": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hafer-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--schilf-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hafer-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--schilf-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hafer-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--schilf-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--font-narrativ": {
+          "$ref": "#/$defs/schrift"
+        },
+        "--font-inter": {
+          "$ref": "#/$defs/schrift"
+        },
+        "--line-feiner": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--fs-xs": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-xl": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-1": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-5": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-sm": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--shadow-soft": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--shadow-medium": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--shadow-strong": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--fokus": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--fokus-breite": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--salbei-nacht": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--btn-sek-hover": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--verwaltet-nacht": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dezent-nacht": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--wortmarke-vivo": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--wortmarke-depot": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--vollmacht-pause": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--fuss-schrift": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--fehler-flaeche": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--notfall-flaeche": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--feld-fehler-schrift": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-schrift": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-schrift-zart": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-schrift-hand": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-schrift-gedaempft": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ampel-gruen": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ampel-gelb": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ampel-gruen-hc": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ampel-gelb-hc": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ampel-rot-hc": {
+          "$ref": "#/$defs/farbe"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "farbe": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "description": "Sechsstelliges Hex (#RRGGBB)."
+    },
+    "schrift": {
+      "type": "string",
+      "pattern": "^\\s*\\S([\\s\\S]{0,98}\\S)?\\s*$",
+      "description": "Schriftstapel; ohne Rand-Leerraum 1 bis 100 Zeichen."
+    },
+    "laenge": {
+      "type": "string",
+      "pattern": "^-?[0-9]+(\\.[0-9]+)?(px|rem|em)$",
+      "description": "Zahl mit px, rem oder em."
+    },
+    "schatten": {
+      "type": "string",
+      "pattern": "^((?:0|-?[0-9]+(?:\\.[0-9]+)?px)\\s+){2,3}rgba?\\([0-9]{1,3}\\s*,\\s*[0-9]{1,3}\\s*,\\s*[0-9]{1,3}(\\s*,\\s*(0|1|0?\\.[0-9]+))?\\)$",
+      "description": "Zwei oder drei Längen, dann rgb()/rgba()."
+    }
+  }
+}

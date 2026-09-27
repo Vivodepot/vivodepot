@@ -1,0 +1,577 @@
+{
+  "modulTyp": "wizard",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "wizards": {
+    "gebwiz": {
+      "icon": "baby",
+      "ziel": {
+        "situation": "geburt"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "geburt_klinik",
+            "typ": "text",
+            "label": "Geburtsklinik / Geburtsort",
+            "beispiel": "Klinikum Großhadern, München"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_hebamme",
+            "typ": "ref",
+            "entitaet": "person",
+            "label": "Hebamme — Name & Kontakt"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_urkunde",
+            "sensibel": true,
+            "typ": "text",
+            "label": "Geburtsurkunde — beantragt / Ablageort",
+            "beispiel": "beim Standesamt beantragt; Ordner „Kind“"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_kind_kv",
+            "typ": "auswahl",
+            "optionenAus": {
+              "situation": "geburt",
+              "feld": "geburt_kind_kv"
+            },
+            "label": "Krankenversicherung des Kindes",
+            "optionen": [
+              {
+                "wert": "familienversicherung_gesetzlich",
+                "label": "Familienversicherung gesetzlich"
+              },
+              {
+                "wert": "anderer_elternteil",
+                "label": "beim anderen Elternteil"
+              },
+              {
+                "wert": "eigene_privat",
+                "label": "eigene private Versicherung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_elterngeld",
+            "typ": "text",
+            "label": "Elterngeld — Antrag",
+            "beispiel": "Antrag bei der Elterngeldstelle gestellt 06/2026"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_kindergeld",
+            "typ": "text",
+            "label": "Kindergeld — Familienkasse",
+            "beispiel": "Antrag bei der Familienkasse; Kindergeld-Nr. folgt"
+          }
+        },
+        {
+          "feld": {
+            "id": "guidedBirthEntryChildsNameNot",
+            "typ": "text",
+            "label": "Name des Kindes",
+            "beispiel": "Mia Musterfrau"
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        },
+        {
+          "feld": {
+            "id": "guidedBirthEntryDateOfBirthNot",
+            "typ": "datum",
+            "label": "Geburtsdatum"
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        },
+        {
+          "feld": {
+            "id": "guidedBirthEntryRelationship",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "people",
+              "feldId": "guidedBirthEntryRelationship"
+            },
+            "label": "Verhältnis",
+            "optionen": [
+              {
+                "wert": "leiblich",
+                "label": "leibliches Kind"
+              },
+              {
+                "wert": "adoptiert",
+                "label": "Adoptivkind"
+              },
+              {
+                "wert": "pflege",
+                "label": "Pflegekind"
+              },
+              {
+                "wert": "stief",
+                "label": "Stiefkind"
+              },
+              {
+                "wert": "muendel",
+                "label": "Mündel / Vormundschaft"
+              }
+            ]
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        }
+      ]
+    },
+    "anamwiz": {
+      "icon": "stethoscope",
+      "ziel": {
+        "sektor": "health"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "chronicConditionsDiagnoses",
+            "typ": "text",
+            "codeListe": "icd10",
+            "label": "Chronische Erkrankungen / Diagnosen",
+            "beispiel": "Diabetes mellitus Typ 2"
+          }
+        },
+        {
+          "feld": {
+            "id": "allergiesMedicationFoodOther",
+            "typ": "text",
+            "codeListe": "snomedAllergen",
+            "label": "Allergien",
+            "beispiel": "Penicillin"
+          }
+        },
+        {
+          "feld": {
+            "id": "medicationOngoing",
+            "typ": "text",
+            "codeListe": "atc",
+            "label": "Medikamente (laufend)",
+            "beispiel": "Ramipril 5 mg morgens"
+          }
+        },
+        {
+          "feld": {
+            "id": "operationsProcedures",
+            "typ": "text",
+            "label": "Operation / Eingriff",
+            "beispiel": "Blinddarm-Entfernung 2008"
+          },
+          "ziel": {
+            "sektor": "health",
+            "liste": "operationsProcedures",
+            "unterfeld": "procedure"
+          }
+        },
+        {
+          "feld": {
+            "id": "vaccinations",
+            "typ": "text",
+            "label": "Impfungen",
+            "beispiel": "Tetanus 2022, Grippe jährlich"
+          }
+        },
+        {
+          "feld": {
+            "id": "familyMedicalHistory",
+            "typ": "text",
+            "label": "Erkrankung in der Familie",
+            "beispiel": "Vater: Herzinfarkt mit 60"
+          },
+          "ziel": {
+            "sektor": "health",
+            "liste": "familyMedicalHistory",
+            "unterfeld": "condition"
+          }
+        }
+      ]
+    },
+    "pflwiz": {
+      "icon": "shield",
+      "ziel": {
+        "sektor": "socialInsurance"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "careLevel",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "socialInsurance",
+              "feldId": "careLevel"
+            },
+            "label": "Pflegegrad",
+            "optionen": [
+              {
+                "wert": "1",
+                "label": "Pflegegrad 1"
+              },
+              {
+                "wert": "2",
+                "label": "Pflegegrad 2"
+              },
+              {
+                "wert": "3",
+                "label": "Pflegegrad 3"
+              },
+              {
+                "wert": "4",
+                "label": "Pflegegrad 4"
+              },
+              {
+                "wert": "5",
+                "label": "Pflegegrad 5"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "homeCareServiceNameContact",
+            "typ": "ref",
+            "entitaet": "institution",
+            "art": "pflegedienst",
+            "label": "Ambulanter Pflegedienst — Name & Kontakt"
+          }
+        },
+        {
+          "feld": {
+            "id": "longTermCareAllowanceTypeOf",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "socialInsurance",
+              "feldId": "longTermCareAllowanceTypeOf"
+            },
+            "label": "Pflegegeld — Leistungsart",
+            "optionen": [
+              {
+                "wert": "pflegegeld",
+                "label": "Pflegegeld"
+              },
+              {
+                "wert": "sachleistung",
+                "label": "Sachleistung"
+              },
+              {
+                "wert": "kombinationsleistung",
+                "label": "Kombinationsleistung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "longTermCareAllowanceAmount",
+            "typ": "text",
+            "label": "Pflegegeld — Betrag",
+            "beispiel": "599 EUR/Monat"
+          },
+          "verborgenWenn": {
+            "feld": "longTermCareAllowanceTypeOf",
+            "wert": "sachleistung"
+          }
+        },
+        {
+          "feld": {
+            "id": "whoProvidesThePrimaryCare",
+            "typ": "ref",
+            "entitaet": "person",
+            "rolle": "pflegeperson",
+            "label": "Hauptpflege — Person"
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        },
+        {
+          "feld": {
+            "id": "careLeaveFamilyCareLeave",
+            "typ": "text",
+            "label": "Pflegezeit / Familienpflegezeit",
+            "beispiel": "Pflegezeit beim Arbeitgeber beantragt, 3 Monate ab 09/2026"
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        },
+        {
+          "feld": {
+            "id": "provisionDocumentsCheckedIn",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "advanceCare",
+              "feldId": "provisionDocumentsCheckedIn"
+            },
+            "label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "ja, alles aktuell"
+              },
+              {
+                "wert": "teil",
+                "label": "teilweise — muss noch ergänzt werden"
+              },
+              {
+                "wert": "nein",
+                "label": "noch nicht geprüft"
+              }
+            ]
+          },
+          "ziel": {
+            "sektor": "advanceCare"
+          }
+        }
+      ]
+    },
+    "heirwiz": {
+      "icon": "users",
+      "ziel": {
+        "sektor": "identity"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "maritalStatus",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "maritalStatus",
+              "erlaubteWerte": [
+                "verh",
+                "elp"
+              ]
+            },
+            "label": "Familienstand",
+            "optionen": [
+              {
+                "wert": "verh",
+                "label": "verheiratet"
+              },
+              {
+                "wert": "elp",
+                "label": "eingetragene Lebenspartnerschaft"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "choiceOfNameAfterMarriage",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "choiceOfNameAfterMarriage"
+            },
+            "label": "Namenswahl nach der Heirat",
+            "optionen": [
+              {
+                "wert": "ehename_meiner",
+                "label": "gemeinsamer Ehename, meiner"
+              },
+              {
+                "wert": "ehename_partner",
+                "label": "gemeinsamer Ehename, der des Partners"
+              },
+              {
+                "wert": "eigener_name",
+                "label": "jede und jeder behält den eigenen Namen"
+              },
+              {
+                "wert": "begleitname",
+                "label": "Begleitname geführt"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "maritalPropertyRegime",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "maritalPropertyRegime"
+            },
+            "label": "Güterstand",
+            "optionen": [
+              {
+                "wert": "zugewinn",
+                "label": "Zugewinngemeinschaft (gesetzlich, ohne Ehevertrag)"
+              },
+              {
+                "wert": "guetertrenn",
+                "label": "Gütertrennung"
+              },
+              {
+                "wert": "guetergem",
+                "label": "Gütergemeinschaft"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "taxClass",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "taxClass",
+              "erlaubteWerte": [
+                "III",
+                "IV",
+                "IV_faktor",
+                "V",
+                "VI"
+              ]
+            },
+            "label": "Steuerklasse",
+            "optionen": [
+              {
+                "wert": "III",
+                "label": "III"
+              },
+              {
+                "wert": "IV",
+                "label": "IV"
+              },
+              {
+                "wert": "IV_faktor",
+                "label": "IV mit Faktor"
+              },
+              {
+                "wert": "V",
+                "label": "V"
+              },
+              {
+                "wert": "VI",
+                "label": "VI"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "spouseOrCivilPartner",
+            "typ": "ref",
+            "entitaet": "person",
+            "rolle": "partner",
+            "label": "Ehepartnerin/Ehepartner oder Lebenspartnerin/Lebenspartner"
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        }
+      ]
+    },
+    "umzwiz": {
+      "icon": "home",
+      "ziel": {
+        "sektor": "identity"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "streetAddress",
+            "typ": "text",
+            "label": "Straße & Hausnummer",
+            "beispiel": "Lindenweg 4"
+          }
+        },
+        {
+          "feld": {
+            "id": "postcodeCity",
+            "typ": "text",
+            "label": "PLZ & Ort",
+            "beispiel": "80331 München"
+          }
+        },
+        {
+          "feld": {
+            "id": "reRegistrationWithTheResidents",
+            "typ": "text",
+            "label": "Ummeldung beim Einwohnermeldeamt",
+            "beispiel": "Termin Bürgerbüro 12.07.; ummelden binnen zwei Wochen"
+          }
+        },
+        {
+          "feld": {
+            "id": "changingUtilityProviders",
+            "typ": "textarea",
+            "label": "Versorger-Wechsel & Adressänderungen",
+            "beispiel": "Strom/Gas ummelden; Internet umziehen; Bank, Versicherungen, Arbeitgeber, Abos informieren"
+          },
+          "ziel": {
+            "sektor": "administration"
+          }
+        },
+        {
+          "feld": {
+            "id": "tenancyTerminationHandover",
+            "typ": "textarea",
+            "label": "Mietverhältnis — Kündigung & Übergabe",
+            "beispiel": "alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll; Kaution zurückfordern"
+          },
+          "verborgenWenn": {
+            "feld": "ownedOrRented",
+            "wert": "eigentum"
+          },
+          "ziel": {
+            "sektor": "housing"
+          }
+        },
+        {
+          "feld": {
+            "id": "noticeDate",
+            "typ": "datum",
+            "label": "Kündigungstermin"
+          },
+          "verborgenWenn": {
+            "feld": "ownedOrRented",
+            "wert": "eigentum"
+          },
+          "ziel": {
+            "sektor": "housing"
+          }
+        },
+        {
+          "feld": {
+            "id": "moveOutDate",
+            "typ": "datum",
+            "label": "Auszugstermin"
+          },
+          "ziel": {
+            "sektor": "housing"
+          }
+        },
+        {
+          "feld": {
+            "id": "handoverDateNewHome",
+            "typ": "datum",
+            "label": "Übergabetermin (neue Wohnung)"
+          },
+          "ziel": {
+            "sektor": "housing"
+          }
+        }
+      ]
+    }
+  }
+}

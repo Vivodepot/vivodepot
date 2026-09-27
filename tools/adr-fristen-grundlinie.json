@@ -1,0 +1,15 @@
+{
+ "beschreibung": "Grundlinie der ADR-Fristen-Ratsche (tools/adr-fristen-pruefen.js, tests/adr-fristen-pruefen.test.js). Eine Zeile deckt eine offene Konformitäts-Klausel, die abgelaufen ist oder keine gültige Frist trägt, bis zu ihrer neueFrist: adr (voller Präfix U2-ADR-NNN oder B16-ADR-NNN aus dem Dateinamen — U2 und B16 nummerieren unabhängig ab 1, ein bloßer Zahlenteil wäre mehrdeutig), aussage (die ersten 60 Zeichen, einzeilig), art (abgelaufen | ohne-frist), grund (mind. 40 Zeichen), erstmals (die erste Frist, bleibt für immer stehen; bei art abgelaufen gleich der Frist im ADR), neueFrist (JJJJ-MM-TT, in der Zukunft), verlaengert (Zahl der bisherigen Verlängerungen, steigt mit jeder neuen Zeile). `deckel` ist die exakte Zahl der Zeilen. Zwei Wege aus dem Rot: die Klausel schließen oder ihre Frist im ADR neu setzen, oder eine Zeile hier und `deckel` um eins heben. Beim Anlegen (22.09.2026) ist sie leer: die drei damals ungedeckten Klauseln wurden vorher im ADR entschieden, nicht hier abgelegt.",
+ "deckel": 1,
+ "zeilen": [
+  {
+   "adr": "U2-ADR-NNN",
+   "aussage": "Der neue Schrittform-Bauplan (PV/Vollmacht) liegt im Rechtsr",
+   "art": "abgelaufen",
+   "grund": "Bedingung zu 1/5 erfuellt (Schema-Feld bauplan steht); die restlichen vier sind eine Migration der .steps in den Rechtsraum-Katalog plus eine eigene Template-Datei fuer KI_KORPUS — ein Zug, kein Nachzug, nicht in v1. Gemessen: git grep '\\.bauplan\\b' vivodepot.html findet null Treffer, der Kern liest es nirgends. Datum wie NNN2, weil beide die Dokumentmodul-Schicht betreffen und zusammen geplant gehoeren. Auftrag: intern, noch zu schreiben.",
+   "erstmals": "2026-09-20",
+   "neueFrist": "2026-10-31",
+   "verlaengert": 1
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Beispielanwendung B</title>
+<!--
+  SPDX-License-Identifier: EUPL-1.2
+  Copyright (c) 2026 Beispiel GmbH, Musterstadt.
+-->
+</head>
+<body>
+<script>
+// Erfundene Fixture: Form B, die Urheberin als Konstante außerhalb jeder Region, keine Zusicherungsliste.
+const URHEBER_B = Object.freeze({ name: 'Beispiel GmbH', lizenz: 'EUPL-1.2' });
+function herkunftsortHTML() {
+  return '<div class="herkunftsort" data-herkunftsort="1">' +
+    '<p>' + escapeHTML(STRINGS.beschriftungB) + ': ' + escapeHTML(URHEBER_B.name + ' · ' + URHEBER_B.lizenz) + '</p>' +
+  '</div>';
+}
+</script>
+</body>
+</html>

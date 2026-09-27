@@ -1,0 +1,8 @@
+{
+  "hinweis": "Synthetische Fixture, kein echter Bestand — testet nur die reine Auswertung (ankerkarteAusRegistrierung, offeneZeilen), nie Netz.",
+  "anker": [
+    { "id": "a-gruen", "name": "Grüner Anker", "url": "https://example.invalid/gruen", "status": "erreichbar", "gemessenAm": "2026-09-22T10:00:00.000Z" },
+    { "id": "b-tot", "name": "Toter Anker", "url": "https://example.invalid/tot", "status": "nachweislich unerreichbar", "gemessenAm": "2026-09-22T10:00:00.000Z" },
+    { "id": "c-offen", "name": "Ungemessener Anker", "url": "https://example.invalid/offen", "status": "NICHT GEMESSEN", "gemessenAm": null }
+  ]
+}

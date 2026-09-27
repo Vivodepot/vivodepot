@@ -1,0 +1,10 @@
+{
+ "stand": "2026-08-19",
+ "commit": "1ef82bc",
+ "wegen": "Krypto-Block-Wechsel (19.08.2026): zwei neue Waechter W-krypto-propagation und W-krypto-harness mit Nachweis aufgenommen; W-10-export-mapping-luecken hat seinen Nachweis dazugewonnen und faellt aus der Liste. Erster Lauf mit --alles seit dem 13.08. — das Netz ist aus dieser Umgebung erreichbar, W-osv laeuft also mit.",
+ "hinweis": "Die hier gefuehrten Gegenstaende sind UNGEPRUEFTE DETEKTOREN. Ihre Ergebnisse gelten als ungemessen, nicht als gruen — auch dann, wenn sie null Funde melden. Eine Ebene mit null Funden ist ohne gepflanzte Verletzung von einer, die nichts sieht, nicht zu unterscheiden.",
+ "ohneNachweis": [
+  "EP4",
+  "W-externe-validatoren"
+ ]
+}

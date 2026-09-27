@@ -1,0 +1,42 @@
+{
+  "stand": "19.09.2026",
+  "summe": 61,
+  "jeDatei": {
+    "a376-feldtyp-spiegel.test.js": 2,
+    "a384-anstoss-themenbereiche.test.js": 2,
+    "ab-werk-logikmodul-auszuege-unabhaengig-vom-buendel.test.js": 2,
+    "altdatei-kennungen-als-wert.test.js": 2,
+    "ausdruecklich-keine.test.js": 2,
+    "bereich-registry-weg-export-beschriftung.test.js": 1,
+    "browser-speicher-nur-verschluesselt.test.js": 2,
+    "docx-streichung-gegenprobe.test.js": 2,
+    "dokumente-rechtsraum-umzug-rundlauf.test.js": 2,
+    "feldkatalog-konfektionierter-kern.test.js": 2,
+    "kennungs-umbau-review-k1-k6.test.js": 2,
+    "kette-01-sperren-vor-dem-umbau.test.js": 2,
+    "kette-07-die-anfrage.test.js": 2,
+    "mit-modul/a-zug2-oeffnen-ohne-passwort-scheitert.test.js": 2,
+    "mit-modul/zug0-boot-und-vereinigung.test.js": 4,
+    "nicht-uebersetzte-bereiche-ausblenden.test.js": 2,
+    "paket5-institutionsart-teilauszug-beweis.test.js": 2,
+    "stick-browser-kopie-raeumen.test.js": 2,
+    "styleguide-inhaltsabgleich.test.js": 2,
+    "styleguide-zuschnitt.test.js": 2,
+    "sw-aktivierung-bedingtes-skipwaiting.test.js": 2,
+    "u2-adr-257-format-schreiber.test.js": 2,
+    "u2-adr-344-bmj-dokumente-materialisieren.test.js": 2,
+    "vor-umzug-a1-situationen.test.js": 2,
+    "vor-umzug-a2-wizards.test.js": 2,
+    "vor-umzug-a3-dokumentmodule.test.js": 2,
+    "vor-umzug-a4-standard-vorlagen.test.js": 2,
+    "vorfuehrung-showcase.test.js": 2,
+    "xshare-absenz-ohne-sensibel-waechter.test.js": 2,
+    "zug2-erzeuger-leseart.test.js": 2
+  },
+  "buendel": {
+    "summe": 1,
+    "jeDatei": {
+      "tools/pro-vorlage-weg-messen.js": 1
+    }
+  }
+}

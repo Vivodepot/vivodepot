@@ -1,0 +1,815 @@
+{
+  "modulTyp": "vorlage",
+  "anbieterId": "vivodepot-pro",
+  "felder": [
+    {
+      "feldname": "Additional authorized representative exists",
+      "feldtyp": "jaNein",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "pflicht": true
+    },
+    {
+      "feldname": "Representation rule",
+      "feldtyp": "auswahl",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "codeWerte": [
+        {
+          "code": "einzel",
+          "anzeige": "Sole power of representation"
+        },
+        {
+          "code": "gesamt",
+          "anzeige": "Joint power of representation"
+        },
+        {
+          "code": "einzel_befreit",
+          "anzeige": "Sole power of representation, exempt from §181 BGB"
+        },
+        {
+          "code": "gesamt_befreit",
+          "anzeige": "Joint power of representation, exempt from §181 BGB"
+        }
+      ]
+    },
+    {
+      "feldname": "Competent registry court",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act"
+    },
+    {
+      "feldname": "Register number",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act"
+    },
+    {
+      "feldname": "Additional managing directors/board members",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact details",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Procuration (Prokura)",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "unterFelder": [
+        {
+          "feldname": "Who",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Since",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Certificate held at",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Restriction",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Limited until",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Commercial power of attorney",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "unterFelder": [
+        {
+          "feldname": "Who",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "For what",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Certificate held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Private power of attorney (advance care) — storage location",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act"
+    },
+    {
+      "feldname": "Entrepreneur power of attorney",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "unterFelder": [
+        {
+          "feldname": "Notary",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Deed number",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Storage location",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Power of attorney beyond death",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "unterFelder": [
+        {
+          "feldname": "Applies",
+          "feldtyp": "jaNein"
+        },
+        {
+          "feldname": "Authorized person",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Certificate held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Named person (preference, not an appointment)",
+      "feldtyp": "liste",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Who is authorized to act",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact details",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "List of shareholders",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "What keeps the company able to act",
+      "unterFelder": [
+        {
+          "feldname": "Version dated",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Original held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Articles of association",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "What keeps the company able to act",
+      "unterFelder": [
+        {
+          "feldname": "Location",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Last amended",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Succession clause in the articles of association exists",
+      "feldtyp": "jaNein",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "What keeps the company able to act"
+    },
+    {
+      "feldname": "Notary",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "What keeps the company able to act",
+      "unterFelder": [
+        {
+          "feldname": "Practice",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Register of deeds held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Tax advisor",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "What keeps the company able to act",
+      "unterFelder": [
+        {
+          "feldname": "Office",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Accounting records held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Supervisory body (advisory board/supervisory board)",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "What keeps the company able to act",
+      "unterFelder": [
+        {
+          "feldname": "Member",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Estate plan coordinated with the company",
+      "feldtyp": "liste",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "What keeps the company able to act",
+      "unterFelder": [
+        {
+          "feldname": "Coordinated",
+          "feldtyp": "jaNein"
+        },
+        {
+          "feldname": "Document held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Bank account",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Deadlines and money",
+      "unterFelder": [
+        {
+          "feldname": "Institution",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Power-of-attorney holder",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Valid beyond death",
+          "feldtyp": "jaNein"
+        }
+      ]
+    },
+    {
+      "feldname": "Recurring payment",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Deadlines and money",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Due date",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Loan",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Deadlines and money",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact person",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Termination right on change of management",
+          "feldtyp": "jaNein"
+        }
+      ]
+    },
+    {
+      "feldname": "Personal security (guarantee)",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Deadlines and money",
+      "unterFelder": [
+        {
+          "feldname": "For what/to whom",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Tax deadline",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Deadlines and money",
+      "unterFelder": [
+        {
+          "feldname": "Filing/advance payment",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Due date",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Insurance",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Deadlines and money",
+      "unterFelder": [
+        {
+          "feldname": "Type",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact person",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Notification deadline",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Contract with change-of-control clause",
+      "feldtyp": "liste",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Deadlines and money",
+      "unterFelder": [
+        {
+          "feldname": "Contract",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact person",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Specialist software",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Operations and access",
+      "unterFelder": [
+        {
+          "feldname": "Provider",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact person",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contract number",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Government portal access",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Operations and access",
+      "unterFelder": [
+        {
+          "feldname": "Mailbox",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Access credentials held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Access credentials",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Operations and access",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Storage location",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Administration (in-house/external)",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Operations and access",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact details",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Staff",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Operations and access",
+      "unterFelder": [
+        {
+          "feldname": "Number/structure",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact person",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contracts held at",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Premises",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Operations and access",
+      "unterFelder": [
+        {
+          "feldname": "Lease held at",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Notice period",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Data backup",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Operations and access",
+      "unterFelder": [
+        {
+          "feldname": "Location/method",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Who can restore it",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Business records",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Records and filing",
+      "unterFelder": [
+        {
+          "feldname": "Location",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Filing system",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Retention period",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Records and filing",
+      "unterFelder": [
+        {
+          "feldname": "Type of record",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "End of period",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Archive service provider",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Records and filing",
+      "unterFelder": [
+        {
+          "feldname": "Provider",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contract number",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Access rules",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Industry-specific obligation",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "Records and filing",
+      "unterFelder": [
+        {
+          "feldname": "Obligation",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Deadline",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "People who must not be notified",
+      "feldtyp": "liste",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "gruppe": "Contacts",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Contact details",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Who takes over which task",
+      "feldtyp": "liste",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "gruppe": "Deputisation plan",
+      "unterFelder": [
+        {
+          "feldname": "Task",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Person",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Takes over from",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Keys and lock system",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Access",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Storage location",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Safe and bank deposit box",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Access",
+      "unterFelder": [
+        {
+          "feldname": "Location",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Authorized persons",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Current order/project status",
+      "feldtyp": "text",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Business relationships"
+    },
+    {
+      "feldname": "Licence or professional authorisation",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Authorisations",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Holder",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Deadline/expiry",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Property in ownership",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Assets",
+      "unterFelder": [
+        {
+          "feldname": "Address",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Land register entry",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "IP right, patent, trademark, formula",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Assets",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Registration number",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Valid until",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": "Vehicle fleet",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Assets",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Location",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Machine or operating equipment",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Assets",
+      "unterFelder": [
+        {
+          "feldname": "Description",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Location",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Ongoing legal dispute",
+      "feldtyp": "liste",
+      "bereich": "pro-betrieb-zugaenge",
+      "gruppe": "Legal matters",
+      "unterFelder": [
+        {
+          "feldname": "Subject",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Deadline",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Representation",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": "Advance healthcare directive — filing location",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Powers of attorney"
+    },
+    {
+      "feldname": "Care directive — filing location",
+      "feldtyp": "text",
+      "bereich": "pro-vertretung-vollmachten",
+      "gruppe": "Powers of attorney"
+    },
+    {
+      "feldname": "Will or inheritance contract — filing location",
+      "feldtyp": "text",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Legal foundations"
+    },
+    {
+      "feldname": "Annual financial statements — where the current version is kept",
+      "feldtyp": "text",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "gruppe": "Financial overview"
+    },
+    {
+      "feldname": "Family's financial situation if the owner is absent",
+      "feldtyp": "text",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "gruppe": "Personal financial security"
+    },
+    {
+      "feldname": "Depot last reviewed on",
+      "feldtyp": "datum",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "About this depot"
+    },
+    {
+      "feldname": "Who knows this depot exists",
+      "feldtyp": "liste",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "gruppe": "About this depot",
+      "unterFelder": [
+        {
+          "feldname": "Name",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Role",
+          "feldtyp": "text"
+        }
+      ]
+    }
+  ]
+}

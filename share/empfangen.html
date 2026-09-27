@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- U2-ADR-183-Geschwister (23.09.2026): dieselbe Bauform wie index.html, andere Richtung.
+     index.html LEGT AB (connect-src 'self' — redet nur mit dem eigenen Host).
+     Diese Seite HOLT AB, und zwar von FREMDEN Hosts: die Freigabe einer Ärztin liegt auf
+     ihrem Server, nicht auf unserem. Deshalb hier als einziger Unterschied
+     `connect-src https:`. Alles andere bleibt so eng wie möglich — kein Inline-Skript,
+     keine fremden Skripte, default-src 'none'.
+
+     WARUM DER RAND HIER ENGER SEIN MUSS ALS NEBENAN: diese Seite hält für einige Sekunden
+     ENTSCHLÜSSELTES Gesundheits-FHIR im Speicher. index.html sieht nie etwas anderes als
+     Chiffretext. Der Unterschied ist der Grund für jede Zeile Strenge unten.
+
+     vivodepot.html und vivodepot-lesen.html bleiben bei connect-src 'none'. Diese Seite ist
+     bewusst NICHT Teil der App — genau wie die Ablage-Seite es nicht ist. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self' data:; connect-src https:; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Vivodepot — Freigabe abholen / retrieve a shared document</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="empfangen.css">
+</head>
+<body>
+
+<div class="sprachwahl" role="group" aria-label="Sprache / Language">
+  <button type="button" id="sprache-de" aria-pressed="true">Deutsch</button>
+  <button type="button" id="sprache-en" aria-pressed="false">English</button>
+</div>
+
+<h1 data-t="titel">Freigabe abholen</h1>
+
+<p class="hinweis" data-t="einleitung">
+  Hat Ihnen jemand einen Freigabe-Link geschickt — eine Praxis, ein Labor, ein Krankenhaus —,
+  dann holt diese Seite das Dokument ab und entschlüsselt es auf Ihrem Gerät. Danach speichern
+  Sie es und lesen es in Vivodepot ein. Diese Seite ist NICHT Teil der Vivodepot-App; die App
+  selbst macht zu keinem Zeitpunkt einen Netzaufruf.
+</p>
+
+<p class="hinweis" data-t="schluessel-hinweis">
+  Der Schlüssel steckt im Link und bleibt auf Ihrem Gerät. Weder der Server, der die Datei
+  ausliefert, noch Vivodepot bekommt ihn zu sehen.
+</p>
+
+<p class="hinweis" data-t="nicht-klicken">
+  <strong>Kommt der Link als anklickbare Adresse: bitte nicht anklicken, sondern kopieren und
+  hier einfügen.</strong> Ein Klick öffnet unter Umständen den Betrachter des Absenders, und der
+  ruft die Freigabe sofort ab — dann ist sie verbraucht, bevor Sie sie hier haben.
+</p>
+
+<!-- Schritt 1: rein lokal. Es wird NICHTS abgerufen, solange der Knopf unten nicht gedrückt
+     ist. Diese Trennung ist der ganze Zweck des zweistufigen Aufbaus — s. Warnkasten. -->
+<div class="kasten">
+  <label for="link-eingabe" data-t="link-label">Freigabe-Link (beginnt mit <code>shlink:/</code>):</label>
+  <textarea id="link-eingabe" rows="4" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+  <button id="pruefen-knopf" data-t="pruefen-knopf">Link prüfen</button>
+  <p id="fehler-text" class="fehler" role="alert"></p>
+</div>
+
+<!-- Schritt 2: erst was drinsteht, dann die Warnung, dann der Abruf. -->
+<div class="kasten" id="befund" hidden>
+  <p data-t="befund-text">Der Link ist lesbar. Das steht darin:</p>
+  <dl id="befund-liste"></dl>
+
+  <p class="hinweis" data-t="warnung-einmal">
+    <strong>Bitte einmal lesen, bevor Sie abrufen.</strong>
+    Eine Freigabe gilt für genau einen Abruf. Danach ist der Link tot — auch für Sie.
+    Speichern Sie das Dokument also, sobald es da ist.
+  </p>
+  <p class="hinweis" data-t="warnung-cors">
+    Es kann sein, dass der fremde Server den Abruf aus einem Browser nicht erlaubt. Dann
+    erscheint hier ein Fehler, obwohl der Server die Datei möglicherweise schon herausgegeben
+    hat — die Freigabe wäre dann verbraucht. Das liegt an der Gegenstelle und lässt sich von
+    hier aus nicht verhindern. Fragen Sie in dem Fall dort nach einem neuen Link.
+  </p>
+
+  <!-- Nur sichtbar, wenn der Link das `P`-Flag trägt. Die Absenderin teilt den Passcode
+       getrennt vom Link mit — genau das ist sein Zweck. -->
+  <div id="passcode-feld" hidden>
+    <label for="passcode-eingabe" data-t="passcode-label">Passcode (dieser Link verlangt einen — die Absenderin hat ihn separat mitgeteilt):</label>
+    <input type="text" id="passcode-eingabe" autocomplete="off" spellcheck="false" autocapitalize="characters">
+  </div>
+
+  <button id="abrufen-knopf" data-t="abrufen-knopf">Jetzt abrufen und entschlüsseln</button>
+</div>
+
+<!-- Was der fremde Server geantwortet hat, sichtbar gemacht: die Bürgerin sieht, woher ihre
+     Datei kommt. Beim Direkt-Weg (U-Flag) bleibt der Kasten leer — dort gibt es kein
+     Verzeichnis, die Datei liegt unmittelbar hinter der Adresse. -->
+<div class="kasten" id="manifest-kasten" hidden>
+  <p class="hinweis" data-t="manifest-text-hinweis">Was die Gegenstelle auf Ihren Abruf geantwortet hat — das Verzeichnis der freigegebenen Datei:</p>
+  <pre id="manifest-text"></pre>
+  <button id="manifest-knopf" data-t="manifest-knopf">Manifest speichern</button>
+</div>
+
+<!-- Schritt 3: das Ergebnis, und der Weg ins Depot. -->
+<div class="kasten" id="abgeholt" hidden>
+  <p data-t="abgeholt-text">Abgeholt und entschlüsselt. Das Dokument liegt jetzt in diesem Browser-Fenster — sonst nirgends.</p>
+  <dl id="abgeholt-liste"></dl>
+  <button id="speichern-knopf" data-t="speichern-knopf">Dokument speichern</button>
+  <p class="hinweis" data-t="import-hinweis">
+    Danach in Vivodepot öffnen: <em>Daten einlesen</em> → die gespeicherte Datei wählen. Der
+    Befund wird als Original in Ihrer Mappe abgelegt, unverändert.
+  </p>
+  <p class="hinweis" data-t="formate-hinweis">
+    Als Original in Ihre Mappe übernimmt Vivodepot drei Dokumentarten: <strong>Laborbefund</strong>, <strong>Entlassbrief</strong> und <strong>Patientenkurzakte</strong>. Alles andere können Sie hier trotzdem abholen und speichern — die Datei gehört dann Ihnen, unabhängig davon, ob Vivodepot sie ablegt.
+  </p>
+</div>
+
+<script src="empfangen.js"></script>
+</body>
+</html>

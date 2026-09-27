@@ -1,0 +1,20 @@
+{
+  "erklaerung": "Codezeilen in vivodepot.html, die .sensibel lesen, mit Grund. Wächter: tools/sensibel-direktlesung-pruefen.js. Nur sinkend.",
+  "offenMax": 0,
+  "erlaubt": {
+    "if (felddefs.some((f) => f && f.sensibel === true)) {": "Modulprüfung: Vorgabe des Schemas, kein Ausgabeweg",
+    "if (g && g.sensibel === true) def.sensibel = true;": "Schema-Aufbau aus dem Bündel (übernimmt die Vorgabe)",
+    "if (u && u.sensibel === true) uf.sensibel = true;": "Schema-Aufbau aus dem Bündel (übernimmt die Vorgabe)",
+    "if (def.sensibel === true) f.sensibel = true;": "Schema-Aufbau aus dem Bündel (übernimmt die Vorgabe)",
+    "sensibel: !!p.sensibel,": "Mappe-Eintrag: eigenes Flag am Eintrag",
+    "return !!feld.sensibel;": "das Prädikat selbst (feldIstSensibel / unterfeldIstSensibel)",
+    "const alsFeld = { id: LISTEN_UNTERFELD_PRAEFIX + listeId + ':' + typWert + ':' + unterfeldDef.id, sensibel: unterfeldDef.sensibel };": "das Prädikat selbst (feldIstSensibel / unterfeldIstSensibel)",
+    "sensibel: (src.sensibel === true),": "Mappe-Eintrag: eigenes Flag am Eintrag",
+    "if (d.sensibel) return { label, wert: STRINGS.zurueckgehaltenVorhanden, zurueckgehalten: true };": "Prüftermin-Dokument: eigenes Flag am Dokument",
+    "(e.sensibel ? ' <span class=\"sensibel-marker\">' + escapeHTML(STRINGS.mappeSensibel) + '</span>' : '') +": "Mappe-Eintrag: eigenes Flag am Eintrag",
+    "if (!inklSensibel && d.sensibel) { dokZeilen.push({ label: d.name || STRINGS.prueftermineNamenlos, wert: STRINGS.zurueckgehaltenVorhanden }); continue; }": "Prüftermin-Dokument: eigenes Flag am Dokument",
+    "kennung: k, schemaSensibel: !!f.sensibel, nutzerMarkiert: !!feldSensibelMarkiert(s.id, sel.feldId),": "Herausgabe-Übersicht zeigt die Vorgabe des Schemas an (schemaSensibel neben nutzerMarkiert)",
+    "const schemaSensibel = !!f.sensibel;": "Herausgabe-Übersicht zeigt die Vorgabe des Schemas an (schemaSensibel neben nutzerMarkiert)",
+    "sensibelBetroffen: vorhanden.filter(f => f.sensibel).map(f => f.kennung),": "liest das mit feldIstSensibel berechnete Ergebnis (anreichern), kein Schema-Flag"
+  }
+}

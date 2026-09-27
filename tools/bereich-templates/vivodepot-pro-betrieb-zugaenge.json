@@ -1,0 +1,292 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-betrieb-zugaenge",
+  "fassung": 1,
+  "bereiche": {
+    "pro-betrieb-zugaenge": {
+      "id": "pro-betrieb-zugaenge",
+      "icon": "lock",
+      "sektionen": [
+        {
+          "id": "betrieb-und-zugaenge",
+          "felder": [
+            {
+              "id": "tpl_fachanwendung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_anbieter",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_vertragsnummer",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_behoerdenzugang",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_postfach",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_zugangsmittel_liegt_bei",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_zugangsmittel",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_verwahrort",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_administration_intern_extern",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_personal",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_anzahl_struktur",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_vertraege_liegen_bei",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_raeume",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_mietvertrag_liegt_bei",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_kuendigungsfrist",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_datensicherung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_ort_verfahren",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_wer_kann_zurueckspielen",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "zugaenge",
+          "felder": [
+            {
+              "id": "tpl_schluessel_und_schliessanlage",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_verwahrort",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_tresor_und_bankschliessfach",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_ort",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_zugangsberechtigte",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "geschaeftsbeziehungen",
+          "felder": [
+            {
+              "id": "tpl_laufender_auftrags_projektstand",
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "zulassungen",
+          "felder": [
+            {
+              "id": "tpl_genehmigung_oder_berufsrechtliche_zulassung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_inhaber",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_frist_ablauf",
+                  "typ": "datum"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sachwerte",
+          "felder": [
+            {
+              "id": "tpl_immobilie_im_eigentum",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_adresse",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_grundbuchblatt",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_schutzrecht_patent_marke_rezeptur",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_registernummer",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_gueltig_bis",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_fuhrpark",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_standort",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_maschine_oder_betriebsausstattung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_standort",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rechtliches",
+          "felder": [
+            {
+              "id": "tpl_laufender_rechtsstreit",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_gegenstand",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_frist",
+                  "typ": "datum"
+                },
+                {
+                  "id": "tpl_vertretung",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea"
+            }
+          ]
+        }
+      ],
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Betrieb & Finanzen",
+      "clusterRang": 2
+    }
+  }
+}

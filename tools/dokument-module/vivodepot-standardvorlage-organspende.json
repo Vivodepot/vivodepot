@@ -1,0 +1,50 @@
+{
+  "modulTyp": "standardVorlage",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/organspende",
+  "fassung": 1,
+  "standardVorlagen": {
+    "organspende": {
+      "id": "organspende",
+      "name": "Organspende",
+      "sektor": "health",
+      "behoerde": "bzga",
+      "templateJws": "eyJhbGciOiJFZERTQSIsInR5cCI6InZjK2p3dCJ9.eyJmZWxkZXIiOlt7ImZlbGRuYW1lIjoiRG9rdW1lbnQgdm9yaGFuZGVuPyIsImZlbGR0eXAiOiJqYU5laW4iLCJwZmxpY2h0IjpmYWxzZSwiYmVyZWljaCI6Ikdlc3VuZGhlaXQifSx7ImZlbGRuYW1lIjoiRGF0dW0iLCJmZWxkdHlwIjoiZGF0dW0iLCJwZmxpY2h0IjpmYWxzZSwiYmVyZWljaCI6Ikdlc3VuZGhlaXQifSx7ImZlbGRuYW1lIjoiQXVmYmV3YWhydW5nc29ydCIsImZlbGR0eXAiOiJ0ZXh0IiwicGZsaWNodCI6ZmFsc2UsImJlcmVpY2giOiJHZXN1bmRoZWl0In1dLCJ3b3J0bGF1dCI6IkVya2zDpHJ1bmcgenVyIE9yZ2FuLSB1bmQgR2V3ZWJlc3BlbmRlXG5cbkbDvHIgZGVuIEZhbGwsIGRhc3MgbmFjaCBtZWluZW0gVG9kIGVpbmUgU3BlbmRlIHZvbiBPcmdhbmVuL0dld2ViZW4genVyIFRyYW5zcGxhbnRhdGlvbiBpbiBGcmFnZSBrb21tdCwgZXJrbMOkcmUgaWNoOlxuXG7imJAgSkEsIGljaCBnZXN0YXR0ZSwgZGFzcyBuYWNoIGRlciDDpHJ6dGxpY2hlbiBGZXN0c3RlbGx1bmcgbWVpbmVzIFRvZGVzIG1laW5lbSBLw7ZycGVyIE9yZ2FuZSB1bmQgR2V3ZWJlIGVudG5vbW1lbiB3ZXJkZW4uXG7imJAgb2RlciBKQSwgaWNoIGdlc3RhdHRlIGRpZXMsIG1pdCBBdXNuYWhtZSBmb2xnZW5kZXIgT3JnYW5lL0dld2ViZTogX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXG7imJAgb2RlciBKQSwgaWNoIGdlc3RhdHRlIGRpZXMsIGplZG9jaCBudXIgZsO8ciBmb2xnZW5kZSBPcmdhbmUvR2V3ZWJlOiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19cbuKYkCBvZGVyIE5FSU4sIGljaCB3aWRlcnNwcmVjaGUgZWluZXIgRW50bmFobWUgdm9uIE9yZ2FuZW4gb2RlciBHZXdlYmVuLlxu4piQIG9kZXIgw5xiZXIgSkEgb2RlciBORUlOIHNvbGwgZGFubiBmb2xnZW5kZSBQZXJzb24gZW50c2NoZWlkZW46XG4gICBOYW1lLCBWb3JuYW1lIC8gVGVsZWZvbiAvIFN0cmHDn2UgLyBQTFosIFdvaG5vcnRcblxu4oCUIE9yZ2Fuc3BlbmRlYXVzd2VpcyBuYWNoIMKnIDIgZGVzIFRyYW5zcGxhbnRhdGlvbnNnZXNldHplcyDigJRcblxuUGVyc8O2bmxpY2hlIEFuZ2FiZW46XG5OYW1lLCBWb3JuYW1lIC8gR2VidXJ0c2RhdHVtXG5TdHJhw59lIC8gUExaLCBXb2hub3J0XG5QbGF0eiBmw7xyIEFubWVya3VuZ2VuIC8gQmVzb25kZXJlIEhpbndlaXNlXG5EYXR1bSAvIFVudGVyc2NocmlmdCIsIndvcnRsYXV0UXVlbGxlIjp7ImJlaG9lcmRlIjoiQnVuZGVzemVudHJhbGUgZsO8ciBnZXN1bmRoZWl0bGljaGUgQXVma2zDpHJ1bmcgKEJaZ0EpIiwidGl0ZWwiOiJPcmdhbnNwZW5kZWF1c3dlaXMgbmFjaCDCpyAyIFRQRyIsInVybCI6Imh0dHBzOi8vd3d3LmJ1bmRlc2dlc3VuZGhlaXRzbWluaXN0ZXJpdW0uZGUvZmlsZWFkbWluL0RhdGVpZW4vM19Eb3dubG9hZHMvTy9PcmdhbnNwZW5kZS9PcmdhbnNwZW5kZWF1c3dlaXNfYXVzZnVlbGxiYXIucGRmIiwibGl6ZW56IjoiYW10bGljaGVzIFdlcmsgwqcgNSBVcmhHLCB1bnZlcsOkbmRlcnRlIMOcYmVybmFobWUiLCJzdGFuZCI6IkphbnVhciAyMDExIn0sIndvcnRsYXV0UXVlbGxlQnJvc2NodWVyZSI6eyJiZWhvZXJkZSI6IkJ1bmRlc3plbnRyYWxlIGbDvHIgZ2VzdW5kaGVpdGxpY2hlIEF1Zmtsw6RydW5nIChCWmdBKSIsInRpdGVsIjoiSW5mb3JtYXRpb25zcG9ydGFsIG9yZ2Fuc3BlbmRlLWluZm8uZGUiLCJ1cmwiOiJodHRwczovL3d3dy5vcmdhbnNwZW5kZS1pbmZvLmRlLyJ9fQ.a6Oe1KAluovoWtsyrByzbnOeqBakEH0ALCVE_h8SGhGW8K59g1O1Py9TTCvd8w6nNO-WQgIP5Ykw3RBgC5ZYCQ",
+      "felder": [
+        {
+          "feldname": "Dokument vorhanden?",
+          "feldtyp": "jaNein",
+          "pflicht": false,
+          "bereich": "Gesundheit"
+        },
+        {
+          "feldname": "Datum",
+          "feldtyp": "datum",
+          "pflicht": false,
+          "bereich": "Gesundheit"
+        },
+        {
+          "feldname": "Aufbewahrungsort",
+          "feldtyp": "text",
+          "pflicht": false,
+          "bereich": "Gesundheit"
+        }
+      ],
+      "wortlaut": "Erklärung zur Organ- und Gewebespende\n\nFür den Fall, dass nach meinem Tod eine Spende von Organen/Geweben zur Transplantation in Frage kommt, erkläre ich:\n\n☐ JA, ich gestatte, dass nach der ärztlichen Feststellung meines Todes meinem Körper Organe und Gewebe entnommen werden.\n☐ oder JA, ich gestatte dies, mit Ausnahme folgender Organe/Gewebe: ______________________________\n☐ oder JA, ich gestatte dies, jedoch nur für folgende Organe/Gewebe: ______________________________\n☐ oder NEIN, ich widerspreche einer Entnahme von Organen oder Geweben.\n☐ oder Über JA oder NEIN soll dann folgende Person entscheiden:\n   Name, Vorname / Telefon / Straße / PLZ, Wohnort\n\n— Organspendeausweis nach § 2 des Transplantationsgesetzes —\n\nPersönliche Angaben:\nName, Vorname / Geburtsdatum\nStraße / PLZ, Wohnort\nPlatz für Anmerkungen / Besondere Hinweise\nDatum / Unterschrift",
+      "wortlautQuelle": {
+        "behoerde": "Bundeszentrale für gesundheitliche Aufklärung (BZgA)",
+        "titel": "Organspendeausweis nach § 2 TPG",
+        "url": "https://www.bundesgesundheitsministerium.de/fileadmin/Dateien/3_Downloads/O/Organspende/Organspendeausweis_ausfuellbar.pdf",
+        "lizenz": "amtliches Werk § 5 UrhG, unveränderte Übernahme",
+        "stand": "Januar 2011"
+      },
+      "wortlautQuelleBroschuere": {
+        "behoerde": "Bundeszentrale für gesundheitliche Aufklärung (BZgA)",
+        "titel": "Informationsportal organspende-info.de",
+        "url": "https://www.organspende-info.de/"
+      }
+    }
+  }
+}

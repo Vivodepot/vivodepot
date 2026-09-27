@@ -1,0 +1,1159 @@
+{
+  "_beschreibung": "Namentlich gefuehrte, BLEIBENDE Vorkommen je alter Kennung (tools/kennung-vorkommen-finden.js). Ein Eintrag = Datei + Zeilentext-Ausschnitt + Grund. Der Pruefer sieht diese Stellen weiter (Ausgabe 'gefuehrt'); ein Eintrag, der nichts mehr trifft, ist ein Fund. Uebersetzungstabellen sind KEINE Ausnahme im Pruefer, sie stehen hier mit Namen (20.09.2026, Entscheidung: Alt-Seite einer Uebersetzungstabelle wird gefuehrt, nicht wegdefiniert).",
+  "testament": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "testament: 'will',",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "{\"alt\":\"testament\",\"neu\":\"will\"}",
+      "grund": "Alt-Seite von FORMAT_SCHLUESSEL_MAPPING.werte (Export-Format-Vokabular, aus docs/umbau-englisch-vor-v1/format-schluessel-mapping.json erzeugt)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "`testament`, `custodianship-declaration`",
+      "grund": "Erklaertext im Kommentar, kein Code"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "KORREKTUR 19.09.2026: `testament` war hier bis dahin ausgenommen",
+      "grund": "historische Erklaerung im Kommentar (Schema-51->52), kein Code"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "Typ auf `testament` gewechselt",
+      "grund": "Erklaertext im Kommentar (Wechselmoment), kein Code"
+    },
+    {
+      "datei": "tests/fixtures/buergermodul-situationen-ab-werk.json",
+      "enthaelt": "\"step\": \"testament\"",
+      "grund": "eigene Achse, unbereinigt: Schritt-Id des Anlass-Ziels (wie Wizard-/Panel-Ids), reist nicht in der Depot-Datei mit. Geprueft und entschieden 20.09.2026: zieht NICHT mit, Umbenennen kostet Risiko ohne Gegenwert."
+    },
+    {
+      "datei": "tests/fixtures/angehoerigen-blaetter-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/anlaesse-vor-umzug-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/golden-master-ausgabewege-baseline.json",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/migrations-stufen.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/paket0-migrationsbeleg-baseline.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/persona-p11.js",
+      "enthaelt": "Instrument-Zeile kennt `testament`",
+      "grund": "Erklaertext im Kommentar"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-schema19.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-vor-kennungsumbau.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/situationen-lesen-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/befuellt__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/leer__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-testdepot.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-a1-situationen.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney', patientenverfuegung: 'living-will', testament: 'will',",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "testament: 'will',",
+      "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    }
+  ],
+  "bankvollmacht": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "bankvollmacht: 'bank-power-of-attorney',",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"kennungAlt\":\"finanzen.konten/bankvollmacht\"",
+      "grund": "Alt-Seite von KENNUNG_MAPPING (Stufe 81, abgeschlossene Umbenennung, dokumentiert Geschichte)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"kennungAlt\":\"finanzen.konten/bankvollmacht\"",
+      "grund": "Alt-Seite von KENNUNG_MAPPING (Lese-App-Kopie, Stufe 81)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "_d59.typ === 'bankvollmacht'",
+      "grund": "historische Schema-58->59-Stufe liest den Wert, wie er dort in der Kette noch vorlag; rein migrationsintern (kein Live-Pfad)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "die Entitaet `bankvollmacht` NICHT",
+      "grund": "Erklaertext im Kommentar, kein Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "finance.accounts:bankvollmacht, also ein Unterfeld",
+      "grund": "Erklaertext im Kommentar, kein Code"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-vor-kennungsumbau.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/befuellt__finanzen.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/leer__finanzen.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-testdepot.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "bankvollmacht: 'bank-power-of-attorney',",
+      "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    }
+  ],
+  "vorsorgevollmacht": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "STANDARD_VORLAGEN['vorsorgevollmacht']",
+      "grund": "Standardvorlagen-Id (Modul-Id-Achse)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "vorsorgevollmacht: 'Vorsorgevollmacht',",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85) — Wortlaut seit 22.09.2026 ohne Paragraphenklammer (Auftrag Paragraphen raus, Nr. 15)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-at",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "typ:'vorsorgevollmacht'",
+      "grund": "historische Migrationsstufe (Schema <=59) liest den Wert, wie er dort in der Kette vorlag; laeuft danach durch Stufe 84->85"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "{ typ: 'vorsorgevollmacht' }",
+      "grund": "historische Migrationsstufe (Schema 38->39) schreibt den Wert von damals; laeuft danach durch Stufe 84->85"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": ".typ !== 'vorsorgevollmacht'",
+      "grund": "historische Migrationsstufe liest den Wert von damals (vor Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "`vorsorgevollmacht`-Zeilen",
+      "grund": "Erklaertext im Kommentar einer historischen Migrationsstufe"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": ".typ === 'vorsorgevollmacht'",
+      "grund": "historische Migrationsstufe liest den Wert von damals (vor Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "dokumentHTML('vorsorgevollmacht'",
+      "grund": "Modul-Id (dokumentHTML loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "dokumentOeffnen('vorsorgevollmacht'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "_dokumentModulAusBuendelErzeugen('vorsorgevollmacht'",
+      "grund": "Modul-Id im Buendel"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "id: 'vorsorgevollmacht'",
+      "grund": "Modul-/Sektions-Id (eigene Id-Achse)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "vorsorgevollmacht:     { herkunft",
+      "grund": "_MODUL_KARTE ist nach Modul-Id (m.id) geschluesselt, nicht nach Typ-Code"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "vertretung_art: 'vorsorgevollmacht'",
+      "grund": "Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "basisOfRepresentation === 'vorsorgevollmacht'",
+      "grund": "Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "basisOfRepresentation/vorsorgevollmacht.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/bereich-templates/vivodepot-people.json",
+      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/buergermodul/vd-de-sprache.json",
+      "enthaelt": "basisOfRepresentation/vorsorgevollmacht.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/buergermodul/vd-privat.json",
+      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumentmodul-vorsorgevollmacht.json",
+      "enthaelt": "vivodepot/vorsorgevollmacht",
+      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumentmodul-vorsorgevollmacht.json",
+      "enthaelt": "\"vorsorgevollmacht\": {",
+      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-vorsorgevollmacht.json",
+      "enthaelt": "vivodepot/vorsorgevollmacht",
+      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-vorsorgevollmacht.json",
+      "enthaelt": "\"vorsorgevollmacht\": {",
+      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-vorsorgevollmacht.json",
+      "enthaelt": "\"id\": \"vorsorgevollmacht\"",
+      "grund": "Modul-/Vorlagen-/Sektions-Id (eigene Id-Achse)"
+    },
+    {
+      "datei": "tools/vd-privat-struktur-bundle.json",
+      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-de-modul.json",
+      "enthaelt": "basisOfRepresentation/vorsorgevollmacht.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-de-modul.json",
+      "enthaelt": "dok:vorsorgevollmacht",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-begriffe-pruefen.js",
+      "enthaelt": "dok:vorsorgevollmacht",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-juristisch-offen.js",
+      "enthaelt": "dok:vorsorgevollmacht",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-juristisch-offen.js",
+      "enthaelt": "['vorsorgevollmacht'].wortlaut",
+      "grund": "Erklaertext im Kommentar (Standardvorlagen-Id)"
+    },
+    {
+      "datei": "tools/textsatz-en-modul.json",
+      "enthaelt": "basisOfRepresentation/vorsorgevollmacht.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-en-modul.json",
+      "enthaelt": "dok:vorsorgevollmacht",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-optionswerte-daten.js",
+      "enthaelt": "basisOfRepresentation/vorsorgevollmacht.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"wert\": \"vorsorgevollmacht\",",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Lese-App-Sektorkatalog, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tests/e2e/a104-kaestchen-trefferflaeche.spec.js",
+      "enthaelt": "vorsorgevollmacht.length",
+      "grund": "Variablenname im Spec, kein Wert"
+    },
+    {
+      "datei": "tests/e2e/a104-kaestchen-trefferflaeche.spec.js",
+      "enthaelt": "...vorsorgevollmacht]",
+      "grund": "Variablenname im Spec, kein Wert"
+    },
+    {
+      "datei": "tests/e2e/f8-dokument-oeffner-abnahme.spec.js",
+      "enthaelt": "dokumentOeffnen('vorsorgevollmacht'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "tests/e2e/nachlese-f8-m1-zug4-abnahme.spec.js",
+      "enthaelt": "dokumentOeffnen('vorsorgevollmacht'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "tests/fixtures/altbestand-vier-produkte/schema-39-ki-und-bezug.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/angehoerigen-blaetter-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/e4-depot-zustand-EINGEFROREN-nativ-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/golden-master-ausgabewege-baseline.json",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/migrations-stufen.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/paket0-migrationsbeleg-baseline.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-vor-kennungsumbau.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/befuellt__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/leer__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/situationen-lesen-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/befuellt__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/leer__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-testdepot.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-a1-situationen.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-a4-standard-vorlagen.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-depot-instrumente-breit-anton-reindl.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "`living-will` und `enduring-power-of-attorney` (vorher `patientenverfuegung`, `vorsorgevollmacht`). Die Umbau-Tabelle bildet Bereichs-,",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney', patientenverfuegung: 'living-will', testament: 'will',",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "['liste:provisionInstruments:vorsorgevollmacht:authorizedPersons', 'liste:provisionInstruments:enduring-power-of-attorney:authorizedPersons'],",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "JSON.stringify(['patientenverfuegung', 'betreuungsverfuegung', 'vorsorgevollmacht', 'organspende']",
+      "grund": "Erwartete Reihenfolge der vier Standardvorlagen-Module in der Mitschrift (Fach standardVorlagen, Gerüst-Schnitt S4): Modul-Id-Achse, kein Typ-Code"
+    },
+    {
+      "datei": "tools/bereiche-nativ-katalog-modul.json",
+      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Katalog der nativen Bereiche (seit Gerüst-Schnitt S7 in dieser Moduldatei, vorher im Kern), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney',",
+      "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    }
+  ],
+  "patientenverfuegung": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "patientenverfuegung: 'living-will',",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "patientenverfuegung.dokAusgabe",
+      "grund": "Modul-Id (Kommentarverweis auf VORSORGE_MODUL_BY_ID)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "dokumentHTML('patientenverfuegung'",
+      "grund": "Modul-Id (dokumentHTML loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "dokumentOeffnen('patientenverfuegung'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "_dokumentModulAusBuendelErzeugen('patientenverfuegung'",
+      "grund": "Modul-Id im Buendel"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "id: 'patientenverfuegung'",
+      "grund": "Modul-/Sektions-Id (eigene Id-Achse)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "patientenverfuegung:   { herkunft",
+      "grund": "_MODUL_KARTE ist nach Modul-Id (m.id) geschluesselt, nicht nach Typ-Code"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumentmodul-patientenverfuegung.json",
+      "enthaelt": "vivodepot/patientenverfuegung",
+      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumentmodul-patientenverfuegung.json",
+      "enthaelt": "\"patientenverfuegung\": {",
+      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-patientenverfuegung.json",
+      "enthaelt": "vivodepot/patientenverfuegung",
+      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-patientenverfuegung.json",
+      "enthaelt": "\"patientenverfuegung\": {",
+      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-patientenverfuegung.json",
+      "enthaelt": "\"id\": \"patientenverfuegung\"",
+      "grund": "Modul-/Vorlagen-/Sektions-Id (eigene Id-Achse)"
+    },
+    {
+      "datei": "tools/textsatz-de-modul.json",
+      "enthaelt": "priorityIfOrganDonationConflict/patientenverfuegung.label",
+      "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-de-modul.json",
+      "enthaelt": "dok:patientenverfuegung",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-juristisch-offen.js",
+      "enthaelt": "dok:patientenverfuegung",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-modul.json",
+      "enthaelt": "priorityIfOrganDonationConflict/patientenverfuegung.label",
+      "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-en-modul.json",
+      "enthaelt": "dok:patientenverfuegung",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-optionswerte-daten.js",
+      "enthaelt": "priorityIfOrganDonationConflict/patientenverfuegung.label",
+      "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "_bekannteToteWortlautVerweise = new Set(['patientenverfuegung'])",
+      "grund": "Vorlagen-Id (v.id) bekannter toter Wortlaut-Verweise, eigene Id-Achse"
+    },
+    {
+      "datei": "tests/e2e/f8-dokument-oeffner-abnahme.spec.js",
+      "enthaelt": "dokumentOeffnen('patientenverfuegung'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "tests/e2e/fix-dokument-pdf-unterschrift-false.spec.js",
+      "enthaelt": "zeichneDokumentPdf(doc, 'patientenverfuegung'",
+      "grund": "Modul-Id (zeichneDokumentPdf)"
+    },
+    {
+      "datei": "tests/e2e/nachlese-f8-m1-zug4-abnahme.spec.js",
+      "enthaelt": "dokumentOeffnen('patientenverfuegung'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "tests/e2e/pdf-datenfassung-anhang.spec.js",
+      "enthaelt": "'patientenverfuegung'/'vi-pv'",
+      "grund": "Erklaertext im Kommentar (Modul-Id)"
+    },
+    {
+      "datei": "tests/e2e/pdf-datenfassung-anhang.spec.js",
+      "enthaelt": "_dokumentPdfMitPruefung('patientenverfuegung'",
+      "grund": "Modul-Id"
+    },
+    {
+      "datei": "tests/e2e/pdf-datenfassung-anhang.spec.js",
+      "enthaelt": "_modulOderVorlage('patientenverfuegung'",
+      "grund": "Modul-Id"
+    },
+    {
+      "datei": "tests/e2e/s9-dokument-datei.spec.js",
+      "enthaelt": "dokumentOeffnen('patientenverfuegung'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "tests/fixtures/altbestand-vier-produkte/schema-39-ki-und-bezug.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/angehoerigen-blaetter-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/e4-depot-zustand-EINGEFROREN-nativ-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/geruest-inhalt/hartkodiertes-blatt.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/golden-master-ausgabewege-baseline.json",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/migrations-stufen.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/paket0-migrationsbeleg-baseline.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-vor-kennungsumbau.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/befuellt__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/leer__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/situationen-lesen-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/befuellt__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/leer__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-testdepot.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-a1-situationen.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-a4-standard-vorlagen.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-depot-instrumente-breit-anton-reindl.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "`living-will` und `enduring-power-of-attorney` (vorher `patientenverfuegung`, `vorsorgevollmacht`). Die Umbau-Tabelle bildet Bereichs-,",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney', patientenverfuegung: 'living-will', testament: 'will',",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "['liste:provisionInstruments:patientenverfuegung:storageLocation', 'liste:provisionInstruments:living-will:storageLocation'],",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumente-de.json",
+      "enthaelt": "\"wert\": \"patientenverfuegung\"",
+      "grund": "Auswahlwert eines anderen Feldes im PV-Wizard (Vorrang bei Organspende), nicht der Typ-Code; der Inhalt steht seit dem Gerüst-Schnitt (S6) in der Moduldatei statt im Kern"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "JSON.stringify(['patientenverfuegung', 'betreuungsverfuegung', 'vorsorgevollmacht', 'organspende']",
+      "grund": "Erwartete Reihenfolge der vier Standardvorlagen-Module in der Mitschrift (Fach standardVorlagen, Gerüst-Schnitt S4): Modul-Id-Achse, kein Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "patientenverfuegung: 'living-will',",
+      "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    }
+  ],
+  "betreuungsverfuegung": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "_feldDef('advanceCare','betreuungsverfuegung')",
+      "grund": "Erklaertext im Kommentar (Doppelname Gate-Feld/Typ/Sektion)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "gate: 'betreuungsverfuegung'",
+      "grund": "Gate-Feld-Id des alten b16-/Flachfelds (Doppelname, nicht der Typ-Code)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "betreuungsverfuegung: 'custodianship-dec",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "`betreuungsverfuegung`, `sorgerechtsverfuegung` und",
+      "grund": "Erklaertext im Kommentar (Gate-Felder der Schema-51->52-Stufe)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "STANDARD_VORLAGEN['betreuungsverfuegung']",
+      "grund": "Standardvorlagen-Id (Modul-Id-Achse)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "_dokumentModulAusBuendelErzeugen('betreuungsverfuegung'",
+      "grund": "Modul-Id im Buendel"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "dokumentHTML('betreuungsverfuegung'",
+      "grund": "Modul-Id (dokumentHTML loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "dokumentOeffnen('betreuungsverfuegung'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "id: 'betreuungsverfuegung'",
+      "grund": "Modul-/Sektions-Id (eigene Id-Achse)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "betreuungsverfuegung:  { herkunft",
+      "grund": "_MODUL_KARTE ist nach Modul-Id (m.id) geschluesselt, nicht nach Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "'custodianship-declaration': 'betreuungsverfuegung',",
+      "grund": "Gate-Feld-Id des alten Flachfelds (Doppelname), nicht der Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "'betreuungsverfuegung', {",
+      "grund": "Gate-Feld-Id des alten Flachfelds beim Falten alter Dateien (Doppelname), nicht der Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "delete v.betreuungsverfuegung;",
+      "grund": "Gate-Feld des alten Flachfelds beim Falten alter Dateien (Doppelname), nicht der Typ-Code"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumentmodul-betreuungsverfuegung.json",
+      "enthaelt": "vivodepot/betreuungsverfuegung",
+      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumentmodul-betreuungsverfuegung.json",
+      "enthaelt": "\"betreuungsverfuegung\": {",
+      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-dokumentmodul-patientenverfuegung.json",
+      "enthaelt": "\"feld\": \"betreuungsverfuegung\"",
+      "grund": "Gate-Feld-Id in einer Bedingung (Flachfeld, nicht der Typ-Code)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-betreuungsverfuegung.json",
+      "enthaelt": "vivodepot/betreuungsverfuegung",
+      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-betreuungsverfuegung.json",
+      "enthaelt": "\"betreuungsverfuegung\": {",
+      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/dokument-module/vivodepot-standardvorlage-betreuungsverfuegung.json",
+      "enthaelt": "\"id\": \"betreuungsverfuegung\"",
+      "grund": "Modul-/Vorlagen-/Sektions-Id (eigene Id-Achse)"
+    },
+    {
+      "datei": "tools/textsatz-de-modul.json",
+      "enthaelt": "dok:betreuungsverfuegung",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-begriffe-pruefen.js",
+      "enthaelt": "dok:betreuungsverfuegung",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-modul.json",
+      "enthaelt": "dok:betreuungsverfuegung",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tools/textsatz-en-vollabdeckung-daten.js",
+      "enthaelt": "dok:betreuungsverfuegung",
+      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
+    },
+    {
+      "datei": "tests/e2e/f8-dokument-oeffner-abnahme.spec.js",
+      "enthaelt": "dokumentOeffnen('betreuungsverfuegung'",
+      "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
+    },
+    {
+      "datei": "tests/fixtures/angehoerigen-blaetter-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/golden-master-ausgabewege-baseline.json",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/migrations-stufen.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/paket0-migrationsbeleg-baseline.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/persona-p17.js",
+      "enthaelt": "`betreuungsverfuegung` als EIN Instrument",
+      "grund": "Erklaertext im Kommentar"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-schema19.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-vor-kennungsumbau.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/befuellt__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/leer__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/situationen-lesen-vor-abriss-2026-09-19.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/befuellt__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/leer__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-testdepot.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-a4-standard-vorlagen.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/vor-umzug-depot-instrumente-breit-anton-reindl.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "betreuungsverfuegung: 'custodianship-declaration', sorgerechtsverfuegung: 'guardian-nomination', betreuerbestellung: 'custodian-appointment',",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "JSON.stringify(['patientenverfuegung', 'betreuungsverfuegung', 'vorsorgevollmacht', 'organspende']",
+      "grund": "Erwartete Reihenfolge der vier Standardvorlagen-Module in der Mitschrift (Fach standardVorlagen, Gerüst-Schnitt S4): Modul-Id-Achse, kein Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "betreuungsverfuegung: 'custodianship-declaration',",
+      "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    }
+  ],
+  "sorgerechtsverfuegung": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "gate: 'sorgerechtsverfuegung'",
+      "grund": "Gate-Feld-Id des alten b16-/Flachfelds (Doppelname, nicht der Typ-Code)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "sorgerechtsverfuegung: 'guardian-nominat",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "`betreuungsverfuegung`, `sorgerechtsverfuegung` und",
+      "grund": "Erklaertext im Kommentar (Gate-Felder der Schema-51->52-Stufe)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "id: 'sorgerechtsverfuegung'",
+      "grund": "Modul-/Sektions-Id (eigene Id-Achse)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "sorgerechtsverfuegung: { herkunft",
+      "grund": "_MODUL_KARTE ist nach Modul-Id (m.id) geschluesselt, nicht nach Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "'sorgerechtsverfuegung', {",
+      "grund": "Gate-Feld-Id des alten Flachfelds beim Falten alter Dateien (Doppelname), nicht der Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "delete v.sorgerechtsverfuegung;",
+      "grund": "Gate-Feld des alten Flachfelds beim Falten alter Dateien (Doppelname), nicht der Typ-Code"
+    },
+    {
+      "datei": "tests/fixtures/migrations-stufen.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/paket0-migrationsbeleg-baseline.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-vor-kennungsumbau.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/befuellt__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/render-aufnahme/leer__advanceCare.html",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/befuellt__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-grundlinie/leer__vorsorge.html",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-testdepot.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "betreuungsverfuegung: 'custodianship-declaration', sorgerechtsverfuegung: 'guardian-nomination', betreuerbestellung: 'custodian-appointment',",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "sorgerechtsverfuegung: 'guardian-nomination',",
+      "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    }
+  ],
+  "betreuerbestellung": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "betreuerbestellung: 'custodian-appointme",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "tests/fixtures/paket0-migrationsbeleg-baseline.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/referenzdepot-vor-kennungsumbau.js",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/fixtures/v515-testdepot.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
+      "enthaelt": "betreuungsverfuegung: 'custodianship-declaration', sorgerechtsverfuegung: 'guardian-nomination', betreuerbestellung: 'custodian-appointment',",
+      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "betreuerbestellung: 'custodian-appointment',",
+      "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    }
+  ],
+  "ehegattennotvertretung": [
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "ehegattennotvertretung: 'Ehegattennotver",
+      "grund": "Alt-Seite von DOKUMENTTYP_ALT_ZU_NEU_L4 (Uebersetzungstabelle der Stufe 84->85)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "basisOfRepresentation === 'ehegattennotvertretung'",
+      "grund": "Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "basisOfRepresentation !== 'ehegattennotvertretung'",
+      "grund": "Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Rechtsraum-Katalog-Typ"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "basisOfRepresentation/ehegattennotvertretung.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/bereich-templates/vivodepot-people.json",
+      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/buergermodul/vd-de-sprache.json",
+      "enthaelt": "basisOfRepresentation/ehegattennotvertretung.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/buergermodul/vd-privat.json",
+      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/vd-privat-struktur-bundle.json",
+      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-de-modul.json",
+      "enthaelt": "basisOfRepresentation/ehegattennotvertretung.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-en-modul.json",
+      "enthaelt": "basisOfRepresentation/ehegattennotvertretung.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tools/textsatz-en-optionswerte-daten.js",
+      "enthaelt": "basisOfRepresentation/ehegattennotvertretung.label",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tests/fixtures/golden-master-ausgabewege-baseline.json",
+      "enthaelt": "*",
+      "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
+    },
+    {
+      "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
+    },
+    {
+      "datei": "tools/bereiche-nativ-katalog-modul.json",
+      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
+      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Katalog der nativen Bereiche (seit Gerüst-Schnitt S7 in dieser Moduldatei, vorher im Kern), anderes Vokabular als der Typ-Code"
+    }
+  ]
+}

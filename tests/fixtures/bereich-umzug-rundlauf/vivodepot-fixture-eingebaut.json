@@ -1,0 +1,244 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/wohnen",
+  "fassung": 1,
+  "bereiche": {
+    "housing": {
+      "id": "housing",
+      "format": "GENERISCH",
+      "icon": "home",
+      "wizards": [
+        "umzwiz"
+      ],
+      "sektionen": [
+        {
+          "id": "wohnen-haupt",
+          "felder": [
+            {
+              "id": "ownedOrRented",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "eigentum"
+                },
+                {
+                  "wert": "miete"
+                },
+                {
+                  "wert": "sonstige"
+                }
+              ]
+            },
+            {
+              "id": "landlordPropertyManagement",
+              "typ": "ref",
+              "entitaet": "person",
+              "rolle": "vermieter",
+              "verweisZweck": "wohnen",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "landlordPhone",
+              "typ": "text",
+              "eingabeTyp": "tel",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "landlordEmail",
+              "typ": "text",
+              "eingabeTyp": "email",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "monthlyRentServiceCharges",
+              "sensibel": true,
+              "typ": "text",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "currency",
+              "sensibel": true,
+              "typ": "auswahl",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              },
+              "optionen": [
+                {
+                  "wert": "EUR"
+                },
+                {
+                  "wert": "USD"
+                },
+                {
+                  "wert": "GBP"
+                },
+                {
+                  "wert": "CHF"
+                },
+                {
+                  "wert": "sonstige"
+                }
+              ]
+            },
+            {
+              "id": "rentalDepositBankAmount",
+              "sensibel": true,
+              "typ": "text",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "tenancyAgreementStorage",
+              "sensibel": true,
+              "typ": "text",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "tenancyAgreementFixedTermUntil",
+              "marken": [
+                "laeuftAb"
+              ],
+              "typ": "datum",
+              "sichtbarWenn": {
+                "feld": "ownedOrRented",
+                "wert": "miete"
+              }
+            },
+            {
+              "id": "specialLivingSituation",
+              "sensibel": true,
+              "typ": "textarea"
+            },
+            {
+              "id": "tenancyTerminationHandover",
+              "typ": "textarea",
+              "ebene": "modul"
+            },
+            {
+              "id": "noticeDate",
+              "marken": [
+                "frist"
+              ],
+              "typ": "datum",
+              "ebene": "modul"
+            },
+            {
+              "id": "moveOutDate",
+              "marken": [
+                "frist"
+              ],
+              "typ": "datum",
+              "ebene": "modul"
+            },
+            {
+              "id": "handoverDateNewHome",
+              "marken": [
+                "frist"
+              ],
+              "typ": "datum",
+              "ebene": "modul"
+            }
+          ]
+        },
+        {
+          "id": "wohnen-zweit",
+          "felder": [
+            {
+              "id": "furtherHomes",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "streetHouseNumber",
+                  "typ": "text"
+                },
+                {
+                  "id": "postcodeCity",
+                  "typ": "text"
+                },
+                {
+                  "id": "ownedOrRented",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "eigentum"
+                    },
+                    {
+                      "wert": "miete"
+                    },
+                    {
+                      "wert": "sonstige"
+                    }
+                  ]
+                },
+                {
+                  "id": "propertyManagement",
+                  "typ": "ref",
+                  "entitaet": "person",
+                  "rolle": "vermieter",
+                  "verweisZweck": "wohnen"
+                },
+                {
+                  "id": "landlordPhone",
+                  "typ": "text",
+                  "eingabeTyp": "tel"
+                },
+                {
+                  "id": "landlordEmail",
+                  "typ": "text",
+                  "eingabeTyp": "email"
+                },
+                {
+                  "id": "serviceCharges",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "rentalDepositBankAmount",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "tenancyAgreementStorage",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "tenancyAgreementFixedTermUntil",
+                  "marken": [
+                    "laeuftAb"
+                  ],
+                  "typ": "datum"
+                },
+                {
+                  "id": "specialLivingSituation",
+                  "typ": "textarea"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

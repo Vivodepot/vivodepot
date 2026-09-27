@@ -1,0 +1,318 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/patientenverfuegung",
+  "fassung": 1,
+  "dokumentModule": {
+    "patientenverfuegung": {
+      "motor": "pv",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "Situationen, für die diese Patientenverfügung gelten soll",
+          "bloecke": [
+            {
+              "typ": "mehrfachauswahl",
+              "feldId": "applicableSituations",
+              "einleitungAus": {
+                "dokument": "pvBmj",
+                "feld": "applicableSituations",
+                "teil": "dokEinleitung"
+              },
+              "bulletPrefix": "– ",
+              "freitextFeld": "ownAdditionalSituation",
+              "einleitung": "Diese Patientenverfügung gilt, wenn"
+            }
+          ]
+        },
+        {
+          "titel": "Ärztliche und pflegerische Maßnahmen",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "lifeSustainingMeasures",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "painAndSymptomTreatment",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "acceptsLifeShorteningFromPain",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "artificialNutritionAndHydration",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "resuscitationInDescribedSituations",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "emergencyDoctorNotified",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "resuscitationInAllCases",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "artificialVentilation",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "dialysis",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "antibiotics",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "bloodAndBloodProducts",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            }
+          ]
+        },
+        {
+          "titel": "Ort der Behandlung, Beistand",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "placeOfTreatmentOrDeath",
+              "prefix": "Ich möchte ",
+              "sentinelSkip": true
+            },
+            {
+              "typ": "refMehrfach",
+              "feldId": "supportFromThesePersons",
+              "satz": "Ich wünsche Beistand durch folgende Personen: {namen}."
+            },
+            {
+              "typ": "freitextSatz",
+              "feldId": "supportFromChurchOrCommunity",
+              "satz": "Ich wünsche Beistand durch eine Vertreterin/einen Vertreter folgender Kirche oder Weltanschauungsgemeinschaft: {text}."
+            },
+            {
+              "typ": "auswahlFest",
+              "feldId": "hospiceSupport",
+              "wert": "ja",
+              "text": "Ich wünsche hospizlichen Beistand."
+            }
+          ]
+        },
+        {
+          "titel": "Entbindung von der Schweigepflicht",
+          "bloecke": [
+            {
+              "typ": "refMehrfach",
+              "feldId": "confidentialityWaiverFor",
+              "satz": "Ich entbinde die behandelnden Ärztinnen und Ärzte gegenüber folgenden Personen von der Schweigepflicht: {namen}."
+            }
+          ]
+        },
+        {
+          "titel": "Verbindlichkeit, Durchsetzung und Reichweite",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "pvBmj",
+                "teil": "verbindlichkeitKlauseln"
+              },
+              "texte": [
+                "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
+                "Sollte eine Ärztin oder ein Arzt oder das Behandlungsteam nicht bereit sein, meinen in dieser Patientenverfügung geäußerten Willen zu befolgen, erwarte ich, dass für eine anderweitige medizinische und/oder pflegerische Behandlung gesorgt wird. Von meiner Vertreterin/meinem Vertreter (z. B. Bevollmächtigte(r)/Betreuer(in)) erwarte ich, dass sie/er die weitere Behandlung so organisiert, dass meinem Willen entsprochen wird."
+              ]
+            },
+            {
+              "typ": "rollePerson",
+              "feldId": "whoseViewMattersIfUnregulated",
+              "andereFeld": "whoseViewMattersOtherPersonName",
+              "einleitungAus": {
+                "dokument": "pvBmj",
+                "teil": "reichweiteEinleitung"
+              },
+              "bulletPrefix": "– ",
+              "einleitung": "In Lebens- und Behandlungssituationen, die in dieser Patientenverfügung nicht konkret geregelt sind, ist mein mutmaßlicher Wille möglichst im Konsens aller Beteiligten zu ermitteln. Dafür soll diese Patientenverfügung als Richtschnur maßgeblich sein. Bei unterschiedlichen Meinungen über anzuwendende oder zu unterlassende ärztliche/pflegerische Maßnahmen soll der Auffassung folgender Person besondere Bedeutung zukommen:"
+            },
+            {
+              "typ": "rollePerson",
+              "feldId": "whoseViewMattersIfDeviatingWill",
+              "andereFeld": "whoseViewMattersIfDeviatingOther",
+              "einleitungAus": {
+                "dokument": "pvBmj",
+                "teil": "widerrufEinleitung"
+              },
+              "bulletPrefix": "– ",
+              "einleitung": "Wenn ich meine Patientenverfügung nicht widerrufen habe, wünsche ich nicht, dass mir in der konkreten Anwendungssituation eine Änderung meines Willens unterstellt wird. Wenn aber die behandelnden Ärztinnen und Ärzte/das Behandlungsteam/mein(e) Bevollmächtigte(r)/Betreuer(in) aufgrund meiner Gesten, Blicke oder anderen Äußerungen die Auffassung vertreten, dass ich entgegen den Festlegungen in meiner Patientenverfügung doch behandelt oder nicht behandelt werden möchte, dann ist möglichst im Konsens aller Beteiligten zu ermitteln, ob die Festlegungen in meiner Patientenverfügung noch meinem aktuellen Willen entsprechen. Bei unterschiedlichen Meinungen soll in diesen Fällen der Auffassung folgender Person besondere Bedeutung zukommen:"
+            }
+          ]
+        },
+        {
+          "titel": "Weitere Verfügungen",
+          "bloecke": [
+            {
+              "typ": "crossRef",
+              "text": "Ich habe eine Vorsorgevollmacht errichtet.",
+              "bedingung": {
+                "typ": "oder",
+                "bedingungen": [
+                  {
+                    "typ": "listeEnthaeltTyp",
+                    "feld": "provisionInstruments",
+                    "wertFeld": "instrument",
+                    "wert": "enduring-power-of-attorney"
+                  },
+                  {
+                    "typ": "feldGleich",
+                    "feld": "vollmacht_vorhanden",
+                    "wert": "ja"
+                  }
+                ]
+              }
+            },
+            {
+              "typ": "crossRef",
+              "text": "Ich habe eine Betreuungsverfügung errichtet.",
+              "bedingung": {
+                "typ": "oder",
+                "bedingungen": [
+                  {
+                    "typ": "listeEnthaeltTyp",
+                    "feld": "provisionInstruments",
+                    "wertFeld": "instrument",
+                    "wert": "custodianship-declaration"
+                  },
+                  {
+                    "typ": "feldGleich",
+                    "feld": "betreuungsverfuegung",
+                    "wert": "ja"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "titel": "2.7 Hinweise auf weitere Vorsorgeverfügungen",
+          "bloecke": [
+            {
+              "typ": "instrumentPersonVerweis",
+              "instrumentTyp": "enduring-power-of-attorney",
+              "feldId": "authorizedPersons",
+              "einleitung": "Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt:",
+              "besprochenFeldId": "contentOfTheAdvanceDirective",
+              "besprochenEinleitung": "Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt und den Inhalt dieser Patientenverfügung mit der von mir bevollmächtigten Person besprochen:",
+              "rollenLabel": "Bevollmächtigte(r): "
+            },
+            {
+              "typ": "instrumentPersonVerweis",
+              "instrumentTyp": "custodianship-declaration",
+              "feldId": "proposedPerson",
+              "einleitung": "Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt.",
+              "besprochenFeldId": "contentOfTheAdvanceDirective2",
+              "besprochenEinleitung": "Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt und den Inhalt dieser Patientenverfügung mit der/dem von mir gewünschten Betreuerin/Betreuer besprochen.",
+              "rollenLabel": "Gewünschte(r) Betreuerin/Betreuer: "
+            }
+          ]
+        },
+        {
+          "titel": "Wertvorstellungen",
+          "bloecke": [
+            {
+              "typ": "freitext",
+              "feldId": "personalValuesOrFurtherDocuments"
+            }
+          ]
+        },
+        {
+          "titel": "Organspende",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "organDonationDecision"
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "priorityIfOrganDonationConflict",
+              "sichtbarWenn": {
+                "feld": "organDonationDecision",
+                "wert": "zustimmung"
+              }
+            }
+          ]
+        },
+        {
+          "titel": "Schlussbemerkungen",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "waivesFurtherMedicalInformation",
+              "sentinelSkip": true
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "pvBmj",
+                "teil": "schlussbemerkungen"
+              },
+              "texte": [
+                "Mir ist die Möglichkeit der Änderung und des Widerrufs einer Patientenverfügung bekannt.",
+                "Ich bin mir des Inhalts und der Konsequenzen meiner darin getroffenen Entscheidungen bewusst.",
+                "Ich habe die Patientenverfügung in eigener Verantwortung und ohne äußeren Druck erstellt.",
+                "Ich bin im Vollbesitz meiner geistigen Kräfte."
+              ]
+            },
+            {
+              "typ": "freitextSatz",
+              "feldId": "informationOrCounsellingReceived",
+              "satz": "Ich habe mich vor der Erstellung informiert bzw. beraten lassen: {text}."
+            }
+          ]
+        },
+        {
+          "titel": "Gültigkeit und Aktualisierung",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "validityDuration",
+              "fuellByWert": {
+                "befristet": {
+                  "platzhalter": "(Zeitangabe)",
+                  "feld": "validityDurationDeadline"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

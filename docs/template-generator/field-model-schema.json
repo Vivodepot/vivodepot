@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/field-model-schema.json",
+  "title": "Vivodepot Feld-Modell — selbst-beschreibende Feld-Definition (U2-ADR-037, Stufe 0)",
+  "description": "Gemeinsames, selbst-beschreibendes Feld-Format ueber die vier Komponenten (1 Buerger-App, 2 Lese-App, 3 VC-Issuer, 4 Template-Generator). EINE Definition reist als DATEN (nicht als Code) durch Generator -> VC-Issuer (durchreichen) -> Buerger-App + Lese-App (lesen/rendern) und lebt im Depot unter data.feldDefinitionen[] (Schema 23). Die WERTE liegen weiter in data.sektoren[sektorId][feldId] -> Krypto (Voll-Objekt-Verschluesselung), Provenienz (urheberschaft[sektorId][feldId]) und der U2-ADR-036-Selbstauskunft-Guard tragen feldId-agnostisch unveraendert. Daten-Verbleib: das Feld bleibt rendierbar, auch wenn das Template widerrufen ist, weil die Definition im Depot liegt. Erste Stufe = flache Teilmenge; ref/liste/mehrfachauswahl reserviert und vom Empfaenger sauber uebersprungen.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "sektorId", "feldId", "abschnitt", "typ", "label"],
+  "$comment": "Schnitt Glied 6 (23.08.2026, 1.4b, U2-ADR-164): `beschriftungen` ist additiv — `label` bleibt der stabile Standard-String, den jede bestehende Lesestelle unveraendert erwartet.",
+  "properties": {
+    "schemaVersion": {
+      "description": "Kellerwand 1 (Versions-Marke, nicht nachruestbar): die Depot-Schema-Version, GEGEN DIE diese Definition erstellt wurde (Bau-Zeitpunkt) — NICHT 'die aktuelle Version'. Beim Energie-Piloten zufaellig 23; ein spaeter gebautes Template traegt die Version, gegen die es gebaut wurde. So bleibt ein eingewandertes Feld in fuenf Jahren seiner Herkunfts-Version zuordenbar.",
+      "type": "integer",
+      "minimum": 23
+    },
+    "sektorId": {
+      "description": "Kellerwand 2 (stabile ID statt Label): technische Ziel-Sektor-ID — NICHT das Bereich-Label ('Wohnen'). Generator-bereich-Label wird im Uebersetzer auf diese ID abgebildet.",
+      "type": "string",
+      "enum": [
+        "identitaet", "meine-menschen", "mobilitaet", "finanzen", "gesundheit",
+        "bildung", "sozialversicherung", "vorsorge", "verwaltung", "persoenliches", "wohnen"
+      ]
+    },
+    "feldId": {
+      "description": "Kellerwand 2 + Namensraum-Schutz (U2-ADR-037 Stufe 2): technische, stabile, eindeutige Feld-ID. MUSS den reservierten Praefix 'tpl_' tragen. Template-Felder und Kern-Katalog-Felder teilen sich den Wert-Slot data.sektoren[sektorId][feldId]; der Praefix trennt die Namensraeume -> eine Kollision mit einem Kern-Feld ist strukturell unmoeglich. Der Empfaenger verwirft jede Template-feldId OHNE diesen Praefix (Schicht 1) und zusaetzlich jede, die doch ein Kern-Feld trifft (_feldDef, Schicht 2) — namentlich in der Import-Vorschau, der Wert-Slot bleibt unangetastet.",
+      "type": "string",
+      "minLength": 5,
+      "pattern": "^tpl_[a-z0-9_]+$"
+    },
+    "abschnitt": {
+      "description": "Platzierung (24.06.): inhaltlicher Abschnittsname (= die mitgebrachte Generator-Gruppe, z. B. 'Energie & Erzeugung'). Existiert der Abschnitt im Ziel-Katalog NICHT (Normalfall), wird er zur neuen thematischen Zone — NICHT verworfen, NICHT in eine fremde Sektion gezwungen. Inhaltlich benannt (nach Thema), nie herkunfts-benannt (nicht nach Anbieter).",
+      "type": "string",
+      "minLength": 1
+    },
+    "ebene": {
+      "description": "Platzierung: 'kern' = sichtbar oben (Default — Template-Felder sind auffindbar, nicht versteckt); 'modul' = eingeklappter 'mehr'-Block. Intra-Position ist implizit: ans Abschnitts-Ende anhaengen (Praezedenz menschenRegisterHTML/schutzbefohleneRollupHTML/Cross-Sektor).",
+      "type": "string",
+      "enum": ["kern", "modul"],
+      "default": "kern"
+    },
+    "typ": {
+      "description": "Kellerwand 3 (OFFENES Typ-System): bekannt und gerendert = text, zahl, datum, auswahl, jaNein. RESERVIERT (vom Empfaenger SAUBER UEBERSPRUNGEN, nicht abgelehnt) = ref, liste, mehrfachauswahl. JEDER unbekannte Typ wird uebersprungen statt zu scheitern. Deshalb bewusst ein offener String, KEIN geschlossenes enum.",
+      "type": "string",
+      "minLength": 1
+    },
+    "mehrzeilig": {
+      "description": "Nur bei typ='text' wirksam: true -> die App rendert ein mehrzeiliges Feld (textarea); fehlt oder false -> einzeiliges text. Loest die text<->textarea-Konvention IM FORMAT (Praezisierung 2), nicht erst beim Empfaenger.",
+      "type": "boolean"
+    },
+    "label": {
+      "description": "Buerger-sichtbare Beschriftung der Eingabezeile — der stabile Standardwert, gelesen von jeder Stelle, die keine Sprachvarianten kennt.",
+      "type": "string",
+      "minLength": 1
+    },
+    "beschriftungen": {
+      "description": "Optionale Sprachvarianten des Labels: {sprache: text, ...}, Schluessel ein freies BCP-47-Sprach-Tag (keine geschlossene Liste). Der Kern zeigt die zur aktiven Sprache passende Variante, sonst gilt `label`. Entschieden (22.08.2026): ein Modul bringt seine Beschriftungen je Sprache mit statt gestapelter Textsaetze.",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$" },
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "pflicht": {
+      "description": "Ob das Feld als Pflichtfeld markiert wird (Default false).",
+      "type": "boolean",
+      "default": false
+    },
+    "beispiel": {
+      "description": "Optionaler Platzhalter/Beispieltext.",
+      "type": "string"
+    },
+    "optionen": {
+      "description": "Bei typ='auswahl' die Auswahl-Optionen. Bei typ='jaNein' setzt der Uebersetzer konventionell [{wert:'ja',label:'ja'},{wert:'nein',label:'nein'}].",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["wert", "label"],
+        "properties": {
+          "wert": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "codeSystemId": {
+      "description": "EXAKTE App-Registry-ID des Code-Systems (Praezisierung 4) — z. B. icd10, atc, snomedAllergen, loinc, xoev-rollencode, esco — ODER die systemId einer im Template MITGEBRACHTEN codeListe (U2-ADR-051; die App namespaced sie auf tpl_). KEIN Oberbegriff ('SNOMED'): der Generator liefert die praezise ID, kein nachtraegliches Oberbegriff-Mapping. snomedImpfstoff/snomedImplantat sind als App-Stubs ausgetragen — solche Codes reisen als eigene codeListe im Template.",
+      "type": "string",
+      "minLength": 1
+    },
+    "codeWerte": {
+      "description": "Optional inline mitgelieferte Codes in Registry-Form (Uebersetzer: Generator 'anzeige'->'anzeigeName', 'synonym'->'synonyme[]'). Werden als andockbare CODE_LISTEN angemeldet. Fehlen sie, referenziert codeSystemId eine bereits angedockte Liste.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "anzeigeName"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "anzeigeName": { "type": "string", "minLength": 1 },
+          "synonyme": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

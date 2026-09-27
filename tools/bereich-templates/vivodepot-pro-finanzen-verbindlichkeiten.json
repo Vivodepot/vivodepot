@@ -1,0 +1,148 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-finanzen-verbindlichkeiten",
+  "fassung": 1,
+  "bereiche": {
+    "pro-finanzen-verbindlichkeiten": {
+      "id": "pro-finanzen-verbindlichkeiten",
+      "icon": "wallet",
+      "sektionen": [
+        {
+          "id": "fristen-und-geld",
+          "felder": [
+            {
+              "id": "tpl_bankverbindung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_institut",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_vollmacht_inhaber",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_gilt_ueber_den_tod_hinaus",
+                  "typ": "checkbox"
+                }
+              ]
+            },
+            {
+              "id": "tpl_wiederkehrende_zahlung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_faelligkeit",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_kredit",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_bezeichnung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_kuendigungsrecht_bei_fuehrungswechsel",
+                  "typ": "checkbox"
+                }
+              ]
+            },
+            {
+              "id": "tpl_persoenliche_sicherheit_buergschaft",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_wofuer_gegenueber_wem",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_steuerfrist",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_anmeldung_vorauszahlung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_termin",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_versicherung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_art",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_meldefrist",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_vertrag_mit_kontrollwechsel_klausel",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_vertrag",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_ansprechpartner",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "private-absicherung",
+          "felder": [
+            {
+              "id": "tpl_versorgungslage_der_familie_im_ausfall",
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea"
+            }
+          ]
+        }
+      ],
+      "cluster": "pro-betrieb-finanzen",
+      "clusterTitel": "Betrieb & Finanzen",
+      "clusterRang": 2
+    }
+  }
+}

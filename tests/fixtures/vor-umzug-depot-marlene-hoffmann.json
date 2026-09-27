@@ -1,0 +1,155 @@
+{
+  "_typ": "vivodepot-klartext-export",
+  "_hinweis": "Beispieldepot mit ERFUNDENEN Daten (Marlene Hoffmann). Offener, unverschlüsselter Klartext-Export — erzeugt zu Prüfzwecken, enthält keine echten Personendaten.",
+  "_version": "v1.0-rc",
+  "_exportiertAm": "2026-09-06T05:47:20.497Z",
+  "depot": {
+    "schemaVersion": 75,
+    "kryptoVersion": 3,
+    "menschen": [],
+    "institutionen": [],
+    "mappe": [],
+    "sektoren": {
+      "identitaet": {
+        "vorname": "Marlene",
+        "nachname": "Hoffmann",
+        "geburtsdatum": "1957-04-12",
+        "telefon": "030 5512488",
+        "strasse": "Kastanienallee 14",
+        "email": "m.hoffmann@example.org",
+        "geburtsname": "Warnke",
+        "geburtsort": "Rostock",
+        "geschlecht": "w",
+        "familienstand": "verwitwet"
+      },
+      "mobilitaet": {
+        "kfz_versicherung_nr": "BSP-KFZ_VE",
+        "fuehrerschein_ort": "Beispiel: Führerschein — Ablageort",
+        "fuehrerschein_frueher": "Beispiel: Führerschein — frühere Angabe",
+        "fuehrerschein_gueltig": "2024-06-01",
+        "d_ticket": "Beispiel: Deutschlandticket / ÖPNV",
+        "reisepass_nr": "BSP-REISEP",
+        "reisepass_ausgestellt": "2024-06-01",
+        "reisepass_gueltig": "2024-06-01"
+      },
+      "finanzen": {
+        "bav_name": "Beispiel: Betriebliche Altersvorsorge (bAV) — Anbi",
+        "bav_durchfuehrungsweg": "direktversicherung",
+        "bav_nr": "BSP-BAV_NR",
+        "bav_rentenbeginn": "2024-06-01",
+        "private_av_institut": "Beispiel: Private Altersvorsorge — Institut",
+        "private_av_nr": "BSP-PRIVAT",
+        "private_av_ablauf": "2024-06-01",
+        "steuerberater_tel": "Beispiel: Kontakt Steuerberater",
+        "steuer_ablage": "Beispiel: Letzte Steuererklärung — Ablageort",
+        "steuer_software": "Beispiel: Steuer-Software",
+        "steuer_besonders": "Beispiel: Steuerliche Besonderheiten",
+        "schulden": "Beispiel: Laufende Kredite & Schulden",
+        "wertgegenstaende": "Beispiel: Wertgegenstände & Ablageorte",
+        "digitale_guthaben": "Beispiel: Digitale Guthaben",
+        "forderungen": "Beispiel: Offene Forderungen & Bürgschaften"
+      },
+      "gesundheit": {
+        "behandlung_aktuell": "Blutdruck-Kontrolle, halbjährlich",
+        "blutgruppe": "A+",
+        "allergien": [
+          {
+            "text": "Penicillin"
+          },
+          {
+            "text": "Haselnuss"
+          }
+        ],
+        "rauchen": "ex",
+        "alkohol": "selten"
+      },
+      "bildung": {
+        "schulabschluss": "kein_abschluss",
+        "schulabschluss_jahr": "Beispiel: Schulabschluss — Jahr",
+        "schulabschluss_frueher": "Beispiel: Schulabschluss — frühere Angabe",
+        "schule_name": "Beispiel: Schule",
+        "ausbildung": "ihk",
+        "ausbildung_beruf": "Beispiel: Berufsausbildung — Ausbildungsberuf",
+        "ausbildung_betrieb": "Beispiel: Berufsausbildung — Betrieb / Kammer",
+        "ausbildung_jahr": "Beispiel: Berufsausbildung — Jahr",
+        "ausbildung_frueher": "Beispiel: Berufsausbildung — frühere Angabe",
+        "studium": "bachelor",
+        "studium_fach": "Beispiel: Studium — Fach",
+        "studium_hochschule": "Beispiel: Studium — Hochschule",
+        "studium_jahr": "Beispiel: Studium — Jahr",
+        "studium_frueher": "Beispiel: Studium — frühere Angabe",
+        "dok_abschluss": "Beispiel: Zeugnisse / Abschlüsse — Ablageort",
+        "beruf": "Beispiel: Beruf / Tätigkeit",
+        "arbeitsvertrag_befristet_bis": "2024-06-01",
+        "arbeitgeber_adresse": "Beispiel: Arbeitgeber-Adresse",
+        "letzter_arbeitgeber": "Beispiel: Letzter Arbeitgeber",
+        "einkommensart_frueher": "Beispiel: Einkommensart — frühere Angabe",
+        "brutto_monat": "Beispiel: Brutto-Monatseinkommen",
+        "netto_monat": "Beispiel: Netto-Monatseinkommen",
+        "gehaltsnachweis_ort": "Beispiel: Gehaltsnachweis (Ablageort)",
+        "qualifikationen": "Beispiel: Qualifikationen",
+        "ehrenamt": "Beispiel: Ehrenamt",
+        "zeugnis_schule_ort": "Beispiel: Schulzeugnisse (Ablageort)",
+        "zeugnis_ausbildung_ort": "Beispiel: Ausbildungszeugnis (Ablageort)",
+        "zeugnis_studium_ort": "Beispiel: Hochschulzeugnis (Ablageort)",
+        "zeugnis_arbeit_ort": "Beispiel: Arbeitszeugnis (Ablageort)"
+      },
+      "vorsorge": {
+        "pflegewuensche_koerper": "Tägliches Waschen bitte morgens. Eigene Seife benutzen.",
+        "pflegewuensche_ernaehrung": "Vegetarisch. Keine Innereien.",
+        "pflegewuensche_alltag": "Radio an, gern Klassik. Fenster offen, wenn es geht.",
+        "hilfsmittel": "Rollator, Hörgerät rechts",
+        "pv_vollmacht_besprochen": "ja",
+        "pflege_vorsorge_geprueft": "teil"
+      },
+      "verwaltung": {
+        "bundid_status": "substanziell"
+      },
+      "wohnen": {
+        "wohnung_typ": "miete"
+      },
+      "persoenliches": {
+        "bestattung_art": "naturbest",
+        "bestattung_voraus": "nein"
+      }
+    },
+    "situationen": {},
+    "empfaengerkreise": [],
+    "blattFelder": {},
+    "angehoerigen_passwort_ort": "",
+    "bevollmaechtigte": [],
+    "todUebergangsWege": null,
+    "ankerWechselEmpfehlung": null,
+    "schwangerschaften": [],
+    "verwaltungsTyp": "eigen",
+    "verselbststaendigungMoeglich": false,
+    "delegationsGeschichte": [],
+    "verwalteteDepots": [],
+    "uebergabeProtokoll": [],
+    "zusammenstellungen": [],
+    "anfragen": [],
+    "urheberschaft": {},
+    "feldGueltigkeit": {},
+    "feldGueltigkeitGerettet": {},
+    "bereicheVerwaist": {},
+    "feldDefinitionenVerwaist": [],
+    "bereichsIdentitaeten": {},
+    "bereicheVerwaistIdentitaet": {},
+    "ausdruecklichKeine": {},
+    "codes": {},
+    "sensibelFelder": {},
+    "dokumente": [],
+    "_letzterAnlass": null,
+    "_wiedereinstiegHinweisGezeigt": false,
+    "inhaberPersonId": null,
+    "feldDefinitionen": [],
+    "codeListen": [],
+    "rechtsraumModule": [],
+    "textsatzModule": [],
+    "institutionsArten": [],
+    "formatModule": [],
+    "bereichsModule": [],
+    "bereichssatz": null
+  },
+  "_beispiel": true
+}

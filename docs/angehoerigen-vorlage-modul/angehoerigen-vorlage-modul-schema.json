@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/angehoerigen-vorlage-modul-schema.json",
+  "title": "Vivodepot Angehörigen-Vorlage",
+  "description": "Eine Angehörigen-Vorlage bringt Blätter für Angehörige mit, festgelegt auf eine Sprache und wahlweise einen Rechtsraum, Berufsstand oder Bereich: Kennung → Titel, Einführung, Empfänger-Baustein, Dokumenttypen und Blöcke mit Zeigern auf bestehende Felder. Jede Zeichenkette unter `situationen` ist reiner Text. Maßstab ist der Kern: angehoerigenVorlagePruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-angehoerigen-vorlage.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber und wird vom Kern angenommen.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["moduleVersion", "herkunft", "sprache", "situationen"],
+  "properties": {
+    "modulTyp": { "const": "angehoerigenVorlage" },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "herkunft": { "description": "Anbieter-Kennung der Vorlage, nicht leer.", "type": "string", "pattern": "\\S" },
+    "sprache": { "description": "Sprache der Vorlage, nicht leer.", "type": "string", "pattern": "\\S" },
+    "rechtsraum": { "description": "Freiwillig: Rechtsraum-Kennung, für den die Vorlage gilt.", "type": "string", "pattern": "\\S" },
+    "rechtsraumName": { "description": "Freiwillig: Name des Rechtsraums in der Sprache der Vorlage.", "type": "string", "pattern": "\\S" },
+    "berufsstand": { "description": "Freiwillig: Berufsstand-Kennung.", "type": "string", "pattern": "\\S" },
+    "berufsstandName": { "description": "Freiwillig: Name des Berufsstands in der Sprache der Vorlage.", "type": "string", "pattern": "\\S" },
+    "bereich": { "description": "Freiwillig: Bereichs-Kennung.", "type": "string", "pattern": "\\S" },
+    "situationen": {
+      "description": "Kennung → Blatt. Kennung: Kleinbuchstabe am Anfang, dann Kleinbuchstaben, Ziffern, Unterstrich, Bindestrich, 2 bis 40 Zeichen. Jede Zeichenkette darin ist reiner Text (keine Tags, keine Zeichenreferenzen, kein ASCII-Anführungszeichen).",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_-]{1,39}$" },
+      "additionalProperties": { "$ref": "#/$defs/blatt" },
+      "$ref": "#/$defs/reinerWert"
+    },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "pruefstufe": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "beleg": { "description": "Vom Einlass gesetzt.", "type": ["object", "null"] }
+  },
+  "$defs": {
+    "reinerWert": {
+      "description": "Reiner Text, rekursiv über Objekte und Listen.",
+      "allOf": [
+        { "not": { "type": "string", "pattern": "<[A-Za-z\\/!?]|&(?:#|[A-Za-z][A-Za-z0-9]*;)|\"" } },
+        { "if": { "type": "object" }, "then": { "type": "object", "additionalProperties": { "$ref": "#/$defs/reinerWert" } } },
+        { "if": { "type": "array" }, "then": { "type": "array", "items": { "$ref": "#/$defs/reinerWert" } } }
+      ]
+    },
+    "blatt": {
+      "type": "object",
+      "required": ["titel"],
+      "properties": {
+        "titel": { "description": "Titel des Blatts, nicht leer.", "type": "string", "pattern": "\\S" },
+        "icon": { "description": "Name eines Kern-Symbols; ein unbekannter Name wird verworfen und durch `users` ersetzt.", "type": "string" },
+        "einfuehrung": { "description": "Freiwilliger Einführungstext.", "type": "string" },
+        "baustein": {
+          "description": "Freiwillig: der Empfängerkreis, den das Blatt selbst erklärt.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "label"],
+          "properties": {
+            "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,39}$" },
+            "label": { "type": "string", "pattern": "\\S" },
+            "hint": { "type": "string" },
+            "weit": { "description": "Gibt auch sensibel markierte Felder frei; bei einer ungeprüften Vorlage setzt der Kern es auf falsch.", "type": "boolean" }
+          }
+        },
+        "dokumenttypen": {
+          "description": "Freiwillig: welche Dokumenttypen das Blatt zeigt, höchstens 40.",
+          "type": "array",
+          "maxItems": 40,
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{1,39}$" }
+        },
+        "dokumenttypenVorschlag": { "description": "Wahr: die Dokumenttypen sind nur eine Ausgangsbelegung.", "type": "boolean" },
+        "bloecke": {
+          "description": "Blöcke mit Zeigern {quelle, feld} auf bestehende Felder.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["eintraege"],
+            "properties": {
+              "eintraege": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["quelle", "feld"],
+                  "properties": {
+                    "quelle": { "description": "Bereichs-Kennung.", "type": "string" },
+                    "feld": { "description": "Feld-Kennung im Bereich.", "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

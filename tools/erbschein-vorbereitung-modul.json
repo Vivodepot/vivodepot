@@ -1,0 +1,73 @@
+{
+  "modulTyp": "logikModul",
+  "id": "erbschein-vorbereitung",
+  "titel": "Erbschein — Vorbereitungsauszug",
+  "sektor": "advanceCare",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "staatsangehoerigkeit": { "typ": "feld", "sektor": "identity", "feld": "nationality", "sensibelErlaubt": true },
+    "lebensmittelpunkt": { "typ": "verbinden", "teile": [
+      { "sektor": "identity", "feld": "streetAddress" },
+      { "sektor": "identity", "feld": "postcodeCity" }
+    ], "trenner": ", " },
+    "testament_form": { "typ": "listenfeld", "sektor": "advanceCare", "feld": "provisionInstruments",
+      "diskriminante": { "feld": "instrument", "wert": "will" }, "unterfeld": "form" },
+    "familienstand": { "typ": "feld", "sektor": "identity", "feld": "maritalStatus" },
+    "kinder_namen": { "typ": "personenNamen", "sektor": "people", "feld": "childrenAndDependants", "unterfeld": "person" },
+    "testament_bedachte_namen": { "typ": "listenfeldPersonenNamen", "sektor": "advanceCare", "feld": "provisionInstruments",
+      "diskriminante": { "feld": "instrument", "wert": "will" }, "unterfeld": "personsNamedInTheWill" },
+    "erben_namen": { "typ": "personenNamen", "sektor": "advanceCare", "feld": "heirsBriefOverview" }
+  },
+  "abschnitte": [
+    {
+      "titel": "Teil A — der Erbschein-Wegweiser (service.justiz.de)",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Diese sechs Fragen stellt der amtliche Erbschein-Wegweiser, um zu klären, ob überhaupt ein Erbschein nötig ist. Reihenfolge und Wortlaut-Grundlage: Stand 27.08.2026."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "staatsangehoerigkeit",
+          "frage": "Welche Staatsangehörigkeit hatte die verstorbene Person?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "lebensmittelpunkt",
+          "frage": "Wo befand sich der Lebensmittelpunkt?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "testament_form",
+          "frage": "Gibt es ein Testament oder einen Erbvertrag?",
+          "format": { "typ": "codeListeLabel", "praefix": "Testament, ", "sektor": "advanceCare", "feld": "provisionInstruments", "unterfeld": "form" },
+          "luecke": "— nicht erfasst —" },
+        { "typ": "immer", "texte": ["Hinweis: Diese Anwendung kennt heute keinen eigenen Erbvertrag-Typ — ein vorhandener Erbvertrag lässt sich hier nicht strukturiert eintragen und erscheint darum immer als Lücke, auch wenn tatsächlich einer besteht."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "grundeigentum",
+          "frage": "Ist Grundeigentum im Erbe enthalten?", "luecke": "— nicht erfasst, bitte im Erbfall selbst prüfen —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "unternehmen",
+          "frage": "Ist ein im Handelsregister eingetragenes Unternehmen im Erbe enthalten?", "luecke": "— nicht erfasst, bitte im Erbfall selbst prüfen —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "bank_verlangt",
+          "frage": "Hat eine Bank oder eine andere Stelle bereits einen Erbschein verlangt?", "luecke": "— lässt sich erst im Erbfall selbst beantworten —" }
+      ]
+    },
+    {
+      "titel": "Teil B — was der Antrag auf Erbschein zusätzlich verlangt",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Diese Angaben beziehen sich auf das eigentliche Antragsformular, das auf service.justiz.de noch NICHT online ist — der amtliche Wortlaut kann sich bis zur Veröffentlichung ändern. Was folgt, ist die Zusammenstellung dieser Anwendung der zugrundeliegenden Depot-Angaben, keine geprüfte amtliche Formulierung."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "familienstand", "frage": "Familienstand?",
+          "format": { "typ": "codeListeLabel", "sektor": "identity", "feld": "maritalStatus" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kinder_namen", "frage": "Kinder/Abkömmlinge (erste Generation)?",
+          "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "immer", "texte": ["Enkel, Urenkel sowie Eltern/Voreltern der Erblasserin kennt das Datenmodell dieser Anwendung heute nicht strukturiert — diese Angaben bleiben grundsätzlich Lücke, unabhängig vom Pflegestand des Depots."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "testament_bedachte_namen", "frage": "Im Testament bedachte Person(en)?",
+          "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "erben_namen", "frage": "Vorgesehene Erb(inn)en?",
+          "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Erbschein — Vorbereitungsauszug",
+    "klasse": "erbschein-dok",
+    "herkunftText": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu service.justiz.de.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder die eidesstattliche Versicherung noch den amtlichen Erbschein-Wegweiser. Was in Ihrem Fall nötig ist, klärt das Nachlassgericht.",
+    "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",
+    "knopfAttr": "erbschein-dokument",
+    "dateiBasis": "Erbschein-Vorbereitung",
+    "toolbarHinweis": "Dieser Auszug hilft Ihnen, sich auf den Erbschein-Wegweiser und das Antragsformular des Justizministeriums vorzubereiten. Er ersetzt weder den Wegweiser noch die eidesstattliche Versicherung, und er wird nicht an service.justiz.de übermittelt.",
+    "karte": { "klasse": "erbschein-auszug-karte", "hinweisKennung": "erbscheinAuszugHint", "knopfKennung": "erbscheinAuszugKnopf",
+      "zusatzKnoepfe": [ { "attr": "erbschein-xml", "kennung": "erbscheinAuszugXmlKnopf", "klasse": "btn-sek" } ] }
+  }
+}

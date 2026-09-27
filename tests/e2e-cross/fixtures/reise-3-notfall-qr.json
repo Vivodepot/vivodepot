@@ -1,0 +1,12 @@
+{
+  "beschreibung": "T-CROSS-03 — Notfall-QR Bürger → Lese-App. QR-Nutzlast programmatisch extrahiert, über Lese-App-Einfuegen geladen.",
+  "ankerName": "Notfall Test",
+  "passwort": "cross-e2e-notfall-123",
+  "akut": {
+    "blutgruppe": "A+",
+    "allergie": "Penicillin (Test)",
+    "dauermedikation": "Marcumar (Test)",
+    "notfallkontakt": "Anja Testtochter"
+  },
+  "erwartet": { "blutgruppeAnzeige": "A +" }
+}

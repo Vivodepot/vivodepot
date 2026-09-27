@@ -1,0 +1,493 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/identity",
+  "fassung": 1,
+  "bereiche": {
+    "identity": {
+      "id": "identity",
+      "format": "SD_JWT_VC",
+      "icon": "user",
+      "merkmale": [
+        "ankerIdentitaet"
+      ],
+      "rollen": {
+        "ankerNameFelder": [
+          "givenName",
+          "familyName",
+          "secondLastName",
+          "displayFamilyNameFirst"
+        ],
+        "familienstandFeld": "maritalStatus",
+        "telefonFeld": "telephone",
+        "emailFeld": "email",
+        "adresseFelder": [
+          "streetAddress",
+          "postcodeCity"
+        ]
+      },
+      "exporte": [
+        {
+          "format": "sd-jwt-vc-identitaet",
+          "labelSchluessel": "exportIdentitaetLabel"
+        },
+        {
+          "format": "vcard-identitaet",
+          "labelSchluessel": "exportVcardLabel"
+        }
+      ],
+      "wizards": [
+        "heirwiz",
+        "umzwiz"
+      ],
+      "deckblatt": {
+        "fotoFeld": "profilePhotoCoverPage",
+        "nameFelder": [
+          "givenName",
+          "familyName",
+          "secondLastName"
+        ]
+      },
+      "standardDokumente": [
+        {
+          "typ": "national-id-card",
+          "name": "Personalausweis",
+          "empfRhythmusMonate": null,
+          "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt.",
+          "felder": [
+            {
+              "sektorId": "identity",
+              "feldId": "idDocuments",
+              "unterfeldId": "validUntil"
+            }
+          ]
+        },
+        {
+          "typ": "residence-permit",
+          "name": "Aufenthaltstitel",
+          "empfRhythmusMonate": null,
+          "vorlaufTage": 90,
+          "hinweis": "Kein fester Rhythmus und kein berechneter Vorschlag — die Frist hängt von Art und Grundlage ab. Empfehlung: rechtzeitig vor Ablauf verlängern, üblich sind drei Monate Vorlauf.",
+          "felder": [
+            {
+              "sektorId": "identity",
+              "feldId": "residencePermit",
+              "unterfeldId": "validUntil"
+            }
+          ]
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "person",
+          "felder": [
+            {
+              "id": "givenName",
+              "typ": "text"
+            },
+            {
+              "id": "familyName",
+              "typ": "text"
+            },
+            {
+              "id": "secondLastName",
+              "typ": "text"
+            },
+            {
+              "id": "displayFamilyNameFirst",
+              "typ": "checkbox"
+            },
+            {
+              "id": "birthDate",
+              "typ": "datum",
+              "keineZukunft": true,
+              "datumJahrMin": 1900
+            },
+            {
+              "id": "yearOfBirthIfTheExactDayIs",
+              "typ": "text",
+              "eingabeTyp": "numeric"
+            },
+            {
+              "id": "telephone",
+              "typ": "text",
+              "eingabeTyp": "tel"
+            },
+            {
+              "id": "streetAddress",
+              "typ": "text"
+            },
+            {
+              "id": "postcodeCity",
+              "typ": "text"
+            },
+            {
+              "id": "email",
+              "typ": "text",
+              "eingabeTyp": "email"
+            },
+            {
+              "id": "nationality",
+              "sensibel": true,
+              "typ": "text",
+              "vorschlaege": [
+                "deutsch",
+                "österreichisch",
+                "schweizerisch",
+                "türkisch",
+                "polnisch",
+                "italienisch",
+                "französisch",
+                "US-amerikanisch",
+                "staatenlos"
+              ]
+            },
+            {
+              "id": "birthName",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "birthPlace",
+              "typ": "text"
+            },
+            {
+              "id": "gender",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "m"
+                },
+                {
+                  "wert": "w"
+                },
+                {
+                  "wert": "d"
+                },
+                {
+                  "wert": "k"
+                }
+              ]
+            },
+            {
+              "id": "maritalStatus",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ledig"
+                },
+                {
+                  "wert": "verh"
+                },
+                {
+                  "wert": "elp"
+                },
+                {
+                  "wert": "getrennt"
+                },
+                {
+                  "wert": "geschieden"
+                },
+                {
+                  "wert": "verwitwet"
+                }
+              ]
+            },
+            {
+              "id": "maritalPropertyRegime",
+              "typ": "auswahl",
+              "sichtbarWenn": {
+                "feld": "maritalStatus",
+                "wert": [
+                  "verh",
+                  "elp"
+                ]
+              },
+              "optionen": [
+                {
+                  "wert": "zugewinn"
+                },
+                {
+                  "wert": "guetertrenn"
+                },
+                {
+                  "wert": "guetergem"
+                }
+              ]
+            },
+            {
+              "id": "dateOfSeparation",
+              "typ": "datum",
+              "keineZukunft": true,
+              "sichtbarWenn": {
+                "feld": "maritalStatus",
+                "wert": [
+                  "getrennt",
+                  "geschieden"
+                ]
+              }
+            },
+            {
+              "id": "choiceOfNameAfterMarriage",
+              "typ": "auswahl",
+              "sichtbarWenn": {
+                "feld": "maritalStatus",
+                "wert": [
+                  "verh",
+                  "elp"
+                ]
+              },
+              "optionen": [
+                {
+                  "wert": "ehename_meiner"
+                },
+                {
+                  "wert": "ehename_partner"
+                },
+                {
+                  "wert": "eigener_name"
+                },
+                {
+                  "wert": "begleitname"
+                }
+              ]
+            },
+            {
+              "id": "choiceOfNameAfterMarriage2",
+              "typ": "text",
+              "sichtbarWenn": {
+                "feld": "maritalStatus",
+                "wert": [
+                  "verh",
+                  "elp"
+                ]
+              }
+            },
+            {
+              "id": "idDocuments",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "documentNumber",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "issuedOn",
+                  "sensibel": true,
+                  "typ": "datum"
+                },
+                {
+                  "id": "validUntil",
+                  "sensibel": true,
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "residencePermitType",
+              "sensibel": true,
+              "typ": "text",
+              "vorschlaege": [
+                "Aufenthaltserlaubnis",
+                "Niederlassungserlaubnis",
+                "Blaue Karte EU",
+                "Visum",
+                "Duldung",
+                "Fiktionsbescheinigung"
+              ]
+            },
+            {
+              "id": "residencePermit",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "number",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "issuedOn",
+                  "sensibel": true,
+                  "typ": "datum"
+                },
+                {
+                  "id": "validUntil",
+                  "sensibel": true,
+                  "typ": "datum"
+                },
+                {
+                  "id": "responsibleImmigration",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "fileReferenceNumber",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "profilePhotoCoverPage",
+              "typ": "ref",
+              "entitaet": "mappe"
+            },
+            {
+              "id": "furtherDetails",
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "taxClass",
+              "sensibel": true,
+              "typ": "auswahl",
+              "ebene": "modul",
+              "optionen": [
+                {
+                  "wert": "I"
+                },
+                {
+                  "wert": "II"
+                },
+                {
+                  "wert": "III"
+                },
+                {
+                  "wert": "IV"
+                },
+                {
+                  "wert": "IV_faktor"
+                },
+                {
+                  "wert": "V"
+                },
+                {
+                  "wert": "VI"
+                }
+              ]
+            },
+            {
+              "id": "taxClassEarlierEntry",
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "reRegistrationWithTheResidents",
+              "typ": "text",
+              "ebene": "modul"
+            }
+          ]
+        },
+        {
+          "id": "fruehere-namen",
+          "felder": [
+            {
+              "id": "formerNames",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "name",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "usedUntil",
+                  "sensibel": true,
+                  "typ": "datum"
+                },
+                {
+                  "id": "reason",
+                  "sensibel": true,
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "heirat"
+                    },
+                    {
+                      "wert": "scheidung"
+                    },
+                    {
+                      "wert": "namensaenderung"
+                    },
+                    {
+                      "wert": "adoption"
+                    },
+                    {
+                      "wert": "einbuergerung"
+                    },
+                    {
+                      "wert": "personenstand"
+                    },
+                    {
+                      "wert": "transkription"
+                    },
+                    {
+                      "wert": "sonstiges"
+                    }
+                  ]
+                },
+                {
+                  "id": "note",
+                  "typ": "hinweis",
+                  "sichtbarWenn": {
+                    "feld": "reason",
+                    "wert": "personenstand"
+                  }
+                },
+                {
+                  "id": "proofStorageLocation",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pets",
+          "felder": [
+            {
+              "id": "pets",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "petNameSpecies",
+                  "typ": "text"
+                },
+                {
+                  "id": "emergencyCarePersonContact",
+                  "typ": "ref",
+                  "entitaet": "person"
+                },
+                {
+                  "id": "vetNameContact",
+                  "typ": "ref",
+                  "entitaet": "person"
+                },
+                {
+                  "id": "medication",
+                  "typ": "text"
+                },
+                {
+                  "id": "otherNotes",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

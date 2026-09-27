@@ -1,0 +1,379 @@
+{
+  "zweck": "Feldliste der Vorlage Mein Behandlungsweg. EINE Quelle, als Daten. Der Erzeuger liest sie, der Kern kennt sie nicht.",
+  "stand": "2026-09-16 — Feldliste und Arbeitstitel bestaetigt: die elf Felder aus Abschnitt 2 des Bauplans, Titel Mein Behandlungsweg und My treatment journey.",
+  "bauplan": "Bauplan zur Vorlage Mein Behandlungsweg (15.09.2026), Abschnitt 2 und 6.1",
+  "bereichId": "treatmentJourney",
+  "bereich": {
+    "modulTyp": "bereich",
+    "moduleVersion": 1,
+    "herkunft": "vivodepot",
+    "sprache": "de",
+    "bereiche": {
+      "treatmentJourney": {
+        "id": "treatmentJourney",
+        "format": "GENERISCH",
+        "icon": "heartPulse",
+        "label": "Mein Behandlungsweg",
+        "sektionen": [
+          {
+            "id": "behandlungsweg-haupt",
+            "felder": []
+          }
+        ]
+      }
+    }
+  },
+  "felder": [
+    {
+      "feldname": {
+        "de": "Behandelnde Stellen",
+        "en": "Treating providers"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "gruppe": "Wer behandelt",
+      "unterFelder": [
+        {
+          "feldname": "Art",
+          "feldtyp": "auswahl",
+          "codeWerte": [
+            {
+              "code": "klinik",
+              "anzeige": "Klinik"
+            },
+            {
+              "code": "onkologischeAmbulanz",
+              "anzeige": "Onkologische Ambulanz"
+            },
+            {
+              "code": "niedergelassenePraxis",
+              "anzeige": "Niedergelassene Praxis"
+            },
+            {
+              "code": "hausarztpraxis",
+              "anzeige": "Hausarztpraxis"
+            },
+            {
+              "code": "rehaEinrichtung",
+              "anzeige": "Reha-Einrichtung"
+            },
+            {
+              "code": "sonstige",
+              "anzeige": "Sonstige"
+            }
+          ]
+        },
+        {
+          "feldname": "Stelle",
+          "feldtyp": "ref",
+          "entitaet": "institution",
+          "rolle": "behandelnd",
+          "verweisZweck": "behandlungsweg"
+        },
+        {
+          "feldname": "Station oder Bereich",
+          "feldtyp": "text"
+        },
+        {
+          "feldname": "Erreichbarkeit ausserhalb der Sprechzeiten",
+          "feldtyp": "text",
+          "beispiel": "Nummer der Station oder Ambulanz fuer Abend und Wochenende"
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Ansprechpersonen in der Klinik",
+        "en": "Contacts at the clinic"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "gruppe": "Wer behandelt",
+      "unterFelder": [
+        {
+          "feldname": "Rolle",
+          "feldtyp": "auswahl",
+          "codeWerte": [
+            {
+              "code": "sozialdienst",
+              "anzeige": "Sozialdienst"
+            },
+            {
+              "code": "psychoonkologie",
+              "anzeige": "Psychoonkologie"
+            },
+            {
+              "code": "pflege",
+              "anzeige": "Pflege"
+            },
+            {
+              "code": "studienzentrale",
+              "anzeige": "Studienzentrale"
+            },
+            {
+              "code": "sonstige",
+              "anzeige": "Sonstige"
+            }
+          ]
+        },
+        {
+          "feldname": "Person",
+          "feldtyp": "ref",
+          "entitaet": "person",
+          "rolle": "ansprechperson",
+          "verweisZweck": "behandlungsweg"
+        },
+        {
+          "feldname": "Notiz",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Behandlungsplan, wie mitgeteilt",
+        "en": "Treatment plan as communicated"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Behandlung",
+      "hilfetext": "Nur, was die Klinik mitgeteilt hat, in deren Worten. Vivodepot gibt keine medizinische Auskunft.",
+      "unterFelder": [
+        {
+          "feldname": "Art der Behandlung",
+          "feldtyp": "text",
+          "sensibel": true
+        },
+        {
+          "feldname": "Beginn",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Zahl der Termine",
+          "feldtyp": "zahl"
+        },
+        {
+          "feldname": "Schreiben",
+          "feldtyp": "ref",
+          "entitaet": "mappe",
+          "verweisZweck": "behandlungsweg"
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Termine",
+        "en": "Appointments"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "gruppe": "Behandlung",
+      "unterFelder": [
+        {
+          "feldname": "Datum",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Stelle",
+          "feldtyp": "ref",
+          "entitaet": "institution",
+          "rolle": "behandelnd",
+          "verweisZweck": "behandlungsweg"
+        },
+        {
+          "feldname": "Mitbringen",
+          "feldtyp": "text"
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Medikationswechsel",
+        "en": "Medication changes"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Behandlung",
+      "hilfetext": "Der laufende Stand steht im Bereich Gesundheit. Hier steht der Verlauf in Ihren Worten, ohne Code.",
+      "unterFelder": [
+        {
+          "feldname": "Datum",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Was sich geaendert hat",
+          "feldtyp": "text",
+          "sensibel": true
+        },
+        {
+          "feldname": "Anlass",
+          "feldtyp": "text",
+          "sensibel": true
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Meine Beobachtungen",
+        "en": "My observations"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Meine Sicht",
+      "unterFelder": [
+        {
+          "feldname": "Datum",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Notiz",
+          "feldtyp": "textarea",
+          "sensibel": true
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Zweitmeinung",
+        "en": "Second opinion"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Behandlung",
+      "unterFelder": [
+        {
+          "feldname": "Eingeholt bei",
+          "feldtyp": "ref",
+          "entitaet": "institution",
+          "rolle": "zweitmeinung",
+          "verweisZweck": "behandlungsweg"
+        },
+        {
+          "feldname": "Datum",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Bericht",
+          "feldtyp": "ref",
+          "entitaet": "mappe",
+          "verweisZweck": "behandlungsweg"
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Studienteilnahme",
+        "en": "Study participation"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Behandlung",
+      "unterFelder": [
+        {
+          "feldname": "Studie, in Ihren Worten",
+          "feldtyp": "text",
+          "sensibel": true
+        },
+        {
+          "feldname": "Studienzentrale",
+          "feldtyp": "ref",
+          "entitaet": "institution",
+          "rolle": "studienzentrale",
+          "verweisZweck": "behandlungsweg"
+        },
+        {
+          "feldname": "Einwilligung",
+          "feldtyp": "ref",
+          "entitaet": "mappe",
+          "verweisZweck": "behandlungsweg"
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Reha",
+        "en": "Rehabilitation"
+      },
+      "feldtyp": "liste",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Neben der Behandlung",
+      "unterFelder": [
+        {
+          "feldname": "Antrag am",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Traeger",
+          "feldtyp": "ref",
+          "entitaet": "institution",
+          "rolle": "rehatraeger",
+          "verweisZweck": "behandlungsweg"
+        },
+        {
+          "feldname": "Bescheid am",
+          "feldtyp": "datum"
+        },
+        {
+          "feldname": "Beginn",
+          "feldtyp": "datum"
+        }
+      ]
+    },
+    {
+      "feldname": {
+        "de": "Krankengeld seit",
+        "en": "Sick pay since"
+      },
+      "feldtyp": "datum",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Neben der Behandlung",
+      "hilfetext": "Das Datum, ab dem die Krankenkasse Krankengeld zahlt. Wie lange, erfahren Sie bei Ihrer Krankenkasse.",
+      "quelle": "§ 48 SGB V (Fuenftes Buch Sozialgesetzbuch)"
+    },
+    {
+      "feldname": {
+        "de": "Wuensche zur Behandlung",
+        "en": "Wishes about my treatment"
+      },
+      "feldtyp": "textarea",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Meine Sicht",
+      "mehrzeilig": true,
+      "hilfetext": "Was Ihnen bei der Behandlung wichtig ist. Wen Sie einbeziehen wollen, steht bei Ihren Menschen und in der Vorsorge."
+    },
+    {
+      "feldname": {
+        "de": "Wer Auskunft bekommen darf",
+        "en": "Who may be given information"
+      },
+      "feldtyp": "refMehrfach",
+      "pflicht": false,
+      "bereich": "treatmentJourney",
+      "sensibel": true,
+      "gruppe": "Meine Sicht",
+      "hilfetext": "Wen die Klinik im Alltag informieren darf. Wer fuer Sie sprechen darf, wenn Sie es nicht koennen, steht in der Vorsorgevollmacht unter Vorsorge und Recht (Gesundheitssorge, Schweigepflichtentbindung) und wird hier nicht doppelt gefuehrt.",
+      "entitaet": "person",
+      "rolle": "auskunftsberechtigt",
+      "verweisZweck": "behandlungsweg"
+    }
+  ]
+}

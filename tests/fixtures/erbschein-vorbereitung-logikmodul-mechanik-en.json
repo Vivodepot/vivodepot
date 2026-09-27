@@ -1,0 +1,72 @@
+{
+  "modulTyp": "logikModul",
+  "id": "erbschein-vorbereitung-mechanik-en",
+  "titel": "Erbschein — Vorbereitungsauszug (EN, Mechanik-Test)",
+  "sektor": "advanceCare",
+  "moduleVersion": 1,
+  "sprache": "en",
+  "herkunft": "vivodepot-en-mechanik-test",
+  "datenSchema": {
+    "staatsangehoerigkeit": { "typ": "feld", "sektor": "identity", "feld": "nationality", "sensibelErlaubt": true },
+    "lebensmittelpunkt": { "typ": "verbinden", "teile": [
+      { "sektor": "identity", "feld": "streetAddress" },
+      { "sektor": "identity", "feld": "postcodeCity" }
+    ], "trenner": ", " },
+    "testament_form": { "typ": "listenfeld", "sektor": "advanceCare", "feld": "provisionInstruments",
+      "diskriminante": { "feld": "instrument", "wert": "will" }, "unterfeld": "form" },
+    "familienstand": { "typ": "feld", "sektor": "identity", "feld": "maritalStatus" },
+    "kinder_namen": { "typ": "personenNamen", "sektor": "people", "feld": "childrenAndDependants", "unterfeld": "person" },
+    "testament_bedachte_namen": { "typ": "listenfeldPersonenNamen", "sektor": "advanceCare", "feld": "provisionInstruments",
+      "diskriminante": { "feld": "instrument", "wert": "will" }, "unterfeld": "personsNamedInTheWill" },
+    "erben_namen": { "typ": "personenNamen", "sektor": "advanceCare", "feld": "heirsBriefOverview" }
+  },
+  "abschnitte": [
+    {
+      "titel": "Part A — the official Erbschein wizard (service.justiz.de)",
+      "bloecke": [
+        { "typ": "immer", "texte": ["[EN mechanism test — not an official translation, wording may not match a future real form] These six questions are asked by the official Erbschein (certificate of inheritance) wizard, to clarify whether a certificate is needed at all. Order and wording basis: as of 27.08.2026."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "staatsangehoerigkeit",
+          "frage": "What was the deceased person's nationality?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "lebensmittelpunkt",
+          "frage": "Where was their center of life (habitual residence)?", "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "testament_form",
+          "frage": "Is there a will or an inheritance contract?",
+          "format": { "typ": "codeListeLabel", "praefix": "Will, ", "sektor": "advanceCare", "feld": "provisionInstruments", "unterfeld": "form" },
+          "luecke": "— not recorded —" },
+        { "typ": "immer", "texte": ["Note: Vivodepot does not yet have its own inheritance-contract type — an existing inheritance contract cannot be recorded in structured form here and therefore always appears as a gap, even where one actually exists."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "grundeigentum",
+          "frage": "Does the estate include real property?", "luecke": "— not recorded, please check at the time of inheritance —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "unternehmen",
+          "frage": "Does the estate include a company entered in the commercial register?", "luecke": "— not recorded, please check at the time of inheritance —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "bank_verlangt",
+          "frage": "Has a bank or other institution already requested a certificate of inheritance?", "luecke": "— can only be answered at the time of inheritance —" }
+      ]
+    },
+    {
+      "titel": "Part B — what the certificate-of-inheritance application additionally requires",
+      "bloecke": [
+        { "typ": "immer", "texte": ["[EN mechanism test] This information relates to the actual application form (\"erbschein/anfrage\" in the a2j-rechtsantragstelle repository), which is NOT yet online on service.justiz.de — the official wording may still change before publication. What follows is Vivodepot's compilation of the underlying vault entries, not a verified official form."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "familienstand", "frage": "Marital status?",
+          "format": { "typ": "codeListeLabel", "sektor": "identity", "feld": "maritalStatus" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kinder_namen", "frage": "Children/descendants (first generation)?",
+          "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "immer", "texte": ["Grandchildren, great-grandchildren, and the deceased's parents/ancestors are not yet modeled in structured form by Vivodepot's data model — this information remains a gap by design, regardless of how complete the vault otherwise is."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "testament_bedachte_namen", "frage": "Person(s) named in the will?",
+          "format": { "typ": "liste" }, "luecke": "— not recorded —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "erben_namen", "frage": "Intended heir(s)?",
+          "format": { "typ": "liste" }, "luecke": "— not recorded —" }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Erbschein — Preparation Extract (EN, mechanism test)",
+    "klasse": "erbschein-dok",
+    "herkunftText": "Vivodepot compilation from your vault entries — EN mechanism-test fixture, not an official form, no connection to service.justiz.de.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "This extract does not replace the statutory declaration — it must still be given in person before a court or notary (§ 2356 BGB). It also does not replace the official Erbschein wizard itself.",
+    "fussText": " · EN mechanism-test fixture, not an official document",
+    "knopfAttr": "erbschein-dokument-en-mechanik",
+    "dateiBasis": "Erbschein-Vorbereitung-EN-Mechanik",
+    "toolbarHinweis": "[EN mechanism test — tests/e2e translation mechanic only] This extract helps you prepare for the Erbschein wizard and the Ministry of Justice application form. It replaces neither the wizard nor the statutory declaration, and it is not transmitted to service.justiz.de."
+  }
+}

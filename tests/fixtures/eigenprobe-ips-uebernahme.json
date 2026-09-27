@@ -1,0 +1,41 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "identifier": { "system": "urn:vivodepot:eigenprobe", "value": "urn:uuid:eigenprobe-ips-uebernahme-0001" },
+  "meta": { "profile": ["http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips"] },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Composition",
+        "title": "Patientenkurzakte der Testpraxis Musterhausen",
+        "author": [{ "display": "Testpraxis Musterhausen" }]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "name": [{ "family": "Testfall", "given": ["Erika"] }],
+        "birthDate": "1980-04-12",
+        "gender": "female"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "code": { "text": "Penicillin-Allergie", "coding": [{ "system": "http://snomed.info/sct", "code": "91936005" }] }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationStatement",
+        "medicationCodeableConcept": { "text": "Metformin 500mg" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "code": { "text": "Gestationsdiabetes" }
+      }
+    }
+  ]
+}

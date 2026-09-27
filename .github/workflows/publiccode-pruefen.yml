@@ -1,0 +1,25 @@
+# publiccode.yml gegen den offiziellen Parser (publiccode-parser-go). openCoDE nimmt ein Projekt nur mit gültiger Datei
+# ins Softwareverzeichnis auf. Die Fassung des Parsers ist festgelegt; ein Wechsel ist eine bewusste Änderung hier.
+name: publiccode.yml prüfen
+
+on:
+  push:
+    branches: [main, u2-kanon]
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  parser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+      - name: publiccode-parser (v5.4.3) installieren
+        run: go install github.com/italia/publiccode-parser-go/v5/publiccode-parser@v5.4.3
+      - name: publiccode.yml prüfen
+        run: "$(go env GOPATH)/bin/publiccode-parser publiccode.yml"

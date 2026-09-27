@@ -1,0 +1,11 @@
+{
+ "erlaubt": [
+  {
+   "kennung": "_ANG_CACHE_ERLAUBT",
+   "beginn": "const _ANG_CACHE_ERLAUBT = (() => {",
+   "ende": "\n})();",
+   "hoechstens": 78,
+   "grund": "Kern-feste Cache-Allowlist: welche Felder ein Angehöriger ohne Depot-Passwort sehen darf (Schlüssel blatt|quelle|feld). Bleibt im Kern, damit eine Vorlage nichts freischalten kann (tests/angehoerigen-vorlage-cache-allowlist.test.js). Die Zahl darf nur sinken. 75 → 78 (25.09.2026, Entscheidung „auch in der Angehörigen-Ansicht\", U2-ADR-433): Ablehnung der Notvertretung durch Ehegatten, ihr Datum und ob sie eingetragen ist, auf dem Blatt Krankenhaus — die sensible Eintragungsnummer nicht."
+  }
+ ]
+}

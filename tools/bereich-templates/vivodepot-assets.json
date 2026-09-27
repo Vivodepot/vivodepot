@@ -1,0 +1,133 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/assets",
+  "fassung": 1,
+  "bereiche": {
+    "assets": {
+      "id": "assets",
+      "format": "GENERISCH",
+      "icon": "landmark",
+      "sektionen": [
+        {
+          "id": "einkommen-wohnsituation",
+          "felder": [
+            {
+              "id": "additionalTypesOfIncome",
+              "sensibel": true,
+              "typ": "mehrfachauswahl",
+              "optionen": [
+                {
+                  "wert": "unterhaltszahlungen"
+                },
+                {
+                  "wert": "arbeitslosengeld"
+                },
+                {
+                  "wert": "wohngeld"
+                },
+                {
+                  "wert": "kindergeld"
+                },
+                {
+                  "wert": "bafoeg"
+                },
+                {
+                  "wert": "krankengeld"
+                },
+                {
+                  "wert": "rente"
+                },
+                {
+                  "wert": "elterngeld"
+                },
+                {
+                  "wert": "insolvenzgeld"
+                },
+                {
+                  "wert": "ueberbrueckungsgeld"
+                },
+                {
+                  "wert": "sonstiges"
+                },
+                {
+                  "wert": "keine"
+                }
+              ]
+            },
+            {
+              "id": "livingSituation",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "alleine"
+                },
+                {
+                  "wert": "mit_angehoerigen"
+                },
+                {
+                  "wert": "mit_anderen"
+                }
+              ]
+            },
+            {
+              "id": "homeSize",
+              "typ": "text",
+              "inputmode": "numeric"
+            },
+            {
+              "id": "housingCostsBorneAlone",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "numberOfPeopleInTheHome",
+              "typ": "text",
+              "inputmode": "numeric"
+            },
+            {
+              "id": "housingCostsTotal",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "housingCostsOwnShare",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "yourOwnIncomeNetMonthly",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "maintenanceObligations",
+              "sensibel": true,
+              "typ": "textarea"
+            },
+            {
+              "id": "incomeOfOtherPeopleInThe",
+              "sensibel": true,
+              "typ": "text",
+              "inputmode": "decimal"
+            },
+            {
+              "id": "monthlyCommitments",
+              "sensibel": true,
+              "typ": "textarea"
+            }
+          ]
+        }
+      ],
+      "rollen": {
+        "auszugSektion": "einkommen-wohnsituation"
+      }
+    }
+  }
+}

@@ -1,0 +1,1100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/logik-modul-schema.json",
+  "title": "Vivodepot Logikmodul",
+  "description": "Ein Logikmodul beschreibt einen Auszug als reine Daten: welche Felder er liest (datenSchema), wie er sie in Abschnitten und Blöcken mit Bedingungen und Formatierungen darstellt (abschnitte) und wie das Dokument aussieht (dokAusgabe). Jeder `typ` kommt aus einer geschlossenen Liste; ein Modul bringt nie Code mit. Maßstab ist der Kern: logikModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-logik.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber. Nur der Kern prüft, ob der Zielbereich und die im datenSchema genannten Bereiche im Katalog stehen (Grund `sektor` bzw. `blockstruktur`) und ob ein gelesenes Feld sensibel ist, ohne dass der Eintrag `sensibelErlaubt: true` trägt (`blockstruktur`). Offen gelassen: die übrigen Schlüssel von Blöcken, Abschnitten, Bedingungen und Datenlese-Einträgen; die Länge der `id` zählt der Kern in UTF-16-Einheiten, das Schema in Zeichen.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "titel",
+    "sektor",
+    "herkunft",
+    "datenSchema",
+    "abschnitte",
+    "dokAusgabe"
+  ],
+  "properties": {
+    "modulTyp": {
+      "const": "logikModul"
+    },
+    "id": {
+      "description": "Kennung des Moduls, höchstens 100 Zeichen.",
+      "type": "string",
+      "pattern": "\\S",
+      "maxLength": 100
+    },
+    "titel": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "sektor": {
+      "description": "Zielbereich. Ob es ihn gibt, prüft nur der Kern.",
+      "type": "string",
+      "minLength": 1
+    },
+    "moduleVersion": {
+      "description": "Fassung des Moduls, ganzzahlig ab 1. Der Kern verlangt sie nicht.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "herkunft": {
+      "description": "Herausgeber des Moduls.",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "sprache": {
+      "type": "string"
+    },
+    "pruefIntervallMonate": {
+      "description": "Freiwillig: Abstand des Prüftermins in Monaten.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "bezugsquelle": {
+      "description": "Freiwillig: woraus die Prüfpflicht stammt, als Klartext.",
+      "type": "string"
+    },
+    "datenSchema": {
+      "description": "Name → Datenlese-Eintrag. Darf leer sein.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/datenEintrag"
+      }
+    },
+    "abschnitte": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/abschnitt"
+      }
+    },
+    "dokAusgabe": {
+      "description": "Dokument-Ausgabe. Kein Funktions- oder HTML-Slot; `toolbarHinweis` ist Klartext.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "h1"
+      ],
+      "properties": {
+        "h1": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "klasse": {
+          "type": "string"
+        },
+        "herkunftText": {
+          "type": "string"
+        },
+        "unterschrift": {
+          "description": "`false` verlangt einen Ersatz-Hinweis.",
+          "type": "boolean"
+        },
+        "unterschriftErsatzHinweis": {
+          "type": "string"
+        },
+        "fussText": {
+          "type": "string"
+        },
+        "knopfAttr": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "dateiBasis": {
+          "type": "string"
+        },
+        "toolbarHinweis": {
+          "type": "string"
+        },
+        "karte": {
+          "$ref": "#/$defs/karte"
+        }
+      },
+      "if": {
+        "type": "object",
+        "required": [
+          "unterschrift"
+        ],
+        "properties": {
+          "unterschrift": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "required": [
+          "unterschriftErsatzHinweis"
+        ],
+        "properties": {
+          "unterschriftErsatzHinweis": {
+            "type": "string",
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "appVersion": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "ungeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    },
+    "eingelassenAm": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "anbieterId": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "anbieterIdGeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    },
+    "pruefstufe": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "beleg": {
+      "description": "Vom Einlass gesetzt.",
+      "type": [
+        "object",
+        "null"
+      ]
+    }
+  },
+  "$defs": {
+    "bedingung0": {
+      "description": "Bedingung, rekursiv über und/oder/nicht, höchstens sieben Ebenen tief (bedingung0 bis bedingung6; auf der tiefsten Ebene nur Blätter). Weitere Schlüssel (z. B. `wert` bei feldGleich) liest der Kern beim Auswerten, prüft sie beim Einlass aber nicht.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldGleich"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "werte"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldIn"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "werte": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "wertFeld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "listeEnthaeltTyp"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wertFeld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingungen"
+          ],
+          "properties": {
+            "typ": {
+              "enum": [
+                "und",
+                "oder"
+              ]
+            },
+            "bedingungen": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung1"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingung"
+          ],
+          "properties": {
+            "typ": {
+              "const": "nicht"
+            },
+            "bedingung": {
+              "$ref": "#/$defs/bedingung1"
+            }
+          }
+        }
+      ]
+    },
+    "bedingung1": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldGleich"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "werte"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldIn"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "werte": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "wertFeld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "listeEnthaeltTyp"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wertFeld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingungen"
+          ],
+          "properties": {
+            "typ": {
+              "enum": [
+                "und",
+                "oder"
+              ]
+            },
+            "bedingungen": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung2"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingung"
+          ],
+          "properties": {
+            "typ": {
+              "const": "nicht"
+            },
+            "bedingung": {
+              "$ref": "#/$defs/bedingung2"
+            }
+          }
+        }
+      ]
+    },
+    "bedingung2": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldGleich"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "werte"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldIn"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "werte": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "wertFeld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "listeEnthaeltTyp"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wertFeld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingungen"
+          ],
+          "properties": {
+            "typ": {
+              "enum": [
+                "und",
+                "oder"
+              ]
+            },
+            "bedingungen": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung3"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingung"
+          ],
+          "properties": {
+            "typ": {
+              "const": "nicht"
+            },
+            "bedingung": {
+              "$ref": "#/$defs/bedingung3"
+            }
+          }
+        }
+      ]
+    },
+    "bedingung3": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldGleich"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "werte"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldIn"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "werte": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "wertFeld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "listeEnthaeltTyp"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wertFeld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingungen"
+          ],
+          "properties": {
+            "typ": {
+              "enum": [
+                "und",
+                "oder"
+              ]
+            },
+            "bedingungen": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung4"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingung"
+          ],
+          "properties": {
+            "typ": {
+              "const": "nicht"
+            },
+            "bedingung": {
+              "$ref": "#/$defs/bedingung4"
+            }
+          }
+        }
+      ]
+    },
+    "bedingung4": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldGleich"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "werte"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldIn"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "werte": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "wertFeld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "listeEnthaeltTyp"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wertFeld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingungen"
+          ],
+          "properties": {
+            "typ": {
+              "enum": [
+                "und",
+                "oder"
+              ]
+            },
+            "bedingungen": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung5"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingung"
+          ],
+          "properties": {
+            "typ": {
+              "const": "nicht"
+            },
+            "bedingung": {
+              "$ref": "#/$defs/bedingung5"
+            }
+          }
+        }
+      ]
+    },
+    "bedingung5": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldGleich"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "werte"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldIn"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "werte": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "wertFeld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "listeEnthaeltTyp"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wertFeld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingungen"
+          ],
+          "properties": {
+            "typ": {
+              "enum": [
+                "und",
+                "oder"
+              ]
+            },
+            "bedingungen": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/bedingung6"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "bedingung"
+          ],
+          "properties": {
+            "typ": {
+              "const": "nicht"
+            },
+            "bedingung": {
+              "$ref": "#/$defs/bedingung6"
+            }
+          }
+        }
+      ]
+    },
+    "bedingung6": {
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldGleich"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "werte"
+          ],
+          "properties": {
+            "typ": {
+              "const": "feldIn"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "werte": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "typ",
+            "feld",
+            "wertFeld"
+          ],
+          "properties": {
+            "typ": {
+              "const": "listeEnthaeltTyp"
+            },
+            "feld": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wertFeld": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "block": {
+      "description": "Ein Block. `typ` aus der geschlossenen Liste der Block-Handler des Kerns. Weitere Schlüssel (texte, feldId, frage, luecke …) prüft der Kern beim Einlass nicht; das Schema lässt sie offen.",
+      "type": "object",
+      "required": [
+        "typ"
+      ],
+      "properties": {
+        "typ": {
+          "enum": [
+            "mehrfachauswahl",
+            "auswahl",
+            "auswahlFest",
+            "auswahlPaar",
+            "auswahlPaarGruppe",
+            "immer",
+            "freitext",
+            "freitextSatz",
+            "refMehrfach",
+            "refMehrfachVoll",
+            "rollePerson",
+            "crossRef",
+            "frageAntwortOderLuecke",
+            "instrumentPersonVerweis"
+          ]
+        },
+        "bedingung": {
+          "description": "Freiwillig; `null` heißt: keine Bedingung.",
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/bedingung0"
+            }
+          ]
+        },
+        "format": {
+          "description": "Freiwillig; `null` heißt: keine Formatierung. Weitere Schlüssel (praefix, sektor, feld, unterfeld) offen.",
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "required": [
+                "typ"
+              ],
+              "properties": {
+                "typ": {
+                  "enum": [
+                    "liste",
+                    "codeListeLabel"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "abschnitt": {
+      "description": "Ein Abschnitt: entweder eine Eingangsformel (dann liest der Kern die Blöcke nicht) oder eine Liste von Blöcken.",
+      "anyOf": [
+        {
+          "type": "object",
+          "required": [
+            "eingangsformel"
+          ],
+          "properties": {
+            "eingangsformel": {
+              "not": {
+                "enum": [
+                  false,
+                  0,
+                  "",
+                  null
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "bloecke"
+          ],
+          "properties": {
+            "bloecke": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/block"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "datenEintrag": {
+      "description": "Ein Datenlese-Eintrag. `typ` aus einer geschlossenen Liste. Ob Bereich und Feld existieren und ob ein Feld sensibel ist, prüft nur der Kern; ein sensibles Feld verlangt `sensibelErlaubt: true` an genau diesem Eintrag.",
+      "type": "object",
+      "required": [
+        "typ"
+      ],
+      "properties": {
+        "typ": {
+          "enum": [
+            "feld",
+            "verbinden",
+            "listenfeld",
+            "personenNamen",
+            "listenfeldPersonenNamen",
+            "listenfeldAlle"
+          ]
+        },
+        "sektor": {
+          "description": "Kennung eines Bereichs. Ob es ihn gibt, prüft nur der Kern.",
+          "type": "string",
+          "minLength": 1
+        },
+        "feld": {
+          "type": "string"
+        },
+        "unterfeld": {
+          "type": "string"
+        },
+        "trenner": {
+          "type": "string"
+        },
+        "sensibelErlaubt": {
+          "description": "Ausdrückliches Recht, ein sensibles Feld zu lesen. Nur `true` wirkt.",
+          "type": "boolean"
+        },
+        "teile": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "sektor",
+              "feld"
+            ],
+            "properties": {
+              "sektor": {
+                "description": "Kennung eines Bereichs. Ob es ihn gibt, prüft nur der Kern.",
+                "type": "string",
+                "minLength": 1
+              },
+              "feld": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "diskriminante": {
+          "type": "object",
+          "required": [
+            "feld",
+            "wert"
+          ],
+          "properties": {
+            "feld": {
+              "type": "string"
+            },
+            "wert": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "typ"
+            ],
+            "properties": {
+              "typ": {
+                "const": "verbinden"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "teile"
+            ],
+            "properties": {
+              "teile": true
+            }
+          },
+          "else": {
+            "type": "object",
+            "required": [
+              "sektor",
+              "feld"
+            ],
+            "properties": {
+              "sektor": true,
+              "feld": true
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "typ"
+            ],
+            "properties": {
+              "typ": {
+                "enum": [
+                  "listenfeld",
+                  "listenfeldPersonenNamen"
+                ]
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "diskriminante"
+            ],
+            "properties": {
+              "diskriminante": true
+            }
+          }
+        }
+      ]
+    },
+    "karte": {
+      "description": "Das Kärtchen, mit dem der Auszug im Bereich angeboten wird. Texte als Textsatz-Kennungen. Ein ungültiges Kärtchen verwirft der Kern still.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "klasse",
+        "knopfKennung"
+      ],
+      "properties": {
+        "klasse": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "hinweisKennung": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "knopfKennung": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+        },
+        "zusatzKnoepfe": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "attr",
+              "kennung"
+            ],
+            "properties": {
+              "attr": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "kennung": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_]*$"
+              },
+              "klasse": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

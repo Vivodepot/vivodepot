@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/bereich-modul-schema.json",
+  "title": "Vivodepot Bereichs-Modul",
+  "description": "Ein Bereichs-Modul bringt einen oder mehrere Bereiche mit, je Bereich Rubrik, Icon, Sektionen mit Feldern und Ausgabewege. Maßstab ist der Kern: bereichsModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-bereich.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber. Was am laufenden Bestand hängt, prüft nur der Kern: eine Bereichs-Kennung, die das Produkt selbst führt, verwirft er als reserviert; ein Bereich ohne Rubrik fällt, wenn auch der Textsatz keine `<id>.label` kennt. Bleibt so kein Bereich übrig, lehnt er ab (Grund `leer`). Offen gelassen sind die Felder einer Sektion (`felder`), die Einträge von `standardDokumente` und `deckblatt` sowie die Namen von Icons und Ausgabeformaten: der Kern prüft Felder auf einem eigenen Weg und verwirft unbekannte Icons und Formate einzeln. Für alle Zeichenketten eines Bereichs gilt: reiner Text, kein Markup, keine Zeichenreferenz, kein doppeltes Anführungszeichen.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["moduleVersion", "herkunft", "bereiche"],
+  "properties": {
+    "modulTyp": { "const": "bereich" },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "herkunft": { "description": "Wer das Modul herausgibt; nicht leer.", "type": "string", "pattern": "\\S" },
+    "kennung": { "description": "Freiwillig: Kennung des Templates. Fehlt sie, gilt die Herkunft; zwei Templates derselben Herkunft brauchen je eine eigene.", "type": "string" },
+    "fassung": { "description": "Freiwillig: Fassung des Templates, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "sprache": {
+      "description": "Sprache der mitgebrachten Rubriken (BCP-47-Form, z. B. `de`, `en-GB`). Pflicht, sobald ein Bereich eine Rubrik (`label`) inline trägt; ohne Inline-Rubrik kommt jede Beschriftung aus dem Textsatz."
+    },
+    "bereiche": {
+      "description": "Bereichs-Kennung → Bereich. Mindestens einer.",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-zA-Z0-9-]{1,39}$" },
+      "additionalProperties": { "$ref": "#/$defs/bereich" }
+    },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" }
+  },
+  "if": {
+    "required": ["bereiche"],
+    "properties": {
+      "bereiche": {
+        "type": "object",
+        "not": {
+          "additionalProperties": {
+            "not": { "type": "object", "required": ["label"], "properties": { "label": { "type": "string", "pattern": "\\S" } } }
+          }
+        }
+      }
+    }
+  },
+  "then": {
+    "required": ["sprache"],
+    "properties": {
+      "sprache": { "type": "string", "pattern": "^\\s*[a-z]{2,3}(-[A-Za-z0-9]{2,8})*\\s*$" }
+    }
+  },
+  "$defs": {
+    "reinerText": {
+      "description": "Reiner Text: kein Tag, keine Zeichenreferenz, kein doppeltes Anführungszeichen.",
+      "type": "string",
+      "pattern": "^(?:[^<&\"]|<(?![A-Za-z/!?])|&(?!#|[A-Za-z][A-Za-z0-9]*;))*$"
+    },
+    "reinerBaum": {
+      "description": "Beliebiger JSON-Wert, dessen Zeichenketten alle reiner Text sind.",
+      "anyOf": [
+        { "type": "number" },
+        { "type": "boolean" },
+        { "type": "null" },
+        { "$ref": "#/$defs/reinerText" },
+        { "type": "array", "items": { "$ref": "#/$defs/reinerBaum" } },
+        { "type": "object", "additionalProperties": { "$ref": "#/$defs/reinerBaum" } }
+      ]
+    },
+    "bereich": {
+      "type": "object",
+      "$ref": "#/$defs/reinerBaum",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "description": "Wird nicht gelesen; maßgeblich ist der Schlüssel in `bereiche`.", "type": "string" },
+        "label": { "description": "Rubrik. Fehlt sie oder ist sie leer, kommt sie aus dem Textsatz (`<id>.label`).", "type": "string" },
+        "icon": { "description": "Name eines eingebauten Icons; ein unbekannter Name wird verworfen, dann gilt `folder`.", "type": "string" },
+        "format": { "description": "Ausgabe-Typ des Bereichs (z. B. `GENERISCH`, `FHIR_IPS`).", "type": "string" },
+        "einfuehrungstext": { "description": "Rückfall, wenn der Textsatz keinen `<id>.einfuehrungstext` kennt.", "type": "string" },
+        "navUnterzeile": { "description": "Rückfall, wenn der Textsatz keine `<id>.navUnterzeile` kennt.", "type": "string" },
+        "merkmale": {
+          "description": "Eigenschaften des Bereichs; unbekannte werden einzeln verworfen.",
+          "type": "array",
+          "items": { "enum": ["vorsorgeRegal", "bedarfsrechnung", "ankerIdentitaet", "personenRegister", "stellenRegister"] }
+        },
+        "rollen": {
+          "description": "Rolle → Feld (bzw. Felder); unbekannte Rollen werden einzeln verworfen.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ankerNameFelder": { "$ref": "#/$defs/feldListe" },
+            "adresseFelder": { "$ref": "#/$defs/feldListe" },
+            "familienstandFeld": { "type": "string" },
+            "personenListe": { "type": "string" },
+            "schutzbefohleneListe": { "type": "string" },
+            "personenSektion": { "type": "string" },
+            "schutzbefohleneSektion": { "type": "string" },
+            "instrumenteListe": { "type": "string" },
+            "stellenListe": { "type": "string" },
+            "stellenSektion": { "type": "string" },
+            "auszugSektion": { "type": "string" },
+            "telefonFeld": { "type": "string" },
+            "emailFeld": { "type": "string" },
+            "instrumentTypUnterfeld": { "type": "string" }
+          }
+        },
+        "sektionen": {
+          "description": "Sektionen in Anzeige-Reihenfolge. Eine Sektions-Kennung darf nur einmal vorkommen; der Kern verwirft Doppelte einzeln.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/sektion" }
+        },
+        "exporte": {
+          "description": "Ausgabewege dieses Bereichs; ein Format, das der Kern nicht kennt, wird einzeln verworfen.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["format"],
+            "properties": { "format": { "type": "string", "pattern": "\\S" }, "label": { "type": "string" } }
+          }
+        },
+        "wizards": { "description": "Kennungen der Assistenten, die dieser Bereich anbietet.", "type": "array", "items": { "type": "string" } },
+        "wizardId": { "description": "Der Assistent, der diesen Bereich füllt.", "type": ["string", "null"] },
+        "standardDokumente": { "description": "Dokumente, die dieser Bereich führt (offen gelassen).", "type": "array", "items": { "type": "object" } },
+        "deckblatt": { "description": "Foto- und Namensfelder fürs Deckblatt (offen gelassen).", "type": "object" },
+        "cluster": { "description": "Gruppe in der Navigation.", "type": "string", "pattern": "^[a-z][a-z0-9-]{1,39}$" },
+        "clusterTitel": { "description": "Überschrift einer mitgebrachten Gruppe, Rückfall hinter dem Textsatz.", "type": "string" },
+        "clusterRang": { "description": "Reihenfolge einer mitgebrachten Gruppe, kleiner zuerst.", "type": "number" }
+      }
+    },
+    "feldListe": { "type": "array", "items": { "type": "string" } },
+    "sektion": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "pattern": "\\S" },
+        "label": { "description": "Rückfall hinter dem Textsatz (`<bereich>#<sektion>.label`), sonst gilt die Kennung.", "type": "string" },
+        "hint": { "description": "Rückfall hinter dem Textsatz (`<bereich>#<sektion>.hint`).", "type": "string" },
+        "felder": { "description": "Feld-Definitionen (offen gelassen; der Kern prüft sie auf dem Weg der eingebetteten Felder).", "type": "array", "items": { "type": "object" } }
+      }
+    }
+  }
+}

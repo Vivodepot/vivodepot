@@ -1,0 +1,58 @@
+{
+  "_hinweis": "Grundlinie VOR e2s Einbacken (U2-ADR-385, 08.09.2026) — vergleichbare Form für einen zweiten Lauf NACH dem Einbacken. Unterschied zwischen beiden Läufen IST der Befund.",
+  "_erzeugtAm": "2026-09-15",
+  "produkte": [
+    {
+      "slug": "privat-de",
+      "appSprache": "de-DE",
+      "feldzahlVorExport": 106,
+      "textsatzModuleImExport": 0,
+      "geoeffnet": true,
+      "pwFehlerSichtbar": false,
+      "herkunftText": "Herkunft der Inhalte: Diese Angaben stammen ganz aus Vivodepot selbst. Es ist keine Erweiterung eingelassen.",
+      "contentLaenge": 789,
+      "sidebarLaenge": 506,
+      "contentAusschnitt": "Identität & Person\n\nName, Foto, Kontakt — das Deckblatt Ihres Depots.\n\nPERSON\nVorname\nElisabeth\nNachname\nWredenhagen-Sonnenschein\nGeburtsdatum\n14.03.1958\nTelefon\n089 87654321\nStraße & Hausnummer\nLindenweg 4\nPLZ & Ort\n80331 München\nE-Mail\nelisabeth.wredenhagen-sonnenschein@beispielpost.example\nGeburtsort\nAugsburg\nGeschlecht\nweiblich\nFamilienstand\nverheiratet\nWeitere Angaben\nBevorzugt schriftliche Nachrichten gegenüber Telefonanrufen\nNamenswahl nach der Heirat\ngemeinsamer Ehename, meiner\nGüterstan",
+      "konsolenFehlerLesen": []
+    },
+    {
+      "slug": "privat-en",
+      "appSprache": "en",
+      "feldzahlVorExport": 106,
+      "textsatzModuleImExport": 0,
+      "geoeffnet": true,
+      "pwFehlerSichtbar": false,
+      "herkunftText": "Herkunft der Inhalte: Diese Angaben stammen ganz aus Vivodepot selbst. Es ist keine Erweiterung eingelassen.",
+      "contentLaenge": 789,
+      "sidebarLaenge": 506,
+      "contentAusschnitt": "Identität & Person\n\nName, Foto, Kontakt — das Deckblatt Ihres Depots.\n\nPERSON\nVorname\nElisabeth\nNachname\nWredenhagen-Sonnenschein\nGeburtsdatum\n14.03.1958\nTelefon\n089 87654321\nStraße & Hausnummer\nLindenweg 4\nPLZ & Ort\n80331 München\nE-Mail\nelisabeth.wredenhagen-sonnenschein@beispielpost.example\nGeburtsort\nAugsburg\nGeschlecht\nweiblich\nFamilienstand\nverheiratet\nWeitere Angaben\nBevorzugt schriftliche Nachrichten gegenüber Telefonanrufen\nNamenswahl nach der Heirat\ngemeinsamer Ehename, meiner\nGüterstan",
+      "konsolenFehlerLesen": []
+    },
+    {
+      "slug": "pro-de",
+      "appSprache": "de-DE",
+      "feldzahlVorExport": 106,
+      "textsatzModuleImExport": 0,
+      "geoeffnet": true,
+      "pwFehlerSichtbar": false,
+      "herkunftText": "Herkunft der Inhalte: Diese Angaben stammen ganz aus Vivodepot selbst. Es ist keine Erweiterung eingelassen.",
+      "contentLaenge": 789,
+      "sidebarLaenge": 506,
+      "contentAusschnitt": "Identität & Person\n\nName, Foto, Kontakt — das Deckblatt Ihres Depots.\n\nPERSON\nVorname\nElisabeth\nNachname\nWredenhagen-Sonnenschein\nGeburtsdatum\n14.03.1958\nTelefon\n089 87654321\nStraße & Hausnummer\nLindenweg 4\nPLZ & Ort\n80331 München\nE-Mail\nelisabeth.wredenhagen-sonnenschein@beispielpost.example\nGeburtsort\nAugsburg\nGeschlecht\nweiblich\nFamilienstand\nverheiratet\nWeitere Angaben\nBevorzugt schriftliche Nachrichten gegenüber Telefonanrufen\nNamenswahl nach der Heirat\ngemeinsamer Ehename, meiner\nGüterstan",
+      "konsolenFehlerLesen": []
+    },
+    {
+      "slug": "pro-en",
+      "appSprache": "en",
+      "feldzahlVorExport": 106,
+      "textsatzModuleImExport": 0,
+      "geoeffnet": true,
+      "pwFehlerSichtbar": false,
+      "herkunftText": "Herkunft der Inhalte: Diese Angaben stammen ganz aus Vivodepot selbst. Es ist keine Erweiterung eingelassen.",
+      "contentLaenge": 789,
+      "sidebarLaenge": 506,
+      "contentAusschnitt": "Identität & Person\n\nName, Foto, Kontakt — das Deckblatt Ihres Depots.\n\nPERSON\nVorname\nElisabeth\nNachname\nWredenhagen-Sonnenschein\nGeburtsdatum\n14.03.1958\nTelefon\n089 87654321\nStraße & Hausnummer\nLindenweg 4\nPLZ & Ort\n80331 München\nE-Mail\nelisabeth.wredenhagen-sonnenschein@beispielpost.example\nGeburtsort\nAugsburg\nGeschlecht\nweiblich\nFamilienstand\nverheiratet\nWeitere Angaben\nBevorzugt schriftliche Nachrichten gegenüber Telefonanrufen\nNamenswahl nach der Heirat\ngemeinsamer Ehename, meiner\nGüterstan",
+      "konsolenFehlerLesen": []
+    }
+  ]
+}

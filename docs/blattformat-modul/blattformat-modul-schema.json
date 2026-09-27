@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/blattformat-modul-schema.json",
+  "title": "Vivodepot Blattformat-Modul",
+  "description": "Ein Blattformat-Modul setzt die Papiergröße der Blatt-Ausgaben (PDF). Maßstab ist der Kern: blattformatModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-blattformat.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["moduleVersion", "herkunft", "format"],
+  "properties": {
+    "modulTyp": { "const": "blattformat" },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "herkunft": { "description": "Kennung des Moduls; ein späteres Modul derselben Herkunft mit höherer Fassung ersetzt es.", "type": "string", "pattern": "\\S" },
+    "format": {
+      "description": "Papierformat, eines von `a4`, `a5`, `a3`, `letter`, `legal`, `government-letter`. Groß-/Kleinschreibung und Leerraum am Rand sind gleichgültig.",
+      "type": "string",
+      "pattern": "^\\s*(?:[Aa][345]|[Ll][Ee][Tt][Tt][Ee][Rr]|[Ll][Ee][Gg][Aa][Ll]|[Gg][Oo][Vv][Ee][Rr][Nn][Mm][Ee][Nn][Tt]-[Ll][Ee][Tt][Tt][Ee][Rr])\\s*$"
+    },
+    "rechtsraum": { "description": "Freiwillig: der Rechtsraum, für den das Format gedacht ist.", "type": ["string", "null"] },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" }
+  }
+}

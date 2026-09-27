@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/stellensatz-modul-schema.json",
+  "title": "Vivodepot Stellensatz-Modul",
+  "description": "Ein Stellensatz-Modul nennt für einen Rechtsraum die zuständige Stelle je Feld-Kennung (Kennung → Stelle). Maßstab ist der Kern: stellensatzModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-stellensatz.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber. Ob eine Kennung dem Kern bekannt ist, prüft nur der Kern: unbekannte Kennungen verwirft er einzeln, das Modul bleibt gültig.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rechtsraum", "moduleVersion", "stellen"],
+  "properties": {
+    "modulTyp": { "const": "stellensatz" },
+    "rechtsraum": {
+      "description": "Rechtsraum, für den die Stellen gelten (z. B. `AT`). `DE` ist ab Werk belegt und hier nicht einlassbar.",
+      "type": "string",
+      "pattern": "\\S",
+      "not": { "const": "DE" }
+    },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "stellen": {
+      "description": "Feld-Kennung → Bezeichnung der zuständigen Stelle. Reiner Text.",
+      "type": "object",
+      "additionalProperties": { "type": "string", "pattern": "\\S" }
+    },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" }
+  }
+}

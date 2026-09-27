@@ -1,0 +1,21 @@
+{
+ "summe": 12,
+ "gegenstand": [
+  "SEKTOREN",
+  "WIZARDS",
+  "ANLAESSE",
+  "MENSCHEN_REGISTER_FELD",
+  "_institutionFelder"
+ ],
+ "optionen": 389,
+ "arten": {
+  "label": 4,
+  "titel": 0,
+  "hint": 4,
+  "beispiel": 0,
+  "platzhalter": 0
+ },
+ "assistent": 4,
+ "stichtag": "2026-08-21",
+ "warum_10_auf_12": "U2-ADR-158 (21.08.2026): das Haekchen `verstorben` im MENSCHEN_REGISTER_FELD, mit Label und Hinweis. Beide Texte liegen IM Satz (`strings:kontaktVerstorbenLabel/-Hint`) und reisen ueber `_textsatzFeldFuellen` in das Register — das Werkzeug sieht sie am geladenen Kern AUFGELOEST und zaehlt sie darum als inline. Dieselbe Klasse wie `nichtMitgeben`, das seit dem 13.08. mit denselben zwei Zeilen in dieser Grundlinie steht. Kein neuer Inline-Text in der Definition — eine Zeile mehr im Register, deren Text austauschbar bleibt."
+}

@@ -1,0 +1,113 @@
+{
+  "_herkunft": "Nachbau des Abends vom 12.09.2026. Die ersten fünf Bäume sind die Fälle, für die das Werkzeug gebaut wurde; die letzten zwei kamen aus dem ERSTEN echten Lauf dazu, der 15 von 18 Zweigen falsch als Warteschlange meldete — sechs waren WIP-Sicherungen vom 04.09., neun waren Reste, deren Arbeit längst anders im Kanon lag. Der achte Baum kam am 13.09.2026 dazu: ein Zweig, dessen Arbeit patch-identisch schon im Kanon lag (`git cherry` meldete vier Mal `-`, kein `+`) und der trotzdem 37 Stunden als Warteschlange gemeldet wurde.",
+  "repo": "/repo",
+  "kanon": "u2-kanon",
+  "jetzt": 1789000000,
+  "baeume": [
+    {
+      "_fall": "der Kanon-Baum selbst — nie ein Befund, auch nicht mit Commits über sich",
+      "pfad": "/repo",
+      "zweig": "u2-kanon",
+      "erreichbar": true,
+      "istKanon": true,
+      "sauber": false,
+      "voraus": 0,
+      "imKanon": true,
+      "letzterCommitZeit": 1788999000,
+      "zurueck": 0,
+      "letzterTitel": "merge(e2e): die Speicherweg-Familie sortiert und behoben"
+    },
+    {
+      "_fall": "fertig und wartet, seit 40 Minuten — der Leerlauf-Fall",
+      "pfad": "/tmp/e2e-sortierung",
+      "zweig": "e2e-speicherweg-fixes",
+      "erreichbar": true,
+      "istKanon": false,
+      "sauber": true,
+      "voraus": 2,
+      "imKanon": false,
+      "letzterCommitZeit": 1788997600,
+      "zurueck": 2,
+      "letzterTitel": "docs(e2e): zug5-persistenz-rauchtest korrigiert die file://-Prämisse"
+    },
+    {
+      "_fall": "fertig, aber erst seit zwei Minuten — noch kein Befund, gerade erst committet",
+      "pfad": "/tmp/namen-raeumung",
+      "zweig": "namen-raeumung",
+      "erreichbar": true,
+      "istKanon": false,
+      "sauber": true,
+      "voraus": 1,
+      "imKanon": false,
+      "letzterCommitZeit": 1788999880,
+      "zurueck": 3,
+      "letzterTitel": "refactor: Namen aus dem getrackten Bestand geräumt"
+    },
+    {
+      "_fall": "dort schreibt jemand — kein Leerlauf, auch wenn Commits über dem Kanon liegen",
+      "pfad": "/tmp/feldregister",
+      "zweig": "feldregister",
+      "erreichbar": true,
+      "istKanon": false,
+      "sauber": false,
+      "voraus": 3,
+      "imKanon": false,
+      "letzterCommitZeit": 1788998000,
+      "zurueck": 4,
+      "letzterTitel": "feat(register): Feldregister, erster Zug"
+    },
+    {
+      "_fall": "schon gemergt — nichts zu tun, obwohl der Zweig noch existiert",
+      "pfad": "/tmp/toast-reparatur",
+      "zweig": "home-toast-reparatur",
+      "erreichbar": true,
+      "istKanon": false,
+      "sauber": true,
+      "voraus": 0,
+      "imKanon": true,
+      "letzterCommitZeit": 1788990000,
+      "zurueck": 9,
+      "letzterTitel": "fix(topbar): Home-Signal von der Marke gelöst"
+    },
+    {
+      "_fall": "WIP-Sicherung vom 04.09.2026 — sagt selbst „nicht fertig\", wartet auf nichts",
+      "pfad": "/tmp/anzeige-sync",
+      "zweig": "anzeige-zustandssync",
+      "erreichbar": true,
+      "istKanon": false,
+      "sauber": true,
+      "voraus": 2,
+      "imKanon": false,
+      "zurueck": 519,
+      "letzterTitel": "wip(anzeige-sync): Zwischenstand gesichert, nicht fertig — kein Push",
+      "letzterCommitZeit": 1788300000
+    },
+    {
+      "_fall": "Rest vom 07.09.2026 — die Arbeit liegt längst anders im Kanon, der Zweig steht nur noch",
+      "pfad": "/tmp/darkmode-waechter",
+      "zweig": "darkmode-selektor-waechter",
+      "erreichbar": true,
+      "istKanon": false,
+      "sauber": true,
+      "voraus": 1,
+      "imKanon": false,
+      "zurueck": 266,
+      "letzterTitel": "feat(gerüst): der Nachtmodus-Selektor-Wächter hält die Handpflege fest",
+      "letzterCommitZeit": 1788500000
+    },
+    {
+      "_fall": "ueberholt — funf Commits ueber dem Kanon, aber jede Aenderung liegt dort schon patch-identisch",
+      "pfad": "/tmp/achsen-verriegelung",
+      "zweig": "achsen-verriegelung",
+      "erreichbar": true,
+      "istKanon": false,
+      "sauber": true,
+      "voraus": 5,
+      "imKanon": false,
+      "zurueck": 21,
+      "offeneCommits": 0,
+      "letzterTitel": "docs(faktenbasis): Commit-Stempel nach Rebase nachgezogen",
+      "letzterCommitZeit": 1788866800
+    }
+  ]
+}

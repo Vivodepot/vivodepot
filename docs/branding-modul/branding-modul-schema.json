@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/branding-modul-schema.json",
+  "title": "Vivodepot Markenmodul (Branding)",
+  "description": "Ein Markenmodul trägt Farben, Schrift, Logo, Name und Kontaktangaben einer Institution; jedes Feld ist einzeln optional, mindestens eines muss gesetzt sein. Maßstab ist der Kern: brandingModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-branding.test.js hält Schema und Kern im Gleichlauf. Eingelassen wird ein Markenmodul nur geprüft (signiert).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "moduleVersion"
+  ],
+  "properties": {
+    "modulTyp": {
+      "const": "branding"
+    },
+    "moduleVersion": {
+      "description": "Fassung des Moduls, ganzzahlig ab 1.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "farbePrimaer": {
+      "description": "Hauptfarbe, sechsstelliges Hex (#RRGGBB).",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "farbeSekundaer": {
+      "description": "Zweitfarbe, sechsstelliges Hex (#RRGGBB).",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "schriftart": {
+      "description": "Google-Font-Kennung; ohne Rand-Leerraum 1 bis 100 Zeichen.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\s*\\S([\\s\\S]{0,98}\\S)?\\s*$"
+    },
+    "logo": {
+      "description": "Logo als Data-URI, nur PNG oder JPEG (kein SVG), höchstens 200 KB Bilddaten.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^data:image\\/(png|jpeg);base64,[A-Za-z0-9+/]+=*$",
+      "maxLength": 273066
+    },
+    "name": {
+      "description": "Name der Institution, reiner Text (kein Markup, keine Zeichenreferenz, kein Anführungszeichen); ohne Rand-Leerraum 1 bis 200 Zeichen.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^(?![\\s\\S]*(<[A-Za-z\\/!?]|&(#|[A-Za-z][A-Za-z0-9]*;)|\"))\\s*\\S([\\s\\S]{0,198}\\S)?\\s*$"
+    },
+    "domain": {
+      "description": "Anzeige-Domain (z. B. beispiel.de), kein Link-Ziel; ohne Rand-Leerraum höchstens 100 Zeichen.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\s*(?=\\S{1,100}\\s*$)[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\\s*$"
+    },
+    "kontakt": {
+      "description": "Kontaktadresse (E-Mail-Form); ohne Rand-Leerraum höchstens 200 Zeichen.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\s*(?=\\S{1,200}\\s*$)[^\\s@<>\"']+@[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\\s*$"
+    },
+    "aktualisierungen": {
+      "description": "Aktualisierungs-Adresse, nur https; ohne Rand-Leerraum höchstens 300 Zeichen.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\s*(?=\\S{1,300}\\s*$)[hH][tT][tT][pP][sS]:\\/\\/[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(\\/[^\\s\"'<>]*)?\\s*$"
+    },
+    "herkunft": {
+      "description": "Wer das Modul mitbringt; Kennung beim Ersetzen einer früheren Fassung.",
+      "type": "string"
+    },
+    "appVersion": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "ungeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    },
+    "eingelassenAm": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "anbieterId": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "anbieterIdGeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "farbePrimaer"
+      ],
+      "properties": {
+        "farbePrimaer": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "farbeSekundaer"
+      ],
+      "properties": {
+        "farbeSekundaer": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "schriftart"
+      ],
+      "properties": {
+        "schriftart": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "logo"
+      ],
+      "properties": {
+        "logo": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "domain"
+      ],
+      "properties": {
+        "domain": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "kontakt"
+      ],
+      "properties": {
+        "kontakt": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "aktualisierungen"
+      ],
+      "properties": {
+        "aktualisierungen": {
+          "type": "string"
+        }
+      }
+    }
+  ]
+}

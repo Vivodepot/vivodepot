@@ -1,0 +1,32 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "identifier": { "system": "urn:vivodepot:eigenprobe", "value": "urn:uuid:eigenprobe-eu-lab-0001" },
+  "meta": { "profile": ["https://fhir.hl7.eu/laboratory/StructureDefinition/Bundle-eu-lab"] },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Composition",
+        "title": "Laborbericht der Testpraxis Musterhausen",
+        "author": [{ "display": "Laborzentrum Musterhausen" }],
+        "text": {
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Laborbefund der heutigen Kontrolle.</div>"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "name": "Laborzentrum Musterhausen"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "code": { "text": "Glucose SerPl-mCnc" },
+        "valueQuantity": { "value": 135, "code": "mg/dl" },
+        "effectiveDateTime": "2026-09-12"
+      }
+    }
+  ]
+}

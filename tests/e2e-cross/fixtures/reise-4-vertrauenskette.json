@@ -1,0 +1,23 @@
+{
+  "beschreibung": "T-CROSS-04 — Vertrauenskette Generator → VC-Issuer → Bürger-App. Test-Institution + Test-Sentinel.",
+  "stammdaten": {
+    "anbieterName": "Test-Pflegeheim Musterstadt",
+    "rechtsform": "GmbH",
+    "strasse": "Teststrasse 1",
+    "plz": "12345",
+    "ort": "Musterstadt",
+    "land": "Deutschland",
+    "kontaktName": "Petra Test",
+    "kontaktFunktion": "Pflegedienstleitung (Test)",
+    "kontaktEmail": "test@example.org",
+    "kontaktTelefon": "+49 30 0000000",
+    "bereich": "health",
+    "useCase": "Test-Use-Case fuer die Cross-Component-E2E-Verifikation: drei einfache Felder zur Pruefung der Vertrauenskette ohne echte Personendaten."
+  },
+  "felder": [
+    { "feldname": "Aufnahmename", "feldtyp": "text",   "bereich": "identity",    "pflicht": true },
+    { "feldname": "Aufnahmedatum", "feldtyp": "datum",  "bereich": "health",     "pflicht": true },
+    { "feldname": "Einwilligung",  "feldtyp": "jaNein", "bereich": "advanceCare", "pflicht": false }
+  ],
+  "erwartet": { "verifikation": "akzeptiert", "felderAnzahl": 3 }
+}

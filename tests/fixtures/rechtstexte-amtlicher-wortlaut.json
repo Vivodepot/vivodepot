@@ -1,0 +1,33 @@
+{
+ "hinweis": "Amtlicher Wortlaut, wie er in RECHTSTEXTE zitiert wird. Abgerufen von eupl.eu am 19.09.2026; vor Freigabe der Texte gegen den Volltext abzugleichen. Ändert sich ein Zitat im Generator, muss diese Datei mit derselben Quelle mitgehen — sonst ist das Zitat kein Zitat mehr.",
+ "zitate": {
+  "eupl-de-art7": {
+   "quelle": "https://eupl.eu/1.2/de/",
+   "stelle": "EUPL v. 1.2, Artikel 7 Gewährleistungsausschluss",
+   "sprache": "de",
+   "abgerufen": "2026-09-19",
+   "text": "Die Arbeit an diesem Werk wird laufend fortgeführt; es wird durch unzählige Bearbeiter ständig verbessert. Das Werk ist nicht vollendet und kann daher Fehler („bugs“) enthalten, die dieser Art der Entwicklung inhärent sind. Aus den genannten Gründen wird das Werk unter dieser Lizenz „so, wie es ist“ ohne jegliche Gewährleistung zur Verfügung gestellt. Dies gilt unter anderem — aber nicht ausschließlich — für Marktreife, Verwendbarkeit für einen bestimmten Zweck, Mängelfreiheit, Richtigkeit sowie Nichtverletzung von anderen Immaterialgüterrechten als dem Urheberrecht."
+  },
+  "eupl-de-art8": {
+   "quelle": "https://eupl.eu/1.2/de/",
+   "stelle": "EUPL v. 1.2, Artikel 8 Haftungsausschluss/Haftungsbeschränkung",
+   "sprache": "de",
+   "abgerufen": "2026-09-19",
+   "text": "Außer in Fällen von Vorsatz oder der Verursachung von Personenschäden haftet der Lizenzgeber nicht für direkte oder indirekte, materielle oder immaterielle Schäden irgendwelcher Art, die aus der Lizenz oder der Benutzung des Werks folgen."
+  },
+  "eupl-en-art7": {
+   "quelle": "https://eupl.eu/1.2/en/",
+   "stelle": "EUPL v. 1.2, Article 7 Disclaimer of Warranty",
+   "sprache": "en",
+   "abgerufen": "2026-09-19",
+   "text": "The Work is provided under the Licence on an “as is” basis and without warranties of any kind concerning the Work, including without limitation merchantability, fitness for a particular purpose, absence of defects or errors, accuracy, non-infringement of intellectual property rights other than copyright as stated in Article 6 of this Licence."
+  },
+  "eupl-en-art8": {
+   "quelle": "https://eupl.eu/1.2/en/",
+   "stelle": "EUPL v. 1.2, Article 8 Disclaimer of Liability",
+   "sprache": "en",
+   "abgerufen": "2026-09-19",
+   "text": "Except in the cases of wilful misconduct or damages directly caused to natural persons, the Licensor will in no event be liable for any direct or indirect, material or moral, damages of any kind, arising out of the Licence or of the use of the Work."
+  }
+ }
+}

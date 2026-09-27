@@ -1,0 +1,245 @@
+THIRD-PARTY LICENSES — vivodepot.html
+=======================================================
+
+Die Vivodepot Bürger-App ist EUPL-1.2 lizenziert (siehe LICENSE / SPDX-Header in
+der HTML-Datei). Sie bettet Drittsoftware INLINE und OFFLINE ein. Diese Datei führt
+den TATSÄCHLICHEN Stand: aktuell sind jsPDF (mit pako als Bestandteil) und qrcode-generator
+wirklich eingebettet. Der SBOM
+(vivodepot.sbom.cdx.json, CycloneDX 1.4) spiegelt denselben Stand.
+
+-------------------------------------------------------------------------------
+1) jsPDF 4.2.1 — STATUS: inline (3. Skript-Block)
+   Autor: James Hall <james@parall.ax> u. a. (yWorks GmbH)
+   Bezug: https://github.com/parallax/jsPDF
+   purl:  pkg:npm/jspdf@4.2.1
+   SPDX-License-Identifier: MIT
+   SHA-256 (inline-Block): 6b0863aff1f684280850cf3da6c34a43cc220f200a268e9f8050aa770bec47df
+
+   MIT License
+
+   Copyright (c) 2010-2025 James Hall <james@parall.ax>, https://github.com/MrRio/jsPDF
+   Copyright (c) 2015-2025 yWorks GmbH, https://www.yworks.com/
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+-------------------------------------------------------------------------------
+1a) pako 2.1.0 — STATUS: inline, als Bestandteil des jsPDF-Bundles (im selben Skript-Block)
+   Quelle: https://github.com/nodeca/pako — Lizenz: MIT AND Zlib (Kopfzeile im Bundle)
+   Wortlaut aus dem Tag 2.1.0: LICENSE (MIT) und Kopf von lib/zlib/deflate.js (Zlib).
+
+   (The MIT License)
+
+   Copyright (C) 2014-2017 by Vitaly Puzrin and Andrei Tuputcyn
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+
+   Die aus zlib übernommenen Teile:
+
+   (C) 1995-2013 Jean-loup Gailly and Mark Adler
+   (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+
+   This software is provided 'as-is', without any express or implied
+   warranty. In no event will the authors be held liable for any damages
+   arising from the use of this software.
+
+   Permission is granted to anyone to use this software for any purpose,
+   including commercial applications, and to alter it and redistribute it
+   freely, subject to the following restrictions:
+
+   1. The origin of this software must not be misrepresented; you must not
+     claim that you wrote the original software. If you use this software
+     in a product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+   2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+   3. This notice may not be removed or altered from any source distribution.
+
+-------------------------------------------------------------------------------
+2) qrcode-generator 1.4.4 — STATUS: inline (eigener Skript-Block id=qrcode_VivodepotInline)
+   Autor: Kazuhiko Arase
+   Bezug: https://github.com/kazuhikoarase/qrcode-generator
+   purl:  pkg:npm/qrcode-generator@1.4.4
+   SPDX-License-Identifier: MIT
+   SHA-256 (inline-Block): 5acc9afb7b602986a62f79e46956cde71716d019816f44b7b3f93039c8b6b345
+
+   Konsument: Notfall-QR (flowNotfallQR), die Papier-Notfallkarte und der Selbstverif-QR
+   im Gesamt-PDF. window.qrcode ist zur Laufzeit vorhanden.
+
+   MIT License
+
+   Copyright (c) 2009 Kazuhiko Arase
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+-------------------------------------------------------------------------------
+3) docx 8.5.0 — ENTFALLEN am 21.08.2026, nicht mehr vorgesehen
+   Der Eintrag stand hier seit dem 16.06.2026 als STATUS: pending-inline und ist NIE
+   eingebettet worden. Befund C-4 vom 26.07.2026 fuehrte das als Blocker: window.docx
+   wurde fuenfmal gelesen und nie zugewiesen.
+
+   Man hat den WEG gestrichen, statt die Bibliothek nachzuliefern
+   (Entscheidung 'Drei Zwecke, drei Ausgabewege', 21.08.2026): PDF fuer Gelesenes,
+   Datensatz fuer Verarbeitetes, QR fuer Mitgenommenes. Der vierte Zweck — Veraendern —
+   wandert in den Generator: eine Vollmacht wird angepasst, BEVOR sie herauskommt.
+
+   Damit entfaellt zugleich eine offene Lizenzfrage: OOXML ist ECMA-376 und von Microsofts
+   Open Specification Promise gedeckt, die Reichweite gegenueber Copyleft ist jedoch
+   umstritten — und EUPL-1.2 ist Copyleft. Die Frage muss nicht mehr beantwortet werden.
+
+   Der Eintrag bleibt als VERMERK stehen und wird nicht geloescht: wer die Datei liest,
+   soll sehen, dass hier einmal etwas vorgesehen war und warum es das nicht mehr ist.
+
+-------------------------------------------------------------------------------
+4) Inter (Schriftfamilie) — STATUS: inline (base64-WOFF2, @font-face im CSS-Head)
+   Autor: The Inter Project Authors (Rasmus Andersson)
+   Bezug: https://github.com/rsms/inter
+   SPDX-License-Identifier: OFL-1.1   (Volltext: siehe OFL.txt + Upstream LICENSE.txt)
+   Version: bundled woff2 (as-is, kein Subset). Reserved Font Name: "Inter".
+   Eingebettete Schnitte und SHA-256 der Quelldateien (assets/fonts/):
+     400 InterDisplay-Regular.woff2  4da7f83ac92e735dbe6fb1c0dc68d61f2ea32654203b601bfe492a727046d12c
+     500 Inter-Medium.woff2          7e80d9f65861ee6836a0081d4e75d88fb8789e5651d05edbc49640442a9610ee
+     600 Inter-SemiBold.woff2        5013f48d77ab627b1db7c2415914284ef09abc3f60a8e0d0d8f3cd1bfebefb5e
+     700 Inter-Bold.woff2            98c66e49c299c5675426bf5562b1876c2b6b9bd8dc90a8922a49703ed4848813
+   Hinweis: Schnitt 400 ist InterDisplay-Regular (Display-Optik); 500/600/700 sind
+   Inter-Text. Kein Italic eingebettet.
+
+-------------------------------------------------------------------------------
+5) Inter (Schriftfamilie, PDF-Einbettung) — STATUS: inline (base64-TrueType, vendorter
+   Font-Modul-Block `@vd-lib name="inter-pdf-font"`, id=inter_pdf_font_VivodepotInline,
+   nach jsPDF/vor qrcode-generator; U2-ADR-263-Nachtrag 13.09.2026, U2-ADR-097-Nachtrag
+   14.09.2026 — Vendoring-Grenze)
+   Autor: The Inter Project Authors (Rasmus Andersson)
+   Bezug: https://github.com/rsms/inter
+   SPDX-License-Identifier: OFL-1.1   (Volltext: siehe OFL.txt + Upstream LICENSE.txt)
+   Eigener Eintrag, GETRENNT von Eintrag 4 (dort: UI-Schrift, woff2/@font-face, kein
+   Subset). Hier: eigens auf die tatsächlich gebrauchten Codepunkte zugeschnittene
+   TrueType-Statik-Instanzen (aus derselben Variable-Font-Quelle, andere Bau- und
+   Einbettungsart) — für jsPDF, das kein WOFF2/@font-face liest. Rezept zum
+   Nachbauen: Kopf-Kommentar in tools/build-pdf-inter-einbetten.js.
+   Eingebettete Schnitte und SHA-256 der Quelldateien (tools/schrift-pdf-quellen/):
+     Regular  Inter-Regular-pdf-subset.ttf  5d417702786d2e4b34ffa008259e32f114e28949c15805420c5830c56fa80db2
+     Bold     Inter-Bold-pdf-subset.ttf     cb6c5a6af590b24c4b9c25527088644e5ac8dc721348381060f56d0559dc87ba
+     Italic   Inter-Italic-pdf-subset.ttf   23ed1296e8c0d152c240f9b944747dd3f96add61b15f59076ba81b2747dc3df6
+
+-------------------------------------------------------------------------------
+CODE-LISTEN (Paket 3 — text+code-Andock)
+-------------------------------------------------------------------------------
+Öffentliche Code-Systeme, inline als @vd-codeliste-Blöcke (Quellen:
+code-listen/<systemId>.json). Stand: SEED = kleiner kuratierter Auszug mit ECHTEN
+Standard-Codes; STUB = leer, Codes ausstehend. Volllisten am Mac über die JSON-
+Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren.
+
+  • ATC (systemId=atc) — STATUS: SEED (Auszug), Version ATC-GM-2026-amtlich
+    Auszug aus der amtlichen deutschen Fassung 2026 der ATC-Klassifikation mit DDD,
+    herausgegeben vom BfArM; nach den BfArM-Nutzungsbedingungen ein anderes amtliches Werk
+    i. S. d. § 5 Abs. 2 UrhG, genutzt unter Änderungsverbot (§ 62 UrhG) und mit
+    Quellenangabe (§ 63 UrhG). Quellenangabe im Wortlaut:
+    Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM mit DDD, die auf
+    dem vom WHO Collaborating Centre for Drug Statistics Methodology herausgegebenen Werk
+    mit dem Titel „ATC Index with DDDs and Guidelines for ATC Classification and DDD
+    Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für
+    Arzneimittel und Medizinprodukte (BfArM).
+    Keine DDD-Werte und keine englischen WHOCC-Bezeichnungen übernommen.
+    URI: http://www.whocc.no/atc
+
+  • ICD-10-GM (systemId=icd10) — STATUS: SEED, Version SEED-2026-05
+    Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im
+    Auftrag des Bundesministeriums für Gesundheit (BMG). Nach den BfArM-Downloadbedingungen
+    (Teil I, § 1) ein anderes amtliches Werk i. S. d. § 5 Abs. 2 UrhG, genutzt unter
+    Änderungsverbot (§ 62 UrhG) und mit Quellenangabe (§ 63 UrhG); keine kommerzielle
+    Werbung im Werk (Vorgabe der WHO). Quellenangabe nach dem Anhang der Bedingungen:
+    Die englischsprachige Originalausgabe wurde 1992 von der Weltgesundheitsorganisation
+    (WHO) veröffentlicht als International Statistical Classification of Diseases and
+    Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992.
+    © Weltgesundheitsorganisation (WHO) 1992. Der Generaldirektor der WHO hat die
+    Übersetzungsrechte für eine deutschsprachige Ausgabe an das BfArM vergeben, das für die
+    Übersetzung allein verantwortlich ist.
+    Nicht verwendet: ICD-O-3 (nach Teil V, § 1 Nr. 3 bis 5 an das Gebiet der
+    Bundesrepublik gebunden und für Marketing ausgeschlossen).
+    URI: http://hl7.org/fhir/sid/icd-10-gm
+
+  • LOINC (systemId=loinc) — STATUS: SEED, Version SEED-2026-05
+    Regenstrief Institute, Inc. — kostenlos unter der LOINC-Lizenz, kommerzielle Nutzung
+    erlaubt. Pflichthinweis im Wortlaut:
+    This material contains content from LOINC (http://loinc.org). LOINC is copyright
+    (c) 1995-2026, Regenstrief Institute, Inc. and the Logical Observation Identifiers
+    Names and Codes (LOINC) Committee and is available at no cost under the license at
+    http://loinc.org/license. LOINC is a registered United States trademark of
+    Regenstrief Institute, Inc.
+    URI: http://loinc.org
+
+  • SNOMED CT — Allergen-Subset (systemId=snomedAllergen) — STATUS: SEED (kleines Sample)
+    SNOMED International (IHTSDO). SNOMED CT ist LIZENZPFLICHTIG. Für Nutzung und Vertrieb
+    eines SNOMED-CT-haltigen Produkts in Deutschland ist eine Affiliate-Lizenz erforderlich,
+    die mit dem National Release Center (NRC) abgeschlossen wird. NRC für Deutschland ist
+    seit 01.01.2021 das BfArM (Bundesinstitut für Arzneimittel und Medizinprodukte),
+    gesetzlich verankert in § 355 Abs. 7 SGB V. Das Antrags-/Verwaltungs-Portal (MLDS) wird
+    technisch von SNOMED International bereitgestellt und betrieben; der Lizenzvertrag selbst
+    läuft über das NRC beim BfArM. Beide Sichtweisen — „über SNOMED International" (Portal)
+    und „BfArM-Affiliate-Lizenz" (NRC) — beschreiben denselben Vertrag.
+
+    Vivodepot hält die erforderliche Affiliate-Lizenz (Typ Commercial / Subtyp Developer,
+    Agreement „Affiliate - Normal", abgeschlossen über das MLDS-Portal des NRC). Als
+    Entwickler-/Vendor-Affiliate-Lizenz deckt sie zugleich die Sublizenzen der Endnutzer
+    ab — die Bürgerinnen und Bürger als Endnutzer benötigen KEINE eigene SNOMED-CT-Lizenz.
+
+    Es wird hier nur ein KLEINES Allergen-Sample ausgeliefert. Vor Auslieferung größerer
+    Mengen den Lizenz-/Subset-Umfang mit dem NRC (BfArM) klären. URI: http://snomed.info/sct
+
+  • STUBS (leer, Codes ausstehend): snomedImpfstoff, snomedImplantat (SNOMED — Lizenz wie
+    oben), esco (ESCO, Europäische Kommission — frei/CC-konform), xoev-rollencode
+    (XÖV-Codelisten, KoSIT/XRepository — frei). Diese Listen sind registriert, tragen aber
+    noch keine Codes; am Mac aus geprüfter Quelle ergänzen.
+
+-------------------------------------------------------------------------------
+Hinweis: Es wird hier bewusst NICHTS als eingebettet geführt, was nicht im Code
+steht. „pending-inline" heißt: vorgesehen, aber (noch) nicht in der ausgelieferten
+Datei enthalten. „SEED" heißt: kleiner echter Auszug vorhanden, Vollliste ausstehend.

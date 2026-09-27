@@ -1,0 +1,41 @@
+{
+  "modulTyp": "vorlage",
+  "anbieterId": "vivodepot-wallet-selbstauskunft",
+  "felder": [
+    {
+      "feldname": "Wallet app and device",
+      "feldtyp": "text",
+      "bereich": "verwaltung",
+      "gruppe": "Digital wallet",
+      "hilfetext": "Which app, installed on which device."
+    },
+    {
+      "feldname": "Recovery — where?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digital wallet",
+      "hilfetext": "Where the recovery route is kept — never the code itself."
+    },
+    {
+      "feldname": "Who may act if I cannot?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digital wallet",
+      "hilfetext": "Your own note — not a power of attorney and not a wallet function."
+    },
+    {
+      "feldname": "What should apply in an emergency?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digital wallet",
+      "hilfetext": "A free-form note — no wallet keeps this."
+    },
+    {
+      "feldname": "What arrangements exist, and where are they kept?",
+      "feldtyp": "textarea",
+      "bereich": "verwaltung",
+      "gruppe": "Digital wallet",
+      "hilfetext": "For example your own note or a document — not something the wallet itself keeps."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+/* FIXTURE für tests/eine-leseart-waechter.test.js — KEIN lauffähiges Werkzeug.
+
+   Der Gegenanker: `V.SEKTOREN` kommt hier NUR in Prosa vor — einmal in diesem Kommentar,
+   einmal in einer Fehlermeldung. Ein Wächter, der beides als Leseart zählte, trüge
+   Phantom-Einträge in seiner Liste, die nie verschwinden.
+
+   Genau diese Richtung fehlte dem Zensus, mit dem die Kampagne begann: ein grep zählte drei
+   solcher Erwähnungen mit, darunter eine Datei, die dadurch als hook-verdrahtet geführt
+   wurde, obwohl sie `V.SEKTOREN` gar nicht liest. */
+function pruefen(V) {
+  if (!V) throw new Error('Kennungsraum weicht von V.SEKTOREN ab — nachsehen, nicht raten.');
+  return V.bereicheAlle().map((s) => s.id);
+}

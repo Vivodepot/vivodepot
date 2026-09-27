@@ -1,0 +1,139 @@
+# Metadaten nach dem Standard publiccode.yml (https://yml.publiccode.tools/).
+publiccodeYmlVersion: "0.4"
+
+name: Vivodepot
+# Das Repository, aus dem diese Datei stammt.
+url: "https://github.com/vivodepot/vivodepot"
+landingURL: "https://vivodepot.de"
+
+# Die öffentliche Versionsbezeichnung; die Einträge je Fassung stehen in CHANGELOG.md.
+softwareVersion: "v1.0"
+releaseDate: "2026-09-24"
+
+developmentStatus: stable
+softwareType: standalone/web
+
+platforms:
+  - web
+
+categories:
+  - digital-citizenship
+  - content-management
+  - healthcare
+
+intendedAudience:
+  # Bewusst nur "society": Vivodepot ist auf keinen Sektor und keine Altersgruppe
+  # zugeschnitten. "healthcare" steht unten nur unter categories, weil der
+  # FHIR-Auszug eine Funktion ist, keine Zielgruppe.
+  scope:
+    - society
+  countries:
+    - de
+
+inputTypes:
+  # Die Eingabeformate der Einlese-Kanäle im Kern; die Depot-Datei selbst ist HTML.
+  - text/html
+  - application/json
+  - application/fhir+json
+  - text/vcard
+  - application/xml
+
+outputTypes:
+  # Die Ausgabeformate der Export-Kanäle im Kern.
+  - application/pdf
+  - text/vcard
+  - text/calendar
+  - application/json
+  - application/xml
+
+description:
+  de:
+    localisedName: Vivodepot
+    genericName: Persönliche Datenhaltung, offline
+    shortDescription: >
+      Eine einzelne Datei, in der Menschen ihre eigenen Unterlagen und Angaben
+      verschlüsselt auf dem eigenen Gerät halten und daraus Auszüge herausgeben.
+      Für Bürgerinnen und Bürger kostenlos.
+    longDescription: >
+      Vivodepot ist eine Anwendung in einer einzigen HTML-Datei. Sie läuft ohne
+      Internetverbindung auf dem Gerät der Nutzerin, verlangt kein Konto und
+      sendet keine Daten an den Herausgeber; die Inhaltssicherheitsregel der
+      Anwendung verbietet ausgehende Verbindungen.
+
+      Die Anwendung ist nicht auf einen Lebensbereich zugeschnitten. Sie trägt
+      Angaben aus mehreren Bereichen nebeneinander, darunter Gesundheit,
+      Verwaltung, Sozialversicherung, Arbeit und Wohnen, und sie richtet sich an
+      Erwachsene jeden Alters und jeder Lebenslage.
+
+      Aus dem Bestand gibt die Nutzerin gezielte Auszüge heraus, jeweils nur das,
+      was die empfangende Stelle braucht, unter anderem im Format HL7 FHIR
+      International Patient Summary, als vCard, als Kalenderdatei und als PDF.
+      Besonders geschützte Angaben verlassen die Datei erst, wenn die Nutzerin
+      sie ausdrücklich freigibt.
+
+      Die Ausgabe fuer Bürgerinnen und Bürger ist kostenlos und quelloffen.
+      Eine kostenpflichtige Ausgabe fuer Selbstständige und Geschäftsführende
+      sowie einzelne Templates werden verkauft; Organisationen können die
+      Anwendung unter eigenem Namen herausgeben.
+    features:
+      - Läuft offline, ohne Konto und ohne Server
+      - Verschlüsselung mit AES-256-GCM, Schlüssel aus dem Passwort der Nutzerin
+      - Ausgabe als HL7 FHIR International Patient Summary
+      - Weitere Ausgaben als vCard, Kalenderdatei und PDF
+      - Getrennte Unterdepots mit eigenem Passwort
+      - Freigabe besonders geschützter Angaben durch die Nutzerin
+      - Deutsch und Englisch
+      - Quelloffen unter EUPL-1.2
+  en:
+    localisedName: Vivodepot
+    genericName: Personal records, held offline
+    shortDescription: >
+      A single file in which people keep their own records encrypted on their own
+      device and share extracts from it. Free of charge for citizens.
+    longDescription: >
+      Vivodepot is an application contained in a single HTML file. It runs without
+      an internet connection on the person's own device, requires no account and
+      sends no data to the publisher; its content security policy forbids outgoing
+      connections.
+
+      The application is not tied to one area of life. It carries records from
+      several areas side by side, among them health, public administration, social
+      insurance, work and housing, and it addresses adults of any age and any
+      situation.
+
+      From that content the person shares targeted extracts, each containing only
+      what the receiving party needs, among them the HL7 FHIR International Patient
+      Summary format, vCard, calendar files and PDF. Specially protected entries
+      leave the file only after the person has released them.
+
+      The edition for citizens is free of charge and open source. A paid edition for
+      self-employed users and individual content templates are sold, and organisations
+      can publish the application under their own name.
+    features:
+      - Runs offline, with no account and no server
+      - AES-256-GCM encryption, key derived from the user's password
+      - Export as HL7 FHIR International Patient Summary
+      - Further exports as vCard, calendar file and PDF
+      - Separate sub-depots with their own password
+      - Specially protected entries released by the person
+      - German and English
+      - Open source under EUPL-1.2
+
+legal:
+  # Die Lizenz des ganzen Repositorys; Einzelheiten stehen in LICENSING.md.
+  license: EUPL-1.2
+  mainCopyrightOwner: "Vivodepot GmbH"
+  repoOwner: "Vivodepot GmbH"
+
+maintenance:
+  type: internal
+  contacts:
+    - name: "Vivodepot GmbH"
+      email: "info@vivodepot.de"
+      affiliation: "Vivodepot GmbH, Berlin"
+
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - de
+    - en

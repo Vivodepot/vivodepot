@@ -1,0 +1,42 @@
+[
+  {
+    "carrier": "Sektorfeld",
+    "id": "ehicCardEuropeanHealth",
+    "label": "EHIC-Karte (Europäische Krankenversicherungskarte)",
+    "ort": "health",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "krankenkassenkarte deckt EHIC mit ab (dieselbe physische Karte, s. Feld-Kommentar; Feld seit Schnitt Glied 3 (A448, U2-ADR-161) die Liste `krankenkassenkarte`, ihr `gueltig`-Unterfeld trägt weiterhin dasselbe Ablaufdatum) — die Stamm-Heuristik (ersterWortstamm) erkennt es nicht, weil \"ehic\" und \"krankenkassenkarte\" keinen gemeinsamen Wortstamm teilen. Bewusst hier belassen statt AUSSCHLUSS, damit ein Blick in die Grundlinie den Grund zeigt."
+  },
+  {
+    "carrier": "Sektorfeld",
+    "id": "idDocuments",
+    "label": "Ausweisdokumente",
+    "ort": "identity",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "Schnitt Glied 3 (22.08.2026, A448, U2-ADR-161): `ausweis_nr`/`_ausgestellt`/`_gueltig` sind zur Liste `ausweis` geworden. Die Heuristik sucht das Ablaufdatum als GESCHWISTER-FELD in derselben Sektion — seit dem Umbau liegt es als eigenes Unterfeld `gueltig` INNERHALB derselben Liste, jeder Eintrag trägt sein Ablaufdatum also zwingend mit. Strukturelle blinde Stelle des Geschwister-Checks (er sieht nicht in das eigene `unterFelder` einer Liste hinein), kein offener Fund."
+  },
+  {
+    "carrier": "Listen-Unterfeld",
+    "id": "documentNumber",
+    "label": "Ausweisnummer",
+    "ort": "identity.idDocuments",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "Dasselbe Feld wie oben, eine Ebene tiefer: das Unterfeld `nr` der Liste `ausweis` trägt den Stichwort-Treffer über sein Label (\"Ausweisnummer\"). Sein Ablaufdatum-Geschwister `gueltig` steht im selben Unterfeld-Satz, teilt aber keinen Wortstamm mit \"nr\" — der Geschwister-Check vergleicht nur gleiche erste Wortsegmente, nicht \"irgendein Datumsfeld im selben Eintrag\". Dieselbe Grube wie ehic_nr/krankenkassenkarte, nur innerhalb einer Liste statt zwischen zwei Sektorfeldern."
+  },
+  {
+    "carrier": "Sektorfeld",
+    "id": "healthInsuranceCards",
+    "label": "Krankenkassenkarten",
+    "ort": "health",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "Schnitt Glied 3 (22.08.2026, A448, U2-ADR-161): `krankenkassenkarte_ort`/`_gueltig` sind zur Liste `krankenkassenkarte` geworden — ihr `gueltig`-Unterfeld liegt seither innerhalb derselben Liste statt als Geschwister-Sektorfeld. Dieselbe strukturelle blinde Stelle wie bei `ausweis`."
+  },
+  {
+    "carrier": "Sektorfeld",
+    "id": "severeDisabilityCards",
+    "label": "Schwerbehindertenausweise",
+    "ort": "socialInsurance",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "Schnitt Glied 3 (22.08.2026, A448, U2-ADR-161): `schwerbehindertenausweis_ort`/`_gueltig` sind zur Liste `schwerbehindertenausweis` geworden — ihr `gueltig`-Unterfeld liegt seither innerhalb derselben Liste statt als Geschwister-Sektorfeld. Dieselbe strukturelle blinde Stelle wie bei `ausweis`/`krankenkassenkarte`."
+  }
+]

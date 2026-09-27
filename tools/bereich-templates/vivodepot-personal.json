@@ -1,0 +1,201 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/personal",
+  "fassung": 1,
+  "bereiche": {
+    "personal": {
+      "id": "personal",
+      "format": "GENERISCH",
+      "icon": "star",
+      "standardDokumente": [
+        {
+          "typ": "vivodepot",
+          "name": "Vivodepot",
+          "empfRhythmusMonate": 12,
+          "hinweis": "Prüf dein Depot — einmal im Jahr alle Bereiche durchsehen, ob noch alles aktuell ist."
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "erinnerungen-briefe",
+          "felder": [
+            {
+              "id": "physicalPhotosStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "digitalPhotosStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "otherKeepsakesStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "personalBelongingsWishes",
+              "typ": "textarea"
+            },
+            {
+              "id": "householdItemsClothesFurniture",
+              "typ": "textarea"
+            },
+            {
+              "id": "whoDependsOnMe",
+              "sensibel": true,
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "whoDependsOnYou",
+                  "typ": "text"
+                },
+                {
+                  "id": "whatToBearInMind",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "notesOnFamilyCircumstances",
+              "sensibel": true,
+              "typ": "textarea"
+            },
+            {
+              "id": "religiousAffiliation",
+              "sensibel": true,
+              "typ": "text",
+              "vorschlaege": [
+                "römisch-katholisch",
+                "evangelisch",
+                "konfessionslos",
+                "jüdisch",
+                "muslimisch",
+                "freikirchlich",
+                "orthodox",
+                "buddhistisch"
+              ]
+            },
+            {
+              "id": "chaplainPastoralCarer",
+              "sensibel": true,
+              "typ": "ref",
+              "entitaet": "person",
+              "rolle": "seelsorger",
+              "verweisZweck": "vollmacht"
+            },
+            {
+              "id": "ritualsPrayersSpiritualWishes",
+              "sensibel": true,
+              "typ": "textarea"
+            },
+            {
+              "id": "letterForTheEmergencyDoctor",
+              "typ": "textarea"
+            },
+            {
+              "id": "letterForTheHospitalScenario",
+              "typ": "textarea"
+            },
+            {
+              "id": "letterForTheCareHomeAdmission",
+              "typ": "textarea"
+            },
+            {
+              "id": "letterForTheDeathScenario",
+              "typ": "textarea"
+            },
+            {
+              "id": "handwrittenLettersStorage",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "personalLettersWordsToPeople",
+              "sensibel": true,
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "toWhom",
+                  "typ": "text"
+                },
+                {
+                  "id": "words",
+                  "typ": "textarea"
+                }
+              ]
+            },
+            {
+              "id": "whatElseIWantToSayWhatElse",
+              "sensibel": true,
+              "typ": "textarea"
+            }
+          ]
+        },
+        {
+          "id": "bestattung-abschied",
+          "felder": [
+            {
+              "id": "typeOfFuneral",
+              "sensibel": true,
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "erd"
+                },
+                {
+                  "wert": "feuer"
+                },
+                {
+                  "wert": "see"
+                },
+                {
+                  "wert": "naturbest"
+                },
+                {
+                  "wert": "anonym"
+                },
+                {
+                  "wert": "offen"
+                }
+              ]
+            },
+            {
+              "id": "funeralAlreadyPlannedInAdvance",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                },
+                {
+                  "wert": "teil"
+                }
+              ]
+            },
+            {
+              "id": "funeralHome",
+              "typ": "text"
+            },
+            {
+              "id": "preferredLocationGraveUrnSite",
+              "typ": "text"
+            },
+            {
+              "id": "preArrangementContractStorage",
+              "sensibel": true,
+              "typ": "text"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

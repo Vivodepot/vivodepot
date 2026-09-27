@@ -1,0 +1,818 @@
+{
+  "quellen": [
+    {
+      "commit": "0f1de42c9de55500e576cd94b063afaf144fecb6",
+      "de": {
+        "pfad": "tests/fixtures/pro-geschaeftsfuehrerin-notfallmappe-vorlage-de.json",
+        "sha256": "f8dfccd6da65d25370f568fddd8fd40037e6fd312d448f77660ed11b3d92c0b8"
+      },
+      "en": {
+        "pfad": "tests/fixtures/pro-geschaeftsfuehrerin-notfallmappe-vorlage-en.json",
+        "sha256": "da9c331453a9221e293df9da5c7c5d7f2ac1c90d5738f3f54faedcd71bac5c89"
+      }
+    },
+    {
+      "commit": "07bdc245ce9f15b8e11b91096ca53afd4fe1aaac",
+      "de": {
+        "pfad": "tests/fixtures/pro-geschaeftsfuehrerin-notfallmappe-vorlage-de.json",
+        "sha256": "a63b3e345530bcbca9b504bd3408d002da456a47baede61ada41dd5b63cca528"
+      },
+      "en": {
+        "pfad": "tests/fixtures/pro-geschaeftsfuehrerin-notfallmappe-vorlage-en.json",
+        "sha256": "6312e0a8a3bc84ebcc659c61a98579563df122007f5460e49f02a3f5cb0d4634"
+      }
+    }
+  ],
+  "zuordnung": {
+    "pro-aufbewahrung-ordnung": {
+      "tpl_archive_service_provider": {
+        "nach": "tpl_archivdienstleister",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_provider": {
+            "nach": "tpl_dienstleister",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contract_number": {
+            "nach": "tpl_vertragsnummer",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_access_rules": {
+            "nach": "tpl_zugriffsregeln",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_business_records": {
+        "nach": "tpl_geschaeftsunterlagen",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_location": {
+            "nach": "tpl_ort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_filing_system": {
+            "nach": "tpl_systematik",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_depot_last_reviewed_on": {
+        "nach": "tpl_depot_zuletzt_durchgesehen_am",
+        "typ": "datum"
+      },
+      "tpl_industry_specific_obligation": {
+        "nach": "tpl_branchenpflicht",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_obligation": {
+            "nach": "tpl_pflicht",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_deadline": {
+            "nach": "tpl_frist",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_retention_period": {
+        "nach": "tpl_aufbewahrungsfrist",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_type_of_record": {
+            "nach": "tpl_unterlagenart",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_end_of_period": {
+            "nach": "tpl_fristende",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_who_knows_this_depot_exists": {
+        "nach": "tpl_wer_von_diesem_depot_weiss",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_name": {
+            "nach": "tpl_name",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_role": {
+            "nach": "tpl_rolle",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      }
+    },
+    "pro-betrieb-zugaenge": {
+      "tpl_access_credentials": {
+        "nach": "tpl_zugangsmittel",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_storage_location": {
+            "nach": "tpl_verwahrort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_administration_in_house_external": {
+        "nach": "tpl_administration_intern_extern",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_name": {
+            "nach": "tpl_name",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_details": {
+            "nach": "tpl_erreichbarkeit",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_current_order_project_status": {
+        "nach": "tpl_laufender_auftrags_projektstand",
+        "typ": "text"
+      },
+      "tpl_data_backup": {
+        "nach": "tpl_datensicherung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_location_method": {
+            "nach": "tpl_ort_verfahren",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_who_can_restore_it": {
+            "nach": "tpl_wer_kann_zurueckspielen",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_government_portal_access": {
+        "nach": "tpl_behoerdenzugang",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_mailbox": {
+            "nach": "tpl_postfach",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_access_credentials_held_at": {
+            "nach": "tpl_zugangsmittel_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_ip_right_patent_trademark_formula": {
+        "nach": "tpl_schutzrecht_patent_marke_rezeptur",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_registration_number": {
+            "nach": "tpl_registernummer",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_valid_until": {
+            "nach": "tpl_gueltig_bis",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_keys_and_lock_system": {
+        "nach": "tpl_schluessel_und_schliessanlage",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_storage_location": {
+            "nach": "tpl_verwahrort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_licence_or_professional_authorisation": {
+        "nach": "tpl_genehmigung_oder_berufsrechtliche_zulassung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_holder": {
+            "nach": "tpl_inhaber",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_deadline_expiry": {
+            "nach": "tpl_frist_ablauf",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_machine_or_operating_equipment": {
+        "nach": "tpl_maschine_oder_betriebsausstattung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_location": {
+            "nach": "tpl_standort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_ongoing_legal_dispute": {
+        "nach": "tpl_laufender_rechtsstreit",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_subject": {
+            "nach": "tpl_gegenstand",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_deadline": {
+            "nach": "tpl_frist",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          },
+          "tpl_representation": {
+            "nach": "tpl_vertretung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_premises": {
+        "nach": "tpl_raeume",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_lease_held_at": {
+            "nach": "tpl_mietvertrag_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_notice_period": {
+            "nach": "tpl_kuendigungsfrist",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_property_in_ownership": {
+        "nach": "tpl_immobilie_im_eigentum",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_address": {
+            "nach": "tpl_adresse",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_land_register_entry": {
+            "nach": "tpl_grundbuchblatt",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_safe_and_bank_deposit_box": {
+        "nach": "tpl_tresor_und_bankschliessfach",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_location": {
+            "nach": "tpl_ort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_authorized_persons": {
+            "nach": "tpl_zugangsberechtigte",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_specialist_software": {
+        "nach": "tpl_fachanwendung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_provider": {
+            "nach": "tpl_anbieter",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_person": {
+            "nach": "tpl_ansprechpartner",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contract_number": {
+            "nach": "tpl_vertragsnummer",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_staff": {
+        "nach": "tpl_personal",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_number_structure": {
+            "nach": "tpl_anzahl_struktur",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_person": {
+            "nach": "tpl_ansprechpartner",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contracts_held_at": {
+            "nach": "tpl_vertraege_liegen_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_vehicle_fleet": {
+        "nach": "tpl_fuhrpark",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_location": {
+            "nach": "tpl_standort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      }
+    },
+    "pro-finanzen-verbindlichkeiten": {
+      "tpl_bank_account": {
+        "nach": "tpl_bankverbindung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_institution": {
+            "nach": "tpl_institut",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_power_of_attorney_holder": {
+            "nach": "tpl_vollmacht_inhaber",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_valid_beyond_death": {
+            "nach": "tpl_gilt_ueber_den_tod_hinaus",
+            "typVorlage": "auswahl",
+            "typBereich": "checkbox"
+          }
+        }
+      },
+      "tpl_contract_with_change_of_control_clause": {
+        "nach": "tpl_vertrag_mit_kontrollwechsel_klausel",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_contract": {
+            "nach": "tpl_vertrag",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_person": {
+            "nach": "tpl_ansprechpartner",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_family_s_financial_situation_if_the_owner_is_absent": {
+        "nach": "tpl_versorgungslage_der_familie_im_ausfall",
+        "typ": "text"
+      },
+      "tpl_insurance": {
+        "nach": "tpl_versicherung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_type": {
+            "nach": "tpl_art",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_person": {
+            "nach": "tpl_ansprechpartner",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_notification_deadline": {
+            "nach": "tpl_meldefrist",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_loan": {
+        "nach": "tpl_kredit",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_person": {
+            "nach": "tpl_ansprechpartner",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_termination_right_on_change_of_management": {
+            "nach": "tpl_kuendigungsrecht_bei_fuehrungswechsel",
+            "typVorlage": "auswahl",
+            "typBereich": "checkbox"
+          }
+        }
+      },
+      "tpl_personal_security_guarantee": {
+        "nach": "tpl_persoenliche_sicherheit_buergschaft",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_for_what_to_whom": {
+            "nach": "tpl_wofuer_gegenueber_wem",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_recurring_payment": {
+        "nach": "tpl_wiederkehrende_zahlung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_description": {
+            "nach": "tpl_bezeichnung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_due_date": {
+            "nach": "tpl_faelligkeit",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_tax_deadline": {
+        "nach": "tpl_steuerfrist",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_filing_advance_payment": {
+            "nach": "tpl_anmeldung_vorauszahlung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_due_date": {
+            "nach": "tpl_termin",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      }
+    },
+    "pro-gesellschaft-nachfolge": {
+      "tpl_annual_financial_statements_where_the_current_version_is_kept": {
+        "nach": "tpl_jahresabschluss_wo_der_aktuelle_stand_liegt",
+        "typ": "text"
+      },
+      "tpl_articles_of_association": {
+        "nach": "tpl_gesellschaftsvertrag",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_location": {
+            "nach": "tpl_fundort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_last_amended": {
+            "nach": "tpl_letzte_aenderung",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_estate_plan_coordinated_with_the_company": {
+        "nach": "tpl_erbregelung_auf_die_gesellschaft_abgestimmt",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_coordinated": {
+            "nach": "tpl_abgestimmt",
+            "typVorlage": "auswahl",
+            "typBereich": "checkbox"
+          },
+          "tpl_document_held_at": {
+            "nach": "tpl_unterlage_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_list_of_shareholders": {
+        "nach": "tpl_gesellschafterliste",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_version_dated": {
+            "nach": "tpl_fassung_vom",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          },
+          "tpl_original_held_at": {
+            "nach": "tpl_original_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_notary": {
+        "nach": "tpl_notar",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_practice": {
+            "nach": "tpl_kanzlei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_register_of_deeds_held_at": {
+            "nach": "tpl_urkundenverzeichnis_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_succession_clause_in_the_articles_of_association_exists": {
+        "nach": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden",
+        "typ": "auswahl"
+      },
+      "tpl_supervisory_body_advisory_board_supervisory_board": {
+        "nach": "tpl_aufsichtsgremium_beirat_aufsichtsrat",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_member": {
+            "nach": "tpl_mitglied",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_tax_advisor": {
+        "nach": "tpl_steuerberatung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_office": {
+            "nach": "tpl_buero",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_accounting_records_held_at": {
+            "nach": "tpl_buchhaltung_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_will_or_inheritance_contract_filing_location": {
+        "nach": "tpl_testament_oder_erbvertrag_ablageort",
+        "typ": "text"
+      }
+    },
+    "pro-kontakte-vertretungsplan": {
+      "tpl_people_who_must_not_be_notified": {
+        "nach": "tpl_nicht_zu_benachrichtigende_personen",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_name": {
+            "nach": "tpl_name",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_details": {
+            "nach": "tpl_erreichbarkeit",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_who_takes_over_which_task": {
+        "nach": "tpl_wer_uebernimmt_welche_aufgabe",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_task": {
+            "nach": "tpl_aufgabe",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_person": {
+            "nach": "tpl_person",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_takes_over_from": {
+            "nach": "tpl_vertretung_ab_wann",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      }
+    },
+    "pro-vertretung-vollmachten": {
+      "tpl_additional_authorized_representative_exists": {
+        "nach": "tpl_weitere_vertretungsberechtigte_person_vorhanden",
+        "typ": "auswahl"
+      },
+      "tpl_additional_managing_directors_board_members": {
+        "nach": "tpl_weitere_geschaeftsfuehrer_vorstaende",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_name": {
+            "nach": "tpl_name",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_details": {
+            "nach": "tpl_erreichbarkeit",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_advance_healthcare_directive_filing_location": {
+        "nach": "tpl_patientenverfuegung_ablageort",
+        "typ": "text"
+      },
+      "tpl_care_directive_filing_location": {
+        "nach": "tpl_betreuungsverfuegung_ablageort",
+        "typ": "text"
+      },
+      "tpl_commercial_power_of_attorney": {
+        "nach": "tpl_handlungsvollmacht",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_who": {
+            "nach": "tpl_wer",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_for_what": {
+            "nach": "tpl_wofuer",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_certificate_held_at": {
+            "nach": "tpl_urkunde_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_competent_registry_court": {
+        "nach": "tpl_zustaendiges_registergericht",
+        "typ": "text"
+      },
+      "tpl_entrepreneur_power_of_attorney": {
+        "nach": "tpl_unternehmervollmacht",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_notary": {
+            "nach": "tpl_notar",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_deed_number": {
+            "nach": "tpl_urkundennummer",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_storage_location": {
+            "nach": "tpl_verwahrort",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_named_person_preference_not_an_appointment": {
+        "nach": "tpl_benannte_person_wunsch_keine_bestellung",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_name": {
+            "nach": "tpl_name",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_contact_details": {
+            "nach": "tpl_erreichbarkeit",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_power_of_attorney_beyond_death": {
+        "nach": "tpl_vollmacht_ueber_den_tod_hinaus",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_applies": {
+            "nach": "tpl_gilt",
+            "typVorlage": "auswahl",
+            "typBereich": "checkbox"
+          },
+          "tpl_authorized_person": {
+            "nach": "tpl_bevollmaechtigter",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_certificate_held_at": {
+            "nach": "tpl_urkunde_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          }
+        }
+      },
+      "tpl_private_power_of_attorney_advance_care_storage_location": {
+        "nach": "tpl_vorsorgevollmacht_privat_ablageort",
+        "typ": "text"
+      },
+      "tpl_procuration_prokura": {
+        "nach": "tpl_prokura",
+        "typ": "liste",
+        "unterFelder": {
+          "tpl_who": {
+            "nach": "tpl_wer",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_since": {
+            "nach": "tpl_seit",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          },
+          "tpl_certificate_held_at": {
+            "nach": "tpl_urkunde_liegt_bei",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_restriction": {
+            "nach": "tpl_beschraenkung",
+            "typVorlage": "text",
+            "typBereich": "text"
+          },
+          "tpl_limited_until": {
+            "nach": "tpl_befristet_bis",
+            "typVorlage": "datum",
+            "typBereich": "datum"
+          }
+        }
+      },
+      "tpl_register_number": {
+        "nach": "tpl_registernummer",
+        "typ": "text"
+      },
+      "tpl_representation_rule": {
+        "nach": "tpl_vertretungsregelung",
+        "typ": "auswahl"
+      }
+    }
+  }
+}

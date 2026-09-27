@@ -1,0 +1,128 @@
+[
+ {
+  "carrier": "Sektorfeld",
+  "id": "ongoingLoansDebts",
+  "label": "Laufende Kredite & Schulden",
+  "beispiel": "Baudarlehen bei DKB, 1.200 EUR/Monat",
+  "ort": "finance",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Fehlt: Währung UND Frequenz — zusätzlich (W-11-Nachbarschaft) trägt das Feld mehrere Schuldposten als freie Aufzählung, nicht einen einzelnen Betrag."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "grossMonthlyIncome",
+  "label": "Brutto-Monatseinkommen",
+  "beispiel": "5.200 EUR",
+  "ort": "education",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Fehlt: Währung (EUR fest im Text). Frequenz steckt bereits im Feldnamen (\"_monat\"), nicht im Wert — hier nur die Währung offen."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "netMonthlyIncome",
+  "label": "Netto-Monatseinkommen",
+  "beispiel": "3.150 EUR",
+  "ort": "education",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Dieselbe Lage wie `brutto_monat` (Geschwisterfeld, selbe Sektion)."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "longTermCareAllowanceTypeOf",
+  "label": "Pflegegeld / Pflegeleistungen",
+  "beispiel": "Pflegegeld Pflegegrad 3, 599 EUR/Monat; Kombinationsleistung",
+  "ort": "socialInsurance",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Fehlt: Währung UND Frequenz — zusätzlich (W-11-Nachbarschaft) trägt das Feld Leistungsart und Betrag zusammen."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "rentalDepositBankAmount",
+  "label": "Mietkaution — Bank & Betrag",
+  "beispiel": "Sparkasse München, 3.000 EUR auf Sperrkonto",
+  "ort": "housing",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Fehlt: Währung. Frequenz nicht einschlägig (Einmalbetrag). Zusätzlich (W-11-Nachbarschaft) trägt das Feld Bank, Betrag und Kontoart zusammen."
+ },
+ {
+  "carrier": "Listen-Unterfeld",
+  "id": "serviceCharges",
+  "label": "Monatliche Miete / HV-Kosten",
+  "beispiel": "650 EUR warm",
+  "ort": "housing.furtherHomes",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Dieselbe Lage wie das Sektorfeld `wohnen.miete`, hier in der Liste weiterer Wohnungen."
+ },
+ {
+  "carrier": "Listen-Unterfeld",
+  "id": "rentalDepositBankAmount",
+  "label": "Mietkaution — Bank & Betrag",
+  "beispiel": "Sparkasse Rosenheim, 1.500 EUR",
+  "ort": "housing.furtherHomes",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Dieselbe Lage wie das Sektorfeld `wohnen.kaution`, hier in der Liste weiterer Wohnungen."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "longTermCareAllowanceAmount",
+  "label": "Pflegegeld — Betrag",
+  "beispiel": "599 EUR/Monat",
+  "ort": "socialInsurance",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "F4 Zug 3 (11.08.2026): fehlt Waehrung/Frequenz als eigene Geschwisterfelder, dieselbe Lage wie brutto_monat/netto_monat."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "longTermCareAllowanceEarlier",
+  "label": "Pflegegeld — frühere Angabe",
+  "beispiel": "Pflegegeld Pflegegrad 3, 599 EUR/Monat; Kombinationsleistung",
+  "ort": "socialInsurance",
+  "vermerk": "begründete Ausnahme",
+  "begruendung": "F4 Zug 3 (11.08.2026): Rettungsfeld der Migration (U2-ADR-050) — traegt nur Alt-Text, bleibt bewusst Freitext."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "housingCostsBorneAlone",
+  "label": "Wohnkosten — allein getragen",
+  "beispiel": "780 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Zugang-zum-Recht Zug 1 (30.08.2026): Fehlt Waehrung UND Frequenz (monatlich nur implizit im Feldnamen „Wohnkosten“) — dieselbe Lage wie brutto_monat/netto_monat."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "housingCostsTotal",
+  "label": "Wohnkosten — gesamt",
+  "beispiel": "1.450 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Zugang-zum-Recht Zug 1 (30.08.2026): dieselbe Lage wie wohnkosten_allein (Geschwisterfeld, selbe Sektion)."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "housingCostsOwnShare",
+  "label": "Wohnkosten — eigener Anteil",
+  "beispiel": "480 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "Zugang-zum-Recht Zug 1 (30.08.2026): dieselbe Lage wie wohnkosten_allein (Geschwisterfeld, selbe Sektion)."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "yourOwnIncomeNetMonthly",
+  "label": "Eigenes Einkommen (netto, monatlich)",
+  "beispiel": "1.850 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "U2-ADR-326: Waehrung und Frequenz stehen nur implizit — die Frequenz im Feldnamen („monatlich“), die Waehrung im Beispiel. Dieselbe Lage wie wohnkosten_allein/wohnkosten_gesamt in derselben Sektion; zusammen mit dem Cluster zu entscheiden, nicht einzeln."
+ },
+ {
+  "carrier": "Sektorfeld",
+  "id": "incomeOfOtherPeopleInThe",
+  "label": "Einkommen weiterer Personen im Haushalt",
+  "beispiel": "2.100 EUR",
+  "ort": "assets",
+  "vermerk": "Entscheidung offen",
+  "begruendung": "U2-ADR-326: derselbe Fall wie einkommen_netto_monat — Frequenz im Hinweistext („monatlich, zusammengerechnet“), Waehrung im Beispiel. Gehoert zur selben Entscheidung ueber den Einkommen-Wohnsituation-Cluster."
+ }
+]

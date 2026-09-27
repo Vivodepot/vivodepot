@@ -1,0 +1,27 @@
+{
+ "achsen": {
+  "Achse A (VDnn)": {
+   "summe": 4,
+   "jeDatei": {
+    "tests/fixtures/interne-sitzungskuerzel/metatext-ueber-die-bereinigung.md": 1,
+    "tests/fixtures/interne-sitzungskuerzel/vdnn-treffer.js": 2,
+    "tests/fixtures/vorfuehrung-zugang-zum-recht/demo-en.vivodepot": 1
+   }
+  },
+  "Achse B (DCn)": {
+   "summe": 3,
+   "jeDatei": {
+    "tests/fixtures/interne-sitzungskuerzel/dcn-treffer.js": 2,
+    "tests/fixtures/interne-sitzungskuerzel/metatext-ueber-die-bereinigung.md": 1
+   }
+  },
+  "Achse K (KOORDn)": {
+   "summe": 4,
+   "jeDatei": {
+    "tests/fixtures/interne-sitzungskuerzel/achse-k-treffer.md": 4
+   }
+  }
+ },
+ "gegenstand": "Achse A (VDnn), Achse B (DCn) und Achse K (KOORDn) im oeffentlichen Zuschnitt (tests/tools/scripts/hooks) - interne Vivodepot-, Design- und Arbeitssitzungskuerzel, die nicht veroeffentlicht werden sollen. Verallgemeinerung von tools/achse-k-koordn-pruefen.js (19.09.2026, -1c) auf einen Achsen-Parameter (Auftrag 19.09.2026); Achse K am 19.09.2026 nach Zustimmung von -1c hierher uebernommen, tools/achse-k-koordn-pruefen.js und seine Grundlinie damit abgeloest. Die K-Zahl hier (101/59) ist FRISCH auf DIESEM Zweig gemessen, nicht von -1cs Zweig (achse-k-kuerzel-2026-09-19, dort 57/29 nach zusaetzlichen tools/-Fixes, die dieser Zweig noch nicht enthaelt) uebernommen -- zwei Messungen ergeben keine Deckung. Sobald -1cs tools/-Bereinigung hier landet, sinkt der Deckel entsprechend, mit --grundlinie-schreiben nachzuziehen.",
+ "stichtag": "2026-09-25 — gemessen mit tools/achsen-kuerzel-pruefen.js"
+}

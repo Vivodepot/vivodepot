@@ -1,0 +1,533 @@
+{
+  "achse": "a3-dokumentmodule",
+  "beschreibung": "U2-ADR-344 — PV_MODUL/KI_MODUL/VOLLMACHT_MODUL/BETREUUNG_MODUL, amtlicher Wortlaut (PV/KI/Vollmacht) hinter BUERGERMODUL_BUENDEL materialisiert. Fuer BETREUUNG_MODUL ist der amtliche Vergleich gegenstandslos (reiner Vivodepot-Generator-Text, kein migrierter BMJ-Wortlaut) — der Umzugs-/Regressions-Vergleich gilt trotzdem.",
+  "quelleCommit": "37038011",
+  "quelleCommitDatum": "2026-09-02T15:37:13+02:00",
+  "quelleCommitBetreff": "fix(vivodepot.html): Sichern-Knopf folgt Speicher-Modus, keine Datei mehr je Klick (U2-ADR-212)",
+  "erzeugtAm": "2026-09-06T19:57:35.976Z",
+  "erzeugtVon": "tools/dokument-vor-umzug-fixture-ziehen.js",
+  "immerWerte": {
+    "anzahl": 192,
+    "werte": [
+      "Diese Patientenverfügung gilt, wenn",
+      "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
+      "Sollte eine Ärztin oder ein Arzt oder das Behandlungsteam nicht bereit sein, meinen in dieser Patientenverfügung geäußerten Willen zu befolgen, erwarte ich, dass für eine anderweitige medizinische und/oder pflegerische Behandlung gesorgt wird. Von meiner Vertreterin/meinem Vertreter (z. B. Bevollmächtigte(r)/Betreuer(in)) erwarte ich, dass sie/er die weitere Behandlung so organisiert, dass meinem Willen entsprochen wird.",
+      "In Lebens- und Behandlungssituationen, die in dieser Patientenverfügung nicht konkret geregelt sind, ist mein mutmaßlicher Wille möglichst im Konsens aller Beteiligten zu ermitteln. Dafür soll diese Patientenverfügung als Richtschnur maßgeblich sein. Bei unterschiedlichen Meinungen über anzuwendende oder zu unterlassende ärztliche/pflegerische Maßnahmen soll der Auffassung folgender Person besondere Bedeutung zukommen:",
+      "Wenn ich meine Patientenverfügung nicht widerrufen habe, wünsche ich nicht, dass mir in der konkreten Anwendungssituation eine Änderung meines Willens unterstellt wird. Wenn aber die behandelnden Ärztinnen und Ärzte/das Behandlungsteam/mein(e) Bevollmächtigte(r)/Betreuer(in) aufgrund meiner Gesten, Blicke oder anderen Äußerungen die Auffassung vertreten, dass ich entgegen den Festlegungen in meiner Patientenverfügung doch behandelt oder nicht behandelt werden möchte, dann ist möglichst im Konsens aller Beteiligten zu ermitteln, ob die Festlegungen in meiner Patientenverfügung noch meinem aktuellen Willen entsprechen. Bei unterschiedlichen Meinungen soll in diesen Fällen der Auffassung folgender Person besondere Bedeutung zukommen:",
+      "Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt:",
+      "Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt.",
+      "Mir ist die Möglichkeit der Änderung und des Widerrufs einer Patientenverfügung bekannt.",
+      "Ich bin mir des Inhalts und der Konsequenzen meiner darin getroffenen Entscheidungen bewusst.",
+      "Ich habe die Patientenverfügung in eigener Verantwortung und ohne äußeren Druck erstellt.",
+      "Ich bin im Vollbesitz meiner geistigen Kräfte.",
+      "Die Nachbildung darf ausschließlich genutzt werden",
+      "Ausgeschlossen sind in jedem Fall: Werbung, kommerzielle Verwertung, politische oder weltanschauliche Aussagen sowie jeder öffentliche Auftritt im Namen meiner Person.",
+      "Der Zugang ist auf volljährige Personen beschränkt.",
+      "Die Kommunikation mit der Nachbildung ist vertraulich; ein Mithören oder Aufzeichnen durch Dritte ist ausgeschlossen.",
+      "Es dürfen ausschließlich die von mir freigegebenen oder eigens hinterlegten Materialien verwendet werden. Ein nachträgliches Zusammentragen weiterer Daten aus öffentlichen oder privaten Quellen ist untersagt.",
+      "Die Nachbildung ist bei jeder Nutzung deutlich und dauerhaft als KI-Nachbildung einer verstorbenen Person zu kennzeichnen.",
+      "Untersagt ist jede Nutzung, die den Eindruck erweckt, ich sei noch am Leben oder träfe gegenwärtige Entscheidungen.",
+      "Diese Verfügung kann ich zu Lebzeiten jederzeit formlos widerrufen oder ändern.",
+      "Auf Wunsch einer zugangsberechtigten Person ist die Nutzung für diese Person jederzeit zu beenden.",
+      "Bei Uneinigkeit unter den Angehörigen über Fortbestand oder Nutzung entscheidet die von mir benannte Person; im Zweifel ist die Nutzung einzustellen.",
+      "Diese Verfügung habe ich bei klarem Verstand und ohne Zwang errichtet.",
+      "Für welche Situationen soll Ihre Patientenverfügung gelten?",
+      "Mehrfachauswahl. Es sollten nur Situationen beschrieben werden, die mit einer Einwilligungsunfähigkeit einhergehen können.",
+      "Situationen",
+      "Möchten Sie eine eigene Anwendungssituation ergänzen?",
+      "Nur wenn keine der obigen passt oder Sie ergänzen möchten. Beschreiben Sie nur Situationen, die mit einer Einwilligungsunfähigkeit einhergehen können.",
+      "Eigene Beschreibung der Anwendungssituation",
+      "Lebenserhaltende Maßnahmen (2.3.1)",
+      "In den oben beschriebenen Situationen wünsche ich, …",
+      "Lebenserhaltende Maßnahmen",
+      "Schmerz- und Symptombehandlung (2.3.2)",
+      "In den oben beschriebenen Situationen wünsche ich eine fachgerechte Schmerz- und Symptombehandlung, …",
+      "Schmerz- und Symptombehandlung",
+      "Nehmen Sie eine mögliche Lebenszeit-Verkürzung durch die Schmerzbehandlung in Kauf? (2.3.2)",
+      "Ein zusätzlich ankreuzbarer Zusatz zur Schmerzbehandlung.",
+      "Lebensverkürzung in Kauf",
+      "Künstliche Ernährung und Flüssigkeitszufuhr (2.3.3)",
+      "In den oben beschriebenen Situationen wünsche ich, …",
+      "Künstliche Ernährung und Flüssigkeitszufuhr",
+      "Wiederbelebung — in den oben beschriebenen Situationen (2.3.4 A)",
+      "In den oben beschriebenen Situationen wünsche ich …",
+      "Wiederbelebung (oben beschriebene Situationen)",
+      "Soll der Notarzt nicht verständigt bzw. über die Ablehnung informiert werden? (2.3.4)",
+      "Ein zusätzlich ankreuzbarer Zusatz zur Wiederbelebung.",
+      "Notarzt-Hinweis",
+      "Wiederbelebung — in allen Fällen eines Kreislaufstillstands oder Atemversagens (2.3.4 B)",
+      "Nicht nur in den oben beschriebenen Situationen, sondern in allen Fällen eines Kreislaufstillstands oder Atemversagens …",
+      "Wiederbelebung (alle Fälle)",
+      "Künstliche Beatmung (2.3.5)",
+      "In den oben beschriebenen Situationen wünsche ich …",
+      "Künstliche Beatmung",
+      "Dialyse (2.3.6)",
+      "In den oben beschriebenen Situationen wünsche ich …",
+      "Dialyse",
+      "Antibiotika (2.3.7)",
+      "In den oben beschriebenen Situationen wünsche ich …",
+      "Antibiotika",
+      "Blut und Blutbestandteile (2.3.8)",
+      "In den oben beschriebenen Situationen wünsche ich …",
+      "Blut und Blutbestandteile",
+      "Wo möchten Sie behandelt werden bzw. sterben? (2.4)",
+      "Ort der Behandlung / des Sterbens",
+      "Von welchen Personen wünschen Sie Beistand? (2.4)",
+      "Personen aus Ihrem Depot wählen oder neu erfassen — bewusste Bestätigung, keine stille Anlage.",
+      "Beistand durch folgende Personen",
+      "Beistand durch eine Kirche oder Weltanschauungsgemeinschaft? (2.4)",
+      "Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft",
+      "Wünschen Sie hospizlichen Beistand? (2.4)",
+      "Hospizlicher Beistand",
+      "Wen möchten Sie von der ärztlichen Schweigepflicht entbinden? (2.5)",
+      "Personen aus Ihrem Depot wählen oder neu erfassen.",
+      "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+      "Bei ungeregelten Situationen — wessen Auffassung soll besondere Bedeutung zukommen? (2.6)",
+      "Für Lebens- und Behandlungssituationen, die diese Patientenverfügung nicht konkret regelt.",
+      "Besondere Bedeutung (ungeregelte Situationen)",
+      "Falls „andere Person\": wer? (2.6)",
+      "Nur nötig, wenn Sie oben „eine andere Person\" gewählt haben.",
+      "Andere Person (Name)",
+      "Bei abweichenden Willensäußerungen in der konkreten Situation — wessen Auffassung soll besondere Bedeutung zukommen? (2.6)",
+      "Wenn Gesten, Blicke oder Äußerungen einen anderen Willen vermuten lassen.",
+      "Besondere Bedeutung (abweichende Willensäußerung)",
+      "Falls „andere Person\" (abweichende Willensäußerung): wer? (2.6)",
+      "Nur nötig bei „eine andere Person\".",
+      "Andere Person (Name)",
+      "Möchten Sie eine Darstellung Ihrer Wertvorstellungen oder sonstige Unterlagen als Interpretationshilfe beilegen? (2.8)",
+      "Freitext oder Verweis auf beigelegte Unterlagen.",
+      "Wertvorstellungen / sonstige Unterlagen",
+      "Wie entscheiden Sie zur Organspende? (2.9)",
+      "Organspende",
+      "Falls Sie zustimmen: Was gilt, wenn für die Organspende Maßnahmen nötig werden, die Sie in der Patientenverfügung ausgeschlossen haben? (2.9)",
+      "Nur nötig, wenn Sie oben zugestimmt haben.",
+      "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+      "Verzichten Sie auf eine weitere ärztliche Aufklärung? (2.10)",
+      "Verzicht auf weitere ärztliche Aufklärung",
+      "Haben Sie sich vor der Erstellung informiert oder beraten lassen? (2.12)",
+      "Freitext, optional.",
+      "Information / Beratung",
+      "Wie lange soll die Patientenverfügung gelten? (2.14)",
+      "Gültigkeit",
+      "Falls befristet: nach welcher Zeit? (2.14)",
+      "Nur nötig, wenn Sie oben „befristet\" gewählt haben.",
+      "Frist",
+      "Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?",
+      "Haben Sie mit der Person, die Sie in Ihrer Vorsorgevollmacht bevollmächtigt haben, über den Inhalt Ihrer Patientenverfügung gesprochen? Nicht gemeint ist, ob diese Person zugestimmt hat. Ohne Angabe fehlt der Zusatz im gedruckten Dokument — sonst nichts.",
+      "Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?",
+      "Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?",
+      "Haben Sie mit der Person, die Sie in Ihrer Betreuungsverfügung als Betreuerin oder Betreuer vorschlagen, über den Inhalt Ihrer Patientenverfügung gesprochen? Nicht gemeint ist, ob diese Person zugestimmt hat. Ohne Angabe fehlt der Zusatz im gedruckten Dokument — sonst nichts.",
+      "Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?",
+      "Darf nach Ihrem Tod eine KI-gestützte Nachbildung Ihrer Person erstellt oder betrieben werden?",
+      "Etwa als Chatbot, Avatar, Stimm- oder Videonachbildung. Ohne diese Grundentscheidung greift keine der folgenden Angaben. Wenn Sie hier untersagen, entfallen die weiteren Fragen.",
+      "Grundentscheidung",
+      "Wozu darf die Nachbildung genutzt werden?",
+      "Mehrfachauswahl. Nur relevant, wenn Sie oben eine Nachbildung erlaubt haben.",
+      "Zweck",
+      "Wer darf mit der Nachbildung interagieren?",
+      "Berechtigte",
+      "Welche Personen sollen Zugang haben?",
+      "Nur nötig, wenn Sie oben „namentlich benannte Personen\" gewählt haben.",
+      "Namentlich benannte Personen",
+      "In welchem Raum darf die Nachbildung genutzt werden?",
+      "Raum",
+      "Welche Ihrer Daten dürfen Grundlage der Nachbildung sein?",
+      "Mehrfachauswahl.",
+      "Zulässige Datenarten",
+      "Wie lange darf die Nachbildung samt Trainingsdaten bestehen?",
+      "Befristung",
+      "Nach wie vielen Jahren?",
+      "Nur nötig, wenn Sie oben eine Frist in Jahren gewählt haben.",
+      "Anzahl Jahre",
+      "Zu welchem Zeitpunkt?",
+      "Nur nötig, wenn Sie oben „zu folgendem Zeitpunkt\" gewählt haben.",
+      "Zeitpunkt",
+      "Wie weit darf die Nachbildung in Ihrem Namen formulieren?",
+      "Verhaltensgrenze",
+      "Wer verwaltet die Nachbildung — mit Vollmacht zum Pausieren oder Löschen?",
+      "Digitale Nachlassverwaltung",
+      "Wen benennen Sie als digitale Nachlassverwaltung?",
+      "Nur nötig, wenn Sie oben eine benannte Person gewählt haben. Diese Person darf die Nachbildung pausieren oder löschen — wie eine Bevollmächtigte, aus Ihrem Personen-Register.",
+      "Digitale Nachlassverwaltung — Person",
+      "Darf die bevollmächtigte Person in allen Angelegenheiten der Gesundheitssorge entscheiden? (1)",
+      "Gesundheitssorge — allgemein",
+      "Darf sie in ärztliche Eingriffe einwilligen, auch bei Lebensgefahr? (§ 1829 BGB)",
+      "Ärztliche Eingriffe",
+      "Darf sie Krankenunterlagen einsehen — Schweigepflichtentbindung?",
+      "Krankenunterlagen, Schweigepflicht",
+      "Darf sie über Ihre freiheitsentziehende Unterbringung entscheiden? (§ 1831 Absatz 1 BGB)",
+      "Freiheitsentziehende Unterbringung",
+      "Darf sie über freiheitsentziehende Maßnahmen in einer Einrichtung entscheiden (z. B. Bettgitter, Medikamente)? (§ 1831 Absatz 4 BGB)",
+      "Freiheitsentziehende Maßnahmen in Einrichtung",
+      "Darf sie über ärztliche Zwangsmaßnahmen entscheiden? (§ 1832 Absatz 1 BGB)",
+      "Ärztliche Zwangsmaßnahmen",
+      "Darf sie über Ihre Verbringung ins Krankenhaus entscheiden, wenn eine ärztliche Zwangsmaßnahme in Betracht kommt? (§ 1832 Absatz 4 BGB)",
+      "Verbringung ins Krankenhaus",
+      "Darf sie Ihren Aufenthalt bestimmen? (2)",
+      "Aufenthalt bestimmen",
+      "Darf sie den bestehenden Mietvertrag wahrnehmen und den Haushalt auflösen?",
+      "Bestehender Mietvertrag, Haushaltsauflösung",
+      "Darf sie einen neuen Wohnungsmietvertrag abschließen und kündigen?",
+      "Neuer Mietvertrag",
+      "Darf sie einen Wohn- und Betreuungsvertrag (ehemals Heimvertrag) abschließen und kündigen?",
+      "Wohn- und Betreuungsvertrag",
+      "Darf sie Sie bei Behörden, Versicherungen und Sozialleistungsträgern vertreten? (3)",
+      "Behörden, Versicherungen",
+      "Darf sie Ihr Vermögen verwalten? (4)",
+      "Vermögensverwaltung — allgemein",
+      "Darf sie über Vermögensgegenstände jeder Art verfügen?",
+      "Über Vermögensgegenstände verfügen",
+      "Darf sie Zahlungen und Wertgegenstände annehmen?",
+      "Zahlungen, Wertgegenstände annehmen",
+      "Darf sie Verbindlichkeiten eingehen?",
+      "Verbindlichkeiten eingehen",
+      "Darf sie im Geschäftsverkehr mit Kreditinstituten (Konten, Depots, Safes) vertreten?",
+      "Konten, Depots, Safes",
+      "Darf sie übliche Schenkungen im betreuungsrechtlich zulässigen Rahmen vornehmen?",
+      "Übliche Schenkungen",
+      "Gibt es Geschäfte, die sie ausdrücklich NICHT wahrnehmen soll?",
+      "Freitext — nur ausfüllen, wenn Sie bestimmte Geschäfte ausdrücklich ausschließen möchten.",
+      "Ausdrücklich ausgeschlossene Geschäfte",
+      "Darf sie Post entgegennehmen, öffnen und lesen — auch elektronisch? (5)",
+      "Post- und Fernmeldeverkehr",
+      "Darf sie Sie vor Gericht vertreten? (6)",
+      "Vertretung vor Gericht",
+      "Darf sie Untervollmacht erteilen? (7)",
+      "Untervollmacht erteilen",
+      "Soll die bevollmächtigte Person, falls dennoch eine rechtliche Betreuung nötig wird, als Betreuer/in vorgeschlagen werden? (8)",
+      "Als Betreuer/in vorschlagen",
+      "Soll die Vollmacht über den Tod hinaus gelten? (9)",
+      "Geltung über den Tod hinaus",
+      "Möchten Sie weitere Regelungen aufnehmen? (10)",
+      "Freitext — optional.",
+      "Weitere Regelungen"
+    ]
+  },
+  "depotErgebnisse": {
+    "marlene-hoffmann": {
+      "PV": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich Marlene Hoffmann, geboren am 12.04.1957, wohnhaft in Kastanienallee 14 bestimme hiermit für den Fall, dass ich meinen Willen nicht mehr bilden oder verständlich äußern kann:"
+          ]
+        },
+        {
+          "titel": "Verbindlichkeit, Durchsetzung und Reichweite",
+          "zeilen": [
+            "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
+            "Sollte eine Ärztin oder ein Arzt oder das Behandlungsteam nicht bereit sein, meinen in dieser Patientenverfügung geäußerten Willen zu befolgen, erwarte ich, dass für eine anderweitige medizinische und/oder pflegerische Behandlung gesorgt wird. Von meiner Vertreterin/meinem Vertreter (z. B. Bevollmächtigte(r)/Betreuer(in)) erwarte ich, dass sie/er die weitere Behandlung so organisiert, dass meinem Willen entsprochen wird."
+          ]
+        },
+        {
+          "titel": "Schlussbemerkungen",
+          "zeilen": [
+            "Mir ist die Möglichkeit der Änderung und des Widerrufs einer Patientenverfügung bekannt.",
+            "Ich bin mir des Inhalts und der Konsequenzen meiner darin getroffenen Entscheidungen bewusst.",
+            "Ich habe die Patientenverfügung in eigener Verantwortung und ohne äußeren Druck erstellt.",
+            "Ich bin im Vollbesitz meiner geistigen Kräfte."
+          ]
+        }
+      ],
+      "KI": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich Marlene Hoffmann, geboren am 12.04.1957, wohnhaft in Kastanienallee 14 treffe für den Fall meines Todes die folgende Verfügung über eine KI-gestützte Nachbildung meiner Person:"
+          ]
+        },
+        {
+          "titel": "Schlussformel",
+          "zeilen": [
+            "Diese Verfügung habe ich bei klarem Verstand und ohne Zwang errichtet."
+          ]
+        }
+      ],
+      "VM": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich, (Vollmachtgeber/in)\nMarlene Hoffmann, geboren am 12.04.1957 in Rostock, wohnhaft in Kastanienallee 14, 030 5512488, m.hoffmann@example.org\n\nerteile hiermit Vollmacht an (bevollmächtigte Person)\n(Name, Vorname, geboren am, wohnhaft in)\n\nDiese Vertrauensperson wird hiermit bevollmächtigt, mich in allen Angelegenheiten zu vertreten, die ich im Folgenden angekreuzt oder angegeben habe. Durch diese Vollmachtserteilung soll eine vom Gericht angeordnete Betreuung vermieden werden. Die Vollmacht bleibt daher in Kraft, wenn ich nach ihrer Errichtung geschäftsunfähig geworden sein sollte.\n\nDie Vollmacht ist nur wirksam, solange die bevollmächtigte Person die Vollmachtsurkunde besitzt und bei Vornahme eines Rechtsgeschäfts die Urkunde im Original vorlegen kann."
+          ]
+        }
+      ],
+      "BV": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich,\nMarlene Hoffmann, geboren am 12.04.1957 in Rostock, wohnhaft in Kastanienallee 14, 030 5512488, m.hoffmann@example.org\n\nlege hiermit für den Fall, dass ich infolge Krankheit oder Behinderung meine Angelegenheiten ganz oder teilweise nicht mehr selbst besorgen kann und deshalb ein Betreuer für mich bestellt werden muss, Folgendes fest:"
+          ]
+        }
+      ]
+    },
+    "instrumente-breit": {
+      "PV": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich Anton Reindl, geboren am 03.11.1949, wohnhaft in Ringstraße 8, 80331 München bestimme hiermit für den Fall, dass ich meinen Willen nicht mehr bilden oder verständlich äußern kann:"
+          ]
+        },
+        {
+          "titel": "Situationen, für die diese Patientenverfügung gelten soll",
+          "zeilen": [
+            "Diese Patientenverfügung gilt, wenn",
+            "– ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,",
+            "– ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,",
+            "– infolge einer Gehirnschädigung meine Fähigkeit, Einsichten zu gewinnen, Entscheidungen zu treffen und mit anderen Menschen in Kontakt zu treten, nach Einschätzung zweier erfahrener Ärztinnen oder Ärzte (können namentlich benannt werden) aller Wahrscheinlichkeit nach unwiederbringlich erloschen ist, selbst wenn der Todeszeitpunkt noch nicht absehbar ist. Dies gilt für direkte Gehirnschädigung z. B. durch Unfall, Schlaganfall oder Entzündung ebenso wie für indirekte Gehirnschädigung z. B. nach Wiederbelebung, Schock oder Lungenversagen. Es ist mir bewusst, dass in solchen Situationen die Fähigkeit zu Empfindungen erhalten sein kann und dass ein Aufwachen aus diesem Zustand nicht ganz sicher auszuschließen, aber unwahrscheinlich ist."
+          ]
+        },
+        {
+          "titel": "Ärztliche und pflegerische Maßnahmen",
+          "zeilen": [
+            "In den oben beschriebenen Situationen wünsche ich, dass alle lebenserhaltenden Maßnahmen unterlassen werden. Hunger und Durst sollen auf natürliche Weise gestillt werden, gegebenenfalls mit Hilfe bei der Nahrungs- und Flüssigkeitsaufnahme. Ich wünsche fachgerechte Pflege von Mund und Schleimhäuten sowie menschenwürdige Unterbringung, Zuwendung, Körperpflege und das Lindern von Schmerzen, Atemnot, Übelkeit, Angst, Unruhe und anderer belastender Symptome.",
+            "In den oben beschriebenen Situationen wünsche ich eine fachgerechte Schmerz- und Symptombehandlung, wenn alle sonstigen medizinischen Möglichkeiten zur Schmerz- und Symptomkontrolle versagen, auch Mittel mit bewusstseinsdämpfenden Wirkungen zur Beschwerdelinderung.",
+            "die unwahrscheinliche Möglichkeit einer ungewollten Verkürzung meiner Lebenszeit durch schmerz- und symptomlindernde Maßnahmen nehme ich in Kauf.",
+            "In den oben beschriebenen Situationen wünsche ich, dass eine künstliche Ernährung und/oder eine künstliche Flüssigkeitszufuhr nur bei palliativmedizinischer Indikation zur Beschwerdelinderung erfolgen bzw. erfolgt.",
+            "In den oben beschriebenen Situationen wünsche ich die Unterlassung von Versuchen der Wiederbelebung.",
+            "Nicht nur in den oben beschriebenen Situationen, sondern in allen Fällen eines Kreislaufstillstands oder Atemversagens lehne ich Wiederbelebungsmaßnahmen ab.",
+            "In den oben beschriebenen Situationen wünsche ich dass keine künstliche Beatmung durchgeführt bzw. eine schon eingeleitete Beatmung eingestellt wird, unter der Voraussetzung, dass ich Medikamente zur Linderung der Luftnot erhalte. Die Möglichkeit einer Bewusstseinsdämpfung oder einer ungewollten Verkürzung meiner Lebenszeit durch diese Medikamente nehme ich in Kauf.",
+            "In den oben beschriebenen Situationen wünsche ich dass keine Dialyse durchgeführt bzw. eine schon eingeleitete Dialyse eingestellt wird.",
+            "In den oben beschriebenen Situationen wünsche ich Antibiotika nur bei palliativmedizinischer Indikation zur Beschwerdelinderung.",
+            "In den oben beschriebenen Situationen wünsche ich keine Gabe von Blut oder Blutbestandteilen."
+          ]
+        },
+        {
+          "titel": "Ort der Behandlung, Beistand",
+          "zeilen": [
+            "Ich möchte wenn möglich zu Hause bzw. in vertrauter Umgebung sterben.",
+            "Ich wünsche Beistand durch folgende Personen: Pfarrer Tobias Wenk.",
+            "Ich wünsche hospizlichen Beistand."
+          ]
+        },
+        {
+          "titel": "Entbindung von der Schweigepflicht",
+          "zeilen": [
+            "Ich entbinde die behandelnden Ärztinnen und Ärzte gegenüber folgenden Personen von der Schweigepflicht: Julia Reindl, Markus Reindl."
+          ]
+        },
+        {
+          "titel": "Verbindlichkeit, Durchsetzung und Reichweite",
+          "zeilen": [
+            "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
+            "Sollte eine Ärztin oder ein Arzt oder das Behandlungsteam nicht bereit sein, meinen in dieser Patientenverfügung geäußerten Willen zu befolgen, erwarte ich, dass für eine anderweitige medizinische und/oder pflegerische Behandlung gesorgt wird. Von meiner Vertreterin/meinem Vertreter (z. B. Bevollmächtigte(r)/Betreuer(in)) erwarte ich, dass sie/er die weitere Behandlung so organisiert, dass meinem Willen entsprochen wird.",
+            "In Lebens- und Behandlungssituationen, die in dieser Patientenverfügung nicht konkret geregelt sind, ist mein mutmaßlicher Wille möglichst im Konsens aller Beteiligten zu ermitteln. Dafür soll diese Patientenverfügung als Richtschnur maßgeblich sein. Bei unterschiedlichen Meinungen über anzuwendende oder zu unterlassende ärztliche/pflegerische Maßnahmen soll der Auffassung folgender Person besondere Bedeutung zukommen:",
+            "– meiner/meinem Bevollmächtigten.",
+            "Wenn ich meine Patientenverfügung nicht widerrufen habe, wünsche ich nicht, dass mir in der konkreten Anwendungssituation eine Änderung meines Willens unterstellt wird. Wenn aber die behandelnden Ärztinnen und Ärzte/das Behandlungsteam/mein(e) Bevollmächtigte(r)/Betreuer(in) aufgrund meiner Gesten, Blicke oder anderen Äußerungen die Auffassung vertreten, dass ich entgegen den Festlegungen in meiner Patientenverfügung doch behandelt oder nicht behandelt werden möchte, dann ist möglichst im Konsens aller Beteiligten zu ermitteln, ob die Festlegungen in meiner Patientenverfügung noch meinem aktuellen Willen entsprechen. Bei unterschiedlichen Meinungen soll in diesen Fällen der Auffassung folgender Person besondere Bedeutung zukommen:",
+            "– meiner/meinem Bevollmächtigten."
+          ]
+        },
+        {
+          "titel": "Weitere Verfügungen",
+          "zeilen": [
+            "Ich habe eine Vorsorgevollmacht errichtet.",
+            "Ich habe eine Betreuungsverfügung errichtet."
+          ]
+        },
+        {
+          "titel": "2.7 Hinweise auf weitere Vorsorgeverfügungen",
+          "zeilen": [
+            "Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt:",
+            "Bevollmächtigte(r): Julia Reindl; Markus Reindl",
+            "Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt.",
+            "Gewünschte(r) Betreuerin/Betreuer: Julia Reindl"
+          ]
+        },
+        {
+          "titel": "Organspende",
+          "zeilen": [
+            "Ich lehne eine Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken ab."
+          ]
+        },
+        {
+          "titel": "Schlussbemerkungen",
+          "zeilen": [
+            "Mir ist die Möglichkeit der Änderung und des Widerrufs einer Patientenverfügung bekannt.",
+            "Ich bin mir des Inhalts und der Konsequenzen meiner darin getroffenen Entscheidungen bewusst.",
+            "Ich habe die Patientenverfügung in eigener Verantwortung und ohne äußeren Druck erstellt.",
+            "Ich bin im Vollbesitz meiner geistigen Kräfte."
+          ]
+        },
+        {
+          "titel": "Gültigkeit und Aktualisierung",
+          "zeilen": [
+            "Diese Patientenverfügung gilt solange, bis ich sie widerrufe."
+          ]
+        }
+      ],
+      "KI": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich Anton Reindl, geboren am 03.11.1949, wohnhaft in Ringstraße 8, 80331 München treffe für den Fall meines Todes die folgende Verfügung über eine KI-gestützte Nachbildung meiner Person:"
+          ]
+        },
+        {
+          "titel": "Grundentscheidung und Zweckbindung",
+          "zeilen": [
+            "Ich erlaube eine KI-gestützte Nachbildung meiner Person nach meinem Tod, ausschließlich unter den nachfolgend festgelegten Bedingungen.",
+            "Die Nachbildung darf ausschließlich genutzt werden",
+            "– zur persönlichen Trauerbegleitung im engsten Kreis,",
+            "– zur Bewahrung von Erinnerungen und Familiengeschichte,",
+            "Ausgeschlossen sind in jedem Fall: Werbung, kommerzielle Verwertung, politische oder weltanschauliche Aussagen sowie jeder öffentliche Auftritt im Namen meiner Person."
+          ]
+        },
+        {
+          "titel": "Personenkreis und Zugang",
+          "zeilen": [
+            "Zugang haben ausschließlich die von mir namentlich benannten Personen: Julia Reindl.",
+            "Die Nutzung ist auf den privaten Raum beschränkt.",
+            "Der Zugang ist auf volljährige Personen beschränkt.",
+            "Die Kommunikation mit der Nachbildung ist vertraulich; ein Mithören oder Aufzeichnen durch Dritte ist ausgeschlossen."
+          ]
+        },
+        {
+          "titel": "Datenumfang, Quellen und Befristung",
+          "zeilen": [
+            "– Schriftverkehr und Textnachrichten,",
+            "– Sprachaufnahmen,",
+            "– Foto- und Videomaterial,",
+            "Es dürfen ausschließlich die von mir freigegebenen oder eigens hinterlegten Materialien verwendet werden. Ein nachträgliches Zusammentragen weiterer Daten aus öffentlichen oder privaten Quellen ist untersagt.",
+            "Die Nachbildung und alle zugehörigen Trainingsdaten sind spätestens 5 Jahre nach meinem Tod vollständig zu löschen."
+          ]
+        },
+        {
+          "titel": "Kennzeichnung und Verhaltensgrenzen",
+          "zeilen": [
+            "Die Nachbildung ist bei jeder Nutzung deutlich und dauerhaft als KI-Nachbildung einer verstorbenen Person zu kennzeichnen.",
+            "Die Nachbildung darf ausschließlich auf belegtes Material zurückgreifen und keine darüber hinausgehenden Aussagen, Meinungen oder Entscheidungen in meinem Namen erzeugen.",
+            "Untersagt ist jede Nutzung, die den Eindruck erweckt, ich sei noch am Leben oder träfe gegenwärtige Entscheidungen."
+          ]
+        },
+        {
+          "titel": "Widerruf, Abschaltung und Verwaltung",
+          "zeilen": [
+            "Diese Verfügung kann ich zu Lebzeiten jederzeit formlos widerrufen oder ändern.",
+            "Ich benenne als digitale Nachlassverwalterin oder digitalen Nachlassverwalter: Julia Reindl. Diese Person ist bevollmächtigt, die Nachbildung jederzeit zu pausieren oder zu löschen.",
+            "Auf Wunsch einer zugangsberechtigten Person ist die Nutzung für diese Person jederzeit zu beenden.",
+            "Bei Uneinigkeit unter den Angehörigen über Fortbestand oder Nutzung entscheidet die von mir benannte Person; im Zweifel ist die Nutzung einzustellen."
+          ]
+        },
+        {
+          "titel": "Schlussformel",
+          "zeilen": [
+            "Diese Verfügung habe ich bei klarem Verstand und ohne Zwang errichtet."
+          ]
+        }
+      ],
+      "VM": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich, (Vollmachtgeber/in)\nAnton Reindl, geboren am 03.11.1949, wohnhaft in Ringstraße 8, 80331 München\n\nerteile hiermit Vollmacht an (bevollmächtigte Person)\nJulia Reindl; Markus Reindl\n\nDiese Vertrauensperson wird hiermit bevollmächtigt, mich in allen Angelegenheiten zu vertreten, die ich im Folgenden angekreuzt oder angegeben habe. Durch diese Vollmachtserteilung soll eine vom Gericht angeordnete Betreuung vermieden werden. Die Vollmacht bleibt daher in Kraft, wenn ich nach ihrer Errichtung geschäftsunfähig geworden sein sollte.\n\nDie Vollmacht ist nur wirksam, solange die bevollmächtigte Person die Vollmachtsurkunde besitzt und bei Vornahme eines Rechtsgeschäfts die Urkunde im Original vorlegen kann.\n\nSind mehrere Personen bevollmächtigt, vertreten sie mich nacheinander in der oben genannten Reihenfolge — die jeweils nächste nur als Ersatz, falls die vorherige nicht handeln kann."
+          ]
+        },
+        {
+          "titel": "1. Gesundheitssorge/Pflegebedürftigkeit",
+          "zeilen": [
+            "Sie darf in allen Angelegenheiten der Gesundheitssorge entscheiden, ebenso über alle Einzelheiten einer ambulanten oder (teil-)stationären Pflege. Sie ist befugt, meinen in einer Patientenverfügung festgelegten Willen durchzusetzen.  ☒ ja  ☐ nein",
+            "Sie darf insbesondere in eine Untersuchung des Gesundheitszustands, eine Heilbehandlung oder einen ärztlichen Eingriff einwilligen, diese ablehnen oder die Einwilligung in diese Maßnahmen widerrufen, auch wenn mit der Vornahme, dem Unterlassen oder dem Abbruch dieser Maßnahmen die Gefahr besteht, dass ich sterbe oder einen schweren und länger dauernden gesundheitlichen Schaden erleide (§ 1829 Absatz 1 und 2 BGB).  ☒ ja  ☐ nein",
+            "Sie darf Krankenunterlagen einsehen und deren Herausgabe an Dritte bewilligen. Ich entbinde alle mich behandelnden Ärzte und nichtärztliches Personal gegenüber meiner bevollmächtigten Vertrauensperson von der Schweigepflicht. Diese darf ihrerseits alle mich behandelnden Ärzte und nichtärztliches Personal von der Schweigepflicht gegenüber Dritten entbinden.  ☒ ja  ☐ nein",
+            "Solange es erforderlich ist, darf sie",
+            "über meine freiheitsentziehende Unterbringung (§ 1831 Absatz 1 BGB)  ☒ ja  ☐ nein",
+            "über freiheitsentziehende Maßnahmen (z.B. Bettgitter, Medikamente u. ä.) in einem Heim oder in einer sonstigen Einrichtung (§ 1831 Absatz 4 BGB)  ☐ ja  ☒ nein",
+            "über ärztliche Zwangsmaßnahmen (§ 1832 Absatz 1 BGB)  ☐ ja  ☒ nein",
+            "über meine Verbringung zu einem stationären Aufenthalt in einem Krankenhaus, wenn eine ärztliche Zwangsmaßnahme in Betracht kommt (§ 1832 Absatz 4 BGB)  ☒ ja  ☐ nein",
+            "entscheiden."
+          ]
+        },
+        {
+          "titel": "2. Aufenthalt und Wohnungsangelegenheiten",
+          "zeilen": [
+            "Sie darf meinen Aufenthalt bestimmen.  ☒ ja  ☐ nein",
+            "Sie darf Rechte und Pflichten aus dem Mietvertrag über meine Wohnung einschließlich einer Kündigung wahrnehmen sowie meinen Haushalt auflösen.  ☒ ja  ☐ nein",
+            "Sie darf einen neuen Wohnungsmietvertrag abschließen und kündigen.  ☐ ja  ☒ nein",
+            "Sie darf einen Vertrag nach dem Wohn- und Betreuungsvertragsgesetz (Vertrag über die Überlassung von Wohnraum mit Pflege- und Betreuungsleistungen; ehemals: Heimvertrag) abschließen und kündigen.  ☒ ja  ☐ nein"
+          ]
+        },
+        {
+          "titel": "3. Behörden",
+          "zeilen": [
+            "Sie darf mich bei Behörden, Versicherungen, Renten- und Sozialleistungsträgern vertreten. Dies umfasst auch die datenschutzrechtliche Einwilligung.  ☒ ja  ☐ nein"
+          ]
+        },
+        {
+          "titel": "4. Vermögenssorge",
+          "zeilen": [
+            "Sie darf mein Vermögen verwalten und hierbei alle Rechtshandlungen und Rechtsgeschäfte im In- und Ausland vornehmen, Erklärungen aller Art abgeben und entgegennehmen sowie Anträge stellen, abändern, zurücknehmen, namentlich  ☒ ja  ☐ nein",
+            "über Vermögensgegenstände jeder Art verfügen (bitte beachten Sie hierzu auch den nachfolgenden Hinweis 1)  ☒ ja  ☐ nein",
+            "Zahlungen und Wertgegenstände annehmen  ☒ ja  ☐ nein",
+            "Verbindlichkeiten eingehen (bitte beachten Sie hierzu auch den nachfolgenden Hinweis 1)  ☒ ja  ☐ nein",
+            "Willenserklärungen bezüglich meiner Konten, Depots und Safes abgeben. Sie darf mich im Geschäftsverkehr mit Kreditinstituten vertreten (bitte beachten Sie hierzu auch den nachfolgenden Hinweis 2)  ☒ ja  ☐ nein",
+            "Schenkungen in dem Rahmen vornehmen, der einem Betreuer ohne betreuungsgerichtliche Genehmigung gestattet ist (also Gelegenheitsgeschenke oder nach meinen Lebensverhältnissen angemessene Zuwendungen).  ☐ ja  ☒ nein",
+            "Folgende Geschäfte soll sie nicht wahrnehmen können: Keine Schenkungen an die Bevollmächtigten selbst.",
+            "Hinweis:\n\n1. Denken Sie an die erforderliche Form der Vollmacht bei Immobiliengeschäften, für Handelsgewerbe oder die Aufnahme eines Verbraucherdarlehens (vgl. Ziffer 2.1.6 der Broschüre „Betreuungsrecht“).\n\n2. Für die Vermögenssorge in Bankangelegenheiten sollten Sie auf die von Ihrer Bank/Sparkasse angebotene Konto-/Depotvollmacht zurückgreifen. Diese Vollmacht berechtigt den Bevollmächtigten zur Vornahme aller Geschäfte, die mit der Konto- und Depotführung in unmittelbarem Zusammenhang stehen. Es werden ihm keine Befugnisse eingeräumt, die für den normalen Geschäftsverkehr unnötig sind, wie z. B. der Abschluss von Finanztermingeschäften. Die Konto-/Depotvollmacht sollten Sie grundsätzlich in Ihrer Bank oder Sparkasse unterzeichnen; etwaige spätere Zweifel an der Wirksamkeit der Vollmachtserteilung können hierdurch ausgeräumt werden. Können Sie Ihre Bank/Sparkasse nicht aufsuchen, wird sich im Gespräch mit Ihrer Bank/ Sparkasse sicher eine Lösung finden."
+          ]
+        },
+        {
+          "titel": "5. Post und Fernmeldeverkehr",
+          "zeilen": [
+            "Sie darf im Rahmen der Ausübung dieser Vollmacht die für mich bestimmte Post entgegennehmen, öffnen und lesen. Dies gilt auch für den elektronischen Postverkehr. Zudem darf sie über den Fernmeldeverkehr einschließlich aller elektronischen Kommunikationsformen entscheiden. Sie darf alle hiermit zusammenhängenden Willenserklärungen (z. B. Vertragsabschlüsse, Kündigungen) abgeben.  ☒ ja  ☐ nein"
+          ]
+        },
+        {
+          "titel": "6. Vertretung vor Gericht",
+          "zeilen": [
+            "Sie darf mich gegenüber Gerichten vertreten sowie Prozesshandlungen aller Art vornehmen.  ☒ ja  ☐ nein"
+          ]
+        },
+        {
+          "titel": "7. Untervollmacht",
+          "zeilen": [
+            "Sie darf Untervollmacht erteilen.  ☐ ja  ☒ nein"
+          ]
+        },
+        {
+          "titel": "8. Betreuungsverfügung",
+          "zeilen": [
+            "Falls trotz dieser Vollmacht eine gesetzliche Vertretung („rechtliche Betreuung“) erforderlich sein sollte, bitte ich, die oben bezeichnete Vertrauensperson als Betreuer zu bestellen.  ☒ ja  ☐ nein"
+          ]
+        },
+        {
+          "titel": "9. Geltung über den Tod hinaus",
+          "zeilen": [
+            "Die Vollmacht gilt über den Tod hinaus.  ☒ ja  ☐ nein"
+          ]
+        },
+        {
+          "titel": "10. Weitere Regelungen",
+          "zeilen": [
+            "Die Vollmacht gilt gleichermaßen für beide Bevollmächtigten."
+          ]
+        }
+      ],
+      "BV": [
+        {
+          "titel": "",
+          "zeilen": [
+            "Ich,\nAnton Reindl, geboren am 03.11.1949, wohnhaft in Ringstraße 8, 80331 München\n\nlege hiermit für den Fall, dass ich infolge Krankheit oder Behinderung meine Angelegenheiten ganz oder teilweise nicht mehr selbst besorgen kann und deshalb ein Betreuer für mich bestellt werden muss, Folgendes fest:"
+          ]
+        },
+        {
+          "titel": "Vorgeschlagene Betreuerin / vorgeschlagener Betreuer",
+          "zeilen": [
+            "Zu meinem Betreuer/meiner Betreuerin soll bestellt werden: Julia Reindl."
+          ]
+        },
+        {
+          "titel": "Ersatzperson",
+          "zeilen": [
+            "Falls die vorstehende Person nicht zum Betreuer oder zur Betreuerin bestellt werden kann, soll folgende Person bestellt werden: Markus Reindl."
+          ]
+        },
+        {
+          "titel": "Wünsche zur Wahrnehmung der Betreuung",
+          "zeilen": [
+            "Zur Wahrnehmung meiner Angelegenheiten durch den Betreuer/die Betreuerin habe ich folgende Wünsche: Möglichst in der eigenen Wohnung betreut werden..",
+            "Keine Unterbringung in einer geschlossenen Einrichtung ohne zwingenden Grund."
+          ]
+        }
+      ]
+    }
+  }
+}

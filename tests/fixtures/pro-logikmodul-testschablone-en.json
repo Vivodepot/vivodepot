@@ -1,0 +1,197 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-geschaeftsfuehrerin-notfallmappe",
+  "titel": "Testmodul-Titel 28",
+  "sektor": "pro-vertretung-vollmachten",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretungsregelung": {
+      "typ": "feld",
+      "sektor": "pro-vertretung-vollmachten",
+      "feld": "tpl_leuchtturm_1"
+    },
+    "prokura_inhaber": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-vertretung-vollmachten",
+      "feld": "tpl_leuchtturm_2",
+      "unterfeld": "tpl_leuchtturm_3"
+    },
+    "nachfolgeklausel": {
+      "typ": "feld",
+      "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_leuchtturm_4"
+    },
+    "gesellschafterliste_stand": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_leuchtturm_5",
+      "unterfeld": "tpl_leuchtturm_6"
+    },
+    "testament_erbvertrag_ablageort": {
+      "typ": "feld",
+      "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_leuchtturm_7"
+    },
+    "vertretungsplan_aufgabe": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_leuchtturm_8",
+      "unterfeld": "tpl_leuchtturm_9"
+    },
+    "vertretungsplan_person": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_leuchtturm_8",
+      "unterfeld": "tpl_leuchtturm_10"
+    },
+    "wer_weiss_vom_depot": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-aufbewahrung-ordnung",
+      "feld": "tpl_leuchtturm_11",
+      "unterfeld": "tpl_leuchtturm_12"
+    },
+    "patientenverfuegung_ablageort": {
+      "typ": "feld",
+      "sektor": "pro-vertretung-vollmachten",
+      "feld": "tpl_leuchtturm_13"
+    },
+    "kontakt_telefon": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "telephone"
+    },
+    "kontakt_email": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "email"
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "Testabschnitt 1",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 14"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsregelung",
+          "frage": "Testfrage 15",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "prokura_inhaber",
+          "frage": "Testfrage 16",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "liste"
+          }
+        }
+      ]
+    },
+    {
+      "titel": "Testabschnitt 2",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 17"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "nachfolgeklausel",
+          "frage": "Testfrage 18",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "gesellschafterliste_stand",
+          "frage": "Testfrage 19",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "testament_erbvertrag_ablageort",
+          "frage": "Testfrage 20",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Testabschnitt 3",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 21"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_aufgabe",
+          "frage": "Testfrage 22",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_person",
+          "frage": "Testfrage 23",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "wer_weiss_vom_depot",
+          "frage": "Testfrage 24",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "liste"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "patientenverfuegung_ablageort",
+          "frage": "Testfrage 25",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_telefon",
+          "frage": "Testfrage 26",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_email",
+          "frage": "Testfrage 27",
+          "luecke": "— not recorded —"
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Test-H1 29",
+    "klasse": "test-logikmodul-dok",
+    "herkunftText": "Test-Herkunftstext 30",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Test-Hinweis 31",
+    "fussText": "Test-Fusstext 32",
+    "knopfAttr": "test-logikmodul-dokument",
+    "dateiBasis": "Test-Logikmodul",
+    "toolbarHinweis": "Test-Toolbarhinweis 33"
+  }
+}

@@ -1,0 +1,373 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/health",
+  "fassung": 1,
+  "bereiche": {
+    "health": {
+      "id": "health",
+      "format": "FHIR_IPS",
+      "icon": "heartPulse",
+      "exporte": [
+        {
+          "format": "fhir-ips",
+          "labelSchluessel": "fhirExportKurz"
+        }
+      ],
+      "wizards": [
+        "anamwiz",
+        "pflwiz"
+      ],
+      "standardDokumente": [
+        {
+          "typ": "health-insurance-card",
+          "name": "Krankenkassenkarte (inkl. EHIC)",
+          "empfRhythmusMonate": null,
+          "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Steht aufgedruckt auf der Karte, meist 5–6 Jahre gültig.",
+          "felder": [
+            {
+              "sektorId": "health",
+              "feldId": "healthInsuranceCards",
+              "unterfeldId": "validUntilInclEhic"
+            }
+          ]
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "notfall-aerzte",
+          "felder": [
+            {
+              "id": "generalPractitioner",
+              "sensibel": true,
+              "typ": "ref",
+              "entitaet": "person",
+              "rolle": "arzt",
+              "verweisZweck": "aerztlich"
+            },
+            {
+              "id": "specialistDoctors",
+              "sensibel": true,
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "specialistDoctor",
+                  "sensibel": true,
+                  "typ": "ref",
+                  "entitaet": "person",
+                  "rolle": "facharzt",
+                  "verweisZweck": "aerztlich",
+                  "verweisKontextFeld": "specialty"
+                },
+                {
+                  "id": "specialty",
+                  "sensibel": true,
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Allgemeinmedizin",
+                    "Innere Medizin",
+                    "Kardiologie",
+                    "Neurologie",
+                    "Orthopädie",
+                    "Gynäkologie",
+                    "Urologie",
+                    "Dermatologie",
+                    "Augenheilkunde",
+                    "Hals-Nasen-Ohrenheilkunde",
+                    "Psychiatrie und Psychotherapie",
+                    "Onkologie"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "ongoingTreatmentNext",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "bloodType",
+              "sensibel": true,
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "0+"
+                },
+                {
+                  "wert": "0-"
+                },
+                {
+                  "wert": "A+"
+                },
+                {
+                  "wert": "A-"
+                },
+                {
+                  "wert": "B+"
+                },
+                {
+                  "wert": "B-"
+                },
+                {
+                  "wert": "AB+"
+                },
+                {
+                  "wert": "AB-"
+                },
+                {
+                  "wert": "unbekannt"
+                }
+              ]
+            },
+            {
+              "id": "allergiesMedicationFoodOther",
+              "sensibel": true,
+              "typ": "text",
+              "codeListe": "snomedAllergen"
+            },
+            {
+              "id": "chronicConditionsDiagnoses",
+              "sensibel": true,
+              "typ": "text",
+              "codeListe": "icd10"
+            },
+            {
+              "id": "healthInsurance",
+              "sensibel": true,
+              "typ": "ref",
+              "entitaet": "institution",
+              "verweisZweck": "aerztlich"
+            },
+            {
+              "id": "medicationOngoing",
+              "sensibel": true,
+              "typ": "text",
+              "codeListe": "atc"
+            },
+            {
+              "id": "insuranceNumber",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "implantsProsthesesPacemakers",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "heightCm",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "bodyWeightKg",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "vaccinationRecordStorage",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "emergencyContacts",
+              "typ": "refMehrfach",
+              "entitaet": "person",
+              "rolle": "pflegeperson",
+              "ebene": "modul",
+              "verweisZweck": "pflege"
+            },
+            {
+              "id": "insuredThrough",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "supplementaryInsurance",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "vorschlaege": [
+                "Auslandsreisekrankenversicherung",
+                "Zahnzusatzversicherung",
+                "Krankenhaustagegeld",
+                "Pflegezusatzversicherung",
+                "Krankentagegeld",
+                "Brillenversicherung"
+              ]
+            },
+            {
+              "id": "healthInsuranceCards",
+              "typ": "liste",
+              "ebene": "modul",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "storageLocation",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "validUntilInclEhic",
+                  "sensibel": true,
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "emergencyCardPatientId",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "smoking",
+              "sensibel": true,
+              "typ": "auswahl",
+              "ebene": "modul",
+              "optionen": [
+                {
+                  "wert": "nie"
+                },
+                {
+                  "wert": "ex"
+                },
+                {
+                  "wert": "leicht"
+                },
+                {
+                  "wert": "taegl"
+                }
+              ]
+            },
+            {
+              "id": "alcohol",
+              "sensibel": true,
+              "typ": "auswahl",
+              "ebene": "modul",
+              "optionen": [
+                {
+                  "wert": "nie"
+                },
+                {
+                  "wert": "selten"
+                },
+                {
+                  "wert": "maess"
+                },
+                {
+                  "wert": "taegl"
+                }
+              ]
+            },
+            {
+              "id": "vaccinations",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul",
+              "vorschlaege": [
+                "Tetanus",
+                "Diphtherie",
+                "Pertussis",
+                "Poliomyelitis",
+                "Masern",
+                "Mumps",
+                "Röteln",
+                "Influenza",
+                "Pneumokokken",
+                "Herpes Zoster",
+                "FSME",
+                "Hepatitis A",
+                "Hepatitis B",
+                "COVID-19"
+              ]
+            },
+            {
+              "id": "findingsOnAUsbStick",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "preventiveCheckUpsLatestDates",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "dentistNameContact",
+              "sensibel": true,
+              "typ": "ref",
+              "entitaet": "person",
+              "rolle": "zahnarzt",
+              "ebene": "modul",
+              "verweisZweck": "aerztlich"
+            },
+            {
+              "id": "dentalBonusBookletStorage",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "ehicCardEuropeanHealth",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "operationsProcedures",
+              "sensibel": true,
+              "typ": "liste",
+              "ebene": "modul",
+              "unterFelder": [
+                {
+                  "id": "procedure",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "year",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "familyMedicalHistory",
+              "sensibel": true,
+              "typ": "liste",
+              "ebene": "modul",
+              "unterFelder": [
+                {
+                  "id": "familyMember",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "condition",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "ageAtDiagnosis",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

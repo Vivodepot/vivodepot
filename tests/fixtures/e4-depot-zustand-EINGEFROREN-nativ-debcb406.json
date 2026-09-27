@@ -1,0 +1,1981 @@
+{
+  "_eingefroren_kein_lebender_bestand": "EINGEFRORENER ZUSTAND, KEINE QUELLE. Depot-Ebene (PDF-Modelle, Exportkanaele) des NATIVEN Bestands bei debcb406 — der letzten Fassung, die ihn trug. Nicht nachbessern: er ist der Massstab, nicht das Gemessene.",
+  "_eingefroren_gegen": {
+    "commit": "debcb406",
+    "datum": "2026-09-06"
+  },
+  "zustand": {
+    "pdfModelle": {
+      "vollDepot": {
+        "titel": "Mein Vivodepot — alle Daten",
+        "untertitel": "Alle hinterlegten Angaben, nach Bereichen geordnet.",
+        "bereiche": [
+          {
+            "id": "identity",
+            "titel": "Identität & Person",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Person",
+                "zeilen": [
+                  {
+                    "label": "Vorname",
+                    "wert": "Elisabeth"
+                  },
+                  {
+                    "label": "Nachname",
+                    "wert": "Wredenhagen-Sonnenschein"
+                  },
+                  {
+                    "label": "Geburtsdatum",
+                    "wert": "14.03.1958"
+                  },
+                  {
+                    "label": "Telefon",
+                    "wert": "089 87654321"
+                  },
+                  {
+                    "label": "Straße & Hausnummer",
+                    "wert": "Lindenweg 4"
+                  },
+                  {
+                    "label": "PLZ & Ort",
+                    "wert": "80331 München"
+                  },
+                  {
+                    "label": "E-Mail",
+                    "wert": "elisabeth.wredenhagen-sonnenschein@beispielpost.example"
+                  },
+                  {
+                    "label": "Staatsangehörigkeit",
+                    "wert": "deutsch"
+                  },
+                  {
+                    "label": "Geburtsname",
+                    "wert": "Immergrün"
+                  },
+                  {
+                    "label": "Geburtsort",
+                    "wert": "Augsburg"
+                  },
+                  {
+                    "label": "Geschlecht",
+                    "wert": "weiblich"
+                  },
+                  {
+                    "label": "Familienstand",
+                    "wert": "verheiratet"
+                  },
+                  {
+                    "label": "Güterstand",
+                    "wert": "Zugewinngemeinschaft (gesetzlich, ohne Ehevertrag)"
+                  },
+                  {
+                    "label": "Namenswahl nach der Heirat",
+                    "wert": "gemeinsamer Ehename, meiner"
+                  },
+                  {
+                    "label": "Ausweisdokumente",
+                    "wert": "DE · T11XXXXX3 · 2011-06-01 · 2021-06-01; DE · T22XXXXX9 · 2021-06-01 · 2031-06-01"
+                  },
+                  {
+                    "label": "Aufenthaltstitel",
+                    "wert": "DE · AT-XXXXXX1 · 2015-01-01 · 2020-01-01; DE · AT-XXXXXX2 · 2020-01-01 · 2025-01-01"
+                  },
+                  {
+                    "label": "Weitere Angaben",
+                    "wert": "Bevorzugt schriftliche Nachrichten gegenüber Telefonanrufen"
+                  },
+                  {
+                    "label": "Steuerklasse",
+                    "wert": "IV"
+                  }
+                ]
+              },
+              {
+                "titel": "Frühere Namen",
+                "zeilen": [
+                  {
+                    "label": "Frühere Namen",
+                    "wert": "Elisabeth Immergrün · 1985-06-14 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · 2003-02-01 · Scheidung oder Rückkehr zum Geburtsnamen"
+                  }
+                ]
+              },
+              {
+                "titel": "Haustiere",
+                "zeilen": [
+                  {
+                    "label": "Tiere",
+                    "wert": "Felix, Europäisch Kurzhaar · Brunhilde Waltraud Immergrün · Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Bruno"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "people",
+            "titel": "Meine Menschen",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Kinder und Schutzbefohlene",
+                "zeilen": [
+                  {
+                    "label": "Kinder und Schutzbefohlene",
+                    "wert": "Konstantin-Emanuel Wredenhagen-Sonnenschein · leibliches Kind · gemeinsame elterliche Sorge · In Ausbildung / Studium: ja · 2027-07-31 · Ordner „Familie\", Aktenschrank Wohnzimmer; Mia · leibliches Kind · aus zweiter Ehe des Vaters, lebt überwiegend bei mir · gemeinsame elterliche Sorge · Aufenthaltsbestimmungsrecht bei mir, im Übrigen gemeinsam mit dem Vater · Wechselmodell, ca. 60/40 zu meinen Gunsten · In Ausbildung / Studium: nein"
+                  }
+                ]
+              },
+              {
+                "titel": "Unterhalt",
+                "zeilen": [
+                  {
+                    "label": "Unterhaltsverpflichtungen und -ansprüche",
+                    "wert": "Mia · Kindesunterhalt · 480 EUR / Monat · ich zahle · gemäß Vereinbarung vom 03.05.2020, Düsseldorfer Tabelle Stufe 3; Trennungsunterhalt"
+                  }
+                ]
+              },
+              {
+                "titel": "Pflege",
+                "zeilen": [
+                  {
+                    "label": "Wer übernimmt die Hauptpflege?",
+                    "wert": "Johanna Lichtblau"
+                  },
+                  {
+                    "label": "Pflegezeit / Familienpflegezeit",
+                    "wert": "Pflegezeit beim Arbeitgeber der Tochter beantragt, drei Monate ab 09/2026"
+                  }
+                ]
+              },
+              {
+                "titel": "Ehe- / Lebenspartnerschaft",
+                "zeilen": [
+                  {
+                    "label": "Ehepartnerin/Ehepartner oder Lebenspartnerin/Lebenspartner",
+                    "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "mobility",
+            "titel": "Mobilität & Reise",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Fahrzeuge und Führerschein",
+                "zeilen": [
+                  {
+                    "label": "Fahrzeuge",
+                    "wert": "VW Golf 8 Variant, 1.5 TSI, Kennzeichen M-EW 4521 · Handschuhfach; Fahrrad, Pedelec Kalkhoff Endeavour; Vespa Primavera 125, Kennzeichen M-EW 88 · Aktenordner „Fahrzeuge\" · Sparkassen-Leasing, Vertrag endet 2028"
+                  },
+                  {
+                    "label": "KFZ-Versicherung",
+                    "wert": "HUK24"
+                  },
+                  {
+                    "label": "Versicherungsschein-Nummer",
+                    "wert": "4711-0815-X"
+                  },
+                  {
+                    "label": "Führerschein — Klassen",
+                    "wert": "B, BE"
+                  },
+                  {
+                    "label": "Führerschein — Ablageort",
+                    "wert": "Geldbeutel"
+                  },
+                  {
+                    "label": "Führerschein — gültig bis",
+                    "wert": "01.09.2033"
+                  },
+                  {
+                    "label": "Deutschlandticket / ÖPNV",
+                    "wert": "Deutschlandticket-Abo bei der MVG"
+                  },
+                  {
+                    "label": "Reisepass-Nr.",
+                    "wert": "C1XXXXX45"
+                  },
+                  {
+                    "label": "Reisepass — ausgestellt am",
+                    "wert": "01.04.2023"
+                  },
+                  {
+                    "label": "Reisepass — gültig bis",
+                    "wert": "01.04.2033"
+                  },
+                  {
+                    "label": "ELEFAND-Registrierungen",
+                    "wert": "ELE-2025-58204 · Thailand · 2026-12-31; ELE-2023-11029 · Marokko · 2024-01-15"
+                  },
+                  {
+                    "label": "Botschaftskontakt",
+                    "wert": "Deutsche Botschaft Bangkok, +66 2 161 2101"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "finance",
+            "titel": "Finanzen & Zahlungen",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Konten, Steuern, Vorsorge, Vermögen",
+                "zeilen": [
+                  {
+                    "label": "Steuer-IDs / Steuernummern",
+                    "wert": "12 345 678 901; 98 765 432 100"
+                  },
+                  {
+                    "label": "Betriebliche Altersvorsorge (bAV) — Anbieter",
+                    "wert": "Allianz Pensionskasse"
+                  },
+                  {
+                    "label": "Betriebliche Altersvorsorge — Durchführungsweg",
+                    "wert": "Pensionskasse"
+                  },
+                  {
+                    "label": "Versichertennummer bAV",
+                    "wert": "APK-XXXXXX"
+                  },
+                  {
+                    "label": "bAV — vereinbarter Rentenbeginn",
+                    "wert": "01.03.2045"
+                  },
+                  {
+                    "label": "Private Altersvorsorge — Institut",
+                    "wert": "Cosmos Direkt"
+                  },
+                  {
+                    "label": "Policen- / Vertragsnummer",
+                    "wert": "POL-772-4493"
+                  },
+                  {
+                    "label": "Private Altersvorsorge — vereinbarter Ablauf/Rentenbeginn",
+                    "wert": "01.11.2043"
+                  },
+                  {
+                    "label": "Konten",
+                    "wert": "Kreissparkasse Oberbayern-Nord eG · Girokonto · DE89 3704 0044 0532 0130 00 · Maximiliane Alexandra Wredenhagen-Sonnenschein · Ordner „Vorsorge\" · Hauptkonto, monatliche Abbuchungen; Deutsche Bank Privat- und Geschäftskunden AG · Tagesgeldkonto · DE12 1203 0000 0000 2020 51 · Konstantin-Emanuel Wredenhagen-Sonnenschein · Ordner „Vorsorge\"; DKB · Wertpapierdepot · DE45 1203 0000 0009 8765 43"
+                  },
+                  {
+                    "label": "Steuerberater",
+                    "wert": "Wolf-Dietrich Ellermann"
+                  },
+                  {
+                    "label": "Kontakt Steuerberater",
+                    "wert": "089 12345-678"
+                  },
+                  {
+                    "label": "Letzte Steuererklärung — Ablageort",
+                    "wert": "Ordner „Steuern 2025\", Aktenschrank Arbeitszimmer"
+                  },
+                  {
+                    "label": "Steuer-Software",
+                    "wert": "WISO Steuer 2026"
+                  },
+                  {
+                    "label": "Steuerliche Besonderheiten",
+                    "wert": "Einkünfte aus Vermietung der Zweitwohnung, Ehegattensplitting"
+                  },
+                  {
+                    "label": "Finanzberatung — Name & Kontakt",
+                    "wert": "Priska Sandmeier"
+                  },
+                  {
+                    "label": "Laufende Kredite & Schulden",
+                    "wert": "Baudarlehen bei der DKB, Restlaufzeit 11 Jahre, 1.150 EUR/Monat"
+                  },
+                  {
+                    "label": "Wertgegenstände & Ablageorte",
+                    "wert": "Schmuck im Bankschließfach; Münzsammlung im Wohnzimmerschrank; Gemälde „Herbstwald\" von Tante Gudrun"
+                  },
+                  {
+                    "label": "Digitale Guthaben",
+                    "wert": "PayPal-Guthaben ca. 80 EUR"
+                  },
+                  {
+                    "label": "Kreditkarten",
+                    "wert": "Visa · …4521 · 2028-06-01; Mastercard Gold · …7788 · 2027-11-01"
+                  },
+                  {
+                    "label": "Offene Forderungen & Bürgschaften",
+                    "wert": "Bürgschaft für Konstantin-Emanuel, Immobilienkredit bei der Sparkasse München, 20.000 EUR"
+                  },
+                  {
+                    "label": "Vermögenswerte für den Nachlass",
+                    "wert": "Eigentumswohnung · München-Schwabing; Wertpapierdepot · DKB; Lebensversicherung · Allianz; Bausparvertrag · Schwäbisch Hall"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "assets",
+            "titel": "Vermögen und Einkommen",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Einkommen und Wohnsituation",
+                "zeilen": [
+                  {
+                    "label": "Weitere Einkommensarten",
+                    "wert": "Kindergeld, Rente"
+                  },
+                  {
+                    "label": "Wohnsituation",
+                    "wert": "Mit Angehörigen wohnhaft"
+                  },
+                  {
+                    "label": "Wohnungsgröße",
+                    "wert": "82"
+                  },
+                  {
+                    "label": "Personenzahl in der Wohnung",
+                    "wert": "3"
+                  },
+                  {
+                    "label": "Wohnkosten — gesamt",
+                    "wert": "1.450"
+                  },
+                  {
+                    "label": "Wohnkosten — eigener Anteil",
+                    "wert": "480"
+                  },
+                  {
+                    "label": "Eigenes Einkommen (netto, monatlich)",
+                    "wert": "1.850"
+                  },
+                  {
+                    "label": "Unterhaltsverpflichtungen",
+                    "wert": "Tochter Mia, 420 EUR monatlich"
+                  },
+                  {
+                    "label": "Einkommen weiterer Personen im Haushalt",
+                    "wert": "2.100"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "health",
+            "titel": "Gesundheit",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Notfall, Ärzte, Impfungen, Befunde",
+                "zeilen": [
+                  {
+                    "label": "Hausärztin / Hausarzt",
+                    "wert": "Dr. med. Anselm Bergmüller-Kastner"
+                  },
+                  {
+                    "label": "Fachärztinnen und Fachärzte",
+                    "wert": "Dr. med. Prof. Cordelia Habichtsberg-von der Marwitz · Kardiologie; Dr. Tom Nguyen · Neurologie"
+                  },
+                  {
+                    "label": "Laufende Behandlung / nächste Termine",
+                    "wert": "Reha-Nachsorge bis 15.09., Kontrolltermine Kardiologie alle drei Monate"
+                  },
+                  {
+                    "label": "Blutgruppe",
+                    "wert": "A +"
+                  },
+                  {
+                    "label": "Allergien (Medikamente, Nahrung, Sonstiges)",
+                    "wert": "Penicillin, Hausstaubmilben"
+                  },
+                  {
+                    "label": "Chronische Erkrankungen / Diagnosen",
+                    "wert": "Diabetes mellitus Typ 2, Bluthochdruck (essentielle Hypertonie)"
+                  },
+                  {
+                    "label": "Krankenversicherung",
+                    "wert": "AOK Bayern"
+                  },
+                  {
+                    "label": "Medikamente (laufend)",
+                    "wert": "Ramipril 5 mg morgens, Metformin 500 mg, zweimal täglich"
+                  },
+                  {
+                    "label": "Versichertennummer",
+                    "wert": "A1XXXXX89"
+                  },
+                  {
+                    "label": "Implantate / Prothesen / Schrittmacher",
+                    "wert": "Hüft-TEP rechts (Stryker), seit 2019"
+                  },
+                  {
+                    "label": "Körpergröße (cm)",
+                    "wert": "167"
+                  },
+                  {
+                    "label": "Körpergewicht (kg)",
+                    "wert": "71"
+                  },
+                  {
+                    "label": "Impfbuch — Ablageort",
+                    "wert": "Grüner Impfausweis, oberste Schublade im Nachttisch"
+                  },
+                  {
+                    "label": "Notfallkontakte",
+                    "wert": "Johanna Lichtblau, Maximiliane Alexandra Wredenhagen-Sonnenschein"
+                  },
+                  {
+                    "label": "Versichert über",
+                    "wert": "selbst versichert"
+                  },
+                  {
+                    "label": "Zusatzversicherungen",
+                    "wert": "Zahnzusatzversicherung bei der HUK-Coburg"
+                  },
+                  {
+                    "label": "Krankenkassenkarten",
+                    "wert": "Geldbeutel · 2030-03-01; Geldbeutel, altes Fach · 2025-01-01"
+                  },
+                  {
+                    "label": "Notfallkarte / Patientenausweis",
+                    "wert": "Geldbeutel, Fach hinter dem Ausweis"
+                  },
+                  {
+                    "label": "Rauchen",
+                    "wert": "früher, jetzt nicht mehr"
+                  },
+                  {
+                    "label": "Alkohol",
+                    "wert": "selten"
+                  },
+                  {
+                    "label": "Impfungen",
+                    "wert": "Tetanus 2023, Grippe jährlich, COVID-19 Grundimmunisierung + zwei Auffrischungen"
+                  },
+                  {
+                    "label": "Befunde auf USB-Stick?",
+                    "wert": "USB-Stick im Ordner „Gesundheit\", beschriftet"
+                  },
+                  {
+                    "label": "Vorsorgeuntersuchungen — letzte Termine",
+                    "wert": "letzte Vorsorgeuntersuchung 03/2026, unauffällig"
+                  },
+                  {
+                    "label": "Zahnarzt — Name & Kontakt",
+                    "wert": "Dr. Sibylle Rautenkranz"
+                  },
+                  {
+                    "label": "Bonusheft — Ablageort",
+                    "wert": "Ordner „Gesundheit\""
+                  },
+                  {
+                    "label": "EHIC-Karte (Europäische Krankenversicherungskarte)",
+                    "wert": "auf der Rückseite der Krankenversicherungskarte"
+                  },
+                  {
+                    "label": "Operationen / Eingriffe",
+                    "wert": "Blinddarm-Entfernung · 1979; Hüft-TEP rechts · 2019; Kaiserschnitt · 1994"
+                  },
+                  {
+                    "label": "Familienanamnese",
+                    "wert": "Vater · Herzinfarkt (verstorben) · 61; Mutter · Diabetes Typ 2 · 70; Schwester · Brustkrebs (behandelt, in Remission)"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "education",
+            "titel": "Bildung & Beruf",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Ausbildung, Beruf, Einkommen, Zeugnisse",
+                "zeilen": [
+                  {
+                    "label": "Schulabschluss",
+                    "wert": "Abitur"
+                  },
+                  {
+                    "label": "Schulabschluss — Jahr",
+                    "wert": "1978"
+                  },
+                  {
+                    "label": "Schule",
+                    "wert": "Luitpold-Gymnasium München"
+                  },
+                  {
+                    "label": "Berufsausbildung — Abschlussart",
+                    "wert": "IHK-Abschluss (kaufmännisch/gewerblich-technisch)"
+                  },
+                  {
+                    "label": "Berufsausbildung — Ausbildungsberuf",
+                    "wert": "Bankkauffrau"
+                  },
+                  {
+                    "label": "Berufsausbildung — Betrieb / Kammer",
+                    "wert": "Bayerische Vereinsbank München"
+                  },
+                  {
+                    "label": "Berufsausbildung — Jahr",
+                    "wert": "1978"
+                  },
+                  {
+                    "label": "Studium — Abschlussart",
+                    "wert": "Diplom"
+                  },
+                  {
+                    "label": "Studium — Fach",
+                    "wert": "Betriebswirtschaftslehre"
+                  },
+                  {
+                    "label": "Studium — Hochschule",
+                    "wert": "Ludwig-Maximilians-Universität München"
+                  },
+                  {
+                    "label": "Zeugnisse / Abschlüsse — Ablageort",
+                    "wert": "Diplomurkunde, Ordner „Bildung\""
+                  },
+                  {
+                    "label": "Beruf / Tätigkeit",
+                    "wert": "Kaufmännische Leiterin (im Ruhestand seit 2023)"
+                  },
+                  {
+                    "label": "Arbeitgeber",
+                    "wert": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH"
+                  },
+                  {
+                    "label": "Arbeitgeber-Adresse",
+                    "wert": "Industriestraße 88, 81379 München"
+                  },
+                  {
+                    "label": "Letzter Arbeitgeber",
+                    "wert": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH"
+                  },
+                  {
+                    "label": "Einkommensart",
+                    "wert": "Rente oder Pension"
+                  },
+                  {
+                    "label": "Einkommensart — frühere Angabe",
+                    "wert": "Betriebsrente + gesetzliche Rente"
+                  },
+                  {
+                    "label": "Brutto-Monatseinkommen",
+                    "wert": "2.680 EUR (Bruttorente)"
+                  },
+                  {
+                    "label": "Netto-Monatseinkommen",
+                    "wert": "2.340 EUR"
+                  },
+                  {
+                    "label": "Gehaltsnachweis (Ablageort)",
+                    "wert": "Ordner „Rente\", Aktenschrank"
+                  },
+                  {
+                    "label": "Qualifikationen",
+                    "wert": "IHK-Ausbilderschein, Projektmanagement-Zertifikat (PMP)"
+                  },
+                  {
+                    "label": "Ehrenamt",
+                    "wert": "Kassenwartin im Gartenbauverein München-Nord seit 2021"
+                  },
+                  {
+                    "label": "Schulzeugnisse (Ablageort)",
+                    "wert": "Ordner „Bildung\""
+                  },
+                  {
+                    "label": "Ausbildungszeugnis (Ablageort)",
+                    "wert": "Ordner „Bildung\""
+                  },
+                  {
+                    "label": "Hochschulzeugnis (Ablageort)",
+                    "wert": "Ordner „Bildung\""
+                  },
+                  {
+                    "label": "Arbeitszeugnis (Ablageort)",
+                    "wert": "Ordner „Bildung\", Arbeitszeugnisse"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "socialInsurance",
+            "titel": "Sozialversicherung",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Renten-, Pflege-, Sozialversicherung",
+                "zeilen": [
+                  {
+                    "label": "Rentenversicherungsnummern",
+                    "wert": "65 120358 A 456; 65 120358 A 456-2"
+                  },
+                  {
+                    "label": "Pflegekasse",
+                    "wert": "AOK Bayern — Pflegekasse"
+                  },
+                  {
+                    "label": "Pflegekasse-Nummern",
+                    "wert": "PK-XXXXXXX; PK-YYYYYYY (Vorgängernummer)"
+                  },
+                  {
+                    "label": "Pflegekasse — Telefon",
+                    "wert": "089 30909-0"
+                  },
+                  {
+                    "label": "Pflegegrad",
+                    "wert": "Pflegegrad 1"
+                  },
+                  {
+                    "label": "Pflegegrad seit (Jahr)",
+                    "wert": "2024"
+                  },
+                  {
+                    "label": "Bescheid vom",
+                    "wert": "15.03.2024"
+                  },
+                  {
+                    "label": "Pflegegeld — frühere Angabe",
+                    "wert": "Entlastungsbetrag Pflegegrad 1, 125 EUR/Monat"
+                  }
+                ]
+              },
+              {
+                "titel": "Schwerbehinderung und Pflege",
+                "zeilen": [
+                  {
+                    "label": "Grad der Behinderung (GdB)",
+                    "wert": "30"
+                  },
+                  {
+                    "label": "GdB — Nachprüfung / Heilungsbewährung am",
+                    "wert": "01.05.2029"
+                  },
+                  {
+                    "label": "Schwerbehindertenausweise",
+                    "wert": "Geldbeutel · 2029-12-31; Geldbeutel, alter Ausweis · 2024-12-31"
+                  },
+                  {
+                    "label": "Ambulanter Pflegedienst — Name & Kontakt",
+                    "wert": "Ambulanter Pflegedienst Sonnenschein gGmbH"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "advanceCare",
+            "titel": "Vorsorge & Recht",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Meine Vorsorge",
+                "zeilen": [
+                  {
+                    "label": "Vorsorge-Instrumente",
+                    "wert": "Vorsorgevollmacht · Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein; Vorsorgevollmacht · nur Gesundheitssorge · Maximiliane Alexandra Wredenhagen-Sonnenschein; Bankvollmacht · Kreissparkasse Oberbayern-Nord eG, Girokonto · Maximiliane Alexandra Wredenhagen-Sonnenschein; Bankvollmacht · Deutsche Bank Privat- und Geschäftskunden AG, Tagesgeldkonto · Konstantin-Emanuel Wredenhagen-Sonnenschein; Betreuungsvollmacht · Maximiliane Alexandra Wredenhagen-Sonnenschein; Vorsorgevollmacht · für den Notfall, falls die anderen Vollmachten nicht ausreichen · Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein; Patientenverfügung; Testament; Betreuungsverfügung · Maximiliane Alexandra Wredenhagen-Sonnenschein · Konstantin-Emanuel Wredenhagen-Sonnenschein; Sorgerechtsverfügung · Maximiliane Alexandra Wredenhagen-Sonnenschein · Brunhilde Waltraud Immergrün; Verfügung zur digitalen Nachbildung · Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein · Konstantin-Emanuel Wredenhagen-Sonnenschein; Betreuerbestellung (bereits bestellter Betreuer) · Maximiliane Alexandra Wredenhagen-Sonnenschein"
+                  }
+                ]
+              },
+              {
+                "titel": "Erbe",
+                "zeilen": [
+                  {
+                    "label": "Erben — Kurzübersicht",
+                    "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein, Onkel Reinhard Wredenhagen"
+                  }
+                ]
+              },
+              {
+                "titel": "Pflegewünsche",
+                "zeilen": [
+                  {
+                    "label": "Körperpflege & Würde",
+                    "wert": "Dusche statt Wanne bevorzugt; morgens Haare kämmen und Zopf flechten, das ist mir wichtig"
+                  },
+                  {
+                    "label": "Ernährung & Besonderheiten",
+                    "wert": "keine Milchprodukte (Unverträglichkeit); Kaffee mit wenig Milch, keinen Zucker"
+                  },
+                  {
+                    "label": "Alltag & Aktivitäten",
+                    "wert": "Radio Bayern 1 morgens; Fenster auch im Winter kurz lüften"
+                  },
+                  {
+                    "label": "Sonstige Wünsche & Hinweise",
+                    "wert": "Besuch von Pfarrer Kornblum, wenn möglich; Fenster im Zimmer soll offen bleiben können"
+                  },
+                  {
+                    "label": "Hilfsmittel (z. B. Rollator, Hörgerät, Rollstuhl)",
+                    "wert": "Lesebrille +2,5, Hörgerät rechts"
+                  },
+                  {
+                    "label": "Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?",
+                    "wert": "ja"
+                  },
+                  {
+                    "label": "Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?",
+                    "wert": "nein"
+                  },
+                  {
+                    "label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
+                    "wert": "ja, alles aktuell"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "administration",
+            "titel": "Verwaltung & Behörden",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "BundID und Vorgänge",
+                "zeilen": [
+                  {
+                    "label": "BundID",
+                    "wert": "elisabeth.wredenhagen-sonnenschein@beispielpost.example · Ordner „Digitale Zugänge\", Schreibtisch; elisabeth.immergruen@beispielpost.example · Ordner „Digitale Zugänge\" — altes Konto, vor der Namensänderung"
+                  },
+                  {
+                    "label": "BundID — Verifizierungsstufe",
+                    "wert": "Niveau hoch"
+                  },
+                  {
+                    "label": "Laufende Verwaltungsvorgänge",
+                    "wert": "Deutsche Rentenversicherung · Rentenantrag · RV-2026-00417 · 2026-03-12 · 1.240 EUR monatlich · Sachbearbeiterin Frau Meyer · Unterlagen eingereicht, Rückmeldung ausstehend; Stadt München, Bürgerbüro · Ummeldung · 2026-06-01 · Nach Umzug erledigt; Amtsgericht München · Beratungshilfe · BerH-2026-0912 · 2026-08-20 · Antrag vorbereitet, Unterlagen vollständig · Vermieter Herbert Osterwald · Rechtsanwältin Dr. Sommer, 03/2026"
+                  }
+                ]
+              },
+              {
+                "titel": "Geräte und digitale Zugänge",
+                "zeilen": [
+                  {
+                    "label": "Computer / Geräte",
+                    "wert": "MacBook Air, FileVault aktiv"
+                  },
+                  {
+                    "label": "Smartphone",
+                    "wert": "iPhone 14, Face ID + Code"
+                  },
+                  {
+                    "label": "Cloud-Dienste",
+                    "wert": "iCloud, 200 GB"
+                  },
+                  {
+                    "label": "Haupt-E-Mail-Adresse",
+                    "wert": "elisabeth.wredenhagen-sonnenschein@beispielpost.example"
+                  },
+                  {
+                    "label": "Weitere E-Mail-Adresse",
+                    "wert": "elisabeth.ews@altepost.example (alte Adresse)"
+                  },
+                  {
+                    "label": "Proton Mail / verschlüsselte E-Mail",
+                    "wert": "elisabeth.ews@example.de"
+                  },
+                  {
+                    "label": "Social Media",
+                    "wert": "Facebook (selten genutzt)"
+                  },
+                  {
+                    "label": "Passwort-Manager",
+                    "wert": "KeePassXC"
+                  },
+                  {
+                    "label": "Master-Passwort (Ablageort)",
+                    "wert": "Tresor, Fach 2"
+                  },
+                  {
+                    "label": "Passwort-Backup (Ablageort)",
+                    "wert": "verschlüsselter Stick im Bankschließfach"
+                  },
+                  {
+                    "label": "Computer-Passwort (Ablageort)",
+                    "wert": "Passwort-Manager"
+                  },
+                  {
+                    "label": "Smartphone-PIN (Ablageort)",
+                    "wert": "Passwort-Manager"
+                  },
+                  {
+                    "label": "Tresor / Safe — Standort",
+                    "wert": "Ankleidezimmer, hinter dem Kleiderschrank"
+                  },
+                  {
+                    "label": "Tresor-Code — Ablageort",
+                    "wert": "Passwort-Manager + Zettel bei der Tochter"
+                  },
+                  {
+                    "label": "Bankschließfach — Bank & Filiale",
+                    "wert": "Kreissparkasse Oberbayern-Nord eG, Filiale Schwabing"
+                  },
+                  {
+                    "label": "Schlüssel — Ablageort",
+                    "wert": "Schlüsselbund im Tresor"
+                  },
+                  {
+                    "label": "Alarmanlage-Code (Ablageort)",
+                    "wert": "Tresor, Fach 1"
+                  },
+                  {
+                    "label": "Wohnungsschlüssel — wer hat einen?",
+                    "wert": "Ersatzschlüssel, Wohnungstür + Keller; Nachbarin im 2. Stock links, nur Wohnungstür"
+                  },
+                  {
+                    "label": "Krypto-Wallets — Übersicht",
+                    "wert": "Bitcoin (Hardware-Wallet), Ethereum (Kraken-Konto)"
+                  },
+                  {
+                    "label": "Seed-Phrase — Ablageort",
+                    "wert": "Tresor, Fach 2, auf Papier notiert"
+                  },
+                  {
+                    "label": "Hardware-Wallet",
+                    "wert": "Ledger Nano X, Schreibtischschublade"
+                  },
+                  {
+                    "label": "Ältere/geerbte Krypto-Zugänge",
+                    "wert": "Altes Wallet von 2017, Zugang bei der Tochter"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "housing",
+            "titel": "Wohnen & Eigentum",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Hauptwohnung",
+                "zeilen": [
+                  {
+                    "label": "Eigentum oder Miete?",
+                    "wert": "Eigentum"
+                  },
+                  {
+                    "label": "Besondere Wohnsituation",
+                    "wert": "Eigentumswohnung, 3 Zimmer, 2. Stock, Aufzug vorhanden"
+                  }
+                ]
+              },
+              {
+                "titel": "Weitere Wohnungen",
+                "zeilen": [
+                  {
+                    "label": "Weitere Wohnungen",
+                    "wert": "Seestraße 12 · 83209 Prien am Chiemsee · Eigentum · Ferienwohnung, Mai bis Oktober selbst genutzt, sonst über eine Agentur vermietet; Miete · Herbert Osterwald · 08051 998877 · verwaltung@chiemsee-immo.example · 620 EUR warm · 1.240 EUR (Sparkasse Rosenheim) · 2027-08-31"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "emergencyPreparedness",
+            "titel": "Krisenvorsorge",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Vorrat, Ausrüstung und Notfallplan",
+                "zeilen": [
+                  {
+                    "label": "Personenzahl für die Vorratsrechnung",
+                    "wert": "3"
+                  },
+                  {
+                    "label": "Trinkwasser-Vorrat — Menge",
+                    "wert": "20 Liter"
+                  },
+                  {
+                    "label": "Trinkwasser-Vorrat — Ablageort",
+                    "wert": "Keller, Regal links"
+                  },
+                  {
+                    "label": "Trinkwasser-Vorrat — Haltbarkeit prüfen bis",
+                    "wert": "01.02.2027"
+                  },
+                  {
+                    "label": "Vorräte — was ist eingelagert",
+                    "wert": "Reis, Nudeln, Konserven, Trockenobst"
+                  },
+                  {
+                    "label": "Vorräte — Ablageort",
+                    "wert": "Speisekammer"
+                  },
+                  {
+                    "label": "Vorräte — Haltbarkeit prüfen bis",
+                    "wert": "01.12.2026"
+                  },
+                  {
+                    "label": "Taschenlampe",
+                    "wert": "vorhanden, Flur-Schrank"
+                  },
+                  {
+                    "label": "Kerzen",
+                    "wert": "vorhanden, Küchenschublade"
+                  },
+                  {
+                    "label": "Batterien (Vorrat)",
+                    "wert": "AA/AAA, Werkzeugkiste"
+                  },
+                  {
+                    "label": "Kurbelradio / Batterieradio",
+                    "wert": "Kurbelradio, Abstellkammer"
+                  },
+                  {
+                    "label": "Powerbank",
+                    "wert": "geladen, Schreibtischschublade"
+                  },
+                  {
+                    "label": "Heizmöglichkeit im Notfall",
+                    "wert": "Campingkocher + Gaskartuschen, Balkonschrank"
+                  },
+                  {
+                    "label": "Erste-Hilfe-Set — Ablageort",
+                    "wert": "Bad, Spiegelschrank"
+                  },
+                  {
+                    "label": "Erste-Hilfe-Set — zuletzt geprüft",
+                    "wert": "15.01.2026"
+                  },
+                  {
+                    "label": "Medikamenten-Vorrat",
+                    "wert": "Schmerzmittel, Fieberzäpfchen, Blutdruckmittel für 2 Wochen"
+                  },
+                  {
+                    "label": "Notfallrucksack vorhanden?",
+                    "wert": "ja"
+                  },
+                  {
+                    "label": "Notfallrucksack — Ablageort",
+                    "wert": "Flur, neben der Wohnungstür"
+                  },
+                  {
+                    "label": "Notfallrucksack — Inhalt",
+                    "wert": "Ausweise-Kopien, Bargeld, Powerbank, Erste-Hilfe, Medikamente"
+                  },
+                  {
+                    "label": "Mappe mit wichtigen Dokumenten vorhanden?",
+                    "wert": "ja"
+                  },
+                  {
+                    "label": "Dokumenten-Mappe — Ablageort",
+                    "wert": "Aktenschrank, oberes Fach"
+                  },
+                  {
+                    "label": "Bargeld-Reserve vorhanden?",
+                    "wert": "ja"
+                  },
+                  {
+                    "label": "Bargeld-Reserve — Ablageort",
+                    "wert": "Nicht im Portemonnaie — separates Fach"
+                  },
+                  {
+                    "label": "Hygiene-Vorrat — was ist eingelagert",
+                    "wert": "Zahnpasta, Seife, Toilettenpapier, Desinfektionsmittel"
+                  },
+                  {
+                    "label": "Hygiene-Vorrat — Ablageort",
+                    "wert": "Badschrank, unteres Fach"
+                  },
+                  {
+                    "label": "Sammelplatz (Familie/Nachbarschaft)",
+                    "wert": "Spielplatz Ecke Bergstraße"
+                  },
+                  {
+                    "label": "Fluchtweg aus der Wohnung",
+                    "wert": "Treppenhaus, Notausgang Hinterhof bei Blockade"
+                  },
+                  {
+                    "label": "Ausweichort (2. Stufe)",
+                    "wert": "Wohnung der Schwester, Musterstraße 5"
+                  },
+                  {
+                    "label": "Nachbar für den Notfall",
+                    "wert": "nicht hinterlegt"
+                  },
+                  {
+                    "label": "Besondere Situation",
+                    "wert": "Rollstuhlfahrer, 3. Stock ohne Aufzug"
+                  },
+                  {
+                    "label": "Hinweis für Rettungskräfte",
+                    "wert": "Gasflasche im Keller, Haustier im Schlafzimmer"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "personal",
+            "titel": "Persönliches",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Erinnerungsstücke & Briefe",
+                "zeilen": [
+                  {
+                    "label": "Physische Fotos (Ablageort)",
+                    "wert": "mehrere Fotoalben im Wohnzimmerschrank, unteres Fach"
+                  },
+                  {
+                    "label": "Digitale Fotos (Ablageort)",
+                    "wert": "iCloud-Fotos + externe Festplatte im Tresor"
+                  },
+                  {
+                    "label": "Weitere Erinnerungsstücke — Ablageort",
+                    "wert": "alte Briefe der Eltern im Sekretär, oberes Fach"
+                  },
+                  {
+                    "label": "Persönliche Gegenstände & Wünsche",
+                    "wert": "die Standuhr geht an Konstantin-Emanuel; das Klavier an Mia, sobald sie volljährig ist"
+                  },
+                  {
+                    "label": "Haushalt, Kleider, Möbel — Wünsche",
+                    "wert": "Kleidung und Bücher an die Diakonie; der Rest darf entrümpelt werden"
+                  },
+                  {
+                    "label": "Wer ist auf mich angewiesen?",
+                    "wert": "Mutter Brunhilde (89) · lebt im Pflegeheim, ich zahle den Eigenanteil und besuche sie wöchentlich; Katze Felix · Nachbarin füttert bei kurzer Abwesenheit"
+                  },
+                  {
+                    "label": "Hinweise zu familiären Besonderheiten",
+                    "wert": "mit meinem Bruder Reinhard seit Jahren wenig Kontakt, aber kein offener Streit"
+                  },
+                  {
+                    "label": "Religionszugehörigkeit / Konfession",
+                    "wert": "evangelisch-lutherisch"
+                  },
+                  {
+                    "label": "Seelsorgerin / Seelsorger",
+                    "wert": "Pfarrer Matthias Kornblum"
+                  },
+                  {
+                    "label": "Rituale, Gebete, spirituelle Wünsche",
+                    "wert": "Psalm 23 zur Beisetzung; stille, ruhige Musik statt Trauermarsch"
+                  },
+                  {
+                    "label": "Brief für Szenario „Notarzt\"",
+                    "wert": "Liebe Helferin, lieber Helfer — bitte rufen Sie meine Tochter Mia unter der hinterlegten Nummer an, sie kennt meine Wünsche."
+                  },
+                  {
+                    "label": "Brief für Szenario „Krankenhaus\"",
+                    "wert": "Bitte informieren Sie meinen Mann und meine Kinder umgehend. Ich vertraue Ihnen mein Wohl an."
+                  },
+                  {
+                    "label": "Brief für Szenario „Pflegeheim-Aufnahme\"",
+                    "wert": "Ich mag morgens Kaffee mit wenig Milch, keinen Zucker. Mein Lieblingslied ist „An der schönen blauen Donau\"."
+                  },
+                  {
+                    "label": "Brief für Szenario „Todesfall\"",
+                    "wert": "Bitte feiert mein Leben — trauert nicht zu lange um den Tod. Es war ein gutes, reiches Leben."
+                  },
+                  {
+                    "label": "Handgeschriebene Briefe — Ablageort",
+                    "wert": "Schreibtisch, oberste Schublade rechts, blauer Umschlag"
+                  },
+                  {
+                    "label": "Persönliche Briefe / Worte an Personen",
+                    "wert": "meine Tochter Mia · Liebe Mia, du warst das größte Geschenk meines Lebens. Bleib neugierig und mutig …; Konstantin-Emanuel · Lieber Konstantin, ich bin stolz auf den Menschen, der du geworden bist."
+                  },
+                  {
+                    "label": "Was ich noch sagen möchte — was noch wichtig ist",
+                    "wert": "Ich hoffe, dass meine Familie zusammenhält, auch wenn ich nicht mehr da bin."
+                  }
+                ]
+              },
+              {
+                "titel": "Bestattung und Abschied",
+                "zeilen": [
+                  {
+                    "label": "Bestattungsart",
+                    "wert": "Feuerbestattung (Urne)"
+                  },
+                  {
+                    "label": "Bestattung bereits vorausgeplant?",
+                    "wert": "ja"
+                  },
+                  {
+                    "label": "Bestattungsunternehmen",
+                    "wert": "Bestattungshaus Ehrlich & Söhne KG"
+                  },
+                  {
+                    "label": "Gewünschter Ort / Grab / Urnenstätte / Friedhof",
+                    "wert": "Familiengrab, Waldfriedhof München"
+                  },
+                  {
+                    "label": "Vorsorgevertrag — Ablageort",
+                    "wert": "Ordner „Vorsorge\", Wohnzimmerschrank"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "absenzZurueckgehalten": 0
+      },
+      "bereichIdentitaet": {
+        "titel": "Identität & Person",
+        "untertitel": "Ein einzelner Bereich Ihres Depots.",
+        "bereiche": [
+          {
+            "id": "identity",
+            "titel": "Identität & Person",
+            "leer": false,
+            "sektionen": [
+              {
+                "titel": "Person",
+                "zeilen": [
+                  {
+                    "label": "Vorname",
+                    "wert": "Elisabeth"
+                  },
+                  {
+                    "label": "Nachname",
+                    "wert": "Wredenhagen-Sonnenschein"
+                  },
+                  {
+                    "label": "Geburtsdatum",
+                    "wert": "14.03.1958"
+                  },
+                  {
+                    "label": "Telefon",
+                    "wert": "089 87654321"
+                  },
+                  {
+                    "label": "Straße & Hausnummer",
+                    "wert": "Lindenweg 4"
+                  },
+                  {
+                    "label": "PLZ & Ort",
+                    "wert": "80331 München"
+                  },
+                  {
+                    "label": "E-Mail",
+                    "wert": "elisabeth.wredenhagen-sonnenschein@beispielpost.example"
+                  },
+                  {
+                    "label": "Staatsangehörigkeit",
+                    "wert": "deutsch"
+                  },
+                  {
+                    "label": "Geburtsname",
+                    "wert": "Immergrün"
+                  },
+                  {
+                    "label": "Geburtsort",
+                    "wert": "Augsburg"
+                  },
+                  {
+                    "label": "Geschlecht",
+                    "wert": "weiblich"
+                  },
+                  {
+                    "label": "Familienstand",
+                    "wert": "verheiratet"
+                  },
+                  {
+                    "label": "Güterstand",
+                    "wert": "Zugewinngemeinschaft (gesetzlich, ohne Ehevertrag)"
+                  },
+                  {
+                    "label": "Namenswahl nach der Heirat",
+                    "wert": "gemeinsamer Ehename, meiner"
+                  },
+                  {
+                    "label": "Ausweisdokumente",
+                    "wert": "DE · T11XXXXX3 · 2011-06-01 · 2021-06-01; DE · T22XXXXX9 · 2021-06-01 · 2031-06-01"
+                  },
+                  {
+                    "label": "Aufenthaltstitel",
+                    "wert": "DE · AT-XXXXXX1 · 2015-01-01 · 2020-01-01; DE · AT-XXXXXX2 · 2020-01-01 · 2025-01-01"
+                  },
+                  {
+                    "label": "Weitere Angaben",
+                    "wert": "Bevorzugt schriftliche Nachrichten gegenüber Telefonanrufen"
+                  },
+                  {
+                    "label": "Steuerklasse",
+                    "wert": "IV"
+                  }
+                ]
+              },
+              {
+                "titel": "Frühere Namen",
+                "zeilen": [
+                  {
+                    "label": "Frühere Namen",
+                    "wert": "Elisabeth Immergrün · 1985-06-14 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · 2003-02-01 · Scheidung oder Rückkehr zum Geburtsnamen"
+                  }
+                ]
+              },
+              {
+                "titel": "Haustiere",
+                "zeilen": [
+                  {
+                    "label": "Tiere",
+                    "wert": "Felix, Europäisch Kurzhaar · Brunhilde Waltraud Immergrün · Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Bruno"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "absenzZurueckgehalten": 0
+      },
+      "notfallKern": [
+        {
+          "label": "Vorname",
+          "wert": "Elisabeth",
+          "sektor": "identity",
+          "feld": "givenName"
+        },
+        {
+          "label": "Nachname",
+          "wert": "Wredenhagen-Sonnenschein",
+          "sektor": "identity",
+          "feld": "familyName"
+        },
+        {
+          "label": "Geburtsdatum",
+          "wert": "14.03.1958",
+          "sektor": "identity",
+          "feld": "birthDate"
+        },
+        {
+          "label": "Blutgruppe",
+          "wert": "A +",
+          "sektor": "health",
+          "feld": "bloodType"
+        },
+        {
+          "label": "Allergien (Medikamente, Nahrung, Sonstiges)",
+          "wert": "Penicillin, Hausstaubmilben",
+          "sektor": "health",
+          "feld": "allergiesMedicationFoodOther"
+        },
+        {
+          "label": "Medikamente (laufend)",
+          "wert": "Ramipril 5 mg morgens, Metformin 500 mg, zweimal täglich",
+          "sektor": "health",
+          "feld": "medicationOngoing"
+        },
+        {
+          "label": "Chronische Erkrankungen / Diagnosen",
+          "wert": "Diabetes mellitus Typ 2, Bluthochdruck (essentielle Hypertonie)",
+          "sektor": "health",
+          "feld": "chronicConditionsDiagnoses"
+        },
+        {
+          "label": "Notfallkontakte",
+          "wert": "Johanna Lichtblau; Maximiliane Alexandra Wredenhagen-Sonnenschein · 0171 2345678 · Lindenweg 4, 80331 München",
+          "sektor": "health",
+          "feld": "emergencyContacts"
+        },
+        {
+          "label": "Ablageort",
+          "wert": "beim Hausarzt hinterlegt",
+          "sektor": "advanceCare",
+          "feld": "liste:provisionInstruments:patientenverfuegung:storageLocation"
+        },
+        {
+          "label": "Implantate / Prothesen / Schrittmacher",
+          "wert": "Hüft-TEP rechts (Stryker), seit 2019",
+          "sektor": "health",
+          "feld": "implantsProsthesesPacemakers"
+        },
+        {
+          "label": "Körpergewicht (kg)",
+          "wert": "71",
+          "sektor": "health",
+          "feld": "bodyWeightKg"
+        },
+        {
+          "label": "Krankenversicherung",
+          "wert": "AOK Bayern",
+          "sektor": "health",
+          "feld": "healthInsurance"
+        },
+        {
+          "label": "Versichertennummer",
+          "wert": "A1XXXXX89",
+          "sektor": "health",
+          "feld": "insuranceNumber"
+        },
+        {
+          "label": "Hausärztin / Hausarzt",
+          "wert": "Dr. med. Anselm Bergmüller-Kastner",
+          "sektor": "health",
+          "feld": "generalPractitioner"
+        },
+        {
+          "label": "Bevollmächtigte Person(en)",
+          "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein · 0171 2345678 · Lindenweg 4, 80331 München; Konstantin-Emanuel Wredenhagen-Sonnenschein",
+          "sektor": "advanceCare",
+          "feld": "liste:provisionInstruments:vorsorgevollmacht:authorizedPersons"
+        }
+      ]
+    },
+    "exportkanaele": {
+      "fhir-ips": {
+        "resourceType": "Bundle",
+        "type": "document",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips",
+            "http://hl7.eu/fhir/eps/StructureDefinition/bundle-eu-eps"
+          ]
+        },
+        "identifier": {
+          "system": "urn:ietf:rfc:3986",
+          "value": "urn:uuid:«uuid»"
+        },
+        "timestamp": "2026-01-15T09:00:00.000Z",
+        "entry": [
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Composition",
+              "status": "final",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips",
+                  "http://hl7.eu/fhir/eps/StructureDefinition/composition-eu-eps"
+                ]
+              },
+              "identifier": {
+                "system": "urn:ietf:rfc:3986",
+                "value": "urn:uuid:«uuid»"
+              },
+              "type": {
+                "coding": [
+                  {
+                    "system": "http://loinc.org",
+                    "code": "60591-5"
+                  }
+                ]
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "date": "2026-01-15T09:00:00.000Z",
+              "author": [
+                {
+                  "reference": "urn:uuid:«uuid»"
+                }
+              ],
+              "title": "International Patient Summary",
+              "section": [
+                {
+                  "title": "Allergies and Intolerances",
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "48765-2"
+                      }
+                    ]
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Allergies and Intolerances</div>"
+                  },
+                  "entry": [
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    },
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    }
+                  ]
+                },
+                {
+                  "title": "Medication List",
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "10160-0"
+                      }
+                    ]
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Medication List</div>"
+                  },
+                  "entry": [
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    },
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    }
+                  ]
+                },
+                {
+                  "title": "Problem List",
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "11450-4"
+                      }
+                    ]
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Problem List</div>"
+                  },
+                  "entry": [
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    },
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    }
+                  ]
+                },
+                {
+                  "title": "History of Procedures",
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "47519-4"
+                      }
+                    ]
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">History of Procedures</div>"
+                  },
+                  "entry": [
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    },
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    },
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    }
+                  ]
+                },
+                {
+                  "title": "Medical Devices",
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "http://loinc.org",
+                        "code": "46264-8"
+                      }
+                    ]
+                  },
+                  "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Medical Devices</div>"
+                  },
+                  "entry": [
+                    {
+                      "reference": "urn:uuid:«uuid»"
+                    }
+                  ]
+                }
+              ],
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">International Patient Summary (IPS) — allergies, medication, diagnoses, procedures.</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Patient",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/Patient-uv-ips"
+                ]
+              },
+              "name": [
+                {
+                  "family": "Wredenhagen-Sonnenschein",
+                  "given": [
+                    "Elisabeth"
+                  ]
+                }
+              ],
+              "gender": "female",
+              "birthDate": "1958-03-14",
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Elisabeth Wredenhagen-Sonnenschein</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "AllergyIntolerance",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips"
+                ]
+              },
+              "clinicalStatus": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                    "code": "active"
+                  }
+                ]
+              },
+              "verificationStatus": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+                    "code": "confirmed"
+                  }
+                ]
+              },
+              "code": {
+                "text": "Penicillin"
+              },
+              "patient": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Penicillin</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "AllergyIntolerance",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips"
+                ]
+              },
+              "clinicalStatus": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                    "code": "active"
+                  }
+                ]
+              },
+              "verificationStatus": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+                    "code": "confirmed"
+                  }
+                ]
+              },
+              "code": {
+                "text": "Hausstaubmilben"
+              },
+              "patient": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hausstaubmilben</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "MedicationStatement",
+              "status": "active",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationStatement-uv-ips"
+                ]
+              },
+              "medicationCodeableConcept": {
+                "text": "Ramipril 5 mg morgens"
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "effectiveDateTime": "2026-01-15T09:00:00.000Z",
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Ramipril 5 mg morgens</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "MedicationStatement",
+              "status": "active",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationStatement-uv-ips"
+                ]
+              },
+              "medicationCodeableConcept": {
+                "text": "Metformin 500 mg, zweimal täglich"
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "effectiveDateTime": "2026-01-15T09:00:00.000Z",
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Metformin 500 mg, zweimal täglich</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Condition",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips"
+                ]
+              },
+              "clinicalStatus": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                    "code": "active"
+                  }
+                ]
+              },
+              "code": {
+                "text": "Diabetes mellitus Typ 2"
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Diabetes mellitus Typ 2</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Condition",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips"
+                ]
+              },
+              "clinicalStatus": {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                    "code": "active"
+                  }
+                ]
+              },
+              "code": {
+                "text": "Bluthochdruck (essentielle Hypertonie)"
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Bluthochdruck (essentielle Hypertonie)</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Procedure",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips"
+                ]
+              },
+              "status": "completed",
+              "code": {
+                "text": "Blinddarm-Entfernung"
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Blinddarm-Entfernung (1979)</div>"
+              },
+              "performedDateTime": "1979"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Procedure",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips"
+                ]
+              },
+              "status": "completed",
+              "code": {
+                "text": "Hüft-TEP rechts"
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hüft-TEP rechts (2019)</div>"
+              },
+              "performedDateTime": "2019"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Procedure",
+              "meta": {
+                "profile": [
+                  "http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips"
+                ]
+              },
+              "status": "completed",
+              "code": {
+                "text": "Kaiserschnitt"
+              },
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Kaiserschnitt (1994)</div>"
+              },
+              "performedDateTime": "1994"
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Device",
+              "meta": {
+                "profile": [
+                  "http://hl7.eu/fhir/eps/StructureDefinition/device-eu-eps"
+                ]
+              },
+              "type": {
+                "text": "Hüft-TEP rechts (Stryker), seit 2019"
+              },
+              "patient": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hüft-TEP rechts (Stryker), seit 2019</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "DeviceUseStatement",
+              "meta": {
+                "profile": [
+                  "http://hl7.eu/fhir/eps/StructureDefinition/deviceUseStatement-eu-eps"
+                ]
+              },
+              "status": "active",
+              "subject": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "device": {
+                "reference": "urn:uuid:«uuid»"
+              },
+              "_timingDateTime": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                    "valueCode": "unknown"
+                  }
+                ]
+              },
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hüft-TEP rechts (Stryker), seit 2019</div>"
+              }
+            }
+          },
+          {
+            "fullUrl": "urn:uuid:«uuid»",
+            "resource": {
+              "resourceType": "Provenance",
+              "id": "«uuid»",
+              "target": [
+                {
+                  "reference": "urn:uuid:«uuid»"
+                }
+              ],
+              "recorded": "2026-01-15T09:00:00.000Z",
+              "agent": [
+                {
+                  "who": {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                }
+              ],
+              "text": {
+                "status": "generated",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Compiled by the patient.</div>"
+              }
+            }
+          }
+        ]
+      },
+      "sd-jwt-vc-identitaet": {
+        "vct": "urn:vivodepot:identitaet",
+        "iss": "urn:vivodepot:selbstauskunft",
+        "iat": 0,
+        "_hinweis": "Selbst zusammengestellter Identitäts-Datensatz im Verifiable-Credential-Format (noch nicht signiert; das Signieren übernimmt ein separates Aussteller-Modul).",
+        "claims": {
+          "given_name": "Elisabeth",
+          "family_name": "Wredenhagen-Sonnenschein",
+          "birthdate": "1958-03-14",
+          "birth_family_name": "Immergrün",
+          "birthplace": "Augsburg",
+          "nationalities": [
+            "deutsch"
+          ],
+          "mobile_phone_number": "089 87654321",
+          "email_address": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+          "address": {
+            "country_code": "DE",
+            "street_address": "Lindenweg 4",
+            "locality": "80331 München"
+          }
+        }
+      },
+      "xoev-verwaltung": {
+        "nachrichtentyp": "vivodepot.verwaltung.0001",
+        "erstelltAm": "<normalisiert>",
+        "_hinweis": "Verwaltungs-Datensatz (XÖV-orientiert).",
+        "_codeStand": {
+          "xoev-rollencode": {
+            "version": "STUB-2026-05",
+            "codesVorhanden": false
+          }
+        },
+        "datensatz": {
+          "verifizierungsstufe": "Niveau hoch",
+          "emailVerschluesselt": "elisabeth.ews@example.de",
+          "email": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+          "emailWeitere": "elisabeth.ews@altepost.example (alte Adresse)"
+        }
+      },
+      "edci-bildung": {
+        "schemaVersion": "edci-1.0-vivodepot",
+        "erstelltAm": "<normalisiert>",
+        "_hinweis": "Bildungsnachweise (EDCI/Europass-orientiert).",
+        "_codeStand": {
+          "esco": {
+            "version": "STUB-2026-05",
+            "codesVorhanden": false
+          }
+        },
+        "learningAchievements": {
+          "schoolQualification": "Abitur",
+          "school": "Luitpold-Gymnasium München",
+          "vocationalQualification": "IHK-Abschluss (kaufmännisch/gewerblich-technisch)",
+          "academicQualification": "Diplom",
+          "occupation": "Kaufmännische Leiterin (im Ruhestand seit 2023)",
+          "employer": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH",
+          "otherQualifications": "IHK-Ausbilderschein, Projektmanagement-Zertifikat (PMP)",
+          "voluntaryWork": "Kassenwartin im Gartenbauverein München-Nord seit 2021",
+          "schoolQualificationYear": "1978",
+          "academicQualificationField": "Betriebswirtschaftslehre",
+          "academicQualificationAwardingBody": "Ludwig-Maximilians-Universität München",
+          "employerAddress": "Industriestraße 88, 81379 München",
+          "previousEmployer": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH"
+        }
+      },
+      "sd-jwt-vc-finanzen": {
+        "vct": "urn:vivodepot:finanzen",
+        "iss": "urn:vivodepot:selbstauskunft",
+        "iat": 0,
+        "_hinweis": "Selbst zusammengestellter Finanz-Datensatz im Verifiable-Credential-Format (noch nicht signiert). Pro Angabe selektiv offenbarbar (Selective Disclosure). Sensible Angaben nur mit Zustimmung enthalten.",
+        "_sd_felder": [
+          "pension_provider",
+          "occupational_pension",
+          "occupational_pension_scheme",
+          "occupational_pension_number",
+          "occupational_pension_start_date",
+          "pension_provider_contract_number",
+          "pension_provider_end_date"
+        ],
+        "claims": {
+          "pension_provider": "Cosmos Direkt",
+          "occupational_pension": "Allianz Pensionskasse",
+          "occupational_pension_scheme": "Pensionskasse",
+          "occupational_pension_number": "APK-XXXXXX",
+          "occupational_pension_start_date": "2045-03-01",
+          "pension_provider_contract_number": "POL-772-4493",
+          "pension_provider_end_date": "2043-11-01"
+        }
+      },
+      "sd-jwt-vc-sozialversicherung": {
+        "vct": "urn:vivodepot:sozialversicherung",
+        "iss": "urn:vivodepot:selbstauskunft",
+        "iat": 0,
+        "_hinweis": "Selbst zusammengestellter Sozialversicherungs-Datensatz im Verifiable-Credential-Format (noch nicht signiert). Pro Angabe selektiv offenbarbar (Selective Disclosure). Pflegegrad ist eine sozialrechtliche Angabe (SGB XI), kein klinischer Befund.",
+        "_sd_felder": [
+          "care_insurance_fund",
+          "care_insurance_phone",
+          "care_level",
+          "care_level_since",
+          "care_level_decision_date",
+          "care_allowance_previous_note",
+          "disability_degree",
+          "disability_review_due",
+          "outpatient_care_service"
+        ],
+        "claims": {
+          "care_insurance_fund": "AOK Bayern — Pflegekasse",
+          "care_insurance_phone": "089 30909-0",
+          "care_level": "Pflegegrad 1",
+          "care_level_since": "2024",
+          "care_level_decision_date": "2024-03-15",
+          "care_allowance_previous_note": "Entlastungsbetrag Pflegegrad 1, 125 EUR/Monat",
+          "disability_degree": "30",
+          "disability_review_due": "2029-05-01",
+          "outpatient_care_service": "Ambulanter Pflegedienst Sonnenschein gGmbH"
+        }
+      },
+      "fim-json": {
+        "fimSchema": "fim-stammdaten-0001",
+        "standard": "FIM (Föderales Informationsmanagement)",
+        "erstelltAm": "<normalisiert>",
+        "_hinweis": "Verwaltungs-Stammdaten im FIM-orientierten JSON.",
+        "stammdaten": {
+          "verifizierungsstufe": "Niveau hoch",
+          "emailVerschluesselt": "elisabeth.ews@example.de",
+          "email": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+          "emailWeitere": "elisabeth.ews@altepost.example (alte Adresse)"
+        }
+      },
+      "vcard-identitaet": "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:Elisabeth Wredenhagen-Sonnenschein\r\nN:Wredenhagen-Sonnenschein;Elisabeth;;;\r\nTEL;TYPE=voice:089 87654321\r\nEMAIL:elisabeth.wredenhagen-sonnenschein@beispielpost.example\r\nADR;TYPE=home:;;Lindenweg 4;80331 München;;;\r\nBDAY:19580314\r\nEND:VCARD\r\n",
+      "vcard-menschen": "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:Maximiliane Alexandra Wredenhagen-Sonnenschein\r\nTEL;TYPE=voice:0171 2345678\r\nEMAIL:maximiliane.wredenhagen-sonnenschein@beispielpost.example\r\nADR;TYPE=home:;;Lindenweg 4\\, 80331 München;;;\r\nNOTE:partner\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Konstantin-Emanuel Wredenhagen-Sonnenschein\r\nNOTE:kind\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Mia\r\nNOTE:kind\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Brunhilde Waltraud Immergrün\r\nNOTE:mutter\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Frida Nachtigall\r\nTEL;TYPE=voice:089 1122334\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. med. Anselm Bergmüller-Kastner\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. med. Prof. Cordelia Habichtsberg-von der Marwitz\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. Tom Nguyen\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. Sibylle Rautenkranz\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Johanna Lichtblau\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Herbert Osterwald\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Pfarrer Matthias Kornblum\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Wolf-Dietrich Ellermann\r\nNOTE:geschaeftlich\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Priska Sandmeier\r\nNOTE:geschaeftlich\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Onkel Reinhard Wredenhagen\r\nNOTE:sonstige\r\nEND:VCARD\r\n",
+      "ics-vorsorge": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Vivodepot//Termine//DE\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Betreuungsverfügung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Patientenverfügung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Sorgerechtsverfügung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Verfügung zur digitalen Nachbildung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Vorsorgevollmacht prüfen / aktualisieren\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/anfrage-schema.json",
+  "title": "Vivodepot Anfrage",
+  "description": "Gemeinsamer Vertrag zwischen Template-Generator (Komponente 4, erzeugt Anfragen) und Bürger-Anwendung (vivodepot.html, liest und beantwortet sie). Kette, Auftrag 7 (20.08.2026). EINE Anfrage ist BESCHREIBUNG, kein ausgefülltes Formular: sie nennt Kennungen, niemals Werte. Die Schlüssel dieses Schemas sind dieselben wie ANFRAGE_SCHLUESSEL im Kern; ein Wächter hält beide Seiten zusammen.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["modulTyp", "anfrageVersion", "von", "zweck", "grundlage", "vorgang", "gueltigBis", "felder", "antwort"],
+  "properties": {
+    "modulTyp": { "const": "anfrage" },
+    "format": { "type": "string", "description": "Versionierte Format-Kennung (F2, U2-ADR-151), z. B. vivodepot-anfrage@1." },
+    "anfrageVersion": { "type": "integer", "minimum": 1, "description": "Fassung der Anfrage-FORM. Eine Anwendung, die sie nicht kennt, lehnt benannt ab." },
+    "appVersion": { "type": "integer", "minimum": 1, "description": "Untergrenze an die Bürger-Anwendung (F5). Optional." },
+    "von": { "type": "string", "minLength": 2, "description": "Wer fragt — Anzeigename. Bei einer geprüften Anfrage gilt der Name aus dem signierten Zertifikat, nicht dieser." },
+    "anbieterId": { "type": "string", "description": "Bezeichner der Institution. Bei einer geprüften Anfrage kommt er aus dem Zertifikat (F3)." },
+    "zweck": { "type": "string", "minLength": 3, "description": "Wozu, im Klartext — ein Satz, den eine Person liest." },
+    "grundlage": { "type": "string", "minLength": 3, "description": "Auf welcher Grundlage gefragt wird. Vivodepot PRÜFT SIE NICHT — die Angabe steht da, sichtbar vorher und nachweisbar hinterher." },
+    "vorgang": { "type": "string", "minLength": 1, "description": "Die Kennung des Vorgangs. Zusammen mit anbieterId die Identität der Anfrage." },
+    "gestelltAm": { "type": "string", "description": "Datum der Anfrage (ISO). Optional." },
+    "gueltigBis": { "type": "string", "minLength": 4, "description": "Bis wann sie gilt (ISO-Datum). Was abläuft, wird als abgelaufen gezeigt und nicht stillschweigend beantwortet." },
+    "felder": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Die verlangten Angaben — je eine KENNUNG, niemals ein Wert.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kennung", "zweck"],
+        "properties": {
+          "kennung": { "type": "string", "minLength": 3, "description": "Feldkennung in der Form aus Auftrag 2: bereich.feld bzw. bereich.feld[eintrag].unterfeld." },
+          "zweck": { "type": "string", "minLength": 3, "description": "Wozu DIESE Angabe. Ein Sammelzweck beantwortet die Frage nicht." },
+          "pflicht": { "type": "boolean", "description": "Nötig (Standard) oder freigestellt." }
+        }
+      }
+    },
+    "antwort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["art"],
+      "description": "Der Schlüssel für die Antwort und der Weg zurück.",
+      "properties": {
+        "art": { "type": "string", "enum": ["einmalpasswort", "schluesselpaar"] },
+        "an": { "type": "string", "description": "Wohin die Antwort geht — Klartext, den der Bestätigungsschritt zeigt." },
+        "publicKeyJwk": { "type": "object", "description": "Der öffentliche Teil, für das Schlüsselpaar-Verfahren (Auftrag 8)." }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "systemId": "esco",
+  "uri": "http://data.europa.eu/esco",
+  "version": "STUB-2026-05",
+  "kuerzel": "ESCO",
+  "lizenz": "ESCO, Europäische Kommission — frei (CC-konform); Kern am Mac ergänzen",
+  "status": "stub",
+  "hinweis": "STUB, Seed ausstehend (ESCO nutzt URIs; aus geprüfter Quelle ziehen)",
+  "daten": []
+}

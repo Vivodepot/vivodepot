@@ -1,0 +1,69 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-notar-kanzleivertretung",
+  "titel": "Notarin — Kanzleivertretungsfall",
+  "sektor": "pro-vertretung-vollmachten",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretungsregelung": { "typ": "feld", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_vertretungsregelung" },
+    "prokura_inhaber": { "typ": "listenfeldAlle", "sektor": "pro-vertretung-vollmachten", "feld": "tpl_prokura",
+      "unterfeld": "tpl_wer" },
+    "zulassung_bezeichnung": { "typ": "listenfeldAlle", "sektor": "pro-betrieb-zugaenge",
+      "feld": "tpl_genehmigung_oder_berufsrechtliche_zulassung", "unterfeld": "tpl_bezeichnung" },
+    "zulassung_frist": { "typ": "listenfeldAlle", "sektor": "pro-betrieb-zugaenge",
+      "feld": "tpl_genehmigung_oder_berufsrechtliche_zulassung", "unterfeld": "tpl_frist_ablauf" },
+    "vertretungsplan_aufgabe": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_aufgabe" },
+    "vertretungsplan_person": { "typ": "listenfeldAlle", "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe", "unterfeld": "tpl_person" },
+    "nachfolgeklausel": { "typ": "feld", "sektor": "pro-gesellschaft-nachfolge",
+      "feld": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden" },
+    "kontakt_telefon": { "typ": "feld", "sektor": "identity", "feld": "telephone" },
+    "kontakt_email": { "typ": "feld", "sektor": "identity", "feld": "email" }
+  },
+  "abschnitte": [
+    {
+      "titel": "Teil A — wer handelt, wenn die Notarin ausfällt",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Für den Vertretungsfall einer Notarkanzlei gibt es eine Vertreterbestellung durch die zuständige Notarkammer. Dieser Auszug sammelt, was das Depot dazu bereits hält, und ersetzt weder die Bestellung noch eine Auskunft der Notarkammer."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
+          "frage": "Vertretungsregelung der Kanzlei?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "prokura_inhaber",
+          "frage": "Prokura erteilt an?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "nachfolgeklausel",
+          "frage": "Nachfolgeklausel im Gesellschaftsvertrag vorhanden?", "luecke": "— nicht erfasst —" }
+      ]
+    },
+    {
+      "titel": "Teil B — Zulassung und Vertretungsplan",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Die folgenden Angaben stammen aus dem Pro-Modul „Betriebsübergabe“ — derselben Datengrundlage, die auch eine Übergabe oder einen Notfall trägt, hier auf den Vertretungsfall gelesen."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_bezeichnung",
+          "frage": "Berufsrechtliche Zulassung(en)?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_frist",
+          "frage": "Frist/Ablauf der Zulassung(en)?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "immer", "texte": ["Hinweis: „Aufgabe“ und „Person“ werden als zwei getrennte Listen gelesen (dieselbe Zeilen-Reihenfolge, keine automatische Paar-Zusammenfassung) — der Bau selbst kann das Sichten von Zeile zu Zeile ergänzen, wenn gebraucht."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_aufgabe",
+          "frage": "Vertretungsplan — welche Aufgaben sind zugeteilt?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_person",
+          "frage": "Vertretungsplan — wer übernimmt sie?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_telefon",
+          "frage": "Telefon?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "kontakt_email",
+          "frage": "E-Mail?", "luecke": "— nicht erfasst —" }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Notarin — Kanzleivertretungsfall",
+    "klasse": "pro-notar-vertretung-dok",
+    "herkunftText": "Zusammenstellung dieser Anwendung aus den Pro-Modul- und Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu einer Notarkammer.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Dieser Auszug ersetzt die Vertreterbestellung selbst nicht — sie bleibt Sache der zuständigen Notarkammer.",
+    "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",
+    "knopfAttr": "pro-notar-vertretung-dokument",
+    "dateiBasis": "Notarin-Kanzleivertretung",
+    "toolbarHinweis": "Dieser Auszug hilft, den Vertretungsfall der Kanzlei vorzubereiten. Er ersetzt weder die Vertreterbestellung noch eine Auskunft der Notarkammer, und er wird an niemanden übermittelt."
+  }
+}

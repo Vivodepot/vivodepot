@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/wizard-modul-schema.json",
+  "title": "Vivodepot Assistenten-Modul (Wizard)",
+  "description": "Ein Assistenten-Modul bringt eigene Assistenten mit: Kennung → Titel, Ziel (Bereich oder Situation) und Schritte mit je einer Frage und einem Feld. Maßstab ist der Kern: wizardsModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-wizard.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber. Was am Bestand hängt, prüft nur der Kern: ob die Kennung von einem eingebauten Assistenten belegt ist, ob das Ziel existiert und ob ein Feld in eine fremde Situation geschrieben werden darf. Solche Assistenten verwirft er einzeln, und ein Modul, von dem nichts übrig bleibt, lehnt er ab (Grund `leer`).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["moduleVersion", "herkunft", "wizards", "sprache"],
+  "properties": {
+    "modulTyp": { "const": "wizard" },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "herkunft": { "description": "Anbieter-Kennung des Moduls, nicht leer.", "type": "string", "pattern": "\\S" },
+    "sprache": {
+      "description": "Sprache der Titel (BCP-47-Form, z. B. `de`, `en-GB`). Pflicht, weil jeder Assistent einen Titel trägt.",
+      "type": "string",
+      "pattern": "^\\s*[a-z]{2,3}(-[A-Za-z0-9]{2,8})*\\s*$"
+    },
+    "wizards": {
+      "description": "Kennung → Assistent. Kennung: Kleinbuchstabe am Anfang, dann Kleinbuchstaben, Ziffern, Bindestrich, 2 bis 40 Zeichen.",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]{1,39}$" },
+      "additionalProperties": { "$ref": "#/$defs/wizard" }
+    },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" }
+  },
+  "$defs": {
+    "wizard": {
+      "type": "object",
+      "required": ["titel", "ziel", "schritte"],
+      "properties": {
+        "titel": { "description": "Titel des Assistenten, nicht leer.", "type": "string", "pattern": "\\S" },
+        "icon": { "description": "Name eines Kern-Symbols; ein unbekannter Name wird verworfen und durch `star` ersetzt.", "type": "string" },
+        "einleitung": { "description": "Freiwilliger Einleitungstext.", "type": "string" },
+        "abschluss": { "description": "Freiwilliger Abschluss, vom Kern unverändert übernommen." },
+        "ziel": {
+          "description": "Wohin die Antworten geschrieben werden: `sektor` (Bereichs-Kennung) oder `situation` (Situations-Kennung). Bei einer Situation darf ein Schritt nur Felder schreiben, die die Situation selbst führt, oder die Situation stammt vom selben Anbieter.",
+          "type": "object",
+          "properties": {
+            "sektor": { "type": "string" },
+            "situation": { "type": "string" }
+          },
+          "anyOf": [
+            { "required": ["sektor"], "properties": { "sektor": { "type": "string", "minLength": 1 } } },
+            { "required": ["situation"], "properties": { "situation": { "type": "string", "minLength": 1 } } }
+          ]
+        },
+        "schritte": {
+          "description": "Mindestens ein Schritt.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["feld", "frage"],
+            "properties": {
+              "frage": { "description": "Die Frage des Schritts, nicht leer.", "type": "string", "pattern": "\\S" },
+              "feld": {
+                "description": "Das Feld, inline: mindestens eine Kennung.",
+                "type": "object",
+                "required": ["id"],
+                "properties": { "id": { "type": "string", "pattern": "\\S" } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

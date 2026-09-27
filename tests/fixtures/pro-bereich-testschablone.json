@@ -1,0 +1,32 @@
+{
+  "modulTyp": "bereich",
+  "sprache": "de",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot-test",
+  "bereiche": {
+    "pro-vertretung-vollmachten": {
+      "label": "Testbereich 1",
+      "icon": "folder"
+    },
+    "pro-gesellschaft-nachfolge": {
+      "label": "Testbereich 2",
+      "icon": "folder"
+    },
+    "pro-finanzen-verbindlichkeiten": {
+      "label": "Testbereich 3",
+      "icon": "folder"
+    },
+    "pro-betrieb-zugaenge": {
+      "label": "Testbereich 4",
+      "icon": "folder"
+    },
+    "pro-aufbewahrung-ordnung": {
+      "label": "Testbereich 5",
+      "icon": "folder"
+    },
+    "pro-kontakte-vertretungsplan": {
+      "label": "Testbereich 6",
+      "icon": "folder"
+    }
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/administration",
+  "fassung": 1,
+  "bereiche": {
+    "administration": {
+      "id": "administration",
+      "format": "XOEV",
+      "icon": "landmark",
+      "exporte": [
+        {
+          "format": "xoev-verwaltung",
+          "labelSchluessel": "exportVerwaltungLabel"
+        },
+        {
+          "format": "fim-json",
+          "labelSchluessel": "exportFimLabel"
+        }
+      ],
+      "wizards": [
+        "umzwiz"
+      ],
+      "sektionen": [
+        {
+          "id": "bundid-vorgaenge",
+          "felder": [
+            {
+              "id": "bundid",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "bundidEmailAddress",
+                  "typ": "text",
+                  "eingabeTyp": "email"
+                },
+                {
+                  "id": "bundidDocumentsStorageLocation",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "bundidVerificationLevel",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "niedrig"
+                },
+                {
+                  "wert": "substanziell"
+                },
+                {
+                  "wert": "hoch"
+                }
+              ]
+            },
+            {
+              "id": "bundidVerificationLevelEarlier",
+              "typ": "text"
+            },
+            {
+              "id": "ongoingAdministrativeCases",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "authority",
+                  "typ": "text"
+                },
+                {
+                  "id": "typeOfCase",
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Rentenantrag",
+                    "Personalausweis beantragen",
+                    "Ummeldung",
+                    "Elterngeld",
+                    "Kindergeld",
+                    "Wohngeld",
+                    "Grundsicherung",
+                    "Schwerbehindertenausweis"
+                  ]
+                },
+                {
+                  "id": "fileReferenceNumber",
+                  "typ": "text"
+                },
+                {
+                  "id": "start",
+                  "typ": "datum"
+                },
+                {
+                  "id": "deadline",
+                  "typ": "datum"
+                },
+                {
+                  "id": "amount",
+                  "typ": "text"
+                },
+                {
+                  "id": "direction",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "zahle"
+                    },
+                    {
+                      "wert": "bekomme"
+                    }
+                  ]
+                },
+                {
+                  "id": "currency",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "EUR"
+                    },
+                    {
+                      "wert": "USD"
+                    },
+                    {
+                      "wert": "GBP"
+                    },
+                    {
+                      "wert": "CHF"
+                    },
+                    {
+                      "wert": "sonstige"
+                    }
+                  ]
+                },
+                {
+                  "id": "frequency",
+                  "typ": "auswahl",
+                  "optionen": [
+                    {
+                      "wert": "monatlich"
+                    },
+                    {
+                      "wert": "jaehrlich"
+                    },
+                    {
+                      "wert": "einmalig"
+                    }
+                  ]
+                },
+                {
+                  "id": "contactPerson",
+                  "typ": "text"
+                },
+                {
+                  "id": "note",
+                  "typ": "textarea"
+                },
+                {
+                  "id": "opposingParty",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "alreadyAdvisedBy",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "changingUtilityProviders",
+              "typ": "textarea",
+              "ebene": "modul"
+            }
+          ]
+        },
+        {
+          "id": "geraete-digitale-zugaenge",
+          "felder": [
+            {
+              "id": "computerDevices",
+              "typ": "text"
+            },
+            {
+              "id": "smartphone",
+              "typ": "text"
+            },
+            {
+              "id": "cloudServices",
+              "typ": "text"
+            },
+            {
+              "id": "mainEmailAddress",
+              "sensibel": true,
+              "typ": "text",
+              "eingabeTyp": "email",
+              "ebene": "modul"
+            },
+            {
+              "id": "furtherEmailAddress",
+              "typ": "text",
+              "eingabeTyp": "email",
+              "ebene": "modul"
+            },
+            {
+              "id": "protonMailEncryptedEmail",
+              "typ": "text",
+              "eingabeTyp": "email"
+            },
+            {
+              "id": "socialMedia",
+              "typ": "text"
+            },
+            {
+              "id": "passwordManager",
+              "sensibel": true,
+              "typ": "text",
+              "vorschlaege": [
+                "Bitwarden",
+                "1Password",
+                "KeePass",
+                "Dashlane",
+                "NordPass",
+                "Proton Pass",
+                "Apple Kennwörter",
+                "Google Passwortmanager"
+              ]
+            },
+            {
+              "id": "masterPasswordStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "passwordBackupStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "computerPasswordStorage",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "smartphonePinStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "safeLocation",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "safeCodeStorageLocation",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "bankSafeDepositBoxBankBranch",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "keyStorageLocation",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "alarmSystemCodeStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "homeKeyWhoHoldsOne",
+              "sensibel": true,
+              "typ": "liste",
+              "ebene": "modul",
+              "unterFelder": [
+                {
+                  "id": "who",
+                  "sensibel": true,
+                  "typ": "ref",
+                  "entitaet": "person",
+                  "verweisZweck": "wohnen"
+                },
+                {
+                  "id": "note",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "cryptoWalletsOverview",
+              "sensibel": true,
+              "typ": "textarea",
+              "ebene": "modul"
+            },
+            {
+              "id": "seedPhraseStorageLocation",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "hardwareWallet",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "olderInheritedCryptoAccess",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

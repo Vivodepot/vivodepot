@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/institutions-art-modul-schema.json",
+  "title": "Vivodepot Institutions-Arten-Modul",
+  "description": "Ein Institutions-Arten-Modul ergänzt die Auswahl der Institutionsarten um weitere Arten (Kennung → Beschriftung). Maßstab ist der Kern: institutionsArtModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-institutions-art.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber. Die zwölf eingebauten Arten sind reserviert; ein Modul ergänzt, es ersetzt nicht.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["moduleVersion", "arten"],
+  "properties": {
+    "modulTyp": { "const": "institutionsArt" },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "arten": {
+      "description": "Kennung → Beschriftung. Reiner Text. Die eingebauten Kennungen sind reserviert.",
+      "type": "object",
+      "propertyNames": {
+        "pattern": "\\S",
+        "not": { "enum": ["krankenkasse", "pflegekasse", "pflegedienst", "krankenhaus", "arztpraxis", "bestatter",
+          "bank", "versicherung", "standesamt", "meldebehoerde", "behoerde", "arbeitgeber"] }
+      },
+      "additionalProperties": { "type": "string", "pattern": "\\S" }
+    },
+    "sprache": {
+      "description": "Sprache der Beschriftungen (BCP-47-Form, z. B. `fr`, `de-AT`). Pflicht und in dieser Form verlangt, sobald das Modul eine Beschriftung trägt; bei leeren `arten` prüft der Kern sie nicht."
+    },
+    "herkunft": { "description": "Kennung des Moduls; ein späteres Modul derselben Herkunft mit höherer Fassung ersetzt es.", "type": "string" },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" }
+  },
+  "if": { "properties": { "arten": { "type": "object", "minProperties": 1 } }, "required": ["arten"] },
+  "then": {
+    "properties": { "sprache": { "type": "string", "pattern": "^\\s*[a-z]{2,3}(-[A-Za-z0-9]{2,8})*\\s*$" } },
+    "required": ["sprache"]
+  }
+}

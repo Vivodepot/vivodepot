@@ -1,0 +1,298 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/finance",
+  "fassung": 1,
+  "bereiche": {
+    "finance": {
+      "id": "finance",
+      "format": "SD_JWT_VC",
+      "icon": "wallet",
+      "exporte": [
+        {
+          "format": "sd-jwt-vc-finanzen",
+          "labelSchluessel": "exportFinanzenLabel"
+        }
+      ],
+      "wizards": [],
+      "standardDokumente": [
+        {
+          "typ": "bank-power-of-attorney",
+          "name": "Bankvollmacht",
+          "empfRhythmusMonate": 12,
+          "felder": [
+            {
+              "sektorId": "advanceCare",
+              "feldId": "provisionInstruments"
+            }
+          ]
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "konten-steuern-vorsorge",
+          "felder": [
+            {
+              "id": "taxIdsTaxNumbers",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "taxNumber",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "companyPensionSchemeBav",
+              "typ": "text"
+            },
+            {
+              "id": "companyPensionScheme",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "direktversicherung"
+                },
+                {
+                  "wert": "pensionskasse"
+                },
+                {
+                  "wert": "pensionsfonds"
+                },
+                {
+                  "wert": "direktzusage"
+                },
+                {
+                  "wert": "unterstuetzungskasse"
+                }
+              ]
+            },
+            {
+              "id": "companyPensionPolicyNumber",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "companyPensionAgreedStartDate",
+              "marken": [
+                "giltAb"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "privatePensionProvision",
+              "typ": "text"
+            },
+            {
+              "id": "policyContractNumber",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "privatePensionProvisionAgreed",
+              "marken": [
+                "laeuftAb"
+              ],
+              "typ": "datum"
+            },
+            {
+              "id": "privateInsurancePolicies",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "insuranceType",
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Haftpflichtversicherung",
+                    "Hausratversicherung",
+                    "Rechtsschutzversicherung",
+                    "Unfallversicherung",
+                    "Berufsunfähigkeitsversicherung",
+                    "Kfz-Versicherung"
+                  ]
+                },
+                {
+                  "id": "insurer",
+                  "typ": "ref",
+                  "entitaet": "institution",
+                  "verweisZweck": "geschaeftlich"
+                },
+                {
+                  "id": "insurancePolicyNumber",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "insuranceContactPerson",
+                  "typ": "text"
+                },
+                {
+                  "id": "insuranceTerminationMethod",
+                  "typ": "text"
+                },
+                {
+                  "id": "note",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "accounts",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "institution",
+                  "typ": "ref",
+                  "entitaet": "institution",
+                  "verweisZweck": "geschaeftlich"
+                },
+                {
+                  "id": "accountType",
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Girokonto",
+                    "Sparkonto",
+                    "Tagesgeld",
+                    "Festgeld",
+                    "Depot",
+                    "Darlehenskonto",
+                    "Treuhandkonto",
+                    "Bausparvertrag",
+                    "Basiskonto"
+                  ]
+                },
+                {
+                  "id": "iban",
+                  "sensibel": true,
+                  "typ": "text",
+                  "eingabeTyp": "iban"
+                },
+                {
+                  "id": "bankingPowersOfAttorneyFrom",
+                  "typ": "refMehrfach",
+                  "entitaet": "bank-power-of-attorney"
+                },
+                {
+                  "id": "note",
+                  "typ": "text"
+                },
+                {
+                  "id": "garnishmentProtection",
+                  "typ": "auswahl",
+                  "optionen": [
+                    { "wert": "ja" },
+                    { "wert": "nein" }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "taxAdvisor",
+              "typ": "ref",
+              "entitaet": "person",
+              "ebene": "modul",
+              "verweisZweck": "geschaeftlich"
+            },
+            {
+              "id": "taxAdvisorContact",
+              "typ": "text",
+              "eingabeTyp": "tel",
+              "ebene": "modul"
+            },
+            {
+              "id": "latestTaxReturnStorageLocation",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "taxSoftware",
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "taxParticulars",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "financialAdvisorNameContact",
+              "typ": "ref",
+              "entitaet": "person",
+              "ebene": "modul",
+              "verweisZweck": "geschaeftlich"
+            },
+            {
+              "id": "ongoingLoansDebts",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "valuablesStorageLocations",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "digitalBalances",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "creditCards",
+              "typ": "liste",
+              "ebene": "modul",
+              "unterFelder": [
+                {
+                  "id": "providerLast4Digits",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "validUntil",
+                  "marken": [
+                    "laeuftAb"
+                  ],
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "outstandingClaimsGuarantees",
+              "sensibel": true,
+              "typ": "text",
+              "ebene": "modul"
+            },
+            {
+              "id": "assetsForTheEstate",
+              "typ": "liste",
+              "ebene": "modul",
+              "unterFelder": [
+                {
+                  "id": "asset",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "withWhom",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

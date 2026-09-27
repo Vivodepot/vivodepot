@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/erscheinung-modul-schema.json",
+  "title": "Vivodepot Erscheinungsmodul",
+  "description": "Ein Erscheinungsmodul setzt die Schriftgrößen von bis zu fünf Rollen der Oberfläche. Maßstab ist der Kern: erscheinungModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-erscheinung.test.js hält Schema und Kern im Gleichlauf. Mindestens eine Rolle muss gesetzt sein.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "moduleVersion"
+  ],
+  "properties": {
+    "modulTyp": {
+      "const": "erscheinung"
+    },
+    "moduleVersion": {
+      "description": "Fassung des Moduls, ganzzahlig ab 1.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "label": {
+      "description": "Schriftgröße der Rolle „Beschriftung eines Felds“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+    },
+    "wert": {
+      "description": "Schriftgröße der Rolle „Feldwert“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+    },
+    "gruppe": {
+      "description": "Schriftgröße der Rolle „Gruppenüberschrift“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+    },
+    "abschnitt": {
+      "description": "Schriftgröße der Rolle „Abschnittsüberschrift“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+    },
+    "titel": {
+      "description": "Schriftgröße der Rolle „Seitentitel“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+    },
+    "herkunft": {
+      "description": "Wer das Modul mitbringt; Kennung beim Ersetzen einer früheren Fassung.",
+      "type": "string"
+    },
+    "appVersion": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "ungeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    },
+    "eingelassenAm": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "anbieterId": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "anbieterIdGeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "wert"
+      ],
+      "properties": {
+        "wert": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "gruppe"
+      ],
+      "properties": {
+        "gruppe": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "abschnitt"
+      ],
+      "properties": {
+        "abschnitt": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "required": [
+        "titel"
+      ],
+      "properties": {
+        "titel": {
+          "type": "string"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "modulTyp": "situation",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "situationen": {
+    "zweitmeinung": {
+      "icon": "heartPulse",
+      "titel": "Vor einer Zweitmeinung",
+      "bloecke": [
+        {
+          "id": "aus-ihren-bereichen",
+          "titel": "Aus Ihren Bereichen",
+          "eintraege": [
+            { "quelle": "health", "feld": "chronicConditionsDiagnoses" },
+            { "quelle": "health", "feld": "medicationOngoing" },
+            { "quelle": "health", "feld": "allergiesMedicationFoodOther" },
+            { "quelle": "health", "feld": "operationsProcedures" },
+            { "quelle": "health", "feld": "healthInsurance" },
+            { "quelle": "health", "feld": "insuranceNumber" },
+            { "quelle": "health", "feld": "specialistDoctors" }
+          ]
+        }
+      ]
+    },
+    "reha": {
+      "icon": "heartPulse",
+      "titel": "Reha und Anschlussversorgung",
+      "bloecke": [
+        {
+          "id": "aus-ihren-bereichen",
+          "titel": "Aus Ihren Bereichen",
+          "eintraege": [
+            { "quelle": "health", "feld": "chronicConditionsDiagnoses" },
+            { "quelle": "health", "feld": "medicationOngoing" },
+            { "quelle": "health", "feld": "healthInsurance" },
+            { "quelle": "socialInsurance", "feld": "pensionInsuranceNumbers" },
+            { "quelle": "socialInsurance", "feld": "degreeOfDisabilityGdb" },
+            { "quelle": "socialInsurance", "feld": "markers" },
+            { "quelle": "socialInsurance", "feld": "homeCareServiceNameContact" },
+            { "quelle": "education", "feld": "employer" }
+          ]
+        }
+      ]
+    }
+  }
+}

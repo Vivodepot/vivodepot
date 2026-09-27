@@ -1,0 +1,17 @@
+diff --git a/tools/beispiel-werkzeug.js b/tools/beispiel-werkzeug.js
+--- a/tools/beispiel-werkzeug.js
++++ b/tools/beispiel-werkzeug.js
+@@ -10,0 +11,2 @@ function beispiel() {
++// Erfunden: gepflanzte neue Zeile, präfixlos — s. ADR-039.
++// Erfunden: dieselbe Aussage sauber, s. U2-ADR-039.
+diff --git a/docs/adr/beispiel.md b/docs/adr/beispiel.md
+--- a/docs/adr/beispiel.md
++++ b/docs/adr/beispiel.md
+@@ -3 +3 @@
+-Erfunden: Altstelle, s. ADR-070, nur eingerückt verschoben.
++  Erfunden: Altstelle, s. ADR-070, nur eingerückt verschoben.
+diff --git a/tests/beispiel.test.js b/tests/beispiel.test.js
+--- a/tests/beispiel.test.js
++++ b/tests/beispiel.test.js
+@@ -1,0 +2 @@
++// Erfunden: ein echter Alt-Bezug, benannt statt präfixlos — s. B16-ADR-015.

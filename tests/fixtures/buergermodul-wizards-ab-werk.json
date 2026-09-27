@@ -1,0 +1,378 @@
+{
+  "modulTyp": "wizard",
+  "herkunft": "vivodepot",
+  "moduleVersion": 1,
+  "wizards": {
+    "gebwiz": {
+      "icon": "baby",
+      "ziel": {
+        "situation": "geburt"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "geburt_klinik",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_hebamme",
+            "typ": "ref",
+            "entitaet": "person"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_urkunde",
+            "sensibel": true,
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_kind_kv",
+            "typ": "auswahl",
+            "optionenAus": {
+              "situation": "geburt",
+              "feld": "geburt_kind_kv"
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_elterngeld",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "geburt_kindergeld",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "guidedBirthEntryChildsNameNot",
+            "typ": "text"
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        },
+        {
+          "feld": {
+            "id": "guidedBirthEntryDateOfBirthNot",
+            "typ": "datum"
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        },
+        {
+          "feld": {
+            "id": "guidedBirthEntryRelationship",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "people",
+              "feldId": "guidedBirthEntryRelationship"
+            }
+          },
+          "ziel": {
+            "sektor": "people"
+          }
+        }
+      ],
+      "abschluss": {}
+    },
+    "anamwiz": {
+      "icon": "stethoscope",
+      "ziel": {
+        "sektor": "health"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "chronicConditionsDiagnoses",
+            "typ": "text",
+            "codeListe": "icd10"
+          }
+        },
+        {
+          "feld": {
+            "id": "allergiesMedicationFoodOther",
+            "typ": "text",
+            "codeListe": "snomedAllergen"
+          }
+        },
+        {
+          "feld": {
+            "id": "medicationOngoing",
+            "typ": "text",
+            "codeListe": "atc"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "health",
+            "liste": "operationsProcedures",
+            "unterfeld": "procedure"
+          },
+          "feld": {
+            "id": "operationsProcedures",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "vaccinations",
+            "typ": "text"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "health",
+            "liste": "familyMedicalHistory",
+            "unterfeld": "condition"
+          },
+          "feld": {
+            "id": "familyMedicalHistory",
+            "typ": "text"
+          }
+        }
+      ],
+      "abschluss": {}
+    },
+    "pflwiz": {
+      "icon": "shield",
+      "ziel": {
+        "sektor": "socialInsurance"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "careLevel",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "socialInsurance",
+              "feldId": "careLevel"
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "homeCareServiceNameContact",
+            "typ": "ref",
+            "entitaet": "institution",
+            "art": "pflegedienst"
+          }
+        },
+        {
+          "feld": {
+            "id": "longTermCareAllowanceTypeOf",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "socialInsurance",
+              "feldId": "longTermCareAllowanceTypeOf"
+            }
+          }
+        },
+        {
+          "verborgenWenn": {
+            "feld": "longTermCareAllowanceTypeOf",
+            "wert": "sachleistung"
+          },
+          "feld": {
+            "id": "longTermCareAllowanceAmount",
+            "typ": "text"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "people"
+          },
+          "feld": {
+            "id": "whoProvidesThePrimaryCare",
+            "typ": "ref",
+            "entitaet": "person",
+            "rolle": "pflegeperson"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "people"
+          },
+          "feld": {
+            "id": "careLeaveFamilyCareLeave",
+            "typ": "text"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "advanceCare"
+          },
+          "feld": {
+            "id": "provisionDocumentsCheckedIn",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "advanceCare",
+              "feldId": "provisionDocumentsCheckedIn"
+            }
+          }
+        }
+      ],
+      "abschluss": {}
+    },
+    "heirwiz": {
+      "icon": "users",
+      "ziel": {
+        "sektor": "identity"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "maritalStatus",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "maritalStatus",
+              "erlaubteWerte": [
+                "verh",
+                "elp"
+              ]
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "choiceOfNameAfterMarriage",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "choiceOfNameAfterMarriage"
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "maritalPropertyRegime",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "maritalPropertyRegime"
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "taxClass",
+            "typ": "auswahl",
+            "katalogOptionenAus": {
+              "sektorId": "identity",
+              "feldId": "taxClass",
+              "erlaubteWerte": [
+                "III",
+                "IV",
+                "IV_faktor",
+                "V",
+                "VI"
+              ]
+            }
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "people"
+          },
+          "feld": {
+            "id": "spouseOrCivilPartner",
+            "typ": "ref",
+            "entitaet": "person",
+            "rolle": "partner"
+          }
+        }
+      ],
+      "abschluss": {}
+    },
+    "umzwiz": {
+      "icon": "home",
+      "ziel": {
+        "sektor": "identity"
+      },
+      "schritte": [
+        {
+          "feld": {
+            "id": "streetAddress",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "postcodeCity",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "reRegistrationWithTheResidents",
+            "typ": "text"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "administration"
+          },
+          "feld": {
+            "id": "changingUtilityProviders",
+            "typ": "textarea"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "housing"
+          },
+          "verborgenWenn": {
+            "feld": "ownedOrRented",
+            "wert": "eigentum"
+          },
+          "feld": {
+            "id": "tenancyTerminationHandover",
+            "typ": "textarea"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "housing"
+          },
+          "verborgenWenn": {
+            "feld": "ownedOrRented",
+            "wert": "eigentum"
+          },
+          "feld": {
+            "id": "noticeDate",
+            "typ": "datum"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "housing"
+          },
+          "feld": {
+            "id": "moveOutDate",
+            "typ": "datum"
+          }
+        },
+        {
+          "ziel": {
+            "sektor": "housing"
+          },
+          "feld": {
+            "id": "handoverDateNewHome",
+            "typ": "datum"
+          }
+        }
+      ],
+      "abschluss": {}
+    }
+  }
+}

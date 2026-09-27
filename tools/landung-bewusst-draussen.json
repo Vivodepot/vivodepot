@@ -1,0 +1,69 @@
+{
+ "beschreibung": "Positivliste: Commits eines Quellzweigs, die der Landende BEWUSST nicht (oder nicht als Ganzes) in u2-kanon nimmt. Jeder Eintrag: commit (Hash) und grund. Ohne Grund ist ein Eintrag ungültig. Die Liste steht neben tools/landung-vollstaendigkeit-pruefen.js, das der pre-push vor jedem Push auf u2-kanon fährt.",
+ "eintraege": [
+  {
+   "commit": "96f87e41f83293e5c1eeb57743bce7fdc340f086",
+   "grund": "Kern-Fix (Rückgabewert von _wizardModulAbWerkSeed festhalten, Wurf-Schranke) steht im Landestand (_WIZARD_AB_WERK_GESAET); die Tests wurden mit dem Entfernen der bereichsErsatz-Tests neu geschnitten (register-ausbau-ab-werk-situationen-wizards gelöscht, die beiden anderen umgeschrieben)."
+  },
+  {
+   "commit": "f974d92889a0357101a7cce3323836e6348c8e79",
+   "grund": "Teil 1 (pro-de bekommt DE_MODUL_PFAD als Sprachmodul) ist durch die Entscheidung vom 19.09.2026 überholt: deutsche Produkte tragen kein Sprachmodul (U2-ADR-361), die Pro-Namen reisen als Template-Labels in der Mitschrift. Teil 2 (tools/konfektion-nativ-vergleichen.js, Weiche auf proModulPfad) geht als eigener Cherry-pick dieser einen Datei nach L2."
+  },
+  {
+   "commit": "6ec6754899f3142c6f1ac73993d281a46b7d08fa",
+   "grund": "Der Kern-Fix (Identitäts-Wächter ausEingebettetemBuendel für dokumente) steht im Landestand; die E2E-Abnahmen wurden später neu geschnitten. Nur die 13-Zeilen-Regressionsprobe „Probe 2a“ in tests/e4-buergermodul-buendel-abnahmebeweis-u2-adr-310.test.js fehlt und geht als eigener Cherry-pick nach L2."
+  },
+  {
+   "commit": "f8cf832a6c7ac1e441983b5240aeaf5e7068e8c3",
+   "grund": "Die BUSL-Achse entfällt: Lizenz-Entscheidung 19.09.2026, EUPL-1.2 für alles (Umsetzung LIZ1); ein Zuschnitt nach BUSL/openCode wird nicht mehr gebraucht."
+  },
+  {
+   "commit": "f1fe3aee1ad1530de7c19b698c16384d3d190fb7",
+   "grund": "Im Landestand anders und vollständiger behoben: tests/zutaten-pruefsumme-abgleich.test.js wurde neu ausgerichtet, alle git-Aufrufe tragen env: ohneGitUmgebung() (auch der geprüfte rev-parse --absolute-git-dir)."
+  },
+  {
+   "commit": "47850151de7ff2724324df7d3c34152eb1cedb9c",
+   "grund": "ANKER (fix-anker-eddsa-wegwerf): echter Fix, aber an die Neuausstellung der Zertifikate und den Gateway-Deploy gekoppelt; landet als eigene Einheit zusammen mit dieser Zeremonie, nicht in L2 (Entscheidung, 19.09.2026)."
+  },
+  {
+   "commit": "293b1006aa9c047bb39c57aed849236795dc5582",
+   "grund": "Gehört zu L3 (Zweig l3-cross09-topbar): Topbar auf dem Handy 56 px, T-CROSS-09 wieder scharf. Entstand nach dem Einfrieren von L2 (19.09.2026) und geht mit der nächsten Landung (L3); in L2 steht der Skip T-CROSS-09 mit FIXME-ID und Registereintrag."
+  },
+  {
+   "commit": "cfb7ca84e957b3d490822518eb30d43280397fa5",
+   "grund": "Gehört zu L3 (Zweig sensibel-situationsblatt-2026-09-19): Situationsblatt liest die Sensibel-Überschreibung. Entstand nach dem Einfrieren von L2 (19.09.2026), steht nicht im Landeblatt und geht mit der nächsten Landung (L3)."
+  },
+  {
+   "commit": "0b9ffc65aca6dc1e299b7210aa4f560a68b40bc7",
+   "grund": "Gehört zu L3 (Zweig l3-kacheln-fix): Erreichbarkeit von Assistent und Auszug im Dialog Weitere Möglichkeiten. Entstand nach dem Einfrieren von L2 (19.09.2026), steht nicht im Landeblatt und geht mit der nächsten Landung (L3)."
+  },
+  {
+   "commit": "3ec94c37f495cc482c9f1c96660d8ebb83eba09c",
+   "grund": "Gehört zu L4 (Zweig l4-werkstatt): Textstreichung im Geld/Lizenz-Entwurf des Studios. Entstand nach dem Einfrieren von L2 (19.09.2026, 20:09 Uhr, während des Gate-Laufs), steht nicht im Landeblatt und geht mit der L4-Landung."
+  },
+  {
+   "commit": "38879cd37ce369d97be101010bf0074583871968",
+   "grund": "Gehört zu L3 (Zweig ls2-landung-vollstaendigkeit-quellzweig-muster): erweitert landung-vollstaendigkeit-pruefen.js um Muster-Ausnahmen und feat/test-Kandidaten. L2 ist eingefroren, eine eigene Messung zeigte, dass das breitere Muster ohne gefüllte Ausnahmeliste den nächsten Push blockieren würde — geht erst nach der L2-Landung neu gegen den dann aktuellen Kanon."
+  },
+  {
+   "commit": "5d5280d0c4fe4dc4a3a75f45caf9fc86a969f6bc",
+   "grund": "Gehört zu L4 (Zweig anbieterpruefung-signierweg-l4-2026-09-19): Pro-Modul-Demos reichen Anbieter-Pflichtfelder durch. Entstand nach dem Einfrieren von L3, steht nicht im L3-Landeblatt."
+  },
+  {
+   "commit": "7b85034a94197ab699c9c00a89d89443ab0cebc1",
+   "grund": "Gehört zu L4 (Zweige pruefwerkzeug-flag-pruefen-l4-2026-09-19, sensibel-situationsmodell-l4-2026-09-19): situationModell zeigt den Zurückhaltungs-Hinweis statt sensible Felder wegzulassen. Für L3 gilt stattdessen exakt 00ea6100 (Entscheidung), dieser spätere Commit geht mit L4."
+  },
+  {
+   "commit": "8d8b558f77cc1bdd433e1127cc27ce789bb8054c",
+   "grund": "Gehört zu L4 (Zweig gen1-schluessel-tresor-l4): zwei Wächter ohne Wirkung geschlossen. Entstand nach dem Einfrieren von L3."
+  },
+  {
+   "commit": "5497aac45550a0143f119ee0d49040bcc64a23c9",
+   "grund": "Gehört zu L4 (Zweig l4-werkstatt): Studio-Zugangsart 'vertraglich', Privat-Template weist 'verkauft' ab. Entstand nach dem Einfrieren von L3."
+  },
+  {
+   "commit": "0d42e3772013323cd1f88ab8caa49ca0adbc66a2",
+   "grund": "Gehört zu L4 (Zweig cf-l4-lokalisierbarkeit-2026-09-20): Glied 9 misst künftig, dass jeder lokalisierbare Text über genau einen der zwei benannten Wege läuft, statt einen Mehrheitsanteil zu verlangen — die Abnahme für den in dieser Landung übersprungenen Kipppunkt-Test. Entstand nach dem Einfrieren von L3 (während des Gate-Laufs), geht mit der L4-Landung."
+  }
+ ]
+}

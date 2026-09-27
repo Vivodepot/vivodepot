@@ -1,0 +1,200 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-vertretung-vollmachten",
+  "fassung": 1,
+  "bereiche": {
+    "pro-vertretung-vollmachten": {
+      "id": "pro-vertretung-vollmachten",
+      "icon": "scale",
+      "merkmale": [
+        "vorsorgeRegal"
+      ],
+      "sektionen": [
+        {
+          "id": "wer-darf-handeln",
+          "felder": [
+            {
+              "id": "tpl_weitere_vertretungsberechtigte_person_vorhanden",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                }
+              ],
+              "pflicht": true
+            },
+            {
+              "id": "tpl_vertretungsregelung",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "einzel"
+                },
+                {
+                  "wert": "gesamt"
+                },
+                {
+                  "wert": "einzel_befreit"
+                },
+                {
+                  "wert": "gesamt_befreit"
+                }
+              ]
+            },
+            {
+              "id": "tpl_zustaendiges_registergericht",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_registernummer",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_weitere_geschaeftsfuehrer_vorstaende",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_prokura",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_wer",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_seit",
+                  "typ": "datum"
+                },
+                {
+                  "id": "tpl_urkunde_liegt_bei",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_beschraenkung",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_befristet_bis",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_handlungsvollmacht",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_wer",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_wofuer",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_urkunde_liegt_bei",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_vorsorgevollmacht_privat_ablageort",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_unternehmervollmacht",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_notar",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_urkundennummer",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_verwahrort",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_vollmacht_ueber_den_tod_hinaus",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_gilt",
+                  "typ": "checkbox"
+                },
+                {
+                  "id": "tpl_bevollmaechtigter",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_urkunde_liegt_bei",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_benannte_person_wunsch_keine_bestellung",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_erreichbarkeit",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vollmachten",
+          "felder": [
+            {
+              "id": "tpl_patientenverfuegung_ablageort",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_betreuungsverfuegung_ablageort",
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "allgemein",
+          "felder": [
+            {
+              "id": "notiz",
+              "typ": "textarea"
+            }
+          ]
+        }
+      ],
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge",
+      "clusterRang": 1
+    }
+  }
+}

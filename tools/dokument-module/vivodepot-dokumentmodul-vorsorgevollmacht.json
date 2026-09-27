@@ -1,0 +1,228 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/vorsorgevollmacht",
+  "fassung": 1,
+  "dokumentModule": {
+    "vorsorgevollmacht": {
+      "motor": "vm",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "1. Gesundheitssorge/Pflegebedürftigkeit",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "healthCareGeneralDecision",
+              "text": "Sie darf in allen Angelegenheiten der Gesundheitssorge entscheiden, ebenso über alle Einzelheiten einer ambulanten oder (teil-)stationären Pflege. Sie ist befugt, meinen in einer Patientenverfügung festgelegten Willen durchzusetzen."
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "healthCareMedicalProcedures",
+              "text": "Sie darf insbesondere in eine Untersuchung des Gesundheitszustands, eine Heilbehandlung oder einen ärztlichen Eingriff einwilligen, diese ablehnen oder die Einwilligung in diese Maßnahmen widerrufen, auch wenn mit der Vornahme, dem Unterlassen oder dem Abbruch dieser Maßnahmen die Gefahr besteht, dass ich sterbe oder einen schweren und länger dauernden gesundheitlichen Schaden erleide (§ 1829 Absatz 1 und 2 BGB)."
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "healthCareMedicalRecords",
+              "text": "Sie darf Krankenunterlagen einsehen und deren Herausgabe an Dritte bewilligen. Ich entbinde alle mich behandelnden Ärzte und nichtärztliches Personal gegenüber meiner bevollmächtigten Vertrauensperson von der Schweigepflicht. Diese darf ihrerseits alle mich behandelnden Ärzte und nichtärztliches Personal von der Schweigepflicht gegenüber Dritten entbinden."
+            },
+            {
+              "typ": "auswahlPaarGruppe",
+              "einleitung": "Solange es erforderlich ist, darf sie",
+              "abschluss": "entscheiden.",
+              "punkte": [
+                {
+                  "feldId": "healthCarePlacementDepriving",
+                  "text": "über meine freiheitsentziehende Unterbringung (§ 1831 Absatz 1 BGB)"
+                },
+                {
+                  "feldId": "healthCareMeasuresDepriving",
+                  "text": "über freiheitsentziehende Maßnahmen (z.B. Bettgitter, Medikamente u. ä.) in einem Heim oder in einer sonstigen Einrichtung (§ 1831 Absatz 4 BGB)"
+                },
+                {
+                  "feldId": "healthCareCompulsoryMedical",
+                  "text": "über ärztliche Zwangsmaßnahmen (§ 1832 Absatz 1 BGB)"
+                },
+                {
+                  "feldId": "healthCareAdmissionToHospital",
+                  "text": "über meine Verbringung zu einem stationären Aufenthalt in einem Krankenhaus, wenn eine ärztliche Zwangsmaßnahme in Betracht kommt (§ 1832 Absatz 4 BGB)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "2. Aufenthalt und Wohnungsangelegenheiten",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "determinePlaceOfResidence",
+              "text": "Sie darf meinen Aufenthalt bestimmen."
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "manageAnExistingTenancyWindUp",
+              "text": "Sie darf Rechte und Pflichten aus dem Mietvertrag über meine Wohnung einschließlich einer Kündigung wahrnehmen sowie meinen Haushalt auflösen."
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "concludeAndTerminateANew",
+              "text": "Sie darf einen neuen Wohnungsmietvertrag abschließen und kündigen."
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "concludeAndTerminateHousingAnd",
+              "text": "Sie darf einen Vertrag nach dem Wohn- und Betreuungsvertragsgesetz (Vertrag über die Überlassung von Wohnraum mit Pflege- und Betreuungsleistungen; ehemals: Heimvertrag) abschließen und kündigen."
+            }
+          ]
+        },
+        {
+          "titel": "3. Behörden",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "representationWithAuthorities",
+              "text": "Sie darf mich bei Behörden, Versicherungen, Renten- und Sozialleistungsträgern vertreten. Dies umfasst auch die datenschutzrechtliche Einwilligung."
+            }
+          ]
+        },
+        {
+          "titel": "4. Vermögenssorge",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "assetManagementGeneral",
+              "text": "Sie darf mein Vermögen verwalten und hierbei alle Rechtshandlungen und Rechtsgeschäfte im In- und Ausland vornehmen, Erklärungen aller Art abgeben und entgegennehmen sowie Anträge stellen, abändern, zurücknehmen, namentlich"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "disposeOfAssets",
+              "text": "über Vermögensgegenstände jeder Art verfügen (bitte beachten Sie hierzu auch den nachfolgenden Hinweis 1)"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "acceptPaymentsAndValuables",
+              "text": "Zahlungen und Wertgegenstände annehmen"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "enterIntoLiabilities",
+              "text": "Verbindlichkeiten eingehen (bitte beachten Sie hierzu auch den nachfolgenden Hinweis 1)"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "accountsCustodyAccountsSafes",
+              "text": "Willenserklärungen bezüglich meiner Konten, Depots und Safes abgeben. Sie darf mich im Geschäftsverkehr mit Kreditinstituten vertreten (bitte beachten Sie hierzu auch den nachfolgenden Hinweis 2)"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "customaryGiftsWithinWhatCare",
+              "text": "Schenkungen in dem Rahmen vornehmen, der einem Betreuer rechtlich gestattet ist."
+            },
+            {
+              "typ": "freitextSatz",
+              "feldId": "transactionsExpresslyExcluded",
+              "satz": "Folgende Geschäfte soll sie nicht wahrnehmen können: {text}"
+            },
+            {
+              "typ": "crossRef",
+              "text": "Hinweis:\n\n1. Denken Sie an die erforderliche Form der Vollmacht bei Immobiliengeschäften, für Handelsgewerbe oder die Aufnahme eines Verbraucherdarlehens (vgl. Ziffer 2.1.6 der Broschüre „Betreuungsrecht“).\n\n2. Für die Vermögenssorge in Bankangelegenheiten sollten Sie auf die von Ihrer Bank/Sparkasse angebotene Konto-/Depotvollmacht zurückgreifen. Diese Vollmacht berechtigt den Bevollmächtigten zur Vornahme aller Geschäfte, die mit der Konto- und Depotführung in unmittelbarem Zusammenhang stehen. Es werden ihm keine Befugnisse eingeräumt, die für den normalen Geschäftsverkehr unnötig sind, wie z. B. der Abschluss von Finanztermingeschäften. Die Konto-/Depotvollmacht sollten Sie grundsätzlich in Ihrer Bank oder Sparkasse unterzeichnen; etwaige spätere Zweifel an der Wirksamkeit der Vollmachtserteilung können hierdurch ausgeräumt werden. Können Sie Ihre Bank/Sparkasse nicht aufsuchen, wird sich im Gespräch mit Ihrer Bank/ Sparkasse sicher eine Lösung finden.",
+              "bedingung": {
+                "typ": "oder",
+                "bedingungen": [
+                  {
+                    "typ": "feldIn",
+                    "feld": "disposeOfAssets",
+                    "werte": [
+                      "ja",
+                      "nein"
+                    ]
+                  },
+                  {
+                    "typ": "feldIn",
+                    "feld": "enterIntoLiabilities",
+                    "werte": [
+                      "ja",
+                      "nein"
+                    ]
+                  },
+                  {
+                    "typ": "feldIn",
+                    "feld": "accountsCustodyAccountsSafes",
+                    "werte": [
+                      "ja",
+                      "nein"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "titel": "5. Post und Fernmeldeverkehr",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "mailAndTelecommunications",
+              "text": "Sie darf im Rahmen der Ausübung dieser Vollmacht die für mich bestimmte Post entgegennehmen, öffnen und lesen. Dies gilt auch für den elektronischen Postverkehr. Zudem darf sie über den Fernmeldeverkehr einschließlich aller elektronischen Kommunikationsformen entscheiden. Sie darf alle hiermit zusammenhängenden Willenserklärungen (z. B. Vertragsabschlüsse, Kündigungen) abgeben."
+            }
+          ]
+        },
+        {
+          "titel": "6. Vertretung vor Gericht",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "representationInCourt",
+              "text": "Sie darf mich gegenüber Gerichten vertreten sowie Prozesshandlungen aller Art vornehmen."
+            }
+          ]
+        },
+        {
+          "titel": "7. Untervollmacht",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "mayGrantASubPowerOfAttorney",
+              "text": "Sie darf Untervollmacht erteilen."
+            }
+          ]
+        },
+        {
+          "titel": "8. Betreuungsverfügung",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "alsoProposeTheAuthorizedPerson",
+              "text": "Falls trotz dieser Vollmacht eine gesetzliche Vertretung („rechtliche Betreuung“) erforderlich sein sollte, bitte ich, die oben bezeichnete Vertrauensperson als Betreuer zu bestellen."
+            }
+          ]
+        },
+        {
+          "titel": "9. Geltung über den Tod hinaus",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "appliesBeyondDeath",
+              "text": "Die Vollmacht gilt über den Tod hinaus."
+            }
+          ]
+        },
+        {
+          "titel": "10. Weitere Regelungen",
+          "bloecke": [
+            {
+              "typ": "freitext",
+              "feldId": "furtherProvisions"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "_zweck": "Fixture für tools/standzahl-frei-pruefen.js — damit die Suite das Werkzeug auch OHNE Netz und ohne `origin` prüfen kann. Nach der stehenden Regel: ein Prüfwerkzeug läuft ohne Argument gegen Fixtures im Repo, sonst hat es keine Positivkontrolle.",
+  "_kein_echter_stand": "Die Zweignamen und Zahlen hier sind ERFUNDEN und bilden absichtlich die drei Fälle ab, die in der Nacht auf den 06.09.2026 wirklich auftraten: eine belegte Zahl auf einem ungelandeten Zweig, ein Altzweig mit harmloser Altzahl, und ein Zweig, dessen vier Träger auseinanderliegen.",
+
+  "kanon": 580,
+  "zweige": [
+    {
+      "zweig": "origin/beispiel-belegt",
+      "_fall": "beansprucht v581 — die nächste Zahl ist damit v582, nicht v581",
+      "staende": { "sw.js": 581, "vivodepot.html": 581, "STANDARDS.md": 581, "docs/faktenbasis.md": 581 }
+    },
+    {
+      "zweig": "origin/beispiel-altzweig",
+      "_fall": "trägt eine Zahl UNTER dem Kanon — harmlos, darf nicht als belegt zählen",
+      "staende": { "sw.js": 412, "vivodepot.html": 412, "STANDARDS.md": 412, "docs/faktenbasis.md": 412 }
+    },
+    {
+      "zweig": "origin/beispiel-traeger-uneinig",
+      "_fall": "der Bump lief, die Erzeuger nicht — STANDARDS.md und faktenbasis.md hängen zurück. Kein Wächter fängt das; die beanspruchte Zahl ist trotzdem die HÖCHSTE (583).",
+      "staende": { "sw.js": 583, "vivodepot.html": 583, "STANDARDS.md": 582, "docs/faktenbasis.md": 582 }
+    }
+  ]
+}

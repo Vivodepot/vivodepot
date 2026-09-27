@@ -1,0 +1,20 @@
+{
+  "_typ": "elster-steuerdaten",
+  "_hinweis": "Schlanke JSON-Projektion der ELSTER-Steuer-Kernfelder (s. Annahme im Verifikations-Report Welle 2). Produktiv liefert ELSTER/ERiC amtliches, proprietaeres XML.",
+  "steuerpflichtiger": {
+    "identifikationsnummer": "12 345 678 901",
+    "steuernummer": "143/250/12345",
+    "finanzamt": "Finanzamt München Abt. III"
+  },
+  "veranlagung": {
+    "art": "Einkommensteuer",
+    "zeitraum": "2024"
+  },
+  "lohnsteuerbescheinigung": {
+    "bruttoarbeitslohn": "48000.00",
+    "lohnsteuer": "7200.00",
+    "solidaritaetszuschlag": "0.00",
+    "kirchensteuer": "576.00",
+    "waehrung": "EUR"
+  }
+}

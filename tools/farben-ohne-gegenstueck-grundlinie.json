@@ -1,0 +1,11 @@
+{
+ "summe": 4,
+ "jeDatei": {
+  "vivodepot.html": 4,
+  "vivodepot-lesen.html": 0,
+  "vivodepot-template-generator.html": 0,
+  "vivodepot-vc-issuer.html": 0
+ },
+ "gegenstand": "Hex-Farbwerte in <style>-Bloecken der ausgelieferten Anwendungen, die kein Gegenstueck unter den Token-Definitionen haben. Ohne jsPDF-Bundle, ohne Inline-SVG, ohne die Token-Definitionen selbst.",
+ "stichtag": "2026-08-17"
+}

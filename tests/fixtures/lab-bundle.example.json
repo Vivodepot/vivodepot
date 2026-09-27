@@ -1,0 +1,480 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "meta": {
+    "profile": [
+      "http://hl7.eu/fhir/laboratory/StructureDefinition/Bundle-eu-lab"
+    ]
+  },
+  "identifier": {
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:00000000-0000-4000-8000-000000000001"
+  },
+  "timestamp": "2026-05-31T10:00:00.000Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000002",
+      "resource": {
+        "resourceType": "Composition",
+        "status": "final",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/laboratory/StructureDefinition/Composition-eu-lab"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/composition-diagnosticReportReference",
+            "valueReference": {
+              "reference": "urn:uuid:00000000-0000-4000-8000-000000000003"
+            }
+          }
+        ],
+        "identifier": {
+          "system": "urn:ietf:rfc:3986",
+          "value": "urn:uuid:00000000-0000-4000-8000-000000000004"
+        },
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Laboratory report"
+            }
+          ],
+          "text": "Laborbericht"
+        },
+        "subject": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+        },
+        "date": "2026-05-31T10:00:00.000Z",
+        "author": [
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+          }
+        ],
+        "title": "Laborbericht",
+        "section": [
+          {
+            "title": "Laborergebnisse",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "26436-6",
+                  "display": "Laboratory studies (set)"
+                }
+              ]
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:00000000-0000-4000-8000-000000000006"
+              },
+              {
+                "reference": "urn:uuid:00000000-0000-4000-8000-000000000007"
+              },
+              {
+                "reference": "urn:uuid:00000000-0000-4000-8000-000000000008"
+              },
+              {
+                "reference": "urn:uuid:00000000-0000-4000-8000-000000000009"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Laborergebnisse — 4 Wert(e).</div>"
+            }
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Laborbericht (HL7 Europe Laboratory Report).</div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000005",
+      "resource": {
+        "resourceType": "Patient",
+        "name": [
+          {
+            "family": "Mustermann",
+            "given": [
+              "Maria"
+            ]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1965-04-23",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Maria Mustermann</div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000010",
+      "resource": {
+        "resourceType": "Specimen",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/laboratory/StructureDefinition/Specimen-eu-lab"
+          ]
+        },
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "119297000",
+              "display": "Blood specimen"
+            }
+          ],
+          "text": "Blutprobe"
+        },
+        "subject": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Blutprobe</div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000006",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab"
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "718-7",
+              "display": "Hemoglobin [Mass/volume] in Blood"
+            }
+          ],
+          "text": "Hämoglobin (Hb)"
+        },
+        "subject": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+        },
+        "effectiveDateTime": "2026-05-20",
+        "performer": [
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+          }
+        ],
+        "valueQuantity": {
+          "value": 14.2,
+          "unit": "g/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "g/dL"
+        },
+        "specimen": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000010"
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hämoglobin (Hb): 14.2 g/dL</div>"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 12,
+              "unit": "g/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "g/dL"
+            },
+            "high": {
+              "value": 16,
+              "unit": "g/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "g/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000007",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab"
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2160-0",
+              "display": "Creatinine [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Kreatinin"
+        },
+        "subject": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+        },
+        "effectiveDateTime": "2026-05-20",
+        "performer": [
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+          }
+        ],
+        "valueQuantity": {
+          "value": 0.9,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        },
+        "specimen": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000010"
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Kreatinin: 0.9 mg/dL</div>"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.6,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "high": {
+              "value": 1.2,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000008",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab"
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "1988-5",
+              "display": "C reactive protein [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "CRP"
+        },
+        "subject": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+        },
+        "effectiveDateTime": "2026-05-31T10:00:00.000Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+          }
+        ],
+        "valueQuantity": {
+          "value": 3,
+          "unit": "mg/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/L"
+        },
+        "specimen": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000010"
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CRP: 3 mg/L</div>"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0,
+              "unit": "mg/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/L"
+            },
+            "high": {
+              "value": 5,
+              "unit": "mg/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/L"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000009",
+      "resource": {
+        "resourceType": "Observation",
+        "status": "final",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab"
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "882-1",
+              "display": "ABO and Rh group [Type] in Blood"
+            }
+          ],
+          "text": "Blutgruppe"
+        },
+        "subject": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+        },
+        "effectiveDateTime": "2026-05-31T10:00:00.000Z",
+        "performer": [
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+          }
+        ],
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "278149003",
+              "display": "Blood group A Rh(D) positive"
+            }
+          ],
+          "text": "Blutgruppe A+"
+        },
+        "specimen": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000010"
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Blutgruppe: A+</div>"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:00000000-0000-4000-8000-000000000003",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "status": "final",
+        "meta": {
+          "profile": [
+            "http://hl7.eu/fhir/laboratory/StructureDefinition/DiagnosticReport-eu-lab"
+          ]
+        },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-DiagnosticReport.composition",
+            "valueReference": {
+              "reference": "urn:uuid:00000000-0000-4000-8000-000000000002"
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:00000000-0000-4000-8000-000000000004"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Laboratory report"
+            }
+          ],
+          "text": "Laborbericht"
+        },
+        "subject": {
+          "reference": "urn:uuid:00000000-0000-4000-8000-000000000005"
+        },
+        "effectiveDateTime": "2026-05-31T10:00:00.000Z",
+        "issued": "2026-05-31T10:00:00.000Z",
+        "specimen": [
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000010"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000006"
+          },
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000007"
+          },
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000008"
+          },
+          {
+            "reference": "urn:uuid:00000000-0000-4000-8000-000000000009"
+          }
+        ],
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Laborbericht — 4 Ergebnis(se).</div>"
+        }
+      }
+    }
+  ]
+}

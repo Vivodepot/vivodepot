@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/rechtsraum-modul-schema.json",
+  "title": "Vivodepot Rechtsraum-Modul",
+  "description": "Der Nutzlast-Vertrag eines Rechtsraum-Moduls: rechtsraumspezifischer Inhalt (Wortlaut, Formvorschriften, Fristen-/Vorrangregeln, Zweck), der neben dem eingebauten deutschen Katalog angedockt wird. Maßstab ist der Kern: der Rechtsraum-Prüfer im EINLASS_REGISTER von vivodepot.html (inline, mit _rechtsraumModulUebersetzen); die Probe tests/mit-modul/modul-schema-rechtsraum.test.js hält Schema und Kern im Gleichlauf. Ein Modul reist als Daten im Depot (data.rechtsraumModule[]), nicht als Quelltext. Ein Modul mit höherer moduleVersion ersetzt den gespeicherten Stand desselben Rechtsraum-Codes. Nur der Kern prüft, ob ein Typ-Schlüssel dem eingebauten Katalog bekannt ist; ein unbekannter Typ muss im tpl_-Namensraum liegen, sonst verwirft der Kern ihn, und ohne verbleibenden Typ lehnt er das Modul ab. Das frühere Pflichtfeld schemaVersion ist entfallen: der Kern hat es nie gelesen und verwarf es als unbekannt (s. docs/JURISDICTIONS.md).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rechtsraum",
+    "moduleVersion",
+    "typen"
+  ],
+  "if": {
+    "required": [
+      "typen"
+    ],
+    "properties": {
+      "typen": {
+        "not": {
+          "type": "object",
+          "additionalProperties": {
+            "not": {
+              "type": "object",
+              "required": [
+                "wortlaut"
+              ],
+              "properties": {
+                "wortlaut": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "sprache"
+    ],
+    "properties": {
+      "sprache": {
+        "type": "string",
+        "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+      }
+    }
+  },
+  "properties": {
+    "modulTyp": {
+      "const": "rechtsraum"
+    },
+    "rechtsraum": {
+      "description": "Der Rechtsraum-Code, den dieses Modul beliefert (z. B. 'FR', 'AT'). 'DE' ist auf dem allgemeinen Einlass-Weg reserviert; nur der gesonderte, TA-signaturgeprüfte Gerüst-Ladeweg darf ein Modul mit 'DE' annehmen — ihn beschreibt dieses Schema nicht.",
+      "type": "string",
+      "pattern": "\\S",
+      "not": {
+        "const": "DE"
+      }
+    },
+    "moduleVersion": {
+      "description": "Aktualisieren-Zaehler (Entscheidung 8, Abweichung 1): monoton steigend. Ein erneut geladenes Modul mit hoeherer moduleVersion ERSETZT den fuer denselben rechtsraum-Code gespeicherten Stand; gleiche oder niedrigere Version aendert nichts (kein Rueckschritt).",
+      "type": "integer",
+      "minimum": 1
+    },
+    "typen": {
+      "description": "Rechtsraumspezifischer Inhalt je Instrument-Typ. Ein Schluessel, den der eingebaute Katalog bereits kennt (z. B. 'vorsorgevollmacht'), fuegt DIESEM Rechtsraum eigenen Inhalt hinzu (kein Ueberschreiben — der Slot liegt ohnehin nach {typ, rechtsraum} getrennt). Ein NEUER Typ (den der eingebaute Katalog nicht kennt, Punkt 4 'Instrument ohne deutsches Gegenstueck') MUSS den tpl_-Namensraum tragen (Namensraum-Schutz, U2-ADR-037-Muster) — sonst koennte ein kuenftiger eingebauter Typ mit demselben Namen von einem alten Modul beschattet werden.",
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "katalogVersion"
+        ],
+        "properties": {
+          "katalogVersion": {
+            "description": "Kellerwand 1 fuer DIESEN Typ-Eintrag: die Version, GEGEN DIE er gebaut wurde. Aendert sich ein Paragraf spaeter, bekommt NUR der betroffene Eintrag eine neue Zahl.",
+            "type": "integer",
+            "minimum": 1
+          },
+          "wortlaut": {
+            "description": "Amtlicher Textbaustein/Wortlaut, falls vorhanden. null (nicht Feld weglassen), wenn dieser Typ keinen eigenen Wortlaut hat (Muster wie RECHTSRAUM_KATALOG.testament.DE.wortlaut = null). `wortlaut` und `bauplan` schliessen einander nicht aus — ein Typ kann nur einen Textbaustein, nur einen Bauplan, oder beides tragen.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "bauplan": {
+            "description": "Die Anweisung, wie dieses Instrument in diesem Rechtsraum entsteht — Wortlaut, Reihenfolge und Bedingungen zusammen, fuer Instrumente mit mehrschrittigem Bauplan (z. B. Patientenverfuegung/Vollmacht, U2-ADR-NNN Korpus-Zuordnung). null, wenn dieser Typ keinen mehrschrittigen Bauplan hat (nur `wortlaut`, oder keins von beiden). Jeder Schritt traegt die gemeinsame Wurzel {feld, verborgenWenn?} plus die Korpus-Erweiterung {dokEinleitung?, bezug?, hilfetext?, frage?} — dieselbe Wurzel wie die Wizard-Erweiterung {feld, verborgenWenn?, ziel?} in BUERGERMODUL_BUENDEL.wizards, aber mit den Korpus-eigenen statt den Wizard-eigenen Zusatzfeldern.",
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "feld"
+              ],
+              "properties": {
+                "feld": {
+                  "description": "Das Feld dieses Schritts (Unterobjekt, kein blosser Kennung-String — gemessen an _pvBmjSchrittZuWizardSchritt, das s.feld.id liest). Freie Form je Feldtyp (id/typ Pflicht, dazu je nach typ z. B. optionen/katalogOptionenAus/beispiel/eingabeTyp) — derselbe Freiheitsgrad wie formvorschriften/fristenVorrang oben, kein zweites, engeres Feld-Schema hier nachgebaut.",
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "typ"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "typ": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "verborgenWenn": {
+                  "description": "Optionale Bedingung, unter der dieser Schritt uebersprungen wird (Negativ-Form: nennt nur die ausschliessenden Katalogwerte, s. Kern-Kommentar an PV_VERBORGEN_WENN). Freie Form, wie am Wizard-Pendant.",
+                  "type": "object"
+                },
+                "dokEinleitung": {
+                  "description": "Einleitender Text vor diesem Schritt im erzeugten Dokument (Korpus-eigen, kein Wizard-Aequivalent).",
+                  "type": "string"
+                },
+                "bezug": {
+                  "description": "Bezugssatz, der diesem Schritt im erzeugten Dokument vorangestellt wird (Korpus-eigen).",
+                  "type": "string"
+                },
+                "hilfetext": {
+                  "description": "Erlaeuternder Hilfetext zu diesem Schritt (Korpus-eigen, auch am Wizard-Pendant bekannt).",
+                  "type": "string"
+                },
+                "frage": {
+                  "description": "Die Frage, die dieser Schritt der Buergerin stellt (Korpus-eigen, auch am Wizard-Pendant bekannt).",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "formvorschriften": {
+            "description": "Formvorschrift-Struktur (freie Form je Rechtsraum — der eingebaute Katalog nutzt z. B. {paragraf, hinweis}). null, wenn keine gesonderte Formvorschrift gilt.",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "fristenVorrang": {
+            "description": "Fristen-/Vorrangregel-Struktur (freie Form — der eingebaute Katalog nutzt z. B. {auswahlform, paragraf, hinweis, monate}). Wird vom Kontrollfluss gelesen (Entscheidung 8, Abweichung 2) — anders als feldDefinitionen, die laut U2-ADR-037 reine Struktur ohne Gueltigkeitsbindung sind.",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "zweck": {
+            "description": "Rechtsraumunabhaengige Zweck-Markierung (Punkt 3) fuer Cross-Jurisdiktions-Matching — dasselbe Vokabular-Prinzip wie am eingebauten Katalog, nicht zwingend dieselbe geschlossene Werteliste (ein Modul kann eigene Zweck-Werte einfuehren). null, wenn (noch) keine Zuordnung getroffen wurde.",
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "sprache": {
+      "description": "Sprache der Beschriftungen (BCP-47-Form). Pflicht, sobald ein Typ einen nicht-leeren wortlaut trägt.",
+      "type": "string"
+    },
+    "appVersion": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "eingelassenAm": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "anbieterId": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "string"
+    },
+    "ungeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    },
+    "anbieterIdGeprueft": {
+      "description": "Vom Einlass gesetzt.",
+      "type": "boolean"
+    }
+  }
+}

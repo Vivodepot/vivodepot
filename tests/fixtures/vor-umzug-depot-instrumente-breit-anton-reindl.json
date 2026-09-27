@@ -1,0 +1,160 @@
+{
+  "_typ": "vivodepot-klartext-export",
+  "_hinweis": "Pruefmaterial (ERFUNDEN, Anton Reindl) — gebaut, um die instrumentgetriebenen Bloecke von PV_MODUL/KI_MODUL/VOLLMACHT_MODUL/BETREUUNG_MODUL zu treffen. Ergaenzt vivodepot-beispieldepot-marlene-hoffmann.json (die nur skalare Felder ohne vorsorge_instrumente fuellt) — kein Ersatz dafuer.",
+  "_version": "v1.0-rc",
+  "depot": {
+    "schemaVersion": 75,
+    "kryptoVersion": 3,
+    "menschen": [
+      {
+        "id": "pers-bevollmaechtigt-1",
+        "name": "Julia Reindl"
+      },
+      {
+        "id": "pers-ersatz-1",
+        "name": "Markus Reindl"
+      },
+      {
+        "id": "pers-beistand-1",
+        "name": "Pfarrer Tobias Wenk"
+      }
+    ],
+    "institutionen": [],
+    "mappe": [],
+    "sektoren": {
+      "identity": {
+        "givenName": "Anton",
+        "familyName": "Reindl",
+        "birthDate": "1949-11-03",
+        "streetAddress": "Ringstraße 8",
+        "postcodeCity": "80331 München"
+      },
+      "advanceCare": {
+        "applicableSituations": [
+          "sterbeprozess",
+          "endstadium",
+          "gehirnschaedigung"
+        ],
+        "lifeSustainingMeasures": "unterlassen",
+        "painAndSymptomTreatment": "mit_daempfung",
+        "acceptsLifeShorteningFromPain": "ja",
+        "artificialNutritionAndHydration": "palliativ",
+        "resuscitationInDescribedSituations": "nein",
+        "emergencyDoctorNotified": "nein",
+        "resuscitationInAllCases": "ab",
+        "artificialVentilation": "nein",
+        "dialysis": "nein",
+        "antibiotics": "palliativ",
+        "bloodAndBloodProducts": "nein",
+        "placeOfTreatmentOrDeath": "zuhause",
+        "supportFromThesePersons": [
+          {
+            "ref": "pers-beistand-1"
+          }
+        ],
+        "hospiceSupport": "ja",
+        "confidentialityWaiverFor": [
+          {
+            "ref": "pers-bevollmaechtigt-1"
+          },
+          {
+            "ref": "pers-ersatz-1"
+          }
+        ],
+        "whoseViewMattersIfUnregulated": "bevollmaechtigt",
+        "whoseViewMattersIfDeviatingWill": "bevollmaechtigt",
+        "organDonationDecision": "ablehnung",
+        "waivesFurtherMedicalInformation": "nein",
+        "validityDuration": "unbefristet",
+        "provisionInstruments": [
+          {
+            "id": "zeile-vv",
+            "instrument": "vorsorgevollmacht",
+            "form": "privat",
+            "authorizedPersons": [
+              {
+                "ref": "pers-bevollmaechtigt-1"
+              },
+              {
+                "ref": "pers-ersatz-1"
+              }
+            ],
+            "howDoThePeopleRepresentYou": "nacheinander",
+            "healthCareGeneralDecision": "ja",
+            "healthCareMedicalProcedures": "ja",
+            "healthCareMedicalRecords": "ja",
+            "healthCarePlacementDepriving": "ja",
+            "healthCareMeasuresDepriving": "nein",
+            "healthCareCompulsoryMedical": "nein",
+            "healthCareAdmissionToHospital": "ja",
+            "determinePlaceOfResidence": "ja",
+            "manageAnExistingTenancyWindUp": "ja",
+            "concludeAndTerminateANew": "nein",
+            "concludeAndTerminateHousingAnd": "ja",
+            "representationWithAuthorities": "ja",
+            "assetManagementGeneral": "ja",
+            "disposeOfAssets": "ja",
+            "acceptPaymentsAndValuables": "ja",
+            "enterIntoLiabilities": "ja",
+            "accountsCustodyAccountsSafes": "ja",
+            "customaryGiftsWithinWhatCare": "nein",
+            "transactionsExpresslyExcluded": "Keine Schenkungen an die Bevollmächtigten selbst.",
+            "mailAndTelecommunications": "ja",
+            "representationInCourt": "ja",
+            "mayGrantASubPowerOfAttorney": "nein",
+            "alsoProposeTheAuthorizedPerson": "ja",
+            "appliesBeyondDeath": "ja",
+            "furtherProvisions": "Die Vollmacht gilt gleichermaßen für beide Bevollmächtigten."
+          },
+          {
+            "id": "zeile-pv",
+            "instrument": "patientenverfuegung",
+            "form": "privat"
+          },
+          {
+            "id": "zeile-ki",
+            "instrument": "ki-verfuegung",
+            "basicDecision": "erlaubnis",
+            "purpose": [
+              "trauer",
+              "erinnerung"
+            ],
+            "authorizedParties": "benannte",
+            "namedIndividuals": [
+              {
+                "ref": "pers-bevollmaechtigt-1"
+              }
+            ],
+            "scope": "privat",
+            "permittedDataTypes": [
+              "schriftverkehr",
+              "sprache",
+              "fotovideo"
+            ],
+            "timeLimit": "jahre",
+            "numberOfYears": "5",
+            "behaviouralLimit": "belegt",
+            "digitalEstateAdministration": "benannt",
+            "digitalEstateAdministration2": [
+              {
+                "ref": "pers-bevollmaechtigt-1"
+              }
+            ]
+          },
+          {
+            "id": "zeile-bv",
+            "instrument": "betreuungsverfuegung",
+            "proposedPerson": {
+              "ref": "pers-bevollmaechtigt-1"
+            },
+            "alternatePerson": {
+              "ref": "pers-ersatz-1"
+            },
+            "whatTheCareArrangementShould": "Möglichst in der eigenen Wohnung betreut werden.",
+            "whatTheCareArrangementShould2": "Keine Unterbringung in einer geschlossenen Einrichtung ohne zwingenden Grund."
+          }
+        ]
+      }
+    }
+  }
+}

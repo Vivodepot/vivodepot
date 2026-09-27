@@ -1,0 +1,46 @@
+{
+  "format": "showcaseDepot/1",
+  "owner": "Mira Hollenbeck",
+  "hinweis": "Erfundene Beispielperson für die Vorführung. Feldkennungen in der Schreibweise des Kerns (englisch lowerCamelCase). Auswahlwerte und Personen-/Institutions-Felder in der Form des Kerns. Kein Name, keine Anschrift, keine Nummer realer Herkunft: Telefon im reservierten Beispielbereich, Steuer-ID und IBAN mit Nullen ohne gültige Prüfziffer.",
+  "people": [
+    { "key": "bruder", "name": "Jonas Hollenbeck", "beziehung": "Bruder", "tel": "+49 30 0000000" },
+    { "key": "hausarzt", "name": "Praxis am Beispielplatz", "fachrichtung": "Allgemeinmedizin", "tel": "+49 30 0000001", "adresse": "Beispielplatz 1, 10000 Beispielstadt" },
+    { "key": "vermieterin", "name": "Hausverwaltung Beispielhof", "tel": "+49 30 0000002", "adresse": "Beispielhof 7, 10000 Beispielstadt" }
+  ],
+  "institutions": [
+    { "key": "kasse", "name": "Beispielkasse", "art": "krankenkasse" },
+    { "key": "bank", "name": "Beispielbank", "art": "bank" },
+    { "key": "buergeramt", "name": "Bürgeramt Beispielstadt", "art": "meldebehoerde" }
+  ],
+  "fields": {
+    "identity.givenName": "Mira",
+    "identity.familyName": "Hollenbeck",
+    "identity.birthDate": "1982-03-14",
+    "health.healthInsurance": { "institution": "kasse" },
+    "health.generalPractitioner": { "person": "hausarzt" },
+    "health.emergencyContacts": [{ "person": "bruder" }],
+    "health.allergiesMedicationFoodOther": [{ "codeListe": "snomedAllergen", "text": "Allergie gegen Penicillin" }],
+    "health.medicationOngoing": [{ "codeListe": "atc", "text": "Ramipril" }],
+    "health.chronicConditionsDiagnoses": [{ "codeListe": "icd10", "text": "Essentielle (primäre) Hypertonie" }],
+    "housing.ownedOrRented": "miete",
+    "housing.landlordPropertyManagement": { "person": "vermieterin" },
+    "housing.tenancyAgreementStorage": "Ordner „Wohnen“, seit 2019",
+    "education.occupationRole": "Vermessungsingenieurin",
+    "education.universityDegreeType": "diplom",
+    "education.universitySubject": "Vermessungswesen (Dipl.-Ing.)"
+  },
+  "lists": {
+    "identity.idDocuments": [
+      { "system": "Deutschland", "validUntil": "2026-11-30" }
+    ],
+    "advanceCare.provisionInstruments": [
+      { "instrument": "enduring-power-of-attorney", "typeOfPowerOfAttorney": "vorsorge", "form": "privat", "authorizedPersons": [{ "person": "bruder" }], "storageLocation": "Ordner „Vorsorge“, Arbeitszimmer" }
+    ],
+    "finance.taxIdsTaxNumbers": [
+      { "system": "Deutschland", "taxNumber": "00 000 000 000" }
+    ],
+    "finance.accounts": [
+      { "institution": { "institution": "bank" }, "accountType": "Girokonto", "iban": "DE00 0000 0000 0000 0000 00" }
+    ]
+  }
+}

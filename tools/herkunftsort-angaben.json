@@ -1,0 +1,10 @@
+{
+  "_beschreibung": "Die EINE Quelle der unersetzbaren Angaben am Herkunftsort (Spezifikation 34.7, md5 aa468bfa: eine Quelle auch über die Anwendungen hinweg). tools/herkunftsort-angaben-schreiben.js erzeugt daraus je Träger denselben Block HERKUNFTSORT_ANGABEN (Kern und Lese-App); tests/herkunftsort-angaben-gleich.test.js vergleicht. Nicht in einem Träger von Hand ändern. Name der Urheberin: zwei Sorten Angabe aus zwei Gründen — der Name, weil die Urheberschaft nicht entfernbar sein darf; die Lizenzkennung, weil eine falsche Lizenzkennung eine falsche Aussage über die Rechtslage wäre (25.8).",
+  "urheberin": { "name": "Vivodepot GmbH", "marke": "Vivodepot", "ort": "Berlin" },
+  "lizenz": "EUPL-1.2",
+  "schluessel": {
+    "herkunftPoweredBy": ["{urheberin}"],
+    "herkunftLizenzhinweis": ["{urheberin}", "{lizenz}"]
+  },
+  "_schluessel": "Die Textsatz-Schlüssel, die der Herkunftsort liest und deren Sätze eine Angabe tragen, samt den Platzhaltern, die ihr Text tragen MUSS. {urheberin} löst auf urheberin.marke auf, {lizenz} auf lizenz — aus dem Block, nie aus dem Branding; {marke} und {marke_domain} sind in diesen Schlüsseln nicht zulässig."
+}

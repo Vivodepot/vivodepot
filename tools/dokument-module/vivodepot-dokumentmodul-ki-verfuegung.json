@@ -1,0 +1,247 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/ki-verfuegung",
+  "fassung": 1,
+  "dokumentModule": {
+    "ki-verfuegung": {
+      "motor": "ki",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "Grundentscheidung und Zweckbindung",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "basicDecision"
+            },
+            {
+              "typ": "mehrfachauswahl",
+              "feldId": "purpose",
+              "einleitungAus": {
+                "dokument": "kiKorpus",
+                "teil": "zweckEinleitung"
+              },
+              "bulletPrefix": "– ",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "einleitung": "Die Nachbildung darf ausschließlich genutzt werden"
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "ausschluss"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Ausgeschlossen sind in jedem Fall: Werbung, kommerzielle Verwertung, politische oder weltanschauliche Aussagen sowie jeder öffentliche Auftritt im Namen meiner Person."
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Personenkreis und Zugang",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "authorizedParties",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "refByWert": {
+                "benannte": {
+                  "platzhalter": "(Namen)",
+                  "feld": "namedIndividuals"
+                }
+              }
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "scope",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "alterVertraulichkeit"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Der Zugang ist auf volljährige Personen beschränkt.",
+                "Die Kommunikation mit der Nachbildung ist vertraulich; ein Mithören oder Aufzeichnen durch Dritte ist ausgeschlossen."
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Datenumfang, Quellen und Befristung",
+          "bloecke": [
+            {
+              "typ": "mehrfachauswahl",
+              "feldId": "permittedDataTypes",
+              "bulletPrefix": "– ",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "quellenbegrenzung"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Es dürfen ausschließlich die von mir freigegebenen oder eigens hinterlegten Materialien verwendet werden. Ein nachträgliches Zusammentragen weiterer Daten aus öffentlichen oder privaten Quellen ist untersagt."
+              ]
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "timeLimit",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "fuellByWert": {
+                "jahre": {
+                  "platzhalter": "(Jahre)",
+                  "feld": "numberOfYears"
+                },
+                "zeitpunkt": {
+                  "platzhalter": "(Zeitpunkt)",
+                  "feld": "date"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "titel": "Kennzeichnung und Verhaltensgrenzen",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "kennzeichnung"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Die Nachbildung ist bei jeder Nutzung deutlich und dauerhaft als KI-Nachbildung einer verstorbenen Person zu kennzeichnen."
+              ]
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "behaviouralLimit",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "grundverbot"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Untersagt ist jede Nutzung, die den Eindruck erweckt, ich sei noch am Leben oder träfe gegenwärtige Entscheidungen."
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Widerruf, Abschaltung und Verwaltung",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "widerruf"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Diese Verfügung kann ich zu Lebzeiten jederzeit formlos widerrufen oder ändern."
+              ]
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "digitalEstateAdministration",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "refByWert": {
+                "benannt": {
+                  "platzhalter": "(Name)",
+                  "feld": "digitalEstateAdministration2"
+                }
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "optoutKonflikt"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Auf Wunsch einer zugangsberechtigten Person ist die Nutzung für diese Person jederzeit zu beenden.",
+                "Bei Uneinigkeit unter den Angehörigen über Fortbestand oder Nutzung entscheidet die von mir benannte Person; im Zweifel ist die Nutzung einzustellen."
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Schlussformel",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "schlussformel"
+              },
+              "texte": [
+                "Diese Verfügung habe ich bei klarem Verstand und ohne Zwang errichtet."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

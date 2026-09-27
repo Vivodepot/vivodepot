@@ -1,0 +1,248 @@
+{
+ "_hinweis": "Träger des alten Wortlauts: je Datei, ob Quelle (von Hand), Erzeugnis (aus Quellen erzeugt) oder Kopie eines Einmalschnitts. Gemessen am 22.09.2026 mit Markern (eine eindeutige Marke je § in jeder Datei, Erzeuger laufen lassen, nachsehen, wo die Marke ankommt und wo sie verschwindet). Ein Träger, der alten Wortlaut trägt und hier fehlt, ist rot: die Zuordnung ist dann nicht mehr vollständig. rolle aufzeichnung: eingefrorener Stand ohne Lauf im Landeablauf, der von selbst nicht nachzieht und kein Produkt erreicht (grund und nachsehen in der Zeile). Sie bleibt, wird gemeldet (BLEIBT), zählt nicht als OFFEN; die Probe prüft, dass sie keinen Rezept- oder Ladeweg bekommt. Rolle erzeugnis-von-hand: Erzeugnis, dessen Erzeuger im Landeablauf fehlt; er muss nach einer Änderung an der Quelle von Hand laufen.",
+ "traeger": [
+  {
+   "pfad": "vivodepot.html",
+   "rolle": "quelle",
+   "was": "Kern: BAUSTEINE, VERTRETUNG_ART_LABEL, RECHTSGRUNDLAGEN_VERTRETUNG (Literale im Code)"
+  },
+  {
+   "pfad": "tools/textsatz-de-modul.json",
+   "rolle": "quelle",
+   "was": "deutscher Sprachsatz; seit S8 (U2-ADR-428) Quelle, kein Erzeugnis"
+  },
+  {
+   "pfad": "tools/textsatz-en-daten.js",
+   "rolle": "quelle",
+   "was": "englische Übersetzungen, Tabelle 1 von 4"
+  },
+  {
+   "pfad": "tools/textsatz-en-353-zugang-recht-daten.js",
+   "rolle": "quelle",
+   "was": "englische Übersetzungen, Tabelle 2 von 4"
+  },
+  {
+   "pfad": "tools/textsatz-en-optionswerte-daten.js",
+   "rolle": "quelle",
+   "was": "englische Übersetzungen, Tabelle 3 von 4"
+  },
+  {
+   "pfad": "tools/textsatz-en-vollabdeckung-daten.js",
+   "rolle": "quelle",
+   "was": "englische Übersetzungen, Tabelle 4 von 4"
+  },
+  {
+   "pfad": "tools/bereich-templates/vivodepot-identity.json",
+   "rolle": "quelle",
+   "was": "Bereichs-Vorlage (hinweis/quelle je Dokumentart)"
+  },
+  {
+   "pfad": "tools/bereich-templates/vivodepot-mobility.json",
+   "rolle": "quelle",
+   "was": "Bereichs-Vorlage (hinweis/quelle je Dokumentart)"
+  },
+  {
+   "pfad": "tools/bereich-templates/vivodepot-socialInsurance.json",
+   "rolle": "quelle",
+   "was": "Bereichs-Vorlage (hinweis/quelle je Dokumentart)"
+  },
+  {
+   "pfad": "tools/templates/vivodepot-pro-notar-kanzleivertretung-logikmodul.json",
+   "rolle": "quelle",
+   "was": "Pro-Modul Notar, von Hand gepflegt und so ausgeliefert"
+  },
+  {
+   "pfad": "tools/templates/vivodepot-pro-notar-kanzleivertretung-logikmodul-en.json",
+   "rolle": "quelle",
+   "was": "Pro-Modul Notar (englisch), von Hand gepflegt und so ausgeliefert"
+  },
+  {
+   "pfad": "tests/fixtures/erbschein-vorbereitung-logikmodul.json",
+   "rolle": "quelle",
+   "was": "Quelle des Erbschein-Auszugs, liegt unter tests/fixtures und ist trotzdem die Quelle der ausgelieferten Moduldatei"
+  },
+  {
+   "pfad": "tools/betriebssatz-inhalte.js",
+   "rolle": "quelle",
+   "was": "Felder der Pro-Betriebssatz-Vorlage (auch der ältere signierte Weg liest sie)"
+  },
+  {
+   "pfad": "tools/rechtsraum-de-modul.json",
+   "rolle": "quelle",
+   "was": "Rechtsraum-Modul, von Hand gepflegt, in jedem Produkt"
+  },
+  {
+   "pfad": "tools/dokument-module/vivodepot-dokumente-de.json",
+   "rolle": "quelle",
+   "was": "Dokument-Modul, von Hand gepflegt, in jedem Produkt"
+  },
+  {
+   "pfad": "tools/dokument-module/vivodepot-dokumentmodul-vorsorgevollmacht.json",
+   "rolle": "quelle",
+   "was": "Dokument-Modul, von Hand gepflegt"
+  },
+  {
+   "pfad": "tools/behandlungsweg/felder.json",
+   "rolle": "quelle",
+   "was": "Feldliste der Vorlage „Mein Behandlungsweg“ (Produktbezug offen, in keinem Rezept)"
+  },
+  {
+   "pfad": "tools/textsatz-en-modul.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/textsatz-en-modul-erzeugen.js"
+   ],
+   "aus": [
+    "tools/textsatz-en-daten.js",
+    "tools/textsatz-en-353-zugang-recht-daten.js",
+    "tools/textsatz-en-optionswerte-daten.js",
+    "tools/textsatz-en-vollabdeckung-daten.js",
+    "tools/textsatz-de-modul.json"
+   ]
+  },
+  {
+   "pfad": "vivodepot-lesen.html",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/build-textsatz-eingebaut-lesen.js",
+    "tools/build-dok-textsatz-eingebaut-lesen.js",
+    "tools/build-sektoren-lesen.js"
+   ],
+   "aus": [
+    "tools/textsatz-de-modul.json"
+   ],
+   "was": "nur die Regionen TEXTSATZ_EINGEBAUT_LESEN, TEXTSATZ_EINGEBAUT_LESEN_DOK und SEKTOREN; der Rest der Lese-App ist von Hand"
+  },
+  {
+   "pfad": "vivodepot-template-generator.html",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/build-feldkatalog.js"
+   ],
+   "aus": [
+    "tools/textsatz-de-modul.json",
+    "tools/textsatz-en-daten.js"
+   ],
+   "was": "nur die Region FELDKATALOG"
+  },
+  {
+   "pfad": "bereiche/feldkatalog.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/build-feldkatalog.js"
+   ],
+   "aus": [
+    "tools/textsatz-de-modul.json"
+   ]
+  },
+  {
+   "pfad": "tools/bereiche-nativ-katalog-modul.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/bereiche-nativ-katalog-erzeugen.js"
+   ],
+   "aus": [
+    "tools/bereich-templates/vivodepot-identity.json",
+    "tools/bereich-templates/vivodepot-mobility.json",
+    "tools/bereich-templates/vivodepot-socialInsurance.json"
+   ]
+  },
+  {
+   "pfad": "tools/vd-privat-struktur-bundle.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/vd-privat-struktur-bundle-erzeugen.js"
+   ],
+   "aus": [
+    "tools/bereich-templates/vivodepot-identity.json",
+    "tools/bereich-templates/vivodepot-mobility.json",
+    "tools/bereich-templates/vivodepot-socialInsurance.json"
+   ]
+  },
+  {
+   "pfad": "tools/erbschein-vorbereitung-modul.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/erbschein-vorbereitung-modul-erzeugen.js"
+   ],
+   "aus": [
+    "tests/fixtures/erbschein-vorbereitung-logikmodul.json"
+   ]
+  },
+  {
+   "pfad": "tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-de.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/pro-vorlage-ab-werk-erzeugen.js"
+   ],
+   "aus": [
+    "tools/betriebssatz-inhalte.js"
+   ]
+  },
+  {
+   "pfad": "tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-en.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/pro-vorlage-ab-werk-erzeugen.js"
+   ],
+   "aus": [
+    "tools/betriebssatz-inhalte.js"
+   ]
+  },
+  {
+   "pfad": "tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-bereichsersatz.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/pro-bereichsersatz-erzeugen.js"
+   ],
+   "aus": [
+    "tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-de.json",
+    "tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-en.json"
+   ]
+  },
+  {
+   "pfad": "tools/vivodepot-bereiche-bekannt.json",
+   "rolle": "erzeugnis",
+   "erzeuger": [
+    "tools/vivodepot-bereiche-bekannt-erzeugen.js"
+   ],
+   "aus": [
+    "tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-bereichsersatz.json"
+   ]
+  },
+  {
+   "pfad": "tools/buergermodul/vd-de-sprache.json",
+   "rolle": "aufzeichnung",
+   "erzeuger": [
+    "tools/buergermodul-schnitt.js"
+   ],
+   "grund": "Aufzeichnung des Standes vom 05.09.2026 (Einmalschnitt, eingefroren). Gemessen am 22.09.2026: in keinem Produkt-Rezept (tools/lib/vier-produkte.js), in keinem Ladeweg (package.json, sw.js, .github, tools/produkt-konfektionieren.js, Kern), gelesen nur von tests/erzeuger-deckung-sprache-rechtsraum-marke.test.js und tests/fremde-datei-reiner-text.test.js; die Rezept-Fixtures der Gateway-Repos nennen sie nicht. Bleibt darum stehen. Wird sie je in ein Rezept oder einen Ladeweg aufgenommen, ist sie keine Aufzeichnung mehr, sondern eine Quelle: dann ist die Probe rot, und sie ist zu schneiden.",
+   "nachsehen": "git grep -n \"vd-de-sprache\\|vd-de-rechtsraum\" -- . ':!docs'"
+  },
+  {
+   "pfad": "tools/buergermodul/vd-de-rechtsraum.json",
+   "rolle": "aufzeichnung",
+   "erzeuger": [
+    "tools/buergermodul-schnitt.js"
+   ],
+   "grund": "Aufzeichnung des Standes vom 05.09.2026 (Einmalschnitt, eingefroren). Gemessen am 22.09.2026: in keinem Produkt-Rezept (tools/lib/vier-produkte.js), in keinem Ladeweg (package.json, sw.js, .github, tools/produkt-konfektionieren.js, Kern), gelesen nur von tests/erzeuger-deckung-sprache-rechtsraum-marke.test.js und tests/fremde-datei-reiner-text.test.js; die Rezept-Fixtures der Gateway-Repos nennen sie nicht. Bleibt darum stehen. Wird sie je in ein Rezept oder einen Ladeweg aufgenommen, ist sie keine Aufzeichnung mehr, sondern eine Quelle: dann ist die Probe rot, und sie ist zu schneiden.",
+   "nachsehen": "git grep -n \"vd-de-sprache\\|vd-de-rechtsraum\" -- . ':!docs'"
+  },
+  {
+   "pfad": "tools/behandlungsweg-vorlage.json",
+   "rolle": "erzeugnis-von-hand",
+   "erzeuger": [
+    "tools/behandlungsweg-modul-erzeugen.js"
+   ],
+   "aus": [
+    "tools/behandlungsweg/felder.json"
+   ],
+   "was": "Erzeuger steht NICHT im Landeablauf (tools/landung-vorbereiten.js): nach einer Änderung an felder.json von Hand `node tools/behandlungsweg-modul-erzeugen.js` fahren"
+  },
+  {
+   "pfad": "tests/fixtures/buergermodul-situationen-ab-werk.json",
+   "rolle": "quelle",
+   "was": "ECHTE Ab-Werk-Quelle trotz tests/fixtures-Pfad (modulTyp situation, AB_WERK_FIXTURE_PFADE_4 in tools/lib/vier-produkte.js, in allen vier Produkten gebacken) — gefunden 22.09.2026 über tests/u2-adr-322-jeder-traeger-loest-auf.test.js, stand nicht auf der ursprünglichen Marker-Liste (der Marker-Lauf schloss tests/ pauschal aus). Drei quelle-Metadatenfelder (§198 VVG, §28 PStG, §1944 BGB an fristRegel) bleiben unberührt (Quellenvermerk, keine Bürgerprosa)."
+  }
+ ]
+}

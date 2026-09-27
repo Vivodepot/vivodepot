@@ -1,0 +1,17 @@
+Vivodepot Webseite — welcher Ordner gilt (FIXTURE)
+===================================================
+
+Diese Datei ist ein PRÜFSTOFF für tools/webseite-stand-pruefen.js, keine echte
+Webseiten-Steuerung. Sie bildet die Form der echten STAND.txt nach, damit die
+Suite den Prüfer fahren kann, ohne dass das Repo Vivodepot-intern vorliegt —
+die Webseite selbst bleibt ausserhalb des Repos (Entscheidung vom 12.08.2026).
+
+AKTUELL LIVE: 13092026
+
+  Der ältere der beiden Ordner. Der zweite (14092026) ist neuer und wird von
+  dieser Datei NICHT als wartend geführt — genau der Zustand, den Prüfung A
+  meldet, und der Grund, warum die Fixture ihn trägt.
+
+ÄLTERE ORDNER (Archiv, nicht live):
+
+  keine.

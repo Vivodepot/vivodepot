@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/bedingungskatalog-modul-schema.json",
+  "title": "Vivodepot Bedingungskatalog-Modul",
+  "description": "Ein Bedingungskatalog-Modul liefert das Vokabular der Bedingungen, unter denen etwas herausgegeben werden kann: je Eintrag eine Kennung und eine https-Quelle, kein Wortlaut. Ein eingelassener Katalog ersetzt den Ab-Werk-Katalog. Maßstab ist der Kern: bedingungskatalogModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-bedingungskatalog.test.js hält Schema und Kern im Gleichlauf. Ein Modul, das dieses Schema erfüllt, ist der Form nach sauber. Doppelte Kennungen und die volle URL-Prüfung der Quelle sieht nur der Kern; einen solchen Eintrag verwirft er einzeln.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["moduleVersion", "herkunft", "eintraege"],
+  "properties": {
+    "modulTyp": { "const": "bedingungskatalog" },
+    "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
+    "herkunft": { "description": "Kennung des Katalogs; ein späteres Modul derselben Herkunft mit höherer Fassung ersetzt es.", "type": "string", "pattern": "\\S" },
+    "eintraege": {
+      "description": "Die Bedingungen, mindestens eine.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kennung", "quelle"],
+        "properties": {
+          "kennung": {
+            "description": "Kennung der Bedingung: Buchstabe oder Ziffer, danach bis zu 63 aus Buchstaben, Ziffern, `.`, `_`, `-`. Innerhalb eines Katalogs eindeutig.",
+            "type": "string",
+            "pattern": "^\\s*[A-Za-z0-9][A-Za-z0-9._-]{0,63}\\s*$"
+          },
+          "quelle": {
+            "description": "Öffentliche Fundstelle der Bedingung, eine https-URL.",
+            "type": "string",
+            "pattern": "^[\\u0000-\\u0020]*[Hh][Tt][Tt][Pp][Ss]:[/\\\\]*(?:[^/\\\\?#@]*@)?(?:\\[[0-9A-Fa-f:.]+\\]|[^\\u0000-\\u0020/\\\\?#%<>^|@:\\[\\]]+)(?::[0-9]*)?(?:[/\\\\?#][\\s\\S]*)?[\\u0000-\\u0020]*$"
+          },
+          "beispiel": { "description": "Wahr, wenn der Eintrag nur als Beispiel dient.", "type": "boolean" }
+        }
+      }
+    },
+    "appVersion": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "ungeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" },
+    "eingelassenAm": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterId": { "description": "Vom Einlass gesetzt.", "type": "string" },
+    "anbieterIdGeprueft": { "description": "Vom Einlass gesetzt.", "type": "boolean" }
+  }
+}

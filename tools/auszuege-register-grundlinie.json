@@ -1,0 +1,20 @@
+{
+ "beschreibung": "Register der Ab-Werk-Auszüge (21.09.2026, tools/auszuege-register-pruefen.js): je Auszug eine Zeile, offen oder verschoben. Die Wahrheit ist die Liste QUELLEN von tools/ab-werk-logikmodul-auszuege-kern-schreiben.js, nicht ein Kommentar im Kern. offenDeckel ist exakt und kann nur sinken.",
+ "offenDeckel": 0,
+ "auszuege": [
+  {
+   "id": "erbschein-vorbereitung",
+   "fixture": "tests/fixtures/erbschein-vorbereitung-logikmodul.json",
+   "status": "verschoben",
+   "bootRiegel": false,
+   "ort": "Template im Rezept der Produkte privat-de und privat-en (templatePfade, tools/lib/vier-produkte.js, ERBSCHEIN_TEMPLATE_PFAD); Schema 87, 21.09.2026; keine Kern-Region mehr"
+  },
+  {
+   "id": "zugang-zum-recht-beratungshilfe",
+   "fixture": "tests/fixtures/zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "status": "verschoben",
+   "bootRiegel": false,
+   "ort": "nicht mehr als Modul in der Kern-Region AB_WERK_LOGIK_MODUL_AUSZUEGE_QUELLEN und nicht in QUELLEN des Erzeugers (gemessen 21.09.2026); mit dem Schnitt S5 aus dem Gerüst genommen, der heutige Fundort ist nicht untersucht"
+  }
+ ]
+}

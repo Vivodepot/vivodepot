@@ -1,0 +1,50 @@
+{
+  "modulTyp": "standardVorlage",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/betreuungsverfuegung",
+  "fassung": 1,
+  "standardVorlagen": {
+    "betreuungsverfuegung": {
+      "id": "betreuungsverfuegung",
+      "name": "Betreuungsverfügung",
+      "sektor": "advanceCare",
+      "behoerde": "bmj",
+      "templateJws": "eyJhbGciOiJFZERTQSIsInR5cCI6InZjK2p3dCJ9.eyJmZWxkZXIiOlt7ImZlbGRuYW1lIjoiRG9rdW1lbnQgdm9yaGFuZGVuPyIsImZlbGR0eXAiOiJqYU5laW4iLCJwZmxpY2h0IjpmYWxzZSwiYmVyZWljaCI6IlZvcnNvcmdlIn0seyJmZWxkbmFtZSI6IkRhdHVtIiwiZmVsZHR5cCI6ImRhdHVtIiwicGZsaWNodCI6ZmFsc2UsImJlcmVpY2giOiJWb3Jzb3JnZSJ9LHsiZmVsZG5hbWUiOiJBdWZiZXdhaHJ1bmdzb3J0IiwiZmVsZHR5cCI6InRleHQiLCJwZmxpY2h0IjpmYWxzZSwiYmVyZWljaCI6IlZvcnNvcmdlIn1dLCJ3b3J0bGF1dCI6IkljaCxcblxuTmFtZSwgVm9ybmFtZVxuXG5HZWJ1cnRzZGF0dW1cblxuQWRyZXNzZVxuXG5UZWxlZm9uLCBUZWxlZmF4LCBFLU1haWxcblxuR2VidXJ0c29ydFxuXG5sZWdlIGhpZXJtaXQgZsO8ciBkZW4gRmFsbCwgZGFzcyBpY2ggaW5mb2xnZSBLcmFua2hlaXQgb2RlciBCZWhpbmRlcnVuZyBtZWluZSBBbmdlbGVnZW5oZWl0ZW4gZ2FueiBvZGVyIHRlaWx3ZWlzZSBuaWNodCBtZWhyXG5cbnNlbGJzdCBiZXNvcmdlbiBrYW5uIHVuZCBkZXNoYWxiIGVpbiBCZXRyZXVlciBmw7xyIG1pY2ggYmVzdGVsbHQgd2VyZGVuIG11c3MsIEZvbGdlbmRlcyBmZXN0OlxuXG5cdMKDIFp1IG1laW5lbSBCZXRyZXVlci9tZWluZXIgQmV0cmV1ZXJpbiBzb2xsIGJlc3RlbGx0IHdlcmRlbjpcblxuTmFtZSwgVm9ybmFtZVxuXG5HZWJ1cnRzZGF0dW1cblxuQWRyZXNzZVxuXG5UZWxlZm9uLCBUZWxlZmF4LCBFLU1haWxcblxuXHTCgyBGYWxscyBkaWUgdm9yc3RlaGVuZGUgUGVyc29uIG5pY2h0IHp1bSBCZXRyZXVlciBvZGVyIHp1ciBCZXRyZXVlcmluIGJlc3RlbGx0IHdlcmRlbiBrYW5uLFxuXG5zb2xswqBmb2xnZW5kZcKgUGVyc29uIGJlc3RlbGx0IHdlcmRlbjpcblxuTmFtZSwgVm9ybmFtZVxuXG5HZWJ1cnRzZGF0dW1cblxuQWRyZXNzZVxuXG5UZWxlZm9uLCBUZWxlZmF4LCBFLU1haWxcblxuXHTCgyBBdWYga2VpbmVuIEZhbGwgc29sbCB6dW0gQmV0cmV1ZXIvenVyIEJldHJldWVyaW4gYmVzdGVsbHQgd2VyZGVuOlxuXG5OYW1lLCBWb3JuYW1lXG5cbkdlYnVydHNkYXR1bVxuXG5BZHJlc3NlXG5cblRlbGVmb24sIFRlbGVmYXgsIEUtTWFpbFxuXG5HZWJ1cnRzb3J0XG5cbkdlYnVydHNvcnRcblxuR2VidXJ0c29ydFxuXG5cdMKDIFp1ciBXYWhybmVobXVuZyBtZWluZXIgQW5nZWxlZ2VuaGVpdGVuIGR1cmNoIGRlbiBCZXRyZXVlci9kaWUgQmV0cmV1ZXJpbiBoYWJlIGljaCBmb2xnZW5kZSBXw7xuc2NoZTpcblxuMS5cblxuMy5cblxuICAgMi5cblxuICAgNC5cblxuT3J0LCBEYXR1bVxuXG5VbnRlcnNjaHJpZnQiLCJ3b3J0bGF1dFF1ZWxsZSI6eyJiZWhvZXJkZSI6IkJ1bmRlc21pbmlzdGVyaXVtIGRlciBKdXN0aXogKEJNSikiLCJ0aXRlbCI6IkZvcm11bGFyIEJldHJldXVuZ3N2ZXJmw7xndW5nIiwic3RhbmQiOiJKYW51YXIgMjAyMyIsInVybCI6Imh0dHBzOi8vd3d3LmJtai5kZS9TaGFyZWREb2NzL0Rvd25sb2Fkcy9ERS9Gb3JtdWxhci9CZXRyZXV1bmdzdmVyZnVlZ3VuZy5wZGYiLCJsaXplbnoiOiJhbXRsaWNoZXMgV2VyayDCpyA1IFVyaEcsIHVudmVyw6RuZGVydGUgw5xiZXJuYWhtZSJ9LCJ3b3J0bGF1dFF1ZWxsZUJyb3NjaHVlcmUiOnsiYmVob2VyZGUiOiJCdW5kZXNtaW5pc3Rlcml1bSBkZXIgSnVzdGl6IChCTUopIiwidGl0ZWwiOiJCcm9zY2jDvHJlIOKAnkJldHJldXVuZ3NyZWNodOKAnCIsInVybCI6Imh0dHBzOi8vd3d3LmJtai5kZS9TaGFyZWREb2NzL1B1Ymxpa2F0aW9uZW4vREUvQnJvc2NodWVyZW4vQmV0cmV1dW5nc3JlY2h0Lmh0bWwifX0.jps02J0uLLtR0PLmYJDI96hYYzp-56iYu7c6AH5oV5ND5r5py9okRItOYYkEFmA1S7lR56Sr-wwvzQjvRemlCw",
+      "felder": [
+        {
+          "feldname": "Dokument vorhanden?",
+          "feldtyp": "jaNein",
+          "pflicht": false,
+          "bereich": "Vorsorge"
+        },
+        {
+          "feldname": "Datum",
+          "feldtyp": "datum",
+          "pflicht": false,
+          "bereich": "Vorsorge"
+        },
+        {
+          "feldname": "Aufbewahrungsort",
+          "feldtyp": "text",
+          "pflicht": false,
+          "bereich": "Vorsorge"
+        }
+      ],
+      "wortlaut": "Ich,\n\nName, Vorname\n\nGeburtsdatum\n\nAdresse\n\nTelefon, Telefax, E-Mail\n\nGeburtsort\n\nlege hiermit für den Fall, dass ich infolge Krankheit oder Behinderung meine Angelegenheiten ganz oder teilweise nicht mehr\n\nselbst besorgen kann und deshalb ein Betreuer für mich bestellt werden muss, Folgendes fest:\n\n\t Zu meinem Betreuer/meiner Betreuerin soll bestellt werden:\n\nName, Vorname\n\nGeburtsdatum\n\nAdresse\n\nTelefon, Telefax, E-Mail\n\n\t Falls die vorstehende Person nicht zum Betreuer oder zur Betreuerin bestellt werden kann,\n\nsoll folgende Person bestellt werden:\n\nName, Vorname\n\nGeburtsdatum\n\nAdresse\n\nTelefon, Telefax, E-Mail\n\n\t Auf keinen Fall soll zum Betreuer/zur Betreuerin bestellt werden:\n\nName, Vorname\n\nGeburtsdatum\n\nAdresse\n\nTelefon, Telefax, E-Mail\n\nGeburtsort\n\nGeburtsort\n\nGeburtsort\n\n\t Zur Wahrnehmung meiner Angelegenheiten durch den Betreuer/die Betreuerin habe ich folgende Wünsche:\n\n1.\n\n3.\n\n   2.\n\n   4.\n\nOrt, Datum\n\nUnterschrift",
+      "wortlautQuelle": {
+        "behoerde": "Bundesministerium der Justiz (BMJ)",
+        "titel": "Formular Betreuungsverfügung",
+        "stand": "Januar 2023",
+        "url": "https://www.bmj.de/SharedDocs/Downloads/DE/Formular/Betreuungsverfuegung.pdf",
+        "lizenz": "amtliches Werk § 5 UrhG, unveränderte Übernahme"
+      },
+      "wortlautQuelleBroschuere": {
+        "behoerde": "Bundesministerium der Justiz (BMJ)",
+        "titel": "Broschüre „Betreuungsrecht“",
+        "url": "https://www.bmj.de/SharedDocs/Publikationen/DE/Broschueren/Betreuungsrecht.html"
+      }
+    }
+  }
+}

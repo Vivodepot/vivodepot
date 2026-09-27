@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Realistische Minimal-Fixture: ISO 20022 camt.053.001.08 Bank-Kontoauszug.
+     Ein Auszug (Stmt) eines Kontos mit Schluss-Saldo (CLBD) und zwei Buchungen (Ntry). -->
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.08">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>VIVODEPOT-CAMT-2026-05</MsgId>
+      <CreDtTm>2026-06-01T07:30:00</CreDtTm>
+    </GrpHdr>
+    <Stmt>
+      <Id>STMT-2026-05</Id>
+      <CreDtTm>2026-06-01T07:30:00</CreDtTm>
+      <Acct>
+        <Id><IBAN>DE89370400440532013000</IBAN></Id>
+        <Ccy>EUR</Ccy>
+        <Ownr><Nm>Maria Mustermann</Nm></Ownr>
+        <Svcr>
+          <FinInstnId>
+            <BICFI>COBADEFFXXX</BICFI>
+            <Nm>Commerzbank München</Nm>
+          </FinInstnId>
+        </Svcr>
+      </Acct>
+      <Bal>
+        <Tp><CdOrPrtry><Cd>OPBD</Cd></CdOrPrtry></Tp>
+        <Amt Ccy="EUR">540.55</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt><Dt>2026-05-01</Dt></Dt>
+      </Bal>
+      <Bal>
+        <Tp><CdOrPrtry><Cd>CLBD</Cd></CdOrPrtry></Tp>
+        <Amt Ccy="EUR">2540.55</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Dt><Dt>2026-05-31</Dt></Dt>
+      </Bal>
+      <Ntry>
+        <Amt Ccy="EUR">1200.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts><Cd>BOOK</Cd></Sts>
+        <BookgDt><Dt>2026-05-02</Dt></BookgDt>
+        <ValDt><Dt>2026-05-02</Dt></ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <RmtInf><Ustrd>Miete Mai 2026 Wohnung Lindenweg 4</Ustrd></RmtInf>
+            <RltdPties><Cdtr><Nm>Hausverwaltung Sued GmbH</Nm></Cdtr></RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <Amt Ccy="EUR">3200.00</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts><Cd>BOOK</Cd></Sts>
+        <BookgDt><Dt>2026-05-28</Dt></BookgDt>
+        <ValDt><Dt>2026-05-28</Dt></ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <RmtInf><Ustrd>Gehalt Mai 2026</Ustrd></RmtInf>
+            <RltdPties><Dbtr><Nm>Beispiel Arbeitgeber AG</Nm></Dbtr></RltdPties>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>

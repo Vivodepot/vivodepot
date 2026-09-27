@@ -1,0 +1,261 @@
+{
+  "_beschreibung": "Nachweis der Zuordnung Invariante ↔ Prüfung (Spezifikation 36.1d/36.1e). Eine Zeile je Invariante aus Abschnitt 34, neun Zeilen. Geprüft von tools/invarianten-register-pruefen.js (Suite: tests/invarianten-register.test.js). Regel für jede Zeile: eine Probe steht in der Probenspalte NUR, wenn jemand sie geöffnet hat und sagen kann, WELCHEN Satz der Invariante sie hält; sonst `ungeprueft`, der Kandidat steht als Hinweis daneben. Die Zahl der `ungeprueft` und die der `teilweise` kann nur sinken (Ratsche, exakt).",
+  "achsen": {
+    "_hinweis": "ZWEI ACHSEN, die sich überschneiden — die Zahlen sind keine Summe über alle. Achse 1, DIE PROBE: jede Zeile steht genau einmal auf einem von drei Status (geprueft, teilweise, ungeprueft); diese drei Zahlen ergeben zusammen die Zahl der Zeilen (neun). Die Frage: gibt es eine geöffnete Probe, die die Invariante hält? Achse 2, DER BEFUND: eine Zeile trägt zusätzlich `verletzt`, wenn im Kanon gemessen ist, dass die Invariante verletzt wird. Die Frage: hält die Invariante? Das sind zwei verschiedene Fragen, eine Invariante kann verletzt UND unbewacht zugleich sein (34.5 und 34.6 waren es zum Zeitpunkt der Messung: ungeprueft auf Achse 1 und verletzt auf Achse 2). Die Zahl `verletzt` in der Grundlinie ist keine vierte Sorte neben den drei Status; wer sie zu den anderen addiert, zählt zwei Zeilen doppelt. Nachsehen: node tools/invarianten-register-pruefen.js druckt beide Achsen getrennt und nennt bei einer verletzten Zeile ihren Status auf Achse 1.",
+    "probe": [
+      "geprueft",
+      "teilweise",
+      "ungeprueft"
+    ],
+    "befund": [
+      "verletzt"
+    ]
+  },
+  "spezifikation": {
+    "abschnitt": "34",
+    "erhebung": "22.09.2026, Aufbau des Registers. Erhebungsweg: die neun Invarianten aus dem Text der Spezifikation gelesen (v1-Spezifikation, Abschnitt 34, 34.7 in voller Länge, dazu 36.1 bis 36.1e, 36.5, 36.5a); Kandidaten je Invariante über Dateinamen und Testtitel im Repo gesucht (Stand Kanon aef2c810), jede eingetragene Probe im Quelltext GEÖFFNET und gegen den Satz der Invariante gelesen. Die Kandidatenlisten unter `hinweise` sind NICHT geöffnet und zählen nicht als Beleg.",
+    "nachlesen": "In der Spezifikation: Abschnitt 34 und 36.1d. Im Repo: `node tools/invarianten-register-pruefen.js` (Register gegen die Probendateien) und `node tools/invarianten-register-pruefen.js --spezifikation <pfad zur Spezifikation>` (dazu: jede Invariante aus §34 hat eine Zeile)."
+  },
+  "grundlinie": {
+    "ungeprueft": 3,
+    "teilweise": 4,
+    "stand": "2026-09-22",
+    "verletzt": 1
+  },
+  "invarianten": [
+    {
+      "id": "34.1",
+      "name": "Leer",
+      "satz": "Das Gerüst und seine Begleitdateien müssen frei von Inhalt nach 7.2 sein, kodiert wie unkodiert.",
+      "status": "teilweise",
+      "geoeffnet": "2026-09-22 Aufbau des Registers",
+      "proben": [
+        {
+          "pfad": "tests/geruest-inhalt-waechter.test.js",
+          "test": "[Gerüst-Inhalt] der echte Kern trägt kein Blatt und keine Situation als Literal",
+          "haelt": "Der Kern trägt keine Angehörigen-Blätter und keine Situationen als Literal (7.2: Vorlagen und Korpora), gesucht wird die Form eines Blatts, nicht ein bestimmtes Blatt.",
+          "geltungsbereich": "vivodepot.html im Repo; Kommentare und markierte Regionen zählen nicht; mit Positivkontrolle und Rot-Beweis am Original."
+        },
+        {
+          "pfad": "tests/geruest-inhalt-waechter.test.js",
+          "test": "[Gerüst-Inhalt · Lese-App] die Lese-App trägt keine Situation und kein Blatt als Literal",
+          "haelt": "Dieselbe Aussage für die Lese-App als weitere Anwendung (36.1a: Geltungsbereich der Invariante 34.1).",
+          "geltungsbereich": "vivodepot-lesen.html im Repo."
+        }
+      ],
+      "luecke": "Gehalten ist nur die Klasse „Angehörigen-Blatt und Situation als Literal“. Nicht gehalten: Beschriftungen, Fragen, Hilfetexte und Fehlermeldungen in natürlicher Sprache (außerhalb der Regionen stehen im Kern und in der Lese-App noch satzförmige Reste), amtliche Wortlaute, fachliche Kataloge, Beispieldaten; kodierter Inhalt (7.7); die übrigen Begleitdateien nach 6.6 und die weiteren Anwendungen nach 30.1 (VC-Issuer, Vorlagen-Erzeuger). Keine Probe in Suite oder Hook verlangt die Zielzahl des Leer-Messwerkzeugs am Repo-Stand.",
+      "hinweise": [
+        "tools/geruest-leer-messen.js (--gate, --ziel-satz 1945): misst den satzförmigen Rest gegen die Zielzahl; kein Lauf in Suite oder Hook bindet es an den Repo-Stand (geprüft: grep in hooks/, package.json, tests/), die Suite fährt es nur gegen Fixtures.",
+        "tools/geruest-waechter-pruefen.js + tools/geruest-waechter-grundlinie.json und tests/geruest-stellen-grundlinie.test.js: Ratschen (der Stand darf nicht wachsen); nach 36.5a eine Regressionsprobe, die keine Invariante entlastet."
+      ]
+    },
+    {
+      "id": "34.2",
+      "name": "Byte-gleich",
+      "satz": "Außerhalb der Andockstellen müssen alle Produkte mit dem Gerüst byte-gleich sein.",
+      "status": "teilweise",
+      "geoeffnet": "2026-09-22 Aufbau des Registers",
+      "proben": [
+        {
+          "pfad": "tests/produkt-konfektionieren.test.js",
+          "test": "[Produkt-Konfektionieren] die Kopie ist byte-identisch zur Quelle AUSSERHALB der Ab-Werk-Regionen",
+          "haelt": "Ein vom Konfektionierer gebautes Produkt (privat-de) ist außerhalb der Ab-Werk-Regionen byte-gleich mit dem Gerüst vivodepot.html im Repo.",
+          "geltungsbereich": "Erzeugnis von tools/produkt-konfektionieren.js für den Slug privat-de; die Regionen werden vor dem Vergleich auf ihren nativen Wert gesetzt (_ohneAbWerkNutzlast)."
+        },
+        {
+          "pfad": "tests/produkt-konfektionieren.test.js",
+          "test": "[Produkt-Konfektionieren·Wächter·ROT-BEWEIS] eine einzelne Gerüst-Zeile, die nur in EINER Konfektion steht, wird gefunden",
+          "haelt": "Eine Abweichung außerhalb der Regionen in einem Produkt wird beim Vergleich zweier Produkte gefunden (Rot-Beweis des Vergleichs).",
+          "geltungsbereich": "Paarvergleich zweier Konfektionen desselben Konfektionierers."
+        }
+      ],
+      "luecke": "Gehalten ist der Konfektionierer dieses Repos und der Slug privat-de gegen das Gerüst; die übrigen Produkte nur paarweise gegeneinander (tests/vier-produkte-vermessen.test.js): würde der Konfektionierer in allen vier dieselbe Stelle ändern, bliebe der Paarvergleich grün. Der Rot-Beweis liegt auf der Paar-Ebene, nicht am Vergleich mit dem Gerüst. Nicht gehalten: Erzeugnisse des Gateway-Workers (der ausgelieferte Weg; laut Meldung eines parallelen Zweig-Bauers vom 22.09.2026, nicht dieser Konfektionierer); ob das Gateway-Repo eine solche Probe trägt, ist nicht gemessen.",
+      "hinweise": [
+        "tests/vier-produkte-vermessen.test.js, [geruestVergleich] alle sechs Paare byte-gleich außerhalb der Ab-Werk-Marker-Regionen: vergleicht Produkte untereinander (gelesen), nicht gegen das Gerüst.",
+        "tools/konfektion-nativ-vergleichen.js: nicht geöffnet."
+      ]
+    },
+    {
+      "id": "34.3",
+      "name": "Andockbar",
+      "satz": "Jeder Inhalt nach 7.2 muss eine Andockstelle haben, und jede Andockstelle muss erreichbar sein (8.4).",
+      "status": "ungeprueft",
+      "proben": [],
+      "grund": "Keine geöffnete Probe hält einen der zwei Sätze. Gesucht (Dateinamen, Testtitel, AB_WERK_REGIONEN-Verwender in tests/): nichts, das für JEDE Andockstelle belegt, dass der Konfektionierer sie erreicht (8.4), und nichts, das für jeden Inhalt nach 7.2 eine Andockstelle verlangt. Die Schnitt-Proben (tests/geruest-schnitt-*.test.js) halten je EINEN Schnitt, nicht die Invariante.",
+      "hinweise": [
+        "tests/geruest-schnitt-bereiche-nativ-katalog.test.js, tests/geruest-schnitt-dokumente-leer-produkt-voll.test.js: je ein Schnitt, geöffnet nur im Umfang der eigenen Arbeit, nicht gegen den Satz gelesen.",
+        "tests/mitschrift-regionen-tabelle.test.js: jede Region des Kerns steht in der Mitschrift-Positivliste — betrifft die Mitschrift, nicht die Erreichbarkeit durch den Konfektionierer; nicht als Probe gelesen.",
+        "tools/geruest-leer-messen.js --stellen: nennt die Träger des Rests, der KEINE Andockstelle hat; ein Messwerkzeug, keine Probe der Invariante."
+      ]
+    },
+    {
+      "id": "34.4",
+      "name": "Einfach",
+      "satz": "Ein Inhalt darf in einem Produkt nicht zugleich ab Werk und als Nutzlast vorliegen.",
+      "status": "ungeprueft",
+      "proben": [],
+      "grund": "Keine Probe gefunden, die prüft, dass ein Inhalt im ausgelieferten Produkt nicht doppelt liegt (eingebacken und zusätzlich als Nutzlast). Die Stichwortsuche nach Dublette, doppelt und Nutzlast in Testtiteln nennt nur Laufzeit-Eindeutigkeiten, die etwas anderes halten.",
+      "hinweise": [
+        "tests/bereiche-kanonisch-ordnen-keine-doppelung.test.js, [Dedup·<slug>]: jede Bereichs-ID kommt in bereicheAlle() genau einmal vor — die Eindeutigkeit zur Laufzeit im geöffneten Produkt, nicht das Verbot von Ab-Werk plus Nutzlast beim Bau; nur den Titel gelesen, nicht gegen den Satz gelesen."
+      ]
+    },
+    {
+      "id": "34.5",
+      "name": "Blind",
+      "satz": "Das Gerüst darf nicht wissen, welche Achsenwerte oder Modul-Arten existieren (7.3).",
+      "status": "ungeprueft",
+      "proben": [],
+      "grund": "Keine Probe hält den Satz — weder eine, die das Gerüst auf Achsenwerte absucht, noch eine, die die gemessene Verletzung (`verletzt`) festhält. Die Zeile bleibt `ungeprueft`; die Verletzung ist ein Befund über das Gerüst, kein Beleg.",
+      "hinweise": [
+        "tools/geruest-inhalt-pruefen.js sucht die Kennungen früherer Blätter und Situationen, nicht Achsenwerte.",
+        "tests/generator-typlisten-gegen-kern.test.js: hält die Typlisten des Vorlagen-Erzeugers gegen den Kern, die umgekehrte Richtung; nicht gegen den Satz gelesen."
+      ],
+      "verletzt": {
+        "entschieden": "Entscheidung, 22.09.2026: Endonyme sind von 7.3 nicht ausgenommen (die Ausnahme in 7.3 gilt nur je Modul-Art-Funktionen); die Liste von Sprachwerten im Gerüst ist eine Verletzung von 34.5.",
+        "messung": "Kanon aef2c810: `const TEXTSATZ_SPRACH_ENDONYME = Object.freeze({ de: 'Deutsch', en: 'English' })` steht in vivodepot.html:6312 und vivodepot-lesen.html:2799 und damit AUSSERHALB jeder Andockstelle (Kern: die Region AB_WERK_SPRACHE_PRODUKT endet in Zeile 6240, die nächste, AB_WERK_LOGIK_MODUL_QUELLEN, beginnt in Zeile 6366). Das Gerüst kennt damit zwei Werte der Achse Sprache. Nebenbefund derselben Stelle (latent, heute nicht erreichbar): die Lese-App liest den Endonym ohne Rückfall (vivodepot-lesen.html:2803), der Kern mit `|| s` (vivodepot.html:6334); beide Aufrufer übergeben nur die Literale 'en' und 'de', ein `[undefined]` erscheint erst, wenn ein Rückfallziel außerhalb {en, de} eingeführt wird.",
+        "nachsehen": "git grep -n TEXTSATZ_SPRACH_ENDONYME -- vivodepot.html vivodepot-lesen.html; grep -n 'AB_WERK_SPRACHE_PRODUKT:\\(BEGIN\\|END\\)\\|AB_WERK_LOGIK_MODUL_QUELLEN:BEGIN' vivodepot.html"
+      }
+    },
+    {
+      "id": "34.6",
+      "name": "Ohne Pflicht",
+      "satz": "Keine Startprüfung darf einen bestimmten Inhalt verlangen (8.5).",
+      "status": "geprueft",
+      "geoeffnet": "2026-09-22, Fix in escapeHTML",
+      "proben": [
+        {
+          "pfad": "tests/escape-html-tolerant.test.js",
+          "test": "[34.6·Fall (b)] das nackte Gerüst ohne Sprachmodul startet und bootet durch — kein Wurf, keine weiße Seite",
+          "haelt": "Fall (a) der Tabelle (wirft/bleibt weiß) ist behoben: renderWelcome() im nackten Gerüst ohne Sprachmodul wirft nicht mehr, das ist jetzt Fall (b).",
+          "geltungsbereich": "Das nackte, unkonfektionierte vivodepot.html, roh geladen (kein Sprachmodul gebacken)."
+        },
+        {
+          "pfad": "tests/escape-html-tolerant.test.js",
+          "test": "[34.6·Rot-Beweis] escapeHTML(undefined) und escapeHTML(null) werfen NICHT mehr — leere Zeichenkette statt TypeError",
+          "haelt": "Der konkrete gemessene Mechanismus (TypeError in escapeHTML bei fehlendem Sprachsatz) ist geschlossen, nicht nur der eine Boot-Pfad.",
+          "geltungsbereich": "escapeHTML(s) für s ∈ {undefined, null}, unabhängig vom Aufrufer."
+        }
+      ],
+      "hinweise": [
+        "Geöffnet, hält nur die Klasse Ab-Werk-Auszug: tests/auszuege-register.test.js, „[Auszüge-Register·Boot-Riegel] der Kern ruft _abWerkAuszugPflicht nicht mehr auf, und keine Zeile führt einen Riegel“ (der Kern ruft die Pflichtprüfung für Auszüge beim Start nicht mehr auf).",
+        "Geöffnet, hält nur den Weg des nackten Gerüsts bis zum Anlegen eines Depots im Test-Lader, für einen Auszug: tests/erbschein-ab-werk-einlass.test.js, „[Erbschein-Ab-Werk·Rot-Beweis] im nackten Gerüst gibt es den Auszug nicht — es startet trotzdem“.",
+        "tests/ab-werk-logikmodul-auszuege-unabhaengig-vom-buendel.test.js, [Ab-Werk-Auszüge·Leer · Rot-Beweis]: gelesen, gleiche Klasse.",
+        "tools/geruest-leer-messen.js --produkte (Teil 2): baut vier Produkte aus dem leeren Gerüst und öffnet sie (36.4); die Suite fährt nur die Ausgänge gegen Fixtures, nicht den echten Lauf.",
+        "Vorherige Messung (22.09.2026, echtes Chromium, Kanon aef2c810): im nackten Gerüst ohne Sprachsatz fehlten #w-anlass/#w-anfangen/#w-datei, die Seite war weiß — Fall (a). Ursache: TypeError in escapeHTML, weil vorDepotText ohne Sprachsatz undefined liefert. Fix: escapeHTML(s) mit s==null→'' (dieselbe Zeile wie escapeAttr direkt daneben trägt); die Ausnahme selbst verschwindet, F4 (dreifache Verschluckung) bleibt als eigener, unabhängiger Fix bestehen."
+      ]
+    },
+    {
+      "id": "34.7",
+      "name": "Kennzeichen",
+      "satz": "Was ein Produkt von einem anderen unterscheidet, muss aus dem Rezept stammen; die Urheberschaft muss am Herkunftsort stehen und darf nicht entfernbar sein.",
+      "status": "teilweise",
+      "proben": [
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Rot] der Herkunftsort wird durch einen Schnitt entfernbar: Anker innerhalb einer Marker-Region",
+          "haelt": "Die Urheberschaft steht am Herkunftsort und ist nicht entfernbar: der Anker des Herkunftsorts innerhalb einer Marker-Region (die ein Schnitt entfernt) macht die Prüfung rot.",
+          "geltungsbereich": "Alle Träger, die das Verzeichnis nennt (Kern, Lese-App); geprüft am Quelltext, mit gepflanzter Verletzung an einer erfundenen Fixture."
+        },
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Rot] eine Kennung am Herkunftsort, die in keiner der zwei Gruppen steht, erfüllt den Absatz nicht",
+          "haelt": "Eine Kennung am Herkunftsort, die weder als unersetzbar noch als ersetzbar geführt ist, erfüllt den Absatz nicht.",
+          "geltungsbereich": "Quelltext der Träger; Rot-Beweis für Schlüssel und Konstante."
+        },
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Rot] eine Urheberin-Kennung, die ein Modul ersetzen könnte (nicht in der Zusicherungsliste), und eine Anbieterin-Kennung, die gesperrt ist",
+          "haelt": "Die Angabe der Urheberin darf nicht durch ein angedocktes Modul ersetzbar sein, die der Anbieterin muss es sein: die Zuordnung zu den zwei Gruppen wird gegen die Sperrliste der Zusicherungen geprüft.",
+          "geltungsbereich": "Quelltext der Träger (Zusicherungsliste); Rot-Beweis in beide Richtungen."
+        },
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Rot] die Lizenzkennung allein genügt nicht: ohne den Namen der Urheberin fehlt die Urheberangabe (zwei unersetzbare Sorten, zwei Gründe)",
+          "haelt": "Unersetzbar sind zwei Sorten Angabe, Name der Urheberin und Lizenzkennung: die Lizenzkennung allein ersetzt den Namen nicht.",
+          "geltungsbereich": "Quelltext der Träger; Rot-Beweis."
+        },
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Anwesenheit] beide Vertrauensstufen weisen einen Text ohne die Platzhalter ab, `{marke}` in den Herkunftsort-Schlüsseln auch; die Grenze steht als Test",
+          "haelt": "Ein Vertrauensmerkmal an einem Modul schaltet die Prüfung, dass die unersetzbaren Angaben vorhanden sind, nicht ab (beide Vertrauensstufen weisen den Text ohne die Angabe ab). Nur die Anwesenheit, nicht die Unversehrtheit; die Grenze steht im Test selbst.",
+          "geltungsbereich": "Kern, Einlassweg für Sprachmodule (textsatzModulPruefen), beide Vertrauensstufen, die zwei Herkunftsort-Schlüssel."
+        },
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Auflösung] `{urheberin}`/`{lizenz}` lösen aus der Konstante auf, `{marke}` bleibt im Herkunftsort-Schlüssel stehen und löst anderswo weiter auf",
+          "haelt": "Eine unersetzbare Angabe wird nicht aus einer ersetzbaren Quelle aufgelöst: die Platzhalter der Urheberin lösen aus der unersetzbaren Quelle, {marke} bleibt im Herkunftsort-Schlüssel unaufgelöst.",
+          "geltungsbereich": "Kern (die Auflösung der Marken-Platzhalter), die Herkunftsort-Schlüssel."
+        },
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Erzeugen] der Konfektionierer weist ein Rezept ohne die Angabe ab und baut das mit Platzhaltern",
+          "haelt": "Wird die Anwesenheit geprüft, weist die Prüfung beim Erzeugen ab: ein Rezept, dessen Bestandteile die Angabe nicht tragen, bringt kein Produkt hervor.",
+          "geltungsbereich": "Konfektionierer dieses Repos; nicht der Erzeuger des Gateway-Workers."
+        },
+        {
+          "pfad": "tests/herkunftsort-invariante.test.js",
+          "test": "[34.7·Anzeige] fehlt die Angabe im aufgelösten Text (nacktes Gerüst ohne Sprache, ein Text ohne sie), ERGÄNZT der Herkunftsort sie — und meldet es, keine stille Reparatur",
+          "haelt": "Beim Anzeigen ergänzt der Herkunftsort die fehlende Angabe und meldet es; die Ergänzung ist nicht die einzige Prüfung, sie steht neben der Abweisung beim Erzeugen.",
+          "geltungsbereich": "Kern im nackten Zustand ohne Sprache."
+        },
+        {
+          "pfad": "tests/herkunftsort-angaben-gleich.test.js",
+          "test": "[Herkunftsort-Angaben] jeder Träger trägt den erzeugten Block, byte-gleich mit dem aus der Quelle (Exit 0)",
+          "haelt": "Die Angabe steht in einer Quelle und erscheint in jedem Träger als erzeugte, byte-gleiche Fundstelle (nicht je Anwendung eigens: zwei Kopien sind zwei Wahrheiten).",
+          "geltungsbereich": "Kern und Lese-App (die Träger des Erzeugers); Vorlagen-Erzeuger und VC-Issuer tragen noch keinen Herkunftsort."
+        }
+      ],
+      "geoeffnet": "2026-09-22 Aufbau des Registers; Quelltext der Proben gelesen (nicht einzeln gefahren, sie laufen in der Suite)",
+      "luecke": "Nicht gehalten: (1) der erste Satz (Kennzeichen — Marke, Name, Beschreibung, Sprache, Farben — stammen aus dem Rezept): keine Probe; (2) Anwendungen ohne Herkunftsort: Vorlagen-Erzeuger und VC-Issuer (30.1, 30.3) stehen als offen in tools/herkunftsort-offen.json, das Werkzeug tools/herkunftsort-pruefen.js bleibt rot, solange dort etwas steht; (3) „vorhanden UND unverändert“: geprüft ist nur die Anwesenheit, ein fremder Zusatz neben den Platzhaltern kommt durch (die Grenze steht als Test in der Anwesenheits-Probe); (4) der Sonderweg der Urheberin als Anbieterin (Rolle statt Name) ist nicht als eigene Probe gelesen; (5) Erzeugnisse des Gateway-Workers liegen außerhalb des Repos, ob dort dieselbe Abweisung gilt, ist nicht gemessen; (6) die Proben wurden gelesen, nicht einzeln gefahren (sie laufen in der Suite).",
+      "hinweise": [
+        "tests/herkunftsort-angaben-gleich.test.js: zwei weitere Proben (die Angabe steht nur im Block; der Konfektionierer liest dieselbe Schlüsselmenge) — nicht gegen den Satz gelesen.",
+        "tests/herkunftsort-invariante.test.js: die Proben zu Kopfzeilen (SPDX, Copyright), zum Verzeichnis der Artefakte und zur Blindheit der Prüfung selbst — nicht einem Satz der Invariante zugeordnet."
+      ]
+    },
+    {
+      "id": "34.8",
+      "name": "Bezeichner",
+      "satz": "Feldkennungen sowie Typ-, Achsen- und Rollennamen müssen englisch sein (7.4).",
+      "status": "teilweise",
+      "geoeffnet": "2026-09-22 Aufbau des Registers",
+      "proben": [
+        {
+          "pfad": "tests/englische-kennungen-pruefen.test.js",
+          "test": "[Englische-Kennungen·Abnahme-Gate] kein alter Schlüssel mehr in den vier ausgelieferten Dateien und im Katalog der nativen Bereiche (S7)",
+          "haelt": "In den vier ausgelieferten Dateien und in der Moduldatei des Katalogs der nativen Bereiche steht kein alter deutscher Kennungs- oder Formatschlüssel aus der Alt-nach-Neu-Tabelle mehr.",
+          "geltungsbereich": "Die vier ausgelieferten Dateien und tools/bereiche-nativ-katalog-modul.json im Repo; nur Schlüssel, die in docs/umbau-englisch-vor-v1/kennung-mapping.json stehen; Kommentare maskiert."
+        }
+      ],
+      "luecke": "Gehalten ist die endliche Menge der umbenannten Schlüssel aus der Mapping-Tabelle: eine NEUE deutsche Kennung, die nie in der Tabelle stand, geht durch. Typ-, Achsen- und Rollennamen sind nicht als eigene Klasse geprüft (ob die Tabelle sie einschließt, ist nicht gelesen). Die Bereichs-Templates unter tools/bereich-templates/ und die Dokumentmodule liegen nicht im Geltungsbereich der eingetragenen Probe.",
+      "hinweise": [
+        "tools/deutsch-leck-pruefen.js: prüft Deutsch im englischen Produkt (Sprache der Texte), nicht die Sprache der Bezeichner; nicht gegen den Satz gelesen.",
+        "tests/load-kern-kennungspruefung.test.js: eine Kennungsprüfung im Lader; nicht geöffnet."
+      ]
+    },
+    {
+      "id": "34.9",
+      "name": "Unveränderlicher Kern",
+      "satz": "Der Krypto-Kern muss in allen Trägern byte-identisch und an seine Prüfsumme gebunden sein (22).",
+      "status": "geprueft",
+      "geoeffnet": "2026-09-22 Aufbau des Registers",
+      "proben": [
+        {
+          "pfad": "tests/krypto-block-propagation.test.js",
+          "test": "[Klasse-A] W-krypto-propagation: das echte Repo ist vollständig propagiert",
+          "haelt": "Jede Datei im Repo, die den VdCrypto-Block trägt, trägt ihn byte-identisch zu vivodepot-krypto-kern-PORT-VERBATIM.js, und jede Pin-Stelle nennt den aktuellen Hash; der Prüfer geht das Repo ab und findet Träger und Pins selbst.",
+          "geltungsbereich": "Alle Dateien des Repos (mindestens fünf Träger: vier Anwendungen und die kanonische Quelle); Kommentare und Historie-Dokumente ausgenommen."
+        },
+        {
+          "pfad": "tests/krypto-block-propagation.test.js",
+          "test": "[Klasse-A] W-krypto-propagation·Rot-Beweis: eine zu kleine Trägerzahl ist selbst ein Befund",
+          "haelt": "Findet der Prüfer weniger Träger als erwartet, ist das ein Befund und kein Grün (die Prüfung ist nicht meßbar, 36.1b).",
+          "geltungsbereich": "Der echte Baum; die Mindestzahl gilt nur dort."
+        }
+      ],
+      "luecke": "Grenzen, keine Klasse ohne Deckung: (1) 36.8 ist eine eigene Anforderung — die Prüfsumme gegen das ausgelieferte Artefakt, nicht nur gegen den Quellbestand; diese Zeile hält sie nicht. Erzeugnisse des Gateway-Workers liegen außerhalb des Repos. (2) Die Probe trägt eine dokumentierte Lücke: ein zusätzliches namenloses Skript-Element vor dem Block lässt den Prüfer den falschen Block hashen; das Ergebnis ist dann ein falsches ROT (ein unveränderter Träger wird als abweichend gemeldet), nie ein falsches Grün.",
+      "hinweise": [
+        "tests/konformitaet/krypto-vektoren.mjs und tools/independent-krypto-harness.js: halten Vektoren der Krypto, nicht die Byte-Identität der Träger; nicht gegen den Satz gelesen."
+      ]
+    }
+  ]
+}

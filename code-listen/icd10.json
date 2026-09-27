@@ -1,0 +1,14 @@
+{
+  "systemId": "icd10",
+  "uri": "http://hl7.org/fhir/sid/icd-10-gm",
+  "version": "SEED-2026-05",
+  "kuerzel": "ICD-10-GM",
+  "lizenz": "ICD-10-GM, BfArM — amtliches Werk (§ 5 Abs. 2 UrhG): Änderungsverbot (§ 62) und Quellenangabe (§ 63) beachten, keine kommerzielle Werbung im Werk; Quellenangaben nach Anhang der BfArM-Downloadbedingungen",
+  "status": "seed",
+  "hinweis": "Sample/Seed, ICD-10-GM-Vollliste ~15.000 Codes ausstehend",
+  "daten": [
+    { "code": "E11.9", "anzeigeName": "Diabetes mellitus Typ 2, ohne Komplikationen", "synonyme": ["Diabetes Typ 2", "Zuckerkrankheit"], "kategorie": "Stoffwechsel" },
+    { "code": "I10", "anzeigeName": "Essentielle (primäre) Hypertonie", "synonyme": ["Bluthochdruck", "Hypertonie"], "kategorie": "Herz-Kreislauf" },
+    { "code": "J45.9", "anzeigeName": "Asthma bronchiale, nicht näher bezeichnet", "synonyme": ["Asthma"], "kategorie": "Atemwege" }
+  ]
+}

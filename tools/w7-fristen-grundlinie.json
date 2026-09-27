@@ -1,0 +1,26 @@
+[
+  {
+    "carrier": "Situationsfeld",
+    "id": "geburt_elternzeit",
+    "label": "Elternzeit — geplant",
+    "ort": "SITUATIONEN:geburt",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "Das Beispiel „geplant 12 Monate“ ist eine selbstgewählte Elternzeit-Dauer, keine gesetzliche Frist im Sinne dieser Klasse — die tatsächliche gesetzliche Frist (Anmeldung sieben Wochen vor Beginn, § 16 Abs. 1 BEEG, Liste 3b) kommt im heutigen Text gar nicht vor und ist damit kein Wächter-Fund, sondern ein Registereintrag (der Wächter kann eine Tatsache, die der Text nicht nennt, strukturell nicht finden)."
+  },
+  {
+    "carrier": "Situationsfeld",
+    "id": "vj_ummeldung",
+    "label": "Ummeldung beim Einwohnermeldeamt",
+    "ort": "SITUATIONEN:volljaehrig",
+    "vermerk": "Entscheidung offen",
+    "begruendung": "„binnen zwei Wochen“ (§ 17 BMG, korrekt) steht im Beispieltext, ohne dass ein Datumsfeld „Einzugsdatum“ existiert, an dem die Frist rechnen könnte. Nicht in Zug 3 gebaut (die vier dort gewählten Fristen sind schärfer). Dieselbe zugrunde liegende Feld-Doppelung ist bereits in der W-8-Grundlinie erfasst (Schlüssel „ummeldung beim einwohnermeldeamt“)."
+  },
+  {
+    "carrier": "Situationsfeld",
+    "id": "arzt_ergebnis",
+    "label": "Ergebnis & nächste Schritte",
+    "ort": "SITUATIONEN:arzt",
+    "vermerk": "begründete Ausnahme",
+    "begruendung": "„Kontroll-EKG in 4 Wochen“ ist ein selbstgesetzter, individueller Termin, keine gesetzliche Frist — Liste 3b vermerkt ausdrücklich: „Termine leben im Freitext“. Der Wächter meldet hier bewusst nichts."
+  }
+]
