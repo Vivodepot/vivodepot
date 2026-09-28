@@ -79,19 +79,35 @@ unabhängig von diesem Fund).
 
 ```konformitaet
 aussage:  Keine über git ls-files verfolgte .js/.mjs-Datei bildet einen os.tmpdir()-Pfad aus
-          einer festen Zeichenkette ohne mkdtempSync/process.pid/workerIndex/Date.now()/
-          Math.random() auf derselben Zeile — außer den wörtlich benannten Ausnahmen.
+          einer festen Zeichenkette ohne mkdtempSync/process.pid/workerIndex/outputPath auf
+          derselben Zeile — außer den wörtlich benannten Ausnahmen (Nachtrag 27.09.2026:
+          Date.now()/Math.random() allein genügen nicht mehr).
 zustand:  geprüft
 pruefung: tests/tmp-eindeutigkeit-waechter.test.js#[Tmp-Eindeutigkeit·Positivkontrolle] feste Zeichenkette in os.tmpdir() wird gefunden
 ```
 
 ```konformitaet
-aussage:  Die sieben mit Date.now()/workerIndex gebildeten Stellen und die benannte
-          Durchreich-Ausnahme (hooks-laufen-wirklich.test.js:133) lösen den Wächter NICHT aus.
+aussage:  workerIndex, Namen außerhalb der Musterform und die benannte Durchreich-Ausnahme
+          (hooks-laufen-wirklich.test.js:133) lösen den Wächter NICHT aus.
 zustand:  geprüft
-pruefung: tests/tmp-eindeutigkeit-waechter.test.js#[Tmp-Eindeutigkeit·Negativkontrolle] zurückgestellte Formen und benannte Ausnahme bleiben grün
+pruefung: tests/tmp-eindeutigkeit-waechter.test.js#[Tmp-Eindeutigkeit·Negativkontrolle] workerIndex, Namen außerhalb der Musterform und die benannte Ausnahme bleiben grün
 ```
+
+## Nachtrag 27.09.2026 — Zeitstempel allein trennt nicht
+
+Die zurückgestellte Form hat zugeschlagen. `tests/e2e/journey-versionstor-anker.spec.js` bildete ihre
+Datei als `os.tmpdir()` + `'journey-b-' + Date.now()`. Die Varianten privat-de und privat-en liefen in
+zwei Playwright-Workern gleichzeitig, trafen dieselbe Millisekunde, und der eine räumte die Datei des
+anderen weg (`ENOENT`, im pre-push-Lauf und einzeln mit `--repeat-each=3` nachgestellt: zweimal
+derselbe Dateiname in zwei Workern).
+
+**Entscheidung:** `Date.now()` und `Math.random()` gelten allein nicht mehr als eindeutig. Eindeutig
+trennen `process.pid` (jeder Worker ist ein eigener Prozess), `mkdtempSync` und `testInfo.outputPath`.
+`workerIndex` bleibt zugelassen — kein gemessener Fall; zwischen zwei Arbeitsbäumen wäre er nicht
+eindeutig, das bleibt als bekannte Grenze stehen. Die 27 betroffenen Stellen (Tests und
+`tools/shl-empfangen-probe.js`) tragen jetzt zusätzlich die Prozess-ID. Rot-Beweis an der Zeile aus
+cf46517fe.
 
 ---
 
-*Vivodepot GmbH · Berlin · 02./03.09.2026*
+*Vivodepot GmbH · Berlin · 02./03.09.2026 · Nachtrag 27.09.2026*

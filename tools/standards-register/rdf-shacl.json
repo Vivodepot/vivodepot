@@ -1,0 +1,28 @@
+{
+  "familie": "rdf-shacl",
+  "adapter": "itb-shacl",
+  "standards": [
+    {
+      "id": "edc-ap",
+      "name": "European Digital Credentials for Learning — Anwendungsprofil (SHACL, edc-generic-full)",
+      "version": "1.1.0",
+      "herausgeber": "Europäische Kommission, GD EMPL (DEMP)",
+      "quelle": {
+        "url": "https://github.com/european-commission-empl/European-Learning-Model/tree/9d7c5d22002237c3afeb1750b7038e6fe2cdd371/rdf/ap/edc",
+        "abgerufen": "2026-09-28"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Je Datei: die Shapes EDC-generic-full.ttl und EDC-generic-no-cv.ttl tragen im Inhalt dc:license CC BY 4.0 (Zeile 34 bzw. 32, am Commit 9d7c5d22); das Repository steht unter EUPL-1.2 (GitHub-API /repos/european-commission-empl/European-Learning-Model/license). Der Kontext edc-ap trägt keine eigene Angabe (Repository-Lizenz EUPL-1.2). Die Doku-Seite des ELM-Browsers nennt CC BY 4.0. Genutzt wird ohne Weitergabe: kein Re-Hosting, Beschaffung in den lokalen Cache."
+      },
+      "richtung": ["empfangen", "pruefen", "verwahren", "vorzeigen"],
+      "bereich": "bildung",
+      "status": "teilweise",
+      "artefakte": ["edc-ap-shapes-generic-full-1.1.0", "edc-ap-shapes-generic-no-cv-1.1.0", "edc-ap-kontext-20230928-0", "w3c-credentials-v1-kontext"],
+      "exportwege": [],
+      "importwege": ["edci-europass-extern"],
+      "bezuege": null,
+      "grund": "teilweise, bis der Prüferlauf gemessen ist: der ITB-SHACL-Validator ist offline nur als Docker-Image verteilt (Release 1.13.0 ohne JAR-Asset); Weg (Docker per Digest oder Eigenbau aus Tag 1.13.0) ist eine offene Produktentscheidung. Verwahren und byte-gleiches Vorzeigen belegt tests/bildung-edc-halten.test.js; U2-ADR-443."
+    }
+  ]
+}

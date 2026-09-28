@@ -11,7 +11,7 @@ const path = require('node:path');
 const { ohneAbsicht, testDateien } = require('../tools/lib/kern-html-path-absicht.js');
 
 const REPO = path.join(__dirname, '..');
-const GRUND = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'kern-html-path-absicht-grundlinie.json'), 'utf8'));
+const GRUND = require('../tools/lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(path.join(REPO, 'tools', 'kern-html-path-absicht-grundlinie.json'));
 
 test('[Absicht] kein NEUER Test lenkt den Kern um, ohne { backen: true } oder { blank: true } zu sagen', () => {
   const heute = ohneAbsicht(testDateien(REPO));

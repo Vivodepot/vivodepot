@@ -1,0 +1,78 @@
+{
+  "_zweck": "Die SNOMED-CT-Konzepte, die im Bestand stehen dürfen. SNOMED International hat die Nutzung dieser Konzepte aus dem Global Patient Set (CC BY-ND 4.0) freigegeben und verlangt, vor jeder Ausweitung gefragt zu werden: weitere Konzepte, Hierarchien, Beziehungen. Eine neue Kennung kommt nur mit einer Freigabe hierher. Gemessen mit tools/snomed-ids-messen.js, gehalten von den SNOMED-Proben der Suite. Feld gps: der GPS-Release, gegen den die Kennung aktiv und mit diesem Begriff (US Preferred Term) geprüft ist — node tools/snomed-gps-abgleich.js --gps <release.zip>.",
+  "freigegeben": {
+    "91935009": {
+      "begriff": "Allergy to peanut",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "91936005": {
+      "begriff": "Allergy to penicillin",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "119297000": {
+      "begriff": "Blood specimen",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "160245001": {
+      "begriff": "No current problems or disability",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "278149003": {
+      "begriff": "Blood group A Rh(D) positive",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "716186003": {
+      "begriff": "No known allergy",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "787480003": {
+      "begriff": "No known procedures",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "787481004": {
+      "begriff": "No known medications",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "787483001": {
+      "begriff": "No known device use",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    }
+  },
+  "_offen": "Angefragte, nicht freigegebene Kennungen stehen NICHT hier, sondern in der internen Ergänzung dieser Datei, die nicht in den öffentlichen Zuschnitt geht (gelesen über tools/lib/mit-interner-ergaenzung.js)."
+}

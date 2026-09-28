@@ -28,6 +28,17 @@ const HTML = _iH >= 0 && process.argv[_iH + 1]
 const QUELLEN = path.join(REPO, 'code-listen');
 const BEGIN = '<!-- CODE-LISTEN:BEGIN — generierter Bereich (tools/build-code-listen.js); Quellen: code-listen/<systemId>.json -->';
 const END = '<!-- CODE-LISTEN:END -->';
+/* LIZENZ-WORTLAUT (27.09.2026): die Pflicht-Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar
+   verlangt (LOINC § 10, BfArM-Downloadbedingungen ICD-10-GM § 1 und ATC-GM § 1), stehen als eigene Region im
+   Hauptskript, byte-gleich aus code-listen/wortlaut/<datei>. Eine Liste mit `lizenzWortlaut` bettet in CODE-LISTEN
+   nur den Verweis ein; ihr `lizenz`-Feld muss mit der Datei übereinstimmen, sonst bricht der Bau ab. Eine Liste
+   ohne Daten trägt keine Hinweispflicht und bettet ihre Lizenzzeile nicht ein. */
+const WORTLAUT = path.join(QUELLEN, 'wortlaut');
+// Der BEGIN-Marker ist ein einzeiliger Kommentar (tools/herkunftsort-pruefen.js paart Regionen zeilenweise), die Erläuterung folgt getrennt.
+const W_BEGIN = '/* LIZENZ-WORTLAUT:BEGIN — DAUERHAFT, ERZEUGT aus code-listen/wortlaut/<datei> (node tools/build-code-listen.js), byte-gleich, nicht von Hand ändern. */\n'
+  + '/* Die Quellenangaben, die der Lizenzgeber im weitergegebenen Exemplar verlangt (tools/geruest-waechter-grundlinie.json, regionen.dauerhaft;\n'
+  + '   Probe tests/lizenz-wortlaut-im-kern.test.js). */';
+const W_END = '/* LIZENZ-WORTLAUT:END */';
 
 // Stabile Reihenfolge (sonst alphabetisch) — hält den Diff klein.
 // snomedImpfstoff/snomedImplantat entfernt (U2-ADR-051): Impf-/Implantat-Codes kommen künftig
@@ -42,7 +53,18 @@ function ladeQuellen() {
     if (ia !== ib) return (ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib);
     return a.systemId.localeCompare(b.systemId);
   });
+  for (const l of listen) {
+    if (!l.lizenzWortlaut) continue;
+    const datei = path.join(WORTLAUT, l.lizenzWortlaut);
+    const wortlaut = fs.readFileSync(datei, 'utf8');
+    if (l.lizenz !== wortlaut) throw new Error(l.systemId + ': lizenz weicht vom Wortlaut in code-listen/wortlaut/' + l.lizenzWortlaut + ' ab.');
+  }
   return listen;
+}
+
+function generiereWortlaut(listen) {
+  const eintraege = listen.filter((l) => l.lizenzWortlaut).map((l) => '  ' + (/^[A-Za-z_$][\w$]*$/.test(l.systemId) ? l.systemId : JSON.stringify(l.systemId)) + ': ' + JSON.stringify(l.lizenz));
+  return '\nconst LIZENZ_WORTLAUT = Object.freeze({\n' + eintraege.join(',\n') + '\n});\n';
 }
 
 function blockFuer(liste) {
@@ -50,9 +72,11 @@ function blockFuer(liste) {
   const eintraege = (liste.daten || []).map(e => '    ' + j(e)).join(',\n');
   const datenJs = (liste.daten && liste.daten.length) ? '[\n' + eintraege + '\n  ]' : '[]';
   return [
-    `<!-- @vd-codeliste systemId="${liste.systemId}" — ${liste.hinweis || ''} -->`,
+    // Ohne `hinweis` (27.09.2026): codeListeAnmelden übernimmt das Feld nicht, es war im Kern nur Kommentartext, zweimal je
+    // Liste. Es bleibt in code-listen/<id>.json, der Quelle. Die Markierung selbst liest tests/load-kern.js (Blockanfang).
+    `<!-- @vd-codeliste systemId="${liste.systemId}" -->`,
     '<script>',
-    `/* @vd-codeliste ${liste.systemId} — ${liste.hinweis || ''} */`,
+    `/* @vd-codeliste ${liste.systemId} */`,
     // U2-ADR-NNN (18.09.2026, Kern-Verschluss): codeListeAnmelden ist kein bare Top-Level-Name
     // mehr, sondern liegt unter dem Namensraum window.__vdOeffentlich — derselbe Grund wie für
     // jeden anderen der 60 dort geführten Namen (Konvention: „keine Sonderlocken").
@@ -60,7 +84,11 @@ function blockFuer(liste) {
     `  uri: ${j(liste.uri || '')}, version: ${j(liste.version || '')}, kuerzel: ${j(liste.kuerzel || liste.systemId)},`,
     // teilliste (C2): Ausschnitt eines größeren Systems — vom Oberbegriff-Matching ausgenommen.
     ...(liste.teilliste ? ['  teilliste: true,'] : []),
-    `  lizenz: ${j(liste.lizenz || '')},`,
+    // anzeigeNameEigen (26.09.2026, SNOMED GPS): die Anzeige ist eine eigene Bezeichnung, kein Begriff des Systems;
+    // der unveränderte Begriff steht je Eintrag in quellBegriff und allein er geht als coding.display hinaus.
+    ...(liste.anzeigeNameEigen ? ['  anzeigeNameEigen: true,'] : []),
+    ...(liste.lizenzWortlaut ? [`  lizenzWortlaut: ${j(liste.systemId)},`]
+      : (liste.daten && liste.daten.length) ? [`  lizenz: ${j(liste.lizenz || '')},`] : []),
     `  daten: ${datenJs}`,
     '});',
     '</script>',
@@ -76,7 +104,7 @@ function generiereRegion() {
     '     U2-ADR-NNN Kern-Verschluss). SEED/STUB-Stand —',
     '     generiert aus code-listen/<systemId>.json. NICHT von Hand editieren; stattdessen die',
     '     JSON-Quellen ändern und `node tools/build-code-listen.js` laufen lassen.',
-    '     SNOMED nur als kleines Sample (Lizenz — siehe THIRD_PARTY_LICENSES). ═══════════════ -->',
+    '     SNOMED: zwei Konzepte aus dem Global Patient Set (CC BY-ND 4.0, siehe THIRD_PARTY_LICENSES). ════ -->',
   ].join('\n');
   return '\n' + kopf + '\n\n' + listen.map(blockFuer).join('\n\n') + '\n';
 }
@@ -88,12 +116,25 @@ function aktuelleRegion(html) {
   return { vor: html.slice(0, b + BEGIN.length), inhalt: html.slice(b + BEGIN.length, e), nach: html.slice(e) };
 }
 
+function wortlautRegion(html) {
+  const b = html.indexOf(W_BEGIN);
+  const e = html.indexOf(W_END);
+  if (b < 0 || e < 0 || e < b) return null;
+  return { vor: html.slice(0, b + W_BEGIN.length), inhalt: html.slice(b + W_BEGIN.length, e), nach: html.slice(e) };
+}
+
 function main() {
   const check = process.argv.includes('--check');
-  const html = fs.readFileSync(HTML, 'utf8');
+  let html = fs.readFileSync(HTML, 'utf8');
+  const w = wortlautRegion(html);
+  // Fehlen die Marker, ist das Drift wie jede andere Abweichung (--check meldet sie, Exit 1); schreiben lässt sich ohne Marker nicht.
+  if (!w && !check) throw new Error('LIZENZ-WORTLAUT:BEGIN/END-Marker nicht gefunden.');
+  const wNeu = generiereWortlaut(ladeQuellen());
+  const wortlautDrift = !w || w.inhalt !== wNeu;
+  if (wortlautDrift && !check) html = w.vor + wNeu + w.nach;
   const { vor, inhalt, nach } = aktuelleRegion(html);
   const neu = generiereRegion();
-  if (inhalt === neu) {
+  if (inhalt === neu && !wortlautDrift) {
     console.log('Code-Listen inline aktuell (kein Drift). Systeme: ' + ladeQuellen().map(l => l.systemId).join(', '));
     return 0;
   }
@@ -101,7 +142,7 @@ function main() {
     console.error('DRIFT: die inline Code-Listen weichen von code-listen/*.json ab. `node tools/build-code-listen.js` ausführen.');
     return 1;
   }
-  fs.writeFileSync(HTML, vor + neu + nach);
+  fs.writeFileSync(HTML, vor + (inhalt === neu ? inhalt : neu) + nach);
   console.log('Code-Listen inline neu geschrieben. Systeme: ' + ladeQuellen().map(l => l.systemId).join(', '));
   return 0;
 }

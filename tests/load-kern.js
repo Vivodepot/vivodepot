@@ -245,6 +245,7 @@ const EXPORT_HOOK = `
   // ältere Kern-Fassungen laden, die diese Namen noch nicht kennen (s. Regel „Neuer Kern-Export:
   // typeof absichern"). KEINE Backticks in diesem Kommentar — EXPORT_HOOK ist selbst ein
   // Template-Literal, ein Backtick hier bricht es mitten durch (Werkzeug-Falle, s. Memory).
+  blackboxDateiname: (typeof blackboxDateiname === 'function' ? blackboxDateiname : undefined),
   VOLLIMPORT_MITNEHMEN_SCHLUESSEL: (typeof VOLLIMPORT_MITNEHMEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_MITNEHMEN_SCHLUESSEL : undefined),
   VOLLIMPORT_DRAUSSEN_SCHLUESSEL: (typeof VOLLIMPORT_DRAUSSEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_DRAUSSEN_SCHLUESSEL : undefined),
   VOLLIMPORT_REST_AUSGENOMMEN: (typeof VOLLIMPORT_REST_AUSGENOMMEN !== 'undefined' ? VOLLIMPORT_REST_AUSGENOMMEN : undefined),
@@ -436,6 +437,8 @@ const EXPORT_HOOK = `
   // U2-ADR-045/048 — autoritative Original-Ablage (eu-lab-Laborbefund + eu-hdr-Entlassbrief verbatim)
   importAutoritativDokument, _istAutoritativesMedDokument, _autoritativesMedDokumentTyp, _medDokAussteller,
   FHIR_LAB_DOC_IG, FHIR_HDR_DOC_IG, FHIR_IPS_DOC_IG,
+  // Bildungsnachweise halten (P3 Holder) — ein fremd ausgestelltes EDC als Original
+  EDC_AP_KONTEXT: (typeof EDC_AP_KONTEXT !== 'undefined' ? EDC_AP_KONTEXT : undefined),
   // U2-ADR-049 — Feld-Übernahme aus dem autoritativen Original (nur Typen mit uebernahmeFormat, heute IPS)
   medDokFelderPlan, _autoritativKlartext,
   // U2-ADR-086 — Klasse-4-Datei-Export (Durchreiche): Original unverändert herunterladen
@@ -533,7 +536,7 @@ const EXPORT_HOOK = `
   _wizardOptionenAusMaterialisieren:
     (typeof _wizardOptionenAusMaterialisieren !== 'undefined') ? _wizardOptionenAusMaterialisieren : undefined,
   wizardZielLesen, wizardZielSetzen, wizardSchrittZiel, wizardTascheLesen,
-  wizardFortschritt, wizardHatDaten, wizardSichtbareIndizes, wizardSchrittVerborgen,
+  wizardFortschritt, wizardHatDaten, wizardSichtbareIndizes, wizardSchrittVerborgen, wizardSchrittTor: (typeof wizardSchrittTor === "function" ? wizardSchrittTor : undefined),
   wizardZielBereichNamen, _wizZieleSatz,   // Finding 13 (Zielbereiche vor Schritt 1)
   wizardSchrittSetzen, wizardSchrittSpeichern, wizardFehlerText,
   wizardWeiter, wizardZurueck, wizardAbbrechen, wizardAbschluss,
@@ -891,6 +894,32 @@ const EXPORT_HOOK = `
   // U2-ADR-095 — Passwort-Wechsel + Notfall-Blatt
   passwortWechselDurchfuehren, _passwortProbeRoundtrip, flowPasswortWechseln,
   notfallblattHTML, notfallblattOeffnen, notfallblattAnbieten, passwortWechselAbschlussZeigen,
+  // U2-ADR-430 — Wiederherstellungs-Code (typeof-gesichert: ein historischer Kern über KERN_HTML_PATH kennt ihn nicht).
+  whcCodeErzeugen: (typeof whcCodeErzeugen !== 'undefined' ? whcCodeErzeugen : undefined),
+  whcCodeGruppiert: (typeof whcCodeGruppiert !== 'undefined' ? whcCodeGruppiert : undefined),
+  whcCodeLesen: (typeof whcCodeLesen !== 'undefined' ? whcCodeLesen : undefined),
+  whcHuelleWickeln: (typeof whcHuelleWickeln !== 'undefined' ? whcHuelleWickeln : undefined),
+  whcHuelleVorhanden: (typeof whcHuelleVorhanden !== 'undefined' ? whcHuelleVorhanden : undefined),
+  whcHuelleEntfernen: (typeof whcHuelleEntfernen !== 'undefined' ? whcHuelleEntfernen : undefined),
+  whcCodePasst: (typeof whcCodePasst !== 'undefined' ? whcCodePasst : undefined),
+  depotMitCodeLaden: (typeof depotMitCodeLaden !== 'undefined' ? depotMitCodeLaden : undefined),
+  _whcAuspacken: (typeof _whcAuspacken !== 'undefined' ? _whcAuspacken : undefined),
+  _whcEinwickeln: (typeof _whcEinwickeln !== 'undefined' ? _whcEinwickeln : undefined),
+  _whcCodeSchluessel: (typeof _whcCodeSchluessel !== 'undefined' ? _whcCodeSchluessel : undefined),
+  _whcFrisch: (typeof _whcFrisch !== 'undefined' ? _whcFrisch : undefined),
+  codeblattHTML: (typeof codeblattHTML !== 'undefined' ? codeblattHTML : undefined),
+  _codeblattOeffnen: (typeof _codeblattOeffnen !== 'undefined' ? _codeblattOeffnen : undefined),
+  wiederherstellungAnbieten: (typeof wiederherstellungAnbieten !== 'undefined' ? wiederherstellungAnbieten : undefined),
+  whcCodeZeigen: (typeof whcCodeZeigen !== 'undefined' ? whcCodeZeigen : undefined),
+  _whcEntfernenFragen: (typeof _whcEntfernenFragen !== 'undefined' ? _whcEntfernenFragen : undefined),
+  whcAbschnittHTML: (typeof whcAbschnittHTML !== 'undefined' ? whcAbschnittHTML : undefined),
+  WHC_FELD: (typeof WHC_FELD !== 'undefined' ? WHC_FELD : undefined),
+  WHC_STELLEN: (typeof WHC_STELLEN !== 'undefined' ? WHC_STELLEN : undefined),
+  WHC_ALPHABET: (typeof WHC_ALPHABET !== 'undefined' ? WHC_ALPHABET : undefined),
+  UMSCHLAG_FELDER_BEKANNT: (typeof UMSCHLAG_FELDER_BEKANNT !== 'undefined' ? UMSCHLAG_FELDER_BEKANNT : undefined),
+  _nfbLinie: (typeof _nfbLinie !== 'undefined' ? _nfbLinie : undefined),
+  renderCodeOeffnen: (typeof renderCodeOeffnen !== 'undefined' ? renderCodeOeffnen : undefined),
+  codeOverlayOeffnen: (typeof codeOverlayOeffnen !== 'undefined' ? codeOverlayOeffnen : undefined),
   _aktuelleSalt: () => aktuelleSalt,
   _aktuellerDepotSalt: () => aktuelleDepotSalt,
   _aktuelleDepotUUID: () => aktuelleDepotUUID,
@@ -1990,6 +2019,10 @@ function ladeKern(opts) {
     const tempQuelle = spliceVorKernVerschluss(zeilen.join('\n'), codelisten.join('\n') + '\n' + EXPORT_HOOK)
       + '\n;return __LOAD_KERN_EXPORT__;\n})';
     fs.writeFileSync(ABDECKUNG_PFAD, tempQuelle, 'utf8');
+    // Die Auswertung erkennt die Datei an ihrer URL im V8-Bericht und liest sie nicht mehr; sie bleibt nicht liegen (der
+    // Lauf unter eigenem TMPDIR fand sie als Rest, Befund TEMP-RESTE-FUELLEN-DIE-PLATTE). Wer sie danach noch lesen muss
+    // (die Rot-Probe der Zeilentreue), setzt KERN_ABDECKUNG_BEHALTEN=1 und legt sie per TMPDIR in sein Wegwerf-Verzeichnis.
+    if (process.env.KERN_ABDECKUNG_BEHALTEN !== '1') process.once('exit', () => { try { fs.unlinkSync(ABDECKUNG_PFAD); } catch (_) { /* schon weg */ } });
     // runInThisContext (NICHT vm.createContext/runInNewContext): läuft im
     // AKTUELLEN Node-Realm — dieselben Array/Object-Prototypen wie der Rest
     // der Suite. Genau die Prototyp-Falle vom 27.07. (deepStrictEqual über

@@ -95,6 +95,16 @@ function baueModul() {
   }
 
   const texte = Object.assign({}, TEXTSATZ_EN_TEXTE, TEXTSATZ_EN_OPTIONSWERTE, TEXTSATZ_EN_VOLLABDECKUNG, TEXTSATZ_EN_PRO_BEREICH, TEXTSATZ_EN_PRO_FELDER, amtlicherWortlautDe);
+  // U2-ADR-440: die Festlegungen der Patientenverfügung tragen als Felder denselben Wortlaut wie im Assistenten — abgeleitet, nicht gepflegt
+  // (bei den amtlichen Optionen also das deutsche Original, wie oben).
+  {
+    const { pvFestlegungenTexte, pvFestlegungenIds } = require('./lib/pv-festlegungen-textsatz.js');
+    const abgeleitet = pvFestlegungenTexte(texte, pvFestlegungenIds(ladeKern().V));
+    for (const k of Object.keys(abgeleitet)) {
+      if (gesehen.has(k)) throw new Error('U2-ADR-440-Kennung ' + k + ' steht bereits in ' + gesehen.get(k) + ' — sie wird abgeleitet, nicht gepflegt.');
+    }
+    Object.assign(texte, abgeleitet);
+  }
   return {
     modulTyp: 'textsatz',
     sprache: 'en',
@@ -183,7 +193,10 @@ function main() {
     + Object.keys(TEXTSATZ_EN_VOLLABDECKUNG).length + ' Vollabdeckung + ' + Object.keys(TEXTSATZ_EN_PRO_BEREICH).length
     + ' Pro-Bereich (aus betriebssatz-inhalte.js) + ' + Object.keys(TEXTSATZ_EN_PRO_FELDER).length
     + ' Pro-Felder (aus der Vorlage) + ' + OFFEN_JURISTISCH.length
-    + ' amtlicher Wortlaut auf Deutsch, U2-ADR-363)');
+    + ' amtlicher Wortlaut auf Deutsch, U2-ADR-363 + '
+    + Object.keys(modul.texte).filter((k) => /^advanceCare\.[^.#]+(\/[^.]+)?\.label$/.test(k)
+      && typeof modul.texte[k.replace(/^advanceCare\./, 'wizard:pvwiz.')] === 'string').length
+    + ' Festlegungen der Patientenverfügung, aus dem Assistenten abgeleitet, U2-ADR-440)');
   console.log('Größe: ' + bytes + ' Bytes von ' + MAX + ' erlaubt.');
   console.log('Alle Kennungen von textsatzModulPruefen angenommen, 0 verworfen.');
 }

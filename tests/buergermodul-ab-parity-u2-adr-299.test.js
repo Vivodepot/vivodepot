@@ -68,19 +68,30 @@ test('[U2-ADR-299] das Bündel deckt alle 13 nativen Sektoren, 465 Feld-Definiti
   }
   // 20.09.2026: 270/187 → 271/194 (U2-ADR-424: privateInsurancePolicies + sechs Unterfelder, garnishmentProtection), gemessen.
   // 25.09.2026: 271 → 275 (U2-ADR-433: die vier Kennungen der Notvertretung durch Ehegatten), gemessen.
-  assert.equal(top, 275, 'Top-Level-Felder');
+  // 27.09.2026: 275 → 278 (U2-ADR-439: drei Ablageorte der Personenstandsurkunden), gemessen.
+  // 278 → 283 (27.09.2026, U2-ADR-438 Verständigung und Unterstützung): fünf Top-Level-Felder.
+  assert.equal(top, 283, 'Top-Level-Felder');
   // 13.09.2026: +3 Unterfelder (zvr_abschrift/zvr_abschrift_datum/zvr_abschrift_stelle,
   // Unterfelder von vorsorge_instrumente) — der gemessene Stand, ändert sich diese Zahl,
   // gehört die Zeile neu gemessen.
   assert.equal(unter, 194, 'Unterfelder');
-  assert.equal(top + unter, 469);
+  assert.equal(top + unter, 477);   // 472 → 477 (27.09.2026, U2-ADR-438: fünf Top-Level-Felder); 469 → 472 (27.09.2026, U2-ADR-439)
 });
 
 test('[U2-ADR-299] SEKTOREN/Feld-Definitionen: das Bündel nennt für JEDEN Sektor GENAU dieselben Kennungen wie der native Bestand — nicht mehr, nicht weniger', async () => {
   const { V } = await ladeKern();
+  /* U2-ADR-440 (28.09.2026): die Festlegungen der Patientenverfügung leitet der Kern beim Start selbst aus PV_BMJ.steps ab —
+     NACH dem Anwenden des Bündels. Das Bündel trägt sie darum nicht (sonst gäbe es eine zweite Fassung); aus dem nativen Soll
+     fallen sie heraus, erkannt am Merkmal der Ableitung, nicht an einer Namensliste. */
+  const abgeleitet = new Set();
+  for (const s of V.SEKTOREN) for (const sek of (s.sektionen || [])) for (const f of (sek.felder || [])) {
+    if (f.pvBmjAbgeleitet === true) abgeleitet.add(s.id + '.' + f.id);
+  }
+  assert.equal(abgeleitet.size, 29, 'die 29 abgeleiteten Festlegungen sind da — sonst misst die Ausnahme nichts');
   for (const sid of ALLE_SEKTOREN) {
-    const nativeIds = new Set(V._erstePartieErlaubteIdsFuerSektor(sid));
+    const nativeIds = new Set(V._erstePartieErlaubteIdsFuerSektor(sid).filter((k) => !abgeleitet.has(k)));
     const bundleIds = new Set(moduleDefsAusBundle(sid).map((d) => sid + '.' + d.feldId));
+    assert.deepEqual([...bundleIds].filter((k) => abgeleitet.has(k)), [], sid + ': das Bündel trägt eine abgeleitete Festlegung — zweite Fassung');
     const fehlend = [...nativeIds].filter((k) => !bundleIds.has(k));
     const zusaetzlich = [...bundleIds].filter((k) => !nativeIds.has(k));
     assert.deepEqual(fehlend, [], sid + ': im Bündel fehlende Kennungen');

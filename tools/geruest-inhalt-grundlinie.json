@@ -4,8 +4,8 @@
    "kennung": "_ANG_CACHE_ERLAUBT",
    "beginn": "const _ANG_CACHE_ERLAUBT = (() => {",
    "ende": "\n})();",
-   "hoechstens": 78,
-   "grund": "Kern-feste Cache-Allowlist: welche Felder ein Angehöriger ohne Depot-Passwort sehen darf (Schlüssel blatt|quelle|feld). Bleibt im Kern, damit eine Vorlage nichts freischalten kann (tests/angehoerigen-vorlage-cache-allowlist.test.js). Die Zahl darf nur sinken. 75 → 78 (25.09.2026, Entscheidung „auch in der Angehörigen-Ansicht\", U2-ADR-433): Ablehnung der Notvertretung durch Ehegatten, ihr Datum und ob sie eingetragen ist, auf dem Blatt Krankenhaus — die sensible Eintragungsnummer nicht."
+   "hoechstens": 85,
+   "grund": "Kern-feste Cache-Allowlist: welche Felder ein Angehöriger ohne Depot-Passwort sehen darf (Schlüssel blatt|quelle|feld). Bleibt im Kern, damit eine Vorlage nichts freischalten kann (tests/angehoerigen-vorlage-cache-allowlist.test.js). Die Zahl darf nur sinken. 75 → 78 (25.09.2026, Entscheidung „auch in der Angehörigen-Ansicht\", U2-ADR-433): Ablehnung der Notvertretung durch Ehegatten, ihr Datum und ob sie eingetragen ist, auf dem Blatt Krankenhaus — die sensible Eintragungsnummer nicht. 78 → 79 (27.09.2026, U2-ADR-439, Wort der Gegenlesung): Blatt „Behörden und Nachlass“, zwei sit:erbfall-Einträge (erb_stammbuch, erb_personenstand) raus, drei identity-Einträge der Urkunden-Ablageorte rein. 79 → 85 (27.09.2026, U2-ADR-438, Entscheidung „Blatt Krankenhaus“): die sechs krankenhausakut-Tripel advanceCare.communicationLanguage, advanceCare.communicationSupport, advanceCare.supportPerson, advanceCare.whatHelpsMe, emergencyPreparedness.specialSituation, emergencyPreparedness.noteForEmergencyResponders — advanceCare.doNotInform ausdrücklich NICHT."
   }
  ]
 }

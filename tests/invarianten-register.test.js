@@ -23,7 +23,7 @@ const REPO = path.join(__dirname, '..');
 const WERKZEUG = path.join(REPO, 'tools', 'invarianten-register-pruefen.js');
 const SPEZ_MINI_PFAD = path.join(__dirname, 'fixtures', 'invarianten-register', 'spezifikation-mini.md');
 const SPEZ_MINI = fs.readFileSync(SPEZ_MINI_PFAD, 'utf8');
-const ECHTES = JSON.parse(fs.readFileSync(W.STANDARD_REGISTER, 'utf8'));
+const ECHTES = require('../tools/lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(W.STANDARD_REGISTER);
 
 const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'invarianten-register-'));
 after(() => fs.rmSync(TMP, { recursive: true, force: true }));

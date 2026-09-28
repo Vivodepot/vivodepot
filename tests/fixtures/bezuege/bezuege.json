@@ -1,0 +1,35 @@
+{
+  "hinweis": "ERFUNDENE Abbildungen für die Probe",
+  "zeilen": [
+    {
+      "kennung": "identity.givenName",
+      "datensatz": "fhir-probe",
+      "ziel": "PatientProbe#Patient.name.given",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.familyName",
+      "datensatz": "fhir-probe",
+      "ziel": "PatientProbe#Patient.name.family",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.dateOfBirth",
+      "datensatz": "fhir-probe",
+      "ziel": "PatientProbe#Patient.birthDate",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "health.bloodType",
+      "datensatz": "openehr-probe",
+      "ziel": "probe.ips.v1#ips/blutgruppe",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "health.allergies/substance",
+      "datensatz": "openehr-probe",
+      "ziel": "probe.ips.v1#ips/allergien/substanz",
+      "grad": "eng"
+    }
+  ]
+}

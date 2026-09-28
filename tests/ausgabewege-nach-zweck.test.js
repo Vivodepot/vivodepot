@@ -63,7 +63,9 @@ test('[Zweck·DIE ANTWORT] keine der gelesenen Eigenschaften ist ein Zweck', () 
      Anlass, Zug 0 neu zu stellen — darum steht die Menge hier. */
   const m = mess();
   assert.deepEqual(Object.keys(m.verzweigungen).sort(),
-    ['endung', 'eudiw', 'kategorie', 'mime', 'ohneAuswahl', 'toastLeer', 'toastLeerFn', 'zurueckgehaltenFn'],
+    // 28.09.2026 (DATEINAME-PERSON): `endung` entfällt — exportDateiname verzweigt nicht mehr (kein Vorname im Dateinamen),
+    // die Endung wird nur noch angehängt. Die Menge wird kleiner, keine neue Zweck-Frage.
+    ['eudiw', 'kategorie', 'mime', 'ohneAuswahl', 'toastLeer', 'toastLeerFn', 'zurueckgehaltenFn'],
     'die Menge der entscheidungstragenden Eigenschaften hat sich verändert — dann gehört Zug 0 '
     + 'neu gestellt, statt diese Zeile nachzuziehen');
 });

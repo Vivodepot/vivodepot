@@ -176,6 +176,10 @@ damals beruhte, und das bleibt wahr, auch wenn die Quelle selbst nicht einsehbar
 Entscheidungen tragen sich ohne diese Quellen: Was gilt, steht in der ADR selbst, und was davon
 geprüft ist, steht im \`konformitaet\`-Block der Datei (\`pruefung:\`-Zeile).
 
+Dasselbe gilt für Tests und Werkzeuge, die eine ADR als Beleg nennt: ein Teil davon läuft nur im
+internen Repo und liegt im öffentlichen Stand nicht bei. Die Nennung bleibt, weil sie den Beleg
+benennt; neue ADRs nennen keine solche Datei mehr.
+
 ## Status je ADR
 
 Vier Zustände: **gilt** (Beleg am Code geführt) · **teilweise überholt** / **überholt** durch ein

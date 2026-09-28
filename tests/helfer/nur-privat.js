@@ -28,7 +28,7 @@ const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 45;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
+const DECKEL = 49;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
                      // 42 → 43 am 26.09.2026: build-datum-lockstep, öffentlich ein einziger Commit vom Tag der Veröffentlichung
                      // 43 → 44 am 26.09.2026: hooks-eigener-baum-suite, öffentlich ohne eingerichtete Hooks (GIT)
                      // 44 → 45 am 27.09.2026 (Gegenlesung erteilt): hooks-eigener-baum-suite entfällt (die Datei hält der require-
@@ -36,8 +36,27 @@ const DECKEL = 45;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der
                      //   modul-schemas-klasse, je nur der Teil, der eine zurückgehaltene Datei braucht (BESTAND).
                      //   Die +1 ist die Folge der Teilungs-Auflage: ein nur-privat-Test mit einem einzigen Fall ersetzt
                      //   eine sonst ganz private Datei (zuschnitt-tests-privat.json 107 → 109 statt 110).
+                     // 45 → 46 am 27.09.2026 (Gegenlesung erteilt): workflow-uebersprungen-sichtbar, nur die Vorbedingung an
+                     //   e2e-cross.yml — direkte Folge des Zurückziehens (bis E2E-CROSS-OEFFENTLICH-LEER gelöst); die Regel über alle
+                     //   Workflows bleibt öffentlich, ihr Rot-Beweis läuft an einem erfundenen Ausschnitt (BESTAND)
+                     // 46 → 49 am 28.09.2026 (Gegenlesung erteilt): drei Rot-Beweise mit privatem Commit (GIT), gefunden von npm test im
+                     //   Zuschnitt v818; die Klasse hält die Suite-Probe [Zuschnitt·Git-Historie]
 
 const NUR_PRIVAT = {
+  // 28.09.2026 (Gegenlesung erteilt): drei Rot-Beweise holen per `git show` einen Stand, den nur die private Geschichte
+  // trägt — gefunden von npm test im Zuschnitt v818; die Klasse hält eine eigene Suite-Probe (Zuschnitt·Git-Historie).
+  "tests/code-listen-freigabe.test.js": { grund: GIT, tests: [
+    "[Codelisten·Freigabe·Rot-Beweis] die Vorstände von NOTICE/THIRD_PARTY fallen",   // git show 18b3d6456
+  ] },
+  "tests/fhir-display-offizieller-begriff.test.js": { grund: GIT, tests: [
+    "[FHIR·display·Rot-Beweis] die LOINC-Liste von c30128b6a und der eigene Name als display fallen",   // git show c30128b6a
+  ] },
+  "tests/wiederherstellungs-code.test.js": { grund: GIT, tests: [
+    "[WHC·#3] der Kern von vor dem Bau öffnet eine Datei mit Hülle mit dem Passwort; eine Datei mit kaputtem Pflichtfeld nicht",   // git show 875d31856
+  ] },
+  "tests/workflow-uebersprungen-sichtbar.test.js": { grund: BESTAND, tests: [
+    "[Workflow·übersprungen·e2e-cross] beide Jobs von e2e-cross haben den Zweig",
+  ] },
   "tests/platzhalter-ausgeliefert.test.js": { grund: BESTAND, tests: [
     "[Platzhalter·Generator] der Template-Generator gehört zum geprüften Bestand",
   ] },

@@ -41,7 +41,11 @@ function depotMitAllemBelegt(instrumente) {
         generalPractitioner: { ref: '', override: 'Dr. Weber' },
       },
       // 25.09.2026: die Ablehnung einer Notvertretung durch Ehegatten und ihre Eintragung (nur bei „ja" auf der Karte).
-      advanceCare: { provisionInstruments: instrumente, spousalRepresentationObjection: 'ja', spousalObjectionRegistered: 'ja' },
+      advanceCare: { provisionInstruments: instrumente, spousalRepresentationObjection: 'ja', spousalObjectionRegistered: 'ja',
+        // 27.09.2026 (U2-ADR-438): Verständigung und Unterstützung — drei Kartenfelder.
+        communicationLanguage: 'Türkisch', communicationSupport: ['dolmetschen'], supportPerson: { ref: '', override: 'Deniz Begleitung' } },
+      // 27.09.2026 (U2-ADR-438): die zwei Freitexte der Notfallvorsorge.
+      emergencyPreparedness: { specialSituation: 'Stoffwechselerkrankung', noteForEmergencyResponders: 'Hund in der Wohnung' },
     },
   };
 }
@@ -82,8 +86,15 @@ test('§5b Nachweispflicht: JEDES Allowlist-Feld kommt am Notfall-Pfad an', () =
   assert.ok(/Notvertretung durch meinen Ehegatten/.test(labels), 'Ablehnung der Notvertretung fehlt am Notfall-Pfad');
   assert.ok(/Vorsorgeregister eingetragen/.test(labels), 'Eintragung der Ablehnung fehlt am Notfall-Pfad');
 
+  // 27.09.2026 (U2-ADR-438) — fünf neue Allowlist-Felder, jedes einzeln nachgewiesen.
+  assert.ok(werte.includes('Türkisch'), 'Sprache der Verständigung fehlt am Notfall-Pfad');
+  assert.ok(werte.includes('Dolmetschen'), 'Unterstützung bei der Verständigung fehlt am Notfall-Pfad');
+  assert.ok(werte.includes('Deniz Begleitung'), 'Begleitperson fehlt am Notfall-Pfad');
+  assert.ok(werte.includes('Stoffwechselerkrankung'), 'Besondere Situation fehlt am Notfall-Pfad');
+  assert.ok(werte.includes('Hund in der Wohnung'), 'Hinweis für Rettungskräfte fehlt am Notfall-Pfad');
+
   // Die Allowlist ist vollständig abgedeckt: kein Eintrag ohne Nachweis oben.
-  assert.equal(V.NOTFALL_KERN_FELDER.length, 18, 'Allowlist-Umfang geändert — jede Änderung braucht einen Nachweis oben (die fünf neuen Felder aus N2 Zug 3 sind es)');
+  assert.equal(V.NOTFALL_KERN_FELDER.length, 23, 'Allowlist-Umfang geändert — jede Änderung braucht einen Nachweis oben (die fünf neuen Felder aus N2 Zug 3 sind es)');
 });
 
 test('§5a zwei Zeilen desselben Typs → GENAU EIN Wert im Klartext, nicht zwei', () => {

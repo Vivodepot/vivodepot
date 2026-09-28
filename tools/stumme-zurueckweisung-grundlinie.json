@@ -38,13 +38,6 @@
     "art": "spur"
    },
    {
-    "ort": "_bereicheVerwaisteRetten",
-    "bedingung": "!g || !g.gueltig",
-    "art": "ausnahme",
-    "grund": "Ein zweiter Durchlauf, der nur die Kennungen gültiger Bereichs-Module sammelt, um verwaiste Bereiche zu erkennen; dasselbe Modul ist in _bereichsModuleAusDepotAnmeldenLesen (bzw. im Kern _bereichsModuleAusDepotAnmelden) mit Grund in der Verwurfsliste erfasst. Hier eine Spur zu schreiben zählte jedes verworfene Modul doppelt.",
-    "probe": "tests/bereich-identitaet-verwaist.test.js"
-   },
-   {
     "ort": "logikModulAbschnitteHTML",
     "bedingung": "!geprueft.gueltig",
     "art": "spur"
@@ -121,13 +114,6 @@
     "grund": "Ein ungültiges Institutionsarten-Modul: der Rumpf ist ein bloßes `continue;`, ohne Zeile in einer Verwurfsliste (ob die Funktion davor eine schreibt, ist nicht geprüft)."
    },
    {
-    "ort": "eingelasseneModule",
-    "bedingung": "!geprueft || !geprueft.gueltig",
-    "art": "ausnahme",
-    "grund": "Die Zurückweisung wird mit `ausgefallen: true` und Grund in die Ergebnisliste geschrieben, bevor das continue folgt: das IST die Spur, ihr Leser ist die Prüfstufen-Anzeige der eingelassenen Module.",
-    "probe": "tests/modul-pruefstufe-anzeige.test.js"
-   },
-   {
     "ort": "_ereignisAchseModuleAusDepotAnmelden",
     "bedingung": "!geprueft.gueltig",
     "art": "spur"
@@ -145,13 +131,6 @@
     "art": "ausnahme",
     "grund": "Keine Modulprüfung: `gueltig` ist hier das Gültigkeitsobjekt eines Datums (bis, ab), das `continue` überspringt eine Zeile ohne brauchbare Angabe; es wird kein Modul und keine Datei zurückgewiesen.",
     "probe": "tests/korb1-mehrwertig-pruefermine.test.js"
-   },
-   {
-    "ort": "_bereicheVerwaisteRetten",
-    "bedingung": "!g || !g.gueltig",
-    "art": "ausnahme",
-    "grund": "Ein zweiter Durchlauf, der nur die Kennungen gültiger Bereichs-Module sammelt, um verwaiste Bereiche zu erkennen; dasselbe Modul ist in _bereichsModuleAusDepotAnmeldenLesen (bzw. im Kern _bereichsModuleAusDepotAnmelden) mit Grund in der Verwurfsliste erfasst. Hier eine Spur zu schreiben zählte jedes verworfene Modul doppelt.",
-    "probe": "tests/bereich-identitaet-verwaist.test.js"
    },
    {
     "ort": "logikModulAuszugKartenHTML",

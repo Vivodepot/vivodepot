@@ -23,8 +23,10 @@ const KLASSEN = Object.freeze(['weitergabe', 'eigene-sicherung', 'notfall', 'ver
 
 const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   dateiAusgeben: { klasse: 'kein-ausgabeweg', grund: 'die gemeinsame Senke (Teilen oder Download); eingeordnet werden ihre Aufrufer' },
+  _vereinbarungAngebotZeigen: { klasse: 'vereinbarung', grund: 'das Angebot an die Stelle als QR-Code; trägt nur Kennungen, Quellen und Prüfsummen, kein Depot-Feld' },
   _vereinbarungAngebotSichern: { klasse: 'vereinbarung', grund: 'das Angebot an die Stelle; trägt keine Depot-Daten und ist der Weg zur Vereinbarung selbst' },
   _vereinbarungBegleitdateiSichern: { klasse: 'vereinbarung', grund: 'die Vereinbarung als Begleitdatei zum Auszug; trägt nur Kennungen, Prüfsummen und den Stand, kein Depot-Feld' },
+  _swAktivierenWennMoeglich: { klasse: 'kein-ausgabeweg', grund: 'Nachricht an den eigenen Service Worker; die Nutzlast ist die Konstante { type: \'SKIP_WAITING\' }, kein Depot-Feld (Probe: tests/tor-in-der-definition.test.js, G2)' },
   flowMappeVorschau: { klasse: 'kein-ausgabeweg', grund: 'Objekt-URL für die PDF-Vorschau im eigenen Fenster, keine Datei' },
 
   _depotBlobSpeichern: { klasse: 'eigene-sicherung', grund: 'die verschlüsselte Depot-Datei der Person' },
@@ -38,7 +40,9 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   uebergabeWiderrufPdfErzeugen: { klasse: 'eigene-sicherung', grund: 'Widerruf gegenüber einer Stelle; gesperrt würde das Zurücknehmen selbst, und er trägt keine Depot-Felder' },
 
   flowNotfallkartePdf: { klasse: 'notfall', grund: 'Notfallkarte' },
+  flowNotfallQR: { klasse: 'notfall', grund: 'die Notfall-Kontakte als QR-Code (vCard) zum Ausdrucken' },
   notfallblattOeffnen: { klasse: 'notfall', grund: 'Notfallblatt zum Drucken' },
+  _codeblattOeffnen: { klasse: 'notfall', grund: 'Code-Blatt zum Drucken, OHNE den Code (U2-ADR-430, Nachtrag Ziffer 3)' },
   hilfeOeffnen: { klasse: 'kein-ausgabeweg', grund: 'Bedienungsanleitung zum Ansehen und Drucken (U2-ADR-425): reiner Anleitungstext, kein Depot-Feld, kein Auszug an eine Stelle' },
   blackboxHerunterladen: { klasse: 'notfall', grund: 'versiegeltes Sub-Depot an die Vertretung, ohne es zu öffnen; Vertretung im Ernstfall' },
 
@@ -53,6 +57,8 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   _eudiwAusgeben: { klasse: 'weitergabe', grund: 'SD-JWT VC für eine Wallet oder Stelle' },
   _anfrageAntwortSchreiben: { klasse: 'weitergabe', grund: 'Antwort auf die Anfrage einer Stelle' },
   empfaengerDateiHerausgeben: { klasse: 'weitergabe', grund: 'Ausschnitt-Datei für einen Empfängerkreis' },
+  // G2 (TOR-IN-DER-DEFINITION, 26.09.2026): QR-Code, Zwischenablage und postMessage sind Senken; diese vier Funde kamen dazu.
+  _empfaengerQrErgebnisModal: { klasse: 'weitergabe', grund: 'derselbe Empfängerkreis-Ausschnitt wie die Datei, als QR-Code mit Lese-URL', sperreIn: ['empfaengerQrHerausgeben'] },
   flowErbscheinXmlSichern: { klasse: 'weitergabe', grund: 'Erbschein-Vorbereitung für das Nachlassgericht' },
 });
 

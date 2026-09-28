@@ -17,7 +17,10 @@
     "kinder_namen": { "typ": "personenNamen", "sektor": "people", "feld": "childrenAndDependants", "unterfeld": "person" },
     "testament_bedachte_namen": { "typ": "listenfeldPersonenNamen", "sektor": "advanceCare", "feld": "provisionInstruments",
       "diskriminante": { "feld": "instrument", "wert": "will" }, "unterfeld": "personsNamedInTheWill" },
-    "erben_namen": { "typ": "personenNamen", "sektor": "advanceCare", "feld": "heirsBriefOverview" }
+    "erben_namen": { "typ": "personenNamen", "sektor": "advanceCare", "feld": "heirsBriefOverview" },
+    "geburtsurkunde_ort": { "typ": "feld", "sektor": "identity", "feld": "birthCertificateStorage", "sensibelErlaubt": true },
+    "eheurkunde_ort": { "typ": "feld", "sektor": "identity", "feld": "marriageCertificateStorage", "sensibelErlaubt": true },
+    "stammbuch_ort": { "typ": "feld", "sektor": "identity", "feld": "familyRegisterBookStorage", "sensibelErlaubt": true }
   },
   "abschnitte": [
     {
@@ -54,6 +57,16 @@
           "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "erben_namen", "frage": "Vorgesehene Erb(inn)en?",
           "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" }
+      ]
+    },
+    {
+      "titel": "Teil C — Urkunden für den Nachweis",
+      "bloecke": [
+        { "typ": "immer", "texte": ["Wer einen Erbschein beantragt, weist den Todeszeitpunkt und das Verwandtschafts- oder Eheverhältnis, auf dem das Erbrecht beruht, in der Regel durch öffentliche Urkunden nach (§ 352 Abs. 3 FamFG). Hier steht, wo die Urkunden der verstorbenen Person liegen, soweit sie es eingetragen hat."] },
+        { "typ": "frageAntwortOderLuecke", "feldId": "geburtsurkunde_ort", "frage": "Wo liegt die Geburtsurkunde?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "eheurkunde_ort", "frage": "Wo liegt die Ehe- oder Lebenspartnerschaftsurkunde?", "luecke": "— nicht erfasst —" },
+        { "typ": "frageAntwortOderLuecke", "feldId": "stammbuch_ort", "frage": "Wo liegt das Familienstammbuch?", "luecke": "— nicht erfasst —" },
+        { "typ": "immer", "texte": ["Die Sterbeurkunde stellt das Standesamt aus, nachdem der Sterbefall beurkundet ist; sie steht nicht in diesem Depot.", "Urkunden der Erben, etwa deren Geburtsurkunden, gehören nicht zu diesem Depot."] }
       ]
     }
   ],

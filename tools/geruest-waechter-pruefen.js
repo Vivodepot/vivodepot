@@ -90,7 +90,10 @@
    satz −42 standen als „137" da, und keine der beiden Zahlen war mehr zu lesen. `zuwaechsePruefen`
    verwirft ein `netto` jetzt als Fund.)
    Eine Anzahl-Grenze gibt es nicht; es begrenzt der Deckel selbst. Ein einzelner Zuwachs an struktur
-   oder einer Konstante darf höchstens ZUWACHS_HOECHSTENS = 1024 Byte betragen: gemessen ist die längste
+   oder einer Konstante darf höchstens ZUWACHS_HOECHSTENS = 1024 Byte betragen — für struktur seit 27.09.2026 (Gegenlesung,
+   U2-ADR-430) nicht mehr die Summe, sondern die längste Einzelzeichenkette und der längste mit `+` verbundene Base64/Hex-
+   Lauf: eine Funktion bringt viele kurze Markup-Ketten, ein Binärblock eine lange; die Summe geht benannt mit Grund und Wort
+   der Gegenlesung (`laengste` im Eintrag hält beide Messwerte fest). Gemessen ist die längste
    Zeichenkette im Struktur-Eimer außerhalb von Base64-Blöcken 867 Byte (ein Beispiel-Credential), der
    längste SVG-Pfad 608; 1024 ist diese Messung plus 18 % Luft. Binäre Blöcke (data:-URIs, Base64: heute
    drei PNG mit zusammen 36 738 Byte) gehören in eine Marker-Region wie PDF-INTER-B64, nicht in diesen Eimer.
@@ -117,12 +120,14 @@
      bis dahin ist sie rot. Die ZAHL der Übergänge (`uebergangDeckel`) ist exakt und kann nur sinken.
      Eine Region mit Satz, die in keiner Liste steht, ist rot.
      Nur eine Sorte darf DAUERHAFT über 0 stehen (`regionen.dauerhaft`): Text, den wir führen MÜSSEN, weil
-     das Weglassen falsch wäre (heute die Lizenz- und Urheberhinweise der Codelisten in CODE-LISTEN,
-     1 945 Byte). Ihre Probe sichert das VORHANDENSEIN, nicht das Weglassen: sie ist rot, wenn der Text weg ist.
+     das Weglassen falsch wäre (heute die Lizenz- und Urheberhinweise der Codelisten in CODE-LISTEN, die
+     Urheberangabe in HERKUNFTSORT-ANGABEN und, seit 27.09.2026, die Pflicht-Quellenangaben der Lizenzgeber in
+     LIZENZ-WORTLAUT, byte-gleich gegen ihre Originale unter code-listen/wortlaut/). Ihre Probe sichert das
+     VORHANDENSEIN, nicht das Weglassen: sie ist rot, wenn der Text weg ist. Die Byte-Zahlen stehen in der Grundlinie.
    Der Sollwert misst Zeichenketten-Inhalt, nicht die Länge der Region: eine geleerte Region
    (`const X = Object.freeze([]);`, ihre eigene Deklaration) trägt 0 Byte Satz, der Sollwert ist also
-   erreichbar. Nach S4, S7 und dem S5-Rest bleiben im ganzen Gerüst 1 945 Byte satzförmig, und das ist
-   Lizenztext. Grenze: auch das ist ein Zeichenketten-Maß; ob eine Nutzlast-Konstante geparst leer ist
+   erreichbar. Nach S4, S7 und dem S5-Rest blieben im ganzen Gerüst 1 945 Byte satzförmig, und das war
+   Lizenztext (Stand 20.09.2026; heute: regionen.dauerhaft in der Grundlinie). Grenze: auch das ist ein Zeichenketten-Maß; ob eine Nutzlast-Konstante geparst leer ist
    (`[]`, `{}`, `null`), prüft es nicht.
 
    AUFLAGE BEIM LANDEN IM KANON. Die Deckel sind gegen den Stand gemessen, auf dem dieser Zweig gebaut
@@ -167,6 +172,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
 const vm = require('node:vm');
 
 const REPO = path.join(__dirname, '..');
@@ -392,6 +398,10 @@ function literaleMessen(text, optionen = {}) {
   const fremdBytes = new Map(register.map((r) => [r.name, 0]));
   const eimer = { struktur: 0, satz: 0 };
   let laengsteStruktur = { bytes: 0, beispiel: '' };
+  // Längster Lauf aus Base64/Hex-Literalen, die nur durch `+` verbunden sind — ein Binärblock, in Stücke zerlegt.
+  let laengsterLauf = { bytes: 0, beispiel: '' };
+  const langeKetten = [];   // jede struktur-Kette über ZUWACHS_HOECHSTENS — gegen `langeKettenBekannt` der Grundlinie
+  let lauf = { bytes: 0, ende: -1, beispiel: '' };
   let ausserhalb = 0; let innerhalb = 0; let anzahl = 0;
   let pos = 0;
   let block = 0;
@@ -433,6 +443,12 @@ function literaleMessen(text, optionen = {}) {
       eimer[art] += b;
       if (optionen.sammeln) optionen.sammeln({ art, region: null, bytes: b, wert, ort: l.s });
       if (art === 'struktur' && b > laengsteStruktur.bytes) laengsteStruktur = { bytes: b, beispiel: wert.slice(0, 80) };
+      if (art === 'struktur' && b > ZUWACHS_HOECHSTENS) langeKetten.push({ bytes: b, sha256: crypto.createHash('sha256').update(wert).digest('hex'), beispiel: wert.slice(0, 60) });
+      if (art === 'struktur' && /^[A-Za-z0-9+/=_-]{16,}$/.test(wert)) {
+        const verbunden = lauf.ende >= 0 && /^['"]\s*\+\s*['"]$/.test(text.slice(lauf.ende, l.s));
+        lauf = verbunden ? { bytes: lauf.bytes + b, ende: l.e, beispiel: lauf.beispiel } : { bytes: b, ende: l.e, beispiel: wert.slice(0, 80) };
+        if (lauf.bytes > laengsterLauf.bytes) laengsterLauf = { bytes: lauf.bytes, beispiel: lauf.beispiel };
+      } else lauf = { bytes: 0, ende: -1, beispiel: '' };
     }
     rest += text.slice(von, e);
     try {
@@ -453,6 +469,8 @@ function literaleMessen(text, optionen = {}) {
     regionen: imInnern,
     fremdcode: Object.fromEntries(fremdBytes),
     laengsteStruktur,
+    laengsterLauf,
+    langeKetten,
   };
 }
 
@@ -507,6 +525,22 @@ function konstantenMessen(text) {
  * @param {{konstanten: object[], probleme: string[], literale?: object}} messung
  * @returns {{fehler: string[]}}
  */
+/* Lange Ketten (27.09.2026, Gegenlesung zu U2-ADR-430): eine struktur-Kette über ZUWACHS_HOECHSTENS ist nur erlaubt, wenn sie
+   am Stand der Einführung schon da war (`langeKettenBekannt`, Hash + Länge; heute drei PNG-data-URIs und jsPDF-Breitentabellen).
+   Jede NEUE lange Kette und jeder mit `+` verbundene Base64/Hex-Lauf über der Grenze ist rot — bei jedem Lauf, gleich ob eine
+   Anhebung beantragt ist. Die Liste sinkt nur (eine verschwundene Kette fällt beim Schreiben heraus). */
+function langeKettenFunde(lit, grundlinie) {
+  const funde = [];
+  const bekannt = new Set((grundlinie.langeKettenBekannt || []).map((k) => k.sha256));
+  for (const k of lit.langeKetten || []) {
+    if (!bekannt.has(k.sha256)) funde.push('struktur: neue lange Zeichenkette (' + k.bytes + ' Byte, „' + k.beispiel + '…") über ' + ZUWACHS_HOECHSTENS + ' Byte — Binäres gehört in eine Marker-Region.');
+  }
+  if (lit.laengsterLauf && lit.laengsterLauf.bytes > ZUWACHS_HOECHSTENS) {
+    funde.push('struktur: Base64/Hex-Lauf aus verbundenen Literalen ' + lit.laengsterLauf.bytes + ' Byte („' + lit.laengsterLauf.beispiel + '…") über ' + ZUWACHS_HOECHSTENS + ' Byte.');
+  }
+  return funde;
+}
+
 function pruefen(messung, grundlinie) {
   const fehler = [...messung.probleme];
   const bekannt = new Map((grundlinie.konstanten || []).map((k) => [k.name, k]));
@@ -533,6 +567,7 @@ function pruefen(messung, grundlinie) {
   }
   if (messung.literale) {
     const ist = messung.literale;
+    fehler.push(...langeKettenFunde(ist, grundlinie));
     const eimer = grundlinie.eimer;
     if (!eimer || !eimer.struktur || !eimer.satz) {
       fehler.push('eimer: die Grundlinie führt die Eimer der Zeichenketten außerhalb der Regionen nicht.');
@@ -655,7 +690,12 @@ function zuwaechsePruefen(grundlinie) {
     if (typeof a.grund !== 'string' || a.grund.trim().length < GRUND_MINDESTLAENGE) {
       fehler.push(wo + ': Zuwachs OHNE Grund — er muss sagen, was hinzukommt und warum es Struktur ist.');
     }
-    if (!/^fremdcode:/.test(a.ziel) && a.auf - a.von > ZUWACHS_HOECHSTENS) {
+    if (a.ziel === 'struktur' && a.laengste) {
+      // Seit 27.09.2026: für struktur gilt die Grenze der längsten Einzelzeichenkette und dem längsten Base64/Hex-Lauf.
+      if (!(a.laengste.einzel <= ZUWACHS_HOECHSTENS) || !(a.laengste.lauf <= ZUWACHS_HOECHSTENS)) {
+        fehler.push(wo + ': längste Einzelzeichenkette ' + a.laengste.einzel + ' / längster Base64-Lauf ' + a.laengste.lauf + ' Byte, erlaubt sind höchstens ' + ZUWACHS_HOECHSTENS + '. Binäre Blöcke gehören in eine Marker-Region.');
+      }
+    } else if (!/^fremdcode:/.test(a.ziel) && a.auf - a.von > ZUWACHS_HOECHSTENS) {
       fehler.push(wo + ': wächst um ' + (a.auf - a.von) + ' Byte, erlaubt sind höchstens ' + ZUWACHS_HOECHSTENS + '. Binäre Blöcke (data:-URIs, Base64) gehören in eine Marker-Region, nicht in diesen Eimer.');
     }
     if (a.auf <= a.von) fehler.push(wo + ': ist kein Zuwachs (auf ' + a.auf + ' nicht über von ' + a.von + ').');
@@ -763,16 +803,24 @@ function grundlinieAktualisieren(messung, alt, { anhebungen = [] } = {}) {
   for (const e of eintraege) {
     const grund = typeof e.antrag.grund === 'string' ? e.antrag.grund.trim() : '';
     if (grund.length < GRUND_MINDESTLAENGE) verweigert.push(e.ziel + ': Zuwachs ohne Grund (mindestens ' + GRUND_MINDESTLAENGE + ' Zeichen: was kommt hinzu, warum ist es Struktur).');
-    if (!/^fremdcode:/.test(e.ziel) && e.auf - e.von > ZUWACHS_HOECHSTENS) {
+    let laengste;
+    if (e.ziel === 'struktur' && lit) {
+      const bekannt = new Set((alt.langeKettenBekannt || []).map((k) => k.sha256));
+      const neueLange = (lit.langeKetten || []).filter((k) => !bekannt.has(k.sha256));
+      laengste = { einzel: neueLange.reduce((m, k) => Math.max(m, k.bytes), 0), lauf: lit.laengsterLauf.bytes };
+      verweigert.push(...langeKettenFunde(lit, alt));
+    } else if (!/^fremdcode:/.test(e.ziel) && e.auf - e.von > ZUWACHS_HOECHSTENS) {
       verweigert.push(e.ziel + ': Zuwachs um ' + (e.auf - e.von) + ' Byte, erlaubt sind höchstens ' + ZUWACHS_HOECHSTENS + '. Binäre Blöcke gehören in eine Marker-Region.');
     }
     const uebrige = Object.fromEntries(Object.entries(aenderung).filter(([k]) => k !== e.ziel));
-    neueEintraege.push({ ziel: e.ziel, von: e.von, auf: e.auf, daneben: uebrige, grund });
+    neueEintraege.push(laengste ? { ziel: e.ziel, von: e.von, auf: e.auf, daneben: uebrige, grund, laengste } : { ziel: e.ziel, von: e.von, auf: e.auf, daneben: uebrige, grund });
   }
   if (verweigert.length) return { ok: false, verweigert };
   return {
     ok: true, konstanten: neu, eimer, fremdcode: fremdNeu, technischeWoerter: alt.technischeWoerter || [],
     regionen: regionenNeu, zuwaechse: [...bisher, ...neueEintraege], aenderung,
+    // sinkt nur: was nicht mehr im Kern steht, fällt heraus; Neues kommt hier nie hinein (s. langeKettenFunde)
+    langeKettenBekannt: lit ? (alt.langeKettenBekannt || []).filter((k) => (lit.langeKetten || []).some((x) => x.sha256 === k.sha256)) : alt.langeKettenBekannt,
   };
 }
 
@@ -789,6 +837,7 @@ function grundlinieSchreiben(r, beschreibung, pfad) {
     technischeWoerter: r.technischeWoerter,
     regionen: r.regionen,
     zuwaechse: r.zuwaechse,
+    langeKettenBekannt: r.langeKettenBekannt,
   };
   fs.writeFileSync(pfad || GRUNDLINIE_PFAD, JSON.stringify(inhalt, null, 1) + '\n', 'utf8');
 }
@@ -861,6 +910,7 @@ function main() {
 if (require.main === module) main();
 
 module.exports = {
+  langeKettenFunde,
   konstantenMessen, literaleMessen, messen, pruefen, grundlinieAktualisieren, grundlinieLesen, statementEnde, markerVorhanden,
   GRUNDLINIE_PFAD, STANDARD_DATEI, DEKLARATION, zuwaechsePruefen, ZUWACHS_HOECHSTENS, ANDOCKPUNKT_HOECHSTENS, GRUND_MINDESTLAENGE,
   eimerVon, natuerlichesWort, regionenPruefen, regionenProbenPruefen,

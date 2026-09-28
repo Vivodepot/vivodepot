@@ -4,12 +4,14 @@
   "version": "SEED-2026-05",
   "kuerzel": "SNOMED",
   "teilliste": true,
-  "lizenz": "SNOMED CT, IHTSDO/SNOMED International — Lizenz erforderlich (Affiliate); nur kleines Sample ausgeliefert",
+  "anzeigeNameEigen": true,
+  "lizenz": "SNOMED CT Global Patient Set, © SNOMED International, CC BY-ND 4.0",
   "status": "seed",
-  "hinweis": "Sample/Seed, SNOMED-Lizenz beachten — nur kleines Allergen-Sample",
+  "hinweis": "Global Patient Set, CC BY-ND 4.0",
   "daten": [
     {
       "code": "91936005",
+      "quellBegriff": "Allergy to penicillin",
       "anzeigeName": "Allergie gegen Penicillin",
       "synonyme": [
         "Penicillin",
@@ -19,6 +21,7 @@
     },
     {
       "code": "91935009",
+      "quellBegriff": "Allergy to peanut",
       "anzeigeName": "Allergie gegen Erdnuss",
       "synonyme": [
         "Erdnuss",

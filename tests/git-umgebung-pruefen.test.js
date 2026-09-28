@@ -45,7 +45,8 @@ const W = require('../tools/git-umgebung-pruefen.js');
 
 const REPO = path.join(__dirname, '..');
 const GRUNDLINIE_PFAD = path.join(REPO, 'tools', 'git-umgebung-grundlinie.json');
-const echteGrundlinie = () => JSON.parse(fs.readFileSync(GRUNDLINIE_PFAD, 'utf8'));
+const { lesenMitErgaenzung } = require('../tools/lib/mit-interner-ergaenzung.js');
+const echteGrundlinie = () => lesenMitErgaenzung(GRUNDLINIE_PFAD);
 
 /* ── 1 · das GATE selbst: der echte Bestand hält die Grundlinie ─────────────────────────────── */
 

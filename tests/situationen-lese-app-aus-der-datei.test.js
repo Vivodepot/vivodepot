@@ -35,6 +35,8 @@ const MODUL = (herkunft, situationen, extra) => Object.assign({ modulTyp: 'situa
 const ENTFALLENE_FELDER = Object.freeze({
   volljaehrig: Object.freeze({ felder: Object.freeze(['vj_versicherungen']),
     grund: 'U2-ADR-424: Freitext entfernt, Inhalt in finance.privateInsurancePolicies strukturiert' }),
+  erbfall: Object.freeze({ felder: Object.freeze(['erb_stammbuch', 'erb_personenstand']),
+    grund: 'U2-ADR-439: die Ablageorte sind Kennungen im Bereich Identität; der Block verweist auf sie' }),
 });
 function grundOhneEntfallene(grund) {
   return JSON.parse(JSON.stringify(grund)).map((sit) => {

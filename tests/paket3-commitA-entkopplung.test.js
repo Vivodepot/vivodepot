@@ -60,7 +60,8 @@ test('[Entkopplung] WIZARD_IDS_EINGEBAUT trägt exakt die sieben nativen Assiste
 
 test('[Entkopplung·neu] EREIGNIS_ACHSE_TRIPEL_EINGEBAUT trägt alle 33 nativen Tripel — vorher gab es diese Liste gar nicht', () => {
   const { V } = ladeKern();
-  assert.equal(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.length, 33);
+  // 33 → 34 (27.09.2026, U2-ADR-438): advanceCare.supportPerson, als Kontakt ausgenommen.
+  assert.equal(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.length, 34);
   const ausDenFeldern = V.EREIGNIS_ACHSE_FELDER.map((e) => e.sektorId + '.' + e.feldId + '.' + (e.unterFeldId || ''));
   assert.deepEqual(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.slice().sort(), ausDenFeldern.slice().sort(),
     'die feste Liste muss exakt dieselben Tripel tragen wie EREIGNIS_ACHSE_FELDER selbst');

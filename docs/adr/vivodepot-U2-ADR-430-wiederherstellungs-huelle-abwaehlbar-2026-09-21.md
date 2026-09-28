@@ -10,10 +10,10 @@ Ableitungsweg), U2-ADR-230 (Krypto-Stärkeparameter ändern sich nur über einen
 `kryptoVersion`)
 **Voreinstellung:** abwählbar (entschieden am 21.09.2026, nach Abwägung der Wahrscheinlichkeit des
 Ausfalls gegen den Preis an der Zusage)
-**Stand der Umsetzung:** nicht gebaut. Dieses ADR legt die Entscheidung und ihre Prüfungen fest, bevor
-der Bau beginnt; der Prüfstein zu Ziffer 5 ist gebaut und läuft.
-**Status heute:** gilt — die Entscheidung; die Umsetzung steht aus. Beleg für Ziffer 5:
-`tests/umschlag-unbekanntes-geschwisterfeld.test.js`.
+**Stand der Umsetzung:** gebaut am 27.09.2026 (Nachträge unten); die Proben stehen in
+`tests/wiederherstellungs-code.test.js` und `tests/e2e/wiederherstellungs-code.spec.js`.
+**Status heute:** gilt — Entscheidung und Umsetzung. Die Fassung der sichtbaren Texte wartet auf die Abnahme;
+signiert wird danach.
 
 ---
 
@@ -147,6 +147,50 @@ liegen, ist es ein benanntes Risiko, kein gelöstes Problem: sie sind nicht zu �
 **Außentexte dürfen nicht mehr sagen, dass es keinen Weg zurück gibt** — ohne den Zusatz, dass die
 Nutzerin ihn eingerichtet haben muss.
 
+## Nachtrag 27.09.2026 — Ziffer 3: eigenes Blatt, getrennt vom Passwort
+
+Der Code wird nicht auf das Notfall-Blatt geschrieben, das das Passwort trägt. Der Code hilft, wenn das
+Passwort verloren ist — auf demselben Blatt ginge er mit ihm verloren, und ein einziger Fund gäbe beides
+aus der Hand. Der Code bekommt ein **eigenes Blatt** zum getrennten Aufbewahren (etwa im verschlossenen
+Umschlag bei einer Vertrauensperson, beim Original der Vorsorgevollmacht, im Schließfach). Das Code-Blatt
+hat **kein Feld für das Passwort**, das Notfall-Blatt **kein Feld für den Code**. Beim Einrichten sagt die
+App wörtlich: „Nicht zum Passwort legen.“ Das Code-Blatt wird **ohne Code gedruckt**, mit einem leeren
+Feld; die Nutzerin trägt den Code von Hand ein. Unverändert gilt: die App druckt den Code nie und schreibt
+ihn in keine Datei, keinen Druck, kein PDF und keinen Export.
+
+Der Satz „auf dasselbe Notfall-Blatt“ in Ziffer 3 ist damit ersetzt; der Rest von Ziffer 3 gilt.
+
+## Nachtrag 27.09.2026 — der Bau und die drei Entscheidungen dazu
+
+Entschieden am 27.09.2026, gegengelesen, nach einem Report-before-Build.
+
+**Was eingewickelt wird (Präzisierung zu Ziffer 1).** Der Depot-Schlüssel wird aus dem Passwort
+abgeleitet, nicht umhüllt; einen Datenschlüssel, den das Passwort einwickelt, gibt es nicht. „Denselben
+Depot-Schlüssel ein zweites Mal einwickeln“ heißt darum: die **Master-Bits** des Passworts (das
+PBKDF2-Ergebnis, aus dem der Depot-Schlüssel abgeleitet wird) werden unter einem Schlüssel aus dem Code
+verschlüsselt. Der Code läuft durch dieselbe Ableitung wie ein Passwort, mit eigenem Salz (32 Byte, frisch
+je Wickeln) und ohne eigene Iterationszahl im Feld (Ziffer 4). Die AAD bindet die Hülle an `depotUUID` und
+`kryptoVersion`; der IV ist je Wickeln frisch.
+
+**A — der gepinnte Block bleibt unberührt.** Eine Sitzung entsteht wie bisher nur aus einem Passwort. Wer
+mit dem Code öffnet, legt im selben Schritt ein neues Passwort fest; die Hülle wird dabei mit demselben Code
+um die Bits des neuen Passworts neu gewickelt, der Code gilt weiter. Beim Öffnen liegen die Master-Bits nie
+als Bytes vor: die Hülle wird mit `unwrapKey` direkt in einen nicht exportierbaren HKDF-Schlüssel
+ausgepackt. Beim Einwickeln liegen Master- und Code-Bits kurz als Bytes vor und werden in einem `finally`
+genullt, auch wenn das Einwickeln wirft. Die Krypto-Stellen außerhalb des Blocks stehen in einer Grundlinie,
+erhoben vor dem Bau (`tools/krypto-aufrufer-grundlinie.json`); der Zuwachs ist dort je Operation benannt.
+
+**B — Passwortwechsel.** Der Wechsel fragt nach dem Code. Mit Code wird die Hülle um das neue Passwort neu
+gewickelt; ohne Code fällt sie weg, und der Abschluss sagt es in einem Satz. Nie bleibt eine Hülle um das
+alte Passwort stehen, die still nichts mehr öffnet.
+
+**C — Kopien.** Die Hülle reist mit keiner Kopie: der Blackbox-Export und das Einhängen als Sub-Depot
+tragen sie nicht. Ein Wiederherstellungsweg gehört der Inhaberin. Der Export-Dialog sagt es in einem Satz.
+
+**Der Code.** 27 Zeichen aus dem Crockford-Alphabet (ohne I, L, O, U) = 135 Bit, dazu ein Prüfzeichen
+gegen Abschreibfehler; gezeigt in sieben Vierergruppen. Beim Einrichten tippt die Nutzerin den
+abgeschriebenen Code zur Kontrolle ein — erst dann wird die Hülle gewickelt.
+
 ## Konformität
 
 Jede Zusicherung steht mit ihrer Probe oder mit dem, was fehlt. Der Bau ist nicht begonnen; die
@@ -177,10 +221,9 @@ pruefung:  tests/umschlag-unbekanntes-geschwisterfeld.test.js#[Prüfstein·Grenz
 ```konformitaet
 aussage:   Der Prüfstein zu Ziffer 5 gilt gegen eine wirklich ÄLTERE Fassung, nicht nur gegen die Fassungen
            dieses Stands: eine ältere vivodepot.html (KERN_HTML_PATH) öffnet eine Datei mit Hülle.
-zustand:   offen
-frist:     2026-11-20
-bedingung: vor dem Bau der Hülle; die Probe der Hülle selbst trägt den Lauf gegen die ältere Fassung
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#3] der Kern von vor dem Bau öffnet eine Datei mit Hülle mit dem Passwort; eine Datei mit kaputtem Pflichtfeld nicht
 ```
 
 ```konformitaet
@@ -194,72 +237,64 @@ pruefung:  tests/pbkdf2-iterationen-versionssprung.test.js#[PBKDF2·Wächter] PB
 ```konformitaet
 aussage:   Lehnt die Nutzerin ab, entsteht kein Feld: der Umschlag der geschriebenen Datei ist derselbe
            wie ohne Hülle — gemessen an der Datei, nicht am Zustand im Speicher (Ziffer 1).
-zustand:   offen
-frist:     2026-11-21
-bedingung: mit dem Bau der Hülle; die Probe liest den Umschlag der geschriebenen Datei
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#5] ohne Einrichten trägt die geschriebene Datei kein Feld — dieselben Schlüssel wie ohne die Hülle
 ```
 
 ```konformitaet
 aussage:   Die Voreinstellung ist „eingerichtet", und die Ablehnung ist ein eigener, benannter Schritt mit der
            Tragweite daneben (Ziffer 2): das Produkt zeigt der Nutzerin den Satz, der die Tragweite nennt.
-zustand:   offen
-frist:     2026-11-22
-bedingung: mit dem Bau der Hülle; die Probe prüft den angezeigten Satz, nicht nur die Verdrahtung des Knopfs
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/e2e/wiederherstellungs-code.spec.js#[WHC·#6] nach dem Anlegen: „Code einrichten" ist der Primärknopf; Ablehnen ist ein eigener Schritt mit der Tragweite
 ```
 
 ```konformitaet
 aussage:   Der Wiederherstellungs-Code wird erzeugt, nicht gewählt, und trägt mindestens 128 Bit Entropie
            (Ziffer 3) — gemessen an dem, was erzeugt wird, nicht an der Absicht.
-zustand:   offen
-frist:     2026-11-23
-bedingung: mit dem Bau der Hülle; die Probe misst die Bits des erzeugten Codes, ehe die Hülle voreingestellt wird
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#7] 10 000 erzeugte Codes: je Stelle alle 32 Zeichen, zusammen ≥ 128 Bit, keine Wiederholung, Verteilung im Band
 ```
 
 ```konformitaet
 aussage:   Der Code steht in keiner erzeugten Datei, in keinem Druckauftrag und in keiner speicherbaren
            Darstellung (Ziffer 3); er wird angezeigt und von Hand abgeschrieben.
-zustand:   offen
-frist:     2026-11-24
-bedingung: mit dem Bau der Hülle; die Probe liest jede Ausgabe, die der Bau erzeugt, auf den Code
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#23 #8] nach dem Einrichten steht der Code in keiner Ausgabe: Blätter, Datei, Voll-Export, Depot-Inhalt, Speicher
 ```
 
 ```konformitaet
 aussage:   Kein dritter Ableitungsweg (Ziffer 4): der Code läuft durch dieselbe Ableitung wie ein Passwort, mit
            denselben Parametern; die Zahl der Ableitungswege bleibt gleich.
-zustand:   offen
-frist:     2026-11-25
-bedingung: vor dem Bau wird die heutige Zahl der Ableitungswege erhoben und als Grundlinie festgeschrieben; die Probe hält sie
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/krypto-aufrufer-grundlinie.test.js#[Krypto-Aufrufer] der Kern trägt außerhalb des gepinnten Blocks keinen unbenannten Zuwachs
 ```
 
 ```konformitaet
 aussage:   Rundlauf: mit dem Code lässt sich öffnen, was mit dem Passwort verschlüsselt wurde.
-zustand:   offen
-frist:     2026-11-26
-bedingung: mit dem Bau der Hülle
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#10] der Code öffnet, was mit dem Passwort verschlüsselt wurde — mit neuem Passwort, und der Code gilt weiter
 ```
 
 ```konformitaet
 aussage:   Entfernen erzeugt eine Datei ohne das Feld, die vorherige Fassung der Datei öffnet weiter (Rot-Beweis),
            und nachträgliches Einrichten funktioniert an einem Depot, das ohne Hülle angelegt wurde (Ziffer 6).
-zustand:   offen
-frist:     2026-11-27
-bedingung: mit dem Bau der Hülle
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#11] Entfernen schreibt eine Datei ohne Feld; die vorherige Datei öffnet mit dem Code weiter; das Passwort öffnet beide
 ```
 
 ```konformitaet
 aussage:   Der Zustand ist sichtbar (Ziffer 7): das Produkt zeigt, ob eine zweite Hülle besteht — und beim
            Entfernen liest die Nutzerin, dass ältere Kopien die Hülle weiter tragen.
-zustand:   offen
-frist:     2026-11-28
-bedingung: mit dem Bau der Hülle; die Probe prüft den angezeigten Satz, nicht nur, dass ein Zustand gesetzt ist
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#12] die Einstellungen sagen in einem Satz, ob ein Code besteht; Entfernen nennt die älteren Kopien
 ```
 
 ```konformitaet
@@ -271,23 +306,68 @@ pruefung:  tests/umschlag-unbekanntes-geschwisterfeld.test.js#[Prüfstein·Speic
 ```
 
 ```konformitaet
-aussage:   Es ist entschieden, ob die Hülle mit einer KOPIE der Datei reist — Blackbox-Export, Einhängen —, und der Weg
-           tut das Entschiedene. Heute gemessen (tests/umschlag-unbekanntes-geschwisterfeld.test.js, [Sub-Depot-Wege·…]): der
-           Export und das Einhängen einer Depot-Datei lassen ein unbekanntes Umschlag-Feld still weg, das Einhängen einer
-           Export-Datei mit dem Feld wirft laut; das Umschlüsseln eines eingehängten Sub-Depots ist nicht erreichbar.
-zustand:   offen
-frist:     2026-11-29
-bedingung: mit dem Bau der Hülle; ein Wiederherstellungsweg gehört der Inhaberin, vielleicht nicht der Empfängerin einer Kopie — die Entscheidung steht aus, die Probe hält bis dahin den gemessenen Ist-Zustand fest
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+aussage:   Die Hülle reist mit keiner KOPIE der Datei (Frage C, entschieden 27.09.2026): der Blackbox-Export trägt sie
+           nicht, und der Export-Dialog sagt es in einem Satz.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#14] der Blackbox-Export einer Datei mit Hülle trägt die Hülle nicht (entschieden: reist nicht mit)
 ```
 
 ```konformitaet
-aussage:   Außentexte sagen nicht mehr, dass es keinen Weg zurück gibt, ohne den Zusatz, dass die Nutzerin ihn
-           eingerichtet haben muss.
-zustand:   offen
-frist:     2026-11-30
-bedingung: mit dem Bau der Hülle; die Außenaussagen laufen durch den Abgleich der Außen-Dokumente gegen den Stand
-           Frist: Datum der Nachschau, keine Zusage eines Bautermins; gestaffelt (ein Tag je Klausel, 2026-11-20 bis 2026-11-30, keine später als die ursprüngliche 2026-11-30), damit nicht alle am selben Morgen fällig werden.
+aussage:   Beim Öffnen mit dem Code liegen die Master-Bits nie als Bytes vor: ausgepackt wird mit unwrapKey direkt in
+           einen nicht exportierbaren HKDF-Schlüssel; der Öffnen-Weg hat kein decrypt der Hülle (Bedingung zu A).
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#17] ausgepackt wird ein HKDF-Schlüssel, nicht exportierbar; der Öffnen-Weg hat kein decrypt und kein importKey auf der Hülle
+```
+
+```konformitaet
+aussage:   Nach dem Einwickeln stehen in den Puffern der Master- und der Code-Bits nur Nullen, auch wenn das Einwickeln
+           wirft (Nullung im finally).
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#18] nach dem Einwickeln stehen in Master- und Code-Bits nur Nullen — auch wenn encrypt wirft
+```
+
+```konformitaet
+aussage:   Je Wickeln ein frischer 12-Byte-IV und ein eigenes, frisches 32-Byte-Salz — nie das Passwort-Salz, keine
+           eigene Iterationszahl im Feld.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#19 #21] zweimal mit demselben Code gewickelt: verschiedene IVs (12 Byte), Salze (32 Byte) und Chiffrate; das Salz ist nie das Passwort-Salz
+```
+
+```konformitaet
+aussage:   Die AAD bindet die Hülle an ihr Depot und an die kryptoVersion: eine Hülle aus Depot A öffnet im Umschlag von
+           Depot B nichts.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#20] die Hülle aus Depot A öffnet im Umschlag von Depot B nichts; eine andere kryptoVersion auch nicht
+```
+
+```konformitaet
+aussage:   Code-Blatt und Notfall-Blatt sind getrennt: das Code-Blatt hat kein Passwortfeld und trägt das Codefeld leer,
+           das Notfall-Blatt hat kein Codefeld (Nachtrag Ziffer 3).
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#22] das Code-Blatt hat kein Passwortfeld, das Notfall-Blatt kein Codefeld; das Code-Blatt trägt das Codefeld leer
+```
+
+```konformitaet
+aussage:   Beim Passwortwechsel gilt der Code mit dem neuen Passwort weiter, wenn er eingegeben wird; sonst fällt die
+           Hülle weg — nie bleibt eine Hülle um das alte Passwort stehen (Frage B).
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·B] Passwortwechsel mit Code: die neue Datei öffnet mit demselben Code; ohne Code fällt die Hülle weg
+```
+
+```konformitaet
+aussage:   Die Texte der App (beide Sprachmodule) und das README sagen nicht mehr, dass es keinen Weg zurück
+           gibt, ohne den Wiederherstellungs-Code zu nennen. Texte außerhalb dieses Repos (Website, Papiere)
+           prüft diese Probe nicht; sie laufen durch den Abgleich der Außenaussagen.
+zustand:   prüfbar
+herkunft:  entscheidung
+pruefung:  tests/wiederherstellungs-code.test.js#[WHC·#15] kein Text der beiden Sprachmodule sagt „kein Weg zurück", ohne den Wiederherstellungs-Code zu nennen
 ```
 
 ```konformitaet

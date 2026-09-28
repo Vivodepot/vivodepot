@@ -102,7 +102,7 @@ function dateienSammeln(wurzel, extra) {
 function fixturesLesen(dir = FIXTURE_DIR) {
   return {
     eintraege: JSON.parse(fs.readFileSync(path.join(dir, 'alt-wortlaut.json'), 'utf8')).eintraege,
-    traeger: JSON.parse(fs.readFileSync(path.join(dir, 'traeger.json'), 'utf8')).traeger,
+    traeger: require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(path.join(dir, 'traeger.json')).traeger,
   };
 }
 

@@ -180,7 +180,7 @@ function main() {
     console.log(JSON.stringify(raus, null, 1));
     return;
   }
-  const grundlinie = JSON.parse(fs.readFileSync(glDatei, 'utf8'));
+  const grundlinie = require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(glDatei);
   const texte = {};
   for (const d of Object.keys(grundlinie.dateien || {})) texte[d] = les(d);
   const r = pruefen(texte, grundlinie, (p) => les(p));

@@ -10,7 +10,9 @@
    dieselbe Aussage in `$GITHUB_STEP_SUMMARY`.
    ROT-BEWEIS: der Workflow ohne die Zusammenfassungs-Zeile.
    ════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+// nur-privat: e2e-cross.yml ist öffentlich zurückgezogen (bis E2E-CROSS-OEFFENTLICH-LEER gelöst); nur die Vorbedingung
+// an diesem Workflow läuft privat. Die Regel über alle Workflows und ihr Rot-Beweis laufen öffentlich.
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -32,12 +34,23 @@ test('[Workflow·übersprungen] jeder Zweig, der da=nein setzt, schreibt es in d
   const dateien = fs.readdirSync(DIR).filter((d) => /\.ya?ml$/.test(d));
   const alle = dateien.flatMap((d) => befund(d, fs.readFileSync(path.join(DIR, d), 'utf8')));
   assert.deepEqual(alle, []);
-  const cross = fs.readFileSync(path.join(DIR, 'e2e-cross.yml'), 'utf8');
+});
+
+test('[Workflow·übersprungen·e2e-cross] beide Jobs von e2e-cross haben den Zweig', () => {
+  const cross = fs.readFileSync(path.join(DIR, 'e2e-cross.yml'), 'utf8');   // zuschnitt-privat: nur-privat-Test
   assert.equal((cross.match(/echo "da=nein"/g) || []).length, 2, 'Vorbedingung: beide Jobs von e2e-cross haben den Zweig');
 });
 
-test('[Workflow·übersprungen·Rot-Beweis] ohne die Zusammenfassungs-Zeile fällt e2e-cross', () => {
-  const cross = fs.readFileSync(path.join(DIR, 'e2e-cross.yml'), 'utf8');
-  const ohne = cross.split('\n').filter((z) => !/GITHUB_STEP_SUMMARY/.test(z)).join('\n');
-  assert.equal(befund('e2e-cross.yml', ohne).length, 2);
+test('[Workflow·übersprungen·Rot-Beweis] ein Zweig ohne Zusammenfassungs-Zeile fällt, einer mit ihr nicht', () => {
+  // Erfundener Ausschnitt in der Form der e2e-cross-Zweige (keine Datei gelesen: der Workflow ist öffentlich zurückgezogen).
+  const mit = [
+    '        run: |',
+    '          if [ -f anwendung.html ]; then echo "da=ja" >> "$GITHUB_OUTPUT"; else',
+    '            echo "::notice title=übersprungen::anwendung.html fehlt"',
+    '            echo "### übersprungen: anwendung.html fehlt" >> "$GITHUB_STEP_SUMMARY"',
+    '            echo "da=nein" >> "$GITHUB_OUTPUT"; fi',
+  ].join('\n');
+  const ohne = mit.split('\n').filter((z) => !/GITHUB_STEP_SUMMARY/.test(z)).join('\n');
+  assert.deepEqual(befund('probe.yml', mit), []);
+  assert.equal(befund('probe.yml', ohne).length, 1);
 });

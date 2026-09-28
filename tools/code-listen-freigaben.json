@@ -1,0 +1,50 @@
+{
+  "_zweck": "Freigabe je Codesystem in code-listen/ (27.09.2026). Jedes System trägt eine geprüfte Lizenzquelle und seinen Pflichthinweis; eine Liste mit Daten ist geprüft oder hat eine offene, benannte Rückfrage; ein Stub trägt keine Daten. Regel der Produktverantwortung: dem Standard folgen, wo es einen gibt und er nutzbar (genehmigungsfähig) ist — ein eigenes Codesystem nur mit Begründung und den geprüften Standards. Gehalten von tests/code-listen-freigabe.test.js; die SNOMED-Konzepte selbst hält tools/snomed-freigabe.json. namePflicht: die Lizenz verlangt zu jedem weitergegebenen Code einen Namen des Systems (LOINC) — dort trägt jeder Code einen quellBegriff; sonst gilt für quellBegriff: alle oder keiner.",
+  "systeme": {
+    "atc": {
+      "status": "rueckfrage-offen",
+      "rueckfrage": { "an": "WIdO / AOK-Bundesverband", "datum": "2026-09-27", "gegenstand": "Genehmigungsvorbehalt im amtlichen Index gegen die BfArM-Downloadbedingungen" },
+      "lizenzQuelle": { "url": "https://www.bfarm.de/DE/Kodiersysteme/Klassifikationen/ATC/_artikel.html", "fassung": "Downloadbedingungen ATC-GM mit DDD 2026", "abgerufen": "2026-09-27" },
+      "pflichthinweis": "Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM mit DDD, die auf dem vom WHO Collaborating Centre for Drug Statistics Methodology herausgegebenen Werk mit dem Titel „ATC Index with DDDs and Guidelines for ATC Classification and DDD Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM).",
+      "standard": { "art": "standard" }
+    },
+    "icd10": {
+      "status": "geprueft",
+      "lizenzQuelle": { "url": "https://www.bfarm.de/SharedDocs/Downloads/DE/Kodiersysteme/klassifikationen/icd-10-gm/_config/Downloadbedingungen_Anhang.html", "fassung": "Downloadbedingungen ICD-10-GM, Anhang (Band 1)", "abgerufen": "2026-09-27" },
+      "pflichthinweis": "Die vorliegende Ausgabe beruht (1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und (2) auf der australischen ICD-10-AM, First Edition. Die englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition. © zu (1): Weltgesundheitsorganisation (WHO) 1992 © zu (2): Commonwealth of Australia 1998 Der Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist. Das Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist. Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG) Die Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).",
+      "standard": { "art": "standard" }
+    },
+    "loinc": {
+      "status": "rueckfrage-offen",
+      "namePflicht": true,
+      "rueckfrage": { "an": "Regenstrief Institute (LOINC)", "datum": "2026-09-27", "gegenstand": "eigene deutsche Beschriftungen und Abschnitt 12 (Übersetzungen)" },
+      "lizenzQuelle": { "url": "https://loinc.org/license/", "fassung": "LOINC License, last updated 2026-07-21", "abgerufen": "2026-09-27" },
+      "pflichthinweis": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.",
+      "standard": { "art": "standard" }
+    },
+    "snomedAllergen": {
+      "status": "geprueft",
+      "freigabe": "SNOMED-Ticket #61950, 2026-09-26",
+      "codesFreigabe": "tools/snomed-freigabe.json",
+      "lizenzQuelle": { "url": "https://www.snomed.org/gps", "fassung": "Global Patient Set, CC BY-ND 4.0", "abgerufen": "2026-09-27" },
+      "pflichthinweis": "Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License",
+      "standard": { "art": "standard" }
+    },
+    "esco": {
+      "status": "stub",
+      "lizenzQuelle": { "url": "https://esco.ec.europa.eu/", "fassung": "Beschluss 2011/833/EU der Kommission (Weiterverwendung)", "abgerufen": "2026-09-27" },
+      "pflichthinweisMitDaten": "This service uses the ESCO classification of the European Commission.",
+      "standard": { "art": "standard" }
+    },
+    "xoev-rollencode": {
+      "status": "stub-bis-genehmigung",
+      "rueckfrage": { "an": "Projektbüro der BLK-AG IT-Standards in der Justiz (KoSIT in Kopie)", "datum": "2026-09-27", "gegenstand": "Genehmigung der Codeliste GDS.Rollenbezeichnung" },
+      "lizenzQuelle": { "url": "https://www.xrepository.de/", "fassung": "Nutzungsbedingungen des XRepository", "abgerufen": "2026-09-27" },
+      "standard": {
+        "art": "eigen",
+        "begruendung": "Übergang: die Standard-Liste ist angefragt; bis zur Genehmigung trägt die Liste keine Daten und behält ihre bisherige Kennung. Mit der Genehmigung wechselt sie auf die Kennung der Standard-Liste.",
+        "gepruefteStandards": ["urn:xoev-de:xjustiz:codeliste:gds.rollenbezeichnung"]
+      }
+    }
+  }
+}

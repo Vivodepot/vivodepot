@@ -60,6 +60,9 @@ const AUSGANGSPRUEFUNG = '_herkunftsortAusgabe';
 // Die Sprachwahl (`KONSTANTE[textsatzSpracheAktiv()]`, 26.09.2026, DATENSCHUTZ_LINK) ist ebenfalls keine Umleitung: sie wählt nur
 // den Eintrag einer Konstante, die als Kennung im Aufruf steht, und trägt selbst keine Angabe. Nur dieser eine Name.
 const SPRACHWAHL = 'textsatzSpracheAktiv';
+/* 27.09.2026 (Befund LOGIK-BLOCKTYP-PROTOTYP): `_eigenerWert(KONSTANTE, schluessel)` ist ein reiner Lesezugriff auf
+   eine Konstante — die Konstante selbst steht als Kennung im Aufruf und wird unten wie jede andere gelesen. */
+const EIGENER_WERT = '_eigenerWert';
 const LITERAL = /'(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`(?:[^`\\]|\\.)*`/g;
 
 // Die Regionen fallen heraus, ihre Zeilenumbrüche bleiben: so stimmen Zeilennummern im Rest mit denen der Datei überein.
@@ -105,7 +108,7 @@ function herkunftsortStellen(rest) {
 function kennungen(fenster) {
   const code = fenster.replace(LITERAL, "''");
   const raus = new Set();
-  for (const m of code.matchAll(/(?<![.\w$])([A-Za-z_$][\w$]*)\s*\(/g)) if (m[1] !== 'escapeHTML' && m[1] !== AUSGANGSPRUEFUNG && m[1] !== SPRACHWAHL) raus.add('()' + m[1]);
+  for (const m of code.matchAll(/(?<![.\w$])([A-Za-z_$][\w$]*)\s*\(/g)) if (m[1] !== 'escapeHTML' && m[1] !== AUSGANGSPRUEFUNG && m[1] !== SPRACHWAHL && m[1] !== EIGENER_WERT) raus.add('()' + m[1]);
   for (const m of code.matchAll(/\bSTRINGS\.([A-Za-z0-9_]+)/g)) raus.add('STRINGS.' + m[1]);
   for (const m of code.matchAll(/(?<![A-Za-z0-9_.$])([A-Z][A-Z0-9_]{3,})(?![A-Za-z0-9_])/g)) if (m[1] !== 'STRINGS') raus.add(m[1]);
   return [...raus].sort();
@@ -217,7 +220,7 @@ function dateisatzLesen(depot) {
 function pruefen(depot, registerPfad) {
   const rp = registerPfadFuer(depot, registerPfad);
   if (!rp) throw new Error('kein Register gefunden (tools/herkunftsort-register.json oder register.json in ' + depot + ')');
-  const register = JSON.parse(fs.readFileSync(rp, 'utf8'));
+  const register = require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(rp);
   const dateien = {};
   for (const n of fs.readdirSync(depot)) if (n.endsWith('.html')) dateien[n] = fs.readFileSync(path.join(depot, n), 'utf8');
   return pruefenTexte({ dateien, register, dateisatz: dateisatzLesen(depot) });

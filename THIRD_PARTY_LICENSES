@@ -190,54 +190,80 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Keine DDD-Werte und keine englischen WHOCC-Bezeichnungen übernommen.
     URI: http://www.whocc.no/atc
 
-  • ICD-10-GM (systemId=icd10) — STATUS: SEED, Version SEED-2026-05
+  • ICD-10-GM (systemId=icd10) — STATUS: SEED, Version ICD-10-GM-2026-amtlich (Titel der Codes aus dem Systematischen Verzeichnis 2026)
     Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im
     Auftrag des Bundesministeriums für Gesundheit (BMG). Nach den BfArM-Downloadbedingungen
-    (Teil I, § 1) ein anderes amtliches Werk i. S. d. § 5 Abs. 2 UrhG, genutzt unter
+    (§ 1) ein anderes amtliches Werk i. S. d. § 5 Abs. 2 UrhG, genutzt unter
     Änderungsverbot (§ 62 UrhG) und mit Quellenangabe (§ 63 UrhG); keine kommerzielle
-    Werbung im Werk (Vorgabe der WHO). Quellenangabe nach dem Anhang der Bedingungen:
-    Die englischsprachige Originalausgabe wurde 1992 von der Weltgesundheitsorganisation
-    (WHO) veröffentlicht als International Statistical Classification of Diseases and
-    Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992.
-    © Weltgesundheitsorganisation (WHO) 1992. Der Generaldirektor der WHO hat die
-    Übersetzungsrechte für eine deutschsprachige Ausgabe an das BfArM vergeben, das für die
-    Übersetzung allein verantwortlich ist.
-    Nicht verwendet: ICD-O-3 (nach Teil V, § 1 Nr. 3 bis 5 an das Gebiet der
-    Bundesrepublik gebunden und für Marketing ausgeschlossen).
+    Werbung im Werk (Vorgabe der WHO). Quellenangabe nach dem Anhang der Bedingungen
+    (Band 1, Systematisches Verzeichnis; die Angaben nur für Druckwerke entfallen):
+    Die vorliegende Ausgabe beruht
+    (1) auf der vollständigen amtlichen Fassung der Internationalen statistischen
+    Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und
+    (2) auf der australischen ICD-10-AM, First Edition.
+    Die englischsprachige Originalausgabe zu (1) wurde 1992 von der
+    Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical
+    Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO,
+    Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom
+    australischen National Centre for Classification in Health veröffentlicht als Volume
+    1 of The International Statistical Classification of Diseases and Related Health
+    Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.
+    © zu (1): Weltgesundheitsorganisation (WHO) 1992
+    © zu (2): Commonwealth of Australia 1998
+    Der Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte
+    für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und
+    Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.
+    Das Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige
+    Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben,
+    das für die Übersetzung allein verantwortlich ist.
+    Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im
+    Auftrag des Bundesministeriums für Gesundheit (BMG)
+    Die Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung
+    des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).
+    Nicht verwendet: ICD-O-3.
     URI: http://hl7.org/fhir/sid/icd-10-gm
 
   • LOINC (systemId=loinc) — STATUS: SEED, Version SEED-2026-05
     Regenstrief Institute, Inc. — kostenlos unter der LOINC-Lizenz, kommerzielle Nutzung
     erlaubt. Pflichthinweis im Wortlaut:
-    This material contains content from LOINC (http://loinc.org). LOINC is copyright
-    (c) 1995-2026, Regenstrief Institute, Inc. and the Logical Observation Identifiers
-    Names and Codes (LOINC) Committee and is available at no cost under the license at
-    http://loinc.org/license. LOINC is a registered United States trademark of
+    This material contains content from LOINC (http://loinc.org). LOINC is copyright ©
+    Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes
+    (LOINC) Committee and is available at no cost under the license at
+    http://loinc.org/license. LOINC® is a registered United States trademark of
     Regenstrief Institute, Inc.
+    Je Code trägt die Liste den LOINC Long Common Name unverändert (quellBegriff; Quelle
+    loinc.org, abgerufen 27.09.2026); die deutschen Bezeichnungen daneben sind eigene
+    Bezeichnungen von Vivodepot und gehen nicht als display hinaus (display trägt den
+    Long Common Name, die deutsche Anzeige steht in text).
     URI: http://loinc.org
 
-  • SNOMED CT — Allergen-Subset (systemId=snomedAllergen) — STATUS: SEED (kleines Sample)
-    SNOMED International (IHTSDO). SNOMED CT ist LIZENZPFLICHTIG. Für Nutzung und Vertrieb
-    eines SNOMED-CT-haltigen Produkts in Deutschland ist eine Affiliate-Lizenz erforderlich,
-    die mit dem National Release Center (NRC) abgeschlossen wird. NRC für Deutschland ist
-    seit 01.01.2021 das BfArM (Bundesinstitut für Arzneimittel und Medizinprodukte),
-    gesetzlich verankert in § 355 Abs. 7 SGB V. Das Antrags-/Verwaltungs-Portal (MLDS) wird
-    technisch von SNOMED International bereitgestellt und betrieben; der Lizenzvertrag selbst
-    läuft über das NRC beim BfArM. Beide Sichtweisen — „über SNOMED International" (Portal)
-    und „BfArM-Affiliate-Lizenz" (NRC) — beschreiben denselben Vertrag.
+  • SNOMED CT — Global Patient Set (GPS), neun Konzepte
+    Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International,
+    lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License
+    (CC BY-ND 4.0, https://creativecommons.org/licenses/by-nd/4.0/), bezogen über
+    https://www.snomed.org/gps. SNOMED® und SNOMED CT® sind eingetragene Marken der
+    International Health Terminology Standards Development Organisation.
+    SNOMED CT® was originally created by the College of American Pathologists. Hinweis
+    auf den Gewährleistungsausschluss: Das Material wird ohne Gewähr bereitgestellt; es
+    gilt Abschnitt 5 der CC BY-ND 4.0 (Gewährleistungsausschluss und
+    Haftungsbeschränkung). GPS-Release: 20260101.
 
-    Vivodepot hält die erforderliche Affiliate-Lizenz (Typ Commercial / Subtyp Developer,
-    Agreement „Affiliate - Normal", abgeschlossen über das MLDS-Portal des NRC). Als
-    Entwickler-/Vendor-Affiliate-Lizenz deckt sie zugleich die Sublizenzen der Endnutzer
-    ab — die Bürgerinnen und Bürger als Endnutzer benötigen KEINE eigene SNOMED-CT-Lizenz.
+    Genutzt werden neun Konzepte (tools/snomed-freigabe.json): zwei Allergene in der Code-Liste
+    snomedAllergen, fünf Abwesenheits-Aussagen im IPS-Export, zwei in einer Test-Fixture. Jedes
+    trägt seinen unveränderten Begriff (FSN oder PT); die deutschen Bezeichnungen daneben sind
+    eigene Bezeichnungen von Vivodepot, keine SNOMED-Begriffe, und gehen nie als SNOMED-Begriff
+    hinaus (coding.display trägt nur den GPS-Begriff, die deutsche Anzeige steht in text).
+    Keine Hierarchien, keine Beziehungen, keine abgeleiteten Wertemengen. Vor jeder Ausweitung
+    wird SNOMED International gefragt. URI: http://snomed.info/sct
 
-    Es wird hier nur ein KLEINES Allergen-Sample ausgeliefert. Vor Auslieferung größerer
-    Mengen den Lizenz-/Subset-Umfang mit dem NRC (BfArM) klären. URI: http://snomed.info/sct
-
-  • STUBS (leer, Codes ausstehend): snomedImpfstoff, snomedImplantat (SNOMED — Lizenz wie
-    oben), esco (ESCO, Europäische Kommission — frei/CC-konform), xoev-rollencode
-    (XÖV-Codelisten, KoSIT/XRepository — frei). Diese Listen sind registriert, tragen aber
-    noch keine Codes; am Mac aus geprüfter Quelle ergänzen.
+  • STUBS (leer, keine Codes):
+    esco — ESCO-Klassifikation der Europäischen Kommission, Weiterverwendung nach dem
+    Beschluss 2011/833/EU der Kommission. Mit den ersten Daten kommt der Pflichtsatz
+    „This service uses the ESCO classification of the European Commission.“ hierher.
+    xoev-rollencode — vorgesehen ist die XÖV-Codeliste GDS.Rollenbezeichnung (XJustiz,
+    Herausgeber BLK-AG IT-Standards in der Justiz), bezogen über XRepository (KoSIT).
+    Die Nutzungsbedingungen verlangen die Genehmigung des Herausgebers; sie ist angefragt,
+    bis dahin trägt die Liste keine Daten.
 
 -------------------------------------------------------------------------------
 Hinweis: Es wird hier bewusst NICHTS als eingebettet geführt, was nicht im Code

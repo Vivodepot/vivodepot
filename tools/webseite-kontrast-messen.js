@@ -17,7 +17,7 @@
    zwei Ergebnisse.
 
    DIE SEITEN LIEGEN NICHT IN DIESEM REPO (`docs/webseite/` ist unverfolgt, und
-   der aktuelle Stand wohnt im Vivodepot-intern-Baum). Der Ordner ist darum ein
+   der aktuelle Stand wohnt im Website-Quellbaum außerhalb dieses Repos). Der Ordner ist darum ein
    ARGUMENT. Ohne Argument läuft das Werkzeug gegen die Fixture im Repo, damit
    die Suite es fahren kann — auch ohne.
 

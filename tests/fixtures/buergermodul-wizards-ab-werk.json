@@ -178,10 +178,6 @@
           }
         },
         {
-          "verborgenWenn": {
-            "feld": "longTermCareAllowanceTypeOf",
-            "wert": "sachleistung"
-          },
           "feld": {
             "id": "longTermCareAllowanceAmount",
             "typ": "text"
@@ -331,10 +327,6 @@
           "ziel": {
             "sektor": "housing"
           },
-          "verborgenWenn": {
-            "feld": "ownedOrRented",
-            "wert": "eigentum"
-          },
           "feld": {
             "id": "tenancyTerminationHandover",
             "typ": "textarea"
@@ -343,10 +335,6 @@
         {
           "ziel": {
             "sektor": "housing"
-          },
-          "verborgenWenn": {
-            "feld": "ownedOrRented",
-            "wert": "eigentum"
           },
           "feld": {
             "id": "noticeDate",

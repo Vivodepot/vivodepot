@@ -85,11 +85,12 @@ test('u2-102-wizard-stellt-keine-gegenstandslose-frage', () => {
 test('[Negativprobe] u2-102-wizard feuert auf die Mutation — und nur auf sie (rot ⇄ grün)', () => {
   const { V } = ladeKern();
   assert.deepEqual(wizardVerstoesse(V), [], 'Rückstellung: unverändert muss der Wächter grün sein');
-  const def = V.WIZARD_BY_ID['kiwiz'];
-  const ziel = def.schritte.find(s => s.feld && s.feld.id === 'purpose');
-  assert.ok(ziel && ziel.verborgenWenn, 'Anker-Schritt purpose trägt kein verborgenWenn — Probe misst sonst nichts');
+  // TOR-IN-DER-DEFINITION (26.09.2026): das Tor steht am Unterfeld von advanceCare.provisionInstruments, der Assistent liest es von
+  // dort — mutiert wird darum die DEFINITION, nicht der Schritt.
+  const ziel = V._feldDef('advanceCare', 'provisionInstruments').unterFelder.find(u => u.id === 'purpose');
+  assert.ok(ziel && ziel.verborgenWenn, 'Anker-Feld purpose trägt kein verborgenWenn — Probe misst sonst nichts');
 
-  // MUTATION 1: Gate an einem Schritt entfernen -> er wird trotz Untersagung gestellt.
+  // MUTATION 1: Gate an der Definition entfernen -> der Schritt wird trotz Untersagung gestellt.
   const merk = ziel.verborgenWenn;
   delete ziel.verborgenWenn;
   const rot1 = wizardVerstoesse(V);

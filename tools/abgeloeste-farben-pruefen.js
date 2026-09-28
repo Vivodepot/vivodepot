@@ -176,7 +176,9 @@ function main() {
     }
     if (argv.includes('--gegenstueck-grundlinie-schreiben')) {
       fs.writeFileSync(GEGENSTUECK_GRUNDLINIE, JSON.stringify({
-        summe: g.summe, jeDatei: g.jeDatei,
+        // Nur Dateien mit Fund (27.09.2026): die Grundlinie geht hinaus und nennt keine Datei, die drinnen bleibt — der
+        // Generator (0 Funde) stand sonst darin (tests/zuschnitt-datenlisten-ohne-interne-pfade.test.js). Geprüft wird die Summe.
+        summe: g.summe, jeDatei: Object.fromEntries(Object.entries(g.jeDatei).filter(([, n]) => n > 0)),
         gegenstand: 'Hex-Farbwerte in <style>-Bloecken der ausgelieferten Anwendungen, '
           + 'die kein Gegenstueck unter den Token-Definitionen haben. Ohne jsPDF-Bundle, '
           + 'ohne Inline-SVG, ohne die Token-Definitionen selbst.',

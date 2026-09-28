@@ -1344,7 +1344,7 @@
       }
     },
     "kennungVorschlaege": {
-      "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag OHNE Vorlage drumherum -- die fünfte Ausgabeart neben `templates`, gebaut nach dem Muster von `codeListen` (U2-ADR-051). Mindestens `templates` oder `kennungVorschlaege` ist Pflicht (s. `anyOf` auf oberster Ebene). Die Prüfung gegen den bestehenden Katalog (Dublette, auch gegen inaktivierte Kennungen) läuft NICHT hier -- das leistet `tools/kennung-vorschlag-pruefen.js` gegen den erzeugten Feldkatalog, den dieses Schema nicht kennt.",
+      "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag OHNE Vorlage drumherum -- die fünfte Ausgabeart neben `templates`, gebaut nach dem Muster von `codeListen` (U2-ADR-051). Mindestens `templates` oder `kennungVorschlaege` ist Pflicht (s. `anyOf` auf oberster Ebene). Die Prüfung gegen den bestehenden Katalog (Dublette, auch gegen inaktivierte Kennungen) läuft NICHT hier -- das leistet eine eigene Prüfung gegen den erzeugten Feldkatalog, den dieses Schema nicht kennt.",
       "type": "array",
       "minItems": 1,
       "maxItems": 20,

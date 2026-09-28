@@ -92,7 +92,7 @@ test('[Werkzeug] Beispielperson über die Kennungen des Kerns, codiert aus den m
   assert.equal(s.identity.givenName, 'Mira');
   assert.equal(s.health.allergiesMedicationFoodOther[0].code.code, '91936005');
   assert.equal(s.health.medicationOngoing[0].code.code, 'C09AA05');
-  assert.equal(s.health.chronicConditionsDiagnoses[0].code.code, 'I10');
+  assert.equal(s.health.chronicConditionsDiagnoses[0].code.code, 'I10.90');
   assert.equal(s.advanceCare.provisionInstruments[0].instrument, 'enduring-power-of-attorney');
   assert.equal(s.advanceCare.provisionInstruments[0].typeOfPowerOfAttorney, 'vorsorge', 'Pflichtfeld — sonst meldet der Anlass „unstimmig"');
 });
@@ -235,7 +235,7 @@ test('[Gebacken] FHIR-IPS-Station trägt Allergie, Medikation und Diagnose der B
   const codes = V.vorfuehrungFhirIpsBundle().entry
     .map((e) => e.resource)
     .flatMap((r) => ((r.code && r.code.coding) || []).map((c) => r.resourceType + ':' + c.code));
-  assert.ok(codes.includes('Condition:I10'), 'Diagnose I10 fehlt: ' + codes.join(', '));
+  assert.ok(codes.includes('Condition:I10.90'), 'Diagnose I10.90 fehlt: ' + codes.join(', '));
   assert.ok(codes.includes('AllergyIntolerance:91936005'), 'Allergie fehlt: ' + codes.join(', '));
   const auszug = V.vorfuehrungFhirAuszug(V.vorfuehrungFhirIpsBundle());
   assert.deepEqual([...new Set(auszug.entry.map((e) => e.resource.resourceType))].sort(), ['AllergyIntolerance', 'Condition', 'MedicationStatement', 'Provenance']);

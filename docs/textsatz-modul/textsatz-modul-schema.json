@@ -9,10 +9,10 @@
   "properties": {
     "modulTyp": { "const": "textsatz" },
     "sprache": {
-      "description": "Sprache der Texte (BCP-47-Form, z. B. `en`, `it`). `de` ist ab Werk belegt und hier nicht einlassbar.",
+      "description": "Sprache der Texte (BCP-47-Form, z. B. `en`, `it`). `de` ist ab Werk belegt und in keiner Schreibung einlassbar (der Kern vergleicht getrimmt und klein).",
       "type": "string",
       "pattern": "\\S",
-      "not": { "const": "de" }
+      "not": { "pattern": "^\\s*[dD][eE]\\s*$" }
     },
     "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
     "texte": {

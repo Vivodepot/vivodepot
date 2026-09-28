@@ -23,6 +23,9 @@ const { KLASSEN, AUSGABEWEGE_EINORDNUNG } = require('./lib/ausgabewege-einordnun
 const SENKEN = Object.freeze([
   /\bdateiAusgeben\s*\(/, /\bwindow\.print\s*\(/, /\bnavigator\.share\s*\(/,
   /\bshowSaveFilePicker\s*\(/, /\.download\s*=/, /\bURL\.createObjectURL\s*\(/,
+  // G2 (TOR-IN-DER-DEFINITION, 26.09.2026): auch Zwischenablage, Nachricht an ein anderes Fenster und QR-Code tragen Inhalt vom
+  // Gerät weg — ein QR-Code wird gescannt, die Zwischenablage eingefügt, wo die Person will.
+  /\bnavigator\.clipboard\b/, /\.postMessage\s*\(/, /\bqrcode\s*\(/,
 ]);
 
 // Entfernt Block- und Zeilenkommentare zeilenweise; `imBlock` trägt den Zustand über Zeilen.

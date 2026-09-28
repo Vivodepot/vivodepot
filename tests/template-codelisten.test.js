@@ -21,10 +21,10 @@ function tplMitListe() {
   return {
     felder: [{ feldname: 'Impfstoff', feldtyp: 'text', pflicht: false, bereich: 'health', codeSystem: 'impfstoffe' }],
     ankerTauglich: true, subTauglich: false, sorgerechtTauglich: false,
-    codeListen: [{ systemId: 'impfstoffe', uri: 'http://snomed.info/sct', version: '2026-07', kuerzel: 'SNOMED', lizenz: 'Anbieter-Lizenz',
+    codeListen: [{ systemId: 'impfstoffe', uri: 'http://www.whocc.no/atc', version: '2026-07', kuerzel: 'ATC', lizenz: 'WHO ATC',
       eintraege: [
-        { code: '871751006', anzeige: 'Tetanus-Impfstoff' },
-        { code: '871895005', anzeige: 'Influenza-Impfstoff', synonym: 'Grippe-Impfstoff' },
+        { code: 'J07AM01', anzeige: 'Tetanus-Impfstoff' },
+        { code: 'J07BB02', anzeige: 'Influenza-Impfstoff', synonym: 'Grippe-Impfstoff' },
       ] }],
   };
 }
@@ -97,7 +97,7 @@ test('[051] importAnwenden: Ablage in data.codeListen[] + sofortige Registry + P
   assert.equal(d.codeListen[0].quelle, 'Anbieter A', 'Provenienz der Liste');
   assert.ok(V.liesCodeListe('tpl_impfstoffe'), 'sofort in der Laufzeit-Registry');
   const codiert = V.codeWertAus('tpl_impfstoffe', 'Grippe-Impfstoff');
-  assert.ok(V.istCodierterWert(codiert) && codiert.code === '871895005', 'Andock über Synonym funktioniert');
+  assert.ok(V.istCodierterWert(codiert) && codiert.code === 'J07BB02', 'Andock über Synonym funktioniert');
   // (b) fremdes Template, gleiche systemId → erste gewinnt, namentlich
   const r2 = V.importAnwenden(Object.assign({}, planBasis, { quelleLabel: 'Anbieter B', codeListen: cl.codeListen.map(x => Object.assign({}, x, { version: 'B-2027' })), verworfeneCodeListen: [] }));
   assert.equal(r2.codeListenGesetzt, 0);
@@ -119,8 +119,8 @@ test('[051] Boot-Registrierung: data.codeListen[] wird beim Laden in die Registr
   const { V } = ladeKern();
   const depot = V.leeresDepot();
   depot.codeListen = [
-    { systemId: 'tpl_implantate', uri: 'http://snomed.info/sct', kuerzel: 'SNOMED', quelle: 'Klinik-Template',
-      eintraege: [{ code: '304120007', anzeigeName: 'Hüft-Totalendoprothese' }] },
+    { systemId: 'tpl_implantate', uri: 'https://beispiel.invalid/codesystem/implantate', kuerzel: 'BEISPIEL', quelle: 'Klinik-Template',
+      eintraege: [{ code: 'IMPL-0001', anzeigeName: 'Hüft-Totalendoprothese' }] },
     { systemId: 'boese_ohne_praefix', eintraege: [{ code: '1', anzeigeName: 'x' }] },   // wird übersprungen
     { systemId: 'tpl_defekt' },                                                          // ohne eintraege → übersprungen
   ];

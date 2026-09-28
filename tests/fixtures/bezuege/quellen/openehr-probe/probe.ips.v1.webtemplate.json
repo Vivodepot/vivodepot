@@ -1,0 +1,33 @@
+{
+  "templateId": "probe.ips.v1",
+  "version": "1.0.0",
+  "tree": {
+    "id": "ips",
+    "name": "Probe-Zusammenfassung",
+    "children": [
+      {
+        "id": "blutgruppe",
+        "name": "Blutgruppe",
+        "rmType": "DV_CODED_TEXT",
+        "min": 0,
+        "max": 1
+      },
+      {
+        "id": "allergien",
+        "name": "Allergien",
+        "rmType": "CLUSTER",
+        "min": 0,
+        "max": -1,
+        "children": [
+          {
+            "id": "substanz",
+            "name": "Substanz",
+            "rmType": "DV_TEXT",
+            "min": 1,
+            "max": 1
+          }
+        ]
+      }
+    ]
+  }
+}

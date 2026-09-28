@@ -163,7 +163,8 @@ test('[Speichern·Grenze] ein Feld namens __proto__ wird nicht zum Prototyp: es 
    hält den Riegel selbst, indem sie die Liste im geladenen Kern absichtlich um ein Feld kürzt. */
 test('[Speichern·Riegel] fehlt dem Kern ein Feld in der Liste, überschreibt der gemerkte alte Wert das frisch geschriebene NICHT', async () => {
   const quelle = fs.readFileSync(produktHtml('privat-de'), 'utf8');
-  const kurz = quelle.replace(", 'umschlagTabelle', 'angehoerigenOrt']", ", 'umschlagTabelle']");
+  // Seit U2-ADR-430 steht 'wiederherstellung' hinter 'angehoerigenOrt' — der Eingriff nimmt nur 'angehoerigenOrt' heraus.
+  const kurz = quelle.replace(", 'umschlagTabelle', 'angehoerigenOrt',", ", 'umschlagTabelle',");
   assert.notEqual(kurz, quelle, 'Vorbedingung: der Eingriff findet die Liste');
   const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'feldliste-kurz-')), 'vivodepot.html');
   fs.writeFileSync(tmp, kurz);
@@ -182,7 +183,8 @@ test('[Speichern·Riegel] fehlt dem Kern ein Feld in der Liste, überschreibt de
    überschreibt die EINZIGE Kopie — es sind Kopien für eine andere Person (Export) oder eine Aufnahme in eine fremde Verwaltung (Einhängen); die Datei der
    Inhaberin behält ihr Feld. Darum ist das kein Fall der Einbahnstraße des Speicherwegs. Was sie tun, steht hier fest, damit jede Änderung — in
    die eine oder andere Richtung — auffällt. OB die Hülle mit einer Kopie reisen soll (ein Wiederherstellungsweg gehört der Inhaberin, vielleicht nicht der
-   Empfängerin), ist eine Entscheidung mit dem Bau der Hülle: offene Klausel in U2-ADR-430, Frist 2026-11-30.
+   Empfängerin), ist entschieden (27.09.2026, U2-ADR-430 Frage C): sie reist mit keiner Kopie — Probe
+   tests/wiederherstellungs-code.test.js#[WHC·#14]. Die Messung hier bleibt als Festschreibung des Wegs stehen.
      Export           lässt das Feld STILL weg (kein Fehler).
      Einhängen, Depot-Datei     lässt das Feld STILL weg.
      Einhängen, Export-Datei mit dem Feld     WIRFT laut (genau sechs bzw. genau die V3-Felder): eine Fassung nach diesem Stand nähme sie nicht auf.

@@ -150,7 +150,11 @@ const kern = {
       // NUR an den festen Griffen entscheiden, nie „irgendeinen offenen Dialog wegklicken":
       // ein blinder Klick auf #m-ok traf schon den Anlege-Dialog (Doppel-Absenden) bzw. das
       // Angebot selbst (dann ging das Druck-Blatt auf und blockierte die Reise erst recht).
-      if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) {
+      if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
+        await page.click('#m-zweit');               // U2-ADR-430: „Ohne Code weiter" — der benannte Ablehnungs-Schritt folgt
+      } else if (await page.locator('#whc-tragweite').isVisible().catch(() => false)) {
+        await page.click('#m-zweit');               // die Ablehnung bestätigen; danach das Notfall-Blatt-Angebot
+      } else if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) {
         await page.click('#m-zweit');               // „Später"
         angebotWeg = true;
       } else if (await page.locator('#wiedereinstieg-hinweis').isVisible().catch(() => false)) {

@@ -34,6 +34,16 @@ function pruefen(parser, text) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-publiccode-'));
   try {
     fs.writeFileSync(path.join(dir, 'publiccode.yml'), text);
+    // Die Datei nennt Screenshots mit Pfad relativ zur Wurzel; der Parser prüft, dass es Bilder sind — sie kommen mit.
+    for (const m of text.matchAll(/^\s*-\s*(docs\/screenshots\/[^\s#]+)\s*$/gm)) {
+      const quelle = path.join(REPO, m[1]);
+      if (!fs.existsSync(quelle)) continue;
+      fs.mkdirSync(path.join(dir, path.dirname(m[1])), { recursive: true });
+      fs.copyFileSync(quelle, path.join(dir, m[1]));
+    }
+    // Ebenso das Logo (oberster Ordner, 28.09.2026): der Parser prüft, dass die Datei da ist.
+    const logo = text.match(/^logo:\s*["']?([^"'\s#]+)/m);
+    if (logo && fs.existsSync(path.join(REPO, logo[1]))) fs.copyFileSync(path.join(REPO, logo[1]), path.join(dir, path.basename(logo[1])));
     const r = spawnSync(parser, ['-no-network', 'publiccode.yml'], { cwd: dir, encoding: 'utf8' });
     return { status: r.status, fehler: (r.stdout + r.stderr).split('\n').filter((z) => /: error: /.test(z)) };
   } finally {

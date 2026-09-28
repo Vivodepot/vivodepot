@@ -672,8 +672,20 @@
   "gruppe": "B"
  },
  {
-  "sektor": "sit:erbfall",
-  "feld": "erb_personenstand",
+  "sektor": "identity",
+  "feld": "birthCertificateStorage",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "identity",
+  "feld": "marriageCertificateStorage",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "identity",
+  "feld": "familyRegisterBookStorage",
   "unterfeld": null,
   "gruppe": "A"
  },
@@ -1443,5 +1455,185 @@
   "sektor": "advanceCare",
   "feld": "spousalObjectionRegisterNumber",
   "gruppe": "C"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "doNotInform",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "applicableSituations",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "ownAdditionalSituation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "lifeSustainingMeasures",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "painAndSymptomTreatment",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "acceptsLifeShorteningFromPain",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "artificialNutritionAndHydration",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "resuscitationInDescribedSituations",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "emergencyDoctorNotified",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "resuscitationInAllCases",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "artificialVentilation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "dialysis",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "antibiotics",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "bloodAndBloodProducts",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "placeOfTreatmentOrDeath",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "supportFromThesePersons",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "supportFromChurchOrCommunity",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "hospiceSupport",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "confidentialityWaiverFor",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "whoseViewMattersIfUnregulated",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "whoseViewMattersOtherPersonName",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "whoseViewMattersIfDeviatingWill",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "whoseViewMattersIfDeviatingOther",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "personalValuesOrFurtherDocuments",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "organDonationDecision",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "priorityIfOrganDonationConflict",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "waivesFurtherMedicalInformation",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "informationOrCounsellingReceived",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "validityDuration",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
+  "feld": "validityDurationDeadline",
+  "unterfeld": null,
+  "gruppe": "A"
  }
 ]

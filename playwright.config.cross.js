@@ -18,7 +18,7 @@
    chromium`). In der Bau-Sandbox waren weder @playwright/test noch die Binaries
    beschaffbar (npm-Registry 403). Das Gerüst, die Specs und die Fixtures sind
    vollständig und lauffähig konfiguriert; der erste echte Browser-Lauf passiert
-   am Mac (mit Netz) oder in CI (.github/workflows/e2e-cross.yml). Die
+   am Mac (mit Netz) oder in CI (im CI-Lauf der Cross-App-Reisen). Die
    BROWSER-FREIEN Gates T-CROSS-07 (Hash) und T-CROSS-08 (Schema) laufen bereits
    in der Schicht-1-Suite (`node --test`) grün, unabhängig von dieser Config.
    ════════════════════════════════════════════════════════════════════════ */

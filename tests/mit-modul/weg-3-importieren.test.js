@@ -92,7 +92,7 @@ async function probeDatei() {
   const def = [...(V.EXPORT_FORMATE || [])].find((d) => d.id === 'vcard-identitaet');
   const x = def.baue(def.sektor);
   const text = typeof x === 'string' ? x : JSON.stringify(x);
-  const datei = path.join(os.tmpdir(), 'vd-weg3-' + Date.now() + '.vcf');
+  const datei = path.join(os.tmpdir(), 'vd-weg3-' + process.pid + '-' + Date.now() + '.vcf');
   fs.writeFileSync(datei, text);
   return { datei, text };
 }

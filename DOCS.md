@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v806.
+Erzeugt aus der veröffentlichten Fassung v818.
 
 ---
 
@@ -76,11 +76,11 @@ Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.
 
 ## Zahlen
 
-- Suite: 11773 · E2E: 508 · Wächter-Register: 121
-- Schema-Version: 88 · SCHALEN_STAND: v806 · Build-Version: v1.0
-- ADR-Register: 400 Einträge
+- Suite: 12034 · E2E: 514 · Wächter-Register: 122
+- Schema-Version: 89 · SCHALEN_STAND: v818 · Build-Version: v1.0
+- ADR-Register: 404 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-09-26, Fassung v806. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-09-28, Fassung v818. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -117,7 +117,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-09-26, Fassung v806. Diese Zahlen ve
 
 ## Unterordner unter `docs/`
 
-- `docs/adr/` — 430 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 434 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)
@@ -133,6 +133,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-09-26, Fassung v806. Diese Zahlen ve
 - `docs/lese-app/` — 1 Datei(en), siehe [`docs/lese-app/README.md`](docs/lese-app/README.md)
 - `docs/logik-modul/` — 1 Datei(en)
 - `docs/rechtsraum-modul/` — 1 Datei(en)
+- `docs/screenshots/` — 3 Datei(en)
 - `docs/security/` — 1 Datei(en)
 - `docs/situation-modul/` — 1 Datei(en)
 - `docs/stellensatz-modul/` — 1 Datei(en)

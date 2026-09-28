@@ -55,7 +55,7 @@ async function journey(page, browser, url) {
   await page.fill('#kreis-pw2', FACH_PW);
   await page.click('#m-ok');
   const download = await dl;
-  const datei = path.join(os.tmpdir(), 'journey-a-' + Date.now() + '.vivodepot');
+  const datei = path.join(os.tmpdir(), 'journey-a-' + process.pid + '-' + Date.now() + '.vivodepot');
   fs.copyFileSync(await download.path(), datei);
   expect(fs.statSync(datei).size).toBeGreaterThan(200);
 

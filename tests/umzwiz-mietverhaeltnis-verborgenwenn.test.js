@@ -32,7 +32,9 @@ test('[Umzwiz·Zug1] umzug_mietverhaeltnis und umzug_kuendigung tragen verborgen
   for (const feldId of ['tenancyTerminationHandover', 'noticeDate']) {
     const s = umzwizSchritt(V, feldId);
     assert.ok(s, feldId + ' existiert weiterhin als Schritt');
-    assert.deepEqual(s.verborgenWenn, { feld: 'ownedOrRented', wert: 'eigentum' }, feldId);
+    // TOR-IN-DER-DEFINITION (26.09.2026): das Tor steht an der Felddefinition im Bereich housing, der Schritt liest es von dort.
+    assert.deepEqual(V.wizardSchrittTor(V.WIZARD_BY_ID.umzwiz, s), { feld: 'ownedOrRented', wert: 'eigentum' }, feldId);
+    assert.equal(s.verborgenWenn, undefined, feldId + ': der Schritt trägt kein eigenes Tor');
   }
 });
 
@@ -40,7 +42,7 @@ test('[Umzwiz·Zug1] umzug_auszug und umzug_uebergabe bleiben UNVERÄNDERT — g
   const { V } = ladeKern();
   for (const feldId of ['moveOutDate', 'handoverDateNewHome']) {
     const s = umzwizSchritt(V, feldId);
-    assert.equal(s.verborgenWenn, undefined, feldId + ' bleibt immer sichtbar');
+    assert.equal(V.wizardSchrittTor(V.WIZARD_BY_ID.umzwiz, s), null, feldId + ' bleibt immer sichtbar');
   }
 });
 

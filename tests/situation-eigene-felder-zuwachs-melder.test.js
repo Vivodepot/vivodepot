@@ -42,7 +42,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
-// Grundlinie, gemessen 07.09.2026 gegen Kanon 55735151 / eigener Baum (v615) — 84 Paare, 84 → 83 (19.09.2026, vj_versicherungen entfiel, U2-ADR-424).
+// Grundlinie, gemessen 07.09.2026 gegen Kanon 55735151 / eigener Baum (v615) — 84 Paare, 84 → 83 (19.09.2026, vj_versicherungen entfiel, U2-ADR-424), 83 → 81 (27.09.2026, U2-ADR-439: erb_stammbuch und erb_personenstand wurden Kennungen).
 const GRUNDLINIE = Object.freeze([
   'geburt.geburt_datum', 'geburt.geburt_klinik', 'geburt.geburt_hebamme', 'geburt.geburt_urkunde',
   'geburt.geburt_elterngeld', 'geburt.geburt_kindergeld', 'geburt.geburt_elternzeit',
@@ -66,7 +66,7 @@ const GRUNDLINIE = Object.freeze([
   'pflegeheim.ph_ansprechpartner',
   'erbfall.erb_sterbedatum', 'erbfall.erb_sterbeurkunde', 'erbfall.erb_erbschein',
   'erbfall.erb_erbschein_frueher', 'erbfall.erb_testament_eroeffnung', 'erbfall.erb_nachlassgericht',
-  'erbfall.erb_originaldokumente', 'erbfall.erb_stammbuch', 'erbfall.erb_personenstand',
+  'erbfall.erb_originaldokumente',   // erb_stammbuch, erb_personenstand: 27.09.2026 deaktiviert, jetzt Kennungen im Bereich Identität (U2-ADR-439)
   'erbfall.erb_lebensversicherung', 'erbfall.erb_sterbegeld', 'erbfall.erb_unfallversicherung',
   'erbfall.erb_versicherungen_kuendigen', 'erbfall.erb_konten', 'erbfall.erb_geldanlagen',
   'erbfall.erb_immobilien', 'erbfall.erb_schulden', 'erbfall.erb_schulden_kenntnis',
@@ -113,7 +113,7 @@ test('[Zuwachs-Melder] die Grundlinie ist nicht leer und trägt aus jeder betrof
   // Gegenprobe zur Positivkontrolle oben: eine leer gebliebene GRUNDLINIE wäre immer "gleich"
   // zu sich selbst, aber Grundlinie==live ist dann kein Beweis mehr, nur ein Zufall.
   const praefixe = new Set(GRUNDLINIE.map((p) => p.split('.')[0]));
-  assert.equal(GRUNDLINIE.length, 83);
+  assert.equal(GRUNDLINIE.length, 81);   // 83 → 81 (27.09.2026, U2-ADR-439)
   assert.deepEqual([...praefixe].sort(),
     ['arzt', 'erbfall', 'geburt', 'hauskauf', 'krankenhaus', 'notar', 'pflegeheim', 'volljaehrig']);
 });

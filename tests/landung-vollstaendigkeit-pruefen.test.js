@@ -374,3 +374,65 @@ test('[Zweigname·Rot-Beweis] ohne das Muster „-l4$“ fällt vdsx-werkzeuge-j
   assert.ok(ohne.length < muster.length, 'Vorbedingung: das Muster steht in der echten Liste');
   assert.ok(!freigestellt(ohne, 'vdsx-werkzeuge-journeys-l4'));
 });
+
+/* ── WER DEN ZWEIG HAT, und der Hinweis beim Anlegen (27.09.2026) ─────────────────────────────────────────
+   Der Fund: das Gate wies einen reinen Dokument-Push ab, weil der Zweig einer ANDEREN Sitzung kein „-l4-“ trug; die Landende
+   musste erst herausfinden, wem er gehört. Entschieden (Weg c): das Gate blockiert weiter — den Verlustschutz auf die eigenen
+   Commits zu verengen, schaltete ihn ab —, nennt aber den Arbeitsbaum, in dem der Zweig ausgecheckt ist; und der pre-commit
+   weist beim ERSTEN Commit auf einen Zweig ohne Zukunftsmuster hin. */
+const LV = require('../tools/landung-vollstaendigkeit-pruefen.js');
+
+test('[Wer·Rot-Beweis] fehlt ein Fix auf einem Zweig, der in einem Arbeitsbaum ausgecheckt ist, nennt die Meldung diesen Arbeitsbaum', () => {
+  const { dir, g } = aufbau();
+  const baum = fs.mkdtempSync(path.join(os.tmpdir(), 'landung-voll-baum-'));
+  try {
+    g('branch', '-m', 'quelle', 'vdsx-fremd-2026-09-27');
+    g('checkout', '-q', 'main');
+    g('worktree', 'add', '-q', baum, 'vdsx-fremd-2026-09-27');
+    const r = textLauf(dir, 'vdsx-fremd-2026-09-27');
+    assert.equal(r.status, 1, 'das Gate blockiert weiter: ' + r.stdout + r.stderr);
+    const echt = fs.realpathSync(baum);
+    assert.ok(r.stdout.includes('Wer ihn hat: vdsx-fremd-2026-09-27 → Arbeitsbaum ') && (r.stdout.includes(echt) || r.stdout.includes(baum)),
+      'die Meldung nennt den Arbeitsbaum: ' + r.stdout);
+    assert.match(r.stdout, /Zweig vdsx-fremd-2026-09-27 gilt als Quelle DIESER Landung/, 'die bisherige Ursachen-Zeile bleibt');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(baum, { recursive: true, force: true });
+  }
+});
+
+test('[Wer] ein Zweig, der in keinem Arbeitsbaum steht, wird so benannt; ohne Zuordnung bleibt die Zeile wie bisher', () => {
+  const ohne = (z) => false;
+  const zeile = LV.ursachenZeile({ zweige: ['vdsx-verwaist'] }, ohne, () => null);
+  assert.match(zeile, /Wer ihn hat: vdsx-verwaist → in keinem Arbeitsbaum ausgecheckt\./);
+  assert.doesNotMatch(LV.ursachenZeile({ zweige: ['vdsx-verwaist'] }, ohne), /Wer ihn hat/, 'älterer Aufruf ohne Zuordnung');
+  assert.match(LV.ursachenZeile({ zweige: ['a', 'b'] }, ohne, (z) => (z === 'a' ? '/pfad/a' : null)), /a → Arbeitsbaum \/pfad\/a; b → in keinem Arbeitsbaum/);
+});
+
+test('[Wer] arbeitsbaeumeJeZweig liest jeden ausgecheckten Zweig mit seinem Pfad', () => {
+  const { dir, g } = aufbau();
+  const baum = fs.mkdtempSync(path.join(os.tmpdir(), 'landung-voll-baum-'));
+  try {
+    g('checkout', '-q', 'main');
+    g('worktree', 'add', '-q', baum, 'quelle');
+    const k = LV.arbeitsbaeumeJeZweig(dir);
+    assert.equal(fs.realpathSync(k.get('quelle')), fs.realpathSync(baum));
+    assert.equal(fs.realpathSync(k.get('main')), fs.realpathSync(dir));
+    assert.equal(k.has('landung'), false, 'ein nicht ausgecheckter Zweig steht nicht darin');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(baum, { recursive: true, force: true });
+  }
+});
+
+test('[Hinweis beim Anlegen·Rot-Beweis] erster Commit auf einem Zweig ohne Zukunftsmuster: Hinweis; mit Muster, später oder Sicherung: keiner', () => {
+  const muster = LV.zukunftsZweigeLesen(path.join(__dirname, '..', 'tools', 'landung-zukunftszweige.json')).muster;
+  const aus = (z) => /^sicherung-/.test(z) || muster.some((m) => m.regex.test(z));
+  assert.match(LV.zweigHinweis({ zweig: 'arbeit-k3-verstaendigung-2026-09-27', commitsSeitKanon: 0, zweigAusgenommen: aus }) || '',
+    /kein Zukunftsmuster.*git branch -m arbeit-k3-verstaendigung-2026-09-27/s, 'der Zweig aus dem Fund bekommt den Hinweis');
+  assert.equal(LV.zweigHinweis({ zweig: 'arbeit-k3-verstaendigung-l4-2026-09-27', commitsSeitKanon: 0, zweigAusgenommen: aus }), null, 'mit -l4-');
+  assert.equal(LV.zweigHinweis({ zweig: 'arbeit-k3-verstaendigung-2026-09-27', commitsSeitKanon: 3, zweigAusgenommen: aus }), null, 'nur beim ersten Commit');
+  assert.equal(LV.zweigHinweis({ zweig: 'sicherung-x', commitsSeitKanon: 0, zweigAusgenommen: aus }), null);
+  assert.equal(LV.zweigHinweis({ zweig: '', commitsSeitKanon: 0, zweigAusgenommen: aus }), null, 'losgelöster HEAD');
+});
+

@@ -21,7 +21,7 @@
    andere Abdrücke, und die Liste ginge ins Leere).
 
    WELCHE LESE-APP — GEMESSEN, NICHT ENTSCHIEDEN: Es gibt zwei Linien. Die
-   veröffentlichte ist b16 (`Vivodepot-intern/code/vivodepot-lesen.html`,
+   veröffentlichte ist b16 (die veröffentlichte Lese-App, nicht in diesem Repo;
    Dateistand 29.05.2026, 1283 Zeilen). Sie kennt WEDER Anbieter-Zertifikate NOCH
    eine Prüfkette — gemessen: null Vorkommen von `jws`, `credential`, `signatur`
    ausserhalb eines Bild-Blobs. Für sie gibt es keinen Gegenstand, den eine

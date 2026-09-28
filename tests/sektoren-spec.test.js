@@ -218,7 +218,9 @@ test('Sektor 8 Vorsorge: fünf Sektionen — Instrumente leben in der Liste (U2-
   // eigener Renderer statt Feld (s. SEKTION_OHNE_FELDER_OK in regal-sprungziele.test.js).
   // 25.09.2026: `spousal-representation` — die Ablehnung einer Notvertretung durch Ehegatten ist kein Instrument (keine
   // Urkunde mit Aufbewahrungsort), sondern eine eigene, stabil anfragbare Kennung (tests/ehegatten-notvertretung.test.js).
-  assert.equal(s.sektionen.map(sek => sek.id).join('|'), 'meine-vorsorge|spousal-representation|estate|erbschein-vorbereitung|care-preferences');
+  // 27.09.2026 (U2-ADR-438): `communication-support` — Verständigung und Unterstützung, kein Instrument
+  // (tests/k3-verstaendigung-notfallkarte.test.js).
+  assert.equal(s.sektionen.map(sek => sek.id).join('|'), 'meine-vorsorge|spousal-representation|estate|erbschein-vorbereitung|care-preferences|communication-support|living-will-decisions');   // + living-will-decisions (28.09.2026, U2-ADR-440)
   const inSek = (id) => s.sektionen.find(sek => sek.id === id).felder.map(f => f.id);
   assert.equal(inSek('meine-vorsorge').join('|'), 'provisionInstruments', 'genau EIN Ort fuer Instrumente');
   assert.equal(inSek('spousal-representation').join('|'), 'spousalRepresentationObjection|spousalRepresentationObjectionSince|spousalObjectionRegistered|spousalObjectionRegisterNumber');
@@ -411,8 +413,9 @@ test('Beispiele-Disziplin: alle text/textarea-Kern-Felder der neuen Sektoren tra
     const s = V.SEKTOR_BY_ID[sid];
     for (const sek of s.sektionen) {
       for (const f of (sek.felder || [])) {
-        // Skalare Text-Felder mit Kern-Ebene erwarten ein beispiel; Auswahl/Datum/Ref/Liste ausgenommen
-        if ((f.typ === 'text' || f.typ === 'textarea') && !f.beispiel) {
+        // Skalare Text-Felder mit Kern-Ebene erwarten ein beispiel; Auswahl/Datum/Ref/Liste ausgenommen.
+        // Ebenso ein Feld mit `nurAnzeige` (U2-ADR-440): es rendert keine Eingabe, ein Beispiel stünde nirgends.
+        if ((f.typ === 'text' || f.typ === 'textarea') && !f.beispiel && f.nurAnzeige !== true) {
           ohne.push(sid + '.' + f.id);
         }
       }

@@ -16,7 +16,7 @@
       "grund": "Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen"
     },
     "hinweis-beispiel": {
-      "anzahl": 434,
+      "anzahl": 444,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "feldgruppen": {
@@ -28,7 +28,7 @@
       "grund": "Feld oder Sektion, die die Lese-App nicht führt"
     },
     "situationsblaetter": {
-      "anzahl": 87,
+      "anzahl": 85,
       "grund": "Situationsblätter (Bauteil 3, eigener Zweig): Beispiele werden nie angezeigt; die übrigen Texte sinken, sobald die Blätter über textLesen laufen"
     },
     "menschen-register": {
@@ -38,6 +38,10 @@
     "assistenten": {
       "anzahl": 320,
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
+    },
+    "lebenslagen": {
+      "anzahl": 74,
+      "grund": "Lebenslagen-Katalog des Kerns (Wegweiser, Bestandsauswahl, Suche); die Lese-App führt keinen Wegweiser"
     },
     "vollmacht-formular": {
       "anzahl": 156,
@@ -54,10 +58,6 @@
     "hilfe-themen": {
       "anzahl": 46,
       "grund": "Hilfe-Themen des Kerns (Hilfe-Overlay, U2-ADR-425); die Lese-App führt für die Empfängerin eine eigene kurze Hilfe aus strings: und zeigt diese Themen nie"
-    },
-    "lebenslagen": {
-      "anzahl": 74,
-      "grund": "Lebenslagen-Katalog des Kerns (Wegweiser, Bestandsauswahl, Suche); die Lese-App führt keinen Wegweiser"
     }
   }
 }

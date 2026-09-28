@@ -194,7 +194,7 @@ function zukunftsZweigeLesen(datei) {
    Ein Eintrag ohne Grund ist ungültig (Fehler), ein Commit, der nicht (mehr) existiert, ebenfalls. */
 function ausnahmenLesen(datei, cwd) {
   if (!datei || !fs.existsSync(datei)) return { map: new Map(), fehler: [] };
-  const roh = JSON.parse(fs.readFileSync(datei, 'utf8'));
+  const roh = require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(datei);
   const map = new Map();
   const fehler = [];
   for (const e of roh.eintraege || []) {
@@ -305,6 +305,19 @@ function main() {
   const argv = process.argv.slice(2);
   const arg = (n, s) => { const i = argv.indexOf('--' + n); return i >= 0 && argv[i + 1] ? argv[i + 1] : s; };
 
+  if (argv.includes('--zweig-hinweis')) {
+    const zukunftH = zukunftsZweigeLesen(arg('zukunftszweige', path.join(__dirname, 'landung-zukunftszweige.json')));
+    const lies = (a) => { const r = git(a, process.cwd()); return r.status === 0 ? r.out.trim() : ''; };
+    const zweig = lies(['symbolic-ref', '--quiet', '--short', 'HEAD']);
+    const zaehl = lies(['rev-list', '--count', arg('basis', 'origin/u2-kanon') + '..HEAD']);
+    const h = zweigHinweis({
+      zweig, commitsSeitKanon: zaehl === '' ? null : Number(zaehl),
+      zweigAusgenommen: (z) => /^sicherung-/.test(z) || zukunftH.muster.some((m) => m.regex.test(z)),
+    });
+    if (h) console.log(h);
+    return;   // nie ein Abbruch
+  }
+
   // LS2: Schnappschuss-Modus schreibt nur die Zweigspitzen und beendet sich — kein Prüflauf.
   const schreibZiel = arg('schnappschuss-schreiben', null);
   if (schreibZiel) {
@@ -332,7 +345,9 @@ function main() {
   // zählt nicht — dieselbe Ausnahme gilt (LS2) fuer jeden kuratierten Zukunfts-Zweig aus der Positivliste.
   const zweigAusgenommen = (z) => /^sicherung-/.test(kurzname(z)) || zukunft.muster.some((m) => m.regex.test(kurzname(z)));
   const nurAusgenommen = (e) => e.zweige.every(zweigAusgenommen);
-  const { zeilen, fehlend } = ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen });
+  const baeume = arbeitsbaeumeJeZweig(process.cwd());
+  const arbeitsbaumVon = (z) => baeume.get(kurzname(z)) || null;
+  const { zeilen, fehlend } = ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen, arbeitsbaumVon });
   if (argv.includes('--json')) process.stdout.write(JSON.stringify(r, null, 1) + '\n');
   else console.log(zeilen.join('\n'));
   const ausgabe = arg('ausgabe', null);
@@ -354,16 +369,44 @@ const URTEILE = ['patch-id', 'inhalt', 'ueberarbeitet', 'leer', 'bewusst-drausse
    und „fehlt“ dann im Landestand — auch wenn der Zweig für eine spätere Landung gedacht war. Die Zeile FEHLT nannte nur den Commit; wer den Zweig angelegt hat, sah die Konvention nie (sie steht im
    Kopf dieses Werkzeugs) und der Fehler zeigte sich beim Push einer ANDEREN Sitzung. Jetzt steht unter jedem FEHLT/TEILWEISE der Zweig, der es zur Quelle macht, mit beiden Auswegen. Die Prüfung
    selbst ändert sich nicht; wer die Zweige nicht kennt (ältere Aufrufer), bekommt die Zeile ohne Zweig nicht. */
-function ursachenZeile(e, zweigAusgenommen) {
+/* WER DEN ZWEIG HAT (27.09.2026): die Meldung erreicht die Landende, nicht die Sitzung, die den Zweig angelegt hat — am
+   27.09.2026 wies das Gate einen reinen Dokument-Push ab, weil der Zweig einer ANDEREN Sitzung kein „-l4-“ trug, und die
+   Landende musste erst herausfinden, wem er gehört. Das Gate blockiert weiter (sonst wäre der Verlustschutz ab), nennt
+   aber den Arbeitsbaum, in dem der Zweig ausgecheckt ist — sein Pfad trägt das Kürzel der Sitzung. */
+function ursachenZeile(e, zweigAusgenommen, arbeitsbaumVon) {
   if (typeof zweigAusgenommen !== 'function') return null;
   const quellen = e.zweige.filter((z) => !zweigAusgenommen(z));
   if (!quellen.length) return null;
-  return '  ↳ Ursache prüfen: Zweig ' + quellen.join(', ') + ' gilt als Quelle DIESER Landung (Name ohne „-l4-“, nicht in tools/landung-zukunftszweige.json). '
+  const wer = typeof arbeitsbaumVon === 'function'
+    ? ' Wer ihn hat: ' + quellen.map((z) => { const b = arbeitsbaumVon(z); return z + (b ? ' → Arbeitsbaum ' + b : ' → in keinem Arbeitsbaum ausgecheckt'); }).join('; ') + '.'
+    : '';
+  return '  ↳ Ursache prüfen: Zweig ' + quellen.join(', ') + ' gilt als Quelle DIESER Landung (Name ohne „-l4-“, nicht in tools/landung-zukunftszweige.json).' + wer + ' '
     + 'Gehört seine Arbeit zu einer SPÄTEREN Landung: Zweig mit „l4-“ am Anfang, „-l4-“ in der Mitte oder „-l4“ am Ende umbenennen (git branch -m) oder mit Grund in tools/landung-zukunftszweige.json eintragen. '
     + 'Gehört der Commit in DIESE Landung: aufnehmen, oder mit Grund in tools/landung-bewusst-draussen.json eintragen.';
 }
 
-function ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen }) {
+/** Zweig (Kurzname, ohne origin/) → Pfad des Arbeitsbaums, in dem er ausgecheckt ist. */
+function arbeitsbaeumeJeZweig(cwd) {
+  const karte = new Map();
+  let pfad = null;
+  for (const z of gitOk(['worktree', 'list', '--porcelain'], cwd).split('\n')) {
+    if (z.startsWith('worktree ')) pfad = z.slice(9);
+    else if (z.startsWith('branch refs/heads/') && pfad) karte.set(z.slice(18), pfad);
+  }
+  return karte;
+}
+
+/* DER HINWEIS BEIM ANLEGEN (27.09.2026): beim ERSTEN Commit auf einem Zweig (noch kein Commit über dem Kanon), dessen Name
+   weder ein Zukunftsmuster trägt noch in tools/landung-zukunftszweige.json steht. Nur ein Hinweis, nie ein Abbruch: ein Zweig
+   für DIE NÄCHSTE Landung ist genau so richtig benannt. Er soll den Anlegenden erreichen, nicht erst die Landende. */
+function zweigHinweis({ zweig, commitsSeitKanon, zweigAusgenommen }) {
+  if (!zweig || commitsSeitKanon !== 0 || zweigAusgenommen(zweig)) return null;
+  return '[landung-zweig] Hinweis: Zweig „' + zweig + '“ trägt kein Zukunftsmuster („-l4-“ o. ä., tools/landung-zukunftszweige.json) — '
+    + 'er gilt als Quelle der NÄCHSTEN Landung, und ein fehlender Fix darauf hält deren Push an. Gehört die Arbeit zu einer '
+    + 'späteren Landung: jetzt umbenennen (git branch -m ' + zweig + ' <name-mit-l4>). Sonst ist nichts zu tun.';
+}
+
+function ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen, arbeitsbaumVon }) {
   const unbekannt = r.ergebnis.filter((e) => !URTEILE.includes(e.urteil));
   if (unbekannt.length) throw new Error('unbekanntes Urteil ' + [...new Set(unbekannt.map((e) => e.urteil))].join(', ') + ' — der Kopf würde weniger zählen, als die Ausgabe zeigt');
   const ausgeschlossen = r.ergebnis.filter((e) => (e.urteil === 'fehlt' || e.urteil === 'teilweise') && nurAusgenommen(e));
@@ -375,8 +418,8 @@ function ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen }) {
   const zeilen = [
     `landung-vollstaendigkeit: Landestand ${r.landestand.slice(0, 8)}, Basis ${r.basis.slice(0, 8)}, ${gezaehlt.length} Commits gezählt, ${ausgeschlossen.length} ausgeschlossen — ${zaehlung}`,
   ];
-  for (const e of gezaehlt.filter((x) => x.urteil === 'fehlt')) { zeilen.push(zeile('FEHLT    ', e)); const u = ursachenZeile(e, zweigAusgenommen); if (u) zeilen.push(u); }
-  for (const e of gezaehlt.filter((x) => x.urteil === 'teilweise')) { zeilen.push(zeile('TEILWEISE', e) + (nurFehlt ? '  (blockiert mit --nur-fehlt nicht)' : '')); const u = ursachenZeile(e, zweigAusgenommen); if (u) zeilen.push(u); }
+  for (const e of gezaehlt.filter((x) => x.urteil === 'fehlt')) { zeilen.push(zeile('FEHLT    ', e)); const u = ursachenZeile(e, zweigAusgenommen, arbeitsbaumVon); if (u) zeilen.push(u); }
+  for (const e of gezaehlt.filter((x) => x.urteil === 'teilweise')) { zeilen.push(zeile('TEILWEISE', e) + (nurFehlt ? '  (blockiert mit --nur-fehlt nicht)' : '')); const u = ursachenZeile(e, zweigAusgenommen, arbeitsbaumVon); if (u) zeilen.push(u); }
   for (const e of ausgeschlossen) zeilen.push(zeile(`AUSGESCHLOSSEN ${e.urteil}`, e) + '  (nur auf Sicherungs-/Zukunftszweigen)');
   return { zeilen, fehlend };
 }
@@ -385,5 +428,5 @@ if (require.main === module) main();
 
 module.exports = {
   pruefen, einordnen, patchIds, ausnahmenLesen, zukunftsZweigeLesen,
-  schnappschussSchreiben, schnappschussLesen, KANDIDAT_MUSTER, ausgabeZeilen, ursachenZeile, URTEILE,
+  schnappschussSchreiben, schnappschussLesen, KANDIDAT_MUSTER, ausgabeZeilen, ursachenZeile, arbeitsbaeumeJeZweig, zweigHinweis, URTEILE,
 };

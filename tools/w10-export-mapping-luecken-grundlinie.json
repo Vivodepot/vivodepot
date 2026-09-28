@@ -3,7 +3,7 @@
   "format": "sd-jwt-vc-identitaet",
   "sektorId": "identity",
   "mappingName": "VC_IDENTITAET_MAPPING",
-  "gesamt": 25,
+  "gesamt": 28,
   "gedeckt": 10,
   "ungedeckt": [
    "secondLastName",
@@ -20,10 +20,16 @@
    "furtherDetails",
    "taxClass",
    "taxClassEarlierEntry",
-   "reRegistrationWithTheResidents"
+   "reRegistrationWithTheResidents",
+   "birthCertificateStorage",
+   "marriageCertificateStorage",
+   "familyRegisterBookStorage"
   ],
   "grundJeFeld": {
-   "displayFamilyNameFirst": "Anzeige-Einstellung der Inhaberin (U2-ADR-254), keine Tatsache über die Person — ein Credential trägt Tatsachen; beim Prüfer wäre die Reihenfolge der Namensanzeige ohne Bedeutung. Gehört darum in diese Grundlinie und nicht ins Mapping."
+   "displayFamilyNameFirst": "Anzeige-Einstellung der Inhaberin (U2-ADR-254), keine Tatsache über die Person — ein Credential trägt Tatsachen; beim Prüfer wäre die Reihenfolge der Namensanzeige ohne Bedeutung. Gehört darum in diese Grundlinie und nicht ins Mapping.",
+   "birthCertificateStorage": "Ablageort einer Urkunde (U2-ADR-439), keine Tatsache über die Person — ein Identitäts-Credential trägt Tatsachen; der Ort, an dem ein Papier liegt, gehört nicht hinein.",
+   "marriageCertificateStorage": "Ablageort einer Urkunde (U2-ADR-439), keine Tatsache über die Person — ein Identitäts-Credential trägt Tatsachen; der Ort, an dem ein Papier liegt, gehört nicht hinein.",
+   "familyRegisterBookStorage": "Ablageort einer Urkunde (U2-ADR-439), keine Tatsache über die Person — ein Identitäts-Credential trägt Tatsachen; der Ort, an dem ein Papier liegt, gehört nicht hinein."
   }
  },
  {

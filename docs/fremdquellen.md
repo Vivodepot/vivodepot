@@ -20,7 +20,7 @@ nächsten Prüfer nicht, WORAUF er achten soll. Ein benannter Anlass tut das.
   `vivodepot.html:7383` (Bedarfszahl 2 Liter/Person/Tag), `:7406` (`krisenvorsorgeBedarfQuelle`),
   `:7388-7404` (Herkunftskommentar „HERKUNFT DER DREI BBK-KATEGORIEN" — selbst dokumentiert als
   „hierher gerettet, U2-ADR-320, 06.09.2026", vorher an anderer Stelle bei den Feldern),
-  `tools/textsatz-en-vollabdeckung-daten.js:1156` (englischer Spiegel)
+  der englische Spiegel im internen Textbestand
 - **Anlass:** wenn BBK eine neue Fassung der Checkliste veröffentlicht (neues PDF-Metadaten-
   Datum) — ODER wenn sich die Wasserzahl/Vorratsdauer-Angabe zwischen Checkliste und Webseite
   (`https://www.bbk.bund.de/DE/Warnung-Vorsorge/Vorsorge/So-koennen-Sie-sich-vorbereiten/Bevorraten/bevorraten_node.html`)
@@ -58,7 +58,7 @@ nächsten Prüfer nicht, WORAUF er achten soll. Ein benannter Anlass tut das.
 - **Anlass:** wenn BMJ eine neue Fassung des Formulars veröffentlicht (das „Datum" auf der
   Landing-Page ändert sich). **Achtung bei einer Korrektur:** `wortlautQuelle` ist Teil des
   signierten `templateJws` — eine Änderung braucht eine echte Neu-Signatur
-  (`tools/basistemplate-neu-signieren.js`), kein einfacher Commit.
+  (mit einem eigenen Signierwerkzeug), kein einfacher Commit.
 
 ### `bmj-betreuungsverfuegung`
 

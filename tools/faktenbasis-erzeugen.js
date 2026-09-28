@@ -297,7 +297,7 @@ function alleTestDateien(dir, nurSpec) {
 /* ── Gestaltung („Faktenbasis-Design", Zug 2, 14.08.2026) ────────────────────────
    Anlass: der Design-System-Abgleich vom 14.08. fand 114 von 185 geprüften Design-Angaben
    abweichend — dasselbe Drift-Muster wie bei STANDARDS.md/INTEROPERABILITY.md, nur beim
-   Design-System-Dokument (`Vivodepot-intern`). DESIGN_KLASSEN ist eine HANDKURATIERTE
+   Design-System-Dokument (nicht in diesem Repo). DESIGN_KLASSEN ist eine HANDKURATIERTE
    Namensliste — welche Klassen zu den in Design-System-Abschnitt 6 benannten Komponenten
    gehören, ist keine mechanisch ableitbare Frage (der Dokument-Name UND der Code-Name können
    auseinanderlaufen, genau das ist der `.btn-primary`-Befund). Die WERTE je Name sind es: jede
@@ -441,7 +441,7 @@ function formatiereMarkdown(f) {
     + ' + ' + f.pruefebene.e2eSchleifenZuwachs + ' aus Schleifen über CPU-Drosselungen = **'
     + (f.pruefebene.e2eZahl + f.pruefebene.e2eSchleifenZuwachs) + ' ausgeführte Tests**'
     + ' (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)\n';
-  m += '- Wächter-Register (`tools/waechter-register.js`): ' + (f.pruefebene.waechterZahl ?? ('nicht ermittelbar' + (f.pruefebene.waechterHinweis ? ' (' + f.pruefebene.waechterHinweis + ')' : ''))) + '\n';
+  m += '- Wächter-Register (intern): ' + (f.pruefebene.waechterZahl ?? ('nicht ermittelbar' + (f.pruefebene.waechterHinweis ? ' (' + f.pruefebene.waechterHinweis + ')' : ''))) + '\n';
   m += '- Schema-Version: ' + f.schemaVersion + ' · SCHALEN_STAND: ' + f.schalenStand + ' · Build-Version: ' + f.buildVersion + '\n\n';
   m += '---\n\n## ADR-Register (' + f.adrZahl + ')\n\n';
   m += '| Nummer | Titel |\n|---|---|\n';

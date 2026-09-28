@@ -485,6 +485,26 @@
               ]
             }
           ]
+        },
+        {
+          "id": "civil-status-certificates",
+          "felder": [
+            {
+              "id": "birthCertificateStorage",
+              "typ": "text",
+              "sensibel": true
+            },
+            {
+              "id": "marriageCertificateStorage",
+              "typ": "text",
+              "sensibel": true
+            },
+            {
+              "id": "familyRegisterBookStorage",
+              "typ": "text",
+              "sensibel": true
+            }
+          ]
         }
       ]
     },
@@ -2329,7 +2349,11 @@
               "id": "longTermCareAllowanceAmount",
               "sensibel": true,
               "typ": "text",
-              "inputmode": "decimal"
+              "inputmode": "decimal",
+              "verborgenWenn": {
+                "feld": "longTermCareAllowanceTypeOf",
+                "wert": "sachleistung"
+              }
             },
             {
               "id": "longTermCareAllowanceEarlier",
@@ -3416,7 +3440,11 @@
                     {
                       "wert": "bildung"
                     }
-                  ]
+                  ],
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
+                  }
                 },
                 {
                   "id": "authorizedParties",
@@ -3432,7 +3460,11 @@
                     {
                       "wert": "angehoerige"
                     }
-                  ]
+                  ],
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
+                  }
                 },
                 {
                   "id": "namedIndividuals",
@@ -3441,6 +3473,10 @@
                   "sichtbarWenn": {
                     "feld": "instrument",
                     "wert": "ki-verfuegung"
+                  },
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
                   }
                 },
                 {
@@ -3457,7 +3493,11 @@
                     {
                       "wert": "oeffentlich"
                     }
-                  ]
+                  ],
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
+                  }
                 },
                 {
                   "id": "permittedDataTypes",
@@ -3479,7 +3519,11 @@
                     {
                       "wert": "hinterlegt"
                     }
-                  ]
+                  ],
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
+                  }
                 },
                 {
                   "id": "timeLimit",
@@ -3498,7 +3542,11 @@
                     {
                       "wert": "zeitpunkt"
                     }
-                  ]
+                  ],
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
+                  }
                 },
                 {
                   "id": "numberOfYears",
@@ -3506,6 +3554,10 @@
                   "sichtbarWenn": {
                     "feld": "timeLimit",
                     "wert": "jahre"
+                  },
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
                   }
                 },
                 {
@@ -3514,6 +3566,10 @@
                   "sichtbarWenn": {
                     "feld": "timeLimit",
                     "wert": "zeitpunkt"
+                  },
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
                   }
                 },
                 {
@@ -3530,7 +3586,11 @@
                     {
                       "wert": "frei"
                     }
-                  ]
+                  ],
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
+                  }
                 },
                 {
                   "id": "digitalEstateAdministration",
@@ -3546,7 +3606,11 @@
                     {
                       "wert": "angehoerige"
                     }
-                  ]
+                  ],
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
+                  }
                 },
                 {
                   "id": "digitalEstateAdministration2",
@@ -3555,6 +3619,10 @@
                   "sichtbarWenn": {
                     "feld": "instrument",
                     "wert": "ki-verfuegung"
+                  },
+                  "verborgenWenn": {
+                    "feld": "basicDecision",
+                    "wert": "untersagung"
                   }
                 },
                 {
@@ -3750,6 +3818,45 @@
                   "wert": "nein"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "id": "communication-support",
+          "felder": [
+            {
+              "id": "communicationLanguage",
+              "typ": "text"
+            },
+            {
+              "id": "communicationSupport",
+              "typ": "mehrfachauswahl",
+              "optionen": [
+                {
+                  "wert": "dolmetschen"
+                },
+                {
+                  "wert": "gebaerdensprache"
+                },
+                {
+                  "wert": "leichte-sprache"
+                }
+              ]
+            },
+            {
+              "id": "supportPerson",
+              "typ": "ref",
+              "entitaet": "person",
+              "verweisZweck": "pflege"
+            },
+            {
+              "id": "whatHelpsMe",
+              "typ": "textarea"
+            },
+            {
+              "id": "doNotInform",
+              "sensibel": true,
+              "typ": "textarea"
             }
           ]
         }
@@ -4204,7 +4311,11 @@
             {
               "id": "tenancyTerminationHandover",
               "typ": "textarea",
-              "ebene": "modul"
+              "ebene": "modul",
+              "verborgenWenn": {
+                "feld": "ownedOrRented",
+                "wert": "eigentum"
+              }
             },
             {
               "id": "noticeDate",
@@ -4212,7 +4323,11 @@
                 "frist"
               ],
               "typ": "datum",
-              "ebene": "modul"
+              "ebene": "modul",
+              "verborgenWenn": {
+                "feld": "ownedOrRented",
+                "wert": "eigentum"
+              }
             },
             {
               "id": "moveOutDate",

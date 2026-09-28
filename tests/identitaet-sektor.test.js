@@ -59,10 +59,12 @@ test('1) Sektor-Metadaten und drei Sektionen', () => {
   assert.equal(s.einfuehrungstext, 'Name, Foto, Kontakt — das Deckblatt Ihres Depots.');
   // genau drei Sektionen, in Spec-Reihenfolge — „Frühere Namen" (11.08.2026)
   // fügt die dritte ein (zwischen person und pets).
-  assert.equal(s.sektionen.length, 3);
+  // 3 → 4 (27.09.2026, U2-ADR-439): die Personenstandsurkunden als vierte Sektion, hinter den Haustieren.
+  assert.equal(s.sektionen.length, 4);
   assert.equal(s.sektionen[0].id, 'person');
   assert.equal(s.sektionen[1].id, 'fruehere-namen');
   assert.equal(s.sektionen[2].id, 'pets');
+  assert.equal(s.sektionen[3].id, 'civil-status-certificates');
 });
 
 test('2) Person: Kern-Felder inkl. profilfoto (ref:mappe, U2-ADR-013 Schritt 6); notizen_start als Modul', () => {

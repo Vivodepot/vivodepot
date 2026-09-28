@@ -758,6 +758,19 @@
                   "wert": "Felix, Europäisch Kurzhaar · Brunhilde Waltraud Immergrün · Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Bruno"
                 }
               ]
+            },
+            {
+              "titel": "Personenstandsurkunden",
+              "zeilen": [
+                {
+                  "label": "Eigene Geburtsurkunde — Ablageort",
+                  "wert": "Mappe „Urkunden“, Sekretär"
+                },
+                {
+                  "label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+                  "wert": "Mappe „Urkunden“, Sekretär"
+                }
+              ]
             }
           ]
         },
@@ -1391,6 +1404,120 @@
               ]
             },
             {
+              "titel": "Verständigung und Unterstützung",
+              "zeilen": [
+                {
+                  "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+                  "wert": "Deutsch"
+                },
+                {
+                  "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+                  "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+                },
+                {
+                  "label": "Was mir hilft",
+                  "wert": "Hörgerät links, bitte deutlich sprechen"
+                }
+              ]
+            },
+            {
+              "titel": "Festlegungen der Patientenverfügung",
+              "zeilen": [
+                {
+                  "label": "Situationen",
+                  "wert": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde, ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist"
+                },
+                {
+                  "label": "Lebenserhaltende Maßnahmen",
+                  "wert": "dass alle lebenserhaltenden Maßnahmen unterlassen werden. Hunger und Durst sollen auf natürliche Weise gestillt werden, gegebenenfalls mit Hilfe bei der Nahrungs- und Flüssigkeitsaufnahme. Ich wünsche fachgerechte Pflege von Mund und Schleimhäuten sowie menschenwürdige Unterbringung, Zuwendung, Körperpflege und das Lindern von Schmerzen, Atemnot, Übelkeit, Angst, Unruhe und anderer belastender Symptome."
+                },
+                {
+                  "label": "Schmerz- und Symptombehandlung",
+                  "wert": "wenn alle sonstigen medizinischen Möglichkeiten zur Schmerz- und Symptomkontrolle versagen, auch Mittel mit bewusstseinsdämpfenden Wirkungen zur Beschwerdelinderung."
+                },
+                {
+                  "label": "Lebensverkürzung in Kauf",
+                  "wert": "die unwahrscheinliche Möglichkeit einer ungewollten Verkürzung meiner Lebenszeit durch schmerz- und symptomlindernde Maßnahmen nehme ich in Kauf."
+                },
+                {
+                  "label": "Künstliche Ernährung und Flüssigkeitszufuhr",
+                  "wert": "dass eine künstliche Ernährung und/oder eine künstliche Flüssigkeitszufuhr nur bei palliativmedizinischer Indikation zur Beschwerdelinderung erfolgen bzw. erfolgt."
+                },
+                {
+                  "label": "Wiederbelebung (oben beschriebene Situationen)",
+                  "wert": "die Unterlassung von Versuchen der Wiederbelebung."
+                },
+                {
+                  "label": "Notarzt-Hinweis",
+                  "wert": "dass eine Notärztin oder ein Notarzt nicht verständigt wird bzw. im Fall einer Hinzuziehung unverzüglich über meine Ablehnung von Wiederbelebungsmaßnahmen informiert wird."
+                },
+                {
+                  "label": "Wiederbelebung (alle Fälle)",
+                  "wert": "lehne ich Wiederbelebungsmaßnahmen ab, sofern diese Situationen nicht im Rahmen ärztlicher Maßnahmen (z. B. Operationen) unerwartet eintreten."
+                },
+                {
+                  "label": "Künstliche Beatmung",
+                  "wert": "dass keine künstliche Beatmung durchgeführt bzw. eine schon eingeleitete Beatmung eingestellt wird, unter der Voraussetzung, dass ich Medikamente zur Linderung der Luftnot erhalte. Die Möglichkeit einer Bewusstseinsdämpfung oder einer ungewollten Verkürzung meiner Lebenszeit durch diese Medikamente nehme ich in Kauf."
+                },
+                {
+                  "label": "Dialyse",
+                  "wert": "dass keine Dialyse durchgeführt bzw. eine schon eingeleitete Dialyse eingestellt wird."
+                },
+                {
+                  "label": "Antibiotika",
+                  "wert": "Antibiotika nur bei palliativmedizinischer Indikation zur Beschwerdelinderung."
+                },
+                {
+                  "label": "Blut und Blutbestandteile",
+                  "wert": "die Gabe von Blut oder Blutbestandteilen nur bei palliativmedizinischer Indikation zur Beschwerdelinderung."
+                },
+                {
+                  "label": "Ort der Behandlung / des Sterbens",
+                  "wert": "wenn möglich zu Hause bzw. in vertrauter Umgebung sterben."
+                },
+                {
+                  "label": "Beistand durch folgende Personen",
+                  "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+                },
+                {
+                  "label": "Hospizlicher Beistand",
+                  "wert": "hospizlichen Beistand."
+                },
+                {
+                  "label": "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+                  "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein"
+                },
+                {
+                  "label": "Besondere Bedeutung (ungeregelte Situationen)",
+                  "wert": "meiner/meinem Bevollmächtigten."
+                },
+                {
+                  "label": "Besondere Bedeutung (abweichende Willensäußerung)",
+                  "wert": "meiner/meinem Bevollmächtigten."
+                },
+                {
+                  "label": "Organspende",
+                  "wert": "Ich stimme einer Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken zu (ggf.: Ich habe einen Organspendeausweis ausgefüllt). Komme ich nach ärztlicher Beurteilung bei einem sich abzeichnenden Hirntod als Organspender/in in Betracht und müssen dafür ärztliche Maßnahmen durchgeführt werden, die ich in meiner Patientenverfügung ausgeschlossen habe, dann"
+                },
+                {
+                  "label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+                  "wert": "geht die von mir erklärte Bereitschaft zur Organspende vor."
+                },
+                {
+                  "label": "Verzicht auf weitere ärztliche Aufklärung",
+                  "wert": "(kein Verzicht)"
+                },
+                {
+                  "label": "Information / Beratung",
+                  "wert": "Hausärztin, März 2026"
+                },
+                {
+                  "label": "Gültigkeit",
+                  "wert": "Diese Patientenverfügung gilt solange, bis ich sie widerrufe."
+                }
+              ]
+            },
+            {
               "titel": "Dokumente & Prüftermine",
               "zeilen": [
                 {
@@ -1914,6 +2041,19 @@
                   "wert": "Felix, Europäisch Kurzhaar · Brunhilde Waltraud Immergrün · Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Bruno"
                 }
               ]
+            },
+            {
+              "titel": "Personenstandsurkunden",
+              "zeilen": [
+                {
+                  "label": "Eigene Geburtsurkunde — Ablageort",
+                  "wert": "Mappe „Urkunden“, Sekretär"
+                },
+                {
+                  "label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+                  "wert": "Mappe „Urkunden“, Sekretär"
+                }
+              ]
             }
           ]
         }
@@ -1990,6 +2130,120 @@
                 {
                   "label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
                   "wert": "ja, alles aktuell"
+                }
+              ]
+            },
+            {
+              "titel": "Verständigung und Unterstützung",
+              "zeilen": [
+                {
+                  "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+                  "wert": "Deutsch"
+                },
+                {
+                  "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+                  "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+                },
+                {
+                  "label": "Was mir hilft",
+                  "wert": "Hörgerät links, bitte deutlich sprechen"
+                }
+              ]
+            },
+            {
+              "titel": "Festlegungen der Patientenverfügung",
+              "zeilen": [
+                {
+                  "label": "Situationen",
+                  "wert": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde, ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist"
+                },
+                {
+                  "label": "Lebenserhaltende Maßnahmen",
+                  "wert": "dass alle lebenserhaltenden Maßnahmen unterlassen werden. Hunger und Durst sollen auf natürliche Weise gestillt werden, gegebenenfalls mit Hilfe bei der Nahrungs- und Flüssigkeitsaufnahme. Ich wünsche fachgerechte Pflege von Mund und Schleimhäuten sowie menschenwürdige Unterbringung, Zuwendung, Körperpflege und das Lindern von Schmerzen, Atemnot, Übelkeit, Angst, Unruhe und anderer belastender Symptome."
+                },
+                {
+                  "label": "Schmerz- und Symptombehandlung",
+                  "wert": "wenn alle sonstigen medizinischen Möglichkeiten zur Schmerz- und Symptomkontrolle versagen, auch Mittel mit bewusstseinsdämpfenden Wirkungen zur Beschwerdelinderung."
+                },
+                {
+                  "label": "Lebensverkürzung in Kauf",
+                  "wert": "die unwahrscheinliche Möglichkeit einer ungewollten Verkürzung meiner Lebenszeit durch schmerz- und symptomlindernde Maßnahmen nehme ich in Kauf."
+                },
+                {
+                  "label": "Künstliche Ernährung und Flüssigkeitszufuhr",
+                  "wert": "dass eine künstliche Ernährung und/oder eine künstliche Flüssigkeitszufuhr nur bei palliativmedizinischer Indikation zur Beschwerdelinderung erfolgen bzw. erfolgt."
+                },
+                {
+                  "label": "Wiederbelebung (oben beschriebene Situationen)",
+                  "wert": "die Unterlassung von Versuchen der Wiederbelebung."
+                },
+                {
+                  "label": "Notarzt-Hinweis",
+                  "wert": "dass eine Notärztin oder ein Notarzt nicht verständigt wird bzw. im Fall einer Hinzuziehung unverzüglich über meine Ablehnung von Wiederbelebungsmaßnahmen informiert wird."
+                },
+                {
+                  "label": "Wiederbelebung (alle Fälle)",
+                  "wert": "lehne ich Wiederbelebungsmaßnahmen ab, sofern diese Situationen nicht im Rahmen ärztlicher Maßnahmen (z. B. Operationen) unerwartet eintreten."
+                },
+                {
+                  "label": "Künstliche Beatmung",
+                  "wert": "dass keine künstliche Beatmung durchgeführt bzw. eine schon eingeleitete Beatmung eingestellt wird, unter der Voraussetzung, dass ich Medikamente zur Linderung der Luftnot erhalte. Die Möglichkeit einer Bewusstseinsdämpfung oder einer ungewollten Verkürzung meiner Lebenszeit durch diese Medikamente nehme ich in Kauf."
+                },
+                {
+                  "label": "Dialyse",
+                  "wert": "dass keine Dialyse durchgeführt bzw. eine schon eingeleitete Dialyse eingestellt wird."
+                },
+                {
+                  "label": "Antibiotika",
+                  "wert": "Antibiotika nur bei palliativmedizinischer Indikation zur Beschwerdelinderung."
+                },
+                {
+                  "label": "Blut und Blutbestandteile",
+                  "wert": "die Gabe von Blut oder Blutbestandteilen nur bei palliativmedizinischer Indikation zur Beschwerdelinderung."
+                },
+                {
+                  "label": "Ort der Behandlung / des Sterbens",
+                  "wert": "wenn möglich zu Hause bzw. in vertrauter Umgebung sterben."
+                },
+                {
+                  "label": "Beistand durch folgende Personen",
+                  "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+                },
+                {
+                  "label": "Hospizlicher Beistand",
+                  "wert": "hospizlichen Beistand."
+                },
+                {
+                  "label": "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+                  "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein"
+                },
+                {
+                  "label": "Besondere Bedeutung (ungeregelte Situationen)",
+                  "wert": "meiner/meinem Bevollmächtigten."
+                },
+                {
+                  "label": "Besondere Bedeutung (abweichende Willensäußerung)",
+                  "wert": "meiner/meinem Bevollmächtigten."
+                },
+                {
+                  "label": "Organspende",
+                  "wert": "Ich stimme einer Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken zu (ggf.: Ich habe einen Organspendeausweis ausgefüllt). Komme ich nach ärztlicher Beurteilung bei einem sich abzeichnenden Hirntod als Organspender/in in Betracht und müssen dafür ärztliche Maßnahmen durchgeführt werden, die ich in meiner Patientenverfügung ausgeschlossen habe, dann"
+                },
+                {
+                  "label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+                  "wert": "geht die von mir erklärte Bereitschaft zur Organspende vor."
+                },
+                {
+                  "label": "Verzicht auf weitere ärztliche Aufklärung",
+                  "wert": "(kein Verzicht)"
+                },
+                {
+                  "label": "Information / Beratung",
+                  "wert": "Hausärztin, März 2026"
+                },
+                {
+                  "label": "Gültigkeit",
+                  "wert": "Diese Patientenverfügung gilt solange, bis ich sie widerrufe."
                 }
               ]
             },
@@ -2117,6 +2371,30 @@
         "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein · 0171 2345678 · Lindenweg 4, 80331 München; Konstantin-Emanuel Wredenhagen-Sonnenschein",
         "sektor": "advanceCare",
         "feld": "liste:provisionInstruments:enduring-power-of-attorney:authorizedPersons"
+      },
+      {
+        "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+        "wert": "Deutsch",
+        "sektor": "advanceCare",
+        "feld": "communicationLanguage"
+      },
+      {
+        "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+        "wert": "Maximiliane Alexandra Wredenhagen-Sonnenschein · 0171 2345678 · Lindenweg 4, 80331 München",
+        "sektor": "advanceCare",
+        "feld": "supportPerson"
+      },
+      {
+        "label": "Besondere Situation",
+        "wert": "Rollstuhlfahrer, 3. Stock ohne Aufzug",
+        "sektor": "emergencyPreparedness",
+        "feld": "specialSituation"
+      },
+      {
+        "label": "Hinweis für Rettungskräfte",
+        "wert": "Gasflasche im Keller, Haustier im Schlafzimmer",
+        "sektor": "emergencyPreparedness",
+        "feld": "noteForEmergencyResponders"
       }
     ],
     "widerruf": {
@@ -2131,7 +2409,7 @@
   },
   "dateiRundlauf": {
     "vorher": {
-      "schemaVersion": 88,
+      "schemaVersion": 89,
       "kryptoVersion": 3,
       "menschen": [
         {
@@ -2258,6 +2536,9 @@
           "gender": "w",
           "maritalStatus": "verh",
           "maritalPropertyRegime": "zugewinn",
+          "birthCertificateStorage": "Mappe „Urkunden“, Sekretär",
+          "marriageCertificateStorage": "Mappe „Urkunden“, Sekretär",
+          "familyRegisterBookStorage": "",
           "dateOfSeparation": "",
           "idDocuments": [
             {
@@ -2814,8 +3095,62 @@
           "spousalRepresentationObjectionSince": "",
           "spousalObjectionRegistered": "",
           "spousalObjectionRegisterNumber": "",
+          "communicationLanguage": "Deutsch",
+          "communicationSupport": [],
+          "supportPerson": {
+            "ref": "p-partner",
+            "override": ""
+          },
+          "whatHelpsMe": "Hörgerät links, bitte deutlich sprechen",
+          "doNotInform": "",
           "contentOfTheAdvanceDirective": "ja",
           "contentOfTheAdvanceDirective2": "nein",
+          "applicableSituations": [
+            "sterbeprozess",
+            "endstadium"
+          ],
+          "ownAdditionalSituation": "",
+          "lifeSustainingMeasures": "unterlassen",
+          "painAndSymptomTreatment": "mit_daempfung",
+          "acceptsLifeShorteningFromPain": "ja",
+          "artificialNutritionAndHydration": "palliativ",
+          "resuscitationInDescribedSituations": "nein",
+          "emergencyDoctorNotified": "ja",
+          "resuscitationInAllCases": "ab_ausser_op",
+          "artificialVentilation": "nein",
+          "dialysis": "nein",
+          "antibiotics": "palliativ",
+          "bloodAndBloodProducts": "palliativ",
+          "placeOfTreatmentOrDeath": "zuhause",
+          "supportFromThesePersons": [
+            {
+              "ref": "p-partner",
+              "override": ""
+            }
+          ],
+          "supportFromChurchOrCommunity": "",
+          "hospiceSupport": "ja",
+          "confidentialityWaiverFor": [
+            {
+              "ref": "p-partner",
+              "override": ""
+            },
+            {
+              "ref": "p-kind-1",
+              "override": ""
+            }
+          ],
+          "whoseViewMattersIfUnregulated": "bevollmaechtigt",
+          "whoseViewMattersOtherPersonName": "",
+          "whoseViewMattersIfDeviatingWill": "bevollmaechtigt",
+          "whoseViewMattersIfDeviatingOther": "",
+          "personalValuesOrFurtherDocuments": "",
+          "organDonationDecision": "zustimmung",
+          "priorityIfOrganDonationConflict": "organspende",
+          "waivesFurtherMedicalInformation": "nein",
+          "informationOrCounsellingReceived": "Hausärztin, März 2026",
+          "validityDuration": "unbefristet",
+          "validityDurationDeadline": "",
           "heirsBriefOverview": [
             {
               "ref": "p-partner",
@@ -4842,7 +5177,7 @@
                               }
                             ],
                             "label": "Abschrift im Register hinterlegt",
-                            "hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat."
+                            "hint": "Hat eine Stelle, etwa ein Notariat, eine Anwaltskanzlei oder ein Betreuungsverein, eine elektronische Abschrift Ihrer Vorsorgedokumente beim Zentralen Vorsorgeregister hinterlegt? Dann tragen Sie es hier ein."
                           },
                           {
                             "id": "copyDepositedOn",
@@ -5111,6 +5446,10 @@
                                 "label": "zu Bildungs- oder Dokumentationszwecken"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Zweck"
                           },
                           {
@@ -5130,6 +5469,10 @@
                                 "label": "meine engsten Angehörigen"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Berechtigte"
                           },
                           {
@@ -5139,6 +5482,10 @@
                             "sichtbarWenn": {
                               "feld": "instrument",
                               "wert": "ki-verfuegung"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Namentlich benannte Personen"
                           },
@@ -5159,6 +5506,10 @@
                                 "label": "auch öffentlich zugängliche Räume (z. B. Gedenkseiten)"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Raum"
                           },
                           {
@@ -5186,6 +5537,10 @@
                                 "label": "eigens hinterlegte Materialien"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Zulässige Datenarten"
                           },
                           {
@@ -5209,6 +5564,10 @@
                                 "label": "Löschung zu einem bestimmten Zeitpunkt"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Befristung"
                           },
                           {
@@ -5217,6 +5576,10 @@
                             "sichtbarWenn": {
                               "feld": "timeLimit",
                               "wert": "jahre"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Anzahl Jahre",
                             "beispiel": "zehn"
@@ -5227,6 +5590,10 @@
                             "sichtbarWenn": {
                               "feld": "timeLimit",
                               "wert": "zeitpunkt"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Zeitpunkt",
                             "beispiel": "31.12.2040"
@@ -5248,6 +5615,10 @@
                                 "label": "frei im Rahmen des dokumentierten Charakters, keine Politik/Religion/Finanzen/Rechtsgeschäfte"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Verhaltensgrenze"
                           },
                           {
@@ -5267,6 +5638,10 @@
                                 "label": "gemeinsam meine benannten Angehörigen"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Digitale Nachlassverwaltung"
                           },
                           {
@@ -5276,6 +5651,10 @@
                             "sichtbarWenn": {
                               "feld": "instrument",
                               "wert": "ki-verfuegung"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Digitale Nachlassverwaltung — Person"
                           },
@@ -5528,6 +5907,60 @@
                     ],
                     "label": "Pflegewünsche",
                     "hint": "Diese Angaben ergänzen die Patientenverfügung und helfen Pflegepersonen, Ihren Willen zu kennen."
+                  },
+                  {
+                    "id": "communication-support",
+                    "felder": [
+                      {
+                        "id": "communicationLanguage",
+                        "typ": "text",
+                        "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+                        "beispiel": "Türkisch; Deutsch nur einfach"
+                      },
+                      {
+                        "id": "communicationSupport",
+                        "typ": "mehrfachauswahl",
+                        "optionen": [
+                          {
+                            "wert": "dolmetschen",
+                            "label": "Dolmetschen"
+                          },
+                          {
+                            "wert": "gebaerdensprache",
+                            "label": "Gebärdensprache"
+                          },
+                          {
+                            "wert": "leichte-sprache",
+                            "label": "Leichte Sprache"
+                          }
+                        ],
+                        "label": "Unterstützung bei der Verständigung"
+                      },
+                      {
+                        "id": "supportPerson",
+                        "typ": "ref",
+                        "entitaet": "person",
+                        "verweisZweck": "pflege",
+                        "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+                        "hint": "Wer bei wichtigen Gesprächen dabei sein soll, zum Beispiel bei der Aufnahme im Krankenhaus."
+                      },
+                      {
+                        "id": "whatHelpsMe",
+                        "typ": "textarea",
+                        "label": "Was mir hilft",
+                        "beispiel": "Langsam und in kurzen Sätzen sprechen; wichtige Punkte bitte aufschreiben."
+                      },
+                      {
+                        "id": "doNotInform",
+                        "sensibel": true,
+                        "typ": "textarea",
+                        "label": "Wer nicht informiert werden soll",
+                        "hint": "Diese Angabe steht nie auf der Notfallkarte und nie in der Angehörigen-Sicht. Sie geht nur hinaus, wenn Sie sie ausdrücklich freigeben.",
+                        "beispiel": "Mein Onkel Peter; mein früherer Arbeitgeber"
+                      }
+                    ],
+                    "label": "Verständigung und Unterstützung",
+                    "hint": "Was andere wissen sollten, damit man sich gut mit Ihnen verständigt und Sie selbst mitentscheiden können, etwa bei der Aufnahme im Krankenhaus oder bei einem Termin. Hör- und Sehhilfen tragen Sie bei den Hilfsmitteln ein."
                   }
                 ],
                 "label": "Vorsorge & Recht"
@@ -7375,6 +7808,10 @@
                         "id": "tenancyTerminationHandover",
                         "typ": "textarea",
                         "ebene": "modul",
+                        "verborgenWenn": {
+                          "feld": "ownedOrRented",
+                          "wert": "eigentum"
+                        },
                         "label": "Mietverhältnis — Kündigung & Übergabe",
                         "hint": "Beim Auszug: rechtzeitig kündigen, Übergabeprotokoll führen, Kaution zurückfordern. Bei der neuen Wohnung: Übergabe und Zählerstände festhalten.",
                         "beispiel": "alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll; Kaution zurückfordern"
@@ -7386,6 +7823,10 @@
                         ],
                         "typ": "datum",
                         "ebene": "modul",
+                        "verborgenWenn": {
+                          "feld": "ownedOrRented",
+                          "wert": "eigentum"
+                        },
                         "label": "Kündigungstermin"
                       },
                       {
@@ -8131,6 +8572,34 @@
                     ],
                     "label": "Haustiere",
                     "hint": "Wenn Sie plötzlich ins Krankenhaus müssen oder nicht mehr nach Hause kommen — wer kümmert sich um Ihr Tier?"
+                  },
+                  {
+                    "id": "civil-status-certificates",
+                    "felder": [
+                      {
+                        "id": "birthCertificateStorage",
+                        "typ": "text",
+                        "sensibel": true,
+                        "label": "Eigene Geburtsurkunde — Ablageort",
+                        "beispiel": "Mappe „Urkunden“, Schreibtisch"
+                      },
+                      {
+                        "id": "marriageCertificateStorage",
+                        "typ": "text",
+                        "sensibel": true,
+                        "label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+                        "beispiel": "Mappe „Urkunden“, Schreibtisch"
+                      },
+                      {
+                        "id": "familyRegisterBookStorage",
+                        "typ": "text",
+                        "sensibel": true,
+                        "label": "Familienstammbuch — Ablageort",
+                        "beispiel": "Schreibtisch, untere Schublade"
+                      }
+                    ],
+                    "label": "Personenstandsurkunden",
+                    "hint": "Wo Ihre Urkunden liegen. Nach einem Todesfall verlangt das Standesamt sie für den Sterbeeintrag, das Nachlassgericht für den Erbschein."
                   }
                 ],
                 "label": "Identität & Person"
@@ -9429,6 +9898,10 @@
                         "sensibel": true,
                         "typ": "text",
                         "inputmode": "decimal",
+                        "verborgenWenn": {
+                          "feld": "longTermCareAllowanceTypeOf",
+                          "wert": "sachleistung"
+                        },
                         "label": "Pflegegeld — Betrag",
                         "beispiel": "599 EUR/Monat"
                       },
@@ -10500,6 +10973,14 @@
             "identity.birthName.beispiel": "Müller",
             "identity.birthPlace.label": "Geburtsort",
             "identity.birthPlace.beispiel": "Augsburg",
+            "identity#civil-status-certificates.label": "Personenstandsurkunden",
+            "identity#civil-status-certificates.hint": "Wo Ihre Urkunden liegen. Nach einem Todesfall verlangt das Standesamt sie für den Sterbeeintrag, das Nachlassgericht für den Erbschein.",
+            "identity.birthCertificateStorage.label": "Eigene Geburtsurkunde — Ablageort",
+            "identity.birthCertificateStorage.beispiel": "Mappe „Urkunden“, Schreibtisch",
+            "identity.marriageCertificateStorage.label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+            "identity.marriageCertificateStorage.beispiel": "Mappe „Urkunden“, Schreibtisch",
+            "identity.familyRegisterBookStorage.label": "Familienstammbuch — Ablageort",
+            "identity.familyRegisterBookStorage.beispiel": "Schreibtisch, untere Schublade",
             "identity.gender.label": "Geschlecht",
             "identity.maritalStatus.label": "Familienstand",
             "identity.maritalStatus.hint": "Bestimmt die gesetzliche Erbfolge.",
@@ -10675,6 +11156,7 @@
             "advanceCare#meine-vorsorge.label": "Meine Vorsorge",
             "advanceCare#spousal-representation.label": "Notvertretung durch Ehegatten in Gesundheitsfragen",
             "advanceCare#spousal-representation.hint": "Können Sie wegen Bewusstlosigkeit oder Krankheit in Gesundheitsfragen nicht selbst entscheiden, darf Ihr Ehegatte Sie darin bis zu sechs Monate vertreten, wenn Sie nicht getrennt leben. Das gilt nicht, wenn Sie eine solche Vertretung ablehnen oder jemanden für Gesundheitsfragen bevollmächtigt haben und die behandelnde Ärztin oder Ihr Ehegatte davon weiß. Damit eine Ablehnung gefunden wird, können Sie sie im Zentralen Vorsorgeregister eintragen lassen. Keine Rechtsberatung. Fundstelle: § 1358 BGB, § 78a BNotO.",
+            "advanceCare#living-will-decisions.label": "Festlegungen der Patientenverfügung",
             "advanceCare.spousalRepresentationObjection.label": "Ich lehne eine Notvertretung durch meinen Ehegatten in Gesundheitsfragen ab",
             "advanceCare.spousalRepresentationObjection/ja.label": "ja",
             "advanceCare.spousalRepresentationObjection/nein.label": "nein",
@@ -10684,6 +11166,21 @@
             "advanceCare.spousalObjectionRegistered/nein.label": "nein",
             "advanceCare.spousalObjectionRegisterNumber.label": "Eintragungsnummer der Ablehnung im Zentralen Vorsorgeregister",
             "advanceCare.spousalObjectionRegisterNumber.beispiel": "ZVR-2024-987654",
+            "advanceCare#communication-support.label": "Verständigung und Unterstützung",
+            "advanceCare#communication-support.hint": "Was andere wissen sollten, damit man sich gut mit Ihnen verständigt und Sie selbst mitentscheiden können, etwa bei der Aufnahme im Krankenhaus oder bei einem Termin. Hör- und Sehhilfen tragen Sie bei den Hilfsmitteln ein.",
+            "advanceCare.communicationLanguage.label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+            "advanceCare.communicationLanguage.beispiel": "Türkisch; Deutsch nur einfach",
+            "advanceCare.communicationSupport.label": "Unterstützung bei der Verständigung",
+            "advanceCare.communicationSupport/dolmetschen.label": "Dolmetschen",
+            "advanceCare.communicationSupport/gebaerdensprache.label": "Gebärdensprache",
+            "advanceCare.communicationSupport/leichte-sprache.label": "Leichte Sprache",
+            "advanceCare.supportPerson.label": "Begleit- oder Vertrauensperson bei Gesprächen",
+            "advanceCare.supportPerson.hint": "Wer bei wichtigen Gesprächen dabei sein soll, zum Beispiel bei der Aufnahme im Krankenhaus.",
+            "advanceCare.whatHelpsMe.label": "Was mir hilft",
+            "advanceCare.whatHelpsMe.beispiel": "Langsam und in kurzen Sätzen sprechen; wichtige Punkte bitte aufschreiben.",
+            "advanceCare.doNotInform.label": "Wer nicht informiert werden soll",
+            "advanceCare.doNotInform.hint": "Diese Angabe steht nie auf der Notfallkarte und nie in der Angehörigen-Sicht. Sie geht nur hinaus, wenn Sie sie ausdrücklich freigeben.",
+            "advanceCare.doNotInform.beispiel": "Mein Onkel Peter; mein früherer Arbeitgeber",
             "advanceCare.provisionInstruments.label": "Vorsorge-Instrumente",
             "advanceCare.provisionInstruments.hint": "Jedes Vorsorge-Instrument als eigener Eintrag — Art wählen, dann erscheinen die passenden Felder.",
             "advanceCare.provisionInstruments/instrument.label": "Instrument",
@@ -10734,7 +11231,7 @@
             "advanceCare.provisionInstruments/centralRegisterOfPowersOf.label": "Zentrales Vorsorgeregister — Eintragungsnummer",
             "advanceCare.provisionInstruments/centralRegisterOfPowersOf.beispiel": "ZVR-2024-987654",
             "advanceCare.provisionInstruments/copyDepositedInTheRegister.label": "Abschrift im Register hinterlegt",
-            "advanceCare.provisionInstruments/copyDepositedInTheRegister.hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat.",
+            "advanceCare.provisionInstruments/copyDepositedInTheRegister.hint": "Hat eine Stelle, etwa ein Notariat, eine Anwaltskanzlei oder ein Betreuungsverein, eine elektronische Abschrift Ihrer Vorsorgedokumente beim Zentralen Vorsorgeregister hinterlegt? Dann tragen Sie es hier ein.",
             "advanceCare.provisionInstruments/copyDepositedOn.label": "Abschrift hinterlegt am",
             "advanceCare.provisionInstruments/depositedBy.label": "Hinterlegt durch",
             "advanceCare.provisionInstruments/depositedBy.hint": "Die Stelle, die die Abschrift eingestellt hat — Betreuungsbehörde, Betreuungsverein, Anwaltskanzlei oder Notariat.",
@@ -10982,10 +11479,6 @@
             "situation:erbfall#wo-die-originale-liegen.titel": "Wo die Originale liegen",
             "situation:erbfall.erb_originaldokumente.label": "Wichtige Originale — Ablageort",
             "situation:erbfall.erb_originaldokumente.beispiel": "Ordner „Wichtiges“ im Wohnzimmerschrank: Testament, Urkunden, Verträge",
-            "situation:erbfall.erb_stammbuch.label": "Familienstammbuch — Ablageort",
-            "situation:erbfall.erb_stammbuch.beispiel": "Schreibtisch, untere Schublade",
-            "situation:erbfall.erb_personenstand.label": "Geburts-/Heiratsurkunde — Ablageort",
-            "situation:erbfall.erb_personenstand.beispiel": "Mappe „Urkunden“; benötigt fürs Nachlassgericht",
             "situation:erbfall#versicherungen.titel": "Versicherungen",
             "situation:erbfall.erb_lebensversicherung.label": "Lebensversicherung — Anbieter & Police",
             "situation:erbfall.erb_lebensversicherung.hint": "Lebensversicherungen mit Bezugsberechtigten fallen oft nicht in den Nachlass — direkt beim Versicherer melden.",
@@ -11565,7 +12058,7 @@
             "strings:pwWechselKopienText.text": "Je nachdem, wie Ihr Gerät Dateien ablegt, liegt die neue Datei neben der alten, statt sie zu ersetzen. Sehen Sie bitte nach, wo Ihr Depot liegt, und löschen Sie ältere Fassungen: auf diesem Gerät, auf USB-Sticks und überall dort, wo Sie eine Kopie abgelegt oder verschickt haben. Solange eine alte Fassung existiert, schützt das neue Passwort sie nicht.",
             "strings:pwWechselFertigOk.text": "Verstanden",
             "strings:nfbAnbietenTitel.text": "Notfall-Blatt zum Ausfüllen",
-            "strings:nfbAnbietenText.text": "Möchten Sie ein Notfall-Blatt ausdrucken? Darauf tragen Sie Ihr Passwort von Hand ein und legen es zu Ihren wichtigen Unterlagen. Wenn Sie Ihr Passwort vergessen, ist Ihr Depot sonst nicht mehr zu öffnen — auch nicht von uns.",
+            "strings:nfbAnbietenText.text": "Möchten Sie ein Notfall-Blatt ausdrucken? Darauf tragen Sie Ihr Passwort von Hand ein und legen es zu Ihren wichtigen Unterlagen. Wenn Sie Ihr Passwort vergessen, lässt sich Ihr Depot sonst nur noch mit einem Wiederherstellungs-Code öffnen, falls Sie einen eingerichtet haben — von uns nicht.",
             "strings:nfbDruckenKnopf.text": "Notfall-Blatt drucken",
             "strings:nfbSpaeter.text": "Später",
             "strings:nfbSchliessen.text": "Schließen",
@@ -11807,7 +12300,7 @@
             "strings:einstAbschnittSchnellstart.text": "Schnellstart",
             "strings:einstSchnellstartIntro.text": "In fünf Schritten vom Öffnen zum ersten ausgefüllten Anlass.",
             "strings:schnellstartSchritt1.text": "Öffnen Sie Ihre {marke}-Datei — oder, wenn Sie noch keine haben, die App selbst. Ein Assistent führt Sie durch den Start.",
-            "strings:schnellstartSchritt2.text": "Setzen Sie ein Passwort. Es verschlüsselt Ihre Datei; ohne dieses Passwort lässt sich die Datei später nicht mehr öffnen — auch nicht von uns.",
+            "strings:schnellstartSchritt2.text": "Setzen Sie ein Passwort. Es verschlüsselt Ihre Datei; ohne dieses Passwort lässt sich die Datei später nur noch mit einem Wiederherstellungs-Code öffnen, falls Sie einen eingerichtet haben — von uns nicht.",
             "strings:schnellstartSchritt3.text": "Wählen Sie einen Anlass — etwa „Geburt eines Kindes“ oder „Hauskauf oder Heirat“. Jeder Anlass führt zu den Angaben, die dazu gehören.",
             "strings:schnellstartSchritt4.text": "Füllen Sie ein Feld aus. Es speichert sich von selbst, sobald Sie es verlassen — kein eigener Sichern-Schritt nötig.",
             "strings:schnellstartSchritt5.text": "Sichern Sie die Datei. Je nach Browser wählen Sie den Ablageort selbst, oder sie landet im Downloads-Ordner Ihres Geräts.",
@@ -12078,7 +12571,8 @@
             "strings:blackboxTitel.text": "Verschlüsselte Datei exportieren",
             "strings:blackboxHinweis.text": "Sie exportieren dieses eingehängte Depot als verschlüsselte Datei, ohne es zu öffnen. Der Inhalt bleibt mit dem Passwort seiner Inhaberin versiegelt — nur sie kann die Datei später öffnen. Ihr eigenes Passwort als verwaltende Person kann diese Datei nicht entschlüsseln.",
             "strings:btnBlackboxExportieren.text": "Verschlüsselte Datei exportieren",
-            "strings:blackboxExportiert.text": "Versiegelte Datei exportiert — der Inhalt wurde nicht geöffnet.",
+            "strings:blackboxExportiert.text": "Versiegelte Datei für {name} gespeichert: {datei}. Der Inhalt wurde nicht geöffnet.",
+            "strings:subDateiKennungLabel.text": "Dateikennung",
             "strings:btnAushaengen.text": "Übergabe abgeschlossen — aus meiner Verwaltung entfernen",
             "strings:aushaengenEmpfaengerLabel.text": "Empfänger (falls bekannt)",
             "strings:aushaengenFertigBeiseite.text": "Beiseitegelegt. Sie können dieses Depot später wieder aufnehmen.",
@@ -12487,6 +12981,56 @@
             "lebenslage:ausst-krisenvorsorge.unterlagen": "Trinkwasser- und Lebensmittelvorrat, Notfallrucksack, Erste-Hilfe-Set, Fluchtweg",
             "strings:einlesenShlHinweis.text": "Einen Freigabe-Link bekommen (beginnt mit shlink:/)? Holen Sie die Freigabe zuerst ab und speichern Sie die Datei, dann lesen Sie sie hier ein.",
             "strings:einlesenShlLink.text": "Freigabe abholen (share.vivodepot.de)",
+            "strings:whcAbschnitt.text": "Wiederherstellungs-Code",
+            "strings:whcKurzEingerichtet.text": "eingerichtet",
+            "strings:whcKurzFehlt.text": "nicht eingerichtet",
+            "strings:whcStatusEingerichtet.text": "Für dieses Depot ist ein Wiederherstellungs-Code eingerichtet. Mit ihm öffnen Sie die Datei, wenn Sie das Passwort vergessen haben.",
+            "strings:whcStatusFehlt.text": "Für dieses Depot ist kein Wiederherstellungs-Code eingerichtet. Wenn Sie das Passwort vergessen, gibt es keinen Weg zurück.",
+            "strings:whcEinrichtenKnopf.text": "Code einrichten",
+            "strings:whcNeuKnopf.text": "Neuen Code einrichten",
+            "strings:whcEntfernenKnopf.text": "Code entfernen",
+            "strings:whcOhneCodeKnopf.text": "Ohne Code weiter",
+            "strings:whcAnbietenText.text": "Wenn Sie Ihr Passwort vergessen, öffnet ein Wiederherstellungs-Code Ihr Depot. Die App erzeugt ihn jetzt; Sie schreiben ihn von Hand ab und bewahren ihn getrennt vom Passwort auf.",
+            "strings:whcAblehnenTitel.text": "Ohne Wiederherstellungs-Code?",
+            "strings:whcAblehnenTragweite.text": "Ohne Wiederherstellungs-Code gibt es keinen Weg zurück: Wer das Passwort vergisst, kommt nie wieder an die Daten — auch wir nicht. Sie können den Code später in den Einstellungen einrichten.",
+            "strings:whcZeigenTitel.text": "Ihr Wiederherstellungs-Code",
+            "strings:whcZeigenText.text": "Schreiben Sie den Code von Hand ab — auf das Code-Blatt oder ein eigenes Papier. Die App zeigt ihn nur jetzt und speichert ihn nirgends.",
+            "strings:whcNichtZumPasswort.text": "Nicht zum Passwort legen.",
+            "strings:whcNichtZumPasswortText.text": "Der Code hilft, wenn das Passwort verloren ist — dann darf er nicht mit ihm verloren sein. Und wer ihn findet, kann Ihr Depot öffnen, genau wie mit dem Passwort. Bewahren Sie ihn darum getrennt und sicher auf: etwa im verschlossenen Umschlag bei einer Vertrauensperson, beim Original Ihrer Vorsorgevollmacht oder im Schließfach.",
+            "strings:whcBlattKnopf.text": "Code-Blatt drucken (ohne Code)",
+            "strings:whcKontrolleLabel.text": "Zur Kontrolle: den abgeschriebenen Code eingeben",
+            "strings:whcKontrolleFalsch.text": "Der eingegebene Code stimmt nicht mit dem angezeigten überein. Bitte vergleichen Sie Zeichen für Zeichen.",
+            "strings:whcKontrolleKnopf.text": "Abgeschrieben — einrichten",
+            "strings:whcPwLabel.text": "Ihr Passwort",
+            "strings:whcPwFalsch.text": "Das Passwort stimmt nicht. Es wurde nichts eingerichtet.",
+            "strings:whcEingerichtet.text": "Der Wiederherstellungs-Code ist eingerichtet und mit der Datei gespeichert.",
+            "strings:whcEntfernenTitel.text": "Wiederherstellungs-Code entfernen?",
+            "strings:whcEntfernenText.text": "Die Datei, die jetzt gespeichert wird, trägt keinen Code mehr. Ältere Kopien dieser Datei — auf diesem Gerät, auf USB-Sticks, in Sicherungen — tragen ihn weiter und lassen sich mit dem Code weiterhin öffnen. Löschen Sie sie, wenn der Code nirgends mehr gelten soll.",
+            "strings:whcEntfernt.text": "Der Wiederherstellungs-Code ist entfernt.",
+            "strings:whcBlattTitel.text": "Mein {marke} — Wiederherstellungs-Code",
+            "strings:whcBlattHand.text": "Dieses Blatt füllen Sie von Hand aus. Die App druckt den Code nicht.",
+            "strings:whcBlattFeldCode.text": "Code (von Hand abschreiben)",
+            "strings:whcBlattFeldDatum.text": "Eingerichtet am",
+            "strings:whcBlattGebrauchTitel.text": "So wird er benutzt",
+            "strings:whcBlattGebrauchText.text": "Beim Öffnen der Datei ‚{beschriftung:whcOeffnenLink}’ wählen, den Code eingeben und ein neues Passwort festlegen.",
+            "strings:whcOeffnenLink.text": "Passwort vergessen? Mit Wiederherstellungs-Code öffnen",
+            "strings:whcOeffnenAufforderung.text": "Geben Sie Ihren Wiederherstellungs-Code ein und legen Sie ein neues Passwort fest. Die Datei wird danach mit dem neuen Passwort gespeichert; der Code gilt weiter.",
+            "strings:whcOeffnenCodeLabel.text": "Wiederherstellungs-Code",
+            "strings:whcOeffnenPwLabel.text": "Neues Passwort",
+            "strings:whcOeffnenPw2Label.text": "Neues Passwort wiederholen",
+            "strings:whcOeffnenKnopf.text": "Mit Code öffnen",
+            "strings:whcOeffnenZurueck.text": "Zurück zum Passwort",
+            "strings:whcFehlerKeineHuelle.text": "Für diese Datei ist kein Wiederherstellungs-Code eingerichtet.",
+            "strings:whcFehlerAbgeschrieben.text": "Der Code ist unvollständig oder falsch abgeschrieben. Bitte prüfen Sie jedes Zeichen.",
+            "strings:whcFehlerPasstNicht.text": "Der Code passt nicht zu dieser Datei.",
+            "strings:whcOeffnenFertig.text": "Geöffnet. Schreiben Sie das neue Passwort auf das Notfall-Blatt.",
+            "strings:whcWechselCodeHinweis.text": "Diese Datei trägt einen Wiederherstellungs-Code. Geben Sie ihn ein, damit er auch mit dem neuen Passwort gilt. Ohne Code fällt er weg; Sie können danach in den Einstellungen einen neuen einrichten.",
+            "strings:whcWechselCodeLabel.text": "Wiederherstellungs-Code (leer lassen, wenn Sie ihn nicht zur Hand haben)",
+            "strings:whcWechselCodeFalsch.text": "Der Code passt nicht zu dieser Datei. Lassen Sie das Feld leer, wenn Sie ihn nicht zur Hand haben.",
+            "strings:whcWechselWeggefallen.text": "Der Wiederherstellungs-Code gilt für die neue Datei nicht mehr. Richten Sie in den Einstellungen einen neuen ein.",
+            "strings:whcKopieOhneCode.text": "Ein Wiederherstellungs-Code reist nicht mit: die exportierte Datei öffnet nur das Passwort.",
+            "strings:whcBlattToolbarHinweis.text": "Das Blatt wird ohne Code gedruckt — tragen Sie ihn mit der Hand ein.",
+            "strings:whcBlattDruckenKnopf.text": "Code-Blatt drucken",
             "strings:importJsonLabel.text": "Aus einer Depot-Sicherungsdatei übernehmen (mit Vorschau)",
             "strings:importFhirLabel.text": "Gesundheitsdaten einlesen",
             "strings:importFhirLabLabel.text": "Laborbefund oder Entlassbrief einlesen (vom Labor/Krankenhaus)",
@@ -12495,6 +13039,10 @@
             "strings:importIpsBeschriftung.text": "Patientenkurzakte",
             "strings:mappeUebernehmenKnopf.text": "Werte in meine Felder übernehmen",
             "strings:mappeUebernehmenHinweis.text": "Sie können die Werte aus diesem Original zusätzlich in Ihre Gesundheitsfelder übernehmen. Das Original bleibt unverändert erhalten.",
+            "strings:importEdcBeschriftung.text": "Bildungsnachweis",
+            "strings:importEdcFertig.text": "Bildungsnachweis abgelegt — im Original, unverändert.",
+            "strings:mappeUebernehmenHinweisBildung.text": "Sie können die Werte aus diesem Original zusätzlich in Ihre Bildungsfelder übernehmen. Das Original bleibt unverändert erhalten.",
+            "strings:mappeEdcHinweis.text": "Original Ihrer Einrichtung, unverändert verwahrt. Das Siegel prüft, wem Sie es vorzeigen.",
             "strings:importAutoritativFertig.text": "Laborbefund abgelegt — im Original, unverändert.",
             "strings:mappeAutoritativ.text": "Original — nur lesbar",
             "strings:mappeEntfernenKnopf.text": "Entfernen",
@@ -12625,6 +13173,7 @@
             "strings:notfallVerwaltungTitel.text": "Krankenkasse & Hausarzt",
             "strings:notfallKarteFuss.text": "Erstellt mit {marke} · Diese Karte ersetzt keinen amtlichen Ausweis.",
             "strings:notfallKontakteVcardTitel.text": "Notfallkontakte",
+            "strings:notfallKarteVollstaendigInDatei.text": "(vollständig in der Datei)",
             "strings:dateiLabel.text": "Depot-Datei",
             "strings:dateiAuswaehlenKnopf.text": "Datei auswählen",
             "strings:dateiKeineGewaehlt.text": "Keine Datei ausgewählt",
@@ -13461,6 +14010,16 @@
             "dok:erbschein-vorbereitung#1/testament_bedachte_namen.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#1/erben_namen.frage": "Vorgesehene Erb(inn)en?",
             "dok:erbschein-vorbereitung#1/erben_namen.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2.titel": "Teil C — Urkunden für den Nachweis",
+            "dok:erbschein-vorbereitung#2/0.texte[0]": "Wer einen Erbschein beantragt, weist den Todeszeitpunkt und das Verwandtschafts- oder Eheverhältnis, auf dem das Erbrecht beruht, in der Regel durch öffentliche Urkunden nach (§ 352 Abs. 3 FamFG). Hier steht, wo die Urkunden der verstorbenen Person liegen, soweit sie es eingetragen hat.",
+            "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.frage": "Wo liegt die Geburtsurkunde?",
+            "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2/eheurkunde_ort.frage": "Wo liegt die Ehe- oder Lebenspartnerschaftsurkunde?",
+            "dok:erbschein-vorbereitung#2/eheurkunde_ort.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2/stammbuch_ort.frage": "Wo liegt das Familienstammbuch?",
+            "dok:erbschein-vorbereitung#2/stammbuch_ort.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2/4.texte[0]": "Die Sterbeurkunde stellt das Standesamt aus, nachdem der Sterbefall beurkundet ist; sie steht nicht in diesem Depot.",
+            "dok:erbschein-vorbereitung#2/4.texte[1]": "Urkunden der Erben, etwa deren Geburtsurkunden, gehören nicht zu diesem Depot.",
             "dok:erbschein-vorbereitung.h1": "Erbschein — Vorbereitungsauszug",
             "dok:erbschein-vorbereitung.herkunftText": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu service.justiz.de.",
             "dok:erbschein-vorbereitung.unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder die eidesstattliche Versicherung noch den amtlichen Erbschein-Wegweiser. Was in Ihrem Fall nötig ist, klärt das Nachlassgericht.",
@@ -13563,7 +14122,86 @@
             "hilfe:sub-depot.einleitung": "Wer für einen anderen Menschen sorgt, kann dessen Depot mitführen. In der Anwendung heißt es Sub-Depot, im Alltag auch Unterdepot. Es steht in Ihrer Liste, hat aber ein eigenes Passwort und bleibt inhaltlich getrennt von Ihrem eigenen Depot.",
             "hilfe:sub-depot.abschnitt0": "Ein bestehendes Depot können Sie über „Einhängen“ aufnehmen: Sie wählen die Datei aus und geben ihr eine Bezeichnung, dann erscheint sie in Ihrer Liste. Der Inhalt wird unverändert übernommen, und das Passwort bleibt dasselbe, das die Datei schon hatte.",
             "hilfe:sub-depot.abschnitt1": "Endet Ihre Aufgabe, etwa weil ein Kind erwachsen wird, geben Sie das Depot zurück. Über „Abgeben“ sichern Sie es als eigene Datei und bestätigen danach die Übergabe. Erst mit dieser Bestätigung verschwindet der verschlüsselte Inhalt aus Ihrem eigenen Depot.",
-            "hilfe:sub-depot.abschnitt2": "Die abgegebene Datei ist danach ein ganz gewöhnliches Depot, mit demselben Passwort, das sie die ganze Zeit hatte. Es braucht kein neues Passwort und keinen neuen Anfang; die Person arbeitet einfach dort weiter, wo Sie aufgehört haben."
+            "hilfe:sub-depot.abschnitt2": "Die abgegebene Datei ist danach ein ganz gewöhnliches Depot, mit demselben Passwort, das sie die ganze Zeit hatte. Es braucht kein neues Passwort und keinen neuen Anfang; die Person arbeitet einfach dort weiter, wo Sie aufgehört haben.",
+            "advanceCare.applicableSituations.label": "Situationen",
+            "advanceCare.applicableSituations/sterbeprozess.label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,",
+            "advanceCare.applicableSituations/endstadium.label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,",
+            "advanceCare.applicableSituations/gehirnschaedigung.label": "infolge einer Gehirnschädigung meine Fähigkeit, Einsichten zu gewinnen, Entscheidungen zu treffen und mit anderen Menschen in Kontakt zu treten, nach Einschätzung zweier erfahrener Ärztinnen oder Ärzte (können namentlich benannt werden) aller Wahrscheinlichkeit nach unwiederbringlich erloschen ist, selbst wenn der Todeszeitpunkt noch nicht absehbar ist. Dies gilt für direkte Gehirnschädigung z. B. durch Unfall, Schlaganfall oder Entzündung ebenso wie für indirekte Gehirnschädigung z. B. nach Wiederbelebung, Schock oder Lungenversagen. Es ist mir bewusst, dass in solchen Situationen die Fähigkeit zu Empfindungen erhalten sein kann und dass ein Aufwachen aus diesem Zustand nicht ganz sicher auszuschließen, aber unwahrscheinlich ist.",
+            "advanceCare.applicableSituations/hirnabbau.label": "ich infolge eines weit fortgeschrittenen Hirnabbauprozesses (z. B. bei Demenzerkrankung) auch mit ausdauernder Hilfestellung nicht mehr in der Lage bin, Nahrung und Flüssigkeit auf natürliche Weise zu mir zu nehmen.",
+            "advanceCare.ownAdditionalSituation.label": "Eigene Beschreibung der Anwendungssituation",
+            "advanceCare.lifeSustainingMeasures.label": "Lebenserhaltende Maßnahmen",
+            "advanceCare.lifeSustainingMeasures/ausschoepfen.label": "dass alles medizinisch Mögliche und Sinnvolle getan wird, um mich am Leben zu erhalten.",
+            "advanceCare.lifeSustainingMeasures/unterlassen.label": "dass alle lebenserhaltenden Maßnahmen unterlassen werden. Hunger und Durst sollen auf natürliche Weise gestillt werden, gegebenenfalls mit Hilfe bei der Nahrungs- und Flüssigkeitsaufnahme. Ich wünsche fachgerechte Pflege von Mund und Schleimhäuten sowie menschenwürdige Unterbringung, Zuwendung, Körperpflege und das Lindern von Schmerzen, Atemnot, Übelkeit, Angst, Unruhe und anderer belastender Symptome.",
+            "advanceCare.painAndSymptomTreatment.label": "Schmerz- und Symptombehandlung",
+            "advanceCare.painAndSymptomTreatment/ohne_daempfung.label": "aber ohne bewusstseinsdämpfende Wirkungen.",
+            "advanceCare.painAndSymptomTreatment/mit_daempfung.label": "wenn alle sonstigen medizinischen Möglichkeiten zur Schmerz- und Symptomkontrolle versagen, auch Mittel mit bewusstseinsdämpfenden Wirkungen zur Beschwerdelinderung.",
+            "advanceCare.acceptsLifeShorteningFromPain.label": "Lebensverkürzung in Kauf",
+            "advanceCare.acceptsLifeShorteningFromPain/ja.label": "die unwahrscheinliche Möglichkeit einer ungewollten Verkürzung meiner Lebenszeit durch schmerz- und symptomlindernde Maßnahmen nehme ich in Kauf.",
+            "advanceCare.acceptsLifeShorteningFromPain/nein.label": "(kein Zusatz)",
+            "advanceCare.artificialNutritionAndHydration.label": "Künstliche Ernährung und Flüssigkeitszufuhr",
+            "advanceCare.artificialNutritionAndHydration/ja.label": "dass eine künstliche Ernährung und Flüssigkeitszufuhr begonnen oder weitergeführt wird, wenn damit mein Leben verlängert werden kann.",
+            "advanceCare.artificialNutritionAndHydration/palliativ.label": "dass eine künstliche Ernährung und/oder eine künstliche Flüssigkeitszufuhr nur bei palliativmedizinischer Indikation zur Beschwerdelinderung erfolgen bzw. erfolgt.",
+            "advanceCare.artificialNutritionAndHydration/nein.label": "dass keine künstliche Ernährung unabhängig von der Form der künstlichen Zuführung der Nahrung (z. B. Magensonde durch Mund, Nase oder Bauchdecke, venöse Zugänge) und keine künstliche Flüssigkeitszufuhr erfolgen.",
+            "advanceCare.resuscitationInDescribedSituations.label": "Wiederbelebung (oben beschriebene Situationen)",
+            "advanceCare.resuscitationInDescribedSituations/ja.label": "Versuche der Wiederbelebung.",
+            "advanceCare.resuscitationInDescribedSituations/nein.label": "die Unterlassung von Versuchen der Wiederbelebung.",
+            "advanceCare.emergencyDoctorNotified.label": "Notarzt-Hinweis",
+            "advanceCare.emergencyDoctorNotified/ja.label": "dass eine Notärztin oder ein Notarzt nicht verständigt wird bzw. im Fall einer Hinzuziehung unverzüglich über meine Ablehnung von Wiederbelebungsmaßnahmen informiert wird.",
+            "advanceCare.emergencyDoctorNotified/nein.label": "(kein Zusatz)",
+            "advanceCare.resuscitationInAllCases.label": "Wiederbelebung (alle Fälle)",
+            "advanceCare.resuscitationInAllCases/ab.label": "lehne ich Wiederbelebungsmaßnahmen ab.",
+            "advanceCare.resuscitationInAllCases/ab_ausser_op.label": "lehne ich Wiederbelebungsmaßnahmen ab, sofern diese Situationen nicht im Rahmen ärztlicher Maßnahmen (z. B. Operationen) unerwartet eintreten.",
+            "advanceCare.artificialVentilation.label": "Künstliche Beatmung",
+            "advanceCare.artificialVentilation/ja.label": "eine künstliche Beatmung, falls dies mein Leben verlängern kann.",
+            "advanceCare.artificialVentilation/nein.label": "dass keine künstliche Beatmung durchgeführt bzw. eine schon eingeleitete Beatmung eingestellt wird, unter der Voraussetzung, dass ich Medikamente zur Linderung der Luftnot erhalte. Die Möglichkeit einer Bewusstseinsdämpfung oder einer ungewollten Verkürzung meiner Lebenszeit durch diese Medikamente nehme ich in Kauf.",
+            "advanceCare.dialysis.label": "Dialyse",
+            "advanceCare.dialysis/ja.label": "eine künstliche Blutwäsche (Dialyse), falls dies mein Leben verlängern kann.",
+            "advanceCare.dialysis/nein.label": "dass keine Dialyse durchgeführt bzw. eine schon eingeleitete Dialyse eingestellt wird.",
+            "advanceCare.antibiotics.label": "Antibiotika",
+            "advanceCare.antibiotics/ja.label": "Antibiotika, falls dies mein Leben verlängern kann.",
+            "advanceCare.antibiotics/palliativ.label": "Antibiotika nur bei palliativmedizinischer Indikation zur Beschwerdelinderung.",
+            "advanceCare.antibiotics/nein.label": "keine Antibiotika.",
+            "advanceCare.bloodAndBloodProducts.label": "Blut und Blutbestandteile",
+            "advanceCare.bloodAndBloodProducts/ja.label": "die Gabe von Blut oder Blutbestandteilen, falls dies mein Leben verlängern kann.",
+            "advanceCare.bloodAndBloodProducts/palliativ.label": "die Gabe von Blut oder Blutbestandteilen nur bei palliativmedizinischer Indikation zur Beschwerdelinderung.",
+            "advanceCare.bloodAndBloodProducts/nein.label": "keine Gabe von Blut oder Blutbestandteilen.",
+            "advanceCare.placeOfTreatmentOrDeath.label": "Ort der Behandlung / des Sterbens",
+            "advanceCare.placeOfTreatmentOrDeath/krankenhaus.label": "zum Sterben ins Krankenhaus verlegt werden.",
+            "advanceCare.placeOfTreatmentOrDeath/zuhause.label": "wenn möglich zu Hause bzw. in vertrauter Umgebung sterben.",
+            "advanceCare.placeOfTreatmentOrDeath/hospiz.label": "wenn möglich in einem Hospiz sterben.",
+            "advanceCare.supportFromThesePersons.label": "Beistand durch folgende Personen",
+            "advanceCare.supportFromChurchOrCommunity.label": "Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft",
+            "advanceCare.hospiceSupport.label": "Hospizlicher Beistand",
+            "advanceCare.hospiceSupport/ja.label": "hospizlichen Beistand.",
+            "advanceCare.hospiceSupport/nein.label": "(kein Wunsch)",
+            "advanceCare.confidentialityWaiverFor.label": "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+            "advanceCare.whoseViewMattersIfUnregulated.label": "Besondere Bedeutung (ungeregelte Situationen)",
+            "advanceCare.whoseViewMattersIfUnregulated/bevollmaechtigt.label": "meiner/meinem Bevollmächtigten.",
+            "advanceCare.whoseViewMattersIfUnregulated/betreuer.label": "meiner Betreuerin/meinem Betreuer.",
+            "advanceCare.whoseViewMattersIfUnregulated/arzt.label": "der behandelnden Ärztin oder dem behandelnden Arzt.",
+            "advanceCare.whoseViewMattersIfUnregulated/andere.label": "anderer Person: …",
+            "advanceCare.whoseViewMattersOtherPersonName.label": "Andere Person (Name)",
+            "advanceCare.whoseViewMattersIfDeviatingWill.label": "Besondere Bedeutung (abweichende Willensäußerung)",
+            "advanceCare.whoseViewMattersIfDeviatingWill/bevollmaechtigt.label": "meiner/meinem Bevollmächtigten.",
+            "advanceCare.whoseViewMattersIfDeviatingWill/betreuer.label": "meiner Betreuerin/meinem Betreuer.",
+            "advanceCare.whoseViewMattersIfDeviatingWill/arzt.label": "der behandelnden Ärztin oder dem behandelnden Arzt.",
+            "advanceCare.whoseViewMattersIfDeviatingWill/andere.label": "anderer Person: …",
+            "advanceCare.whoseViewMattersIfDeviatingOther.label": "Andere Person (Name)",
+            "advanceCare.personalValuesOrFurtherDocuments.label": "Wertvorstellungen / sonstige Unterlagen",
+            "advanceCare.organDonationDecision.label": "Organspende",
+            "advanceCare.organDonationDecision/zustimmung.label": "Ich stimme einer Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken zu (ggf.: Ich habe einen Organspendeausweis ausgefüllt). Komme ich nach ärztlicher Beurteilung bei einem sich abzeichnenden Hirntod als Organspender/in in Betracht und müssen dafür ärztliche Maßnahmen durchgeführt werden, die ich in meiner Patientenverfügung ausgeschlossen habe, dann",
+            "advanceCare.organDonationDecision/ablehnung.label": "Ich lehne eine Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken ab.",
+            "advanceCare.priorityIfOrganDonationConflict.label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+            "advanceCare.priorityIfOrganDonationConflict/organspende.label": "geht die von mir erklärte Bereitschaft zur Organspende vor.",
+            "advanceCare.priorityIfOrganDonationConflict/patientenverfuegung.label": "gehen die Bestimmungen in meiner Patientenverfügung vor.",
+            "advanceCare.waivesFurtherMedicalInformation.label": "Verzicht auf weitere ärztliche Aufklärung",
+            "advanceCare.waivesFurtherMedicalInformation/ja.label": "Soweit ich bestimmte Behandlungen wünsche oder ablehne, verzichte ich ausdrücklich auf eine (weitere) ärztliche Aufklärung.",
+            "advanceCare.waivesFurtherMedicalInformation/nein.label": "(kein Verzicht)",
+            "advanceCare.informationOrCounsellingReceived.label": "Information / Beratung",
+            "advanceCare.validityDuration.label": "Gültigkeit",
+            "advanceCare.validityDuration/unbefristet.label": "Diese Patientenverfügung gilt solange, bis ich sie widerrufe.",
+            "advanceCare.validityDuration/befristet.label": "Diese Patientenverfügung soll nach Ablauf von (Zeitangabe) ihre Gültigkeit verlieren, es sei denn, dass ich sie durch meine Unterschrift erneut bekräftige.",
+            "advanceCare.validityDurationDeadline.label": "Frist"
           },
           "regeln": {
             "datumsformat": "TT.MM.JJJJ",
@@ -13972,6 +14610,24 @@
                 "typ": "personenNamen",
                 "sektor": "advanceCare",
                 "feld": "heirsBriefOverview"
+              },
+              "geburtsurkunde_ort": {
+                "typ": "feld",
+                "sektor": "identity",
+                "feld": "birthCertificateStorage",
+                "sensibelErlaubt": true
+              },
+              "eheurkunde_ort": {
+                "typ": "feld",
+                "sektor": "identity",
+                "feld": "marriageCertificateStorage",
+                "sensibelErlaubt": true
+              },
+              "stammbuch_ort": {
+                "typ": "feld",
+                "sektor": "identity",
+                "feld": "familyRegisterBookStorage",
+                "sensibelErlaubt": true
               }
             },
             "abschnitte": [
@@ -14087,6 +14743,42 @@
                       "typ": "liste"
                     },
                     "luecke": "— nicht erfasst —"
+                  }
+                ]
+              },
+              {
+                "titel": "Teil C — Urkunden für den Nachweis",
+                "bloecke": [
+                  {
+                    "typ": "immer",
+                    "texte": [
+                      "Wer einen Erbschein beantragt, weist den Todeszeitpunkt und das Verwandtschafts- oder Eheverhältnis, auf dem das Erbrecht beruht, in der Regel durch öffentliche Urkunden nach (§ 352 Abs. 3 FamFG). Hier steht, wo die Urkunden der verstorbenen Person liegen, soweit sie es eingetragen hat."
+                    ]
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "geburtsurkunde_ort",
+                    "frage": "Wo liegt die Geburtsurkunde?",
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "eheurkunde_ort",
+                    "frage": "Wo liegt die Ehe- oder Lebenspartnerschaftsurkunde?",
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "stammbuch_ort",
+                    "frage": "Wo liegt das Familienstammbuch?",
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "immer",
+                    "texte": [
+                      "Die Sterbeurkunde stellt das Standesamt aus, nachdem der Sterbefall beurkundet ist; sie steht nicht in diesem Depot.",
+                      "Urkunden der Erben, etwa deren Geburtsurkunden, gehören nicht zu diesem Depot."
+                    ]
                   }
                 ]
               }
@@ -14511,6 +15203,14 @@
                   "id": "whoseViewMattersOtherPersonName",
                   "typ": "text",
                   "beispiel": "",
+                  "verborgenWenn": {
+                    "feld": "whoseViewMattersIfUnregulated",
+                    "wert": [
+                      "bevollmaechtigt",
+                      "betreuer",
+                      "arzt"
+                    ]
+                  },
                   "label": "Andere Person (Name)",
                   "frage": "Falls „andere Person“: wer? (2.6)",
                   "hilfetext": "Nur nötig, wenn Sie oben „eine andere Person“ gewählt haben."
@@ -14550,6 +15250,14 @@
                   "id": "whoseViewMattersIfDeviatingOther",
                   "typ": "text",
                   "beispiel": "",
+                  "verborgenWenn": {
+                    "feld": "whoseViewMattersIfDeviatingWill",
+                    "wert": [
+                      "bevollmaechtigt",
+                      "betreuer",
+                      "arzt"
+                    ]
+                  },
                   "label": "Andere Person (Name)",
                   "frage": "Falls „andere Person“ (abweichende Willensäußerung): wer? (2.6)",
                   "hilfetext": "Nur nötig bei „eine andere Person“."
@@ -14599,6 +15307,10 @@
                       "label": "gehen die Bestimmungen in meiner Patientenverfügung vor."
                     }
                   ],
+                  "verborgenWenn": {
+                    "feld": "organDonationDecision",
+                    "wert": "ablehnung"
+                  },
                   "label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
                   "frage": "Falls Sie zustimmen: Was gilt, wenn für die Organspende Maßnahmen nötig werden, die Sie in der Patientenverfügung ausgeschlossen haben? (2.9)",
                   "hilfetext": "Nur nötig, wenn Sie oben zugestimmt haben."
@@ -14654,6 +15366,10 @@
                 "feld": {
                   "id": "validityDurationDeadline",
                   "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "validityDuration",
+                    "wert": "unbefristet"
+                  },
                   "label": "Frist",
                   "beispiel": "zwei Jahren",
                   "frage": "Falls befristet: nach welcher Zeit? (2.14)",
@@ -16561,22 +17277,16 @@
                         }
                       },
                       {
-                        "feld": {
-                          "id": "erb_stammbuch",
-                          "sensibel": true,
-                          "typ": "text",
-                          "label": "Familienstammbuch — Ablageort",
-                          "beispiel": "Schreibtisch, untere Schublade"
-                        }
+                        "quelle": "identity",
+                        "feld": "familyRegisterBookStorage"
                       },
                       {
-                        "feld": {
-                          "id": "erb_personenstand",
-                          "sensibel": true,
-                          "typ": "text",
-                          "label": "Geburts-/Heiratsurkunde — Ablageort",
-                          "beispiel": "Mappe „Urkunden“; benötigt fürs Nachlassgericht"
-                        }
+                        "quelle": "identity",
+                        "feld": "birthCertificateStorage"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "marriageCertificateStorage"
                       }
                     ],
                     "titel": "Wo die Originale liegen"
@@ -17868,10 +18578,6 @@
                     }
                   },
                   {
-                    "verborgenWenn": {
-                      "feld": "longTermCareAllowanceTypeOf",
-                      "wert": "sachleistung"
-                    },
                     "feld": {
                       "id": "longTermCareAllowanceAmount",
                       "typ": "text"
@@ -18021,10 +18727,6 @@
                     "ziel": {
                       "sektor": "housing"
                     },
-                    "verborgenWenn": {
-                      "feld": "ownedOrRented",
-                      "wert": "eigentum"
-                    },
                     "feld": {
                       "id": "tenancyTerminationHandover",
                       "typ": "textarea"
@@ -18033,10 +18735,6 @@
                   {
                     "ziel": {
                       "sektor": "housing"
-                    },
-                    "verborgenWenn": {
-                      "feld": "ownedOrRented",
-                      "wert": "eigentum"
                     },
                     "feld": {
                       "id": "noticeDate",
@@ -18160,6 +18858,42 @@
                       {
                         "quelle": "advanceCare",
                         "feld": "spousalObjectionRegistered"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "verstaendigung",
+                    "titel": "Verständigung und Unterstützung",
+                    "eintraege": [
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "communicationLanguage"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "communicationSupport"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "supportPerson"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "whatHelpsMe"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "besondere-hinweise",
+                    "titel": "Besondere Hinweise",
+                    "eintraege": [
+                      {
+                        "quelle": "emergencyPreparedness",
+                        "feld": "specialSituation"
+                      },
+                      {
+                        "quelle": "emergencyPreparedness",
+                        "feld": "noteForEmergencyResponders"
                       }
                     ]
                   },
@@ -18489,12 +19223,16 @@
                         "feld": "erb_originaldokumente"
                       },
                       {
-                        "quelle": "sit:erbfall",
-                        "feld": "erb_stammbuch"
+                        "quelle": "identity",
+                        "feld": "familyRegisterBookStorage"
                       },
                       {
-                        "quelle": "sit:erbfall",
-                        "feld": "erb_personenstand"
+                        "quelle": "identity",
+                        "feld": "birthCertificateStorage"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "marriageCertificateStorage"
                       }
                     ]
                   },
@@ -18943,6 +19681,9 @@
           "gender": "w",
           "maritalStatus": "verh",
           "maritalPropertyRegime": "zugewinn",
+          "birthCertificateStorage": "Mappe „Urkunden“, Sekretär",
+          "marriageCertificateStorage": "Mappe „Urkunden“, Sekretär",
+          "familyRegisterBookStorage": "",
           "dateOfSeparation": "",
           "idDocuments": [
             {
@@ -19499,8 +20240,62 @@
           "spousalRepresentationObjectionSince": "",
           "spousalObjectionRegistered": "",
           "spousalObjectionRegisterNumber": "",
+          "communicationLanguage": "Deutsch",
+          "communicationSupport": [],
+          "supportPerson": {
+            "ref": "p-partner",
+            "override": ""
+          },
+          "whatHelpsMe": "Hörgerät links, bitte deutlich sprechen",
+          "doNotInform": "",
           "contentOfTheAdvanceDirective": "ja",
           "contentOfTheAdvanceDirective2": "nein",
+          "applicableSituations": [
+            "sterbeprozess",
+            "endstadium"
+          ],
+          "ownAdditionalSituation": "",
+          "lifeSustainingMeasures": "unterlassen",
+          "painAndSymptomTreatment": "mit_daempfung",
+          "acceptsLifeShorteningFromPain": "ja",
+          "artificialNutritionAndHydration": "palliativ",
+          "resuscitationInDescribedSituations": "nein",
+          "emergencyDoctorNotified": "ja",
+          "resuscitationInAllCases": "ab_ausser_op",
+          "artificialVentilation": "nein",
+          "dialysis": "nein",
+          "antibiotics": "palliativ",
+          "bloodAndBloodProducts": "palliativ",
+          "placeOfTreatmentOrDeath": "zuhause",
+          "supportFromThesePersons": [
+            {
+              "ref": "p-partner",
+              "override": ""
+            }
+          ],
+          "supportFromChurchOrCommunity": "",
+          "hospiceSupport": "ja",
+          "confidentialityWaiverFor": [
+            {
+              "ref": "p-partner",
+              "override": ""
+            },
+            {
+              "ref": "p-kind-1",
+              "override": ""
+            }
+          ],
+          "whoseViewMattersIfUnregulated": "bevollmaechtigt",
+          "whoseViewMattersOtherPersonName": "",
+          "whoseViewMattersIfDeviatingWill": "bevollmaechtigt",
+          "whoseViewMattersIfDeviatingOther": "",
+          "personalValuesOrFurtherDocuments": "",
+          "organDonationDecision": "zustimmung",
+          "priorityIfOrganDonationConflict": "organspende",
+          "waivesFurtherMedicalInformation": "nein",
+          "informationOrCounsellingReceived": "Hausärztin, März 2026",
+          "validityDuration": "unbefristet",
+          "validityDurationDeadline": "",
           "heirsBriefOverview": [
             {
               "ref": "p-partner",
@@ -20030,7 +20825,7 @@
           "preArrangementContractStorage": "Ordner „Vorsorge\", Wohnzimmerschrank"
         }
       },
-      "schemaVersion": 88,
+      "schemaVersion": 89,
       "kryptoVersion": 3,
       "menschen": [
         {
@@ -21636,7 +22431,7 @@
                               }
                             ],
                             "label": "Abschrift im Register hinterlegt",
-                            "hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat."
+                            "hint": "Hat eine Stelle, etwa ein Notariat, eine Anwaltskanzlei oder ein Betreuungsverein, eine elektronische Abschrift Ihrer Vorsorgedokumente beim Zentralen Vorsorgeregister hinterlegt? Dann tragen Sie es hier ein."
                           },
                           {
                             "id": "copyDepositedOn",
@@ -21905,6 +22700,10 @@
                                 "label": "zu Bildungs- oder Dokumentationszwecken"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Zweck"
                           },
                           {
@@ -21924,6 +22723,10 @@
                                 "label": "meine engsten Angehörigen"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Berechtigte"
                           },
                           {
@@ -21933,6 +22736,10 @@
                             "sichtbarWenn": {
                               "feld": "instrument",
                               "wert": "ki-verfuegung"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Namentlich benannte Personen"
                           },
@@ -21953,6 +22760,10 @@
                                 "label": "auch öffentlich zugängliche Räume (z. B. Gedenkseiten)"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Raum"
                           },
                           {
@@ -21980,6 +22791,10 @@
                                 "label": "eigens hinterlegte Materialien"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Zulässige Datenarten"
                           },
                           {
@@ -22003,6 +22818,10 @@
                                 "label": "Löschung zu einem bestimmten Zeitpunkt"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Befristung"
                           },
                           {
@@ -22011,6 +22830,10 @@
                             "sichtbarWenn": {
                               "feld": "timeLimit",
                               "wert": "jahre"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Anzahl Jahre",
                             "beispiel": "zehn"
@@ -22021,6 +22844,10 @@
                             "sichtbarWenn": {
                               "feld": "timeLimit",
                               "wert": "zeitpunkt"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Zeitpunkt",
                             "beispiel": "31.12.2040"
@@ -22042,6 +22869,10 @@
                                 "label": "frei im Rahmen des dokumentierten Charakters, keine Politik/Religion/Finanzen/Rechtsgeschäfte"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Verhaltensgrenze"
                           },
                           {
@@ -22061,6 +22892,10 @@
                                 "label": "gemeinsam meine benannten Angehörigen"
                               }
                             ],
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
+                            },
                             "label": "Digitale Nachlassverwaltung"
                           },
                           {
@@ -22070,6 +22905,10 @@
                             "sichtbarWenn": {
                               "feld": "instrument",
                               "wert": "ki-verfuegung"
+                            },
+                            "verborgenWenn": {
+                              "feld": "basicDecision",
+                              "wert": "untersagung"
                             },
                             "label": "Digitale Nachlassverwaltung — Person"
                           },
@@ -22322,6 +23161,60 @@
                     ],
                     "label": "Pflegewünsche",
                     "hint": "Diese Angaben ergänzen die Patientenverfügung und helfen Pflegepersonen, Ihren Willen zu kennen."
+                  },
+                  {
+                    "id": "communication-support",
+                    "felder": [
+                      {
+                        "id": "communicationLanguage",
+                        "typ": "text",
+                        "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+                        "beispiel": "Türkisch; Deutsch nur einfach"
+                      },
+                      {
+                        "id": "communicationSupport",
+                        "typ": "mehrfachauswahl",
+                        "optionen": [
+                          {
+                            "wert": "dolmetschen",
+                            "label": "Dolmetschen"
+                          },
+                          {
+                            "wert": "gebaerdensprache",
+                            "label": "Gebärdensprache"
+                          },
+                          {
+                            "wert": "leichte-sprache",
+                            "label": "Leichte Sprache"
+                          }
+                        ],
+                        "label": "Unterstützung bei der Verständigung"
+                      },
+                      {
+                        "id": "supportPerson",
+                        "typ": "ref",
+                        "entitaet": "person",
+                        "verweisZweck": "pflege",
+                        "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+                        "hint": "Wer bei wichtigen Gesprächen dabei sein soll, zum Beispiel bei der Aufnahme im Krankenhaus."
+                      },
+                      {
+                        "id": "whatHelpsMe",
+                        "typ": "textarea",
+                        "label": "Was mir hilft",
+                        "beispiel": "Langsam und in kurzen Sätzen sprechen; wichtige Punkte bitte aufschreiben."
+                      },
+                      {
+                        "id": "doNotInform",
+                        "sensibel": true,
+                        "typ": "textarea",
+                        "label": "Wer nicht informiert werden soll",
+                        "hint": "Diese Angabe steht nie auf der Notfallkarte und nie in der Angehörigen-Sicht. Sie geht nur hinaus, wenn Sie sie ausdrücklich freigeben.",
+                        "beispiel": "Mein Onkel Peter; mein früherer Arbeitgeber"
+                      }
+                    ],
+                    "label": "Verständigung und Unterstützung",
+                    "hint": "Was andere wissen sollten, damit man sich gut mit Ihnen verständigt und Sie selbst mitentscheiden können, etwa bei der Aufnahme im Krankenhaus oder bei einem Termin. Hör- und Sehhilfen tragen Sie bei den Hilfsmitteln ein."
                   }
                 ],
                 "label": "Vorsorge & Recht"
@@ -24169,6 +25062,10 @@
                         "id": "tenancyTerminationHandover",
                         "typ": "textarea",
                         "ebene": "modul",
+                        "verborgenWenn": {
+                          "feld": "ownedOrRented",
+                          "wert": "eigentum"
+                        },
                         "label": "Mietverhältnis — Kündigung & Übergabe",
                         "hint": "Beim Auszug: rechtzeitig kündigen, Übergabeprotokoll führen, Kaution zurückfordern. Bei der neuen Wohnung: Übergabe und Zählerstände festhalten.",
                         "beispiel": "alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll; Kaution zurückfordern"
@@ -24180,6 +25077,10 @@
                         ],
                         "typ": "datum",
                         "ebene": "modul",
+                        "verborgenWenn": {
+                          "feld": "ownedOrRented",
+                          "wert": "eigentum"
+                        },
                         "label": "Kündigungstermin"
                       },
                       {
@@ -24925,6 +25826,34 @@
                     ],
                     "label": "Haustiere",
                     "hint": "Wenn Sie plötzlich ins Krankenhaus müssen oder nicht mehr nach Hause kommen — wer kümmert sich um Ihr Tier?"
+                  },
+                  {
+                    "id": "civil-status-certificates",
+                    "felder": [
+                      {
+                        "id": "birthCertificateStorage",
+                        "typ": "text",
+                        "sensibel": true,
+                        "label": "Eigene Geburtsurkunde — Ablageort",
+                        "beispiel": "Mappe „Urkunden“, Schreibtisch"
+                      },
+                      {
+                        "id": "marriageCertificateStorage",
+                        "typ": "text",
+                        "sensibel": true,
+                        "label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+                        "beispiel": "Mappe „Urkunden“, Schreibtisch"
+                      },
+                      {
+                        "id": "familyRegisterBookStorage",
+                        "typ": "text",
+                        "sensibel": true,
+                        "label": "Familienstammbuch — Ablageort",
+                        "beispiel": "Schreibtisch, untere Schublade"
+                      }
+                    ],
+                    "label": "Personenstandsurkunden",
+                    "hint": "Wo Ihre Urkunden liegen. Nach einem Todesfall verlangt das Standesamt sie für den Sterbeeintrag, das Nachlassgericht für den Erbschein."
                   }
                 ],
                 "label": "Identität & Person"
@@ -26223,6 +27152,10 @@
                         "sensibel": true,
                         "typ": "text",
                         "inputmode": "decimal",
+                        "verborgenWenn": {
+                          "feld": "longTermCareAllowanceTypeOf",
+                          "wert": "sachleistung"
+                        },
                         "label": "Pflegegeld — Betrag",
                         "beispiel": "599 EUR/Monat"
                       },
@@ -27294,6 +28227,14 @@
             "identity.birthName.beispiel": "Müller",
             "identity.birthPlace.label": "Geburtsort",
             "identity.birthPlace.beispiel": "Augsburg",
+            "identity#civil-status-certificates.label": "Personenstandsurkunden",
+            "identity#civil-status-certificates.hint": "Wo Ihre Urkunden liegen. Nach einem Todesfall verlangt das Standesamt sie für den Sterbeeintrag, das Nachlassgericht für den Erbschein.",
+            "identity.birthCertificateStorage.label": "Eigene Geburtsurkunde — Ablageort",
+            "identity.birthCertificateStorage.beispiel": "Mappe „Urkunden“, Schreibtisch",
+            "identity.marriageCertificateStorage.label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+            "identity.marriageCertificateStorage.beispiel": "Mappe „Urkunden“, Schreibtisch",
+            "identity.familyRegisterBookStorage.label": "Familienstammbuch — Ablageort",
+            "identity.familyRegisterBookStorage.beispiel": "Schreibtisch, untere Schublade",
             "identity.gender.label": "Geschlecht",
             "identity.maritalStatus.label": "Familienstand",
             "identity.maritalStatus.hint": "Bestimmt die gesetzliche Erbfolge.",
@@ -27469,6 +28410,7 @@
             "advanceCare#meine-vorsorge.label": "Meine Vorsorge",
             "advanceCare#spousal-representation.label": "Notvertretung durch Ehegatten in Gesundheitsfragen",
             "advanceCare#spousal-representation.hint": "Können Sie wegen Bewusstlosigkeit oder Krankheit in Gesundheitsfragen nicht selbst entscheiden, darf Ihr Ehegatte Sie darin bis zu sechs Monate vertreten, wenn Sie nicht getrennt leben. Das gilt nicht, wenn Sie eine solche Vertretung ablehnen oder jemanden für Gesundheitsfragen bevollmächtigt haben und die behandelnde Ärztin oder Ihr Ehegatte davon weiß. Damit eine Ablehnung gefunden wird, können Sie sie im Zentralen Vorsorgeregister eintragen lassen. Keine Rechtsberatung. Fundstelle: § 1358 BGB, § 78a BNotO.",
+            "advanceCare#living-will-decisions.label": "Festlegungen der Patientenverfügung",
             "advanceCare.spousalRepresentationObjection.label": "Ich lehne eine Notvertretung durch meinen Ehegatten in Gesundheitsfragen ab",
             "advanceCare.spousalRepresentationObjection/ja.label": "ja",
             "advanceCare.spousalRepresentationObjection/nein.label": "nein",
@@ -27478,6 +28420,21 @@
             "advanceCare.spousalObjectionRegistered/nein.label": "nein",
             "advanceCare.spousalObjectionRegisterNumber.label": "Eintragungsnummer der Ablehnung im Zentralen Vorsorgeregister",
             "advanceCare.spousalObjectionRegisterNumber.beispiel": "ZVR-2024-987654",
+            "advanceCare#communication-support.label": "Verständigung und Unterstützung",
+            "advanceCare#communication-support.hint": "Was andere wissen sollten, damit man sich gut mit Ihnen verständigt und Sie selbst mitentscheiden können, etwa bei der Aufnahme im Krankenhaus oder bei einem Termin. Hör- und Sehhilfen tragen Sie bei den Hilfsmitteln ein.",
+            "advanceCare.communicationLanguage.label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+            "advanceCare.communicationLanguage.beispiel": "Türkisch; Deutsch nur einfach",
+            "advanceCare.communicationSupport.label": "Unterstützung bei der Verständigung",
+            "advanceCare.communicationSupport/dolmetschen.label": "Dolmetschen",
+            "advanceCare.communicationSupport/gebaerdensprache.label": "Gebärdensprache",
+            "advanceCare.communicationSupport/leichte-sprache.label": "Leichte Sprache",
+            "advanceCare.supportPerson.label": "Begleit- oder Vertrauensperson bei Gesprächen",
+            "advanceCare.supportPerson.hint": "Wer bei wichtigen Gesprächen dabei sein soll, zum Beispiel bei der Aufnahme im Krankenhaus.",
+            "advanceCare.whatHelpsMe.label": "Was mir hilft",
+            "advanceCare.whatHelpsMe.beispiel": "Langsam und in kurzen Sätzen sprechen; wichtige Punkte bitte aufschreiben.",
+            "advanceCare.doNotInform.label": "Wer nicht informiert werden soll",
+            "advanceCare.doNotInform.hint": "Diese Angabe steht nie auf der Notfallkarte und nie in der Angehörigen-Sicht. Sie geht nur hinaus, wenn Sie sie ausdrücklich freigeben.",
+            "advanceCare.doNotInform.beispiel": "Mein Onkel Peter; mein früherer Arbeitgeber",
             "advanceCare.provisionInstruments.label": "Vorsorge-Instrumente",
             "advanceCare.provisionInstruments.hint": "Jedes Vorsorge-Instrument als eigener Eintrag — Art wählen, dann erscheinen die passenden Felder.",
             "advanceCare.provisionInstruments/instrument.label": "Instrument",
@@ -27528,7 +28485,7 @@
             "advanceCare.provisionInstruments/centralRegisterOfPowersOf.label": "Zentrales Vorsorgeregister — Eintragungsnummer",
             "advanceCare.provisionInstruments/centralRegisterOfPowersOf.beispiel": "ZVR-2024-987654",
             "advanceCare.provisionInstruments/copyDepositedInTheRegister.label": "Abschrift im Register hinterlegt",
-            "advanceCare.provisionInstruments/copyDepositedInTheRegister.hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat.",
+            "advanceCare.provisionInstruments/copyDepositedInTheRegister.hint": "Hat eine Stelle, etwa ein Notariat, eine Anwaltskanzlei oder ein Betreuungsverein, eine elektronische Abschrift Ihrer Vorsorgedokumente beim Zentralen Vorsorgeregister hinterlegt? Dann tragen Sie es hier ein.",
             "advanceCare.provisionInstruments/copyDepositedOn.label": "Abschrift hinterlegt am",
             "advanceCare.provisionInstruments/depositedBy.label": "Hinterlegt durch",
             "advanceCare.provisionInstruments/depositedBy.hint": "Die Stelle, die die Abschrift eingestellt hat — Betreuungsbehörde, Betreuungsverein, Anwaltskanzlei oder Notariat.",
@@ -27776,10 +28733,6 @@
             "situation:erbfall#wo-die-originale-liegen.titel": "Wo die Originale liegen",
             "situation:erbfall.erb_originaldokumente.label": "Wichtige Originale — Ablageort",
             "situation:erbfall.erb_originaldokumente.beispiel": "Ordner „Wichtiges“ im Wohnzimmerschrank: Testament, Urkunden, Verträge",
-            "situation:erbfall.erb_stammbuch.label": "Familienstammbuch — Ablageort",
-            "situation:erbfall.erb_stammbuch.beispiel": "Schreibtisch, untere Schublade",
-            "situation:erbfall.erb_personenstand.label": "Geburts-/Heiratsurkunde — Ablageort",
-            "situation:erbfall.erb_personenstand.beispiel": "Mappe „Urkunden“; benötigt fürs Nachlassgericht",
             "situation:erbfall#versicherungen.titel": "Versicherungen",
             "situation:erbfall.erb_lebensversicherung.label": "Lebensversicherung — Anbieter & Police",
             "situation:erbfall.erb_lebensversicherung.hint": "Lebensversicherungen mit Bezugsberechtigten fallen oft nicht in den Nachlass — direkt beim Versicherer melden.",
@@ -28359,7 +29312,7 @@
             "strings:pwWechselKopienText.text": "Je nachdem, wie Ihr Gerät Dateien ablegt, liegt die neue Datei neben der alten, statt sie zu ersetzen. Sehen Sie bitte nach, wo Ihr Depot liegt, und löschen Sie ältere Fassungen: auf diesem Gerät, auf USB-Sticks und überall dort, wo Sie eine Kopie abgelegt oder verschickt haben. Solange eine alte Fassung existiert, schützt das neue Passwort sie nicht.",
             "strings:pwWechselFertigOk.text": "Verstanden",
             "strings:nfbAnbietenTitel.text": "Notfall-Blatt zum Ausfüllen",
-            "strings:nfbAnbietenText.text": "Möchten Sie ein Notfall-Blatt ausdrucken? Darauf tragen Sie Ihr Passwort von Hand ein und legen es zu Ihren wichtigen Unterlagen. Wenn Sie Ihr Passwort vergessen, ist Ihr Depot sonst nicht mehr zu öffnen — auch nicht von uns.",
+            "strings:nfbAnbietenText.text": "Möchten Sie ein Notfall-Blatt ausdrucken? Darauf tragen Sie Ihr Passwort von Hand ein und legen es zu Ihren wichtigen Unterlagen. Wenn Sie Ihr Passwort vergessen, lässt sich Ihr Depot sonst nur noch mit einem Wiederherstellungs-Code öffnen, falls Sie einen eingerichtet haben — von uns nicht.",
             "strings:nfbDruckenKnopf.text": "Notfall-Blatt drucken",
             "strings:nfbSpaeter.text": "Später",
             "strings:nfbSchliessen.text": "Schließen",
@@ -28601,7 +29554,7 @@
             "strings:einstAbschnittSchnellstart.text": "Schnellstart",
             "strings:einstSchnellstartIntro.text": "In fünf Schritten vom Öffnen zum ersten ausgefüllten Anlass.",
             "strings:schnellstartSchritt1.text": "Öffnen Sie Ihre {marke}-Datei — oder, wenn Sie noch keine haben, die App selbst. Ein Assistent führt Sie durch den Start.",
-            "strings:schnellstartSchritt2.text": "Setzen Sie ein Passwort. Es verschlüsselt Ihre Datei; ohne dieses Passwort lässt sich die Datei später nicht mehr öffnen — auch nicht von uns.",
+            "strings:schnellstartSchritt2.text": "Setzen Sie ein Passwort. Es verschlüsselt Ihre Datei; ohne dieses Passwort lässt sich die Datei später nur noch mit einem Wiederherstellungs-Code öffnen, falls Sie einen eingerichtet haben — von uns nicht.",
             "strings:schnellstartSchritt3.text": "Wählen Sie einen Anlass — etwa „Geburt eines Kindes“ oder „Hauskauf oder Heirat“. Jeder Anlass führt zu den Angaben, die dazu gehören.",
             "strings:schnellstartSchritt4.text": "Füllen Sie ein Feld aus. Es speichert sich von selbst, sobald Sie es verlassen — kein eigener Sichern-Schritt nötig.",
             "strings:schnellstartSchritt5.text": "Sichern Sie die Datei. Je nach Browser wählen Sie den Ablageort selbst, oder sie landet im Downloads-Ordner Ihres Geräts.",
@@ -28872,7 +29825,8 @@
             "strings:blackboxTitel.text": "Verschlüsselte Datei exportieren",
             "strings:blackboxHinweis.text": "Sie exportieren dieses eingehängte Depot als verschlüsselte Datei, ohne es zu öffnen. Der Inhalt bleibt mit dem Passwort seiner Inhaberin versiegelt — nur sie kann die Datei später öffnen. Ihr eigenes Passwort als verwaltende Person kann diese Datei nicht entschlüsseln.",
             "strings:btnBlackboxExportieren.text": "Verschlüsselte Datei exportieren",
-            "strings:blackboxExportiert.text": "Versiegelte Datei exportiert — der Inhalt wurde nicht geöffnet.",
+            "strings:blackboxExportiert.text": "Versiegelte Datei für {name} gespeichert: {datei}. Der Inhalt wurde nicht geöffnet.",
+            "strings:subDateiKennungLabel.text": "Dateikennung",
             "strings:btnAushaengen.text": "Übergabe abgeschlossen — aus meiner Verwaltung entfernen",
             "strings:aushaengenEmpfaengerLabel.text": "Empfänger (falls bekannt)",
             "strings:aushaengenFertigBeiseite.text": "Beiseitegelegt. Sie können dieses Depot später wieder aufnehmen.",
@@ -29281,6 +30235,56 @@
             "lebenslage:ausst-krisenvorsorge.unterlagen": "Trinkwasser- und Lebensmittelvorrat, Notfallrucksack, Erste-Hilfe-Set, Fluchtweg",
             "strings:einlesenShlHinweis.text": "Einen Freigabe-Link bekommen (beginnt mit shlink:/)? Holen Sie die Freigabe zuerst ab und speichern Sie die Datei, dann lesen Sie sie hier ein.",
             "strings:einlesenShlLink.text": "Freigabe abholen (share.vivodepot.de)",
+            "strings:whcAbschnitt.text": "Wiederherstellungs-Code",
+            "strings:whcKurzEingerichtet.text": "eingerichtet",
+            "strings:whcKurzFehlt.text": "nicht eingerichtet",
+            "strings:whcStatusEingerichtet.text": "Für dieses Depot ist ein Wiederherstellungs-Code eingerichtet. Mit ihm öffnen Sie die Datei, wenn Sie das Passwort vergessen haben.",
+            "strings:whcStatusFehlt.text": "Für dieses Depot ist kein Wiederherstellungs-Code eingerichtet. Wenn Sie das Passwort vergessen, gibt es keinen Weg zurück.",
+            "strings:whcEinrichtenKnopf.text": "Code einrichten",
+            "strings:whcNeuKnopf.text": "Neuen Code einrichten",
+            "strings:whcEntfernenKnopf.text": "Code entfernen",
+            "strings:whcOhneCodeKnopf.text": "Ohne Code weiter",
+            "strings:whcAnbietenText.text": "Wenn Sie Ihr Passwort vergessen, öffnet ein Wiederherstellungs-Code Ihr Depot. Die App erzeugt ihn jetzt; Sie schreiben ihn von Hand ab und bewahren ihn getrennt vom Passwort auf.",
+            "strings:whcAblehnenTitel.text": "Ohne Wiederherstellungs-Code?",
+            "strings:whcAblehnenTragweite.text": "Ohne Wiederherstellungs-Code gibt es keinen Weg zurück: Wer das Passwort vergisst, kommt nie wieder an die Daten — auch wir nicht. Sie können den Code später in den Einstellungen einrichten.",
+            "strings:whcZeigenTitel.text": "Ihr Wiederherstellungs-Code",
+            "strings:whcZeigenText.text": "Schreiben Sie den Code von Hand ab — auf das Code-Blatt oder ein eigenes Papier. Die App zeigt ihn nur jetzt und speichert ihn nirgends.",
+            "strings:whcNichtZumPasswort.text": "Nicht zum Passwort legen.",
+            "strings:whcNichtZumPasswortText.text": "Der Code hilft, wenn das Passwort verloren ist — dann darf er nicht mit ihm verloren sein. Und wer ihn findet, kann Ihr Depot öffnen, genau wie mit dem Passwort. Bewahren Sie ihn darum getrennt und sicher auf: etwa im verschlossenen Umschlag bei einer Vertrauensperson, beim Original Ihrer Vorsorgevollmacht oder im Schließfach.",
+            "strings:whcBlattKnopf.text": "Code-Blatt drucken (ohne Code)",
+            "strings:whcKontrolleLabel.text": "Zur Kontrolle: den abgeschriebenen Code eingeben",
+            "strings:whcKontrolleFalsch.text": "Der eingegebene Code stimmt nicht mit dem angezeigten überein. Bitte vergleichen Sie Zeichen für Zeichen.",
+            "strings:whcKontrolleKnopf.text": "Abgeschrieben — einrichten",
+            "strings:whcPwLabel.text": "Ihr Passwort",
+            "strings:whcPwFalsch.text": "Das Passwort stimmt nicht. Es wurde nichts eingerichtet.",
+            "strings:whcEingerichtet.text": "Der Wiederherstellungs-Code ist eingerichtet und mit der Datei gespeichert.",
+            "strings:whcEntfernenTitel.text": "Wiederherstellungs-Code entfernen?",
+            "strings:whcEntfernenText.text": "Die Datei, die jetzt gespeichert wird, trägt keinen Code mehr. Ältere Kopien dieser Datei — auf diesem Gerät, auf USB-Sticks, in Sicherungen — tragen ihn weiter und lassen sich mit dem Code weiterhin öffnen. Löschen Sie sie, wenn der Code nirgends mehr gelten soll.",
+            "strings:whcEntfernt.text": "Der Wiederherstellungs-Code ist entfernt.",
+            "strings:whcBlattTitel.text": "Mein {marke} — Wiederherstellungs-Code",
+            "strings:whcBlattHand.text": "Dieses Blatt füllen Sie von Hand aus. Die App druckt den Code nicht.",
+            "strings:whcBlattFeldCode.text": "Code (von Hand abschreiben)",
+            "strings:whcBlattFeldDatum.text": "Eingerichtet am",
+            "strings:whcBlattGebrauchTitel.text": "So wird er benutzt",
+            "strings:whcBlattGebrauchText.text": "Beim Öffnen der Datei ‚{beschriftung:whcOeffnenLink}’ wählen, den Code eingeben und ein neues Passwort festlegen.",
+            "strings:whcOeffnenLink.text": "Passwort vergessen? Mit Wiederherstellungs-Code öffnen",
+            "strings:whcOeffnenAufforderung.text": "Geben Sie Ihren Wiederherstellungs-Code ein und legen Sie ein neues Passwort fest. Die Datei wird danach mit dem neuen Passwort gespeichert; der Code gilt weiter.",
+            "strings:whcOeffnenCodeLabel.text": "Wiederherstellungs-Code",
+            "strings:whcOeffnenPwLabel.text": "Neues Passwort",
+            "strings:whcOeffnenPw2Label.text": "Neues Passwort wiederholen",
+            "strings:whcOeffnenKnopf.text": "Mit Code öffnen",
+            "strings:whcOeffnenZurueck.text": "Zurück zum Passwort",
+            "strings:whcFehlerKeineHuelle.text": "Für diese Datei ist kein Wiederherstellungs-Code eingerichtet.",
+            "strings:whcFehlerAbgeschrieben.text": "Der Code ist unvollständig oder falsch abgeschrieben. Bitte prüfen Sie jedes Zeichen.",
+            "strings:whcFehlerPasstNicht.text": "Der Code passt nicht zu dieser Datei.",
+            "strings:whcOeffnenFertig.text": "Geöffnet. Schreiben Sie das neue Passwort auf das Notfall-Blatt.",
+            "strings:whcWechselCodeHinweis.text": "Diese Datei trägt einen Wiederherstellungs-Code. Geben Sie ihn ein, damit er auch mit dem neuen Passwort gilt. Ohne Code fällt er weg; Sie können danach in den Einstellungen einen neuen einrichten.",
+            "strings:whcWechselCodeLabel.text": "Wiederherstellungs-Code (leer lassen, wenn Sie ihn nicht zur Hand haben)",
+            "strings:whcWechselCodeFalsch.text": "Der Code passt nicht zu dieser Datei. Lassen Sie das Feld leer, wenn Sie ihn nicht zur Hand haben.",
+            "strings:whcWechselWeggefallen.text": "Der Wiederherstellungs-Code gilt für die neue Datei nicht mehr. Richten Sie in den Einstellungen einen neuen ein.",
+            "strings:whcKopieOhneCode.text": "Ein Wiederherstellungs-Code reist nicht mit: die exportierte Datei öffnet nur das Passwort.",
+            "strings:whcBlattToolbarHinweis.text": "Das Blatt wird ohne Code gedruckt — tragen Sie ihn mit der Hand ein.",
+            "strings:whcBlattDruckenKnopf.text": "Code-Blatt drucken",
             "strings:importJsonLabel.text": "Aus einer Depot-Sicherungsdatei übernehmen (mit Vorschau)",
             "strings:importFhirLabel.text": "Gesundheitsdaten einlesen",
             "strings:importFhirLabLabel.text": "Laborbefund oder Entlassbrief einlesen (vom Labor/Krankenhaus)",
@@ -29289,6 +30293,10 @@
             "strings:importIpsBeschriftung.text": "Patientenkurzakte",
             "strings:mappeUebernehmenKnopf.text": "Werte in meine Felder übernehmen",
             "strings:mappeUebernehmenHinweis.text": "Sie können die Werte aus diesem Original zusätzlich in Ihre Gesundheitsfelder übernehmen. Das Original bleibt unverändert erhalten.",
+            "strings:importEdcBeschriftung.text": "Bildungsnachweis",
+            "strings:importEdcFertig.text": "Bildungsnachweis abgelegt — im Original, unverändert.",
+            "strings:mappeUebernehmenHinweisBildung.text": "Sie können die Werte aus diesem Original zusätzlich in Ihre Bildungsfelder übernehmen. Das Original bleibt unverändert erhalten.",
+            "strings:mappeEdcHinweis.text": "Original Ihrer Einrichtung, unverändert verwahrt. Das Siegel prüft, wem Sie es vorzeigen.",
             "strings:importAutoritativFertig.text": "Laborbefund abgelegt — im Original, unverändert.",
             "strings:mappeAutoritativ.text": "Original — nur lesbar",
             "strings:mappeEntfernenKnopf.text": "Entfernen",
@@ -29419,6 +30427,7 @@
             "strings:notfallVerwaltungTitel.text": "Krankenkasse & Hausarzt",
             "strings:notfallKarteFuss.text": "Erstellt mit {marke} · Diese Karte ersetzt keinen amtlichen Ausweis.",
             "strings:notfallKontakteVcardTitel.text": "Notfallkontakte",
+            "strings:notfallKarteVollstaendigInDatei.text": "(vollständig in der Datei)",
             "strings:dateiLabel.text": "Depot-Datei",
             "strings:dateiAuswaehlenKnopf.text": "Datei auswählen",
             "strings:dateiKeineGewaehlt.text": "Keine Datei ausgewählt",
@@ -30255,6 +31264,16 @@
             "dok:erbschein-vorbereitung#1/testament_bedachte_namen.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#1/erben_namen.frage": "Vorgesehene Erb(inn)en?",
             "dok:erbschein-vorbereitung#1/erben_namen.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2.titel": "Teil C — Urkunden für den Nachweis",
+            "dok:erbschein-vorbereitung#2/0.texte[0]": "Wer einen Erbschein beantragt, weist den Todeszeitpunkt und das Verwandtschafts- oder Eheverhältnis, auf dem das Erbrecht beruht, in der Regel durch öffentliche Urkunden nach (§ 352 Abs. 3 FamFG). Hier steht, wo die Urkunden der verstorbenen Person liegen, soweit sie es eingetragen hat.",
+            "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.frage": "Wo liegt die Geburtsurkunde?",
+            "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2/eheurkunde_ort.frage": "Wo liegt die Ehe- oder Lebenspartnerschaftsurkunde?",
+            "dok:erbschein-vorbereitung#2/eheurkunde_ort.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2/stammbuch_ort.frage": "Wo liegt das Familienstammbuch?",
+            "dok:erbschein-vorbereitung#2/stammbuch_ort.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#2/4.texte[0]": "Die Sterbeurkunde stellt das Standesamt aus, nachdem der Sterbefall beurkundet ist; sie steht nicht in diesem Depot.",
+            "dok:erbschein-vorbereitung#2/4.texte[1]": "Urkunden der Erben, etwa deren Geburtsurkunden, gehören nicht zu diesem Depot.",
             "dok:erbschein-vorbereitung.h1": "Erbschein — Vorbereitungsauszug",
             "dok:erbschein-vorbereitung.herkunftText": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu service.justiz.de.",
             "dok:erbschein-vorbereitung.unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder die eidesstattliche Versicherung noch den amtlichen Erbschein-Wegweiser. Was in Ihrem Fall nötig ist, klärt das Nachlassgericht.",
@@ -30357,7 +31376,86 @@
             "hilfe:sub-depot.einleitung": "Wer für einen anderen Menschen sorgt, kann dessen Depot mitführen. In der Anwendung heißt es Sub-Depot, im Alltag auch Unterdepot. Es steht in Ihrer Liste, hat aber ein eigenes Passwort und bleibt inhaltlich getrennt von Ihrem eigenen Depot.",
             "hilfe:sub-depot.abschnitt0": "Ein bestehendes Depot können Sie über „Einhängen“ aufnehmen: Sie wählen die Datei aus und geben ihr eine Bezeichnung, dann erscheint sie in Ihrer Liste. Der Inhalt wird unverändert übernommen, und das Passwort bleibt dasselbe, das die Datei schon hatte.",
             "hilfe:sub-depot.abschnitt1": "Endet Ihre Aufgabe, etwa weil ein Kind erwachsen wird, geben Sie das Depot zurück. Über „Abgeben“ sichern Sie es als eigene Datei und bestätigen danach die Übergabe. Erst mit dieser Bestätigung verschwindet der verschlüsselte Inhalt aus Ihrem eigenen Depot.",
-            "hilfe:sub-depot.abschnitt2": "Die abgegebene Datei ist danach ein ganz gewöhnliches Depot, mit demselben Passwort, das sie die ganze Zeit hatte. Es braucht kein neues Passwort und keinen neuen Anfang; die Person arbeitet einfach dort weiter, wo Sie aufgehört haben."
+            "hilfe:sub-depot.abschnitt2": "Die abgegebene Datei ist danach ein ganz gewöhnliches Depot, mit demselben Passwort, das sie die ganze Zeit hatte. Es braucht kein neues Passwort und keinen neuen Anfang; die Person arbeitet einfach dort weiter, wo Sie aufgehört haben.",
+            "advanceCare.applicableSituations.label": "Situationen",
+            "advanceCare.applicableSituations/sterbeprozess.label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,",
+            "advanceCare.applicableSituations/endstadium.label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,",
+            "advanceCare.applicableSituations/gehirnschaedigung.label": "infolge einer Gehirnschädigung meine Fähigkeit, Einsichten zu gewinnen, Entscheidungen zu treffen und mit anderen Menschen in Kontakt zu treten, nach Einschätzung zweier erfahrener Ärztinnen oder Ärzte (können namentlich benannt werden) aller Wahrscheinlichkeit nach unwiederbringlich erloschen ist, selbst wenn der Todeszeitpunkt noch nicht absehbar ist. Dies gilt für direkte Gehirnschädigung z. B. durch Unfall, Schlaganfall oder Entzündung ebenso wie für indirekte Gehirnschädigung z. B. nach Wiederbelebung, Schock oder Lungenversagen. Es ist mir bewusst, dass in solchen Situationen die Fähigkeit zu Empfindungen erhalten sein kann und dass ein Aufwachen aus diesem Zustand nicht ganz sicher auszuschließen, aber unwahrscheinlich ist.",
+            "advanceCare.applicableSituations/hirnabbau.label": "ich infolge eines weit fortgeschrittenen Hirnabbauprozesses (z. B. bei Demenzerkrankung) auch mit ausdauernder Hilfestellung nicht mehr in der Lage bin, Nahrung und Flüssigkeit auf natürliche Weise zu mir zu nehmen.",
+            "advanceCare.ownAdditionalSituation.label": "Eigene Beschreibung der Anwendungssituation",
+            "advanceCare.lifeSustainingMeasures.label": "Lebenserhaltende Maßnahmen",
+            "advanceCare.lifeSustainingMeasures/ausschoepfen.label": "dass alles medizinisch Mögliche und Sinnvolle getan wird, um mich am Leben zu erhalten.",
+            "advanceCare.lifeSustainingMeasures/unterlassen.label": "dass alle lebenserhaltenden Maßnahmen unterlassen werden. Hunger und Durst sollen auf natürliche Weise gestillt werden, gegebenenfalls mit Hilfe bei der Nahrungs- und Flüssigkeitsaufnahme. Ich wünsche fachgerechte Pflege von Mund und Schleimhäuten sowie menschenwürdige Unterbringung, Zuwendung, Körperpflege und das Lindern von Schmerzen, Atemnot, Übelkeit, Angst, Unruhe und anderer belastender Symptome.",
+            "advanceCare.painAndSymptomTreatment.label": "Schmerz- und Symptombehandlung",
+            "advanceCare.painAndSymptomTreatment/ohne_daempfung.label": "aber ohne bewusstseinsdämpfende Wirkungen.",
+            "advanceCare.painAndSymptomTreatment/mit_daempfung.label": "wenn alle sonstigen medizinischen Möglichkeiten zur Schmerz- und Symptomkontrolle versagen, auch Mittel mit bewusstseinsdämpfenden Wirkungen zur Beschwerdelinderung.",
+            "advanceCare.acceptsLifeShorteningFromPain.label": "Lebensverkürzung in Kauf",
+            "advanceCare.acceptsLifeShorteningFromPain/ja.label": "die unwahrscheinliche Möglichkeit einer ungewollten Verkürzung meiner Lebenszeit durch schmerz- und symptomlindernde Maßnahmen nehme ich in Kauf.",
+            "advanceCare.acceptsLifeShorteningFromPain/nein.label": "(kein Zusatz)",
+            "advanceCare.artificialNutritionAndHydration.label": "Künstliche Ernährung und Flüssigkeitszufuhr",
+            "advanceCare.artificialNutritionAndHydration/ja.label": "dass eine künstliche Ernährung und Flüssigkeitszufuhr begonnen oder weitergeführt wird, wenn damit mein Leben verlängert werden kann.",
+            "advanceCare.artificialNutritionAndHydration/palliativ.label": "dass eine künstliche Ernährung und/oder eine künstliche Flüssigkeitszufuhr nur bei palliativmedizinischer Indikation zur Beschwerdelinderung erfolgen bzw. erfolgt.",
+            "advanceCare.artificialNutritionAndHydration/nein.label": "dass keine künstliche Ernährung unabhängig von der Form der künstlichen Zuführung der Nahrung (z. B. Magensonde durch Mund, Nase oder Bauchdecke, venöse Zugänge) und keine künstliche Flüssigkeitszufuhr erfolgen.",
+            "advanceCare.resuscitationInDescribedSituations.label": "Wiederbelebung (oben beschriebene Situationen)",
+            "advanceCare.resuscitationInDescribedSituations/ja.label": "Versuche der Wiederbelebung.",
+            "advanceCare.resuscitationInDescribedSituations/nein.label": "die Unterlassung von Versuchen der Wiederbelebung.",
+            "advanceCare.emergencyDoctorNotified.label": "Notarzt-Hinweis",
+            "advanceCare.emergencyDoctorNotified/ja.label": "dass eine Notärztin oder ein Notarzt nicht verständigt wird bzw. im Fall einer Hinzuziehung unverzüglich über meine Ablehnung von Wiederbelebungsmaßnahmen informiert wird.",
+            "advanceCare.emergencyDoctorNotified/nein.label": "(kein Zusatz)",
+            "advanceCare.resuscitationInAllCases.label": "Wiederbelebung (alle Fälle)",
+            "advanceCare.resuscitationInAllCases/ab.label": "lehne ich Wiederbelebungsmaßnahmen ab.",
+            "advanceCare.resuscitationInAllCases/ab_ausser_op.label": "lehne ich Wiederbelebungsmaßnahmen ab, sofern diese Situationen nicht im Rahmen ärztlicher Maßnahmen (z. B. Operationen) unerwartet eintreten.",
+            "advanceCare.artificialVentilation.label": "Künstliche Beatmung",
+            "advanceCare.artificialVentilation/ja.label": "eine künstliche Beatmung, falls dies mein Leben verlängern kann.",
+            "advanceCare.artificialVentilation/nein.label": "dass keine künstliche Beatmung durchgeführt bzw. eine schon eingeleitete Beatmung eingestellt wird, unter der Voraussetzung, dass ich Medikamente zur Linderung der Luftnot erhalte. Die Möglichkeit einer Bewusstseinsdämpfung oder einer ungewollten Verkürzung meiner Lebenszeit durch diese Medikamente nehme ich in Kauf.",
+            "advanceCare.dialysis.label": "Dialyse",
+            "advanceCare.dialysis/ja.label": "eine künstliche Blutwäsche (Dialyse), falls dies mein Leben verlängern kann.",
+            "advanceCare.dialysis/nein.label": "dass keine Dialyse durchgeführt bzw. eine schon eingeleitete Dialyse eingestellt wird.",
+            "advanceCare.antibiotics.label": "Antibiotika",
+            "advanceCare.antibiotics/ja.label": "Antibiotika, falls dies mein Leben verlängern kann.",
+            "advanceCare.antibiotics/palliativ.label": "Antibiotika nur bei palliativmedizinischer Indikation zur Beschwerdelinderung.",
+            "advanceCare.antibiotics/nein.label": "keine Antibiotika.",
+            "advanceCare.bloodAndBloodProducts.label": "Blut und Blutbestandteile",
+            "advanceCare.bloodAndBloodProducts/ja.label": "die Gabe von Blut oder Blutbestandteilen, falls dies mein Leben verlängern kann.",
+            "advanceCare.bloodAndBloodProducts/palliativ.label": "die Gabe von Blut oder Blutbestandteilen nur bei palliativmedizinischer Indikation zur Beschwerdelinderung.",
+            "advanceCare.bloodAndBloodProducts/nein.label": "keine Gabe von Blut oder Blutbestandteilen.",
+            "advanceCare.placeOfTreatmentOrDeath.label": "Ort der Behandlung / des Sterbens",
+            "advanceCare.placeOfTreatmentOrDeath/krankenhaus.label": "zum Sterben ins Krankenhaus verlegt werden.",
+            "advanceCare.placeOfTreatmentOrDeath/zuhause.label": "wenn möglich zu Hause bzw. in vertrauter Umgebung sterben.",
+            "advanceCare.placeOfTreatmentOrDeath/hospiz.label": "wenn möglich in einem Hospiz sterben.",
+            "advanceCare.supportFromThesePersons.label": "Beistand durch folgende Personen",
+            "advanceCare.supportFromChurchOrCommunity.label": "Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft",
+            "advanceCare.hospiceSupport.label": "Hospizlicher Beistand",
+            "advanceCare.hospiceSupport/ja.label": "hospizlichen Beistand.",
+            "advanceCare.hospiceSupport/nein.label": "(kein Wunsch)",
+            "advanceCare.confidentialityWaiverFor.label": "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+            "advanceCare.whoseViewMattersIfUnregulated.label": "Besondere Bedeutung (ungeregelte Situationen)",
+            "advanceCare.whoseViewMattersIfUnregulated/bevollmaechtigt.label": "meiner/meinem Bevollmächtigten.",
+            "advanceCare.whoseViewMattersIfUnregulated/betreuer.label": "meiner Betreuerin/meinem Betreuer.",
+            "advanceCare.whoseViewMattersIfUnregulated/arzt.label": "der behandelnden Ärztin oder dem behandelnden Arzt.",
+            "advanceCare.whoseViewMattersIfUnregulated/andere.label": "anderer Person: …",
+            "advanceCare.whoseViewMattersOtherPersonName.label": "Andere Person (Name)",
+            "advanceCare.whoseViewMattersIfDeviatingWill.label": "Besondere Bedeutung (abweichende Willensäußerung)",
+            "advanceCare.whoseViewMattersIfDeviatingWill/bevollmaechtigt.label": "meiner/meinem Bevollmächtigten.",
+            "advanceCare.whoseViewMattersIfDeviatingWill/betreuer.label": "meiner Betreuerin/meinem Betreuer.",
+            "advanceCare.whoseViewMattersIfDeviatingWill/arzt.label": "der behandelnden Ärztin oder dem behandelnden Arzt.",
+            "advanceCare.whoseViewMattersIfDeviatingWill/andere.label": "anderer Person: …",
+            "advanceCare.whoseViewMattersIfDeviatingOther.label": "Andere Person (Name)",
+            "advanceCare.personalValuesOrFurtherDocuments.label": "Wertvorstellungen / sonstige Unterlagen",
+            "advanceCare.organDonationDecision.label": "Organspende",
+            "advanceCare.organDonationDecision/zustimmung.label": "Ich stimme einer Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken zu (ggf.: Ich habe einen Organspendeausweis ausgefüllt). Komme ich nach ärztlicher Beurteilung bei einem sich abzeichnenden Hirntod als Organspender/in in Betracht und müssen dafür ärztliche Maßnahmen durchgeführt werden, die ich in meiner Patientenverfügung ausgeschlossen habe, dann",
+            "advanceCare.organDonationDecision/ablehnung.label": "Ich lehne eine Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken ab.",
+            "advanceCare.priorityIfOrganDonationConflict.label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+            "advanceCare.priorityIfOrganDonationConflict/organspende.label": "geht die von mir erklärte Bereitschaft zur Organspende vor.",
+            "advanceCare.priorityIfOrganDonationConflict/patientenverfuegung.label": "gehen die Bestimmungen in meiner Patientenverfügung vor.",
+            "advanceCare.waivesFurtherMedicalInformation.label": "Verzicht auf weitere ärztliche Aufklärung",
+            "advanceCare.waivesFurtherMedicalInformation/ja.label": "Soweit ich bestimmte Behandlungen wünsche oder ablehne, verzichte ich ausdrücklich auf eine (weitere) ärztliche Aufklärung.",
+            "advanceCare.waivesFurtherMedicalInformation/nein.label": "(kein Verzicht)",
+            "advanceCare.informationOrCounsellingReceived.label": "Information / Beratung",
+            "advanceCare.validityDuration.label": "Gültigkeit",
+            "advanceCare.validityDuration/unbefristet.label": "Diese Patientenverfügung gilt solange, bis ich sie widerrufe.",
+            "advanceCare.validityDuration/befristet.label": "Diese Patientenverfügung soll nach Ablauf von (Zeitangabe) ihre Gültigkeit verlieren, es sei denn, dass ich sie durch meine Unterschrift erneut bekräftige.",
+            "advanceCare.validityDurationDeadline.label": "Frist"
           },
           "regeln": {
             "datumsformat": "TT.MM.JJJJ",
@@ -30766,6 +31864,24 @@
                 "typ": "personenNamen",
                 "sektor": "advanceCare",
                 "feld": "heirsBriefOverview"
+              },
+              "geburtsurkunde_ort": {
+                "typ": "feld",
+                "sektor": "identity",
+                "feld": "birthCertificateStorage",
+                "sensibelErlaubt": true
+              },
+              "eheurkunde_ort": {
+                "typ": "feld",
+                "sektor": "identity",
+                "feld": "marriageCertificateStorage",
+                "sensibelErlaubt": true
+              },
+              "stammbuch_ort": {
+                "typ": "feld",
+                "sektor": "identity",
+                "feld": "familyRegisterBookStorage",
+                "sensibelErlaubt": true
               }
             },
             "abschnitte": [
@@ -30881,6 +31997,42 @@
                       "typ": "liste"
                     },
                     "luecke": "— nicht erfasst —"
+                  }
+                ]
+              },
+              {
+                "titel": "Teil C — Urkunden für den Nachweis",
+                "bloecke": [
+                  {
+                    "typ": "immer",
+                    "texte": [
+                      "Wer einen Erbschein beantragt, weist den Todeszeitpunkt und das Verwandtschafts- oder Eheverhältnis, auf dem das Erbrecht beruht, in der Regel durch öffentliche Urkunden nach (§ 352 Abs. 3 FamFG). Hier steht, wo die Urkunden der verstorbenen Person liegen, soweit sie es eingetragen hat."
+                    ]
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "geburtsurkunde_ort",
+                    "frage": "Wo liegt die Geburtsurkunde?",
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "eheurkunde_ort",
+                    "frage": "Wo liegt die Ehe- oder Lebenspartnerschaftsurkunde?",
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "stammbuch_ort",
+                    "frage": "Wo liegt das Familienstammbuch?",
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "immer",
+                    "texte": [
+                      "Die Sterbeurkunde stellt das Standesamt aus, nachdem der Sterbefall beurkundet ist; sie steht nicht in diesem Depot.",
+                      "Urkunden der Erben, etwa deren Geburtsurkunden, gehören nicht zu diesem Depot."
+                    ]
                   }
                 ]
               }
@@ -31305,6 +32457,14 @@
                   "id": "whoseViewMattersOtherPersonName",
                   "typ": "text",
                   "beispiel": "",
+                  "verborgenWenn": {
+                    "feld": "whoseViewMattersIfUnregulated",
+                    "wert": [
+                      "bevollmaechtigt",
+                      "betreuer",
+                      "arzt"
+                    ]
+                  },
                   "label": "Andere Person (Name)",
                   "frage": "Falls „andere Person“: wer? (2.6)",
                   "hilfetext": "Nur nötig, wenn Sie oben „eine andere Person“ gewählt haben."
@@ -31344,6 +32504,14 @@
                   "id": "whoseViewMattersIfDeviatingOther",
                   "typ": "text",
                   "beispiel": "",
+                  "verborgenWenn": {
+                    "feld": "whoseViewMattersIfDeviatingWill",
+                    "wert": [
+                      "bevollmaechtigt",
+                      "betreuer",
+                      "arzt"
+                    ]
+                  },
                   "label": "Andere Person (Name)",
                   "frage": "Falls „andere Person“ (abweichende Willensäußerung): wer? (2.6)",
                   "hilfetext": "Nur nötig bei „eine andere Person“."
@@ -31393,6 +32561,10 @@
                       "label": "gehen die Bestimmungen in meiner Patientenverfügung vor."
                     }
                   ],
+                  "verborgenWenn": {
+                    "feld": "organDonationDecision",
+                    "wert": "ablehnung"
+                  },
                   "label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
                   "frage": "Falls Sie zustimmen: Was gilt, wenn für die Organspende Maßnahmen nötig werden, die Sie in der Patientenverfügung ausgeschlossen haben? (2.9)",
                   "hilfetext": "Nur nötig, wenn Sie oben zugestimmt haben."
@@ -31448,6 +32620,10 @@
                 "feld": {
                   "id": "validityDurationDeadline",
                   "typ": "text",
+                  "verborgenWenn": {
+                    "feld": "validityDuration",
+                    "wert": "unbefristet"
+                  },
                   "label": "Frist",
                   "beispiel": "zwei Jahren",
                   "frage": "Falls befristet: nach welcher Zeit? (2.14)",
@@ -33355,22 +34531,16 @@
                         }
                       },
                       {
-                        "feld": {
-                          "id": "erb_stammbuch",
-                          "sensibel": true,
-                          "typ": "text",
-                          "label": "Familienstammbuch — Ablageort",
-                          "beispiel": "Schreibtisch, untere Schublade"
-                        }
+                        "quelle": "identity",
+                        "feld": "familyRegisterBookStorage"
                       },
                       {
-                        "feld": {
-                          "id": "erb_personenstand",
-                          "sensibel": true,
-                          "typ": "text",
-                          "label": "Geburts-/Heiratsurkunde — Ablageort",
-                          "beispiel": "Mappe „Urkunden“; benötigt fürs Nachlassgericht"
-                        }
+                        "quelle": "identity",
+                        "feld": "birthCertificateStorage"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "marriageCertificateStorage"
                       }
                     ],
                     "titel": "Wo die Originale liegen"
@@ -34662,10 +35832,6 @@
                     }
                   },
                   {
-                    "verborgenWenn": {
-                      "feld": "longTermCareAllowanceTypeOf",
-                      "wert": "sachleistung"
-                    },
                     "feld": {
                       "id": "longTermCareAllowanceAmount",
                       "typ": "text"
@@ -34815,10 +35981,6 @@
                     "ziel": {
                       "sektor": "housing"
                     },
-                    "verborgenWenn": {
-                      "feld": "ownedOrRented",
-                      "wert": "eigentum"
-                    },
                     "feld": {
                       "id": "tenancyTerminationHandover",
                       "typ": "textarea"
@@ -34827,10 +35989,6 @@
                   {
                     "ziel": {
                       "sektor": "housing"
-                    },
-                    "verborgenWenn": {
-                      "feld": "ownedOrRented",
-                      "wert": "eigentum"
                     },
                     "feld": {
                       "id": "noticeDate",
@@ -34954,6 +36112,42 @@
                       {
                         "quelle": "advanceCare",
                         "feld": "spousalObjectionRegistered"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "verstaendigung",
+                    "titel": "Verständigung und Unterstützung",
+                    "eintraege": [
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "communicationLanguage"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "communicationSupport"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "supportPerson"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "whatHelpsMe"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "besondere-hinweise",
+                    "titel": "Besondere Hinweise",
+                    "eintraege": [
+                      {
+                        "quelle": "emergencyPreparedness",
+                        "feld": "specialSituation"
+                      },
+                      {
+                        "quelle": "emergencyPreparedness",
+                        "feld": "noteForEmergencyResponders"
                       }
                     ]
                   },
@@ -35283,12 +36477,16 @@
                         "feld": "erb_originaldokumente"
                       },
                       {
-                        "quelle": "sit:erbfall",
-                        "feld": "erb_stammbuch"
+                        "quelle": "identity",
+                        "feld": "familyRegisterBookStorage"
                       },
                       {
-                        "quelle": "sit:erbfall",
-                        "feld": "erb_personenstand"
+                        "quelle": "identity",
+                        "feld": "birthCertificateStorage"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "marriageCertificateStorage"
                       }
                     ]
                   },

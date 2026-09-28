@@ -10,6 +10,8 @@
 Quellcode darf nach Maßgabe dieser Lizenz frei kopiert, verändert und weiterverwendet werden —
 siehe [LICENSE](LICENSE) und [LICENSING.md](LICENSING.md).
 
+Das Logo ist Kennzeichen der Vivodepot GmbH und nicht von der EUPL erfasst. Es liegt als `logo.png` im obersten Ordner.
+
 Der Name „Vivodepot" ist hiervon unabhängig. Er ist eine Wortmarke, und er steht in einem Register:
 
 | Register | Zeichen · Nummer | Klassen | Anmelderin/Inhaberin | Status | Reichweite |

@@ -181,7 +181,7 @@ async function main() {
       seite.waitForEvent('download'),
       seite.click('#manifest-knopf'),
     ]);
-    const mZiel = path.join(os.tmpdir(), 'manifest-probe-' + Date.now() + '.json');
+    const mZiel = path.join(os.tmpdir(), 'manifest-probe-' + process.pid + '-' + Date.now() + '.json');
     await manifestDatei.saveAs(mZiel);
     let mOk = false;
     try { mOk = Array.isArray(JSON.parse(fs.readFileSync(mZiel, 'utf8')).files); } catch (e) { /* bleibt false */ }
@@ -192,7 +192,7 @@ async function main() {
       seite.waitForEvent('download'),
       seite.click('#speichern-knopf'),
     ]);
-    const ziel = path.join(os.tmpdir(), 'empfangen-probe-' + Date.now() + '.json');
+    const ziel = path.join(os.tmpdir(), 'empfangen-probe-' + process.pid + '-' + Date.now() + '.json');
     await download.saveAs(ziel);
     const gespeichert = fs.readFileSync(ziel, 'utf8');
     pruefe('Gespeichertes Dokument ist byte-genau der Klartext', gespeichert === inhalt,

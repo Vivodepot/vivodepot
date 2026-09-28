@@ -151,12 +151,49 @@ describe('U2-ADR-097 §3: kein Wiederherstellungsweg (G13)', () => {
     'einmalReset', '_scrollUndFokusWiederherstellen',
   ]);
 
+  /* U2-ADR-430 (27.09.2026): der entschiedene zweite Weg — eine vorher eingerichtete Hülle um die Master-Bits,
+     geöffnet durch einen erzeugten Code; KEIN Weg aus der Datei allein (Krypto-Stellen benannt in
+     tools/krypto-aufrufer-grundlinie.json). Seine Bezeichner sind NICHT global bekannt, sondern an ihre Funktionen
+     gebunden, mit fester Zahl der Vorkommen (Bedingung der Gegenlesung): ein `masterBits` in irgendeiner anderen
+     Funktion ist ein Fund wie jeder neue Bezeichner. */
+  const GEBUNDENE_BEZEICHNER = Object.freeze({
+    masterBits: { funktionen: { whcHuelleWickeln: 3, _whcEinwickeln: 3 } },
+    wiederherstellungAnbieten: { funktionen: { wiederherstellungAnbieten: 1, flowDepotAnlegen: 1, flowPasswortSetzen: 1, flowEigenesDepotAusSubWunsch: 1 } },
+  });
+
+  function gebundeneFunde(roh) {
+    const code = ohneKommentareUndStrings(roh);
+    const funde = [];
+    for (const [name, regel] of Object.entries(GEBUNDENE_BEZEICHNER)) {
+      const re = new RegExp('\\b' + name + '\\b', 'g');
+      const gesamt = (code.match(re) || []).length;
+      let erlaubt = 0;
+      for (const [fn, anzahl] of Object.entries(regel.funktionen)) {
+        const k = funktionsKoerper(roh, fn);
+        const n = k ? (ohneKommentareUndStrings(k).match(re) || []).length : 0;
+        if (n !== anzahl) funde.push(name + ' in ' + fn + ': ' + n + ' statt ' + anzahl);
+        erlaubt += n;
+      }
+      if (gesamt !== erlaubt) funde.push(name + ': ' + (gesamt - erlaubt) + ' Vorkommen außerhalb der gebundenen Funktionen');
+    }
+    return funde;
+  }
+
+  test('[G13-Gebunden] die Bezeichner der Wiederherstellungs-Hülle stehen nur in ihren Funktionen, mit fester Zahl', () => {
+    assert.deepEqual(gebundeneFunde(eigenerCodeRoh), []);
+  });
+
+  test('[G13-Gebunden·Rot-Beweis] ein `masterBits` in einer anderen Funktion fällt', () => {
+    const gepflanzt = eigenerCodeRoh + '\nfunction _irgendwo() { const masterBits = 1; return masterBits; }\n';
+    assert.ok(gebundeneFunde(gepflanzt).some((f) => f.startsWith('masterBits: 2 Vorkommen außerhalb')), gebundeneFunde(gepflanzt).join(' | '));
+  });
+
   test('[G13-Bekannte-Wege] kein neuer Bezeichner der Familie master/recovery/reset/escrow/backdoor/wiederherstell', () => {
     const treffer = [...new Set(
       [...eigenerCode.matchAll(/\b\w*(?:master|recovery|reset|escrow|backdoor|wiederherstell)\w*\b/gi)]
         .map(m => m[0])
     )];
-    const unbekannt = treffer.filter(t => !BEKANNTE_BEZEICHNER.has(t));
+    const unbekannt = treffer.filter(t => !BEKANNTE_BEZEICHNER.has(t) && !Object.prototype.hasOwnProperty.call(GEBUNDENE_BEZEICHNER, t));
     assert.deepEqual(unbekannt, [],
       `Neue(r) Bezeichner außerhalb der A-Zug-0-Liste: ${unbekannt.join(', ')} — ` +
       `ist das ein neuer legitimer Ableitungsweg, gehört er in BEKANNTE_BEZEICHNER UND in die ` +

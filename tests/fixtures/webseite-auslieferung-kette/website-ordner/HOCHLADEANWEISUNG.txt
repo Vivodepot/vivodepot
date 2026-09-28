@@ -1,4 +1,4 @@
-Fixtur — Stellvertreter für HOCHLADEANWEISUNG.txt (Vivodepot-intern, docs/webseite/<datum>/), nur für
-tools/webseite-auslieferung-kette.js / tools/upload-ordner-pruefen.js. Kein echter Inhalt.
+Fixtur — Stellvertreter für HOCHLADEANWEISUNG.txt (Website-Quellbaum, ein Ordner je Stand), nur für
+die internen Werkzeuge der Webseiten-Auslieferung. Kein echter Inhalt.
 
 NICHT hochladen: HOCHLADEANWEISUNG.txt · bauen.py · zahlen-holen.py · DOWNLOAD-HERKUNFT.txt

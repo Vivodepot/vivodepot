@@ -16,6 +16,11 @@
    Bedingung (geprüft unten, `korpusFreistellungGreift`). Das ist keine
    Wächter-Lücke, sondern die dokumentierte Architektur — hier NICHT erneut
    als Fund gezählt.
+   ABGELÖST IN DIESEM PUNKT (27.09.2026, U2-ADR-440): die 29 PV-Festlegungen SIND seither Felder des Bereichs Vorsorge
+   (Sektion living-will-decisions), damit eine Anfrage sie erfragen kann. Der Grund von U2-ADR-089 bleibt gehalten: die
+   Sektion entsteht AUSSCHLIESSLICH zur Laufzeit aus PV_BMJ.steps, keine literale Definition der Felder steht im Kern oder in
+   einem Bereichs-Template. Teil A prüft darum jetzt genau das (`pvFestlegungenPruefen`, `pvFestlegungenLiteralImQuelltext`).
+   KI_KORPUS bleibt wizard-intern.
 
    TEIL B — der reale Fund, hier geprüft. `WIZARD_DOKUMENT_MAP` bildet einen
    Wizard auf einen `vorsorge_instrumente`-Typ ab (die Instrument-Frage, die
@@ -54,10 +59,55 @@ function irgendwoDefiniert(V, feldId) {
   return false;
 }
 
-/** Teil A: gibt die pv_*-Felder zurück, die die Korpus-Freistellung NICHT erfüllen — sollte immer leer sein. */
-function korpusFreistellungLoecher(V) {
-  const korpus = (V.PV_BMJ && V.PV_BMJ.steps ? V.PV_BMJ.steps : []).map((s) => s.feld.id);
-  return korpus.filter((id) => irgendwoDefiniert(V, id));
+/** Teil A (U2-ADR-440): die PV-Festlegungen sind Felder in advanceCare/living-will-decisions — abgeleitet, nicht gepflegt.
+    fehlen:  eine Festlegung ohne Feld im Bereich
+    anderswo: dieselbe Id ist zusätzlich außerhalb der Sektion definiert (Doppelablage)
+    literal: ein Feld der Sektion trägt das Merkmal der Ableitung nicht (`pvBmjAbgeleitet`, nicht aufzählbar, gesetzt nur von
+             `_pvFestlegungenSektionAbleiten` im Kern) — von Hand eingefügt.
+    Alle drei sollten immer leer sein. */
+const PV_ABGELEITET = 'pvBmjAbgeleitet';
+function pvFestlegungenPruefen(V) {
+  const ids = (V.PV_BMJ && V.PV_BMJ.steps ? V.PV_BMJ.steps : []).map((s) => s.feld.id);
+  const aus = { fehlen: [], anderswo: [], literal: [] };
+  const sek = V.SEKTOR_BY_ID.advanceCare;
+  const sektion = (sek && sek.sektionen || []).find((x) => x && x.id === 'living-will-decisions');
+  const inSektion = new Map(((sektion && sektion.felder) || []).map((f) => [f.id, f]));
+  for (const id of ids) {
+    const f = inSektion.get(id);
+    if (!f) { aus.fehlen.push(id); continue; }
+    const d = Object.getOwnPropertyDescriptor(f, PV_ABGELEITET);
+    if (!d || d.value !== true || d.enumerable) aus.literal.push(id);
+  }
+  for (const s of Object.values(V.SEKTOR_BY_ID)) {
+    for (const sk of s.sektionen || []) {
+      if (s.id === 'advanceCare' && sk.id === 'living-will-decisions') continue;
+      for (const f of sk.felder || []) {
+        if (ids.includes(f.id)) aus.anderswo.push(s.id + '.' + f.id);
+        for (const u of f.unterFelder || []) if (ids.includes(u.id)) aus.anderswo.push(s.id + '.' + f.id + ':' + u.id);
+      }
+    }
+  }
+  return aus;
+}
+
+/** Teil A, Quelltext (U2-ADR-440): keine literale Definition einer PV-Festlegung im Kern oder in einem Bereichs-Template.
+    `texte` ist { pfad: inhalt }; gesucht wird eine Feld-Definition (`id: '<festlegung>'` bzw. `"id": "<festlegung>"`). */
+function pvFestlegungenLiteralImQuelltext(V, texte) {
+  const ids = (V.PV_BMJ && V.PV_BMJ.steps ? V.PV_BMJ.steps : []).map((s) => s.feld.id);
+  const funde = [];
+  for (const [pfad, text] of Object.entries(texte)) {
+    for (const id of ids) {
+      const re = new RegExp('["\']?id["\']?\\s*:\\s*["\']' + id + '["\']');
+      if (re.test(text)) funde.push(pfad + ': ' + id);
+    }
+  }
+  return funde;
+}
+function pvFestlegungenQuelltexte() {
+  const texte = { 'vivodepot.html': fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8') };
+  const ordner = path.join(REPO, 'tools', 'bereich-templates');
+  for (const d of fs.readdirSync(ordner).filter((x) => x.endsWith('.json'))) texte['tools/bereich-templates/' + d] = fs.readFileSync(path.join(ordner, d), 'utf8');
+  return texte;
 }
 
 /** Instrument-Typ-Optionen der vorsorge_instrumente-Liste, direkt aus dem Schema gelesen. */
@@ -114,11 +164,10 @@ function main() {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
   const { V } = ladeKern();
 
-  const loecher = korpusFreistellungLoecher(V);
-  if (loecher.length) {
-    console.error('TEIL A abweichend von der Annahme: diese PV-Korpus-Felder sind DOCH irgendwo '
-      + 'als Felddefinition vorhanden — die U2-ADR-089-Freistellung greift für sie nicht mehr: '
-      + loecher.join(', '));
+  const pv = pvFestlegungenPruefen(V);
+  const literal = pvFestlegungenLiteralImQuelltext(V, pvFestlegungenQuelltexte());
+  if (pv.fehlen.length || pv.anderswo.length || pv.literal.length || literal.length) {
+    console.error('TEIL A (U2-ADR-440) abweichend: ' + JSON.stringify({ ...pv, literalImQuelltext: literal }));
   }
 
   const funde = wizardsOhneInstrumentZeile(V);
@@ -151,4 +200,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { korpusFreistellungLoecher, instrumentTypOptionen, wizardsOhneInstrumentZeile, gateBewerten, GRUNDLINIE };
+module.exports = { pvFestlegungenPruefen, pvFestlegungenLiteralImQuelltext, pvFestlegungenQuelltexte, instrumentTypOptionen, wizardsOhneInstrumentZeile, gateBewerten, GRUNDLINIE };

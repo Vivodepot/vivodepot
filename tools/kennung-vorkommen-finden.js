@@ -122,7 +122,7 @@ function grundlinieLesen(pfad) {
   let roh;
   try { roh = fs.readFileSync(pfad, 'utf8'); }
   catch (e) { throw new Abbruch('Grundlinie nicht lesbar: ' + pfad + ' (' + e.code + ')'); }
-  try { return JSON.parse(roh); }
+  try { return require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(pfad, { lesen: (p) => (p === pfad ? roh : fs.readFileSync(p, 'utf8')) }); }
   catch (e) { throw new Abbruch('Grundlinie ist kein JSON: ' + pfad); }
 }
 

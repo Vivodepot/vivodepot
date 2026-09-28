@@ -36,6 +36,12 @@
      node tools/standzahl-frei-pruefen.js --zahl 581   Exit 0 = frei, 1 = belegt
      node tools/standzahl-frei-pruefen.js --fixture    gegen die Repo-Fixture,
                                                        ohne Netz und ohne origin
+     … --reservierung <liste.json> [--sitzung <name>]   zählt Reservierungen mit
+
+   RESERVIERUNGEN (28.09.2026): mit --reservierung zählen die Zahlen im Abschnitt
+   "fassung" der genannten JSON-Liste ({ nummer, sitzung, freigegeben? }) als
+   belegt — für jeden außer der Sitzung, der sie gehört; eine freigegebene Zahl
+   für alle. Das schließt das Fenster oben für alle, die vorher reservieren.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -70,7 +76,7 @@ function zahlAus(inhalt, muster) {
 
 /* ── Die reine Auswertung. Kennt kein Git, kein Dateisystem — damit die Probe
    sie prüfen kann, ohne ein Repo mit Zweigen zu bauen. ──────────────────── */
-function auswerten(kanon, zweige, wunsch) {
+function auswerten(kanon, zweige, wunsch, reserviert = [], sitzung = null) {
   const belegt = new Map();          // Zahl -> [Zweignamen]
   const uneinig = [];
   for (const z of zweige) {
@@ -87,12 +93,21 @@ function auswerten(kanon, zweige, wunsch) {
     if (!belegt.has(zahl)) belegt.set(zahl, []);
     belegt.get(zahl).push(z.zweig);
   }
+  const eigene = new Set();
+  for (const r of reserviert) {
+    const zahl = Number(r.nummer);
+    if (!Number.isInteger(zahl) || zahl <= kanon) continue;   // gelandet — Eintrag ist Geschichte
+    // Freigegeben (Landung abgebrochen): belegt für alle, auch die frühere Inhaberin — eine Lücke, keine Wiedervergabe.
+    if (!r.freigegeben && sitzung && r.sitzung === sitzung) { eigene.add(zahl); continue; }
+    if (!belegt.has(zahl)) belegt.set(zahl, []);
+    belegt.get(zahl).push((r.freigegeben ? 'freigegeben: ' : 'reserviert: ') + r.sitzung);
+  }
   let frei = kanon + 1;
   while (belegt.has(frei)) frei++;
   const urteil = (wunsch == null)
     ? null
     : (wunsch <= kanon ? 'im-kanon' : (belegt.has(wunsch) ? 'belegt' : 'frei'));
-  return { kanon, belegt, uneinig, frei, wunsch, urteil };
+  return { kanon, belegt, uneinig, frei, wunsch, urteil, eigene };
 }
 
 /* ── Die Git-Seite. Liest zuerst NUR sw.js je Zweig (die kleinste der vier) und
@@ -126,47 +141,57 @@ function kanonZahlLesen() {
 
 function fixtureLesen() {
   const d = JSON.parse(fs.readFileSync(FIXTURE, 'utf8'));
-  return { kanon: d.kanon, zweige: d.zweige };
+  return { kanon: d.kanon, zweige: d.zweige, reserviert: d.reserviert || [] };
+}
+
+function reservierungenLesen(pfad) {
+  if (!pfad) return [];
+  return JSON.parse(fs.readFileSync(path.resolve(pfad), 'utf8')).fassung || [];
 }
 
 function main() {
   const argv = process.argv.slice(2);
   const wunsch = argv.includes('--zahl') ? Number(argv[argv.indexOf('--zahl') + 1]) : null;
   const nurFixture = argv.includes('--fixture');
+  const sitzung = argv.includes('--sitzung') ? argv[argv.indexOf('--sitzung') + 1] : null;
+  const reservierungPfad = argv.includes('--reservierung') ? argv[argv.indexOf('--reservierung') + 1] : null;
 
-  let kanon, zweige, quelle;
+  let kanon, zweige, quelle, reserviert = [];
   if (nurFixture) {
-    ({ kanon, zweige } = fixtureLesen());
+    ({ kanon, zweige, reserviert } = fixtureLesen());
+    if (reservierungPfad) reserviert = reservierungenLesen(reservierungPfad);
     quelle = 'Fixture (' + path.relative(REPO, FIXTURE) + ')';
   } else {
     try {
       git(['fetch', '-q', 'origin']);
       kanon = kanonZahlLesen();
       zweige = zweigeAusGitLesen(kanon);
+      reserviert = reservierungenLesen(reservierungPfad);
       quelle = 'origin/u2-kanon';
     } catch (e) {
       /* Kein Netz, kein origin, kein Repo — die Fixture ist der Rückfall, damit
          die Suite dieses Werkzeug auch ohne Netz prüfen kann. */
-      ({ kanon, zweige } = fixtureLesen());
+      ({ kanon, zweige, reserviert } = fixtureLesen());
       quelle = 'Fixture (kein origin erreichbar: ' + String(e.message).split('\n')[0] + ')';
     }
   }
 
-  const r = auswerten(kanon, zweige, Number.isFinite(wunsch) ? wunsch : null);
+  const r = auswerten(kanon, zweige, Number.isFinite(wunsch) ? wunsch : null, reserviert, sitzung);
 
   console.log('Quelle: ' + quelle);
   console.log('Kanon trägt: v' + r.kanon);
   console.log('');
   if (!r.belegt.size) {
-    console.log('Kein ungelandeter Zweig beansprucht eine Zahl über v' + r.kanon + '.');
+    console.log('Kein ungelandeter Zweig und keine Reservierung beansprucht eine Zahl über v' + r.kanon + '.');
   } else {
-    console.log('Beansprucht, aber NICHT gelandet:');
+    console.log('Beansprucht oder reserviert, aber NICHT gelandet:');
     for (const [zahl, namen] of [...r.belegt.entries()].sort((a, b) => a[0] - b[0])) {
       console.log('  v' + zahl + '  ' + namen.join(', '));
     }
   }
   console.log('');
   console.log('Nächste freie Zahl: v' + r.frei);
+  if (r.eigene.size) console.log('Für ' + sitzung + ' reserviert: ' + [...r.eigene].sort((a, b) => a - b).map((z) => 'v' + z).join(', '));
 
   if (r.uneinig.length) {
     console.log('');
@@ -191,4 +216,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { auswerten, zahlAus, TRAEGER };
+module.exports = { auswerten, zahlAus, TRAEGER, zweigeAusGitLesen };

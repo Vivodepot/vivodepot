@@ -144,7 +144,7 @@ async function buergerweg(page, browser, slug, url, testInfo) {
     await schliessen(page);
     const bytes = await page.evaluate(() => window.__bwBytes);
     expect(bytes).toBeTruthy();
-    lauf.datei = path.join(os.tmpdir(), 'bw-' + slug + '-' + Date.now() + '.vivodepot');
+    lauf.datei = path.join(os.tmpdir(), 'bw-' + slug + '-' + process.pid + '-' + Date.now() + '.vivodepot');
     fs.writeFileSync(lauf.datei, bytes, 'utf8');
     await page.click('#w-datei');
     await page.setInputFiles('#co-datei', lauf.datei);

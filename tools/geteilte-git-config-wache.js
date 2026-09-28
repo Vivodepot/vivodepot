@@ -131,13 +131,62 @@ function userAbschnitt(inhalt) {
  * @param {{repo?: string}} [optionen]
  * @returns {number} Exit-Code
  */
-function bewachterLauf(befehl, { repo = REPO } = {}) {
+function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempBasis } = {}) {
   const pfad = geteilteConfigPfad(repo);
   const vorher = userAbschnitt(pfad ? inhaltLesen(pfad) : null);
 
+  /* SUITE-PLATZ (27.09.2026): `npm test` läuft über diese Wache — hier holt ein direkt gestarteter Lauf einen der
+     globalen Plätze (tools/lib/suite-platz.js). Im pre-commit/pre-push ist er schon geholt und wird geerbt
+     (VD_SUITE_PLATZ_GEHALTEN). Nur der CLI-Aufruf (main) setzt `platz`, damit Proben, die bewachterLauf direkt
+     rufen, nie die echten Plätze der Maschine berühren. */
+  let geholt = null;
+  if (platz) {
+    const sp = require('./lib/suite-platz.js');
+    geholt = sp.platzHolenMitWarten({ name: 'npm test', pid: process.pid }, {
+      wartenS: Number(process.env.VD_SUITE_PLATZ_WARTEN_S || 600),
+      melden: (x) => console.error('[suite-platz] ' + sp.meldungBelegt(x)),
+    });
+    if (!geholt.geholt) { console.error('[suite-platz] ABBRUCH: ' + sp.meldungBelegt(geholt)); return 1; }
+    if (!geholt.geerbt) process.env[sp.UMGEBUNG_GEHALTEN] = 'npm-test:' + process.pid;
+  }
+
+  /* EIGENES TMPDIR JE LAUF (28.09.2026, Befund TEMP-RESTE-FUELLEN-DIE-PLATTE): alles, was der Lauf und seine Kinder
+     unter os.tmpdir anlegen, landet in einem eigenen Verzeichnis. Was danach darin liegt, ist liegengeblieben — rot,
+     mit den Präfixen —, und das Verzeichnis wird in jedem Fall geräumt. Zählen im gemeinsamen tmpdir ginge nicht:
+     parallele Suiten anderer Sitzungen verschieben dort jede Zahl. Geräumt wird im gemeinsamen tmpdir nur der eigene
+     Namensraum vd-lauf-* (verwaiste Läufe), nie nach Mustern (tools/lib/temp-aufraeumen.js). */
+  const T = temp ? require('./lib/temp-aufraeumen.js') : null;
+  let laufTmp = null;
+  if (T) {
+    T.verwaisteLaeufeRaeumen({ basis: tempBasis });
+    laufTmp = T.laufVerzeichnis(tempBasis);
+  }
+  const env = laufTmp ? { ...process.env, TMPDIR: laufTmp, TMP: laufTmp, TEMP: laufTmp } : process.env;
+
   const [cmd, ...args] = befehl;
-  const ergebnis = spawnSync(cmd, args, { stdio: 'inherit', cwd: repo });
-  const laufExit = ergebnis.status == null ? 1 : ergebnis.status;
+  let ergebnis;
+  let tempRest = null;
+  try {
+    ergebnis = spawnSync(cmd, args, { stdio: 'inherit', cwd: repo, env });
+  } finally {
+    if (geholt && geholt.geholt && !geholt.geerbt) require('./lib/suite-platz.js').platzFreigeben({ pid: process.pid });
+    if (laufTmp) {
+      tempRest = T.reste(laufTmp);
+      T.laufVerzeichnisRaeumen(laufTmp);
+      T.verwaisteLaeufeRaeumen({ basis: tempBasis });
+    }
+  }
+  let laufExit = ergebnis.status == null ? 1 : ergebnis.status;
+  if (tempRest && tempRest.anzahl > 0) {
+    const liste = Object.entries(tempRest.praefixe).sort((a, b) => b[1] - a[1]).map(([p, n]) => n + '× ' + p).join(', ');
+    console.error('');
+    console.error('[temp-aufraeumen] ABBRUCH — der Lauf hat ' + tempRest.anzahl + ' Einträge unter os.tmpdir liegen lassen: ' + liste);
+    console.error('  Eine Probe räumt ihr mkdtemp im finally bzw. after() ab; im Testprozess tut es sonst der Preload');
+    console.error('  (tools/lib/temp-aufraeumen-preload.js). Was trotzdem liegt, kommt aus einem Kindprozess oder ohne mkdtemp.');
+    console.error('  Das Laufverzeichnis ist geräumt — die Platte läuft nicht voll, der Befund bleibt.');
+    console.error('');
+    if (laufExit === 0) laufExit = 1;
+  }
 
   if (!pfad) return laufExit; // kein Git-Arbeitsbaum — nichts zu bewachen, das ist kein Fehler dieser Wache
   const nachher = userAbschnitt(inhaltLesen(pfad));
@@ -175,7 +224,7 @@ function main() {
     process.exit(2);
   }
   const befehl = argv.slice(trenner + 1);
-  process.exit(bewachterLauf(befehl, { repo }));
+  process.exit(bewachterLauf(befehl, { repo, platz: true, temp: true }));
 }
 
 if (require.main === module) main();

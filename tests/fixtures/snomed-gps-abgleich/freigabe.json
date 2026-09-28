@@ -1,0 +1,7 @@
+{
+  "_zweck": "Erfundene Fixture für tools/snomed-gps-abgleich.js — keine echten SNOMED-Kennungen.",
+  "freigegeben": {
+    "1000000001": { "begriff": "Erfundenes Konzept A", "gps": { "release": "20990101", "aktiv": true } },
+    "1000000002": { "begriff": "Erfundenes Konzept B", "gps": { "release": "20990101", "aktiv": true } }
+  }
+}

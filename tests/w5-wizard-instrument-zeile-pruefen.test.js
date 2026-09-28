@@ -16,16 +16,35 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 const {
-  korpusFreistellungLoecher, wizardsOhneInstrumentZeile, gateBewerten,
+  pvFestlegungenPruefen, pvFestlegungenLiteralImQuelltext, pvFestlegungenQuelltexte, wizardsOhneInstrumentZeile, gateBewerten,
 } = require('../tools/w5-wizard-instrument-zeile-pruefen.js');
 
 const GRUNDLINIE = require('../tools/w5-wizard-instrument-zeile-grundlinie.json');
 
-test('[W-5·TeilA] alle PV-Korpus-Felder sind weiterhin NIRGENDS als Felddefinition vorhanden (Freistellung gilt)', () => {
+/* Teil A, gedreht (27.09.2026, U2-ADR-440 löst U2-ADR-089 in diesem Punkt ab): die PV-Festlegungen SIND Felder des Bereichs
+   Vorsorge — aber der Grund von 089 bleibt: sie entstehen AUSSCHLIESSLICH aus PV_BMJ.steps, nirgends steht eine literale
+   Definition, weder im Kern noch in einem Bereichs-Template. */
+test('[W-5·TeilA] die PV-Festlegungen sind Felder in living-will-decisions, abgeleitet aus PV_BMJ.steps — keine literale Definition, keine Doppelablage', () => {
   const { V } = ladeKern();
-  assert.deepEqual(korpusFreistellungLoecher(V), [],
-    'ein PV-Korpus-Feld ist doch als Felddefinition aufgetaucht — die U2-ADR-089-Freistellung in '
-    + 'tests/wizard-schreibziele.test.js griffe dann fälschlich weiter und verdeckte einen echten Waisen-Write');
+  assert.equal(V.PV_BMJ.steps.length, 29, 'Vorbedingung: die 29 Schritte des Assistenten');
+  assert.deepEqual(pvFestlegungenPruefen(V), { fehlen: [], anderswo: [], literal: [] });
+  assert.deepEqual(pvFestlegungenLiteralImQuelltext(V, pvFestlegungenQuelltexte()), [],
+    'eine literale Definition einer PV-Festlegung im Kern oder in einem Bereichs-Template — die zweite Quelle, die U2-ADR-089 verhindern wollte');
+});
+
+test('[W-5·TeilA·Rot-Beweis] eine von Hand eingefügte Felddefinition in living-will-decisions fällt — ebenso eine literale im Quelltext', () => {
+  const { V } = ladeKern();
+  const sektion = V.SEKTOR_BY_ID.advanceCare.sektionen.find((x) => x.id === 'living-will-decisions');
+  const echt = sektion.felder[2];
+  sektion.felder[2] = { id: echt.id, typ: echt.typ, label: 'von Hand', sensibel: true };
+  try {
+    assert.deepEqual(pvFestlegungenPruefen(V).literal, [echt.id], 'die von Hand eingefügte Definition muss gefunden werden');
+  } finally { sektion.felder[2] = echt; }
+  assert.deepEqual(pvFestlegungenPruefen(V).literal, [], 'Gegenprobe: zurückgesetzt ist sie wieder abgeleitet');
+  const funde = pvFestlegungenLiteralImQuelltext(V, { 'tools/bereich-templates/x.json': '{ "id": "lifeSustainingMeasures", "typ": "auswahl" }', 'vivodepot.html': "felder: [{ id: 'artificialVentilation', typ: 'auswahl' }]" });
+  assert.deepEqual(funde, ['tools/bereich-templates/x.json: lifeSustainingMeasures', 'vivodepot.html: artificialVentilation']);
+  assert.deepEqual(pvFestlegungenLiteralImQuelltext(V, { 'vivodepot.html': "PV_BMJ.steps.find((x) => x.feld.id === 'lifeSustainingMeasures')" }), [],
+    'Gegenprobe: ein Zugriff auf die Id ist keine Definition');
 });
 
 test('[W-5·TeilB] echter Kern: kein neuer instrument-loser Wizard gegen die Grundlinie', () => {

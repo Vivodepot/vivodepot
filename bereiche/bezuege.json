@@ -1,0 +1,4 @@
+{
+  "hinweis": "Abbildungen der Feldkennungen auf internationale Datensätze (IPS, eu-eps, openEHR; ePA/MIO zusätzlich). Nur Abbildung, keine Umbenennung (U2-ADR-409). Grade: exakt, naeherung, eng, weit (SKOS). Keine Zeile heißt: keine Entsprechung. Geprüft und gezählt von tools/bezuege-erheben.js.",
+  "zeilen": []
+}

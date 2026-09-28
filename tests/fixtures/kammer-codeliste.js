@@ -30,8 +30,7 @@ const KAMMER_FELDER = Object.freeze([
     codeSystem: SNOMED_URI,
     codeWerte: [
       { code: '91936005', anzeige: 'Allergie gegen Penicillin' },
-      { code: '29449006', anzeige: 'Allergie gegen Jod' },
-      { code: '418689008', anzeige: 'Allergie gegen Gräserpollen' },
+      { code: '91935009', anzeige: 'Allergie gegen Erdnuss' },
     ] },
   { feldname: 'Untersuchungsgrund', feldtyp: 'text', bereich: 'health' },
 ]);
@@ -43,11 +42,10 @@ const KAMMER_CODELISTE = Object.freeze({
   uri: SNOMED_URI,
   version: '2026-08',
   kuerzel: 'SNOMED',
-  lizenz: 'SNOMED CT, Affiliate-Lizenz der Ärztekammer',
+  lizenz: 'SNOMED CT, Global Patient Set (CC BY-ND 4.0); nur die freigegebenen Konzepte (tools/snomed-freigabe.json)',
   eintraege: [
     { code: '91936005', anzeige: 'Allergie gegen Penicillin' },
-    { code: '29449006', anzeige: 'Allergie gegen Jod' },
-    { code: '418689008', anzeige: 'Allergie gegen Gräserpollen' },
+    { code: '91935009', anzeige: 'Allergie gegen Erdnuss' },
   ],
 });
 

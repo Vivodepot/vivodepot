@@ -43,12 +43,21 @@ Die vollständigen Quellenangaben und Lizenzbedingungen stehen in `THIRD_PARTY_L
 Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM mit DDD, die auf dem vom WHO Collaborating Centre for Drug Statistics Methodology herausgegebenen Werk mit dem Titel „ATC Index with DDDs and Guidelines for ATC Classification and DDD Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM).
 
 **ICD-10-GM** — BfArM im Auftrag des BMG, anderes amtliches Werk (§ 5 Abs. 2 UrhG), Änderungsverbot (§ 62 UrhG), Quellenangabe (§ 63 UrhG):
-Die englischsprachige Originalausgabe wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992. © Weltgesundheitsorganisation (WHO) 1992. Der Generaldirektor der WHO hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das BfArM vergeben, das für die Übersetzung allein verantwortlich ist.
+Die vorliegende Ausgabe beruht  
+(1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und  
+(2) auf der australischen ICD-10-AM, First Edition.  
+Die englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.  
+© zu (1): Weltgesundheitsorganisation (WHO) 1992  
+© zu (2): Commonwealth of Australia 1998  
+Der Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.  
+Das Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.  
+Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)  
+Die Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).
 
 **LOINC** — Regenstrief Institute, Inc., LOINC-Lizenz:
-This material contains content from LOINC (http://loinc.org). LOINC is copyright (c) 1995-2026, Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC is a registered United States trademark of Regenstrief Institute, Inc.
+This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.
 
-**SNOMED CT (Allergen-Auszug)** — SNOMED International; genutzt unter einer Affiliate-Lizenz des National Release Center Deutschland (BfArM). SNOMED CT ist lizenzpflichtig; Einzelheiten in `THIRD_PARTY_LICENSES`.
+**SNOMED CT (Global Patient Set)** — Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0, https://creativecommons.org/licenses/by-nd/4.0/), bezogen über https://www.snomed.org/gps. SNOMED® und SNOMED CT® sind eingetragene Marken der International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists. Hinweis auf den Gewährleistungsausschluss: Das Material wird ohne Gewähr bereitgestellt; es gilt Abschnitt 5 der CC BY-ND 4.0 (Gewährleistungsausschluss und Haftungsbeschränkung). GPS-Release: 20260101. Genutzt werden neun Konzepte mit ihrem unveränderten Begriff; deutsche Bezeichnungen daneben sind eigene Bezeichnungen von Vivodepot, keine SNOMED-Begriffe. Einzelheiten in `THIRD_PARTY_LICENSES`.
 
 ---
 
@@ -67,3 +76,7 @@ unverändert. Das Kit enthält keine eigenen Nutzungsbedingungen.
 Copyright (c) 2026 Vivodepot GmbH, Berlin
 Lizenz: EUPL-1.2 (Code und Dokumentation)
 Siehe `LICENSE` für den vollständigen Lizenztext.
+
+## Logo
+
+`logo.png`: Das Logo ist Kennzeichen der Vivodepot GmbH und nicht von der EUPL erfasst.

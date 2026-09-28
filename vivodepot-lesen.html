@@ -1311,6 +1311,7 @@ const _STRINGS_EINGEBAUT = ({
   antwortGrundlage: 'Auf welcher Grundlage Sie gefragt haben:',
   antwortFeldZweck: 'Wozu:',
   antwortGueltigBis: 'gültig bis',
+  notfallKarteVollstaendigInDatei: '(vollständig in der Datei)',
   antwortHerkunftGeprueft: 'aus geprüftem Nachweis',
   antwortHerkunftEingetragen: 'von der Person angegeben',
   antwortHerkunftZaehlung: '{n} von {m} Angaben stammen aus geprüften Nachweisen, die übrigen hat die Person selbst angegeben.',
@@ -1613,6 +1614,7 @@ const LESE_TEXTE_EN = Object.freeze({
   antwortGrundlage: "Basis on which you asked:",
   antwortFeldZweck: "Purpose:",
   antwortGueltigBis: "valid until",
+  notfallKarteVollstaendigInDatei: "(complete in the file)",
   antwortHerkunftGeprueft: "from a verified credential",
   antwortHerkunftEingetragen: "stated by the person",
   antwortHerkunftZaehlung: "{n} of {m} entries come from verified credentials; the person stated the others themselves.",
@@ -1784,6 +1786,10 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "identity.formerNames/reason/sonstiges.label": "sonstiges",
   "identity#pets.label": "Haustiere",
   "identity.pets.label": "Tiere",
+  "identity#civil-status-certificates.label": "Personenstandsurkunden",
+  "identity.birthCertificateStorage.label": "Eigene Geburtsurkunde — Ablageort",
+  "identity.marriageCertificateStorage.label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+  "identity.familyRegisterBookStorage.label": "Familienstammbuch — Ablageort",
   "identity.einfuehrungstext": "Name, Foto, Kontakt — das Deckblatt Ihres Depots.",
   "people.label": "Meine Menschen",
   "people#menschen-liste.label": "Menschen",
@@ -2222,6 +2228,95 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "advanceCare.provisionDocumentsCheckedIn/ja.label": "ja, alles aktuell",
   "advanceCare.provisionDocumentsCheckedIn/teil.label": "teilweise — muss noch ergänzt werden",
   "advanceCare.provisionDocumentsCheckedIn/nein.label": "noch nicht geprüft",
+  "advanceCare#communication-support.label": "Verständigung und Unterstützung",
+  "advanceCare.communicationLanguage.label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+  "advanceCare.communicationSupport.label": "Unterstützung bei der Verständigung",
+  "advanceCare.communicationSupport/dolmetschen.label": "Dolmetschen",
+  "advanceCare.communicationSupport/gebaerdensprache.label": "Gebärdensprache",
+  "advanceCare.communicationSupport/leichte-sprache.label": "Leichte Sprache",
+  "advanceCare.supportPerson.label": "Begleit- oder Vertrauensperson bei Gesprächen",
+  "advanceCare.whatHelpsMe.label": "Was mir hilft",
+  "advanceCare.doNotInform.label": "Wer nicht informiert werden soll",
+  "advanceCare#living-will-decisions.label": "Festlegungen der Patientenverfügung",
+  "advanceCare.applicableSituations.label": "Situationen",
+  "advanceCare.applicableSituations/sterbeprozess.label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,",
+  "advanceCare.applicableSituations/endstadium.label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,",
+  "advanceCare.applicableSituations/gehirnschaedigung.label": "infolge einer Gehirnschädigung meine Fähigkeit, Einsichten zu gewinnen, Entscheidungen zu treffen und mit anderen Menschen in Kontakt zu treten, nach Einschätzung zweier erfahrener Ärztinnen oder Ärzte (können namentlich benannt werden) aller Wahrscheinlichkeit nach unwiederbringlich erloschen ist, selbst wenn der Todeszeitpunkt noch nicht absehbar ist. Dies gilt für direkte Gehirnschädigung z. B. durch Unfall, Schlaganfall oder Entzündung ebenso wie für indirekte Gehirnschädigung z. B. nach Wiederbelebung, Schock oder Lungenversagen. Es ist mir bewusst, dass in solchen Situationen die Fähigkeit zu Empfindungen erhalten sein kann und dass ein Aufwachen aus diesem Zustand nicht ganz sicher auszuschließen, aber unwahrscheinlich ist.",
+  "advanceCare.applicableSituations/hirnabbau.label": "ich infolge eines weit fortgeschrittenen Hirnabbauprozesses (z. B. bei Demenzerkrankung) auch mit ausdauernder Hilfestellung nicht mehr in der Lage bin, Nahrung und Flüssigkeit auf natürliche Weise zu mir zu nehmen.",
+  "advanceCare.ownAdditionalSituation.label": "Eigene Beschreibung der Anwendungssituation",
+  "advanceCare.lifeSustainingMeasures.label": "Lebenserhaltende Maßnahmen",
+  "advanceCare.lifeSustainingMeasures/ausschoepfen.label": "dass alles medizinisch Mögliche und Sinnvolle getan wird, um mich am Leben zu erhalten.",
+  "advanceCare.lifeSustainingMeasures/unterlassen.label": "dass alle lebenserhaltenden Maßnahmen unterlassen werden. Hunger und Durst sollen auf natürliche Weise gestillt werden, gegebenenfalls mit Hilfe bei der Nahrungs- und Flüssigkeitsaufnahme. Ich wünsche fachgerechte Pflege von Mund und Schleimhäuten sowie menschenwürdige Unterbringung, Zuwendung, Körperpflege und das Lindern von Schmerzen, Atemnot, Übelkeit, Angst, Unruhe und anderer belastender Symptome.",
+  "advanceCare.painAndSymptomTreatment.label": "Schmerz- und Symptombehandlung",
+  "advanceCare.painAndSymptomTreatment/ohne_daempfung.label": "aber ohne bewusstseinsdämpfende Wirkungen.",
+  "advanceCare.painAndSymptomTreatment/mit_daempfung.label": "wenn alle sonstigen medizinischen Möglichkeiten zur Schmerz- und Symptomkontrolle versagen, auch Mittel mit bewusstseinsdämpfenden Wirkungen zur Beschwerdelinderung.",
+  "advanceCare.acceptsLifeShorteningFromPain.label": "Lebensverkürzung in Kauf",
+  "advanceCare.acceptsLifeShorteningFromPain/ja.label": "die unwahrscheinliche Möglichkeit einer ungewollten Verkürzung meiner Lebenszeit durch schmerz- und symptomlindernde Maßnahmen nehme ich in Kauf.",
+  "advanceCare.acceptsLifeShorteningFromPain/nein.label": "(kein Zusatz)",
+  "advanceCare.artificialNutritionAndHydration.label": "Künstliche Ernährung und Flüssigkeitszufuhr",
+  "advanceCare.artificialNutritionAndHydration/ja.label": "dass eine künstliche Ernährung und Flüssigkeitszufuhr begonnen oder weitergeführt wird, wenn damit mein Leben verlängert werden kann.",
+  "advanceCare.artificialNutritionAndHydration/palliativ.label": "dass eine künstliche Ernährung und/oder eine künstliche Flüssigkeitszufuhr nur bei palliativmedizinischer Indikation zur Beschwerdelinderung erfolgen bzw. erfolgt.",
+  "advanceCare.artificialNutritionAndHydration/nein.label": "dass keine künstliche Ernährung unabhängig von der Form der künstlichen Zuführung der Nahrung (z. B. Magensonde durch Mund, Nase oder Bauchdecke, venöse Zugänge) und keine künstliche Flüssigkeitszufuhr erfolgen.",
+  "advanceCare.resuscitationInDescribedSituations.label": "Wiederbelebung (oben beschriebene Situationen)",
+  "advanceCare.resuscitationInDescribedSituations/ja.label": "Versuche der Wiederbelebung.",
+  "advanceCare.resuscitationInDescribedSituations/nein.label": "die Unterlassung von Versuchen der Wiederbelebung.",
+  "advanceCare.emergencyDoctorNotified.label": "Notarzt-Hinweis",
+  "advanceCare.emergencyDoctorNotified/ja.label": "dass eine Notärztin oder ein Notarzt nicht verständigt wird bzw. im Fall einer Hinzuziehung unverzüglich über meine Ablehnung von Wiederbelebungsmaßnahmen informiert wird.",
+  "advanceCare.emergencyDoctorNotified/nein.label": "(kein Zusatz)",
+  "advanceCare.resuscitationInAllCases.label": "Wiederbelebung (alle Fälle)",
+  "advanceCare.resuscitationInAllCases/ab.label": "lehne ich Wiederbelebungsmaßnahmen ab.",
+  "advanceCare.resuscitationInAllCases/ab_ausser_op.label": "lehne ich Wiederbelebungsmaßnahmen ab, sofern diese Situationen nicht im Rahmen ärztlicher Maßnahmen (z. B. Operationen) unerwartet eintreten.",
+  "advanceCare.artificialVentilation.label": "Künstliche Beatmung",
+  "advanceCare.artificialVentilation/ja.label": "eine künstliche Beatmung, falls dies mein Leben verlängern kann.",
+  "advanceCare.artificialVentilation/nein.label": "dass keine künstliche Beatmung durchgeführt bzw. eine schon eingeleitete Beatmung eingestellt wird, unter der Voraussetzung, dass ich Medikamente zur Linderung der Luftnot erhalte. Die Möglichkeit einer Bewusstseinsdämpfung oder einer ungewollten Verkürzung meiner Lebenszeit durch diese Medikamente nehme ich in Kauf.",
+  "advanceCare.dialysis.label": "Dialyse",
+  "advanceCare.dialysis/ja.label": "eine künstliche Blutwäsche (Dialyse), falls dies mein Leben verlängern kann.",
+  "advanceCare.dialysis/nein.label": "dass keine Dialyse durchgeführt bzw. eine schon eingeleitete Dialyse eingestellt wird.",
+  "advanceCare.antibiotics.label": "Antibiotika",
+  "advanceCare.antibiotics/ja.label": "Antibiotika, falls dies mein Leben verlängern kann.",
+  "advanceCare.antibiotics/palliativ.label": "Antibiotika nur bei palliativmedizinischer Indikation zur Beschwerdelinderung.",
+  "advanceCare.antibiotics/nein.label": "keine Antibiotika.",
+  "advanceCare.bloodAndBloodProducts.label": "Blut und Blutbestandteile",
+  "advanceCare.bloodAndBloodProducts/ja.label": "die Gabe von Blut oder Blutbestandteilen, falls dies mein Leben verlängern kann.",
+  "advanceCare.bloodAndBloodProducts/palliativ.label": "die Gabe von Blut oder Blutbestandteilen nur bei palliativmedizinischer Indikation zur Beschwerdelinderung.",
+  "advanceCare.bloodAndBloodProducts/nein.label": "keine Gabe von Blut oder Blutbestandteilen.",
+  "advanceCare.placeOfTreatmentOrDeath.label": "Ort der Behandlung / des Sterbens",
+  "advanceCare.placeOfTreatmentOrDeath/krankenhaus.label": "zum Sterben ins Krankenhaus verlegt werden.",
+  "advanceCare.placeOfTreatmentOrDeath/zuhause.label": "wenn möglich zu Hause bzw. in vertrauter Umgebung sterben.",
+  "advanceCare.placeOfTreatmentOrDeath/hospiz.label": "wenn möglich in einem Hospiz sterben.",
+  "advanceCare.supportFromThesePersons.label": "Beistand durch folgende Personen",
+  "advanceCare.supportFromChurchOrCommunity.label": "Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft",
+  "advanceCare.hospiceSupport.label": "Hospizlicher Beistand",
+  "advanceCare.hospiceSupport/ja.label": "hospizlichen Beistand.",
+  "advanceCare.hospiceSupport/nein.label": "(kein Wunsch)",
+  "advanceCare.confidentialityWaiverFor.label": "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+  "advanceCare.whoseViewMattersIfUnregulated.label": "Besondere Bedeutung (ungeregelte Situationen)",
+  "advanceCare.whoseViewMattersIfUnregulated/bevollmaechtigt.label": "meiner/meinem Bevollmächtigten.",
+  "advanceCare.whoseViewMattersIfUnregulated/betreuer.label": "meiner Betreuerin/meinem Betreuer.",
+  "advanceCare.whoseViewMattersIfUnregulated/arzt.label": "der behandelnden Ärztin oder dem behandelnden Arzt.",
+  "advanceCare.whoseViewMattersIfUnregulated/andere.label": "anderer Person: …",
+  "advanceCare.whoseViewMattersOtherPersonName.label": "Andere Person (Name)",
+  "advanceCare.whoseViewMattersIfDeviatingWill.label": "Besondere Bedeutung (abweichende Willensäußerung)",
+  "advanceCare.whoseViewMattersIfDeviatingWill/bevollmaechtigt.label": "meiner/meinem Bevollmächtigten.",
+  "advanceCare.whoseViewMattersIfDeviatingWill/betreuer.label": "meiner Betreuerin/meinem Betreuer.",
+  "advanceCare.whoseViewMattersIfDeviatingWill/arzt.label": "der behandelnden Ärztin oder dem behandelnden Arzt.",
+  "advanceCare.whoseViewMattersIfDeviatingWill/andere.label": "anderer Person: …",
+  "advanceCare.whoseViewMattersIfDeviatingOther.label": "Andere Person (Name)",
+  "advanceCare.personalValuesOrFurtherDocuments.label": "Wertvorstellungen / sonstige Unterlagen",
+  "advanceCare.organDonationDecision.label": "Organspende",
+  "advanceCare.organDonationDecision/zustimmung.label": "Ich stimme einer Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken zu (ggf.: Ich habe einen Organspendeausweis ausgefüllt). Komme ich nach ärztlicher Beurteilung bei einem sich abzeichnenden Hirntod als Organspender/in in Betracht und müssen dafür ärztliche Maßnahmen durchgeführt werden, die ich in meiner Patientenverfügung ausgeschlossen habe, dann",
+  "advanceCare.organDonationDecision/ablehnung.label": "Ich lehne eine Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken ab.",
+  "advanceCare.priorityIfOrganDonationConflict.label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+  "advanceCare.priorityIfOrganDonationConflict/organspende.label": "geht die von mir erklärte Bereitschaft zur Organspende vor.",
+  "advanceCare.priorityIfOrganDonationConflict/patientenverfuegung.label": "gehen die Bestimmungen in meiner Patientenverfügung vor.",
+  "advanceCare.waivesFurtherMedicalInformation.label": "Verzicht auf weitere ärztliche Aufklärung",
+  "advanceCare.waivesFurtherMedicalInformation/ja.label": "Soweit ich bestimmte Behandlungen wünsche oder ablehne, verzichte ich ausdrücklich auf eine (weitere) ärztliche Aufklärung.",
+  "advanceCare.waivesFurtherMedicalInformation/nein.label": "(kein Verzicht)",
+  "advanceCare.informationOrCounsellingReceived.label": "Information / Beratung",
+  "advanceCare.validityDuration.label": "Gültigkeit",
+  "advanceCare.validityDuration/unbefristet.label": "Diese Patientenverfügung gilt solange, bis ich sie widerrufe.",
+  "advanceCare.validityDuration/befristet.label": "Diese Patientenverfügung soll nach Ablauf von (Zeitangabe) ihre Gültigkeit verlieren, es sei denn, dass ich sie durch meine Unterschrift erneut bekräftige.",
+  "advanceCare.validityDurationDeadline.label": "Frist",
   "advanceCare.einfuehrungstext": "Vollmacht, Testament, Patientenverfügung — damit Ihr Wille gilt.",
   "administration.label": "Verwaltung & Behörden",
   "administration#bundid-vorgaenge.label": "BundID und Vorgänge",
@@ -2421,6 +2516,16 @@ const TEXTSATZ_EINGEBAUT_LESEN_DOK = Object.freeze({
   "dok:erbschein-vorbereitung#1/testament_bedachte_namen.luecke": "— nicht erfasst —",
   "dok:erbschein-vorbereitung#1/erben_namen.frage": "Vorgesehene Erb(inn)en?",
   "dok:erbschein-vorbereitung#1/erben_namen.luecke": "— nicht erfasst —",
+  "dok:erbschein-vorbereitung#2.titel": "Teil C — Urkunden für den Nachweis",
+  "dok:erbschein-vorbereitung#2/0.texte[0]": "Wer einen Erbschein beantragt, weist den Todeszeitpunkt und das Verwandtschafts- oder Eheverhältnis, auf dem das Erbrecht beruht, in der Regel durch öffentliche Urkunden nach (§ 352 Abs. 3 FamFG). Hier steht, wo die Urkunden der verstorbenen Person liegen, soweit sie es eingetragen hat.",
+  "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.frage": "Wo liegt die Geburtsurkunde?",
+  "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.luecke": "— nicht erfasst —",
+  "dok:erbschein-vorbereitung#2/eheurkunde_ort.frage": "Wo liegt die Ehe- oder Lebenspartnerschaftsurkunde?",
+  "dok:erbschein-vorbereitung#2/eheurkunde_ort.luecke": "— nicht erfasst —",
+  "dok:erbschein-vorbereitung#2/stammbuch_ort.frage": "Wo liegt das Familienstammbuch?",
+  "dok:erbschein-vorbereitung#2/stammbuch_ort.luecke": "— nicht erfasst —",
+  "dok:erbschein-vorbereitung#2/4.texte[0]": "Die Sterbeurkunde stellt das Standesamt aus, nachdem der Sterbefall beurkundet ist; sie steht nicht in diesem Depot.",
+  "dok:erbschein-vorbereitung#2/4.texte[1]": "Urkunden der Erben, etwa deren Geburtsurkunden, gehören nicht zu diesem Depot.",
   "dok:erbschein-vorbereitung.h1": "Erbschein — Vorbereitungsauszug",
   "dok:erbschein-vorbereitung.herkunftText": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu service.justiz.de.",
   "dok:erbschein-vorbereitung.unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder die eidesstattliche Versicherung noch den amtlichen Erbschein-Wegweiser. Was in Ihrem Fall nötig ist, klärt das Nachlassgericht.",
@@ -3662,6 +3767,33 @@ const SEKTOREN = Object.freeze([
                 "beispiel": "scheu vor lauten Geräuschen"
               }
             ]
+          }
+        ]
+      },
+      {
+        "id": "civil-status-certificates",
+        "label": "Personenstandsurkunden",
+        "felder": [
+          {
+            "id": "birthCertificateStorage",
+            "label": "Eigene Geburtsurkunde — Ablageort",
+            "typ": "text",
+            "beispiel": "Mappe „Urkunden“, Schreibtisch",
+            "sensibel": true
+          },
+          {
+            "id": "marriageCertificateStorage",
+            "label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+            "typ": "text",
+            "beispiel": "Mappe „Urkunden“, Schreibtisch",
+            "sensibel": true
+          },
+          {
+            "id": "familyRegisterBookStorage",
+            "label": "Familienstammbuch — Ablageort",
+            "typ": "text",
+            "beispiel": "Schreibtisch, untere Schublade",
+            "sensibel": true
           }
         ]
       }
@@ -5856,7 +5988,11 @@ const SEKTOREN = Object.freeze([
             "label": "Pflegegeld — Betrag",
             "typ": "text",
             "beispiel": "599 EUR/Monat",
-            "sensibel": true
+            "sensibel": true,
+            "verborgenWenn": {
+              "feld": "longTermCareAllowanceTypeOf",
+              "wert": "sachleistung"
+            }
           },
           {
             "id": "longTermCareAllowanceEarlier",
@@ -6758,7 +6894,7 @@ const SEKTOREN = Object.freeze([
                 "id": "copyDepositedInTheRegister",
                 "label": "Abschrift im Register hinterlegt",
                 "typ": "auswahl",
-                "hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat.",
+                "hint": "Hat eine Stelle, etwa ein Notariat, eine Anwaltskanzlei oder ein Betreuungsverein, eine elektronische Abschrift Ihrer Vorsorgedokumente beim Zentralen Vorsorgeregister hinterlegt? Dann tragen Sie es hier ein.",
                 "sensibel": true,
                 "optionen": [
                   {
@@ -7077,11 +7213,11 @@ const SEKTOREN = Object.freeze([
                   "feld": "instrument",
                   "wert": "ki-verfuegung"
                 },
-                "entitaet": "person",
                 "verborgenWenn": {
                   "feld": "basicDecision",
                   "wert": "untersagung"
-                }
+                },
+                "entitaet": "person"
               },
               {
                 "id": "scope",
@@ -7246,11 +7382,11 @@ const SEKTOREN = Object.freeze([
                   "feld": "instrument",
                   "wert": "ki-verfuegung"
                 },
-                "entitaet": "person",
                 "verborgenWenn": {
                   "feld": "basicDecision",
                   "wert": "untersagung"
-                }
+                },
+                "entitaet": "person"
               },
               {
                 "id": "whoWasAppointedAsCourt",
@@ -7499,6 +7635,505 @@ const SEKTOREN = Object.freeze([
             "label": "Palliativversorgung & Sterbebegleitung",
             "typ": "textarea",
             "beispiel": "zuhause sterben; Palliativteam einbeziehen"
+          }
+        ]
+      },
+      {
+        "id": "communication-support",
+        "label": "Verständigung und Unterstützung",
+        "felder": [
+          {
+            "id": "communicationLanguage",
+            "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+            "typ": "text",
+            "beispiel": "Türkisch; Deutsch nur einfach"
+          },
+          {
+            "id": "communicationSupport",
+            "label": "Unterstützung bei der Verständigung",
+            "typ": "mehrfachauswahl",
+            "optionen": [
+              {
+                "wert": "dolmetschen",
+                "label": "Dolmetschen"
+              },
+              {
+                "wert": "gebaerdensprache",
+                "label": "Gebärdensprache"
+              },
+              {
+                "wert": "leichte-sprache",
+                "label": "Leichte Sprache"
+              }
+            ]
+          },
+          {
+            "id": "supportPerson",
+            "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+            "typ": "ref",
+            "hint": "Wer bei wichtigen Gesprächen dabei sein soll, zum Beispiel bei der Aufnahme im Krankenhaus.",
+            "entitaet": "person",
+            "verweisZweck": "pflege"
+          },
+          {
+            "id": "whatHelpsMe",
+            "label": "Was mir hilft",
+            "typ": "textarea",
+            "beispiel": "Langsam und in kurzen Sätzen sprechen; wichtige Punkte bitte aufschreiben."
+          },
+          {
+            "id": "doNotInform",
+            "label": "Wer nicht informiert werden soll",
+            "typ": "textarea",
+            "beispiel": "Mein Onkel Peter; mein früherer Arbeitgeber",
+            "hint": "Diese Angabe steht nie auf der Notfallkarte und nie in der Angehörigen-Sicht. Sie geht nur hinaus, wenn Sie sie ausdrücklich freigeben.",
+            "sensibel": true
+          }
+        ]
+      },
+      {
+        "id": "living-will-decisions",
+        "label": "Festlegungen der Patientenverfügung",
+        "felder": [
+          {
+            "id": "applicableSituations",
+            "label": "Situationen",
+            "typ": "mehrfachauswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "sterbeprozess",
+                "label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,"
+              },
+              {
+                "wert": "endstadium",
+                "label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,"
+              },
+              {
+                "wert": "gehirnschaedigung",
+                "label": "infolge einer Gehirnschädigung meine Fähigkeit, Einsichten zu gewinnen, Entscheidungen zu treffen und mit anderen Menschen in Kontakt zu treten, nach Einschätzung zweier erfahrener Ärztinnen oder Ärzte (können namentlich benannt werden) aller Wahrscheinlichkeit nach unwiederbringlich erloschen ist, selbst wenn der Todeszeitpunkt noch nicht absehbar ist. Dies gilt für direkte Gehirnschädigung z. B. durch Unfall, Schlaganfall oder Entzündung ebenso wie für indirekte Gehirnschädigung z. B. nach Wiederbelebung, Schock oder Lungenversagen. Es ist mir bewusst, dass in solchen Situationen die Fähigkeit zu Empfindungen erhalten sein kann und dass ein Aufwachen aus diesem Zustand nicht ganz sicher auszuschließen, aber unwahrscheinlich ist."
+              },
+              {
+                "wert": "hirnabbau",
+                "label": "ich infolge eines weit fortgeschrittenen Hirnabbauprozesses (z. B. bei Demenzerkrankung) auch mit ausdauernder Hilfestellung nicht mehr in der Lage bin, Nahrung und Flüssigkeit auf natürliche Weise zu mir zu nehmen."
+              }
+            ]
+          },
+          {
+            "id": "ownAdditionalSituation",
+            "label": "Eigene Beschreibung der Anwendungssituation",
+            "typ": "textarea",
+            "sensibel": true
+          },
+          {
+            "id": "lifeSustainingMeasures",
+            "label": "Lebenserhaltende Maßnahmen",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ausschoepfen",
+                "label": "dass alles medizinisch Mögliche und Sinnvolle getan wird, um mich am Leben zu erhalten."
+              },
+              {
+                "wert": "unterlassen",
+                "label": "dass alle lebenserhaltenden Maßnahmen unterlassen werden. Hunger und Durst sollen auf natürliche Weise gestillt werden, gegebenenfalls mit Hilfe bei der Nahrungs- und Flüssigkeitsaufnahme. Ich wünsche fachgerechte Pflege von Mund und Schleimhäuten sowie menschenwürdige Unterbringung, Zuwendung, Körperpflege und das Lindern von Schmerzen, Atemnot, Übelkeit, Angst, Unruhe und anderer belastender Symptome."
+              }
+            ]
+          },
+          {
+            "id": "painAndSymptomTreatment",
+            "label": "Schmerz- und Symptombehandlung",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ohne_daempfung",
+                "label": "aber ohne bewusstseinsdämpfende Wirkungen."
+              },
+              {
+                "wert": "mit_daempfung",
+                "label": "wenn alle sonstigen medizinischen Möglichkeiten zur Schmerz- und Symptomkontrolle versagen, auch Mittel mit bewusstseinsdämpfenden Wirkungen zur Beschwerdelinderung."
+              }
+            ]
+          },
+          {
+            "id": "acceptsLifeShorteningFromPain",
+            "label": "Lebensverkürzung in Kauf",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "die unwahrscheinliche Möglichkeit einer ungewollten Verkürzung meiner Lebenszeit durch schmerz- und symptomlindernde Maßnahmen nehme ich in Kauf."
+              },
+              {
+                "wert": "nein",
+                "label": "(kein Zusatz)"
+              }
+            ]
+          },
+          {
+            "id": "artificialNutritionAndHydration",
+            "label": "Künstliche Ernährung und Flüssigkeitszufuhr",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "dass eine künstliche Ernährung und Flüssigkeitszufuhr begonnen oder weitergeführt wird, wenn damit mein Leben verlängert werden kann."
+              },
+              {
+                "wert": "palliativ",
+                "label": "dass eine künstliche Ernährung und/oder eine künstliche Flüssigkeitszufuhr nur bei palliativmedizinischer Indikation zur Beschwerdelinderung erfolgen bzw. erfolgt."
+              },
+              {
+                "wert": "nein",
+                "label": "dass keine künstliche Ernährung unabhängig von der Form der künstlichen Zuführung der Nahrung (z. B. Magensonde durch Mund, Nase oder Bauchdecke, venöse Zugänge) und keine künstliche Flüssigkeitszufuhr erfolgen."
+              }
+            ]
+          },
+          {
+            "id": "resuscitationInDescribedSituations",
+            "label": "Wiederbelebung (oben beschriebene Situationen)",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "Versuche der Wiederbelebung."
+              },
+              {
+                "wert": "nein",
+                "label": "die Unterlassung von Versuchen der Wiederbelebung."
+              }
+            ]
+          },
+          {
+            "id": "emergencyDoctorNotified",
+            "label": "Notarzt-Hinweis",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "dass eine Notärztin oder ein Notarzt nicht verständigt wird bzw. im Fall einer Hinzuziehung unverzüglich über meine Ablehnung von Wiederbelebungsmaßnahmen informiert wird."
+              },
+              {
+                "wert": "nein",
+                "label": "(kein Zusatz)"
+              }
+            ]
+          },
+          {
+            "id": "resuscitationInAllCases",
+            "label": "Wiederbelebung (alle Fälle)",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ab",
+                "label": "lehne ich Wiederbelebungsmaßnahmen ab."
+              },
+              {
+                "wert": "ab_ausser_op",
+                "label": "lehne ich Wiederbelebungsmaßnahmen ab, sofern diese Situationen nicht im Rahmen ärztlicher Maßnahmen (z. B. Operationen) unerwartet eintreten."
+              }
+            ]
+          },
+          {
+            "id": "artificialVentilation",
+            "label": "Künstliche Beatmung",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "eine künstliche Beatmung, falls dies mein Leben verlängern kann."
+              },
+              {
+                "wert": "nein",
+                "label": "dass keine künstliche Beatmung durchgeführt bzw. eine schon eingeleitete Beatmung eingestellt wird, unter der Voraussetzung, dass ich Medikamente zur Linderung der Luftnot erhalte. Die Möglichkeit einer Bewusstseinsdämpfung oder einer ungewollten Verkürzung meiner Lebenszeit durch diese Medikamente nehme ich in Kauf."
+              }
+            ]
+          },
+          {
+            "id": "dialysis",
+            "label": "Dialyse",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "eine künstliche Blutwäsche (Dialyse), falls dies mein Leben verlängern kann."
+              },
+              {
+                "wert": "nein",
+                "label": "dass keine Dialyse durchgeführt bzw. eine schon eingeleitete Dialyse eingestellt wird."
+              }
+            ]
+          },
+          {
+            "id": "antibiotics",
+            "label": "Antibiotika",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "Antibiotika, falls dies mein Leben verlängern kann."
+              },
+              {
+                "wert": "palliativ",
+                "label": "Antibiotika nur bei palliativmedizinischer Indikation zur Beschwerdelinderung."
+              },
+              {
+                "wert": "nein",
+                "label": "keine Antibiotika."
+              }
+            ]
+          },
+          {
+            "id": "bloodAndBloodProducts",
+            "label": "Blut und Blutbestandteile",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "die Gabe von Blut oder Blutbestandteilen, falls dies mein Leben verlängern kann."
+              },
+              {
+                "wert": "palliativ",
+                "label": "die Gabe von Blut oder Blutbestandteilen nur bei palliativmedizinischer Indikation zur Beschwerdelinderung."
+              },
+              {
+                "wert": "nein",
+                "label": "keine Gabe von Blut oder Blutbestandteilen."
+              }
+            ]
+          },
+          {
+            "id": "placeOfTreatmentOrDeath",
+            "label": "Ort der Behandlung / des Sterbens",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "krankenhaus",
+                "label": "zum Sterben ins Krankenhaus verlegt werden."
+              },
+              {
+                "wert": "zuhause",
+                "label": "wenn möglich zu Hause bzw. in vertrauter Umgebung sterben."
+              },
+              {
+                "wert": "hospiz",
+                "label": "wenn möglich in einem Hospiz sterben."
+              }
+            ]
+          },
+          {
+            "id": "supportFromThesePersons",
+            "label": "Beistand durch folgende Personen",
+            "typ": "refMehrfach",
+            "sensibel": true,
+            "entitaet": "person"
+          },
+          {
+            "id": "supportFromChurchOrCommunity",
+            "label": "Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft",
+            "typ": "text",
+            "sensibel": true
+          },
+          {
+            "id": "hospiceSupport",
+            "label": "Hospizlicher Beistand",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "hospizlichen Beistand."
+              },
+              {
+                "wert": "nein",
+                "label": "(kein Wunsch)"
+              }
+            ]
+          },
+          {
+            "id": "confidentialityWaiverFor",
+            "label": "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+            "typ": "refMehrfach",
+            "sensibel": true,
+            "entitaet": "person"
+          },
+          {
+            "id": "whoseViewMattersIfUnregulated",
+            "label": "Besondere Bedeutung (ungeregelte Situationen)",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt",
+                "label": "meiner/meinem Bevollmächtigten."
+              },
+              {
+                "wert": "betreuer",
+                "label": "meiner Betreuerin/meinem Betreuer."
+              },
+              {
+                "wert": "arzt",
+                "label": "der behandelnden Ärztin oder dem behandelnden Arzt."
+              },
+              {
+                "wert": "andere",
+                "label": "anderer Person: …"
+              }
+            ]
+          },
+          {
+            "id": "whoseViewMattersOtherPersonName",
+            "label": "Andere Person (Name)",
+            "typ": "text",
+            "sensibel": true,
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfUnregulated",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
+          },
+          {
+            "id": "whoseViewMattersIfDeviatingWill",
+            "label": "Besondere Bedeutung (abweichende Willensäußerung)",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt",
+                "label": "meiner/meinem Bevollmächtigten."
+              },
+              {
+                "wert": "betreuer",
+                "label": "meiner Betreuerin/meinem Betreuer."
+              },
+              {
+                "wert": "arzt",
+                "label": "der behandelnden Ärztin oder dem behandelnden Arzt."
+              },
+              {
+                "wert": "andere",
+                "label": "anderer Person: …"
+              }
+            ]
+          },
+          {
+            "id": "whoseViewMattersIfDeviatingOther",
+            "label": "Andere Person (Name)",
+            "typ": "text",
+            "sensibel": true,
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfDeviatingWill",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
+          },
+          {
+            "id": "personalValuesOrFurtherDocuments",
+            "label": "Wertvorstellungen / sonstige Unterlagen",
+            "typ": "textarea",
+            "sensibel": true
+          },
+          {
+            "id": "organDonationDecision",
+            "label": "Organspende",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "zustimmung",
+                "label": "Ich stimme einer Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken zu (ggf.: Ich habe einen Organspendeausweis ausgefüllt). Komme ich nach ärztlicher Beurteilung bei einem sich abzeichnenden Hirntod als Organspender/in in Betracht und müssen dafür ärztliche Maßnahmen durchgeführt werden, die ich in meiner Patientenverfügung ausgeschlossen habe, dann"
+              },
+              {
+                "wert": "ablehnung",
+                "label": "Ich lehne eine Entnahme meiner Organe nach meinem Tod zu Transplantationszwecken ab."
+              }
+            ]
+          },
+          {
+            "id": "priorityIfOrganDonationConflict",
+            "label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "organspende",
+                "label": "geht die von mir erklärte Bereitschaft zur Organspende vor."
+              },
+              {
+                "wert": "patientenverfuegung",
+                "label": "gehen die Bestimmungen in meiner Patientenverfügung vor."
+              }
+            ],
+            "verborgenWenn": {
+              "feld": "organDonationDecision",
+              "wert": "ablehnung"
+            }
+          },
+          {
+            "id": "waivesFurtherMedicalInformation",
+            "label": "Verzicht auf weitere ärztliche Aufklärung",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "Soweit ich bestimmte Behandlungen wünsche oder ablehne, verzichte ich ausdrücklich auf eine (weitere) ärztliche Aufklärung."
+              },
+              {
+                "wert": "nein",
+                "label": "(kein Verzicht)"
+              }
+            ]
+          },
+          {
+            "id": "informationOrCounsellingReceived",
+            "label": "Information / Beratung",
+            "typ": "text",
+            "sensibel": true
+          },
+          {
+            "id": "validityDuration",
+            "label": "Gültigkeit",
+            "typ": "auswahl",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "unbefristet",
+                "label": "Diese Patientenverfügung gilt solange, bis ich sie widerrufe."
+              },
+              {
+                "wert": "befristet",
+                "label": "Diese Patientenverfügung soll nach Ablauf von (Zeitangabe) ihre Gültigkeit verlieren, es sei denn, dass ich sie durch meine Unterschrift erneut bekräftige."
+              }
+            ]
+          },
+          {
+            "id": "validityDurationDeadline",
+            "label": "Frist",
+            "typ": "text",
+            "sensibel": true,
+            "verborgenWenn": {
+              "feld": "validityDuration",
+              "wert": "unbefristet"
+            }
           }
         ]
       },
@@ -8120,12 +8755,20 @@ const SEKTOREN = Object.freeze([
             "typ": "textarea",
             "beispiel": "alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll; Kaution zurückfordern",
             "hint": "Beim Auszug: rechtzeitig kündigen, Übergabeprotokoll führen, Kaution zurückfordern. Bei der neuen Wohnung: Übergabe und Zählerstände festhalten.",
+            "verborgenWenn": {
+              "feld": "ownedOrRented",
+              "wert": "eigentum"
+            },
             "ebene": "modul"
           },
           {
             "id": "noticeDate",
             "label": "Kündigungstermin",
             "typ": "datum",
+            "verborgenWenn": {
+              "feld": "ownedOrRented",
+              "wert": "eigentum"
+            },
             "ebene": "modul",
             "marken": [
               "frist"
@@ -8759,7 +9402,7 @@ const SEKTOREN = Object.freeze([
 /* SEKTOREN:END */
 /* ── U2-ADR-323 · Angedockte Bereiche erreichen den Empfänger ──────────────────────────────
    DER BEFUND, gemessen am 06.09.2026 an einer echten Export-Datei
-   (`tools/lese-app-bereichsluecke-messen.js` — im Repo, ohne Argument lauffähig):
+   (ein Messwerkzeug im internen Bestand):
 
      Kern die eingebauten Bereiche PLUS die sechs des Pro-Moduls;
                  der Export traegt alle sechs mit Werten und Feld-Definitionen
@@ -8793,7 +9436,7 @@ const SEKTOREN = Object.freeze([
    · Die Identitäts-Map, die der Kern beim Index-Aufbau ins Depot zurückschreibt (Name und Icon
      je angedocktem Bereich, U2-ADR-187): die Lese-App schreibt NIE in ein fremdes Depot — das
      ist keine Auslassung, sondern ihre Regel. Der Namensraum wird hier darum weiterhin nicht
-     aufgelöst; die Freistellung in `tests/paritaet-aufloesungen.test.js` gilt unverändert.
+     aufgelöst; die Freistellung in der Paritäts-Probe gilt unverändert.
 
    Die Beschriftung läuft über `_bereichLabelText` durch denselben Textsatz wie im Kern: ein
    angedockter Bereich trägt seinen Namen in der Sprache, die das Depot mitbringt. */
@@ -9378,7 +10021,7 @@ function _istSituationKennungLesen(kennung) { return typeof kennung === 'string'
 const MODUS_FARBE = Object.freeze({ anker: '#4F6539', sub: '#3d5878', notfall: '#a82a1c' });
 
 /* ── Laufzeit-Daten — NUR im RAM, nie persistiert ─────────────────────────── */
-/* KENNUNG-MAPPING-LESEN:BEGIN — generierter Bereich (tools/build-kennung-mapping-region.js); Quellen: docs/umbau-englisch-vor-v1/kennung-mapping.json + vivodepot.html (_sektorenKennungenUmschreiben) */
+/* KENNUNG-MAPPING-LESEN:BEGIN — generierter Bereich (tools/build-kennung-mapping-region.js); Quellen: die interne Kennungs-Zuordnung (Umbau auf englische Kennungen) + vivodepot.html (_sektorenKennungenUmschreiben) */
 /* Wörtlich aus dem Kern (Stufe 80→81) — hier NICHT von Hand ändern, sondern im Kern, dann
    `node tools/build-kennung-mapping-region.js`. */
 const KENNUNG_MAPPING = Object.freeze([
@@ -10618,7 +11261,7 @@ function _foldVollmachtenLesenVorUmbau(obj) {
    (`vorsorge.vorsorge_instrumente/erbfolge_hinweis` usw.) keinen Schritt, der ihre alten
    Flachfelder überhaupt erst in eine Zeile hob — die Umschreibung lief für eine echte Altdatei
    darum leer, die Werte blieben unter dem alten, ungelesenen Namen stehen. Betrifft NUR die 23
-   Felder aus `UMBAU_RUECKSTAND` (tests/paritaet-kern-lese.test.js). Die drei
+   Felder aus `UMBAU_RUECKSTAND` (Paritäts-Probe Kern/Lese-App). Die drei
    `KARTEILEICHEN_VORBESTEHEND`-Felder (`palliativ_wunsch`/`patientenverf_haltung`/
    `patientenverf_wunsch`) bleiben ausdrücklich unangetastet — U2-ADR-089 Entscheidung 1: kein
    Zielfeld im heutigen Modell, endgültig verwaist.
@@ -10864,7 +11507,7 @@ function _foldStufe85Lesen(obj) {
    (tools/build-kennung-mapping-region.js) — auf die Kennungen um, die Katalog und Renderer der
    Lese-App kennen. Eine englische Datei läuft unverändert durch: die Folds finden keine
    deutschen Bereiche, die Umschreibung kennt die neuen Namen nicht als alt. Roter Beweis:
-   tests/lese-app-altdatei-kennungen.test.js (v515-Testdepot). */
+   die Altdatei-Probe der Lese-App (v515-Testdepot). */
 function _foldVollmachtenLesen(obj) {
   _foldVollmachtenLesenVorUmbau(obj);
   _foldStrukturStufenLesen(obj);   // B8: Kern-Stufen 42, 44, 50 — s. dort
@@ -11220,7 +11863,7 @@ function standKurz(iso) {
    Bürgerin einer Institution vorlegt.
 
    DAS KRITERIUM IST DIE MARKE, wie im Kern. Sie steht darum auch hier an den vierzehn
-   Felddeklarationen; `tests/paritaet-kern-lese.test.js` hält beide Seiten deckungsgleich,
+   Felddeklarationen; die Paritäts-Probe Kern/Lese-App hält beide Seiten deckungsgleich,
    damit aus dem Spiegel keine Nachpflege-Stelle wird.
 
    OHNE MARKE ÄNDERT SICH NICHTS: jedes andere Feld liest genau seinen Bereichswert.
@@ -11529,8 +12172,10 @@ function feldWertText(feld, roh, sektorId) {
        Wortgleicher Spiegel des Kerns: NIE das rohe Array anzeigen. */
     const werte = Array.isArray(roh) ? roh : [roh];
     const opts = Array.isArray(feld.optionen) ? feld.optionen : [];
+    // Wie im Kern (28.09.2026, U2-ADR-440): ein Optionstext, der selbst auf ein Satzzeichen der Aufzählung endet (die amtlichen
+    // Situationen der Patientenverfügung), bekäme sonst ein zweites — „befinde,, ich …". Gekürzt nur für die Aufzählung.
     return werte.map(w => { const o = opts.find(x => x.wert === w); return (o && _optionLabelLesen(sektorId, feld.id, null, o)) || String(w); })
-      .filter(Boolean).join(', ');
+      .map(t => String(t).replace(/[\s,;]+$/, '')).filter(Boolean).join(', ');
   }
   if (feld.typ === 'refMehrfach') {
     /* Paritaets-Nachtrag Klasse (a), 23.07.2026 — dieser Zweig FEHLTE. Ein refMehrfach-Wert
@@ -11785,7 +12430,21 @@ const NOTFALL_KERN_FELDER = Object.freeze([
   // U2-ADR-433 (25.09.2026): Notvertretung durch Ehegatten — nur bei „ja“ auf die Karte, die Eintragung nur mit der Ablehnung.
   { sektor: 'advanceCare', feld: 'spousalRepresentationObjection', nurWenn: 'ja' },
   { sektor: 'advanceCare', feld: 'spousalObjectionRegistered', nurWenn: 'ja', nurMit: { feld: 'spousalRepresentationObjection', wert: 'ja' } },
+  // U2-ADR-438 (26.09.2026): Verständigung und Unterstützung, die zwei Freitexte der Notfallvorsorge mit Längengrenze.
+  { sektor: 'advanceCare', feld: 'communicationLanguage' },
+  { sektor: 'advanceCare', feld: 'communicationSupport' },
+  { sektor: 'advanceCare', feld: 'supportPerson' },
+  { sektor: 'emergencyPreparedness', feld: 'specialSituation', maxZeichen: 160 },
+  { sektor: 'emergencyPreparedness', feld: 'noteForEmergencyResponders', maxZeichen: 160 },
 ]);
+// Wie im Kern (notfallKarteKuerzen): am Wortende kürzen, dann „… (vollständig in der Datei)“.
+function notfallKarteKuerzen(wert, max) {
+  const s = String(wert);
+  if (s.length <= max) return s;
+  const schnitt = s.slice(0, max);
+  const wortende = schnitt.lastIndexOf(' ');
+  return (wortende > max * 0.6 ? schnitt.slice(0, wortende) : schnitt).replace(/[\s,;.:]+$/, '') + ' … ' + STRINGS.notfallKarteVollstaendigInDatei;
+}
 function notfallKernModell() {
   const zeilen = [];
   for (const e of NOTFALL_KERN_FELDER) {
@@ -11804,7 +12463,9 @@ function notfallKernModell() {
     if (!feldEingetragen(feld, roh)) continue;
     if (e.nurWenn !== undefined && roh !== e.nurWenn) continue;   // wie im Kern: nur dieser Wert gehört auf die Karte
     if (e.nurMit && ((data && data.sektoren[e.sektor]) || {})[e.nurMit.feld] !== e.nurMit.wert) continue;
-    zeilen.push({ label: feld.label, wert: _wertTextMenschlich(feld, roh) });
+    let wert = _wertTextMenschlich(feld, roh);
+    if (e.maxZeichen && typeof wert === 'string' && wert.length > e.maxZeichen) wert = notfallKarteKuerzen(wert, e.maxZeichen);
+    zeilen.push({ label: feld.label, wert });
   }
   return zeilen;
 }
@@ -12246,9 +12907,9 @@ function hilfeEmpfaengerinModell() {
 /* DER HERKUNFTSORT DER LESE-APP (21.09.2026). Die Urheberin steht hier und nirgends sonst, und sie steht NICHT im Textsatz: Name und
    Lizenzkennung sind Namen, keine Sätze, und gehen darum nicht durch `STRINGS`/`textLesen` — ein Sprachmodul kann sie weder ersetzen noch
    leeren. Nur die zwei Beschriftungen davor sind Texte. Die Stelle liegt außerhalb jeder Marker-Region (BEGIN/END): was ein
-   Schnitt aus der Datei herausholt, betrifft sie nicht (tests/lese-app-herkunftsort.test.js schneidet alle Regionen heraus und
+   Schnitt aus der Datei herausholt, betrifft sie nicht (die Herkunftsort-Probe der Lese-App schneidet alle Regionen heraus und
    sucht sie danach). Genannt wird die Urheberin, nicht die Anbieterin: die Lese-App hat keine. Der Anker `data-herkunftsort`
-   ist derselbe wie im Kern (tests/herkunftsort.test.js). Kein Lizenz-Volltext, nur Nennung und Kennung. */
+   ist derselbe wie im Kern (Herkunftsort-Probe). Kein Lizenz-Volltext, nur Nennung und Kennung. */
 /* HERKUNFTSORT-ANGABEN:BEGIN — DAUERHAFT, ERZEUGT aus tools/herkunftsort-angaben.json (node tools/herkunftsort-angaben-schreiben.js), in jedem Träger byte-gleich, nicht von Hand ändern */
 /* tests/herkunftsort-angaben-gleich.test.js vergleicht. Die Angaben, die am Herkunftsort UNERSETZBAR sind (Spezifikation 34.7): der Name der Urheberin und die
    Lizenzkennung. `schluessel` = die Textsatz-Schlüssel des Herkunftsorts und die Platzhalter, die ihr Text tragen MUSS; `{urheberin}` und `{lizenz}` lösen aus
@@ -12290,7 +12951,7 @@ function subBannerHTML() {
   if (marke && typeof marke === 'object') {
     // Fund 19.09.2026: hier stand `.identitaet` (die alte Schlüsselform) — der Banner bekam den
     // Namen der Inhaberin nie zu sehen, unabhängig davon, ob einer gesetzt war. Wächter:
-    // tests/alte-sektorkennungen-pruefen.test.js.
+    // die Probe zu den alten Sektorkennungen.
     const von = identitaetAnzeigename((data.sektoren || {}).identity || {});
     const txt = von ? STRINGS.ausschnittBannerVon.replace('{name}', von) : STRINGS.ausschnittBannerOhneName;
     return '<div class="sub-banner">' + escapeHTML(txt) + '</div>';
@@ -12959,7 +13620,7 @@ function logikModulMarkeHTML(rohEintrag) {
    SICHERHEITSKRITISCH: jedes Datenlesen-Primitiv prüft `feldIstSensibel`/`unterfeldIstSensibel`
    VOR dem Lesen (Befund 2, 12./13.08.2026) — ein Bundle darf nie ein sensibles Feld an der
    Sensibel-Zurückhaltung vorbeischmuggeln, nur weil es über ein Bundle statt den generischen
-   Feld-Katalog gelesen wird (tests/a528-lese-app-logikmodul-erbschein.test.js, eigener
+   Feld-Katalog gelesen wird (Probe zum Erbschein-Logikmodul in der Lese-App, eigener
    Rot-Beweis). */
 /* LOGIK-DATEN-TYPEN:BEGIN — generierter Bereich (tools/build-logik-typen.js); Quelle: vivodepot.html LOGIK_DATEN_TYPEN */
 /* ERZEUGT, nicht von Hand gepflegt. Die Liste ist die des Kerns — eine zweite, danebengepflegte
@@ -13295,6 +13956,7 @@ function logikModulAbschnitteHTML(sektorId) {
    durch den Fix zum ersten Mal sichtbar. */
 function _sektorDatenFuerLesen(sektorId) {
   const basis = (data && data.sektoren && data.sektoren[sektorId]) || {};
+  if (sektorId === 'identity') return _personenstandAusSituationLesen(basis);
   if (sektorId !== 'people') return basis;
   const register = (data && Array.isArray(data.menschen)) ? data.menschen : [];
   return Object.assign({}, basis, { menschen: register.filter((m) => m && m.nichtMitgeben !== true).map(_personSchluesselNeu) });
@@ -13306,6 +13968,24 @@ const PERSONEN_SCHLUESSEL_ALT_ZU_NEU_88 = Object.freeze([
   Object.freeze(['geburtsjahr', 'yearOfBirthIfTheExactDayIs']),
   Object.freeze(['geburtsort', 'birthPlace']),
 ]);
+/* Schema 89 (U2-ADR-439): bis Schema 88 standen die Urkunden-Ablageorte als eigene Felder der Situation Erbfall. Die
+   Lese-App migriert nicht, sie liest beide; ein gesetztes Identitätsfeld gewinnt (wie die Stufe im Kern, dieselbe Tabelle). */
+const PERSONENSTAND_SITUATION_ZU_IDENTITY_89 = Object.freeze([
+  Object.freeze(['erb_stammbuch', Object.freeze(['familyRegisterBookStorage'])]),
+  Object.freeze(['erb_personenstand', Object.freeze(['birthCertificateStorage', 'marriageCertificateStorage'])]),
+]);
+function _personenstandAusSituationLesen(basis) {
+  const sit = data && data.situationen && data.situationen.erbfall;
+  if (!sit || typeof sit !== 'object') return basis;
+  const text = (v) => (typeof v === 'string' && v.trim()) ? v : '';
+  let aus = basis;
+  for (const [alt, neu] of PERSONENSTAND_SITUATION_ZU_IDENTITY_89) {
+    const wert = text(sit[alt]);
+    if (!wert) continue;
+    for (const feld of neu) if (!text(aus[feld])) { if (aus === basis) aus = Object.assign({}, basis); aus[feld] = wert; }
+  }
+  return aus;
+}
 function _personSchluesselNeu(m) {
   if (!PERSONEN_SCHLUESSEL_ALT_ZU_NEU_88.some(([alt]) => Object.prototype.hasOwnProperty.call(m, alt))) return m;
   const p = Object.assign({}, m);
@@ -13993,9 +14673,9 @@ function renderEmpfaengerQrPasswort(payloadB64) {
 }
 
 /* ── Demo: die Lese-App als Schritt einer geführten Demo (26.09.2026) ──────────────────────────────
-   Das Werkzeug tools/demo-bauen.js backt hier eine Antwort (erzeugt über den echten Antwort-Weg des Kerns aus dem Beispiel-Depot),
+   Das Demo-Werkzeug backt hier eine Antwort (erzeugt über den echten Antwort-Weg des Kerns aus dem Beispiel-Depot),
    die Stationen dieser Seite und ihre Texte. Im ausgelieferten Produkt ist der Block `null` — dann ist kein Weg dieses Abschnitts
-   erreichbar (Probe: tests/demo-bauen.test.js). Kein Speicher, kein Netz: Weiter/Zurück über eine andere Seite derselben Demo
+   erreichbar (mit eigener Probe). Kein Speicher, kein Netz: Weiter/Zurück über eine andere Seite derselben Demo
    navigiert zur relativen Adresse, die die Station trägt. */
 /* AB_WERK_VORFUEHRUNG_LESEN:BEGIN */
 const AB_WERK_VORFUEHRUNG_LESEN = null;

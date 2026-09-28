@@ -35,7 +35,7 @@ Netzwerk-Kontext), der Kein-Master-Key-Beweis, eine Inventur, dass kein geheimer
 alle 15 Sichten der Lese-App, 0 Verstöße im letzten Lauf. Ein externer HL7-FHIR-Validator läuft
 zusätzlich, aber nur dort, wo eine Java-Runtime verfügbar ist (in CI).
 
-**4. Die Wächter — 60 im Register (`tools/waechter-register.js`).** Ein Wächter ist eine
+**4. Die Wächter — 60 im Register (intern).** Ein Wächter ist eine
 gepflanzte, ständig laufende Probe gegen eine ganz bestimmte Zusicherung — "keine neue tote
 STRINGS-Konstante", "kein Feld ohne Gültigkeits-Datum daneben", "die Krypto-Version-Allowlist
 lässt keine ältere Version durch". Anders als eine einmalige Messung bleiben Wächter im Repo und
@@ -57,7 +57,7 @@ ist. Behauptet wird nichts.
 
 ## Die Selbstprüfung der Prüfebene
 
-`tools/waechter-selbsttest.js` ("Stufe 0") fährt genau das systematisch, für alle 60 Wächter auf
+Ein Selbsttest ("Stufe 0") fährt genau das systematisch, für alle 60 Wächter auf
 einmal: jeden gegen sein eigenes kaputtes Beispiel UND sein eigenes erlaubtes Beispiel, mit fünf
 möglichen Ausgängen — **bestanden** (rot am kaputten, grün am erlaubten Beispiel), **durchgefallen**
 (blieb grün, oder meldete etwas anderes), **ohne Probe** (bringt keine zwei Beispiele mit — zählt

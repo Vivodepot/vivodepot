@@ -196,7 +196,10 @@ async function bereichUmzugPruefen({ kernPfad, bereichId, modul }) {
       throw new Error('Bereich "' + bereichId + '" ist nach dem Einbacken NICHT in '
         + 'SEKTOR_BY_ID — das Modul kam nicht an (Validierung gescheitert, falsche Region-Kennung?).');
     }
-    sektorUmgezogen = _ohneIgnorierteSchluessel(JSON.parse(JSON.stringify(umgezogen.SEKTOR_BY_ID[bereichId])));
+    // U2-ADR-440: die abgeleitete Sektion der Festlegungen trägt keine Moduldatei, der Kern fügt sie beim Start hinzu — vor dem
+    // Kopieren herausgenommen, weil die Kopie das nicht aufzählbare Merkmal der Ableitung verliert.
+    const { ohneAbgeleiteteSektionen } = require('./lib/pv-festlegungen-textsatz.js');
+    sektorUmgezogen = _ohneIgnorierteSchluessel(JSON.parse(JSON.stringify(ohneAbgeleiteteSektionen(umgezogen.SEKTOR_BY_ID[bereichId]))));
   } finally {
     fs.unlinkSync(tmp);
   }

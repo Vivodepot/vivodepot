@@ -23,6 +23,7 @@ gleichlaufProben({
     ['ohne sprache', ohne('sprache'), 'sprache'],
     ['sprache leer', mit({ sprache: '  ' }), 'sprache'],
     ['sprache de', mit({ sprache: 'de' }), 'reserviert'],
+    ['sprache " DE" (normalisiert reserviert)', mit({ sprache: ' DE' }), 'reserviert'],
     ['ohne moduleVersion', ohne('moduleVersion'), 'moduleVersion'],
     ['moduleVersion 0', mit({ moduleVersion: 0 }), 'moduleVersion'],
     ['moduleVersion 1.5', mit({ moduleVersion: 1.5 }), 'moduleVersion'],

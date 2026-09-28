@@ -133,7 +133,11 @@
             {
               "id": "tenancyTerminationHandover",
               "typ": "textarea",
-              "ebene": "modul"
+              "ebene": "modul",
+              "verborgenWenn": {
+                "feld": "ownedOrRented",
+                "wert": "eigentum"
+              }
             },
             {
               "id": "noticeDate",
@@ -141,7 +145,11 @@
                 "frist"
               ],
               "typ": "datum",
-              "ebene": "modul"
+              "ebene": "modul",
+              "verborgenWenn": {
+                "feld": "ownedOrRented",
+                "wert": "eigentum"
+              }
             },
             {
               "id": "moveOutDate",

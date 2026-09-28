@@ -47,4 +47,4 @@ Template-Generator (Komponente 4) mit dem Anbieter-Schlüssel und reist als Bund
 4. **Lese-App (Komp. 2)** spiegelt den Energie-Abschnitt read-only aus dem fertigen Depot. `auswahl`-Werte
    erscheinen dort als **Rohwert** (z. B. `voll`) — bewusst keine Label-Auflösung in der Lese-Sicht.
 
-Der end-to-end-Durchstich ist als Test verankert: `tests/energie-pilot-durchstich.test.js`.
+Der end-to-end-Durchstich ist als Test im internen Prüfbestand verankert.

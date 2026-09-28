@@ -27,6 +27,14 @@ const BUNDLE_TEXT = fs.readFileSync(
 /* escapeHTML maskiert seit 16.09.2026 auch Anführungszeichen (v1-Blocker Sicherheit). Die Fixtures bleiben
    der Stand VOR dem Umbau; verglichen wird beidseitig mit `&quot;`/`&#39;` als Zeichen — eng, jede
    andere Abweichung bleibt rot. Im Browser rendern beide Formen gleich. */
+/* Teil C (27.09.2026, U2-ADR-439, Wortlaut gegengelesen) ist ein GEWOLLTER Zusatz nach dem eingefrorenen Stand: die Urkunden
+   für den Nachweis nach § 352 Abs. 3 FamFG. Verglichen wird darum der Auszug OHNE genau diesen einen Abschnitt — alles
+   andere bleibt byte-gleich — und der Abschnitt selbst muss da sein, sonst wäre das Herausschneiden eine stille Lücke. */
+const TEIL_C = /<section class="pv-dok-abschnitt"><h2>Teil C — Urkunden für den Nachweis<\/h2>[\s\S]*?<\/section>/;
+function ohneTeilC(html) {
+  assert.match(html, TEIL_C, 'Teil C fehlt im Auszug — dann wäre der Vergleich unten keiner');
+  return html.replace(TEIL_C, '');
+}
 function anfuehrungszeichenGleich(html) {
   // Dazu seit 16.09.2026 die typografische Umstellung der eigenen Sätze (tools/lib/anfuehrung-gleich.js).
   return require('../tools/lib/anfuehrung-gleich.js').anfuehrungGleich(html.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
@@ -79,14 +87,14 @@ test('[Siebtes-Register·Byte-Gleichheit] leeres Depot — das Bundle ueber den 
   const { V } = await ladeKern();
   await leeresDepotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(html), anfuehrungszeichenGleich(golden('erbschein-leer')));
+  assert.equal(anfuehrungszeichenGleich(ohneTeilC(html)), anfuehrungszeichenGleich(golden('erbschein-leer')));
 });
 
 test('[Siebtes-Register·Byte-Gleichheit] volles Depot — das Bundle ueber den echten Einlassweg liefert BYTE-GLEICH dasselbe wie die vorher fest verdrahtete ERBSCHEIN_MODUL', async () => {
   const { V } = await ladeKern();
   await volles_depotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(html), anfuehrungszeichenGleich(golden('erbschein-voll')));
+  assert.equal(anfuehrungszeichenGleich(ohneTeilC(html)), anfuehrungszeichenGleich(golden('erbschein-voll')));
 });
 
 test('[Siebtes-Register] das Bundle wird ANGENOMMEN, ohne einen einzigen verworfenen Schluessel', async () => {

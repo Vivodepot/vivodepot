@@ -104,11 +104,12 @@ test('Blatt 2 Pflegeheim-Aufnahme: alle sieben Pflege-Delta-Felder drin', () => 
   assert.ok(pfl.includes('chronicConditionsDiagnoses') && !pfl.includes('erkrankungen'));
 });
 
-test('Blatt 4 Behörden und Nachlass: voller 23er erb_*-Satz via sit:erbfall', () => {
+test('Blatt 4 Behörden und Nachlass: voller erb_*-Satz via sit:erbfall (21 seit U2-ADR-439)', () => {
   const { V } = ladeKern();
   const eintraege = V._angSituationById('behoerden_nachlass').bloecke.flatMap(b => b.eintraege);
   const erbPulls = eintraege.filter(e => e.quelle === 'sit:erbfall');
-  assert.equal(erbPulls.length, 23, 'alle 23 erb_* read-only');
+  // 23 → 21 (27.09.2026, U2-ADR-439): erb_stammbuch und erb_personenstand sind Kennungen im Bereich Identität geworden.
+  assert.equal(erbPulls.length, 21, 'alle 21 erb_* read-only');
   assert.ok(erbPulls.every(e => /^erb_/.test(e.feld)), 'sit:erbfall zieht nur erb_*');
   // b16-Waisen dürfen NICHT auftauchen (Schema 26).
   const alleFelder = eintraege.map(e => e.feld);

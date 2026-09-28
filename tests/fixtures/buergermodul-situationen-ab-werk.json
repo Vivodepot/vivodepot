@@ -1186,22 +1186,16 @@
               }
             },
             {
-              "feld": {
-                "id": "erb_stammbuch",
-                "sensibel": true,
-                "typ": "text",
-                "label": "Familienstammbuch — Ablageort",
-                "beispiel": "Schreibtisch, untere Schublade"
-              }
+              "quelle": "identity",
+              "feld": "familyRegisterBookStorage"
             },
             {
-              "feld": {
-                "id": "erb_personenstand",
-                "sensibel": true,
-                "typ": "text",
-                "label": "Geburts-/Heiratsurkunde — Ablageort",
-                "beispiel": "Mappe „Urkunden“; benötigt fürs Nachlassgericht"
-              }
+              "quelle": "identity",
+              "feld": "birthCertificateStorage"
+            },
+            {
+              "quelle": "identity",
+              "feld": "marriageCertificateStorage"
             }
           ],
           "titel": "Wo die Originale liegen"

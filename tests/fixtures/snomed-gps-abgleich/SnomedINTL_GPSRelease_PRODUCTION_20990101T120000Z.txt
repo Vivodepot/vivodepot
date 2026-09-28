@@ -1,0 +1,4 @@
+ConceptID	Active	FSN	USPreferredTerm
+1000000001	1	Erfundenes Konzept A (finding)	Erfundenes Konzept A
+1000000002	1	Erfundenes Konzept B (substance)	Erfundenes Konzept B
+1000000003	0	Erfundenes Konzept C (substance)	Erfundenes Konzept C

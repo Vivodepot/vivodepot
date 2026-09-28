@@ -1,0 +1,75 @@
+{
+  "resourceType": "StructureDefinition",
+  "url": "http://beispiel.invalid/fhir/StructureDefinition/Patient-probe",
+  "name": "PatientProbe",
+  "version": "1.0.0",
+  "snapshot": {
+    "element": [
+      {
+        "id": "Patient",
+        "path": "Patient",
+        "short": "Probe-Patient",
+        "definition": "Erfundenes Profil für die Probe.",
+        "min": 0,
+        "max": "*",
+        "type": [
+          {
+            "code": "Resource"
+          }
+        ]
+      },
+      {
+        "id": "Patient.name.given",
+        "path": "Patient.name.given",
+        "short": "Vorname",
+        "definition": "Der Vorname der Person.",
+        "min": 0,
+        "max": "*",
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Patient.name.family",
+        "path": "Patient.name.family",
+        "short": "Familienname",
+        "definition": "Der Familienname der Person.",
+        "min": 1,
+        "max": "1",
+        "type": [
+          {
+            "code": "string"
+          }
+        ]
+      },
+      {
+        "id": "Patient.birthDate",
+        "path": "Patient.birthDate",
+        "short": "Geburtsdatum",
+        "definition": "Tag der Geburt.",
+        "min": 0,
+        "max": "1",
+        "type": [
+          {
+            "code": "date"
+          }
+        ]
+      },
+      {
+        "id": "Patient.contact.telecom",
+        "path": "Patient.contact.telecom",
+        "short": "Kontakt-Telefon",
+        "definition": "Wie der Kontakt erreichbar ist.",
+        "min": 0,
+        "max": "*",
+        "type": [
+          {
+            "code": "ContactPoint"
+          }
+        ]
+      }
+    ]
+  }
+}

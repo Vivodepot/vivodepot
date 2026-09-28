@@ -14,7 +14,7 @@ gleichlaufProben({
     ['mit bekannter Kennung', basis],
     ['ohne modulTyp, höhere Fassung', (() => { const m = mit({ moduleVersion: 3 }); delete m.modulTyp; return m; })()],
     ['leere Stellen', mit({ stellen: {} })],
-    ['Rechtsraum klein geschrieben', mit({ rechtsraum: 'de' })],
+    ['Rechtsraum klein geschrieben', mit({ rechtsraum: 'at' })],
     ['mit Einlass-Marken', mit({ appVersion: 'v1', ungeprueft: true, eingelassenAm: '2026-09-26', anbieterId: 'a', anbieterIdGeprueft: false })],
   ],
   negativ: [
@@ -24,6 +24,8 @@ gleichlaufProben({
     ['rechtsraum leer', mit({ rechtsraum: '  ' }), 'rechtsraum'],
     ['rechtsraum Zahl', mit({ rechtsraum: 5 }), 'rechtsraum'],
     ['rechtsraum DE', mit({ rechtsraum: 'DE' }), 'reserviert'],
+    ['rechtsraum de (normalisiert reserviert)', mit({ rechtsraum: 'de' }), 'reserviert'],
+    ['rechtsraum " DE " (normalisiert reserviert)', mit({ rechtsraum: ' DE ' }), 'reserviert'],
     ['ohne moduleVersion', ohne('moduleVersion'), 'moduleVersion'],
     ['moduleVersion 0', mit({ moduleVersion: 0 }), 'moduleVersion'],
     ['moduleVersion 1.5', mit({ moduleVersion: 1.5 }), 'moduleVersion'],

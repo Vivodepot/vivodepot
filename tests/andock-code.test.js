@@ -108,6 +108,9 @@ test('Keine Code-Tabelle im Kern (kein SNOMED/LOINC/ICD-System hardkodiert)', ()
   //    herausgeschnitten. Die Invariante bleibt: KEINE klinischen Code-Systeme in der übrigen
   //    App-Logik gestreut, NUR in diesen klar abgegrenzten Bereichen.
   snapshot = snapshot.replace(/CODE-LISTEN \(Paket 3\)[\s\S]*$/, '');   // alle @vd-codeliste-Seed-Blöcke + Rest der Datei
+  // 4) LIZENZ-WORTLAUT (27.09.2026): die Pflicht-Quellenangaben der Lizenzgeber nennen ihr System beim Namen — kein Code,
+  //    sondern Text, den wir führen müssen, byte-gleich gegen code-listen/wortlaut/ gehalten (tests/lizenz-wortlaut-im-kern.test.js).
+  snapshot = snapshot.replace(/LIZENZ-WORTLAUT:BEGIN[\s\S]*?LIZENZ-WORTLAUT:END \*\//, '');
   // SNOMED und ICD-10 sind klinische Code-Systeme → im (übrigen) Kern weiterhin verboten (kein rc1-Ballast).
   assert.ok(!/SNOMED/i.test(snapshot), 'kein SNOMED-Code-System im Kern');
   assert.ok(!/LOINC/i.test(snapshot), 'kein LOINC außerhalb des klar abgegrenzten IPS-Exports/Code-Listen-Andocks');

@@ -12,7 +12,7 @@ const W = require('../tools/stumme-zurueckweisung-pruefen.js');
 
 const REPO = path.join(__dirname, '..');
 const WERKZEUG = path.join(REPO, 'tools', 'stumme-zurueckweisung-pruefen.js');
-const GRUNDLINIE = JSON.parse(fs.readFileSync(W.GRUNDLINIE_PFAD, 'utf8'));
+const GRUNDLINIE = require('../tools/lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(W.GRUNDLINIE_PFAD);
 const LESEN = fs.readFileSync(path.join(REPO, 'vivodepot-lesen.html'), 'utf8');
 const KERN = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
 const probe = (p) => { const f = path.join(REPO, p); return fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null; };

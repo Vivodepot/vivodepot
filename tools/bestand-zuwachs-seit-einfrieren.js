@@ -81,6 +81,49 @@ const ZUWACHS = Object.freeze([
   { bereich: 'vorsorge', sektion: 'spousal-representation', feld: 'spousalRepresentationObjectionSince', unterfeld: null, art: 'feld', adr: 'U2-ADR-433' },
   { bereich: 'vorsorge', sektion: 'spousal-representation', feld: 'spousalObjectionRegistered', unterfeld: null, art: 'feld', adr: 'U2-ADR-433' },
   { bereich: 'vorsorge', sektion: 'spousal-representation', feld: 'spousalObjectionRegisterNumber', unterfeld: null, art: 'feld', adr: 'U2-ADR-433' },
+  // Personenstandsurkunden (27.09.2026, Stufe 89): die Ablageorte, bisher eigene Felder der Situation Erbfall, als Kennungen
+  // (tests/schema-89-personenstandsurkunden.test.js).
+  { bereich: 'identitaet', sektion: 'civil-status-certificates', feld: 'birthCertificateStorage', unterfeld: null, art: 'feld', adr: 'U2-ADR-439' },
+  { bereich: 'identitaet', sektion: 'civil-status-certificates', feld: 'marriageCertificateStorage', unterfeld: null, art: 'feld', adr: 'U2-ADR-439' },
+  { bereich: 'identitaet', sektion: 'civil-status-certificates', feld: 'familyRegisterBookStorage', unterfeld: null, art: 'feld', adr: 'U2-ADR-439' },
+  // Verständigung und Unterstützung (27.09.2026, Produktentscheidung): eigene Gruppe, fünf Felder
+  // (tests/k3-verstaendigung-notfallkarte.test.js).
+  { bereich: 'vorsorge', sektion: 'communication-support', feld: 'communicationLanguage', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
+  { bereich: 'vorsorge', sektion: 'communication-support', feld: 'communicationSupport', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
+  { bereich: 'vorsorge', sektion: 'communication-support', feld: 'supportPerson', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
+  { bereich: 'vorsorge', sektion: 'communication-support', feld: 'whatHelpsMe', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
+  { bereich: 'vorsorge', sektion: 'communication-support', feld: 'doNotInform', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
+  // Festlegungen der Patientenverfügung (28.09.2026): die Schritte des Assistenten als Felder, abgeleitet aus PV_BMJ.steps
+  // (tests/pv-festlegungen-kennungen.test.js).
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'applicableSituations', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'ownAdditionalSituation', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'lifeSustainingMeasures', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'painAndSymptomTreatment', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'acceptsLifeShorteningFromPain', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'artificialNutritionAndHydration', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'resuscitationInDescribedSituations', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'emergencyDoctorNotified', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'resuscitationInAllCases', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'artificialVentilation', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'dialysis', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'antibiotics', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'bloodAndBloodProducts', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'placeOfTreatmentOrDeath', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'supportFromThesePersons', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'supportFromChurchOrCommunity', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'hospiceSupport', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'confidentialityWaiverFor', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'whoseViewMattersIfUnregulated', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'whoseViewMattersOtherPersonName', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'whoseViewMattersIfDeviatingWill', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'whoseViewMattersIfDeviatingOther', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'personalValuesOrFurtherDocuments', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'organDonationDecision', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'priorityIfOrganDonationConflict', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'waivesFurtherMedicalInformation', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'informationOrCounsellingReceived', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'validityDuration', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'validityDurationDeadline', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
 ]);
 
 // Sicht 1 — der eingefrorene BEREICHSBESTAND: benannte Feld-Stellen, nie Array-Positionen.

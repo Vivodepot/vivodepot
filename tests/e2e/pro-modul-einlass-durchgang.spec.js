@@ -119,7 +119,7 @@ test('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder �
   const bytes = await page.evaluate(() => window.__proModulBytes);
   expect(bytes, 'die FSA-Attrappe muss Bytes aufgefangen haben (close() lief) — sonst prüft der Test nichts').toBeTruthy();
 
-  const dateiPfad = path.join(os.tmpdir(), 'pro-modul-e2e-depot-' + Date.now() + '.vivodepot');
+  const dateiPfad = path.join(os.tmpdir(), 'pro-modul-e2e-depot-' + process.pid + '-' + Date.now() + '.vivodepot');
   fs.writeFileSync(dateiPfad, bytes, 'utf8');
   try {
     await page.click('#w-datei');

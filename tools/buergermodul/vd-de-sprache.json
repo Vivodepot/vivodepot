@@ -835,7 +835,7 @@
     "advanceCare.provisionInstruments/copyDepositedInTheRegister/ja.label": "ja",
     "advanceCare.provisionInstruments/copyDepositedInTheRegister/nein.label": "nein",
     "advanceCare.provisionInstruments/copyDepositedInTheRegister.label": "Abschrift im Register hinterlegt",
-    "advanceCare.provisionInstruments/copyDepositedInTheRegister.hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat.",
+    "advanceCare.provisionInstruments/copyDepositedInTheRegister.hint": "Hat eine Stelle, etwa ein Notariat, eine Anwaltskanzlei oder ein Betreuungsverein, eine elektronische Abschrift Ihrer Vorsorgedokumente beim Zentralen Vorsorgeregister hinterlegt? Dann tragen Sie es hier ein.",
     "advanceCare.provisionInstruments/copyDepositedOn.label": "Abschrift hinterlegt am",
     "advanceCare.provisionInstruments/depositedBy.label": "Hinterlegt durch",
     "advanceCare.provisionInstruments/depositedBy.hint": "Die Stelle, die die Abschrift eingestellt hat — Betreuungsbehörde, Betreuungsverein, Anwaltskanzlei oder Notariat.",

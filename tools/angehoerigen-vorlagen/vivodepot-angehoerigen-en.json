@@ -94,6 +94,42 @@
           ]
         },
         {
+          "id": "verstaendigung",
+          "titel": "Communication and support",
+          "eintraege": [
+            {
+              "quelle": "advanceCare",
+              "feld": "communicationLanguage"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "communicationSupport"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "supportPerson"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "whatHelpsMe"
+            }
+          ]
+        },
+        {
+          "id": "besondere-hinweise",
+          "titel": "Special notes",
+          "eintraege": [
+            {
+              "quelle": "emergencyPreparedness",
+              "feld": "specialSituation"
+            },
+            {
+              "quelle": "emergencyPreparedness",
+              "feld": "noteForEmergencyResponders"
+            }
+          ]
+        },
+        {
           "id": "people",
           "titel": "My People",
           "eintraege": [
@@ -419,12 +455,16 @@
               "feld": "erb_originaldokumente"
             },
             {
-              "quelle": "sit:erbfall",
-              "feld": "erb_stammbuch"
+              "quelle": "identity",
+              "feld": "familyRegisterBookStorage"
             },
             {
-              "quelle": "sit:erbfall",
-              "feld": "erb_personenstand"
+              "quelle": "identity",
+              "feld": "birthCertificateStorage"
+            },
+            {
+              "quelle": "identity",
+              "feld": "marriageCertificateStorage"
             }
           ]
         },

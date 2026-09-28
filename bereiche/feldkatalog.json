@@ -1,8 +1,182 @@
 {
   "hinweis": "ERZEUGT von tools/build-feldkatalog.js aus vivodepot.html SEKTOREN und tools/bereich-templates/*.json. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 625,
+  "anzahl": 662,
   "felder": [
+    {
+      "kennung": "advanceCare.applicableSituations",
+      "bereich": "advanceCare",
+      "label": "Situationen",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.ownAdditionalSituation",
+      "bereich": "advanceCare",
+      "label": "Eigene Beschreibung der Anwendungssituation",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.lifeSustainingMeasures",
+      "bereich": "advanceCare",
+      "label": "Lebenserhaltende Maßnahmen",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.painAndSymptomTreatment",
+      "bereich": "advanceCare",
+      "label": "Schmerz- und Symptombehandlung",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.acceptsLifeShorteningFromPain",
+      "bereich": "advanceCare",
+      "label": "Lebensverkürzung in Kauf",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.artificialNutritionAndHydration",
+      "bereich": "advanceCare",
+      "label": "Künstliche Ernährung und Flüssigkeitszufuhr",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.resuscitationInDescribedSituations",
+      "bereich": "advanceCare",
+      "label": "Wiederbelebung (oben beschriebene Situationen)",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.emergencyDoctorNotified",
+      "bereich": "advanceCare",
+      "label": "Notarzt-Hinweis",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.resuscitationInAllCases",
+      "bereich": "advanceCare",
+      "label": "Wiederbelebung (alle Fälle)",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.artificialVentilation",
+      "bereich": "advanceCare",
+      "label": "Künstliche Beatmung",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.dialysis",
+      "bereich": "advanceCare",
+      "label": "Dialyse",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.antibiotics",
+      "bereich": "advanceCare",
+      "label": "Antibiotika",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.bloodAndBloodProducts",
+      "bereich": "advanceCare",
+      "label": "Blut und Blutbestandteile",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.placeOfTreatmentOrDeath",
+      "bereich": "advanceCare",
+      "label": "Ort der Behandlung / des Sterbens",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.supportFromThesePersons",
+      "bereich": "advanceCare",
+      "label": "Beistand durch folgende Personen",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.supportFromChurchOrCommunity",
+      "bereich": "advanceCare",
+      "label": "Beistand durch Vertreter/in folgender Kirche oder Weltanschauungsgemeinschaft",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.hospiceSupport",
+      "bereich": "advanceCare",
+      "label": "Hospizlicher Beistand",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.confidentialityWaiverFor",
+      "bereich": "advanceCare",
+      "label": "Entbindung von der Schweigepflicht gegenüber folgenden Personen",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.whoseViewMattersIfUnregulated",
+      "bereich": "advanceCare",
+      "label": "Besondere Bedeutung (ungeregelte Situationen)",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.whoseViewMattersOtherPersonName",
+      "bereich": "advanceCare",
+      "label": "Andere Person (Name)",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.whoseViewMattersIfDeviatingWill",
+      "bereich": "advanceCare",
+      "label": "Besondere Bedeutung (abweichende Willensäußerung)",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.whoseViewMattersIfDeviatingOther",
+      "bereich": "advanceCare",
+      "label": "Andere Person (Name)",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.personalValuesOrFurtherDocuments",
+      "bereich": "advanceCare",
+      "label": "Wertvorstellungen / sonstige Unterlagen",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.organDonationDecision",
+      "bereich": "advanceCare",
+      "label": "Organspende",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.priorityIfOrganDonationConflict",
+      "bereich": "advanceCare",
+      "label": "Vorrang bei Konflikt (Organspende vs. Patientenverfügung)",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.waivesFurtherMedicalInformation",
+      "bereich": "advanceCare",
+      "label": "Verzicht auf weitere ärztliche Aufklärung",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.informationOrCounsellingReceived",
+      "bereich": "advanceCare",
+      "label": "Information / Beratung",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.validityDuration",
+      "bereich": "advanceCare",
+      "label": "Gültigkeit",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.validityDurationDeadline",
+      "bereich": "advanceCare",
+      "label": "Frist",
+      "template": null
+    },
     {
       "kennung": "administration.bundid",
       "bereich": "administration",
@@ -805,6 +979,36 @@
       "kennung": "advanceCare.provisionDocumentsCheckedIn",
       "bereich": "advanceCare",
       "label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.communicationLanguage",
+      "bereich": "advanceCare",
+      "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.communicationSupport",
+      "bereich": "advanceCare",
+      "label": "Unterstützung bei der Verständigung",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.supportPerson",
+      "bereich": "advanceCare",
+      "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.whatHelpsMe",
+      "bereich": "advanceCare",
+      "label": "Was mir hilft",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.doNotInform",
+      "bereich": "advanceCare",
+      "label": "Wer nicht informiert werden soll",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -2173,6 +2377,24 @@
       "kennung": "identity.pets/otherNotes",
       "bereich": "identity",
       "label": "Weitere Hinweise",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.birthCertificateStorage",
+      "bereich": "identity",
+      "label": "Eigene Geburtsurkunde — Ablageort",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.marriageCertificateStorage",
+      "bereich": "identity",
+      "label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.familyRegisterBookStorage",
+      "bereich": "identity",
+      "label": "Familienstammbuch — Ablageort",
       "template": "vivodepot-identity.json"
     },
     {

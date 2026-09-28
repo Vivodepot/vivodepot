@@ -484,6 +484,26 @@
        ]
       }
      ]
+    },
+    {
+     "id": "civil-status-certificates",
+     "felder": [
+      {
+       "id": "birthCertificateStorage",
+       "typ": "text",
+       "sensibel": true
+      },
+      {
+       "id": "marriageCertificateStorage",
+       "typ": "text",
+       "sensibel": true
+      },
+      {
+       "id": "familyRegisterBookStorage",
+       "typ": "text",
+       "sensibel": true
+      }
+     ]
     }
    ]
   },
@@ -2328,7 +2348,11 @@
        "id": "longTermCareAllowanceAmount",
        "sensibel": true,
        "typ": "text",
-       "inputmode": "decimal"
+       "inputmode": "decimal",
+       "verborgenWenn": {
+        "feld": "longTermCareAllowanceTypeOf",
+        "wert": "sachleistung"
+       }
       },
       {
        "id": "longTermCareAllowanceEarlier",
@@ -3415,7 +3439,11 @@
           {
            "wert": "bildung"
           }
-         ]
+         ],
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
+         }
         },
         {
          "id": "authorizedParties",
@@ -3431,7 +3459,11 @@
           {
            "wert": "angehoerige"
           }
-         ]
+         ],
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
+         }
         },
         {
          "id": "namedIndividuals",
@@ -3440,6 +3472,10 @@
          "sichtbarWenn": {
           "feld": "instrument",
           "wert": "ki-verfuegung"
+         },
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
          }
         },
         {
@@ -3456,7 +3492,11 @@
           {
            "wert": "oeffentlich"
           }
-         ]
+         ],
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
+         }
         },
         {
          "id": "permittedDataTypes",
@@ -3478,7 +3518,11 @@
           {
            "wert": "hinterlegt"
           }
-         ]
+         ],
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
+         }
         },
         {
          "id": "timeLimit",
@@ -3497,7 +3541,11 @@
           {
            "wert": "zeitpunkt"
           }
-         ]
+         ],
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
+         }
         },
         {
          "id": "numberOfYears",
@@ -3505,6 +3553,10 @@
          "sichtbarWenn": {
           "feld": "timeLimit",
           "wert": "jahre"
+         },
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
          }
         },
         {
@@ -3513,6 +3565,10 @@
          "sichtbarWenn": {
           "feld": "timeLimit",
           "wert": "zeitpunkt"
+         },
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
          }
         },
         {
@@ -3529,7 +3585,11 @@
           {
            "wert": "frei"
           }
-         ]
+         ],
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
+         }
         },
         {
          "id": "digitalEstateAdministration",
@@ -3545,7 +3605,11 @@
           {
            "wert": "angehoerige"
           }
-         ]
+         ],
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
+         }
         },
         {
          "id": "digitalEstateAdministration2",
@@ -3554,6 +3618,10 @@
          "sichtbarWenn": {
           "feld": "instrument",
           "wert": "ki-verfuegung"
+         },
+         "verborgenWenn": {
+          "feld": "basicDecision",
+          "wert": "untersagung"
          }
         },
         {
@@ -3749,6 +3817,469 @@
          "wert": "nein"
         }
        ]
+      }
+     ]
+    },
+    {
+     "id": "communication-support",
+     "felder": [
+      {
+       "id": "communicationLanguage",
+       "typ": "text"
+      },
+      {
+       "id": "communicationSupport",
+       "typ": "mehrfachauswahl",
+       "optionen": [
+        {
+         "wert": "dolmetschen"
+        },
+        {
+         "wert": "gebaerdensprache"
+        },
+        {
+         "wert": "leichte-sprache"
+        }
+       ]
+      },
+      {
+       "id": "supportPerson",
+       "typ": "ref",
+       "entitaet": "person",
+       "verweisZweck": "pflege"
+      },
+      {
+       "id": "whatHelpsMe",
+       "typ": "textarea"
+      },
+      {
+       "id": "doNotInform",
+       "sensibel": true,
+       "typ": "textarea"
+      }
+     ]
+    },
+    {
+     "id": "living-will-decisions",
+     "felder": [
+      {
+       "id": "applicableSituations",
+       "typ": "mehrfachauswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "sterbeprozess"
+        },
+        {
+         "wert": "endstadium"
+        },
+        {
+         "wert": "gehirnschaedigung"
+        },
+        {
+         "wert": "hirnabbau"
+        }
+       ]
+      },
+      {
+       "id": "ownAdditionalSituation",
+       "typ": "textarea",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true
+      },
+      {
+       "id": "lifeSustainingMeasures",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ausschoepfen"
+        },
+        {
+         "wert": "unterlassen"
+        }
+       ]
+      },
+      {
+       "id": "painAndSymptomTreatment",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ohne_daempfung"
+        },
+        {
+         "wert": "mit_daempfung"
+        }
+       ]
+      },
+      {
+       "id": "acceptsLifeShorteningFromPain",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "artificialNutritionAndHydration",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "palliativ"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "resuscitationInDescribedSituations",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "emergencyDoctorNotified",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "resuscitationInAllCases",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ab"
+        },
+        {
+         "wert": "ab_ausser_op"
+        }
+       ]
+      },
+      {
+       "id": "artificialVentilation",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "dialysis",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "antibiotics",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "palliativ"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "bloodAndBloodProducts",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "palliativ"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "placeOfTreatmentOrDeath",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "krankenhaus"
+        },
+        {
+         "wert": "zuhause"
+        },
+        {
+         "wert": "hospiz"
+        }
+       ]
+      },
+      {
+       "id": "supportFromThesePersons",
+       "typ": "refMehrfach",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "entitaet": "person"
+      },
+      {
+       "id": "supportFromChurchOrCommunity",
+       "typ": "text",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true
+      },
+      {
+       "id": "hospiceSupport",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "confidentialityWaiverFor",
+       "typ": "refMehrfach",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "entitaet": "person"
+      },
+      {
+       "id": "whoseViewMattersIfUnregulated",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "bevollmaechtigt"
+        },
+        {
+         "wert": "betreuer"
+        },
+        {
+         "wert": "arzt"
+        },
+        {
+         "wert": "andere"
+        }
+       ]
+      },
+      {
+       "id": "whoseViewMattersOtherPersonName",
+       "typ": "text",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "verborgenWenn": {
+        "feld": "whoseViewMattersIfUnregulated",
+        "wert": [
+         "bevollmaechtigt",
+         "betreuer",
+         "arzt"
+        ]
+       }
+      },
+      {
+       "id": "whoseViewMattersIfDeviatingWill",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "bevollmaechtigt"
+        },
+        {
+         "wert": "betreuer"
+        },
+        {
+         "wert": "arzt"
+        },
+        {
+         "wert": "andere"
+        }
+       ]
+      },
+      {
+       "id": "whoseViewMattersIfDeviatingOther",
+       "typ": "text",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "verborgenWenn": {
+        "feld": "whoseViewMattersIfDeviatingWill",
+        "wert": [
+         "bevollmaechtigt",
+         "betreuer",
+         "arzt"
+        ]
+       }
+      },
+      {
+       "id": "personalValuesOrFurtherDocuments",
+       "typ": "textarea",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true
+      },
+      {
+       "id": "organDonationDecision",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "zustimmung"
+        },
+        {
+         "wert": "ablehnung"
+        }
+       ]
+      },
+      {
+       "id": "priorityIfOrganDonationConflict",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "verborgenWenn": {
+        "feld": "organDonationDecision",
+        "wert": "ablehnung"
+       },
+       "optionen": [
+        {
+         "wert": "organspende"
+        },
+        {
+         "wert": "patientenverfuegung"
+        }
+       ]
+      },
+      {
+       "id": "waivesFurtherMedicalInformation",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "ja"
+        },
+        {
+         "wert": "nein"
+        }
+       ]
+      },
+      {
+       "id": "informationOrCounsellingReceived",
+       "typ": "text",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true
+      },
+      {
+       "id": "validityDuration",
+       "typ": "auswahl",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "optionen": [
+        {
+         "wert": "unbefristet"
+        },
+        {
+         "wert": "befristet"
+        }
+       ]
+      },
+      {
+       "id": "validityDurationDeadline",
+       "typ": "text",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true,
+       "verborgenWenn": {
+        "feld": "validityDuration",
+        "wert": "unbefristet"
+       }
       }
      ]
     }
@@ -4203,7 +4734,11 @@
       {
        "id": "tenancyTerminationHandover",
        "typ": "textarea",
-       "ebene": "modul"
+       "ebene": "modul",
+       "verborgenWenn": {
+        "feld": "ownedOrRented",
+        "wert": "eigentum"
+       }
       },
       {
        "id": "noticeDate",
@@ -4211,7 +4746,11 @@
         "frist"
        ],
        "typ": "datum",
-       "ebene": "modul"
+       "ebene": "modul",
+       "verborgenWenn": {
+        "feld": "ownedOrRented",
+        "wert": "eigentum"
+       }
       },
       {
        "id": "moveOutDate",

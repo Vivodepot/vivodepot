@@ -190,7 +190,8 @@ describe('[Unsichtbarkeit] derselbe Inhalt über den neuen Träger', () => {
       assert.equal(g.gueltig, true,
         'Bereich "' + id + '" passiert den Träger NICHT: ' + g.grund + ' ' + JSON.stringify(g.verworfene));
 
-      const A = idx[id], B = g.bereiche[0];
+      // U2-ADR-440: die abgeleitete Sektion der Festlegungen trägt keine Moduldatei, der Kern fügt sie beim Start hinzu.
+      const A = require('../../tools/lib/pv-festlegungen-textsatz.js').ohneAbgeleiteteSektionen(idx[id]), B = g.bereiche[0];
       const cmp = (was, x, y) => {
         if (JSON.stringify(x) !== JSON.stringify(y)) abweichungen.push(id + '.' + was);
       };

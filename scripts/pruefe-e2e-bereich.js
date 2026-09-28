@@ -34,6 +34,13 @@
    Liegt die Last beim Start schon über der Schranke, bricht das Gate ab —
    der Push wird VERHINDERT, nicht durchgewinkt. „Gerade keine Kapazität"
    ist ungemessen, und ungemessen ist rot.
+
+   --arbeitsbaum (27.09.2026): derselbe Anlass und dieselben Läufe VOR dem Commit, für
+   die Vorbereitung einer Landung. Zweimal fiel eine rote E2E-Probe erst im pre-push auf, nach
+   Suite und Push-Wort. Vor dem Commit gibt es keinen Push-Bereich; gemessen wird darum gegen
+   den gemeinsamen Vorfahren mit origin/u2-kanon, einschließlich uncommitteter Änderungen und
+   neuer, noch ungetrackter Dateien. Die ENTSCHEIDUNG ist dieselbe Funktion wie im pre-push
+   (anlassEntscheiden) — nur die Dateiliste kommt aus einer anderen Quelle.
    ════════════════════════════════════════════════════════════════════════ */
 const os = require('node:os');
 const { execFileSync, spawnSync } = require('node:child_process');
@@ -81,6 +88,26 @@ function geaenderteDateien(lokalSha, remoteSha) {
   }
 }
 
+/* Die geänderten Dateien des Arbeitsbaums gegenüber dem gemeinsamen Vorfahren mit dem Kanon:
+   Commits seit dem Vorfahren, uncommittete Änderungen (gestagt oder nicht) und neue Dateien.
+   Nicht messbar (kein Kanon-Ref) → null, der Anlass gilt als gegeben. */
+function geaenderteDateienArbeitsbaum(kanon = 'origin/u2-kanon', g = git) {
+  try {
+    const basis = g('merge-base', 'HEAD', kanon).trim();
+    const geaendert = g('diff', '--name-only', basis).split('\n').filter(Boolean);
+    const neu = g('ls-files', '--others', '--exclude-standard').split('\n').filter(Boolean);
+    return [...new Set([...geaendert, ...neu])];
+  } catch (_) {
+    return null;
+  }
+}
+
+/* DIE EINE Anlass-Regel für pre-push und die Vorbereitung einer Landung: aus einer Dateiliste (null = nicht
+   messbar) die Entscheidung für die Chromium-/Cross-Läufe und für Firefox. */
+function anlassEntscheiden(dateien) {
+  return { anlass: anlassGegeben(dateien), firefox: firefoxAnlassGegeben(dateien) };
+}
+
 function firefoxAnlassGegeben(dateien) {
   if (dateien === null) return { ja: true, grund: 'neuer Zweig oder kein messbarer Bereich' };
   const t = dateien.filter((d) => FIREFOX_TRAEGER.includes(d) || d.startsWith(E2E_FIREFOX_PFAD));
@@ -118,6 +145,10 @@ function lastMehrfach(anzahl = LAST_MESSUNGEN, abstandMs = LAST_ABSTAND_MS) {
 }
 
 function main() {
+  if (process.argv.includes('--arbeitsbaum')) {
+    const e = anlassEntscheiden(geaenderteDateienArbeitsbaum());
+    return laeufeFahren(e.anlass, e.firefox);
+  }
   const roh = require('node:fs').readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[e2e-bereich] nichts zu pushen'); return 0; }
 
@@ -130,21 +161,19 @@ function main() {
      (Fund aus einer internen Erhebung vom 06.09.2026 · Fix vorgezeichnet in Commit 5dadfbb8,
      nur lokal, nie gepusht.) */
   let anlass = { ja: false, grund: 'kein Ref mit Inhalt — der Hook bekam keine prüfbare Zeile' };
-  for (const zeile of roh.split('\n').filter(Boolean)) {
-    const [, lokalSha, , remoteSha] = zeile.split(/\s+/);
-    if (/^0+$/.test(lokalSha)) continue;                     // Löschung eines Refs
-    anlass = anlassGegeben(geaenderteDateien(lokalSha, remoteSha));
-    if (anlass.ja) break;
-  }
-
   let firefox = { ja: false, grund: 'kein Ref mit Inhalt' };
   for (const zeile of roh.split('\n').filter(Boolean)) {
     const [, lokalSha, , remoteSha] = zeile.split(/\s+/);
-    if (/^0+$/.test(lokalSha)) continue;
-    firefox = firefoxAnlassGegeben(geaenderteDateien(lokalSha, remoteSha));
-    if (firefox.ja) break;
+    if (/^0+$/.test(lokalSha)) continue;                     // Löschung eines Refs
+    const e = anlassEntscheiden(geaenderteDateien(lokalSha, remoteSha));
+    if (!anlass.ja) anlass = e.anlass;
+    if (!firefox.ja) firefox = e.firefox;
+    if (anlass.ja && firefox.ja) break;
   }
+  return laeufeFahren(anlass, firefox);
+}
 
+function laeufeFahren(anlass, firefox) {
   if (!anlass.ja && !firefox.ja) {
     console.log('[e2e-bereich] kein Anlass — ' + anlass.grund + '. Nicht gefahren.');
     return 0;
@@ -198,6 +227,6 @@ function main() {
   return 0;
 }
 
-module.exports = { anlassGegeben, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
+module.exports = { anlassGegeben, anlassEntscheiden, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
 
 if (require.main === module) process.exit(main());

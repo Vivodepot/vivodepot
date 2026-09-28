@@ -30,6 +30,8 @@ gleichlaufProben({
     ['ohne rechtsraum', ohne('rechtsraum'), 'rechtsraum'],
     ['rechtsraum leer', mit({ rechtsraum: ' ' }), 'rechtsraum'],
     ['rechtsraum DE', mit({ rechtsraum: 'DE' }), 'reserviert'],
+    ['rechtsraum de (normalisiert reserviert)', mit({ rechtsraum: 'de' }), 'reserviert'],
+    ['rechtsraum " De " (normalisiert reserviert)', mit({ rechtsraum: ' De ' }), 'reserviert'],
     ['ohne moduleVersion', ohne('moduleVersion'), 'moduleVersion'],
     ['moduleVersion 0', mit({ moduleVersion: 0 }), 'moduleVersion'],
     ['ohne typen', ohne('typen'), 'typen'],

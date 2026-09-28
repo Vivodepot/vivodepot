@@ -14,7 +14,7 @@ Die vier Komponenten:
 1. **Bürger-App** — `vivodepot.html`
 2. **Lese-App** — `vivodepot-lesen.html`
 3. **VC-Issuer** — `vivodepot-vc-issuer.html`
-4. **Template-Generator** — `vivodepot-template-generator.html`
+4. **Template-Generator** — nicht im öffentlichen Stand
 
 ## Das Krypto-Block-Hash-Gate (der wichtigste Test)
 
@@ -98,5 +98,5 @@ npm run test:e2e:cross        # T-CROSS-01..06 über playwright.config.cross.js
 `@playwright/test` und die Browser-Binaries waren in der Bau-Sandbox nicht beschaffbar
 (npm/GitHub 403). Die Specs, die Config, die Fixtures und die GitHub-Action sind vollständig
 und lauffähig gebaut; der erste echte Browser-Lauf passiert am Mac (mit Netz) oder in CI
-(`.github/workflows/e2e-cross.yml`). Die **browser-freien** Gates T-CROSS-07 und T-CROSS-08
+(der Workflow ist im öffentlichen Stand vorerst zurückgezogen). Die **browser-freien** Gates T-CROSS-07 und T-CROSS-08
 laufen bereits in der Schicht-1-Suite grün.

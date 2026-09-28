@@ -39,7 +39,8 @@ test('[A438] .delete() und .clear() sind ebenfalls gesperrt', () => {
   const irgendeinSchluessel = [...V._ANG_CACHE_ERLAUBT][0];
   assert.throws(() => V._ANG_CACHE_ERLAUBT.delete(irgendeinSchluessel), /gesperrt/);
   assert.throws(() => V._ANG_CACHE_ERLAUBT.clear(), /gesperrt/);
-  assert.equal(V._ANG_CACHE_ERLAUBT.size, 78, 'der gemessene Stand (75 vom 20.08.2026, +3 am 25.09.2026, U2-ADR-433) — unverändert nach beiden Versuchen');
+  // 79 → 85 (27.09.2026, U2-ADR-438 Verständigung und Unterstützung): sechs Einträge, doNotInform nicht.
+  assert.equal(V._ANG_CACHE_ERLAUBT.size, 85, 'der gemessene Stand (75 vom 20.08.2026, +3 am 25.09.2026, U2-ADR-433, +1 am 27.09.2026, U2-ADR-439) — unverändert nach beiden Versuchen');
 });
 
 test('[A438] die Sperre selbst ist nicht wieder aufhebbar (add lässt sich nicht zurücksetzen)', () => {
@@ -54,5 +55,6 @@ test('[A438·Gegenprobe] Lesen bleibt unverändert -- has/size/Iteration funktio
   assert.equal(V._ANG_CACHE_ERLAUBT.has('krankenhausakut|health|bloodType'), true);
   assert.equal(V._ANG_CACHE_ERLAUBT.has('nie-gehoert|nirgendwo|nichts'), false);
   assert.equal([...V._ANG_CACHE_ERLAUBT].length, V._ANG_CACHE_ERLAUBT.size);
-  assert.equal(Array.from(V._ANG_CACHE_ERLAUBT).length, 78);   // 75 + 3 (25.09.2026, U2-ADR-433)
+  // 79 → 85 (27.09.2026, U2-ADR-438 Verständigung und Unterstützung): sechs Einträge, doNotInform nicht.
+  assert.equal(Array.from(V._ANG_CACHE_ERLAUBT).length, 85);   // 75 + 3 (25.09.2026, U2-ADR-433) + 1 (27.09.2026, U2-ADR-439)
 });

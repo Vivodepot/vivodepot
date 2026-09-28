@@ -1,0 +1,4 @@
+{
+  "hinweis": "Gepinnte Fassungen der Quellen, je Datei mit SHA-256. Eine neue Fassung wird hier eingetragen, nachdem der Fassungsvergleich (tools/bezuege-erheben.js, fassungenVergleichen) gelaufen ist; eine Bedeutungsänderung an einem abgebildeten Ziel ist eine Ratschen-Zeile.",
+  "quellen": []
+}

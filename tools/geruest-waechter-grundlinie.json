@@ -119,10 +119,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 219630
+   "bytes": 223809
   },
   "satz": {
-   "bytes": 29720
+   "bytes": 29659
   }
  },
  "fremdcode": [
@@ -216,8 +216,8 @@
   "dauerhaft": [
    {
     "name": "CODE-LISTEN",
-    "satz": 1945,
-    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten (etwa der WIdO-Hinweis zur ATC-GM): Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein.",
+    "satz": 1241,
+    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein.",
     "probe": "tests/code-listen-lizenzhinweise-im-kern.test.js"
    },
    {
@@ -225,6 +225,12 @@
     "satz": 20,
     "grund": "Der Name der Urheberin und die Lizenzkennung am Herkunftsort: Text, den wir führen müssen — die Urheberschaft darf nicht entfernbar sein (Spezifikation 34.7), und eine falsche Lizenzkennung wäre eine falsche Aussage (25.8). Der Block ist aus tools/herkunftsort-angaben.json erzeugt und in Kern und Lese-App byte-gleich. Die Probe sichert sein VORHANDENSEIN und seine Gleichheit, nicht das Weglassen.",
     "probe": "tests/herkunftsort-angaben-gleich.test.js"
+   },
+   {
+    "name": "LIZENZ-WORTLAUT",
+    "satz": 2383,
+    "grund": "Die Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar verlangt (LOINC § 10, BfArM-Downloadbedingungen ICD-10-GM § 1 und ATC-GM § 1); der Kern reist als einzelne Datei, eine NOTICE reist nicht mit. Genau drei Werte, jeder byte-gleich mit seinem Original unter code-listen/wortlaut/ — ein eigener Satz ist rot. Aufgenommen am 27.09.2026 mit Wort der Gegenlesung, CODE-LISTEN sank um dieselben Byte.",
+    "probe": "tests/lizenz-wortlaut-im-kern.test.js"
    }
   ]
  },
@@ -414,6 +420,88 @@
    "auf": 219630,
    "daneben": {},
    "grund": "+241 Byte struktur (v806, 26.09.2026) = zwei Teile, je vollständig erklärt: (1) +41 Lebenslagen über den Sprachsatz (LEBENSLAGEN-EN-DEUTSCH-LECK): Getter mit den Kennungsteilen lebenslage:, label, unterlagen, hinweis. — Kennungen, kein Satz; die Texte stehen im Sprachmodul. (2) +200 Link zur Datenschutzerklärung unter dem Impressum: DATENSCHUTZ_LINK mit zwei Zielen, de 37 Byte (https://vivodepot.de/datenschutz.html) und en 45 Byte (dieselbe Adresse mit ?lang=en), + Link-Markup 66 + 44 + 8. Kein Rest; satz unverändert."
+  },
+  {
+   "ziel": "struktur",
+   "von": 219630,
+   "auf": 219642,
+   "daneben": {},
+   "grund": "v807: reservierte Codes normalisiert verglichen, Konstanten-Lookups über _eigenerWert (Befunde STELLENSATZ-DE-RESERVIERUNG, LOGIK-BLOCKTYP-PROTOTYP)"
+  },
+  {
+   "ziel": "struktur",
+   "von": 219443,
+   "auf": 219724,
+   "daneben": {},
+   "grund": "v811 Personenstandsurkunden (Schema 89, U2-ADR-439): drei Blatt-Einträge behoerden_nachlass|identity|… (zwei sit:erbfall|… entfallen), Tabelle PERSONENSTAND_SITUATION_ZU_IDENTITY_89, drei XML-Tags <urkunden> im Erbschein-XML. +281 Byte, satz unverändert."
+  },
+  {
+   "ziel": "struktur",
+   "von": 219724,
+   "auf": 220259,
+   "daneben": {},
+   "grund": "K3 (U2-ADR-438): Verständigung und Unterstützung auf Notfallkarte und Blatt Krankenhaus, Freitexte auf 160 Zeichen gekürzt, inkl. Ereignis-Achse-Ausnahme advanceCare.supportPerson als Code-Wert contact (Einzelfall, Folgeposten: alle ausgenommen-Werte werden Codes) und reservierte Tripel-Kennung"
+  },
+  {
+   "ziel": "struktur",
+   "von": 220259,
+   "auf": 220272,
+   "daneben": {
+    "satz": -20
+   },
+   "grund": "Befund DATEINAME-PERSON (28.09.2026, Gegenlesung erteilt): blackboxDateiname, _dateiKurzkennung und die Dateikennung in der Sub-Depot-Karte; exportDateiname und empfaengerDateiname ohne Personennamen"
+  },
+  {
+   "ziel": "struktur",
+   "von": 220272,
+   "auf": 223490,
+   "daneben": {
+    "satz": -41
+   },
+   "grund": "U2-ADR-430 Wiederherstellungs-Code (28.09.2026, nach Rebase auf 0e472179e neu gemessen): Markup der fünf Dialoge, Öffnen-Schirm, Einstellungs-Abschnitt, Code-Blatt (+3189) und die Log-Kennung 'depotLaden:depotNormalisieren' statt eines Satzes (+29, satz −41); keine neue Kette über 1024 Byte; Wort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 223490,
+   "auf": 223705,
+   "daneben": {},
+   "grund": "U2-ADR-443 Bildungsnachweise halten: Kennungen des gehaltenen EDC-Originals im Kern (Profil-Kontext EDC_AP_KONTEXT, MIME-Typen application/jose+json und application/ld+json, Endung .jsonld, Bereich education, Typ-Tabelle BILDUNG_DOK_TYPEN, SHL-Ausschluss) — kein satzförmiger Inhalt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 223705,
+   "auf": 223809,
+   "daneben": {},
+   "grund": "U2-ADR-440: Ableitung der Festlegungen der Patientenverfügung im Kern (Sektions-Id, Ableitungs-Merkmal, Kennungspräfix, nurAnzeige)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  }
+ ],
+ "langeKettenBekannt": [
+  {
+   "bytes": 11938,
+   "sha256": "a1d41d505930bc2094f9482004e2d50650c73c058cf4df62f7e2b9ff4166bd76",
+   "beispiel": "data:image/png;base64,iVBORw0KGgoAAAANSU"
+  },
+  {
+   "bytes": 11750,
+   "sha256": "838fe3063ab209eedbe98a6bf9ad3f7c614c4c3d7b53bbac9026bc1a36061e7d",
+   "beispiel": "data:image/png;base64,iVBORw0KGgoAAAANSU"
+  },
+  {
+   "bytes": 13050,
+   "sha256": "5252883f90bed93442a194b8acd307506e59e1d0e57a3fef17577427735b138c",
+   "beispiel": "data:image/png;base64,iVBORw0KGgoAAAANSU"
   }
  ]
 }

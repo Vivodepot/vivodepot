@@ -84,7 +84,8 @@ test('[Abdeckungsweg] Rot-Beleg: bekannt ausgeführte Zeile zeigt ausgeführt, b
   try {
     execFileSync('node', [probeDatei], {
       cwd: REPO,
-      env: { ...process.env, NODE_V8_COVERAGE: covDir, KERN_ABDECKUNG_TEMPDATEI: '1' },
+      // Die Temp-Datei wird unten noch gelesen: behalten, und zwar im eigenen Wegwerf-Verzeichnis (TMPDIR = tmp).
+      env: { ...process.env, NODE_V8_COVERAGE: covDir, KERN_ABDECKUNG_TEMPDATEI: '1', KERN_ABDECKUNG_BEHALTEN: '1', TMPDIR: tmp },
     });
     const covDatei = fs.readdirSync(covDir).find((f) => f.startsWith('coverage-'));
     assert.ok(covDatei, 'V8 hat eine Coverage-Datei geschrieben');

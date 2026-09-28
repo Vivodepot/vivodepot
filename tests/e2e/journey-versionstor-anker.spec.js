@@ -59,7 +59,7 @@ async function journey(page, url) {
   await page.click('#tb-save-status .tb-save-knopf');
   await expect.poll(() => page.evaluate(() => window.__bwBytes !== null), { timeout: 8000 }).toBe(true);
   const bytes = await page.evaluate(() => window.__bwBytes);
-  const datei = path.join(os.tmpdir(), 'journey-b-' + Date.now() + '.vivodepot');
+  const datei = path.join(os.tmpdir(), 'journey-b-' + process.pid + '-' + Date.now() + '.vivodepot');
   fs.writeFileSync(datei, bytes, 'utf8');
   const vorher = fs.readFileSync(datei);
 

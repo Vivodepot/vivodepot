@@ -48,8 +48,9 @@ decision (U2-ADR-121, decision point 2), driven by the immigration/multi-jurisdi
 **How to add a new jurisdiction without touching the core:** author a Rechtsraum-Module — a signed
 JSON payload, schema at `docs/rechtsraum-modul/rechtsraum-modul-schema.json`. Key rules:
 
-- `rechtsraum` is your jurisdiction code (e.g. `FR`, `EC`). `'DE'` is reserved for the built-in
-  catalog and will be rejected.
+- `rechtsraum` is your jurisdiction code (e.g. `FR`, `EC`). The app normalizes it (surrounding
+  whitespace removed, upper case), so `at` and `AT` are the same jurisdiction. `'DE'` is reserved for
+  the built-in catalog and will be rejected in any spelling (`de`, ` DE`).
 - `moduleVersion` must increase for an update to take effect (update-not-freeze — this differs
   deliberately from the field-model's freeze-on-revocation behavior, because legal content needs
   to stay current, not stay as it was when first recorded).
@@ -76,7 +77,7 @@ Once a module is loaded into a depot (`data.rechtsraumModule[]`), the app reads 
 uses, with unknown-key lookups returning `undefined` instead of throwing.
 
 **A self-service builder exists for two of the six module types, not yet this one.**
-`vivodepot-template-generator.html` lets an institution build and sign a module without
+The template generator (not part of the public release) lets an institution build and sign a module without
 hand-writing JSON. As of 2026-08-27 it generates `institutionsArt` and `bereich` modules;
 `rechtsraum` (along with `format` and `branding`) is not yet supported there. Authoring a
 Rechtsraum-Module today still means writing the JSON by hand against the schema above.

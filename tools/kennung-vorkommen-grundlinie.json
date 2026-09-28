@@ -8,11 +8,6 @@
     },
     {
       "datei": "vivodepot.html",
-      "enthaelt": "{\"alt\":\"testament\",\"neu\":\"will\"}",
-      "grund": "Alt-Seite von FORMAT_SCHLUESSEL_MAPPING.werte (Export-Format-Vokabular, aus docs/umbau-englisch-vor-v1/format-schluessel-mapping.json erzeugt)"
-    },
-    {
-      "datei": "vivodepot.html",
       "enthaelt": "`testament`, `custodianship-declaration`",
       "grund": "Erklaertext im Kommentar, kein Code"
     },
@@ -100,11 +95,6 @@
       "datei": "tests/fixtures/vor-umzug-a1-situationen.json",
       "enthaelt": "*",
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney', patientenverfuegung: 'living-will', testament: 'will',",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
     },
     {
       "datei": "vivodepot-lesen.html",
@@ -346,16 +336,6 @@
       "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Lese-App-Sektorkatalog, anderes Vokabular als der Typ-Code"
     },
     {
-      "datei": "tests/e2e/a104-kaestchen-trefferflaeche.spec.js",
-      "enthaelt": "vorsorgevollmacht.length",
-      "grund": "Variablenname im Spec, kein Wert"
-    },
-    {
-      "datei": "tests/e2e/a104-kaestchen-trefferflaeche.spec.js",
-      "enthaelt": "...vorsorgevollmacht]",
-      "grund": "Variablenname im Spec, kein Wert"
-    },
-    {
       "datei": "tests/e2e/f8-dokument-oeffner-abnahme.spec.js",
       "enthaelt": "dokumentOeffnen('vorsorgevollmacht'",
       "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
@@ -451,26 +431,6 @@
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
     },
     {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "`living-will` und `enduring-power-of-attorney` (vorher `patientenverfuegung`, `vorsorgevollmacht`). Die Umbau-Tabelle bildet Bereichs-,",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney', patientenverfuegung: 'living-will', testament: 'will',",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "['liste:provisionInstruments:vorsorgevollmacht:authorizedPersons', 'liste:provisionInstruments:enduring-power-of-attorney:authorizedPersons'],",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "JSON.stringify(['patientenverfuegung', 'betreuungsverfuegung', 'vorsorgevollmacht', 'organspende']",
-      "grund": "Erwartete Reihenfolge der vier Standardvorlagen-Module in der Mitschrift (Fach standardVorlagen, Gerüst-Schnitt S4): Modul-Id-Achse, kein Typ-Code"
-    },
-    {
       "datei": "tools/bereiche-nativ-katalog-modul.json",
       "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
       "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Katalog der nativen Bereiche (seit Gerüst-Schnitt S7 in dieser Moduldatei, vorher im Kern), anderes Vokabular als der Typ-Code"
@@ -546,6 +506,21 @@
       "datei": "tools/textsatz-de-modul.json",
       "enthaelt": "priorityIfOrganDonationConflict/patientenverfuegung.label",
       "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "priorityIfOrganDonationConflict/patientenverfuegung.label",
+      "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code — erzeugter Lese-App-Spiegel der Festlegungen (U2-ADR-440)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"wert\": \"patientenverfuegung\"",
+      "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code — erzeugter Lese-App-Spiegel der Festlegungen (U2-ADR-440)"
+    },
+    {
+      "datei": "tools/vd-privat-struktur-bundle.json",
+      "enthaelt": "\"wert\": \"patientenverfuegung\"",
+      "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code — erzeugtes Struktur-Bündel, Sektion living-will-decisions (U2-ADR-440)"
     },
     {
       "datei": "tools/textsatz-de-modul.json",
@@ -703,29 +678,9 @@
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
     },
     {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "`living-will` und `enduring-power-of-attorney` (vorher `patientenverfuegung`, `vorsorgevollmacht`). Die Umbau-Tabelle bildet Bereichs-,",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney', patientenverfuegung: 'living-will', testament: 'will',",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "['liste:provisionInstruments:patientenverfuegung:storageLocation', 'liste:provisionInstruments:living-will:storageLocation'],",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
       "datei": "tools/dokument-module/vivodepot-dokumente-de.json",
       "enthaelt": "\"wert\": \"patientenverfuegung\"",
       "grund": "Auswahlwert eines anderen Feldes im PV-Wizard (Vorrang bei Organspende), nicht der Typ-Code; der Inhalt steht seit dem Gerüst-Schnitt (S6) in der Moduldatei statt im Kern"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "JSON.stringify(['patientenverfuegung', 'betreuungsverfuegung', 'vorsorgevollmacht', 'organspende']",
-      "grund": "Erwartete Reihenfolge der vier Standardvorlagen-Module in der Mitschrift (Fach standardVorlagen, Gerüst-Schnitt S4): Modul-Id-Achse, kein Typ-Code"
     },
     {
       "datei": "vivodepot-lesen.html",
@@ -845,11 +800,6 @@
       "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
     },
     {
-      "datei": "tools/textsatz-en-vollabdeckung-daten.js",
-      "enthaelt": "dok:betreuungsverfuegung",
-      "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
-    },
-    {
       "datei": "tests/e2e/f8-dokument-oeffner-abnahme.spec.js",
       "enthaelt": "dokumentOeffnen('betreuungsverfuegung'",
       "grund": "Modul-Id (dokumentOeffnen loest nach Modul-Id auf)"
@@ -933,16 +883,6 @@
       "datei": "tests/fixtures/vor-umzug-depot-instrumente-breit-anton-reindl.json",
       "enthaelt": "*",
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "betreuungsverfuegung: 'custodianship-declaration', sorgerechtsverfuegung: 'guardian-nomination', betreuerbestellung: 'custodian-appointment',",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "JSON.stringify(['patientenverfuegung', 'betreuungsverfuegung', 'vorsorgevollmacht', 'organspende']",
-      "grund": "Erwartete Reihenfolge der vier Standardvorlagen-Module in der Mitschrift (Fach standardVorlagen, Gerüst-Schnitt S4): Modul-Id-Achse, kein Typ-Code"
     },
     {
       "datei": "vivodepot-lesen.html",
@@ -1032,11 +972,6 @@
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
     },
     {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "betreuungsverfuegung: 'custodianship-declaration', sorgerechtsverfuegung: 'guardian-nomination', betreuerbestellung: 'custodian-appointment',",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
-    },
-    {
       "datei": "vivodepot-lesen.html",
       "enthaelt": "sorgerechtsverfuegung: 'guardian-nomination',",
       "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
@@ -1067,11 +1002,6 @@
       "datei": "tests/fixtures/v515-testdepot.json",
       "enthaelt": "*",
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
-    },
-    {
-      "datei": "tests/e2e/nativ-auslieferung-a-b-abnahme.spec.js",
-      "enthaelt": "betreuungsverfuegung: 'custodianship-declaration', sorgerechtsverfuegung: 'guardian-nomination', betreuerbestellung: 'custodian-appointment',",
-      "grund": "Alt-Seite der benannten Abweichungs-Tabelle der A==B-Abnahme (Instrument-Code v501 -> Kanon; Beleg 37038011 bleibt eingefroren)"
     },
     {
       "datei": "vivodepot-lesen.html",

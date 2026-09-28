@@ -1,0 +1,38 @@
+{
+ "_zweck": "Stellen außerhalb des gepinnten Krypto-Blocks je Operation, erhoben vor dem Bau des Wiederherstellungs-Codes (U2-ADR-430 Ziffer 4). Ein Zuwachs steht benannt mit Grund; ohne Grund ist er rot (tools/krypto-aufrufer-pruefen.js).",
+ "erhoben": "2026-09-27, Kanon 875d31856",
+ "operationen": {
+  "deriveMasterBits": {
+   "anzahl": 3,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +2 — _whcCodeBits (Code-Bits, dieselbe Ableitung wie ein Passwort) und whcHuelleWickeln (Master-Bits des Passworts beim Einwickeln, genullt im finally); Wort der Gegenlesung"
+  },
+  "unwrapKey": {
+   "anzahl": 1,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcAuspacken, direkt in HKDF, extractable false; Wort der Gegenlesung"
+  },
+  "wrapKey": {
+   "anzahl": 0,
+   "grund": "Bestand vor dem Bau"
+  },
+  "exportKey": {
+   "anzahl": 1,
+   "grund": "Bestand vor dem Bau"
+  },
+  "decrypt": {
+   "anzahl": 1,
+   "grund": "Bestand vor dem Bau"
+  },
+  "encrypt": {
+   "anzahl": 4,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcEinwickeln (byte-gleich zu wrapKey raw, das für HKDF nicht geht); Wort der Gegenlesung"
+  },
+  "deriveBits": {
+   "anzahl": 1,
+   "grund": "Bestand vor dem Bau"
+  },
+  "importKeyRaw": {
+   "anzahl": 7,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung"
+  }
+ }
+}

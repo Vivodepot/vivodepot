@@ -79,7 +79,10 @@ const istExtern = (u) => /^https?:\/\//i.test(u) || /^wss?:\/\//i.test(u);
    String öffnen) — einmal gebacken, in einen Temp-Pfad geschrieben, FILE_URL zeigt dorthin. */
 const KL = require_('../../tools/lib/kern-lesen.js');
 const HTML_INHALT = KL.kernGebackenLesen(HTML_PFAD);
-const HTML_GEBACKEN_PFAD = join(fs.mkdtempSync(join(tmpdir(), 'vivodepot-offline-garantie-')), 'vivodepot.html');
+const HTML_GEBACKEN_ORDNER = fs.mkdtempSync(join(tmpdir(), 'vivodepot-offline-garantie-'));
+const HTML_GEBACKEN_PFAD = join(HTML_GEBACKEN_ORDNER, 'vivodepot.html');
+// Läuft auch als Kindprozess ohne den Test-Preload (Wächter-Selbsttest): räumt selbst (TEMP-RESTE-FUELLEN-DIE-PLATTE).
+process.on('exit', () => { try { fs.rmSync(HTML_GEBACKEN_ORDNER, { recursive: true, force: true }); } catch (_) { /* weg */ } });
 fs.writeFileSync(HTML_GEBACKEN_PFAD, HTML_INHALT, 'utf8');
 const FILE_URL = pathToFileURL(HTML_GEBACKEN_PFAD).href;
 

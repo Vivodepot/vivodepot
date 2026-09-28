@@ -28,7 +28,12 @@
 const { execFileSync } = require('node:child_process');
 
 const TMP_MUSTER = /tmpdir\(\)\s*,\s*[`'"]/;
-const AUSSCHLUSS_MUSTER = /mkdtempSync|process\.pid|workerIndex|Date\.now\(\)|Math\.random\(\)/;
+/* Nachtrag 27.09.2026 (U2-ADR-225, Befund WEGWERF-NAME-ZEITSTEMPEL): Date.now() und Math.random() gelten ALLEIN
+   nicht mehr als eindeutig. Zwei Playwright-Worker (privat-de/privat-en derselben Journey) trafen dieselbe
+   Millisekunde; der eine löschte die Datei des anderen (ENOENT, tests/e2e/journey-versionstor-anker.spec.js,
+   cf46517fe). Eindeutig trennen: die Prozess-ID (jeder Worker ist ein eigener Prozess), workerIndex,
+   mkdtempSync, testInfo.outputPath. */
+const AUSSCHLUSS_MUSTER = /mkdtempSync|process\.pid|workerIndex|outputPath/;
 
 /* Ortsgebunden, nicht als Muster: `hooksBefund` bekommt den Pfad nur als
    Argument, schreibt nie (s. Bauplan Abschnitt 4). Der Eintrag zu

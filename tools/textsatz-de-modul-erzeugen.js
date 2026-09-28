@@ -143,6 +143,11 @@ function baueModul() {
   const { TEXTSATZ_DE_PRO_FELDER } = require(path.join(__dirname, 'textsatz-de-pro-felder-daten.js'));
   Object.assign(texte, TEXTSATZ_DE_PRO_BEREICH, TEXTSATZ_DE_PRO_FELDER);
 
+  // U2-ADR-440: die Festlegungen der Patientenverfügung tragen als Felder denselben Wortlaut wie im Assistenten — abgeleitet, nicht gepflegt.
+  const { pvFestlegungenTexte, pvFestlegungenIds } = require('./lib/pv-festlegungen-textsatz.js');
+  const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
+  Object.assign(texte, pvFestlegungenTexte(texte, pvFestlegungenIds(ladeKern().V)));
+
   return {
     modulTyp: 'textsatz',
     sprache: 'de',
@@ -174,8 +179,21 @@ function baueModul() {
 
 function main() {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
-  const { V } = ladeKern();
   const modul = baueModul();
+  /* Geprüft wird gegen einen Kern, der den KANDIDATEN als deutsches Modul trägt, nicht die Datei auf der Platte (U2-ADR-440,
+     27.09.2026). Für eingebaute Bereiche ist eine Kennung bekannt, wenn das deutsche Modul sie führt — und dieses Modul ist die
+     Quelle. Eine abgeleitete neue Kennung (advanceCare.<id>.label) stünde gegen die alte Datei als „unbekannt" da, obwohl der
+     Erzeuger sie gerade erst schreibt. Die übrigen Regeln (Zusicherung, Form, Herkunftsort) greifen unverändert. */
+  const os = require('node:os');
+  const kandidatOrdner = fs.mkdtempSync(path.join(os.tmpdir(), 'textsatz-de-'));
+  const kandidat = path.join(kandidatOrdner, 'textsatz-de-modul.json');
+  let V;
+  try {
+    fs.writeFileSync(kandidat, JSON.stringify(modul), 'utf8');
+    ({ V } = ladeKern({ textsatzDeModulPfad: kandidat }));
+  } finally {
+    fs.rmSync(kandidatOrdner, { recursive: true, force: true });
+  }
 
   // NICHT textsatzModulPruefen (der Einlassweg): der lehnt sprache:'de' ausnahmslos ab
   // (U2-ADR-121/285, wörtlich dieselbe Reservierung wie rechtsraum:'DE'). Dieses Modul

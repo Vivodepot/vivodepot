@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-09-26 · **Fassung:** v806 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-09-28 · **Fassung:** v818 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -49,11 +49,11 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**13 Sektoren, 275 Felder, 194 Unterfelder gesamt.**
+**13 Sektoren, 312 Felder, 194 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
-| `identity` | Identität & Person | 29 | 20 |
+| `identity` | Identität & Person | 32 | 20 |
 | `people` | Meine Menschen | 8 | 24 |
 | `mobility` | Mobilität & Reise | 13 | 7 |
 | `finance` | Finanzen & Zahlungen | 22 | 18 |
@@ -61,7 +61,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `health` | Gesundheit | 28 | 10 |
 | `education` | Bildung & Beruf | 31 | 0 |
 | `socialInsurance` | Sozialversicherung | 22 | 7 |
-| `advanceCare` | Vorsorge & Recht | 14 | 75 |
+| `advanceCare` | Vorsorge & Recht | 48 | 75 |
 | `administration` | Verwaltung & Behörden | 27 | 18 |
 | `housing` | Wohnen & Eigentum | 15 | 11 |
 | `emergencyPreparedness` | Krisenvorsorge | 33 | 0 |
@@ -82,14 +82,14 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Prüfebene
 
-- Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): 11773
-- E2E (Playwright): 491 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 17 aus Schleifen über CPU-Drosselungen = **508 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
-- Wächter-Register (`tools/waechter-register.js`): 121
-- Schema-Version: 88 · SCHALEN_STAND: v806 · Build-Version: v1.0
+- Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): 12034
+- E2E (Playwright): 497 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 17 aus Schleifen über CPU-Drosselungen = **514 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
+- Wächter-Register (intern): 122
+- Schema-Version: 89 · SCHALEN_STAND: v818 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (400)
+## ADR-Register (404)
 
 | Nummer | Titel |
 |---|---|
@@ -493,6 +493,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-434 | Lieferketten-Sicherheit — festgeschriebene Versionen, erzeugte Stückliste, Schwachstellen-Abgleich |
 | U2-ADR-435 | Angehörigen-Blätter sind Inhalt (Template), kein Gerüst |
 | U2-ADR-436 | Die privaten Schlüssel des Template-Generators im Speicher — in Hüllen, nicht herausholbar, verworfen |
+| U2-ADR-438 | Verständigung und Unterstützung — und die Freitexte der Notfallvorsorge auf der Karte |
+| U2-ADR-439 | Personenstandsurkunden — die Ablageorte werden Kennungen im Bereich Identität |
+| U2-ADR-440 | Die Festlegungen der Patientenverfügung werden Kennungen — abgeleitet, nicht gepflegt |
+| U2-ADR-443 | Bildungsnachweise halten — ein fremd ausgestelltes EDC wird als Original verwahrt und unverändert vorgezeigt |
 
 ---
 
@@ -502,18 +506,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 31 | 212 |
-| `.btn-sek` | 12 | 93 |
-| `.btn-dezent` | 5 | 8 |
+| `.btn` | 31 | 216 |
+| `.btn-sek` | 12 | 96 |
+| `.btn-dezent` | 5 | 10 |
 | `.btn-klein` | 3 | 12 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 34 |
 | `.karte` | 5 | 60 |
-| `.modal` | 18 | 132 |
-| `.toast` | 9 | 268 |
+| `.modal` | 18 | 139 |
+| `.toast` | 9 | 271 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 36 | 2 |
 | `.sidebar` | 18 | 5 |
-| `.leer` | 3 | 276 |
+| `.leer` | 3 | 279 |
 | `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 23 |
+| `.hinweis-box` | 7 | 24 |

@@ -2,17 +2,18 @@
 /* ════════════════════════════════════════════════════════════════════════
    Test — „Abschrift im Register hinterlegt": drei Felder vor dem Einfrieren
 
-   ANLASS, gemessen: Ab dem 01.10.2026 kann im Zentralen Vorsorgeregister
-   nicht nur der Hinweis stehen, sondern der TEXT — behandelnde Ärztinnen
-   bekommen Zugriff darauf. Rechtsakt: Erste Verordnung zur Änderung der
-   Vorsorgeregister-Verordnung, Zustimmung des Bundesrates am 10.07.2026,
-   Trägernorm § 78a Abs. 3 BNotO.
+   ANLASS: die angekündigte Möglichkeit, im Zentralen Vorsorgeregister nicht
+   nur den Hinweis, sondern eine elektronische Abschrift zu hinterlegen.
+   Stand 27.09.2026: im Volltext der Vorsorgeregister-Verordnung und von
+   §§ 78a/78b BNotO nicht geregelt (die Mitteilung der Bundesnotarkammer
+   beschreibt Entwürfe). Der Hinweis macht darum keine Rechtsaussage, s. unten.
 
    Damit ist „ich habe eingetragen" (`zvr_nummer`) nicht mehr dasselbe wie
    „dort liegt mein Text". Hinterlegen dürfen NUR institutionelle Nutzer —
    Betreuungsbehörden, Betreuungsvereine, Anwältinnen, Notare. Die Bürgerin
    selbst kann es nicht. Das Feld hält darum fest, ob es jemand FÜR sie
    getan hat, wann, und wer — dieselbe Sorte Feld wie `bankvollmacht`.
+   (Wer hinterlegen darf, steht bisher nur in der Ankündigung, nicht in der Verordnung.)
 
    WARUM VOR DEM EINFRIEREN, und das ist der eigentliche Grund für diese
    Datei: ein Modul ERFINDET KEIN FELD (Abweisung `grund: 'feld-unbekannt'`).
@@ -122,9 +123,28 @@ test('[ZVR-Abschrift] derselbe Satz existiert auf Englisch — sonst ist das EN-
   }
 });
 
-test('[ZVR-Abschrift·Wächter] der Hinweis nennt die Grenze — die Bürgerin kann es NICHT selbst', () => {
+/* Der Hinweis trägt keine Rechts- und keine Zukunftsaussage (27.09.2026). Bis dahin behauptete er, ab bzw. „seit dem“
+   01.10.2026 könne das Register den Text selbst halten und behandelnde Ärztinnen könnten ihn lesen. Nach dem Volltext der
+   Vorsorgeregister-Verordnung (Fassung vom 27.09.2026) und von §§ 78a/78b BNotO ist das nicht geregelt; die
+   Mitteilung der Bundesnotarkammer beschreibt Entwürfe. Der Hinweis fragt jetzt nur, ob eine Stelle eine Abschrift
+   hinterlegt hat. Ein genauerer Satz kommt, sobald die Regelung belegt ist. */
+const UNBELEGT = [/Ärztin|Arzt|doctor/i, /seit dem|since/i, /ab dem 01\.10\.2026|from 1 October 2026|01\.10\.2026|1 October 2026/i];
+
+test('[ZVR-Abschrift·Wächter] der Hinweis behauptet keine Regelung, die nicht belegt ist — DE und EN', () => {
   const V = ladeKern().V;
-  const h = String(V.textLesen('advanceCare.provisionInstruments/copyDepositedInTheRegister.hint') || '');
-  assert.match(h, /nicht/i, 'ohne diese Grenze im Text hält die Bürgerin ein leeres Feld für ihre eigene Aufgabe');
-  assert.match(h, /01\.10\.2026|1 October 2026/, 'das Datum gehört dazu, sonst ist der Hinweis zeitlos falsch');
+  const de = String(V.textLesen('advanceCare.provisionInstruments/copyDepositedInTheRegister.hint') || '');
+  const enModul = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', 'textsatz-en-modul.json'), 'utf8'));
+  const en = String((enModul.texte || enModul)['advanceCare.provisionInstruments/copyDepositedInTheRegister.hint'] || '');
+  for (const [wo, h] of [['DE', de], ['EN', en]]) {
+    assert.ok(h.trim(), 'Vorbedingung: ' + wo + '-Hinweis vorhanden');
+    for (const r of UNBELEGT) assert.doesNotMatch(h, r, wo + ': unbelegte Aussage im Hinweis: ' + r);
+  }
+  assert.match(de, /hinterlegt/, 'der Hinweis fragt, ob eine Stelle hinterlegt hat');
+});
+
+test('[ZVR-Abschrift·Wächter·Rot-Beweis] der ausgelieferte Hinweis bis v811 fällt', () => {
+  const alt = 'Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen.';
+  const altEn = 'Since 1 October 2026 the Central Register of Lasting Powers of Attorney can hold the text itself, not just a pointer to it — treating doctors can then read it.';
+  for (const h of [alt, altEn]) assert.ok(UNBELEGT.filter((r) => r.test(h)).length >= 2, 'Rot-Beweis: ' + h);
+  assert.ok(UNBELEGT.some((r) => r.test('Ab dem 01.10.2026 kann im Zentralen Vorsorgeregister der Text selbst stehen.')), 'auch die Fassung mit „ab“ fällt');
 });

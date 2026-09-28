@@ -39,7 +39,7 @@ const LESEN = path.join(REPO, 'vivodepot-lesen.html');
    `function depotNormalisieren(`), damit es genau eine Fassung gibt. Verfehlt ein Anker, WIRFT das
    Werkzeug, statt eine leere Region zu schreiben. */
 const LESE_BEGIN = '/* KENNUNG-MAPPING-LESEN:BEGIN — generierter Bereich (tools/build-kennung-mapping-region.js); '
-  + 'Quellen: docs/umbau-englisch-vor-v1/kennung-mapping.json + vivodepot.html (_sektorenKennungenUmschreiben) */';
+  + 'Quellen: die interne Kennungs-Zuordnung (Umbau auf englische Kennungen) + vivodepot.html (_sektorenKennungenUmschreiben) */';
 const LESE_END = '/* KENNUNG-MAPPING-LESEN:END */';
 
 /* MIG3 (19.09.2026): drittes Ziel — U2-ADR-187 (_bereicheVerwaisteRetten,
@@ -56,7 +56,7 @@ const VERWAISTE_BEGIN = '/* BEREICHE-VERWAISTE-RETTEN-LESEN:BEGIN — generierte
   + '(_proIdentitaetUebernehmen, _bereicheVerwaisteRetten, U2-ADR-187) */';
 const VERWAISTE_END = '/* BEREICHE-VERWAISTE-RETTEN-LESEN:END */';
 const BEGIN = '/* KENNUNG-MAPPING:BEGIN — generierter Bereich (tools/build-kennung-mapping-region.js); '
-  + 'Quellen: docs/umbau-englisch-vor-v1/kennung-mapping.json + format-schluessel-mapping.json */';
+  + 'Quellen: die interne Kennungs-Zuordnung (Umbau auf englische Kennungen) + die Format-Schlüssel-Zuordnung */';
 const END = '/* KENNUNG-MAPPING:END */';
 
 function ladeKennungMapping() {

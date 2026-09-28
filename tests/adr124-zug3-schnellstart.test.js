@@ -24,9 +24,11 @@ test('[Zug3] alle fünf Schritte stehen im Einstellungen-Dialog', () => {
 
 test('[Zug3] Schritt 2 nennt die Passwort-Verlust-Folge, mit derselben Ehrlichkeit wie das Notfall-Blatt', () => {
   const { V } = ladeKern();
-  assert.match(V.STRINGS.schnellstartSchritt2, /lässt sich die Datei später nicht mehr öffnen/);
-  assert.match(V.STRINGS.schnellstartSchritt2, /auch nicht von uns/,
+  // Seit U2-ADR-430 (27.09.2026) mit dem Zusatz zum Wiederherstellungs-Code — derselbe Zusatz wie im Notfall-Blatt-Angebot.
+  assert.match(V.STRINGS.schnellstartSchritt2, /lässt sich die Datei später nur noch mit einem Wiederherstellungs-Code öffnen, falls Sie einen eingerichtet haben/);
+  assert.match(V.STRINGS.schnellstartSchritt2, /von uns nicht/,
     'dieselbe Ehrlichkeits-Formel wie STRINGS.nfbAnbietenText — keine abgeschwächte Zweitfassung');
+  assert.match(V.STRINGS.nfbAnbietenText, /von uns nicht/);
 });
 
 test('[Zug3] Schnellstart steht VOR „Über Vivodepot" im Dialog (Reihenfolge aus dem Bau)', () => {

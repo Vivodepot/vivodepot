@@ -52,11 +52,11 @@
       "const": "rechtsraum"
     },
     "rechtsraum": {
-      "description": "Der Rechtsraum-Code, den dieses Modul beliefert (z. B. 'FR', 'AT'). 'DE' ist auf dem allgemeinen Einlass-Weg reserviert; nur der gesonderte, TA-signaturgeprüfte Gerüst-Ladeweg darf ein Modul mit 'DE' annehmen — ihn beschreibt dieses Schema nicht.",
+      "description": "Der Rechtsraum-Code, den dieses Modul beliefert (z. B. 'FR', 'AT'). Der Kern normalisiert den Code (Leerraum am Rand fällt weg, Großschreibung); 'DE' ist auf dem allgemeinen Einlass-Weg in jeder Schreibung reserviert; nur der gesonderte, TA-signaturgeprüfte Gerüst-Ladeweg darf ein Modul mit 'DE' annehmen — ihn beschreibt dieses Schema nicht.",
       "type": "string",
       "pattern": "\\S",
       "not": {
-        "const": "DE"
+        "pattern": "^\\s*[dD][eE]\\s*$"
       }
     },
     "moduleVersion": {

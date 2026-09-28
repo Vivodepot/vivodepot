@@ -71,7 +71,7 @@ test('[Zug0] Blackbox-Export öffnet über den gewöhnlichen Datei-Einstieg in e
     return JSON.stringify(datei, null, 2);
   }, { uuid, wert: SUB_FELD_WERT });
 
-  const tmp = path.join(os.tmpdir(), 'zwei-tueren-blackbox-' + Date.now() + '.json');
+  const tmp = path.join(os.tmpdir(), 'zwei-tueren-blackbox-' + process.pid + '-' + Date.now() + '.json');
   fs.writeFileSync(tmp, blackboxJson, 'utf8');
 
   try {

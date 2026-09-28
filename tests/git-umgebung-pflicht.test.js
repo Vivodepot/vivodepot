@@ -25,7 +25,8 @@ const {
 
 const REPO = path.join(__dirname, '..');
 const GRUNDLINIE_PFAD = path.join(REPO, 'tools', 'git-umgebung-grundlinie.json');
-const grundlinie = () => JSON.parse(fs.readFileSync(GRUNDLINIE_PFAD, 'utf8'));
+const { lesenMitErgaenzung } = require('../tools/lib/mit-interner-ergaenzung.js');
+const grundlinie = () => lesenMitErgaenzung(GRUNDLINIE_PFAD);
 
 /* Ein Fixture-Verzeichnis mit einer benannten Datei unter einem `wurzel`-
    Unterordner (`pruefe()` erwartet ein ARRAY von Wurzeln, wie der echte

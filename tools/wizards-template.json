@@ -283,10 +283,6 @@
             "typ": "text",
             "label": "Pflegegeld — Betrag",
             "beispiel": "599 EUR/Monat"
-          },
-          "verborgenWenn": {
-            "feld": "longTermCareAllowanceTypeOf",
-            "wert": "sachleistung"
           }
         },
         {
@@ -529,10 +525,6 @@
             "label": "Mietverhältnis — Kündigung & Übergabe",
             "beispiel": "alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll; Kaution zurückfordern"
           },
-          "verborgenWenn": {
-            "feld": "ownedOrRented",
-            "wert": "eigentum"
-          },
           "ziel": {
             "sektor": "housing"
           }
@@ -542,10 +534,6 @@
             "id": "noticeDate",
             "typ": "datum",
             "label": "Kündigungstermin"
-          },
-          "verborgenWenn": {
-            "feld": "ownedOrRented",
-            "wert": "eigentum"
           },
           "ziel": {
             "sektor": "housing"

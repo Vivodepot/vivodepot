@@ -41,6 +41,12 @@ const l4Pfad = (s) => typeof s !== 'string' ? s : s
   .replace(/(^|\|)instrument:([^|:,]+)/, (m, v, t) => v + 'instrument:' + (L4_TYP_ALT_ZU_NEU[t] || t))
   .replace(/liste:([^:|]+):([^:|]+):/, (m, l, t) => 'liste:' + l + ':' + (L4_TYP_ALT_ZU_NEU[t] || t) + ':');
 
+// U2-ADR-439 (27.09.2026): zwei Situationsfelder der Situation Erbfall sind Kennungen im Bereich Identität geworden. Ein
+// Feld mit Nachfolger gilt nur dann als erhalten, wenn ALLE seine Nachfolger im selben Block stehen — ein Verlust bleibt rot.
+const NACHFOLGER = {
+  'sit:erbfall|erb_stammbuch': ['identity|familyRegisterBookStorage'],
+  'sit:erbfall|erb_personenstand': ['identity|birthCertificateStorage', 'identity|marriageCertificateStorage'],
+};
 // Liste ALLER Verluste einer Vorlagen-Situation gegen ihr Blatt der Grundlinie — leer heißt: nichts verloren.
 function unterschiede(id, grund, vSit) {
   const raus = [];
@@ -53,7 +59,10 @@ function unterschiede(id, grund, vSit) {
     if (!vBlock) { raus.push('Block fehlt: ' + gBlock.id); continue; }
     if (typeof vBlock.titel !== 'string' || !vBlock.titel.trim()) raus.push('Block ohne Titel: ' + gBlock.id);
     const vorhanden = (vBlock.eintraege || []).map((e) => e.quelle + '|' + e.feld);
-    for (const f of gBlock.eintraege) if (!vorhanden.includes(l4Pfad(f))) raus.push('Feld fehlt in Block ' + gBlock.id + ': ' + f);
+    for (const f of gBlock.eintraege) {
+      const noetig = NACHFOLGER[f] || [l4Pfad(f)];
+      if (!noetig.every((n) => vorhanden.includes(n))) raus.push('Feld fehlt in Block ' + gBlock.id + ': ' + f);
+    }
   }
   return raus;
 }
@@ -98,6 +107,14 @@ describe('[Angehörigen-Vorlagen] kein Feldverlust gegen die Grundlinie vom Tag 
     kaputt.situationen.pflegeheimakut.titel = '  ';
     assert.ok(unterschiede('pflegeheimakut', GRUNDLINIE.blaetter.pflegeheimakut, kaputt.situationen.pflegeheimakut).some((d) => d.includes('ohne Titel')));
     assert.deepEqual(unterschiede('beerdigung', GRUNDLINIE.blaetter.beerdigung, undefined), ['Situation beerdigung fehlt ganz in der Vorlage']);
+  });
+
+  test('[Rot-Beweis·Nachfolger] fehlt einer der Nachfolger eines umgezogenen Feldes, bleibt es ein Verlust', () => {
+    const kaputt = JSON.parse(JSON.stringify(VORLAGEN.de));
+    const block = kaputt.situationen.behoerden_nachlass.bloecke.find((b) => b.id === 'wo-die-originale-liegen');
+    block.eintraege = block.eintraege.filter((e) => !(e.quelle === 'identity' && e.feld === 'marriageCertificateStorage'));
+    assert.ok(unterschiede('behoerden_nachlass', GRUNDLINIE.blaetter.behoerden_nachlass, kaputt.situationen.behoerden_nachlass)
+      .some((d) => d.includes('erb_personenstand')), 'ohne die Eheurkunde ist erb_personenstand nicht ersetzt');
   });
 
   test('[Rot-Beweis] eine WACHSENDE Vorlage bleibt grün — nur Verlust schlägt an', () => {

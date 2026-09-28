@@ -615,8 +615,9 @@ test('Blatt Erbfall: in Registry, 25 eigene erb_*-Felder, zieht Vorsorge/Bestatt
   // (§ 1944 BGB, Fristbeginn ist die Kenntnis, nicht der Tod) + erb_erbschein_frueher (F4 Zug 1,
   // 11.08.2026, Rettungsfeld der Erbschein-Katalog-Migration).
   const erb = eigene.filter(id => id.startsWith('erb_'));
-  assert.equal(erb.length, 26, '26 erb_*-Felder');
-  assert.equal(eigene.length, 26, 'alle eigenen Felder sind erb_*-Felder');
+  // 26 → 24 (27.09.2026, U2-ADR-439): erb_stammbuch und erb_personenstand sind Kennungen im Bereich Identität geworden.
+  assert.equal(erb.length, 24, '24 erb_*-Felder');
+  assert.equal(eigene.length, 24, 'alle eigenen Felder sind erb_*-Felder');
   // Feld-IDs eindeutig (keine Doppelung im Situations-Namespace).
   assert.equal(new Set(eigene).size, eigene.length, 'eigene Feld-IDs eindeutig');
   // gezogene Felder existieren wirklich in ihren Sektoren.

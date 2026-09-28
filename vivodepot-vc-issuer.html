@@ -27,7 +27,7 @@
 <!-- Rahmen-Schutz (B16-ADR-066, 26.09.2026): dieselbe Form wie im Kern und in der Lese-App. frame-ancestors wirkt nur als
      HTTP-Header, und der Webspace setzt keinen — die Seite zeigt sich darum nur als oberstes Fenster; in einem fremden Rahmen
      leitet sie um oder bleibt verborgen. `id` ist Pflicht: tools/krypto-block-propagation-pruefen.js findet den gepinnten
-     VdCrypto-Block über das erste namenlose Skript. Probe: tests/rahmen-schutz-ohne-header.test.js. -->
+     VdCrypto-Block über das erste namenlose Skript. Mit Probe zum Rahmen-Schutz. -->
 <style id="rahmen-verbergen">body{display:none !important}</style>
 <script id="rahmen-schutz">
   if (window.self === window.top) {
@@ -2538,7 +2538,7 @@ const SUBMISSION_SCHEMA = {
       }
     },
     "kennungVorschlaege": {
-      "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag OHNE Vorlage drumherum -- die fünfte Ausgabeart neben `templates`, gebaut nach dem Muster von `codeListen` (U2-ADR-051). Mindestens `templates` oder `kennungVorschlaege` ist Pflicht (s. `anyOf` auf oberster Ebene). Die Prüfung gegen den bestehenden Katalog (Dublette, auch gegen inaktivierte Kennungen) läuft NICHT hier -- das leistet `tools/kennung-vorschlag-pruefen.js` gegen den erzeugten Feldkatalog, den dieses Schema nicht kennt.",
+      "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag OHNE Vorlage drumherum -- die fünfte Ausgabeart neben `templates`, gebaut nach dem Muster von `codeListen` (U2-ADR-051). Mindestens `templates` oder `kennungVorschlaege` ist Pflicht (s. `anyOf` auf oberster Ebene). Die Prüfung gegen den bestehenden Katalog (Dublette, auch gegen inaktivierte Kennungen) läuft NICHT hier -- das leistet eine eigene Prüfung gegen den erzeugten Feldkatalog, den dieses Schema nicht kennt.",
       "type": "array",
       "minItems": 1,
       "maxItems": 20,
@@ -2985,7 +2985,7 @@ function _pruefeReservierteKennungen(paket) {
 }
 
 /* Prüft die Feldkennungen der Submission gegen den Fremdmodul-Feldkatalog
-   (tools/feldkatalog-fremdmodule-pflegen.js, Auftrag „Feldkatalog für
+   (Pflegewerkzeug für den Feldkatalog, Auftrag „Feldkatalog für
    fremde Module"). `katalog` ist OPTIONAL — ohne geladenen Katalog
    (Bootstrap-Fall vor dem ersten angenommenen Modul, oder die Bedienerin
    hat ihn nicht geladen) wird nichts geprüft, aber auch nichts vorgetäuscht
@@ -3622,7 +3622,7 @@ function liesAnbieterPubKey() {
 
 // Zertifikatsbetrieb ohne Terminal (23.08.2026), Posten 2: liest das optionale Ausstellerzertifikat
 // (Zwischenstufe, U2-ADR-146) — leer heißt der bisherige, direkte Weg. Akzeptiert dieselbe Form wie
-// die Ausgabedatei von tools/behoerden-zertifikat-ausstellen.js ({ certJws }) oder eine rohe JWS.
+// die Ausgabedatei des Werkzeugs, das Behörden-Zertifikate ausstellt ({ certJws }), oder eine rohe JWS.
 function liesAusstellerZertifikatJws() {
   const txt = ($('ausstellerZertifikatText') && $('ausstellerZertifikatText').value || '').trim();
   if (!txt) return { ok: true, jws: null };
@@ -4157,7 +4157,7 @@ async function onVordepotErzeugen() {
    VIVODEPOT_KERN_ANBIETERTYP und die Ankerkopie sind ein Spiegel von vivodepot.html (Zeile 4186
    bzw. 4140-4146) — dieselbe Konvention wie AUSGABESTELLE_ANBIETERTYP oben (kein Import möglich,
    dieses Werkzeug läuft offline). Eigener Drift-Test hält die Kopie ehrlich:
-   tests/vc-issuer-schnellweg-vivodepot-kern.test.js. */
+   die Schnellweg-Probe des VC-Issuers. */
 const VIVODEPOT_KERN_ANBIETERTYP = 'vivodepot/kern';
 const VIVODEPOT_KERN_TRUST_AUTHORITY_PUBLIC_JWK = Object.freeze({
   kty: 'OKP', crv: 'Ed25519', alg: 'Ed25519',

@@ -486,6 +486,26 @@
               ]
             }
           ]
+        },
+        {
+          "id": "civil-status-certificates",
+          "felder": [
+            {
+              "id": "birthCertificateStorage",
+              "typ": "text",
+              "sensibel": true
+            },
+            {
+              "id": "marriageCertificateStorage",
+              "typ": "text",
+              "sensibel": true
+            },
+            {
+              "id": "familyRegisterBookStorage",
+              "typ": "text",
+              "sensibel": true
+            }
+          ]
         }
       ]
     }

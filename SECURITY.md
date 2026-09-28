@@ -175,7 +175,7 @@ Die `SECURITY.md` ist Bestandteil der Vivodepot-Distribution. Bei Stick-Ausliefe
 Jede ausgelieferte Fassung eines Produkts hat genau einen SHA-256. Ausgeliefert wird jedes Produkt über
 den Shop (der einzige Auslieferungsweg). Die Datei selbst kann ihren eigenen Fingerabdruck
 nicht tragen (ihn einzutragen änderte die Datei und damit den Fingerabdruck); er steht deshalb hier.
-Die Tabelle ist aus `docs/fassungen-register.json` erzeugt, nicht getippt; der pre-commit-Hook hält
+Die Tabelle ist aus dem internen Fassungsregister erzeugt, nicht getippt; der pre-commit-Hook hält
 beide gleich (`tools/fassungen-register.js --check`).
 
 <!-- fassungen-register:anfang — erzeugt von tools/fassungen-register.js --build, nicht von Hand ändern -->
@@ -186,6 +186,21 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in Einstellungen �
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v818 | 2026-09-28 | privat-de | `7e77c01ee4dd0f4bfda5c305a3dd19b182939e483bae863a97d93c32c2b57585` |
+| v818 | 2026-09-28 | privat-en | `91d3e2f53d19b8eb874a6be655c9027ce189d4fc692adaec6621438a4d0a59ba` |
+| v818 | 2026-09-28 | pro-de | `55ef0fd9eb80034bbfeff05a5bffeb25645cd875d85f9cd93fcb176ec21ea8b3` |
+| v818 | 2026-09-28 | pro-en | `23c1a62c18a3c714a2e777406adaf25eee46286ac5ad62d94443999f14425b65` |
+| v818 | 2026-09-28 | service-worker | `94a9223685da5fe34575643362208c2438e7214baf437e5bd7d567c181e7305a` |
+| v811 | 2026-09-27 | privat-de | `fd1803cbec8edbb7f234635f035b72eb3b77f52ceb3078acb9bb5b78fb62dbdb` |
+| v811 | 2026-09-27 | privat-en | `bc744254b11d361b21eedd2d19688df3e4669b60d1807df5e48ee980a4b7e493` |
+| v811 | 2026-09-27 | pro-de | `8652aa6029865a2f69dedaf01ff46fbc4ac05ca054421eeeb11a03879d47d8df` |
+| v811 | 2026-09-27 | pro-en | `cd7d733c9b8b71aac9f7f1651554e21e2ceaa7df67c2b06e9f337f83b8e27734` |
+| v811 | 2026-09-27 | service-worker | `8672c78ac02ede65386c6fe89651465727035b290d5f77f4ff217f021bedd261` |
+| v810 | 2026-09-27 | privat-de | `542e84347267e071503d5e2bd07cf03c491f199fe995b1faf2f6219877bf3be7` |
+| v810 | 2026-09-27 | privat-en | `e171f2dddc70d77765bc0a405e079d4bb8e4884ad519bfde9816eebbfbe9c513` |
+| v810 | 2026-09-27 | pro-de | `a70fd70673e87b92cad8757b07a7c5c10c8ad1de38f1f72fce309fe0fb251cda` |
+| v810 | 2026-09-27 | pro-en | `c8d7cee2bbac72cef77e2cd55d4c4186a55e275904e43a52931dad7e83a6fb1f` |
+| v810 | 2026-09-27 | service-worker | `1b9b0c9603c987878dc9cf35ac384c15db0fa61acd95bf20a3ab9fd835ddc48c` |
 | v806 | 2026-09-26 | privat-de | `eb749e45f996d48d9f5df1981ab11b8ddf53ff4a1ccb10d7ee315823d5cfe2ef` |
 | v806 | 2026-09-26 | privat-en | `a721df6a6c9a5c57acda2fe863ce2cc4f83d6b3fa4c8f5237514af4a00c37659` |
 | v806 | 2026-09-26 | pro-de | `44926816d04e3cd288b1f8ebbe462c6cd48d330b2218e35da5d870d3f9e43653` |

@@ -166,7 +166,7 @@ for (const [slug, url] of Object.entries({ 'privat-en': KERN_URL_PRIVAT_EN, 'pro
 
     // 3) Datei neu öffnen — page.reload() + echter Datei-Input, wie durchstich-buergerweg Schritt 6/7
 
-    const tmp = path.join(os.tmpdir(), 'klicktest-luecke-' + slug + '-' + Date.now() + '.vivodepot');
+    const tmp = path.join(os.tmpdir(), 'klicktest-luecke-' + slug + '-' + process.pid + '-' + Date.now() + '.vivodepot');
     fs.writeFileSync(tmp, bytes, 'utf8');
     try {
       await page.reload();

@@ -5,7 +5,7 @@
    ────────────────────────────────────────────────────────────────────────────
    DIE ENTSCHEIDUNG VOM 12.08. BLEIBT: die Webseite wird nicht ins Repo
    committet. Sie ist bereits versioniert — datierte Ordner `TTMMJJJJ` unter
-   `docs/webseite/` im Repo `Vivodepot-intern`, jeder mit eigener
+   `docs/webseite/` im Website-Quellbaum (nicht öffentlich), jeder mit eigener
    `HOCHLADEANWEISUNG.txt`, dazu `STAND.txt`, die den Live-Ordner benennt.
    **Was fehlt, ist nicht die Versionierung, sondern die Prüfung.**
 
@@ -14,7 +14,7 @@
    er gegen den echten Bestand ausserhalb des Repos, ohne ihn zu verfolgen;
    OHNE Argument gegen die Fixture `tests/fixtures/webseite-beispiel/`, damit
    die Suite ihn selbst prüfen kann — auch auf einer Maschine, die
-   `Vivodepot-intern` gar nicht hat.
+   den Website-Quellbaum gar nicht hat.
 
    DREI PRÜFUNGEN:
 

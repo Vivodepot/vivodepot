@@ -344,7 +344,9 @@ function messungMit(art, mehr, weniger = 0) {
 }
 const BASIS = { ...GRUNDLINIE, zuwaechse: [] };
 const GRUND = 'Sechs Typ-Kennungen des Namensraum-Schutzes: Struktur, auf die der Kern verzweigt, kein Inhalt.';
-const alsGrundlinie = (r) => ({ konstanten: r.konstanten, eimer: r.eimer, fremdcode: r.fremdcode, technischeWoerter: r.technischeWoerter, regionen: r.regionen, zuwaechse: r.zuwaechse });
+const alsGrundlinie = (r) => ({ konstanten: r.konstanten, eimer: r.eimer, fremdcode: r.fremdcode, technischeWoerter: r.technischeWoerter, regionen: r.regionen, zuwaechse: r.zuwaechse, langeKettenBekannt: r.langeKettenBekannt });
+// Seit 27.09.2026 hält ein struktur-Eintrag die längste NEUE Einzelkette und den längsten Base64/Hex-Lauf fest.
+const LAENGSTE = () => ({ einzel: 0, lauf: LITERALE.laengsterLauf.bytes });
 
 test('[Gerüst-Wächter·Ratsche] Senken und Streichen sind erlaubt', () => {
   const hoehere = {
@@ -425,7 +427,7 @@ test('[Gerüst-Wächter·Zuwachs] mit Schalter und Grund: der Zuwachs wird benan
   const r = grundlinieAktualisieren(messungMit('struktur', 59, 5000), BASIS, { anhebungen: [{ ziel: 'struktur', grund: GRUND }] });
   assert.equal(r.ok, true, JSON.stringify(r.verweigert));
   assert.equal(r.zuwaechse.length, 1);
-  assert.deepEqual(r.zuwaechse[0], { ziel: 'struktur', von: LITERALE.eimer.struktur, auf: LITERALE.eimer.struktur + 59, daneben: {}, grund: GRUND });
+  assert.deepEqual(r.zuwaechse[0], { ziel: 'struktur', von: LITERALE.eimer.struktur, auf: LITERALE.eimer.struktur + 59, daneben: {}, grund: GRUND, laengste: LAENGSTE() });
   assert.equal(r.eimer.struktur.bytes, LITERALE.eimer.struktur + 59);
   assert.equal(r.konstanten.find((k) => k.name === GROESSTE).bytes, BASIS.konstanten.find((k) => k.name === GROESSTE).bytes - 5000, 'die Senkung ist im selben Lauf drin');
   assert.deepEqual(pruefen(messungMit('struktur', 59, 5000), alsGrundlinie(r)).fehler, [], 'mit der neuen Grundlinie ist die Messung grün');
@@ -438,7 +440,7 @@ test('[Gerüst-Wächter·Zuwachs·Rot-Beweis] wächst struktur und sinkt satz im
   };
   const r = grundlinieAktualisieren(messung, BASIS, { anhebungen: [{ ziel: 'struktur', grund: GRUND }] });
   assert.equal(r.ok, true, JSON.stringify(r.verweigert));
-  assert.deepEqual(r.zuwaechse, [{ ziel: 'struktur', von: LITERALE.eimer.struktur, auf: LITERALE.eimer.struktur + 179, daneben: { satz: -42 }, grund: GRUND }],
+  assert.deepEqual(r.zuwaechse, [{ ziel: 'struktur', von: LITERALE.eimer.struktur, auf: LITERALE.eimer.struktur + 179, daneben: { satz: -42 }, grund: GRUND, laengste: LAENGSTE() }],
     'Zuwachs +179 im Ziel, Senkung −42 unter daneben; die Summe 137 kommt nirgends vor');
   assert.deepEqual(r.aenderung, { struktur: 179, satz: -42 });
   assert.equal(JSON.stringify(r).includes('137'), false, 'die verrechnete Zahl steht nicht im Ergebnis');
@@ -466,9 +468,10 @@ test('[Gerüst-Wächter·Zuwachs·Rot-Beweis] ohne Grund, für ein Ziel, das nic
   });
   assert.equal(nichtWachsend.ok, false);
   assert.match(nichtWachsend.verweigert.join('|'), /wächst nicht/, 'ein Zuwachs, der nichts anhebt, wird nicht eingetragen');
-  const zuGross = grundlinieAktualisieren(messungMit('struktur', ZUWACHS_HOECHSTENS + 1), BASIS, { anhebungen: [{ ziel: 'struktur', grund: GRUND }] });
+  // Über der Größe heißt für struktur seit 27.09.2026: eine NEUE Einzelkette über der Grenze (die Summe allein geht benannt durch).
+  const zuGross = grundlinieAktualisieren(messen(alsAbschnitt("const b = '" + BASE64(ZUWACHS_HOECHSTENS + 1) + "';"), GRUNDLINIE), BASIS, { anhebungen: [{ ziel: 'struktur', grund: GRUND }] });
   assert.equal(zuGross.ok, false);
-  assert.match(zuGross.verweigert.join('|'), /höchstens/);
+  assert.match(zuGross.verweigert.join('|'), /über 1024 Byte/);
 });
 
 test('[Gerüst-Wächter·Zuwachs] es gibt keine Anzahl-Grenze: ein zweiter, wieder benannter Zuwachs ist möglich, und die Liste wächst', () => {
@@ -515,8 +518,12 @@ test('[Gerüst-Wächter·Regionen] die echte Grundlinie führt den Sollwert, ihr
   // ANGEHOBEN von 1 auf 2 am 21.09.2026, mit Grund: es bleibt EINE Sorte — Lizenz- und Urheberhinweise, Text, den wir führen müssen. Neben den Codelisten (CODE-LISTEN)
   // steht jetzt die Urheberangabe am Herkunftsort (HERKUNFTSORT-ANGABEN: Name der Urheberin und Lizenzkennung, Spezifikation 34.7); beide sind Hinweise, deren Weglassen
   // falsch wäre. Eine dritte Sorte wäre ein neuer Beschluss, kein weiterer Eintrag: die Namen sind darum namentlich festgehalten.
-  assert.ok(R.dauerhaft.length <= 2, 'dauerhaft über 0 darf nur die Lizenz- und Urheberhinweise stehen');
-  assert.deepEqual(R.dauerhaft.map((e) => e.name).sort(), ['CODE-LISTEN', 'HERKUNFTSORT-ANGABEN'], 'jede dauerhafte Region ist ein Lizenz- oder Urheberhinweis, benannt');
+  // ANGEHOBEN von 2 auf 3 am 27.09.2026, mit Wort der Gegenlesung: dieselbe Sorte, abgegrenzt. LIZENZ-WORTLAUT trägt allein die
+  // Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar verlangt, jede byte-gleich gegen ihr Original unter
+  // code-listen/wortlaut/ gehalten (tests/lizenz-wortlaut-im-kern.test.js) — dort kann kein anderer Satz unterkommen, und
+  // CODE-LISTEN sank um dieselben Byte.
+  assert.ok(R.dauerhaft.length <= 3, 'dauerhaft über 0 darf nur die Lizenz- und Urheberhinweise stehen');
+  assert.deepEqual(R.dauerhaft.map((e) => e.name).sort(), ['CODE-LISTEN', 'HERKUNFTSORT-ANGABEN', 'LIZENZ-WORTLAUT'], 'jede dauerhafte Region ist ein Lizenz- oder Urheberhinweis, benannt');
   for (const e of R.dauerhaft) assert.ok(e.satz > 0 && e.grund.length >= 40, e.name);
 });
 
@@ -739,4 +746,40 @@ test('[Gerüst-Wächter·Andockpunkt·Prozess] die Kommandozeile: ohne Antrag Ex
     const nachher = lauf();
     assert.equal(nachher.status, 0, 'danach ist der Wächter grün: ' + nachher.stderr);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+/* ── Lange Ketten statt Summe (27.09.2026, Gegenlesung zu U2-ADR-430) ─────────────────────────────
+   Die Grenze ZUWACHS_HOECHSTENS gilt für struktur der längsten NEUEN Einzelzeichenkette und dem längsten mit `+`
+   verbundenen Base64/Hex-Lauf, nicht der Summe einer Anhebung. Eine Funktion bringt viele kurze Markup-Ketten, ein
+   eingeschmuggelter Binärblock eine lange — nur der zweite ist gemeint. */
+const ANHEBUNG = [{ ziel: 'struktur', grund: 'Probe: viele kurze Markup-Ketten einer neuen Funktion, benannt, mit Grund.' }];
+const BASE64 = (n) => 'QUJD'.repeat(Math.ceil(n / 4)).slice(0, n);
+
+test('[Gerüst-Wächter·Lange Ketten] +3 KB aus kurzen Markup-Ketten gehen benannt durch; der Eintrag hält die Messwerte fest', () => {
+  const js = Array.from({ length: 60 }, (_, i) => "const m" + i + " = '<div class=\"probe-" + i + "\" id=\"probe-kette-" + i + "\" role=\"note\"></div>';").join('\n');
+  const r = grundlinieAktualisieren(messen(alsAbschnitt(js), GRUNDLINIE), GRUNDLINIE, { anhebungen: ANHEBUNG });
+  assert.equal(r.ok, true, JSON.stringify(r.verweigert));
+  const e = r.zuwaechse[r.zuwaechse.length - 1];
+  assert.ok(e.auf - e.von > ZUWACHS_HOECHSTENS, 'Vorbedingung: die Summe liegt über der Einzelgrenze');
+  assert.deepEqual(e.laengste, { einzel: 0, lauf: e.laengste.lauf });
+  assert.deepEqual(zuwaechsePruefen({ zuwaechse: [e] }), []);
+});
+
+test('[Gerüst-Wächter·Lange Ketten·Rot-Beweis] ein 2-KB-Base64-Literal fällt, auch mit freigegebener Anhebung und bei jedem Lauf; ebenso ein in Stücke zerlegter Lauf', () => {
+  const eins = messen(alsAbschnitt("const bild = '" + BASE64(2048) + "';"), GRUNDLINIE);
+  const r1 = grundlinieAktualisieren(eins, GRUNDLINIE, { anhebungen: ANHEBUNG });
+  assert.equal(r1.ok, false);
+  assert.ok(r1.verweigert.some((v) => /neue lange Zeichenkette \(2048 Byte/.test(v)), JSON.stringify(r1.verweigert));
+  assert.ok(pruefen(eins, GRUNDLINIE).fehler.some((v) => /neue lange Zeichenkette/.test(v)), 'auch ohne Anhebung, im gewöhnlichen Lauf');
+  const zerlegt = messen(alsAbschnitt("const bild = '" + BASE64(700) + "' + '" + BASE64(700) + "';"), GRUNDLINIE);
+  const r2 = grundlinieAktualisieren(zerlegt, GRUNDLINIE, { anhebungen: ANHEBUNG });
+  assert.equal(r2.ok, false);
+  assert.ok(r2.verweigert.some((v) => /Base64\/Hex-Lauf aus verbundenen Literalen 1400 Byte/.test(v)), JSON.stringify(r2.verweigert));
+  assert.ok(zuwaechsePruefen({ zuwaechse: [{ ziel: 'struktur', von: 1, auf: 3000, daneben: {}, grund: GRUND, laengste: { einzel: 2048, lauf: 0 } }] }).length > 0,
+    'ein Eintrag mit zu langer Einzelkette fällt auch in der gespeicherten Liste');
+});
+
+test('[Gerüst-Wächter·Lange Ketten] die bekannten langen Ketten stehen in der Grundlinie, und keine neue ist dazugekommen', () => {
+  assert.ok(Array.isArray(GRUNDLINIE.langeKettenBekannt) && GRUNDLINIE.langeKettenBekannt.length > 0, 'Vorbedingung: Liste erhoben');
+  assert.ok(GRUNDLINIE.langeKettenBekannt.every((k) => k.bytes > ZUWACHS_HOECHSTENS && /^[0-9a-f]{64}$/.test(k.sha256)));
 });

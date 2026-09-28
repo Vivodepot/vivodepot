@@ -286,7 +286,7 @@ function main() {
   const wurzeln = arg('verzeichnisse', 'tests,tools,scripts').split(',')
     .map((n) => path.join(REPO, n)).filter((p) => fs.existsSync(p));
   const gPfad = arg('grundlinie', path.join(REPO, 'tools', 'git-umgebung-grundlinie.json'));
-  const r = pruefe(wurzeln, JSON.parse(fs.readFileSync(gPfad, 'utf8')));
+  const r = pruefe(wurzeln, require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(gPfad));
 
   console.log(`js-Dateien unter ${wurzeln.map((w) => path.relative(REPO, w)).join(', ')}: ${r.dateien.length}`);
   if (r.neu.length) {

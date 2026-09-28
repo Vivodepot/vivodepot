@@ -9,10 +9,10 @@
   "properties": {
     "modulTyp": { "const": "stellensatz" },
     "rechtsraum": {
-      "description": "Rechtsraum, für den die Stellen gelten (z. B. `AT`). `DE` ist ab Werk belegt und hier nicht einlassbar.",
+      "description": "Rechtsraum, für den die Stellen gelten (z. B. `AT`). Der Kern normalisiert den Code (Leerraum am Rand fällt weg, Großschreibung). `DE` ist ab Werk belegt und in keiner Schreibung einlassbar.",
       "type": "string",
       "pattern": "\\S",
-      "not": { "const": "DE" }
+      "not": { "pattern": "^\\s*[dD][eE]\\s*$" }
     },
     "moduleVersion": { "description": "Fassung des Moduls, ganzzahlig ab 1.", "type": "integer", "minimum": 1 },
     "stellen": {

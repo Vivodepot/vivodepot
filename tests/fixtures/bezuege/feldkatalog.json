@@ -1,0 +1,36 @@
+{
+  "hinweis": "ERFUNDENES Register für die Probe",
+  "anzahl": 6,
+  "felder": [
+    {
+      "kennung": "identity.givenName",
+      "bereich": "identity",
+      "label": "Vorname"
+    },
+    {
+      "kennung": "identity.familyName",
+      "bereich": "identity",
+      "label": "Familienname"
+    },
+    {
+      "kennung": "identity.dateOfBirth",
+      "bereich": "identity",
+      "label": "Geburtsdatum"
+    },
+    {
+      "kennung": "health.bloodType",
+      "bereich": "health",
+      "label": "Blutgruppe"
+    },
+    {
+      "kennung": "health.allergies/substance",
+      "bereich": "health",
+      "label": "Substanz"
+    },
+    {
+      "kennung": "finance.iban",
+      "bereich": "finance",
+      "label": "IBAN"
+    }
+  ]
+}

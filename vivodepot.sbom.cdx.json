@@ -3,7 +3,7 @@
   "specVersion": "1.4",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-09-23T00:00:00Z",
+    "timestamp": "2026-09-27T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -325,18 +325,18 @@
       "licenses": [
         {
           "license": {
-            "name": "Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM mit DDD, die auf dem vom WHO Collaborating Centre for Drug Statistics Methodology herausgegebenen Werk mit dem Titel „ATC Index with DDDs and Guidelines for ATC Classification and DDD Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM). Auszug aus der amtlichen Fassung 2026, Codes und Bezeichnungen unverändert übernommen (§ 62 UrhG)."
+            "name": "Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM mit DDD, die auf dem vom WHO Collaborating Centre for Drug Statistics Methodology herausgegebenen Werk mit dem Titel „ATC Index with DDDs and Guidelines for ATC Classification and DDD Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM)."
           }
         }
       ],
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "5d1316fc2071d2299ef2c7e9b3d171e96ae7ea97834d74f8436e9bdf326fb3d4"
+          "content": "372d9532f149ef3dad7c2076a35bcfb3a2b87601d8a20f6431869fec7031f006"
         },
         {
           "alg": "SHA-512",
-          "content": "2a91395d17c4b3fd8c52dcbb2461fe91cdc0065a3a3f9b1b580be39359603dc1493c8cb09b823b381fa671496dcf751582e9fcbf91a9312990a83e616d6de768"
+          "content": "7488c5852fc9c2af01490098d1d64ff079bf2fa2d2e293376f744ec314a17d9763c87156a424a9ce05f6d9a154b8b93dd75b142ee677af6d330e244eea52c24f"
         }
       ],
       "properties": [
@@ -362,7 +362,7 @@
       "bom-ref": "code-liste-icd10gm",
       "type": "file",
       "name": "code-liste-icd10gm",
-      "version": "SEED-2026-05",
+      "version": "ICD-10-GM-2026-amtlich",
       "description": "Code-Liste ICD-10-GM (Diagnosen). Inline SEED (echte Codes, Auszug); Vollliste ~15.000 Codes ausstehend. systemId=icd10, URI http://hl7.org/fhir/sid/icd-10-gm.",
       "supplier": {
         "name": "Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM)",
@@ -373,18 +373,18 @@
       "licenses": [
         {
           "license": {
-            "name": "ICD-10-GM, BfArM — amtliches Werk (§ 5 Abs. 2 UrhG): Änderungsverbot (§ 62) und Quellenangabe (§ 63) beachten, keine kommerzielle Werbung im Werk; Quellenangaben nach Anhang der BfArM-Downloadbedingungen"
+            "name": "Die vorliegende Ausgabe beruht\n(1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und\n(2) auf der australischen ICD-10-AM, First Edition.\nDie englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.\n© zu (1): Weltgesundheitsorganisation (WHO) 1992\n© zu (2): Commonwealth of Australia 1998\nDer Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nDas Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDie Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM)."
           }
         }
       ],
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "c920f331383eb458d3e74c29bc75c2c23a38fb0ab105711b83e57488845805df"
+          "content": "af65f04d80eae294716c60f098111b5b05c5af66081d4d5c4a55c4440a5c0971"
         },
         {
           "alg": "SHA-512",
-          "content": "0de02d8398a80489c50ddda61e63de2cc58e3f3ca82c0447d9e8baf4defca08fed27df9e0f896a12bb25ae880a70745b54d9381b24c79cd3047fc263ba384608"
+          "content": "3bc205ca89e48a8edcd4e8da08b369fbd0f9776e054e27e5393b8257283046419e12ebfbb014cf2582e609727132a14fc3bd6075b45fd8dfe763c0c05803528e"
         }
       ],
       "properties": [
@@ -421,18 +421,18 @@
       "licenses": [
         {
           "license": {
-            "name": "LOINC, Regenstrief Institute — kostenlos unter der LOINC-Lizenz (loinc.org/license), kommerzielle Nutzung erlaubt; Pflichthinweis mitliefern, siehe THIRD_PARTY_LICENSES; LOINC ist eine eingetragene Marke des Regenstrief Institute, Inc."
+            "name": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc."
           }
         }
       ],
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "86df27de6c3b24597136b3fc6a27d43a5b3951c762b8c450daa1301e8486c2a9"
+          "content": "e34130235d9e90df22b08b3e56354d47c7e3cc719c136a254ba30dd11e95f493"
         },
         {
           "alg": "SHA-512",
-          "content": "1df995ff0c6381c8cdb8fd4cc107fd76b28262c1fba52db68525756b6d5bb199f31dc495dd6b44607c85946fc52d1cea6a42d859cdbc6edd9a653b081e5f5608"
+          "content": "c6bdf56ad6356de8382a1d1654da9f4771b5369a6ed4561a739f982d36ef2bac8f3c6bae2888d1d6845c53f2fa2687ac0f8b0798d95566cf9c445808034e045b"
         }
       ],
       "properties": [
@@ -459,7 +459,7 @@
       "type": "file",
       "name": "code-liste-snomed-allergen",
       "version": "SEED-2026-05",
-      "description": "Code-Liste SNOMED-CT Allergen-Subset. Inline SEED — NUR kleines Allergen-Sample (Lizenz erforderlich). systemId=snomedAllergen, URI http://snomed.info/sct.",
+      "description": "Code-Liste SNOMED CT: zwei Allergen-Konzepte aus dem Global Patient Set (CC BY-ND 4.0), je mit unverändertem GPS-Begriff; die deutsche Anzeige ist eine eigene Bezeichnung. systemId=snomedAllergen, URI http://snomed.info/sct.",
       "supplier": {
         "name": "SNOMED International",
         "url": [
@@ -469,18 +469,18 @@
       "licenses": [
         {
           "license": {
-            "name": "SNOMED CT, IHTSDO/SNOMED International — Lizenz erforderlich (Affiliate); nur kleines Sample ausgeliefert"
+            "name": "SNOMED CT Global Patient Set, © SNOMED International, CC BY-ND 4.0"
           }
         }
       ],
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "6a2e68d43b9edb18e266df5da5f4357dfebd724fdf7bbec84a9cfb1719fdccb8"
+          "content": "3e4288b2008403efda25653f54b60ab728630d1f4065afffbc8754dd93a2973f"
         },
         {
           "alg": "SHA-512",
-          "content": "f21e8c76019dc4435f28ccfe6fa4faafe8d3b1a3f3d367ee65cdd163c7393bead19b4d58bb8232836e6255f2be080142a8ef4941fb14e3bbde88d5d2f47ba05a"
+          "content": "d6ac3deb33c0820d1eaffcc38161b2b49ebf8eee2931fd13a5ce05a1f697f0df9a5724de4e707c7bd86840a6353567559d28f88f8725ac4f03b0d0c404f983e3"
         }
       ],
       "properties": [

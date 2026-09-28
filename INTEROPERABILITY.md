@@ -58,7 +58,7 @@ Identitäts-Dossier; ein IPS-Bundle trägt die medizinische Zusammenfassung, kei
 Für jedes dieser Formate ist im Prüflauf festgelegt, **welche Felder unverändert
 zurückkommen müssen** — nicht „irgendetwas kommt an".
 
-**Nachgewiesen, nicht behauptet:** `tests/round-trip-wirkung.test.js` schreibt aus einem
+**Nachgewiesen, nicht behauptet:** ein Round-Trip-Test (im internen Prüfbestand) schreibt aus einem
 Referenzdepot, liest zurück und vergleicht Feld für Feld. Der Lauf trägt zwei Positivkontrollen
 (ein verfälschtes und ein fehlendes Feld müssen auffallen) und eine Negativkontrolle (der
 unveränderte Rundgang darf nichts melden) — ohne die wäre „alles gleich" von „nichts gemessen"

@@ -106,7 +106,9 @@ test('[A383] die eigene Liste ist beim Schnitt zeichengleich mit dem, was die Ab
   assert.deepEqual(verwaist, [],
     'ein Eintrag der Angehörigen-Liste ohne Blatt zeigt ins Leere: ' + verwaist.join(', '));
   // 75 → 78 (25.09.2026, U2-ADR-433): drei Einträge der Notvertretung durch Ehegatten auf dem Blatt Krankenhaus, ausdrücklich entschieden.
-  assert.equal(V._ANG_CACHE_ERLAUBT.size, 78, 'der gemessene Stand vom 20.08.2026 plus die drei Einträge vom 25.09.2026');
+  // 78 → 79 (27.09.2026, U2-ADR-439): Blatt Behörden und Nachlass — zwei Situationsfelder (Stammbuch, „Geburts-/Heiratsurkunde“) weichen drei Kennungen im Bereich Identität.
+  // 79 → 85 (27.09.2026, U2-ADR-438 Verständigung und Unterstützung): sechs Einträge im Blatt Krankenhaus, doNotInform ausdrücklich nicht.
+  assert.equal(V._ANG_CACHE_ERLAUBT.size, 85, 'der gemessene Stand vom 20.08.2026 plus die drei Einträge vom 25.09.2026 plus netto einer vom 27.09.2026');
 });
 
 test('[A383] die fünf neuen Blatt-Felder stehen bewusst NICHT in der Angehörigen-Liste', () => {

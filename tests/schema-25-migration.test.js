@@ -19,8 +19,8 @@ test('[Schema 25 / E2] Defensiv-Flachlegung: codierter Alt-Wert auf impfungen/im
   const alt = V.leeresDepot();
   alt.schemaVersion = 24;
   alt.sektoren.gesundheit = {
-    impfungen:  { code: '871751006', system: 'http://snomed.info/sct', anzeigeName: 'Tetanus-Impfstoff' },
-    implantate: { code: '304120007', system: 'http://snomed.info/sct', anzeigeName: 'Hüft-Totalendoprothese' },
+    impfungen:  { code: 'IMPF-0001', system: 'https://beispiel.invalid/codesystem/impfstoffe', anzeigeName: 'Tetanus-Impfstoff' },
+    implantate: { code: 'IMPL-0001', system: 'https://beispiel.invalid/codesystem/implantate', anzeigeName: 'Hüft-Totalendoprothese' },
     // Lebender Slot (Generator liest ihn, IPS-Pflichtsektion) — darf NICHT flachen:
     krankheiten: { code: 'E11', system: 'ICD-10-GM', anzeigeName: 'Diabetes mellitus Typ 2' },
   };

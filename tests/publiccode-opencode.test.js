@@ -38,10 +38,12 @@ const KATEGORIEN = new Set([
 function pruefen(text) {
   const fehler = [];
   const oben = (k) => new RegExp('^' + k + ':', 'm').test(text);
-  // Der offizielle Parser verlangt „0" (die jeweils neueste Fassung); jede feste Fassung ergibt eine Warnung.
+  // NACHTRAG 28.09.2026: maßgeblich ist die offizielle openCoDE-Vorlage für publiccode.yml (openCoDE ist der Konsument; Amtliches
+  // vor Eigenem). Sie schreibt "0.4", den Ländercode klein („In Kleinbuchstaben!") und genericName je Sprache (höchstens 35 Zeichen),
+  // und sie kennt keinen organisation-Block. Der Parser v5.4.3 nimmt das an und warnt nur („use '0'", „DEPRECATED").
   const v = /^publiccodeYmlVersion:\s*"?([\d.]+)"?/m.exec(text);
   if (!v) fehler.push('publiccodeYmlVersion fehlt');
-  else if (v[1] !== '0') fehler.push('publiccodeYmlVersion ' + v[1] + ' — der Parser verlangt "0"');
+  else if (v[1] !== '0.4') fehler.push('publiccodeYmlVersion ' + v[1] + ' — die openCoDE-Vorlage verlangt "0.4"');
   // Kategorien aus der Liste des Standards.
   const kat = /^categories:\n((?:\s+-\s*\S+\n)+)/m.exec(text);
   for (const k of kat ? [...kat[1].matchAll(/-\s*(\S+)/g)].map((m) => m[1]) : []) if (!KATEGORIEN.has(k)) fehler.push('Kategorie „' + k + '" gibt es im Standard nicht');
@@ -50,12 +52,15 @@ function pruefen(text) {
     const kurz = m[1].split('\n').map((z) => z.trim()).filter(Boolean).join(' ');
     if (kurz.length > 150) fehler.push('shortDescription mit ' + kurz.length + ' Zeichen (höchstens 150)');
   }
-  // Ländercodes groß; veraltete Schlüssel entfernt.
-  if (/^  countries:\n(?:\s+-\s*[a-z]{2}\s*\n)/m.test(text)) fehler.push('Ländercode klein geschrieben');
-  for (const [muster, name] of [[/^inputTypes:/m, 'inputTypes'], [/^outputTypes:/m, 'outputTypes'], [/^    genericName:/m, 'genericName'], [/^  repoOwner:/m, 'legal.repoOwner']]) {
+  // Ländercodes klein (Vorlage); veraltete Schlüssel entfernt, genericName ausgenommen (Vorlage).
+  if (/^  countries:\n(?:\s+-\s*"?[A-Z]{2}"?\s*\n)/m.test(text)) fehler.push('Ländercode groß geschrieben — die openCoDE-Vorlage verlangt klein');
+  const namen = [...text.matchAll(/^    genericName:\s*"?([^"\n]*)"?\s*$/gm)].map((m) => m[1]);
+  if (namen.length < 2) fehler.push('genericName fehlt (die openCoDE-Vorlage verlangt ihn je Sprache)');
+  for (const n of namen) if (n.length > 35) fehler.push('genericName „' + n + '" mit ' + n.length + ' Zeichen (höchstens 35)');
+  if (/^organisation:/m.test(text)) fehler.push('organisation-Block — die openCoDE-Vorlage kennt ihn nicht');
+  for (const [muster, name] of [[/^inputTypes:/m, 'inputTypes'], [/^outputTypes:/m, 'outputTypes'], [/^  repoOwner:/m, 'legal.repoOwner']]) {
     if (muster.test(text)) fehler.push('veralteter Schlüssel ' + name);
   }
-  if (/^organisation:/m.test(text) && !/^  uri:\s*\S/m.test(text)) fehler.push('organisation.uri fehlt');
   // url: das Projekt auf openCoDE (Gruppe/Projekt), nicht der Ursprung anderswo und nicht nur die Gruppe.
   const url = /^url:\s*"?([^"\s]+)"?\s*$/m.exec(text);
   if (url && !/^https:\/\/gitlab\.opencode\.de\/[\w.-]+\/[\w.-]+$/.test(url[1])) fehler.push('url ' + url[1] + ' ist kein openCoDE-Projekt');
@@ -79,8 +84,10 @@ test('[publiccode·openCoDE] Fassung ab 0.4 und alle Pflichtfelder', () => {
 test('[publiccode·Parser·Rot-Beweis] die Fassung, an der der offizielle Parser am 25.09.2026 scheiterte, fällt an jeder seiner Regeln', () => {
   const alt = fs.readFileSync(path.join(__dirname, 'fixtures', 'publiccode', 'publiccode-81feab8.yml'), 'utf8');
   const f = pruefen(alt);
-  for (const erwartet of ['der Parser verlangt "0"', '„healthcare" gibt es im Standard nicht', 'shortDescription mit', 'Ländercode klein',
-    'veralteter Schlüssel inputTypes', 'veralteter Schlüssel outputTypes', 'veralteter Schlüssel genericName', 'veralteter Schlüssel legal.repoOwner',
+  // Seit 28.09.2026 (openCoDE-Vorlage) sind "0.4", der kleine Ländercode und genericName KEINE Fehler mehr — die alte Fassung trug sie
+  // schon; ihre übrigen Fehler fallen weiter.
+  for (const erwartet of ['„healthcare" gibt es im Standard nicht', 'shortDescription mit',
+    'veralteter Schlüssel inputTypes', 'veralteter Schlüssel outputTypes', 'veralteter Schlüssel legal.repoOwner',
     'url https://github.com/vivodepot/vivodepot ist kein openCoDE-Projekt']) {
     assert.ok(f.some((x) => x.includes(erwartet)), erwartet + ' fehlt in ' + JSON.stringify(f));
   }
@@ -88,6 +95,12 @@ test('[publiccode·Parser·Rot-Beweis] die Fassung, an der der offizielle Parser
 
 test('[publiccode·openCoDE·Rot-Beweis] Fassung 0.3 und ein fehlendes Pflichtfeld fallen', () => {
   const echt = fs.readFileSync(DATEI, 'utf8');
+  // Die Vorlagen-Punkte, je einzeln verletzt: "0", DE groß, genericName fehlt oder zu lang, organisation-Block.
+  assert.ok(pruefen(echt.replace(/^publiccodeYmlVersion:.*$/m, 'publiccodeYmlVersion: "0"')).some((f) => f.includes('verlangt "0.4"')));
+  assert.ok(pruefen(echt.replace(/^    - "de"$/m, '    - DE')).some((f) => f.includes('Ländercode groß')));
+  assert.ok(pruefen(echt.replace(/^    genericName:.*\n/gm, '')).some((f) => f.includes('genericName fehlt')));
+  assert.ok(pruefen(echt.replace(/^    genericName:.*$/m, '    genericName: "' + 'x'.repeat(36) + '"')).some((f) => f.includes('36 Zeichen')));
+  assert.ok(pruefen(echt + '\norganisation:\n  uri: "https://vivodepot.de"\n').some((f) => f.includes('organisation-Block')));
   assert.ok(pruefen(echt.replace(/^publiccodeYmlVersion:.*$/m, 'publiccodeYmlVersion: "0.3"')).some((f) => f.includes('0.3')));
   assert.ok(pruefen(echt.replace(/^releaseDate:.*$/m, '')).some((f) => f.includes('releaseDate')));
 });
@@ -103,4 +116,73 @@ test('[publiccode·openCoDE·Rot-Beweis] eine url auf GitHub oder nur auf die op
   for (const falsch of ['https://github.com/vivodepot/vivodepot', gruppe]) {
     assert.ok(pruefen(echt.replace(/^url:.*$/m, 'url: "' + falsch + '"')).some((f) => f.startsWith('url ' + falsch + ' ')), falsch);
   }
+});
+
+/* Logo (Entscheidung vom 28.09.2026): openCoDE zeigt ein Logo aus dem obersten Ordner (.svg, .svgz, .png; guide.opencode.de,
+   „Customizing the display in the openCode software directory"). Das Logo ist Kennzeichen, nicht Code: NOTICE.md und TRADEMARK.md
+   tragen den Satz wörtlich, damit niemand es für EUPL-lizenziert hält.
+   Als PNG, nicht als SVG: der openCoDE-Server liefert SVG als text/plain aus, dann bleibt das Logo leer (discourse.opencode.de/t/4670);
+   das Logo muss im obersten Ordner liegen (discourse.opencode.de/t/5836). */
+const WURZEL = path.join(__dirname, '..');
+const LOGO_SATZ = 'Das Logo ist Kennzeichen der Vivodepot GmbH und nicht von der EUPL erfasst.';
+function logoPruefen(publiccode, wurzel) {
+  const f = [];
+  const m = publiccode.match(/^logo:\s*["']?([^"'\s#]+)/m);
+  if (!m) return ['kein logo-Eintrag'];
+  const datei = m[1];
+  if (datei.includes('/')) f.push('logo nicht im obersten Ordner: ' + datei);
+  if (!/\.png$/.test(datei)) f.push('logo nicht als PNG: ' + datei);
+  if (!fs.existsSync(path.join(wurzel, datei))) f.push('logo-Datei fehlt: ' + datei);
+  else if (!fs.readFileSync(path.join(wurzel, datei)).subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) f.push('logo ist kein PNG');
+  for (const d of ['NOTICE.md', 'TRADEMARK.md']) {
+    if (!fs.readFileSync(path.join(wurzel, d), 'utf8').includes(LOGO_SATZ)) f.push(d + ' ohne den Lizenzsatz zum Logo');
+  }
+  return f;
+}
+
+test('[publiccode·openCoDE·Logo] ein PNG-Logo im obersten Ordner, und der Lizenzsatz steht in NOTICE und TRADEMARK', () => {
+  assert.deepEqual(logoPruefen(fs.readFileSync(DATEI, 'utf8'), WURZEL), []);
+});
+
+test('[publiccode·openCoDE·Logo·Rot-Beweis] ohne Eintrag, mit Pfad, als SVG, mit falschem Inhalt oder ohne Lizenzsatz fällt es', () => {
+  const echt = fs.readFileSync(DATEI, 'utf8');
+  assert.deepEqual(logoPruefen(echt.replace(/^logo:.*$/m, ''), WURZEL), ['kein logo-Eintrag']);
+  assert.ok(logoPruefen(echt.replace(/^logo:.*$/m, 'logo: docs/logo.gif'), WURZEL).length >= 2);
+  const os = require('node:os');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'publiccode-logo-'));
+  try {
+    fs.writeFileSync(path.join(dir, 'logo.png'), '<svg xmlns="http://www.w3.org/2000/svg"/>');   // ein SVG unter PNG-Namen
+    fs.writeFileSync(path.join(dir, 'NOTICE.md'), 'ohne Satz');
+    fs.writeFileSync(path.join(dir, 'TRADEMARK.md'), LOGO_SATZ);
+    assert.deepEqual(logoPruefen('logo: logo.png\n', dir), ['logo ist kein PNG', 'NOTICE.md ohne den Lizenzsatz zum Logo']);
+    assert.ok(logoPruefen('logo: logo.svg\n', dir).includes('logo nicht als PNG: logo.svg'));
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+/* Stolpersteine aus dem openCoDE-Forum (28.09.2026): softwareVersion ist Pflicht, sonst funktioniert der Verzeichniseintrag nicht, und
+   die Vorlage schreibt sie ohne „v" (discourse.opencode.de/t/3240); categories und platforms nur aus den Listen des Editors
+   (discourse.opencode.de/t/5836) — die Plattformen nennt die openCoDE-Vorlage: web, windows, mac, linux, ios, android. */
+const PLATTFORMEN = new Set(['web', 'windows', 'mac', 'linux', 'ios', 'android']);
+function forumPruefen(text) {
+  const f = [];
+  const sv = /^softwareVersion:\s*"?([^"\s]+)"?/m.exec(text);
+  if (!sv) f.push('softwareVersion fehlt');
+  else if (!/^\d+\.\d+\.\d+$/.test(sv[1])) f.push('softwareVersion „' + sv[1] + '" nicht in der Form 1.0.818 (ohne v)');
+  const pl = /^platforms:\n((?:\s+-\s*\S+\n)+)/m.exec(text);
+  if (!pl) f.push('platforms fehlt');
+  for (const p of pl ? [...pl[1].matchAll(/-\s*"?([^"\s]+)"?/g)].map((m) => m[1]) : []) if (!PLATTFORMEN.has(p)) f.push('Plattform „' + p + '" nicht in der Liste des Editors');
+  return f;
+}
+
+test('[publiccode·openCoDE·Forum] softwareVersion ohne v, Plattformen und Kategorien nur aus den Editor-Listen', () => {
+  const text = fs.readFileSync(DATEI, 'utf8');
+  assert.deepEqual(forumPruefen(text), []);
+  assert.deepEqual(pruefen(text).filter((x) => x.includes('Kategorie')), []);
+});
+
+test('[publiccode·openCoDE·Forum·Rot-Beweis] "v1.0", eine fehlende Version und eine unbekannte Plattform fallen', () => {
+  const echt = fs.readFileSync(DATEI, 'utf8');
+  assert.ok(forumPruefen(echt.replace(/^softwareVersion:.*$/m, 'softwareVersion: "v1.0"')).some((x) => x.includes('v1.0')));
+  assert.ok(forumPruefen(echt.replace(/^softwareVersion:.*$/m, '')).includes('softwareVersion fehlt'));
+  assert.ok(forumPruefen(echt.replace(/^  - web$/m, '  - browser')).some((x) => x.includes('browser')));
 });

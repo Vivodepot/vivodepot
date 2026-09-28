@@ -6,20 +6,12 @@
    "grund": "Kern-Fix (Rückgabewert von _wizardModulAbWerkSeed festhalten, Wurf-Schranke) steht im Landestand (_WIZARD_AB_WERK_GESAET); die Tests wurden mit dem Entfernen der bereichsErsatz-Tests neu geschnitten (register-ausbau-ab-werk-situationen-wizards gelöscht, die beiden anderen umgeschrieben)."
   },
   {
-   "commit": "f974d92889a0357101a7cce3323836e6348c8e79",
-   "grund": "Teil 1 (pro-de bekommt DE_MODUL_PFAD als Sprachmodul) ist durch die Entscheidung vom 19.09.2026 überholt: deutsche Produkte tragen kein Sprachmodul (U2-ADR-361), die Pro-Namen reisen als Template-Labels in der Mitschrift. Teil 2 (tools/konfektion-nativ-vergleichen.js, Weiche auf proModulPfad) geht als eigener Cherry-pick dieser einen Datei nach L2."
-  },
-  {
    "commit": "6ec6754899f3142c6f1ac73993d281a46b7d08fa",
    "grund": "Der Kern-Fix (Identitäts-Wächter ausEingebettetemBuendel für dokumente) steht im Landestand; die E2E-Abnahmen wurden später neu geschnitten. Nur die 13-Zeilen-Regressionsprobe „Probe 2a“ in tests/e4-buergermodul-buendel-abnahmebeweis-u2-adr-310.test.js fehlt und geht als eigener Cherry-pick nach L2."
   },
   {
    "commit": "f8cf832a6c7ac1e441983b5240aeaf5e7068e8c3",
    "grund": "Die BUSL-Achse entfällt: Lizenz-Entscheidung 19.09.2026, EUPL-1.2 für alles (Umsetzung LIZ1); ein Zuschnitt nach BUSL/openCode wird nicht mehr gebraucht."
-  },
-  {
-   "commit": "f1fe3aee1ad1530de7c19b698c16384d3d190fb7",
-   "grund": "Im Landestand anders und vollständiger behoben: tests/zutaten-pruefsumme-abgleich.test.js wurde neu ausgerichtet, alle git-Aufrufe tragen env: ohneGitUmgebung() (auch der geprüfte rev-parse --absolute-git-dir)."
   },
   {
    "commit": "47850151de7ff2724324df7d3c34152eb1cedb9c",

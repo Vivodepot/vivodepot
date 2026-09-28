@@ -31,7 +31,7 @@
 
    ── WAS DIESES WERKZEUG NICHT SEHEN KANN ────────────────────────────────────
    Es prüft einen Ordner, den `git ls-files` NIE zeigt. Der Auftritt liegt
-   absichtlich außerhalb des Repositoriums (`Vivodepot-intern/docs/webseite/`),
+   absichtlich außerhalb des Repositoriums (Website-Quellbaum, nicht öffentlich),
    und was dort liegt, ist nicht dasselbe wie das, was auf vivodepot.de
    ausgeliefert ist. Wer dieses Werkzeug ohne `--ordner` aufruft, bekommt ein
    Urteil über eine Fixture und KEINES über die echte Website. Wer es mit

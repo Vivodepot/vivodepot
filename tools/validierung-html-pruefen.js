@@ -4,7 +4,7 @@
    validierung-html-pruefen.js — „Drei Korrekturen und zwei
    Messungen" (13.08.2026), Zug 1.
    ────────────────────────────────────────────────────────────────────────────
-   Anlass: die Testzahlen auf `validierung.html` (Website, `Vivodepot-intern`,
+   Anlass: die Testzahlen auf `validierung.html` (Website, nicht in diesem Repo,
    nicht versioniert) sind zweimal hintereinander zwischen zwei Commits
    veraltet — zuletzt sogar innerhalb DESSELBEN Auftrags, der sie gerade erst
    nachgezogen hatte (13.08., zwischen Auftragserstellung und Ausführung wuchs
@@ -18,7 +18,7 @@
    Node-Suite-Zahl, E2E-Zahl, ihre Summe (die Zusammenfassungs-Kachel) — je
    gegen `docs/faktenbasis.md` in `vivodepot-cleanslate`.
 
-   AUSSERHALB DIESES REPOS: `validierung.html` liegt in `Vivodepot-intern`,
+   AUSSERHALB DIESES REPOS: `validierung.html` liegt außerhalb dieses Repos,
    einem zweiten, nicht versionierten Baum. Der Pfad ist deshalb ein
    Pflicht-Argument, kein Rate-Default über eine angenommene Nachbarordner-
    Struktur — „Prüfwerkzeuge nehmen den zu prüfenden Gegenstand als

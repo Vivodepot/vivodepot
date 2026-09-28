@@ -40,7 +40,7 @@ Meldepflicht und Kommunikation, nicht über die Frage, ob korrigiert wird.
 
 ## Register
 
-Jede eingegangene Meldung wird in `docs/cra/schwachstellen-register.md` erfasst, auch die
+Jede eingegangene Meldung wird im internen Schwachstellen-Register erfasst, auch die
 abgelehnte: Eingangsdatum, Melderin oder Melder, Stufe, Begründung der Stufe, Status,
 Datum der Korrektur, Datum der Veröffentlichung. Ein Register, das nur Treffer führt, kann
 nicht belegen, dass abgelehnt wurde und warum.

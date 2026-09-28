@@ -86,6 +86,25 @@ test('[U2-ADR-NNN2·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhal
     'Das Bündel ist seit dem Schnitt vollständig entfernt — das Register kann darin nicht mehr liegen.');
 });
 
+/* TOR-IN-DER-DEFINITION (27.09.2026, v808): vier PV-Folgefragen tragen seither ihr `verborgenWenn` am Feld im Dokumentmodul (vorher
+   als Tabelle im Kern). Ein Zuwachs gegenüber dem alten Kanon, kein Verlust — herausgenommen wird GENAU dieses Tor mit GENAU diesem Wert,
+   alles andere wird weiter exakt verglichen. Probe der Tore: tests/tor-in-der-definition.test.js. */
+const PV_TORE_SEIT_V808 = Object.freeze({
+  whoseViewMattersOtherPersonName: { feld: 'whoseViewMattersIfUnregulated', wert: ['bevollmaechtigt', 'betreuer', 'arzt'] },
+  whoseViewMattersIfDeviatingOther: { feld: 'whoseViewMattersIfDeviatingWill', wert: ['bevollmaechtigt', 'betreuer', 'arzt'] },
+  priorityIfOrganDonationConflict: { feld: 'organDonationDecision', wert: 'ablehnung' },
+  validityDurationDeadline: { feld: 'validityDuration', wert: 'unbefristet' },
+});
+function ohnePvToreSeitV808(steps) {
+  return (steps || []).map((st) => {
+    const f = st && st.feld;
+    const tor = f && Object.prototype.hasOwnProperty.call(PV_TORE_SEIT_V808, f.id) ? PV_TORE_SEIT_V808[f.id] : null;
+    if (!tor || JSON.stringify(f.verborgenWenn) !== JSON.stringify(tor)) return st;
+    const { verborgenWenn, ...feld } = f;
+    return Object.assign({}, st, { feld });
+  });
+}
+
 test('[U2-ADR-NNN2·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_DOKUMENTE_DE-Inhalt (beide voll gebootet)', () => {
   const altesDokumente = altenKernLesen((V) => {
     assert.ok(V.BUERGERMODUL_BUENDEL.dokumente, 'Vergleichsbasis ungültig: alter Kanon trägt dokumente nicht mehr im Bündel');
@@ -93,7 +112,9 @@ test('[U2-ADR-NNN2·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK
   });
   const { ladeKern } = require('./load-kern.js');
   const { V: neu } = ladeKern();
-  assert.deepEqual(neu.AB_WERK_DOKUMENTE_DE.dokumente, altesDokumente,
+  const neuDok = Object.assign({}, neu.AB_WERK_DOKUMENTE_DE.dokumente);
+  neuDok.pvBmj = Object.assign({}, neuDok.pvBmj, { steps: ohnePvToreSeitV808(neuDok.pvBmj.steps) });
+  assert.deepEqual(neuDok, altesDokumente,
     'Register geleert (BUERGERMODUL_BUENDEL.dokumente === undefined nach dem Umzug) und aus dem neuen Ab-Werk-Slot geladen — Inhalt muss identisch zum alten Bündel-Stand sein.');
   // Seit dem Schnitt (18.09.2026) ist das Bündel nicht nur um dieses eine Feld erleichtert,
   // sondern vollständig entfernt (null) — dieselbe Korrektur wie bei .rechtsraumKatalog oben.
@@ -110,7 +131,7 @@ test('[U2-ADR-NNN2·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/
   assert.equal(neu.PV_BMJ.steps.length, altesteps.pv.length, 'PV_BMJ.steps.length weicht ab');
   assert.equal(neu.VOLLMACHT_BMJ.steps.length, altesteps.vollmacht.length, 'VOLLMACHT_BMJ.steps.length weicht ab');
   assert.equal(neu.KI_KORPUS.steps.length, altesteps.ki.length, 'KI_KORPUS.steps.length weicht ab');
-  assert.deepEqual(neu.PV_BMJ.steps, altesteps.pv, 'PV_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
+  assert.deepEqual(ohnePvToreSeitV808(neu.PV_BMJ.steps), altesteps.pv, 'PV_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
   assert.deepEqual(neu.VOLLMACHT_BMJ.steps, altesteps.vollmacht, 'VOLLMACHT_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
   assert.deepEqual(neu.KI_KORPUS.steps, altesteps.ki, 'KI_KORPUS.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
 });

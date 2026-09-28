@@ -284,7 +284,15 @@
           "feld": {
             "id": "whoseViewMattersOtherPersonName",
             "typ": "text",
-            "beispiel": ""
+            "beispiel": "",
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfUnregulated",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
           }
         },
         {
@@ -311,7 +319,15 @@
           "feld": {
             "id": "whoseViewMattersIfDeviatingOther",
             "typ": "text",
-            "beispiel": ""
+            "beispiel": "",
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfDeviatingWill",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
           }
         },
         {
@@ -346,7 +362,11 @@
               {
                 "wert": "patientenverfuegung"
               }
-            ]
+            ],
+            "verborgenWenn": {
+              "feld": "organDonationDecision",
+              "wert": "ablehnung"
+            }
           }
         },
         {
@@ -386,7 +406,11 @@
         {
           "feld": {
             "id": "validityDurationDeadline",
-            "typ": "text"
+            "typ": "text",
+            "verborgenWenn": {
+              "feld": "validityDuration",
+              "wert": "unbefristet"
+            }
           }
         }
       ],

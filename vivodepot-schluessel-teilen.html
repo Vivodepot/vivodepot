@@ -40,7 +40,7 @@
 <!-- Rahmen-Schutz (B16-ADR-066, 26.09.2026): dieselbe Form wie im Kern und in der Lese-App. frame-ancestors wirkt nur als
      HTTP-Header, und der Webspace setzt keinen — die Seite zeigt sich darum nur als oberstes Fenster; in einem fremden Rahmen
      leitet sie um oder bleibt verborgen. `id` ist Pflicht: tools/krypto-block-propagation-pruefen.js findet den gepinnten
-     VdCrypto-Block über das erste namenlose Skript. Probe: tests/rahmen-schutz-ohne-header.test.js. -->
+     VdCrypto-Block über das erste namenlose Skript. Mit Probe zum Rahmen-Schutz. -->
 <style id="rahmen-verbergen">body{display:none !important}</style>
 <script id="rahmen-schutz">
   if (window.self === window.top) {
@@ -1081,7 +1081,7 @@ async function oeffentlicherTeilAusSeed(seed) {
    Nachlässigkeit: dieses Werkzeug importiert nichts aus der Suite, also kann es
    auch den Sentinel nicht importieren. Ändert sich der Sentinel im Kern, MUSS
    er hier nachgezogen werden; die Probe in
-   `tests/schluessel-teilen-werkzeug.test.js` hält beide gegeneinander und wird
+   Eine Probe hält beide gegeneinander und wird
    rot, wenn sie auseinanderlaufen. Das ist die Bindung, die ein Kommentar
    allein nicht leisten könnte. */
 const TEST_SENTINEL_X = 'kmz5gD4oi4pZe0CdR7FhXahRnjZqrAkKCe0VNskNf60';

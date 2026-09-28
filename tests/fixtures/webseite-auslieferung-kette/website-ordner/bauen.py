@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fixtur: winziger Stellvertreter für bauen.py (Vivodepot-intern, docs/webseite/<datum>/), nur für
+"""Fixtur: winziger Stellvertreter für bauen.py (Website-Quellbaum, ein Ordner je Stand), nur für
 tools/webseite-auslieferung-kette.js — baut nichts, prüft nur, dass die beiden Downloaddateien schon
 kopiert wurden (Schritt 2 muss vor diesem Schritt gelaufen sein), damit die Kettenreihenfolge selbst
 geprobt wird, ohne einen echten Seitenbau zu brauchen."""

@@ -3,7 +3,7 @@
    Test — Palette-Aufnahmekriterium (Palettentausch 04.08.2026, Zug 5/6)
    ────────────────────────────────────────────────────────────────────────
    Das Kriterium, festgeschrieben in U2-ADR-124-Nachtrag Farbe und im
-   Begriffs-Glossar (Vivodepot-intern/docs/ux/): eine Palettenfarbe für ein
+   Begriffs-Glossar (nicht öffentlich): eine Palettenfarbe für ein
    eingehängtes Depot muss mindestens 3:1 gegen das Chrome ihres Themes
    erreichen und mindestens 4,5:1 für den Text, der auf ihr steht. Diese Datei
    ist der Prüfer, auf den beide Dokumente verweisen.

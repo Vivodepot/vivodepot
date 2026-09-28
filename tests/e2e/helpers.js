@@ -115,7 +115,7 @@ async function depotAnlegen(page, { name = 'Maria Mustermann', pw = 'e2e-passwor
 
 /* Nach dem Anlegen können EINMAL-Dialoge anfallen, die keine Reise erwartet: der
    Wiedereinstiegs-Hinweis (beim ersten Datei-Sichern) und seit U2-ADR-095 das
-   Notfall-Blatt-Angebot. Sie liegen über der Sitzung und fangen jeden folgenden Klick ab
+   Notfall-Blatt-Angebot, seit U2-ADR-430 davor das Angebot des Wiederherstellungs-Codes. Sie liegen über der Sitzung und fangen jeden folgenden Klick ab
    (Playwright meldet dann „#modal-inhalt intercepts pointer events" an einer Stelle, die
    damit nichts zu tun hat).
 
@@ -130,7 +130,11 @@ async function einmalDialogeSchliessen(page, fristMs = 10000) {
     // NUR an den festen Griffen entscheiden, nie „irgendeinen offenen Dialog wegklicken":
     // ein blinder Klick auf #m-ok traf schon den Anlege-Dialog (Doppel-Absenden) bzw. das
     // Angebot selbst (dann ging das Druck-Blatt auf und blockierte die Reise erst recht).
-    if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) {
+    if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
+      await page.click('#m-zweit');                 // U2-ADR-430: „Ohne Code weiter" — der benannte Ablehnungs-Schritt folgt
+    } else if (await page.locator('#whc-tragweite').isVisible().catch(() => false)) {
+      await page.click('#m-zweit');                 // die Ablehnung bestätigen; danach kommt das Notfall-Blatt-Angebot
+    } else if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) {
       await page.click('#m-zweit');                 // „Später" — der Weg der Bürgerin, die jetzt nicht druckt
       angebotWeg = true;
     } else if (await page.locator('#wiedereinstieg-hinweis').isVisible().catch(() => false)) {

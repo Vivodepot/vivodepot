@@ -243,6 +243,7 @@ const EXPORT_HOOK = `
   moduleStandBerechnen, moduleStandAnzahl, moduleStandSatz, standBlockHTML,
   antwortAnzeigeModell, renderAntwort, renderVollExport, renderSituationOnly, renderNotfall,
   renderQrPdf, renderQrBereich,   // U2-ADR-082 — schreiben in document.getElementById('app')
+  _sektorDatenFuerLesen,   // Schema 89 (U2-ADR-439): liest die Urkunden-Ablageorte auch aus einem Stand bis Schema 88
   // QR-Übergabe empfangen (b16-Wiedereinbau, Krisenvorsorge-Auftrag 24.08.2026, Zug 3c)
   EMPFAENGER_QR_HASH_PRAEFIX, _empfaengerQrHashLesen, _empfaengerQrEntschluesseln,
   renderEmpfaengerQrPasswort, boot,

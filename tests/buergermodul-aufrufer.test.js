@@ -91,7 +91,10 @@ test('[Aufrufer·E4] Slot tot, Funktion lebt — der Boot-Aufruf verarbeitet wei
      und meinen dort genau die Bündel-Liste. */
   const z = V.bereicheAlle().reduce((n, s) => { const f = feldZahl(s); return { top: n.top + f.top, unter: n.unter + f.unter }; }, { top: 0, unter: 0 });
   // 25.09.2026: 271 → 275 (U2-ADR-433: die vier Kennungen der Notvertretung durch Ehegatten).
-  assert.equal(z.top, 275, 'Top-Level-Felder unverändert');
+  // 27.09.2026: 275 → 278 (U2-ADR-439: die drei Ablageorte der Personenstandsurkunden).
+  // 278 → 283 (27.09.2026, U2-ADR-438: die fünf Kennungen der Verständigung und Unterstützung), gemessen.
+  // 283 → 312 (28.09.2026, U2-ADR-440: die 29 Festlegungen der Patientenverfügung als Felder in advanceCare/living-will-decisions), gemessen.
+  assert.equal(z.top, 312, 'Top-Level-Felder unverändert');
   // 13.09.2026: +3 (ZVR-Abschrift, U2-ADR-410) — der gemessene Stand.
   // 20.09.2026: 270/187 → 271/194 (U2-ADR-424: finance.privateInsurancePolicies +1 Top-Level, sechs
   // Unterfelder daran, dazu garnishmentProtection an finance.accounts) — gemessen, nicht addiert.
@@ -113,7 +116,7 @@ test('[Aufrufer·RUNDWEG] der eigene Bestand als Bündel ergibt denselben Bestan
      über das Bündel. */
   assert.equal(bericht.bereiche, V.bereicheAlle().length,
     'der Rundweg führt jeden Bereich des laufenden Bestands zurück');
-  assert.equal(bericht.felder, 275, 'alle Top-Level-Felder angenommen');
+  assert.equal(bericht.felder, 312, 'alle Top-Level-Felder angenommen');   // 283 → 312 (U2-ADR-440)   // 278 → 283 (U2-ADR-438)   // 275 → 278 (U2-ADR-439)
   assert.equal(bericht.unterFelder, 194, 'alle UnterFelder angenommen'); // 13.09.2026: +3, 20.09.2026: +7, s. o.
   assert.deepEqual(bericht.verworfen, [], 'nichts verworfen — die Kennungen stammen aus dem Bestand selbst');
   const nachher = JSON.stringify(V.SEKTOREN.map((s) => ({ id: s.id, sektionen: s.sektionen })));
@@ -138,7 +141,7 @@ test('[Aufrufer·UnterFelder] die 194 UnterFelder landen an ihrem Träger, nicht
   V.buergermodulBuendelAnwenden(buendelAusBestand(V));
   let top = 0, unter = 0;
   for (const s of V.bereicheAlle()) { const z = feldZahl(s); top += z.top; unter += z.unter; }
-  assert.equal(top, 275, 'landeten UnterFelder flach, stünden hier 469 statt 275 — die Bürgerin sähe 194 Felder zu viel');
+  assert.equal(top, 312, 'landeten UnterFelder flach, stünden hier 506 statt 312 — die Bürgerin sähe 194 Felder zu viel');   // 283 → 312 (U2-ADR-440)   // 275 → 278 (U2-ADR-439)
   assert.equal(unter, 194, 'die UnterFelder hängen an ihrem Trägerfeld');
 });
 

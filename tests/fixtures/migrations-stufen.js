@@ -1090,6 +1090,15 @@ const STUFEN = [
     vorher:  (d) => d.menschen[0].geburtsort === 'Köln-Ehrenfeld' && d.menschen[0].birthPlace === undefined,
     nachher: (d) => d.menschen[0].birthPlace === 'Köln-Ehrenfeld' && d.menschen[0].birthDate === '1950-01-02'
                  && d.menschen[0].yearOfBirthIfTheExactDayIs === '1950' && d.menschen[0].geburtsort === undefined },
+  { nach: 89, was: 'Personenstandsurkunden (U2-ADR-439, 27.09.2026): die Ablageorte aus der Situation Erbfall '
+                 + '(erb_personenstand „Geburts-/Heiratsurkunde“, erb_stammbuch) gehen in die Kennungen identity.'
+                 + 'birthCertificateStorage/marriageCertificateStorage bzw. familyRegisterBookStorage, nur in leere; der Altwert bleibt.',
+    baue: () => basis(88, {}, { situationen: { erbfall: { erb_personenstand: 'Mappe Urkunden, Schreibtisch', erb_stammbuch: 'Schublade unten' } } }),
+    vorher:  (d) => d.situationen.erbfall.erb_personenstand === 'Mappe Urkunden, Schreibtisch' && !(d.sektoren.identity && d.sektoren.identity.birthCertificateStorage),
+    nachher: (d) => d.sektoren.identity.birthCertificateStorage === 'Mappe Urkunden, Schreibtisch'
+                 && d.sektoren.identity.marriageCertificateStorage === 'Mappe Urkunden, Schreibtisch'
+                 && d.sektoren.identity.familyRegisterBookStorage === 'Schublade unten'
+                 && d.situationen.erbfall.erb_personenstand === 'Mappe Urkunden, Schreibtisch' },
 ];
 
 module.exports = { STUFEN, basis };

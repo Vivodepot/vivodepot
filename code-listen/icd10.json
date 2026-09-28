@@ -1,14 +1,16 @@
 {
   "systemId": "icd10",
   "uri": "http://hl7.org/fhir/sid/icd-10-gm",
-  "version": "SEED-2026-05",
+  "version": "ICD-10-GM-2026-amtlich",
   "kuerzel": "ICD-10-GM",
-  "lizenz": "ICD-10-GM, BfArM — amtliches Werk (§ 5 Abs. 2 UrhG): Änderungsverbot (§ 62) und Quellenangabe (§ 63) beachten, keine kommerzielle Werbung im Werk; Quellenangaben nach Anhang der BfArM-Downloadbedingungen",
+  "anzeigeNameEigen": true,
+  "lizenzWortlaut": "icd-10-gm-quellenangabe.txt",
+  "lizenz": "Die vorliegende Ausgabe beruht\n(1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und\n(2) auf der australischen ICD-10-AM, First Edition.\nDie englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.\n© zu (1): Weltgesundheitsorganisation (WHO) 1992\n© zu (2): Commonwealth of Australia 1998\nDer Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nDas Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDie Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).",
   "status": "seed",
   "hinweis": "Sample/Seed, ICD-10-GM-Vollliste ~15.000 Codes ausstehend",
   "daten": [
-    { "code": "E11.9", "anzeigeName": "Diabetes mellitus Typ 2, ohne Komplikationen", "synonyme": ["Diabetes Typ 2", "Zuckerkrankheit"], "kategorie": "Stoffwechsel" },
-    { "code": "I10", "anzeigeName": "Essentielle (primäre) Hypertonie", "synonyme": ["Bluthochdruck", "Hypertonie"], "kategorie": "Herz-Kreislauf" },
-    { "code": "J45.9", "anzeigeName": "Asthma bronchiale, nicht näher bezeichnet", "synonyme": ["Asthma"], "kategorie": "Atemwege" }
+    { "code": "E11.90", "anzeigeName": "Diabetes mellitus Typ 2, ohne Komplikationen", "synonyme": ["Diabetes Typ 2", "Zuckerkrankheit"], "kategorie": "Stoffwechsel" },
+    { "code": "I10.90", "anzeigeName": "Essentielle (primäre) Hypertonie", "synonyme": ["Bluthochdruck", "Hypertonie"], "kategorie": "Herz-Kreislauf" },
+    { "code": "J45.99", "anzeigeName": "Asthma bronchiale, nicht näher bezeichnet", "synonyme": ["Asthma"], "kategorie": "Atemwege" }
   ]
 }

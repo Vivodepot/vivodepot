@@ -245,7 +245,8 @@ const SCHEIBEN = {
      unterscheidet sich. Zwei Kennungsräume für eine Bildschirmseite wären eine Erfindung. */
   '@pvbmj': ['const PV_BMJ = Object.freeze(', '\nconst VOLLMACHT_BMJ'],
   '@vollmachtbmj': ['const VOLLMACHT_BMJ = Object.freeze(', '\nconst KI_KORPUS'],
-  '@kikorpus': ['const KI_KORPUS = Object.freeze(', '\nconst PV_VERBORGEN_WENN'],
+  // Endmarke seit TOR-IN-DER-DEFINITION (26.09.2026): die Tabelle PV_VERBORGEN_WENN, die hier stand, gibt es nicht mehr.
+  '@kikorpus': ['const KI_KORPUS = Object.freeze(', '\n// „Assistenten fragen, was nicht gelten kann" (11.08.2026), Zug 2: vier PV_BMJ-'],
   '@anlaesse': ['const ANLAESSE = Object.freeze(', '\n/* \u2500\u2500 Wizards (Teil 2)'],
   '@menschen': ['const MENSCHEN_REGISTER_FELD = _textsatzFeldFuellen(', '\nfunction menschRegisterZeile'],
   '@institutionsfelder': ['function _institutionFelder(', '\nfunction institutionenVorschlag'],

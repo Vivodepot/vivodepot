@@ -1,0 +1,29 @@
+{
+  "hinweis": "ERFUNDENE Quellen für die Probe; die echte Lock-Datei ist bereiche/bezuege-quellen.json",
+  "quellen": [
+    {
+      "datensatz": "fhir-probe",
+      "paket": "beispiel.probe.fhir",
+      "fassung": "1.0.0",
+      "bezugsort": "erfunden",
+      "dateien": [
+        {
+          "pfad": "fhir-probe-v1/StructureDefinition-Patient-probe.json",
+          "sha256": "577b03ede2a41473d148c1ba89c9fd5a98bd5797d1f794f27148330b9d47a724"
+        }
+      ]
+    },
+    {
+      "datensatz": "openehr-probe",
+      "paket": "probe.ips.v1",
+      "fassung": "1.0.0",
+      "bezugsort": "erfunden",
+      "dateien": [
+        {
+          "pfad": "openehr-probe/probe.ips.v1.webtemplate.json",
+          "sha256": "eb5c9c0fee115f4ad929c9e76667f769cca7f9b9417abeb3eba77ff231f73000"
+        }
+      ]
+    }
+  ]
+}

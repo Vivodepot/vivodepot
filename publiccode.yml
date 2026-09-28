@@ -1,14 +1,17 @@
 # Metadaten nach dem Standard publiccode.yml (https://yml.publiccode.tools/).
-publiccodeYmlVersion: "0"
+publiccodeYmlVersion: "0.4"   # nach der offiziellen openCoDE-Vorlage (28.09.2026); der Parser warnt nur, maßgeblich ist openCoDE
 
 name: Vivodepot
 # openCoDE verlangt das eigene Projekt; es spiegelt den Ursprung github.com/vivodepot/vivodepot.
 url: "https://gitlab.opencode.de/vivodepot/vivodepot"
 landingURL: "https://vivodepot.de"
+# Das Logo im obersten Ordner, als PNG (der openCoDE-Server liefert SVG als text/plain aus, discourse.opencode.de/t/4670); Das Logo ist Kennzeichen der Vivodepot GmbH und nicht von der EUPL erfasst.
+logo: logo.png
 
-# Die öffentliche Versionsbezeichnung; die Einträge je Fassung stehen in CHANGELOG.md.
-softwareVersion: "v1.0"
-releaseDate: "2026-09-24"
+# softwareVersion und releaseDate setzt der Zuschnitt-Bau aus der zuletzt ausgelieferten Kern-Fassung, nie von Hand;
+# die Einträge je Fassung stehen in CHANGELOG.md.
+softwareVersion: "1.0.818"
+releaseDate: "2026-09-28"
 
 developmentStatus: stable
 softwareType: standalone/web
@@ -26,13 +29,14 @@ intendedAudience:
   scope:
     - society
   countries:
-    - DE
+    - "de"
 
 
 
 description:
   de:
     localisedName: Vivodepot
+    genericName: "Persönliche Dokumentenablage"
     shortDescription: >
       Eine einzelne Datei, in der Menschen ihre Unterlagen verschlüsselt auf dem
       eigenen Gerät halten und daraus Auszüge herausgeben.
@@ -66,8 +70,14 @@ description:
       - Freigabe besonders geschützter Angaben durch die Nutzerin
       - Deutsch und Englisch
       - Quelloffen unter EUPL-1.2
+    screenshots:
+      # Aus der ausgelieferten Anwendung erzeugt (tools/screenshots-oeffentlich-erzeugen.js).
+      - docs/screenshots/vivodepot-start.png
+      - docs/screenshots/vivodepot-anlaesse.png
+      - docs/screenshots/vivodepot-beispielansicht.png
   en:
     localisedName: Vivodepot
+    genericName: "Personal document vault"
     shortDescription: >
       A single file in which people keep their own records encrypted on their own
       device and share extracts from it.
@@ -99,15 +109,16 @@ description:
       - Specially protected entries released by the person
       - German and English
       - Open source under EUPL-1.2
+    screenshots:
+      # Aus der ausgelieferten Anwendung erzeugt (tools/screenshots-oeffentlich-erzeugen.js).
+      - docs/screenshots/vivodepot-start.png
+      - docs/screenshots/vivodepot-anlaesse.png
+      - docs/screenshots/vivodepot-beispielansicht.png
 
 legal:
   # Die Lizenz des ganzen Repositorys; Einzelheiten stehen in LICENSING.md.
   license: EUPL-1.2
   mainCopyrightOwner: "Vivodepot GmbH"
-
-organisation:
-  uri: "https://vivodepot.de"
-  name: "Vivodepot GmbH"
 
 maintenance:
   type: internal

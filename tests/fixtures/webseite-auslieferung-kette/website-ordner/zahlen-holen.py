@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fixtur: winziger Stellvertreter für zahlen-holen.py (Vivodepot-intern, docs/webseite/<datum>/),
+"""Fixtur: winziger Stellvertreter für zahlen-holen.py (Website-Quellbaum, ein Ordner je Stand),
 nur für tools/webseite-auslieferung-kette.js — schreibt nichts, prüft nichts, meldet nur Erfolg,
 damit der echte `python3`-Unterprozess-Aufruf in der Kette geprobt wird, ohne einen echten
 vd-repo-Checkout zu brauchen."""

@@ -53,7 +53,7 @@ test('2) Roundtrip: Freitext landet im Feld; codierter Wert (exakter Treffer) wi
   assert.equal((d.sektoren.health.familyMedicalHistory || []).map(z => z.condition).join('|'),
     'Vater Herzinfarkt', 'dito für `condition`');
   assert.ok(Array.isArray(d.sektoren.health.chronicConditionsDiagnoses), 'krankheiten als Chip-Array gespeichert');
-  assert.equal(d.sektoren.health.chronicConditionsDiagnoses[0].code.code, 'I10');
+  assert.equal(d.sektoren.health.chronicConditionsDiagnoses[0].code.code, 'I10.90');
   assert.equal(d.urheberschaft.health.operationsProcedures.length, 1, 'gestempelt');
 });
 

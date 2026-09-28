@@ -3,17 +3,23 @@
   "uri": "http://loinc.org",
   "version": "SEED-2026-05",
   "kuerzel": "LOINC",
-  "lizenz": "LOINC, Regenstrief Institute — kostenlos unter der LOINC-Lizenz (loinc.org/license), kommerzielle Nutzung erlaubt; Pflichthinweis mitliefern, siehe THIRD_PARTY_LICENSES; LOINC ist eine eingetragene Marke des Regenstrief Institute, Inc.",
+  "anzeigeNameEigen": true,
+  "quelleBegriffe": "LOINC Long Common Name, loinc.org/<code>, abgerufen 27.09.2026 (alle Active)",
+  "lizenzWortlaut": "LOINC_short_license.txt",
+  "lizenz": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.",
   "status": "seed",
   "hinweis": "Sample/Seed, häufige Observation-/Sektions-Codes; erweiterbar",
   "daten": [
-    { "code": "48765-2", "anzeigeName": "Allergien und Unverträglichkeiten (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
-    { "code": "10160-0", "anzeigeName": "Medikation (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
-    { "code": "11450-4", "anzeigeName": "Problemliste (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
-    { "code": "883-9", "anzeigeName": "ABO-Blutgruppe", "synonyme": ["Blutgruppe"], "kategorie": "Labor" },
-    { "code": "8302-2", "anzeigeName": "Körpergröße", "synonyme": ["Größe"], "kategorie": "Vitalwert" },
-    { "code": "29463-7", "anzeigeName": "Körpergewicht", "synonyme": ["Gewicht"], "kategorie": "Vitalwert" },
-    { "code": "8867-4", "anzeigeName": "Herzfrequenz", "synonyme": ["Puls"], "kategorie": "Vitalwert" },
-    { "code": "85354-9", "anzeigeName": "Blutdruck (Panel)", "synonyme": ["Blutdruck", "RR"], "kategorie": "Vitalwert" }
+    { "code": "48765-2", "quellBegriff": "Allergies and adverse reactions Document", "anzeigeName": "Allergien und Unverträglichkeiten (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "10160-0", "quellBegriff": "History of Medication use Narrative", "anzeigeName": "Medikation (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "11450-4", "quellBegriff": "Problem list - Reported", "anzeigeName": "Problemliste (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "883-9", "quellBegriff": "ABO group [Type] in Blood", "anzeigeName": "ABO-Blutgruppe", "synonyme": ["Blutgruppe"], "kategorie": "Labor" },
+    { "code": "8302-2", "quellBegriff": "Body height", "anzeigeName": "Körpergröße", "synonyme": ["Größe"], "kategorie": "Vitalwert" },
+    { "code": "29463-7", "quellBegriff": "Body weight", "anzeigeName": "Körpergewicht", "synonyme": ["Gewicht"], "kategorie": "Vitalwert" },
+    { "code": "8867-4", "quellBegriff": "Heart rate", "anzeigeName": "Herzfrequenz", "synonyme": ["Puls"], "kategorie": "Vitalwert" },
+    { "code": "85354-9", "quellBegriff": "Blood pressure panel with all children optional", "anzeigeName": "Blutdruck (Panel)", "synonyme": ["Blutdruck", "RR"], "kategorie": "Vitalwert" },
+    { "code": "46264-8", "quellBegriff": "History of medical device use", "anzeigeName": "Medizinprodukte (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "47519-4", "quellBegriff": "History of Procedures Document", "anzeigeName": "Eingriffe (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "60591-5", "quellBegriff": "Patient summary Document", "anzeigeName": "Patientenkurzakte (Dokumenttyp)", "kategorie": "IPS-Dokument" }
   ]
 }

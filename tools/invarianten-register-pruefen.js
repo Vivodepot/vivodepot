@@ -178,7 +178,7 @@ function main(argv) {
   const spezPfad = arg('spezifikation') ? path.resolve(arg('spezifikation'))
     : (process.env.SPEZIFIKATION_PFAD ? path.resolve(process.env.SPEZIFIKATION_PFAD) : null);
   let register;
-  try { register = JSON.parse(fs.readFileSync(registerPfad, 'utf8')); } catch (e) {
+  try { register = require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(registerPfad); } catch (e) {
     console.log('ROT — NICHT MESSBAR: das Register ist nicht lesbar (' + registerPfad + '): ' + e.message);
     return 2;
   }

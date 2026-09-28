@@ -57,7 +57,10 @@ function g13BekannteWege(eigenerCodeRoh) {
     'einmalReset', '_scrollUndFokusWiederherstellen',
   ]);
   const treffer = [...new Set([...eigenerCode.matchAll(/\b\w*(?:master|recovery|reset|escrow|backdoor|wiederherstell)\w*\b/gi)].map(m => m[0]))];
-  const unbekannt = treffer.filter(t => !BEKANNT.has(t));
+  // U2-ADR-430: an ihre Funktionen GEBUNDENE Bezeichner — die Bindung selbst (Ort und Zahl) prüft
+  // tests/konformitaet/kein-master-key.mjs#[G13-Gebunden] mit eigenem Rot-Beweis; hier zählen sie nicht als neu.
+  const GEBUNDEN = new Set(['masterBits', 'wiederherstellungAnbieten']);
+  const unbekannt = treffer.filter(t => !BEKANNT.has(t) && !GEBUNDEN.has(t));
   return unbekannt.length === 0 ? { ok: true } : { ok: false, grund: 'neuer Bezeichner: ' + unbekannt.join(', ') };
 }
 function g13ToterPfadDeriveKey(eigenerCodeRoh) {

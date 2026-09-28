@@ -64,7 +64,7 @@ test('[Journey c·Todesfall] Angehörige öffnet die Fach-Datei, findet „Behö
   await page.locator('[data-kreis-datei]').first().click();
   await page.fill('#kreis-pw', FACH_PW); await page.fill('#kreis-pw2', FACH_PW);
   await page.click('#m-ok');
-  const datei = path.join(os.tmpdir(), 'todesfall-' + Date.now() + '.vivodepot');
+  const datei = path.join(os.tmpdir(), 'todesfall-' + process.pid + '-' + Date.now() + '.vivodepot');
   fs.copyFileSync(await (await dl).path(), datei);
 
   // 2 · Angehörige: frische Sitzung, optional mit Video

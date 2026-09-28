@@ -73,8 +73,9 @@ test('[Speichergrenzen] die drei Aufrufer von mappeEintragHinzufuegen teilen sic
   const path = require('node:path');
   const quelle = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
   const treffer = [...quelle.matchAll(/mappeEintragHinzufuegen\(/g)];
-  // 1x Funktionsdefinition + 3 Aufrufer = 4 Vorkommen des Bezeichners gefolgt von „(".
-  assert.equal(treffer.length, 4, 'unerwartete Zahl an mappeEintragHinzufuegen-Vorkommen — Prüfung ggf. umgangen worden');
+  // 1x Funktionsdefinition + 4 Aufrufer = 5 Vorkommen des Bezeichners gefolgt von „(" — der vierte ist das
+  // Bildungsnachweis-Original (_edcOriginalAblegen, U2-ADR-443), das denselben Prüfpunkt durchläuft.
+  assert.equal(treffer.length, 5, 'unerwartete Zahl an mappeEintragHinzufuegen-Vorkommen — Prüfung ggf. umgangen worden');
   const projizierteGroesse = quelle.match(/projizierteGroesse = depotGroesseBytes\(\) \+/g) || [];
   assert.equal(projizierteGroesse.length, 1, 'die harte-Grenze-Prüfung sollte genau EINMAL im Quelltext stehen (ein Prüfpunkt, keine drei)');
 });
