@@ -186,3 +186,41 @@ test('[publiccode·openCoDE·Forum·Rot-Beweis] "v1.0", eine fehlende Version un
   assert.ok(forumPruefen(echt.replace(/^softwareVersion:.*$/m, '')).includes('softwareVersion fehlt'));
   assert.ok(forumPruefen(echt.replace(/^  - web$/m, '  - browser')).some((x) => x.includes('browser')));
 });
+
+/* Wortlaut (29.09.2026): openCoDE und der EU-OSS-Katalog zeigen die Texte aus publiccode.yml wörtlich. Zwei Befunde auf der
+   Verzeichnisseite: „Unterdepots“ (die Anwendung sagt immer Sub-Depot, Produktentscheidung) und „fuer“ statt „für“. Geprüft
+   werden die Beschreibungstexte, nicht Kommentare und Dateipfade (vivodepot-anlaesse.png ist ein Dateiname). Eine Ersatz-
+   schreibung ist ae/oe/ue außer nach q („quelloffen“) und außer in Abkürzungen (AES); ein deutsches Wort, das ae/oe/ue zu Recht trägt, kommt mit Grund in
+   WORTLAUT_ERLAUBT. */
+const WORTLAUT_ERLAUBT = new Set([]);
+function beschreibungstexte(text, sprache) {
+  const m = new RegExp('^  ' + sprache + ':\\n([\\s\\S]*?)(?=^  [a-z]{2}:\\n|^\\S)', 'm').exec(text);
+  if (!m) return '';
+  return m[1].split('\n').filter((z) => !/^\s*#/.test(z) && !/^\s*-\s*docs\//.test(z)).join('\n');
+}
+function wortlautPruefen(text) {
+  const fehler = [];
+  const de = beschreibungstexte(text, 'de');
+  const en = beschreibungstexte(text, 'en');
+  if (!de || !en) fehler.push('Beschreibung de oder en nicht gefunden');
+  for (const w of de.match(/[A-Za-zÄÖÜäöüß]+/g) || []) {
+    if (/unterdepot/i.test(w)) fehler.push('„' + w + '“ — die Anwendung sagt Sub-Depot');
+    else if (w !== w.toUpperCase() && /(?<![qQ])(ae|oe|ue)/i.test(w) && !WORTLAUT_ERLAUBT.has(w.toLowerCase())) fehler.push('Ersatzschreibung „' + w + '“ — Umlaut schreiben');
+  }
+  for (const w of en.match(/[A-Za-z-]+/g) || []) if (/^(sub ?depots?|subdepots?|under-?depots?)$/i.test(w)) fehler.push('„' + w + '“ — englisch sub-depot');
+  return fehler;
+}
+
+test('[publiccode·Wortlaut] Sub-Depot statt Unterdepot, Umlaute statt ae/oe/ue in den deutschen Texten', () => {
+  assert.deepEqual(wortlautPruefen(fs.readFileSync(DATEI, 'utf8')), []);
+});
+
+test('[publiccode·Wortlaut·Rot-Beweis] „Unterdepots“, „fuer“ und ein englisches „subdepot“ fallen; quelloffen, AES und Dateipfade nicht', () => {
+  const echt = fs.readFileSync(DATEI, 'utf8');
+  const alt = fs.readFileSync(path.join(__dirname, 'fixtures', 'publiccode', 'publiccode-81feab8.yml'), 'utf8');
+  assert.ok(wortlautPruefen(alt).some((x) => x.includes('Unterdepots')), 'die Fassung 81feab8 trägt „Unterdepots“');
+  const mitFuer = echt.replace(/(longDescription: >\n\s+)(\S)/, '$1Die Ausgabe fuer alle. $2');
+  assert.ok(wortlautPruefen(mitFuer).some((x) => x.includes('fuer')));
+  assert.ok(wortlautPruefen(echt.replace(/sub-depots/, 'subdepots')).some((x) => x.includes('subdepots')));
+  assert.ok(!wortlautPruefen(echt).some((x) => /quelloffen|AES|anlaesse|oeffentlich/i.test(x)), 'quelloffen, AES, Dateipfade und Kommentare zählen nicht');
+});

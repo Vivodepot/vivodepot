@@ -300,7 +300,11 @@ function vorbedingungenPruefen({ slug, bundlePfad }) {
 /* `kernQuelle` (optional): der Kern-Text, aus dem gebaut wird. Ohne ihn liest die Funktion die echte
    vivodepot.html — eine Probe, die einen ABWEICHENDEN Kern bauen will, gibt ihn hier mit, statt die echte
    Datei zu überschreiben und wiederherzustellen (dabei sahen parallel laufende Proben den kaputten Kern). */
-function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModulDateien, partnerFont, subdepotPalette, kernQuelle, mitEntwicklerleiste }) {
+/* `wieAusgeliefert` (29.09.2026): baut das Produkt so, wie der Shop es ausliefert — mit Service Worker
+   (`__abWerkServiceWorkerVorhanden = true`) und der sw.js des Repos daneben (dieselbe, die mit dem Stand ausgeliefert
+   wird). Ohne den Schalter bleibt es beim Einzeldatei-Produkt. Anlass: eine Prüfung von außen baute
+   aus dem öffentlichen Stand nach und bekam genau in dieser einen Zeile eine andere Prüfsumme als SECURITY.md. */
+function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModulDateien, partnerFont, subdepotPalette, kernQuelle, mitEntwicklerleiste, wieAusgeliefert }) {
   const zielOrdner = path.join(ziel, slug);
   fs.mkdirSync(zielOrdner, { recursive: true });
   const kernZiel = path.join(zielOrdner, 'vivodepot.html');
@@ -309,9 +313,11 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   // (12.09.2026): die Bedingung ist der Dateisatz, nicht das Produkt — abgeleitet
   // aus PRODUKT_DATEISATZ, nicht hart codiert, damit sie mitzieht, sollte sw.js hier je wieder
   // dazukommen.
-  const serviceWorkerVorhanden = PRODUKT_DATEISATZ.includes('sw.js');
+  const dateisatz = wieAusgeliefert ? [...PRODUKT_DATEISATZ, 'sw.js'] : PRODUKT_DATEISATZ;
+  const serviceWorkerVorhanden = dateisatz.includes('sw.js');
   const { text, module } = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste });
   fs.writeFileSync(kernZiel, text, 'utf8');
+  if (wieAusgeliefert) fs.copyFileSync(path.join(REPO, 'sw.js'), path.join(zielOrdner, 'sw.js'));
   if (partnerFont) {
     fontInDateiEinbetten(kernZiel, partnerFont);
     familieAlsVendortRegistrieren(kernZiel, partnerFont.familie);
@@ -321,7 +327,7 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   }
   return {
     ordner: zielOrdner,
-    dateien: [...PRODUKT_DATEISATZ],
+    dateien: [...dateisatz],
     anzahlModule: modulauswahl.length,
     unsignierteModule: module,
     partnerFont: partnerFont ? partnerFont.familie : null,

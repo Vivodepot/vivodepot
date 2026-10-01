@@ -19,8 +19,13 @@
 
    GRADE (SKOS): exakt = exactMatch · naeherung = closeMatch · eng = narrowMatch · weit = broadMatch. Keine Zeile heißt „nein".
 
-   QUELLFORMATE: FHIR (StructureDefinition-JSON, snapshot.element; Ziel `<name>#<element-id>`) und openEHR (Web-Template-JSON;
-   Ziel `<templateId>#<pfad der ids>`).
+   QUELLFORMATE: FHIR (StructureDefinition-JSON, snapshot.element; Ziel `<name>#<element-id>`), openEHR (Web-Template-JSON;
+   Ziel `<templateId>#<pfad der ids>`) und FIM-Baukasten (XDatenfelder-3-XML je Datenfeld bzw. Datenfeldgruppe; Ziel ist die
+   Kennung, z. B. `F60000227`, U2-ADR-456). Aus einer XDF-Datei liest das Werkzeug NUR Kennung, Fassung und Art — keine Namen,
+   Beschreibungen oder Wertelisten (bis zur Zustimmung der FITKO steht davon nichts im Repo).
+   FIM-ZEILEN tragen zusätzlich `fassung` und `status`: die Fassung muss der gepinnten Datei entsprechen, der Status dem Freigabe-
+   status, den die Lock-Datei je Datei festhält (der Portal-Stand beim Abruf — die XDF-Dateien tragen ihn nicht einheitlich). Eine
+   Fassung, die nicht fest ist („in Bearbeitung"), darf höchstens `naeherung` sein und steht sichtbar als nicht fest da.
 
    Aufruf:
      node tools/bezuege-erheben.js                    gegen die Fixtures in tests/fixtures/bezuege/ (erfundene Auszüge)
@@ -63,7 +68,19 @@ function openehrElemente(wt) {
   if (wt.tree) gehen(wt.tree, '');
   return raus;
 }
+/* XDatenfelder 3: das ERSTE Datenfeld bzw. die erste Datenfeldgruppe nach dem Kopf ist der Baustein der Datei; alles darunter
+   (enthaltene Felder einer Gruppe, Codelisten-Verweise) wird bewusst nicht gelesen. Präfix-unabhängig (ns0:, xdf3:, …). */
+const XDF_BAUSTEIN = /<(?:[\w-]+:)?(datenfeld|datenfeldgruppe)>\s*<(?:[\w-]+:)?identifikation>\s*<(?:[\w-]+:)?id>([^<]+)<\/(?:[\w-]+:)?id>\s*<(?:[\w-]+:)?version>([^<]+)</;
+function xdfElemente(xml) {
+  const m = XDF_BAUSTEIN.exec(xml);
+  if (!m) throw new Error('kein XDatenfelder-Baustein erkannt');
+  return { fassung: m[3].trim(), elemente: { [m[2].trim()]: { kurz: '', definition: '', min: undefined, max: undefined, typ: m[1], fassung: m[3].trim() } } };
+}
 function quelleLesen(datei) {
+  if (/\.xml$/i.test(datei)) {
+    const x = xdfElemente(fs.readFileSync(datei, 'utf8'));
+    return { format: 'xdf', fassung: x.fassung, elemente: x.elemente };
+  }
   const o = lesenJson(datei);
   if (o.resourceType === 'StructureDefinition') return { format: 'fhir', fassung: o.version, elemente: fhirElemente(o) };
   if (o.templateId && o.tree) return { format: 'openehr', fassung: o.version, elemente: openehrElemente(o) };
@@ -77,7 +94,10 @@ function datensatzLesen(eintrag, quellOrdner) {
     const voll = path.join(quellOrdner, d.pfad);
     if (!fs.existsSync(voll)) { abweichend.push(d.pfad + ': fehlt'); continue; }
     if (d.sha256 && sha256(voll) !== d.sha256) abweichend.push(d.pfad + ': SHA-256 weicht von der Lock-Datei ab');
-    Object.assign(elemente, quelleLesen(voll).elemente);
+    const gelesen = quelleLesen(voll).elemente;
+    // Freigabestatus je Datei aus der Lock-Datei (FIM): an das Element gehängt, damit die Zeilenprüfung ihn sieht.
+    if (d.freigabestatus !== undefined) for (const e of Object.values(gelesen)) e.freigabestatus = d.freigabestatus;
+    Object.assign(elemente, gelesen);
   }
   return { elemente, abweichend };
 }
@@ -100,6 +120,22 @@ function erheben({ register, tabelle, lock, quellOrdner }) {
     const ds = datensaetze[z.datensatz];
     if (!ds) { befunde.push({ art: 'datensatz-nicht-gepinnt', text: ort }); continue; }
     if (!Object.prototype.hasOwnProperty.call(ds.elemente, z.ziel)) { befunde.push({ art: 'totes-ziel', text: ort + ' fehlt in Fassung ' + ds.fassung }); continue; }
+    const el = ds.elemente[z.ziel];
+    if (z.fassung !== undefined && el.fassung !== undefined && String(z.fassung) !== String(el.fassung)) {
+      befunde.push({ art: 'fassung-weicht-ab', text: ort + ' Fassung ' + z.fassung + ', gepinnt ' + el.fassung }); continue;
+    }
+    if (z.status !== undefined && String(z.status) !== String(el.freigabestatus)) {
+      befunde.push({ art: 'status-weicht-ab', text: ort + ' Status „' + z.status + '", gepinnt „' + el.freigabestatus + '"' }); continue;
+    }
+    if (z.status !== undefined && freigabestatusCode(z.status) === null) {
+      befunde.push({ art: 'status-ohne-code', text: ort + ' Status „' + z.status + '" steht nicht in der FIM-Codeliste' }); continue;
+    }
+    if (nichtFest(z.status !== undefined ? z.status : el.freigabestatus) && z.grad === 'exakt') {
+      befunde.push({ art: 'nicht-fest-exakt', text: ort + ' ist nicht fest und darf höchstens naeherung sein' }); continue;
+    }
+    if (z.name !== undefined && z.name !== null && z.name !== '' && !(tabelle.fimNamenFreigabe && tabelle.fimNamenFreigabe.beleg)) {
+      befunde.push({ art: 'name-ohne-freigabe', text: ort + ' trägt einen Namen, fimNamenFreigabe ist nicht belegt' }); continue;
+    }
     const m = (abgebildet[z.datensatz] = abgebildet[z.datensatz] || {});
     if (m[z.kennung] !== 'ja') m[z.kennung] = GRADE[z.grad];
   }
@@ -116,6 +152,21 @@ function erheben({ register, tabelle, lock, quellOrdner }) {
     abdeckung[ds] = { fassung: datensaetze[ds].fassung, summe, bereiche: je };
   }
   return { anzahlKennungen: kennungen.size, abdeckung, befunde, datensaetze };
+}
+
+// „nicht fest": der Portal-Status sagt es wörtlich (in Bearbeitung, Entwurf) — jede andere Angabe gilt als fest.
+function nichtFest(status) { return /in Bearbeitung|nicht fest|Entwurf/i.test(String(status || '')); }
+/* Der Portal-Status als Code der amtlichen FIM-Codeliste urn:xoev-de:fim:codeliste:xdatenfelder.freigabestatus (so tragen ihn
+   die XDatenfelder-3-Dateien selbst, z. B. 5). Kern und Export führen den CODE, nicht den Text: der Kern trägt keine Sätze.
+   Ein Status, der hier nicht steht, hat keinen Code und ist ein Befund. */
+const FREIGABESTATUS_LISTE = 'urn:xoev-de:fim:codeliste:xdatenfelder.freigabestatus';
+const FREIGABESTATUS_CODE = Object.freeze([
+  [/^in Planung/i, '1'], [/^in Bearbeitung/i, '2'], [/^Entwurf/i, '3'], [/^methodisch freigegeben/i, '4'],
+  [/^fachlich freigegeben \(silber\)/i, '5'], [/^fachlich freigegeben \(gold\)/i, '6'], [/^inaktiv/i, '7'],
+]);
+function freigabestatusCode(status) {
+  const t = FREIGABESTATUS_CODE.find(([m]) => m.test(String(status || '').trim()));
+  return t ? t[1] : null;
 }
 
 /* ── Der Wächter: zwei Fassungen, nur die abgebildeten Ziele ── */
@@ -164,7 +215,7 @@ function eingaben(argv) {
     lock: lesenJson(path.join(FIXTURE, 'bezuege-quellen.json')), quellOrdner: path.join(FIXTURE, 'quellen') };
 }
 
-module.exports = { GRADE, SKOS, fhirElemente, openehrElemente, quelleLesen, datensatzLesen, erheben, fassungenVergleichen, vorschlaege, eingaben, sha256, FIXTURE };
+module.exports = { GRADE, SKOS, fhirElemente, openehrElemente, xdfElemente, nichtFest, freigabestatusCode, FREIGABESTATUS_LISTE, quelleLesen, datensatzLesen, erheben, fassungenVergleichen, vorschlaege, eingaben, sha256, FIXTURE };
 
 if (require.main === module) {
   const argv = process.argv.slice(2);

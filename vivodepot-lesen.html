@@ -128,6 +128,15 @@
     /* ── Sheet (Passwort / Einfügen / Hinweise) ────────────── */
     .sheet-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 20px; }
     .sheet { max-width: 480px; width: 100%; background: var(--flaeche); border: 1px solid var(--linie); border-radius: 16px; padding: 32px 30px; box-shadow: 0 6px 28px rgba(31,35,40,.06); }
+    /* Wessen Angaben: direkt unter der Überschrift, vor der Anfrage (26.09.2026). */
+    .antwort-person { font-size: 1.15rem; font-weight: 600; margin: -4px 0 10px; }
+    .antwort-anfrage { margin: 14px 0; padding: 8px 12px; border: 1px solid var(--linie); border-radius: 8px; }
+    .antwort-anfrage summary { cursor: pointer; font-weight: 600; }
+    .antwort-anfrage p { margin: 8px 0 0; }
+    .antwort-zwecke { margin: 4px 0 0; padding-left: 18px; font-size: 0.92rem; }
+    .antwort-herkunft-zeile { margin: 10px 0 6px; font-weight: 600; color: var(--tinte-weich); }
+    /* Die Überschrift ist ein Satz (wer antwortet, auf wessen Anfrage, U2-ADR-437) — eine Stufe kleiner als eine Titelzeile. */
+    #antwort-absender { font-size: 1.45rem; line-height: 1.3; }
     .sheet h2 { margin: 0 0 10px; font-size: 1.3rem; }
     .hint { color: var(--tinte-weich); margin: 0 0 18px; }
     .pw-feld, .qr-text {
@@ -260,31 +269,96 @@
        dieselben Klassen wie im Kern. Nur sichtbar, wenn AB_WERK_VORFUEHRUNG_LESEN gebacken ist. */
     #vorfuehrung-streifen { position: fixed; top: 0; left: 0; right: 0; z-index: 400; pointer-events: none; background: var(--akzent);
       color: #fff; text-align: center; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; padding: 4px 12px; line-height: 1.4; }
-    html.vorfuehrung body { padding-top: 26px; padding-bottom: var(--vorfuehrung-band, 0px); }
-    #vorfuehrung-schleife { position: fixed; left: 0; right: 0; bottom: 0; z-index: 350; }
-    #vorfuehrung-schleife .vorfuehrung-karte { background: var(--flaeche); color: var(--tinte); border-top: 1px solid var(--linie);
-      border-left: 6px solid var(--akzent); box-shadow: 0 -6px 24px rgba(28,42,30,0.22); padding: 14px 18px; }
-    .vorfuehrung-schritt { font-size: 0.8rem; color: var(--tinte-weich); margin: 0 0 4px; }
-    .vorfuehrung-karte-titel { font-weight: 700; font-size: 1.35rem; line-height: 1.25; margin: 0 0 6px; }
-    .vorfuehrung-karte-text { line-height: 1.5; margin: 0 0 8px; }
-    .vorfuehrung-leiste { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    html.vorfuehrung body { padding-top: var(--vorfuehrung-oben, 26px); }
+    /* Die Spalte „Die Situation" (26.09.2026, U2-ADR-413 Nachtrag (3)) — wie im Kern: Situation, Rolle, Schritte, Knöpfe an einer
+       Stelle. Breit links neben der Antwort, schmal ein Block oben, eingeklappt auf Rolle und aktuellen Schritt. Farbe je Rolle aus
+       dem Bestand des Kerns: Salbei-Dunkel für die Empfänger-Seite, das Blau des Vollmacht-Modus für wer mit Vollmacht handelt. */
+    #vorfuehrung-schleife { position: fixed; top: 26px; left: 0; right: 0; z-index: 350; }
+    #vorfuehrung-schleife .vorfuehrung-spalte { background: var(--flaeche); color: var(--tinte); border-bottom: 4px solid var(--vorfuehrung-farbe);
+      box-shadow: 0 6px 18px rgba(28,42,30,0.18); padding: 12px 16px; max-height: calc(100vh - 26px); overflow-y: auto; }
+    .vorfuehrung-spalte--empfaenger { --vorfuehrung-farbe: #4F6539; }
+    .vorfuehrung-spalte--vollmacht { --vorfuehrung-farbe: #3d5878; }
+    .vorfuehrung-situation-titel { margin: 0 0 4px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tinte-weich); }
+    .vorfuehrung-situation { margin: 0 0 14px; line-height: 1.5; white-space: pre-line; }
+    .vorfuehrung-nicht-produkt { margin: 0 0 14px; padding: 8px 12px; border: 2px dashed currentColor; border-radius: 8px; font-weight: 600; }
+    .vorfuehrung-rolle-text { margin: 0 0 14px; padding: 10px 14px; border-radius: 8px; background: var(--vorfuehrung-farbe); color: #fff;
+      font-weight: 700; font-size: 1.1rem; line-height: 1.3; }
+    .vorfuehrung-schritt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; font-size: 0.8rem; color: var(--tinte-weich); margin: 0 0 4px; }
+    .vorfuehrung-ueberblick { background: none; border: 0; padding: 0; font: inherit; color: var(--tinte-weich); text-decoration: underline; cursor: pointer; }
+    .vorfuehrung-schritte { list-style: none; margin: 0; padding: 0; }
+    .vorfuehrung-schritte li { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--linie); color: var(--tinte-weich); }
+    .vorfuehrung-schritte li.aktiv { color: var(--tinte); }
+    .vorfuehrung-schritt-nr { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px;
+      border-radius: 50%; border: 1.5px solid var(--linie); font-size: 0.78rem; }
+    .vorfuehrung-schritte li.aktiv .vorfuehrung-schritt-nr { background: var(--vorfuehrung-farbe); border-color: var(--vorfuehrung-farbe); color: #fff; font-weight: 700; }
+    .vorfuehrung-karte-titel { font-weight: 700; font-size: 1.15rem; line-height: 1.25; margin: 0 0 4px; }
+    .vorfuehrung-karte-text { line-height: 1.5; margin: 0; white-space: pre-line; }
+    .vorfuehrung-leiste { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
     .vorfuehrung-leiste .btn { min-height: 44px; }
     .vorfuehrung-leiste .btn:disabled { opacity: 0.45; cursor: default; }
     .vorfuehrung-leiste .vorfuehrung-selbst { margin-left: auto; }
+    .vorfuehrung-spalte--vollmacht .vorfuehrung-leiste .btn:not(.btn-sek) { background: #3d5878; border-color: #3d5878; }
+    .vorfuehrung-spalte--vollmacht .vorfuehrung-leiste .btn-sek { color: #3d5878; border-color: #3d5878; }
+    @media (max-width: 1099px) {
+      .vorfuehrung-spalte:not(.offen) .vorfuehrung-situation-titel, .vorfuehrung-spalte:not(.offen) .vorfuehrung-situation,
+      .vorfuehrung-spalte:not(.offen) .vorfuehrung-schritte li:not(.aktiv) { display: none; }
+      .vorfuehrung-spalte:not(.offen) .vorfuehrung-schritte li.aktiv { border-bottom: 0; padding-bottom: 0; }
+      .vorfuehrung-spalte.erster:not(.offen) .vorfuehrung-situation { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        overflow: hidden; margin-bottom: 8px; }
+      .vorfuehrung-spalte .vorfuehrung-rolle-text { font-size: 0.95rem; padding: 6px 10px; margin-bottom: 8px; }
+    }
     @media (max-width: 520px) {
-      #vorfuehrung-schleife .vorfuehrung-karte { padding: 8px 12px; }
-      .vorfuehrung-karte-titel { font-size: 1.15rem; margin-bottom: 4px; }
-      .vorfuehrung-karte-text { font-size: 0.92rem; margin-bottom: 6px; }
       .vorfuehrung-leiste { flex-wrap: nowrap; gap: 6px; }
       .vorfuehrung-leiste .btn { padding-left: 12px; padding-right: 12px; white-space: nowrap; }
     }
+    @media (min-width: 1100px) {
+      html.vorfuehrung-hand body { padding-left: 404px; }
+      #vorfuehrung-schleife { right: auto; bottom: 0; width: 404px; }
+      #vorfuehrung-schleife .vorfuehrung-spalte { height: 100%; max-height: none; display: flex; flex-direction: column; border-bottom: 0;
+        border-right: 4px solid var(--vorfuehrung-farbe); box-shadow: none; padding: 18px 24px; }
+      .vorfuehrung-spalte .vorfuehrung-schritte { flex: 1; }
+      /* Die Knöpfe bleiben am unteren Rand der Spalte sichtbar, auch wenn die Spalte auf einem niedrigen Bildschirm scrollt. */
+      .vorfuehrung-spalte .vorfuehrung-leiste { position: sticky; bottom: 0; background: var(--flaeche); padding: 10px 0 2px; margin-top: 6px; }
+      .vorfuehrung-spalte .vorfuehrung-situation { font-size: 0.95rem; }
+      .vorfuehrung-spalte .vorfuehrung-schritte li { padding: 5px 0; }
+      .vorfuehrung-spalte .vorfuehrung-karte-text { font-size: 0.95rem; line-height: 1.45; }
+      .vorfuehrung-ueberblick { display: none; }
+    }
+    /* Die Zwischenkarte beim Rollenwechsel: ruhig, deckend über der Ansicht, die Spalte daneben bleibt sichtbar. */
+    #vorfuehrung-wechsel { position: fixed; top: var(--vorfuehrung-oben, 26px); left: 0; right: 0; bottom: 0; z-index: 360; display: flex;
+      align-items: center; justify-content: center; padding: 20px; background: var(--flaeche); }
+    .vorfuehrung-wechsel-karte { max-width: 30rem; width: 100%; border: 1px solid var(--linie); border-left: 6px solid var(--vorfuehrung-farbe);
+      border-radius: 10px; padding: 20px 22px; background: var(--flaeche); box-shadow: 0 8px 28px rgba(28,42,30,0.14); }
+    .vorfuehrung-wechsel-satz { font-size: 1.25rem; font-weight: 700; margin: 0 0 14px; white-space: pre-line; }
+    .vorfuehrung-wechsel.vorfuehrung-spalte--vollmacht .btn { background: #3d5878; border-color: #3d5878; }
+    @media (min-width: 1100px) { #vorfuehrung-wechsel { top: 26px; left: 404px; } }
+    .anfrage-wozu { display: block; color: var(--tinte-weich); font-size: 0.92rem; margin-top: 2px; }
     /* Der Herkunftsvermerk steht unter der Angabe, nicht angeklebt an den Zweck (Lesbarkeit, 26.09.2026). */
     .antwort-herkunft { display: block; }
     /* Wozu und gültig bis stehen unter dem Wert, nicht angeklebt — wie in der Anfrage-Ansicht des Kerns. */
     #antwort-felder li .weg-hint, #anlass-felder li .weg-hint { display: block; }
     .vorfuehrung-hervor { outline: 3px solid var(--akzent); outline-offset: 2px; border-radius: 4px; }
     #antwort-blatt.vorfuehrung-herkunft .antwort-herkunft { outline: 2px solid var(--akzent); outline-offset: 1px; border-radius: 3px; font-weight: 600; }
-    @media print { #vorfuehrung-schleife { display: none; } #vorfuehrung-streifen { position: static; } }
+    /* Erste Ansicht (26.09.2026): wer schaut steht oben, im Fokus nur die Angaben, um die es geht, in einem Rahmen. */
+    html.vorfuehrung .sheet { max-width: 640px; }
+    html.vorfuehrung .stand-marke { display: none; }
+    /* Die Szene vor der ersten Ansicht: wer, was geschehen ist, wer Sie sind — eine ruhige Karte, noch keine Ansicht. */
+    .vorfuehrung-szene-blatt { text-align: left; }
+    .vorfuehrung-szene { font-size: 1.35rem; line-height: 1.55; margin: 0; }
+    @media (max-width: 520px) { .vorfuehrung-szene { font-size: 1.15rem; } }
+    .vorfuehrung-kopf { display: inline-block; margin: 0 0 14px; padding: 5px 12px; border-radius: 999px; background: var(--flaeche-warm);
+      border: 1px solid var(--linie); color: var(--akzent); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.02em; }
+    /* Im Fokus bleibt sichtbar, dass die Angaben von der Person stammen (Kalt-Lesetest 26.09.2026: ohne den Vermerk las sich die
+       Antwort als geprüft) — je Angabe und als Zählung unter dem Rahmen. */
+    #antwort-blatt.vorfuehrung-fokus .antwort-anfrage,
+    #antwort-blatt.vorfuehrung-fokus .herkunft-marke,
+    #antwort-blatt.vorfuehrung-fokus .sheet-aktionen, #antwort-blatt.vorfuehrung-fokus [data-antwort-feld]:not(.vorfuehrung-hervor),
+    #antwort-blatt.vorfuehrung-fokus [data-antwort-feld] .weg-hint:not(.antwort-herkunft) { display: none; }
+    #antwort-blatt.vorfuehrung-fokus .vorfuehrung-hervor { outline: none; }
+    #antwort-blatt.vorfuehrung-fokus .antwort-felder { list-style: none; margin: 18px 0 0; padding: 16px 20px; border: 3px solid var(--akzent);
+      border-radius: 10px; font-size: 1.15rem; line-height: 1.5; }
+    #antwort-blatt.vorfuehrung-fokus .antwort-felder li + li { margin-top: 10px; }
+    @media print { #vorfuehrung-schleife { display: none; } html.vorfuehrung-hand body { padding-left: 0; } #vorfuehrung-streifen { position: static; } }
   </style>
 </head>
 <body>
@@ -1305,17 +1379,46 @@ const _STRINGS_EINGEBAUT = ({
   qrSelbstauskunftHinweis: 'Diese Daten wurden von der Depot-Inhaberin bewusst als QR-Code freigegeben — kein Passwort nötig, keine Bearbeitung möglich.',
   // Kette, Auftrag 8 (20.08.2026) — die Antwort auf eine Anfrage
   antwortTitel: 'Antwort auf Ihre Anfrage',
-  antwortVorgang: 'Vorgang:',
-  antwortVon: 'Von:',
+  // „Vorgang:“ las sich kryptisch; es ist das Zeichen, das die Stelle selbst vergeben hat (Kalt-Lesetest 26.09.2026).
+  antwortVorgang: 'Ihr Aktenzeichen:',
+  /* Wer antwortet, als Überschrift (U2-ADR-437). „Von:" nannte früher die anfragende Stelle — die Klinik las sich als
+     Absenderin ihrer eigenen Antwort (26.09.2026). Der Absender ist eine Angabe der Person, nicht geprüft. */
+  antwortAbsenderVon: 'Antwort von {name} ({rolle}) auf die Anfrage von {stelle}',
+  antwortAbsenderVonOhneRolle: 'Antwort von {name} auf die Anfrage von {stelle}',
+  antwortAbsenderAusTeil: 'Antwort aus dem Teil „{name}“ des Depots von {fuer} auf die Anfrage von {stelle}',
+  antwortAbsenderOhne: 'Antwort auf die Anfrage von {stelle}',
+  antwortAbsenderNichtAngegeben: 'Absender nicht angegeben',
+  antwortRolleSelbst: 'selbst',
+  antwortRolleBevollmaechtigt: 'bevollmächtigt',
+  antwortRolleBevollmaechtigtFuer: 'bevollmächtigt für {fuer}',
+  antwortRolleTeil: 'Teil-Depot von {fuer}',
+  antwortAngabenZu: 'Angaben zu {name}',
+  antwortGeboren: 'geb. {datum}',
+  /* Die Beschriftung beim Empfänger, je Kennung (Zuordnung in ANTWORT_BESCHRIFTUNG): der Name des Feldes im Depot ist für
+     die Person geschrieben, die einträgt („Bevollmächtigte Person(en)"), nicht für die Stelle, die liest. */
+  antwortBeschriftungBevollmaechtigt: 'Bevollmächtigt',
+  antwortBeschriftungGesundheitsfragen: 'Vollmacht gilt für Gesundheitsfragen',
+  antwortBeschriftungVollmachtOrt: 'Original der Vollmacht liegt',
+  antwortBeschriftungBetreuungsperson: 'Gewünschte Betreuungsperson',
+  antwortBeschriftungBetreuungOrt: 'Betreuungsverfügung liegt',
+  // Ohne doppelte Verneinung: die Beschriftung nennt die Sache, der Wert sagt „abgelehnt“ statt „ja“ (ANTWORT_WERT, 26.09.2026).
+  antwortBeschriftungNotvertretung: 'Notvertretung durch den Ehegatten',
+  antwortWertAbgelehnt: 'abgelehnt',
+  antwortWertNichtAbgelehnt: 'nicht abgelehnt',
+  antwortIhreAnfrage: 'Ihre Anfrage: wozu und auf welcher Grundlage',
+  antwortBeschriftungHausarzt: 'Hausarztpraxis',
+
   antwortZweck: 'Wozu Sie gefragt haben:',
   antwortGrundlage: 'Auf welcher Grundlage Sie gefragt haben:',
-  antwortFeldZweck: 'Wozu:',
   antwortGueltigBis: 'gültig bis',
   notfallKarteVollstaendigInDatei: '(vollständig in der Datei)',
   antwortHerkunftGeprueft: 'aus geprüftem Nachweis',
   antwortHerkunftEingetragen: 'von der Person angegeben',
   antwortHerkunftZaehlung: '{n} von {m} Angaben stammen aus geprüften Nachweisen, die übrigen hat die Person selbst angegeben.',
-  antwortHerkunftZaehlungKeine: 'Die Person hat diese {m} Angaben selbst gemacht; keine stammt aus einem geprüften Nachweis.',
+  // Eine Zeile über der Liste (Kalt-Lesetest 26.09.2026): gilt sie für alle Angaben, steht an keiner Zeile ein Vermerk.
+  antwortHerkunftAlleEingetragen: 'Alle Angaben hat die Person selbst gemacht. Geprüft ist keine.',
+  antwortHerkunftAlleGeprueft: 'Alle Angaben stammen aus geprüften Nachweisen.',
+  antwortFeldZweckeTitel: 'Wozu die einzelnen Angaben:',
   antwortHintPasswort: 'Diese Antwort ist mit dem Einmalpasswort dieses Vorgangs verschlüsselt — dem Passwort, das Sie selbst vergeben und der antwortenden Person mitgeteilt haben.',
   antwortHintSchluessel: 'Diese Antwort ist für Ihr Empfangs-Schlüsselpaar verschlüsselt. Bitte laden Sie den privaten Teil, den Sie beim Erstellen der Anfrage heruntergeladen haben.',
   antwortPwPlaceholder: 'Einmalpasswort',
@@ -1608,17 +1711,39 @@ const LESE_TEXTE_EN = Object.freeze({
   qrBereichTitel: "Area as a QR code",
   qrSelbstauskunftHinweis: "The depot owner deliberately released this data as a QR code — no password needed, no editing possible.",
   antwortTitel: "Reply to your request",
-  antwortVorgang: "Case:",
-  antwortVon: "From:",
+  antwortVorgang: "Your reference:",
+  antwortAbsenderVon: "Reply from {name} ({rolle}) to the request from {stelle}",
+  antwortAbsenderVonOhneRolle: "Reply from {name} to the request from {stelle}",
+  antwortAbsenderAusTeil: "Reply from the part “{name}” of {fuer}'s depot to the request from {stelle}",
+  antwortAbsenderOhne: "Reply to the request from {stelle}",
+  antwortAbsenderNichtAngegeben: "Sender not stated",
+  antwortRolleSelbst: "in person",
+  antwortRolleBevollmaechtigt: "authorised representative",
+  antwortRolleBevollmaechtigtFuer: "authorised representative for {fuer}",
+  antwortRolleTeil: "part of {fuer}'s depot",
+  antwortAngabenZu: "Details on {name}",
+  antwortGeboren: "born {datum}",
+  antwortBeschriftungBevollmaechtigt: "Authorised person",
+  antwortBeschriftungGesundheitsfragen: "Power of attorney covers health matters",
+  antwortBeschriftungVollmachtOrt: "Original power of attorney kept at",
+  antwortBeschriftungBetreuungsperson: "Preferred court-appointed representative",
+  antwortBeschriftungBetreuungOrt: "Care directive kept at",
+  antwortBeschriftungNotvertretung: "Emergency representation by the spouse",
+  antwortWertAbgelehnt: "refused",
+  antwortWertNichtAbgelehnt: "not refused",
+  antwortIhreAnfrage: "Your request: purpose and basis",
+  antwortBeschriftungHausarzt: "GP practice",
+
   antwortZweck: "Purpose you gave for asking:",
   antwortGrundlage: "Basis on which you asked:",
-  antwortFeldZweck: "Purpose:",
   antwortGueltigBis: "valid until",
   notfallKarteVollstaendigInDatei: "(complete in the file)",
   antwortHerkunftGeprueft: "from a verified credential",
   antwortHerkunftEingetragen: "stated by the person",
   antwortHerkunftZaehlung: "{n} of {m} entries come from verified credentials; the person stated the others themselves.",
-  antwortHerkunftZaehlungKeine: "The person made these {m} entries themselves; none comes from a verified credential.",
+  antwortHerkunftAlleEingetragen: "The person made all entries themselves. None is verified.",
+  antwortHerkunftAlleGeprueft: "All entries come from verified credentials.",
+  antwortFeldZweckeTitel: "Why each entry was requested:",
   antwortHintPasswort: "This reply is encrypted with the one-time password for this case — the password you chose yourself and gave to the person replying.",
   antwortHintSchluessel: "This reply is encrypted for your receiving key pair. Please load the private part that you downloaded when you created the request.",
   antwortPwPlaceholder: "One-time password",
@@ -1951,6 +2076,12 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "health.medicationOngoing.label": "Medikamente (laufend)",
   "health.insuranceNumber.label": "Versichertennummer",
   "health.implantsProsthesesPacemakers.label": "Implantate / Prothesen / Schrittmacher",
+  "health.pregnancy.label": "Schwangerschaft",
+  "health.pregnancy/ja.label": "ja, schwanger",
+  "health.pregnancyEstimatedDueDate.label": "Errechneter Entbindungstermin",
+  "health.wanderingRisk.label": "Weglaufgefährdung",
+  "health.wanderingRisk/ja.label": "ja",
+  "health.wanderingRiskDetails.label": "Weglaufgefährdung — Umstände",
   "health.heightCm.label": "Körpergröße (cm)",
   "health.bodyWeightKg.label": "Körpergewicht (kg)",
   "health.vaccinationRecordStorage.label": "Impfbuch — Ablageort",
@@ -3219,7 +3350,7 @@ function standBlockHTML(s) {
 /* SEKTOREN:BEGIN — generierter Bereich (tools/build-sektoren-lesen.js); Quelle: vivodepot.html V.bereicheAlle() (ladeKern) */
 const SEKTOR_FORMATE = Object.freeze({
   FHIR_IPS: 'FHIR_IPS', SD_JWT_VC: 'SD_JWT_VC', W3C_VC: 'W3C_VC', EDCI: 'EDCI',
-  ISO_18013: 'ISO_18013', MDOC: 'MDOC', GENERISCH: 'GENERISCH', XOEV: 'XOEV',
+  ISO_18013: 'ISO_18013', MDOC: 'MDOC', GENERISCH: 'GENERISCH', VERWALTUNG: 'VERWALTUNG',
 });
 const SEKTOREN = Object.freeze([
   {
@@ -5203,6 +5334,54 @@ const SEKTOREN = Object.freeze([
             "beispiel": "Hüft-TEP rechts (Stryker), seit 2019",
             "hint": "Wichtig für MRT-Eignung und Narkose.",
             "sensibel": true
+          },
+          {
+            "id": "pregnancy",
+            "label": "Schwangerschaft",
+            "typ": "auswahl",
+            "hint": "Nur „ja“ oder leer. Leer heißt keine Angabe, eine Schwangerschaft ist damit nicht ausgeschlossen.",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "ja, schwanger"
+              }
+            ]
+          },
+          {
+            "id": "pregnancyEstimatedDueDate",
+            "label": "Errechneter Entbindungstermin",
+            "typ": "datum",
+            "sensibel": true,
+            "sichtbarWenn": {
+              "feld": "pregnancy",
+              "wert": "ja"
+            }
+          },
+          {
+            "id": "wanderingRisk",
+            "label": "Weglaufgefährdung",
+            "typ": "auswahl",
+            "hint": "Hat sich die Person schon einmal ohne Orientierung von ihrem Aufenthaltsort entfernt und sich dabei gefährdet?",
+            "sensibel": true,
+            "optionen": [
+              {
+                "wert": "ja",
+                "label": "ja"
+              }
+            ]
+          },
+          {
+            "id": "wanderingRiskDetails",
+            "label": "Weglaufgefährdung — Umstände",
+            "typ": "text",
+            "beispiel": "verlässt nachts die Wohnung und findet nicht zurück; reagiert auf den Vornamen",
+            "hint": "Kurz, höchstens 175 Zeichen: wann, wie, was hilft.",
+            "sensibel": true,
+            "sichtbarWenn": {
+              "feld": "wanderingRisk",
+              "wert": "ja"
+            }
           },
           {
             "id": "heightCm",
@@ -8179,13 +8358,13 @@ const SEKTOREN = Object.freeze([
   {
     "id": "administration",
     "label": "Verwaltung & Behörden",
-    "format": "XOEV",
+    "format": "VERWALTUNG",
     "icon": "landmark",
     "einfuehrungstext": "Ihre Zugänge, Geräte und digitalen Spuren — damit niemand vor verschlossenen Türen steht.",
     "exporte": [
       {
         "format": "xoev-verwaltung",
-        "label": "Behörden-Datensatz (maschinenlesbar)"
+        "label": "Verwaltungs-Stammdaten (maschinenlesbar)"
       },
       {
         "format": "fim-json",
@@ -12093,6 +12272,11 @@ function listenEintragZusammenfassung(feld, eintrag, sektorId) {
       // zu kuerzen. Kern-seitig dieselbe Korrektur (Paritaet).
       teile.push((basis === 'ja' || basis === 'nein') && uf.label
         ? _unterfeldLabelLesen(sektorId, feld.id, uf) + ': ' + angezeigt : angezeigt);
+    } else if (uf.typ === 'datum') {
+      /* Wie im Kern (_datumMitBeschriftung): ein Datum trägt seine Beschriftung und steht deutsch (Befund 28.09.2026). */
+      const d = _datumDeutsch(w);
+      const label = uf.label ? _unterfeldLabelLesen(sektorId, feld.id, uf) : '';
+      teile.push(label ? label + ': ' + d : d);
     } else {
       teile.push(String(w));
     }
@@ -12422,6 +12606,11 @@ const NOTFALL_KERN_FELDER = Object.freeze([
   // Felder aus N2 Zug 3 (08.08.2026) und ein sechstes fehlten hier seit ihrem Kern-Bau, ohne
   // dass ein Wächter es gemerkt hätte (s. tools/handkopien-gegen-original-pruefen.js).
   { sektor: 'health', feld: 'implantsProsthesesPacemakers' },
+  // NFD-Lücken (v835): Handkopie des Kerns — nur bei „ja“, Termin und Umstände nur mit ihrem „ja“.
+  { sektor: 'health', feld: 'pregnancy', nurWenn: 'ja' },
+  { sektor: 'health', feld: 'pregnancyEstimatedDueDate', nurMit: { feld: 'pregnancy', wert: 'ja' } },
+  { sektor: 'health', feld: 'wanderingRisk', nurWenn: 'ja' },
+  { sektor: 'health', feld: 'wanderingRiskDetails', nurMit: { feld: 'wanderingRisk', wert: 'ja' }, maxZeichen: 175 },
   { sektor: 'health', feld: 'bodyWeightKg' },
   { sektor: 'health', feld: 'healthInsurance' },      // Krankenkasse
   { sektor: 'health', feld: 'insuranceNumber' },   // Versichertennummer
@@ -12546,6 +12735,129 @@ function istAntwortUmschlag(o) {
     && typeof o.iv === 'string' && typeof o.ct === 'string');
 }
 
+/* ══ ANTWORT-JWE-BLOCK (U2-ADR-449) — der gemeinsame Teil, in vivodepot.html und vivodepot-lesen.html zeichengleich ══════
+   Die Antwort auf eine Anfrage als JWE nach RFC 7516 (Compact Serialization), statt des eigenen Umschlags aus U2-ADR-153.
+   Ein fremdes System kann sie mit jeder JOSE-Bibliothek öffnen; gemessen am 29.09.2026 in beide Richtungen gegen `jose`.
+   Zwei Verfahren, dieselben wie bisher:
+     · Schlüsselpaar: `alg` ECDH-ES direkt (RFC 7518 §4.6) auf P-256. Die Bürgerin erzeugt ein FLÜCHTIGES Paar; nur dessen
+       öffentlicher Teil reist als `epk`. Die Vorgangskennung geht als `apv` in die Concat KDF: ein umetikettierter Vorgang
+       ergibt einen anderen Schlüssel und damit einen GCM-Fehlschlag. Die Kurve bleibt P-256 (U2-ADR-153: X25519 fehlt auf
+       älteren Rechnern am Tresen).
+     · Einmalpasswort: `alg` PBES2-HS512+A256KW (RFC 7518 §4.8) mit `p2c` fest ANTWORT_JWE_P2C. Der Empfänger nimmt NUR genau
+       diesen Wert an — ein manipulierter Kopf mit riesigem `p2c` legte sonst die Empfängerseite lahm. Die Festlegung ist
+       eigene Vorsicht: RFC 7518 nennt keine Obergrenze, RFC 8725 erwähnt `p2c` nicht.
+   `enc` ist immer A256GCM. Der geschützte Kopf ist die AAD (RFC 7516 §5.1 Schritt 14): Vorgang und Anbieter darin sind
+   gebunden. Der Kopf ist LESBAR — wer das Handy filmt, sieht Vorgang und Füll-Länge, nicht den Inhalt; der Vorgang steht
+   ohnehin auf dem Zettel.
+   AUFFÜLLEN: Die Gesamtlänge liegt auf einer Stufe (ANTWORT_JWE_STUFEN) oder ein Zeichen darunter — base64url erreicht eine
+   Kopflänge ≡ 1 mod 4 nie. Gefüllt wird über den privaten Kopfparameter `pad` (RFC 7516 §4.3); der Klartext bleibt unberührt.
+   KEINE KOMPRESSION in dieser Fassung: der Klartext trägt heute Text aus der Anfrage (Zweck, Grundlage), und Kompression
+   neben fremdbestimmtem Text verrät Inhalt über die Länge (RFC 8725 §3.6). `zip` kommt erst, wenn die Anfrage nur noch auf
+   eine Werk-Vorlage verweist (die FHIR-Abbildung der Anfrage); bis dahin lehnt der Leser `zip` ab.
+   Von Hand gerollt über WebCrypto, wie U2-ADR-047. Konformität: Concat KDF gegen RFC 7518 Anhang C (Probe). Externe
+   Krypto-Review vor Produktivschaltung, dieselbe Auflage wie U2-ADR-047 und -153.
+   DREI TEILE: dieser gemeinsame (Konstanten, base64url, Concat KDF, PBES2-Schlüssel, Kopfprüfung) steht in beiden Dateien;
+   das SCHREIBEN nur im Kern, das ÖFFNEN nur in der Lese-App. Der Kern braucht kein Öffnen — jeder Krypto-Aufruf, den er nicht
+   braucht, wäre Angriffsfläche ohne Zweck (tools/krypto-aufrufer-pruefen.js zählt sie). */
+const ANTWORT_JWE_TYP = 'vivodepot-antwort+jwe';
+const ANTWORT_JWE_STUFEN = Object.freeze([1024, 2048, 3072, 4096, 6144, 8192, 12288, 16384]);
+const ANTWORT_JWE_P2C = 600000;
+const ANTWORT_JWE_PBES2 = 'PBES2-HS512+A256KW';
+function _jweB64u(bytes) {
+  let s = '';
+  const u = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function _jweAusB64u(text) {
+  const s = String(text || '');
+  if (!/^[A-Za-z0-9_-]*$/.test(s)) throw new Error('jwe-base64url');
+  const b = atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4));
+  const u = new Uint8Array(b.length);
+  for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i);
+  return u;
+}
+function _jweVerbinden(teile) {
+  const n = teile.reduce((s, t) => s + t.length, 0);
+  const raus = new Uint8Array(n);
+  let i = 0;
+  for (const t of teile) { raus.set(t, i); i += t.length; }
+  return raus;
+}
+function _jweLaenge32(n) {
+  const b = new Uint8Array(4);
+  new DataView(b.buffer).setUint32(0, n >>> 0);
+  return b;
+}
+/* Concat KDF (NIST SP 800-56A, RFC 7518 §4.6.2): eine Runde SHA-256 über Zähler, Z und OtherInfo. Für 256 Bit genügt eine. */
+async function _jweConcatKdf(z, algName, apu, apv, bits) {
+  const alg = new TextEncoder().encode(algName);
+  const other = _jweVerbinden([_jweLaenge32(alg.length), alg, _jweLaenge32(apu.length), apu,
+    _jweLaenge32(apv.length), apv, _jweLaenge32(bits)]);
+  const h = new Uint8Array(await crypto.subtle.digest('SHA-256', _jweVerbinden([_jweLaenge32(1), z, other])));
+  return h.slice(0, bits / 8);
+}
+function _jweStufe(laenge) {
+  return ANTWORT_JWE_STUFEN.find((s) => s >= laenge) || (Math.ceil(laenge / 4096) * 4096);
+}
+/* Rohe Schlüsselbytes (Passwort, Z, CEK) werden nach dem Import in `finally` überschrieben, wie beim Wiederherstellungs-Code
+   (U2-ADR-430). Nicht extrahierbar ist jeder Schlüssel außer dem CEK im PBES2-Weg, den `wrapKey` verpacken muss. */
+async function _jwePbes2Schluessel(passwort, p2s, p2c) {
+  const alg = new TextEncoder().encode(ANTWORT_JWE_PBES2);
+  const salt = _jweVerbinden([alg, new Uint8Array([0]), p2s]);
+  const pw = new TextEncoder().encode(String(passwort));
+  try {
+    const basis = await crypto.subtle.importKey('raw', pw, { name: 'PBKDF2' }, false, ['deriveKey']);
+    return await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: p2c, hash: 'SHA-512' },
+      basis, { name: 'AES-KW', length: 256 }, false, ['wrapKey', 'unwrapKey']);
+  } finally { pw.fill(0); }
+}
+/* Rein/testbar: ist dieser Text eine Antwort-JWE? Nur die Form und der Kopf, ohne Entschlüsseln. */
+function antwortJweKopf(text) {
+  const t = String(text == null ? '' : text).trim();
+  const teile = t.split('.');
+  if (teile.length !== 5 || !/^[A-Za-z0-9_.-]+$/.test(t)) return null;
+  try {
+    const kopf = JSON.parse(new TextDecoder().decode(_jweAusB64u(teile[0])));
+    return (kopf && kopf.typ === ANTWORT_JWE_TYP && kopf.enc === 'A256GCM') ? kopf : null;
+  } catch (e) { return null; }
+}
+/* ══ ENDE ANTWORT-JWE-BLOCK ══ */
+/* ══ ANTWORT-JWE ÖFFNEN (U2-ADR-449) — nur in der Lese-App; der gemeinsame Teil steht im ANTWORT-JWE-BLOCK ══ */
+async function antwortJweOeffnen(text, schluessel) {
+  const t = String(text == null ? '' : text).trim();
+  const kopf = antwortJweKopf(t);
+  if (!kopf) throw new Error('jwe-keine-antwort');
+  if (kopf.zip !== undefined) throw new Error('jwe-zip-nicht-unterstuetzt');
+  const [kB64, ekB64, ivB64, ctB64, tagB64] = t.split('.');
+  const s = schluessel || {};
+  let cekKey;
+  if (kopf.alg === 'ECDH-ES') {
+    if (!s.privateJwk || !kopf.epk || _jweAusB64u(ekB64).length) throw new Error('jwe-schluesselpaar');
+    const priv = await crypto.subtle.importKey('jwk', s.privateJwk, { name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits']);
+    const epk = await crypto.subtle.importKey('jwk', { kty: 'EC', crv: 'P-256', x: kopf.epk.x, y: kopf.epk.y },
+      { name: 'ECDH', namedCurve: 'P-256' }, false, []);
+    let z = null, cek = null;
+    try {
+      z = new Uint8Array(await crypto.subtle.deriveBits({ name: 'ECDH', public: epk }, priv, 256));
+      cek = await _jweConcatKdf(z, 'A256GCM', kopf.apu ? _jweAusB64u(kopf.apu) : new Uint8Array(0), _jweAusB64u(kopf.apv || ''), 256);
+      cekKey = await crypto.subtle.importKey('raw', cek, { name: 'AES-GCM' }, false, ['decrypt']);
+    } finally { if (z) z.fill(0); if (cek) cek.fill(0); }
+  } else if (kopf.alg === ANTWORT_JWE_PBES2) {
+    if (kopf.p2c !== ANTWORT_JWE_P2C) throw new Error('jwe-p2c');
+    if (typeof s.passwort !== 'string' || !s.passwort) throw new Error('jwe-passwort');
+    const kw = await _jwePbes2Schluessel(s.passwort, _jweAusB64u(kopf.p2s), ANTWORT_JWE_P2C);
+    cekKey = await crypto.subtle.unwrapKey('raw', _jweAusB64u(ekB64), kw, { name: 'AES-KW' }, { name: 'AES-GCM' }, false, ['decrypt']);
+  } else {
+    throw new Error('jwe-alg');
+  }
+  const klar = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: _jweAusB64u(ivB64), additionalData: new TextEncoder().encode(kB64), tagLength: 128 },
+    cekKey, _jweVerbinden([_jweAusB64u(ctB64), _jweAusB64u(tagB64)]));
+  return { kopf, klartext: new TextDecoder().decode(new Uint8Array(klar)) };
+}
+/* ══ ENDE ANTWORT-JWE ÖFFNEN ══ */
+
 /* ══ ZUG 3 — WAS DIE LESE-APP ZEIGT, UND NICHT MEHR ═══════════════════════════════════════
    Entschieden: die Lese-App liest und zeigt an. `antwortAnzeigeModell` ist die EINE Stelle,
    die entscheidet, was auf dem Blatt steht — und ein Wächter hält sie an ihrer Zusage fest
@@ -12556,6 +12868,22 @@ function istAntwortUmschlag(o) {
    `fehlend`, `unbekannt` und `vollstaendig` sind die Aussagen, mit denen der Datensatz sich
    selbst als Teilantwort zu erkennen gibt. Wer sie wegliesse, machte aus fünf von neun
    Angaben eine vollständige Auskunft — genau der Fehlschlag, gegen den Auftrag 7 gebaut hat. */
+/* Die Beschriftung beim Empfänger: je Kennung der Text-Schlüssel (STRINGS, Deutsch und Englisch). Fehlt eine Kennung hier,
+   gilt die Beschriftung aus dem Datensatz (26.09.2026). */
+const ANTWORT_BESCHRIFTUNG = Object.freeze({
+  'advanceCare.provisionInstruments[enduring-power-of-attorney].authorizedPersons': 'antwortBeschriftungBevollmaechtigt',
+  'advanceCare.provisionInstruments[enduring-power-of-attorney].healthCareGeneralDecision': 'antwortBeschriftungGesundheitsfragen',
+  'advanceCare.provisionInstruments[enduring-power-of-attorney].storageLocation': 'antwortBeschriftungVollmachtOrt',
+  'advanceCare.provisionInstruments[custodianship-declaration].proposedPerson': 'antwortBeschriftungBetreuungsperson',
+  'advanceCare.provisionInstruments[custodianship-declaration].storageLocation': 'antwortBeschriftungBetreuungOrt',
+  'advanceCare.spousalRepresentationObjection': 'antwortBeschriftungNotvertretung',
+  'health.generalPractitioner': 'antwortBeschriftungHausarzt',
+});
+/* Der Wert beim Empfänger, wo „ja“ eine doppelte Verneinung wäre: „Notvertretung … abgelehnt: ja“ las sich im Kalt-Lesetest
+   (26.09.2026) falsch herum. Je Kennung und Rohwert ein Textschlüssel; ein anderer Rohwert bleibt, wie er ist. */
+const ANTWORT_WERT = Object.freeze({
+  'advanceCare.spousalRepresentationObjection': Object.freeze({ ja: 'antwortWertAbgelehnt', nein: 'antwortWertNichtAbgelehnt' }),
+});
 function antwortAnzeigeModell(datensatz, umschlag) {
   const ds = (datensatz && typeof datensatz === 'object') ? datensatz : {};
   const a = (ds.anfrage && typeof ds.anfrage === 'object') ? ds.anfrage : {};
@@ -12563,8 +12891,30 @@ function antwortAnzeigeModell(datensatz, umschlag) {
   const felder = Array.isArray(ds.felder) ? ds.felder : [];
   const fehlend = Array.isArray(ds.fehlend) ? ds.fehlend : [];
   const unbekannt = Array.isArray(ds.unbekannt) ? ds.unbekannt : [];
+  // Die Beschriftung beim Empfänger (ANTWORT_BESCHRIFTUNG), sonst die aus dem Datensatz.
+  const beschriftung = (f) => {
+    const schluessel = f && typeof f.kennung === 'string' ? ANTWORT_BESCHRIFTUNG[f.kennung] : null;
+    const eigen = schluessel ? STRINGS[schluessel] : null;
+    return String(eigen || (f && (f.label || f.kennung)) || '');
+  };
+  // Wessen Angaben das sind — nur, was die Antwort selbst trägt; fehlt der Name, sagt der Kopf nichts darüber.
+  const wert = (k) => { const f = felder.find((x) => x && x.kennung === k); return f && f.wert != null ? String(f.wert).trim() : ''; };
+  const name = [wert('identity.givenName'), wert('identity.familyName')].filter(Boolean).join(' ');
+  /* Wer antwortet (U2-ADR-437) — aus dem Datensatz, wie alles hier. Eine Antwort ohne das Feld (vor v807, oder eine
+     Fassung, die es wegläßt) bleibt lesbar; der Kopf sagt dann, dass der Absender nicht angegeben ist. Eine unbekannte
+     Rolle wird nicht übersetzt, sondern weggelassen. Geprüft ist der Absender nur mit `verifiziert: true`, wie jede Angabe. */
+  const ab = (ds.absender && typeof ds.absender === 'object') ? ds.absender : null;
+  const text = (v) => (typeof v === 'string' ? v.trim().slice(0, 200) : '');
+  const absender = (ab && text(ab.name)) ? {
+    name: text(ab.name),
+    rolle: ['selbst', 'bevollmaechtigt', 'teil', 'kreis'].includes(ab.rolle) ? ab.rolle : null,
+    fuer: text(ab.fuer) || null,
+    herkunft: (ab.herkunft && ab.herkunft.verifiziert === true) ? 'geprueft' : 'eingetragen',
+  } : null;
   return {
     titel: STRINGS.antwortTitel,
+    person: name ? { name, geboren: wert('identity.birthDate') } : null,
+    absender,
     von: String(a.von || ''),
     zweck: String(a.zweck || ''),
     grundlage: String(a.grundlage || ''),
@@ -12572,15 +12922,20 @@ function antwortAnzeigeModell(datensatz, umschlag) {
     verfahren: String(u.verfahren || ''),
     erstelltAm: String(ds.erstelltAm || u.erstelltAm || ''),
     felder: felder.map((f) => ({
-      label: String(f.label || f.kennung || ''),
-      wert: String(f.wert == null ? '' : f.wert),
+      kennung: String(f.kennung || ''),
+      label: beschriftung(f),
+      wert: (() => {
+        const roh = String(f.wert == null ? '' : f.wert);
+        const k = ANTWORT_WERT[f.kennung] && ANTWORT_WERT[f.kennung][roh];
+        return (k && STRINGS[k]) || roh;
+      })(),
       zweck: String(f.zweck || ''),
       // Nur das ausdrückliche `verifiziert: true`, das der Kern schreibt, zählt als geprüft — ein fremdgeformter Wert
       // ('ja', 1) nicht (U2-ADR-258: Schweigen oder Fremdform zählt nie als geprüft; Probe tests/lese-app-antwort-herkunft.test.js).
       herkunft: (f.herkunft && f.herkunft.verifiziert === true) ? 'geprueft' : 'eingetragen',
       gueltigBis: f.gueltigBis || null,
     })),
-    fehlend: fehlend.map((f) => ({ label: String(f.label || f.kennung || ''), pflicht: f.pflicht !== false })),
+    fehlend: fehlend.map((f) => ({ label: beschriftung(f), pflicht: f.pflicht !== false })),
     unbekannt: unbekannt.map((f) => String(f.kennung || '')),
     zurueckgehalten: (ds.zurueckgehalten && Number(ds.zurueckgehalten.sensibel)) || 0,
     vollstaendig: ds.vollstaendig === true,
@@ -12990,7 +13345,7 @@ function renderWelcome() {
         wegKarteHTML('weg-einfuegen', STRINGS.wegEinfuegen, STRINGS.wegEinfuegenHint) +
         wegKarteHTML('weg-kamera', STRINGS.wegKamera, STRINGS.wegKameraHint) +
       '</div>' +
-      '<input type="file" id="datei-input" accept=".vivodepot,.json,application/json" hidden>' +
+      '<input type="file" id="datei-input" accept=".vivodepot,.json,application/json,.jwe,application/jose" hidden>' +
     '</div>';
   sprachUmschalterVerdrahten(renderWelcome);
   el('weg-datei').addEventListener('click', () => el('datei-input').click());
@@ -13011,6 +13366,9 @@ function onDateiGewaehlt(ev) {
   if (!datei) return;
   const reader = new FileReader();
   reader.onload = () => {
+    // U2-ADR-449: eine Antwort als JWE ist kein JSON, sondern ein Text aus fünf Teilen — vor dem Parsen erkannt.
+    const jwe = antwortJweAlsUmschlag(reader.result);
+    if (jwe) { renderAntwortOeffnen(jwe); return; }
     let obj;
     try { obj = JSON.parse(magicStrippen(reader.result).json); }
     catch (e) { renderFehler(STRINGS.dateiUnlesbar); return; }
@@ -13298,17 +13656,18 @@ function _lueckenBlockHTML(luecken) {
   if (!n && !m && !felder.length) return '';
   const saetze = [];
   if (n || m) {
+    // v842 (D5): die Sätze sind aus einem Sprachmodul überschreibbar — der Satz selbst wird maskiert, die Liste auch.
     const liste = escapeHTML((luecken.bereichIds || []).join(', '));
     let satz;
-    if (n && m) satz = STRINGS.lueckenSatzBeides.replace('{n}', String(n)).replace('{liste}', liste).replace('{m}', String(m));
-    else if (n) satz = STRINGS.lueckenSatzBereich.replace('{n}', String(n)).replace('{liste}', liste);
-    else satz = STRINGS.lueckenSatzModul.replace('{n}', String(m));
+    if (n && m) satz = escapeHTML(STRINGS.lueckenSatzBeides).replace('{n}', String(n)).replace('{liste}', liste).replace('{m}', String(m));
+    else if (n) satz = escapeHTML(STRINGS.lueckenSatzBereich).replace('{n}', String(n)).replace('{liste}', liste);
+    else satz = escapeHTML(STRINGS.lueckenSatzModul).replace('{n}', String(m));
     saetze.push(satz);
   }
   if (felder.length) {
     const f = felder.reduce((summe, x) => summe + x.feldIds.length, 0);
     const liste = escapeHTML(felder.map((x) => x.bereichId + ' (' + x.feldIds.join(', ') + ')').join('; '));
-    saetze.push(STRINGS.lueckenSatzFelder.replace('{k}', String(felder.length)).replace('{f}', String(f)).replace('{liste}', liste));
+    saetze.push(escapeHTML(STRINGS.lueckenSatzFelder).replace('{k}', String(felder.length)).replace('{f}', String(f)).replace('{liste}', liste));
   }
   return '<div class="luecken-hinweis" id="luecken-hinweis">' +
     '<strong>' + escapeHTML(STRINGS.lueckenTitel) + '</strong> ' + saetze.join(' ') + '</div>';
@@ -14243,6 +14602,8 @@ function verarbeiteQrText(text, onFortschritt, onFehler, onFund) {
     return;
   }
   const ganzText = teil && teil.fertig ? teil.text : text;
+  const jwe = antwortJweAlsUmschlag(ganzText);   // U2-ADR-449: die Antwort als JWE, auch über die QR-Serie
+  if (jwe) { onFund && onFund(); renderAntwortOeffnen(jwe); return; }
   const notfall = parseNotfallQrText(ganzText);
   if (notfall && notfall.zeilen.length) {
     onFund && onFund();
@@ -14261,6 +14622,20 @@ function verarbeiteQrText(text, onFortschritt, onFehler, onFund) {
    Zwei Verfahren, EIN Schirm: das Verfahren steht im Umschlag, nicht in der Wahl des
    Empfängers. Wer hier wählen liesse, liesse falsch wählen. */
 let antwortUmschlag = null;
+/* U2-ADR-449: eine Antwort-JWE als Umschlag für denselben Schirm. Verfahren, Vorgang und Anbieter stehen im geschützten
+   Kopf; `jwe` trägt den ganzen Text, geöffnet wird er nur über antwortJweOeffnen. */
+function antwortJweAlsUmschlag(text) {
+  const kopf = antwortJweKopf(text);
+  if (!kopf) return null;
+  return { jwe: String(text).trim(), verfahren: kopf.alg === 'ECDH-ES' ? 'schluesselpaar' : 'einmalpasswort',
+    vorgang: kopf.vorgang || '', anbieterId: kopf.anbieter || '' };
+}
+async function _antwortOeffnenJeFassung(umschlag, schluessel) {
+  if (umschlag && umschlag.jwe) return JSON.parse((await antwortJweOeffnen(umschlag.jwe, schluessel)).klartext);
+  return schluessel.passwort != null
+    ? antwortEntschluesselnPasswort(umschlag, schluessel.passwort)
+    : antwortEntschluesselnSchluessel(umschlag, schluessel.privateJwk);
+}
 function renderAntwortOeffnen(umschlag) {
   antwortUmschlag = umschlag;
   const wrap = el('app');
@@ -14296,7 +14671,7 @@ function renderAntwortOeffnen(umschlag) {
       e.preventDefault();
       const pw = el('antwort-pw').value;
       try {
-        const ds = await antwortEntschluesselnPasswort(umschlag, pw);
+        const ds = await _antwortOeffnenJeFassung(umschlag, { passwort: pw });
         el('antwort-pw').value = '';
         renderAntwort(ds, umschlag);
       } catch (err) { el('antwort-pw').value = ''; fehler(STRINGS.antwortFalsch); el('antwort-pw').focus(); }
@@ -14311,7 +14686,7 @@ function renderAntwortOeffnen(umschlag) {
         let jwk;
         try { jwk = JSON.parse(String(reader.result)); }
         catch (e2) { fehler(STRINGS.antwortKeyUnlesbar); return; }
-        try { renderAntwort(await antwortEntschluesselnSchluessel(umschlag, jwk), umschlag); }
+        try { renderAntwort(await _antwortOeffnenJeFassung(umschlag, { privateJwk: jwk }), umschlag); }
         catch (e3) { fehler(STRINGS.antwortFalsch); }
       };
       reader.onerror = () => fehler(STRINGS.antwortKeyUnlesbar);
@@ -14328,16 +14703,41 @@ let antwortDatensatz = null;
    ('geprueft' nur bei `verifiziert:true`, d. h. aus einem signiert geprüften Nachweis, U2-ADR-030) — gezeigt wurde es nicht.
    Die Klinik soll sehen, welche Angabe die Person selbst gemacht hat und welche aus einem geprüften Nachweis stammt.
    Probe: tests/lese-app-antwort-herkunft.test.js. */
-function antwortHerkunftHTML(f) {
+function antwortHerkunftHTML(f, statt) {
   const geprueft = f.herkunft === 'geprueft';
   return ' <span class="weg-hint antwort-herkunft" data-herkunft="' + (geprueft ? 'geprueft' : 'eingetragen') + '">' +
-    escapeHTML(geprueft ? STRINGS.antwortHerkunftGeprueft : STRINGS.antwortHerkunftEingetragen) + '</span>';
+    escapeHTML(statt || (geprueft ? STRINGS.antwortHerkunftGeprueft : STRINGS.antwortHerkunftEingetragen)) + '</span>';
 }
-function antwortHerkunftZaehlungHTML(felder, id) {
+/* Der Kopf der Antwort: wer antwortet, in welcher Rolle, auf wessen Anfrage (U2-ADR-437). „für …" nur, wenn die
+   Zeile darunter („Angaben zu …") die vertretene Person nicht ohnehin nennt. */
+function antwortAbsenderSatz(m) {
+  const stelle = m.von || '—';
+  const a = m.absender;
+  const setze = (t, w) => t.replace('{name}', w.name || '').replace('{rolle}', w.rolle || '').replace('{fuer}', w.fuer || '').replace('{stelle}', stelle);
+  if (!a) return setze(STRINGS.antwortAbsenderOhne, {});
+  if (a.rolle === 'kreis' && a.fuer) return setze(STRINGS.antwortAbsenderAusTeil, a);
+  const fuerGenannt = !a.fuer || (m.person && m.person.name === a.fuer);
+  const rolle = a.rolle === 'selbst' ? STRINGS.antwortRolleSelbst
+    : a.rolle === 'bevollmaechtigt' ? (fuerGenannt ? STRINGS.antwortRolleBevollmaechtigt : setze(STRINGS.antwortRolleBevollmaechtigtFuer, a))
+    : (a.rolle === 'teil' && a.fuer) ? setze(STRINGS.antwortRolleTeil, a) : '';
+  return rolle ? setze(STRINGS.antwortAbsenderVon, { name: a.name, rolle }) : setze(STRINGS.antwortAbsenderVonOhneRolle, a);
+}
+/* EINE Aussage über der Liste statt eines Vermerks an jeder Zeile (Kalt-Lesetest 26.09.2026): zehnmal „von der Person angegeben"
+   liest niemand, eine Zeile schon. Einen Vermerk trägt nur die Angabe, die von der Mehrheit abweicht — sind alle gleich, keine.
+   Die Aussage selbst bleibt dieselbe (U2-ADR-030: geprüft nur bei verifiziert:true), nur ihr Ort ändert sich. */
+function antwortHerkunftAbweichung(felder) {
+  const n = felder.filter((f) => f.herkunft === 'geprueft').length;
+  if (!n || n === felder.length) return null;
+  return n * 2 <= felder.length ? 'geprueft' : 'eingetragen';
+}
+function antwortHerkunftZeileHTML(felder, id) {
   if (!felder.length) return '';
   const n = felder.filter((f) => f.herkunft === 'geprueft').length;
-  const satz = n ? STRINGS.antwortHerkunftZaehlung : STRINGS.antwortHerkunftZaehlungKeine;
-  return '<p class="hint" id="' + id + '">' + escapeHTML(satz.replace('{n}', String(n)).replace('{m}', String(felder.length))) + '</p>';
+  const satz = !n ? STRINGS.antwortHerkunftAlleEingetragen
+    : n === felder.length ? STRINGS.antwortHerkunftAlleGeprueft
+      : STRINGS.antwortHerkunftZaehlung.replace('{n}', String(n)).replace('{m}', String(felder.length));
+  return '<p class="antwort-herkunft-zeile" id="' + id + '" data-herkunft="' + (n === felder.length ? 'geprueft' : n ? 'gemischt' : 'eingetragen') + '">'
+    + escapeHTML(satz) + '</p>';
 }
 function renderAntwort(datensatz, umschlag) {
   antwortDatensatz = datensatz;
@@ -14346,29 +14746,30 @@ function renderAntwort(datensatz, umschlag) {
   setModusFarbe('anker');
   wrap.className = 'sheet-screen';
   let h = '<div class="sheet" role="main" id="antwort-blatt">' +
-    '<h1>' + escapeHTML(m.titel) + '</h1>' +
+    '<h1 id="antwort-absender">' + escapeHTML(antwortAbsenderSatz(m)) + antwortHerkunftHTML({ herkunft: m.absender ? m.absender.herkunft : 'eingetragen' },
+      m.absender ? null : STRINGS.antwortAbsenderNichtAngegeben) + '</h1>' +
+    // Wessen Angaben das sind, vor allem anderen (26.09.2026) — nur, wenn die Antwort den Namen trägt.
+    (m.person ? '<p class="antwort-person" id="antwort-person">' + escapeHTML(STRINGS.antwortAngabenZu.replace('{name}', m.person.name))
+      + (m.person.geboren ? ', ' + escapeHTML(STRINGS.antwortGeboren.replace('{datum}', m.person.geboren)) : '') + '</p>' : '') +
     '<p class="hint" id="antwort-meta">' +
-      escapeHTML(STRINGS.antwortVon) + ' ' + escapeHTML(m.von || '—') + ' · ' +
-      escapeHTML(STRINGS.antwortVorgang) + ' ' + escapeHTML(m.vorgang || '—') + '</p>' +
-    '<p id="antwort-zweck"><strong>' + escapeHTML(STRINGS.antwortZweck) + '</strong> ' + escapeHTML(m.zweck || '—') + '</p>' +
-    '<p id="antwort-grundlage"><strong>' + escapeHTML(STRINGS.antwortGrundlage) + '</strong> ' + escapeHTML(m.grundlage || '—') + '</p>';
+      escapeHTML(STRINGS.antwortVorgang) + ' ' + escapeHTML(m.vorgang || '—') + '</p>';
   /* U2-ADR-258 — VOR der Feldliste, nicht danach: der Empfänger soll wissen, woraus die
      folgenden Angaben stammen, bevor er sie liest. Unbedingt, ohne Schalter — auch (und gerade)
      wenn die Angabe fehlt, denn dann gilt das Dokument als ungeprüft und das steht dort. */
   h += herkunftBlockHTML(m.modulHerkunft);
   // U2-ADR-259 — dieselbe Stelle, zweite Angabe, unbedingt wie die Herkunft direkt darüber.
   h += standBlockHTML(m.moduleStand);
+  h += antwortHerkunftZeileHTML(m.felder, 'antwort-herkunft-zaehlung');
+  const abweichung = antwortHerkunftAbweichung(m.felder);
   h += '<ul class="antwort-felder" id="antwort-felder">';
   for (const f of m.felder) {
     h += '<li data-antwort-feld="' + escapeHTML(f.label) + '"><strong>' + escapeHTML(f.label) + ':</strong> ' +
       escapeHTML(f.wert) +
-      (f.zweck ? ' <span class="weg-hint">' + escapeHTML(STRINGS.antwortFeldZweck + ' ' + f.zweck) + '</span>' : '') +
       (f.gueltigBis ? ' <span class="weg-hint">' + escapeHTML(STRINGS.antwortGueltigBis + ' ' + String(f.gueltigBis).slice(0, 10)) + '</span>' : '') +
-      antwortHerkunftHTML(f) +
+      (abweichung && f.herkunft === abweichung ? antwortHerkunftHTML(f) : '') +
       '</li>';
   }
   h += '</ul>';
-  h += antwortHerkunftZaehlungHTML(m.felder, 'antwort-herkunft-zaehlung');
   /* DIE AUSSAGEN ÜBER SICH SELBST — ohne sie hielte der Empfänger fünf von neun Angaben für
      eine vollständige Auskunft. Das ist die teurere Hälfte dieses Blattes. */
   if (!m.vollstaendig) {
@@ -14385,6 +14786,14 @@ function renderAntwort(datensatz, umschlag) {
   if (m.zurueckgehalten) {
     h += '<p id="antwort-zurueckgehalten">' + escapeHTML(STRINGS.antwortZurueckgehalten.replace('{n}', String(m.zurueckgehalten))) + '</p>';
   }
+  /* Wozu und auf welcher Grundlage die Stelle gefragt hat, steht NACH den Angaben, eingeklappt (Kalt-Lesetest 26.09.2026): die Stelle
+     kennt ihre eigene Anfrage, und je Angabe steht ihr Zweck ohnehin darunter. Vor den Angaben bleibt nur die Herkunft (U2-ADR-258). */
+  h += '<details class="antwort-anfrage" id="antwort-anfrage"><summary>' + escapeHTML(STRINGS.antwortIhreAnfrage) + '</summary>' +
+    '<p id="antwort-zweck"><strong>' + escapeHTML(STRINGS.antwortZweck) + '</strong> ' + escapeHTML(m.zweck || '—') + '</p>' +
+    '<p id="antwort-grundlage"><strong>' + escapeHTML(STRINGS.antwortGrundlage) + '</strong> ' + escapeHTML(m.grundlage || '—') + '</p>' +
+    (m.felder.some((f) => f.zweck) ? '<p><strong>' + escapeHTML(STRINGS.antwortFeldZweckeTitel) + '</strong></p><ul class="antwort-zwecke" id="antwort-zwecke">' +
+      m.felder.filter((f) => f.zweck).map((f) => '<li>' + escapeHTML(f.label) + ': ' + escapeHTML(f.zweck) + '</li>').join('') + '</ul>' : '') +
+    '</details>';
   h += '<div class="sheet-aktionen">' +
     '<button type="button" class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button>' +
     '<button type="button" class="btn" id="btn-antwort-weiter">' + escapeHTML(STRINGS.antwortWeitergeben) + '</button>' +
@@ -14425,15 +14834,16 @@ function renderAnlass(datensatz) {
   }
   h += herkunftBlockHTML(m.modulHerkunft);
   h += standBlockHTML(m.moduleStand);
+  h += antwortHerkunftZeileHTML(m.felder, 'anlass-herkunft-zaehlung');
+  const abweichung = antwortHerkunftAbweichung(m.felder);
   h += '<ul class="antwort-felder" id="anlass-felder">';
   for (const f of m.felder) {
     h += '<li data-anlass-feld="' + escapeHTML(f.label) + '"><strong>' + escapeHTML(f.label) + ':</strong> ' + escapeHTML(f.wert) +
       (f.gueltigBis ? ' <span class="weg-hint">' + escapeHTML(STRINGS.antwortGueltigBis + ' ' + String(f.gueltigBis).slice(0, 10)) + '</span>' : '') +
-      antwortHerkunftHTML(f) +
+      (abweichung && f.herkunft === abweichung ? antwortHerkunftHTML(f) : '') +
       '</li>';
   }
   h += '</ul>';
-  h += antwortHerkunftZaehlungHTML(m.felder, 'anlass-herkunft-zaehlung');
   if (m.fehlend.length) {
     h += '<p id="anlass-fehlend"><strong>' + escapeHTML(STRINGS.antwortFehlend) + '</strong> ' +
       escapeHTML(m.fehlend.map((f) => f.label).join(', ')) + '</p>';
@@ -14692,50 +15102,163 @@ function _vorfuehrungLesenStartIndex() {
   const i = n ? AB_WERK_VORFUEHRUNG_LESEN.stationen.findIndex((s) => Number(s.nr) === n) : -1;
   return i >= 0 ? i : 0;
 }
-function _vorfuehrungLesenZeigen(index) {
+function _vorfuehrungLesenZeigen(index, zurueck) {
   const n = AB_WERK_VORFUEHRUNG_LESEN;
   _vorfuehrungLesenIndex = index;
   const st = n.stationen[index];
-  renderAntwort(JSON.parse(JSON.stringify(n.antwort)), n.umschlag || { vorgang: '' });
+  if (st.ansicht === 'anfrage') {
+    // Die Anfrage der Stelle, bevor es eine Antwort gibt: was sie fragt und wozu (Kalt-Lesetest 26.09.2026, chronologisch).
+    const wrap = el('app');
+    wrap.className = 'sheet-screen';
+    wrap.innerHTML = _vorfuehrungLesenAnfrageHTML(n);
+  } else if (st.szene) {
+    // Die Szene (26.09.2026): vor der ersten Ansicht wissen, wer die Person ist, was geschehen ist und wer man selbst ist.
+    const wrap = el('app');
+    wrap.className = 'sheet-screen';
+    wrap.innerHTML = '<div class="sheet vorfuehrung-szene-blatt" role="main" id="vorfuehrung-szene-blatt"><p class="vorfuehrung-szene">'
+      + escapeHTML(st.szene) + '</p></div>';
+  } else {
+    renderAntwort(JSON.parse(JSON.stringify(n.antwort)), n.umschlag || { vorgang: '' });
+  }
   const blatt = document.getElementById('antwort-blatt');
   if (blatt && st.hervorheben === 'herkunft') blatt.classList.add('vorfuehrung-herkunft');
-  for (const label of (st.hervorhebenFelder || [])) {
-    const li = blatt && Array.from(blatt.querySelectorAll('[data-antwort-feld]')).find((x) => x.getAttribute('data-antwort-feld') === label);
-    if (li) li.classList.add('vorfuehrung-hervor');
+  // Was die Stelle mit der Antwort tut: die Weitergabe in ihre eigene Software (Kalt-Lesetest 26.09.2026, „Was die Klinik davon hat“).
+  // Hervorgehoben wird der eine Knopf, nicht die Leiste — ein Rahmen um die leere Fläche daneben las sich wie ein Eingabefeld.
+  if (blatt && st.hervorheben === 'aktionen') { const a = blatt.querySelector('#btn-antwort-weiter'); if (a) a.classList.add('vorfuehrung-hervor'); }
+  // Nach der Stelle in der Antwort, nicht nach der Beschriftung: zwei Angaben können gleich heißen („Ablageort").
+  const angaben = blatt ? Array.from(blatt.querySelectorAll('[data-antwort-feld]')) : [];
+  for (const i of (st.hervorhebenStellen || [])) if (angaben[i]) angaben[i].classList.add('vorfuehrung-hervor');
+  // Die erste Ansicht sagt in einer Sekunde, wer schaut, was er sieht und was es ihm bringt (26.09.2026): ein Kopf
+  // und, im Fokus, nur die hervorgehobenen Angaben in EINEM Rahmen — keine Textwand, nicht mitten in die Liste gescrollt.
+  if (blatt && st.kopf) {
+    const kopf = document.createElement('p');
+    kopf.className = 'vorfuehrung-kopf';
+    kopf.textContent = st.kopf;
+    blatt.insertBefore(kopf, blatt.firstChild);
   }
+  if (blatt && st.fokus) blatt.classList.add('vorfuehrung-fokus');
   let karte = document.getElementById('vorfuehrung-schleife');
   if (!karte) { karte = document.createElement('div'); karte.id = 'vorfuehrung-schleife'; document.body.appendChild(karte); }
   const gesamt = Number(n.gesamt) || n.stationen.length;
   const nr = Number(st.nr) || (index + 1);
-  const hatZurueck = nr > 1;
-  const hatWeiter = nr < gesamt;
-  karte.innerHTML = '<div class="vorfuehrung-karte" role="region" aria-live="polite">'
-    + '<p class="vorfuehrung-schritt" id="vorfuehrung-schritt">' + escapeHTML((_vorfuehrungLesenText('schrittVon') || '{n} / {m}').replace('{n}', String(st.nr || index + 1)).replace('{m}', String(gesamt))) + '</p>'
-    + (st.titel ? '<p class="vorfuehrung-karte-titel">' + escapeHTML(st.titel) + '</p>' : '')
-    + '<p class="vorfuehrung-karte-text">' + escapeHTML(st.text || '') + '</p>'
-    + '<div class="vorfuehrung-leiste">'
-    + '<button type="button" class="btn btn-sek" id="vorfuehrung-zurueck"' + (hatZurueck ? '' : ' disabled') + '>' + escapeHTML(_vorfuehrungLesenText('zurueck')) + '</button>'
-    + (hatWeiter ? '<button type="button" class="btn" id="vorfuehrung-vor">' + escapeHTML(_vorfuehrungLesenText('weiter')) + '</button>' : '')
-    + '<button type="button" class="btn btn-sek vorfuehrung-selbst" id="vorfuehrung-selbst">' + escapeHTML(_vorfuehrungLesenText('selbstAusprobieren')) + '</button>'
-    + '</div></div>';
+  // Die Spalte „Die Situation" — dieselbe Form wie im Kern (_vorfuehrungSpalteHTML, U2-ADR-413 Nachtrag (3)); die Texte kommen aus der Demo.
+  karte.innerHTML = _vorfuehrungLesenSpalteHTML(n, st, nr, gesamt);
   // Nach der globalen Nummer, wie im Kern (vorfuehrungSchritt): hier, wenn die Seite den Schritt trägt, sonst seine Adresse.
+  // Rückwärts zeigt die Zielseite keine Zwischenkarte (`&zurueck=1`).
   const schritt = (r) => {
     const ziel = nr + r;
     const hier = n.stationen.findIndex((s) => Number(s.nr) === ziel);
-    if (hier >= 0) { _vorfuehrungLesenZeigen(hier); return; }
+    if (hier >= 0) { _vorfuehrungLesenZeigen(hier, r < 0); return; }
     const adresse = (n.schrittAdressen || [])[ziel - 1];
-    if (adresse) window.location.href = adresse;
+    if (adresse) window.location.href = adresse + (r < 0 ? '&zurueck=1' : '');
   };
+  const wurzel = document.documentElement;
+  wurzel.classList.add('vorfuehrung-hand');
   el('vorfuehrung-zurueck').onclick = () => schritt(-1);
   if (el('vorfuehrung-vor')) el('vorfuehrung-vor').onclick = () => schritt(1);
   el('vorfuehrung-selbst').onclick = () => {
     if (st.selbst) { window.location.href = st.selbst; return; }
-    karte.remove(); document.documentElement.style.removeProperty('--vorfuehrung-band');
+    karte.remove(); wurzel.classList.remove('vorfuehrung-hand'); wurzel.style.removeProperty('--vorfuehrung-oben');
   };
-  try { const h = karte.getBoundingClientRect().height; if (h > 0) document.documentElement.style.setProperty('--vorfuehrung-band', Math.ceil(h) + 'px'); } catch (_) {}
-  // Was der Schritt hervorhebt, steht im Blick — nicht unter der Karte.
-  const erste = document.querySelector('#antwort-blatt .vorfuehrung-hervor') || (st.hervorheben === 'herkunft' ? document.querySelector('#antwort-blatt .antwort-herkunft') : null);
+  el('vorfuehrung-ueberblick').onclick = () => {
+    const spalte = karte.querySelector('.vorfuehrung-spalte');
+    const offen = !spalte.classList.contains('offen');
+    spalte.classList.toggle('offen', offen);
+    el('vorfuehrung-ueberblick').setAttribute('aria-expanded', String(offen));
+  };
+  // Breit liegt die Spalte links; schmal schiebt der eingeklappte Block die Antwort nach unten.
+  const messen = () => {
+    try {
+      const spalte = karte.querySelector('.vorfuehrung-spalte');
+      if (!spalte || spalte.classList.contains('offen')) return;
+      const breit = window.matchMedia && window.matchMedia('(min-width: 1100px)').matches;
+      wurzel.style.setProperty('--vorfuehrung-oben', (breit ? 26 : 26 + Math.ceil(spalte.getBoundingClientRect().height)) + 'px');
+    } catch (_) {}
+  };
+  messen();
+  _vorfuehrungLesenWechsel(st, zurueck);
+  if (!_vorfuehrungLesenHorcht) { _vorfuehrungLesenHorcht = true; window.addEventListener('resize', () => { if (document.getElementById('vorfuehrung-schleife')) messen(); }); }
+  // Was der Schritt hervorhebt, steht im Blick. Im Fokus und ohne Hervorhebung: von oben.
+  const erste = st.fokus ? null : (document.querySelector('#antwort-blatt .vorfuehrung-hervor') || (st.hervorheben === 'herkunft' ? document.querySelector('#antwort-blatt .antwort-herkunft') : null));
   if (erste && erste.scrollIntoView) { try { erste.scrollIntoView({ block: 'center' }); } catch (_) { erste.scrollIntoView(); } }
+  else { try { window.scrollTo(0, 0); } catch (_) {} }
+  // Im Fokus: der Rahmen ganz zu sehen — auf dem Handy nur so weit gescrollt, dass er unten endet.
+  if (st.fokus) {
+    try {
+      const rahmen = document.getElementById('antwort-felder');
+      const unten = rahmen ? rahmen.getBoundingClientRect().bottom : 0;
+      const frei = window.innerHeight - 12;
+      if (unten > frei) window.scrollBy(0, unten - frei);
+    } catch (_) {}
+  }
+}
+let _vorfuehrungLesenHorcht = false;
+/* Die ruhige Zwischenkarte beim Rollenwechsel (Kalt-Lesetest 26.09.2026): „Jetzt wechseln Sie die Seite" und die neue Rolle, über der
+   Ansicht; erst „Weiter" gibt die Ansicht frei. Nur vorwärts — wer zurückgeht, kennt die Seite schon. Dieselbe Form im Kern. */
+function _vorfuehrungLesenWechsel(st, zurueck) {
+  const alt = document.getElementById('vorfuehrung-wechsel');
+  if (alt) alt.remove();
+  if (!st.wechsel || zurueck || !st.rolle) return;
+  const t = _vorfuehrungLesenText;
+  const k = document.createElement('div');
+  k.id = 'vorfuehrung-wechsel';
+  k.className = 'vorfuehrung-wechsel vorfuehrung-spalte--' + (st.rolle.art === 'empfaenger' ? 'empfaenger' : 'vollmacht');
+  k.setAttribute('role', 'dialog');
+  k.setAttribute('aria-modal', 'true');
+  const satz = typeof st.wechsel === 'string' ? st.wechsel : t('wechsel');
+  k.innerHTML = '<div class="vorfuehrung-wechsel-karte"><p class="vorfuehrung-wechsel-satz">' + escapeHTML(satz) + '</p>'
+    + '<p class="vorfuehrung-rolle-text">' + escapeHTML(st.rolle.text) + '</p>'
+    + '<button type="button" class="btn" id="vorfuehrung-wechsel-weiter">' + escapeHTML(t('weiter')) + '</button></div>';
+  document.body.appendChild(k);
+  el('vorfuehrung-wechsel-weiter').onclick = () => k.remove();
+  try { el('vorfuehrung-wechsel-weiter').focus(); } catch (_) {}
+}
+function _vorfuehrungLesenAnfrageHTML(n) {
+  const a = n.anfrage || { von: '', zweck: '', felder: [] };
+  const t = _vorfuehrungLesenText;
+  const bekannt = {};
+  for (const f of ((n.antwort && n.antwort.felder) || []).concat((n.antwort && n.antwort.fehlend) || [])) if (f && f.kennung) bekannt[f.kennung] = f.label || f.kennung;
+  for (const f of a.felder || []) if (f && f.kennung && f.label && !bekannt[f.kennung]) bekannt[f.kennung] = f.label;
+  const label = (k) => (ANTWORT_BESCHRIFTUNG[k] && STRINGS[ANTWORT_BESCHRIFTUNG[k]]) || bekannt[k] || k;
+  /* Diese Ansicht ist KEIN Bildschirm des Produkts (28.09.2026): die Lese-App kennt ausgehende Anfragen nicht, die Stelle sieht ihre
+     Anfrage nur beim Erzeugen. Darum sagt die Ansicht es zuoberst selbst. */
+  return '<div class="sheet vorfuehrung-anfrage-blatt" role="main" id="vorfuehrung-anfrage-blatt">'
+    + '<p class="vorfuehrung-nicht-produkt" id="vorfuehrung-nicht-produkt">' + escapeHTML(t('anfrageNichtProdukt')) + '</p>'
+    + '<h1>' + escapeHTML(t('anfrageTitel')) + '</h1>'
+    + '<p class="antwort-person">' + escapeHTML(a.von || '') + '</p>'
+    + '<p><strong>' + escapeHTML(STRINGS.antwortZweck) + '</strong> ' + escapeHTML(a.zweck || '') + '</p>'
+    // Die Liste bekommt eine Überschrift mit ihrer Länge („Die Klinik fragt: 16 Angaben“, Durchsicht 28.09.2026).
+    + '<h2 class="vorfuehrung-anfrage-gefragt">' + escapeHTML(t('anfrageGefragt').replace('{n}', String((a.felder || []).length))) + '</h2>'
+    + '<ul class="antwort-felder" id="vorfuehrung-anfrage-felder">'
+    + (a.felder || []).map((f) => '<li><strong>' + escapeHTML(label(f.kennung)) + '</strong>'
+      + (f.zweck ? '<span class="anfrage-wozu">' + escapeHTML(f.zweck) + '</span>' : '') + '</li>').join('')
+    + '</ul></div>';
+}
+function _vorfuehrungLesenSpalteHTML(n, st, nr, gesamt) {
+  const t = _vorfuehrungLesenText;
+  const rolle = st.rolle && st.rolle.text ? st.rolle : null;
+  const titel = Array.isArray(n.schrittTitel) && n.schrittTitel.length ? n.schrittTitel : null;
+  const aktuell = '<p class="vorfuehrung-karte-titel">' + escapeHTML(st.titel || '') + '</p><p class="vorfuehrung-karte-text">' + escapeHTML(st.text || '') + '</p>';
+  const liste = titel
+    ? titel.map((x, i) => (i + 1 === nr
+      ? '<li class="aktiv" aria-current="step"><span class="vorfuehrung-schritt-nr">' + (i + 1) + '</span><div>' + aktuell + '</div></li>'
+      : '<li><span class="vorfuehrung-schritt-nr">' + (i + 1) + '</span><span class="vorfuehrung-schritt-titel">' + escapeHTML(x) + '</span></li>')).join('')
+    : '<li class="aktiv" aria-current="step"><span class="vorfuehrung-schritt-nr">' + nr + '</span><div>' + aktuell + '</div></li>';
+  // Schritt 1: die Situation steht auch eingeklappt da, auf zwei Zeilen gekürzt — die Ansicht bleibt über dem Falz (Kalt-Lesetest 26.09.2026).
+  const erster = nr === 1;
+  return '<div class="vorfuehrung-karte vorfuehrung-spalte vorfuehrung-spalte--' + (rolle && rolle.art !== 'empfaenger' ? 'vollmacht' : 'empfaenger')
+    + (erster ? ' erster' : '') + '" role="region" aria-live="polite">'
+    // Wer man gerade ist, steht zuoberst (Durchsicht 28.09.2026: „Wer bin ich?“), dann erst die Lage — wie im Kern.
+    + (rolle ? '<p class="vorfuehrung-rolle-text">' + escapeHTML(rolle.text) + '</p>' : '')
+    + (n.situation ? '<p class="vorfuehrung-situation-titel">' + escapeHTML(t('situationTitel')) + '</p><p class="vorfuehrung-situation">' + escapeHTML(n.situation) + '</p>' : '')
+    + '<p class="vorfuehrung-schritt"><span id="vorfuehrung-schritt">' + escapeHTML((t('schrittVon') || '{n} / {m}').replace('{n}', String(nr)).replace('{m}', String(gesamt)))
+    + '</span> <button type="button" class="vorfuehrung-ueberblick" id="vorfuehrung-ueberblick" aria-expanded="false">' + escapeHTML(t('ueberblick')) + '</button></p>'
+    + '<ol class="vorfuehrung-schritte">' + liste + '</ol>'
+    + '<div class="vorfuehrung-leiste">'
+    + '<button type="button" class="btn btn-sek" id="vorfuehrung-zurueck"' + (nr > 1 ? '' : ' disabled') + '>' + escapeHTML(t('zurueck')) + '</button>'
+    + (nr < gesamt ? '<button type="button" class="btn" id="vorfuehrung-vor">' + escapeHTML(t('weiter')) + '</button>' : '')
+    + '<button type="button" class="btn btn-sek vorfuehrung-selbst" id="vorfuehrung-selbst">' + escapeHTML(t('selbstAusprobieren')) + '</button>'
+    + '</div></div>';
 }
 function vorfuehrungLesenStarten() {
   // Die Demo spricht die Sprache, in der sie gebaut ist — nicht die des Browsers (wie der Umschlag, nur im Speicher).
@@ -14744,7 +15267,7 @@ function vorfuehrungLesenStarten() {
   s.id = 'vorfuehrung-streifen'; s.setAttribute('role', 'note'); s.textContent = _vorfuehrungLesenText('streifen');
   document.body.appendChild(s);
   document.documentElement.classList.add('vorfuehrung');
-  _vorfuehrungLesenZeigen(_vorfuehrungLesenStartIndex());
+  _vorfuehrungLesenZeigen(_vorfuehrungLesenStartIndex(), /[?&]zurueck=1/.test(String((window.location && window.location.search) || '')));
 }
 
 /* ── Boot ─────────────────────────────────────────────────────────────────── */

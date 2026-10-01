@@ -28,7 +28,7 @@ const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 49;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
+const DECKEL = 50;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
                      // 42 → 43 am 26.09.2026: build-datum-lockstep, öffentlich ein einziger Commit vom Tag der Veröffentlichung
                      // 43 → 44 am 26.09.2026: hooks-eigener-baum-suite, öffentlich ohne eingerichtete Hooks (GIT)
                      // 44 → 45 am 27.09.2026 (Gegenlesung erteilt): hooks-eigener-baum-suite entfällt (die Datei hält der require-
@@ -41,8 +41,16 @@ const DECKEL = 49;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der
                      //   Workflows bleibt öffentlich, ihr Rot-Beweis läuft an einem erfundenen Ausschnitt (BESTAND)
                      // 46 → 49 am 28.09.2026 (Gegenlesung erteilt): drei Rot-Beweise mit privatem Commit (GIT), gefunden von npm test im
                      //   Zuschnitt v818; die Klasse hält die Suite-Probe [Zuschnitt·Git-Historie]
+                     // 49 → 50 am 01.10.2026 (Gegenlesung erteilt): pre-commit-adr-referenzen-billig, die Gegenprobe fährt das Gate
+                     //   über alle ADR-Referenzen des Bestands; öffentlich fehlen zurückgehaltene ADRs (BESTAND), gefunden von
+                     //   npm test im Zuschnitt v843
 
 const NUR_PRIVAT = {
+  // 01.10.2026 (Gegenlesung erteilt): das Gate prüft jede ADR-Referenz des ganzen Bestands gegen docs/adr/; im Zuschnitt
+  // fehlen die zurückgehaltenen ADRs. Der Rot-Beweis daneben bleibt öffentlich (er braucht nur die erfundene Nummer).
+  "tests/pre-commit-adr-referenzen-billig.test.js": { grund: BESTAND, tests: [
+    "[pre-commit·billig·Gegenprobe] eine Reservierungsliste ohne ADR-Nummer im zweck-Text ist grün",
+  ] },
   // 28.09.2026 (Gegenlesung erteilt): drei Rot-Beweise holen per `git show` einen Stand, den nur die private Geschichte
   // trägt — gefunden von npm test im Zuschnitt v818; die Klasse hält eine eigene Suite-Probe (Zuschnitt·Git-Historie).
   "tests/code-listen-freigabe.test.js": { grund: GIT, tests: [

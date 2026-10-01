@@ -1,0 +1,217 @@
+{
+  "stand": "16.09.2026 — jede Stelle, die SEKTOR_BY_ID liest, eingeordnet. anzeige: darf lesen, mit Grund. fund: eine bekannte Datenfrage, die den Anzeige-Index noch liest — darf nur verschwinden.",
+  "stellen": {
+    "_bereichAusBuendelErzeugen": {
+      "art": "anzeige",
+      "grund": "Pflegt den Index, wenn ein Bündel einen Bereich erzeugt."
+    },
+    "_bereicheVerwaisteRetten": {
+      "art": "fund",
+      "grund": "Verwaisungs-Rettung liest den Anzeige-Index — zu prüfen, ob ruhende Bereiche als verwaist gelten könnten."
+    },
+    "_bereichsErsatzFelderLebendigMachen": {
+      "art": "anzeige",
+      "grund": "Boot eines Ersatzbereichs, der im Index steht (Pro-Bereiche), keine Bürger-Bereiche."
+    },
+    "_camt053Listen": {
+      "art": "fund",
+      "grund": "Einlese-Weg (Etappe 2g, Weglassen): verweigert den Import in einen ruhenden Bereich — hängt an der offenen Produktfrage Weckung beim Schreiben."
+    },
+    "_codeListeLabelLesen": {
+      "art": "fund",
+      "grund": "Beschriftung eines Code-Listen-Werts — Datenfrage."
+    },
+    "_elsterFelder": {
+      "art": "fund",
+      "grund": "Einlese-Weg (Etappe 2g): wie _camt053Listen."
+    },
+    "_faltContainer": {
+      "art": "fund",
+      "grund": "Umzug gefalteter Container prüft den Anzeige-Index — Datenfrage, nicht näher geklärt."
+    },
+    "_fhirIpsFelder": {
+      "art": "fund",
+      "grund": "Einlese-Weg (Etappe 2g): wie _camt053Listen."
+    },
+    "_lageBlattSpeichern": {
+      "art": "fund",
+      "grund": "Speichert ein Lage-Blatt nur in gezeigte Bereiche — hängt an der Weckungsfrage."
+    },
+    "_liesSektorWertText": {
+      "art": "fund",
+      "grund": "Wert-Text eines Feldes — Datenfrage."
+    },
+    "_pvFestlegungenSektionAbleiten": {
+      "art": "anzeige",
+      "grund": "Schreibt die abgeleitete Sektion der PV-Festlegungen in das angezeigte Bereichsobjekt; ruht advanceCare in Pro, kehrt es zurück, und der B12-Weg ruft es beim Nachreichen mit dem Bereich auf (28.09.2026)."
+    },
+    "_pvwizEigeneSchritte": {
+      "art": "fund",
+      "grund": "Assistenten-Schritte fragen, ob advanceCare gezeigt wird — Datenfrage oder Produktentscheidung, nicht geklärt."
+    },
+    "_referenzStellen": {
+      "art": "fund",
+      "grund": "Sucht Verweise auf eine Person nur in gezeigten Bereichen — ruhende Bereiche fehlen beim Zählen."
+    },
+    "_sektorAusKatalog": {
+      "art": "anzeige",
+      "grund": "Die Katalog-Auflösung: der Anzeige-Index ist nur der schnelle erste Treffer, danach SEKTOREN und die Registry."
+    },
+    "_sektorIndexNeuBauen": {
+      "art": "anzeige",
+      "grund": "Baut den Index; gibt ihn zurück."
+    },
+    "_statuskarteNachziehen": {
+      "art": "anzeige",
+      "grund": "Zieht die Statuskarte des aktiven, also gezeigten Bereichs nach."
+    },
+    "_unstimmigeFelderAusPaaren": {
+      "art": "fund",
+      "grund": "Prüft Unstimmigkeiten nur in gezeigten Bereichen — Datenfrage."
+    },
+    "_vcardIdentitaetFelder": {
+      "art": "fund",
+      "grund": "Einlese-Weg (Etappe 2g): wie _camt053Listen."
+    },
+    "_wizardZielAufloesbar": {
+      "art": "fund",
+      "grund": "Modul-Prüfung eines Assistenten-Ziels — dieselbe Klasse wie die Modul-Prüfung (R1)."
+    },
+    "akutZeileHTML": {
+      "art": "anzeige",
+      "grund": "Rendert eine Zeile der Akut-Ansicht."
+    },
+    "anlassPdfModell": {
+      "art": "fund",
+      "grund": "Ausgabe-Modell eines Anlasses — Datenfrage."
+    },
+    "bearbeitungSpeichern": {
+      "art": "anzeige",
+      "grund": "Speichert eine Bearbeitung aus der Oberfläche; bearbeitet wird nur, was gezeigt wird."
+    },
+    "buergermodulBuendelAnwenden": {
+      "art": "anzeige",
+      "grund": "Bündel-Aufbau beim Booten: legt fehlende Bereiche im Index an."
+    },
+    "buergermodulSektorErsetzen": {
+      "art": "anzeige",
+      "grund": "Bündel-Aufbau beim Booten: ersetzt einen Bereich im Index."
+    },
+    "crossRefFeldUndRoh": {
+      "art": "fund",
+      "grund": "Kreuzverweis Feld und Rohwert (Befund S3 der Schranke 2)."
+    },
+    "depotNormalisieren": {
+      "art": "fund",
+      "grund": "Beschriftung beim Normalisieren — Datenfrage."
+    },
+    "dokumentPanelHTML": {
+      "art": "anzeige",
+      "grund": "Rendert das Dokumenten-Panel eines gezeigten Bereichs."
+    },
+    "exportUebersichtModell": {
+      "art": "fund",
+      "grund": "Ausgabe-Übersicht — Datenfrage."
+    },
+    "exportUnstimmigeFelder": {
+      "art": "fund",
+      "grund": "Ausgabe: unstimmige Felder — Datenfrage."
+    },
+    "flowBereichPdf": {
+      "art": "anzeige",
+      "grund": "Oberflächen-Ablauf für einen gezeigten Bereich; das Modell selbst fragt den Katalog (bereichVollModell)."
+    },
+    "flowEinlesen": {
+      "art": "anzeige",
+      "grund": "Dialogtitel beim Einlesen."
+    },
+    "flowHerausgeben": {
+      "art": "anzeige",
+      "grund": "Oberflächen-Ablauf Herausgeben eines gezeigten Bereichs."
+    },
+    "institutionReferenzStellen": {
+      "art": "fund",
+      "grund": "Wie _referenzStellen, für Institutionen."
+    },
+    "katalogFremdeFelder": {
+      "art": "fund",
+      "grund": "Fremde Felder im Katalog — Datenfrage."
+    },
+    "kennungPruefen": {
+      "art": "fund",
+      "grund": "Prüft, ob eine Kennung existiert — Datenfrage (dieselbe Klasse wie K2)."
+    },
+    "lageBerichteteBereiche": {
+      "art": "anzeige",
+      "grund": "Anzeige der berichteten Bereiche (Kommentar an der Stelle: Drift fängt der Katalog-Wächter)."
+    },
+    "lebenslageAlsBlatt": {
+      "art": "fund",
+      "grund": "Titel im Lebenslagen-Blatt — Datenfrage."
+    },
+    "mappeBereichLabel": {
+      "art": "fund",
+      "grund": "Bereichs-Beschriftung in der Mappe: Dokumente eines ruhenden Bereichs stehen dort mit Rohkennung."
+    },
+    "nichtInstrumentSprunglisteHTML": {
+      "art": "anzeige",
+      "grund": "Rendert eine Sprungliste."
+    },
+    "notfallKernModell": {
+      "art": "fund",
+      "grund": "Notfallkern — Datenfrage (Befund S3 der Schranke 2)."
+    },
+    "oberste Ebene: SEKTOR_BY_ID": {
+      "art": "anzeige",
+      "grund": "Die Deklaration des Index selbst."
+    },
+    "oberste Ebene: kernAPI": {
+      "art": "anzeige",
+      "grund": "Navigation in `kernAPI` (öffnet einen Bereich, wenn er gezeigt wird)."
+    },
+    "prueftermineDokumente": {
+      "art": "fund",
+      "grund": "Prüftermine von Dokumenten — Datenfrage."
+    },
+    "prueftermineDokumenteOhneTermin": {
+      "art": "fund",
+      "grund": "Wie prueftermineDokumente."
+    },
+    "renderSektor": {
+      "art": "anzeige",
+      "grund": "Rendert den gezeigten Bereich und seine Rückweg-Verweise."
+    },
+    "renderSituation": {
+      "art": "anzeige",
+      "grund": "Rendert eine Situation."
+    },
+    "situationModell": {
+      "art": "fund",
+      "grund": "Situations-Modell — Datenfrage."
+    },
+    "situationSektorZeileHTML": {
+      "art": "anzeige",
+      "grund": "Rendert eine Situationszeile."
+    },
+    "vorleseTextAktuell": {
+      "art": "anzeige",
+      "grund": "Vorlesen der aktuellen Ansicht."
+    },
+    "vorleseTextSektor": {
+      "art": "anzeige",
+      "grund": "Vorlesen eines gezeigten Bereichs."
+    },
+    "wizardAbbrechen": {
+      "art": "anzeige",
+      "grund": "Navigation nach dem Abbruch eines Assistenten."
+    },
+    "wizardZielBereichNamen": {
+      "art": "anzeige",
+      "grund": "Beschriftung des Ziels im Assistenten (Oberfläche)."
+    },
+    "zusammenstellenTreffer": {
+      "art": "fund",
+      "grund": "Treffer beim Zusammenstellen zum Herausgeben — Datenfrage."
+    }
+  }
+}

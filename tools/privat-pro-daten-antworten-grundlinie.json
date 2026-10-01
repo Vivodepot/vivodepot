@@ -1,0 +1,5 @@
+{
+  "stand": "28.09.2026, am Kanon-Stand b136d264f (v814) neu erhoben; mit v815 (ruhende Bürger-Bereiche lesen den Katalog) ohne Fund in de und en, voll und leer. Die 174 B2-Schlüssel sind mit diesem Fix gefallen.",
+  "hinweis": "Jeder Schlüssel ist SPRACHE SZENARIO FUNKTION @ BEREICH. Ein behobener Befund macht die Probe rot, bis seine Schlüssel hier entfernt sind.",
+  "funde": {}
+}

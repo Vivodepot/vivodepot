@@ -152,10 +152,11 @@ const EXPORT_HOOK = `
   ANTWORT_FORMAT_ID, ANTWORT_FORMAT_VERSION, ANTWORT_VERFAHREN, ANTWORT_ECDH_KURVE,
   ANTWORT_HKDF_INFO, ANTWORT_PBKDF2_ITERATIONEN, _antwortAad,
   antwortEntschluesselnPasswort, antwortEntschluesselnSchluessel, istAntwortUmschlag,
+  antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C,
   antwortAnzeigeModell, qrTeileZusammensetzen,
   renderAntwortOeffnen, renderAntwort, antwortWeitergeben, anlassAnzeigeModell, renderAnlass,
   renderKamera, kameraStoppen, kameraMoeglich, kameraLeserMoeglich,
-  feldEingetragen, feldWertText, listenEintragZusammenfassung, entitaetAnzeige,
+  feldEingetragen, feldWertText, listenEintragZusammenfassung, _unterfeldLabelLesen, entitaetAnzeige,
   // Angedockte Template-Felder (U2-ADR-037) — Adapter und Gruppierung, seit 17.08.2026
   // mit Code- und Optionen-Aufloesung (Zug 1 „Die Empfaengerseite").
   _tplDefAlsFeld, _tplAbschnitte,
@@ -174,6 +175,8 @@ const EXPORT_HOOK = `
   ZUSICHERUNGS_SCHLUESSEL_LESEN: (typeof ZUSICHERUNGS_SCHLUESSEL_LESEN !== 'undefined' ? ZUSICHERUNGS_SCHLUESSEL_LESEN : undefined),
   ZUSICHERUNG_TEXTE_EN: (typeof ZUSICHERUNG_TEXTE_EN !== 'undefined' ? ZUSICHERUNG_TEXTE_EN : undefined),
   LESE_TEXTE_EN: (typeof LESE_TEXTE_EN !== 'undefined' ? LESE_TEXTE_EN : undefined),
+  ANTWORT_BESCHRIFTUNG: (typeof ANTWORT_BESCHRIFTUNG !== 'undefined' ? ANTWORT_BESCHRIFTUNG : undefined),
+  ANTWORT_WERT: (typeof ANTWORT_WERT !== 'undefined' ? ANTWORT_WERT : undefined),
   _textsatzModuleBelegPruefen: (typeof _textsatzModuleBelegPruefen !== 'undefined' ? _textsatzModuleBelegPruefen : undefined),
   bereicheSichtbarLesen: (typeof bereicheSichtbarLesen !== 'undefined' ? bereicheSichtbarLesen : undefined),
   HILFE_LESEN_FRAGEN: (typeof HILFE_LESEN_FRAGEN !== 'undefined' ? HILFE_LESEN_FRAGEN : undefined),

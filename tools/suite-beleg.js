@@ -36,15 +36,22 @@ function belegVerzeichnis() {
   return path.join(path.resolve(git(['rev-parse', '--git-common-dir'])), 'vd-suite-belege');
 }
 
+/* Ein Beleg zählt nur, wenn er von einer VOLLEN Suite stammt (28.09.2026, Schnellstufe im pre-commit): ein Eintrag mit
+   `stufe` ungleich „voll" wird nicht anerkannt — die Schnellstufe schreibt keinen, und schriebe sie einen, fährt der
+   pre-push trotzdem voll. Ältere Belege ohne `stufe` stammen aus der Zeit, als der pre-commit immer voll fuhr. */
 function belegVorhanden(tree, belegDir = belegVerzeichnis()) {
-  return /^[0-9a-f]{40,64}$/.test(tree) && fs.existsSync(path.join(belegDir, tree));
+  if (!/^[0-9a-f]{40,64}$/.test(tree)) return false;
+  const pfad = path.join(belegDir, tree);
+  if (!fs.existsSync(pfad)) return false;
+  try { const b = JSON.parse(fs.readFileSync(pfad, 'utf8')); return !b.stufe || b.stufe === 'voll'; }
+  catch (_) { return false; }
 }
 
 function belegSchreiben(tree, hook, belegDir = belegVerzeichnis()) {
   if (!/^[0-9a-f]{40,64}$/.test(tree)) throw new Error('kein Baum-Hash: ' + tree);
   const dir = belegDir;
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, tree), JSON.stringify({ tree, hook, geschriebenAm: new Date().toISOString() }) + '\n');
+  fs.writeFileSync(path.join(dir, tree), JSON.stringify({ tree, hook, stufe: 'voll', geschriebenAm: new Date().toISOString() }) + '\n');
 }
 
 function arbeitsbaumSauber() {

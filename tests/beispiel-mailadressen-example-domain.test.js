@@ -69,6 +69,7 @@ const RESERVIERT = /(^|\.)(example|invalid|test|localhost)$|(^|\.)example\.(de|o
 const ADRESSE = /[A-Za-z0-9_%+-](?:[A-Za-z0-9._%+-]*[A-Za-z0-9_%+-])?@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,})/g;
 const AUSNAHMEN_TESTS = [
   { praefix: 'tests/fixtures/edci-europass-', grund: 'amtliche Europass-Musterdateien der EU, unverändert als Eingabe geprüft' },
+  { praefix: 'tests/fixtures/ob3-', grund: 'Testdateien des offiziellen 1EdTech-Prüfers (Apache-2.0), unverändert als Eingabe geprüft — U2-ADR-445, ob3-QUELLE.md' },
   { adresse: 'bestellung@bzga.de', grund: 'Bestelladresse einer Bundesbehörde im amtlichen Wortlaut (BMJ-Textbausteine)' },
   { domain: 'vivodepot.de', grund: 'eigene Funktionsadressen' },
 ];

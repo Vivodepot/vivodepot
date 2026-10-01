@@ -38,7 +38,9 @@ Die Authentizität des Trust-Authority-Schlüssels kann an mehreren, voneinander
 
 ### 2.1 Repository
 
-Diese `SECURITY.md` trägt den Fingerprint (Abschnitt 1). Wer ihn gegen den in der Vivodepot-Datei eingebetteten Schlüssel hält, prüft beide gegeneinander. Signierte Release-Tags gibt es noch nicht; sobald es sie gibt, steht hier, womit sie geprüft werden.
+Diese `SECURITY.md` trägt den Fingerprint (Abschnitt 1). Wer ihn gegen den in der Vivodepot-Datei eingebetteten Schlüssel hält, prüft beide gegeneinander. Jeder Stand im öffentlichen Repository trägt den annotierten Tag `v1.0.<Fassung>`. Die Tags sind nicht signiert; welche ausgelieferte Datei zu welcher Fassung gehört, belegt ihr SHA-256 in Abschnitt 8. Signierte Release-Tags folgen mit einer späteren Fassung.
+
+Wie Fassungen erscheinen und wie lange sie unterstützt werden, steht in [`docs/release-planung.md`](docs/release-planung.md).
 
 ### 2.2 Prüfsummen je Fassung
 
@@ -182,10 +184,15 @@ beide gleich (`tools/fassungen-register.js --check`).
 
 Der Fingerabdruck ist der SHA-256 der Datei, wie sie ausgeliefert wurde. Prüfen: `shasum -a 256 <datei>`
 (macOS/Linux) oder `certutil -hashfile <datei> SHA256` (Windows) und mit der Zeile vergleichen.
-Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in Einstellungen → Über (z. B. v1.0-rc.**786**).
+Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile der Anwendung (z. B. v1.0.**818**).
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v843 | 2026-10-01 | privat-de | `a88b5a6df29b51d87bde562cd57dd1e7da0130ad6bddc7ee1fbe78abb6590a01` |
+| v843 | 2026-10-01 | privat-en | `f2e3e713def32b062cb0d83bbafa7446353891c81abda8ef662248c3d34a1e97` |
+| v843 | 2026-10-01 | pro-de | `a57c1c84968a083ddffcf335d837b463d11d53a833dff48e9c3ead3fb1e26a26` |
+| v843 | 2026-10-01 | pro-en | `72cb0fe905617d913754c18ff5c5b4458184471f7797c451d3fcd7c86311922d` |
+| v843 | 2026-10-01 | service-worker | `f50bed89b6a50be4dd9c09e3d2fe850f1798a2825ad2fb7f195359cd6fa6492d` |
 | v818 | 2026-09-28 | privat-de | `7e77c01ee4dd0f4bfda5c305a3dd19b182939e483bae863a97d93c32c2b57585` |
 | v818 | 2026-09-28 | privat-en | `91d3e2f53d19b8eb874a6be655c9027ce189d4fc692adaec6621438a4d0a59ba` |
 | v818 | 2026-09-28 | pro-de | `55ef0fd9eb80034bbfeff05a5bffeb25645cd875d85f9cd93fcb176ec21ea8b3` |

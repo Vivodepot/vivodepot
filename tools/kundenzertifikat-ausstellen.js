@@ -55,17 +55,43 @@
    Kommandozeilenargument (23.08.2026, Zug 3, wie beim Signier-Werkzeug). `lauf()` selbst nimmt
    sie weiterhin als Feld entgegen — das bleibt der Weg für Tests.
 
+   --rolle pruefer --sprachen <fr,ka> --modultypen <textsatz> (19.09.2026, Zertifikatsweg für externe
+   Prüfer, U2-ADR-441): DER REGELWEG für eine Prüfstelle, ohne neue Anker-Zeremonie. Das Blatt-Zertifikat
+   trägt `rolle: 'pruefer'` und `geltung: { modulTypen, sprachen }`; es zählt als Prüfer-Zertifikat nur unter
+   einer Ausgabestelle aus `EIGENE_AUSGABESTELLEN` (der Treuhand). Ohne Geltungsbereich, für Deutsch oder
+   Englisch, an einem `vivodepot/*`-Typ oder für mehr als zwölf Monate stellt das Werkzeug nichts aus
+   (`tools/lib/pruefer-angaben.js`). Vorgabe für die Laufzeit einer Prüfstelle: zwölf Monate.
+
    <ausstellerzertifikat.json> ist die Ausgabedatei von
    `tools/behoerden-zertifikat-ausstellen.js` (Feld `certJws` wird gelesen).
 
    Ausgabedatei: `{ anbieterId, anbieterName, anbieterTyp, issuanceDate,
    expirationDate, certJws, ausstellerZertifikatJws }` — kein Schlüsselmaterial.
+
+   --anbieter-angaben <datei.json> (19.09.2026, Ziel L4) — PFLICHT, keine Abschaltung
+   vorgesehen: `{ rechtsform, adresse: {strasse,plz,ort,land}, kontakt: {name,funktion,email,telefon},
+   ustId? }`, dieselbe Form wie $defs.verantwortlicheStelle in
+   docs/template-generator/submission-schema.json (tools/lib/anbieter-angaben.js). „natürliche
+   Person" ist ein rechtsform-Wert wie jeder andere, kein eigenes Feld daneben — ladungsfähige
+   Anschrift bleibt für jede Rechtsform Pflicht. Ohne diese Angaben stellt das Werkzeug nichts aus.
+
+   --anbieterpruefung <datei.json> (Produktentscheidung: „auf jeden Fall implementieren, abschaltbar") — Vorgabe
+   AN: `{ methode: registerauszug|email-bestaetigung|ausweis-von-hand, geprueftAm, geprueftVon,
+   belegHash }` (tools/lib/anbieterpruefung.js; Adapter für belegHash in
+   tools/lib/anbieterpruefung-adapter.js, NICHT automatisch aus diesem Werkzeug aufgerufen — keine
+   Netzverbindung beim Signieren). `--ohne-anbieterpruefung` schaltet für DIESE Ausstellung ab —
+   nie still, `anbieterPruefungAbgeschaltet: true` wird ins Zertifikat geschrieben. Keine
+   Rückwirkung: ein Zertifikat von vor dieser Funktion trägt keines der beiden Felder und gilt als
+   „ungeprüft (vor Einführung)" (anbieterPruefungStatus in tools/lib/anbieterpruefung.js).
    ════════════════════════════════════════════════════════════════════════════ */
 const { zertifikatJwsAusDatei } = require('./lib/zertifikat-datei.js');
 const fs = require('node:fs');
 const path = require('node:path');
 const readline = require('node:readline');
 const { ladeIssuer } = require('../tests/load-issuer.js');
+const { pruefstellenAngabenPruefen, MAX_MONATE_PRUEFER } = require('./lib/pruefer-angaben.js');
+const { anbieterAngabenPruefen } = require('./lib/anbieter-angaben.js');
+const { anbieterPruefungPruefen } = require('./lib/anbieterpruefung.js');
 
 function abbrechen(meldung) {
   console.error('[kundenzertifikat-ausstellen] ' + meldung);
@@ -95,7 +121,34 @@ async function lauf(opts) {
     abbrechen('Aufruf: node tools/kundenzertifikat-ausstellen.js <anbieterId> <anbieterName> <anbieterTyp> <subjekt-public.jwk.json> <ausgabe-schluessel.vdkey.json> <ausstellerzertifikat.json> <ausgabedatei.json> [gueltigkeitMonate=18] (Passphrase wird interaktiv abgefragt)');
     return false;
   }
-  const monate = Number.isFinite(gueltigkeitMonate) && gueltigkeitMonate > 0 ? gueltigkeitMonate : 18;
+  // Anbieter-Angaben: PFLICHT, keine Abschaltung vorgesehen (19.09.2026) — „ohne
+  // anbieter keine Signatur". anbieterAngabenPruefen wirft benannt, abbrechen() fängt es.
+  let anbieterAngaben;
+  try {
+    anbieterAngaben = anbieterAngabenPruefen(opts && opts.anbieterAngaben);
+  } catch (e) { abbrechen(e.message); return false; }
+
+  // Anbieterprüfung: Vorgabe AN, je Ausstellungsweg eigener Schalter (dieses Werkzeug:
+  // Kundenzertifikat). Abschalten ist möglich, aber nie still — die Abschaltung selbst wird ins
+  // Zertifikat geschrieben (credentialSubject.anbieterPruefungAbgeschaltet), keine Rückwirkung
+  // auf ältere Zertifikate (Produktentscheidung, 19.09.2026).
+  let anbieterPruefung = null;
+  const anbieterPruefungAbgeschaltet = !!(opts && opts.ohneAnbieterpruefung);
+  if (!anbieterPruefungAbgeschaltet) {
+    try {
+      anbieterPruefung = anbieterPruefungPruefen(opts && opts.anbieterPruefung);
+    } catch (e) { abbrechen(e.message); return false; }
+  } else {
+    console.error('[kundenzertifikat-ausstellen] Anbieterprüfung AUSDRÜCKLICH abgeschaltet — wird im Zertifikat vermerkt.');
+  }
+
+  const rolle = (opts && opts.rolle) || null;
+  const pruefAngaben = pruefstellenAngabenPruefen({
+    rolle, anbieterTyp, sprachen: opts && opts.sprachen, modulTypen: opts && opts.modulTypen,
+    monate: gueltigkeitMonate, erlaubterTyp: (t) => !String(t).startsWith('vivodepot/'),
+  });
+  if (pruefAngaben.fehler) { abbrechen(pruefAngaben.fehler); return false; }
+  const monate = Number.isFinite(gueltigkeitMonate) && gueltigkeitMonate > 0 ? gueltigkeitMonate : (rolle === 'pruefer' ? MAX_MONATE_PRUEFER : 18);
 
   let subjektPubJwk;
   try {
@@ -191,7 +244,12 @@ async function lauf(opts) {
     anbieterId, anbieterName, anbieterTyp,
     publicKeyJwk: subjektPubJwk,
     issuanceDate, expirationDate,
+    rechtsform: anbieterAngaben.rechtsform, adresse: anbieterAngaben.adresse, kontakt: anbieterAngaben.kontakt,
+    ustId: anbieterAngaben.ustId,
+    anbieterPruefung, anbieterPruefungAbgeschaltet,
   });
+  if (rolle) vc.credentialSubject.rolle = rolle;
+  if (pruefAngaben.geltung) vc.credentialSubject.geltung = pruefAngaben.geltung;
   let certJws;
   try {
     certJws = await ISSUER.stelleProviderCredentialAus(vc, ausgabeSignKey);
@@ -212,6 +270,11 @@ async function lauf(opts) {
   const ausgabePfad = path.resolve(ausgabeDateiArg);
   const tmpPfad = ausgabePfad + '.tmp-' + process.pid;
   const ergebnis = { anbieterId, anbieterName, anbieterTyp, issuanceDate, expirationDate, certJws, ausstellerZertifikatJws };
+  if (rolle) ergebnis.rolle = rolle;
+  if (pruefAngaben.geltung) ergebnis.geltung = pruefAngaben.geltung;
+  ergebnis.rechtsform = anbieterAngaben.rechtsform;
+  if (anbieterPruefung) ergebnis.anbieterPruefung = anbieterPruefung;
+  if (anbieterPruefungAbgeschaltet) ergebnis.anbieterPruefungAbgeschaltet = true;
   fs.writeFileSync(tmpPfad, JSON.stringify(ergebnis, null, 2) + '\n', 'utf8');
   fs.renameSync(tmpPfad, ausgabePfad); // atomar — vor diesem Punkt existiert am Zielpfad nichts Neues
 
@@ -239,13 +302,24 @@ function passphraseVonStdinLesen() {
 
 if (require.main === module) {
   (async () => {
-    const [, , anbieterId, anbieterName, anbieterTyp, subjektPublicJwkPfad,
-      ausgabeSchluesselVdkeyPfad, ausstellerZertifikatPfad, ausgabeDateiArg, monateArg] = process.argv;
+    const argv = process.argv.slice(2);
+    const nimmFlag = (name) => { const i = argv.indexOf(name); if (i < 0) return undefined; const w = argv[i + 1]; argv.splice(i, 2); return w; };
+    const nimmBoolFlag = (name) => { const i = argv.indexOf(name); if (i < 0) return false; argv.splice(i, 1); return true; };
+    const nimmJsonFlag = (name) => { const w = nimmFlag(name); if (w === undefined) return undefined; return JSON.parse(fs.readFileSync(path.resolve(w), 'utf8')); };
+    const rolleArg = nimmFlag('--rolle'), sprachenArg = nimmFlag('--sprachen'), modulTypenArg = nimmFlag('--modultypen');
+    const anbieterAngabenArg = nimmJsonFlag('--anbieter-angaben');
+    const anbieterPruefungArg = nimmJsonFlag('--anbieterpruefung');
+    const ohneAnbieterpruefungArg = nimmBoolFlag('--ohne-anbieterpruefung');
+    const [anbieterId, anbieterName, anbieterTyp, subjektPublicJwkPfad,
+      ausgabeSchluesselVdkeyPfad, ausstellerZertifikatPfad, ausgabeDateiArg, monateArg] = argv;
     const passphrase = await passphraseVonStdinLesen();
     await lauf({
       anbieterId, anbieterName, anbieterTyp, subjektPublicJwkPfad,
       ausgabeSchluesselVdkeyPfad, passphrase, ausstellerZertifikatPfad, ausgabeDateiArg,
       gueltigkeitMonate: monateArg ? Number(monateArg) : undefined,
+      rolle: rolleArg, sprachen: sprachenArg, modulTypen: modulTypenArg,
+      anbieterAngaben: anbieterAngabenArg, anbieterPruefung: anbieterPruefungArg,
+      ohneAnbieterpruefung: ohneAnbieterpruefungArg,
     }).catch((e) => abbrechen('Unerwarteter Fehler: ' + e.message));
   })();
 }

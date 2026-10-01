@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v818.
+Erzeugt aus der veröffentlichten Fassung v843.
 
 ---
 
@@ -76,11 +76,11 @@ Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.
 
 ## Zahlen
 
-- Suite: 12034 · E2E: 514 · Wächter-Register: 122
-- Schema-Version: 89 · SCHALEN_STAND: v818 · Build-Version: v1.0
-- ADR-Register: 404 Einträge
+- Suite: 12034 · E2E: 527 · Wächter-Register: 127
+- Schema-Version: 90 · SCHALEN_STAND: v843 · Build-Version: v1.0
+- ADR-Register: 416 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-09-28, Fassung v818. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-01, Fassung v843. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -114,10 +114,13 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-09-28, Fassung v818. Diese Zahlen ve
 - [`docs/JURISDICTIONS.md`](docs/JURISDICTIONS.md) — JURISDICTIONS.md — Localizing Vivodepot for a New Country or Language
 - [`docs/konformitaet-quellen.md`](docs/konformitaet-quellen.md) — Konformitäts-Quellen
 - [`docs/pruefebene.md`](docs/pruefebene.md) — Die Prüfebene
+- [`docs/pruefstelle-zulassung.md`](docs/pruefstelle-zulassung.md) — Zulassung einer Prüfstelle für Sprachmodule
+- [`docs/release-planung.md`](docs/release-planung.md) — Release-Planung
+- [`docs/standards-schnittstelle.md`](docs/standards-schnittstelle.md) — Standards-Register und Prüf-Rahmen
 
 ## Unterordner unter `docs/`
 
-- `docs/adr/` — 434 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 446 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)

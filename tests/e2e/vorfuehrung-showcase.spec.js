@@ -51,12 +51,12 @@ test('[Vorführung·DE] Kaltstart → Schleife → Berührung → Leerlauf → S
   await expect(page.locator('#w-anlass')).toBeHidden();
 
   for (let i = 0; i < nutzlast.stationen.length; i++) {
-    await expect(page.locator('#vorfuehrung-schleife .vorfuehrung-karte-text')).toHaveText(nutzlast.stationen[i].text);
+    await expect(page.locator('.vorfuehrung-notiz .vorfuehrung-notiz-text')).toContainText(nutzlast.stationen[i].text);
     await foto(page, 'de-station-' + (i + 1) + '-' + nutzlast.stationen[i].ansicht);
     await page.clock.runFor(8000);
   }
   // Nach der letzten Station wieder die erste.
-  await expect(page.locator('#vorfuehrung-schleife .vorfuehrung-karte-text')).toHaveText(nutzlast.stationen[0].text);
+  await expect(page.locator('.vorfuehrung-notiz .vorfuehrung-notiz-text')).toContainText(nutzlast.stationen[0].text);
 
   // Berührung: Schleife weg, Bedienung frei, Streifen bleibt.
   await page.locator('#vorfuehrung-schleife').click();
@@ -81,7 +81,7 @@ test('[Vorführung·EN] Streifen und erste Station auf Englisch', async ({ page 
   await page.clock.install();
   await page.goto(url);
   await expect(page.locator('#vorfuehrung-streifen')).toHaveText('Demonstration · sample data of a fictional person');
-  await expect(page.locator('#vorfuehrung-schleife .vorfuehrung-karte-text')).toHaveText(nutzlast.stationen[0].text);
+  await expect(page.locator('.vorfuehrung-notiz .vorfuehrung-notiz-text')).toContainText(nutzlast.stationen[0].text);
   await expect(page.locator('#tb-pw-hinweis')).toBeHidden();
   await foto(page, 'en-station-1');
 });

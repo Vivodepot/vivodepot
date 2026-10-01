@@ -82,7 +82,6 @@ async function messen(V, ladeKern) {
   raus.gbr = {
     verwaltungsTyp: d.verwaltungsTyp,
     verwalteteDepots: (d.verwalteteDepots || []).length,
-    verselbststaendigungMoeglich: d.verselbststaendigungMoeglich,
     inhaberPersonId: d.inhaberPersonId,
     /* Gibt es IRGENDEINEN Schlüssel für geteiltes Eigentum? */
     schluesselFuerGeteiltesEigentum: Object.keys(d)

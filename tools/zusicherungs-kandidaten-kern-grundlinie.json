@@ -5,6 +5,10 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
     },
+    "_kindDateiKarteHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines Datums der Kind-Datei („Stand vom …“, „älter als das Depot“) — sagt, wann die Datei geschrieben wurde, nichts über Vertrauen oder Prüfung (U2-ADR-454)."
+    },
     "_kreisZeileHTML": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Beschriftung eines Datums („Stand“ als Wortteil)."
@@ -64,6 +68,14 @@
     "flowSubDepotEinhaengen": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "flowMappeVerwahrungHerunterladen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die die Hülle gerade selbst herunterlädt, wenn das Original nicht lesbar ist — keine Aussage, auf die sich ein Dritter verlässt (28.09.2026, Verwahrung V1)."
+    },
+    "flowSubDepotWiderspruchFesthalten": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftungen des Erfassen-Dialogs (Frage „Wogegen richtet sich der Widerspruch?“, „Erklärt von“, Wiedervorlage) — Fragen an die Nutzerin, keine Aussage über einen Zustand (28.09.2026, Verwahrung V3a)."
     },
     "flowUebergabeWiderrufErzeugen": {
       "entscheidung": "kein-zusicherungssatz",

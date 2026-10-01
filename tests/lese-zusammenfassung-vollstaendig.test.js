@@ -80,7 +80,7 @@ function unsichtbareUnterfelder(L) {
     if (u.typ === 'hinweis') continue;                    // traegt keinen Wert
     let wert, erwartet;
     if (u.typ === 'auswahl') { const o = (u.optionen || [])[0]; if (!o) continue; wert = o.wert; erwartet = o.label; }
-    else if (u.typ === 'datum') { wert = '2026-01-01'; erwartet = '2026-01-01'; }
+    else if (u.typ === 'datum') { wert = '2026-01-01'; erwartet = '01.01.2026'; }   // seit 30.09.2026 deutsch und beschriftet (tests/listen-zusammenfassung-datum.test.js)
     else if (u.typ === 'ref' || u.typ === 'refMehrfach') continue;   // brauchen ein Register
     else { wert = 'Probe-' + u.id; erwartet = wert; }
     const z = L.listenEintragZusammenfassung(f, { id: 'x', [u.id]: wert });

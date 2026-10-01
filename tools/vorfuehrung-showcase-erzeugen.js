@@ -30,6 +30,8 @@
        → <ordner>/vivodepot.html (das Produkt mit gebackener Vorführung), dazu sw.js und manifest.webmanifest aus dem Repo
        `--sprache` muss zur Sprache des Produkts passen (privat-de → de, privat-en → en).
        `--depot` und `--szenen` nehmen Beispieldepot und Stationen einer anderen Demo; ohne sie gelten die mitgelieferten.
+       Dateien unter `documents` (Befunde für „Meine Dokumente") liegen im Ordner der Depot-Datei; `noindex: true` in den Szenen
+       setzt die Robots-Anweisung nur in die gebackene Datei.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const os = require('node:os');
@@ -128,9 +130,40 @@ function _idsFestschreiben(nutzlast) {
   return JSON.parse(ersetzt);
 }
 
-function showcaseNutzlastErzeugen({ daten, V } = {}) {
+/* „Meine Dokumente" (Demo Patientin, 15.09.2026, auf den heutigen Erzeuger gehoben 28.09.2026): jede Datei über den Weg, den auch eine
+   Bürgerin nimmt. Ein FHIR-Dokument mit anerkanntem Profil geht durch importAutoritativDokument (autoritativ, Aussteller, Importdatum
+   aus dem Bündel) — erkennt der Kern das Profil nicht, wirft das Werkzeug, statt es still als gewöhnliche Datei abzulegen. Alles andere
+   wird ein gewöhnlicher Mappe-Eintrag. Das Tagesdatum, das der Kern stempelt, wird durch das Datum aus dem Depot ersetzt — sonst wäre die
+   Nutzlast morgen eine andere. Die Dateien liegen im Ordner der Depot-Datei (`--depot`). */
+function _dokumenteEinlesen(V, dokumente, ordner) {
+  if (!dokumente.length) return;
+  if (!ordner) throw new Error('documents: der Ordner der Depot-Datei ist unbekannt — mit --depot <pfad> aufrufen.');
+  for (const dok of dokumente) {
+    if (!dok.datei || !dok.datum) throw new Error('documents: datei und datum sind Pflicht (' + JSON.stringify(dok) + ').');
+    const bytes = fs.readFileSync(path.join(ordner, dok.datei));
+    if (dok.autoritativ) {
+      const id = V.importAutoritativDokument(bytes.toString('utf8'), new Uint8Array(bytes));
+      if (!id) throw new Error('documents: ' + dok.datei + ' ist kein vom Kern anerkanntes autoritatives Dokument (MED_DOK_TYPEN).');
+    } else {
+      if (!dok.mime || !dok.beschriftung) throw new Error('documents: ' + dok.datei + ' braucht mime und beschriftung.');
+      const inhalt = 'data:' + dok.mime + ';base64,' + bytes.toString('base64');
+      V.mappeEintragHinzufuegen({
+        beschriftung: dok.beschriftung, bereich: dok.bereich || undefined, dateiname: path.basename(dok.datei),
+        mime: dok.mime, groesse: V.dataUrlGroesse(inhalt), inhalt,
+      });
+    }
+  }
+  const mappe = V.getData().mappe || [];
+  if (mappe.length !== dokumente.length) throw new Error('documents: ' + dokumente.length + ' Dateien, aber ' + mappe.length + ' Mappe-Einträge.');
+  mappe.forEach((e, i) => {
+    e.hinzugefuegtAm = dokumente[i].datum;
+    if (e.autoritativ) e.importDatum = dokumente[i].datum;
+  });
+}
+
+function showcaseNutzlastErzeugen({ daten, V, dokumentOrdner } = {}) {
   if (!V) throw new Error('showcaseNutzlastErzeugen: V fehlt. Der Kern kommt aus einem erzeugten Produkt (_kernAusProdukt), nie aus dem blanken Kern.');
-  daten = daten || JSON.parse(fs.readFileSync(DATEN_PFAD, 'utf8'));
+  if (!daten) { daten = JSON.parse(fs.readFileSync(DATEN_PFAD, 'utf8')); dokumentOrdner = dokumentOrdner || path.dirname(DATEN_PFAD); }
   if (daten.format !== 'showcaseDepot/1') throw new Error('showcase-depot.json: unbekanntes Format ' + daten.format);
   V.vorschauDepotErzeugen();
   // Die Schreibwege stempeln Urheberschaft — ohne Sitzungs-Akteur werfen sie. Die Beispielperson erklärt sich
@@ -162,6 +195,30 @@ function showcaseNutzlastErzeugen({ daten, V } = {}) {
     }
   }
 
+  _dokumenteEinlesen(V, daten.documents || [], dokumentOrdner);
+  // Zugleich freigegeben und zurückgehalten ist ein Widerspruch in der Depot-Datei; er wird vor beiden Schleifen gemeldet.
+  for (const kennung of daten.zurueckgehalten || []) {
+    if ((daten.freigegeben || []).includes(kennung)) throw new Error('zurueckgehalten: Kennung ' + kennung + ' steht auch unter freigegeben.');
+  }
+  // Ausdrücklich freigegebene geschützte Angaben (26.09.2026): die Entscheidung der Person, die das Produkt selbst kennt
+  // (`sensibelFeldSetzen(…, false)`, „Sensibel ist eine Voreinstellung, keine Sperre"). Ohne sie hielt der Freigabe-Dialog
+  // der Demo zurück, was die Antwort an die Klinik zeigte — die Antwort war mit `sensibel: true` gebaut, am Produkt vorbei.
+  for (const kennung of daten.freigegeben || []) {
+    const s = V.kennungZuSelektor(kennung);
+    if (!s || !V.kennungFeldDef(kennung)) throw new Error('freigegeben: Kennung ' + kennung + ' ist dem Kern unbekannt.');
+    // Demo Patientin (28.09.2026): eine Kennung, die nicht besonders geschützt ist, wirft — die Liste behauptet nichts, was die
+    // Anwendung nicht tut.
+    if (V.kennungFeldDef(kennung).sensibel !== true) throw new Error('freigegeben: ' + kennung + ' ist nicht besonders geschützt — nichts freizugeben.');
+    V.sensibelFeldSetzen(s.sektorId, s.feldId, false);
+  }
+  // Und die Gegenrichtung (Heimeinzug, 26.09.2026): eine Angabe, die die Person selbst als geschützt markiert hat
+  // (`sensibelFeldSetzen(…, true)`), bleibt im Dialog und in der Antwort zurück, auch wenn sie nicht vorab geschützt ist.
+  for (const kennung of daten.zurueckgehalten || []) {
+    const s = V.kennungZuSelektor(kennung);
+    if (!s || !V.kennungFeldDef(kennung)) throw new Error('zurueckgehalten: Kennung ' + kennung + ' ist dem Kern unbekannt.');
+    V.sensibelFeldSetzen(s.sektorId, s.feldId, true);
+  }
+
   const d = V.getData();
   // Jedes Feld besteht die Feldprüfung des Kerns — sonst meldet die Anwendung am Stand „unvollständig oder unstimmig"
   // (am 21.09.2026 gefunden: `instrument: "vorsorgevollmacht"` statt `enduring-power-of-attorney`, vom Erzeuger angenommen).
@@ -181,13 +238,14 @@ function showcaseNutzlastErzeugen({ daten, V } = {}) {
 
 // Die ganze Block-Nutzlast: Beispiel-Depot + Stationen + Texte in EINER Sprache. Geprüft gegen den
 // Kern: jede Ansicht muss er kennen, jedes Ziel muss es geben, kein Text darf leer sein.
-function vorfuehrungNutzlastErzeugen({ sprache = 'de', szenen, daten, V } = {}) {
+function vorfuehrungNutzlastErzeugen({ sprache = 'de', szenen, daten, V, dokumentOrdner } = {}) {
   szenen = szenen || JSON.parse(fs.readFileSync(SZENEN_PFAD, 'utf8'));
   if (!V) throw new Error('vorfuehrungNutzlastErzeugen: V fehlt. Der Kern kommt aus einem erzeugten Produkt (--produkt), nie aus dem blanken Kern.');
   if (szenen.format !== 'showcaseSzenen/1') throw new Error('showcase-szenen.json: unbekanntes Format ' + szenen.format);
   const texte = szenen.texte && szenen.texte[sprache];
   if (!texte) throw new Error('showcase-szenen.json: keine Texte für Sprache ' + sprache);
-  for (const k of ['streifen', 'tippen', 'leerlaufHinweis', 'weiterAnsehen', 'gesperrt', 'schliessen']) {
+  // notizLabel/mehr/weniger (30.09.2026): der Erklär-Zettel spricht die Sprache der Demo — auch sein Screenreader-Name.
+  for (const k of ['streifen', 'tippen', 'leerlaufHinweis', 'weiterAnsehen', 'gesperrt', 'schliessen', 'notizLabel', 'mehr', 'weniger']) {
     if (typeof texte[k] !== 'string' || !texte[k].trim()) throw new Error('showcase-szenen.json: Text ' + k + ' (' + sprache + ') fehlt.');
   }
   const ansichten = V.VORFUEHRUNG_ANSICHTEN;
@@ -202,6 +260,11 @@ function vorfuehrungNutzlastErzeugen({ sprache = 'de', szenen, daten, V } = {}) 
     if (st.ziel) aus.ziel = st.ziel;
     if (st.titel && st.titel[sprache]) aus.titel = st.titel[sprache];
     if (st.sekunden) aus.sekunden = st.sekunden;
+    // Anker der Notiz (30.09.2026): ein Selektor oder `feld:<kennung>`; eine Feld-Kennung muss der Kern kennen.
+    if (st.anker) {
+      if (String(st.anker).indexOf('feld:') === 0 && !V.kennungFeldDef(String(st.anker).slice(5))) throw new Error('Station ' + (i + 1) + ': Anker „' + st.anker + '" — die Kennung kennt der Kern nicht.');
+      aus.anker = String(st.anker);
+    }
     return aus;
   });
   if (!stationen.length) throw new Error('showcase-szenen.json: keine Stationen.');
@@ -209,7 +272,7 @@ function vorfuehrungNutzlastErzeugen({ sprache = 'de', szenen, daten, V } = {}) 
     format: 'showcase/1', sprache,
     stationSekunden: szenen.stationSekunden, leerlaufSekunden: szenen.leerlaufSekunden, warnSekunden: szenen.warnSekunden,
     texte: Object.assign({}, texte), stationen,
-    depot: showcaseNutzlastErzeugen({ daten, V }),
+    depot: showcaseNutzlastErzeugen({ daten, V, dokumentOrdner }),
   };
 }
 
@@ -226,15 +289,28 @@ function showcaseInKernBacken(kernText, nutzlast) {
 // Die ganze Produktdatei: das erzeugte Produkt (privat-de/-en, pro-de/-en) trägt die Vorführung als Nutzlast.
 // Das Produkt bringt Sprachmodul und Bereichsquellen selbst mit; hier kommen nur die Nutzlast und der Service-Worker-Vermerk dazu,
 // weil die Vorführung mit sw.js und Manifest im selben Ordner ausgeliefert wird (Offline am Stand).
-function vorfuehrungDateiErzeugen({ sprache = 'de', produktText, daten, szenen } = {}) {
+/* Eine Demo kann verlangen, dass IHRE Datei nicht in Suchmaschinen landet (noindex: true in der Szenen-Datei). Das Meta steht NUR in
+   der gebackenen Vorführung, nie im Kern: eine Bürgerin, die ihr Depot öffnet, bekommt keine Robots-Anweisung mitgeliefert. Anker ist
+   die Zeichensatz-Zeile des Kopfes; fehlt sie, wirft das Werkzeug, statt still nichts zu schreiben.
+   Die Grenze, ausdrücklich: noindex hält Suchmaschinen fern, es macht die Adresse nicht unerreichbar. Wer den Link hat, sieht die Demo. */
+const NOINDEX_META = '<meta name="robots" content="noindex, nofollow">';
+function _noindexEinsetzen(text) {
+  const anker = '<meta charset="UTF-8">';
+  if (text.split(anker).length !== 2) throw new Error('noindex: der Anker ' + anker + ' steht nicht genau einmal im Produkt — nicht raten, nachsehen.');
+  if (text.includes(NOINDEX_META)) return text;
+  return text.replace(anker, anker + '\n' + NOINDEX_META);
+}
+
+function vorfuehrungDateiErzeugen({ sprache = 'de', produktText, daten, szenen, dokumentOrdner } = {}) {
   if (!['de', 'en'].includes(sprache)) throw new Error('Sprache de|en, nicht ' + sprache);
   _produktPruefen(produktText);
   const ps = _produktSprache(produktText);
   if (ps && ps !== sprache) throw new Error('Das Produkt ist ' + ps + ', verlangt ist --sprache ' + sprache + ' — dieselbe Sprache für Produkt und Stationstexte.');
   const V = _kernAusProdukt(produktText);
-  const nutzlast = vorfuehrungNutzlastErzeugen({ sprache, szenen, daten, V });
+  const nutzlast = vorfuehrungNutzlastErzeugen({ sprache, szenen, daten, V, dokumentOrdner });
   const { _serviceWorkerVorhandenAufText } = require('./lib/produkt-text-erzeugen.js');
-  const text = _serviceWorkerVorhandenAufText(showcaseInKernBacken(produktText, nutzlast), true, 'dem übergebenen Produkt');
+  let text = _serviceWorkerVorhandenAufText(showcaseInKernBacken(produktText, nutzlast), true, 'dem übergebenen Produkt');
+  if ((szenen || JSON.parse(fs.readFileSync(SZENEN_PFAD, 'utf8'))).noindex === true) text = _noindexEinsetzen(text);
   return { text, nutzlast };
 }
 
@@ -254,14 +330,15 @@ function main(argv) {
   if (!produkt) throw new Error('Aufruf: --produkt <vivodepot.html eines erzeugten Produkts> (Pflicht) --nutzlast | --aus <ordner> [--sprache en] [--depot <json>] [--szenen <json>]');
   const produktText = fs.readFileSync(produkt, 'utf8');
   const daten = depot ? JSON.parse(fs.readFileSync(depot, 'utf8')) : undefined;
+  const dokumentOrdner = depot ? path.dirname(path.resolve(depot)) : undefined;
   const szenenDaten = szenen ? JSON.parse(fs.readFileSync(szenen, 'utf8')) : undefined;
   if (argv.includes('--nutzlast')) {
     _produktPruefen(produktText);
-    process.stdout.write(JSON.stringify(vorfuehrungNutzlastErzeugen({ sprache, daten, szenen: szenenDaten, V: _kernAusProdukt(produktText) }), null, 2) + '\n');
+    process.stdout.write(JSON.stringify(vorfuehrungNutzlastErzeugen({ sprache, daten, szenen: szenenDaten, V: _kernAusProdukt(produktText), dokumentOrdner }), null, 2) + '\n');
     return;
   }
   if (!ziel) throw new Error('Aufruf: --produkt <…> --nutzlast | --aus <ordner> [--sprache en] [--depot <json>] [--szenen <json>]');
-  const { text } = vorfuehrungDateiErzeugen({ sprache, produktText, daten, szenen: szenenDaten });
+  const { text } = vorfuehrungDateiErzeugen({ sprache, produktText, daten, szenen: szenenDaten, dokumentOrdner });
   fs.mkdirSync(ziel, { recursive: true });
   fs.writeFileSync(path.join(ziel, 'vivodepot.html'), text, 'utf8');
   for (const f of ['sw.js', 'manifest.webmanifest']) fs.copyFileSync(path.join(REPO, f), path.join(ziel, f));
@@ -272,4 +349,4 @@ if (require.main === module) {
   try { main(process.argv.slice(2)); } catch (e) { console.error('FEHLER:', e.message); process.exitCode = 1; }
 }
 
-module.exports = { showcaseNutzlastErzeugen, vorfuehrungNutzlastErzeugen, vorfuehrungDateiErzeugen, showcaseInKernBacken, SHOWCASE_BEGIN, SHOWCASE_ENDE, INHALTS_FELDER, _produktPruefen, _produktSprache, _kernAusProdukt };
+module.exports = { showcaseNutzlastErzeugen, vorfuehrungNutzlastErzeugen, vorfuehrungDateiErzeugen, showcaseInKernBacken, SHOWCASE_BEGIN, SHOWCASE_ENDE, INHALTS_FELDER, _produktPruefen, _produktSprache, _kernAusProdukt, _noindexEinsetzen, NOINDEX_META };

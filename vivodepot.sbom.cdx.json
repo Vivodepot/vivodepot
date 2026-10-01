@@ -3,7 +3,7 @@
   "specVersion": "1.4",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-09-27T00:00:00Z",
+    "timestamp": "2026-09-29T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -315,7 +315,7 @@
       "type": "file",
       "name": "code-liste-atc",
       "version": "ATC-GM-2026-amtlich",
-      "description": "Code-Liste ATC (Wirkstoffe). Inline SEED (echte Codes, Auszug); Vollliste ~5.000 Codes ausstehend. systemId=atc, URI http://www.whocc.no/atc.",
+      "description": "Code-Liste ATC (Wirkstoffe). Inline SEED (echte Codes, Auszug); Vollliste ~5.000 Codes ausstehend. systemId=atc, URI http://fhir.de/CodeSystem/bfarm/atc.",
       "supplier": {
         "name": "Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM)",
         "url": [
@@ -332,11 +332,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "372d9532f149ef3dad7c2076a35bcfb3a2b87601d8a20f6431869fec7031f006"
+          "content": "605e6102d28ab309f1476b6f542e544700f413a392ef41fdf5a286b304e9ff99"
         },
         {
           "alg": "SHA-512",
-          "content": "7488c5852fc9c2af01490098d1d64ff079bf2fa2d2e293376f744ec314a17d9763c87156a424a9ce05f6d9a154b8b93dd75b142ee677af6d330e244eea52c24f"
+          "content": "defb82fe90bd2be61c8b3554c709a52c331c14e9eacb7565f42a0486b107522cb69ada42306e34e3bfb12f036a6fd1beaf1f2ffb566bb7231eb5227ecca9efd5"
         }
       ],
       "properties": [
@@ -363,7 +363,7 @@
       "type": "file",
       "name": "code-liste-icd10gm",
       "version": "ICD-10-GM-2026-amtlich",
-      "description": "Code-Liste ICD-10-GM (Diagnosen). Inline SEED (echte Codes, Auszug); Vollliste ~15.000 Codes ausstehend. systemId=icd10, URI http://hl7.org/fhir/sid/icd-10-gm.",
+      "description": "Code-Liste ICD-10-GM (Diagnosen). Inline SEED (echte Codes, Auszug); Vollliste ~15.000 Codes ausstehend. systemId=icd10, URI http://fhir.de/CodeSystem/bfarm/icd-10-gm.",
       "supplier": {
         "name": "Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM)",
         "url": [
@@ -380,11 +380,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "af65f04d80eae294716c60f098111b5b05c5af66081d4d5c4a55c4440a5c0971"
+          "content": "a26b2655d4d1552fb142823b141a9e7f4254e4db103b5f1eb5a88308cf89cf7e"
         },
         {
           "alg": "SHA-512",
-          "content": "3bc205ca89e48a8edcd4e8da08b369fbd0f9776e054e27e5393b8257283046419e12ebfbb014cf2582e609727132a14fc3bd6075b45fd8dfe763c0c05803528e"
+          "content": "9c69c1086404f59949d952c510956228502b63ac481277a33f7b1087824c87f52eb2cac70fd0fb397ae2e3f8cf872196bed8a0206dbf48f59c60cda252cd3744"
         }
       ],
       "properties": [
@@ -428,11 +428,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "e34130235d9e90df22b08b3e56354d47c7e3cc719c136a254ba30dd11e95f493"
+          "content": "4f7efcd637306a8e0d907311b53ec5d12902d0b70f74be8a3f873b8a5e9409c5"
         },
         {
           "alg": "SHA-512",
-          "content": "c6bdf56ad6356de8382a1d1654da9f4771b5369a6ed4561a739f982d36ef2bac8f3c6bae2888d1d6845c53f2fa2687ac0f8b0798d95566cf9c445808034e045b"
+          "content": "c51dc98943525c18c6d56b23d0e3cc2be4b703359f63e1e7aef82ce5814142922dc2a6f663b4d0431f693f53a4251453367632266a8848e8b78870f972607a4d"
         }
       ],
       "properties": [

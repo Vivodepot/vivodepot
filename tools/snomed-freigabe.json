@@ -1,5 +1,5 @@
 {
-  "_zweck": "Die SNOMED-CT-Konzepte, die im Bestand stehen dürfen. SNOMED International hat die Nutzung dieser Konzepte aus dem Global Patient Set (CC BY-ND 4.0) freigegeben und verlangt, vor jeder Ausweitung gefragt zu werden: weitere Konzepte, Hierarchien, Beziehungen. Eine neue Kennung kommt nur mit einer Freigabe hierher. Gemessen mit tools/snomed-ids-messen.js, gehalten von den SNOMED-Proben der Suite. Feld gps: der GPS-Release, gegen den die Kennung aktiv und mit diesem Begriff (US Preferred Term) geprüft ist — node tools/snomed-gps-abgleich.js --gps <release.zip>.",
+  "_zweck": "Die SNOMED-CT-Konzepte, die im Bestand stehen. Seit der Antwort von SNOMED International vom 28.09.2026 (Ticket #61950) gilt: jedes AKTIVE Konzept des Global Patient Set (CC BY-ND 4.0) darf genutzt werden, ohne es einzeln anzufragen — solange das Nutzungsmuster gilt: unveränderter Begriff (FSN oder US Preferred Term), keine Hierarchie, keine Beziehungen, keine Subsumption, kein ECL. Eine Kennung steht hier darum nicht mehr, weil sie genehmigt wurde, sondern weil sie im gepinnten GPS-Release aktiv ist und ihr Begriff wörtlich aus dem Release stammt (Feld gps). Geprüft: node tools/snomed-gps-abgleich.js --gps <release.zip>; der gepinnte Release steht mit Name und SHA-256 in tools/standards-artefakte.json. Gemessen mit tools/snomed-ids-messen.js, gehalten von den SNOMED-Proben der Suite.",
   "freigegeben": {
     "91935009": {
       "begriff": "Allergy to peanut",
@@ -72,7 +72,39 @@
         "release": "20260101",
         "aktiv": true
       }
+    },
+    "762952008": {
+      "begriff": "Peanut",
+      "freigabe": "SNOMED-Ticket #61950, 2026-09-28 (aktives GPS-Konzept, Nutzungsmuster)",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "442571000124108": {
+      "begriff": "Tree nut",
+      "freigabe": "SNOMED-Ticket #61950, 2026-09-28 (aktives GPS-Konzept, Nutzungsmuster)",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "77386006": {
+      "begriff": "Pregnancy",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "161714006": {
+      "begriff": "Estimated date of delivery",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
     }
   },
-  "_offen": "Angefragte, nicht freigegebene Kennungen stehen NICHT hier, sondern in der internen Ergänzung dieser Datei, die nicht in den öffentlichen Zuschnitt geht (gelesen über tools/lib/mit-interner-ergaenzung.js)."
+  "_offen": "Die interne Ergänzung dieser Datei führt Kennungen, die noch nicht gegen den gepinnten Release geprüft sind; sie ist seit dem 28.09.2026 leer."
 }

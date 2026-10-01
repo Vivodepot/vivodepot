@@ -234,3 +234,47 @@ test('[SBOM-Pflege·pako·Rot-Beweis] ohne pako-Kopfzeile im Bundle entfällt di
   const neu = erzeugeSBOM(html, bisherig);
   assert.equal(neu.components.find((c) => c.name === 'jspdf').components, undefined);
 });
+
+/* ── Klasse (29.09.2026): jede eingebettete Bibliothek mit eigener Kopfzeile steht in der SBOM ────────────────────────
+   Anlass: eine Prüfung von außen meldete „pako fehlt in der SBOM“. Es fehlte nicht (Unterkomponente von jspdf, s. o.),
+   aber nur, weil pako eine eigene Zeile im Werkzeug hat. Eine weitere Bibliothek im Bündel mit derselben Art Kopfzeile
+   (Kommentar mit Ausrufezeichen, Name und Version, die übliche Lizenzkopfzeile) fiele niemandem auf. Jetzt: jede solche Kopfzeile in einem eingebetteten Skriptblock
+   (@vd-lib status="inline") nennt eine Komponente der SBOM — oben oder als Unterkomponente — mit derselben Version.
+   ROT-BEWEIS: eine gepflanzte Kopfzeile „fflate 0.8.2“ im jsPDF-Block fällt. */
+function kopfzeilenInBloecken(html) {
+  const aus = [];
+  for (const lib of vdLibsInline(html)) {
+    const markerIdx = html.indexOf('@vd-lib name="' + lib.name + '"');
+    const start = html.indexOf('<script', markerIdx);
+    const ende = html.indexOf('</script>', start);
+    if (markerIdx < 0 || start < 0 || ende < 0) continue;
+    for (const m of html.slice(start, ende).matchAll(/\/\*!\s*([A-Za-z@][\w@./-]*)\s+v?(\d+\.\d+\.\d+)\b/g)) aus.push({ block: lib.name, name: m[1], version: m[2] });
+  }
+  return aus;
+}
+function sbomKomponenten(sbom) {
+  const alle = [];
+  const gehe = (liste) => { for (const k of liste || []) { alle.push(k); gehe(k.components); } };
+  gehe(sbom.components);
+  return alle;
+}
+function fehlendeKopfzeilen(html, sbom) {
+  const komp = sbomKomponenten(sbom);
+  return kopfzeilenInBloecken(html).filter((b) => !komp.some((k) => k.name === b.name && k.version === b.version))
+    .map((b) => b.name + ' ' + b.version + ' (im Block ' + b.block + ')');
+}
+
+test('[SBOM·Klasse] jede Bibliothek mit eigener Kopfzeile in einem eingebetteten Block steht in der SBOM', () => {
+  const html = fs.readFileSync(ECHTE_HTML, 'utf8');
+  const sbom = JSON.parse(fs.readFileSync(ECHTE_SBOM, 'utf8'));
+  assert.ok(kopfzeilenInBloecken(html).some((b) => b.name === 'pako'), 'Vorbedingung: die pako-Kopfzeile wird gefunden');
+  assert.deepEqual(fehlendeKopfzeilen(html, sbom), []);
+});
+
+test('[SBOM·Klasse·Rot-Beweis] eine gepflanzte Kopfzeile „fflate 0.8.2“ im jsPDF-Block fällt, eine andere pako-Version auch', () => {
+  const html = fs.readFileSync(ECHTE_HTML, 'utf8');
+  const sbom = JSON.parse(fs.readFileSync(ECHTE_SBOM, 'utf8'));
+  const gepflanzt = html.replace('/*! pako 2.1.0', '/*! fflate 0.8.2 https://github.com/101arrowz/fflate */ /*! pako 2.1.0');
+  assert.deepEqual(fehlendeKopfzeilen(gepflanzt, sbom), ['fflate 0.8.2 (im Block jspdf)']);
+  assert.deepEqual(fehlendeKopfzeilen(html.replace('/*! pako 2.1.0', '/*! pako 2.2.0'), sbom), ['pako 2.2.0 (im Block jspdf)']);
+});

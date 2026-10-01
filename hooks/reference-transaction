@@ -1,0 +1,25 @@
+#!/bin/sh
+# ════════════════════════════════════════════════════════════════════════════
+# reference-transaction — kein neuer Zweig ohne Zukunftsmuster (28.09.2026, Befund ZWEIG-OHNE-L4-HAELT-LANDUNGEN)
+# ────────────────────────────────────────────────────────────────────────────
+# Der pre-commit fängt nur Zweige, auf denen committet wird. `git branch x <sha>`, `git worktree add -b x` oder ein
+# Umbenennen legen Zweige OHNE Commit an — so hielten wip-Zweige den Landungs-Push einer anderen Sitzung an. Git ruft
+# diesen Hook bei jeder Ref-Änderung; im Zustand `prepared` darf er ablehnen. Geprüft wird NUR eine Neuanlage unter
+# refs/heads/ (alter Wert null, neuer nicht null): Commits, Fetches, Rebases und Löschungen gehen ohne Node-Start durch.
+# Dieselbe Regel wie im pre-commit (tools/landung-vollstaendigkeit-pruefen.js --zweig-pruefen).
+# ════════════════════════════════════════════════════════════════════════════
+[ "$1" = "prepared" ] || exit 0
+# Ohne node (GUI-Git, Xcode) lässt der Hook durch und warnt — der pre-commit fängt einen Commit auf einem solchen Zweig.
+if ! command -v node >/dev/null 2>&1; then
+  echo "[reference-transaction] Hinweis: node nicht im PATH — der Zweigname wird hier nicht geprüft (der pre-commit prüft ihn beim ersten Commit)." >&2
+  exit 0
+fi
+werkzeug="$(cd "$(dirname "$0")/.." && pwd)/tools/landung-vollstaendigkeit-pruefen.js"
+fehl=0
+while read -r alt neu ref; do
+  case "$ref" in refs/heads/*) ;; *) continue ;; esac
+  case "$alt" in *[!0]*) continue ;; esac
+  case "$neu" in *[!0]*) ;; *) continue ;; esac
+  node "$werkzeug" --zweig-pruefen --neuanlage --zweig "${ref#refs/heads/}" || fehl=1
+done
+exit $fehl

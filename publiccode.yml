@@ -10,8 +10,8 @@ logo: logo.png
 
 # softwareVersion und releaseDate setzt der Zuschnitt-Bau aus der zuletzt ausgelieferten Kern-Fassung, nie von Hand;
 # die Einträge je Fassung stehen in CHANGELOG.md.
-softwareVersion: "1.0.818"
-releaseDate: "2026-09-28"
+softwareVersion: "1.0.843"
+releaseDate: "2026-10-01"
 
 developmentStatus: stable
 softwareType: standalone/web
@@ -57,8 +57,8 @@ description:
       Besonders geschützte Angaben verlassen die Datei erst, wenn die Nutzerin
       sie ausdrücklich freigibt.
 
-      Die Ausgabe fuer Bürgerinnen und Bürger ist kostenlos und quelloffen.
-      Eine kostenpflichtige Ausgabe fuer Selbstständige und Geschäftsführende
+      Die Ausgabe für Bürgerinnen und Bürger ist kostenlos und quelloffen.
+      Eine kostenpflichtige Ausgabe für Selbstständige und Geschäftsführende
       sowie einzelne Templates werden verkauft; Organisationen können die
       Anwendung unter eigenem Namen herausgeben.
     features:
@@ -66,7 +66,7 @@ description:
       - Verschlüsselung mit AES-256-GCM, Schlüssel aus dem Passwort der Nutzerin
       - Ausgabe als HL7 FHIR International Patient Summary
       - Weitere Ausgaben als vCard, Kalenderdatei und PDF
-      - Getrennte Unterdepots mit eigenem Passwort
+      - Getrennte Sub-Depots mit eigenem Passwort
       - Freigabe besonders geschützter Angaben durch die Nutzerin
       - Deutsch und Englisch
       - Quelloffen unter EUPL-1.2

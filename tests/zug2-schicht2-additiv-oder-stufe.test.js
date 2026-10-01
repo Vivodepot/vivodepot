@@ -126,7 +126,7 @@ test('[Zug2·A460] der zweite Nachname braucht KEINE Stufe — aber eine Zusamme
      keine Lesestelle verschwunden, dieselben zehn wie vor der Umkehr vom 16.09.
      S8 (21.09.2026, U2-ADR-428): 10 → 8. Der deutsche Satz steht nicht mehr im Kern; seine zwei Beifang-Treffer
      (die Kennungen `identity.familyName.label` und `.beispiel`) entfallen mit ihm — wieder keine Lesestelle verschwunden. */
-  assert.equal(m.nachname.leseStellen, 8,
+  assert.equal(m.nachname.leseStellen, 8,   // 7 → 8 (30.09.2026, U2-ADR-456): keine Lesestelle — Beifang, die Kennung `identity.familyName` in der Region FIM-BEZUEGE; 8 → 7 (28.09.2026, U2-ADR-277: notfallKartenMeta liest den Namen jetzt über identitaetAnzeigename)
     'direkte Lesestellen im Kern, nach U2-ADR-256: ' + m.nachname.leseStellen + ' (vormals rund zwanzig)');
 });
 

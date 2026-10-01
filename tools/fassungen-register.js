@@ -129,7 +129,7 @@ function blockText(register) {
     '',
     'Der Fingerabdruck ist der SHA-256 der Datei, wie sie ausgeliefert wurde. Prüfen: `shasum -a 256 <datei>`',
     '(macOS/Linux) oder `certutil -hashfile <datei> SHA256` (Windows) und mit der Zeile vergleichen.',
-    'Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in Einstellungen → Über (z. B. v1.0-rc.**786**).',
+    'Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile der Anwendung (z. B. v1.0.**818**).',
     '',
   ];
   if (!register.zeilen.length) return [...kopf, '*Noch keine Fassung eingetragen.*', '', ENDE].join('\n');
@@ -241,7 +241,7 @@ function fassungenJson(register, hinweise) {
   }
   return {
     hinweis: 'Erzeugt von tools/fassungen-register.js --build aus docs/fassungen-register.json und CHANGELOG.md (### Sicherheit). Nicht von Hand ändern. '
-      + 'Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in Einstellungen → Über.',
+      + 'Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile der Anwendung (z. B. v1.0.818).',
     fassungen: [...nachFassung.values()],
   };
 }

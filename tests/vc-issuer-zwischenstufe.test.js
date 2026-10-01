@@ -18,6 +18,17 @@ const path = require('node:path');
 const { ladeIssuer, webcrypto } = require('./load-issuer.js');
 const { lauf: kundenzertifikatAusstellen } = require('../tools/kundenzertifikat-ausstellen.js');
 
+// Anbieter-Angaben/Anbieterprüfung fürs Kundenzertifikat-Werkzeug (19.09.2026, Ziel L4) — seit
+// diesem Auftrag Pflicht vor jeder Ausstellung, hier eine gültige Wegwerf-Fixture.
+const KUNDE_ANBIETER_ANGABEN_FIXTURE = Object.freeze({
+  rechtsform: 'GmbH',
+  adresse: { strasse: 'Musterstraße 1', plz: '12345', ort: 'Musterstadt', land: 'Deutschland' },
+  kontakt: { name: 'Maria Mustermann', funktion: 'Geschäftsführung', email: 'maria@beispiel.test', telefon: '+49 30 1234567' },
+});
+const KUNDE_ANBIETERPRUEFUNG_FIXTURE = Object.freeze({
+  methode: 'registerauszug', geprueftAm: '2026-09-19', geprueftVon: 'Test-Prüferin', belegHash: 'c'.repeat(64),
+});
+
 const SENTINEL_PRIVATE_JWK = Object.freeze({
   kty: 'OKP', crv: 'Ed25519', alg: 'Ed25519',
   d: '-XFGcY2Rd9PBxjiBwWXGsOdiSGj5Vf1L90l09_FW4NE',
@@ -112,12 +123,31 @@ test('[Zwischenstufe im Zertifikator] onAusstellen mit Ausstellerzertifikat → 
       ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabeDateiPfad,
       issuanceDate: bundle.issuanceDate, gueltigkeitMonate: (new Date(bundle.expirationDate).getUTCFullYear() - new Date(bundle.issuanceDate).getUTCFullYear()) * 12
         + (new Date(bundle.expirationDate).getUTCMonth() - new Date(bundle.issuanceDate).getUTCMonth()),
+      anbieterAngaben: KUNDE_ANBIETER_ANGABEN_FIXTURE, anbieterPruefung: KUNDE_ANBIETERPRUEFUNG_FIXTURE,
     });
     assert.equal(ok, true, 'tools/kundenzertifikat-ausstellen.js läuft mit demselben Material durch');
     const cliErgebnis = JSON.parse(fs.readFileSync(ausgabeDateiPfad, 'utf8'));
 
     assert.equal(cliErgebnis.expirationDate, bundle.expirationDate, 'Vorbedingung: beide Wege rechnen dasselbe Ablaufdatum — sonst vergleicht certJws Äpfel mit Birnen');
-    assert.equal(cliErgebnis.certJws, bundle.certJws, 'Browser-Weg und Konsolen-Werkzeug liefern bei gleichem Material zeichengleiche certJws');
+    // NICHT MEHR zeichengleich seit Anbieterprüfung (19.09.2026, Ziel L4) — Auftragsumfang war
+    // ausdrücklich NUR die zwei Konsolen-Werkzeuge (Kundenzertifikat/Behördenzertifikat), NICHT
+    // der Browser-Weg (`onAusstellen`/`validiereAnbieterDaten`, ohne Formularfelder für
+    // rechtsform/adresse/kontakt/anbieterPruefung). Das Konsolen-Werkzeug trägt jetzt strukturell
+    // MEHR (Pflichtfelder, die der Browser-Weg gar nicht abfragt) — echte, gewollte Abweichung,
+    // kein Drift-Fund. Der ursprüngliche Zweck der Probe (keine stille Divergenz in den GEMEINSAM
+    // getragenen Feldern) bleibt: die beiden Nutzlasten werden auf genau dieser Teilmenge verglichen.
+    const cliPayload = JSON.parse(Buffer.from(cliErgebnis.certJws.split('.')[1], 'base64url').toString('utf8'));
+    const bundlePayload = JSON.parse(Buffer.from(bundle.certJws.split('.')[1], 'base64url').toString('utf8'));
+    for (const feld of ['anbieterId', 'anbieterName', 'anbieterTyp', 'publicKeyJwk']) {
+      assert.deepEqual(cliPayload.credentialSubject[feld], bundlePayload.credentialSubject[feld],
+        'gemeinsam getragenes Feld "' + feld + '" darf zwischen Browser-Weg und Konsolen-Werkzeug nicht driften');
+    }
+    assert.equal(cliPayload.issuanceDate, bundlePayload.issuanceDate);
+    assert.equal(cliPayload.expirationDate, bundlePayload.expirationDate);
+    // Das Konsolen-Werkzeug trägt zusätzlich die neuen Pflichtfelder — der Browser-Weg (noch) nicht.
+    assert.equal(cliPayload.credentialSubject.rechtsform, 'GmbH');
+    assert.deepEqual(cliPayload.credentialSubject.anbieterPruefung, KUNDE_ANBIETERPRUEFUNG_FIXTURE);
+    assert.equal('rechtsform' in bundlePayload.credentialSubject, false, 'Vorbedingung: der Browser-Weg kennt das neue Feld (noch) nicht — sonst wäre die Abweichung oben kein Auftragsumfang, sondern ein echter Fund');
   });
 });
 
@@ -160,6 +190,7 @@ test('[Zwischenstufe im Zertifikator·Schaltjahr] issuanceDate am Monatsende + L
       subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-passphrase',
       ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabeDateiPfad,
       issuanceDate, gueltigkeitMonate: 18,
+      anbieterAngaben: KUNDE_ANBIETER_ANGABEN_FIXTURE, anbieterPruefung: KUNDE_ANBIETERPRUEFUNG_FIXTURE,
     });
     assert.equal(ok, true, 'tools/kundenzertifikat-ausstellen.js läuft durch');
     const cliErgebnis = JSON.parse(fs.readFileSync(ausgabeDateiPfad, 'utf8'));

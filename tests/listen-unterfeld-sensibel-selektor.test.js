@@ -158,12 +158,16 @@ const ANFRAGE = {
   ],
   antwort: { art: 'einmalpasswort', an: 'probe@example.de' },
 };
-async function antwortUeberDenDialog(nimmHeraus) {
+function kernMitVollmacht() {
   const V = kern();
   S.showcaseNutzlastErzeugen({ V, daten: { format: 'showcaseDepot/1', owner: 'Erna Mustermann',
     people: [{ key: 'kai', name: 'Kai Mustermann', beziehung: 'Sohn' }], fields: { 'identity.givenName': 'Erna' },
     lists: { 'advanceCare.provisionInstruments': [{ instrument: 'enduring-power-of-attorney', typeOfPowerOfAttorney: 'vorsorge',
       authorizedPersons: [{ person: 'kai' }], healthCareGeneralDecision: 'ja', storageLocation: 'Ordner Vorsorge' }] } } });
+  return V;
+}
+async function antwortUeberDenDialog(nimmHeraus) {
+  const V = kernMitVollmacht();
   const m = V.exportUebersichtModell(null, undefined, ANFRAGE.felder.map((f) => f.kennung));
   const kandidaten = m.enthalten.concat(m.zurueckgehalten);
   let ds = null;
@@ -182,4 +186,16 @@ test('[Listen-Unterfeld·Dialog·Abfluss] im Freigabe-Dialog abgewählt: die Bev
 test('[Listen-Unterfeld·Dialog·Gegenprobe] alles gewählt: auch die geschützten Unterfelder gehen mit', async () => {
   const ds = await antwortUeberDenDialog([]);
   for (const k of [EPA + 'authorizedPersons', EPA + 'healthCareGeneralDecision', EPA + 'storageLocation']) assert.ok(drin(ds, k), 'gewählt, aber nicht in der Antwort: ' + k);
+});
+
+/* Aus der Vorfassung im v804-Heim-Baum übernommen (26.09.2026): die dauerhafte Entscheidung der Person, nicht die im
+   Dialog. Ausdrücklich freigegeben heißt: der Dialog führt die Unterfelder unter „geht mit", und die Antwort ohne Dialog trägt sie. */
+test('[Listen-Unterfeld·Dialog·dauerhaft] ausdrücklich freigegeben: der Dialog zeigt die Unterfelder als enthalten, die Antwort trägt sie', () => {
+  const V = kernMitVollmacht();
+  const geschuetzt = [EPA + 'healthCareGeneralDecision', EPA + 'storageLocation'];
+  for (const k of geschuetzt) { const s = V.kennungZuSelektor(k); V.sensibelFeldSetzen(s.sektorId, s.feldId, false); }
+  const m = V.exportUebersichtModell(null, undefined, ANFRAGE.felder.map((f) => f.kennung));
+  for (const k of geschuetzt) assert.ok(m.enthalten.some((e) => e.kennung === k), 'der Dialog hält eine ausdrücklich freigegebene Angabe zurück: ' + k);
+  const ds = V.anfrageAntwortDatensatz(ANFRAGE);
+  for (const k of geschuetzt) assert.ok(drin(ds, k), 'ausdrücklich freigegeben, aber nicht in der Antwort: ' + k);
 });

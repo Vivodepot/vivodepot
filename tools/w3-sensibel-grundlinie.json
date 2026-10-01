@@ -73,6 +73,30 @@
  },
  {
   "sektor": "health",
+  "feld": "pregnancy",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "pregnancyEstimatedDueDate",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "wanderingRisk",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
+  "feld": "wanderingRiskDetails",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "health",
   "feld": "heightCm",
   "unterfeld": null,
   "gruppe": "A"

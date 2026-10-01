@@ -60,11 +60,13 @@ Lücken blieben offen, beide jetzt real geworden:
 automatisch `anbieterTyp === VIVODEPOT_KERN_ANBIETERTYP` → `pruefstufe: 'intern'`. Keine
 Sonderbehandlung im Code, kein zweiter Pfad für „das bin ich selbst".
 
-**Neues Feld `rolle` im Zwischenkredential (optional, additiv):** unterscheidet, WAS die
-Zwischenstelle bei EINEM konkreten Modul getan hat — `'herausgeber'` (hat das Modul erstellt/
-publiziert) vs. `'pruefer'` (hat ein fremdes Modul nur auditiert). Kein Duplikat von
+**Neues Feld `rolle` im Zwischenzertifikat (optional, additiv):** unterscheidet, WAS die
+Zwischenstelle tut — `'herausgeber'` (erstellt/publiziert Module) vs. `'pruefer'` (auditiert
+fremde Module nur). Sie steht im Zwischenzertifikat und gilt damit für alle Module dieser Stelle;
+eine Stelle, die herausgibt und prüft, führt zwei Zwischenzertifikate mit zwei Schlüsseln
+(U2-ADR-441). Ein `pruefer` gilt außerdem nur innerhalb seines Geltungsbereichs. Kein Duplikat von
 `anbieterTyp`: `anbieterTyp` sagt, WELCHE ART Zwischenstelle es ist (Ausgabestelle vs.
-Prüfstelle als Institution), `rolle` sagt, WAS diese Stelle bei diesem Modul war. Fehlt `rolle`
+Prüfstelle als Institution), `rolle` sagt, WAS diese Stelle tut. Fehlt `rolle`
 (heutige, bereits ausgestellte `vivodepot/ausgabestelle`-Zertifikate), gilt der Default
 `'herausgeber'`.
 
@@ -108,7 +110,7 @@ ein Feld, das wie eine Vertrauens-Kennung klingt, aber nie eine war.
 - **`rolle` dupliziert als eigener `anbieterTyp`-Wert (z. B. `vivodepot/pruefstelle-herausgeber` /
   `vivodepot/pruefstelle-pruefer`).** Verworfen: vervielfacht die Zwischenstufen-Typen pro
   künftiger Rollen-Unterscheidung, obwohl `anbieterTyp` und `rolle` zwei unabhängige Fragen
-  beantworten (welche Art Stelle vs. was sie bei diesem Modul tat).
+  beantworten (welche Art Stelle vs. was diese Stelle tut).
 - **`pruefstufe` als gespeichertes, migriertes Feld auf jedem Modul rückwirkend.** Verworfen: 0
   Bestandsmodule heute, eine Migration für nichts. Additiv reicht.
 

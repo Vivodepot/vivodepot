@@ -93,6 +93,12 @@ const ZUWACHS = Object.freeze([
   { bereich: 'vorsorge', sektion: 'communication-support', feld: 'supportPerson', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
   { bereich: 'vorsorge', sektion: 'communication-support', feld: 'whatHelpsMe', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
   { bereich: 'vorsorge', sektion: 'communication-support', feld: 'doNotInform', unterfeld: null, art: 'feld', adr: 'U2-ADR-438' },
+  // NFD-Lücken (29.09.2026, v835): Schwangerschaft und Weglaufgefährdung nach dem Notfalldatensatz der gematik
+  // (tests/nfd-luecken.test.js).
+  { bereich: 'gesundheit', sektion: 'notfall-aerzte', feld: 'pregnancy', unterfeld: null, art: 'feld', adr: 'U2-ADR-455' },
+  { bereich: 'gesundheit', sektion: 'notfall-aerzte', feld: 'pregnancyEstimatedDueDate', unterfeld: null, art: 'feld', adr: 'U2-ADR-455' },
+  { bereich: 'gesundheit', sektion: 'notfall-aerzte', feld: 'wanderingRisk', unterfeld: null, art: 'feld', adr: 'U2-ADR-455' },
+  { bereich: 'gesundheit', sektion: 'notfall-aerzte', feld: 'wanderingRiskDetails', unterfeld: null, art: 'feld', adr: 'U2-ADR-455' },
   // Festlegungen der Patientenverfügung (28.09.2026): die Schritte des Assistenten als Felder, abgeleitet aus PV_BMJ.steps
   // (tests/pv-festlegungen-kennungen.test.js).
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'applicableSituations', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },

@@ -121,15 +121,16 @@ test('[Journey c·Todesfall] Angehörige öffnet die Fach-Datei, findet „Behö
     const d = ang.waitForEvent('download', { timeout: 15000 });
     await ang.click('#m-ok');
     const download = await d;
-    expect(download.suggestedFilename()).toMatch(/_Antwort_SB-2026-0001\.json$/);
+    expect(download.suggestedFilename()).toMatch(/_Antwort_SB-2026-0001\.jwe$/);   // U2-ADR-449: die Antwort ist eine JWE
     const text = fs.readFileSync(await download.path(), 'utf8');
     await foto(ang, '06-antwort-ausgegeben');
     return text;
   });
 
   // Die Antwort ist CHIFFRAT: kein Feldwert im Klartext
-  const umschlag = JSON.parse(antwort);
-  expect(JSON.stringify(umschlag)).toContain('"ct"');
+  const kopf = JSON.parse(Buffer.from(antwort.trim().split('.')[0], 'base64url').toString('utf8'));
+  expect(kopf.typ).toBe('vivodepot-antwort+jwe');
+  expect(antwort.trim().split('.').length, 'JWE Compact: fünf Teile').toBe(5);
   for (const wert of ['Hedwig', 'Brandt', 'Musterstadt', 'Beispielweg', 'verwitwet']) {
     expect(antwort, 'Feldwert im Klartext der Antwort: ' + wert).not.toContain(wert);
   }

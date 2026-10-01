@@ -73,17 +73,17 @@ test('[FHIR·display] jede Liste mit Daten trägt anzeigeNameEigen; im IPS-Bundl
   assert.deepEqual(listenBefund(LISTEN), []);
   const b = await bundleMitAllenSystemen();
   const cs = codings(b).map((x) => x.c.system);
-  for (const s of ['http://snomed.info/sct', 'http://www.whocc.no/atc', 'http://hl7.org/fhir/sid/icd-10-gm']) assert.ok(cs.includes(s), 'Vorbedingung: ' + s + ' im Bundle');
+  for (const s of ['http://snomed.info/sct', 'http://fhir.de/CodeSystem/bfarm/atc', 'http://fhir.de/CodeSystem/bfarm/icd-10-gm']) assert.ok(cs.includes(s), 'Vorbedingung: ' + s + ' im Bundle');
   assert.deepEqual(bundleBefund(b, LISTEN), []);
-  const icd = codings(b).find((x) => x.c.system === 'http://hl7.org/fhir/sid/icd-10-gm');
+  const icd = codings(b).find((x) => x.c.system === 'http://fhir.de/CodeSystem/bfarm/icd-10-gm');
   assert.equal(icd.c.display, undefined, 'ICD bis zur Einordnung der amtlichen Titel ohne display');
   assert.equal(icd.c.code, 'I10.90');
-  assert.equal(codings(b).find((x) => x.c.system === 'http://www.whocc.no/atc').c.display, undefined);
+  assert.equal(codings(b).find((x) => x.c.system === 'http://fhir.de/CodeSystem/bfarm/atc').c.display, undefined);
 });
 
 test('[FHIR·display·Rot-Beweis] die LOINC-Liste von c30128b6a und der eigene Name als display fallen', () => {
   const alt = JSON.parse(execFileSync('git', ['show', 'c30128b6a:code-listen/loinc.json'], { cwd: REPO, encoding: 'utf8', env: ohneGitUmgebung() }));
   assert.deepEqual(listenBefund([alt]), ['loinc: Liste mit Daten ohne anzeigeNameEigen']);
-  const falsch = { entry: [{ resource: { resourceType: 'Condition', code: { coding: [{ system: 'http://hl7.org/fhir/sid/icd-10-gm', code: 'I10.90', display: 'Essentielle (primäre) Hypertonie' }], text: 'Essentielle (primäre) Hypertonie' } } }] };
+  const falsch = { entry: [{ resource: { resourceType: 'Condition', code: { coding: [{ system: 'http://fhir.de/CodeSystem/bfarm/icd-10-gm', code: 'I10.90', display: 'Essentielle (primäre) Hypertonie' }], text: 'Essentielle (primäre) Hypertonie' } } }] };
   assert.equal(bundleBefund(falsch, LISTEN).length, 1);
 });

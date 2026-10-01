@@ -39,6 +39,7 @@ const FHIR_EIGENE_DATEIEN = [
   'tests/konformitaet/externe-validatoren.mjs',
   'tools/hl7-validator-beschaffen.js',
   'tools/hl7-validator-alarm-waechter.js',
+  'tools/lib/fhir-urteil-zuordnung.js',
 ];
 
 const HL7_CACHE_DIR = process.env.XDG_CACHE_HOME
@@ -67,7 +68,7 @@ function anlassGegeben(dateien) {
   return { ja: false, grund: 'weder Trägerdatei noch FHIR-Gate-Datei im Bereich' };
 }
 
-/* Dieselbe Suche wie javaPfad() in tests/konformitaet/externe-validatoren.mjs — bewusst
+/* Dieselbe Suche wie javaPfad() in tests/konformitaet/adapter/_umgebung.mjs (seit 28.09.2026; vorher in externe-validatoren.mjs) — bewusst
    dupliziert (CJS hier, ESM dort), klein genug, dass eine zweite Landkarte hier nicht ins
    Gewicht fällt. Ändert sich die Kandidatenliste dort, hier nachziehen. */
 function javaPfad() {

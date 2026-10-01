@@ -129,7 +129,9 @@ test('[M1·Zug1] wie viele der eingebauten Datumsfelder tragen die Marke — von
   // mitMarke bei 10 und nur die Gesamtzahl steigt.
   // 25.09.2026: +1 Datumsfeld (advanceCare.spousalRepresentationObjectionSince, U2-ADR-433, „Erklärt am“) — ebenfalls ein
   // Ereignisdatum, KEIN laeuftAb (tools/anfaenge-falsch-abgelegt-erheben.js: KEIN_FALL); mitMarke bleibt bei 10.
-  assert.equal(datumsfelder, 44, 'von vierundvierzig Datumsfeldern insgesamt');
+  // 29.09.2026: +1 Datumsfeld (health.pregnancyEstimatedDueDate, U2-ADR-455, errechneter Entbindungstermin) — ein erwartetes
+  // Ereignis, KEIN laeuftAb (KEIN_FALL); mitMarke bleibt bei 10.
+  assert.equal(datumsfelder, 45, 'von fünfundvierzig Datumsfeldern insgesamt');
   // Ein Geburtsdatum läuft nicht ab — das ist der Sinn der Marke, nicht ihr Nebeneffekt.
   assert.equal(V.feldHatMarke('identitaet', 'birthDate', 'laeuftAb'), false);
   // `ausweis_gueltig` existiert seit Glied 3 nicht mehr als Skalarfeld — kein Absturz, keine Marke.

@@ -87,3 +87,106 @@ test('[Dateiname·Person·Rot-Beweis] die Namensbildung vor diesem Commit fällt
   const altZeile = "  return dateiAusgeben(blob, _dateiNamePraefix() + '-Sub_' + kennung + '_' + datum + '.json', 'application/json');";
   assert.ok(/kennung/.test(altZeile), 'die alte Zeile nahm die Bezeichnung über „kennung“ — die Klasse fängt sie über den dynamischen Teil');
 });
+
+/* ── Alle Dateinamen-Erzeuger (29.09.2026, Wiedereröffnung DATEINAME-PERSON) ────────────────────────────────────────
+   Der Export an die EUDI-Wallet hängte über _eudiwDateiname weiter den Vornamen an. Die Klasse oben sah es nicht: sie
+   prüft nur die Aufrufzeile von dateiAusgeben, und dort stand der Helfer, nicht das Feld. Jetzt:
+     (a) jede Funktion mit „dateiname“ im Namen liest in ihrem Rumpf kein Personenfeld;
+     (b) jede Stelle, die einen Dateinamen setzt — zweites Argument von dateiAusgeben, `.download =`, `suggestedName:` —
+         ruft für den Namen nur solche Helfer auf oder benannte, namensfreie Bausteine.
+   ROT-BEWEIS: der Rumpf von _eudiwDateiname vor diesem Commit fällt unter (a). */
+const PERSON_FELD = /givenName|familyName|\bvorname\b|\bnachname\b|\.bezeichnung\b|\.inhaberin\b|kreis\.name|identity\b/;
+const NAMENSFREI = new Set(['_dateiNamePraefix', 'heuteLokal', 'String', '_dateiKurzkennung', 'Date']);
+function ohneKommentare(src) {
+  return src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
+    .replace(/(^|[^:'"\\])\/\/[^\n]*/g, (m, a) => a + ' '.repeat(m.length - a.length));
+}
+function kernFunktionen(src) {
+  const text = ohneKommentare(src);
+  const re = /^(async )?function ([A-Za-z_$][\w$]*)\s*\(/gm;
+  const liste = []; let m;
+  while ((m = re.exec(text))) liste.push({ name: m[2], start: m.index });
+  return liste.map((f, i) => ({ name: f.name, rumpf: text.slice(f.start, i + 1 < liste.length ? liste[i + 1].start : text.length) }));
+}
+function dateinamenHelferMitPerson(src) {
+  return kernFunktionen(src).filter((f) => /dateiname/i.test(f.name))
+    .filter((f) => PERSON_FELD.test(f.rumpf.split('\n').slice(0, 40).join('\n'))).map((f) => f.name);
+}
+// Ein Ausdruck ab `i` bis zum nächsten Komma/`;`/`}`/`)` auf Tiefe 0 — Zeichenketten übersprungen.
+function ausdruckAb(text, i) {
+  let tiefe = 0, q = null;
+  for (let k = i; k < text.length; k++) {
+    const c = text[k];
+    if (q) { if (c === '\\') k++; else if (c === q) q = null; continue; }
+    if (c === '"' || c === "'" || c === '`') { q = c; continue; }
+    if ('([{'.includes(c)) tiefe++;
+    else if (')]}'.includes(c)) { if (tiefe === 0) return text.slice(i, k); tiefe--; }
+    else if ((c === ',' || c === ';') && tiefe === 0) return text.slice(i, k);
+  }
+  return text.slice(i);
+}
+// Eine bloße Variable (keine Eigenschaft eines Objekts) in der Namensstelle wird bis zu ihrer Zuweisung (const/let, höchstens 60 Zeilen davor) verfolgt;
+// geprüft wird dann auch deren rechte Seite. Ein Funktionsparameter endet dort (er kommt aus einem Helfer, den (a) prüft).
+function zuweisungVor(text, pos, name) {
+  const davor = text.slice(0, pos).split('\n').slice(-60).join('\n');
+  const treffer = [...davor.matchAll(new RegExp('(?:const|let)\\s+' + name.replace(/[$]/g, '\\$') + '\\s*=\\s*', 'g'))];
+  if (!treffer.length) return null;
+  const m = treffer[treffer.length - 1];
+  return ausdruckAb(davor, m.index + m[0].length).trim();
+}
+function namensAusdruecke(src) {
+  const text = ohneKommentare(src);
+  const aus = [];
+  const mitVerfolgung = (ausdruck, pos) => {
+    aus.push(ausdruck);
+    for (const v of new Set((ausdruck.match(/(?<![\w.$'"])[A-Za-z_$][\w$]*(?![\w$]*\s*[(.])/g) || []))) {
+      const rhs = zuweisungVor(text, pos, v);
+      if (rhs) aus.push(rhs);
+    }
+  };
+  for (const m of text.matchAll(/(?<![\w.])dateiAusgeben\(/g)) {
+    if (/function\s+$/.test(text.slice(Math.max(0, m.index - 12), m.index))) continue;
+    const start = m.index + m[0].length;
+    const erstes = ausdruckAb(text, start);
+    mitVerfolgung(ausdruckAb(text, start + erstes.length + 1).trim(), m.index);
+  }
+  for (const m of text.matchAll(/\.download\s*=\s*/g)) mitVerfolgung(ausdruckAb(text, m.index + m[0].length).trim(), m.index);
+  for (const m of text.matchAll(/suggestedName:\s*/g)) mitVerfolgung(ausdruckAb(text, m.index + m[0].length).trim(), m.index);
+  return aus;
+}
+function fremdeAufrufe(ausdruck) {
+  return [...ausdruck.matchAll(/(?<![\w.$])([A-Za-z_$][\w$]*)\s*\(/g)].map((m) => m[1])
+    .filter((n) => !/dateiname/i.test(n) && !NAMENSFREI.has(n));
+}
+
+test('[Dateiname·Person·Erzeuger] kein Dateinamen-Helfer liest ein Personenfeld, und jede Namensstelle ruft nur solche Helfer', () => {
+  const kern = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+  const bis = kern.indexOf('/*! pako') > 0 ? kern.indexOf('<!-- @vd-lib name="jspdf"') : kern.length;   // eingebettete Bibliotheken zählen nicht
+  const eigener = kern.slice(0, bis);
+  const helfer = kernFunktionen(eigener).filter((f) => /dateiname/i.test(f.name)).map((f) => f.name);
+  assert.ok(helfer.length >= 6, 'Vorbedingung: die Dateinamen-Helfer werden gefunden (' + helfer.join(', ') + ')');
+  assert.deepEqual(dateinamenHelferMitPerson(eigener), [], 'ein Dateinamen-Helfer liest ein Personenfeld');
+  const ausdruecke = namensAusdruecke(eigener);
+  assert.ok(ausdruecke.length >= 15, 'Vorbedingung: die Namensstellen werden gefunden (' + ausdruecke.length + ')');
+  const funde = ausdruecke.map((a) => ({ a, f: fremdeAufrufe(a).concat(PERSON_FELD.test(a) ? ['Personenfeld'] : []) }))
+    .filter((x) => x.f.length).map((x) => x.a.slice(0, 120) + '  → ' + x.f.join(', '));
+  assert.deepEqual(funde, []);
+});
+
+test('[Dateiname·Person·Erzeuger·Rot-Beweis] der Helfer des EUDI-Wallet-Exports vor diesem Commit fällt', () => {
+  const alt = "function _eudiwDateiname(basis, endung) {\n  const roh = (data && data.sektoren && data.sektoren.identity && typeof data.sektoren.identity.givenName === 'string')\n    ? data.sektoren.identity.givenName.trim() : '';\n  const vorname = roh.replace(/[^\\p{L}\\p{N}_-]+/gu, '-');\n  return (vorname ? basis + '_' + vorname : basis) + '.' + endung;\n}\n";
+  assert.deepEqual(dateinamenHelferMitPerson(alt), ['_eudiwDateiname']);
+  assert.deepEqual(fremdeAufrufe("personName(e) + '.json'"), ['personName'], 'ein fremder Aufruf in einer Namensstelle wird gefunden');
+  const verfolgt = namensAusdruecke("function f() {\n  const n = data.sektoren.identity.givenName;\n  return dateiAusgeben(blob, n + '.json', 'x');\n}\n");
+  assert.ok(verfolgt.some((a) => PERSON_FELD.test(a)), 'eine Variable mit einem Personenfeld wird bis zur Zuweisung verfolgt');
+});
+
+test('[Dateiname·Person·EUDIW] der Dateiname des Exports an die EUDI-Wallet trägt keinen Vornamen', async () => {
+  const { V } = ladeKern();
+  await V.depotAnlegen('Dateiname-Eudiw-2026!');
+  V.akteurSelbstErklaeren('Maria Musterfrau');
+  V.sektorFeldSetzen('identity', 'givenName', 'Maria');
+  const n = V._eudiwDateiname('Vivodepot_Gesundheit_EUDIW', 'sd-jwt');
+  assert.doesNotMatch(n, NAMEN);
+  assert.equal(n, 'Vivodepot_Gesundheit_EUDIW.sd-jwt');
+});

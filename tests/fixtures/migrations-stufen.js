@@ -1099,6 +1099,13 @@ const STUFEN = [
                  && d.sektoren.identity.marriageCertificateStorage === 'Mappe Urkunden, Schreibtisch'
                  && d.sektoren.identity.familyRegisterBookStorage === 'Schublade unten'
                  && d.situationen.erbfall.erb_personenstand === 'Mappe Urkunden, Schreibtisch' },
+  { nach: 90, was: 'Code-System-URIs kanonisch (28.09.2026): gespeicherte { system, code } mit einer früheren URI einer eingebauten '
+                 + 'Liste (aliasUris) tragen danach die kanonische des Basisprofils DE; die Fassung wird nicht nachgetragen. '
+                 + 'Ausführlich: tests/schema-90-codesystem-kanonisch.test.js.',
+    baue: () => basis(89, sek('health', { chronicConditionsDiagnoses: [{ text: 'Hypertonie', code: { system: 'http://hl7.org/fhir/sid/icd-10-gm', code: 'I10.90' } }] })),
+    vorher:  (d) => d.sektoren.health.chronicConditionsDiagnoses[0].code.system === 'http://hl7.org/fhir/sid/icd-10-gm',
+    nachher: (d) => d.sektoren.health.chronicConditionsDiagnoses[0].code.system === 'http://fhir.de/CodeSystem/bfarm/icd-10-gm'
+                 && d.sektoren.health.chronicConditionsDiagnoses[0].code.version === undefined },
 ];
 
 module.exports = { STUFEN, basis };

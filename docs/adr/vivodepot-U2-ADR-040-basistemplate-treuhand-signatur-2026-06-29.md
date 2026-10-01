@@ -153,6 +153,18 @@ Satz „Vivodepot prüft Standards-Konformität" entfällt in dieser Form. Die Z
 
 *Nachtrag beschlossen 06.08.2026. Status: angenommen.*
 
+## Nachtrag — frühere System-URIs bleiben geführt (28.09.2026)
+
+Zwei eingebaute Listen trugen eine System-URI, die das Basisprofil DE nicht vorsieht: ICD-10-GM stand unter
+`http://hl7.org/fhir/sid/icd-10-gm` (in keinem FHIR-Namensraum registriert, weder in HL7 Terminology noch im IPS),
+ATC-GM unter der WHO-URI der internationalen Fassung. Das Basisprofil DE 1.6.0 legt für beide die BfArM-URI fest
+(`CodingICD10GM`, `CodingATC`), mit Pflicht-`version`. Die Listen tragen seit Schema 90 die kanonische URI; die frühere
+steht als `aliasUris` an der Liste.
+
+Für Punkt 4b heißt das: Eine Vorlage, die mit der früheren URI signiert wurde, bleibt eine Vorlage mit geführter
+Herkunft. Der Einlass schreibt die URI auf die kanonische um, statt die Vorlage abzuweisen. Geprüft wird weiter die
+Herkunft gegen `CODE_LISTEN`, jetzt über `kanonischesCodeSystem`. Eine frei erfundene URI fällt wie bisher durch.
+
 ## Konformität
 
 ```konformitaet
@@ -178,3 +190,13 @@ quelle:    invariante
 ```
 
 *Stufe-2-Bindung nachgetragen 06.08.2026 (A110/Z14, Nachtrag 4b).*
+
+```konformitaet
+aussage:   Eine frühere System-URI einer eingebauten Liste (aliasUris) geht auf keinem Exportweg hinaus, auch nicht aus
+           einem Wert, der noch mit ihr gespeichert ist; jede Liste mit Feld kommt mit ihrer kanonischen URI an.
+zustand:   prüfbar
+pruefung:  tests/codesystem-kanonisch.test.js#[Code-System·Exportwege] jede Liste mit Feld: ein Altwert mit früherer URI geht auf keinem Weg als frühere URI hinaus, die kanonische kommt an
+quelle:    invariante
+```
+
+*Bindung nachgetragen 28.09.2026 (Code-System-URIs, Schema 90).*

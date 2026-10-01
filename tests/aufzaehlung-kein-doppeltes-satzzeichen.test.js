@@ -33,6 +33,20 @@ test('[Aufzählung·Kern] jede Mehrfachauswahl, alle Optionen gewählt: kein dop
   assert.deepEqual(funde, []);
 });
 
+test('[Aufzählung·Kern·HTML] derselbe Wächter über feldWertHTML — die Bereichsansicht (28.09.2026: der erste Fix saß nur im Text-Weg)', () => {
+  const { V } = ladeKern();
+  const alle = mehrfachauswahlen(V.bereicheAlle());
+  assert.ok(alle.length >= 5, 'Suchraum besetzt: ' + alle.length + ' Mehrfachauswahlen');
+  const ohneTags = (h) => String(h).replace(/<[^>]*>/g, '').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+  const funde = alle.map(({ s, f }) => ({ k: s.id + '.' + f.id, t: ohneTags(V.feldWertHTML(f, f.optionen.map((o) => o.wert))) }))
+    .filter((x) => DOPPELT.test(x.t)).map((x) => x.k + ': ' + x.t.slice(0, 80));
+  assert.deepEqual(funde, []);
+  // Rot-Beweis am Einzelfall der Patientenverfügung: dieselbe Auswahl, die in der Vorführung „befinde,, ich" zeigte.
+  const pv = alle.find(({ f }) => f.id === 'applicableSituations');
+  assert.ok(pv, 'die Situationen der Patientenverfügung stehen im Suchraum');
+  assert.match(ohneTags(V.feldWertHTML(pv.f, ['sterbeprozess', 'endstadium'])), /befinde, ich mich/);
+});
+
 test('[Aufzählung·Lese-App] dieselbe Klasse in der Lese-App, die die Institution liest', () => {
   const { V } = ladeLesen();
   const alle = mehrfachauswahlen(V.SEKTOREN);

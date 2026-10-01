@@ -35,6 +35,12 @@
    jede dieser Vorbereitungen verfällt mit der früheren Landung ohnehin. Darum zwei Stufen: ein
    Push (Name `pre-push`) steht vor allem anderen, innerhalb einer Stufe gilt die Ankunft. Ein
    laufender Lauf wird nicht verdrängt; der Vorrang wirkt beim nächsten frei werdenden Platz.
+
+   PUSH EXKLUSIV (28.09.2026, Befund ZWEI-PUSHES-PARALLEL). Zweimal an einem Abend liefen zwei pre-push gleichzeitig,
+   beide mit Wort; einer kommt am Ende non-fast-forward zurück, nach dem teuersten Teil. Ein Push nimmt darum keinen
+   Platz, solange ein anderer Push einen hält — auch wenn einer frei ist; er wartet mit seinem Ticket. Solange er so
+   wartet, hält sein Ticket anderen Läufen den freien Platz nicht zu (er könnte ihn ohnehin nicht nehmen). Wer danach
+   drankommt, prüft im Hook einmal live, ob der Kanon noch sein Vorfahr ist.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -63,6 +69,7 @@ function lesen(pfad) {
 function platzPfad(dir, k) { return path.join(dir, 'platz-' + k + '.lock'); }
 function ticketVerzeichnis(dir) { return path.join(dir, 'tickets'); }
 const VORRANG = Object.freeze({ 'pre-push': 0 });
+const EXKLUSIV = 'pre-push';
 function vorrang(name) { return Object.prototype.hasOwnProperty.call(VORRANG, name) ? VORRANG[name] : 1; }
 
 /** Die lebenden Tickets, älteste zuerst; Tickets toter Prozesse werden geräumt. */
@@ -121,7 +128,10 @@ function halter({ dir = verzeichnis(), n = anzahl() } = {}) {
 function platzHolen({ name, pid = process.pid, dir = verzeichnis(), n = anzahl(), env = process.env, cwd = process.cwd(), ticket = null } = {}) {
   if (env[UMGEBUNG_GEHALTEN]) return { geholt: true, geerbt: true, von: env[UMGEBUNG_GEHALTEN] };
   fs.mkdirSync(dir, { recursive: true });
-  const schlange = wartende({ dir });
+  const pushHaelt = halter({ dir, n }).some((h) => h.name === EXKLUSIV && h.pid !== pid);
+  if (name === EXKLUSIV && pushHaelt) return { geholt: false, halter: halter({ dir, n }), wartende: wartende({ dir }), exklusiv: true };
+  // Ein Push, der hinter einem laufenden Push wartet, kann einen freien Platz nicht nehmen — er hält ihn niemandem zu.
+  const schlange = wartende({ dir }).filter((t) => !(pushHaelt && t.name === EXKLUSIV) || t.pfad === ticket);
   const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : -1;
   // Ohne Ticket: hinter allen derselben oder einer höheren Stufe — ein Push also vor wartenden Vorbereitungen.
   const rang = eigenerRang >= 0 ? eigenerRang : schlange.filter((t) => t.stufe <= vorrang(name)).length;
@@ -190,10 +200,23 @@ function platzFreigeben({ pid = process.pid, dir = verzeichnis(), n = anzahl() }
    Aufrufers (wer --beenden aus einem Hook heraus ruft, beendet sich nicht selbst). */
 function eigeneLaeufe({ cwd = process.cwd(), dir = verzeichnis(), n = anzahl(), host = os.hostname() } = {}) {
   const ziel = echterPfad(cwd);
-  const passt = (e) => e && e.host === host && echterPfad(e.cwd || '') === ziel && prozessLebt(e.pid);
+  const eigen = (e) => e && e.host === host && echterPfad(e.cwd || '') === ziel;
+  const passt = (e) => eigen(e) && prozessLebt(e.pid);
   const plaetze = [];
-  for (let k = 1; k <= n; k++) { const e = lesen(platzPfad(dir, k)); if (passt(e)) plaetze.push({ platz: k, ...e }); }
-  return { plaetze, wartende: wartende({ dir }).filter(passt) };
+  const tot = [];   // eigene Sperren, deren Halter nicht mehr lebt (29.09.2026) — Tickets räumt wartende() schon selbst
+  for (let k = 1; k <= n; k++) {
+    const e = lesen(platzPfad(dir, k));
+    if (passt(e)) plaetze.push({ platz: k, ...e });
+    else if (eigen(e)) tot.push({ platz: k, pfad: platzPfad(dir, k), ...e });
+  }
+  return { plaetze, wartende: wartende({ dir }).filter(passt), tot };
+}
+
+/** Räumt eine tote eigene Sperre — nur, wenn dort noch derselbe, weiterhin tote Halter steht. */
+function toteSperreRaeumen({ pfad, pid }) {
+  const e = lesen(pfad);
+  if (!e || e.pid !== pid || prozessLebt(pid)) return false;
+  try { fs.unlinkSync(pfad); return true; } catch (_) { return false; }
 }
 function echterPfad(p) { try { return fs.realpathSync(p); } catch (_) { return path.resolve(p || '/'); } }
 
@@ -222,6 +245,11 @@ function vorfahren(pid, psText) {
 }
 
 function meldungBelegt(r) {
+  if (r && r.exklusiv) {
+    const p = (r.halter || []).find((h) => h.name === EXKLUSIV);
+    return 'ein anderer Push läuft' + (p ? ' (PID ' + p.pid + ', ' + p.cwd + ', seit ' + p.gestartetAm + ')' : '')
+      + ' — ein Push wartet exklusiv, auch bei freiem Platz; danach prüft er, ob der Kanon noch sein Vorfahr ist.';
+  }
   const wer = (r.halter || []).map((h) => `Platz ${h.platz}: ${h.name} (PID ${h.pid}, ${h.cwd || '?'}, seit ${h.gestartetAm})`);
   const vor = (r.wartende || []).length ? ` · vor dir warten ${r.wartende.length}: ` + r.wartende.map((t) => `${t.name} (${t.cwd || '?'})`).join(', ') : '';
   return 'alle Suite-Plätze belegt — ' + (wer.join(' · ') || 'Halter unlesbar') + vor
@@ -231,6 +259,6 @@ function meldungBelegt(r) {
 module.exports = {
   UMGEBUNG_GEHALTEN, verzeichnis, anzahl, prozessLebt, halter,
   platzHolen, platzHolenMitWarten, platzFreigeben, meldungBelegt,
-  wartende, ticketZiehen, ticketAbgeben, vorrang,
-  eigeneLaeufe, prozessBaum, vorfahren,
+  wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV,
+  eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren,
 };

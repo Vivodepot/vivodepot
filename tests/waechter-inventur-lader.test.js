@@ -28,3 +28,21 @@ test('[Inventur·Lader·Rot-Beweis] ohne die Lader-Ausnahme würde der Pfad gez�
 test('[Inventur·Lader] der echte npm test-Lader steht nicht in der Inventur', () => {
   assert.ok(!erheben().some((w) => /hook-sperre-testumgebung/.test(w.deckt)));
 });
+
+/* Reporter (28.09.2026): `--test-reporter=./tools/lib/datei-zeiten-reporter.mjs` misst mit, entscheidet nie. */
+test('[Inventur·Reporter] ein --test-reporter ist kein Wächter; ein echtes Werkzeug in derselben Zeile bleibt gezählt', () => {
+  const z = "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tools/lib/mess-rep" + "orter.mjs --test-reporter-destination=/dev/null 'tests/**/*.test.js' && node tools/echtes-" + "werkzeug.js";
+  const t = [...ausBefehl(z, {})];
+  assert.ok(!t.some((x) => /mess-reporter/.test(x)), 'Reporter dürfen nicht als Wächter erscheinen: ' + t.join(', '));
+  assert.ok(t.includes('tools/echtes-' + 'werkzeug.js'));
+});
+
+test('[Inventur·Reporter·Rot-Beweis] ohne die Reporter-Ausnahme würde der Pfad gezählt', () => {
+  const quelle = fs.readFileSync(path.join(__dirname, '..', 'tools', 'waechter-inventur.js'), 'utf8');
+  const ohne = quelle.replace(/zeile = zeile\.replace\(\/--test-reporter[^\n]*\n/, '');
+  assert.notEqual(ohne, quelle, 'Vorbedingung: die Ausnahme steht im Quelltext');
+  const fn = new Function('require', '__dirname', 'module', ohne.replace(/^#!.*\n/, '') + '\nreturn module.exports;');
+  const m = { exports: {} };
+  const t = [...fn(require, path.join(__dirname, '..', 'tools'), m).ausBefehl('node --test --test-reporter=./tools/lib/mess-rep' + 'orter.mjs x', {})];
+  assert.ok(t.some((x) => /mess-reporter/.test(x)));
+});

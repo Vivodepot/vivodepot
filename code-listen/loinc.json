@@ -4,7 +4,7 @@
   "version": "SEED-2026-05",
   "kuerzel": "LOINC",
   "anzeigeNameEigen": true,
-  "quelleBegriffe": "LOINC Long Common Name, loinc.org/<code>, abgerufen 27.09.2026 (alle Active)",
+  "quelleBegriffe": "LOINC Long Common Name, loinc.org/<code>, abgerufen 27.09.2026 (alle Active); die fünf Codes der NFD-Lücken (10162-6, 104605-1, 82810-3, 11778-8, LA15173-0) über tx.fhir.org $lookup (display = Long Common Name bzw. Answer String), abgerufen 29.09.2026",
   "lizenzWortlaut": "LOINC_short_license.txt",
   "lizenz": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.",
   "status": "seed",
@@ -20,6 +20,11 @@
     { "code": "85354-9", "quellBegriff": "Blood pressure panel with all children optional", "anzeigeName": "Blutdruck (Panel)", "synonyme": ["Blutdruck", "RR"], "kategorie": "Vitalwert" },
     { "code": "46264-8", "quellBegriff": "History of medical device use", "anzeigeName": "Medizinprodukte (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
     { "code": "47519-4", "quellBegriff": "History of Procedures Document", "anzeigeName": "Eingriffe (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
-    { "code": "60591-5", "quellBegriff": "Patient summary Document", "anzeigeName": "Patientenkurzakte (Dokumenttyp)", "kategorie": "IPS-Dokument" }
+    { "code": "60591-5", "quellBegriff": "Patient summary Document", "anzeigeName": "Patientenkurzakte (Dokumenttyp)", "kategorie": "IPS-Dokument" },
+    { "code": "10162-6", "quellBegriff": "History of pregnancies Narrative", "anzeigeName": "Schwangerschaften (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "104605-1", "quellBegriff": "Alert", "anzeigeName": "Warnhinweise (Dokument-Sektion)", "kategorie": "IPS-Sektion" },
+    { "code": "82810-3", "quellBegriff": "Pregnancy status", "anzeigeName": "Schwangerschaftsstatus", "kategorie": "Beobachtung" },
+    { "code": "11778-8", "quellBegriff": "Delivery date Estimated", "anzeigeName": "Errechneter Entbindungstermin", "kategorie": "Beobachtung" },
+    { "code": "LA15173-0", "quellBegriff": "Pregnant", "anzeigeName": "schwanger", "kategorie": "Antwort" }
   ]
 }

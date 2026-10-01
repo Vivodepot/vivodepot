@@ -114,6 +114,8 @@ const TEXTSATZ_EN_OPTIONSWERTE = {
   "health.bloodType/AB+.label": "AB+",
   "health.bloodType/AB-.label": "AB−",
   "health.bloodType/unbekannt.label": "Unknown",
+  "health.pregnancy/ja.label": "Yes, pregnant",
+  "health.wanderingRisk/ja.label": "Yes",
   "health.smoking/nie.label": "Never smoked",
   "health.smoking/ex.label": "Previously, no longer",
   "health.smoking/leicht.label": "Occasionally",

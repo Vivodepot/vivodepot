@@ -32,6 +32,7 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   _depotBlobSpeichern: { klasse: 'eigene-sicherung', grund: 'die verschlüsselte Depot-Datei der Person' },
   _dateizielFuerAnlegenSichern: { klasse: 'eigene-sicherung', grund: 'Speicherort der eigenen Depot-Datei beim Anlegen' },
   _subSelbstDateiSichern: { klasse: 'eigene-sicherung', grund: 'die eigene, verschlüsselte Sub-Depot-Datei' },
+  _kindDateiOrtWaehlen: { klasse: 'eigene-sicherung', grund: 'Speicherort der Kind-Datei wählen; dorthin schreibt danach jedes Sichern der Sitzung das versiegelte Depot der vertretenen Person (U2-ADR-454)' },
   flowMappeOriginalHerunterladen: { klasse: 'eigene-sicherung', grund: 'das Recht der Person auf ihre Daten: das Original unverändert heraus (Yellow Button Herunterladen)' },
   flowMappeEigenesHerunterladen: { klasse: 'eigene-sicherung', grund: 'das Recht der Person auf ihre Daten: der eigene Upload unverändert zurück (Yellow Button Herunterladen)' },
   dokumentOeffnen: { klasse: 'eigene-sicherung', grund: 'ein Vorsorgedokument muss gedruckt und unterschrieben werden können; eine Sperre behinderte seine Wirksamkeit' },
@@ -47,6 +48,7 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   blackboxHerunterladen: { klasse: 'notfall', grund: 'versiegeltes Sub-Depot an die Vertretung, ohne es zu öffnen; Vertretung im Ernstfall' },
 
   flowGesundheitFhirExport: { klasse: 'weitergabe', grund: 'FHIR-IPS-Auszug an eine Stelle' },
+  flowMappeVerwahrungHerunterladen: { klasse: 'weitergabe', grund: 'das Original mit Verwahrungsnachweis an eine Stelle; die Hülle trägt Name und Kennung der Person (U2-ADR-444)' },
   _formatExportDownload: { klasse: 'weitergabe', grund: 'Auszug in einem Registry-Format (vCard, ICS, JSON …)' },
   flowAnlassExport: { klasse: 'weitergabe', grund: 'Anlass-Auszug' },
   anlassPdfAusgeben: { klasse: 'weitergabe', sperreIn: ['flowAnlassExport', 'flowZusammenstellungHerausgeben'], grund: 'Anlass-Auszug als PDF, innerer Baustein beider Herausgabe-Wege' },

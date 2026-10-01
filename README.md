@@ -68,3 +68,7 @@ nachvollziehbar unter [`docs/adr/`](docs/adr/).
 - [`docs/JURISDICTIONS.md`](docs/JURISDICTIONS.md) — Vivodepot für einen anderen Rechtsraum oder
   eine andere Sprache anpassen: eine Karte dessen, was es gibt, was es nicht gibt und wo die
   Grenzen liegen (englisch)
+
+## Stand
+
+Fassung v843.

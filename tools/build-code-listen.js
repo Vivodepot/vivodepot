@@ -87,6 +87,11 @@ function blockFuer(liste) {
     // anzeigeNameEigen (26.09.2026, SNOMED GPS): die Anzeige ist eine eigene Bezeichnung, kein Begriff des Systems;
     // der unveränderte Begriff steht je Eintrag in quellBegriff und allein er geht als coding.display hinaus.
     ...(liste.anzeigeNameEigen ? ['  anzeigeNameEigen: true,'] : []),
+    // codingVersion (28.09.2026): die Fassung, die als Coding.version hinausgeht (Basisprofil DE: Pflicht für ICD-10-GM und
+    // ATC, die Jahreszahl). aliasUris: frühere System-URIs derselben Liste; sie werden an jedem Einlass und im Export auf
+    // `uri` umgeschrieben (kanonischesCodeSystem im Kern) und dürfen im Produktcode nur hier stehen.
+    ...(liste.codingVersion ? [`  codingVersion: ${j(liste.codingVersion)},`] : []),
+    ...(Array.isArray(liste.aliasUris) && liste.aliasUris.length ? [`  aliasUris: ${j(liste.aliasUris)},`] : []),
     ...(liste.lizenzWortlaut ? [`  lizenzWortlaut: ${j(liste.systemId)},`]
       : (liste.daten && liste.daten.length) ? [`  lizenz: ${j(liste.lizenz || '')},`] : []),
     `  daten: ${datenJs}`,
@@ -106,7 +111,37 @@ function generiereRegion() {
     '     JSON-Quellen ändern und `node tools/build-code-listen.js` laufen lassen.',
     '     SNOMED: zwei Konzepte aus dem Global Patient Set (CC BY-ND 4.0, siehe THIRD_PARTY_LICENSES). ════ -->',
   ].join('\n');
-  return '\n' + kopf + '\n\n' + listen.map(blockFuer).join('\n\n') + '\n';
+  return '\n' + kopf + '\n\n' + listen.map(blockFuer).concat(terminologieBloecke()).join('\n\n') + '\n';
+}
+
+/* TERMINOLOGIE-LITERALE (29.09.2026, v835): Begriffe fremder Code-Systeme und IPS-Sektionstitel, die der Export braucht,
+   die aber weder Produkttext (Textsatz) noch eine Eingabeliste sind. Quelle code-listen/terminologie/<name>.json; je
+   Datei ein Block, der sie über window.__vdOeffentlich.ipsBegriffeAnmelden in den Kern hebt. Felder mit `_` (Zweck,
+   Herkunft) bleiben in der Quelle; die Herkunft steht als Kommentar im Block. */
+function terminologieBloecke() {
+  const dir = path.join(QUELLEN, 'terminologie');
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.json')).sort().map((f) => {
+    const roh = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+    const herkunft = [];
+    const ohne = (o) => {
+      const r = {};
+      for (const [k, v] of Object.entries(o)) {
+        if (k.startsWith('_')) { if (k === '_herkunft') herkunft.push(v); continue; }
+        r[k] = (v && typeof v === 'object' && !Array.isArray(v)) ? ohne(v) : v;
+      }
+      return r;
+    };
+    const daten = ohne(roh);
+    const name = f.replace(/\.json$/, '');
+    return [
+      `<!-- @vd-terminologie ${name} -->`,
+      '<script>',
+      `/* @vd-terminologie ${name} — Herkunft: ${herkunft.join(' · ').replace(/\*\//g, '* /')} */`,
+      `window.__vdOeffentlich.ipsBegriffeAnmelden(${JSON.stringify(daten)});`,
+      '</script>',
+    ].join('\n');
+  });
 }
 
 function aktuelleRegion(html) {

@@ -145,13 +145,13 @@ test('[Versions-Belege] keine Marker im Code → leere Liste, nicht erfunden', (
   assert.deepEqual(versionsBelegeAusFunktion(fn), []);
 });
 
-test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 10 Export- und 17 Import-Formate', () => {
+test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 10 Export- und 18 Import-Formate', () => {
   const f = erzeugeFaktenbasis();
   assert.ok(f.adrZahl > 130, `zu wenige ADR-Einträge erkannt: ${f.adrZahl}`);
   assert.ok(!f.adr.some((a) => a.titel.startsWith('(kein Titel')), 'unlesbare ADR-Titel im echten Lauf');
   // 11 -> 10 (U2-ADR-NNN, 18.09.2026): der offene JSON-Vollexport ist aus EXPORT_FORMATE entfernt.
   assert.equal(f.exportFormateZahl, 10);
-  assert.equal(f.importFormateZahl, 17);
+  assert.equal(f.importFormateZahl, 18);   // 17 → 18 (30.09.2026, v836: openbadges-3-extern, U2-ADR-445)
 });
 
 test('[--check] normalisiertFuerVergleich blendet Kopfzeile UND Suite-Zeile aus, sonst nichts', () => {
@@ -258,4 +258,34 @@ test('[Faktenbasis·Commit] ein gelandeter Commit steht nackt, ein ungepushter t
     { cwd: REPO_, env: Object.assign({}, ohneGit, { GIT_AUTHOR_NAME: 'Probe', GIT_AUTHOR_EMAIL: 'probe@example.invalid', GIT_COMMITTER_NAME: 'Probe', GIT_COMMITTER_EMAIL: 'probe@example.invalid' }) })
     .toString().trim();
   assert.equal(commitErreichbar(lose), false, 'ein Commit ohne Remote-Zweig darf NICHT als erreichbar gelten');
+});
+
+/* Befund FAKTENBASIS-STARTET-SUITE (26.09.2026, MITTEL): erzeugeFaktenbasis() fuhr als Bibliothek gerufen — nur um eine billige
+   Zahl zu lesen — selbst eine volle `node --test`-Suite, ohne Suite-Platz. Gehalten am Aufruf selbst: ein gestubbtes
+   execFileSync zählt jeden `--test`-Start. Der Rot-Beweis ist derselbe Weg mit mitSuite: dann startet er, und die Zahl kommt an. */
+test('[Faktenbasis·Suite] als Bibliothek gerufen startet erzeugeFaktenbasis() keine Suite; nur mitSuite misst (Rot-Beweis)', () => {
+  const cp = require('node:child_process');
+  const echt = cp.execFileSync;
+  const starts = [];
+  cp.execFileSync = function (bin, args, opts) {
+    if (Array.isArray(args) && args[0] === '--test') { starts.push(args.length); return 'ℹ tests 7\n'; }
+    return echt.apply(this, arguments);
+  };
+  const pfad = require.resolve('../tools/faktenbasis-erzeugen.js');
+  const vorher = require.cache[pfad];
+  delete require.cache[pfad];
+  try {
+    const F = require(pfad);
+    const f = F.erzeugeFaktenbasis();
+    assert.equal(starts.length, 0, 'als Bibliothek gerufen wurde eine Suite gestartet');
+    assert.equal(f.pruefebene.suiteZahl, null);
+    assert.match(f.pruefebene.suiteHinweis, /als Bibliothek aufgerufen nicht ermittelt/);
+    const html = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
+    const mit = F.pruefebeneZahlen(html, { mitSuite: true });
+    assert.equal(starts.length, 1, 'Rot-Beweis: mit mitSuite startet genau ein Lauf');
+    assert.equal(mit.suiteZahl, 7, 'und seine Summenzeile wird gelesen');
+  } finally {
+    cp.execFileSync = echt;
+    if (vorher) require.cache[pfad] = vorher; else delete require.cache[pfad];
+  }
 });

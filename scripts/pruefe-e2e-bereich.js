@@ -227,6 +227,6 @@ function laeufeFahren(anlass, firefox) {
   return 0;
 }
 
-module.exports = { anlassGegeben, anlassEntscheiden, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
+module.exports = { anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
 
 if (require.main === module) process.exit(main());

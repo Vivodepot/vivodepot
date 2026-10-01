@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ERFUNDEN für die Probe: Aufbau nach XDatenfelder 3, Kennung und Inhalt frei erfunden (kein Baustein der FITKO). -->
+<ns0:xdatenfelder.datenfeldgruppe.0103 xmlns:ns0="urn:xoev-de:fim:standard:xdatenfelder_3.0.0">
+  <ns0:header><ns0:nachrichtID>probe-2</ns0:nachrichtID></ns0:header>
+  <ns0:datenfeldgruppe>
+    <ns0:identifikation><ns0:id>G99000002</ns0:id><ns0:version>2.0</ns0:version></ns0:identifikation>
+    <ns0:struktur><ns0:enthaelt><ns0:datenfeld><ns0:identifikation><ns0:id>F99000009</ns0:id><ns0:version>9.9</ns0:version></ns0:identifikation></ns0:datenfeld></ns0:enthaelt></ns0:struktur>
+  </ns0:datenfeldgruppe>
+</ns0:xdatenfelder.datenfeldgruppe.0103>

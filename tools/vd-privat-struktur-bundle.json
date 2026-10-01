@@ -1705,6 +1705,44 @@
        "typ": "text"
       },
       {
+       "id": "pregnancy",
+       "sensibel": true,
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        }
+       ]
+      },
+      {
+       "id": "pregnancyEstimatedDueDate",
+       "sensibel": true,
+       "typ": "datum",
+       "sichtbarWenn": {
+        "feld": "pregnancy",
+        "wert": "ja"
+       }
+      },
+      {
+       "id": "wanderingRisk",
+       "sensibel": true,
+       "typ": "auswahl",
+       "optionen": [
+        {
+         "wert": "ja"
+        }
+       ]
+      },
+      {
+       "id": "wanderingRiskDetails",
+       "sensibel": true,
+       "typ": "text",
+       "sichtbarWenn": {
+        "feld": "wanderingRisk",
+        "wert": "ja"
+       }
+      },
+      {
        "id": "heightCm",
        "sensibel": true,
        "typ": "text",
@@ -4287,7 +4325,7 @@
   },
   "administration": {
    "id": "administration",
-   "format": "XOEV",
+   "format": "VERWALTUNG",
    "icon": "landmark",
    "exporte": [
     {

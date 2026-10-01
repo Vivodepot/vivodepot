@@ -1,0 +1,81 @@
+{
+  "format": "showcaseSzenen/1",
+  "hinweis": "Vorführung „Patientin“ (Frauenklinik). Stationstexte Stand 28.09.2026. Station 2 zeigt „Meine Dokumente“, solange die Vorlage „Mein Behandlungsweg“ nicht gebaut ist. Station 5 zeigt den Bereich Verwaltung, weil Krankengeld, Arbeitgeber und Schwerbehindertenausweis dort als laufende Vorgänge stehen. Nur Deutsch.",
+  "noindex": true,
+  "stationSekunden": 8,
+  "leerlaufSekunden": 90,
+  "warnSekunden": 10,
+  "texte": {
+    "de": {
+      "streifen": "Vorführung · Beispieldaten einer erfundenen Patientin",
+      "tippen": "Tippen Sie, um das Beispiel-Depot selbst zu öffnen.",
+      "leerlaufHinweis": "Die Vorführung beginnt gleich von vorn.",
+      "weiterAnsehen": "Weiter ansehen",
+      "gesperrt": "In der Vorführung wird nichts gespeichert. Mehr über Vivodepot unter vivodepot.de.",
+      "schliessen": "Schließen",
+      "auszug": "Auszug",
+      "notizLabel": "Erklärung",
+      "mehr": "mehr",
+      "weniger": "weniger"
+    }
+  },
+  "stationen": [
+    {
+      "ansicht": "uebersicht",
+      "text": {
+        "de": "Eine Patientin hat mit vielen Stellen zu tun: Klinik, Praxis, Krankenkasse, Arbeitgeber, Versorgungsamt. Sie ist die Einzige, die in allen vorkommt, und hier hält sie das Bild zusammen."
+      },
+      "anker": ".bereich-karte[data-sektor=\"people\"]"
+    },
+    {
+      "ansicht": "mappe",
+      "text": {
+        "de": "Laborbefund und Entlassbrief liegen bei der Patientin so, wie die Klinik sie ausgestellt hat. Weitergeben kann sie sie unverändert."
+      },
+      "anker": "#mappe-liste-host .mappe-eintrag"
+    },
+    {
+      "ansicht": "anlass",
+      "ziel": "krankenhaus",
+      "text": {
+        "de": "Für die Aufnahme geht nur hinaus, was die Station braucht: Versicherung, Medikation, Allergie und dass es eine Vorsorgevollmacht und eine Patientenverfügung gibt, mit dem Namen des Bevollmächtigten. Diagnose und Ablageort bleiben bei ihr."
+      },
+      "anker": "#modal-titel"
+    },
+    {
+      "ansicht": "fhir-ips",
+      "text": {
+        "de": "Diagnose, Medikation und Allergien sind besonders geschützt. Hinaus geht nur, was die Patientin freigibt. Gibt sie alle drei frei, gehen sie als HL7 FHIR IPS hinaus, etwa an die Praxis oder für eine Zweitmeinung. Diagnosen und Medikamente stehen darin als standardisierte Codes (ICD-10-GM und ATC). Die festen Sätze sind Englisch, damit auch eine Stelle im Ausland den Auszug lesen kann."
+      },
+      "anker": "#modal-titel"
+    },
+    {
+      "ansicht": "bereich",
+      "ziel": "administration",
+      "text": {
+        "de": "Neben der Therapie läuft das Übrige weiter: Krankengeld, Arbeitgeber, Schwerbehindertenausweis. Die Stellen stehen an einem Ort, auch die Frist beim Versorgungsamt am 15.10."
+      },
+      "anker": "feld:administration.ongoingAdministrativeCases"
+    },
+    {
+      "ansicht": "bereich",
+      "ziel": "advanceCare",
+      "text": {
+        "de": "Was ihr wichtig ist und wer mitentscheiden darf, hat sie selbst festgelegt. Die Patientenverfügung folgt den Textbausteinen des Bundesjustizministeriums."
+      },
+      "anker": "#sek-living-will-decisions"
+    },
+    {
+      "ansicht": "notfall",
+      "text": {
+        "de": "Im Notfall steht oben, was die Behandelnden zuerst wissen müssen, darunter, wen man anruft."
+      }
+    },
+    {
+      "ansicht": "schluss",
+      "text": {
+        "de": "Die Datei liegt verschlüsselt bei der Patientin. Vivodepot berät nicht und sieht nichts von dem, was im Depot steht."
+      }
+    }
+  ]
+}

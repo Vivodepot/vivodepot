@@ -24,7 +24,9 @@ const TRAEGER = ['NOTICE.md', 'THIRD_PARTY_LICENSES'];
 function seiteLesen(html) {
   const text = String(html).replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&copy;/g, '©').replace(/\s+/g, ' ');
   const lizenz = /Creative Commons (Attribution[\w-]*(?:-NoDerivatives)? \d\.\d) International/.exec(text);
-  const jahr = /Copyright © (\d{4}) SNOMED International/.exec(text);
+  // Die Seite schrieb bis September 2026 „Copyright © <Jahr> SNOMED International“, seit Oktober 2026 im Fuß nur
+  // „© <Jahr> SNOMED International“; beide Formen tragen dasselbe Jahr.
+  const jahr = /(?:Copyright )?© (\d{4}) SNOMED International/.exec(text);
   return { lizenz: lizenz ? lizenz[1] : null, jahr: jahr ? jahr[1] : null };
 }
 

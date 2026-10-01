@@ -94,3 +94,9 @@ quelle:    invariante
 ---
 
 *Vivodepot GmbH · U2-ADR-123 · Beschluss 01.08.2026, Nummer vergeben 03.08.2026*
+
+## Nachtrag (28.09.2026, U2-ADR-444)
+
+Die unter „Was offen bleibt" genannte Sperre ist entschieden: Die Verselbstständigung ist das Abgeben (Entscheidung vom
+20.09.2026), das tote Feld `verselbststaendigungMoeglich` entfällt. Der Übergang „das Sub-Depot wird in derselben Sitzung zum
+Anker" bleibt ungebaut, solange niemand ihn beschließt.

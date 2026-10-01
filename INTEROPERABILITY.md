@@ -41,7 +41,7 @@ Import-Seite trägt sechs Formate, die es ausdrücklich nur liest.
 | `sd-jwt-vc-identitaet` | ja | Teilmenge |
 | `sd-jwt-vc-finanzen` | ja | Teilmenge |
 | `sd-jwt-vc-sozialversicherung` | ja | Teilmenge |
-| `xoev-verwaltung` | ja | Teilmenge |
+| `xoev-verwaltung` (Verwaltungs-Stammdaten) | ja | Teilmenge |
 | `fim-json` | ja | Teilmenge |
 | `edci-bildung` | ja | alle geführten Bildungsnachweise |
 | `vcard-identitaet` | ja | Kontaktangaben, nicht der ganze Sektor |
@@ -133,15 +133,27 @@ Profil erkennbar. Für die übrigen vier — `xoev-verwaltung`, `edci-bildung`, 
 Format ist dokumentiert, aber die Datei selbst sagt nicht, welcher Fassung sie folgt. Ein
 Empfänger kann das nicht prüfen.
 
-**`fim-json` ist kein XÖV-konformes Format.** FIM (Föderales Informationsmanagement) ist ein
+**`fim-json` ist heute kein Format nach einem FIM-Datenschema.** FIM (Föderales Informationsmanagement) ist ein
 Standardwerk, kein Dateiformat. Was Vivodepot erzeugt, ist ein eigenes JSON mit **an FIM
 angelehnter Feldbenennung**. Die frühere Außendarstellung hat das anders behauptet; korrigiert am
 12.08.2026. Die korrigierten Sätze stehen auf der Website und werden dort geprüft, nicht in
 diesem Repository.
 
-**Kein Format trägt eine kryptographische Herkunftssignatur, außer den `sd-jwt-vc-*`-Ausgaben.**
-Wer eine exportierte Datei erhält, kann bei den übrigen nicht prüfen, dass sie aus Vivodepot
-stammt und unverändert ist.
+**Kein Format der App (`vivodepot.html`) trägt eine kryptographische Herkunftssignatur.** Die
+`sd-jwt-vc-*`-Exporte schreiben trotz ihres Namens eine JSON-Datei (`{ vct, iss, iat, claims }`,
+`application/json`), eine unsignierte Selbstauskunft (`iss` = `urn:vivodepot:selbstauskunft`; U2-ADR-030,
+Variante A), kein SD-JWT. Die kompakte SD-JWT-Form erzeugt nur der Dialog „An EUDI-Wallet übergeben“,
+dessen Knopf ausgeblendet ist (`EUDIW_SICHTBAR = false`). Sie trägt `alg: none` und ist damit kein
+SD-JWT im Sinne von RFC 9901 §4.1, das eine Signatur des Ausstellers verlangt und `none` ausschließt;
+ein konformer Prüfer lehnt sie ab (§7.1, Schritt 2a). Die Antwort als JWE (U2-ADR-449) ist
+verschlüsselt und gegen Veränderung geschützt, belegt aber keine Herkunft. Wer eine exportierte Datei
+erhält, kann nicht prüfen, dass sie aus Vivodepot stammt. Der separate Aussteller
+`vivodepot-vc-issuer.html` signiert; er ist nicht die App. Zum Nachsehen:
+- `grep -n "{ id: 'sd-jwt-vc-identitaet', kategorie: 'sektor'" -A2 vivodepot.html` zeigt im ersten Treffer, dem Export, `mime: 'application/json'`, `endung: 'json'`; der zweite ist der Import.
+- `grep -n "const EUDIW_SICHTBAR" vivodepot.html` zeigt den ausgeblendeten Dialog.
+- `grep -n "alg: 'none'" vivodepot.html` zeigt den Kopf seiner kompakten SD-JWT-Ausgabe.
+- `grep -n "_signJWS(" vivodepot.html` findet nur die Definition und ihre Beschreibung, keinen Aufruf.
+- `grep -n "subtle.sign(" vivodepot.html` findet den HMAC der Adressableitung und den Aufruf im Rumpf von `_signJWS`.
 
 **Die JWE-Serialisierung der SMART Health Links ist von Hand geschrieben** (keine jose-Bibliothek
 im Kern) und hat noch keinen externen Krypto-Review. Der Round-Trip ist geprüft

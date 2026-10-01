@@ -30,6 +30,10 @@ const BFARM_2026 = Object.freeze({
     2: 'Als unkontrolliert und nicht schwer bezeichnet', 3: 'Als gut kontrolliert und schwer bezeichnet',
     4: 'Als teilweise kontrolliert und schwer bezeichnet', 5: 'Als unkontrolliert und schwer bezeichnet', 9: 'Ohne Angabe zu Kontrollstatus und Schweregrad' } },
 });
+/* Endständige dreistellige Kategorien (keine 4. Stelle), Titel wörtlich aus dem Systematischen Verzeichnis ICD-10-GM Version 2026,
+   abgerufen 28.09.2026 (https://klassifikationen.bfarm.de/icd-10-gm/kode-suche/htmlgm2026/block-c51-c58.htm): C56 ist nicht weiter
+   unterteilt. Anlass: die Vorführung „Patientin" (Diagnose C56). */
+const BFARM_2026_DREISTELLIG = Object.freeze({ C56: 'Bösartige Neubildung des Ovars' });
 // Kategorien ohne endständige Form unterhalb der 5. Stelle (Nicht-endständig im Auszug belegt).
 const NICHT_ENDSTAENDIG = new Set(['E11', 'E11.9', 'I10', 'I10.9', 'J45', 'J45.9']);
 
@@ -37,6 +41,13 @@ function befund(daten) {
   const funde = [];
   for (const d of daten) {
     if (NICHT_ENDSTAENDIG.has(d.code)) { funde.push(d.code + ': nicht endständig'); continue; }
+    if (Object.prototype.hasOwnProperty.call(BFARM_2026_DREISTELLIG, d.code)) {
+      const amtlich3 = BFARM_2026_DREISTELLIG[d.code];
+      // Die Liste führt quellBegriff für alle oder keinen (tests/code-listen-freigabe.test.js); ohne ihn ist der angezeigte Name der Titel.
+      const titel = d.quellBegriff !== undefined ? d.quellBegriff : d.anzeigeName;
+      if (titel !== amtlich3) funde.push(d.code + ': Titel „' + titel + '" statt „' + amtlich3 + '"');
+      continue;
+    }
     const m = /^([A-Z]\d{2}\.\d)(\d)$/.exec(d.code);
     const k = m && BFARM_2026[m[1]];
     if (!k || !k.fuenfte[m[2]]) { funde.push(d.code + ': nicht im BfArM-Auszug'); continue; }
@@ -55,4 +66,9 @@ test('[ICD-10-GM·endständig] jeder Code der Liste ist endständig; ein eingetr
 test('[ICD-10-GM·endständig·Rot-Beweis] E11.9 und ein abweichender Titel fallen', () => {
   assert.deepEqual(befund([{ code: 'E11.9', quellBegriff: 'Diabetes mellitus Typ 2, ohne Komplikationen' }]), ['E11.9: nicht endständig']);
   assert.equal(befund([{ code: 'E11.90', quellBegriff: 'Diabetes mellitus Typ 2, ohne Komplikationen' }]).length, 1);
+  // Dreistellig endständig (28.09.2026): ein eigener Titel an C56 fällt, als quellBegriff wie als anzeigeName; der amtliche nicht; eine unbekannte Kategorie fällt.
+  assert.deepEqual(befund([{ code: 'C56', quellBegriff: 'Ovarialkarzinom' }]), ['C56: Titel „Ovarialkarzinom" statt „Bösartige Neubildung des Ovars"']);
+  assert.deepEqual(befund([{ code: 'C56', anzeigeName: 'Ovarialkarzinom' }]), ['C56: Titel „Ovarialkarzinom" statt „Bösartige Neubildung des Ovars"']);
+  assert.deepEqual(befund([{ code: 'C56', anzeigeName: 'Bösartige Neubildung des Ovars' }]), []);
+  assert.deepEqual(befund([{ code: 'C57' }]), ['C57: nicht im BfArM-Auszug']);
 });

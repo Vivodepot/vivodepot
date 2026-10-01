@@ -1,0 +1,20 @@
+{
+  "_zweck": "Eingefrorene Terminologie-Literale des IPS-Exports für die NFD-Lücken (v835, 29.09.2026): Begriffe fremder Code-Systeme und die Sektionstitel des IPS, unverändert übernommen, kein Produkttext. Erzeugt in die Region CODE-LISTEN (tools/build-code-listen.js), gelesen über IPS_BEGRIFFE im Kern.",
+  "snomed": {
+    "_herkunft": "SNOMED CT, Global Patient Set 20260101 (CC BY-ND 4.0), US Preferred Term unverändert; freigegeben nach Nutzungsmuster in tools/snomed-freigabe.json (U2-ADR-446).",
+    "77386006": "Pregnancy",
+    "161714006": "Estimated date of delivery"
+  },
+  "kbvWeglauf": {
+    "_herkunft": "KBV MIO Patientenkurzakte 1.0.0, CodeSystem https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk, Apache-2.0 (kassenaerztliche-bundesvereinigung/MIOParser, NOTICE: KBV MIO Parser / Copyright 2020 - 2022 Kassenärztliche Bundesvereinigung); s. THIRD_PARTY_LICENSES.",
+    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk",
+    "version": "1.0.0",
+    "code": "Weglaufgefaehrdung",
+    "display": "Weglaufgefährdung"
+  },
+  "sektionen": {
+    "_herkunft": "Titel der IPS-Sektionen (hl7.fhir.uv.ips#2.0.0, Composition-uv-ips).",
+    "alerts": "Alerts",
+    "schwangerschaft": "History of Pregnancy"
+  }
+}

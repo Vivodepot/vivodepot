@@ -436,3 +436,10 @@ test('[Hinweis beim Anlegen·Rot-Beweis] erster Commit auf einem Zweig ohne Zuku
   assert.equal(LV.zweigHinweis({ zweig: '', commitsSeitKanon: 0, zweigAusgenommen: aus }), null, 'losgelöster HEAD');
 });
 
+
+test('[Zweig ohne -l4-] zweigPruefen: ohne Muster ein Abbruch mit Umbenennungsbefehl; Muster, Sicherung, Landeziel und losgelöster HEAD gehen', () => {
+  const aus = (z) => /^sicherung-/.test(z) || /-l4-|^l4-|-l4$/.test(z);
+  assert.match(LV.zweigPruefen({ zweig: 'arbeit-x-2026-09-28', zweigAusgenommen: aus }) || '', /git branch -m arbeit-x-2026-09-28 arbeit-x-l4-2026-09-28/);
+  assert.match(LV.zweigPruefen({ zweig: 'wip-ohne-datum', zweigAusgenommen: aus }) || '', /git branch -m wip-ohne-datum wip-ohne-datum-l4/);
+  for (const z of ['arbeit-l4-2026-09-28', 'sicherung-x', 'u2-kanon', 'main', '']) assert.equal(LV.zweigPruefen({ zweig: z, zweigAusgenommen: aus }), null, z || '(losgelöst)');
+});

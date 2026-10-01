@@ -110,7 +110,11 @@ const NUR_CHIFFRAT = [
 // 17 → 18 am 16.09.2026 (MyTerms v1-Schnitt, Teil C): `_vereinbarungBegleitdateiSichern` — die Vereinbarung
 // als Begleitdatei zum Auszug. Dieselbe Klasse wie das Angebot darüber: Kennungen, Quellen, Prüfsummen, Stand,
 // Name der annehmenden Stelle — kein Depot-Feld (belegt: tests/vereinbarung-bedingung-reist-mit.test.js).
-const ERLAUBTE_KLARTEXT_ANZAHL = 18;
+// 18 → 19 am 28.09.2026 (U2-ADR-444): `flowMappeVerwahrungHerunterladen` — das Original mit Verwahrungsnachweis.
+// Das Original steht byte-gleich darin wie beim bestehenden Original-Download; dazu kommen allein Name, Geschlecht
+// und Geburtsdatum der Person (derselbe Patient wie im FHIR-IPS-Auszug) und die Provenance. Kein Geheimnis, kein
+// Schlüssel, keine neue Feld-Grenze. Eine Weitergabe: der Weg läuft durch `mitVereinbarung` (MyTerms Teil D).
+const ERLAUBTE_KLARTEXT_ANZAHL = 19;
 
 test('[Klausel] Bindung an ' + ADR + ' über das Fundament', () => {
   bindungPruefen(ADR, HERKUNFT, PRUEFUNGEN, __filename);

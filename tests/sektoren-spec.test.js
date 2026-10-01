@@ -296,7 +296,7 @@ test('Sektor 8: Organspende-Einschraenkung als bedingtes Freitextfeld (jetzt Unt
 test('Sektor 9 Verwaltung: zwei Sektionen; die KI-Verfügung ist ausgezogen (Block H), Krisenvorsorge ausgezogen (F6)', () => {
   const { V } = require('./load-kern.js').ladeKern();
   const s = V.SEKTOR_BY_ID.administration;
-  assert.equal(s.format, V.SEKTOR_FORMATE.XOEV);
+  assert.equal(s.format, V.SEKTOR_FORMATE.VERWALTUNG);
   // Block H (23.07.2026): Die Sektion `ki-verfuegung` ist entfallen. Sie trug seit Block E KEIN
   // Feld mehr — die zwölf ki_*-Werte housing in der Vorsorge-Instrument-Liste. Zurück blieb eine
   // Überschrift, auf die die Regal-Karte sprang: ein Sprungziel ohne Inhalt. Der Test prüfte

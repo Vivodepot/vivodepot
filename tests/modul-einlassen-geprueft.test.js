@@ -153,10 +153,10 @@ test('[modulEinlassenGeprueft·pruefstufe] über vivodepot/pruefstelle MIT rolle
   const pruefstelle = await wegwerfKeypair();
   const kunde = await wegwerfKeypair();
   const ausstellerZertifikatJws = await signieren(V,
-    Object.assign(anbieterCertRohling('vivodepot/pruefstelle-2026', pruefstelle.pubJwk), { credentialSubject: Object.assign({}, anbieterCertRohling('x', pruefstelle.pubJwk).credentialSubject, { anbieterTyp: V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, anbieterId: 'vivodepot/pruefstelle-2026', rolle: 'pruefer' }) }),
+    Object.assign(anbieterCertRohling('vivodepot/pruefstelle-2026', pruefstelle.pubJwk), { credentialSubject: Object.assign({}, anbieterCertRohling('x', pruefstelle.pubJwk).credentialSubject, { anbieterTyp: V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, anbieterId: 'vivodepot/pruefstelle-2026', rolle: 'pruefer', geltung: { modulTypen: ['textsatz'], sprachen: ['hu'] } }) }),
     SENTINEL_PRIVATE_JWK);
   const providerCredentialJws = await signieren(V, anbieterCertRohling('institution/test-kunde', kunde.pubJwk), pruefstelle.privJwk);
-  const modulSignaturJws = await signieren(V, TEXTSATZ_MODUL, kunde.privJwk);
+  const modulSignaturJws = await signieren(V, Object.assign({}, TEXTSATZ_MODUL, { originaleSumme: { kern: { [V._sprachBasisSprache()]: await V._originaleSummeKern() } } }), kunde.privJwk);
   const bundle = JSON.stringify({ providerCredentialJws, modulSignaturJws, ausstellerZertifikatJws });
 
   const d = V.leeresDepot();

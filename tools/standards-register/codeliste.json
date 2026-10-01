@@ -1,0 +1,34 @@
+{
+  "familie": "codeliste",
+  "adapter": null,
+  "standards": [
+    {
+      "id": "snomed-ct-gps",
+      "name": "SNOMED CT Global Patient Set",
+      "version": "20260101",
+      "herausgeber": "SNOMED International",
+      "quelle": {
+        "url": "https://www.snomed.org/gps",
+        "abgerufen": "2026-09-28"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "CC BY-ND 4.0. SNOMED International, Ticket #61950 (26. und 28.09.2026): jedes aktive GPS-Konzept darf genutzt werden, unveränderter Begriff, keine Hierarchie, Beziehungen, Subsumption oder ECL (U2-ADR-446)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "gesundheit",
+      "status": "teilweise",
+      "artefakte": [
+        "snomed-gps-20260101"
+      ],
+      "exportwege": [
+        "fhir-ips"
+      ],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Geprüft von tools/snomed-gps-abgleich.js gegen den gepinnten Release (aktiv, Begriff = US Preferred Term) und von den SNOMED-Proben der Suite (Anzeige, Nutzungsmuster, Namensnennung); kein externer Prüfer-Adapter — eine Codeliste, kein Validator."
+    }
+  ]
+}

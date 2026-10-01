@@ -364,3 +364,14 @@ test('[W-webseite-stand · C · Gegenprobe] eine Seite, die es SAGT, ist kein Be
     assert.deepEqual(W.pruefen(tmp).funde.filter((f) => f.pruefung === 'C'), []);
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 });
+
+/* 29.09.2026: FAQ.md sagte „von Schema 24 bis zum heutigen Stand 63“, der Kern stand auf 89. Das Muster kannte nur
+   „heutigen 63“ — das Wort „Stand“ dazwischen ließ die Zahl durch. ROT-BEWEIS: der alte FAQ-Satz und die englische Form. */
+test('[W-aussagen · Schema heute] „heutigen Stand 63“, „aktuellen Schema 63“ und „current schema 63“ werden gefunden, die richtige Zahl nicht', () => {
+  const stand = { zahlen: { 'Schema-Version': 89 } };
+  const fund = (satz) => A.ankerLesen('FAQ.md', satz + '\n', stand).map((f) => f.gesagt);
+  assert.deepEqual(fund('Vivodepot bringt Depots von Schema 24 bis zum heutigen Stand 63 mit'), ['63']);
+  assert.deepEqual(fund('Depots werden auf das Schema der aktuellen Schema 63 gehoben'), ['63']);
+  assert.deepEqual(fund('Depots from schema 24 up to the current schema 63'), ['63']);
+  assert.deepEqual(fund('Vivodepot bringt Depots von Schema 24 bis zum heutigen Stand 89 mit'), []);
+});

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "hl7-validator-cli-6.9.12",
+    "art": "werkzeug",
+    "version": "6.9.12",
+    "lizenz": "Apache-2.0",
+    "url": "https://github.com/hapifhir/org.hl7.fhir.core/releases/download/6.9.12/validator_cli.jar",
+    "sha256": "0e53ab1d1a6f1e35f505255c0b8ce10a35fcf27e6e96b503640f784cd07e5ad6",
+    "entpacken": null,
+    "herkunft": "gespiegelt aus dem bestehenden HL7-Beschaffungsweg (Version, SHA-256); beschafft wird dort"
+  },
+  {
+    "id": "hl7-fhir-uv-ips-2.0.0",
+    "art": "daten",
+    "version": "2.0.0",
+    "lizenz": "CC0-1.0",
+    "url": "https://packages.fhir.org/hl7.fhir.uv.ips/2.0.0",
+    "sha256": "b3964eba08ee699bc121b905c4290641e54dd34f2cf3b5cd3edeb08a40a66979",
+    "entpacken": "tgz",
+    "herkunft": "curl + shasum -a 256 am 28.09.2026; der Validator lädt das Paket selbst über -ig"
+  },
+  {
+    "id": "hl7-fhir-eu-eps-1.0.0-ballot",
+    "art": "daten",
+    "version": "1.0.0-ballot",
+    "lizenz": "CC0-1.0",
+    "url": "https://packages.fhir.org/hl7.fhir.eu.eps/1.0.0-ballot",
+    "sha256": "e0fff1fb20d3daf75609259faa6b860131ebf4fc8890bb68f0da882307afc33c",
+    "entpacken": "tgz",
+    "herkunft": "curl + shasum -a 256 am 28.09.2026; der Validator lädt das Paket selbst über -ig"
+  },
+  {
+    "id": "edc-ap-shapes-generic-full-1.1.0",
+    "art": "daten",
+    "version": "1.1.0",
+    "lizenz": "CC-BY-4.0 (im Inhalt, Z. 34); Repo EUPL-1.2",
+    "url": "https://raw.githubusercontent.com/european-commission-empl/European-Learning-Model/9d7c5d22002237c3afeb1750b7038e6fe2cdd371/rdf/ap/edc/EDC-generic-full.ttl",
+    "sha256": "5e409f5bb79e0013867f63b8e5174ae4013bb971a0d729fd77ba2fb531e1be8b",
+    "entpacken": null,
+    "herkunft": "gespiegelt aus tests/konformitaet/adapter/itb-shacl.mjs (ARTEFAKTE); erhoben dort am 28.09.2026"
+  },
+  {
+    "id": "edc-ap-shapes-generic-no-cv-1.1.0",
+    "art": "daten",
+    "version": "1.1.0",
+    "lizenz": "CC-BY-4.0 (im Inhalt, Z. 32); Repo EUPL-1.2",
+    "url": "https://raw.githubusercontent.com/european-commission-empl/European-Learning-Model/9d7c5d22002237c3afeb1750b7038e6fe2cdd371/rdf/ap/edc/EDC-generic-no-cv.ttl",
+    "sha256": "14e691293cad67283301f032b946fdf104687547327bfd0eef747afa3316115d",
+    "entpacken": null,
+    "herkunft": "gespiegelt aus tests/konformitaet/adapter/itb-shacl.mjs (ARTEFAKTE); erhoben dort am 28.09.2026"
+  },
+  {
+    "id": "edc-ap-kontext-20230928-0",
+    "art": "daten",
+    "version": "20230928-0",
+    "lizenz": "ohne eigene Angabe; Herausgeber EU-Kommission",
+    "url": "https://op.europa.eu/o/opportal-service/euvoc-download-handler?cellarURI=http://publications.europa.eu/resource/distribution/snb-model/20230928-0/jsonld/owl/edc-ap-context.jsonld",
+    "sha256": "fde0b3fd92e98a8870c173fb98baff361be6dd07e44653a9a5ac6c0fe626b411",
+    "entpacken": null,
+    "kontextFuer": "http://data.europa.eu/snb/model/context/edc-ap",
+    "herkunft": "gespiegelt aus tests/konformitaet/adapter/itb-shacl.mjs (ARTEFAKTE); erhoben dort am 28.09.2026"
+  },
+  {
+    "id": "w3c-credentials-v1-kontext",
+    "art": "daten",
+    "version": "1.1",
+    "lizenz": "W3C Document License",
+    "url": "https://www.w3.org/2018/credentials/v1",
+    "sha256": "ab4ddd9a531758807a79a5b450510d61ae8d147eab966cc9a200c07095b0cdcc",
+    "entpacken": null,
+    "kontextFuer": "https://www.w3.org/2018/credentials/v1",
+    "herkunft": "gespiegelt aus tests/konformitaet/adapter/itb-shacl.mjs (ARTEFAKTE); erhoben dort am 28.09.2026"
+  },
+  {
+    "id": "snomed-gps-20260101",
+    "art": "daten",
+    "version": "20260101",
+    "lizenz": "CC-BY-ND-4.0",
+    "lokal": {
+      "name": "SnomedINTL_GPSRelease_PRODUCTION_20260101T120000Z.zip",
+      "bezug": "SNOMED International, Global Patient Set (snomed.org/gps), CC BY-ND 4.0 — nicht weitergegeben, kein Re-Hosting; von Hand beschafft und intern abgelegt"
+    },
+    "sha256": "f49909beb10ce0c9897863237730cfc5362d1a8a519d3f69e59121305facec75",
+    "herkunft": "shasum -a 256 am 28.09.2026; geprüft wird mit node tools/snomed-gps-abgleich.js --gps <zip>"
+  },
+  {
+    "id": "itb-shacl-validator-1.13.0",
+    "art": "werkzeug",
+    "version": "1.13.0",
+    "lizenz": "EUPL-1.2",
+    "docker": "isaitb/shacl-validator@sha256:877d7e696a19c215b1104a6c69bb4e0744365f8eed906c3f6cf52f4ff70c2eea",
+    "herkunft": "Digest am 28.09.2026 gemessen (hub.docker.com, Tag 1.13.0; docker pull bestätigt ihn), Lizenz api.github.com/repos/ISAITB/shacl-validator; beschafft von node tools/itb-shacl-beschaffen.mjs"
+  },
+  {
+    "id": "1edtech-dcpv-v1.11.3",
+    "art": "werkzeug",
+    "version": "v1.11.3",
+    "lizenz": "Apache-2.0 (Prüfer, LICENSE des Repos); das Kernmodul inspector-core 1.9.1 trägt keine Lizenzangabe (s. Register json-schema)",
+    "quelle": "https://github.com/1EdTech/digital-credentials-public-validator@9995ad9da1fbc5475ef9841c466e59f83d300b5f",
+    "herkunft": "aus offizieller Quelle gebaut: tools/1edtech-validator/Dockerfile (Quellarchiv am Commit per SHA-256, Basis-Images per Digest), node tools/1edtech-validator-beschaffen.mjs. Der Tag v1.11.3 ist leichtgewichtig (kein Tag-Objekt); gepinnt ist sein Commit"
+  }
+]

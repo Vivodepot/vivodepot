@@ -1,0 +1,189 @@
+{
+  "resourceType": "Bundle",
+  "meta": {
+    "profile": [
+      "http://hl7.eu/fhir/hdr/StructureDefinition/bundle-eu-hdr"
+    ]
+  },
+  "identifier": {
+    "system": "urn:ietf:rfc:3986",
+    "value": "urn:uuid:7a2d3b20-0000-4000-8000-000000000000"
+  },
+  "type": "document",
+  "timestamp": "2026-06-24T14:00:00+02:00",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:7a2d3b20-0000-4000-8000-000000000001",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "7a2d3b20-0000-4000-8000-000000000001",
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "34105-7",
+              "display": "Hospital Discharge summary"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:7a2d3b20-0000-4000-8000-000000000002"
+        },
+        "encounter": {
+          "reference": "urn:uuid:7a2d3b20-0000-4000-8000-000000000004"
+        },
+        "date": "2026-06-24T14:00:00+02:00",
+        "author": [
+          {
+            "reference": "urn:uuid:7a2d3b20-0000-4000-8000-000000000003"
+          }
+        ],
+        "title": "Entlassbrief",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Entlassbrief für Katrin Mustermann, geb. 09.05.1979 (Beispielperson).</p><p>Stationärer Aufenthalt vom 15.06.2026 bis 24.06.2026, Station 5.</p></div>"
+        },
+        "section": [
+          {
+            "title": "Diagnosen bei Entlassung",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "11535-2",
+                  "display": "Hospital discharge diagnosis note"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>C56 Bösartige Neubildung des Ovars</p></div>"
+            },
+            "entry": [
+              {
+                "reference": "urn:uuid:7a2d3b20-0000-4000-8000-000000000005"
+              }
+            ]
+          },
+          {
+            "title": "Stationärer Verlauf",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "8648-8",
+                  "display": "Hospital course note"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Aufnahme zur operativen Therapie. Postoperativer Verlauf ohne Komplikationen, Entlassung in gutem Allgemeinzustand.</p></div>"
+            }
+          },
+          {
+            "title": "Weiteres Vorgehen",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://loinc.org",
+                  "code": "18776-5",
+                  "display": "Plan of care note"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Weiterbehandlung in der onkologischen Ambulanz nach Terminvereinbarung. Anschlussrehabilitation beantragt.</p></div>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7a2d3b20-0000-4000-8000-000000000002",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "7a2d3b20-0000-4000-8000-000000000002",
+        "name": [
+          {
+            "family": "Mustermann",
+            "given": [
+              "Katrin"
+            ]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1979-05-09"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7a2d3b20-0000-4000-8000-000000000003",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "7a2d3b20-0000-4000-8000-000000000003",
+        "name": "Klinik am Beispielufer, Frauenklinik"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7a2d3b20-0000-4000-8000-000000000004",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "7a2d3b20-0000-4000-8000-000000000004",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "IMP",
+          "display": "inpatient encounter"
+        },
+        "subject": {
+          "reference": "urn:uuid:7a2d3b20-0000-4000-8000-000000000002"
+        },
+        "period": {
+          "start": "2026-06-15",
+          "end": "2026-06-24"
+        },
+        "serviceProvider": {
+          "reference": "urn:uuid:7a2d3b20-0000-4000-8000-000000000003"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7a2d3b20-0000-4000-8000-000000000005",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "7a2d3b20-0000-4000-8000-000000000005",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://fhir.de/CodeSystem/bfarm/icd-10-gm",
+              "version": "2026",
+              "code": "C56",
+              "display": "Bösartige Neubildung des Ovars"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "urn:uuid:7a2d3b20-0000-4000-8000-000000000002"
+        }
+      }
+    }
+  ]
+}

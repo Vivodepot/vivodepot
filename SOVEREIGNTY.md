@@ -22,12 +22,18 @@ Zusage stillschweigend zu brechen, liest hier weiter.
 ## 1 · Die Daten verlassen das Gerät nicht
 
 **Der Mechanismus.** Vivodepot ist eine einzelne HTML-Datei. Sie hat keinen Server, keinen
-Account, keine Anmeldung. Es gibt keinen Ort, an den Daten gesendet werden könnten.
+Account, keine Anmeldung. Die Anwendung selbst sendet keine Daten an einen Server.
 
 **Was es hält:**
 
-- Die Content-Security-Policy sperrt `connect-src` auf `'none'`. Geprüft wird zusätzlich, dass es
+- Die Content-Security-Policy sperrt `connect-src` auf `'none'`, also Abrufe per Skript (`fetch`,
+  `XMLHttpRequest`, `WebSocket`, `EventSource`, `sendBeacon`). Geprüft wird zusätzlich, dass es
   **genau einen** CSP-Meta-Tag gibt — eine zweite Policy könnte die erste im Effekt aufweiten.
+- Wohin die Seite navigiert, regelt die Content-Security-Policy nicht; ein eingeschleustes Skript
+  könnte Daten in der Adresse mitnehmen. Deshalb ist jede Stelle, an der der Code HTML über
+  `innerHTML`, `outerHTML`, `insertAdjacentHTML` oder `document.write` aus einem Wert erzeugt,
+  einzeln geprüft und mit Begründung in einer Liste geführt; eine neue oder geänderte Stelle ist rot,
+  bis sie geprüft ist (`tests/html-senken-grundlinie.test.js`).
 - Im eigenen Code kommt kein `fetch`, kein `XMLHttpRequest`, kein `WebSocket`, kein
   `navigator.sendBeacon`, kein `EventSource`, kein entferntes `import()` und kein
   `<link rel="preconnect">` vor. Jede dieser acht Formen hat eine eigene Prüfung.
@@ -44,31 +50,43 @@ aus [`SECURITY.md`](SECURITY.md), und der setzt voraus, dass jemand ihn tut.
 
 ---
 
-## 2 · Es gibt keinen Zweitschlüssel
+## 2 · Der Anbieter hat keinen Zweitschlüssel
 
 **Der Mechanismus.** Der Schlüssel wird aus dem Passwort der Halterin abgeleitet, bei jedem
-Öffnen neu. Er liegt nirgends gespeichert, und es existiert kein zweiter Weg zu den Daten.
+Öffnen neu. Er liegt nirgends gespeichert. Einen Weg zu den Daten am Passwort vorbei gibt es für
+den Anbieter nicht.
+
+Den einzigen zweiten Weg zum vollen Depot hält die Halterin selbst: den optionalen
+Wiederherstellungs-Code ([U2-ADR-430](docs/adr/vivodepot-U2-ADR-430-wiederherstellungs-huelle-abwaehlbar-2026-09-21.md)). Die Anwendung erzeugt ihn beim Anlegen eines Depots
+oder später in den Einstellungen, mit mindestens 128 Bit Entropie; die Halterin schreibt ihn ab und
+verwahrt ihn. Er wickelt das Ergebnis der Passwort-Ableitung, aus dem der Schlüssel entsteht, ein
+zweites Mal ein, läuft durch dieselbe Ableitung wie das Passwort und wird von der Anwendung in keine Datei und keinen
+Druckauftrag geschrieben. Er ist voreingestellt und lässt sich abwählen; dann entsteht die zweite
+Hülle nicht.
 
 **Die Zahlen:** PBKDF2 mit 600 000 Iterationen, AES-256-GCM, Krypto-Version 3 und 4 (beide
 lesbar — 4 ist der Zerfall in Feld-Einheiten, 3 bleibt der Rückweg), Signaturen EdDSA mit ES256
 als Rückfall.
 
 **Was es hält — und das ist der ungewöhnliche Teil:** es gibt Prüfungen, die die **Abwesenheit**
-eines Wiederherstellungswegs erzwingen.
+eines Wiederherstellungswegs beim Anbieter erzwingen.
 
 - Das Passwort ist Pflicht-Argument der Ableitung; ein Aufruf ohne es ist kein gültiger Aufruf.
 - `sessionHkdfKey` darf **nur** innerhalb der einen Setup-Funktion gesetzt werden. Ein zweiter,
   außenliegender Setzer macht die Prüfung rot.
 - Kein neuer Bezeichner der Familie `master`, `recovery`, `reset`, `escrow`, `backdoor`,
-  `wiederherstell` darf im eigenen Code auftauchen. Diese Prüfung ist bewusst grob: sie schlägt
+  `wiederherstell` darf im eigenen Code auftauchen, außer den zwei namentlich gebundenen der
+  Wiederherstellungs-Hülle (feste Funktionen, feste Zahl von Vorkommen). Diese Prüfung ist bewusst grob: sie schlägt
   auch bei harmlosen Namen an, und das ist der Preis dafür, dass sie den nicht-harmlosen findet.
-- `crypto.subtle.exportKey` kommt im eigenen Code nirgends vor.
+- `crypto.subtle.exportKey` wird nur auf öffentliche Schlüssel angewandt, nie auf abgeleitete oder
+  private.
 - Eine Laufzeit-Inventur zählt jeden erzeugten Schlüssel und verlangt, dass **jeder geheime oder
   private** davon `extractable: false` trägt. Sie unterscheidet dabei Produktphase von
   Testgerüst — sonst könnte ein Testschlüssel die Aussage über das Produkt verwässern.
 
-**Die Grenze:** Wer das Passwort verliert, verliert die Daten. Das ist kein Defekt, sondern
-dieselbe Aussage von der anderen Seite. Ein Wiederherstellungsweg wäre ein Zweitschlüssel.
+**Die Grenze:** Wer Passwort und Wiederherstellungs-Code verliert, verliert die Daten; wer den
+Code abgewählt hat, schon mit dem Passwort. Das ist dieselbe Aussage von der anderen Seite: ein
+Wiederherstellungsweg beim Anbieter wäre ein Zweitschlüssel in fremder Hand.
 
 ---
 

@@ -22,13 +22,15 @@ verlangt null Verbindungen nach außen. Einzelheiten in
 
 ## Was passiert, wenn ich mein Passwort vergesse?
 
-Dann sind die Daten verloren. Das ist bewusst so.
+Dann öffnen Sie das Depot mit Ihrem Wiederherstellungs-Code und vergeben ein neues Passwort. Den
+Code erzeugt die Anwendung beim Anlegen des Depots oder später in den Einstellungen; Sie schreiben
+ihn ab und verwahren ihn. Er ist voreingestellt und lässt sich abwählen.
 
-Ein Wiederherstellungsweg wäre ein zweiter Schlüssel, und wer einen zweiten Schlüssel hat, kann
-ihn auch herausgeben müssen. Vivodepot hat keinen — es gibt Prüfungen, die eigens dafür da sind,
-dass niemand versehentlich einen einbaut.
+Ohne Passwort und ohne Code sind die Daten verloren. Vivodepot selbst hat keinen Weg zu ihnen: es
+gibt Prüfungen, die eigens dafür da sind, dass niemand versehentlich einen Wiederherstellungsweg
+beim Anbieter einbaut.
 
-**Was Sie stattdessen tun können:** Bewahren Sie eine Kopie der Depot-Datei an einem zweiten Ort
+**Was Sie zusätzlich tun können:** Bewahren Sie eine Kopie der Depot-Datei an einem zweiten Ort
 auf, und Ihr Passwort dort, wo Sie auch andere wichtige Passwörter aufbewahren.
 
 ## Wie sicher ist die Verschlüsselung?
@@ -59,9 +61,12 @@ gesamte Software steht unter EUPL-1.2, ist also offen und darf weiterentwickelt 
 
 ## Was ist mit alten Depots aus früheren Fassungen?
 
-Vivodepot bringt Depots von Schema 24 bis zum heutigen Stand 63 mit — 40 Schritte, die beim
-Öffnen automatisch durchlaufen. 32 dieser Schritte tragen eine eigene Prüfung, sieben sind über
-eine eigene Testdatei abgedeckt, einer ist begründet nicht prüfbar.
+Vivodepot bringt Depots aus früheren Fassungen dieser Anwendung auf den heutigen Stand; die Schritte
+dafür laufen beim Öffnen automatisch. Die heutige Schema-Version steht in
+[`docs/faktenbasis.md`](docs/faktenbasis.md). Eine Probe baut ein Depot im Format der ältesten Fassung, die die
+Migrationskette behandelt, füllt jedes heutige Feld mit einem eindeutigen Wert, lässt es durch alle Schritte laufen
+und prüft, dass danach jeder dieser Werte noch im Depot steht
+([`tests/stresstest-02-alte-datei.test.js`](tests/stresstest-02-alte-datei.test.js)).
 
 Für Depots aus der Vorgängerfassung (Schema 19) gibt es keinen Migrationsweg; sie werden über
 einen eigenen Import-Kanal eingelesen.

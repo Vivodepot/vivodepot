@@ -181,7 +181,7 @@ function adrRegister() {
   return eintraege;
 }
 
-function pruefebeneZahlen(htmlText) {
+function pruefebeneZahlen(htmlText, { mitSuite = false } = {}) {
   // Suite-Zahl: NICHT mechanisch gezählt — ein mechanischer `test(`-Zähler über tests/*.test.js
   // ergab beim ersten Lauf 3539, der echte Lauf 3649 (Differenz 110). Grund: einzelne Dateien
   // erzeugen mehrere Tests pro Schleifendurchlauf aus EINEM `test(`-Aufruf im Quelltext (z. B.
@@ -210,6 +210,12 @@ function pruefebeneZahlen(htmlText) {
     // Definition von AUSGABE) — der ~50s-Lauf träfe nur die Geschwindigkeit der Suite selbst,
     // nicht die Richtigkeit des Prüfmechanismus, den diese Läufe belegen sollen.
     suiteHinweis = 'in Testläufen (--ausgabe gesetzt) nicht ermittelt, s. Kommentar';
+  } else if (!mitSuite) {
+    // Befund FAKTENBASIS-STARTET-SUITE (26.09.2026): wer erzeugeFaktenbasis() als Bibliothek rief, um eine
+    // billige Zahl zu lesen (etwa die E2E-Zahl), startete hier unbemerkt eine volle Suite, ohne Suite-Platz;
+    // eine Sitzung trieb damit vier Suiten auf die Maschine. Gemessen wird nur noch, wenn der Aufrufer es
+    // ausdrücklich verlangt: das Hauptprogramm, und das holt vorher einen Platz (s. main()).
+    suiteHinweis = 'als Bibliothek aufgerufen nicht ermittelt — gemessen wird nur im Hauptprogramm, mit Suite-Platz';
   } else {
     // U2-ADR-228: explizite Dateiliste aus `git ls-files`, nicht Nodes eigene
     // Muster-Suche — sonst zählt ein gitignorierter, nie committeter Testfund
@@ -360,7 +366,7 @@ function kryptoFakten(htmlText) {
   return { pbkdf2Iterationen: pbkdf2, aes256Gcm: aesGcm };
 }
 
-function erzeugeFaktenbasis() {
+function erzeugeFaktenbasis({ mitSuite = false } = {}) {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
   const { V } = ladeKern();
   const htmlText = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
@@ -381,7 +387,7 @@ function erzeugeFaktenbasis() {
   const situationenZahl = Array.isArray(V.SITUATIONEN) ? V.SITUATIONEN.length : Object.keys(V.SITUATIONEN || {}).length;
 
   const adr = adrRegister();
-  const pruefebene = pruefebeneZahlen(htmlText);
+  const pruefebene = pruefebeneZahlen(htmlText, { mitSuite });
   const krypto = kryptoFakten(htmlText);
   const gestaltung = gestaltungsKlassen(htmlText, DESIGN_KLASSEN);
 
@@ -502,8 +508,19 @@ function vergleichsBefund(bisherig, neu) {
 const MAX_ZEILEN_IM_BEFUND = 8;
 const kurz = (z) => (z.length > 200 ? z.slice(0, 197) + '…' : z);
 
+// Der echte Suite-Lauf belegt einen der globalen Suite-Plätze (tools/lib/suite-platz.js) wie jede andere Suite.
+// Wer schon einen hält (landung-vorbereiten, ein Hook), vererbt ihn; sonst wird gewartet, nie vorbeigestartet.
+function suitePlatzFuerMessung(P = require('./lib/suite-platz.js')) {
+  if (CHECK || OHNE_SUITE || AUSGABE_ARG_INDEX !== -1) return null;
+  const r = P.platzHolenMitWarten({ name: 'faktenbasis-erzeugen' }, { wartenS: 1800, melden: (x) => console.error('faktenbasis-erzeugen: ' + P.meldungBelegt(x)) });
+  if (!r.geholt) { console.error('✗ faktenbasis-erzeugen: kein Suite-Platz frei — nichts gemessen. Oder: --ohne-suite.'); process.exit(1); }
+  if (!r.geerbt) process.once('exit', () => P.platzFreigeben());
+  return r;
+}
+
 function main() {
-  const f = erzeugeFaktenbasis();
+  suitePlatzFuerMessung();
+  const f = erzeugeFaktenbasis({ mitSuite: true });
   let neuerText = formatiereMarkdown(f);
   if (CHECK) {
     if (!fs.existsSync(AUSGABE)) { console.error('✗ faktenbasis-erzeugen --check: docs/faktenbasis.md fehlt.'); process.exit(1); }
@@ -557,6 +574,6 @@ function main() {
 if (require.main === module) main();
 module.exports = {
   commitHash, commitErreichbar,
-  erzeugeFaktenbasis, formatiereMarkdown, versionsBelegeAusFunktion, erzeugerName, importErzeugerName,
+  erzeugeFaktenbasis, pruefebeneZahlen, formatiereMarkdown, versionsBelegeAusFunktion, erzeugerName, importErzeugerName,
   importWegBeschreiben, adrRegister, normalisiertFuerVergleich, vergleichsBefund, gestaltungsKlassen, DESIGN_KLASSEN,
 };

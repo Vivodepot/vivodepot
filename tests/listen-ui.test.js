@@ -49,7 +49,7 @@ test('1a) listenEintragZusammenfassung zieht skalare Sub-Werte mit „ · " zusa
   const { V } = ladeKern();
   const z = V.listenEintragZusammenfassung(kinderFeld(),
     { vorname: 'Anna', nachname: 'Müller', gebdatum: '2020-05-30' });
-  assert.equal(z, 'Anna · Müller · 2020-05-30');
+  assert.equal(z, 'Anna · Müller · Geburtsdatum: 30.05.2020');   // seit 01.10.2026 (v839): ein Datum steht beschriftet und deutsch
 });
 
 test('1b) listenEintragZusammenfassung überspringt leere Sub-Werte', () => {

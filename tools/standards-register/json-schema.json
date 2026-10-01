@@ -1,0 +1,44 @@
+{
+  "familie": "json-schema",
+  "adapter": "1edtech-validator",
+  "standards": [
+    {
+      "id": "open-badges-3",
+      "name": "1EdTech Open Badges 3.0 (OpenBadgeCredential / AchievementCredential)",
+      "version": "3.0",
+      "herausgeber": "1EdTech Consortium",
+      "quelle": {
+        "url": "https://www.imsglobal.org/spec/ob/v3p0/",
+        "abgerufen": "2026-09-28"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Genehmigung nötig, bis geklärt: das Kernmodul inspector-core 1.9.1 (und inspector-web-public 1.9.1), das der Prüfer beim Bau aus dem öffentlichen Maven-Server von 1EdTech lädt, trägt keine Lizenzangabe — gemessen 28.09.2026: kein <licenses> in https://nexus.1edtech.net/repository/1edtech-public-release/org/1edtech/inspector-core/1.9.1/inspector-core-1.9.1.pom und im Eltern-POM …/public-validator/1.9.1/public-validator-1.9.1.pom, im JAR weder LICENSE noch NOTICE (META-INF/MANIFEST.MF ohne Angabe), kein öffentliches Quell-Repo (GitHub-Suche org:1EdTech inspector: 0). Ob Nutzung in der Suite, Weitergabe oder CI-Nutzung erlaubt ist, ist damit nicht belegt. Klar sind: der Prüfer selbst und seine Testdateien (Apache-2.0, github.com/1EdTech/digital-credentials-public-validator, LICENSE; tests/fixtures/ob3-LICENSE-Apache-2.0.txt) und die Spezifikation (IMS-Spezifikationslizenz, ob_v3p0/license.md in github.com/1EdTech/openbadges-specification: Weitergabe nur als Ganzes, keine Ableitungen — darum Fixtures aus dem Prüfer). Nichts davon wird weitergegeben: das Image entsteht lokal, kein Re-Hosting."
+      },
+      "richtung": [
+        "empfangen",
+        "pruefen",
+        "verwahren",
+        "vorzeigen"
+      ],
+      "bereich": "bildung",
+      "status": "teilweise",
+      "werkzeugHerkunft": "aus offizieller Quelle gebaut",
+      "gemessen": {
+        "datum": "2026-09-28",
+        "werkzeug": "1EdTech Digital Credentials Public Validator v1.11.3, gebaut aus github.com/1EdTech/digital-credentials-public-validator@9995ad9da1fbc5475ef9841c466e59f83d300b5f (Archiv sha256:221504cabced1532e25a2c708831edcb4dab4f2eb0ab0657fdb0c671cb271068)",
+        "probe": "tests/ob3-1edtech-lauf.test.js",
+        "beschaffen": "node tools/1edtech-validator-beschaffen.mjs"
+      },
+      "artefakte": [
+        "1edtech-dcpv-v1.11.3"
+      ],
+      "exportwege": [],
+      "importwege": [
+        "openbadges-3-extern"
+      ],
+      "bezuege": null,
+      "grund": "teilweise, bis die Lizenz von inspector-core geklärt ist (s. lizenz). Gemessen ist der Lauf trotzdem: der Prüferlauf ist am offiziellen Prüfer von 1EdTech gemessen, ohne Netz. Was der Kern nach dem Verwahren herausgibt, urteilt er gleich wie die Testdatei; jede der vier Formen (JSON-LD, VC-JWT, PNG, SVG) hat einen gültigen Fall, die Testdateien im Entwurfsstand bzw. abgelaufen fallen aus dem gemessenen Grund, ein Badge ohne Aussteller wird abgelehnt. Ohne Netz bleibt nur die Warnung, die Aussteller-URL sei nicht erreichbar. Verwahren und byte-gleiches Vorzeigen belegt tests/bildung-ob3-halten.test.js; U2-ADR-445."
+    }
+  ]
+}

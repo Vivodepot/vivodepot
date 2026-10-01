@@ -131,6 +131,31 @@ function userAbschnitt(inhalt) {
  * @param {{repo?: string}} [optionen]
  * @returns {number} Exit-Code
  */
+/* Abdruck des Arbeitsbaums: was git als unversioniert oder ignoriert meldet. Die Playwright-Ablagen gehören
+   dem Lauf (dieselbe Liste wie im Baum-Abdruck des Wächter-Selbsttests). .artifacts/ wird hier bewusst MIT gemeldet:
+   die node-Suite hat dort nichts zu suchen — genau das war der Befund. */
+function baumAbdruck(repo) {
+  try {
+    return execFileSync('git', ['status', '--porcelain=v1', '--untracked-files=all', '--ignored=matching'],
+      { cwd: repo, env: ohneGitUmgebung(), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] })
+      .split('\n').filter((z) => z && (z.startsWith('?? ') || z.startsWith('!! ')));
+  } catch (_) { return null; }
+}
+function baumNeu(vorher, nachher) {
+  if (!vorher || !nachher) return [];
+  const alt = new Set(vorher);
+  return nachher.filter((z) => !alt.has(z)).map((z) => z.slice(3))
+    .filter((r) => !/^(test-results|playwright-report|blob-report)\//.test(r));
+}
+
+/* KENNZEICHNUNG (29.09.2026): läuft die Wache INNERHALB eines Testprozesses — dort setzt der Test-Preload
+   (tests/hook-sperre-testumgebung.js) VD_HOOK_SPERRE_JE_PID, der echte Hook nie —, dann ist jede ABBRUCH-Zeile die
+   Ausgabe einer Probe, deren Rot-Beweis genau diesen Abbruch pflanzt. Zweimal an einem Tag wurden solche Zeilen für
+   echte Funde gehalten und banden je eine Sitzung. Der Zusatz macht den Unterschied lesbar; am Exit ändert er nichts. */
+function kennung(env = process.env) {
+  return env.VD_HOOK_SPERRE_JE_PID ? ' (Probe eines Tests, kein Befund dieses Laufs)' : '';
+}
+
 function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempBasis } = {}) {
   const pfad = geteilteConfigPfad(repo);
   const vorher = userAbschnitt(pfad ? inhaltLesen(pfad) : null);
@@ -163,6 +188,12 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
   }
   const env = laufTmp ? { ...process.env, TMPDIR: laufTmp, TMP: laufTmp, TEMP: laufTmp } : process.env;
 
+  /* BAUM-ABDRUCK ÜBER DIE GANZE SUITE (28.09.2026, Befund KONFORMITAET-ARTEFAKTE-IM-BAUM): ein Lauf, der
+     etwas im Arbeitsbaum anlegt, macht später einen anderen Lauf rot (dort: den Wächter-Selbsttest im pre-push). Zuerst
+     NUR MELDEND, weil nicht gemessen ist, was die Suite heute alles in den Baum legt; wird zur Ratsche,
+     sobald die Meldung auf den Beständen leer ist. Nur mit `temp` (der CLI-Aufruf um npm test). */
+  const abdruckVorher = temp ? baumAbdruck(repo) : null;
+
   const [cmd, ...args] = befehl;
   let ergebnis;
   let tempRest = null;
@@ -180,12 +211,24 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
   if (tempRest && tempRest.anzahl > 0) {
     const liste = Object.entries(tempRest.praefixe).sort((a, b) => b[1] - a[1]).map(([p, n]) => n + '× ' + p).join(', ');
     console.error('');
-    console.error('[temp-aufraeumen] ABBRUCH — der Lauf hat ' + tempRest.anzahl + ' Einträge unter os.tmpdir liegen lassen: ' + liste);
+    console.error('[temp-aufraeumen]' + kennung() + ' ABBRUCH — der Lauf hat ' + tempRest.anzahl + ' Einträge unter os.tmpdir liegen lassen: ' + liste);
     console.error('  Eine Probe räumt ihr mkdtemp im finally bzw. after() ab; im Testprozess tut es sonst der Preload');
     console.error('  (tools/lib/temp-aufraeumen-preload.js). Was trotzdem liegt, kommt aus einem Kindprozess oder ohne mkdtemp.');
     console.error('  Das Laufverzeichnis ist geräumt — die Platte läuft nicht voll, der Befund bleibt.');
     console.error('');
     if (laufExit === 0) laufExit = 1;
+  }
+
+  if (abdruckVorher !== null) {
+    const neu = baumNeu(abdruckVorher, baumAbdruck(repo));
+    if (neu.length) {
+      console.error('');
+      console.error('[baum-abdruck]' + kennung() + ' HINWEIS (noch kein Abbruch) — der Lauf hat ' + neu.length + ' Einträge im Arbeitsbaum angelegt:');
+      for (const z of neu.slice(0, 20)) console.error('  ' + z);
+      if (neu.length > 20) console.error('  … und ' + (neu.length - 20) + ' weitere');
+      console.error('  Eine Probe schreibt unter os.tmpdir, nicht in den Baum (Muster: tools/lib/nachweis-ablage.js).');
+      console.error('');
+    }
   }
 
   if (!pfad) return laufExit; // kein Git-Arbeitsbaum — nichts zu bewachen, das ist kein Fehler dieser Wache
@@ -194,7 +237,7 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
 
   const { neu, weg } = geaenderteZeilen(vorher, nachher);
   console.error('');
-  console.error('[geteilte-git-config-wache] ABBRUCH — der [user]-Abschnitt der GETEILTEN Konfiguration '
+  console.error('[geteilte-git-config-wache]' + kennung() + ' ABBRUCH — der [user]-Abschnitt der GETEILTEN Konfiguration '
     + 'hat sich waehrend dieses Laufs veraendert: ' + pfad);
   console.error('  Diese Datei gehoert JEDEM Arbeitsbaum dieses Repos gemeinsam — den [user]-Abschnitt '
     + 'aendert niemand aus einem Lauf heraus, das macht ausschliesslich die Depotinhaberin von Hand.');
@@ -223,9 +266,17 @@ function main() {
     console.error('Aufruf: node tools/geteilte-git-config-wache.js [--repo <pfad>] -- <befehl> [args...]');
     process.exit(2);
   }
-  const befehl = argv.slice(trenner + 1);
+  /* PARALLELITÄT (29.09.2026): höchstens die Hälfte der Kerne je Lauf, eine Stelle für alle — tools/lib/test-parallel.js. */
+  const P = require('./lib/test-parallel.js');
+  const n = P.testParallel();
+  const roh = argv.slice(trenner + 1);
+  const befehl = P.mitParallelitaet(roh, n);
+  if (befehl.length !== roh.length) {
+    console.error(`[test-parallel] ${n} parallele Testdateien von ${P.kernZahl()} Kernen`
+      + (process.env.VD_TEST_PARALLEL ? ' (VD_TEST_PARALLEL)' : ' (Hälfte der Kerne; übersteuerbar mit VD_TEST_PARALLEL)'));
+  }
   process.exit(bewachterLauf(befehl, { repo, platz: true, temp: true }));
 }
 
 if (require.main === module) main();
-module.exports = { geteilteConfigPfad, inhaltLesen, geaenderteZeilen, userAbschnitt, bewachterLauf, ohneGitUmgebung };
+module.exports = { kennung, baumAbdruck, baumNeu, geteilteConfigPfad, inhaltLesen, geaenderteZeilen, userAbschnitt, bewachterLauf, ohneGitUmgebung };

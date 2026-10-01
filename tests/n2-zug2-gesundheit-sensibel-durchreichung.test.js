@@ -101,7 +101,8 @@ test('[N2·Zug2·Rotmachbarkeit] ohne den Sensibel-Gate im Builder fällt der Mu
   const cp = require('node:child_process');
   const KERN = path.join(__dirname, '..', 'vivodepot.html');
   const src = fs.readFileSync(KERN, 'utf8');
-  const anker = "const g = {};\n  for (const feldId of ['allergiesMedicationFoodOther', 'medicationOngoing', 'chronicConditionsDiagnoses', 'operationsProcedures', 'implantsProsthesesPacemakers']) {\n    if (!inklSensibel && feldIstSensibel(feldDefFuer('health', feldId), 'health')) continue;\n    g[feldId] = gRoh[feldId];\n  }";
+  // v835 (29.09.2026): die Liste des Gates trägt seither auch die vier NFD-Felder (Schwangerschaft, Weglaufgefährdung).
+  const anker = "const g = {};\n  for (const feldId of ['allergiesMedicationFoodOther', 'medicationOngoing', 'chronicConditionsDiagnoses', 'operationsProcedures', 'implantsProsthesesPacemakers',\n    'pregnancy', 'pregnancyEstimatedDueDate', 'wanderingRisk', 'wanderingRiskDetails']) {\n    if (!inklSensibel && feldIstSensibel(feldDefFuer('health', feldId), 'health')) continue;\n    g[feldId] = gRoh[feldId];\n  }";
   assert.ok(src.includes(anker), 'Anker des Sensibel-Gates gefunden (sonst umbenannt)');
   const mutantSrc = src.replace(anker, 'const g = gRoh;   // GEPFLANZT: kein Sensibel-Gate mehr');
   const mutantDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kern-n2-zug2-gate-mutant-'));

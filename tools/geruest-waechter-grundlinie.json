@@ -119,10 +119,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 223809
+   "bytes": 232000
   },
   "satz": {
-   "bytes": 29659
+   "bytes": 29515
   }
  },
  "fremdcode": [
@@ -157,6 +157,7 @@
  "technischeWoerter": [
   "Alphanumeric",
   "Arguments",
+  "Binary",
   "Bundle",
   "Composition",
   "Condition",
@@ -167,6 +168,7 @@
   "Enter",
   "Escape",
   "Fields",
+  "Flag",
   "Height",
   "Helvetica",
   "Indexed",
@@ -216,8 +218,8 @@
   "dauerhaft": [
    {
     "name": "CODE-LISTEN",
-    "satz": 1241,
-    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein.",
+    "satz": 1687,
+    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840).",
     "probe": "tests/code-listen-lizenzhinweise-im-kern.test.js"
    },
    {
@@ -481,6 +483,221 @@
    "auf": 223809,
    "daneben": {},
    "grund": "U2-ADR-440: Ableitung der Festlegungen der Patientenverfügung im Kern (Sektions-Id, Ableitungs-Merkmal, Kennungspräfix, nurAnzeige)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 223809,
+   "auf": 223848,
+   "daneben": {},
+   "grund": "Übergabe eines verwalteten Sub-Depots zum 18. Geburtstag (28.09.2026, Gegenlesung erteilt): prueftermineUebergaben, _volljaehrigAm, istUebergabe im Prüfblatt und im Kalender; Texte im Sprachsatz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 223848,
+   "auf": 225190,
+   "daneben": {},
+   "grund": "Widerspruch der vertretenen Person (28.09.2026, Gegenlesung erteilt, ein Commit): Erfassen und Entfernen mit Spur, die Engstelle _widerspruchHinweisHTML in vier Dialogen, Wiedervorlage im Prüfblatt, Liste und Dialog an der Karte; Texte im Sprachsatz, Fehler als Kennungen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 225190,
+   "auf": 225688,
+   "daneben": {},
+   "grund": "Verwahrungsnachweis-Hülle (U2-ADR-444): FHIR-Bundle mit Binary, Patient, RelatedPerson und Provenance (System-URLs, Codes, Schlüsselnamen), der Knopf in der Mappe und die Vereinbarungssperre des Wegs; Gegenlesung erteilt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 225632,
+   "auf": 225963,
+   "daneben": {},
+   "grund": "U2-ADR-441 Zertifikatsweg für externe Prüfer: Prüfer unter der eigenen Treuhand, Geltungsbereich, Originalsätze je Basissprache",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 225963,
+   "auf": 225984,
+   "daneben": {},
+   "grund": "S7 (v824): Kennung fach-nur-lesen im Bearbeitungstor (Fehlertext und .code, je 14 Byte) minus nach-umfang gegenüber voll (−7 Byte); Wort der Gegenlesung 28.09.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 225984,
+   "auf": 226216,
+   "daneben": {},
+   "grund": "Geheimnis-Felder leeren (Selektor, Markierung am Code-Feld) und Mitlauf-Hinweis unter dem Kontrollfeld (Befund GEHEIMNIS-DOM, Abnahme Wiederherstellungs-Code)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 226215,
+   "auf": 226231,
+   "daneben": {},
+   "grund": "v827 ruhende Bürger-Bereiche lesen den Katalog",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 226231,
+   "auf": 228548,
+   "daneben": {},
+   "grund": "v828 (U2-ADR-437 und U2-ADR-413 Nachträge (3)/(4)): Markup des Klinik-Stapels — Freigabe-Dialog mit Klartext-Beschriftung, Kopf der Anfrage, Knopfzeile „Einzeln entscheiden“, Verweis-Spalte der Notfall-Ansicht — und der Demo-Spalte (Rolle, Schritte, Knöpfe, Zwischenkarte) samt Passwortfeld der Demo; benannt am 29.09.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 228548,
+   "auf": 228556,
+   "daneben": {},
+   "grund": "Ansicht mappe: die Vorführung öffnet „Meine Dokumente“ als Station (Demo Patientin, v829); Wort der Gegenlesung 29.09.2026.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 228548,
+   "auf": 228760,
+   "daneben": {},
+   "grund": "Schema 90 / Coding.version: data-absent-reason für unbekannte Fassung, Migrationsstufe 90 (+179) und ihre Sicherung nach der Verwaisungsregel (+33); v831, Wort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 228760,
+   "auf": 229335,
+   "daneben": {},
+   "grund": "U2-ADR-452: gilt bis je Fach, Vertretungsrolle in FHIR",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 229335,
+   "auf": 229627,
+   "daneben": {},
+   "grund": "U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 229627,
+   "auf": 230435,
+   "daneben": {},
+   "grund": "Kind-Datei: Ort-Schnittstelle, Karte, Dialog, Prüfblatt-Zeile (U2-ADR-454); Gegenlesung erteilt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 230435,
+   "auf": 231116,
+   "daneben": {},
+   "grund": "v835: IPS-Abbildung von Schwangerschaft und Weglaufgefährdung (Observation, Flag, Sektionen) und NFD-Felder der Notfallkarte, Wort der Gegenlesung 30.09.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 231116,
+   "auf": 231496,
+   "daneben": {},
+   "grund": "Open Badges 3.0 halten (U2-ADR-445): Kennungen des Badge-Originals — Formen-Tabelle (MIME, Endung), Typnamen, Namensraum-Kennung, Import-Kanal; kein satzförmiger Inhalt, der Satz-Eimer bleibt, wo er war.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 231496,
+   "auf": 231635,
+   "daneben": {
+    "satz": -48
+   },
+   "grund": "U2-ADR-456 FIM-Bezüge: fimBezugFuer, _fimFelderMitBezug, feldBezugZeileHTML (+139 Byte)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 231635,
+   "auf": 231647,
+   "daneben": {},
+   "grund": "Datum in der Listen-Zusammenfassung beschriftet und deutsch (Befund LISTE-DATUM-OHNE-BESCHRIFTUNG): Typschlüssel und Trenner, die Beschriftung kommt aus dem Textsatz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 231647,
+   "auf": 231682,
+   "daneben": {
+    "satz": -40
+   },
+   "grund": "v840: Lese-Alias für das frühere Format-Kürzel (SEKTOR_FORMAT_FRUEHER, sektorFormatLesen), Wort der Gegenlesung 01.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 231670,
+   "auf": 232000,
+   "daneben": {
+    "satz": -56
+   },
+   "grund": "Vorführung: Erklärtext als angeheftete Notiz (Anker, Anheften, mehr/weniger; CSS der Notiz), v843; Wort der Gegenlesung 30.09.2026.",
    "laengste": {
     "einzel": 0,
     "lauf": 62

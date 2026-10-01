@@ -60,6 +60,22 @@ while online; for offline use, open the downloaded file directly. The official a
 [https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/) ship a service worker (`sw.js`)
 and also work offline once installed.
 
+## Reproduce the published checksums
+
+`SECURITY.md` (section 8) lists the SHA-256 of every delivered version of each product and of its `sw.js`. To check
+one against the source, build the products as they are delivered, with the service worker:
+
+```
+git checkout v1.0.<version>
+node tools/vier-produkte-erzeugen.js --wie-ausgeliefert --ziel <folder>
+shasum -a 256 <folder>/*/vivodepot.html <folder>/privat-de/sw.js
+```
+
+`--wie-ausgeliefert` sets `window.__abWerkServiceWorkerVorhanden = true` and places the repository's `sw.js` next to
+each product; without it the build is the single-file product described above and its checksum differs in exactly that
+line. Tags up to `v1.0.818` predate the option: build without it, change that one line from `false` to `true`, and the
+checksum matches the published one; compare the `sw.js` of the checkout itself.
+
 ## Tests
 
 Install the development dependencies once:

@@ -15,14 +15,33 @@
         "status": "geprueft",
         "text": "Je Datei: die Shapes EDC-generic-full.ttl und EDC-generic-no-cv.ttl tragen im Inhalt dc:license CC BY 4.0 (Zeile 34 bzw. 32, am Commit 9d7c5d22); das Repository steht unter EUPL-1.2 (GitHub-API /repos/european-commission-empl/European-Learning-Model/license). Der Kontext edc-ap trägt keine eigene Angabe (Repository-Lizenz EUPL-1.2). Die Doku-Seite des ELM-Browsers nennt CC BY 4.0. Genutzt wird ohne Weitergabe: kein Re-Hosting, Beschaffung in den lokalen Cache."
       },
-      "richtung": ["empfangen", "pruefen", "verwahren", "vorzeigen"],
+      "richtung": [
+        "empfangen",
+        "pruefen",
+        "verwahren",
+        "vorzeigen"
+      ],
       "bereich": "bildung",
-      "status": "teilweise",
-      "artefakte": ["edc-ap-shapes-generic-full-1.1.0", "edc-ap-shapes-generic-no-cv-1.1.0", "edc-ap-kontext-20230928-0", "w3c-credentials-v1-kontext"],
+      "status": "echt",
+      "artefakte": [
+        "itb-shacl-validator-1.13.0",
+        "edc-ap-shapes-generic-full-1.1.0",
+        "edc-ap-shapes-generic-no-cv-1.1.0",
+        "edc-ap-kontext-20230928-0",
+        "w3c-credentials-v1-kontext"
+      ],
       "exportwege": [],
-      "importwege": ["edci-europass-extern"],
+      "importwege": [
+        "edci-europass-extern"
+      ],
       "bezuege": null,
-      "grund": "teilweise, bis der Prüferlauf gemessen ist: der ITB-SHACL-Validator ist offline nur als Docker-Image verteilt (Release 1.13.0 ohne JAR-Asset); Weg (Docker per Digest oder Eigenbau aus Tag 1.13.0) ist eine offene Produktentscheidung. Verwahren und byte-gleiches Vorzeigen belegt tests/bildung-edc-halten.test.js; U2-ADR-443."
+      "grund": "echt: der Prüferlauf ist am offiziellen Werkzeug gemessen (ITB SHACL Validator 1.13.0, Docker-Image der Kommission per Digest, ohne Netz). Was der Kern nach dem Verwahren herausgibt, urteilt ITB gleich wie das EU-Beispiel; die gesiegelten Beispiele bestehen edc-generic-full, der ungesiegelte Entwurf nicht (ohne issued, Aussteller ohne eIDAS-Kennung), ein Credential ohne Aussteller wird abgelehnt. Kontexte werden lokal aufgelöst (eingebettet), ITB lädt ohne Netz keine Kontext-Adresse. Verwahren und byte-gleiches Vorzeigen belegt tests/bildung-edc-halten.test.js; U2-ADR-443.",
+      "gemessen": {
+        "datum": "2026-09-28",
+        "werkzeug": "isaitb/shacl-validator@sha256:877d7e696a19c215b1104a6c69bb4e0744365f8eed906c3f6cf52f4ff70c2eea",
+        "probe": "tests/edc-itb-shacl-lauf.test.js",
+        "beschaffen": "node tools/itb-shacl-beschaffen.mjs"
+      }
     }
   ]
 }

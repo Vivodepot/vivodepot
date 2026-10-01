@@ -70,6 +70,11 @@
    NACHTRAG (26.09.2026): Obergrenze 17 → 18, BEWUSST. tests/publiccode-parser-offiziell.test.js — `{ skip: … }`, NUR
    wenn der offizielle publiccode-parser (v5.4.3, wie im Workflow) nicht installiert ist; der Grund steht im
    Skip-Text („übersprungen: …“). Rückkehr-Bedingung: keine (bedingter Skip der Umgebung, kein Defekt).
+
+   NACHTRAG (28.09.2026): Obergrenze 18 → 19, BEWUSST, auf Verlangen der Gegenlesung.
+   tests/verselbststaendigung-feld-entfernt.test.js — `t.skip('keine Git-Historie')`, NUR im Rot-Beweis am alten Kern, wenn die
+   Git-Historie fehlt (öffentlicher Zuschnitt). Vorher setzte er dort still grün aus; sichtbar ausgesetzt ist er ehrlich.
+   Der gepflanzte Rot-Beweis derselben Datei läuft immer. Rückkehr-Bedingung: keine (bedingter Skip der Umgebung).
    ════════════════════════════════════════════════════════════════════════════ */
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -77,7 +82,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const OBERGRENZE = 18;
+const OBERGRENZE = 19;
 const MUSTER = /^\s*(?:test|it)\.(skip|todo)\(|,\s*\{\s*skip\s*:|\bt\.skip\(/gm;
 
 const EIGENE_DATEI = path.resolve(__filename);

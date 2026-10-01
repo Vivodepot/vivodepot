@@ -30,8 +30,10 @@
    blockierte keinen Push, nur den manuellen CLI-Lauf.
 
    Aufruf:
-     node tools/vier-produkte-erzeugen.js [--ziel <ordner>]
+     node tools/vier-produkte-erzeugen.js [--ziel <ordner>] [--wie-ausgeliefert]
      (Standard-Ziel: produkte/, gitignored)
+     --wie-ausgeliefert: mit Service Worker und sw.js daneben, byte-gleich mit dem, was der Shop ausliefert — damit
+     lässt sich die Prüfsumme je Fassung aus SECURITY.md nachrechnen (29.09.2026).
    ════════════════════════════════════════════════════════════════════════════ */
 const path = require('node:path');
 const { konfektionieren, gerüstByteGleich } = require('./produkt-konfektionieren.js');
@@ -51,6 +53,7 @@ function main() {
   const argv = process.argv.slice(2);
   const argWert = (name) => { const i = argv.indexOf(name); return (i >= 0 && argv[i + 1]) ? argv[i + 1] : null; };
   const ziel = path.resolve(argWert('--ziel') || path.join(REPO, 'produkte'));
+  const wieAusgeliefert = argv.includes('--wie-ausgeliefert');
 
   const { ladeIssuer } = require(path.join(REPO, 'tests', 'load-issuer.js'));
   const ISSUER = ladeIssuer().V;
@@ -62,6 +65,7 @@ function main() {
       ziel, slug: p.slug, modulauswahl: [],
       vorDepotKonfigurationInhaltFn: ISSUER.vorDepotKonfigurationDateiInhalt,
       unsignierteModulDateien,
+      wieAusgeliefert,
     });
     process.stdout.write('erzeugt: ' + p.slug + ' — ' + ergebnisse[p.slug].ordner + '\n');
     process.stdout.write('  Module: ' + (ergebnisse[p.slug].unsignierteModule.join(', ') || '(keins — nativer Rückfall)') + '\n');

@@ -96,3 +96,66 @@ test('[Bezüge] die Kommandozeile gegen die Fixtures: Exit 0 und die Summen je D
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /fhir-probe \(Fassung 1\.0\.0\): ja 3 · teilweise 0 · nein 3 von 6/);
 });
+
+// ── FIM-Baukasten (U2-ADR-456): Kennung, Fassung, Status — und sonst nichts aus der XDF-Datei ──────────────
+
+test('[Bezüge·FIM] XDF-Leser: nur Kennung, Fassung und Art des ersten Bausteins — enthaltene Felder einer Gruppe nicht', () => {
+  const g = B.quelleLesen(path.join(B.FIXTURE, 'quellen', 'fim-probe', 'G99000002_V2.0.xdf.xml'));
+  assert.equal(g.format, 'xdf');
+  assert.deepEqual(Object.keys(g.elemente), ['G99000002']);
+  assert.equal(g.elemente.G99000002.fassung, '2.0');
+  assert.equal(g.elemente.G99000002.typ, 'datenfeldgruppe');
+  assert.equal(g.elemente.G99000002.kurz, '', 'kein Name aus der Datei');
+  const f = B.quelleLesen(path.join(B.FIXTURE, 'quellen', 'fim-probe', 'F99000001_V1.0.xdf.xml'));
+  assert.deepEqual(Object.keys(f.elemente), ['F99000001']);
+  assert.equal(f.elemente.F99000001.typ, 'datenfeld');
+});
+
+test('[Bezüge·FIM] die Fixture-Zeilen sind stimmig: Fassung und Status wie gepinnt, nicht fest nur als naeherung', () => {
+  const r = B.erheben(fixture());
+  assert.deepEqual(r.befunde, []);
+  assert.deepEqual(r.abdeckung['fim-probe'].summe, { ja: 1, teilweise: 1, nein: 4 });
+});
+
+test('[Bezüge·FIM·Rot-Beweis] falsche Fassung, falscher Status, nicht feste Fassung als exakt, Name ohne Freigabe — je ein Befund', () => {
+  const faelle = [
+    ['fassung-weicht-ab', (z) => { z.fassung = '1.1'; }],
+    ['status-weicht-ab', (z) => { z.status = 'fachlich freigegeben (silber)'; }],
+    ['nicht-fest-exakt', (z, g) => { Object.assign(z, g, { grad: 'exakt' }); }],
+    ['name-ohne-freigabe', (z) => { z.name = 'erfundener Feldname'; }],
+  ];
+  for (const [art, aendern] of faelle) {
+    const e = fixture();
+    e.tabelle = kopie(e.tabelle);
+    const fest = e.tabelle.zeilen.find((z) => z.ziel === 'F99000001');
+    const nichtFest = e.tabelle.zeilen.find((z) => z.ziel === 'G99000002');
+    aendern(fest, nichtFest);
+    const arten = B.erheben(e).befunde.map((b) => b.art);
+    assert.ok(arten.includes(art), art + ' fehlt: ' + JSON.stringify(arten));
+  }
+});
+
+test('[Bezüge·FIM] mit belegter fimNamenFreigabe darf ein Name stehen — der Wächter hält nur, solange die Freigabe fehlt', () => {
+  const e = fixture();
+  e.tabelle = kopie(e.tabelle);
+  e.tabelle.zeilen.find((z) => z.ziel === 'F99000001').name = 'erfundener Feldname';
+  e.tabelle.fimNamenFreigabe = { datum: '2026-10-14', beleg: 'Entscheidungsblatt, Zeile der Zustimmung' };
+  assert.deepEqual(B.erheben(e).befunde, []);
+});
+
+test('[Bezüge·FIM·echt] bereiche/bezuege.json: keine FIM-Zeile trägt einen Namen, solange fimNamenFreigabe leer ist; jede FIM-Zeile hat Fassung und Status', () => {
+  const tabelle = JSON.parse(fs.readFileSync(path.join(REPO, 'bereiche', 'bezuege.json'), 'utf8'));
+  const lock = JSON.parse(fs.readFileSync(path.join(REPO, 'bereiche', 'bezuege-quellen.json'), 'utf8'));
+  const fim = tabelle.zeilen.filter((z) => z.datensatz === 'fim-baukasten');
+  assert.ok(fim.length > 0);
+  const gepinnt = new Map(lock.quellen.find((q) => q.datensatz === 'fim-baukasten').dateien.map((d) => [d.kennung, d]));
+  for (const z of fim) {
+    if (!(tabelle.fimNamenFreigabe && tabelle.fimNamenFreigabe.beleg)) assert.ok(!z.name, z.kennung + ' trägt einen Namen ohne Freigabe');
+    const d = gepinnt.get(z.ziel);
+    assert.ok(d, z.ziel + ' ist nicht gepinnt');
+    assert.equal(z.fassung, d.fassung, z.kennung + ': Fassung');
+    assert.equal(z.status, d.freigabestatus, z.kennung + ': Status');
+    if (B.nichtFest(z.status)) assert.notEqual(z.grad, 'exakt', z.kennung + ' ist nicht fest');
+    assert.match(d.sha256, /^[0-9a-f]{64}$/);
+  }
+});

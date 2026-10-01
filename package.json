@@ -7,7 +7,7 @@
   },
   "description": "Stehende Testsuite (U2-ADR-004) für vivodepot.html. Die HTML wird nur gelesen; die <script>-Blöcke werden zur Laufzeit geladen. Schicht 1 (node --test) läuft offline; Schicht 2 (Playwright/axe, test:e2e) braucht Browser-Binaries und läuft am Mac/CI.",
   "scripts": {
-    "test": "node tools/geteilte-git-config-wache.js -- node --test --require ./tools/lib/temp-aufraeumen-preload.js --test-timeout=300000 --require ./tools/lib/node-modules-preload.js --require ./tools/lib/test-zeitgrenze-preload.js --require ./tests/hook-sperre-testumgebung.js 'tests/**/*.test.js' 'tools/**/*.test.js'",
+    "test": "node tools/geteilte-git-config-wache.js -- node --test --require ./tools/lib/temp-aufraeumen-preload.js --test-timeout=300000 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tools/lib/datei-zeiten-reporter.mjs --test-reporter-destination=/dev/null --require ./tools/lib/node-modules-preload.js --require ./tools/lib/test-zeitgrenze-preload.js --require ./tests/hook-sperre-testumgebung.js 'tests/**/*.test.js' 'tools/**/*.test.js'",
     "test:datei": "node --test --require ./tools/lib/temp-aufraeumen-preload.js --require ./tools/lib/test-zeitgrenze-preload.js --require ./tests/hook-sperre-testumgebung.js",
     "test:e2e": "playwright test",
     "test:e2e:cross": "playwright test --config=playwright.config.cross.js",

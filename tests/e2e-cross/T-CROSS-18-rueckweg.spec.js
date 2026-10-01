@@ -105,10 +105,11 @@ test('T-CROSS-18 die Bürgerin beantwortet, die Institution öffnet — verschl�
 
     /* ── 2 · Die Datei ist ein CHIFFRAT — nichts Lesbares steht darin ─────── */
     const roh = fs.readFileSync(antwortPfad, 'utf8');
-    const umschlag = JSON.parse(roh);
-    expect(umschlag.dateiTyp, 'die Antwort trägt ihren Typ').toBe('vivodepot-antwort');
-    expect(umschlag.verfahren).toBe('einmalpasswort');
-    expect(umschlag.vorgang, 'der Empfänger sieht, worauf das die Antwort ist').toBe('AUF-2026-0815');
+    // U2-ADR-449: die Antwort ist eine JWE; Typ, Verfahren und Vorgang stehen im geschützten Kopf.
+    const kopf = JSON.parse(Buffer.from(roh.trim().split('.')[0], 'base64url').toString('utf8'));
+    expect(kopf.typ, 'die Antwort trägt ihren Typ').toBe('vivodepot-antwort+jwe');
+    expect(kopf.alg).toBe('PBES2-HS512+A256KW');
+    expect(kopf.vorgang, 'der Empfänger sieht, worauf das die Antwort ist').toBe('AUF-2026-0815');
     for (const w of ['Hedwig', 'A123456780']) {
       expect(roh.includes(w), 'kein Feldwert steht im Klartext: ' + w).toBe(false);
     }
@@ -125,6 +126,8 @@ test('T-CROSS-18 die Bürgerin beantwortet, die Institution öffnet — verschl�
     await l.fill('#antwort-pw', 'falsches-passwort');
     await l.click('#antwort-form button[type="submit"]');
     await expect(l.locator('#antwort-fehler')).toBeVisible();
+    // U2-ADR-449: die Fehlercodes `jwe-*` erreichen die Person nie — sie liest einen Satz aus dem Textsatz.
+    await expect(l.locator('#antwort-fehler')).not.toContainText('jwe-');
 
     await l.fill('#antwort-pw', EINMAL_PW);
     await l.click('#antwort-form button[type="submit"]');
@@ -134,7 +137,9 @@ test('T-CROSS-18 die Bürgerin beantwortet, die Institution öffnet — verschl�
     await expect(l.locator('#antwort-meta')).toContainText('AUF-2026-0815');
     await expect(l.locator('#antwort-grundlage')).toContainText('§ 630f BGB');
     await expect(l.locator('#antwort-felder')).toContainText('Hedwig');
-    await expect(l.locator('#antwort-felder')).toContainText('Anrede im Aufnahmebogen');
+    // Der Zweck je Angabe steht seit U2-ADR-437 nicht mehr in der Liste, sondern danach, eingeklappt, unter „Wozu die einzelnen Angaben“.
+    await expect(l.locator('#antwort-zwecke')).toContainText('Anrede im Aufnahmebogen');
+    await expect(l.locator('#antwort-felder')).not.toContainText('Anrede im Aufnahmebogen');
 
     /* UND DER FUND DIESER REISE, gemessen statt vermutet: die Versichertennummer ist
        schema-sensibel. Die Bürgerin hat sie im Opt-out-Dialog NICHT ausdrücklich
@@ -167,10 +172,8 @@ test('T-CROSS-18 eine TEILANTWORT sagt es dem Empfänger auf dem Blatt', async (
     const anfrageTeil = Object.assign({}, ANFRAGE, { felder: [ANFRAGE.felder[0], { kennung: 'identity.telephone', zweck: 'Rückruf', pflicht: true }] });
     const { antwortPfad, buerger } = await antwortUeberOberflaeche(browser, tmp, anfrageTeil, { mitNummer: false });
     await buerger.close();
-    const umschlag = JSON.parse(fs.readFileSync(antwortPfad, 'utf8'));
-
-    const datei = path.join(tmp, 'antwort-teil.json');
-    fs.writeFileSync(datei, JSON.stringify(umschlag, null, 2));
+    const datei = path.join(tmp, 'antwort-teil.jwe');
+    fs.copyFileSync(antwortPfad, datei);   // U2-ADR-449: die JWE wird so weitergegeben, wie sie hinausging
 
     const institution = await browser.newContext();
     const l = await institution.newPage();
@@ -233,7 +236,7 @@ test('T-CROSS-18 der QR wird als BILD gelesen — echte QR-Grafik, echter Browse
   const tmp = frischerTmp('rueckweg-qr');
   const anfrageVorname = Object.assign({}, ANFRAGE, { felder: [ANFRAGE.felder[0]] });
   const { antwortPfad, b, buerger } = await antwortUeberOberflaeche(browser, tmp, anfrageVorname);
-  const umschlagText = JSON.stringify(JSON.parse(fs.readFileSync(antwortPfad, 'utf8')));
+  const umschlagText = fs.readFileSync(antwortPfad, 'utf8').trim();   // die JWE, wie sie hinausging (U2-ADR-449)
   const bilder = await b.evaluate((text) => {
     const teile = [];
     for (let i = 0; i < text.length; i += 400) teile.push(text.slice(i, i + 400));
@@ -263,7 +266,7 @@ test('T-CROSS-18 der QR wird als BILD gelesen — echte QR-Grafik, echter Browse
     }
     const z = qrTeileZusammensetzen(gelesen);
     if (!z.fertig) return { fertig: false, grund: z.grund, fehlend: z.fehlend, gelesen: gelesen.length };
-    const ds = await antwortEntschluesselnPasswort(JSON.parse(z.text), pw);
+    const ds = JSON.parse((await antwortJweOeffnen(z.text, { passwort: pw })).klartext);
     return { fertig: true, gelesen: gelesen.length, felder: ds.felder.length, wert: ds.felder[0].wert, vorgang: ds.anfrage.vorgang };
   }, [bilder, EINMAL_PW]);
 

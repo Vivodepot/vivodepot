@@ -50,7 +50,9 @@ async function pruefstufe({ zwischenId, zwischenTyp, zwischenExtra, blattId, bla
   const zw = await paar(); const blatt = await paar();
   const ausstellerZertifikatJws = await signieren(V, zert(zwischenId, zwischenTyp(V), zw.pub, zwischenExtra), SENTINEL_PRIVATE_JWK);
   const providerCredentialJws = await signieren(V, zert(blattId, blattTyp, blatt.pub), zw.priv);
-  const modulSignaturJws = await signieren(V, MODUL, blatt.priv);
+  // Ein Prüfer gilt nur mit Geltungsbereich und passender Prüfsumme der Originale (Zertifikatsweg, 19.09.2026).
+  const modul = Object.assign({}, MODUL, { originaleSumme: { kern: { [V._sprachBasisSprache()]: await V._originaleSummeKern() } } });
+  const modulSignaturJws = await signieren(V, modul, blatt.priv);
   const d = V.leeresDepot();
   const r = await V.modulEinlassenGeprueft(JSON.stringify({ providerCredentialJws, modulSignaturJws, ausstellerZertifikatJws }), d, OPTS);
   assert.equal(r.angenommen, true, r.grund);
@@ -73,11 +75,11 @@ test('[Treuhand·Grenze] vivodepot/* unter einer Ausgabestelle außerhalb der Li
 });
 
 test('[Treuhand·Grenze] vivodepot/* unter einer Prüfstelle bleibt extern', async () => {
-  assert.equal(await pruefstufe({ zwischenId: 'vivodepot-ausgabestelle', zwischenTyp: (V) => V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, zwischenExtra: { rolle: 'pruefer' }, blattId: 'vivodepot', blattTyp: 'vivodepot/anbieter' }), 'extern-geprueft:pruefer');
+  assert.equal(await pruefstufe({ zwischenId: 'vivodepot-ausgabestelle', zwischenTyp: (V) => V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, zwischenExtra: { rolle: 'pruefer', geltung: { modulTypen: ['textsatz'], sprachen: ['hu'] } }, blattId: 'vivodepot', blattTyp: 'vivodepot/anbieter' }), 'extern-geprueft:pruefer');
 });
 
 test('[Treuhand·Grenze] eine eigene Ausgabestelle mit fremder Rolle macht nichts intern', async () => {
-  assert.equal(await pruefstufe({ zwischenId: 'vivodepot-ausgabestelle', zwischenTyp: AUSGABE, zwischenExtra: { rolle: 'pruefer' }, blattId: 'vivodepot', blattTyp: 'vivodepot/anbieter' }), 'extern-geprueft:pruefer');
+  assert.equal(await pruefstufe({ zwischenId: 'vivodepot-ausgabestelle', zwischenTyp: AUSGABE, zwischenExtra: { rolle: 'pruefer', geltung: { modulTypen: ['textsatz'], sprachen: ['hu'] } }, blattId: 'vivodepot', blattTyp: 'vivodepot/anbieter' }), 'extern-geprueft:pruefer');
 });
 
 test('[Treuhand·Grenze] ein Blatt, das sich als Zwischenstufe ausgibt, ist nicht intern', () => {

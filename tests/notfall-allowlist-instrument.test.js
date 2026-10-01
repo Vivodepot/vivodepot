@@ -39,6 +39,8 @@ function depotMitAllemBelegt(instrumente) {
         healthInsurance: { ref: '', override: 'AOK Bayern' },
         insuranceNumber: 'A123456789',
         generalPractitioner: { ref: '', override: 'Dr. Weber' },
+        // v835 (29.09.2026): Schwangerschaft und Weglaufgefährdung (NFD-Lücken), je nur bei „ja“.
+        pregnancy: 'ja', pregnancyEstimatedDueDate: '2027-02-11', wanderingRisk: 'ja', wanderingRiskDetails: 'verlässt nachts die Wohnung',
       },
       // 25.09.2026: die Ablehnung einer Notvertretung durch Ehegatten und ihre Eintragung (nur bei „ja" auf der Karte).
       advanceCare: { provisionInstruments: instrumente, spousalRepresentationObjection: 'ja', spousalObjectionRegistered: 'ja',
@@ -93,8 +95,14 @@ test('§5b Nachweispflicht: JEDES Allowlist-Feld kommt am Notfall-Pfad an', () =
   assert.ok(werte.includes('Stoffwechselerkrankung'), 'Besondere Situation fehlt am Notfall-Pfad');
   assert.ok(werte.includes('Hund in der Wohnung'), 'Hinweis für Rettungskräfte fehlt am Notfall-Pfad');
 
+  // v835 (29.09.2026) — vier NFD-Felder, jedes einzeln nachgewiesen.
+  assert.ok(/Schwangerschaft/.test(labels) && werte.includes('ja, schwanger'), 'Schwangerschaft fehlt am Notfall-Pfad');
+  assert.ok(/Entbindungstermin/.test(labels), 'Entbindungstermin fehlt am Notfall-Pfad');
+  assert.ok(/Weglaufgefährdung/.test(labels), 'Weglaufgefährdung fehlt am Notfall-Pfad');
+  assert.ok(werte.includes('verlässt nachts die Wohnung'), 'Umstände der Weglaufgefährdung fehlen am Notfall-Pfad');
+
   // Die Allowlist ist vollständig abgedeckt: kein Eintrag ohne Nachweis oben.
-  assert.equal(V.NOTFALL_KERN_FELDER.length, 23, 'Allowlist-Umfang geändert — jede Änderung braucht einen Nachweis oben (die fünf neuen Felder aus N2 Zug 3 sind es)');
+  assert.equal(V.NOTFALL_KERN_FELDER.length, 27, 'Allowlist-Umfang geändert — jede Änderung braucht einen Nachweis oben (die fünf neuen Felder aus N2 Zug 3 sind es)');
 });
 
 test('§5a zwei Zeilen desselben Typs → GENAU EIN Wert im Klartext, nicht zwei', () => {

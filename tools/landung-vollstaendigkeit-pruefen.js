@@ -305,6 +305,18 @@ function main() {
   const argv = process.argv.slice(2);
   const arg = (n, s) => { const i = argv.indexOf('--' + n); return i >= 0 && argv[i + 1] ? argv[i + 1] : s; };
 
+  /* --zweig-pruefen (28.09.2026, Befund ZWEIG-OHNE-L4-HAELT-LANDUNGEN): der Hinweis beim ersten Commit reichte nicht —
+     viermal an einem Tag hielt ein Zweig ohne „-l4-“ die Landung einer ANDEREN Sitzung an. Jetzt weist der pre-commit
+     jeden Commit auf einem solchen Zweig ab und nennt den Umbenennungsbefehl. */
+  if (argv.includes('--zweig-pruefen')) {
+    const zukunftP = zukunftsZweigeLesen(arg('zukunftszweige', path.join(__dirname, 'landung-zukunftszweige.json')));
+    // --zweig <name>: der reference-transaction-Hook prüft einen Zweig, der gerade ANGELEGT wird (ohne Commit darauf).
+    const r = argv.includes('--zweig') ? { status: 0, out: arg('zweig', '') } : git(['symbolic-ref', '--quiet', '--short', 'HEAD'], process.cwd());
+    const fehler = zweigPruefen({ zweig: r.status === 0 ? r.out.trim() : '', neuanlage: argv.includes('--neuanlage'), zweigAusgenommen: (z) => /^sicherung-/.test(z) || zukunftP.muster.some((m) => m.regex.test(z)) });
+    if (fehler) { console.error(fehler); process.exit(1); }
+    return;
+  }
+
   if (argv.includes('--zweig-hinweis')) {
     const zukunftH = zukunftsZweigeLesen(arg('zukunftszweige', path.join(__dirname, 'landung-zukunftszweige.json')));
     const lies = (a) => { const r = git(a, process.cwd()); return r.status === 0 ? r.out.trim() : ''; };
@@ -406,6 +418,23 @@ function zweigHinweis({ zweig, commitsSeitKanon, zweigAusgenommen }) {
     + 'späteren Landung: jetzt umbenennen (git branch -m ' + zweig + ' <name-mit-l4>). Sonst ist nichts zu tun.';
 }
 
+/* Die Landeziele selbst sind keine Quelle einer Landung; ein losgelöster HEAD (Rebase, Landebaum) hat keinen Zweignamen. */
+const LANDEZIELE = Object.freeze(['u2-kanon', 'main']);
+/* Die Zweige, die die Desktop-App (<werkzeug>/<name>) und ein Agent (worktree-<name>) für einen NEUEN Arbeitsbaum anlegen
+   (gemessen mit git worktree list, 28.09.2026). Nur das ANLEGEN geht durch (reference-transaction, --neuanlage) — sonst
+   startete die Sitzung nicht. Ein Commit darauf wird weiter abgewiesen, und die Landungs-Vollständigkeit zählt ihre
+   Commits weiter: dort bauen die Sitzungen, der Verlustschutz darf sie nicht übersehen (Bedingung der Gegenlesung). */
+// Das Wort des Werkzeugs aus der einen Quelle (zusammengesetzt, tools/lib/ki-nennung-muster.js), nie als Literal.
+const APP_ARBEITSBAUM = new RegExp('^' + require('./lib/ki-nennung-muster.js').WOERTER.WERKZEUG + '/|^worktree-');
+function zweigPruefen({ zweig, zweigAusgenommen, neuanlage = false }) {
+  if (!zweig || LANDEZIELE.includes(zweig) || zweigAusgenommen(zweig)) return null;
+  if (neuanlage && APP_ARBEITSBAUM.test(zweig)) return null;
+  const vorschlag = /-\d{4}-\d{2}-\d{2}$/.test(zweig) ? zweig.replace(/-(\d{4}-\d{2}-\d{2})$/, '-l4-$1') : zweig + '-l4';
+  return '[landung-zweig] ABBRUCH: Zweig „' + zweig + '“ trägt kein Zukunftsmuster („-l4-“ o. ä., tools/landung-zukunftszweige.json). '
+    + 'Ein Zweig ohne dieses Muster gilt als Quelle der NÄCHSTEN Landung — jeder Fix darauf hält den Push einer anderen Sitzung an. '
+    + 'Umbenennen: git branch -m ' + zweig + ' ' + vorschlag + ' (oder mit Grund in tools/landung-zukunftszweige.json eintragen).';
+}
+
 function ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen, arbeitsbaumVon }) {
   const unbekannt = r.ergebnis.filter((e) => !URTEILE.includes(e.urteil));
   if (unbekannt.length) throw new Error('unbekanntes Urteil ' + [...new Set(unbekannt.map((e) => e.urteil))].join(', ') + ' — der Kopf würde weniger zählen, als die Ausgabe zeigt');
@@ -428,5 +457,5 @@ if (require.main === module) main();
 
 module.exports = {
   pruefen, einordnen, patchIds, ausnahmenLesen, zukunftsZweigeLesen,
-  schnappschussSchreiben, schnappschussLesen, KANDIDAT_MUSTER, ausgabeZeilen, ursachenZeile, arbeitsbaeumeJeZweig, zweigHinweis, URTEILE,
+  schnappschussSchreiben, schnappschussLesen, KANDIDAT_MUSTER, ausgabeZeilen, ursachenZeile, arbeitsbaeumeJeZweig, zweigHinweis, zweigPruefen, LANDEZIELE, APP_ARBEITSBAUM, URTEILE,
 };

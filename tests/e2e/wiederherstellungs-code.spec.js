@@ -85,6 +85,13 @@ test('[WHC·#8 #12 #22] einrichten mit Kontrolle, Zustand in den Einstellungen, 
   expect(blatt).not.toContain(T('nfbFeldPasswort'));
   await page.click('#nfb-schliessen');
 
+  // Abnahme 28.09.2026: über dem Feld steht, warum abgetippt wird; darunter, was fehlt.
+  await expect(page.locator('label[for="whc-kontrolle"]')).toHaveText(T('whcKontrolleLabel'));
+  await expect(page.locator('#whc-kontrolle-hinweis')).toHaveText(T('whcKontrolleFehlt'));
+  await page.locator('#whc-kontrolle').pressSequentially(code.slice(0, 4));
+  await expect(page.locator('#whc-kontrolle-hinweis')).toHaveText(T('whcKontrolleTeil').replace('{n}', '24'));
+  await page.fill('#whc-kontrolle', '');
+
   // Rot-Beweis: eine falsche Kontrolle richtet nichts ein.
   const falsch = code.slice(0, -1) + (code.endsWith('0') ? '1' : '0');
   await page.fill('#whc-kontrolle', falsch);
@@ -93,6 +100,8 @@ test('[WHC·#8 #12 #22] einrichten mit Kontrolle, Zustand in den Einstellungen, 
   expect(await page.locator('#whc-fehler').textContent()).toBe(T('whcKontrolleFalsch'));
 
   await page.fill('#whc-kontrolle', code.toLowerCase());
+  await page.locator('#whc-kontrolle').dispatchEvent('input');
+  await expect(page.locator('#whc-kontrolle-hinweis')).toHaveText(T('whcKontrolleStimmt'));
   await page.click('#m-ok');
   await expect.poll(() => page.evaluate(() => !!(window.__whcBytes && window.__whcBytes.includes('"wiederherstellung"')))).toBe(true);
   // #8: nach dem Schließen steht der Code nirgends im Dokument, nirgends im lokalen Speicher.
@@ -137,6 +146,13 @@ test('[WHC·Öffnen] mit dem Code und einem neuen Passwort öffnen; ein falscher
     await p2.fill('#whc-code-ein', code);
     await p2.click('#whc-oeffnen');
     await p2.waitForSelector('#app.an', { state: 'attached' });
+    // Befund 28.09.2026 (HOCH): nach dem Eintritt trägt kein Feld mehr Code oder neues Passwort (der Öffnen-Schirm wird
+    // beim Eintritt geleert, s. betreteApp; Passwort-Weg und Lese-App: tests/e2e-cross/T-CROSS-34-…).
+    const reste = await p2.evaluate((gs) => [...document.querySelectorAll('input, textarea')]
+      .filter((el) => el.value && (el.type === 'password' || el.hasAttribute('data-geheimnis')
+        || gs.some((g) => el.value.toUpperCase().replace(/[^0-9A-Z]/g, '').includes(g))))
+      .map((el) => el.id || el.tagName), [code.replace(/-/g, ''), PW_NEU.toUpperCase().replace(/[^0-9A-Z]/g, '')]);
+    expect(reste, 'kein Geheimnis im Dokument nach dem Öffnen mit dem Code').toEqual([]);
     await expect.poll(() => p2.evaluate(() => window.__whcBytes !== null)).toBe(true);
     const neu = umschlag(await p2.evaluate(() => window.__whcBytes));
     const alt = umschlag(fs.readFileSync(datei, 'utf8'));
@@ -146,3 +162,47 @@ test('[WHC·Öffnen] mit dem Code und einem neuen Passwort öffnen; ein falscher
     await p2.close();
   } finally { fs.rmSync(datei, { force: true }); }
 });
+
+test('[WHC·Abwählen] Code entfernen zeigt den Hinweis auf ältere Kopien, danach steht „kein Wiederherstellungs-Code eingerichtet“, und die neu gespeicherte Datei öffnet mit dem alten Code nicht', async ({ page, browser }) => {
+  await anlegenBisAngebot(page);
+  await page.click('#m-ok');
+  const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
+  await page.fill('#whc-kontrolle', code);
+  await page.click('#m-ok');
+  await expect.poll(() => page.evaluate(() => !!(window.__whcBytes && window.__whcBytes.includes('"wiederherstellung"')))).toBe(true);
+  await einmalDialogeSchliessen(page);
+
+  // Entfernen in den Einstellungen: erst der Satz über ältere Kopien, dann die Bestätigung.
+  await page.evaluate(() => { window.__whcBytes = null; window.__vdOeffentlich.flowEinstellungen(); });
+  await einstellungenAbschnittOeffnen(page, '#einst-whc-entfernen');
+  await page.click('#einst-whc-entfernen');
+  await expect(page.locator('#whc-entfernen-kopien')).toContainText(T('whcEntfernenText'));
+  await page.click('#m-ok');
+  await expect.poll(() => page.evaluate(() => window.__whcBytes !== null)).toBe(true);
+  const ohne = await page.evaluate(() => window.__whcBytes);
+  expect(umschlag(ohne).wiederherstellung, 'die neu gespeicherte Datei trägt keine Hülle').toBeUndefined();
+
+  await page.evaluate(() => window.__vdOeffentlich.flowEinstellungen());
+  await einstellungenAbschnittOeffnen(page, '#whc-status');
+  await expect(page.locator('#whc-status')).toHaveText(T('whcStatusFehlt'));
+
+  // Die neue Datei öffnet mit dem alten Code nicht — die Lese-Stelle sagt, dass keiner eingerichtet ist.
+  const datei = path.join(os.tmpdir(), 'whc-e2e-ohne-' + process.pid + '-' + Date.now() + '.vivodepot');
+  fs.writeFileSync(datei, ohne, 'utf8');
+  try {
+    const p2 = await browser.newPage();
+    await p2.addInitScript(() => { try { Object.defineProperty(window, 'indexedDB', { configurable: true, value: undefined }); } catch (_) {} });
+    await oeffneApp(p2);
+    await p2.click('#w-datei');
+    await p2.setInputFiles('#co-datei', datei);
+    await p2.click('#co-code');
+    await p2.fill('#whc-code-ein', code);
+    await p2.fill('#whc-pw-neu', PW_NEU);
+    await p2.fill('#whc-pw-neu2', PW_NEU);
+    await p2.click('#whc-oeffnen');
+    await expect(p2.locator('#whc-oeffnen-fehler')).toHaveText(T('whcFehlerKeineHuelle'));
+    expect(await p2.locator('#app.an').count(), 'nichts geöffnet').toBe(0);
+    await p2.close();
+  } finally { fs.rmSync(datei, { force: true }); }
+});
+

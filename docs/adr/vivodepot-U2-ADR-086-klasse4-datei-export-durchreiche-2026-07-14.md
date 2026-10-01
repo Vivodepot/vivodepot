@@ -98,3 +98,9 @@ sind reine Lesefunktionen auf bereits entschlüsselten Depot-Daten.
 ---
 
 *Vivodepot GmbH · Berlin · 14.07.2026*
+
+## Nachtrag (28.09.2026, U2-ADR-444)
+
+§2 gilt unverändert für „Original herunterladen". Die „Provenance im Sinne von ‚so angekommen, so herausgegeben‘" aus §3 ist mit
+U2-ADR-444 als eigener, zweiter Weg gebaut: eine Hülle mit dem Original unverändert als Binary und einer Verwahrungs-Provenance
+daneben, nicht im Dokument.

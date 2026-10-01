@@ -24,6 +24,10 @@ Wiederaufnahme des QR-Zusammensetzers und des Kamera-Pfads.
 
 ---
 
+> **Nachtrag 29.09.2026 (U2-ADR-449):** Der Umschlag v1 dieser ADR wird nicht mehr geschrieben. Die Bürger-App verschlüsselt
+> die Antwort seit v833 als JWE (RFC 7516: ECDH-ES bzw. PBES2-HS512+A256KW, A256GCM). Die Verfahren, die Bindung des Vorgangs
+> und die Empfängerseite ohne Netz bleiben. Die Lese-App öffnet Antworten im Umschlag v1 weiter.
+
 ## Entscheidung
 
 **1 · Zwei Verfahren, weil es zwei Lagen gibt.**

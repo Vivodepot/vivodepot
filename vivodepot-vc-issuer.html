@@ -1186,6 +1186,11 @@ const AUSGABESTELLE_ANBIETERTYP = 'vivodepot/ausgabestelle';
 // jaehrliche Anker-Kontrolle (Zeremonie-Laufzettel) -- die Erneuerung faellt mit einem ohnehin
 // stattfindenden Termin zusammen, statt ein eigener zu werden.
 const ABLAUF_MONATE_AUSGABESTELLE = 12;
+// Prüfstelle (Zertifikatsweg für externe Prüfer, 19.09.2026): dieselbe Kurzlaufzeit aus demselben
+// Grund — sie bürgt für fremde Sprachmodule, und ein kompromittierter Schlüssel verliert seine
+// Wirkung erst mit dem Ablauf. Die Erneuerung ist eine neue Zulassung.
+const VIVODEPOT_PRUEFSTELLE_ANBIETERTYP = 'vivodepot/pruefstelle';
+const ABLAUF_MONATE_PRUEFSTELLE = 12;
 const ISSUER_WERKZEUG = 'vivodepot-vc-issuer';
 const ISSUER_VERSION = 'v1.0';
 
@@ -1757,7 +1762,7 @@ const SUBMISSION_SCHEMA = {
                   "pattern": "^https://"
                 },
                 "codeSystem": {
-                  "description": "Code-System-URI/ID, falls codiertes Feld (z. B. LOINC, ICD-10-GM, ATC, SNOMED, XÖV, ESCO).",
+                  "description": "Code-System-URI/ID, falls codiertes Feld (z. B. LOINC, ICD-10-GM, ATC, SNOMED, ESCO).",
                   "type": "string"
                 },
                 "codeWerte": {
@@ -2653,6 +2658,7 @@ function istBehoerde(anbieterTyp) { return String(anbieterTyp || '').startsWith(
 function istAusgabestelle(anbieterTyp) { return String(anbieterTyp || '') === AUSGABESTELLE_ANBIETERTYP; }
 function basisOderDefaultAblauf(issuanceISO, anbieterTyp) {
   if (istAusgabestelle(anbieterTyp)) return plusMonate(issuanceISO, ABLAUF_MONATE_AUSGABESTELLE);
+  if (String(anbieterTyp || '') === VIVODEPOT_PRUEFSTELLE_ANBIETERTYP) return plusMonate(issuanceISO, ABLAUF_MONATE_PRUEFSTELLE);
   return plusMonate(issuanceISO, istBehoerde(anbieterTyp) ? ABLAUF_MONATE_BASIS : ABLAUF_MONATE_DEFAULT);
 }
 
@@ -2849,6 +2855,22 @@ function baueProviderVC(opts) {
     anbieterTyp: opts.anbieterTyp,
     publicKeyJwk: opts.publicKeyJwk,
   };
+  // Reicher Anbieter-Block (19.09.2026, Schema $defs.verantwortlicheStelle in
+  // docs/template-generator/submission-schema.json) — ADDITIV: nur gesetzt, wenn übergeben, kein
+  // Pflichtfeld auf dieser generischen Bau-Ebene (die vielen bestehenden Aufrufer — Werkzeuge,
+  // Proben, Messungen — reichen es nicht durch und bleiben unverändert). Die Pflicht „ohne
+  // anbieter keine Signatur" sitzt an der AUSSTELLUNG (kundenzertifikat-ausstellen.js/
+  // behoerden-zertifikat-ausstellen.js), nicht hier an der reinen VC-Konstruktion.
+  if (opts.rechtsform) credentialSubject.rechtsform = opts.rechtsform;
+  if (opts.adresse) credentialSubject.adresse = opts.adresse;
+  if (opts.kontakt) credentialSubject.kontakt = opts.kontakt;
+  if (opts.ustId) credentialSubject.ustId = opts.ustId;
+  // Anbieterprüfung (19.09.2026, Produktentscheidung: „auf jeden Fall implementieren, abschaltbar") — entweder
+  // das Prüfungsergebnis (nur als Hash, nie der Rohbeleg) oder der ausdrückliche Vermerk, dass sie
+  // abgeschaltet wurde; ein Zertifikat ohne beide Felder ist „ungeprüft (vor Einführung)" — die
+  // Abwesenheit selbst ist das Signal für einen Altbestand, kein drittes explizites Feld nötig.
+  if (opts.anbieterPruefung) credentialSubject.anbieterPruefung = opts.anbieterPruefung;
+  if (opts.anbieterPruefungAbgeschaltet) credentialSubject.anbieterPruefungAbgeschaltet = true;
   // Trust-1B Schritt 3 (U2-ADR-039): das Plain-Template wird NICHT mehr in den Cert eingebettet
   // (Ende der additiven Toleranz von Stufe 1/U2-ADR-037). Ein cert-eingebettetes, NICHT separat
   // anbieter-signiertes Template würde empfänger-seitig ohnehin verworfen. Die Feld-Definitionen
@@ -2969,8 +2991,10 @@ function _tplSlugVc(text) {
 function _pruefeReservierteKennungen(paket) {
   const fehler = [];
   const a = (paket && paket.anbieter) || {};
-  if (a.anbieterTyp === AUSGABESTELLE_ANBIETERTYP) {
-    fehler.push('Reservierte Kennung: anbieterTyp „' + AUSGABESTELLE_ANBIETERTYP + '" ist Vivodepot selbst vorbehalten.');
+  // Alle `vivodepot/*`-Typen (Ausgabestelle, Prüfstelle, Institution, Kern) stellt nur der Anker in der
+  // Zeremonie aus — ein Einreichungspaket darf keinen davon behaupten (U2-ADR-172, -181).
+  if (String(a.anbieterTyp || '').startsWith('vivodepot/')) {
+    fehler.push('Reservierte Kennung: anbieterTyp „' + a.anbieterTyp + '" ist Vivodepot selbst vorbehalten.');
   }
   // Ein anbieterId-Slug, der leerläuft, würde im Kern (`_tplFeldId`) NIE eine
   // Anbieter-Namensraum-Härtung bekommen — jedes Feld bliebe dauerhaft im
@@ -3932,8 +3956,15 @@ function renderAudit() {
   SITZUNG_AUDIT.eintraege.forEach(e => {
     const row = document.createElement('div');
     row.className = 'audit-row';
-    const test = e.istTestSentinel ? ' <span class="test">[TEST-SENTINEL]</span>' : '';
-    row.innerHTML = e.zeit + ' · ' + e.anbieterId + ' · Submission ' + (e.submissionId || '—') + ' · ' + e.alg + test;
+    // v842 (D5): anbieterId stammt aus einer fremden Einreichung — als Text setzen, nie als HTML.
+    row.textContent = e.zeit + ' · ' + e.anbieterId + ' · Submission ' + (e.submissionId || '—') + ' · ' + e.alg;
+    if (e.istTestSentinel) {
+      const test = document.createElement('span');
+      test.className = 'test';
+      test.textContent = '[TEST-SENTINEL]';
+      row.appendChild(document.createTextNode(' '));
+      row.appendChild(test);
+    }
     box.appendChild(row);
   });
 }

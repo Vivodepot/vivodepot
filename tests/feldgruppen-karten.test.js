@@ -223,13 +223,14 @@ describe('[SEKTION_STATUSKARTEN_CLUSTER] ausbildung-beruf', () => {
 });
 
 describe('[SEKTION_STATUSKARTEN_CLUSTER] notfall-aerzte', () => {
-  test('sechs Cluster, jedes der 28 Felder genau einmal zugeordnet', () => {
+  // 28 → 32 (29.09.2026, U2-ADR-455): die vier NFD-Felder im Cluster „Im Notfall“, weiter sechs Cluster.
+  test('sechs Cluster, jedes der 32 Felder genau einmal zugeordnet', () => {
     const { V } = ladeKern();
     const cluster = V.SEKTION_STATUSKARTEN_CLUSTER['notfall-aerzte'];
     assert.equal(cluster.length, 6);
     const alle = cluster.flatMap(c => c.felder);
     assert.equal(new Set(alle).size, alle.length);
-    assert.equal(alle.length, 28);
+    assert.equal(alle.length, 32);
   });
   test('renderSektor notfall-aerzte zeigt sechs Statuskarten', async () => {
     const k = ladeKern();

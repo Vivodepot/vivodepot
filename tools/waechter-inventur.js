@@ -81,6 +81,9 @@ function ausBefehl(zeile, skripte, tiefe = 0) {
   /* LADER SIND KEINE WÄCHTER: `node --test --require ./tests/x.js` lädt x.js in jeden Testprozess (Umgebung, Vorbelegung),
      es prüft nichts. Das Muster unten würde den Pfad sonst als Hook-Werkzeug ohne Registereintrag zählen. */
   zeile = zeile.replace(/(?:--require|--import)(?:=|\s+)\S+|\s-r\s+\S+/g, ' ');
+  /* REPORTER SIND KEINE WÄCHTER (28.09.2026): `--test-reporter=./tools/lib/datei-zeiten-reporter.mjs` schreibt Messwerte
+     mit, entscheidet aber nie über Grün oder Rot. Dasselbe für das Ziel eines Reporters. */
+  zeile = zeile.replace(/--test-reporter(?:-destination)?(?:=|\s+)\S+/g, ' ');
 
   /* OPTIONEN ÜBERSPRINGEN — gemessener Fund vom 17.08.2026 (Zug 1 „Bereichsschicht").
      Vorher lautete das Muster `\bnpm\s+(?:run\s+)?([\w:-]+)` und fing bei

@@ -246,6 +246,24 @@ const EXPORT_HOOK = `
   // typeof absichern"). KEINE Backticks in diesem Kommentar — EXPORT_HOOK ist selbst ein
   // Template-Literal, ein Backtick hier bricht es mitten durch (Werkzeug-Falle, s. Memory).
   blackboxDateiname: (typeof blackboxDateiname === 'function' ? blackboxDateiname : undefined),
+  subDepotWiderspruchErfassen: (typeof subDepotWiderspruchErfassen === 'function' ? subDepotWiderspruchErfassen : undefined),
+  subDepotWiderspruchEntfernen: (typeof subDepotWiderspruchEntfernen === 'function' ? subDepotWiderspruchEntfernen : undefined),
+  prueftermineWidersprueche: (typeof prueftermineWidersprueche === 'function' ? prueftermineWidersprueche : undefined),
+  flowSubDepotBlackboxExport: (typeof flowSubDepotBlackboxExport === 'function' ? flowSubDepotBlackboxExport : undefined),
+  verwahrungsNachweisBundle: (typeof verwahrungsNachweisBundle === 'function' ? verwahrungsNachweisBundle : undefined),
+  flowMappeVerwahrungHerunterladen: (typeof flowMappeVerwahrungHerunterladen === 'function' ? flowMappeVerwahrungHerunterladen : undefined),
+  prueftermineUebergaben: (typeof prueftermineUebergaben === 'function' ? prueftermineUebergaben : undefined),
+  _volljaehrigAm: (typeof _volljaehrigAm === 'function' ? _volljaehrigAm : undefined),
+  kindDateiEinrichten: (typeof kindDateiEinrichten === 'function' ? kindDateiEinrichten : undefined),
+  kindDateiAktualisieren: (typeof kindDateiAktualisieren === 'function' ? kindDateiAktualisieren : undefined),
+  kindDateienMitschreiben: (typeof kindDateienMitschreiben === 'function' ? kindDateienMitschreiben : undefined),
+  kindDateiVeraltet: (typeof kindDateiVeraltet === 'function' ? kindDateiVeraltet : undefined),
+  kindDateiStand: (typeof kindDateiStand === 'function' ? kindDateiStand : undefined),
+  kindDateiOrtVorschlag: (typeof kindDateiOrtVorschlag === 'function' ? kindDateiOrtVorschlag : undefined),
+  prueftermineKindDateien: (typeof prueftermineKindDateien === 'function' ? prueftermineKindDateien : undefined),
+  flowKindDateiEinrichten: (typeof flowKindDateiEinrichten === 'function' ? flowKindDateiEinrichten : undefined),
+  KIND_DATEI_ORTE: (typeof KIND_DATEI_ORTE !== 'undefined' ? KIND_DATEI_ORTE : undefined),
+  _kindDateiSitzungsZiele: (typeof _kindDateiSitzungsZiele !== 'undefined' ? _kindDateiSitzungsZiele : undefined),
   VOLLIMPORT_MITNEHMEN_SCHLUESSEL: (typeof VOLLIMPORT_MITNEHMEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_MITNEHMEN_SCHLUESSEL : undefined),
   VOLLIMPORT_DRAUSSEN_SCHLUESSEL: (typeof VOLLIMPORT_DRAUSSEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_DRAUSSEN_SCHLUESSEL : undefined),
   VOLLIMPORT_REST_AUSGENOMMEN: (typeof VOLLIMPORT_REST_AUSGENOMMEN !== 'undefined' ? VOLLIMPORT_REST_AUSGENOMMEN : undefined),
@@ -386,6 +404,7 @@ const EXPORT_HOOK = `
   ANTWORT_FORMAT_ID, ANTWORT_FORMAT_VERSION, ANTWORT_VERFAHREN, ANTWORT_ECDH_KURVE, ANTWORT_HKDF_INFO,
   _antwortAad, antwortVerschluesselnPasswort, antwortEntschluesselnPasswort,
   antwortVerschluesselnSchluessel, antwortEntschluesselnSchluessel,
+  antwortJweSchluessel: (typeof antwortJweSchluessel === 'function' ? antwortJweSchluessel : undefined), antwortJwePasswort: (typeof antwortJwePasswort === 'function' ? antwortJwePasswort : undefined), antwortJweKopf: (typeof antwortJweKopf === 'function' ? antwortJweKopf : undefined),
   antwortVerschluesseln, istAntwortUmschlag,
   qrTeileZusammensetzen, anfrageAusTeilen, anfrageAusEingabe,
   _anfrageAntwortAusgeben, _anfrageAntwortSchreiben,
@@ -439,6 +458,9 @@ const EXPORT_HOOK = `
   FHIR_LAB_DOC_IG, FHIR_HDR_DOC_IG, FHIR_IPS_DOC_IG,
   // Bildungsnachweise halten (P3 Holder) — ein fremd ausgestelltes EDC als Original
   EDC_AP_KONTEXT: (typeof EDC_AP_KONTEXT !== 'undefined' ? EDC_AP_KONTEXT : undefined),
+  // Open Badges 3.0 halten (U2-ADR-445)
+  OB3_KENNUNG: (typeof OB3_KENNUNG !== 'undefined' ? OB3_KENNUNG : undefined),
+  _ob3Lesen: (typeof _ob3Lesen !== 'undefined' ? _ob3Lesen : undefined),
   // U2-ADR-049 — Feld-Übernahme aus dem autoritativen Original (nur Typen mit uebernahmeFormat, heute IPS)
   medDokFelderPlan, _autoritativKlartext,
   // U2-ADR-086 — Klasse-4-Datei-Export (Durchreiche): Original unverändert herunterladen
@@ -894,6 +916,8 @@ const EXPORT_HOOK = `
   // U2-ADR-095 — Passwort-Wechsel + Notfall-Blatt
   passwortWechselDurchfuehren, _passwortProbeRoundtrip, flowPasswortWechseln,
   notfallblattHTML, notfallblattOeffnen, notfallblattAnbieten, passwortWechselAbschlussZeigen,
+  // U2-ADR-271 (04.09.2026, nachgetragen 28.09.2026) — typeof-abgesichert.
+  PBKDF2_ITERATIONEN_JE_KRYPTOVERSION: (typeof PBKDF2_ITERATIONEN_JE_KRYPTOVERSION !== 'undefined' ? PBKDF2_ITERATIONEN_JE_KRYPTOVERSION : undefined),
   // U2-ADR-430 — Wiederherstellungs-Code (typeof-gesichert: ein historischer Kern über KERN_HTML_PATH kennt ihn nicht).
   whcCodeErzeugen: (typeof whcCodeErzeugen !== 'undefined' ? whcCodeErzeugen : undefined),
   whcCodeGruppiert: (typeof whcCodeGruppiert !== 'undefined' ? whcCodeGruppiert : undefined),
@@ -916,6 +940,7 @@ const EXPORT_HOOK = `
   WHC_FELD: (typeof WHC_FELD !== 'undefined' ? WHC_FELD : undefined),
   WHC_STELLEN: (typeof WHC_STELLEN !== 'undefined' ? WHC_STELLEN : undefined),
   WHC_ALPHABET: (typeof WHC_ALPHABET !== 'undefined' ? WHC_ALPHABET : undefined),
+  whcKontrolleHinweis: (typeof whcKontrolleHinweis !== 'undefined' ? whcKontrolleHinweis : undefined),
   UMSCHLAG_FELDER_BEKANNT: (typeof UMSCHLAG_FELDER_BEKANNT !== 'undefined' ? UMSCHLAG_FELDER_BEKANNT : undefined),
   _nfbLinie: (typeof _nfbLinie !== 'undefined' ? _nfbLinie : undefined),
   renderCodeOeffnen: (typeof renderCodeOeffnen !== 'undefined' ? renderCodeOeffnen : undefined),
@@ -946,6 +971,10 @@ const EXPORT_HOOK = `
   empfaengerkreiseListe, empfaengerkreisFinden, empfaengerkreisSetzen, empfaengerkreisEntfernen,
   empfaengerkreisAusgabeVermerken, empfaengerDateiHerausgeben, empfaengerkreiseAbschnittHTML,
   empfaengerkreisFachEinrichten, empfaengerkreisFachEntfernen, empfaengerkreisHatFach,
+  empfaengerkreisGiltBisVorschlaege: (typeof empfaengerkreisGiltBisVorschlaege === 'function' ? empfaengerkreisGiltBisVorschlaege : undefined),
+  fachAbgelaufen: (typeof fachAbgelaufen === 'function' ? fachAbgelaufen : undefined),
+  _delegationsRecht: (typeof _delegationsRecht === 'function' ? _delegationsRecht : undefined),
+  VERTRETUNG_ROLECODES: (typeof VERTRETUNG_ROLECODES !== 'undefined' ? VERTRETUNG_ROLECODES : undefined),
   _ortHinweisFuerUmschlag,   // F5 Zug 1 (21.08.2026): der Torwaechter des Ort-Hinweises
   _empfaengerFaecherFuerSchreibweg, _zerfallAttrappe, _zerfallEintragLesen,
   flowEmpfaengerkreisBearbeiten, flowEmpfaengerkreisDatei, flowEmpfaengerkreisEntfernen,
@@ -997,6 +1026,7 @@ const EXPORT_HOOK = `
   AB_WERK_SHOWCASE: (typeof AB_WERK_SHOWCASE !== 'undefined' ? AB_WERK_SHOWCASE : undefined),
   VORFUEHRUNG_ANSICHTEN: (typeof VORFUEHRUNG_ANSICHTEN !== 'undefined' ? VORFUEHRUNG_ANSICHTEN : undefined),
   vorfuehrungGebacken: (typeof vorfuehrungGebacken === 'function' ? vorfuehrungGebacken : undefined),
+  sektorFormatLesen: (typeof sektorFormatLesen === 'function' ? sektorFormatLesen : undefined),
   vorfuehrungFhirIpsBundle: (typeof vorfuehrungFhirIpsBundle === 'function' ? vorfuehrungFhirIpsBundle : undefined),
   vorfuehrungFhirAuszug: (typeof vorfuehrungFhirAuszug === 'function' ? vorfuehrungFhirAuszug : undefined),
   imVorfuehrung: (typeof imVorfuehrung === 'function' ? imVorfuehrung : undefined),
@@ -1007,6 +1037,11 @@ const EXPORT_HOOK = `
   vorfuehrungSchleifeLaeuft: (typeof vorfuehrungSchleifeLaeuft === 'function' ? vorfuehrungSchleifeLaeuft : undefined),
   vorfuehrungBeruehrt: (typeof vorfuehrungBeruehrt === 'function' ? vorfuehrungBeruehrt : undefined),
   vorfuehrungZuruecksetzen: (typeof vorfuehrungZuruecksetzen === 'function' ? vorfuehrungZuruecksetzen : undefined),
+  // U2-ADR-413 Nachtrag (3): die Spalte „Die Situation", für die Bauform-Probe.
+  _vorfuehrungSpalteHTML: (typeof _vorfuehrungSpalteHTML === 'function' ? _vorfuehrungSpalteHTML : undefined),
+  // Kalt-Lesetest 26.09.2026: die Beschriftung im Freigabe-Dialog einer Anfrage, für tests/anfrage-klartext.test.js.
+  _anfrageBeschriftung: (typeof _anfrageBeschriftung === 'function' ? _anfrageBeschriftung : undefined),
+  ANFRAGE_BESCHRIFTUNG: (typeof ANFRAGE_BESCHRIFTUNG !== 'undefined' ? ANFRAGE_BESCHRIFTUNG : undefined),
   vorfuehrungSperreMelden: (typeof vorfuehrungSperreMelden === 'function' ? vorfuehrungSperreMelden : undefined),
   _vorfuehrungAusgabeZeigen: (typeof _vorfuehrungAusgabeZeigen === 'function' ? _vorfuehrungAusgabeZeigen : undefined),
   anlegenDialogTitel, anlegenPrimaerLabel,
@@ -1125,6 +1160,10 @@ const EXPORT_HOOK = `
   vorDepotKonfigurationLaden: (typeof vorDepotKonfigurationLaden !== 'undefined' ? vorDepotKonfigurationLaden : undefined),
   vorDepotKonfigurationAnwenden: (typeof vorDepotKonfigurationAnwenden !== 'undefined' ? vorDepotKonfigurationAnwenden : undefined),
   modulEinlassenGeprueft: (typeof modulEinlassenGeprueft !== 'undefined' ? modulEinlassenGeprueft : undefined),
+  _pruefstufeFuerModul: (typeof _pruefstufeFuerModul === 'function' ? _pruefstufeFuerModul : undefined),
+  _geltungPasst: (typeof _geltungPasst === 'function' ? _geltungPasst : undefined),
+  _istPrueferUnterTreuhand: (typeof _istPrueferUnterTreuhand === 'function' ? _istPrueferUnterTreuhand : undefined),
+  _originaleSummeKern: (typeof _originaleSummeKern === 'function' ? _originaleSummeKern : undefined),
   _vorDepotModulInsDepotUebernehmen: (typeof _vorDepotModulInsDepotUebernehmen !== 'undefined' ? _vorDepotModulInsDepotUebernehmen : undefined),
   // U2-ADR-252 Teil 2 (04.09.2026) — Halter statt direkter Export, dasselbe Muster wie
   // _subSelbstUmschlagHalter: das Ergebnis von vorDepotKonfigurationAnwenden() lebt in einer
@@ -1470,6 +1509,8 @@ const EXPORT_HOOK = `
   setData: (v) => { data = v; },
   // Code-Listen-Andock (Paket 3)
   CODE_LISTEN, codeListeAnmelden, liesCodeListe, codeListeSuche, codeWertAus,
+  kanonischesCodeSystem: (typeof kanonischesCodeSystem === 'function' ? kanonischesCodeSystem : undefined),   // Schema 90 (28.09.2026)
+  codingVersionPflicht: (typeof codingVersionPflicht === 'function' ? codingVersionPflicht : undefined),
   BAUSTEIN_BY_ID, lebenslageFelder,   // A58 — Katalog liegt seit T5 im Kern (BAUSTEINE)
   _bausteinHatEintraege,   // K2 (Auftrag K1/K2/K6, 09.08.2026)
   lebenslageAlsBlatt, oeffneLebenslage, _lageBlattSpeichern, _faltContainer,   // A58/A68 (U2-ADR-117) — das eine Lage-Blatt + Schreibweg
@@ -1661,7 +1702,7 @@ function extrahiereCodelisten(html) {
        derselbe Fall wie eine Code-Liste (Produktdaten, die nach Script 2 ihren Anmelder rufen).
        Als Liste geführt und nicht als zweite `if`-Zeile, damit der nächste Produktdaten-Block
        eine Marke ergänzt und keinen Zweig. */
-    if (['/* @vd-codeliste', '/* @vd-lebenslagen'].some((m) => inhalt.trimStart().startsWith(m))) blocks.push(inhalt);
+    if (['/* @vd-codeliste', '/* @vd-lebenslagen', '/* @vd-terminologie'].some((m) => inhalt.trimStart().startsWith(m))) blocks.push(inhalt);
     from = c + CLOSE.length;
   }
   return blocks;
@@ -1983,6 +2024,20 @@ function ladeKern(opts) {
   const namen = Object.keys(sandbox);
   const werte = namen.map((n) => sandbox[n]);
   const codelisten = extrahiereCodelisten(html);
+  /* ZUSATZBINDUNGEN (16.09.2026, tools/privat-pro-daten-antworten.js) — ein Werkzeug, das
+     Kern-Funktionen aus dem QUELLTEXT sammelt statt aus einer Handliste, braucht an jede davon
+     heran, auch an die, die nicht in der festen Export-Liste stehen. `opts.zusatzBindungen` ist
+     eine Liste von Bezeichnern; jeder landet unter `V.__zusatz[name]`, per typeof abgesichert (ein
+     Name, den es im Kern nicht gibt, wird `undefined`, nicht ein Wurf). Nur gültige
+     JS-Bezeichner werden angenommen — der Text geht in die Quelle. Ohne die Option bleibt der
+     Hook byte-gleich. */
+  const zusatz = Array.isArray(opts.zusatzBindungen) ? opts.zusatzBindungen : [];
+  for (const n of zusatz) {
+    if (typeof n !== 'string' || !/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(n)) throw new Error('ladeKern: ungültige Zusatzbindung ' + JSON.stringify(n));
+  }
+  const exportHook = zusatz.length
+    ? EXPORT_HOOK.replace(';__LOAD_KERN_EXPORT__ = {', ';__LOAD_KERN_EXPORT__ = { __zusatz: {' + zusatz.map((n) => n + ': (typeof ' + n + " !== 'undefined' ? " + n + ' : undefined)').join(', ') + '},')
+    : EXPORT_HOOK;
   // U2-ADR-NNN (18.09.2026, Kern-Verschluss): Script 2 endet seither auf ein IIFE, das fast
   // alle Top-Level-Namen einschließt (vorher lagen 1581 offen auf `window`). EXPORT_HOOK und
   // die Codelisten rufen aber genau solche Namen bare auf (codeListeAnmelden, Dutzende Exporte)
@@ -1994,7 +2049,7 @@ function ladeKern(opts) {
   // äußere new Function()) — EXPORT_HOOK schreibt sie von INNEN bare, die äußere Quelle gibt
   // sie am Ende zurück (s. Kommentar an EXPORT_HOOK/spliceVorKernVerschluss oben).
   const source = 'var __LOAD_KERN_EXPORT__;\n' + script1 + '\n'
-    + spliceVorKernVerschluss(script2, codelisten.join('\n') + '\n' + EXPORT_HOOK)
+    + spliceVorKernVerschluss(script2, codelisten.join('\n') + '\n' + exportHook)
     + '\n;return __LOAD_KERN_EXPORT__;';
 
   let V;
@@ -2016,7 +2071,7 @@ function ladeKern(opts) {
     zeilen[0] = '(function(' + namen.join(',') + '){var __LOAD_KERN_EXPORT__;' + zeilen[0];
     // Derselbe Verschluss-Spleiß wie im `source` oben — sonst dieselben ReferenceErrors, nur
     // unter Abdeckung statt im Normalfall.
-    const tempQuelle = spliceVorKernVerschluss(zeilen.join('\n'), codelisten.join('\n') + '\n' + EXPORT_HOOK)
+    const tempQuelle = spliceVorKernVerschluss(zeilen.join('\n'), codelisten.join('\n') + '\n' + exportHook)
       + '\n;return __LOAD_KERN_EXPORT__;\n})';
     fs.writeFileSync(ABDECKUNG_PFAD, tempQuelle, 'utf8');
     // Die Auswertung erkennt die Datei an ihrer URL im V8-Bericht und liest sie nicht mehr; sie bleibt nicht liegen (der

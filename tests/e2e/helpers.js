@@ -352,7 +352,35 @@ async function browserJwsSignieren({ payload, privJwk }) {
   return signingInput + '.' + b64uBytes(new Uint8Array(sig));
 }
 
+// Vorführung (30.09.2026): jeder Textknoten der Anwendung, den die Erklär-Notiz verdeckt (sichtbar zuoberst ohne sie).
+async function unterDerNotiz(seite) {
+  return seite.evaluate(() => {
+    const n = document.querySelector('.vorfuehrung-notiz');
+    if (!n) return ['keine Notiz'];
+    const k = n.getBoundingClientRect();
+    const funde = [];
+    const lauf = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let t = lauf.nextNode(); t; t = lauf.nextNode()) {
+      if (!t.textContent.trim() || n.contains(t) || (t.parentElement && t.parentElement.closest('#vorfuehrung-schleife, #vorfuehrung-streifen'))) continue;
+      const el = t.parentElement;
+      if (!el || !el.checkVisibility || !el.checkVisibility()) continue;
+      const r = document.createRange(); r.selectNodeContents(t);
+      for (const q of r.getClientRects()) {
+        if (q.width < 1 || q.height < 1) continue;
+        if (!(q.right > k.left + 1 && q.left < k.right - 1 && q.bottom > k.top + 1 && q.top < k.bottom - 1)) continue;
+        // Nur Text, der ohne die Notiz dort zuoberst läge — was ein Dialog schon verdeckt, verdeckt die Notiz nicht noch einmal.
+        const x = (Math.max(q.left, k.left) + Math.min(q.right, k.right)) / 2;
+        const y = (Math.max(q.top, k.top) + Math.min(q.bottom, k.bottom)) / 2;
+        const oben = document.elementsFromPoint(x, y).find((e) => !n.contains(e) && !e.closest('#vorfuehrung-schleife'));
+        if (oben && (oben === el || el.contains(oben) || oben.contains(el))) { funde.push(t.textContent.trim().slice(0, 40)); break; }
+      }
+    }
+    return funde;
+  });
+}
+
 module.exports = {
+  unterDerNotiz,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
   oeffneApp, depotAnlegen, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
   fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, einstellungenAbschnittOeffnen,

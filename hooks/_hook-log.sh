@@ -31,6 +31,10 @@ hook_log_schreiben() {
   _rc="$2"
   _ziel="$(git rev-parse HEAD 2>/dev/null || echo unbekannt)"
   _ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  printf '{"zeit":"%s","hook":"%s","ziel":"%s","rc":"%s"}\n' "$_ts" "$_hook" "$_ziel" "$_rc" >> "hook-log.ndjson" 2>/dev/null
-  unset _hook _rc _ziel _ts
+  # quelle (28.09.2026): ein Hook-Lauf, den ein TEST startet, erbt VD_HOOK_SPERRE_JE_PID aus
+  # tests/hook-sperre-testumgebung.js; der echte Hook setzt es nie. Ohne dieses Feld waren echte Läufe
+  # von Testläufen nicht zu trennen (~900 pre-push-Zeilen am Tag, die meisten aus Tests).
+  if [ -n "${VD_HOOK_SPERRE_JE_PID:-}" ]; then _quelle=test; else _quelle=echt; fi
+  printf '{"zeit":"%s","hook":"%s","ziel":"%s","rc":"%s","quelle":"%s"}\n' "$_ts" "$_hook" "$_ziel" "$_rc" "$_quelle" >> "hook-log.ndjson" 2>/dev/null
+  unset _hook _rc _ziel _ts _quelle
 }

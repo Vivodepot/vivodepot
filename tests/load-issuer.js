@@ -84,6 +84,7 @@ function makeDocument() {
       return cache.get(id);
     },
     createElement: () => makeEl(),
+    createTextNode: (t) => ({ nodeValue: String(t) }),
     querySelector: () => makeEl(),
     querySelectorAll: () => [],
     addEventListener: () => {},
@@ -138,7 +139,7 @@ const EXPORT_HOOK = `
   // "Der Rückweg zum Kern" (27.08.2026): Modul-Umschlag-Import
   _leseModulUmschlag, _pruefeModulSignatur, onModulUmschlagDatei,
   stapelPruefen, stapelAusstellen, stapelBuendel,
-  SITZUNG_AUDIT, auditEintrag, auditLogJSON,
+  SITZUNG_AUDIT, auditEintrag, auditLogJSON, renderAudit,
   // „Prüfung vor Verteilung einhängen" (25.08.2026)
   _pruefeGroessenDisziplin, _pruefeReservierteKennungen, _pruefeNamensraumKollision,
   _pruefeTemplateSignaturen, _tplSlugVc, _namensraumIndex,

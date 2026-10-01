@@ -24,7 +24,9 @@ module.exports = defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  // Höchstens ein Viertel der Kerne (die Hälfte der node-Parallelität), übersteuerbar mit PW_WORKERS oder
+  // VD_TEST_PARALLEL — tools/lib/test-parallel.js (29.09.2026, der Rechner wurde bei zwei Läufen heiß).
+  workers: process.env.CI ? 1 : require('./tools/lib/test-parallel.js').pwWorker(),
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
     trace: 'on-first-retry',

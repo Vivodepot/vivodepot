@@ -8,7 +8,7 @@
   "bereiche": {
     "administration": {
       "id": "administration",
-      "format": "XOEV",
+      "format": "VERWALTUNG",
       "icon": "landmark",
       "exporte": [
         {

@@ -563,7 +563,7 @@
                   "pattern": "^https://"
                 },
                 "codeSystem": {
-                  "description": "Code-System-URI/ID, falls codiertes Feld (z. B. LOINC, ICD-10-GM, ATC, SNOMED, XÖV, ESCO).",
+                  "description": "Code-System-URI/ID, falls codiertes Feld (z. B. LOINC, ICD-10-GM, ATC, SNOMED, ESCO).",
                   "type": "string"
                 },
                 "codeWerte": {

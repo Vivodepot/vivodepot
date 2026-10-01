@@ -30,6 +30,23 @@
       "datensatz": "openehr-probe",
       "ziel": "probe.ips.v1#ips/allergien/substanz",
       "grad": "eng"
+    },
+    {
+      "kennung": "identity.familyName",
+      "datensatz": "fim-probe",
+      "ziel": "F99000001",
+      "fassung": "1.0",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.givenName",
+      "datensatz": "fim-probe",
+      "ziel": "G99000002",
+      "fassung": "2.0",
+      "status": "in Bearbeitung — nicht fest",
+      "grad": "naeherung"
     }
-  ]
+  ],
+  "fimNamenFreigabe": null
 }

@@ -546,7 +546,7 @@
     "xoev-verwaltung": {
       "nachrichtentyp": "vivodepot.verwaltung.0001",
       "erstelltAm": "<normalisiert>",
-      "_hinweis": "Verwaltungs-Datensatz (XÖV-orientiert).",
+      "_hinweis": "Verwaltungs-Stammdaten.",
       "_codeStand": {
         "xoev-rollencode": {
           "version": "STUB-2026-05",
@@ -639,10 +639,156 @@
       }
     },
     "fim-json": {
-      "fimSchema": "fim-stammdaten-0001",
       "standard": "FIM (Föderales Informationsmanagement)",
+      "bezugsdatensatz": "fim-baukasten",
+      "bezugsstand": "2026-09-28",
+      "freigabestatusListe": "urn:xoev-de:fim:codeliste:xdatenfelder.freigabestatus",
       "erstelltAm": "<normalisiert>",
-      "_hinweis": "Verwaltungs-Stammdaten im FIM-orientierten JSON.",
+      "felder": [
+        {
+          "kennung": "administration.bundidVerificationLevel",
+          "wert": "Niveau hoch",
+          "grad": "naeherung",
+          "fimFeld": {
+            "id": "F06006636",
+            "fassung": "0.1",
+            "freigabestatus": "2",
+            "fest": false
+          }
+        },
+        {
+          "kennung": "identity.birthDate",
+          "wert": "1958-03-14",
+          "grad": "exakt",
+          "fimFeld": {
+            "id": "F05000016340",
+            "fassung": "1.2.0",
+            "freigabestatus": "5",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.birthName",
+          "wert": "Immergrün",
+          "grad": "exakt",
+          "fimFeld": {
+            "id": "F60000230",
+            "fassung": "2.0",
+            "freigabestatus": "6",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.birthPlace",
+          "wert": "Augsburg",
+          "grad": "exakt",
+          "fimFeld": {
+            "id": "F60000234",
+            "fassung": "1.2",
+            "freigabestatus": "6",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.email",
+          "wert": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
+          "grad": "exakt",
+          "fimFeld": {
+            "id": "F03000021483",
+            "fassung": "1.0.0",
+            "freigabestatus": "5",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.familyName",
+          "wert": "Wredenhagen-Sonnenschein",
+          "grad": "exakt",
+          "fimFeld": {
+            "id": "F60000227",
+            "fassung": "1.1",
+            "freigabestatus": "6",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.gender",
+          "wert": "weiblich",
+          "grad": "naeherung",
+          "fimFeld": {
+            "id": "F60000332",
+            "fassung": "1.3",
+            "freigabestatus": "6",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.givenName",
+          "wert": "Elisabeth",
+          "grad": "exakt",
+          "fimFeld": {
+            "id": "F60000228",
+            "fassung": "2.0",
+            "freigabestatus": "6",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.maritalStatus",
+          "wert": "verheiratet",
+          "grad": "naeherung",
+          "fimFeld": {
+            "id": "F60000275",
+            "fassung": "1.2",
+            "freigabestatus": "6",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.nationality",
+          "wert": "deutsch",
+          "grad": "naeherung",
+          "fimFeld": {
+            "id": "F60000236",
+            "fassung": "1.4",
+            "freigabestatus": "6",
+            "fest": true
+          }
+        },
+        {
+          "kennung": "identity.postcodeCity",
+          "wert": "80331 München",
+          "grad": "naeherung",
+          "fimFeld": {
+            "id": "G00000587",
+            "fassung": "2.0",
+            "freigabestatus": "2",
+            "fest": false
+          }
+        },
+        {
+          "kennung": "identity.streetAddress",
+          "wert": "Lindenweg 4",
+          "grad": "naeherung",
+          "fimFeld": {
+            "id": "G00000587",
+            "fassung": "2.0",
+            "freigabestatus": "2",
+            "fest": false
+          }
+        },
+        {
+          "kennung": "identity.telephone",
+          "wert": "089 87654321",
+          "grad": "exakt",
+          "fimFeld": {
+            "id": "F03000021484",
+            "fassung": "1.0.0",
+            "freigabestatus": "5",
+            "fest": true
+          }
+        }
+      ],
       "stammdaten": {
         "verifizierungsstufe": "Niveau hoch",
         "emailVerschluesselt": "elisabeth.ews@example.de",
@@ -725,11 +871,11 @@
                 },
                 {
                   "label": "Ausweisdokumente",
-                  "wert": "DE · T11XXXXX3 · 2011-06-01 · 2021-06-01; DE · T22XXXXX9 · 2021-06-01 · 2031-06-01"
+                  "wert": "DE · T11XXXXX3 · Ausgestellt am: 01.06.2011 · Gültig bis: 01.06.2021; DE · T22XXXXX9 · Ausgestellt am: 01.06.2021 · Gültig bis: 01.06.2031"
                 },
                 {
                   "label": "Aufenthaltstitel",
-                  "wert": "DE · AT-XXXXXX1 · 2015-01-01 · 2020-01-01; DE · AT-XXXXXX2 · 2020-01-01 · 2025-01-01"
+                  "wert": "DE · AT-XXXXXX1 · Ausgestellt am: 01.01.2015 · Gültig bis: 01.01.2020; DE · AT-XXXXXX2 · Ausgestellt am: 01.01.2020 · Gültig bis: 01.01.2025"
                 },
                 {
                   "label": "Weitere Angaben",
@@ -746,7 +892,7 @@
               "zeilen": [
                 {
                   "label": "Frühere Namen",
-                  "wert": "Elisabeth Immergrün · 1985-06-14 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · 2003-02-01 · Scheidung oder Rückkehr zum Geburtsnamen"
+                  "wert": "Elisabeth Immergrün · geführt bis: 14.06.1985 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · geführt bis: 01.02.2003 · Scheidung oder Rückkehr zum Geburtsnamen"
                 }
               ]
             },
@@ -784,7 +930,7 @@
               "zeilen": [
                 {
                   "label": "Kinder und Schutzbefohlene",
-                  "wert": "Konstantin-Emanuel Wredenhagen-Sonnenschein · leibliches Kind · gemeinsame elterliche Sorge · In Ausbildung / Studium: ja · 2027-07-31 · Ordner „Familie\", Aktenschrank Wohnzimmer; Mia · leibliches Kind · aus zweiter Ehe des Vaters, lebt überwiegend bei mir · gemeinsame elterliche Sorge · Aufenthaltsbestimmungsrecht bei mir, im Übrigen gemeinsam mit dem Vater · Wechselmodell, ca. 60/40 zu meinen Gunsten · In Ausbildung / Studium: nein"
+                  "wert": "Konstantin-Emanuel Wredenhagen-Sonnenschein · leibliches Kind · gemeinsame elterliche Sorge · In Ausbildung / Studium: ja · Ausbildung voraussichtlich bis: 31.07.2027 · Ordner „Familie\", Aktenschrank Wohnzimmer; Mia · leibliches Kind · aus zweiter Ehe des Vaters, lebt überwiegend bei mir · gemeinsame elterliche Sorge · Aufenthaltsbestimmungsrecht bei mir, im Übrigen gemeinsam mit dem Vater · Wechselmodell, ca. 60/40 zu meinen Gunsten · In Ausbildung / Studium: nein"
                 }
               ]
             },
@@ -871,7 +1017,7 @@
                 },
                 {
                   "label": "ELEFAND-Registrierungen",
-                  "wert": "ELE-2025-58204 · Thailand · 2026-12-31; ELE-2023-11029 · Marokko · 2024-01-15"
+                  "wert": "ELE-2025-58204 · Thailand · Gültig bis: 31.12.2026; ELE-2023-11029 · Marokko · Gültig bis: 15.01.2024"
                 },
                 {
                   "label": "Botschaftskontakt",
@@ -967,7 +1113,7 @@
                 },
                 {
                   "label": "Kreditkarten",
-                  "wert": "Visa · …4521 · 2028-06-01; Mastercard Gold · …7788 · 2027-11-01"
+                  "wert": "Visa · …4521 · Gültig bis: 01.06.2028; Mastercard Gold · …7788 · Gültig bis: 01.11.2027"
                 },
                 {
                   "label": "Offene Forderungen & Bürgschaften",
@@ -1103,7 +1249,7 @@
                 },
                 {
                   "label": "Krankenkassenkarten",
-                  "wert": "Geldbeutel · 2030-03-01; Geldbeutel, altes Fach · 2025-01-01"
+                  "wert": "Geldbeutel · Gültig bis (inkl. EHIC): 01.03.2030; Geldbeutel, altes Fach · Gültig bis (inkl. EHIC): 01.01.2025"
                 },
                 {
                   "label": "Notfallkarte / Patientenausweis",
@@ -1324,7 +1470,7 @@
                 },
                 {
                   "label": "Schwerbehindertenausweise",
-                  "wert": "Geldbeutel · 2029-12-31; Geldbeutel, alter Ausweis · 2024-12-31"
+                  "wert": "Geldbeutel · Gültig bis: 31.12.2029; Geldbeutel, alter Ausweis · Gültig bis: 31.12.2024"
                 },
                 {
                   "label": "Ambulanter Pflegedienst — Name & Kontakt",
@@ -1566,7 +1712,7 @@
                 },
                 {
                   "label": "Laufende Verwaltungsvorgänge",
-                  "wert": "Deutsche Rentenversicherung · Rentenantrag · RV-2026-00417 · 2026-03-12 · 1.240 EUR monatlich · Sachbearbeiterin Frau Meyer · Unterlagen eingereicht, Rückmeldung ausstehend; Stadt München, Bürgerbüro · Ummeldung · 2026-06-01 · Nach Umzug erledigt; Amtsgericht München · Beratungshilfe · BerH-2026-0912 · 2026-08-20 · Antrag vorbereitet, Unterlagen vollständig · Vermieter Herbert Osterwald · Rechtsanwältin Dr. Sommer, 03/2026"
+                  "wert": "Deutsche Rentenversicherung · Rentenantrag · RV-2026-00417 · Datum (Antrag/Beginn): 12.03.2026 · 1.240 EUR monatlich · Sachbearbeiterin Frau Meyer · Unterlagen eingereicht, Rückmeldung ausstehend; Stadt München, Bürgerbüro · Ummeldung · Datum (Antrag/Beginn): 01.06.2026 · Nach Umzug erledigt; Amtsgericht München · Beratungshilfe · BerH-2026-0912 · Datum (Antrag/Beginn): 20.08.2026 · Antrag vorbereitet, Unterlagen vollständig · Vermieter Herbert Osterwald · Rechtsanwältin Dr. Sommer, 03/2026"
                 }
               ]
             },
@@ -1688,7 +1834,7 @@
               "zeilen": [
                 {
                   "label": "Weitere Wohnungen",
-                  "wert": "Seestraße 12 · 83209 Prien am Chiemsee · Eigentum · Ferienwohnung, Mai bis Oktober selbst genutzt, sonst über eine Agentur vermietet; Miete · Herbert Osterwald · 08051 998877 · verwaltung@chiemsee-immo.example · 620 EUR warm · 1.240 EUR (Sparkasse Rosenheim) · 2027-08-31"
+                  "wert": "Seestraße 12 · 83209 Prien am Chiemsee · Eigentum · Ferienwohnung, Mai bis Oktober selbst genutzt, sonst über eine Agentur vermietet; Miete · Herbert Osterwald · 08051 998877 · verwaltung@chiemsee-immo.example · 620 EUR warm · 1.240 EUR (Sparkasse Rosenheim) · Mietvertrag — befristet bis (falls Zeitmietvertrag): 31.08.2027"
                 }
               ]
             }
@@ -2008,11 +2154,11 @@
                 },
                 {
                   "label": "Ausweisdokumente",
-                  "wert": "DE · T11XXXXX3 · 2011-06-01 · 2021-06-01; DE · T22XXXXX9 · 2021-06-01 · 2031-06-01"
+                  "wert": "DE · T11XXXXX3 · Ausgestellt am: 01.06.2011 · Gültig bis: 01.06.2021; DE · T22XXXXX9 · Ausgestellt am: 01.06.2021 · Gültig bis: 01.06.2031"
                 },
                 {
                   "label": "Aufenthaltstitel",
-                  "wert": "DE · AT-XXXXXX1 · 2015-01-01 · 2020-01-01; DE · AT-XXXXXX2 · 2020-01-01 · 2025-01-01"
+                  "wert": "DE · AT-XXXXXX1 · Ausgestellt am: 01.01.2015 · Gültig bis: 01.01.2020; DE · AT-XXXXXX2 · Ausgestellt am: 01.01.2020 · Gültig bis: 01.01.2025"
                 },
                 {
                   "label": "Weitere Angaben",
@@ -2029,7 +2175,7 @@
               "zeilen": [
                 {
                   "label": "Frühere Namen",
-                  "wert": "Elisabeth Immergrün · 1985-06-14 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · 2003-02-01 · Scheidung oder Rückkehr zum Geburtsnamen"
+                  "wert": "Elisabeth Immergrün · geführt bis: 14.06.1985 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · geführt bis: 01.02.2003 · Scheidung oder Rückkehr zum Geburtsnamen"
                 }
               ]
             },
@@ -2409,7 +2555,7 @@
   },
   "dateiRundlauf": {
     "vorher": {
-      "schemaVersion": 89,
+      "schemaVersion": 90,
       "kryptoVersion": 3,
       "menschen": [
         {
@@ -2908,6 +3054,10 @@
           ],
           "insuranceNumber": "A1XXXXX89",
           "implantsProsthesesPacemakers": "Hüft-TEP rechts (Stryker), seit 2019",
+          "pregnancy": "",
+          "pregnancyEstimatedDueDate": "",
+          "wanderingRisk": "",
+          "wanderingRiskDetails": "",
           "heightCm": "167",
           "bodyWeightKg": "71",
           "vaccinationRecordStorage": "Grüner Impfausweis, oberste Schublade im Nachttisch",
@@ -3689,7 +3839,6 @@
       "ankerWechselEmpfehlung": null,
       "schwangerschaften": [],
       "verwaltungsTyp": "eigen",
-      "verselbststaendigungMoeglich": false,
       "delegationsGeschichte": [],
       "verwalteteDepots": [],
       "uebergabeProtokoll": [],
@@ -3894,12 +4043,12 @@
             "bereiche": {
               "administration": {
                 "id": "administration",
-                "format": "XOEV",
+                "format": "VERWALTUNG",
                 "icon": "landmark",
                 "exporte": [
                   {
                     "format": "xoev-verwaltung",
-                    "label": "Behörden-Datensatz (maschinenlesbar)"
+                    "label": "Verwaltungs-Stammdaten (maschinenlesbar)"
                   },
                   {
                     "format": "fim-json",
@@ -7366,6 +7515,54 @@
                         "label": "Implantate / Prothesen / Schrittmacher",
                         "hint": "Wichtig für MRT-Eignung und Narkose.",
                         "beispiel": "Hüft-TEP rechts (Stryker), seit 2019"
+                      },
+                      {
+                        "id": "pregnancy",
+                        "sensibel": true,
+                        "typ": "auswahl",
+                        "optionen": [
+                          {
+                            "wert": "ja",
+                            "label": "ja, schwanger"
+                          }
+                        ],
+                        "label": "Schwangerschaft",
+                        "hint": "Nur „ja“ oder leer. Leer heißt keine Angabe, eine Schwangerschaft ist damit nicht ausgeschlossen."
+                      },
+                      {
+                        "id": "pregnancyEstimatedDueDate",
+                        "sensibel": true,
+                        "typ": "datum",
+                        "sichtbarWenn": {
+                          "feld": "pregnancy",
+                          "wert": "ja"
+                        },
+                        "label": "Errechneter Entbindungstermin"
+                      },
+                      {
+                        "id": "wanderingRisk",
+                        "sensibel": true,
+                        "typ": "auswahl",
+                        "optionen": [
+                          {
+                            "wert": "ja",
+                            "label": "ja"
+                          }
+                        ],
+                        "label": "Weglaufgefährdung",
+                        "hint": "Hat sich die Person schon einmal ohne Orientierung von ihrem Aufenthaltsort entfernt und sich dabei gefährdet?"
+                      },
+                      {
+                        "id": "wanderingRiskDetails",
+                        "sensibel": true,
+                        "typ": "text",
+                        "sichtbarWenn": {
+                          "feld": "wanderingRisk",
+                          "wert": "ja"
+                        },
+                        "label": "Weglaufgefährdung — Umstände",
+                        "hint": "Kurz, höchstens 175 Zeichen: wann, wie, was hilft.",
+                        "beispiel": "verlässt nachts die Wohnung und findet nicht zurück; reagiert auf den Vornamen"
                       },
                       {
                         "id": "heightCm",
@@ -10890,6 +11087,14 @@
             "health.implantsProsthesesPacemakers.label": "Implantate / Prothesen / Schrittmacher",
             "health.implantsProsthesesPacemakers.hint": "Wichtig für MRT-Eignung und Narkose.",
             "health.implantsProsthesesPacemakers.beispiel": "Hüft-TEP rechts (Stryker), seit 2019",
+            "health.pregnancy.label": "Schwangerschaft",
+            "health.pregnancy.hint": "Nur „ja“ oder leer. Leer heißt keine Angabe, eine Schwangerschaft ist damit nicht ausgeschlossen.",
+            "health.pregnancyEstimatedDueDate.label": "Errechneter Entbindungstermin",
+            "health.wanderingRisk.label": "Weglaufgefährdung",
+            "health.wanderingRisk.hint": "Hat sich die Person schon einmal ohne Orientierung von ihrem Aufenthaltsort entfernt und sich dabei gefährdet?",
+            "health.wanderingRiskDetails.label": "Weglaufgefährdung — Umstände",
+            "health.wanderingRiskDetails.hint": "Kurz, höchstens 175 Zeichen: wann, wie, was hilft.",
+            "health.wanderingRiskDetails.beispiel": "verlässt nachts die Wohnung und findet nicht zurück; reagiert auf den Vornamen",
             "health.heightCm.label": "Körpergröße (cm)",
             "health.heightCm.beispiel": "172",
             "health.bodyWeightKg.label": "Körpergewicht (kg)",
@@ -11862,12 +12067,13 @@
             "strings:importKlartext.sd-jwt-vc-identitaet.text": "ein digitaler Nachweis über Ihre Person",
             "strings:importKlartext.sd-jwt-vc-finanzen.text": "ein digitaler Nachweis über Ihre Finanzen",
             "strings:importKlartext.sd-jwt-vc-sozialversicherung.text": "ein digitaler Nachweis über Ihre Sozialversicherung",
-            "strings:importKlartext.xoev-verwaltung.text": "eine Meldung von einer Behörde",
+            "strings:importKlartext.xoev-verwaltung.text": "eine Datei mit Ihren Verwaltungs-Stammdaten",
             "strings:importKlartext.fim-json.text": "ein Stammdatensatz von einer Behörde",
             "strings:importKlartext.xmeld.text": "eine Meldung vom Einwohnermeldeamt",
             "strings:importKlartext.elster.text": "ein Steuerbescheid oder ein Steuerdatensatz",
             "strings:importKlartext.edci-bildung.text": "ein Nachweis über eine Ausbildung oder ein Studium",
             "strings:importKlartext.edci-europass-extern.text": "ein digitaler Bildungsnachweis von einer Einrichtung",
+            "strings:importKlartext.openbadges-3-extern.text": "ein Open Badge, ein digitaler Bildungs- oder Kompetenznachweis",
             "strings:importKlartext.camt053.text": "ein Kontoauszug von einer Bank",
             "strings:importKlartext.vcard-identitaet.text": "ein Adressbuch-Eintrag",
             "strings:importKlartext.vcard-menschen.text": "mehrere Adressbuch-Einträge",
@@ -11997,6 +12203,9 @@
             "strings:refInstitutionGefundenNeu.text": "Trotzdem neu anlegen",
             "strings:gueltigkeitVon.text": "gilt ab",
             "strings:gueltigkeitNochNicht.text": "gilt noch nicht",
+            "strings:feldBezugFim.text": "FIM-Datenfeld {id}, Fassung {fassung}",
+            "strings:feldBezugFest.text": "freigegeben",
+            "strings:feldBezugNichtFest.text": "Fassung nicht fest (in Bearbeitung)",
             "strings:gueltigkeitBis.text": "gilt bis",
             "strings:gueltigkeitVorschlagKnopf.text": "Vorschlag übernehmen",
             "strings:gueltigkeitSelbstEingetragen.text": "von Ihnen eingetragen",
@@ -12283,6 +12492,12 @@
             "strings:kreiseFachAktiv.text": "Fach in Ihrer Datei: eingerichtet.",
             "strings:kreiseFachInaktiv.text": "Kein Fach in Ihrer Datei.",
             "strings:kreiseFachGesetztToast.text": "Fach eingerichtet — beim nächsten Speichern ist es in der Datei.",
+            "strings:fachAbgelaufen.text": "Dieses Fach galt bis {datum} und ist abgelaufen. Die App öffnet es nicht mehr. Wenden Sie sich an die Person, der das Depot gehört.",
+            "strings:kreiseFachGiltBisLabel.text": "Gilt bis (freiwillig)",
+            "strings:kreiseFachGiltBisVorschlag.text": "Aus Ihrer Vorsorge: eine Vollmacht ist befristet bis {datum} ({personen}).",
+            "strings:kreiseFachGiltBisHinweis.text": "Nach diesem Tag öffnet die App das Fach nicht mehr. Das ist ein Bedienschutz, keine Verschlüsselungssperre: Wer die Datei und das Passwort hat, hat auch den Schlüssel.",
+            "strings:kreiseFachGiltBisFormat.text": "Bitte ein gültiges Datum angeben.",
+            "strings:kreiseFachVertretungLabel.text": "Unter welchem Recht handelt dieser Kreis für Sie? (freiwillig)",
             "strings:kreiseFachEntfernenTitel.text": "Fach aus Ihrer Datei entfernen",
             "strings:kreiseFachEntfernenText.text": "Beim nächsten Speichern ist das Fach aus Ihrer Datei fort — wer sie danach in die Hand bekommt, kann mit dem Passwort dieser Person nichts mehr öffnen. Achtung: Eine ältere Sicherung Ihrer Datei, die diese Person bereits hat, öffnet sich mit ihrem Passwort weiter; das lässt sich nicht rückgängig machen.",
             "strings:kreiseFachEntferntToast.text": "Fach entfernt.",
@@ -12541,7 +12756,7 @@
             "strings:aushaengenAbsichtBeiseiteFolge.text": "Es bleibt bei Ihnen archiviert. Sie können es später wieder aufnehmen.",
             "strings:aushaengenAbsichtAbgebenLabel.text": "Ich gebe es ab.",
             "strings:aushaengenAbsichtAbgebenFolge.text": "{name} verwaltet es künftig allein. Danach können Sie es nicht mehr zu sich nehmen.",
-            "strings:aushaengenBestaetigenText.text": "Sie haben die Datei für {name} gespeichert. Haben Sie sie übergeben?\nNach dem Abgeben bleibt bei Ihnen keine Kopie.",
+            "strings:aushaengenBestaetigenText.text": "Sie haben die Datei für {name} gespeichert. Haben Sie sie übergeben?\nNach dem Abgeben ist das Depot nicht mehr in Ihrer Datei. Ältere Sicherungskopien Ihrer Datei von vor dem Abgeben enthalten es noch.",
             "strings:aushaengenBestaetigenJa.text": "Ja, übergeben",
             "strings:aushaengenBestaetigenZurueck.text": "Zurück",
             "strings:subRueckfrageTitel.text": "Ihr {marke} ist eingerichtet.",
@@ -12576,7 +12791,35 @@
             "strings:btnAushaengen.text": "Übergabe abgeschlossen — aus meiner Verwaltung entfernen",
             "strings:aushaengenEmpfaengerLabel.text": "Empfänger (falls bekannt)",
             "strings:aushaengenFertigBeiseite.text": "Beiseitegelegt. Sie können dieses Depot später wieder aufnehmen.",
-            "strings:aushaengenFertigAbgegeben.text": "Abgegeben. Bei Ihnen bleibt keine Kopie.",
+            "strings:aushaengenFertigAbgegeben.text": "Abgegeben. Das Depot ist nicht mehr in Ihrer Datei.",
+            "strings:uebergabeTerminName.text": "Übergabe an {name}: 18. Geburtstag",
+            "strings:uebergabeTerminHinweis.text": "{name} wird volljährig. Geben Sie die Übergabe-Datei weiter, damit {name} das Depot selbst weiterführen kann.",
+            "strings:kindDateiVeraltetName.text": "Kind-Datei für {name} nachziehen",
+            "strings:kindDateiVeraltetHinweis.text": "Die Kind-Datei vom {datum} ist älter als das Depot von {name}.",
+            "strings:kindDateiVeraltetText.text": "älter als der Stand",
+            "strings:kindDateiTitel.text": "Kind-Datei für {name}",
+            "strings:kindDateiHinweis.text": "Mit der Kind-Datei kann {name} dieses Depot später übernehmen, ohne dass Sie mitwirken müssen: {name} öffnet sie auf der Startseite mit dem Passwort dieses Depots und führt es als eigenes Depot weiter. Legen Sie sie an einen Ort, an den {name} später kommt – einen gemeinsamen Ordner, das Gerät von {name} oder einen Stick – und sagen Sie {name}, wo sie liegt und wie das Passwort lautet.",
+            "strings:kindDateiGrenze.text": "Die Kind-Datei ist so aktuell wie ihr letztes Schreiben. Wo der Browser es erlaubt, wird sie während dieser Sitzung bei jedem Sichern mitgeschrieben; sonst erinnert das Prüfblatt daran. In Ihrem Depot bleibt das Depot von {name}, bis Sie es abgeben.",
+            "strings:kindDateiStandZeile.text": "Kind-Datei: Stand vom {datum}",
+            "strings:kindDateiAelterZeile.text": "Kind-Datei vom {datum} – älter als das Depot",
+            "strings:btnKindDateiEinrichten.text": "Kind-Datei einrichten",
+            "strings:btnKindDateiAktualisieren.text": "Kind-Datei aktualisieren",
+            "strings:kindDateiGeschrieben.text": "Kind-Datei für {name} geschrieben.",
+            "strings:kindDateiDepotFehlt.text": "Dieses Depot ist nicht mehr in Ihrer Verwaltung.",
+            "strings:kindDateiNichtVerwaltet.text": "Das Depot wird nicht mehr verwaltet – eine Kind-Datei gibt es nur für ein verwaltetes.",
+            "strings:kindDateiOrtFehlt.text": "Dieser Ort für die Kind-Datei ist in diesem Browser nicht verfügbar.",
+            "strings:btnWiderspruchFesthalten.text": "Widerspruch festhalten",
+            "strings:widerspruchTitel.text": "Widerspruch von {name} festhalten",
+            "strings:widerspruchGegenstandLabel.text": "Wogegen richtet sich der Widerspruch?",
+            "strings:widerspruchErklaertVonLabel.text": "Erklärt von",
+            "strings:widerspruchErklaertSelbst.text": "{name} selbst",
+            "strings:widerspruchErklaertWeitergegeben.text": "weitergegeben durch",
+            "strings:widerspruchWiedervorlageLabel.text": "Wiedervorlage am (freiwillig)",
+            "strings:widerspruchHinweis.text": "{name} hat widersprochen: {gegenstand} ({datum}). Der Widerspruch ist festgehalten; er sperrt nichts.",
+            "strings:widerspruchEntfernen.text": "Als erledigt entfernen",
+            "strings:widerspruchEntferntVermerk.text": "entfernt am {datum} von {name}",
+            "strings:widerspruchWiedervorlageName.text": "Wiedervorlage: Widerspruch von {name}",
+            "strings:widerspruchFestgehalten.text": "Widerspruch festgehalten.",
             "strings:statusArchiviert.text": "Übergeben und archiviert",
             "strings:archiviertAmLabel.text": "Übergeben am",
             "strings:empfaengerLabel.text": "Empfänger",
@@ -12714,8 +12957,9 @@
             "strings:anfrageUngeprueftBadge.text": "Nicht geprüft",
             "strings:anfrageZweckLabel.text": "Wozu:",
             "strings:anfrageGrundlageLabel.text": "Auf welcher Grundlage gefragt wird:",
-            "strings:anfrageVorgangLabel.text": "Vorgang:",
-            "strings:anfrageGueltigBisLabel.text": "Gilt bis:",
+            "strings:anfrageVorgangLabel.text": "Aktenzeichen der Stelle:",
+            "strings:anfrageGueltigBisLabel.text": "gilt bis",
+            "strings:anfrageVomLabel.text": "Anfrage vom",
             "strings:anfrageFeldZweckLabel.text": "Wozu diese Angabe:",
             "strings:anfrageAbgelaufenHinweis.text": "Diese Anfrage ist am {datum} abgelaufen. Sie können sie ansehen, aber nicht mehr beantworten.",
             "strings:anfrageUnbekanntHinweis.text": "Diese Anfrage nennt {n} Angabe(n), die es in {marke} nicht gibt: {liste}. Sie kann darum nicht vollständig beantwortet werden.",
@@ -12725,6 +12969,13 @@
             "strings:anfrageFehlendTitel.text": "Das fehlt noch",
             "strings:anfrageAntwortenCta.text": "Antworten",
             "strings:anfrageAntwortFertig.text": "Ihre Antwort ist als Datei gespeichert.",
+            "strings:antwortBeschriftungBevollmaechtigt.text": "Bevollmächtigt",
+            "strings:antwortBeschriftungGesundheitsfragen.text": "Vollmacht gilt für Gesundheitsfragen",
+            "strings:antwortBeschriftungVollmachtOrt.text": "Original der Vollmacht liegt",
+            "strings:antwortBeschriftungBetreuungsperson.text": "Gewünschte Betreuungsperson",
+            "strings:antwortBeschriftungBetreuungOrt.text": "Betreuungsverfügung liegt",
+            "strings:antwortBeschriftungNotvertretung.text": "Notvertretung durch den Ehegatten",
+            "strings:antwortBeschriftungHausarzt.text": "Hausarztpraxis",
             "strings:anfrageNichtVollstaendig.text": "Die Antwort geht als Teilantwort hinaus. Sie sagt selbst, was fehlt.",
             "strings:anfrageEmpfangenCta.text": "Eine Anfrage öffnen",
             "strings:anfrageEmpfangenFehler.text": "Das ist keine {marke}-Anfrage, die diese Anwendung lesen kann.",
@@ -12790,8 +13041,8 @@
             "strings:exportQrFehlt.text": "Der QR-Code kann hier gerade nicht erzeugt werden.",
             "strings:exportIdentitaetLabel.text": "Identitätsnachweis (maschinenlesbar)",
             "strings:exportIdentitaetFertig.text": "Identitätsnachweis als Datei gespeichert.",
-            "strings:exportVerwaltungLabel.text": "Behörden-Datensatz (maschinenlesbar)",
-            "strings:exportVerwaltungFertig.text": "Behörden-Datensatz als Datei gespeichert.",
+            "strings:exportVerwaltungLabel.text": "Verwaltungs-Stammdaten (maschinenlesbar)",
+            "strings:exportVerwaltungFertig.text": "Verwaltungs-Stammdaten als Datei gespeichert.",
             "strings:exportBildungLabel.text": "Bildungsnachweise (maschinenlesbar)",
             "strings:exportBildungFertig.text": "Bildungsnachweise als Datei gespeichert.",
             "strings:exportFinanzenLabel.text": "Finanzdaten als Selbstauskunft-Credential (unsigniert, experimentell)",
@@ -12996,9 +13247,12 @@
             "strings:whcZeigenTitel.text": "Ihr Wiederherstellungs-Code",
             "strings:whcZeigenText.text": "Schreiben Sie den Code von Hand ab — auf das Code-Blatt oder ein eigenes Papier. Die App zeigt ihn nur jetzt und speichert ihn nirgends.",
             "strings:whcNichtZumPasswort.text": "Nicht zum Passwort legen.",
-            "strings:whcNichtZumPasswortText.text": "Der Code hilft, wenn das Passwort verloren ist — dann darf er nicht mit ihm verloren sein. Und wer ihn findet, kann Ihr Depot öffnen, genau wie mit dem Passwort. Bewahren Sie ihn darum getrennt und sicher auf: etwa im verschlossenen Umschlag bei einer Vertrauensperson, beim Original Ihrer Vorsorgevollmacht oder im Schließfach.",
+            "strings:whcNichtZumPasswortText.text": "Wie ein Ersatzschlüssel: Mit dem Code kommen Sie auch ohne Passwort hinein — darum gehört er nicht an denselben Schlüsselbund. Liegen beide zusammen, sind sie zusammen weg. Gut aufgehoben: im Umschlag bei einer Vertrauensperson, bei der Vorsorgevollmacht, im Schließfach.",
             "strings:whcBlattKnopf.text": "Code-Blatt drucken (ohne Code)",
-            "strings:whcKontrolleLabel.text": "Zur Kontrolle: den abgeschriebenen Code eingeben",
+            "strings:whcKontrolleLabel.text": "Zur Sicherheit einmal abtippen. So merken Sie einen Abschreibfehler jetzt, nicht erst im Notfall.",
+            "strings:whcKontrolleFehlt.text": "Noch leer — der Code wird erst eingerichtet, wenn Sie ihn hier abgetippt haben.",
+            "strings:whcKontrolleTeil.text": "Noch {n} Zeichen.",
+            "strings:whcKontrolleStimmt.text": "Stimmt. Jetzt einrichten.",
             "strings:whcKontrolleFalsch.text": "Der eingegebene Code stimmt nicht mit dem angezeigten überein. Bitte vergleichen Sie Zeichen für Zeichen.",
             "strings:whcKontrolleKnopf.text": "Abgeschrieben — einrichten",
             "strings:whcPwLabel.text": "Ihr Passwort",
@@ -13043,6 +13297,10 @@
             "strings:importEdcFertig.text": "Bildungsnachweis abgelegt — im Original, unverändert.",
             "strings:mappeUebernehmenHinweisBildung.text": "Sie können die Werte aus diesem Original zusätzlich in Ihre Bildungsfelder übernehmen. Das Original bleibt unverändert erhalten.",
             "strings:mappeEdcHinweis.text": "Original Ihrer Einrichtung, unverändert verwahrt. Das Siegel prüft, wem Sie es vorzeigen.",
+            "strings:importOb3ExternLabel.text": "Open Badge einlesen (Bildungs- oder Kompetenznachweis)",
+            "strings:importOb3Beschriftung.text": "Open Badge",
+            "strings:importOb3Fertig.text": "Open Badge abgelegt — im Original, unverändert.",
+            "strings:mappeOb3Hinweis.text": "Original der ausstellenden Stelle, unverändert verwahrt. Die Echtheit prüft, wem Sie es vorzeigen.",
             "strings:importAutoritativFertig.text": "Laborbefund abgelegt — im Original, unverändert.",
             "strings:mappeAutoritativ.text": "Original — nur lesbar",
             "strings:mappeEntfernenKnopf.text": "Entfernen",
@@ -13052,6 +13310,7 @@
             "strings:mappeEntfernenBestaetigen.text": "Entfernen",
             "strings:mappeEntferntToast.text": "Entfernt.",
             "strings:mappeHerunterladenKnopf.text": "Original herunterladen",
+            "strings:mappeVerwahrungKnopf.text": "Mit Verwahrungsnachweis herunterladen",
             "strings:shlLabel.text": "Laborbefund",
             "strings:shlKnopf.text": "Sicher weitergeben",
             "strings:shlTitel.text": "Sicher weitergeben",
@@ -13071,7 +13330,7 @@
             "strings:importIdentitaetLabel.text": "Identitäts-Angaben einlesen",
             "strings:importFinanzenLabel.text": "Finanz-Angaben einlesen",
             "strings:importSozialversicherungLabel.text": "Sozialversicherungs-Angaben einlesen",
-            "strings:importVerwaltungLabel.text": "Behörden-Datensatz einlesen",
+            "strings:importVerwaltungLabel.text": "Verwaltungs-Stammdaten einlesen",
             "strings:importFimLabel.text": "Behörden-Stammdaten einlesen",
             "strings:importBildungLabel.text": "Bildungsnachweise einlesen",
             "strings:importEdciExternLabel.text": "Bildungsnachweis einer Einrichtung einlesen (europäisch)",
@@ -13374,6 +13633,8 @@
             "health.bloodType/AB+.label": "AB +",
             "health.bloodType/AB-.label": "AB −",
             "health.bloodType/unbekannt.label": "unbekannt",
+            "health.pregnancy/ja.label": "ja, schwanger",
+            "health.wanderingRisk/ja.label": "ja",
             "health.smoking/nie.label": "nie geraucht",
             "health.smoking/ex.label": "früher, jetzt nicht mehr",
             "health.smoking/leicht.label": "gelegentlich",
@@ -14119,7 +14380,7 @@
             "hilfe:was-vivodepot-nicht-sieht.abschnitt0": "Wir wissen nicht, was Sie eintragen, wie viel Sie eintragen und ob Sie die Anwendung überhaupt benutzen. Auch wenn Sie eine Erweiterung einlassen oder eine Zusammenstellung erzeugen, bleibt das auf Ihrem Gerät. Es gibt keine Rückmeldung an uns, weil es keinen Weg dafür gibt.",
             "hilfe:was-vivodepot-nicht-sieht.abschnitt1": "Die Kehrseite steht oben: Wo nichts bei uns liegt, kann auch nichts bei uns wiederhergestellt werden. Ihr Passwort und Ihre Sicherungskopien sind deshalb die einzigen beiden Dinge, auf die Sie achten müssen.",
             "hilfe:sub-depot.titel": "Ein zweites Depot für jemand anderen",
-            "hilfe:sub-depot.einleitung": "Wer für einen anderen Menschen sorgt, kann dessen Depot mitführen. In der Anwendung heißt es Sub-Depot, im Alltag auch Unterdepot. Es steht in Ihrer Liste, hat aber ein eigenes Passwort und bleibt inhaltlich getrennt von Ihrem eigenen Depot.",
+            "hilfe:sub-depot.einleitung": "Wer für einen anderen Menschen sorgt, kann dessen Depot mitführen. In der Anwendung heißt es Sub-Depot. Es steht in Ihrer Liste, hat aber ein eigenes Passwort und bleibt inhaltlich getrennt von Ihrem eigenen Depot.",
             "hilfe:sub-depot.abschnitt0": "Ein bestehendes Depot können Sie über „Einhängen“ aufnehmen: Sie wählen die Datei aus und geben ihr eine Bezeichnung, dann erscheint sie in Ihrer Liste. Der Inhalt wird unverändert übernommen, und das Passwort bleibt dasselbe, das die Datei schon hatte.",
             "hilfe:sub-depot.abschnitt1": "Endet Ihre Aufgabe, etwa weil ein Kind erwachsen wird, geben Sie das Depot zurück. Über „Abgeben“ sichern Sie es als eigene Datei und bestätigen danach die Übergabe. Erst mit dieser Bestätigung verschwindet der verschlüsselte Inhalt aus Ihrem eigenen Depot.",
             "hilfe:sub-depot.abschnitt2": "Die abgegebene Datei ist danach ein ganz gewöhnliches Depot, mit demselben Passwort, das sie die ganze Zeit hatte. Es braucht kein neues Passwort und keinen neuen Anfang; die Person arbeitet einfach dort weiter, wo Sie aufgehört haben.",
@@ -20053,6 +20314,10 @@
           ],
           "insuranceNumber": "A1XXXXX89",
           "implantsProsthesesPacemakers": "Hüft-TEP rechts (Stryker), seit 2019",
+          "pregnancy": "",
+          "pregnancyEstimatedDueDate": "",
+          "wanderingRisk": "",
+          "wanderingRiskDetails": "",
           "heightCm": "167",
           "bodyWeightKg": "71",
           "vaccinationRecordStorage": "Grüner Impfausweis, oberste Schublade im Nachttisch",
@@ -20825,7 +21090,7 @@
           "preArrangementContractStorage": "Ordner „Vorsorge\", Wohnzimmerschrank"
         }
       },
-      "schemaVersion": 89,
+      "schemaVersion": 90,
       "kryptoVersion": 3,
       "menschen": [
         {
@@ -20943,7 +21208,6 @@
       "ankerWechselEmpfehlung": null,
       "schwangerschaften": [],
       "verwaltungsTyp": "eigen",
-      "verselbststaendigungMoeglich": false,
       "delegationsGeschichte": [],
       "verwalteteDepots": [],
       "uebergabeProtokoll": [],
@@ -21148,12 +21412,12 @@
             "bereiche": {
               "administration": {
                 "id": "administration",
-                "format": "XOEV",
+                "format": "VERWALTUNG",
                 "icon": "landmark",
                 "exporte": [
                   {
                     "format": "xoev-verwaltung",
-                    "label": "Behörden-Datensatz (maschinenlesbar)"
+                    "label": "Verwaltungs-Stammdaten (maschinenlesbar)"
                   },
                   {
                     "format": "fim-json",
@@ -24620,6 +24884,54 @@
                         "label": "Implantate / Prothesen / Schrittmacher",
                         "hint": "Wichtig für MRT-Eignung und Narkose.",
                         "beispiel": "Hüft-TEP rechts (Stryker), seit 2019"
+                      },
+                      {
+                        "id": "pregnancy",
+                        "sensibel": true,
+                        "typ": "auswahl",
+                        "optionen": [
+                          {
+                            "wert": "ja",
+                            "label": "ja, schwanger"
+                          }
+                        ],
+                        "label": "Schwangerschaft",
+                        "hint": "Nur „ja“ oder leer. Leer heißt keine Angabe, eine Schwangerschaft ist damit nicht ausgeschlossen."
+                      },
+                      {
+                        "id": "pregnancyEstimatedDueDate",
+                        "sensibel": true,
+                        "typ": "datum",
+                        "sichtbarWenn": {
+                          "feld": "pregnancy",
+                          "wert": "ja"
+                        },
+                        "label": "Errechneter Entbindungstermin"
+                      },
+                      {
+                        "id": "wanderingRisk",
+                        "sensibel": true,
+                        "typ": "auswahl",
+                        "optionen": [
+                          {
+                            "wert": "ja",
+                            "label": "ja"
+                          }
+                        ],
+                        "label": "Weglaufgefährdung",
+                        "hint": "Hat sich die Person schon einmal ohne Orientierung von ihrem Aufenthaltsort entfernt und sich dabei gefährdet?"
+                      },
+                      {
+                        "id": "wanderingRiskDetails",
+                        "sensibel": true,
+                        "typ": "text",
+                        "sichtbarWenn": {
+                          "feld": "wanderingRisk",
+                          "wert": "ja"
+                        },
+                        "label": "Weglaufgefährdung — Umstände",
+                        "hint": "Kurz, höchstens 175 Zeichen: wann, wie, was hilft.",
+                        "beispiel": "verlässt nachts die Wohnung und findet nicht zurück; reagiert auf den Vornamen"
                       },
                       {
                         "id": "heightCm",
@@ -28144,6 +28456,14 @@
             "health.implantsProsthesesPacemakers.label": "Implantate / Prothesen / Schrittmacher",
             "health.implantsProsthesesPacemakers.hint": "Wichtig für MRT-Eignung und Narkose.",
             "health.implantsProsthesesPacemakers.beispiel": "Hüft-TEP rechts (Stryker), seit 2019",
+            "health.pregnancy.label": "Schwangerschaft",
+            "health.pregnancy.hint": "Nur „ja“ oder leer. Leer heißt keine Angabe, eine Schwangerschaft ist damit nicht ausgeschlossen.",
+            "health.pregnancyEstimatedDueDate.label": "Errechneter Entbindungstermin",
+            "health.wanderingRisk.label": "Weglaufgefährdung",
+            "health.wanderingRisk.hint": "Hat sich die Person schon einmal ohne Orientierung von ihrem Aufenthaltsort entfernt und sich dabei gefährdet?",
+            "health.wanderingRiskDetails.label": "Weglaufgefährdung — Umstände",
+            "health.wanderingRiskDetails.hint": "Kurz, höchstens 175 Zeichen: wann, wie, was hilft.",
+            "health.wanderingRiskDetails.beispiel": "verlässt nachts die Wohnung und findet nicht zurück; reagiert auf den Vornamen",
             "health.heightCm.label": "Körpergröße (cm)",
             "health.heightCm.beispiel": "172",
             "health.bodyWeightKg.label": "Körpergewicht (kg)",
@@ -29116,12 +29436,13 @@
             "strings:importKlartext.sd-jwt-vc-identitaet.text": "ein digitaler Nachweis über Ihre Person",
             "strings:importKlartext.sd-jwt-vc-finanzen.text": "ein digitaler Nachweis über Ihre Finanzen",
             "strings:importKlartext.sd-jwt-vc-sozialversicherung.text": "ein digitaler Nachweis über Ihre Sozialversicherung",
-            "strings:importKlartext.xoev-verwaltung.text": "eine Meldung von einer Behörde",
+            "strings:importKlartext.xoev-verwaltung.text": "eine Datei mit Ihren Verwaltungs-Stammdaten",
             "strings:importKlartext.fim-json.text": "ein Stammdatensatz von einer Behörde",
             "strings:importKlartext.xmeld.text": "eine Meldung vom Einwohnermeldeamt",
             "strings:importKlartext.elster.text": "ein Steuerbescheid oder ein Steuerdatensatz",
             "strings:importKlartext.edci-bildung.text": "ein Nachweis über eine Ausbildung oder ein Studium",
             "strings:importKlartext.edci-europass-extern.text": "ein digitaler Bildungsnachweis von einer Einrichtung",
+            "strings:importKlartext.openbadges-3-extern.text": "ein Open Badge, ein digitaler Bildungs- oder Kompetenznachweis",
             "strings:importKlartext.camt053.text": "ein Kontoauszug von einer Bank",
             "strings:importKlartext.vcard-identitaet.text": "ein Adressbuch-Eintrag",
             "strings:importKlartext.vcard-menschen.text": "mehrere Adressbuch-Einträge",
@@ -29251,6 +29572,9 @@
             "strings:refInstitutionGefundenNeu.text": "Trotzdem neu anlegen",
             "strings:gueltigkeitVon.text": "gilt ab",
             "strings:gueltigkeitNochNicht.text": "gilt noch nicht",
+            "strings:feldBezugFim.text": "FIM-Datenfeld {id}, Fassung {fassung}",
+            "strings:feldBezugFest.text": "freigegeben",
+            "strings:feldBezugNichtFest.text": "Fassung nicht fest (in Bearbeitung)",
             "strings:gueltigkeitBis.text": "gilt bis",
             "strings:gueltigkeitVorschlagKnopf.text": "Vorschlag übernehmen",
             "strings:gueltigkeitSelbstEingetragen.text": "von Ihnen eingetragen",
@@ -29537,6 +29861,12 @@
             "strings:kreiseFachAktiv.text": "Fach in Ihrer Datei: eingerichtet.",
             "strings:kreiseFachInaktiv.text": "Kein Fach in Ihrer Datei.",
             "strings:kreiseFachGesetztToast.text": "Fach eingerichtet — beim nächsten Speichern ist es in der Datei.",
+            "strings:fachAbgelaufen.text": "Dieses Fach galt bis {datum} und ist abgelaufen. Die App öffnet es nicht mehr. Wenden Sie sich an die Person, der das Depot gehört.",
+            "strings:kreiseFachGiltBisLabel.text": "Gilt bis (freiwillig)",
+            "strings:kreiseFachGiltBisVorschlag.text": "Aus Ihrer Vorsorge: eine Vollmacht ist befristet bis {datum} ({personen}).",
+            "strings:kreiseFachGiltBisHinweis.text": "Nach diesem Tag öffnet die App das Fach nicht mehr. Das ist ein Bedienschutz, keine Verschlüsselungssperre: Wer die Datei und das Passwort hat, hat auch den Schlüssel.",
+            "strings:kreiseFachGiltBisFormat.text": "Bitte ein gültiges Datum angeben.",
+            "strings:kreiseFachVertretungLabel.text": "Unter welchem Recht handelt dieser Kreis für Sie? (freiwillig)",
             "strings:kreiseFachEntfernenTitel.text": "Fach aus Ihrer Datei entfernen",
             "strings:kreiseFachEntfernenText.text": "Beim nächsten Speichern ist das Fach aus Ihrer Datei fort — wer sie danach in die Hand bekommt, kann mit dem Passwort dieser Person nichts mehr öffnen. Achtung: Eine ältere Sicherung Ihrer Datei, die diese Person bereits hat, öffnet sich mit ihrem Passwort weiter; das lässt sich nicht rückgängig machen.",
             "strings:kreiseFachEntferntToast.text": "Fach entfernt.",
@@ -29795,7 +30125,7 @@
             "strings:aushaengenAbsichtBeiseiteFolge.text": "Es bleibt bei Ihnen archiviert. Sie können es später wieder aufnehmen.",
             "strings:aushaengenAbsichtAbgebenLabel.text": "Ich gebe es ab.",
             "strings:aushaengenAbsichtAbgebenFolge.text": "{name} verwaltet es künftig allein. Danach können Sie es nicht mehr zu sich nehmen.",
-            "strings:aushaengenBestaetigenText.text": "Sie haben die Datei für {name} gespeichert. Haben Sie sie übergeben?\nNach dem Abgeben bleibt bei Ihnen keine Kopie.",
+            "strings:aushaengenBestaetigenText.text": "Sie haben die Datei für {name} gespeichert. Haben Sie sie übergeben?\nNach dem Abgeben ist das Depot nicht mehr in Ihrer Datei. Ältere Sicherungskopien Ihrer Datei von vor dem Abgeben enthalten es noch.",
             "strings:aushaengenBestaetigenJa.text": "Ja, übergeben",
             "strings:aushaengenBestaetigenZurueck.text": "Zurück",
             "strings:subRueckfrageTitel.text": "Ihr {marke} ist eingerichtet.",
@@ -29830,7 +30160,35 @@
             "strings:btnAushaengen.text": "Übergabe abgeschlossen — aus meiner Verwaltung entfernen",
             "strings:aushaengenEmpfaengerLabel.text": "Empfänger (falls bekannt)",
             "strings:aushaengenFertigBeiseite.text": "Beiseitegelegt. Sie können dieses Depot später wieder aufnehmen.",
-            "strings:aushaengenFertigAbgegeben.text": "Abgegeben. Bei Ihnen bleibt keine Kopie.",
+            "strings:aushaengenFertigAbgegeben.text": "Abgegeben. Das Depot ist nicht mehr in Ihrer Datei.",
+            "strings:uebergabeTerminName.text": "Übergabe an {name}: 18. Geburtstag",
+            "strings:uebergabeTerminHinweis.text": "{name} wird volljährig. Geben Sie die Übergabe-Datei weiter, damit {name} das Depot selbst weiterführen kann.",
+            "strings:kindDateiVeraltetName.text": "Kind-Datei für {name} nachziehen",
+            "strings:kindDateiVeraltetHinweis.text": "Die Kind-Datei vom {datum} ist älter als das Depot von {name}.",
+            "strings:kindDateiVeraltetText.text": "älter als der Stand",
+            "strings:kindDateiTitel.text": "Kind-Datei für {name}",
+            "strings:kindDateiHinweis.text": "Mit der Kind-Datei kann {name} dieses Depot später übernehmen, ohne dass Sie mitwirken müssen: {name} öffnet sie auf der Startseite mit dem Passwort dieses Depots und führt es als eigenes Depot weiter. Legen Sie sie an einen Ort, an den {name} später kommt – einen gemeinsamen Ordner, das Gerät von {name} oder einen Stick – und sagen Sie {name}, wo sie liegt und wie das Passwort lautet.",
+            "strings:kindDateiGrenze.text": "Die Kind-Datei ist so aktuell wie ihr letztes Schreiben. Wo der Browser es erlaubt, wird sie während dieser Sitzung bei jedem Sichern mitgeschrieben; sonst erinnert das Prüfblatt daran. In Ihrem Depot bleibt das Depot von {name}, bis Sie es abgeben.",
+            "strings:kindDateiStandZeile.text": "Kind-Datei: Stand vom {datum}",
+            "strings:kindDateiAelterZeile.text": "Kind-Datei vom {datum} – älter als das Depot",
+            "strings:btnKindDateiEinrichten.text": "Kind-Datei einrichten",
+            "strings:btnKindDateiAktualisieren.text": "Kind-Datei aktualisieren",
+            "strings:kindDateiGeschrieben.text": "Kind-Datei für {name} geschrieben.",
+            "strings:kindDateiDepotFehlt.text": "Dieses Depot ist nicht mehr in Ihrer Verwaltung.",
+            "strings:kindDateiNichtVerwaltet.text": "Das Depot wird nicht mehr verwaltet – eine Kind-Datei gibt es nur für ein verwaltetes.",
+            "strings:kindDateiOrtFehlt.text": "Dieser Ort für die Kind-Datei ist in diesem Browser nicht verfügbar.",
+            "strings:btnWiderspruchFesthalten.text": "Widerspruch festhalten",
+            "strings:widerspruchTitel.text": "Widerspruch von {name} festhalten",
+            "strings:widerspruchGegenstandLabel.text": "Wogegen richtet sich der Widerspruch?",
+            "strings:widerspruchErklaertVonLabel.text": "Erklärt von",
+            "strings:widerspruchErklaertSelbst.text": "{name} selbst",
+            "strings:widerspruchErklaertWeitergegeben.text": "weitergegeben durch",
+            "strings:widerspruchWiedervorlageLabel.text": "Wiedervorlage am (freiwillig)",
+            "strings:widerspruchHinweis.text": "{name} hat widersprochen: {gegenstand} ({datum}). Der Widerspruch ist festgehalten; er sperrt nichts.",
+            "strings:widerspruchEntfernen.text": "Als erledigt entfernen",
+            "strings:widerspruchEntferntVermerk.text": "entfernt am {datum} von {name}",
+            "strings:widerspruchWiedervorlageName.text": "Wiedervorlage: Widerspruch von {name}",
+            "strings:widerspruchFestgehalten.text": "Widerspruch festgehalten.",
             "strings:statusArchiviert.text": "Übergeben und archiviert",
             "strings:archiviertAmLabel.text": "Übergeben am",
             "strings:empfaengerLabel.text": "Empfänger",
@@ -29968,8 +30326,9 @@
             "strings:anfrageUngeprueftBadge.text": "Nicht geprüft",
             "strings:anfrageZweckLabel.text": "Wozu:",
             "strings:anfrageGrundlageLabel.text": "Auf welcher Grundlage gefragt wird:",
-            "strings:anfrageVorgangLabel.text": "Vorgang:",
-            "strings:anfrageGueltigBisLabel.text": "Gilt bis:",
+            "strings:anfrageVorgangLabel.text": "Aktenzeichen der Stelle:",
+            "strings:anfrageGueltigBisLabel.text": "gilt bis",
+            "strings:anfrageVomLabel.text": "Anfrage vom",
             "strings:anfrageFeldZweckLabel.text": "Wozu diese Angabe:",
             "strings:anfrageAbgelaufenHinweis.text": "Diese Anfrage ist am {datum} abgelaufen. Sie können sie ansehen, aber nicht mehr beantworten.",
             "strings:anfrageUnbekanntHinweis.text": "Diese Anfrage nennt {n} Angabe(n), die es in {marke} nicht gibt: {liste}. Sie kann darum nicht vollständig beantwortet werden.",
@@ -29979,6 +30338,13 @@
             "strings:anfrageFehlendTitel.text": "Das fehlt noch",
             "strings:anfrageAntwortenCta.text": "Antworten",
             "strings:anfrageAntwortFertig.text": "Ihre Antwort ist als Datei gespeichert.",
+            "strings:antwortBeschriftungBevollmaechtigt.text": "Bevollmächtigt",
+            "strings:antwortBeschriftungGesundheitsfragen.text": "Vollmacht gilt für Gesundheitsfragen",
+            "strings:antwortBeschriftungVollmachtOrt.text": "Original der Vollmacht liegt",
+            "strings:antwortBeschriftungBetreuungsperson.text": "Gewünschte Betreuungsperson",
+            "strings:antwortBeschriftungBetreuungOrt.text": "Betreuungsverfügung liegt",
+            "strings:antwortBeschriftungNotvertretung.text": "Notvertretung durch den Ehegatten",
+            "strings:antwortBeschriftungHausarzt.text": "Hausarztpraxis",
             "strings:anfrageNichtVollstaendig.text": "Die Antwort geht als Teilantwort hinaus. Sie sagt selbst, was fehlt.",
             "strings:anfrageEmpfangenCta.text": "Eine Anfrage öffnen",
             "strings:anfrageEmpfangenFehler.text": "Das ist keine {marke}-Anfrage, die diese Anwendung lesen kann.",
@@ -30044,8 +30410,8 @@
             "strings:exportQrFehlt.text": "Der QR-Code kann hier gerade nicht erzeugt werden.",
             "strings:exportIdentitaetLabel.text": "Identitätsnachweis (maschinenlesbar)",
             "strings:exportIdentitaetFertig.text": "Identitätsnachweis als Datei gespeichert.",
-            "strings:exportVerwaltungLabel.text": "Behörden-Datensatz (maschinenlesbar)",
-            "strings:exportVerwaltungFertig.text": "Behörden-Datensatz als Datei gespeichert.",
+            "strings:exportVerwaltungLabel.text": "Verwaltungs-Stammdaten (maschinenlesbar)",
+            "strings:exportVerwaltungFertig.text": "Verwaltungs-Stammdaten als Datei gespeichert.",
             "strings:exportBildungLabel.text": "Bildungsnachweise (maschinenlesbar)",
             "strings:exportBildungFertig.text": "Bildungsnachweise als Datei gespeichert.",
             "strings:exportFinanzenLabel.text": "Finanzdaten als Selbstauskunft-Credential (unsigniert, experimentell)",
@@ -30250,9 +30616,12 @@
             "strings:whcZeigenTitel.text": "Ihr Wiederherstellungs-Code",
             "strings:whcZeigenText.text": "Schreiben Sie den Code von Hand ab — auf das Code-Blatt oder ein eigenes Papier. Die App zeigt ihn nur jetzt und speichert ihn nirgends.",
             "strings:whcNichtZumPasswort.text": "Nicht zum Passwort legen.",
-            "strings:whcNichtZumPasswortText.text": "Der Code hilft, wenn das Passwort verloren ist — dann darf er nicht mit ihm verloren sein. Und wer ihn findet, kann Ihr Depot öffnen, genau wie mit dem Passwort. Bewahren Sie ihn darum getrennt und sicher auf: etwa im verschlossenen Umschlag bei einer Vertrauensperson, beim Original Ihrer Vorsorgevollmacht oder im Schließfach.",
+            "strings:whcNichtZumPasswortText.text": "Wie ein Ersatzschlüssel: Mit dem Code kommen Sie auch ohne Passwort hinein — darum gehört er nicht an denselben Schlüsselbund. Liegen beide zusammen, sind sie zusammen weg. Gut aufgehoben: im Umschlag bei einer Vertrauensperson, bei der Vorsorgevollmacht, im Schließfach.",
             "strings:whcBlattKnopf.text": "Code-Blatt drucken (ohne Code)",
-            "strings:whcKontrolleLabel.text": "Zur Kontrolle: den abgeschriebenen Code eingeben",
+            "strings:whcKontrolleLabel.text": "Zur Sicherheit einmal abtippen. So merken Sie einen Abschreibfehler jetzt, nicht erst im Notfall.",
+            "strings:whcKontrolleFehlt.text": "Noch leer — der Code wird erst eingerichtet, wenn Sie ihn hier abgetippt haben.",
+            "strings:whcKontrolleTeil.text": "Noch {n} Zeichen.",
+            "strings:whcKontrolleStimmt.text": "Stimmt. Jetzt einrichten.",
             "strings:whcKontrolleFalsch.text": "Der eingegebene Code stimmt nicht mit dem angezeigten überein. Bitte vergleichen Sie Zeichen für Zeichen.",
             "strings:whcKontrolleKnopf.text": "Abgeschrieben — einrichten",
             "strings:whcPwLabel.text": "Ihr Passwort",
@@ -30297,6 +30666,10 @@
             "strings:importEdcFertig.text": "Bildungsnachweis abgelegt — im Original, unverändert.",
             "strings:mappeUebernehmenHinweisBildung.text": "Sie können die Werte aus diesem Original zusätzlich in Ihre Bildungsfelder übernehmen. Das Original bleibt unverändert erhalten.",
             "strings:mappeEdcHinweis.text": "Original Ihrer Einrichtung, unverändert verwahrt. Das Siegel prüft, wem Sie es vorzeigen.",
+            "strings:importOb3ExternLabel.text": "Open Badge einlesen (Bildungs- oder Kompetenznachweis)",
+            "strings:importOb3Beschriftung.text": "Open Badge",
+            "strings:importOb3Fertig.text": "Open Badge abgelegt — im Original, unverändert.",
+            "strings:mappeOb3Hinweis.text": "Original der ausstellenden Stelle, unverändert verwahrt. Die Echtheit prüft, wem Sie es vorzeigen.",
             "strings:importAutoritativFertig.text": "Laborbefund abgelegt — im Original, unverändert.",
             "strings:mappeAutoritativ.text": "Original — nur lesbar",
             "strings:mappeEntfernenKnopf.text": "Entfernen",
@@ -30306,6 +30679,7 @@
             "strings:mappeEntfernenBestaetigen.text": "Entfernen",
             "strings:mappeEntferntToast.text": "Entfernt.",
             "strings:mappeHerunterladenKnopf.text": "Original herunterladen",
+            "strings:mappeVerwahrungKnopf.text": "Mit Verwahrungsnachweis herunterladen",
             "strings:shlLabel.text": "Laborbefund",
             "strings:shlKnopf.text": "Sicher weitergeben",
             "strings:shlTitel.text": "Sicher weitergeben",
@@ -30325,7 +30699,7 @@
             "strings:importIdentitaetLabel.text": "Identitäts-Angaben einlesen",
             "strings:importFinanzenLabel.text": "Finanz-Angaben einlesen",
             "strings:importSozialversicherungLabel.text": "Sozialversicherungs-Angaben einlesen",
-            "strings:importVerwaltungLabel.text": "Behörden-Datensatz einlesen",
+            "strings:importVerwaltungLabel.text": "Verwaltungs-Stammdaten einlesen",
             "strings:importFimLabel.text": "Behörden-Stammdaten einlesen",
             "strings:importBildungLabel.text": "Bildungsnachweise einlesen",
             "strings:importEdciExternLabel.text": "Bildungsnachweis einer Einrichtung einlesen (europäisch)",
@@ -30628,6 +31002,8 @@
             "health.bloodType/AB+.label": "AB +",
             "health.bloodType/AB-.label": "AB −",
             "health.bloodType/unbekannt.label": "unbekannt",
+            "health.pregnancy/ja.label": "ja, schwanger",
+            "health.wanderingRisk/ja.label": "ja",
             "health.smoking/nie.label": "nie geraucht",
             "health.smoking/ex.label": "früher, jetzt nicht mehr",
             "health.smoking/leicht.label": "gelegentlich",
@@ -31373,7 +31749,7 @@
             "hilfe:was-vivodepot-nicht-sieht.abschnitt0": "Wir wissen nicht, was Sie eintragen, wie viel Sie eintragen und ob Sie die Anwendung überhaupt benutzen. Auch wenn Sie eine Erweiterung einlassen oder eine Zusammenstellung erzeugen, bleibt das auf Ihrem Gerät. Es gibt keine Rückmeldung an uns, weil es keinen Weg dafür gibt.",
             "hilfe:was-vivodepot-nicht-sieht.abschnitt1": "Die Kehrseite steht oben: Wo nichts bei uns liegt, kann auch nichts bei uns wiederhergestellt werden. Ihr Passwort und Ihre Sicherungskopien sind deshalb die einzigen beiden Dinge, auf die Sie achten müssen.",
             "hilfe:sub-depot.titel": "Ein zweites Depot für jemand anderen",
-            "hilfe:sub-depot.einleitung": "Wer für einen anderen Menschen sorgt, kann dessen Depot mitführen. In der Anwendung heißt es Sub-Depot, im Alltag auch Unterdepot. Es steht in Ihrer Liste, hat aber ein eigenes Passwort und bleibt inhaltlich getrennt von Ihrem eigenen Depot.",
+            "hilfe:sub-depot.einleitung": "Wer für einen anderen Menschen sorgt, kann dessen Depot mitführen. In der Anwendung heißt es Sub-Depot. Es steht in Ihrer Liste, hat aber ein eigenes Passwort und bleibt inhaltlich getrennt von Ihrem eigenen Depot.",
             "hilfe:sub-depot.abschnitt0": "Ein bestehendes Depot können Sie über „Einhängen“ aufnehmen: Sie wählen die Datei aus und geben ihr eine Bezeichnung, dann erscheint sie in Ihrer Liste. Der Inhalt wird unverändert übernommen, und das Passwort bleibt dasselbe, das die Datei schon hatte.",
             "hilfe:sub-depot.abschnitt1": "Endet Ihre Aufgabe, etwa weil ein Kind erwachsen wird, geben Sie das Depot zurück. Über „Abgeben“ sichern Sie es als eigene Datei und bestätigen danach die Übergabe. Erst mit dieser Bestätigung verschwindet der verschlüsselte Inhalt aus Ihrem eigenen Depot.",
             "hilfe:sub-depot.abschnitt2": "Die abgegebene Datei ist danach ein ganz gewöhnliches Depot, mit demselben Passwort, das sie die ganze Zeit hatte. Es braucht kein neues Passwort und keinen neuen Anfang; die Person arbeitet einfach dort weiter, wo Sie aufgehört haben.",

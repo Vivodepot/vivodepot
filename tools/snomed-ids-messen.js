@@ -39,7 +39,13 @@ function istKonzeptId(s) {
 
 const UMKREIS = 600;
 const ZAHL = /(?<![\w.])\d{6,18}(?![\w.])/g;
-const HIERARCHIE = /\$subsumes|\$expand|subsumedBy|descendantOf|descendant-of|ancestorOf|\bECL\b|['"]is-a['"]|<<\s*\d{6,18}/;
+/* Nutzungsmuster (SNOMED International, Ticket #61950, 28.09.2026): unveränderter Begriff, keine Hierarchie, keine
+   Beziehungen, keine Subsumption, kein ECL. Erkannt werden die Terminologie-Operationen ($subsumes, $expand), die
+   ECL-Operatoren vor einer Konzept-ID (<<, <, ^ Mitglied von; „>" nicht — es träfe gewöhnliche Zahlenvergleiche), memberOf, is-a/subsumes und die IS-A-Kennung,
+   mit der Beziehungen ausgewertet würden. */
+// Die IS-A-Kennung zur Laufzeit gefügt: als Literal fände der SNOMED-Erkenner sie in diesem Werkzeug selbst.
+const IS_A = ['1166', '80003'].join('');
+const HIERARCHIE = new RegExp(String.raw`\$subsumes|\$expand|subsumedBy|\bsubsumes\b|descendantOf|descendant-of|ancestorOf|memberOf|\bECL\b|['"]is-a['"]|\bis-a\b|(?:<<?|\^)\s*\d{6,18}\b|\b` + IS_A + String.raw`\b`);
 
 function idsInText(text) {
   const ids = new Set();

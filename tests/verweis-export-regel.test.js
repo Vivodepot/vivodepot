@@ -132,7 +132,7 @@ test('docxBereichModell (socialInsurance.homeCareServiceNameContact, Institution
   const modell = V.docxBereichModell('socialInsurance', { sensibel: true });
   const zeile = modell.zeilen.find(z => z.label === 'Ambulanter Pflegedienst — Name & Kontakt');
   assert.match(zeile.wert, /Pflegedienst Sonnenschein/);
-  assert.match(zeile.wert, /pflegedienst/);
+  assert.match(zeile.wert, /Pflegedienst Sonnenschein · Pflegedienst · /, 'die Art als Beschriftung, nicht als Kennung (v828, U2-ADR-437 Klartext)');
   assert.match(zeile.wert, /089 999/);
   assert.match(zeile.wert, /Amselweg 2/);
   assert.doesNotMatch(zeile.wert, /kontakt@pd\.de/, 'email geht nicht mit');

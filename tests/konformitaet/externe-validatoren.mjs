@@ -50,27 +50,16 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const { ladeKern } = require('../load-kern.js');
+const { urteilsZuordnung } = require('../../tools/lib/fhir-urteil-zuordnung.js');
+const { registerLesen, kaputtListe } = require('../../tools/standards-register-pruefen.js');
+import { javaPfad } from './adapter/_umgebung.mjs';
+import { ladeAdapter } from './adapter/_lader.mjs';
+import { urteileHolen } from './adapter/_urteile.mjs';
 
 const ARBEIT = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-extval-'));
 
-/* ── Java finden: PATH zuerst, dann die üblichen Orte ─────────────────────────
-   Homebrew verlinkt `openjdk` bewusst NICHT in den PATH — am 26.07. führte genau das
-   zur Fehldiagnose „kein Java auf dem Rechner", obwohl zwei JDKs installiert waren.
-   Darum die Suche, statt sich auf `java` im PATH zu verlassen. */
-function javaPfad() {
-  const kandidaten = [
-    process.env.JAVA_HOME ? path.join(process.env.JAVA_HOME, 'bin', 'java') : null,
-    'java',
-    '/opt/homebrew/opt/openjdk@21/bin/java',
-    '/opt/homebrew/opt/openjdk/bin/java',
-    '/usr/local/opt/openjdk@21/bin/java',
-  ].filter(Boolean);
-  for (const k of kandidaten) {
-    try { execFileSync(k, ['-version'], { stdio: 'ignore' }); return k; } catch (_) { /* weiter */ }
-  }
-  return null;
-}
-
+/* ── Java finden: seit der Standards-Schnittstelle (28.09.2026) in adapter/_umgebung.mjs, dieselbe Suche
+   (JAVA_HOME, PATH, Homebrew-Orte); ohne Argument genau das Verhalten von vorher. */
 /* ── Die Registry ─────────────────────────────────────────────────────────────
    Je Eintrag: WER urteilt, WAS er prüft, WIE er gerufen wird, WAS ihm vorgelegt wird,
    WIE ein Urteil gelesen wird. Versionen sind GEPINNT und hier sichtbar — `eu.eps` ist
@@ -78,6 +67,7 @@ function javaPfad() {
 export const VALIDATOREN = [
   {
     id: 'hl7-fhir-validator',
+    sammelPflicht: true,   // eine JVM je Datei sprengt die Zeitgrenze des Gates — nur der Sammelaufruf (adapter/_urteile.mjs)
     autoritaet: 'HL7 International — offizieller FHIR-Validator (org.hl7.fhir.core)',
     prueft: 'FHIR-R4-Bundles gegen die Profile hl7.fhir.uv.ips und hl7.fhir.eu.eps',
     werkzeugVersion: '6.9.12',
@@ -93,6 +83,22 @@ export const VALIDATOREN = [
       if (!jar) return { ok: false, grund: 'FHIR_VALIDATOR_JAR nicht gesetzt' };
       if (!fs.existsSync(jar)) return { ok: false, grund: 'validator_cli.jar nicht unter ' + jar };
       return { ok: true, java, jar };
+    },
+    /* EIN JVM-AUFRUF FÜR ALLE ARTEFAKTE (28.09.2026). Je Artefakt eine eigene JVM kostete jedes Mal Start und das
+       Laden beider Leitfäden; mit den drei Verwahrungs-Hüllen (U2-ADR-444) stieg die Laufzeit dieser Datei unter Last
+       über die 240-s-Grenze des pre-push-Gates (scripts/pruefe-fhir-gate.js). Die Grenze bleibt; der Lauf wird kürzer.
+       Der Validator nimmt mehrere Dateien und schreibt ein Bundle mit einem OperationOutcome je Datei. Zugeordnet wird
+       über die Extension operationoutcome-file (den Pfad), NIE über die Reihenfolge — tools/lib/fhir-urteil-zuordnung.js, mit
+       eigener Probe. */
+    urteileAlle: (umgebung, dateiPfade) => {
+      const aus = path.join(ARBEIT, 'sammel-' + dateiPfade.length + '-' + Date.now() + '.outcome.json');
+      try {
+        execFileSync(umgebung.java, ['-jar', umgebung.jar, ...dateiPfade, '-version', '4.0.1',
+          '-ig', 'hl7.fhir.uv.ips#2.0.0', '-ig', 'hl7.fhir.eu.eps#1.0.0-ballot',
+          '-tx', 'n/a', '-output', aus], { stdio: 'ignore', timeout: 600000 });
+      } catch (_) { /* Rückgabecode ≠ 0 ist bei Validierungsfehlern normal — es zählt das OperationOutcome */ }
+      if (!fs.existsSync(aus)) return new Map(dateiPfade.map((p) => [p, { gelesen: false, fehler: ['Validator lieferte kein OperationOutcome'] }]));
+      return urteilsZuordnung(JSON.parse(fs.readFileSync(aus, 'utf8')), dateiPfade);
     },
     urteile: (umgebung, dateiPfad) => {
       const aus = path.join(ARBEIT, path.basename(dateiPfad) + '.outcome.json');
@@ -122,13 +128,13 @@ export const VALIDATOREN = [
        die SEKTIONEN prüfen, nicht am Patienten scheitern. */
     artefakte: async () => {
       const faelle = [];
-      const bau = async (name, erwartet, warum, fuellen) => {
+      const bau = async (name, erwartet, warum, fuellen, opt) => {
         const { V } = ladeKern();
         await V.depotAnlegen('pw');
         V.akteurSelbstErklaeren('Konformitaet');
         fuellen(V);
         const p = path.join(ARBEIT, name + '.json');
-        fs.writeFileSync(p, JSON.stringify(V.fhirIpsBundle('2026-07-26T12:00:00Z'), null, 1));
+        fs.writeFileSync(p, JSON.stringify(V.fhirIpsBundle('2026-07-26T12:00:00Z', opt), null, 1));
         faelle.push({ name, pfad: p, erwartet, warum });
       };
       // Mindest-Identität, ohne die KEIN IPS-Bundle gültig sein kann (gemessen 26.07.).
@@ -146,6 +152,13 @@ export const VALIDATOREN = [
         V.listenEintragHinzufuegen('health', 'operationsProcedures', { procedure: 'Blinddarm-Entfernung', year: '2008' });
         V.sektorFeldSetzen('health', 'implantsProsthesesPacemakers', 'Hüft-TEP rechts (Stryker), seit 2019');
       });
+      // U2-ADR-452: delegierter Export — die RelatedPerson trägt neben der Verwandtschaft die Vertretungsrolle
+      // (v3-RoleCode DPOWATT) und das Ende des Fachs als period.end. Beide Codes müssen im ValueSet von
+      // RelatedPerson.relationship (extensible) bestehen, am echten Validator, nicht angenommen.
+      await bau('delegiert-vertretung-gilt-bis', 'gueltig',
+        'U2-ADR-452: RelatedPerson mit Beziehung CHILD, Rolle DPOWATT und period.end aus „gilt bis“ des Fachs',
+        (V) => person(V),
+        { anker: { name: 'Anna Mustermann', beziehungCode: 'CHILD', grundlage: 'vorsorge', giltBis: '2031-05-01' } });
       await bau('nur-identitaet-alle-sektionen-leer', 'gueltig',
         'alle Pflichtsektionen tragen emptyReason — das allein macht ein Bundle NICHT ungültig',
         (V) => person(V));
@@ -187,6 +200,35 @@ export const VALIDATOREN = [
           V.sektorFeldSetzen('identity', 'birthDate', '1950-03-14');
           V.sektorFeldSetzen('health', 'allergiesMedicationFoodOther', [{ text: 'Penicillin' }]);
         });
+      /* U2-ADR-444 (Verwahrung V1): die Hülle mit Verwahrungsnachweis — Bundle type=collection,
+         das Original als Binary, eine Provenance (transmit). Die Hülle kommt aus dem echten
+         Generator (verwahrungsNachweisBundle); gelesen wird nur das ORIGINAL, das eine fremde
+         Stelle ausgestellt hat — es ist Eingabe, nicht Erzeugnis. Das kaputte Gegenstück
+         streicht Provenance.target (min=1) und MUSS abgelehnt werden. */
+      const bauVerwahrung = async (name, erwartet, warum, datei, beschaedigen) => {
+        const { V } = ladeKern();
+        await V.depotAnlegen('pw');
+        V.akteurSelbstErklaeren('Konformitaet');
+        V.sektorFeldSetzen('identity', 'givenName', 'Maria');
+        V.sektorFeldSetzen('identity', 'familyName', 'Mustermann');
+        const bytes = fs.readFileSync(path.join(import.meta.dirname, '..', 'fixtures', datei));
+        const id = V.importAutoritativDokument(bytes.toString('utf8'), new Uint8Array(bytes));
+        const b = JSON.parse(JSON.stringify(V.verwahrungsNachweisBundle(id, new Date('2026-09-28T12:00:00Z'))));
+        if (beschaedigen) beschaedigen(b);
+        const p = path.join(ARBEIT, name + '.json');
+        fs.writeFileSync(p, JSON.stringify(b, null, 1));
+        faelle.push({ name, pfad: p, erwartet, warum });
+      };
+      await bauVerwahrung('verwahrung-laborbefund', 'gueltig',
+        'U2-ADR-444: Hülle um einen EU-Laborbefund — Binary, Patient, Provenance mit Verwahrerin und Autor',
+        'eigenprobe-eu-lab.json');
+      await bauVerwahrung('verwahrung-entlassbrief', 'gueltig',
+        'U2-ADR-444: Hülle um einen EU-Entlassbrief',
+        'eigenprobe-eu-hdr.json');
+      await bauVerwahrung('verwahrung-ohne-target', 'ungueltig',
+        'Provenance.target ist min=1 — eine Hülle, deren Nachweis auf nichts zeigt, muss fallen',
+        'eigenprobe-eu-lab.json',
+        (b) => { delete b.entry.find((x) => x.resource.resourceType === 'Provenance').resource.target; });
       return faelle;
     },
     /* Die KAPUTT-Probe: ein absichtlich beschädigtes Erzeugnis MUSS abgelehnt werden.
@@ -207,36 +249,65 @@ export const VALIDATOREN = [
   },
 ];
 
+/* ── Die Adapter (docs/standards-schnittstelle.md): je Familie eine Datei in adapter/, hinter die
+   inline-Einträge gehängt. Ein Adapter mit `standards` ist die Neuform; ohne ist Altform (wie oben). */
+VALIDATOREN.push(...await ladeAdapter());
+test.after(() => { for (const v of VALIDATOREN) if (typeof v._aufraeumen === 'function') v._aufraeumen(); });
+
 /* ── Der Lauf ──────────────────────────────────────────────────────────────────
    Die Test-TITEL sind bewusst LITERAL und laufen ueber die ganze Registry, statt je
    Eintrag zusammengesetzt zu werden. Grund: der Pruefstand (U2-ADR-099) loest jede
    Klausel-Zeile auf einen echten Test-Titel in der Datei auf — ein zur Laufzeit
    gebauter Name ist dort nicht auffindbar, und die Bindung waere unlesbar. Welcher
    Validator gefallen ist, steht in der Fehlermeldung, nicht im Titel. */
+/* JE PRÜFER, NICHT ALLES ODER NICHTS (28.09.2026): bis hier lief kein Urteil, sobald EIN Werkzeug fehlte. Mit einem
+   zweiten Prüfer, dessen Werkzeug noch nicht beschafft ist, wäre damit auch FHIR dauerhaft ungemessen gewesen. Jetzt
+   urteilt, wer da ist; wer fehlt, steht als UNGEMESSEN da — nie als grün. Im Gate-Modus (VD_EXTERN_GATE=1: pre-push,
+   landung-vorbereiten) ist ein fehlender Prüfer rot, sobald ein Standard mit status `echt` an ihm hängt: `echt` folgt
+   nie aus der Struktur allein. */
 const UMGEBUNGEN = new Map(VALIDATOREN.map(v => [v.id, v.vorhanden()]));
-const ALLE_DA = [...UMGEBUNGEN.values()].every(u => u.ok);
+const GEMESSEN = VALIDATOREN.filter(v => UMGEBUNGEN.get(v.id).ok);
+const ALLE_DA = GEMESSEN.length === VALIDATOREN.length;
 const FEHLGRUND = [...UMGEBUNGEN.entries()].filter(([, u]) => !u.ok)
   .map(([id, u]) => id + ': ' + u.grund).join(' · ');
+const ECHT_AM_ADAPTER = new Map();
+for (const { inhalt } of registerLesen()) {
+  for (const st of inhalt.standards || []) if (st.status === 'echt') ECHT_AM_ADAPTER.set(inhalt.adapter, [...(ECHT_AM_ADAPTER.get(inhalt.adapter) || []), st.id]);
+}
+const altform = (v) => !Array.isArray(v.standards);
 
 test('[Extern] jedes Werkzeug der Registry ist da (eigenständiges Werkzeug, nicht in der Pflicht-Kette)', () => {
   if (ALLE_DA) return;
   const satz = 'UNGEMESSEN — ' + FEHLGRUND;
   console.log('\n  ⚠ ' + satz);
-  console.log('  ⚠ Die folgenden [Extern]-Pruefungen sind damit UNGEMESSEN, nicht gruen.');
+  console.log('  ⚠ Die [Extern]-Pruefungen dieser Werkzeuge sind damit UNGEMESSEN, nicht gruen.');
   console.log('  ⚠ Ausfuehrbar mit: FHIR_VALIDATOR_JAR=/pfad/validator_cli.jar npm run test:konformitaet:extern\n');
+  if (process.env.VD_EXTERN_GATE === '1') {
+    const echtUngemessen = VALIDATOREN.filter(v => !UMGEBUNGEN.get(v.id).ok && ECHT_AM_ADAPTER.has(v.id))
+      .map(v => v.id + ' (echt: ' + ECHT_AM_ADAPTER.get(v.id).join(', ') + ') — ' + UMGEBUNGEN.get(v.id).grund);
+    assert.deepEqual(echtUngemessen, [], 'Gate: ein Standard mit status echt ist UNGEMESSEN — rot, nicht still ok:\n    ' + echtUngemessen.join('\n    '));
+  }
 });
 
 test('[Extern] jedes Erzeugnis des Generators traegt sein erwartetes Urteil', async (t) => {
-  if (!ALLE_DA) return t.skip('UNGEMESSEN — ' + FEHLGRUND + ' (zaehlt NICHT als bestanden)');
+  if (!GEMESSEN.length) return t.skip('UNGEMESSEN — ' + FEHLGRUND + ' (zaehlt NICHT als bestanden)');
   const abweichungen = [];
-  for (const v of VALIDATOREN) {
+  for (const v of GEMESSEN) {
     const umgebung = UMGEBUNGEN.get(v.id);
     const faelle = await v.artefakte();
-    assert.ok(faelle.length >= 4, v.id + ': Positivkontrolle — Suchraum besetzt (' + faelle.length + ')');
-    assert.ok(faelle.some(f => f.erwartet === 'gueltig') && faelle.some(f => f.erwartet === 'ungueltig'),
-      v.id + ': Positivkontrolle — BEIDE Erwartungen kommen vor, sonst prueft der Lauf nur eine Richtung');
+    if (altform(v)) {
+      assert.ok(faelle.length >= 4, v.id + ': Positivkontrolle — Suchraum besetzt (' + faelle.length + ')');
+      assert.ok(faelle.some(f => f.erwartet === 'gueltig') && faelle.some(f => f.erwartet === 'ungueltig'),
+        v.id + ': Positivkontrolle — BEIDE Erwartungen kommen vor, sonst prueft der Lauf nur eine Richtung');
+    } else {
+      // Neuform: je Standard ein gueltig-Fall — das hält `echt` im Register ehrlich. Die Gegenrichtung trägt kaputt().
+      const ohne = v.standards.filter(sid => !faelle.some(f => f.standard === sid && f.erwartet === 'gueltig'));
+      assert.deepEqual(ohne, [], v.id + ': Positivkontrolle — je Standard ein gueltig-Fall');
+    }
+    // Sammelaufruf, wo der Prüfer ihn kann; bei sammelPflicht nie der Einzelweg (adapter/_urteile.mjs).
+    const urteileJe = urteileHolen(v, umgebung, faelle);
     for (const f of faelle) {
-      const u = v.urteile(umgebung, f.pfad);
+      const u = urteileJe.get(f.pfad);
       if (!u.gelesen) { abweichungen.push(v.id + '/' + f.name + ': kein Urteil lesbar'); continue; }
       const ist = u.gueltig ? 'gueltig' : 'ungueltig';
       if (ist === f.erwartet) continue;
@@ -250,14 +321,23 @@ test('[Extern] jedes Erzeugnis des Generators traegt sein erwartetes Urteil', as
 });
 
 test('[Extern·Negativprobe] ein absichtlich kaputtes Erzeugnis wird ABGELEHNT', async (t) => {
-  if (!ALLE_DA) return t.skip('UNGEMESSEN — ' + FEHLGRUND + ' (zaehlt NICHT als bestanden)');
-  for (const v of VALIDATOREN) {
-    const f = await v.kaputt();
-    const u = v.urteile(UMGEBUNGEN.get(v.id), f.pfad);
-    assert.ok(u.gelesen, v.id + ': Urteil lesbar');
-    assert.equal(u.gueltig, false,
-      v.id + ' MUSS ein beschaedigtes Erzeugnis ablehnen. Tut er das nicht, urteilt er nicht '
-      + 'wirklich — und jedes gruene Ergebnis oben waere wertlos.');
+  if (!GEMESSEN.length) return t.skip('UNGEMESSEN — ' + FEHLGRUND + ' (zaehlt NICHT als bestanden)');
+  for (const v of GEMESSEN) {
+    // kaputt() liefert ein Objekt (Altform) oder je Standard einen Fall (Neuform).
+    const liste = kaputtListe(await v.kaputt());
+    assert.ok(liste.length > 0, v.id + ': kaputt() liefert keinen Fall');
+    if (!altform(v)) {
+      const ohne = v.standards.filter(sid => !liste.some(f => f.standard === sid));
+      assert.deepEqual(ohne, [], v.id + ': je Standard ein kaputter Fall');
+    }
+    const urteileJe = urteileHolen(v, UMGEBUNGEN.get(v.id), liste);
+    for (const f of liste) {
+      const u = urteileJe.get(f.pfad);
+      assert.ok(u.gelesen, v.id + ': Urteil lesbar');
+      assert.equal(u.gueltig, false,
+        v.id + ' MUSS ein beschaedigtes Erzeugnis ablehnen. Tut er das nicht, urteilt er nicht '
+        + 'wirklich — und jedes gruene Ergebnis oben waere wertlos.');
+    }
   }
 });
 
@@ -265,8 +345,10 @@ test('[Extern] die Registry ist nicht leer und jeder Eintrag ist vollstaendig', 
   assert.ok(VALIDATOREN.length > 0, 'ohne Eintrag liefe dieser Ort ueber nichts');
   const unvollstaendig = [];
   for (const v of VALIDATOREN) {
-    for (const feld of ['id', 'autoritaet', 'prueft', 'werkzeugVersion', 'pakete',
-                        'vorhanden', 'urteile', 'artefakte', 'kaputt']) {
+    // Altform (inline, ohne standards) nennt ihre Pakete; die Neuform ihre Familie und Standards.
+    const felder = altform(v) ? ['id', 'autoritaet', 'prueft', 'werkzeugVersion', 'pakete', 'vorhanden', 'urteile', 'artefakte', 'kaputt']
+      : ['id', 'familie', 'autoritaet', 'prueft', 'werkzeugVersion', 'standards', 'vorhanden', 'urteile', 'artefakte', 'kaputt'];
+    for (const feld of felder) {
       if (!v[feld]) unvollstaendig.push(v.id + ': ' + feld + ' fehlt');
     }
     // Gepinnte Versionen, sichtbar: ein Ballot-Stand darf nicht still wandern.

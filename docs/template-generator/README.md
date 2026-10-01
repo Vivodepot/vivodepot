@@ -62,7 +62,7 @@ Der Generator versendet **nichts automatisch**. Die Institution lädt die Datei 
 - **Kein Storage**: kein `localStorage`/`sessionStorage`/`IndexedDB`/Cookies. Reload = Eingaben weg (mit `beforeunload`-Warnung).
 - **Private-Key-Disziplin**: Der Private-Key wird nur im Speicher gehalten — bis beide Dateien heruntergeladen sind und das Paket damit signiert wurde; danach wird die Variable freigegeben (`privateKeyFreigeben()`). Vor dem Umbau (GEN1) fiel die Freigabe schon beim „Weiter“ nach dem Download, und zum Signieren musste die eben heruntergeladene Datei erneut hochgeladen werden; das entfällt. Wer ein weiteres Paket erzeugen will, lädt die Schlüsseldatei („Ich habe schon eine Schlüsseldatei“). Der Schlüssel liegt nie länger im Speicher als der Dialog offen ist und das Paket noch fehlt; er wird nirgends gespeichert.
 - **Krypto**: ausschließlich Web Crypto API (Ed25519). Der **VdCrypto-Block** ist byte-identisch zur Bürger-App (SHA-256 `732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282`). Der **gemeinsame JWS-Block** ist byte-identisch zum Kern (Andockpunkt für spätere Anbieter-Selbst-Signatur — derzeit nicht im Scope).
-- **Code-Listen inline** (LOINC, ICD-10-GM, ATC, SNOMED, XÖV, ESCO) — SEED/STUB-Stand, gleiche Quelle wie die Bürger-App (`code-listen/<systemId>.json`).
+- **Code-Listen inline** (LOINC, ICD-10-GM, ATC, SNOMED, Rollencode-Platzhalter, ESCO) — SEED/STUB-Stand, gleiche Quelle wie die Bürger-App (`code-listen/<systemId>.json`).
 
 ## Gemeinsamer Vertrag
 

@@ -1,4 +1,110 @@
 {
-  "hinweis": "Abbildungen der Feldkennungen auf internationale Datensätze (IPS, eu-eps, openEHR; ePA/MIO zusätzlich). Nur Abbildung, keine Umbenennung (U2-ADR-409). Grade: exakt, naeherung, eng, weit (SKOS). Keine Zeile heißt: keine Entsprechung. Geprüft und gezählt von tools/bezuege-erheben.js.",
-  "zeilen": []
+  "hinweis": "Abbildungen der Feldkennungen auf internationale Datensätze (IPS, eu-eps, openEHR; ePA/MIO zusätzlich). Nur Abbildung, keine Umbenennung (U2-ADR-409). Grade: exakt, naeherung, eng, weit (SKOS). Keine Zeile heißt: keine Entsprechung. Geprüft und gezählt von tools/bezuege-erheben.js. FIM-Zeilen (datensatz fim-baukasten) tragen zusätzlich fassung und status; Feldnamen der FIM-Bausteine stehen hier NICHT (Feld name bleibt leer, bis die Zustimmung der FITKO in fimNamenFreigabe belegt ist).",
+  "zeilen": [
+    {
+      "kennung": "identity.familyName",
+      "datensatz": "fim-baukasten",
+      "ziel": "F60000227",
+      "fassung": "1.1",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.givenName",
+      "datensatz": "fim-baukasten",
+      "ziel": "F60000228",
+      "fassung": "2.0",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.birthName",
+      "datensatz": "fim-baukasten",
+      "ziel": "F60000230",
+      "fassung": "2.0",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.birthDate",
+      "datensatz": "fim-baukasten",
+      "ziel": "F05000016340",
+      "fassung": "1.2.0",
+      "status": "fachlich freigegeben (silber)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.birthPlace",
+      "datensatz": "fim-baukasten",
+      "ziel": "F60000234",
+      "fassung": "1.2",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.nationality",
+      "datensatz": "fim-baukasten",
+      "ziel": "F60000236",
+      "fassung": "1.4",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.maritalStatus",
+      "datensatz": "fim-baukasten",
+      "ziel": "F60000275",
+      "fassung": "1.2",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.gender",
+      "datensatz": "fim-baukasten",
+      "ziel": "F60000332",
+      "fassung": "1.3",
+      "status": "fachlich freigegeben (gold)",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.email",
+      "datensatz": "fim-baukasten",
+      "ziel": "F03000021483",
+      "fassung": "1.0.0",
+      "status": "fachlich freigegeben (silber)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.telephone",
+      "datensatz": "fim-baukasten",
+      "ziel": "F03000021484",
+      "fassung": "1.0.0",
+      "status": "fachlich freigegeben (silber)",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.streetAddress",
+      "datensatz": "fim-baukasten",
+      "ziel": "G00000587",
+      "fassung": "2.0",
+      "status": "in Bearbeitung — nicht fest",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.postcodeCity",
+      "datensatz": "fim-baukasten",
+      "ziel": "G00000587",
+      "fassung": "2.0",
+      "status": "in Bearbeitung — nicht fest",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "administration.bundidVerificationLevel",
+      "datensatz": "fim-baukasten",
+      "ziel": "F06006636",
+      "fassung": "0.1",
+      "status": "in Bearbeitung — nicht fest",
+      "grad": "naeherung"
+    }
+  ],
+  "fimNamenFreigabe": null
 }

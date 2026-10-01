@@ -1,4 +1,98 @@
 {
   "hinweis": "Gepinnte Fassungen der Quellen, je Datei mit SHA-256. Eine neue Fassung wird hier eingetragen, nachdem der Fassungsvergleich (tools/bezuege-erheben.js, fassungenVergleichen) gelaufen ist; eine Bedeutungsänderung an einem abgebildeten Ziel ist eine Ratschen-Zeile.",
-  "quellen": []
+  "quellen": [
+    {
+      "datensatz": "fim-baukasten",
+      "paket": "FIM-Baukasten (fimportal.de, XDatenfelder 3)",
+      "fassung": "2026-09-28",
+      "bezugsort": "_quellen-bezuege (außerhalb des Repos; Quelle je Datei im MANIFEST.json dort)",
+      "statusquelle": "Freigabestatus laut FIM-Portal beim Abruf (MANIFEST.json, freigabestatus); die XDF-Dateien tragen ihn nicht einheitlich",
+      "dateien": [
+        {
+          "pfad": "fim/F03000021483_V1.0.0.xdf.xml",
+          "sha256": "d543895de74ecd5623c07013e9605d3052103a9eba3f65de30e54e98e4ee230f",
+          "kennung": "F03000021483",
+          "fassung": "1.0.0",
+          "freigabestatus": "fachlich freigegeben (silber)"
+        },
+        {
+          "pfad": "fim/F03000021484_V1.0.0.xdf.xml",
+          "sha256": "198ffe3c01d86f933357cfedade12f78695ec5c405c4f5be4e198483f10b9704",
+          "kennung": "F03000021484",
+          "fassung": "1.0.0",
+          "freigabestatus": "fachlich freigegeben (silber)"
+        },
+        {
+          "pfad": "fim/F05000016340_V1.2.0.xdf.xml",
+          "sha256": "d63109bcbc297e289e873d3c7d4a6f1bc5312067d7cf790a7071aa330cf7022d",
+          "kennung": "F05000016340",
+          "fassung": "1.2.0",
+          "freigabestatus": "fachlich freigegeben (silber)"
+        },
+        {
+          "pfad": "fim/F06006636_V0.1.xdf.xml",
+          "sha256": "d485e497bba860ca422b9b327b2b4dc7310aa7a28e8e008538309a87027016b9",
+          "kennung": "F06006636",
+          "fassung": "0.1",
+          "freigabestatus": "in Bearbeitung — nicht fest"
+        },
+        {
+          "pfad": "fim/F60000227_V1.1.xdf.xml",
+          "sha256": "8a91b793ee5c354c3a57c5a774811141a581463e2d9922a2098842bc08f0bcd9",
+          "kennung": "F60000227",
+          "fassung": "1.1",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000228_V2.0.xdf.xml",
+          "sha256": "68a3dcbcc67f461319f79f30ac99504f422675ffe7b4c5d62a8074f913283a4e",
+          "kennung": "F60000228",
+          "fassung": "2.0",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000230_V2.0.xdf.xml",
+          "sha256": "9fb7933d49463262977982e1460c1e2bc6cca2eea4d45a2776669d4a0e5bc45c",
+          "kennung": "F60000230",
+          "fassung": "2.0",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000234_V1.2.xdf.xml",
+          "sha256": "cd9fb1236437059a5f124d1a8793d60da3888307708d6c4502de9d1406567e6b",
+          "kennung": "F60000234",
+          "fassung": "1.2",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000236_V1.4.xdf.xml",
+          "sha256": "07093d9a6a65c8d70b99adf3595bb3a507cd366419e20978b94ce685182373d3",
+          "kennung": "F60000236",
+          "fassung": "1.4",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000275_V1.2.xdf.xml",
+          "sha256": "26f06771be32030ac78fa35e827178f7cc922299e4e545a164317fb5313ff24e",
+          "kennung": "F60000275",
+          "fassung": "1.2",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/F60000332_V1.3.xdf.xml",
+          "sha256": "ab55f0f3865808e10155cf907cdea841fe9779f664c0ff8be83bd05f3664af90",
+          "kennung": "F60000332",
+          "fassung": "1.3",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim/G00000587_V2.0.xdf.xml",
+          "sha256": "32a972b6bd52970858b07f8d17538ab8a851f429a47a5ad06c55ba71c524e8ea",
+          "kennung": "G00000587",
+          "fassung": "2.0",
+          "freigabestatus": "in Bearbeitung — nicht fest"
+        }
+      ]
+    }
+  ]
 }

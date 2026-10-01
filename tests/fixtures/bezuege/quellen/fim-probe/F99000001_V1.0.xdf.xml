@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ERFUNDEN für die Probe: Aufbau nach XDatenfelder 3, Kennung und Inhalt frei erfunden (kein Baustein der FITKO). -->
+<xdf3:xdatenfelder.datenfeld.0104 xmlns:xdf3="urn:xoev-de:fim:standard:xdatenfelder_3.0.0">
+  <xdf3:header><xdf3:nachrichtID>probe-1</xdf3:nachrichtID><xdf3:erstellungszeitpunkt>2026-09-30T00:00:00Z</xdf3:erstellungszeitpunkt></xdf3:header>
+  <xdf3:datenfeld>
+    <xdf3:identifikation><xdf3:id>F99000001</xdf3:id><xdf3:version>1.0</xdf3:version></xdf3:identifikation>
+    <xdf3:name>Probefeld</xdf3:name>
+  </xdf3:datenfeld>
+</xdf3:xdatenfelder.datenfeld.0104>

@@ -1,0 +1,93 @@
+{
+  "familie": "fhir-ig",
+  "adapter": "hl7-fhir-validator",
+  "standards": [
+    {
+      "id": "ips",
+      "name": "International Patient Summary Implementation Guide",
+      "version": "2.0.0",
+      "herausgeber": "HL7 International / Patient Care",
+      "quelle": {
+        "url": "https://packages.fhir.org/hl7.fhir.uv.ips/2.0.0",
+        "abgerufen": "2026-09-28"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "CC0-1.0, Feld license in package/package.json des Pakets hl7.fhir.uv.ips#2.0.0 (packages.fhir.org, abgerufen 28.09.2026)."
+      },
+      "richtung": [
+        "schreiben",
+        "lesen"
+      ],
+      "bereich": "gesundheit",
+      "status": "echt",
+      "artefakte": [
+        "hl7-validator-cli-6.9.12",
+        "hl7-fhir-uv-ips-2.0.0"
+      ],
+      "exportwege": [
+        "fhir-ips"
+      ],
+      "importwege": [
+        "fhir-ips"
+      ],
+      "bezuege": null,
+      "grund": null
+    },
+    {
+      "id": "eu-eps",
+      "name": "HL7 Europe Patient Summary",
+      "version": "1.0.0-ballot",
+      "herausgeber": "HL7 Europe",
+      "quelle": {
+        "url": "https://packages.fhir.org/hl7.fhir.eu.eps/1.0.0-ballot",
+        "abgerufen": "2026-09-28"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "CC0-1.0, Feld license in package/package.json des Pakets hl7.fhir.eu.eps#1.0.0-ballot (packages.fhir.org, abgerufen 28.09.2026)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "gesundheit",
+      "status": "echt",
+      "artefakte": [
+        "hl7-validator-cli-6.9.12",
+        "hl7-fhir-eu-eps-1.0.0-ballot"
+      ],
+      "exportwege": [
+        "fhir-ips"
+      ],
+      "importwege": [],
+      "bezuege": null,
+      "grund": null
+    },
+    {
+      "id": "kbv-mio-pka",
+      "name": "KBV MIO Patientenkurzakte (Notfalldaten und persönliche Erklärungen)",
+      "version": "1.0.0",
+      "herausgeber": "Kassenärztliche Bundesvereinigung (KBV)",
+      "quelle": {
+        "url": "https://packages.fhir.org/kbv.mio.patientenkurzakte/1.0.0",
+        "abgerufen": "2026-09-29"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Genutzt wird allein der Code Weglaufgefaehrdung aus https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk (Version 1.0.0): die KBV gibt dieses CodeSystem unter Apache-2.0 heraus (kassenaerztliche-bundesvereinigung/MIOParser, src/Definitions/KBV/PKA/1.0.0/CodeSystem/NFDRunawayRisk.ts, Kopf „The KBV licenses this file to you under the Apache License, Version 2.0“; Repo-Lizenz laut GitHub-API Apache-2.0; nachgesehen 29.09.2026). Das FHIR-Paket selbst trägt kein license-Feld; seine Profile werden nicht umgesetzt."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "gesundheit",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [
+        "fhir-ips"
+      ],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Nur der Weglauf-Code im IPS-Flag (health.wanderingRisk). Der nachkoordinierte SNOMED-Ausdruck des ValueSets KBV_VS_MIO_NFD_Runaway_Risk bleibt draußen (GPS-Nutzungsmuster: keine Beziehungen). Die KBV rät von einer Umsetzung der PKA 1.0.0 ab, weil sie überarbeitet wird — Wiedervorlage bei der Nachfolgeversion: URL und Version des CodeSystems neu prüfen."
+    }
+  ]
+}

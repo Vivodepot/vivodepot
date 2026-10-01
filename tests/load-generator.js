@@ -52,6 +52,9 @@ function makeEl() {
         if (!classListObj) classListObj = { add: noop, remove: noop, toggle: noop, contains: () => false };
         return classListObj;
       }
+      // Ein Stub-Element hat keine Kinder. Lieferte firstChild den Standard (eine Funktion, also wahr), liefe jedes
+      // leeren() (`while (node.firstChild) …`) endlos — so hing eine Probe am 30.09.2026 drei Stunden bei 99 % CPU.
+      if (prop === 'firstChild' || prop === 'lastChild') return null;
       if (prop === 'querySelector') return () => makeEl();
       if (prop === 'querySelectorAll') return () => [];
       if (prop === 'appendChild' || prop === 'removeChild') return (x) => x;
@@ -117,7 +120,7 @@ const EXPORT_HOOK = `
   // A5 (20.08.2026): der erzeugte Torwaechter des Empfaengers und die Auskunft darueber.
   KERN_TORWAECHTER, fehlstellenAuskunft, fehlstellenSaetze,
   baueAnfrage, validiereAnfrage, pruefeAnfrage, baueAnfrageSigniert,
-  anfrageAlsText, anfrageAlsLink, anfrageDateiname,
+  anfrageAlsText, anfrageAlsLink, anfrageDateiname, ANFRAGE_LINK_ZIELE,
   anfrageStateLesen, anfrageRendern, anfrageTrefferRendern, anfrageGewaehltRendern, anfrageErzeugen,
   // Kette, Auftrag 8, Zug 1 (20.08.2026) — das Empfangs-Schlüsselpaar (ECDH P-256)
   erzeugeEmpfangsSchluesselpaar, anfrageSchluesselErzeugen, anfrageSchluesselBlockZeigen, anfrageSchluesselLaden,
@@ -198,7 +201,7 @@ const EXPORT_HOOK = `
   kennungVorschlagMailtoText, kennungVorschlagMailtoLink, KENNUNG_VORSCHLAG_MAILTO_GRENZE,
   kvKennungAktuell, kvZeileHinzufuegen, kvZeilenRendern, kvVorschauAktualisieren, kennungVorschlagErzeugen,
   // MyTerms v1-Schnitt, Teil D (16.09.2026) — ein Angebot beantworten
-  VEREINBARUNG_PRAEFIX, vereinbarungAusText, vereinbarungAlsText, baueVereinbarungsAntwort, baueVereinbarungsAntwortSigniert,
+  VEREINBARUNG_PRAEFIX, vereinbarungAusText, vereinbarungAlsText, vereinbarungAngebotAnzeigen, baueVereinbarungsAntwort, baueVereinbarungsAntwortSigniert,
 };
 `;
 

@@ -56,6 +56,7 @@ const ERLAUBT = {
   },
   createWritable: {
     _depotBlobSpeichern: 'schreibt die Bytes, die ihm depotSerialisieren geliefert hat',
+    _kindDateiInHandleSchreiben: 'schreibt den Sub-Umschlag verbatim (blackboxDateiAusUmschlag), wie er im Anker liegt; verschlüsselt nichts neu — ein neueres Sub bleibt, wie es kam (U2-ADR-454)',
   },
 };
 

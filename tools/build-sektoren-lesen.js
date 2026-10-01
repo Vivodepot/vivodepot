@@ -251,7 +251,7 @@ function region(sektoren) {
     BEGIN,
     'const SEKTOR_FORMATE = Object.freeze({',
     "  FHIR_IPS: 'FHIR_IPS', SD_JWT_VC: 'SD_JWT_VC', W3C_VC: 'W3C_VC', EDCI: 'EDCI',",
-    "  ISO_18013: 'ISO_18013', MDOC: 'MDOC', GENERISCH: 'GENERISCH', XOEV: 'XOEV',",
+    "  ISO_18013: 'ISO_18013', MDOC: 'MDOC', GENERISCH: 'GENERISCH', VERWALTUNG: 'VERWALTUNG',",
     '});',
     'const SEKTOREN = Object.freeze(' + JSON.stringify(sektoren, null, 2) + ');',
     ENDE,

@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-09-28 · **Fassung:** v818 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-01 · **Fassung:** v843 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -10,7 +10,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 | Kennung | Erzeuger | MIME | Endung | Sektor | Flags | Versions-/Profil-Belege im Code |
 |---|---|---|---|---|---|---|
-| `fhir-ips` | `fhirIpsBundle` | application/fhir+json | json | health | — | `http://hl7.org/fhir/uv/ips/StructureDefinition/Patient-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationStatement-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/device-eu-eps`, `http://hl7.eu/fhir/eps/StructureDefinition/deviceUseStatement-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/composition-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/bundle-eu-eps`, `resourceType:Patient`, `resourceType:AllergyIntolerance`, `resourceType:MedicationStatement`, `resourceType:Condition`, `resourceType:Procedure`, `resourceType:Device`, `resourceType:DeviceUseStatement`, `resourceType:Composition`, `resourceType:RelatedPerson`, `resourceType:Provenance`, `resourceType:Bundle` |
+| `fhir-ips` | `fhirIpsBundle` | application/fhir+json | json | health | — | `http://hl7.org/fhir/StructureDefinition/data-absent-reason`, `http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationStatement-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/device-eu-eps`, `http://hl7.eu/fhir/eps/StructureDefinition/deviceUseStatement-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-status-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-edd-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Flag-alert-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/composition-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/bundle-eu-eps`, `resourceType:AllergyIntolerance`, `resourceType:MedicationStatement`, `resourceType:Condition`, `resourceType:Procedure`, `resourceType:Device`, `resourceType:DeviceUseStatement`, `resourceType:Observation`, `resourceType:Flag`, `resourceType:Composition`, `resourceType:RelatedPerson`, `resourceType:Provenance`, `resourceType:Bundle` |
 | `sd-jwt-vc-identitaet` | `sdJwtVcIdentitaet` | application/json | json | identity | — | `vct:urn:vivodepot:identitaet` |
 | `xoev-verwaltung` | `xoevVerwaltung` | application/json | json | administration | — | kein Versions-/Profil-Marker im Code gefunden |
 | `edci-bildung` | `edciBildung` | application/json | json | education | — | kein Versions-/Profil-Marker im Code gefunden |
@@ -23,7 +23,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ---
 
-## Import-Formate (17)
+## Import-Formate (18)
 
 | Kennung | Erzeuger | Sektor | Flags | Versions-/Profil-Belege im Code |
 |---|---|---|---|---|
@@ -37,6 +37,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `fim-json` | `_jsonParse` | administration | — | kein Versions-/Profil-Marker im Code gefunden |
 | `edci-bildung` | `_jsonParse` | education | — | kein Versions-/Profil-Marker im Code gefunden |
 | `edci-europass-extern` | `_edciExternNutzlast` | education | nurImport | kein Versions-/Profil-Marker im Code gefunden |
+| `openbadges-3-extern` | `_ob3Lesen` | education | nurImport | kein Versions-/Profil-Marker im Code gefunden |
 | `vcard-identitaet` | `parseVCards` | identity | — | kein Versions-/Profil-Marker im Code gefunden |
 | `vcard-menschen` | `parseVCards` | people | — | kein Versions-/Profil-Marker im Code gefunden |
 | `camt053` | `parseCamt053` | finance | nurImport | kein Versions-/Profil-Marker im Code gefunden |
@@ -49,7 +50,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**13 Sektoren, 312 Felder, 194 Unterfelder gesamt.**
+**13 Sektoren, 316 Felder, 194 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
@@ -58,7 +59,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `mobility` | Mobilität & Reise | 13 | 7 |
 | `finance` | Finanzen & Zahlungen | 22 | 18 |
 | `assets` | Vermögen und Einkommen | 11 | 0 |
-| `health` | Gesundheit | 28 | 10 |
+| `health` | Gesundheit | 32 | 10 |
 | `education` | Bildung & Beruf | 31 | 0 |
 | `socialInsurance` | Sozialversicherung | 22 | 7 |
 | `advanceCare` | Vorsorge & Recht | 48 | 75 |
@@ -83,13 +84,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): 12034
-- E2E (Playwright): 497 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 17 aus Schleifen über CPU-Drosselungen = **514 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
-- Wächter-Register (intern): 122
-- Schema-Version: 89 · SCHALEN_STAND: v818 · Build-Version: v1.0
+- E2E (Playwright): 506 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 21 aus Schleifen über CPU-Drosselungen = **527 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
+- Wächter-Register (intern): 127
+- Schema-Version: 90 · SCHALEN_STAND: v843 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (404)
+## ADR-Register (416)
 
 | Nummer | Titel |
 |---|---|
@@ -346,10 +347,12 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-267 | Ein Modul-Einlass ist unumkehrbar — und niemand sagte es vorher |
 | U2-ADR-269 | Das Rollen-Vokabular gebaut — vier Rollen, erste Listenzeilen-Form |
 | U2-ADR-270 | `module/` fällt bereits unter Schicht 1 (EUPL-1.2) — kein Lizenztext nötig |
+| U2-ADR-271 | PBKDF2-Iterationszahl wird aufrüstbar — Allowlist gekoppelt an die Kryptoversion |
 | U2-ADR-273 | Der Abbruch beendet die Prozeßgruppe, nicht nur den Wartenden |
 | U2-ADR-274 | institutionsArt — die Auszugs-Fähigkeit bewiesen, der native Bestand unangetastet |
 | U2-ADR-275 | INSTITUTION_ART_EINGEBAUT wird fest verdrahtet statt abgeleitet |
 | U2-ADR-276 | Ein Golden-Master für die Ausgabewege des Bürgerdepots — das Netz vor dem Gerüst-Umbau |
+| U2-ADR-277 | Die Notfallkarte achtet `displayFamilyNameFirst` — die eine Stelle, die U2-ADR-256 ausließ |
 | U2-ADR-278 | Die Sprachkennung folgt jetzt auch dem Rechtsraum-Fach, nicht nur dem Modul |
 | U2-ADR-279 | `vorsorge_instrumente` über die Rolle `instrumenteListe`, nicht über den Feldnamen |
 | U2-ADR-280 | Kein Prüfer stellte fest, ob eine ausgelieferte Datei überhaupt Code ist |
@@ -493,10 +496,20 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-434 | Lieferketten-Sicherheit — festgeschriebene Versionen, erzeugte Stückliste, Schwachstellen-Abgleich |
 | U2-ADR-435 | Angehörigen-Blätter sind Inhalt (Template), kein Gerüst |
 | U2-ADR-436 | Die privaten Schlüssel des Template-Generators im Speicher — in Hüllen, nicht herausholbar, verworfen |
+| U2-ADR-437 | Die Antwort auf eine Anfrage sagt, wer antwortet — als Angabe der Person, im verschlüsselten Datensatz |
 | U2-ADR-438 | Verständigung und Unterstützung — und die Freitexte der Notfallvorsorge auf der Karte |
 | U2-ADR-439 | Personenstandsurkunden — die Ablageorte werden Kennungen im Bereich Identität |
 | U2-ADR-440 | Die Festlegungen der Patientenverfügung werden Kennungen — abgeleitet, nicht gepflegt |
+| U2-ADR-441 | Zertifikatsweg für externe Prüfer |
 | U2-ADR-443 | Bildungsnachweise halten — ein fremd ausgestelltes EDC wird als Original verwahrt und unverändert vorgezeigt |
+| U2-ADR-444 | Verwahrung — Nachweis beim Weitergeben, Übergang an die Person, Widerspruch |
+| U2-ADR-445 | Open Badges 3.0 halten — ein fremd ausgestellter Badge wird als Original verwahrt und unverändert vorgezeigt |
+| U2-ADR-446 | SNOMED GPS — Nutzungsmuster statt ID-Freigabe |
+| U2-ADR-449 | Die Antwort auf eine Anfrage als JWE |
+| U2-ADR-452 | „Gilt bis“ je Fach und die Vertretung als FHIR RelatedPerson |
+| U2-ADR-454 | Kind-Datei — das Kind übernimmt sein Sub-Depot ohne Mitwirkung der Eltern |
+| U2-ADR-455 | Schwangerschaft und Weglaufgefährdung als Kennungen (Notfalldatensatz) |
+| U2-ADR-456 | FIM-Bezüge: Kennung, Fassung und Status je Depot-Feld |
 
 ---
 
@@ -506,18 +519,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 31 | 216 |
-| `.btn-sek` | 12 | 96 |
-| `.btn-dezent` | 5 | 10 |
-| `.btn-klein` | 3 | 12 |
+| `.btn` | 33 | 221 |
+| `.btn-sek` | 14 | 99 |
+| `.btn-dezent` | 5 | 11 |
+| `.btn-klein` | 3 | 14 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 34 |
-| `.karte` | 5 | 60 |
-| `.modal` | 18 | 139 |
-| `.toast` | 9 | 271 |
+| `.karte` | 5 | 68 |
+| `.modal` | 18 | 143 |
+| `.toast` | 9 | 278 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 36 | 2 |
 | `.sidebar` | 18 | 5 |
-| `.leer` | 3 | 279 |
+| `.leer` | 3 | 284 |
 | `.pause-erlaubnis` | 2 | 3 |
 | `.hinweis-box` | 7 | 24 |

@@ -134,17 +134,17 @@ selbst auftaucht.
 
 ---
 
-## Verwaltung und Meldewesen — XÖV/FIM, EDCI, ELSTER, xMeld
+## Verwaltung und Meldewesen — Verwaltungs-Stammdaten, FIM, EDCI, ELSTER, xMeld
 
 Vier Kanäle, alle **ohne mechanisch nachweisbaren Versions-/Profil-Marker im jeweiligen
 Erzeuger-Quelltext** — das ist eine Lücke der Faktenbasis, keine Aussage, dass die
-Formate falsch wären. Wer die genaue XÖV-/FIM-/EDCI-Schema-Version braucht, muss sie an der
+Formate falsch wären. Wer die genaue FIM-/EDCI-Schema-Version braucht, muss sie an der
 Quelle (Code-Kommentar, externe Spezifikation) nachschlagen; dieses Dokument behauptet sie nicht,
 weil der Code selbst sie an dieser Stelle nicht trägt.
 
 | Kanal | Export | Import | Sektor |
 |---|---|---|---|
-| XÖV (Verwaltung) | `xoev-verwaltung` → `xoevVerwaltung` | `xoev-verwaltung` → `_jsonParse` | verwaltung |
+| Verwaltungs-Stammdaten (die Kennung ist historisch, kein Standard dahinter) | `xoev-verwaltung` → `xoevVerwaltung` | `xoev-verwaltung` → `_jsonParse` | verwaltung |
 | FIM | `fim-json` → `fimVerwaltung` | `fim-json` → `_jsonParse` | verwaltung |
 | EDCI (Bildung) | `edci-bildung` → `edciBildung` | `edci-bildung` → `_jsonParse` | bildung |
 | EDCI/Europass (extern) | — | `edci-europass-extern` → `_edciExternNutzlast` (`nurImport`) | bildung |
@@ -190,7 +190,7 @@ und `VivodepotProviderCredential`.
 ## Interner Versionsstand
 
 <!-- STANDZAHLEN:BEGIN — erzeugt von tools/build-standzahlen.js; Quelle: vivodepot.html -->
-Schema-Version 89, `SCHALEN_STAND` v818.
+Schema-Version 90, `SCHALEN_STAND` v843.
 <!-- STANDZAHLEN:END -->
 
 ---

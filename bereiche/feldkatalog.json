@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/build-feldkatalog.js aus vivodepot.html SEKTOREN und tools/bereich-templates/*.json. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 662,
+  "anzahl": 666,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -1771,6 +1771,30 @@
       "kennung": "health.implantsProsthesesPacemakers",
       "bereich": "health",
       "label": "Implantate / Prothesen / Schrittmacher",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.pregnancy",
+      "bereich": "health",
+      "label": "Schwangerschaft",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.pregnancyEstimatedDueDate",
+      "bereich": "health",
+      "label": "Errechneter Entbindungstermin",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.wanderingRisk",
+      "bereich": "health",
+      "label": "Weglaufgefährdung",
+      "template": "vivodepot-health.json"
+    },
+    {
+      "kennung": "health.wanderingRiskDetails",
+      "bereich": "health",
+      "label": "Weglaufgefährdung — Umstände",
       "template": "vivodepot-health.json"
     },
     {

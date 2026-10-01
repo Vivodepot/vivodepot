@@ -12,7 +12,10 @@
       "weiterAnsehen": "Weiter ansehen",
       "gesperrt": "In der Vorführung wird nichts gespeichert. Die Anwendung selbst gibt es unter vivodepot.de/iop.",
       "schliessen": "Schließen",
-      "auszug": "Auszug"
+      "auszug": "Auszug",
+      "notizLabel": "Erklärung",
+      "mehr": "mehr",
+      "weniger": "weniger"
     },
     "en": {
       "streifen": "Demonstration · sample data of a fictional person",
@@ -21,27 +24,35 @@
       "weiterAnsehen": "Keep exploring",
       "gesperrt": "Nothing is saved in the demonstration. The application itself is at vivodepot.de/iop.",
       "schliessen": "Close",
-      "auszug": "excerpt"
+      "auszug": "excerpt",
+      "notizLabel": "Explanation",
+      "mehr": "more",
+      "weniger": "less"
     }
   },
   "stationen": [
     {
       "ansicht": "uebersicht",
-      "titel": { "de": "Bürgerseitige Datenhaltung mit Lebenskontext.", "en": "Citizen-side data custody with life context." },
+      "titel": {
+        "de": "Bürgerseitige Datenhaltung mit Lebenskontext.",
+        "en": "Citizen-side data custody with life context."
+      },
       "text": {
         "de": "Dreizehn Bereiche, von Identität über Gesundheit und Verwaltung bis Wohnen. Eine Person trägt ein, was sonst an vielen Stellen verteilt liegt.",
         "en": "Thirteen areas, from identity through health and administration to housing. One person records what is otherwise spread across many places."
       }
     },
     {
-      "ansicht": "bereich", "ziel": "advanceCare",
+      "ansicht": "bereich",
+      "ziel": "advanceCare",
       "text": {
         "de": "Eine Brieftasche zeigt vor, was eine Stelle über Sie bescheinigt. Das Depot verwahrt zusätzlich, was Sie selbst festlegen: wer bevollmächtigt ist und wen man anruft.",
         "en": "A wallet presents what an authority certifies about you. The depot also keeps what you set down yourself: who holds power of attorney and whom to call."
       }
     },
     {
-      "ansicht": "anlass", "ziel": "arzt",
+      "ansicht": "anlass",
+      "ziel": "arzt",
       "text": {
         "de": "Für den Arzttermin geht der Ausschnitt hinaus, den dieser Anlass braucht. Das übrige Depot bleibt, wo es ist.",
         "en": "For a doctor's appointment, only the extract this occasion needs leaves the depot. The rest stays where it is."
@@ -50,7 +61,7 @@
     {
       "ansicht": "fhir-ips",
       "text": {
-        "de": "Gesundheitsangaben gehen als HL7 FHIR IPS und EU EPS hinaus, mit dem Vermerk, wer sie zusammengestellt hat.",
+        "de": "Gesundheitsangaben gehen als HL7 FHIR IPS und EU EPS hinaus, mit dem Vermerk, wer sie zusammengestellt hat. Diagnosen und Medikamente stehen darin als standardisierte Codes (ICD-10-GM und ATC). Die festen Sätze sind Englisch, damit auch eine Stelle im Ausland den Auszug lesen kann.",
         "en": "Health data leaves as HL7 FHIR IPS and EU EPS, stating who compiled it."
       }
     },

@@ -1,0 +1,22 @@
+{
+  "_zweck": "Standardnamen, die ein Außentext oder eine Ausgabe nur nennen darf, wenn das Standards-Register eine Zeile mit Prüfer dafür führt (30.09.2026). Ein Name gilt als gedeckt, wenn eine der genannten Register-ids in einer Familie mit Adapter steht. Werkzeug: tools/standardnamen-pruefen.js. Probe: tests/standardnamen-schutz.test.js",
+  "namen": [
+    { "name": "XÖV", "muster": "X(?:Ö|OE)V(?![A-Za-zÄÖÜäöüß])|urn:xoev-de:", "register": [] },
+    { "name": "XJustiz", "muster": "XJustiz", "register": [] },
+    { "name": "XMeld", "muster": "XMeld", "register": [] },
+    { "name": "XRechnung", "muster": "XRechnung", "register": [] },
+    { "name": "FIM", "muster": "(?<![A-Za-z])FIM(?![A-Za-z])", "register": [] },
+    { "name": "EDCI", "muster": "(?<![A-Za-z])EDCI(?![A-Za-z])|Europass", "register": ["edc-ap"] },
+    { "name": "ELSTER", "muster": "(?<![A-Za-z])(?:ELSTER|Elster)(?![a-z])", "register": [] },
+    { "name": "IPS", "muster": "(?<![A-Za-z])IPS(?![A-Za-z])|International Patient Summary", "register": ["ips"] },
+    { "name": "SD-JWT VC", "muster": "SD-JWT[ -]?VC", "register": [] },
+    { "name": "PDF/A", "muster": "PDF/A(?![A-Za-z])", "register": [] }
+  ],
+  "orte": {
+    "dokumente": ["STANDARDS.md", "INTEROPERABILITY.md", "docs/spec/*.md"],
+    "textsaetze": ["tools/textsatz-de-modul.json", "tools/textsatz-en-modul.json"],
+    "kernAusgaben": "vivodepot.html",
+    "bereichsVorlagen": "tools/bereich-templates/*.json",
+    "codeListen": "code-listen/*.json"
+  }
+}

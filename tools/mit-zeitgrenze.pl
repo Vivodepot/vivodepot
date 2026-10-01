@@ -36,6 +36,7 @@
 use strict;
 use warnings;
 use POSIX ();
+use Time::HiRes ();
 
 my $grenze = shift @ARGV;
 defined $grenze && $grenze =~ /^\d+$/
@@ -129,6 +130,7 @@ $SIG{ALRM} = sub { $abgelaufen = 1; prozessbaum_sichern(); gruppe_beenden(); };
 for my $sig (qw(TERM INT)) {
   $SIG{$sig} = sub { $extern_beendet = $sig eq 'TERM' ? 15 : 2; gruppe_beenden(); };
 }
+my $start = Time::HiRes::time();
 alarm($grenze);
 
 # waitpid kann vom Signal unterbrochen werden — dann weiterwarten, nicht aufgeben.
@@ -136,6 +138,41 @@ my $weg;
 do { $weg = waitpid($kind, 0); } while ($weg == -1 && $!{EINTR});
 my $status = $?;
 alarm(0);
+
+# DAUER JE BEGRENZTEM SCHRITT (29.09.2026): eine Zeile je Lauf in <gemeinsames Git-Verzeichnis>/vd-zeitgrenzen-dauer.ndjson
+# (oder $VD_ZEITGRENZE_DAUER_DATEI). Damit ist messbar, wie nah ein Schritt seiner Grenze kommt — vorher gab es nur
+# Protokolle der Abbrueche. Ein echter Lauf ueber 80 % der Grenze meldet sich; ein Abbruch sagt, dass KEIN Test rot war.
+# Ein Fehler hier darf den Lauf nie beeinflussen.
+sub dauer_schreiben {
+  my ($ergebnis) = @_;
+  eval {
+    my $dauer = sprintf('%.1f', Time::HiRes::time() - $start);
+    my $datei = $ENV{VD_ZEITGRENZE_DAUER_DATEI};
+    # Probelaeufe aus Tests (Wecker-Selbstproben, hunderte am Tag) schreiben nur in eine ausdruecklich genannte Datei.
+    return 1 if !$datei && $ENV{VD_HOOK_SPERRE_JE_PID};
+    if (!$datei) {
+      my $git = `git rev-parse --path-format=absolute --git-common-dir 2>/dev/null`; chomp $git;
+      return 1 unless $git;
+      $datei = "$git/vd-zeitgrenzen-dauer.ndjson";
+    }
+    my $befehl = join(' ', @ARGV); $befehl =~ s/["\\\x00-\x1f]//g; $befehl = substr($befehl, 0, 160);
+    my $quelle = $ENV{VD_HOOK_SPERRE_JE_PID} ? 'test' : 'echt';
+    my $zeit = POSIX::strftime('%Y-%m-%dT%H:%M:%S', localtime);
+    my $anteil = $grenze > 0 ? sprintf('%.2f', $dauer / $grenze) : '0';
+    open(my $fh, '>>', $datei) or return 1;
+    print $fh qq({"zeit":"$zeit","grenze_s":$grenze,"dauer_s":$dauer,"anteil":$anteil,"ergebnis":"$ergebnis","quelle":"$quelle","befehl":"$befehl"}\n);
+    close $fh;
+    if ($quelle eq 'echt' && $ergebnis ne 'zeitgrenze' && $grenze > 0 && $dauer > 0.8 * $grenze) {
+      print STDERR "[mit-zeitgrenze] HINWEIS: $dauer s = " . int(100 * $dauer / $grenze) . " % der Grenze $grenze s (ueber 80 %) — Grenze messen, bevor sie reisst: $befehl\n";
+    }
+    1;
+  };
+}
+my $ergebnis = $abgelaufen ? 'zeitgrenze' : $extern_beendet ? 'abgebrochen' : (($status & 127) == 0 && ($status >> 8) == 0) ? 'gruen' : 'rot';
+dauer_schreiben($ergebnis);
+if ($abgelaufen) {
+  print STDERR "[mit-zeitgrenze] ZEITGRENZE $grenze s GERISSEN — das ist KEIN roter Test, sondern ein Abbruch nach Zeit. Erst die Last und die Dauer messen (vd-zeitgrenzen-dauer.ndjson), nicht den Code reparieren.\n";
+}
 
 exit 142 if $abgelaufen;
 exit(128 + $extern_beendet) if $extern_beendet;

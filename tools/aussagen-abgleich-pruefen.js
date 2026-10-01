@@ -337,9 +337,11 @@ function ankerLesen(datei, text, stand) {
       }
     }
     // „Schema 24 bis zum heutigen 63" (SOVEREIGNTY.md, 25.09.2026 gefunden: der Kern stand auf 88) — dieselbe Behauptung
-    // über die heutige Schema-Version in anderer Form.
+    // über die heutige Schema-Version in anderer Form. 29.09.2026: auch „bis zum heutigen Stand 63“ (FAQ.md, stand bis dahin
+    // unerkannt auf 63, der Kern auf 89) und die englische Form „current schema 63“.
     for (const [wort, muster] of [['Schema-Version', 'Schema-Version\\s+(' + ZAHL_QUELLE + ')'],
-                                   ['Schema-Version', 'Schema\\b[^.\\n]{0,40}\\bheutigen\\s+(' + ZAHL_QUELLE + ')'],
+                                   ['Schema-Version', 'Schema\\b[^.\\n]{0,40}\\b(?:heutigen|aktuellen)\\s+(?:Stand\\s+|Schema\\s+)?(' + ZAHL_QUELLE + ')'],
+                                   ['Schema-Version', '[Ss]chema\\b[^.\\n]{0,40}\\b(?:current|today\'s)\\s+(?:state\\s+|schema\\s+|version\\s+)?(' + ZAHL_QUELLE + ')'],
                                    ['SCHALEN_STAND', 'SCHALEN_STAND`?\\s+v(' + ZAHL_QUELLE + ')']]) {
       const m = new RegExp(muster).exec(zeile);
       if (m && stand.zahlen[wort] != null && zahlAusFund(m[1]) !== stand.zahlen[wort]) {

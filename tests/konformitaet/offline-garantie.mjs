@@ -721,7 +721,9 @@ async function vollerAblauf() {
    die Zusicherungen darunter sind das Tor. `ergebnis` wird aus denselben
    Beobachtungen abgeleitet, die die Tests prüfen — nicht aus dem Testergebnis,
    damit ein grünes Artefakt nie aus einer grünen Erwartung entstehen kann. */
-const ARTEFAKT_DIR  = join(HIER, '.artifacts');
+/* Nicht mehr in den Arbeitsbaum (Befund KONFORMITAET-ARTEFAKTE-IM-BAUM, 28.09.2026): lokal ein eigenes
+   Verzeichnis unter os.tmpdir, in CI weiter <hier>/.artifacts für den Upload — tools/lib/nachweis-ablage.js. */
+const ARTEFAKT_DIR  = require_('../../tools/lib/nachweis-ablage.js').nachweisVerzeichnis(HIER).dir;
 const ARTEFAKT_PFAD = join(ARTEFAKT_DIR, 'offline-nachweis.json');
 
 function git(...args) {

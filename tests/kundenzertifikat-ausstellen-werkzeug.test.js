@@ -23,6 +23,18 @@ const SENTINEL_PRIVATE_JWK = Object.freeze({
 });
 const SENTINEL_PUBLIC_JWK = Object.freeze({ kty: 'OKP', crv: 'Ed25519', alg: 'Ed25519', x: SENTINEL_PRIVATE_JWK.x });
 
+// Anbieter-Angaben/Anbieterprüfung (19.09.2026, Ziel L4) — seit diesem Auftrag Pflicht vor jeder
+// Ausstellung, hier eine gültige Wegwerf-Fixture.
+const ANBIETER_ANGABEN_FIXTURE = Object.freeze({
+  rechtsform: 'GmbH',
+  adresse: { strasse: 'Musterstraße 1', plz: '12345', ort: 'Musterstadt', land: 'Deutschland' },
+  kontakt: { name: 'Maria Mustermann', funktion: 'Geschäftsführung', email: 'maria@beispiel.test', telefon: '+49 30 1234567' },
+});
+const ANBIETERPRUEFUNG_FIXTURE = Object.freeze({
+  methode: 'registerauszug', geprueftAm: '2026-09-19', geprueftVon: 'Test-Prüferin',
+  belegHash: 'a'.repeat(64),
+});
+
 function mitTmpVerzeichnis(fn) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'kundenzertifikat-ausstellen-test-'));
   return Promise.resolve(fn(tmp)).finally(() => fs.rmSync(tmp, { recursive: true, force: true }));
@@ -70,6 +82,7 @@ test('[kundenzertifikat-ausstellen] Regelfall: Kundenzertifikat verifiziert übe
       anbieterId: 'institution/test-kunde', anbieterName: 'Test-Kunde GmbH', anbieterTyp: 'institution/test',
       subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-ausgabe-passphrase',
       ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabePfad,
+      anbieterAngaben: ANBIETER_ANGABEN_FIXTURE, anbieterPruefung: ANBIETERPRUEFUNG_FIXTURE,
     });
 
     assert.equal(ok, true, 'Werkzeug meldet Erfolg');
@@ -82,6 +95,64 @@ test('[kundenzertifikat-ausstellen] Regelfall: Kundenzertifikat verifiziert übe
     });
     assert.equal(res.gueltig, true, 'Kundenzertifikat verifiziert über die volle Kette: ' + (res.grund || ''));
     assert.equal(res.nutzlast.credentialSubject.anbieterId, 'institution/test-kunde');
+    assert.equal(res.nutzlast.credentialSubject.rechtsform, 'GmbH');
+    assert.deepEqual(res.nutzlast.credentialSubject.anbieterPruefung, ANBIETERPRUEFUNG_FIXTURE);
+  });
+});
+
+test('[kundenzertifikat-ausstellen] ohne Anbieter-Angaben — Abbruch, keine Ausgabedatei', async () => {
+  await mitTmpVerzeichnis(async (tmp) => {
+    const { vdkeyPfad, ausstellerPfad, subjektPfad } = await aufbauen(tmp);
+    const ausgabePfad = path.join(tmp, 'kundenzertifikat.json');
+    const vorherExitCode = process.exitCode;
+    const ok = await lauf({
+      anbieterId: 'institution/test-kunde', anbieterName: 'Test-Kunde GmbH', anbieterTyp: 'institution/test',
+      subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-ausgabe-passphrase',
+      ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabePfad,
+      anbieterPruefung: ANBIETERPRUEFUNG_FIXTURE,
+    });
+    process.exitCode = vorherExitCode;
+    assert.equal(ok, false);
+    assert.ok(!fs.existsSync(ausgabePfad), 'ohne anbieter keine Signatur — keine Ausgabedatei');
+  });
+});
+
+test('[kundenzertifikat-ausstellen] ohne Anbieterprüfung (und ohne Abschaltung) — Abbruch', async () => {
+  await mitTmpVerzeichnis(async (tmp) => {
+    const { vdkeyPfad, ausstellerPfad, subjektPfad } = await aufbauen(tmp);
+    const ausgabePfad = path.join(tmp, 'kundenzertifikat.json');
+    const vorherExitCode = process.exitCode;
+    const ok = await lauf({
+      anbieterId: 'institution/test-kunde', anbieterName: 'Test-Kunde GmbH', anbieterTyp: 'institution/test',
+      subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-ausgabe-passphrase',
+      ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabePfad,
+      anbieterAngaben: ANBIETER_ANGABEN_FIXTURE,
+    });
+    process.exitCode = vorherExitCode;
+    assert.equal(ok, false);
+    assert.ok(!fs.existsSync(ausgabePfad), 'Vorgabe AN — ohne Anbieterprüfung und ohne ausdrückliche Abschaltung keine Signatur');
+  });
+});
+
+test('[kundenzertifikat-ausstellen] --ohne-anbieterpruefung schaltet ab, wird im Zertifikat vermerkt', async () => {
+  await mitTmpVerzeichnis(async (tmp) => {
+    const { vdkeyPfad, ausstellerPfad, subjektPfad } = await aufbauen(tmp);
+    const ausgabePfad = path.join(tmp, 'kundenzertifikat.json');
+    const ok = await lauf({
+      anbieterId: 'institution/test-kunde', anbieterName: 'Test-Kunde GmbH', anbieterTyp: 'institution/test',
+      subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-ausgabe-passphrase',
+      ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabePfad,
+      anbieterAngaben: ANBIETER_ANGABEN_FIXTURE, ohneAnbieterpruefung: true,
+    });
+    assert.equal(ok, true);
+    const ergebnis = JSON.parse(fs.readFileSync(ausgabePfad, 'utf8'));
+    assert.equal(ergebnis.anbieterPruefungAbgeschaltet, true);
+    assert.equal(ergebnis.anbieterPruefung, undefined);
+    const { V } = ladeKern();
+    const res = await V.verifiziereProviderCredential(ergebnis.certJws, {
+      ankerJwk: SENTINEL_PUBLIC_JWK, jetzt: '2026-06-01T00:00:00Z', ausstellerZertifikatJws: ergebnis.ausstellerZertifikatJws,
+    });
+    assert.equal(res.nutzlast.credentialSubject.anbieterPruefungAbgeschaltet, true, 'die Abschaltung selbst steht im Zertifikat, nicht nur in der Ausgabedatei');
   });
 });
 
@@ -100,6 +171,7 @@ test('[kundenzertifikat-ausstellen·Gegenprobe] falsches Ausstellerzertifikat (a
       anbieterId: 'institution/test-kunde', anbieterName: 'Test-Kunde GmbH', anbieterTyp: 'institution/test',
       subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-ausgabe-passphrase',
       ausstellerZertifikatPfad: falscherAusstellerPfad, ausgabeDateiArg: ausgabePfad,
+      anbieterAngaben: ANBIETER_ANGABEN_FIXTURE, anbieterPruefung: ANBIETERPRUEFUNG_FIXTURE,
     });
     process.exitCode = vorherExitCode;
 
@@ -123,6 +195,7 @@ test('[kundenzertifikat-ausstellen] falsche Passphrase → Abbruch, kein Leck', 
         anbieterId: 'institution/test-kunde', anbieterName: 'Test-Kunde GmbH', anbieterTyp: 'institution/test',
         subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'falsche-passphrase',
         ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabePfad,
+        anbieterAngaben: ANBIETER_ANGABEN_FIXTURE, anbieterPruefung: ANBIETERPRUEFUNG_FIXTURE,
       });
     } finally {
       console.error = origError;
@@ -147,6 +220,7 @@ test('[kundenzertifikat-ausstellen] Ausgabe-Schlüssel == Subjekt-Schlüssel →
       anbieterId: 'institution/test-kunde', anbieterName: 'Test-Kunde GmbH', anbieterTyp: 'institution/test',
       subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-ausgabe-passphrase',
       ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabePfad,
+      anbieterAngaben: ANBIETER_ANGABEN_FIXTURE, anbieterPruefung: ANBIETERPRUEFUNG_FIXTURE,
     });
     process.exitCode = vorherExitCode;
 

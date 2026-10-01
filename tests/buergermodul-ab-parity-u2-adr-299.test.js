@@ -70,12 +70,13 @@ test('[U2-ADR-299] das Bündel deckt alle 13 nativen Sektoren, 465 Feld-Definiti
   // 25.09.2026: 271 → 275 (U2-ADR-433: die vier Kennungen der Notvertretung durch Ehegatten), gemessen.
   // 27.09.2026: 275 → 278 (U2-ADR-439: drei Ablageorte der Personenstandsurkunden), gemessen.
   // 278 → 283 (27.09.2026, U2-ADR-438 Verständigung und Unterstützung): fünf Top-Level-Felder.
-  assert.equal(top, 283, 'Top-Level-Felder');
+  // 283 → 287 (29.09.2026, U2-ADR-455): die vier NFD-Felder (Schwangerschaft, Weglaufgefährdung), gemessen.
+  assert.equal(top, 287, 'Top-Level-Felder');
   // 13.09.2026: +3 Unterfelder (zvr_abschrift/zvr_abschrift_datum/zvr_abschrift_stelle,
   // Unterfelder von vorsorge_instrumente) — der gemessene Stand, ändert sich diese Zahl,
   // gehört die Zeile neu gemessen.
   assert.equal(unter, 194, 'Unterfelder');
-  assert.equal(top + unter, 477);   // 472 → 477 (27.09.2026, U2-ADR-438: fünf Top-Level-Felder); 469 → 472 (27.09.2026, U2-ADR-439)
+  assert.equal(top + unter, 481);   // 477 → 481 (29.09.2026, U2-ADR-455); 472 → 477 (27.09.2026, U2-ADR-438: fünf Top-Level-Felder); 469 → 472 (27.09.2026, U2-ADR-439)
 });
 
 test('[U2-ADR-299] SEKTOREN/Feld-Definitionen: das Bündel nennt für JEDEN Sektor GENAU dieselben Kennungen wie der native Bestand — nicht mehr, nicht weniger', async () => {

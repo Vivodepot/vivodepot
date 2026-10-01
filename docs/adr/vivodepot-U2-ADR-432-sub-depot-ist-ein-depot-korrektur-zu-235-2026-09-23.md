@@ -68,7 +68,7 @@ Wächter: `tests/sub-sonderlocken-ratsche.test.js` (Mechanik plus Positivliste, 
 | S4 | Ablage im Anker | kein Verstoß — das IST die Position |
 | S5 | Öffnen ohne Migrationen | behoben, `tests/sub-depot-migrationen.test.js` |
 | S6 | eigener Passwortwechsel (`subDepotEigenerPasswortWechsel`) | offen, gezählt |
-| S7 | Modus-Regel `'nach-umfang'`, deklariert und nie gelesen | offen, gezählt; Akzent und Akteur sind Position |
+| S7 | Modus-Regel `'nach-umfang'`, deklariert und nie gelesen | abgebaut 28.09.2026 (v824): der Umfang ist das Fach; über ein Fach geöffnet ist jedes Depot nur lesend, durchgesetzt im Bearbeitungstor `_bearbeitenErlaubtPruefen` vor jeder Mutation, `tests/vollmacht-fach-schreibt-nicht.test.js`. Akzent und Akteur sind Position |
 | S8 | Blackbox-Hülle als eigener Weg | offen, gezählt; Format seit S1 gleich, Ortshinweis seit Punkt 4 gleich |
 | S9 | eigener Lese-App-Einstieg für Sub-Umschläge | offen, gezählt; Leser seit Punkt 3 gleich |
 | S10 | Umfang-Mechanismus nur für Sub-Depots | nie gelandet |
@@ -80,8 +80,8 @@ Wächter: `tests/sub-sonderlocken-ratsche.test.js` (Mechanik plus Positivliste, 
   bleibt deshalb erhalten.
 - **Dieser Schritt ist unumkehrbar:** ein einmal als V4 gespeichertes Sub-Depot wird nie wieder V3 — derselbe Weg, den
   jedes Anker-Depot seit der Einführung von V4 geht. Gehalten von der Probe „[S1·Bestand]" (Inhalt vollständig danach).
-- Die Positivliste im Wächter hat den Deckel 5 (S6, S7, S8, S9, S11). Jeder weitere abgebaute Punkt senkt ihn im
-  selben Commit.
+- Die Positivliste im Wächter hatte den Deckel 5 (S6, S7, S8, S9, S11). Jeder weitere abgebaute Punkt senkt ihn im
+  selben Commit. Nachtrag 28.09.2026: S7 abgebaut, Deckel 4 (S6, S8, S9, S11).
 - Tests, die ein V3-Sub-Depot voraussetzten, prüfen jetzt die V4-Form, genauso streng: Einheiten und Umschlagstabelle
   verbatim statt `ct/iv`, genau die Felder einer Depot-Datei statt „sechs Felder".
 

@@ -188,7 +188,7 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Assignment“ beruht. Die amtliche Veröffentlichung erfolgt durch das Bundesinstitut für
     Arzneimittel und Medizinprodukte (BfArM).
     Keine DDD-Werte und keine englischen WHOCC-Bezeichnungen übernommen.
-    URI: http://www.whocc.no/atc
+    URI: http://fhir.de/CodeSystem/bfarm/atc
 
   • ICD-10-GM (systemId=icd10) — STATUS: SEED, Version ICD-10-GM-2026-amtlich (Titel der Codes aus dem Systematischen Verzeichnis 2026)
     Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im
@@ -221,7 +221,7 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Die Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung
     des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).
     Nicht verwendet: ICD-O-3.
-    URI: http://hl7.org/fhir/sid/icd-10-gm
+    URI: http://fhir.de/CodeSystem/bfarm/icd-10-gm
 
   • LOINC (systemId=loinc) — STATUS: SEED, Version SEED-2026-05
     Regenstrief Institute, Inc. — kostenlos unter der LOINC-Lizenz, kommerzielle Nutzung
@@ -255,6 +255,15 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     hinaus (coding.display trägt nur den GPS-Begriff, die deutsche Anzeige steht in text).
     Keine Hierarchien, keine Beziehungen, keine abgeleiteten Wertemengen. Vor jeder Ausweitung
     wird SNOMED International gefragt. URI: http://snomed.info/sct
+
+  • KBV MIO Patientenkurzakte — ein Code aus dem CodeSystem KBV_CS_MIO_NFD_Runaway_Risk, Version 1.0.0
+    Genutzt wird allein der Code „Weglaufgefaehrdung“ (Anzeige „Weglaufgefährdung“) im IPS-Export
+    (Flag der Sektion Alerts), seit v835. Quelle: Kassenärztliche Bundesvereinigung (KBV),
+    https://github.com/kassenaerztliche-bundesvereinigung/MIOParser,
+    src/Definitions/KBV/PKA/1.0.0/CodeSystem/NFDRunawayRisk.ts. Lizenz: Apache License 2.0
+    (https://www.apache.org/licenses/LICENSE-2.0). NOTICE des Werks:
+    KBV MIO Parser / Copyright 2020 - 2022 Kassenärztliche Bundesvereinigung
+    URI: https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk
 
   • STUBS (leer, keine Codes):
     esco — ESCO-Klassifikation der Europäischen Kommission, Weiterverwendung nach dem

@@ -43,8 +43,6 @@ test('[SUB-SONDERLOCKEN·Mechanik·Rot-Beweis] ein Sub-Weg mit eigenem encryptDe
 const POSITIVLISTE = [
   { kennung: 'S6', stelle: 'function subDepotEigenerPasswortWechsel(',
     grund: 'eigener Passwortwechsel ohne Anker-Sitzung; V4-fähig, aber ein eigener Weg neben passwortWechselDurchfuehren' },
-  { kennung: 'S7', stelle: "bearbeitung: 'nach-umfang'",
-    grund: "Modus 'vollmacht' deklariert eine Umfangs-Regel ('nach-umfang'), die nichts liest — eigene Mechanik, keine reine Positionsfolge" },
   { kennung: 'S8', stelle: 'function blackboxDateiAusUmschlag(',
     grund: 'die Blackbox-Hülle (Export/Einhängen) — seit S1 trägt sie dasselbe Format wie jede Depot-Datei; die Hülle selbst ist noch ein eigener Weg' },
   { kennung: 'S9', stelle: 'async function leseSubUmschlag(', datei: 'vivodepot-lesen.html',
@@ -54,12 +52,13 @@ const POSITIVLISTE = [
 ];
 // NICHT gezählt, mit Grund: S4 (Ablage im Anker) IST die Position — der eine Unterschied, den es geben darf.
 // S7 geteilt: Akzentfarbe und Akteur 'unter-vollmacht' folgen aus der Position (jemand handelt für eine andere Person) —
-// nicht gezählt; die deklarierte, nie gelesene Regel 'nach-umfang' ist eigene Mechanik — gezählt.
+// nicht gezählt. Die deklarierte, nie gelesene Regel 'nach-umfang' ist abgebaut (28.09.2026, v824): der Umfang ist das Fach,
+// durchgesetzt im Bearbeitungstor für jedes Depot gleich (tests/vollmacht-fach-schreibt-nicht.test.js).
 // Gestrichen: S1 (Anlage V3), S2 (Neuversiegeln V3-Annahme), S3 (keine Fächer), beide mit Probe (sub-depot-gleiches-format,
 // sub-depot-v4-neuversiegeln); S5 (Migrationen) mit tests/sub-depot-migrationen.test.js; S10 nie gelandet (geparkt).
 // Die KENNUNGEN sind festgeschrieben, nicht nur ihre Zahl: sonst könnte ein neuer Sonderweg einen abgebauten ersetzen, und
 // die Zahl bliebe gleich. Die Grundlinie schrumpft im selben Commit wie die Liste — sie wächst nie.
-const KENNUNGEN_GRUNDLINIE = ['S6', 'S7', 'S8', 'S9', 'S11'];
+const KENNUNGEN_GRUNDLINIE = ['S6', 'S8', 'S9', 'S11'];
 const DECKEL = KENNUNGEN_GRUNDLINIE.length;
 
 function positivlisteUrteil(liste) {

@@ -1,10 +1,11 @@
 {
   "systemId": "xoev-rollencode",
-  "uri": "urn:xoev-de:vivodepot:codeliste:rollencode",
+  "uri": "urn:vivodepot:codeliste:rollencode",
+  "aliasUris": ["urn:xoev-de:vivodepot:codeliste:rollencode"],
   "version": "STUB-2026-05",
-  "kuerzel": "XÖV",
+  "kuerzel": "Rollencode",
   "lizenz": "Vorgesehen: XÖV-Codeliste GDS.Rollenbezeichnung (XJustiz, Herausgeber BLK-AG IT-Standards in der Justiz), bezogen über XRepository (KoSIT); Nutzung nur mit Genehmigung des Herausgebers — angefragt, bis dahin keine Daten",
   "status": "stub",
-  "hinweis": "STUB bis zur Genehmigung der Justiz-Liste GDS.Rollenbezeichnung",
+  "hinweis": "Platzhalter bis GDS.Rollenbezeichnung (urn:xoev-de:xjustiz:codeliste:gds.rollenbezeichnung). Eigene Kennung, weil der Namensraum urn:xoev-de der KoSIT gehört; mit der Genehmigung wechselt die Liste auf die Kennung der Standard-Liste.",
   "daten": []
 }

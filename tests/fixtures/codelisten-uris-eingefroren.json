@@ -1,0 +1,35 @@
+{
+  "_zweck": "Eingefrorene System-URI je eingebauter Code-Liste (28.09.2026). Eine URI ändert sich nur mit Eintrag hier UND der alten URI in aliasUris der Liste (dann schreiben Einlass, Migration und Export sie um). Probe: tests/codesystem-kanonisch.test.js",
+  "listen": {
+    "atc": {
+      "uri": "http://fhir.de/CodeSystem/bfarm/atc",
+      "frueher": [
+        "http://www.whocc.no/atc"
+      ]
+    },
+    "esco": {
+      "uri": "http://data.europa.eu/esco",
+      "frueher": []
+    },
+    "icd10": {
+      "uri": "http://fhir.de/CodeSystem/bfarm/icd-10-gm",
+      "frueher": [
+        "http://hl7.org/fhir/sid/icd-10-gm"
+      ]
+    },
+    "loinc": {
+      "uri": "http://loinc.org",
+      "frueher": []
+    },
+    "snomedAllergen": {
+      "uri": "http://snomed.info/sct",
+      "frueher": []
+    },
+    "xoev-rollencode": {
+      "uri": "urn:vivodepot:codeliste:rollencode",
+      "frueher": [
+        "urn:xoev-de:vivodepot:codeliste:rollencode"
+      ]
+    }
+  }
+}

@@ -46,6 +46,28 @@ test('1) notfallKartenMeta: Name + Datum', async () => {
   assert.match(meta.datum, /^\d{2}\.\d{2}\.\d{4}$/);
 });
 
+// U2-ADR-277: notfallKartenMeta() komponierte bis dahin fest [givenName, familyName, secondLastName] — die einzige
+// Namens-Kompositionsstelle, die U2-ADR-256 nicht erfasst hatte. Diese Probe prüft die WIRKUNG (die Karte achtet
+// identity.displayFamilyNameFirst), nicht den Quelltext der Zeile — ein künftiger Umbau, der die Einstellung wieder
+// ignoriert, macht sie rot. Rot-Beweis: die Gegenprobe darunter mit derselben Karte ohne das Feld.
+test('[U2-ADR-277] notfallKartenMeta achtet displayFamilyNameFirst — dieselbe Einstellung, die überall sonst gilt', async () => {
+  const { V } = await frischMitDepot();
+  V.sektorFeldSetzen('identity', 'givenName', 'Wei');
+  V.sektorFeldSetzen('identity', 'familyName', 'Zhang');
+  V.sektorFeldSetzen('identity', 'displayFamilyNameFirst', true);
+  assert.equal(V.notfallKartenMeta().name, 'Zhang Wei',
+    'mit gesetztem Flag muss der Nachname zuerst stehen — wie an jeder anderen Namensstelle');
+});
+
+test('[U2-ADR-277·Gegenprobe] ohne displayFamilyNameFirst bleibt die Karte bytegleich zur alten Formel', async () => {
+  const { V } = await frischMitDepot();
+  V.sektorFeldSetzen('identity', 'givenName', 'Maria');
+  V.sektorFeldSetzen('identity', 'familyName', 'García');
+  V.sektorFeldSetzen('identity', 'secondLastName', 'López');
+  assert.equal(V.notfallKartenMeta().name, 'Maria García López',
+    'bestehende Depots ohne das Feld dürfen sich nicht bewegen — dieselbe Auflage wie bei U2-ADR-256 selbst');
+});
+
 test('2) zeichneNotfallkarte schreibt die Akut-Zeilen ins Dokument', async () => {
   const { V } = await frischMitDepot();
   V.sektorFeldSetzen('identity', 'givenName', 'Maria');

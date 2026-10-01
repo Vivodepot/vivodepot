@@ -1,0 +1,66 @@
+{
+  "format": "showcaseDepot/1",
+  "owner": "Katrin Mustermann",
+  "hinweis": "Erfundene Beispielperson für die Vorführung „Patientin“ (Frauenklinik). Feldkennungen in der Schreibweise des Kerns. Kein Name, keine Anschrift, keine Nummer realer Herkunft; Befunde unter documents sind selbst erzeugt (befunde-erzeugen.js). Die Auswahl der Medikamente ist ein Beispiel für eine Vorführung, keine Therapieaussage.",
+  "people": [
+    { "key": "ehemann", "name": "Tobias Mustermann", "beziehung": "Ehemann", "tel": "+49 30 23125010" },
+    { "key": "tochter", "name": "Mia", "beziehung": "Tochter", "yearOfBirthIfTheExactDayIs": "2014" },
+    { "key": "hausarzt", "name": "Praxis am Beispielplatz", "fachrichtung": "Allgemeinmedizin", "tel": "+49 30 23125011", "adresse": "Beispielplatz 1, 10000 Beispielstadt" },
+    { "key": "arbeitgeber", "name": "Beispiel Planungsbüro GmbH", "tel": "+49 30 23125012" }
+  ],
+  "institutions": [
+    { "key": "kasse", "name": "Beispielkasse", "art": "krankenkasse" },
+    { "key": "klinik", "name": "Klinik am Beispielufer, Frauenklinik", "art": "krankenhaus", "tel": "+49 30 23125013" },
+    { "key": "versorgungsamt", "name": "Versorgungsamt Beispielstadt", "art": "behoerde" }
+  ],
+  "fields": {
+    "identity.givenName": "Katrin",
+    "identity.familyName": "Mustermann",
+    "identity.birthDate": "1979-05-09",
+    "people.spouseOrCivilPartner": { "person": "ehemann" },
+    "health.healthInsurance": { "institution": "kasse" },
+    "health.generalPractitioner": { "person": "hausarzt" },
+    "health.emergencyContacts": [{ "person": "ehemann" }],
+    "health.chronicConditionsDiagnoses": [{ "codeListe": "icd10", "text": "Bösartige Neubildung des Ovars" }],
+    "health.medicationOngoing": [
+      { "codeListe": "atc", "text": "Carboplatin" },
+      { "codeListe": "atc", "text": "Paclitaxel" },
+      { "codeListe": "atc", "text": "Ondansetron" }
+    ],
+    "health.allergiesMedicationFoodOther": [{ "codeListe": "snomedAllergen", "text": "Allergie gegen Penicillin" }],
+    "health.ongoingTreatmentNext": "Therapie in der onkologischen Ambulanz der Klinik am Beispielufer, sechs Termine; Anschlussrehabilitation beantragt",
+    "education.employer": { "person": "arbeitgeber" },
+    "assets.additionalTypesOfIncome": ["krankengeld"],
+    "advanceCare.applicableSituations": ["sterbeprozess", "endstadium"],
+    "advanceCare.lifeSustainingMeasures": "unterlassen",
+    "advanceCare.painAndSymptomTreatment": "mit_daempfung",
+    "advanceCare.acceptsLifeShorteningFromPain": "ja",
+    "advanceCare.artificialNutritionAndHydration": "palliativ",
+    "advanceCare.resuscitationInDescribedSituations": "nein",
+    "advanceCare.artificialVentilation": "nein",
+    "advanceCare.placeOfTreatmentOrDeath": "zuhause",
+    "advanceCare.supportFromThesePersons": [{ "person": "ehemann" }],
+    "advanceCare.whoseViewMattersIfUnregulated": "bevollmaechtigt",
+    "advanceCare.validityDuration": "unbefristet"
+  },
+  "lists": {
+    "people.childrenAndDependants": [
+      { "person": { "person": "tochter" }, "type": "leiblich", "legalRepresentationParental": "gemeinsam" }
+    ],
+    "advanceCare.provisionInstruments": [
+      { "instrument": "enduring-power-of-attorney", "typeOfPowerOfAttorney": "vorsorge", "form": "privat", "authorizedPersons": [{ "person": "ehemann" }], "storageLocation": "Ordner „Vorsorge“, Schreibtisch" },
+      { "instrument": "living-will", "form": "privat", "storageLocation": "Ordner „Vorsorge“, Schreibtisch" }
+    ],
+    "administration.ongoingAdministrativeCases": [
+      { "authority": "Beispielkasse", "typeOfCase": "Krankengeld", "start": "2026-07-27", "direction": "bekomme", "frequency": "monatlich" },
+      { "authority": "Versorgungsamt Beispielstadt", "typeOfCase": "Antrag auf Schwerbehindertenausweis", "start": "2026-08-10", "deadline": "2026-10-15", "note": "Befundberichte der Klinik nachreichen" },
+      { "authority": "Beispiel Planungsbüro GmbH", "typeOfCase": "Arbeitsunfähigkeit mitgeteilt", "start": "2026-06-15" }
+    ]
+  },
+  "freigegeben": ["health.healthInsurance", "health.medicationOngoing", "health.allergiesMedicationFoodOther"],
+  "documents": [
+    { "datei": "laborbefund-ca125.json", "autoritativ": true, "datum": "2026-09-02" },
+    { "datei": "entlassbrief.json", "autoritativ": true, "datum": "2026-06-24" },
+    { "datei": "pathologiebefund.pdf", "mime": "application/pdf", "beschriftung": "Pathologischer Befund", "bereich": "health", "datum": "2026-06-22" }
+  ]
+}

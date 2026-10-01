@@ -1,0 +1,58 @@
+{
+  "familie": "xml-xsd",
+  "adapter": null,
+  "standards": [
+    {
+      "id": "gematik-nfd",
+      "name": "Informationsmodell Notfalldaten-Management (NFD und DPE)",
+      "version": "1.7.1",
+      "herausgeber": "gematik",
+      "quelle": {
+        "url": "https://gemspec.gematik.de/docs/gemSpec/gemSpec_InfoNFDM/latest/",
+        "abgerufen": "2026-09-29"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Öffentliche Spezifikation (Klassifizierung öffentlich); übernommen werden nur Merkmale und ihre Bedeutung, kein Text und kein Schema."
+      },
+      "richtung": [
+        "lesen"
+      ],
+      "bereich": "gesundheit",
+      "status": "fehlt",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Vivodepot schreibt keinen NFD: er ist ein ärztlich signierter Datensatz auf der eGK. Vivodepot hält die Angaben als Selbstauskunft bereit und bildet sie auf das IPS ab. Die Merkmale Schwangerschaft (mit errechnetem Entbindungstermin) und Weglaufgefaehrdung (mit Erläuterung, höchstens 175 Zeichen) sind seit v835 Kennungen (health.pregnancy, health.pregnancyEstimatedDueDate, health.wanderingRisk, health.wanderingRiskDetails) und gehen im IPS hinaus; Implantate, Kommunikationsstörungen und sonstige Hinweise hatten schon Kennungen."
+    },
+    {
+      "id": "fim-baukasten-xdatenfelder",
+      "name": "FIM-Baukasten Datenfelder (XDatenfelder 3)",
+      "version": "Abruf 2026-09-28",
+      "herausgeber": "FITKO (Föderale IT-Kooperation)",
+      "quelle": {
+        "url": "https://fimportal.de/",
+        "abgerufen": "2026-09-28"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Für die Inhalte der FIM-Bausteine ist keine Lizenz ausgewiesen (fimportal.de: „© FITKO“, Impressum der FITKO). Im Repo und im Produkt stehen darum nur Kennung, Fassung und Freigabestatus je Baustein; Feldnamen, Beschreibungen und Schemata erst nach Zustimmung der FITKO (U2-ADR-456)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "verwaltung",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [
+        "fim-json"
+      ],
+      "importwege": [],
+      "bezuege": [
+        "fim-baukasten"
+      ],
+      "grund": "Bezug je Depot-Feld auf Kennung, Fassung und Freigabestatus des Baukastens, geprüft gegen die gepinnten XDF-Fassungen (tools/bezuege-erheben.js --quelle) und im Export (tools/fim-export-pruefen.js). Noch kein Datenschema je Leistung und keine Prüfung gegen dessen XSD."
+    }
+  ]
+}

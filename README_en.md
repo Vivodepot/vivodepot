@@ -70,3 +70,7 @@ under [`docs/adr/`](docs/adr/).
 
 ---
 *This is a translation. The German original ([`README.md`](README.md)) governs in case of doubt.*
+
+## Version
+
+Version v843.

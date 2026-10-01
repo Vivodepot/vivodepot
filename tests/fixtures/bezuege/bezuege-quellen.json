@@ -24,6 +24,28 @@
           "sha256": "eb5c9c0fee115f4ad929c9e76667f769cca7f9b9417abeb3eba77ff231f73000"
         }
       ]
+    },
+    {
+      "datensatz": "fim-probe",
+      "paket": "erfunden (XDatenfelder 3)",
+      "fassung": "Abruf 2026-09-30",
+      "bezugsort": "erfunden",
+      "dateien": [
+        {
+          "pfad": "fim-probe/F99000001_V1.0.xdf.xml",
+          "sha256": "0655310ac92aee6ee13659c4f868ee9d041bdaac1da76e624e1eeacdf8dcfb99",
+          "kennung": "F99000001",
+          "fassung": "1.0",
+          "freigabestatus": "fachlich freigegeben (gold)"
+        },
+        {
+          "pfad": "fim-probe/G99000002_V2.0.xdf.xml",
+          "sha256": "be84e0456d198646340022385cf6a64d0193512ad7cdc03f1b0dc581517726d1",
+          "kennung": "G99000002",
+          "fassung": "2.0",
+          "freigabestatus": "in Bearbeitung — nicht fest"
+        }
+      ]
     }
   ]
 }

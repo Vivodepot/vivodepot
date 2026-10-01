@@ -8,6 +8,8 @@ name: Spiegel nach OpenCoDE
 on:
   push:
     branches: [main]
+    # Die Fassungs-Tags (v1.0.8xx) gehen mit; ohne diesen Auslöser erreichten sie OpenCoDE nie (28.09.2026).
+    tags: ['v*']
   workflow_dispatch:
 
 permissions:
@@ -30,4 +32,12 @@ jobs:
             echo "::error::Das Secret OPENCODE_TOKEN fehlt im Repo vivodepot/vivodepot."
             exit 1
           fi
-          git push "https://oauth2:${OPENCODE_TOKEN}@gitlab.opencode.de/vivodepot/vivodepot.git" HEAD:refs/heads/main --force
+          ZIEL="https://oauth2:${OPENCODE_TOKEN}@gitlab.opencode.de/vivodepot/vivodepot.git"
+          # main nur bei einem Push auf main: bei einem Tag-Push steht HEAD auf dem Tag-Commit, und main darf nie
+          # auf einen älteren Stand zurückgehen. Ohne Überschreiben: der öffentliche Verlauf wird nur angehängt; weicht
+          # OpenCoDE ab, schlägt der Push laut fehl, statt still zu überschreiben.
+          if [ "$GITHUB_REF_TYPE" = "branch" ] || [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            git push "$ZIEL" origin/main:refs/heads/main
+          fi
+          # Die Fassungs-Tags, ebenfalls ohne Überschreiben: ein veröffentlichtes Tag bleibt, wie es ist.
+          git push "$ZIEL" 'refs/tags/v*:refs/tags/v*'

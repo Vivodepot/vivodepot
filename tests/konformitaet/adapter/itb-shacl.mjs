@@ -14,28 +14,45 @@
    ShaclValidator2017`). Ob die OFFIZIELLE EDC-Prüfung SHACL genau auf diese Nutzlast anwendet:
    nicht verifiziert. Das Siegel prüft dieser Adapter nicht (eigener Posten, DSS).
 
-   ZWEI WEGE ZUM PRÜFER — beide vorgesehen, keiner heute auf dieser Maschine:
+   DER WEG ZUM PRÜFER (entschieden 28.09.2026: Docker per Digest, gemessen am selben Tag):
    Der ITB SHACL Validator wird offline NUR als Docker-Image verteilt (Release 1.13.0 vom
-   25.09.2026 ohne JAR-Asset; itb.ec.europa.eu/shacl-offline/…/validator.jar → 404;
-   Maven Central ohne Treffer — gemessen 28.09.2026).
-     (a) Docker: Image `isaitb/shacl-validator` per Digest gepinnt → ITB_SHACL_DOCKER_IMAGE
-         (Form `isaitb/shacl-validator@sha256:…`). Das offizielle Artefakt.
-     (b) Eigenbau: Modul `shaclvalidator-jar` aus Tag 1.13.0 (Tag-Objekt b9e8744f) → ITB_SHACL_JAR.
-         Gepinnt ist die QUELLE; der JAR-Hash ist nur Cache-Prüfung, denn der Bau ist nicht
-         reproduzierbar und sein Hash hält darum keinen Pin.
-   Welcher Weg, ist eine Produktentscheidung. Bis dahin ist `vorhanden()` ehrlich „ungemessen", und
-   `urteile()` ruft KEIN Werkzeug mit geratenen Schaltern: der Aufruf wird am echten Werkzeug
-   gemessen, sobald es beschafft ist, und erst dann hier eingetragen.
+   25.09.2026 ohne JAR-Asset; itb.ec.europa.eu/shacl-offline/…/validator.jar → 404; Maven Central
+   ohne Treffer — gemessen 28.09.2026). Gepinnt ist das Image `isaitb/shacl-validator` per Digest
+   (WERKZEUG.docker), das Image ist für arm64 und amd64 gebaut. Ein anderes Image nur über
+   ITB_SHACL_DOCKER_IMAGE und nur mit Digest.
+   Beschaffen (Image ziehen, Shapes und Kontexte in den Cache, je SHA-256 geprüft):
+     node tools/itb-shacl-beschaffen.mjs
+   Die Suite zieht nie selbst: fehlt etwas, ist der Lauf „ungemessen" (todo), nie grün.
+
+   DER AUFRUF, WIE ER GEMESSEN IST: Ein Container ohne Netz (`--network none`) trägt die
+   Domäne `edc` (config.properties + beide Shapes aus dem Cache, read-only eingehängt). Ohne Netz
+   gibt es keine Port-Weiterleitung, und im Image fehlen curl und ein Java-Compiler. Die Anfrage an
+   die REST-Schnittstelle (`POST /shacl/edc/api/validate`, Inhalt BASE64, Bericht als JSON) geht
+   darum per `docker exec` über bash `/dev/tcp` im Container selbst. Der Container beendet sich nach
+   15 Minuten selbst (`timeout`), falls ein Lauf abbricht, bevor aufraeumen() ihn stoppt.
 
    JSON-LD VOR SHACL: SHACL prüft RDF. Die Kontexte (w3.org/2018/credentials/v1, edc-ap) sind
    gepinnt und werden lokal aufgelöst, nie über das Netz. Der edc-ap-Kontext ist die Fassung,
    auf die die amtliche Adresse heute auflöst (Cellar `20230928-0`) — sie weicht von der
    Repo-Kopie am Commit 9d7c5d22 ab (Tippfehler resultDestribution korrigiert, vier Begriffe
    dazu, nationalID geändert; gemessen 28.09.2026).
+   GEMESSEN (28.09.2026): Ohne Netz lehnt ITB ein Credential mit Kontext-ADRESSEN ab
+   („The document could not be loaded or parsed [code=LOADING_DOCUMENT_FAILED]"). „Lokal
+   aufgelöst" heißt darum: urteile() ersetzt jede gepinnte Kontext-Adresse durch den Inhalt der
+   gepinnten Datei (`@context`), sonst bleibt alles, wie der Kern es herausgab. Eine Adresse ohne
+   Pin ist kein Urteil, sondern ein Fehler.
+
+   DAS UNGESIEGELTE EU-BEISPIEL IST EIN ENTWURF (gemessen 28.09.2026): ihm fehlen `issued` und der
+   `eidasLegalIdentifier` des Ausstellers; beides kommt erst mit der Siegelung, die gesiegelte
+   Fassung derselben Urkunde trägt beides. edc-generic-full verlangt beides (EDC-generic-no-cv.ttl:
+   IssuerNodeShape, elm:eidasLegalIdentifier sh:minCount 1; cred:issued sh:minCount 1), ITB lehnt
+   den Entwurf mit genau diesen zwei Verstößen ab. Er steht darum als `ungueltig` mit Grund da —
+   gemessen, nicht erwartet. Der Kern verwahrt ihn trotzdem: die Bürgerin behält, was sie hat.
    ═════════════════════════════════════════════════════════════════════════ */
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -62,23 +79,124 @@ export const ARTEFAKTE = Object.freeze([
     sha256: 'ab4ddd9a531758807a79a5b450510d61ae8d147eab966cc9a200c07095b0cdcc', kontextFuer: 'https://www.w3.org/2018/credentials/v1' },
 ]);
 
+// Digest gemessen am 28.09.2026 (hub.docker.com/v2/repositories/isaitb/shacl-validator/tags, Tag 1.13.0;
+// `docker pull` bestätigt denselben Digest). Das ist das offizielle Artefakt der Kommission.
 export const WERKZEUG = Object.freeze({
   version: '1.13.0',
-  docker: { image: 'isaitb/shacl-validator', digest: null /* Pin beim Beschaffen */ },
-  eigenbau: { repo: 'https://github.com/ISAITB/shacl-validator', tag: '1.13.0', tagObjekt: 'b9e8744f8597743d763d251f7ba438a768ec1ae1', modul: 'shaclvalidator-jar' },
+  docker: { image: 'isaitb/shacl-validator', digest: 'sha256:877d7e696a19c215b1104a6c69bb4e0744365f8eed906c3f6cf52f4ff70c2eea' },
 });
+export const IMAGE = WERKZEUG.docker.image + '@' + WERKZEUG.docker.digest;
+const SHAPES = [
+  { artefakt: 'edc-ap-shapes-generic-full-1.1.0', datei: 'EDC-generic-full.ttl' },
+  { artefakt: 'edc-ap-shapes-generic-no-cv-1.1.0', datei: 'EDC-generic-no-cv.ttl' },
+];
 
 const BEISPIELE = [
-  { datei: 'edci-europass-certofpart-signed.jsonld', warum: 'Teilnahmezertifikat, gesiegelt (JWS, RFC 7797)' },
-  { datei: 'edci-europass-certofpart-unsigned.jsonld', warum: 'Teilnahmezertifikat, ungesiegelt' },
-  { datei: 'edci-europass-mc-signed.jsonld', warum: 'Micro-Credential, gesiegelt' },
+  { datei: 'edci-europass-certofpart-signed.jsonld', erwartet: 'gueltig', warum: 'Teilnahmezertifikat, gesiegelt (JWS, RFC 7797)' },
+  { datei: 'edci-europass-certofpart-unsigned.jsonld', erwartet: 'ungueltig',
+    warum: 'Teilnahmezertifikat, ungesiegelter Entwurf: ohne issued und ohne eidasLegalIdentifier des Ausstellers (s. Kopf)' },
+  { datei: 'edci-europass-mc-signed.jsonld', erwartet: 'gueltig', warum: 'Micro-Credential, gesiegelt' },
 ];
 
 let _arbeit = null;
+let _dienst = null;   // { name } des laufenden Prüf-Containers, einmal je Prozess gestartet
 function arbeit() { return _arbeit || (_arbeit = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-itb-shacl-'))); }
-// Wer artefakte()/kaputt() gerufen hat, räumt danach das Arbeitsverzeichnis weg.
+// Wer artefakte()/kaputt()/urteile() gerufen hat, räumt danach Container und Arbeitsverzeichnis weg.
 export function aufraeumen() {
+  if (_dienst) { try { execFileSync(_dienst.docker, ['rm', '-f', _dienst.name], { stdio: 'ignore', timeout: 30000 }); } catch (_) { /* schon weg */ } _dienst = null; }
   if (_arbeit) { fs.rmSync(_arbeit, { recursive: true, force: true }); _arbeit = null; }
+}
+
+// Der Cache der gepinnten Daten (Shapes, Kontexte) — außerhalb des Baums, gefüllt von tools/itb-shacl-beschaffen.mjs.
+export function cacheVerzeichnis() {
+  return process.env.ITB_SHACL_CACHE || path.join(os.homedir(), '.cache', 'vivodepot', 'itb-shacl');
+}
+const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
+function cacheDatei(artefakt) { return path.join(cacheVerzeichnis(), artefakt.id); }
+// null, wenn jede gepinnte Datei im Cache liegt und ihre Prüfsumme trägt; sonst der Grund.
+function cacheMangel() {
+  for (const x of ARTEFAKTE) {
+    const p = cacheDatei(x);
+    if (!fs.existsSync(p)) return x.id + ' fehlt im Cache ' + cacheVerzeichnis();
+    if (sha256(fs.readFileSync(p)) !== x.sha256) return x.id + ': SHA-256 weicht vom Pin ab';
+  }
+  return null;
+}
+// Beschaffung, nur von Hand oder aus dem Werkzeug — nie aus der Suite: Image per Digest ziehen, Daten laden und prüfen.
+export async function beschaffen({ ausgabe = () => {} } = {}) {
+  fs.mkdirSync(cacheVerzeichnis(), { recursive: true });
+  for (const x of ARTEFAKTE) {
+    const p = cacheDatei(x);
+    if (fs.existsSync(p) && sha256(fs.readFileSync(p)) === x.sha256) { ausgabe('vorhanden ' + x.id); continue; }
+    const r = await fetch(x.url, { redirect: 'follow' });
+    if (!r.ok) throw new Error(x.id + ': HTTP ' + r.status + ' von ' + x.url);
+    const buf = Buffer.from(await r.arrayBuffer());
+    if (sha256(buf) !== x.sha256) throw new Error(x.id + ': SHA-256 ' + sha256(buf) + ' ≠ Pin ' + x.sha256);
+    fs.writeFileSync(p, buf);
+    ausgabe('geladen ' + x.id);
+  }
+  const docker = dockerPfad();
+  if (!docker) throw new Error('Docker nicht gefunden');
+  execFileSync(docker, ['pull', bild()], { stdio: 'inherit' });
+  ausgabe('Image ' + bild());
+}
+
+// Docker Desktop legt die Kommandozeile nach ~/.docker/bin und verlinkt sie nicht immer in den PATH.
+function dockerPfad() {
+  const kandidaten = ['docker', path.join(os.homedir(), '.docker', 'bin', 'docker'), '/usr/local/bin/docker',
+    '/Applications/Docker.app/Contents/Resources/bin/docker'];
+  for (const k of kandidaten) {
+    try { execFileSync(k, ['version', '--format', '{{.Server.Version}}'], { stdio: 'ignore', timeout: 20000 }); return k; } catch (_) { /* nächster */ }
+  }
+  return null;
+}
+function bild() { return process.env.ITB_SHACL_DOCKER_IMAGE || IMAGE; }
+
+// Synchron warten, ohne CPU zu brennen (urteile() ist synchron wie bei allen Adaptern).
+function schlafe(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
+
+function dienstStarten(docker) {
+  if (_dienst) return _dienst;
+  const res = path.join(arbeit(), 'resources');
+  fs.mkdirSync(path.join(res, 'edc', 'shapes'), { recursive: true });
+  for (const sh of SHAPES) fs.copyFileSync(cacheDatei(ARTEFAKTE.find((x) => x.id === sh.artefakt)), path.join(res, 'edc', 'shapes', sh.datei));
+  fs.writeFileSync(path.join(res, 'edc', 'config.properties'), [
+    'validator.type = edc-ap',
+    'validator.shaclFile.edc-ap = ' + SHAPES.map((sh) => 'shapes/' + sh.datei).join(', '),
+    'validator.channels = rest_api',
+    'validator.loadImports = false',
+    '',
+  ].join('\n'));
+  const name = 'vd-itb-shacl-' + process.pid + '-' + crypto.randomBytes(3).toString('hex');
+  execFileSync(docker, ['run', '-d', '--rm', '--name', name, '--network', 'none',
+    '--label', 'vivodepot.pruefer=itb-shacl',
+    '-v', res + ':/validator/resources:ro', '-e', 'validator.resourceRoot=/validator/resources/',
+    '--entrypoint', 'timeout', bild(),
+    '900', 'java', '-XX:+ExitOnOutOfMemoryError', '-jar', '/validator/validator.jar'], { stdio: 'ignore', timeout: 60000 });
+  _dienst = { docker, name };
+  const bis = Date.now() + 90000;
+  while (Date.now() < bis) {
+    let log = '';
+    try { log = execFileSync(docker, ['logs', name], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], timeout: 20000 }); } catch (e) { log = String((e.stdout || '') + (e.stderr || '')); }
+    if (/Started Application/.test(log)) return _dienst;
+    schlafe(500);
+  }
+  throw new Error('ITB-Container ' + name + ' nicht in 90 s bereit');
+}
+
+// Gepinnte Kontext-Adressen durch den Inhalt der gepinnten Datei ersetzen (s. Kopf: ohne Netz die einzige Auflösung).
+export function kontexteEinbetten(json) {
+  const o = JSON.parse(json);
+  const fehlend = [];
+  const ersetze = (v) => {
+    if (Array.isArray(v)) return v.map(ersetze);
+    if (typeof v !== 'string') return v;
+    const pin = ARTEFAKTE.find((x) => x.kontextFuer === v);
+    if (!pin) { fehlend.push(v); return v; }
+    return JSON.parse(fs.readFileSync(cacheDatei(pin), 'utf8'))['@context'];
+  };
+  o['@context'] = ersetze(o['@context']);
+  return { json: JSON.stringify(o), fehlend };
 }
 
 // Die SHACL-Eingabe: bei einer JWS-Hülle die Nutzlast (Credential-JSON-LD), sonst die Datei selbst.
@@ -87,9 +205,6 @@ export function shaclEingabe(bytes) {
   return typeof o.payload === 'string' ? o.payload : JSON.stringify(o);
 }
 
-function befehlDa(befehl, args) {
-  try { execFileSync(befehl, args, { stdio: 'ignore', timeout: 20000 }); return true; } catch (_) { return false; }
-}
 
 export default {
   id: 'itb-shacl',
@@ -101,23 +216,42 @@ export default {
   standards: ['edc-ap'],
 
   vorhanden() {
-    const image = process.env.ITB_SHACL_DOCKER_IMAGE || '';
-    const jar = process.env.ITB_SHACL_JAR || '';
-    if (image) {
-      if (!/@sha256:[0-9a-f]{64}$/.test(image)) return { ok: false, grund: 'ITB_SHACL_DOCKER_IMAGE ohne Digest-Pin (…@sha256:<64 hex>)' };
-      if (!befehlDa('docker', ['version'])) return { ok: false, grund: 'Docker nicht gefunden' };
-      return { ok: false, grund: 'Docker-Weg gewählt, Aufruf noch nicht am echten Werkzeug gemessen (U2-ADR-443)' };
-    }
-    if (jar) {
-      if (!fs.existsSync(jar)) return { ok: false, grund: 'ITB_SHACL_JAR zeigt ins Leere: ' + jar };
-      return { ok: false, grund: 'Eigenbau-Weg gewählt, Aufruf noch nicht am echten Werkzeug gemessen (U2-ADR-443)' };
-    }
-    return { ok: false, grund: 'ITB-SHACL-Validator nicht beschafft — weder ITB_SHACL_DOCKER_IMAGE noch ITB_SHACL_JAR gesetzt; Weg ist offen (Docker per Digest oder Eigenbau aus Tag 1.13.0)' };
+    const image = bild();
+    if (!/@sha256:[0-9a-f]{64}$/.test(image)) return { ok: false, grund: 'ITB_SHACL_DOCKER_IMAGE ohne Digest-Pin (…@sha256:<64 hex>)' };
+    if (process.env.ITB_SHACL_AUS) return { ok: false, grund: 'ITB-SHACL-Validator abgeschaltet (ITB_SHACL_AUS) — nicht beschafft für diesen Lauf' };
+    const mangel = cacheMangel();
+    if (mangel) return { ok: false, grund: 'ITB-SHACL-Daten nicht beschafft: ' + mangel + ' — node tools/itb-shacl-beschaffen.mjs' };
+    const docker = dockerPfad();
+    if (!docker) return { ok: false, grund: 'ITB-SHACL-Validator nicht beschafft: Docker fehlt oder läuft nicht' };
+    try { execFileSync(docker, ['image', 'inspect', image], { stdio: 'ignore', timeout: 20000 }); }
+    catch (_) { return { ok: false, grund: 'ITB-SHACL-Validator nicht beschafft: Image ' + image + ' fehlt lokal — node tools/itb-shacl-beschaffen.mjs' }; }
+    return { ok: true, docker, image };
   },
 
-  // Bis der Aufruf am echten Werkzeug gemessen ist: kein Urteil, nie ein geratenes Grün.
-  urteile(/* umgebung, dateiPfad, standardId */) {
-    return { gelesen: false, gueltig: false, fehler: ['Aufruf des ITB-SHACL-Validators noch nicht gemessen — kein Urteil'] };
+  // Gemessen am echten Werkzeug (28.09.2026): REST, Inhalt BASE64, Bericht im GITB-TRL-JSON
+  // (`result` SUCCESS/FAILURE, `reports.error[]` mit description/location). Ohne Werkzeug: kein Urteil.
+  urteile(umgebung, dateiPfad, standardId) {
+    if (!umgebung || !umgebung.ok) return { gelesen: false, gueltig: false, fehler: ['ITB-SHACL-Validator nicht beschafft — kein Urteil'] };
+    if (standardId !== 'edc-ap') return { gelesen: false, gueltig: false, fehler: ['Standard ' + standardId + ' urteilt dieser Adapter nicht'] };
+    const { json, fehlend } = kontexteEinbetten(fs.readFileSync(dateiPfad, 'utf8'));
+    if (fehlend.length) return { gelesen: false, gueltig: false, fehler: ['Kontext ohne Pin: ' + fehlend.join(', ')] };
+    const d = dienstStarten(umgebung.docker);
+    const koerper = JSON.stringify({ contentToValidate: Buffer.from(json, 'utf8').toString('base64'), embeddingMethod: 'BASE64',
+      contentSyntax: 'application/ld+json', validationType: 'edc-ap', reportSyntax: 'application/json' });
+    const anfrage = 'POST /shacl/edc/api/validate HTTP/1.0\r\nHost: 127.0.0.1\r\nContent-Type: application/json\r\n'
+      + 'Content-Length: ' + Buffer.byteLength(koerper) + '\r\n\r\n' + koerper;
+    let antwort;
+    try {
+      antwort = execFileSync(d.docker, ['exec', '-i', d.name, 'bash', '-c', 'exec 3<>/dev/tcp/127.0.0.1/8080; cat >&3; cat <&3'],
+        { input: anfrage, encoding: 'utf8', timeout: 120000, maxBuffer: 64 * 1024 * 1024 });
+    } catch (e) { return { gelesen: false, gueltig: false, fehler: ['Aufruf gescheitert: ' + e.message] }; }
+    const trenn = antwort.indexOf('\r\n\r\n');
+    const status = /^HTTP\/1\.[01] (\d{3})/.exec(antwort);
+    if (!status || status[1] !== '200' || trenn < 0) return { gelesen: false, gueltig: false, fehler: ['ITB antwortet ' + antwort.slice(0, 300)] };
+    let bericht;
+    try { bericht = JSON.parse(antwort.slice(trenn + 4)); } catch (_) { return { gelesen: false, gueltig: false, fehler: ['Bericht kein JSON'] }; }
+    const fehler = ((bericht.reports && bericht.reports.error) || []).map((x) => (x.description || '') + ' — ' + (x.location || ''));
+    return { gelesen: true, gueltig: bericht.result === 'SUCCESS' && fehler.length === 0, fehler };
   },
 
   async artefakte() {
@@ -136,10 +270,10 @@ export default {
       const name = b.datei.replace(/\.jsonld$/, '');
       const pKern = path.join(arbeit(), name + '.kern-rundweg.jsonld');
       fs.writeFileSync(pKern, shaclEingabe(raus));
-      faelle.push({ name: name + '·kern-rundweg', standard: 'edc-ap', pfad: pKern, erwartet: 'gueltig', herkunft: 'kern-rundweg', warum: b.warum + ' — was der Kern nach dem Verwahren herausgibt' });
+      faelle.push({ name: name + '·kern-rundweg', standard: 'edc-ap', pfad: pKern, erwartet: b.erwartet, herkunft: 'kern-rundweg', warum: b.warum + ' — was der Kern nach dem Verwahren herausgibt' });
       const pRoh = path.join(arbeit(), name + '.offizielles-beispiel.jsonld');
       fs.writeFileSync(pRoh, shaclEingabe(roh));
-      faelle.push({ name: name + '·offizielles-beispiel', standard: 'edc-ap', pfad: pRoh, erwartet: 'gueltig', herkunft: 'offizielles-beispiel', warum: b.warum + ' — die EU-Datei selbst (Kontrolle der Shapes)' });
+      faelle.push({ name: name + '·offizielles-beispiel', standard: 'edc-ap', pfad: pRoh, erwartet: b.erwartet, herkunft: 'offizielles-beispiel', warum: b.warum + ' — die EU-Datei selbst (Kontrolle der Shapes)' });
     }
     return faelle;
   },

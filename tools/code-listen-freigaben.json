@@ -42,7 +42,7 @@
       "lizenzQuelle": { "url": "https://www.xrepository.de/", "fassung": "Nutzungsbedingungen des XRepository", "abgerufen": "2026-09-27" },
       "standard": {
         "art": "eigen",
-        "begruendung": "Übergang: die Standard-Liste ist angefragt; bis zur Genehmigung trägt die Liste keine Daten und behält ihre bisherige Kennung. Mit der Genehmigung wechselt sie auf die Kennung der Standard-Liste.",
+        "begruendung": "Übergang: die Standard-Liste ist angefragt; bis zur Genehmigung trägt die Liste keine Daten und eine eigene Kennung im Namensraum urn:vivodepot (der Namensraum urn:xoev-de gehört der KoSIT und wird von Vivodepot nicht belegt). Mit der Genehmigung wechselt sie auf die Kennung der Standard-Liste.",
         "gepruefteStandards": ["urn:xoev-de:xjustiz:codeliste:gds.rollenbezeichnung"]
       }
     }

@@ -1,7 +1,9 @@
 {
   "systemId": "atc",
-  "uri": "http://www.whocc.no/atc",
+  "uri": "http://fhir.de/CodeSystem/bfarm/atc",
+  "aliasUris": ["http://www.whocc.no/atc"],
   "version": "ATC-GM-2026-amtlich",
+  "codingVersion": "2026",
   "kuerzel": "ATC",
   "anzeigeNameEigen": true,
   "lizenzWortlaut": "atc-gm-quellenangabe.txt",
@@ -15,6 +17,9 @@
     { "code": "C09AA05", "anzeigeName": "Ramipril", "kategorie": "ACE-Hemmer" },
     { "code": "A10BA02", "anzeigeName": "Metformin", "kategorie": "Antidiabetikum" },
     { "code": "M01AE01", "anzeigeName": "Ibuprofen", "kategorie": "Schmerzmittel" },
-    { "code": "N02BE01", "anzeigeName": "Paracetamol", "kategorie": "Schmerzmittel" }
+    { "code": "N02BE01", "anzeigeName": "Paracetamol", "kategorie": "Schmerzmittel" },
+    { "code": "L01XA02", "anzeigeName": "Carboplatin", "kategorie": "Zytostatikum" },
+    { "code": "L01CD01", "anzeigeName": "Paclitaxel", "kategorie": "Zytostatikum" },
+    { "code": "A04AA01", "anzeigeName": "Ondansetron", "kategorie": "Antiemetikum" }
   ]
 }

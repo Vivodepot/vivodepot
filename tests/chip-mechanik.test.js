@@ -32,7 +32,8 @@ test('1) chipAusEingabe: exakter Listen-Treffer → Chip mit Code; freier Text �
   const { V } = ladeKern();
   const codiert = V.chipAusEingabe('atc', 'Ramipril');
   assert.equal(codiert.text, 'Ramipril');
-  assert.equal(codiert.code.system, 'http://www.whocc.no/atc');
+  assert.equal(codiert.code.system, 'http://fhir.de/CodeSystem/bfarm/atc');   // seit Schema 90 die URI des Basisprofils DE
+  assert.equal(codiert.code.version, '2026', 'die Fassung der Liste, gegen die gematcht wurde');
   assert.equal(codiert.code.code, 'C09AA05');
   const frei = V.chipAusEingabe('atc', 'Hausstaub');
   assert.deepEqual(JSON.parse(JSON.stringify(frei)), { text: 'Hausstaub' }, 'kein code-Feld bei Freitext');
@@ -128,7 +129,8 @@ test('8) Migration Schema 37→38: codierter Alt-Einzelwert (Paket 3) → EIN Ch
   V.depotNormalisieren(alt);
   assert.equal(alt.schemaVersion, V.SCHEMA_VERSION_AKTUELL);
   assert.deepEqual(JSON.parse(JSON.stringify(alt.sektoren.health.medicationOngoing)),
-    [{ text: 'Ramipril', code: { system: 'http://www.whocc.no/atc', code: 'C09AA05' } }]);
+    // Stufe 90 schreibt die frühere WHO-URI auf die kanonische um; die Fassung eines Altwerts bleibt offen.
+    [{ text: 'Ramipril', code: { system: 'http://fhir.de/CodeSystem/bfarm/atc', code: 'C09AA05' } }]);
 });
 
 test('9) Migration Schema 37→38: leer bleibt leer; bereits migriert (Array) bleibt unangetastet (idempotent)', () => {

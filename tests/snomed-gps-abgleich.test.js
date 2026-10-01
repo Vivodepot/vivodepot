@@ -30,7 +30,9 @@ test('[SNOMED·GPS-Abgleich] ohne Argument grün gegen die Fixture', () => {
 
 test('[SNOMED·GPS-Abgleich] jede freigegebene Kennung im Repo nennt ihren GPS-Release und ist dort aktiv', () => {
   const frei = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'snomed-freigabe.json'), 'utf8')).freigegeben;
-  const ohne = Object.entries(frei).filter(([, e]) => !e.gps || e.gps.aktiv !== true || !/^\d{8}$/.test(e.gps.release || '')).map(([id]) => id);
+  // Seit U2-ADR-446: genau der gepinnte Release (tools/standards-artefakte.json), nicht irgendeiner.
+  const pin = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', 'standards-artefakte.json'), 'utf8')).find((a) => a.id.startsWith('snomed-gps-')).version;
+  const ohne = Object.entries(frei).filter(([, e]) => !e.gps || e.gps.aktiv !== true || e.gps.release !== pin).map(([id]) => id);
   assert.deepEqual(ohne, []);
 });
 

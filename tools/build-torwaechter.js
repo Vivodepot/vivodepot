@@ -103,6 +103,15 @@ function terminologieUris() {
   const { V } = ladeKern();
   return [...V._GEFUEHRTE_TERMINOLOGIE_URIS()].sort();
 }
+/* Frühere URIs je Liste (aliasUris, Schema 90): der Kern prüft eine Vorlage gegen die KANONISCHE URI
+   (kanonischesCodeSystem). Das Tor braucht dieselbe Abbildung, als Daten aus demselben geladenen Kern. */
+function aliasUrisAusKern() {
+  const { ladeKern } = require('../tests/load-kern.js');
+  const { V } = ladeKern();
+  const paare = [];
+  for (const l of Object.values(V.CODE_LISTEN)) for (const a of (l.aliasUris || [])) if (l.uri) paare.push([a, l.uri]);
+  return paare.sort((x, y) => x[0].localeCompare(y[0]));
+}
 
 /* Die nativen Situationen als DATEN (16.09.2026) — `situation` ist die Alternative zu `bereich`
    (U2-ADR-246). Wie bei den Bereichen eine benannte Liste, kein freies Ziel. Angedockte
@@ -113,7 +122,7 @@ function situationIds() {
   return V.SITUATIONEN.map((s) => s.id);
 }
 
-function generatorRegion(teile, uris, situationen) {
+function generatorRegion(teile, uris, situationen, aliasUris) {
   return [
     BEGIN,
     '/* WÖRTLICH aus vivodepot.html erzeugt — nicht von Hand bearbeiten. Der Kern ist der',
@@ -123,6 +132,8 @@ function generatorRegion(teile, uris, situationen) {
     'const KERN_TORWAECHTER = (function () {',
     '  const _GEFUEHRTE_URIS = new Set(' + JSON.stringify(uris) + ');',
     '  function _GEFUEHRTE_TERMINOLOGIE_URIS() { return _GEFUEHRTE_URIS; }',
+    '  const _aliasUris = new Map(' + JSON.stringify(aliasUris || []) + ');',
+    '  function kanonischesCodeSystem(uri) { return (typeof uri === \'string\' && _aliasUris.get(uri.trim())) || uri; }',
     '  const _SITUATION_IDS = Object.freeze(' + JSON.stringify(situationen || []) + ');',
     teile.sprachform.split('\n').map((z) => '  ' + z).join('\n'),
     teile.schluessel.split('\n').map((z) => '  ' + z).join('\n'),
@@ -150,7 +161,7 @@ function main() {
   const iG = process.argv.indexOf('--generator');
   const nurGenerator = iG >= 0 && process.argv[iG + 1] ? path.resolve(process.argv[iG + 1]) : null;
   const teile = torwaechterAusKern(fs.readFileSync(KERN, 'utf8'));
-  const region = generatorRegion(teile, terminologieUris(), situationIds());
+  const region = generatorRegion(teile, terminologieUris(), situationIds(), aliasUrisAusKern());
 
   const ziel = nurGenerator || GENERATOR;
   const q = fs.readFileSync(ziel, 'utf8');
