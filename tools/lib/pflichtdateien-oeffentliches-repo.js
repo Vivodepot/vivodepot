@@ -31,10 +31,25 @@
 
 // openCode verlangt publiccode.yml und eine OSI-Lizenz; REUSE wird empfohlen.
 // Der Rest ist die übliche Ausstattung, die eine Leserin erwartet.
+// `.gitlab-ci.yml` (01.10.2026): die openCoDE-Badges zählen CI-Pipelines (CI_PIPELINES); ohne die Datei läuft auf openCoDE
+// keine. Sie prüft publiccode.yml mit dem offiziellen Parser und fährt die Tests.
 const KONVENTION_PFLICHT = Object.freeze([
   'LICENSE', 'LICENSE.md', 'LICENSING.md', 'NOTICE.md', 'README.md',
   'SECURITY.md', 'CITATION.cff', 'publiccode.yml', 'CONTRIBUTING.md',
-  'CODE_OF_CONDUCT.md', 'CHANGELOG.md',
+  'CODE_OF_CONDUCT.md', 'CHANGELOG.md', '.gitlab-ci.yml',
 ]);
 
-module.exports = { KONVENTION_PFLICHT };
+/* Schreibweisen, von denen EINE genügt (s. Kopf). */
+const EINE_VON = Object.freeze([Object.freeze(['LICENSE', 'LICENSE.md'])]);
+
+/* Welche Pflichtdateien in einem Bestand (Liste der Wurzel-Dateinamen) fehlen. Liefert die Namen; für eine Gruppe aus
+   EINE_VON die Gruppe als „A | B“, wenn keine ihrer Schreibweisen da ist. */
+function pflichtdateienFehlend(wurzelDateien) {
+  const da = new Set(wurzelDateien);
+  const inGruppe = new Set(EINE_VON.flat());
+  const fehlt = KONVENTION_PFLICHT.filter((f) => !inGruppe.has(f) && !da.has(f));
+  for (const g of EINE_VON) if (!g.some((f) => da.has(f))) fehlt.push(g.join(' | '));
+  return fehlt;
+}
+
+module.exports = { KONVENTION_PFLICHT, EINE_VON, pflichtdateienFehlend };

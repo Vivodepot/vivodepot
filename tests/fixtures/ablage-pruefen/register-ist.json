@@ -14,6 +14,7 @@
     "rechtsraumregister.json.sha256",
     "sprachregister.json",
     "sprachregister.json.sha256",
+    "studio.html",
     "v718/brandingregister.json",
     "v718/brandingregister.json.sha256",
     "v718/feldregister.json",
@@ -27,6 +28,7 @@
     "v718/rechtsraumregister.json",
     "v718/rechtsraumregister.json.sha256",
     "v718/sprachregister.json",
-    "v718/sprachregister.json.sha256"
+    "v718/sprachregister.json.sha256",
+    "v718/studio.html"
   ]
 }

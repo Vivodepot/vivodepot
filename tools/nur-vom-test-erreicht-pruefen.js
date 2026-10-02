@@ -56,7 +56,7 @@ const KERN = process.env.KERN_HTML_PATH
   ? path.resolve(process.env.KERN_HTML_PATH) : path.join(REPO, 'vivodepot.html');
 const GRUNDLINIE = path.join(REPO, 'tools', 'nur-vom-test-erreicht-grundlinie.json');
 const GESCHWISTER = ['vivodepot-lesen.html', 'vivodepot-vc-issuer.html',
-  'vivodepot-template-generator.html', 'vivodepot-krypto-kern-PORT-VERBATIM.js'];
+  'vivodepot-studio.html', 'vivodepot-krypto-kern-PORT-VERBATIM.js'];
 
 const argv = process.argv.slice(2);
 

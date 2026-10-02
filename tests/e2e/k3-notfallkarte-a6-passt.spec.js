@@ -32,6 +32,9 @@ async function vollBefuellt(page) {
     O.sektorFeldSetzen('emergencyPreparedness', 'specialSituation', lang);
     O.sektorFeldSetzen('emergencyPreparedness', 'noteForEmergencyResponders', lang);
     O.sektorFeldSetzen('health', 'bloodType', 'A+');
+    // v845 (01.10.2026): die Vorsorgevollmacht mit bevollmächtigter Person und Ablageort — die zwei Karten-Zeilen der Vollmacht.
+    O.listenEintragHinzufuegen('advanceCare', 'provisionInstruments', { instrument: 'enduring-power-of-attorney', authorizedPersons: [{ ref: deniz }],
+      storageLocation: 'Urschrift im Schreibtisch, mittlere Schublade; Kopie beim Sohn' });
   }, LANG);
 }
 
@@ -43,9 +46,11 @@ test('[K3·A6] alle neuen Felder maximal gefüllt: die Notfallkarte bleibt eine 
     const doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a6' });
     O.zeichneNotfallkarte(doc, zeilen, O.notfallKartenMeta(), null);
     return { seiten: doc.internal.getNumberOfPages(), zeilen: zeilen.length,
-      gekuerzt: zeilen.filter((z) => /vollständig in der Datei/.test(String(z.wert))).length };
+      gekuerzt: zeilen.filter((z) => /vollständig in der Datei/.test(String(z.wert))).length,
+      ablage: zeilen.some((z) => /mittlere Schublade/.test(String(z.wert)) && /Vorsorgevollmacht/.test(String(z.label))) };
   });
   expect(r.gekuerzt, 'beide Freitexte stehen gekürzt auf der Karte').toBe(2);
+  expect(r.ablage, 'der Ablageort der Vorsorgevollmacht steht mit seinem Instrument auf der Karte (v845)').toBe(true);
   expect(r.seiten, 'die Karte passt auf eine A6-Seite (' + r.zeilen + ' Zeilen)').toBe(1);
 });
 

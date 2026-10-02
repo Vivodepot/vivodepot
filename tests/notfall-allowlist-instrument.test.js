@@ -58,7 +58,8 @@ test('§5b Nachweispflicht: JEDES Allowlist-Feld kommt am Notfall-Pfad an', () =
     { id: 'p1', instrument: 'living-will', organDonation: 'ja', storageLocation: 'beim Hausarzt', dateOfLastChange: '2025-06-01' },
     // N2 Zug 3: zweites Instrument, damit `bevollmaechtigter` (typ enduring-power-of-attorney) einen
     // eigenen Selektor-Treffer hat — dieselbe genauEine-Regel wie beim Patientenverfügung-Typ.
-    { id: 'p2', instrument: 'enduring-power-of-attorney', authorizedPersons: [{ ref: '', override: 'Peter Muster' }], dateOfLastChange: '2025-06-01' },
+    // v845 (01.10.2026): der Ablageort der Vorsorgevollmacht steht seit dem Nachtrag zu §5 ebenfalls auf der Karte.
+    { id: 'p2', instrument: 'enduring-power-of-attorney', authorizedPersons: [{ ref: '', override: 'Peter Muster' }], storageLocation: 'Schreibtisch, mittlere Schublade', dateOfLastChange: '2025-06-01' },
   ]));
   const zeilen = V.notfallKernModell();
   const werte = zeilen.map(z => String(z.wert)).join(' | ');
@@ -82,6 +83,11 @@ test('§5b Nachweispflicht: JEDES Allowlist-Feld kommt am Notfall-Pfad an', () =
   assert.ok(werte.includes('A123456789'), 'Versichertennummer fehlt am Notfall-Pfad');
   assert.ok(werte.includes('Dr. Weber'), 'Hausarzt fehlt am Notfall-Pfad');
   assert.ok(werte.includes('Peter Muster'), 'bevollmächtigte Person fehlt am Notfall-Pfad');
+  // v845 (01.10.2026, Nachtrag U2-ADR-096 §5): der Ablageort der Vorsorgevollmacht, mit dem Instrument im Label —
+  // sonst stünde auf der Karte ein „Ablageort“ ohne Bezug neben dem der Patientenverfügung.
+  const ablage = zeilen.find((z) => String(z.wert) === 'Schreibtisch, mittlere Schublade');
+  assert.ok(ablage, 'Ablageort der Vorsorgevollmacht fehlt am Notfall-Pfad');
+  assert.match(String(ablage.label), /Vorsorgevollmacht/, 'die Ablageort-Zeile nennt ihr Instrument: ' + ablage.label);
 
   // 25.09.2026 — zwei neue Allowlist-Felder: die Ablehnung der Notvertretung durch Ehegatten und ihre Eintragung.
   const labels = zeilen.map(z => z.label).join(' | ');
@@ -102,7 +108,7 @@ test('§5b Nachweispflicht: JEDES Allowlist-Feld kommt am Notfall-Pfad an', () =
   assert.ok(werte.includes('verlässt nachts die Wohnung'), 'Umstände der Weglaufgefährdung fehlen am Notfall-Pfad');
 
   // Die Allowlist ist vollständig abgedeckt: kein Eintrag ohne Nachweis oben.
-  assert.equal(V.NOTFALL_KERN_FELDER.length, 27, 'Allowlist-Umfang geändert — jede Änderung braucht einen Nachweis oben (die fünf neuen Felder aus N2 Zug 3 sind es)');
+  assert.equal(V.NOTFALL_KERN_FELDER.length, 28, 'Allowlist-Umfang geändert — jede Änderung braucht einen Nachweis oben (zuletzt v845: der Ablageort der Vorsorgevollmacht)');
 });
 
 test('§5a zwei Zeilen desselben Typs → GENAU EIN Wert im Klartext, nicht zwei', () => {
@@ -157,4 +163,30 @@ test('§5b keine Zeile vorhanden: Notfall-Blatt bricht nicht — Fall ausdrueckl
   assert.ok(werte.includes('Maria') && /A\s*\+/.test(werte) && werte.includes('Anna Muster'),
     'ohne Instrument fallen die uebrigen Allowlist-Werte aus — das waere ein Totalausfall des Blatts');
   assert.ok(!/Hausarzt|Safe|Ordner/.test(werte), 'kein Platzhalter, kein Geistereintrag');
+});
+
+/* v845 (01.10.2026) — Rot-Beweis: derselbe Kern OHNE den Eintrag für den Ablageort der Vorsorgevollmacht zeigt ihn nicht.
+   Die Probe oben prüft also die Allowlist, nicht nur das Depot. Gebaut wie jedes Produkt (produkt-html-erzeugen.js). */
+test('§5 v845 Rot-Beweis: ohne den Allowlist-Eintrag steht der Ablageort der Vorsorgevollmacht nicht auf der Karte', () => {
+  const fs = require('node:fs');
+  const os = require('node:os');
+  const path = require('node:path');
+  const PRODUKT = require('./produkt-html-erzeugen.js');
+  const zeile = "  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:storageLocation' },\n";
+  const text = fs.readFileSync(PRODUKT.produktHtml('privat-de'), 'utf8');
+  assert.equal(text.split(zeile).length - 1, 1, 'Vorbedingung: das Produkt trägt den Eintrag genau einmal');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'notfall-v845-rot-'));
+  try {
+    const pfad = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(pfad, text.replace(zeile, ''), 'utf8');
+    const { V } = PRODUKT.kernAus(pfad);
+    V.setData(depotMitAllemBelegt([
+      { id: 'p2', instrument: 'enduring-power-of-attorney', authorizedPersons: [{ ref: '', override: 'Peter Muster' }], storageLocation: 'Schreibtisch, mittlere Schublade', dateOfLastChange: '2025-06-01' },
+    ]));
+    const werte = V.notfallKernModell().map((z) => String(z.wert)).join(' | ');
+    assert.ok(werte.includes('Peter Muster'), 'Kontrolle: die Vollmacht selbst kommt an');
+    assert.ok(!werte.includes('Schreibtisch, mittlere Schublade'), 'ohne den Eintrag darf der Ablageort nicht auf der Karte stehen');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });

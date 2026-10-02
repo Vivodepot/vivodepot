@@ -130,6 +130,11 @@ const ZUWACHS = Object.freeze([
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'informationOrCounsellingReceived', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'validityDuration', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'validityDurationDeadline', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  // U2-ADR-467 (Schema 91) — die Anschrift der Identität in vier Teilen; die zwei bisherigen Zeilen bleiben stehen.
+  { bereich: 'identitaet', sektion: 'person', feld: 'street', unterfeld: null, art: 'feld', adr: 'U2-ADR-467' },
+  { bereich: 'identitaet', sektion: 'person', feld: 'houseNumber', unterfeld: null, art: 'feld', adr: 'U2-ADR-467' },
+  { bereich: 'identitaet', sektion: 'person', feld: 'postalCode', unterfeld: null, art: 'feld', adr: 'U2-ADR-467' },
+  { bereich: 'identitaet', sektion: 'person', feld: 'city', unterfeld: null, art: 'feld', adr: 'U2-ADR-467' },
 ]);
 
 // Sicht 1 — der eingefrorene BEREICHSBESTAND: benannte Feld-Stellen, nie Array-Positionen.

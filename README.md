@@ -56,7 +56,7 @@ nachvollziehbar unter [`docs/adr/`](docs/adr/).
 
 ## Lizenz
 
-[EUPL-1.2](LICENSE). Details zur Lizenzierung der Vorlagen-Schicht in [`LICENSING.md`](LICENSING.md).
+[EUPL-1.2](LICENSE). Was das heißt, was ausgenommen ist und was heute öffentlich liegt: [`LICENSING.md`](LICENSING.md).
 
 ## Wo es weitergeht
 
@@ -71,4 +71,4 @@ nachvollziehbar unter [`docs/adr/`](docs/adr/).
 
 ## Stand
 
-Fassung v843.
+Fassung v857.

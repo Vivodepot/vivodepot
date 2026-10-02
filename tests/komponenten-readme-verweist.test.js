@@ -20,7 +20,7 @@ const REPO = path.join(__dirname, '..');
 const KOMPONENTEN = [
   { readme: 'docs/lese-app/README.md', datei: 'vivodepot-lesen.html', oeffentlich: true },
   { readme: 'docs/vc-issuer/README.md', datei: 'vivodepot-vc-issuer.html', oeffentlich: true },
-  { readme: 'docs/template-generator/README.md', datei: 'vivodepot-template-generator.html', oeffentlich: false },
+  { readme: 'docs/template-generator/README.md', datei: 'vivodepot-studio.html', oeffentlich: false },
 ];
 
 function befund(k, text, dateiDa) {
@@ -44,5 +44,5 @@ test('[Komponenten-README] jede README verlinkt ihre Datei oder sagt, dass sie n
 test('[Komponenten-README·Rot-Beweis] die Lese-App-README vom 26.09.2026 und ein Link ins Leere fallen', () => {
   const alt = '# Vivodepot — Lese-Ansicht (`vivodepot-lesen.html`)\n\nÖffnen Sie die Datei `vivodepot-lesen.html` in Ihrem Browser.';
   assert.match(befund(KOMPONENTEN[0], alt, true), /verlinkt vivodepot-lesen.html nicht/);
-  assert.match(befund(KOMPONENTEN[2], '[x](../../vivodepot-template-generator.html)', false), /fehlt/);
+  assert.match(befund(KOMPONENTEN[2], '[x](../../vivodepot-studio.html)', false), /fehlt/);
 });

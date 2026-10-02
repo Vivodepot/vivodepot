@@ -83,16 +83,16 @@ async function fsaAttrappeEinrichten(page) {
 
 async function identitaetUndVorsorgeEintragen(page, { strasse, ort, pflege }) {
   await oeffneSektor(page, 'identity');
-  await setzeFeld(page, 'streetAddress', strasse);
-  await setzeFeld(page, 'postcodeCity', ort);
+  await setzeFeld(page, 'street', strasse);
+  await setzeFeld(page, 'city', ort);
   await oeffneSektor(page, 'advanceCare');
   await setzeFeld(page, 'personalCareDignity', pflege);
 }
 
 async function identitaetUndVorsorgePruefen(page, { strasse, ort, pflege }) {
   await oeffneSektor(page, 'identity');
-  await expect(page.locator('[data-edit="streetAddress"]')).toHaveValue(strasse);
-  await expect(page.locator('[data-edit="postcodeCity"]')).toHaveValue(ort);
+  await expect(page.locator('[data-edit="street"]')).toHaveValue(strasse);
+  await expect(page.locator('[data-edit="city"]')).toHaveValue(ort);
   await oeffneSektor(page, 'advanceCare');
   await expect(page.locator('[data-edit="personalCareDignity"]')).toHaveValue(pflege);
 }

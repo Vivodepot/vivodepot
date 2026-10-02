@@ -15,6 +15,58 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.857] – 2026-10-02
+
+### Hinzugefügt
+- Der Export als HL7 FHIR IPS trägt Vorsorgevollmacht, Patientenverfügung und Betreuungsverfügung als eigene Sektion
+  „Advance Directives“: je Verfügung ein Consent nach EU EPS mit Rechtsgrundlage und den bevollmächtigten Personen, dazu,
+  wo zutreffend, der Widerspruch gegen die Notvertretung durch Ehegatten. Ablageort und Gesundheitsbefugnisse gehen nur
+  mit Freigabe der sensiblen Felder mit. In allen 24 Sprachen des Begleittexts gegen IPS 2.0.0 und EU EPS (Fassung
+  1.0.0-ballot) geprüft (U2-ADR-466).
+- Namen und Anschrift in getrennten Feldern (U2-ADR-467): Personen haben Familienname und Vornamen, Identität und
+  Personen haben Straße, Hausnummer, Postleitzahl und Ort. Die bisherigen Einträge bleiben stehen. Aus einer bisherigen
+  Anschrift schlägt die Anwendung die Teile nur vor; sie gelten erst, wenn die Person sie übernimmt. Namen werden nie
+  automatisch zerlegt. FHIR, vCard, der selbst ausgestellte Nachweis über die Person und die Dokumente nutzen die
+  getrennten Teile; XMeld liest sie getrennt ein.
+- Beim Export als HL7 FHIR IPS wählt man die Sprache der festen Sätze (Narrative, Leer-Hinweise, Herkunft): alle 24
+  EU-Amtssprachen, voreingestellt Englisch. Codes und die eigenen Einträge bleiben, wie sie sind. Die englischen
+  Leer-Hinweise sind die amtlichen Sätze der eHDSI (MyHealth@EU); eine noch nicht unabhängig geprüfte Übersetzung sagt das
+  in der Auswahl und im Export (U2-ADR-458).
+- Passwort: Jedes Feld für ein neues Passwort bietet „Passwort vorschlagen“ an, sechs zufällige Wörter aus einer Wortliste
+  der Produktsprache. Der Vorschlag lässt sich ersetzen und vorlesen; die Bestätigung tippt man selbst. Wer ein eigenes
+  Passwort wählt, sieht einen Hinweis, gesperrt wird nichts (U2-ADR-463).
+- Weichen der Stand auf dem Gerät und die geöffnete Datei voneinander ab, gibt es neben der Wahl einer Seite „Beide
+  zusammenführen“. Listen werden Eintrag für Eintrag zusammengeführt: Was nur eine Seite geändert hat, wird übernommen,
+  wo beide etwas geändert haben, wird gefragt. Ein gelöschter Eintrag kehrt nicht zurück, eine Änderung geht nicht ohne
+  Rückfrage verloren (U2-ADR-463).
+- Die Anwendung kann sich den Speicherort der Depotdatei merken, nur nach Zustimmung und in Browsern, die das
+  unterstützen. Die nächste Sicherungskopie geht dann ohne Dateidialog in dieselbe Datei. In den Einstellungen steht der
+  gemerkte Ort mit „Speicherort vergessen“ (U2-ADR-031).
+- In der installierten Desktop-App von Chrome und Edge öffnet ein Doppelklick auf die Depotdatei die Anwendung mit dieser
+  Datei; sie wird das Speicherziel. Ist schon ein Depot offen, wird es zuerst geschlossen, mit Warnung, falls etwas
+  ungesichert ist (U2-ADR-463).
+- Notfall: Die Notfallkarte zeigt, wo die Vorsorgevollmacht liegt, wie bisher schon bei der Patientenverfügung (Nachtrag
+  U2-ADR-096).
+- Anfragen per QR-Code: Das Studio erzeugt für eine signierte Anfrage eine kompakte Form, die die Stelle unter einer
+  kurzen Adresse ablegt; der QR-Code trägt nur diese Adresse und bleibt so vom Aushang lesbar. Die Anwendung liest die
+  kompakte Form aus Link und eingefügtem Text, prüft die Signatur wie bisher und liest Anfragen in der bisherigen Form
+  weiter. Die Anwendung selbst lädt nichts; die kurze Adresse ruft das Handy auf, dafür braucht es ein Netz (U2-ADR-460).
+
+### Geändert
+- Vivodepot Studio liegt jetzt unter register.vivodepot.de/studio.html; die bisherige Adresse leitet dorthin weiter.
+  Lese-App, „Schlüssel teilen“ und der VC-Issuer zeigen wie das Studio im Kopf den Produktnamen und einen Link zur Seite
+  der Marke (U2-ADR-362).
+
+### Behoben
+- Wurde bei offenem Depot eine zweite Fassung derselben Depotdatei geöffnet, bot die Anwendung die abweichenden Angaben
+  nie zum Zusammenführen an: der Vergleich fand das Depot nicht und brach ab (U2-ADR-463).
+- In einer älteren Datei mit eigenem Sprachmodul erschienen Texte, die es in diesem Modul noch nicht gab, auf Deutsch,
+  auch wenn die Anwendung eine andere Sprache hatte. Sie kommen jetzt aus der Sprache der Anwendung; die Lese-App zeigt
+  sie ersatzweise auf Englisch, wenn es sie dort gibt, sonst auf Deutsch, und kennzeichnet das (U2-ADR-463).
+- Der FHIR-Export nahm bei einer vertretenden Person das letzte Wort des Namens als Familiennamen, und beim Anlegen eines
+  Sub-Depots für ein Kind wurde das erste Wort des Namens als Vorname eingesetzt. Beides nimmt die Teile jetzt nur aus
+  den eigenen Feldern oder lässt sie leer (U2-ADR-467).
+
 ## [v1.0.843] – 2026-10-01
 
 ### Hinzugefügt

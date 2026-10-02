@@ -43,7 +43,7 @@ const REPO = path.join(__dirname, '..');
 const argv = process.argv.slice(2);
 const arg = (n, s) => { const i = argv.indexOf('--' + n); return i >= 0 && argv[i + 1] ? path.resolve(argv[i + 1]) : s; };
 const KERN = arg('kern', path.join(REPO, 'vivodepot.html'));
-const GENERATOR = arg('generator', path.join(REPO, 'vivodepot-template-generator.html'));
+const GENERATOR = arg('generator', path.join(REPO, 'vivodepot-studio.html'));
 const SCHEMA = arg('schema', path.join(REPO, 'docs', 'template-generator', 'submission-schema.json'));
 
 /* Aus einer `new Set([...])`-Zeile die Zeichenketten lesen — der Gegenstand, nicht sein Name. */
@@ -99,7 +99,7 @@ function main() {
   catch (e) { console.error('feldtyp-spiegel: ' + e.message); process.exit(1); }
   if (!r.funde.length) {
     console.log('feldtyp-spiegel: kein Drift — ' + r.kern.length + ' Feldarten in Kern, Erzeuger und Schema.');
-    console.log('  Suchraum: vivodepot.html (_TEMPLATE_FELDTYPEN) · vivodepot-template-generator.html '
+    console.log('  Suchraum: vivodepot.html (_TEMPLATE_FELDTYPEN) · vivodepot-studio.html '
       + '(FELDTYPEN) · docs/template-generator/submission-schema.json (feldtyp.enum)');
     return;
   }

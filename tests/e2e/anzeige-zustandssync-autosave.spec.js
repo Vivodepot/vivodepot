@@ -30,7 +30,7 @@ test('Befund 1 — Sichern-Knopf verliert den Klick nicht, wenn ein zweites Feld
   // genau der Ausgangszustand aus dem Bericht ("Kopfzeile vorher: 1 unsaved change").
   await page.locator('[data-edit="telephone"]').click();
   await page.keyboard.type('030 1234567');
-  await page.locator('[data-edit="streetAddress"]').click();
+  await page.locator('[data-edit="street"]').click();
   await page.keyboard.type('Musterstraße 1');
   // strasse hat jetzt den Fokus, ist NICHT geblurrt — der eigentliche Testfall.
 
@@ -66,7 +66,7 @@ test('Befund 3 — Statuskarte zeigt "teilweise ausgefüllt" sofort nach dem Fel
 
   await page.locator('[data-edit="telephone"]').click();
   await page.keyboard.type('030 1234567');
-  await page.locator('[data-edit="streetAddress"]').click();   // Blur → Autosave, KEIN Bereichswechsel
+  await page.locator('[data-edit="street"]').click();   // Blur → Autosave, KEIN Bereichswechsel
 
   // Kein page.reload(), kein Sektor-Wechsel — genau der Repro-Schritt aus dem Bericht:
   // "ohne den Bereich zu verlassen die Statuszeile der Karte lesen".
@@ -85,7 +85,7 @@ test('Fokus-Schutz — Klick ins nächste Feld derselben Karte bleibt unterbrech
   // Reparatur die ganze Karte (feldgruppenKarteHTML) statt nur den Status-Text nachziehen, stünde
   // strasse's Eingabefeld-Knoten genau in diesem Moment zur Ersetzung an — derselbe Verschluck-
   // Mechanismus wie Befund 1, nur hier statt am Knopf.
-  const strasse = page.locator('[data-edit="streetAddress"]');
+  const strasse = page.locator('[data-edit="street"]');
   const box = await strasse.boundingBox();
   if (!box) throw new Error('strasse-Feld ohne boundingBox — Vorbedingung des Tests verletzt');
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);

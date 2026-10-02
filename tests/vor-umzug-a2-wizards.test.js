@@ -60,13 +60,33 @@ test('[Vor-Umzug·a2·Ausbeute] die Fixture trägt Provenienz (Commit, Datum) un
   assert.equal(fixture.immerWerte.anzahl, fixture.immerWerte.werte.length);
 });
 
+/* Werte, die BEWUSST entfallen sind — je mit Begründung (dasselbe Muster wie die Wortlaut-Ausnahmen der
+   Bestands-Probe zu U2-ADR-320). Jede Zeile hier hebelt die Prüfung für genau diesen
+   Wert aus; wird die Liste lang, ist der Beleg neu aufzunehmen statt weiter auszunehmen. */
+const BEWUSST_ENTFALLEN = Object.freeze({
+  'Wie lautet Ihre neue Anschrift — Straße & Hausnummer?': 'U2-ADR-467 (01.10.2026): der Umzugs-Assistent fragt die neue '
+    + 'Anschrift in vier Teilen (Straße, Hausnummer, Postleitzahl, Ort) statt in zwei Zeilen; die Zeilen-Schritte entfallen.',
+  'Straße & Hausnummer': 'U2-ADR-467: Beschriftung des entfallenen Zeilen-Schritts (s. o.).',
+  'Und PLZ & Ort?': 'U2-ADR-467: Frage des entfallenen Zeilen-Schritts (s. o.).',
+  'PLZ & Ort': 'U2-ADR-467: Beschriftung des entfallenen Zeilen-Schritts (s. o.).',
+});
+
 test('[Vor-Umzug·a2·immer] der Wortlaut der fünf migrierten Wizards ist gegenüber dem Beleg (37038011) erhalten — 0 verloren', () => {
   const fixture = fixtureLesen();
   const { V } = ladeKern();
   const aktuell = immerWerteA2(V);
-  const verl = verlorene(fixture.immerWerte.werte, aktuell);
+  const verl = verlorene(fixture.immerWerte.werte, aktuell).filter((w) => !Object.prototype.hasOwnProperty.call(BEWUSST_ENTFALLEN, w));
   assert.deepEqual(verl, [],
     'Verlorene Textwerte gegenüber ' + fixture.quelleCommit + ': ' + JSON.stringify(verl.slice(0, 5)));
+});
+
+test('[Vor-Umzug·a2·Ausnahmen] jede bewusst entfallene Zeile stand wirklich im Beleg und fehlt wirklich heute', () => {
+  const fixture = fixtureLesen();
+  const aktuell = immerWerteA2(ladeKern().V);
+  for (const w of Object.keys(BEWUSST_ENTFALLEN)) {
+    assert.ok(fixture.immerWerte.werte.includes(w), 'Ausnahme ohne Gegenstand im Beleg: ' + w);
+    assert.ok(verlorene([w], aktuell).length === 1, 'Ausnahme für einen Wert, der heute noch da ist: ' + w);
+  }
 });
 
 test('[Vor-Umzug·a2·Rot-Beweis] ein verfälschter Textwert wird gefunden — die Prüfung wirkt wirklich', () => {

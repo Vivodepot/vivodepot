@@ -36,7 +36,7 @@ const URLS = {
   kern:      'file://' + GEBACKENE_PRODUKT_PFADE['privat-de'],
   lesen:     'file://' + path.join(REPO, 'vivodepot-lesen.html'),
   issuer:    'file://' + path.join(REPO, 'vivodepot-vc-issuer.html'),
-  generator: 'file://' + path.join(REPO, 'vivodepot-template-generator.html'),
+  generator: 'file://' + path.join(REPO, 'vivodepot-studio.html'),
 };
 
 /* ── TEST-Sentinel-Schlüsselpaar ─────────────────────────────────────────────

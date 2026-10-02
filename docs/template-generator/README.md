@@ -1,8 +1,8 @@
-# Vivodepot Template-Generator
+# Vivodepot Studio (früher Template-Generator)
 
-**Im öffentlichen Repo nicht enthalten:** Der Generator selbst liegt derzeit nicht im öffentlichen Stand. Die Beschreibung und die Schemata in diesem Ordner gelten für ihn.
+**Im öffentlichen Repo nicht enthalten:** Das Studio selbst liegt derzeit nicht im öffentlichen Stand. Die Beschreibung und die Schemata in diesem Ordner gelten für es. Bis v847 hieß das Werkzeug Template-Generator; Ordner und Schemata tragen den alten Namen weiter, und wo unten „Generator“ steht, ist das Studio gemeint.
 
-Eines von vier Vivodepot-Werkzeugen (Bürger-App, Lese-App, VC-Issuer, Vorlagen-Generator). Single-File-HTML, offline-first, ohne Netzwerk-Zugriff zur Laufzeit.
+Eines von vier Vivodepot-Werkzeugen (Bürger-App, Lese-App, VC-Issuer, Studio). Single-File-HTML, offline-first, ohne Netzwerk-Zugriff zur Laufzeit.
 
 ## Zweck
 
@@ -52,6 +52,8 @@ und am Absenden; die Texte selbst stehen in `RECHTSTEXTE` im Skript, zurzeit als
 Gehalten wird das von einer Probe der Arbeitsfläche im internen Prüfbestand (kein Assistent, DE/EN, Rechtstexte, Beispiele) und
 `tests/e2e-cross/T-CROSS-30-generator-arbeitsflaeche.spec.js` (Klick-Weg in DE und EN, axe).
 
+**Anfrage per QR (U2-ADR-460).** Der Baustein „Anfrage“ erzeugt aus der signierten Anfrage die kompakte Form (`z1.` + base64url des mit deflate-raw gepackten JWS samt Anbieter-Zertifikat); ohne Signatur gibt es keine kompakte Form. Die Stelle legt sie ab und trägt die kurze https-Adresse ein; das Studio zeichnet daraus den QR, der nur diese Adresse trägt. Gehalten von einer Probe im internen Prüfbestand.
+
 ## Submission-Strecke
 
 Der Generator versendet **nichts automatisch**. Die Institution lädt die Datei `vivodepot-submission-<anbieterId>-<id8>.json` herunter und sendet sie an die von Vivodepot genannte Submission-Adresse (E-Mail oder Upload-Strecke — nach Operations-Entscheidung). Die angezeigte **Submission-ID** bitte für Rückfragen aufbewahren.
@@ -82,4 +84,4 @@ npm test                                   # gesamte Suite
 
 ## Bau / Pflege
 
-Die Datei wird aus byte-identischen Blöcken (VdCrypto, JWS) plus Generator-Logik zusammengesetzt. Bei Änderungen am Kern müssen die beiden Blöcke neu übernommen werden, damit Hash und Byte-Identität erhalten bleiben (T-A-08 schlägt sonst an).
+Die Datei wird aus byte-identischen Blöcken (VdCrypto, JWS) plus Generator-Logik zusammengesetzt. Bei Änderungen am Kern müssen die beiden Blöcke neu übernommen werden, damit Hash und Byte-Identität erhalten bleiben (T-A-08 schlägt sonst an). Dazu trägt das Studio eine byte-gleiche Kopie der QR-Bibliothek (qrcode-generator) aus dem Kern; `tests/qrcode-kopie-gleichlauf.test.js` hält die Kopie gleich und verlangt, dass die SBOM das Studio als Träger nennt.

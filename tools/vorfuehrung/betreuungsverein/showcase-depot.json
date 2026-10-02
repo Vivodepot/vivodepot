@@ -1,0 +1,73 @@
+{
+  "format": "showcaseDepot/1",
+  "owner": "Gerda Mustermann",
+  "people": [
+    {
+      "key": "sohn",
+      "name": "Til Mustermann",
+      "beziehung": "Sohn",
+      "tel": "+49 30 23125020"
+    },
+    {
+      "key": "nachbarin",
+      "name": "Annegret",
+      "beziehung": "Nachbarin",
+      "tel": "+49 30 23125021"
+    },
+    {
+      "key": "hausarzt",
+      "name": "Praxis am Beispielanger",
+      "fachrichtung": "Allgemeinmedizin",
+      "tel": "+49 30 23125022",
+      "adresse": "Beispielanger 4, 10000 Beispielstadt"
+    }
+  ],
+  "institutions": [
+    {
+      "key": "kasse",
+      "name": "Beispielkasse",
+      "art": "krankenkasse"
+    }
+  ],
+  "fields": {
+    "identity.givenName": "Gerda",
+    "identity.familyName": "Mustermann",
+    "identity.birthDate": "1946-11-21",
+    "health.healthInsurance": {
+      "institution": "kasse"
+    },
+    "health.generalPractitioner": {
+      "person": "hausarzt"
+    },
+    "health.emergencyContacts": [
+      {
+        "person": "sohn"
+      },
+      {
+        "person": "nachbarin"
+      }
+    ],
+    "advanceCare.otherWishesNotes": "Beratung im Betreuungsverein, zwei Termine; Vollmacht und Betreuungsverfügung gemeinsam durchgegangen",
+    "advanceCare.personalCareDignity": "Zu Hause bleiben, solange es geht. Die Nachbarin hat einen Schlüssel."
+  },
+  "lists": {
+    "advanceCare.provisionInstruments": [
+      {
+        "instrument": "enduring-power-of-attorney",
+        "typeOfPowerOfAttorney": "vorsorge",
+        "form": "privat",
+        "authorizedPersons": [
+          {
+            "person": "sohn"
+          }
+        ],
+        "storageLocation": "Urschrift im Schreibtisch, mittlere Schublade; Kopie beim Sohn"
+      },
+      {
+        "instrument": "custodianship-declaration",
+        "form": "privat",
+        "storageLocation": "Beim selben Ordner wie die Vollmacht"
+      }
+    ]
+  }
+}

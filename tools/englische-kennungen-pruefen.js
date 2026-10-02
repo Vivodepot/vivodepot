@@ -127,7 +127,7 @@ const REGIONEN_AUSNAHMEN = Object.freeze({
     { beginn: "{ id: 'krisenvorsorge', klasse: 1, icon: 'package',       ziel: { lage: 'ausst-krisenvorsorge' } },",
       ende: "{ id: 'krisenvorsorge', klasse: 1, icon: 'package',       ziel: { lage: 'ausst-krisenvorsorge' } },",
       grund: "Kachel-Id der Startseite (BAUSTEINE), kein Bereichs-Bezug -- eigener Kopf-Kommentar direkt darueber: \"Gleiches Wort fuer Kachel und Bereich bewusst\" (11.08.2026 entschieden, s. dort). Die Kachel oeffnet ueber `ziel.lage` dieselbe Lebenslage-Maschine wie die uebrigen Kacheln -- kein Bereichs-Feld-Zugriff." },
-    { beginn: "function parseXMeld(text) {", ende: "  return { vorname, nachname, geburtsname, geburtsdatum, geburtsort, nationalitaet, strasse, plz_ort, familienstand, ausweis_nr };\n}",
+    { beginn: "function parseXMeld(text) {", ende: "  return { vorname, nachname, geburtsname, geburtsdatum, geburtsort, nationalitaet, strasse, hausnummer, plz, ort, familienstand, ausweis_nr };\n}",
       grund: "Funktionsrumpf VOR der bereits ausgenommenen XMELD_IDENTITAET_MAPPING: liest die eigenen, deutschen Tag-Namen der externen XÖV/XMeld-Nachricht (`_xTief(person, 'geburtsname')`/`'geburtsdatum'`/`'geburtsort'`/`'familienstandsangabe'`/`'familienstand'` u.a.) -- das amtliche XÖV-Schema selbst benennt seine Elemente deutsch, keine Vivodepot-Kennung. Umbenennen wuerde den Parser gegen echte XMeld-Nachrichten brechen. Ganze Funktion ausgenommen statt einzeln, weil alle Tag-Reads derselben Quelle (die eingehende XML) und demselben Grund folgen." },
     /* Nicht ausgenommen: die Schluessellisten von personHinzufuegen/personAktualisieren und die Ids in
        MENSCHEN_REGISTER_FELD.unterFelder. Sie sind Property-Namen auf `data.menschen[]`, das ins Depot
@@ -177,7 +177,7 @@ const REGIONEN_AUSNAHMEN = Object.freeze({
       ende: "  const grundlageDefault = eintrag.basisOfRepresentation === 'betreuung' ? 'gesetzliche_betreuung'",
       grund: "`'betreuung'` ist hier ein Schluessel aus RECHTSGRUNDLAGEN_VERTRETUNG (eigener, unabhaengiger Wertraum: vorsorge/bank/gesundheit/general/betreuung/…, s. dortige Objekt-Definition) -- derselbe Fall wie die bereits bestehende Ausnahme fuer `_instrumentVorhanden('enduring-power-of-attorney', 'vorsorge')` weiter oben, hier eine weitere, bisher nicht angankerte Fundstelle desselben Wertraums." },
   ],
-  'vivodepot-template-generator.html': [
+  'vivodepot-studio.html': [
     { beginn: '/* BEREICHE:BEGIN', ende: '/* BEREICHE:END */',
       grund: 'Generierte Region (tools/build-bereiche.js) -- enthält BEREICH_ALT_LABEL, dieselbe eingefrorene Archiv-Kopie wie im Kern (s. dortige Begründung), sowie den frisch generierten, bereits korrekten Rest der Region.' },
   ],

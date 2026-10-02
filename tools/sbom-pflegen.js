@@ -299,6 +299,33 @@ function hashesAusDateien(dateinamen, repo) {
   return out;
 }
 
+/* ── Zusätzliche Träger einer inline-Bibliothek (U2-ADR-460, v851) ──────────
+   Eine weitere Anwendung in der Wurzel des Repos darf denselben Block (Marker + Skript) tragen — dann byte-gleich zum Kern, sonst
+   bricht die SBOM ab (zwei Fassungen derselben Bibliothek liefen sonst still auseinander). Genannt wird der Träger mit dem Titel
+   seiner Seite, nicht mit dem Dateinamen: im öffentlichen Zuschnitt fehlt eine interne Anwendung, und die SBOM nennt keine Datei,
+   die nicht hinausgeht. Probe: tests/qrcode-kopie-gleichlauf.test.js */
+function zusaetzlicheTraeger(name, kernHtml, repo = REPO) {
+  const marker = `@vd-lib name="${name}"`;
+  const blockVon = (html) => {
+    const m = html.indexOf(marker);
+    if (m < 0) return null;
+    const anfang = html.lastIndexOf('<!--', m);
+    const ende = html.indexOf('</script>', m);
+    return ende < 0 ? null : html.slice(anfang, ende + '</script>'.length);
+  };
+  const soll = blockVon(kernHtml);
+  const traeger = [];
+  for (const d of fs.readdirSync(repo).filter((x) => x.endsWith('.html') && x !== 'vivodepot.html').sort()) {
+    const html = fs.readFileSync(path.join(repo, d), 'utf8');
+    const ist = blockVon(html);
+    if (ist === null) continue;
+    if (ist !== soll) throw new Error(`${name}: eine weitere Anwendung trägt eine abweichende Kopie (${d}) — byte-gleich zum Kern nachziehen.`);
+    const titel = (html.match(/<title>([^<]*)<\/title>/) || [null, d])[1].trim();
+    traeger.push(titel);
+  }
+  return traeger;
+}
+
 /* ── Die vollständige SBOM aus den Quellen erzeugen ──────────────────────── */
 function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
   const libs = new Map(vdLibsInline(html).map((l) => [l.name, l]));
@@ -324,7 +351,8 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
       supplier: REFERENZ[name].supplier,
       licenses: [{ license: { id: lib.license } }],
       hashes: hashes(inhalt),
-      properties: eigenschaften(name),
+      properties: [...eigenschaften(name),
+        ...zusaetzlicheTraeger(name, html, repo).map((t) => ({ name: 'vivodepot:zusaetzlicher-traeger', value: t + ' (byte-gleiche Kopie)' }))],
     });
     if (name === 'jspdf') {
       const pako = pakoAusJspdf(inhalt);
@@ -450,6 +478,8 @@ function drifteListe(alt, neu) {
     if (!a.author && k.author) drift.push(`${k.name}: Ersteller ergänzt (${k.author})`);
     if (!a.supplier && k.supplier) drift.push(`${k.name}: Lieferant ergänzt (${k.supplier.name})`);
     if (!a.properties && k.properties) drift.push(`${k.name}: Eigenschaften ergänzt (Dateiname, Executable/Archive/Structured)`);
+    const traegerVon = (c) => JSON.stringify((c.properties || []).filter((p) => p.name === 'vivodepot:zusaetzlicher-traeger'));
+    if (traegerVon(a) !== traegerVon(k)) drift.push(`${k.name}: zusätzliche Träger weichen ab (U2-ADR-460)`);
     if (JSON.stringify(a.components || []) !== JSON.stringify(k.components || [])) drift.push(`${k.name}: Unterkomponenten weichen ab`);
   }
   const neuNamen = new Set(neu.components.map((c) => c.name));
@@ -508,4 +538,5 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { HANDGEPFLEGT, hashesAusDateien, vdLibsInline, ersetzeEindeutig, ersetzeAlle, pruefeUndPflege, erzeugeSBOM, skriptInhaltNachMarker, fontInterHashesUndDateien, codeListenBlockText };
+module.exports = {
+  zusaetzlicheTraeger, HANDGEPFLEGT, hashesAusDateien, vdLibsInline, ersetzeEindeutig, ersetzeAlle, pruefeUndPflege, erzeugeSBOM, skriptInhaltNachMarker, fontInterHashesUndDateien, codeListenBlockText };

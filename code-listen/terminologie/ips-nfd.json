@@ -1,5 +1,5 @@
 {
-  "_zweck": "Eingefrorene Terminologie-Literale des IPS-Exports für die NFD-Lücken (v835, 29.09.2026): Begriffe fremder Code-Systeme und die Sektionstitel des IPS, unverändert übernommen, kein Produkttext. Erzeugt in die Region CODE-LISTEN (tools/build-code-listen.js), gelesen über IPS_BEGRIFFE im Kern.",
+  "_zweck": "Eingefrorene Terminologie-Literale des IPS-Exports für die NFD-Lücken (v835, 29.09.2026) und den Abschnitt Advance Directives (v857, U2-ADR-466): Begriffe fremder Code-Systeme und die Sektionstitel des IPS, unverändert übernommen, kein Produkttext. Erzeugt in die Region CODE-LISTEN (tools/build-code-listen.js), gelesen über IPS_BEGRIFFE im Kern.",
   "snomed": {
     "_herkunft": "SNOMED CT, Global Patient Set 20260101 (CC BY-ND 4.0), US Preferred Term unverändert; freigegeben nach Nutzungsmuster in tools/snomed-freigabe.json (U2-ADR-446).",
     "77386006": "Pregnancy",
@@ -15,6 +15,23 @@
   "sektionen": {
     "_herkunft": "Titel der IPS-Sektionen (hl7.fhir.uv.ips#2.0.0, Composition-uv-ips).",
     "alerts": "Alerts",
-    "schwangerschaft": "History of Pregnancy"
+    "schwangerschaft": "History of Pregnancy",
+    "advanceDirectives": "Advance Directives"
+  },
+  "advanceDirectives": {
+    "_herkunft": "Abschnitt Advance Directives (U2-ADR-466): Profil consent-eu-eps (hl7.fhir.eu.eps#1.0.0-ballot), Consent.scope adr (THO consentscope), Consent.category acd (THO consentcategorycodes, R4-ValueSet consent-category), provision.actor.role AGNT (THO v3-RoleClass, R4-ValueSet security-role-type).",
+    "profil": "http://hl7.eu/fhir/eps/StructureDefinition/consent-eu-eps",
+    "scope": {
+      "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+      "code": "adr"
+    },
+    "kategorie": {
+      "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+      "code": "acd"
+    },
+    "rolle": {
+      "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+      "code": "AGNT"
+    }
   }
 }

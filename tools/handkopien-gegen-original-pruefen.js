@@ -3,7 +3,7 @@
 /* ════════════════════════════════════════════════════════════════════════════
    handkopien-gegen-original-pruefen.js — U2-ADR-262 (Auftrag, 04.09.2026)
    ────────────────────────────────────────────────────────────────────────────
-   DER BEFUND: `vivodepot-template-generator.html` führt eine Handkopie von
+   DER BEFUND: `vivodepot-studio.html` führt eine Handkopie von
    `FORMAT_MODUL_SCHLUESSEL` aus `vivodepot.html` — ohne Wächter lief sie
    auseinander (`rechtsraum`/U2-ADR-255 und `schreiber`/U2-ADR-257 fehlten in
    der Kopie). Dieselbe Bauart (eine Konstante, von Hand in einer zweiten Datei
@@ -116,36 +116,36 @@ function objektDiff(original, kopie) {
 const REGISTRY = [
   { label: 'FORMAT_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_MODUL_SCHLUESSEL' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: 'FORMAT_MODUL_SCHLUESSEL' }],
+    kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_MODUL_SCHLUESSEL' }],
     // U2-ADR-262: `schreiber` ist eine BENANNTE Ausnahme, keine stille — der Generator hat
     // keinen FORMAT_SCHREIBER_BEKANNT-Mirror für die Wertprüfung; s. Kommentar an der
-    // FORMAT_MODUL_SCHLUESSEL-Deklaration in vivodepot-template-generator.html.
+    // FORMAT_MODUL_SCHLUESSEL-Deklaration in vivodepot-studio.html.
     ausnahmen: ['schreiber'] },
   { label: 'FORMAT_ERKENNER_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' }] },
   { label: 'FORMAT_ZUORDNUNG_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' }] },
   { label: 'BRANDING_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'BRANDING_MODUL_SCHLUESSEL' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: 'BRANDING_MODUL_SCHLUESSEL' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: 'BRANDING_MODUL_SCHLUESSEL' }] },
   { label: '_RECHTSRAUM_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: '_RECHTSRAUM_MODUL_SCHLUESSEL' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: '_RECHTSRAUM_MODUL_SCHLUESSEL' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: '_RECHTSRAUM_MODUL_SCHLUESSEL' }] },
   { label: '_FORMAT_PFAD_VERBOTEN', art: 'liste',
     original: { datei: 'vivodepot.html', name: '_FORMAT_PFAD_VERBOTEN' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: '_FORMAT_PFAD_VERBOTEN' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: '_FORMAT_PFAD_VERBOTEN' }] },
   { label: '_TEMPLATE_FELDID_PRAEFIX', art: 'wert',
     original: { datei: 'vivodepot.html', name: '_TEMPLATE_FELDID_PRAEFIX' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: '_TEMPLATE_FELDID_PRAEFIX' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: '_TEMPLATE_FELDID_PRAEFIX' }] },
   { label: 'INSTITUTION_ART → INSTITUTION_ART_EINGEBAUT', art: 'werte-aus-objekt',
     original: { datei: 'vivodepot.html', name: 'INSTITUTION_ART' },
-    kopien: [{ datei: 'vivodepot-template-generator.html', name: 'INSTITUTION_ART_EINGEBAUT' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: 'INSTITUTION_ART_EINGEBAUT' }] },
   { label: 'JWS_ALG_FALLBACK', art: 'wert',
     original: { datei: 'vivodepot.html', name: 'JWS_ALG_FALLBACK' },
     kopien: [
-      { datei: 'vivodepot-template-generator.html', name: 'JWS_ALG_FALLBACK' },
+      { datei: 'vivodepot-studio.html', name: 'JWS_ALG_FALLBACK' },
       { datei: 'vivodepot-lesen.html', name: 'JWS_ALG_FALLBACK' },
       { datei: 'vivodepot-vc-issuer.html', name: 'JWS_ALG_FALLBACK' },
     ] },

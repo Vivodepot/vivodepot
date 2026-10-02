@@ -28,7 +28,9 @@ const KERN_FELDER = [
   'givenName', 'familyName', 'secondLastName',   // A460 (22.08.2026): zweiter Nachname, eigener Ort statt geburtsname
   'displayFamilyNameFirst',   // U2-ADR-256 (04.09.2026): Anzeige-Reihenfolge als eigenes Feld
   'birthDate', 'yearOfBirthIfTheExactDayIs',   // A461 (22.08.2026): Rückfall, wenn der Tag unbekannt ist
-  'telephone', 'streetAddress', 'postcodeCity',
+  'telephone',
+  'street', 'houseNumber', 'postalCode', 'city',   // U2-ADR-467 (01.10.2026): die Anschrift in Teilen …
+  'streetAddress', 'postcodeCity',                 // … die bisherigen Zeilen bleiben, nur mit Wert sichtbar
   'email', 'nationality', 'birthName', 'birthPlace', 'gender',
   'maritalStatus', 'maritalPropertyRegime',
   'dateOfSeparation',   // Auftragskette 14.08.2026, Glied 3 (Trennung/Scheidung)

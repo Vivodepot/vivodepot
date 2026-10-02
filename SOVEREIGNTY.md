@@ -48,6 +48,12 @@ Account, keine Anmeldung. Die Anwendung selbst sendet keine Daten an einen Serve
 verhindern, dass jemand eine veränderte Datei verteilt — dagegen hilft nur der Fingerprint-Abgleich
 aus [`SECURITY.md`](SECURITY.md), und der setzt voraus, dass jemand ihn tut.
 
+**Der Kurzlink einer Anfrage ist kein Abruf der App.** Trägt der QR einer Stelle eine kurze
+Adresse, ruft das Handy diese Adresse auf; der Server dort sieht Adresse und Zeitpunkt und leitet
+auf die App weiter. Die Anfrage steht im Fragment der App-Adresse, das der Browser an keinen Server
+schickt. Die App selbst öffnet dabei keine Verbindung, `connect-src 'none'` bleibt. Ohne Netz
+lässt sich ein solcher QR nicht öffnen (U2-ADR-460).
+
 ---
 
 ## 2 · Der Anbieter hat keinen Zweitschlüssel

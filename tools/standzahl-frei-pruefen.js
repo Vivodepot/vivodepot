@@ -90,8 +90,11 @@ function auswerten(kanon, zweige, wunsch, reserviert = [], sitzung = null) {
        hielte eine belegte Zahl für frei. */
     const zahl = werte.length ? Math.max(...werte) : null;
     if (zahl == null || zahl <= kanon) continue;   // Altzweige tragen Altzahlen — harmlos
-    if (!belegt.has(zahl)) belegt.set(zahl, []);
-    belegt.get(zahl).push(z.zweig);
+    // Sammelzug (01.10.2026): jede Fassung, die der Zweig trägt, nicht nur seine Spitze.
+    for (const x of new Set([zahl, ...((z.zug || []).filter((v) => Number.isInteger(v) && v > kanon))])) {
+      if (!belegt.has(x)) belegt.set(x, []);
+      belegt.get(x).push(z.zweig);
+    }
   }
   const eigene = new Set();
   for (const r of reserviert) {
@@ -130,7 +133,13 @@ function zweigeAusGitLesen(kanonZahl) {
     for (const t of TRAEGER.slice(1)) {
       try { staende[t.datei] = zahlAus(git(['show', ref + ':' + t.datei], true), t.muster); } catch (_) { /* Datei fehlt */ }
     }
-    zweige.push({ zweig: ref, staende });
+    // Sammelzug (01.10.2026): auch die Zwischenfassungen des Zweigs (jede shell-Zeile, die in kanon..zweig hinzukommt).
+    let zug = [];
+    try {
+      const d = git(['log', '-p', '--format=', 'origin/u2-kanon..' + ref, '--', 'sw.js'], true);
+      zug = [...new Set((d.match(/^\+.*vivodepot-shell-v\d+/gm) || []).map((z) => parseInt(z.match(/v(\d+)/)[1], 10)))];
+    } catch (_) { /* ohne Bereich nur die Spitze */ }
+    zweige.push({ zweig: ref, staende, zug });
   }
   return zweige;
 }

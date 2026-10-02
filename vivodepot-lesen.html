@@ -161,6 +161,8 @@
        erreicht, sieht diese Regel unverändert aus wie vor diesem Zug. */
     .topbar { display: flex; align-items: center; gap: 16px; padding: 12px 22px; background: var(--vd-branding-topbar-primaer, var(--akzent)); color: var(--vd-branding-topbar-text, #fff); }
     .tb-titel { font-weight: 700; letter-spacing: .2px; }
+    /* Einheitlicher Produktkopf (v847): Produktname und ein Link zur Seite der Marke, in der Farbe des Titels. */
+    .tb-marke-link { color: inherit; font-size: .9em; text-underline-offset: 2px; white-space: nowrap; }
     .tb-mitte { flex: 1; text-align: center; opacity: .9; font-size: .95rem; }
     .tb-aktionen .btn-sek { color: #fff; border-color: rgba(255,255,255,.6); }
     .sub-banner { background: #3d5878; color: #fff; padding: 8px 22px; font-size: .92rem; }
@@ -1855,8 +1857,12 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "identity.birthDate.label": "Geburtsdatum",
   "identity.yearOfBirthIfTheExactDayIs.label": "Geburtsjahr (falls der Tag unbekannt ist)",
   "identity.telephone.label": "Telefon",
-  "identity.streetAddress.label": "Straße & Hausnummer",
-  "identity.postcodeCity.label": "PLZ & Ort",
+  "identity.street.label": "Straße",
+  "identity.houseNumber.label": "Hausnummer",
+  "identity.postalCode.label": "Postleitzahl",
+  "identity.city.label": "Ort",
+  "identity.streetAddress.label": "Bisherige Anschrift: Straße & Hausnummer",
+  "identity.postcodeCity.label": "Bisherige Anschrift: PLZ & Ort",
   "identity.email.label": "E-Mail",
   "identity.nationality.label": "Staatsangehörigkeit",
   "identity.birthName.label": "Geburtsname",
@@ -3085,6 +3091,21 @@ function _textsatzEnglischLesen(kennung, schluessel) {
   return null;
 }
 const TEXTSATZ_SPRACH_ENDONYME = Object.freeze({ de: 'Deutsch', en: 'English' });
+/* Befund ALTMODUL-UEBERDECKT-PRODUKT (01.10.2026, U2-ADR-463), Lese-App-Seite: `_textLesenOderRueckfall(k, deutscher) Literal` zeigte einen
+   Auszugstext, den das Modul der Datei nicht trägt, still deutsch. Die Lese-App hat für diese Texte keine neuere Quelle derselben
+   Sprache als die Datei selbst — darum: erst das aktive Modul, dann Englisch aus den App-eigenen Quellen, dann der deutsche
+   Literal, und jeder Ersatz wird markiert wie bei STRINGS (Zusicherung sichtbar gekennzeichnet, sonst gezählt). Wächter: kein
+   `textLesen(…) ||` in der Lese-App (tests/textsatz-rueckfall-alle-stellen.test.js). */
+function _textLesenOderRueckfall(kennung, literal) {
+  const t = textLesen(kennung);
+  if (t !== null) return t;
+  let sprache = null;
+  try { sprache = textsatzSpracheAktiv(); } catch (e) { return literal; }
+  if (!sprache || sprache === TEXTSATZ_SPRACHE_EINGEBAUT || typeof literal !== 'string') return literal;
+  const fach = _TEXTSATZ_MODUL_REGISTRY['en'];
+  if (sprache !== 'en' && fach && typeof fach[kennung] === 'string') return _textsatzRueckfallMarkieren(kennung, _markePlatzhalterAufloesen(fach[kennung]), 'en');
+  return _textsatzRueckfallMarkieren(kennung, literal, 'de');
+}
 const TEXTSATZ_RUECKFALL_SPRACHE = Object.create(null);   // Kennung → Sprache, in der der Ersatz tatsächlich stand
 function _textsatzRueckfallMarkieren(kennung, text, ersatzSprache) {
   TEXTSATZ_RUECKFALL_SPRACHE[kennung] = ersatzSprache;
@@ -3440,14 +3461,38 @@ const SEKTOREN = Object.freeze([
             "eingabeTyp": "tel"
           },
           {
+            "id": "street",
+            "label": "Straße",
+            "typ": "text",
+            "beispiel": "Lindenweg"
+          },
+          {
+            "id": "houseNumber",
+            "label": "Hausnummer",
+            "typ": "text",
+            "beispiel": "4"
+          },
+          {
+            "id": "postalCode",
+            "label": "Postleitzahl",
+            "typ": "text",
+            "beispiel": "80331"
+          },
+          {
+            "id": "city",
+            "label": "Ort",
+            "typ": "text",
+            "beispiel": "München"
+          },
+          {
             "id": "streetAddress",
-            "label": "Straße & Hausnummer",
+            "label": "Bisherige Anschrift: Straße & Hausnummer",
             "typ": "text",
             "beispiel": "Lindenweg 4"
           },
           {
             "id": "postcodeCity",
-            "label": "PLZ & Ort",
+            "label": "Bisherige Anschrift: PLZ & Ort",
             "typ": "text",
             "beispiel": "80331 München"
           },
@@ -3965,6 +4010,18 @@ const SEKTOREN = Object.freeze([
                 "beispiel": "Anna Schmidt"
               },
               {
+                "id": "familyName",
+                "label": "Familienname",
+                "typ": "text",
+                "beispiel": "Schmidt"
+              },
+              {
+                "id": "givenName",
+                "label": "Vornamen",
+                "typ": "text",
+                "beispiel": "Anna"
+              },
+              {
                 "id": "beziehung",
                 "label": "Beziehung",
                 "typ": "text",
@@ -4000,8 +4057,32 @@ const SEKTOREN = Object.freeze([
                 "beispiel": "anna.schmidt@example.de"
               },
               {
+                "id": "street",
+                "label": "Straße",
+                "typ": "text",
+                "beispiel": "Kastanienweg"
+              },
+              {
+                "id": "houseNumber",
+                "label": "Hausnummer",
+                "typ": "text",
+                "beispiel": "5"
+              },
+              {
+                "id": "postalCode",
+                "label": "Postleitzahl",
+                "typ": "text",
+                "beispiel": "80331"
+              },
+              {
+                "id": "city",
+                "label": "Ort",
+                "typ": "text",
+                "beispiel": "München"
+              },
+              {
                 "id": "adresse",
-                "label": "Adresse",
+                "label": "Bisherige Anschrift",
                 "typ": "text",
                 "beispiel": "Kastanienweg 5, 80331 München"
               },
@@ -12616,6 +12697,8 @@ const NOTFALL_KERN_FELDER = Object.freeze([
   { sektor: 'health', feld: 'insuranceNumber' },   // Versichertennummer
   { sektor: 'health', feld: 'generalPractitioner' },
   { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:authorizedPersons' },
+  // v845 (01.10.2026): Handkopie des Kerns — Ablageort der Vorsorgevollmacht (Nachtrag U2-ADR-096 §5).
+  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:storageLocation' },
   // U2-ADR-433 (25.09.2026): Notvertretung durch Ehegatten — nur bei „ja“ auf die Karte, die Eintragung nur mit der Ablehnung.
   { sektor: 'advanceCare', feld: 'spousalRepresentationObjection', nurWenn: 'ja' },
   { sektor: 'advanceCare', feld: 'spousalObjectionRegistered', nurWenn: 'ja', nurMit: { feld: 'spousalRepresentationObjection', wert: 'ja' } },
@@ -13287,9 +13370,20 @@ function hilfeEmpfaengerinHTML() {
     herkunftsortHTML();
 }
 
+/* Einheitlicher Produktkopf (v847, wie Studio, Schlüssel teilen und VC-Issuer): neben dem Produktnamen ein Link zur Seite der
+   Marke. Die Adresse kommt aus der Domain der Marke (_markeDomain: angedocktes Branding, sonst die eingebaute), nie als festes
+   Literal (tools/marken-adressen-pruefen.js). Eine Domain aus einer fremden Datei ist Eingabe: nur ein reiner Hostname wird ein
+   Link, sonst gibt es keinen. */
+const _MARKE_HOST = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i;
+function topbarMarkeLinkHTML() {
+  const domain = _markeDomain();
+  if (!_MARKE_HOST.test(domain)) return '';
+  return '<a class="tb-marke-link" href="' + escapeHTML('https://' + domain + '/') + '" target="_blank" rel="noopener noreferrer">'
+    + escapeHTML(domain) + ' ↗</a>';
+}
 function topbarHTML(titel, mitSchliessen) {
   return '<header class="topbar">' +
-    '<div class="tb-titel">' + escapeHTML(_markeName() + ' · ' + STRINGS.topbarLesen) + '</div>' +
+    '<div class="tb-titel">' + escapeHTML(_markeName() + ' · ' + STRINGS.topbarLesen) + '</div>' + topbarMarkeLinkHTML() +
     '<div class="tb-mitte">' + escapeHTML(titel || '') + '</div>' +
     '<div class="tb-aktionen">' +
       '<button class="btn btn-sek" id="btn-hilfe">' + escapeHTML(STRINGS.hilfeEmpfaengerinTitel) + '</button>' +
@@ -14198,15 +14292,15 @@ function _logikModulTexteAufloesenLesen(logik) {
   const abschnitte = logik.abschnitte.map((ab, ai) => {
     if (!ab || typeof ab !== 'object') return ab;
     const aK = wurzel + '#' + ai;
-    const titel = (typeof ab.titel === 'string') ? (textLesen(aK + '.titel') || ab.titel) : ab.titel;
+    const titel = (typeof ab.titel === 'string') ? (_textLesenOderRueckfall(aK + '.titel', ab.titel)) : ab.titel;
     const bloecke = (Array.isArray(ab.bloecke) ? ab.bloecke : []).map((blk, bi) => {
       if (!blk || typeof blk !== 'object') return blk;
       const bK = aK + '/' + anker(blk, bi);
       const patch = {};
-      if (typeof blk.frage === 'string') patch.frage = textLesen(bK + '.frage') || blk.frage;
-      if (typeof blk.luecke === 'string') patch.luecke = textLesen(bK + '.luecke') || blk.luecke;
+      if (typeof blk.frage === 'string') patch.frage = _textLesenOderRueckfall(bK + '.frage', blk.frage);
+      if (typeof blk.luecke === 'string') patch.luecke = _textLesenOderRueckfall(bK + '.luecke', blk.luecke);
       if (Array.isArray(blk.texte)) {
-        patch.texte = blk.texte.map((t, ti) => (typeof t === 'string') ? (textLesen(bK + '.texte[' + ti + ']') || t) : t);
+        patch.texte = blk.texte.map((t, ti) => (typeof t === 'string') ? (_textLesenOderRueckfall(bK + '.texte[' + ti + ']', t)) : t);
       }
       return Object.keys(patch).length ? Object.assign({}, blk, patch) : blk;
     });
@@ -14214,8 +14308,8 @@ function _logikModulTexteAufloesenLesen(logik) {
   });
   const da = logik.dokAusgabe;
   const dokAusgabe = (da && typeof da === 'object') ? Object.assign({}, da, {
-    h1: (typeof da.h1 === 'string') ? (textLesen(wurzel + '.h1') || da.h1) : da.h1,
-    herkunftText: (typeof da.herkunftText === 'string') ? (textLesen(wurzel + '.herkunftText') || da.herkunftText) : da.herkunftText,
+    h1: (typeof da.h1 === 'string') ? (_textLesenOderRueckfall(wurzel + '.h1', da.h1)) : da.h1,
+    herkunftText: (typeof da.herkunftText === 'string') ? (_textLesenOderRueckfall(wurzel + '.herkunftText', da.herkunftText)) : da.herkunftText,
   }) : da;
   return Object.assign({}, logik, { abschnitte, dokAusgabe });
 }

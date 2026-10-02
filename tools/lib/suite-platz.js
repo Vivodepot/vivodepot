@@ -41,6 +41,24 @@
    Platz, solange ein anderer Push einen hält — auch wenn einer frei ist; er wartet mit seinem Ticket. Solange er so
    wartet, hält sein Ticket anderen Läufen den freien Platz nicht zu (er könnte ihn ohnehin nicht nehmen). Wer danach
    drankommt, prüft im Hook einmal live, ob der Kanon noch sein Vorfahr ist.
+
+   VORRANG-MARKE (01.10.2026). Festgelegt wird, welcher Arbeitsbaum mit seiner Landung dran ist; ohne Mechanismus
+   nahmen andere Läufe ihm die Plätze, und ein fertiger Push wartete. Die Marke ist die Datei `reihe` im Platz-Verzeichnis:
+   `{ "baum": <absoluter Pfad>, "gesetztAm": <ISO> }`, geschrieben vom Kommandozeilenwerkzeug der Plätze (`--reihe <baum>`). Solange sie
+   gilt, nimmt der markierte Baum einen freien Platz vor allen Tickets. Jeder andere Lauf bekommt nur dann einen Platz,
+   wenn er `pre-commit` heißt, kein anderer nicht markierter Lauf schon einen hält und — solange der markierte Baum noch
+   keinen hält — danach einer für ihn frei bleibt. Laufende Läufe werden nicht verdrängt.
+   Die Marke VERFÄLLT nach 90 Minuten und wenn der markierte Baum nicht mehr existiert: eine liegengebliebene Marke legte
+   sonst alle anderen lahm. Ohne gültige Marke gilt das Verhalten davor, unverändert.
+
+   ZUSATZPLATZ NACH ANKUNFT UND ART (01.10.2026, Befund SUITE-PLATZ-TICKET-REIHENFOLGE). Bei gültiger Marke las die
+   Vergabe die Tickets nicht: den einen Platz neben dem markierten Baum nahm der pre-commit, der zuerst nachsah, und ein
+   Lauf mit anderem Namen bekam ihn nie — ein älteres Ticket wartete über Stunden, weil die Marke mehrfach neu gesetzt
+   wurde. Jetzt geht der Zusatzplatz an das ÄLTESTE Ticket außerhalb des markierten Baums, gleich welcher Name; wer ohne
+   Ticket kommt, steht dahinter. Getrennt wird nach ART: ein Browserlauf (`artVon` = 'e2e') bekommt ihn nicht, solange
+   der andere Platz selbst einen Browserlauf hält — parallele Browserläufe ließen Journey-Proben fallen. Er wartet dann
+   auf das Ende jenes Laufs, nicht auf die Marke; eine Höchstdauer braucht es darum nicht. Er hält den Zusatzplatz dabei
+   niemandem zu. Der Push bleibt exklusiv (oben).
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -71,6 +89,12 @@ function ticketVerzeichnis(dir) { return path.join(dir, 'tickets'); }
 const VORRANG = Object.freeze({ 'pre-push': 0 });
 const EXKLUSIV = 'pre-push';
 function vorrang(name) { return Object.prototype.hasOwnProperty.call(VORRANG, name) ? VORRANG[name] : 1; }
+/* Die Art eines Laufs: 'e2e' für alles, was Browser fährt — der Push (E2E-Strecke), landung-vorbereiten und jeder Lauf,
+   dessen Name das sagt (e2e, playwright, browser, vorschau, journey). Ein Browserlauf über die Kommandozeile trägt
+   eines dieser Wörter im Namen. Alles andere: 'node'. */
+const ART_E2E_NAMEN = Object.freeze(['pre-push', 'landung-vorbereiten']);
+const ART_E2E_MUSTER = /e2e|playwright|browser|vorschau|journey/i;
+function artVon(name) { return ART_E2E_NAMEN.includes(name) || ART_E2E_MUSTER.test(String(name || '')) ? 'e2e' : 'node'; }
 
 /** Die lebenden Tickets, älteste zuerst; Tickets toter Prozesse werden geräumt. */
 function wartende({ dir = verzeichnis() } = {}) {
@@ -117,6 +141,35 @@ function halter({ dir = verzeichnis(), n = anzahl() } = {}) {
   return liste;
 }
 
+const REIHE_DATEI = 'reihe';
+const REIHE_GUELTIG_MS = 90 * 60 * 1000;
+
+/** Die Vorrang-Marke: null (keine) oder { baum, gesetztAm, gueltig, grund }. */
+function reiheLesen({ dir = verzeichnis(), jetzt = Date.now() } = {}) {
+  let roh;
+  try { roh = fs.readFileSync(path.join(dir, REIHE_DATEI), 'utf8'); } catch (_) { return null; }
+  let m;
+  try { m = JSON.parse(roh); } catch (_) { return { baum: null, gueltig: false, grund: 'Marke unlesbar, altes Verhalten' }; }
+  const t = Date.parse(m && m.gesetztAm);
+  if (!m || typeof m.baum !== 'string' || !Number.isFinite(t)) return { baum: null, gueltig: false, grund: 'Marke unvollständig, altes Verhalten' };
+  if (jetzt - t > REIHE_GUELTIG_MS) return { ...m, gueltig: false, grund: 'Marke abgelaufen, altes Verhalten' };
+  if (!fs.existsSync(m.baum)) return { ...m, gueltig: false, grund: 'Marke abgelaufen (Baum fehlt), altes Verhalten' };
+  return { ...m, gueltig: true };
+}
+function reiheSetzen({ dir = verzeichnis(), baum, jetzt = Date.now() } = {}) {
+  fs.mkdirSync(dir, { recursive: true });
+  const eintrag = { baum: echterPfad(baum), gesetztAm: new Date(jetzt).toISOString() };
+  fs.writeFileSync(path.join(dir, REIHE_DATEI), JSON.stringify(eintrag) + '\n');
+  return eintrag;
+}
+function reiheLoeschen({ dir = verzeichnis() } = {}) { try { fs.unlinkSync(path.join(dir, REIHE_DATEI)); return true; } catch (_) { return false; } }
+/** Liegt ein Arbeitsverzeichnis im markierten Baum? */
+function imBaum(baum, cwd) {
+  if (!baum || !cwd) return false;
+  const c = echterPfad(cwd);
+  return c === baum || c.startsWith(baum + path.sep);
+}
+
 /**
  * Versucht einmal, einen Platz zu holen. Ergebnis:
  *   { geholt: true, geerbt: true }                   — ein Elternprozess hält schon einen Platz
@@ -128,6 +181,25 @@ function halter({ dir = verzeichnis(), n = anzahl() } = {}) {
 function platzHolen({ name, pid = process.pid, dir = verzeichnis(), n = anzahl(), env = process.env, cwd = process.cwd(), ticket = null } = {}) {
   if (env[UMGEBUNG_GEHALTEN]) return { geholt: true, geerbt: true, von: env[UMGEBUNG_GEHALTEN] };
   fs.mkdirSync(dir, { recursive: true });
+  const reihe = reiheLesen({ dir });
+  if (reihe && reihe.gueltig) {
+    const jetztHalter = halter({ dir, n });
+    if (imBaum(reihe.baum, cwd)) return platzNehmen({ name, pid, dir, n, cwd, schlange: [], reihe });   // vor allen Tickets
+    const andere = jetztHalter.filter((h) => !imBaum(reihe.baum, h.cwd));
+    const markierterHaelt = jetztHalter.length > andere.length;
+    const frei = n - jetztHalter.length;
+    const platzDa = andere.length === 0 && (markierterHaelt ? frei >= 1 : frei >= 2);
+    // Ein Browserlauf nicht neben einem Browserlauf; wer so blockiert ist, hält den Zusatzplatz niemandem zu.
+    const e2eHaelt = jetztHalter.some((h) => artVon(h.name) === 'e2e' && h.pid !== pid);
+    const kannNehmen = (laufName) => !(artVon(laufName) === 'e2e' && e2eHaelt);
+    const schlange = wartende({ dir }).filter((t) => !imBaum(reihe.baum, t.cwd) && t.name !== EXKLUSIV && kannNehmen(t.name));
+    const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : -1;
+    const vorn = eigenerRang === 0 || (eigenerRang < 0 && schlange.length === 0);
+    const darf = name !== EXKLUSIV && platzDa && kannNehmen(name) && vorn;
+    if (!darf) return { geholt: false, halter: jetztHalter, wartende: wartende({ dir }), reihe };
+    return platzNehmen({ name, pid, dir, n, cwd, schlange: [], reihe });
+  }
+  const reiheHinweis = reihe && !reihe.gueltig ? reihe.grund : null;
   const pushHaelt = halter({ dir, n }).some((h) => h.name === EXKLUSIV && h.pid !== pid);
   if (name === EXKLUSIV && pushHaelt) return { geholt: false, halter: halter({ dir, n }), wartende: wartende({ dir }), exklusiv: true };
   // Ein Push, der hinter einem laufenden Push wartet, kann einen freien Platz nicht nehmen — er hält ihn niemandem zu.
@@ -136,8 +208,14 @@ function platzHolen({ name, pid = process.pid, dir = verzeichnis(), n = anzahl()
   // Ohne Ticket: hinter allen derselben oder einer höheren Stufe — ein Push also vor wartenden Vorbereitungen.
   const rang = eigenerRang >= 0 ? eigenerRang : schlange.filter((t) => t.stufe <= vorrang(name)).length;
   if (rang > 0 && n - halter({ dir, n }).length <= rang) {
-    return { geholt: false, halter: halter({ dir, n }), wartende: schlange };
+    return { geholt: false, halter: halter({ dir, n }), wartende: schlange, ...(reiheHinweis ? { reiheHinweis } : {}) };
   }
+  return platzNehmen({ name, pid, dir, n, cwd, schlange, reiheHinweis });
+}
+
+/** Der atomare Teil: den ersten freien Platz mit `wx` nehmen, tote Halter einmal räumen. */
+function platzNehmen({ name, pid, dir, n, cwd, schlange, reihe = null, reiheHinweis = null }) {
+  const zusatz = { ...(reihe ? { reihe } : {}), ...(reiheHinweis ? { reiheHinweis } : {}) };
   const geraeumt = [];
   for (let k = 1; k <= n; k++) {
     const pfad = platzPfad(dir, k);
@@ -156,10 +234,10 @@ function platzHolen({ name, pid = process.pid, dir = verzeichnis(), n = anzahl()
       const eintrag = { pid, name, cwd, host: os.hostname(), gestartetAm: new Date().toISOString() };
       fs.writeFileSync(fd, JSON.stringify(eintrag));
       fs.closeSync(fd);
-      return { geholt: true, platz: k, pfad, eintrag, ...(geraeumt.length ? { geraeumt } : {}) };
+      return { geholt: true, platz: k, pfad, eintrag, ...(geraeumt.length ? { geraeumt } : {}), ...zusatz };
     }
   }
-  return { geholt: false, halter: halter({ dir, n }), wartende: schlange, ...(geraeumt.length ? { geraeumt } : {}) };
+  return { geholt: false, halter: halter({ dir, n }), wartende: schlange, ...(geraeumt.length ? { geraeumt } : {}), ...zusatz };
 }
 
 /** Wartet höchstens `wartenS` Sekunden auf einen Platz (Pause `pauseS`), ohne Ereignisschleife. */
@@ -250,15 +328,20 @@ function meldungBelegt(r) {
     return 'ein anderer Push läuft' + (p ? ' (PID ' + p.pid + ', ' + p.cwd + ', seit ' + p.gestartetAm + ')' : '')
       + ' — ein Push wartet exklusiv, auch bei freiem Platz; danach prüft er, ob der Kanon noch sein Vorfahr ist.';
   }
+  if (r && r.reihe && r.reihe.gueltig) {
+    return 'dran ist ' + r.reihe.baum + ' (Vorrang-Marke seit ' + r.reihe.gesetztAm + ') — daneben läuft höchstens ein weiterer Lauf, '
+      + 'das älteste Ticket zuerst, kein Push und kein Browserlauf neben einem Browserlauf. Belegt: ' + ((r.halter || []).map((h) => `Platz ${h.platz}: ${h.name} (${h.cwd || '?'})`).join(' · ') || 'nichts') + '.';
+  }
   const wer = (r.halter || []).map((h) => `Platz ${h.platz}: ${h.name} (PID ${h.pid}, ${h.cwd || '?'}, seit ${h.gestartetAm})`);
   const vor = (r.wartende || []).length ? ` · vor dir warten ${r.wartende.length}: ` + r.wartende.map((t) => `${t.name} (${t.cwd || '?'})`).join(', ') : '';
-  return 'alle Suite-Plätze belegt — ' + (wer.join(' · ') || 'Halter unlesbar') + vor
+  return (r && r.reiheHinweis ? r.reiheHinweis + '. ' : '') + 'alle Suite-Plätze belegt — ' + (wer.join(' · ') || 'Halter unlesbar') + vor
     + '. Warten, bis einer frei wird; nicht mit --no-verify umgehen (die Plätze schützen die Maschine, nicht den Code).';
 }
 
 module.exports = {
   UMGEBUNG_GEHALTEN, verzeichnis, anzahl, prozessLebt, halter,
   platzHolen, platzHolenMitWarten, platzFreigeben, meldungBelegt,
-  wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV,
+  wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV, artVon,
   eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren,
+  reiheLesen, reiheSetzen, reiheLoeschen, imBaum, REIHE_GUELTIG_MS,
 };

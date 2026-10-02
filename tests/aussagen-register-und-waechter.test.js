@@ -32,7 +32,7 @@ test('[W-aussagen] die Träger werden GEFUNDEN, nicht aufgezählt — auch die A
   }
   // Klasse 2: die Anwendungen — „wird am leichtesten vergessen, weil sie nicht wie ein
   // Dokument aussieht". Genau darum steht sie hier namentlich in der Probe.
-  for (const a of ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-template-generator.html',
+  for (const a of ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-studio.html',
                    'vivodepot-vc-issuer.html', 'pages/README.md']) {
     assert.ok(t.includes(a), a + ' fehlt im Suchraum — die Klasse fällt sonst lautlos aus');
   }

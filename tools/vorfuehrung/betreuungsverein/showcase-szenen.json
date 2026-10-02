@@ -1,0 +1,72 @@
+{
+  "format": "showcaseSzenen/1",
+  "noindex": true,
+  "stationSekunden": 8,
+  "leerlaufSekunden": 90,
+  "warnSekunden": 10,
+  "texte": {
+    "de": {
+      "streifen": "Vorführung · Beispieldaten einer erfundenen Person",
+      "tippen": "Tippen Sie, um das Beispiel-Depot selbst zu öffnen.",
+      "leerlaufHinweis": "Die Vorführung beginnt gleich von vorn.",
+      "weiterAnsehen": "Weiter ansehen",
+      "gesperrt": "In der Vorführung wird nichts gespeichert und nichts verschickt.",
+      "schliessen": "Schließen",
+      "auszug": "Auszug",
+      "notizLabel": "Erklärung",
+      "mehr": "mehr",
+      "weniger": "weniger"
+    }
+  },
+  "stationen": [
+    {
+      "ansicht": "uebersicht",
+      "titel": {
+        "de": "Beraten wird weiterhin von Menschen"
+      },
+      "text": {
+        "de": "Die Beratungsstelle klärt, welche Regelung passt. Das Depot hält fest, was entschieden wurde."
+      }
+    },
+    {
+      "ansicht": "bereich",
+      "ziel": "advanceCare",
+      "anker": "feld:advanceCare.provisionInstruments",
+      "titel": {
+        "de": "Die Vollmacht allein genügt nicht"
+      },
+      "text": {
+        "de": "Im Depot steht, wer bevollmächtigt ist, in welcher Form, und wo die unterschriebene Urschrift liegt."
+      }
+    },
+    {
+      "ansicht": "anlass",
+      "ziel": "krankenhaus",
+      "anker": "#modal-titel",
+      "titel": {
+        "de": "Wenn es soweit ist"
+      },
+      "text": {
+        "de": "Für die Aufnahme im Krankenhaus stellt die Person zusammen, was diese Stelle braucht, und nicht mehr."
+      }
+    },
+    {
+      "ansicht": "notfall",
+      "titel": {
+        "de": "Und für den Fall, dass es schnell gehen muss"
+      },
+      "text": {
+        "de": "Die Notfallkarte zeigt in wenigen Zeilen, wen man anruft und wo die Vollmacht liegt. Als Karte zum Ausdrucken funktioniert sie auch ohne Gerät."
+      }
+    },
+    {
+      "ansicht": "schluss",
+      "titel": {
+        "de": "Die Beratungsstelle sieht nichts davon"
+      },
+      "text": {
+        "de": "Gerda hält ihre Unterlagen selbst, auf ihrem eigenen Gerät. Der Verein muss davon nichts speichern."
+      }
+    }
+  ]
+}

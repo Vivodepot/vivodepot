@@ -620,6 +620,41 @@ Volle Suite nach diesem Zug: Node 2862/0 (2 erwartete Lockstep-Wächter vor dem 
 Commits nicht mitgezählt), E2E 65/65, E2E-Cross 16/16 (4 unverändert übersprungen), Cross-Gates
 8/8, Konformität 46/46.
 
+## Stück 13 (Nachtrag 01.10.2026, U2-ADR-463 Teil 3) — den Speicherort merken, nur mit Zustimmung
+
+**Entscheidung vom 01.10.2026; sie ändert 1=A aus Stück 3.** Der Handle bleibt nicht mehr zwingend nur im RAM.
+
+**Was gemerkt wird:**
+- Je Depot (`aktuelleDepotUUID`) der `FileSystemFileHandle` und sein Dateiname.
+- Er liegt in einer eigenen IndexedDB `vivodepot-ablageort`, getrennt vom internen Stand. Vergessen löscht darum nie
+  ein Depot.
+- Der Handle trägt keinen Pfad und keinen Inhalt. Wer das Gerät benutzt, sieht, dass es eine Depotdatei gibt und wie
+  sie heißt, den Inhalt nicht.
+
+**Wann:**
+- Nur in Browsern, die den Handle behalten und die Freigabe neu erfragen können (`ablageortMerkbar`).
+- Nur mit Zustimmung. Nach dem ersten Sichern in eine neue Datei bietet ein Hinweis mit Knopf das Merken an, einmal je
+  Sitzung. Es ist ein Hinweis, kein Dialog: ein Dialog verdrängte, was gerade offen ist. Ist ein Dialog offen, kommt
+  der Hinweis, wenn er zu ist.
+- In den Einstellungen unter „Sichern & Wiederherstellen“ kann man den Ort ebenfalls merken.
+- Ohne Zustimmung bleibt es bei 1=A.
+
+**Was es bringt:**
+- Nach dem Öffnen aus dem Gerätespeicher geht die nächste Sicherungskopie ohne Dateidialog in dieselbe Datei. Die
+  Freigabe fragt der Browser erst beim Sichern, im Klick (`_dateiHandleBerechtigungPruefen`).
+- Ohne Gerätespeicher bietet der Startschirm je gemerktem Ort einen Knopf „… öffnen“.
+- Eine Datei, die über einen Handle kam (gemerkter Ort oder Doppelklick, U2-ADR-463 Teil 4), wird nach dem Öffnen
+  das Speicherziel.
+
+**Sichtbar und umkehrbar:** In den Einstellungen steht der gemerkte Ort mit „Speicherort vergessen“, ein Klick.
+
+**Proben:** `tests/e2e/ablageort-merken.spec.js`. Die Spec nutzt echte Handles aus dem privaten Dateisystem des
+Browsers über `http://localhost`; unter `file://` gibt es keins. Sie zeigt:
+- ohne Zustimmung nichts gemerkt, mit dem Knopf gemerkt;
+- nach dem Neustart eine Sicherungskopie ohne Dateidialog;
+- der Startschirm-Knopf öffnet die Datei;
+- Vergessen leert den Speicher.
+
 ## Cross-Referenz
 U2-ADR-015 (D43 Zwei-Ebenen-Persistenz: IDB-Cache ↔ `.vivodepot`-Datei, durch Stück 12 UNVERÄNDERT
 bestätigt), U2-ADR-011 (Auto-Save / Speicher-Status), U2-ADR-097 (produkttragende Zusicherungen,

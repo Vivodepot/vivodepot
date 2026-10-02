@@ -23,5 +23,18 @@
       "type": "image/png",
       "purpose": "any"
     }
-  ]
+  ],
+  "file_handlers": [
+    {
+      "action": "./vivodepot.html",
+      "accept": {
+        "application/octet-stream": [
+          ".vivodepot"
+        ]
+      }
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
 }

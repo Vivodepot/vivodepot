@@ -1106,6 +1106,15 @@ const STUFEN = [
     vorher:  (d) => d.sektoren.health.chronicConditionsDiagnoses[0].code.system === 'http://hl7.org/fhir/sid/icd-10-gm',
     nachher: (d) => d.sektoren.health.chronicConditionsDiagnoses[0].code.system === 'http://fhir.de/CodeSystem/bfarm/icd-10-gm'
                  && d.sektoren.health.chronicConditionsDiagnoses[0].code.version === undefined },
+  { nach: 91, was: 'Getrennte Namens- und Anschriftsfelder (U2-ADR-467, 01.10.2026): Namen werden nie zerlegt; die bisherige '
+                 + 'Anschrift wird nur VORGESCHLAGEN (anschriftVorschlaege), die neuen Felder bleiben leer bis zur Bestätigung. '
+                 + 'Ausführlich: tests/schema-91-namen-anschrift-getrennt.test.js.',
+    baue: () => basis(90, sek('identity', { streetAddress: 'Lindenweg 4', postcodeCity: '80331 München' }),
+      { menschen: [{ id: 'p1', name: 'Maria von der Heide', adresse: 'Am Hang 12, 50667 Köln' }] }),
+    vorher:  (d) => d.sektoren.identity.streetAddress === 'Lindenweg 4' && !d.anschriftVorschlaege,
+    nachher: (d) => d.anschriftVorschlaege.identity.houseNumber === '4' && d.anschriftVorschlaege.menschen.p1.city === 'Köln'
+                 && d.sektoren.identity.street === undefined && d.menschen[0].familyName === undefined
+                 && d.sektoren.identity.streetAddress === 'Lindenweg 4' && d.menschen[0].name === 'Maria von der Heide' },
 ];
 
 module.exports = { STUFEN, basis };

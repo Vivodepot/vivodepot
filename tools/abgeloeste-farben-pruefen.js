@@ -55,7 +55,7 @@ const REPO = path.join(__dirname, '..');
 const ANWENDUNGEN = [
   'vivodepot.html',
   'vivodepot-lesen.html',
-  'vivodepot-template-generator.html',
+  'vivodepot-studio.html',
   'vivodepot-vc-issuer.html',
   /* `vivodepot-STARTSEITE.html` ist am 17.08.2026 entfallen (Zug 1b desselben Auftrags) —
      eine statische Vorschau in der abgeloesten Farbwelt, die keine Probe mehr las. Damit

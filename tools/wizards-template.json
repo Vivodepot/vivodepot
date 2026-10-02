@@ -485,18 +485,34 @@
       "schritte": [
         {
           "feld": {
-            "id": "streetAddress",
+            "id": "street",
             "typ": "text",
-            "label": "Straße & Hausnummer",
-            "beispiel": "Lindenweg 4"
+            "label": "Straße",
+            "beispiel": "Lindenweg"
           }
         },
         {
           "feld": {
-            "id": "postcodeCity",
+            "id": "houseNumber",
             "typ": "text",
-            "label": "PLZ & Ort",
-            "beispiel": "80331 München"
+            "label": "Hausnummer",
+            "beispiel": "4"
+          }
+        },
+        {
+          "feld": {
+            "id": "postalCode",
+            "typ": "text",
+            "label": "Postleitzahl",
+            "beispiel": "80331"
+          }
+        },
+        {
+          "feld": {
+            "id": "city",
+            "typ": "text",
+            "label": "Ort",
+            "beispiel": "München"
           }
         },
         {

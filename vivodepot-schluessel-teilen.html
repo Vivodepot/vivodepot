@@ -72,6 +72,9 @@
   }
   main { max-width: 54rem; margin: 0 auto; }
   h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
+  /* Einheitlicher Produktkopf (v847): Produktname und ein Link zur Seite der Marke. */
+  .produkt-kopf { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; flex-wrap: wrap; }
+  .produkt-kopf-link { color: var(--salbei-dunkel); font-size: .95rem; text-underline-offset: 2px; }
   h2 { font-size: 1.15rem; margin: 2rem 0 .5rem; }
   .karte { border: 1px solid var(--linie); border-radius: .5rem; padding: 1rem 1.15rem; margin: 1rem 0; background: var(--flaeche); }
   .warnung { border: 2px solid var(--warn-rand); background: var(--warn-flaeche); border-radius: .5rem; padding: 1rem 1.15rem; margin: 1rem 0; }
@@ -119,7 +122,10 @@
 </head>
 <body>
 <main>
-  <h1>Vivodepot · Schlüssel teilen</h1>
+  <header class="produkt-kopf">
+    <h1>Vivodepot · Schlüssel teilen</h1>
+    <a class="produkt-kopf-link" href="#" data-marke-href="website" target="_blank" rel="noopener noreferrer">vivodepot.de ↗</a>
+  </header>
   <p>Schwellenwert-Aufteilung eines Ed25519-Schlüssels nach Shamirs Verfahren:
      <strong>n Anteile, von denen k genügen.</strong> Offline, ohne Netz, ohne Speicherung.</p>
 
@@ -2179,7 +2185,18 @@ function felderRaeumen() {
     if (f) f.value = '';
   }
 }
-document.addEventListener('DOMContentLoaded', () => { felderRaeumen(); boot(); });
+/* Die Marken-Stelle dieses Werkzeugs (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst
+   nirgends; der Link im Produktkopf (data-marke-href) wird beim Start daraus gesetzt. Gehalten von tools/marken-adressen-pruefen.js. */
+const MARKEN_ADRESSEN = Object.freeze({
+  website: 'https://vivodepot.de/',
+});
+function markeLinksSetzen() {
+  document.querySelectorAll('[data-marke-href]').forEach((n) => {
+    const ziel = MARKEN_ADRESSEN[n.getAttribute('data-marke-href')];
+    if (ziel) n.setAttribute('href', ziel);
+  });
+}
+document.addEventListener('DOMContentLoaded', () => { felderRaeumen(); markeLinksSetzen(); boot(); });
 </script>
 </body>
 </html>

@@ -59,6 +59,19 @@ This material contains content from LOINC (http://loinc.org). LOINC is copyright
 
 **SNOMED CT (Global Patient Set)** — Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0, https://creativecommons.org/licenses/by-nd/4.0/), bezogen über https://www.snomed.org/gps. SNOMED® und SNOMED CT® sind eingetragene Marken der International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists. Hinweis auf den Gewährleistungsausschluss: Das Material wird ohne Gewähr bereitgestellt; es gilt Abschnitt 5 der CC BY-ND 4.0 (Gewährleistungsausschluss und Haftungsbeschränkung). GPS-Release: 20260101. Genutzt werden neun Konzepte mit ihrem unveränderten Begriff; deutsche Bezeichnungen daneben sind eigene Bezeichnungen von Vivodepot, keine SNOMED-Begriffe. Einzelheiten in `THIRD_PARTY_LICENSES`.
 
+## Eingebettete Wortlisten (Passwort-Vorschlag)
+
+Die Listen stehen in den Sprachmodulen unter der Kennung `strings:passwortWortliste.text`. Einzelheiten in
+`THIRD_PARTY_LICENSES`, Abschnitt „Wortlisten".
+
+**Deutsch: dys2p wordlists-de, `de-1296-v1.txt`.** Quelle: https://github.com/dys2p/wordlists-de. Lizenz nach Wahl des
+Nutzers Unlicense, CC0 oder BSD-3-Clause; Vivodepot nutzt sie unter CC0. Verändert: 45 Wörter entfernt.
+
+**Englisch: EFF Short Wordlist 1** (Electronic Frontier Foundation, 2016). Quelle:
+https://www.eff.org/files/2016/09/08/eff_short_wordlist_1.txt. Lizenz: Creative Commons Attribution 4.0 International
+(CC BY 4.0, https://creativecommons.org/licenses/by/4.0/), laut https://www.eff.org/copyright. Verändert: 101 Wörter
+entfernt, Würfelnummern weggelassen.
+
 ---
 
 ## Eingebettete Programmzeichen

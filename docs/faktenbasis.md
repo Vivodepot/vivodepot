@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-01 · **Fassung:** v843 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-02 · **Fassung:** v857 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -50,11 +50,11 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**13 Sektoren, 316 Felder, 194 Unterfelder gesamt.**
+**13 Sektoren, 320 Felder, 194 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
-| `identity` | Identität & Person | 32 | 20 |
+| `identity` | Identität & Person | 36 | 20 |
 | `people` | Meine Menschen | 8 | 24 |
 | `mobility` | Mobilität & Reise | 13 | 7 |
 | `finance` | Finanzen & Zahlungen | 22 | 18 |
@@ -84,13 +84,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): 12034
-- E2E (Playwright): 506 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 21 aus Schleifen über CPU-Drosselungen = **527 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
+- E2E (Playwright): 514 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 21 aus Schleifen über CPU-Drosselungen = **535 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
 - Wächter-Register (intern): 127
-- Schema-Version: 90 · SCHALEN_STAND: v843 · Build-Version: v1.0
+- Schema-Version: 91 · SCHALEN_STAND: v857 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (416)
+## ADR-Register (421)
 
 | Nummer | Titel |
 |---|---|
@@ -510,6 +510,11 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-454 | Kind-Datei — das Kind übernimmt sein Sub-Depot ohne Mitwirkung der Eltern |
 | U2-ADR-455 | Schwangerschaft und Weglaufgefährdung als Kennungen (Notfalldatensatz) |
 | U2-ADR-456 | FIM-Bezüge: Kennung, Fassung und Status je Depot-Feld |
+| U2-ADR-458 | Die Sprache des IPS-Begleittexts wird beim Export gewählt |
+| U2-ADR-460 | Anfrage per QR — kompakte Transportform und Kurzlink mit Weiterleitung auf die eigene App |
+| U2-ADR-463 | Ablage ohne Netz — Passwort aus Wörtern, Zusammenführen, Doppelklick öffnet die Datei |
+| U2-ADR-466 | Vollmacht und Patientenverfügung im IPS/EPS-Export |
+| U2-ADR-467 | Getrennte Namens- und Anschriftsfelder, ohne Raten |
 
 ---
 
@@ -519,18 +524,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 33 | 221 |
-| `.btn-sek` | 14 | 99 |
+| `.btn` | 33 | 226 |
+| `.btn-sek` | 14 | 104 |
 | `.btn-dezent` | 5 | 11 |
 | `.btn-klein` | 3 | 14 |
 | `.btn-notfall` | 2 | 0 |
-| `.btn-mini` | 10 | 34 |
+| `.btn-mini` | 10 | 36 |
 | `.karte` | 5 | 68 |
-| `.modal` | 18 | 143 |
-| `.toast` | 9 | 278 |
+| `.modal` | 18 | 145 |
+| `.toast` | 9 | 289 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 36 | 2 |
 | `.sidebar` | 18 | 5 |
-| `.leer` | 3 | 284 |
+| `.leer` | 3 | 290 |
 | `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 24 |
+| `.hinweis-box` | 7 | 26 |

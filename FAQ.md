@@ -46,10 +46,12 @@ stark Ihr Depot tatsächlich geschützt ist, hängt zusätzlich an Ihrem Passwor
 
 ## Kann ich meine Daten wieder herausbekommen?
 
-Ja, in elf Formaten — und zehn davon liest Vivodepot auch wieder ein. Das ist geprüft: ein
-Testlauf schreibt aus einem Referenzdepot, liest zurück und vergleicht Feld für Feld.
+Ja: als ganze, verschlüsselte Depot-Datei und in den Austauschformaten, die die
+[Faktenbasis](docs/faktenbasis.md) unter „Export-Formate“ aufzählt. Bis auf den Kalender-Export
+liest Vivodepot jedes davon auch wieder ein. Das ist geprüft: ein Testlauf schreibt aus einem
+Referenzdepot, liest zurück und vergleicht Feld für Feld.
 
-Das elfte, der Kalender-Export, ist bewusst ein Einbahnweg. Welche Formate es gibt, steht in
+Der Kalender-Export ist bewusst ein Einbahnweg. Welche Formate es gibt, steht in
 [`STANDARDS.md`](STANDARDS.md); was von jedem zurückkommt, in
 [`INTEROPERABILITY.md`](INTEROPERABILITY.md).
 

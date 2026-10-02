@@ -50,7 +50,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const GENERATOR = path.join(REPO, 'vivodepot-template-generator.html');
+const GENERATOR = path.join(REPO, 'vivodepot-studio.html');
 const TRANSPORT = path.join(REPO, 'bereiche', 'feldkatalog.json');
 const BEREICH_TEMPLATES_DIR = path.join(REPO, 'tools', 'bereich-templates');
 
@@ -292,9 +292,9 @@ function main() {
     if (!check) { fs.mkdirSync(path.dirname(TRANSPORT), { recursive: true }); fs.writeFileSync(TRANSPORT, soll); }
   }
   const gq = fs.readFileSync(GENERATOR, 'utf8');
-  const gneu = regionErsetzen(gq, generatorRegion(felder), 'vivodepot-template-generator.html');
+  const gneu = regionErsetzen(gq, generatorRegion(felder), 'vivodepot-studio.html');
   if (gneu !== gq) {
-    drift.push('vivodepot-template-generator.html (FELDKATALOG-Region)');
+    drift.push('vivodepot-studio.html (FELDKATALOG-Region)');
     if (!check) fs.writeFileSync(GENERATOR, gneu);
   }
 

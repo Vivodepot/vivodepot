@@ -67,7 +67,9 @@ function codePruefsumme(text) {
 // die vier Produkte aus tools/vier-produkte-erzeugen.js sind vorher und nachher byte-gleich; Pin neu gehasht (vorher c08ed34b…).
 // Das Schwesterrepo trägt HEUTE einen anderen Pin, weil seine Kopie ein älterer Stand des Abschnitts ist (eigener Befund,
 // Probe folgt); „wortgleich“ oben gilt erst wieder nach dem Abgleich.
-const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = 'a5d76c9e9a67cb6c614f8cf9b2ab8449cd5d805a9d79fc70dd8376576a50a8ab';
+// 01.10.2026 (U2-ADR-458): eine neue Region in AB_WERK_REGIONEN, modulTyp 'ips-begleittext' → AB_WERK_IPS_BEGLEITTEXT (genau ein
+// Modul, kein Listentyp). Pin neu gehasht (vorher a5d76c9e…); die Gateway-Kopie zieht mit der CSP-Vorleistung nach.
+const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = 'f81f1fa126f07946fb2eabe14753c353c16861b801ca75ffc88dc514b0dc6fda';
 
 const PRODUKT_TEXT_ERZEUGEN_PFAD = path.join(__dirname, 'produkt-text-erzeugen.js');
 

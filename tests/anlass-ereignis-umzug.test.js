@@ -172,8 +172,8 @@ test('[Anlass·umzug] 2) die Reise: leeres Depot → Einstieg → Schritte → b
   /* Die Lage, wie eine Bürgerin sie schildert — je Schritt eine wahre Angabe. */
   const def = V.WIZARD_BY_ID[WIZARD_ID];
   const antworten = [
-    'Lindenweg 4',
-    '80331 München',
+    // U2-ADR-467: die neue Anschrift in vier Teilen.
+    'Lindenweg', '4', '80331', 'München',
     'Termin Bürgerbüro 12.07. — noch offen',
     'Strom und Gas ummelden; Internet umziehen; Bank und Arbeitgeber informieren',
     'alte Wohnung zum 30.09. gekündigt; Übergabe mit Protokoll; Kaution zurückfordern',

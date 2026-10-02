@@ -170,6 +170,32 @@ wirklich eingebettet. Der SBOM
      Italic   Inter-Italic-pdf-subset.ttf   23ed1296e8c0d152c240f9b944747dd3f96add61b15f59076ba81b2747dc3df6
 
 -------------------------------------------------------------------------------
+WORTLISTEN (Passwort-Vorschlag, U2-ADR-463) — STATUS: inline (Sprachmodule, Kennung
+strings:passwortWortliste.text)
+-------------------------------------------------------------------------------
+  • Deutsch: dys2p wordlists-de, de-1296-v1.txt, https://github.com/dys2p/wordlists-de
+    Lizenz: „This work is multi-licensed under Unlicense, CC0 and BSD-3." Genutzt unter CC0.
+    sha256 der Rohdatei: d5ae513e39bbfb58305cf9aa68e0a446d57ee7e7930569d1368a85cda4a9ce73
+    Von Hand entfernt (45 Wörter, die beim Vorlesen erschrecken oder kränken):
+    abbruch abgrund abriss abschied alptraum anstalt asche aufstand ausbruch beben
+    befund beil beute biest bombe bunker darm dieb dolch dreck fieber flucht ganove
+    gauner gespenst grab gruft hunger impfen kampf krebs made monster narbe peitsche
+    pille ruine schabe sense serum spion unfall unrat virus zorn
+  • Englisch: EFF Short Wordlist 1 (Electronic Frontier Foundation, 2016),
+    https://www.eff.org/files/2016/09/08/eff_short_wordlist_1.txt
+    Lizenz: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), laut
+    https://www.eff.org/copyright („Any and all original material on the EFF website").
+    sha256 der Rohdatei: 8f5ca830b8bffb6fe39c9736c024a00a6a6411adb3f83a9be8bfeeb6e067ae69
+    Verändert: Würfelnummern weggelassen; von Hand entfernt (101 Wörter):
+    acid agony aids alibi armed army arson ashes blade blast bok boned bribe bully bust
+    coke coma cough cramp crazy crook cult cure curse deaf debt decay ditzy dizzy dose
+    dowry drown dwarf ebay evict evil femur fetal fever filth folic gag gore grave
+    grief grope harm hate hump hung hurt islam junky kung liver lung lying mace mardi
+    moan mumbo mummy pagan panic panty polio prude rabid rage raid rash riot ruin scam
+    scare scary sect shaft slain slit slob slum snort swab swear taunt theft thong
+    trump viral virus vixen widow wimp womb wound wrath wreck xerox yahoo yo-yo
+
+-------------------------------------------------------------------------------
 CODE-LISTEN (Paket 3 — text+code-Andock)
 -------------------------------------------------------------------------------
 Öffentliche Code-Systeme, inline als @vd-codeliste-Blöcke (Quellen:

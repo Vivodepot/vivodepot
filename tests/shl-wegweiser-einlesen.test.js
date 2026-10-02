@@ -74,8 +74,11 @@ test('[SHL C] der Wegweiser steht in der Einlese-Tür, nicht im Sende-Dialog', (
     assert.ok(a >= 0, name + ' nicht gefunden');
     return html.slice(a, html.indexOf('\n}\n', a));
   };
-  assert.ok(koerper('flowEinlesenZentral').includes(ZIEL));
-  assert.ok(!koerper('flowShlVorbereiten').includes(ZIEL), 'die Abhol-Seite gehört nicht in den Sende-Dialog');
+  // Seit v847 steht die Adresse nur in MARKEN_ADRESSEN (tools/marken-adressen-pruefen.js); der Link liest sie von dort.
+  assert.match(html, /\n  shlAbholen: 'https:\/\/share\.vivodepot\.de\/empfangen\.html',\n/, 'die Marken-Stelle trägt genau diese Adresse');
+  assert.ok(koerper('flowEinlesenZentral').includes('MARKEN_ADRESSEN.shlAbholen'));
+  assert.ok(!koerper('flowShlVorbereiten').includes('MARKEN_ADRESSEN.shlAbholen') && !koerper('flowShlVorbereiten').includes(ZIEL),
+    'die Abhol-Seite gehört nicht in den Sende-Dialog');
   assert.ok(!/\bfetch\s*\(/.test(koerper('flowEinlesenZentral')), 'die Einlese-Tür ruft nichts ab');
 });
 

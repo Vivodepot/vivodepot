@@ -26,7 +26,8 @@ test('1) umzwiz registriert; Standardziel identitaet; Schritt-Ziele über B1/B9/
   const ziele = def.schritte.map(s => V.wizardSchrittZiel(def, s).sektor);
   // F5 Posten 3 („F4 und F5", 09.08.2026): drei neue Termin-Schritte (alle nach
   // 'wohnen', wie der Mietverhältnis-Schritt daneben) kamen dazu.
-  assert.equal(ziele.join(','), 'identity,identity,identity,administration,housing,housing,housing,housing');
+  // U2-ADR-467 (01.10.2026): die neue Anschrift in vier Teilen (Straße, Hausnummer, PLZ, Ort) statt zwei Zeilen.
+  assert.equal(ziele.join(','), 'identity,identity,identity,identity,identity,administration,housing,housing,housing,housing');
   for (const s of def.schritte) {
     const z = V.wizardSchrittZiel(def, s).sektor;
     const ids = V.SEKTOR_BY_ID[z].sektionen.flatMap(x => x.felder).map(f => f.id);
@@ -36,14 +37,16 @@ test('1) umzwiz registriert; Standardziel identitaet; Schritt-Ziele über B1/B9/
 
 test('2) Roundtrip über drei Bereiche: B1 (Anschrift/Ummeldung), B9 (Versorger), B11 (Mietverhältnis)', async () => {
   const { V } = await frischMitDepot();
-  V.wizardSchrittSetzen('umzwiz', 0, 'Lindenweg 4');                        // strasse (B1)
-  V.wizardSchrittSetzen('umzwiz', 1, '80331 München');                     // plz_ort (B1)
-  V.wizardSchrittSetzen('umzwiz', 2, 'Bürgerbüro 12.07.');                 // umzug_ummeldung (B1)
-  V.wizardSchrittSetzen('umzwiz', 3, 'Strom/Gas/Internet; Bank informieren'); // umzug_versorger (B9)
-  V.wizardSchrittSetzen('umzwiz', 4, 'alte Wohnung zum 30.09. gekündigt'); // umzug_mietverhaeltnis (B11)
+  V.wizardSchrittSetzen('umzwiz', 0, 'Lindenweg');                          // street (B1, U2-ADR-467)
+  V.wizardSchrittSetzen('umzwiz', 1, '4');                                  // houseNumber
+  V.wizardSchrittSetzen('umzwiz', 2, '80331');                              // postalCode
+  V.wizardSchrittSetzen('umzwiz', 3, 'München');                            // city
+  V.wizardSchrittSetzen('umzwiz', 4, 'Bürgerbüro 12.07.');                 // umzug_ummeldung (B1)
+  V.wizardSchrittSetzen('umzwiz', 5, 'Strom/Gas/Internet; Bank informieren'); // umzug_versorger (B9)
+  V.wizardSchrittSetzen('umzwiz', 6, 'alte Wohnung zum 30.09. gekündigt'); // umzug_mietverhaeltnis (B11)
   const d = V.getData();
-  assert.equal(d.sektoren.identity.streetAddress, 'Lindenweg 4');
-  assert.equal(d.sektoren.identity.postcodeCity, '80331 München');
+  assert.deepEqual(['street', 'houseNumber', 'postalCode', 'city'].map((k) => d.sektoren.identity[k]), ['Lindenweg', '4', '80331', 'München']);
+  assert.equal(d.sektoren.identity.streetAddress, undefined, 'die neue Anschrift geht nicht in die bisherige Zeile');
   assert.equal(d.sektoren.identity.reRegistrationWithTheResidents, 'Bürgerbüro 12.07.');
   assert.equal(d.sektoren.administration.changingUtilityProviders, 'Strom/Gas/Internet; Bank informieren');
   assert.equal(d.sektoren.housing.tenancyTerminationHandover, 'alte Wohnung zum 30.09. gekündigt');
@@ -54,7 +57,7 @@ test('2) Roundtrip über drei Bereiche: B1 (Anschrift/Ummeldung), B9 (Versorger)
 test('3) Wiedereintritt: B11-Eintrag allein genügt; Startknopf in B1, B9 und B11', async () => {
   const { V, document } = await frischMitDepot();
   assert.equal(V.wizardHatDaten('umzwiz'), false);
-  V.wizardSchrittSetzen('umzwiz', 4, 'gekündigt zum 30.09.');   // nur B11
+  V.wizardSchrittSetzen('umzwiz', 6, 'gekündigt zum 30.09.');   // nur B11
   assert.equal(V.wizardHatDaten('umzwiz'), true, 'Daten in B11 erkannt');
   V.betreteApp();
   for (const [sek, hint] of [['identity', 'B1'], ['administration', 'B9'], ['housing', 'B11']]) {
@@ -71,11 +74,11 @@ test('4) Sub-Modus: umzwiz schreibt in den Sub-Inhalt, nicht in den Anker', asyn
   V.akteurSelbstErklaeren('Verwalterin');
   const anker = V.getData();
   V.subKontextBetreten(e.depotUUID);
-  V.wizardSchrittSetzen('umzwiz', 0, 'Seestraße 12');   // B1
-  V.wizardSchrittSetzen('umzwiz', 3, 'Strom ummelden'); // B9
-  assert.equal(V.getData().sektoren.identity.streetAddress, 'Seestraße 12');
+  V.wizardSchrittSetzen('umzwiz', 0, 'Seestraße');      // B1
+  V.wizardSchrittSetzen('umzwiz', 5, 'Strom ummelden'); // B9
+  assert.equal(V.getData().sektoren.identity.street, 'Seestraße');
   assert.equal(V.getData().sektoren.administration.changingUtilityProviders, 'Strom ummelden');
-  assert.ok(!(anker.sektoren.identity && anker.sektoren.identity.streetAddress), 'Anker-B1 leer');
+  assert.ok(!(anker.sektoren.identity && anker.sektoren.identity.street), 'Anker-B1 leer');
   assert.ok(!(anker.sektoren.administration && anker.sektoren.administration.changingUtilityProviders), 'Anker-B9 leer');
   await V.subKontextVerlassen();
 });

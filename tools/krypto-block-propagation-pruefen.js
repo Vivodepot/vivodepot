@@ -63,7 +63,7 @@ const TRAEGER_SIGNATUREN = ['const VdCrypto = Object.freeze', 'const VdCrypto = 
 // MINDESTZAHL (dieselbe Lehre, strukturell): eine SINKENDE Trägerzahl ist selbst ein Befund,
 // nicht nur eine Abweichung zwischen den gefundenen Trägern. Gemessen, 18.09.2026: sechs
 // echte Träger (vivodepot.html, vivodepot-krypto-kern-PORT-VERBATIM.js, vivodepot-lesen.html,
-// vivodepot-schluessel-teilen.html, vivodepot-template-generator.html, vivodepot-vc-issuer.html)
+// vivodepot-schluessel-teilen.html, vivodepot-studio.html, vivodepot-vc-issuer.html)
 // — kein geschätzter Wert, per `--karte` nachgezählt. Sinkt die Zahl (Signatur-Wechsel ohne
 // Nachzug, eine vergessene Datei, ein stiller Rauswurf), wird der Lauf ROT statt weiter
 // „vollständig" zu melden. Ein STEIGEN ist erlaubt (eine neue Nebenanwendung, die den Block

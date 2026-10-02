@@ -82,7 +82,7 @@ function pruefen() {
 
 /* Posten 2 („Modulprüfung schließen", 23.08.2026) — „Anzeige im Erzeuger, sichtbar beim Bauen,
    mit dem Stand gegen die Grenze". Es gibt keinen Erzeuger für die fünf unsignierten
-   Einlass-Register (anders als für Feld-Vorlagen, wo vivodepot-template-generator.html diese
+   Einlass-Register (anders als für Feld-Vorlagen, wo vivodepot-studio.html diese
    Rolle trägt) — Module dieser Art entstehen heute handgeschrieben oder, wie hier, per
    Node-Werkzeug. Die Anzeige lebt darum HIER, am einzigen Ort, an dem eines tatsächlich gebaut
    wird — und liest die Zahl aus derselben Kern-Funktion, die auch beim Einlassen entscheidet

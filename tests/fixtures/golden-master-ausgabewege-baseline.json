@@ -47,6 +47,7 @@
                 "reference": "urn:uuid:«uuid»"
               }
             ],
+            "language": "en",
             "title": "International Patient Summary",
             "section": [
               {
@@ -61,7 +62,7 @@
                 },
                 "text": {
                   "status": "generated",
-                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Allergies and Intolerances</div>"
+                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Allergies and Intolerances</div>"
                 },
                 "entry": [
                   {
@@ -84,7 +85,7 @@
                 },
                 "text": {
                   "status": "generated",
-                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Medication List</div>"
+                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Medication List</div>"
                 },
                 "entry": [
                   {
@@ -107,7 +108,7 @@
                 },
                 "text": {
                   "status": "generated",
-                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Problem List</div>"
+                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Problem List</div>"
                 },
                 "entry": [
                   {
@@ -130,7 +131,7 @@
                 },
                 "text": {
                   "status": "generated",
-                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">History of Procedures</div>"
+                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">History of Procedures</div>"
                 },
                 "entry": [
                   {
@@ -156,9 +157,44 @@
                 },
                 "text": {
                   "status": "generated",
-                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Medical Devices</div>"
+                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Medical Devices</div>"
                 },
                 "entry": [
+                  {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                ]
+              },
+              {
+                "title": "Advance Directives",
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://loinc.org",
+                      "code": "42348-3"
+                    }
+                  ]
+                },
+                "text": {
+                  "status": "generated",
+                  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Advance Directives</div>"
+                },
+                "entry": [
+                  {
+                    "reference": "urn:uuid:«uuid»"
+                  },
+                  {
+                    "reference": "urn:uuid:«uuid»"
+                  },
+                  {
+                    "reference": "urn:uuid:«uuid»"
+                  },
+                  {
+                    "reference": "urn:uuid:«uuid»"
+                  },
+                  {
+                    "reference": "urn:uuid:«uuid»"
+                  },
                   {
                     "reference": "urn:uuid:«uuid»"
                   }
@@ -167,7 +203,7 @@
             ],
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">International Patient Summary (IPS) — allergies, medication, diagnoses, procedures.</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">International Patient Summary (IPS) — allergies, medication, diagnoses, procedures.</div>"
             }
           }
         },
@@ -190,9 +226,21 @@
             ],
             "gender": "female",
             "birthDate": "1958-03-14",
+            "address": [
+              {
+                "use": "home",
+                "type": "physical",
+                "text": "Lindenweg 4, 80331 München",
+                "line": [
+                  "Lindenweg 4"
+                ],
+                "city": "München",
+                "postalCode": "80331"
+              }
+            ],
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Elisabeth Wredenhagen-Sonnenschein</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Elisabeth Wredenhagen-Sonnenschein</div>"
             }
           }
         },
@@ -229,7 +277,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Penicillin</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Penicillin</div>"
             }
           }
         },
@@ -266,7 +314,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hausstaubmilben</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Hausstaubmilben</div>"
             }
           }
         },
@@ -289,7 +337,7 @@
             "effectiveDateTime": "2026-01-15T09:00:00.000Z",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Ramipril 5 mg morgens</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Ramipril 5 mg morgens</div>"
             }
           }
         },
@@ -312,7 +360,7 @@
             "effectiveDateTime": "2026-01-15T09:00:00.000Z",
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Metformin 500 mg, zweimal täglich</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Metformin 500 mg, zweimal täglich</div>"
             }
           }
         },
@@ -341,7 +389,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Diabetes mellitus Typ 2</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Diabetes mellitus Typ 2</div>"
             }
           }
         },
@@ -370,7 +418,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Bluthochdruck (essentielle Hypertonie)</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Bluthochdruck (essentielle Hypertonie)</div>"
             }
           }
         },
@@ -392,7 +440,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Blinddarm-Entfernung (1979)</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Blinddarm-Entfernung (1979)</div>"
             },
             "performedDateTime": "1979"
           }
@@ -415,7 +463,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hüft-TEP rechts (2019)</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Hüft-TEP rechts (2019)</div>"
             },
             "performedDateTime": "2019"
           }
@@ -438,7 +486,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Kaiserschnitt (1994)</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Kaiserschnitt (1994)</div>"
             },
             "performedDateTime": "1994"
           }
@@ -460,7 +508,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hüft-TEP rechts (Stryker), seit 2019</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Hüft-TEP rechts (Stryker), seit 2019</div>"
             }
           }
         },
@@ -490,7 +538,723 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Hüft-TEP rechts (Stryker), seit 2019</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Hüft-TEP rechts (Stryker), seit 2019</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "RelatedPerson",
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "relationship": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DPOWATT"
+                  }
+                ]
+              },
+              {
+                "text": "partner"
+              }
+            ],
+            "name": [
+              {
+                "text": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+              }
+            ],
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "0171 2345678"
+              },
+              {
+                "system": "email",
+                "value": "maximiliane.wredenhagen-sonnenschein@beispielpost.example"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Maximiliane Alexandra Wredenhagen-Sonnenschein</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "RelatedPerson",
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "relationship": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DPOWATT"
+                  }
+                ]
+              },
+              {
+                "text": "kind"
+              }
+            ],
+            "name": [
+              {
+                "text": "Konstantin-Emanuel Wredenhagen-Sonnenschein"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Konstantin-Emanuel Wredenhagen-Sonnenschein</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "Consent",
+            "meta": {
+              "profile": [
+                "http://hl7.eu/fhir/eps/StructureDefinition/consent-eu-eps"
+              ]
+            },
+            "status": "active",
+            "scope": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                  "code": "adr"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+                    "code": "acd"
+                  }
+                ],
+                "text": "Power of attorney (advance care) (notarially recorded)"
+              }
+            ],
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "dateTime": "2019-04-03",
+            "policy": [
+              {
+                "uri": "https://www.gesetze-im-internet.de/bgb/__1820.html"
+              }
+            ],
+            "provision": {
+              "actor": [
+                {
+                  "role": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                        "code": "AGNT"
+                      }
+                    ]
+                  },
+                  "reference": {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                },
+                {
+                  "role": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                        "code": "AGNT"
+                      }
+                    ]
+                  },
+                  "reference": {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Power of attorney (advance care) (notarially recorded). Last changed: 2019-04-03. Authorized representative(s): Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein. Kept at: beim Notariat verwahrt; Kopie im Ordner „Vorsorge&quot;.</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "RelatedPerson",
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "relationship": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DPOWATT"
+                  }
+                ]
+              },
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "HPOWATT"
+                  }
+                ]
+              },
+              {
+                "text": "partner"
+              }
+            ],
+            "name": [
+              {
+                "text": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+              }
+            ],
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "0171 2345678"
+              },
+              {
+                "system": "email",
+                "value": "maximiliane.wredenhagen-sonnenschein@beispielpost.example"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Maximiliane Alexandra Wredenhagen-Sonnenschein</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "Consent",
+            "meta": {
+              "profile": [
+                "http://hl7.eu/fhir/eps/StructureDefinition/consent-eu-eps"
+              ]
+            },
+            "status": "active",
+            "scope": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                  "code": "adr"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+                    "code": "acd"
+                  }
+                ],
+                "text": "Power of attorney (advance care) (private written form)"
+              }
+            ],
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "dateTime": "2019-04-03",
+            "policy": [
+              {
+                "uri": "https://www.gesetze-im-internet.de/bgb/__1820.html"
+              }
+            ],
+            "provision": {
+              "actor": [
+                {
+                  "role": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                        "code": "AGNT"
+                      }
+                    ]
+                  },
+                  "reference": {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                }
+              ],
+              "provision": [
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "decisions in all matters of health care"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "consent to medical procedures, including life-threatening ones (§ 1829 BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "access to medical records, release from medical confidentiality"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "placement depriving liberty (§ 1831(1) BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "measures depriving liberty within a facility (§ 1831(4) BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "compulsory medical measures (§ 1832(1) BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "admission to hospital where a compulsory medical measure is considered (§ 1832(4) BGB)"
+                    }
+                  ]
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Power of attorney (advance care) (private written form). Last changed: 2019-04-03. Authorized representative(s): Maximiliane Alexandra Wredenhagen-Sonnenschein. Health care powers granted (§ 1820(2) BGB): decisions in all matters of health care; consent to medical procedures, including life-threatening ones (§ 1829 BGB); access to medical records, release from medical confidentiality; placement depriving liberty (§ 1831(1) BGB); measures depriving liberty within a facility (§ 1831(4) BGB); compulsory medical measures (§ 1832(1) BGB); admission to hospital where a compulsory medical measure is considered (§ 1832(4) BGB). Kept at: Ordner „Vorsorge&quot;.</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "RelatedPerson",
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "relationship": [
+              {
+                "text": "partner"
+              }
+            ],
+            "name": [
+              {
+                "text": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+              }
+            ],
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "0171 2345678"
+              },
+              {
+                "system": "email",
+                "value": "maximiliane.wredenhagen-sonnenschein@beispielpost.example"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Maximiliane Alexandra Wredenhagen-Sonnenschein</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "Consent",
+            "meta": {
+              "profile": [
+                "http://hl7.eu/fhir/eps/StructureDefinition/consent-eu-eps"
+              ]
+            },
+            "status": "active",
+            "scope": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                  "code": "adr"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+                    "code": "acd"
+                  }
+                ],
+                "text": "Power of attorney (advance care) (private written form)"
+              }
+            ],
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "dateTime": "2019-04-03",
+            "policy": [
+              {
+                "uri": "https://www.gesetze-im-internet.de/bgb/__1820.html"
+              }
+            ],
+            "provision": {
+              "actor": [
+                {
+                  "role": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                        "code": "AGNT"
+                      }
+                    ]
+                  },
+                  "reference": {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Power of attorney (advance care) (private written form). Last changed: 2019-04-03. Authorized representative(s): Maximiliane Alexandra Wredenhagen-Sonnenschein.</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "RelatedPerson",
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "relationship": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DPOWATT"
+                  }
+                ]
+              },
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "HPOWATT"
+                  }
+                ]
+              },
+              {
+                "text": "partner"
+              }
+            ],
+            "name": [
+              {
+                "text": "Maximiliane Alexandra Wredenhagen-Sonnenschein"
+              }
+            ],
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "0171 2345678"
+              },
+              {
+                "system": "email",
+                "value": "maximiliane.wredenhagen-sonnenschein@beispielpost.example"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Maximiliane Alexandra Wredenhagen-Sonnenschein</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "RelatedPerson",
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "relationship": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DPOWATT"
+                  }
+                ]
+              },
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "HPOWATT"
+                  }
+                ]
+              },
+              {
+                "text": "kind"
+              }
+            ],
+            "name": [
+              {
+                "text": "Konstantin-Emanuel Wredenhagen-Sonnenschein"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Konstantin-Emanuel Wredenhagen-Sonnenschein</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "Consent",
+            "meta": {
+              "profile": [
+                "http://hl7.eu/fhir/eps/StructureDefinition/consent-eu-eps"
+              ]
+            },
+            "status": "active",
+            "scope": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                  "code": "adr"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+                    "code": "acd"
+                  }
+                ],
+                "text": "Power of attorney (advance care) (signature officially or notarially certified)"
+              }
+            ],
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "dateTime": "2024-02-20",
+            "policy": [
+              {
+                "uri": "https://www.gesetze-im-internet.de/bgb/__1820.html"
+              }
+            ],
+            "provision": {
+              "actor": [
+                {
+                  "role": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                        "code": "AGNT"
+                      }
+                    ]
+                  },
+                  "reference": {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                },
+                {
+                  "role": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                        "code": "AGNT"
+                      }
+                    ]
+                  },
+                  "reference": {
+                    "reference": "urn:uuid:«uuid»"
+                  }
+                }
+              ],
+              "provision": [
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "decisions in all matters of health care"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "consent to medical procedures, including life-threatening ones (§ 1829 BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "access to medical records, release from medical confidentiality"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "placement depriving liberty (§ 1831(1) BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "measures depriving liberty within a facility (§ 1831(4) BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "compulsory medical measures (§ 1832(1) BGB)"
+                    }
+                  ]
+                },
+                {
+                  "type": "permit",
+                  "code": [
+                    {
+                      "text": "admission to hospital where a compulsory medical measure is considered (§ 1832(4) BGB)"
+                    }
+                  ]
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Power of attorney (advance care) (signature officially or notarially certified). Last changed: 2024-02-20. Authorized representative(s): Maximiliane Alexandra Wredenhagen-Sonnenschein, Konstantin-Emanuel Wredenhagen-Sonnenschein. Health care powers granted (§ 1820(2) BGB): decisions in all matters of health care; consent to medical procedures, including life-threatening ones (§ 1829 BGB); access to medical records, release from medical confidentiality; placement depriving liberty (§ 1831(1) BGB); measures depriving liberty within a facility (§ 1831(4) BGB); compulsory medical measures (§ 1832(1) BGB); admission to hospital where a compulsory medical measure is considered (§ 1832(4) BGB). Kept at: Ordner „Vorsorge&quot;.</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "Consent",
+            "meta": {
+              "profile": [
+                "http://hl7.eu/fhir/eps/StructureDefinition/consent-eu-eps"
+              ]
+            },
+            "status": "active",
+            "scope": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                  "code": "adr"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+                    "code": "acd"
+                  }
+                ],
+                "text": "Advance directive (living will) (private written form)"
+              }
+            ],
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "dateTime": "2023-05-11",
+            "policy": [
+              {
+                "uri": "https://www.gesetze-im-internet.de/bgb/__1827.html"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Advance directive (living will) (private written form). Last changed: 2023-05-11. Kept at: beim Hausarzt hinterlegt.</div>"
+            }
+          }
+        },
+        {
+          "fullUrl": "urn:uuid:«uuid»",
+          "resource": {
+            "resourceType": "Consent",
+            "meta": {
+              "profile": [
+                "http://hl7.eu/fhir/eps/StructureDefinition/consent-eu-eps"
+              ]
+            },
+            "status": "active",
+            "scope": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                  "code": "adr"
+                }
+              ]
+            },
+            "category": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+                    "code": "acd"
+                  }
+                ],
+                "text": "Care directive (wishes regarding a court-appointed legal representative) (private written form)"
+              }
+            ],
+            "patient": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "dateTime": "2019-04-03",
+            "policy": [
+              {
+                "uri": "https://www.gesetze-im-internet.de/bgb/__1816.html"
+              }
+            ],
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Care directive (wishes regarding a court-appointed legal representative) (private written form). Last changed: 2019-04-03. Kept at: Ordner „Vorsorge&quot;.</div>"
             }
           }
         },
@@ -514,7 +1278,7 @@
             ],
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Compiled by the patient.</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Compiled by the patient.</div>"
             }
           }
         }
@@ -539,7 +1303,8 @@
         "address": {
           "country_code": "DE",
           "street_address": "Lindenweg 4",
-          "locality": "80331 München"
+          "postal_code": "80331",
+          "locality": "München"
         }
       }
     },
@@ -796,8 +1561,8 @@
         "emailWeitere": "elisabeth.ews@altepost.example (alte Adresse)"
       }
     },
-    "vcard-identitaet": "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:Elisabeth Wredenhagen-Sonnenschein\r\nN:Wredenhagen-Sonnenschein;Elisabeth;;;\r\nTEL;TYPE=voice:089 87654321\r\nEMAIL:elisabeth.wredenhagen-sonnenschein@beispielpost.example\r\nADR;TYPE=home:;;Lindenweg 4;80331 München;;;\r\nBDAY:19580314\r\nEND:VCARD\r\n",
-    "vcard-menschen": "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:Maximiliane Alexandra Wredenhagen-Sonnenschein\r\nTEL;TYPE=voice:0171 2345678\r\nEMAIL:maximiliane.wredenhagen-sonnenschein@beispielpost.example\r\nADR;TYPE=home:;;Lindenweg 4\\, 80331 München;;;\r\nNOTE:partner\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Konstantin-Emanuel Wredenhagen-Sonnenschein\r\nNOTE:kind\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Mia\r\nNOTE:kind\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Brunhilde Waltraud Immergrün\r\nNOTE:mutter\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Frida Nachtigall\r\nTEL;TYPE=voice:089 1122334\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. med. Anselm Bergmüller-Kastner\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. med. Prof. Cordelia Habichtsberg-von der Marwitz\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. Tom Nguyen\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. Sibylle Rautenkranz\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Johanna Lichtblau\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Herbert Osterwald\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Pfarrer Matthias Kornblum\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Wolf-Dietrich Ellermann\r\nNOTE:geschaeftlich\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Priska Sandmeier\r\nNOTE:geschaeftlich\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Onkel Reinhard Wredenhagen\r\nNOTE:sonstige\r\nEND:VCARD\r\n",
+    "vcard-identitaet": "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:Elisabeth Wredenhagen-Sonnenschein\r\nN:Wredenhagen-Sonnenschein;Elisabeth;;;\r\nTEL;TYPE=voice:089 87654321\r\nEMAIL:elisabeth.wredenhagen-sonnenschein@beispielpost.example\r\nADR;TYPE=home:;;Lindenweg 4;München;;80331;\r\nBDAY:19580314\r\nEND:VCARD\r\n",
+    "vcard-menschen": "BEGIN:VCARD\r\nVERSION:4.0\r\nFN:Maximiliane Alexandra Wredenhagen-Sonnenschein\r\nTEL;TYPE=voice:0171 2345678\r\nEMAIL:maximiliane.wredenhagen-sonnenschein@beispielpost.example\r\nADR;TYPE=home:;;Lindenweg 4\\, 80331 München;;;;\r\nNOTE:partner\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Konstantin-Emanuel Wredenhagen-Sonnenschein\r\nNOTE:kind\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Mia\r\nNOTE:kind\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Brunhilde Waltraud Immergrün\r\nNOTE:mutter\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Frida Nachtigall\r\nTEL;TYPE=voice:089 1122334\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. med. Anselm Bergmüller-Kastner\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. med. Prof. Cordelia Habichtsberg-von der Marwitz\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. Tom Nguyen\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Dr. Sibylle Rautenkranz\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Johanna Lichtblau\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Herbert Osterwald\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Pfarrer Matthias Kornblum\r\nNOTE:sonstige\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Wolf-Dietrich Ellermann\r\nNOTE:geschaeftlich\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Priska Sandmeier\r\nNOTE:geschaeftlich\r\nEND:VCARD\r\nBEGIN:VCARD\r\nVERSION:4.0\r\nFN:Onkel Reinhard Wredenhagen\r\nNOTE:sonstige\r\nEND:VCARD\r\n",
     "ics-vorsorge": "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Vivodepot//Termine//DE\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Betreuungsverfügung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Patientenverfügung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Sorgerechtsverfügung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Verfügung zur digitalen Nachbildung prüfen / aktualisieren\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:vivodepot-doc-«uuid»@vivodepot.de\r\nDTSTAMP:<normalisiert>\r\nDTSTART;VALUE=DATE:<normalisiert>\r\nSUMMARY:Vorsorgevollmacht prüfen / aktualisieren\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"
   },
   "pdfModelle": {
@@ -830,12 +1595,20 @@
                   "wert": "089 87654321"
                 },
                 {
-                  "label": "Straße & Hausnummer",
-                  "wert": "Lindenweg 4"
+                  "label": "Straße",
+                  "wert": "Lindenweg"
                 },
                 {
-                  "label": "PLZ & Ort",
-                  "wert": "80331 München"
+                  "label": "Hausnummer",
+                  "wert": "4"
+                },
+                {
+                  "label": "Postleitzahl",
+                  "wert": "80331"
+                },
+                {
+                  "label": "Ort",
+                  "wert": "München"
                 },
                 {
                   "label": "E-Mail",
@@ -2113,12 +2886,20 @@
                   "wert": "089 87654321"
                 },
                 {
-                  "label": "Straße & Hausnummer",
-                  "wert": "Lindenweg 4"
+                  "label": "Straße",
+                  "wert": "Lindenweg"
                 },
                 {
-                  "label": "PLZ & Ort",
-                  "wert": "80331 München"
+                  "label": "Hausnummer",
+                  "wert": "4"
+                },
+                {
+                  "label": "Postleitzahl",
+                  "wert": "80331"
+                },
+                {
+                  "label": "Ort",
+                  "wert": "München"
                 },
                 {
                   "label": "E-Mail",
@@ -2519,6 +3300,12 @@
         "feld": "liste:provisionInstruments:enduring-power-of-attorney:authorizedPersons"
       },
       {
+        "label": "Vorsorgevollmacht liegt",
+        "wert": "Ordner „Vorsorge\"",
+        "sektor": "advanceCare",
+        "feld": "liste:provisionInstruments:enduring-power-of-attorney:storageLocation"
+      },
+      {
         "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
         "wert": "Deutsch",
         "sektor": "advanceCare",
@@ -2555,7 +3342,7 @@
   },
   "dateiRundlauf": {
     "vorher": {
-      "schemaVersion": 90,
+      "schemaVersion": 91,
       "kryptoVersion": 3,
       "menschen": [
         {
@@ -2675,6 +3462,10 @@
           "telephone": "089 87654321",
           "streetAddress": "Lindenweg 4",
           "postcodeCity": "80331 München",
+          "street": "Lindenweg",
+          "houseNumber": "4",
+          "postalCode": "80331",
+          "city": "München",
           "email": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
           "nationality": "deutsch",
           "birthName": "Immergrün",
@@ -3833,6 +4624,7 @@
       "situationen": {},
       "empfaengerkreise": [],
       "blattFelder": {},
+      "anschriftVorschlaege": {},
       "angehoerigen_passwort_ort": "",
       "bevollmaechtigte": [],
       "todUebergangsWege": null,
@@ -8181,8 +8973,10 @@
                   "telefonFeld": "telephone",
                   "emailFeld": "email",
                   "adresseFelder": [
-                    "streetAddress",
-                    "postcodeCity"
+                    "street",
+                    "houseNumber",
+                    "postalCode",
+                    "city"
                   ]
                 },
                 "exporte": [
@@ -8287,15 +9081,51 @@
                         "beispiel": "0151 12345678"
                       },
                       {
+                        "id": "street",
+                        "typ": "text",
+                        "label": "Straße",
+                        "beispiel": "Lindenweg"
+                      },
+                      {
+                        "id": "houseNumber",
+                        "typ": "text",
+                        "label": "Hausnummer",
+                        "beispiel": "4"
+                      },
+                      {
+                        "id": "postalCode",
+                        "typ": "text",
+                        "label": "Postleitzahl",
+                        "beispiel": "80331"
+                      },
+                      {
+                        "id": "city",
+                        "typ": "text",
+                        "label": "Ort",
+                        "beispiel": "München"
+                      },
+                      {
                         "id": "streetAddress",
                         "typ": "text",
-                        "label": "Straße & Hausnummer",
+                        "nurMitWert": true,
+                        "nurAnzeige": true,
+                        "ersetztDurch": [
+                          "street",
+                          "houseNumber"
+                        ],
+                        "label": "Bisherige Anschrift: Straße & Hausnummer",
                         "beispiel": "Lindenweg 4"
                       },
                       {
                         "id": "postcodeCity",
                         "typ": "text",
-                        "label": "PLZ & Ort",
+                        "nurMitWert": true,
+                        "nurAnzeige": true,
+                        "ersetztDurch": [
+                          "postalCode",
+                          "city"
+                        ],
+                        "label": "Bisherige Anschrift: PLZ & Ort",
                         "beispiel": "80331 München"
                       },
                       {
@@ -11164,9 +11994,17 @@
             "identity.yearOfBirthIfTheExactDayIs.beispiel": "1990",
             "identity.telephone.label": "Telefon",
             "identity.telephone.beispiel": "0151 12345678",
-            "identity.streetAddress.label": "Straße & Hausnummer",
+            "identity.streetAddress.label": "Bisherige Anschrift: Straße & Hausnummer",
+            "identity.street.label": "Straße",
+            "identity.street.beispiel": "Lindenweg",
+            "identity.houseNumber.label": "Hausnummer",
+            "identity.houseNumber.beispiel": "4",
+            "identity.postalCode.label": "Postleitzahl",
+            "identity.postalCode.beispiel": "80331",
+            "identity.city.label": "Ort",
+            "identity.city.beispiel": "München",
             "identity.streetAddress.beispiel": "Lindenweg 4",
-            "identity.postcodeCity.label": "PLZ & Ort",
+            "identity.postcodeCity.label": "Bisherige Anschrift: PLZ & Ort",
             "identity.postcodeCity.beispiel": "80331 München",
             "identity.email.label": "E-Mail",
             "identity.email.beispiel": "maria.mustermann@example.de",
@@ -11788,6 +12626,10 @@
             "menschenRegister.label": "Menschen, die mir wichtig sind",
             "menschenRegister/name.label": "Name",
             "menschenRegister/name.beispiel": "Anna Schmidt",
+            "menschenRegister/familyName.label": "Familienname",
+            "menschenRegister/familyName.beispiel": "Schmidt",
+            "menschenRegister/givenName.label": "Vornamen",
+            "menschenRegister/givenName.beispiel": "Anna",
             "menschenRegister/beziehung.label": "Rolle / Beziehung",
             "menschenRegister/beziehung.beispiel": "Schwester · Freundin · Patin",
             "menschenRegister/birthDate.label": "Geburtsdatum",
@@ -11799,7 +12641,15 @@
             "menschenRegister/tel.beispiel": "0151 12345678",
             "menschenRegister/email.label": "E-Mail",
             "menschenRegister/email.beispiel": "anna.schmidt@example.de",
-            "menschenRegister/adresse.label": "Adresse",
+            "menschenRegister/street.label": "Straße",
+            "menschenRegister/street.beispiel": "Kastanienweg",
+            "menschenRegister/houseNumber.label": "Hausnummer",
+            "menschenRegister/houseNumber.beispiel": "5",
+            "menschenRegister/postalCode.label": "Postleitzahl",
+            "menschenRegister/postalCode.beispiel": "80331",
+            "menschenRegister/city.label": "Ort",
+            "menschenRegister/city.beispiel": "München",
+            "menschenRegister/adresse.label": "Bisherige Anschrift",
             "menschenRegister/adresse.beispiel": "Kastanienweg 5, 80331 München",
             "menschenRegister/aufgabe.label": "Aufgabe / Hinweis",
             "menschenRegister/aufgabe.beispiel": "soll im Notfall informiert werden",
@@ -11849,10 +12699,14 @@
             "wizard:pflwiz.provisionDocumentsCheckedIn.label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
             "wizard:heirwiz.titel": "Heirat / Eingetragene Partnerschaft",
             "wizard:umzwiz.titel": "Umzug",
-            "wizard:umzwiz.streetAddress.label": "Straße & Hausnummer",
-            "wizard:umzwiz.streetAddress.beispiel": "Lindenweg 4",
-            "wizard:umzwiz.postcodeCity.label": "PLZ & Ort",
-            "wizard:umzwiz.postcodeCity.beispiel": "80331 München",
+            "wizard:umzwiz.street.label": "Straße",
+            "wizard:umzwiz.street.beispiel": "Lindenweg",
+            "wizard:umzwiz.houseNumber.label": "Hausnummer",
+            "wizard:umzwiz.houseNumber.beispiel": "4",
+            "wizard:umzwiz.postalCode.label": "Postleitzahl",
+            "wizard:umzwiz.postalCode.beispiel": "80331",
+            "wizard:umzwiz.city.label": "Ort",
+            "wizard:umzwiz.city.beispiel": "München",
             "wizard:umzwiz.reRegistrationWithTheResidents.label": "Ummeldung beim Einwohnermeldeamt",
             "wizard:umzwiz.reRegistrationWithTheResidents.beispiel": "Termin Bürgerbüro 12.07.; ummelden binnen zwei Wochen",
             "wizard:umzwiz.changingUtilityProviders.label": "Versorger-Wechsel & Adressänderungen",
@@ -11913,8 +12767,10 @@
             "wizard:pflwiz.provisionDocumentsCheckedIn.hilfetext": "Vollmacht, Betreuungsverfügung und Patientenverfügung sollten vorliegen, bevor die Pflege übernommen wird — sonst entscheidet im Ernstfall niemand rechtssicher.",
             "wizard:heirwiz.abschluss.toast": "Ihre Angaben rund um die Heirat sind gespeichert — verteilt auf Identität, Meine Menschen und Vorsorge & Recht.",
             "wizard:umzwiz.abschluss.toast": "Ihre Angaben rund um den Umzug sind gespeichert — verteilt auf Identität, Verwaltung & Behörden und Wohnen & Eigentum.",
-            "wizard:umzwiz.streetAddress.frage": "Wie lautet Ihre neue Anschrift — Straße & Hausnummer?",
-            "wizard:umzwiz.postcodeCity.frage": "Und PLZ & Ort?",
+            "wizard:umzwiz.street.frage": "Wie lautet Ihre neue Anschrift — welche Straße?",
+            "wizard:umzwiz.houseNumber.frage": "Welche Hausnummer?",
+            "wizard:umzwiz.postalCode.frage": "Welche Postleitzahl?",
+            "wizard:umzwiz.city.frage": "Und welcher Ort?",
             "wizard:umzwiz.reRegistrationWithTheResidents.frage": "Ist die Ummeldung beim Einwohnermeldeamt erledigt oder geplant?",
             "wizard:umzwiz.reRegistrationWithTheResidents.hilfetext": "Ein Wohnungswechsel ist binnen zwei Wochen bei der Meldebehörde anzuzeigen.",
             "wizard:umzwiz.changingUtilityProviders.frage": "Welche Versorger und Stellen müssen die neue Adresse erfahren?",
@@ -12083,6 +12939,17 @@
             "strings:welcomeUnterzeile.text": "Kontakte, Gesundheit, Finanzen und Vorsorge — bei Ihnen, abrufbar für Sie selbst und im Ernstfall für Familie oder Arzt.",
             "strings:welcomeHierAnfangen.text": "Hier anfangen — ohne festes Ziel",
             "strings:welcomeDateiOeffnen.text": "Schon ein Depot? Datei öffnen",
+            "strings:ablageortAngebot.text": "Diesen Speicherort auf diesem Gerät merken? Dann öffnen Sie {datei} beim nächsten Mal direkt vom Startschirm, und Sicherungskopien gehen ohne Dateidialog dorthin.",
+            "strings:ablageortMerkenKnopf.text": "Speicherort merken",
+            "strings:ablageortGemerkt.text": "Speicherort gemerkt.",
+            "strings:ablageortFehler.text": "Das hat nicht geklappt. Bitte versuchen Sie es in den Einstellungen noch einmal.",
+            "strings:ablageortOeffnen.text": "{datei} öffnen",
+            "strings:ablageortKeineFreigabe.text": "Ohne Ihre Freigabe lässt sich die Datei nicht öffnen. Sie können sie auch über „Datei öffnen“ wählen.",
+            "strings:ablageortNichtErreichbar.text": "Die Datei ist an diesem Ort nicht mehr zu finden. Bitte wählen Sie sie über „Datei öffnen“.",
+            "strings:ablageortGemerktHinweis.text": "Gemerkter Speicherort auf diesem Gerät: {datei}. Gemerkt sind nur Dateiname und Ort, nicht der Inhalt.",
+            "strings:ablageortVergessenKnopf.text": "Speicherort vergessen",
+            "strings:ablageortVergessen.text": "Speicherort vergessen. Die Datei selbst bleibt, wo sie ist.",
+            "strings:ablageortNichtGemerktHinweis.text": "Der Speicherort Ihrer Datei wird nicht gemerkt. Beim nächsten Start wählen Sie die Datei wieder über „Datei öffnen“.",
             "strings:cryptoPwAufforderung.text": "Geben Sie das Passwort für Ihr Depot ein",
             "strings:cryptoInternAufforderung.text": "Ihr Depot ist auf diesem Gerät gespeichert. Geben Sie Ihr Passwort ein, um es zu öffnen.",
             "strings:dateiErkennungAnker.text": "Diese Datei ist Ihr eigenes Depot.",
@@ -12204,6 +13071,10 @@
             "strings:gueltigkeitVon.text": "gilt ab",
             "strings:gueltigkeitNochNicht.text": "gilt noch nicht",
             "strings:feldBezugFim.text": "FIM-Datenfeld {id}, Fassung {fassung}",
+            "strings:anschriftVorschlagHinweis.text": "Vorschlag aus der bisherigen Anschrift, bitte prüfen. Erst wenn Sie ihn übernehmen oder speichern, steht er in den Feldern.",
+            "strings:anschriftVorschlagUebernehmen.text": "Vorschlag übernehmen",
+            "strings:anschriftVorschlagVerwerfen.text": "Vorschlag verwerfen",
+            "strings:personNameGetrenntHinweis.text": "Bitte Familienname und Vornamen eintragen. Formulare und Ämter verlangen sie getrennt; aus dem Namen oben wird nichts abgeleitet.",
             "strings:feldBezugFest.text": "freigegeben",
             "strings:feldBezugNichtFest.text": "Fassung nicht fest (in Bearbeitung)",
             "strings:gueltigkeitBis.text": "gilt bis",
@@ -12233,6 +13104,12 @@
             "strings:pwStaerkeStark.text": "stark",
             "strings:pwStaerkeTipp.text": "Länger wird sicherer — gern mehrere Wörter, Zahlen oder Zeichen mischen.",
             "strings:pwStaerkeBekannt.text": "Dieses Passwort wird sehr häufig benutzt — ein eigenes ist sicherer.",
+            "strings:pwVorschlagKnopf.text": "Passwort vorschlagen",
+            "strings:pwVorschlagErklaerung.text": "Die Wörter stehen schon im Feld. Tippen Sie sie zur Bestätigung noch einmal, mit den Bindestrichen, und notieren Sie sie an einem sicheren Ort.",
+            "strings:pwVorschlagAnderer.text": "Anderer Vorschlag",
+            "strings:pwVorschlagVorlesen.text": "Vorlesen",
+            "strings:pwEigenesHinweis.text": "Ein selbst gewähltes Passwort ist oft in Minuten erraten, wenn jemand eine Kopie Ihrer Datei hat. Sechs zufällige Wörter zu erraten wäre selbst mit gemieteten Rechnern derzeit unbezahlbar.",
+            "strings:passwortWortliste.text": "abbild abdruck abend abfall abflug abitur abkommen ablauf abreise absicht abstand abteil abwarten achse acht acker adapter adler adresse advent affe agent ahorn akademie akte aktie akustik akzent alarm albatros album alge allee allianz alltag alpen alter altglas altstadt alufolie amboss ameise ampel amsel amulett ananas anfang angel anker anlage anruf antik antrag antwort anwalt anwesen anwohner anzahl anzug apfel apotheke april arbeit archiv armband aroma arzt asphalt atelier atem athlet atlas atom aufgabe auftrag aufzug auge august auktion aula ausflug ausgang auto baby bach backen baden bagger bahn balkon ball balsam bambus banane band bank bargeld barsch bart basteln batterie bauch bauer baum baumarkt bauplan bausatz bauwagen bauzaun becher becken beere beifall bein beitrag benzin berg beruf besen besuch beton betrieb bett beule bewegen bewohner bezahlen biber biene bier bieten bild binden biologie biotonne birke birne blasen blatt blau blech blick blitz blume boden bogen bohne bohren boje bolzen bonus boot bord botanik bote boxen braten braun brei bremsen brennen brett brief brille bringen brokkoli bronze brosche brot bruder brunnen brust bube buch bude bunt burg busch busfahrt bussard butter campen caravan chaos chemie chor clown code computer couch creme dach dame damm dampf datei dattel dauer daumen decke deich delfin delle denkmal detektiv dezember dichter dienstag digital dill diskette distel doktor dokument donner dorf dorn dose drache draht drei drossel drucker ducken duft dunkel durst dusche ebbe echo echse ecke efeu eichel eidechse eier eimer eingang einladen einrad eins eisberg eisen eistee eisvogel elch elefant element elster eltern engel enkel ente entwurf erbe erbse erdbeere erde erdgas erdnuss erfinden erfolg erhalten erinnern erkennen ernte ersatz esel essen essig esstisch etage etappe ethik etikett eule event experte export express fabel fabrik fach fackel faden fahne fahrrad falke fallen falter familie fangen fantasie farbe farn fasching fass faultier fauna faust favorit februar feder fegen feier feile feld fell fels fenchel fenster ferien fern ferse fest feuer fichte figur filiale film filter finden finger fink firma fisch flach flamme flasche fleck fliege flocke floh flora flugzeug flur fluss flut folie forelle forst foto foyer fracht frage frau frech freizeit freude freund frieden friseur frosch frucht fuchs futter gabel galerie gang gans garage gardine garn garten gasse gast gazelle geben gebiet geboren gecko gedanke gedicht geduld gegend gehirn geier geige geist gelb geld gelee genie gepard gerade gericht gern gerste geruch geschenk gestalt gesund getreide gewitter gewonnen giebel gipfel gips giraffe gitarre gitter glas gleis glitzer globus glocke glut gold golf gondel gorilla grafik granit gras grau greifen griff grill grinsen grotte grube grund gruppe gulasch gully gummi gurke gurt haar habicht hacken hafen hagel hahn haken halle halm hals halten hammer hamster hand hanger hantel harfe harke hart hase haufen haus haut hebamme hebel hecht hecke heft heilen heim heizung held helfen hell helm hemd henkel herbst herd hering herz heute himbeere himmel hirte hitze hoch holen holunder holz honig hopfen horizont horn hose hotel hufeisen huhn hummer hund hupe husten hydrant idee igel imbiss imker ingwer insel jacht jacke jagd jaguar januar jazz joggen joghurt juli jung juni juwel kabel kabine kaffee kajak kakao kaktus kalender kalt kamera kamin kamm kanal kandidat kanister kanne kante kanu kapelle kapsel karneval karotte karte kasse kasten katalog katze kaufhaus kauz kegel kehren keks kelch keller keramik kern kerze kessel ketchup kette keule kiefer kiesel kind kino kiosk kirsche kissen kiste kittel kiwi klammer klavier kleben klee kleid klettern klinik klon klopfen klotz kneipe knie knochen knopf knoten koala kochen koffer kohle koje kolibri kollege konzert kopf kopie korb korn krabbe kraft kralle kran kraut krawatte kredit kreis kresse kreuz krokodil krone krug krumm kuchen kugel kuhstall kulisse kultur kunde kunst kupfer kurier kurz kuss kutsche labor lachen lack laden ladung lager lama lamm lampe lang lappen larve laterne latte laub lauch laufen lavendel lawine leer legen lehm lehrer leicht leim leinwand leiste leiter lemming lenken leopard lernen lesen lesung leuchte leute lexikon libelle licht lied liegen lila lilie limette linde lineal linie lippe liste loch locke lohn luchs luft lunge lupe lustig magazin magen magie magnet mais malen mama mango mann mantel marder markt marmor maschine maske mast matrose matte mauer maulwurf maus medaille medizin meer mehl mehrweg melden melken melone mensch messer metall miene milan milch minigolf minze mittag mode molch monat mond monitor montag moos moped morgen motor motte mulde mund muschel museum musik muskel muster mutter nacht nacken nadel nagel nahrung napf narr narzisse nase nashorn nass natter natur nebel nehmen nektar nest nett netz neubau neun nilpferd nobel norden note november nudel null nuss oase oben objekt obst ofen ohren ohrring oktober olive omelett oper orgel orkan ostern otter paket palast palette palme panda papagei papier pappe paprika parade park party pause pavian pedal pegel pelikan pelz pendel perle person pfad pfahl pfanne pfau pfeffer pfeil pferd pfirsich pflaume pflegen pflug pforte pfosten pfote physik picknick pigment pilot pilz pinguin pink pinsel pinzette pirat pixel plakat planet platz podest podium pokal pollen polster pommes pony pool portrait post praxis probe produkt profil projekt prospekt pudding puder puls pulver puma pumpe punkt punsch puppe pute putzen puzzel pyjama pyramide quadrat qualle quark quelle quittung quiz rabe radio radtour radweg rahmen rakete rampe rand rang ranke raps rasen rast ratgeber rathaus ratte rauch raum raupe raus rechnen reden redner regal regen rehkitz reibe reifen reihe reim reise reiten rekord rennen rentier reporter reptil residenz respekt retten rezept riechen riegel riesig rind ring rinnsaal riss ritter robbe roboter rock roggen rohr roller roman rosa rose rosine rost rotkohl rucksack rudel rufen ruhig rummel rund rute rutsche saal saat sack safran saft sahne saison salat salbe saloon salz samen sammeln samstag samt sand sardine satellit sattel sauber sauna saurier schaf schere schirm schlange schmuck schnee schrank schuh schwan sechs seefahrt seehund seekuh seestern segel sehen seide seife seil seite sekunde sellerie selten semester seminar senden senf senior serie server sessel shop sichel sieb siedlung signal silber singen sirene sirup sitzen skizze skulptur socke sofa sohle sohn soja sommer sonne sorte spachtel spagat spange spargel spaten specht speise spende sperling spiegel spinne spitze sport sprechen springen sprotte sprung spur stabil stachel stadt stahl stall stamm standort stapel stark station staub stehen stein stempel steppe stern stier stift still stimme stirn stock stoff stoppen storch strand strecke strom strumpf stube studium stufe stuhl stumm stunde sturm suche summe suppe surfen szenario tabelle tacker tafel tagebuch tango tanne tante tanz tapir tarnen tasche tasse tastatur taube tauchen taxi team technik teekanne teer teesieb teich teig teilen telefon teller tennis teppich termin terrasse teuer text theater tief tier tiger tinte tisch tochter toilette tomate tonband tonne topf torbogen torte tracht tragen training trapez trasse traum treffen treppe tresor triangel trinken trommel tropfen truhe trunk truthahn tuch tukan tulpe tunnel turbine turm turnen tusche ufer uhrwerk umbau umfrage umhang umkreis umriss umsonst umwelt umzug unikat urkunde urlaub vanille vase vater veranda verband verein verkehr video vieh vier villa vitamine vitrine vogel voliere voll vorbild vorort vorrat vortrag vulkan waage wachs wade waffel wagen waggon wahl wald walnuss walze wand wanne ware warm warten waschen wasser webstuhl wechsel wecker weich weide wein weit weizen welle welpe welt werbung werfen werkzeug wespe weste wetter widder wiegen wiese wimper wind winter winzig wippe wischen wisent wissen witz woche wohnen wolf wolke wolle wurm wurzel zahl zahn zander zange zapfen zauber zaun zebra zecke zehe zehn zeichen zeigen zeit zelt zement zentrum zettel ziege ziehen ziel ziffer zimmer zimt zirkus zitrone zocken zollfrei zucchini zucker zufall zugang zukunft zunge zwei zwiebel zwilling zwirn",
             "strings:modalAnlegenPwWarnungTitel.text": "Bitte gut merken",
             "strings:modalAnlegenPwWarnung.text": "Dieses Passwort verschlüsselt Ihr {marke}. Niemand kann es zurücksetzen — auch wir nicht. Genau das schützt Ihre Daten. Bewahren Sie es sicher auf.",
             "strings:modalOeffnenPwLabel.text": "Passwort",
@@ -13253,6 +14130,10 @@
             "strings:whcKontrolleFehlt.text": "Noch leer — der Code wird erst eingerichtet, wenn Sie ihn hier abgetippt haben.",
             "strings:whcKontrolleTeil.text": "Noch {n} Zeichen.",
             "strings:whcKontrolleStimmt.text": "Stimmt. Jetzt einrichten.",
+            "strings:ipsSprachwahlTitel.text": "Sprache der festen Sätze",
+            "strings:ipsSprachwahlText.text": "Die festen Sätze im Auszug, etwa „Keine Allergien bekannt“, stehen in der Sprache, die Sie hier wählen. Codes und Ihre eigenen Einträge bleiben, wie sie sind. Voreingestellt ist Englisch, damit auch eine Stelle im Ausland den Auszug lesen kann.",
+            "strings:ipsSprachwahlUngeprueft.text": "Übersetzung ungeprüft",
+            "strings:ipsSprachwahlWeiter.text": "Auszug erstellen",
             "strings:whcKontrolleFalsch.text": "Der eingegebene Code stimmt nicht mit dem angezeigten überein. Bitte vergleichen Sie Zeichen für Zeichen.",
             "strings:whcKontrolleKnopf.text": "Abgeschrieben — einrichten",
             "strings:whcPwLabel.text": "Ihr Passwort",
@@ -13374,6 +14255,15 @@
             "strings:fassungenDateiLabel.text": "in dieser Datei",
             "strings:fassungenUebernehmen.text": "Zusammenführen",
             "strings:fassungenFertig.text": "Fassungen zusammengeführt",
+            "strings:konfliktKnopfZusammen.text": "Beide zusammenführen",
+            "strings:konfliktZusammenHinweis.text": "Was nur in einer Fassung geändert wurde, ist schon übernommen. Bitte entscheiden Sie dort, wo beide Fassungen etwas geändert haben oder ein Eintrag nur in einer Fassung steht.",
+            "strings:konfliktZusammenAnderesDepot.text": "Die Datei gehört zu einem anderen Depot als der Stand auf dem Gerät. Zusammenführen geht darum nicht; bitte wählen Sie einen der beiden Stände.",
+            "strings:fassungenGeraetLabel.text": "auf diesem Gerät",
+            "strings:fassungenEintraegeTitel.text": "Bitte entscheiden — Einträge in Listen",
+            "strings:fassungenEintragNur.text": "steht nur in einer Fassung: {wo}",
+            "strings:fassungenEintragBehalten.text": "behalten",
+            "strings:fassungenRegisterMenschen.text": "Register der Menschen",
+            "strings:fassungenRegisterStellen.text": "Register der Institutionen",
             "strings:importVorhanden.text": "bisher",
             "strings:importNeu.text": "neu",
             "strings:importUebernehmen.text": "Einlesen",
@@ -16540,6 +17430,22 @@
                       {
                         "quelle": "identity",
                         "feld": "postcodeCity"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "street"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "houseNumber"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "postalCode"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "city"
                       }
                     ],
                     "titel": "Aus Ihren Bereichen"
@@ -17086,6 +17992,22 @@
                       {
                         "quelle": "identity",
                         "feld": "postcodeCity"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "street"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "houseNumber"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "postalCode"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "city"
                       }
                     ],
                     "titel": "Wer Sie sind"
@@ -18959,13 +19881,25 @@
                 "schritte": [
                   {
                     "feld": {
-                      "id": "streetAddress",
+                      "id": "street",
                       "typ": "text"
                     }
                   },
                   {
                     "feld": {
-                      "id": "postcodeCity",
+                      "id": "houseNumber",
+                      "typ": "text"
+                    }
+                  },
+                  {
+                    "feld": {
+                      "id": "postalCode",
+                      "typ": "text"
+                    }
+                  },
+                  {
+                    "feld": {
+                      "id": "city",
                       "typ": "text"
                     }
                   },
@@ -19640,7 +20574,11 @@
                 "zweck": [
                   "vermoegenssorge",
                   "gesundheitssorge"
-                ]
+                ],
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1820 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1820.html"
+                }
               },
               "custodianship-declaration": {
                 "katalogVersion": 1,
@@ -19652,7 +20590,11 @@
                 "zweck": [
                   "vermoegenssorge",
                   "gesundheitssorge"
-                ]
+                ],
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1816 Abs. 2 Satz 4 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1816.html"
+                }
               },
               "living-will": {
                 "katalogVersion": 1,
@@ -19667,7 +20609,11 @@
                 },
                 "zweck": [
                   "gesundheitssorge"
-                ]
+                ],
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1827 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1827.html"
+                }
               },
               "ki-verfuegung": {
                 "katalogVersion": 1,
@@ -19708,7 +20654,11 @@
                   "paragraf": "§ 1358 Abs. 3 Nr. 4 BGB",
                   "hinweis": "Erlischt sechs Monate nach dem ärztlich festgestellten Zeitpunkt; deckt nur Gesundheitsangelegenheiten (Abs. 1)."
                 },
-                "zweck": null
+                "zweck": null,
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1358 Abs. 3 Nr. 2 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1358.html"
+                }
               }
             }
           }
@@ -19935,6 +20885,10 @@
           "telephone": "089 87654321",
           "streetAddress": "Lindenweg 4",
           "postcodeCity": "80331 München",
+          "street": "Lindenweg",
+          "houseNumber": "4",
+          "postalCode": "80331",
+          "city": "München",
           "email": "elisabeth.wredenhagen-sonnenschein@beispielpost.example",
           "nationality": "deutsch",
           "birthName": "Immergrün",
@@ -21090,7 +22044,7 @@
           "preArrangementContractStorage": "Ordner „Vorsorge\", Wohnzimmerschrank"
         }
       },
-      "schemaVersion": 90,
+      "schemaVersion": 91,
       "kryptoVersion": 3,
       "menschen": [
         {
@@ -21202,6 +22156,7 @@
       "situationen": {},
       "empfaengerkreise": [],
       "blattFelder": {},
+      "anschriftVorschlaege": {},
       "angehoerigen_passwort_ort": "",
       "bevollmaechtigte": [],
       "todUebergangsWege": null,
@@ -25550,8 +26505,10 @@
                   "telefonFeld": "telephone",
                   "emailFeld": "email",
                   "adresseFelder": [
-                    "streetAddress",
-                    "postcodeCity"
+                    "street",
+                    "houseNumber",
+                    "postalCode",
+                    "city"
                   ]
                 },
                 "exporte": [
@@ -25656,15 +26613,51 @@
                         "beispiel": "0151 12345678"
                       },
                       {
+                        "id": "street",
+                        "typ": "text",
+                        "label": "Straße",
+                        "beispiel": "Lindenweg"
+                      },
+                      {
+                        "id": "houseNumber",
+                        "typ": "text",
+                        "label": "Hausnummer",
+                        "beispiel": "4"
+                      },
+                      {
+                        "id": "postalCode",
+                        "typ": "text",
+                        "label": "Postleitzahl",
+                        "beispiel": "80331"
+                      },
+                      {
+                        "id": "city",
+                        "typ": "text",
+                        "label": "Ort",
+                        "beispiel": "München"
+                      },
+                      {
                         "id": "streetAddress",
                         "typ": "text",
-                        "label": "Straße & Hausnummer",
+                        "nurMitWert": true,
+                        "nurAnzeige": true,
+                        "ersetztDurch": [
+                          "street",
+                          "houseNumber"
+                        ],
+                        "label": "Bisherige Anschrift: Straße & Hausnummer",
                         "beispiel": "Lindenweg 4"
                       },
                       {
                         "id": "postcodeCity",
                         "typ": "text",
-                        "label": "PLZ & Ort",
+                        "nurMitWert": true,
+                        "nurAnzeige": true,
+                        "ersetztDurch": [
+                          "postalCode",
+                          "city"
+                        ],
+                        "label": "Bisherige Anschrift: PLZ & Ort",
                         "beispiel": "80331 München"
                       },
                       {
@@ -28533,9 +29526,17 @@
             "identity.yearOfBirthIfTheExactDayIs.beispiel": "1990",
             "identity.telephone.label": "Telefon",
             "identity.telephone.beispiel": "0151 12345678",
-            "identity.streetAddress.label": "Straße & Hausnummer",
+            "identity.streetAddress.label": "Bisherige Anschrift: Straße & Hausnummer",
+            "identity.street.label": "Straße",
+            "identity.street.beispiel": "Lindenweg",
+            "identity.houseNumber.label": "Hausnummer",
+            "identity.houseNumber.beispiel": "4",
+            "identity.postalCode.label": "Postleitzahl",
+            "identity.postalCode.beispiel": "80331",
+            "identity.city.label": "Ort",
+            "identity.city.beispiel": "München",
             "identity.streetAddress.beispiel": "Lindenweg 4",
-            "identity.postcodeCity.label": "PLZ & Ort",
+            "identity.postcodeCity.label": "Bisherige Anschrift: PLZ & Ort",
             "identity.postcodeCity.beispiel": "80331 München",
             "identity.email.label": "E-Mail",
             "identity.email.beispiel": "maria.mustermann@example.de",
@@ -29157,6 +30158,10 @@
             "menschenRegister.label": "Menschen, die mir wichtig sind",
             "menschenRegister/name.label": "Name",
             "menschenRegister/name.beispiel": "Anna Schmidt",
+            "menschenRegister/familyName.label": "Familienname",
+            "menschenRegister/familyName.beispiel": "Schmidt",
+            "menschenRegister/givenName.label": "Vornamen",
+            "menschenRegister/givenName.beispiel": "Anna",
             "menschenRegister/beziehung.label": "Rolle / Beziehung",
             "menschenRegister/beziehung.beispiel": "Schwester · Freundin · Patin",
             "menschenRegister/birthDate.label": "Geburtsdatum",
@@ -29168,7 +30173,15 @@
             "menschenRegister/tel.beispiel": "0151 12345678",
             "menschenRegister/email.label": "E-Mail",
             "menschenRegister/email.beispiel": "anna.schmidt@example.de",
-            "menschenRegister/adresse.label": "Adresse",
+            "menschenRegister/street.label": "Straße",
+            "menschenRegister/street.beispiel": "Kastanienweg",
+            "menschenRegister/houseNumber.label": "Hausnummer",
+            "menschenRegister/houseNumber.beispiel": "5",
+            "menschenRegister/postalCode.label": "Postleitzahl",
+            "menschenRegister/postalCode.beispiel": "80331",
+            "menschenRegister/city.label": "Ort",
+            "menschenRegister/city.beispiel": "München",
+            "menschenRegister/adresse.label": "Bisherige Anschrift",
             "menschenRegister/adresse.beispiel": "Kastanienweg 5, 80331 München",
             "menschenRegister/aufgabe.label": "Aufgabe / Hinweis",
             "menschenRegister/aufgabe.beispiel": "soll im Notfall informiert werden",
@@ -29218,10 +30231,14 @@
             "wizard:pflwiz.provisionDocumentsCheckedIn.label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
             "wizard:heirwiz.titel": "Heirat / Eingetragene Partnerschaft",
             "wizard:umzwiz.titel": "Umzug",
-            "wizard:umzwiz.streetAddress.label": "Straße & Hausnummer",
-            "wizard:umzwiz.streetAddress.beispiel": "Lindenweg 4",
-            "wizard:umzwiz.postcodeCity.label": "PLZ & Ort",
-            "wizard:umzwiz.postcodeCity.beispiel": "80331 München",
+            "wizard:umzwiz.street.label": "Straße",
+            "wizard:umzwiz.street.beispiel": "Lindenweg",
+            "wizard:umzwiz.houseNumber.label": "Hausnummer",
+            "wizard:umzwiz.houseNumber.beispiel": "4",
+            "wizard:umzwiz.postalCode.label": "Postleitzahl",
+            "wizard:umzwiz.postalCode.beispiel": "80331",
+            "wizard:umzwiz.city.label": "Ort",
+            "wizard:umzwiz.city.beispiel": "München",
             "wizard:umzwiz.reRegistrationWithTheResidents.label": "Ummeldung beim Einwohnermeldeamt",
             "wizard:umzwiz.reRegistrationWithTheResidents.beispiel": "Termin Bürgerbüro 12.07.; ummelden binnen zwei Wochen",
             "wizard:umzwiz.changingUtilityProviders.label": "Versorger-Wechsel & Adressänderungen",
@@ -29282,8 +30299,10 @@
             "wizard:pflwiz.provisionDocumentsCheckedIn.hilfetext": "Vollmacht, Betreuungsverfügung und Patientenverfügung sollten vorliegen, bevor die Pflege übernommen wird — sonst entscheidet im Ernstfall niemand rechtssicher.",
             "wizard:heirwiz.abschluss.toast": "Ihre Angaben rund um die Heirat sind gespeichert — verteilt auf Identität, Meine Menschen und Vorsorge & Recht.",
             "wizard:umzwiz.abschluss.toast": "Ihre Angaben rund um den Umzug sind gespeichert — verteilt auf Identität, Verwaltung & Behörden und Wohnen & Eigentum.",
-            "wizard:umzwiz.streetAddress.frage": "Wie lautet Ihre neue Anschrift — Straße & Hausnummer?",
-            "wizard:umzwiz.postcodeCity.frage": "Und PLZ & Ort?",
+            "wizard:umzwiz.street.frage": "Wie lautet Ihre neue Anschrift — welche Straße?",
+            "wizard:umzwiz.houseNumber.frage": "Welche Hausnummer?",
+            "wizard:umzwiz.postalCode.frage": "Welche Postleitzahl?",
+            "wizard:umzwiz.city.frage": "Und welcher Ort?",
             "wizard:umzwiz.reRegistrationWithTheResidents.frage": "Ist die Ummeldung beim Einwohnermeldeamt erledigt oder geplant?",
             "wizard:umzwiz.reRegistrationWithTheResidents.hilfetext": "Ein Wohnungswechsel ist binnen zwei Wochen bei der Meldebehörde anzuzeigen.",
             "wizard:umzwiz.changingUtilityProviders.frage": "Welche Versorger und Stellen müssen die neue Adresse erfahren?",
@@ -29452,6 +30471,17 @@
             "strings:welcomeUnterzeile.text": "Kontakte, Gesundheit, Finanzen und Vorsorge — bei Ihnen, abrufbar für Sie selbst und im Ernstfall für Familie oder Arzt.",
             "strings:welcomeHierAnfangen.text": "Hier anfangen — ohne festes Ziel",
             "strings:welcomeDateiOeffnen.text": "Schon ein Depot? Datei öffnen",
+            "strings:ablageortAngebot.text": "Diesen Speicherort auf diesem Gerät merken? Dann öffnen Sie {datei} beim nächsten Mal direkt vom Startschirm, und Sicherungskopien gehen ohne Dateidialog dorthin.",
+            "strings:ablageortMerkenKnopf.text": "Speicherort merken",
+            "strings:ablageortGemerkt.text": "Speicherort gemerkt.",
+            "strings:ablageortFehler.text": "Das hat nicht geklappt. Bitte versuchen Sie es in den Einstellungen noch einmal.",
+            "strings:ablageortOeffnen.text": "{datei} öffnen",
+            "strings:ablageortKeineFreigabe.text": "Ohne Ihre Freigabe lässt sich die Datei nicht öffnen. Sie können sie auch über „Datei öffnen“ wählen.",
+            "strings:ablageortNichtErreichbar.text": "Die Datei ist an diesem Ort nicht mehr zu finden. Bitte wählen Sie sie über „Datei öffnen“.",
+            "strings:ablageortGemerktHinweis.text": "Gemerkter Speicherort auf diesem Gerät: {datei}. Gemerkt sind nur Dateiname und Ort, nicht der Inhalt.",
+            "strings:ablageortVergessenKnopf.text": "Speicherort vergessen",
+            "strings:ablageortVergessen.text": "Speicherort vergessen. Die Datei selbst bleibt, wo sie ist.",
+            "strings:ablageortNichtGemerktHinweis.text": "Der Speicherort Ihrer Datei wird nicht gemerkt. Beim nächsten Start wählen Sie die Datei wieder über „Datei öffnen“.",
             "strings:cryptoPwAufforderung.text": "Geben Sie das Passwort für Ihr Depot ein",
             "strings:cryptoInternAufforderung.text": "Ihr Depot ist auf diesem Gerät gespeichert. Geben Sie Ihr Passwort ein, um es zu öffnen.",
             "strings:dateiErkennungAnker.text": "Diese Datei ist Ihr eigenes Depot.",
@@ -29573,6 +30603,10 @@
             "strings:gueltigkeitVon.text": "gilt ab",
             "strings:gueltigkeitNochNicht.text": "gilt noch nicht",
             "strings:feldBezugFim.text": "FIM-Datenfeld {id}, Fassung {fassung}",
+            "strings:anschriftVorschlagHinweis.text": "Vorschlag aus der bisherigen Anschrift, bitte prüfen. Erst wenn Sie ihn übernehmen oder speichern, steht er in den Feldern.",
+            "strings:anschriftVorschlagUebernehmen.text": "Vorschlag übernehmen",
+            "strings:anschriftVorschlagVerwerfen.text": "Vorschlag verwerfen",
+            "strings:personNameGetrenntHinweis.text": "Bitte Familienname und Vornamen eintragen. Formulare und Ämter verlangen sie getrennt; aus dem Namen oben wird nichts abgeleitet.",
             "strings:feldBezugFest.text": "freigegeben",
             "strings:feldBezugNichtFest.text": "Fassung nicht fest (in Bearbeitung)",
             "strings:gueltigkeitBis.text": "gilt bis",
@@ -29602,6 +30636,12 @@
             "strings:pwStaerkeStark.text": "stark",
             "strings:pwStaerkeTipp.text": "Länger wird sicherer — gern mehrere Wörter, Zahlen oder Zeichen mischen.",
             "strings:pwStaerkeBekannt.text": "Dieses Passwort wird sehr häufig benutzt — ein eigenes ist sicherer.",
+            "strings:pwVorschlagKnopf.text": "Passwort vorschlagen",
+            "strings:pwVorschlagErklaerung.text": "Die Wörter stehen schon im Feld. Tippen Sie sie zur Bestätigung noch einmal, mit den Bindestrichen, und notieren Sie sie an einem sicheren Ort.",
+            "strings:pwVorschlagAnderer.text": "Anderer Vorschlag",
+            "strings:pwVorschlagVorlesen.text": "Vorlesen",
+            "strings:pwEigenesHinweis.text": "Ein selbst gewähltes Passwort ist oft in Minuten erraten, wenn jemand eine Kopie Ihrer Datei hat. Sechs zufällige Wörter zu erraten wäre selbst mit gemieteten Rechnern derzeit unbezahlbar.",
+            "strings:passwortWortliste.text": "abbild abdruck abend abfall abflug abitur abkommen ablauf abreise absicht abstand abteil abwarten achse acht acker adapter adler adresse advent affe agent ahorn akademie akte aktie akustik akzent alarm albatros album alge allee allianz alltag alpen alter altglas altstadt alufolie amboss ameise ampel amsel amulett ananas anfang angel anker anlage anruf antik antrag antwort anwalt anwesen anwohner anzahl anzug apfel apotheke april arbeit archiv armband aroma arzt asphalt atelier atem athlet atlas atom aufgabe auftrag aufzug auge august auktion aula ausflug ausgang auto baby bach backen baden bagger bahn balkon ball balsam bambus banane band bank bargeld barsch bart basteln batterie bauch bauer baum baumarkt bauplan bausatz bauwagen bauzaun becher becken beere beifall bein beitrag benzin berg beruf besen besuch beton betrieb bett beule bewegen bewohner bezahlen biber biene bier bieten bild binden biologie biotonne birke birne blasen blatt blau blech blick blitz blume boden bogen bohne bohren boje bolzen bonus boot bord botanik bote boxen braten braun brei bremsen brennen brett brief brille bringen brokkoli bronze brosche brot bruder brunnen brust bube buch bude bunt burg busch busfahrt bussard butter campen caravan chaos chemie chor clown code computer couch creme dach dame damm dampf datei dattel dauer daumen decke deich delfin delle denkmal detektiv dezember dichter dienstag digital dill diskette distel doktor dokument donner dorf dorn dose drache draht drei drossel drucker ducken duft dunkel durst dusche ebbe echo echse ecke efeu eichel eidechse eier eimer eingang einladen einrad eins eisberg eisen eistee eisvogel elch elefant element elster eltern engel enkel ente entwurf erbe erbse erdbeere erde erdgas erdnuss erfinden erfolg erhalten erinnern erkennen ernte ersatz esel essen essig esstisch etage etappe ethik etikett eule event experte export express fabel fabrik fach fackel faden fahne fahrrad falke fallen falter familie fangen fantasie farbe farn fasching fass faultier fauna faust favorit februar feder fegen feier feile feld fell fels fenchel fenster ferien fern ferse fest feuer fichte figur filiale film filter finden finger fink firma fisch flach flamme flasche fleck fliege flocke floh flora flugzeug flur fluss flut folie forelle forst foto foyer fracht frage frau frech freizeit freude freund frieden friseur frosch frucht fuchs futter gabel galerie gang gans garage gardine garn garten gasse gast gazelle geben gebiet geboren gecko gedanke gedicht geduld gegend gehirn geier geige geist gelb geld gelee genie gepard gerade gericht gern gerste geruch geschenk gestalt gesund getreide gewitter gewonnen giebel gipfel gips giraffe gitarre gitter glas gleis glitzer globus glocke glut gold golf gondel gorilla grafik granit gras grau greifen griff grill grinsen grotte grube grund gruppe gulasch gully gummi gurke gurt haar habicht hacken hafen hagel hahn haken halle halm hals halten hammer hamster hand hanger hantel harfe harke hart hase haufen haus haut hebamme hebel hecht hecke heft heilen heim heizung held helfen hell helm hemd henkel herbst herd hering herz heute himbeere himmel hirte hitze hoch holen holunder holz honig hopfen horizont horn hose hotel hufeisen huhn hummer hund hupe husten hydrant idee igel imbiss imker ingwer insel jacht jacke jagd jaguar januar jazz joggen joghurt juli jung juni juwel kabel kabine kaffee kajak kakao kaktus kalender kalt kamera kamin kamm kanal kandidat kanister kanne kante kanu kapelle kapsel karneval karotte karte kasse kasten katalog katze kaufhaus kauz kegel kehren keks kelch keller keramik kern kerze kessel ketchup kette keule kiefer kiesel kind kino kiosk kirsche kissen kiste kittel kiwi klammer klavier kleben klee kleid klettern klinik klon klopfen klotz kneipe knie knochen knopf knoten koala kochen koffer kohle koje kolibri kollege konzert kopf kopie korb korn krabbe kraft kralle kran kraut krawatte kredit kreis kresse kreuz krokodil krone krug krumm kuchen kugel kuhstall kulisse kultur kunde kunst kupfer kurier kurz kuss kutsche labor lachen lack laden ladung lager lama lamm lampe lang lappen larve laterne latte laub lauch laufen lavendel lawine leer legen lehm lehrer leicht leim leinwand leiste leiter lemming lenken leopard lernen lesen lesung leuchte leute lexikon libelle licht lied liegen lila lilie limette linde lineal linie lippe liste loch locke lohn luchs luft lunge lupe lustig magazin magen magie magnet mais malen mama mango mann mantel marder markt marmor maschine maske mast matrose matte mauer maulwurf maus medaille medizin meer mehl mehrweg melden melken melone mensch messer metall miene milan milch minigolf minze mittag mode molch monat mond monitor montag moos moped morgen motor motte mulde mund muschel museum musik muskel muster mutter nacht nacken nadel nagel nahrung napf narr narzisse nase nashorn nass natter natur nebel nehmen nektar nest nett netz neubau neun nilpferd nobel norden note november nudel null nuss oase oben objekt obst ofen ohren ohrring oktober olive omelett oper orgel orkan ostern otter paket palast palette palme panda papagei papier pappe paprika parade park party pause pavian pedal pegel pelikan pelz pendel perle person pfad pfahl pfanne pfau pfeffer pfeil pferd pfirsich pflaume pflegen pflug pforte pfosten pfote physik picknick pigment pilot pilz pinguin pink pinsel pinzette pirat pixel plakat planet platz podest podium pokal pollen polster pommes pony pool portrait post praxis probe produkt profil projekt prospekt pudding puder puls pulver puma pumpe punkt punsch puppe pute putzen puzzel pyjama pyramide quadrat qualle quark quelle quittung quiz rabe radio radtour radweg rahmen rakete rampe rand rang ranke raps rasen rast ratgeber rathaus ratte rauch raum raupe raus rechnen reden redner regal regen rehkitz reibe reifen reihe reim reise reiten rekord rennen rentier reporter reptil residenz respekt retten rezept riechen riegel riesig rind ring rinnsaal riss ritter robbe roboter rock roggen rohr roller roman rosa rose rosine rost rotkohl rucksack rudel rufen ruhig rummel rund rute rutsche saal saat sack safran saft sahne saison salat salbe saloon salz samen sammeln samstag samt sand sardine satellit sattel sauber sauna saurier schaf schere schirm schlange schmuck schnee schrank schuh schwan sechs seefahrt seehund seekuh seestern segel sehen seide seife seil seite sekunde sellerie selten semester seminar senden senf senior serie server sessel shop sichel sieb siedlung signal silber singen sirene sirup sitzen skizze skulptur socke sofa sohle sohn soja sommer sonne sorte spachtel spagat spange spargel spaten specht speise spende sperling spiegel spinne spitze sport sprechen springen sprotte sprung spur stabil stachel stadt stahl stall stamm standort stapel stark station staub stehen stein stempel steppe stern stier stift still stimme stirn stock stoff stoppen storch strand strecke strom strumpf stube studium stufe stuhl stumm stunde sturm suche summe suppe surfen szenario tabelle tacker tafel tagebuch tango tanne tante tanz tapir tarnen tasche tasse tastatur taube tauchen taxi team technik teekanne teer teesieb teich teig teilen telefon teller tennis teppich termin terrasse teuer text theater tief tier tiger tinte tisch tochter toilette tomate tonband tonne topf torbogen torte tracht tragen training trapez trasse traum treffen treppe tresor triangel trinken trommel tropfen truhe trunk truthahn tuch tukan tulpe tunnel turbine turm turnen tusche ufer uhrwerk umbau umfrage umhang umkreis umriss umsonst umwelt umzug unikat urkunde urlaub vanille vase vater veranda verband verein verkehr video vieh vier villa vitamine vitrine vogel voliere voll vorbild vorort vorrat vortrag vulkan waage wachs wade waffel wagen waggon wahl wald walnuss walze wand wanne ware warm warten waschen wasser webstuhl wechsel wecker weich weide wein weit weizen welle welpe welt werbung werfen werkzeug wespe weste wetter widder wiegen wiese wimper wind winter winzig wippe wischen wisent wissen witz woche wohnen wolf wolke wolle wurm wurzel zahl zahn zander zange zapfen zauber zaun zebra zecke zehe zehn zeichen zeigen zeit zelt zement zentrum zettel ziege ziehen ziel ziffer zimmer zimt zirkus zitrone zocken zollfrei zucchini zucker zufall zugang zukunft zunge zwei zwiebel zwilling zwirn",
             "strings:modalAnlegenPwWarnungTitel.text": "Bitte gut merken",
             "strings:modalAnlegenPwWarnung.text": "Dieses Passwort verschlüsselt Ihr {marke}. Niemand kann es zurücksetzen — auch wir nicht. Genau das schützt Ihre Daten. Bewahren Sie es sicher auf.",
             "strings:modalOeffnenPwLabel.text": "Passwort",
@@ -30622,6 +31662,10 @@
             "strings:whcKontrolleFehlt.text": "Noch leer — der Code wird erst eingerichtet, wenn Sie ihn hier abgetippt haben.",
             "strings:whcKontrolleTeil.text": "Noch {n} Zeichen.",
             "strings:whcKontrolleStimmt.text": "Stimmt. Jetzt einrichten.",
+            "strings:ipsSprachwahlTitel.text": "Sprache der festen Sätze",
+            "strings:ipsSprachwahlText.text": "Die festen Sätze im Auszug, etwa „Keine Allergien bekannt“, stehen in der Sprache, die Sie hier wählen. Codes und Ihre eigenen Einträge bleiben, wie sie sind. Voreingestellt ist Englisch, damit auch eine Stelle im Ausland den Auszug lesen kann.",
+            "strings:ipsSprachwahlUngeprueft.text": "Übersetzung ungeprüft",
+            "strings:ipsSprachwahlWeiter.text": "Auszug erstellen",
             "strings:whcKontrolleFalsch.text": "Der eingegebene Code stimmt nicht mit dem angezeigten überein. Bitte vergleichen Sie Zeichen für Zeichen.",
             "strings:whcKontrolleKnopf.text": "Abgeschrieben — einrichten",
             "strings:whcPwLabel.text": "Ihr Passwort",
@@ -30743,6 +31787,15 @@
             "strings:fassungenDateiLabel.text": "in dieser Datei",
             "strings:fassungenUebernehmen.text": "Zusammenführen",
             "strings:fassungenFertig.text": "Fassungen zusammengeführt",
+            "strings:konfliktKnopfZusammen.text": "Beide zusammenführen",
+            "strings:konfliktZusammenHinweis.text": "Was nur in einer Fassung geändert wurde, ist schon übernommen. Bitte entscheiden Sie dort, wo beide Fassungen etwas geändert haben oder ein Eintrag nur in einer Fassung steht.",
+            "strings:konfliktZusammenAnderesDepot.text": "Die Datei gehört zu einem anderen Depot als der Stand auf dem Gerät. Zusammenführen geht darum nicht; bitte wählen Sie einen der beiden Stände.",
+            "strings:fassungenGeraetLabel.text": "auf diesem Gerät",
+            "strings:fassungenEintraegeTitel.text": "Bitte entscheiden — Einträge in Listen",
+            "strings:fassungenEintragNur.text": "steht nur in einer Fassung: {wo}",
+            "strings:fassungenEintragBehalten.text": "behalten",
+            "strings:fassungenRegisterMenschen.text": "Register der Menschen",
+            "strings:fassungenRegisterStellen.text": "Register der Institutionen",
             "strings:importVorhanden.text": "bisher",
             "strings:importNeu.text": "neu",
             "strings:importUebernehmen.text": "Einlesen",
@@ -33909,6 +34962,22 @@
                       {
                         "quelle": "identity",
                         "feld": "postcodeCity"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "street"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "houseNumber"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "postalCode"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "city"
                       }
                     ],
                     "titel": "Aus Ihren Bereichen"
@@ -34455,6 +35524,22 @@
                       {
                         "quelle": "identity",
                         "feld": "postcodeCity"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "street"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "houseNumber"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "postalCode"
+                      },
+                      {
+                        "quelle": "identity",
+                        "feld": "city"
                       }
                     ],
                     "titel": "Wer Sie sind"
@@ -36328,13 +37413,25 @@
                 "schritte": [
                   {
                     "feld": {
-                      "id": "streetAddress",
+                      "id": "street",
                       "typ": "text"
                     }
                   },
                   {
                     "feld": {
-                      "id": "postcodeCity",
+                      "id": "houseNumber",
+                      "typ": "text"
+                    }
+                  },
+                  {
+                    "feld": {
+                      "id": "postalCode",
+                      "typ": "text"
+                    }
+                  },
+                  {
+                    "feld": {
+                      "id": "city",
                       "typ": "text"
                     }
                   },
@@ -37009,7 +38106,11 @@
                 "zweck": [
                   "vermoegenssorge",
                   "gesundheitssorge"
-                ]
+                ],
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1820 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1820.html"
+                }
               },
               "custodianship-declaration": {
                 "katalogVersion": 1,
@@ -37021,7 +38122,11 @@
                 "zweck": [
                   "vermoegenssorge",
                   "gesundheitssorge"
-                ]
+                ],
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1816 Abs. 2 Satz 4 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1816.html"
+                }
               },
               "living-will": {
                 "katalogVersion": 1,
@@ -37036,7 +38141,11 @@
                 },
                 "zweck": [
                   "gesundheitssorge"
-                ]
+                ],
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1827 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1827.html"
+                }
               },
               "ki-verfuegung": {
                 "katalogVersion": 1,
@@ -37077,7 +38186,11 @@
                   "paragraf": "§ 1358 Abs. 3 Nr. 4 BGB",
                   "hinweis": "Erlischt sechs Monate nach dem ärztlich festgestellten Zeitpunkt; deckt nur Gesundheitsangelegenheiten (Abs. 1)."
                 },
-                "zweck": null
+                "zweck": null,
+                "rechtsgrundlage": {
+                  "paragraf": "§ 1358 Abs. 3 Nr. 2 BGB",
+                  "uri": "https://www.gesetze-im-internet.de/bgb/__1358.html"
+                }
               }
             }
           }

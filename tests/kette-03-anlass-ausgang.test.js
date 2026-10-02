@@ -108,15 +108,25 @@ test('[Kette 03 · Gegenprobe] ein Bereich ohne Beitrag erscheint NICHT', async 
 
 /* ══ Zug 2 — das schlichte eigene Format ══════════════════════════════════ */
 
-test('[Kette 03 · Zug 2] ein Feld, das KEIN Standard kennt, ist im Datensatz — und NICHT im FHIR', async () => {
+test('[Kette 03 · Zug 2] ein Feld, das KEIN Standard strukturiert kennt, ist im Datensatz — im FHIR nur im Narrativ des Consent und nur mit Freigabe', async () => {
   const V = await heimaufnahmeDepot();
   V.listenEintragHinzufuegen('advanceCare', 'provisionInstruments', { instrument: 'living-will', storageLocation: 'Tresor' });
   const eigen = 'advanceCare.provisionInstruments[living-will].storageLocation';
   const ds = V.zusammenstellungDatensatz([eigen], { id: 'heimaufnahme' }, { sensibel: true });
   assert.equal(ds.felder.length, 1, 'der Ablageort der Patientenverfügung geht mit — FHIR kennt ihn nicht');
   assert.match(ds.felder[0].wert, /Tresor/);
-  const fhir = JSON.stringify(V.fhirIpsBundle(new Date('2026-08-20T10:00:00Z'), { sensibel: true }));
-  assert.equal(fhir.includes('Tresor'), false, 'und er ist NICHT im FHIR-Datensatz — dort gehört er nicht hin');
+  /* Seit U2-ADR-466 (v857, 02.10.2026) kennt das IPS die Patientenverfügung als Consent (Abschnitt Advance Directives). Der Ablageort
+     hat dort kein strukturiertes Element (die KBV-Extension ist nicht Teil von IPS/EPS) und steht darum NUR im Narrativ dieses Consent,
+     und nur mit Freigabe der sensiblen Felder. Ohne Freigabe steht er nirgends im FHIR; mit Freigabe nirgends außer dort. */
+  const mit = V.fhirIpsBundle(new Date('2026-08-20T10:00:00Z'), { sensibel: true });
+  const traeger = mit.entry.filter((e) => JSON.stringify(e.resource).includes('Tresor'));
+  assert.deepEqual(traeger.map((e) => e.resource.resourceType), ['Consent'], 'der Ablageort steht nur im Consent der Patientenverfügung');
+  const { text: narrativ, ...strukturiert } = traeger[0].resource;
+  assert.ok(narrativ.div.includes('Tresor'));
+  assert.equal(JSON.stringify(strukturiert).includes('Tresor'), false,
+    'und dort nur im Narrativ, in keinem strukturierten Element');
+  const ohne = JSON.stringify(V.fhirIpsBundle(new Date('2026-08-20T10:00:00Z'), { sensibel: false }));
+  assert.equal(ohne.includes('Tresor'), false, 'ohne Freigabe der sensiblen Felder ist er NICHT im FHIR-Datensatz');
 });
 
 test('[Kette 03 · Zug 2] der Datensatz nennt sein Format in der versionierten Form', async () => {

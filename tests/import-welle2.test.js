@@ -124,9 +124,9 @@ test('W2-8) XMeld: Fixture → Import → Identitäts-Felder feldweise korrekt',
   const { V } = await frischMitDepot();
   V.kernAPI.importiere('xmeld', XMELD, { alleKonflikte: true });
   assert.deepEqual(
-    felder(V, 'identity', ['givenName', 'familyName', 'birthName', 'birthDate', 'birthPlace', 'nationality', 'streetAddress', 'postcodeCity']),
+    felder(V, 'identity', ['givenName', 'familyName', 'birthName', 'birthDate', 'birthPlace', 'nationality', 'street', 'houseNumber', 'postalCode', 'city']),   // U2-ADR-467: getrennt, wie XMeld sie führt
     { givenName: 'Maria', familyName: 'Mustermann', birthName: 'Müller', birthDate: '1980-05-15',
-      birthPlace: 'Augsburg', nationality: 'deutsch', streetAddress: 'Lindenweg 4', postcodeCity: '80331 München' });
+      birthPlace: 'Augsburg', nationality: 'deutsch', street: 'Lindenweg', houseNumber: '4', postalCode: '80331', city: 'München' });
 });
 
 test('W2-9) XMeld: belegtes Feld bleibt (Konflikt), leeres wird gefüllt (Merge)', async () => {

@@ -22,7 +22,7 @@ const KOMPONENTEN = [
   { name: 'Bürger-App (Kern)',  datei: 'vivodepot.html' },
   { name: 'Lese-App',           datei: 'vivodepot-lesen.html' },
   { name: 'VC-Issuer',          datei: 'vivodepot-vc-issuer.html' },
-  { name: 'Template-Generator', datei: 'vivodepot-template-generator.html' },
+  { name: 'Template-Generator', datei: 'vivodepot-studio.html' },
 ];
 
 function ersterScriptBlock(html) {

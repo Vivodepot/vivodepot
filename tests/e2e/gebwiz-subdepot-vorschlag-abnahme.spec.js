@@ -54,7 +54,9 @@ test('Geburts-Assistent mit genanntem Namen → Kind-Eintrag entsteht → Sub-De
 
   // Der ECHTE Sub-Depot-Dialog öffnet — Vorname vorbefüllt (aus dem Kind-Namen), Passwort LEER.
   await expect(page.locator('#id-pw')).toBeVisible();
-  await expect(page.locator('#id-vorname')).toHaveValue('Mia');
+  // U2-ADR-467: der Name des Kindes steht in EINEM Feld — der Vorname wird nicht daraus geraten, das Feld bleibt leer.
+  await expect(page.locator('#id-vorname')).toHaveValue('');
+  await page.fill('#id-vorname', 'Mia');
   await expect(page.locator('#id-pw')).toHaveValue('');
   await expect(page.locator('#id-pw2')).toHaveValue('');
 });

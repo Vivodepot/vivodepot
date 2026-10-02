@@ -30,12 +30,24 @@ function seiteLesen(html) {
   return { lizenz: lizenz ? lizenz[1] : null, jahr: jahr ? jahr[1] : null };
 }
 
+/* Nur der SNOMED-Absatz zählt (02.10.2026): ab der Zeile, die das Global Patient Set nennt, bis zur nächsten Leerzeile. Eine
+   andere Lizenz an anderer Stelle derselben Datei (etwa die Wortliste des Passwort-Vorschlags unter CC BY 4.0) darf einen
+   Lizenzwechsel bei SNOMED nicht verdecken. Ohne Absatz bleibt der Text leer — dann fehlt beides, nie ein stilles Grün. */
+function snomedAbschnitt(text) {
+  const t = String(text || '');
+  const i = t.search(/^.*SNOMED CT.*Global Patient Set/m);
+  if (i < 0) return '';
+  const ende = t.indexOf('\n\n', i);
+  return ende < 0 ? t.slice(i) : t.slice(i, ende);
+}
+
 function abgleichen(seite, traegerTexte) {
   const befund = [];
   if (!seite.lizenz) befund.push('Seite: keine Lizenzangabe gefunden');
   if (!seite.jahr) befund.push('Seite: kein Copyright-Jahr gefunden');
   const kurz = { 'Attribution-NoDerivatives 4.0': 'CC BY-ND 4.0' }[seite.lizenz] || seite.lizenz;
-  for (const [name, text] of Object.entries(traegerTexte)) {
+  for (const [name, ganz] of Object.entries(traegerTexte)) {
+    const text = snomedAbschnitt(ganz);
     if (seite.lizenz && !text.includes(kurz)) befund.push(name + ': Lizenz „' + kurz + '“ fehlt');
     if (seite.jahr && !text.includes('© ' + seite.jahr + ' SNOMED International')) befund.push(name + ': „© ' + seite.jahr + ' SNOMED International“ fehlt');
   }
@@ -46,7 +58,7 @@ function traegerLesen(repo) {
   return Object.fromEntries(TRAEGER.map((d) => [d, fs.readFileSync(path.join(repo, d), 'utf8')]));
 }
 
-module.exports = { seiteLesen, abgleichen, traegerLesen, SEITE };
+module.exports = { snomedAbschnitt, seiteLesen, abgleichen, traegerLesen, SEITE };
 
 if (require.main === module) {
   (async () => {

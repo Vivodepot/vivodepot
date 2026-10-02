@@ -25,8 +25,24 @@ const AUSNAHMEN = new Map();
 
 function moduldateien() {
   const d = new Set([path.join(REPO, 'tools', 'textsatz-de-modul.json'), path.join(REPO, 'tools', 'textsatz-en-modul.json')]);
-  for (const p of PRODUKTE) for (const f of modulDateienFuer(p)) if (f) d.add(path.resolve(f));
+  for (const p of PRODUKTE) for (const f of modulDateienFuer(p)) if (f && !nurImIpsExport(f)) d.add(path.resolve(f));
   return [...d].sort();
+}
+/* Nicht geprüft: das IPS-Begleittext-Modul (U2-ADR-458). Seine Sätze gehen nur in den FHIR-IPS-Export (JSON), nie in ein PDF; es
+   trägt Griechisch und Kyrillisch, die der PDF-Zuschnitt nicht zusagt und nicht zusagen muss. Gehalten von der Probe
+   [PDF-Schrift·IPS-Modul] unten: jede Lesestelle `_ipsSatz(` liegt im IPS-Bau. */
+function nurImIpsExport(f) { return JSON.parse(fs.readFileSync(f, 'utf8')).modulTyp === 'ips-begleittext'; }
+function ipsSatzAusserhalbDesIpsBaus(quelle) {
+  const von = quelle.indexOf('function _fhirPatientAusIdentitaet(');
+  const bis = quelle.indexOf('function flowGesundheitFhirExport(');
+  const raus = [];
+  const re = /_ipsSatz\(/g;
+  let m;
+  while ((m = re.exec(quelle))) {
+    if (quelle.slice(m.index - 9, m.index) === 'function ') continue;
+    if (von < 0 || bis < 0 || m.index < von || m.index > bis) raus.push(m.index);
+  }
+  return raus;
 }
 function zeichenMitOrt(dateien) {
   const raus = new Map();
@@ -165,4 +181,13 @@ test('[PDF-Schrift·C1·Rot-Beweis] ein C1-Steuerzeichen wird gemeldet statt als
   const { V } = ladeKern();
   assert.equal(V.pdfZeichenUnterstuetzt(0x85), false);
   assert.ok(torwaechterFunde(V, ['Name\u0085']).length > 0);
+});
+
+test('[PDF-Schrift·IPS-Modul] die Sätze des IPS-Moduls werden nur im IPS-Bau gelesen — sonst gehört das Modul in die Probe oben', () => {
+  const quelle = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
+  assert.ok(quelle.includes('function _ipsSatz('), 'Vorbedingung: die eine Lesestelle des Moduls');
+  assert.deepEqual(ipsSatzAusserhalbDesIpsBaus(quelle), []);
+  // Rot-Beweis: eine Lesestelle in einem PDF-Erzeuger fiele auf.
+  const rot = quelle + "\nfunction pdfProbe() { doc.text(_ipsSatz('patient')); }\n";
+  assert.equal(ipsSatzAusserhalbDesIpsBaus(rot).length, 1);
 });

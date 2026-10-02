@@ -36,7 +36,7 @@
     try { window.top.location = window.self.location.href; } catch (e) { /* CSS-Verbergen bleibt bestehen */ }
   }
 </script>
-<title>Vivodepot · VC-Issuer · Trust-Authority-Modus</title>
+<title>Vivodepot · VC-Issuer</title>
 <style>
   :root {
     --gold: #8a6d3a;
@@ -92,6 +92,8 @@
   }
   .ta-banner h1 { font-size: 1.25rem; margin: 0; font-weight: 650; }
   .ta-banner p { margin: .15rem 0 0; font-size: .85rem; opacity: .92; }
+  /* Einheitlicher Produktkopf (v847): Produktname und ein Link zur Seite der Marke, in der Schrift des Banners. */
+  .produkt-kopf-link { color: var(--auf-gold); font-size: .9rem; margin-left: auto; white-space: nowrap; text-underline-offset: 2px; }
 
   h2 { font-size: 1.1rem; margin: 0 0 .35rem; color: var(--gold-deep); }
   .step-no { display:inline-block; min-width:1.6rem; }
@@ -162,6 +164,7 @@
       <h1>Vivodepot · VC-Issuer</h1>
       <p>Provider-Zertifikate ausstellen — nur auf dem dedizierten Operations-Gerät.</p>
     </div>
+    <a class="produkt-kopf-link" href="#" data-marke-href="website" target="_blank" rel="noopener noreferrer">vivodepot.de ↗</a>
   </div>
 </div>
 
@@ -4310,8 +4313,19 @@ function boot() {
   if (seb) seb.addEventListener('click', onSchnellwegErzeugen);
 }
 
+/* Die Marken-Stelle dieses Werkzeugs (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst
+   nirgends; der Link im Produktkopf (data-marke-href) wird beim Start daraus gesetzt. Gehalten von tools/marken-adressen-pruefen.js. */
+const MARKEN_ADRESSEN = Object.freeze({
+  website: 'https://vivodepot.de/',
+});
+function markeLinksSetzen() {
+  document.querySelectorAll('[data-marke-href]').forEach((n) => {
+    const ziel = MARKEN_ADRESSEN[n.getAttribute('data-marke-href')];
+    if (ziel) n.setAttribute('href', ziel);
+  });
+}
 if (typeof document !== 'undefined' && document.addEventListener) {
-  document.addEventListener('DOMContentLoaded', boot);
+  document.addEventListener('DOMContentLoaded', () => { markeLinksSetzen(); boot(); });
 }
 
 </script>

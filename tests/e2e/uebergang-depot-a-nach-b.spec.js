@@ -112,14 +112,14 @@ test('[Übergang 1] Depot A schließen → Depot B öffnen, derselbe Tab, kein R
   // ── Depot A anlegen, Feld eintragen, sichern+schließen ──────────────────
   await depotAnlegen(page, { name: DEPOT_A.name, pw: DEPOT_A.pw });
   await oeffneSektor(page, 'identity');
-  await setzeFeld(page, 'streetAddress', DEPOT_A.wert);
+  await setzeFeld(page, 'street', DEPOT_A.wert);
   const bytesA = await depotSchliessenUndBytesHolen(page);
   const dateiA = alsTmpDatei(bytesA, 'uebergang-a');
 
   // ── Depot B anlegen, ANDERES Feld, sichern+schließen ────────────────────
   await depotAnlegen(page, { name: DEPOT_B.name, pw: DEPOT_B.pw });
   await oeffneSektor(page, 'identity');
-  await setzeFeld(page, 'streetAddress', DEPOT_B.wert);
+  await setzeFeld(page, 'street', DEPOT_B.wert);
   const bytesB = await depotSchliessenUndBytesHolen(page);
   const dateiB = alsTmpDatei(bytesB, 'uebergang-b');
 
@@ -127,7 +127,7 @@ test('[Übergang 1] Depot A schließen → Depot B öffnen, derselbe Tab, kein R
     // ── Depot A öffnen (erster echter Datei-Öffnen-Weg dieses Tabs) ─────
     await depotOeffnenOhneReload(page, dateiA, DEPOT_A.pw);
     await oeffneSektor(page, 'identity');
-    await expect(page.locator('[data-edit="streetAddress"]')).toHaveValue(DEPOT_A.wert);
+    await expect(page.locator('[data-edit="street"]')).toHaveValue(DEPOT_A.wert);
     await expect(page.locator('.bereiche-umschalter, [data-sektor]').first(), 'Sidebar muss nach dem Öffnen von A rendern').toBeVisible();
 
     // ── DER ÜBERGANG: A schließen, DANN B öffnen — ohne Reload dazwischen ──
@@ -144,7 +144,7 @@ test('[Übergang 1] Depot A schließen → Depot B öffnen, derselbe Tab, kein R
     expect(await page.locator('[data-sektor]').count(), 'mindestens ein Bereich muss in der Sidebar stehen').toBeGreaterThan(0);
 
     await oeffneSektor(page, 'identity');
-    await expect(page.locator('[data-edit="streetAddress"]'), 'Depot B zeigt SEINEN Wert, keine Spur von A').toHaveValue(DEPOT_B.wert);
+    await expect(page.locator('[data-edit="street"]'), 'Depot B zeigt SEINEN Wert, keine Spur von A').toHaveValue(DEPOT_B.wert);
 
     expect(fehler, 'kein Absturz im Übergang A→B (Konsole/pageerror leer)').toEqual([]);
   } finally {

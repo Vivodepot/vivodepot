@@ -50,7 +50,7 @@ const REPO = path.join(__dirname, '..');
 const DATEIEN = Object.freeze([
   'vivodepot.html',
   'vivodepot-lesen.html',
-  'vivodepot-template-generator.html',
+  'vivodepot-studio.html',
 ]);
 
 const MUSTER = /Vivodepot[a-zäöüß]+/g;

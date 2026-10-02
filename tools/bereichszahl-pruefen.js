@@ -45,7 +45,7 @@ const REPO = path.join(__dirname, '..');
 const { echteSektorenListe } = require('./lib/sektoren.js');
 
 const GEGENSTAND = Object.freeze([
-  'vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-template-generator.html',
+  'vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-studio.html',
   'vivodepot-vc-issuer.html', 'vivodepot-schluessel-teilen.html',
   'docs/template-generator/submission-schema.json',
 ]);

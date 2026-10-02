@@ -55,7 +55,7 @@ const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
 const KERN = path.join(REPO, 'vivodepot.html');
-const GENERATOR = path.join(REPO, 'vivodepot-template-generator.html');
+const GENERATOR = path.join(REPO, 'vivodepot-studio.html');
 
 const BEGIN = '/* TORWAECHTER:BEGIN — generierter Bereich (tools/build-torwaechter.js); Quelle: vivodepot.html validateTemplate */';
 const ENDE = '/* TORWAECHTER:END */';

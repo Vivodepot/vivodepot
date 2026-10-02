@@ -31,6 +31,9 @@ const { ladeKern } = require(path.join(__dirname, '..', 'tests', 'load-kern.js')
   const okBtn = document.getElementById('m-ok');
   if (typeof okBtn.onclick !== 'function') { console.log('ROT: kein Modal geöffnet — Aufbau gebrochen'); process.exit(1); }
   await okBtn.onclick();
+  // Seit U2-ADR-458 folgt die Wahl der Exportsprache als eigener Dialog; die Voreinstellung (Englisch) bestätigen.
+  const spracheOk = document.getElementById('ips-exportsprache') && document.getElementById('m-ok');
+  if (!inhalt && spracheOk && typeof spracheOk.onclick === 'function') await spracheOk.onclick();
   if (!inhalt) { console.log('ROT: kein Export-Blob entstanden — Aufbau gebrochen'); process.exit(1); }
   if (inhalt.includes('Penicillin')) {
     console.log('ROT: "Penicillin" steht im Export, obwohl NICHTS angekreuzt war — Datenabfluss');

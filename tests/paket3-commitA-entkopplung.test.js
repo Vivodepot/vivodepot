@@ -26,7 +26,7 @@
    die hier für die anderen vier bereits geschlossen wurde). Berührt NICHT
    `INSTITUTION_ART` selbst — der Handkopien-Wächter (U2-ADR-262,
    tools/handkopien-gegen-original-pruefen.js) vergleicht dessen Werte weiterhin
-   gegen die unveränderte Kopie in vivodepot-template-generator.html.
+   gegen die unveränderte Kopie in vivodepot-studio.html.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');

@@ -54,7 +54,7 @@ under [`docs/adr/`](docs/adr/).
 
 ## License
 
-[EUPL-1.2](LICENSE). Details on the licensing of the template layer in
+[EUPL-1.2](LICENSE). What that means, what is excluded and what is in the public repository today:
 [`LICENSING.md`](LICENSING.md).
 
 ## Where to go from here
@@ -73,4 +73,4 @@ under [`docs/adr/`](docs/adr/).
 
 ## Version
 
-Version v843.
+Version v857.

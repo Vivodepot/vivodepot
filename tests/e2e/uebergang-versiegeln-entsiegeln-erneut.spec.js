@@ -121,7 +121,7 @@ test('[Übergang 4] versiegeln → entsiegeln → erneut versiegeln, ZWEIMAL —
   const nachErstemZyklus = await page.inputValue('[data-edit="givenName"]');
   expect(nachErstemZyklus, 'Wert 1 muss die erste Siegel-Generation überleben').toBe(WERT_1);
 
-  await page.evaluate((wert) => { window.__vdOeffentlich.sektorFeldSetzen('identity', 'postcodeCity', wert); }, WERT_2);
+  await page.evaluate((wert) => { window.__vdOeffentlich.sektorFeldSetzen('identity', 'city', wert); }, WERT_2);
 
   // ── ZWEITE Neuversiegelung: verlassen + „Wieder versiegeln" ─────────────
   await verlassenUndWiederVersiegeln(page, uuid);
@@ -131,7 +131,7 @@ test('[Übergang 4] versiegeln → entsiegeln → erneut versiegeln, ZWEIMAL —
   await oeffneSektor(page, 'identity');
   const nachZweitemZyklus = {
     vorname: await page.inputValue('[data-edit="givenName"]'),
-    plz_ort: await page.inputValue('[data-edit="postcodeCity"]'),
+    plz_ort: await page.inputValue('[data-edit="city"]'),
   };
   expect(nachZweitemZyklus.vorname, 'Wert 1 muss auch die ZWEITE Siegel-Generation überleben').toBe(WERT_1);
   expect(nachZweitemZyklus.plz_ort, 'Wert 2 aus der zweiten Generation muss beim dritten Entsiegeln stehen').toBe(WERT_2);

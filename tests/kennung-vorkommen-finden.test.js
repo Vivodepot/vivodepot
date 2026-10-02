@@ -79,7 +79,7 @@ test('[Orte] jeder feste Ort wird abgesucht — auch die drei Textsatz-Seeds und
   const root = wurzel();
   const orte = ['tools/textsatz-de-modul.json', 'tools/textsatz-en-modul.json', 'tools/textsatz-en-vollabdeckung-daten.js',
     'tools/textsatz-en-optionswerte-daten.js', 'tests/fixtures/erbschein-vorbereitung-logikmodul.json',
-    'tools/rechtsraum-de-modul.json', 'docs/template-generator/submission-schema.json', 'vivodepot-template-generator.html'];
+    'tools/rechtsraum-de-modul.json', 'docs/template-generator/submission-schema.json', 'vivodepot-studio.html'];
   for (const rel of orte) {
     fs.mkdirSync(path.dirname(path.join(root, rel)), { recursive: true });
     mit(root, rel, `"a.b/instrument/${K}.label": "x"\n`);

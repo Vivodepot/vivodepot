@@ -75,6 +75,10 @@
    tests/verselbststaendigung-feld-entfernt.test.js — `t.skip('keine Git-Historie')`, NUR im Rot-Beweis am alten Kern, wenn die
    Git-Historie fehlt (öffentlicher Zuschnitt). Vorher setzte er dort still grün aus; sichtbar ausgesetzt ist er ehrlich.
    Der gepflanzte Rot-Beweis derselben Datei läuft immer. Rückkehr-Bedingung: keine (bedingter Skip der Umgebung).
+
+   NACHTRAG (01.10.2026): Obergrenze 19 → 20, BEWUSST. tests/csp-hashes-cross-repo-abgleich.test.js — `t.skip('UNGEMESSEN
+   — Schwesterrepo oder sein origin/main nicht lokal vorhanden …')`, dasselbe Muster wie der produkt-text-erzeugen-Abgleich:
+   ohne das Gateway-Repo bleibt der Abgleich ungemessen statt still grün. Rückkehr-Bedingung: keine (bedingter Skip der Umgebung).
    ════════════════════════════════════════════════════════════════════════════ */
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -82,7 +86,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const OBERGRENZE = 19;
+const OBERGRENZE = 20;
 const MUSTER = /^\s*(?:test|it)\.(skip|todo)\(|,\s*\{\s*skip\s*:|\bt\.skip\(/gm;
 
 const EIGENE_DATEI = path.resolve(__filename);

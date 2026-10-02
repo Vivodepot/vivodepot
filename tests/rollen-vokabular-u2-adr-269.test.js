@@ -30,12 +30,13 @@ test('[U2-ADR-269] identitaet: telefonFeld/emailFeld/adresseFelder lösen auf', 
   const { V } = ladeKern();
   assert.equal(V.bereichRolle('identity', 'telefonFeld'), 'telephone');
   assert.equal(V.bereichRolle('identity', 'emailFeld'), 'email');
-  assert.deepEqual(V.bereichRolle('identity', 'adresseFelder'), ['streetAddress', 'postcodeCity']);
+  assert.deepEqual(V.bereichRolle('identity', 'adresseFelder'), ['street', 'houseNumber', 'postalCode', 'city']);   // U2-ADR-467
 
   assert.equal(V.bereichFeldHatRolle('identity', 'telephone', 'telefonFeld'), true);
   assert.equal(V.bereichFeldHatRolle('identity', 'email', 'emailFeld'), true);
-  assert.equal(V.bereichFeldHatRolle('identity', 'streetAddress', 'adresseFelder'), true);
-  assert.equal(V.bereichFeldHatRolle('identity', 'postcodeCity', 'adresseFelder'), true);
+  assert.equal(V.bereichFeldHatRolle('identity', 'street', 'adresseFelder'), true);
+  assert.equal(V.bereichFeldHatRolle('identity', 'city', 'adresseFelder'), true);
+  assert.equal(V.bereichFeldHatRolle('identity', 'streetAddress', 'adresseFelder'), false, 'die bisherige Zeile ist abgelöst');
   // Gegenprobe: ein anderes Feld trägt die Rolle NICHT.
   assert.equal(V.bereichFeldHatRolle('identity', 'email', 'telefonFeld'), false);
 });

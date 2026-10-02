@@ -25,5 +25,5 @@ Unterstützung wird zwölf Monate im Voraus angekündigt. Die Einzelheiten stehe
   „Sicherheit“ mit ihrer Nummer und dem, was zu tun ist.
 - **[`SECURITY.md`](../SECURITY.md), Abschnitt 8:** der SHA-256 jeder ausgelieferten Datei je Fassung. Wie man ihn aus
   dem Quelltext nachrechnet, steht in [`DEVELOPING.md`](../DEVELOPING.md).
-- **Öffentliches Repository:** jeder Stand dort trägt den annotierten Tag `v1.0.<Fassung>`; signierte Tags folgen
-  mit einer späteren Fassung ([`SECURITY.md`](../SECURITY.md), Abschnitt 2.1).
+- **Öffentliches Repository:** jeder Stand dort trägt den annotierten Tag `v1.0.<Fassung>`; ab v1.0.857 ist er
+  SSH-signiert, ältere nicht. Wie man die Signatur prüft, steht in [`SECURITY.md`](../SECURITY.md), Abschnitt 2.1.

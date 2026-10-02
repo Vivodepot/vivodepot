@@ -126,6 +126,20 @@ zu unterscheiden — und zwar in genau der Situation, in der niemand nachfragen 
 die Migration führt und für **jedes** Feld der Notfall-Allowlist prüft, dass der Wert danach am
 Notfall-Pfad ankommt — nicht, dass der Pfad „nicht wirft".
 
+**Nachtrag (01.10.2026, v845) · Der Ablageort der Vorsorgevollmacht steht auf der Karte.** Die Allowlist
+führte für die Vorsorgevollmacht nur die bevollmächtigte Person, den Ablageort nur für die Patientenverfügung.
+Anlass: Die Vorführung „Betreuungsverein“ sagt seit ihrer ersten Fassung, die Notfallkarte zeige, wen man anruft
+und wo die Vollmacht liegt. Das Produkt konnte den zweiten Teil nicht. Nach dem Grundsatz vom 15.09.2026, dass
+eine gezeigte Fähigkeit ins Produkt gehört, wird die Lücke geschlossen und nicht der Satz der Vorführung
+abgeschwächt. Wer im Ernstfall die Vollmacht vorlegen muss, braucht die Urschrift, nicht nur den Namen.
+
+Die Klartext-Grenze bleibt, wie sie war: Es ist dieselbe Klasse wie der Ablageort der Patientenverfügung, eine
+Ortsangabe ohne Gesundheitsinhalt. Regel (a) gilt unverändert, genau eine Zeile, und die angenommene Folge oben
+(zwei Vollmachten, ein Ablageort auf dem Blatt) ist damit eingetreten, wie beschrieben. Die Zeile trägt das
+Instrument im Label. Die Handkopie in der Lese-App und die unabhängige Erlaubnisliste der Kampagne wachsen um
+denselben Eintrag. Nachweis: `tests/notfall-allowlist-instrument.test.js` (der Wert am Notfall-Pfad mit
+Instrument im Label, und ein Rot-Beweis an einer Kern-Kopie ohne den Eintrag).
+
 ## Konsequenzen
 
 - Die acht Situations-Querverweise auf entfallende Vorsorge-Flachfelder werden über diesen

@@ -71,6 +71,30 @@ const E2E_CROSS_PFAD = 'tests/e2e-cross/';
 const E2E_FIREFOX_PFAD = 'tests/e2e-firefox/';
 const FIREFOX_TRAEGER = ['vivodepot.html', 'vivodepot-lesen.html', 'playwright.config.firefox.js'];
 
+/* OBERFLÄCHEN MIT EIGENER E2E-PROBE (29.09.2026): eine reine Änderung an einer Nebenanwendung (Anlass: das Studio)
+   löste keinen Lauf aus, weil die Regel nur DATEISATZ kannte — ihre Cross-Proben liefen bei solchen Commits nie mit.
+   DATEISATZ bleibt, was es ist (die Auslieferung: testfassung-legen, schalen-lockstep, FHIR-Gate lesen es); die
+   Anlass-Regel nimmt zusätzlich jede HTML-Datei der Wurzel, die irgendeine Datei unter tests/e2e/ oder
+   tests/e2e-cross/ nennt (auch über support/helpers.js). Erhoben, nicht geführt: eine neue Oberfläche mit Probe
+   gibt Anlass, ohne dass jemand eine Liste nachzieht. Ohne git, damit keine GIT_*-Umgebung hineinspielt. */
+const REPO_WURZEL = require('node:path').join(__dirname, '..');
+function oberflaechenMitProbe(repo = REPO_WURZEL) {
+  const fs = require('node:fs'); const path = require('node:path');
+  let html;
+  try { html = fs.readdirSync(repo).filter((f) => f.endsWith('.html')); } catch (_) { return []; }
+  const texte = [];
+  const lesen = (dir) => {
+    let e; try { e = fs.readdirSync(dir, { withFileTypes: true }); } catch (_) { return; }
+    for (const x of e) {
+      const p = path.join(dir, x.name);
+      if (x.isDirectory()) { if (x.name !== 'node_modules' && !x.name.startsWith('.')) lesen(p); }
+      else if (/\.(m?js|ts)$/.test(x.name)) { try { texte.push(fs.readFileSync(p, 'utf8')); } catch (_) { /* weg */ } }
+    }
+  };
+  lesen(path.join(repo, E2E_PFAD)); lesen(path.join(repo, E2E_CROSS_PFAD));
+  return html.filter((h) => !DATEISATZ.includes(h) && texte.some((q) => q.includes(h))).sort();
+}
+
 function git(...args) {
   return execFileSync('git', args, { encoding: 'utf8' });
 }
@@ -114,10 +138,13 @@ function firefoxAnlassGegeben(dateien) {
   return t.length ? { ja: true, grund: 'Firefox-relevant geändert: ' + t.join(', ') } : { ja: false, grund: 'weder Oberfläche noch Firefox-Probe im Bereich' };
 }
 
-function anlassGegeben(dateien) {
+function anlassGegeben(dateien, oberflaechen = null) {
   if (dateien === null) return { ja: true, grund: 'neuer Zweig oder kein messbarer Bereich' };
   const traeger = dateien.filter((d) => DATEISATZ.includes(d));
   if (traeger.length) return { ja: true, grund: 'Trägerdatei geändert: ' + traeger.join(', ') };
+  const mitProbe = oberflaechen || oberflaechenMitProbe();
+  const flaechen = dateien.filter((d) => mitProbe.includes(d));
+  if (flaechen.length) return { ja: true, grund: 'Oberfläche mit E2E-Probe geändert: ' + flaechen.join(', ') };
   const proben = dateien.filter((d) => d.startsWith(E2E_PFAD));
   if (proben.length) return { ja: true, grund: proben.length + ' E2E-Probe(n) geändert' };
   const cross = dateien.filter((d) => d.startsWith(E2E_CROSS_PFAD) || d === 'playwright.config.cross.js');
@@ -227,6 +254,6 @@ function laeufeFahren(anlass, firefox) {
   return 0;
 }
 
-module.exports = { anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
+module.exports = { oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
 
 if (require.main === module) process.exit(main());

@@ -5,7 +5,7 @@
    ────────────────────────────────────────────────────────────────────────────
    KORRIGIERTE PRÄMISSE (gemessen, nicht aus dem Plan übernommen): der Plan-Entwurf
    nannte `TEXTSATZ_TEXTE_EINGEBAUT` als Startbestand-Quelle — das ist FALSCH.
-   `TEXTSATZ_TEXTE_EINGEBAUT` (`vivodepot-template-generator.html:1325`) ist die
+   `TEXTSATZ_TEXTE_EINGEBAUT` (`vivodepot-studio.html:1325`) ist die
    Zeichenkette DES TEMPLATE-GENERATORS EIGENER Oberfläche (ein Eintrag: der
    deutsche Untertitel) — ein Werkzeug-internes i18n-Detail, keine Liste von
    Sprachen des Bürgerdepots.

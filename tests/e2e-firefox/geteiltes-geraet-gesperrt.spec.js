@@ -55,7 +55,7 @@ test('[Geteiltes Gerät] zweiter Tab und Neuladen zeigen nur „bitte entsperren
   await a.waitForSelector('#w-anlass', { state: 'visible' });
   await depotAnlegen(a, { name: 'Maria ' + GEHEIMNAME, pw: 'geheim-pw-4711' });
   await oeffneSektor(a, 'identity');
-  await setzeFeld(a, 'streetAddress', GEHEIMWERT);
+  await setzeFeld(a, 'street', GEHEIMWERT);
   await a.waitForTimeout(2500);   // die Entprellung des Gerätespeichers (2000 ms) abwarten
 
   // Zweiter Tab im selben Browser: Passwort verlangt, kein Inhalt, keine geöffnete App.

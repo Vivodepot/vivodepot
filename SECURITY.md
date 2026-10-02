@@ -1,6 +1,5 @@
 # Vivodepot · Security-Dokument
 
-**Versions-Stand:** v1.0.0
 **Verantwortliche Stelle:** Vivodepot GmbH, Berlin
 **Anschluss:** ADR-085 mit Nachtrag vom 23.05.2026, ADR-098 (Lese-App)
 
@@ -38,13 +37,26 @@ Die Authentizität des Trust-Authority-Schlüssels kann an mehreren, voneinander
 
 ### 2.1 Repository
 
-Diese `SECURITY.md` trägt den Fingerprint (Abschnitt 1). Wer ihn gegen den in der Vivodepot-Datei eingebetteten Schlüssel hält, prüft beide gegeneinander. Jeder Stand im öffentlichen Repository trägt den annotierten Tag `v1.0.<Fassung>`. Die Tags sind nicht signiert; welche ausgelieferte Datei zu welcher Fassung gehört, belegt ihr SHA-256 in Abschnitt 8. Signierte Release-Tags folgen mit einer späteren Fassung.
+Diese `SECURITY.md` trägt den Fingerprint (Abschnitt 1). Wer ihn gegen den in der Vivodepot-Datei eingebetteten Schlüssel hält, prüft beide gegeneinander. Jeder Stand im öffentlichen Repository trägt den annotierten Tag `v1.0.<Fassung>`. Tags ab v1.0.857 sind SSH-signiert, ältere nicht. Welche ausgelieferte Datei zu welcher Fassung gehört, belegt ihr SHA-256 in Abschnitt 8.
+
+Den Schlüssel, gegen den die Signatur geprüft wird, veröffentlicht Vivodepot unter
+`https://vivodepot.de/.well-known/vivodepot-allowed-signers`; in diesem Repository liegt er nicht. Sein Fingerabdruck ist
+`SHA256:kLmBzq4m0aSBeHIw4cfkQOu4GS3fl+KqjXcAd8qYBxk` (ED25519). Prüfen, mit `curl` und `git`:
+
+```bash
+curl -s https://vivodepot.de/.well-known/vivodepot-allowed-signers > allowed_signers
+git -c gpg.ssh.allowedSignersFile=allowed_signers tag -v v1.0.857
+```
+
+Die Ausgabe enthält `Good "git" signature for dev@vivodepot.de with ED25519 key
+SHA256:kLmBzq4m0aSBeHIw4cfkQOu4GS3fl+KqjXcAd8qYBxk`, und `git` endet mit Status 0. Steht dort ein anderer Fingerabdruck,
+oder fehlt `for dev@vivodepot.de` (Meldung `No principal matched`), stammt die Signatur nicht vom Release-Schlüssel.
 
 Wie Fassungen erscheinen und wie lange sie unterstützt werden, steht in [`docs/release-planung.md`](docs/release-planung.md).
 
 ### 2.2 Prüfsummen je Fassung
 
-Die Prüfsummen jeder ausgelieferten Fassung stehen auf der Versionsseite (folgt) und in [Abschnitt 8](#8--fingerabdruck-je-fassung) dieser Datei.
+Die Prüfsummen jeder ausgelieferten Fassung stehen in [Abschnitt 8](#8--fingerabdruck-je-fassung) dieser Datei; wie man sie aus dem Quelltext nachrechnet, steht in [`DEVELOPING.md`](DEVELOPING.md).
 
 ### 2.3 Handelsregister-Bezug
 
@@ -117,7 +129,9 @@ Diese `SECURITY.md` ist die strukturelle Vorbereitung der CRA-Schwachstellen-Ann
 (CRA Art. 13 ff.) — der Meldeprozess selbst lebt im verlinkten Runbook, nicht hier.
 
 Die SBOM (`vivodepot.sbom.cdx.json`, CycloneDX-Format) ist bereits CRA-vorbereitet und wird bei
-jedem Release aktualisiert.
+jedem Release aktualisiert. Sie nennt auch Träger einer Komponente, die nicht im öffentlichen
+Repository liegen (Eigenschaft `vivodepot:zusaetzlicher-traeger`, heute das Studio mit seiner Kopie
+der QR-Bibliothek).
 
 **Unterstützungszeitraum.** Jede Fassung von Vivodepot erhält mindestens fünf Jahre
 Sicherheitsaktualisierungen ab dem Tag, an dem sie herauskommt; jede Aktualisierung bleibt danach
@@ -180,6 +194,14 @@ nicht tragen (ihn einzutragen änderte die Datei und damit den Fingerabdruck); e
 Die Tabelle ist aus dem internen Fassungsregister erzeugt, nicht getippt; der pre-commit-Hook hält
 beide gleich (`tools/fassungen-register.js --check`).
 
+Die Produkte werden vorgebaut ausgeliefert, Privat-DE und Privat-EN ebenso wie Pro-DE und Pro-EN. Der Auslieferungslauf
+baut jede Datei einmal und trägt ihren SHA-256 in das signierte Rezept ein (`"lieferart": "vorgebaut"`,
+`produktPruefsumme`). Das Gateway gibt die Datei nur heraus, wenn die geholten Bytes genau diese Prüfsumme tragen.
+Weg zum Nachsehen: die heruntergeladene Datei gegen die Tabelle unten.[^ohne-vorbau]
+
+[^ohne-vorbau]: Das Gateway kennt außerdem einen Bau ohne Vorbau, je Abruf aus Rezept und Zutaten. Er schaltet den
+    Service Worker ab und ergibt darum eine andere Prüfsumme. Keines der vier Produkte wird auf diesem Weg ausgeliefert.
+
 <!-- fassungen-register:anfang — erzeugt von tools/fassungen-register.js --build, nicht von Hand ändern -->
 
 Der Fingerabdruck ist der SHA-256 der Datei, wie sie ausgeliefert wurde. Prüfen: `shasum -a 256 <datei>`
@@ -188,6 +210,11 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v857 | 2026-10-02 | privat-de | `f11cc3684befcaf09e177ea3f2e83e7879cc02946130d77748cf983785275df1` |
+| v857 | 2026-10-02 | privat-en | `a0e70742a17528bb43e0bf5cb53ad77af3a97ee3448f1727dff52a0486fbb390` |
+| v857 | 2026-10-02 | pro-de | `b109a1d3414e2210121672c672f2f93f14b048f777103338be74c0d03c5b06c1` |
+| v857 | 2026-10-02 | pro-en | `fac77cbeb6b54e7f2d0db8cb82264bf7e04a1febd28337ab188b62d0287a4a2d` |
+| v857 | 2026-10-02 | service-worker | `e93f4e73fab1424518bb2a8bb2ee975c4e5ddb4007d5ef1f1b00e7791ef58955` |
 | v843 | 2026-10-01 | privat-de | `a88b5a6df29b51d87bde562cd57dd1e7da0130ad6bddc7ee1fbe78abb6590a01` |
 | v843 | 2026-10-01 | privat-en | `f2e3e713def32b062cb0d83bbafa7446353891c81abda8ef662248c3d34a1e97` |
 | v843 | 2026-10-01 | pro-de | `a57c1c84968a083ddffcf335d837b463d11d53a833dff48e9c3ead3fb1e26a26` |

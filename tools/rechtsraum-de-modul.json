@@ -15,7 +15,11 @@
       "zweck": [
         "vermoegenssorge",
         "gesundheitssorge"
-      ]
+      ],
+      "rechtsgrundlage": {
+        "paragraf": "§ 1820 BGB",
+        "uri": "https://www.gesetze-im-internet.de/bgb/__1820.html"
+      }
     },
     "custodianship-declaration": {
       "katalogVersion": 1,
@@ -27,7 +31,11 @@
       "zweck": [
         "vermoegenssorge",
         "gesundheitssorge"
-      ]
+      ],
+      "rechtsgrundlage": {
+        "paragraf": "§ 1816 Abs. 2 Satz 4 BGB",
+        "uri": "https://www.gesetze-im-internet.de/bgb/__1816.html"
+      }
     },
     "living-will": {
       "katalogVersion": 1,
@@ -42,7 +50,11 @@
       },
       "zweck": [
         "gesundheitssorge"
-      ]
+      ],
+      "rechtsgrundlage": {
+        "paragraf": "§ 1827 BGB",
+        "uri": "https://www.gesetze-im-internet.de/bgb/__1827.html"
+      }
     },
     "ki-verfuegung": {
       "katalogVersion": 1,
@@ -83,7 +95,11 @@
         "paragraf": "§ 1358 Abs. 3 Nr. 4 BGB",
         "hinweis": "Erlischt sechs Monate nach dem ärztlich festgestellten Zeitpunkt; deckt nur Gesundheitsangelegenheiten (Abs. 1)."
       },
-      "zweck": null
+      "zweck": null,
+      "rechtsgrundlage": {
+        "paragraf": "§ 1358 Abs. 3 Nr. 2 BGB",
+        "uri": "https://www.gesetze-im-internet.de/bgb/__1358.html"
+      }
     }
   }
 }

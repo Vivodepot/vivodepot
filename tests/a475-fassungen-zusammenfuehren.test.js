@@ -45,7 +45,9 @@ async function gemeinsameAusgangsfassung() {
 async function fassungAus(gemeinsam, aendern) {
   const { V } = ladeKern();
   await V.depotLaden(await gemeinsam, 'a475-pw');
-  V.akteurSelbstErklaeren('Anna');
+  // Der Wiedereintritts-Weg des Produkts (U2-ADR-463): ein zweites akteurSelbstErklaeren legte in jeder Fassung
+  // eine eigene Person an, die das Zusammenführen der Register seither zu Recht als Unterschied sieht.
+  V.inhaberAkteurEtablieren();
   if (aendern) aendern(V);
   return V;
 }

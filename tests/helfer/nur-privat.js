@@ -28,7 +28,7 @@ const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 50;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
+const DECKEL = 52;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
                      // 42 → 43 am 26.09.2026: build-datum-lockstep, öffentlich ein einziger Commit vom Tag der Veröffentlichung
                      // 43 → 44 am 26.09.2026: hooks-eigener-baum-suite, öffentlich ohne eingerichtete Hooks (GIT)
                      // 44 → 45 am 27.09.2026 (Gegenlesung erteilt): hooks-eigener-baum-suite entfällt (die Datei hält der require-
@@ -44,8 +44,21 @@ const DECKEL = 50;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der
                      // 49 → 50 am 01.10.2026 (Gegenlesung erteilt): pre-commit-adr-referenzen-billig, die Gegenprobe fährt das Gate
                      //   über alle ADR-Referenzen des Bestands; öffentlich fehlen zurückgehaltene ADRs (BESTAND), gefunden von
                      //   npm test im Zuschnitt v843
+                     // 50 → 52 am 02.10.2026 (Gegenlesung erteilt, je Test einzeln): qrcode-kopie-gleichlauf und sbom-pflegen, je nur
+                     //   der Test, der die SBOM-Träger gegen die Dateien des Repos hält; die SBOM nennt das Studio als Träger der
+                     //   QR-Bibliothek, die Studio-Datei hält der Zuschnitt zurück (BESTAND), gefunden von npm test im Zuschnitt v857.
+                     //   Der Befund ZUSCHNITT-TRAEGER-AUSSERHALB holt den Deckel auf 50 zurück.
 
 const NUR_PRIVAT = {
+  // 02.10.2026 (Gegenlesung erteilt): die SBOM nennt bei qrcode-generator das Studio als zusätzlichen Träger; die Träger werden
+  // per Marker in den Dateien des Repos gesucht, und die Studio-Datei hält der Zuschnitt zurück. Die Rot-Beweise mit
+  // erfundenen Dateien bleiben öffentlich. Befund ZUSCHNITT-TRAEGER-AUSSERHALB.
+  "tests/qrcode-kopie-gleichlauf.test.js": { grund: BESTAND, tests: [
+    "[QR-Kopie] jede weitere Kopie ist byte-gleich, und die SBOM nennt genau diese Träger",
+  ] },
+  "tests/sbom-pflegen.test.js": { grund: BESTAND, tests: [
+    "[SBOM-Pflege] echte vivodepot.html + echte SBOM: keine Drift (Positivkontrolle des Ist-Zustands)",
+  ] },
   // 01.10.2026 (Gegenlesung erteilt): das Gate prüft jede ADR-Referenz des ganzen Bestands gegen docs/adr/; im Zuschnitt
   // fehlen die zurückgehaltenen ADRs. Der Rot-Beweis daneben bleibt öffentlich (er braucht nur die erfundene Nummer).
   "tests/pre-commit-adr-referenzen-billig.test.js": { grund: BESTAND, tests: [

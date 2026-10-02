@@ -37,7 +37,7 @@ test('[Nr.2] Schließen-Dialog: drei Wege mit Folgen sichtbar, auf 375px OHNE Sc
   await depotAnlegen(page, { name: 'Mobil Testerin' });
   // Identität ist der Landing-Sektor nach dem Anlegen (kein Sidebar-Klick nötig — bei 375px
   // liegt die Sidebar off-canvas hinter dem Hamburger-Menü, s. tb-menue).
-  await setzeFeld(page, 'streetAddress', 'Mobilweg 1');
+  await setzeFeld(page, 'street', 'Mobilweg 1');
   await page.click('#tb-schliessen');
   await page.waitForSelector('#m-ok', { state: 'visible' });
 

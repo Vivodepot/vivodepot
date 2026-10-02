@@ -52,6 +52,11 @@
    "marker": true
   },
   {
+   "name": "AB_WERK_IPS_BEGLEITTEXT",
+   "bytes": 37,
+   "marker": true
+  },
+  {
    "name": "AB_WERK_LOGIK_MODUL_AUSZUEGE_QUELLEN",
    "bytes": 65,
    "marker": true
@@ -119,10 +124,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 232000
+   "bytes": 238665
   },
   "satz": {
-   "bytes": 29515
+   "bytes": 29022
   }
  },
  "fremdcode": [
@@ -161,6 +166,7 @@
   "Bundle",
   "Composition",
   "Condition",
+  "Consent",
   "Courier",
   "Decode",
   "Device",
@@ -218,8 +224,8 @@
   "dauerhaft": [
    {
     "name": "CODE-LISTEN",
-    "satz": 1687,
-    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840).",
+    "satz": 1705,
+    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840). Angehoben 1687 → 1705 am 02.10.2026 von Hand, mit Wort der Gegenlesung: der Sektionstitel „Advance Directives“ in IPS_BEGRIFFE.sektionen, wörtlich aus hl7.fhir.uv.ips#2.0.0 (Composition-uv-ips, sectionAdvanceDirectives), U2-ADR-466.",
     "probe": "tests/code-listen-lizenzhinweise-im-kern.test.js"
    },
    {
@@ -698,6 +704,84 @@
     "satz": -56
    },
    "grund": "Vorführung: Erklärtext als angeheftete Notiz (Anker, Anheften, mehr/weniger; CSS der Notiz), v843; Wort der Gegenlesung 30.09.2026.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 232000,
+   "auf": 232080,
+   "daneben": {},
+   "grund": "Notfallkarte: Ablageort der Vorsorgevollmacht in NOTFALL_KERN_FELDER (Nachtrag U2-ADR-096 §5), v845; Wort der Gegenlesung 01.10.2026.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 232080,
+   "auf": 232145,
+   "daneben": {},
+   "grund": "v851: Literale der kompakten Anfrage-Form (U2-ADR-460)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "AB_WERK_IPS_BEGLEITTEXT",
+   "von": 0,
+   "auf": 37,
+   "daneben": {
+    "struktur": 1047,
+    "satz": -493
+   },
+   "grund": "v852: Sprachwahl im IPS-Export und Region AB_WERK_IPS_BEGLEITTEXT (U2-ADR-458)"
+  },
+  {
+   "ziel": "struktur",
+   "von": 232145,
+   "auf": 233192,
+   "daneben": {
+    "satz": -493
+   },
+   "grund": "v852: Sprachwahl im IPS-Export und Region AB_WERK_IPS_BEGLEITTEXT (U2-ADR-458)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 233192,
+   "auf": 235375,
+   "daneben": {},
+   "grund": "v855: Passwort-Vorschlag, Zusammenführen auf Eintragsebene, Speicherort merken, Dateistart (U2-ADR-463)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 235361,
+   "auf": 236832,
+   "daneben": {},
+   "grund": "v856, getrennte Namens- und Anschriftsfelder (U2-ADR-467): vier Anschriftsteile und zwei Namensteile als Kennungen in Feldlisten, Leseregel, Ausgaben und Importen (+1428); Leseregel ersetztDurch in anschriftFuerAusgabe und verweisExportFelder, U2-ADR-467 Punkt 7 (+43). Struktur, kein Satz.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 236832,
+   "auf": 238667,
+   "daneben": {},
+   "grund": "L1 Advance Directives (U2-ADR-466): Consent/RelatedPerson-Bau, Abbildungstabellen",
    "laengste": {
     "einzel": 0,
     "lauf": 62

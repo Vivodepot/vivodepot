@@ -19,9 +19,14 @@ test('umzwiz: voller Klickweg, Mietverhältnis-Schritte sichtbar ohne wohnung_ty
   await expect(page.locator('.wizard-frage')).toBeVisible();
   await expect(page.locator('#content')).toContainText('Schritt 1 von');
 
-  await page.fill('#content [data-edit="streetAddress"]', 'Seestraße 4');
+  // U2-ADR-467: der Assistent fragt die vier Teile der Anschrift, nicht mehr zwei Zeilen.
+  await page.fill('#content [data-edit="street"]', 'Seestraße');
   await page.click('#wiz-weiter');
-  await page.fill('#content [data-edit="postcodeCity"]', '18055 Rostock');
+  await page.fill('#content [data-edit="houseNumber"]', '4');
+  await page.click('#wiz-weiter');
+  await page.fill('#content [data-edit="postalCode"]', '18055');
+  await page.click('#wiz-weiter');
+  await page.fill('#content [data-edit="city"]', 'Rostock');
   await page.click('#wiz-weiter');
   await page.fill('#content [data-edit="reRegistrationWithTheResidents"]', 'Termin Bürgerbüro 12.09.');
   await page.click('#wiz-weiter');
@@ -47,7 +52,8 @@ test('umzwiz: voller Klickweg, Mietverhältnis-Schritte sichtbar ohne wohnung_ty
   // Die Werte landen wirklich in den drei verschiedenen Zielbereichen (Identität/Verwaltung/Wohnen).
   // Sektor-Felder sind Inline-Inputs — der Wert steht im `value`, nicht im sichtbaren Text.
   await oeffneSektor(page, 'identity');
-  await expect(page.locator('#content [data-edit="streetAddress"]')).toHaveValue('Seestraße 4');
+  await expect(page.locator('#content [data-edit="street"]')).toHaveValue('Seestraße');
+  await expect(page.locator('#content [data-edit="city"]')).toHaveValue('Rostock');
   await page.screenshot({ path: 'tests/e2e/.artifacts/umzwiz-1-identitaet.png', fullPage: true }).catch(() => {});
 
   await oeffneSektor(page, 'housing');
@@ -72,9 +78,14 @@ test('umzwiz: mit wohnung_typ=eigentum bleiben Mietverhältnis-Schritte verborge
   await wizardStarten(page, 'umzwiz');
   await expect(page.locator('.wizard-frage')).toBeVisible();
 
-  await page.fill('#content [data-edit="streetAddress"]', 'Seestraße 4');
+  // U2-ADR-467: der Assistent fragt die vier Teile der Anschrift, nicht mehr zwei Zeilen.
+  await page.fill('#content [data-edit="street"]', 'Seestraße');
   await page.click('#wiz-weiter');
-  await page.fill('#content [data-edit="postcodeCity"]', '18055 Rostock');
+  await page.fill('#content [data-edit="houseNumber"]', '4');
+  await page.click('#wiz-weiter');
+  await page.fill('#content [data-edit="postalCode"]', '18055');
+  await page.click('#wiz-weiter');
+  await page.fill('#content [data-edit="city"]', 'Rostock');
   await page.click('#wiz-weiter');
   await page.fill('#content [data-edit="reRegistrationWithTheResidents"]', 'erledigt');
   await page.click('#wiz-weiter');

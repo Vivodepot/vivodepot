@@ -188,6 +188,22 @@
             {
               "quelle": "identity",
               "feld": "postcodeCity"
+            },
+            {
+              "quelle": "identity",
+              "feld": "street"
+            },
+            {
+              "quelle": "identity",
+              "feld": "houseNumber"
+            },
+            {
+              "quelle": "identity",
+              "feld": "postalCode"
+            },
+            {
+              "quelle": "identity",
+              "feld": "city"
             }
           ],
           "titel": "Aus Ihren Bereichen"
@@ -734,6 +750,22 @@
             {
               "quelle": "identity",
               "feld": "postcodeCity"
+            },
+            {
+              "quelle": "identity",
+              "feld": "street"
+            },
+            {
+              "quelle": "identity",
+              "feld": "houseNumber"
+            },
+            {
+              "quelle": "identity",
+              "feld": "postalCode"
+            },
+            {
+              "quelle": "identity",
+              "feld": "city"
             }
           ],
           "titel": "Wer Sie sind"

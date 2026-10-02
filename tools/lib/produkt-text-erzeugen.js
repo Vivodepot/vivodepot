@@ -42,6 +42,14 @@ const AB_WERK_REGIONEN = Object.freeze([
     nativerWert: 'null',
   },
   {
+    // IPS-Begleittext: die festen Sätze des FHIR-IPS-Exports je Exportsprache — genau ein Modul, wie textsatz.
+    modulTyp: 'ips-begleittext',
+    kennung: 'AB_WERK_IPS_BEGLEITTEXT',
+    begin: '/* AB_WERK_IPS_BEGLEITTEXT:BEGIN */',
+    ende: '/* AB_WERK_IPS_BEGLEITTEXT:END */',
+    nativerWert: 'null',
+  },
+  {
     modulTyp: 'bereich',
     kennung: 'AB_WERK_BEREICH_QUELLEN',
     begin: '/* AB_WERK_BEREICH_QUELLEN:BEGIN */',

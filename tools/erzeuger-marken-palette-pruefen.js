@@ -2,7 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════════════
    erzeuger-marken-palette-pruefen — trägt der Vorlagen-Erzeuger noch Vivodepots eigene Farben?
 
-   Auftrag (12.09.2026), Punkt 4 einer v501-Nachlese: `vivodepot-template-generator.html`
+   Auftrag (12.09.2026), Punkt 4 einer v501-Nachlese: `vivodepot-studio.html`
    trug bis zu diesem Zug eine FREMDE Palette (Blau/Rot/Blaugrau) unter Vivodepots eigener
    Adresse — gemessen, weil `tools/styleguide-komponenten-abgleich.js` nur den KERN prüft
    (Klassennamen, nicht Farben, nicht den Erzeuger). Genau darum konnte die Palette abdriften,
@@ -10,7 +10,7 @@
    nicht als Vorlage für jede beliebige Datei im Repo (s. `--datei` unten für den Einzelfall).
 
    WAS ES PRÜFT: jeder Hex-Farbwert INNERHALB des <style>-Blocks von
-   `vivodepot-template-generator.html` muss in der festen Erlaubt-Liste stehen — den Werten,
+   `vivodepot-studio.html` muss in der festen Erlaubt-Liste stehen — den Werten,
    die beim Palette-Tausch (12.09.2026) 1:1 aus vivodepot.html:72-133 übernommen wurden.
    Ein Neu-Import einer Fremdfarbe (z. B. beim Wiedereinspielen einer älteren Fassung, oder
    beim Anfügen eines neuen Stils ohne Rücksicht auf die Marke) bricht den Lauf.
@@ -31,7 +31,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const STANDARD_DATEI = path.join(REPO, 'vivodepot-template-generator.html');
+const STANDARD_DATEI = path.join(REPO, 'vivodepot-studio.html');
 
 // Erlaubte Hex-Werte im <style>-Block — Stand nach dem Palette-Tausch (12.09.2026), 1:1 aus
 // vivodepot.html:72-133 übernommen (Salbei-Familie + Ink/Line/Weiß + funktionale Status-

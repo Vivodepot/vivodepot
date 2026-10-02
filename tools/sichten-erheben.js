@@ -36,7 +36,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const ANWENDUNGEN = ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-vc-issuer.html', 'vivodepot-template-generator.html'];
+const ANWENDUNGEN = ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-vc-issuer.html', 'vivodepot-studio.html'];
 
 // Die zwölf Bereichs-IDs kommen aus der EINEN Quelle (U2-ADR-143), nicht aus einer Kopie hier.
 function bereichsIds() {

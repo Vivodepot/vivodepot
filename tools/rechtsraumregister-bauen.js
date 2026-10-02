@@ -5,7 +5,7 @@
    ────────────────────────────────────────────────────────────────────────────
    KORRIGIERTE PRÄMISSE (gemessen, nicht aus dem Plan übernommen): der Plan-Entwurf
    nannte `RECHTSRAUM_TYPEN_BEKANNT` als Startbestand-Quelle — das ist FALSCH.
-   `RECHTSRAUM_TYPEN_BEKANNT` (`vivodepot-template-generator.html:1495`) ist die
+   `RECHTSRAUM_TYPEN_BEKANNT` (`vivodepot-studio.html:1495`) ist die
    Liste der fünf INSTRUMENT-TYPEN (vorsorgevollmacht/betreuungsverfuegung/…), die
    ein Rechtsraum-Modul abdecken KANN — nicht die Liste der Rechtsräume selbst.
 
@@ -48,7 +48,7 @@ const { INDEX_DATEI, indexEintragBauen, indexJsonBauen, vorhandenenIndexLesen } 
 const { standzahlLesen, heute, ZIEL_VORGABE: FELDREGISTER_ZIEL_VORGABE } = require('./feldregister-bauen.js');
 
 const REPO = path.join(__dirname, '..');
-const GENERATOR_PFAD = path.join(REPO, 'vivodepot-template-generator.html');
+const GENERATOR_PFAD = path.join(REPO, 'vivodepot-studio.html');
 const REGION_BEGIN = '/* RECHTSRAUM_BEKANNT:BEGIN — generierter Bereich (tools/rechtsraumregister-bauen.js STARTBESTAND) */';
 const REGION_ENDE = '/* RECHTSRAUM_BEKANNT:END */';
 const ZIEL_VORGABE = FELDREGISTER_ZIEL_VORGABE;
@@ -153,7 +153,7 @@ function main() {
   if (check) {
     const r = generatorAktualisieren({ check: true });
     if (r.drift) {
-      console.error('rechtsraumregister-bauen --check: DRIFT — vivodepot-template-generator.html (RECHTSRAUM_BEKANNT-Region)');
+      console.error('rechtsraumregister-bauen --check: DRIFT — vivodepot-studio.html (RECHTSRAUM_BEKANNT-Region)');
       console.error('  Abhilfe: node tools/rechtsraumregister-bauen.js');
       process.exit(1);
     }

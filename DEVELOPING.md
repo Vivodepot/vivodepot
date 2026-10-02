@@ -93,14 +93,15 @@ npm ci
 
 ### Tests that run only in the private repository
 
-This public repository is cut from a private one. Measured on 25.09.2026, by running `npm test` against the public cut
-and looking at every red test file on its own:
+This public repository is cut from a private one. Running `npm test` against the public cut and looking at every red
+test file on its own shows two kinds:
 
-- **112 test files** are not published. Each one reads a file that is not published either; the measurement records
+- **Some test files are not published.** Each one reads a file that is not published either; the measurement records
   the missing file and the error line per test file (in the private repository).
-- **40 test files** are published, but some of their tests are skipped here, with the reason in the test output. They
-  read the git history of the private repository, or measure its complete file set against a baseline. The files, the
-  skipped tests and the two reasons are listed in [`tests/helfer/nur-privat.js`](tests/helfer/nur-privat.js).
+- **Some test files are published, but some of their tests are skipped here**, with the reason in the test output.
+  They read the git history of the private repository, measure its complete file set against a baseline, or check a
+  generated file whose stamp the public cut replaces with the release number. The files, the skipped tests and the
+  reasons are listed in [`tests/helfer/nur-privat.js`](tests/helfer/nur-privat.js).
 
 In the private repository all of them run; a test there fails if any of them would be skipped.
 
@@ -124,6 +125,7 @@ explains which and why.
 | `docs/adr/` | the architecture decisions, one file each |
 | `docs/` | further documentation |
 | `.github/` | CI workflows and issue templates |
+| `.gitlab-ci.yml` | CI on the openCoDE mirror: `publiccode.yml` with the official parser, the tests, the DevGuard scan |
 
 ## Where to read on
 

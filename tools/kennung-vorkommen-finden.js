@@ -47,7 +47,7 @@ const GRUNDLINIE_STANDARD = path.join(__dirname, 'kennung-vorkommen-grundlinie.j
 const ORTE = Object.freeze([
   { datei: 'vivodepot.html' },
   { datei: 'vivodepot-lesen.html' },
-  { datei: 'vivodepot-template-generator.html' },
+  { datei: 'vivodepot-studio.html' },
   { datei: 'vivodepot-vc-issuer.html' },
   { glob: 'tools/bereich-templates', endungen: ['.json'] },
   { glob: 'tools/angehoerigen-vorlagen', endungen: ['.json'] },

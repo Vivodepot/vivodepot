@@ -77,7 +77,18 @@ test('[U2-ADR-NNN2·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhal
     zweck: Array.isArray(e.zweck) ? e.zweck : null,
   }]));
   assert.deepEqual(neu.AB_WERK_RECHTSRAUM_KATALOG_QUELLE, {}, 'das Gerüst trägt den Katalog nicht mehr');
-  assert.deepEqual(deModul.typen, altAlsModulTypen,
+  /* Zuwachs nach dem Schnitt, benannt (02.10.2026, v857, U2-ADR-466): `rechtsgrundlage` (Paragraf und Adresse der Norm) für die
+     drei im IPS abgebildeten Instrumente und den Widerspruch gegen die Ehegatten-Notvertretung. Herausgenommen wird GENAU dieses Feld
+     an GENAU diesen Typen — ein anderer neuer Schlüssel oder ein fünfter Typ mit Rechtsgrundlage bleibt ein Befund. */
+  const MIT_RECHTSGRUNDLAGE = ['custodianship-declaration', 'enduring-power-of-attorney', 'living-will', 'spousal-emergency-representation'];
+  assert.deepEqual(Object.keys(deModul.typen).filter((t) => deModul.typen[t].rechtsgrundlage).sort(), MIT_RECHTSGRUNDLAGE);
+  for (const t of MIT_RECHTSGRUNDLAGE) {
+    const r = deModul.typen[t].rechtsgrundlage;
+    assert.ok(typeof r.paragraf === 'string' && /^https:\/\/www\.gesetze-im-internet\.de\//.test(r.uri) && Object.keys(r).length === 2, t);
+  }
+  const deModulVorZuwachs = Object.fromEntries(Object.entries(deModul.typen).map(([t, e]) => {
+    const { rechtsgrundlage, ...rest } = e; return [t, rest]; }));
+  assert.deepEqual(deModulVorZuwachs, altAlsModulTypen,
     'Register geleert (BUERGERMODUL_BUENDEL.rechtsraumKatalog === undefined nach dem Umzug) und aus dem neuen Ab-Werk-Slot geladen — Inhalt muss identisch zum alten Bündel-Stand sein.');
   // Seit dem Schnitt (18.09.2026) ist das Bündel nicht nur um dieses eine Feld erleichtert,
   // sondern vollständig entfernt (null) — die Zusicherung „das Register liegt nicht mehr im

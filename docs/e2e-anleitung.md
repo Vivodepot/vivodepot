@@ -4,7 +4,8 @@ Die Test-Suite hat zwei Schichten:
 
 - **Schicht 1 — Unit/Krypto/Integration** (`npm test`, `node --test`). Läuft offline,
   ohne Browser, in Millisekunden. Lädt die `<script>`-Blöcke der HTML in einen
-  Node-Kontext mit DOM-Stub. 375 Tests grün / 1 skip (HL7-Validator skippt ohne Java).
+  Node-Kontext mit DOM-Stub. Die aktuelle Zahl der Tests steht in
+  [`docs/faktenbasis.md`](faktenbasis.md), Abschnitt „Prüfebene“.
 - **Schicht 2 — E2E-Reisen + axe** (`npm run test:e2e`, Playwright). Klickt die echte
   App in einem echten Browser durch (Chromium) und prüft Barrierefreiheit (axe,
   WCAG 2.2 AA). Braucht Browser-Binaries.
@@ -23,10 +24,11 @@ npm run test:e2e:report     # HTML-Report der letzten Läufe öffnen
 Einzelne Reise: `npx playwright test tests/e2e/03-wizard-pvwiz.spec.js`
 Sichtbar (zum Zuschauen): `npx playwright test --headed`
 
-## Die Reisen (tests/e2e/)
+## Die Reisen (Auswahl)
+Vollständig: das Verzeichnis `tests/e2e/`. Weitere Browser und die Vier-Komponenten-Reisen:
+`npm run test:e2e:firefox`, `npm run test:e2e:cross`.
 - `00-smoke` — App lädt offline über file://, Welcome erscheint, keine Konsolen-Fehler.
 - `01-erstanlage` — Depot anlegen → Bereich → Feld eintragen → bleibt stehen.
-- `02-anlass-blatt-export` — Anlass „Arzttermin" → Situationsblatt → JSON-Export (Download).
 - `03-wizard-pvwiz` — geführter Einstieg in Bereich 8 (Patientenverfügung): Start, Fortschritt,
   Weiter/Zurück, Abbrechen → Ausgangsbereich. Fuhr bis U2-ADR-096 auf dem entfallenen `vvwiz`.
 - `04-vollmacht-submodus` — Vollmacht-Modus färbt schieferblau; Verwaltete-Depots-Sicht.

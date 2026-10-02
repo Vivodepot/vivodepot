@@ -40,7 +40,7 @@ async function entsperren(page, pw) {
 }
 async function identitaetMarker(page) {
   await oeffneSektor(page, 'identity');
-  return page.locator('[data-edit="streetAddress"]').inputValue();
+  return page.locator('[data-edit="street"]').inputValue();
 }
 
 /* Legt die drei Depots an: jedes nach „Doch neu anfangen“ auf dem Sperrschirm des vorigen. Liefert, ob der
@@ -60,7 +60,7 @@ async function dreiDepotsAnlegen(page, url) {
     }
     await depotAnlegen(page, { name: d.name, pw: d.pw });
     await oeffneSektor(page, 'identity');
-    await setzeFeld(page, 'streetAddress', d.marker);
+    await setzeFeld(page, 'street', d.marker);
     await page.waitForTimeout(2500);   // Entprellung des Gerätespeichers
   }
   return hinweise;
@@ -133,7 +133,7 @@ test('[Mehrere Depots·Hinweis] der Satz auf dem Willkommensschirm steht auf Deu
   expect(await page.locator('#w-intern-hinweis').count(), 'ohne Depot im Gerätespeicher steht kein Hinweis da').toBe(0);
   await depotAnlegen(page, { name: 'Anna Alt', pw: 'pw-anna-1111' });
   await oeffneSektor(page, 'identity');
-  await setzeFeld(page, 'streetAddress', 'Annastraße 1');
+  await setzeFeld(page, 'street', 'Annastraße 1');
   await page.waitForTimeout(2500);
   await sperrschirm(page, KERN_URL);
   await page.click('#co-neu');

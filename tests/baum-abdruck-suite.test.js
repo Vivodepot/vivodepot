@@ -22,7 +22,7 @@ test('ein Lauf, der in den Baum schreibt, wird gemeldet — und der Exit bleibt 
     execFileSync('git', ['init', '-q'], { cwd: repo, env });
     const alt = console.error; const zeilen = []; console.error = (x) => zeilen.push(String(x));
     let rc;
-    try { rc = w.bewachterLauf([process.execPath, '-e', "require('fs').writeFileSync('gepflanzt.txt','x')"], { repo, temp: true, tempBasis: repo }); }
+    try { rc = w.bewachterLauf([process.execPath, '-e', "require('fs').writeFileSync('gepflanzt.txt','x')"], { repo, temp: true, tempBasis: repo, stdio: 'ignore' }); }
     finally { console.error = alt; }
     assert.strictEqual(rc, 0);
     assert.ok(zeilen.some((z) => z.startsWith('[baum-abdruck]') && z.includes('HINWEIS')), zeilen.join('\n'));

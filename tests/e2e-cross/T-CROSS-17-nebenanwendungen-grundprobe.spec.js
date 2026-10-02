@@ -109,7 +109,7 @@ test.describe('T-CROSS-17 Grundproben der drei Anwendungen ohne E2E', () => {
     test.setTimeout(90000);
     const ctx = await browser.newContext({ acceptDownloads: true });
     const p = await ctx.newPage();
-    await p.goto(URL('vivodepot-template-generator.html'));
+    await p.goto(URL('vivodepot-studio.html'));
     await p.waitForSelector('#start-leer', { state: 'visible' });
     await pruefeGeneration4(p, 'Vorlagen-Erzeuger');
 

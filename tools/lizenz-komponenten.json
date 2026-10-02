@@ -1,0 +1,113 @@
+{
+ "_zweck": "Die Teile von Vivodepot, über die LICENSING.md sagt, ob sie im öffentlichen Repository liegen (01.10.2026). Die Aussage selbst wird aus dem Veröffentlichungsschnitt erzeugt, nicht von Hand geschrieben. Lizenz und Verfügbarkeit sind getrennte Fragen: alles von uns steht unter EUPL-1.2 (Entscheidung vom 18./19.09.2026), ob ein Teil heute im öffentlichen Repository liegt, sagt diese Liste. muster: reguläre Ausdrücke über Repo-Pfade. Zurückgehaltene Dateien werden nur gezählt, nicht genannt: ein öffentlicher Text nennt keinen Pfad, der drinnen bleibt.",
+ "komponenten": [
+  {
+   "id": "anwendung",
+   "de": "Die Anwendung",
+   "en": "The application",
+   "muster": [
+    "^vivodepot\\.html$"
+   ],
+   "stichworte": [
+    "vivodepot.html"
+   ]
+  },
+  {
+   "id": "lese-anwendung",
+   "de": "Die Lese-Anwendung",
+   "en": "The reader application",
+   "muster": [
+    "^vivodepot-lesen\\.html$"
+   ],
+   "stichworte": [
+    "vivodepot-lesen.html",
+    "Lese-Anwendung",
+    "Leseansicht",
+    "reader application"
+   ]
+  },
+  {
+   "id": "vorlagen-generator",
+   "de": "Das Studio (Vorlagen-Generator)",
+   "en": "The studio (template generator)",
+   "muster": [
+    "^vivodepot-studio\\.html$"
+   ],
+   "stichworte": [
+    "Template-Generator",
+    "Vorlagen-Generator",
+    "Generator",
+    "template generator",
+    "Studio"
+   ]
+  },
+  {
+   "id": "vc-issuer",
+   "de": "Der Nachweis-Aussteller (VC-Issuer)",
+   "en": "The credential issuer (VC issuer)",
+   "muster": [
+    "^vivodepot-vc-issuer\\.html$"
+   ],
+   "stichworte": [
+    "VC-Issuer",
+    "VC issuer"
+   ]
+  },
+  {
+   "id": "schluessel-teilen",
+   "de": "Das Schlüssel-Teilen",
+   "en": "Key sharing",
+   "muster": [
+    "^vivodepot-schluessel-teilen\\.html$"
+   ],
+   "stichworte": [
+    "Schlüssel-Teilen",
+    "schluessel-teilen"
+   ]
+  },
+  {
+   "id": "konfektionierer",
+   "de": "Der Konfektionierer",
+   "en": "The product assembler",
+   "muster": [
+    "^tools/(?:lib/)?[^/]*konfektionier[^/]*\\.js$",
+    "^tools/modul-app-packen\\.js$"
+   ],
+   "stichworte": [
+    "Konfektionierer",
+    "assembler"
+   ]
+  },
+  {
+   "id": "signier-zertifikat",
+   "de": "Die Signier- und Zertifikatswerkzeuge",
+   "en": "The signing and certificate tools",
+   "muster": [
+    "^tools/(?:lib/)?[^/]*(?:signier|zertifikat)[^/]*\\.js$"
+   ],
+   "stichworte": [
+    "Signier",
+    "Zertifikatskette",
+    "Zertifikatswerkzeug",
+    "signing",
+    "certificate"
+   ]
+  },
+  {
+   "id": "modul-erzeuger",
+   "de": "Die Modul- und Vorlagen-Erzeuger",
+   "en": "The module and template builders",
+   "muster": [
+    "^tools/(?:modul|vorlage)[^/]*-erzeugen\\.js$"
+   ],
+   "stichworte": [
+    "Modul-Erzeuger",
+    "module builder"
+   ]
+  }
+ ],
+ "fremdlizenzErlaubt": [
+  "NOTICE.md"
+ ],
+ "_fremdlizenz": "Fremde Lizenznamen (GPL, BUSL, proprietär …) dürfen in öffentlichen Lizenztexten nur an diesen Orten stehen: dort werden Fremdbestandteile aufgeführt. Daten Dritter mit eigener Lizenz kommen hierher, sobald über sie entschieden ist."
+}

@@ -23,8 +23,10 @@
         "telefonFeld": "telephone",
         "emailFeld": "email",
         "adresseFelder": [
-          "streetAddress",
-          "postcodeCity"
+          "street",
+          "houseNumber",
+          "postalCode",
+          "city"
         ]
       },
       "exporte": [
@@ -115,12 +117,40 @@
               "eingabeTyp": "tel"
             },
             {
-              "id": "streetAddress",
+              "id": "street",
               "typ": "text"
             },
             {
-              "id": "postcodeCity",
+              "id": "houseNumber",
               "typ": "text"
+            },
+            {
+              "id": "postalCode",
+              "typ": "text"
+            },
+            {
+              "id": "city",
+              "typ": "text"
+            },
+            {
+              "id": "streetAddress",
+              "typ": "text",
+              "nurMitWert": true,
+              "nurAnzeige": true,
+              "ersetztDurch": [
+                "street",
+                "houseNumber"
+              ]
+            },
+            {
+              "id": "postcodeCity",
+              "typ": "text",
+              "nurMitWert": true,
+              "nurAnzeige": true,
+              "ersetztDurch": [
+                "postalCode",
+                "city"
+              ]
             },
             {
               "id": "email",

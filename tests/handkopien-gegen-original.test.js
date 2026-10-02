@@ -4,7 +4,7 @@
    ────────────────────────────────────────────────────────────────────────────
    `tools/handkopien-gegen-original-pruefen.js` hält jede in der REGISTRY
    geführte Handkopie einer Kern-Konstante gegen ihr Original — Anlass war
-   `FORMAT_MODUL_SCHLUESSEL` in `vivodepot-template-generator.html`, die
+   `FORMAT_MODUL_SCHLUESSEL` in `vivodepot-studio.html`, die
    `rechtsraum` (U2-ADR-255) und `schreiber` (U2-ADR-257) nicht kannte, ohne
    dass irgendein Wächter das gemerkt hätte.
 

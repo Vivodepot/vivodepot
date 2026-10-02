@@ -36,7 +36,7 @@ const path = require('node:path');
 const REPO = path.join(__dirname, '..');
 const KERN = path.join(REPO, 'vivodepot.html');
 const LESE = path.join(REPO, 'vivodepot-lesen.html');
-const GENERATOR = path.join(REPO, 'vivodepot-template-generator.html');
+const GENERATOR = path.join(REPO, 'vivodepot-studio.html');
 const ISSUER = path.join(REPO, 'vivodepot-vc-issuer.html');
 const SCHEMA = path.join(REPO, 'docs', 'template-generator', 'submission-schema.json');
 const TRANSPORT = path.join(REPO, 'bereiche', 'bereiche.json');
@@ -46,7 +46,7 @@ const TRANSPORT = path.join(REPO, 'bereiche', 'bereiche.json');
    Ihre EINZIGE Quelle ist die Datei, aus der das Pro-Produkt sie bekommt (tools/lib/vier-produkte.js,
    PRO_BEREICHS_ERSATZ_PFAD). Von dort, nicht aus einer Liste hier, entstehen die Pro-Ziele im Generator und in
    den bereich-enums der Einreich-Schemata. Warum der Generator sie überhaupt zulässt, steht an der Sperre in
-   `pruefeKonformitaet` (vivodepot-template-generator.html). */
+   `pruefeKonformitaet` (vivodepot-studio.html). */
 const PRO_BEREICHS_ERSATZ = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-bereichsersatz.json');
 function proBereiche() {
   const ersatz = JSON.parse(fs.readFileSync(PRO_BEREICHS_ERSATZ, 'utf8'));
@@ -195,9 +195,9 @@ function main() {
 
   // 2 · Generator-Region
   const gq = fs.readFileSync(GENERATOR, 'utf8');
-  const gneu = regionErsetzen(gq, generatorRegion(bereiche), 'vivodepot-template-generator.html');
+  const gneu = regionErsetzen(gq, generatorRegion(bereiche), 'vivodepot-studio.html');
   if (gneu !== gq) {
-    drift.push('vivodepot-template-generator.html (BEREICHE-Region)');
+    drift.push('vivodepot-studio.html (BEREICHE-Region)');
     if (!check) fs.writeFileSync(GENERATOR, gneu);
   }
 

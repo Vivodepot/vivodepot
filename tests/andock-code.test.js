@@ -111,6 +111,9 @@ test('Keine Code-Tabelle im Kern (kein SNOMED/LOINC/ICD-System hardkodiert)', ()
   // 4) LIZENZ-WORTLAUT (27.09.2026): die Pflicht-Quellenangaben der Lizenzgeber nennen ihr System beim Namen — kein Code,
   //    sondern Text, den wir führen müssen, byte-gleich gegen code-listen/wortlaut/ gehalten (tests/lizenz-wortlaut-im-kern.test.js).
   snapshot = snapshot.replace(/LIZENZ-WORTLAUT:BEGIN[\s\S]*?LIZENZ-WORTLAUT:END \*\//, '');
+  // 5) IPS-BEGLEITTEXT (U2-ADR-458): das eingebackene Modul der festen IPS-Sätze nennt in seiner Herkunft die Quelle eines Satzes
+  //    (eHDSI-Anzeigename, LOINC-Antwortcode) — Text über die Quelle, kein Code im Kern. Die Region ist der designierte Ort.
+  snapshot = snapshot.replace(/AB_WERK_IPS_BEGLEITTEXT:BEGIN[\s\S]*?AB_WERK_IPS_BEGLEITTEXT:END \*\//, '');
   // SNOMED und ICD-10 sind klinische Code-Systeme → im (übrigen) Kern weiterhin verboten (kein rc1-Ballast).
   assert.ok(!/SNOMED/i.test(snapshot), 'kein SNOMED-Code-System im Kern');
   assert.ok(!/LOINC/i.test(snapshot), 'kein LOINC außerhalb des klar abgegrenzten IPS-Exports/Code-Listen-Andocks');

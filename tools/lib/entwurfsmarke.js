@@ -2,7 +2,7 @@
 /* ══════════════════════════════════════════════════════════════════════════
    Entwurfsmarken im Template-Generator — nichts mit Marke geht hinaus
    ──────────────────────────────────────────────────────────────────────────
-   Die Rechtstexte des Generators (RECHTSTEXTE in vivodepot-template-generator.html) stehen als Entwürfe da: jeder trägt
+   Die Rechtstexte des Generators (RECHTSTEXTE in vivodepot-studio.html) stehen als Entwürfe da: jeder trägt
    `entwurf: true`, eine Kennung und einen Stand, und der Dialog zeigt die Marke sichtbar über dem Text. Ein Text mit
    Marke ist nicht geprüft und gehört in keine Auslieferung (Register, Produkt, Signatur). Freigegeben ist ein Text erst,
    wenn `entwurf` auf false steht UND die Marke auch aus dem Wortlaut verschwunden ist.

@@ -156,7 +156,7 @@ function kennung(env = process.env) {
   return env.VD_HOOK_SPERRE_JE_PID ? ' (Probe eines Tests, kein Befund dieses Laufs)' : '';
 }
 
-function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempBasis } = {}) {
+function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempBasis, stdio = 'inherit' } = {}) {
   const pfad = geteilteConfigPfad(repo);
   const vorher = userAbschnitt(pfad ? inhaltLesen(pfad) : null);
 
@@ -194,11 +194,18 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
      sobald die Meldung auf den Beständen leer ist. Nur mit `temp` (der CLI-Aufruf um npm test). */
   const abdruckVorher = temp ? baumAbdruck(repo) : null;
 
+  /* WACKEL-QUARANTÄNE (30.09.2026): nur wenn die Hooks VD_WACKEL_QUARANTAENE setzen. Der Reporter schreibt die roten
+     Dateien in eine eigene Datei AUSSERHALB des Laufverzeichnisses (sonst zählte sie als Temp-Rest). */
+  const Q = require('./lib/wackel-quarantaene.js');
+  const quarantaene = temp ? Q.lesen(process.env.VD_WACKEL_QUARANTAENE) : null;
+  const roteDatei = quarantaene ? path.join(require('node:os').tmpdir(), 'vd-rote-dateien-' + process.pid + '.txt') : null;
+  const envLauf = roteDatei ? { ...env, VD_ROTE_DATEIEN: roteDatei } : env;
+
   const [cmd, ...args] = befehl;
   let ergebnis;
   let tempRest = null;
   try {
-    ergebnis = spawnSync(cmd, args, { stdio: 'inherit', cwd: repo, env });
+    ergebnis = spawnSync(cmd, args, { stdio, cwd: repo, env: envLauf });
   } finally {
     if (geholt && geholt.geholt && !geholt.geerbt) require('./lib/suite-platz.js').platzFreigeben({ pid: process.pid });
     if (laufTmp) {
@@ -208,6 +215,36 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
     }
   }
   let laufExit = ergebnis.status == null ? 1 : ergebnis.status;
+  if (roteDatei) {
+    const rote = Q.roteLesen(roteDatei);
+    try { fs.rmSync(roteDatei, { force: true }); } catch (_) { /* weg */ }
+    if (laufExit !== 0 && rote.length) {
+      const b = Q.beurteilen(rote, quarantaene);
+      const zeile = (e) => e.datei + ' › ' + e.test + ' (Eigentümer ' + e.eigentuemer + ', Frist ' + e.frist + ')';
+      if (b.abgelaufen.length) {
+        console.error('\n[wackel-quarantaene] Quarantäne abgelaufen — der Eigentümer ist dran:');
+        for (const e of b.abgelaufen) console.error('  ' + zeile(e));
+      } else if (b.kandidat) {
+        /* Nicht einfach grün: die betroffenen Dateien laufen EINMAL allein neu. */
+        const dateien = [...new Set(b.inFrist.map((e) => e.datei))];
+        console.error('\n[wackel-quarantaene] rot nur in Tests unter Quarantäne — ' + dateien.length + ' Datei(en) laufen einmal allein neu …');
+        const zweite = roteDatei + '.2';
+        const w = spawnSync(befehl[0], Q.nurDateien(befehl, dateien).slice(1), { stdio, cwd: repo, env: { ...envLauf, VD_ROTE_DATEIEN: zweite } });
+        const roteZwei = Q.roteLesen(zweite);
+        try { fs.rmSync(zweite, { force: true }); } catch (_) { /* weg */ }
+        if (w.status === 0 && roteZwei.length === 0) {
+          console.error('[wackel-quarantaene] HINWEIS — wackelt: im zweiten Lauf grün; der Lauf gilt als grün. Unter Quarantäne:');
+          for (const e of b.inFrist) console.error('  ' + zeile(e));
+          console.error('');
+          laufExit = 0;
+        } else {
+          console.error('[wackel-quarantaene] ABBRUCH — auch im zweiten Lauf rot: das ist ein Fehler, kein Wackler (Quarantäne hin oder her).');
+          for (const e of b.inFrist) console.error('  ' + zeile(e));
+          console.error('');
+        }
+      }
+    }
+  }
   if (tempRest && tempRest.anzahl > 0) {
     const liste = Object.entries(tempRest.praefixe).sort((a, b) => b[1] - a[1]).map(([p, n]) => n + '× ' + p).join(', ');
     console.error('');

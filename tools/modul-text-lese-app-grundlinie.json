@@ -16,7 +16,7 @@
       "grund": "Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen"
     },
     "hinweis-beispiel": {
-      "anzahl": 448,
+      "anzahl": 452,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "feldgruppen": {
@@ -32,11 +32,11 @@
       "grund": "Situationsblätter (Bauteil 3, eigener Zweig): Beispiele werden nie angezeigt; die übrigen Texte sinken, sobald die Blätter über textLesen laufen"
     },
     "menschen-register": {
-      "anzahl": 22,
+      "anzahl": 34,
       "grund": "Beschriftung der Eingabemaske des Menschen-Registers"
     },
     "assistenten": {
-      "anzahl": 320,
+      "anzahl": 326,
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
     },
     "lebenslagen": {

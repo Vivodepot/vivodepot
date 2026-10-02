@@ -231,6 +231,27 @@ situation, wizard, dokument, erbschein, beratungshilfe, gebwiz, ics, vcard, expo
 939/939 datierten vor Abschnitt 5a — dieselben Dateien liefen zwei weitere Male nach den beiden
 Korrekturen, jedes Mal vollständig grün, nicht nur die zuletzt geänderten Proben.
 
+## 8 · Nachtrag 01.10.2026 (v847): Die Adressen der Marke an einer Stelle je Oberfläche
+
+Der Interceptor ersetzt den Namen der Marke, nicht ihre Adressen. Die standen bis v847 frei im Code und im Markup: im Studio an
+zehn Stellen (Kopf, Palette, Fuß, Anfrage-Links), im Kern an vier (Aktualisierungen, Lese-Adresse des Empfänger-QR, zwei Links zur
+SHL-Ablage). Wer ein Produkt unter eigener Marke betreibt, hätte sie einzeln suchen müssen (Befund STUDIO-MARKE).
+
+Seitdem trägt jede Oberfläche (Kern, Studio, Schlüssel teilen, VC-Issuer) **eine** Deklaration `const MARKEN_ADRESSEN =
+Object.freeze({ … })`, und nur dort steht eine Adresse unter vivodepot.de oder vivodepot.org; Links lesen von dort. Die Lese-App
+trägt keine Adresse: ihr Link im Kopf kommt aus der Domain der Marke (`_markeDomain`), und eine Domain aus einer fremden Datei
+wird nur als reiner Hostname ein Link. **Nicht** in die Marken-Stelle gehören die Adressen des Herkunftsorts
+(`VIVODEPOT_HERKUNFT_LINK`, `DATENSCHUTZ_LINK`): sie zeigen auch unter fremder Marke auf die Urheberin
+(`tools/herkunftsort-register.json`, Gruppe `unersetzbar`). Ausgenommen sind außerdem Kennungen in Adressform (Schema-`$id`,
+JSON-LD-Kontext), die nie aufgerufen werden.
+
+Im selben Zug zeigen Studio, Lese-App, Schlüssel teilen und VC-Issuer einen einheitlichen Kopf: Produktname und ein Link zur Seite
+der Marke im neuen Tab. Das Studio liegt jetzt unter der Adresse register.vivodepot.de/studio.html; die alte Adresse mit generator.html
+leitet weiter.
+
+Geprüft von `tools/marken-adressen-pruefen.js` (Probe `tests/marken-adressen.test.js`, Rot-Beweis je Oberfläche); eine
+Oberfläche ist jede Datei, die den VdCrypto-Block trägt.
+
 ---
 
 *Vivodepot GmbH · Berlin · 07.09.2026*

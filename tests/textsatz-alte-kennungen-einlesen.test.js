@@ -41,7 +41,7 @@ test('[Alt-Kennung] jede alte Form kommt unter der heutigen Kennung an, der Text
     'identitaet.vorname.label': 'First name',
     'identitaet.ausweis/system.label': 'Issuing system',
     'identitaet#fruehere-namen.hint': 'Earlier names',
-    'wizard:umzwiz.strasse.label': 'Street',
+    'wizard:umzwiz.umzug_ummeldung.label': 'Re-registration',   // U2-ADR-467: der Straßen-Schritt ist in vier Teile aufgegangen
     'wizard:kiwiz.ki_zweck/trauer.label': 'Grief',
     'vollmacht:vm_gesundheit_entscheiden/ja.label': 'Yes',
     'feld.nationalitaet.vorschlaege': 'German',
@@ -52,7 +52,7 @@ test('[Alt-Kennung] jede alte Form kommt unter der heutigen Kennung an, der Text
     'identity.givenName.label': 'First name',
     'identity.idDocuments/system.label': 'Issuing system',
     'identity#fruehere-namen.hint': 'Earlier names',
-    'wizard:umzwiz.streetAddress.label': 'Street',
+    'wizard:umzwiz.reRegistrationWithTheResidents.label': 'Re-registration',
     'wizard:kiwiz.purpose/trauer.label': 'Grief',
     'vollmacht:healthCareGeneralDecision/ja.label': 'Yes',
     'feld.nationality.vorschlaege': 'German',

@@ -69,7 +69,7 @@ const ZUSTAND_FUNKTIONEN_KERN = Object.freeze(['modulHerkunftSatz', 'modulHerkun
    Widerruf/Ablauf oder Vollständigkeit von etwas, das die Empfängerin nicht selbst prüfen kann.
    Bewusst NICHT hier: Leerzustände, Stand-/Versions-Beschriftungen, Link-Beschriftungen. */
 const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
-  'angehoerigenUngeprueft', 'anfrageAbgelaufenHinweis', 'anfrageGeprueftBadge', 'anfrageUngeprueftBadge',
+  'angehoerigenUngeprueft', 'ipsSprachwahlUngeprueft', 'anfrageAbgelaufenHinweis', 'anfrageGeprueftBadge', 'anfrageUngeprueftBadge',
   'betreuungHerkunftText', 'vollmachtHerkunftText', 'k9VorlageHerkunftText',
   'exportZustandZurueckgehalten',
   'herkunftLizenzhinweis', 'herkunftPoweredBy',

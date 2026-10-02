@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/build-feldkatalog.js aus vivodepot.html SEKTOREN und tools/bereich-templates/*.json. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 666,
+  "anzahl": 670,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -2152,15 +2152,39 @@
       "template": "vivodepot-identity.json"
     },
     {
+      "kennung": "identity.street",
+      "bereich": "identity",
+      "label": "Straße",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.houseNumber",
+      "bereich": "identity",
+      "label": "Hausnummer",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.postalCode",
+      "bereich": "identity",
+      "label": "Postleitzahl",
+      "template": "vivodepot-identity.json"
+    },
+    {
+      "kennung": "identity.city",
+      "bereich": "identity",
+      "label": "Ort",
+      "template": "vivodepot-identity.json"
+    },
+    {
       "kennung": "identity.streetAddress",
       "bereich": "identity",
-      "label": "Straße & Hausnummer",
+      "label": "Bisherige Anschrift: Straße & Hausnummer",
       "template": "vivodepot-identity.json"
     },
     {
       "kennung": "identity.postcodeCity",
       "bereich": "identity",
-      "label": "PLZ & Ort",
+      "label": "Bisherige Anschrift: PLZ & Ort",
       "template": "vivodepot-identity.json"
     },
     {

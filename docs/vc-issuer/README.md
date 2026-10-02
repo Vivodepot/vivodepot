@@ -2,7 +2,6 @@
 
 **Werkzeug:** [`vivodepot-vc-issuer.html`](../../vivodepot-vc-issuer.html) im Hauptverzeichnis des Repos (Komponente 3 der Vier-Komponenten-Architektur)
 **Adressat:** Vivodepot-Trust-Authority-Operations-Personal — **nicht** Bürger, **nicht** Anbieter.
-**Stand:** 31.05.2026
 
 Dieses Werkzeug erzeugt aus einem Anbieter-Public-Key plus Anbieter-Metadaten ein
 signiertes W3C Verifiable Credential — das **Provider-Zertifikat**
@@ -48,7 +47,7 @@ vorsieht. **Die finale Festlegung ist eine eigene Strecke vor produktivem Einsat
 
 **Variante A — Submission-Paket (F-4, Standard für Pilot-Anbieter):**
 Klicken Sie unter **F-4** auf die Paket-Auswahl und laden Sie die JSON-Datei aus dem
-Template-Generator. Sie wird gegen das gemeinsame `submission-schema.json` validiert;
+Studio (früher Template-Generator). Sie wird gegen das gemeinsame `submission-schema.json` validiert;
 `anbieterId`, `anbieterName`, `anbieterTyp` und der Anbieter-Public-Key werden automatisch
 übernommen. Bestätigen oder korrigieren Sie nur noch das **Ablaufdatum**.
 
@@ -105,5 +104,6 @@ Tragen Sie `anbieterId`, `anbieterName`, `anbieterTyp` ein und fügen Sie den
 ## Offene Strecken (vor Produktiv)
 
 - **Issuer-Identifier final festlegen** (F-1) — eigene Operations-Entscheidung.
-- **Test-Sentinel → produktiver Trust-Authority-Key** — eigene Strecke; betrifft auch den
-  eingebetteten Public-Key in der Bürger-App (nicht im Scope dieses Werkzeugs).
+- **Produktiver Trust-Authority-Key** — eigene Strecke. Die Bürger-App trägt seit der
+  Anker-Rotation vom 23.08.2026 den Anker `vivodepot-trust-authority-v2-22082026`
+  ([`SECURITY.md`](../../SECURITY.md), Abschnitt 1).

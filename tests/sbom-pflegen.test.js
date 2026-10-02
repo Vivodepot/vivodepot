@@ -11,7 +11,8 @@
    entferntes Pflichtfeld — ohne diese Probe ist nicht belegt, dass `sbom:check` bei einer
    fehlenden Angabe wirklich anschlägt.
    ════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+// nur-privat: der Test gegen die echten SBOM-Träger braucht die Studio-Datei, die der Zuschnitt zurückhält.
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');

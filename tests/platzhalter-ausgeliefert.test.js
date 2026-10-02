@@ -15,7 +15,7 @@ test('[Platzhalter] kein ausgeliefertes HTML trägt einen Platzhalter — App, L
 });
 
 test('[Platzhalter·Generator] der Template-Generator gehört zum geprüften Bestand', () => {
-  assert.ok(P.ausgelieferteDateien().includes('vivodepot-template-generator.html'));   // zuschnitt-privat: nur-privat-Test
+  assert.ok(P.ausgelieferteDateien().includes('vivodepot-studio.html'));   // zuschnitt-privat: nur-privat-Test
 });
 
 test('[Platzhalter·Rot-Beweis] der Fund vom 26.09.2026 und jede Sorte Platzhalter werden gefunden', () => {

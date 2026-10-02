@@ -1,6 +1,6 @@
 # Vier-Komponenten-E2E (Cross-Component-Verifikation)
 
-**Stand:** 31.05.2026 · **Bezug:** Vier-Komponenten-Architektur (ADR-098), Anforderung
+**Bezug:** Vier-Komponenten-Architektur (ADR-098), Anforderung
 „Vier-Komponenten-E2E-Tests", T7 der Bürger-App-E2E.
 
 Diese Test-Schicht verifiziert die Architektur **über die vier Komponenten hinweg** —
@@ -14,7 +14,7 @@ Die vier Komponenten:
 1. **Bürger-App** — `vivodepot.html`
 2. **Lese-App** — `vivodepot-lesen.html`
 3. **VC-Issuer** — `vivodepot-vc-issuer.html`
-4. **Template-Generator** — nicht im öffentlichen Stand
+4. **Studio** (früher Template-Generator) — nicht im öffentlichen Stand
 
 ## Das Krypto-Block-Hash-Gate (der wichtigste Test)
 
@@ -37,7 +37,9 @@ Das Gate läuft an zwei Stellen:
 - als **`globalSetup`** der Playwright-Cross-Config (`support/krypto-gate.js`) — bevor ein
   einziger Browser-Kontext öffnet, sodass ein Drift den Browser-Lauf gar nicht erst startet.
 
-## Die sechs Reisen
+## Die Reisen (Auswahl)
+
+Alle Reisen liegen in [`tests/e2e-cross/`](../../tests/e2e-cross/); die Tabelle zeigt die ersten sechs.
 
 | Test | Reise | Kette | Verifikation |
 |------|-------|-------|--------------|

@@ -18,7 +18,7 @@
    Die Einstufung selbst ist ein URTEIL und steht mit ihrem Grund an der Zeile.
    Gemessen wird, ob der Anker existiert — nicht, ob das Urteil gefällt.
 
-   GELESEN WIRD MIT `readFileSync`: `vivodepot-template-generator.html` trägt ein
+   GELESEN WIRD MIT `readFileSync`: `vivodepot-studio.html` trägt ein
    NUL-Byte, und `grep` hält die Datei damit für binär (A272).
 
    AUFRUFE
@@ -31,20 +31,20 @@ const REPO = path.join(__dirname, '..');
 
 const SCHRITTE = Object.freeze([
   { nr: 1, was: 'Den Bereichssatz / das Template beschreiben',
-    datei: 'vivodepot-template-generator.html', anker: 'Template-Definition', zustand: 'ja',
+    datei: 'vivodepot-studio.html', anker: 'Template-Definition', zustand: 'ja',
     grund: 'Der Template-Generator führt durch Anbieter, Schlüssel und Felder — ohne IT-Abteilung, ohne uns.' },
   { nr: 2, was: 'Ein eigenes Schlüsselpaar erzeugen und aufbewahren',
-    datei: 'vivodepot-template-generator.html', anker: 'Schlüsselpaar', zustand: 'ja',
+    datei: 'vivodepot-studio.html', anker: 'Schlüsselpaar', zustand: 'ja',
     grund: 'Schritt 3 des Generators; der Private-Key verlässt den Browser nicht.' },
   { nr: 3, was: 'Gegen das Einreich-Schema prüfen',
-    datei: 'vivodepot-template-generator.html', anker: 'SUBMISSION_SCHEMA', zustand: 'ja',
+    datei: 'vivodepot-studio.html', anker: 'SUBMISSION_SCHEMA', zustand: 'ja',
     grund: 'Das Schema liegt IM Generator (und byte-gleich im VC-Issuer und als Datei) — die formale Prüfung läuft lokal.' },
   { nr: 4, was: 'Das eigene Template mit dem eigenen Schlüssel signieren',
-    datei: 'vivodepot-template-generator.html', anker: 'Fertigstellen und einreichen', zustand: 'ja',
+    datei: 'vivodepot-studio.html', anker: 'Fertigstellen und einreichen', zustand: 'ja',
     grund: 'Im Generator „Fertigstellen und einreichen" (seit dem Umbau zur Arbeitsfläche, GEN1) — signiert über den Schlüssel-Tresor. '
       + 'Diese Signatur sagt „von mir" — sie sagt NICHT „geprüft".' },
   { nr: 5, was: 'Das Submission-Paket EINREICHEN — und zwar an wen?',
-    datei: 'vivodepot-template-generator.html', anker: 'mailto:register@vivodepot.de', zustand: 'ja',
+    datei: 'vivodepot-studio.html', anker: 'mailto:register@vivodepot.de', zustand: 'ja',
     grund: 'NACHGEZOGEN 19.09.2026 (GEN1): der Abriss ist geschlossen. Der Generator führt auf dem „Weg zur Einreichung" '
       + 'zu einer vorbereiteten Nachricht an register@vivodepot.de (mailto mit lesbarem Text, das Paket als Datei dabei). '
       + 'Vorher: eine Datei und der Name des prüfenden Teams, aber keine Adresse.' },

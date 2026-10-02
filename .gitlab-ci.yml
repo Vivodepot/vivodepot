@@ -1,0 +1,46 @@
+# Prüfungen auf openCoDE (Projekt vivodepot/vivodepot).
+#
+# Diese Datei entsteht im Kanon und kommt über den öffentlichen Zuschnitt und den Spiegel
+# (.github/workflows/mirror-to-opencode.yml) nach openCoDE. Dort wird sie nicht geändert: der Spiegel überschreibt nicht,
+# eine Änderung direkt auf openCoDE hielte ihn an.
+#
+# Dieselbe Parser-Prüfung läuft auf GitHub (.github/workflows/publiccode-pruefen.yml), mit derselben Fassung; ein Wechsel
+# ist an beiden Stellen zugleich eine bewusste Änderung (tests/pflichtdateien-oeffentliches-repo.test.js hält sie gleich).
+#
+# Läuft auf dem Standard-Branch und auf den Fassungs-Tags (v1.0.8xx), nicht auf anderen Zweigen.
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG =~ /^v/
+
+stages:
+  - pruefen
+
+# Abhängigkeitsanalyse für DevGuard (openCoDE-Badges VULNERABILITY_CVE_AGE und RELEASE_WITHOUT_VULNERABILITIES): je Lauf auf
+# dem Standard-Branch und je Fassungs-Tag ein Scan, den die Badge-Prüfung als VEX liest. Dieselbe Komponente nutzt die
+# Badge-API selbst. Token, Asset-Name und API-Adresse legt das DevGuard-Auto-Setup als CI-Variablen im openCoDE-Projekt an
+# (DEVGUARD_TOKEN maskiert, DEVGUARD_ASSET_NAME, DEVGUARD_API_URL); sie stehen nie hier. Die Fassung der Komponente ist
+# festgelegt, wie im Auto-Setup von DevGuard; ein Wechsel ist eine bewusste Änderung hier.
+include:
+  - component: $CI_SERVER_FQDN/l3montree/devguard-ci-components/software-composition-analysis@v1.15.0
+    inputs:
+      devguard_asset_name: "$DEVGUARD_ASSET_NAME"
+      devguard_token: "$DEVGUARD_TOKEN"
+      devguard_api_url: "$DEVGUARD_API_URL"
+      devguard_web_ui: "https://devguard.opencode.de"
+      stage: pruefen
+
+publiccode:
+  stage: pruefen
+  image: golang:1.25
+  script:
+    - go install github.com/italia/publiccode-parser-go/v5/publiccode-parser@v5.4.3
+    - "$(go env GOPATH)/bin/publiccode-parser publiccode.yml"
+
+tests:
+  stage: pruefen
+  image: node:24
+  script:
+    - npm ci
+    - npm test

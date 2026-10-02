@@ -19,7 +19,7 @@ const { test, expect } = require('@playwright/test');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..', '..');
-const URL = 'file://' + path.join(REPO, 'vivodepot-template-generator.html');
+const URL = 'file://' + path.join(REPO, 'vivodepot-studio.html');
 
 async function zumTemplateSchritt(p) {
   await p.goto(URL);

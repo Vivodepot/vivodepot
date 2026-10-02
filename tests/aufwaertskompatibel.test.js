@@ -90,7 +90,9 @@ test('[Zug1·b] gespeichert ist die SPRACHE, ein aktiver Rechtsraum hat gar kein
    tests/u2-adr-254-rechtsraum-vorbelegung.test.js — hier bleibt nur die Literal-Zählung. */
 test('[Zug1·b·GEGENPROBE] drei von fünf ECHTEN Aufrufen bleiben bewusst literal, zwei sind seit U2-ADR-254 variabel', () => {
   const m = mess();
-  assert.equal(m.b.katalogAufrufe, 6, 'die Zahl der Roh-Treffer (5 Aufrufe + 1 Definitionszeile) hat sich verändert — Messmodell neu prüfen: ' + m.b.katalogAufrufe);
+  // 6 → 8 (02.10.2026, v857, U2-ADR-466): zwei neue Aufrufe für die Rechtsgrundlage im IPS-Abschnitt Advance Directives, beide variabel
+  // (Rechtsraum des Eintrags bzw. Vorschlagswert des Depots), kein literales 'DE' — die Literal-Zählung unten bleibt bei drei.
+  assert.equal(m.b.katalogAufrufe, 8, 'die Zahl der Roh-Treffer (7 Aufrufe + 1 Definitionszeile) hat sich verändert — Messmodell neu prüfen: ' + m.b.katalogAufrufe);
   assert.equal(m.b.davonMitDeLiteral, 3,
     'erwartet: drei Katalog-Metadaten-Stellen bleiben literal DE, zwei sind variabel (U2-ADR-254), die Definitionszeile zählt nie mit: '
     + m.b.davonMitDeLiteral + ' von ' + m.b.katalogAufrufe);

@@ -1,6 +1,6 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════
-   Lade-Hilfe für vivodepot-template-generator.html (Komponente 4)
+   Lade-Hilfe für vivodepot-studio.html (Komponente 4)
    ────────────────────────────────────────────────────────────────────────
    Analog zu load-issuer.js / load-kern.js: extrahiert die beiden <script>-
    Blöcke des Generators (Script 1 = VdCrypto-Block byte-identisch zum Kern;
@@ -19,7 +19,7 @@ const { webcrypto } = crypto;
 const REPO = path.join(__dirname, '..');
 const GEN_PATH = process.env.GENERATOR_HTML_PATH
   ? path.resolve(process.env.GENERATOR_HTML_PATH)
-  : path.join(REPO, 'vivodepot-template-generator.html');
+  : path.join(REPO, 'vivodepot-studio.html');
 
 // Erwarteter VdCrypto-Block-Hash (== Kern == Issuer == PORT-VERBATIM.js). Umbau „Englisch vor
 // v1" (14.09.2026): zwei Kennung-Beispiele im Kopf-Kommentar mitgezogen, s. load-kern.js --
@@ -202,6 +202,8 @@ const EXPORT_HOOK = `
   kvKennungAktuell, kvZeileHinzufuegen, kvZeilenRendern, kvVorschauAktualisieren, kennungVorschlagErzeugen,
   // MyTerms v1-Schnitt, Teil D (16.09.2026) — ein Angebot beantworten
   VEREINBARUNG_PRAEFIX, vereinbarungAusText, vereinbarungAlsText, vereinbarungAngebotAnzeigen, baueVereinbarungsAntwort, baueVereinbarungsAntwortSigniert,
+  // U2-ADR-460 (v851) — kompakte Transportform und QR zum Kurzlink
+  ANFRAGE_KOMPAKT_PRAEFIX, KURZLINK_MAX_ZEICHEN, anfrageKompakt, kurzlinkGueltig, kurzlinkQrDataUrl, anfrageQrTeilAnhaengen,
 };
 `;
 
@@ -225,6 +227,8 @@ function ladeGenerator(optionen) {
     URL: Object.assign(class extends URL {}, { createObjectURL: () => 'blob:stub', revokeObjectURL: () => {} }),
     Blob: function () {},
     FileReader: function () {},
+    // U2-ADR-460: die kompakte Anfrage packt das Studio mit den Strom-Klassen des Browsers — hier die echten aus Node.
+    ReadableStream, CompressionStream,
   };
   sandbox.globalThis = sandbox;
   vm.createContext(sandbox);

@@ -32,7 +32,7 @@ const path = require('node:path');
 const REPO = path.join(__dirname, '..');
 const SCHEMA = path.join(REPO, 'docs', 'template-generator', 'submission-schema.json');
 const KERN = path.join(REPO, 'vivodepot.html');
-const GENERATOR = path.join(REPO, 'vivodepot-template-generator.html');
+const GENERATOR = path.join(REPO, 'vivodepot-studio.html');
 const ISSUER = path.join(REPO, 'vivodepot-vc-issuer.html');
 const GRUNDLINIE = path.join(REPO, 'tools', 'schema-wirkung-grundlinie.json');
 

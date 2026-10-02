@@ -357,6 +357,13 @@ const EXPORT_HOOK = `
   // gegenprobe.test.js lädt Commit 3df1b23) kennt diese Funktionen noch nicht.
   fassungenVergleichen: (typeof fassungenVergleichen !== 'undefined' ? fassungenVergleichen : undefined),
   fassungenZusammenfuehren: (typeof fassungenZusammenfuehren !== 'undefined' ? fassungenZusammenfuehren : undefined),
+  // U2-ADR-463 (2) — Zusammenführen auf Eintragsebene (Listen und Register)
+  eintraegeVergleichen: (typeof eintraegeVergleichen === 'function' ? eintraegeVergleichen : undefined),
+  _ablageortSatz: (typeof _ablageortSatz === 'function' ? _ablageortSatz : undefined),
+  _ablageortKnoepfeHTML: (typeof _ablageortKnoepfeHTML === 'function' ? _ablageortKnoepfeHTML : undefined),
+  _ablageortGemerktHTML: (typeof _ablageortGemerktHTML === 'function' ? _ablageortGemerktHTML : undefined),
+  eintraegeZusammenfuehren: (typeof eintraegeZusammenfuehren === 'function' ? eintraegeZusammenfuehren : undefined),
+  _fassungenNachOeffnenPruefen: (typeof _fassungenNachOeffnenPruefen === 'function' ? _fassungenNachOeffnenPruefen : undefined),
   fassungenHabenAbweichung: (typeof fassungenHabenAbweichung !== 'undefined' ? fassungenHabenAbweichung : undefined),
   // A464/A465 — Größen-/Schachtelungstiefen-Mechanismus (gebaut, nicht verdrahtet). Gleicher
   // Guard-Grund wie bei fassungenVergleichen: ein historischer Kern kennt ihn noch nicht.
@@ -398,6 +405,12 @@ const EXPORT_HOOK = `
   anfrageZustand, anfrageMerken, anfrageBeantwortetVermerken, anfrageEinstiegSchritte,
   anfrageEintragFuerId, oeffneAnfrage, renderAnfrage, flowAnfrageEmpfangen, flowAnfrageAntworten,
   flowAnfrageEinstieg, anfrageAusAdresseVielleicht,
+  anfrageAusKompakt: (typeof anfrageAusKompakt === 'function' ? anfrageAusKompakt : undefined),
+  anfrageAusTextAsync: (typeof anfrageAusTextAsync === 'function' ? anfrageAusTextAsync : undefined),
+  anfrageAusEingabeAsync: (typeof anfrageAusEingabeAsync === 'function' ? anfrageAusEingabeAsync : undefined),
+  _anfrageKompaktRoh: (typeof _anfrageKompaktRoh === 'function' ? _anfrageKompaktRoh : undefined),
+  ANFRAGE_KOMPAKT_MAX_BYTES: (typeof ANFRAGE_KOMPAKT_MAX_BYTES !== 'undefined' ? ANFRAGE_KOMPAKT_MAX_BYTES : undefined),
+  ANFRAGE_KOMPAKT_PRAEFIX: (typeof ANFRAGE_KOMPAKT_PRAEFIX !== 'undefined' ? ANFRAGE_KOMPAKT_PRAEFIX : undefined),
   // A378 (20.08.2026) — der Code-Fall: die Form einer Angabe reist mit
   codeSystemPruefen, _codeFormLesen,
   // Kette, Auftrag 8 (20.08.2026) — der verschlüsselte Rückweg
@@ -447,6 +460,17 @@ const EXPORT_HOOK = `
   _korb1MehrwertigMigrieren: (typeof _korb1MehrwertigMigrieren !== 'undefined' ? _korb1MehrwertigMigrieren : undefined),
   _KORB1_GRUPPEN: (typeof _KORB1_GRUPPEN !== 'undefined' ? _KORB1_GRUPPEN : undefined),
   _feldVerifiziertStaemmig, _letzterStempel,
+  // U2-ADR-467 (Schema 91): die feste Regel für Anschriften — versionsgebunden wie Korb 1 darüber.
+  _anschriftTeileNachRegel: (typeof _anschriftTeileNachRegel !== 'undefined' ? _anschriftTeileNachRegel : undefined),
+  ANSCHRIFT_TEILE: (typeof ANSCHRIFT_TEILE !== 'undefined' ? ANSCHRIFT_TEILE : undefined),
+  anschriftVorschlag: (typeof anschriftVorschlag !== 'undefined' ? anschriftVorschlag : undefined),
+  anschriftVorschlagErledigen: (typeof anschriftVorschlagErledigen !== 'undefined' ? anschriftVorschlagErledigen : undefined),
+  anschriftVorschlagUebernehmen: (typeof anschriftVorschlagUebernehmen !== 'undefined' ? anschriftVorschlagUebernehmen : undefined),
+  anschriftVorschlagVerwerfen: (typeof anschriftVorschlagVerwerfen !== 'undefined' ? anschriftVorschlagVerwerfen : undefined),
+  personFormVorbereiten: (typeof personFormVorbereiten !== 'undefined' ? personFormVorbereiten : undefined),
+  anschriftVorschlagKarteHTML: (typeof anschriftVorschlagKarteHTML !== 'undefined' ? anschriftVorschlagKarteHTML : undefined),
+  anschriftFuerAusgabe: (typeof anschriftFuerAusgabe !== 'undefined' ? anschriftFuerAusgabe : undefined),
+  feldDurchTeileErsetzt: (typeof feldDurchTeileErsetzt !== 'undefined' ? feldDurchTeileErsetzt : undefined),
   institutionHinzufuegen, institutionAktualisieren, institutionName, institutionenVorschlag, institutionFinden,
   institutionReferenzStellen, flowInstitutionBearbeiten,   // A210 (Auftragskette 14.08.2026, Glied 9)
   RECHTSGRUNDLAGEN_VERTRETUNG,
@@ -1049,6 +1073,12 @@ const EXPORT_HOOK = `
   flowPasswortSetzen, _depotAusPasswortFinalisieren, flowDepotAnlegen,
   // Sicherheit Block B (Krypto-Gutachten-Befund 1.7) — Passphrase-Stärke + harte Grund-Schranke
   passwortStaerke, pwGrundFehler, pwStaerkeAnzeigeVerdrahten, PW_BLOCKLISTE,
+  // U2-ADR-463 (1) — Passwort-Vorschlag aus sechs zufälligen Wörtern
+  passwortVorschlag: (typeof passwortVorschlag === 'function' ? passwortVorschlag : undefined),
+  passwortWortliste: (typeof passwortWortliste === 'function' ? passwortWortliste : undefined),
+  _pwZufallsIndex: (typeof _pwZufallsIndex === 'function' ? _pwZufallsIndex : undefined),
+  _pwIstVorschlagForm: (typeof _pwIstVorschlagForm === 'function' ? _pwIstVorschlagForm : undefined),
+  pwVorschlagHTML: (typeof pwVorschlagHTML === 'function' ? pwVorschlagHTML : undefined),
   // D38 — bewusste Eigen-Depot-Einrichtung aus dem Sub-Wunsch (mit Namensfeldern)
   flowEigenesDepotAusSubWunsch,
   depotHatNamen, _d37HinweisFaellig, namenlosHinweisHTML, flowD37NamenErgaenzen,
@@ -1577,6 +1607,9 @@ const EXPORT_HOOK = `
   TEXTSATZ_SPRACHE_EINGEBAUT: (typeof TEXTSATZ_SPRACHE_EINGEBAUT !== 'undefined' ? TEXTSATZ_SPRACHE_EINGEBAUT : undefined),
   textLesen: (typeof textLesen !== 'undefined' ? textLesen : undefined),
   textsatzSpracheAktiv: (typeof textsatzSpracheAktiv !== 'undefined' ? textsatzSpracheAktiv : undefined),
+  ipsExportSprachen: (typeof ipsExportSprachen !== 'undefined' ? ipsExportSprachen : undefined),
+  ipsUebersetzungGeprueft: (typeof ipsUebersetzungGeprueft !== 'undefined' ? ipsUebersetzungGeprueft : undefined),
+  ipsExportSpracheWaehlen: (typeof ipsExportSpracheWaehlen !== 'undefined' ? ipsExportSpracheWaehlen : undefined),
   textsatzVolleSprachen: (typeof textsatzVolleSprachen !== 'undefined' ? textsatzVolleSprachen : undefined),
   textsatzSpracheWaehlen: (typeof textsatzSpracheWaehlen !== 'undefined' ? textsatzSpracheWaehlen : undefined),
   textsatzSprachnameEigen: (typeof textsatzSprachnameEigen !== 'undefined' ? textsatzSprachnameEigen : undefined),
@@ -1970,6 +2003,9 @@ function ladeKern(opts) {
     // (dasselbe WHATWG-Interface wie im Browser), erweitert um die beiden Blob-Methoden.
     URL: Object.assign(class extends URL {}, { createObjectURL: () => 'blob:stub', revokeObjectURL: () => {} }),
     Blob: opts.Blob || function () {},
+    // U2-ADR-460 (v851): die kompakte Anfrage entpackt der Kern mit den Strom-Klassen des Browsers — hier die echten aus Node,
+    // dasselbe WHATWG-Interface.
+    ReadableStream, DecompressionStream,
   };
   // `opts.ausgabeErfassen(({ blob, name }) => …)` (19.09.2026, AUS1): fängt jede Datei ab, die der Kern
   // über den Download-Weg herausgibt (`dateiAusgeben` → Objekt-URL + <a download>). Das ist der ERZEUGTE

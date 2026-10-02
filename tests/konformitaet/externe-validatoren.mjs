@@ -52,6 +52,8 @@ const require = createRequire(import.meta.url);
 const { ladeKern } = require('../load-kern.js');
 const { urteilsZuordnung } = require('../../tools/lib/fhir-urteil-zuordnung.js');
 const { registerLesen, kaputtListe } = require('../../tools/standards-register-pruefen.js');
+const { vorsorgeDepotAnlegen } = require('../../tools/lib/ips-vorsorge-beispiel.js');
+const { ohneActorRolle } = require('../../tools/ips-vorsorge-validieren.js');
 import { javaPfad } from './adapter/_umgebung.mjs';
 import { ladeAdapter } from './adapter/_lader.mjs';
 import { urteileHolen } from './adapter/_urteile.mjs';
@@ -137,6 +139,22 @@ export const VALIDATOREN = [
         fs.writeFileSync(p, JSON.stringify(V.fhirIpsBundle('2026-07-26T12:00:00Z', opt), null, 1));
         faelle.push({ name, pfad: p, erwartet, warum });
       };
+      /* U2-ADR-466 (L1): der Abschnitt Advance Directives — Vollmacht, Patientenverfügung, Betreuungsverfügung und der
+         Widerspruch gegen die Notvertretung als Consent nach consent-eu-eps, mit Freigabe der sensiblen Felder. Das Depot
+         kommt aus tools/lib/ips-vorsorge-beispiel.js (dieselbe Stelle wie Probe und Werkzeug). Das Gegenstück nimmt einem
+         Consent `provision.actor.role` (dort 1..1) und MUSS fallen. Alle Exportsprachen: tools/ips-vorsorge-validieren.js. */
+      const bauVorsorge = async (name, erwartet, warum, beschaedigen) => {
+        const { V } = ladeKern();
+        await vorsorgeDepotAnlegen(V);
+        const b = V.fhirIpsBundle('2026-07-26T12:00:00Z', { sensibel: true });
+        const p = path.join(ARBEIT, name + '.json');
+        fs.writeFileSync(p, JSON.stringify(beschaedigen ? beschaedigen(b) : b, null, 1));
+        faelle.push({ name, pfad: p, erwartet, warum });
+      };
+      await bauVorsorge('vorsorge-alle-instrumente', 'gueltig',
+        'U2-ADR-466: Consent je Instrument mit RelatedPerson (AGNT), Befugnissen permit/deny und dem Widerspruch als deny');
+      await bauVorsorge('vorsorge-ohne-actor-rolle', 'ungueltig',
+        'consent-eu-eps: provision.actor.role ist 1..1 — ein Consent ohne Rolle der Vertretung muss fallen', ohneActorRolle);
       // Mindest-Identität, ohne die KEIN IPS-Bundle gültig sein kann (gemessen 26.07.).
       const person = (V) => {
         V.sektorFeldSetzen('identity', 'givenName', 'Maria');
@@ -184,6 +202,27 @@ export const VALIDATOREN = [
             V.ausdruecklichKeineSetzen('health', f, true);
           }
         });
+      /* U2-ADR-458: der Begleittext in der beim Export gewählten Sprache — Composition.language und lang/xml:lang der
+         Narrative ändern sich, die Profile müssen dasselbe Urteil fällen. Stichprobe: Deutsch, und zwei Sprachen mit
+         eigener Schrift (Griechisch, Bulgarisch); je ein volles Depot und je „ausdrücklich keine“ in allen fünf Sektionen. */
+      const volles = (V) => {
+        person(V);
+        V.sektorFeldSetzen('identity', 'gender', 'w');
+        V.sektorFeldSetzen('health', 'allergiesMedicationFoodOther', [{ text: 'Penicillin' }]);
+        V.sektorFeldSetzen('health', 'medicationOngoing', [{ text: 'Ramipril 5 mg' }]);
+        V.sektorFeldSetzen('health', 'chronicConditionsDiagnoses', [{ text: 'Diabetes mellitus Typ 2' }]);
+        V.listenEintragHinzufuegen('health', 'operationsProcedures', { procedure: 'Blinddarm-Entfernung', year: '2008' });
+      };
+      const keine = (V) => {
+        person(V);
+        for (const f of ['allergiesMedicationFoodOther', 'medicationOngoing', 'chronicConditionsDiagnoses', 'operationsProcedures', 'implantsProsthesesPacemakers']) {
+          V.ausdruecklichKeineSetzen('health', f, true);
+        }
+      };
+      for (const sprache of ['de', 'el', 'bg']) {
+        await bau('exportsprache-' + sprache + '-volles-depot', 'gueltig', 'U2-ADR-458: Begleittext ' + sprache + ', volles Depot', volles, { sprache });
+        await bau('exportsprache-' + sprache + '-ausdruecklich-keine', 'gueltig', 'U2-ADR-458: Begleittext ' + sprache + ', „ausdrücklich keine“ in allen fünf Sektionen', keine, { sprache });
+      }
       // Die gemessenen GRENZEN, ausdrücklich als ungültig erwartet.
       await bau('voellig-leeres-depot', 'ungueltig',
         'Patient.name und Patient.birthDate sind min=1 in Patient-uv-ips — ein Patientenkurzbrief '

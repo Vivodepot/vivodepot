@@ -75,7 +75,7 @@ async function fsaAttrappeMitBerechtigungEinrichten(page) {
 // von Anfang an belegen wollte, nur über eine andere echte Nutzer-Geste erreicht.
 async function eintragenUndSpeichern(page, wert) {
   await oeffneSektor(page, 'identity');
-  await setzeFeld(page, 'streetAddress', wert);
+  await setzeFeld(page, 'street', wert);
   await page.click('#tb-depot-pille');
   await page.waitForSelector('#tb-depot-menue', { state: 'visible' });
   await page.click('#tb-depot-menue-sicherungskopie');

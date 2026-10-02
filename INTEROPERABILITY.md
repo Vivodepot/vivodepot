@@ -28,20 +28,21 @@ tragen*, liest hier weiter.
 
 ## 1 · Was zurückkommt
 
-Vivodepot führt **11 Export-Formate** und **17 Import-Formate**. Die Zahlen sind nicht
-gegeneinander zu rechnen: eine Datei, die Vivodepot liest, muss es nicht schreiben können, und die
-Import-Seite trägt sechs Formate, die es ausdrücklich nur liest.
+Die Faktenbasis führt **10 Export-Formate** und **18 Import-Formate**. Unter den
+Import-Formaten steht das Depot-JSON (`json`): eine offene Depot-Datei aus früheren Fassungen liest
+Vivodepot zurück, neue schreibt es nicht mehr; gesichert wird in der verschlüsselten Depot-Datei.
+Die Zahlen sind nicht gegeneinander zu rechnen: eine Datei, die Vivodepot liest, muss es nicht
+schreiben können, und die Import-Seite trägt Formate, die es ausdrücklich nur liest (`nurImport`).
 
-### Zehn der elf Export-Formate liest der Code wieder ein
+### Neun der zehn Export-Formate liest der Code wieder ein
 
 | Export-Format | kommt zurück | Art des Rückwegs |
 |---|---|---|
-| `json` (Vivodepot-Depot) | ja | vollständig |
 | `fhir-ips` | ja | Teilmenge |
 | `sd-jwt-vc-identitaet` | ja | Teilmenge |
 | `sd-jwt-vc-finanzen` | ja | Teilmenge |
 | `sd-jwt-vc-sozialversicherung` | ja | Teilmenge |
-| `xoev-verwaltung` (Verwaltungs-Stammdaten) | ja | Teilmenge |
+| `xoev-verwaltung` (Verwaltungs-Stammdaten; die Kennung ist historisch, kein Standard dahinter — Suche über alle Standards des XRepository, 30.09.2026) | ja | Teilmenge |
 | `fim-json` | ja | Teilmenge |
 | `edci-bildung` | ja | alle geführten Bildungsnachweise |
 | `vcard-identitaet` | ja | Kontaktangaben, nicht der ganze Sektor |
@@ -64,11 +65,11 @@ Referenzdepot, liest zurück und vergleicht Feld für Feld. Der Lauf trägt zwei
 unveränderte Rundgang darf nichts melden) — ohne die wäre „alles gleich" von „nichts gemessen"
 nicht zu unterscheiden.
 
-### Sechs Formate liest Vivodepot, ohne sie zu schreiben
+### Sieben Formate liest Vivodepot, ohne sie zu schreiben
 
 `camt053` (Kontoumsätze), `xmeld` (Meldedaten), `elster` (Steuerdaten), `fhir-lab`
-(Laborbefunde), `edci-europass-extern` (fremde Europass-Nachweise) und `vivodepot-beta`
-(Sicherungsdateien der Vorgängerfassung).
+(Laborbefunde), `edci-europass-extern` (fremde Europass-Nachweise), `openbadges-3-extern` (fremd
+ausgestellte Open Badges 3.0) und `vivodepot-beta` (Sicherungsdateien der Vorgängerfassung).
 
 **Das ist die Richtung, die zählt.** Diese Formate kommen von Institutionen zur Bürgerin. Sie
 zurückzuschreiben hieße, im Namen einer Behörde oder Bank ein Dokument zu erzeugen — dafür ist
@@ -78,6 +79,16 @@ Vivodepot nicht der Absender.
 Text — gelesen wird er stattdessen ausschließlich über den geprüften Pfad (`importPlanGeprueft`/
 `felderAusClaims`, erst nach bestandener Signaturprüfung). `fhir-lab` hat eine Erzeuger-Funktion,
 die stets `null` liefert. Beides steht so in der Faktenbasis und ist unten unter „Lücken" benannt.
+
+### Die Anfrage einer Stelle kommt in zwei Formen
+
+Eine Stelle schickt ihre Anfrage als signiertes JWS. Die App liest zwei Transportformen: die
+bisherige (base64url des Umschlag-JSON) und die kompakte, `z1.` gefolgt von base64url des mit
+deflate-raw gepackten JWS samt angehängtem Anbieter-Zertifikat. Die Signaturprüfung ist in beiden
+Formen dieselbe. Beim Entpacken bricht die App über 64 KB ab. Ein QR auf einem Aushang trägt nur
+eine kurze Adresse; der Server dahinter leitet auf die App-Adresse weiter, die Anfrage steht im
+Fragment (U2-ADR-460). Zum Nachsehen: `tests/anfrage-kompakt.test.js`,
+`grep -n "ANFRAGE_KOMPAKT_MAX_BYTES" vivodepot.html`.
 
 ---
 
@@ -126,10 +137,10 @@ Weg, sondern ein gated statt ein offener Lese-Pfad.
 **`fhir-lab` liefert stets `null`.** Die Import-Funktion existiert, ihr Rückgabewert ist
 unbedingt leer. Ein Laborbefund kommt heute nicht an.
 
-**Vier von elf Export-Formaten tragen keinen Versions- oder Profil-Marker im Code.** Sieben tun es:
+**Drei der zehn Export-Formate tragen keinen Versions- oder Profil-Marker im Code.** Sieben tun es:
 `fhir-ips` (elf `StructureDefinition`-URLs), die drei `sd-jwt-vc-*`-Formate (`vct`-Kennungen),
 die beiden vCard-Formate (`VERSION:4.0`) und `ics-vorsorge` (`VERSION:2.0`) sind maschinell als
-Profil erkennbar. Für die übrigen vier — `xoev-verwaltung`, `edci-bildung`, `fim-json` und das Depot-JSON — gilt: das
+Profil erkennbar. Für die übrigen drei — `xoev-verwaltung` (historische Kennung, kein Standard dahinter), `edci-bildung` und `fim-json` — gilt: das
 Format ist dokumentiert, aber die Datei selbst sagt nicht, welcher Fassung sie folgt. Ein
 Empfänger kann das nicht prüfen.
 

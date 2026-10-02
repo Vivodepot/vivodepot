@@ -22,7 +22,7 @@ function erzeugen() {
   const { V } = ladeGenerator();
   const z = [];
   z.push('# Rechtstexte im Template-Generator — Entwürfe zur Durchsicht', '');
-  z.push('Stand der Entwürfe: 19.09.2026. Quelle: RECHTSTEXTE in vivodepot-template-generator.html (diese Datei ist daraus erzeugt: node tools/rechtstexte-durchsicht-erzeugen.js). Änderungen gehören in den Generator; danach diese Datei neu erzeugen.', '');
+  z.push('Stand der Entwürfe: 19.09.2026. Quelle: RECHTSTEXTE in vivodepot-studio.html (diese Datei ist daraus erzeugt: node tools/rechtstexte-durchsicht-erzeugen.js). Änderungen gehören in den Generator; danach diese Datei neu erzeugen.', '');
   z.push('Jeder Text trägt im Werkzeug eine sichtbare Entwurfsmarke mit Kennung und Stand. Kein Text mit Marke geht in eine Auslieferung: tools/register-ausliefern.js bricht davor ab (Wächter tools/lib/entwurfsmarke.js, Proben in tests/rechtstexte-entwurf.test.js).', '');
   z.push('**Freigabe eines Textes:** im Generator entwurf auf false setzen, die Marke aus dem Wortlaut nehmen, Stand und Kennung hochzählen (RT-NAME-2). Vorher geht der Generator nicht ins Register.', '');
   z.push('Dies sind Entwürfe ohne Rechtsberatung. Wo ein amtlicher Wortlaut besteht, steht er als Zitat mit Beleg da; alles andere ist eigener Text im Sie-Ton und stützt sich auf Angaben, die im Projekt schon stehen.', '');

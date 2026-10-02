@@ -298,13 +298,25 @@
       "schritte": [
         {
           "feld": {
-            "id": "streetAddress",
+            "id": "street",
             "typ": "text"
           }
         },
         {
           "feld": {
-            "id": "postcodeCity",
+            "id": "houseNumber",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "postalCode",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "city",
             "typ": "text"
           }
         },

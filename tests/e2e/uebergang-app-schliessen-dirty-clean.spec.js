@@ -96,7 +96,7 @@ test('[Übergang 5b] App schließen MIT offenen Änderungen — Dialog, „Trotz
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   await oeffneSektor(page, 'identity');
-  await setzeFeld(page, 'streetAddress', 'Ungesichert vor dem Schließen 42');
+  await setzeFeld(page, 'street', 'Ungesichert vor dem Schließen 42');
 
   const dirtyVorKlick = await page.evaluate(() => (typeof window.__vdOeffentlich.istUngespeichert === 'function' ? window.__vdOeffentlich.istUngespeichert() : null));
   expect(dirtyVorKlick, 'Vorbedingung: das Feld muss als ungesichert gelten, sonst prüft dieser Fall nichts').toBe(true);
