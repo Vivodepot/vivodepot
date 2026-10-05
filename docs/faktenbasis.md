@@ -1,21 +1,22 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-02 · **Fassung:** v857 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-04 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
 ---
 
-## Export-Formate (10)
+## Export-Formate (11)
 
 | Kennung | Erzeuger | MIME | Endung | Sektor | Flags | Versions-/Profil-Belege im Code |
 |---|---|---|---|---|---|---|
 | `fhir-ips` | `fhirIpsBundle` | application/fhir+json | json | health | — | `http://hl7.org/fhir/StructureDefinition/data-absent-reason`, `http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationStatement-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/device-eu-eps`, `http://hl7.eu/fhir/eps/StructureDefinition/deviceUseStatement-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-status-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-edd-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Flag-alert-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/composition-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/bundle-eu-eps`, `resourceType:AllergyIntolerance`, `resourceType:MedicationStatement`, `resourceType:Condition`, `resourceType:Procedure`, `resourceType:Device`, `resourceType:DeviceUseStatement`, `resourceType:Observation`, `resourceType:Flag`, `resourceType:Composition`, `resourceType:RelatedPerson`, `resourceType:Provenance`, `resourceType:Bundle` |
-| `sd-jwt-vc-identitaet` | `sdJwtVcIdentitaet` | application/json | json | identity | — | `vct:urn:vivodepot:identitaet` |
+| `isik` | `isikDokumente` | application/fhir+json | json | health | nurExport | `resourceType:DocumentReference`, `resourceType:Bundle` |
+| `sd-jwt-vc-identitaet` | `sdJwtVcIdentitaet` | application/dc+sd-jwt | sd-jwt | identity | — | `vct:urn:vivodepot:identitaet` |
 | `xoev-verwaltung` | `xoevVerwaltung` | application/json | json | administration | — | kein Versions-/Profil-Marker im Code gefunden |
-| `edci-bildung` | `edciBildung` | application/json | json | education | — | kein Versions-/Profil-Marker im Code gefunden |
-| `sd-jwt-vc-finanzen` | `sdJwtVcFinanzen` | application/json | json | finance | — | `vct:urn:vivodepot:finanzen` |
-| `sd-jwt-vc-sozialversicherung` | `sdJwtVcSozialversicherung` | application/json | json | socialInsurance | — | `vct:urn:vivodepot:sozialversicherung` |
+| `bildungsangaben` | `edciBildung` | application/json | json | education | — | kein Versions-/Profil-Marker im Code gefunden |
+| `sd-jwt-vc-finanzen` | `sdJwtVcFinanzen` | application/dc+sd-jwt | sd-jwt | finance | — | `vct:urn:vivodepot:finanzen` |
+| `sd-jwt-vc-sozialversicherung` | `sdJwtVcSozialversicherung` | application/dc+sd-jwt | sd-jwt | socialInsurance | — | `vct:urn:vivodepot:sozialversicherung` |
 | `fim-json` | `fimVerwaltung` | application/json | json | administration | — | kein Versions-/Profil-Marker im Code gefunden |
 | `vcard-identitaet` | `vcardIdentitaet` | text/vcard | vcf | identity | — | `VERSION:4.0` |
 | `vcard-menschen` | `vcardMenschen` | text/vcard | vcf | people | ohneAuswahl | `VERSION:4.0` |
@@ -35,7 +36,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `sd-jwt-vc-sozialversicherung` | `_sdJwtVcObjekt` | socialInsurance | — | kein Versions-/Profil-Marker im Code gefunden |
 | `xoev-verwaltung` | `_jsonParse` | administration | — | kein Versions-/Profil-Marker im Code gefunden |
 | `fim-json` | `_jsonParse` | administration | — | kein Versions-/Profil-Marker im Code gefunden |
-| `edci-bildung` | `_jsonParse` | education | — | kein Versions-/Profil-Marker im Code gefunden |
+| `bildungsangaben` | `_jsonParse` | education | — | kein Versions-/Profil-Marker im Code gefunden |
 | `edci-europass-extern` | `_edciExternNutzlast` | education | nurImport | kein Versions-/Profil-Marker im Code gefunden |
 | `openbadges-3-extern` | `_ob3Lesen` | education | nurImport | kein Versions-/Profil-Marker im Code gefunden |
 | `vcard-identitaet` | `parseVCards` | identity | — | kein Versions-/Profil-Marker im Code gefunden |
@@ -50,7 +51,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**13 Sektoren, 320 Felder, 194 Unterfelder gesamt.**
+**13 Sektoren, 321 Felder, 194 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
@@ -62,7 +63,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `health` | Gesundheit | 32 | 10 |
 | `education` | Bildung & Beruf | 31 | 0 |
 | `socialInsurance` | Sozialversicherung | 22 | 7 |
-| `advanceCare` | Vorsorge & Recht | 48 | 75 |
+| `advanceCare` | Vorsorge & Recht | 49 | 75 |
 | `administration` | Verwaltung & Behörden | 27 | 18 |
 | `housing` | Wohnen & Eigentum | 15 | 11 |
 | `emergencyPreparedness` | Krisenvorsorge | 33 | 0 |
@@ -84,13 +85,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): 12034
-- E2E (Playwright): 514 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 21 aus Schleifen über CPU-Drosselungen = **535 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
-- Wächter-Register (intern): 127
-- Schema-Version: 91 · SCHALEN_STAND: v857 · Build-Version: v1.0
+- E2E (Playwright): 542 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 28 aus Schleifen über CPU-Drosselungen = **570 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
+- Wächter-Register (intern): 142
+- Schema-Version: 91 · SCHALEN_STAND: v917 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (421)
+## ADR-Register (426)
 
 | Nummer | Titel |
 |---|---|
@@ -510,11 +511,16 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-454 | Kind-Datei — das Kind übernimmt sein Sub-Depot ohne Mitwirkung der Eltern |
 | U2-ADR-455 | Schwangerschaft und Weglaufgefährdung als Kennungen (Notfalldatensatz) |
 | U2-ADR-456 | FIM-Bezüge: Kennung, Fassung und Status je Depot-Feld |
+| U2-ADR-457 | SD-JWT VC mit Selbst-Signatur der Halterin |
 | U2-ADR-458 | Die Sprache des IPS-Begleittexts wird beim Export gewählt |
+| U2-ADR-459 | Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen nach dem Formular |
 | U2-ADR-460 | Anfrage per QR — kompakte Transportform und Kurzlink mit Weiterleitung auf die eigene App |
 | U2-ADR-463 | Ablage ohne Netz — Passwort aus Wörtern, Zusammenführen, Doppelklick öffnet die Datei |
+| U2-ADR-464 | Was eine Depotdatei über ihre Versionen verrät: Einheiten auf 1-KiB-Stufen, Stand-Marke statt Zeitpunkt |
 | U2-ADR-466 | Vollmacht und Patientenverfügung im IPS/EPS-Export |
 | U2-ADR-467 | Getrennte Namens- und Anschriftsfelder, ohne Raten |
+| U2-ADR-468 | ISiK Stufe 6 — Vollmacht und IPS als DocumentReference für das Krankenhaus |
+| U2-ADR-473 | Erscheinungsbild im Branding-Modul — Token-Vollständigkeit, Profile, Steckplatz Navigation |
 
 ---
 
@@ -524,18 +530,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 33 | 226 |
-| `.btn-sek` | 14 | 104 |
+| `.btn` | 36 | 228 |
+| `.btn-sek` | 15 | 107 |
 | `.btn-dezent` | 5 | 11 |
-| `.btn-klein` | 3 | 14 |
+| `.btn-klein` | 3 | 15 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 36 |
 | `.karte` | 5 | 68 |
-| `.modal` | 18 | 145 |
-| `.toast` | 9 | 289 |
+| `.modal` | 19 | 156 |
+| `.toast` | 9 | 298 |
 | `.banner-stapel` | 2 | 2 |
-| `.topbar` | 36 | 2 |
-| `.sidebar` | 18 | 5 |
-| `.leer` | 3 | 290 |
+| `.topbar` | 37 | 2 |
+| `.sidebar` | 19 | 5 |
+| `.leer` | 3 | 296 |
 | `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 26 |
+| `.hinweis-box` | 7 | 27 |

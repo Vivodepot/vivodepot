@@ -1,0 +1,357 @@
+/* Erscheinungsbild „heute" — Ab-Werk-Werte des Gerüsts (U2-ADR-473 Nachtrag, v894, 02.10.2026).
+   QUELLE dieser Werte; tools/erscheinungsbild-modul.js baut daraus tools/erscheinung/erscheinungsbild-heute-modul.json,
+   das jedes Produkt als Rezept-Zutat (erscheinungsbildModul) über produktTextErzeugen in die Region
+   AB_WERK_ERSCHEINUNGSBILD_PRODUKT des Kerns gebacken bekommt. Das Gerüst selbst trägt keinen dieser Werte.
+   Vor v894 standen die drei Blöcke wörtlich in <style id="design-system"> von vivodepot.html (Kanon c71971fff);
+   die Kommentare reisen hier mit. Nicht hier: die zwölf reservierten Verdrahtungen (--akzent, --vm-chrome*, --fs-role-*)
+   — sie sind Mechanik (Laufzeit-Überschreibung bzw. eigener Schreibweg, DESIGN_TOKEN_RESERVIERT) und bleiben im Gerüst. */
+
+:root {
+  /* 4.6 Farben — LOGO-GRÜNS (nicht mehr geraten!)
+     Direkt aus dem Logo-SVG (<symbol id="vd-logo">) gezogen, damit Logo und App
+     endlich zusammenpassen. Schild-Grün-Verlauf: #696E4A (oliv) → #45593F (mitte)
+     → #234731 (tief); #2D4739 als häufiger Detail-Grünton. Eine Akzentfarbe (Grün).
+     Gold bleibt NUR im Logo-Artwork — im UI gold-frei. */
+  --salbei-dunkel: #4F6539;        /* Chrome (Topbar/Sidebar/Fußzeile) + Überschriften — tiefes Logo-Grün (~6,4:1 auf Weiß).
+                                      2026-07-02 leicht vertieft (von #5C7548): die frosted Chrome-Pillen/Knöpfe hellen die
+                                      Fläche über einen weißen Schleier auf; erst dieses tiefere Grün hält weiße Chrome-Schrift
+                                      auch auf der aufgehellten Pillen-Fläche über WCAG-AA 4,5:1 (axe, E2E 07-axe). */
+  --salbei-mid: #7B9A6A;    /* Interaktiv (Buttons-Hover/Links/aktiv/Akzent-Icons) — Logo-Mittel-Grün.
+                                KORREKTUR 05.08.2026: dieser Kommentar behauptete bis heute „AA-Text auf
+                                Weiß (7,63:1)" — nachgerechnet (Kontrast-Probe Salbei) ergibt
+                                3,15:1 auf Weiß, 2,88:1 auf --cream. Das reicht NICHT für AA-Normaltext
+                                (4,5:1), nur für großen Text/UI-Ränder (3,0:1). Alte Zahl war um mehr als
+                                das Doppelte falsch, stand seit Zug-2-Bau als Begründung für jede Text-
+                                Verwendung. Token-Wert selbst
+                                unverändert — Entscheidung (Nachdunkeln/Text auf --salbei-dunkel/Rolle auf
+                                Nicht-Text begrenzen) steht als Produktentscheidung aus. */
+  --salbei-light: #eef2e8;  /* helle Grün-Tönung aus dem Schild: Hover/aktive Flächen, weiche Füllungen */
+  --gold: #8a6d3a;          /* UI bleibt GOLD-FREI → frühere Gold-Akzente fallen in das Logo-Mittel-Grün */
+  --gold-soft: #f7f1e3;     /* weiche neutral-grüne Fläche (kein Gold im UI) */
+  --cream: #f6f5f1;         /* „Putz": warmes Fast-Weiß als Seitenfläche */
+  --papier-bereich: #fdfbf7; /* warmes Papier NUR in der Eingabe-/Bearbeitungs-Sicht (#content.sicht-bereich); Nacht/Hochkontrast ziehen auf --cream zurück */
+  /* Vier Flächen-Rollen statt einer (K4 Zug 2, 10.08.2026) — --gold-soft trug bislang
+     Warnung, Zertifikatsablauf, Hinweis, Onboarding, Hover, Modusfläche UND Formularfläche
+     gleichzeitig; eine Fläche, die Warnung UND Hover bedeutet, sagt nichts mehr. Keine neue
+     Farbe: alle vier greifen auf bereits geprüfte Töne zurück.
+     --flaeche-warnung bleibt --gold-soft (der ursprüngliche Wert), gepaart mit dem
+     Warn-Rand (var(--warning)) an den Stellen, die wirklich Aufmerksamkeit brauchen
+     (Datenverlust/ungespeichert, Zertifikatsablauf, unbestätigt).
+     --flaeche-hinweis nimmt --salbei-light (schon anderswo als Hinweis-/Hover-Ton benutzt) —
+     trägt jetzt auch die Formularfläche (.inline-neu): ein Eingabe-Prompt IST ein Hinweis,
+     kein drittes Ding.
+     --flaeche-hover ist NEU gemischt (kein neuer Grundton, nur color-mix aus --ink/--cream),
+     weil weder Warnung- noch Hinweis-Ton für Hover frei blieb, ohne dass Hover wieder
+     dieselbe Fläche wie eine der beiden anderen Rollen trüge.
+     --flaeche-neutral nimmt --papier-bereich — die Konvention für „besondere Inhaltsfläche"
+     (s. Kommentar dort) passt genau auf die Angehörigen-Vollbild-Modusfläche, und trennt sie
+     sichtbar von --flaeche-warnung: eine Warnungs-Pille (.tb-save-status.ist-ungespeichert)
+     auf gold-soft-Grund wäre im Angehörigen-Vollbild unsichtbar geworden, wenn beide dieselbe
+     Fläche trügen — genau der Fund, den dieser Zug beheben soll. */
+  --flaeche-warnung: var(--gold-soft);
+  --flaeche-hinweis: var(--salbei-light);
+  --flaeche-hover: color-mix(in srgb, var(--ink) 6%, var(--cream));
+  --flaeche-neutral: var(--papier-bereich);
+  /* --terrakotta: #b5623f;  RESERVE für späteren optionalen Dach-Hauch — NICHT verwendet */
+  --ink: #1c2a1e;           /* ruhiges Anthrazit statt schwerem Salbei-Text */
+  --ink2: #4a5e4f;
+  --ink3: #637568;
+  --line: #d8d2c4;          /* dünne, helle Hairline */
+  --whitelabel-primary: #1f4068;
+  --white: #ffffff;
+  /* TEXT AUF EINER AKZENTFLÄCHE — eigener Token seit Fixliste Nr. 4 (28.07.2026).
+     `--white` trug zwei Rollen: FLÄCHE (Karten, Papier — die im Nachtmodus zu
+     Recht dunkeln) und TEXT AUF AKZENT (Knopf-, Topbar-, Sidebar-Beschriftung —
+     die es nicht darf). Weil im Nachtmodus `--white: #1f261f` gilt, `--salbei-dunkel`
+     aber unverändert #4F6539 bleibt, stand die Beschriftung dunkel auf dunkel:
+     2,40 bei Pflicht 4,5 ⟦M⟧.
+     Die Regel für diesen Token: er gehört nur dorthin, wo der GRUND NICHT
+     MITKIPPT. Wo Grund und Text gemeinsam kippen — `background: var(--ink);
+     color: var(--white)` in Toast und Update-Banner — ist das Paar richtig und
+     bleibt unangetastet. */
+  --auf-akzent: #ffffff;
+  /* Status */
+  --success: var(--salbei-dunkel);       /* an die Logo-Grün-Familie angeglichen */
+  --warning: #c4a558;       /* funktionaler Status-Bernstein (KEIN Marken-Gold) — nur Warn-Rand/-Icon */
+  --error: #c0392b;
+  --info: #3d5878;
+  --teal: #1f6b5e;
+  /* Notiz der Vorführung (30.09.2026): Papier bleibt Papier, auch im dunklen Modus — darum hier und nicht im Farbschema. */
+  --notiz-papier: #fff3a6;
+  --notiz-tinte: #2b2410;
+  --notiz-leise: #5c4a06;
+  /* 4.5 Modus-Akzente — Gold entfernt; Angehörigen auf gedämpftes Teal umgetont */
+  --modus-anker: var(--salbei-dunkel);
+  --modus-vollmacht: #3d5878;
+  --modus-angehoerigen: #c4a558;
+  --modus-notfall: #a82a1c;
+  /* Bruch C — kühler Schiefer-Ton für den Vollmacht-Modus (statt Schieferblau): außen
+     dunkel (Topbar/Sidebar), innen sehr hell (Content). Klar UNTERSCHEIDBAR vom Anker-
+     Grün, aber ruhig und harmonisch zur neuen Palette. Nur Vollmacht färbt die Fläche;
+     Angehörigen/Notfall markieren sich allein über --akzent. */
+  /* Sub-Depot-Palette (Palettentausch 04.08.2026) — 6 helle Naturtöne für eingehängte
+     Depots, ersetzt die vorige Palette vollständig (keine Bestandsdepots mit Sub-Depots
+     vor diesem Tausch — reine Umbenennung ohne Kompatibilitätsschicht). Reihenfolge =
+     Vergabe-Reihenfolge (Hafer zuerst, größter Abstand zu Salbei). Jede Farbe erreicht
+     ≥3:1 gegen Salbei-dunkel UND ihr dunkler Text (unten) ≥4,5:1 auf der Fläche —
+     GERECHNET identisch in allen drei Themes, weil Salbei-dunkel sich zwischen den
+     Themes kaum bewegt (#4F6539 hell/Nacht, #4a5f3a Hochkontrast): keine separaten
+     Nacht-/Kontrast-Fassungen nötig, s. Palette-Zug-4-Bericht. */
+  --hafer: #D9C9A3; --ton: #D3A98F; --flieder: #B8AECB; --altrose: #D2B3B0; --nebel: #A9B8C4; --kiesel: #C3B5A8;
+  /* U2-ADR-236 (03.09.2026) — zwei neue Töne, sechs auf acht: dieselbe Stoffe-/Wetter-Familie,
+     maximal weit von den bestehenden sechs entfernt (Hue-Kreis gemessen, größte leere Lücken:
+     88° zwischen Hafer/Nebel, 316° zwischen Flieder/Altrose) — nicht Grün (Salbei-Kollision:
+     "das ist mein eigenes Depot"), sonst wäre die Mitte der größeren Lücke näher gewesen.
+     Namen geprüft gegen jeden bestehenden Token — auch gegen die stillgelegte Palette in
+     Abschnitt 2.3 des Style Guide (dort: schiefer/sand/lehm/lavendel/pflaume/olive, s. dort). */
+  --schilf: #bbcda7; --malve: #cdadc4;
+  /* Aktive Sub-Depot-Farbe — Fallback Salbei-dunkel für den kurzen Moment vor dem
+     JS-Override; jedes betretene eingehängte Depot setzt sofort eine echte Palettenfarbe,
+     keines bleibt „ohne Farbe" (Zug 3 — das Entfernen des Overrides ist ein eigener,
+     farbfreier Weg, keine Palettenfarbe trägt mehr eine Zweitbedeutung). */
+  /* Sub-Depot-Textfarben (Strang 3 Commit C, D28) — beim Betreten pro Akzent gesetzt:
+     --vm-chrome-text = Text AUF der Akzentfläche (Chrome); --vm-akzent-stark = Akzent ALS
+     Text auf der hellen Content-Fläche. Defaults gelten nur ausserhalb jedes Sub-Kontexts
+     (kein .vm-akzent) und entsprechen dann der Anker-Chrome-Textfarbe. */
+  /* Pro-Akzent Chrome-Textfarbe — EIN dunkler Wert für alle sechs, identisch in allen drei
+     Themes (s. Rechnung oben). Struktur bleibt pro Token (nicht zusammengefasst), damit
+     eine künftige einzelne Ausnahme möglich bliebe, ohne dass etwas umgebaut werden müsste. */
+  --hafer-text: #1c2a1e; --ton-text: #1c2a1e; --flieder-text: #1c2a1e; --altrose-text: #1c2a1e; --nebel-text: #1c2a1e; --kiesel-text: #1c2a1e;
+  --schilf-text: #1c2a1e; --malve-text: #1c2a1e;
+  /* Gesamtbild-UX-Konzept, Abschnitt C (27.08.2026) — Randlinien-Fassung NUR für den
+     „nie betreten"-Zustand (sd-kopf[data-nie-betreten]): die Flächen-Töne oben (--hafer usw.)
+     fallen als 3px-Linie auf Weiß unter 3:1 (SC 1.4.11, gerechnet — s. tests/gesamtbild-ux-
+     konzept-abschnitt-c-linie.test.js). Verdunkelte Fassung, freigegeben
+     (Mockup-Vorschlag ~3,0–3,15:1, hier gerechnet bestätigt), identisch in allen drei Themes
+     wie die Flächen-Töne selbst (keine separate Nacht-/Kontrast-Fassung nötig — im Nachtmodus
+     liegt sie sogar deutlich höher, s. Testdatei). */
+  --hafer-linie: #9c9075; --ton-linie: #b18d78; --flieder-linie: #968ea6; --altrose-linie: #a88f8c; --nebel-linie: #8a96a0; --kiesel-linie: #9c9086;
+  --schilf-linie: #8a987c; --malve-linie: #a68c9f;
+  /* U2-ADR-236 — zweite Randfassung derselben sechs Farben, kalibriert gegen --papier-bereich
+     (#fdfbf7 hell) statt gegen Weiß: die -linie-Töne oben unterschreiten dort 3:1 bei drei von
+     sechs Farben (ton 2,92:1, altrose 2,91:1, nebel 2,92:1 — gerechnet mit tools/lib/kontrast.js,
+     nicht angenommen). Für Flächen, die tatsächlich auf --papier-bereich liegen (Sidebar,
+     Fußzeile) — nicht für die Content-Karten, die weiterhin auf Weiß/Creme liegen und bei der
+     Weiß-Fassung bleiben. Alle sechs erreichen ≥3,05:1 hell / ≥3,15:1 Hochkontrast / ≥5,4:1
+     Nacht (--papier-bereich wird dort selbst zu --cream, s. :root-Kaskade). */
+  --hafer-papier-linie: #9a8f74; --ton-papier-linie: #ac8974; --flieder-papier-linie: #958da4; --altrose-papier-linie: #a38b88; --nebel-papier-linie: #86929b; --kiesel-papier-linie: #9a8f85;
+  --schilf-papier-linie: #879478; --malve-papier-linie: #a2899b;
+  /* aktiver Akzent — wird von Modus.setze() gesetzt, einquellig */
+  /* U2-ADR-236 — "der Rahmen trägt die Farbe des Depots, in dem man gerade ist": dieselbe
+     Wurzel-Vererbung wie --akzent (U2-ADR-024 §2), aber die auf --papier-bereich sichere
+     Randfassung (s. Kommentar an den -papier-linie-Token oben) statt der Flächen-/Weiß-Töne —
+     für Elemente, die tatsächlich auf Papier liegen (Sidebar, Fußzeile), nicht für Content-
+     Karten (die bleiben bei --vm-linie/--sd-akzent-linie, Weiß-kalibriert, unverändert).
+     Default Salbei-Mittel (bereits seit Jahren die Farbe von .nav-item.aktiv, ≥3:1 auf Papier
+     gerechnet bestätigt) — von setzeSubDepotAkzent auf die echte Sub-Farbe gezogen, von
+     entferneSubDepotAkzentOverride zurückgesetzt. */
+  /* Schrift */
+  --font-narrativ: Georgia, "Palatino Linotype", Palatino, serif;
+  --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --line-feiner: #efeee7;   /* sehr feine Innen-Trennlinien innerhalb einer .gruppe */
+  /* Schriftgrößen */
+  --fs-xs: 0.75rem; --fs-sm: 0.88rem; --fs-md: 0.95rem; --fs-base: 1rem; --fs-lg: 1.15rem;
+  --fs-xl: 1.25rem; --fs-2xl: 1.45rem; --fs-3xl: 1.8rem; --fs-logo: 2.05rem; /* Wucht zurückgenommen */
+  /* Schriftgrad-ROLLEN (C3, 07.09.2026 — Selektor-Vertrag §10/Prüfvorlage
+     §4): fünf Rollen, Label/Wert/Gruppe/Abschnitt/Titel, GEMESSEN heute auf nur drei geteilte
+     Skalen-Token (Label/Gruppe/Abschnitt alle --fs-sm, Wert/Titel beide --fs-base) — ein
+     Design, das nur eine Rolle träfe, träfe ungewollt die anderen mit, die zufällig dasselbe
+     Token teilen. Jede Rolle bekommt hier ihr EIGENES, unabhängig überschreibbares Token, mit
+     Fallback auf den heutigen Skalen-Wert — visuell null Unterschied, bis ein Erscheinungs-Modul
+     eines davon setzt. NUR der Kanal, s. erscheinungAnwenden() weiter unten — dieser Zug öffnet
+     ihn, er sendet nichts hindurch. Kein Renderer-/Kachel-Chrome-Kanal hier (eigener Zug). */
+  /* Abstände */
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+  --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem; --space-8: 4rem;
+  /* Radius */
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 16px; --radius-pill: 999px;
+  /* Schatten */
+  --shadow-soft: 0 1px 2px rgba(33,38,31,0.06);    /* deutlich softer — leicht & kühl */
+  --shadow-medium: 0 2px 8px rgba(33,38,31,0.08);
+  --shadow-strong: 0 6px 20px rgba(33,38,31,0.10);
+  /* Fokus-Token (K4 Zug 1, 10.08.2026) — EIN Ring statt neun einzeln hartkodierter
+     Farben. Der Wert wechselt kontextabhängig wie --auf-akzent/--vm-chrome-text:
+     Standard = var(--ink) (theme-gerecht dunkel/hell, immer ≥4,5:1 auf Content-
+     Flächen). NUR NOCH .topbar setzt ihn auf var(--vm-chrome-text) um (dieselbe
+     Textfarbe, die dort schon für Chrome-Beschriftung ≥4,5:1 sorgt — auch im
+     Vollmacht-Modus mit wechselndem Sub-Depot-Akzent). .sidebar ist seit §7/§8
+     (25.08.2026) keine Chrome-Fläche mehr und bleibt darum beim Standard-Ring.
+     Popups auf dunklem Chrome-Grund (z. B. .depot-menue) setzen ihn lokal zurück
+     auf var(--ink), weil sie selbst eine helle Fläche sind. */
+  --fokus: var(--ink);
+  --fokus-breite: 2px;
+  /* ── NACHTRAG „ALLES ANPASSBAR" (17.08.2026): TOKENISIERT, NICHT UMGEFAERBT ──
+     Jeder Wert hier stand vorher als Literal in einer Regel weiter unten und ist
+     Zeichen fuer Zeichen derselbe. Umfaerben waere eine Gestaltungsentscheidung
+     gewesen; Tokenisieren ist Anpassbarkeit — ein Modul kann jetzt ersetzen, was
+     vorher nur ein Quelltext-Eingriff aendern konnte.
+     Die Namen beschreiben den GEBRAUCH, nicht die Farbe: `--dok-schrift` sagt,
+     wofuer der Wert steht, `--fast-schwarz` saegte nur den Farbwert in ein Token
+     und liesse jeden spaeteren Leser raten, ob er ihn mitaendern darf. */
+  --salbei-nacht: #8eab77;
+  --btn-sek-hover: #e1eae9;
+  --verwaltet-nacht: #9fb6d4;
+  --dezent-nacht: #9aa7b8;
+  --wortmarke-vivo: #edefea;
+  --wortmarke-depot: #d5e3d9;
+  --vollmacht-pause: #5c6b6b;
+  --fuss-schrift: var(--ink2);   /* war #d4ded7 (hell, für dunklen Fuß) — Fuß auf Papierton seit §7/§8 (25.08.2026), --ink2 fädelt Nacht/Hochkontrast automatisch mit */
+  --fehler-flaeche: #fdecea;
+  --notfall-flaeche: #fbf3f0;
+  /* Kontrast-Klasse (Befund 04.10.2026): Schrift auf --notfall-flaeche, auf Hell, Nacht und Hochkontrast getrennt, weil --modus-notfall
+     zugleich Rand und Fläche mit heller Schrift ist und nachts auf dunklem Grund nicht als Text taugt. */
+  --notfall-schrift: #a82a1c;
+  /* Text auf der Warnfläche (--warning bleibt in allen Ebenen Bernstein): fest dunkel, nicht die Ebenen-Tinte */
+  --auf-warnung: #1c2a1e;
+  /* Knopf bei Hover/aktiv: dunkler als der Ruhezustand (vorher --salbei-mid, heller: Schrift 3,15:1 auf Hell) */
+  --btn-hover: #3e4f2d;
+  /* Fließtext-Verweis, je Ebene */
+  --link: #2e5f8c;
+  /* Hover im Aufklappmenü der Kopfzeile: das Menü ist in der Nacht hell, also auch seine Hover-Fläche */
+  --menue-hover: #eef2e8;
+  /* Papier bleibt Papier: Tinte für Blätter, die in der Nacht hell bleiben (Hilfe, Notfallblatt, Dokumente) */
+  --papier-ink: #1c2a1e; --papier-ink2: #4a5e4f; --papier-ink3: #637568; --papier-salbei-light: #eef2e8;
+  --feld-fehler-schrift: #9a3412;
+  /* Die fuenf Dokument-Werte gelten fuer die Druck-Sichten (Patientenverfuegung,
+     Notfallblatt). Sie sind bewusst nicht an die App-Tinte gebunden: ein Blatt,
+     das aus dem Drucker kommt, folgt nicht dem Nachtmodus. */
+  --dok-schrift: #111;
+  --dok-schrift-zart: #333;
+  --dok-schrift-hand: #444;
+  --dok-schrift-gedaempft: #555;
+  --dok-linie: #ccc;
+  /* Die Ampel-Punkte, je Theme eigen — die Hochkontrast-Fassungen sind eigene
+     Werte und keine Ableitung, weil sie gegen eine andere Flaeche rechnen. */
+  --ampel-gruen: #2d7d6e;
+  --ampel-gelb: #c97d00;
+  --ampel-gruen-hc: #1c5a4e;
+  --ampel-gelb-hc: #8f5800;
+  --ampel-rot-hc: #8c241a;
+  /* ── ERSCHEINUNGSBILD-TOKENS (U2-ADR-473, Wagen v894, 02.10.2026) ──────────────────────────
+     Jeder Wert hier stand vorher als Literal in einer Regel und ist Zeichen für Zeichen derselbe —
+     Vivodepot ab Werk sieht unverändert aus. Ein Erscheinungsbild-Profil (Branding-Modul v2,
+     `erscheinung.tokens`) setzt sie; vorher konnte das nur ein Eingriff in den Quelltext.
+     Die Namen beschreiben die ROLLE, nicht den Wert (Regel vom 17.08.2026, s. oben): zwei Rollen
+     mit heute gleichem Wert bekommen zwei Tokens, damit ein Profil die eine ohne die andere ändert.
+     Alle sind FRISCH: kein Theme (Nacht, Hochkontrast) überschreibt sie — ein Rohwert war in
+     jedem Theme derselbe, das Token ist es auch. Zählweg: tools/design-treue.js. */
+  /* Gewichte */
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+  /* Schreibung der Etiketten (G7 § 6.10 Sektion-Header; Profil „Leinen" setzt none) */
+  --label-schreibung: uppercase;
+  /* Laufweite, je Rolle */
+  --ls-titel: -0.005em;            /* Bereichs- und Fragetitel */
+  --ls-label: 0.05em;              /* Abschnittsetikett (G7 § 6.10) */
+  --ls-label-klein: 0.04em;        /* Inhalts- und Regal-Etikett */
+  --ls-label-nav: 0.09em;          /* Gruppenetikett der Seitenleiste */
+  --ls-label-klasse: 0.06em;       /* Klassen- und Situationsetikett */
+  --ls-label-quelle: 0.03em;       /* Quellen-Etikett im Suchtreffer */
+  --ls-abschnitt: 0.02em;          /* Sektionstitel */
+  --ls-depot-name: 0.01em;
+  --ls-wortmarke: 0.10em; --ls-wortmarke-schmal: 0.06em;
+  --ls-willkommen: 0.05em; --ls-frage: 0.05em; --ls-code: 0.06em;
+  --ls-vorfuehrung-streifen: 0.02em;
+  /* Schriftgrößen, die keine Stufe der Skala sind */
+  --fs-chevron: 0.8em; --fs-urheber: 0.65rem; --fs-platzhalter: 10px; --fs-auswahl-zeile: 16px;
+  --fs-code: 1.35rem; --fs-feld-code: 0.72rem;
+  /* FIM-Nachweiszeile unter dem Feld (U2-ADR-456): eigene Rolle, damit ein Profil sie zurücknimmt, ohne die
+     Urheberzeile und alle kleinen Texte mitzuziehen. Ab Werk dieselben Werte wie bisher. */
+  --fs-nachweis: var(--fs-urheber); --nachweis-schrift: var(--ink2);
+  /* Radien, je Rolle */
+  --radius-karte: var(--radius-lg); --radius-karte-schmal: var(--radius-md);
+  --radius-knopf: var(--radius-md); --radius-feld: var(--radius-sm);
+  --radius-toast: 12px; --radius-block: 6px; --radius-logo: 6px; --radius-balken: 3px;
+  /* Karte und Feld: Rahmen, Fläche, Schatten, Höhe */
+  --karte-rahmen: 1px solid var(--line); --karte-schatten: var(--shadow-strong);
+  --feld-rahmen: 1px solid var(--salbei-mid);      /* Bereichs- und Assistentenfelder (WCAG 1.4.11) */
+  --feld-rahmen-dialog: 1px solid var(--salbei-mid);     /* Felder in Dialog, Mappe, Dokument-Erkennung — war --line, 1,5:1 gegen den Grund (WCAG 1.4.11 verlangt 3:1) */
+  --feld-flaeche: var(--white);
+  --feld-hoehe: 24px;   /* Untergrenze WCAG 2.5.8; heute liegt jedes Bereichsfeld darüber */
+  /* Bedienziel: Mindestmaß aller Knöpfe, Schalter und Einträge (Trefferflächen-Regel 10.08.2026) */
+  --ziel: 44px;
+  /* Akzentrand links — Breite; ein randloses Profil setzt 0 (Einzüge rechnen ihn heraus) */
+  --akzent-rand: 3px; --akzent-rand-warnung: 4px; --akzent-rand-warnung-schmal: 3px;
+  --akzent-rand-modus: 5px; --akzent-rand-stark: 6px;
+  /* Schatten, je Rolle */
+  --schatten-aufklapp: 0 4px 14px rgba(0,0,0,0.12);
+  --schatten-banner-unten: 0 -2px 8px rgba(0,0,0,0.12);
+  --schatten-banner-unten-stark: 0 -2px 8px rgba(0,0,0,0.2);
+  --schatten-schalter-knopf: 0 1px 2px rgba(0,0,0,0.3);
+  --schatten-vorlese-puls-start: 0 0 0 0 rgba(255,255,255,0.55);
+  --schatten-vorlese-puls-ende: 0 0 0 4px rgba(255,255,255,0);
+  --schatten-vorschlaege: 0 10px 28px rgba(28,42,30,0.22);
+  --schatten-ampel-hof: 0 0 0 3px rgba(0,0,0,0.04);
+  /* Schleier und Flächen auf Grund oder Chrome */
+  --schleier-modal: rgba(28,42,30,0.45);
+  --schleier-dunkel-hover: rgba(0,0,0,0.04);
+  --schleier-hell-hover: rgba(255,255,255,0.14);
+  --schleier-a11y-nacht: rgba(0,0,0,0.18);
+  --schleier-quelle-nacht: rgba(255,255,255,0.08);
+  --chrome-feld-flaeche: rgba(255,255,255,0.12); --chrome-feld-rand: rgba(255,255,255,0.4);
+  --chrome-feld-hover: rgba(0,0,0,0.20);   /* dunkler statt heller: weiße Schrift auf der Kopfzeile bleibt über 4,5:1 */
+  --punkt-rand: rgba(255,255,255,0.6);
+  --banner-linie: rgba(0,0,0,0.15);
+  --banner-x-flaeche: rgba(0,0,0,0.10); --banner-x-rand: rgba(0,0,0,0.2); --banner-x-hover: rgba(0,0,0,0.2);
+  --banner-x-hell-flaeche: rgba(255,255,255,0.15); --banner-x-hell-rand: rgba(255,255,255,0.3);
+  --banner-x-hell-hover: rgba(255,255,255,0.25);
+  --feld-leer-linie: rgba(99, 117, 104, 0.12);
+  --situationen-leer-schrift: rgba(255,255,255,0.5);
+  --diktier-hinweis-flaeche: rgba(35,71,49,0.06);
+  --einfuehrung-flaeche: rgba(35, 71, 49, 0.05);
+  --schalter-knopf-flaeche: #fff;
+  --deckblatt-platzhalter-nacht: #c9a86a;
+  --export-zurueck-schrift: #8a6d3a;
+  --ampel-rot: #c0392b;
+  /* Dokument-Blätter (Patientenverfügung, Notfallblatt, Hilfe): Papier bleibt Papier */
+  --dok-grund: #f4f6f4; --dok-leiste: #fff; --dok-papier: #fff;
+  --dok-radius: 4px; --dok-schatten: 0 1px 8px rgba(0,0,0,0.12);
+  --dok-fs-text: 1rem; --dok-fs-h1: 1.5rem; --dok-fs-h2: 1.06rem; --dok-fs-fuss: 0.8rem;
+  --dok-fs-beispiel: 0.85rem; --dok-fs-einleitung: 1.05rem;
+  /* Vorführung (AB_WERK_SHOWCASE) — der Zettel (--notiz-*) bleibt fest, wie --notiz-papier oben */
+  --vorfuehrung-auf-farbe: #fff;
+  --vorfuehrung-schleier: rgba(28,42,30,0.35);
+  --vorfuehrung-schatten-karte: 0 8px 28px rgba(28,42,30,0.22);
+  --vorfuehrung-schatten-schleife: 0 -6px 24px rgba(28,42,30,0.22);
+  --vorfuehrung-schatten-spalte: 0 6px 18px rgba(28,42,30,0.18);
+  --vorfuehrung-schatten-wechsel: 0 8px 28px rgba(28,42,30,0.14);
+  --vorfuehrung-fs-auszug: 0.75rem; --vorfuehrung-fs-pruefung: 0.85rem; --vorfuehrung-fs-karte-hand: 0.92rem; --vorfuehrung-fs-rolle: 1.1rem;
+  --vorfuehrung-fs-schritt: 0.78rem; --vorfuehrung-fs-spalte: 0.95rem;
+  --notiz-fs: 0.8rem; --notiz-fs-mehr: 0.72rem; --notiz-fs-schmal: 0.74rem; --notiz-radius: 2px;
+  --notiz-schatten: 0 1px 2px rgba(0,0,0,0.14), 0 5px 12px rgba(60,48,0,0.18);
+  --notiz-nadel-schatten: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+html.high-contrast {
+  --link: #14407a;
+  --ink: #000000; --ink2: #161616; --ink3: #262626;
+  --line: #000000; --cream: #ffffff; --white: #ffffff; --papier-bereich: var(--cream);
+  /* Strang 3 Commit D — Salbei-Familie HC (hue-gleich zu Hell, deutlich kontrastreicher,
+     weiß-auf-Fläche bzw. auf-#fff jeweils ≥7:1 AAA). NEU, zur Freigabe. */
+  --salbei-dunkel: #4a5f3a; --salbei-mid: #576d4a; --salbei-light: #e9f0e3;
+  /* Sub-Depot-Palette (Palettentausch 04.08.2026): KEINE HC-spezifische Übersteuerung
+     mehr nötig — gerechnet erreichen dieselben Hex-Werte + derselbe dunkle Text die
+     Kriterien auch hier (Salbei-dunkel HC #4a5f3a liegt nah an Hell #4F6539), s. Palette-
+     Zug-4-Bericht. Die sechs Töne und ihr Text erben unverändert aus :root. */
+  --gold: #5a4416; --gold-soft: #f3ead4;   /* Logo-Grün, im Hochkontrast vertieft (Gold→Grün) */
+}
+
+html.dark-mode {
+  --vollmacht-pause: #9fb0b0; --menue-hover: #dfe8d6;
+  --notfall-flaeche: #2b1a17; --notfall-schrift: #ff9d8f; --fehler-flaeche: #3a1d1a; --feld-fehler-schrift: #ff9a7a;
+  --link: #9fb6d4; --btn-sek-hover: #26301f;
+  --cream: #161b16; --white: #1f261f; --papier-bereich: var(--cream);
+  --ink: #e9ede7; --ink2: #b9c3b9; --ink3: #94a094;
+  /* Strang 3 Commit D — Salbei-Nacht-Tönung (hue-gleich, dunkle Füllfläche). NEU, zur Freigabe. */
+  --line: #38423a; --salbei-light: #252f1d; --gold-soft: #2a2418;
+  /* Sub-Depot-Palette (Palettentausch 04.08.2026): KEINE Nacht-spezifische Übersteuerung
+     mehr nötig — gerechnet erreichen dieselben Hex-Werte + derselbe dunkle Text die
+     Kriterien auch hier (Salbei-dunkel bleibt nachts unverändert #4F6539), s. Palette-
+     Zug-4-Bericht. Die sechs Töne und ihr Text erben unverändert aus :root; --vm-chrome-text
+     erbt ebenso (var(--auf-akzent), hier unten auf das Nacht-Ink gesetzt). */
+  /* Gold→helles Grün als Rahmen-/Textfarbe (nie als Fläche) → global aufhellbar. */
+  --gold: #c9a86a;
+  /* Text auf Akzentfläche bleibt HELL — die Akzentflächen selbst (--salbei-dunkel,
+     --error) kippen nachts nicht, also darf ihre Beschriftung es auch nicht. Nicht
+     reines Weiß, sondern das Nacht-Ink: derselbe Ton wie der übrige helle Text. */
+  --auf-akzent: #e9ede7;
+}

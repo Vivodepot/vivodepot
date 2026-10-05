@@ -108,7 +108,7 @@ Manifest, nicht den Anwendungscode — Punkt 3 bleibt davon unberührt.
 
 ## Nachtrag: Speicherort korrigiert — kein Browser-Speicher, Subdomain liefert frisch
 
-**28.08.2026, während der Umsetzung gefunden (VD Fix), sofort entschieden.**
+**28.08.2026, während der Umsetzung gefunden, sofort entschieden.**
 Der ursprüngliche Entscheidungspunkt 2 sah `localStorage` als Speicherort vor. Das kollidiert mit
 einem Klasse-A-Wächter (`tests/nicht-persistenz.test.js`, letzte Probe: kein
 `localStorage`/`sessionStorage`-Zugriff im gesamten Kern-Quelltext, ausnahmslos) — und, wichtiger,
@@ -132,7 +132,7 @@ zweiter Mechanismus (Browser-Speicher) nötig, um sich „zu merken", welche Ins
 
 ## Nachtrag: Kein `fetch()` — CSP `connect-src 'none'` ist ausnahmslos, script-Tag statt Netzruf
 
-**28.08.2026, während der Umsetzung (VD Fix, Task 3, E2E-Lauf), sofort
+**28.08.2026, während der Umsetzung (Task 3, E2E-Lauf), sofort
 entschieden.** Der vorige Nachtrag korrigierte den Speicherort auf „bei jedem Boot per `fetch()`
 neu abrufen" — das kollidiert seinerseits mit der bestehenden CSP: `vivodepot.html` fährt
 `connect-src 'none'`, ausnahmslos, kommentiert als „KEIN Netz-Pfad für Inhalte/Depots/Schlüssel/

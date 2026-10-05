@@ -18,7 +18,7 @@ const path = require('node:path');
 const P = require('./produkt-html-erzeugen.js');
 
 const REPO = path.join(__dirname, '..');
-const ALTDATEI = path.join(__dirname, 'fixtures', 'vorfuehrung-zugang-zum-recht', 'demo-en.vivodepot');
+const ALTDATEI = path.join(__dirname, 'fixtures', 'vorfuehrung-zugang-zum-recht', 'altdatei-demo-en-2026-09-10.vivodepot');
 // `textLesen(<Ausdruck>) ||` — Kommentare, die das Muster mit „…“ nennen, zählen nicht.
 const MUSTER = /textLesen\((?:[^()…]|\([^()]*\))*\)\s*\|\|/g;
 
@@ -64,6 +64,12 @@ test('[Rückfall·Rot-Beweis] mit der alten Form in `_logikModulTexteAufloesen` 
     const t = fs.readFileSync(ALTDATEI, 'utf8');
     const { V } = P.kernAus(ziel);
     await V.depotLaden(JSON.parse(t.slice(t.indexOf('{'))), 'zugang-zum-recht-vorfuehrung-2026');
+    /* Selbst-Einlass-Sperre (04.10.2026): das alte Sprachmodul der Datei ist gesperrt, und die Texte der Schutzliste (dok:…)
+       kommen ohnehin nur ab Werk — das englische Fach trägt Teil C. Der Rot-Beweis gilt dem Rückfall-Weg selbst: er braucht ein
+       Fach, dem Teil C fehlt. Darum werden die Teil-C-Texte hier aus dem aktiven Fach genommen. */
+    const fach = V._TEXTSATZ_MODUL_REGISTRY.en && V._TEXTSATZ_MODUL_REGISTRY.en[''];
+    for (const k of Object.keys(fach || {})) if (k.startsWith('dok:erbschein-vorbereitung#2')) delete fach[k];
+    V.textsatzNeuAnwenden();
     assert.match(V.dokumentHTML('erbschein-vorbereitung'), /Teil C — Urkunden für den Nachweis/);
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 });

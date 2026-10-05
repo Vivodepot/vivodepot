@@ -1,0 +1,403 @@
+{
+ "akzent": "#4F6539",
+ "breite": 390,
+ "hoehe": 844,
+ "elemente": [
+  {
+   "tag": "div",
+   "hg": "rgb(79, 101, 57)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "18px",
+   "fw": "500",
+   "farbe": "rgb(255, 255, 255)",
+   "breite": 390,
+   "hoehe": 43,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "main",
+   "hg": "rgba(0, 0, 0, 0)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": false,
+   "fs": null,
+   "fw": null,
+   "farbe": null,
+   "breite": 390,
+   "hoehe": 500,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "h1",
+   "hg": "rgba(0, 0, 0, 0)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "32px",
+   "fw": "600",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 342,
+   "hoehe": 48,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "div",
+   "hg": "rgb(255, 244, 214)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "rgba(0, 0, 0, 0.2) 0px 1px 3px 0px",
+   "text": true,
+   "fs": "14px",
+   "fw": "400",
+   "farbe": "rgb(122, 90, 0)",
+   "breite": 342,
+   "hoehe": 37,
+   "radius": "4px",
+   "innenText": true
+  },
+  {
+   "tag": "div",
+   "hg": "rgb(243, 241, 234)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 342,
+   "hoehe": 90,
+   "radius": "8px",
+   "innenText": true
+  },
+  {
+   "tag": "span",
+   "hg": "rgb(230, 236, 223)",
+   "hgVorfahr": "rgb(243, 241, 234)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "13px",
+   "fw": "700",
+   "farbe": "rgb(79, 101, 57)",
+   "breite": 40,
+   "hoehe": 20,
+   "radius": "99px",
+   "innenText": true
+  },
+  {
+   "tag": "div",
+   "hg": "rgb(255, 255, 255)",
+   "hgVorfahr": "rgb(243, 241, 234)",
+   "rahmen": [
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 316,
+   "hoehe": 42,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "div",
+   "hg": "rgb(243, 241, 234)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ],
+    [
+     "1px",
+     "solid",
+     "rgb(201, 196, 181)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 342,
+   "hoehe": 50,
+   "radius": "8px",
+   "innenText": true
+  },
+  {
+   "tag": "span",
+   "hg": "rgb(230, 236, 223)",
+   "hgVorfahr": "rgb(243, 241, 234)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "13px",
+   "fw": "700",
+   "farbe": "rgb(79, 101, 57)",
+   "breite": 48,
+   "hoehe": 20,
+   "radius": "99px",
+   "innenText": true
+  },
+  {
+   "tag": "p",
+   "hg": "rgba(0, 0, 0, 0)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 342,
+   "hoehe": 24,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "button",
+   "hg": "rgb(79, 101, 57)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(255, 255, 255)",
+   "breite": 100,
+   "hoehe": 52,
+   "radius": "0px",
+   "innenText": true
+  }
+ ]
+}

@@ -428,7 +428,10 @@ test('[produktTextErzeugen·Gleichheit] liefert byte-für-byte denselben Text wi
     const rEcht = konfektionieren({ ziel, slug: 'privat-de', modulauswahl, vorDepotKonfigurationInhaltFn });
 
     const kernText = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
-    const rPur = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule: [] });
+    // Seit v894 legt konfektionieren() ohne eigenes Erscheinungsbild „heute" dazu — dieselbe Eingabe hier ausdrücklich.
+    const heute = require('../tools/lib/vier-produkte.js').ERSCHEINUNGSBILD_HEUTE_PFAD;
+    const rPur = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn,
+      unsignierteModule: [{ roh: JSON.parse(fs.readFileSync(heute, 'utf8')), basisname: path.basename(heute) }] });
 
     const geschrieben = fs.readFileSync(path.join(rEcht.ordner, 'vivodepot.html'), 'utf8');
     assert.equal(rPur.text, geschrieben,

@@ -1,0 +1,13 @@
+<!doctype html>
+<html><head><style>
+  :root { --line: #d8d2c4; --white: #ffffff;
+    --radius-karte: 16px; --radius-karte-schmal: 8px; --radius-toast: 12px; --toast-schrift: #fff;
+    --karte-flaeche: var(--white); --fw-semibold: 600; }
+  html.dark-mode { --line: #3a443b; --white: #1f261f; }
+  .topbar { --line: #000000; }
+  .karte { border: 1px solid var(--line); background: var(--karte-flaeche); border-radius: var(--radius-karte); }
+  .toast { border-radius: var(--radius-toast); color: var(--toast-schrift); }
+  @media (max-width: 600px) { .karte { border-radius: var(--radius-karte-schmal); } }
+</style></head><body>
+<script>html += '<p style="font-weight:var(--fw-semibold)">x</p>';</script>
+</body></html>

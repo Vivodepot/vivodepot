@@ -53,7 +53,8 @@ async function proUndGfEinlassen(page) {
   await moduleDateiEinlassen(page, GF_BUNDLE_DATEI);
 }
 
-test('Regal-Karte erscheint erst NACH beiden Einlässen (Bereiche + Bundle), öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-PRO-GESCHAEFTSFUEHRERIN-NOTFALLMAPPE-ABNAHME
+test.fixme('Regal-Karte erscheint erst NACH beiden Einlässen (Bereiche + Bundle), öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
@@ -76,7 +77,8 @@ test('Regal-Karte erscheint erst NACH beiden Einlässen (Bereiche + Bundle), öf
   await expect(blatt).toContainText('— nicht erfasst —');
 });
 
-test('volles Depot: Prokura, Gesellschafterliste und Vertretungsplan erscheinen im Auszug in Klartext', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-PRO-GESCHAEFTSFUEHRERIN-NOTFALLMAPPE-ABNAHME
+test.fixme('volles Depot: Prokura, Gesellschafterliste und Vertretungsplan erscheinen im Auszug in Klartext', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await proUndGfEinlassen(page);

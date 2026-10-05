@@ -52,6 +52,11 @@
    "marker": true
   },
   {
+   "name": "AB_WERK_ERSCHEINUNGSBILD_PRODUKT",
+   "bytes": 46,
+   "marker": true
+  },
+  {
    "name": "AB_WERK_IPS_BEGLEITTEXT",
    "bytes": 37,
    "marker": true
@@ -124,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 238665
+   "bytes": 252546
   },
   "satz": {
-   "bytes": 29022
+   "bytes": 29011
   }
  },
  "fremdcode": [
@@ -157,6 +162,15 @@
     "scriptId": "inter_pdf_font_VivodepotInline"
    },
    "bytes": 143
+  },
+  {
+   "name": "noble-ed25519",
+   "herkunft": "noble-ed25519 (Paul Miller, MIT) am von Cure53 geprüften Commit fa14496908cf286da53d17b739accd8f7c3790be (pentest-report_ed25519.pdf, 02/2022, S. 4), Build `tsc -p tsconfig.esm.json --types node` mit typescript 4.5.4 und @types/node 16.11.21 (lib/esm/index.js, SHA-256 579c9fe63a4c54602f3655353173885241e4fe67e1ed55abd40a420d54d02517); eingebettet mit einer geänderten Zeile (Node-Import → const nodeCrypto = undefined;), SHA-256 15974ff9d8ae30b1a5c649f7e03857b4341a7faac4decb26fd1f57bc5153201b; Probe tests/halter-schluessel-noble.test.js. Nur getPublicKey wird genutzt (U2-ADR-457, Nachtrag v865). ABWEICHUNG vom Upstream, genau eine Zeile: lib/esm/index.js Z. 2 „import nodeCrypto from 'crypto';“ ist ersetzt durch „const nodeCrypto = undefined;“. Grund: ein Node-Import ist im Browser nicht auflösbar und der Block lädt nichts nach. Wirkung: nur der zweite Zweig der Umgebungswahl in utils.randomBytes/utils.sha512 (crypto.node) entfällt; im Browser greift WebCrypto wie upstream, ohne WebCrypto wirft die Bibliothek (fail-closed). Keine Kurvenrechnung, keine Prüfung berührt. Upstream-Build SHA-256 579c9fe63a4c54602f3655353173885241e4fe67e1ed55abd40a420d54d02517 (am 02.10.2026 aus github.com/paulmillr/noble-ed25519@fa14496 nachgebaut). Krypto-Gegenlesung 02.10.2026: unabhängiger Prüfer und TOP, nicht-funktional, fail-closed.",
+   "version": "fa14496 (1.6.0-pre-audit)",
+   "erkennung": {
+    "scriptId": "noble_ed25519_VivodepotInline"
+   },
+   "bytes": 2201
   }
  ],
  "technischeWoerter": [
@@ -219,13 +233,20 @@
   "Opt"
  ],
  "regionen": {
-  "uebergangDeckel": 0,
-  "uebergang": [],
+  "uebergangDeckel": 1,
+  "uebergang": [
+   {
+    "name": "KDL-LIZENZ",
+    "satz": 59,
+    "posten": "Halter Achse Rechtsraum (Strang Felder und Kataloge) · Ziel: DE-Rechtsraum-Modul, mit der Nachfolge-ADR zu U2-ADR-285. Rechtsgebunden, nicht übersetzbar, KDL nur DE. Wort der Gegenlesung 02.10.2026, uebergangDeckel 0 → 1.",
+    "probe": "tests/kdl-selbst-laden.test.js"
+   }
+  ],
   "dauerhaft": [
    {
     "name": "CODE-LISTEN",
-    "satz": 1705,
-    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840). Angehoben 1687 → 1705 am 02.10.2026 von Hand, mit Wort der Gegenlesung: der Sektionstitel „Advance Directives“ in IPS_BEGRIFFE.sektionen, wörtlich aus hl7.fhir.uv.ips#2.0.0 (Composition-uv-ips, sectionAdvanceDirectives), U2-ADR-466.",
+    "satz": 1751,
+    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840). Angehoben 1687 → 1705 am 02.10.2026 von Hand, mit Wort der Gegenlesung: der Sektionstitel „Advance Directives“ in IPS_BEGRIFFE.sektionen, wörtlich aus hl7.fhir.uv.ips#2.0.0 (Composition-uv-ips, sectionAdvanceDirectives), U2-ADR-466. Angehoben 1705 → 1818 am 02.10.2026 von Hand, mit ausdrücklichem Ja des Halters der Übergangsregion (Bedingung der Gegenlesung): +113 B IHE-D-Anzeigetexte (v863), Abbau mit dem Ab-Werk-Modul Codelisten (Achse Felder). Die vier amtlichen Anzeigetexte von IHE Deutschland für die ISiK-Ausgabe, unter CC BY 4.0 mit Namensnennung, erzeugt aus code-listen/terminologie/isik.json (U2-ADR-468).",
     "probe": "tests/code-listen-lizenzhinweise-im-kern.test.js"
    },
    {
@@ -236,8 +257,8 @@
    },
    {
     "name": "LIZENZ-WORTLAUT",
-    "satz": 2383,
-    "grund": "Die Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar verlangt (LOINC § 10, BfArM-Downloadbedingungen ICD-10-GM § 1 und ATC-GM § 1); der Kern reist als einzelne Datei, eine NOTICE reist nicht mit. Genau drei Werte, jeder byte-gleich mit seinem Original unter code-listen/wortlaut/ — ein eigener Satz ist rot. Aufgenommen am 27.09.2026 mit Wort der Gegenlesung, CODE-LISTEN sank um dieselben Byte.",
+    "satz": 2890,
+    "grund": "Die Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar verlangt (LOINC § 10, BfArM-Downloadbedingungen ICD-10-GM § 1 und ATC-GM § 1); der Kern reist als einzelne Datei, eine NOTICE reist nicht mit. Genau drei Werte, jeder byte-gleich mit seinem Original unter code-listen/wortlaut/ — ein eigener Satz ist rot. Aufgenommen am 27.09.2026 mit Wort der Gegenlesung, CODE-LISTEN sank um dieselben Byte. Seit 04.10.2026 auch der SNOMED-GPS-Pflichtwortlaut (CC BY-ND 4.0; Ticket 61950 Pkt. 6, dazu der CAP-Satz der GPS-Seite), 2383 → 2890 Byte, von Hand mit Wort der Gegenlesung (das Werkzeug kennt für dauerhafte Regionen nur Senken).",
     "probe": "tests/lizenz-wortlaut-im-kern.test.js"
    }
   ]
@@ -782,6 +803,204 @@
    "auf": 238667,
    "daneben": {},
    "grund": "L1 Advance Directives (U2-ADR-466): Consent/RelatedPerson-Bau, Abbildungstabellen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 238665,
+   "auf": 238696,
+   "daneben": {},
+   "grund": "v860 Hüllen-Metadaten (U2-ADR-464): Stand-Marke und Auffüllen je Einheit — 4× 'string' (Typprüfungen), 'stand:' (Präfix der Marke), ' ' und '' (Füllung); SCHALEN_STAND v857 → v860 ±0. Freigabe vom 02.10.2026.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 238696,
+   "auf": 239310,
+   "daneben": {},
+   "grund": "ISiK Stufe 6 (U2-ADR-468): DocumentReference-Bau, Tor, Urschrift-Prüfung und Ausgabeweg für das Krankenhaus; Produkttexte im Textsatz, Codes als Daten in code-listen/terminologie. Wort der Gegenlesung 02.10.2026, relativ auf den Kanon gesetzt (zuvor 232000 → 232614).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 239310,
+   "auf": 240045,
+   "daneben": {},
+   "grund": "KDL selbst laden (U2-ADR-468, Nachtrag 02.10.2026): Einlass mit tar- und gzip-Leser, Prüfung, Speicherung der zwei Begriffe, Tor-Gründe und Dialog; Texte im Textsatz, Lizenzhinweis als Text (kein Link) in der Übergangsregion KDL-LIZENZ. Wort der Gegenlesung 02.10.2026.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 240045,
+   "auf": 240094,
+   "daneben": {
+    "satz": -11
+   },
+   "grund": "v864: Bildungsangaben statt EDCI-Namen, frühere Kennung und Schema werden weiter gelesen; Freigabe vom 01.10.2026, bestätigt am 02.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 240094,
+   "auf": 240770,
+   "daneben": {},
+   "grund": "v865 (U2-ADR-457, Nachtrag v865), relativ zum Kanon (zuletzt c0507d696, zuvor 238696 → 239373): struktur +677 = SD-JWT selbst signiert mit nicht extrahierbarem Halter-Schlüssel (Ableitung, Kopf und Nutzlast der Signatur, Prüfung beim Einlesen, kompakte Ausgabe, Fehlercodes statt Sätze, +489) und Übergabe an noble-ed25519 mit Selbstprobe (+188). Wort der Gegenlesung 02.10.2026; Zahl unverändert gegenüber dem Wort. Beim Bau (03.10.2026) −1: exportKey im Halter-Schlüssel entfällt, x wird aus dem Rohschlüssel kodiert (Wächter kein-master-key G13); struktur damit +676.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 240770,
+   "auf": 240950,
+   "daneben": {},
+   "grund": "v867: Gültigkeit gehaltener Nachweise, nur Mechanik (Markup, Klassen, typeof-Werte, Trenner; Aufschlüsselung in der Commit-Nachricht); Freigabe vom 02.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 240950,
+   "auf": 241149,
+   "daneben": {},
+   "grund": "v868 Speicher-Vorwarnung: Absatz und Knopf unter Sichern & Wiederherstellen (Markup, IDs), Motor-Erkennung (-moz-appearance); Texte aus dem Textsatz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 241149,
+   "auf": 241485,
+   "daneben": {},
+   "grund": "v872: Notiz der Vorführung auf eigenem Platz, gemessener Streifen, Sicherungsanzeige in der Vorführung — Klassennamen, Selektoren, DOM-Mechanik (+336 B, Wort der Gegenlesung 03.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 241485,
+   "auf": 241527,
+   "daneben": {},
+   "grund": "v874: Patientenverfügung im BMJ-Wortlaut, Angabezeilen 2.7/2.12 (U2-ADR-459); Freigabe vom 01.10.2026, bestätigt am 02.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 241527,
+   "auf": 241659,
+   "daneben": {},
+   "grund": "v875: Prüfzeile mit Validator-Urteil an der FHIR-Station der Vorführung, Auszug um RelatedPerson/Consent — Markup-Rahmen, FHIR-Typnamen, Ladezustand (+132 B, Wort der Gegenlesung 03.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 241659,
+   "auf": 242613,
+   "daneben": {},
+   "grund": "Selbst-Einlass-Sperre: Slot-Namen, Einlass-Metafelder, Vertrauensstufen und Markup des Hinweises; Struktur, kein Inhalt.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "AB_WERK_ERSCHEINUNGSBILD_PRODUKT",
+   "von": 0,
+   "auf": 46,
+   "daneben": {
+    "struktur": 9137
+   },
+   "grund": "v894 auf v875 gesetzt, U2-ADR-473 Nachtrag (Lesart B): das Gerüst trägt keinen Gestaltungswert; Kopf-Skript des Erscheinungsbilds mit Regeln, Prüfung, Anwenden und Laufzeitprobe, Schutz-Mechanik, Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT; dazu das Token der Vorführungs-Prüfzeile aus v875. Mit Wort vom 03.10.2026 (struktur +9137 und Konstante 46 B), vorläufig in der Kette."
+  },
+  {
+   "ziel": "struktur",
+   "von": 242613,
+   "auf": 251750,
+   "daneben": {},
+   "grund": "v894 auf v875 gesetzt, U2-ADR-473 Nachtrag (Lesart B): das Gerüst trägt keinen Gestaltungswert; Kopf-Skript des Erscheinungsbilds mit Regeln, Prüfung, Anwenden und Laufzeitprobe, Schutz-Mechanik, Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT; dazu das Token der Vorführungs-Prüfzeile aus v875. Mit Wort vom 03.10.2026 (struktur +9137 und Konstante 46 B), vorläufig in der Kette.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 251750,
+   "auf": 252058,
+   "daneben": {},
+   "grund": "Erscheinungsbild-Schutzprobe: Farbleser für color() und color-mix (+25) und Kontrast-Regeln Nacht/Hochkontrast/Zustände im Schutz-CSS (+283), in v894 gefaltet (04.10.2026, Wort der Gegenlesung)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 252058,
+   "auf": 252185,
+   "daneben": {},
+   "grund": "Laufzeitprobe und Vorführung: der Passwort-Hinweis wird in der Vorführung an einer Stelle über hidden ausgeblendet (+85 mit den Ebenen schleife/wechsel), die drei Kern-Ebenen der Vorführung dürfen unter html.vorfuehrung überdecken (+42 warnung), in v894 gefaltet (04.10.2026, Wort der Gegenlesung)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 252185,
+   "auf": 252414,
+   "daneben": {},
+   "grund": "E4 alte Ab-Werk-Kopien beim Öffnen ersetzen (04.10.2026, Wort der Gegenlesung, +229 relativ zu 252185): Funktion _alteAbWerkKopienErsetzen, Mitteilung nach dem Öffnen, Zeile in den Einstellungen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 252414,
+   "auf": 252491,
+   "daneben": {},
+   "grund": "Pflichthinweise der Codelisten sichtbar im Abschnitt Anbieter (lizenzSichtbar, Befund LOINC-PFLICHTHINWEIS-DOWNLOADSTELLEN), +77, Wort der Gegenlesung 04.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 252491,
+   "auf": 252546,
+   "daneben": {},
+   "grund": "Hilfe-Themen 12 bis 14: drei neue Kennungen in HILFE_THEMEN (lese-app-empfaengerin, daten-hereinholen, daten-herausgeben), 21+17+17 Byte; Wortlaut im Textsatz, nicht im Gerüst (04.10.2026, relativ +55)",
    "laengste": {
     "einzel": 0,
     "lauf": 62

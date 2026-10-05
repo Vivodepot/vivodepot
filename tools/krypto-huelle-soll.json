@@ -1,0 +1,156 @@
+{
+ "zweck": "Soll-Träger je Stück der Hüllenschicht und je geteilter Krypto-Funktion (tools/krypto-block-propagation-pruefen.js, HUELLE_SOLL): fehlt ein Soll-Träger, ist der Lauf rot. Gruppen: Hüllenschicht .vdkey; JWS-Block (der Schlüssel-Teiler trägt ihn bewusst nicht); RFC 7638 für die zwei Werkzeuge mit Anker; Test-Sentinel; die Prüfkette und die Antwort in Kern und Lese-App. Seiten, die nicht in den öffentlichen Zuschnitt gehen, stehen in der internen Ergänzung dieser Liste; der Rezept-Fingerabdruck (Herkunft nach Inhalt) in Kern und Lese-App.",
+ "soll": {
+  "schuetzeSchluesselJwk": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-schluessel-teilen.html",
+   "vivodepot-lesen.html"
+  ],
+  "_aadFuerSchluesselhuelle": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-schluessel-teilen.html",
+   "vivodepot-lesen.html"
+  ],
+  "istGeschuetzteSchluesseldatei": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-schluessel-teilen.html",
+   "vivodepot-lesen.html"
+  ],
+  "PROTECTED_KEY_MARKER_VERSION": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-schluessel-teilen.html",
+   "vivodepot-lesen.html"
+  ],
+  "PROTECTED_KEY_VERSION_ALLOWLIST": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-schluessel-teilen.html",
+   "vivodepot-lesen.html"
+  ],
+  "entschluesseleSchluesselJwk": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html"
+  ],
+  "_signJWS": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html",
+   "vivodepot.html"
+  ],
+  "_verifyJWS": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html",
+   "vivodepot.html"
+  ],
+  "_jwsImportSignKey": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html",
+   "vivodepot.html"
+  ],
+  "_jwsImportVerifyKey": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html",
+   "vivodepot.html"
+  ],
+  "_jwsAlgFuerKey": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html",
+   "vivodepot.html"
+  ],
+  "_jwsWebCryptoParams": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html",
+   "vivodepot.html"
+  ],
+  "jwkThumbprintRfc7638": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-schluessel-teilen.html"
+  ],
+  "istTestSentinelKey": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html"
+  ],
+  "verifiziereProviderCredentialGegenSentinel": [
+   "vivodepot-vc-issuer.html",
+   "vivodepot-lesen.html"
+  ],
+  "verifiziereProviderCredential": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_verifiziereZertifikatGegenSchluessel": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_verifiziereTemplateSignatur": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "verifiziereTemplateKette": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_modulPruefstufeAusZertifikat": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_istPrueferUnterTreuhand": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_istEigeneTreuhandKette": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_blattSubject": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "antwortEntschluesselnSchluessel": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "antwortEntschluesselnPasswort": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_angDeriveKey": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_antwortEcdhImportPrivate": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_antwortEcdhImportPublic": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_antwortEcdhSchluessel": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_antwortOeffnen": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_antwortAad": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_jweConcatKdf": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_jwePbes2Schluessel": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_jwkThumbprint": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_modulRezeptFingerabdruck": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ]
+ }
+}

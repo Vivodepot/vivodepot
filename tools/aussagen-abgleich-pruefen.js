@@ -198,7 +198,7 @@ function standMessen(repo, opt) {
       'Tests': mitSuite ? (() => {
         const dateien = suiteDateien(repo);
         try {
-          const roh = execFileSync('node', ['--test', ...dateien], { cwd: repo, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+          const roh = execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: repo, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
           const m = roh.match(/^ℹ tests (\d+)$/m);
           return m ? Number(m[1]) : null;
         } catch (e) {

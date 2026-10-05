@@ -43,7 +43,25 @@ const satzMit = (texte) => ({
   modulTyp: 'textsatz', sprache: 'zz', moduleVersion: 1, anbieterId: 'pruefstoff', texte,
 });
 
+/* Selbst-Einlass-Sperre (04.10.2026, Nachtrag zu U2-ADR-333): den Wortlaut eines Dokuments zum
+   Unterschreiben überschreibt nur noch ein AB-WERK-Sprachmodul. Ein Modul aus der Depot-Datei oder ein
+   selbst eingelassenes darf es nicht mehr (SCHUTZ_SCHLUESSEL_KERN). Die Proben unten prüfen darum den
+   MECHANISMUS über ein Ab-Werk-gleich geprüftes Modul (`vertrauenswuerdig: true`), eingetragen wie die
+   Ab-Werk-Saat, und die Sperre selbst an `mitSpracheAusDatei`. */
 function mitSprache(V, texte) {
+  const d = V.leeresDepot();
+  d.textsprache = 'zz';
+  V.setData(d);
+  V._textsatzModuleAusDepotAnmelden(d);
+  const g = V.textsatzModulPruefen(satzMit(texte), { vertrauenswuerdig: true });
+  assert.equal(g.gueltig, true, g.grund || '');
+  const reg = V._TEXTSATZ_MODUL_REGISTRY;
+  reg.zz = Object.create(null);
+  reg.zz[''] = g.texte;
+  V.textsatzNeuAnwenden();
+  return d;
+}
+function mitSpracheAusDatei(V, texte) {
   const d = V.leeresDepot();
   d.textsatzModule = [satzMit(texte)];
   d.textsprache = 'zz';
@@ -99,6 +117,18 @@ test('[ADR-333] ein Sprachmodul aendert einen Dokument-Wortlaut — ohne eine Ze
   zurueckAufDeutsch(V, d);
   assert.equal(m.abschnitte[1].titel, vorherTitel, 'zurueck auf Deutsch: der Titel steht wieder');
   assert.equal(m.abschnitte[1].bloecke[0].satz, vorherSatz, 'und der Satz auch, bitgleich');
+});
+
+/* --- 2b. DIE SPERRE: EIN MODUL AUS DER DEPOT-DATEI ERREICHT DEN WORTLAUT NICHT ---- */
+test('[U2-ADR-333·Sperre] ein Sprachmodul aus der Depot-Datei aendert den Dokument-Wortlaut NICHT', () => {
+  const { V } = ladeKern();
+  const m = V.BETREUUNG_MODUL;
+  const vorherTitel = m.abschnitte[1].titel;
+  mitSpracheAusDatei(V, { 'dok:betreuungsverfuegung#1.titel': 'ZZ-Titel' });
+  assert.notEqual(m.abschnitte[1].titel, 'ZZ-Titel', 'der Wortlaut eines Dokuments zum Unterschreiben folgt keinem Modul aus der Datei');
+  const r = V.textsatzModulPruefen(satzMit({ 'dok:betreuungsverfuegung#1.titel': 'ZZ-Titel' }));
+  assert.deepEqual(r.verworfene, [{ kennung: 'dok:betreuungsverfuegung#1.titel', grund: 'schutz' }]);
+  assert.ok(vorherTitel, 'Ausgangsstand ist besetzt');
 });
 
 /* --- 3. ROT-BEWEIS AN EINEM ARRAY, NICHT AM ERSTEN ELEMENT -----------------

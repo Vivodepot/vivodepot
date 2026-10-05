@@ -6,6 +6,7 @@
 
 
 - **Status:** akzeptiert
+- **Status heute:** akzeptiert; die Ankündigungen zu NLnet und anwaltlicher Begleitung gelten nicht mehr (s. Nachtrag 04.10.2026)
 - **Datum:** 2026-05-04
 - **Kategorien:** SICHERHEIT | INFRASTRUKTUR | STRATEGIE
 - **Format:** MADR 4.0 mit Vivodepot-Erweiterungen (Kategorien-Header, Nachweis-Abschnitt)
@@ -16,7 +17,7 @@ Ein externes Review empfahl CI/CD-Härtung mit verschiedenen Tools (Semgrep, Tri
 
 Die CI/CD-Stand-Inventur hat offengelegt: `.github/workflows/` ist leer, keine GitHub-Actions existieren. Tests laufen ausschließlich manuell oder lokal über `npm test`. Die 185 Wycheproof-NIST-Vektoren (vier Klasse-A-Tests) laufen vollständig, aber nicht automatisch. HL7-Validator-Tests existieren mit skip-when-not-installed-Pattern, laufen aber nirgends automatisch. Es gibt keine SAST-Tool-Integration, kein Action-Pinning, keine Branch-Protection, keine SBOM, keinen Output-Hash. Zusätzlich hatte eine frühere Test-Inventur den HL7-Validator-Kern mehrdeutig als „CI integriert" beschrieben; eine erneute Inventur zeigte, dass das nicht zutraf.
 
-Zum NLnet-Antrag (01.06.2026) plus Pilotpartner-Anbahnung: ohne CI/CD-Kern ist die Audit-Spur dünn, externe Reviewer erwarten automatisierte Verifikations-Schichten.
+Zum NLnet-Antrag plus Pilotpartner-Anbahnung: ohne CI/CD-Kern ist die Audit-Spur dünn, externe Reviewer erwarten automatisierte Verifikations-Schichten.
 
 **Frage:** Wie wird CI/CD methodisch von Grund auf etabliert, sodass v1.0-Release plus NLnet-Antrag plus Pilotpartner-Anbahnung tragfähig sind?
 
@@ -129,3 +130,7 @@ Die Entscheidung wurde in neun Einzel-Klärungen der ADR-Sitzung vom 04.05.2026 
 8. Bürger-Anleitung SHA-256-Hash-Verifikation für v1.0-Auslieferung (parallel zur Supply-Chain-Strategie-Notiz)
 
 **Bestätigung.** In der Klärungs-Sitzung 04.05.2026 bestätigt.
+
+## Nachtrag 04.10.2026
+
+Die Ankündigungen zu NLnet und anwaltlicher Begleitung in dieser ADR gelten nicht mehr. Stand: Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden. Gestrichen ist in „Zum NLnet-Antrag (01.06.2026)“ das Datum, weil es nicht das Datum der Einreichung ist.

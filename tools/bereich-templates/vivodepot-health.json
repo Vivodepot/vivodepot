@@ -14,6 +14,10 @@
         {
           "format": "fhir-ips",
           "labelSchluessel": "fhirExportKurz"
+        },
+        {
+          "format": "isik",
+          "labelSchluessel": "isikExportKurz"
         }
       ],
       "wizards": [

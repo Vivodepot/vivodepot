@@ -87,7 +87,68 @@
       ],
       "importwege": [],
       "bezuege": null,
-      "grund": "Nur der Weglauf-Code im IPS-Flag (health.wanderingRisk). Der nachkoordinierte SNOMED-Ausdruck des ValueSets KBV_VS_MIO_NFD_Runaway_Risk bleibt draußen (GPS-Nutzungsmuster: keine Beziehungen). Die KBV rät von einer Umsetzung der PKA 1.0.0 ab, weil sie überarbeitet wird — Wiedervorlage bei der Nachfolgeversion: URL und Version des CodeSystems neu prüfen."
+      "grund": "Nur der Weglauf-Code im IPS-Flag (health.wanderingRisk). Der nachkoordinierte SNOMED-Ausdruck des ValueSets KBV_VS_MIO_NFD_Runaway_Risk bleibt draußen (GPS-Nutzungsmuster: keine Beziehungen). Die KBV rät von einer Umsetzung der PKA 1.0.0 ab, weil sie überarbeitet wird — Wiedervorlage bei der Nachfolgeversion: URL und Version des CodeSystems neu prüfen.",
+      "kandidat": {
+        "werkzeug": "gematik Referenzvalidator (app-referencevalidator, Apache-2.0) mit dem KBV-Paket",
+        "quelle": "https://github.com/gematik/app-referencevalidator"
+      }
+    },
+    {
+      "id": "eu-lab",
+      "name": "HL7 Europe Laboratory Report",
+      "version": "hl7.fhir.eu.laboratory#2.0.0 (FHIR R4 4.0.1)",
+      "herausgeber": "HL7 Europe",
+      "quelle": {
+        "url": "https://hl7.eu/fhir/laboratory/",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "CC0-1.0, Feld license in package.json des Pakets hl7.fhir.eu.laboratory#2.0.0 (packages.fhir.org, nachgesehen 01.10.2026)."
+      },
+      "richtung": [
+        "lesen"
+      ],
+      "bereich": "gesundheit",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "fhir-lab"
+      ],
+      "bezuege": null,
+      "grund": "Der Kern liest Laborbefunde nach diesem IG (FHIR_LAB_DOC_IG); die eingehende Datei wird nicht gegen das IG validiert.",
+      "kandidat": {
+        "werkzeug": "HL7 FHIR Validator (validator_cli, Apache-2.0; im Manifest 6.9.12) mit -ig hl7.fhir.eu.laboratory#2.0.0",
+        "quelle": "https://github.com/hapifhir/org.hl7.fhir.core/releases"
+      }
+    },
+    {
+      "id": "isik-dokumente",
+      "name": "ISiK Basismodul Stufe 6, Profil ISiKDokumentenMetadaten (DocumentReference)",
+      "version": "de.gematik.isik#6.0.0 (FHIR R4 4.0.1)",
+      "herausgeber": "gematik GmbH",
+      "quelle": {
+        "url": "https://github.com/gematik/spec-ISiK-Basismodul",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Apache-2.0, Quell-Repo github.com/gematik/spec-ISiK-Basismodul, Tag v.6.0.0, Commit 4386cc1f5dfa286fe09ffde1c85f1867203c19df (U2-ADR-468 Nr. 6). Die Anzeigetexte von KDL und IHE-D stehen in keiner Datei des Repos."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "gesundheit",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [
+        "isik"
+      ],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Der Kern schreibt zwei DocumentReferences nach ISiKDokumentenMetadaten (U2-ADR-468, v863). Validator-Lauf gegen de.gematik.isik#6.0.0 mit tools/isik-validieren.js (validator_cli, offline, mit Suite-Platz); nicht in der Suite, weil die amtlichen Anzeigetexte nur zur Laufzeit aus dem lokalen Paket-Cache kommen. Interne Probe: tests/isik-dokumente.test.js.",
+      "pruefer": "tools/isik-validieren.js"
     }
   ]
 }

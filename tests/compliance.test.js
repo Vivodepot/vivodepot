@@ -66,11 +66,11 @@ function hatZulaessigenListenstand(component) {
   return /\bamtlich\b/i.test(version) && /\b(19|20)\d{2}\b/.test(version);
 }
 
-test('4) SBOM ist CycloneDX 1.4; jsPDF + qrcode-generator als Libraries; Code-Listen als file-Komponenten', () => {
+test('4) SBOM ist CycloneDX 1.4; jsPDF, noble-ed25519 + qrcode-generator als Libraries; Code-Listen als file-Komponenten', () => {
   assert.equal(SBOM.bomFormat, 'CycloneDX');
   assert.equal(SBOM.specVersion, '1.4');
   const libs = (SBOM.components || []).filter(c => c.type === 'library').map(c => c.name);
-  assert.deepEqual(libs.slice().sort(), ['jspdf', 'qrcode-generator'], 'jsPDF + qrcode-generator als eingebettete Libraries');
+  assert.deepEqual(libs.slice().sort(), ['jspdf', 'noble-ed25519', 'qrcode-generator'], 'jsPDF, noble-ed25519 (v865, U2-ADR-457) + qrcode-generator als eingebettete Libraries');
   const jspdf = SBOM.components.find(c => c.name === 'jspdf');
   assert.equal(jspdf.version, '4.2.1');
   assert.equal(jspdf.licenses[0].license.id, 'MIT');

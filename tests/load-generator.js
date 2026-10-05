@@ -25,7 +25,7 @@ const GEN_PATH = process.env.GENERATOR_HTML_PATH
 // v1" (14.09.2026): zwei Kennung-Beispiele im Kopf-Kommentar mitgezogen, s. load-kern.js --
 // per Block-Vertrag (tools/krypto-block-propagation-pruefen.js) auf ALLE Träger (auch Issuer/
 // Teiler) durchgezogen, nicht nur die vier Umbau-Dateien.
-const BLOCK_HASH_ERWARTET = '732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282';
+const BLOCK_HASH_ERWARTET = '4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98';
 
 function extrahiereScripts(html) {
   const OPEN = '<script>', CLOSE = '</script>';
@@ -133,7 +133,9 @@ const EXPORT_HOOK = `
   L, meldungL, MELDUNG_EN, BEREICH_LABEL_EN, RECHTSFORM_EN, RECHTSTEXTE, RECHT_REIHENFOLGE, MODUL_KACHELN, katalogLabel,
   spracheFuerProbeSetzen: (s) => { LANG = s; },
   // GEN1 (19.09.2026) — der Schlüssel-Tresor und der Zustand, gegen den seine Zusicherungen gemessen werden
-  SCHLUESSEL_TRESOR, SCHLUESSEL_LIMIT_MS, SCHLUESSEL_KLICK_FRIST_MS, _istSignierSchluessel, STATE, submissionErzeugen, gen1Binden, EMPFANGS_TRESOR, entwurfBauen, signiereMitTresor, paletteEintraege,
+  SCHLUESSEL_TRESOR, SCHLUESSEL_LIMIT_MS, SCHLUESSEL_KLICK_FRIST_MS, SCHLUESSEL_PASSWORT_MINDESTLAENGE,
+  schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei, passwortAusFeldern,
+  schluesselErzeugen, schluesselDateiLaden, schluesselDateiNeuSpeichern, _istSignierSchluessel, STATE, submissionErzeugen, gen1Binden, EMPFANGS_TRESOR, entwurfBauen, signiereMitTresor, paletteEintraege,
   // GEN3 — Angehörigen-Blätter
   BLATT_ICONS, BLATT_MODULTYP, BLATT_FORMAT, blattNeu, blattModulBauen, blattModulPruefen, pruefeBlatt, baueBlattSigniert, blattDateiname, blattSonderzeiger, blattZeigerBekannt, blattErzeugen,
   RECHTSFORMEN, VD_CODE_LISTEN, BEREICH_CODESYSTEME, BEISPIEL_TEMPLATES,

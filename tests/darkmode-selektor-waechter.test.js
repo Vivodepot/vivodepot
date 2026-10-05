@@ -69,7 +69,8 @@ test('[Darkmode-Selektor-Wächter] keine Ausnahme zeigt auf eine Datei-Zeile, di
 });
 
 test('[Darkmode-Selektor-Wächter·Rot-Beweis Nachtzeile] eine entfernte Nachtmodus-Zeile wird gefunden', () => {
-  const quelle = kernLesen();
+  // v894: die Nachtzeile steht im Erscheinungsbild „heute", nicht im Gerüst — verstümmelt wird der zusammengesetzte Text.
+  const quelle = require('./helfer/kern-mit-erscheinungsbild.js').cssQuelle(kernLesen());
   const anker = 'html.dark-mode .doku-std-badge { color: var(--salbei-nacht); border-color: var(--salbei-nacht); }';
   assert.ok(quelle.includes(anker), 'Anker für .doku-std-badge nicht gefunden — Test veraltet');
   const verstuemmelt = quelle.replace(anker, '');

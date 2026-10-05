@@ -5,7 +5,7 @@
    ────────────────────────────────────────────────────────────────────────
    Auftrag Zug 4: „Freiheitsentzug-Punkt auf 'nein' setzen, Blatt erzeugen,
    das Nein sehen. Besprochen-Angabe setzen, Klausel im Satz sehen; wieder
-   entfernen, Satz ohne Klausel sehen." Echter Browser, echtes Overlay,
+   entfernen, Satz ohne Klausel sehen." Seit v874 (U2-ADR-459): entfernt → der Baustein entfällt. Echter Browser, echtes Overlay,
    echte gerenderte Zeichenketten — keine Node-Simulation.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
@@ -38,7 +38,7 @@ test('Freiheitsentzug-Punkt auf "nein" gesetzt → das Blatt zeigt "nein" expliz
   await page.screenshot({ path: 'test-results/zug4-abnahme-freiheitsentzug-nein.png' });
 });
 
-test('Besprochen-Angabe gesetzt → Klausel steht im Satz der Patientenverfügung (Ziffer 2.7); entfernt → Satz ohne Klausel', async ({ page }) => {
+test('Besprochen-Angabe gesetzt → Klausel steht im Satz der Patientenverfügung (Ziffer 2.7); entfernt → der Baustein entfällt (U2-ADR-459)', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   // Ziffer 2.7 lebt im PV-Dokument (PV_MODUL), nicht im Vollmacht-Dokument selbst — der Verweis
@@ -54,7 +54,7 @@ test('Besprochen-Angabe gesetzt → Klausel steht im Satz der Patientenverfügun
     'Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt und den Inhalt dieser Patientenverfügung mit der von mir bevollmächtigten Person besprochen:');
   await page.screenshot({ path: 'test-results/zug4-abnahme-besprochen-gesetzt.png' });
 
-  // Wieder entfernen — derselbe Satz OHNE Klausel.
+  // Wieder entfernen — der Baustein entfällt ganz (U2-ADR-459).
   await page.click('#pv-dok-schliessen');
   await page.evaluate(() => {
     window.__vdOeffentlich.ankerDaten().sektoren.advanceCare.contentOfTheAdvanceDirective = '';
@@ -62,7 +62,8 @@ test('Besprochen-Angabe gesetzt → Klausel steht im Satz der Patientenverfügun
   await page.evaluate(() => window.__vdOeffentlich.dokumentOeffnen('patientenverfuegung'));
   await expect(page.locator('#pv-dok-overlay')).toBeVisible();
   const blatt = page.locator('.pv-dok-blatt');
-  await expect(blatt).toContainText('Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt:');
+  // U2-ADR-459 (v874): der BMJ-Baustein zur Vorsorgevollmacht behauptet die Besprechung — ohne bejahte Besprechung entfällt er ganz; eine Besprechung wird nie erfunden, ein eigener Satz ohne Klausel nicht gebaut.
+  await expect(blatt).not.toContainText('eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt');
   await expect(blatt).not.toContainText('besprochen');
   await page.screenshot({ path: 'test-results/zug4-abnahme-besprochen-entfernt.png' });
 });

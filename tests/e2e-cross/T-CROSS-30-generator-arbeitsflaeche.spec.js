@@ -84,6 +84,7 @@ for (const sprache of ['de', 'en']) {
       await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
       await p.selectOption('#sd-bereich', sd.bereich); await p.fill('#sd-usecase', sd.useCase);
       await p.click('#sd-weiter');
+      await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
       await p.click('#sk-erzeugen');
       await p.waitForSelector('#sk-downloads:not([hidden])');
       await Promise.all([ p.waitForEvent('download'), p.click('#sk-pub') ]);

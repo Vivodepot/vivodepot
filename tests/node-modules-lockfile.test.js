@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; require('./helfer/platz-isoliert.js').platzIsolieren();   // eigener Suite-Platz (PLATZ-LECK-HOOK-TESTS); in derselben Zeile, damit keine Zeilennummer wandert
 /* ════════════════════════════════════════════════════════════════════════
    Befund NODE-MODULES-LOCKFILE (MITTEL, 27.09.2026)
    ────────────────────────────────────────────────────────────────────────

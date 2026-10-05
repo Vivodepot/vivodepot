@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- Ein Kommentar, der „<style>" und „</style>" im Wortlaut nennt, darf nichts verschlucken. -->
+<html><head><style>
+  :root { --akzent: #4F6539; --schatten: 0 1px 2px rgba(0,0,0,.1); --fs-text: 1rem; }
+  /* Kommentar mit Rohwert #123456 und font-size: 13px zählt nicht */
+  .karte { color: var(--akzent); box-shadow: var(--schatten); font-size: var(--fs-text); }
+  .knopf:hover { background: var(--akzent); }
+  @font-face { font-family: "Inter"; font-weight: 400; src: url(data:font/woff2;base64,d09GMgAB//8=) format("woff2"); }
+  html.fs-medium { font-size: 112.5%; }
+  .x { font-size: inherit; box-shadow: none; letter-spacing: normal; border-left: 1px solid var(--akzent); }
+</style></head>
+<body>
+<svg style="position:absolute"><stop offset="0" style="stop-color:#AE9363"/></svg>
+<div id="eingang-fehler-hinweis" hidden style="background:#fff;color:#111;font:16px/1.5 sans-serif"></div>
+<p style="margin-top:var(--space-3)">Text</p>
+<script>
+  // style="color:#123456" im Kommentar zählt nicht
+  el.style.display = 'none';
+  el.style.setProperty('--akzent', wert);
+  html += '<span style="font-size:var(--fs-sm)">x</span>';
+</script>
+</body></html>

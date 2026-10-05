@@ -63,6 +63,18 @@ function signierBefehle(fassung) {
   ];
 }
 
+/* PFLICHTHINWEISE (04.10.2026, Befund LOINC-PFLICHTHINWEIS-DOWNLOADSTELLEN): ein Release bietet vivodepot.html zum
+   Herunterladen an — die LOINC-Lizenz verlangt ihren Hinweis „on the same Internet page from which the product is available
+   for download“, SNOMED (GPS, CC BY-ND 4.0) die Namensnennung. Wörtlich aus code-listen/wortlaut/ DIESES Repos (nicht aus dem
+   Tag-Checkout: so trägt auch der Nachtrag für eine ältere Fassung den heutigen, gegen die Quelle geprüften Wortlaut). */
+const PFLICHTHINWEISE = Object.freeze([
+  ['LOINC', 'code-listen/wortlaut/LOINC_short_license.txt'],
+  ['SNOMED CT', 'code-listen/wortlaut/snomed-gps-hinweis.txt'],
+]);
+function mitPflichthinweisen(beschreibung, repo = path.join(__dirname, '..')) {
+  return beschreibung + PFLICHTHINWEISE.map(([titel, datei]) => '\n\n### ' + titel + '\n\n' + fs.readFileSync(path.join(repo, datei), 'utf8')).join('');
+}
+
 function paketUrl(version, datei) {
   return `${HOST}/api/v4/projects/${PROJEKT_ID}/packages/generic/${PAKET}/${version}/${datei}`;
 }
@@ -88,7 +100,7 @@ function releaseVorbereiten({ quelle, fassung, ziel }) {
   const release = {
     name: 'Vivodepot ' + fassung,
     tag_name: fassung,
-    description: beschreibung + '\n\nPrüfsummen (SHA-256) der Anhänge in `SHA256SUMS`.',
+    description: mitPflichthinweisen(beschreibung + '\n\nPrüfsummen (SHA-256) der Anhänge in `SHA256SUMS`.'),
     assets: { links: alle.map((d) => ({ name: d.name, url: paketUrl(version, d.name), link_type: d.name.endsWith('.html') ? 'package' : 'other' })) },
   };
   const befehle = ['cd ' + JSON.stringify(ziel || '<ziel>')]
@@ -124,4 +136,4 @@ function main(argv) {
 
 if (require.main === module) process.exitCode = main(process.argv.slice(2));
 
-module.exports = { ANHAENGE, PROJEKT_ID, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE };
+module.exports = { ANHAENGE, PROJEKT_ID, PFLICHTHINWEISE, mitPflichthinweisen, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE };

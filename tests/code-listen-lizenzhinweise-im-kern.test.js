@@ -48,10 +48,11 @@ test('[CODE-LISTEN·Lizenz] jeder Lizenz- und Urheberhinweis einer Codeliste ste
 });
 
 test('[CODE-LISTEN·Lizenz·Rot-Beweis] wird ein Hinweis weggeschnitten, schlägt die Probe an und nennt die Codeliste', () => {
-  const snomed = JSON.parse(fs.readFileSync(path.join(REPO, 'code-listen', 'snomedAllergen.json'), 'utf8'));
-  const ohneSnomed = REGION.split(JSON.stringify(snomed.lizenz).slice(1, -1)).join('');
-  assert.notEqual(ohneSnomed, REGION, 'Vorbedingung: der SNOMED-Hinweis stand in der Region');
-  assert.deepEqual(fehlendeHinweise(ohneSnomed).fehlend, ['snomedAllergen.json']);
+  // Seit 04.10.2026 trägt auch die SNOMED-Liste ihren Wortlaut über LIZENZ-WORTLAUT (Verweis in der Region) — weggeschnitten
+  // wird er dort, wie bei ATC unten.
+  const ohneSnomed = WORTLAUT_REGION.replace(/\n {2}snomedAllergen: .*/, '');
+  assert.notEqual(ohneSnomed, WORTLAUT_REGION, 'Vorbedingung: der SNOMED-Hinweis stand in LIZENZ-WORTLAUT');
+  assert.deepEqual(fehlendeHinweise(REGION, ohneSnomed).fehlend, ['snomedAllergen.json']);
   // Der Verweis allein genügt nicht: fehlt der Wortlaut in LIZENZ-WORTLAUT, ist die Liste rot.
   assert.deepEqual(fehlendeHinweise(REGION, WORTLAUT_REGION.replace(/\n {2}atc: .*/, '')).fehlend, ['atc.json']);
   assert.deepEqual(fehlendeHinweise(REGION.replace('lizenzWortlaut: "loinc",', ''), WORTLAUT_REGION).fehlend, ['loinc.json']);

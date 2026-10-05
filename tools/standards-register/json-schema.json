@@ -38,7 +38,91 @@
         "openbadges-3-extern"
       ],
       "bezuege": null,
-      "grund": "teilweise, bis die Lizenz von inspector-core geklärt ist (s. lizenz). Gemessen ist der Lauf trotzdem: der Prüferlauf ist am offiziellen Prüfer von 1EdTech gemessen, ohne Netz. Was der Kern nach dem Verwahren herausgibt, urteilt er gleich wie die Testdatei; jede der vier Formen (JSON-LD, VC-JWT, PNG, SVG) hat einen gültigen Fall, die Testdateien im Entwurfsstand bzw. abgelaufen fallen aus dem gemessenen Grund, ein Badge ohne Aussteller wird abgelehnt. Ohne Netz bleibt nur die Warnung, die Aussteller-URL sei nicht erreichbar. Verwahren und byte-gleiches Vorzeigen belegt tests/bildung-ob3-halten.test.js; U2-ADR-445."
+      "grund": "teilweise, bis die Lizenz von inspector-core geklärt ist (s. lizenz). Gemessen ist der Lauf trotzdem: der Prüferlauf ist am offiziellen Prüfer von 1EdTech gemessen, ohne Netz. Was der Kern nach dem Verwahren herausgibt, urteilt er gleich wie die Testdatei; jede der vier Formen (JSON-LD, VC-JWT, PNG, SVG) hat einen gültigen Fall, die Testdateien im Entwurfsstand bzw. abgelaufen fallen aus dem gemessenen Grund, ein Badge ohne Aussteller wird abgelehnt. Ohne Netz bleibt nur die Warnung, die Aussteller-URL sei nicht erreichbar. Verwahren und byte-gleiches Vorzeigen belegt tests/bildung-ob3-halten.test.js; U2-ADR-445.",
+      "pruefer": "tests/ob3-1edtech-lauf.test.js"
+    },
+    {
+      "id": "vivodepot-vollexport",
+      "name": "Vivodepot-Depotsicherung (eigenes Format)",
+      "version": "Schema des Kerns (DEPOT_SCHEMA_VERSION)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben",
+        "lesen"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "json"
+      ],
+      "bezuege": null,
+      "grund": "Die verschlüsselte Depotsicherung ist das Eigenformat der App; kein fremder Standard beschreibt sie.",
+      "pruefer": "tests/a359-rundlauf-katalogbindung.test.js"
+    },
+    {
+      "id": "vivodepot-beta",
+      "name": "Vivodepot-Beta-Sicherung (eigenes Altformat)",
+      "version": "Beta-Format (B16)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "lesen"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "vivodepot-beta"
+      ],
+      "bezuege": null,
+      "grund": "Sicherungen der alten Vivodepot-App; nur Einlesen, kein fremder Standard.",
+      "pruefer": "tests/b16-migrations-knopf.test.js"
+    },
+    {
+      "id": "provider-credential",
+      "name": "Vivodepot-Anbieter-Zertifikat (JWS)",
+      "version": "eigenes Format über JWS (RFC 7515)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "empfangen",
+        "pruefen"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "provider-credential"
+      ],
+      "bezuege": null,
+      "grund": "Signiertes Anbieter-Zertifikat im Eigenformat; der Rahmen JWS ist RFC 7515, der Inhalt eigen. Offener Posten: Prüfung am Normtext W3C VC Data Model 2.0.",
+      "pruefer": "tests/sicherheit-block-c.test.js"
     }
   ]
 }

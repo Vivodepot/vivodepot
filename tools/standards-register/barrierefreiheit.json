@@ -1,0 +1,31 @@
+{
+  "familie": "barrierefreiheit",
+  "adapter": null,
+  "standards": [
+    {
+      "id": "en-301-549",
+      "name": "EN 301 549 Accessibility requirements for ICT products and services",
+      "version": "V3.2.1 (2021-03)",
+      "herausgeber": "ETSI / CEN / CENELEC",
+      "quelle": {
+        "url": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.02.01_60/en_301549v030201p.pdf",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Kostenlos abrufbar; Copyright Notification des Dokuments: keine Vervielfältigung ohne schriftliche Erlaubnis von ETSI. Ins Repo kommt kein Normtext, nur Klauselnummern. Prüfer axe-core (MPL-2.0, im Repo)."
+      },
+      "richtung": [
+        "pruefen"
+      ],
+      "bereich": "querschnitt",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Kap. 9 (Web) spiegelt WCAG 2.1 (Normtext, Kap. 9, Note 1). axe-core 4.12.1 prüft mit dem Tag EN-301-549 in tests/konformitaet/wcag-axe.mjs und wcag-axe-lesen.mjs; gegenüber den WCAG-Tags kommt nur die experimentelle Regel label-content-name-mismatch hinzu, die axe ohne ausdrückliche Freigabe nicht fährt. Nicht automatisch prüfbar: Kap. 5 (allgemein), 11 (Software, soweit nicht Web) und 12 (Dokumentation und Support); BITV-Test manuell.",
+      "pruefer": "tests/konformitaet/wcag-axe.mjs"
+    }
+  ]
+}

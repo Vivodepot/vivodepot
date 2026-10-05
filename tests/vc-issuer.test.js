@@ -13,7 +13,7 @@
      T-A-04 Sentinel    — istTestSentinelKey erkennt den Sentinel (rote Markierung).
      T-A-05 Submission  — beispiel-submission.json importieren → Anbieter-Daten
                           korrekt übernommen, VC ausstellbar & verifizierbar.
-     T-A-06 Integrität  — VdCrypto-Block-Hash des Issuers == Kern (732ff4b0…);
+     T-A-06 Integrität  — VdCrypto-Block-Hash des Issuers == Kern (4cd539cd…);
                           JWS-Block byte-identisch zum Kern.
 
    Der zum eingebetteten Test-Sentinel-PUBLIC-Key gehörende PRIVATE-Key liegt

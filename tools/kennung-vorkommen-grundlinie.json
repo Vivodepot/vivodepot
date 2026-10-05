@@ -100,6 +100,16 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "testament: 'will',",
       "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    },
+    {
+      "datei": "tests/fixtures/ab-werk-fassung-v670-erbschein.json",
+      "enthaelt": "\"wert\": \"testament\"",
+      "grund": "Byte-gleiche Kopie einer früher AUSGELIEFERTEN Ab-Werk-Fassung (E4, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in der Region ABWERK-FRUEHERE-FASSUNGEN-KERN, darum darf die alte Kennung nicht umgeschrieben werden (04.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/ab-werk-fassung-v718-erbschein.json",
+      "enthaelt": "\"wert\": \"testament\"",
+      "grund": "Byte-gleiche Kopie einer früher AUSGELIEFERTEN Ab-Werk-Fassung (E4, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in der Region ABWERK-FRUEHERE-FASSUNGEN-KERN, darum darf die alte Kennung nicht umgeschrieben werden (04.10.2026)"
     }
   ],
   "bankvollmacht": [
@@ -439,6 +449,336 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "vorsorgevollmacht: 'enduring-power-of-attorney',",
       "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/3.abschluss\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/3.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/healthCareGeneralDecision.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/healthCareMedicalProcedures.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/healthCareMedicalRecords.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#10.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/concludeAndTerminateANew.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/concludeAndTerminateHousingAnd.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/determinePlaceOfResidence.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/manageAnExistingTenancyWindUp.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#3.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#3/representationWithAuthorities.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/7.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/acceptPaymentsAndValuables.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/accountsCustodyAccountsSafes.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/assetManagementGeneral.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/customaryGiftsWithinWhatCare.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/disposeOfAssets.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/enterIntoLiabilities.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/transactionsExpresslyExcluded.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#5.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#5/mailAndTelecommunications.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#6.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#6/representationInCourt.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#7.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#7/mayGrantASubPowerOfAttorney.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#8.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#8/alsoProposeTheAuthorizedPerson.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#9.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#9/appliesBeyondDeath.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/3.abschluss\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/3.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/healthCareGeneralDecision.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/healthCareMedicalProcedures.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#1/healthCareMedicalRecords.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#10.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/concludeAndTerminateANew.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/concludeAndTerminateHousingAnd.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/determinePlaceOfResidence.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#2/manageAnExistingTenancyWindUp.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#3.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#3/representationWithAuthorities.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/7.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/acceptPaymentsAndValuables.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/accountsCustodyAccountsSafes.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/assetManagementGeneral.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/customaryGiftsWithinWhatCare.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/disposeOfAssets.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/enterIntoLiabilities.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#4/transactionsExpresslyExcluded.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#5.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#5/mailAndTelecommunications.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#6.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#6/representationInCourt.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#7.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#7/mayGrantASubPowerOfAttorney.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#8.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#8/alsoProposeTheAuthorizedPerson.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#9.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:vorsorgevollmacht#9/appliesBeyondDeath.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
     }
   ],
   "patientenverfuegung": [
@@ -686,6 +1026,366 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "patientenverfuegung: 'living-will',",
       "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#1.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#1/applicableSituations.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[2]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[3]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/informationOrCounsellingReceived.luecke\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/informationOrCounsellingReceived.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#11.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#2.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#3.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/hospiceSupport.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/placeOfTreatmentOrDeath.prefix\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/supportFromThesePersons.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#4.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#4/confidentialityWaiverFor.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#5.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/0.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/0.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/whoseViewMattersIfDeviatingWill.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/whoseViewMattersIfUnregulated.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#6.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.luecke\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.rollenLabel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.texte[2]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.besprochenEinleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.luecke\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.rollenLabel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#1.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#1/applicableSituations.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[2]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/1.texte[3]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/informationOrCounsellingReceived.luecke\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#10/informationOrCounsellingReceived.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#11.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#2.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#3.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/hospiceSupport.text\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/placeOfTreatmentOrDeath.prefix\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#3/supportFromThesePersons.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#4.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#4/confidentialityWaiverFor.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#5.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/0.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/0.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/whoseViewMattersIfDeviatingWill.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#5/whoseViewMattersIfUnregulated.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#6.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.luecke\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.rollenLabel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/authorizedPersons.texte[2]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.besprochenEinleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.einleitung\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.luecke\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.rollenLabel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.texte[0]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.texte[1]\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
     }
   ],
   "betreuungsverfuegung": [
@@ -888,6 +1588,66 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "betreuungsverfuegung: 'custodianship-declaration',",
       "grund": "Alt-Seite des bytegleichen Lese-App-Spiegels von DOKUMENTTYP_ALT_ZU_NEU_L4 (B8, 23.09.2026; Drift-Wächter tests/lese-app-migrations-paritaet.test.js) — die Lese-App übersetzt alte Dateien wie der Kern"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#1.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#1/proposedPerson.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#2/alternatePerson.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#3/whoShouldNotBeAppointed.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#4.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#4/whatTheCareArrangementShould.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-KERN (erzeugt aus dem Namensraum dok: des Ab-Werk-Textsatzes): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#1.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#1/proposedPerson.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#2/alternatePerson.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#3/whoShouldNotBeAppointed.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#4.titel\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "vivodepot-lesen.html",
+      "enthaelt": "\"dok:betreuungsverfuegung#4/whatTheCareArrangementShould.satz\"",
+      "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
     }
   ],
   "sorgerechtsverfuegung": [

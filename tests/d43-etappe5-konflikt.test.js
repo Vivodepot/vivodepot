@@ -116,7 +116,7 @@ test('[D43-E5] Wahl „Datei": Datei-Inhalt wird neuer interner Stand, Datei unb
   assert.equal(k2.V.getData().sektoren.identity.givenName, 'DateiStand', 'interner Stand = Datei');
 });
 
-test('[D43-E5] Datei-Format: gespeichert_am Klartext-Geschwister; gleich-Erkennung end-to-end', async () => {
+test('[D43-E5] Datei-Format: Stand-Marke als Klartext-Geschwister (v860, vorher gespeichert_am); gleich-Erkennung end-to-end', async () => {
   let captured = null;
   function CapBlob(parts) { captured = parts && parts[0]; }
   const mock = createIdbMock();
@@ -134,11 +134,15 @@ test('[D43-E5] Datei-Format: gespeichert_am Klartext-Geschwister; gleich-Erkennu
   // A345: das Innere ist der Umschlag, den der Kern schreibt — seit dem Schnitt v4.
   // Geprüft wird, dass die Magic-Kennung ihn unverändert umhüllt, nicht seine Generation.
   assert.equal(fileObj.kryptoVersion, k.V.CRYPTO_VERSION_ZERFALL, 'Umschlag-Inneres unverändert durchgereicht');
-  assert.equal(fileObj.gespeichert_am, ts, 'Datei trägt dieselbe Klartext-Marke wie der interne Stand');
+  // v860 (Befund HUELLEN-METADATEN): außen keine Zeit mehr, sondern die Stand-Marke derselben Zeit.
+  assert.equal(fileObj.gespeichert_am, undefined, 'kein Speicherzeitpunkt im Klartext');
+  const marke = await k.V.standMarkeFuer(ts);
+  assert.ok(marke, 'Vorbedingung: eine Marke');
+  assert.equal(fileObj.stand_marke, marke, 'Datei trägt die Marke desselben Stands wie der interne Stand');
   assert.ok(fileObj.einheiten && Object.keys(fileObj.einheiten).length > 0,
     'Chiffrat vorhanden — die Marke liegt NEBEN den Feld-Einheiten, nicht in ihnen');
 
   // Gleiche Marke intern wie in der Datei → Boot erkennt „gleich" → kein Dialog.
   const internMeta = await k.V.internerStandMeta();
-  assert.equal(k.V.standKonfliktModell(internMeta, fileObj).grund, 'gleich', 'kein Konflikt bei gleichem Stand');
+  assert.equal(k.V.standKonfliktModell(internMeta, fileObj, await k.V.standMarkeFuer(internMeta.gespeichert_am)).grund, 'gleich', 'kein Konflikt bei gleichem Stand');
 });

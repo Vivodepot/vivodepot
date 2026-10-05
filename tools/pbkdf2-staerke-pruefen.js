@@ -7,7 +7,7 @@
    BEFUND. `PBKDF2_ITERATIONS = 600000` ist Teil des gepinnten VdCrypto-Blocks (Script 1;
    `tools/krypto-block-propagation-pruefen.js` hält ihn byte-identisch in allen Trägern). Drei
    Stellen führen DENSELBEN Wert als eigene Konstante oder eigenes Literal, statt den Block zu
-   lesen: `ANG_PBKDF2_ITERATIONEN` (Kern), `ANTWORT_PBKDF2_ITERATIONEN` (Lese-App) und drei
+   lesen: `ANG_PBKDF2_ITERATIONEN` (Kern und Lese-App; bis 04.10.2026 hieß die der Lese-App `ANTWORT_PBKDF2_ITERATIONEN`) und drei
    hartcodierte `iterationen: 600000` in `tools/schluesseluebergabe-messen.js`. Jede davon
    KÖNNTE unbemerkt vom Block abweichen — nichts prüfte es. Dieselbe Fehlerklasse wie 34.7/34.9
    (eine Angabe an mehreren Stellen, nur eine gepflegt), hier für eine Krypto-Stärkegröße statt
@@ -16,7 +16,7 @@
    NUR BINDEN, NICHTS ÄNDERN (Entscheidung, 22.09.2026): der Wert, das Salz und
    der Ableitungsweg bleiben unangetastet. Eine heruntergeladene .vdkey-/Depot-Datei ist eine
    Einbahnstraße — sie muss mit den Parametern aufgehen, mit denen sie verschlüsselt wurde.
-   `ANG_PBKDF2_ITERATIONEN`/`ANTWORT_PBKDF2_ITERATIONEN` werden beim LESEN benutzt, nicht aus
+   `ANG_PBKDF2_ITERATIONEN` wird beim LESEN benutzt, nicht aus
    einer Datei übernommen (Kommentar an `_fachTuerSchluessel` im Kern, U2-ADR-230:
    `kdf.iterationen` aus einer Datei wird bewusst NICHT gelesen — unter der laufenden
    `kryptoVersion` kann er nie von `PBKDF2_ITERATIONS` abweichen). Eine Änderung der Krypto-

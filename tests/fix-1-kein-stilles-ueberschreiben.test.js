@@ -148,9 +148,12 @@ async function dateiDepotMitFremdemStand() {
   await k.V.depotInDateiSichern();                       // legt die Bindung an, schreibt M1
   assert.ok(kiste.inhalt, 'Vorprüfung: es wurde überhaupt eine Datei geschrieben');
   const umschlag = ausKiste(kiste.inhalt);
-  assert.equal(typeof umschlag.gespeichert_am, 'string', 'Vorprüfung: die Datei trägt die Klartext-Marke');
-  const fremdeMarke = new Date(Date.parse(umschlag.gespeichert_am) + 60000).toISOString();
-  kiste.inhalt = inKiste({ ...umschlag, gespeichert_am: fremdeMarke });   // „das andere Fenster"
+  // Seit v860 (U2-ADR-464) trägt die Datei außen die Stand-Marke, keinen Zeitpunkt mehr.
+  assert.equal(typeof umschlag.stand_marke, 'string', 'Vorprüfung: die Datei trägt die Stand-Marke');
+  assert.equal(umschlag.gespeichert_am, undefined, 'Vorprüfung: kein Zeitpunkt im Klartext');
+  const fremdeMarke = umschlag.stand_marke.split('').reverse().join('');   // eine andere Marke: „das andere Fenster"
+  assert.notEqual(fremdeMarke, umschlag.stand_marke);
+  kiste.inhalt = inKiste({ ...umschlag, stand_marke: fremdeMarke });
   return { k, kiste, fremdeMarke };
 }
 
@@ -158,14 +161,14 @@ test('[Nr1·Datei] das zweite Fenster überschreibt die veränderte Datei NICHT'
   const { k, kiste, fremdeMarke } = await dateiDepotMitFremdemStand();
   const weg = await k.V.depotInDateiSichern();
   assert.equal(weg, 'konflikt', 'gemeldet, nicht geschrieben');
-  assert.equal(ausKiste(kiste.inhalt).gespeichert_am, fremdeMarke,
+  assert.equal(ausKiste(kiste.inhalt).stand_marke, fremdeMarke,
     'die Datei auf dem Datenträger ist unangetastet');
 });
 
 test('[Nr1·Datei·Positivkontrolle] mit ausdrücklichem Überschreiben schreibt es sehr wohl', async () => {
   const { k, kiste, fremdeMarke } = await dateiDepotMitFremdemStand();
   await k.V.depotInDateiSichern({ ueberschreiben: true });
-  assert.notEqual(ausKiste(kiste.inhalt).gespeichert_am, fremdeMarke,
+  assert.notEqual(ausKiste(kiste.inhalt).stand_marke, fremdeMarke,
     'die bewusste Wahl kommt durch — die Sperre ist eine Sperre, keine Sackgasse');
 });
 
@@ -174,7 +177,7 @@ test('[Nr1·Datei·Negativkontrolle] unveränderte Datei → zweites Speichern f
   const k = ladeKern({ showSaveFilePicker: picker, Blob });
   await k.V.depotAnlegen(PW);
   await k.V.depotInDateiSichern();
-  const erste = ausKiste(kiste.inhalt).gespeichert_am;
+  const erste = ausKiste(kiste.inhalt).stand_marke;
   const weg = await k.V.depotInDateiSichern();
   assert.notEqual(weg, 'konflikt', 'niemand sonst war an der Datei — hier darf nichts fragen');
   assert.ok(kiste.inhalt, 'und geschrieben wurde auch');

@@ -345,7 +345,10 @@ test('[Textsatz] kein Eintrag im Satz ist tot: jede Kennung wird von einem Knote
      Array-Art und trägt darum eine indizierte Kennung. */
   const DOK_ARTEN = [].concat(V.TEXTSATZ_ARTEN, ['frage', 'hilfetext', 'einleitung', 'toast'],
     ['prefix', 'satz', 'text', 'sektion', 'besprochenEinleitung', 'rollenLabel',
-      'abschluss', 'wortlaut', 'feldname']);
+      'abschluss', 'wortlaut', 'feldname',
+      // `luecke` (U2-ADR-353) steht im Kern in TEXTSATZ_ARTEN_DOKUMENT; hier fehlte sie, bis die BMJ-Lücken der
+      // Patientenverfügung (U2-ADR-459) die ersten luecke-Kennungen an Dokument-Modulen brachten.
+      'luecke']);
   V._textsatzOrteBegehen((knoten, kennung) => {
     if (typeof kennung !== 'string' || !/^(dok:|pvBmj|kiKorpus|vollmachtBmj)/.test(kennung)) return;
     for (const a of DOK_ARTEN) wege.add(kennung + '.' + a);

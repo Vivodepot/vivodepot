@@ -72,6 +72,10 @@ const AUSNAHMEN = new Map([
     'U2-ADR-043: VIVODEPOT\\x01-Magic-Byte-Header, dokumentiertes .vivodepot-Dateiformat, kein Fund.'],
   ['tests/fixtures/vorfuehrung-zugang-zum-recht/demo-en.vivodepot',
     'U2-ADR-043: VIVODEPOT\\x01-Magic-Byte-Header, dokumentiertes .vivodepot-Dateiformat, kein Fund.'],
+  ['tests/fixtures/vorfuehrung-zugang-zum-recht/altdatei-demo-de-2026-09-10.vivodepot',
+    'U2-ADR-043: VIVODEPOT\\x01-Magic-Byte-Header, dokumentiertes .vivodepot-Dateiformat, kein Fund.'],
+  ['tests/fixtures/vorfuehrung-zugang-zum-recht/altdatei-demo-en-2026-09-10.vivodepot',
+    'U2-ADR-043: VIVODEPOT\\x01-Magic-Byte-Header, dokumentiertes .vivodepot-Dateiformat, kein Fund.'],
   // Klasse D — Steuerzeichen aus PDF-Textextraktion amtlicher Formulare (0x83 Bullet-
   // Artefakt, 0x08/0x0c/0x07 Fett-Overstrike/Seitenwechsel). UNGEPRÜFT, ob es wirklich
   // wortgetreuer amtlicher Text ist (Meßbericht, §„Nicht gemessen") — nur Muster/Zweck sprechen

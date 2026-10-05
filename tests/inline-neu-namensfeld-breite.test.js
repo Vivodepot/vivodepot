@@ -13,7 +13,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const HTML = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
+const HTML = kernMitHeute(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
 
 test('.inline-neu bricht unconditional um (wie F1/F2: Umbruch statt Kollision)', () => {
   const basis = HTML.match(/\.inline-neu \{[^}]*\}/);

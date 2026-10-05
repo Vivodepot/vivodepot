@@ -39,7 +39,7 @@ const URL = (datei) => 'file://' + path.join(REPO, datei);
    statisch über die Dateien vergleicht. Hier wird er IM LAUF gelesen — aus dem
    Dokument, das der Browser wirklich geladen hat. Das bricht genau dann, wenn
    der Block wechselt und diese Anwendung nicht mitgezogen wurde. */
-const BLOCK_HASH_ERWARTET = '732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282';
+const BLOCK_HASH_ERWARTET = '4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98';
 
 async function blockHashImLauf(page) {
   return page.evaluate(async () => {

@@ -246,7 +246,7 @@ test('14) Round-Trip EDCI-Bildung: Textfelder identisch (ref-Felder ausgenommen)
   const werte = { schoolLeavingQualification: 'Abitur 1985', school: 'Maximiliansgymnasium', vocationalTraining: 'Bankkauffrau',
     universityDegreeType: 'Diplom-Volkswirtin', occupationRole: 'Volkswirtin', qualifications: 'Bilanzbuchhalterin', volunteerWork: 'Tafel München' };
   // ehrenamt ist seit Zug 3 (Sensibel-Architektur, 09.08.2026) schema-sensibel (Grenzfall) — Opt-in.
-  const { b } = await roundTrip((V) => { for (const id of ids) V.sektorFeldSetzen('education', id, werte[id]); }, 'edci-bildung', { sensibel: true });
+  const { b } = await roundTrip((V) => { for (const id of ids) V.sektorFeldSetzen('education', id, werte[id]); }, 'bildungsangaben', { sensibel: true });
   assert.deepEqual(felder(b.V, 'education', ids), werte);
 });
 

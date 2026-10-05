@@ -18,32 +18,25 @@
    (U2-ADR-326, tests/zugang-zum-recht-ab-werk-einlass.test.js).
 
    Aufruf:  node tools/vorfuehrung-zugang-zum-recht-demodepot-erzeugen.js [ziel] [--en]
-            --en füllt zusätzlich Textsprache Englisch (derselbe Inhalt).
+            --en baut im englischen Produkt (derselbe Inhalt).
+
+   SEIT 04.10.2026 IM PRODUKT ab Werk: das Depot entsteht im Privat-Produkt seiner Sprache (privat-de bzw. privat-en,
+   tests/produkt-html-erzeugen.js), nicht im nackten Kern mit eingelassenem Sprachmodul. Seine Module sind damit die
+   ausgelieferten, und es öffnet ohne Sperr-Hinweis. Die Dateien davor stehen als benannte Altdateien in
+   tests/fixtures/vorfuehrung-zugang-zum-recht/altdatei-demo-*-2026-09-10.vivodepot (sie tragen ein eingelassenes Sprachmodul einer nie ausgelieferten Fassung).
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
 const { ladeKern } = require('../tests/load-kern.js');
+const { produktHtml } = require('../tests/produkt-html-erzeugen.js');
 
 const STANDARD_PASSWORT = 'zugang-zum-recht-vorfuehrung-2026';
 const DATEI_MAGIC_PREFIX = 'VIVODEPOT' + String.fromCharCode(1);
 
 async function baueDemodepot({ passwort = STANDARD_PASSWORT, sprache = 'de' } = {}) {
-  const { V } = ladeKern();
+  const { V } = ladeKern({ htmlPfad: produktHtml(sprache === 'en' ? 'privat-en' : 'privat-de') });
   await V.depotAnlegen(passwort);
   V.akteurSelbstErklaeren('Elisabeth');
-  if (sprache === 'en') {
-    // Englisch ist ein ANDOCKBARES Sprachmodul, kein bloßes Datenfeld — nur `textsprache: 'en'`
-    // zu setzen ließe den Kern auf die eingebauten DEUTSCHEN Texte zurückfallen (live gemessen,
-    // s. Bericht). Der echte Weg (Einstellungen → Module → Einlassen) dockt
-    // `tools/textsatz-en-modul.json` über `modulEinlassen` an, GENAU wie eine Bürgerin es täte.
-    const enModulPfad = path.join(__dirname, 'textsatz-en-modul.json');
-    const enModul = JSON.parse(fs.readFileSync(enModulPfad, 'utf8'));
-    const angenommen = V.modulEinlassen(JSON.stringify(enModul));
-    if (!angenommen.angenommen) throw new Error('EN-Sprachmodul wurde nicht angenommen: ' + angenommen.grund);
-    V._textsatzModuleAusDepotAnmelden(V.getData());
-    V.getData().textsprache = 'en';
-    V.textsatzNeuAnwenden();
-  }
 
   // Teil 0 — die Person. Dieselbe Fixture-Persona wie der Auszug-Rendertest.
   V.sektorFeldSetzen('identity', 'givenName', 'Elisabeth');

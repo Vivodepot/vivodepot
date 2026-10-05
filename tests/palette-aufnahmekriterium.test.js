@@ -26,6 +26,7 @@
    keine — das ist der Bruch, den der Palettentausch behebt.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte kommen mit dem Erscheinungsbild
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { verhaeltnis } = require('../tools/lib/kontrast.js');
@@ -112,7 +113,7 @@ function themeBlock(html, sel) {
 }
 
 test('[Aufnahmekriterium] Kopfzeile: kein Theme übersteuert die Topbar-Fläche mit dem Sub-Akzent', () => {
-  const { html } = ladeKern();
+  const html = kernMitHeute(ladeKern().html);
   // Hell (:root) und Nacht/HC (Theme-Blöcke) — keiner davon darf .topbar auf --vm-chrome setzen.
   // Ein exaktes Selektor-Ende (Komma oder öffnende Klammer, keine Fortsetzung wie `.tb-eng-2`) —
   // sonst träfe ein UNVERWANDTES, längeres Selektor (z. B. eine Breakpoint-Regel auf ein
@@ -139,7 +140,7 @@ test('[Aufnahmekriterium] Kopfzeile: kein Theme übersteuert die Topbar-Fläche 
 });
 
 test('[Aufnahmekriterium] Kopfzeile: --auf-akzent (Topbar-Text) ist in jedem Theme definiert, unbeeinflusst vom Sub-Akzent', () => {
-  const { html } = ladeKern();
+  const html = kernMitHeute(ladeKern().html);
   // Hell: Default #ffffff (kein Theme-Block überschreibt es dort separat).
   assert.ok(/--auf-akzent:\s*#ffffff/.test(html), 'Hell: --auf-akzent #ffffff');
   // Nacht: eigener Wert (helles Ink), unabhängig vom Sub-Akzent.

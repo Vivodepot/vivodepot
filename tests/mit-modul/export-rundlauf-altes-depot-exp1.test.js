@@ -51,6 +51,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const { lesbar, mitOffenlegungen } = require('../helfer/sdjwt-entpacken.js');   // kompakte SD-JWT-Ausgaben vor jeder Textsuche entpacken (U2-ADR-457)
 const ICAL = require('ical.js');
 const { ladeKern } = require('../load-kern.js');
 const altesFixture = require('../fixtures/referenzdepot-vor-kennungsumbau.js');
@@ -97,7 +98,7 @@ test('[EXP1] jedes Exportformat mit eigenem Einlesekanal läuft nach der Migrati
   for (const def of V.EXPORT_FORMATE) {
     if (def.nurExport) continue;
     assert.ok(importIds.includes(def.id), def.id + ': kein Einlesekanal, obwohl nicht nurExport');
-    const text = V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
+    const text = await V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
     const plan = V.importPlan(def.id, text);
     assert.ok(plan && !plan.ungueltig, def.id + ': eigener Einlesekanal lehnt die eigene Ausgabe ab');
     assert.ok(planZeilen(plan) > 0, def.id + ': eigener Einlesekanal liefert keine Zeile');
@@ -112,7 +113,7 @@ test('[EXP1] ics-vorsorge (kein Einlesekanal): Fremdparser (ical.js) findet das 
   const { V, d } = await altesDepotMigriert();
   const def = V.EXPORT_FORMATE.find((f) => f.id === 'ics-vorsorge');
   assert.ok(def && def.nurExport, 'Vorbedingung: ics-vorsorge ist weiterhin als nurExport erklärt');
-  const text = V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
+  const text = await V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
 
   const jcal = ICAL.parse(text);   // wirft bei strukturell kaputtem ICS — kein eigener Code, echte fremde Bibliothek
   const comp = new ICAL.Component(jcal);
@@ -146,9 +147,10 @@ test('[EXP1] nichts verloren: alle migrierten Bereiche, Menschen, Institutionen 
 test('[EXP1·Rot-Beweis] die Vergleichsprobe erkennt eine echte Verfälschung (Methodik-Beleg, kein Produktfund)', async () => {
   const { V } = await altesDepotMigriert();
   const def = V.EXPORT_FORMATE.find((f) => f.id === 'sd-jwt-vc-identitaet');
-  const text = V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
-  assert.ok(text.includes('Wredenhagen-Sonnenschein'), 'Vorbedingung: der bekannte Nachname steht in der unverfälschten Ausgabe');
-  const verfaelscht = text.replace(/Wredenhagen-Sonnenschein/g, 'Falscher-Nachname');
+  const text = await V.formatExportInhalt(def, { sensibel: true, jetzt: JETZT });
+  assert.ok(lesbar(text).includes('Wredenhagen-Sonnenschein'), 'Vorbedingung: der bekannte Nachname steht in der unverfälschten Ausgabe');
+  // Kompakt (U2-ADR-457): die Verfälschung geht in die Offenlegung; sync importPlan liest strukturell, ohne Signaturprüfung.
+  const verfaelscht = mitOffenlegungen(text, (o) => (o[2] === 'Wredenhagen-Sonnenschein' ? [o[0], o[1], 'Falscher-Nachname'] : o));
   const plan = V.importPlan('sd-jwt-vc-identitaet', verfaelscht);
   const { anders } = zeilenVergleichen(V, plan);
   assert.ok(anders.length > 0, 'Rot-Beweis verfehlt: eine verfälschte Ausgabe wird als "gleich" durchgewunken');

@@ -1,0 +1,58 @@
+{
+    "$schema": "https://fundingjson.org/schema/v1.1.0.json",
+    "version": "v1.0.0",
+    "entity": {
+        "type": "organisation",
+        "role": "owner",
+        "name": "Vivodepot GmbH",
+        "email": "info@vivodepot.de",
+        "phone": "",
+        "description": "Vivodepot GmbH (Berlin, Germany) develops and maintains Vivodepot, an open-source application (EUPL-1.2) in which people keep the records of their own life in one encrypted file they hold themselves.",
+        "webpageUrl": {
+            "url": "https://vivodepot.de",
+            "wellKnown": "https://vivodepot.de/.well-known/funding-manifest-urls"
+        }
+    },
+    "projects": [{
+        "guid": "vivodepot",
+        "name": "Vivodepot",
+        "description": "Each edition of Vivodepot is a single HTML file that runs offline in the browser, without an account; no server holds the records. People keep the records of their own life across thirteen areas, encrypted client-side (AES-256-GCM), and hand recipients extracts, among them HL7 FHIR (International Patient Summary, validated with the HL7 validator), vCard and iCalendar. An open specification of the underlying data format with a standalone validator is planned, so that other implementations and institutions can build on it.",
+        "webpageUrl": {
+            "url": "https://vivodepot.de",
+            "wellKnown": "https://vivodepot.de/.well-known/funding-manifest-urls"
+        },
+        "repositoryUrl": {
+            "url": "https://github.com/vivodepot/vivodepot"
+        },
+        "licenses": ["spdx:EUPL-1.2"],
+        "tags": ["privacy", "security", "cryptography", "information-management", "data", "storage", "web-development"]
+    }],
+    "funding": {
+        "channels": [{
+            "guid": "bank-transfer",
+            "type": "bank",
+            "address": "",
+            "description": "Bank transfer to Vivodepot GmbH. Account details on request via info@vivodepot.de."
+        }],
+        "plans": [{
+            "guid": "open-format-validator",
+            "status": "active",
+            "name": "Open format and validator",
+            "description": "Specification, standalone validator and test corpus for the open data format, and keeping the reference implementation conformant.",
+            "amount": 50000,
+            "currency": "EUR",
+            "frequency": "yearly",
+            "channels": ["bank-transfer"]
+        },
+        {
+            "guid": "any-amount",
+            "status": "active",
+            "name": "Any amount",
+            "description": "One-time support of any size.",
+            "amount": 0,
+            "currency": "EUR",
+            "frequency": "one-time",
+            "channels": ["bank-transfer"]
+        }]
+    }
+}

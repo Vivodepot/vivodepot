@@ -18,6 +18,9 @@ const path = require('node:path');
 module.exports = defineConfig({
   testDir: path.join(__dirname, 'tests', 'e2e'),
   testMatch: '**/*.spec.js',
+  // VD_PW_AUSLASSEN (04.10.2026): kommagetrennte Spec-Dateinamen, die dieser Lauf auslässt — gesetzt nur von einer Umgebung,
+  // in der ein Browser nicht startet und die Specs anderswo laufen. Ohne die Variable läuft alles wie bisher.
+  testIgnore: process.env.VD_PW_AUSLASSEN ? process.env.VD_PW_AUSLASSEN.split(',').filter(Boolean).map((n) => '**/' + n) : undefined,
   // Schnitt-Nachtrag (18.09.2026): backt die vier Produkte einmal vor dem ganzen Lauf —
   // s. Kopf-Kommentar in tests/e2e/global-setup.js für den Anlass und den gemessenen Preis.
   globalSetup: require.resolve('./tests/e2e/global-setup.js'),

@@ -95,7 +95,7 @@ function suiteMessen() {
   const { execFileSync } = require('node:child_process');
   const dateien = suiteDateien(REPO);
   let roh = '';
-  try { roh = execFileSync('node', ['--test', ...dateien], { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }); }
+  try { roh = execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }); }
   catch (e) { roh = (e.stdout || '') + (e.stderr || ''); }
   const m = /^ℹ tests (\d+)$/m.exec(roh);
   return m ? Number(m[1]) : null;

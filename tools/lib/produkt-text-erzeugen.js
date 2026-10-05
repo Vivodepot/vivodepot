@@ -190,6 +190,17 @@ const AB_WERK_REGIONEN = Object.freeze([
     ende: '/* LEBENSLAGEN_KATALOG:END */',
     nativerWert: 'null',
   },
+  {
+    // Das Erscheinungsbild (U2-ADR-473 Nachtrag, v894, 02.10.2026): seit v894 trägt das Gerüst keine Erscheinungswerte
+    // mehr; sie kommen als Rezept-Zutat `erscheinungsbildModul` (Quelle tools/erscheinung/heute.css). EIN Objekt
+    // { modulTyp, id, basis, hochkontrast, dunkel }. Vor dem Backen geprüft gegen die Regeln DESSELBEN Kerns
+    // (_erscheinungsbildPruefen, s. produktTextErzeugen) — ein Verstoß baut kein Produkt.
+    modulTyp: 'erscheinungsbild',
+    kennung: 'AB_WERK_ERSCHEINUNGSBILD_PRODUKT',
+    begin: '/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN */',
+    ende: '/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:END */',
+    nativerWert: 'null',
+  },
 ]);
 
 function _regionSpanne(quelle, region, datei) {
@@ -414,6 +425,165 @@ function _htmlLangAufText(text, module, datei) {
   if (!ohne) return text;
   return text.slice(0, ohne.index) + '<html lang="' + kennung + '"' + text.slice(ohne.index + ohne[0].length);
 }
+/* ── Erscheinungsbild: die Schutzregeln des Kerns, beim Bauen (U2-ADR-473 Nachtrag, v894, Auflagen B und D) ──────────
+   Der Kern prüft ein Erscheinungsbild selbst, im <script id="erscheinungsbild"> (erscheinungsbildPruefen). Hier steht
+   DIESELBE Prüfung ein zweites Mal, weil dieser Abschnitt auch im Download-Gateway läuft (Cloudflare Worker): dort gibt
+   es weder `vm` noch `new Function`, Kern-Code läßt sich also nicht ausführen. Die REGELN sind trotzdem nur einmal da:
+   sie stehen als JSON im Block ERSCHEINUNGSBILD_REGELN des Kerns und werden von hier gelesen, nicht kopiert. Dass beide
+   Umsetzungen gleich urteilen, hält tests/erscheinungsbild-pruefung.test.js an einem gemeinsamen Satz von Fällen fest. */
+const ERSCHEINUNGSBILD_REGELN_ANFANG = 'const ERSCHEINUNGSBILD_REGELN = Object.freeze(';
+const ERSCHEINUNGSBILD_REGELN_ENDE = ');\n/* Ende ERSCHEINUNGSBILD_REGELN */';
+const ERSCHEINUNGSBILD_REGION_BEGIN = '/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN */';
+function erscheinungsbildRegelnLesen(kernText) {
+  const a = kernText.indexOf(ERSCHEINUNGSBILD_REGELN_ANFANG);
+  if (a < 0) return null;
+  const e = kernText.indexOf(ERSCHEINUNGSBILD_REGELN_ENDE, a);
+  if (e < 0) return null;
+  return JSON.parse(kernText.slice(a + ERSCHEINUNGSBILD_REGELN_ANFANG.length, e));
+}
+const _EB_WERT_ZEICHEN = /^[#a-zA-Z0-9 .,%()'"+\-*/]{1,300}$/;
+const _EB_WERT_VERBOTEN = /url\(|expression\(|image-set\(|attr\(|\/\*|@|!|\\|[;{}<>]/i;
+const _EB_VERWEIS = /var\(\s*(--[a-z0-9-]+)\s*(?:,([^()]*(?:\([^()]*\))?[^()]*))?\)/g;
+function _ebAufloesen(wert, tokens, tiefe = 0) {
+  if (tiefe > 12) return null;
+  let offen = false;
+  const aus = wert.replace(_EB_VERWEIS, (_, name, rueckfall) => {
+    if (Object.prototype.hasOwnProperty.call(tokens, name)) return _ebAufloesen(tokens[name], tokens, tiefe + 1) || ((offen = true), '');
+    if (rueckfall !== undefined) return _ebAufloesen(rueckfall.trim(), tokens, tiefe + 1) || ((offen = true), '');
+    offen = true;
+    return '';
+  });
+  return offen ? null : aus.trim();
+}
+function _ebHex(wert) {
+  if (typeof wert !== 'string') return null;
+  const w = wert.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(w)) return w.toLowerCase();
+  if (/^#[0-9a-fA-F]{3}$/.test(w)) return ('#' + w[1] + w[1] + w[2] + w[2] + w[3] + w[3]).toLowerCase();
+  return null;
+}
+function _ebLeuchtdichte(hex) {
+  const k = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * k[0] + 0.7152 * k[1] + 0.0722 * k[2];
+}
+function _ebKontrast(a, b) {
+  const x = _ebLeuchtdichte(a);
+  const y = _ebLeuchtdichte(b);
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+}
+function _ebPx(wert) {
+  const m = /^(-?[0-9]+(?:\.[0-9]+)?)(px|rem)$/.exec(String(wert).trim());
+  if (!m) return null;
+  return m[2] === 'rem' ? parseFloat(m[1]) * 16 : parseFloat(m[1]);
+}
+/* Die Grammatik eines `stil`-Teils — dieselbe wie _ebStilPruefen im Kern (Lesart B, Auflagen der Gegenlesung 1–3). */
+function _ebStilPruefen(teil, text, R) {
+  const g = [];
+  if (!/^[a-z][a-z0-9-]{0,40}$/.test(teil)) g.push('stil-teilname');
+  if (typeof text !== 'string' || text.length > 600000) { g.push('stil-kein-text'); return g; }
+  if (/<|\\|!important|expression\(|behavior\s*:|-moz-binding|javascript:|\/\*/i.test(text)) g.push('stil-verboten');
+  const at = text.match(/@[a-zA-Z-]+/g) || [];
+  if (!at.every((a) => R.stilAtRegeln.includes(a.slice(1).toLowerCase()))) g.push('stil-at-regel');
+  const urls = text.match(/url\(\s*["']?[^"')\s]*/gi) || [];
+  if (!urls.every((u) => { const ziel = u.replace(/^url\(\s*["']?/i, ''); return R.stilUrlErlaubt.some((p) => ziel.startsWith(p)); })) g.push('stil-url');
+  const inhalte = text.match(/(^|[;{\s])content\s*:[^;}]*/g) || [];
+  if (!inhalte.every((c) => {
+    const w = c.replace(/^[;{\s]*content\s*:/, '').trim();
+    if (/^(none|normal|counters?\([^)]*\))$/.test(w)) return true;
+    const m = /^(["'])([^"']*)\1$/.exec(w);
+    return !!m && Array.from(m[2]).every((z) => R.inhaltZeichen.includes(z));
+  })) g.push('stil-content');
+  let tiefe = 0;
+  let start = 0;
+  const muster = new RegExp(R.geschuetztMuster, 'i');
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '{') {
+      const sel = text.slice(start, i).trim();
+      if (sel && sel[0] !== '@' && !/^(from|to|[0-9.]+%)(\s*,\s*(from|to|[0-9.]+%))*$/.test(sel)
+        && sel.split(',').some((x) => muster.test(x.trim().replace(/\s+/g, ' '))) && !g.includes('stil-geschuetzt')) g.push('stil-geschuetzt');
+      tiefe++;
+      start = i + 1;
+    } else if (c === '}') { tiefe--; start = i + 1; if (tiefe < 0) break; } else if (c === ';') start = i + 1;
+  }
+  if (tiefe !== 0) g.push('stil-klammern');
+  return g;
+}
+/* Dasselbe Urteil wie erscheinungsbildPruefen im Kern — Form { gueltig, verworfene, verstoesse }. */
+function _erscheinungsbildPruefen(modul, R) {
+  const verworfene = [];
+  const verstoesse = [];
+  if (!modul || typeof modul !== 'object' || Array.isArray(modul)) return { gueltig: false, verworfene: [{ ebene: null, schluessel: null, grund: 'kein-objekt' }], verstoesse };
+  for (const s of Object.keys(modul)) if (!R.schluessel.includes(s)) verworfene.push({ ebene: null, schluessel: s, grund: 'unbekannter-schluessel' });
+  if (modul.modulTyp !== 'erscheinungsbild') verworfene.push({ ebene: null, schluessel: 'modulTyp', grund: 'falscher-modultyp' });
+  // `layout`: bis v897 seine Prüfung hier einhängt, nur leer — dieselbe Stelle wie im Kern.
+  if (modul.layout !== undefined && !(modul.layout && typeof modul.layout === 'object' && !Array.isArray(modul.layout) && !Object.keys(modul.layout).length)) {
+    verworfene.push({ ebene: null, schluessel: 'layout', grund: 'layout-ungeprueft' });
+  }
+  const bekannt = (n) => R.token.includes(n) || R.geschuetzt.includes(n);
+  const ebenen = {};
+  for (const ebene of Object.keys(R.ebenen)) {
+    const roh = modul[ebene];
+    ebenen[ebene] = {};
+    if (roh === undefined && ebene !== 'basis') continue;
+    if (!roh || typeof roh !== 'object' || Array.isArray(roh)) { verworfene.push({ ebene, schluessel: null, grund: 'ebene-kein-objekt' }); continue; }
+    for (const [name, wert] of Object.entries(roh)) {
+      if (R.geschuetzt.includes(name)) { verworfene.push({ ebene, schluessel: name, grund: 'geschuetzt' }); continue; }
+      if (!R.token.includes(name)) { verworfene.push({ ebene, schluessel: name, grund: 'unbekannt' }); continue; }
+      if (typeof wert !== 'string' || !_EB_WERT_ZEICHEN.test(wert) || _EB_WERT_VERBOTEN.test(wert)) { verworfene.push({ ebene, schluessel: name, grund: 'grammatik' }); continue; }
+      const verweise = wert.match(/var\(\s*--[a-z0-9-]+/g) || [];
+      if (!verweise.every((v) => bekannt(v.replace(/^var\(\s*/, '')))) { verworfene.push({ ebene, schluessel: name, grund: 'unbekannter-verweis' }); continue; }
+      ebenen[ebene][name] = wert;
+    }
+  }
+  if (!Object.keys(ebenen.basis).length) verworfene.push({ ebene: 'basis', schluessel: null, grund: 'basis-leer' });
+  if (modul.stil !== undefined) {
+    if (!modul.stil || typeof modul.stil !== 'object' || Array.isArray(modul.stil)) verworfene.push({ ebene: 'stil', schluessel: null, grund: 'stil-kein-objekt' });
+    else for (const [teil, text] of Object.entries(modul.stil)) for (const grund of _ebStilPruefen(teil, text, R)) verworfene.push({ ebene: 'stil', schluessel: teil, grund });
+  }
+  for (const ebene of Object.keys(R.ebenen)) {
+    const t = Object.assign({}, ebenen.basis, ebene === 'basis' ? {} : ebenen[ebene]);
+    for (const [vorne, hinten] of R.kontrast) {
+      const a = _ebHex(_ebAufloesen(t[vorne] || '', t));
+      const b = _ebHex(_ebAufloesen(t[hinten] || '', t));
+      if (!a || !b) { verstoesse.push({ regel: 'kontrast-unbestimmbar', ebene, schluessel: vorne + '/' + hinten }); continue; }
+      const k = _ebKontrast(a, b);
+      if (k < R.kontrastMindest) verstoesse.push({ regel: 'kontrast', ebene, schluessel: vorne + '/' + hinten, wert: Number(k.toFixed(2)) });
+    }
+    for (const name of Object.keys(t)) {
+      const grenze = Object.prototype.hasOwnProperty.call(R.mindestPx, name) ? R.mindestPx[name] : (name.startsWith('--fs-') ? R.schriftMindestPx : null);
+      if (grenze === null) continue;
+      const aufgeloest = _ebAufloesen(t[name], t);
+      if (aufgeloest === null) { verstoesse.push({ regel: 'groesse-unbestimmbar', ebene, schluessel: name }); continue; }
+      const px = _ebPx(aufgeloest);
+      if (px !== null && px < grenze) verstoesse.push({ regel: 'mindestgroesse', ebene, schluessel: name, wert: px });
+    }
+    // Andockstelle LAYOUT_PFLICHT (v897, v897) — dieselbe Stelle wie im Kern (erscheinungsbildPruefen). Heute ist R.pflicht leer.
+  }
+  return { gueltig: !verworfene.length && !verstoesse.length, verworfene, verstoesse };
+}
+/* Die vier Fälle (mit dem Gateway-Eigentümer abgestimmt, 02.10.2026): Kern ohne Region und ohne Modul → wie bisher (Rückwärtsverträglichkeit
+   gegen einen Kern vor v894); Kern ohne Region MIT Modul → Fehler (Rezept passt nicht zum Kern); Kern MIT Region ohne Modul
+   → Fehler (sonst ein still nacktes Produkt); beide da → prüfen, bei Verstoß Fehler. */
+function _erscheinungsbildVorBacken(kernText, klassifiziert, datei) {
+  const module = klassifiziert.filter((m) => m.roh && m.roh.modulTyp === 'erscheinungsbild');
+  const regionDa = kernText.includes(ERSCHEINUNGSBILD_REGION_BEGIN);
+  if (!regionDa && !module.length) return;
+  if (!regionDa) throw new Error('Erscheinungsbild-Modul ' + module[0].basisname + ', aber ' + datei + ' trägt keine Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT — Rezept und Kern passen nicht zusammen.');
+  if (!module.length) throw new Error(datei + ' trägt die Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT, das Rezept kein Erscheinungsbild-Modul — das Produkt wäre nackt.');
+  const R = erscheinungsbildRegelnLesen(kernText);
+  if (!R) throw new Error(datei + ': Block ERSCHEINUNGSBILD_REGELN fehlt oder ist beschädigt — ohne Regeln wird nicht gebacken.');
+  const urteil = _erscheinungsbildPruefen(module[0].roh, R);
+  if (!urteil.gueltig) {
+    const zeilen = urteil.verworfene.map((v) => (v.ebene || '-') + ' ' + (v.schluessel || '-') + ': ' + v.grund)
+      .concat(urteil.verstoesse.map((v) => v.ebene + ' ' + v.schluessel + ': ' + v.regel + (v.wert !== undefined ? ' (' + v.wert + ')' : '')));
+    throw new Error('Erscheinungsbild-Modul ' + module[0].basisname + ' verletzt die Regeln des Kerns:\n  ' + zeilen.join('\n  '));
+  }
+}
+
 function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste }) {
   const datei = 'vivodepot.html';
   kernText = mitEntwicklerleiste === true ? kernText : _entwicklerleisteSchneiden(kernText, datei);
@@ -425,6 +595,7 @@ function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInha
   const nachVorDepot = _vorDepotKonfigurationAufText(kernText, modulauswahl, vorDepotKonfigurationInhaltFn, datei);
   const nachServiceWorker = _serviceWorkerVorhandenAufText(nachVorDepot, serviceWorkerVorhanden !== undefined ? serviceWorkerVorhanden : false, datei);
   const klassifiziert = (unsignierteModule || []).map((m) => _unsigniertesModulKlassifizieren(m.roh, m.basisname));
+  _erscheinungsbildVorBacken(nachServiceWorker, klassifiziert, datei);
   const { quelle, ergebnis } = _abWerkModuleAufText(nachServiceWorker, klassifiziert, datei);
   return { text: _htmlLangAufText(quelle, (unsignierteModule || []).map((m) => m.roh), datei), module: ergebnis.module };
 }
@@ -437,4 +608,5 @@ module.exports = {
   SERVICE_WORKER_MARKER_BEGIN, SERVICE_WORKER_MARKER_ENDE, _serviceWorkerVorhandenSpanne, _serviceWorkerVorhandenAufText,
   produktTextErzeugen, ENTWICKLERLEISTE_MARKEN, _entwicklerleisteSchneiden,
   HERKUNFTSORT_BLOCK_ANFANG, HERKUNFTSORT_BLOCK_ENDE, herkunftsortBlockFinden, herkunftsortAngabenLesen, herkunftsortRezeptPruefen,
+  erscheinungsbildRegelnLesen, _erscheinungsbildPruefen, _erscheinungsbildVorBacken, _ebStilPruefen,
 };

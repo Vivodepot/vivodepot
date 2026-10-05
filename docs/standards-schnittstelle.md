@@ -44,11 +44,20 @@ Je Familie eine Datei `tools/standards-register/<familie>.json`:
 | `bereich` | `gesundheit` · `verwaltung` · `identitaet` · `finanzen` · `bildung` · `dokumente` · `querschnitt` |
 | `exportwege` / `importwege` | Kennungen aus `EXPORT_FORMATE` / `IMPORT_FORMATE` des Kerns; dürfen leer sein |
 | `bezuege` | `null` oder eine Liste von Datensatz-Kennungen aus `bereiche/bezuege-quellen.json` |
+| `pruefer` | optional: Pfad einer Prüfdatei im Repo, die über diesen Standard urteilt (ein gemessener Lauf, der etwa nur wegen der Lizenz `teilweise` bleibt) |
+| `kandidat` | `{ werkzeug, quelle }`: der Prüfer existiert, ist aber noch nicht eingehängt; `quelle` ist https |
+| `suche` | `{ quelle, ergebnis }`: belegt, dass es für diesen Standard keinen Prüfer gibt; `quelle` ist https, `ergebnis` sagt, was gesucht und gefunden wurde |
 
 **`echt` verlangt:** einen Adapter, der über diesen Standard urteilt (`standards`), `lizenz.status`
 `geprueft` und jedes Artefakt im Manifest. Die Struktur ist nur die Voraussetzung: grün misst die
 Konformitäts-Suite. Im Gate-Modus (`VD_EXTERN_GATE=1`) ist ein Prüfer, an dem ein `echt`-Standard
 hängt und der nicht gemessen werden kann, rot.
+
+**Deckung** (Grundsatz: „Für jeden Standard muss es mindestens einen Prüfer geben.“): Jede Kennung aus
+`EXPORT_FORMATE` und `IMPORT_FORMATE` steht in einer Registerzeile. Eine Zeile hat einen Prüfer, wenn sie
+`echt` ist oder `pruefer` trägt. Jede Zeile ohne Prüfer trägt `kandidat` oder `suche`. Die Zahl der Zeilen
+ohne Prüfer steht in `tools/standards-register-deckung-grundlinie.json` und darf nur sinken. Probe:
+`tests/standards-register-deckung.test.js`.
 
 **Holder-Regel:** Standards der Familie `signatur` und alle Standards mit `bereich: bildung` tragen
 nur `empfangen` · `pruefen` · `verwahren` · `vorzeigen` · `selbstauskunft-ausgeben` (und `lesen`),

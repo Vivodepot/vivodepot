@@ -54,7 +54,7 @@ test('EDCI-Bildung — sechs neu gemappte Topf-A-Felder landen im Export', async
   V.sektorFeldSetzen('education', 'universityYear', '1995');
   V.sektorFeldSetzen('education', 'employerAddress', 'Brienner Str. 18, 80333 München');
   V.sektorFeldSetzen('education', 'lastEmployer', 'Bayerische Landesbank');
-  const e = V.kernAPI.exportiere('edci-bildung');
+  const e = V.kernAPI.exportiere('bildungsangaben');
   assert.equal(e.learningAchievements.schoolQualificationYear, '1985');
   assert.equal(e.learningAchievements.academicQualificationField, 'Volkswirtschaftslehre');
   assert.equal(e.learningAchievements.academicQualificationAwardingBody, 'LMU München');

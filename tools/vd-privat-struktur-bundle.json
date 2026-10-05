@@ -1592,6 +1592,10 @@
     {
      "format": "fhir-ips",
      "labelSchluessel": "fhirExportKurz"
+    },
+    {
+     "format": "isik",
+     "labelSchluessel": "isikExportKurz"
     }
    ],
    "wizards": [
@@ -1987,11 +1991,11 @@
   },
   "education": {
    "id": "education",
-   "format": "EDCI",
+   "format": "BILDUNG",
    "icon": "graduationCap",
    "exporte": [
     {
-     "format": "edci-bildung",
+     "format": "bildungsangaben",
      "labelSchluessel": "exportBildungLabel"
     }
    ],
@@ -4318,6 +4322,13 @@
       },
       {
        "id": "informationOrCounsellingReceived",
+       "typ": "text",
+       "sensibel": true,
+       "nurMitWert": true,
+       "nurAnzeige": true
+      },
+      {
+       "id": "counsellingBy",
        "typ": "text",
        "sensibel": true,
        "nurMitWert": true,

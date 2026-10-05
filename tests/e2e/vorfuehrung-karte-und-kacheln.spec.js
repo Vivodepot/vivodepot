@@ -46,6 +46,8 @@ for (const [name, viewport] of [['Desktop', { width: 1180, height: 820 }], ['Han
       expect(stil.rolle).toBe('note');
       expect(stil.name).toBe('Erklärung');
       expect(stil.text).not.toMatch(/Vorführung/);
+      // Uhr anhalten: nach install() läuft sie sonst in Echtzeit weiter (Wächter tests/e2e-uhr-angehalten.test.js).
+      await seite.clock.pauseAt(await seite.evaluate(() => Date.now() + 50));
       const gesehen = new Set();
       for (let i = 0; i < 20; i++) {
         await expect(seite.locator('.vorfuehrung-notiz')).toBeVisible();
@@ -60,7 +62,7 @@ for (const [name, viewport] of [['Desktop', { width: 1180, height: 820 }], ['Han
       await seite.locator('#vorfuehrung-schleife').click({ position: { x: 20, y: 120 } });
       await expect(seite.locator('#vorfuehrung-schleife')).toHaveCount(0);
       await expect(seite.locator('.vorfuehrung-notiz')).toHaveCount(0);
-      expect(await seite.evaluate(() => document.querySelectorAll('[data-vorfuehrung-rand], [data-vorfuehrung-ausrichtung]').length)).toBe(0);
+      expect(await seite.evaluate(() => document.querySelectorAll('.vorfuehrung-notiz-platz').length)).toBe(0);
     } finally { await kontext.close(); fs.rmSync(ordner, { recursive: true, force: true }); }
   });
 }

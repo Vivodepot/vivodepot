@@ -233,7 +233,7 @@ async function lauf(opts) {
   // der Browser-Weg und dieses Werkzeug müssen bei GLEICHEM issuanceDate zeichengleiche certJws
   // liefern — ohne Override liefe jeder Vergleich am realen Zeitunterschied vorbei.
   const issuanceDate = opts.issuanceDate || isoSekunden(new Date().toISOString());
-  // Fund von VD Fix (30.08.2026): eine eigene, hier dupliziert gebaute Monats-Arithmetik ohne
+  // Fund vom 30.08.2026: eine eigene, hier dupliziert gebaute Monats-Arithmetik ohne
   // Tages-Clamp rollte bei Monatsende-Starttagen in einen kürzeren Zielmonat (z. B. Schaltjahr-
   // Februar) in den Folgemonat, während der Browser-Weg korrekt auf den letzten gültigen Tag
   // klemmte — zwei verschiedene Ablaufdaten aus demselben issuanceDate/gueltigkeitMonate.

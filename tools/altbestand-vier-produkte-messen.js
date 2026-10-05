@@ -68,8 +68,8 @@ const FIX = path.join(REPO, 'tests', 'fixtures');
 
 /* Die Standard-Proben. Passwörter stehen öffentlich neben den Fixtures (README bzw. Probe). */
 const STANDARD_DATEIEN = Object.freeze([
-  { pfad: path.join(FIX, 'vorfuehrung-zugang-zum-recht', 'demo-de.vivodepot'), passwort: 'zugang-zum-recht-vorfuehrung-2026' },
-  { pfad: path.join(FIX, 'vorfuehrung-zugang-zum-recht', 'demo-en.vivodepot'), passwort: 'zugang-zum-recht-vorfuehrung-2026' },
+  { pfad: path.join(FIX, 'vorfuehrung-zugang-zum-recht', 'altdatei-demo-de-2026-09-10.vivodepot'), passwort: 'zugang-zum-recht-vorfuehrung-2026' },
+  { pfad: path.join(FIX, 'vorfuehrung-zugang-zum-recht', 'altdatei-demo-en-2026-09-10.vivodepot'), passwort: 'zugang-zum-recht-vorfuehrung-2026' },
   { pfad: path.join(FIX, 'v515-ohne-auszuege', 'depot-v515-ohne-auszuege.vivodepot'), passwort: 'v515-fixture-ohne-auszuege-2026' },
   { pfad: path.join(FIX, 'v515-testdepot.json') },
   { pfad: path.join(FIX, 'altbestand-vier-produkte', 'schema-39-ki-und-bezug.json') },

@@ -69,7 +69,11 @@ function codePruefsumme(text) {
 // Probe folgt); „wortgleich“ oben gilt erst wieder nach dem Abgleich.
 // 01.10.2026 (U2-ADR-458): eine neue Region in AB_WERK_REGIONEN, modulTyp 'ips-begleittext' → AB_WERK_IPS_BEGLEITTEXT (genau ein
 // Modul, kein Listentyp). Pin neu gehasht (vorher a5d76c9e…); die Gateway-Kopie zieht mit der CSP-Vorleistung nach.
-const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = 'f81f1fa126f07946fb2eabe14753c353c16861b801ca75ffc88dc514b0dc6fda';
+// 03.10.2026 (v894, U2-ADR-473 Nachtrag): eine neue Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT (modulTyp 'erscheinungsbild') und die
+// Prüfung des Erscheinungsbilds vor dem Backen (Regeln aus dem Kern, dieselben Fälle wie im Kern). Pin neu gehasht (vorher f81f1fa1…);
+// die Gateway-Kopie hat nach der Landung nachgezogen (04.10.2026); die Brücke, die bis dahin Auslieferung und Rezept-Signatur
+// anhielt, ist entfernt.
+const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = 'd4ac166c3ae7b4bd8777be2f175bb925f234f56158e3a5495e97084ba0fbd91c';
 
 const PRODUKT_TEXT_ERZEUGEN_PFAD = path.join(__dirname, 'produkt-text-erzeugen.js');
 

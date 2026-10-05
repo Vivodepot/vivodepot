@@ -56,7 +56,11 @@ function sprachbuendelDeckung(V, eintraege) {
   for (const e of Array.isArray(eintraege) ? eintraege : []) {
     const m = modulAusEintrag(e);
     if (!m || m.modulTyp !== 'textsatz' || typeof m.sprache !== 'string' || m.sprache === 'de') continue;
-    const geprueft = V.textsatzModulPruefen(m);
+    /* Selbst-Einlass-Sperre (04.10.2026): die Texte der Schutzliste (Wortlaut der Dokumente zum Unterschreiben, Haftung,
+       Sperrmeldungen) nimmt der Kern nur ab Werk oder aus einem Bündel an, dessen Kette beim Öffnen bei Vivodepots eigener
+       Treuhand endet (Prüfstufe 'intern'). Die Bündel, die dieses Werkzeug deckt, signiert Vivodepot selbst — darum hier
+       dieselbe Stufe, mit der der Kern sie beim Öffnen prüft (_textsatzPruefstufeFuerSchutz). */
+    const geprueft = V.textsatzModulPruefen(m, { vertrauenswuerdig: 'intern' });
     if (!geprueft || !geprueft.gueltig) continue;
     const schluessel = m.sprache + '/' + (geprueft.rechtsraum || '');
     if (!faecher.has(schluessel)) faecher.set(schluessel, { sprache: m.sprache, rechtsraum: geprueft.rechtsraum || '', module: 0, texte: new Set(), roh: new Set() });

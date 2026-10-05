@@ -164,6 +164,18 @@
     "zeichneWiderrufPdf": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
+    },
+    "mappeListeHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Marke „abgelaufen“ aus dem Ablaufdatum, das im gehaltenen Nachweis selbst steht — beschriftet dessen Angabe gegen den lokalen Tag, sichert nichts zu."
+    },
+    "nachweisGueltigkeitMelden": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Meldet die Gültigkeitsangaben aus dem Nachweis selbst; „Status nicht geprüft“ sagt ausdrücklich, dass die App nichts geprüft hat — keine Zusicherung."
+    },
+    "nachweisGueltigkeitSaetze": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Gültigkeitsangaben aus dem Nachweis selbst (validFrom/validUntil, issuanceDate/expirationDate) gegen den lokalen Tag; „Status nicht geprüft“ verneint eine Prüfung, statt eine zu behaupten."
     }
   }
 }

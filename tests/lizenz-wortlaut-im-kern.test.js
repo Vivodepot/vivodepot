@@ -56,7 +56,7 @@ function maengel(region, dateien = DATEIEN, lesen = (d) => fs.readFileSync(path.
 }
 
 test('[LIZENZ-WORTLAUT] jeder Pflicht-Wortlaut steht byte-gleich mit seinem Original im Kern', () => {
-  assert.deepEqual(DATEIEN, ['LOINC_short_license.txt', 'atc-gm-quellenangabe.txt', 'icd-10-gm-quellenangabe.txt'], 'Vorbedingung: die drei Originale');
+  assert.deepEqual(DATEIEN, ['LOINC_short_license.txt', 'atc-gm-quellenangabe.txt', 'icd-10-gm-quellenangabe.txt', 'snomed-gps-hinweis.txt'], 'Vorbedingung: die vier Originale');
   assert.deepEqual(maengel(regionText(KERN)), []);
 });
 

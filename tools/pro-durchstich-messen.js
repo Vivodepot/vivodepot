@@ -206,7 +206,7 @@ const notiere = (was, wo, folge) => grenzen.push({ was, wo, folge });
   for (const f of (B.EXPORT_FORMATE || [])) {
     let traegt = null, grund = null;
     try {
-      const inhalt = B.formatExportInhalt(f, { sensibel: true });
+      const inhalt = await B.formatExportInhalt(f, { sensibel: true });
       const txt = typeof inhalt === 'string' ? inhalt : JSON.stringify(inhalt);
       traegt = feldIds.some(x => txt.includes(x)) || txt.includes('12345') || txt.includes(ABSCHNITT);
       var kernDrin = txt.includes('KERNPROBE-XYZ');

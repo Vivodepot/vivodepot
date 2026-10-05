@@ -49,7 +49,7 @@ const BEZEICHNER_MUSTER = /`(_?[a-z][a-zA-Z0-9]*)`/g;
    aber keiner sind — per Hand gegen den Kern geprüft (14./15.08.2026). */
 const EXCLUDE = new Set([
   'camt053', 'finanzen', 'nurImport', 'nurExport', 'ohneAuswahl',
-  'elster', 'xmeld', 'json', 'gesundheit', 'vct', 'resourceType',
+  'elster', 'xmeld', 'json', 'bildungsangaben', 'gesundheit', 'vct', 'resourceType',
   'dataAbsentReason', 'null', 'undefined',
 ]);
 

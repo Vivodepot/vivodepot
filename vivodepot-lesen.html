@@ -8,7 +8,7 @@
   Komponente 2 der Vier-Komponenten-Architektur (ADR-098). Eigenständige Single-File-HTML.
   READ-ONLY: liest ein zugesandtes Depot oder einen QR-Code, schreibt NIE, hält keine Daten
   zwischen Sessions. Kein localStorage/sessionStorage/IndexedDB/Cookies. Keine Netz-Zugriffe.
-  Der VdCrypto-Block (Script 1) ist byte-identisch zur Bürger-App (Hash 732ff4b0…); der JWS-Block
+  Der VdCrypto-Block (Script 1) ist byte-identisch zur Bürger-App (Hash 4cd539cd…); der JWS-Block
   + Test-Sentinel ebenso. Alle Bibliotheken inline. Kein Kamera-Scan (U2-ADR-085 §5: ersatzlos
   entfernt, kein Erzeuger mehr nach CC-01/CC-08) — Datei-Öffnen und QR-Text-Einfügen sind die
   beiden Eingangswege.
@@ -72,6 +72,11 @@
        eine Eigenschaft der damaligen Lösung, nicht ihr Ziel.
        ════════════════════════════════════════════════════════════════════════ */
     :root {
+      /* Notiz der Vorführung (wie im Kern, v843): Papier bleibt Papier, auch im dunklen Modus. */
+      --notiz-papier: #fff3a6;
+      --notiz-tinte: #2b2410;
+      --notiz-leise: #5c4a06;
+      --notiz-nadel: #c0392b;
       --akzent: #4F6539;          /* Kern --salbei-dunkel */
       --tinte: #1c2a1e;           /* Kern --ink */
       --tinte-weich: #4a5e4f;     /* Kern --ink2 */
@@ -177,6 +182,7 @@
     .vorlage-marke--gueltig { color: var(--akzent); border-color: var(--akzent); background: var(--flaeche-warm); }
     .vorlage-marke--abgelaufen { color: var(--warn-tinte); background: var(--warn-bg); border-color: var(--warn-tinte); }
     .vorlage-marke--ungueltig { color: var(--fehler); background: var(--fehler-flaeche); border-color: var(--fehler); }
+    .vorlage-marke--widerrufen { color: var(--fehler); background: var(--fehler-flaeche); border-color: var(--fehler); }
     .vorlage-marke--nicht-pruefbar { color: var(--tinte-weich); background: var(--flaeche-warm); border-color: var(--linie); }
     /* C1 (06.09.2026) — dieselbe Marke wie oben, für ein eingelassenes logikModul statt eine
        Vorlage. Eigene Klasse statt vorlage-marke wiederzuverwenden: die Erhebung
@@ -189,6 +195,7 @@
     .logikmodul-marke--gueltig { color: var(--akzent); border-color: var(--akzent); background: var(--flaeche-warm); }
     .logikmodul-marke--abgelaufen { color: var(--warn-tinte); background: var(--warn-bg); border-color: var(--warn-tinte); }
     .logikmodul-marke--ungueltig { color: var(--fehler); background: var(--fehler-flaeche); border-color: var(--fehler); }
+    .logikmodul-marke--widerrufen { color: var(--fehler); background: var(--fehler-flaeche); border-color: var(--fehler); }
     .logikmodul-marke--nicht-pruefbar { color: var(--tinte-weich); background: var(--flaeche-warm); border-color: var(--linie); }
     /* U2-ADR-258 — die Herkunft der Inhalte. Wie bei der Vorlagen-Marke daneben: DIE AUSSAGE
        STEHT IM TEXT (WCAG 1.4.1), die Farbe wiederholt sie nur. Bewusst KEIN Rot und kein
@@ -271,7 +278,7 @@
        dieselben Klassen wie im Kern. Nur sichtbar, wenn AB_WERK_VORFUEHRUNG_LESEN gebacken ist. */
     #vorfuehrung-streifen { position: fixed; top: 0; left: 0; right: 0; z-index: 400; pointer-events: none; background: var(--akzent);
       color: #fff; text-align: center; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; padding: 4px 12px; line-height: 1.4; }
-    html.vorfuehrung body { padding-top: var(--vorfuehrung-oben, 26px); }
+    html.vorfuehrung body { padding-top: var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)); }
     /* Die Spalte „Die Situation" (26.09.2026, U2-ADR-413 Nachtrag (3)) — wie im Kern: Situation, Rolle, Schritte, Knöpfe an einer
        Stelle. Breit links neben der Antwort, schmal ein Block oben, eingeklappt auf Rolle und aktuellen Schritt. Farbe je Rolle aus
        dem Bestand des Kerns: Salbei-Dunkel für die Empfänger-Seite, das Blau des Vollmacht-Modus für wer mit Vollmacht handelt. */
@@ -295,6 +302,18 @@
     .vorfuehrung-schritte li.aktiv .vorfuehrung-schritt-nr { background: var(--vorfuehrung-farbe); border-color: var(--vorfuehrung-farbe); color: #fff; font-weight: 700; }
     .vorfuehrung-karte-titel { font-weight: 700; font-size: 1.15rem; line-height: 1.25; margin: 0 0 4px; }
     .vorfuehrung-karte-text { line-height: 1.5; margin: 0; white-space: pre-line; }
+    /* Notiz (wie im Kern seit v843): der Erklärtext des Schritts klebt an der oberen rechten Ecke des Elements, von dem er
+       spricht; darüber wird ihr Platz geschaffen, darum verdeckt sie keinen Text. Höchstens drei Zeilen, der Rest hinter „mehr“. */
+    .vorfuehrung-notiz { position: absolute; z-index: 5; display: block; width: max-content; max-width: min(17rem, 60vw); margin: 0;
+      padding: 9px 12px 8px; background: var(--notiz-papier); color: var(--notiz-tinte); border-radius: 2px; font-size: 0.8rem; line-height: 1.4;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.14), 0 5px 12px rgba(60,48,0,0.18); transform: rotate(1.5deg); }
+    .vorfuehrung-notiz::before { content: ''; position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px;
+      border-radius: 50%; background: var(--notiz-nadel); box-shadow: 0 1px 2px rgba(0,0,0,0.35); }
+    .vorfuehrung-notiz-text { margin: 0; white-space: pre-line; }
+    .vorfuehrung-notiz:not(.offen) .vorfuehrung-notiz-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .vorfuehrung-notiz-mehr { margin: 2px 0 0; padding: 0; border: 0; background: none; font: inherit; font-size: 0.72rem; font-weight: 700;
+      color: var(--notiz-leise); text-decoration: underline; cursor: pointer; }
+    @media (max-width: 600px) { .vorfuehrung-notiz { max-width: 62vw; font-size: 0.74rem; padding: 7px 10px 6px; } }
     .vorfuehrung-leiste { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
     .vorfuehrung-leiste .btn { min-height: 44px; }
     .vorfuehrung-leiste .btn:disabled { opacity: 0.45; cursor: default; }
@@ -327,7 +346,7 @@
       .vorfuehrung-ueberblick { display: none; }
     }
     /* Die Zwischenkarte beim Rollenwechsel: ruhig, deckend über der Ansicht, die Spalte daneben bleibt sichtbar. */
-    #vorfuehrung-wechsel { position: fixed; top: var(--vorfuehrung-oben, 26px); left: 0; right: 0; bottom: 0; z-index: 360; display: flex;
+    #vorfuehrung-wechsel { position: fixed; top: var(--vorfuehrung-oben, var(--vorfuehrung-streifen, 26px)); left: 0; right: 0; bottom: 0; z-index: 360; display: flex;
       align-items: center; justify-content: center; padding: 20px; background: var(--flaeche); }
     .vorfuehrung-wechsel-karte { max-width: 30rem; width: 100%; border: 1px solid var(--linie); border-left: 6px solid var(--vorfuehrung-farbe);
       border-radius: 10px; padding: 20px 22px; background: var(--flaeche); box-shadow: 0 8px 28px rgba(28,42,30,0.14); }
@@ -705,6 +724,52 @@ async function deriveAdressKeyV4(masterHkdfKey, cryptoSalt, depotUUID) {
   );
 }
 
+// Signaturschlüssel der Halterin (U2-ADR-457, Nachtrag v865): Ed25519, aus dem Sitzungsschlüssel abgeleitet, nirgends
+// gespeichert. Eigene HKDF-Domäne, getrennt von Depot- und Adressschlüssel. Der Seed geht als PKCS#8 (RFC 8410: festes
+// Präfix + 32 Byte) in WebCrypto, ausschließlich nicht extrahierbar (U2-ADR-062). Den öffentlichen Schlüssel kann WebCrypto
+// aus einem nicht extrahierbaren Schlüssel nicht liefern; ihn berechnet `oeffentlichAusSeed` aus einer Kopie des Seeds
+// (im Kern die eingebettete noble-ed25519 am geprüften Commit fa14496, Cure53 02/2022). Jedes Ergebnis besteht die
+// Selbstprobe in diesem Block: Signatur mit dem WebCrypto-Schlüssel, Prüfung mit WebCrypto gegen das berechnete x. Scheitert
+// sie, gibt es keinen Schlüssel und keinen Rückfall. Seed, Kopie und PKCS#8 werden im finally überschrieben (bestmöglich
+// gelöscht, unsere Kopien); Byte-Kopien und BigInt-Zwischenwerte der Bibliothek (Seed-Kopie, SHA-512-Ergebnis mit Skalar und
+// prefix) sind nicht löschbar, bis zur Speicherbereinigung.
+const HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX = 'vivodepot/v4/halter-signatur/';
+const HALTER_SELBSTPROBE_PREFIX = 'vivodepot-halter-selbstprobe-1/';
+const ED25519_PKCS8_PRAEFIX = [0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20];
+async function deriveHalterSignaturV4(masterHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed) {
+  if (!depotUUID || typeof depotUUID !== 'string' || depotUUID.length === 0) {
+    throw new Error('halter-signatur-depot-uuid-fehlt');
+  }
+  if (!(cryptoSalt instanceof Uint8Array) || cryptoSalt.length !== SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES) {
+    throw new Error('halter-signatur-salt-ungueltig');
+  }
+  if (typeof oeffentlichAusSeed !== 'function') throw new Error('halter-signatur-ableitung-fehlt');
+  const seed = new Uint8Array(await crypto.subtle.deriveBits(
+    { name: 'HKDF', hash: HKDF_HASH, salt: cryptoSalt,
+      info: new TextEncoder().encode(HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX + depotUUID) },
+    masterHkdfKey, 256));
+  const pk8 = new Uint8Array(ED25519_PKCS8_PRAEFIX.length + 32);
+  pk8.set(ED25519_PKCS8_PRAEFIX); pk8.set(seed, ED25519_PKCS8_PRAEFIX.length);
+  const kopie = new Uint8Array(32);   // frisch, kein Teilfeld: die Bibliothek hasht `.buffer` ohne byteOffset
+  try {
+    const schluessel = await crypto.subtle.importKey('pkcs8', pk8, { name: 'Ed25519' }, false, ['sign']);
+    kopie.set(seed);
+    const roh = await oeffentlichAusSeed(kopie);
+    if (!(roh instanceof Uint8Array) || roh.length !== 32) throw new Error('halter-signatur-oeffentlich-ungueltig');
+    const oeffentlich = await crypto.subtle.importKey('raw', roh, { name: 'Ed25519' }, false, ['verify']);
+    const probe = new TextEncoder().encode(HALTER_SELBSTPROBE_PREFIX + depotUUID);
+    const sig = await crypto.subtle.sign({ name: 'Ed25519' }, schluessel, probe);
+    if (!(await crypto.subtle.verify({ name: 'Ed25519' }, oeffentlich, sig, probe))) throw new Error('halter-signatur-selbstprobe');
+    // JWK-x ist der öffentliche Rohschlüssel in base64url; kein exportKey nötig, der Prüfschlüssel bleibt nicht exportierbar.
+    let bin = '';
+    for (const b of roh) bin += String.fromCharCode(b);
+    const x = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return { schluessel, jwk: { kty: 'OKP', crv: 'Ed25519', x } };
+  } finally {
+    seed.fill(0); kopie.fill(0); pk8.fill(0);
+  }
+}
+
 // Die Adresse EINER Einheit. Rein: derselbe Name unter demselben Schlüssel ergibt dieselbe
 // Adresse — das ist der Grund, warum die Datei ohne Rotation stabil bleibt, und zugleich das
 // benannte Restrisiko.
@@ -851,6 +916,13 @@ const VdCrypto = (function () {
       if (!sessionHkdfKey) throw new Error('VdCrypto.depotSchluessel: keine offene Session.');
       return deriveDepotKeyV2(sessionHkdfKey, cryptoSalt, depotUUID);
     },
+    // U2-ADR-457: der Signaturschlüssel der Halterin (Selbst-Signatur), ohne dass der Aufrufer den
+    // Sitzungsschlüssel in der Hand hält. Liefert { schluessel (nicht extrahierbar), jwk (öffentlich) }.
+    // oeffentlichAusSeed: die Ableitung des öffentlichen Schlüssels (Nachtrag v865), geprüft per Selbstprobe im Block.
+    halterSignatur: (cryptoSalt, depotUUID, oeffentlichAusSeed) => {
+      if (!sessionHkdfKey) throw new Error('halter-signatur-keine-sitzung');
+      return deriveHalterSignaturV4(sessionHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed);
+    },
   });
 })();
 </script>
@@ -860,6 +932,7 @@ const VdCrypto = (function () {
 const JWS_TYP          = 'vc+jwt';   // JOSE typ-Header für Vivodepot-VCs
 const JWS_ALG_PRIMAER  = 'EdDSA';    // Ed25519  (RFC 8037)
 const JWS_ALG_FALLBACK = 'ES256';    // ECDSA P-256 + SHA-256  (RFC 7518)
+const JWS_ALG_ED25519  = 'Ed25519';  // voll spezifiziert (RFC 9864 §2.2); „EdDSA“ ist dort Deprecated und wird nur noch gelesen
 
 /* ── base64url (RFC 7515 §2 / RFC 4648 §5) — ohne Padding ──────────────── */
 function _jwsB64uFromBytes(bytes) {
@@ -884,9 +957,18 @@ function _jwsAlgFuerKey(key) {
   throw new Error('JWS: nicht unterstützter Schlüssel-Algorithmus: ' + name);
 }
 function _jwsWebCryptoParams(alg) {
-  if (alg === 'EdDSA') return { name: 'Ed25519' };
+  if (alg === 'EdDSA' || alg === JWS_ALG_ED25519) return { name: 'Ed25519' };
   if (alg === 'ES256') return { name: 'ECDSA', hash: 'SHA-256' };
   throw new Error('JWS: unbekannter alg: ' + alg);
+}
+
+// alg gehört zum Schlüssel: Ed25519/EdDSA nur mit einem Ed25519-Schlüssel, ES256 nur mit ECDSA P-256. Jede
+// andere Paarung ist abgelehnt, ebenso „none“ und HS* (kein Schlüsseltyp passt zu ihnen).
+function _jwsAlgPasstZuKey(alg, key) {
+  const a = key && key.algorithm;
+  if (a && a.name === 'Ed25519') return alg === JWS_ALG_ED25519 || alg === JWS_ALG_PRIMAER;
+  if (a && a.name === 'ECDSA') return alg === JWS_ALG_FALLBACK && a.namedCurve === 'P-256';
+  return false;
 }
 
 /* ── JWK → CryptoKey (Verify bzw. Sign) — Ed25519 primär, P-256 Fallback ── */
@@ -912,14 +994,17 @@ async function _jwsImportSignKey(jwk) {
 }
 
 /* ── _signJWS — payload (Objekt oder String) → JWS Compact ────────────────
-   opts: { alg?, typ?, kid? }. alg wird sonst aus dem Schlüssel abgeleitet.
+   opts: { alg?, typ?, kid?, jwk? }. alg wird sonst aus dem Schlüssel abgeleitet; ein genannter alg muss zum
+   Schlüssel passen. jwk = öffentlicher Schlüssel im Kopf (RFC 7515 §4.1.3), nur für Selbst-Signaturen.
    Verbatim-Träger in vier Anwendungen, byte-identisch (Wächter: Hüllenschicht in
    `tools/krypto-block-propagation-pruefen.js`, seit 03.09.2026 — vorher unbewacht). */
 async function _signJWS(payload, privateKey, opts) {
   opts = opts || {};
   const alg = opts.alg || _jwsAlgFuerKey(privateKey);
+  if (!_jwsAlgPasstZuKey(alg, privateKey)) throw new Error('jws-alg-schluessel-ungleich:' + alg);
   const header = { alg: alg, typ: opts.typ || JWS_TYP };
   if (opts.kid) header.kid = opts.kid;
+  if (opts.jwk) header.jwk = opts.jwk;
   const h = _jwsB64uFromString(JSON.stringify(header));
   const p = _jwsB64uFromString(typeof payload === 'string' ? payload : JSON.stringify(payload));
   const signingInput = h + '.' + p;
@@ -947,14 +1032,14 @@ async function _verifyJWS(jwsCompact, publicKey, opts) {
   try { r.nutzlast = JSON.parse(_jwsB64uToString(p)); } catch (e) { r.grund = 'JWS: Payload nicht lesbar'; return r; }
   let keyAlg;
   try { keyAlg = _jwsAlgFuerKey(publicKey); } catch (e) { r.grund = e.message; return r; }
-  if (r.header.alg !== keyAlg) {
+  if (!_jwsAlgPasstZuKey(r.header.alg, publicKey)) {
     r.grund = 'JWS: alg-Mismatch (Header ' + r.header.alg + ' ≠ Schlüssel ' + keyAlg + ')';
     return r;
   }
   let ok = false;
   try {
     ok = await crypto.subtle.verify(
-      _jwsWebCryptoParams(keyAlg), publicKey, _jwsB64uToBytes(s),
+      _jwsWebCryptoParams(r.header.alg), publicKey, _jwsB64uToBytes(s),
       new TextEncoder().encode(h + '.' + p)
     );
   } catch (e) { r.grund = 'JWS: Verify-Fehler — ' + e.message; return r; }
@@ -1116,16 +1201,13 @@ const EIGENE_AUSGABESTELLEN = Object.freeze(['vivodepot-ausgabestelle']);
 async function _verifiziereZertifikatGegenSchluessel(jwsCompact, pubJwk, opts) {
   const schluesselKey = await _jwsImportVerifyKey(pubJwk);
   const res = await _verifyJWS(jwsCompact, schluesselKey, opts);
-  res.istTestAnker = (pubJwk.x === TEST_SENTINEL_PUBLIC_JWK.x);
-  /* A405 Zug 2: derselbe Griff wie im Kern (`_verifyJWS` dort), an derselben Stelle der Kette —
-     die Signatur wird VOR dem Ablauf geprüft, damit ein widerrufenes UND abgelaufenes Zertifikat
-     als widerrufen benannt wird und nicht bloss als abgelaufen.
-     `opts.widerrufsListe` ist app-kontrolliert (wie `opts.ankerJwk`, nie aus dem Credential) —
-     Test-Injektion, kein zweiter Kanal. */
+  res.istTestAnker = (pubJwk.x === TEST_SENTINEL_PUBLIC_JWK.x);   // true nur bei injiziertem Test-Sentinel
+  // 1F Widerruf: Anbieter-Schluessel gegen die Sperrliste. Laeuft auch bei abgelaufenen Certs
+  // (Signatur war gueltig — _verifyJWS prueft Signatur VOR Ablauf), damit ein widerrufenes UND
+  // abgelaufenes Cert nicht ueber die b2-Schonfrist zurueckkommt: Widerruf schlaegt Schonfrist.
+  // opts.widerrufsListe ist app-kontrolliert (wie opts.ankerJwk, nie aus dem Credential) — Test-Injektion.
   const _wListe = (opts && opts.widerrufsListe) || WIDERRUFS_LISTE;
   if (_wListe.length && (res.gueltig || res.abgelaufen) && res.nutzlast) {
-    /* Auch bei ABGELAUFENEN Zertifikaten — Widerruf schlägt Schonfrist, genau wie im Kern.
-       Sonst käme ein widerrufenes UND abgelaufenes Cert über die Schonfrist zurück. */
     const cs = res.nutzlast.credentialSubject || (res.nutzlast.vc && res.nutzlast.vc.credentialSubject) || {};
     if (cs.publicKeyJwk) {
       const tp = await _jwkThumbprint(cs.publicKeyJwk);
@@ -1149,6 +1231,10 @@ async function verifiziereProviderCredential(jwsCompact, opts) {
       };
     }
     const blattRes = await _verifiziereZertifikatGegenSchluessel(jwsCompact, cs.publicKeyJwk, o);
+    // U2-ADR-181 (27.08.2026): reicht den Zwischenstufen-Typ + seine `rolle` durch — der
+    // einzige Ort, an dem beide je zusammen bekannt sind (die Aussteller-Nutzlast wird nach
+    // dieser Funktion nicht mehr gehalten). modulEinlassenGeprueft leitet `pruefstufe` daraus
+    // ab, ohne selbst je ein JWS zu parsen.
     if (blattRes.gueltig) { blattRes.ausstellerAnbieterTyp = cs.anbieterTyp; blattRes.ausstellerRolle = cs.rolle || null; blattRes.ausstellerAnbieterId = cs.anbieterId || null; blattRes.ausstellerGeltung = cs.geltung || null; }
     return blattRes;
   }
@@ -1163,9 +1249,23 @@ function _istEigeneTreuhandKette(certRes, blattSubject) {
     && !!blattSubject && typeof blattSubject.anbieterTyp === 'string' && blattSubject.anbieterTyp.startsWith('vivodepot/')
     && !ZWISCHENSTUFEN_ANBIETERTYPEN.includes(blattSubject.anbieterTyp);
 }
+/* Prüfer unter der eigenen Treuhand (U2-ADR-441): wortgleich mit dem Kern; ohne diesen Zweig sagte die Lese-App
+   „extern-geprueft:herausgeber“, wo der Kern „extern-geprueft:pruefer“ sagt (Probe: tests/lese-app-pruefer-wie-kern.test.js). */
+function _blattSubject(certRes) {
+  return certRes && certRes.nutzlast && (certRes.nutzlast.credentialSubject || (certRes.nutzlast.vc && certRes.nutzlast.vc.credentialSubject)) || null;
+}
+function _istPrueferUnterTreuhand(certRes) {
+  const cs = _blattSubject(certRes);
+  return !!cs && cs.rolle === 'pruefer'
+    && certRes.ausstellerAnbieterTyp === AUSGABESTELLE_ANBIETERTYP
+    && EIGENE_AUSGABESTELLEN.includes(certRes.ausstellerAnbieterId)
+    && !certRes.ausstellerRolle
+    && typeof cs.anbieterTyp === 'string' && !cs.anbieterTyp.startsWith('vivodepot/');
+}
 function _modulPruefstufeAusZertifikat(certRes) {
   const cs = certRes.nutzlast && (certRes.nutzlast.credentialSubject || (certRes.nutzlast.vc && certRes.nutzlast.vc.credentialSubject));
   if (certRes.ausstellerAnbieterTyp) {
+    if (_istPrueferUnterTreuhand(certRes)) return 'extern-geprueft:pruefer';
     return _istEigeneTreuhandKette(certRes, cs) ? 'intern' : 'extern-geprueft:' + (certRes.ausstellerRolle || 'herausgeber');
   }
   if (cs && cs.anbieterTyp === VIVODEPOT_KERN_ANBIETERTYP) return 'intern';
@@ -1173,16 +1273,20 @@ function _modulPruefstufeAusZertifikat(certRes) {
 }
 
 async function _verifiziereTemplateSignatur(certNutzlast, templateJws, opts) {
-  const cs = (certNutzlast && (certNutzlast.credentialSubject
-    || (certNutzlast.vc && certNutzlast.vc.credentialSubject))) || {};
+  const cs = (certNutzlast && (certNutzlast.credentialSubject || (certNutzlast.vc && certNutzlast.vc.credentialSubject))) || {};
   const anbieterJwk = cs.publicKeyJwk;
   if (!anbieterJwk) return { gueltig: false, grund: 'Template signiert, aber kein Anbieter-Key (publicKeyJwk) im Zertifikat' };
-  let key;
-  try { key = await _jwsImportVerifyKey(anbieterJwk); }
-  catch (e) { return { gueltig: false, grund: 'Anbieter-Key nicht lesbar: ' + e.message }; }
-  const res = await _verifyJWS(templateJws, key, opts);
-  res.anbieterName = cs.name || cs.anbieterName || null;
-  return res;
+  let tRes;
+  try {
+    const anbieterKey = await _jwsImportVerifyKey(anbieterJwk);
+    tRes = await _verifyJWS(templateJws, anbieterKey, opts);
+  } catch (e) {
+    return { gueltig: false, grund: 'Template-Prüf-Fehler: ' + e.message };
+  }
+  if (!tRes || !tRes.gueltig) {
+    return { gueltig: false, grund: 'Template-Signatur ungültig: ' + ((tRes && tRes.grund) || '') };
+  }
+  return { gueltig: true, nutzlast: tRes.nutzlast, anbieter: cs };
 }
 
 /* Die ganze Kette. Ergebnisform wie im Kern: `gueltig`, `abgelaufen`, `templateOk`.
@@ -1196,18 +1300,20 @@ async function verifiziereTemplateKette(certJws, templateJws, opts) {
   let certRes;
   try { certRes = await verifiziereProviderCredential(certJws, opts); }
   catch (e) { return { gueltig: false, grund: 'Cert-Prüf-Fehler: ' + e.message }; }
-  const certAblauf = (certRes && certRes.nutzlast
-    && (certRes.nutzlast.expirationDate || certRes.nutzlast.validUntil)) || null;
-  if (certRes && !certRes.gueltig && certRes.abgelaufen && certRes.nutzlast) {
+  const certAblauf = (certRes && certRes.nutzlast && (certRes.nutzlast.expirationDate || certRes.nutzlast.validUntil)) || null;
+  // 1F/b2 Schonfrist: Cert ABGELAUFEN, aber Signatur war gültig (_verifyJWS prüft Signatur VOR Ablauf)
+  // UND nicht widerrufen → Stufe 2 trotzdem rechnen; templateOk + abgelaufen melden. Der Aufrufer
+  // (basisVorlagenVerifizieren, nur Basis) entscheidet über den Marker. Externe (importPlanGeprueft)
+  // sehen weiter ein hartes gueltig:false und bleiben abgelaufen.
+  if (certRes && !certRes.gueltig && certRes.abgelaufen && !certRes.widerrufen && certRes.nutzlast) {
     const t = await _verifiziereTemplateSignatur(certRes.nutzlast, templateJws, opts);
     return Object.assign({}, t, { gueltig: false, abgelaufen: true, templateOk: !!t.gueltig, certAblauf: certAblauf });
   }
   if (!certRes || !certRes.gueltig) {
     return { gueltig: false, grund: 'Cert ungültig: ' + ((certRes && certRes.grund) || ''),
-             abgelaufen: !!(certRes && certRes.abgelaufen) };
+             abgelaufen: !!(certRes && certRes.abgelaufen), widerrufen: !!(certRes && certRes.widerrufen) };
   }
-  return Object.assign({}, await _verifiziereTemplateSignatur(certRes.nutzlast, templateJws, opts),
-    { certAblauf: certAblauf });
+  return Object.assign({}, await _verifiziereTemplateSignatur(certRes.nutzlast, templateJws, opts), { certAblauf: certAblauf });
 }
 
 /* ── Der Prüfstand: welcher Zustand gilt für welches angedockte Feld ───────────────
@@ -1223,6 +1329,13 @@ async function verifiziereTemplateKette(certJws, templateJws, opts) {
 
    Rein und ohne UI; wirft nie. Der Rückgabewert ist eine Karte feldId -> Stand, damit
    die Anzeige sie ohne zweite Auflösung lesen kann. */
+/* Der angezeigte Anbieter kommt aus dem geprüften Zertifikat (`anbieter` = sein credentialSubject), nie aus einem Feld, das
+   das Depot über sich selbst trägt (`importierteVorlagen[].anbieterName` ist Selbstauskunft). Ohne Namen im Zertifikat: null,
+   die Anzeige nimmt dann die Fassung „ohne Namen“. */
+function _anbieterNameAusKette(r) {
+  const a = r && r.anbieter;
+  return (a && (a.name || a.anbieterName)) || null;
+}
 async function vorlagenPruefstandBerechnen(depot, opts) {
   const karte = Object.create(null);
   const eintraege = (depot && Array.isArray(depot.importierteVorlagen)) ? depot.importierteVorlagen : [];
@@ -1231,13 +1344,14 @@ async function vorlagenPruefstandBerechnen(depot, opts) {
     const felder = Array.isArray(v.feldIds) ? v.feldIds : [];
     let stand;
     if (!v.beleg || !v.beleg.providerCredentialJws || !v.beleg.templateJws) {
-      stand = { zustand: 'nicht-pruefbar', grund: 'kein-beleg', anbieter: v.anbieterName || null };
+      stand = { zustand: 'nicht-pruefbar', grund: 'kein-beleg', anbieter: null };
     } else {
       let r = null;
       try { r = await verifiziereTemplateKette(v.beleg.providerCredentialJws, v.beleg.templateJws, opts); }
       catch (e) { r = { gueltig: false, grund: 'Prüf-Fehler: ' + (e && e.message) }; }
-      const anbieter = (r && r.anbieterName) || v.anbieterName || null;
+      const anbieter = _anbieterNameAusKette(r);
       if (r && r.gueltig) stand = { zustand: 'gueltig', anbieter: anbieter, bis: r.certAblauf || null };
+      else if (r && r.widerrufen) stand = { zustand: 'widerrufen', anbieter: anbieter };
       else if (r && r.abgelaufen && r.templateOk) stand = { zustand: 'abgelaufen', anbieter: anbieter, bis: r.certAblauf || null };
       else stand = { zustand: 'ungueltig', anbieter: anbieter, grund: (r && r.grund) || null };
     }
@@ -1271,8 +1385,9 @@ async function logikModulPruefstandBerechnen(depot, opts) {
       let r = null;
       try { r = await verifiziereTemplateKette(m.beleg.providerCredentialJws, m.beleg.modulSignaturJws, opts); }
       catch (e) { r = { gueltig: false, grund: 'Prüf-Fehler: ' + (e && e.message) }; }
-      const anbieter = (r && r.anbieterName) || null;
+      const anbieter = _anbieterNameAusKette(r);
       if (r && r.gueltig) stand = { zustand: 'gueltig', anbieter: anbieter, bis: r.certAblauf || null };
+      else if (r && r.widerrufen) stand = { zustand: 'widerrufen', anbieter: anbieter };
       else if (r && r.abgelaufen && r.templateOk) stand = { zustand: 'abgelaufen', anbieter: anbieter, bis: r.certAblauf || null };
       else stand = { zustand: 'ungueltig', anbieter: anbieter, grund: (r && r.grund) || null };
     }
@@ -1301,7 +1416,7 @@ const _STRINGS_EINGEBAUT = ({
   hilfeEmpfaengerinFrage_wasPassiertMitMeinenDaten: 'Was passiert mit meinen Daten?',
   hilfeEmpfaengerinAntwort_wasIstDas: 'Sie sehen eine Zusammenstellung, die jemand aus dem eigenen Depot für Sie erstellt hat. Sie enthält genau die Angaben, die diese Person ausgewählt hat, und sonst nichts. Ein Depot ist eine verschlüsselte Datei, die seiner Inhaberin gehört und auf ihrem Gerät liegt.',
   hilfeEmpfaengerinAntwort_wasKannIchTun: 'Sie können die Angaben ansehen, ausdrucken und speichern. Sie brauchen dafür kein Konto und müssen nichts installieren. Ändern können Sie hier nichts: Was Sie sehen, ist der Stand vom Zeitpunkt der Zusammenstellung.',
-  hilfeEmpfaengerinAntwort_werHatEsGeschickt: 'Oben steht, von wem die Zusammenstellung kommt und wann sie erstellt wurde. Stammen einzelne Angaben von einer Einrichtung, etwa aus einer Praxis, steht das dabei. Wurden Angaben zurückgehalten, wird das vermerkt, ohne zu zeigen, welche es waren.',
+  hilfeEmpfaengerinAntwort_werHatEsGeschickt: 'Oben steht, von wem die Zusammenstellung kommt und wann sie erstellt wurde. Stammen einzelne Angaben von einer Einrichtung, etwa aus einer Praxis, steht das dabei. Wurden Angaben zurückgehalten, steht ihre Zahl dabei, nie ihr Inhalt.',
   hilfeEmpfaengerinAntwort_wasPassiertMitMeinenDaten: 'Nichts davon geht an uns. Die Zusammenstellung liegt als Datei bei Ihnen, und das Öffnen meldet sich bei niemandem. Was Sie damit tun, richtet sich nach Ihren eigenen Regeln, etwa der Aufbewahrung in Ihrer Einrichtung.',
   // Begrüßung (F-1)
   welcomeTitel: 'Vivodepot — Lese-Ansicht',
@@ -1426,6 +1541,9 @@ const _STRINGS_EINGEBAUT = ({
   antwortPwPlaceholder: 'Einmalpasswort',
   antwortFalsch: 'Damit lässt sich diese Antwort nicht öffnen. Passwort oder Schlüssel passen nicht — oder die Datei wurde verändert.',
   antwortKeyUnlesbar: 'Diese Schlüsseldatei konnte nicht gelesen werden (kein gültiges JWK-JSON).',
+  antwortKeyPw: 'Passwort der Schlüsseldatei',
+  antwortKeyFalsch: 'Das Passwort passt nicht, oder die Datei ist beschädigt.',
+  antwortKeyKlartext: 'Diese Schlüsseldatei ist nicht verschlüsselt. Im Studio können Sie sie verschlüsselt neu speichern; löschen Sie danach die alte Datei.',
   antwortTeilantwort: 'Dies ist eine TEILANTWORT. Nicht alle Angaben, nach denen Sie gefragt haben, sind enthalten.',
   antwortFehlend: 'Es fehlt:',
   antwortFreigestellt: 'freigestellt',
@@ -1463,6 +1581,8 @@ const _STRINGS_EINGEBAUT = ({
   vorlageAbgelaufen: 'Geprüft: die Signatur trägt, das Zertifikat von {anbieter} ist abgelaufen.',
   vorlageAbgelaufenOhneNamen: 'Geprüft: die Signatur trägt, das Zertifikat des Anbieters ist abgelaufen.',
   vorlageUngueltig: 'Nicht bestanden: der Beleg dieser Felder lässt sich nicht bestätigen.',
+  vorlageWiderrufen: 'Widerrufen: das Zertifikat von {anbieter} wurde widerrufen. Diese Felder sind nicht mehr bestätigt.',
+  vorlageWiderrufenOhneNamen: 'Widerrufen: das Zertifikat des Anbieters wurde widerrufen. Diese Felder sind nicht mehr bestätigt.',
   vorlageNichtPruefbar: 'Nicht prüfbar: zu diesen Feldern liegt kein Beleg im Depot. Das ist kein Fehler — ältere Einträge führen ihn nicht mit.',
   /* C1 (06.09.2026, "Der Beleg bleibt im Depot") — derselbe Zertifikatsbetrieb, jetzt für ein
      eingelassenes logikModul statt für eine Vorlage. Wortlaut analog zu vorlage*, aber "dieser
@@ -1472,6 +1592,8 @@ const _STRINGS_EINGEBAUT = ({
   logikmodulAbgelaufen: 'Geprüft: die Signatur trägt, das Zertifikat von {anbieter} ist abgelaufen.',
   logikmodulAbgelaufenOhneNamen: 'Geprüft: die Signatur trägt, das Zertifikat des Anbieters ist abgelaufen.',
   logikmodulUngueltig: 'Nicht bestanden: der Beleg dieses Auszugs lässt sich nicht bestätigen.',
+  logikmodulWiderrufen: 'Widerrufen: das Zertifikat von {anbieter} wurde widerrufen. Dieser Auszug ist nicht mehr bestätigt.',
+  logikmodulWiderrufenOhneNamen: 'Widerrufen: das Zertifikat des Anbieters wurde widerrufen. Dieser Auszug ist nicht mehr bestätigt.',
   logikmodulNichtPruefbar: 'Nicht prüfbar: zu diesem Auszug liegt kein Beleg im Depot. Das ist kein Fehler — ältere Einträge führen ihn nicht mit.',
   /* U2-ADR-258 (04.09.2026) — woraus der Inhalt dieses Depots/Dokuments besteht. Der Ton ist
      der einer HERKUNFTSANGABE, nicht der einer Warnung: eine selbst gebaute Erweiterung ist
@@ -1560,6 +1682,8 @@ const ZUSICHERUNGS_SCHLUESSEL_LESEN = Object.freeze([
   'logikmodulGeprueftOhneNamen',
   'logikmodulNichtPruefbar',
   'logikmodulUngueltig',
+  'logikmodulWiderrufen',
+  'logikmodulWiderrufenOhneNamen',
   'lueckenSatzBeides',
   'lueckenSatzBereich',
   'lueckenSatzFelder',
@@ -1576,9 +1700,360 @@ const ZUSICHERUNGS_SCHLUESSEL_LESEN = Object.freeze([
   'vorlageGeprueftOhneNamen',
   'vorlageNichtPruefbar',
   'vorlageUngueltig',
+  'vorlageWiderrufen',
+  'vorlageWiderrufenOhneNamen',
   'zurueckgehaltenVorhanden',
 ]);
 /* ZUSICHERUNGS-SCHLUESSEL:END */
+/* SCHUTZ-SCHLUESSEL-LESEN:BEGIN — generierter Bereich (tools/schutz-schluessel-erheben.js) */
+const SCHUTZ_SCHLUESSEL_LESEN = new Set([
+  "dok:betreuungsverfuegung#1.titel",
+  "dok:betreuungsverfuegung#1/proposedPerson.satz",
+  "dok:betreuungsverfuegung#2/alternatePerson.satz",
+  "dok:betreuungsverfuegung#3/whoShouldNotBeAppointed.satz",
+  "dok:betreuungsverfuegung#4.titel",
+  "dok:betreuungsverfuegung#4/whatTheCareArrangementShould.satz",
+  "dok:erbschein-vorbereitung#0.titel",
+  "dok:erbschein-vorbereitung#0/0.texte[0]",
+  "dok:erbschein-vorbereitung#0/4.texte[0]",
+  "dok:erbschein-vorbereitung#0/bank_verlangt.frage",
+  "dok:erbschein-vorbereitung#0/bank_verlangt.luecke",
+  "dok:erbschein-vorbereitung#0/grundeigentum.frage",
+  "dok:erbschein-vorbereitung#0/grundeigentum.luecke",
+  "dok:erbschein-vorbereitung#0/lebensmittelpunkt.frage",
+  "dok:erbschein-vorbereitung#0/lebensmittelpunkt.luecke",
+  "dok:erbschein-vorbereitung#0/staatsangehoerigkeit.frage",
+  "dok:erbschein-vorbereitung#0/staatsangehoerigkeit.luecke",
+  "dok:erbschein-vorbereitung#0/testament_form.frage",
+  "dok:erbschein-vorbereitung#0/testament_form.luecke",
+  "dok:erbschein-vorbereitung#0/unternehmen.frage",
+  "dok:erbschein-vorbereitung#0/unternehmen.luecke",
+  "dok:erbschein-vorbereitung#1.titel",
+  "dok:erbschein-vorbereitung#1/0.texte[0]",
+  "dok:erbschein-vorbereitung#1/3.texte[0]",
+  "dok:erbschein-vorbereitung#1/erben_namen.frage",
+  "dok:erbschein-vorbereitung#1/erben_namen.luecke",
+  "dok:erbschein-vorbereitung#1/familienstand.frage",
+  "dok:erbschein-vorbereitung#1/familienstand.luecke",
+  "dok:erbschein-vorbereitung#1/kinder_namen.frage",
+  "dok:erbschein-vorbereitung#1/kinder_namen.luecke",
+  "dok:erbschein-vorbereitung#1/testament_bedachte_namen.frage",
+  "dok:erbschein-vorbereitung#1/testament_bedachte_namen.luecke",
+  "dok:erbschein-vorbereitung#2.titel",
+  "dok:erbschein-vorbereitung#2/0.texte[0]",
+  "dok:erbschein-vorbereitung#2/4.texte[0]",
+  "dok:erbschein-vorbereitung#2/4.texte[1]",
+  "dok:erbschein-vorbereitung#2/eheurkunde_ort.frage",
+  "dok:erbschein-vorbereitung#2/eheurkunde_ort.luecke",
+  "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.frage",
+  "dok:erbschein-vorbereitung#2/geburtsurkunde_ort.luecke",
+  "dok:erbschein-vorbereitung#2/stammbuch_ort.frage",
+  "dok:erbschein-vorbereitung#2/stammbuch_ort.luecke",
+  "dok:erbschein-vorbereitung.fussText",
+  "dok:erbschein-vorbereitung.h1",
+  "dok:erbschein-vorbereitung.herkunftText",
+  "dok:erbschein-vorbereitung.toolbarHinweis",
+  "dok:erbschein-vorbereitung.unterschriftErsatzHinweis",
+  "dok:ki-verfuegung#1.titel",
+  "dok:ki-verfuegung#1/2.texte[0]",
+  "dok:ki-verfuegung#1/purpose.einleitung",
+  "dok:ki-verfuegung#2.titel",
+  "dok:ki-verfuegung#2/2.texte[0]",
+  "dok:ki-verfuegung#2/2.texte[1]",
+  "dok:ki-verfuegung#3.titel",
+  "dok:ki-verfuegung#3/1.texte[0]",
+  "dok:ki-verfuegung#4.titel",
+  "dok:ki-verfuegung#4/0.texte[0]",
+  "dok:ki-verfuegung#4/2.texte[0]",
+  "dok:ki-verfuegung#5.titel",
+  "dok:ki-verfuegung#5/0.texte[0]",
+  "dok:ki-verfuegung#5/2.texte[0]",
+  "dok:ki-verfuegung#5/2.texte[1]",
+  "dok:ki-verfuegung#6/0.texte[0]",
+  "dok:patientenverfuegung#1.titel",
+  "dok:patientenverfuegung#1/applicableSituations.einleitung",
+  "dok:patientenverfuegung#10/1.texte[0]",
+  "dok:patientenverfuegung#10/1.texte[1]",
+  "dok:patientenverfuegung#10/1.texte[2]",
+  "dok:patientenverfuegung#10/1.texte[3]",
+  "dok:patientenverfuegung#10/informationOrCounsellingReceived.luecke",
+  "dok:patientenverfuegung#10/informationOrCounsellingReceived.satz",
+  "dok:patientenverfuegung#11.titel",
+  "dok:patientenverfuegung#2.titel",
+  "dok:patientenverfuegung#3.titel",
+  "dok:patientenverfuegung#3/hospiceSupport.text",
+  "dok:patientenverfuegung#3/placeOfTreatmentOrDeath.prefix",
+  "dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz",
+  "dok:patientenverfuegung#3/supportFromThesePersons.satz",
+  "dok:patientenverfuegung#4.titel",
+  "dok:patientenverfuegung#4/confidentialityWaiverFor.satz",
+  "dok:patientenverfuegung#5.titel",
+  "dok:patientenverfuegung#5/0.texte[0]",
+  "dok:patientenverfuegung#5/0.texte[1]",
+  "dok:patientenverfuegung#5/whoseViewMattersIfDeviatingWill.einleitung",
+  "dok:patientenverfuegung#5/whoseViewMattersIfUnregulated.einleitung",
+  "dok:patientenverfuegung#6.titel",
+  "dok:patientenverfuegung#7.titel",
+  "dok:patientenverfuegung#7/authorizedPersons.einleitung",
+  "dok:patientenverfuegung#7/authorizedPersons.luecke",
+  "dok:patientenverfuegung#7/authorizedPersons.rollenLabel",
+  "dok:patientenverfuegung#7/authorizedPersons.texte[0]",
+  "dok:patientenverfuegung#7/authorizedPersons.texte[1]",
+  "dok:patientenverfuegung#7/authorizedPersons.texte[2]",
+  "dok:patientenverfuegung#7/proposedPerson.besprochenEinleitung",
+  "dok:patientenverfuegung#7/proposedPerson.einleitung",
+  "dok:patientenverfuegung#7/proposedPerson.luecke",
+  "dok:patientenverfuegung#7/proposedPerson.rollenLabel",
+  "dok:patientenverfuegung#7/proposedPerson.texte[0]",
+  "dok:patientenverfuegung#7/proposedPerson.texte[1]",
+  "dok:vorsorgevollmacht#1.titel",
+  "dok:vorsorgevollmacht#1/3.abschluss",
+  "dok:vorsorgevollmacht#1/3.einleitung",
+  "dok:vorsorgevollmacht#1/healthCareGeneralDecision.text",
+  "dok:vorsorgevollmacht#1/healthCareMedicalProcedures.text",
+  "dok:vorsorgevollmacht#1/healthCareMedicalRecords.text",
+  "dok:vorsorgevollmacht#10.titel",
+  "dok:vorsorgevollmacht#2.titel",
+  "dok:vorsorgevollmacht#2/concludeAndTerminateANew.text",
+  "dok:vorsorgevollmacht#2/concludeAndTerminateHousingAnd.text",
+  "dok:vorsorgevollmacht#2/determinePlaceOfResidence.text",
+  "dok:vorsorgevollmacht#2/manageAnExistingTenancyWindUp.text",
+  "dok:vorsorgevollmacht#3.titel",
+  "dok:vorsorgevollmacht#3/representationWithAuthorities.text",
+  "dok:vorsorgevollmacht#4.titel",
+  "dok:vorsorgevollmacht#4/7.text",
+  "dok:vorsorgevollmacht#4/acceptPaymentsAndValuables.text",
+  "dok:vorsorgevollmacht#4/accountsCustodyAccountsSafes.text",
+  "dok:vorsorgevollmacht#4/assetManagementGeneral.text",
+  "dok:vorsorgevollmacht#4/customaryGiftsWithinWhatCare.text",
+  "dok:vorsorgevollmacht#4/disposeOfAssets.text",
+  "dok:vorsorgevollmacht#4/enterIntoLiabilities.text",
+  "dok:vorsorgevollmacht#4/transactionsExpresslyExcluded.satz",
+  "dok:vorsorgevollmacht#5.titel",
+  "dok:vorsorgevollmacht#5/mailAndTelecommunications.text",
+  "dok:vorsorgevollmacht#6.titel",
+  "dok:vorsorgevollmacht#6/representationInCourt.text",
+  "dok:vorsorgevollmacht#7.titel",
+  "dok:vorsorgevollmacht#7/mayGrantASubPowerOfAttorney.text",
+  "dok:vorsorgevollmacht#8.titel",
+  "dok:vorsorgevollmacht#8/alsoProposeTheAuthorizedPerson.text",
+  "dok:vorsorgevollmacht#9.titel",
+  "dok:vorsorgevollmacht#9/appliesBeyondDeath.text",
+  "dok:zugang-zum-recht-beratungshilfe#0.titel",
+  "dok:zugang-zum-recht-beratungshilfe#0/0.texte[0]",
+  "dok:zugang-zum-recht-beratungshilfe#0/7.texte[0]",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_anschrift.frage",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_anschrift.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_email.frage",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_email.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_geburtsdatum.frage",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_geburtsdatum.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_nachname.frage",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_nachname.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_telefon.frage",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_telefon.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_vorname.frage",
+  "dok:zugang-zum-recht-beratungshilfe#0/person_vorname.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#1.titel",
+  "dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]",
+  "dok:zugang-zum-recht-beratungshilfe#1/belastungen.frage",
+  "dok:zugang-zum-recht-beratungshilfe#1/belastungen.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#1/einkommen_netto.frage",
+  "dok:zugang-zum-recht-beratungshilfe#1/einkommen_netto.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#1/haushalt_einkommen.frage",
+  "dok:zugang-zum-recht-beratungshilfe#1/haushalt_einkommen.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#1/personen_im_haushalt.frage",
+  "dok:zugang-zum-recht-beratungshilfe#1/personen_im_haushalt.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#1/unterhalt.frage",
+  "dok:zugang-zum-recht-beratungshilfe#1/unterhalt.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#1/wohnkosten_eigenanteil.frage",
+  "dok:zugang-zum-recht-beratungshilfe#1/wohnkosten_eigenanteil.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#1/wohnsituation.frage",
+  "dok:zugang-zum-recht-beratungshilfe#1/wohnsituation.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#2.titel",
+  "dok:zugang-zum-recht-beratungshilfe#2/2.texte[0]",
+  "dok:zugang-zum-recht-beratungshilfe#2/schulden.frage",
+  "dok:zugang-zum-recht-beratungshilfe#2/schulden.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#2/wertgegenstaende.frage",
+  "dok:zugang-zum-recht-beratungshilfe#2/wertgegenstaende.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#3.titel",
+  "dok:zugang-zum-recht-beratungshilfe#3/0.texte[0]",
+  "dok:zugang-zum-recht-beratungshilfe#3/beratung_bisher.frage",
+  "dok:zugang-zum-recht-beratungshilfe#3/beratung_bisher.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#3/gegenseite.frage",
+  "dok:zugang-zum-recht-beratungshilfe#3/gegenseite.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#3/vorgang_art.frage",
+  "dok:zugang-zum-recht-beratungshilfe#3/vorgang_art.luecke",
+  "dok:zugang-zum-recht-beratungshilfe#3/vorgang_stellen.frage",
+  "dok:zugang-zum-recht-beratungshilfe#3/vorgang_stellen.luecke",
+  "dok:zugang-zum-recht-beratungshilfe.fussText",
+  "dok:zugang-zum-recht-beratungshilfe.h1",
+  "dok:zugang-zum-recht-beratungshilfe.herkunftText",
+  "dok:zugang-zum-recht-beratungshilfe.toolbarHinweis",
+  "dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis",
+  "kiKorpus#authorizedParties.sektion",
+  "kiKorpus#basicDecision.sektion",
+  "kiKorpus#behaviouralLimit.sektion",
+  "kiKorpus#date.sektion",
+  "kiKorpus#digitalEstateAdministration.sektion",
+  "kiKorpus#digitalEstateAdministration2.sektion",
+  "kiKorpus#namedIndividuals.sektion",
+  "kiKorpus#numberOfYears.sektion",
+  "kiKorpus#permittedDataTypes.sektion",
+  "kiKorpus#purpose.sektion",
+  "kiKorpus#scope.sektion",
+  "kiKorpus#timeLimit.sektion",
+  "pvBmj#acceptsLifeShorteningFromPain.sektion",
+  "pvBmj#antibiotics.sektion",
+  "pvBmj#applicableSituations.sektion",
+  "pvBmj#artificialNutritionAndHydration.sektion",
+  "pvBmj#artificialVentilation.sektion",
+  "pvBmj#bloodAndBloodProducts.sektion",
+  "pvBmj#confidentialityWaiverFor.sektion",
+  "pvBmj#dialysis.sektion",
+  "pvBmj#emergencyDoctorNotified.sektion",
+  "pvBmj#hospiceSupport.sektion",
+  "pvBmj#lifeSustainingMeasures.sektion",
+  "pvBmj#ownAdditionalSituation.sektion",
+  "pvBmj#painAndSymptomTreatment.sektion",
+  "pvBmj#personalValuesOrFurtherDocuments.sektion",
+  "pvBmj#placeOfTreatmentOrDeath.sektion",
+  "pvBmj#resuscitationInAllCases.sektion",
+  "pvBmj#resuscitationInDescribedSituations.sektion",
+  "pvBmj#supportFromChurchOrCommunity.sektion",
+  "pvBmj#supportFromThesePersons.sektion",
+  "pvBmj#whoseViewMattersIfDeviatingOther.sektion",
+  "pvBmj#whoseViewMattersIfDeviatingWill.sektion",
+  "pvBmj#whoseViewMattersIfUnregulated.sektion",
+  "pvBmj#whoseViewMattersOtherPersonName.sektion",
+  "strings:abWerkFassungErsetztText.text",
+  "strings:abWerkFassungErsetztTitel.text",
+  "strings:dokFussHaftung.text",
+  "strings:erweiterungEinlesenGesperrt.text",
+  "strings:erweiterungGesperrtText.text",
+  "strings:erweiterungGesperrtTitel.text",
+  "strings:erweiterungGesperrtVermerk.text",
+  "strings:erweiterungTeilweiseErsetzt.text",
+  "strings:fussHaftung.text",
+  "vollmachtBmj#acceptPaymentsAndValuables.frage",
+  "vollmachtBmj#acceptPaymentsAndValuables.sektion",
+  "vollmachtBmj#accountsCustodyAccountsSafes.frage",
+  "vollmachtBmj#accountsCustodyAccountsSafes.sektion",
+  "vollmachtBmj#alsoProposeTheAuthorizedPerson.frage",
+  "vollmachtBmj#alsoProposeTheAuthorizedPerson.sektion",
+  "vollmachtBmj#appliesBeyondDeath.frage",
+  "vollmachtBmj#appliesBeyondDeath.sektion",
+  "vollmachtBmj#assetManagementGeneral.frage",
+  "vollmachtBmj#assetManagementGeneral.sektion",
+  "vollmachtBmj#concludeAndTerminateANew.frage",
+  "vollmachtBmj#concludeAndTerminateANew.sektion",
+  "vollmachtBmj#concludeAndTerminateHousingAnd.frage",
+  "vollmachtBmj#concludeAndTerminateHousingAnd.sektion",
+  "vollmachtBmj#customaryGiftsWithinWhatCare.frage",
+  "vollmachtBmj#customaryGiftsWithinWhatCare.sektion",
+  "vollmachtBmj#determinePlaceOfResidence.frage",
+  "vollmachtBmj#determinePlaceOfResidence.sektion",
+  "vollmachtBmj#disposeOfAssets.frage",
+  "vollmachtBmj#disposeOfAssets.sektion",
+  "vollmachtBmj#enterIntoLiabilities.frage",
+  "vollmachtBmj#enterIntoLiabilities.sektion",
+  "vollmachtBmj#furtherProvisions.frage",
+  "vollmachtBmj#furtherProvisions.sektion",
+  "vollmachtBmj#healthCareAdmissionToHospital.frage",
+  "vollmachtBmj#healthCareAdmissionToHospital.sektion",
+  "vollmachtBmj#healthCareCompulsoryMedical.frage",
+  "vollmachtBmj#healthCareCompulsoryMedical.sektion",
+  "vollmachtBmj#healthCareGeneralDecision.frage",
+  "vollmachtBmj#healthCareGeneralDecision.sektion",
+  "vollmachtBmj#healthCareMeasuresDepriving.frage",
+  "vollmachtBmj#healthCareMeasuresDepriving.sektion",
+  "vollmachtBmj#healthCareMedicalProcedures.frage",
+  "vollmachtBmj#healthCareMedicalProcedures.sektion",
+  "vollmachtBmj#healthCareMedicalRecords.frage",
+  "vollmachtBmj#healthCareMedicalRecords.sektion",
+  "vollmachtBmj#healthCarePlacementDepriving.frage",
+  "vollmachtBmj#healthCarePlacementDepriving.sektion",
+  "vollmachtBmj#mailAndTelecommunications.frage",
+  "vollmachtBmj#mailAndTelecommunications.sektion",
+  "vollmachtBmj#manageAnExistingTenancyWindUp.frage",
+  "vollmachtBmj#manageAnExistingTenancyWindUp.sektion",
+  "vollmachtBmj#mayGrantASubPowerOfAttorney.frage",
+  "vollmachtBmj#mayGrantASubPowerOfAttorney.sektion",
+  "vollmachtBmj#representationInCourt.frage",
+  "vollmachtBmj#representationInCourt.sektion",
+  "vollmachtBmj#representationWithAuthorities.frage",
+  "vollmachtBmj#representationWithAuthorities.sektion",
+  "vollmachtBmj#transactionsExpresslyExcluded.frage",
+  "vollmachtBmj#transactionsExpresslyExcluded.sektion"
+]);
+/* SCHUTZ-SCHLUESSEL-LESEN:END */
+/* REZEPT-FINGERABDRUECKE-LESEN:BEGIN — generierter Bereich (tools/rezept-fingerabdruecke-erheben.js) */
+const REZEPT_FINGERABDRUECKE_LESEN = new Set([
+  "0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
+  "0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
+  "0d8605a8bc42b0c2796e2d9f5d6dde4f79563d245e67f7f4c665e3669600b2d2",
+  "0f01455aa7ca63e9cb44e0861ea466b9a1c6f1dee81fbc9d73cfbc958d0cdbb8",
+  "0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
+  "10277e2dd1c9ae51cbc473c4dc496a3063b83cdfb24d4918da0a676f17ffe64c",
+  "1cc70be29ecb51dd95125876a9d64bc552393278ec73a3b6001425e81c08c028",
+  "1cdc32ee692baea74d883b7cf82c750255c6b5eaadb12a8be3b47bf493bc178c",
+  "2ed1acce49b700471e62beddf17a7262e88b3ff73753f220f44af3d5739f26c6",
+  "3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
+  "32895d90e7e48d2f263858f9f5481996e35ff25dd033eb987818eee7120aeecc",
+  "3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
+  "4308672df53e5658a326398cf18bdc0ee5c462e562232ff409074ce9f0df4a71",
+  "44276a8bc8ce390e4b01575e0b7dcbb1551cd18a49b2442f754b9f694e88213c",
+  "4a163cfd8cfefd70db6167a9e9ab4f0aaaa0c3f4bb53727bb44f5ac39b91bed4",
+  "4a1a0cefc5949c7f9bef58beb621e78238a6d0407173d47eaf686e71c9a7d1cc",
+  "5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
+  "63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
+  "645dd0c53ccf8aa3b8bff064236e112f989f6c16c1f34c263343a7747c48fc58",
+  "6e53d7917f9465c4f8088b2638815e42c4dac4817d8e6ec47e06b2d59a2b889b",
+  "7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
+  "7b79b98f9580e1db1582fa5d26ae10aaae25879357a0996f438b006f178d3098",
+  "81ffd0453d77d68d56b48747c1514a94126cd0b3911034e7f7af60112f17eecb",
+  "8211701bc1860c8baddf1258e90aa5e4e450e5adf15073df60c0188db4326055",
+  "923f9e59ebcee0efaf47a3d2102efe8fa1b511d00ebf0f911307eca597741028",
+  "92c3230ae93365ca353cd24c3bbdce01f4e572b6959466b05f2afc739c1ad044",
+  "95ec50c9f948594082effa342c12f8c7053729bcfb110d78c6b4b7508cc70f4f",
+  "989af3cd946d56af72c88fc1367c814310cb49b88b5d0a17fa3eb44041ebf8cc",
+  "98df1da45043df597a335ee31c17c91e082871a18baed7fc22ab56a8dc798459",
+  "9a01109354bbf33e180ddf0da88a573a0e31a091692f73ee7b6bdd2cc7f72a2b",
+  "9ec1b079ddeb40ef42f4e8e3e33627a7b1bdc5e5d7b523f7e194728f2346970b",
+  "9f41faf3d8b167a407568436b1138d9e842081351786b13144e1935352293bc6",
+  "a349e68d1d95c99b7f4d8813cc22470fb1d6716a8175ac5c8f7c0647966a6b54",
+  "aa1b06a5ff8bb190465c1912508b5af5518aec11aabe76b95177338d1357d8ce",
+  "adf3f3de7da57b9a4f735002c03b4cc5b8ad17770a22300cb81f9222b3b9d8d6",
+  "b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
+  "b71b4dbbbbd4d3f0e58289968cf98ea1d9d3c1e4a7e1ad226664c5e9d6f7c44c",
+  "c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
+  "e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
+  "e2f2d8003f4ff16a46bc25344a5d3f638bf25e6af1b97f62e1ccf29d3a0aede5",
+  "e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
+  "ec0979eca20bdf2ec93fef2208281c1beb1a956b5bc78d61dddc2e6a2909bfd8",
+  "f83a315b153b8486359fbc28d0180ada8971e0404fe2f03e54d9b87b28c0e5ee",
+  "fa2bd114de70a9963df8d8d22d9610312149b456364ae1b6aa77afbe4bbd992c",
+  "fbef7f1831d1a8bb8a3a055c0b70df9d51e57c1e037244be54f395bea72c9ba8",
+  "feb419a2bf7efa68348d922c4748978e5649c22d93888305b6d9139247a3e69b",
+  "ff155c8832dbdf8d2394862185fbf5199a5ba4c32dc990bfbd5a4c4415de0004"
+]);
+/* REZEPT-FINGERABDRUECKE-LESEN:END */
+/* ABWERK-FRUEHERE-FASSUNGEN-LESEN:BEGIN — generierter Bereich (Erzeuger der früher ausgelieferten Fassungen) */
+const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
+  "0d8605a8bc42b0c2796e2d9f5d6dde4f79563d245e67f7f4c665e3669600b2d2",
+  "1cdc32ee692baea74d883b7cf82c750255c6b5eaadb12a8be3b47bf493bc178c",
+  "3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
+  "3c5325d8c30b9dc9574a1aeae9cd4dad77eea1aa12e0ff9c64781f5b0769818e",
+  "4d5c60c4d1e6ea36a8af9da9bc1770bb0b3082d5fd68fb0b817d5eb16a9afe30",
+  "645dd0c53ccf8aa3b8bff064236e112f989f6c16c1f34c263343a7747c48fc58",
+  "8b1cef408d063d7336c45c1a78095454652c57cd267f021a8c6d73157ee4c7b5",
+  "98df1da45043df597a335ee31c17c91e082871a18baed7fc22ab56a8dc798459",
+  "adf3f3de7da57b9a4f735002c03b4cc5b8ad17770a22300cb81f9222b3b9d8d6",
+  "b23f7daba56a3ca8c6fc73c932c3c4532e56052ff84b0378b39f9d8efe513a88",
+  "e596185de7a86c633ba83a0aa9d7d473d6c8437f63ba963561739b133fe64689",
+  "f8423d7ca43890bb39f40ba7dad2a172810a9d459f6cd3b1bc63308439af2526"
+]);
+/* ABWERK-FRUEHERE-FASSUNGEN-LESEN:END */
 
 /* Ein Satz, mit dem die Anwendung etwas über ihren EIGENEN ZUSTAND aussagt, ist kein Inhalt —
    er ist Verhalten, und Verhalten gehört dem Gerüst (Grenze Gestaltung/Fachlichkeit: „das Modul
@@ -1640,6 +2115,8 @@ const ZUSICHERUNG_TEXTE_EN = Object.freeze({
   logikmodulGeprueftOhneNamen: 'Checked: this extract comes from a certified provider. This does not say whether the provider has been revoked since.',
   logikmodulNichtPruefbar: 'Cannot be checked: the depot holds no proof for this extract. That is not an error — older entries do not carry one.',
   logikmodulUngueltig: 'Failed: the proof for this extract cannot be confirmed.',
+  logikmodulWiderrufen: 'Revoked: the certificate of {anbieter} has been revoked. This extract is no longer confirmed.',
+  logikmodulWiderrufenOhneNamen: 'Revoked: the provider\'s certificate has been revoked. This extract is no longer confirmed.',
   standSatzBekannt: 'The version date is known for all added extensions — {n} in total.',
   standSatzKeine: 'No extension has been added that could carry a version date of its own.',
   standSatzOhneAngabe: 'This document gives no version date. The version of the extensions is therefore unknown.',
@@ -1651,6 +2128,8 @@ const ZUSICHERUNG_TEXTE_EN = Object.freeze({
   vorlageGeprueftOhneNamen: 'Checked: these fields come from a certified provider. This does not say whether the provider has been revoked since.',
   vorlageNichtPruefbar: 'Cannot be checked: the depot holds no proof for these fields. That is not an error — older entries do not carry one.',
   vorlageUngueltig: 'Failed: the proof for these fields cannot be confirmed.',
+  vorlageWiderrufen: 'Revoked: the certificate of {anbieter} has been revoked. These fields are no longer confirmed.',
+  vorlageWiderrufenOhneNamen: 'Revoked: the provider\'s certificate has been revoked. These fields are no longer confirmed.',
 });
 /* Die englische Fassung der Lese-App-EIGENEN Oberfläche (B3-Nachtrag, 19.09.2026): Willkommen, Passwort, Banner,
    Notfall-Blatt, Antwort, Kamera, Fehlermeldungen. Diese Schlüssel gibt es nur in der Lese-App, der Kern kennt sie nicht,
@@ -1668,7 +2147,7 @@ const LESE_TEXTE_EN = Object.freeze({
   hilfeEmpfaengerinFrage_wasPassiertMitMeinenDaten: "What happens to my data?",
   hilfeEmpfaengerinAntwort_wasIstDas: "You are looking at a selection that someone put together for you from their own depot. It holds exactly the records that person chose, and nothing else. A depot is an encrypted file that belongs to its owner and sits on their device.",
   hilfeEmpfaengerinAntwort_wasKannIchTun: "You can read the records, print them and save them. You need no account and have nothing to install. You cannot change anything here: what you see is the state at the time the selection was made.",
-  hilfeEmpfaengerinAntwort_werHatEsGeschickt: "The top of the page states who the selection came from and when it was made. Where individual records came from an organisation, a medical practice for instance, that is stated with them. If records were withheld, it says so without showing which ones.",
+  hilfeEmpfaengerinAntwort_werHatEsGeschickt: "The top of the page states who the selection came from and when it was made. Where individual records came from an organisation, a medical practice for instance, that is stated with them. If records were withheld, the number is stated, never their content.",
   hilfeEmpfaengerinAntwort_wasPassiertMitMeinenDaten: "None of it reaches us. The selection sits with you as a file, and opening it reports to nobody. What you do with it follows your own rules, your organisation's retention policy for example.",
   navNichtUebersetzteZeigen: "Show areas that are not translated",
   appName: "Vivodepot · Reader",
@@ -1751,6 +2230,9 @@ const LESE_TEXTE_EN = Object.freeze({
   antwortPwPlaceholder: "One-time password",
   antwortFalsch: "This reply cannot be opened. The password or key does not fit — or the file was altered.",
   antwortKeyUnlesbar: "This key file could not be read (not a valid JWK JSON).",
+  antwortKeyPw: "Key file password",
+  antwortKeyFalsch: "The password does not match, or the file is damaged.",
+  antwortKeyKlartext: "This key file is not encrypted. You can save it again with encryption in Studio; delete the old file afterwards.",
   antwortFehlend: "Missing:",
   antwortFreigestellt: "exempted",
   antwortUnbekannt: "Vivodepot has no such details:",
@@ -2240,7 +2722,7 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "advanceCare.provisionInstruments/healthCareGeneralDecision.label": "Gesundheitssorge — allgemein entscheiden",
   "advanceCare.provisionInstruments/healthCareGeneralDecision/ja.label": "ja",
   "advanceCare.provisionInstruments/healthCareGeneralDecision/nein.label": "nein",
-  "advanceCare.provisionInstruments/healthCareMedicalProcedures.label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr (§ 1829 BGB)",
+  "advanceCare.provisionInstruments/healthCareMedicalProcedures.label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr oder Gefahr eines schweren, länger dauernden Gesundheitsschadens (§ 1829 BGB)",
   "advanceCare.provisionInstruments/healthCareMedicalProcedures/ja.label": "ja",
   "advanceCare.provisionInstruments/healthCareMedicalProcedures/nein.label": "nein",
   "advanceCare.provisionInstruments/healthCareMedicalRecords.label": "Gesundheitssorge — Krankenunterlagen, Schweigepflichtentbindung",
@@ -2376,8 +2858,8 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "advanceCare.doNotInform.label": "Wer nicht informiert werden soll",
   "advanceCare#living-will-decisions.label": "Festlegungen der Patientenverfügung",
   "advanceCare.applicableSituations.label": "Situationen",
-  "advanceCare.applicableSituations/sterbeprozess.label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,",
-  "advanceCare.applicableSituations/endstadium.label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,",
+  "advanceCare.applicableSituations/sterbeprozess.label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde ...",
+  "advanceCare.applicableSituations/endstadium.label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist ...",
   "advanceCare.applicableSituations/gehirnschaedigung.label": "infolge einer Gehirnschädigung meine Fähigkeit, Einsichten zu gewinnen, Entscheidungen zu treffen und mit anderen Menschen in Kontakt zu treten, nach Einschätzung zweier erfahrener Ärztinnen oder Ärzte (können namentlich benannt werden) aller Wahrscheinlichkeit nach unwiederbringlich erloschen ist, selbst wenn der Todeszeitpunkt noch nicht absehbar ist. Dies gilt für direkte Gehirnschädigung z. B. durch Unfall, Schlaganfall oder Entzündung ebenso wie für indirekte Gehirnschädigung z. B. nach Wiederbelebung, Schock oder Lungenversagen. Es ist mir bewusst, dass in solchen Situationen die Fähigkeit zu Empfindungen erhalten sein kann und dass ein Aufwachen aus diesem Zustand nicht ganz sicher auszuschließen, aber unwahrscheinlich ist.",
   "advanceCare.applicableSituations/hirnabbau.label": "ich infolge eines weit fortgeschrittenen Hirnabbauprozesses (z. B. bei Demenzerkrankung) auch mit ausdauernder Hilfestellung nicht mehr in der Lage bin, Nahrung und Flüssigkeit auf natürliche Weise zu mir zu nehmen.",
   "advanceCare.ownAdditionalSituation.label": "Eigene Beschreibung der Anwendungssituation",
@@ -2449,7 +2931,8 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "advanceCare.waivesFurtherMedicalInformation.label": "Verzicht auf weitere ärztliche Aufklärung",
   "advanceCare.waivesFurtherMedicalInformation/ja.label": "Soweit ich bestimmte Behandlungen wünsche oder ablehne, verzichte ich ausdrücklich auf eine (weitere) ärztliche Aufklärung.",
   "advanceCare.waivesFurtherMedicalInformation/nein.label": "(kein Verzicht)",
-  "advanceCare.informationOrCounsellingReceived.label": "Information / Beratung",
+  "advanceCare.informationOrCounsellingReceived.label": "Informiert bei/durch",
+  "advanceCare.counsellingBy.label": "Beraten lassen durch",
   "advanceCare.validityDuration.label": "Gültigkeit",
   "advanceCare.validityDuration/unbefristet.label": "Diese Patientenverfügung gilt solange, bis ich sie widerrufe.",
   "advanceCare.validityDuration/befristet.label": "Diese Patientenverfügung soll nach Ablauf von (Zeitangabe) ihre Gültigkeit verlieren, es sei denn, dass ich sie durch meine Unterschrift erneut bekräftige.",
@@ -2828,6 +3311,8 @@ function _textsatzBelegtEintragen(nutzlast, pruefstufe, anbieterId) {
   const anbieter = (typeof anbieterId === 'string' && anbieterId.trim()) ? anbieterId.trim()
     : ((nutzlast && typeof nutzlast.anbieterId === 'string' && nutzlast.anbieterId.trim()) ? nutzlast.anbieterId.trim().toLowerCase() : null);
   _TEXTSATZ_BELEGT.set(fp, { pruefstufe, anbieterId: anbieter });
+  /* Für die Schutzliste zählt der GANZE Inhalt der signierten Nutzlast, nicht der Zusicherungs-Fingerabdruck (Spiegel des Kerns). */
+  if (pruefstufe === 'intern') { const voll = _modulFingerabdruck(nutzlast); if (voll) _TEXTSATZ_INTERN_VOLL.add(voll); }
   return true;
 }
 function _textsatzModulBelegtInfo(m) {
@@ -2835,8 +3320,75 @@ function _textsatzModulBelegtInfo(m) {
   const fp = _textsatzZusicherungsFingerabdruck(m);
   return (fp && _TEXTSATZ_BELEGT.get(fp)) || null;
 }
+/* HERKUNFT NACH INHALT (Schutz-Wagen, 04.10.2026, Spiegel des Kerns: _EINLASS_META_FELDER, _modulFingerabdruck,
+   _modulRezeptFingerabdruck, _depotModuleAbWerkPruefen, _abWerkGleich, _textsatzPruefstufeFuerSchutz). Ob ein Modul der Datei ab Werk ist,
+   entscheidet der Fingerabdruck seines Inhalts gegen REZEPT_FINGERABDRUECKE_LESEN, beim Öffnen asynchron gerechnet
+   (_depotUebernehmenGeprueft). Ein Feld `abWerk`, `ungeprueft` oder `pruefstufe` liest dafür niemand — es steht in der Datei, die der Absender
+   in der Hand hat. Gemerkt wird das Modul-Objekt, nur im Arbeitsspeicher. */
+const _EINLASS_META_FELDER = Object.freeze(['ungeprueft', 'eingelassenAm', 'anbieterIdGeprueft', 'beleg', 'abWerk', 'pruefstufe', 'anbieterId']);
+function _modulFingerabdruck(m) {
+  const ohneMeta = (o) => {
+    if (Array.isArray(o)) return o.map(ohneMeta);
+    if (!o || typeof o !== 'object') return o;
+    const raus = {};
+    for (const k of Object.keys(o).sort()) raus[k] = ohneMeta(o[k]);
+    return raus;
+  };
+  try {
+    const kopie = Object.assign({}, m);
+    for (const f of _EINLASS_META_FELDER) delete kopie[f];
+    return JSON.stringify(ohneMeta(kopie));
+  } catch (e) { return null; }
+}
+let _ABWERK_BELEGT_LESEN = new WeakSet();
+/* E4 (04.10.2026, Spiegel des Kerns `_alteAbWerkKopienErsetzen`): eine Kopie eines Ab-Werk-Logikmoduls, deren Inhalt einer früher
+   ausgelieferten Fassung entspricht (ABWERK_FRUEHERE_FASSUNGEN_LESEN) und deren Kennung die Mitschrift der Datei trägt, verdeckt die
+   Fassung des Absender-Produkts nicht. Die Lese-App ändert die Datei nicht — sie zeigt die Mitschrift statt der alten Kopie. */
+let _ALTE_ABWERK_KOPIEN_LESEN = new WeakSet();
+const _TEXTSATZ_INTERN_VOLL = new Set();
+async function _modulRezeptFingerabdruck(m) {
+  const kopie = Object.assign({}, m);
+  for (const f of _EINLASS_META_FELDER) delete kopie[f];
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(_kanonischJSON(kopie)));
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+async function _depotModuleAbWerkPruefenLesen(d) {
+  _ABWERK_BELEGT_LESEN = new WeakSet();
+  _ALTE_ABWERK_KOPIEN_LESEN = new WeakSet();
+  if (!d || typeof d !== 'object') return;
+  const mitschriftIds = new Set();
+  try { for (const m of ((d.abWerkMitschrift && Array.isArray(d.abWerkMitschrift.logikModul)) ? d.abWerkMitschrift.logikModul : [])) if (m && typeof m.id === 'string') mitschriftIds.add(m.id); } catch (_) { /* leer */ }
+  for (const m of (Array.isArray(d.logikModule) ? d.logikModule : [])) {
+    if (!m || typeof m !== 'object' || typeof m.id !== 'string' || !mitschriftIds.has(m.id)) continue;
+    try { if (ABWERK_FRUEHERE_FASSUNGEN_LESEN.has(await _modulRezeptFingerabdruck(m))) _ALTE_ABWERK_KOPIEN_LESEN.add(m); } catch (_) { /* nicht prüfbar: bleibt */ }
+  }
+  const kandidaten = [];
+  for (const slot of MODUL_SLOTS) for (const m of (Array.isArray(d[slot]) ? d[slot] : [])) kandidaten.push(m);
+  const ms = d.abWerkMitschrift;
+  if (ms && typeof ms === 'object') {
+    for (const k of Object.keys(ms)) { const v = ms[k]; if (Array.isArray(v)) for (const m of v) kandidaten.push(m); else kandidaten.push(v); }
+  }
+  for (const m of kandidaten) {
+    if (!m || typeof m !== 'object' || _ABWERK_BELEGT_LESEN.has(m)) continue;
+    try { if (REZEPT_FINGERABDRUECKE_LESEN.has(await _modulRezeptFingerabdruck(m))) _ABWERK_BELEGT_LESEN.add(m); } catch (_) { /* nicht prüfbar: nicht ab Werk */ }
+  }
+}
+function _abWerkGleichLesen(m) {
+  return !!m && typeof m === 'object' && _ABWERK_BELEGT_LESEN.has(m);
+}
+function _textsatzPruefstufeFuerSchutz(m) {
+  try { const voll = _modulFingerabdruck(m); if (voll && _TEXTSATZ_INTERN_VOLL.has(voll)) return 'intern'; } catch (_) { /* kein Vertrauen */ }
+  return null;
+}
+function _textsatzSchutzVertraut(m) {
+  return _abWerkGleichLesen(m) || _textsatzPruefstufeFuerSchutz(m) === 'intern';
+}
+function _istSchutzKennung(kennung) {
+  return typeof kennung === 'string' && SCHUTZ_SCHLUESSEL_LESEN.has(kennung);
+}
 async function _textsatzModuleBelegPruefen(d, opts) {
   _TEXTSATZ_BELEGT.clear();
+  _TEXTSATZ_INTERN_VOLL.clear();
   const liste = (d && Array.isArray(d.textsatzModule)) ? d.textsatzModule : [];
   for (const m of liste) {
     try {
@@ -2863,6 +3415,11 @@ function _textsatzZusicherungFormOk(kennung, wert) {
 }
 function textsatzModulPruefen(modul, opt) {
   const vertrauenswuerdig = (opt && opt.vertrauenswuerdig) || false;
+  /* Schutz-Wagen (04.10.2026, Spiegel des Kerns): eine geschützte Kennung (SCHUTZ_SCHLUESSEL_LESEN) setzt nur, wessen Herkunft beim
+     Öffnen nach INHALT festgestellt wurde — ab Werk (Fingerabdruck gegen REZEPT_FINGERABDRUECKE_LESEN) oder nachgeprüft signiert über die
+     eigene Treuhand. Wer das feststellt, ist der Aufrufer (`_textsatzSchutzVertraut`); kein Feld im Modul und keine Sprache entscheidet.
+     DEFAULT: nicht vertraut. */
+  const schutzVertraut = !!(opt && opt.schutzVertraut === true);
   const verworfene = [];
   if (!modul || typeof modul !== 'object') return { gueltig: false, grund: 'kein-objekt', texte: null, regeln: null, verworfene };
   if (typeof modul.sprache !== 'string' || !modul.sprache.trim()) return { gueltig: false, grund: 'sprache', texte: null, regeln: null, verworfene };
@@ -2875,6 +3432,7 @@ function textsatzModulPruefen(modul, opt) {
     if (typeof wert !== 'string' || !wert.trim()) { verworfene.push({ kennung, grund: 'kein-text' }); continue; }
     /* Zuerst die Zusicherung, dann die Bekanntheit — der Grund muss sagen, WARUM abgewiesen
        wurde. `unbekannt` hiesse „die kenne ich nicht"; hier ist sie bekannt und trotzdem tabu. */
+    if (_istSchutzKennung(kennung) && !schutzVertraut) { verworfene.push({ kennung, grund: 'schutz' }); continue; }
     if (_istZusicherungsKennung(kennung) && vertrauenswuerdig !== 'signiert') { verworfene.push({ kennung, grund: 'zusicherung' }); continue; }
     if (_istZusicherungsKennung(kennung) && !_textsatzZusicherungFormOk(kennung, wert)) { verworfene.push({ kennung, grund: 'zusicherung-form' }); continue; }
     if (!_textsatzKennungBekannt(kennung)) { verworfene.push({ kennung, grund: 'unbekannt' }); continue; }
@@ -2899,7 +3457,7 @@ function _textsatzModuleAusDepotAnmelden(d) {
      den Modulen der geöffneten Datei. Der Zweig bleibt für ein Produkt, das ihr Fach künftig wieder backt. */
   {
     let geprueft = null;
-    if (AB_WERK_TEXTSATZ_EN) { try { geprueft = textsatzModulPruefen(AB_WERK_TEXTSATZ_EN); } catch (e) { geprueft = null; } }
+    if (AB_WERK_TEXTSATZ_EN) { try { geprueft = textsatzModulPruefen(AB_WERK_TEXTSATZ_EN, { schutzVertraut: true }); } catch (e) { geprueft = null; } }
     if (geprueft && geprueft.gueltig) {
       registry[AB_WERK_TEXTSATZ_EN.sprache] = Object.assign(registry[AB_WERK_TEXTSATZ_EN.sprache] || Object.create(null), geprueft.texte);
       regelnRegistry[AB_WERK_TEXTSATZ_EN.sprache] = Object.assign(regelnRegistry[AB_WERK_TEXTSATZ_EN.sprache] || Object.create(null), geprueft.regeln);
@@ -2930,7 +3488,7 @@ function _textsatzModuleAusDepotAnmelden(d) {
   try { abWerkSprache = (ziel && ziel.abWerkMitschrift && ziel.abWerkMitschrift.sprache) || null; } catch (_) { abWerkSprache = null; }
   if (abWerkSprache) {
     let geprueft = null;
-    try { geprueft = textsatzModulPruefen(abWerkSprache); } catch (e) { geprueft = null; }
+    try { geprueft = textsatzModulPruefen(abWerkSprache, { schutzVertraut: _textsatzSchutzVertraut(abWerkSprache) }); } catch (e) { geprueft = null; }
     if (geprueft && geprueft.gueltig && typeof abWerkSprache.sprache === 'string' && abWerkSprache.sprache.trim()) {
       const s = abWerkSprache.sprache.trim();
       registry[s] = Object.assign(registry[s] || Object.create(null), geprueft.texte);
@@ -2945,7 +3503,7 @@ function _textsatzModuleAusDepotAnmelden(d) {
   for (const m of liste) {
     let geprueft = null;
     const vertrauen = _textsatzModulBelegtInfo(m);
-    try { geprueft = textsatzModulPruefen(m, vertrauen ? { vertrauenswuerdig: 'signiert' } : undefined); } catch (e) { geprueft = null; }
+    try { geprueft = textsatzModulPruefen(m, Object.assign(vertrauen ? { vertrauenswuerdig: 'signiert' } : {}, { schutzVertraut: _textsatzSchutzVertraut(m) })); } catch (e) { geprueft = null; }
     if (!geprueft || !geprueft.gueltig) { _verwurfSpurLesen('sprache', m && m.sprache, geprueft ? geprueft.grund : 'wirft'); continue; }
     for (const v of (geprueft.verworfene || [])) _verwurfSpurLesen('sprache-text', m.sprache, v.grund);
     if (vertrauen) herkunft[m.sprache] = vertrauen;
@@ -3276,7 +3834,9 @@ function modulHerkunftBerechnen(depot) {
     for (const slot of MODUL_SLOTS) {
       for (const m of (Array.isArray(d[slot]) ? d[slot] : [])) {
         if (!m || typeof m !== 'object') continue;
-        if (m.abWerk === true) continue;   // Spiegel des Kerns: eingebacken zählt nicht (cross-20)
+        /* Spiegel des Kerns: ab Werk zählt nicht (cross-20) — festgestellt nach INHALT beim Öffnen, nie aus dem Feld `abWerk`
+           (04.10.2026). */
+        if (_abWerkGleichLesen(m)) continue;
         const stand = modulHerkunftStand(m);
         raus[stand]++;
         raus.module.push({ slot: slot, stand: stand,
@@ -5270,6 +5830,10 @@ const SEKTOREN = Object.freeze([
       {
         "format": "fhir-ips",
         "label": "Gesundheitsdaten"
+      },
+      {
+        "format": "isik",
+        "label": "Für das Krankenhaus (ISiK)"
       }
     ],
     "wizards": [
@@ -5713,13 +6277,13 @@ const SEKTOREN = Object.freeze([
   {
     "id": "education",
     "label": "Bildung & Beruf",
-    "format": "EDCI",
+    "format": "BILDUNG",
     "icon": "graduationCap",
     "einfuehrungstext": "Ihr Weg durch Schule, Ausbildung und Beruf — und wo die Zeugnisse liegen.",
     "exporte": [
       {
-        "format": "edci-bildung",
-        "label": "Bildungsnachweise (maschinenlesbar)"
+        "format": "bildungsangaben",
+        "label": "Bildungsangaben (maschinenlesbar)"
       }
     ],
     "sektionen": [
@@ -6686,7 +7250,7 @@ const SEKTOREN = Object.freeze([
               },
               {
                 "id": "healthCareMedicalProcedures",
-                "label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr (§ 1829 BGB)",
+                "label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr oder Gefahr eines schweren, länger dauernden Gesundheitsschadens (§ 1829 BGB)",
                 "typ": "auswahl",
                 "sensibel": true,
                 "optionen": [
@@ -7154,7 +7718,7 @@ const SEKTOREN = Object.freeze([
                 "id": "copyDepositedInTheRegister",
                 "label": "Abschrift im Register hinterlegt",
                 "typ": "auswahl",
-                "hint": "Hat eine Stelle, etwa ein Notariat, eine Anwaltskanzlei oder ein Betreuungsverein, eine elektronische Abschrift Ihrer Vorsorgedokumente beim Zentralen Vorsorgeregister hinterlegt? Dann tragen Sie es hier ein.",
+                "hint": "Das Zentrale Vorsorgeregister kann zu Ihrer Registrierung auch eine elektronische Abschrift Ihrer Vorsorgevollmacht, Betreuungsverfügung oder Patientenverfügung aufnehmen. Einreichen kann sie nur ein Notariat oder eine beim Register zugelassene Stelle wie eine Anwaltskanzlei, ein Betreuungsverein oder eine Betreuungsbehörde, nicht Sie selbst. Einsehen können sie vor allem Sie selbst, die Stelle, die sie eingereicht hat, Betreuungsgerichte sowie Ärztinnen und Ärzte, die über eine dringende Behandlung entscheiden müssen. Die Abschrift ersetzt nicht das Original, und ob die Verfügung noch gilt, zeigt das Register nicht. Hat eine Stelle eine Abschrift für Sie hinterlegt? Dann tragen Sie es hier ein.",
                 "sensibel": true,
                 "optionen": [
                   {
@@ -7963,11 +8527,11 @@ const SEKTOREN = Object.freeze([
             "optionen": [
               {
                 "wert": "sterbeprozess",
-                "label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,"
+                "label": "ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde ..."
               },
               {
                 "wert": "endstadium",
-                "label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,"
+                "label": "ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist ..."
               },
               {
                 "wert": "gehirnschaedigung",
@@ -8365,7 +8929,13 @@ const SEKTOREN = Object.freeze([
           },
           {
             "id": "informationOrCounsellingReceived",
-            "label": "Information / Beratung",
+            "label": "Informiert bei/durch",
+            "typ": "text",
+            "sensibel": true
+          },
+          {
+            "id": "counsellingBy",
+            "label": "Beraten lassen durch",
             "typ": "text",
             "sensibel": true
           },
@@ -10268,7 +10838,7 @@ function _istSituationKennungLesen(kennung) { return typeof kennung === 'string'
    ────────────────────────────────────────────────────────────────────────
    READ-ONLY. Schreibt NIE. Hält keine Daten zwischen Sessions. Kein localStorage/
    sessionStorage/IndexedDB/Cookies. Keine Netz-Zugriffe (CSP connect-src 'none').
-   Der VdCrypto-Block (Script 1) ist byte-identisch zur Bürger-App (Hash 732ff4b0…),
+   Der VdCrypto-Block (Script 1) ist byte-identisch zur Bürger-App (Hash 4cd539cd…),
    der JWS-Block + Test-Sentinel (oben) ebenso. Diese Datei steuert die Krypto nur
    an (VdCrypto.decryptDepot über deriveDepotKeyV2) — sie verändert sie nie.
    ════════════════════════════════════════════════════════════════════════ */
@@ -11806,7 +12376,7 @@ let notfallStufe1 = null;        // { stand, zeilen } aus Notfall-Cache oder QR
 let qrTeile = new Map();         // id → { n, stuecke: Map<i,payload> }  (Mehr-Teile-QR)
 
 /* ── kleine Helfer (faithful zur Bürger-App) ──────────────────────────────── */
-/* R4-1-Fund (VDCR, 17.09.2026): maskierte bis hierhin nur &, < und > — das reicht für
+/* R4-1-Fund (17.09.2026): maskierte bis hierhin nur &, < und > — das reicht für
    Textknoten, nicht für Attribute (`data-anlass-feld="' + escapeHTML(f.label) + '"'` u. Ä.).
    Ein Label aus einer fremden, unverschlüsselten Datei konnte mit einem Anführungszeichen aus
    dem Attribut ausbrechen und ein zweites einschleusen (Zwilling des Kern-Fundes, dort am
@@ -12440,7 +13010,7 @@ function feldWertText(feld, roh, sektorId) {
     // Wie im Kern (28.09.2026, U2-ADR-440): ein Optionstext, der selbst auf ein Satzzeichen der Aufzählung endet (die amtlichen
     // Situationen der Patientenverfügung), bekäme sonst ein zweites — „befinde,, ich …". Gekürzt nur für die Aufzählung.
     return werte.map(w => { const o = opts.find(x => x.wert === w); return (o && _optionLabelLesen(sektorId, feld.id, null, o)) || String(w); })
-      .map(t => String(t).replace(/[\s,;]+$/, '')).filter(Boolean).join(', ');
+      .map(t => String(t).replace(/(?:\s*(?:\.\.\.|…))?[\s,;]*$/, '')).filter(Boolean).join(', ');
   }
   if (feld.typ === 'refMehrfach') {
     /* Paritaets-Nachtrag Klasse (a), 23.07.2026 — dieser Zweig FEHLTE. Ein refMehrfach-Wert
@@ -12762,15 +13332,17 @@ const ANTWORT_FORMAT_VERSION = 1;
 const ANTWORT_VERFAHREN = Object.freeze(['einmalpasswort', 'schluesselpaar']);
 const ANTWORT_ECDH_KURVE = 'P-256';
 const ANTWORT_HKDF_INFO = 'vivodepot/antwort/v1';
-const ANTWORT_PBKDF2_ITERATIONEN = 600000;   // = ANG_PBKDF2_ITERATIONEN im Kern, fest
+const ANG_PBKDF2_ITERATIONEN = 600000;   // derselbe Name und Wert wie im Kern, fest — `_angDeriveKey` ist in beiden wortgleich
 // GEBUNDEN (18.9, tools/pbkdf2-staerke-pruefen.js): muss dem gepinnten PBKDF2_ITERATIONS im VdCrypto-Block gleich sein. Wer diesen Wert ändern will, ändert ihn NICHT hier an
 // Ort und Stelle — Krypto-Stärkeparameter ändern sich nur über einen Sprung der kryptoVersion (U2-ADR-230).
 
-async function _antwortDeriveKeyPw(passwort, saltBytes) {
+/* Kern und Lese-App öffnen die Antwort mit wortgleichen Funktionen (`_angDeriveKey`, `_antwortEcdhImport*`,
+   `antwortEntschluessel*`); bewacht vom Klassenwächter geteilter Krypto-Funktionen (tools/krypto-block-propagation-pruefen.js). */
+async function _angDeriveKey(passwort, saltBytes) {
   const basis = await crypto.subtle.importKey('raw', new TextEncoder().encode(String(passwort)),
     { name: 'PBKDF2' }, false, ['deriveKey']);
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt: saltBytes, iterations: ANTWORT_PBKDF2_ITERATIONEN, hash: 'SHA-256' },
+    { name: 'PBKDF2', salt: saltBytes, iterations: ANG_PBKDF2_ITERATIONEN, hash: 'SHA-256' },
     basis, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
 }
 function _antwortAad(umschlag) {
@@ -12790,8 +13362,14 @@ async function antwortEntschluesselnPasswort(umschlag, passwort) {
   if (!umschlag || umschlag.verfahren !== 'einmalpasswort' || typeof umschlag.salt !== 'string') {
     throw new Error('Kein Einmalpasswort-Umschlag.');
   }
-  const key = await _antwortDeriveKeyPw(passwort, base64ToBytes(umschlag.salt));
+  const key = await _angDeriveKey(passwort, base64ToBytes(umschlag.salt));
   return _antwortOeffnen(umschlag, key);
+}
+async function _antwortEcdhImportPrivate(jwk) {
+  return crypto.subtle.importKey('jwk', jwk, { name: 'ECDH', namedCurve: ANTWORT_ECDH_KURVE }, false, ['deriveBits']);
+}
+async function _antwortEcdhImportPublic(jwk) {
+  return crypto.subtle.importKey('jwk', jwk, { name: 'ECDH', namedCurve: ANTWORT_ECDH_KURVE }, true, []);
 }
 async function _antwortEcdhSchluessel(privateKey, publicKey, saltBytes) {
   const roh = await crypto.subtle.deriveBits({ name: 'ECDH', public: publicKey }, privateKey, 256);
@@ -12804,10 +13382,8 @@ async function antwortEntschluesselnSchluessel(umschlag, empfaengerPrivJwk) {
   if (!umschlag || umschlag.verfahren !== 'schluesselpaar' || !umschlag.epk) {
     throw new Error('Kein Schlüsselpaar-Umschlag.');
   }
-  const priv = await crypto.subtle.importKey('jwk', empfaengerPrivJwk,
-    { name: 'ECDH', namedCurve: ANTWORT_ECDH_KURVE }, false, ['deriveBits']);
-  const epk = await crypto.subtle.importKey('jwk', umschlag.epk,
-    { name: 'ECDH', namedCurve: ANTWORT_ECDH_KURVE }, true, []);
+  const priv = await _antwortEcdhImportPrivate(empfaengerPrivJwk);
+  const epk = await _antwortEcdhImportPublic(umschlag.epk);
   const key = await _antwortEcdhSchluessel(priv, epk, base64ToBytes(umschlag.salt));
   return _antwortOeffnen(umschlag, key);
 }
@@ -13477,6 +14053,7 @@ function onDateiGewaehlt(ev) {
    überspränge die Prüfung — tests/lese-app-depot-einstieg-geprueft.test.js hält das fest. Die Prüfung darf das Öffnen nie brechen. */
 async function _depotUebernehmenGeprueft(obj, opts) {
   try { await _textsatzModuleBelegPruefen(obj, opts); } catch (e) { /* ohne Beleg gilt das Modul als unsigniert */ }
+  try { await _depotModuleAbWerkPruefenLesen(obj); } catch (e) { /* ohne Fingerabdruck gilt kein Modul als ab Werk */ }
   return _foldVollmachtenLesen(obj);
 }
 
@@ -13988,6 +14565,9 @@ function vorlagenMarkeHTML(felder) {
   } else if (stand.zustand === 'abgelaufen') {
     klasse = 'abgelaufen';
     text = name ? STRINGS.vorlageAbgelaufen.replace('{anbieter}', name) : STRINGS.vorlageAbgelaufenOhneNamen;
+  } else if (stand.zustand === 'widerrufen') {
+    klasse = 'widerrufen';
+    text = name ? STRINGS.vorlageWiderrufen.replace('{anbieter}', name) : STRINGS.vorlageWiderrufenOhneNamen;
   } else if (stand.zustand === 'ungueltig') {
     klasse = 'ungueltig';
     text = STRINGS.vorlageUngueltig;
@@ -14038,6 +14618,9 @@ function logikModulMarkeHTML(rohEintrag) {
   } else if (stand.zustand === 'abgelaufen') {
     klasse = 'abgelaufen';
     text = name ? STRINGS.logikmodulAbgelaufen.replace('{anbieter}', name) : STRINGS.logikmodulAbgelaufenOhneNamen;
+  } else if (stand.zustand === 'widerrufen') {
+    klasse = 'widerrufen';
+    text = name ? STRINGS.logikmodulWiderrufen.replace('{anbieter}', name) : STRINGS.logikmodulWiderrufenOhneNamen;
   } else if (stand.zustand === 'ungueltig') {
     klasse = 'ungueltig';
     text = STRINGS.logikmodulUngueltig;
@@ -14330,7 +14913,7 @@ function _logikModulTexteAufloesenLesen(logik) {
    Sichtbarkeit und Beleg sind zwei Fragen; diese Zeile beantwortet nur die erste. */
 function _logikModuleAlleLesen(d) {
   const ziel = d || (typeof data !== 'undefined' ? data : null);
-  const eigene = (ziel && Array.isArray(ziel.logikModule)) ? ziel.logikModule : [];
+  const eigene = ((ziel && Array.isArray(ziel.logikModule)) ? ziel.logikModule : []).filter((m) => !_ALTE_ABWERK_KOPIEN_LESEN.has(m));   // E4
   let ausMitschrift = [];
   try {
     const m = ziel && ziel.abWerkMitschrift;
@@ -14724,6 +15307,54 @@ function antwortJweAlsUmschlag(text) {
   return { jwe: String(text).trim(), verfahren: kopf.alg === 'ECDH-ES' ? 'schluesselpaar' : 'einmalpasswort',
     vorgang: kopf.vorgang || '', anbieterId: kopf.anbieter || '' };
 }
+/* ══ HÜLLENSCHICHT .vdkey (wortgleich mit VC-Issuer und Schlüssel-Teilen; bewacht von
+   tools/krypto-block-propagation-pruefen.js, Soll-Liste je Stück). Ein privater Schlüssel verlässt diese
+   Anwendung nur in dieser Hülle: PBKDF2-SHA256 (PBKDF2_ITERATIONS aus dem VdCrypto-Block) + AES-GCM mit AAD. ══ */
+const PROTECTED_KEY_MARKER_VERSION = 1;
+const PROTECTED_KEY_VERSION_ALLOWLIST = [1];
+function _aadFuerSchluesselhuelle(w) {
+  return { kryptoVersion: _AAD_UEBERGABE_V2.kryptoVersion, iterationen: w.iterationen, kdfTyp: w.kdf };
+}
+async function schuetzeSchluesselJwk(jwk, passphrase) {
+  if (!passphrase) throw new Error('Passphrase fehlt.');
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKey(passphrase, salt);
+  const kopfdaten = { kdf: 'pbkdf2-sha256', iterationen: PBKDF2_ITERATIONS };
+  const { iv, ct } = await encryptData(jwk, key, _aadFuerSchluesselhuelle(kopfdaten));
+  return {
+    vivodepotProtectedKey: PROTECTED_KEY_MARKER_VERSION,
+    kdf: kopfdaten.kdf,
+    iterationen: kopfdaten.iterationen,
+    salt: bytesToBase64(salt),
+    iv, ct,
+  };
+}
+async function entschluesseleSchluesselJwk(wrapper, passphrase) {
+  // Versionsweiche VOR jedem Feldzugriff (U2-ADR-249, spiegelt das Depot-Muster aus U2-ADR-235):
+  // zwei getrennte Gründe brauchen zwei getrennte Meldungen. Kein Kennfeld heißt „das ist gar
+  // keine Hülle" — eine Fassung außerhalb der Allowlist heißt „das ist eine Hülle, aber eine, die
+  // diese Anwendung nicht kennt", und genau DAS soll die Meldung sagen, nicht der erste Fall.
+  const traegtKennfeld = !!(wrapper && typeof wrapper === 'object' && 'vivodepotProtectedKey' in wrapper);
+  if (!traegtKennfeld) throw new Error('Das ist keine geschützte Vivodepot-Schlüsseldatei (.vdkey).');
+  if (!PROTECTED_KEY_VERSION_ALLOWLIST.includes(wrapper.vivodepotProtectedKey)) {
+    throw new Error('Diese .vdkey-Datei trägt Fassung ' + wrapper.vivodepotProtectedKey
+      + ' — diese Anwendung kennt nur Fassung ' + PROTECTED_KEY_VERSION_ALLOWLIST.join('/') + '.');
+  }
+  // Ab hier: Fassung 1 (heute die einzige in der Allowlist) — Ableitung und AAD unverändert.
+  let salt;
+  try { salt = base64ToBytes(wrapper.salt); } catch (e) { throw new Error('Geschützte Datei ist beschädigt (Salt nicht lesbar).'); }
+  const key = await deriveKey(passphrase, salt);
+  try {
+    return await decryptData({ iv: wrapper.iv, ct: wrapper.ct }, key, _aadFuerSchluesselhuelle(wrapper));
+  } catch (e) {
+    throw new Error('Falsche Passphrase oder beschädigte Datei.');
+  }
+}
+function istGeschuetzteSchluesseldatei(geparst) {
+  return !!(geparst && typeof geparst === 'object' && PROTECTED_KEY_VERSION_ALLOWLIST.includes(geparst.vivodepotProtectedKey));
+}
+/* ══ ENDE HÜLLENSCHICHT ══ */
+
 async function _antwortOeffnenJeFassung(umschlag, schluessel) {
   if (umschlag && umschlag.jwe) return JSON.parse((await antwortJweOeffnen(umschlag.jwe, schluessel)).klartext);
   return schluessel.passwort != null
@@ -14739,9 +15370,7 @@ function renderAntwortOeffnen(umschlag) {
   wrap.innerHTML =
     '<div class="sheet" role="main">' +
       '<h1>' + escapeHTML(STRINGS.antwortTitel) + '</h1>' +
-      '<p class="hint" id="antwort-kopf">' +
-        escapeHTML(STRINGS.antwortVorgang) + ' ' + escapeHTML(String(umschlag.vorgang || '—')) +
-      '</p>' +
+      '<p class="hint" id="antwort-kopf">' + escapeHTML(STRINGS.antwortVorgang) + ' <span id="antwort-vorgang"></span></p>' +
       '<p class="hint">' + escapeHTML(perPasswort ? STRINGS.antwortHintPasswort : STRINGS.antwortHintSchluessel) + '</p>' +
       (perPasswort
         ? '<form id="antwort-form" autocomplete="off">' +
@@ -14752,12 +15381,19 @@ function renderAntwortOeffnen(umschlag) {
               '<button type="submit" class="btn">' + escapeHTML(STRINGS.pwOeffnen) + '</button>' +
             '</div>' +
           '</form>'
-        : '<input type="file" id="antwort-key" accept=".json,.jwk,application/json">' +
-          '<div class="pw-fehler" id="antwort-fehler" hidden></div>' +
-          '<div class="sheet-aktionen">' +
-            '<button type="button" class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button>' +
-          '</div>') +
+        : '<form id="antwort-key-form" autocomplete="off">' +
+            '<input type="file" id="antwort-key" accept=".vdkey,.json,.jwk,application/json">' +
+            '<input type="password" id="antwort-key-pw" class="pw-feld" placeholder="' + escapeHTML(STRINGS.antwortKeyPw) + '" aria-label="' + escapeHTML(STRINGS.antwortKeyPw) + '" autocomplete="off">' +
+            '<div class="pw-fehler" id="antwort-fehler" hidden></div>' +
+            '<div class="sheet-aktionen">' +
+              '<button type="button" class="btn btn-sek" id="btn-zurueck">' + escapeHTML(STRINGS.zurueck) + '</button>' +
+              '<button type="submit" class="btn">' + escapeHTML(STRINGS.pwOeffnen) + '</button>' +
+            '</div>' +
+          '</form>') +
     '</div>';
+  // Der Vorgang steht in der fremden Datei: er kommt als Text in die Seite, nie ins Markup.
+  const vorgangFeld = el('antwort-vorgang');
+  if (vorgangFeld) vorgangFeld.textContent = String(umschlag.vorgang || '—');
   el('btn-zurueck').addEventListener('click', () => { antwortUmschlag = null; renderWelcome(); });
   const fehler = (text) => { const f = el('antwort-fehler'); f.textContent = text; f.hidden = false; };
   if (perPasswort) {
@@ -14772,20 +15408,58 @@ function renderAntwortOeffnen(umschlag) {
     });
     const pf = el('antwort-pw'); if (pf && pf.focus) pf.focus();
   } else {
-    el('antwort-key').addEventListener('change', (ev) => {
-      const datei = ev && ev.target && ev.target.files && ev.target.files[0];
+    el('antwort-key-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const feld = el('antwort-key');
+      const datei = feld && feld.files && feld.files[0];
+      const pwFeld = el('antwort-key-pw');
+      let passwort = pwFeld.value;
+      pwFeld.value = '';
       if (!datei) return;
-      const reader = new FileReader();
-      reader.onload = async () => {
-        let jwk;
-        try { jwk = JSON.parse(String(reader.result)); }
-        catch (e2) { fehler(STRINGS.antwortKeyUnlesbar); return; }
-        try { renderAntwort(await _antwortOeffnenJeFassung(umschlag, { privateJwk: jwk }), umschlag); }
-        catch (e3) { fehler(STRINGS.antwortFalsch); }
-      };
-      reader.onerror = () => fehler(STRINGS.antwortKeyUnlesbar);
-      reader.readAsText(datei);
+      await antwortMitSchluesseldateiOeffnen(umschlag, datei, passwort, fehler);
+      passwort = null;
     });
+  }
+}
+/* Die Antwort mit der Schlüsseldatei öffnen: eine verschlüsselte Datei (.vdkey) mit ihrem Passwort, eine ältere
+   Klartext-Datei weiterhin, mit Hinweis auf das Neu-Speichern im Studio. Das JWK lebt nur in diesem Aufruf; das
+   Passwort hält niemand über ihn hinaus (JavaScript kann einen String nicht nullen, nur den Verweis fallen lassen). */
+function _schluesseldateiText(datei) {
+  return new Promise((ok, nein) => {
+    const reader = new FileReader();
+    reader.onload = () => ok(String(reader.result));
+    reader.onerror = () => nein(new Error('unlesbar'));
+    reader.readAsText(datei);
+  });
+}
+async function antwortMitSchluesseldateiOeffnen(umschlag, datei, passwort, fehler) {
+  let inhalt = null, jwk = null, klartext = false;
+  try {
+    try { inhalt = JSON.parse(await _schluesseldateiText(datei)); }
+    catch (e) { fehler(STRINGS.antwortKeyUnlesbar); return false; }
+    if (istGeschuetzteSchluesseldatei(inhalt)) {
+      if (!passwort) { fehler(STRINGS.antwortKeyPw); return false; }
+      try { jwk = await entschluesseleSchluesselJwk(inhalt, passwort); }
+      catch (e) { fehler(STRINGS.antwortKeyFalsch); return false; }
+    } else {
+      jwk = inhalt;
+      klartext = !!(jwk && typeof jwk === 'object' && jwk.d);
+    }
+    let ds;
+    try { ds = await _antwortOeffnenJeFassung(umschlag, { privateJwk: jwk }); }
+    catch (e) { fehler(STRINGS.antwortFalsch); return false; }
+    jwk = null; inhalt = null;
+    renderAntwort(ds, umschlag);
+    const blatt = klartext && el('antwort-blatt');
+    if (blatt) {
+      // Über das DOM statt über eine HTML-Senke: der Hinweis ist reiner Text.
+      const hinweis = document.createElement('p');
+      hinweis.className = 'hint'; hinweis.id = 'antwort-klartext-hinweis'; hinweis.textContent = STRINGS.antwortKeyKlartext;
+      blatt.insertBefore(hinweis, blatt.firstChild);
+    }
+    return true;
+  } finally {
+    inhalt = null; jwk = null; passwort = null;
   }
 }
 /* Das Blatt. Es zeigt GENAU, was `antwortAnzeigeModell` hergibt — nicht mehr (es gibt kein
@@ -15102,7 +15776,7 @@ function entladen() {
    (`leseModus = 'sub'`, `renderVollExport()`) — der Zuschnitt hat exakt dieselbe Form. */
 const EMPFAENGER_QR_HASH_PRAEFIX = 'eqr=';
 
-async function _empfaengerQrDeriveKey(passwort, saltBytes) {
+async function _empfaengerQrSchluesselEntschluesseln(passwort, saltBytes) {
   const basis = await crypto.subtle.importKey('raw', new TextEncoder().encode(String(passwort)),
     { name: 'PBKDF2' }, false, ['deriveKey']);
   return crypto.subtle.deriveKey(
@@ -15122,7 +15796,7 @@ async function _empfaengerQrEntschluesseln(payloadB64, passwort) {
   const salt = base64ToBytes(umschlag.s);
   const iv = base64ToBytes(umschlag.i);
   const ct = base64ToBytes(umschlag.c);
-  const key = await _empfaengerQrDeriveKey(passwort, salt);
+  const key = await _empfaengerQrSchluesselEntschluesseln(passwort, salt);
   const klartext = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
   return JSON.parse(new TextDecoder().decode(klartext));
 }
@@ -15237,6 +15911,7 @@ function _vorfuehrungLesenZeigen(index, zurueck) {
   const nr = Number(st.nr) || (index + 1);
   // Die Spalte „Die Situation" — dieselbe Form wie im Kern (_vorfuehrungSpalteHTML, U2-ADR-413 Nachtrag (3)); die Texte kommen aus der Demo.
   karte.innerHTML = _vorfuehrungLesenSpalteHTML(n, st, nr, gesamt);
+  _vorfuehrungLesenNotizSetzen(st);
   // Nach der globalen Nummer, wie im Kern (vorfuehrungSchritt): hier, wenn die Seite den Schritt trägt, sonst seine Adresse.
   // Rückwärts zeigt die Zielseite keine Zwischenkarte (`&zurueck=1`).
   const schritt = (r) => {
@@ -15263,10 +15938,15 @@ function _vorfuehrungLesenZeigen(index, zurueck) {
   // Breit liegt die Spalte links; schmal schiebt der eingeklappte Block die Antwort nach unten.
   const messen = () => {
     try {
+      // Der Streifen wird gemessen, nicht mit 26 px angenommen: ein längerer Text bricht auf dem Handy um (wie im Kern, 01.10.2026).
+      const s = document.getElementById('vorfuehrung-streifen');
+      const r = s && s.getBoundingClientRect();
+      const streifen = r && r.height > 0 ? Math.ceil(r.height) : 26;
       const spalte = karte.querySelector('.vorfuehrung-spalte');
-      if (!spalte || spalte.classList.contains('offen')) return;
+      if (!spalte) { wurzel.style.setProperty('--vorfuehrung-oben', streifen + 'px'); return; }
+      if (spalte.classList.contains('offen')) return;
       const breit = window.matchMedia && window.matchMedia('(min-width: 1100px)').matches;
-      wurzel.style.setProperty('--vorfuehrung-oben', (breit ? 26 : 26 + Math.ceil(spalte.getBoundingClientRect().height)) + 'px');
+      wurzel.style.setProperty('--vorfuehrung-oben', (breit ? streifen : streifen + Math.ceil(spalte.getBoundingClientRect().height)) + 'px');
     } catch (_) {}
   };
   messen();
@@ -15285,6 +15965,18 @@ function _vorfuehrungLesenZeigen(index, zurueck) {
       if (unten > frei) window.scrollBy(0, unten - frei);
     } catch (_) {}
   }
+  /* Zuletzt die Notiz: was oben scrollt (Hervorhebung, Fokus), darf sie nicht unter den Kopf der Vorführung schieben (01.10.2026, ein
+     langer Fokus-Rahmen schob sie ganz hinaus). Schmal liegt der Kopf fest oben, breit ist er die Spalte links — dann gilt der Rand. */
+  try {
+    const notiz = document.querySelector('.vorfuehrung-notiz');
+    if (notiz) {
+      const kopf = karte.getBoundingClientRect();
+      const oben = (kopf.top <= 30 && kopf.bottom < window.innerHeight / 2) ? kopf.bottom : 0;
+      const r = notiz.getBoundingClientRect();
+      if (r.top < oben + 8) window.scrollBy(0, r.top - oben - 8);
+      else if (r.bottom > window.innerHeight - 8) window.scrollBy(0, r.bottom - window.innerHeight + 8);
+    }
+  } catch (_) {}
 }
 let _vorfuehrungLesenHorcht = false;
 /* Die ruhige Zwischenkarte beim Rollenwechsel (Kalt-Lesetest 26.09.2026): „Jetzt wechseln Sie die Seite" und die neue Rolle, über der
@@ -15332,7 +16024,8 @@ function _vorfuehrungLesenSpalteHTML(n, st, nr, gesamt) {
   const t = _vorfuehrungLesenText;
   const rolle = st.rolle && st.rolle.text ? st.rolle : null;
   const titel = Array.isArray(n.schrittTitel) && n.schrittTitel.length ? n.schrittTitel : null;
-  const aktuell = '<p class="vorfuehrung-karte-titel">' + escapeHTML(st.titel || '') + '</p><p class="vorfuehrung-karte-text">' + escapeHTML(st.text || '') + '</p>';
+  // Der Erklärtext des Schritts steht als Notiz am Element (_vorfuehrungLesenNotizSetzen), die Spalte führt nur — wie im Kern.
+  const aktuell = '<p class="vorfuehrung-karte-titel">' + escapeHTML(st.titel || '') + '</p>';
   const liste = titel
     ? titel.map((x, i) => (i + 1 === nr
       ? '<li class="aktiv" aria-current="step"><span class="vorfuehrung-schritt-nr">' + (i + 1) + '</span><div>' + aktuell + '</div></li>'
@@ -15354,6 +16047,87 @@ function _vorfuehrungLesenSpalteHTML(n, st, nr, gesamt) {
     + '<button type="button" class="btn btn-sek vorfuehrung-selbst" id="vorfuehrung-selbst">' + escapeHTML(t('selbstAusprobieren')) + '</button>'
     + '</div></div>';
 }
+/* Die Notiz eines Schritts (wie _vorfuehrungNotizSetzen im Kern, v843). Anker: `st.anker` (Selektor), sonst die erste
+   hervorgehobene Angabe, sonst die Überschrift des Blatts. Aus DOM-Knoten gebaut, keine HTML-Zeichenkette. Darstellung — nie
+   ein Grund, die Vorführung zu brechen. */
+function _vorfuehrungLesenNotizSetzen(st) {
+  try {
+    for (const alt of document.querySelectorAll('.vorfuehrung-notiz')) alt.remove();
+    for (const platz of document.querySelectorAll('.vorfuehrung-notiz-platz')) platz.remove();
+    if (!st || !st.text) return null;
+    const app = document.getElementById('app');
+    let anker = null;
+    if (st.anker) { try { anker = document.querySelector(st.anker); } catch (_) { anker = null; } }
+    if (!anker && app) anker = app.querySelector('.vorfuehrung-hervor') || app.querySelector('h1, h2');
+    if (!anker || !anker.parentElement) return null;
+    const notiz = document.createElement('aside');
+    notiz.className = 'vorfuehrung-notiz';
+    notiz.setAttribute('role', 'note');
+    notiz.setAttribute('aria-live', 'polite');
+    notiz.setAttribute('aria-label', _vorfuehrungLesenText('notizLabel'));
+    const absatz = document.createElement('p');
+    absatz.className = 'vorfuehrung-notiz-text';
+    absatz.textContent = st.text;
+    const knopf = document.createElement('button');
+    knopf.type = 'button';
+    knopf.className = 'vorfuehrung-notiz-mehr';
+    knopf.setAttribute('aria-expanded', 'false');
+    knopf.hidden = true;
+    knopf.textContent = _vorfuehrungLesenText('mehr');
+    notiz.appendChild(absatz);
+    notiz.appendChild(knopf);
+    /* Der Platz entsteht über dem BLOCK, in dem der Anker steht: steht er in einem Raster oder einer Flex-Zeile (ein Knopf in der
+       Aktionsleiste), über der ganzen Zeile — sonst läge die Notiz, breiter als der Knopf, auf seinem Nachbarn. Der Platz ist ein
+       eigener Platzhalter davor, kein Rand: ein oberer Rand fiele im Fluss mit dem des Elternelements zusammen (gefunden von der
+       Verdeckungsprobe der Demo-Journeys, 01.10.2026). Die Ecke des Ankers bleibt der Punkt, an dem die Notiz klebt. */
+    let block = anker;
+    // Nie über einen Dialog oder eine fixierte Ebene hinaus: sonst landet die Notiz hinter dem offenen Dialog (gefunden 01.10.2026 an
+    // der Station fhir-ips, deren Anker die Überschrift im Modal ist).
+    const grenze = (p) => (p.matches && p.matches('[role="dialog"]')) || getComputedStyle(p).position === 'fixed';
+    while (block.parentElement && !grenze(block.parentElement) && /grid|flex/.test(getComputedStyle(block.parentElement).display)) block = block.parentElement;
+    const eltern = block.parentElement;
+    if (!eltern) return null;
+    if (getComputedStyle(eltern).position === 'static') eltern.style.position = 'relative';
+    const platz = document.createElement('div');
+    platz.className = 'vorfuehrung-notiz-platz';
+    // Steht der Anker in einem Flex-Dialog, würde der Platz sonst gestaucht (01.10.2026: 95 px gesetzt, 34 px gezeichnet —
+    // die Notiz lag halb unter dem Kopf der Vorführung).
+    platz.style.flexShrink = '0';
+    platz.setAttribute('aria-hidden', 'true');
+    eltern.insertBefore(platz, block);
+    eltern.insertBefore(notiz, block);
+    const setzen = () => {
+      if (!notiz.parentElement) return;
+      const innen = block === anker ? (parseFloat(getComputedStyle(anker).paddingTop) || 0) : 0;
+      // Überlappt wird nur der Innenrand, und davon höchstens bis 8 px vor den Inhalt (die Schrägstellung hebt eine Ecke an);
+      // ohne Innenrand (eine Überschrift) bleibt Luft.
+      const ueberlapp = Math.max(-8, Math.min(12, innen - 8));
+      platz.style.height = Math.max(0, notiz.offsetHeight - ueberlapp + 6) + 'px';
+      const e = eltern.getBoundingClientRect();
+      const a = anker.getBoundingClientRect();
+      const b = block.getBoundingClientRect();
+      // Nie über die Innenbreite des Elternelements hinaus (4 px Luft für die Schrägstellung): ragte sie heraus, wurde der Dialog
+      // seitlich scrollbar, und das Ins-Bild-Holen der Notiz schob in WebKit den ganzen Inhalt nach links (01.10.2026, sub-depot).
+      notiz.style.left = Math.max(0, Math.min(a.right - e.left - notiz.offsetWidth + 8, (eltern.clientWidth || Infinity) - notiz.offsetWidth - 4)) + 'px';
+      notiz.style.top = (b.top - e.top + eltern.scrollTop - notiz.offsetHeight + ueberlapp) + 'px';
+    };
+    setzen();
+    if (absatz.scrollHeight > absatz.clientHeight + 1) {
+      knopf.hidden = false;
+      knopf.onclick = () => {
+        const offen = !notiz.classList.contains('offen');
+        notiz.classList.toggle('offen', offen);
+        knopf.setAttribute('aria-expanded', String(offen));
+        knopf.textContent = _vorfuehrungLesenText(offen ? 'weniger' : 'mehr');
+        setzen();
+      };
+    }
+    setzen();   // erst jetzt steht fest, ob „mehr“ sichtbar ist — die Höhe der Notiz ändert sich damit
+    // Die Notiz in die Mitte, nicht den Anker: der Anker steht direkt unter ihr, und ein fester Kopf läge sonst über ihr.
+    try { notiz.scrollIntoView({ block: 'center' }); } catch (_) { /* ohne Scrollen bleibt sie, wo sie ist */ }
+    return notiz;
+  } catch (_) { return null; }
+}
 function vorfuehrungLesenStarten() {
   // Die Demo spricht die Sprache, in der sie gebaut ist — nicht die des Browsers (wie der Umschlag, nur im Speicher).
   if (AB_WERK_VORFUEHRUNG_LESEN.sprache === 'de' || AB_WERK_VORFUEHRUNG_LESEN.sprache === 'en') _vorSprache = AB_WERK_VORFUEHRUNG_LESEN.sprache;
@@ -15361,6 +16135,10 @@ function vorfuehrungLesenStarten() {
   s.id = 'vorfuehrung-streifen'; s.setAttribute('role', 'note'); s.textContent = _vorfuehrungLesenText('streifen');
   document.body.appendChild(s);
   document.documentElement.classList.add('vorfuehrung');
+  // Die Höhe des Streifens gemessen, nicht mit 26 px angenommen (wie im Kern, 01.10.2026).
+  const streifenMessen = () => { try { const r = s.getBoundingClientRect(); if (r.height > 0) document.documentElement.style.setProperty('--vorfuehrung-streifen', Math.ceil(r.height) + 'px'); } catch (_) {} };
+  streifenMessen();
+  window.addEventListener('resize', streifenMessen);
   _vorfuehrungLesenZeigen(_vorfuehrungLesenStartIndex(), /[?&]zurueck=1/.test(String((window.location && window.location.search) || '')));
 }
 

@@ -16,7 +16,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 
 const REPO = path.join(__dirname, '..', '..', '..');
-const BLOCK_HASH_ERWARTET = '732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282';
+const BLOCK_HASH_ERWARTET = '4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98';
 
 const KOMPONENTEN = [
   { name: 'Bürger-App (Kern)',  datei: 'vivodepot.html' },

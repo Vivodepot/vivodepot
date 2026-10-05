@@ -26,6 +26,8 @@ function fakeRoot() {
   return { style: { _werte: {}, setProperty(k, v) { this._werte[k] = v; }, removeProperty(k) { delete this._werte[k]; } } };
 }
 const KERN_QUELLE = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');
+const CSS_QUELLE = kernMitHeute(KERN_QUELLE);   // v894: Token-Werte kommen mit dem Erscheinungsbild „heute".
 
 const VIVODEPOT_SALBEI = '#4F6539';
 const SPARKASSE_BLAU = '#2E5C8A';     // Achsen-Testfixture, KEIN Sparkassen-Rot (s. Fixture-Kopf)
@@ -117,7 +119,7 @@ test('[Palette] --success löst sich vom Markenton — „geschafft" wird sonst 
 
 test('[Palette·Wächter] der semantische Grünton steht wortgleich als --ampel-gruen im CSS', () => {
   const V = kern();
-  const m = KERN_QUELLE.match(/--ampel-gruen:\s*(#[0-9a-fA-F]{6})/);
+  const m = CSS_QUELLE.match(/--ampel-gruen:\s*(#[0-9a-fA-F]{6})/);
   assert.ok(m, '--ampel-gruen muss im CSS deklariert sein');
   assert.equal(m[1].toLowerCase(), V._VD_BRANDING_SEMANTISCHES_GRUEN.toLowerCase(),
     'Konstante und CSS-Deklaration dürfen nicht auseinanderlaufen');

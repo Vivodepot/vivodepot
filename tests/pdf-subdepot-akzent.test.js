@@ -13,11 +13,13 @@
    Palette-Änderung im CSS unbemerkt zurückbleiben.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte kommen mit dem Erscheinungsbild
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
 test('[PDF-Sub-Depot-Akzent] _SUBDEPOT_PALETTE_HEX ist wortgleich mit dem :root-CSS-Block (kein Abschreiben von Hand ohne Probe)', () => {
-  const { html, V } = ladeKern();
+  const { html: roh, V } = ladeKern();
+  const html = kernMitHeute(roh);
   const rootBlock = html.match(/:root\s*\{[\s\S]*?\n\s*\}/);
   assert.ok(rootBlock, 'Testaufbau: der :root-CSS-Block muss auffindbar sein');
   const css = {};

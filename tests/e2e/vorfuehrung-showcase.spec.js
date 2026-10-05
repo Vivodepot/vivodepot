@@ -49,6 +49,8 @@ test('[Vorführung·DE] Kaltstart → Schleife → Berührung → Leerlauf → S
   await expect(page.locator('#vorfuehrung-streifen')).toHaveText(nutzlast.texte.streifen);
   await expect(page.locator('#vorfuehrung-schleife')).toBeVisible();
   await expect(page.locator('#w-anlass')).toBeHidden();
+  // Uhr anhalten: nach install() läuft sie sonst in Echtzeit weiter (Wächter tests/e2e-uhr-angehalten.test.js).
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 50));
 
   for (let i = 0; i < nutzlast.stationen.length; i++) {
     await expect(page.locator('.vorfuehrung-notiz .vorfuehrung-notiz-text')).toContainText(nutzlast.stationen[i].text);

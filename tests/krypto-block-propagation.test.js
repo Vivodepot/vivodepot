@@ -41,6 +41,9 @@ function fixture(zusatz = {}) {
   return dir;
 }
 const arten = (r) => r.fehler.map((f) => f.split(' ')[0]);
+/* Die Mechanismus-Proben der Hüllenschicht prüfen den Byte-Vergleich an erfundenen Dateien (a.html/b.html) — ohne die
+   Soll-Liste, die echte Dateinamen verlangt. Die Soll-Liste selbst prüfen die Proben in krypto-geteilt-klasse.test.js. */
+const OHNE_SOLL = { soll: {} };
 
 test('[Klasse-A] W-krypto-propagation Positivkontrolle: stimmiges Fixture ergibt 0 Befunde', () => {
   const r = pruefe(fixture());
@@ -218,7 +221,7 @@ test('[Klasse-A] W-Hüllenschicht Positivkontrolle: zwei Träger mit identischem
     'a.html': 'async function schuetzeSchluesselJwk(jwk, pw) { return { jwk, pw }; }\n',
     'b.html': 'async function schuetzeSchluesselJwk(jwk, pw) { return { jwk, pw }; }\n',
   });
-  const h = pruefeHuelle(dir);
+  const h = pruefeHuelle(dir, OHNE_SOLL);
   assert.deepEqual(h.fehler, [], 'zwei byte-identische Träger dürfen keinen Befund erzeugen');
   assert.equal(h.funde.schuetzeSchluesselJwk.length, 2);
 });
@@ -232,7 +235,7 @@ test('[Negativprobe][Klasse-A] W-Hüllenschicht: eine Kopie weicht vom anderen T
     'a.html': 'async function schuetzeSchluesselJwk(jwk, pw) { return { jwk, pw }; }\n',
     'b.html': 'async function schuetzeSchluesselJwk(jwk, pw) { return { jwk, pw, extra: 1 }; }\n',
   });
-  const h = pruefeHuelle(dir);
+  const h = pruefeHuelle(dir, OHNE_SOLL);
   assert.ok(h.fehler.some((f) => f.startsWith('HÜLLE schuetzeSchluesselJwk')),
     'zwei auseinandergelaufene Träger müssen rot machen, Befunde: ' + JSON.stringify(h.fehler));
 });
@@ -244,7 +247,7 @@ test('[Klasse-A] W-Hüllenschicht Gegenkontrolle: ein Stück mit nur einem Träg
   const dir = fixture({
     'a.html': 'async function entschluesseleSchluesselJwk(w, pw) { return w; }\n',
   });
-  const h = pruefeHuelle(dir);
+  const h = pruefeHuelle(dir, OHNE_SOLL);
   assert.deepEqual(h.fehler, [], 'ein einzelner Träger ist per Definition identisch mit sich selbst');
   assert.equal(h.funde.entschluesseleSchluesselJwk.length, 1);
 });
@@ -253,13 +256,13 @@ test('[Klasse-A] W-Hüllenschicht Gegenkontrolle: eine abweichende Konstante mac
   const gruen = pruefeHuelle(fixture({
     'a.html': 'const PROTECTED_KEY_MARKER_VERSION = 1;\n',
     'b.html': 'const PROTECTED_KEY_MARKER_VERSION = 1;\n',
-  }));
+  }), OHNE_SOLL);
   assert.deepEqual(gruen.fehler, []);
 
   const rot = pruefeHuelle(fixture({
     'a.html': 'const PROTECTED_KEY_MARKER_VERSION = 1;\n',
     'b.html': 'const PROTECTED_KEY_MARKER_VERSION = 2;\n',
-  }));
+  }), OHNE_SOLL);
   assert.ok(rot.fehler.some((f) => f.startsWith('HÜLLE PROTECTED_KEY_MARKER_VERSION')),
     'eine abweichende Konstante muss rot machen, Befunde: ' + JSON.stringify(rot.fehler));
 });
@@ -268,20 +271,23 @@ test('[Klasse-A] W-Hüllenschicht: das echte Repo ist vollständig propagiert', 
   const h = pruefeHuelle(path.join(__dirname, '..'));
   assert.deepEqual(h.fehler, [],
     'Hüllenschicht im Repo auseinandergelaufen:\n' + h.fehler.join('\n'));
-  assert.equal(h.funde.schuetzeSchluesselJwk.length, 2, 'Teiler + Zertifikator');
-  assert.equal(h.funde.entschluesseleSchluesselJwk.length, 1, 'nur der Zertifikator — der Teiler kann nur schützen');
-  assert.equal(h.funde._aadFuerSchluesselhuelle.length, 2, 'Teiler + Zertifikator');
-  assert.equal(h.funde.PROTECTED_KEY_MARKER_VERSION.length, 2, 'Teiler + Zertifikator');
+  // NACHTRAG 04.10.2026 (JWK-IN-STATE): Studio und Lese-App tragen die Hülle seither selbst — sie schützen bzw. öffnen
+  // die Schlüsseldatei (.vdkey). Die Zahlen folgen aus der Soll-Liste; die Soll-Liste selbst macht ein Fehlen rot.
+  assert.equal(h.funde.schuetzeSchluesselJwk.length, 4, 'Teiler + Zertifikator + Studio + Lese-App');
+  assert.equal(h.funde.entschluesseleSchluesselJwk.length, 3, 'Zertifikator + Studio + Lese-App — der Teiler kann nur schützen');
+  assert.equal(h.funde._aadFuerSchluesselhuelle.length, 4);
+  assert.equal(h.funde.PROTECTED_KEY_MARKER_VERSION.length, 4);
   // NACHTRAG 04.09.2026 (U2-ADR-249, Zuschnitt Sperrposten 1): istGeschuetzteSchluesseldatei
   // stand als einziges Hüllen-Stück bisher NICHT unter diesem Wächter — jetzt aufgenommen,
   // zusammen mit der neuen Allowlist-Konstante, die an die Stelle der strikten Gleichheit tritt.
-  assert.equal(h.funde.istGeschuetzteSchluesseldatei.length, 2, 'Teiler + Zertifikator');
-  assert.equal(h.funde.PROTECTED_KEY_VERSION_ALLOWLIST.length, 2, 'Teiler + Zertifikator');
+  assert.equal(h.funde.istGeschuetzteSchluesseldatei.length, 4);
+  assert.equal(h.funde.PROTECTED_KEY_VERSION_ALLOWLIST.length, 4);
   // NACHTRAG 03.09.2026 (Auftrag, Zug 1 der Signierungs-Automatisierung): vier
   // Anwendungen tragen _signJWS — der Teiler bewusst NICHT (Isolations-Entscheidung
   // 23.08.2026, „der JWS-Block bleibt draußen", vivodepot-schluessel-teilen.html:29).
   assert.equal(h.funde._signJWS.length, 4,
-    'vc-issuer + template-generator + vivodepot + vivodepot-lesen — der Teiler trägt den JWS-Block absichtlich nicht');
+    'vc-issuer + studio + vivodepot + vivodepot-lesen — der Teiler trägt den JWS-Block absichtlich nicht');
+  assert.ok(!h.funde._signJWS.some((f) => f.datei === 'vivodepot-schluessel-teilen.html'));
 });
 
 test('[Negativprobe][Klasse-A] W-Hüllenschicht: _signJWS-Drift zwischen zwei Trägern wird erkannt', () => {
@@ -294,7 +300,7 @@ test('[Negativprobe][Klasse-A] W-Hüllenschicht: _signJWS-Drift zwischen zwei Tr
     'a.html': 'async function _signJWS(payload, privateKey, opts) { return "eins"; }\n',
     'b.html': 'async function _signJWS(payload, privateKey, opts) { return "zwei"; }\n',
   });
-  const h = pruefeHuelle(dir);
+  const h = pruefeHuelle(dir, OHNE_SOLL);
   assert.ok(h.fehler.some((f) => f.startsWith('HÜLLE _signJWS')),
     'zwei auseinandergelaufene _signJWS-Kopien müssen rot machen, Befunde: ' + JSON.stringify(h.fehler));
 });
@@ -309,7 +315,7 @@ test('[Negativprobe][Klasse-A] W-Hüllenschicht: istGeschuetzteSchluesseldatei-D
     'a.html': 'function istGeschuetzteSchluesseldatei(geparst) { return !!(geparst && geparst.vivodepotProtectedKey === 1); }\n',
     'b.html': 'function istGeschuetzteSchluesseldatei(geparst) { return !!(geparst && [1].includes(geparst.vivodepotProtectedKey)); }\n',
   });
-  const h = pruefeHuelle(dir);
+  const h = pruefeHuelle(dir, OHNE_SOLL);
   assert.ok(h.fehler.some((f) => f.startsWith('HÜLLE istGeschuetzteSchluesseldatei')),
     'zwei auseinandergelaufene istGeschuetzteSchluesseldatei-Kopien müssen rot machen, Befunde: ' + JSON.stringify(h.fehler));
 });

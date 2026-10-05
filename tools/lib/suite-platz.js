@@ -59,6 +59,14 @@
    der andere Platz selbst einen Browserlauf hält — parallele Browserläufe ließen Journey-Proben fallen. Er wartet dann
    auf das Ende jenes Laufs, nicht auf die Marke; eine Höchstdauer braucht es darum nicht. Er hält den Zusatzplatz dabei
    niemandem zu. Der Push bleibt exklusiv (oben).
+
+   PLATZART AIR (04.10.2026). Ein Lauf auf einem entfernten Prüfrechner (ein Commit, der dort statt hier geprüft wird)
+   belegt hier keinen Suite-Platz, aber einen AIR-PLATZ: Unterverzeichnis `air/` desselben
+   Verzeichnisses, `VD_AIR_PLAETZE` (Vorgabe 1) — der Prüfrechner fährt einen Lauf zur Zeit. Wer warten muss, zieht ein Ticket in
+   `air/tickets/` wie oben. EIN PLATZ JE SITZUNG ÜBER BEIDE ARTEN: hält ein Lauf derselben Sitzung (dieselbe cwd auf diesem
+   Rechner) einen Suite-Platz, bekommt sie keinen Air-Platz, und umgekehrt — sonst liefe eine Sitzung hier und dort zugleich
+   und sähe für andere „frei“ aus. Ein geerbter Platz (VD_SUITE_PLATZ_GEHALTEN) gehört zum laufenden Lauf und zählt nicht
+   als zweiter. `--anzeigen` nennt beide Arten getrennt.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -66,13 +74,50 @@ const os = require('node:os');
 
 const UMGEBUNG_GEHALTEN = 'VD_SUITE_PLATZ_GEHALTEN';
 
+/* KEIN TESTLÄUFER IM ECHTEN PLATZ (02.10.2026, Befund PLATZ-LECK-HOOK-TESTS, HOCH). Tests fahren Hook-Ausschnitte als
+   Shell-Skript mit geerbter Umgebung. Einzeln gestartet (ohne VD_SUITE_PLATZ_GEHALTEN) holte so ein Ausschnitt seinen Platz in
+   der ECHTEN Schlange und stand dort als Wartender vor echten Pushes (Belege: pre-push-stdin-erschoepfung 02.10. 00:38,
+   pre-push-bestand-waechter-erneut 02.10.). Darum: läuft der Prozess unter einem Testläufer — erkennbar an einem Merkmal, das
+   der Läufer seinen Kindern vererbt —, gibt es den echten Pfad NICHT, auch nicht mit geerbtem Platz. Ein Test nennt sein
+   eigenes VD_SUITE_PLATZ_DIR (tests/helfer/platz-isoliert.js). Wer einen geerbten Platz hat, braucht kein Verzeichnis:
+   platzHolen kehrt dann vorher zurück. Die Merkmale: NODE_TEST_CONTEXT (node --test), TEST_WORKER_INDEX und
+   TEST_PARALLEL_INDEX (Playwright-Arbeiter, playwright/lib/worker/workerProcessEntry.js), JEST_WORKER_ID, VITEST, und
+   VD_HOOK_SPERRE_JE_PID (tests/hook-sperre-testumgebung.js, in jedem Testprozess von npm test). Ein echter Hook setzt keines. */
+const TESTLAEUFER_MERKMALE = Object.freeze(['NODE_TEST_CONTEXT', 'TEST_WORKER_INDEX', 'TEST_PARALLEL_INDEX', 'JEST_WORKER_ID',
+  'VITEST', 'VD_HOOK_SPERRE_JE_PID']);
+function testlaeuferMerkmale(env = process.env) {
+  return TESTLAEUFER_MERKMALE.filter((k) => env[k] !== undefined && env[k] !== '');
+}
+
 function verzeichnis(env = process.env) {
-  return env.VD_SUITE_PLATZ_DIR || path.join(os.homedir(), '.cache', 'vivodepot-suite-platz');
+  if (env.VD_SUITE_PLATZ_DIR) return env.VD_SUITE_PLATZ_DIR;
+  const merkmale = testlaeuferMerkmale(env);
+  if (merkmale.length) {
+    throw new Error('[suite-platz] ABBRUCH: ein Testläufer (' + merkmale.join(', ') + ') ohne eigenes VD_SUITE_PLATZ_DIR '
+      + 'würde die ECHTE Platz-Schlange belegen und echte Pushes blockieren. Der Test setzt sein Verzeichnis selbst '
+      + '(tests/helfer/platz-isoliert.js).');
+  }
+  return path.join(os.homedir(), '.cache', 'vivodepot-suite-platz');
 }
 
 function anzahl(env = process.env) {
   const n = Number(env.VD_SUITE_PLAETZE);
   return Number.isInteger(n) && n >= 1 ? n : 2;
+}
+
+/* PLATZART AIR (s. Kopf). */
+function airVerzeichnis(dir) { return path.join(dir, 'air'); }
+function anzahlAir(env = process.env) {
+  const n = Number(env.VD_AIR_PLAETZE);
+  return Number.isInteger(n) && n >= 1 ? n : 1;
+}
+function gleicheSitzung(e, cwd, host = os.hostname()) {
+  return !!e && (e.host === undefined || e.host === host) && echterPfad(e.cwd || '') === echterPfad(cwd);
+}
+/** Die lebenden Halter der ANDEREN Art, die zu dieser Sitzung gehören (nicht der Prozess selbst). */
+function sitzungHaeltAndereArt({ art, dir, cwd, pid, env = process.env }) {
+  const liste = art === 'air' ? halter({ dir, n: anzahl(env) }) : halter({ dir: airVerzeichnis(dir), n: anzahlAir(env) });
+  return liste.filter((h) => h.pid !== pid && gleicheSitzung(h, cwd));
 }
 
 function prozessLebt(pid) {
@@ -122,7 +167,8 @@ function ticketZiehen({ name, pid = process.pid, dir = verzeichnis(), cwd = proc
       + '-' + String(ticketZaehler++).padStart(4, '0') + '.ticket');
     try {
       const fd = fs.openSync(pfad, 'wx');
-      fs.writeFileSync(fd, JSON.stringify({ pid, name, cwd, gezogenAm: new Date().toISOString() }));
+      // host (02.10.2026): ohne ihn erkannte eigeneLaeufe kein Ticket als eigenes — --beenden --cwd sah Wartende nie.
+      fs.writeFileSync(fd, JSON.stringify({ pid, name, cwd, host: os.hostname(), gezogenAm: new Date().toISOString() }));
       fs.closeSync(fd);
       return pfad;
     } catch (e) { if (e.code !== 'EEXIST') throw e; }
@@ -178,9 +224,15 @@ function imBaum(baum, cwd) {
  *                                                      stehen älteren Tickets zu
  * `ticket`: der Pfad des eigenen Tickets (aus ticketZiehen), sonst steht der Aufrufer hinter allen.
  */
-function platzHolen({ name, pid = process.pid, dir = verzeichnis(), n = anzahl(), env = process.env, cwd = process.cwd(), ticket = null } = {}) {
+function platzHolen(opts = {}) {
+  // Der geerbte Platz zuerst, BEVOR ein Verzeichnis aufgelöst wird: ein Kind mit geerbtem Platz braucht keines (s. verzeichnis).
+  const env = opts.env || process.env;
   if (env[UMGEBUNG_GEHALTEN]) return { geholt: true, geerbt: true, von: env[UMGEBUNG_GEHALTEN] };
+  const { name, pid = process.pid, dir = verzeichnis(), n = anzahl(), cwd = process.cwd(), ticket = null } = opts;
   fs.mkdirSync(dir, { recursive: true });
+  // Ein Platz je Sitzung über beide Arten (PLATZART AIR): läuft diese Sitzung gerade auf dem Prüfrechner, wartet sie hier.
+  const airDerSitzung = sitzungHaeltAndereArt({ art: 'lokal', dir, cwd, pid, env });
+  if (airDerSitzung.length) return { geholt: false, halter: halter({ dir, n }), wartende: wartende({ dir }), sitzung: { art: 'air', halter: airDerSitzung } };
   const reihe = reiheLesen({ dir });
   if (reihe && reihe.gueltig) {
     const jetztHalter = halter({ dir, n });
@@ -260,6 +312,44 @@ function platzHolenMitWarten(opts = {}, { wartenS = 0, pauseS = 10, melden = () 
   } finally { abgeben(); process.removeListener('exit', abgeben); }
 }
 
+/**
+ * Holt den Air-Platz (PLATZART AIR). Ergebnis wie platzHolen; `sitzung` gesetzt, wenn dieselbe Sitzung einen Suite-Platz hält.
+ * Ohne Ticket steht der Aufrufer hinter allen wartenden Air-Läufen.
+ */
+function airPlatzHolen({ name = 'air', pid = process.pid, dir = verzeichnis(), n, cwd = process.cwd(), ticket = null, env = process.env } = {}) {
+  const ad = airVerzeichnis(dir);
+  const na = n || anzahlAir(env);
+  fs.mkdirSync(ad, { recursive: true });
+  const lokalDerSitzung = sitzungHaeltAndereArt({ art: 'air', dir, cwd, pid, env });
+  if (lokalDerSitzung.length) return { geholt: false, halter: halter({ dir: ad, n: na }), wartende: wartende({ dir: ad }), sitzung: { art: 'lokal', halter: lokalDerSitzung } };
+  const schlange = wartende({ dir: ad });
+  const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : schlange.length;
+  if (eigenerRang > 0 && na - halter({ dir: ad, n: na }).length <= eigenerRang) return { geholt: false, halter: halter({ dir: ad, n: na }), wartende: schlange };
+  return platzNehmen({ name, pid, dir: ad, n: na, cwd, schlange });
+}
+/** Wartet höchstens `wartenS` Sekunden auf den Air-Platz, mit Ticket. */
+function airPlatzHolenMitWarten(opts = {}, { wartenS = 0, pauseS = 10, melden = () => {} } = {}) {
+  const dir = opts.dir || verzeichnis();
+  let r = airPlatzHolen({ ...opts, dir });
+  if (r.geholt || wartenS <= 0) return r;
+  const ende = Date.now() + wartenS * 1000;
+  const ticket = ticketZiehen({ name: opts.name || 'air', pid: opts.pid, dir: airVerzeichnis(dir), cwd: opts.cwd });
+  const abgeben = () => ticketAbgeben(ticket);
+  process.once('exit', abgeben);
+  try {
+    melden(r);
+    while (Date.now() < ende) {
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pauseS * 1000);
+      r = airPlatzHolen({ ...opts, dir, ticket });
+      if (r.geholt) return r;
+    }
+    return r;
+  } finally { abgeben(); process.removeListener('exit', abgeben); }
+}
+function airPlatzFreigeben({ pid = process.pid, dir = verzeichnis(), env = process.env } = {}) {
+  return platzFreigeben({ pid, dir: airVerzeichnis(dir), n: anzahlAir(env) });
+}
+
 /** Gibt nur die EIGENEN Plätze frei (PID-Abgleich) — nie den eines anderen. */
 function platzFreigeben({ pid = process.pid, dir = verzeichnis(), n = anzahl() } = {}) {
   let frei = 0;
@@ -323,6 +413,12 @@ function vorfahren(pid, psText) {
 }
 
 function meldungBelegt(r) {
+  if (r && r.sitzung) {
+    const h = r.sitzung.halter.map((x) => `${x.name} (PID ${x.pid}, seit ${x.gestartetAm})`).join(' · ');
+    return r.sitzung.art === 'air'
+      ? 'diese Sitzung läuft gerade auf dem Runner (' + h + ') — ein Platz je Sitzung über beide Arten; erst das Urteil abwarten.'
+      : 'diese Sitzung hält gerade einen Suite-Platz (' + h + ') — ein Platz je Sitzung über beide Arten; erst den Lauf hier beenden.';
+  }
   if (r && r.exklusiv) {
     const p = (r.halter || []).find((h) => h.name === EXKLUSIV);
     return 'ein anderer Push läuft' + (p ? ' (PID ' + p.pid + ', ' + p.cwd + ', seit ' + p.gestartetAm + ')' : '')
@@ -339,9 +435,10 @@ function meldungBelegt(r) {
 }
 
 module.exports = {
-  UMGEBUNG_GEHALTEN, verzeichnis, anzahl, prozessLebt, halter,
+  UMGEBUNG_GEHALTEN, TESTLAEUFER_MERKMALE, testlaeuferMerkmale, verzeichnis, anzahl, prozessLebt, halter,
   platzHolen, platzHolenMitWarten, platzFreigeben, meldungBelegt,
   wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV, artVon,
   eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren,
   reiheLesen, reiheSetzen, reiheLoeschen, imBaum, REIHE_GUELTIG_MS,
+  airVerzeichnis, anzahlAir, airPlatzHolen, airPlatzHolenMitWarten, airPlatzFreigeben, gleicheSitzung,
 };

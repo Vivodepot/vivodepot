@@ -1,0 +1,21 @@
+{
+  "zweck": "Die einzigen Stellen, an denen ein privater oder geheimer Schlüssel herausholbar entsteht (Regel b) oder herausgeholt wird (Regel c). Geprüft von tools/krypto-schluessel-export-pruefen.js; je Stelle einzeln in der Gegenlesung freigegeben (03.10.2026). Datei und Funktion statt Zeilennummer, weil Zeilennummern veralten. Ein Eintrag ohne Gegenstand ist selbst ein Befund. Stellen in Seiten, die nicht in den öffentlichen Zuschnitt gehen, stehen in der internen Ergänzung dieser Liste (gelesen über tools/lib/mit-interner-ergaenzung.js).",
+  "eintraege": [
+    { "datei": "vivodepot-vc-issuer.html", "funktion": "erzeugeUndSchuetzeSchluesselpaar", "regel": "generateKey",
+      "grund": "Zweck der Funktion: ein Aussteller-Schlüssel, der sofort passwortgeschützt gesichert wird; der rohe Schlüssel liegt zu keinem Zeitpunkt auf einem Datenträger." },
+    { "datei": "vivodepot-vc-issuer.html", "funktion": "erzeugeUndSchuetzeSchluesselpaar", "regel": "exportKey",
+      "grund": "Der eine Export geht direkt in schuetzeSchluesselJwk (Datei .vdkey); nur die geschützte Datei und der öffentliche Teil verlassen die Funktion." },
+    { "datei": "vivodepot-schluessel-teilen.html", "funktion": "schluesselErzeugenUndTeilen", "regel": "generateKey",
+      "grund": "Zweck der Anwendung: der Schlüssel wird in Anteile zerlegt (Shamir), dafür muss sein Seed lesbar sein. Die Probe zeigt: der ganze Schlüssel wird nach dem Teilen nicht gehalten." },
+    { "datei": "vivodepot-schluessel-teilen.html", "funktion": "schluesselErzeugenUndTeilen", "regel": "exportKey",
+      "grund": "Der eine Export liefert den Seed für die Anteile; das JWK mit d bleibt nur bis zum Teilen und wird danach verworfen." },
+    { "datei": "vivodepot-schluessel-teilen.html", "funktion": "oeffentlicherTeilAusSeed", "regel": "importKey",
+      "grund": "WebCrypto rechnet den öffentlichen Ed25519-Teil nicht ohne Export aus: der Seed wird als PKCS#8 importiert und sofort wieder exportiert, um x zu lesen." },
+    { "datei": "vivodepot-schluessel-teilen.html", "funktion": "oeffentlicherTeilAusSeed", "regel": "exportKey",
+      "grund": "Der Export dient nur dazu, x zu lesen; d wird sofort verworfen, weiter geht allein der öffentliche Teil." },
+    { "datei": "vivodepot-schluessel-teilen.html", "funktion": "schluesselZusammensetzen", "regel": "jwkMitD",
+      "grund": "Zweck der Zeremonie: der Anker wird aus den Anteilen zusammengesetzt. Das JWK verlässt das Werkzeug nur als passwortgeschützte .vdkey-Datei und lebt bis zu diesem einen Gebrauch, längstens bis zum Zeitlimit oder Verlassen der Seite." },
+    { "datei": "vivodepot.html", "funktion": "antwortJwePasswort", "regel": "generateKey",
+      "grund": "JWE PBES2: wrapKey('raw', cek, …) verlangt einen herausholbaren Inhaltsschlüssel. Er ist flüchtig, verlässt die Funktion nur eingewickelt (AES-KW) und wird nie im Klartext exportiert." }
+  ]
+}

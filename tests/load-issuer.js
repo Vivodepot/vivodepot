@@ -22,7 +22,7 @@ const ISSUER_PATH = process.env.ISSUER_HTML_PATH
 
 // Erwarteter VdCrypto-Block-Hash (== Kern == PORT-VERBATIM.js). Umbau „Englisch vor v1"
 // (14.09.2026): zwei Kennung-Beispiele im Kopf-Kommentar mitgezogen, s. load-kern.js.
-const BLOCK_HASH_ERWARTET = '732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282';
+const BLOCK_HASH_ERWARTET = '4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98';
 
 function extrahiereScripts(html) {
   const OPEN = '<script>', CLOSE = '</script>';

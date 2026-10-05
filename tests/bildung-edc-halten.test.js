@@ -21,6 +21,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const { lesbar } = require('./helfer/sdjwt-entpacken.js');   // kompakte SD-JWT-Ausgaben vor jeder Textsuche entpacken (U2-ADR-457)
 const fs = require('node:fs');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
@@ -165,7 +166,7 @@ test('[Bildung halten · Ansicht] das Original zeigt den ehrlichen Hinweis, Heru
    herausgegebene Datei darf ein EuropeanDigitalCredential sein oder enthalten. Das
    gehaltene Original liegt base64 in der Mappe und trägt den Typnamen darum nie im
    Klartext eines Exports; taucht er auf, hat ein Weg ein Bildungs-Credential gebaut. */
-function stelltEdcAus(inhalt) { return /EuropeanDigitalCredential/.test(String(inhalt)); }
+function stelltEdcAus(inhalt) { return /EuropeanDigitalCredential/.test(lesbar(String(inhalt))); }
 
 test('[U2-ADR-097 §6] kein Export-Weg stellt einen Bildungsnachweis aus — auch nicht mit einem gehaltenen EDC im Depot', async () => {
   const { V } = await mitDepot(ladeKern());
@@ -173,7 +174,7 @@ test('[U2-ADR-097 §6] kein Export-Weg stellt einen Bildungsnachweis aus — auc
   const funde = [];
   for (const def of V.EXPORT_FORMATE) {
     let inhalt;
-    try { inhalt = V.formatExportInhalt(def, { sensibel: true }); } catch (e) { continue; }
+    try { inhalt = await V.formatExportInhalt(def, { sensibel: true }); } catch (e) { continue; }
     if (stelltEdcAus(inhalt)) funde.push(def.id);
   }
   assert.deepEqual(funde, []);

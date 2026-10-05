@@ -118,6 +118,10 @@ const DOKUMENT_MODUL_PFADE_4 = Object.freeze([
 const DOKUMENTE_DE_PFAD = path.join(DOKUMENT_MODUL_VERZEICHNIS, 'vivodepot-dokumente-de.json');
 // Gerüst-Schnitt S3 (20.09.2026): der deutsche Rechtsraum-Katalog ist eine Moduldatei, in jedem Produkt.
 const RECHTSRAUM_DE_PFAD = path.join(REPO, 'tools', 'rechtsraum-de-modul.json');
+/* Das Erscheinungsbild (U2-ADR-473 Nachtrag, v894, 02.10.2026): das Gerüst trägt keine Erscheinungswerte, jedes Produkt bekommt
+   sie als Zutat `erscheinungsbildModul`. Heute tragen alle vier Produkte dasselbe Modul „heute" — gebaut aus
+   tools/erscheinung/heute.css (node tools/erscheinungsbild-modul.js). Profile (v898, v899) kommen als weitere Module dieser Form. */
+const ERSCHEINUNGSBILD_HEUTE_PFAD = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-heute-modul.json');
 // Gerüst-Schnitt S7: die dreizehn nativen Bereichs-Definitionen (Grundlage der ruhenden Bereiche, B12), erzeugt aus den 13 Bereichs-Templates
 // (tools/bereiche-nativ-katalog-erzeugen.js). Produktunabhängig: dieselbe Datei in jedem der vier Produkte.
 const BEREICHE_NATIV_KATALOG_PFAD = path.join(REPO, 'tools', 'bereiche-nativ-katalog-modul.json');
@@ -146,18 +150,18 @@ const ANGEHOERIGEN_VORLAGE_PFAD_EN = path.join(REPO, 'tools', 'angehoerigen-vorl
 /* Die vier Produkte. Seit S8 (U2-ADR-428) trägt auch jedes deutsche Produkt sein Sprachmodul (`sprachModulPfad: DE_MODUL_PFAD`) — das Gerüst trägt keinen
    Sprachsatz mehr, Deutsch ist ein Modul wie Englisch. */
 const ZUGANG_RECHT_TEMPLATE_PFAD = path.join(AB_WERK_FIXTURE_VERZEICHNIS, 'zugang-zum-recht-beratungshilfe-logikmodul.json');
-// Schema 87 (21.09.2026): der Erbschein-Vorbereitungsauszug ist wie der Zugang-Auszug ein Template im Rezept der Privat-Produkte, kein Kern-Auszug mehr.
-// Pro trägt ihn nicht: seine Zielbereiche sind dort ersetzt, der Einlass hat ihn dort schon vorher abgelehnt (Code-Review 16.09.2026, B13).
+// Schema 87 (21.09.2026): der Erbschein-Vorbereitungsauszug ist wie der Zugang-Auszug ein Template im Rezept, kein Kern-Auszug mehr.
+// Seit 04.10.2026 (Entscheidung der Geschäftsführung) tragen auch die Pro-Produkte beide ab Werk; Probe tests/pro-traegt-erbschein-zugang-ab-werk.test.js.
 const ERBSCHEIN_TEMPLATE_PFAD = path.join(AB_WERK_FIXTURE_VERZEICHNIS, 'erbschein-vorbereitung-logikmodul.json');
 // IPS-Begleittext (U2-ADR-458): die festen Sätze des FHIR-IPS-Exports je Exportsprache — jedes Produkt trägt dasselbe Modul,
 // die Exportsprache wählt die Bürgerin beim Export, unabhängig von der Produktsprache. In `modulPfade`, damit das Rezept
 // (tools/kern-ausliefern.js, _rezeptBauen) es führt und Mess- und Auslieferweg dasselbe Produkt bauen.
 const IPS_BEGLEITTEXT_PFAD = path.join(REPO, 'tools', 'ips-begleittext-modul.json');
 const PRODUKTE = Object.freeze([
-  Object.freeze({ slug: 'privat-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
-  Object.freeze({ slug: 'privat-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
-  Object.freeze({ slug: 'pro-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, proModulPfad: PRO_MODUL_PFAD, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([PRO_NOTAR_TEMPLATE_PFAD_DE]) }),
-  Object.freeze({ slug: 'pro-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, proModulPfad: PRO_MODUL_PFAD_EN, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([PRO_NOTAR_TEMPLATE_PFAD_EN]) }),
+  Object.freeze({ slug: 'privat-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_HEUTE_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
+  Object.freeze({ slug: 'privat-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_HEUTE_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
+  Object.freeze({ slug: 'pro-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_HEUTE_PFAD, proModulPfad: PRO_MODUL_PFAD, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([PRO_NOTAR_TEMPLATE_PFAD_DE, ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
+  Object.freeze({ slug: 'pro-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_HEUTE_PFAD, proModulPfad: PRO_MODUL_PFAD_EN, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([PRO_NOTAR_TEMPLATE_PFAD_EN, ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
 ]);
 
 /* Die unsignierten Moduldateien, die ein Produkt eingebacken bekommt — EINE Stelle statt einer
@@ -187,7 +191,7 @@ const PRODUKTE = Object.freeze([
    steht der deutsche Satz nicht mehr im Kern, sondern in `tools/textsatz-de-modul.json`; wer eine Textänderung gegen eine Wegwerf-Kopie pflanzen will
    (tools/nativ-bestand-aenderungen-erheben.test.js), mutiert diese Kopie, nicht die geteilte Datei im Arbeitsbaum. */
 function modulDateienFuer(p, opts) {
-  const basis = [p.sprachModulPfad, p.bereichsErsatzPfad, p.vorlagenPfad, p.proModulPfad, p.bereicheBekanntPfad, ...(p.modulPfade || []), ...(p.templatePfade || [])].filter(Boolean);
+  const basis = [p.sprachModulPfad, p.erscheinungsbildModulPfad, p.bereichsErsatzPfad, p.vorlagenPfad, p.proModulPfad, p.bereicheBekanntPfad, ...(p.modulPfade || []), ...(p.templatePfade || [])].filter(Boolean);
   const bereichsUeberschreibung = opts && opts.bereichTemplateVerzeichnis;
   const fixtureUeberschreibung = opts && opts.abWerkFixtureVerzeichnis;
   const standardVorlagenUeberschreibung = opts && opts.standardVorlagenVerzeichnis;   // Gerüst-Schnitt S4: die Zeremonie misst ihre Wegwerf-Kopie
@@ -236,6 +240,17 @@ function deutscheZeilenImEnglischenProdukt(V, deTexte, enModul) {
   const daten = V.getData();
   daten.textsatzModule = [enModul];
   V._textsatzModuleAusDepotAnmelden(daten);
+  /* Selbst-Einlass-Sperre (04.10.2026): das englische Modul ist Vivodepots eigenes, im englischen Produkt AB WERK gebacken.
+     Als Depot-Modul angemeldet, fielen die Texte der Schutzliste heraus und erschienen hier fälschlich als „kein Deutsch“ —
+     darum dieselbe Stufe wie ab Werk für dieses Fach. */
+  if (typeof V.textsatzModulPruefen === 'function' && V._TEXTSATZ_MODUL_REGISTRY) {
+    const g = V.textsatzModulPruefen(enModul, { vertrauenswuerdig: true });
+    if (g && g.gueltig) {
+      const reg = V._TEXTSATZ_MODUL_REGISTRY;
+      if (!reg.en) reg.en = Object.create(null);
+      reg.en[''] = Object.assign(Object.create(null), reg.en[''] || {}, g.texte);
+    }
+  }
   daten.textsprache = 'en';
   for (const [kennung, deWert] of Object.entries(deTexte)) {
     const gelesen = V.textLesen(kennung);
@@ -247,7 +262,7 @@ function deutscheZeilenImEnglischenProdukt(V, deTexte, enModul) {
 module.exports = {
   REPO, EN_MODUL_PFAD, DE_MODUL_PFAD, SPRACHANGEBOT_EN_PFAD, PRO_MODUL_PFAD, PRO_MODUL_PFAD_EN,
   PRO_BEREICHS_ERSATZ_PFAD, PRO_VORLAGE_DE_PFAD, PRO_VORLAGE_EN_PFAD, PRODUKTE, REZEPT_KOEPFE,
-  BEREICHE_BEKANNT_PFAD, modulDateienFuer,
+  BEREICHE_BEKANNT_PFAD, ERSCHEINUNGSBILD_HEUTE_PFAD, modulDateienFuer,
   BEREICH_TEMPLATE_VERZEICHNIS, BEREICH_TEMPLATE_PFADE_PRIVAT_13, BEREICH_TEMPLATE_PFADE_PRO_6,
   DOKUMENT_MODUL_VERZEICHNIS, DOKUMENT_MODUL_PFADE_4, DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD, STANDARD_VORLAGEN_PFADE_4, BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD, AB_WERK_FIXTURE_VERZEICHNIS, AB_WERK_FIXTURE_PFADE_4,
   deutscheZeilenImEnglischenProdukt,

@@ -68,7 +68,8 @@ function rezeptFuer(slug, standzahl, kernPruefsumme) {
   // gesetzt) — der ist oben schon separat behandelt, hier also herausgefiltert, damit er nicht
   // doppelt im Rezept steht.
   const templatePfade = p.templatePfade || [];   // U2-ADR-427: Templates stehen in `templates`, nicht in `bereichsmodule`
-  const alleDateien = modulDateienFuer(p).filter((pfad) => pfad !== p.sprachModulPfad && !templatePfade.includes(pfad));
+  // Das Erscheinungsbild (v894) steht im eigenen Feld `erscheinungsbildModul`, nicht in `bereichsmodule` — wie das Sprachmodul.
+  const alleDateien = modulDateienFuer(p).filter((pfad) => pfad !== p.sprachModulPfad && pfad !== p.erscheinungsbildModulPfad && !templatePfade.includes(pfad));
   const bereichsmodule = alleDateien.map((pfad) => {
     const inhalt = JSON.parse(fs.readFileSync(pfad, 'utf8'));
     return zutat(pfad, standzahl, inhalt.modulTyp);
@@ -85,6 +86,8 @@ function rezeptFuer(slug, standzahl, kernPruefsumme) {
     sprachmodulPruefsumme,
     rechtsraumModul: null,
     rechtsraumModulPruefsumme: null,
+    erscheinungsbildModul: p.erscheinungsbildModulPfad ? 'module/v' + standzahl + '/' + path.basename(p.erscheinungsbildModulPfad) : null,
+    erscheinungsbildModulPruefsumme: p.erscheinungsbildModulPfad ? sha256Datei(p.erscheinungsbildModulPfad) : null,
     bereichsmodule,
     templates: templatePfade.map((pfad) => zutat(pfad, standzahl, JSON.parse(fs.readFileSync(pfad, 'utf8')).modulTyp, 'templates')),
   };

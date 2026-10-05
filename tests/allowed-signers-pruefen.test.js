@@ -31,13 +31,20 @@ function wegwerf() {
 // veröffentlicht, seinen Fingerabdruck und den Prüfbefehl; die erwartete Ausgabe nennt genau diesen Fingerabdruck. Liegt doch eine .github/allowed_signers im Repo, besteht sie die Formprüfung.
 const ECHT = path.join(__dirname, '..', '.github', 'allowed_signers');
 const SCHLUESSEL_QUELLE = /https:\/\/vivodepot\.de\/\.well-known\/vivodepot-allowed-signers/;
-const FINGERABDRUCK = /SHA256:[A-Za-z0-9+\/]{43}/g;
 function tagPruefwegBefund(sec, dateiDa) {
   if (/Die Tags sind nicht signiert/.test(sec)) return 'SECURITY.md sagt noch, die Tags seien nicht signiert';
   if (!/tag -v v1\.0\.\d+/.test(sec)) return 'SECURITY.md nennt keinen Prüfbefehl git tag -v';
   if (!SCHLUESSEL_QUELLE.test(sec)) return 'SECURITY.md nennt keine öffentliche Quelle des Signierschlüssels';
-  const abdruecke = new Set(sec.slice(sec.indexOf('### 2.1'), sec.indexOf('### 2.2')).match(FINGERABDRUCK) || []);
-  if (abdruecke.size !== 1) return 'SECURITY.md 2.1 nennt nicht genau einen Fingerabdruck des Release-Schlüssels (' + abdruecke.size + ')';
+  // Seit 03.10.2026 (Schlüsselwechsel vorbereitet): mehrere Release-Schlüssel sind erlaubt, wenn jeder seinen Bereich trägt
+  // („gilt ab v1.0.<n>“ / „bis v1.0.<m>“) und sich keine zwei Bereiche überlappen — je Fassung gilt genau einer.
+  const { schluesselAus21 } = require('../tools/oeffentlich-tag-signieren.js');
+  const ks = schluesselAus21(sec);
+  if (!ks.length) return 'SECURITY.md 2.1 nennt keinen Fingerabdruck des Release-Schlüssels';
+  const von = (k) => (k.ab === null ? -Infinity : k.ab);
+  const bis = (k) => (k.bis === null ? Infinity : k.bis);
+  for (let i = 0; i < ks.length; i++) for (let j = i + 1; j < ks.length; j++) {
+    if (von(ks[i]) <= bis(ks[j]) && von(ks[j]) <= bis(ks[i])) return 'SECURITY.md 2.1 nennt zwei Release-Schlüssel mit überlappendem Bereich — nicht genau einer je Fassung';
+  }
   if (!dateiDa && /\.github\/allowed_signers/.test(sec)) return 'SECURITY.md verweist auf eine allowed_signers im Repo, die es nicht gibt';
   return null;
 }
@@ -48,7 +55,7 @@ test('[allowed_signers] SECURITY.md nennt den Prüfweg für signierte Tags mit �
   assert.equal(tagPruefwegBefund(sec, dateiDa), null);
 });
 
-test('[allowed_signers·Rot-Beweis] alter Satz, fehlender Prüfbefehl, fehlende Schlüsselquelle, fehlender oder zweiter Fingerabdruck, Verweis auf fehlende Datei: rot', () => {
+test('[allowed_signers·Rot-Beweis] alter Satz, fehlender Prüfbefehl, fehlende Schlüsselquelle, fehlender Fingerabdruck, überlappende Bereiche, Verweis auf fehlende Datei: rot', () => {
   const fp = 'SHA256:' + 'A'.repeat(43);
   const gut = '### 2.1 Tags ab v1.0.857 sind SSH-signiert, Fingerabdruck ' + fp + '. curl -s https://vivodepot.de/.well-known/vivodepot-allowed-signers … git tag -v v1.0.857 … with ED25519 key ' + fp + ' ### 2.2';
   assert.equal(tagPruefwegBefund(gut, false), null);
@@ -56,7 +63,10 @@ test('[allowed_signers·Rot-Beweis] alter Satz, fehlender Prüfbefehl, fehlende 
   assert.match(tagPruefwegBefund(gut.replace('tag -v v1.0.857', ''), false), /Prüfbefehl/);
   assert.match(tagPruefwegBefund(gut.replace(/https:\S+/, ''), false), /Quelle/);
   assert.match(tagPruefwegBefund(gut.split(fp).join(''), false), /Fingerabdruck/);
-  assert.match(tagPruefwegBefund(gut.replace(' ### 2.2', ' SHA256:' + 'B'.repeat(43) + ' ### 2.2'), false), /genau einen/);
+  assert.match(tagPruefwegBefund(gut.replace(' ### 2.2', ' SHA256:' + 'B'.repeat(43) + ' ### 2.2'), false), /überlappendem Bereich/, 'zwei Schlüssel ohne Bereich: rot');
+  const zwei = '### 2.1 Tags ab v1.0.857 sind SSH-signiert. curl -s https://vivodepot.de/.well-known/vivodepot-allowed-signers … git tag -v v1.0.857\n- ' + fp + ' bis v1.0.900\n- SHA256:' + 'B'.repeat(43) + ' gilt ab v1.0.901\n### 2.2';
+  assert.equal(tagPruefwegBefund(zwei, false), null, 'Wechsel mit getrennten Bereichen: grün');
+  assert.match(tagPruefwegBefund(zwei.replace('gilt ab v1.0.901', 'gilt ab v1.0.890'), false), /überlappendem Bereich/, 'Überlappung: rot');
   assert.match(tagPruefwegBefund(gut + ' .github/allowed_signers', false), /gibt/);
   assert.equal(tagPruefwegBefund(gut + ' .github/allowed_signers', true), null);
 });

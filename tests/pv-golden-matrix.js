@@ -101,6 +101,16 @@ const PV_MATRIX = [
   eintrag('weitere-vollmacht-gate', { vollmacht_vorhanden: 'ja' }),
   eintrag('weitere-betreuung', { betreuungsverfuegung: 'ja' }),
   eintrag('weitere-beide', { provisionInstruments: [{ instrument: 'enduring-power-of-attorney', art: 'bank' }], betreuungsverfuegung: 'ja' }),
+  // U2-ADR-459 (01.10.2026): Ziffer 2.7 in der BMJ-Struktur — Personen aus der Instrument-Zeile, Lücken als „...“,
+  // der Baustein der Vollmacht nur bei bejahter Besprechung, der ggf.-Teil der Betreuung nur bei bejahter Besprechung.
+  eintrag('weitere-vollmacht-person-besprochen', { provisionInstruments: [{ instrument: 'enduring-power-of-attorney', authorizedPersons: [{ ref: 'p-vm' }] }],
+    contentOfTheAdvanceDirective: 'ja' },
+    { menschen: [{ id: 'p-vm', name: 'Paul Beispiel', adresse: 'Lindenweg 4, 80331 München', tel: '089 123456', email: 'paul@beispiel.example' }] }),
+  eintrag('weitere-vollmacht-person-nicht-besprochen', { provisionInstruments: [{ instrument: 'enduring-power-of-attorney', authorizedPersons: [{ ref: 'p-vm' }] }] },
+    { menschen: [{ id: 'p-vm', name: 'Paul Beispiel', adresse: 'Lindenweg 4, 80331 München' }] }),
+  eintrag('weitere-betreuung-person-ohne-anschrift-besprochen', { provisionInstruments: [{ instrument: 'custodianship-declaration', proposedPerson: { ref: 'p-bv' } }],
+    contentOfTheAdvanceDirective2: 'ja' }, { menschen: [{ id: 'p-bv', name: 'Clara Beispiel' }] }),
+  eintrag('weitere-betreuung-person-nicht-besprochen', { provisionInstruments: [{ instrument: 'custodianship-declaration', proposedPerson: { override: 'Clara Beispiel' } }] }),
 
   // ── Wertvorstellungen ──
   eintrag('wertvorstellungen', { personalValuesOrFurtherDocuments: 'Menschenwürde und Selbstbestimmung sind mir am wichtigsten.' }),
@@ -116,6 +126,9 @@ const PV_MATRIX = [
   eintrag('verzicht-ja', { waivesFurtherMedicalInformation: 'ja' }),
   eintrag('verzicht-nein', { waivesFurtherMedicalInformation: 'nein' }),
   eintrag('beratung', { informationOrCounsellingReceived: 'Hausärztin Dr. Klein' }),
+  // U2-ADR-459: 2.12 hat zwei Lücken — jede einzeln, beide.
+  eintrag('beratung-beide', { informationOrCounsellingReceived: 'Broschüre des BMJ', counsellingBy: 'Hausärztin Dr. Klein' }),
+  eintrag('beratung-nur-beraten', { counsellingBy: 'Hospizverein' }),
 
   // ── Gültigkeit / Aktualisierung (Frist inline in den Platzhalter) ──
   eintrag('aktualisierung-unbefristet', { validityDuration: 'unbefristet' }),

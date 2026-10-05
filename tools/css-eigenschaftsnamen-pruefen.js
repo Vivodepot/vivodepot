@@ -40,8 +40,8 @@ function styleOhneKommentare(quelle) {
 }
 
 /* ── Deklarationsanfänge mit einem mehrwortigen „Property"-Namen ─────────── */
-function ungueltigeEigenschaftsnamen(quelle) {
-  const css = styleOhneKommentare(quelle);
+function ungueltigeEigenschaftsnamen(quelle, { rohesCss = false } = {}) {
+  const css = rohesCss ? quelle.replace(/\/\*[\s\S]*?\*\//g, '') : styleOhneKommentare(quelle);
   const muster = /[{;]\s*((?:--)?[a-zA-Z][a-zA-Z-]*(?:[ \t]+[a-zA-Z-]+)+)\s*:/g;
   const funde = [];
   let m;
@@ -53,9 +53,26 @@ function ungueltigeEigenschaftsnamen(quelle) {
   return funde;
 }
 
+/* Seit v894 (U2-ADR-473 Nachtrag, Lesart B) steht das Stylesheet nicht mehr im Kern, sondern in den Quellen des
+   Erscheinungsbilds — der Wächter liest sie mit, sonst schrumpfte seine Deckung still auf das Gerüst. */
+function erscheinungsbildQuellen(repo = REPO) {
+  const ordner = path.join(repo, 'tools', 'erscheinung');
+  if (!fs.existsSync(ordner)) return [];
+  const stil = path.join(ordner, 'stil');
+  return [
+    ...fs.readdirSync(ordner).filter((f) => f.endsWith('.css')).map((f) => path.join(ordner, f)),
+    ...(fs.existsSync(stil) ? fs.readdirSync(stil).filter((f) => f.endsWith('.css')).map((f) => path.join(stil, f)) : []),
+  ].sort();
+}
+
 function main() {
   const quelle = fs.readFileSync(HTML_PFAD, 'utf8');
   const funde = ungueltigeEigenschaftsnamen(quelle);
+  for (const datei of erscheinungsbildQuellen()) {
+    for (const f of ungueltigeEigenschaftsnamen(fs.readFileSync(datei, 'utf8'), { rohesCss: true })) {
+      funde.push({ ...f, umgebung: path.relative(REPO, datei) + ': ' + f.umgebung });
+    }
+  }
 
   if (funde.length === 0) {
     console.log('GATE grün — keine mehrwortigen (also ungültigen) CSS-Eigenschaftsnamen im <style>-Block.');
@@ -67,4 +84,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { styleOhneKommentare, ungueltigeEigenschaftsnamen };
+module.exports = { styleOhneKommentare, ungueltigeEigenschaftsnamen, erscheinungsbildQuellen };

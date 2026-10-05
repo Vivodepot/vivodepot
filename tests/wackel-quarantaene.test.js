@@ -16,11 +16,16 @@ const HEUTE = new Date().toISOString().slice(0, 10);
 const MORGEN = new Date(Date.now() + 864e5).toISOString().slice(0, 10);
 const GESTERN = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
 
+/* JEDE MARKE (03.10.2026, öffentlich rot auf Linux): `replace` traf nur die erste Stelle; `writeFileSync('MARKE')` blieb
+   relativ. Auf macOS sind MARKE und marke dieselbe Datei (Groß-/Kleinschreibung egal), dort war die Gegenprobe grün,
+   auf dem Linux-Runner nie. */
+function vorlageEinsetzen(testQuelle, repo) { return testQuelle.replaceAll('MARKE', path.join(repo, 'marke')); }
+
 function lauf(testQuelle, eintraege) {
   const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'wackel-quarantaene-'));
   try {
     execFileSync('git', ['init', '-q'], { cwd: repo, env: w.ohneGitUmgebung() });
-    fs.writeFileSync(path.join(repo, 'p.test.js'), testQuelle.replace('MARKE', path.join(repo, 'marke')));
+    fs.writeFileSync(path.join(repo, 'p.test.js'), vorlageEinsetzen(testQuelle, repo));
     const liste = path.join(repo, 'q.json');
     fs.writeFileSync(liste, JSON.stringify({ deckel: eintraege.length, eintraege }));
     const alt = { ...process.env }; process.env.VD_WACKEL_QUARANTAENE = liste; delete process.env.NODE_TEST_CONTEXT;
@@ -28,7 +33,7 @@ function lauf(testQuelle, eintraege) {
     let rc;
     try {
       rc = w.bewachterLauf(['node', '--test', '--test-reporter=spec', '--test-reporter-destination=stdout',
-        '--test-reporter=' + REPORTER, '--test-reporter-destination=/dev/null', 'p.test.js'], { repo, temp: true, tempBasis: repo, stdio: 'ignore' });
+        '--test-reporter=' + REPORTER, '--test-reporter-destination=stderr', 'p.test.js'], { repo, temp: true, tempBasis: repo, stdio: 'ignore' });
     } finally { console.error = ae; process.env = alt; }
     return { rc, text: zeilen.join('\n') };
   } finally { fs.rmSync(repo, { recursive: true, force: true }); }
@@ -36,6 +41,13 @@ function lauf(testQuelle, eintraege) {
 const WACKLER = "const fs=require('fs');const {test}=require('node:test');test('wackelt',()=>{if(!fs.existsSync('MARKE')){fs.writeFileSync('MARKE','1');throw new Error('erstes Mal rot')}});\n";
 const IMMER_ROT = "const {test}=require('node:test');test('immer rot',()=>{throw new Error('rot')});\n";
 const eintrag = (t, frist = MORGEN) => ({ datei: 'p.test.js', test: t, eigentuemer: 'Probe', seit: HEUTE, frist, grund: 'Probe', ratsche: 'probe' });
+
+test('[Gegenprobe·Linux·Rot-Beweis] die Vorlage ersetzt jede MARKE, nicht nur die erste', () => {
+  const q = vorlageEinsetzen(WACKLER, '/tmp/x');
+  assert.ok(!q.includes('MARKE'), 'eine relative MARKE bliebe — auf einem Dateisystem mit Groß-/Kleinschreibung zwei Dateien');
+  assert.equal(q.split('/tmp/x/marke').length - 1, 2);
+  assert.ok(WACKLER.replace('MARKE', '/tmp/x/marke').includes('MARKE'), 'Gegenprobe: replace allein ließe eine stehen');
+});
 
 test('[Gegenprobe] ein Wackler in der Quarantäne: zweiter Lauf grün → HINWEIS „wackelt", Lauf grün', () => {
   const r = lauf(WACKLER, [eintrag('wackelt')]);

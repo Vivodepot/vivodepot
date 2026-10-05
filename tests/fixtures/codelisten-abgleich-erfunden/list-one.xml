@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- ERFUNDENE Fixture im Format der ISO-4217-Liste „List One“ (Maintenance Agency SIX). Kein Auszug der echten Liste:
+     drei Einträge mit erfundenen Länder- und Währungsnamen, dazu die Codes, die Vivodepot verwendet. Der echte Abgleich:
+     node tools/codelisten-amtlich-abgleich.js --iso4217 <list-one.xml>. -->
+<ISO_4217 Pblshd="2000-01-01">
+	<CcyTbl>
+		<CcyNtry><CtryNm>BEISPIELLAND A</CtryNm><CcyNm>Beispielwaehrung</CcyNm><Ccy>EUR</Ccy><CcyNbr>978</CcyNbr><CcyMnrUnts>2</CcyMnrUnts></CcyNtry>
+		<CcyNtry><CtryNm>BEISPIELLAND B</CtryNm><CcyNm>Beispielwaehrung</CcyNm><Ccy>USD</Ccy><CcyNbr>840</CcyNbr><CcyMnrUnts>2</CcyMnrUnts></CcyNtry>
+		<CcyNtry><CtryNm>BEISPIELLAND C</CtryNm><CcyNm>Beispielwaehrung</CcyNm><Ccy>GBP</Ccy><CcyNbr>826</CcyNbr><CcyMnrUnts>2</CcyMnrUnts></CcyNtry>
+		<CcyNtry><CtryNm>BEISPIELLAND D</CtryNm><CcyNm>Beispielwaehrung</CcyNm><Ccy>CHF</Ccy><CcyNbr>756</CcyNbr><CcyMnrUnts>2</CcyMnrUnts></CcyNtry>
+	</CcyTbl>
+</ISO_4217>

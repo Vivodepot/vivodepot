@@ -21,7 +21,7 @@ const {
   erzeugeFaktenbasis, formatiereMarkdown, versionsBelegeAusFunktion,
   erzeugerName, importErzeugerName, importWegBeschreiben, adrRegister, normalisiertFuerVergleich,
   gestaltungsKlassen, DESIGN_KLASSEN,
-  commitErreichbar,
+  vonKanonErreichbar,
 } = require('../tools/faktenbasis-erzeugen.js');
 const { ladeKern } = require('./load-kern.js');
 
@@ -145,12 +145,12 @@ test('[Versions-Belege] keine Marker im Code → leere Liste, nicht erfunden', (
   assert.deepEqual(versionsBelegeAusFunktion(fn), []);
 });
 
-test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 10 Export- und 18 Import-Formate', () => {
+test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 11 Export- und 18 Import-Formate', () => {
   const f = erzeugeFaktenbasis();
   assert.ok(f.adrZahl > 130, `zu wenige ADR-Einträge erkannt: ${f.adrZahl}`);
   assert.ok(!f.adr.some((a) => a.titel.startsWith('(kein Titel')), 'unlesbare ADR-Titel im echten Lauf');
   // 11 -> 10 (U2-ADR-NNN, 18.09.2026): der offene JSON-Vollexport ist aus EXPORT_FORMATE entfernt.
-  assert.equal(f.exportFormateZahl, 10);
+  assert.equal(f.exportFormateZahl, 11);   // 10 -> 11 (01.10.2026, v863: isik, U2-ADR-468)
   assert.equal(f.importFormateZahl, 18);   // 17 → 18 (30.09.2026, v836: openbadges-3-extern, U2-ADR-445)
 });
 
@@ -168,7 +168,8 @@ test('[Negativprobe / Rotmachbarkeit] --check schlägt an, wenn eine echte Kern-
   // Vergleichen statt Mutieren der committeten Datei.
   const bisherig = fs.readFileSync(AUSGABE, 'utf8');
   // U2-ADR-NNN (18.09.2026): 11 -> 10 Exportwege (der offene JSON-Vollexport ist entfernt).
-  const verfaelscht = bisherig.replace('## Export-Formate (10)', '## Export-Formate (11)');
+  // 02.10.2026 (v863, U2-ADR-468): 10 -> 11 Exportwege (isik, ISiK Stufe 6).
+  const verfaelscht = bisherig.replace('## Export-Formate (11)', '## Export-Formate (12)');
   assert.notEqual(verfaelscht, bisherig, 'Fixture griff nicht — Text nicht gefunden');
   const f = erzeugeFaktenbasis();
   const neu = formatiereMarkdown(f);
@@ -239,7 +240,7 @@ test('[Positivkontrolle] echter Lauf: DESIGN_KLASSEN sind alle im Stylesheet auf
    nicht der eine Fall: `commitHash()` liest `git rev-parse HEAD` aus dem Arbeitsbaum, und jeder
    Rebase danach macht den Wert tot. Darum sagt die Zeile jetzt dazu, wenn der Stand nicht
    gepusht ist. */
-test('[Faktenbasis·Commit] ein gelandeter Commit steht nackt, ein ungepushter trägt seinen Vermerk', () => {
+test('[Faktenbasis·Commit] nur ein von origin/u2-kanon erreichbarer Commit wird gestempelt (Stand Kanon), ein loser nicht', () => {
   const { execSync } = require('node:child_process');
   const REPO_ = path.join(__dirname, '..');
   /* U2-ADR-232: jeder verschachtelte git-Aufruf bekommt die GIT_*-Variablen abgestreift. Läuft
@@ -249,7 +250,7 @@ test('[Faktenbasis·Commit] ein gelandeter Commit steht nackt, ein ungepushter t
   const ohneGit = Object.assign({}, process.env);
   for (const k of Object.keys(ohneGit)) if (k.startsWith('GIT_')) delete ohneGit[k];
   const gelandet = execSync('git rev-parse --short origin/u2-kanon', { cwd: REPO_, env: ohneGit }).toString().trim();
-  assert.equal(commitErreichbar(gelandet), true, 'Testaufbau: der gelandete Kanon-Commit muss auf einem Remote-Zweig liegen');
+  assert.equal(vonKanonErreichbar(gelandet), true, 'Testaufbau: der gelandete Kanon-Commit muss von origin/u2-kanon erreichbar sein');
 
   // Ein Commit, den es im Repo gibt, der aber auf keinem Remote-Zweig liegt: ein frischer,
   // leerer Commit-Gegenstand ohne Zweig — dieselbe Lage wie ein Stand vor dem Rebase.
@@ -257,7 +258,7 @@ test('[Faktenbasis·Commit] ein gelandeter Commit steht nackt, ein ungepushter t
   const lose = execSync('git commit-tree ' + baum + ' -m "loser Stand fuer die Probe"',
     { cwd: REPO_, env: Object.assign({}, ohneGit, { GIT_AUTHOR_NAME: 'Probe', GIT_AUTHOR_EMAIL: 'probe@example.invalid', GIT_COMMITTER_NAME: 'Probe', GIT_COMMITTER_EMAIL: 'probe@example.invalid' }) })
     .toString().trim();
-  assert.equal(commitErreichbar(lose), false, 'ein Commit ohne Remote-Zweig darf NICHT als erreichbar gelten');
+  assert.equal(vonKanonErreichbar(lose), false, 'ein Commit, den origin/u2-kanon nicht enthält, darf NICHT als erreichbar gelten');
 });
 
 /* Befund FAKTENBASIS-STARTET-SUITE (26.09.2026, MITTEL): erzeugeFaktenbasis() fuhr als Bibliothek gerufen — nur um eine billige
@@ -268,7 +269,8 @@ test('[Faktenbasis·Suite] als Bibliothek gerufen startet erzeugeFaktenbasis() k
   const echt = cp.execFileSync;
   const starts = [];
   cp.execFileSync = function (bin, args, opts) {
-    if (Array.isArray(args) && args[0] === '--test') { starts.push(args.length); return 'ℹ tests 7\n'; }
+    // irgendwo im Array, nicht nur vorn: vor --test steht seit 04.10.2026 --no-sparkplug (nodejs/node#62393).
+    if (Array.isArray(args) && args.includes('--test')) { starts.push(args.length); return 'ℹ tests 7\n'; }
     return echt.apply(this, arguments);
   };
   const pfad = require.resolve('../tools/faktenbasis-erzeugen.js');

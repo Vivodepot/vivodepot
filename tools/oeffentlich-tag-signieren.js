@@ -23,7 +23,7 @@
    mit einem SSH-Schlüssel). Die Probe (tests/oeffentlich-tag-signieren.test.js) arbeitet mit Wegwerf-Schlüsseln im Temp.
 
    Aufruf:
-     node tools/oeffentlich-tag-signieren.js --klon <öffentlicher Klon> --tag v1.0.<Fassung> [--commit <rev>]
+     node tools/oeffentlich-tag-signieren.js --klon <öffentlicher Klon> --tag v1.0.<Fassung> --auslieferungen <datei> --staende <datei> [--commit <rev>]
    ═════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -40,10 +40,87 @@ function git(klon, args, { erben = false, env } = {}) {
 // REIN: trägt der Inhalt eines Tag-Objekts eine Signatur?
 function tagInhaltSigniert(inhalt) { return SIGNATUR.test(String(inhalt || '')); }
 
-function signieren({ klon, tag, commit = 'HEAD', schreiben = (t) => process.stdout.write(t), env } = {}) {
+/* DER ÖFFENTLICHE PRÜFWEG MUSS STIMMEN (03.10.2026, Signaturkette Option A): SECURITY.md 2.1 nennt den Fingerabdruck des
+   Release-Schlüssels, und wer v1.0.<n> prüft, liest dort, welcher Schlüssel es sein muss. Ein Tag mit einem Schlüssel,
+   der dort nicht steht (etwa der erste Tag nach einem Schlüsselwechsel, bevor 2.1 nachgezogen ist), wird darum gar nicht
+   erst angelegt. Rein: Fingerabdruck aus der Ausgabe von `git tag -v`, und ob er im Abschnitt 2.1 steht. */
+function fingerabdruckAusTagV(ausgabe) {
+  const m = /with \S+ key (SHA256:[A-Za-z0-9+\/]{43})/.exec(String(ausgabe || ''));
+  return m ? m[1] : null;
+}
+function abschnitt21(security) {
+  const t = String(security || '');
+  const a = t.indexOf('### 2.1');
+  const b = t.indexOf('### 2.2', a + 1);
+  return a < 0 ? '' : t.slice(a, b < 0 ? undefined : b);
+}
+function stehtInSecurity21(security, fp) { return !!fp && abschnitt21(security).includes(fp); }
+
+/* JE FASSUNG GENAU EIN SCHLÜSSEL (03.10.2026, Befund TAG-TOR-SCHLUESSEL-ZEITRAUM): nach einem Schlüsselwechsel nennt 2.1
+   beide Schlüssel; „steht irgendwo in 2.1“ ließe dann ein neues Tag mit dem abgelösten durch. Darum trägt jeder
+   Fingerabdruck in seiner Zeile seinen Bereich: „gilt ab v1.0.<n>“ und/oder „bis v1.0.<m>“. Ohne Angabe gilt er für alle
+   Fassungen (der Stand mit einem einzigen Schlüssel). Gemessen wird an der Fassung im Tag-Namen, nicht an einer Uhrzeit:
+   sie steht fest und lässt sich nicht rückdatieren. Rein. */
+function schluesselAus21(security) {
+  const je = new Map();
+  for (const zeile of abschnitt21(security).split('\n')) {
+    for (const m of zeile.matchAll(/SHA256:[A-Za-z0-9+\/]{43}/g)) {
+      const ab = /gilt ab v1\.0\.(\d+)/.exec(zeile);
+      const bis = /bis v1\.0\.(\d+)/.exec(zeile);
+      const alt = je.get(m[0]) || { fp: m[0], ab: null, bis: null };
+      if (ab) alt.ab = Number(ab[1]);
+      if (bis) alt.bis = Number(bis[1]);
+      je.set(m[0], alt);
+    }
+  }
+  return [...je.values()];
+}
+function gueltigFuer(schluessel, fassungNr) {
+  return schluessel.filter((k) => (k.ab === null || fassungNr >= k.ab) && (k.bis === null || fassungNr <= k.bis));
+}
+/* Rein: { ok } oder { ok:false, grund }. */
+function tagSchluesselPruefen(security, tag, fp) {
+  const treffer = /^v1\.0\.(\d+)$/.exec(String(tag || ''));
+  if (!treffer) return { ok: false, grund: 'der Tag heißt v1.0.<Fassung>, nicht „' + tag + '“' };
+  const n = Number(treffer[1]);
+  if (!fp) return { ok: false, grund: 'der Fingerabdruck des Tag-Schlüssels ist aus git tag -v nicht lesbar' };
+  const gueltig = gueltigFuer(schluesselAus21(security), n);
+  if (gueltig.length !== 1) return { ok: false, grund: 'für ' + tag + ' gilt laut SECURITY.md 2.1 nicht genau ein Schlüssel (' + gueltig.length + ')' };
+  if (gueltig[0].fp !== fp) return { ok: false, grund: 'der Tag ist mit ' + fp + ' signiert, für ' + tag + ' gilt laut SECURITY.md 2.1 ' + gueltig[0].fp };
+  return { ok: true };
+}
+
+/* NUR EIN NEUER, AUSGELIEFERTER STAND (03.10.2026, Gegenlesung zu TAG-TOR-SCHLUESSEL-ZEITRAUM): der Tag-Name ist frei
+   wählbar; mit einem abgelösten Schlüssel ließe sich sonst ein Tag für eine nie veröffentlichte alte Fassung setzen
+   (etwa v1.0.856, für die der alte Schlüssel gilt). Darum zwei Register, als Dateien übergeben (die Pfade kennt der
+   Aufrufer; dieses Werkzeug läuft im öffentlichen Klon): (a) das Register der Auslieferungen führt den Kern v<n> als
+   ausgeliefert (Zeile „| v<n> | …“); (b) n ist größer als jede Fassung im Register der öffentlichen Stände
+   ({"staende":[{"fassung":"v1.0.<m>"}]}) — ein Tag ist immer ein neuer, späterer öffentlicher Stand. Den Baum hält
+   danach das Tor für das Quell-Tag. Rein: { ok } oder { ok:false, grund }. */
+function fassungPruefen(tag, { standDoku, oeffentlicheStaende }) {
+  const m = /^v1\.0\.(\d+)$/.exec(String(tag || ''));
+  if (!m) return { ok: false, grund: 'der Tag heißt v1.0.<Fassung>' };
+  const n = Number(m[1]);
+  if (!String(standDoku || '').split('\n').some((z) => z.startsWith('| v' + n + ' |'))) {
+    return { ok: false, grund: 'Kern v' + n + ' steht nicht im Register der Auslieferungen — nie ausgeliefert' };
+  }
+  let staende;
+  try { staende = JSON.parse(oeffentlicheStaende).staende; } catch { return { ok: false, grund: 'Register der öffentlichen Stände nicht lesbar' }; }
+  const hoechste = Math.max(0, ...staende.map((x) => Number((/^v1\.0\.(\d+)$/.exec(x.fassung) || [])[1] || 0)));
+  if (n <= hoechste) return { ok: false, grund: tag + ' ist nicht neuer als der jüngste öffentliche Stand v1.0.' + hoechste };
+  return { ok: true };
+}
+
+function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, schreiben = (t) => process.stdout.write(t), env } = {}) {
   const rot = (satz) => { schreiben('[tag-signieren] ROT — ' + satz + '\n'); return 1; };
   if (!klon || !fs.existsSync(path.join(klon, '.git'))) return rot('kein Git-Klon: ' + klon);
   if (!TAG_MUSTER.test(String(tag || ''))) return rot('der Tag heißt v1.0.<Fassung>, nicht „' + tag + '“');
+  const lesen = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch { return null; } };
+  const standDoku = auslieferungen ? lesen(auslieferungen) : null;
+  const oeffentlicheStaende = staende ? lesen(staende) : null;
+  if (standDoku === null || oeffentlicheStaende === null) return rot('--auslieferungen und --staende (die zwei Register) fehlen oder sind nicht lesbar — ohne Register kein Tag');
+  const fassung = fassungPruefen(tag, { standDoku, oeffentlicheStaende });
+  if (!fassung.ok) return rot(fassung.grund);
   if (git(klon, ['rev-parse', '-q', '--verify', 'refs/tags/' + tag], { env }).status === 0) {
     return rot('den Tag ' + tag + ' gibt es schon — ein veröffentlichter Tag wird nicht überschrieben');
   }
@@ -62,6 +139,13 @@ function signieren({ klon, tag, commit = 'HEAD', schreiben = (t) => process.stdo
     loeschen();
     return rot('git tag -v ist rot gegen die eigene git-Konfiguration — gelöscht, nichts gepusht\n' + String(v.stderr || '').trim());
   }
+  const fp = fingerabdruckAusTagV(String(v.stderr || '') + String(v.stdout || ''));
+  const security = git(klon, ['show', commit + ':SECURITY.md'], { env }).stdout;
+  const urteil = tagSchluesselPruefen(security, tag, fp);
+  if (!urteil.ok) {
+    loeschen();
+    return rot(urteil.grund + ' — der öffentliche Prüfweg nennte einen anderen; gelöscht, nichts gepusht');
+  }
   schreiben('[tag-signieren] OK — Commit ' + commit + ' und ' + tag + ' signiert und mit git verify-commit / git tag -v geprüft\n');
   return 0;
 }
@@ -69,8 +153,9 @@ function signieren({ klon, tag, commit = 'HEAD', schreiben = (t) => process.stdo
 function main() {
   const argv = process.argv.slice(2);
   const arg = (n) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i + 1] : undefined; };
-  return signieren({ klon: arg('klon') && path.resolve(arg('klon')), tag: arg('tag'), commit: arg('commit') || 'HEAD' });
+  return signieren({ klon: arg('klon') && path.resolve(arg('klon')), tag: arg('tag'), commit: arg('commit') || 'HEAD',
+    auslieferungen: arg('auslieferungen') && path.resolve(arg('auslieferungen')), staende: arg('staende') && path.resolve(arg('staende')) });
 }
 
 if (require.main === module) process.exitCode = main();
-module.exports = { signieren, tagInhaltSigniert, TAG_MUSTER };
+module.exports = { signieren, tagInhaltSigniert, fingerabdruckAusTagV, stehtInSecurity21, schluesselAus21, gueltigFuer, tagSchluesselPruefen, fassungPruefen, TAG_MUSTER };

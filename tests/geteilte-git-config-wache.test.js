@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; require('./helfer/platz-isoliert.js').platzIsolieren();   // eigener Suite-Platz (PLATZ-LECK-HOOK-TESTS); in derselben Zeile, damit keine Zeilennummer wandert
 /* Befund, 20.09.2026 — Rot-Beweis für tools/geteilte-git-config-wache.js. Baut ein
    EIGENES, wegwerfbares Bare-Repo mit zwei Arbeitsbäumen (Bauart wie im Befund selbst
    nachgestellt) und beweist an DIESEM isolierten Paar, nicht am echten Repo:
@@ -50,11 +50,17 @@ function mitHubUndArbeitsbaum(fn) {
   try {
     // --initial-branch=main: ohne es zeigt HEAD im Bare-Repo auf init.defaultBranch — auf dem CI-Läufer „master",
     // und der zweite `worktree add` fand kein HEAD (erster öffentlicher CI-Lauf, 25.09.2026).
-    git(['init', '--bare', '-q', '--initial-branch=main', hub]);
-    git(['-C', hub, 'worktree', 'add', '-q', wt1, '-b', 'main']);
-    fs.writeFileSync(path.join(wt1, 'a.txt'), 'x');
-    git(['-C', wt1, 'add', 'a.txt'], wt1);
-    git(['-C', wt1, '-c', 'user.email=a@a', '-c', 'user.name=A', 'commit', '-q', '-m', 'init'], wt1);
+    // Mit einem Anfangs-Commit aus einem Saat-Repo (03.10.2026, erster Air-Lauf 37113747665): `worktree add -b main` in
+    // einem LEEREN Bare-Repo verlangt ein neueres git (verwaistes HEAD); ältere Fassungen melden „not a valid object
+    // name: 'HEAD'“. So hängt die Probe an keiner git-Fassung und keiner Runner-Einstellung.
+    const saat = path.join(basis, 'saat');
+    git(['init', '-q', '--initial-branch=main', saat]);
+    fs.writeFileSync(path.join(saat, 'a.txt'), 'x');
+    git(['-C', saat, 'add', 'a.txt'], saat);
+    git(['-C', saat, '-c', 'user.email=a@a', '-c', 'user.name=A', 'commit', '-q', '-m', 'init'], saat);
+    git(['clone', '--bare', '-q', saat, hub]);
+    fs.rmSync(saat, { recursive: true, force: true });
+    git(['-C', hub, 'worktree', 'add', '-q', wt1, 'main']);
     return fn({ basis, hub, wt1 });
   } finally {
     fs.rmSync(basis, { recursive: true, force: true });

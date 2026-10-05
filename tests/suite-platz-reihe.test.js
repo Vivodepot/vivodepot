@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; require('./helfer/platz-isoliert.js').platzIsolieren();   // eigener Suite-Platz (PLATZ-LECK-HOOK-TESTS); in derselben Zeile, damit keine Zeilennummer wandert
 /* Die Vorrang-Marke der Suite-Plätze (01.10.2026): der markierte Arbeitsbaum ist dran; daneben höchstens eine
    pre-commit-Schnellstufe; die Marke verfällt nach 90 Minuten oder wenn der Baum fehlt; ohne gültige Marke gilt das
    Verhalten davor. Echte, schlafende Prozesse als Halter. */

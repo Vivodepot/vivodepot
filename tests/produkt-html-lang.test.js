@@ -37,11 +37,14 @@ for (const p of PRODUKTE) {
   });
 }
 
+const HEUTE = (() => { const p = require('../tools/lib/vier-produkte.js').ERSCHEINUNGSBILD_HEUTE_PFAD; return { roh: JSON.parse(fs.readFileSync(p, 'utf8')), basisname: path.basename(p) }; })();
+
 function bauenMit(sprachmodul) {
   return produktTextErzeugen(KERN, {
     modulauswahl: [],
     vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
-    unsignierteModule: sprachmodul ? [{ roh: sprachmodul, basisname: 'textsatz-probe-modul.json' }] : [],
+    // v894: ohne Erscheinungsbild baut kein Produkt — das Ab-Werk-Modul gehört zu jeder Probe dazu.
+    unsignierteModule: [...(sprachmodul ? [{ roh: sprachmodul, basisname: 'textsatz-probe-modul.json' }] : []), HEUTE],
   }).text;
 }
 

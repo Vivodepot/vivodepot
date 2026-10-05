@@ -3,9 +3,10 @@
 /* ════════════════════════════════════════════════════════════════════════
    pre-push-Gate — ein Standard mit Status „echt" verlangt seinen gemessenen Prüferlauf, nur bei Anlass
    ────────────────────────────────────────────────────────────────────────
-   WARUM (28.09.2026, U2-ADR-443/445): Die Registerzeilen edc-ap (rdf-shacl.json, ITB-SHACL-Validator) und
-   open-badges-3 (json-schema.json, Prüfer von 1EdTech) stehen auf „echt", weil ihr Lauf am offiziellen
-   Werkzeug gemessen ist (tools/standards-register/). In der
+   WARUM (28.09.2026, U2-ADR-443/445): Die Registerzeile edc-ap (rdf-shacl.json, ITB-SHACL-Validator) steht auf
+   „echt", weil ihr Lauf am offiziellen Werkzeug gemessen ist (tools/standards-register/). open-badges-3
+   (json-schema.json, Prüfer von 1EdTech) ist ebenso gemessen, steht aber auf „teilweise", bis die Lizenz von
+   inspector-core geklärt ist; das Gate verlangt den Lauf für beide. In der
    Node-Suite (pre-commit) bleibt dieser Lauf ohne Werkzeug ein sichtbares todo, denn Docker gibt es
    nicht auf jeder Maschine, und ein fehlendes Docker Desktop darf nicht jeden Commit jeder Sitzung
    sperren. Hier, vor der Auslieferung, gilt die scharfe Regel: „echt" und ungemessen ist rot.
@@ -44,7 +45,7 @@ const istEigene = (d) => ITB_EIGENE_DATEIEN.includes(d) || /^tests\/fixtures\/ob
 // Die Kennungen des Kernwegs, den der Lauf belegt: Erkennen, Verwahren, Herausgeben eines EDC. Hängt an Namen —
 // darum verlangt tests/pruefe-standards-echt-gate.test.js, daß jede Kern-Stelle, die EDC_AP_KONTEXT oder
 // BILDUNG_DOK_TYPEN liest, hier steht (kernStellenMitBildungstyp); ein neuer Pfad unter anderem Namen fällt dort auf.
-const KERN_WEG = /_ob3[A-Za-z]*|OB3_KENNUNG|openbadges-3-extern|_jsonObjektAmAnfang|_edcOriginalAblegen|_edcNutzlastWennEdc|_edciExtern|EDC_AP_KONTEXT|BILDUNG_DOK_TYPEN|edci-europass-extern|importAutoritativDokument|_bytesZuDataUrl|_autoritativRohBytes|flowMappeOriginalHerunterladen|_autoritativTypDef|_ob3OriginalAblegen|shlProviderPayload|flowMappeVorschau/;
+const KERN_WEG = /_ob3[A-Za-z]*|OB3_KENNUNG|mappeNachweisGueltigkeit|openbadges-3-extern|_jsonObjektAmAnfang|_edcOriginalAblegen|_edcNutzlastWennEdc|_edciExtern|EDC_AP_KONTEXT|BILDUNG_DOK_TYPEN|edci-europass-extern|importAutoritativDokument|_bytesZuDataUrl|_autoritativRohBytes|flowMappeOriginalHerunterladen|_autoritativTypDef|_ob3OriginalAblegen|shlProviderPayload|flowMappeVorschau/;
 
 // Jede oberste Kern-Stelle (Funktion oder Konstante auf Spalte 0), die EDC_AP_KONTEXT, OB3_KENNUNG oder BILDUNG_DOK_TYPEN liest.
 function kernStellenMitBildungstyp(kernText) {
@@ -113,7 +114,7 @@ async function main() {
     if (!v.ok) { fehlt.push(g.id + ': ' + v.grund + ' — Beheben: Docker Desktop starten; einmal ' + g.beheben); continue; }
     const env = Object.assign({}, process.env);
     delete env.NODE_TEST_CONTEXT;
-    const lauf = spawnSync('node', ['--test', g.probe], { cwd: REPO, encoding: 'utf8', env, timeout: 300000 });
+    const lauf = spawnSync('node', ['--no-sparkplug', '--test', g.probe], { cwd: REPO, encoding: 'utf8', env, timeout: 300000 });
     const aus = (lauf.stdout || '') + (lauf.stderr || '');
     const todo = /ℹ todo (\d+)/.exec(aus);
     if ((lauf.error && lauf.error.code === 'ETIMEDOUT') || lauf.status !== 0 || !todo || todo[1] !== '0') {

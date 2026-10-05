@@ -425,9 +425,10 @@ function seiteHtml(gruppen, fassung, hash, generatorUrl) {
   z.push('  höchstens fünf Arbeitstagen. Wird die Kennung freigegeben, gilt sie ab diesem');
   z.push('  Zeitpunkt — ohne auf eine neue Fassung dieses Registers zu warten. Eine abgelehnte');
   z.push('  oder überholte Kennung wird nie gelöscht, nur deaktiviert (s. oben).</p>');
+  // Das Werkzeug heißt seit v847 Studio (vorher Template-Generator); der Name auf der Seite folgt (04.10.2026).
   if (generatorUrl) {
-    z.push('  <p>Zusammengestellt und geprüft wird der Vorschlag mit dem');
-    z.push('  <a href="' + htmlText(generatorUrl) + '">Template-Generator</a>.</p>');
+    z.push('  <p>Zusammengestellt und geprüft wird der Vorschlag im');
+    z.push('  <a href="' + htmlText(generatorUrl) + '">Studio</a>.</p>');
   }
   z.push('  <p class="lang-en" lang="en">Propose a new identifier: if a template needs a field this');
   z.push('  register does not carry yet, it gets <strong>proposed</strong>, not invented on the spot.');
@@ -437,6 +438,10 @@ function seiteHtml(gruppen, fassung, hash, generatorUrl) {
   z.push('  latest. Once approved, the identifier applies immediately — no need to wait for the next');
   z.push('  edition of this register. A rejected or superseded identifier is never deleted, only');
   z.push('  inactivated (see above).</p>');
+  if (generatorUrl) {
+    z.push('  <p class="lang-en" lang="en">The proposal is put together and checked in the');
+    z.push('  <a href="' + htmlText(generatorUrl) + '">Studio</a>.</p>');
+  }
   z.push('');
   z.push('  <h2>Bereiche</h2>');
   z.push('  <ul class="bereichsindex">');

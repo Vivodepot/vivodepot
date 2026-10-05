@@ -98,7 +98,9 @@ test('[Standards·Bestand] Register und Manifest des Repos sind stimmig; FHIR st
   assert.ok(fhir, 'Positivkontrolle: tools/standards-register/fhir-ig.json');
   assert.equal(fhir.inhalt.adapter, 'hl7-fhir-validator');
   // + kbv-mio-pka (29.09.2026, v835): der Weglauf-Code aus dem KBV-CodeSystem, Status teilweise.
-  assert.deepEqual(fhir.inhalt.standards.map((s) => s.id).sort(), ['eu-eps', 'ips', 'kbv-mio-pka']);
+  // + eu-lab (01.10.2026): der Import fhir-lab steht im Register, mit Kandidat statt Prüfer.
+  // + isik-dokumente (03.10.2026): der Export isik (U2-ADR-468), Prüfer tools/isik-validieren.js, Status teilweise.
+  assert.deepEqual(fhir.inhalt.standards.map((s) => s.id).sort(), ['eu-eps', 'eu-lab', 'ips', 'isik-dokumente', 'kbv-mio-pka']);
   assert.ok(kontext.adapterIds.has('hl7-fhir-validator'), 'der inline-Eintrag in VALIDATOREN wird über seine id aufgelöst');
 });
 

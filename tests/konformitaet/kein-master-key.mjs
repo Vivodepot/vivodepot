@@ -149,6 +149,8 @@ describe('U2-ADR-097 §3: kein Wiederherstellungsweg (G13)', () => {
     'depotMasterHkdfKey', 'deriveMasterBits', 'importMasterAesKey', 'importMasterHkdfKey',
     'setupMasterSession', 'master', 'masterHkdfKey', 'masterKey', 'masterNfc',
     'einmalReset', '_scrollUndFokusWiederherstellen',
+    // 02.10.2026 (U2-ADR-468): der FHIR-Feldname DocumentReference.masterIdentifier der ISiK-Ausgabe — eine Dokumentkennung, kein Schlüsselweg.
+    'masterIdentifier',
   ]);
 
   /* U2-ADR-430 (27.09.2026): der entschiedene zweite Weg — eine vorher eingerichtete Hülle um die Master-Bits,

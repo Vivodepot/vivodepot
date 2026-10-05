@@ -169,3 +169,62 @@ pruefung: tests/generator-signierwege.test.js#[Signierwege] ein unechter Klick f
 pruefung: tests/generator-signierwege.test.js#[Signierwege] die Bündel-Bauer signieren mit dem Tresor-Schlüssel, und die Signatur verifiziert
 pruefung: tests/e2e-cross/T-CROSS-31-generator-schluessel.spec.js#GEN2b: eine Modul-Ausgabeart signiert mit dem Tresor-Schlüssel, nur auf einen echten Klick, einmal
 ```
+
+## Nachtrag (04.10.2026) — beide Schlüsseldateien verschlüsselt, der Empfangsschlüssel nicht mehr roh, die Klasse über alle Seiten
+
+**Anlass:** Befund JWK-IN-STATE (HOCH). Die Notiz dazu sagte, der Empfangsschlüssel liege nicht herausholbar im Tresor. Das stimmte
+nicht: db18a77f3 machte nur den Signierschlüssel nicht herausholbar, `EMPFANGS_TRESOR` hielt das Empfangs-JWK weiter roh. Und beide
+Schlüsseldateien gingen als Klartext-JWK auf die Platte.
+
+**Entscheidung, ergänzend zu Punkt 1–7:**
+
+1. **Beide Schlüsseldateien entstehen nur noch passwortverschlüsselt** (`.private.vdkey`, `.empfang.vdkey`), mit derselben Hülle wie
+   VC-Issuer und Schlüssel-Teiler (`schuetzeSchluesselJwk`, PBKDF2 aus dem VdCrypto-Block, AES-GCM mit AAD), wortgleich und bewacht
+   (`tools/krypto-block-propagation-pruefen.js`, Soll-Liste je Stück). Das Passwort wird zweimal abgefragt, verlangt mindestens 8
+   Zeichen, und beide Felder werden in jedem Pfad geleert. Ein falsches Passwort und eine beschädigte Datei bekommen dieselbe
+   Meldung — AES-GCM unterscheidet sie nicht.
+2. **Beide Tresore halten nur einen nicht herausholbaren CryptoKey und die verschlüsselte Datei.** Ein rohes JWK hält danach
+   niemand, auch nicht nach einem Fehler beim Erzeugen. Der Empfangsschlüssel wird als `ECDH`/`deriveBits` mit `extractable:false`
+   importiert.
+3. **Die Lese-App öffnet Antworten mit der `.vdkey`-Datei** und ihrem Passwort; dafür trägt sie die Hülle ebenfalls.
+4. **Bestand:** ältere Klartext-Dateien bleiben lesbar — im Studio nur über das Angebot, sie jetzt verschlüsselt neu zu speichern
+   (geladen wird danach die neue Datei), in der Lese-App mit einem sachlichen Hinweis auf das Studio.
+5. **Die Klasse gilt für alle Wurzel-Seiten, nicht nur den Generator.** Kein `generateKey`/`importKey` mit privater oder geheimer
+   Verwendung ist herausholbar, und kein privater Schlüssel wird exportiert — außer an einer Stelle der Positivliste
+   `tools/krypto-export-positivliste.json` (Datei, Funktion, Grund). Punkt 6 oben („nur die beiden Erzeuger“) ist damit die
+   Studio-Zeile dieser Liste.
+
+**Grenze, wörtlich:** JavaScript kann Zeichenketten und Objekte nicht nullen. „Verworfen“ heißt für das JWK und für das Passwort:
+kein Verweis bleibt — keine Modulvariable, kein Closure-Halter, kein Feldwert, keine Meldung, kein Eintrag in `STATE`, im Browser-
+Speicher oder in der Konsole. Wann der Speicher freigegeben wird, entscheidet der Browser. Die Proben prüfen die Verweise, nicht die
+Bytes.
+
+```konformitaet
+aussage:  Beide Studio-Schlüsseldateien entstehen nur passwortverschlüsselt; das Passwort wird zweimal abgefragt (Mindestlänge 8),
+          danach steht es in keinem Feld, keiner Meldung, keiner Datei, nicht in STATE und nicht in der Konsole; scheitert die Hülle,
+          bleibt nichts im Tresor.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/generator-schluesseldatei-passwort.test.js#[Studio · Passwort] Signierschlüssel erzeugen: zwei gleiche Felder → Schlüssel da, Felder leer, keine Spur
+pruefung: tests/generator-schluesseldatei-passwort.test.js#[Studio · Passwort] zu kurz und ungleich: kein Schlüssel, eine Meldung ohne das Passwort, beide Felder leer
+pruefung: tests/generator-schluesseldatei-passwort.test.js#[Studio · Passwort] scheitert die Hülle beim Erzeugen, bleibt nichts im Tresor
+pruefung: tests/generator-schluesseldatei-passwort.test.js#[Studio · Passwort · Rot-Beweis] eine Fassung, die die Felder nicht leert oder das Passwort in STATE legt, wird gemeldet
+```
+```konformitaet
+aussage:  Die Lese-App öffnet eine Antwort mit der verschlüsselten Schlüsseldatei und ihrem Passwort; ein falsches Passwort öffnet
+          nichts und verrät nichts; das Passwort bleibt in keinem Feld, keiner Meldung, keinem Markup und keiner Konsolenausgabe.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/lese-app-antwort-schluesseldatei.test.js#[Lese-App · Schlüsseldatei] die verschlüsselte Datei mit dem richtigen Passwort öffnet die Antwort; kein Klartext-Hinweis
+pruefung: tests/lese-app-antwort-schluesseldatei.test.js#[Lese-App · Schlüsseldatei] ein falsches Passwort öffnet nichts und sagt nur, dass Passwort oder Datei nicht passen
+pruefung: tests/lese-app-antwort-schluesseldatei.test.js#[Lese-App · Schlüsseldatei · Rot-Beweis] eine Fassung, die das Feld nicht leert oder das Passwort in die Meldung schreibt, wird gemeldet
+```
+```konformitaet
+aussage:  In keiner Wurzel-Seite entsteht ein privater oder geheimer Schlüssel herausholbar oder wird exportiert, außer an einer
+          Stelle der Positivliste mit Grund; ein Eintrag ohne Gegenstand ist selbst ein Befund.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/krypto-verbote.test.js#[Krypto a–d · Positivkontrolle] das echte Repo ist grün, jede Wurzel-Seite und die Auslieferungsliste werden gelesen
+pruefung: tests/krypto-verbote.test.js#[Krypto b · Rot-Beweis] generateKey/importKey mit privater Verwendung und extractable=true; false und verify bleiben grün
+pruefung: tests/krypto-verbote.test.js#[Krypto c · Rot-Beweis] exportKey eines privaten Schlüssels ohne Eintrag; ein öffentlicher bleibt grün
+```

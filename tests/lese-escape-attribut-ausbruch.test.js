@@ -1,6 +1,6 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════
-   R4-1-Fund (VDCR, 17.09.2026): escapeHTML() der Lese-App maskierte bis hierhin nur
+   R4-1-Fund (17.09.2026): escapeHTML() der Lese-App maskierte bis hierhin nur
    &, < und > — das reicht für Textknoten, nicht für Attribute. Ein Label aus einer
    fremden, unverschlüsselten Datei konnte mit einem Anführungszeichen aus dem
    Attribut ausbrechen und ein zweites einschleusen (Zwilling des Kern-Fundes, dort

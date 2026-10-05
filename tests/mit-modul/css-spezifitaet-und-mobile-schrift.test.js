@@ -23,7 +23,8 @@ const fs = require('node:fs');
 const { funde } = require('../../tools/css-tote-html-regeln.js');
 
 const HTML_PATH = path.join(__dirname, '..', '..', 'vivodepot.html');
-const HTML = fs.readFileSync(HTML_PATH, 'utf8');
+const { kernMitHeute } = require('../helfer/kern-mit-erscheinungsbild.js');
+const HTML = kernMitHeute(fs.readFileSync(HTML_PATH, 'utf8'));   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
 
 /* ── 1 · Die Klasse: tote html-Regeln ─────────────────────────────────── */
 test('[Spezifitaet] keine Eigenschaft an `html`, die `:root` schon setzt', () => {
@@ -101,4 +102,9 @@ test('[Mobile Schrift·Negativkontrolle] am Handy GROESSER gesetzt ist erlaubt',
   const mit = HTML.replace('@media (max-width: 760px) {',
     '@media (max-width: 760px) { :root { --fs-base: 1.3rem; }');
   assert.deepEqual(kleinerAmHandy(await schriftGroessen(mit, 390), await schriftGroessen(mit, 1200)), []);
+});
+
+test('[Spezifitaet·Rot-Beweis] ein Kommentar vor `:root` verdeckt die Konkurrenz nicht', () => {
+  const css = '/* Kopf */\n:root { --x: 1; }\nhtml { --x: 2; }\n';
+  assert.equal(funde(css).length, 1, 'die tote html-Regel wird auch hinter einem Kommentar gefunden');
 });

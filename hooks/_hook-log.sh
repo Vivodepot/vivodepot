@@ -26,6 +26,9 @@
 # zeigt `$0` auf das Temp-Verzeichnis, `pwd` aber weiterhin auf REPO.
 #
 # Aufruf: hook_log_schreiben <hook-name> <exit-code>
+# start (02.10.2026): Startzeit des Hooks, gesetzt beim Einlesen dieser Datei (ganz oben im Hook). Erst damit ist die
+# Dauer eines Pushes aus dem Log lesbar — gebraucht für die Messung, was der eigene Runner diesem Rechner abnimmt.
+_hook_start_ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 hook_log_schreiben() {
   _hook="$1"
   _rc="$2"
@@ -35,6 +38,6 @@ hook_log_schreiben() {
   # tests/hook-sperre-testumgebung.js; der echte Hook setzt es nie. Ohne dieses Feld waren echte Läufe
   # von Testläufen nicht zu trennen (~900 pre-push-Zeilen am Tag, die meisten aus Tests).
   if [ -n "${VD_HOOK_SPERRE_JE_PID:-}" ]; then _quelle=test; else _quelle=echt; fi
-  printf '{"zeit":"%s","hook":"%s","ziel":"%s","rc":"%s","quelle":"%s"}\n' "$_ts" "$_hook" "$_ziel" "$_rc" "$_quelle" >> "hook-log.ndjson" 2>/dev/null
+  printf '{"zeit":"%s","start":"%s","hook":"%s","ziel":"%s","rc":"%s","quelle":"%s"}\n' "$_ts" "${_hook_start_ts:-}" "$_hook" "$_ziel" "$_rc" "$_quelle" >> "hook-log.ndjson" 2>/dev/null
   unset _hook _rc _ziel _ts _quelle
 }

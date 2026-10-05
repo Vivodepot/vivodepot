@@ -2,7 +2,7 @@
 
 **Datum:** 11.07.2026
 **Status:** **Angenommen** (02.08.2026 offiziell angenommen) · vorher Entwurf · gebaut 11.07.2026 (Node-Suite **1233/0**, VdCrypto-Block-Pin `8d31c678…` + JWS `d0541ea7…` byte-identisch; PV-Ausgabe byte-identisch über Golden-Fixture belegt; Annahme = Produktentscheidung).
-**Status heute:** gilt — `MODUL_BLOCK_HANDLER`, `modulDokumentAbschnitte()` und `PV_MODUL` sind im heutigen
+**Status heute:** gilt — Nachtrag 04.10.2026: v1.0 ohne anwaltliche Freigabe, s. U2-ADR-066 Nachtrag 4. `MODUL_BLOCK_HANDLER`, `modulDokumentAbschnitte()` und `PV_MODUL` sind im heutigen
 `vivodepot.html` aktiv (Zeilen 25174 ff.).
 **Nummer:** U2-ADR-068 (höchste belegte in `docs/adr/` war U2-ADR-067).
 **Typ:** Struktureller Umbau der Dokument-Generator-Schicht. **KEIN Schema-Bump, KEINE Wortlaut-Änderung, Gate-Konsumenten unverändert.**
@@ -95,3 +95,7 @@ zwei Änderungen, wenn verschiedene Instrument-Typen getrennt sichtbar sein soll
 - Golden-Fixture: 42 Fälle / 161 Abschnitte / 388 Zeilen, aus dem **Vor-Umbau-Stand** erfasst.
 - sha256 der Datei geändert (`de94a6ad…`); `BUILD_SHA256` bleibt leer (erst beim Release gesetzt).
   SW-Cache cleanslate **v33 → v34**. **Kein Push.**
+
+## Nachtrag 04.10.2026
+
+Die Ankündigung, die PV-Ausgabe warte auf eine anwaltliche Freigabe, gilt nicht mehr. Stand: Die PV wird im v1.0 ohne anwaltliche Freigabe ausgeliefert, s. U2-ADR-066 Nachtrag 4 (22.07.2026).

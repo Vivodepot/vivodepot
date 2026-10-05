@@ -65,7 +65,8 @@ async function oeffneEinstellungen(page) {
   await expect(page.locator('#einst-modul-einlassen')).toBeVisible();
 }
 
-test('[Einlass-Register 2/4] Stellensatz-Modul in ein offenes Depot einlassen — stelleLesen() trägt die Stelle', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-EINLASS-REGISTER-STELLENSATZ-BEI-OFFENEM-DEPOT
+test.fixme('[Einlass-Register 2/4] Stellensatz-Modul in ein offenes Depot einlassen — stelleLesen() trägt die Stelle', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));

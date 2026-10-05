@@ -7,8 +7,9 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte und Regeln kommen mit dem Erscheinungsbild
 
-const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const KERN = kernMitHeute(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
 const css = () => [...KERN.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n').replace(/\/\*[\s\S]*?\*\//g, '');
 /* Regeln, deren Selektorliste ein nacktes `button` enthält (kein Klassen-, Attribut- oder Pseudo-Zusatz). */
 function nackteButtonRegeln(text) {

@@ -6,6 +6,7 @@
 
 
 - **Status:** akzeptiert
+- **Status heute:** akzeptiert; die Folge-Aktivität „anwaltliche Validierung … NLnet-Roadmap“ gilt nicht mehr (s. Nachtrag 04.10.2026)
 - **Datum:** 2026-04-28
 - **Kategorien:** ARCHITEKTUR | DATENMODELL | INTEROP
 - **Format:** MADR 4.0 mit Vivodepot-Erweiterungen (Kategorien-Header, Nachweis-Abschnitt; analog B16-ADR-061, B16-ADR-062, B16-ADR-063)
@@ -356,3 +357,7 @@ const BEZIEHUNGS_CODES = {
 - [x] Verweis auf B16-ADR-065 (geplant)
 - [x] Vor-Aufgabe (HL7-V3-Verifikation) klar spezifiziert
 - [x] In Klärungs-Sitzung 28.04.2026 bestätigt
+
+## Nachtrag 04.10.2026
+
+Die Folge-Aktivität „Anwaltliche Validierung der DSGVO-Audit-Konformität in Phase 3 NLnet-Roadmap“ gilt nicht mehr. Stand: Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden.

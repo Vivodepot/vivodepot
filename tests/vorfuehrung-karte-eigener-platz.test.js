@@ -4,12 +4,13 @@
    nichts unter der Karte) prüft tests/e2e/vorfuehrung-karte-und-kacheln.spec.js im Browser. Diese Probe hält die Bauform im Kern
    fest, damit sie in der Befund-Ratsche läuft: die Fangfläche ist durchsichtig, die Karte deckend mit Rand in der Markenfarbe, und
    im Band-Modus enden Ansicht und Dialog-Rücken über dem Band. */
+const { abWerkWortlaut } = require('./helfer/ab-werk-wortlaut.js');  // U2-ADR-473: Wortlaut ab Werk, s. Helfer
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const KERN = abWerkWortlaut(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
 const css = () => [...KERN.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n').replace(/\/\*[\s\S]*?\*\//g, '');
 function regel(selektor) {
   const esc = selektor.replace(/[.*+?^${}()|[\]\\#]/g, '\\$&');
@@ -29,9 +30,9 @@ test('[Vorführungskarte·Bauform] die Fangfläche ist durchsichtig, die Karte d
 
 test('[Vorführungskarte·Bauform·Rot-Beweis] im Band-Modus enden Ansicht und Dialog-Rücken über dem Band, und der Kern misst das Band', () => {
   // Oben: Streifen (26px) plus, auf schmalen Bildschirmen, der Block der Spalte „Die Situation" — gemessen in --vorfuehrung-oben (U2-ADR-413, Nachtrag (3)).
-  assert.match(regel('html.vorfuehrung-band #app') || '', /height:\s*calc\(100vh - var\(--vorfuehrung-oben, 26px\) - var\(--vorfuehrung-band/, '#app endet über dem Band');
+  assert.match(regel('html.vorfuehrung-band #app') || '', /height:\s*calc\(100vh - var\(--vorfuehrung-oben, (?:var\(--vorfuehrung-streifen, 26px\)|26px)\) - var\(--vorfuehrung-band/, '#app endet über dem Band');   // seit v872 ist der Streifen gemessen (--vorfuehrung-streifen), 26px nur noch Rückfall
   assert.match(regel('html.vorfuehrung-band #modal-rueck') || '', /bottom:\s*calc\(var\(--vorfuehrung-band/, 'der Dialog-Rücken endet über dem Band');
-  assert.match(regel('html.vorfuehrung-band #modal-rueck') || '', /top:\s*var\(--vorfuehrung-oben, 26px\)/, 'der Dialog-Rücken beginnt unter Streifen und Spalten-Block');
+  assert.match(regel('html.vorfuehrung-band #modal-rueck') || '', /top:\s*var\(--vorfuehrung-oben, (?:var\(--vorfuehrung-streifen, 26px\)|26px)\)/, 'der Dialog-Rücken beginnt unter Streifen und Spalten-Block');
   assert.match(KERN, /function _vorfuehrungBandMessen\(\)/, 'die Messung der Bandhöhe steht im Kern');
   assert.match(KERN, /_vorfuehrungBandLoesen\(\);\s*\n\s*_vorfuehrungModalZu\(\);/, 'beim Beenden der Schleife fällt der Band-Modus zurück');
 });

@@ -20,18 +20,14 @@
    längentreu maskiert (`tools/textsatz-umstellen.js#_maskiereKommentare`,
    dieselbe Mechanik wie bei der Textsatz-Ratsche).
 
-   WAS BEWUSST OHNE TOKEN BLEIBT (Nachtrag „Alles anpassbar", 17.08.2026) — die
-   Begruendung steht hier und nicht in einer Notiz, weil sie sonst beim naechsten
-   Lauf wieder als Fund erscheint und jemand sie „behebt":
-
-     · `vivodepot.html:1807` und `:1829` — `background: var(--bg, #f4f6f4)`
-     · `vivodepot.html:1810` — `border-bottom: 1px solid var(--line, #d8ddd6)`
-
-   Diese drei Literale sind RUECKFALLWERTE INNERHALB von `var()`. Sie sind bereits
-   tokenisiert; der Literal ist genau das, was gilt, WENN das Token fehlt. Ihn
-   seinerseits durch ein Token zu ersetzen waere zirkulaer — der Rueckfall haette
-   dann denselben Ausfall wie das, wogegen er absichert. Die Zahl 3 in der
-   Gegenstueck-Grundlinie ist damit kein Rest, sondern ein Boden.
+   WAS BIS 02.10.2026 OHNE TOKEN BLIEB (Nachtrag „Alles anpassbar", 17.08.2026) — drei
+   Literale galten als RUECKFALLWERTE INNERHALB von `var()` und darum als tokenisiert:
+   `var(--bg, #f4f6f4)`, `var(--card, #fff)` und `var(--line, #d8ddd6)` an den Dokument-
+   Overlays. Gemessen am 02.10.2026 (U2-ADR-473, v894): `--bg` und `--card` definiert der Kern
+   NIRGENDS — der Rueckfall war also der gelebte Wert, kein Schutz. Sie heissen jetzt
+   `--dok-grund` und `--dok-leiste`; der `--line`-Rueckfall ist entfallen, weil `--line` in
+   :root steht und er nie griff. Die Grundlinie steht damit auf 0. Nachsehen:
+   `grep -n -- "--bg:" vivodepot.html` (kein Treffer).
 
    NICHT hierunter faellt der Wert in einem CSS-KOMMENTAR (`:321`, die gemessene
    Aufhellung #8eab77): er steht als gemessene Zahl in einer Begruendung und ist
@@ -107,16 +103,29 @@ const AUSNAHMEN = [
    haelt den Stand und laesst ihn nur fallen. */
 const GEGENSTUECK_GRUNDLINIE = path.join(REPO, 'tools', 'farben-ohne-gegenstueck-grundlinie.json');
 
+/* DIE ERSCHEINUNGSBILD-QUELLEN (v894, 02.10.2026). Seit v894 trägt das Gerüst keine Token-Werte mehr; sie stehen in
+   tools/erscheinung/*.css und reisen als Modul in JEDES Produkt (U2-ADR-473 Nachtrag). Für dieses Werkzeug sind sie
+   darum Code einer ausgelieferten Anwendung: ein abgelöster Wert, der dort zurückkehrt, ist ein Fund, und ihre
+   Token-Definitionen sind die Gegenstücke. Gelesen als reines CSS (keine <style>-Hülle). */
+function erscheinungsbildQuellen() {
+  const ordner = path.join(REPO, 'tools', 'erscheinung');
+  if (!fs.existsSync(ordner)) return [];
+  const stil = path.join(ordner, 'stil');   // Lesart B (v894): das Stylesheet selbst, je Teil
+  return [...fs.readdirSync(ordner).filter((n) => n.endsWith('.css')).sort().map((n) => path.join('tools', 'erscheinung', n)),
+    ...(fs.existsSync(stil) ? fs.readdirSync(stil).filter((n) => n.endsWith('.css')).sort().map((n) => path.join('tools', 'erscheinung', 'stil', n)) : [])];
+}
+
 function _stilBloecke(roh) {
   return [...roh.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join('\n');
 }
 
 function tokenWerte() {
   const werte = new Set();
-  for (const datei of ANWENDUNGEN) {
+  for (const datei of [...ANWENDUNGEN, ...erscheinungsbildQuellen()]) {
     const pfad = path.join(REPO, datei);
     if (!fs.existsSync(pfad)) continue;
-    const stil = _stilBloecke(_maskiereKommentare(fs.readFileSync(pfad, 'utf8')));
+    const roh = _maskiereKommentare(fs.readFileSync(pfad, 'utf8'));
+    const stil = datei.endsWith('.css') ? roh : _stilBloecke(roh);
     for (const m of stil.matchAll(/--[a-z0-9-]+\s*:\s*([^;{}]*);/gi)) {
       for (const h of (m[1].match(/#[0-9a-fA-F]{3,8}\b/g) || [])) werte.add(h.toLowerCase());
     }
@@ -148,7 +157,7 @@ function ohneGegenstueck() {
 function pruefen() {
   const funde = [];
   const geprueft = [];
-  for (const datei of ANWENDUNGEN) {
+  for (const datei of [...ANWENDUNGEN, ...erscheinungsbildQuellen()]) {
     const pfad = path.join(REPO, datei);
     if (!fs.existsSync(pfad)) continue;   // eine entfernte Anwendung ist kein Fund
     geprueft.push(datei);
@@ -229,4 +238,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { pruefen, ohneGegenstueck, tokenWerte, ABGELOEST, ANWENDUNGEN, AUSNAHMEN, GEGENSTUECK_GRUNDLINIE };
+module.exports = { pruefen, ohneGegenstueck, tokenWerte, erscheinungsbildQuellen, ABGELOEST, ANWENDUNGEN, AUSNAHMEN, GEGENSTUECK_GRUNDLINIE };

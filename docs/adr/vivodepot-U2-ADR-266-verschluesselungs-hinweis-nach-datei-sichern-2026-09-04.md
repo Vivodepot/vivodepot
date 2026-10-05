@@ -99,6 +99,17 @@ Sichern) sinnvoll wäre — `modalAnlegenPwWarnung` deckt dort bereits einen seh
 am Passwort-Moment, nicht am Datei-Moment. Beide Momente zusammenzulegen war nicht Teil des
 Auftrags und hier nicht geprüft.
 
+## Nachtrag 04.10.2026 — der Satz „einziger Schlüssel“ gilt nur ohne Wiederherstellungs-Code
+
+Seit U2-ADR-430 (21.09.2026) kann ein Depot einen freiwilligen Wiederherstellungs-Code tragen; mit ihm öffnet die Datei auch ohne Passwort
+(`depotMitCodeLaden`, setzt ein neues Passwort). Der zweite Absatz dieses Hinweises sagte „Ihr Passwort ist der einzige Schlüssel dazu“ und
+war damit für ein Depot mit Code falsch. Der Hinweis wechselt jetzt mit dem Zustand des Depots: ohne Code gilt der Wortlaut dieser ADR
+unverändert (`strings:dateiVerschluesselungHinweisText`), mit eingerichtetem Code die Fassung `strings:dateiVerschluesselungHinweisTextMitCode`
+(Passwort oder Code öffnen die Datei, niemand sonst, auch wir nicht). Die Entscheidung dieser ADR — erklären, dass die Datei verschlüsselt ist und
+abgelegt werden darf, einmalig nach dem ersten Sichern — bleibt. Gleiches gilt für die Hilfe-Themen „Depot und Passwort“ und „Was Vivodepot
+nicht sieht“ und den Website-Export; die Probe `tests/hilfe-passwort-schluessel-aussage.test.js` sucht die Aussage inhaltlich über alle
+Ausgabewege (Deutsch und Englisch).
+
 ## Konformität
 
 ```konformitaet

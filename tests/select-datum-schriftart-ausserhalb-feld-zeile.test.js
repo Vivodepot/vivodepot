@@ -30,6 +30,7 @@ const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte und Regeln kommen mit dem Erscheinungsbild
 
 const KERN = path.join(__dirname, '..', 'vivodepot.html');
 
@@ -46,7 +47,7 @@ function leafRegeln(css) {
    kreuzen sich, sobald ein weiteres <style>-Element davorsteht — real getroffen durch den
    Rahmen-Schutz-Block. Beide Enden jetzt an derselben, benannten Stelle verankert. */
 function ladeStyleBlock() {
-  const html = fs.readFileSync(KERN, 'utf8');
+  const html = kernMitHeute(fs.readFileSync(KERN, 'utf8'));
   const MARKER = '<style id="design-system">';
   const markerAt = html.indexOf(MARKER);
   const start = markerAt === -1 ? -1 : markerAt + MARKER.length;
@@ -77,7 +78,7 @@ describe('[Select/Datum-Schriftart] globaler Reset statt Wrapper-für-Wrapper', 
   });
 
   test('die drei betroffenen Fundstellen bleiben außerhalb von `.feld-zeile` (Diagnose-Beleg)', () => {
-    const html = fs.readFileSync(KERN, 'utf8');
+    const html = kernMitHeute(fs.readFileSync(KERN, 'utf8'));
     // #sub-grundlage: Sub-Depot-Anlegen-Modal, das exakte "— bitte wählen —"-Dropdown im Screenshot.
     assert.match(html, /<select id="sub-grundlage">/, 'sub-grundlage-Select nicht gefunden — Diagnose veraltet?');
     // .doku-select/.doku-input: Dokumente-Panel, Datum + Rhythmus-Dropdown nebeneinander.

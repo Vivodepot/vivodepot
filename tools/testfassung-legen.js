@@ -61,6 +61,7 @@ const { indexWeiterleitungInhalt } = require('./index-weiterleitung-erzeugen.js'
 const { DATEISATZ } = require('../scripts/ausgeliefertes-dateiset.js');
 
 const REPO = path.join(__dirname, '..');
+const { zielStandPruefen } = require('./lib/zielrepo-stand.js');
 const VERMERK = path.join(REPO, 'docs', 'testfassung-stand.md');
 
 // U2-ADR-194 (01.09.2026, Auftrag): die Wurzel lieferte ohne Dateinamen einen
@@ -71,7 +72,10 @@ const VERMERK = path.join(REPO, 'docs', 'testfassung-stand.md');
 // Log) unverändert behält.
 function dateisatzUndIndexAblegen(ziel) {
   for (const datei of DATEISATZ) {
-    fs.copyFileSync(path.join(REPO, datei), path.join(ziel, datei));
+    // v894: vivodepot.html ist das nackte Gerüst — gelegt wird das konfektionierte privat-de, wie der Shop es liefert
+    // (tools/lib/pages-erzeugnis.js). Die übrigen Dateien bleiben Kopien.
+    if (datei === 'vivodepot.html') fs.writeFileSync(path.join(ziel, datei), require('./lib/pages-erzeugnis.js').produktFuerPages('privat-de'), 'utf8');
+    else fs.copyFileSync(path.join(REPO, datei), path.join(ziel, datei));
   }
   fs.writeFileSync(path.join(ziel, 'index.html'), indexWeiterleitungInhalt(path.join(ziel, 'vivodepot.html')));
 }
@@ -103,7 +107,7 @@ function schalenWerte(html) {
   return { stand, datum, version };
 }
 
-function vorbedingungen(ziel) {
+function vorbedingungen(ziel, { nachziehen = false, holen = true } = {}) {
   const funde = [];
 
   // 1 · Arbeitsbaum sauber (dieses Repo).
@@ -137,6 +141,8 @@ function vorbedingungen(ziel) {
     if (zStatus) funde.push('Zielrepo nicht sauber (' + ziel + '):\n' + zStatus);
     const zBranch = shOk('git', ['rev-parse', '--abbrev-ref', 'HEAD'], ziel);
     if (zBranch.ok && zBranch.out !== 'main') funde.push('Zielrepo steht nicht auf main, sondern auf: ' + zBranch.out);
+    // 4b · gegen origin/main (Befund ZIELREPO-ABGEZWEIGT, 04.10.2026): abgezweigt oder voraus → rot (Prüfung vor den eigenen Commits), dahinter → vorspulen.
+    else if (!zStatus) funde.push(...zielStandPruefen(ziel, { nachziehen, holen }).funde);
   }
 
   return { funde, kern };
@@ -225,7 +231,7 @@ function main() {
   const swAenderungIdx = argv.indexOf('--sw-aenderung-beabsichtigt');
   const swAenderungAdr = swAenderungIdx >= 0 ? argv[swAenderungIdx + 1] : null;
 
-  const { funde, kern } = vorbedingungen(ziel);
+  const { funde, kern } = vorbedingungen(ziel, { nachziehen: !dryRun });
   if (funde.length) {
     process.stderr.write('testfassung-legen: VORBEDINGUNG NICHT ERFÜLLT — es wird NICHTS gelegt.\n\n');
     funde.forEach((f) => process.stderr.write('  · ' + f + '\n'));
@@ -322,7 +328,7 @@ function main() {
     + 'Maschinell erzeugt von `tools/testfassung-legen.js` — nicht von Hand pflegen.\n\n'
     + '- **Gelegt am:** ' + new Date().toISOString() + '\n'
     + '- **Quelle:** vivodepot-cleanslate/u2-kanon @ `' + neuerQuellCommit + '`\n'
-    + '- **Ziel:** vivodepot-ios-test/main @ `' + zielCommit + '`' + (push ? ' (gepusht)' : ' (LOKAL, noch nicht gepusht)') + '\n'
+    + (push ? '- **Ziel:** vivodepot-ios-test/main @ `' + zielCommit + '` (gepusht)' : '- **Ziel:** vivodepot-ios-test/main, lokal, ohne Hash (nicht gepusht; ERZEUGNIS-STEMPEL-ARBEITSSTAND)') + '\n'
     + '- **Schale:** ' + kern.stand + ' · Build ' + kern.version + ' · Stand ' + kern.datum + '\n');
 
   process.stdout.write('\nGelegt: vivodepot-ios-test @ ' + zielCommit + '\n');

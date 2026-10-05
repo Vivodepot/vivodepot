@@ -34,7 +34,7 @@ const KERN = path.join(__dirname, '..', 'vivodepot.html');
 /* Ein Feld mit Marke, dessen Wert AUSSCHLIESSLICH am Zielort liegt — genau der
    Zustand, den der Umzug herstellt. `arbeitsvertrag_befristet_bis` ist dafür der
    sprechendste Fall: es trägt die Marke, ist nicht schema-sensibel (steht also im
-   PDF ohne Opt-in) und ist zugleich der Topf-B-Eintrag aus `edci-bildung`. */
+   PDF ohne Opt-in) und ist zugleich der Topf-B-Eintrag aus `bildungsangaben`. */
 function depotMitWertAmZielort() {
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
@@ -75,13 +75,13 @@ test('[M1·Zug5·Rot] „Das wird herausgegeben" zeigt das Feld weiterhin', () =
     'die Zusicherung vor dem Export darf kein ausgefülltes Feld verschweigen');
 });
 
-test('[M1·Zug5·Rot] `arbeitsvertrag_befristet_bis` bleibt in `edci-bildung` als nicht gemappt geführt', () => {
+test('[M1·Zug5·Rot] `arbeitsvertrag_befristet_bis` bleibt in `bildungsangaben` als nicht gemappt geführt', () => {
   const V = depotMitWertAmZielort();
-  const { enthalten } = V.exportUebersichtModell(null, 'edci-bildung');
+  const { enthalten } = V.exportUebersichtModell(null, 'bildungsangaben');
   const e = enthalten.find(x => x.feld === 'employmentContractFixedTerm');
   assert.ok(e, 'ohne die Auflösung wird die Zeile gar nicht erst erreicht');
   assert.equal(e.formatOhneZiel, true,
-    'die Aussage „in edci-bildung bewusst nicht gemappt" gilt unverändert — sie greift erst, wenn die Zeile erreicht wird');
+    'die Aussage „in bildungsangaben bewusst nicht gemappt" gilt unverändert — sie greift erst, wenn die Zeile erreicht wird');
 });
 
 test('[M1·Zug5·Rot] die Ansage vor dem Herausgeben sieht den Wert — und schweigt zu einem gültigen', () => {

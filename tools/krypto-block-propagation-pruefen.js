@@ -304,8 +304,35 @@ function traegerzahlPruefen(traegerAnzahl) {
    ohne dass sich am Verhalten etwas geändert hätte. Die neue Konstante
    `PROTECTED_KEY_VERSION_ALLOWLIST` tritt neben `PROTECTED_KEY_MARKER_VERSION` — beide bleiben
    geführt, die eine ist die Schreib-, die andere die Lese-/Prüf-Fassung. */
-const HUELLE_FUNKTIONEN = ['schuetzeSchluesselJwk', 'entschluesseleSchluesselJwk', '_aadFuerSchluesselhuelle', '_signJWS', 'istGeschuetzteSchluesseldatei'];
+/* NACHTRAG 04.10.2026 (Befund JWK-IN-STATE, Krypto-Gegenlesung „L1/L2" und Erweiterung „geteilte Krypto-Funktionen"):
+   ZWEI LÜCKEN, beide gemessen.
+   L1 · Ein Träger zählte nur, wenn der Prüfer seine Kopie FAND. Schrieb eine Anwendung ihre Kopie anders (Pfeilfunktion,
+        `const f = async function`, anderer Name), fiel sie lautlos aus der Trägerliste — und der Lauf blieb grün.
+   L2 · Ein Stück mit nur einem gefundenen Träger wurde gar nicht verglichen (`traeger.length < 2 → continue`).
+   Darum je Stück eine benannte SOLL-LISTE der Träger: Fehlt ein Soll-Träger, ist das rot, auch wenn das Stück anderswo
+   gefunden wird. Die Zahl allein reicht nicht — „gefunden in einer anderen Datei" darf das Fehlen nicht ausgleichen.
+
+   Und eine KLASSE statt einer Aufzählung (`pruefeGeteilt`): jede Funktion, die in mindestens zwei Wurzel-`*.html`
+   gleichnamig vorkommt und in einer Kopie selbst Krypto tut (`subtle.*`, ein JWK, ein `epk`, die Hüllen-Marke, ein
+   `_signJWS`/`_verifyJWS`-Aufruf — gesucht im Code ohne Kommentare und Zeichenketten), steht entweder hier in der
+   Soll-Liste (byte-gleich verlangt) oder in `GETEILT_AUSNAHMEN` mit Grund. Sonst ist der Lauf rot. Der VdCrypto-Block
+   zählt nicht mit — er ist oben als ganzer bewacht. Das Muster ist eng gehalten: das Wort „Schlüssel" allein meint im
+   Kern meist einen Feld-Schlüssel und machte Textsatz- und Startfunktionen zu Fehltreffern. */
+/* Die Soll-Liste steht als Daten in tools/krypto-huelle-soll.json (geteilt über tools/lib/mit-interner-ergaenzung.js: Seiten, die
+   nicht in den öffentlichen Zuschnitt gehen, stehen in der internen Ergänzung). Die Gruppen und ihr Warum stehen dort. */
+const HUELLE_SOLL = Object.freeze(require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(path.join(__dirname, 'krypto-huelle-soll.json')).soll);
 const HUELLE_KONSTANTEN = ['PROTECTED_KEY_MARKER_VERSION', 'PROTECTED_KEY_VERSION_ALLOWLIST'];
+const HUELLE_FUNKTIONEN = Object.keys(HUELLE_SOLL).filter((n) => !HUELLE_KONSTANTEN.includes(n));
+/* Gleichnamig, gewollt verschieden — je mit Grund. Eine Ausnahme ohne Gegenstand (der Name ist nicht mehr geteilt oder
+   fällt nicht mehr ins Muster) ist selbst rot, damit die Liste nicht still veraltet. */
+const GETEILT_AUSNAHMEN = Object.freeze({
+  ed25519Verfuegbar: 'Zwei Laufzeit-Fähigkeitsproben, keine Prüfentscheidung: der Kern fragt, ob Ed25519 verifizieren kann '
+    + '(Import eines öffentlichen Schlüssels), der Teiler, ob er aus einem Seed den öffentlichen Teil rechnen kann (PKCS#8-Import). '
+    + 'Beide antworten nur ja/nein über den Browser.',
+});
+/* Das Muster der Klasse: Krypto, die die Funktion SELBST tut. Aufrufe bewachter Funktionen (etwa schuetzeSchluesselJwk)
+   zählen nicht — die bewacht die Soll-Liste. Eine Eigenschaft `.jwk` zählt nicht (ein Datenfeld), eine Variable `jwk` schon. */
+const GETEILT_KRYPTO = /\bsubtle\.|(?<![.\w$])jwk\b|(?<![.\w$])epk\b|\bPROTECTED_KEY_\w+|(?<![.\w$])_(?:verifyJWS|signJWS)\(/;
 
 function funktionsKoerper(text, name) {
   const re = new RegExp('(?:async )?function ' + name + '\\([^)]*\\)\\s*\\{');
@@ -326,12 +353,17 @@ function konstantenWert(text, name) {
   return m ? m[1].trim() : null;
 }
 
-function pruefeHuelle(repo) {
+/* `optionen.soll` (04.10.2026): die Soll-Liste, gegen die geprüft wird — Standard HUELLE_SOLL. Die Mechanismus-Proben an
+   erfundenen Fixtures (a.html/b.html) geben `{}` mit, weil ihr Gegenstand der Byte-Vergleich ist, nicht die Trägerliste.
+   Gesucht wird nur in den Wurzel-`*.html`: Werkzeuge und Proben tragen gleichnamige EIGENE Funktionen (etwa
+   `_jwkThumbprint` in einem Signier-Werkzeug) oder Abschriften als Prüfgegenstand — keine davon ist ein Träger. */
+function pruefeHuelle(repo, optionen) {
+  const SOLL = (optionen && optionen.soll) || HUELLE_SOLL;
   const funde = {};
   for (const name of [...HUELLE_FUNKTIONEN, ...HUELLE_KONSTANTEN]) funde[name] = [];
 
   for (const rel of dateienListen(repo)) {
-    if (!RELEVANT.test(rel)) continue;
+    if (rel.includes('/') || !rel.endsWith('.html')) continue;
     if (SELBSTBEZUG.has(rel)) continue;
     let s;
     try { s = fs.readFileSync(path.join(repo, rel), 'utf8'); } catch { continue; }
@@ -348,6 +380,14 @@ function pruefeHuelle(repo) {
 
   const fehler = [];
   for (const [name, traeger] of Object.entries(funde)) {
+    const soll = SOLL[name];
+    if (soll) {
+      for (const datei of soll) {
+        if (!traeger.some((t) => t.datei === datei)) {
+          fehler.push(`HÜLLE ${name}: Soll-Träger ${datei} fehlt (keine Deklaration \`function ${name}(\` bzw. \`const ${name} =\` gefunden).`);
+        }
+      }
+    }
     if (traeger.length < 2) continue;
     const kanon = traeger[0];
     for (const t of traeger.slice(1)) {
@@ -359,10 +399,70 @@ function pruefeHuelle(repo) {
   return { funde, fehler };
 }
 
+/* Code ohne Kommentare und ohne Inhalt von Zeichenketten und Regex-Literalen — damit ein Wort in einer Meldung oder einem
+   Kommentar eine Funktion nicht zur Krypto-Funktion macht. Eine Näherung (kein voller Tokenizer), genau genug für die
+   Klasse: sie entscheidet nur, ob eine Funktion ins Muster fällt; was gilt, entscheidet der Byte-Vergleich. */
+function nurCode(s) {
+  let o = '', i = 0, vorher = '';
+  const n = s.length;
+  while (i < n) {
+    const c = s[i], d = s[i + 1];
+    if (c === '/' && d === '/') { while (i < n && s[i] !== '\n') i++; continue; }
+    if (c === '/' && d === '*') { const e = s.indexOf('*/', i + 2); i = e < 0 ? n : e + 2; continue; }
+    if (c === '"' || c === "'" || c === '`') {
+      const q = c; i++;
+      while (i < n && s[i] !== q) { if (s[i] === '\\') i++; i++; }
+      i++; o += q + q; vorher = q; continue;
+    }
+    if (c === '/' && (/[(,=:[!&|?{};]/.test(vorher) || /\b(?:return|typeof|case|in|of|delete|void|throw|new|yield|await)\s*$/.test(o.slice(-16)))) {
+      i++; let klasse = false;
+      while (i < n && (s[i] !== '/' || klasse)) { if (s[i] === '\\') i++; else if (s[i] === '[') klasse = true; else if (s[i] === ']') klasse = false; i++; }
+      i++; while (/[a-z]/.test(s[i] || '')) i++;
+      o += '/r/'; vorher = '/'; continue;
+    }
+    o += c; if (!/\s/.test(c)) vorher = c; i++;
+  }
+  return o;
+}
+
+/* Die Klasse „geteilte Krypto-Funktionen" über die Wurzel-`*.html` (die ausgelieferten Seiten und Werkzeuge). */
+function pruefeGeteilt(repo) {
+  const seiten = dateienListen(repo).filter((rel) => !rel.includes('/') && rel.endsWith('.html'));
+  const namen = Object.create(null);
+  for (const rel of seiten) {
+    let s;
+    try { s = fs.readFileSync(path.join(repo, rel), 'utf8'); } catch { continue; }
+    if (TRAEGER_SIGNATUREN.some((sig) => s.includes(sig))) {
+      const block = ersterScriptBlock(s);
+      if (block) s = s.replace(block, '');
+    }
+    const re = /(?:async\s+)?function\s+([A-Za-z0-9_$]+)\s*\(/g;
+    let m;
+    while ((m = re.exec(s)) !== null) {
+      const koerper = funktionsKoerper(s, m[1].replace(/\$/g, '\\$'));
+      if (koerper === null) continue;
+      (namen[m[1]] = namen[m[1]] || []).push({ datei: rel, krypto: GETEILT_KRYPTO.test(nurCode(koerper)) });
+    }
+  }
+  const klasse = [], fehler = [];
+  for (const [name, funde] of Object.entries(namen)) {
+    const dateien = [...new Set(funde.map((f) => f.datei))];
+    if (dateien.length < 2 || !funde.some((f) => f.krypto)) continue;
+    klasse.push({ name, dateien });
+    if (HUELLE_SOLL[name] || GETEILT_AUSNAHMEN[name]) continue;
+    fehler.push(`GETEILT ${name}: in ${dateien.join(', ')} gleichnamig und Krypto, aber weder in HUELLE_SOLL (byte-gleich verlangt) noch in GETEILT_AUSNAHMEN (mit Grund).`);
+  }
+  for (const name of Object.keys(GETEILT_AUSNAHMEN)) {
+    if (!klasse.some((k) => k.name === name)) fehler.push(`GETEILT ${name}: Ausnahme ohne Gegenstand — nicht mehr geteilt oder nicht mehr im Muster; aus GETEILT_AUSNAHMEN streichen.`);
+  }
+  return { klasse, fehler };
+}
+
 module.exports = {
   pruefe, blockHashGeschichte, sha256, ersterScriptBlock, PORT_VERBATIM, TRAEGER_SIGNATUREN, TRAEGER_MINDESTZAHL,
   traegerzahlPruefen,
   pruefeHuelle, funktionsKoerper, konstantenWert, HUELLE_FUNKTIONEN, HUELLE_KONSTANTEN,
+  HUELLE_SOLL, GETEILT_AUSNAHMEN, GETEILT_KRYPTO, pruefeGeteilt, nurCode,
 };
 
 if (require.main === module) {
@@ -397,12 +497,19 @@ if (require.main === module) {
     }
   }
 
-  const alleFehler = [...r.fehler, ...h.fehler];
+  const g = pruefeGeteilt(repo);
+  console.log(`Geteilte Krypto-Funktionen: ${g.klasse.length} (Soll-Liste ${Object.keys(HUELLE_SOLL).length}, Ausnahmen ${Object.keys(GETEILT_AUSNAHMEN).length})`);
+  if (argv.includes('--karte')) {
+    console.log('\n── GETEILTE KRYPTO-FUNKTIONEN ──');
+    for (const k of g.klasse) console.log(`  ${k.name}  ${k.dateien.join(', ')}${GETEILT_AUSNAHMEN[k.name] ? '  (Ausnahme)' : ''}`);
+  }
+
+  const alleFehler = [...r.fehler, ...h.fehler, ...g.fehler];
   if (alleFehler.length) {
     console.error(`\n✗ ${alleFehler.length} Befund(e):`);
     for (const f of alleFehler) console.error('  · ' + f);
     process.exit(1);
   }
   console.log('\n✓ Block-Propagation vollständig: jeder Träger byte-identisch, jede Pin-Stelle auf dem aktuellen Hash.');
-  console.log('✓ Hüllenschicht vollständig: jedes gefundene Stück ist unter seinen Trägern byte-/wertgleich.');
+  console.log('✓ Hüllenschicht und geteilte Krypto-Funktionen vollständig: jedes Stück steht in jedem Soll-Träger und ist unter allen Trägern byte-/wertgleich; jede geteilte Krypto-Funktion ist bewacht oder begründet ausgenommen.');
 }

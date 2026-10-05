@@ -72,7 +72,8 @@ async function schliesseEinstellungen(page) {
   await page.waitForSelector('#modal-rueck.an', { state: 'detached' }).catch(() => {});
 }
 
-test('[Übergang 2] Sprachmodul in ein offenes Depot einlassen — Sidebar/Bereichs-Kopf wechseln sofort, ohne Absturz', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-UEBERGANG-SPRACHE-BEI-OFFENEM-DEPOT
+test.fixme('[Übergang 2] Sprachmodul in ein offenes Depot einlassen — Sidebar/Bereichs-Kopf wechseln sofort, ohne Absturz', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));

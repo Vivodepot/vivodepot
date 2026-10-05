@@ -6,6 +6,7 @@
 
 
 - **Status:** akzeptiert
+- **Status heute:** akzeptiert; der Bezug zum NLnet-Antrag gilt nicht mehr (s. Nachtrag 04.10.2026)
 - **Datum:** 2026-04-26
 - **Kategorien:** ARCHITEKTUR | SICHERHEIT | UX-PRINZIP
 - **Format:** MADR 4.0 mit Vivodepot-Erweiterungen (Kategorien-Header, Nachweis-Abschnitt)
@@ -185,3 +186,7 @@ Frage 3 (Export) wurde durch Bestätigung des Hybrid-Vorschlags entschieden (3A 
 **Migration.** Beta-Bestandsdepots werden bei erstem Öffnen mit v1.0 lazy migriert; Migrations-Erfolg pro Pilotpartner-Depot wird einzeln verifiziert und protokolliert vor öffentlicher v1.0-Freigabe.
 
 **Methodische Reflexion.** Die Nummern-Umbenennung von B16-ADR-050 auf B16-ADR-052 wurde am 26. April 2026 im Vorgängerprojekt als methodischer Befund festgehalten.
+
+## Nachtrag 04.10.2026
+
+Die Ankündigung zum NLnet-Antrag in dieser ADR gilt nicht mehr. Stand: Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden.

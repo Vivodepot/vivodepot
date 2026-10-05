@@ -12,7 +12,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const HTML = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
+const HTML = kernMitHeute(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
 
 // K1 (Auftrag K1/K2/K6, 09.08.2026): .liste-eintraege li ist jetzt ein gemeinsamer Selektor mit
 // .menschen-register .liste-eintrag (wortgleiche Dopplung geschlossen) — dieselbe Regel, dieselbe

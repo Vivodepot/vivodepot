@@ -9,7 +9,7 @@
     { "name": "EDCI", "muster": "(?<![A-Za-z])EDCI(?![A-Za-z])|Europass", "register": ["edc-ap"] },
     { "name": "ELSTER", "muster": "(?<![A-Za-z])(?:ELSTER|Elster)(?![a-z])", "register": [] },
     { "name": "IPS", "muster": "(?<![A-Za-z])IPS(?![A-Za-z])|International Patient Summary", "register": ["ips"] },
-    { "name": "SD-JWT VC", "muster": "SD-JWT[ -]?VC", "register": [] },
+    { "name": "SD-JWT VC", "muster": "SD-JWT[ -]?VC", "register": ["sd-jwt-vc"] },
     { "name": "PDF/A", "muster": "PDF/A(?![A-Za-z])", "register": [] }
   ],
   "orte": {

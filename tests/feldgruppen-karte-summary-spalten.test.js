@@ -24,7 +24,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const QUELLE = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
+const QUELLE = kernMitHeute(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
 
 function regelBlock(selektor) {
   const i = QUELLE.indexOf(selektor);

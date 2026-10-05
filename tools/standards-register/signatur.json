@@ -1,0 +1,42 @@
+{
+  "familie": "signatur",
+  "adapter": "sd-jwt-jose",
+  "standards": [
+    {
+      "id": "sd-jwt-vc",
+      "name": "SD-JWT-based Verifiable Digital Credentials (SD-JWT VC)",
+      "version": "draft-ietf-oauth-sd-jwt-vc-19 (Stand 31.08.2026); Kern-Format SD-JWT ist RFC 9901",
+      "herausgeber": "IETF OAuth Working Group",
+      "quelle": {
+        "url": "https://datatracker.ietf.org/doc/draft-ietf-oauth-sd-jwt-vc/",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "IETF Trust Legal Provisions (TLP 5, https://trustee.ietf.org/documents/trust-legal-provisions/tlp-5/): Kopieren und Verteilen vollständig und unverändert sowie unveränderter Auszüge mit Quellenangabe erlaubt; Code-Komponenten unter Revised BSD. Die Spezifikation zu implementieren ist frei. Nachgesehen 01.10.2026."
+      },
+      "richtung": [
+        "selbstauskunft-ausgeben",
+        "empfangen",
+        "lesen"
+      ],
+      "bereich": "identitaet",
+      "status": "echt",
+      "artefakte": [
+        "jose-6.2.12"
+      ],
+      "exportwege": [
+        "sd-jwt-vc-identitaet",
+        "sd-jwt-vc-finanzen",
+        "sd-jwt-vc-sozialversicherung"
+      ],
+      "importwege": [
+        "sd-jwt-vc-identitaet",
+        "sd-jwt-vc-finanzen",
+        "sd-jwt-vc-sozialversicherung"
+      ],
+      "bezuege": null,
+      "grund": null
+    }
+  ]
+}

@@ -6,6 +6,7 @@
 
 
 - **Status:** akzeptiert
+- **Status heute:** akzeptiert; die Ankündigungen zum NLnet-Antrag und zum NGI-Zero-Review gelten nicht mehr (s. Nachtrag 04.10.2026)
 - **Datum:** 2026-04-27
 - **Kategorien:** SICHERHEIT | INFRASTRUKTUR | STRATEGIE
 - **Format:** MADR 4.0 mit Vivodepot-Erweiterungen (Kategorien-Header, Nachweis-Abschnitt)
@@ -125,3 +126,7 @@ Jede genannte Quelle, URL und Programm-Aussage ist durch Web-Recherche am 26./27
 **Implementations-Aufwand.** Ca. 500–700 zusätzliche Code-Zeilen (davon ca. 200 für Test-Vektor-Daten). Erste Anwendung in Task 5.2 (Tests 5.2-A-09 bis 5.2-A-12). Implementierungsplan-Aktualisierung im Rahmen des Plan-Reviews.
 
 **Roadmap-Element.** Cross-Browser-Test-Matrix (Firefox, Safari) vor v1.0-Release oder vor NLnet-Audit-Antrag, je nachdem was zuerst eintritt.
+
+## Nachtrag 04.10.2026
+
+Die Ankündigungen zum NLnet-Antrag in dieser ADR (Antragsmaterial, Audit-Antrag, Reviewer) und zum NGI-Zero-Review-Programm gelten nicht mehr. Stand: Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden.

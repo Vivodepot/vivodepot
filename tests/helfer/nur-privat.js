@@ -28,7 +28,8 @@ const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 52;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
+const DECKEL = 53;   // 52 → 53 am 04.10.2026 (Gegenlesung erteilt): altkern-referenz liest das interne Fassungsregister (v894).
+                     // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
                      // 42 → 43 am 26.09.2026: build-datum-lockstep, öffentlich ein einziger Commit vom Tag der Veröffentlichung
                      // 43 → 44 am 26.09.2026: hooks-eigener-baum-suite, öffentlich ohne eingerichtete Hooks (GIT)
                      // 44 → 45 am 27.09.2026 (Gegenlesung erteilt): hooks-eigener-baum-suite entfällt (die Datei hält der require-
@@ -50,6 +51,10 @@ const DECKEL = 52;   // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der
                      //   Der Befund ZUSCHNITT-TRAEGER-AUSSERHALB holt den Deckel auf 50 zurück.
 
 const NUR_PRIVAT = {
+  // 04.10.2026 (Gegenlesung erteilt): das Fassungsregister ist intern; der Rest der Datei (Auswahl, Rot-Beweise, benannter Abbruch) bleibt öffentlich.
+  "tests/altkern-referenz.test.js": { grund: BESTAND, tests: [
+    "[Altkern-Referenz] das echte Register liefert eine Referenz",
+  ] },
   // 02.10.2026 (Gegenlesung erteilt): die SBOM nennt bei qrcode-generator das Studio als zusätzlichen Träger; die Träger werden
   // per Marker in den Dateien des Repos gesucht, und die Studio-Datei hält der Zuschnitt zurück. Die Rot-Beweise mit
   // erfundenen Dateien bleiben öffentlich. Befund ZUSCHNITT-TRAEGER-AUSSERHALB.

@@ -1,0 +1,5 @@
+{
+  "_zweck": "Gepinnte Fassung des HL7 FHIR Validators (validator_cli) mit SHA-256. tools/lib/hl7-validator-beleg.js erkennt daran den gepinnten Jar. Herkunft der Prüfsumme: GitHub-Release-API, Feld digest (gh api repos/hapifhir/org.hl7.fhir.core/releases/tags/6.9.12). Entscheidung der Geschäftsführung 06.08.2026: feste Versionsangabe und SHA-256, kein Re-Hosting. Gleichlauf mit der Beschaffung hält eine interne Probe fest.",
+  "version": "6.9.12",
+  "sha256": "0e53ab1d1a6f1e35f505255c0b8ce10a35fcf27e6e96b503640f784cd07e5ad6"
+}

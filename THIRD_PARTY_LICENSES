@@ -3,8 +3,8 @@ THIRD-PARTY LICENSES — vivodepot.html
 
 Die Vivodepot Bürger-App ist EUPL-1.2 lizenziert (siehe LICENSE / SPDX-Header in
 der HTML-Datei). Sie bettet Drittsoftware INLINE und OFFLINE ein. Diese Datei führt
-den TATSÄCHLICHEN Stand: aktuell sind jsPDF (mit pako als Bestandteil) und qrcode-generator
-wirklich eingebettet. Der SBOM
+den TATSÄCHLICHEN Stand: aktuell sind jsPDF (mit pako als Bestandteil), qrcode-generator und
+noble-ed25519 wirklich eingebettet. Der SBOM
 (vivodepot.sbom.cdx.json, CycloneDX 1.4) spiegelt denselben Stand.
 
 -------------------------------------------------------------------------------
@@ -195,6 +195,94 @@ strings:passwortWortliste.text)
     scare scary sect shaft slain slit slob slum snort swab swear taunt theft thong
     trump viral virus vixen widow wimp womb wound wrath wreck xerox yahoo yo-yo
 
+6) noble-ed25519, Commit fa14496 (Tag 1.6.0-pre-audit) — STATUS: inline (ES-Modul-Block
+   `@vd-lib name="noble-ed25519"`, id=noble_ed25519_VivodepotInline, vor qrcode-generator;
+   U2-ADR-457, Nachtrag v865)
+   Autor: Paul Miller
+   Bezug: https://github.com/paulmillr/noble-ed25519 (Commit fa14496908cf286da53d17b739accd8f7c3790be)
+   purl:  pkg:github/paulmillr/noble-ed25519@fa14496908cf286da53d17b739accd8f7c3790be
+   SPDX-License-Identifier: MIT
+   Geprüft von Cure53 an genau diesem Commit (pentest-report_ed25519.pdf, 02/2022, S. 4).
+   Build: `tsc -p tsconfig.esm.json --types node` (typescript 4.5.4, @types/node 16.11.21), lib/esm/index.js,
+   SHA-256 579c9fe63a4c54602f3655353173885241e4fe67e1ed55abd40a420d54d02517.
+   Geändert (Altered source, MIT-Hinweis unten bleibt): die eine Zeile `import nodeCrypto from 'crypto';` ist durch
+   `const nodeCrypto = undefined;` ersetzt (Node-Import, im Browser nicht auflösbar). Eingebettet:
+   SHA-256 15974ff9d8ae30b1a5c649f7e03857b4341a7faac4decb26fd1f57bc5153201b.
+   Konsument: nur getPublicKey, in der Ableitung des Halter-Schlüssels (deriveHalterSignaturV4); signiert wird mit WebCrypto.
+
+   The MIT License (MIT)
+
+   Copyright (c) 2019 Paul Miller (https://paulmillr.com)
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the “Software”), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+
+-------------------------------------------------------------------------------
+6) Lucide-Icons — STATUS: inline (Pfaddaten als Text in der Skript-Konstante `const ICONS`)
+   Autor: Lucide Contributors; Feather-Anteil: Cole Bemis
+   Bezug: https://lucide.dev — https://github.com/lucide-icons/lucide (npm: lucide-static)
+   SPDX-License-Identifier: ISC AND MIT   (ISC für Lucide, MIT für die aus Feather stammenden Icons)
+   Eingebettet sind 35 Icons. Gemessen am 02.10.2026 gegen lucide-static 0.200.0, 0.300.0 bis
+   0.495.0 (jede fünfte Fassung), 1.0.0 und 1.50.0: 31 stehen in mindestens einer dieser Fassungen
+   wörtlich so, keine einzelne Fassung trägt alle. Vier sind verändert: heart-pulse, contrast,
+   volume-2, square. Aus Feather stammen laut LICENSE von lucide-static: lock, alert-triangle,
+   plus, chevron-right, moon, x, square, clock, help-circle.
+   Wortlaut ISC aus LICENSE von lucide-static 0.350.0 (gleich in 0.400.0),
+   Wortlaut MIT aus LICENSE von feather-icons 4.29.2:
+
+   ISC License
+
+   Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT). All other copyright (c) for Lucide are held by Lucide Contributors 2022.
+
+   Permission to use, copy, modify, and/or distribute this software for any
+   purpose with or without fee is hereby granted, provided that the above
+   copyright notice and this permission notice appear in all copies.
+
+   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+   WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+   MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+   ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+   WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+   ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+   OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+   The MIT License (MIT)
+
+   Copyright (c) 2013-2023 Cole Bemis
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
 -------------------------------------------------------------------------------
 CODE-LISTEN (Paket 3 — text+code-Andock)
 -------------------------------------------------------------------------------
@@ -291,6 +379,47 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     KBV MIO Parser / Copyright 2020 - 2022 Kassenärztliche Bundesvereinigung
     URI: https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk
 
+  • IHE Deutschland — Value Sets for XDS, Version 4.0.0, vier Codes
+    Genutzt werden IHEXDStypeCode PATD „Patienteneigene Dokumente“, IHEXDSclassCode ADM
+    „Administratives Dokument“ und PAT „Patient außerhalb der Betreuung“ aus
+    NichtPatientBezogeneGesundheitsversorgung und NichtaerztlicheFachrichtungen, unverändert, in der
+    Ausgabe für Krankenhäuser (ISiK Stufe 6, U2-ADR-468), seit v863. Quelle: IHE Deutschland e.V.,
+    https://github.com/IHE-Germany/ITI.XDS.VS, Commit aa1e0e5bed8c5fbcf3ff64636dbce74e6ca8f3b1,
+    input/fsh/typeCode.fsh, classCode.fsh, facilityTypeNichtPatientenbezogen.fsh,
+    practiceSettingNonDoctoral.fsh. Lizenz: Creative Commons Attribution 4.0 International
+    (CC BY 4.0, https://creativecommons.org/licenses/by/4.0/), angegeben in sushi-config.yaml und
+    in jedem CodeSystem. Codes und Anzeigetexte sind gleich denen in de.ihe-d.terminology 3.0.1
+    (Weg zum Nachsehen: tools/fhir-paket-herkunft-vergleichen.js --codes).
+    URIs: http://ihe-d.de/CodeSystems/IHEXDStypeCode, …/IHEXDSclassCode,
+    …/NichtPatientBezogeneGesundheitsversorgung, …/NichtaerztlicheFachrichtungen
+
+  • IHE formatcode — ein Code
+    Genutzt wird urn:ihe:iti:xds:2017:mimeTypeSufficient in der Ausgabe für Krankenhäuser (ISiK).
+    Some content from IHE® Copyright © 2015 IHE International, Inc. Lizenz: Creative Commons
+    Attribution 4.0 International (CC BY 4.0, https://creativecommons.org/licenses/by/4.0/), laut
+    Paket und Implementierungsleitfaden ihe.formatcode.fhir.
+    URI: http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode
+
+  • HL7 Terminology (THO) — Codes aus elf Codesystemen
+    allergyintolerance-clinical, allergyintolerance-verification, condition-clinical,
+    consentcategorycodes, consentscope, list-empty-reason, provenance-participant-type,
+    v3-Confidentiality, v3-NullFlavor, v3-RoleClass, v3-RoleCode. Je System im Feld copyright,
+    in allen elf gleich: „THO is copyright ©1989+ Health Level Seven International and is made
+    available under the CC0 designation.“ (CC0 1.0,
+    https://creativecommons.org/publicdomain/zero/1.0/). Nicht darunter: iso-21089-lifecycle
+    (Code transmit) trägt „Copyright by ISO International“; die Weitergabe ist angefragt.
+    URIs: http://terminology.hl7.org/CodeSystem/<id>
+
+  • KDL (Klinische Dokumentenklassen-Liste, DVMD e.V.) — nicht Teil von Vivodepot
+    Die Person lädt die KDL selbst unter GPL-3.0-or-later („KDL selbst laden“, U2-ADR-468,
+    Nachtrag 02.10.2026); Vivodepot verteilt nichts aus ihr. Der Kern kennt nur die zwei
+    Codes AM160103 und AM160199 der ISiK-Ausgabe und die URI, keine Bezeichnung; eingelesen
+    und im Depot der Person abgelegt werden nur diese zwei Begriffe mit Herkunft. Die
+    ISiK-Ausgabe bleibt bis zur abgeschlossenen rechtlichen Prüfung gesperrt.
+    Quelle: https://packages.fhir.org/dvmd.kdl.r4 (Paket dvmd.kdl.r4), Lizenz laut
+    KDL-Implementierungsleitfaden 2025 (simplifier.net): GPL-3.0-or-later,
+    https://www.gnu.org/licenses/gpl-3.0.html. URI: http://dvmd.de/fhir/CodeSystem/kdl
+
   • STUBS (leer, keine Codes):
     esco — ESCO-Klassifikation der Europäischen Kommission, Weiterverwendung nach dem
     Beschluss 2011/833/EU der Kommission. Mit den ersten Daten kommt der Pflichtsatz
@@ -299,6 +428,17 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Herausgeber BLK-AG IT-Standards in der Justiz), bezogen über XRepository (KoSIT).
     Die Nutzungsbedingungen verlangen die Genehmigung des Herausgebers; sie ist angefragt,
     bis dahin trägt die Liste keine Daten.
+
+-------------------------------------------------------------------------------
+PROGRAMMZEICHEN — STATUS: inline (data:-URI, YB_ZEICHEN im Kern)
+-------------------------------------------------------------------------------
+  • xShare Yellow Button — Visual Identity Kit des Horizon-Europe-Vorhabens xShare
+    (Grant Agreement No. 101136734), Stand 22.07.2026, bereitgestellt zur Verwendung in
+    Yellow-Button-Implementierungen. Drei Varianten („Full – light background" für DOWNLOAD,
+    UPLOAD, ONE_TIME_SHARE), auf 136×64 px verkleinert, sonst unverändert. Das Kit enthält keine
+    eigenen Nutzungsbedingungen.
+    Quelle: https://xshare-project.eu/wp-content/uploads/2026/07/xShare-Yellow-Button-Visual-identity-kit.zip
+    SBOM-Eintrag: xshare-yellow-button (Hash je dekodiertem PNG).
 
 -------------------------------------------------------------------------------
 Hinweis: Es wird hier bewusst NICHTS als eingebettet geführt, was nicht im Code

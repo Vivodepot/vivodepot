@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v857.
+Erzeugt aus der veröffentlichten Fassung v917.
 
 ---
 
@@ -76,11 +76,11 @@ Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.
 
 ## Zahlen
 
-- Suite: 12034 · E2E: 535 · Wächter-Register: 127
-- Schema-Version: 91 · SCHALEN_STAND: v857 · Build-Version: v1.0
-- ADR-Register: 421 Einträge
+- Suite: 12034 · E2E: 570 · Wächter-Register: 142
+- Schema-Version: 91 · SCHALEN_STAND: v917 · Build-Version: v1.0
+- ADR-Register: 426 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-02, Fassung v857. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-04, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -120,14 +120,14 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-02, Fassung v857. Diese Zahlen ve
 
 ## Unterordner unter `docs/`
 
-- `docs/adr/` — 451 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 456 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)
 - `docs/blattformat-modul/` — 1 Datei(en)
 - `docs/branding-modul/` — 1 Datei(en)
 - `docs/cra/` — 3 Datei(en), siehe [`docs/cra/README.md`](docs/cra/README.md)
-- `docs/design-modul/` — 1 Datei(en)
+- `docs/design-modul/` — 2 Datei(en)
 - `docs/e2e-cross/` — 1 Datei(en), siehe [`docs/e2e-cross/README.md`](docs/e2e-cross/README.md)
 - `docs/ereignis-achse-modul/` — 1 Datei(en)
 - `docs/erscheinung-modul/` — 1 Datei(en)

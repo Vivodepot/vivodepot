@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; require('./helfer/platz-isoliert.js').platzIsolieren();   // eigener Suite-Platz (PLATZ-LECK-HOOK-TESTS); in derselben Zeile, damit keine Zeilennummer wandert
 /* U2-ADR-273 (Wecker): der Abbruch beendet die GRUPPE, nicht nur den Elternprozeß.
    Diese Probe fährt den Zeitüberschreitungs-Pfad DIREKT — sie benutzt bewusst NICHT `npm test`.
    Die Frage ist „lebt danach noch etwas", und die wird von 6900 Prüfungen nur verdeckt und

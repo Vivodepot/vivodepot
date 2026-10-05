@@ -47,11 +47,12 @@ function belegVorhanden(tree, belegDir = belegVerzeichnis()) {
   catch (_) { return false; }
 }
 
-function belegSchreiben(tree, hook, belegDir = belegVerzeichnis()) {
+// `extra` (02.10.2026): ein Beleg vom eigenen Runner (Vorprüfung vor dem Push) trägt SHA, Lauf-ID, Adresse und Label.
+function belegSchreiben(tree, hook, belegDir = belegVerzeichnis(), extra = {}) {
   if (!/^[0-9a-f]{40,64}$/.test(tree)) throw new Error('kein Baum-Hash: ' + tree);
   const dir = belegDir;
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, tree), JSON.stringify({ tree, hook, stufe: 'voll', geschriebenAm: new Date().toISOString() }) + '\n');
+  fs.writeFileSync(path.join(dir, tree), JSON.stringify({ ...extra, tree, hook, stufe: 'voll', geschriebenAm: new Date().toISOString() }) + '\n');
 }
 
 function arbeitsbaumSauber() {

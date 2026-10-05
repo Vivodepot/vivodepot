@@ -28,7 +28,122 @@
       ],
       "importwege": [],
       "bezuege": null,
-      "grund": "Geprüft von tools/snomed-gps-abgleich.js gegen den gepinnten Release (aktiv, Begriff = US Preferred Term) und von den SNOMED-Proben der Suite (Anzeige, Nutzungsmuster, Namensnennung); kein externer Prüfer-Adapter — eine Codeliste, kein Validator."
+      "grund": "Geprüft von tools/snomed-gps-abgleich.js gegen den gepinnten Release (aktiv, Begriff = US Preferred Term) und von den SNOMED-Proben der Suite (Anzeige, Nutzungsmuster, Namensnennung); kein externer Prüfer-Adapter — eine Codeliste, kein Validator.",
+      "pruefer": "tools/snomed-gps-abgleich.js"
+    },
+    {
+      "id": "eqf",
+      "name": "Europäischer Qualifikationsrahmen (EQF), Niveaus 1–8",
+      "version": "EU Vocabularies, Schema V.4 (http://data.europa.eu/snb/eqf/25831c2)",
+      "herausgeber": "Europäische Kommission / Amt für Veröffentlichungen der EU",
+      "quelle": {
+        "url": "https://publications.europa.eu/resource/authority/snb/eqf/25831c2",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "CC BY 4.0 für Inhalte im Eigentum der EU (Copyright-Hinweis des Amts für Veröffentlichungen, https://op.europa.eu/en/web/about-us/legal-notices/publications-office-of-the-european-union-copyright, nachgesehen 01.10.2026); Beschluss 2011/833/EU. Liste im Repo: tools/codelisten-amtlich/eqf-dqr.json."
+      },
+      "richtung": [
+        "empfangen",
+        "verwahren",
+        "pruefen"
+      ],
+      "bereich": "bildung",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "bildungsangaben"
+      ],
+      "bezuege": null,
+      "grund": "Der Kern verwahrt Europass-Nachweise samt EQF-Kennung, wertet sie aber nicht aus. tools/codelisten-amtlich-abgleich.js prüft jede EQF-Kennung in den verwahrten Beispielen und im Kern gegen die acht Stufen der amtlichen Liste.",
+      "pruefer": "tools/codelisten-amtlich-abgleich.js"
+    },
+    {
+      "id": "dqr",
+      "name": "Deutscher Qualifikationsrahmen (DQR), Niveaus 1–8",
+      "version": "EU Vocabularies qdr, Schema v.10 (DQR-Rahmen http://data.europa.eu/snb/qdr/c_ef113b94)",
+      "herausgeber": "BMBF und KMK; als Vokabular: Amt für Veröffentlichungen der EU",
+      "quelle": {
+        "url": "https://publications.europa.eu/resource/authority/snb/qdr/c_ef113b94",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Wie eqf: CC BY 4.0 für Inhalte im Eigentum der EU (Copyright-Hinweis des Amts für Veröffentlichungen, nachgesehen 01.10.2026). Liste im Repo: tools/codelisten-amtlich/eqf-dqr.json; die Zuordnung DQR n → EQF n ist das skos:closeMatch des Vokabulars."
+      },
+      "richtung": [
+        "empfangen",
+        "verwahren",
+        "pruefen"
+      ],
+      "bereich": "bildung",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "bildungsangaben"
+      ],
+      "bezuege": null,
+      "grund": "Wie eqf: verwahrt, nicht ausgewertet. Der Abgleich prüft DQR-Kennungen gegen die acht Stufen und dass jede Stufe n der EQF-Stufe n entspricht; Kennungen fremder nationaler Rahmen werden gezählt, nicht bewertet.",
+      "pruefer": "tools/codelisten-amtlich-abgleich.js"
+    },
+    {
+      "id": "iso-4217",
+      "name": "ISO 4217 Währungscodes",
+      "version": "List One der Maintenance Agency (SIX), geprüft gegen die Fassung vom 2026-09-17",
+      "herausgeber": "ISO; Maintenance Agency SIX Group",
+      "quelle": {
+        "url": "https://www.six-group.com/en/products-services/financial-information/data-standards.html",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Die Norm ist ISO-urheberrechtlich geschützt; die Codeliste veröffentlicht SIX als Maintenance Agency „free of charge“ (SIX, Seite Data Standards, nachgesehen 01.10.2026). Eine Weitergabe der Liste ist dort nicht geregelt, deshalb liegt sie nicht im Repo: Abgleich per --iso4217 <list-one.xml>, die Suite fährt eine erfundene Fixture. Codes zu verwenden ist frei."
+      },
+      "richtung": [
+        "schreiben",
+        "lesen"
+      ],
+      "bereich": "finanzen",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "camt053"
+      ],
+      "bezuege": null,
+      "grund": "Die Währungsfelder bieten EUR/USD/GBP/CHF und „sonstige“; der Textsatz prüft nur die Form /^[A-Z]{3}$/. tools/codelisten-amtlich-abgleich.js prüft jede verwendete Währung (Optionen, Textsatz-Vorgabe, CAMT-Fixtures) gegen die Liste; am 01.10.2026 gegen die Fassung vom 17.09.2026: alle 29 Vorkommen gültig. Offen bleibt die Form-statt-Liste-Prüfung im Kern.",
+      "pruefer": "tools/codelisten-amtlich-abgleich.js"
+    },
+    {
+      "id": "iso-13616-iban",
+      "name": "ISO 13616 IBAN (Länge je Land, Prüfziffer nach ISO 7064 mod 97-10)",
+      "version": "IBAN-Register der Registration Authority (SWIFT)",
+      "herausgeber": "ISO; Registration Authority SWIFT",
+      "quelle": {
+        "url": "https://www.swift.com/standards/data-standards/iban-international-bank-account-number",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Die Norm ist ISO-urheberrechtlich geschützt; das Register veröffentlicht SWIFT öffentlich. Weitergabe nicht geprüft, deshalb nicht im Repo: Abgleich per --iban-register <txt>; die Suite fährt eine erfundene Fixture. swift.com verweigerte am 01.10.2026 den automatischen Abruf (HTTP 403), die Datei wird von Hand geladen."
+      },
+      "richtung": [
+        "lesen",
+        "pruefen"
+      ],
+      "bereich": "finanzen",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "camt053"
+      ],
+      "bezuege": null,
+      "grund": "Der Kern prüft Länge (IBAN_LAENGE, 35 SEPA-Länder) und Prüfziffer mod 97 (_ibanPlausibel, Vektoren in tests/camt-iban-plausibel.test.js); die Prüfziffer braucht das Register nicht. Register-Abgleich offen, manueller Abruf nötig: tools/codelisten-amtlich-abgleich.js --iban-register <txt> gleicht Längentabelle und Beispiel-IBANs ab, sobald die Datei von swift.com von Hand geladen ist (automatischer Abruf am 01.10.2026: HTTP 403). Ein BIC-Abgleich (ISO 9362) ist nicht gebaut.",
+      "pruefer": "tools/codelisten-amtlich-abgleich.js"
     }
   ]
 }

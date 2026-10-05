@@ -74,7 +74,7 @@ Lizenz und Verfügbarkeit sind zwei Fragen. Unter EUPL-1.2 steht alles, was von 
 - Der Nachweis-Aussteller (VC-Issuer): im öffentlichen Repository
 - Das Schlüssel-Teilen: im öffentlichen Repository
 - Der Konfektionierer: im öffentlichen Repository
-- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (3 von 10 zurückgehalten)
+- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (3 von 11 zurückgehalten)
 - Die Modul- und Vorlagen-Erzeuger: derzeit nicht im öffentlichen Repository
 <!-- VERFUEGBARKEIT:END de -->
 
@@ -167,7 +167,7 @@ Licence and availability are two questions. Everything that comes from us is und
 - The credential issuer (VC issuer): in the public repository
 - Key sharing: in the public repository
 - The product assembler: in the public repository
-- The signing and certificate tools: partly in the public repository (3 of 10 held back)
+- The signing and certificate tools: partly in the public repository (3 of 11 held back)
 - The module and template builders: currently not in the public repository
 <!-- VERFUEGBARKEIT:END en -->
 

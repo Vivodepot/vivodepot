@@ -22,6 +22,7 @@ const REGISTER_DIR = path.join(REPO, 'tools', 'standards-register');
 const MANIFEST = path.join(REPO, 'tools', 'standards-artefakte.json');
 const ADAPTER_DIR = path.join(REPO, 'tests', 'konformitaet', 'adapter');
 const INLINE_VALIDATOREN = path.join(REPO, 'tests', 'konformitaet', 'externe-validatoren.mjs');
+const DECKUNG_GRUNDLINIE = path.join(REPO, 'tools', 'standards-register-deckung-grundlinie.json');
 
 const FAMILIEN = Object.freeze(['fhir-ig', 'xml-xsd', 'rdf-shacl', 'json-schema', 'signatur', 'codeliste', 'pdf', 'text-rfc', 'barrierefreiheit']);
 const STATUS = Object.freeze(['echt', 'teilweise', 'orientiert', 'fehlt', 'strukturell-nicht-erzeugbar', 'kein-standard-vorhanden']);
@@ -133,6 +134,50 @@ function pruefeRegister(dateien, kontext) {
   return m;
 }
 
+/* ── Deckung: jedes Format steht im Register, jede Zeile hat einen Prüfer oder sagt, warum nicht ──────
+   Grundsatz des Projekts (30.09.2026): „Für jeden Standard muss es mindestens einen Prüfer geben.“ Eine Zeile hat einen Prüfer,
+   wenn sie `echt` ist (dann urteilt ihr Adapter, s. oben) oder `pruefer` auf eine Prüfdatei im Repo zeigt, die über sie
+   urteilt (etwa ein gemessener Lauf, der nur wegen der Lizenz `teilweise` bleibt). Ohne Prüfer trägt sie `kandidat`
+   (der Prüfer existiert, ist noch nicht eingehängt) oder `suche` (belegt, dass es keinen gibt) — sonst rot. Die Zahl der
+   Zeilen ohne Prüfer steht in tools/standards-register-deckung-grundlinie.json und darf nur sinken. */
+function hatPruefer(s) { return s.status === 'echt' || (typeof s.pruefer === 'string' && s.pruefer.length > 0); }
+/**
+ * @param dateien    wie pruefeRegister
+ * @param kontext    { exportIds, importIds, dateiExistiert: (relPfad) => bool }
+ * @param grundlinie { ohnePruefer: Zahl } oder null (dann kein Deckel-Vergleich)
+ */
+function pruefeDeckung(dateien, kontext, grundlinie) {
+  const m = [];
+  const ex = new Set(), im = new Set();
+  let ohne = 0;
+  for (const { datei, inhalt: r } of dateien) {
+    for (const s of liste(r && r.standards)) {
+      if (!s || !s.id) continue;
+      const wer = datei + ' › ' + s.id;
+      liste(s.exportwege).forEach((w) => ex.add(w));
+      liste(s.importwege).forEach((w) => im.add(w));
+      if (s.pruefer !== undefined && s.pruefer !== null) {
+        if (typeof s.pruefer !== 'string' || !s.pruefer) m.push(wer + ': pruefer ist der Pfad einer Prüfdatei im Repo');
+        else if (!kontext.dateiExistiert(s.pruefer)) m.push(wer + ': pruefer ' + s.pruefer + ' gibt es nicht');
+      }
+      if (hatPruefer(s)) continue;
+      ohne += 1;
+      const k = s.kandidat, su = s.suche;
+      const kandidatOk = k && k.werkzeug && /^https:\/\//.test(String(k.quelle || ''));
+      const sucheOk = su && /^https:\/\//.test(String(su.quelle || '')) && su.ergebnis;
+      if (!kandidatOk && !sucheOk) m.push(wer + ': ohne Prüfer — kandidat {werkzeug, quelle (https)} oder suche {quelle (https), ergebnis} gehört dazu');
+    }
+  }
+  for (const w of kontext.exportIds) if (!ex.has(w)) m.push('Exportweg ' + w + ' steht in keiner Registerzeile');
+  for (const w of kontext.importIds) if (!im.has(w)) m.push('Importweg ' + w + ' steht in keiner Registerzeile');
+  if (grundlinie) {
+    const soll = grundlinie.ohnePruefer;
+    if (ohne > soll) m.push('Zeilen ohne Prüfer: ' + ohne + ', Deckel ' + soll + ' — eine neue Zeile ohne Prüfer hebt den Deckel nur mit Wort der Gegenlesung');
+    else if (ohne < soll) m.push('Zeilen ohne Prüfer: ' + ohne + ', Deckel ' + soll + ' steht zu hoch — in tools/standards-register-deckung-grundlinie.json senken');
+  }
+  return { maengel: m, ohnePruefer: ohne };
+}
+
 /* ── Adapter-Signatur ─────────────────────────────────────────────────────── */
 const ADAPTER_FELDER = Object.freeze(['id', 'familie', 'autoritaet', 'prueft', 'werkzeugVersion', 'vorhanden', 'urteile', 'artefakte', 'kaputt']);
 function pruefeAdapter(a, wo) {
@@ -183,12 +228,18 @@ function bezuegeIdsLesen() {
 }
 function kontextLesen() {
   const { exportIds, importIds } = formatIdsLesen(fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8'));
-  return { manifest: manifestLesen(), adapterIds: adapterIdsLesen(), exportIds, importIds, bezuegeIds: bezuegeIdsLesen() };
+  return { manifest: manifestLesen(), adapterIds: adapterIdsLesen(), exportIds, importIds, bezuegeIds: bezuegeIdsLesen(),
+    dateiExistiert: (rel) => fs.existsSync(path.join(REPO, rel)) };
+}
+function deckungGrundlinieLesen(pfad = DECKUNG_GRUNDLINIE) {
+  return JSON.parse(fs.readFileSync(pfad, 'utf8'));
 }
 
 function main() {
   const kontext = kontextLesen();
-  const maengel = [...pruefeManifest(kontext.manifest), ...pruefeRegister(registerLesen(), kontext)];
+  const register = registerLesen();
+  const maengel = [...pruefeManifest(kontext.manifest), ...pruefeRegister(register, kontext),
+    ...pruefeDeckung(register, kontext, deckungGrundlinieLesen()).maengel];
   if (!maengel.length) { console.log('[standards-register] Register und Manifest stimmig.'); return 0; }
   for (const x of maengel) console.error('[standards-register] ' + x);
   return 1;
@@ -197,6 +248,6 @@ function main() {
 if (require.main === module) process.exitCode = main();
 module.exports = {
   FAMILIEN, STATUS, LIZENZ, RICHTUNG, BEREICH, HOLDER_ERLAUBT, ADAPTER_FELDER,
-  pruefeManifest, pruefeRegister, pruefeAdapter, kaputtListe,
+  pruefeManifest, pruefeRegister, pruefeDeckung, hatPruefer, pruefeAdapter, kaputtListe, deckungGrundlinieLesen,
   registerLesen, manifestLesen, adapterIdsLesen, formatIdsLesen, bezuegeIdsLesen, kontextLesen,
 };

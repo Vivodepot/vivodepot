@@ -170,6 +170,8 @@ test('Abnahme 3 — nach Löschen + Speichern + erneutem Öffnen ist keine Spur 
   assert.equal(wieder.length, 1, 'nur der eine verbliebene Eintrag');
   assert.equal(wieder[0].kennung, bleibt.kennung);
   assert.equal(JSON.stringify(wieder).includes('Gelöscht'), false, 'keine Spur des gelöschten Empfängers');
+  // Die Kennung im ENTSCHLÜSSELTEN Depot — die Suche im rohen Umschlag unten fände nur ein Klartext-Leck im Gerüst.
+  assert.equal(JSON.stringify(K2.V.getData()).includes(weg.kennung), false, 'keine Spur der gelöschten Kennung im entschlüsselten Depot');
   assert.equal(JSON.stringify(umschlag).includes(weg.kennung), false, 'auch im rohen Umschlag keine Spur (Klartext wäre ohnehin ein Krypto-Bruch)');
 });
 

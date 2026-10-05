@@ -31,6 +31,9 @@ const OPERATIONEN = Object.freeze({
   encrypt: /\.encrypt\(/,
   deriveBits: /\.deriveBits\(/,
   importKeyRaw: /\.importKey\(\s*['"]raw['"]/,
+  // U2-ADR-457, Nachtrag v865: die Stelle, die die eingebettete noble-ed25519 in die Ableitung des Halter-Schlüssels reicht
+  // (Übergabe ohne Aufrufklammer). Genau eine; eine zweite hieße, eine Funktion sieht den geheimen Seed.
+  halterOeffentlichAusSeed: /\b_ed25519OeffentlichAusSeed\b(?!\s*\()/,
 });
 
 function blockGrenzen(zeilen) {

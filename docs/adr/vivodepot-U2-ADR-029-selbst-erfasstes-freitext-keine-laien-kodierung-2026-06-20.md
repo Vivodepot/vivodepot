@@ -3,7 +3,7 @@
 **Status:** Akzeptiert (Prinzip entschieden 20.06.2026; Kern-Datenmodell bereits konform; UI-Code-Auswahl-Audit als Folge offen)
 **Datum:** 20.06.2026
 **Kategorie:** ARCHITEKTUR-PRINZIP, PRODUKT, RECHT/HAFTUNG
-**Grundlage (intern):** Klärungs-Doc „Terminologie/Trust-Schichten" (VD Review 7, 20.06.2026), Punkt 1 — entschieden. Flankiert von Punkt 2 (institutionell = kodiert), Punkt 5 (strikte Anbieter-Kodier-Linie), Punkt 8 (strukturelle statt inhaltliche Zertifizierung).
+**Grundlage (intern):** Klärungs-Doc „Terminologie/Trust-Schichten" (Review vom 20.06.2026), Punkt 1 — entschieden. Flankiert von Punkt 2 (institutionell = kodiert), Punkt 5 (strikte Anbieter-Kodier-Linie), Punkt 8 (strukturelle statt inhaltliche Zertifizierung).
 **Drei-Anker:**
 - **Code-Stelle:** `vivodepot.html` — `sektorFeldSetzen` (Wert bleibt schlichter String), `codeSlotSicherstellen` (leerer Andockpunkt = `null`), `liesCode` („null, solange kein Template ihn setzt"). Provenienz über `eingabeArt` (`'import'` = institutionell) (U2-ADR-005).
 - **Sprint-Commit:** dieser ADR (Prinzip-Festschreibung, kein Code-Eingriff).
@@ -46,4 +46,4 @@ UI-Ebene gegen Punkt 5 prüfen: Bietet **irgendein** Feld der Bürgerin heute ei
 Herkunft pro Feld + Übergang selbst-gehalten→beglaubigt (Punkt 3/4) · strikte Anbieter-Kodier-Linie Phase 1 (Punkt 5) · Terminologie als eigener Modul-Typ, falls überhaupt (Punkt 6 — erst Template-Mechanismus v0.3 lesen) · strukturelle statt inhaltliche Zertifizierung (Punkt 8, in Block C/U2-ADR-028 bereits angelegt).
 
 ## Cross-Referenz
-U2-ADR-005 (Urheberschaft/Provenienz) · U2-ADR-006 (Code-Slot-Andock) · U2-ADR-028 (Ebene 3a, strukturelle Verifikation) · Klärungs-Doc VD Review 7 (intern, nicht im Repo).
+U2-ADR-005 (Urheberschaft/Provenienz) · U2-ADR-006 (Code-Slot-Andock) · U2-ADR-028 (Ebene 3a, strukturelle Verifikation) · Klärungs-Doc vom 20.06.2026 (intern, nicht im Repo).

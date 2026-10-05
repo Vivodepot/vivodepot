@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; require('./helfer/platz-isoliert.js').platzIsolieren();   // eigener Suite-Platz (PLATZ-LECK-HOOK-TESTS); in derselben Zeile, damit keine Zeilennummer wandert
 /* ════════════════════════════════════════════════════════════════════════
    Wächter — die versionierten Hooks sind AUCH die laufenden
    ────────────────────────────────────────────────────────────────────────

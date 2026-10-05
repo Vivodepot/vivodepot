@@ -1,0 +1,76 @@
+{
+ "snapshot": {
+  "element": [
+   {
+    "id": "DocumentReference",
+    "path": "DocumentReference",
+    "min": 0,
+    "max": "*"
+   },
+   {
+    "id": "DocumentReference.type",
+    "path": "DocumentReference.type",
+    "min": 1,
+    "binding": {
+     "strength": "required",
+     "valueSet": "https://example.org/fhir/ValueSet/beispiel-typ"
+    }
+   },
+   {
+    "id": "DocumentReference.extension:herkunft",
+    "path": "DocumentReference.extension",
+    "sliceName": "herkunft",
+    "type": [
+     {
+      "code": "Extension",
+      "profile": [
+       "https://example.org/fhir/StructureDefinition/beispiel-herkunft"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "text": {
+  "status": "generated",
+  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">erzeugt</div>"
+ },
+ "date": "2026-07-01",
+ "version": "1.0.0",
+ "differential": {
+  "element": [
+   {
+    "id": "DocumentReference.type",
+    "path": "DocumentReference.type",
+    "min": 1,
+    "binding": {
+     "strength": "required",
+     "valueSet": "https://example.org/fhir/ValueSet/beispiel-typ"
+    }
+   },
+   {
+    "id": "DocumentReference.extension:herkunft",
+    "path": "DocumentReference.extension",
+    "sliceName": "herkunft",
+    "type": [
+     {
+      "code": "Extension",
+      "profile": [
+       "https://example.org/fhir/StructureDefinition/beispiel-herkunft"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "derivation": "constraint",
+ "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DocumentReference",
+ "type": "DocumentReference",
+ "abstract": false,
+ "kind": "resource",
+ "status": "active",
+ "name": "BeispielDokument",
+ "url": "https://example.org/fhir/StructureDefinition/BeispielDokument",
+ "id": "BeispielDokument",
+ "resourceType": "StructureDefinition"
+}

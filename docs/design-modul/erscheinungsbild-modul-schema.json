@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schema/erscheinungsbild-modul.json",
+  "title": "Vivodepot · Erscheinungsbild-Modul (U2-ADR-473 Nachtrag, v894)",
+  "description": "Die Ab-Werk-Werte eines Produkts (heute) oder ein Profil, als Rezept-Zutat erscheinungsbildModul in die Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT gebacken. FORM hier; die Namen (ERSCHEINUNGSBILD_REGELN.token), geschützten Tokens und Schutzregeln (Kontrast je Ebene, Mindestgrößen) prüft der Kern selbst (erscheinungsbildPruefen) und produktTextErzeugen beim Bauen — ein Schema kann sie nicht ausdrücken. Quelle von heute: tools/erscheinung/heute.css → node tools/erscheinungsbild-modul.js.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "modulTyp",
+    "id",
+    "basis"
+  ],
+  "properties": {
+    "modulTyp": {
+      "const": "erscheinungsbild"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,40}$"
+    },
+    "basis": {
+      "type": "object",
+      "description": "Werte unter :root.",
+      "propertyNames": {
+        "pattern": "^--[a-z0-9-]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/wert"
+      }
+    },
+    "hochkontrast": {
+      "type": "object",
+      "description": "Werte unter html.high-contrast, über basis.",
+      "propertyNames": {
+        "pattern": "^--[a-z0-9-]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/wert"
+      }
+    },
+    "dunkel": {
+      "type": "object",
+      "description": "Werte unter html.dark-mode, über basis.",
+      "propertyNames": {
+        "pattern": "^--[a-z0-9-]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/wert"
+      }
+    },
+    "layout": {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Layout-Beschreibung des Profils (Entscheidung vom 02.10.2026). Form und Prüfung bringt v897 (layoutBeschreibungPruefen, v897); bis dahin nur leer."
+    },
+    "stil": {
+      "type": "object",
+      "description": "Lesart B (02.10.2026): das Stylesheet je Teil als CSS-Text, Reihenfolge = Kaskade (Quelle tools/erscheinung/stil/<teil>.css, Reihenfolge stil-reihenfolge.json). Die Grammatik (At-Regeln, url(, content:, geschützte Selektoren, kein !important/</\\\\/Kommentar) prüfen Kern und Bau; ein Schema kann sie nicht ausdrücken. Nur in signierten Ab-Werk- bzw. Rezept-Modulen; das einlassbare Design-Modul trägt keinen stil.",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9-]{0,40}$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "maxLength": 600000
+      }
+    }
+  },
+  "$defs": {
+    "wert": {
+      "type": "string",
+      "pattern": "^[#a-zA-Z0-9 .,%()'\"+\\-*/]{1,300}$",
+      "not": {
+        "pattern": "url\\(|expression\\(|image-set\\(|attr\\(|/\\*|@|!|\\\\|[;{}<>]"
+      },
+      "description": "Ein Wert nach der Grammatik des Kerns (erscheinungsbildPruefen): Hex, Längen, Zahlen, var(--bekannt), color-mix, rgba, Schatten, Schriftstapel. Verboten: url( expression( image-set( attr( Kommentar @ ! Rückstrich ; { } < >."
+    }
+  }
+}

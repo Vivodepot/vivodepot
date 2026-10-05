@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; require('./helfer/platz-isoliert.js').platzIsolieren();   // eigener Suite-Platz (PLATZ-LECK-HOOK-TESTS); in derselben Zeile, damit keine Zeilennummer wandert
 /* Befund SUITE-PLATZ-TICKET-REIHENFOLGE (01.10.2026): bei gültiger Vorrang-Marke las die Platzvergabe die Tickets nicht.
    Den einen Zusatzplatz neben dem markierten Baum nahm der pre-commit, der zuerst nachsah — ein älteres Ticket wartete
    weiter, über Stunden, weil die Marke mehrfach neu gesetzt wurde. Jetzt gilt auch dort die Ankunft: der Zusatzplatz

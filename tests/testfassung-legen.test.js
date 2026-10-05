@@ -161,8 +161,11 @@ test('[Testfassung-legen] dateisatzUndIndexAblegen legt DATEISATZ plus eine inde
     }
     const index = fs.readFileSync(path.join(ziel, 'index.html'), 'utf8');
     assert.match(index, /url=\.\/vivodepot\.html/, 'index.html muss auf vivodepot.html DESSELBEN Verzeichnisses weiterleiten');
-    // Der echte Kern ist lang="de" — die Weiterleitung muss das spiegeln, nicht raten.
-    assert.match(index, /<html lang="de">/);
+    // Die Weiterleitung spiegelt die abgelegte Datei, nicht raten. Seit v894 ist das das Erzeugnis privat-de (lang="de-DE"),
+    // nicht mehr der Kern (lang="de").
+    const abgelegt = fs.readFileSync(path.join(ziel, 'vivodepot.html'), 'utf8').match(/<html lang="([^"]+)"/)[1];
+    assert.equal(abgelegt, 'de-DE', 'abgelegt wird das Erzeugnis privat-de');
+    assert.match(index, new RegExp('<html lang="' + abgelegt + '">'));
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });
 

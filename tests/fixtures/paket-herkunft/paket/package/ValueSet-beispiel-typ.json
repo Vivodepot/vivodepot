@@ -1,0 +1,19 @@
+{
+ "text": {
+  "status": "generated",
+  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">erzeugt</div>"
+ },
+ "date": "2026-07-01",
+ "version": "1.0.0",
+ "compose": {
+  "include": [
+   {
+    "system": "https://example.org/fhir/CodeSystem/beispiel-typ"
+   }
+  ]
+ },
+ "status": "active",
+ "url": "https://example.org/fhir/ValueSet/beispiel-typ",
+ "id": "beispiel-typ",
+ "resourceType": "ValueSet"
+}

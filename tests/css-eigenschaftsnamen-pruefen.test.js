@@ -11,7 +11,9 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
-const { styleOhneKommentare, ungueltigeEigenschaftsnamen } = require('../tools/css-eigenschaftsnamen-pruefen.js');
+const fs = require('node:fs');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: das Stylesheet kommt mit dem Erscheinungsbild
+const { styleOhneKommentare, ungueltigeEigenschaftsnamen, erscheinungsbildQuellen } = require('../tools/css-eigenschaftsnamen-pruefen.js');
 
 test('[K4 Zug 3] echter Kern: kein mehrwortiger CSS-Eigenschaftsname', () => {
   const { html } = ladeKern();
@@ -54,8 +56,19 @@ test('[K4 Zug 3] Negativkontrolle: nur der <style>-Block wird gescannt, nicht <s
 });
 
 test('[K4 Zug 3] styleOhneKommentare erreicht echtes CSS (Plausibilität, kein Leerlauf)', () => {
-  const { html } = ladeKern();
-  const css = styleOhneKommentare(html);
+  const css = styleOhneKommentare(kernMitHeute(ladeKern().html));
   assert.ok(css.length > 5000, 'genug CSS extrahiert, kein leerer Lauf');
   assert.ok(css.includes('--fokus:'), 'trifft echte Token-Definitionen');
+});
+
+test('[K4 Zug 3·v894] die Erscheinungsbild-Quellen sind gedeckt: heute.css und jeder stil-Teil, alle grün', () => {
+  const dateien = erscheinungsbildQuellen().map((d) => d.replace(/\\/g, '/'));
+  assert.ok(dateien.some((d) => d.endsWith('tools/erscheinung/heute.css')), 'heute.css wird gelesen');
+  assert.ok(dateien.some((d) => d.endsWith('tools/erscheinung/stil/grundlage.css')), 'stil/grundlage.css wird gelesen');
+  for (const d of dateien) assert.deepEqual(ungueltigeEigenschaftsnamen(fs.readFileSync(d, 'utf8'), { rohesCss: true }), [], d);
+});
+
+test('[K4 Zug 3·v894·Rot-Beweis] rohes CSS (ohne <style>) mit mehrwortigem Namen wird gefunden', () => {
+  const funde = ungueltigeEigenschaftsnamen('.a { grid-template- columns: 1fr; }', { rohesCss: true });
+  assert.equal(funde.length, 1);
 });

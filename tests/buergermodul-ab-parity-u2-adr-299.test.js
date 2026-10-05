@@ -89,7 +89,7 @@ test('[U2-ADR-299] SEKTOREN/Feld-Definitionen: das Bündel nennt für JEDEN Sekt
   for (const s of V.SEKTOREN) for (const sek of (s.sektionen || [])) for (const f of (sek.felder || [])) {
     if (f.pvBmjAbgeleitet === true) abgeleitet.add(s.id + '.' + f.id);
   }
-  assert.equal(abgeleitet.size, 29, 'die 29 abgeleiteten Festlegungen sind da — sonst misst die Ausnahme nichts');
+  assert.equal(abgeleitet.size, 30, 'die 30 abgeleiteten Festlegungen sind da — sonst misst die Ausnahme nichts');   // 29 → 30 (U2-ADR-459)
   for (const sid of ALLE_SEKTOREN) {
     const nativeIds = new Set(V._erstePartieErlaubteIdsFuerSektor(sid).filter((k) => !abgeleitet.has(k)));
     const bundleIds = new Set(moduleDefsAusBundle(sid).map((d) => sid + '.' + d.feldId));

@@ -1,0 +1,4 @@
+{
+  "_zweck": "Zahl der Registerzeilen ohne Prüfer (weder echt noch pruefer), 01.10.2026. Jede davon trägt kandidat oder suche. Die Zahl darf nur sinken; eine neue Zeile ohne Prüfer hebt sie nur mit Wort der Gegenlesung. Erhebung: node -e \"const R=require('./tools/standards-register-pruefen.js');console.log(R.pruefeDeckung(R.registerLesen(),R.kontextLesen(),null).ohnePruefer)\". Probe: tests/standards-register-deckung.test.js. 03.10.2026: 11 → 10, die Zeile sd-jwt-vc ist mit v865 echt (Prüfer sd-jwt-jose); gemessen beim Umsetzen auf v872.",
+  "ohnePruefer": 10
+}

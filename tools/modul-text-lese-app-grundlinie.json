@@ -36,7 +36,7 @@
       "grund": "Beschriftung der Eingabemaske des Menschen-Registers"
     },
     "assistenten": {
-      "anzahl": 326,
+      "anzahl": 330,
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
     },
     "lebenslagen": {
@@ -48,7 +48,7 @@
       "grund": "Vollmacht-Formular und Korpus des Kerns"
     },
     "dokumentgenerator": {
-      "anzahl": 86,
+      "anzahl": 91,
       "grund": "Dokumentgenerator des Kerns; die Lese-App hat keine Dokumentansicht"
     },
     "dokumenttext-art": {
@@ -56,7 +56,7 @@
       "grund": "Textart eines Logikmoduls, die die Lese-App nie liest (Einleitung, Unterschrift-Hinweis, Fußtext, Toolbar-Hinweis)"
     },
     "hilfe-themen": {
-      "anzahl": 46,
+      "anzahl": 61,
       "grund": "Hilfe-Themen des Kerns (Hilfe-Overlay, U2-ADR-425); die Lese-App führt für die Empfängerin eine eigene kurze Hilfe aus strings: und zeigt diese Themen nie"
     }
   }

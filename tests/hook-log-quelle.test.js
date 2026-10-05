@@ -32,6 +32,8 @@ test('ein echter Hook-Lauf (ohne den Test-Schalter) trägt quelle=echt', () => {
 
 test('die übrigen Felder bleiben, wie sie waren', () => {
   const e = lauf(ohne());
-  assert.deepStrictEqual(Object.keys(e), ['zeit', 'hook', 'ziel', 'rc', 'quelle']);
+  // start (02.10.2026): Startzeit des Hooks, damit die Dauer eines Pushes aus dem Log lesbar ist.
+  assert.deepStrictEqual(Object.keys(e), ['zeit', 'start', 'hook', 'ziel', 'rc', 'quelle']);
+  assert.match(e.start, /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/);
   assert.strictEqual(e.hook, 'probe'); assert.strictEqual(e.rc, '0');
 });

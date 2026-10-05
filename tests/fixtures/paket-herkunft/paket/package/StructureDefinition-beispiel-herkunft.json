@@ -1,0 +1,50 @@
+{
+ "snapshot": {
+  "element": [
+   {
+    "id": "Extension",
+    "path": "Extension",
+    "min": 0,
+    "max": "*"
+   },
+   {
+    "id": "Extension.value[x]",
+    "path": "Extension.value[x]",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   }
+  ]
+ },
+ "text": {
+  "status": "generated",
+  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">erzeugt</div>"
+ },
+ "date": "2026-07-01",
+ "version": "1.0.0",
+ "differential": {
+  "element": [
+   {
+    "id": "Extension.value[x]",
+    "path": "Extension.value[x]",
+    "type": [
+     {
+      "code": "string"
+     }
+    ]
+   }
+  ]
+ },
+ "derivation": "constraint",
+ "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+ "type": "Extension",
+ "abstract": false,
+ "kind": "complex-type",
+ "status": "active",
+ "name": "BeispielHerkunft",
+ "url": "https://example.org/fhir/StructureDefinition/beispiel-herkunft",
+ "id": "beispiel-herkunft",
+ "resourceType": "StructureDefinition"
+}

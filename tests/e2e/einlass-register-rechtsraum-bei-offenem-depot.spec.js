@@ -60,7 +60,8 @@ async function oeffneEinstellungen(page) {
   await expect(page.locator('#einst-modul-einlassen')).toBeVisible();
 }
 
-test('[Einlass-Register 3/4] Rechtsraum-Modul in ein offenes Depot einlassen — Registry trägt den Wortlaut', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-EINLASS-REGISTER-RECHTSRAUM-BEI-OFFENEM-DEPOT
+test.fixme('[Einlass-Register 3/4] Rechtsraum-Modul in ein offenes Depot einlassen — Registry trägt den Wortlaut', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));

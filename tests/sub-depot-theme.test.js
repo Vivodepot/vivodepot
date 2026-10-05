@@ -13,6 +13,7 @@
    deren (nicht mehr existierender) Werte.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte kommen mit dem Erscheinungsbild
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
@@ -24,7 +25,7 @@ function block(html, sel) {
 }
 
 test('HC: Salbei-Familie unverändert; KEINE eigene Palette-Übersteuerung mehr', () => {
-  const { html } = ladeKern();
+  const html = kernMitHeute(ladeKern().html);
   const hc = block(html, 'html.high-contrast {');
   assert.ok(/--salbei-dunkel:\s*#4a5f3a/.test(hc));
   assert.ok(/--salbei-mid:\s*#576d4a/.test(hc));
@@ -37,7 +38,7 @@ test('HC: Salbei-Familie unverändert; KEINE eigene Palette-Übersteuerung mehr'
 });
 
 test('Nacht: Salbei unverändert; #8fb86f ersetzt durch #8eab77; KEINE eigene Palette-Übersteuerung mehr', () => {
-  const { html } = ladeKern();
+  const html = kernMitHeute(ladeKern().html);
   const dm = block(html, 'html.dark-mode {');
   assert.ok(/--salbei-light:\s*#252f1d/.test(dm), 'Nacht salbei-light');
   for (const t of PALETTE) {
@@ -59,7 +60,7 @@ test('Nacht: Salbei unverändert; #8fb86f ersetzt durch #8eab77; KEINE eigene Pa
 });
 
 test('Nacht × Vollmacht liest Theme-Tokens — Kopfzeile bleibt aussen vor (Palettentausch Zug 2)', () => {
-  const { html } = ladeKern();
+  const html = kernMitHeute(ladeKern().html);
   // UX-Konzept §7/§8 (25.08.2026): die Sidebar hat seit heute KEINE Nacht-×-Vollmacht-Chrome-
   // Regel mehr — sie ist in jedem Modus Papierton (ersatzlos entfallen, nicht umgezogen).
   assert.doesNotMatch(html, /html\.dark-mode #app\.modus-vollmacht \.sidebar\s*\{/, 'kein Sidebar-Chrome-Token mehr in Nacht × Vollmacht');
@@ -74,8 +75,10 @@ test('Nacht × Vollmacht liest Theme-Tokens — Kopfzeile bleibt aussen vor (Pal
 });
 
 test('Root: pro-Akzent --*-text-Token, EIN dunkler Wert für alle sechs (Palettentausch)', () => {
-  const { html } = ladeKern();
-  const root = html.slice(html.indexOf(':root {'), html.indexOf('--akzent: var(--modus-anker);'));
+  const html = kernMitHeute(ladeKern().html);
+  // v894: der ganze :root-Block — die Verdrahtung (--akzent: var(--modus-anker) …) steht seitdem VOR den Werten.
+  const a = html.indexOf(':root {');
+  const root = html.slice(a, html.indexOf('\n  }', a));
   for (const t of PALETTE) {
     assert.ok(new RegExp('--' + t + '-text:\\s*#1c2a1e').test(root), t + '-text = #1c2a1e');
   }

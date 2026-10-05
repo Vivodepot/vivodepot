@@ -56,9 +56,11 @@ test('[Erbschein-Ab-Werk·Rot-Beweis] im nackten Gerüst gibt es den Auszug nich
   assert.ok(!(d.logikModule || []).some((m) => m && m.id === ID));
 });
 
-test('[Erbschein-Ab-Werk] Pro trägt den Auszug nicht: die Zielbereiche sind dort ersetzt', async () => {
+// Seit 04.10.2026 (Entscheidung der Geschäftsführung) trägt auch Pro den Auszug ab Werk, als Saat des Produkts.
+test('[Erbschein-Ab-Werk] Pro trägt den Auszug ab Werk, als Saat, ohne Kopie im Depot', async () => {
   for (const slug of ['pro-de', 'pro-en']) {
     const { V } = await depotImProduktAnlegen(slug, 'Erbschein-Ab-Werk-Pro-2026!');
-    assert.ok(!V._logikModuleAlle(V.getData()).some((m) => m && m.id === ID), slug);
+    assert.ok(V._logikModuleAlle(V.getData()).some((m) => m && m.id === ID), slug);
+    assert.ok(!(V.getData().logikModule || []).some((m) => m && m.id === ID), slug + ': keine Kopie im Depot');
   }
 });

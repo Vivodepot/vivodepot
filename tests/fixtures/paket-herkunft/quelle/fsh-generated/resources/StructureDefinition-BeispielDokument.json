@@ -1,0 +1,38 @@
+{
+ "resourceType": "StructureDefinition",
+ "id": "BeispielDokument",
+ "url": "https://example.org/fhir/StructureDefinition/BeispielDokument",
+ "name": "BeispielDokument",
+ "status": "active",
+ "kind": "resource",
+ "abstract": false,
+ "type": "DocumentReference",
+ "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DocumentReference",
+ "derivation": "constraint",
+ "differential": {
+  "element": [
+   {
+    "id": "DocumentReference.type",
+    "path": "DocumentReference.type",
+    "min": 1,
+    "binding": {
+     "strength": "required",
+     "valueSet": "https://example.org/fhir/ValueSet/beispiel-typ"
+    }
+   },
+   {
+    "id": "DocumentReference.extension:herkunft",
+    "path": "DocumentReference.extension",
+    "sliceName": "herkunft",
+    "type": [
+     {
+      "code": "Extension",
+      "profile": [
+       "https://example.org/fhir/StructureDefinition/beispiel-herkunft"
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

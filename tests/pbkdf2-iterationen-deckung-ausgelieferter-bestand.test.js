@@ -34,7 +34,7 @@ const TRAEGER_DATEIEN = fs.readdirSync(REPO).filter((n) => /^vivodepot[\w-]*\.ht
 
 // Benannte Konstanten — `const <NAME> = <ZAHL>;`, NAME trägt sowohl PBKDF2 als auch
 // ITERATION(EN) (unabhängig von Reihenfolge/Präfix: PBKDF2_ITERATIONS, ANG_PBKDF2_ITERATIONEN,
-// ANTWORT_PBKDF2_ITERATIONEN — alle drei Formen bereits im Bestand).
+// ANTWORT_PBKDF2_ITERATIONEN — alle drei Formen kamen im Bestand vor; die letzte hieß bis 04.10.2026 so in der Lese-App).
 const KONSTANTEN_MUSTER = /const\s+(\w*PBKDF2\w*ITERATION\w*)\s*=\s*(\d+)\s*;/g;
 
 function funde(dateiText) {

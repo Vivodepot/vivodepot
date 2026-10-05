@@ -336,7 +336,10 @@ test('[B2] eine Datei kann das Merkmal abWerk weder entfernen noch einem selbst 
   const nach = new Map(w.V.getData().logikModule.map((m) => [m.id, m]));
   assert.equal(nach.get('pro-notar-kanzleivertretung').abWerk, true, 'entfernt in der Datei, gesetzt beim Laden');
   assert.equal(nach.get(EIGENE_SCHABLONE_ID).abWerk, undefined, 'angeheftet in der Datei, entfernt beim Laden');
-  assert.deepEqual(weitereEintraege(seitenleiste(w)), [EIGENE_SCHABLONE_ID]);
+  /* Selbst-Einlass-Sperre (04.10.2026, Wort der Gegenlesung): solange sie steht, wirkt ein selbst geladenes Modul nach dem
+     Wiederöffnen nicht und steht nicht in der Seitenleiste — gewollt; die Daten bleiben (Probe [Sperre·eigenes Depot]).
+     Mit dem Schutz-Wagen steht es wieder da. */
+  assert.deepEqual(weitereEintraege(seitenleiste(w)), w.V._selbstEinlassFrei() ? [EIGENE_SCHABLONE_ID] : []);
 });
 
 test('[B3] ein selbst eingelassenes Logikmodul mit der Kennung eines ab Werk eingebackenen wird benannt abgewiesen', async () => {

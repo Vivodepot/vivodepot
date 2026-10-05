@@ -101,7 +101,11 @@ function mappeSensibelLeser(src) {
   while ((m = re.exec(ohne))) starts.push({ name: m[1], at: m.index });
   const raus = [];
   for (let i = 0; i < starts.length; i++) {
-    const rumpf = ohne.slice(starts[i].at, i + 1 < starts.length ? starts[i + 1].at : ohne.length);
+    const bisNaechste = ohne.slice(starts[i].at, i + 1 < starts.length ? starts[i + 1].at : ohne.length);
+    // Ein Rumpf endet spätestens am Ende seines Skripts: die letzte Funktion eines Skripts (seit v894 das Kopf-Skript des
+    // Erscheinungsbilds) liefe sonst bis zur ersten Funktion des nächsten und erbte deren Lesestellen.
+    const skriptEnde = bisNaechste.indexOf('</script');
+    const rumpf = skriptEnde < 0 ? bisNaechste : bisNaechste.slice(0, skriptEnde);
     if (/\bmappe\b|\.mappe\b|mappeEintrag/.test(rumpf) && /\.sensibel\b/.test(rumpf)) raus.push(starts[i].name);
   }
   return raus;
@@ -119,4 +123,12 @@ test('[Mappe·sensibel·Klasse·Rot-Beweis] ein gepflanzter Ausgabeweg, der nach
     '\nfunction _gepflanzterExport() { return (data.mappe || []).filter((m) => !m.sensibel); }\nfunction mappeEintragHinzufuegen(');
   assert.notEqual(gepflanzt, kern, 'Vorbedingung: der Anker steht im Kern');
   assert.ok(mappeSensibelLeser(gepflanzt).includes('_gepflanzterExport'));
+});
+
+test('[Mappe·sensibel·Klasse·Rot-Beweis] die letzte Funktion eines Skripts erbt keine Lesestelle aus dem nächsten Skript', () => {
+  const zwei = '<script>\nfunction letzte() { return 1; }\n</script>\n<script>\nconst x = (data.mappe || []).filter((m) => !m.sensibel);\n'
+    + 'function naechste() {}\n</script>';
+  assert.deepEqual(mappeSensibelLeser(zwei), [], 'ohne Skriptgrenze fiele die Lesestelle des zweiten Skripts auf letzte()');
+  const ohneGrenze = zwei.replace('</script>\n<script>\n', '\n');
+  assert.deepEqual(mappeSensibelLeser(ohneGrenze), ['letzte'], 'Gegenprobe: im selben Skript gehört die Stelle zum Rumpf');
 });

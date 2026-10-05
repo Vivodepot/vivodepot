@@ -1,14 +1,14 @@
 # Vivodepot
 
 Vivodepot ist ein verschlüsseltes Dokumentendepot für das eigene Leben — Identität, Gesundheit,
-Finanzen, Vorsorge und mehr, an einem Ort, unter der eigenen Kontrolle. Die Anwendung ist eine
+Finanzen, Vorsorge und mehr, unter der eigenen Kontrolle. Die Anwendung ist eine
 einzelne HTML-Datei, die vollständig im Browser läuft.
 
 ## Für wen
 
-Für Bürgerinnen und Bürger, die ihre eigenen Unterlagen und Erklärungen an einem Ort halten
+Für Bürgerinnen und Bürger, die ihre eigenen Unterlagen und Erklärungen halten
 wollen — ohne dass ein Anbieter mitliest. Für Institutionen und Entwicklerinnen, die eigene
-Themenbereiche andocken wollen: der Kern kennt kein einzelnes Thema, Module tragen den Inhalt.
+Themenbereiche über eigene Vorlagen ergänzen wollen: der Kern kennt kein einzelnes Thema, Module tragen den Inhalt.
 
 ## Was es kostet
 
@@ -18,7 +18,7 @@ Für Bürgerinnen und Bürger ist Vivodepot kostenlos.
 
 - **Offline.** Die Depot-Datei liegt bei der Nutzerin, verschlüsselt. Kein Server hält sie, keine
   Cloud sichert sie im Hintergrund.
-- **Kein Konto, kein App-Store, kein Login.** Nichts steht zwischen der Nutzerin und ihrer Datei.
+- **Ohne Konto.** Nichts steht zwischen der Nutzerin und ihrer Datei.
 - **EUPL-1.2.** Offener Quelltext, europäisches Recht.
 - **Fünf Jahre Sicherheitsaktualisierungen je Fassung**, ab dem Tag, an dem sie herauskommt; jede
   Aktualisierung bleibt danach mindestens zehn Jahre abrufbar (s. [`SECURITY.md`](SECURITY.md)).
@@ -54,9 +54,23 @@ Prüfsumme ([`vivodepot.html.sha256`](vivodepot.html.sha256)) und die
 [SBOM](vivodepot.sbom.cdx.json) liegen bei. Architekturentscheidungen stehen einzeln
 nachvollziehbar unter [`docs/adr/`](docs/adr/).
 
+## Entstehung mit KI-Assistenz
+
+Code, Tests und Dokumentation von Vivodepot entstehen mit KI-Assistenten. Anforderungen, Architektur und Entscheidungen legt die Vivodepot GmbH fest; die Entscheidungen stehen als ADRs unter `docs/adr/`.
+
+Verantwortung, Prüfung und Freigabe jeder Änderung liegen bei der Vivodepot GmbH.
+
 ## Lizenz
 
 [EUPL-1.2](LICENSE). Was das heißt, was ausgenommen ist und was heute öffentlich liegt: [`LICENSING.md`](LICENSING.md).
+
+## LOINC
+
+This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.
+
+## SNOMED CT
+
+Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, licensed under the Creative Commons Attribution-NoDerivatives 4.0 International License (https://creativecommons.org/licenses/by-nd/4.0/), obtained from https://www.snomed.org/gps, International Edition 20260101. SNOMED® and SNOMED CT® are registered trademarks of the International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists.
 
 ## Wo es weitergeht
 
@@ -71,4 +85,4 @@ nachvollziehbar unter [`docs/adr/`](docs/adr/).
 
 ## Stand
 
-Fassung v857.
+Fassung v917.

@@ -74,7 +74,7 @@ function zahlAus(block, eigenschaft) {
   return m ? parseFloat(m[1]) : null;
 }
 
-const CSS = fs.readFileSync(KERN, 'utf8');
+const CSS = require('./helfer/kern-mit-erscheinungsbild.js').kernMitHeute(fs.readFileSync(KERN, 'utf8'));   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
 
 test('[A247·Glied1·Vorbedingung] die Sammelregel führt `.depot-pille` weiterhin mit 44 px', () => {
   const regeln = pilleRegeln(CSS);

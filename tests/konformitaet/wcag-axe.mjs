@@ -33,7 +33,8 @@ const HTML_PFAD = process.env.KERN_HTML_PATH
   ? resolve(process.env.KERN_HTML_PATH)
   : createRequire(import.meta.url)('../produkt-html-erzeugen.js').produktHtml('privat-de');
 const FILE_URL = pathToFileURL(HTML_PFAD).href;
-const TAGS    = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
+// EN-301-549: die axe-Regeln zu EN 301 549 V3.2.1 Kap. 9 (Web, = WCAG 2.1 AA); Registerzeile barrierefreiheit/en-301-549.
+const TAGS    = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa', 'EN-301-549'];
 const EXCLUDE = ['.logo-wort', '.vd-logo'];   // WCAG 1.4.3 Logotype-Ausnahme
 
 async function scan(page, name, alle) {

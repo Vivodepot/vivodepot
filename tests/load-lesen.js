@@ -22,7 +22,7 @@ const LESEN_PATH = process.env.LESEN_HTML_PATH
 
 // Erwarteter VdCrypto-Block-Hash (== Kern == PORT-VERBATIM.js). Umbau „Englisch vor v1"
 // (14.09.2026): zwei Kennung-Beispiele im Kopf-Kommentar mitgezogen, s. load-kern.js.
-const BLOCK_HASH_ERWARTET = '732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282';
+const BLOCK_HASH_ERWARTET = '4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98';
 
 function extrahiereScripts(html) {
   const OPEN = '<script>', CLOSE = '</script>';
@@ -122,6 +122,7 @@ const EXPORT_HOOK = `
   // A318 Zug 2 (20.08.2026): die VC-Lese-Schicht ist wach — Anker, Kette, Pruefstand.
   TRUST_AUTHORITY_PUBLIC_JWK, verifiziereProviderCredential, verifiziereTemplateKette,
   _verifiziereTemplateSignatur, vorlagenPruefstandBerechnen, vorlagenMarkeHTML,
+  _modulPruefstufeAusZertifikat,
   vorlagenStandZuruecksetzen,
   // Der Stand ist eine let-Bindung — ein Wert-Export waere der Schnappschuss „noch nicht
   // gerechnet". Setzer statt Getter, weil die Anzeige-Probe ihn STELLEN muss, ohne die
@@ -150,8 +151,9 @@ const EXPORT_HOOK = `
   verarbeiteQrText, verarbeiteDatei,   // U2-ADR-082: QR-Kette Ende-zu-Ende testbar
   // Kette, Auftrag 8 (20.08.2026) — der verschlüsselte Rückweg
   ANTWORT_FORMAT_ID, ANTWORT_FORMAT_VERSION, ANTWORT_VERFAHREN, ANTWORT_ECDH_KURVE,
-  ANTWORT_HKDF_INFO, ANTWORT_PBKDF2_ITERATIONEN, _antwortAad,
+  ANTWORT_HKDF_INFO, ANG_PBKDF2_ITERATIONEN, _angDeriveKey, _antwortAad,
   antwortEntschluesselnPasswort, antwortEntschluesselnSchluessel, istAntwortUmschlag,
+  antwortMitSchluesseldateiOeffnen, schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei,
   antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C,
   antwortAnzeigeModell, qrTeileZusammensetzen,
   renderAntwortOeffnen, renderAntwort, antwortWeitergeben, anlassAnzeigeModell, renderAnlass,
@@ -283,7 +285,7 @@ function _situationenSaat() {
 
 function ladeLesen(opts) {
   opts = opts || {};
-  const html = fs.readFileSync(LESEN_PATH, 'utf8');
+  const html = opts.html || fs.readFileSync(LESEN_PATH, 'utf8');
   const { script1, script2 } = extrahiereScripts(html);
 
   const documentStub = makeDocument();
@@ -325,7 +327,7 @@ function ladeLesen(opts) {
       return setDataRoh(v);
     };
   }
-  return { V: sandbox.__LESEN__, document: documentStub, html, script1, script2, location: locationStub };
+  return { V: sandbox.__LESEN__, document: documentStub, html, script1, script2, location: locationStub, sandbox };
 }
 
 module.exports = {

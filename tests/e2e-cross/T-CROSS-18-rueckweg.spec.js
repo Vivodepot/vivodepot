@@ -15,6 +15,7 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
+const { jweLesbarerTeil } = require('../helfer/jwe-lesbar.js');
 const { URLS, frischerTmp, tmpAufraeumen, downloadNachTmp, kern, lesen } = require('./support/helpers.js');
 
 const ANFRAGE = {
@@ -110,8 +111,10 @@ test('T-CROSS-18 die Bürgerin beantwortet, die Institution öffnet — verschl�
     expect(kopf.typ, 'die Antwort trägt ihren Typ').toBe('vivodepot-antwort+jwe');
     expect(kopf.alg).toBe('PBES2-HS512+A256KW');
     expect(kopf.vorgang, 'der Empfänger sieht, worauf das die Antwort ist').toBe('AUF-2026-0815');
+    // Gesucht wird im lesbaren Teil (Kopf samt apu/apv dekodiert) — im rohen base64url-Text wäre die Suche still grün.
+    const lesbar = jweLesbarerTeil(roh);
     for (const w of ['Hedwig', 'A123456780']) {
-      expect(roh.includes(w), 'kein Feldwert steht im Klartext: ' + w).toBe(false);
+      expect(lesbar.includes(w), 'kein Feldwert steht im Klartext: ' + w).toBe(false);
     }
     await buerger.close();
 

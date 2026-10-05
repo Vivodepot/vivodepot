@@ -127,10 +127,14 @@ function verwendungsstellenAlle(html, styleBlocks, klassen) {
 function messen(kernPfad) {
   const html = fs.readFileSync(kernPfad, 'utf8');
   const styleBlocks = styleBloecke(html);
-  const styleTextGesamt = styleBlocks.map(b => b.text).join('\n');
+  // Seit v894 trägt das Gerüst kein Stylesheet mehr (U2-ADR-473 Nachtrag, Lesart B): Klassen und Regeln kommen aus
+  // „Gerüst + heute"; die Fundstellen-Zeilen bleiben die der Datei selbst.
+  const EB = require('./lib/kern-mit-erscheinungsbild.js');
+  const regelBlocks = EB.istGeruestOhneWerte(html) ? styleBloecke(EB.kernMitHeute(html)) : styleBlocks;
+  const styleTextGesamt = regelBlocks.map(b => b.text).join('\n');
   const klassen = Array.from(klassenMitRegel(styleTextGesamt)).sort();
 
-  const regelKarte = regelnJeKlasse(styleBlocks);
+  const regelKarte = regelnJeKlasse(regelBlocks);
   const stellenKarte = verwendungsstellenAlle(html, styleBlocks, klassen);
 
   const ergebnis = klassen.map((klasse) => {

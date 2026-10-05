@@ -6,6 +6,7 @@
 
 
 - **Status:** akzeptiert
+- **Status heute:** akzeptiert; die Ankündigung einer anwaltlichen Validierung im NLnet-Rahmen gilt nicht mehr, Lücke 5 bleibt offen (s. Nachtrag 04.10.2026)
 - **Datum:** 2026-04-28
 - **Kategorien:** ARCHITEKTUR | DATENMODELL | INTEROP
 - **Format:** MADR 4.0 mit Vivodepot-Erweiterungen (Kategorien-Header, Nachweis-Abschnitt; analog B16-ADR-061 und B16-ADR-062)
@@ -306,3 +307,7 @@ Das Gesamtkonzept beschreibt die Anbieter-Signatur als Vertrauensanker für Temp
 _ADR-063 · FHIR-Provenance-Ressource bei Sub-Depot-IPS-Export · Vivodepot GmbH (i.Gr.) · Berlin · Stand 28. April 2026 · Status akzeptiert._
 
 _Option A — Vollständige FHIR-Provenance pro Datensatz plus zwei-stufige Bundle-Provenance plus URN-Codierung plus Inline-CodeSystem. Sechs Klärungen entschieden, fünf Lücken transparent. Methodischer Anschluss an B16-ADR-052, B16-ADR-061, B16-ADR-062. Verweis auf B16-ADR-064 (Template-Übergabe, geplant). Format MADR 4.0 mit Vivodepot-Erweiterungen._
+
+## Nachtrag 04.10.2026
+
+Die Ankündigung einer anwaltlichen Validierung „in Phase 3 der NLnet-Förder-Roadmap“ (Lücke 5) gilt nicht mehr. Stand: Ob die policy-Codierung an Article 7 und Article 30 anschließt, ist offen. Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden.

@@ -1,0 +1,81 @@
+{
+ "zweck": "Bedeutungs-Probe für Netz-Aussagen, eine Liste für App und Website. Die Anwendung sendet keine Daten AUS DEM DEPOT an einen Server; ein Satz, der pauschal „kein Server“, „nichts gesendet“, „keine Verbindung ins Netz“ oder „lädt nie etwas nach“ sagt, ist zu breit: Gehostet fragt der Service Worker den eigenen Server nach Aktualisierungen, und die Einmal-Freigabe legt verschlüsselt auf eigenen Seiten ab. Geprüft wird je Satz: ein Auslöser trifft, kein Erlaubt-Muster und keine Ausnahme. Regex-Syntax gemeinsam für Python re und JavaScript RegExp (Flag i, kein Lookbehind, kein \\b neben Umlauten). Gelesen von tests/netz-aussagen.test.js und von bauen.py der Website (git show origin/u2-kanon:tools/netz-aussagen-muster.json); die Ausnahmen der Website stehen in bauen.py. AUSNAHMEN (Gegenlesung 02.10.2026, gilt für jede künftige): gebunden an Schlüssel UND exakten Wortlaut des ganzen Satzes; ändert sich der Satz, erlischt die Ausnahme von selbst. Neu nur mit Grund und Wort der Gegenlesung.",
+ "ausloeser": [
+  "\\bkein(?:en|e)?\\s+Server\\b",
+  "\\bohne\\s+(?:Konto\\s+und\\s+ohne\\s+)?Server\\b",
+  "\\bnichts\\b[^.!?]{0,40}\\bgesendet",
+  "\\bkeine\\s+Daten\\b[^.!?]{0,80}\\bServer",
+  "\\bServer\\b[^.!?]{0,40}\\bgesendet",
+  "\\bno\\s+server\\b",
+  "\\bwithout\\s+a\\s+server\\b",
+  "\\bnothing\\b[^.!?]{0,40}\\bsent\\b",
+  "\\bno\\s+data\\b[^.!?]{0,80}\\bservers?\\b",
+  "\\bsends?\\s+no\\s+data\\b",
+  "\\bany\\s+server\\b",
+  "\\bkeine\\s+Verbindung\\s+ins\\s+(?:Netz|Internet)",
+  "\\bno\\s+connection\\s+to\\s+the\\s+(?:network|internet)\\b",
+  "\\bnie\\s+etwas\\s+aus\\s+dem\\s+Internet",
+  "\\bnever\\s+loads\\s+anything\\s+from\\s+the\\s+internet\\b",
+  "\\bob\\s+Sie\\s+die\\s+Anwendung\\s+(?:überhaupt\\s+)?benutzen",
+  "\\bwhether\\s+you\\s+use\\s+the\\s+application\\b",
+  "\\bkeine\\s+Rückmeldung\\s+an\\s+uns",
+  "\\bnothing\\s+reports\\s+back\\s+to\\s+us\\b",
+  "\\bkeine\\s+(?:Netz\\w*\\s*)?Verbindung",
+  "\\bVerbindung\\s+(?:zu\\s+Servern|ins\\s+Netz|nach\\s+au)",
+  "\\bkein(?:en)?\\s+Netz(?:werk)?-?[Zz]ugriff",
+  "\\bconnects?\\s+to\\s+(?:any|no)\\s+server",
+  "\\bdoes\\s+not\\s+(?:itself\\s+)?connect\\b",
+  "\\bno\\s+(?:network\\s+)?connection\\b",
+  "\\bno\\s+network\\s+access\\b",
+  "\\bopens?\\s+no\\s+(?:network\\s+)?connection"
+ ],
+ "erlaubt": [
+  "aus\\s+(?:Ihrem|dem)\\s+Depot",
+  "from\\s+(?:your|the)\\s+depot",
+  "Schlüssel",
+  "\\bkey\\b",
+  "mit\\s+dem\\s+Depot",
+  "with\\s+the\\s+depot"
+ ],
+ "ausnahmen": [
+  {
+   "schluessel": "dok:erbschein-vorbereitung.herkunftText",
+   "satz": "Zusammenstellung dieser Anwendung aus Ihren Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu service.justiz.de.",
+   "grund": "nennt einen bestimmten Dienst, keine pauschale Netz-Aussage; die Anwendung ruft service.justiz.de nicht auf, die Adresse steht im Kern nur als Text. Wort der Gegenlesung 02.10.2026."
+  }
+ ],
+ "rot": [
+  "Es gibt kein Konto und keinen Server, an den etwas gesendet wird.",
+  "There is no account and no server that anything is sent to.",
+  "Die Anwendung sendet keine Daten an einen Server.",
+  "The application sends no data to any server.",
+  "Nichts wird an uns gesendet.",
+  "Es gibt kein Konto, keinen Server und keine Sammelstelle, bei der Ihre Angaben ankommen könnten.",
+  "There is no account, no server and no central store where your records could arrive.",
+  "Die Anwendung baut keine Verbindung ins Netz auf.",
+  "The application opens no connection to the network.",
+  "Wir wissen nicht, was Sie eintragen, wie viel Sie eintragen und ob Sie die Anwendung überhaupt benutzen.",
+  "We do not know what you enter, how much you enter, or whether you use the application at all.",
+  "Erst dann gehen Sie online — die App selbst lädt nie etwas aus dem Internet nach.",
+  "Only then do you go online — the app itself never loads anything from the internet.",
+  "Es gibt keine Rückmeldung an uns, weil es keinen Weg dafür gibt.",
+  "Nothing reports back to us, because there is no route for it.",
+  "Die Vivodepot-Anwendung selbst baut keine Verbindung zu Servern auf.",
+  "The Vivodepot application itself does not connect to any server.",
+  "Kein Netzwerk-Zugriff zur Laufzeit",
+  "No network access at runtime"
+ ],
+ "gruen": [
+  "Es gibt kein Konto, und die Anwendung sendet keine Daten aus Ihrem Depot an einen Server.",
+  "There is no account, and the application sends no data from your depot to any server.",
+  "Was Sie weitergeben, entscheiden Sie selbst.",
+  "What you pass on is up to you.",
+  "Wir wissen nicht, was Sie eintragen und wie viel Sie eintragen.",
+  "We do not know what you enter or how much you enter.",
+  "Erst dann gehen Sie online — die App selbst sendet keine Daten aus Ihrem Depot ins Internet.",
+  "Only then do you go online — the app itself sends no data from your depot to the internet.",
+  "Der Schlüssel steht im Link und erreicht keinen Server.",
+  "Die Anwendung schickt nichts aus Ihrem Depot an uns; dafür gibt es keinen Weg.",
+  "The application sends nothing from your depot to us; there is no way for it to do so."
+ ]
+}

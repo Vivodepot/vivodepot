@@ -80,9 +80,14 @@ test('[Farbe·Rot] ein gepflanzter abgelöster Wert macht das Gate rot — an ei
     // textsatz-umstellen liest den deutschen Satz seit S8 über tools/lib/textsatz-de-quelle.js (Sprachmodul-Datei) — die Kopie trägt die Bibliothek und das Modul mit.
     fs.cpSync(path.join(REPO, 'tools', 'lib'), path.join(kopieRepo, 'tools', 'lib'), { recursive: true });
     fs.copyFileSync(path.join(REPO, 'tools', 'textsatz-de-modul.json'), path.join(kopieRepo, 'tools', 'textsatz-de-modul.json'));
-    // Der gepflanzte Rückfall: irgendwo im Kern steht wieder der Forest-Wert.
-    const kern = path.join(kopieRepo, 'vivodepot.html');
-    fs.writeFileSync(kern, fs.readFileSync(kern, 'utf8').replace('--salbei-dunkel: #4F6539;', '--salbei-dunkel: #3d5a2a;'), 'utf8');
+    // Der gepflanzte Rückfall: im Erscheinungsbild steht wieder der Forest-Wert. Seit v894 tragen die Token-Werte
+    // nicht mehr der Kern, sondern tools/erscheinung/*.css (das Modul, das in jedes Produkt reist).
+    fs.cpSync(path.join(REPO, 'tools', 'erscheinung'), path.join(kopieRepo, 'tools', 'erscheinung'), { recursive: true });
+    const quelle = path.join(kopieRepo, 'tools', 'erscheinung', 'heute.css');
+    const vorher = fs.readFileSync(quelle, 'utf8');
+    const gepflanzt = vorher.replace('--salbei-dunkel: #4F6539;', '--salbei-dunkel: #3d5a2a;');
+    assert.notEqual(gepflanzt, vorher, 'Testvoraussetzung: die Pflanzung muss greifen');
+    fs.writeFileSync(quelle, gepflanzt, 'utf8');
 
     let code = 0, ausgabe = '';
     try {
@@ -90,7 +95,7 @@ test('[Farbe·Rot] ein gepflanzter abgelöster Wert macht das Gate rot — an ei
         { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
     } catch (e) { code = e.status; ausgabe = String(e.stdout || '') + String(e.stderr || ''); }
     assert.equal(code, 1, 'das Gate muss anschlagen:\n' + ausgabe);
-    assert.match(ausgabe, /vivodepot\.html: #3d5a2a/);
+    assert.match(ausgabe, /tools\/erscheinung\/heute\.css: #3d5a2a/);
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
 });
 

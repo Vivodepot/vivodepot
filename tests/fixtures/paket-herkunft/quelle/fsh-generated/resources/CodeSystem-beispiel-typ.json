@@ -1,0 +1,18 @@
+{
+ "resourceType": "CodeSystem",
+ "id": "beispiel-typ",
+ "url": "https://example.org/fhir/CodeSystem/beispiel-typ",
+ "status": "active",
+ "content": "complete",
+ "concept": [
+  {
+   "code": "brief",
+   "display": "Brief"
+  },
+  {
+   "code": "vollmacht",
+   "display": "Vollmacht",
+   "definition": "Eine erfundene Vollmacht-Art für die Fixture"
+  }
+ ]
+}

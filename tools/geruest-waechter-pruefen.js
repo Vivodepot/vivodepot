@@ -351,6 +351,15 @@ function styleForm(s) {
  * dort liegen JS-Werte und Schlüsselwörter (`'string'`, `'object'`).
  * @returns {'struktur'|'satz'}
  */
+// Ein Modul-Skriptblock (`<script type="module">`, z. B. die eingebettete noble-ed25519) trägt export-Anweisungen, die
+// vm.Script nicht kennt. Für die reine Übersetzungsprobe fallen nur die Schlüsselwörter weg; alles Übrige bleibt, und ein
+// echter Syntaxfehler im Modul fällt weiterhin.
+function modulAlsSkript(quelle) {
+  return quelle
+    .replace(/^export\s*\{[^}]*\};?[ \t]*$/gm, '')
+    .replace(/^export\s+(?=(?:async\s+)?function\b|const\b|let\b|class\b)/gm, '');
+}
+
 function eimerVon(s, technischeWoerter) {
   if (!/\s/.test(s)) {
     if (/^[A-ZÄÖÜ][a-zäöüß]{2,}$/.test(s)) return technischeWoerter.has(s) ? 'struktur' : 'satz';
@@ -452,7 +461,7 @@ function literaleMessen(text, optionen = {}) {
     }
     rest += text.slice(von, e);
     try {
-      new vm.Script(rest); // nur Übersetzen, nie Ausführen
+      new vm.Script(/\btype="module"/.test(tag) ? modulAlsSkript(rest) : rest); // nur Übersetzen, nie Ausführen
     } catch (err) {
       probleme.push('Skriptblock ' + block + ' (Zeile ' + zeileVon(text, g) + '): ohne die gezählten Literale nicht übersetzbar ('
         + err.message + ') — Literalerkennung unzuverlässig');
@@ -910,6 +919,7 @@ function main() {
 if (require.main === module) main();
 
 module.exports = {
+  modulAlsSkript,
   langeKettenFunde,
   konstantenMessen, literaleMessen, messen, pruefen, grundlinieAktualisieren, grundlinieLesen, statementEnde, markerVorhanden,
   GRUNDLINIE_PFAD, STANDARD_DATEI, DEKLARATION, zuwaechsePruefen, ZUWACHS_HOECHSTENS, ANDOCKPUNKT_HOECHSTENS, GRUND_MINDESTLAENGE,

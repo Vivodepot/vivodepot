@@ -192,7 +192,8 @@ test('[publiccode·openCoDE·Forum·Rot-Beweis] "v1.0", eine fehlende Version un
    werden die Beschreibungstexte, nicht Kommentare und Dateipfade (vivodepot-anlaesse.png ist ein Dateiname). Eine Ersatz-
    schreibung ist ae/oe/ue außer nach q („quelloffen“) und außer in Abkürzungen (AES); ein deutsches Wort, das ae/oe/ue zu Recht trägt, kommt mit Grund in
    WORTLAUT_ERLAUBT. */
-const WORTLAUT_ERLAUBT = new Set([]);
+// Wörter, in denen ae/oe/ue richtig geschrieben ist (kein Umlaut gemeint); je Wort benannt, keine Muster-Ausnahme.
+const WORTLAUT_ERLAUBT = new Set(['neuen', 'bauen', 'aktuellen']);
 function beschreibungstexte(text, sprache) {
   const m = new RegExp('^  ' + sprache + ':\\n([\\s\\S]*?)(?=^  [a-z]{2}:\\n|^\\S)', 'm').exec(text);
   if (!m) return '';
@@ -223,4 +224,5 @@ test('[publiccode·Wortlaut·Rot-Beweis] „Unterdepots“, „fuer“ und ein e
   assert.ok(wortlautPruefen(mitFuer).some((x) => x.includes('fuer')));
   assert.ok(wortlautPruefen(echt.replace(/sub-depots/, 'subdepots')).some((x) => x.includes('subdepots')));
   assert.ok(!wortlautPruefen(echt).some((x) => /quelloffen|AES|anlaesse|oeffentlich/i.test(x)), 'quelloffen, AES, Dateipfade und Kommentare zählen nicht');
+  assert.ok(wortlautPruefen(echt.replace(/(longDescription: >\n\s+)(\S)/, '$1Die Ausgabe ist neu und bleibt fuer alle. $2')).some((x) => x.includes('fuer')), 'die Ausnahmen gelten je Wort, nicht für ue überhaupt');
 });

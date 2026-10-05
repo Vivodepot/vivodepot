@@ -379,8 +379,44 @@ async function unterDerNotiz(seite) {
   });
 }
 
+// Vorführung (01.10.2026): die Notiz selbst ist zu sehen — an ihrer Mitte liegt sie zuoberst, im Bild. Lag sie hinter einem offenen
+// Dialog (Station fhir-ips), war ihr Text im DOM und die Verdeckungsprobe leer, gesehen hat sie niemand.
+async function notizVerborgen(seite) {
+  return seite.evaluate(() => {
+    const n = document.querySelector('.vorfuehrung-notiz');
+    if (!n) return 'keine Notiz';
+    const k = n.getBoundingClientRect();
+    if (k.width < 1 || k.height < 1) return 'ohne Fläche';
+    // Die Mitte und beide oberen Ecken (etwas nach innen, die Notiz steht schräg): eine halb unter dem Kopf liegende Notiz fällt auf.
+    for (const [x, y] of [[k.left + k.width / 2, k.top + k.height / 2], [k.left + 14, k.top + 8], [k.right - 14, k.top + 8]]) {
+      if (x < 0 || y < 0 || x > innerWidth || y > innerHeight) return 'außerhalb des Bildes (' + Math.round(x) + ', ' + Math.round(y) + ')';
+      const oben = document.elementFromPoint(x, y);
+      if (!oben || !n.contains(oben)) return 'bei (' + Math.round(x) + ', ' + Math.round(y) + ') verdeckt von ' + (oben ? oben.tagName + '#' + oben.id + '.' + String(oben.className).slice(0, 40) : 'nichts');
+    }
+    // Kein Vorfahr seitlich verschoben: ragte die Notiz aus ihrem Container, wurde er seitlich scrollbar, und das Ins-Bild-Holen schob
+    // in WebKit den ganzen Dialoginhalt nach links — die Zeilen links abgeschnitten (01.10.2026, sub-depot Schritt 3, iPhone).
+    for (let p = n.parentElement; p; p = p.parentElement) {
+      if (p.scrollLeft > 0) return 'Vorfahr seitlich verschoben: ' + p.tagName + '.' + String(p.className).slice(0, 40) + ' um ' + p.scrollLeft + ' px';
+    }
+    return null;
+  });
+}
+
+// Vorführung (01.10.2026): der Streifen oben ist nie höher als der Platz, den die Seite für ihn freihält. Die Höhe war fest 26 px;
+// ein längerer Streifen-Text brach auf dem Handy in drei Zeilen um und lag über der Kopfleiste der App.
+async function streifenUeberdeckt(seite) {
+  return seite.evaluate(() => {
+    const s = document.getElementById('vorfuehrung-streifen');
+    if (!s) return null;
+    const r = s.getBoundingClientRect();
+    if (!(r.height > 0)) return null;
+    const frei = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
+    return r.bottom > frei + 1 ? 'Streifen ' + Math.round(r.height) + ' px hoch, frei sind ' + Math.round(frei) + ' px' : null;
+  });
+}
+
 module.exports = {
-  unterDerNotiz,
+  unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
   oeffneApp, depotAnlegen, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
   fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, einstellungenAbschnittOeffnen,

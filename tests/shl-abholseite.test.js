@@ -136,10 +136,38 @@ test('[U2-ADR-183] die Seite nennt keinen festen Host — sie folgt dem Link', (
     'die Adresse kommt aus dem Freigabe-Link der Absenderin, nicht aus unserem Code');
 });
 
+/* Befund STYLE-CSS-NICHT-OEFFENTLICH (04.10.2026): die Seite lud style.css, das nur auf dem Webhost und im internen Repo
+   lag. Was die Seite lädt, muss hier liegen — nur dann geht es mit dem Zuschnitt hinaus und ist von Dritten
+   nachprüfbar. Geprüft wird jede Ressource, die das HTML selbst nennt (href/src), gegen share/. */
+function fremdeRessourcenBefund(html, vorhanden) {
+  const fehler = [];
+  for (const m of html.matchAll(/\b(?:href|src)\s*=\s*"([^"]+)"/g)) {
+    const ziel = m[1];
+    if (/^[a-z][a-z0-9+.-]*:/i.test(ziel) || ziel.startsWith('//')) { fehler.push(ziel + ': fremder Ursprung'); continue; }
+    if (ziel.startsWith('#')) continue;
+    if (!vorhanden(ziel.split(/[?#]/)[0])) fehler.push(ziel + ': liegt nicht unter share/ (nicht öffentlich nachprüfbar)');
+  }
+  return fehler;
+}
+const inShare = (rel) => fs.existsSync(path.join(WURZEL, 'share', rel));
+
+test('[STYLE-CSS-NICHT-OEFFENTLICH] jede Ressource, die empfangen.html lädt, liegt versioniert unter share/', () => {
+  assert.deepEqual(fremdeRessourcenBefund(S('empfangen.html'), inShare), []);
+});
+
+test('[Negativprobe] Rot-Beweis zu STYLE-CSS-NICHT-OEFFENTLICH: style.css wieder eingebunden und ein fremder Ursprung fallen', () => {
+  const echt = S('empfangen.html');
+  const alt = echt.replace('<link rel="stylesheet" href="empfangen.css">',
+    '<link rel="stylesheet" href="style.css">\n<link rel="stylesheet" href="empfangen.css">');
+  assert.notEqual(alt, echt, 'Vorbedingung: die Zeile ließ sich einsetzen');
+  assert.ok(fremdeRessourcenBefund(alt, inShare).some((x) => x.startsWith('style.css:')));
+  const fremd = echt.replace('src="empfangen.js"', 'src="https://cdn.example/empfangen.js"');
+  assert.ok(fremdeRessourcenBefund(fremd, inShare).some((x) => /fremder Ursprung/.test(x)));
+});
+
 /* Kopplung Wächter ↔ Probe (operating-manual §7.5): der Prüfstand ersetzt kernSperreBefund durch einen Ersatz,
    der immer meldet, und verlangt, dass der Wächter oben dann rot wird — so ist belegt, dass er sie wirklich ruft. */
 module.exports = {
   PROBEN: [
-    { fuer: '[U2-ADR-183] der KERN bleibt bei connect-src none — diese Seite lockert ihn nicht', diskriminante: kernSperreBefund },
-  ],
+    { fuer: '[U2-ADR-183] der KERN bleibt bei connect-src none — diese Seite lockert ihn nicht', diskriminante: kernSperreBefund },  ],
 };

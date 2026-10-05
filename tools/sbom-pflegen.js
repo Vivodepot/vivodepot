@@ -206,6 +206,18 @@ function xshareZeichenHashes(html) {
   return alle;
 }
 
+/* 02.10.2026, Befund LUCIDE-LIZENZHINWEIS: die Icons des Kerns (`const ICONS` in vivodepot.html) sind
+   Lucide-Pfaddaten (ISC, Feather-Anteil MIT) und standen in keiner SBOM. Gehasht wird der Text des
+   ganzen Blocks von `const ICONS = Object.freeze({` bis zum schließenden `});` — die Pfade sind Text im
+   Skript, kein abgrenzbares Bild. Fehlt der Block (Icons im Branding-Modul, v901), gibt es hier nichts. */
+function lucideIconsBlock(html) {
+  const start = html.indexOf('const ICONS = Object.freeze({');
+  if (start < 0) return null;
+  const ende = html.indexOf('\n});', start);
+  if (ende < 0) throw new Error('const ICONS ohne schließendes }); — Block beschädigt?');
+  return html.slice(start, ende + '\n});'.length);
+}
+
 const REFERENZ = {
   jspdf: {
     author: 'James Hall', // npm-Maintainer mrjameshall (james@parall.ax), Repo github.com/parallax/jsPDF
@@ -217,6 +229,14 @@ const REFERENZ = {
     author: 'Kazuhiko Arase', // npm package.json author-Feld, Copyright-Zeile im Quelltext
     supplier: { name: 'Kazuhiko Arase', url: ['https://github.com/kazuhikoarase/qrcode-generator'] },
     dateinamen: ['qrcode.js'], // Kopfzeilen-Vergleich: eingebetteter Block deckt sich mit dieser (Nicht-UTF8-)Variante
+    klasse: { executable: 'executable', archive: 'no archive', structured: 'unstructured' },
+  },
+  'noble-ed25519': {
+    author: 'Paul Miller', // LICENSE und Kopfzeile des Quelltexts am Commit fa14496
+    supplier: { name: 'Paul Miller', url: ['https://github.com/paulmillr/noble-ed25519'] },
+    // Build von fa14496 (tsc 4.5.4, @types/node 16.11.21), eine Zeile geändert; beide SHA-256 im Fremdcode-Register
+    // (tools/geruest-waechter-grundlinie.json) und in tests/halter-schluessel-noble.test.js (U2-ADR-457, Nachtrag v865).
+    dateinamen: ['lib/esm/index.js'],
     klasse: { executable: 'executable', archive: 'no archive', structured: 'unstructured' },
   },
   'font-inter': {
@@ -238,6 +258,14 @@ const REFERENZ = {
     dateinamen: ['yb-download.png', 'yb-upload.png', 'yb-share.png'],
     klasse: { executable: 'non-executable', archive: 'no archive', structured: 'unstructured' },
   },
+  // 02.10.2026: die Icons im Kern, abgeleitet aus lucide-static (Herkunft und Abweichungen in
+  // THIRD_PARTY_LICENSES, Abschnitt 6). Feather-Anteil (MIT) laut LICENSE von lucide-static.
+  'lucide-icons': {
+    author: 'Lucide Contributors; Cole Bemis (Feather)', // LICENSE von lucide-static 0.350.0 und feather-icons 4.29.2
+    supplier: { name: 'Lucide Icons and Contributors', url: ['https://lucide.dev', 'https://github.com/lucide-icons/lucide'] },
+    dateinamen: ['vivodepot.html (const ICONS)'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
   'code-liste-atc': {
     // Quelle ist die amtliche deutsche Fassung (BfArM, erstellt vom WIdO), nicht der WHOCC-Index.
     supplier: { name: 'Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM)', url: ['https://www.bfarm.de/DE/Kodiersysteme/Klassifikationen/ATC/_node.html'] },
@@ -252,6 +280,45 @@ const REFERENZ = {
   'code-liste-loinc': {
     supplier: { name: 'Regenstrief Institute', url: ['https://loinc.org'] },
     dateinamen: ['code-listen/loinc.json'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
+  // 02.10.2026 (Klassensuche nach Lucide): drei Fremdbestandteile standen in NOTICE.md und THIRD_PARTY_LICENSES,
+  // aber nicht in der SBOM. Die Wortlisten stehen in den Sprachmodulen (strings:passwortWortliste.text), die IHE-Codes
+  // im Terminologie-Block `@vd-terminologie isik` des Kerns. Gehasht wird jeweils genau dieser Text.
+  'wortliste-de-dys2p': {
+    author: 'dys2p', // github.com/dys2p/wordlists-de, README
+    supplier: { name: 'dys2p', url: ['https://github.com/dys2p/wordlists-de'] },
+    dateinamen: ['tools/textsatz-de-modul.json (strings:passwortWortliste.text)'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'unstructured' },
+  },
+  'wortliste-en-eff': {
+    author: 'Electronic Frontier Foundation',
+    supplier: { name: 'Electronic Frontier Foundation', url: ['https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases'] },
+    dateinamen: ['tools/textsatz-en-modul.json (strings:passwortWortliste.text)'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'unstructured' },
+  },
+  'terminologie-ihe-xds-value-sets': {
+    author: 'IHE Deutschland e.V.',
+    supplier: { name: 'IHE Deutschland e.V.', url: ['https://github.com/IHE-Germany/ITI.XDS.VS'] },
+    dateinamen: ['vivodepot.html (@vd-terminologie isik)'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
+  'terminologie-hl7-tho': {
+    author: 'Health Level Seven International',
+    supplier: { name: 'HL7 International (HL7 Terminology, THO)', url: ['https://terminology.hl7.org'] },
+    dateinamen: ['vivodepot.html (Codes der HL7-Terminologie, FHIR-Ausgaben)'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
+  'terminologie-ihe-formatcode': {
+    author: 'IHE International, Inc.',
+    supplier: { name: 'IHE International, Inc.', url: ['https://profiles.ihe.net/fhir/ihe.formatcode.fhir/'] },
+    dateinamen: ['vivodepot.html (@vd-terminologie isik)'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
+  'terminologie-kbv-nfd-runaway-risk': {
+    author: 'Kassenärztliche Bundesvereinigung (KBV)',
+    supplier: { name: 'Kassenärztliche Bundesvereinigung (KBV)', url: ['https://github.com/kassenaerztliche-bundesvereinigung/MIOParser'] },
+    dateinamen: ['vivodepot.html (@vd-terminologie ips-nfd, kbvWeglauf)'],
     klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
   },
   'code-liste-snomed-allergen': {
@@ -285,6 +352,42 @@ const HANDGEPFLEGT = Object.freeze(['font-inter-pdf']);
 
 function dateinamenAus(komponente) {
   return (komponente.properties || []).filter((p) => p.name === 'bsi:component:filename').map((p) => p.value);
+}
+
+/* HL7-Terminologie im Kern (02.10.2026, Lizenzmessung je System: Feld copyright von
+   https://terminology.hl7.org/CodeSystem-<id>.json, Abruf 02.10.2026, in allen elf gleich). CC0: „THO is copyright
+   ©1989+ Health Level Seven International and is made available under the CC0 designation.“ OFFEN: iso-21089-lifecycle trägt „Copyright by ISO International“ und keinen CC0-Satz. */
+const HL7_THO_BASIS = 'http://terminology.hl7.org/CodeSystem/';
+const HL7_THO_CC0 = Object.freeze(['allergyintolerance-clinical', 'allergyintolerance-verification', 'condition-clinical',
+  'consentcategorycodes', 'consentscope', 'list-empty-reason', 'provenance-participant-type', 'v3-Confidentiality',
+  'v3-NullFlavor', 'v3-RoleClass', 'v3-RoleCode']);
+const HL7_THO_OFFEN = Object.freeze(['iso-21089-lifecycle']);
+
+/* System → Menge der Codes, die direkt dahinter stehen (`…/<id>', code: 'x'` oder `…/<id>","code":"x"`). Systeme ohne
+   benachbarten Code (als Konstante abgelegt) stehen mit leerer Menge. */
+function hl7SystemeImKern(html) {
+  const aus = new Map();
+  for (const m of html.matchAll(/terminology\.hl7\.org\/CodeSystem\/([A-Za-z0-9._-]+)['"](?:\s*,\s*['"]?code['"]?\s*:\s*['"]([^'"]+))?/g)) {
+    if (!aus.has(m[1])) aus.set(m[1], new Set());
+    if (m[2]) aus.get(m[1]).add(m[2]);
+  }
+  return aus;
+}
+
+function wortlisteAusModul(sprache, repo) {
+  const modul = JSON.parse(fs.readFileSync(path.join(repo, 'tools', `textsatz-${sprache}-modul.json`), 'utf8'));
+  const text = modul.texte && modul.texte['strings:passwortWortliste.text'];
+  if (typeof text !== 'string' || !text.trim()) throw new Error(`Sprachmodul ${sprache}: strings:passwortWortliste.text fehlt.`);
+  return text;
+}
+
+/* Inhalt des Skriptblocks nach `<!-- @vd-terminologie <name> -->`, zwischen `<script>` und `</script>`. */
+function terminologieBlock(html, name) {
+  const marker = html.indexOf(`<!-- @vd-terminologie ${name} -->`);
+  if (marker < 0) return null;
+  const auf = html.indexOf('<script>', marker);
+  const zu = html.indexOf('</script>', auf);
+  return auf < 0 || zu < 0 ? null : html.slice(auf + '<script>'.length, zu);
 }
 
 function hashesAusDateien(dateinamen, repo) {
@@ -334,7 +437,7 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
 
   // jspdf, qrcode-generator — Version/purl/Lizenz aus dem @vd-lib-Marker, Hash aus dem
   // tatsächlichen Skriptblock (nicht aus dem Marker — der trägt keinen verlässlichen Hash).
-  for (const name of ['jspdf', 'qrcode-generator']) {
+  for (const name of ['jspdf', 'qrcode-generator', 'noble-ed25519']) {
     const lib = libs.get(name);
     if (!lib) throw new Error(`Kein @vd-lib status="inline"-Marker für „${name}" gefunden.`);
     const markerIdx = html.indexOf(`@vd-lib name="${name}"`);
@@ -379,6 +482,29 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
         properties: eigenschaften('xshare-yellow-button'),
       });
       kompNamen.push('xshare-yellow-button');
+    }
+  }
+
+  // Lucide-Icons — ein Textblock im Skript, ein Komponenten-Eintrag (wie xshare-yellow-button).
+  {
+    const block = lucideIconsBlock(html);
+    if (block) {
+      const alt = bisherigesSbom.components.find((c) => c.name === 'lucide-icons') || {};
+      komponenten.push({
+        'bom-ref': 'lucide-icons',
+        type: 'file',
+        name: 'lucide-icons',
+        version: alt.version || 'auswahl-aus-lucide-static-0.300.0-bis-0.495.0',
+        description: alt.description || 'Pfaddaten von 35 Icons, als Text in der Skript-Konstante ICONS eingebettet. '
+          + 'Abgeleitet aus lucide-static, 31 wörtlich, 4 verändert. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES Abschnitt 6.',
+        purl: 'pkg:npm/lucide-static',
+        author: REFERENZ['lucide-icons'].author,
+        supplier: REFERENZ['lucide-icons'].supplier,
+        licenses: [{ expression: 'ISC AND MIT' }],
+        hashes: hashesVonBuffer(Buffer.from(block, 'utf8')),
+        properties: eigenschaften('lucide-icons'),
+      });
+      kompNamen.push('lucide-icons');
     }
   }
 
@@ -429,6 +555,83 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
       properties: eigenschaften(kompName),
     });
     kompNamen.push(kompName);
+  }
+
+  // Wortlisten (Passwort-Vorschlag) aus den Sprachmodulen — Hash über genau den Listentext.
+  for (const [kompName, sprache, version, lizenz, beschreibung] of [
+    ['wortliste-de-dys2p', 'de', 'de-1296-v1', { license: { id: 'CC0-1.0' } },
+      'dys2p wordlists-de, de-1296-v1.txt; Lizenz nach Wahl Unlicense, CC0 oder BSD-3-Clause, genutzt unter CC0. Verändert: 45 Wörter entfernt. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES (Wortlisten).'],
+    ['wortliste-en-eff', 'en', 'eff-short-wordlist-1-2016', { license: { id: 'CC-BY-4.0' } },
+      'EFF Short Wordlist 1 (2016); CC BY 4.0 laut https://www.eff.org/copyright. Verändert: 101 Wörter entfernt, Würfelnummern weggelassen. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES (Wortlisten).'],
+  ]) {
+    const text = wortlisteAusModul(sprache, repo);
+    komponenten.push({
+      'bom-ref': kompName, type: 'data', name: kompName, version, description: beschreibung,
+      author: REFERENZ[kompName].author, supplier: REFERENZ[kompName].supplier,
+      licenses: [lizenz], hashes: hashes(text), properties: eigenschaften(kompName),
+    });
+    kompNamen.push(kompName);
+  }
+
+  // IHE Deutschland — Value Sets for XDS (ISiK-Ausgabe) — Hash über den Terminologie-Block `@vd-terminologie isik`.
+  {
+    const block = terminologieBlock(html, 'isik');
+    if (!block) throw new Error('Kein Block <!-- @vd-terminologie isik --> im Kern gefunden.');
+    komponenten.push({
+      'bom-ref': 'terminologie-ihe-xds-value-sets', type: 'data', name: 'terminologie-ihe-xds-value-sets', version: '4.0.0',
+      description: 'IHE Deutschland, Value Sets for XDS 4.0.0 (Commit aa1e0e5b): vier Codes mit unveränderter Bezeichnung in der Ausgabe für Krankenhäuser (ISiK). Der gehashte Block trägt daneben eigene und fremde Kennungen ohne Werkcharakter (Profil-URL, KDL-Codes, s. NOTICE.md). Nachweis: NOTICE.md, THIRD_PARTY_LICENSES.',
+      author: REFERENZ['terminologie-ihe-xds-value-sets'].author, supplier: REFERENZ['terminologie-ihe-xds-value-sets'].supplier,
+      licenses: [{ license: { id: 'CC-BY-4.0' } }], hashes: hashes(block), properties: eigenschaften('terminologie-ihe-xds-value-sets'),
+    });
+    kompNamen.push('terminologie-ihe-xds-value-sets');
+  }
+
+  // HL7-Terminologie (THO) — jedes im Kern genannte System braucht einen Lizenzbeleg (HL7_THO_CC0) oder steht als
+  // offen (HL7_THO_OFFEN, Befund-Ratsche). Ein neues System ohne beides bricht den Lauf ab: so kommt keines still dazu.
+  {
+    const genutzt = hl7SystemeImKern(html);
+    const unbelegt = [...genutzt.keys()].filter((id) => !HL7_THO_CC0.includes(id) && !HL7_THO_OFFEN.includes(id));
+    if (unbelegt.length) throw new Error(`HL7-Codesystem ohne Lizenzbeleg im Kern: ${unbelegt.join(', ')} — Feld copyright des CodeSystems messen, dann HL7_THO_CC0 oder HL7_THO_OFFEN ergänzen.`);
+    const belegt = [...genutzt.entries()].filter(([id]) => HL7_THO_CC0.includes(id)).sort(([x], [y]) => (x < y ? -1 : 1));
+    komponenten.push({
+      'bom-ref': 'terminologie-hl7-tho', type: 'data', name: 'terminologie-hl7-tho', version: 'THO 7.4.0',
+      description: 'Codes aus der HL7 Terminology (THO), die der Kern in seinen FHIR-Ausgaben setzt. Je System belegt im Feld copyright des CodeSystems: „made available under the CC0 designation“. Gehasht wird die sortierte Liste System|Code. Nicht hier: iso-21089-lifecycle (Inhalt von ISO, Lizenz offen, Befund-Ratsche).',
+      author: REFERENZ['terminologie-hl7-tho'].author, supplier: REFERENZ['terminologie-hl7-tho'].supplier,
+      licenses: [{ license: { id: 'CC0-1.0' } }],
+      hashes: hashes(belegt.map(([id, codes]) => [id, ...[...codes].sort()].join('|')).join('\n')),
+      properties: [...eigenschaften('terminologie-hl7-tho'), ...belegt.map(([id]) => ({ name: 'vivodepot:codesystem', value: HL7_THO_BASIS + id }))],
+    });
+    kompNamen.push('terminologie-hl7-tho');
+  }
+
+  // KBV-CodeSystem NFD Runaway Risk — Quelle MIOParser der KBV (Apache-2.0: CodeSystem/NFDRunawayRisk.ts mit Apache-Kopf,
+  // Anzeige in ConceptMap/NFDRunawayRiskGerman.ts); NOTICE des Werks in THIRD_PARTY_LICENSES.
+  {
+    const m = /"kbvWeglauf":(\{[^}]*\})/.exec(html);
+    if (!m) throw new Error('KBV NFD Runaway Risk: kbvWeglauf im Kern nicht gefunden — Komponente prüfen.');
+    const k = JSON.parse(m[1]);
+    komponenten.push({
+      'bom-ref': 'terminologie-kbv-nfd-runaway-risk', type: 'data', name: 'terminologie-kbv-nfd-runaway-risk', version: k.version || '1.0.0',
+      description: 'KBV_CS_MIO_NFD_Runaway_Risk: ein Code (' + k.code + ', Anzeige „' + k.display + '“) im IPS-Export. Quelle: MIOParser der KBV, src/Definitions/KBV/PKA/1.0.0/CodeSystem/NFDRunawayRisk.ts, Apache License 2.0; NOTICE des Werks in THIRD_PARTY_LICENSES.',
+      author: REFERENZ['terminologie-kbv-nfd-runaway-risk'].author, supplier: REFERENZ['terminologie-kbv-nfd-runaway-risk'].supplier,
+      licenses: [{ license: { id: 'Apache-2.0' } }], hashes: hashes([k.system, k.code, k.display].join('|')),
+      properties: eigenschaften('terminologie-kbv-nfd-runaway-risk'),
+    });
+    kompNamen.push('terminologie-kbv-nfd-runaway-risk');
+  }
+
+  // IHE formatcode (ISiK-Ausgabe) — CC BY 4.0, Namensnennung in NOTICE.md.
+  {
+    const codes = [...html.matchAll(/ihe\.formatcode\.fhir\/CodeSystem\/formatcode","code":"([^"]+)"/g)].map((m) => m[1]);
+    if (!codes.length) throw new Error('IHE formatcode: kein Code im Kern gefunden — Komponente prüfen.');
+    komponenten.push({
+      'bom-ref': 'terminologie-ihe-formatcode', type: 'data', name: 'terminologie-ihe-formatcode', version: 'ihe.formatcode.fhir',
+      description: 'Some content from IHE® Copyright © 2015 IHE International, Inc., lizenziert unter CC BY 4.0. Genutzt: ' + [...new Set(codes)].sort().join(', ') + '. Nachweis: NOTICE.md.',
+      author: REFERENZ['terminologie-ihe-formatcode'].author, supplier: REFERENZ['terminologie-ihe-formatcode'].supplier,
+      licenses: [{ license: { id: 'CC-BY-4.0' } }], hashes: hashes([...new Set(codes)].sort().join('\n')),
+      properties: eigenschaften('terminologie-ihe-formatcode'),
+    });
+    kompNamen.push('terminologie-ihe-formatcode');
   }
 
   // Erzeugte Komponenten ersetzen ihre bisherigen an derselben Stelle; jede NICHT erzeugte
@@ -539,4 +742,6 @@ function main() {
 
 if (require.main === module) main();
 module.exports = {
+  lucideIconsBlock,
+  hl7SystemeImKern, HL7_THO_CC0, HL7_THO_OFFEN, terminologieBlock, wortlisteAusModul,
   zusaetzlicheTraeger, HANDGEPFLEGT, hashesAusDateien, vdLibsInline, ersetzeEindeutig, ersetzeAlle, pruefeUndPflege, erzeugeSBOM, skriptInhaltNachMarker, fontInterHashesUndDateien, codeListenBlockText };

@@ -6,7 +6,7 @@
 *(Nachtrag 29.08.2026, ADR-Lücken-Prüfung: derselbe Formatierungs-Grund wie bei U2-ADR-062 — der Nachfolger stand bereits da, nur nicht im ersten Satz. Umformuliert, kein neuer Inhalt.)*
 **Nummer:** U2-ADR-066 (höchste belegte in `docs/adr/` war U2-ADR-065).
 **Typ:** Feature (Bereich 8 / Vorsorge) — eine Wortlaut-Quelle `PV_BMJ`, pvwiz-Umbau, neuer PV-Dokument-Generator (Zusammensteller) + druckbares Dokument (Print-CSS/Overlay). **Additive `pv_*`-Felder, KEIN Schema-Bump.**
-**Bezug:** U2-ADR-064/065 (refMehrfach / Personen im Vorsorge-Bereich) · U2-ADR-045 (Verwaisungs-Regel) · Wizard-Maschine (Teil 2) · interner Bauauftrag „PV-Wizard BMJ" vom 10.07.2026 (nicht Teil dieses Repos).
+**Bezug:** U2-ADR-064/065 (refMehrfach / Personen im Vorsorge-Bereich) · U2-ADR-045 (Verwaisungs-Regel) · Wizard-Maschine (Teil 2) · interner Bauauftrag „PV-Wizard BMJ" vom 10.07.2026 (nicht Teil dieses Repos). Nachtrag 04.10.2026: die Ankündigung eines NGI-Zero-Krypto-Reviews gilt nicht mehr.
 
 ---
 
@@ -384,3 +384,7 @@ erweiterte AAD samt Vertauschungsprobe, und die Nicht-Extrahierbarkeit auf beide
 
 **Was ausdrücklich NICHT Gegenstand war:** keine Migrationsstufe (sie hängt an der Entscheidung zu
 A337), kein Empfängerkreis, keine Rotation der Adressen, kein Entfernen des v3-Lesepfads.
+
+## Nachtrag 04.10.2026 (NGI Zero)
+
+Die Ankündigung eines NGI-Zero-Krypto-Reviews (Nachtrag 4, „Block III (extern)“) gilt nicht mehr; NGI Zero ist ein Programm von NLnet. Stand: Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden.

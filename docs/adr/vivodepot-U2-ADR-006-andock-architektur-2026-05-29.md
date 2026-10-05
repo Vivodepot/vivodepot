@@ -3,9 +3,9 @@
 **Status:** Akzeptiert
 **Datum:** 29.05.2026
 **Kategorie:** ARCHITEKTUR, GESCHÄFTSMODELL
-**Cross-Referenz (Produktiv-Kanon):** `ADR-076 v2` (bidirektionaler Import-Export über neun Sektoren), `ADR-065` (Template-Übergabe-Mechanismus, JWS-signiert, Trust Authority — Klärungen 2–8 geklärt), `ADR-063` (FHIR-Provenance), `ADR-002` (FHIR R4).
+**Cross-Referenz (Produktiv-Kanon):** `ADR-065` (Template-Übergabe-Mechanismus, JWS-signiert, Trust Authority — Klärungen 2–8 geklärt), `ADR-063` (FHIR-Provenance), `ADR-002` (FHIR R4).
 **U2-Bezug:** U2-ADR-005 (Urheberschaft). Erster Andockfall: Gesundheits-Sektor.
-**Status heute:** gilt — Andock-Architektur im Kern nachweisbar: `codeSlotSicherstellen()` (`vivodepot.html:17944`, Kommentar „U2-ADR-006: leerer Code-Slot"), Template-Schicht unter `docs/template-generator/`, FHIR-IPS-Bundle-Export vorhanden.
+**Status heute:** gilt — Andock-Architektur im Kern nachweisbar: `codeSlotSicherstellen()` (Kommentar „U2-ADR-006: leerer Code-Slot"), Template-Schicht unter `docs/template-generator/`, FHIR-IPS-Bundle-Export vorhanden. Abschnitt „Geschäftsmodell“ überholt, s. Nachtrag 03.10.2026.
 
 ---
 
@@ -49,3 +49,14 @@ Template-Zertifizierungsgebühren, BUSL-Schicht für die kommerzielle Template-E
 ## Erster Andockfall
 
 Der Gesundheits-Sektor wird jetzt schlank gebaut: Speicher- und Anzeige-Schicht, optionaler Code-Slot pro Eintrag (vorerst leer), FHIR-Korrespondenz pro Feldgruppe als Anschluss-Notiz — ohne IPS-/FHIR-Maschinerie im Kern. Der Code-Slot und die Anschluss-Notiz sind die Vorkehrung, die diese Architektur einlöst, ohne den Template-Mechanismus vorauszusetzen.
+
+## Nachtrag 03.10.2026 — Geschäftsmodell und Lizenz überholt
+
+Der Abschnitt „Geschäftsmodell“ und die in „Grenze“ genannten Zertifizierungsgebühren und die
+BUSL-Schicht gelten nicht mehr (s. U2-ADR-270). Die Lizenz ist die EUPL-1.2, maßgeblich ist
+[LICENSING.md](../../LICENSING.md).
+
+Zum Begriff „zertifiziert“ gilt U2-ADR-097 §8.
+
+Korrigiert am 04.10.2026: In der Cross-Referenz ist der Verweis auf „ADR-076 v2“ gestrichen, eine solche ADR gibt es
+nicht. Im Status-Kopf steht statt einer Zeilennummer nur die Funktion `codeSlotSicherstellen()`.

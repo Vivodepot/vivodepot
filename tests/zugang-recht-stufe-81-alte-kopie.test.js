@@ -63,13 +63,21 @@ test('[Stufe 81·Rot-Beweis] eine Kopie, die nicht von Vivodepot stammt, bleibt 
   assert.equal(d.logikModule.filter((m) => m.id === ID).length, 1);
 });
 
-// Offener Restfall: Schema 80, zuerst in einem Produkt OHNE das Template geöffnet (Kopie bleibt), später in einem Produkt MIT
-// dem Template. Stufe 81 kommt nicht wieder, die alte Kopie verdeckt dann das Modul des Produkts. Saubere Lösung: eine Bereinigung
-// beim Öffnen (dort ist das Produkt bekannt) statt beim Migrieren — ein eigener Eingriff. Bis dahin sichtbar, bricht nichts.
-test('[Stufe 81·Restfall] Schema 80, erst Produkt ohne Template, dann Produkt mit Template: die alte Kopie darf das Modul nicht verdecken', { todo: 'Bereinigung beim Öffnen fehlt' }, () => {
-  const d = depotAufSchema80();
-  kernMit([]).depotNormalisieren(d);
-  const V = kernMit([TEMPLATE]);
-  V.depotNormalisieren(d);
-  assert.equal(d.logikModule.filter((m) => m.id === ID).length, 0);
-});
+// Restfall (E4, Entscheidung der Produktverantwortung 04.10.2026): Schema 80, zuerst in einem Produkt OHNE das Template geöffnet
+// (Kopie bleibt), später in einem Produkt MIT dem Template. Stufe 81 kommt nicht wieder; die Bereinigung beim Öffnen
+// (`_alteAbWerkKopienErsetzen`, im Öffnen-Weg nach depotNormalisieren) ersetzt die Kopie, weil ihr Inhalt einer früher AUSGELIEFERTEN
+// Ab-Werk-Fassung entspricht. Die Kopie hier ist diese Fassung selbst (tests/fixtures/ab-werk-fassung-v670-zugang.json und -v718-zugang.json, aus den ausgelieferten Kernen; belegt
+// vom Erzeuger der früher ausgelieferten Fassungen), kein Modell.
+for (const [fix, schema] of [['ab-werk-fassung-v670-zugang.json', 80], ['ab-werk-fassung-v718-zugang.json', 82]]) {
+  test('[Stufe 81·Restfall] ' + fix + ' (Schema ' + schema + '), erst Produkt ohne Template, dann Produkt mit Template: die alte Kopie verdeckt das Modul nicht', async () => {
+    const kopie = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', fix), 'utf8'));
+    const d = { schemaVersion: schema, logikModule: [kopie], sektoren: {} };
+    kernMit([]).depotNormalisieren(d);
+    assert.equal(d.logikModule.filter((m) => m.id === ID).length, 1, 'Vorbedingung: ohne Template bleibt die Kopie');
+    const V = kernMit([TEMPLATE]);
+    V.depotNormalisieren(d);
+    const ersetzt = await V._alteAbWerkKopienErsetzen(d);
+    assert.equal(d.logikModule.filter((m) => m.id === ID).length, 0);
+    assert.deepEqual(ersetzt.map((x) => x.id), [ID], 'der Vermerk nennt das ersetzte Modul');
+  });
+}

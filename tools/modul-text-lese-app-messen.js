@@ -39,7 +39,10 @@ function messen(keys, kernNimmt, leseNimmt) {
   }
   return { je, summeFehlt: Object.values(je).reduce((a, z) => a + z.fehlt, 0), summeLese: Object.values(je).reduce((a, z) => a + z.lese, 0) };
 }
+/* Gefragt ist, ob die Lese-App die Kennung überhaupt annehmen KANN — mit dem Vertrauen eines Moduls, dessen Herkunft beim Öffnen
+   festgestellt wurde (Schutz-Wagen, 04.10.2026). Ein geschützter Text wird von einem fremden Modul abgewiesen; das ist gewollt und
+   kein Annahme-Verlust (die Probe dafür ist die Schutzliste-Probe der Lese-App). */
 function annehmer(V) {
-  return (k) => !!V.textsatzModulPruefen({ modulTyp: 'textsatz', sprache: 'xx', moduleVersion: 1, texte: { [k]: 'X' } }).texte[k];
+  return (k) => !!V.textsatzModulPruefen({ modulTyp: 'textsatz', sprache: 'xx', moduleVersion: 1, texte: { [k]: 'X' } }, { schutzVertraut: true }).texte[k];
 }
 module.exports = { familie, kennungen, messen, annehmer };

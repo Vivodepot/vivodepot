@@ -57,7 +57,13 @@ function zeichenMitOrt(dateien) {
       for (const [k, v] of Object.entries(o)) lauf(v, wo + '.' + k);
     }
   };
-  for (const f of dateien) lauf(JSON.parse(fs.readFileSync(f, 'utf8')), path.relative(REPO, f));
+  for (const f of dateien) {
+    const modul = JSON.parse(fs.readFileSync(f, 'utf8'));
+    // Ein Erscheinungsbild-Modul (v894) trägt nur CSS — Token-Werte und den Abschnitt `stil`; nichts davon erreicht doc.text.
+    // In `content` erlaubt seine Grammatik nur die Zeichen ERSCHEINUNGSBILD_REGELN.inhaltZeichen (Pfeile der Klappzeilen).
+    if (modul && modul.modulTyp === 'erscheinungsbild') continue;
+    lauf(modul, path.relative(REPO, f));
+  }
   return raus;
 }
 const hex = (cp) => 'U+' + cp.toString(16).toUpperCase().padStart(4, '0');
@@ -190,4 +196,12 @@ test('[PDF-Schrift·IPS-Modul] die Sätze des IPS-Moduls werden nur im IPS-Bau g
   // Rot-Beweis: eine Lesestelle in einem PDF-Erzeuger fiele auf.
   const rot = quelle + "\nfunction pdfProbe() { doc.text(_ipsSatz('patient')); }\n";
   assert.equal(ipsSatzAusserhalbDesIpsBaus(rot).length, 1);
+});
+
+test('[PDF-Schrift·Klasse·Gegenprobe] das Erscheinungsbild-Modul ist unter den Moduldateien, und nur es wird übergangen', () => {
+  const dateien = moduldateien();
+  const eb = dateien.filter((f) => JSON.parse(fs.readFileSync(f, 'utf8')).modulTyp === 'erscheinungsbild');
+  assert.ok(eb.length >= 1, 'die Probe sieht das Erscheinungsbild-Modul — sonst wäre die Ausnahme tot');
+  const mit = zeichenMitOrt(dateien.filter((f) => !eb.includes(f)));
+  assert.deepEqual([...zeichenMitOrt(dateien).keys()].sort(), [...mit.keys()].sort(), 'ohne das Modul dieselben Zeichen');
 });

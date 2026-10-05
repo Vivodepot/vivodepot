@@ -25,7 +25,7 @@
               },
               "bulletPrefix": "– ",
               "freitextFeld": "ownAdditionalSituation",
-              "einleitung": "Diese Patientenverfügung gilt, wenn"
+              "einleitung": "Wenn"
             }
           ]
         },
@@ -112,18 +112,18 @@
             {
               "typ": "refMehrfach",
               "feldId": "supportFromThesePersons",
-              "satz": "Ich wünsche Beistand durch folgende Personen: {namen}."
+              "satz": "Ich möchte Beistand durch folgende Personen: {namen}."
             },
             {
               "typ": "freitextSatz",
               "feldId": "supportFromChurchOrCommunity",
-              "satz": "Ich wünsche Beistand durch eine Vertreterin/einen Vertreter folgender Kirche oder Weltanschauungsgemeinschaft: {text}."
+              "satz": "Ich möchte Beistand durch eine Vertreterin oder einen Vertreter folgender Kirche oder Weltanschauungsgemeinschaft: {text}."
             },
             {
               "typ": "auswahlFest",
               "feldId": "hospiceSupport",
               "wert": "ja",
-              "text": "Ich wünsche hospizlichen Beistand."
+              "text": "Ich möchte hospizlichen Beistand."
             }
           ]
         },
@@ -133,7 +133,7 @@
             {
               "typ": "refMehrfach",
               "feldId": "confidentialityWaiverFor",
-              "satz": "Ich entbinde die behandelnden Ärztinnen und Ärzte gegenüber folgenden Personen von der Schweigepflicht: {namen}."
+              "satz": "Ich entbinde die mich behandelnden Ärztinnen und Ärzte von der Schweigepflicht gegenüber folgenden Personen: {namen}."
             }
           ]
         },
@@ -147,7 +147,7 @@
                 "teil": "verbindlichkeitKlauseln"
               },
               "texte": [
-                "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
+                "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/ Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
                 "Sollte eine Ärztin oder ein Arzt oder das Behandlungsteam nicht bereit sein, meinen in dieser Patientenverfügung geäußerten Willen zu befolgen, erwarte ich, dass für eine anderweitige medizinische und/oder pflegerische Behandlung gesorgt wird. Von meiner Vertreterin/meinem Vertreter (z. B. Bevollmächtigte(r)/Betreuer(in)) erwarte ich, dass sie/er die weitere Behandlung so organisiert, dass meinem Willen entsprochen wird."
               ]
             },
@@ -177,10 +177,15 @@
         },
         {
           "titel": "Weitere Verfügungen",
+          "bloecke": []
+        },
+        {
+          "titel": "2.7 Hinweise auf weitere Vorsorgeverfügungen",
           "bloecke": [
             {
-              "typ": "crossRef",
-              "text": "Ich habe eine Vorsorgevollmacht errichtet.",
+              "typ": "instrumentPersonVerweis",
+              "instrumentTyp": "enduring-power-of-attorney",
+              "feldId": "authorizedPersons",
               "bedingung": {
                 "typ": "oder",
                 "bedingungen": [
@@ -196,11 +201,34 @@
                     "wert": "ja"
                   }
                 ]
-              }
+              },
+              "nurWennBesprochen": true,
+              "besprochenFeldId": "contentOfTheAdvanceDirective",
+              "einleitung": "Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt und den Inhalt dieser Patientenverfügung mit der von mir bevollmächtigten Person besprochen:",
+              "rollenLabel": "Bevollmächtigte(r)",
+              "texte": [
+                "Name:",
+                "Anschrift:",
+                "Telefon/Telefax/E-Mail:"
+              ],
+              "angabenAus": [
+                [
+                  "name"
+                ],
+                [
+                  "adresse"
+                ],
+                [
+                  "tel",
+                  "email"
+                ]
+              ],
+              "luecke": "..."
             },
             {
-              "typ": "crossRef",
-              "text": "Ich habe eine Betreuungsverfügung errichtet.",
+              "typ": "instrumentPersonVerweis",
+              "instrumentTyp": "custodianship-declaration",
+              "feldId": "proposedPerson",
               "bedingung": {
                 "typ": "oder",
                 "bedingungen": [
@@ -216,30 +244,24 @@
                     "wert": "ja"
                   }
                 ]
-              }
-            }
-          ]
-        },
-        {
-          "titel": "2.7 Hinweise auf weitere Vorsorgeverfügungen",
-          "bloecke": [
-            {
-              "typ": "instrumentPersonVerweis",
-              "instrumentTyp": "enduring-power-of-attorney",
-              "feldId": "authorizedPersons",
-              "einleitung": "Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt:",
-              "besprochenFeldId": "contentOfTheAdvanceDirective",
-              "besprochenEinleitung": "Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt und den Inhalt dieser Patientenverfügung mit der von mir bevollmächtigten Person besprochen:",
-              "rollenLabel": "Bevollmächtigte(r): "
-            },
-            {
-              "typ": "instrumentPersonVerweis",
-              "instrumentTyp": "custodianship-declaration",
-              "feldId": "proposedPerson",
-              "einleitung": "Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt.",
+              },
               "besprochenFeldId": "contentOfTheAdvanceDirective2",
+              "einleitung": "Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt.",
               "besprochenEinleitung": "Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt und den Inhalt dieser Patientenverfügung mit der/dem von mir gewünschten Betreuerin/Betreuer besprochen.",
-              "rollenLabel": "Gewünschte(r) Betreuerin/Betreuer: "
+              "rollenLabel": "Gewünschte(r) Betreuerin/Betreuer",
+              "texte": [
+                "Name:",
+                "Anschrift:"
+              ],
+              "angabenAus": [
+                [
+                  "name"
+                ],
+                [
+                  "adresse"
+                ]
+              ],
+              "luecke": "..."
             }
           ]
         },
@@ -293,7 +315,9 @@
             {
               "typ": "freitextSatz",
               "feldId": "informationOrCounsellingReceived",
-              "satz": "Ich habe mich vor der Erstellung informiert bzw. beraten lassen: {text}."
+              "satz": "Ich habe mich vor der Erstellung dieser Patientenverfügung informiert bei/durch {text} und beraten lassen durch {text2}",
+              "feldId2": "counsellingBy",
+              "luecke": "..."
             }
           ]
         },

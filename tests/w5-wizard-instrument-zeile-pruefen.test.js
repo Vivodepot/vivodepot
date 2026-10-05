@@ -26,7 +26,7 @@ const GRUNDLINIE = require('../tools/w5-wizard-instrument-zeile-grundlinie.json'
    Definition, weder im Kern noch in einem Bereichs-Template. */
 test('[W-5·TeilA] die PV-Festlegungen sind Felder in living-will-decisions, abgeleitet aus PV_BMJ.steps — keine literale Definition, keine Doppelablage', () => {
   const { V } = ladeKern();
-  assert.equal(V.PV_BMJ.steps.length, 29, 'Vorbedingung: die 29 Schritte des Assistenten');
+  assert.equal(V.PV_BMJ.steps.length, 30, 'Vorbedingung: die 30 Schritte des Assistenten');   // 29 → 30 (U2-ADR-459)
   assert.deepEqual(pvFestlegungenPruefen(V), { fehlen: [], anderswo: [], literal: [] });
   assert.deepEqual(pvFestlegungenLiteralImQuelltext(V, pvFestlegungenQuelltexte()), [],
     'eine literale Definition einer PV-Festlegung im Kern oder in einem Bereichs-Template — die zweite Quelle, die U2-ADR-089 verhindern wollte');

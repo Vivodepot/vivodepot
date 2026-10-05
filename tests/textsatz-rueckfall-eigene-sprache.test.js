@@ -71,7 +71,9 @@ test('[Rückfall·Mitschrift] eine Datei mit altem Modul und Mitschrift derselbe
   const { V } = ladeKern();
   await V.depotLaden(umschlag, 'rueckfall-probe-2026');
   V.textsatzNeuAnwenden();
-  assert.equal(V.textLesen(KENNUNG), null);
+  /* Selbst-Einlass-Sperre (04.10.2026): das alte Modul reist in der Datei mit und ist gesperrt — das Fach füllt die
+     Mitschrift derselben Sprache (U2-ADR-398) direkt, ohne Rückfall. Der Text kommt so oder so an. */
+  assert.equal(V.textLesen(KENNUNG), V._selbstEinlassFrei() ? null : EN.texte[KENNUNG]);
   assert.equal(feldLabel(V), EN.texte[KENNUNG]);
 });
 
@@ -90,8 +92,15 @@ test('[Rückfall·Reihenfolge] ohne Quelle derselben Sprache: Deutsch (Englisch 
   V.textsatzNeuAnwenden();
   assert.equal(typeof V.TEXTSATZ_DE_QUELLE.texte[KENNUNG], 'string', 'Vorbedingung: Deutsch trüge den Text');
   assert.equal(feldLabel(V), V.TEXTSATZ_DE_QUELLE.texte[KENNUNG], 'Deutsch, nicht die Kennung');
-  assert.ok(V.TEXTSATZ_RUECKFAELLE.includes(KENNUNG), 'der Rückfall ist verbucht');
-  assert.equal(V.TEXTSATZ_RUECKFALL_SPRACHE[KENNUNG], 'de', 'und nennt die Sprache, in der er tatsächlich stand');
+  if (V._selbstEinlassFrei()) {
+    assert.ok(V.TEXTSATZ_RUECKFAELLE.includes(KENNUNG), 'der Rückfall ist verbucht');
+    assert.equal(V.TEXTSATZ_RUECKFALL_SPRACHE[KENNUNG], 'de', 'und nennt die Sprache, in der er tatsächlich stand');
+  } else {
+    /* Selbst-Einlass-Sperre (04.10.2026): das französische Modul reist in der Datei mit und ist gesperrt; die Sprache
+       der Datei gilt dann, als nenne sie keine — Deutsch steht direkt, nicht als Rückfall, und das Modul ist gemeldet. */
+    assert.deepEqual(V.gesperrteDepotModule().map((g) => g.typ + ':' + g.kennung), ['textsatz:fr']);
+    assert.equal(V.textsatzSpracheAktiv(), 'de');
+  }
   assert.equal(V._textsatzRueckfall('strings:gibtEsNicht.text'), 'strings:gibtEsNicht.text');
 });
 

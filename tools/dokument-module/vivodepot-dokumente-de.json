@@ -5,10 +5,10 @@
   "sprache": "de",
   "dokumente": {
     "pvBmj": {
-      "eingangsformel": "Ich (Name, Vorname, geboren am, wohnhaft in) bestimme hiermit für den Fall, dass ich meinen Willen nicht mehr bilden oder verständlich äußern kann:",
+      "eingangsformel": "Ich (Name, Vorname, geboren am, wohnhaft in) bestimme hiermit für den Fall, dass ich meinen Willen nicht mehr bilden oder verständlich äußern kann ...",
       "steps": [
         {
-          "dokEinleitung": "Diese Patientenverfügung gilt, wenn",
+          "dokEinleitung": "Wenn",
           "feld": {
             "id": "applicableSituations",
             "typ": "mehrfachauswahl",
@@ -391,6 +391,12 @@
         },
         {
           "feld": {
+            "id": "counsellingBy",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
             "id": "validityDuration",
             "typ": "auswahl",
             "optionen": [
@@ -415,7 +421,7 @@
         }
       ],
       "verbindlichkeitKlauseln": [
-        "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
+        "Der in meiner Patientenverfügung geäußerte Wille zu bestimmten ärztlichen und pflegerischen Maßnahmen soll von den behandelnden Ärztinnen und Ärzten und dem Behandlungsteam befolgt werden. Mein(e) Vertreter(in) – z. B. Bevollmächtigte(r)/ Betreuer(in) – soll dafür Sorge tragen, dass mein Patientenwille durchgesetzt wird.",
         "Sollte eine Ärztin oder ein Arzt oder das Behandlungsteam nicht bereit sein, meinen in dieser Patientenverfügung geäußerten Willen zu befolgen, erwarte ich, dass für eine anderweitige medizinische und/oder pflegerische Behandlung gesorgt wird. Von meiner Vertreterin/meinem Vertreter (z. B. Bevollmächtigte(r)/Betreuer(in)) erwarte ich, dass sie/er die weitere Behandlung so organisiert, dass meinem Willen entsprochen wird."
       ],
       "reichweiteEinleitung": "In Lebens- und Behandlungssituationen, die in dieser Patientenverfügung nicht konkret geregelt sind, ist mein mutmaßlicher Wille möglichst im Konsens aller Beteiligten zu ermitteln. Dafür soll diese Patientenverfügung als Richtschnur maßgeblich sein. Bei unterschiedlichen Meinungen über anzuwendende oder zu unterlassende ärztliche/pflegerische Maßnahmen soll der Auffassung folgender Person besondere Bedeutung zukommen:",
@@ -616,7 +622,7 @@
           }
         },
         {
-          "frage": "Darf sie in ärztliche Eingriffe einwilligen, auch bei Lebensgefahr? (§ 1829 BGB)",
+          "frage": "Darf sie in ärztliche Eingriffe einwilligen, auch bei Lebensgefahr oder Gefahr eines schweren, länger dauernden Gesundheitsschadens? (§ 1829 BGB)",
           "feld": {
             "id": "healthCareMedicalProcedures",
             "label": "Ärztliche Eingriffe",

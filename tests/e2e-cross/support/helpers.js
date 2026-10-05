@@ -345,6 +345,9 @@ const issuer = {
    dreiFelder, submissionNachTmp); der Weg dahinter ist der neue: gebaut wird auf der
    Arbeitsfläche, Angaben und Schlüssel liegen im Fertigstellen-Dialog.
    ════════════════════════════════════════════════════════════════════════ */
+/* Das Passwort der Schlüsseldatei in den Generator-Proben (frei erfunden, nur hier). Seit 04.10.2026 entstehen beide
+   Studio-Schlüsseldateien nur noch passwortverschlüsselt (.vdkey): zwei Felder, Mindestlänge 8. */
+const SCHLUESSEL_PASSWORT_E2E = 'e2e-probe-passwort-77';
 const generator = {
   async oeffnen(page, sprache) {
     await page.goto(URLS.generator);
@@ -374,6 +377,7 @@ const generator = {
   },
   async schluesselErzeugen(page) {
     await page.waitForSelector('#sk-erzeugen', { state: 'visible' });
+    await page.fill('#sk-pw1', SCHLUESSEL_PASSWORT_E2E); await page.fill('#sk-pw2', SCHLUESSEL_PASSWORT_E2E);
     await page.click('#sk-erzeugen');
     await page.waitForSelector('#sk-downloads:not([hidden])');
     // #sk-weiter ist bewusst gesperrt, bis BEIDE Schlüssel heruntergeladen sind. #sk-pub / #sk-priv lösen
@@ -436,6 +440,7 @@ generator.blattBauenUndErzeugen = async function blattBauenUndErzeugen(page, tmp
   await page.fill('#sd-k-email', sd.kontaktEmail); await page.fill('#sd-k-telefon', sd.kontaktTelefon);
   await page.selectOption('#sd-bereich', sd.bereich); await page.fill('#sd-usecase', sd.useCase);
   await page.click('#sd-weiter');
+  await page.fill('#sk-pw1', SCHLUESSEL_PASSWORT_E2E); await page.fill('#sk-pw2', SCHLUESSEL_PASSWORT_E2E);
   await page.click('#sk-erzeugen');
   await page.waitForSelector('#sk-downloads:not([hidden])');
   const [pubDl] = await Promise.all([page.waitForEvent('download'), page.click('#sk-pub')]);
@@ -447,7 +452,7 @@ generator.blattBauenUndErzeugen = async function blattBauenUndErzeugen(page, tmp
 };
 
 module.exports = {
-  REPO, URLS,
+  REPO, URLS, SCHLUESSEL_PASSWORT_E2E,
   SENTINEL_PRIVATE_JWK, SENTINEL_PUBLIC_JWK,
   frischerTmp, tmpAufraeumen, downloadNachTmp, jsonDatei,
   kern, lesen, issuer, generator,

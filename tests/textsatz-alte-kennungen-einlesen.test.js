@@ -68,12 +68,14 @@ test('[Alt-Kennung·Gegenprobe] das heutige englische Modul bleibt Schlüssel f�
      Ab-Werk-Aufruf gesetzt werden, s. tests/textsatz-en-modul-erzeugen.test.js. Dieselbe
      Zusicherung, hier gegen die COMMITTETE Datei statt gegen baueModul(). */
   const zusicherungsKennungen = new Set(V.ZUSICHERUNGS_SCHLUESSEL_KERN.map((k) => 'strings:' + k + '.text'));
+  /* Selbst-Einlass-Sperre (04.10.2026): auf diesem ungetrusteten Weg fallen zusätzlich die Kennungen der Schutzliste
+     (SCHUTZ_SCHLUESSEL_KERN), Grund `schutz` — ab Werk kommen sie an. */
   const erwartet = Object.keys(EN_MODUL.texte)
-    .filter((kennung) => zusicherungsKennungen.has(kennung))
-    .map((kennung) => ({ kennung, grund: 'zusicherung' }));
+    .filter((kennung) => zusicherungsKennungen.has(kennung) || V.SCHUTZ_SCHLUESSEL_KERN.has(kennung))
+    .map((kennung) => ({ kennung, grund: zusicherungsKennungen.has(kennung) ? 'zusicherung' : 'schutz' }));
   assert.deepEqual(r.verworfene, erwartet);
   assert.deepEqual(Object.keys(r.texte).sort(),
-    Object.keys(EN_MODUL.texte).filter((k) => !zusicherungsKennungen.has(k)).sort());
+    Object.keys(EN_MODUL.texte).filter((k) => !zusicherungsKennungen.has(k) && !V.SCHUTZ_SCHLUESSEL_KERN.has(k)).sort());
 });
 
 test('[Alt-Kennung·Gegenprobe] eine erfundene Kennung bleibt verworfen — auch unter einem alten Bereich', () => {
@@ -145,7 +147,7 @@ test('[Alt-Kennung·signiert·Gegenprobe] ein nachträglich veränderter Text l�
 
 test('[Alt-Kennung·Datei] die englische Vorführdatei von vor dem Umbau zeigt englische Beschriftungen', async () => {
   const { V } = ladeKern();
-  const roh = fs.readFileSync(path.join(__dirname, 'fixtures', 'vorfuehrung-zugang-zum-recht', 'demo-en.vivodepot'), 'utf8');
+  const roh = fs.readFileSync(path.join(__dirname, 'fixtures', 'vorfuehrung-zugang-zum-recht', 'altdatei-demo-en-2026-09-10.vivodepot'), 'utf8');
   await V.depotLaden(JSON.parse(roh.slice(roh.indexOf('{'))), 'zugang-zum-recht-vorfuehrung-2026');   // Passwort im README der Fixture
   assert.equal(V.getData().textsprache, 'en');
   assert.equal(V.textLesen('identity.givenName.label'), EN_MODUL.texte['identity.givenName.label']);

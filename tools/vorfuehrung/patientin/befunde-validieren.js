@@ -21,6 +21,7 @@
    einem Fix an nur einem Befund muss der andere nicht mitlaufen.
    Ohne --jar: FHIR_VALIDATOR_JAR. Ohne beides: Abbruch mit Grund, kein stilles Grün.
    ════════════════════════════════════════════════════════════════════════ */
+const VB = require('../../lib/hl7-validator-beleg.js');   // Name, Fassung und Prüfsumme des Validators in jedem Bericht (Befund HL7-VALIDATOR-FASSUNG)
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -56,6 +57,9 @@ const aus = arg('--aus') || fs.mkdtempSync(path.join(os.tmpdir(), 'patientin-val
 const java = javaPfad();
 if (!java) { console.error('Abbruch: kein lauffähiges Java gefunden.'); process.exit(2); }
 if (!jar || !fs.existsSync(jar)) { console.error('Abbruch: validator_cli.jar nicht angegeben oder nicht vorhanden (--jar).'); process.exit(2); }
+let validator;
+try { validator = VB.jarFassung(jar); } catch (e) { console.error('Abbruch: ' + e.message); process.exit(2); }
+console.log('Validator: ' + validator.name + ' ' + validator.fassung + (validator.gepinnt ? ' (gepinnt)' : ' (NICHT gepinnt — freies Jar, Fassung aus dem Jar gelesen)'));
 fs.mkdirSync(aus, { recursive: true });
 
 const nur = arg('--nur');
@@ -84,7 +88,7 @@ for (const f of auswahl) {   // nacheinander, nie parallel: ein Validator-Lauf i
   bericht.push({ datei: f.datei, ig: f.ig, profil: f.profil, gelesen: true, fehler, warnungen: nach(['warning']), vorbehalt: f.vorbehalt, outcome });
 }
 
-fs.writeFileSync(path.join(aus, 'bericht.json'), JSON.stringify(bericht, null, 2));
+fs.writeFileSync(path.join(aus, 'bericht.json'), JSON.stringify({ ...VB.belegKopf({ validator, ergebnis: fehlerGesamt ? 'fehler' : 'ohne-fehler' }), befunde: bericht }, null, 2));
 for (const b of bericht) {
   console.log('\n' + b.datei + '  (' + b.ig + ')');
   if (!b.gelesen) { console.log('  KEIN OperationOutcome — Lauf gescheitert, kein Urteil'); }

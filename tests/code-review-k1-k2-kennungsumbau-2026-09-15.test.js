@@ -1,6 +1,6 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════
-   K1/K2 (VD CR, code-review-teil2-teil3-kennungs-kampagne-2026-09-15.md,
+   K1/K2 (code-review-teil2-teil3-kennungs-kampagne-2026-09-15.md,
    Schwere HOCH) — Ratschen-Nachmessung durch -cf, 19.09.2026 (im
    Anschluss an EXP1, s. r3-befund-ratsche-durcharbeiten-2026-09-19.md:
    „teil2-teil3#K1/K2 … Migrationspfad Stufe 81, -cf exklusiv").

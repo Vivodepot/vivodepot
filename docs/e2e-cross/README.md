@@ -19,7 +19,7 @@ Die vier Komponenten:
 ## Das Krypto-Block-Hash-Gate (der wichtigste Test)
 
 Alle vier Komponenten tragen denselben **VdCrypto-Block** (Script 1) — byte-identisch,
-SHA-256 `732ff4b0…`, gleich `vivodepot-krypto-kern-PORT-VERBATIM.js`. Genau deshalb kann die
+SHA-256 `4cd539cd…`, gleich `vivodepot-krypto-kern-PORT-VERBATIM.js`. Genau deshalb kann die
 Lese-App entschlüsseln, was die Bürger-App schreibt, und genau deshalb verifizieren alle
 gegen denselben JWS-Block und denselben Test-Sentinel.
 

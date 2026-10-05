@@ -122,10 +122,10 @@
    "datei": "vivodepot-lesen.html",
    "funktion": "renderAntwortOeffnen",
    "zeile": 14675,
-   "abdruck": "d5391e73730a8529",
+   "abdruck": "10aef2dfe58dbeb2",
    "anzahl": 1,
-   "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + '<h1>' + escapeHTML(STRINGS.antwortTitel) + '</h1>' + '<p class=\"hint\" id=\"antwort-kopf\">' + escapeHTML(STRINGS.antwortVorgang) + ' ' + escapeHTML(",
-   "grund": "renderAntwortOeffnen: umschlag.vorgang aus der fremden Datei läuft über escapeHTML(String(...)) (14443), die STRINGS ebenfalls."
+   "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + '<h1>' + escapeHTML(STRINGS.antwortTitel) + '</h1>' + '<p class=\"hint\" id=\"antwort-kopf\">' + escapeHTML(STRINGS.antwortVorgang) + ' <span id=\"antwo",
+   "grund": "renderAntwortOeffnen: nur feste Texte (STRINGS), jeder über escapeHTML; kein Wert aus der Datei oder der Antwort im Markup — der Vorgang kommt danach über textContent (04.10.2026). Probe: tests/lese-app-antwort-schluesseldatei.test.js, [Lese-App · Senke]."
   },
   {
    "datei": "vivodepot-lesen.html",

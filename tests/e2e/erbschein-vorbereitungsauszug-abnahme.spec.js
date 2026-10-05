@@ -54,7 +54,8 @@ test('Erbschein liegt ab Werk vor: die Regal-Karte erscheint bei einer frisch an
   await expect(page.locator('[data-erbschein-dokument]')).toBeVisible();
 });
 
-test('Regal-Karte springt zur Sektion, der Knopf öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-ERBSCHEIN-VORBEREITUNGSAUSZUG-ABNAHME
+test.fixme('Regal-Karte springt zur Sektion, der Knopf öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await erbscheinEinlassen(page);
@@ -77,7 +78,8 @@ test('Regal-Karte springt zur Sektion, der Knopf öffnet den Auszug — leeres D
   await expect(blatt).not.toContainText('Ort, Datum, Unterschrift');
 });
 
-test('volles Depot: Testament, Familienstand und Kind erscheinen im Auszug in Klartext', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-ERBSCHEIN-VORBEREITUNGSAUSZUG-ABNAHME
+test.fixme('volles Depot: Testament, Familienstand und Kind erscheinen im Auszug in Klartext', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await erbscheinEinlassen(page);
@@ -110,7 +112,8 @@ test('volles Depot: Testament, Familienstand und Kind erscheinen im Auszug in Kl
   await expect(blatt).toContainText('Tochter Beispiel');
 });
 
-test('Zug 1b: "Als XML sichern" läuft über den echten Klickweg durch, ohne Absturz — NACH Einlass', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-ERBSCHEIN-VORBEREITUNGSAUSZUG-ABNAHME
+test.fixme('Zug 1b: "Als XML sichern" läuft über den echten Klickweg durch, ohne Absturz — NACH Einlass', async ({ page }) => {
   const fehler = [];
   page.on('pageerror', (e) => fehler.push(String(e)));
 

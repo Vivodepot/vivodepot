@@ -6,6 +6,7 @@
    soll dort aber sehr klein/zurückhaltend sein (eigene .feld-urheber-Klasse,
    kein fettes Inline-Styling) und das Datum als tt.mm.jj tragen (nicht ISO).
    ════════════════════════════════════════════════════════════════════════ */
+const { abWerkWortlaut } = require('./helfer/ab-werk-wortlaut.js');  // U2-ADR-473: Wortlaut ab Werk, s. Helfer
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
@@ -57,6 +58,6 @@ test('urheberschaftZeileHTML: unter Vollmacht wird immer gezeigt (Bevollmächtig
 });
 
 test('CSS: .feld-urheber ist klein (deutlich unter fs-xs) und zurückhaltend', () => {
-  const { html } = ladeKern();
+  const html = abWerkWortlaut(ladeKern().html);
   assert.ok(/\.feld-urheber\s*\{[^}]*font-size:\s*0\.6\d?rem/.test(html), 'sehr kleine Schrift (≈0.65rem)');
 });

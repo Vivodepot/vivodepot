@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "edci-1.0-vivodepot",
+  "erstelltAm": "2026-09-30T12:00:00.000Z",
+  "_hinweis": "Bildungsnachweise (EDCI/Europass-orientiert).",
+  "_codeStand": {
+    "esco": {
+      "version": "STUB-2026-05",
+      "codesVorhanden": false
+    }
+  },
+  "learningAchievements": {
+    "schoolQualification": "Abitur",
+    "school": "Luitpold-Gymnasium München",
+    "vocationalQualification": "IHK-Abschluss (kaufmännisch/gewerblich-technisch)",
+    "academicQualification": "Diplom",
+    "occupation": "Kaufmännische Leiterin (im Ruhestand seit 2023)",
+    "employer": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH",
+    "otherQualifications": "IHK-Ausbilderschein, Projektmanagement-Zertifikat (PMP)",
+    "voluntaryWork": "Kassenwartin im Gartenbauverein München-Nord seit 2021",
+    "schoolQualificationYear": "1978",
+    "academicQualificationField": "Betriebswirtschaftslehre",
+    "academicQualificationAwardingBody": "Ludwig-Maximilians-Universität München",
+    "employerAddress": "Industriestraße 88, 81379 München",
+    "previousEmployer": "Süddeutsche Ingenieurgesellschaft für Anlagenbau und Verfahrenstechnik mbH"
+  }
+}

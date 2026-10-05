@@ -45,17 +45,7 @@ function mitKopf(jwe, aendern) {
   return t.join('.');
 }
 
-/* Der lesbare Teil einer JWE, vollständig dekodiert: der geschützte Kopf als JSON, und jeder base64url-Parameter darin
-   (apu, apv, p2s, kid) noch einmal dekodiert. Nur so findet eine Suche nach einem Namen auch, was jemand in apu legt. */
-function jweLesbarerTeil(jwe) {
-  const kopf = JSON.parse(Buffer.from(String(jwe).split('.')[0], 'base64url').toString('utf8'));
-  const teile = [JSON.stringify(kopf)];
-  for (const k of ['apu', 'apv', 'p2s', 'kid']) {
-    if (typeof kopf[k] === 'string') teile.push(Buffer.from(kopf[k], 'base64url').toString('utf8'));
-  }
-  if (kopf.epk) teile.push(JSON.stringify(kopf.epk));
-  return teile.join('\n');
-}
+const { jweLesbarerTeil } = require('./helfer/jwe-lesbar.js');
 
 test('[Antwort·JWE] Schlüsselpaar: der Kern schreibt eine JWE, die Lese-App öffnet sie zum selben Datensatz', async () => {
   const V = await depot();

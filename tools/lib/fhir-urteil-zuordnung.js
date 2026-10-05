@@ -26,11 +26,15 @@ function urteilsZuordnung(ergebnis, dateiPfade) {
     const oo = jePfad.get(path.resolve(p));
     if (!oo) return [p, { gelesen: false, fehler: ['kein OperationOutcome für diese Datei'] }];
     const fehler = (oo.issue || []).filter((i) => i.severity === 'fatal' || i.severity === 'error');
+    // Warnungen stehen mit im Ergebnis (01.10.2026): ein Bericht, der sie nicht führt, darf nicht „keine“ behaupten.
+    const warnungen = (oo.issue || []).filter((i) => i.severity === 'warning');
+    const zeile = (i) => ((i.expression && i.expression[0]) || '?') + ': '
+      + String((i.details && i.details.text) || '').replace(/\s+/g, ' ').slice(0, 180);
     return [p, {
       gelesen: true,
       gueltig: fehler.length === 0,
-      fehler: fehler.map((i) => ((i.expression && i.expression[0]) || '?') + ': '
-        + String((i.details && i.details.text) || '').replace(/\s+/g, ' ').slice(0, 180)),
+      fehler: fehler.map(zeile),
+      warnungen: warnungen.map(zeile),
     }];
   }));
 }

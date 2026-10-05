@@ -55,6 +55,8 @@ function g13BekannteWege(eigenerCodeRoh) {
     'depotMasterHkdfKey', 'deriveMasterBits', 'importMasterAesKey', 'importMasterHkdfKey',
     'setupMasterSession', 'master', 'masterHkdfKey', 'masterKey', 'masterNfc',
     'einmalReset', '_scrollUndFokusWiederherstellen',
+    // 02.10.2026 (U2-ADR-468): der FHIR-Feldname DocumentReference.masterIdentifier der ISiK-Ausgabe — eine Dokumentkennung, kein Schlüsselweg.
+    'masterIdentifier',
   ]);
   const treffer = [...new Set([...eigenerCode.matchAll(/\b\w*(?:master|recovery|reset|escrow|backdoor|wiederherstell)\w*\b/gi)].map(m => m[0]))];
   // U2-ADR-430: an ihre Funktionen GEBUNDENE Bezeichner — die Bindung selbst (Ort und Zahl) prüft
@@ -128,4 +130,26 @@ test('[A-Zug1·Rotmachbarkeit 4] deriveKey() bekommt einen Aufrufer → G13-Tote
   const c = eigenerCodeAus(mutiert);
   assert.equal(g13ToterPfadDeriveKey(c).ok, false, 'G13-Toter-Pfad-Probe muss rot werden, wenn deriveKey() einen Aufrufer bekommt');
   assert.equal(g12PfadSetup(c).ok, true, 'setupMasterSession-Pfad-Probe darf NICHT rot werden — andere Ursache');
+});
+
+test('[A-Zug1·masterIdentifier] die Ausnahme gilt genau dem FHIR-Feldnamen — master_key und masterSecret fallen weiter, und die Liste läuft gleich mit kein-master-key.mjs', () => {
+  // Bedingung der Gegenlesung (02.10.2026, v863): exakter Bezeichner mit Wortgrenze, kein Präfix.
+  const c = eigenerCodeAus(ECHT);
+  assert.deepEqual(g13BekannteWege(c + '\nconst x = { masterIdentifier: 1 };\n'), { ok: true }, 'masterIdentifier ist bekannt');
+  const fremd = [];
+  for (const name of ['master_key', 'masterSecret', 'masterIdentifierKey', 'meinmasterIdentifier']) {
+    const r = g13BekannteWege(c + '\nconst ' + name + ' = 1;\n');
+    if (!r.ok && r.grund.includes(name)) fremd.push(name);
+  }
+  assert.ok(fremd.length > 0, 'Nicht-leer-Wache: verwandte Bezeichner werden gefunden');
+  assert.deepEqual(fremd, ['master_key', 'masterSecret', 'masterIdentifierKey', 'meinmasterIdentifier']);
+  // Gleichlauf: dieselbe Bekannt-Liste wie in tests/konformitaet/kein-master-key.mjs.
+  const liste = (text, name) => {
+    const m = text.match(new RegExp('const ' + name + ' = new Set\\(\\[([\\s\\S]*?)\\]\\);'));
+    return m ? [...m[1].matchAll(/'([^']+)'/g)].map((x) => x[1]).sort() : null;
+  };
+  const hier = liste(fs.readFileSync(__filename, 'utf8'), 'BEKANNT');
+  const dort = liste(fs.readFileSync(path.join(__dirname, 'konformitaet', 'kein-master-key.mjs'), 'utf8'), 'BEKANNTE_BEZEICHNER');
+  assert.ok(hier && hier.length > 0 && dort, 'beide Listen gelesen');
+  assert.deepEqual(hier, dort);
 });

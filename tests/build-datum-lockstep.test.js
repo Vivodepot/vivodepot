@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; require('./helfer/platz-isoliert.js').platzIsolieren();   // eigener Suite-Platz (PLATZ-LECK-HOOK-TESTS); in derselben Zeile, damit keine Zeilennummer wandert
 /* ════════════════════════════════════════════════════════════════════════
    Test — BUILD_DATUM-Lockstep an der RICHTIGEN Grenze
    ────────────────────────────────────────────────────────────────────────

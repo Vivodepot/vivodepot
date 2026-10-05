@@ -19,6 +19,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const { lesbar } = require('./helfer/sdjwt-entpacken.js');   // kompakte SD-JWT-Ausgaben vor jeder Textsuche entpacken (U2-ADR-457)
 const fs = require('node:fs');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
@@ -153,7 +154,7 @@ test('[OB3 halten · Ansicht] das Original zeigt den ehrlichen Hinweis, Herunter
 });
 
 /* ── U2-ADR-097 §6: kein Ausstellungspfad, auch nicht für Badges ── */
-function stelltBadgeAus(inhalt) { return /OpenBadgeCredential|AchievementCredential/.test(String(inhalt)); }
+function stelltBadgeAus(inhalt) { return /OpenBadgeCredential|AchievementCredential/.test(lesbar(String(inhalt))); }
 
 test('[U2-ADR-097 §6 · OB3] kein Export-Weg stellt einen Badge aus — auch nicht mit einem gehaltenen Badge im Depot', async () => {
   const { V } = await mitDepot(ladeKern());
@@ -161,7 +162,7 @@ test('[U2-ADR-097 §6 · OB3] kein Export-Weg stellt einen Badge aus — auch ni
   const funde = [];
   for (const def of V.EXPORT_FORMATE) {
     let inhalt;
-    try { inhalt = V.formatExportInhalt(def, { sensibel: true }); } catch (e) { continue; }
+    try { inhalt = await V.formatExportInhalt(def, { sensibel: true }); } catch (e) { continue; }
     if (stelltBadgeAus(inhalt)) funde.push(def.id);
   }
   assert.deepEqual(funde, []);

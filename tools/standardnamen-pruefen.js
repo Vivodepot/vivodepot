@@ -75,6 +75,51 @@ function gedeckteNamen(schutz, registerDir) {
   return new Set(schutz.namen.filter((n) => n.register.some((id) => mitPruefer.has(id))).map((n) => n.name));
 }
 
+/* ── WEGEBENE (01.10.2026, Befund EDCI-EXPORT-NICHT-EDC-AP) ────────────────────────────────────────
+   Die Deckung oben gilt je STANDARD: ein Name ist gedeckt, sobald irgendeine seiner Registerzeilen einen Prüfer hat. Das ließ
+   eine Lücke: der Bildungs-Export hieß „EDCI/Europass“, weil der IMPORT echter EDC geprüft wird — der Export selbst nie. Ein
+   Name, gedeckt durch einen anderen Weg. Darum gilt für jeden Weg einzeln: steht ein gedeckter Name in seiner Kennung, seiner
+   Beschriftung, seinem Dateinamen oder seiner Ausgabe, muss eine Registerzeile dieses Namens genau diesen Weg führen
+   (exportwege bzw. importwege) und in einer Familie mit Prüfer stehen. Die Texte je Weg kommen aus dem Kern selbst
+   (EXPORT_FORMATE, IMPORT_FORMATE, eine Ausgabe aus einem leeren Depot), nicht aus einer Liste. */
+function wegeTexte(V) {
+  const wege = [];
+  const sicher = (f) => { try { const x = f(); return typeof x === 'string' ? x : (x === undefined || x === null ? '' : JSON.stringify(x)); } catch (_) { return ''; } };
+  for (const d of V.EXPORT_FORMATE) {
+    wege.push({ richtung: 'export', id: d.id, texte: [d.id, sicher(() => d.label), d.dateibasis || '', sicher(() => d.baue({ sensibel: true }))] });
+  }
+  for (const d of V.IMPORT_FORMATE) {
+    wege.push({ richtung: 'import', id: d.id, texte: [d.id, sicher(() => d.label), sicher(() => V.importKlartextFuer && V.importKlartextFuer(d.id))] });
+  }
+  return wege;
+}
+function kernWege() {
+  const { V } = require('../tests/load-kern.js').ladeKern({ backen: true });
+  V.vorschauDepotErzeugen();
+  return wegeTexte(V);
+}
+function registerWege(registerDir) {
+  const zeilen = new Map();
+  for (const f of fs.readdirSync(registerDir).filter((x) => x.endsWith('.json'))) {
+    const fam = JSON.parse(fs.readFileSync(path.join(registerDir, f), 'utf8'));
+    for (const st of fam.standards || []) zeilen.set(st.id, { pruefer: !!fam.adapter, export: new Set(st.exportwege || []), import: new Set(st.importwege || []) });
+  }
+  return zeilen;
+}
+function wegeMaengel(schutz, wege, zeilen) {
+  const maengel = [];
+  for (const n of schutz.namen) {
+    if (!n.register.length) continue;   // ein Name ohne Registerzeile zählt oben, je Fundstelle, gegen die Grundlinie
+    const re = new RegExp(n.muster, 'u');
+    for (const w of wege) {
+      if (!w.texte.some((t) => re.test(t))) continue;
+      const gedeckt = n.register.some((id) => { const z = zeilen.get(id); return z && z.pruefer && z[w.richtung].has(w.id); });
+      if (!gedeckt) maengel.push(n.name + ': der ' + (w.richtung === 'export' ? 'Export' : 'Import') + ' ' + w.id + ' nennt den Namen, aber keine Registerzeile mit Prüfer führt diesen Weg (' + n.register.join(', ') + ')');
+    }
+  }
+  return maengel;
+}
+
 /* Zählt je ungedecktem Namen die Fundstellen. */
 function zaehlen(schutz, texte, gedeckt) {
   const funde = {};
@@ -108,16 +153,17 @@ function urteil(funde, grundlinie, { nurObergrenze = false } = {}) {
   return maengel;
 }
 
-function pruefen({ wurzel = REPO, extraDokumente = [], nurObergrenze = false } = {}) {
+function pruefen({ wurzel = REPO, extraDokumente = [], nurObergrenze = false, wege = null } = {}) {
   const schutz = JSON.parse(fs.readFileSync(SCHUTZ, 'utf8'));
   const texte = texteSammeln(schutz, wurzel);
   for (const p of extraDokumente) texte.push({ ort: p, text: fs.readFileSync(p, 'utf8') });
   const funde = zaehlen(schutz, texte, gedeckteNamen(schutz, path.join(wurzel, 'tools', 'standards-register')));
   const grundlinie = JSON.parse(fs.readFileSync(GRUNDLINIE, 'utf8')).namen;
-  return { funde, maengel: urteil(funde, grundlinie, { nurObergrenze }) };
+  const wegMaengel = wegeMaengel(schutz, wege || kernWege(), registerWege(path.join(wurzel, 'tools', 'standards-register')));
+  return { funde, maengel: urteil(funde, grundlinie, { nurObergrenze }).concat(wegMaengel) };
 }
 
-module.exports = { texteSammeln, gedeckteNamen, zaehlen, urteil, pruefen };
+module.exports = { texteSammeln, gedeckteNamen, zaehlen, urteil, pruefen, wegeTexte, registerWege, wegeMaengel };
 
 if (require.main === module) {
   const argv = process.argv.slice(2);

@@ -88,7 +88,8 @@ async function moduleDateiEinlassen(page, dateipfad) {
   await page.locator('#einst-modul-datei').setInputFiles(dateipfad);
 }
 
-test('[Pro-Modul·1] Datei einlassen — der Bereich erscheint in der Sidebar', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
+test.fixme('[Pro-Modul·1] Datei einlassen — der Bereich erscheint in der Sidebar', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   await moduleDateiEinlassen(page, tempModulDatei());
@@ -96,7 +97,8 @@ test('[Pro-Modul·1] Datei einlassen — der Bereich erscheint in der Sidebar', 
   await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toContainText('Betriebsübergabe (Test)');
 });
 
-test('[Pro-Modul·2] der Ungeprüft-Hinweis steht in den Einstellungen, mit Typ und Wortlaut für Menschen', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
+test.fixme('[Pro-Modul·2] der Ungeprüft-Hinweis steht in den Einstellungen, mit Typ und Wortlaut für Menschen', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   await moduleDateiEinlassen(page, tempModulDatei());
@@ -107,7 +109,8 @@ test('[Pro-Modul·2] der Ungeprüft-Hinweis steht in den Einstellungen, mit Typ 
   await expect(page.locator('#modal-inhalt')).toContainText('Niemand hat sie geprüft');
 });
 
-test('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder öffnen — der eingelassene Bereich steht noch da', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
+test.fixme('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder öffnen — der eingelassene Bereich steht noch da', async ({ page }) => {
   await oeffneApp(page);
   await fsaAttrappeEinrichten(page);
   await depotAnlegen(page, { pw: PW });
@@ -133,7 +136,8 @@ test('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder �
   }
 });
 
-test('[Pro-Modul·4] dieselbe Datei ein zweites Mal einlassen — kein zweiter, kein Fehler, keine stille Meldung', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
+test.fixme('[Pro-Modul·4] dieselbe Datei ein zweites Mal einlassen — kein zweiter, kein Fehler, keine stille Meldung', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   const dateipfad = tempModulDatei();

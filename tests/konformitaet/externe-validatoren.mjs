@@ -84,7 +84,12 @@ export const VALIDATOREN = [
       if (!java) return { ok: false, grund: 'kein Java gefunden (PATH, JAVA_HOME, Homebrew-Orte)' };
       if (!jar) return { ok: false, grund: 'FHIR_VALIDATOR_JAR nicht gesetzt' };
       if (!fs.existsSync(jar)) return { ok: false, grund: 'validator_cli.jar nicht unter ' + jar };
-      return { ok: true, java, jar };
+      // Welche Fassung wirklich prüft (Befund HL7-VALIDATOR-FASSUNG): aus dem Jar, nicht aus dieser Registry-Zeile.
+      let validator;
+      try { validator = require('../../tools/lib/hl7-validator-beleg.js').jarFassung(jar); } catch (e) { return { ok: false, grund: e.message }; }
+      const pin = require('../../tools/lib/hl7-validator-pin.json').version;
+      if (validator.fassung !== pin) return { ok: false, grund: 'validator_cli ' + validator.fassung + ' statt der gepinnten ' + pin + ' (tools/lib/hl7-validator-pin.json)' };
+      return { ok: true, java, jar, validator };
     },
     /* EIN JVM-AUFRUF FÜR ALLE ARTEFAKTE (28.09.2026). Je Artefakt eine eigene JVM kostete jedes Mal Start und das
        Laden beider Leitfäden; mit den drei Verwahrungs-Hüllen (U2-ADR-444) stieg die Laufzeit dieser Datei unter Last

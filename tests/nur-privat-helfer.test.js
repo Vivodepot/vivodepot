@@ -25,6 +25,8 @@ function pruefen(liste, deckel) {
     for (const t of e.tests || []) if (Array.isArray(t) && ![GIT, BESTAND, ZUSCHNITT].includes(t[1])) fehler.push(datei + ': Grund bei „' + t[0] + '" nicht benannt');
   }
   if (Object.keys(liste).length > deckel) fehler.push(Object.keys(liste).length + ' Dateien über dem Deckel ' + deckel);
+  // Deckel exakt (03.10.2026): ein Deckel über der Liste ist Luft.
+  if (Object.keys(liste).length < deckel) fehler.push('Deckel ' + deckel + ' über ' + Object.keys(liste).length + ' Dateien — Luft, Deckel senken');
   return fehler;
 }
 

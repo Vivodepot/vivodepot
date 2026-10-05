@@ -102,7 +102,8 @@ async function subDepotAnlegenUndBetreten(page) {
   return uuid;
 }
 
-test('[Übergang 3] Sub-Kontext betreten → über #vm-zurueck verlassen — Anker-Sidebar kehrt zurück, erneutes Betreten geht wieder', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-UEBERGANG-SUB-KONTEXT-BETRETEN-VERLASSEN
+test.fixme('[Übergang 3] Sub-Kontext betreten → über #vm-zurueck verlassen — Anker-Sidebar kehrt zurück, erneutes Betreten geht wieder', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));

@@ -44,7 +44,7 @@ schreiben können, und die Import-Seite trägt Formate, die es ausdrücklich nur
 | `sd-jwt-vc-sozialversicherung` | ja | Teilmenge |
 | `xoev-verwaltung` (Verwaltungs-Stammdaten; die Kennung ist historisch, kein Standard dahinter — Suche über alle Standards des XRepository, 30.09.2026) | ja | Teilmenge |
 | `fim-json` | ja | Teilmenge |
-| `edci-bildung` | ja | alle geführten Bildungsnachweise |
+| `bildungsangaben` | ja | alle geführten Bildungsangaben (selbst erklärt, kein Nachweis) |
 | `vcard-identitaet` | ja | Kontaktangaben, nicht der ganze Sektor |
 | `vcard-menschen` | ja | über die Listen-Ebene |
 | **`ics-vorsorge`** | **nein — bewusst** | reiner Export (`nurExport`) |
@@ -137,10 +137,10 @@ Weg, sondern ein gated statt ein offener Lese-Pfad.
 **`fhir-lab` liefert stets `null`.** Die Import-Funktion existiert, ihr Rückgabewert ist
 unbedingt leer. Ein Laborbefund kommt heute nicht an.
 
-**Drei der zehn Export-Formate tragen keinen Versions- oder Profil-Marker im Code.** Sieben tun es:
+**Drei der zehn Export-Formate tragen keinen Versions- oder Profil-Marker eines externen Standards im Code.** Sieben tun es:
 `fhir-ips` (elf `StructureDefinition`-URLs), die drei `sd-jwt-vc-*`-Formate (`vct`-Kennungen),
 die beiden vCard-Formate (`VERSION:4.0`) und `ics-vorsorge` (`VERSION:2.0`) sind maschinell als
-Profil erkennbar. Für die übrigen drei — `xoev-verwaltung` (historische Kennung, kein Standard dahinter), `edci-bildung` und `fim-json` — gilt: das
+Profil erkennbar. Für die übrigen drei — `xoev-verwaltung` (historische Kennung, kein Standard dahinter), `bildungsangaben` und `fim-json` — gilt: das
 Format ist dokumentiert, aber die Datei selbst sagt nicht, welcher Fassung sie folgt. Ein
 Empfänger kann das nicht prüfen.
 
@@ -150,21 +150,21 @@ angelehnter Feldbenennung**. Die frühere Außendarstellung hat das anders behau
 12.08.2026. Die korrigierten Sätze stehen auf der Website und werden dort geprüft, nicht in
 diesem Repository.
 
-**Kein Format der App (`vivodepot.html`) trägt eine kryptographische Herkunftssignatur.** Die
-`sd-jwt-vc-*`-Exporte schreiben trotz ihres Namens eine JSON-Datei (`{ vct, iss, iat, claims }`,
-`application/json`), eine unsignierte Selbstauskunft (`iss` = `urn:vivodepot:selbstauskunft`; U2-ADR-030,
-Variante A), kein SD-JWT. Die kompakte SD-JWT-Form erzeugt nur der Dialog „An EUDI-Wallet übergeben“,
-dessen Knopf ausgeblendet ist (`EUDIW_SICHTBAR = false`). Sie trägt `alg: none` und ist damit kein
-SD-JWT im Sinne von RFC 9901 §4.1, das eine Signatur des Ausstellers verlangt und `none` ausschließt;
-ein konformer Prüfer lehnt sie ab (§7.1, Schritt 2a). Die Antwort als JWE (U2-ADR-449) ist
-verschlüsselt und gegen Veränderung geschützt, belegt aber keine Herkunft. Wer eine exportierte Datei
-erhält, kann nicht prüfen, dass sie aus Vivodepot stammt. Der separate Aussteller
-`vivodepot-vc-issuer.html` signiert; er ist nicht die App. Zum Nachsehen:
-- `grep -n "{ id: 'sd-jwt-vc-identitaet', kategorie: 'sektor'" -A2 vivodepot.html` zeigt im ersten Treffer, dem Export, `mime: 'application/json'`, `endung: 'json'`; der zweite ist der Import.
-- `grep -n "const EUDIW_SICHTBAR" vivodepot.html` zeigt den ausgeblendeten Dialog.
-- `grep -n "alg: 'none'" vivodepot.html` zeigt den Kopf seiner kompakten SD-JWT-Ausgabe.
-- `grep -n "_signJWS(" vivodepot.html` findet nur die Definition und ihre Beschreibung, keinen Aufruf.
-- `grep -n "subtle.sign(" vivodepot.html` findet den HMAC der Adressableitung und den Aufruf im Rumpf von `_signJWS`.
+**Die `sd-jwt-vc-*`-Exporte und der Dialog „An EUDI-Wallet übergeben“ schreiben SD-JWT, selbst signiert** mit einem
+Ed25519-Schlüssel, den die App aus dem Passwort der Person ableitet (U2-ADR-457): formkonform nach RFC 9901 §4.1, Vertrauen
+null ohne Institutionssignatur. Die Signatur zeigt, dass die Datei seit dem Signieren unverändert ist und von demselben
+Schlüssel stammt; sie zeigt nicht, dass eine Stelle die Angaben bestätigt. Ein SD-JWT-VC-Prüfer lehnt den Aussteller in der
+Regel ab, weil der Schlüssel keiner Stelle zugeordnet ist (draft-ietf-oauth-sd-jwt-vc-19, §2.5 „Issuer Verification Key
+Discovery and Validation“; ein Ökosystem kann dort eigene Regeln festlegen).
+Kann der Browser kein Ed25519, entsteht eine unsignierte Selbstauskunft unter eigenem `typ` (`application/jwt`), kein SD-JWT.
+**Kein anderes Format der App trägt eine Signatur.** Die Antwort als JWE (U2-ADR-449) ist verschlüsselt und gegen Veränderung
+geschützt, belegt aber keine Herkunft. Der separate Aussteller `vivodepot-vc-issuer.html` signiert; er ist nicht die App.
+Zum Nachsehen:
+- `grep -n "kompakt: true" vivodepot.html` zeigt die drei Exporte mit `application/dc+sd-jwt`.
+- `grep -n "halterSignatur" vivodepot.html` zeigt die Ableitung des Schlüssels in der VdCrypto-Hülle.
+- `grep -n "alg: 'none'" vivodepot.html` zeigt nur den Rückfall mit dem eigenen `typ` `EUDIW_SELBSTAUSKUNFT_TYP`.
+- `node tools/sdjwt-selbstsignatur-messen.js` prüft gegen die Normvektoren, mit `--jose <pfad>` gegen eine unabhängige
+  Bibliothek.
 
 **Die JWE-Serialisierung der SMART Health Links ist von Hand geschrieben** (keine jose-Bibliothek
 im Kern) und hat noch keinen externen Krypto-Review. Der Round-Trip ist geprüft

@@ -10,7 +10,7 @@ Import von Anbieter-Templates und beim Empfang signierter Daten.
 
 Es läuft vollständig **offline**: keine Netzwerk-Zugriffe zur Laufzeit, keine externen
 Skripte, kein `localStorage`/`sessionStorage`/`IndexedDB`/Cookie. Die Krypto-Schicht ist
-**byte-identisch** zur Bürger-App (VdCrypto-Block, Hash `732ff4b0…`) und teilt mit ihr den
+**byte-identisch** zur Bürger-App (VdCrypto-Block, Hash `4cd539cd…`) und teilt mit ihr den
 gemeinsamen JWS-Block (`_signJWS`/`_verifyJWS`, RFC 7515 Compact).
 
 ---

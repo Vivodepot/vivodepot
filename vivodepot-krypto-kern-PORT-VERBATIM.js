@@ -337,6 +337,52 @@ async function deriveAdressKeyV4(masterHkdfKey, cryptoSalt, depotUUID) {
   );
 }
 
+// Signaturschlüssel der Halterin (U2-ADR-457, Nachtrag v865): Ed25519, aus dem Sitzungsschlüssel abgeleitet, nirgends
+// gespeichert. Eigene HKDF-Domäne, getrennt von Depot- und Adressschlüssel. Der Seed geht als PKCS#8 (RFC 8410: festes
+// Präfix + 32 Byte) in WebCrypto, ausschließlich nicht extrahierbar (U2-ADR-062). Den öffentlichen Schlüssel kann WebCrypto
+// aus einem nicht extrahierbaren Schlüssel nicht liefern; ihn berechnet `oeffentlichAusSeed` aus einer Kopie des Seeds
+// (im Kern die eingebettete noble-ed25519 am geprüften Commit fa14496, Cure53 02/2022). Jedes Ergebnis besteht die
+// Selbstprobe in diesem Block: Signatur mit dem WebCrypto-Schlüssel, Prüfung mit WebCrypto gegen das berechnete x. Scheitert
+// sie, gibt es keinen Schlüssel und keinen Rückfall. Seed, Kopie und PKCS#8 werden im finally überschrieben (bestmöglich
+// gelöscht, unsere Kopien); Byte-Kopien und BigInt-Zwischenwerte der Bibliothek (Seed-Kopie, SHA-512-Ergebnis mit Skalar und
+// prefix) sind nicht löschbar, bis zur Speicherbereinigung.
+const HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX = 'vivodepot/v4/halter-signatur/';
+const HALTER_SELBSTPROBE_PREFIX = 'vivodepot-halter-selbstprobe-1/';
+const ED25519_PKCS8_PRAEFIX = [0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20];
+async function deriveHalterSignaturV4(masterHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed) {
+  if (!depotUUID || typeof depotUUID !== 'string' || depotUUID.length === 0) {
+    throw new Error('halter-signatur-depot-uuid-fehlt');
+  }
+  if (!(cryptoSalt instanceof Uint8Array) || cryptoSalt.length !== SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES) {
+    throw new Error('halter-signatur-salt-ungueltig');
+  }
+  if (typeof oeffentlichAusSeed !== 'function') throw new Error('halter-signatur-ableitung-fehlt');
+  const seed = new Uint8Array(await crypto.subtle.deriveBits(
+    { name: 'HKDF', hash: HKDF_HASH, salt: cryptoSalt,
+      info: new TextEncoder().encode(HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX + depotUUID) },
+    masterHkdfKey, 256));
+  const pk8 = new Uint8Array(ED25519_PKCS8_PRAEFIX.length + 32);
+  pk8.set(ED25519_PKCS8_PRAEFIX); pk8.set(seed, ED25519_PKCS8_PRAEFIX.length);
+  const kopie = new Uint8Array(32);   // frisch, kein Teilfeld: die Bibliothek hasht `.buffer` ohne byteOffset
+  try {
+    const schluessel = await crypto.subtle.importKey('pkcs8', pk8, { name: 'Ed25519' }, false, ['sign']);
+    kopie.set(seed);
+    const roh = await oeffentlichAusSeed(kopie);
+    if (!(roh instanceof Uint8Array) || roh.length !== 32) throw new Error('halter-signatur-oeffentlich-ungueltig');
+    const oeffentlich = await crypto.subtle.importKey('raw', roh, { name: 'Ed25519' }, false, ['verify']);
+    const probe = new TextEncoder().encode(HALTER_SELBSTPROBE_PREFIX + depotUUID);
+    const sig = await crypto.subtle.sign({ name: 'Ed25519' }, schluessel, probe);
+    if (!(await crypto.subtle.verify({ name: 'Ed25519' }, oeffentlich, sig, probe))) throw new Error('halter-signatur-selbstprobe');
+    // JWK-x ist der öffentliche Rohschlüssel in base64url; kein exportKey nötig, der Prüfschlüssel bleibt nicht exportierbar.
+    let bin = '';
+    for (const b of roh) bin += String.fromCharCode(b);
+    const x = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return { schluessel, jwk: { kty: 'OKP', crv: 'Ed25519', x } };
+  } finally {
+    seed.fill(0); kopie.fill(0); pk8.fill(0);
+  }
+}
+
 // Die Adresse EINER Einheit. Rein: derselbe Name unter demselben Schlüssel ergibt dieselbe
 // Adresse — das ist der Grund, warum die Datei ohne Rotation stabil bleibt, und zugleich das
 // benannte Restrisiko.
@@ -482,6 +528,13 @@ const VdCrypto = (function () {
     depotSchluessel: (cryptoSalt, depotUUID) => {
       if (!sessionHkdfKey) throw new Error('VdCrypto.depotSchluessel: keine offene Session.');
       return deriveDepotKeyV2(sessionHkdfKey, cryptoSalt, depotUUID);
+    },
+    // U2-ADR-457: der Signaturschlüssel der Halterin (Selbst-Signatur), ohne dass der Aufrufer den
+    // Sitzungsschlüssel in der Hand hält. Liefert { schluessel (nicht extrahierbar), jwk (öffentlich) }.
+    // oeffentlichAusSeed: die Ableitung des öffentlichen Schlüssels (Nachtrag v865), geprüft per Selbstprobe im Block.
+    halterSignatur: (cryptoSalt, depotUUID, oeffentlichAusSeed) => {
+      if (!sessionHkdfKey) throw new Error('halter-signatur-keine-sitzung');
+      return deriveHalterSignaturV4(sessionHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed);
     },
   });
 })();

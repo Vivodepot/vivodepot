@@ -52,6 +52,12 @@ checksum ([`vivodepot.html.sha256`](vivodepot.html.sha256)) and the
 [SBOM](vivodepot.sbom.cdx.json) are included. Architecture decisions are individually traceable
 under [`docs/adr/`](docs/adr/).
 
+## Developed with AI assistance
+
+Vivodepot's code, tests and documentation are developed with AI assistants. Requirements, architecture and decisions are set by Vivodepot GmbH; the decisions are recorded as ADRs in `docs/adr/`.
+
+Responsibility for, review of and approval of every change lie with Vivodepot GmbH.
+
 ## License
 
 [EUPL-1.2](LICENSE). What that means, what is excluded and what is in the public repository today:
@@ -73,4 +79,4 @@ under [`docs/adr/`](docs/adr/).
 
 ## Version
 
-Version v857.
+Version v917.

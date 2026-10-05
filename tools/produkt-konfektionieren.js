@@ -310,6 +310,12 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   const kernZiel = path.join(zielOrdner, 'vivodepot.html');
   const kernText = kernQuelle !== undefined ? kernQuelle : fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
   const unsignierteModule = (unsignierteModulDateien || []).map(_unsigniertesModulLesen);
+  // Das Erscheinungsbild ab Werk (v894, U2-ADR-473 Nachtrag): nennt die Auswahl kein eigenes Erscheinungsbild-Modul und trägt
+  // der Kern die Region, kommt „heute" dazu — wie ein nativer Rückfall, nie ein nacktes Produkt. produktTextErzeugen selbst
+  // bleibt streng (Region ohne Modul wirft); die Vorgabe steht hier, beim Zusammenstellen, nicht im Backschritt.
+  if (kernText.includes('/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN */') && !unsignierteModule.some((m) => m.roh && m.roh.modulTyp === 'erscheinungsbild')) {
+    unsignierteModule.push(_unsigniertesModulLesen(require('./lib/vier-produkte.js').ERSCHEINUNGSBILD_HEUTE_PFAD));
+  }
   // (12.09.2026): die Bedingung ist der Dateisatz, nicht das Produkt — abgeleitet
   // aus PRODUKT_DATEISATZ, nicht hart codiert, damit sie mitzieht, sollte sw.js hier je wieder
   // dazukommen.

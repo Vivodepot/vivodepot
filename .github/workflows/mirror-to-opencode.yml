@@ -15,9 +15,9 @@ on:
 permissions:
   contents: read
 
-# Ein Lauf nach dem anderen (01.10.2026): beim Release starteten der Lauf für main und der für das Tag gleichzeitig;
-# beide schieben alle Tags v*, und der langsamere scheiterte an „already exists“, obwohl alles angekommen war. Nacheinander
-# findet der zweite die Tags schon gleich vor und schiebt nichts. Kein Abbruch eines laufenden Spiegels.
+# Ein Lauf nach dem anderen (01.10.2026): beim Release starteten der Lauf für main und der für das Tag gleichzeitig.
+# Seit 02.10.2026 schiebt jeder Lauf nur, was ihn ausgelöst hat (tools/opencode-spiegel.js --plan); nacheinander bleibt es,
+# damit das Release erst entsteht, wenn main angekommen ist. Kein Abbruch eines laufenden Spiegels.
 concurrency:
   group: spiegel-nach-opencode
   cancel-in-progress: false
@@ -25,12 +25,29 @@ concurrency:
 jobs:
   spiegeln:
     if: github.repository == 'vivodepot/vivodepot'
+    # Das Token liegt als Secret in den Environments, nicht im Repo. Beide lassen nur main und Tags v* zu. Eine
+    # Pflichtfreigabe gilt je Environment (GitHub-Doku „Deployments and environments“, Required reviewers), darum zwei:
+    # ein Tag-Lauf (Release) wartet auf die Freigabe, ein main-Lauf nicht.
+    environment: ${{ github.ref_type == 'tag' && 'opencode-spiegel-release' || 'opencode-spiegel' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
         with:
           fetch-depth: 0
           persist-credentials: false
+      # Die Tags vom Ursprung neu holen: bei einem Lauf für ein Tag legt actions/checkout es leichtgewichtig an, und
+      # geschoben würde es ohne Signatur (v1.0.857, 02.10.2026). Mit --force ersetzt der Abruf das flache durch das echte.
+      - name: Tags annotiert holen
+        run: git fetch --force --no-tags origin '+refs/tags/*:refs/tags/*'
+      - name: Token prüfen
+        env:
+          OPENCODE_TOKEN: ${{ secrets.OPENCODE_TOKEN }}
+        run: node tools/opencode-spiegel.js --token-frist
+      - name: Tag prüfen (annotiert, signiert ab v1.0.857)
+        if: github.ref_type == 'tag'
+        run: |
+          curl --fail --silent --show-error --location -o "$RUNNER_TEMP/unterzeichnende" https://vivodepot.de/.well-known/vivodepot-allowed-signers
+          node tools/opencode-spiegel.js --pruefen "$GITHUB_REF_NAME" --unterzeichnende "$RUNNER_TEMP/unterzeichnende"
       - name: Nach OpenCoDE schieben
         env:
           OPENCODE_TOKEN: ${{ secrets.OPENCODE_TOKEN }}
@@ -40,11 +57,12 @@ jobs:
             exit 1
           fi
           ZIEL="https://oauth2:${OPENCODE_TOKEN}@gitlab.opencode.de/vivodepot/vivodepot.git"
-          # main nur bei einem Push auf main: bei einem Tag-Push steht HEAD auf dem Tag-Commit, und main darf nie
-          # auf einen älteren Stand zurückgehen. Ohne Überschreiben: der öffentliche Verlauf wird nur angehängt; weicht
+          # Nur was diesen Lauf ausgelöst hat: bei einem Tag genau dieses Tag, bei main nur main. Ohne Überschreiben: weicht
           # OpenCoDE ab, schlägt der Push laut fehl, statt still zu überschreiben.
-          if [ "$GITHUB_REF_TYPE" = "branch" ] || [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
-            git push "$ZIEL" origin/main:refs/heads/main
-          fi
-          # Die Fassungs-Tags, ebenfalls ohne Überschreiben: ein veröffentlichtes Tag bleibt, wie es ist.
-          git push "$ZIEL" 'refs/tags/v*:refs/tags/v*'
+          node tools/opencode-spiegel.js --plan > "$RUNNER_TEMP/refspecs"
+          while read -r REFSPEC; do git push "$ZIEL" "$REFSPEC"; done < "$RUNNER_TEMP/refspecs"
+      - name: Release und Pakete auf OpenCoDE
+        if: github.ref_type == 'tag'
+        env:
+          OPENCODE_TOKEN: ${{ secrets.OPENCODE_TOKEN }}
+        run: node tools/opencode-spiegel.js --release "$GITHUB_REF_NAME" --quelle .

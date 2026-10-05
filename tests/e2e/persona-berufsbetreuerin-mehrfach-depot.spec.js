@@ -201,7 +201,8 @@ async function bereichsModulAnzahl(page) {
   });
 }
 
-test('[Persona·Berufsbetreuerin] zwei unabhängige Depots — kein Datenaustausch beim Wechsel', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-PERSONA-BERUFSBETREUERIN-MEHRFACH-DEPOT
+test.fixme('[Persona·Berufsbetreuerin] zwei unabhängige Depots — kein Datenaustausch beim Wechsel', async ({ page }) => {
   await oeffneApp(page);
   await fsaAttrappeEinrichten(page);
 

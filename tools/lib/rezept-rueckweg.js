@@ -47,6 +47,7 @@ function _verweise(rezept) {
     { pfad: rezept.kernStand, pruefsumme: rezept.kernPruefsumme },
     rezept.sprachmodul && { pfad: rezept.sprachmodul, pruefsumme: rezept.sprachmodulPruefsumme },
     rezept.rechtsraumModul && { pfad: rezept.rechtsraumModul, pruefsumme: rezept.rechtsraumModulPruefsumme },
+    rezept.erscheinungsbildModul && { pfad: rezept.erscheinungsbildModul, pruefsumme: rezept.erscheinungsbildModulPruefsumme },
     ...(rezept.bereichsmodule || []), ...(rezept.templates || []),
     rezept.produktPfad && { pfad: rezept.produktPfad, pruefsumme: rezept.produktPruefsumme },
     rezept.serviceWorkerPfad && { pfad: rezept.serviceWorkerPfad, pruefsumme: rezept.serviceWorkerPruefsumme },

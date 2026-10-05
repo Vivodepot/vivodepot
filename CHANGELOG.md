@@ -15,6 +15,39 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.917] – 2026-10-05
+
+### Hinzugefügt
+- Vorführung „Vertretung“ (englisch): eine vertretende Person mit
+  Rechtsgrundlage, Umfang und Geltungsdauer in der Patientenkurzakte. Der FHIR-Auszug zeigt die vertretende Person und die
+  Einwilligung; über der Datei steht das Ergebnis des Validators mit einem Link zum vollständigen Bericht.
+
+### Geändert
+- Vorführungen: Die Notiz steht auf einem eigenen Platz und bleibt im Bild, auch hinter Dialogen und auf dem Handy.
+  Die Sicherungsanzeige zeigt „Beispiel — wird nicht gespeichert“. Eine Demo fragt beim Verlassen nicht mehr nach,
+  und ihre Einstiegsseite leitet nicht mehr weiter, sondern zeigt den Bau-Commit und einen Knopf „Demo starten“.
+- Wo der Vollmachtsumfang § 1829 BGB nennt, steht neben der Lebensgefahr jetzt auch der schwere, länger dauernde
+  Gesundheitsschaden; bisher las man daraus weniger, als die Vollmacht umfasst.
+- Jeder verschlüsselte Teil der Depotdatei wird auf das nächste volle Kilobyte aufgefüllt. Wer mehrere Fassungen einer
+  Datei aufbewahrt, etwa ein Cloud-Anbieter, sieht an der Länge nicht mehr, ob sich ein Teil um weniger als ein Kilobyte
+  geändert hat. Die Datei wird dadurch um 6 bis 10 % größer (U2-ADR-464).
+- Außen trägt die Datei eine Marke, an der die App erkennt, ob zwei Dateien denselben Stand haben. Ältere
+  Fassungen öffnen die neue Datei (U2-ADR-464).
+- Hinweise zur Netzverbindung berichtigt: Bei der gehosteten Fassung fragt die Anwendung nach Aktualisierungen. Die Hilfe
+  „Was wir nicht sehen“ und der Hinweis bei „Nach neuer Version suchen“ sagen jetzt nur noch, was trägt: Die Anwendung
+  sendet keine Daten aus Ihrem Depot an einen Server.
+- Der Hinweis zum Ablageort sagt jetzt, dass jeder mit der Datei ihn lesen kann, ohne Passwort und ohne die App, und rät
+  zu einer unpräzisen Angabe.
+- Patientenverfügung (v874, U2-ADR-459): Das erzeugte Dokument steht Zeile für Zeile im Wortlaut der Textbausteine des
+  Bundesministeriums der Justiz. In Ziffer 2.7 stehen bevollmächtigte und betreuende Person mit Name, Anschrift und Kontakt wie im
+  Formular; der Hinweis auf die Vorsorgevollmacht erscheint nur, wenn die Besprechung bejaht ist. Ziffer 2.12 fragt getrennt,
+  wo Sie sich informiert haben und wer Sie beraten hat. Eine fehlende Angabe bleibt eine Lücke zum Ausfüllen.
+
+### Behoben
+- Firefox fragte beim ersten Sichern ohne Vorwarnung, ob die Seite Daten dauerhaft speichern darf. Jetzt sagt ein Hinweis
+  vorher, warum und was „Erlauben“ bewirkt — nur in Firefox, dem Browser, der fragt. Unter „Sichern & Wiederherstellen“
+  steht dauerhaft, wann ein Browser das Depot löschen kann, mit dem Knopf „Sicherungskopie erstellen“ direkt darunter.
+
 ## [v1.0.857] – 2026-10-02
 
 ### Hinzugefügt

@@ -10,8 +10,8 @@ logo: logo.png
 
 # softwareVersion und releaseDate setzt der Zuschnitt-Bau aus der zuletzt ausgelieferten Kern-Fassung, nie von Hand;
 # die Einträge je Fassung stehen in CHANGELOG.md.
-softwareVersion: "1.0.857"
-releaseDate: "2026-10-02"
+softwareVersion: "1.0.917"
+releaseDate: "2026-10-05"
 
 developmentStatus: stable
 softwareType: standalone/web
@@ -38,28 +38,31 @@ description:
     localisedName: Vivodepot
     genericName: "Persönliche Dokumentenablage"
     shortDescription: >
-      Eine einzelne Datei, in der Menschen ihre Unterlagen verschlüsselt auf dem
-      eigenen Gerät halten und daraus Auszüge herausgeben.
+      Quelloffene Offline-Anwendung: Menschen halten ihre Unterlagen aus allen Lebensbereichen und geben
+      Auszüge, etwa als FHIR, vCard oder iCalendar.
     longDescription: >
-      Vivodepot ist eine Anwendung in einer einzigen HTML-Datei. Sie läuft ohne
-      Internetverbindung auf dem Gerät der Nutzerin, verlangt kein Konto und
-      sendet keine Daten an den Herausgeber; die Inhaltssicherheitsregel der
-      Anwendung verbietet ausgehende Verbindungen.
+      Vivodepot ist eine Anwendung (EUPL-1.2) in einer einzelnen HTML-Datei. Sie läuft ohne Internetverbindung
+      im Browser und ohne Konto; kein Server hält die Unterlagen. Die Unterlagen werden auf dem Gerät
+      verschlüsselt (AES-256-GCM). Menschen halten die Unterlagen ihres eigenen Lebens aus dreizehn Bereichen
+      in einer verschlüsselten Datei, die sie selbst besitzen. Die Reihe 1.0 ist seit September 2026
+      öffentlich.
 
-      Die Anwendung ist nicht auf einen Lebensbereich zugeschnitten. Sie trägt
-      Angaben aus mehreren Bereichen nebeneinander, darunter Gesundheit,
-      Verwaltung, Sozialversicherung, Arbeit und Wohnen, und sie richtet sich an
-      Erwachsene jeden Alters und jeder Lebenslage.
+      Die Unterlagen eines Menschen liegen bei vielen Stellen, und jede empfangende Stelle erwartet ihr
+      eigenes Format. Ohne eine Kopie in der Hand der Person heißt jede Übergabe neu abtippen, oder die
+      Unterlagen liegen bei einem Anbieter, der damit zum neuen Verantwortlichen wird.
 
-      Aus dem Bestand gibt die Nutzerin gezielte Auszüge heraus, jeweils nur das,
-      was die empfangende Stelle braucht, unter anderem im Format HL7 FHIR
-      International Patient Summary, als vCard, als Kalenderdatei und als PDF.
-      Besonders geschützte Angaben verlassen die Datei erst, wenn die Nutzerin
-      sie ausdrücklich freigibt.
+      Vivodepot gibt Auszüge aus, unter anderem in HL7 FHIR (International Patient Summary, mit dem
+      HL7-Validator geprüft), vCard und iCalendar. Es exportiert Selbstauskünfte als signierte SD-JWT VC, wo
+      der Browser Ed25519 unterstützt, und liest signierte Nachweise festgelegter Typen (W3C Verifiable
+      Credentials). Es unterstützt das Handeln für andere und Unterlagen ohne Aussteller, etwa Vollmachten und
+      Patientenverfügungen.
 
-      Die Ausgabe für Bürgerinnen und Bürger ist kostenlos und quelloffen.
-      Eine kostenpflichtige Ausgabe für Selbstständige und Geschäftsführende
-      sowie einzelne Templates werden verkauft; Organisationen können die
+      Die Anwendung lässt sich aus der gehosteten Fassung öffnen oder aus dem Repository als einzelne Datei
+      bauen; sie öffnet sich im Browser, ohne Installation und ohne Server. Eine offene Spezifikation ihres
+      Datenformats mit einem eigenständigen Prüfprogramm ist geplant.
+
+      Die Ausgabe für Bürgerinnen und Bürger ist kostenlos und quelloffen. Eine kostenpflichtige Ausgabe für
+      Selbstständige und Geschäftsführende sowie einzelne Templates werden verkauft; Organisationen können die
       Anwendung unter eigenem Namen herausgeben.
     features:
       - Läuft offline, ohne Konto und ohne Server
@@ -79,27 +82,31 @@ description:
     localisedName: Vivodepot
     genericName: "Personal document vault"
     shortDescription: >
-      A single file in which people keep their own records encrypted on their own
-      device and share extracts from it.
+      Open-source offline application: people keep their records across all areas of life and give recipients
+      extracts, such as FHIR, vCard or iCalendar.
     longDescription: >
-      Vivodepot is an application contained in a single HTML file. It runs without
-      an internet connection on the person's own device, requires no account and
-      sends no data to the publisher; its content security policy forbids outgoing
-      connections.
+      Vivodepot is an application (EUPL-1.2) in a single HTML file. It runs offline in the browser, without an
+      account; no server holds the records. Records are encrypted client-side (AES-256-GCM). People keep the
+      records of their own life across thirteen areas in one encrypted file they hold themselves. The 1.0
+      series has been public since September 2026.
 
-      The application is not tied to one area of life. It carries records from
-      several areas side by side, among them health, public administration, social
-      insurance, work and housing, and it addresses adults of any age and any
-      situation.
+      A person's records are spread across institutions, and each recipient expects its own format. Without a
+      citizen-held copy, every handover means retyping, or the records sit with a provider that becomes a new
+      controller.
 
-      From that content the person shares targeted extracts, each containing only
-      what the receiving party needs, among them the HL7 FHIR International Patient
-      Summary format, vCard, calendar files and PDF. Specially protected entries
-      leave the file only after the person has released them.
+      Vivodepot produces extracts, among them HL7 FHIR (International Patient Summary, validated with the HL7
+      validator), vCard and iCalendar. It exports self-asserted statements as signed SD-JWT VCs where the
+      browser supports Ed25519, and reads signed credentials of defined types (W3C Verifiable Credentials). It
+      supports acting on behalf of others and records with no issuer, such as powers of attorney and advance
+      directives.
 
-      The edition for citizens is free of charge and open source. A paid edition for
-      self-employed users and individual content templates are sold, and organisations
-      can publish the application under their own name.
+      The application can be opened from the hosted version or built from the repository as a single file; it
+      opens in a browser, without installation or server. An open specification of its data format with a
+      standalone validator is planned.
+
+      The edition for citizens is free of charge and open source. A paid edition for the self-employed and for
+      company directors is sold, as are individual content templates; organisations can publish the
+      application under their own name.
     features:
       - Runs offline, with no account and no server
       - AES-256-GCM encryption, key derived from the user's password

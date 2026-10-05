@@ -54,6 +54,8 @@ function _produktPruefen(produktText) {
   if (typeof produktText !== 'string' || !produktText) {
     throw new Error('Kein Produkt übergeben. Die Vorführung wird nie auf dem blanken Kern gebaut: --produkt <vivodepot.html eines erzeugten Produkts> (node tools/vier-produkte-erzeugen.js).');
   }
+  // v894: auch das Erscheinungsbild muss gebacken sein — sonst ist es das nackte Gerüst (tools/lib/erscheinungsbild-zustand.js).
+  require('./lib/erscheinungsbild-zustand.js').keinGeruest(produktText, 'vorfuehrung-showcase-erzeugen');
   const { AB_WERK_REGIONEN, _regionSpanne } = require('./lib/produkt-text-erzeugen.js');
   const region = AB_WERK_REGIONEN.find((r) => r.kennung === 'AB_WERK_BEREICH_QUELLEN');
   const { innenStart, innenEnde } = _regionSpanne(produktText, region, 'dem übergebenen Produkt');

@@ -21,7 +21,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { verhaeltnis } = require('../tools/lib/kontrast.js');
 
-const HTML = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
+const HTML = kernMitHeute(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
 
 const SALBEI_DUNKEL = { r: 0x4F, g: 0x65, b: 0x39 };          // --salbei-dunkel, unverändert im Nachtmodus
 const AUFGEHELLT = { r: 0x8e, g: 0xab, b: 0x77 };             // die etablierte Nachtmodus-Aufhellung

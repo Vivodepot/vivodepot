@@ -38,7 +38,7 @@ test('[Gegenprobe] eine Stelle: die Wache und playwright.config.js lesen den Wer
   assert.match(pw, /workers: process\.env\.CI \? 1 : require\('\.\/tools\/lib\/test-parallel\.js'\)\.pwWorker\(\)/);
   const skript = JSON.parse(fs.readFileSync(path.join(REPO, 'package.json'), 'utf8')).scripts.test;
   assert.ok(!/--test-concurrency/.test(skript), 'npm test setzt keine eigene Zahl — sonst gälte die eine Stelle nicht');
-  assert.ok(skript.startsWith('node tools/geteilte-git-config-wache.js -- node --test'), 'npm test läuft über die Wache');
+  assert.ok(skript.startsWith('node tools/geteilte-git-config-wache.js -- node --no-sparkplug --test'), 'npm test läuft über die Wache');
 });
 
 test('[Rot-Beweis] ohne die Einfügung in der Wache fehlte --test-concurrency, node nähme Kerne - 1', () => {

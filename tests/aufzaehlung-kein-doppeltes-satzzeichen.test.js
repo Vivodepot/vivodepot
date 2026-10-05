@@ -12,7 +12,8 @@ const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 const { ladeLesen } = require('./load-lesen.js');
 
-const DOPPELT = /[,;]\s*,|,\s*[,;]/;
+// Seit 01.10.2026 auch die Auslassung vor dem Trennkomma („befinde ..., ich“): die BMJ-Situationen enden auf „...“.
+const DOPPELT = /[,;]\s*,|,\s*[,;]|(?:\.\.\.|…)\s*,/;
 
 function mehrfachauswahlen(sektoren) {
   const raus = [];
@@ -26,7 +27,7 @@ test('[Aufzählung·Kern] jede Mehrfachauswahl, alle Optionen gewählt: kein dop
   const { V } = ladeKern();
   const alle = mehrfachauswahlen(V.bereicheAlle());
   assert.ok(alle.length >= 5, 'Suchraum besetzt: ' + alle.length + ' Mehrfachauswahlen');
-  assert.ok(alle.some(({ f }) => f.optionen.some((o) => /[,;]\s*$/.test(String(o.label)))),
+  assert.ok(alle.some(({ f }) => f.optionen.some((o) => /(?:[,;]|\.\.\.|…)\s*$/.test(String(o.label)))),
     'Vorbedingung: mindestens eine Option endet selbst auf ein Satzzeichen — sonst misst der Wächter nichts');
   const funde = alle.map(({ s, f }) => ({ k: s.id + '.' + f.id, t: V.feldWertText(f, f.optionen.map((o) => o.wert)) }))
     .filter((x) => DOPPELT.test(x.t)).map((x) => x.k + ': ' + x.t.slice(0, 80));
@@ -60,4 +61,8 @@ test('[Aufzählung·Rot-Beweis] eine Aufzählung ohne Kürzung fiele durch — d
   const texte = ['ich mich im Sterbeprozess befinde,', 'ich mich im Endstadium befinde,'];
   assert.match(texte.join(', '), DOPPELT, 'ungekürzt: doppeltes Komma');
   assert.doesNotMatch(texte.map((t) => t.replace(/[\s,;]+$/, '')).join(', '), DOPPELT, 'gekürzt: sauber');
+});
+
+test('[Aufzählung·Rot-Beweis] auch die Auslassung vor dem Trennkomma fällt auf', () => {
+  assert.match(['ich mich im Sterbeprozess befinde ...', 'ich mich im Endstadium befinde ...'].join(', '), DOPPELT, 'ungekürzt: „..., “');
 });

@@ -31,6 +31,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync, spawnSync } = require('node:child_process');
 const { DATEISATZ } = require('./ausgeliefertes-dateiset.js');
+const VB = require('../tools/lib/hl7-validator-beleg.js');   // Beleg je Gate-Lauf (Befund HL7-VALIDATOR-FASSUNG, Erweiterung 03.10.2026)
 
 // Dieselben Dateien, die den Gate selbst tragen — wer sie ändert, muss den Gate fahren.
 // Bewusst eine zweite, kleine Liste (nicht aus DATEISATZ ableitbar, andere Domäne): der
@@ -85,16 +86,23 @@ function javaPfad() {
   return null;
 }
 
+/* Der geprüfte Kern: die SHA-256 von vivodepot.html im gepushten Commit (aus der mitversionierten Prüfsumme). */
+function kernHashVon(sha) {
+  if (!sha) return null;
+  try { return (git('show', sha + ':vivodepot.html.sha256').trim().split(/\s+/)[0]) || null; } catch (_) { return null; }
+}
+
 function main() {
   const roh = fs.readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[fhir-gate] nichts zu pushen'); return 0; }
 
   let anlass = { ja: false, grund: 'kein Ref mit Inhalt — der Hook bekam keine prüfbare Zeile' };
+  let anlassSha = null;
   for (const zeile of roh.split('\n').filter(Boolean)) {
     const [, lokalSha, , remoteSha] = zeile.split(/\s+/);
     if (/^0+$/.test(lokalSha)) continue;                     // Löschung eines Refs
     anlass = anlassGegeben(geaenderteDateien(lokalSha, remoteSha));
-    if (anlass.ja) break;
+    if (anlass.ja) { anlassSha = lokalSha; break; }
   }
 
   if (!anlass.ja) {
@@ -136,6 +144,11 @@ function main() {
     return 1;
   }
 
+  // Welcher Validator prüft — nur der gepinnte. Weicht die Fassung ab, ist das Gate rot (Rot-Beweis in tests/hl7-validator-beleg.test.js).
+  let validator;
+  try { validator = VB.jarFassung(jar); } catch (e) { console.error('[fhir-gate] ABBRUCH: ' + e.message); return 1; }
+  if (!validator.gepinnt) { console.error('[fhir-gate] ABBRUCH: der Jar ist nicht der gepinnte (Fassung ' + validator.fassung + ') — das Gate prüft nur mit der gepinnten Fassung.'); return 1; }
+  console.log('[fhir-gate] Validator: ' + validator.name + ' ' + validator.fassung + ' (gepinnt, SHA-256 ' + validator.sha256.slice(0, 12) + '…)');
   console.log('[fhir-gate] Java + Validator-JAR vorhanden — Lauf beginnt (npm run test:konformitaet:extern) …');
   // `node --test` innerhalb eines `node --test`-Laufs erbt sonst NODE_TEST_CONTEXT (derselbe
   // Grund wie bei den anderen `env -u NODE_TEST_CONTEXT`-Aufrufen in hooks/pre-push).
@@ -146,6 +159,12 @@ function main() {
     timeout: 240000,
     env: laufEnv,
   });
+  const ergebnis = (lauf.error && lauf.error.code === 'ETIMEDOUT') ? 'haengt' : (lauf.status === 0 ? 'gruen' : 'rot');
+  // Beleg je Lauf, auch bei Rot: der letzte Lauf je Kern-Hash, außerhalb des Kanons. Ohne Beleg kein Grün.
+  try {
+    const datei = VB.gateBelegSchreiben(VB.belegKopf({ validator, kernHash: kernHashVon(anlassSha), ergebnis }));
+    console.log('[fhir-gate] Beleg: ' + datei.replace(require('node:os').homedir(), '~'));
+  } catch (e) { console.error('[fhir-gate] ABBRUCH: der Beleg ließ sich nicht schreiben: ' + e.message); return 1; }
   if (lauf.error && lauf.error.code === 'ETIMEDOUT') {
     console.error('[fhir-gate] ABBRUCH: der Lauf hing (>240 s) und wurde abgebrochen.');
     console.error('            Ein Hänger ist kein Grün — nicht mit --no-verify umgehen, sondern messen.');
@@ -163,4 +182,4 @@ if (require.main === module) {
   process.exitCode = main();
 }
 
-module.exports = { anlassGegeben, javaPfad, FHIR_EIGENE_DATEIEN };
+module.exports = { anlassGegeben, javaPfad, kernHashVon, FHIR_EIGENE_DATEIEN };

@@ -1,0 +1,130 @@
+{
+  "quelle": {
+    "herausgeber": "Amt für Veröffentlichungen der EU, EU Vocabularies (Europass-Vokabulare)",
+    "schemata": {
+      "eqf": "http://data.europa.eu/snb/eqf/25831c2",
+      "qdr": "http://data.europa.eu/snb/qdr/25831c2",
+      "dqrRahmen": "http://data.europa.eu/snb/qdr/c_ef113b94"
+    },
+    "abgerufen": "2026-10-01",
+    "weg": "SPARQL https://publications.europa.eu/webapi/rdf/sparql — EQF: ?c skos:inScheme <http://data.europa.eu/snb/eqf/25831c2>; DQR: ?c skos:broader <http://data.europa.eu/snb/qdr/c_ef113b94>, mit skos:closeMatch und euvoc:status",
+    "version": "EQF-Schema V.4; qdr-Schema v.10 (dcterms:modified 2021-02-03)",
+    "lizenz": "CC BY 4.0 für Inhalte im Eigentum der EU (Copyright-Hinweis des Amts für Veröffentlichungen, https://op.europa.eu/en/web/about-us/legal-notices/publications-office-of-the-european-union-copyright, nachgesehen 01.10.2026); Weiterverwendung nach Beschluss 2011/833/EU. Quellenangabe: © Europäische Union, EU Vocabularies; unverändert übernommen (nur Auswahl der Felder)."
+  },
+  "eqf": [
+    {
+      "uri": "http://data.europa.eu/snb/eqf/1",
+      "stufe": 1,
+      "de": "Niveau 1",
+      "en": "Level 1"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/eqf/2",
+      "stufe": 2,
+      "de": "Niveau 2",
+      "en": "Level 2"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/eqf/3",
+      "stufe": 3,
+      "de": "Niveau 3",
+      "en": "Level 3"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/eqf/4",
+      "stufe": 4,
+      "de": "Niveau 4",
+      "en": "Level 4"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/eqf/5",
+      "stufe": 5,
+      "de": "Niveau 5",
+      "en": "Level 5"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/eqf/6",
+      "stufe": 6,
+      "de": "Niveau 6",
+      "en": "Level 6"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/eqf/7",
+      "stufe": 7,
+      "de": "Niveau 7",
+      "en": "Level 7"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/eqf/8",
+      "stufe": 8,
+      "de": "Niveau 8",
+      "en": "Level 8"
+    }
+  ],
+  "dqr": [
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_f77c7095",
+      "stufe": 1,
+      "de": "DQR Niveau 1",
+      "en": "DQR Level 1",
+      "closeMatch": "http://data.europa.eu/snb/eqf/1",
+      "status": "CURRENT"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_c71cce15",
+      "stufe": 2,
+      "de": "DQR Niveau 2",
+      "en": "DQR Level 2",
+      "closeMatch": "http://data.europa.eu/snb/eqf/2",
+      "status": "CURRENT"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_c37d888a",
+      "stufe": 3,
+      "de": "DQR Niveau 3",
+      "en": "DQR Level 3",
+      "closeMatch": "http://data.europa.eu/snb/eqf/3",
+      "status": "CURRENT"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_12a84182",
+      "stufe": 4,
+      "de": "DQR Niveau 4",
+      "en": "DQR Level 4",
+      "closeMatch": "http://data.europa.eu/snb/eqf/4",
+      "status": "CURRENT"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_bd9f8e42",
+      "stufe": 5,
+      "de": "DQR Niveau 5",
+      "en": "DQR Level 5",
+      "closeMatch": "http://data.europa.eu/snb/eqf/5",
+      "status": "CURRENT"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_6919ed25",
+      "stufe": 6,
+      "de": "DQR Niveau 6",
+      "en": "DQR Level 6",
+      "closeMatch": "http://data.europa.eu/snb/eqf/6",
+      "status": "CURRENT"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_184f7fed",
+      "stufe": 7,
+      "de": "DQR Niveau 7",
+      "en": "DQR Level 7",
+      "closeMatch": "http://data.europa.eu/snb/eqf/7",
+      "status": "CURRENT"
+    },
+    {
+      "uri": "http://data.europa.eu/snb/qdr/c_341d539b",
+      "stufe": 8,
+      "de": "DQR Niveau 8",
+      "en": "DQR Level 8",
+      "closeMatch": "http://data.europa.eu/snb/eqf/8",
+      "status": "CURRENT"
+    }
+  ]
+}

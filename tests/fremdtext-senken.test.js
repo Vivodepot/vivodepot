@@ -163,6 +163,9 @@ async function fremdesDepotMitMarke(marke) {
   A.getData().brandingModule = [Object.assign({ modulTyp: 'branding', moduleVersion: 1, herkunft: 'x' }, marke)];
   const umschlag = await A.depotSerialisieren();
   const { V } = ladeKern();
+  /* Selbst-Einlass-Sperre (04.10.2026): eine Marke aus einer fremden Datei wäre gesperrt.
+     Diese Datei prüft die Senke — wie ein Markenname maskiert wird, WENN er wirkt —, darum hier ohne Sperre. */
+  V.SELBST_EINLASS_GESPERRT = false;
   await V.depotLaden(umschlag, 'fremd-marke-pw');
   return V;
 }

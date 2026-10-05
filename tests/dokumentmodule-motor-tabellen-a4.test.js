@@ -113,14 +113,16 @@ test('[A4·Positivkontrolle·PV] beide Instrument-Sätze erscheinen, wenn Vollma
   // Bevollmächtigte-Unterfeld `authorizedPersons` (vormals `bevollmaechtigter`,
   // kennung-mapping.json).
   const d = V.getData();
-  d.sektoren.advanceCare = { provisionInstruments: [
+  // U2-ADR-459 (01.10.2026): die früheren Kurzsätze („… errichtet.“) sind gestrichen; die Bausteine stehen in 2.7 im
+  // BMJ-Wortlaut, der Vollmacht-Baustein nur bei bejahter Besprechung (er behauptet sie).
+  d.sektoren.advanceCare = { contentOfTheAdvanceDirective: 'ja', provisionInstruments: [
     { id: 'v1', instrument: 'enduring-power-of-attorney', authorizedPersons: [{ override: 'Max Mustermann' }] },
     { id: 'v2', instrument: 'custodianship-declaration' },
   ] };
   V.setData(d);
   const zeilen = V.pvDokumentAbschnitte().flatMap((a) => a.zeilen);
-  assert.ok(zeilen.includes('Ich habe eine Vorsorgevollmacht errichtet.'), 'Vollmacht-Satz erscheint');
-  assert.ok(zeilen.includes('Ich habe eine Betreuungsverfügung errichtet.'), 'Betreuung-Satz erscheint');
+  assert.ok(zeilen.includes('Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt und den Inhalt dieser Patientenverfügung mit der von mir bevollmächtigten Person besprochen:'), 'Vollmacht-Baustein erscheint');
+  assert.ok(zeilen.includes('Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt.'), 'Betreuung-Baustein erscheint');
 });
 
 test('[A4·Positivkontrolle·PV] ohne Instrumente erscheint keiner der beiden Sätze', async () => {
@@ -128,8 +130,8 @@ test('[A4·Positivkontrolle·PV] ohne Instrumente erscheint keiner der beiden S�
   await V.depotAnlegen('a4-crossref-bedingung-leer-2026!');
   V.akteurSelbstErklaeren('Testerin');
   const zeilen = V.pvDokumentAbschnitte().flatMap((a) => a.zeilen);
-  assert.ok(!zeilen.includes('Ich habe eine Vorsorgevollmacht errichtet.'));
-  assert.ok(!zeilen.includes('Ich habe eine Betreuungsverfügung errichtet.'));
+  assert.ok(!zeilen.includes('Ich habe zusätzlich zur Patientenverfügung eine Vorsorgevollmacht für Gesundheitsangelegenheiten erteilt und den Inhalt dieser Patientenverfügung mit der von mir bevollmächtigten Person besprochen:'));
+  assert.ok(!zeilen.includes('Ich habe eine Betreuungsverfügung zur Auswahl der Betreuerin oder des Betreuers erstellt.'));
 });
 
 test('[A4·Positivkontrolle·Vollmacht] der Bank-Hinweis erscheint weiterhin, wenn einer der drei Vermögens-Felder gesetzt ist', async () => {

@@ -77,7 +77,7 @@ function bauZielFunktion(html, formatId) {
 // (vollExportJSON) bleibt internes Meßinstrument, ist aber kein Ausgabeweg über diese Registry
 // mehr, s. docs/adr/…-offener-json-vollexport-entfernt-2026-09-17.md.
 const EXPORT_FORMAT_IDS = [
-  'fhir-ips', 'sd-jwt-vc-identitaet', 'xoev-verwaltung', 'edci-bildung',
+  'fhir-ips', 'sd-jwt-vc-identitaet', 'xoev-verwaltung', 'bildungsangaben',
   'sd-jwt-vc-finanzen', 'sd-jwt-vc-sozialversicherung', 'fim-json',
   'vcard-identitaet', 'vcard-menschen', 'ics-vorsorge',
 ];

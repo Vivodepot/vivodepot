@@ -20,6 +20,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
+const { cssQuelle } = require('./lib/kern-mit-erscheinungsbild.js');
 
 const argv = process.argv.slice(2);
 const arg = (n, s) => { const i = argv.indexOf('--' + n); return i >= 0 && argv[i + 1] ? argv[i + 1] : s; };
@@ -32,7 +33,8 @@ function deklarationen(text) {
   const raus = [];
   const zeileVon = (pos) => text.slice(0, pos).split('\n').length;
   for (const m of text.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
-    const selektor = m[1].trim().replace(/\s+/g, ' ');
+    // Kommentare vor dem Selektor gehören nicht zu ihm (sonst wäre `/* … */ :root` kein :root).
+    const selektor = m[1].replace(/\/\*[\s\S]*?\*\//g, '').trim().replace(/\s+/g, ' ');
     if (!selektor || selektor.startsWith('@')) continue;
     for (const d of m[2].matchAll(/(^|;)\s*([a-zA-Z-][\w-]*)\s*:/g)) {
       raus.push({ selektor, eigenschaft: d[2], zeile: zeileVon(m.index + m[1].length + d.index) });
@@ -55,7 +57,8 @@ function funde(text) {
 }
 
 if (require.main === module) {
-  const gefunden = funde(fs.readFileSync(DATEI, 'utf8'));
+  // v894: das Stylesheet aus „Gerüst + heute" (tools/lib/kern-mit-erscheinungsbild.js), sonst sähe der Wächter nur das Gerüst.
+  const gefunden = funde(cssQuelle(fs.readFileSync(DATEI, 'utf8')));
   if (gefunden.length) {
     console.error('TOTE REGELN — an `html` gesetzt, von `:root` ueberstimmt:\n  ' + gefunden.join('\n  ') +
       '\n\nEine @media-Query aendert daran nichts: sie addiert keine Spezifitaet.\n' +

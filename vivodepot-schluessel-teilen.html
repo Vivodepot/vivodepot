@@ -221,17 +221,16 @@
 
     <p class="lage" id="zusammen-lage" role="status" aria-live="polite"></p>
     <button type="button" id="knopf-zusammensetzen">Schlüssel zusammensetzen</button>
-    <button type="button" id="knopf-jwk-sichern" disabled>Schlüssel als JWK-Datei sichern</button>
 
-    <p class="hinweis-klein">Oder geschützt sichern (23.08.2026, „Der Teiler sichert geschützt"):
-    der rohe private Schlüssel verlässt das Werkzeug dann nie — nur eine passphrasengeschützte
-    <code>.vdkey</code>-Datei, die der Zertifikator über seinen bestehenden Weg öffnet.</p>
+    <p class="hinweis-klein">Der zusammengesetzte Schlüssel verlässt das Werkzeug nur als passwortgeschützte
+    <code>.vdkey</code>-Datei, die der Zertifikator über seinen bestehenden Weg öffnet. Nach dem Sichern wird er
+    aus dem Speicher verworfen; für eine weitere Datei die Anteile erneut zusammensetzen.</p>
     <label for="schuetzen-zweck">Zweck dieses Schlüssels (erscheint im Dateinamen, z. B. „anker")</label>
     <input type="text" id="schuetzen-zweck" autocomplete="off" placeholder="anker">
-    <label for="schuetzen-pw1">Passphrase für die geschützte Datei</label>
+    <label for="schuetzen-pw1">Passwort für die Schlüsseldatei</label>
     <input type="password" id="schuetzen-pw1" autocomplete="off">
     <div id="schuetzen-staerke" class="hinweis-klein" hidden></div>
-    <label for="schuetzen-pw2">Passphrase wiederholen</label>
+    <label for="schuetzen-pw2">Passwort wiederholen</label>
     <input type="password" id="schuetzen-pw2" autocomplete="off">
     <button type="button" id="knopf-vdkey-sichern" disabled>Schlüssel geschützt sichern (.vdkey)</button>
 
@@ -579,6 +578,52 @@ async function deriveAdressKeyV4(masterHkdfKey, cryptoSalt, depotUUID) {
   );
 }
 
+// Signaturschlüssel der Halterin (U2-ADR-457, Nachtrag v865): Ed25519, aus dem Sitzungsschlüssel abgeleitet, nirgends
+// gespeichert. Eigene HKDF-Domäne, getrennt von Depot- und Adressschlüssel. Der Seed geht als PKCS#8 (RFC 8410: festes
+// Präfix + 32 Byte) in WebCrypto, ausschließlich nicht extrahierbar (U2-ADR-062). Den öffentlichen Schlüssel kann WebCrypto
+// aus einem nicht extrahierbaren Schlüssel nicht liefern; ihn berechnet `oeffentlichAusSeed` aus einer Kopie des Seeds
+// (im Kern die eingebettete noble-ed25519 am geprüften Commit fa14496, Cure53 02/2022). Jedes Ergebnis besteht die
+// Selbstprobe in diesem Block: Signatur mit dem WebCrypto-Schlüssel, Prüfung mit WebCrypto gegen das berechnete x. Scheitert
+// sie, gibt es keinen Schlüssel und keinen Rückfall. Seed, Kopie und PKCS#8 werden im finally überschrieben (bestmöglich
+// gelöscht, unsere Kopien); Byte-Kopien und BigInt-Zwischenwerte der Bibliothek (Seed-Kopie, SHA-512-Ergebnis mit Skalar und
+// prefix) sind nicht löschbar, bis zur Speicherbereinigung.
+const HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX = 'vivodepot/v4/halter-signatur/';
+const HALTER_SELBSTPROBE_PREFIX = 'vivodepot-halter-selbstprobe-1/';
+const ED25519_PKCS8_PRAEFIX = [0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20];
+async function deriveHalterSignaturV4(masterHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed) {
+  if (!depotUUID || typeof depotUUID !== 'string' || depotUUID.length === 0) {
+    throw new Error('halter-signatur-depot-uuid-fehlt');
+  }
+  if (!(cryptoSalt instanceof Uint8Array) || cryptoSalt.length !== SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES) {
+    throw new Error('halter-signatur-salt-ungueltig');
+  }
+  if (typeof oeffentlichAusSeed !== 'function') throw new Error('halter-signatur-ableitung-fehlt');
+  const seed = new Uint8Array(await crypto.subtle.deriveBits(
+    { name: 'HKDF', hash: HKDF_HASH, salt: cryptoSalt,
+      info: new TextEncoder().encode(HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX + depotUUID) },
+    masterHkdfKey, 256));
+  const pk8 = new Uint8Array(ED25519_PKCS8_PRAEFIX.length + 32);
+  pk8.set(ED25519_PKCS8_PRAEFIX); pk8.set(seed, ED25519_PKCS8_PRAEFIX.length);
+  const kopie = new Uint8Array(32);   // frisch, kein Teilfeld: die Bibliothek hasht `.buffer` ohne byteOffset
+  try {
+    const schluessel = await crypto.subtle.importKey('pkcs8', pk8, { name: 'Ed25519' }, false, ['sign']);
+    kopie.set(seed);
+    const roh = await oeffentlichAusSeed(kopie);
+    if (!(roh instanceof Uint8Array) || roh.length !== 32) throw new Error('halter-signatur-oeffentlich-ungueltig');
+    const oeffentlich = await crypto.subtle.importKey('raw', roh, { name: 'Ed25519' }, false, ['verify']);
+    const probe = new TextEncoder().encode(HALTER_SELBSTPROBE_PREFIX + depotUUID);
+    const sig = await crypto.subtle.sign({ name: 'Ed25519' }, schluessel, probe);
+    if (!(await crypto.subtle.verify({ name: 'Ed25519' }, oeffentlich, sig, probe))) throw new Error('halter-signatur-selbstprobe');
+    // JWK-x ist der öffentliche Rohschlüssel in base64url; kein exportKey nötig, der Prüfschlüssel bleibt nicht exportierbar.
+    let bin = '';
+    for (const b of roh) bin += String.fromCharCode(b);
+    const x = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return { schluessel, jwk: { kty: 'OKP', crv: 'Ed25519', x } };
+  } finally {
+    seed.fill(0); kopie.fill(0); pk8.fill(0);
+  }
+}
+
 // Die Adresse EINER Einheit. Rein: derselbe Name unter demselben Schlüssel ergibt dieselbe
 // Adresse — das ist der Grund, warum die Datei ohne Rotation stabil bleibt, und zugleich das
 // benannte Restrisiko.
@@ -724,6 +769,13 @@ const VdCrypto = (function () {
     depotSchluessel: (cryptoSalt, depotUUID) => {
       if (!sessionHkdfKey) throw new Error('VdCrypto.depotSchluessel: keine offene Session.');
       return deriveDepotKeyV2(sessionHkdfKey, cryptoSalt, depotUUID);
+    },
+    // U2-ADR-457: der Signaturschlüssel der Halterin (Selbst-Signatur), ohne dass der Aufrufer den
+    // Sitzungsschlüssel in der Hand hält. Liefert { schluessel (nicht extrahierbar), jwk (öffentlich) }.
+    // oeffentlichAusSeed: die Ableitung des öffentlichen Schlüssels (Nachtrag v865), geprüft per Selbstprobe im Block.
+    halterSignatur: (cryptoSalt, depotUUID, oeffentlichAusSeed) => {
+      if (!sessionHkdfKey) throw new Error('halter-signatur-keine-sitzung');
+      return deriveHalterSignaturV4(sessionHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed);
     },
   });
 })();
@@ -1045,11 +1097,22 @@ async function sha256Bytes(bytes) {
    Grund, warum der Thumbprint als Kennung auf einem Zettel stehen darf: er ist
    öffentlich. Wer ihn sieht, weiß WELCHER Schlüssel gemeint ist, und nichts
    über ihn. */
+/* Wortgleich mit dem VC-Issuer (eine Fassung derselben Norm, bewacht vom Klassenwächter geteilter Krypto-Funktionen in
+   tools/krypto-block-propagation-pruefen.js): OKP und EC, jedes Pflichtglied muss vorhanden sein. */
 async function jwkThumbprintRfc7638(jwk) {
-  if (!jwk || jwk.kty !== 'OKP') throw new Error('jwkThumbprintRfc7638: nur OKP-Schlüssel (Ed25519).');
-  if (typeof jwk.crv !== 'string' || typeof jwk.x !== 'string') throw new Error('jwkThumbprintRfc7638: crv und x fehlen.');
-  const kanonisch = JSON.stringify({ crv: jwk.crv, kty: jwk.kty, x: jwk.x });
-  return b64uAusBytes(await sha256Bytes(new TextEncoder().encode(kanonisch)));
+  if (!jwk || typeof jwk !== 'object') throw new Error('jwkThumbprintRfc7638: kein JWK.');
+  let members;
+  if (jwk.kty === 'OKP') members = { crv: jwk.crv, kty: jwk.kty, x: jwk.x };
+  else if (jwk.kty === 'EC') members = { crv: jwk.crv, kty: jwk.kty, x: jwk.x, y: jwk.y };
+  else throw new Error('jwkThumbprintRfc7638: nicht unterstützter kty ' + jwk.kty);
+  for (const [glied, wert] of Object.entries(members)) {
+    if (typeof wert !== 'string' || !wert) throw new Error('jwkThumbprintRfc7638: Pflichtglied ' + glied + ' fehlt.');
+  }
+  const canon = JSON.stringify(members);
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(canon)));
+  let bin = '';
+  for (let i = 0; i < digest.length; i++) bin += String.fromCharCode(digest[i]);
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 /* Ed25519-PKCS-8-Kopf: SEQUENCE { INTEGER 0, SEQUENCE { OID 1.3.101.112 },
@@ -2053,14 +2116,52 @@ function passphraseStaerke(pw) {
   return { stufe, bekannt: false };
 }
 
+/* Der zusammengesetzte Schlüssel (mit `d`) lebt nur bis zu seinem einen Gebrauch: dem Sichern als .vdkey. Danach, beim
+   Verlassen der Seite und vor jedem neuen Zusammensetzen wird der Verweis gelöst — JavaScript kann das Objekt nicht nullen,
+   nur den Verweis fallen lassen — und spätestens nach dem Zeitlimit, wie im Studio (04.10.2026, Befund
+   TEILER-ZUSAMMENGESETZTER-SCHLUESSEL). Einen Klartext-Ausgang gibt es nicht mehr: „Schlüssel sichern" bleibt, nur
+   geschützt — so, wie es die Entscheidung vom 23.08.2026 festhält („Ein ungeschützter privater Anker-Schlüssel entsteht
+   dabei nie"). */
+const ZUSAMMENGESETZT_LIMIT_MS = 15 * 60 * 1000;
+let _zusammengesetztUhr = null;
+function _zusammengesetztVerwerfen() {
+  _letzterSchluessel = null;
+  if (_zusammengesetztUhr) { clearTimeout(_zusammengesetztUhr); _zusammengesetztUhr = null; }
+  if (typeof document === 'undefined') return;
+  const k = document.getElementById('knopf-vdkey-sichern'); if (k) k.disabled = true;
+}
+async function onGeschuetztSichern() {
+  const pw1El = document.getElementById('schuetzen-pw1');
+  const pw2El = document.getElementById('schuetzen-pw2');
+  let pw1 = pw1El ? pw1El.value : '', pw2 = pw2El ? pw2El.value : '';
+  // Gelesen und sofort geleert — auf jedem Pfad, auch wenn danach etwas fehlt oder scheitert.
+  if (pw1El) pw1El.value = ''; if (pw2El) pw2El.value = '';
+  const anzeige = document.getElementById('schuetzen-staerke'); if (anzeige) anzeige.hidden = true;
+  try {
+    if (!_letzterSchluessel) return;
+    const zweckEl = document.getElementById('schuetzen-zweck');
+    const zweck = _zweckSlug(zweckEl ? zweckEl.value : '');
+    if (!zweck) { setzeLage('zusammen-lage', 'Zweck fehlt — er steht danach im Dateinamen.', 'fehler'); return; }
+    if (!pw1 || pw1.length < 8) { setzeLage('zusammen-lage', 'Passwort zu kurz (mindestens 8 Zeichen).', 'fehler'); return; }
+    if (pw1 !== pw2) { setzeLage('zusammen-lage', 'Die beiden Passwort-Eingaben stimmen nicht überein.', 'fehler'); return; }
+    let geschuetzt;
+    try { geschuetzt = await schuetzeSchluesselJwk(_letzterSchluessel.jwk, pw1); }
+    catch (e) { setzeLage('zusammen-lage', 'Schützen fehlgeschlagen.', 'fehler'); return; }
+    const thumbprint = _letzterSchluessel.thumbprint;
+    _zusammengesetztVerwerfen();
+    ladeDownload('vivodepot-' + zweck + '-' + thumbprint.slice(0, 12) + '.vdkey', JSON.stringify(geschuetzt, null, 2));
+    setzeLage('zusammen-lage', 'Geschützte Datei (.vdkey) heruntergeladen. Das Passwort getrennt vom Schlüssel verwahren. '
+      + 'Der zusammengesetzte Schlüssel ist aus dem Speicher verworfen.');
+  } finally {
+    pw1 = null; pw2 = null;
+  }
+}
+
 async function onZusammensetzen() {
   const ergebnisFeld = document.getElementById('zusammen-ergebnis');
-  const sicherKnopf = document.getElementById('knopf-jwk-sichern');
   const vdkeyKnopf = document.getElementById('knopf-vdkey-sichern');
-  _letzterSchluessel = null;
+  _zusammengesetztVerwerfen();
   if (ergebnisFeld) ergebnisFeld.innerHTML = '';
-  if (sicherKnopf) sicherKnopf.disabled = true;
-  if (vdkeyKnopf) vdkeyKnopf.disabled = true;
   try {
     const blaetter = [];
     const dateiFeld = document.getElementById('anteile-datei');
@@ -2076,7 +2177,8 @@ async function onZusammensetzen() {
     setzeLage('zusammen-lage', 'Prüft und setzt zusammen …');
     const ergebnis = await schluesselZusammensetzen(blaetter);
     _letzterSchluessel = ergebnis;
-    if (sicherKnopf) sicherKnopf.disabled = false;
+    _zusammengesetztUhr = setTimeout(() => _zusammengesetztVerwerfen(), ZUSAMMENGESETZT_LIMIT_MS);
+    if (_zusammengesetztUhr && typeof _zusammengesetztUhr.unref === 'function') _zusammengesetztUhr.unref();
     if (vdkeyKnopf) vdkeyKnopf.disabled = false;
     if (ergebnisFeld) {
       ergebnisFeld.innerHTML = '<div class="karte"><dl>'
@@ -2132,14 +2234,9 @@ function boot() {
     ladeDownload('vivodepot-oeffentlich-' + _letzterOeffentlicherTeil.kid + '.json',
       JSON.stringify(_letzterOeffentlicherTeil.oeffentlichJwk, null, 2));
   });
-  const s = document.getElementById('knopf-jwk-sichern');
-  if (s) s.addEventListener('click', () => {
-    if (!_letzterSchluessel) return;
-    ladeDownload('vivodepot-schluessel-' + _letzterSchluessel.thumbprint.slice(0, 12) + '.json',
-      JSON.stringify(_letzterSchluessel.jwk, null, 2));
-  });
-  // 23.08.2026, "Der Teiler sichert geschützt" — der rohe Ausgang (oben) bleibt unverändert
-  // bestehen; dieser zweite Ausgang steht daneben, nicht an seiner Stelle.
+  // „Schlüssel sichern“ geht nur geschützt (onGeschuetztSichern) — der frühere Klartext-Ausgang ist auf .vdkey umgestellt
+  // (04.10.2026, Befund TEILER-ZUSAMMENGESETZTER-SCHLUESSEL).
+  if (typeof window !== 'undefined' && window.addEventListener) window.addEventListener('pagehide', _zusammengesetztVerwerfen);
   const pw1El = document.getElementById('schuetzen-pw1');
   if (pw1El) pw1El.addEventListener('input', () => {
     const anzeige = document.getElementById('schuetzen-staerke');
@@ -2151,23 +2248,7 @@ function boot() {
     anzeige.textContent = 'Stärke: ' + st.stufe + (st.bekannt ? ' (verbreitet — bitte anders wählen)' : '');
   });
   const v = document.getElementById('knopf-vdkey-sichern');
-  if (v) v.addEventListener('click', async () => {
-    if (!_letzterSchluessel) return;
-    const zweckEl = document.getElementById('schuetzen-zweck');
-    const zweck = _zweckSlug(zweckEl ? zweckEl.value : '');
-    if (!zweck) { setzeLage('zusammen-lage', 'Zweck fehlt — er steht danach im Dateinamen.', 'fehler'); return; }
-    const pw2El = document.getElementById('schuetzen-pw2');
-    const pw1 = pw1El ? pw1El.value : '', pw2 = pw2El ? pw2El.value : '';
-    if (!pw1 || pw1.length < 8) { setzeLage('zusammen-lage', 'Passphrase zu kurz (mindestens 8 Zeichen).', 'fehler'); return; }
-    if (pw1 !== pw2) { setzeLage('zusammen-lage', 'Die beiden Passphrase-Eingaben stimmen nicht überein.', 'fehler'); return; }
-    let geschuetzt;
-    try { geschuetzt = await schuetzeSchluesselJwk(_letzterSchluessel.jwk, pw1); }
-    catch (e) { setzeLage('zusammen-lage', 'Schützen fehlgeschlagen: ' + e.message, 'fehler'); return; }
-    if (pw1El) pw1El.value = ''; if (pw2El) pw2El.value = '';
-    ladeDownload('vivodepot-' + zweck + '-' + _letzterSchluessel.thumbprint.slice(0, 12) + '.vdkey',
-      JSON.stringify(geschuetzt, null, 2));
-    setzeLage('zusammen-lage', 'Geschützte Datei (.vdkey) heruntergeladen. Die Passphrase getrennt vom Schlüssel verwahren.');
-  });
+  if (v) v.addEventListener('click', onGeschuetztSichern);
 }
 /* Der Browser stellt Formularfelder nach einem Neuladen wieder her — auch die
    abgetippten Anteile. Das ist an dieser Stelle Schlüsselmaterial und darf ein

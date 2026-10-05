@@ -92,6 +92,9 @@ function blockFuer(liste) {
     // `uri` umgeschrieben (kanonischesCodeSystem im Kern) und dürfen im Produktcode nur hier stehen.
     ...(liste.codingVersion ? [`  codingVersion: ${j(liste.codingVersion)},`] : []),
     ...(Array.isArray(liste.aliasUris) && liste.aliasUris.length ? [`  aliasUris: ${j(liste.aliasUris)},`] : []),
+    // lizenzSichtbar (04.10.2026): der Lizenzgeber verlangt den Hinweis SICHTBAR dort, wo das Produkt geholt wird; die
+    // Einstellungen zeigen ihn (Abschnitt Anbieter), ohne dass der Kern ein System beim Namen nennt.
+    ...(liste.lizenzWortlaut && liste.lizenzSichtbar ? ['  lizenzSichtbar: true,'] : []),
     ...(liste.lizenzWortlaut ? [`  lizenzWortlaut: ${j(liste.systemId)},`]
       : (liste.daten && liste.daten.length) ? [`  lizenz: ${j(liste.lizenz || '')},`] : []),
     `  daten: ${datenJs}`,

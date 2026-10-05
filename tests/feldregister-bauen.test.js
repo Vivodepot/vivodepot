@@ -351,16 +351,28 @@ test('[Feldregister·Vorschlag] ohne --generator-url bleibt der Generator-Link w
   const ziel = wegwerfOrdner();
   lauf(ziel);
   const seite = fs.readFileSync(path.join(ziel, W.SEITEN_DATEI), 'utf8');
-  assert.ok(!seite.includes('Template-Generator</a>'),
+  assert.ok(!seite.includes('Studio</a>') && !seite.includes('Template-Generator</a>'),
     'ohne Adresse gibt es keinen Link — der Auslieferungsweg des Generators ist laut ADR offen');
 });
 
 test('[Feldregister·Vorschlag] mit --generator-url erscheint der Link, auf genau diese Adresse', () => {
   const ziel = wegwerfOrdner();
-  lauf(ziel, ['--generator-url', 'https://register.vivodepot.de/generator.html']);
+  lauf(ziel, ['--generator-url', 'studio.html']);
   const seite = fs.readFileSync(path.join(ziel, W.SEITEN_DATEI), 'utf8');
-  assert.ok(seite.includes('href="https://register.vivodepot.de/generator.html">Template-Generator</a>'),
-    'die Seite verlinkt genau die übergebene Generator-Adresse');
+  assert.equal(seite.split('href="studio.html">Studio</a>').length - 1, 2,
+    'die Seite verlinkt genau die übergebene Adresse, auf Deutsch und Englisch, unter dem Namen Studio');
+});
+
+test('[Negativprobe] Rot-Beweis: der alte Werkzeugname „Template-Generator“ steht nicht mehr auf der Seite', () => {
+  const ziel = wegwerfOrdner();
+  lauf(ziel, ['--generator-url', 'studio.html']);
+  const seite = fs.readFileSync(path.join(ziel, W.SEITEN_DATEI), 'utf8');
+  const alt = seite.replace('">Studio</a>', '">Template-Generator</a>');
+  assert.notEqual(alt, seite, 'Vorbedingung: der Link ließ sich zurückbenennen');
+  for (const s of [seite, alt]) {
+    const befund = /Template-Generator|template generator/i.test(s);
+    assert.equal(befund, s === alt, s === alt ? 'die zurückbenannte Seite fällt' : 'die echte Seite trägt den alten Namen nicht');
+  }
 });
 
 /* ── Register-Katalog-Plan §6 Schritt 3 (14.09.2026) — Katalog-Index ─────────

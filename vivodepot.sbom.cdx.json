@@ -3,7 +3,7 @@
   "specVersion": "1.4",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-10-01T00:00:00Z",
+    "timestamp": "2026-10-04T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -473,18 +473,18 @@
       "licenses": [
         {
           "license": {
-            "name": "SNOMED CT Global Patient Set, © SNOMED International, CC BY-ND 4.0"
+            "name": "Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, licensed under the Creative Commons Attribution-NoDerivatives 4.0 International License (https://creativecommons.org/licenses/by-nd/4.0/), obtained from https://www.snomed.org/gps, International Edition 20260101. SNOMED® and SNOMED CT® are registered trademarks of the International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists."
           }
         }
       ],
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "3e4288b2008403efda25653f54b60ab728630d1f4065afffbc8754dd93a2973f"
+          "content": "985a1645986d543a91a176fe04fc7c674fa70d7bcda44fdced111b8c58401a12"
         },
         {
           "alg": "SHA-512",
-          "content": "d6ac3deb33c0820d1eaffcc38161b2b49ebf8eee2931fd13a5ce05a1f697f0df9a5724de4e707c7bd86840a6353567559d28f88f8725ac4f03b0d0c404f983e3"
+          "content": "87bdcbc401b405b25b7ee2030a7145f49daee1300dfc5cb7bda2fc4e2e32a967156363722d4ea3fdd48e0e0897eb86030451a604d500942b81fcb4d714f6d679"
         }
       ],
       "properties": [
@@ -577,6 +577,443 @@
           "value": "unstructured"
         }
       ]
+    },
+    {
+      "bom-ref": "lucide-icons",
+      "type": "file",
+      "name": "lucide-icons",
+      "version": "auswahl-aus-lucide-static-0.300.0-bis-0.495.0",
+      "description": "Pfaddaten von 35 Icons, als Text in der Skript-Konstante ICONS eingebettet. Abgeleitet aus lucide-static, 31 wörtlich, 4 verändert. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES Abschnitt 6.",
+      "purl": "pkg:npm/lucide-static",
+      "author": "Lucide Contributors; Cole Bemis (Feather)",
+      "supplier": {
+        "name": "Lucide Icons and Contributors",
+        "url": [
+          "https://lucide.dev",
+          "https://github.com/lucide-icons/lucide"
+        ]
+      },
+      "licenses": [
+        {
+          "expression": "ISC AND MIT"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d5619d708cb5e11a64a643be6c72d74754e37e922d18759958c4524f93262810"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "caacc9479f855bd7c058fd1e8e4c05b0bea7f9fbbdc7e39af108993767d2e2eea1e7518edff2c781dc47ea14e54299b7664616223f94a650d6859bae0053a687"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "vivodepot.html (const ICONS)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "wortliste-de-dys2p",
+      "type": "data",
+      "name": "wortliste-de-dys2p",
+      "version": "de-1296-v1",
+      "description": "dys2p wordlists-de, de-1296-v1.txt; Lizenz nach Wahl Unlicense, CC0 oder BSD-3-Clause, genutzt unter CC0. Verändert: 45 Wörter entfernt. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES (Wortlisten).",
+      "author": "dys2p",
+      "supplier": {
+        "name": "dys2p",
+        "url": [
+          "https://github.com/dys2p/wordlists-de"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "CC0-1.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3315eb8efd6645ec949a2dd842bad7b1edc22eaec9f22f03bb97ef5bea144349"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "eb4199252187fbc68072608e514d6ef3094d21ee40620c0e6cfb645b3ff49022c2bdcdf07dfd9d4e8030d287965725bd10d1643120cee8ca99595cb7a5bac6a4"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "tools/textsatz-de-modul.json (strings:passwortWortliste.text)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "wortliste-en-eff",
+      "type": "data",
+      "name": "wortliste-en-eff",
+      "version": "eff-short-wordlist-1-2016",
+      "description": "EFF Short Wordlist 1 (2016); CC BY 4.0 laut https://www.eff.org/copyright. Verändert: 101 Wörter entfernt, Würfelnummern weggelassen. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES (Wortlisten).",
+      "author": "Electronic Frontier Foundation",
+      "supplier": {
+        "name": "Electronic Frontier Foundation",
+        "url": [
+          "https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "CC-BY-4.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "4b7526b95b82b3ba80dbd82cfcc8c618e53268f4439b4efd02cd1224a9160959"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "6b3cf9a0846c0656fb534723743850860e67385b4e34bcc41b5e684a96338af4dd0528d45a0933290f4d6f26193532bd25c79626ddd4bc9eeb97bddf1badb362"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "tools/textsatz-en-modul.json (strings:passwortWortliste.text)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "terminologie-ihe-xds-value-sets",
+      "type": "data",
+      "name": "terminologie-ihe-xds-value-sets",
+      "version": "4.0.0",
+      "description": "IHE Deutschland, Value Sets for XDS 4.0.0 (Commit aa1e0e5b): vier Codes mit unveränderter Bezeichnung in der Ausgabe für Krankenhäuser (ISiK). Der gehashte Block trägt daneben eigene und fremde Kennungen ohne Werkcharakter (Profil-URL, KDL-Codes, s. NOTICE.md). Nachweis: NOTICE.md, THIRD_PARTY_LICENSES.",
+      "author": "IHE Deutschland e.V.",
+      "supplier": {
+        "name": "IHE Deutschland e.V.",
+        "url": [
+          "https://github.com/IHE-Germany/ITI.XDS.VS"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "CC-BY-4.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "0f8b76d9204019b31009f3096de4a65cba5fef6ed939922dd9a29bbe957bbffe"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "990dab61b84bddb2c3a683d350c54e606ed2365844ebdef611303b8566c7ca6655821f5b95604065dc90dd98988ca7065c069ca8a4a7555c3318bb9e2c51b12c"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "vivodepot.html (@vd-terminologie isik)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "terminologie-hl7-tho",
+      "type": "data",
+      "name": "terminologie-hl7-tho",
+      "version": "THO 7.4.0",
+      "description": "Codes aus der HL7 Terminology (THO), die der Kern in seinen FHIR-Ausgaben setzt. Je System belegt im Feld copyright des CodeSystems: „made available under the CC0 designation“. Gehasht wird die sortierte Liste System|Code. Nicht hier: iso-21089-lifecycle (Inhalt von ISO, Lizenz offen, Befund-Ratsche).",
+      "author": "Health Level Seven International",
+      "supplier": {
+        "name": "HL7 International (HL7 Terminology, THO)",
+        "url": [
+          "https://terminology.hl7.org"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "CC0-1.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8a761aa4a64afa3a7c058a9afbf37767e731750eb0f5caf00412786022441d06"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "9f3d12ab54c7c1548f18068f4b049bb6b711061b459b6a9c65b384b8ee7b0462ae5972e86264f134eb901e80533fd11344879988f8245923e067edb0f3a029d5"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "vivodepot.html (Codes der HL7-Terminologie, FHIR-Ausgaben)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/condition-clinical"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/consentcategorycodes"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/consentscope"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/list-empty-reason"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/provenance-participant-type"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/v3-Confidentiality"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/v3-RoleClass"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/v3-RoleCode"
+        }
+      ]
+    },
+    {
+      "bom-ref": "terminologie-kbv-nfd-runaway-risk",
+      "type": "data",
+      "name": "terminologie-kbv-nfd-runaway-risk",
+      "version": "1.0.0",
+      "description": "KBV_CS_MIO_NFD_Runaway_Risk: ein Code (Weglaufgefaehrdung, Anzeige „Weglaufgefährdung“) im IPS-Export. Quelle: MIOParser der KBV, src/Definitions/KBV/PKA/1.0.0/CodeSystem/NFDRunawayRisk.ts, Apache License 2.0; NOTICE des Werks in THIRD_PARTY_LICENSES.",
+      "author": "Kassenärztliche Bundesvereinigung (KBV)",
+      "supplier": {
+        "name": "Kassenärztliche Bundesvereinigung (KBV)",
+        "url": [
+          "https://github.com/kassenaerztliche-bundesvereinigung/MIOParser"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "634526ffae2f1d3f3cd2f6a1554eb95323f8459163abdc196db72118f59b5b3b"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "7b1bdfd57d9b65e67300b2c26e3de440aadfaeedfa219cd7dce29a04781b29dafc698030f45683f8b4a4121455484f51ea467b68279acb8930fc26f014afbecd"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "vivodepot.html (@vd-terminologie ips-nfd, kbvWeglauf)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "terminologie-ihe-formatcode",
+      "type": "data",
+      "name": "terminologie-ihe-formatcode",
+      "version": "ihe.formatcode.fhir",
+      "description": "Some content from IHE® Copyright © 2015 IHE International, Inc., lizenziert unter CC BY 4.0. Genutzt: urn:ihe:iti:xds:2017:mimeTypeSufficient. Nachweis: NOTICE.md.",
+      "author": "IHE International, Inc.",
+      "supplier": {
+        "name": "IHE International, Inc.",
+        "url": [
+          "https://profiles.ihe.net/fhir/ihe.formatcode.fhir/"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "CC-BY-4.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b9d1f5dc3a798e5d47c9014576468699249319e6620dbfa742b6bddfe0ca5816"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "c2f155564b752ccba43c63d2d2ebd3b609eb2c3d3c86343161967e27daea2f3f264d5d598284bd4e1cdde0db41fe6c1117da81942ef28a80c979075c483666c6"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "vivodepot.html (@vd-terminologie isik)"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "noble-ed25519",
+      "type": "library",
+      "name": "noble-ed25519",
+      "version": "fa14496",
+      "description": "",
+      "purl": "pkg:github/paulmillr/noble-ed25519@fa14496908cf286da53d17b739accd8f7c3790be",
+      "author": "Paul Miller",
+      "supplier": {
+        "name": "Paul Miller",
+        "url": [
+          "https://github.com/paulmillr/noble-ed25519"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "acfbf9bf9ad63e851a8f448dc9da37e4bad7fe7eef4ca9a5c66b58a5288c5b62"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "b83561b65ad853b1c4b4e2359f431500eb806af4c4a2f92c8846998e3dfebdd69bf185a35a1faedb02c6e026467c549ab49d704a840b85992ab9b242d0f7b54b"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "lib/esm/index.js"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "unstructured"
+        }
+      ]
     }
   ],
   "dependencies": [
@@ -591,7 +1028,15 @@
         "code-liste-icd10gm",
         "code-liste-loinc",
         "code-liste-snomed-allergen",
-        "xshare-yellow-button"
+        "xshare-yellow-button",
+        "lucide-icons",
+        "wortliste-de-dys2p",
+        "wortliste-en-eff",
+        "terminologie-ihe-xds-value-sets",
+        "terminologie-hl7-tho",
+        "terminologie-kbv-nfd-runaway-risk",
+        "terminologie-ihe-formatcode",
+        "noble-ed25519"
       ]
     },
     {
@@ -630,6 +1075,38 @@
     },
     {
       "ref": "xshare-yellow-button",
+      "dependsOn": []
+    },
+    {
+      "ref": "lucide-icons",
+      "dependsOn": []
+    },
+    {
+      "ref": "wortliste-de-dys2p",
+      "dependsOn": []
+    },
+    {
+      "ref": "wortliste-en-eff",
+      "dependsOn": []
+    },
+    {
+      "ref": "terminologie-ihe-xds-value-sets",
+      "dependsOn": []
+    },
+    {
+      "ref": "terminologie-hl7-tho",
+      "dependsOn": []
+    },
+    {
+      "ref": "terminologie-kbv-nfd-runaway-risk",
+      "dependsOn": []
+    },
+    {
+      "ref": "terminologie-ihe-formatcode",
+      "dependsOn": []
+    },
+    {
+      "ref": "noble-ed25519",
       "dependsOn": []
     },
     {

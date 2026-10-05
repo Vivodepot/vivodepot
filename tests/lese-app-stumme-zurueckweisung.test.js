@@ -104,7 +104,9 @@ async function produktdateiOeffnen(slug) {
   const { umschlag } = await depotImProduktAnlegen(slug, PW);
   const { V } = ladeLesen();
   const obj = await V.leseDepotUmschlag(JSON.parse(JSON.stringify(umschlag)), PW);
-  V.setData(V._foldVollmachtenLesen(obj));
+  /* Der eine Einstieg wie in der App (Signaturketten, Herkunft nach Inhalt, dann Folds) — der bloße Fold überspränge die Prüfung, und die
+     Ab-Werk-Mitschrift der Datei gälte als fremd (Schutz-Wagen, 04.10.2026). */
+  V.setData(await V._depotUebernehmenGeprueft(obj));
   return V;
 }
 

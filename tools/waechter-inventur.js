@@ -102,7 +102,8 @@ function ausBefehl(zeile, skripte, tiefe = 0) {
   for (const m of zeile.matchAll(/\b((?:tools|scripts|tests)\/[\w./-]+\.(?:js|mjs|py))(?![\w])/g)) {
     raus.add(m[1]);
   }
-  if (/\bnode\s+--test\b/.test(zeile) && raus.size === 0) raus.add(MARKE_SUITE);
+  // `node --no-sparkplug --test` ist derselbe Suite-Lauf (04.10.2026, nodejs/node#62393).
+  if (/\bnode\s+(?:--no-sparkplug\s+)?--test\b/.test(zeile) && raus.size === 0) raus.add(MARKE_SUITE);
   if (/playwright\.config\.cross\.js/.test(zeile)) raus.add(MARKE_E2E_CROSS);
   else if (/\bplaywright\s+test\b/.test(zeile)) raus.add(MARKE_E2E);
   return raus;

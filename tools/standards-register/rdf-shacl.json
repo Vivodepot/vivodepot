@@ -42,6 +42,39 @@
         "probe": "tests/edc-itb-shacl-lauf.test.js",
         "beschaffen": "node tools/itb-shacl-beschaffen.mjs"
       }
+    },
+    {
+      "id": "elm-selbstauskunft",
+      "name": "European Learning Model (ELM) — Bildungsnachweise als Selbstauskunft",
+      "version": "ELM v3 (der Kern nennt keine feinere Version; Doku 3.2.0, Repo archiviert 14.02.2024)",
+      "herausgeber": "Europäische Kommission, GD EMPL",
+      "quelle": {
+        "url": "https://europa.eu/europass/elm-browser/index.html",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Repo european-commission-empl/European-Learning-Model unter EUPL-1.2; die EDC-Shapes deklarieren CC BY 4.0 (dc:license in EDC-generic-full.ttl). Nachgesehen 01.10.2026."
+      },
+      "richtung": [
+        "selbstauskunft-ausgeben",
+        "lesen"
+      ],
+      "bereich": "bildung",
+      "status": "orientiert",
+      "artefakte": [],
+      "exportwege": [
+        "bildungsangaben"
+      ],
+      "importwege": [
+        "bildungsangaben"
+      ],
+      "bezuege": null,
+      "grund": "Eigenes JSON mit Feldbenennung nach ELM (Kern: Weg bildungsangaben, schemaVersion vivodepot-bildung-1; früher edci-bildung und edci-1.0-vivodepot, umbenannt mit v864), keine gültige ELM-Instanz; die Datei nennt keinen Standard. Ziel: ELM-JSON-LD als Selbstauskunft, geprüft mit den ELM-Shapes.",
+      "kandidat": {
+        "werkzeug": "ITB SHACL Validator 1.13.0 (EU-Kommission, EUPL-1.2, offline) mit den ELM-Shapes",
+        "quelle": "https://github.com/ISAITB/shacl-validator"
+      }
     }
   ]
 }

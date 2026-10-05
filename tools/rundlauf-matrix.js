@@ -81,7 +81,7 @@ async function messen() {
     const zeile = { id: def.id, sektor: def.sektor || null, nurExport: !!def.nurExport, laeufe: {} };
     for (const sensibel of [false, true]) {
       let text = '';
-      try { text = V.formatExportInhalt(def, { sensibel }); } catch (e) { zeile.laeufe[sensibel ? 'mitSensibel' : 'ohneSensibel'] = { fehler: String(e.message || e) }; continue; }
+      try { text = await V.formatExportInhalt(def, { sensibel }); } catch (e) { zeile.laeufe[sensibel ? 'mitSensibel' : 'ohneSensibel'] = { fehler: String(e.message || e) }; continue; }
       const kanaele = {};
       for (const kid of importIds) {
         let plan = null;

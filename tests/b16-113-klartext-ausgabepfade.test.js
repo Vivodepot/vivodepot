@@ -114,7 +114,10 @@ const NUR_CHIFFRAT = [
 // Das Original steht byte-gleich darin wie beim bestehenden Original-Download; dazu kommen allein Name, Geschlecht
 // und Geburtsdatum der Person (derselbe Patient wie im FHIR-IPS-Auszug) und die Provenance. Kein Geheimnis, kein
 // Schlüssel, keine neue Feld-Grenze. Eine Weitergabe: der Weg läuft durch `mitVereinbarung` (MyTerms Teil D).
-const ERLAUBTE_KLARTEXT_ANZAHL = 19;
+// U2-ADR-468 (01.10.2026, v863): die ISiK-Ausgabe für das Krankenhaus (flowIsikExport) — zwei DocumentReferences mit der
+// Urschrift der Vollmacht und der IPS. Two-Step: das Tor (Erlaubnis der Anzeigetexte), die Freigabe der sensiblen Felder über die
+// Übersicht des IPS-Exports, die Bestätigung der Urschrift und MyTerms Teil D (mitVereinbarung). Kein Geheimnis, kein Schlüssel.
+const ERLAUBTE_KLARTEXT_ANZAHL = 20;
 
 test('[Klausel] Bindung an ' + ADR + ' über das Fundament', () => {
   bindungPruefen(ADR, HERKUNFT, PRUEFUNGEN, __filename);

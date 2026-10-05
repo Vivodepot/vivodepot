@@ -66,7 +66,18 @@ function gitVerfuegbar() {
   } catch (_) { return false; }
 }
 
+/* NICHT VERÖFFENTLICHT, ABER BENANNT (03.10.2026, Befund PROBEN-LOKALE-HASHES): diese ADR-Belege nennen einen Commit,
+   der nur auf einem Arbeitsrechner lag; auf origin liegt dieselbe Änderung unter anderem Hash und mit anderem Baum
+   (umgesetzt vor der Landung). Die ADR wird nicht umgeschrieben (ihre Zeilenangaben gelten für den lokalen Stand); der
+   Beleg zählt als benannt, nicht als tot. Gemessen: `git branch -r --contains <hash>` leer; Gegenstück per Betreff in
+   `git log origin/u2-kanon`. Eine neue Zeile hier braucht dasselbe. */
+const NICHT_VEROEFFENTLICHT = new Map([
+  ['0b77cdec', { veroeffentlicht: '122317763', adr: 'U2-ADR-371, U2-ADR-374' }],
+  ['9925b569', { veroeffentlicht: 'b67c6548c', adr: 'U2-ADR-400' }],
+]);
+
 function hashGueltig(hash) {
+  if (NICHT_VEROEFFENTLICHT.has(hash)) return true;
   try {
     execFileSync('git', ['cat-file', '-e', hash + '^{commit}'], { cwd: REPO, stdio: ['ignore', 'ignore', 'ignore'] });
     return true;
@@ -141,4 +152,4 @@ if (require.main === module) {
   catch (e) { console.error(e.message); process.exitCode = 2; }
 }
 
-module.exports = { sammleHashBelege, hashGueltig, ankerProbe, dateienRekursiv };
+module.exports = { sammleHashBelege, hashGueltig, ankerProbe, dateienRekursiv, NICHT_VEROEFFENTLICHT };

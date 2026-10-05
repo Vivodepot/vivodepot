@@ -69,7 +69,7 @@ konformitaet:
     herkunft: U2-ADR-425 (20.09.2026)
     pruefung:
       - tests/hilfe-website-export-erzeugen.test.js
-        "[Hilfe-Website-Export] heute (die Redaktion hat geliefert): alle zehn Themen erscheinen, DE und EN befüllt"
+        "[Hilfe-Website-Export] heute (die Redaktion hat geliefert): alle dreizehn Themen erscheinen, DE und EN befüllt"
       - tests/hilfe-website-export-erzeugen.test.js
         "[Hilfe-Website-Export·Rot-Beweis] ein Thema mit Inhalt erscheint im Export, DE und EN, wortgleich zum Kern — ein Thema ohne Abschnitte bleibt draußen"
 

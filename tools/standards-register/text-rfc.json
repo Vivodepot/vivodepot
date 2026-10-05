@@ -1,0 +1,71 @@
+{
+  "familie": "text-rfc",
+  "adapter": null,
+  "standards": [
+    {
+      "id": "vcard-4",
+      "name": "vCard Format Specification (vCard 4.0)",
+      "version": "RFC 6350 (August 2011)",
+      "herausgeber": "IETF",
+      "quelle": {
+        "url": "https://www.rfc-editor.org/rfc/rfc6350.html",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "IETF Trust Legal Provisions (TLP 5, https://trustee.ietf.org/documents/trust-legal-provisions/tlp-5/): Kopieren und Verteilen vollständig und unverändert sowie unveränderter Auszüge mit Quellenangabe erlaubt; Code-Komponenten unter Revised BSD. Die Spezifikation zu implementieren ist frei. Nachgesehen 01.10.2026."
+      },
+      "richtung": [
+        "schreiben",
+        "lesen"
+      ],
+      "bereich": "querschnitt",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [
+        "vcard-identitaet",
+        "vcard-menschen"
+      ],
+      "importwege": [
+        "vcard-identitaet",
+        "vcard-menschen"
+      ],
+      "bezuege": null,
+      "grund": "Erzeugt VERSION:4.0; geprüft durch den eigenen Parser-Rundlauf. Einen offiziellen Validator von IETF oder IANA gibt es nicht (Suche 01.10.2026); Prüfer der Wahl ist ein unabhängiger Parser plus die ABNF aus RFC 6350.",
+      "kandidat": {
+        "werkzeug": "ical.js 2.2.1 (MPL-2.0, offline; parst vCard 4 und iCalendar) gegen die ABNF aus RFC 6350",
+        "quelle": "https://github.com/kewisch/ical.js"
+      }
+    },
+    {
+      "id": "icalendar-2",
+      "name": "Internet Calendaring and Scheduling Core Object Specification (iCalendar)",
+      "version": "RFC 5545 (September 2009), VERSION:2.0",
+      "herausgeber": "IETF",
+      "quelle": {
+        "url": "https://www.rfc-editor.org/rfc/rfc5545.html",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "IETF Trust Legal Provisions (TLP 5, https://trustee.ietf.org/documents/trust-legal-provisions/tlp-5/): Kopieren und Verteilen vollständig und unverändert sowie unveränderter Auszüge mit Quellenangabe erlaubt; Code-Komponenten unter Revised BSD. Die Spezifikation zu implementieren ist frei. Nachgesehen 01.10.2026."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "querschnitt",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [
+        "ics-vorsorge"
+      ],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Erzeugt VERSION:2.0 mit PRODID und CALSCALE; geprüft durch den ical.js-Rundlauf in der Suite. Der Online-Validator von icalendar.org lädt Daten hoch und ist für Nutzerdaten ungeeignet.",
+      "kandidat": {
+        "werkzeug": "iCal4j 4.3.0 (BSD-3-Clause, offline, Validierungsframework) als unabhängige Zweitmeinung zu ical.js",
+        "quelle": "https://github.com/ical4j/ical4j"
+      }
+    }
+  ]
+}

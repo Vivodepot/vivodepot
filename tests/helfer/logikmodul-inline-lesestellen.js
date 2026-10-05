@@ -36,6 +36,15 @@ const ERLAUBTE_ZEILEN = new Set([
   /* Schema 87 (21.09.2026): dieselbe Räumung für den Erbschein-Auszug, aus demselben Grund und mit derselben Schranke. */
   'if (Array.isArray(ziel.logikModule) && Array.isArray(AB_WERK_LOGIK_MODUL_QUELLEN) && AB_WERK_LOGIK_MODUL_QUELLEN.some((m) => m && m.id === erbscheinId)) {',
   "ziel.logikModule = ziel.logikModule.filter((m) => !(m && m.id === erbscheinId && m.herkunft === 'vivodepot'));",
+  /* E4 (04.10.2026, Wort der Gegenlesung je Stelle): alte Ab-Werk-Kopien beim Öffnen ersetzen (_alteAbWerkKopienErsetzen). Die drei
+     Stellen LESEN die Datei-Liste und vergleichen Fingerabdrücke gegen die Region früher ausgelieferter Fassungen; sie führen nichts
+     aus und setzen nichts ein. Über _logikModuleAlle ginge es nicht, weil die Saat des Produkts nie in der Datei steht. */
+  // 1: Vorbedingung — eine Datei ohne eigene Logikmodule hat nichts zu ersetzen.
+  "if (!ziel || typeof ziel !== 'object' || !Array.isArray(ziel.logikModule) || !ziel.logikModule.length) return ersetzt;",
+  // 2: jede Kopie der Datei-Liste gegen die Fingerabdrücke prüfen.
+  'for (const m of ziel.logikModule) {',
+  // 3: SCHREIBVORGANG an der Datei-Liste: nur die Kopien mit Treffer fallen heraus, alle übrigen bleiben in ihrer Reihenfolge.
+  'if (ersetzt.length) ziel.logikModule = bleiben;',
 ]);
 
 function pruefeInlineLesestellen(quelltext) {

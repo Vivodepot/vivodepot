@@ -33,6 +33,10 @@
   "importKeyRaw": {
    "anzahl": 9,
    "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)"
+  },
+  "halterOeffentlichAusSeed": {
+   "anzahl": 1,
+   "grund": " · U2-ADR-457 Nachtrag v865: _halterSignaturHolen reicht die eingebettete noble-ed25519 (fa14496) in deriveHalterSignaturV4; genau eine Stelle, Bedingung der Krypto-Gegenlesung"
   }
  }
 }

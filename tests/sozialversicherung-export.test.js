@@ -7,6 +7,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const { lesbar } = require('./helfer/sdjwt-entpacken.js');   // kompakte SD-JWT-Ausgaben vor jeder Textsuche entpacken (U2-ADR-457)
 const { ladeKern } = require('./load-kern.js');
 
 async function frisch() {
@@ -150,7 +151,7 @@ test('Soz-7: Wahrheits-Filter — verifiziert-stämmig fällt raus, Weg-1 + selb
   assert.equal(vc.__zurueckgehalten.join(','), 'disability_degree', 'zurückgehaltenes Feld sichtbar gemeldet (UI-Meta)');
   // __-UI-Meta darf NICHT in die serialisierte Datei; der ausgeschlossene Claim auch nicht.
   const def = V.EXPORT_FORMAT_BY_ID['sd-jwt-vc-sozialversicherung'];
-  const inhalt = V.formatExportInhalt(def, { sensibel: true });
+  const inhalt = lesbar(await V.formatExportInhalt(def, { sensibel: true }));
   assert.equal(inhalt.indexOf('__zurueckgehalten'), -1, '__zurueckgehalten nicht in der Datei');
   assert.equal(inhalt.indexOf('disability_degree'), -1, 'verifiziert-stämmiger Claim nicht in der Datei');
   assert.ok(inhalt.indexOf('care_insurance_fund') !== -1, 'Weg-1-Claim ist in der Datei');
@@ -179,7 +180,7 @@ test('Soz-8: Vollmacht-Provenienz — selbst-only / unter-vollmacht / gemischt',
   assert.ok(!('grundlage' in vm._eingabe.unter_vollmacht[0]), 'keine rohe Sub-Depot-UUID/Grundlage im Credential');
   assert.equal(vm.claims.care_level, 'Pflegegrad 4', 'der Wert selbst bleibt im Credential');
   // Gegenprobe: der interne Bezeichner darf in der serialisierten Datei NIRGENDS auftauchen.
-  const vmInhalt = V2.formatExportInhalt(V2.EXPORT_FORMAT_BY_ID['sd-jwt-vc-sozialversicherung'], { sensibel: true });
+  const vmInhalt = lesbar(await V2.formatExportInhalt(V2.EXPORT_FORMAT_BY_ID['sd-jwt-vc-sozialversicherung'], { sensibel: true }));
   assert.equal(vmInhalt.indexOf('depot-XYZ'), -1, 'interne Vollmacht-Grundlage (UUID) erscheint nirgends in der Datei');
 
   // gemischt → ein weiteres Feld SELBST eintragen; nur das Vollmacht-Feld erscheint in _eingabe.

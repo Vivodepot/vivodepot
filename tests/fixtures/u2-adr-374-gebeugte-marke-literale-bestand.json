@@ -111,16 +111,10 @@
     {
       "datei": "vivodepot.html",
       "treffer": "Vivodepots",
-      "zeilennummer": 706,
-      "kontext": "Vivodepots Bürgerdepot inklusive) bleibt Salbei — die Fallback-Werte s",
-      "grund": "Code-Kommentar (CSS-Fallback-Erklärung), keine Bürgerin-facing Textsatz-Kennung."
-    },
-    {
-      "datei": "vivodepot.html",
-      "treffer": "Vivodepots",
       "zeilennummer": 26873,
       "kontext": "Vivodepots eigene signierte Inhalte brauchen kein Fremd-Signal. */",
       "grund": "Code-Kommentar (Signatur-Filter-Erläuterung), keine Bürgerin-facing Textsatz-Kennung."
     }
-  ]
+  ],
+  "nachtrag_v894": "02.10.2026, v894: ein Eintrag entfernt (Verlust bestaetigt). Der CSS-Kommentar 'Vivodepots Buergerdepot inklusive) bleibt Salbei' ist mit dem Stylesheet aus vivodepot.html nach tools/erscheinung/stil/grundlage.css umgezogen (U2-ADR-473 Nachtrag, Lesart B); der Bau des Erscheinungsbild-Moduls streicht Kommentare, er erreicht kein Produkt."
 }

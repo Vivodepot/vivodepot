@@ -24,7 +24,11 @@
       "exportwege": [],
       "importwege": [],
       "bezuege": null,
-      "grund": "Vivodepot schreibt keinen NFD: er ist ein ärztlich signierter Datensatz auf der eGK. Vivodepot hält die Angaben als Selbstauskunft bereit und bildet sie auf das IPS ab. Die Merkmale Schwangerschaft (mit errechnetem Entbindungstermin) und Weglaufgefaehrdung (mit Erläuterung, höchstens 175 Zeichen) sind seit v835 Kennungen (health.pregnancy, health.pregnancyEstimatedDueDate, health.wanderingRisk, health.wanderingRiskDetails) und gehen im IPS hinaus; Implantate, Kommunikationsstörungen und sonstige Hinweise hatten schon Kennungen."
+      "grund": "Vivodepot schreibt keinen NFD: er ist ein ärztlich signierter Datensatz auf der eGK. Vivodepot hält die Angaben als Selbstauskunft bereit und bildet sie auf das IPS ab. Die Merkmale Schwangerschaft (mit errechnetem Entbindungstermin) und Weglaufgefaehrdung (mit Erläuterung, höchstens 175 Zeichen) sind seit v835 Kennungen (health.pregnancy, health.pregnancyEstimatedDueDate, health.wanderingRisk, health.wanderingRiskDetails) und gehen im IPS hinaus; Implantate, Kommunikationsstörungen und sonstige Hinweise hatten schon Kennungen.",
+      "kandidat": {
+        "werkzeug": "Schema des Notfalldatensatzes (gematik, gemSpec_InfoNFDM)",
+        "quelle": "https://gemspec.gematik.de/docs/gemSpec/gemSpec_InfoNFDM/latest/"
+      }
     },
     {
       "id": "fim-baukasten-xdatenfelder",
@@ -40,7 +44,8 @@
         "text": "Für die Inhalte der FIM-Bausteine ist keine Lizenz ausgewiesen (fimportal.de: „© FITKO“, Impressum der FITKO). Im Repo und im Produkt stehen darum nur Kennung, Fassung und Freigabestatus je Baustein; Feldnamen, Beschreibungen und Schemata erst nach Zustimmung der FITKO (U2-ADR-456)."
       },
       "richtung": [
-        "schreiben"
+        "schreiben",
+        "lesen"
       ],
       "bereich": "verwaltung",
       "status": "teilweise",
@@ -48,11 +53,137 @@
       "exportwege": [
         "fim-json"
       ],
-      "importwege": [],
+      "importwege": [
+        "fim-json"
+      ],
       "bezuege": [
         "fim-baukasten"
       ],
-      "grund": "Bezug je Depot-Feld auf Kennung, Fassung und Freigabestatus des Baukastens, geprüft gegen die gepinnten XDF-Fassungen (tools/bezuege-erheben.js --quelle) und im Export (tools/fim-export-pruefen.js). Noch kein Datenschema je Leistung und keine Prüfung gegen dessen XSD."
+      "grund": "Bezug je Depot-Feld auf Kennung, Fassung und Freigabestatus des Baukastens, geprüft gegen die gepinnten XDF-Fassungen (tools/bezuege-erheben.js --quelle) und im Export (tools/fim-export-pruefen.js). Noch kein Datenschema je Leistung und keine Prüfung gegen dessen XSD.",
+      "pruefer": "tools/fim-export-pruefen.js"
+    },
+    {
+      "id": "camt-053",
+      "name": "ISO 20022 camt.053 BankToCustomerStatement",
+      "version": "camt.053.001 (der Kern liest versionsoffen; Testdatei camt.053.001.08; neueste im Katalog .14)",
+      "herausgeber": "ISO 20022 Registration Authority (SWIFT)",
+      "quelle": {
+        "url": "https://www.iso20022.org/iso-20022-message-definitions",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "ISO 20022 Terms of use und IPR-Policy: Nachrichtendefinitionen frei und lizenzgebührenfrei nutzbar (https://www.iso20022.org/intellectual-property-rights, nachgesehen 01.10.2026)."
+      },
+      "richtung": [
+        "lesen"
+      ],
+      "bereich": "finanzen",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "camt053"
+      ],
+      "bezuege": null,
+      "grund": "Der Kern liest Kontoauszüge namensraum-agnostisch; keine Schemaprüfung der eingehenden Datei.",
+      "kandidat": {
+        "werkzeug": "Offizielles XSD camt.053.001.08 aus dem ISO-20022-Katalog, Prüfung mit xmllint",
+        "quelle": "https://www.iso20022.org/iso-20022-message-definitions"
+      }
+    },
+    {
+      "id": "xmeld",
+      "name": "XMeld (XInneres-Fachmodul Meldewesen)",
+      "version": "der Kern nennt keine Version; aktuell 27.05 (Fassung 31.07.2026)",
+      "herausgeber": "Koordinierungsstelle für IT-Standards (KoSIT)",
+      "quelle": {
+        "url": "https://www1.osci.de/meldewesen/xmeld-2827",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Die KoSIT-Website steht unter CC BY-NC-ND, soweit nicht anders angegeben; eigene Bedingungen für Schemata und Testsuite nicht gefunden (Suche 01.10.2026). Vor einer Einbettung bei der KoSIT klären."
+      },
+      "richtung": [
+        "lesen"
+      ],
+      "bereich": "verwaltung",
+      "status": "orientiert",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "xmeld"
+      ],
+      "bezuege": null,
+      "grund": "Der Parser liest Personendaten namensraum-agnostisch. Die Testdatei trägt den Namensraum urn:xoev-de:bmi:xmeld:standard, der sich nicht als offizieller XMeld-Bezeichner belegen ließ (offizielle Namensräume unter osci.de/xmeldNNN): vermutlich keine echte XMeld-Nachricht.",
+      "kandidat": {
+        "werkzeug": "Offizielle XMeld-Schemata und Testsuite der KoSIT, geprüft mit dem KoSIT-Validator 1.6.3 (Apache-2.0)",
+        "quelle": "https://www1.osci.de/meldewesen/xmeld-2827"
+      }
+    },
+    {
+      "id": "elster",
+      "name": "ELSTER (Steuerdaten der Finanzverwaltung)",
+      "version": "keine: gelesen wird eine eigene JSON-Projektion, kein amtliches ELSTER-XML",
+      "herausgeber": "Steuerverwaltung der Länder, Bayerisches Landesamt für Steuern (ERiC)",
+      "quelle": {
+        "url": "https://www.elster.de/eportal/infoseite/entwickler",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "ERiC und die Schnittstellenbeschreibungen (XML-Schemas) nur nach Registrierung beim Bayerischen Landesamt für Steuern; Lizenztexte hinter dem Login (nachgesehen 01.10.2026)."
+      },
+      "richtung": [
+        "lesen"
+      ],
+      "bereich": "finanzen",
+      "status": "fehlt",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [
+        "elster"
+      ],
+      "bezuege": null,
+      "grund": "Der Import liest eine eigene JSON-Projektion (_typ elster-steuerdaten), kein amtliches Format; die amtlichen Schemata sind nicht frei verfügbar.",
+      "suche": {
+        "quelle": "https://www.elster.de/eportal/infoseite/entwickler",
+        "ergebnis": "Entwicklerbereich und Schnittstellenbeschreibungen nur mit Anmeldung; kein öffentlicher Validator und kein frei verfügbares Schema gefunden (Suche 01.10.2026)."
+      }
+    },
+    {
+      "id": "verwaltungs-stammdaten",
+      "name": "Verwaltungs-Stammdaten (Ziel: FIM-Stammdatenschema)",
+      "version": "keine: eigenes JSON (nachrichtentyp vivodepot.verwaltung.0001)",
+      "herausgeber": "FITKO (Ziel-Standard FIM)",
+      "quelle": {
+        "url": "https://fimportal.de/",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Für die Inhalte der FIM-Bausteine ist keine Lizenz ausgewiesen (fimportal.de: „© FITKO“); Schemata erst nach Zustimmung der FITKO (U2-ADR-456)."
+      },
+      "richtung": [
+        "schreiben",
+        "lesen"
+      ],
+      "bereich": "verwaltung",
+      "status": "fehlt",
+      "artefakte": [],
+      "exportwege": [
+        "xoev-verwaltung"
+      ],
+      "importwege": [
+        "xoev-verwaltung"
+      ],
+      "bezuege": null,
+      "grund": "Eigenes JSON mit BundID-Stufe und E-Mail-Adressen; kein XÖV-Standard trägt diese Daten (belegte Suche über das XRepository, 30.09.2026). Ziel: XML nach dem FIM-Stammdatenschema, geprüft mit KoSIT.",
+      "kandidat": {
+        "werkzeug": "KoSIT-Validator 1.6.3 (Apache-2.0) mit eigenem Szenario aus dem FIM-Stammdatenschema (XSD, Schematron falls geliefert)",
+        "quelle": "https://github.com/itplr-kosit/validator"
+      }
     }
   ]
 }

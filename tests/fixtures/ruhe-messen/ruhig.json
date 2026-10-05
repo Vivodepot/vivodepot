@@ -1,0 +1,187 @@
+{
+ "akzent": "#4F6539",
+ "breite": 390,
+ "hoehe": 844,
+ "elemente": [
+  {
+   "tag": "main",
+   "hg": "rgba(0, 0, 0, 0)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": false,
+   "fs": null,
+   "fw": null,
+   "farbe": null,
+   "breite": 390,
+   "hoehe": 300,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "h1",
+   "hg": "rgba(0, 0, 0, 0)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "32px",
+   "fw": "600",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 342,
+   "hoehe": 48,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "p",
+   "hg": "rgba(0, 0, 0, 0)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 342,
+   "hoehe": 24,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "p",
+   "hg": "rgba(0, 0, 0, 0)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(28, 42, 30)",
+   "breite": 342,
+   "hoehe": 24,
+   "radius": "0px",
+   "innenText": true
+  },
+  {
+   "tag": "button",
+   "hg": "rgb(79, 101, 57)",
+   "hgVorfahr": "rgb(255, 255, 255)",
+   "rahmen": [
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ],
+    [
+     "0px",
+     "none",
+     "rgb(0, 0, 0)"
+    ]
+   ],
+   "schatten": "none",
+   "text": true,
+   "fs": "16px",
+   "fw": "400",
+   "farbe": "rgb(255, 255, 255)",
+   "breite": 100,
+   "hoehe": 52,
+   "radius": "0px",
+   "innenText": true
+  }
+ ]
+}

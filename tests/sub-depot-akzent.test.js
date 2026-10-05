@@ -15,13 +15,14 @@
    im verschlüsselten Umschlag — VdCrypto bleibt unberührt.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte kommen mit dem Erscheinungsbild
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
 const PW = 'pw';
 
 test('Palette: 6 Token im :root mit den freigegebenen Hex + --vm-chrome variabel', () => {
-  const { html } = ladeKern();
+  const html = kernMitHeute(ladeKern().html);
   assert.ok(/--hafer:\s*#D9C9A3/i.test(html), '--hafer #D9C9A3');
   assert.ok(/--ton:\s*#D3A98F/i.test(html), '--ton #D3A98F');
   assert.ok(/--flieder:\s*#B8AECB/i.test(html), '--flieder #B8AECB');

@@ -72,15 +72,20 @@ const AUSNAHMEN_TESTS = [
   { praefix: 'tests/fixtures/ob3-', grund: 'Testdateien des offiziellen 1EdTech-Prüfers (Apache-2.0), unverändert als Eingabe geprüft — U2-ADR-445, ob3-QUELLE.md' },
   { adresse: 'bestellung@bzga.de', grund: 'Bestelladresse einer Bundesbehörde im amtlichen Wortlaut (BMJ-Textbausteine)' },
   { domain: 'vivodepot.de', grund: 'eigene Funktionsadressen' },
+  // Über die SHA-256 des Inhalts, nicht über den Pfad (Wort der Gegenlesung 03.10.2026; Entfall-Bedingung keine): enger als ein Pfad —
+  // jede Änderung, auch eine neue Fassung, fällt auf und wird bewusst nachgezogen — und ohne zurückgehaltene Pfade im öffentlichen Text.
+  { sha256: 'bbdfb4e6acbed2f322c4a766c527d760a87a7c21d1d376a570a0c8a2b8512132', grund: 'amtliche Fremd-Fixture unverändert (fundingjson.org v1.1.0)' },
+  { sha256: '989ff72467a485230033486a0ddf8b2d9d1a74e9615bc392d7db9b4a62d2b946', grund: 'interne Probe, verlangt die Absenderadresse eines Werkzeugs im Klartext' },
 ];
-function ausgenommen(rel, adresse, domain) {
-  return AUSNAHMEN_TESTS.some((a) => (a.praefix && rel.startsWith(a.praefix))
+function ausgenommen(rel, adresse, domain, inhaltHash) {
+  return AUSNAHMEN_TESTS.some((a) => (a.praefix && rel.startsWith(a.praefix)) || (a.sha256 && a.sha256 === inhaltHash)
     || (a.adresse && a.adresse === adresse.toLowerCase()) || (a.domain && a.domain === domain.toLowerCase()));
 }
 function adressFunde(text, rel) {
   const raus = [];
+  const inhaltHash = require('node:crypto').createHash('sha256').update(text, 'utf8').digest('hex');
   for (const m of text.matchAll(ADRESSE)) {
-    if (RESERVIERT.test(m[1]) || ausgenommen(rel, m[0], m[1])) continue;
+    if (RESERVIERT.test(m[1]) || ausgenommen(rel, m[0], m[1], inhaltHash)) continue;
     raus.push(rel + ': ' + m[0]);
   }
   return raus;
@@ -113,4 +118,17 @@ test('[Beispiel-Domain·Klasse·Proben·Rot-Beweis] eine Persona bei einem echte
   assert.deepEqual(adressFunde('elisabeth.ews@example.de a@b.example.de x@y.invalid', 'tests/x.test.js'), []);
   assert.deepEqual(adressFunde(echt, 'tests/fixtures/edci-europass-muster.xml'), []);
   assert.deepEqual(adressFunde("ziel: 'Person.@art.tief'", 'tests/x.test.js'), [], 'kein gültiger Lokalteil, keine Adresse');
+});
+
+test('[Beispiel-Domain·Ausnahme·Inhalt·Rot-Beweis] eine Ausnahme über die SHA-256 deckt nur genau diesen Inhalt, keine geänderte Fassung', () => {
+  const sha = (t) => require('node:crypto').createHash('sha256').update(t, 'utf8').digest('hex');
+  const fassung = '{ "version": "v1.1.0" }\n';
+  AUSNAHMEN_TESTS.push({ sha256: sha(fassung), grund: 'Rot-Beweis' });
+  try {
+    assert.equal(ausgenommen('tests/fixtures/x.json', 'probe@example.com', 'example.com', sha(fassung)), true, 'genau dieser Inhalt: ausgenommen');
+    assert.equal(ausgenommen('tests/fixtures/x.json', 'probe@example.com', 'example.com', sha(fassung.replace('v1.1.0', 'v1.2.0'))), false, 'neue Fassung: nicht ausgenommen');
+    assert.equal(ausgenommen('tests/fixtures/x.json', 'probe@example.com', 'example.com', sha(fassung + ' ')), false, 'ein Zeichen mehr: nicht ausgenommen');
+    // Eine dritte Datei mit derselben Adresse, aber anderem Inhalt bleibt rot: die Ausnahme gilt dem Inhalt, nicht der Adresse.
+    assert.equal(ausgenommen('tests/fixtures/dritte.json', 'probe@example.com', 'example.com', sha('{ "anderes": 1 }\n')), false, 'dritte Datei: nicht ausgenommen');
+  } finally { AUSNAHMEN_TESTS.pop(); }
 });

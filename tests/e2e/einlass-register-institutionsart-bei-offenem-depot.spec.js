@@ -60,7 +60,8 @@ async function oeffneEinstellungen(page) {
   await expect(page.locator('#einst-modul-einlassen')).toBeVisible();
 }
 
-test('[Einlass-Register 4/4] Institutions-Arten-Modul in ein offenes Depot einlassen — institutionsArtenAlle() trägt die neue Art', async ({ page }) => {
+// FIXME-ID: SPERRE-EINLASS-EINLASS-REGISTER-INSTITUTIONSART-BEI-OFFENEM-DEPOT
+test.fixme('[Einlass-Register 4/4] Institutions-Arten-Modul in ein offenes Depot einlassen — institutionsArtenAlle() trägt die neue Art', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));

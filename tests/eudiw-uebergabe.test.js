@@ -44,7 +44,7 @@ test('1) eudiwDefFuerSektor: nur SD-JWT-VC-Bereiche (Identität, Finanzen) sind 
   assert.equal(V.eudiwDefFuerSektor('administration'), null);
 });
 
-test('2) SD-JWT-VC-Serialisierung: <JWT>~<Disclosure…>~  mit alg:none, typ dc+sd-jwt', async () => {
+test('2) SD-JWT-VC-Serialisierung: <JWT>~<Disclosure…>~, selbst signiert (Ed25519, U2-ADR-457), typ dc+sd-jwt', async () => {
   const { V } = await frischMitDepot();
   await identMitDaten(V);
   const vc = V.sdJwtVcIdentitaet();
@@ -58,10 +58,10 @@ test('2) SD-JWT-VC-Serialisierung: <JWT>~<Disclosure…>~  mit alg:none, typ dc+
   const jwt = teile[0];
   const jwtTeile = jwt.split('.');
   assert.equal(jwtTeile.length, 3, 'JWS Compact (3 Teile)');
-  assert.equal(jwtTeile[2], '', 'alg:none → leere Signatur');
+  assert.notEqual(jwtTeile[2], '', 'signiert → Signatur vorhanden (RFC 9901 §4.1 schließt none aus)');
 
   const header = JSON.parse(b64uToString(jwtTeile[0]));
-  assert.equal(header.alg, 'none');
+  assert.equal(header.alg, 'Ed25519');
   assert.equal(header.typ, 'dc+sd-jwt');
   assert.equal(header.typ, V.EUDIW_SD_JWT_TYP);
 });
@@ -189,7 +189,7 @@ test('10) flowEudiwUebergabe wirft nicht — leer (Hinweis) und mit Daten (ohne 
 test('11) leere Disclosure-Liste → „<JWT>~" (keine Tilde-Doppelung)', async () => {
   const { V } = await frischMitDepot();
   const res = await V.eudiwSdJwtVcSerialisieren({ vct: 'urn:test', iss: 'urn:test', iat: 1, claims: {} });
-  assert.ok(res.serialisierung.endsWith('.~'), 'JWT endet auf „.", dann genau ein „~"');
+  assert.ok(/\.[A-Za-z0-9_-]+~$/.test(res.serialisierung) && !res.serialisierung.endsWith('~~'), 'JWT mit Signatur, dann genau ein „~"');
   assert.equal(res.disclosures.length, 0);
   assert.equal(res.jwtPayload._sd.length, 0);
 });

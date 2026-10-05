@@ -113,13 +113,14 @@ test('[Modul-App-Packen·Rot-Beweis] eine leere Liste wird gefangen', () => {
   });
 });
 
-test('[Modul-App-Packen] vermerkInhalt nennt Slug, Ziel-Pfad, Ziel-Commit und Quell-Commit', () => {
+test('[Modul-App-Packen] vermerkInhalt nennt Slug, Ziel-Pfad und Quell-Commit; ungepusht ohne Ziel-Hash (ERZEUGNIS-STEMPEL-ARBEITSSTAND)', () => {
   const text = vermerkInhalt({ slug: 'vereinsamt-demo', zielPfad: 'module-apps/vereinsamt-demo', zielCommit: 'abc1234', quellCommit: 'def5678', anzahlBuendel: 1, gepusht: false });
   assert.match(text, /vereinsamt-demo/);
   assert.match(text, /module-apps\/vereinsamt-demo/);
-  assert.match(text, /abc1234/);
+  assert.doesNotMatch(text, /abc1234/, 'ein ungepushter Ziel-Commit wird nicht gestempelt');
   assert.match(text, /def5678/);
-  assert.match(text, /LOKAL, noch nicht gepusht/);
+  assert.match(text, /lokal, ohne Hash/);
+  assert.doesNotMatch(text, /noch nicht gepusht/);
 });
 
 test('[Modul-App-Packen] vermerkInhalt zeigt "gepusht", wenn gepusht:true', () => {

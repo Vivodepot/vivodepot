@@ -1,0 +1,151 @@
+{
+ "zweck": "Sperre für das Werkzeug, das die Register ausliefert (04.10.2026, Befund ALTE-REGISTER-PFADE-JWK-LIVE). (1) mindestCommits: der Kanon-Commit des Stands muss jeden dieser Commits enthalten, sonst baut das Werkzeug nicht. (2) zurueckgezogen: Dateien mit dieser SHA-256 werden nie wieder hochgeladen, gleich unter welchem Pfad. Einträge werden nur angefügt, nie entfernt.",
+ "mindestCommits": [
+  {
+   "commit": "17bc2c76b73e0169a58074b5ca2b57e1693433fa",
+   "befund": "JWK-IN-STATE",
+   "grund": "Studio und Lese-App halten keinen privaten Schlüssel im Klartext; ein Stand ohne diesen Fix liefert den Fehler wieder aus.",
+   "seit": "2026-10-04"
+  }
+ ],
+ "zurueckgezogen": [
+  {
+   "sha256": "1c987ef063a9aecc0d8e42492a2d369ea5e2739987445cf6ff3283fa295daaa6",
+   "pfade": [
+    "register/v857/studio.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "0e84ca6a5d5907a1e4c99a697663128653ff46a8eb4654e29b303f186e515468",
+   "pfade": [
+    "register/v857/lesen/index.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "e4771bde0b230d4467594bd4d9946c422d5343430c7f0012e44d43f9e34de1fe",
+   "pfade": [
+    "register/v843/generator.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "f27c3566d29814c28d292b384c1d0bde88bad418c946733e6f729538c55fde7b",
+   "pfade": [
+    "register/v843/lesen/index.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "784408c7ea7aded61455240d8fe2999dcb85de281fee9397fcfff19fb6dd781a",
+   "pfade": [
+    "register/v811/generator.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "60f2d55d3930c9bbd9e3ace11e8e6da18afa4d9e6fd7339bee3669c510a12571",
+   "pfade": [
+    "register/v811/lesen/index.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "17806547e49b1351c38a24da7a9e55762064188ebdd8051dce9d524753122a47",
+   "pfade": [
+    "register/v810/generator.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "be80060eb7e1d46fc0368f559b166f6920789a6175b0af3885adf1470005db33",
+   "pfade": [
+    "register/v810/lesen/index.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "327f46dcc3762dcf27c29db57e6b284d9ccb4b9a03dadd5dd272fdd6d6a44b4d",
+   "pfade": [
+    "register/v806/generator.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "70f95c2995786598965d33877fc9e6ba3be0416c646a44143ec864693f7f55f2",
+   "pfade": [
+    "register/v806/lesen/index.html",
+    "register/v805/lesen/index.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "258b914b9c40bb8e53929ac4bcd6b8d8dffe21b990d7df08b53df30dd6dd5656",
+   "pfade": [
+    "register/v805/generator.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "1a79e187cdd3789ed46751cc51379883e96a59e4c463662aedee7434aa251b4b",
+   "pfade": [
+    "register/v795/generator.html",
+    "register/v792/generator.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "450102b65c15a26982b898ae736b6521285115b81b888e599a8f4e1a3b15384e",
+   "pfade": [
+    "register/v795/lesen/index.html",
+    "register/v792/lesen/index.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "86d6bb8de3bdf8dd3f677d3d535e823a82ce17ccd26b51a2dd9e9e60b1967661",
+   "pfade": [
+    "register/v718/generator.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  },
+  {
+   "sha256": "8d2b313214c066110e9de891a7d0f027a5878b8ab291d2f4447a2714fa6472c9",
+   "pfade": [
+    "register/v718/lesen/index.html"
+   ],
+   "befund": "JWK-IN-STATE",
+   "datum": "2026-10-04",
+   "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
+  }
+ ]
+}

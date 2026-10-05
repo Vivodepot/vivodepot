@@ -2,7 +2,7 @@
 
 **Datum:** 11.07.2026
 **Status:** **Angenommen** (02.08.2026 offiziell angenommen) · vorher Entwurf · gebaut 11.07.2026 (Node-Suite **1239/0**, VdCrypto-Block-Pin `8d31c678…` + JWS `d0541ea7…` byte-identisch, PV-Ausgabe weiterhin byte-identisch, Firefox-Verifikation grün; Annahme = Produktentscheidung).
-**Status heute:** gilt — `KI_KORPUS`, `KI_MODUL` und der `kiwiz`-Wizard sind im heutigen `vivodepot.html` aktiv
+**Status heute:** gilt — Nachtrag 04.10.2026: v1.0 ohne anwaltliche Freigabe (Entscheidung der Geschäftsführung). `KI_KORPUS`, `KI_MODUL` und der `kiwiz`-Wizard sind im heutigen `vivodepot.html` aktiv
 (Zeilen 8623 ff.); der Instrument-Standort von `kiwiz` wurde seither in Folge-ADRs weiterentwickelt
 (U2-ADR-096, U2-ADR-132, U2-ADR-136), die hier entschiedene Generator-Struktur besteht unverändert fort.
 **Nummer:** U2-ADR-069 (höchste belegte in `docs/adr/` war U2-ADR-068).
@@ -91,3 +91,7 @@ benannten Nachlassverwalter. Diese Abgrenzung ist strukturell (Herkunftsanzeige)
   Overlay zeigt Testament-Anlage-Kopf + Herkunftsanzeige + § 2247 + ersetzte Personen-Namen; keine Konsolenfehler.
 - sha256 der Datei geändert (`6a494968…`); `BUILD_SHA256` bleibt leer (erst beim Release). SW-Cache **v34 → v35**.
   **Kein Push.**
+
+## Nachtrag 04.10.2026
+
+Die Ankündigung einer anwaltlichen Freigabe bzw. Runde für das KI-Verfügungs-Dokument gilt nicht mehr. Entscheidung der Geschäftsführung 04.10.2026: KI-Verfügung in v1.0 ohne anwaltliche Freigabe, wie U2-ADR-066 Nachtrag 4 für die Patientenverfügung.

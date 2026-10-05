@@ -80,7 +80,8 @@ U2-ADR-183 (Ablage-Host, Nachtrag 26.09.2026: Abhol-Seite), U2-ADR-044 (Richtung
 
 ## Selbstauskunft-Nachweise — SD-JWT VC
 
-**Export**, jeweils als eigenständiges Format, MIME `application/json`:
+**Export**, jeweils als eigenständiges Format, SD-JWT in kompakter Form (RFC 9901), MIME `application/dc+sd-jwt`,
+Endung `.sd-jwt`:
 
 | Sektor | Kennung | Erzeuger | `vct`-Kennung im Code |
 |---|---|---|---|
@@ -88,15 +89,21 @@ U2-ADR-183 (Ablage-Host, Nachtrag 26.09.2026: Abhol-Seite), U2-ADR-044 (Richtung
 | Finanzen | `sd-jwt-vc-finanzen` | `sdJwtVcFinanzen` | `urn:vivodepot:finanzen` |
 | Sozialversicherung | `sd-jwt-vc-sozialversicherung` | `sdJwtVcSozialversicherung` | `urn:vivodepot:sozialversicherung` |
 
-Alle drei sind **unsignierte Selbstauskünfte** (Variante A) — die `vct`-Kennungen sind mechanisch
-aus dem jeweiligen Erzeuger extrahiert, kein handgepflegter Wert.
+Alle drei sind **Selbstauskünfte, selbst signiert** mit einem Ed25519-Schlüssel, den die App aus dem Passwort der Person
+ableitet (U2-ADR-457): formkonform nach RFC 9901 §4.1, Vertrauen null ohne Institutionssignatur. Ein SD-JWT-VC-Prüfer lehnt
+den Aussteller ab, weil der Schlüssel keiner Stelle zugeordnet ist (weder ein https-Aussteller noch x5c). Kann der Browser kein
+Ed25519, entsteht eine unsignierte Selbstauskunft unter eigenem Typ (`application/jwt`, Endung `.jwt`), kein SD-JWT. Die
+`vct`-Kennungen sind mechanisch aus dem jeweiligen Erzeuger extrahiert, kein handgepflegter Wert; registrierte Typen gibt es
+für diese drei Nachweise noch nicht.
 
-**Import:** alle drei laufen über den generischen JSON-Parser (`_jsonParse`), kein eigenes
-Versions-/Profil-Merkmal im Import-Pfad.
+**Import:** alle drei lesen die kompakte Form und die frühere JSON-Selbstauskunft. Die eigene Selbst-Signatur wird vor der
+Übernahme gegen den Schlüssel im Kopf geprüft; jede andere signierte Form bleibt abgewiesen (U2-ADR-080).
 
-**Relevantes ADR:** U2-ADR-030 (Sozialversicherungs-Sektor, unsignierter SD-JWT-VC-Selbstauskunft-
-Export, Variante A) — auf dieser Basis wurde das Muster auch für Identität und Finanzen
-übernommen.
+**Prüfer:** `tests/konformitaet/adapter/sd-jwt-jose.mjs` (unabhängige Bibliothek jose, gepinnt) und die Normvektoren aus
+RFC 8037 und RFC 9901 in `tests/sdjwt-selbstsignatur.test.js`.
+
+**Relevante ADRs:** U2-ADR-030 (Sozialversicherungs-Sektor, Selbstauskunft, Variante A; das Muster gilt auch für Identität
+und Finanzen) und U2-ADR-457 (die Selbst-Signatur, die die unsignierte Form ablöst).
 
 ---
 
@@ -134,11 +141,11 @@ selbst auftaucht.
 
 ---
 
-## Verwaltung und Meldewesen — Verwaltungs-Stammdaten, FIM, EDCI, ELSTER, xMeld
+## Verwaltung, Bildung und Meldewesen — Verwaltungs-Stammdaten, FIM, Bildungsangaben, EDC (extern), ELSTER, xMeld
 
-Vier Kanäle, alle **ohne mechanisch nachweisbaren Versions-/Profil-Marker im jeweiligen
+Sechs Kanäle, alle **ohne mechanisch nachweisbaren Versions-/Profil-Marker eines Standards im jeweiligen
 Erzeuger-Quelltext** — das ist eine Lücke der Faktenbasis, keine Aussage, dass die
-Formate falsch wären. Wer die genaue FIM-/EDCI-Schema-Version braucht, muss sie an der
+Formate falsch wären. Wer die genaue FIM-Schema-Version braucht, muss sie an der
 Quelle (Code-Kommentar, externe Spezifikation) nachschlagen; dieses Dokument behauptet sie nicht,
 weil der Code selbst sie an dieser Stelle nicht trägt.
 
@@ -146,8 +153,8 @@ weil der Code selbst sie an dieser Stelle nicht trägt.
 |---|---|---|---|
 | Verwaltungs-Stammdaten (die Kennung ist historisch, kein Standard dahinter) | `xoev-verwaltung` → `xoevVerwaltung` | `xoev-verwaltung` → `_jsonParse` | verwaltung |
 | FIM | `fim-json` → `fimVerwaltung` | `fim-json` → `_jsonParse` | verwaltung |
-| EDCI (Bildung) | `edci-bildung` → `edciBildung` | `edci-bildung` → `_jsonParse` | bildung |
-| EDCI/Europass (extern) | — | `edci-europass-extern` → `_edciExternNutzlast` (`nurImport`) | bildung |
+| Bildungsangaben (selbst erklärt, kein Nachweis und kein Standard dahinter) | `bildungsangaben` → `edciBildung` | `bildungsangaben` → `_jsonParse` (liest auch die frühere Kennung `edci-bildung` und die frühere Schema-Version) | bildung |
+| EDC/Europass (extern: fremd ausgestellt, als Original verwahrt, U2-ADR-443) | — | `edci-europass-extern` → `_edciExternNutzlast` (`nurImport`) | bildung |
 | ELSTER | — | `elster` → `_jsonParse` (`nurImport`) | finanzen |
 | xMeld | — | `xmeld` → `parseXMeld` (`nurImport`) | identitaet |
 
@@ -190,7 +197,7 @@ und `VivodepotProviderCredential`.
 ## Interner Versionsstand
 
 <!-- STANDZAHLEN:BEGIN — erzeugt von tools/build-standzahlen.js; Quelle: vivodepot.html -->
-Schema-Version 91, `SCHALEN_STAND` v857.
+Schema-Version 91, `SCHALEN_STAND` v917.
 <!-- STANDZAHLEN:END -->
 
 ---

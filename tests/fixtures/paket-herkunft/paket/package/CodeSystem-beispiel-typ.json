@@ -1,0 +1,24 @@
+{
+ "text": {
+  "status": "generated",
+  "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">erzeugt</div>"
+ },
+ "date": "2026-07-01",
+ "version": "1.0.0",
+ "concept": [
+  {
+   "code": "vollmacht",
+   "display": "Vollmacht",
+   "definition": "Eine erfundene Vollmacht-Art für die Fixture"
+  },
+  {
+   "code": "brief",
+   "display": "Brief"
+  }
+ ],
+ "content": "complete",
+ "status": "active",
+ "url": "https://example.org/fhir/CodeSystem/beispiel-typ",
+ "id": "beispiel-typ",
+ "resourceType": "CodeSystem"
+}

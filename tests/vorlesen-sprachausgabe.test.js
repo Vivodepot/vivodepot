@@ -17,6 +17,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
+const { abWerkWortlaut } = require('./helfer/ab-werk-wortlaut.js');   // v894: Stylesheet und Werte ab Werk, s. Helfer
 
 const PW = 'pw';
 
@@ -196,7 +197,7 @@ test('Topbar-/Markup-Marker: Vorlesen-Schalter in der a11y-Leiste, Touch-Ziel & 
   assert.ok(html.indexOf('id="tb-nacht"') < html.indexOf('id="tb-vorlesen"'), 'nach dem Nacht-Schalter');
   assert.ok(html.indexOf('id="tb-vorlesen"') < html.indexOf('</div>\n    </header>') || true, 'innerhalb der Leiste');
   // Touch-Ziel ≥44px auf Touch-Geräten.
-  assert.ok(/pointer:\s*coarse[^}]*min-width:\s*44px/.test(html), 'Touch-Ziel ≥44px (coarse pointer)');
+  assert.ok(/pointer:\s*coarse[^}]*min-width:\s*44px/.test(abWerkWortlaut(html)), 'Touch-Ziel ≥44px (coarse pointer)');
   // Icon registriert.
   assert.ok(typeof V.diktierHinweisHTML === 'function');
   assert.ok(html.includes('volume2'), 'Lautsprecher-Icon registriert');

@@ -2,6 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    Jeder ICD-10-GM-Code der Code-Liste ist endständig; ein eingetragener
    Titel ist der amtliche (27.09.2026)
+   @rechtslage icd10gm-endstaendig
    ────────────────────────────────────────────────────────────────────────
    Befund: die Liste führte E11.9, I10 und J45.9 — in der ICD-10-GM 2026 ist
    keiner davon endständig (je eine 5. Stelle verlangt). Seitdem führt sie die

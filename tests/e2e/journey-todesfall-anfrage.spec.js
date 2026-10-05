@@ -17,6 +17,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { jweLesbarerTeil } = require('../helfer/jwe-lesbar.js');
 const { KERN_URL_PRIVAT_DE, oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten } = require('./helpers.js');
 
 const ANKER_PW = 'anker-todesfall-pw-2026';
@@ -131,8 +132,10 @@ test('[Journey c·Todesfall] Angehörige öffnet die Fach-Datei, findet „Behö
   const kopf = JSON.parse(Buffer.from(antwort.trim().split('.')[0], 'base64url').toString('utf8'));
   expect(kopf.typ).toBe('vivodepot-antwort+jwe');
   expect(antwort.trim().split('.').length, 'JWE Compact: fünf Teile').toBe(5);
+  // Gesucht wird im lesbaren Teil (Kopf samt apu/apv dekodiert) — im rohen base64url-Text wäre die Suche still grün.
+  const lesbar = jweLesbarerTeil(antwort);
   for (const wert of ['Hedwig', 'Brandt', 'Musterstadt', 'Beispielweg', 'verwitwet']) {
-    expect(antwort, 'Feldwert im Klartext der Antwort: ' + wert).not.toContain(wert);
+    expect(lesbar, 'Feldwert im Klartext der Antwort: ' + wert).not.toContain(wert);
   }
   expect(fehler).toEqual([]);
   await kontext.close();

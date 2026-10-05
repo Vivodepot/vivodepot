@@ -29,7 +29,7 @@ const PW = 'zugang-zum-recht-vorfuehrung-2026';
 const FIXTURE_DIR = path.join(__dirname, '..', 'fixtures', 'vorfuehrung-zugang-zum-recht');
 const SHOT_DIR = 'test-results/vorfuehrung-zugang-zum-recht';
 
-async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, produktUrl }) {
+async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, produktUrl, gesperrt = null }) {
   let n = 0;
   const shot = async (name) => {
     n += 1;
@@ -59,6 +59,19 @@ async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, pro
     await expect(migrationsHinweis).toHaveCount(0);
   }
 
+  // 2c · Sperre (v885): die Vorführ-Depots sind im Produkt ihrer Sprache ab Werk gebaut und tragen kein Modul im Einlass-Fach —
+  // es erscheint kein Sperr-Hinweis (vorher trug die englische Datei ein Sprachmodul eines Zwischenstands, und der Hinweis lag auf
+  // einem langsamen Rechner über dem Knopf). Jede Fixture-Depotdatei hält das in Node: tests/fixture-depots-ab-werk.test.js.
+  // Der Sperrfall (`gesperrt`): eine Altdatei mit absichtlich eingelassenem Modul — der Hinweis wird erwartet, sein Inhalt
+  // geprüft und er wird geschlossen, nicht abgewartet.
+  if (gesperrt) {
+    const sperrHinweis = page.locator('#erweiterungen-gesperrt-hinweis');
+    await expect(sperrHinweis, 'Sperr-Hinweis für das mitgebrachte Modul (' + spracheLabel + ')').toBeVisible({ timeout: 15000 });
+    await expect(sperrHinweis).toContainText(gesperrt);
+    await page.click('#modal-rueck #m-ok');
+  }
+  await expect(page.locator('#erweiterungen-gesperrt-hinweis'), 'kein (weiterer) Sperr-Hinweis (' + spracheLabel + ')').toHaveCount(0);
+
   // 3 · Sektor „Vermögen" — der Zielsektor des Beratungshilfe-Auszugs.
   await oeffneSektor(page, 'assets');
   await shot('sektor-vermoegen');
@@ -72,6 +85,7 @@ async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, pro
   await knopf.click();
   const overlay = page.locator('#pv-dok-overlay');
   await expect(overlay).toBeVisible();
+  await expect(page.locator('#erweiterungen-gesperrt-hinweis'), 'auch danach kein Sperr-Hinweis').toHaveCount(0);
   await shot('auszug-geoeffnet');
 
   // 6 · Der Auszug ist LÄNGER als ein Bildschirm (#pv-dok-overlay scrollt eigenständig,
@@ -108,7 +122,7 @@ test('Beratungshilfe-Auszug — EN: derselbe Weg geht auf Englisch genauso durch
   // Knöpfe „Drucken"/„Als PDF sichern"/„Schließen", der Werkzeugleisten-Hinweis oben) bleibt
   // Deutsch — das ist kein Fund, sondern der geprüfte Geltungsbereich (s. Bericht).
   await expect(overlay).toContainText('Advice assistance — preparatory extract');
-  await expect(overlay).toContainText('Part 0 — the person');
+  await expect(overlay).toContainText('About the applicant');   // Abschnittstitel seit 253a899c3 (vorher „Part 0 — the person“)
   await expect(overlay).toContainText('First name? Elisabeth');
   await expect(overlay).toContainText('Surname? Wredenhagen Sonnenschein');
 
@@ -132,6 +146,12 @@ async function auszugImFrischenDepot(page, produktUrl) {
   await expect(overlay).toBeVisible();
   return overlay;
 }
+
+test('Beratungshilfe-Auszug — Sperrfall: die englische Altdatei mit eingelassenem Sprachmodul zeigt den Sperr-Hinweis, der Auszug bleibt englisch', async ({ page }) => {
+  const overlay = await vorfuehrlauf(page, { depotDatei: 'altdatei-demo-en-2026-09-10.vivodepot', spracheLabel: 'EN-Altdatei', schrittPrefix: 'en-alt', produktUrl: KERN_URL_PRIVAT_EN, gesperrt: 'textsatz · en' });
+  await expect(overlay).toContainText('About the applicant');
+  await expect(overlay).toContainText('First name? Elisabeth');
+});
 
 test('Beratungshilfe-Auszug — DE ohne Depot-Kopie: ein frisch angelegtes Depot in privat-de trägt ihn aus dem Template', async ({ page }) => {
   const overlay = await auszugImFrischenDepot(page, KERN_URL_PRIVAT_DE);

@@ -41,13 +41,16 @@ test('[Auffindbarkeit·Rot] der Anker bleibt WORTGLEICH „Language / Sprache", 
   await V.depotAnlegen('modul-auffindbarkeit-rot-pw');
   V.getData().textsprache = 'en';
   V.getData().textsatzModule = [{ modulTyp: 'textsatz', sprache: 'en', moduleVersion: 1,
-    texte: { 'strings:moduleEinlassenKnopf.text': 'Dock an extension from a file' } }];
+    texte: { 'strings:moduleEinlassenKnopf.text': 'Dock an extension from a file', 'strings:erweiterungEinlesenGesperrt.text': 'Dock an extension from a file' } }];
   V._textsatzModuleAusDepotAnmelden(V.getData());
   V.textsatzNeuAnwenden();
   const html = V.einstellungenHTML();
   assert.match(html, /<span class="einst-modul-sprachanker">Language \/ Sprache<\/span>/,
     'der Anker wäre kaputt, wenn er wie der Rest des Knopfs mitschaltete oder verschwände');
-  assert.match(html, /Dock an extension from a file/, 'der übrige Knopf-Text schaltet weiterhin mit (STRINGS-Weg unverändert)');
+  /* Selbst-Einlass-Sperre (04.10.2026): am Platz des Knopfs steht Meldung B; sie steht auf der Schutzliste und folgt
+     darum KEINEM Modul — der Anker bleibt trotzdem. Mit offenem Einlass schaltet der Knopf-Text wie bisher mit. */
+  if (V._selbstEinlassFrei()) assert.match(html, /Dock an extension from a file/, 'der übrige Knopf-Text schaltet weiterhin mit (STRINGS-Weg unverändert)');
+  else assert.doesNotMatch(html, /Dock an extension from a file/, 'Meldung B folgt keinem Modul (Schutzliste)');
   V.getData().textsprache = 'de';
   V.textsatzNeuAnwenden();
 });

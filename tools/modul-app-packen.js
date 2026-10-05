@@ -61,7 +61,12 @@ const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 // eigenes vivodepot.html zeigt (nicht eine gemeinsame an der Wurzel). Separater
 // Schritt, nicht Teil von DATEISATZ — dieselbe Begründung wie dort.
 function dateisatzUndIndexAblegen(zielOrdner) {
-  for (const datei of DATEISATZ) fs.copyFileSync(path.join(REPO, datei), path.join(zielOrdner, datei));
+  for (const datei of DATEISATZ) {
+    // v894: nie das nackte Gerüst — Weg B bekommt das Gerüst mit gebackenem Erscheinungsbild; Sprache und Module kommen
+    // weiter zur Laufzeit aus vorabkonfiguration.js (tools/lib/pages-erzeugnis.js).
+    if (datei === 'vivodepot.html') fs.writeFileSync(path.join(zielOrdner, datei), require('./lib/pages-erzeugnis.js').geruestMitErscheinungsbild(), 'utf8');
+    else fs.copyFileSync(path.join(REPO, datei), path.join(zielOrdner, datei));
+  }
   fs.writeFileSync(path.join(zielOrdner, 'index.html'), indexWeiterleitungInhalt(path.join(zielOrdner, 'vivodepot.html')));
 }
 
@@ -71,6 +76,8 @@ function dateisatzUndIndexAblegen(zielOrdner) {
    `git commit`/`git push` schriebe dann in den falschen Baum. Darum bekommt JEDER git-Aufruf in
    dieser Datei eine von GIT_* bereinigte Umgebung. (Gefunden 16.09.2026; das Werkzeug stand
    namentlich in der Ratsche, der Fix ist eine Zeile je Aufrufstelle.) */
+const { zielStandPruefen } = require('./lib/zielrepo-stand.js');
+
 function ohneGitEnv() {
   const rein = {};
   for (const k of Object.keys(process.env)) if (!k.startsWith('GIT_')) rein[k] = process.env[k];
@@ -122,7 +129,7 @@ function vermerkInhalt({ slug, zielPfad, zielCommit, quellCommit, anzahlBuendel,
     + '- **Slug:** `' + slug + '`\n'
     + '- **Ziel-Pfad:** `' + zielPfad + '`\n'
     + '- **Quelle:** vivodepot-cleanslate/u2-kanon @ `' + quellCommit + '`\n'
-    + '- **Ziel:** vivodepot-ios-test/main @ `' + zielCommit + '`' + (gepusht ? ' (gepusht)' : ' (LOKAL, noch nicht gepusht)') + '\n'
+    + (gepusht ? '- **Ziel:** vivodepot-ios-test/main @ `' + zielCommit + '` (gepusht)' : '- **Ziel:** vivodepot-ios-test/main, lokal, ohne Hash (nicht gepusht; ERZEUGNIS-STEMPEL-ARBEITSSTAND)') + '\n'
     + '- **Bündel:** ' + anzahlBuendel + (anzahlBuendel === 1 ? ' Modul' : ' Module') + ' in `vorabkonfiguration.js`\n';
 }
 
@@ -132,7 +139,7 @@ function resyncVermerkInhalt({ slugs, zielCommit, quellCommit, gepusht }) {
     + '- **Synchronisiert am:** ' + new Date().toISOString() + '\n'
     + '- **Betroffene Slugs:** ' + (slugs.length ? slugs.map((s) => '`' + s + '`').join(', ') : '(keine — kein module-apps/*/-Ordner vorhanden)') + '\n'
     + '- **Quelle:** vivodepot-cleanslate/u2-kanon @ `' + quellCommit + '`\n'
-    + '- **Ziel:** vivodepot-ios-test/main @ `' + zielCommit + '`' + (gepusht ? ' (gepusht)' : ' (LOKAL, noch nicht gepusht)') + '\n'
+    + (gepusht ? '- **Ziel:** vivodepot-ios-test/main @ `' + zielCommit + '` (gepusht)' : '- **Ziel:** vivodepot-ios-test/main, lokal, ohne Hash (nicht gepusht; ERZEUGNIS-STEMPEL-ARBEITSSTAND)') + '\n'
     + '- **`vorabkonfiguration.js` je Slug:** UNANGETASTET — ändert sich nur, wenn ein Herausgeber ein neues Modul liefert.\n';
 }
 
@@ -152,12 +159,15 @@ function eigenerBaumUndHeadOk(funde) {
   return lokal;
 }
 
-function zielRepoOk(ziel, funde) {
+
+function zielRepoOk(ziel, funde, { nachziehen = false, holen = true } = {}) {
   if (!fs.existsSync(path.join(ziel, '.git'))) { funde.push('Zielpfad ist kein Git-Repo: ' + ziel); return; }
   const zStatus = sh('git', ['status', '--porcelain'], ziel);
   if (zStatus) funde.push('Zielrepo nicht sauber (' + ziel + '):\n' + zStatus);
   const zBranch = shOk('git', ['rev-parse', '--abbrev-ref', 'HEAD'], ziel);
   if (zBranch.ok && zBranch.out !== 'main') funde.push('Zielrepo steht nicht auf main, sondern auf: ' + zBranch.out);
+  // Gegen origin/main (Befund ZIELREPO-ABGEZWEIGT, 04.10.2026): abgezweigt oder voraus → rot (Prüfung vor den eigenen Commits), dahinter → vorspulen.
+  else if (!zStatus) funde.push(...zielStandPruefen(ziel, { nachziehen, holen }).funde);
 }
 
 /* KEIN VERALTETES SPRACHBÜNDEL PACKEN (16.09.2026, U2-ADR-416 Entscheidung 3). Ein
@@ -206,7 +216,7 @@ function moduleVersionRegressionPruefen(eintraege, ziel, slug, funde) {
   }
 }
 
-function vorbedingungenEinzeln(ziel, slug, bundlePfad) {
+function vorbedingungenEinzeln(ziel, slug, bundlePfad, zielOpt = {}) {
   const funde = [];
   if (!slugGueltig(slug)) funde.push('Ungültiger Slug „' + slug + '" — nur Kleinbuchstaben/Ziffern, einzelne Bindestriche, kein führender/schließender/doppelter Bindestrich.');
   let buendel = null;
@@ -221,18 +231,18 @@ function vorbedingungenEinzeln(ziel, slug, bundlePfad) {
     }
   }
   const quellCommit = eigenerBaumUndHeadOk(funde);
-  zielRepoOk(ziel, funde);
+  zielRepoOk(ziel, funde, zielOpt);
   return { funde, quellCommit, buendel };
 }
 
-function vorbedingungenAlle(ziel) {
+function vorbedingungenAlle(ziel, zielOpt = {}) {
   const funde = [];
   for (const slug of vorhandeneSlugs(ziel)) {
     const datei = path.join(ziel, MODULE_APPS_UNTERPFAD, slug, 'vorabkonfiguration.js');
     if (fs.existsSync(datei)) sprachdeckungPruefen(vorabkonfigurationLesen(datei), funde, slug);
   }
   const quellCommit = eigenerBaumUndHeadOk(funde);
-  zielRepoOk(ziel, funde);
+  zielRepoOk(ziel, funde, zielOpt);
   return { funde, quellCommit };
 }
 
@@ -336,7 +346,7 @@ function main() {
   const bundlePfad = argWert('--bundle');
 
   if (alle) {
-    const { funde, quellCommit } = vorbedingungenAlle(ziel);
+    const { funde, quellCommit } = vorbedingungenAlle(ziel, { nachziehen: !dryRun });
     if (funde.length) {
       process.stderr.write('modul-app-packen --alle: VORBEDINGUNG NICHT ERFÜLLT — es wird NICHTS synchronisiert.\n\n');
       funde.forEach((f) => process.stderr.write('  · ' + f + '\n'));
@@ -346,7 +356,7 @@ function main() {
     return;
   }
 
-  const { funde, quellCommit, buendel } = vorbedingungenEinzeln(ziel, slug, bundlePfad);
+  const { funde, quellCommit, buendel } = vorbedingungenEinzeln(ziel, slug, bundlePfad, { nachziehen: !dryRun });
   if (funde.length) {
     process.stderr.write('modul-app-packen: VORBEDINGUNG NICHT ERFÜLLT — es wird NICHTS gepackt.\n\n');
     funde.forEach((f) => process.stderr.write('  · ' + f + '\n'));

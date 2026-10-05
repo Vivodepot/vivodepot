@@ -238,7 +238,8 @@ test('[Gebacken] FHIR-IPS-Station trägt Allergie, Medikation und Diagnose der B
   assert.ok(codes.includes('Condition:I10.90'), 'Diagnose I10.90 fehlt: ' + codes.join(', '));
   assert.ok(codes.includes('AllergyIntolerance:91936005'), 'Allergie fehlt: ' + codes.join(', '));
   const auszug = V.vorfuehrungFhirAuszug(V.vorfuehrungFhirIpsBundle());
-  assert.deepEqual([...new Set(auszug.entry.map((e) => e.resource.resourceType))].sort(), ['AllergyIntolerance', 'Condition', 'MedicationStatement', 'Provenance']);
+  // Seit v872 zeigt der Auszug auch die Vertretung (RelatedPerson, Consent): die Vorführung der Vertretung im Patient Summary (myHealth-Demo).
+  assert.deepEqual([...new Set(auszug.entry.map((e) => e.resource.resourceType))].sort(), ['AllergyIntolerance', 'Condition', 'Consent', 'MedicationStatement', 'Provenance', 'RelatedPerson']);
   assert.ok(auszug.meta.profile.some((p) => /Bundle-uv-ips/.test(p)), 'die Profile stehen im Auszug');
 });
 

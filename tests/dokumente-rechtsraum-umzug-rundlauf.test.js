@@ -24,6 +24,8 @@ const fs = require('node:fs');
 const { execFileSync } = require('node:child_process');
 
 const REPO = path.join(__dirname, '..');
+// Berichtigte eigene Fragen (v872), je Schritt und Feld wörtlich: tests/helfer/eigene-fragen-ersetzt.js.
+const { EIGENE_FRAGEN_ERSETZT, alteSchritteNachgefuehrt } = require('./helfer/eigene-fragen-ersetzt.js');
 // Der alte Kanon ist ein FESTER Commit (letzter Stand mit Bündel-Inhalt vor dem Schnitt), nicht
 // `origin/u2-kanon`: der Zweig wandert, und seit dem Schnitt trägt er das Bündel nicht mehr.
 const ALTER_KANON = 'dceab851';
@@ -116,6 +118,36 @@ function ohnePvToreSeitV808(steps) {
   });
 }
 
+/* U2-ADR-459 (01.10.2026): die Patientenverfügung steht seither im Wortlaut der BMJ-Textbausteine — die Eingangsformel endet
+   auf „...“, die Anwendungssituationen beginnen mit „Wenn“, 2.6 trägt das Leerzeichen „Bevollmächtigte(r)/ Betreuer(in)“, und
+   „beraten lassen durch“ (counsellingBy) ist ein dreißigster Schritt. Für den Vergleich mit dem alten Kanon wird genau das
+   zurückgerechnet, benannt und eng; jede andere Abweichung bleibt ein Fund. */
+const BMJ_459_ZURUECK = Object.freeze({
+  'Wenn': 'Diese Patientenverfügung gilt, wenn',
+  'ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde ...': 'ich mich aller Wahrscheinlichkeit nach unabwendbar im unmittelbaren Sterbeprozess befinde,',
+  'ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist ...': 'ich mich im Endstadium einer unheilbaren, tödlich verlaufenden Krankheit befinde, selbst wenn der Todeszeitpunkt noch nicht absehbar ist,',
+  'Wo oder bei wem haben Sie sich vor der Erstellung informiert? (2.12)': 'Haben Sie sich vor der Erstellung informiert oder beraten lassen? (2.12)',
+  'Optional. Im Dokument steht: „informiert bei/durch …“.': 'Freitext, optional.',
+  'Informiert bei/durch': 'Information / Beratung',
+  'z. B. Broschüre des BMJ, Verbraucherzentrale': 'bei/durch … · beraten durch …',
+});
+function bmj459Zurueck(o) {
+  if (typeof o === 'string') return Object.prototype.hasOwnProperty.call(BMJ_459_ZURUECK, o) ? BMJ_459_ZURUECK[o] : o;
+  if (Array.isArray(o)) return o.map(bmj459Zurueck);
+  if (o && typeof o === 'object') { const r = {}; for (const [k, v] of Object.entries(o)) r[k] = bmj459Zurueck(v); return r; }
+  return o;
+}
+function vorBmjWortlaut459Schritte(steps) {
+  return (steps || []).filter((st) => !(st && st.feld && st.feld.id === 'counsellingBy'))
+    .map((st) => (st && st.feld && ['applicableSituations', 'informationOrCounsellingReceived'].includes(st.feld.id)) ? bmj459Zurueck(st) : st);
+}
+function vorBmjWortlaut459(pvBmj) {
+  const raus = Object.assign({}, pvBmj, { steps: vorBmjWortlaut459Schritte(pvBmj.steps) });
+  if (typeof raus.eingangsformel === 'string') raus.eingangsformel = raus.eingangsformel.replace(/verständlich äußern kann \.\.\.$/, 'verständlich äußern kann:');
+  if (Array.isArray(raus.verbindlichkeitKlauseln)) raus.verbindlichkeitKlauseln = raus.verbindlichkeitKlauseln.map((k) => String(k).replace('Bevollmächtigte(r)/ Betreuer(in) – soll', 'Bevollmächtigte(r)/Betreuer(in) – soll'));
+  return raus;
+}
+
 test('[U2-ADR-NNN2·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_DOKUMENTE_DE-Inhalt (beide voll gebootet)', () => {
   const altesDokumente = altenKernLesen((V) => {
     assert.ok(V.BUERGERMODUL_BUENDEL.dokumente, 'Vergleichsbasis ungültig: alter Kanon trägt dokumente nicht mehr im Bündel');
@@ -124,8 +156,10 @@ test('[U2-ADR-NNN2·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK
   const { ladeKern } = require('./load-kern.js');
   const { V: neu } = ladeKern();
   const neuDok = Object.assign({}, neu.AB_WERK_DOKUMENTE_DE.dokumente);
-  neuDok.pvBmj = Object.assign({}, neuDok.pvBmj, { steps: ohnePvToreSeitV808(neuDok.pvBmj.steps) });
-  assert.deepEqual(neuDok, altesDokumente,
+  neuDok.pvBmj = vorBmjWortlaut459(Object.assign({}, neuDok.pvBmj, { steps: ohnePvToreSeitV808(neuDok.pvBmj.steps) }));
+  const altesDokumenteNachgefuehrt = Object.assign({}, altesDokumente, {
+    vollmachtBmj: Object.assign({}, altesDokumente.vollmachtBmj, { steps: alteSchritteNachgefuehrt(altesDokumente.vollmachtBmj.steps) }) });
+  assert.deepEqual(neuDok, altesDokumenteNachgefuehrt,
     'Register geleert (BUERGERMODUL_BUENDEL.dokumente === undefined nach dem Umzug) und aus dem neuen Ab-Werk-Slot geladen — Inhalt muss identisch zum alten Bündel-Stand sein.');
   // Seit dem Schnitt (18.09.2026) ist das Bündel nicht nur um dieses eine Feld erleichtert,
   // sondern vollständig entfernt (null) — dieselbe Korrektur wie bei .rechtsraumKatalog oben.
@@ -139,11 +173,11 @@ test('[U2-ADR-NNN2·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/
   }));
   const { ladeKern } = require('./load-kern.js');
   const { V: neu } = ladeKern();
-  assert.equal(neu.PV_BMJ.steps.length, altesteps.pv.length, 'PV_BMJ.steps.length weicht ab');
+  assert.equal(vorBmjWortlaut459Schritte(neu.PV_BMJ.steps).length, altesteps.pv.length, 'PV_BMJ.steps.length weicht ab');
   assert.equal(neu.VOLLMACHT_BMJ.steps.length, altesteps.vollmacht.length, 'VOLLMACHT_BMJ.steps.length weicht ab');
   assert.equal(neu.KI_KORPUS.steps.length, altesteps.ki.length, 'KI_KORPUS.steps.length weicht ab');
-  assert.deepEqual(ohnePvToreSeitV808(neu.PV_BMJ.steps), altesteps.pv, 'PV_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
-  assert.deepEqual(neu.VOLLMACHT_BMJ.steps, altesteps.vollmacht, 'VOLLMACHT_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
+  assert.deepEqual(vorBmjWortlaut459Schritte(ohnePvToreSeitV808(neu.PV_BMJ.steps)), altesteps.pv, 'PV_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
+  assert.deepEqual(neu.VOLLMACHT_BMJ.steps, alteSchritteNachgefuehrt(altesteps.vollmacht), 'VOLLMACHT_BMJ.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
   assert.deepEqual(neu.KI_KORPUS.steps, altesteps.ki, 'KI_KORPUS.steps-Inhalt weicht ab (nach identischem Textsatz-Lauf auf beiden Seiten)');
 });
 
@@ -159,4 +193,13 @@ test('[U2-ADR-NNN2·Rundlauf·Rot-Beweis] eine künstliche Abweichung wird von d
   verfaelscht['living-will'].formvorschriften.paragraf = 'GEFÄLSCHTER PARAGRAF';
   assert.throws(() => assert.deepEqual(verfaelscht, echt), assert.AssertionError,
     'eine künstliche Abweichung MUSS die deepEqual-Probe brechen — sonst prüft sie nichts');
+});
+
+test('[U2-ADR-NNN2·Rundlauf·Rot-Beweis] eine berichtigte eigene Frage deckt nur genau ihren neuen Wortlaut an genau ihrem Schritt', () => {
+  const e = EIGENE_FRAGEN_ERSETZT[0];
+  const alt = [{ feld: { id: e.schritt }, [e.feld]: e.alt }, { feld: { id: 'anderer' }, [e.feld]: e.alt }];
+  const nachgefuehrt = alteSchritteNachgefuehrt(alt);
+  assert.deepEqual(nachgefuehrt, [{ feld: { id: e.schritt }, [e.feld]: e.neu }, { feld: { id: 'anderer' }, [e.feld]: e.alt }], 'nur dieser Schritt');
+  assert.throws(() => assert.deepEqual([{ feld: { id: e.schritt }, [e.feld]: e.neu + ' ' }], alteSchritteNachgefuehrt([alt[0]])), assert.AssertionError, 'ein dritter Wortlaut: rot');
+  assert.throws(() => assert.deepEqual([{ feld: { id: e.schritt } }], alteSchritteNachgefuehrt([alt[0]])), assert.AssertionError, 'gestrichen ohne Ersatz: rot');
 });

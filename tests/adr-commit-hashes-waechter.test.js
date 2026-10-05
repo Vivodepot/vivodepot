@@ -99,3 +99,14 @@ test('[ADR-Hash-Wächter] die echten ADR-Dateien tragen heute keine tote Commit-
     { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   assert.equal(r.status, 0, 'Ausgabe:\n' + ((r.stdout || '') + (r.stderr || '')).slice(-600));
 });
+
+test('[ADR-Hash-Wächter·nicht veröffentlicht] jede benannte Ausnahme hat ein veröffentlichtes Gegenstück mit gleichem Betreff', () => {
+  const { NICHT_VEROEFFENTLICHT } = require('../tools/adr-commit-hashes-pruefen.js');
+  const { ohneGitUmgebung } = require('../tools/lib/ohne-git-umgebung.js');
+  assert.ok(NICHT_VEROEFFENTLICHT.size <= 2, 'die Liste wächst nicht ohne Befund');
+  for (const [, e] of NICHT_VEROEFFENTLICHT) {
+    const betreff = cp.execFileSync('git', ['log', '-1', '--format=%s', e.veroeffentlicht], { cwd: REPO, encoding: 'utf8', env: ohneGitUmgebung() }).trim();
+    assert.ok(betreff.length > 10, e.veroeffentlicht + ' ist ein Commit dieses Klons');
+    assert.match(e.adr, /U2-ADR-\d+/);
+  }
+});

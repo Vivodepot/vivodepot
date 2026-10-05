@@ -23,7 +23,7 @@ test('[PV·eine Quelle] die Sektion trägt genau die Schritte des Assistenten �
   assert.ok(s, 'die Sektion living-will-decisions fehlt');
   assert.equal(s.label, 'Festlegungen der Patientenverfügung');
   assert.deepEqual(s.felder.map((f) => f.id), V.PV_BMJ.steps.map((st) => st.feld.id), 'dieselben Felder in derselben Reihenfolge');
-  assert.equal(s.felder.length, 29);
+  assert.equal(s.felder.length, 30);   // 29 → 30 (U2-ADR-459)
   for (const [i, f] of s.felder.entries()) {
     const q = V.PV_BMJ.steps[i].feld;
     assert.equal(f.typ, q.typ, f.id);
@@ -53,7 +53,7 @@ test('[PV·Textsatz] der Wortlaut der Felder ist in beiden Sprachmodulen der des
   const { pvFestlegungenAbweichungen, pvFestlegungenTexte, pvFestlegungenIds } = require('../tools/lib/pv-festlegungen-textsatz.js');
   const { V } = ladeKern();
   const ids = pvFestlegungenIds(V);
-  assert.equal(ids.length, 29);
+  assert.equal(ids.length, 30);   // 29 → 30 (U2-ADR-459)
   for (const datei of ['textsatz-de-modul.json', 'textsatz-en-modul.json']) {
     const texte = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', datei), 'utf8')).texte;
     assert.deepEqual(pvFestlegungenAbweichungen(texte, ids), [], datei + ': Feld-Wortlaut weicht vom Assistenten ab — Erzeuger laufen lassen');
@@ -69,7 +69,7 @@ test('[PV·Textsatz] der Wortlaut der Felder ist in beiden Sprachmodulen der des
 test('[PV·Formular] nur mit Wert sichtbar und nur angezeigt: leer verborgen, vom Assistenten geschrieben sichtbar, keine Eingabe', () => {
   const { V } = ladeKern();
   const f = sektion(V).felder.find((x) => x.id === 'lifeSustainingMeasures');
-  assert.equal(V.feldSichtbar(f, {}), false, 'leer: keine 29 leeren Felder im Formular');
+  assert.equal(V.feldSichtbar(f, {}), false, 'leer: keine 30 leeren Felder im Formular');
   assert.equal(V.feldSichtbar(f, { lifeSustainingMeasures: 'unterlassen' }), true, 'mit Wert: sichtbar');
   // nurAnzeige: auch mit Schreibrecht keine Eingabe — geändert wird im Assistenten. Gegenprobe ohne das Merkmal: eine Eingabe.
   assert.doesNotMatch(V.feldZeileHTML(f, 'unterlassen', 'advanceCare', true, true), /<input|<select|<textarea/, 'nur angezeigt');
@@ -130,12 +130,13 @@ test('[PV·Aufzählung] eine Mehrfachauswahl, deren amtliche Optionen auf ein Ko
      Situationen enden selbst auf ein Komma (sie sind Glieder eines Satzes), die Aufzählung setzte ein zweites. */
   const { V } = ladeKern();
   const f = sektion(V).felder.find((x) => x.id === 'applicableSituations');
-  assert.ok(f.optionen.some((o) => /,\s*$/.test(o.label)), 'Vorbedingung: mindestens eine amtliche Option endet auf ein Komma');
+  // Seit 01.10.2026 im BMJ-Wortlaut: die Situationen enden auf die Auslassung „...“ statt auf ein Komma; dieselbe Klasse.
+  assert.ok(f.optionen.some((o) => /(?:,|\.\.\.)\s*$/.test(o.label)), 'Vorbedingung: mindestens eine amtliche Option endet auf Komma oder Auslassung');
   const text = V.feldWertText(f, ['sterbeprozess', 'endstadium']);
   assert.doesNotMatch(text, /,\s*,/, 'kein doppeltes Komma: ' + text.slice(0, 120));
   assert.match(text, /befinde, ich mich/, 'genau ein Komma zwischen den Gliedern');
   // Gegenprobe: die Optionstexte selbst bleiben unverändert (amtlicher Wortlaut).
-  assert.ok(f.optionen.find((o) => o.wert === 'sterbeprozess').label.trim().endsWith(','), 'der Wortlaut der Option ist nicht gekürzt');
+  assert.ok(f.optionen.find((o) => o.wert === 'sterbeprozess').label.trim().endsWith('...'), 'der Wortlaut der Option ist nicht gekürzt (BMJ: „befinde ...“)');
 });
 
 test('[PV·Ersetzen] wird der Vorsorge-Bereich nach dem Start durch seine Moduldatei ersetzt, stehen die Festlegungen wieder da', () => {
@@ -148,7 +149,7 @@ test('[PV·Ersetzen] wird der Vorsorge-Bereich nach dem Start durch seine Moduld
   assert.equal(r.angewandt, true, r.grund || '');
   const s = sektion(V);
   assert.ok(s, 'die Sektion steht nach dem Ersetzen');
-  assert.equal(s.felder.length, 29, 'alle Festlegungen, nicht eine leere Hülle');
+  assert.equal(s.felder.length, 30, 'alle Festlegungen, nicht eine leere Hülle');   // 29 → 30 (U2-ADR-459)
   assert.equal(s.label, 'Festlegungen der Patientenverfügung');
   assert.ok(s.felder.every((f) => f.pvBmjAbgeleitet === true && typeof f.label === 'string' && f.label.trim()), 'abgeleitet und beschriftet');
   assert.ok(V.kennungFeldDef('advanceCare.lifeSustainingMeasures'), 'weiter eine Kennung des Kerns');

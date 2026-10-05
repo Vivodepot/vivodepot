@@ -25,7 +25,8 @@
 // und in der Versionsgeschichte des Repositorys.
 // v804 (26.09.2026): Demos mit Handsteuerung — die Vorführung schaltet auf Wunsch Schritt für Schritt, auch über die Lese-App.
 // v805 (26.09.2026): Listen-Unterfelder folgen beim Herausgeben der Entscheidung der Person — abgewählt bleibt zurück, freigegeben geht mit.
-const CACHE = 'vivodepot-shell-v857';
+// v894 (03.10.2026): das Gerüst trägt keinen Gestaltungswert — Stylesheet und Werte kommen als Erscheinungsbild-Modul.
+const CACHE = 'vivodepot-shell-v917';
 
 // Die App-Schale. Einzeln & tolerant gecacht (fehlende Einträge brechen den
 // Install NICHT — z. B. wenn die Manifest-Entscheidung „inline" lautet und es

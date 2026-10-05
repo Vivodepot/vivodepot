@@ -1,0 +1,13 @@
+{
+ "resourceType": "ValueSet",
+ "id": "beispiel-typ",
+ "url": "https://example.org/fhir/ValueSet/beispiel-typ",
+ "status": "active",
+ "compose": {
+  "include": [
+   {
+    "system": "https://example.org/fhir/CodeSystem/beispiel-typ"
+   }
+  ]
+ }
+}

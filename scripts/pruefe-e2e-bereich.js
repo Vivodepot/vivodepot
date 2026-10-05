@@ -178,6 +178,10 @@ function main() {
   }
   const roh = require('node:fs').readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[e2e-bereich] nichts zu pushen'); return 0; }
+  // Der eigene Runner hat den Hauptlauf für genau diesen Commit schon grün gefahren (Air-Vorprüfung im pre-push, 02.10.2026).
+  // Der Hook setzt die Marke nur nach einem anerkannten grünen Lauf und löscht sie vorher; von außen gesetzt gilt sie nicht.
+  // Er fährt NUR den Hauptlauf (04.10.2026): Cross-Reisen und Firefox-Proben laufen hier weiter, mit demselben Anlass.
+  const hauptVomRunner = process.env.VD_AIR_E2E_GEFAHREN === '1';
 
   /* DER LETZTE GEPRUEFTE BEFUND GILT, nicht ein Startwert. Ein Startwert, der
      stehenbleibt, wenn die Schleife nichts findet, meldet einen Grund, der nie
@@ -197,24 +201,25 @@ function main() {
     if (!firefox.ja) firefox = e.firefox;
     if (anlass.ja && firefox.ja) break;
   }
-  return laeufeFahren(anlass, firefox);
+  return laeufeFahren(anlass, firefox, { hauptVomRunner });
 }
 
-function laeufeFahren(anlass, firefox) {
+// spawn/bereit/last einsetzbar (04.10.2026): die Probe prüft, WELCHE Läufe starten, ohne einen Browser zu starten.
+function laeufeFahren(anlass, firefox, { hauptVomRunner = false, spawn = spawnSync, bereit = playwrightBereit, last = lastMehrfach } = {}) {
   if (!anlass.ja && !firefox.ja) {
     console.log('[e2e-bereich] kein Anlass — ' + anlass.grund + '. Nicht gefahren.');
     return 0;
   }
   console.log('[e2e-bereich] Anlass: ' + (anlass.ja ? anlass.grund : 'Chromium-Suite: keiner') + (firefox.ja ? ' · Firefox: ' + firefox.grund : ''));
 
-  const pw = playwrightBereit();
+  const pw = bereit();
   if (!pw.ja) {
     console.error('[e2e-bereich] UNGEMESSEN: ' + pw.grund + '. Ungemessen ist nicht grün — ABBRUCH.');
     console.error('              Beheben mit: npx playwright install chromium');
     return 1;
   }
 
-  const messwerte = lastMehrfach();
+  const messwerte = last();
   if (messwerte.every((l) => l >= LAST_SCHRANKE)) {
     console.error('[e2e-bereich] UNGEMESSEN — nicht rot: die E2E-Suite wurde nicht gefahren, weil');
     console.error('              der Rechner sie gerade nicht tragen kann. KEIN Fehler in diesem Zug.');
@@ -229,13 +234,17 @@ function laeufeFahren(anlass, firefox) {
     + ' — unter der Schranke ' + LAST_SCHRANKE + ', Lauf beginnt.');
 
   if (anlass.ja) {
-    const r = spawnSync('npm', ['run', 'test:e2e'], { stdio: 'inherit' });
-    if (r.status !== 0) {
-      console.error('[e2e-bereich] ABBRUCH: die E2E-Suite ist rot.');
-      return 1;
+    if (hauptVomRunner) {
+      console.log('[e2e-bereich] Hauptlauf vom eigenen Runner für genau diesen Commit gefahren (Beleg) — hier nur die Cross-Reisen (vier Komponenten) …');
+    } else {
+      const r = spawn('npm', ['run', 'test:e2e'], { stdio: 'inherit' });
+      if (r.status !== 0) {
+        console.error('[e2e-bereich] ABBRUCH: die E2E-Suite ist rot.');
+        return 1;
+      }
+      console.log('[e2e-bereich] E2E-Suite grün. Jetzt die Cross-Reisen (vier Komponenten) …');
     }
-    console.log('[e2e-bereich] E2E-Suite grün. Jetzt die Cross-Reisen (vier Komponenten) …');
-    const c = spawnSync('npm', ['run', 'test:e2e:cross', '--', '--workers=1'], { stdio: 'inherit' });
+    const c = spawn('npm', ['run', 'test:e2e:cross', '--', '--workers=1'], { stdio: 'inherit' });
     if (c.status !== 0) {
       console.error('[e2e-bereich] ABBRUCH: die Cross-Reisen sind rot.');
       return 1;
@@ -243,7 +252,7 @@ function laeufeFahren(anlass, firefox) {
   }
   if (firefox.ja) {
     console.log('[e2e-bereich] Firefox-Proben …');
-    const f = spawnSync('npm', ['run', 'test:e2e:firefox', '--', '--workers=1'], { stdio: 'inherit' });
+    const f = spawn('npm', ['run', 'test:e2e:firefox', '--', '--workers=1'], { stdio: 'inherit' });
     if (f.status !== 0) {
       console.error('[e2e-bereich] ABBRUCH: die Firefox-Proben sind rot — oder das Firefox-Binary fehlt (kein Überspringen).');
       console.error('              Beheben mit: npx playwright install firefox  (oder node tools/arbeitsbaum-einsatzbereit-machen.js)');

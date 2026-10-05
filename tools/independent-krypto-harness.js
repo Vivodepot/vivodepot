@@ -34,7 +34,7 @@ const nodeCrypto = require('node:crypto');
 const { webcrypto } = nodeCrypto;
 
 const BLOCK_PATH = path.join(__dirname, '..', 'vivodepot-krypto-kern-PORT-VERBATIM.js');
-const EXPECTED_PIN = '732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282';
+const EXPECTED_PIN = '4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98';
 
 let pass = 0, fail = 0;
 const fails = [];

@@ -1,6 +1,7 @@
 'use strict';
 /* Jeder Name der ATC-Liste ist der amtliche der ATC-GM 2026 (28.09.2026). Werkzeug und Herkunft des Auszugs:
-   tools/atc-gm-auszug-pruefen.js (gegen das amtliche PDF: --dokument <pdf>). */
+   tools/atc-gm-auszug-pruefen.js (gegen das amtliche PDF: --dokument <pdf>).
+   @rechtslage atc-gm-amtlich */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');

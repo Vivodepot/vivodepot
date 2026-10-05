@@ -32,12 +32,13 @@
    die Fläche.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte kommen mit dem Erscheinungsbild
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
 const K = require('../tools/lib/kontrast.js');
-const HTML = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const HTML = kernMitHeute(fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8'));
 
 /* `tools/lib/kontrast.js` deutet `rgb()`/`rgba()` — das, was ein Browser liefert.
    Die Token im Quelltext stehen als Hex. Umgerechnet wird HIER und nicht dort:

@@ -19,6 +19,12 @@
    DIE GRENZE DER STUFE, ausdrücklich: die Schnellstufe kann eine langsame Datei auslassen, die rot wäre.
    Der Commit bleibt dann grün; der pre-push fährt die volle Suite (kein Voll-Beleg aus der Schnellstufe)
    und fängt es vor dem Push. So ist es gewollt: der Push ist das Einbahntor.
+   ANLASS AUS DEM DIFF (04.10.2026, Befund SCHNELLSTUFE-OHNE-DIFF-ANLASS). Die Grenze oben traf ausgerechnet die Proben, die den
+   geänderten Text spiegeln: ein Commit an einem Hook ließ die langsame Probe aus, die genau diese Zeile wörtlich prüft, und
+   das Rot kam erst vor dem Push. Darum holt anlassDateien aus der Langsam-Liste zurück: (a) jede GEÄNDERTE
+   langsame Testdatei, (b) jede langsame Probe, die einen geänderten Pfad nennt — wörtlich oder als
+   Join-Folge gequoteter Segmente —, (c) jede Probe, die unter `spiegelt` der Liste für einen geänderten Pfad erklärt ist (für
+   Pfade, die eine Textsuche nicht sieht). spiegelBefunde hält die Klasse: wer einen Hook spiegelt, muss zurückkommen.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -84,9 +90,80 @@ function listePruefen(liste, testDateienListe) {
     if (liste.langsam.includes(d)) f.push('steht in langsam UND nie_langsam: ' + d);
     if (typeof nie[d] !== 'string' || nie[d].length < 10) f.push('nie_langsam ohne Grund: ' + d);
   }
+  const sp = liste.spiegelt || {};
+  if (typeof sp !== 'object' || Array.isArray(sp)) f.push('spiegelt ist kein Objekt');
+  else {
+    for (const [d, pfade] of Object.entries(sp)) {
+      if (!liste.langsam.includes(d)) f.push('spiegelt nennt eine Datei, die nicht langsam ist: ' + d);
+      if (!Array.isArray(pfade) || !pfade.length || pfade.some((p) => typeof p !== 'string' || !p)) f.push('spiegelt ohne Pfade: ' + d);
+    }
+  }
   const sortiert = [...liste.langsam].sort();
   if (sortiert.join('\n') !== liste.langsam.join('\n')) f.push('nicht sortiert');
   return f;
+}
+
+/** Nennt `quelle` den Pfad wörtlich oder als Folge gequoteter Segmente ('a', 'b', 'c.js')? */
+function nenntPfad(quelle, pfad) {
+  if (quelle.includes(pfad)) return 'wörtlich';
+  const teile = pfad.split('/');
+  if (teile.length < 2) return null;
+  const esc = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(teile.map((t) => '[\'"`]' + esc(t) + '[\'"`]').join('\\s*,\\s*'));
+  return re.test(quelle) ? 'Join' : null;
+}
+
+/** Langsame Dateien, die der Diff zurück in die Schnellstufe holt: [{ datei, grund }]. */
+function anlassDateien(liste, geaendert, lesen) {
+  const langsam = (liste && liste.langsam) || [];
+  const spiegelt = (liste && liste.spiegelt) || {};
+  const aus = [];
+  for (const d of langsam) {
+    if (geaendert.includes(d)) { aus.push({ datei: d, grund: 'selbst geändert' }); continue; }
+    const erklaert = (spiegelt[d] || []).find((p) => geaendert.includes(p));
+    if (erklaert) { aus.push({ datei: d, grund: erklaert + ' (spiegelt)' }); continue; }
+    let quelle = null;
+    for (const p of geaendert) {
+      if (p === d) continue;
+      if (quelle === null) { try { quelle = lesen(d); } catch (_) { quelle = ''; } }
+      const art = nenntPfad(quelle, p);
+      if (art) { aus.push({ datei: d, grund: p + ' (' + art + ')' }); break; }
+    }
+  }
+  return aus;
+}
+
+/* Spiegelt eine Probe einen Hook? (i) sie enthält eine kennzeichnende Zeile des Hooks wörtlich (≥ 30 Zeichen, kein Kommentar,
+   keine bloße Klammer- oder Kontrollzeile), oder (ii) sie nennt den Ordner hooks und den Hook-Namen als Zeichenkette. */
+const KONTROLLE = /^(?:fi|then|else|esac|done|do|;;|\{|\}|exit \d+|set -e)$/;
+function kennzeichnendeZeilen(hookText) {
+  return [...new Set(String(hookText).split('\n').map((z) => z.trim())
+    .filter((z) => z.length >= 30 && !z.startsWith('#') && !KONTROLLE.test(z) && !/^echo\s/.test(z)))];
+}
+// `andere`: die übrigen Hooks { pfad: text }. Eine Zeile, die auch in einem Hook steht, den die Probe beim Pfad nennt, gehört zu
+// jenem (pre-push und pre-commit teilen Zeilen; eine pre-push-Probe spiegelt den pre-commit nicht).
+function spiegeltHook(quelle, hookPfad, hookText, andere = {}) {
+  const name = hookPfad.split('/').pop();
+  if (/['"`/]hooks['"`/]/.test(quelle) && new RegExp('[\'"`/]' + name.replace(/[-.]/g, '\\$&') + '[\'"`]').test(quelle)) return 'nennt den Hook';
+  const genannt = Object.entries(andere).filter(([h]) => h !== hookPfad && nenntPfad(quelle, h)).map(([, t]) => t);
+  const z = kennzeichnendeZeilen(hookText).find((l) => quelle.includes(l) && !genannt.some((t) => t.includes(l)));
+  return z ? 'enthält die Zeile „' + z.slice(0, 60) + '“' : null;
+}
+/** Langsame Proben, die einen Hook spiegeln, aber bei dessen Änderung NICHT zurückgeholt würden. Leer = in Ordnung. */
+function spiegelBefunde(liste, lesen, hooks) {
+  const b = [];
+  for (const d of (liste && liste.langsam) || []) {
+    let quelle;
+    try { quelle = lesen(d); } catch (_) { continue; }
+    for (const [h, text] of Object.entries(hooks)) {
+      const wie = spiegeltHook(quelle, h, text, hooks);
+      if (!wie) continue;
+      if (!anlassDateien({ langsam: [d], spiegelt: (liste.spiegelt || {}) }, [h], () => quelle).length) {
+        b.push(d + ' spiegelt ' + h + ' (' + wie + '), wird bei dessen Änderung aber nicht zurückgeholt — Pfad nennen oder unter „spiegelt“ erklären');
+      }
+    }
+  }
+  return b;
 }
 
 /** Die Schnellstufe: alle Testdateien außer den langsamen der Liste. */
@@ -102,4 +179,4 @@ function testDateien(repo) {
     .filter((d, i, a) => a.indexOf(d) === i).sort();
 }
 
-module.exports = { ohneGitUmgebung, GRENZE_MS, DATEINAME, zeitenPfad, zeitenLesen, zusammenfuehren, langsamAusZeiten, listeLesen, listePruefen, schnelleDateien, testDateien };
+module.exports = { ohneGitUmgebung, GRENZE_MS, DATEINAME, zeitenPfad, zeitenLesen, zusammenfuehren, langsamAusZeiten, listeLesen, listePruefen, schnelleDateien, testDateien, nenntPfad, anlassDateien, kennzeichnendeZeilen, spiegeltHook, spiegelBefunde };

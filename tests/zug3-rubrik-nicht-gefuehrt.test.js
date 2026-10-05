@@ -56,7 +56,8 @@ test('[Zug3·Positivkontrolle] im Bürgerdepot tragen die Ausgabewege', async ()
 
   const g = V.SEKTOREN.find((s) => s.id === 'health');
   assert.equal(g.format, V.SEKTOR_FORMATE.FHIR_IPS, 'das Bereichsformat steht nicht mehr am Bereich');
-  assert.deepEqual((g.exporte || []).map((e) => e.format), ['fhir-ips'],
+  // + isik (01.10.2026, v863, U2-ADR-468): die Ausgabe für das Krankenhaus hängt ebenfalls am Bereich.
+  assert.deepEqual((g.exporte || []).map((e) => e.format), ['fhir-ips', 'isik'],
     'der Export-Knopf hängt nicht mehr am Bereich');
 });
 

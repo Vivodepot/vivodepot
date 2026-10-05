@@ -16,7 +16,7 @@ zusammen mit dem ZVR-Blatt, mit Datum und der Angabe, wer hinterlegt hat."
 ## Kontext
 
 Erste Verordnung zur Änderung der Vorsorgeregister-Verordnung, Zustimmung des Bundesrates
-10.07.2026, Trägernorm § 78a Abs. 3 BNotO: ab 01.10.2026 kann das Zentrale Vorsorgeregister
+10.07.2026, Rechtsgrundlage § 78a Abs. 2 Satz 2 BNotO (Korrektur 03.10.2026, s. Nachtrag): ab 01.10.2026 kann das Zentrale Vorsorgeregister
 nicht nur den Hinweis auf eine Vollmacht/Verfügung führen, sondern den TEXT selbst —
 behandelnde Ärztinnen bekommen dann Zugriff darauf. Hinterlegen dürfen ausschließlich
 institutionelle Nutzer (Betreuungsbehörden, Betreuungsvereine, Anwältinnen, Notare), nie die
@@ -61,6 +61,33 @@ Ratschen-Beweis in `tests/buergermodul-bereich-erzeugen-u2-adr-319.test.js`.
 
 Kein neuer Hinweistext, der erklärt, dass es das Register gibt — dieselbe Zurückhaltung wie bei
 `organspenderegister_id`.
+
+## Nachtrag 03.10.2026: Rechtsgrundlage
+
+Die erste Fassung nannte als Trägernorm „§ 78a Abs. 3 BNotO“. Die Befugnis, die Abschrift
+aufzunehmen, steht aber im letzten Satz von § 78a Abs. 2 BNotO in der Fassung von Art. 3 des
+Gesetzes vom 16.07.2026 (BGBl. 2026 I Nr. 212, in Kraft am 01.10.2026): „Ergänzend zu der
+Registrierung einer in Absatz 1 Satz 1 Nummer 1 bis 3 genannten Vorsorgeverfügung darf auch eine
+elektronische Abschrift der Vorsorgeverfügung aufgenommen werden.“ § 78a Abs. 3 ist die
+Verordnungsermächtigung. Format und Antragsweg regeln § 1 Abs. 5 und § 3 Abs. 2 VRegV in der Fassung
+der Ersten Änderungsverordnung vom 17.08.2026 (BGBl. 2026 I Nr. 238): PDF/A oder TIFF, Antrag nur
+durch institutionelle Nutzer. Nachsehen: https://www.recht.bund.de/bgbl/1/2026/212/VO.html und
+https://www.recht.bund.de/bgbl/1/2026/238/VO.html.
+
+Die Entscheidung bleibt unverändert.
+
+## Nachtrag 03.10.2026: Hinweis nennt die Rechtslage
+
+Der Hinweis am Feld `copyDepositedInTheRegister` (DE und EN) nennt seitdem die Rechtslage, statt
+nur zu fragen, ob hinterlegt wurde: Abschrift zur Registrierung (§ 78a Abs. 2 Satz 2 BNotO, BGBl.
+2026 I Nr. 212; § 1 Abs. 5 VRegV, BGBl. 2026 I Nr. 238), einreichen
+nur ein Notariat oder eine beim Register zugelassene Stelle, nicht die Person selbst (§ 2 Abs. 1,
+§ 3 Abs. 2 VRegV), einsehen vor allem die Person, die einreichende Stelle, Betreuungsgerichte und
+Ärzte für eine dringende Behandlung (§ 5 Abs. 3 VRegV, § 78b Abs. 1 BNotO), und das Register zeigt
+nicht, ob die Verfügung noch gilt (§ 3 Abs. 4 Satz 3 VRegV). Die Aussagen im Kontext oben über
+„behandelnde Ärztinnen“ sind damit auf die dringende Behandlung eingeschränkt. Der Wächter in
+`tests/zvr-abschrift-felder.test.js` verlangt diese Angaben und verbietet Zeitbindung, Ärzte ohne
+dringende Behandlung und eine positive Gültigkeitsaussage.
 
 ## Konformität
 

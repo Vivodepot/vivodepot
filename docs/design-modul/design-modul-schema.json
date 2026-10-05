@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://vivodepot.de/schemas/design-modul-schema.json",
   "title": "Vivodepot Designmodul",
-  "description": "Ein Designmodul setzt freigegebene Design-Tokens der Oberfläche (Name → Wert). Maßstab ist der Kern: designModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-design.test.js hält Schema und Kern im Gleichlauf. Nur die hier aufgeführten Tokens sind setzbar; vom Kern berechnete und vom Markenmodul belegte Tokens sind es nicht. Mindestens ein Token muss gesetzt sein.",
+  "description": "Ein Designmodul setzt freigegebene Design-Tokens der Oberfläche (Name → Wert). Maßstab ist der Kern: designModulPruefen in vivodepot.html; die Probe tests/mit-modul/modul-schema-design.test.js hält Schema und Kern im Gleichlauf. Nur die hier aufgeführten Tokens sind setzbar (U2-ADR-473: alle gestaltenden :root-Tokens); vom Kern berechnete und vom Markenmodul belegte Tokens sind es nicht. Mindestens ein Token muss gesetzt sein.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -189,6 +189,33 @@
         "--notfall-flaeche": {
           "$ref": "#/$defs/farbe"
         },
+        "--notfall-schrift": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--auf-warnung": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--btn-hover": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--link": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--menue-hover": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--papier-ink": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--papier-ink2": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--papier-ink3": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--papier-salbei-light": {
+          "$ref": "#/$defs/farbe"
+        },
         "--feld-fehler-schrift": {
           "$ref": "#/$defs/farbe"
         },
@@ -221,6 +248,436 @@
         },
         "--ampel-rot-hc": {
           "$ref": "#/$defs/farbe"
+        },
+        "--fs-sm": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-md": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-base": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-lg": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-2xl": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-3xl": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-logo": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-2": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-3": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-4": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-6": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-7": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--space-8": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-md": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-lg": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-pill": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ton": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flieder": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--altrose": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--nebel": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--kiesel": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--malve": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ton-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flieder-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--altrose-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--nebel-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--kiesel-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--malve-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ton-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flieder-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--altrose-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--nebel-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--kiesel-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--malve-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ton-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--flieder-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--altrose-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--nebel-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--kiesel-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--malve-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--fw-regular": {
+          "$ref": "#/$defs/zahl"
+        },
+        "--fw-medium": {
+          "$ref": "#/$defs/zahl"
+        },
+        "--fw-semibold": {
+          "$ref": "#/$defs/zahl"
+        },
+        "--fw-bold": {
+          "$ref": "#/$defs/zahl"
+        },
+        "--label-schreibung": {
+          "type": "string",
+          "enum": [
+            "none",
+            "uppercase"
+          ]
+        },
+        "--ls-titel": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-label": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-label-klein": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-label-nav": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-label-klasse": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-label-quelle": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-abschnitt": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-depot-name": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-wortmarke": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-wortmarke-schmal": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-willkommen": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-frage": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-code": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ls-vorfuehrung-streifen": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-chevron": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-urheber": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-platzhalter": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-auswahl-zeile": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-code": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-feld-code": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-karte": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-karte-schmal": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-knopf": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-feld": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-toast": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-block": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-logo": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--radius-balken": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--karte-rahmen": {
+          "$ref": "#/$defs/rahmen"
+        },
+        "--karte-schatten": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--feld-rahmen": {
+          "$ref": "#/$defs/rahmen"
+        },
+        "--feld-rahmen-dialog": {
+          "$ref": "#/$defs/rahmen"
+        },
+        "--feld-flaeche": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--feld-hoehe": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--ziel": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--akzent-rand": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--akzent-rand-warnung": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--akzent-rand-warnung-schmal": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--akzent-rand-modus": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--akzent-rand-stark": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--schatten-aufklapp": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schatten-banner-unten": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schatten-banner-unten-stark": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schatten-schalter-knopf": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schatten-vorlese-puls-start": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schatten-vorlese-puls-ende": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schatten-vorschlaege": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schatten-ampel-hof": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--schleier-modal": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--schleier-dunkel-hover": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--schleier-hell-hover": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--schleier-a11y-nacht": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--schleier-quelle-nacht": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--chrome-feld-flaeche": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--chrome-feld-rand": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--chrome-feld-hover": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--punkt-rand": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--banner-linie": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--banner-x-flaeche": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--banner-x-rand": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--banner-x-hover": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--banner-x-hell-flaeche": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--banner-x-hell-rand": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--banner-x-hell-hover": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--feld-leer-linie": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--situationen-leer-schrift": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--diktier-hinweis-flaeche": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--einfuehrung-flaeche": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--schalter-knopf-flaeche": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--deckblatt-platzhalter-nacht": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--export-zurueck-schrift": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--ampel-rot": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-grund": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-leiste": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-papier": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--dok-radius": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--dok-schatten": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--dok-fs-text": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--dok-fs-h1": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--dok-fs-h2": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--dok-fs-fuss": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--dok-fs-beispiel": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--dok-fs-einleitung": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--vorfuehrung-auf-farbe": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--vorfuehrung-schleier": {
+          "$ref": "#/$defs/schleier"
+        },
+        "--vorfuehrung-schatten-karte": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--vorfuehrung-schatten-schleife": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--vorfuehrung-schatten-spalte": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--vorfuehrung-schatten-wechsel": {
+          "$ref": "#/$defs/schatten"
+        },
+        "--vorfuehrung-fs-auszug": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--vorfuehrung-fs-pruefung": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--vorfuehrung-fs-karte-hand": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--vorfuehrung-fs-rolle": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--vorfuehrung-fs-schritt": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--vorfuehrung-fs-spalte": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--fs-nachweis": {
+          "$ref": "#/$defs/laenge"
+        },
+        "--nachweis-schrift": {
+          "$ref": "#/$defs/farbe"
         }
       }
     }
@@ -243,8 +700,23 @@
     },
     "schatten": {
       "type": "string",
-      "pattern": "^((?:0|-?[0-9]+(?:\\.[0-9]+)?px)\\s+){2,3}rgba?\\([0-9]{1,3}\\s*,\\s*[0-9]{1,3}\\s*,\\s*[0-9]{1,3}(\\s*,\\s*(0|1|0?\\.[0-9]+))?\\)$",
-      "description": "Zwei oder drei Längen, dann rgb()/rgba()."
+      "pattern": "^((?:0|-?[0-9]+(?:\\.[0-9]+)?px)\\s+){2,4}rgba?\\([0-9]{1,3}\\s*,\\s*[0-9]{1,3}\\s*,\\s*[0-9]{1,3}(\\s*,\\s*(0|1|0?\\.[0-9]+))?\\)$",
+      "description": "Zwei bis vier Längen (die vierte ist die Ausbreitung), dann rgb()/rgba(); ein einzelner Schatten."
+    },
+    "zahl": {
+      "type": "string",
+      "pattern": "^-?[0-9]+(\\.[0-9]+)?$",
+      "description": "Zahl ohne Einheit, z. B. ein Schriftgewicht (400, 600)."
+    },
+    "schleier": {
+      "type": "string",
+      "pattern": "^rgba\\(\\s*[0-9]{1,3}\\s*,\\s*[0-9]{1,3}\\s*,\\s*[0-9]{1,3}\\s*,\\s*(0|1|0?\\.[0-9]+)\\s*\\)$",
+      "description": "Farbe mit Deckkraft, rgba(r, g, b, a)."
+    },
+    "rahmen": {
+      "type": "string",
+      "pattern": "^(none|(0|[0-9]+(\\.[0-9]+)?px)\\s+(solid|dashed|dotted)\\s+#[0-9a-fA-F]{6})$",
+      "description": "none oder Breite in px, Stil (solid, dashed, dotted) und sechsstelliges Hex."
     }
   }
 }

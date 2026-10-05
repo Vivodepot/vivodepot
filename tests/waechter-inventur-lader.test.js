@@ -31,7 +31,7 @@ test('[Inventur·Lader] der echte npm test-Lader steht nicht in der Inventur', (
 
 /* Reporter (28.09.2026): `--test-reporter=./tools/lib/datei-zeiten-reporter.mjs` misst mit, entscheidet nie. */
 test('[Inventur·Reporter] ein --test-reporter ist kein Wächter; ein echtes Werkzeug in derselben Zeile bleibt gezählt', () => {
-  const z = "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tools/lib/mess-rep" + "orter.mjs --test-reporter-destination=/dev/null 'tests/**/*.test.js' && node tools/echtes-" + "werkzeug.js";
+  const z = "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tools/lib/mess-rep" + "orter.mjs --test-reporter-destination=stderr 'tests/**/*.test.js' && node tools/echtes-" + "werkzeug.js";
   const t = [...ausBefehl(z, {})];
   assert.ok(!t.some((x) => /mess-reporter/.test(x)), 'Reporter dürfen nicht als Wächter erscheinen: ' + t.join(', '));
   assert.ok(t.includes('tools/echtes-' + 'werkzeug.js'));

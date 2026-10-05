@@ -298,4 +298,28 @@ async function main() {
 if (require.main === module) {
   main().catch((e) => { console.error('KONTRAST-MESSUNG GESCHEITERT:', e.message); process.exit(1); });
 }
-module.exports = { ablesen };
+/* Jeder SICHTBARE, FOKUSSIERBARE Knopf, auch ohne eigenen Text (Symbolknöpfe zeichnen mit currentColor): seine Farbe und
+   die Hintergrundkette bis zur Wurzel, roh. Läuft im Browser; komponiert wird in Node (tools/lib/kontrast.js). Anlass
+   (03.10.2026, v894): der Vorlese-Knopf der Einführung trug die Kopfzeilen-Gestalt — helle Schrift auf der weißen
+   Startkarte, unsichtbar, aber fokussierbar; `ablesen` misst Text und sah ihn nicht als Knopf-Grenze.
+   Probe: tests/e2e/knopf-kontrast.spec.js. */
+function knoepfeAblesen(bereich) {
+  const sicht = (e) => {
+    const c = getComputedStyle(e), b = e.getBoundingClientRect();
+    return c.display !== 'none' && c.visibility !== 'hidden' && Number(c.opacity) > 0 && b.width > 0 && b.height > 0;
+  };
+  const knoepfe = [...document.querySelectorAll(bereich + ' button, ' + bereich + ' [role="button"], ' + bereich + ' a.btn, '
+    + bereich + ' input[type="button"], ' + bereich + ' input[type="submit"]')]
+    .filter((e) => !e.disabled && e.tabIndex >= 0 && sicht(e) && !e.closest('[hidden], [inert], [aria-hidden="true"]'));
+  return knoepfe.map((e) => {
+    const kette = [];
+    for (let p = e; p; p = p.parentElement) kette.push(getComputedStyle(p).backgroundColor);
+    return {
+      sel: e.tagName.toLowerCase() + (e.id ? '#' + e.id : (e.className ? '.' + String(e.className).split(' ').join('.') : '')),
+      farbe: getComputedStyle(e).color, kette,
+      label: (e.getAttribute('aria-label') || e.textContent || '').trim().slice(0, 40),
+    };
+  });
+}
+
+module.exports = { ablesen, knoepfeAblesen };

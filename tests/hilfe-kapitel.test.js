@@ -12,11 +12,13 @@ const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
 
 const KERN_QUELLE = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');
+const CSS_QUELLE = kernMitHeute(KERN_QUELLE);   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
 const ZEHN_THEMEN = ['depot-anlegen-passwort', 'speichern-sicherung', 'eintragen-dokumente', 'weitergeben-empfaengerin',
   'sensibel-zurueckhalten-freigeben', 'notfallkarte', 'module-templates-echtheit', 'datei-ist-das-depot', 'was-vivodepot-nicht-sieht',
-  'sub-depot'];
+  'sub-depot', 'lese-app-empfaengerin', 'daten-hereinholen', 'daten-herausgeben'];   // die letzten drei: Themen 12 bis 14 (04.10.2026)
 
-test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die zehn vereinbarten Themen, keine Nutzerdaten', () => {
+test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die dreizehn vereinbarten Themen, keine Nutzerdaten', () => {
   const { V } = ladeKern({ blank: true });
   assert.deepEqual(V.HILFE_THEMEN.map((t) => t.id), ZEHN_THEMEN);
   for (const t of V.HILFE_THEMEN) assert.ok(Object.keys(t).every((k) => ['id', 'anzahlAbschnitte'].includes(k)), t.id + ' trägt ein unerwartetes Feld');
@@ -87,20 +89,21 @@ test('[Hilfe·Inhalt] mit den gelieferten Abschnitten trägt das Modell Einleitu
   for (const a of modell.abschnitte) assert.ok(a.length > 0, 'kein Abschnitt bleibt leer');
 });
 
-test('[Hilfe·Übersicht] listet alle zehn Titel in der HILFE_THEMEN-Reihenfolge', () => {
+test('[Hilfe·Übersicht] listet alle dreizehn Titel in der HILFE_THEMEN-Reihenfolge', () => {
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
   assert.deepEqual(V.hilfeUebersichtModell().map((t) => t.id), ZEHN_THEMEN);
 });
 
-test('[Hilfe·Rendering] hilfeThemaHTML zeigt Titel, Einleitung und alle drei Abschnitte', () => {
+test('[Hilfe·Rendering] hilfeThemaHTML zeigt Titel, Einleitung und alle vier Abschnitte', () => {
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
   const html = V.hilfeThemaHTML('depot-anlegen-passwort');
-  assert.match(html, /<h1>Depot anlegen und das Passwort<\/h1>/);
+  assert.match(html, /<h1>Depot und Passwort<\/h1>/);
   assert.match(html, /hilfe-einleitung/);
-  assert.equal((html.match(/hilfe-abschnitt/g) || []).length, 3, 'depot-anlegen-passwort trägt drei Abschnitte');
-  assert.match(html, /Niemand kann Ihr Passwort zurücksetzen/);
+  assert.equal((html.match(/hilfe-abschnitt/g) || []).length, 4, 'depot-anlegen-passwort trägt vier Abschnitte (der vierte: Passwort vergessen, mit dem Wiederherstellungs-Code)');
+  assert.match(html, /Niemand kann es für Sie zurücksetzen/);
+  assert.match(html, /Wiederherstellungs-Code/);
 });
 
 test('[Hilfe·Rendering·Rot-Beweis] ein Sprachmodul, das eine Kennung auf leer überschreibt, erzeugt keinen leeren Absatz', () => {
@@ -155,7 +158,7 @@ test('[Hilfe·Übersetzbar, kein dritter Weg] ein Sprachmodul mit einer hilfe:-K
 
 test('[Hilfe·Druck] das Overlay steht in der Ausnahmeliste des Print-CSS, wie Notfallblatt/PV-Dokument', () => {
   assert.match(KERN_QUELLE, /body > \*:not\(#pv-dok-overlay\):not\(#notfallblatt-overlay\):not\(#hilfe-overlay\) \{ display: none !important; \}/);
-  assert.match(KERN_QUELLE, /#pv-dok-overlay, #notfallblatt-overlay, #hilfe-overlay \{ position: static;/);
+  assert.match(CSS_QUELLE, /#pv-dok-overlay, #notfallblatt-overlay, #hilfe-overlay \{ position: static;/);
 });
 
 test('[Hilfe·Druck] hilfeOverlayHTML zeigt Drucken-Knopf immer, Zurück nur bei einem Thema, Schließen nur bei der Übersicht', () => {
@@ -178,7 +181,7 @@ test('[Hilfe·Inhalt] das nachgelieferte zehnte Thema (sub-depot) trägt Titel, 
   assert.ok(modell.titel && modell.titel !== 'sub-depot', 'Titel fehlt oder ist die rohe ID');
   assert.ok(modell.einleitung.length > 0);
   assert.equal(modell.abschnitte.length, 3);
-  assert.match(modell.abschnitte[0], /Einhängen/);
+  assert.match(modell.abschnitte[0], /einhängen/i);
 });
 
 test('[Hilfe·Aktivierung] die Sidebar trägt den Hilfe-Eintrag und ist auf hilfeOeffnen verdrahtet', () => {

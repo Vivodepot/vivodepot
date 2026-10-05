@@ -61,7 +61,7 @@
   ]
  },
  {
-  "format": "edci-bildung",
+  "format": "bildungsangaben",
   "sektorId": "education",
   "mappingName": "EDCI_BILDUNG_MAPPING",
   "gesamt": 31,

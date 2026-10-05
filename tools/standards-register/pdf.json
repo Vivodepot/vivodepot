@@ -1,0 +1,34 @@
+{
+  "familie": "pdf",
+  "adapter": "verapdf",
+  "standards": [
+    {
+      "id": "pdf-a-3b",
+      "name": "PDF/A-3b (ISO 19005-3:2012)",
+      "version": "ISO 19005-3:2012, Konformitätsstufe b",
+      "herausgeber": "ISO (TC 171), Prüfprofil veraPDF-Konsortium",
+      "quelle": {
+        "url": "https://www.iso.org/standard/57229.html",
+        "abgerufen": "2026-10-01"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Der Normtext ist bei ISO kostenpflichtig und wird nicht weitergegeben; geprüft wird mit dem frei lizenzierten Validierungsprofil von veraPDF (GPL-3.0-or-later OR MPL-2.0) und einer Korpusdatei unter CC BY 4.0 (github.com/veraPDF/veraPDF-corpus). Nachgesehen 01.10.2026."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "dokumente",
+      "status": "fehlt",
+      "artefakte": [
+        "verapdf-1.30.1",
+        "verapdf-corpus-6-8-t02-pass-a"
+      ],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "pruefer": "tests/verapdf-lauf.test.js",
+      "grund": "Die PDFs des Kerns (Vollmappe, Notfallkarte, Anlass) werden von veraPDF fehlerfrei gelesen, sind aber kein PDF/A-3b: es fehlen Output Intent (Klausel 6.2.4.3) und XMP-Metadaten (6.6.2.1). Befund PDF-A-3B (tools/befund-ratsche-eintraege/)."
+    }
+  ]
+}

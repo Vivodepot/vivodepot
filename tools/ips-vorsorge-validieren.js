@@ -17,6 +17,7 @@
    Aufruf:  node tools/ips-vorsorge-validieren.js --jar PFAD [--sprachen en,de] [--aus ORDNER]
    Ohne --jar: FHIR_VALIDATOR_JAR. Ohne beides: Abbruch mit Grund, kein stilles Grün.
    ════════════════════════════════════════════════════════════════════════ */
+const VB = require('./lib/hl7-validator-beleg.js');   // Name, Fassung und Prüfsumme des Validators in jedem Bericht (Befund HL7-VALIDATOR-FASSUNG)
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -79,6 +80,9 @@ async function main() {
   const java = javaPfad();
   if (!java) { console.error('Abbruch: kein lauffähiges Java gefunden.'); return 2; }
   if (!jar || !fs.existsSync(jar)) { console.error('Abbruch: validator_cli.jar nicht angegeben oder nicht vorhanden (--jar).'); return 2; }
+  let validator;
+  try { validator = VB.jarFassung(jar); } catch (e) { console.error('Abbruch: ' + e.message); return 2; }
+  console.log('  Validator: ' + validator.name + ' ' + validator.fassung + (validator.gepinnt ? ' (gepinnt)' : ' (NICHT gepinnt — freies Jar, Fassung aus dem Jar gelesen)'));
   // Ohne --aus ist das Verzeichnis ein Wegwerf-Verzeichnis: das Urteil steht in der Ausgabe, am Ende wird es geräumt.
   const wegwerf = !arg('--aus');
   const aus = arg('--aus') || fs.mkdtempSync(path.join(os.tmpdir(), 'ips-vorsorge-validator-'));
@@ -105,7 +109,7 @@ async function main() {
     if (!ok || f.erwartet === 'ungueltig') for (const z of (u.fehler || []).slice(0, 6)) console.log('      ' + z);
   }
   console.log('  VORBEHALT: ' + VORBEHALT);
-  fs.writeFileSync(path.join(aus, 'bericht.json'), JSON.stringify({ pakete: PAKETE, vorbehalt: VORBEHALT, bericht }, null, 2));
+  fs.writeFileSync(path.join(aus, 'bericht.json'), JSON.stringify({ ...VB.belegKopf({ validator, ergebnis: abweichungen ? 'abweichung' : 'wie-erwartet' }), pakete: PAKETE, vorbehalt: VORBEHALT, bericht }, null, 2));
   if (wegwerf) fs.rmSync(aus, { recursive: true, force: true });
   else console.log('\nBericht: ' + path.join(aus, 'bericht.json'));
   return abweichungen ? 1 : 0;

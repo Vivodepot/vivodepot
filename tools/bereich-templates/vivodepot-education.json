@@ -8,11 +8,11 @@
   "bereiche": {
     "education": {
       "id": "education",
-      "format": "EDCI",
+      "format": "BILDUNG",
       "icon": "graduationCap",
       "exporte": [
         {
-          "format": "edci-bildung",
+          "format": "bildungsangaben",
           "labelSchluessel": "exportBildungLabel"
         }
       ],

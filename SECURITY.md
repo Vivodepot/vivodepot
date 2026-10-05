@@ -52,6 +52,12 @@ Die Ausgabe enthält `Good "git" signature for dev@vivodepot.de with ED25519 key
 SHA256:kLmBzq4m0aSBeHIw4cfkQOu4GS3fl+KqjXcAd8qYBxk`, und `git` endet mit Status 0. Steht dort ein anderer Fingerabdruck,
 oder fehlt `for dev@vivodepot.de` (Meldung `No principal matched`), stammt die Signatur nicht vom Release-Schlüssel.
 
+Wechselt der Release-Schlüssel, nennt dieser Abschnitt je Schlüssel, für welche Fassungen er gilt („gilt ab v1.0.<n>“,
+„bis v1.0.<m>“), und die Liste unter `.well-known` trägt dazu `valid-after` und `valid-before`. `git tag -v` prüft diese
+Gültigkeit am Datum im Tag (ab git 2.35 und OpenSSH 8.9); dieses Datum setzt, wer signiert. Vor jedem Tag prüft
+Vivodepot zusätzlich, dass für die Fassung genau dieser Schlüssel gilt. Geht ein Schlüssel verloren, wird er widerrufen;
+`valid-before` allein schützt dann nicht.
+
 Wie Fassungen erscheinen und wie lange sie unterstützt werden, steht in [`docs/release-planung.md`](docs/release-planung.md).
 
 ### 2.2 Prüfsummen je Fassung
@@ -119,14 +125,24 @@ Allgemeine UX-Mängel, Feature-Wünsche, Dokumentations-Verbesserungen werden im
 Der Cyber Resilience Act (Regulation EU 2024/2847) trägt **zwei** Anwendungsdaten, nicht eines:
 
 - **11.09.2026 — Meldepflicht** (CRA Art. 14): die Vivodepot GmbH meldet aktiv ausgenutzte
-  Schwachstellen und schwerwiegende Sicherheitsvorfälle mit Produktwirkung an das BSI als
-  koordinierendes CSIRT (technisch eingereicht über die ENISA-Meldeplattform), nach einem
-  festgelegten internen Meldeprozess.
-- **11.12.2027 — Vollständige Konformitätspflicht**: Konformitäts-Bewertung nach Modul A,
+  Schwachstellen und schwerwiegende Sicherheitsvorfälle mit Auswirkung auf das Produkt über die
+  einheitliche Meldeplattform der ENISA an CERT-Bund im BSI als koordinierendes CSIRT: eine
+  Frühwarnung binnen 24 Stunden nach Kenntnis, eine Meldung binnen 72 Stunden, einen
+  Abschlussbericht spätestens 14 Tage, nachdem eine Korrektur- oder Risikominderungsmaßnahme
+  zur Verfügung steht (bei einem schwerwiegenden Vorfall innerhalb eines Monats nach der
+  Meldung). Die betroffenen Nutzer werden informiert (Art. 14 Abs. 8). Den Ablauf regelt ein
+  interner Meldeprozess.
+- **11.12.2027 — Vollständige Konformitätspflicht**: Wir behandeln Vivodepot als wichtiges
+  Produkt der Klasse I (CRA Anhang III Nr. 1). Vorgesehen ist die Konformitätsbewertung nach
+  Modul A über Art. 32 Abs. 5, solange Vivodepot als freie und quelloffene Software gilt und die
+  technische Dokumentation jeder Fassung zum Zeitpunkt des Inverkehrbringens öffentlich ist.
+  Andernfalls Modul A bei vollständiger Anwendung harmonisierter Normen, gemeinsamer
+  Spezifikationen oder eines europäischen Schemas für die Cybersicherheitszertifizierung
+  mindestens der Stufe „mittel“, sonst die Module B und C oder H (Art. 32 Abs. 2).
   CE-Kennzeichnung. Wird in einem separaten Konformitäts-Dokument vor diesem Datum ergänzt.
 
 Diese `SECURITY.md` ist die strukturelle Vorbereitung der CRA-Schwachstellen-Annahme-Pflicht
-(CRA Art. 13 ff.) — der Meldeprozess selbst lebt im verlinkten Runbook, nicht hier.
+(CRA Art. 13 ff.) — der Meldeprozess selbst steht in einem internen Runbook, nicht hier.
 
 Die SBOM (`vivodepot.sbom.cdx.json`, CycloneDX-Format) ist bereits CRA-vorbereitet und wird bei
 jedem Release aktualisiert. Sie nennt auch Träger einer Komponente, die nicht im öffentlichen
@@ -210,6 +226,11 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v917 | 2026-10-05 | privat-de | `7b4da224e217f58c5fa86d2580c6104ce413d498050ba97a49a92d1754de3aeb` |
+| v917 | 2026-10-05 | privat-en | `1854cf1ac546703caae2d56e12b2910468c1b2f4e9a9aefa69ae357a9fdffd61` |
+| v917 | 2026-10-05 | pro-de | `2ec3beab914cf641e8cf3288ae093659146ac57d28f2e7fb629dbe8697fceee1` |
+| v917 | 2026-10-05 | pro-en | `0d356fa91307a69d430e2f74697aa64afd487265bf9f304f10c4a845604ba686` |
+| v917 | 2026-10-05 | service-worker | `0be20aa9e76756ce256e4da0f1c1c82edb511281ed1b8832edf8a3561f6c26bd` |
 | v857 | 2026-10-02 | privat-de | `f11cc3684befcaf09e177ea3f2e83e7879cc02946130d77748cf983785275df1` |
 | v857 | 2026-10-02 | privat-en | `a0e70742a17528bb43e0bf5cb53ad77af3a97ee3448f1727dff52a0486fbb390` |
 | v857 | 2026-10-02 | pro-de | `b109a1d3414e2210121672c672f2f93f14b048f777103338be74c0d03c5b06c1` |

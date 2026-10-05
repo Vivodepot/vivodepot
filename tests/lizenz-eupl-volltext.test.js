@@ -1,6 +1,7 @@
 'use strict';
 /* ═════════════════════════════════════════════════════════════════════════════
    LICENSE trägt den amtlichen Volltext der EUPL-1.2, wortgleich (23.09.2026).
+   @rechtslage lizenz-eupl-volltext
 
    Vergleichspunkt ist die englische Fassung im Anhang des Durchführungsbeschlusses (EU) 2017/863,
    ABl. L 128 vom 19.5.2017, S. 59 (EUR-Lex, CELEX 32017D0863). Verglichen wird der Wortlaut ohne

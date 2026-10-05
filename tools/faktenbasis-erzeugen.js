@@ -38,6 +38,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
+const { cssQuelle } = require('./lib/kern-mit-erscheinungsbild.js');   // v894: CSS aus „Gerüst + heute"
 const { execSync, execFileSync } = require('node:child_process');
 const { suiteDateien } = require('../scripts/suite-dateien-kern.js');
 
@@ -53,10 +54,14 @@ const AUSGABE = AUSGABE_ARG_INDEX !== -1 ? path.resolve(process.argv[AUSGABE_ARG
    auf keinem Remote-Zweig). Ein Verweis, dem niemand folgen kann, ist schlimmer als keiner: er
    sieht aus wie ein Weg zum Nachsehen. Darum sagt die Zeile jetzt dazu, dass der Stand noch
    nicht gepusht ist — nach dem Landen schreibt der naechste Lauf den gelandeten Commit. */
-function commitErreichbar(hash) {
+/* 04.10.2026 (Befund ERZEUGNIS-STEMPEL-ARBEITSSTAND): das frühere Etikett „(Arbeitsstand, noch nicht gepusht)“ hinter einem
+   Hash wurde mit dem Push falsch und blieb stehen. Gestempelt wird darum nur ein Hash, der zur Erzeugungszeit von
+   origin/u2-kanon erreichbar ist („Stand Kanon“) — ein Prüfzweig zählt nicht, er wird gelöscht. Sonst kein Hash.
+   Die Probe dazu (Erzeugnis-Stempel) läuft drinnen, neben den Stand-Dokumenten. */
+function vonKanonErreichbar(hash) {
   try {
-    const raus = execSync('git branch -r --contains ' + hash, { cwd: REPO, stdio: ['ignore', 'pipe', 'ignore'] });
-    return raus.toString().trim() !== '';
+    execSync('git merge-base --is-ancestor ' + hash + ' origin/u2-kanon', { cwd: REPO, stdio: 'ignore' });
+    return true;
   } catch (_) { return false; }
 }
 
@@ -64,7 +69,7 @@ function commitHash() {
   let hash;
   try { hash = execSync('git rev-parse --short HEAD', { cwd: REPO, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); }
   catch (_) { return '(kein Git-Commit ermittelbar)'; }
-  return commitErreichbar(hash) ? hash : hash + ' (Arbeitsstand, noch nicht gepusht)';
+  return vonKanonErreichbar(hash) ? hash + ' (Stand Kanon)' : '(Arbeitsstand, ohne Hash)';
 }
 
 function versionsBelegeAusFunktion(fn) {
@@ -222,7 +227,7 @@ function pruefebeneZahlen(htmlText, { mitSuite = false } = {}) {
     // im Arbeitsbaum mit, den ein frischer Checkout nicht kennt (s. ADR).
     const dateien = suiteDateien(REPO);
     try {
-      const out = execFileSync('node', ['--test', ...dateien], { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+      const out = execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
       const m = out.match(/^ℹ tests (\d+)$/m);
       if (m) suiteZahl = parseInt(m[1], 10); else suiteHinweis = 'Lauf ausgeführt, aber Summenzeile nicht gefunden';
     } catch (e) {
@@ -335,6 +340,9 @@ function gestaltungsKlassen(htmlText, klassenNamen) {
      zusätzliches, das vor dem eigentlichen Design-Stylesheet steht. Fällt kein Element mit
      dieser Kennung, bleibt der alte, ungebundene Treffer als Rückfall — für Fixtures/Proben in
      dieser Datei, die absichtlich ein schlichtes `<style>` ohne Kennung bauen. */
+  // v894: aus „Gerüst + heute" — dort stehen Stylesheet und Schutzregeln wieder in EINEM Block; im Gerüst selbst stünde das
+  // <style id="schutz-stil"> außerhalb und zählte als Verwendung.
+  htmlText = cssQuelle(htmlText);
   const styleMatch = htmlText.match(/<style id="design-system">([\s\S]*?)<\/style>/)
     || htmlText.match(/<style[^>]*>([\s\S]*?)<\/style>/);
   const styleText = styleMatch ? styleMatch[1] : '';
@@ -573,7 +581,7 @@ function main() {
 
 if (require.main === module) main();
 module.exports = {
-  commitHash, commitErreichbar,
+  commitHash, vonKanonErreichbar,
   erzeugeFaktenbasis, pruefebeneZahlen, formatiereMarkdown, versionsBelegeAusFunktion, erzeugerName, importErzeugerName,
   importWegBeschreiben, adrRegister, normalisiertFuerVergleich, vergleichsBefund, gestaltungsKlassen, DESIGN_KLASSEN,
 };

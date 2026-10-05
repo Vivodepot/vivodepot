@@ -23,7 +23,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const T = require('../tools/altbestand-vier-produkte-messen.js');
 
-const DEMO_DE = T.STANDARD_DATEIEN.find((x) => x.pfad.endsWith(path.join('vorfuehrung-zugang-zum-recht', 'demo-de.vivodepot')));
+const DEMO_DE = T.STANDARD_DATEIEN.find((x) => x.pfad.endsWith(path.join('vorfuehrung-zugang-zum-recht', 'altdatei-demo-de-2026-09-10.vivodepot')));
 
 test('[Altbestand·Gegenprobe] die Vorführdatei von vor dem Umbau öffnet in allen vier Produkten ohne Fund', async () => {
   assert.ok(DEMO_DE && DEMO_DE.passwort, 'Standard-Probe demo-de fehlt');

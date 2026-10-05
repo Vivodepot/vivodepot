@@ -1650,6 +1650,12 @@
  },
  {
   "sektor": "advanceCare",
+  "feld": "counsellingBy",
+  "unterfeld": null,
+  "gruppe": "A"
+ },
+ {
+  "sektor": "advanceCare",
   "feld": "validityDuration",
   "unterfeld": null,
   "gruppe": "A"

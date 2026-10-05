@@ -19,6 +19,7 @@
    bleiben dadurch exakt).
    ════════════════════════════════════════════════════════════════════════ */
 const fs = require('fs');
+const { cssQuelle } = require('./kern-mit-erscheinungsbild.js');   // v894: CSS aus „Gerüst + heute"
 
 function kommentareAusblenden(text) {
   return text.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
@@ -55,6 +56,8 @@ function regelnExtrahieren(css) {
    - abgedeckt: Set<Selektor> — Selektoren, die unter `html.dark-mode` einen
      `color:`-Wert bekommen (ihr Praefix „html.dark-mode " ist entfernt) */
 function messen(html) {
+  // v894: das Stylesheet aus „Gerüst + heute"; die Zeilen sind dann die des zusammengesetzten Texts.
+  html = cssQuelle(html);
   /* Anker über die Kennung, nicht über die Position (Fund 18.09.2026, Rahmen-Schutz-Nachtrag):
      `<style` allein traf zuvor JEDES <style>-Element, auch ein zusätzliches, das vor dem
      eigentlichen Design-Stylesheet steht — ein Anker über die Reihenfolge hält nur, solange

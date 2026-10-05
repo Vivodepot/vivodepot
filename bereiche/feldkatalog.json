@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/build-feldkatalog.js aus vivodepot.html SEKTOREN und tools/bereich-templates/*.json. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 670,
+  "anzahl": 671,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -162,7 +162,13 @@
     {
       "kennung": "advanceCare.informationOrCounsellingReceived",
       "bereich": "advanceCare",
-      "label": "Information / Beratung",
+      "label": "Informiert bei/durch",
+      "template": null
+    },
+    {
+      "kennung": "advanceCare.counsellingBy",
+      "bereich": "advanceCare",
+      "label": "Beraten lassen durch",
       "template": null
     },
     {
@@ -528,7 +534,7 @@
     {
       "kennung": "advanceCare.provisionInstruments/healthCareMedicalProcedures",
       "bereich": "advanceCare",
-      "label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr (§ 1829 BGB)",
+      "label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr oder Gefahr eines schweren, länger dauernden Gesundheitsschadens (§ 1829 BGB)",
       "template": "vivodepot-advanceCare.json"
     },
     {

@@ -39,6 +39,7 @@ const { test, describe } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');   // v894: Werte und Regeln kommen mit dem Erscheinungsbild
 
 const KERN = path.join(__dirname, '..', 'vivodepot.html');
 
@@ -55,7 +56,7 @@ function leafRegeln(css) {
    kreuzen sich, sobald ein weiteres <style>-Element davorsteht — real getroffen durch den
    Rahmen-Schutz-Block. Beide Enden jetzt an derselben, benannten Stelle verankert. */
 function ladeStyleBlock() {
-  const html = fs.readFileSync(KERN, 'utf8');
+  const html = kernMitHeute(fs.readFileSync(KERN, 'utf8'));
   const MARKER = '<style id="design-system">';
   const markerAt = html.indexOf(MARKER);
   const start = markerAt === -1 ? -1 : markerAt + MARKER.length;
@@ -77,7 +78,7 @@ describe('[Doku-Input-Schriftart] `.doku-input` erbt font-family AUCH für input
   });
 
   test('die betroffenen Fundstellen (Name/Adresse/Partei) sind type="text" unter `.doku-input` (Diagnose-Beleg)', () => {
-    const html = fs.readFileSync(KERN, 'utf8');
+    const html = kernMitHeute(fs.readFileSync(KERN, 'utf8'));
     // Reihenfolge der Attribute wie im Renderer (dokumentPanelHTML): type vor id vor class.
     assert.match(html, /type="text" id="doku-neu-name" class="doku-input"/, 'doku-neu-name nicht gefunden — Diagnose veraltet?');
     assert.match(html, /type="text" id="doku-neu-adresse" class="doku-input"/, 'doku-neu-adresse nicht gefunden — Diagnose veraltet?');

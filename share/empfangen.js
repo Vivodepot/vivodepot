@@ -34,10 +34,10 @@ const speichernKnopf = document.getElementById('speichern-knopf');
 const fehlerText = document.getElementById('fehler-text');
 const befund = document.getElementById('befund');
 const befundListe = document.getElementById('befund-liste');
-/* NICHT `ergebnis` nennen: style.css (mit der Ablage-Seite geteilt) hat eine Regel
-   `#ergebnis { display: none }`, die nur deren Klasse `zeigen` aufhebt. Ein `hidden`-Attribut
-   allein hätte diese Kiste nie sichtbar gemacht — gemessen beim Bau. Eigener Name, eigene
-   Zuständigkeit, und das geteilte Stylesheet bleibt unberührt. */
+/* NICHT `ergebnis` nennen: style.css der Ablage-Seite hat eine Regel `#ergebnis { display: none }`,
+   die nur deren Klasse `zeigen` aufhebt. Ein `hidden`-Attribut allein hätte diese Kiste nie sichtbar
+   gemacht, gemessen beim Bau, als diese Seite style.css noch mitlud (bis 04.10.2026). Der eigene Name
+   bleibt, damit ein erneutes Mitladen nichts verbirgt. */
 const ergebnis = document.getElementById('abgeholt');
 const ergebnisListe = document.getElementById('abgeholt-liste');
 const btnDe = document.getElementById('sprache-de');

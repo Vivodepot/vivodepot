@@ -18,6 +18,10 @@ function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, ...mo
   const dateien = modulDateienFuer(produkt, modulOptionen);
   let module = dateien.map((pfad) => _unsigniertesModulKlassifizieren(JSON.parse(fs.readFileSync(pfad, 'utf8')), path.basename(pfad)));
   if (ohneBereiche) module = module.filter((k) => !(k.region && (k.region.modulTyp === 'bereich' || k.region.modulTyp === 'bereicheBekannt')));
+  // Ein Kern VOR v894 trägt seine Erscheinungswerte selbst und keine Region dafür — produktTextErzeugen würde das Modul
+  // dann zu Recht abweisen. Für Vergleichsläufe gegen die Geschichte (tools/design-bildvergleich.js --basis <ref>) bleibt
+  // es hier darum weg. Der Auslieferungsweg kennt diese Nachsicht nicht.
+  if (!html.includes('/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN */')) module = module.filter((k) => k.region.modulTyp !== 'erscheinungsbild');
   if (!_vorDepotFn) _vorDepotFn = require(path.join(REPO, 'tests', 'load-issuer.js')).ladeIssuer().V.vorDepotKonfigurationDateiInhalt;
   return produktTextErzeugen(html, {
     modulauswahl: [],

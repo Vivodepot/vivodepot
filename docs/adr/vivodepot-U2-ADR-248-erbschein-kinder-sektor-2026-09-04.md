@@ -185,9 +185,13 @@ pruefung: tests/vorlagen-sprache-interpreter.test.js#[Daten] das volle Erbschein
 ```konformitaet
 aussage:  Über den echten Klickweg (Fremdmodul-Einlass, Depot mit einem Kind) zeigt der
           Erbschein-Vorbereitungsauszug den Kindesnamen im Klartext.
-zustand:  geprüft
+zustand:  offen
+frist:    2026-11-02
+bedingung: Der Einlass einer Erweiterung aus einer Datei ist vorübergehend zu (Fassung v885); die
+          Browser-Probe dieses Klickwegs ruht so lange. Den Datenteil — jedes Feld des Auszugs liest den echten
+          Depot-Wert — hält tests/erbschein-modul-mechanik.test.js#[Erbschein-Daten] volles Depot: jedes Feld liest
+          den echten Depot-Wert. Mit der Rückkehr des Einlasses wird die Klausel wieder geprüft.
 herkunft: invariante
-pruefung: tests/e2e/erbschein-vorbereitungsauszug-abnahme.spec.js#volles Depot: Testament, Familienstand und Kind erscheinen im Auszug in Klartext
 ```
 
 ---

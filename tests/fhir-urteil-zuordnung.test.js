@@ -48,3 +48,14 @@ test('[Sammelurteil·Rot-Beweis] eine Zuordnung nach Reihenfolge nähme bei vert
   assert.notDeepEqual(pfade.filter((p) => !nachReihenfolge.get(p)), ['/t/c.json'], 'die Reihenfolge trifft die falsche Datei');
   assert.deepEqual(pfade.filter((p) => !urteilsZuordnung(bundle, pfade).get(p).gueltig), ['/t/c.json']);
 });
+
+// Warnungen (01.10.2026): ein gültiges Artefakt kann Warnungen tragen; die Zuordnung führt sie, damit kein Bericht „keine“ behauptet.
+test('[Sammelurteil·Warnungen] ein gültiges Artefakt mit Warnungen bleibt gültig, und die Warnungen stehen im Urteil', () => {
+  const ergebnis = { resourceType: 'OperationOutcome', extension: [{ url: OO_DATEI, valueString: '/x/a.json' }], issue: [
+    { severity: 'warning', expression: ['Bundle.entry[3]'], details: { text: 'ValueSet nicht gefunden' } },
+    { severity: 'information', details: { text: 'nur ein Hinweis' } },
+  ] };
+  const u = urteilsZuordnung(ergebnis, ['/x/a.json']).get('/x/a.json');
+  assert.equal(u.gueltig, true);
+  assert.deepEqual(u.warnungen, ['Bundle.entry[3]: ValueSet nicht gefunden']);
+});

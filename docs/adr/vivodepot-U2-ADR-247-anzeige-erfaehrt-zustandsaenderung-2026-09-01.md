@@ -48,7 +48,7 @@ gemeinte Thema.
 
 ## Kontext
 
-Zwei Befunde aus der Nacht zum 01.09.2026 (Sitzung „VD xshare", TI-568-Belegvorbereitung):
+Zwei Befunde aus der Nacht zum 01.09.2026 (TI-568-Belegvorbereitung):
 
 1. **„Save as file now" verliert den ersten Klick.** Hat beim Klick auf `#tb-save-knopf` noch ein
    zweites Eingabefeld den Fokus, passiert sichtbar nichts — der Zähler springt von „1" auf „2

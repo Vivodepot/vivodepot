@@ -1,0 +1,48 @@
+{
+ "zweck": "Selbst erzeugte Anteile aus keinem echten Schlüssel (Seed: die Bytes 1…32), erzeugt mit dem Schlüssel-Teiler vor der Änderung vom 04.10.2026 (Stand cb827f001) und einem festen Zufall (xorshift32, Start 7). Prüft: Zerlegung und Anteil-Format bleiben byte-gleich, alte Anteile setzen sich weiter zusammen. Gelesen von der Teiler-Probe zum privaten Teil.",
+ "quelleStand": "cb827f001",
+ "zufallStart": 7,
+ "n": 3,
+ "k": 2,
+ "datum": "2026-10-04",
+ "thumbprint": "WWpn_pfHui9YKR4CZtQsDGMu7_Gch2zYChfSvnxgtPk",
+ "oeffentlichX": "ebVWLo_mVPlAeLES6KmLp5AfhTrmlb7X4OORC60ElmQ",
+ "anteile": [
+  {
+   "format": "vivodepot-schluessel-anteil",
+   "version": 1,
+   "nr": 1,
+   "k": 2,
+   "n": 3,
+   "durchgang": "5wdDRf-Uulc",
+   "schluessel": "WWpn_pfHui9YKR4CZtQsDGMu7_Gch2zYChfSvnxgtPk",
+   "datum": "2026-10-04",
+   "y": "rgj-4K34Qj3k0DcnPX5cyI1Xh0PvtyKPs2vEStT2uqc",
+   "pruefsumme": "GKAKkldK"
+  },
+  {
+   "format": "vivodepot-schluessel-anteil",
+   "version": 1,
+   "nr": 2,
+   "k": 2,
+   "n": 3,
+   "durchgang": "5wdDRf-Uulc",
+   "schluessel": "WWpn_pfHui9YKR4CZtQsDGMu7_Gch2zYChfSvnxgtPk",
+   "datum": "2026-10-04",
+   "y": "Qhbk0UjnjWLOo3Nabe6pvTSYJrr8SX0rUPi4sJLTSDM",
+   "pruefsumme": "u0EhCBiN"
+  },
+  {
+   "format": "vivodepot-schluessel-anteil",
+   "version": 1,
+   "nr": 3,
+   "k": 2,
+   "n": 3,
+   "durchgang": "5wdDRf-Uulc",
+   "schluessel": "WWpn_pfHui9YKR4CZtQsDGMu7_Gch2zYChfSvnxgtPk",
+   "datum": "2026-10-04",
+   "y": "7RwZNeAZyFcjeU9xXZ76Zajdsu0G6Ei8-oln5ls77bQ",
+   "pruefsumme": "oYknuUDN"
+  }
+ ]
+}

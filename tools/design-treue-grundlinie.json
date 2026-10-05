@@ -1,0 +1,48 @@
+{
+ "gegenstand": "Gestaltende Rohwerte im Kern, die kein Token aus :root beziehen: je Familie in den <style>-Bloecken (ohne Kommentare und Token-Definitionen), im statischen style= und im JS-erzeugten style= sowie Zuweisungen an .style. Zaehlweg: tools/design-treue.js.",
+ "stichtag": "2026-10-03",
+ "zahlen": {
+  "css": {
+   "hex": 0,
+   "rgba": 0,
+   "farbname": 0,
+   "fontSize": 0,
+   "fontSizeXs": 45,
+   "radiusPx": 0,
+   "shadowRoh": 0,
+   "randLinksDick": 0,
+   "uppercase": 0,
+   "letterSpacing": 0,
+   "fontWeight": 0
+  },
+  "html": {
+   "hex": 0,
+   "rgba": 0,
+   "farbname": 0,
+   "fontSize": 0,
+   "fontSizeXs": 0,
+   "radiusPx": 0,
+   "shadowRoh": 0,
+   "randLinksDick": 0,
+   "uppercase": 0,
+   "letterSpacing": 0,
+   "fontWeight": 0,
+   "styleAttr": 0
+  },
+  "js": {
+   "hex": 0,
+   "rgba": 0,
+   "farbname": 0,
+   "fontSize": 0,
+   "fontSizeXs": 1,
+   "radiusPx": 0,
+   "shadowRoh": 0,
+   "randLinksDick": 0,
+   "uppercase": 0,
+   "letterSpacing": 0,
+   "fontWeight": 0,
+   "styleAttr": 69,
+   "styleZuweisung": 0
+  }
+ }
+}

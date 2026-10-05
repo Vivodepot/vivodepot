@@ -4,7 +4,11 @@
    trägt; die Rollencode-Liste belegte den KoSIT-Namensraum urn:xoev-de. Beides ist umgestellt
    (Verwaltungs-Stammdaten, urn:vivodepot:codeliste:rollencode). Diese Datei hält die Klasse:
    tools/standardnamen-pruefen.js gegen tools/standardnamen-grundlinie.json, dazu das Rückwärtslesen
-   der alten Kennungen (Format-Kürzel XOEV, alte Rollencode-URI). */
+   der alten Kennungen (Format-Kürzel XOEV, alte Rollencode-URI).
+   Seit 01.10.2026 (Befund EDCI-EXPORT-NICHT-EDC-AP) auch je WEG: ein gedeckter Name gilt an einem Export oder Import nur, wenn
+   eine Registerzeile mit Prüfer genau diesen Weg führt. Der Bildungs-Export hieß „EDCI/Europass“, gedeckt allein durch den
+   geprüften Import echter EDC; er heißt jetzt Bildungsangaben, und die alte Kennung, das alte Kürzel EDCI und eine echte alte
+   Datei werden weiter gelesen. */
 const { test, after } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -107,4 +111,76 @@ test('[Standardnamen·Rückwärtslesen] die alte Rollencode-URI im Namensraum ur
   const { V } = ladeKern();
   assert.equal(V.kanonischesCodeSystem('urn:xoev-de:vivodepot:codeliste:rollencode'), 'urn:vivodepot:codeliste:rollencode');
   assert.equal(V.liesCodeListe('xoev-rollencode').uri, 'urn:vivodepot:codeliste:rollencode');
+});
+
+/* ── Wegebene (01.10.2026) ───────────────────────────────────────────────────────────────── */
+
+const ZEILEN = (pruefer, ex, im) => new Map([['edc-ap', { pruefer, export: new Set(ex), import: new Set(im) }]]);
+const EDCI = { namen: SCHUTZ.namen.filter((n) => n.name === 'EDCI') };
+
+test('[Standardnamen·Wegebene·Rot-Beweis] ein Name, gedeckt nur durch einen ANDEREN Weg, fällt am Export', () => {
+  const wege = [{ richtung: 'export', id: 'x-bildung', texte: ['Bildungsnachweise (EDCI/Europass-orientiert).'] }];
+  const m = W.wegeMaengel(EDCI, wege, ZEILEN(true, [], ['x-extern']));
+  assert.equal(m.length, 1);
+  assert.match(m[0], /Export x-bildung nennt den Namen/);
+});
+
+test('[Standardnamen·Wegebene] derselbe Name am Weg, den die Registerzeile führt, fällt nicht; ohne Prüfer der Familie fällt er', () => {
+  const wege = [{ richtung: 'import', id: 'x-extern', texte: ['Europass'] }];
+  assert.deepEqual(W.wegeMaengel(EDCI, wege, ZEILEN(true, [], ['x-extern'])), []);
+  assert.equal(W.wegeMaengel(EDCI, wege, ZEILEN(false, [], ['x-extern'])).length, 1, 'eine Registerzeile ohne Prüfer deckt nicht');
+  assert.equal(W.wegeMaengel(EDCI, [{ richtung: 'export', id: 'x-extern', texte: ['Europass'] }], ZEILEN(true, [], ['x-extern'])).length, 1, 'die Richtung zählt mit');
+});
+
+test('[Standardnamen·Wegebene] die Wege kommen aus dem Kern: jeder Export und Import mit Kennung, Beschriftung und Ausgabe', () => {
+  const { ladeKern } = require('./load-kern.js');
+  const { V } = ladeKern({ backen: true });
+  V.vorschauDepotErzeugen();
+  const wege = W.wegeTexte(V);
+  assert.equal(wege.filter((w) => w.richtung === 'export').length, V.EXPORT_FORMATE.length);
+  assert.equal(wege.filter((w) => w.richtung === 'import').length, V.IMPORT_FORMATE.length);
+  const bildung = wege.find((w) => w.richtung === 'export' && w.id === 'bildungsangaben');
+  assert.ok(bildung && bildung.texte[3].includes('vivodepot-bildung-1'), 'die Ausgabe selbst steht unter den Texten des Wegs');
+  assert.deepEqual(W.wegeMaengel(SCHUTZ, wege, W.registerWege(path.join(REPO, 'tools', 'standards-register'))), []);
+});
+
+/* Die echte alte Datei: der Bildungs-Export, wie das Produkt ihn bis v863 schrieb — eingefroren aus der Golden-Master-Aufnahme
+   der Ausgabewege (tests/fixtures/golden-master-ausgabewege-baseline.json, Stand v840, Referenzdepot), nur erstelltAm statt
+   des normalisierten Platzhalters. */
+const ALT = fs.readFileSync(path.join(REPO, 'tests', 'fixtures', 'bildungsangaben-alt-edci-1.0.json'), 'utf8');
+
+test('[Standardnamen·Rückwärtslesen] eine echte alte Bildungsdatei (edci-1.0-vivodepot) wird erkannt und eingelesen wie eine neue', () => {
+  const { ladeKern } = require('./load-kern.js');
+  const { V } = ladeKern({ backen: true });
+  assert.equal(JSON.parse(ALT).schemaVersion, 'edci-1.0-vivodepot', 'Vorbedingung: die Datei ist alt');
+  const erkannt = V.IMPORT_FORMATE.filter((f) => typeof f.erkennen === 'function' && f.erkennen(ALT)).map((f) => f.id);
+  assert.deepEqual(erkannt, ['bildungsangaben']);
+  const felder = V.importFormatFuerId('bildungsangaben').parse(ALT).felder;
+  const neu = JSON.stringify(Object.assign(JSON.parse(ALT), { schemaVersion: V.BILDUNGSANGABEN_SCHEMA }));
+  assert.deepEqual(felder, V.importFormatFuerId('bildungsangaben').parse(neu).felder, 'alt und neu ergeben dieselben Felder');
+  assert.ok(JSON.stringify(felder).includes('Luitpold-Gymnasium München'), 'die Werte kommen an');
+});
+
+test('[Standardnamen·Rückwärtslesen] die alte Kennung edci-bildung und das alte Kürzel EDCI werden gelesen, geschrieben wird nur das neue', () => {
+  const { ladeKern } = require('./load-kern.js');
+  const { V } = ladeKern({ backen: true });
+  assert.equal(V.exportFormatFuerId('edci-bildung').id, 'bildungsangaben');
+  assert.equal(V.importFormatFuerId('edci-bildung').id, 'bildungsangaben');
+  assert.equal(V.importKlartextFuer('edci-bildung'), V.importKlartextFuer('bildungsangaben'));
+  assert.equal(V.sektorFormatLesen('EDCI'), 'BILDUNG');
+  assert.equal(V.SEKTOR_FORMATE.EDCI, undefined);
+  V.vorschauDepotErzeugen();
+  const aus = V.exportFormatFuerId('bildungsangaben').baue({});
+  assert.equal(aus.schemaVersion, 'vivodepot-bildung-1');
+  assert.doesNotMatch(JSON.stringify(aus), /EDCI|Europass|esco|ESCO/, 'die Datei nennt keinen Standard, den sie nicht spricht');
+});
+
+test('[Standardnamen·Rückwärtslesen·Rot-Beweis] die frühere Kennung bleibt reserviert: ein fremdes Formatmodul unter edci-bildung wird abgewiesen', () => {
+  const { ladeKern } = require('./load-kern.js');
+  const { V } = ladeKern({ backen: true });
+  const modul = (format) => ({ modulTyp: 'format', sprache: 'de', moduleVersion: 1, format, richtung: 'import', sektor: 'education',
+    label: 'Fremd', akzeptiert: '.json', leser: 'json', erkennen: [{ pfad: 'a', gleich: 'b' }], zuordnung: [] });
+  assert.equal(V.formatModulPruefen(modul('edci-bildung')).grund, 'reserviert', 'die alte Kennung');
+  assert.equal(V.formatModulPruefen(modul('bildungsangaben')).grund, 'reserviert', 'die neue Kennung');
+  assert.notEqual(V.formatModulPruefen(modul('eigenes-bildungsformat')).grund, 'reserviert', 'Gegenprobe: ein freier Name ist nicht reserviert');
 });

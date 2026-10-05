@@ -103,11 +103,13 @@ async function sichtAufnehmen(page, name, ausgabe, liste, bereich, screenshotMod
   liste.push(Object.assign({ sicht: name, foto, evalMs, screenshotMs }, daten));
 }
 
+// Die Vollbild-Overlays des Kerns (Kennungen auf „-overlay“), die aufraeumen() schließt.
+const VOLLBILD_OVERLAYS = Object.freeze(['pv-dok-overlay', 'hilfe-overlay', 'notfallblatt-overlay']);
+
 // Alles schließen, was eine Sicht verdeckt: Anlass-Auswahl (Overlay), Dokument-Overlay, Dialog.
 async function aufraeumen(page) {
   const zurueck = await page.$('#a-zurueck');
   if (zurueck && await zurueck.isVisible().catch(() => false)) { await zurueck.click().catch(() => {}); await page.waitForTimeout(150); }
-  await page.evaluate(() => { const o = document.getElementById('pv-dok-overlay'); if (o) o.remove(); });
   // Werkzeug-Fund 23.09.2026 (Auftrag, Diagnose der 16 Klick-Fehlschläge): der Sidebar-Nav
   // `[data-hilfe="1"]` öffnet ein Vollbild-`#hilfe-overlay` (vivodepot.html:8254-8262) — dieselbe
   // Klasse Overlay wie `#pv-dok-overlay`, aber `aufraeumen()` kannte es nicht. Der Klick-Spaziergang
@@ -115,7 +117,10 @@ async function aufraeumen(page) {
   // folgenden Klick ab (`elementFromPoint` zeigte `#hilfe-overlay` über BODY) — 16 von 39 Sichten
   // wurden dadurch NIE besucht, ein Werkzeugfehler (Auslassung in aufraeumen()), kein Produktfehler:
   // eine echte Bürgerin hätte „Schließen" im Overlay geklickt, dieses Werkzeug tat es nicht.
-  await page.evaluate(() => { const o = document.getElementById('hilfe-overlay'); if (o) o.remove(); });
+  // Klasse statt Einzelfall (04.10.2026, Befund HILFE-OVERLAY-HOHL): jedes Vollbild-Overlay des Kerns steht in
+  // VOLLBILD_OVERLAYS; tests/mit-modul/produkt-durchklick-overlays.test.js leitet die Kennungen aus vivodepot.html ab und ist rot,
+  // sobald eines hier fehlt. So fiel `#notfallblatt-overlay` auf, das bis dahin ebenfalls offen blieb.
+  await page.evaluate((ids) => { for (const id of ids) { const o = document.getElementById(id); if (o) o.remove(); } }, VOLLBILD_OVERLAYS);
   await modalSchliessen(page);
 }
 async function overlaySelektor(page) {
@@ -502,6 +507,6 @@ async function main() {
 
 module.exports = {
   durchklicken, sichtenAchseMessen, geburtsdatumSchreibwegeMessen, angehoerigenQuellenPruefen,
-  notfallkartePdfQrPruefen,
+  notfallkartePdfQrPruefen, VOLLBILD_OVERLAYS,
 };
 if (require.main === module) main().catch((e) => { process.stderr.write('durchklick: ABBRUCH — ' + (e && e.stack || e) + '\n'); process.exitCode = 1; });

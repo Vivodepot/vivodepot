@@ -95,7 +95,7 @@ const PORT_VERBATIM_PATH = path.join(REPO, 'vivodepot-krypto-kern-PORT-VERBATIM.
 // -> socialInsurance.degreeOfDisabilityGdb, gesundheit.blutgruppe/identitaet.vorname ->
 // health.bloodType/identity.givenName), wie jede andere Kennung-Erwähnung im restlichen Kern auch.
 // Neuer Pin gegen PORT-VERBATIM.js nachgerechnet (beide weiterhin byte-identisch).
-const BLOCK_HASH_ERWARTET = '732ff4b0dc74e7ae9cce9febc8eb5cb3d8e52150775f88c80ff1f8967a8a6282';
+const BLOCK_HASH_ERWARTET = '4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98';
 
 /* ── Script-Block-Extraktion ─────────────────────────────────────────────── */
 function extrahiereScripts(html) {
@@ -426,6 +426,18 @@ const EXPORT_HOOK = `
   // An EUDI-Wallet übergeben (Best-Effort SD-JWT-VC-Serialisierung, vorläufig)
   EUDIW_SD_JWT_TYP, EUDIW_SD_HASH_ALG, EUDIW_MIME,
   _eudiwDisclosure, _eudiwDigest, eudiwSdJwtVcSerialisieren, eudiwOid4vpWrapper,
+  deriveHalterSignaturV4: (typeof deriveHalterSignaturV4 === 'function' ? deriveHalterSignaturV4 : undefined),
+  ed25519Verfuegbar: (typeof ed25519Verfuegbar === 'function' ? ed25519Verfuegbar : undefined),
+  jwkThumbprintOkp: (typeof jwkThumbprintOkp === 'function' ? jwkThumbprintOkp : undefined),
+  sdJwtSelbstSignaturPruefen: (typeof sdJwtSelbstSignaturPruefen === 'function' ? sdJwtSelbstSignaturPruefen : undefined),
+  _jwsAlgPasstZuKey: (typeof _jwsAlgPasstZuKey === 'function' ? _jwsAlgPasstZuKey : undefined),
+  _sdJwtIstSelbstSigniert: (typeof _sdJwtIstSelbstSigniert === 'function' ? _sdJwtIstSelbstSigniert : undefined),
+  HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX: (typeof HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX !== 'undefined' ? HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX : undefined),
+  HKDF_INFO_DEPOT_V2_PREFIX: (typeof HKDF_INFO_DEPOT_V2_PREFIX !== 'undefined' ? HKDF_INFO_DEPOT_V2_PREFIX : undefined),
+  HKDF_INFO_ADRESSE_V4_PREFIX: (typeof HKDF_INFO_ADRESSE_V4_PREFIX !== 'undefined' ? HKDF_INFO_ADRESSE_V4_PREFIX : undefined),
+  HKDF_INFO_SUBDEPOT_V1: (typeof HKDF_INFO_SUBDEPOT_V1 !== 'undefined' ? HKDF_INFO_SUBDEPOT_V1 : undefined),
+  EUDIW_SELBSTAUSKUNFT_TYP: (typeof EUDIW_SELBSTAUSKUNFT_TYP !== 'undefined' ? EUDIW_SELBSTAUSKUNFT_TYP : undefined),
+  JWS_ALG_ED25519: (typeof JWS_ALG_ED25519 !== 'undefined' ? JWS_ALG_ED25519 : undefined),
   eudiwDefFuerSektor, flowEudiwUebergabe, _eudiwDateiname,
   datumKurz, urheberschaftZeileHTML, aktuellerAnkerName, stempelName,
   personHinzufuegen, personAktualisieren, personName, personenVorschlag,
@@ -505,6 +517,12 @@ const EXPORT_HOOK = `
   oeffnePrueftermine, renderPrueftermine,
   prueftermineDokumente, prueftermineDokumenteOhneTermin, prueftermineSektionHTML, prueftermineSpringeZuDokument, verdrahtePrueftermine,
   mappeListeHTML, mappeSuche, flowMappeVorschau,
+  // v867: Gültigkeit und Status gehaltener Nachweise.
+  nachweisGueltigkeit: (typeof nachweisGueltigkeit === 'function' ? nachweisGueltigkeit : undefined),
+  mappeNachweisGueltigkeit: (typeof mappeNachweisGueltigkeit === 'function' ? mappeNachweisGueltigkeit : undefined),
+  nachweisGueltigkeitSaetze: (typeof nachweisGueltigkeitSaetze === 'function' ? nachweisGueltigkeitSaetze : undefined),
+  BILDUNG_DOK_TYPEN: (typeof BILDUNG_DOK_TYPEN !== 'undefined' ? BILDUNG_DOK_TYPEN : undefined),
+  flowImportAutoritativ: (typeof flowImportAutoritativ === 'function' ? flowImportAutoritativ : undefined),
   // 16.09.2026 (Sicherheit): Deckblatt und die gemeinsame Quellen-Prüfung der Mappe; typeof für ältere Kerne
   deckblattHTML: (typeof deckblattHTML === 'function' ? deckblattHTML : undefined),
   depotMasterHkdfKey: (typeof depotMasterHkdfKey === 'function' ? depotMasterHkdfKey : undefined),   // U2-ADR-002 (23.09.2026, S1)
@@ -694,6 +712,7 @@ const EXPORT_HOOK = `
   // 1E Basistemplate-Signatur (U2-ADR-040)
   verifiziereTemplateKette, basisVorlagenVerifizieren, _basisVorlageSichtbar, _gepruefteBasisVorlagen,
   _verifiziereTemplateSignatur, STANDARD_VORLAGEN_CERTS,
+  _modulPruefstufeAusZertifikat: (typeof _modulPruefstufeAusZertifikat === 'function' ? _modulPruefstufeAusZertifikat : undefined),
   _kanonischJSON, _basisInhalt, _basisInhaltMatcht, STANDARD_VORLAGEN,
   // U2-ADR-NNN2 — STANDARD_VORLAGEN materialisiert sich jetzt aus einem eigenen Ab-Werk-Slot
   // (Muster AB_WERK_RECHTSRAUM_DE/U2-ADR-382), nicht mehr aus BUERGERMODUL_BUENDEL.standardVorlagen.
@@ -936,6 +955,8 @@ const EXPORT_HOOK = `
   // D43 Etappe 5 — Konflikt-Auflösung
   standKonfliktModell, konfliktWaehleGeraet, konfliktWaehleDatei, _konfliktZeitLesbar,
   speicherKonfliktModell, zielStandDatei, zielStandIntern, flowSpeicherKonfliktDialog,
+  standMarkeFuer: (typeof standMarkeFuer !== 'undefined' ? standMarkeFuer : undefined),
+  _einheitAufgefuellt: (typeof _einheitAufgefuellt !== 'undefined' ? _einheitAufgefuellt : undefined),
   depotHerunterladen, booteInternenStandVielleicht,
   // U2-ADR-095 — Passwort-Wechsel + Notfall-Blatt
   passwortWechselDurchfuehren, _passwortProbeRoundtrip, flowPasswortWechseln,
@@ -1051,6 +1072,9 @@ const EXPORT_HOOK = `
   VORFUEHRUNG_ANSICHTEN: (typeof VORFUEHRUNG_ANSICHTEN !== 'undefined' ? VORFUEHRUNG_ANSICHTEN : undefined),
   vorfuehrungGebacken: (typeof vorfuehrungGebacken === 'function' ? vorfuehrungGebacken : undefined),
   sektorFormatLesen: (typeof sektorFormatLesen === 'function' ? sektorFormatLesen : undefined),
+  // Bildungsangaben (01.10.2026, vorher edci-bildung): frühere Kennung und frühere schemaVersion werden gelesen.
+  formatKennungLesen: (typeof formatKennungLesen === 'function' ? formatKennungLesen : undefined),
+  BILDUNGSANGABEN_SCHEMA: (typeof BILDUNGSANGABEN_SCHEMA !== 'undefined' ? BILDUNGSANGABEN_SCHEMA : undefined),
   vorfuehrungFhirIpsBundle: (typeof vorfuehrungFhirIpsBundle === 'function' ? vorfuehrungFhirIpsBundle : undefined),
   vorfuehrungFhirAuszug: (typeof vorfuehrungFhirAuszug === 'function' ? vorfuehrungFhirAuszug : undefined),
   imVorfuehrung: (typeof imVorfuehrung === 'function' ? imVorfuehrung : undefined),
@@ -1068,6 +1092,8 @@ const EXPORT_HOOK = `
   ANFRAGE_BESCHRIFTUNG: (typeof ANFRAGE_BESCHRIFTUNG !== 'undefined' ? ANFRAGE_BESCHRIFTUNG : undefined),
   vorfuehrungSperreMelden: (typeof vorfuehrungSperreMelden === 'function' ? vorfuehrungSperreMelden : undefined),
   _vorfuehrungAusgabeZeigen: (typeof _vorfuehrungAusgabeZeigen === 'function' ? _vorfuehrungAusgabeZeigen : undefined),
+  _vorfuehrungStreifenSetzen: (typeof _vorfuehrungStreifenSetzen === 'function' ? _vorfuehrungStreifenSetzen : undefined),
+  _pwHinweisStellen: (typeof _pwHinweisStellen === 'function' ? _pwHinweisStellen : undefined),
   anlegenDialogTitel, anlegenPrimaerLabel,
   // Strang 2 / Commit E — Passwort-Setzungs-Modal + geteilter verlustfreier Abschluss
   flowPasswortSetzen, _depotAusPasswortFinalisieren, flowDepotAnlegen,
@@ -1190,6 +1216,11 @@ const EXPORT_HOOK = `
   vorDepotKonfigurationLaden: (typeof vorDepotKonfigurationLaden !== 'undefined' ? vorDepotKonfigurationLaden : undefined),
   vorDepotKonfigurationAnwenden: (typeof vorDepotKonfigurationAnwenden !== 'undefined' ? vorDepotKonfigurationAnwenden : undefined),
   modulEinlassenGeprueft: (typeof modulEinlassenGeprueft !== 'undefined' ? modulEinlassenGeprueft : undefined),
+  // E4 (04.10.2026): alte Ab-Werk-Kopien beim Öffnen ersetzen.
+  _alteAbWerkKopienErsetzen: (typeof _alteAbWerkKopienErsetzen !== 'undefined' ? _alteAbWerkKopienErsetzen : undefined),
+  _abWerkErsetztNamenSetzen: (n) => { _abWerkErsetztNamen = n; },
+  abWerkErsetztHinweisZeigen: (typeof abWerkErsetztHinweisZeigen !== 'undefined' ? abWerkErsetztHinweisZeigen : undefined),
+  ABWERK_FRUEHERE_FASSUNGEN_KERN: (typeof ABWERK_FRUEHERE_FASSUNGEN_KERN !== 'undefined' ? ABWERK_FRUEHERE_FASSUNGEN_KERN : undefined),
   _pruefstufeFuerModul: (typeof _pruefstufeFuerModul === 'function' ? _pruefstufeFuerModul : undefined),
   _geltungPasst: (typeof _geltungPasst === 'function' ? _geltungPasst : undefined),
   _istPrueferUnterTreuhand: (typeof _istPrueferUnterTreuhand === 'function' ? _istPrueferUnterTreuhand : undefined),
@@ -1441,6 +1472,7 @@ const EXPORT_HOOK = `
   DESIGN_TOKEN_RESERVIERT: (typeof DESIGN_TOKEN_RESERVIERT !== 'undefined' ? DESIGN_TOKEN_RESERVIERT : undefined),
   DESIGN_TOKEN_KATEGORIE: (typeof DESIGN_TOKEN_KATEGORIE !== 'undefined' ? DESIGN_TOKEN_KATEGORIE : undefined),
   designTokenWertGueltig: (typeof designTokenWertGueltig !== 'undefined' ? designTokenWertGueltig : undefined),
+  DESIGN_TOKEN_WORT: (typeof DESIGN_TOKEN_WORT !== 'undefined' ? DESIGN_TOKEN_WORT : undefined),
   designModulPruefen: (typeof designModulPruefen !== 'undefined' ? designModulPruefen : undefined),
   designTokenAnwenden: (typeof designTokenAnwenden !== 'undefined' ? designTokenAnwenden : undefined),
   // Siebtes Register — logikModul (Siebtes-Register-Auftrag, 27.08.2026, Zug 1)
@@ -1581,6 +1613,25 @@ const EXPORT_HOOK = `
   // ZS2 (19.09.2026, U2-ADR-331 im Kern) — wörtlicher Spiegel von ZUSICHERUNGS_SCHLUESSEL_LESEN/
   // _istZusicherungsKennung in tests/load-lesen.js.
   ZUSICHERUNGS_SCHLUESSEL_KERN: (typeof ZUSICHERUNGS_SCHLUESSEL_KERN !== 'undefined' ? ZUSICHERUNGS_SCHLUESSEL_KERN : undefined),
+  SCHUTZ_SCHLUESSEL_KERN: (typeof SCHUTZ_SCHLUESSEL_KERN !== 'undefined' ? SCHUTZ_SCHLUESSEL_KERN : undefined),
+  _istSchutzKennung: (typeof _istSchutzKennung === 'function' ? _istSchutzKennung : undefined),
+  _TEXTSATZ_INTERN_VOLL: (typeof _TEXTSATZ_INTERN_VOLL !== 'undefined' ? _TEXTSATZ_INTERN_VOLL : undefined),
+  _TEXTSATZ_SIGNIERT_VOLL: (typeof _TEXTSATZ_SIGNIERT_VOLL !== 'undefined' ? _TEXTSATZ_SIGNIERT_VOLL : undefined),
+  _textsatzSigniertVollGleich: (typeof _textsatzSigniertVollGleich !== 'undefined' ? _textsatzSigniertVollGleich : undefined),
+  REZEPT_FINGERABDRUECKE_KERN: (typeof REZEPT_FINGERABDRUECKE_KERN !== 'undefined' ? REZEPT_FINGERABDRUECKE_KERN : undefined),
+  _EINLASS_META_FELDER: (typeof _EINLASS_META_FELDER !== 'undefined' ? _EINLASS_META_FELDER : undefined),
+  _modulRezeptFingerabdruck: (typeof _modulRezeptFingerabdruck === 'function' ? _modulRezeptFingerabdruck : undefined),
+  _textsatzPruefstufeFuerSchutz: (typeof _textsatzPruefstufeFuerSchutz === 'function' ? _textsatzPruefstufeFuerSchutz : undefined),
+  _depotModuleSperreMarkieren: (typeof _depotModuleSperreMarkieren === 'function' ? _depotModuleSperreMarkieren : undefined),
+  _depotModulGesperrt: (typeof _depotModulGesperrt === 'function' ? _depotModulGesperrt : undefined),
+  _depotModuleWirksam: (typeof _depotModuleWirksam === 'function' ? _depotModuleWirksam : undefined),
+  _abWerkGleich: (typeof _abWerkGleich === 'function' ? _abWerkGleich : undefined),
+  gesperrteDepotModule: (typeof gesperrteDepotModule === 'function' ? gesperrteDepotModule : undefined),
+  gesperrteDepotModuleNamen: (typeof gesperrteDepotModuleNamen === 'function' ? gesperrteDepotModuleNamen : undefined),
+  erweiterungenGesperrtHinweisZeigen: (typeof erweiterungenGesperrtHinweisZeigen === 'function' ? erweiterungenGesperrtHinweisZeigen : undefined),
+  _selbstEinlassFrei: (typeof _selbstEinlassFrei === 'function' ? _selbstEinlassFrei : undefined),
+  get SELBST_EINLASS_GESPERRT() { return (typeof SELBST_EINLASS_GESPERRT !== 'undefined' ? SELBST_EINLASS_GESPERRT : undefined); },
+  set SELBST_EINLASS_GESPERRT(v) { SELBST_EINLASS_GESPERRT = v; },
   _istZusicherungsKennung: (typeof _istZusicherungsKennung === 'function' ? _istZusicherungsKennung : undefined),
   _textsatzModuleBelegPruefen: (typeof _textsatzModuleBelegPruefen !== 'undefined' ? _textsatzModuleBelegPruefen : undefined),
   _textsatzModulBelegtInfo: (typeof _textsatzModulBelegtInfo !== 'undefined' ? _textsatzModulBelegtInfo : undefined),
@@ -1610,6 +1661,20 @@ const EXPORT_HOOK = `
   ipsExportSprachen: (typeof ipsExportSprachen !== 'undefined' ? ipsExportSprachen : undefined),
   ipsUebersetzungGeprueft: (typeof ipsUebersetzungGeprueft !== 'undefined' ? ipsUebersetzungGeprueft : undefined),
   ipsExportSpracheWaehlen: (typeof ipsExportSpracheWaehlen !== 'undefined' ? ipsExportSpracheWaehlen : undefined),
+  isikDokumente: (typeof isikDokumente !== 'undefined' ? isikDokumente : undefined),
+  KDL_SYSTEM: (typeof KDL_SYSTEM !== 'undefined' ? KDL_SYSTEM : undefined),
+  KDL_GEBRAUCHT: (typeof KDL_GEBRAUCHT !== 'undefined' ? KDL_GEBRAUCHT : undefined),
+  KDL_FREIGABE: (typeof KDL_FREIGABE !== 'undefined' ? KDL_FREIGABE : undefined),
+  KDL_QUELLE: (typeof KDL_QUELLE !== 'undefined' ? KDL_QUELLE : undefined),
+  kdlPruefen: (typeof kdlPruefen !== 'undefined' ? kdlPruefen : undefined),
+  kdlEinlesen: (typeof kdlEinlesen !== 'undefined' ? kdlEinlesen : undefined),
+  _kdlSelbstLadenDialog: (typeof _kdlSelbstLadenDialog !== 'undefined' ? _kdlSelbstLadenDialog : undefined),
+  isikErlaubnisFehlt: (typeof isikErlaubnisFehlt !== 'undefined' ? isikErlaubnisFehlt : undefined),
+  flowIsikExport: (typeof flowIsikExport !== 'undefined' ? flowIsikExport : undefined),
+  IPS_BEGRIFFE: (typeof IPS_BEGRIFFE !== 'undefined' ? IPS_BEGRIFFE : undefined),
+  ipsBegriffeAnmelden: (typeof ipsBegriffeAnmelden !== 'undefined' ? ipsBegriffeAnmelden : undefined),
+  _browserFragtNachDauerspeicher: (typeof _browserFragtNachDauerspeicher !== 'undefined' ? _browserFragtNachDauerspeicher : undefined),
+  _persistVorwarnungZeigen: (typeof _persistVorwarnungZeigen !== 'undefined' ? _persistVorwarnungZeigen : undefined),
   textsatzVolleSprachen: (typeof textsatzVolleSprachen !== 'undefined' ? textsatzVolleSprachen : undefined),
   textsatzSpracheWaehlen: (typeof textsatzSpracheWaehlen !== 'undefined' ? textsatzSpracheWaehlen : undefined),
   textsatzSprachnameEigen: (typeof textsatzSprachnameEigen !== 'undefined' ? textsatzSprachnameEigen : undefined),
@@ -1960,11 +2025,13 @@ function _standardProduktBaken(html, opts) {
 
 function ladeKern(opts) {
   opts = opts || {};
-  let html = fs.readFileSync(HTML_PATH, 'utf8');
+  // `opts.htmlPfad` (01.10.2026): ein anderer Kern für DIESEN Aufruf — etwa eine ältere ausgelieferte Fassung, die eine
+  // neu geschriebene Datei öffnen soll. Wie KERN_HTML_PATH: genau dieser Text, ungebacken (außer mit opts.backen).
+  let html = fs.readFileSync(opts.htmlPfad || HTML_PATH, 'utf8');
   // `opts.backen` (19.09.2026): auch bei umgelenktem KERN_HTML_PATH das Standard-Produkt backen. Für
   // Proben, die den Quelltext MUTIEREN (Rot-Beweis an einer Kopie) und danach ein volles Produkt
   // brauchen — ohne diese Angabe meint KERN_HTML_PATH „genau diesen Text", also das nackte Gerüst.
-  if (!opts.blank && (!process.env.KERN_HTML_PATH || opts.backen)) html = _standardProduktBaken(html, opts);
+  if (!opts.blank && ((!process.env.KERN_HTML_PATH && !opts.htmlPfad) || opts.backen)) html = _standardProduktBaken(html, opts);
   const { script1, script2, bounds } = extrahiereScripts(html);
 
   const documentStub = makeDocument();
@@ -2036,6 +2103,9 @@ function ladeKern(opts) {
   // die kontext-eigene Date-Intrinsik unverändert — Bestandsverhalten aller anderen Tests.
   if (opts.Date) sandbox.Date = opts.Date;
   sandbox.globalThis = sandbox;
+  // U2-ADR-457 Nachtrag v865: der Kern reicht die eingebettete noble-ed25519 (globalThis.vdNobleEd25519) in die Ableitung
+  // des Halter-Schlüssels; im Browser setzt sie der Modul-Block, hier der Helfer aus demselben Block.
+  if (sandbox.vdNobleEd25519 === undefined) sandbox.vdNobleEd25519 = require('./helfer/noble-ed25519.js').harnessBibliothek();
 
   /* KEIN vm-KONTEXT MEHR (27.07.2026, Posten 38).
      Früher lief der Kern in einem eigenen Realm (`vm.createContext` +

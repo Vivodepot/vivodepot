@@ -56,7 +56,7 @@ const ZUWACHS = Object.freeze([
      (Beratungshilfe-Antrag), damit die zwei neuen Unterfelder überhaupt in einem Ausgabeweg
      gemessen werden. Die zwei bestehenden Zeilen bleiben unverändert vorne stehen. */
   { bereich: 'verwaltung', sektion: 'bundid-vorgaenge', feld: 'verwaltung_vorgaenge', unterfeld: null, art: 'zeile', adr: 'U2-ADR-326' },
-  /* ZVR-Abschrift (Auftrag, 13.09.2026) — Bundesrat 10.07.2026, § 78a Abs. 3 BNotO,
+  /* ZVR-Abschrift (Auftrag, 13.09.2026) — Bundesrat 10.07.2026, § 78a Abs. 2 Satz 2 BNotO,
      wirksam ab 01.10.2026: das Zentrale Vorsorgeregister nimmt ab dann nicht nur den Hinweis,
      sondern den TEXT selbst. Drei Unterfelder an `vorsorge_instrumente`, vor dem Einfrieren
      ergänzt, weil ein Bereichsmodul danach nur noch den GANZEN Bereich tauschen könnte
@@ -128,6 +128,7 @@ const ZUWACHS = Object.freeze([
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'priorityIfOrganDonationConflict', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'waivesFurtherMedicalInformation', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'informationOrCounsellingReceived', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
+  { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'counsellingBy', unterfeld: null, art: 'feld', adr: 'U2-ADR-459' },   // „beraten lassen durch“, zweite Lücke von BMJ 2.12 (Wort der Gegenlesung 01.10.2026)
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'validityDuration', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'validityDurationDeadline', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   // U2-ADR-467 (Schema 91) — die Anschrift der Identität in vier Teilen; die zwei bisherigen Zeilen bleiben stehen.

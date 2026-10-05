@@ -97,18 +97,20 @@ test('[Steuerzeichen-Ratsche] eine Datei, die git wegen eines rohen NUL als bin�
 
 test('[Steuerzeichen-Ratsche] alle namentlichen Ausnahmen sind einzeln benannt, mit eigenem Grund — '
   + 'keine Endungs- oder Ordner-Pauschale (14 aus dem Meßbericht + die eigene Fixture dieses Wächters)', () => {
-  assert.equal(AUSNAHMEN.size, 15);
+  assert.equal(AUSNAHMEN.size, 17);   // +2 (04.10.2026): die Vorführ-Depots vor dem Umbau stehen als Altdateien daneben
   for (const [datei, grund] of AUSNAHMEN) {
     assert.equal(typeof grund, 'string', datei + ': Grund fehlt');
     assert.ok(grund.trim().length > 10, datei + ': Grund zu kurz, um ein echter Grund zu sein');
   }
 });
 
-test('[Steuerzeichen-Ratsche] die drei .vivodepot-Fixtures (Magic-Byte-Header, U2-ADR-043) bleiben grün', () => {
+test('[Steuerzeichen-Ratsche] die fünf .vivodepot-Fixtures (Magic-Byte-Header, U2-ADR-043) bleiben grün', () => {
   for (const datei of [
     'tests/fixtures/v515-ohne-auszuege/depot-v515-ohne-auszuege.vivodepot',
     'tests/fixtures/vorfuehrung-zugang-zum-recht/demo-de.vivodepot',
     'tests/fixtures/vorfuehrung-zugang-zum-recht/demo-en.vivodepot',
+    'tests/fixtures/vorfuehrung-zugang-zum-recht/altdatei-demo-de-2026-09-10.vivodepot',
+    'tests/fixtures/vorfuehrung-zugang-zum-recht/altdatei-demo-en-2026-09-10.vivodepot',
   ]) {
     assert.equal(istAusgenommen(datei), true, datei);
   }

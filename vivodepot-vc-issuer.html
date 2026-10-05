@@ -13,7 +13,7 @@
   Laufzeit nachgeladen. Kein localStorage / sessionStorage / IndexedDB / Cookie.
 
   Krypto-Schicht byte-identisch zur Bürger-App:
-    • VdCrypto-Block (Script 1, Hash 732ff4b0…, Quelle vivodepot-krypto-kern-PORT-VERBATIM.js)
+    • VdCrypto-Block (Script 1, Hash 4cd539cd…, Quelle vivodepot-krypto-kern-PORT-VERBATIM.js)
     • Gemeinsamer JWS-Block (_signJWS/_verifyJWS, BEGIN/END-Marker)
   Beide NICHT verändern — sie werden verbatim aus dem Kern übernommen.
 -->
@@ -192,13 +192,13 @@
 
   <section class="card">
     <h2><span class="step-no">F-2</span>Trust-Authority-Private-Key importieren</h2>
-    <p class="hint">JWK-Datei (Ed25519 primär, ES256 als Fallback), passphrasengeschützte Vivodepot-Schlüsseldatei
+    <p class="hint">JWK-Datei (Ed25519 primär, ES256 als Fallback), passwortgeschützte Vivodepot-Schlüsseldatei
     (<code>.vdkey</code>) oder PEM (PKCS#8) als Fallback. Ein geschützter Schlüssel bleibt nur im Arbeitsspeicher —
     nichts wird abgelegt. Der Schlüssel wird als nicht-extrahierbarer CryptoKey gehalten — nie im Klartext im DOM.</p>
     <label for="keyFile">Private-Key-Datei wählen</label>
     <input type="file" id="keyFile" accept=".json,.jwk,.vdkey,.pem,.key,application/json,text/plain">
     <div id="keyPassphraseBox" hidden>
-      <label for="keyPassphraseInput">Passphrase für die geschützte Datei</label>
+      <label for="keyPassphraseInput">Passwort der Schlüsseldatei</label>
       <input type="password" id="keyPassphraseInput" autocomplete="off">
       <div class="row">
         <button type="button" id="keyEntsperrenBtn">Entsperren</button>
@@ -214,14 +214,14 @@
   <section class="card">
     <h2><span class="step-no">F-2b</span>Schlüssel erzeugen und schützen (oder Bestandsschlüssel schützen)</h2>
     <p class="hint">Erzeugen und Schützen laufen in einem Schritt — der private Schlüssel liegt zu keinem
-    Zeitpunkt ungeschützt auf einem Datenträger. Passphrase zweimal eingeben, dann entweder einen neuen
+    Zeitpunkt ungeschützt auf einem Datenträger. Passwort zweimal eingeben, dann entweder einen neuen
     Ed25519-Schlüssel erzeugen ODER eine vorhandene rohe JWK-Datei nachträglich schützen.</p>
     <label for="keygenZweck">Zweck dieses Schlüssels (erscheint im Dateinamen, z. B. „treuhand", „ausgabestelle")</label>
     <input type="text" id="keygenZweck" autocomplete="off" placeholder="treuhand">
-    <label for="keygenPw1">Neue Passphrase</label>
+    <label for="keygenPw1">Neues Passwort</label>
     <input type="password" id="keygenPw1" autocomplete="off">
     <div id="keygenStaerke" class="status" hidden></div>
-    <label for="keygenPw2">Passphrase wiederholen</label>
+    <label for="keygenPw2">Passwort wiederholen</label>
     <input type="password" id="keygenPw2" autocomplete="off">
     <div class="row">
       <button type="button" id="keygenBtn">Neuen Schlüssel erzeugen und schützen</button>
@@ -234,8 +234,8 @@
     </div>
     <div id="keygenStatus" class="status muted">Noch kein Schlüssel erzeugt.</div>
     <div id="keygenThumbprint" class="status muted"></div>
-    <p class="hint"><strong>Die Passphrase gehört getrennt vom Schlüssel verwahrt.</strong> Sie steht in
-    keiner der heruntergeladenen Dateien und ist nirgends wiederherstellbar, wenn sie verloren geht.</p>
+    <p class="hint"><strong>Das Passwort gehört getrennt vom Schlüssel verwahrt.</strong> Es steht in
+    keiner der heruntergeladenen Dateien und ist nirgends wiederherstellbar, wenn es verloren geht.</p>
   </section>
 
   <section class="card" id="schnellwegCard">
@@ -387,7 +387,7 @@
 
   <p class="footnote">
     Vivodepot VC-Issuer ·
-    VdCrypto-Block byte-identisch zur Bürger-App (Hash 732ff4b0…) ·
+    VdCrypto-Block byte-identisch zur Bürger-App (Hash 4cd539cd…) ·
     Gemeinsamer JWS-Block (RFC 7515 Compact) ·
     Läuft offline, ohne Netzwerk, ohne persistenten Speicher.
   </p>
@@ -733,6 +733,52 @@ async function deriveAdressKeyV4(masterHkdfKey, cryptoSalt, depotUUID) {
   );
 }
 
+// Signaturschlüssel der Halterin (U2-ADR-457, Nachtrag v865): Ed25519, aus dem Sitzungsschlüssel abgeleitet, nirgends
+// gespeichert. Eigene HKDF-Domäne, getrennt von Depot- und Adressschlüssel. Der Seed geht als PKCS#8 (RFC 8410: festes
+// Präfix + 32 Byte) in WebCrypto, ausschließlich nicht extrahierbar (U2-ADR-062). Den öffentlichen Schlüssel kann WebCrypto
+// aus einem nicht extrahierbaren Schlüssel nicht liefern; ihn berechnet `oeffentlichAusSeed` aus einer Kopie des Seeds
+// (im Kern die eingebettete noble-ed25519 am geprüften Commit fa14496, Cure53 02/2022). Jedes Ergebnis besteht die
+// Selbstprobe in diesem Block: Signatur mit dem WebCrypto-Schlüssel, Prüfung mit WebCrypto gegen das berechnete x. Scheitert
+// sie, gibt es keinen Schlüssel und keinen Rückfall. Seed, Kopie und PKCS#8 werden im finally überschrieben (bestmöglich
+// gelöscht, unsere Kopien); Byte-Kopien und BigInt-Zwischenwerte der Bibliothek (Seed-Kopie, SHA-512-Ergebnis mit Skalar und
+// prefix) sind nicht löschbar, bis zur Speicherbereinigung.
+const HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX = 'vivodepot/v4/halter-signatur/';
+const HALTER_SELBSTPROBE_PREFIX = 'vivodepot-halter-selbstprobe-1/';
+const ED25519_PKCS8_PRAEFIX = [0x30, 0x2e, 0x02, 0x01, 0x00, 0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70, 0x04, 0x22, 0x04, 0x20];
+async function deriveHalterSignaturV4(masterHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed) {
+  if (!depotUUID || typeof depotUUID !== 'string' || depotUUID.length === 0) {
+    throw new Error('halter-signatur-depot-uuid-fehlt');
+  }
+  if (!(cryptoSalt instanceof Uint8Array) || cryptoSalt.length !== SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES) {
+    throw new Error('halter-signatur-salt-ungueltig');
+  }
+  if (typeof oeffentlichAusSeed !== 'function') throw new Error('halter-signatur-ableitung-fehlt');
+  const seed = new Uint8Array(await crypto.subtle.deriveBits(
+    { name: 'HKDF', hash: HKDF_HASH, salt: cryptoSalt,
+      info: new TextEncoder().encode(HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX + depotUUID) },
+    masterHkdfKey, 256));
+  const pk8 = new Uint8Array(ED25519_PKCS8_PRAEFIX.length + 32);
+  pk8.set(ED25519_PKCS8_PRAEFIX); pk8.set(seed, ED25519_PKCS8_PRAEFIX.length);
+  const kopie = new Uint8Array(32);   // frisch, kein Teilfeld: die Bibliothek hasht `.buffer` ohne byteOffset
+  try {
+    const schluessel = await crypto.subtle.importKey('pkcs8', pk8, { name: 'Ed25519' }, false, ['sign']);
+    kopie.set(seed);
+    const roh = await oeffentlichAusSeed(kopie);
+    if (!(roh instanceof Uint8Array) || roh.length !== 32) throw new Error('halter-signatur-oeffentlich-ungueltig');
+    const oeffentlich = await crypto.subtle.importKey('raw', roh, { name: 'Ed25519' }, false, ['verify']);
+    const probe = new TextEncoder().encode(HALTER_SELBSTPROBE_PREFIX + depotUUID);
+    const sig = await crypto.subtle.sign({ name: 'Ed25519' }, schluessel, probe);
+    if (!(await crypto.subtle.verify({ name: 'Ed25519' }, oeffentlich, sig, probe))) throw new Error('halter-signatur-selbstprobe');
+    // JWK-x ist der öffentliche Rohschlüssel in base64url; kein exportKey nötig, der Prüfschlüssel bleibt nicht exportierbar.
+    let bin = '';
+    for (const b of roh) bin += String.fromCharCode(b);
+    const x = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return { schluessel, jwk: { kty: 'OKP', crv: 'Ed25519', x } };
+  } finally {
+    seed.fill(0); kopie.fill(0); pk8.fill(0);
+  }
+}
+
 // Die Adresse EINER Einheit. Rein: derselbe Name unter demselben Schlüssel ergibt dieselbe
 // Adresse — das ist der Grund, warum die Datei ohne Rotation stabil bleibt, und zugleich das
 // benannte Restrisiko.
@@ -879,6 +925,13 @@ const VdCrypto = (function () {
       if (!sessionHkdfKey) throw new Error('VdCrypto.depotSchluessel: keine offene Session.');
       return deriveDepotKeyV2(sessionHkdfKey, cryptoSalt, depotUUID);
     },
+    // U2-ADR-457: der Signaturschlüssel der Halterin (Selbst-Signatur), ohne dass der Aufrufer den
+    // Sitzungsschlüssel in der Hand hält. Liefert { schluessel (nicht extrahierbar), jwk (öffentlich) }.
+    // oeffentlichAusSeed: die Ableitung des öffentlichen Schlüssels (Nachtrag v865), geprüft per Selbstprobe im Block.
+    halterSignatur: (cryptoSalt, depotUUID, oeffentlichAusSeed) => {
+      if (!sessionHkdfKey) throw new Error('halter-signatur-keine-sitzung');
+      return deriveHalterSignaturV4(sessionHkdfKey, cryptoSalt, depotUUID, oeffentlichAusSeed);
+    },
   });
 })();
 </script>
@@ -891,6 +944,7 @@ const VdCrypto = (function () {
 const JWS_TYP          = 'vc+jwt';   // JOSE typ-Header für Vivodepot-VCs
 const JWS_ALG_PRIMAER  = 'EdDSA';    // Ed25519  (RFC 8037)
 const JWS_ALG_FALLBACK = 'ES256';    // ECDSA P-256 + SHA-256  (RFC 7518)
+const JWS_ALG_ED25519  = 'Ed25519';  // voll spezifiziert (RFC 9864 §2.2); „EdDSA“ ist dort Deprecated und wird nur noch gelesen
 
 /* ── base64url (RFC 7515 §2 / RFC 4648 §5) — ohne Padding ──────────────── */
 function _jwsB64uFromBytes(bytes) {
@@ -915,9 +969,18 @@ function _jwsAlgFuerKey(key) {
   throw new Error('JWS: nicht unterstützter Schlüssel-Algorithmus: ' + name);
 }
 function _jwsWebCryptoParams(alg) {
-  if (alg === 'EdDSA') return { name: 'Ed25519' };
+  if (alg === 'EdDSA' || alg === JWS_ALG_ED25519) return { name: 'Ed25519' };
   if (alg === 'ES256') return { name: 'ECDSA', hash: 'SHA-256' };
   throw new Error('JWS: unbekannter alg: ' + alg);
+}
+
+// alg gehört zum Schlüssel: Ed25519/EdDSA nur mit einem Ed25519-Schlüssel, ES256 nur mit ECDSA P-256. Jede
+// andere Paarung ist abgelehnt, ebenso „none“ und HS* (kein Schlüsseltyp passt zu ihnen).
+function _jwsAlgPasstZuKey(alg, key) {
+  const a = key && key.algorithm;
+  if (a && a.name === 'Ed25519') return alg === JWS_ALG_ED25519 || alg === JWS_ALG_PRIMAER;
+  if (a && a.name === 'ECDSA') return alg === JWS_ALG_FALLBACK && a.namedCurve === 'P-256';
+  return false;
 }
 
 /* ── JWK → CryptoKey (Verify bzw. Sign) — Ed25519 primär, P-256 Fallback ── */
@@ -943,14 +1006,17 @@ async function _jwsImportSignKey(jwk) {
 }
 
 /* ── _signJWS — payload (Objekt oder String) → JWS Compact ────────────────
-   opts: { alg?, typ?, kid? }. alg wird sonst aus dem Schlüssel abgeleitet.
+   opts: { alg?, typ?, kid?, jwk? }. alg wird sonst aus dem Schlüssel abgeleitet; ein genannter alg muss zum
+   Schlüssel passen. jwk = öffentlicher Schlüssel im Kopf (RFC 7515 §4.1.3), nur für Selbst-Signaturen.
    Verbatim-Träger in vier Anwendungen, byte-identisch (Wächter: Hüllenschicht in
    `tools/krypto-block-propagation-pruefen.js`, seit 03.09.2026 — vorher unbewacht). */
 async function _signJWS(payload, privateKey, opts) {
   opts = opts || {};
   const alg = opts.alg || _jwsAlgFuerKey(privateKey);
+  if (!_jwsAlgPasstZuKey(alg, privateKey)) throw new Error('jws-alg-schluessel-ungleich:' + alg);
   const header = { alg: alg, typ: opts.typ || JWS_TYP };
   if (opts.kid) header.kid = opts.kid;
+  if (opts.jwk) header.jwk = opts.jwk;
   const h = _jwsB64uFromString(JSON.stringify(header));
   const p = _jwsB64uFromString(typeof payload === 'string' ? payload : JSON.stringify(payload));
   const signingInput = h + '.' + p;
@@ -978,14 +1044,14 @@ async function _verifyJWS(jwsCompact, publicKey, opts) {
   try { r.nutzlast = JSON.parse(_jwsB64uToString(p)); } catch (e) { r.grund = 'JWS: Payload nicht lesbar'; return r; }
   let keyAlg;
   try { keyAlg = _jwsAlgFuerKey(publicKey); } catch (e) { r.grund = e.message; return r; }
-  if (r.header.alg !== keyAlg) {
+  if (!_jwsAlgPasstZuKey(r.header.alg, publicKey)) {
     r.grund = 'JWS: alg-Mismatch (Header ' + r.header.alg + ' ≠ Schlüssel ' + keyAlg + ')';
     return r;
   }
   let ok = false;
   try {
     ok = await crypto.subtle.verify(
-      _jwsWebCryptoParams(keyAlg), publicKey, _jwsB64uToBytes(s),
+      _jwsWebCryptoParams(r.header.alg), publicKey, _jwsB64uToBytes(s),
       new TextEncoder().encode(h + '.' + p)
     );
   } catch (e) { r.grund = 'JWS: Verify-Fehler — ' + e.message; return r; }
@@ -2780,15 +2846,22 @@ async function entschluesseleSchluesselJwk(wrapper, passphrase) {
 
 // RFC 7638 §3.2 — JWK-Thumbprint: nur die REQUIRED Members des Key-Typs, in fester
 // (bereits lexikografischer) Reihenfolge, ohne Whitespace, SHA-256, base64url ohne Padding.
-// `_jwsB64uFromBytes` kommt aus dem gemeinsamen JWS-Block (Script 2), schon im Datei vorhanden.
+// Wortgleich mit dem Schlüssel-Teiler und in sich geschlossen (die Base64url-Kodierung steht innen, der Teiler trägt den
+// JWS-Block bewusst nicht); jedes Pflichtglied muss vorhanden sein. Bewacht vom Klassenwächter geteilter Krypto-Funktionen.
 async function jwkThumbprintRfc7638(jwk) {
+  if (!jwk || typeof jwk !== 'object') throw new Error('jwkThumbprintRfc7638: kein JWK.');
   let members;
   if (jwk.kty === 'OKP') members = { crv: jwk.crv, kty: jwk.kty, x: jwk.x };
   else if (jwk.kty === 'EC') members = { crv: jwk.crv, kty: jwk.kty, x: jwk.x, y: jwk.y };
   else throw new Error('jwkThumbprintRfc7638: nicht unterstützter kty ' + jwk.kty);
+  for (const [glied, wert] of Object.entries(members)) {
+    if (typeof wert !== 'string' || !wert) throw new Error('jwkThumbprintRfc7638: Pflichtglied ' + glied + ' fehlt.');
+  }
   const canon = JSON.stringify(members);
-  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(canon));
-  return _jwsB64uFromBytes(new Uint8Array(digest));
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(canon)));
+  let bin = '';
+  for (let i = 0; i < digest.length; i++) bin += String.fromCharCode(digest[i]);
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 // Kleinere, für dieses Werkzeug eigene Blockliste (Trust-Authority-Passphrase-Kontext, ein
@@ -3510,7 +3583,7 @@ async function onKeyDatei(file) {
   if (istGeschuetzteSchluesseldatei(geparst)) {
     _wartendeGeschuetzteDatei = geparst;
     text = null;
-    setStatus('keyStatus', 'Geschützte Schlüsseldatei geladen — Passphrase eingeben.', 'muted');
+    setStatus('keyStatus', 'Geschützte Schlüsseldatei geladen — Passwort eingeben.', 'muted');
     _passphraseUiZeigen();
     return;
   }
@@ -3536,10 +3609,10 @@ async function onKeyEntsperren() {
   if (!_wartendeGeschuetzteDatei) return;
   const pwEl = $('keyPassphraseInput');
   const passphrase = pwEl ? pwEl.value : '';
-  if (!passphrase) { setStatus('keyStatus', 'Passphrase fehlt.', 'err'); return; }
+  if (!passphrase) { setStatus('keyStatus', 'Passwort fehlt.', 'err'); return; }
   let jwk;
   try { jwk = await entschluesseleSchluesselJwk(_wartendeGeschuetzteDatei, passphrase); }
-  catch (e) { setStatus('keyStatus', e.message, 'err'); if (pwEl) pwEl.value = ''; return; }
+  catch (e) { setStatus('keyStatus', 'Das Passwort passt nicht, oder die Datei ist beschädigt.', 'err'); if (pwEl) pwEl.value = ''; return; }
   let res;
   try { res = await _importGeprueftenPrivateJwk(jwk); }
   catch (e) { setStatus('keyStatus', 'Entsperrt, aber Import fehlgeschlagen: ' + e.message, 'err'); return; }
@@ -3587,8 +3660,8 @@ async function onSchluesselErzeugen() {
   if (!zweck) return;
   const pw1El = $('keygenPw1'), pw2El = $('keygenPw2');
   const pw1 = pw1El ? pw1El.value : '', pw2 = pw2El ? pw2El.value : '';
-  if (!pw1 || pw1.length < 8) { _keygenStatus('Passphrase zu kurz (mindestens 8 Zeichen).', 'err'); return; }
-  if (pw1 !== pw2) { _keygenStatus('Die beiden Passphrase-Eingaben stimmen nicht überein.', 'err'); return; }
+  if (!pw1 || pw1.length < 8) { _keygenStatus('Passwort zu kurz (mindestens 8 Zeichen).', 'err'); return; }
+  if (pw1 !== pw2) { _keygenStatus('Die beiden Passwort-Eingaben stimmen nicht überein.', 'err'); return; }
 
   let ergebnis;
   try { ergebnis = await erzeugeUndSchuetzeSchluesselpaar(pw1); }
@@ -3601,7 +3674,7 @@ async function onSchluesselErzeugen() {
 
   const tp = $('keygenThumbprint');
   if (tp) tp.textContent = 'RFC-7638-Thumbprint (für SECURITY.md/Website): ' + ergebnis.thumbprint;
-  _keygenStatus('Neuer Schlüssel erzeugt: geschützte Datei (.vdkey) und öffentlicher Schlüssel (JSON) wurden heruntergeladen. Die Passphrase getrennt vom Schlüssel verwahren — sie steht in keiner der beiden Dateien und ist nirgends wiederherstellbar, wenn sie verloren geht.', 'ok');
+  _keygenStatus('Neuer Schlüssel erzeugt: geschützte Datei (.vdkey) und öffentlicher Schlüssel (JSON) wurden heruntergeladen. Das Passwort getrennt vom Schlüssel verwahren — es steht in keiner der beiden Dateien und ist nirgends wiederherstellbar, wenn es verloren geht.', 'ok');
 }
 
 // Zug 3, „zusätzlich" — Bestandsschlüssel (roher JWK) nachträglich schützen. Eigener,
@@ -3615,8 +3688,8 @@ async function onBestandsschluesselSchuetzen() {
   if (!file) { _keygenStatus('Keine Bestandsschlüssel-Datei gewählt.', 'err'); return; }
   const pw1El = $('keygenPw1'), pw2El = $('keygenPw2');
   const pw1 = pw1El ? pw1El.value : '', pw2 = pw2El ? pw2El.value : '';
-  if (!pw1 || pw1.length < 8) { _keygenStatus('Passphrase zu kurz (mindestens 8 Zeichen).', 'err'); return; }
-  if (pw1 !== pw2) { _keygenStatus('Die beiden Passphrase-Eingaben stimmen nicht überein.', 'err'); return; }
+  if (!pw1 || pw1.length < 8) { _keygenStatus('Passwort zu kurz (mindestens 8 Zeichen).', 'err'); return; }
+  if (pw1 !== pw2) { _keygenStatus('Die beiden Passwort-Eingaben stimmen nicht überein.', 'err'); return; }
 
   let jwk;
   try {
@@ -3634,7 +3707,7 @@ async function onBestandsschluesselSchuetzen() {
 
   const stamp = isoJetzt().replace(/:/g, '-');
   ladeDownload('vivodepot-' + zweck + '-bestand-' + stamp + '.vdkey', JSON.stringify(geschuetzt, null, 2), 'application/json');
-  _keygenStatus('Bestandsschlüssel geschützt und heruntergeladen (.vdkey). Die Passphrase getrennt verwahren.', 'ok');
+  _keygenStatus('Bestandsschlüssel geschützt und heruntergeladen (.vdkey). Das Passwort getrennt verwahren.', 'ok');
 }
 
 // JWK aus Datei/Textfeld für den ANBIETER-Public-Key lesen.

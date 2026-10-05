@@ -2106,10 +2106,10 @@
         }
       ],
       "icon": "graduationCap",
-      "format": "EDCI",
+      "format": "BILDUNG",
       "exporte": [
         {
-          "format": "edci-bildung"
+          "format": "bildungsangaben"
         }
       ],
       "angedockt": true,

@@ -1,6 +1,7 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════
    U2-ADR-109 — „Kinder und Schutzbefohlene" sind EINE Liste
+   @rechtslage kinder-und-schutzbefohlene
    ────────────────────────────────────────────────────────────────────────
    BEFUND: `kinder` (Liste) und `schutzbefohlene` (Freitext) standen in ZWEI Sektionen
    nebeneinander, und der Freitext verwies auf die Liste darüber („Verweis auf die

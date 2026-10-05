@@ -5,7 +5,9 @@
   "kuerzel": "SNOMED",
   "teilliste": true,
   "anzeigeNameEigen": true,
-  "lizenz": "SNOMED CT Global Patient Set, © SNOMED International, CC BY-ND 4.0",
+  "lizenzWortlaut": "snomed-gps-hinweis.txt",
+  "lizenzSichtbar": true,
+  "lizenz": "Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, licensed under the Creative Commons Attribution-NoDerivatives 4.0 International License (https://creativecommons.org/licenses/by-nd/4.0/), obtained from https://www.snomed.org/gps, International Edition 20260101. SNOMED® and SNOMED CT® are registered trademarks of the International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists.",
   "status": "seed",
   "hinweis": "Global Patient Set, CC BY-ND 4.0",
   "daten": [

@@ -73,8 +73,12 @@ test('[U2-ADR-185] echtes visibilitychange über die Frist hinaus zeigt den Sper
   const vorText = alsText(vor);
   expect(vorText, `Vorbedingung: "${MARK_BAV_NR}" muss VOR dem Wipe im Dokument stehen`).toContain(MARK_BAV_NR);
 
+  // Uhr anhalten: nach install() läuft sie sonst in Echtzeit weiter (Wächter tests/e2e-uhr-angehalten.test.js).
+  // Angehalten nur über die Frist; danach läuft sie wieder, das Entsperren braucht ihre Timer.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 50));
   await sichtbarkeitSetzen(page, 'hidden');           // echtes visibilitychange → _hintergrundBeginnen()
   await page.clock.runFor(31 * 60 * 1000);            // virtuelle 31 Minuten → der echte Timer feuert
+  await page.clock.resume();
   await page.waitForTimeout(50);
 
   // Sperrschirm, nicht Startseite: das Passwortfeld muss da sein, der Erstbesucher-Knopf nicht.
@@ -98,9 +102,12 @@ test('[U2-ADR-185] Rückkehr INNERHALB der Frist über echtes visibilitychange: 
   await oeffneApp(page);
   await depotAnlegen(page, { name: MARK_VORNAME + ' Nachname', pw: 'sperrschirm-e2e-pw-2' });
 
+  // Uhr anhalten: nach install() läuft sie sonst in Echtzeit weiter (Wächter tests/e2e-uhr-angehalten.test.js).
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 50));
   await sichtbarkeitSetzen(page, 'hidden');
   await page.clock.runFor(5 * 60 * 1000);   // weit innerhalb der 30 Minuten
   await sichtbarkeitSetzen(page, 'visible');
+  await page.clock.resume();
   await page.waitForTimeout(50);
 
   // #app bleibt die aktive Sitzung — kein Overlay, kein Sperrschirm, nichts geräumt.

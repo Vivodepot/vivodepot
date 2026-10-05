@@ -66,7 +66,7 @@ test('EDCI-Bildung — ein Topf-B-Feld fehlt in „Geht mit", ein Topf-A-Feld ge
   const { V, document } = await frischMitDepot();
   V.sektorFeldSetzen('education', 'grossMonthlyIncome', '4200 EUR');
   V.sektorFeldSetzen('education', 'universitySubject', 'VWL');
-  V.flowFormatExport('edci-bildung');
+  V.flowFormatExport('bildungsangaben');
   const html = document.getElementById('modal-inhalt').innerHTML;
   assert.ok(!html.includes('data-feld="grossMonthlyIncome"'), 'brutto_monat steht NICHT in der Geht-mit-Liste');
   assert.ok(html.includes('data-feld="universitySubject"'), 'studium_fach geht normal mit');

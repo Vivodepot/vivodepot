@@ -36,6 +36,7 @@
    ════════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
+const { cssQuelle } = require('./lib/kern-mit-erscheinungsbild.js');   // v894: CSS aus „Gerüst + heute"
 
 const REPO = path.join(__dirname, '..');
 const KERN = process.env.KERN_HTML_PATH || path.join(REPO, 'vivodepot.html');
@@ -51,6 +52,7 @@ const LEITFADEN = _argWert('--leitfaden') || process.env.STYLEGUIDE_PATH
 /* Nur der <style>-Block des Kerns — eine Klasse in einem HTML-Attribut ist Verwendung,
    keine Gestaltungsregel. Gezählt wird, was eine eigene Regel HAT. */
 function kernKlassen(html) {
+  html = cssQuelle(html);
   const stile = [];
   const re = /<style[^>]*>([\s\S]*?)<\/style>/gi;
   let m;
@@ -76,6 +78,7 @@ function kernKlassen(html) {
    Grundlage für den Inhalts-Abgleich (Zug 3, 27.08.2026) — nicht nur „wird die Klasse
    genannt", sondern „stimmt, WAS über sie behauptet wird, mit ihrer echten Regel überein". */
 function kernKlassenRegeln(html) {
+  html = cssQuelle(html);
   const stile = [];
   const re = /<style[^>]*>([\s\S]*?)<\/style>/gi;
   let m;

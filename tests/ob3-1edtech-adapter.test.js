@@ -61,7 +61,9 @@ function registerFunde(r, m, V) {
   if (r.adapter !== m.default.id) f.push('adapter ' + r.adapter);
   const pins = new Set(m.ARTEFAKTE.map((x) => x.id));
   for (const s of r.standards) {
-    if (!m.default.standards.includes(s.id)) f.push(s.id + ': der Adapter urteilt diesen Standard nicht');
+    // Zeilen derselben Familie, über die dieser Adapter nicht urteilt (etwa Eigenformate oder eine Selbstauskunft, die
+    // in tools/standards-register-pruefen.js ihren eigenen Prüfer nennen): sie dürfen nicht „echt“ sein, sonst nichts.
+    if (!m.default.standards.includes(s.id)) { if (s.status === 'echt') f.push(s.id + ': echt, aber der Adapter urteilt diesen Standard nicht'); continue; }
     for (const aid of s.artefakte) if (!pins.has(aid)) f.push(s.id + ': Artefakt ohne Pin: ' + aid);
     for (const w of s.importwege) if (!V.IMPORT_FORMAT_BY_ID[w]) f.push(s.id + ': Importweg fehlt im Kern: ' + w);
     if (s.exportwege.length) f.push(s.id + ': Holder mit Exportweg (U2-ADR-097 §6)');
@@ -87,7 +89,7 @@ test('[1edtech-validator · Rot-Beweis] eine Registerzeile mit ungepinntem Artef
   const r = JSON.parse(fs.readFileSync(REGISTER, 'utf8'));
   const s = r.standards[0];
   s.artefakte = s.artefakte.concat(['nie-gepinnt']);
-  s.exportwege = ['edci-bildung'];
+  s.exportwege = ['bildungsangaben'];
   s.status = 'echt';
   delete s.gemessen;
   s.werkzeugHerkunft = 'offizielles Artefakt';
@@ -103,4 +105,14 @@ test('[1edtech-validator] Adapter und Beschaffungs-Manifest laufen gleich: das W
   const w = manifest.get(m.default.werkzeug);
   assert.ok(w, 'das Werkzeug ' + m.default.werkzeug + ' fehlt im Manifest');
   assert.equal(w.quelle, m.WERKZEUG.quelle.repo + '@' + m.WERKZEUG.quelle.commit, 'Quelle im Adapter ≠ im Manifest');
+});
+
+test('[1edtech-validator · Rot-Beweis] eine fremde Zeile derselben Familie auf „echt“ wird gefunden', async () => {
+  const m = await laden();
+  const { V } = ladeKern();
+  const r = JSON.parse(fs.readFileSync(REGISTER, 'utf8'));
+  const fremd = r.standards.find((s) => !m.default.standards.includes(s.id));
+  assert.ok(fremd, 'Vorbedingung: die Datei trägt eine Zeile, über die der Adapter nicht urteilt');
+  fremd.status = 'echt';
+  assert.deepEqual(registerFunde(r, m, V), [fremd.id + ': echt, aber der Adapter urteilt diesen Standard nicht']);
 });

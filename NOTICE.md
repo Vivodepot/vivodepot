@@ -57,7 +57,7 @@ Die Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fas
 **LOINC** — Regenstrief Institute, Inc., LOINC-Lizenz:
 This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.
 
-**SNOMED CT (Global Patient Set)** — Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0, https://creativecommons.org/licenses/by-nd/4.0/), bezogen über https://www.snomed.org/gps. SNOMED® und SNOMED CT® sind eingetragene Marken der International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists. Hinweis auf den Gewährleistungsausschluss: Das Material wird ohne Gewähr bereitgestellt; es gilt Abschnitt 5 der CC BY-ND 4.0 (Gewährleistungsausschluss und Haftungsbeschränkung). GPS-Release: 20260101. Genutzt werden neun Konzepte mit ihrem unveränderten Begriff; deutsche Bezeichnungen daneben sind eigene Bezeichnungen von Vivodepot, keine SNOMED-Begriffe. Einzelheiten in `THIRD_PARTY_LICENSES`.
+**SNOMED CT (Global Patient Set)** — Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0, https://creativecommons.org/licenses/by-nd/4.0/), bezogen über https://www.snomed.org/gps. SNOMED® und SNOMED CT® sind eingetragene Marken der International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists. Hinweis auf den Gewährleistungsausschluss: Das Material wird ohne Gewähr bereitgestellt; es gilt Abschnitt 5 der CC BY-ND 4.0 (Gewährleistungsausschluss und Haftungsbeschränkung). GPS-Release: 20260101. Genutzt werden ausgewählte Konzepte mit ihrem unveränderten Begriff; deutsche Bezeichnungen daneben sind eigene Bezeichnungen von Vivodepot, keine SNOMED-Begriffe. Einzelheiten in `THIRD_PARTY_LICENSES`.
 
 ## Eingebettete Wortlisten (Passwort-Vorschlag)
 
@@ -72,6 +72,14 @@ https://www.eff.org/files/2016/09/08/eff_short_wordlist_1.txt. Lizenz: Creative 
 (CC BY 4.0, https://creativecommons.org/licenses/by/4.0/), laut https://www.eff.org/copyright. Verändert: 101 Wörter
 entfernt, Würfelnummern weggelassen.
 
+**IHE Deutschland — Value Sets for XDS** — © IHE Deutschland e.V., lizenziert unter der Creative Commons Attribution 4.0 International License (CC BY 4.0, https://creativecommons.org/licenses/by/4.0/). Quelle: IHE Germany, „Value Sets for XDS“ 4.0.0, https://github.com/IHE-Germany/ITI.XDS.VS, Stand aa1e0e5bed8c5fbcf3ff64636dbce74e6ca8f3b1. Genutzt werden vier Codes mit ihrer unveränderten Bezeichnung in der Ausgabe für Krankenhäuser (ISiK): IHEXDStypeCode PATD „Patienteneigene Dokumente“, IHEXDSclassCode ADM „Administratives Dokument“ und PAT „Patient außerhalb der Betreuung“ (NichtPatientBezogeneGesundheitsversorgung, NichtaerztlicheFachrichtungen). Nachprüfbar mit `tools/fhir-paket-herkunft-vergleichen.js --codes`.
+
+**IHE formatcode** — Some content from IHE® Copyright © 2015 IHE International, Inc., lizenziert unter der Creative Commons Attribution 4.0 International License (CC BY 4.0, https://creativecommons.org/licenses/by/4.0/). Quelle: ihe.formatcode.fhir (https://profiles.ihe.net/fhir/ihe.formatcode.fhir/). Genutzt wird ein Code, `urn:ihe:iti:xds:2017:mimeTypeSufficient`, unverändert in der Ausgabe für Krankenhäuser (ISiK).
+
+**HL7 Terminology (THO)** — Codes aus elf Codesystemen der HL7 Terminology. THO is copyright ©1989+ Health Level Seven International and is made available under the CC0 designation (https://creativecommons.org/publicdomain/zero/1.0/). Die Liste der Systeme steht in `THIRD_PARTY_LICENSES` und in der SBOM (`terminologie-hl7-tho`).
+
+**KDL (Klinische Dokumentenklassen-Liste, DVMD e.V.) — nicht Teil von Vivodepot.** Die Person lädt die KDL selbst unter GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.html), Quelle https://packages.fhir.org/dvmd.kdl.r4. Vivodepot verteilt nichts aus ihr; der Kern kennt nur zwei Codes und die URI (U2-ADR-468, Nachtrag 02.10.2026).
+
 ---
 
 ## Eingebettete Programmzeichen
@@ -81,6 +89,17 @@ No. 101136734), Stand 22.07.2026, bereitgestellt zur Verwendung in Yellow-Button
 Drei Varianten („Full – light background" für DOWNLOAD, UPLOAD, ONE_TIME_SHARE), verkleinert, sonst
 unverändert. Das Kit enthält keine eigenen Nutzungsbedingungen.
 `https://xshare-project.eu/wp-content/uploads/2026/07/xShare-Yellow-Button-Visual-identity-kit.zip`
+
+---
+
+## Eingebettete Icons
+
+**Lucide-Icons** — 35 Icons als Pfaddaten in der Skript-Konstante `ICONS`, abgeleitet aus lucide-static,
+31 wörtlich, 4 verändert (heart-pulse, contrast, volume-2, square). ISC License: Copyright (c) for portions
+of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT). All other copyright (c) for Lucide are
+held by Lucide Contributors 2022. Die aus Feather stammenden Icons (lock, alert-triangle, plus,
+chevron-right, moon, x, square, clock, help-circle): MIT License, Copyright (c) 2013-2023 Cole Bemis.
+`https://lucide.dev` — Wortlaut beider Lizenzen und Herkunft je Icon in `THIRD_PARTY_LICENSES`, Abschnitt 6
 
 ---
 

@@ -107,7 +107,8 @@ test('[Glied 5·Rot 2] eine reservierte Institutions-Art wird namentlich verworf
 test('[Glied 5·Rot 3] der Hinweis erscheint — und nur, wenn es etwas zu sagen gibt', () => {
   const V = frisch();
   // Der WEG steht immer da (ein Register ohne Tür ist kein Register), der HINWEIS nur bei Bestand.
-  assert.ok(V.einstellungenHTML().includes('einst-modul-einlassen'), 'die Tür steht immer offen');
+  /* Selbst-Einlass-Sperre (04.10.2026): bis zum Schutz steht an der Stelle der Tür Meldung B — der Abschnitt bleibt. */
+  assert.ok(V.einstellungenHTML().includes(V._selbstEinlassFrei() ? 'id="einst-modul-einlassen"' : 'id="einst-modul-einlassen-gesperrt"'), 'die Tür bzw. Meldung B steht da');
   assert.ok(!V.einstellungenHTML().includes(V.STRINGS.moduleUngeprueftHinweis),
     'ohne eingelassenes Modul schweigt der Hinweis — eine Warnung ohne Anlass ist Rauschen');
   V.modulEinlassen(JSON.stringify({ modulTyp: 'institutionsArt', sprache: 'de', herkunft: 'fr-kammer', moduleVersion: 1,

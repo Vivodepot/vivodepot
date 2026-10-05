@@ -151,7 +151,7 @@ test('[Zwischenstufe im Zertifikator] onAusstellen mit Ausstellerzertifikat → 
   });
 });
 
-// ── Fund von VD Fix (30.08.2026): Browser-Weg und tools/kundenzertifikat-ausstellen.js
+// ── Fund vom 30.08.2026: Browser-Weg und tools/kundenzertifikat-ausstellen.js
 // rechneten bei gleichem issuanceDate/gueltigkeitMonate verschiedene Ablaufdaten, sobald die
 // Laufzeit über einen Schaltjahr-Februar mit kürzerem Zielmonat läuft (setUTCMonth ohne
 // Tages-Clamp rollt in den Folgemonat). Deterministisch, unabhängig vom Kalendertag des

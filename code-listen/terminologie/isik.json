@@ -1,0 +1,39 @@
+{
+  "_zweck": "Codes der ISiK-Ausgabe Stufe 6 (U2-ADR-468): zwei DocumentReferences nach ISiKDokumentenMetadaten. Die Anzeigetexte (display) stehen hier erst, wenn ihre Nutzung erlaubt ist: IHE-D unter CC-BY-4.0 (Namensnennung in NOTICE), die KDL-Codes stehen in der eigenen Datei kdl.json (Lizenzentscheidung offen) — das ist das Tor, hinter dem der ISiK-Export steht. Gelesen über IPS_BEGRIFFE.isik.",
+  "isik": {
+    "_herkunft": "Codes: de.ihe-d.terminology#3.0.1 (IHEXDStypeCode PATD, IHEXDSclassCode ADM, PAT in NichtPatientBezogeneGesundheitsversorgung und NichtaerztlicheFachrichtungen, formatCode aus IHEXDSformatCodeINTL), de.gematik.isik#6.0.0 (Profil, ISiKConfidentialityCodes), de.basisprofil.r4 (KVNR-System). Gemessen am validator_cli 6.9.12 am 01.10.2026. Erlaubnis IHE-D: Creative Commons BY 4.0 vom Rechteinhaber IHE Deutschland e.V., Quelle github.com/IHE-Germany/ITI.XDS.VS Commit aa1e0e5bed8c5fbcf3ff64636dbce74e6ca8f3b1 (sushi-config, Feld license), Codes und Anzeigetexte gleich de.ihe-d.terminology 3.0.1, gemessen mit tools/fhir-paket-herkunft-vergleichen.js --codes am 01.10.2026; Namensnennung in NOTICE.",
+    "profil": "https://gematik.de/fhir/isik/StructureDefinition/ISiKDokumentenMetadaten",
+    "kvnrSystem": "http://fhir.de/sid/gkv/kvid-10",
+    "erlaubnis": {
+      "ihed": "cc-by-4.0@aa1e0e5"
+    },
+    "xdsTyp": {
+      "system": "http://ihe-d.de/CodeSystems/IHEXDStypeCode",
+      "code": "PATD",
+      "display": "Patienteneigene Dokumente"
+    },
+    "xdsKlasse": {
+      "system": "http://ihe-d.de/CodeSystems/IHEXDSclassCode",
+      "code": "ADM",
+      "display": "Administratives Dokument"
+    },
+    "einrichtung": {
+      "system": "http://ihe-d.de/CodeSystems/NichtPatientBezogeneGesundheitsversorgung",
+      "code": "PAT",
+      "display": "Patient außerhalb der Betreuung"
+    },
+    "fachrichtung": {
+      "system": "http://ihe-d.de/CodeSystems/NichtaerztlicheFachrichtungen",
+      "code": "PAT",
+      "display": "Patient außerhalb der Betreuung"
+    },
+    "format": {
+      "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+      "code": "urn:ihe:iti:xds:2017:mimeTypeSufficient"
+    },
+    "vertraulichkeit": {
+      "system": "http://terminology.hl7.org/CodeSystem/v3-Confidentiality",
+      "code": "N"
+    }
+  }
+}

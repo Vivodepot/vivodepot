@@ -7,7 +7,7 @@
 
      T-A-01 Krypto-Roundtrip   — ein in der Bürger-App verschlüsselt gespeichertes
                                  Depot in der Lese-App öffnen → Inhalt feldweise gleich.
-     T-A-02 Block-Integrität   — VdCrypto-Block-Hash der Lese-App == Kern (732ff4b0…).
+     T-A-02 Block-Integrität   — VdCrypto-Block-Hash der Lese-App == Kern (4cd539cd…).
      T-A-03 Read-only-Disziplin — keine Bearbeiten-/Schreib-/Re-Export-API; HTML ohne
                                  input/contenteditable in der Lese-Sicht.
      T-A-04 Sub-Modus-Erkennung — Sub-Depot-Blackbox wird als 'blackbox' erkannt,
@@ -65,10 +65,10 @@ test('[Klasse-A] T-A-01 Krypto-Roundtrip: Bürger-App verschlüsselt → Lese-Ap
   await assert.rejects(() => L.leseDepotUmschlag(umschlag, 'falsch'), 'falsches Passwort muss werfen');
 });
 
-test('[Klasse-A] T-A-02 Block-Integrität: VdCrypto-Block-Hash der Lese-App == Kern (732ff4b0…)', () => {
+test('[Klasse-A] T-A-02 Block-Integrität: VdCrypto-Block-Hash der Lese-App == Kern (4cd539cd…)', () => {
   const { script1 } = ladeLesen();
   const hash = sha256(kryptoBlock(script1));
-  assert.equal(hash, BLOCK_HASH_ERWARTET, 'VdCrypto-Block der Lese-App muss byte-identisch zum Kern sein (732ff4b0…)');
+  assert.equal(hash, BLOCK_HASH_ERWARTET, 'VdCrypto-Block der Lese-App muss byte-identisch zum Kern sein (4cd539cd…)');
 
   // Der gemeinsame JWS-Block muss ebenfalls vorhanden und der Sentinel eingebettet sein.
   const { V: L } = ladeLesen();
