@@ -54,6 +54,7 @@ const { urteilsZuordnung } = require('../../tools/lib/fhir-urteil-zuordnung.js')
 const { registerLesen, kaputtListe } = require('../../tools/standards-register-pruefen.js');
 const { vorsorgeDepotAnlegen } = require('../../tools/lib/ips-vorsorge-beispiel.js');
 const { ohneActorRolle } = require('../../tools/ips-vorsorge-validieren.js');
+const { kvnr } = require('../../tools/isik-validieren.js');
 import { javaPfad } from './adapter/_umgebung.mjs';
 import { ladeAdapter } from './adapter/_lader.mjs';
 import { urteileHolen } from './adapter/_urteile.mjs';
@@ -71,9 +72,9 @@ export const VALIDATOREN = [
     id: 'hl7-fhir-validator',
     sammelPflicht: true,   // eine JVM je Datei sprengt die Zeitgrenze des Gates — nur der Sammelaufruf (adapter/_urteile.mjs)
     autoritaet: 'HL7 International — offizieller FHIR-Validator (org.hl7.fhir.core)',
-    prueft: 'FHIR-R4-Bundles gegen die Profile hl7.fhir.uv.ips und hl7.fhir.eu.eps',
+    prueft: 'FHIR-R4-Bundles gegen die Profile hl7.fhir.uv.ips, hl7.fhir.eu.eps und kbv.mio.patientenkurzakte',
     werkzeugVersion: '6.9.12',
-    pakete: ['hl7.fhir.uv.ips#2.0.0', 'hl7.fhir.eu.eps#1.0.0-ballot'],
+    pakete: ['hl7.fhir.uv.ips#2.0.0', 'hl7.fhir.eu.eps#1.0.0-ballot', 'kbv.mio.patientenkurzakte#1.0.0'],
     // `-tx n/a`: OHNE Terminologie-Server. Am 26.07. gemessen — das Urteil ist identisch,
     // UND die ValueSet-Negativkontrolle (Code außerhalb des ValueSets) greift weiterhin aus
     // den lokalen Terminologie-Paketen. Damit ist der Lauf offline und reproduzierbar,
@@ -101,7 +102,7 @@ export const VALIDATOREN = [
       const aus = path.join(ARBEIT, 'sammel-' + dateiPfade.length + '-' + Date.now() + '.outcome.json');
       try {
         execFileSync(umgebung.java, ['-jar', umgebung.jar, ...dateiPfade, '-version', '4.0.1',
-          '-ig', 'hl7.fhir.uv.ips#2.0.0', '-ig', 'hl7.fhir.eu.eps#1.0.0-ballot',
+          '-ig', 'hl7.fhir.uv.ips#2.0.0', '-ig', 'hl7.fhir.eu.eps#1.0.0-ballot', '-ig', 'kbv.mio.patientenkurzakte#1.0.0',
           '-tx', 'n/a', '-output', aus], { stdio: 'ignore', timeout: 600000 });
       } catch (_) { /* Rückgabecode ≠ 0 ist bei Validierungsfehlern normal — es zählt das OperationOutcome */ }
       if (!fs.existsSync(aus)) return new Map(dateiPfade.map((p) => [p, { gelesen: false, fehler: ['Validator lieferte kein OperationOutcome'] }]));
@@ -111,7 +112,7 @@ export const VALIDATOREN = [
       const aus = path.join(ARBEIT, path.basename(dateiPfad) + '.outcome.json');
       try {
         execFileSync(umgebung.java, ['-jar', umgebung.jar, dateiPfad, '-version', '4.0.1',
-          '-ig', 'hl7.fhir.uv.ips#2.0.0', '-ig', 'hl7.fhir.eu.eps#1.0.0-ballot',
+          '-ig', 'hl7.fhir.uv.ips#2.0.0', '-ig', 'hl7.fhir.eu.eps#1.0.0-ballot', '-ig', 'kbv.mio.patientenkurzakte#1.0.0',
           '-tx', 'n/a', '-output', aus], { stdio: 'ignore', timeout: 600000 });
       } catch (_) { /* Rückgabecode ≠ 0 ist bei Validierungsfehlern normal — es zählt das OperationOutcome */ }
       if (!fs.existsSync(aus)) return { gelesen: false, fehler: ['Validator lieferte kein OperationOutcome'] };
@@ -273,6 +274,28 @@ export const VALIDATOREN = [
         'Provenance.target ist min=1 — eine Hülle, deren Nachweis auf nichts zeigt, muss fallen',
         'eigenprobe-eu-lab.json',
         (b) => { delete b.entry.find((x) => x.resource.resourceType === 'Provenance').resource.target; });
+      /* U2-ADR-471: die KBV-PKA-Ausgabe der Vorsorgevollmacht — ein DPE-Bundle nach MIO Patientenkurzakte 1.0.0 aus demselben
+         Beispiel-Depot, mit Anschrift des Ablageorts, KVNR und Geschlecht. Das Gegenstück trägt den Ablageort als Address.text
+         (das Profil verbietet text und verlangt Straße, Hausnummer, PLZ und Ort) und MUSS fallen. Weitere Rot-Beweise:
+         tools/kbv-pka-validieren.js. */
+      const bauPka = async (name, erwartet, warum, beschaedigen) => {
+        const { V } = ladeKern();
+        await vorsorgeDepotAnlegen(V);
+        V.sektorFeldSetzen('health', 'insuranceNumber', kvnr('A', '12345678'));
+        V.sektorFeldSetzen('identity', 'gender', 'w');
+        Object.assign(V.getData().sektoren.advanceCare.provisionInstruments[0],
+          { storageStreet: 'Rennweg', storageHouseNumber: '35', storagePostalCode: '56626', storageCity: 'Andernach' });
+        const b = V.kbvPkaVollmacht('2026-10-02T12:00:00Z', { sensibel: true }).bundles[0];
+        if (beschaedigen) beschaedigen(b);
+        const p = path.join(ARBEIT, name + '.json');
+        fs.writeFileSync(p, JSON.stringify(b, null, 1));
+        faelle.push({ name, pfad: p, erwartet, warum });
+      };
+      await bauPka('kbv-pka-vorsorgevollmacht', 'gueltig',
+        'U2-ADR-471: DPE-Bundle mit Erklärung (186065003) und Vertretung (AGNT, Ablageort als Anschrift in Teilen)');
+      await bauPka('kbv-pka-ablageort-als-text', 'ungueltig',
+        'KBV_PR_MIO_NFDxDPE_Address: text max 0, line/city/postalCode Pflicht — ein Ablageort als freier Text muss fallen',
+        (b) => { b.entry.find((x) => x.resource.provision).resource.sourceReference._display.extension[0].valueAddress = { text: 'Rennweg 35, 56626 Andernach' }; });
       return faelle;
     },
     /* Die KAPUTT-Probe: ein absichtlich beschädigtes Erzeugnis MUSS abgelehnt werden.

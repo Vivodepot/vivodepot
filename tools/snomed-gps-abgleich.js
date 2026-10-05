@@ -5,7 +5,8 @@
    ────────────────────────────────────────────────────────────────────────
    Jede Kennung in tools/snomed-freigabe.json („freigegeben") muss im Global
    Patient Set stehen, dort AKTIV sein, ihr `begriff` muss der US Preferred
-   Term sein, und ihr Feld `gps` muss den geprüften Release nennen
+   Term sein — oder, mit `begriffArt: "fsn"`, der Fully Specified Name, wo ein
+   Profil ihn als display fixiert —, und ihr Feld `gps` muss den geprüften Release nennen
    (`gps: { release, aktiv: true }`). Eine inaktive Kennung darf in keiner
    Auslieferung stehen — der Register-Generator trug bis v806 eine.
    Die angefragten Kennungen (interne Ergänzung der Freigabeliste) werden mitgemeldet,
@@ -62,7 +63,9 @@ function abgleich({ freigabe, offen, tabelle, release }) {
     const g = tabelle.get(id);
     if (!g) { befund.push(id + ': nicht im GPS ' + release); continue; }
     if (!g.aktiv) befund.push(id + ': im GPS ' + release + ' INAKTIV');
-    if (e.begriff !== g.pt) befund.push(id + ': begriff „' + e.begriff + '" ist nicht der US Preferred Term „' + g.pt + '"');
+    // `begriffArt: "fsn"`: der Fully Specified Name, wo ein Profil ihn als display fixiert (KBV-PKA, U2-ADR-471); sonst der US Preferred Term.
+    if (e.begriffArt === 'fsn') { if (e.begriff !== g.fsn) befund.push(id + ': begriff „' + e.begriff + '" ist nicht der FSN „' + g.fsn + '"'); }
+    else if (e.begriff !== g.pt) befund.push(id + ': begriff „' + e.begriff + '" ist nicht der US Preferred Term „' + g.pt + '"');
     if (!e.gps || e.gps.release !== release || e.gps.aktiv !== true) {
       befund.push(id + ': Feld gps nennt nicht { release: "' + release + '", aktiv: true }');
     }
@@ -100,7 +103,7 @@ function main(argv) {
     console.error('snomed-gps-abgleich: ' + r.befund.length + ' Befund(e) gegen GPS ' + r.release + ':\n  ' + r.befund.join('\n  '));
     return 1;
   }
-  console.log('snomed-gps-abgleich: ' + r.n + ' freigegebene Konzepte, alle aktiv im GPS ' + r.release + ', Begriffe = US Preferred Term.');
+  console.log('snomed-gps-abgleich: ' + r.n + ' freigegebene Konzepte, alle aktiv im GPS ' + r.release + ', Begriffe = US Preferred Term bzw. FSN, wo so vermerkt.');
   return 0;
 }
 

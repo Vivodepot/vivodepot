@@ -153,17 +153,50 @@ function urteil(funde, grundlinie, { nurObergrenze = false } = {}) {
   return maengel;
 }
 
-function pruefen({ wurzel = REPO, extraDokumente = [], nurObergrenze = false, wege = null } = {}) {
+/* ── Namensräume der Module (U2-ADR-465, 01.10.2026) ──────────────────────────────────────────────────────
+   Ein Format-Modul darf einen Namensraum für sein Ziel-XML setzen. Einer, der nicht der eigene ist (urn:vivodepot:,
+   https://vivodepot.de/), behauptet einen fremden Standard — XÖV, FIM, XJustiz … — und ist nur an einem Modul mit
+   verifizierter Signatur zulässig (der Kern gibt sonst keinen Kanal frei, formatModulZuExportKanal). Jedes Modul im
+   Repo ist unsigniert (ab Werk oder Vorlage); trägt eines einen fremden Namensraum, ist das ein Mangel. */
+const NAMENSRAUM_EIGEN = /^(?:urn:vivodepot:|https?:\/\/(?:www\.)?vivodepot\.de\/)/i;
+const MODUL_ORTE = ['tools/templates', 'tools/bereich-templates', 'tools/dokument-module', 'tools'];
+function modulNamensraeume(wurzel = REPO, extra = []) {
+  const funde = [];
+  const dateienListe = [];
+  for (const o of MODUL_ORTE) {
+    const voll = path.join(wurzel, o);
+    if (!fs.existsSync(voll)) continue;
+    for (const f of fs.readdirSync(voll)) if (f.endsWith('.json')) dateienListe.push(path.join(o, f));
+  }
+  const pruefe = (ort, wert) => {
+    (function lauf(x) {
+      if (Array.isArray(x)) { x.forEach(lauf); return; }
+      if (!x || typeof x !== 'object') return;
+      if (x.modulTyp === 'format' && typeof x.namensraum === 'string' && !NAMENSRAUM_EIGEN.test(x.namensraum)) {
+        funde.push(ort + ': Format-Modul ' + (x.format || '?') + ' setzt den fremden Namensraum ' + x.namensraum + ' ohne Signatur');
+      }
+      for (const v of Object.values(x)) lauf(v);
+    })(wert);
+  };
+  for (const d of dateienListe) {
+    let j; try { j = JSON.parse(fs.readFileSync(path.join(wurzel, d), 'utf8')); } catch (_) { continue; }
+    pruefe(d, j);
+  }
+  for (const e of extra) pruefe(e.ort, e.wert);
+  return funde;
+}
+
+function pruefen({ wurzel = REPO, extraDokumente = [], nurObergrenze = false, wege = null, extraModule = [] } = {}) {
   const schutz = JSON.parse(fs.readFileSync(SCHUTZ, 'utf8'));
   const texte = texteSammeln(schutz, wurzel);
   for (const p of extraDokumente) texte.push({ ort: p, text: fs.readFileSync(p, 'utf8') });
   const funde = zaehlen(schutz, texte, gedeckteNamen(schutz, path.join(wurzel, 'tools', 'standards-register')));
   const grundlinie = JSON.parse(fs.readFileSync(GRUNDLINIE, 'utf8')).namen;
   const wegMaengel = wegeMaengel(schutz, wege || kernWege(), registerWege(path.join(wurzel, 'tools', 'standards-register')));
-  return { funde, maengel: urteil(funde, grundlinie, { nurObergrenze }).concat(wegMaengel) };
+  return { funde, maengel: urteil(funde, grundlinie, { nurObergrenze }).concat(wegMaengel, modulNamensraeume(wurzel, extraModule)) };
 }
 
-module.exports = { texteSammeln, gedeckteNamen, zaehlen, urteil, pruefen, wegeTexte, registerWege, wegeMaengel };
+module.exports = { texteSammeln, gedeckteNamen, zaehlen, urteil, pruefen, wegeTexte, registerWege, wegeMaengel, modulNamensraeume };
 
 if (require.main === module) {
   const argv = process.argv.slice(2);

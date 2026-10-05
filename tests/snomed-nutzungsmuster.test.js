@@ -32,3 +32,10 @@ test('[SNOMED·Muster] jede genutzte Kennung nennt genau den gepinnten GPS-Relea
   const abweichend = ids.filter((id) => { const g = LISTE.freigegeben[id].gps; return !g || g.aktiv !== true || g.release !== PIN.version; });
   assert.deepEqual(abweichend, [], 'Kennungen, die nicht gegen den gepinnten Release stehen');
 });
+
+test('[SNOMED·Edition] die Modul-Kennung einer Editions-URI zählt nicht als Konzept, dieselbe Zahl außerhalb schon (U2-ADR-471)', () => {
+  const { idsInText } = require('../tools/snomed-ids-messen.js');
+  const modul = ['900000000', '000207008'].join('');   // zur Laufzeit gefügt, sonst fände der Erkenner sie in dieser Datei
+  assert.deepEqual([...idsInText('system http://snomed.info/sct, version http://snomed.info/sct/' + modul + '/version/20210731, code 408403008')], ['408403008']);
+  assert.deepEqual([...idsInText('snomed, Modul ' + modul)], [modul], 'Rot-Beweis: ohne Editions-URI wird sie gezählt');
+});

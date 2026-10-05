@@ -22,6 +22,10 @@
         {
           "format": "ics-vorsorge",
           "labelSchluessel": "exportIcsLabel"
+        },
+        {
+          "format": "kbv-pka",
+          "labelSchluessel": "kbvPkaExportKurz"
         }
       ],
       "wizards": [
@@ -204,6 +208,50 @@
                       "guardian-nomination",
                       "ki-verfuegung",
                       "custodian-appointment"
+                    ]
+                  }
+                },
+                {
+                  "id": "storageStreet",
+                  "sensibel": true,
+                  "typ": "text",
+                  "sichtbarWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney"
+                    ]
+                  }
+                },
+                {
+                  "id": "storageHouseNumber",
+                  "sensibel": true,
+                  "typ": "text",
+                  "sichtbarWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney"
+                    ]
+                  }
+                },
+                {
+                  "id": "storagePostalCode",
+                  "sensibel": true,
+                  "typ": "text",
+                  "sichtbarWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney"
+                    ]
+                  }
+                },
+                {
+                  "id": "storageCity",
+                  "sensibel": true,
+                  "typ": "text",
+                  "sichtbarWenn": {
+                    "feld": "instrument",
+                    "wert": [
+                      "enduring-power-of-attorney"
                     ]
                   }
                 },

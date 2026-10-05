@@ -1,6 +1,6 @@
 {
   "familie": "xml-xsd",
-  "adapter": null,
+  "adapter": "kosit-validator",
   "standards": [
     {
       "id": "gematik-nfd",
@@ -61,6 +61,35 @@
       ],
       "grund": "Bezug je Depot-Feld auf Kennung, Fassung und Freigabestatus des Baukastens, geprüft gegen die gepinnten XDF-Fassungen (tools/bezuege-erheben.js --quelle) und im Export (tools/fim-export-pruefen.js). Noch kein Datenschema je Leistung und keine Prüfung gegen dessen XSD.",
       "pruefer": "tools/fim-export-pruefen.js"
+    },
+    {
+      "id": "fim-leistungsschema",
+      "name": "FIM-Datenschema einer Leistung (XML nach dem XSD des FIM-Portals)",
+      "version": "je Leistung und Fassung; erste Leistung S00000138 1.0 (gepinnt außerhalb des Repos)",
+      "herausgeber": "FITKO (Föderale IT-Kooperation)",
+      "quelle": {
+        "url": "https://fimportal.de/",
+        "abgerufen": "2026-10-05"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Für die Inhalte der FIM-Bausteine ist keine Lizenz ausgewiesen (fimportal.de: openapi.json ohne license und termsOfService, gemessen 05.10.2026; Impressum der FITKO: Nutzung nach den jeweiligen Lizenzbestimmungen oder nach vorheriger Anfrage). Schema-Struktur und Feldnamen stehen darum nur im eingelassenen Format-Modul und im gepinnten XSD außerhalb des Repos (U2-ADR-456, U2-ADR-465)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "verwaltung",
+      "status": "teilweise",
+      "artefakte": [
+        "kosit-validator-1.6.3"
+      ],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": [
+        "fim-baukasten"
+      ],
+      "grund": "Der Kern schreibt die Datei über ein eingelassenes Format-Modul (U2-ADR-465), ab Werk gibt es keinen Exportweg. Die Suite prüft den Weg mit der erfundenen Leistung S99000001 gegen den KoSIT-Validator; der Lauf gegen das echte XSD geht per VD_FIM_XSD und VD_FIM_MODUL außerhalb des Repos, solange die FITKO nicht zugestimmt hat. Die erste Stufe schreibt keinen Anhang und trägt den Hinweis „nicht einreichbar ohne Anhang“ in der Datei.",
+      "pruefer": "tests/kosit-validator-lauf.test.js"
     },
     {
       "id": "camt-053",

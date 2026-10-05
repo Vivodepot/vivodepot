@@ -2328,7 +2328,7 @@ const BUILD_SHA256 = '';   // beim Release setzen: SHA-256 der finalen vivodepot
 // aus, zeigt der Fuß-Stempel den ALTEN Stand — der SW-Cache-Stale-Fehler wird in einer Sekunde
 // sichtbar (mehrfach am 12./13.07. aufgetreten). Zusammen mit dem live gelesenen SW-Cache-Namen
 // beantwortet der Stempel: welche Bytes sind geladen (SCHALEN_STAND) und was hält der SW (SW-Cache).
-const SCHALEN_STAND = 'v917';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
+const SCHALEN_STAND = 'v918';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
 // (18.09.2026): beide Linien brachten ihre eigene Erhöhung unabhängig voneinander (Schnitt v734,
 // Verschluss v743) — hier zur gemeinsamen v744 zusammengeführt, Zuteilung.
 // Vorige (Schnitt-Linie, v734): v731 doppelt vergeben (vdm4-lese-app-trennung-2026-09-17), hier
@@ -2435,7 +2435,7 @@ function heuteLokal(d = new Date()) {
 // Konstanten waren nie aneinander gebunden. Jetzt erzwungen: tests/build-datum-lockstep.test.js
 // vergleicht diese Zeile gegen die vorige Commit-Fassung und schlägt fehl, wenn SCHALEN_STAND
 // sich geändert hat, ohne dass BUILD_DATUM ebenfalls angefasst wurde. IMMER gemeinsam bumpen.
-const BUILD_DATUM = '2026-10-04';
+const BUILD_DATUM = '2026-10-05';
 // Schwelle (Tage), ab der der Versions-Hinweis erscheint. ~6 Monate.
 const VERSION_HINWEIS_SCHWELLE_TAGE = 183;
 /* Die Marken-Stelle des Kerns (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst nirgends —
@@ -3835,6 +3835,7 @@ const ZUSICHERUNGS_SCHLUESSEL_KERN = Object.freeze([
   'herkunftSatzTeilweise',
   'ipsSprachwahlUngeprueft',
   'k9VorlageHerkunftText',
+  'klartextNichtVerschluesselt',
   'krisenvorsorgeBedarfHerkunftAbgeleitet',
   'krisenvorsorgeBedarfHerkunftUeberschrieben',
   'modulHerkunftUnbekanntHinweis',
@@ -4090,6 +4091,10 @@ const SCHUTZ_SCHLUESSEL_KERN = new Set([
   "strings:erweiterungGesperrtVermerk.text",
   "strings:erweiterungTeilweiseErsetzt.text",
   "strings:fussHaftung.text",
+  "strings:klartextBindungFremdText.text",
+  "strings:klartextBindungOrtKeinText.text",
+  "strings:klartextBindungOrtText.text",
+  "strings:klartextBindungTitel.text",
   "vollmachtBmj#acceptPaymentsAndValuables.frage",
   "vollmachtBmj#acceptPaymentsAndValuables.sektion",
   "vollmachtBmj#accountsCustodyAccountsSafes.frage",
@@ -4157,9 +4162,8 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "32895d90e7e48d2f263858f9f5481996e35ff25dd033eb987818eee7120aeecc",
   "3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
   "4308672df53e5658a326398cf18bdc0ee5c462e562232ff409074ce9f0df4a71",
+  "434fb5d6198176873d30ffb32cf83722ba3be3e00152ba1159469cee2de11d07",
   "44276a8bc8ce390e4b01575e0b7dcbb1551cd18a49b2442f754b9f694e88213c",
-  "4a163cfd8cfefd70db6167a9e9ab4f0aaaa0c3f4bb53727bb44f5ac39b91bed4",
-  "4a1a0cefc5949c7f9bef58beb621e78238a6d0407173d47eaf686e71c9a7d1cc",
   "5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
   "645dd0c53ccf8aa3b8bff064236e112f989f6c16c1f34c263343a7747c48fc58",
@@ -4168,10 +4172,10 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "7b79b98f9580e1db1582fa5d26ae10aaae25879357a0996f438b006f178d3098",
   "81ffd0453d77d68d56b48747c1514a94126cd0b3911034e7f7af60112f17eecb",
   "8211701bc1860c8baddf1258e90aa5e4e450e5adf15073df60c0188db4326055",
+  "8459c1a9536e90f01348d53d857e87d7e857bc7ead98f06385f307cb21695767",
   "923f9e59ebcee0efaf47a3d2102efe8fa1b511d00ebf0f911307eca597741028",
   "92c3230ae93365ca353cd24c3bbdce01f4e572b6959466b05f2afc739c1ad044",
   "95ec50c9f948594082effa342c12f8c7053729bcfb110d78c6b4b7508cc70f4f",
-  "989af3cd946d56af72c88fc1367c814310cb49b88b5d0a17fa3eb44041ebf8cc",
   "98df1da45043df597a335ee31c17c91e082871a18baed7fc22ab56a8dc798459",
   "9a01109354bbf33e180ddf0da88a573a0e31a091692f73ee7b6bdd2cc7f72a2b",
   "9ec1b079ddeb40ef42f4e8e3e33627a7b1bdc5e5d7b523f7e194728f2346970b",
@@ -4181,11 +4185,12 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "adf3f3de7da57b9a4f735002c03b4cc5b8ad17770a22300cb81f9222b3b9d8d6",
   "b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
   "b71b4dbbbbd4d3f0e58289968cf98ea1d9d3c1e4a7e1ad226664c5e9d6f7c44c",
+  "c00302bfe2638cbf65dd79f56822046de7910d6ba6647a5f5d2ba3c07f6edcf9",
   "c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
   "e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
   "e2f2d8003f4ff16a46bc25344a5d3f638bf25e6af1b97f62e1ccf29d3a0aede5",
   "e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
-  "ec0979eca20bdf2ec93fef2208281c1beb1a956b5bc78d61dddc2e6a2909bfd8",
+  "e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
   "f83a315b153b8486359fbc28d0180ada8971e0404fe2f03e54d9b87b28c0e5ee",
   "fa2bd114de70a9963df8d8d22d9610312149b456364ae1b6aa77afbe4bbd992c",
   "fbef7f1831d1a8bb8a3a055c0b70df9d51e57c1e037244be54f395bea72c9ba8",
@@ -10575,6 +10580,15 @@ let aktuelleDepotUUID = null;     // uuid-v4, einmal beim Anlegen, unveränderli
    Träger propagiert) — dieses Feldregister ist Kern-eigen, kein Krypto-Primitiv, und lag hier ursprünglich falsch (Fund
    22.09.2026: W-krypto-propagation riss, weil die Konstante versehentlich in Script 1 stand). */
 const UMSCHLAG_FELDER_BEKANNT = ['kryptoVersion', 'depotUUID', 'pbkdf2', 'depotSalt', 'iv', 'ct', 'einheiten', 'umschlagTabelle', 'angehoerigenOrt', 'wiederherstellung'];
+/* DIE EINGEFRORENE BASISMENGE der Klartext-Bindung (U2-ADR-156-Nachtrag Klartext-Bindung, 05.10.2026). Jedes Umschlagfeld
+   AUSSERHALB dieser Liste geht in `fremdHash` im Geheimteil jedes Tabelleneintrags ein. Sie ist der Stand von
+   UMSCHLAG_FELDER_BEKANNT am 05.10.2026 und wird NIE erweitert, auch wenn BEKANNT wächst: Eine spätere Fassung nimmt ihre neuen
+   Felder in den Hash auf, und eine ältere rechnet über dieselben Felder (sie kennt sie nur nicht). Eine erweiterte Liste ließe
+   eine ältere Fassung das neue Feld als Fälschung verwerfen (Wächter: tests/umschlag-klartext-bindung.test.js).
+   Dazu die zwei Hüllfelder, die der Kern beim Herunterladen NACH dem Serialisieren an die Datei hängt (`depotHerunterladen`:
+   `stand_marke`, in älteren Dateien `gespeichert_am`). Sie stehen außerhalb der Bindung, weil sie erst nach dem Geheimteil entstehen;
+   ohne sie warnte jede heruntergeladene Datei. */
+const UMSCHLAG_FELDER_BASIS = Object.freeze(['kryptoVersion', 'depotUUID', 'pbkdf2', 'depotSalt', 'iv', 'ct', 'einheiten', 'umschlagTabelle', 'angehoerigenOrt', 'wiederherstellung', 'stand_marke', 'gespeichert_am']);
 /* { uuid, felder } — die unbekannten Umschlag-Felder des GEÖFFNETEN Depots. DATENTRENNUNG: die Bindung an die `uuid` ist der EINE
    Riegel dagegen, dass ein Feld aus Depot A im Umschlag von Depot B auftaucht (auch ein künftiger Weg, der `aktuelleDepotUUID` setzt,
    ohne hier etwas zurückzusetzen, kann es nicht durchreichen); `depotAnlegen` setzt deshalb NICHT zurück — ein zweiter Riegel wäre
@@ -11427,7 +11441,7 @@ function uuidV4() {
    Abweichung. Tests, die „die aktuelle Version" meinen, lesen ab jetzt diese Konstante;
    wer eine BESTIMMTE historische Stufe meint, schreibt weiterhin die Zahl hin — das
    sind zwei verschiedene Aussagen und sollen verschieden aussehen. */
-const SCHEMA_VERSION_AKTUELL = 91;   // 91: getrennte Anschriftsfelder und Namen bei Personen (U2-ADR-467)
+const SCHEMA_VERSION_AKTUELL = 92;   // 92: Anschrift des Ablageorts einer Vorsorgevollmacht (U2-ADR-471); 91: getrennte Anschriftsfelder und Namen bei Personen (U2-ADR-467)
 /* U2-ADR-467: die getrennten Anschriftsteile, in Identität und Personenregister gleich benannt. Früh definiert, weil die
    Schreibwege (personHinzufuegen, sektorFeldSetzen) sie lesen und schon beim Start laufen können. */
 const ANSCHRIFT_TEILE = Object.freeze(['street', 'houseNumber', 'postalCode', 'city']);
@@ -12286,11 +12300,15 @@ const ZERFALL_GEHEIM_POLSTER = 512;   // Zeichen des gepolsterten Klartexts, Vie
    Prüfung von „gleich viele Umschläge wie Einheiten in der DATEI" zu „jede Adresse MEINES
    Verzeichnisses hat ihren Umschlag und ihre Einheit" — je Eintrag statt je Datei, wie der
    Anhalt es verlangt, und strenger als vorher. */
-function _zerfallGeheimKlartext(name, ortHinweis, stand, adressen, polsterZiel, giltBis, vertretung) {
-  const kern = { name: name || null, ortHinweis: ortHinweis || null, stand,
+function _zerfallGeheimKlartext(name, ortHinweis, stand, adressen, polsterZiel, giltBis, vertretung, bindung) {
+  const kern = { name: name || null, ortHinweis: (bindung ? bindung.ortHinweis : ortHinweis) || null, stand,
     adressen: Array.isArray(adressen) ? adressen.slice() : [] };
   if (giltBis) kern.giltBis = giltBis;   // U2-ADR-452: nur am Fach, nie am Anker; ohne Datum fehlt der Schlüssel ganz
   if (vertretung) kern.vertretung = vertretung;
+  /* Klartext-Bindung (U2-ADR-156-Nachtrag, 05.10.2026): der Ort-Hinweis und der Hash der Felder außerhalb der Basismenge
+     stehen in JEDEM Geheimteil, gebunden durch AES-GCM. `ortGebunden` unterscheidet eine gebundene Datei ohne Hinweis von
+     einer Altdatei — ohne die Marke wäre ein eingefügter Hinweis nicht von einer Datei vor diesem Tag zu unterscheiden. */
+  if (bindung) { kern.ortGebunden = true; kern.fremdHash = bindung.fremdHash; }
   const laenge = JSON.stringify(kern).length;
   /* Die Ziel-Länge folgt der GESAMTZAHL der Einheiten, nicht der Länge DIESES Verzeichnisses —
      sonst verriete die Chiffrat-Länge, wie viele Adressen ein Fach führt, und das Leck wäre
@@ -12298,6 +12316,38 @@ function _zerfallGeheimKlartext(name, ortHinweis, stand, adressen, polsterZiel, 
   const ziel = polsterZiel || (Math.ceil((laenge + 12) / ZERFALL_GEHEIM_POLSTER) * ZERFALL_GEHEIM_POLSTER);
   kern.polster = '.'.repeat(Math.max(0, ziel - laenge - 12));
   return kern;
+}
+
+/* ── Klartext-Bindung (U2-ADR-156-Nachtrag Klartext-Bindung, 05.10.2026) ─────────────────────────────────────────────────
+   Der Umschlag trägt Felder im Klartext, die beim Öffnen gelesen werden, bevor ein Schlüssel da ist: den Ort-Hinweis
+   (`angehoerigenOrt`, vor dem Passwort angezeigt) und Felder einer neueren Fassung, die diese Fassung unverändert
+   weiterträgt. Beide lassen sich in der Datei ändern, ohne dass GCM es merkt. Darum stehen ihr Soll-Wert (Ort, normalisiert
+   wie bei der Anzeige) und ein Hash der Felder außerhalb von UMSCHLAG_FELDER_BASIS im Geheimteil jedes Eintrags. */
+function _ortHinweisNormal(ort) {
+  return angehoerigenOrtAusUmschlag({ angehoerigenOrt: ort });
+}
+function _umschlagFelderAusserBasis(umschlag) {
+  const raus = {};
+  for (const k of Object.keys(umschlag || {})) if (!UMSCHLAG_FELDER_BASIS.includes(k)) raus[k] = umschlag[k];
+  return raus;
+}
+async function _umschlagFremdHash(felder) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(_kanonischJSON(felder || {})));
+  return bytesToBase64(new Uint8Array(buf));
+}
+/* Nach dem Öffnen: der gebundene Soll-Wert gegen den Klartext der Datei. Ohne Marke (Altdatei) keine Prüfung und kein
+   Befund. Gibt null zurück oder { ortAbweichung, ortGebunden, fremdAbweichung, fremdFelder }. */
+async function _klartextBindungPruefen(umschlag, geheim) {
+  if (!geheim || geheim.ortGebunden !== true) return null;
+  const soll = _ortHinweisNormal(geheim.ortHinweis);
+  /* Nur ein ANGEZEIGTER Ort kann täuschen. Fehlt er, ist das kein Befund: die Browser-Kopie lässt ihn absichtlich weg
+     (`_umschlagOhneKlartextHinweise`, Entscheidung 16.09.2026), und ein entfernter Hinweis zeigt nichts Falsches an. */
+  const ist = angehoerigenOrtAusUmschlag(umschlag);
+  const ortAbweichung = ist !== null && ist !== soll;
+  const fremd = _umschlagFelderAusserBasis(umschlag);
+  const fremdAbweichung = (await _umschlagFremdHash(fremd)) !== geheim.fremdHash;
+  if (!ortAbweichung && !fremdAbweichung) return null;
+  return { ortAbweichung, ortGebunden: soll, fremdAbweichung, fremdFelder: fremdAbweichung ? Object.keys(fremd).sort() : [] };
 }
 
 /* Eine ATTRAPPE — ein Umschlag, der zu keinem Schlüssel gehört. Sie ist der Preis dafür, dass
@@ -12389,6 +12439,14 @@ async function _zerfallSchreiben(inhalt, opt) {
   const { hkdfKey, ankerKey: ankerKeyVorgegeben, adressKey: adressKeyVorgegeben, pbkdf2Salt, depotSalt, depotUUID } = opt;
   const ankerKey = ankerKeyVorgegeben || await deriveDepotKeyV2(hkdfKey, depotSalt, depotUUID);
   const adressKey = adressKeyVorgegeben || await deriveAdressKeyV4(hkdfKey, depotSalt, depotUUID);
+  /* Klartext-Bindung: `opt.ortHinweis` ist der Ort, den der Aufrufer als `angehoerigenOrt` in den Umschlag schreibt,
+     `opt.fremdFelder` die Felder außerhalb der Basismenge, die er dazulegt. Wer später ein Feld außerhalb der Basismenge
+     selbst schreibt, gibt es hier mit — sonst ist der Hash falsch und jede Datei warnt.
+     Gehasht wird über DIESELBE Menge wie beim Lesen (`_umschlagFelderAusserBasis`): die gemerkten Fremdfelder folgen
+     UMSCHLAG_FELDER_BEKANNT und tragen darum die Hüllfelder einer geöffneten heruntergeladenen Datei (`stand_marke`) mit.
+     Ungefiltert warnte jedes nächste Öffnen mit leerer Feldliste (Befund KLARTEXT-BINDUNG-HUELLFELD-FEHLALARM). */
+  const bindung = { ortHinweis: _ortHinweisNormal(opt.ortHinweis),
+    fremdHash: await _umschlagFremdHash(_umschlagFelderAusserBasis(opt.fremdFelder || {})) };
   const einheiten = {};
   const umschlaege = {};
   const rohe = [];                       // Adresse + AAD + rohe Inhaltsbytes, bis alle Fächer gewickelt sind
@@ -12411,13 +12469,13 @@ async function _zerfallSchreiben(inhalt, opt) {
 
   // Die eine Ziel-Länge für JEDEN Geheimteil — sie folgt der Gesamtzahl, nicht dem Fach.
   const probeKlartext = { name: 'x'.repeat(120), ortHinweis: 'x'.repeat(200), stand: new Date().toISOString(), adressen: alleAdressen,
-    giltBis: '0000-00-00', vertretung: 'x'.repeat(24) };   // U2-ADR-452: mitgerechnet, damit ein Fach mit Angaben nicht länger ist als eines ohne
+    giltBis: '0000-00-00', vertretung: 'x'.repeat(24), ortGebunden: true, fremdHash: 'x'.repeat(44) };   // U2-ADR-452: mitgerechnet, damit ein Fach mit Angaben nicht länger ist als eines ohne
   const polsterZiel = Math.ceil((JSON.stringify(probeKlartext).length + 12) / ZERFALL_GEHEIM_POLSTER) * ZERFALL_GEHEIM_POLSTER;
 
   const kennung = ZERFALL_FACH_KENNUNG(1);
   const eintragAad = VdCrypto.aadEinheit(depotUUID, kennung);
   const geheim = await VdCrypto.encryptDepot(
-    _zerfallGeheimKlartext(opt.fachName, opt.ortHinweis, new Date().toISOString(), alleAdressen, polsterZiel),
+    _zerfallGeheimKlartext(opt.fachName, null, new Date().toISOString(), alleAdressen, polsterZiel, null, null, bindung),
     ankerKey, eintragAad);
   const tabelle = [{
     kennung,
@@ -12456,7 +12514,7 @@ async function _zerfallSchreiben(inhalt, opt) {
       fachSchluessel: f.fachSchluessel,        // `K`, mit dem Passwort des Empfängers verschlossen
       umschlaege: fachUmschlaege,
       geheim: await VdCrypto.encryptDepot(
-        _zerfallGeheimKlartext(f.name, null, new Date().toISOString(), Array.from(meine), polsterZiel, f.giltBis || null, f.vertretung || null),
+        _zerfallGeheimKlartext(f.name, null, new Date().toISOString(), Array.from(meine), polsterZiel, f.giltBis || null, f.vertretung || null, bindung),
         fachKey, fAad),
     });
   }
@@ -12477,12 +12535,14 @@ async function _zerfallSchreiben(inhalt, opt) {
    Ortshinweis AUS DEM JEWEILIGEN INHALT. Befund 23.09.2026 (Probe tests/sub-depot-v4-neuversiegeln.test.js):
    das Sub-Depot versiegelte bis dahin mit einer eigenen V3-Annahme neu — bei einem V4-Umschlag lag das neue
    iv/ct tot neben den alten Einheiten, jede Änderung war beim nächsten Öffnen still fort. */
-async function _depotV4Schreiben(inhalt, schluessel) {
+async function _depotV4Schreiben(inhalt, schluessel, fremdFelder) {
+  const ort = _ortHinweisFuerUmschlag(inhalt);
   const umschlag = await _zerfallSchreiben(inhalt, Object.assign({}, schluessel, {
-    fachName: null, ortHinweis: null,
-    faecher: _empfaengerFaecherFuerSchreibweg(inhalt),   // die Fächer der Empfängerkreise, U2-ADR-156
+    fachName: null, ortHinweis: ort,                      // gebunden im Geheimteil, Klartext-Bindung
+    fremdFelder: fremdFelder || {},                        // die Felder, die der Aufrufer danach dazulegt
+    faecher: _empfaengerFaecherFuerSchreibweg(inhalt, schluessel && schluessel.depotUUID),   // die Fächer der Empfängerkreise, U2-ADR-156
   }));
-  umschlag.angehoerigenOrt = _ortHinweisFuerUmschlag(inhalt);   // F5 Zug 1 — s. dort
+  umschlag.angehoerigenOrt = ort;   // F5 Zug 1 — s. dort
   return umschlag;
 }
 async function depotSerialisierenV4() {
@@ -12493,8 +12553,10 @@ async function depotSerialisierenV4() {
   // _zerfallSchreiben — nur die fertigen, opaken CryptoKey-Objekte, s. Kommentar dort.
   const ankerKey = await VdCrypto.depotSchluessel(aktuelleDepotSalt, aktuelleDepotUUID);
   const adressKey = await VdCrypto.adressKey(aktuelleDepotSalt, aktuelleDepotUUID);
+  // Die Fremdfelder, die depotSerialisieren gleich zurückschreibt — dieselbe Bedingung wie dort (Bindung an die UUID).
+  const f = aktuelleUmschlagFremdfelder;
   return _depotV4Schreiben(data, { ankerKey, adressKey, pbkdf2Salt: aktuelleSalt,
-    depotSalt: aktuelleDepotSalt, depotUUID: aktuelleDepotUUID });
+    depotSalt: aktuelleDepotSalt, depotUUID: aktuelleDepotUUID }, (f && f.uuid === aktuelleDepotUUID) ? f.felder : {});
 }
 
 /* ══ DER AUSSCHNITT FÜR EINEN EMPFÄNGER — die Datei (U2-ADR-156) ══════════════════════
@@ -12667,7 +12729,8 @@ async function _zerfallLesen(umschlag, ankerKey, opt) {
 
   // Der Anker auf Platz 0 — der Weg der Inhaberin, unverändert der erste Versuch.
   try {
-    const r0 = await _zerfallEintragLesen(umschlag, einheiten, tabelle[0], ankerKey, true);
+    const r0 = await _zerfallEintragLesen(umschlag, einheiten, tabelle[0], ankerKey, true,
+      (g) => { if (opt && opt.bindungGelesen) opt.bindungGelesen(g); });   // Klartext-Bindung: der Geheimteil des geöffneten Eintrags
     if (opt && opt.geoeffnetUeber) opt.geoeffnetUeber(0);   // Platz 0: der ganze Inhalt
     return r0;
   } catch (e) {
@@ -12696,6 +12759,7 @@ async function _zerfallLesen(umschlag, ankerKey, opt) {
       const fachKey = await _fachSchluesselAusRoh(rohB64);
       let giltBis = null, vertretung = null;
       const rf = await _zerfallEintragLesen(umschlag, einheiten, eintrag, fachKey, false, (g) => {
+        if (opt && opt.bindungGelesen) opt.bindungGelesen(g);   // Klartext-Bindung
         giltBis = (typeof g.giltBis === 'string' && g.giltBis) ? g.giltBis : null;
         vertretung = (typeof g.vertretung === 'string' && g.vertretung) ? g.vertretung : null;
         if (fachAbgelaufen(giltBis)) {
@@ -12877,6 +12941,7 @@ async function depotLaden(umschlag, password) {
   // reine ~600k-Wartezeit). Gelingt der NFD-Versuch (Bestandsdepot unter Roh-/NFD-Schlüssel),
   // wird die Session sofort auf den NFC-Schlüssel umgeschlüsselt → der NÄCHSTE reguläre Save
   // schreibt transparent NFC-Ciphertext (Re-Encrypt ohne Sonder-Schreibvorgang).
+  let gelesenerGeheimteil = null;                                // Klartext-Bindung: Geheimteil des Eintrags, der öffnete
   const entschluessleMit = async (pw) => {
     await VdCrypto.setupSession(pw, pbkdf2Salt);                 // setzt sessionHkdfKey
     const subKey = await VdCrypto.depotSchluessel(depotSalt, depotUUID);
@@ -12884,7 +12949,9 @@ async function depotLaden(umschlag, password) {
     // dieselbe; erst hier trennt sich, ob ein `ct` oder viele Einheiten gelesen werden.
     // Das Passwort reist mit — NUR damit die Fächer der Empfängerkreise ihre eigene Tür
     // ableiten können (jedes Fach trägt sein eigenes Salz). Der Anker braucht es nicht.
-    if (umschlag.kryptoVersion === CRYPTO_VERSION_ZERFALL) return _zerfallLesen(umschlag, subKey, { passwort: pw });
+    if (umschlag.kryptoVersion === CRYPTO_VERSION_ZERFALL) {
+      return _zerfallLesen(umschlag, subKey, { passwort: pw, bindungGelesen: (g) => { gelesenerGeheimteil = g; } });
+    }
     return VdCrypto.decryptDepot({ iv: umschlag.iv, ct: umschlag.ct }, subKey, _AAD_DEPOT_V2);
   };
   const nfc = normalizePassword(password);
@@ -12899,7 +12966,59 @@ async function depotLaden(umschlag, password) {
     obj = await entschluessleMit(nfd);                          // Versuch 2 (NFD) — wirft bei echtem Falschpasswort
     await VdCrypto.setupSession(nfc, pbkdf2Salt);               // Session auf NFC umschlüsseln (Re-Encrypt beim nächsten Save)
   }
-  return _depotGeoeffnetUebernehmen(umschlag, obj, pbkdf2Salt, depotSalt);
+  const ergebnis = await _depotGeoeffnetUebernehmen(umschlag, obj, pbkdf2Salt, depotSalt);
+  await _klartextBindungAnwenden(umschlag, gelesenerGeheimteil);
+  return ergebnis;
+}
+
+/* Klartext-Bindung nach dem Öffnen (U2-ADR-156-Nachtrag, 05.10.2026). Weicht der Ort ab, sagt die Warnung den gebundenen
+   Ort. Weichen die Felder außerhalb der Basismenge ab, werden sie NICHT weitergetragen (die gemerkten Fremdfelder fallen weg)
+   und die Warnung nennt ihre Namen. Ohne Marke im Geheimteil (Altdatei): nichts. */
+let _klartextBindungBefund = null;
+let _klartextBindungHinweisOffen = false;
+async function _klartextBindungAnwenden(umschlag, geheim) {
+  _klartextBindungBefund = await _klartextBindungPruefen(umschlag, geheim);
+  _klartextBindungHinweisOffen = !!_klartextBindungBefund;
+  if (_klartextBindungBefund && _klartextBindungBefund.fremdAbweichung) aktuelleUmschlagFremdfelder = null;
+}
+function klartextBindungHinweisText(b) {
+  if (!b) return '';
+  const teile = [];
+  if (b.ortAbweichung) {
+    teile.push(b.ortGebunden
+      ? String(STRINGS.klartextBindungOrtText).replace('{ort}', b.ortGebunden)
+      : String(STRINGS.klartextBindungOrtKeinText));
+  }
+  if (b.fremdAbweichung) {
+    /* Die Feldnamen stammen aus der Datei, also von dem, der sie verändert hat: begrenzt (höchstens fünf, je 40 Zeichen) und in
+       Anführung. Angezeigt wird der Text nur escaped (klartextBindungHinweisZeigen). */
+    const [auf, zu] = ((textsatzSpracheAktiv() || _sprachBasisSprache()) === 'de') ? ['„', '“'] : ['“', '”'];
+    const namen = b.fremdFelder.slice(0, 5).map((n) => auf + String(n).slice(0, 40) + zu);
+    if (b.fremdFelder.length > 5) namen.push('…');
+    teile.push(String(STRINGS.klartextBindungFremdText).replace('{felder}', namen.length ? namen.join(', ') : '–'));
+  }
+  return teile.join(' ');
+}
+function klartextBindungHinweisZeigen(versuch) {
+  try {
+    if (!_klartextBindungHinweisOffen || !_klartextBindungBefund) return;
+    if (typeof ui === 'undefined' || !ui.modal) return;
+    const host = document.getElementById('modal-rueck');
+    const belegt = !!(host && host.classList && host.classList.contains('an'));
+    const n = (typeof versuch === 'number') ? versuch : 0;
+    if (belegt) {
+      if (n < 40 && typeof setTimeout === 'function') setTimeout(() => klartextBindungHinweisZeigen(n + 1), 250);
+      return;
+    }
+    _klartextBindungHinweisOffen = false;
+    ui.modal({
+      titel: STRINGS.klartextBindungTitel,
+      koerperHTML: '<p class="modal-text" id="klartext-bindung-hinweis">' + escapeHTML(klartextBindungHinweisText(_klartextBindungBefund)) + '</p>',
+      primaerLabel: STRINGS.btnSchliessen,
+      onPrimaer: (schliessen) => schliessen(),
+      ohneAbbrechen: true,
+    });
+  } catch (_) { /* ein Hinweis darf den Eintritt nie blockieren */ }
 }
 
 /* Alles nach dem Entschlüsseln — geteilt vom Öffnen mit dem Passwort (depotLaden) und dem Öffnen mit
@@ -13770,10 +13889,11 @@ async function depotMitCodeLaden(umschlag, codeEingabe, pwNeu) {
   const stellen = whcCodeLesen(codeEingabe);
   if (!stellen) throw _whcFehler('abgeschrieben');
   let obj;
+  let gelesenerGeheimteil = null;                                     // Klartext-Bindung: Geheimteil des Ankers
   try {
     const master = await _whcAuspacken(umschlag[WHC_FELD], stellen, umschlag.depotUUID, umschlag.kryptoVersion);
     const ankerKey = await deriveDepotKeyV2(master, base64ToBytes(umschlag.depotSalt), umschlag.depotUUID);
-    obj = await _zerfallLesen(umschlag, ankerKey);                   // ohne Passwort: nur der Anker, nie ein Fach
+    obj = await _zerfallLesen(umschlag, ankerKey, { bindungGelesen: (g) => { gelesenerGeheimteil = g; } });   // ohne Passwort: nur der Anker, nie ein Fach
   } catch (e) {
     if (e && e.__vdStruktur) throw e;
     throw _whcFehler('passt-nicht');
@@ -13783,6 +13903,7 @@ async function depotMitCodeLaden(umschlag, codeEingabe, pwNeu) {
   const depotSalt = crypto.getRandomValues(new Uint8Array(32));
   await VdCrypto.setupSession(pwNfc, pbkdf2Salt);
   await _depotGeoeffnetUebernehmen(umschlag, obj, pbkdf2Salt, depotSalt);
+  await _klartextBindungAnwenden(umschlag, gelesenerGeheimteil);   // Klartext-Bindung, wie in depotLaden
   await whcHuelleWickeln(pwNfc, stellen, { geprueft: true });
   markiereUngespeichert(1);
   return obj;
@@ -16202,6 +16323,170 @@ function flowIsikExport(optionen) {
   return mitUrschrift({});
 }
 
+/* KBV-PKA-Ausgabe der Vorsorgevollmacht (U2-ADR-471) — ein DPE-Bundle nach MIO Patientenkurzakte 1.0.0 je Vollmacht
+   und bevollmächtigter Person. Das Profil gewinnt (gemessen am validator_cli, 02.10.2026):
+     · Die Composition verlangt GENAU zwei Einträge: die Erklärung (Personal Consent, Art 186065003 Vorsorgevollmacht, ohne
+       provision) und die Vertretung (Active Advance Directive, provision.actor 1..1 mit Rolle AGNT und dem Namen). Weil
+       actor höchstens einmal steht, entsteht je bevollmächtigter Person ein eigenes Bundle.
+     · Der Ablageort ist eine Postanschrift mit Straße und Hausnummer getrennt, PLZ und Ort (Address.text verboten). Er kommt
+       nur aus den Unterfeldern storageStreet/-HouseNumber/-PostalCode/-City (Schema 92), NIE aus dem Freitext storageLocation.
+     · Patient: genau eine Kennung. Erfüllbar ist nur die 10-stellige KVNR — der Slice für die PKV-Nummer verlangt einen
+       assigner, den das DPE-Profil verbietet. Das Tor hängt darum an der Nummer, nicht an der Kassenart.
+   Was fehlt, wird als Grund gesagt; KVNR, Geschlecht und die Anschrift sind Torgründe dieses Exports, keine Pflichtfelder
+   im Depot. Eine als „Privat“ markierte Person geht nicht hinaus (ihr Name ist Pflicht) — sie wird als Grund genannt.
+   Die KBV rät von der bundesweiten Umsetzung der PKA 1.0.0 ab (U2-ADR-471, Wiedervorlage); tools/kbv-pka-fassung-pruefen.js
+   meldet eine neue Fassung. Proben: tests/kbv-pka-vollmacht.test.js; Validator: tools/kbv-pka-validieren.js. */
+const KBV_PKA_ANSCHRIFT = Object.freeze(['storageStreet', 'storageHouseNumber', 'storagePostalCode', 'storageCity']);
+function _kbvPkaPatient(id, kvnr, T) {
+  const text = (w) => ((typeof w === 'string') ? w.trim() : '');
+  const fam = [text(id.familyName), text(id.secondLastName)].filter(Boolean).join(' ');
+  const n = { use: 'official', text: identitaetAnzeigename(id) || [text(id.givenName), fam].filter(Boolean).join(' '),
+    family: fam, _family: { extension: [{ url: 'http://hl7.org/fhir/StructureDefinition/humanname-own-name', valueString: fam }] } };
+  if (text(id.givenName)) n.given = [text(id.givenName)];
+  const p = {
+    resourceType: 'Patient', meta: { profile: [T.profilPatient] },
+    identifier: [{ use: 'official', type: { coding: [{ system: T.kvnr.typSystem, code: T.kvnr.typCode, display: T.kvnr.typDisplay }] },
+      system: T.kvnr.system, value: kvnr }],
+    name: [n],
+    gender: { m: 'male', w: 'female', d: 'other' }[id.gender] || 'unknown',
+  };
+  if (id.gender === 'd') p._gender = { extension: [{ url: T.geschlechtAmtlich.url, valueCoding: { system: T.geschlechtAmtlich.system, code: T.geschlechtAmtlich.code, display: T.geschlechtAmtlich.display } }] };
+  if (_datumPlausibel(id.birthDate || '', true, DATUM_JAHR_MIN_GEBURT)) p.birthDate = id.birthDate;
+  return p;
+}
+/* Der Ausgabeweg-Erzeuger der KBV-PKA (EXPORT_FORMATE 'kbv-pka'): die Bundles, oder null, wenn das Tor mit Gründen schließt. */
+function kbvPkaExportBundles(opt) {
+  const b = kbvPkaVollmacht(opt && opt.jetzt, opt).bundles;
+  return b.length ? b : null;
+}
+function kbvPkaVollmacht(jetzt, opt) {
+  const T = IPS_BEGRIFFE.kbvPka;
+  if (!T) throw new Error('kbv-pka-terminologie-nicht-angemeldet');
+  const ts = (jetzt && typeof jetzt.getTime === 'function' && !isNaN(jetzt)) ? jetzt : (typeof jetzt === 'string' ? new Date(jetzt) : new Date());
+  const text = (w) => ((typeof w === 'string') ? w.trim() : '');
+  const gruende = [];
+  if (!(opt && opt.sensibel)) gruende.push('sensibel-nicht-freigegeben');
+  const id = (data && data.sektoren && data.sektoren.identity) || {};
+  const kvnr = String(((data && data.sektoren && data.sektoren.health) || {}).insuranceNumber || '').replace(/\s+/g, '').toUpperCase();
+  if (!/^[A-Z][0-9]{9}$/.test(kvnr) || !_kvnrPlausibel(kvnr)) gruende.push('kvnr-fehlt');
+  if (!text(id.familyName)) gruende.push('name-fehlt');
+  if (!text(id.gender)) gruende.push('geschlecht-fehlt');
+  const ac = (data && data.sektoren && data.sektoren.advanceCare) || {};
+  const vollmachten = (Array.isArray(ac.provisionInstruments) ? ac.provisionInstruments : []).filter((z) => z
+    && z.instrument === 'enduring-power-of-attorney' && IPS_VORSORGE_ARTEN_AUSGENOMMEN.indexOf(z.typeOfPowerOfAttorney) < 0);
+  if (!vollmachten.length) gruende.push('vollmacht-fehlt');
+  const auftraege = [];
+  for (const z of vollmachten) {
+    const datum = (typeof z.dateOfLastChange === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(z.dateOfLastChange)) ? z.dateOfLastChange : '';
+    if (!datum) gruende.push('vollmacht-datum-fehlt');
+    const a = Object.fromEntries(KBV_PKA_ANSCHRIFT.map((k) => [k, text(z[k])]));
+    if (KBV_PKA_ANSCHRIFT.some((k) => !a[k])) gruende.push('ablageort-anschrift-fehlt');
+    const personen = (Array.isArray(z.authorizedPersons) ? z.authorizedPersons : []).map((r) => {
+      const p = (r && r.ref) ? ((Array.isArray(data.menschen) ? data.menschen : []).find((m) => m && m.id === r.ref) || null) : null;
+      return { privat: !!(p && p.nichtMitgeben), name: text(personName(r)) };
+    }).filter((x) => x.privat || x.name);
+    if (personen.some((x) => x.privat)) gruende.push('bevollmaechtigte-privat');
+    const offen = personen.filter((x) => !x.privat);
+    if (!offen.length) gruende.push('bevollmaechtigte-fehlen');
+    if (datum && KBV_PKA_ANSCHRIFT.every((k) => a[k])) for (const x of offen) auftraege.push({ datum, a, name: x.name, frei: text(z.storageLocation) });
+  }
+  const eindeutig = [...new Set(gruende)];
+  const tor = ['sensibel-nicht-freigegeben', 'kvnr-fehlt', 'name-fehlt', 'geschlecht-fehlt'];
+  if (eindeutig.some((g) => tor.includes(g))) return { gruende: eindeutig, bundles: [] };
+
+  const uuid = () => 'urn:uuid:' + uuidV4();
+  const coding = (c) => ({ system: c.system, version: c.version, code: c.code, display: c.display });
+  const deutsch = (c) => Object.assign(coding(c), { _display: { extension: [{ url: T.extDeutsch, extension: [{ url: 'content', valueString: c.deutsch }] }] } });
+  const bundles = auftraege.map((t) => {
+    const uPat = uuid(); const uErkl = uuid(); const uVertr = uuid(); const uComp = uuid();
+    const zeile = t.a.storageStreet + ' ' + t.a.storageHouseNumber;
+    const anschrift = {
+      line: [zeile],
+      _line: [{ extension: [
+        { url: 'http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName', valueString: t.a.storageStreet },
+        { url: 'http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber', valueString: t.a.storageHouseNumber },
+      ] }],
+      city: t.a.storageCity, postalCode: t.a.storagePostalCode,
+    };
+    const composition = {
+      resourceType: 'Composition', meta: { versionId: '1', profile: [T.profilComposition] }, status: 'final',
+      type: { coding: [coding(T.dokumentTyp)] }, subject: { reference: uPat }, date: ts.toISOString(),
+      author: [{ extension: [{ url: 'http://hl7.org/fhir/StructureDefinition/data-absent-reason', valueCode: 'unknown' }] }],
+      title: T.titel,
+      section: [{ title: T.abschnittTitel, code: { coding: [coding(T.abschnitt)] }, entry: [{ reference: uErkl }, { reference: uVertr }] }],
+    };
+    const erklaerung = {
+      resourceType: 'Consent', meta: { profile: [T.profilErklaerung] }, status: 'active',
+      scope: { coding: [coding(T.scopeErklaerung)] }, category: [{ coding: [coding(T.kategorie)] }],
+      patient: { reference: uPat }, dateTime: t.datum,
+      // Die Erklärung trägt den Ablageort in den Worten der Person (Freitext erlaubt), sonst die Anschrift als Zeile.
+      sourceReference: { display: t.frei || (zeile + ', ' + t.a.storagePostalCode + ' ' + t.a.storageCity) },
+      policyRule: { coding: [deutsch(T.artVollmacht)] },
+    };
+    const vertretung = {
+      resourceType: 'Consent', meta: { profile: [T.profilVertretung] }, status: 'active',
+      scope: { coding: [coding(T.scopeVertretung)] }, category: [{ coding: [coding(T.kategorie)] }],
+      patient: { reference: uPat }, dateTime: t.datum,
+      sourceReference: { display: zeile + ', ' + t.a.storagePostalCode + ' ' + t.a.storageCity,
+        _display: { extension: [{ url: T.extAblageort, valueAddress: anschrift }] } },
+      policyRule: { coding: [deutsch(T.regelVertretung)] },
+      provision: { actor: [{ role: { coding: [coding(T.rolle)] }, reference: { display: t.name } }] },
+    };
+    const eintrag = (u, r) => ({ fullUrl: u, resource: Object.assign({ resourceType: r.resourceType, id: u.slice(9) }, r) });
+    const uBundle = uuidV4();
+    return {
+      resourceType: 'Bundle', id: uBundle, meta: { profile: [T.profilBundle] },
+      identifier: { type: { coding: [{ system: T.bundleTyp.system, code: T.bundleTyp.code }] }, system: 'urn:ietf:rfc:3986', value: 'urn:uuid:' + uBundle },
+      type: 'document', timestamp: ts.toISOString(),
+      entry: [eintrag(uComp, composition), eintrag(uErkl, erklaerung), eintrag(uVertr, vertretung), eintrag(uPat, _kbvPkaPatient(id, kvnr, T))],
+    };
+  });
+  return { gruende: eindeutig, bundles };
+}
+
+/* Der Ausgabeweg (U2-ADR-471). Zuerst die Freigabe der sensiblen Felder (dieselbe Übersicht wie beim IPS-Export, Bereich
+   Vorsorge), dann die Gründe, dann MyTerms Teil D, dann eine Datei je Bundle. Jeder Grund wird gesagt, nicht nur vermerkt —
+   auch wenn Dateien entstehen (etwa für eine als privat markierte Person keine). `optionen` (programmatisch): { sensibel }. */
+function _kbvPkaGruendeSagen(gruende) {
+  const satz = (g) => _eigenerWert(STRINGS, 'kbvPkaGrund_' + g.replace(/-/g, '_')) || g;
+  if (typeof ui !== 'undefined' && ui.modal) {
+    ui.modal({ titel: STRINGS.kbvPkaExportLabel,
+      koerperHTML: '<ul class="einst-hint">' + gruende.map((g) => '<li>' + escapeHTML(satz(g)) + '</li>').join('') + '</ul>',
+      primaerLabel: STRINGS.btnSchliessen, onPrimaer: (s) => s(), ohneAbbrechen: true });
+  }
+}
+/* Befund KLARTEXT-EXPORT-OHNE-HINWEIS (freigegebener Wortlaut, 03.10.2026): vor dem Speichern eines Klartext-Wegs steht, dass
+   die Datei nicht verschlüsselt ist. Gespeichert wird erst nach der Bestätigung. Zuerst genutzt von der KBV-PKA (U2-ADR-471). */
+function klartextHinweisVorSpeichern(titel, speichern) {
+  ui.modal({
+    titel,
+    koerperHTML: '<p class="einst-hint klartext-hinweis">' + escapeHTML(STRINGS.klartextNichtVerschluesselt) + '</p>',
+    primaerLabel: STRINGS.exportAuswahlFortfahren,
+    onPrimaer: (schliessen) => { schliessen(); speichern(); },
+  });
+  return 'hinweis';
+}
+function flowKbvPkaExport(optionen) {
+  const ausgeben = (opt, mitHinweis) => {
+    const r = kbvPkaVollmacht(undefined, { sensibel: !!(opt && opt.sensibel) });
+    if (r.gruende.length) _kbvPkaGruendeSagen(r.gruende);
+    if (!r.bundles.length) return 'ohne-datei';
+    // Eine Weitergabe an die Praxis: MyTerms Teil D wie beim IPS-Auszug — erst vereinbaren, dann die Dateien, eine nach der anderen.
+    const speichern = () => mitVereinbarung('kbv-pka', () => r.bundles.reduce((kette, b, i) => kette.then(() => {
+      const blob = new Blob([JSON.stringify(b, null, 2)], { type: 'application/fhir+json' });
+      const nr = r.bundles.length > 1 ? '_' + (i + 1) : '';
+      return dateiAusgeben(blob, _dateiNamePraefix() + '_KBV_PKA_Vorsorgevollmacht' + nr + '_' + heuteLokal() + '.json', 'application/fhir+json');
+    }), Promise.resolve()));
+    if (!mitHinweis) { speichern(); return 'datei'; }
+    return klartextHinweisVorSpeichern(STRINGS.kbvPkaExportLabel, speichern);
+  };
+  if (optionen !== undefined) return ausgeben(optionen);
+  if (typeof flowExportUebersicht === 'function' && typeof ui !== 'undefined' && ui.modal) {
+    return flowExportUebersicht({ sektorId: 'advanceCare', titel: STRINGS.kbvPkaExportLabel, aufFortfahren: (exportOpt) => ausgeben(exportOpt || {}, true) });
+  }
+  return ausgeben({});
+}
+
 /* ── FHIR-Lab-Maschine entfernt (E3, Datenmodell-Konzept v1.2 §3) ──────────────────────────
    fhirLabBundle/LAB_ANALYTE & Co. bauten einen SELBST-attestierten Laborbericht — strukturell
    nie eu-lab-konform (Validator: performer=Patient, CI-Probe 03.07.). Der konforme Laborweg ist
@@ -16363,6 +16648,7 @@ function flowDelegationsExportEntscheid(weiter) {
 // Dispatcher für sektor-deklarierte Export-Knöpfe (s.exporte).
 function flowSektorExport(format) {
   if (format === 'isik') return flowIsikExport();                                              // U2-ADR-468: erst das Tor
+  if (format === 'kbv-pka') return flowKbvPkaExport();                                         // U2-ADR-471: Freigabe, dann die Gründe
   if (exportFormatFuerId(format) && format !== 'fhir-ips') return flowFormatExport(format);   // Teil 3 — Registry-Formate
   if (format === 'fhir-ips') return flowGesundheitFhirExport();
 }
@@ -16921,6 +17207,11 @@ const EXPORT_FORMATE = Object.freeze([
   { id: 'isik', kategorie: 'sektor', sektor: 'health', get label() { return STRINGS.isikExportLabel; }, nurExport: true,
     mime: 'application/fhir+json', endung: 'json',   // kein dateibasis: der Weg geht über flowIsikExport, das den Namen selbst bildet
     toast: STRINGS.isikExportiert, baue: (opt) => isikDokumente(opt && opt.jetzt, opt).bundle },
+  // U2-ADR-471 — für die Arztpraxis (KBV-Patientenkurzakte 1.0.0): je Vollmacht und bevollmächtigter Person ein DPE-Bundle. Der
+  // Bau liefert die Liste der Bundles, oder null, solange ein Grund jede Datei verhindert; der Knopf geht über flowKbvPkaExport.
+  { id: 'kbv-pka', kategorie: 'sektor', sektor: 'advanceCare', get label() { return STRINGS.kbvPkaExportLabel; }, nurExport: true,
+    mime: 'application/fhir+json', endung: 'json',   // kein dateibasis: flowKbvPkaExport bildet die Namen selbst, eine Datei je Bundle
+    toast: STRINGS.kbvPkaExportiert, baue: (opt) => kbvPkaExportBundles(opt) },
   // Export-Format 'fhir-lab' (self-erzeugter Laborbericht) entfernt — E3, Datenmodell-Konzept v1.2 §3.
   // Das gleichnamige IMPORT-Format (IMPORT_FORMATE, Klasse-4-Erkennung) bleibt: gleicher Name, anderes Schicksal.
   // 3.5 — je ein Format-Profil pro Bereich (Format-Tag der Inhalts-Spec). Bereich 1 (Identität)
@@ -20361,16 +20652,37 @@ function _xmlPfadNamenGueltig(pfad) {
   return true;
 }
 function _xmlKanalGrund(k) {
-  if (!k || !k.quelle) return 'schreiber-xml-ohne-wurzel';
-  if (!_xmlPfadNamenGueltig(k.quelle)) return 'schreiber-xml-wurzelname';
+  // U2-ADR-465: `wurzel` nennt den Wurzelnamen unmittelbar (ein XML-Name darf Punkte tragen, ein Pfad nicht).
+  if (k && k.wurzel != null) {
+    if (!_xmlNameGueltig(k.wurzel)) return 'schreiber-xml-wurzelname';
+    if (k.quelle) return 'schreiber-xml-zwei-wurzeln';
+  } else if (!k || !k.quelle) return 'schreiber-xml-ohne-wurzel';
+  else if (!_xmlPfadNamenGueltig(k.quelle)) return 'schreiber-xml-wurzelname';
   for (const z of (k.zuordnung || [])) if (!_xmlPfadNamenGueltig(z.ziel)) return 'schreiber-xml-zielname';
   return null;
 }
 const FORMAT_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'appVersion', 'format', 'richtung', 'sektor',
   'label', 'sprache', 'akzeptiert', 'leser', 'schreiber', 'quelle', 'quelleWurzelFallback', 'erkennen', 'zuordnung',
-  'ungeprueft', 'eingelassenAm', 'rechtsraum']);   // `sprache`: 1.0a — in welcher Sprache steht `label` // `appVersion`: F5 — Untergrenze an die Anwendung, geprüft im Einlassweg // `rechtsraum`: U2-ADR-255 (04.09.2026), optional — s. formatModulPruefen // `schreiber`: U2-ADR-257 (04.09.2026), optional, fehlt er gilt `json@1` — s. FORMAT_SCHREIBER
+  'ungeprueft', 'eingelassenAm', 'rechtsraum', 'namensraum', 'wurzel', 'hinweis']);   // `namensraum`, `wurzel`, `hinweis`: U2-ADR-465 // `sprache`: 1.0a — in welcher Sprache steht `label` // `appVersion`: F5 — Untergrenze an die Anwendung, geprüft im Einlassweg // `rechtsraum`: U2-ADR-255 (04.09.2026), optional — s. formatModulPruefen // `schreiber`: U2-ADR-257 (04.09.2026), optional, fehlt er gilt `json@1` — s. FORMAT_SCHREIBER
 const FORMAT_ERKENNER_SCHLUESSEL = Object.freeze(['pfad', 'gleich', 'vorhanden', 'istObjekt']);
-const FORMAT_ZUORDNUNG_SCHLUESSEL = Object.freeze(['feld', 'ziel', 'alsListe']);
+const FORMAT_ZUORDNUNG_SCHLUESSEL = Object.freeze(['feld', 'ziel', 'alsListe', 'bereich', 'fest', 'werte', 'teil']);   // bereich/fest/werte/teil: U2-ADR-465
+/* U2-ADR-465: Teile eines Datums (ISO JJJJ-MM-TT, auch nur JJJJ oder JJJJ-MM), benannt wie Leser und Schreiber — das Modul
+   wählt einen Namen, der Kern liefert die Funktion. Ein fehlender Teil ergibt keinen Wert, keinen erfundenen. */
+const FORMAT_TEILE = Object.freeze({
+  jahr: (v) => { const m = /^(\d{4})(?:-\d{2})?(?:-\d{2})?$/.exec(String(v || '')); return m ? Number(m[1]) : undefined; },
+  monat: (v) => { const m = /^\d{4}-(\d{2})(?:-\d{2})?$/.exec(String(v || '')); return m ? Number(m[1]) : undefined; },
+  tag: (v) => { const m = /^\d{4}-\d{2}-(\d{2})$/.exec(String(v || '')); return m ? Number(m[1]) : undefined; },
+});
+const _FORMAT_WERTE_HOECHSTENS = 1000;
+/* U2-ADR-465 (01.10.2026): der eigene Namensraum. Ein Modul, das einen anderen setzt, behauptet einen fremden Standard
+   (XÖV, FIM, XJustiz …) — das darf nur ein Modul mit verifizierter Signatur (`ungeprueft === false`). */
+const _FORMAT_NAMENSRAUM_FORM = /^(?:urn:[A-Za-z0-9][A-Za-z0-9-]{0,31}:\S+|https?:\/\/\S+)$/;
+/* U2-ADR-465: ein Hinweis des Moduls, als XML-Kommentar vor der Wurzel. Ein Kommentar darf kein „--“ tragen und nicht auf
+   „-“ enden (XML 1.0, Abschnitt 2.5); was das nicht erfüllt, wird abgewiesen statt umgeschrieben. */
+const _FORMAT_HINWEIS_FORM = /^(?!.*--)[^\u0000-\u001f<>]{1,300}(?<!-)$/;
+const _FORMAT_NAMENSRAUM_EIGEN = /^(?:urn:vivodepot:|https?:\/\/(?:www\.)?vivodepot\.de\/)/i;
+function formatNamensraumFremd(ns) { return typeof ns === 'string' && !!ns && !_FORMAT_NAMENSRAUM_EIGEN.test(ns); }
+const _FORMAT_FEST_TYPEN = Object.freeze(['string', 'number', 'boolean']);
 // Ein Pfad liest Daten; er läuft die Prototypenkette NICHT hoch.
 const _FORMAT_PFAD_VERBOTEN = Object.freeze(['__proto__', 'constructor', 'prototype']);
 
@@ -20544,6 +20856,22 @@ function formatModulPruefen(modul) {
   // darf sich selbst an einen Rechtsraum binden (z. B. ein institutionelles Verwaltungsformat
   // eines zweiten Landes). Fehlt das Feld, bleibt der Kanal rechtsraumneutral wie bisher.
   if (modul.rechtsraum != null && typeof modul.rechtsraum !== 'string') return nein('rechtsraum');
+  /* U2-ADR-465: ein Namensraum ist eine Aussage über das Ziel-XML, also nur für Ausgabe-Module mit dem XML-Schreiber;
+     an jedem anderen Modul hätte er keinen Gegenstand und würde abgewiesen statt still übergangen. Ob er einen fremden
+     Standard behaupten darf, entscheidet `formatModulZuExportKanal` an der Signaturstufe des gespeicherten Moduls. */
+  if (modul.namensraum != null) {
+    if (typeof modul.namensraum !== 'string' || !_FORMAT_NAMENSRAUM_FORM.test(modul.namensraum)) return nein('namensraum');
+    if (richtung !== 'export' || (schreiberKennungHeute(modul.schreiber) || modul.schreiber) !== 'xml@1') return nein('namensraum-ohne-xml');
+  }
+  if (modul.wurzel != null) {
+    if (typeof modul.wurzel !== 'string' || richtung !== 'export' || (schreiberKennungHeute(modul.schreiber) || modul.schreiber) !== 'xml@1') return nein('wurzel-ohne-xml');
+  }
+  /* U2-ADR-465: `hinweis` sagt in der Datei selbst, was die Datei nicht ist (etwa „nicht einreichbar ohne Anhang“). Nur am
+     XML-Ausgabe-Modul, wo ein Kommentar das Schema des Ziels nicht berührt. */
+  if (modul.hinweis != null) {
+    if (typeof modul.hinweis !== 'string' || !_FORMAT_HINWEIS_FORM.test(modul.hinweis)) return nein('hinweis');
+    if (richtung !== 'export' || (schreiberKennungHeute(modul.schreiber) || modul.schreiber) !== 'xml@1') return nein('hinweis-ohne-xml');
+  }
 
   /* Der Erkenner ist eine UND-verknüpfte Liste von Vergleichen. FEHLT er, hat der Kanal keinen —
      das ist zulässig und beschreibt genau die zwei Fälle aus A272, die von Hand gewählt werden
@@ -20577,10 +20905,33 @@ function formatModulPruefen(modul) {
     let unbekannt = false;
     for (const k of Object.keys(z)) if (FORMAT_ZUORDNUNG_SCHLUESSEL.indexOf(k) < 0) { verworfene.push({ schluessel: k, grund: 'zuordnung-schluessel' }); unbekannt = true; }
     if (unbekannt) continue;
+    /* U2-ADR-465: `bereich` (ein Feld aus einem anderen Bereich als `sektor`) und `fest` (ein fester Wert ohne Feld)
+       tragen nur in der Ausgabe — beim Einlesen gäbe es kein Ziel für einen festen Wert, und ein Import-Kanal schreibt in
+       genau einen Bereich. */
+    const hatFest = Object.prototype.hasOwnProperty.call(z, 'fest');
+    if ((z.bereich != null || hatFest) && richtung !== 'export') { verworfene.push({ ziel: z.ziel, grund: 'nur-ausgabe' }); continue; }
+    if (hatFest) {
+      if (z.feld != null || _FORMAT_FEST_TYPEN.indexOf(typeof z.fest) < 0) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-fest' }); continue; }
+      if (!_formatPfadTeile(z.ziel)) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-ziel' }); continue; }
+      zuordnung.push({ fest: z.fest, ziel: z.ziel });
+      continue;
+    }
+    /* U2-ADR-465: `werte` bildet den ROHWERT des Felds auf einen Zielwert ab (Codeliste des Ziels), `teil` nimmt einen Teil
+       eines Datums. Beides nur in der Ausgabe; ein Rohwert ohne Eintrag in `werte` ergibt keinen Wert, keinen geratenen. */
+    if ((z.werte != null || z.teil != null) && richtung !== 'export') { verworfene.push({ ziel: z.ziel, grund: 'nur-ausgabe' }); continue; }
+    if (z.werte != null) {
+      const ok = z.werte && typeof z.werte === 'object' && !Array.isArray(z.werte) && Object.keys(z.werte).length > 0
+        && Object.keys(z.werte).length <= _FORMAT_WERTE_HOECHSTENS && Object.values(z.werte).every((w) => _FORMAT_FEST_TYPEN.indexOf(typeof w) >= 0);
+      if (!ok) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-werte' }); continue; }
+    }
+    if (z.teil != null && !Object.prototype.hasOwnProperty.call(FORMAT_TEILE, z.teil)) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-teil' }); continue; }
+    if (z.werte != null && z.teil != null) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-werte-und-teil' }); continue; }
+    const bereich = (z.bereich == null) ? modul.sektor : z.bereich;
+    if (typeof bereich !== 'string' || !bereicheAlle().some(s => s.id === bereich)) { verworfene.push({ feld: z.feld, grund: 'zuordnung-bereich' }); continue; }
     if (typeof z.feld !== 'string' || !z.feld.trim()) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-feld' }); continue; }
     if (!_formatPfadTeile(z.ziel)) { verworfene.push({ feld: z.feld, grund: 'zuordnung-ziel' }); continue; }
     // Ein Modul ERFINDET KEIN FELD. Es beschreibt einen Weg zu einem Feld, das es gibt.
-    if (typeof feldDefFuer === 'function' && !feldDefFuer(modul.sektor, z.feld)) { verworfene.push({ feld: z.feld, grund: 'feld-unbekannt' }); continue; }
+    if (typeof feldDefFuer === 'function' && !feldDefFuer(bereich, z.feld)) { verworfene.push({ feld: z.feld, grund: 'feld-unbekannt' }); continue; }
     // Export schreibt über baueAusMapping in eine FLACHE Claim-Ebene; ein Punkt im Ziel würde
     // dort zu einem Schlüssel mit Punkt statt zu einer Verschachtelung. Der Umschlag ist `quelle`.
     /* Bis zum 21.08.2026 stand hier eine Abweisung: `export-ziel-verschachtelt`. Sie war richtig,
@@ -20589,9 +20940,14 @@ function formatModulPruefen(modul) {
        hätte ausgesehen, als sei es angekommen. Seit `_formatPfadSchreiben` trägt der Weg, und
        die Abweisung ist ersatzlos fort. Die Form des Pfades prüft `_formatPfadTeile` unten
        weiter — ein leeres Teilstück oder `__proto__` fällt nach wie vor durch. */
-    zuordnung.push({ feld: z.feld, ziel: z.ziel, alsListe: z.alsListe === true });
+    const eintrag = { feld: z.feld, ziel: z.ziel, alsListe: z.alsListe === true };
+    if (bereich !== modul.sektor) eintrag.bereich = bereich;
+    if (z.werte != null) eintrag.werte = Object.assign(Object.create(null), z.werte);
+    if (z.teil != null) eintrag.teil = z.teil;
+    zuordnung.push(eintrag);
   }
   if (!zuordnung.length) return nein('zuordnung-leer');
+  if (!zuordnung.some((z) => z.feld)) return nein('zuordnung-nur-fest');   // ein Kanal ohne ein einziges Depot-Feld gibt nichts heraus
 
   /* B3 (Kette, Auftrag 3, Zug 6 — 20.08.2026): Ein Modul mit einem verschachtelten UND einem
      flachen Ziel kam bis heute mit `gueltig: true` zurück — mit EINER statt zwei Zuordnungen.
@@ -20619,7 +20975,7 @@ function formatModulPruefen(modul) {
   if (richtung === 'export') {
     const schreiberEintrag = schreiberAufloesen(schreiberKennung);
     const schreiberGrund = (schreiberEintrag && typeof schreiberEintrag.kanalGrund === 'function')
-      ? schreiberEintrag.kanalGrund({ quelle: (modul.quelle == null) ? null : modul.quelle, zuordnung })
+      ? schreiberEintrag.kanalGrund({ quelle: (modul.quelle == null) ? null : modul.quelle, wurzel: (modul.wurzel == null) ? null : modul.wurzel, zuordnung })
       : null;
     if (schreiberGrund) return nein(schreiberGrund);
   }
@@ -20638,6 +20994,9 @@ function formatModulPruefen(modul) {
       quelleWurzelFallback: modul.quelleWurzelFallback === true,
       // U2-ADR-255: durchgereicht, sonst ginge der Wert beim Andocken verloren (Befund Punkt 2/2).
       rechtsraum: (typeof modul.rechtsraum === 'string' && modul.rechtsraum) ? modul.rechtsraum : null,
+      namensraum: (typeof modul.namensraum === 'string' && modul.namensraum) ? modul.namensraum : null,   // U2-ADR-465
+      wurzel: (typeof modul.wurzel === 'string' && modul.wurzel) ? modul.wurzel : null,                 // U2-ADR-465
+      hinweis: (typeof modul.hinweis === 'string' && modul.hinweis) ? modul.hinweis : null,             // U2-ADR-465
       erkennen, zuordnung,
     },
   };
@@ -20713,8 +21072,32 @@ function formatModulZuExportKanal(modul) {
      Grund: „ein Kanal ist BESCHREIBUNG, niemals Code." */
   const schreiber = schreiberAufloesen(k.schreiber);
   if (!schreiber) return null;          // ein Ausgabe-Kanal ohne Schreibart ist keiner
-  const mapping = k.zuordnung.map(z => (z.alsListe ? { feld: z.feld, ziel: z.ziel, transform: _formatAlsListe }
+  /* U2-ADR-465: ein fremder Namensraum nur mit verifizierter Signatur. `ungeprueft` setzt allein der Einlassweg nach
+     der Signaturprüfung auf `false` (modulEinlassenGeprueft); ein selbst angedocktes Modul, das XÖV, FIM oder XJustiz
+     behauptet, bekommt keinen Kanal. */
+  if (formatNamensraumFremd(k.namensraum) && modul.ungeprueft !== false) return null;
+  const mapping = k.zuordnung.filter(z => z.feld).map(z => (z.alsListe ? { feld: z.feld, ziel: z.ziel, transform: _formatAlsListe }
                                                    : { feld: z.feld, ziel: z.ziel }));
+  const mehrereBereiche = k.zuordnung.some(z => z.bereich || z.werte || z.teil || Object.prototype.hasOwnProperty.call(z, 'fest'));
+  // U2-ADR-465: Rohwert statt Beschriftung, wenn eine Werteabbildung oder ein Datumsteil verlangt ist.
+  const umformung = (z) => {
+    if (!z.werte && !z.teil) return z.alsListe ? _formatAlsListe : null;
+    const bereich = z.bereich || k.sektor;
+    return () => {
+      const roh = feldRohwert(bereich, z.feld);
+      const w = z.teil ? _eigenerWert(FORMAT_TEILE, z.teil)(roh)
+        : (Object.prototype.hasOwnProperty.call(z.werte, String(roh)) ? z.werte[String(roh)] : undefined);
+      return (w !== undefined && z.alsListe) ? [w] : w;
+    };
+  };
+  /* Was nicht abgebildet werden konnte, wird BENANNT statt geraten (U2-ADR-465, U2-ADR-150): ein vorhandener Rohwert ohne
+     Eintrag in `werte` bzw. ohne den verlangten Datumsteil. Der Aufrufer zeigt es an (`optionen._unabgebildet`). */
+  const unabgebildetMelden = (z, opt) => {
+    if (!(z.werte || z.teil) || !opt || !Array.isArray(opt._unabgebildet)) return;
+    const roh = feldRohwert(z.bereich || k.sektor, z.feld);
+    if (roh === undefined || roh === null || roh === '') return;
+    opt._unabgebildet.push({ bereich: z.bereich || k.sektor, feld: z.feld, ziel: z.ziel });
+  };
   return {
     id: k.format, kategorie: 'sektor', sektor: k.sektor, label: k.label,
     nurExport: true, eingelassen: true, rechtsraum: k.rechtsraum,   // U2-ADR-255
@@ -20723,9 +21106,31 @@ function formatModulZuExportKanal(modul) {
     mime: schreiber.mime, endung: schreiber.endung,
     dateibasis: 'Vivodepot_' + k.format.replace(/[^A-Za-z0-9_-]/g, '_'),
     baue: (opt) => {
-      const claims = baueAusMapping(k.sektor, mapping, opt);
-      const wert = k.quelle ? _formatUnterPfad(k.quelle, claims) : claims;
-      const text = schreiber.schreib(wert);
+      let claims;
+      if (!mehrereBereiche) claims = baueAusMapping(k.sektor, mapping, opt);
+      else {
+        /* U2-ADR-465: in der Reihenfolge der Zuordnung (ein XSD verlangt seine Elementfolge), jedes Feld durch denselben
+           einen Filter (`baueAusMapping`: sensibel, verifiziert-stämmig) — kein zweiter Weg an ihm vorbei. */
+        claims = {};
+        for (const z of k.zuordnung) {
+          if (Object.prototype.hasOwnProperty.call(z, 'fest')) { _formatPfadSchreiben(claims, z.ziel, z.fest); continue; }
+          const tf = umformung(z);
+          const einzeln = baueAusMapping(z.bereich || k.sektor, [tf ? { feld: z.feld, ziel: z.ziel, transform: tf } : { feld: z.feld, ziel: z.ziel }], opt);
+          const w = _formatPfadLesen(einzeln, z.ziel);
+          if (w !== undefined) _formatPfadSchreiben(claims, z.ziel, w);
+          else if (Object.keys(einzeln).length) unabgebildetMelden(z, opt);   // das Feld kam durch den Filter, sein Wert nicht durch die Abbildung
+        }
+      }
+      // U2-ADR-465: `wurzel` über den `#name`-Weg des Schreibers, sonst der Umschlag aus `quelle` wie bisher.
+      const wert = k.wurzel ? Object.assign({ '#name': k.wurzel }, claims) : (k.quelle ? _formatUnterPfad(k.quelle, claims) : claims);
+      // U2-ADR-465: der Namensraum des Moduls als Standard-Namensraum der Wurzel (qualifizierte Elemente ohne Präfix).
+      if (k.namensraum && wert && typeof wert === 'object') {
+        const wurzelObjekt = k.wurzel ? wert : (k.quelle ? wert[Object.keys(wert)[0]] : null);
+        if (wurzelObjekt && typeof wurzelObjekt === 'object' && !Array.isArray(wurzelObjekt)) wurzelObjekt['@xmlns'] = k.namensraum;
+      }
+      let text = schreiber.schreib(wert);
+      // U2-ADR-465: der Hinweis des Moduls als Kommentar unmittelbar nach der XML-Deklaration, vor der Wurzel.
+      if (k.hinweis && typeof text === 'string') text = text.replace(/^(<\?xml[^>]*\?>\n)/, '$1<!-- ' + k.hinweis + ' -->\n');
       /* ZUSICHERUNG, NICHT ABLAUF: `kanalGrund` hat beim Andocken schon abgewiesen, was hier
          scheitern könnte (bei `xml@1` die fehlende Wurzel). Bliebe je eine Lücke, ist ein
          sichtbarer Fehlschlag die richtige Antwort — eine Datei mit falschem Inhalt sähe für
@@ -24883,6 +25288,16 @@ function validateTemplate(tpl) {
     if (typeof bq.titel !== 'string' || bq.titel.trim() === '') return 'wortlautQuelleBroschuere.titel fehlt';
     if (typeof bq.url !== 'string' || bq.url.trim() === '') return 'wortlautQuelleBroschuere.url fehlt';
   }
+  /* TEMPLATE-URL-SCHEMA-UNGEPRUEFT (05.10.2026): beide Quell-URLs werden als Verweis gesetzt (wortlautVorlageHTML).
+     Bis hierher prüfte nichts das Schema, ein `javascript:`-Ziel ging durch. Dieselbe Form wie beim `verweis`-Feld:
+     nur https:. Die URL der ersten Quelle ist freiwillig, wird aber geprüft, sobald sie da ist, auch ohne Wortlaut.
+     Die Senke prüft noch einmal (_verweisZielGeprueft). Probe: tests/vorlagen-url-schema.test.js. */
+  for (const [_qName, _qObj] of [['wortlautQuelle', tpl.wortlautQuelle], ['wortlautQuelleBroschuere', tpl.wortlautQuelleBroschuere]]) {
+    if (!_qObj || typeof _qObj !== 'object' || _qObj.url == null) continue;
+    let _qUrl;
+    try { _qUrl = new URL(String(_qObj.url)); } catch (e) { return _qName + '.url:ungueltig'; }
+    if (_qUrl.protocol !== 'https:') return _qName + '.url:schema-nicht-https';
+  }
   return null;   // ok (additiv: fehlendes templateType ist erlaubt)
 }
 
@@ -26663,9 +27078,14 @@ function wortlautVorlageHTML(v, veraltet) {
   const b = v.wortlautQuelleBroschuere;
   // Titel als externer Link, wenn eine URL vorliegt (reine Anzeige; öffnet im neuen Tab). Der
   // Wortlaut selbst bleibt unberührt — verlinkt werden nur die Quell-Metadaten daneben.
-  const titelLink = (titel, url) => url
-    ? '<a href="' + escapeHTML(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHTML(titel || '') + '</a>'
-    : escapeHTML(titel || '');
+  // TEMPLATE-URL-SCHEMA-UNGEPRUEFT (05.10.2026): verlinkt wird nur eine https-Adresse, jede andere bleibt Titel als
+  // Text — am Anzeige-Ort noch einmal, unabhängig vom Prüfweg in validateTemplate (tests/vorlagen-url-schema.test.js).
+  const titelLink = (titel, url) => {
+    const ziel = _verweisZielGeprueft(url);
+    return ziel
+      ? '<a href="' + escapeHTML(ziel) + '" target="_blank" rel="noopener noreferrer">' + escapeHTML(titel || '') + '</a>'
+      : escapeHTML(titel || '');
+  };
   const zeile1 = [escapeHTML(q.behoerde || ''), titelLink(q.titel, q.url), q.stand ? escapeHTML(q.stand) : ''].filter(Boolean).join(' · ');
   let fuss = '<p class="wortlaut-quelle">' + zeile1 + (q.lizenz ? ' — ' + escapeHTML(q.lizenz) : '') + '</p>';
   if (b && (b.titel || b.behoerde)) {
@@ -27078,7 +27498,7 @@ function importAnwenden(plan, optionen) {
      in ein schon bewohntes Depot), wird NICHTS überschrieben — dieselbe Disziplin wie überall
      sonst hier: Import überschreibt nie still. Der Schlüssel gilt dann als übersprungen und
      landet in `restUebersprungen` — Grundlage für die Meldung in Teil 2. */
-  const restGesetzt = [], restUebersprungen = [];
+  const restGesetzt = [], restUebersprungen = [], faecherNeuEinrichten = [];
   for (const schluessel of Object.keys(plan.rest || {})) {
     if (!VOLLIMPORT_MITNEHMEN_SCHLUESSEL.includes(schluessel) || VOLLIMPORT_REST_AUSGENOMMEN.includes(schluessel)) continue;
     const wert = plan.rest[schluessel];
@@ -27094,6 +27514,10 @@ function importAnwenden(plan, optionen) {
     if (!zielLeer) { restUebersprungen.push(schluessel); continue; }
     data[schluessel] = tiefKopie(wert);
     restGesetzt.push(schluessel);
+    // Fach-Material gehört zu der Datei, in der es entstand (s. _FACH_MATERIAL_FELDER): der Kreis kommt mit, das Fach nicht.
+    if (schluessel === 'empfaengerkreise' && Array.isArray(data.empfaengerkreise)) {
+      for (const k of data.empfaengerkreise) if (_kreisFachMaterialEntfernen(k)) faecherNeuEinrichten.push(String((k && (k.name || k.id)) || '–'));
+    }
   }
   // K9 („K9 — fremde Vorlagen, Weg C", 10.08.2026), Schreiblogik AUSGELAGERT (U2-ADR-404,
   // 12.09.2026) in `_vorlagenZertifikatPlanAnwenden(ziel, plan)` — wörtlich derselbe Code,
@@ -27103,7 +27527,7 @@ function importAnwenden(plan, optionen) {
   // offenen Depot — als globale `data`-Funktion war sie dafür nicht aufrufbar.
   const { vorlageAngelegt, vorlageAktualisiert, vorlageWiderrufen, vorlageAbgewiesen } =
     _vorlagenZertifikatPlanAnwenden(data, plan);
-  return { gesetzt, uebersprungen, listen, konflikteOffen, register, defGesetzt, defAktualisiert, defVerworfen, codeListenGesetzt, codeListenVerworfen, vorlageAngelegt, vorlageAktualisiert, vorlageWiderrufen, vorlageAbgewiesen, restGesetzt, restUebersprungen };
+  return { gesetzt, uebersprungen, listen, konflikteOffen, register, defGesetzt, defAktualisiert, defVerworfen, codeListenGesetzt, codeListenVerworfen, vorlageAngelegt, vorlageAktualisiert, vorlageWiderrufen, vorlageAbgewiesen, restGesetzt, restUebersprungen, faecherNeuEinrichten };
 }
 
 /* U2-ADR-404 (12.09.2026) — AUSGELAGERT aus `importAnwenden`, wörtlich unverändert bis auf
@@ -27751,6 +28175,9 @@ function flowImportVorschau(plan) {
           ui.toast(STRINGS.importVollNichtUebernommenLabel + ': ' + _nichtUebernommen.join(', ') +
             STRINGS.importVollNichtUebernommenSuffix, 'info');
         }
+        if (ergebnis && Array.isArray(ergebnis.faecherNeuEinrichten) && ergebnis.faecherNeuEinrichten.length && STRINGS.importFaecherNeuEinrichten) {
+          ui.toast(String(STRINGS.importFaecherNeuEinrichten).replace('{namen}', ergebnis.faecherNeuEinrichten.join(', ')), 'info');
+        }
       }
       if (typeof renderContent === 'function') renderContent();
       /* RUHENDE BEREICHE (15.09.2026): Ein Einlesen konnte die Bereichsliste bisher nicht ändern,
@@ -27821,14 +28248,18 @@ async function subDepotEntsiegeln(umschlag, subPasswort) {
     const masterKey = await depotMasterHkdfKey(pw, pbkdf2Salt);
     const subKey    = await deriveDepotKeyV2(masterKey, depotSalt, umschlag.depotUUID);
     // Derselbe Weg wie depotLaden: die Kryptoversion des UMSCHLAGS entscheidet den Lesepfad.
-    let platz = 0, giltBis = null, vertretung = null;
+    let platz = 0, giltBis = null, vertretung = null, geheim = null;
     const inhalt = istZerfall
-      ? await _zerfallLesen(umschlag, subKey, { passwort: pw, geoeffnetUeber: (i, info) => { platz = i; giltBis = (info && info.giltBis) || null; vertretung = (info && info.vertretung) || null; } })
+      ? await _zerfallLesen(umschlag, subKey, { passwort: pw, bindungGelesen: (g) => { geheim = g; },
+        geoeffnetUeber: (i, info) => { platz = i; giltBis = (info && info.giltBis) || null; vertretung = (info && info.vertretung) || null; } })
       : await VdCrypto.decryptDepot({ iv: umschlag.iv, ct: umschlag.ct }, subKey, _AAD_DEPOT_V2);
+    // Klartext-Bindung (U2-ADR-156-Nachtrag): dieselbe Prüfung wie beim Anker. Weichen die Fremdfelder ab, werden sie beim
+    // Neuversiegeln nicht mitgebunden.
+    const bindungBefund = await _klartextBindungPruefen(umschlag, geheim);
     // Der Master bleibt (RAM, nicht extrahierbar), weil das Neuversiegeln denselben Speicherweg nimmt wie jedes Depot
     // (_depotV4Schreiben, Adress-Schlüssel aus dem Master) — auch ein V3-Bestand wird so beim nächsten Speichern V4.
     // `platz` ≠ 0: über das Fach eines Empfängerkreises geöffnet — nur ein Ausschnitt, darf NIE zurückgeschrieben werden.
-    return { inhalt, subKey, masterKey, platz, giltBis, vertretung };
+    return { inhalt, subKey, masterKey, platz, giltBis, vertretung, bindungBefund };
   };
   // B1 L4 (NFC, Variante B): erst NFC; bei GCM-Fehler GENAU EIN NFD-Fallback (nur wenn pw≠NFC).
   const nfc = normalizePassword(subPasswort);
@@ -27842,7 +28273,7 @@ async function subDepotEntsiegeln(umschlag, subPasswort) {
     const r = await entsiegleMit(nfd);                          // Versuch 2 (NFD) — wirft bei echtem Falschpasswort
     // Versionstor: ein Sub aus einer neueren Fassung wird zum Lesen geöffnet, aber nicht neu versiegelt — ein älterer
     // Kern schriebe es in SEINEM Umschlagformat und verlöre, was die neuere Fassung im Umschlag trägt.
-    if (_istNeuereFassung(r.inhalt)) return { inhalt: r.inhalt, subKey: r.subKey, reEncryptUmschlag: null, platz: r.platz, giltBis: r.giltBis, vertretung: r.vertretung };
+    if (_istNeuereFassung(r.inhalt)) return { inhalt: r.inhalt, subKey: r.subKey, reEncryptUmschlag: null, platz: r.platz, giltBis: r.giltBis, vertretung: r.vertretung, bindungBefund: r.bindungBefund };
     // Erfolg über Fallback: unter NFC neu versiegeln — GLEICHE depotUUID + Salts (nur frischer iv/ct
     // unter dem NFC-Schlüssel), damit die Eintrags-Identität stabil bleibt. Der NFC-Sub-Key geht in
     // die RAM-Session (auch In-Sub-Saves schreiben dann NFC); der neue Umschlag ersetzt e.umschlag
@@ -27855,11 +28286,17 @@ async function subDepotEntsiegeln(umschlag, subPasswort) {
     } else {
       // 23.09.2026: derselbe Speicherweg wie jedes Depot — MIT den Fächern aus dem Inhalt (vorher `faecher: []`,
       // die Fächer gingen hier verloren; U2-ADR-235 hatte das als „dokumentiert, nicht gebaut" stehen lassen).
-      const neu = await _depotV4Schreiben(r.inhalt, { hkdfKey: masterNfc, pbkdf2Salt, depotSalt, depotUUID: umschlag.depotUUID });
-      reEncryptUmschlag = Object.assign(_umschlagUnbekannteFelder(umschlag), neu);
+      const fremd = _subFremdfelderGeprueft(umschlag, r.bindungBefund);
+      const neu = await _depotV4Schreiben(r.inhalt, { hkdfKey: masterNfc, pbkdf2Salt, depotSalt, depotUUID: umschlag.depotUUID }, fremd);
+      reEncryptUmschlag = Object.assign(fremd, neu);
     }
-    return { inhalt: r.inhalt, subKey: subKeyNfc, reEncryptUmschlag, masterKey: masterNfc, platz: r.platz, giltBis: r.giltBis, vertretung: r.vertretung };
+    return { inhalt: r.inhalt, subKey: subKeyNfc, reEncryptUmschlag, masterKey: masterNfc, platz: r.platz, giltBis: r.giltBis, vertretung: r.vertretung, bindungBefund: r.bindungBefund };
   }
+}
+/* Klartext-Bindung beim Neuversiegeln eines Sub-Depots: es gilt der ALTE fremdHash. Weichen die Fremdfelder ab, werden sie NICHT
+   neu gebunden — sonst würde ein eingeschleustes Feld beim Neuversiegeln „gewaschen“ und wäre danach gültig gebunden. */
+function _subFremdfelderGeprueft(umschlag, befund) {
+  return (befund && befund.fremdAbweichung) ? {} : _umschlagUnbekannteFelder(umschlag);
 }
 
 /* ── Sub-Depot-Selbstbestimmung — eigenständiger Passwort-Wechsel (Zug 1) ───────────
@@ -27994,8 +28431,12 @@ async function subDepotAnlegen({ bezeichnung, inhaberin, verwaltungsTyp, vertret
 async function subDepotVertrauenOeffnen(depotUUID, subPasswort) {
   const e = (data && data.verwalteteDepots || []).find(x => x.depotUUID === depotUUID);
   if (!e) throw new Error('Sub-Depot nicht gefunden: ' + depotUUID);
-  const { inhalt, subKey, reEncryptUmschlag, masterKey, platz, giltBis, vertretung } = await subDepotEntsiegeln(e.umschlag, subPasswort);   // wirft bei Falschpasswort
+  const { inhalt, subKey, reEncryptUmschlag, masterKey, platz, giltBis, vertretung, bindungBefund } = await subDepotEntsiegeln(e.umschlag, subPasswort);   // wirft bei Falschpasswort
   if (reEncryptUmschlag) e.umschlag = reEncryptUmschlag;                          // B1: NFC-Re-Seal → persistiert beim nächsten Anker-Save
+  if (bindungBefund) {                                                            // Klartext-Bindung: dieselbe Warnung wie beim Anker
+    _klartextBindungBefund = bindungBefund; _klartextBindungHinweisOffen = true;
+    klartextBindungHinweisZeigen();
+  }
   /* E1, der Weg für BESTANDSDEPOTS (Kette Auftrag 2, Zug 3): Die Stufe 67 kann die Grundlage
      nicht selbst umziehen — sie läuft mit dem ANKER-Passwort, der Inhalt hängt am SUB-Passwort.
      Deshalb hier, an der einzigen Stelle, an der beide gleichzeitig vorliegen. Der Klartext-
@@ -28011,7 +28452,7 @@ async function subDepotVertrauenOeffnen(depotUUID, subPasswort) {
   }
   // `giltBis`, `vertretung` (U2-ADR-452): Ende und Grundlage des Fachs, über das geöffnet wurde — RAM-only, für die FHIR-Vertretung.
   sessionSubKeys.set(depotUUID, { schluessel: subKey, inhalt, master: masterKey || null, platz: platz || 0, giltBis: giltBis || null,
-    vertretung: vertretung || null });   // RAM-only (NFC-Key nach Fallback)
+    vertretung: vertretung || null, bindungBefund: bindungBefund || null });   // RAM-only (NFC-Key nach Fallback)
   return inhalt;
 }
 
@@ -28342,9 +28783,10 @@ async function subDepotNeuVersiegeln(depotUUID) {
   if (_subNeuereFassung.has(depotUUID)) return e.umschlag;          // Versionstor: ein neueres Sub bleibt, wie es kam
   // Derselbe Speicherweg wie jedes Depot — ein V3-Bestand wird dabei V4 (gleiche depotUUID und Salze, gleiches Passwort).
   if (sess.platz !== 0 || !sess.master) return e.umschlag;   // über ein Fach geöffnet: nur lesend, nichts zurückschreiben
+  const fremd = _subFremdfelderGeprueft(e.umschlag, sess.bindungBefund);   // Klartext-Bindung: abweichende Fremdfelder nicht waschen
   const neu = await _depotV4Schreiben(sess.inhalt, { hkdfKey: sess.master,
-    pbkdf2Salt: base64ToBytes(e.umschlag.pbkdf2.salt), depotSalt: base64ToBytes(e.umschlag.depotSalt), depotUUID });
-  e.umschlag = Object.assign(_umschlagUnbekannteFelder(e.umschlag), neu);
+    pbkdf2Salt: base64ToBytes(e.umschlag.pbkdf2.salt), depotSalt: base64ToBytes(e.umschlag.depotSalt), depotUUID }, fremd);
+  e.umschlag = Object.assign(fremd, neu);
   return e.umschlag;
 }
 
@@ -35699,6 +36141,7 @@ function betreteApp() {
   // bei jedem Navigations-Ruf von betreteApp() (`warSchonDrin`).
   if (!warSchonDrin) migrationsHinweisZeigen();
   if (!warSchonDrin) { erweiterungenGesperrtHinweisZeigen(); abWerkErsetztHinweisZeigen(); }
+  if (!warSchonDrin) klartextBindungHinweisZeigen();   // Klartext-Bindung: veränderter Ort-Hinweis oder Fremdfelder
   if (!warSchonDrin) neuereFassungHinweisZeigen();   // Versionstor: sichtbar, dass nichts gespeichert wird
   // A534: derselbe Einmal-Dialog-Rhythmus — tritt NACH dem Migrations-Hinweis auf, falls beide
   // nötig wären (queued über dieselbe modal-belegt-warten-Logik, kein Überschreiben).
@@ -40787,6 +41230,14 @@ function depotNormalisieren(d) {
     ziel.schemaVersion = 91;
   }
 
+  /* Schema 91 -> 92 (02.10.2026, U2-ADR-471): die Anschrift des Ablageorts einer Vorsorgevollmacht in vier Unterfeldern
+     (storageStreet, storageHouseNumber, storagePostalCode, storageCity, KBV_PKA_ANSCHRIFT). Die KBV-Patientenkurzakte verlangt
+     eine Postanschrift mit getrennten Teilen. Die Stufe SCHREIBT NICHTS: die Unterfelder bleiben leer, bis die Person sie
+     einträgt, und der Freitext storageLocation bleibt byte-gleich. Kein Vorschlag aus dem Freitext — „beim Notar Dr. X,
+     Hauptstr. 5“ ist keine verlässliche Anschrift, anders als die Anschriftzeile der Stufe 91.
+     Rot-Beleg: tests/schema-92-ablageort-anschrift.test.js */
+  if (typeof ziel.schemaVersion === 'number' && ziel.schemaVersion < 92) ziel.schemaVersion = 92;
+
   // B2 (Code-Review 17.09.2026): nach allen Stufen, die Auszüge einlassen, und vor den frühen Rücksprüngen unten.
   _abWerkMerkmalNeuSetzen(ziel);
   _kindVerhaeltnisseMigrieren(ziel);                // U2-ADR-036 (E): vor den Dokument-/Erinnerungs-Pfaden
@@ -42513,6 +42964,7 @@ async function empfaengerkreisFachEinrichten(kreis, passwort, ortHinweis, giltBi
   k.fachKeyRoh = bytesToBase64(roh);          // bleibt IM verschlüsselten Depot (EMPFAENGER_NIE)
   roh.fill(0);
   k.fachSeit = new Date().toISOString();
+  k.fachDepotUUID = aktuelleDepotUUID;        // dieselbe UUID, die die AAD der Tür bindet (s. _FACH_MATERIAL_FELDER)
   if (giltBisNeu) k.giltBis = giltBisNeu; else if (giltBisNeu === null) delete k.giltBis;
   if (vertretungNeu) k.vertretung = vertretungNeu; else if (vertretungNeu === null) delete k.vertretung;
   /* F5 Zug 1 (21.08.2026): der Ort-Hinweis gehört an die Stelle, an der das Passwort gewählt
@@ -42531,7 +42983,7 @@ async function empfaengerkreisFachEinrichten(kreis, passwort, ortHinweis, giltBi
 async function empfaengerkreisFachEntfernen(id) {
   const k = empfaengerkreisFinden(id);
   if (!k) return;
-  delete k.kdfSalt; delete k.tuerSalt; delete k.fachSchluessel; delete k.fachKeyRoh; delete k.fachSeit;
+  _kreisFachMaterialEntfernen(k);
   markiereUngespeichert(1);
   await depotPersistieren();
 }
@@ -42588,18 +43040,41 @@ function empfaengerkreisGiltBisVorschlaege(d) {
   return raus;
 }
 
-function empfaengerkreisHatFach(kreis) {
+/* DAS FACH-MATERIAL GEHÖRT ZU DER DATEI, IN DER ES ENTSTAND (Befund FACH-IMPORT-MATERIAL-UEBERNOMMEN, 05.10.2026).
+   Die Tür eines Fachs ist an die Depot-UUID gebunden (AAD von `fachSchluessel`). Ein Import trug das Material bisher in ein
+   anderes Depot: dort öffnete das Fach nie, und ein K aus einer fremden Datei wurde still zum Schlüssel, unter dem dieses
+   Depot die Einheiten des Fachs schrieb. Der Import entfernt das Material darum aus jedem Kreis (`importAnwenden`), der
+   Kreis selbst bleibt. `fachDepotUUID` hält beim Einrichten die UUID fest, die die AAD der Tür bindet; ein Fach mit einer
+   anderen UUID ist verwaist: es wird nicht mehr geschrieben und in der Zeile des Kreises so benannt (Tiefenverteidigung,
+   die Marke liegt im verschlüsselten Depot). Fächer ohne Marke stammen aus der Zeit davor und gelten weiter. */
+const _FACH_MATERIAL_FELDER = Object.freeze(['kdfSalt', 'tuerSalt', 'fachSchluessel', 'fachKeyRoh', 'fachSeit', 'fachDepotUUID']);
+function _kreisFachMaterialEntfernen(k) {
+  let hatte = false;
+  if (!k || typeof k !== 'object') return hatte;
+  for (const f of _FACH_MATERIAL_FELDER) if (Object.prototype.hasOwnProperty.call(k, f)) { delete k[f]; hatte = true; }
+  return hatte;
+}
+function _kreisTraegtFachMaterial(kreis) {
   return !!(kreis && kreis.fachKeyRoh && kreis.fachSchluessel && kreis.kdfSalt && kreis.kennung);
+}
+/* `depotUUID`: die Datei, für die gefragt wird (der Schreibweg nennt sie). Ohne Angabe die geöffnete: im Sub-Depot dessen
+   UUID, sonst die des Ankers. */
+function empfaengerkreisFachVerwaist(kreis, depotUUID) {
+  const ziel = depotUUID || aktiverSubKontext || aktuelleDepotUUID;
+  return _kreisTraegtFachMaterial(kreis) && typeof kreis.fachDepotUUID === 'string' && !!ziel && kreis.fachDepotUUID !== ziel;
+}
+function empfaengerkreisHatFach(kreis, depotUUID) {
+  return _kreisTraegtFachMaterial(kreis) && !empfaengerkreisFachVerwaist(kreis, depotUUID);
 }
 
 /* Die Fächer, wie der Schreibweg sie braucht: Kennung, Salz, verschlossener Schlüssel — und
    die NAMEN der Einheiten, die dieses Fach öffnen darf. Die Namen kommen aus demselben
    Zuschnitt wie der Ausschnitt-Datei; es gibt nur einen Schnitt-Begriff. */
-function _empfaengerFaecherFuerSchreibweg(d) {
+function _empfaengerFaecherFuerSchreibweg(d, depotUUID) {
   const quelle = d || data;
   const raus = [];
   for (const k of ((quelle && Array.isArray(quelle.empfaengerkreise)) ? quelle.empfaengerkreise : [])) {
-    if (!empfaengerkreisHatFach(k)) continue;
+    if (!empfaengerkreisHatFach(k, depotUUID)) continue;   // ein verwaistes Fach wird nicht geschrieben
     let namen = [];
     try { namen = _zerfallEinheiten(empfaengerZuschnittModell(k, quelle)).map((e) => e.name); }
     catch (e) { namen = []; }
@@ -42902,10 +43377,12 @@ function _kreisZeileHTML(kreis) {
           : '')
     : STRINGS.kreiseStandNie;
   const hatFach = empfaengerkreisHatFach(kreis);
+  const fachText = hatFach ? STRINGS.kreiseFachAktiv
+    : (empfaengerkreisFachVerwaist(kreis) ? STRINGS.kreiseFachVerwaist : STRINGS.kreiseFachInaktiv);
   return '<div class="kreis-zeile" data-kreis="' + escapeHTML(kreis.id) + '">' +
     '<div class="kreis-kopf"><strong>' + escapeHTML(kreis.name) + '</strong></div>' +
     '<p class="einst-hint">' + escapeHTML(bausteine.join(' · ')) + '</p>' +
-    '<p class="einst-hint">' + escapeHTML(hatFach ? STRINGS.kreiseFachAktiv : STRINGS.kreiseFachInaktiv) + '</p>' +
+    '<p class="einst-hint">' + escapeHTML(fachText) + '</p>' +
     '<p class="einst-hint">' + escapeHTML(stand) + '</p>' +
     '<div class="kreis-knoepfe">' +
       (hatFach
@@ -58938,6 +59415,7 @@ window.__vdOeffentlich = {
   flowZusammenstellungHerausgeben, // E2E: herausgabe-liefert-auch-pdf.spec.js
   institutionHinzufuegen, // E2E: a210-institution-bearbeiten.spec.js
   institutionsArtenAlle, // E2E: einlass-register-institutionsart-bei-offenem-depot.spec.js
+  klartextBindungHinweisZeigen, // E2E: klartext-bindung-hinweis-dom.spec.js (Feldname aus der Datei erscheint als Text, nicht als Element)
   listenEintragHinzufuegen, // E2E: ereignis-achse-abnahme.spec.js
   mappeEintragHinzufuegen, // E2E: hintergrund-wipe-bildschirm.spec.js
   markiereGespeichert, // E2E: hintergrund-wipe-bildschirm.spec.js
@@ -62739,6 +63217,12 @@ window.__vdOeffentlich.ipsBegriffeAnmelden({"snomed":{"77386006":"Pregnancy","16
 <script>
 /* @vd-terminologie isik — Herkunft: Codes: de.ihe-d.terminology#3.0.1 (IHEXDStypeCode PATD, IHEXDSclassCode ADM, PAT in NichtPatientBezogeneGesundheitsversorgung und NichtaerztlicheFachrichtungen, formatCode aus IHEXDSformatCodeINTL), de.gematik.isik#6.0.0 (Profil, ISiKConfidentialityCodes), de.basisprofil.r4 (KVNR-System). Gemessen am validator_cli 6.9.12 am 01.10.2026. Erlaubnis IHE-D: Creative Commons BY 4.0 vom Rechteinhaber IHE Deutschland e.V., Quelle github.com/IHE-Germany/ITI.XDS.VS Commit aa1e0e5bed8c5fbcf3ff64636dbce74e6ca8f3b1 (sushi-config, Feld license), Codes und Anzeigetexte gleich de.ihe-d.terminology 3.0.1, gemessen mit tools/fhir-paket-herkunft-vergleichen.js --codes am 01.10.2026; Namensnennung in NOTICE. */
 window.__vdOeffentlich.ipsBegriffeAnmelden({"isik":{"profil":"https://gematik.de/fhir/isik/StructureDefinition/ISiKDokumentenMetadaten","kvnrSystem":"http://fhir.de/sid/gkv/kvid-10","erlaubnis":{"ihed":"cc-by-4.0@aa1e0e5"},"xdsTyp":{"system":"http://ihe-d.de/CodeSystems/IHEXDStypeCode","code":"PATD","display":"Patienteneigene Dokumente"},"xdsKlasse":{"system":"http://ihe-d.de/CodeSystems/IHEXDSclassCode","code":"ADM","display":"Administratives Dokument"},"einrichtung":{"system":"http://ihe-d.de/CodeSystems/NichtPatientBezogeneGesundheitsversorgung","code":"PAT","display":"Patient außerhalb der Betreuung"},"fachrichtung":{"system":"http://ihe-d.de/CodeSystems/NichtaerztlicheFachrichtungen","code":"PAT","display":"Patient außerhalb der Betreuung"},"format":{"system":"http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode","code":"urn:ihe:iti:xds:2017:mimeTypeSufficient"},"vertraulichkeit":{"system":"http://terminology.hl7.org/CodeSystem/v3-Confidentiality","code":"N"}}});
+</script>
+
+<!-- @vd-terminologie kbv-pka -->
+<script>
+/* @vd-terminologie kbv-pka — Herkunft: Profile, CodeSystems und Festwerte: kbv.mio.patientenkurzakte#1.0.0 (KBV), maschinenlesbar unter Apache-2.0 im MIOParser der KBV (github.com/kassenaerztliche-bundesvereinigung/MIOParser, Commit 0f39da3c86212d63885bf221dfb772f691a794e3, src/Definitions/KBV/PKA/1.0.0). SNOMED-Konzepte 408403008, 371538006, 186065003 aktiv im GPS-Release 20260101 mit dem Begriff, den das Profil fixiert (tools/snomed-freigabe.json). LOINC 59284-0 und 57016-8 mit der vom Profil fixierten Anzeige. KVNR-System aus de.basisprofil.r4#0.9.13 (identifier-kvid-10). Gemessen am validator_cli offline am 02.10.2026 (tools/kbv-pka-validieren.js). */
+window.__vdOeffentlich.ipsBegriffeAnmelden({"kbvPka":{"fassung":"1.0.0","profilBundle":"https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_NFDxDPE_Bundle|1.0.0","profilComposition":"https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_DPE_Composition_DPE|1.0.0","profilPatient":"https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_DPE_Patient_DPE|1.0.0","profilErklaerung":"https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_DPE_Consent_Personal_Consent|1.0.0","profilVertretung":"https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_NFDxDPE_Consent_Active_Advance_Directive|1.0.0","extAblageort":"https://fhir.kbv.de/StructureDefinition/KBV_EX_MIO_NFDxDPE_Consent_Description_File_Location","extDeutsch":"https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Terminology_German","bundleTyp":{"system":"https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFDxDPE_Bundle_Type","code":"DPE_Vorsorgevollmacht"},"dokumentTyp":{"system":"http://snomed.info/sct","version":"http://snomed.info/sct/900000000000207008/version/20210731","code":"408403008","display":"Patient held record (record artifact)"},"titel":"DPE","abschnittTitel":"Persönliche Erklärungen","abschnitt":{"system":"http://snomed.info/sct","version":"http://snomed.info/sct/900000000000207008/version/20210731","code":"371538006","display":"Advance directive report (record artifact)"},"kategorie":{"system":"http://loinc.org","version":"2.71","code":"59284-0","display":"Consent Document"},"scopeErklaerung":{"system":"http://terminology.hl7.org/CodeSystem/consentscope","version":"4.0.1","code":"adr","display":"Privacy Consent"},"scopeVertretung":{"system":"http://terminology.hl7.org/CodeSystem/consentscope","version":"4.0.1","code":"patient-privacy","display":"Privacy Consent"},"artVollmacht":{"system":"http://snomed.info/sct","version":"http://snomed.info/sct/900000000000207008/version/20210731","code":"186065003","display":"Power of attorney medical report (record artifact)","deutsch":"DPE_Vorsorgevollmacht"},"regelVertretung":{"system":"http://loinc.org","version":"2.71","code":"57016-8","display":"Patient Consent","deutsch":"Einwilligung"},"rolle":{"system":"http://terminology.hl7.org/CodeSystem/v3-RoleClass","version":"2018-08-12","code":"AGNT","display":"agent"},"kvnr":{"system":"http://fhir.de/NamingSystem/gkv/kvid-10","typSystem":"http://fhir.de/CodeSystem/identifier-type-de-basis","typCode":"GKV","typDisplay":"Gesetzliche Krankenversicherung"},"geschlechtAmtlich":{"url":"http://fhir.de/StructureDefinition/gender-amtlich-de","system":"http://fhir.de/CodeSystem/gender-amtlich-de","code":"D","display":"divers"}}});
 </script>
 <!-- CODE-LISTEN:END -->
 </body>

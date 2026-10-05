@@ -1,0 +1,5 @@
+{
+  "_zweck": "Erfundener Stand der zwei Quellen, wie der Fassungswächter sie liest (tools/kbv-pka-fassung-pruefen.js): nur die gebaute Fassung 1.0.0 und ihre Vorstufen. Erwartet: grün.",
+  "paketregister": { "dist-tags": { "latest": "1.0.0" }, "versions": { "1.0.0": {}, "1.0.0-benehmensherstellung": {}, "1.0.0-kommentierung": {} } },
+  "mioparser": [ { "name": "1.0.0", "type": "dir" }, { "name": "index.ts", "type": "file" } ]
+}

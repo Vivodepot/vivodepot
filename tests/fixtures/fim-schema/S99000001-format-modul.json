@@ -1,0 +1,18 @@
+{
+  "modulTyp": "format",
+  "moduleVersion": 1,
+  "sprache": "de",
+  "format": "fim-s99000001",
+  "richtung": "export",
+  "schreiber": "xml@1",
+  "sektor": "identity",
+  "label": "Probe-Antrag S99000001 (erfunden; nicht einreichbar ohne Anhang)",
+  "wurzel": "fim.S99000001.00000001001000",
+  "namensraum": "urn:xoev-de:xfall:standard:fim-s99000001_1.0",
+  "hinweis": "Erfundene Probe: nicht einreichbar ohne Anhang",
+  "zuordnung": [
+    { "feld": "familyName", "ziel": "G99000002.F99000003" },
+    { "feld": "givenName", "ziel": "G99000002.F99000004" },
+    { "fest": "true", "ziel": "G99000002.F99000005" }
+  ]
+}

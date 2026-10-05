@@ -37,7 +37,20 @@ async function dateiMitFremdemFeld(slug) {
   });
   const mit = JSON.parse(JSON.stringify(umschlag));
   mit.wiederherstellungshuelle = FREMD;
-  return { ohne: JSON.parse(JSON.stringify(umschlag)), mit };
+  /* `gebunden` (Klartext-Bindung, U2-ADR-156-Nachtrag, 05.10.2026): eine eingefrorene Datei, wie sie eine NEUERE Fassung schreibt,
+     die das Feld kennt und darum im Geheimteil bindet (tests/fixtures/klartext-bindung-neuere-fassung.json, Prüfsumme in
+     tests/umschlag-klartext-bindung.test.js). Ein nachträglich in die Datei geschriebenes Feld (`mit`) ist seitdem eine Veränderung:
+     es öffnet weiter, wird aber gemeldet und nicht weitergetragen. Die Proben zum WEITERTRAGEN lesen darum `gebunden`. */
+  const gebunden = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'klartext-bindung-neuere-fassung.json'), 'utf8'));
+  return { ohne: JSON.parse(JSON.stringify(umschlag)), mit, gebunden };
+}
+
+/* Byte-gleich, nicht nur strukturgleich (Schärfung nach der Zweitlesung, 05.10.2026): das weitergetragene Feld muss genau die Bytes
+   tragen, die in der eingefrorenen Datei stehen. `deepEqual` sähe eine umgeordnete oder umgeformte Fassung als gleich. */
+const FIXTURE_ROH = fs.readFileSync(path.join(__dirname, 'fixtures', 'klartext-bindung-neuere-fassung.json'), 'utf8');
+function byteGleichWieFixture(wert, botschaft) {
+  const geschrieben = JSON.stringify(wert);
+  assert.ok(FIXTURE_ROH.includes('"wiederherstellungshuelle":' + geschrieben), botschaft + ': ' + geschrieben);
 }
 
 test('[Prüfstein·Positivkontrolle] die Datei ohne das Feld öffnet — sonst beweist der Rest nichts', async () => {
@@ -102,22 +115,22 @@ test('[Prüfstein·Rot-Beweis] eine Lese-App, die unbekannte Umschlag-Felder abw
    Öffnen jedes Feld auf oberster Ebene des Umschlags, das er nicht selbst schreibt (UMSCHLAG_FELDER_BEKANNT), und schreibt es beim
    Speichern unverändert zurück — gebunden an die Depot-UUID, nie ein bekanntes Feld überschreibend. */
 test('[Prüfstein·Speichern] eine Datei mit einem unbekannten Umschlag-Feld trägt es nach dem Öffnen und Speichern noch', async () => {
-  const { mit } = await dateiMitFremdemFeld('privat-de');
+  const { gebunden: mit } = await dateiMitFremdemFeld('privat-de');
   const { V } = await depotImProduktLaden('privat-de', mit, PW);
   const geschrieben = await V.depotSerialisieren();
   assert.ok('wiederherstellungshuelle' in geschrieben,
     'das Feld ist nach Öffnen und Speichern nicht mehr im Umschlag (Schlüssel: ' + Object.keys(geschrieben).join(', ') + ')');
-  assert.deepEqual(geschrieben.wiederherstellungshuelle, FREMD, 'unverändert, nicht umgeformt');
+  byteGleichWieFixture(geschrieben.wiederherstellungshuelle, 'unverändert, nicht umgeformt');
 });
 
 test('[Speichern·Rundlauf] öffnen → speichern → öffnen → speichern: das Feld bleibt, der Inhalt bleibt, die Datei öffnet', async () => {
-  const { mit } = await dateiMitFremdemFeld('privat-de');
+  const { gebunden: mit } = await dateiMitFremdemFeld('privat-de');
   const a = await depotImProduktLaden('privat-de', mit, PW);
   const zweite = JSON.parse(JSON.stringify(await a.V.depotSerialisieren()));
   const b = await depotImProduktLaden('privat-de', zweite, PW);
   assert.equal(b.d.sektoren.health.bloodType, 'A+');
   const dritte = await b.V.depotSerialisieren();
-  assert.deepEqual(dritte.wiederherstellungshuelle, FREMD);
+  byteGleichWieFixture(dritte.wiederherstellungshuelle, 'nach zwei Rundläufen byte-gleich');
 });
 
 test('[Speichern·Gegenprobe] bekannte Felder kommen frisch aus dem Kern: ein geänderter Inhalt steht in der neuen Datei, eine Datei ohne das Feld bekommt keines', async () => {
@@ -148,13 +161,13 @@ test('[Speichern·Grenze] dasselbe Depot, danach eine ältere Kopie OHNE das Fel
 });
 
 test('[Speichern·Grenze] ein Feld namens __proto__ wird nicht zum Prototyp: es wird nicht zurückgeschrieben und richtet nichts an', async () => {
-  const { mit } = await dateiMitFremdemFeld('privat-de');
+  const { gebunden: mit } = await dateiMitFremdemFeld('privat-de');
   const roh = JSON.stringify(mit).replace(/}$/, ',"__proto__":{"eingeschleust":true}}');
   const { V } = await depotImProduktLaden('privat-de', JSON.parse(roh), PW);
   const geschrieben = await V.depotSerialisieren();
   assert.equal(Object.getPrototypeOf(geschrieben), Object.prototype);
   assert.equal(geschrieben.eingeschleust, undefined);
-  assert.deepEqual(geschrieben.wiederherstellungshuelle, FREMD, 'das harmlose fremde Feld daneben bleibt');
+  byteGleichWieFixture(geschrieben.wiederherstellungshuelle, 'das harmlose fremde Feld daneben bleibt');
 });
 
 /* Der zweite Riegel, gegen ein Auseinanderlaufen der Feldliste: wäre `UMSCHLAG_FELDER_BEKANNT` unvollständig (der Kern schriebe ein Feld, das dort fehlt),
@@ -226,7 +239,7 @@ test('[Sub-Depot-Wege·Einhängen] eine Export-Datei, deren Umschlag das Feld tr
 /* Das Wischen der Sitzung: die gemerkten Felder stehen nach dem Sperren nicht mehr im Arbeitsspeicher. Kein Tester merkt es an einer Datei — darum
    über den Zugriff `_umschlagFremdfelder` (tests/load-kern.js) an BEIDEN Stellen, die die Sitzung leeren. */
 test('[Speichern·Wischen] die Reset-Funktion der Sitzung (_depotSpeicherZuruecksetzen) räumt die gemerkten Felder', async () => {
-  const { mit } = await dateiMitFremdemFeld('privat-de');
+  const { gebunden: mit } = await dateiMitFremdemFeld('privat-de');
   const { V } = await depotImProduktLaden('privat-de', mit, PW);
   assert.ok(V._umschlagFremdfelder(), 'Vorbedingung: nach dem Öffnen sind Felder gemerkt');
   V._depotSpeicherZuruecksetzen();
@@ -234,7 +247,7 @@ test('[Speichern·Wischen] die Reset-Funktion der Sitzung (_depotSpeicherZurueck
 });
 
 test('[Speichern·Wischen] die Vorschau (vorschauDepotErzeugen) räumt die gemerkten Felder', async () => {
-  const { mit } = await dateiMitFremdemFeld('privat-de');
+  const { gebunden: mit } = await dateiMitFremdemFeld('privat-de');
   const { V } = await depotImProduktLaden('privat-de', mit, PW);
   assert.ok(V._umschlagFremdfelder(), 'Vorbedingung: nach dem Öffnen sind Felder gemerkt');
   V.vorschauDepotErzeugen();
@@ -255,4 +268,11 @@ test('[Speichern·Wächter] die Liste der bekannten Umschlag-Felder deckt alles,
     for (const k of Object.keys(umschlag)) assert.ok(bekannt.includes(k), name + ' schreibt `' + k + '`, das nicht in UMSCHLAG_FELDER_BEKANNT steht');
   }
   assert.ok(Object.keys(v4).length >= 6 && Object.keys(v3).length >= 6, 'Vorbedingung: beide Formen tragen ihre Felder');
+});
+
+test('[Speichern·byte-gleich·Rot-Beweis] eine umgeordnete Fassung desselben Felds ist strukturgleich, aber nicht byte-gleich — der Vergleich oben sieht den Unterschied', () => {
+  const umgeordnet = { eingewickelt: FREMD.eingewickelt, salt: FREMD.salt, verfahren: FREMD.verfahren };
+  assert.deepEqual(umgeordnet, FREMD, 'deepEqual hielte sie für gleich');
+  assert.throws(() => byteGleichWieFixture(umgeordnet, 'umgeordnet'), assert.AssertionError, 'der Byte-Vergleich schlägt an');
+  byteGleichWieFixture(FREMD, 'Gegenprobe: die Fassung in Schreibreihenfolge ist byte-gleich');
 });

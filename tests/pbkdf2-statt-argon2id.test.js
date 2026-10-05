@@ -20,8 +20,8 @@ test('[U2-ADR-213] keine mitgelieferte Argon2/Argon2id-Fremdimplementierung im K
   // ADR-Verweis, der „Argon2id" nennt, ist keine Implementierung — nur echter Code zählt.
   const code = ohneKommentareUndStrings(html);
   assert.doesNotMatch(code, /argon2/i,
-    'ADR-213 Grund 2: keine der geprüften Browser-Implementierungen vereint Pflege, echte ' +
-    'RFC-9106-Vektoren im eigenen Test und ein unabhängiges Audit — solange das so bleibt, ' +
+    'ADR-213 Grund 2: keine der geprüften Browser-Implementierungen passt heute in den Kern ' +
+    '(alle bringen WASM mit, zwei ohne Änderung seit 2023 oder früher) — solange das so bleibt, ' +
     'bleibt PBKDF2 die Wahl. Findet dieser Wächter „argon2" im ausführbaren Code, wurde diese ' +
     'Entscheidung stillschweigend unterlaufen.');
 });

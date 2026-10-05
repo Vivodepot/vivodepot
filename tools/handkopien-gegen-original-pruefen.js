@@ -120,13 +120,17 @@ const REGISTRY = [
     // U2-ADR-262: `schreiber` ist eine BENANNTE Ausnahme, keine stille — der Generator hat
     // keinen FORMAT_SCHREIBER_BEKANNT-Mirror für die Wertprüfung; s. Kommentar an der
     // FORMAT_MODUL_SCHLUESSEL-Deklaration in vivodepot-studio.html.
-    ausnahmen: ['schreiber'] },
+    // U2-ADR-465: `namensraum`, `wurzel`, `hinweis` aus demselben Grund (nur XML-Ausgabe-Module, deren
+    // Werte der Kern prüft; der Generator erzeugt keine).
+    ausnahmen: ['schreiber', 'namensraum', 'wurzel', 'hinweis'] },
   { label: 'FORMAT_ERKENNER_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' }] },
   { label: 'FORMAT_ZUORDNUNG_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' },
-    kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' }],
+    // U2-ADR-465: `bereich`, `fest`, `werte`, `teil` sind benannte Ausnahmen, Grund wie oben bei `namensraum`.
+    ausnahmen: ['bereich', 'fest', 'werte', 'teil'] },
   { label: 'BRANDING_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'BRANDING_MODUL_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'BRANDING_MODUL_SCHLUESSEL' }] },

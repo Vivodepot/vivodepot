@@ -49,6 +49,7 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
 
   flowGesundheitFhirExport: { klasse: 'weitergabe', grund: 'FHIR-IPS-Auszug an eine Stelle' },
   flowIsikExport: { klasse: 'weitergabe', grund: 'Vollmacht (Urschrift) und IPS als ISiK-DocumentReferences an ein Krankenhaus; hinter dem Tor der Anzeigetexte (U2-ADR-468)' },
+  flowKbvPkaExport: { klasse: 'weitergabe', grund: 'Vorsorgevollmacht als DPE-Bundle der KBV-Patientenkurzakte an eine Arztpraxis; Freigabe der sensiblen Felder und MyTerms vor der Datei (U2-ADR-471)' },
   flowMappeVerwahrungHerunterladen: { klasse: 'weitergabe', grund: 'das Original mit Verwahrungsnachweis an eine Stelle; die Hülle trägt Name und Kennung der Person (U2-ADR-444)' },
   _formatExportDownload: { klasse: 'weitergabe', grund: 'Auszug in einem Registry-Format (vCard, ICS, JSON …)' },
   flowAnlassExport: { klasse: 'weitergabe', grund: 'Anlass-Auszug' },

@@ -59,6 +59,23 @@ test('[Fixture-Depots·ab Werk] jede Fixture-Depotdatei öffnet in allen vier Pr
   for (const datei of Object.keys(BENANNT)) assert.ok(dateien.includes(datei), 'benannter Fall ohne Datei: ' + datei);
 });
 
+/* Abnahme am Zugkopf (05.10.2026, Kanon 4d933f550, v917): Pro trägt Erbschein und Zugang seit 5e ab Werk. Die
+   Partner-Vorführung (demo-de) öffnet darum in pro-de und pro-en ohne gesperrtes Modul, und der Erbschein-Auszug ist da.
+   Vorher sperrte Pro an genau dieser Datei die zwei Logik-Module als Fremdkopien. */
+test('[Fixture-Depots·Pro·Erbschein] Pro öffnet die Partner-Vorführung ohne Sperr-Hinweis und mit Erbschein-Auszug', async () => {
+  const t = fs.readFileSync(path.join(REPO, VZR + 'demo-de.vivodepot'), 'utf8');
+  for (const slug of ['pro-de', 'pro-en']) {
+    const k = P.kernAus(P.produktHtml(slug));
+    await k.V.depotLaden(JSON.parse(t.slice(t.indexOf('{'))), PASSWORT[VZR + 'demo-de.vivodepot']);
+    assert.deepEqual(k.V.gesperrteDepotModule(), [], slug + ': kein gesperrtes Modul');
+    // Der Hinweis (erweiterungenGesperrtHinweisZeigen) zeigt genau gesperrteDepotModuleNamen(); ist die Liste leer, öffnet er nicht.
+    // Ein DOM-Blick hilft hier nicht: der Stub-Dokument kennt die Kennung aus dem Kern-Quelltext und liefert immer ein Element.
+    assert.deepEqual(k.V.gesperrteDepotModuleNamen(), [], slug + ': der Hinweis hat keinen Namen zu zeigen');
+    const auszuege = k.V._logikModuleAlle(k.V.getData()).map((m) => m && m.id);
+    assert.ok(auszuege.includes('erbschein-vorbereitung'), slug + ': Erbschein-Auszug sichtbar (' + auszuege.join(', ') + ')');
+  }
+});
+
 test('[Fixture-Depots·ab Werk·Rot-Beweis] die Altdatei mit eingelassenem Zwischenstand-Sprachmodul wird gefunden', async () => {
   const g = await gesperrtIn(VZR + 'altdatei-demo-en-2026-09-10.vivodepot', 'privat-en', 'zugang-zum-recht-vorfuehrung-2026');
   assert.deepEqual(g, ['textsatz · en'], 'die alte englische Vorführ-Datei sperrt ihr Sprachmodul — genau das fände die Probe ohne Eintrag');

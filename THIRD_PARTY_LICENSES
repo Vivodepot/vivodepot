@@ -351,7 +351,7 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Long Common Name, die deutsche Anzeige steht in text).
     URI: http://loinc.org
 
-  • SNOMED CT — Global Patient Set (GPS), neun Konzepte
+  • SNOMED CT — Global Patient Set (GPS), einzelne Konzepte
     Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International,
     lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License
     (CC BY-ND 4.0, https://creativecommons.org/licenses/by-nd/4.0/), bezogen über
@@ -362,22 +362,34 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     gilt Abschnitt 5 der CC BY-ND 4.0 (Gewährleistungsausschluss und
     Haftungsbeschränkung). GPS-Release: 20260101.
 
-    Genutzt werden neun Konzepte (tools/snomed-freigabe.json): zwei Allergene in der Code-Liste
-    snomedAllergen, fünf Abwesenheits-Aussagen im IPS-Export, zwei in einer Test-Fixture. Jedes
+    Genutzt werden die Konzepte in tools/snomed-freigabe.json: Allergene in der Code-Liste
+    snomedAllergen, Abwesenheits-Aussagen und NFD-Angaben im IPS-Export, die drei Festwerte der
+    KBV-Patientenkurzakte (als FSN, wie das Profil sie fixiert), zwei in einer Test-Fixture. Jedes
     trägt seinen unveränderten Begriff (FSN oder PT); die deutschen Bezeichnungen daneben sind
     eigene Bezeichnungen von Vivodepot, keine SNOMED-Begriffe, und gehen nie als SNOMED-Begriff
-    hinaus (coding.display trägt nur den GPS-Begriff, die deutsche Anzeige steht in text).
-    Keine Hierarchien, keine Beziehungen, keine abgeleiteten Wertemengen. Vor jeder Ausweitung
-    wird SNOMED International gefragt. URI: http://snomed.info/sct
+    hinaus (coding.display trägt nur den GPS-Begriff, die deutsche Anzeige steht in text; in der
+    KBV-Patientenkurzakte steht die deutsche Anzeige der KBV in der Extension, die das Profil verlangt).
+    Keine Hierarchien, keine Beziehungen, keine abgeleiteten Wertemengen. Nach der Antwort von
+    SNOMED International vom 28.09.2026 (Ticket #61950) darf jedes aktive GPS-Konzept in diesem
+    Nutzungsmuster genutzt werden; eine Ausweitung darüber hinaus wird vorher angefragt.
+    URI: http://snomed.info/sct
 
-  • KBV MIO Patientenkurzakte — ein Code aus dem CodeSystem KBV_CS_MIO_NFD_Runaway_Risk, Version 1.0.0
-    Genutzt wird allein der Code „Weglaufgefaehrdung“ (Anzeige „Weglaufgefährdung“) im IPS-Export
-    (Flag der Sektion Alerts), seit v835. Quelle: Kassenärztliche Bundesvereinigung (KBV),
-    https://github.com/kassenaerztliche-bundesvereinigung/MIOParser,
-    src/Definitions/KBV/PKA/1.0.0/CodeSystem/NFDRunawayRisk.ts. Lizenz: Apache License 2.0
+  • KBV MIO Patientenkurzakte, Version 1.0.0 — ein Code im IPS-Export und die Profile der persönlichen Erklärungen
+    Genutzt werden der Code „Weglaufgefaehrdung“ (Anzeige „Weglaufgefährdung“) aus
+    KBV_CS_MIO_NFD_Runaway_Risk im IPS-Export (Flag der Sektion Alerts), seit v835, und seit U2-ADR-471 die
+    Profile, Extensions und Festwerte des DPE (Persönliche Erklärungen) für die Ausgabe der
+    Vorsorgevollmacht: Bundle, Composition, Patient, Personal Consent, Active Advance Directive,
+    Ablageort-Extension und -Anschrift, CodeSystem KBV_CS_MIO_NFDxDPE_Bundle_Type (Code
+    DPE_Vorsorgevollmacht) und die deutsche Anzeige „DPE_Vorsorgevollmacht“ aus
+    KBV_CM_MIO_DPE_Declaration_Type_German, unverändert. Quelle: Kassenärztliche Bundesvereinigung (KBV),
+    https://github.com/kassenaerztliche-bundesvereinigung/MIOParser, Commit
+    0f39da3c86212d63885bf221dfb772f691a794e3, src/Definitions/KBV/PKA/1.0.0 (u. a.
+    CodeSystem/NFDRunawayRisk.ts, Profile/NFDxDPEConsentActiveAdvanceDirective.ts,
+    Extension/NFDxDPEConsentDescriptionFileLocation.ts). Lizenz: Apache License 2.0
     (https://www.apache.org/licenses/LICENSE-2.0). NOTICE des Werks:
     KBV MIO Parser / Copyright 2020 - 2022 Kassenärztliche Bundesvereinigung
-    URI: https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk
+    URI: https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk,
+    https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_NFDxDPE_Bundle (und die weiteren DPE-Profile)
 
   • IHE Deutschland — Value Sets for XDS, Version 4.0.0, vier Codes
     Genutzt werden IHEXDStypeCode PATD „Patienteneigene Dokumente“, IHEXDSclassCode ADM

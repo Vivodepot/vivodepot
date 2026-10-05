@@ -117,7 +117,12 @@ const NUR_CHIFFRAT = [
 // U2-ADR-468 (01.10.2026, v863): die ISiK-Ausgabe für das Krankenhaus (flowIsikExport) — zwei DocumentReferences mit der
 // Urschrift der Vollmacht und der IPS. Two-Step: das Tor (Erlaubnis der Anzeigetexte), die Freigabe der sensiblen Felder über die
 // Übersicht des IPS-Exports, die Bestätigung der Urschrift und MyTerms Teil D (mitVereinbarung). Kein Geheimnis, kein Schlüssel.
-const ERLAUBTE_KLARTEXT_ANZAHL = 20;
+// U2-ADR-471 (05.10.2026, TOP-Einzelwort mit vier Bedingungen): die KBV-PKA-Ausgabe für die Arztpraxis (flowKbvPkaExport) —
+// ein DPE-Bundle je bevollmächtigter Person, eine Datei je Bundle, kein Sammel-Klartext. Two-Step wie flowIsikExport: die
+// Freigabe-Übersicht (sensible Angaben nicht vorgewählt), die Torgründe, MyTerms Teil D (mitVereinbarung) und vor dem Speichern
+// der Hinweis „nicht verschlüsselt“ (klartextHinweisVorSpeichern). Kein Geheimnis, kein Schlüssel. Proben: tests/kbv-pka-vollmacht.test.js
+// [PKA·Freigabe], [PKA·Klartext-Hinweis], [PKA·Klartext-Hinweis·Rot], [PKA·Ausgabeweg].
+const ERLAUBTE_KLARTEXT_ANZAHL = 21;
 
 test('[Klausel] Bindung an ' + ADR + ' über das Fundament', () => {
   bindungPruefen(ADR, HERKUNFT, PRUEFUNGEN, __filename);

@@ -174,5 +174,9 @@ test('[Vorsorge·Spiegel] das Vorsorge-Consent baut genau eine Funktion', () => 
   // Die Terminologie des Vorsorge-Consents (Profil, scope adr, category acd, Rolle AGNT) liest genau eine Stelle des Kerns.
   const leser = KERN.match(/IPS_BEGRIFFE\.advanceDirectives\b/g) || [];
   assert.equal(leser.length, 1, 'eine zweite Stelle, die Vorsorge-Consents baut, wäre eine zweite Abbildung derselben Vollmacht');
-  assert.equal((KERN.match(/CodeSystem\/consentscope/g) || []).length, 1, 'scope adr steht nur in den Terminologie-Daten');
+  // U2-ADR-471: die KBV-PKA trägt scope zweimal in ihren eigenen Terminologie-Daten (Erklärung und Vertretung) — gezählt
+  // wird darum außerhalb des kbvPka-Blocks weiter genau einmal, im Block genau zweimal.
+  const kbvBlock = (KERN.match(/ipsBegriffeAnmelden\(\{"kbvPka":[^\n]*/) || [''])[0];
+  assert.equal((kbvBlock.match(/CodeSystem\/consentscope/g) || []).length, 2, 'die KBV-PKA nennt scope für Erklärung und Vertretung');
+  assert.equal((KERN.replace(kbvBlock, '').match(/CodeSystem\/consentscope/g) || []).length, 1, 'scope adr steht nur in den Terminologie-Daten');
 });

@@ -46,7 +46,7 @@ test('[U2-ADR-262] jede geführte Handkopie stimmt mit ihrem Original überein',
 test('[U2-ADR-262 · Gegenprobe] `schreiber` ist eine benannte, keine stille Ausnahme', () => {
   const eintrag = REGISTRY.find((e) => e.label === 'FORMAT_MODUL_SCHLUESSEL');
   assert.ok(eintrag, 'die Registry führt FORMAT_MODUL_SCHLUESSEL');
-  assert.deepEqual(eintrag.ausnahmen, ['schreiber']);
+  assert.deepEqual(eintrag.ausnahmen, ['schreiber', 'namensraum', 'wurzel', 'hinweis']);   // U2-ADR-465: drei weitere, Grund an der Registry
   const [befund] = pruefeEintrag(REPO, new Set(require('node:child_process')
     .execFileSync('git', ['ls-files'], { cwd: REPO, encoding: 'utf8' }).split('\n').filter(Boolean)), eintrag);
   assert.equal(befund.ok, true);

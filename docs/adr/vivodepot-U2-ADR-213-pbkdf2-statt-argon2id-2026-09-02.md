@@ -5,8 +5,8 @@
 **Kategorie:** SICHERHEIT, KRYPTOGRAPHIE
 **Linie:** U2
 **U2-Bezug:** Keine Iteration eines bestehenden ADRs — schließt einen seit dem 23.05.2026 offenen
-Punkt eines externen, internen Krypto-Gutachtens (23.05.2026, gegen Beta v2, kein
-Repo-Dokument — das Gutachten selbst bleibt intern, dieses ADR ist die öffentliche, im Repo
+Punkt einer internen Krypto-Durchsicht (23.05.2026, gegen Beta v2, nicht veröffentlicht, kein
+Repo-Dokument — die Durchsicht selbst bleibt intern, dieses ADR ist die öffentliche, im Repo
 geführte Begründung dazu). Berührt denselben Code wie U2-ADR-062 (PBKDF2-SHA256, 600.000 fest)
 und die `kryptoVersion`-Architektur aus U2-ADR-085-Nachtrag.
 **Anker:** Auftrag vom 02.09.2026. Erster Entwurf dieses ADR war eine Begründung ohne
@@ -22,12 +22,12 @@ Dieses ADR hält das Ergebnis fest, nicht die ursprüngliche Vermutung.
 
 ## Kontext
 
-Ein externes Krypto-Gutachten (23.05.2026, gegen Beta v2) hält unter Befund 1.3 fest: „PBKDF2
+Die interne Krypto-Durchsicht vom 23.05.2026 (gegen Beta v2, nicht veröffentlicht) hält unter Befund 1.3 fest: „PBKDF2
 statt Argon2id (GPU/FPGA)" — eine strukturelle Schwäche gegenüber spezialisierter
 Angriffs-Hardware, da PBKDF2 (anders als Argon2id) nicht memory-hard ist. Der Abgleich gegen den
 cleanslate-Code am 19.06.2026 bestätigte: der VdCrypto-Block wurde byte-identisch überführt, der
-Befund gilt unverändert — Status **🔴 BLOCK-OFFEN**. Ein offener roter Punkt in einem externen
-Gutachten ist das Erste, was eine sicherheitsbewusste Prüferin findet.
+Befund gilt unverändert — Status **🔴 BLOCK-OFFEN**. Ein offener roter Punkt in einer
+Krypto-Durchsicht ist das Erste, was eine sicherheitsbewusste Prüferin findet.
 
 Bedrohungsmodell, entscheidend für die Einordnung: Vivodepot hat keinen Server, keinen zweiten
 Faktor, keine Sperre nach Fehlversuchen, keine Ratenbegrenzung. Die gesamte Sicherheit einer
@@ -42,35 +42,29 @@ schlechter wäre, sondern weil der Fall dafür nach vollständiger Messung noch 
 und drei konkrete Lücken vor einem Wechsel zu schließen sind, nicht danach.**
 
 **1 — Testvektoren tragen den Wechsel nicht, wie zunächst angenommen, aber auch nicht das
-ursprüngliche Gegenargument.** RFC 9106 hat einen echten, offiziellen Argon2id-Testvektor (§5.3)
-— vergleichbar in Form und Umfang mit RFC 5869/HKDF, das Vivodepot bereits nutzt. Gegen NIST CAVP
-(Argon2 dort gar nicht gelistet) und Project Wycheproof (kein Argon2-Verzeichnis, keine
-Negativ-/Grenzfälle wie bei den übrigen Primitiven) trägt die Gleichsetzung aber nicht. Das
-Testvektor-Argument allein rechtfertigt weder Wechsel noch Verbleib.
+ursprüngliche Gegenargument.** RFC 9106 hat einen offiziellen Argon2id-Testvektor (§5.3)
+— vergleichbar in Form und Umfang mit RFC 5869/HKDF, das Vivodepot bereits nutzt. Project
+Wycheproof führt im Verzeichnis `testvectors_v1` des Repositorys C2SP/wycheproof Vektoren mit
+Negativ- und Grenzfällen für AES-GCM, HKDF-SHA-256 und PBKDF2-HMAC-SHA-256, die Vivodepot nutzt,
+aber keine für Argon2 (Dateiliste am 05.10.2026 nachgesehen).
+Das Testvektor-Argument allein rechtfertigt weder Wechsel noch Verbleib.
 
-**2 — Keine verfügbare Implementierung vereint Pflege, Selbsttest gegen echte Vektoren und
-unabhängiges Audit.** Vier Kandidaten live geprüft (Größe, Lizenz, Pflegezustand,
-Vektor-Abdeckung): `hash-wasm` (11,4 KB gzip, aktiv gepflegt, MIT, keine RFC-9106-Vektoren im
-eigenen Test), `openpgpjs/argon2id` (8,6 KB, **einzige mit echten RFC-9106-Vektoren im eigenen
-Test**, aber seit 03.08.2023 nicht mehr gepflegt), `argon2-browser` (20 KB, seit 2021 kaum
-gepflegt), `libsodium-wrappers-sumo` (≈ 397 KB — 10 bis 40× größer als die übrigen, für den
-Einzeldatei-Anspruch unpassend). Reines JavaScript ohne WASM existiert nicht ernsthaft — die
-einzige Implementierung, die sich so nannte, gibt im eigenen README zu, die Performance ohne WASM
-sei „unacceptable" gewesen. Keine der vier ist quelltext-lesbar wie Vivodepots eigener,
-handgeschriebener WebCrypto-Code; keine hat ein auffindbares, implementierungsspezifisches
-Sicherheitsaudit (libsodiums zugrundeliegende C-Bibliothek wurde geprüft, der Scope für die
-JS/WASM-Portierung ist nicht verifizierbar).
+**2 — Keine der geprüften Implementierungen passt heute in den Kern.** Drei Kandidaten, Angaben
+aus dem jeweiligen README und der GitHub-Seite (Stand 05.10.2026): `hash-wasm` (laut Datei LICENSE MIT; eingebettete
+C-Implementierungen können laut derselben Datei andere, ähnlich freizügige Lizenzen tragen;
+Argon2-Modul laut README 11 kB gzip; letzte Veröffentlichung v4.12.0 vom 19.11.2024), `openpgpjs/argon2id` (laut README
+< 7 KB minifiziert und gzip; letzte Änderung im Repository 03.08.2023), `argon2-browser` (laut README 14 kB
+JavaScript und 25 kB WASM; letzter Commit auf `master` vom 13.11.2021, letzter Push ins Repository 24.03.2023). Das README von
+`openpgpjs/argon2id` hält fest, dass ein Versuch in reinem JavaScript an der Laufzeit scheiterte
+(„the running time was unacceptable“). Alle drei bringen WASM mit; keine ist quelltext-lesbar wie
+Vivodepots eigener, handgeschriebener WebCrypto-Code.
 
-**3 — Der Sicherheitsgewinn ist real, aber kleiner und stärker parameterabhängig als das
-Gutachten nahelegte.** Echte hashcat-7.0.0-Benchmarks (RTX 4090, dieselbe GPU für beide Werte):
-PBKDF2-600k ≈ 14.057 H/s gegen Argon2id bei RFC-9106-typischen Parametern (64 MiB/t=3/p=1) =
-1.703 H/s — Faktor **≈ 8**, nicht mehrere Zehnerpotenzen. Für OWASPs tatsächliches Minimum
-(19 MiB/t=2/p=1) existiert kein veröffentlichter Benchmark; eine ausdrücklich als unbelegt
-gekennzeichnete Hochrechnung ergibt nur **≈ 1,6×** — kaum ein Gewinn. Der eigentliche, strukturelle
-Vorteil zeigt sich im Skalierungsverhalten: ein 40.000-Dollar-Rig aus acht RTX-5090-GPUs erreichte
-bei Argon2id NICHT mehr als ein 2.100-Dollar-CPU-Server (Specops-Studie, über zwei unabhängige
-Pressequellen verifiziert) — bei PBKDF2 skaliert mehr Angreifer-Hardware praktisch linear. Dieser
-Vorteil hängt aber sichtbar an großzügigen Speicherparametern, nicht an einem zumutbaren Minimum.
+**3 — Der Sicherheitsgewinn hängt an den Speicherparametern.** Argon2id ist speicherhart, PBKDF2
+nicht; wie viel ein Angreifer mit Grafikkarten dadurch verliert, hängt an Speicher, Durchläufen und
+Parallelität. OWASP nennt als Mindestwerte für Argon2id 19 MiB, t=2, p=1 und für PBKDF2-HMAC-SHA256
+600.000 Iterationen (OWASP Password Storage Cheat Sheet); RFC 9106 empfiehlt als zweite Wahl
+Argon2id mit t=3, p=4 und 64 MiB (§4). Eine eigene Messung mit Grafikkarten bei diesen Parametern
+liegt nicht vor; Zahlen zum Abstand stehen darum hier nicht.
 
 **4 — Die Gerätekosten sind real gemessen, aber nicht auf echter schwacher Hardware.** Eigene
 Live-Messung (hash-wasm, drei Läufe, Median) auf zwei Plattformen — dieser Mac UND ein echter
@@ -86,8 +80,8 @@ benannte Lücke dieser Erhebung.
 Vivodepots Kern-Kryptographie lebt in einem einzigen, SHA-256-gepinnten Block, byte-identisch in
 einer externen Datei gespiegelt, als „Klasse-A, muss vor jedem Commit grün sein" geprüft
 (`tests/vdcrypto-block-integritaet.test.js`) — ein KDF-Wechsel berührt diesen Block, seine
-Verbatim-Kopie, den separaten „Übergabe-Pfad" für Empfängerkreis-Container (die einzige weitere
-legitime Direkt-PBKDF2-Verwendung) und mindestens 17 Testdateien. `KRYPTO_VERSION_ALLOWLIST`
+Verbatim-Kopie, den separaten „Übergabe-Pfad" für Empfängerkreis-Container und die Testdateien,
+die beides prüfen. `KRYPTO_VERSION_ALLOWLIST`
 trägt bereits zwei aktive Generationen (`[3, 4]`) mit harter Freigabeliste statt stillem
 Fallback — das Muster ist erprobt. Aber der eigene Präzedenzfall (200k→600k-Wechsel, 12.06.2026)
 entfernte den alten Pfad ERSATZLOS, statt ihn dauerhaft mitzuführen. Ein Argon2id-Wechsel, der
@@ -97,7 +91,7 @@ sondern ein neues, dauerhaftes Zwei-KDF-Regime.
 **Nicht nur behauptet, sondern beim Bau dieses ADR selbst gemessen:** Ein Versuch, lediglich
 einen Kommentarzeilen-Verweis auf dieses ADR neben `PBKDF2_ITERATIONS` einzufügen — keine
 Funktionsänderung, ein einzelner Kommentar — landete im hash-gepinnten VdCrypto-Block und löste
-eine Kaskade über acht „Klasse-A"-Wächter aus, verteilt über vier Komponenten (u. a.
+eine Kaskade über mehrere „Klasse-A"-Wächter in mehreren Komponenten aus (u. a.
 `tests/vdcrypto-block-integritaet.test.js`, `tests/krypto-block-propagation.test.js`,
 `tests/kette-08-der-rueckweg.test.js`). Zurückgenommen, nicht durchgezogen. Das ist kein
 Gedankenexperiment zur Kostenabschätzung dieses Grundes, sondern derselbe Mechanismus, live
@@ -113,22 +107,22 @@ wirken, nicht nur dokumentiert sind.
 
 ## Verworfene Alternative
 
-**Eine mitgelieferte Argon2id-Implementierung schon heute einbauen**, um dem Gutachten-Befund
-zuvorzukommen. Verworfen — nicht aus dem ursprünglich angeführten (und inzwischen widerlegten)
-Grund fehlender Testvektoren, sondern weil keine der real verfügbaren Implementierungen
-zugleich gepflegt, selbst gegen echte Vektoren getestet und unabhängig auditiert ist (Grund 2),
-und weil der reale Nutzen bei zumutbaren, geräteschonenden Parametern ungeklärt ist (Grund 3/4).
+**Eine mitgelieferte Argon2id-Implementierung schon heute einbauen**, um dem Befund der
+Durchsicht zuvorzukommen. Verworfen — nicht aus dem ursprünglich angeführten (und inzwischen widerlegten)
+Grund fehlender Testvektoren, sondern weil keine der geprüften Implementierungen heute in den
+Kern passt (Grund 2), und weil der reale Nutzen bei zumutbaren, geräteschonenden Parametern ungeklärt ist (Grund 3/4).
 
 ## Konsequenzen
 
-Der externe Gutachten-Befund 1.3 gilt ab diesem ADR als **gemessen beantwortet, nicht behoben**.
-Eine Prüferin, die den Gutachten-Abgleich künftig liest, findet einen Verweis auf dieses ADR und
+Der Befund 1.3 der internen Durchsicht gilt ab diesem ADR als **gemessen beantwortet, nicht behoben**.
+Eine Prüferin, die den Abgleich der Durchsicht künftig liest, findet einen Verweis auf dieses ADR und
 den zugrundeliegenden Messbericht statt eines unkommentiert offenen roten Punkts.
 
 **Wiedervorlage-Bedingung, präziser als ursprünglich vorgesehen:** nicht mehr allein „Argon2id
-nativ in Zielbrowsern verfügbar" (nach wie vor: kein Browser trägt es nativ, einziger Ansatz ein
-WICG-Entwurf vom 11.08.2026, ausdrücklich „not on the W3C Standards Track", live gegen die
-Primärquelle geprüft), sondern zusätzlich UND unabhängig davon: eine Implementierung, die Pflege,
+nativ in Zielbrowsern verfügbar" (der WICG-Entwurf „Modern Algorithms in the Web Cryptography
+API“ beschreibt Argon2, Stand 14.09.2026, wicg.github.io/webcrypto-modern-algos; er ist nach eigener
+Angabe „not a W3C Standard nor is it on the W3C Standards Track“), sondern zusätzlich UND
+unabhängig davon: eine Implementierung, die Pflege,
 echte Vektor-Selbsttests und ein unabhängiges Audit vereint, UND eine echte Messung auf
 tatsächlich schwacher Hardware, nicht nur Emulation auf starkem Host-Silicon.
 
@@ -159,11 +153,27 @@ pruefung: tests/pbkdf2-statt-argon2id.test.js#KRYPTO_VERSION_ALLOWLIST trägt sc
 ```
 
 Keine Probe für die Kernaussagen aus Grund 1/2/3/4 selbst (Testvektor-Umfang, Implementierungs-
-Pflegezustand, GPU-Benchmarks, Gerätekosten): das sind Tatsachen über die Außenwelt zum
-Messzeitpunkt (02.09.2026), keine Eigenschaften des eigenen Codes — dafür gibt es hier bewusst
+Pflegezustand, Gerätekosten): das sind Tatsachen über die Außenwelt zum
+Messzeitpunkt (02.09.2026, Quellenangaben nachgeprüft am 05.10.2026), keine Eigenschaften des eigenen Codes — dafür gibt es hier bewusst
 keine automatisierte Probe, keine erfunden. Der volle Messweg steht im internen Messbericht
 zu diesem ADR, damit er bei Bedarf wiederholt werden kann.
+
+## Nachtrag 04.10.2026
+
+Die Durchsicht vom 23.05.2026 war intern. Frühere Fassungen dieses ADR bezeichneten sie als extern;
+die Benennung ist korrigiert. An Befund 1.3, der Messung und der Entscheidung ändert sich nichts.
 
 ---
 
 *Vivodepot GmbH · Berlin · 02.09.2026*
+
+## Nachtrag 05.10.2026
+
+Die Quellenangaben sind nach einer unabhängigen Prüfung gegen die Primärquellen berichtigt. Die
+Argon2id-Parameter heißen jetzt wie in RFC 9106 §4 (t=3, p=4, 64 MiB). Der WICG-Entwurf trägt das
+Datum seiner geprüften Fassung. Die Bibliotheksangaben stehen mit Fassung und Datum aus README und
+GitHub. Gestrichen sind die Angaben, die sich nicht belegen ließen: die Durchsatzwerte mit
+Grafikkarten und der daraus berechnete Faktor, die Angaben aus der Specops-Studie, die Aussage zur
+NIST-CAVP-Liste, die libsodium-Größe, die Aussagen über ein fehlendes Audit und über Implementierungen
+in reinem JavaScript sowie die Zahl der Testdateien und Wächter in Grund 5. An der Entscheidung ändert
+sich nichts.

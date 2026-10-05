@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ERFUNDENE Codeliste im genericode-Format. -->
+<gc:CodeList xmlns:gc="http://docs.oasis-open.org/codelist/ns/genericode/1.0/"><Identification><ShortName>farbe</ShortName><Version>1</Version><CanonicalUri>urn:beispiel:codeliste:farbe</CanonicalUri><CanonicalVersionUri>urn:beispiel:codeliste:farbe_1</CanonicalVersionUri></Identification><ColumnSet><Column Id="code" Use="required"><ShortName>code</ShortName><Data Type="string"/></Column><Key Id="k"><ShortName>k</ShortName><ColumnRef Ref="code"/></Key></ColumnSet><SimpleCodeList><Row><Value ColumnRef="code"><SimpleValue>01</SimpleValue></Value></Row><Row><Value ColumnRef="code"><SimpleValue>02</SimpleValue></Value></Row></SimpleCodeList></gc:CodeList>

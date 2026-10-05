@@ -101,7 +101,8 @@ test('[Aufrufer·E4] Slot tot, Funktion lebt — der Boot-Aufruf verarbeitet wei
   // 13.09.2026: +3 (ZVR-Abschrift, U2-ADR-410) — der gemessene Stand.
   // 20.09.2026: 270/187 → 271/194 (U2-ADR-424: finance.privateInsurancePolicies +1 Top-Level, sechs
   // Unterfelder daran, dazu garnishmentProtection an finance.accounts) — gemessen, nicht addiert.
-  assert.equal(z.unter, 194, 'UnterFelder unverändert');
+  // 194 → 198 (05.10.2026, U2-ADR-471: storageStreet/-HouseNumber/-PostalCode/-City am Vorsorge-Instrument, gemessen).
+  assert.equal(z.unter, 198, 'UnterFelder unverändert');
 });
 
 test('[Aufrufer·RUNDWEG] der eigene Bestand als Bündel ergibt denselben Bestand', () => {
@@ -120,7 +121,8 @@ test('[Aufrufer·RUNDWEG] der eigene Bestand als Bündel ergibt denselben Bestan
   assert.equal(bericht.bereiche, V.bereicheAlle().length,
     'der Rundweg führt jeden Bereich des laufenden Bestands zurück');
   assert.equal(bericht.felder, 321, 'alle Top-Level-Felder angenommen');   // 320 → 321 (U2-ADR-459)   // 316 → 320 (U2-ADR-467)   // 312 → 316 (U2-ADR-455)   // 283 → 312 (U2-ADR-440)   // 278 → 283 (U2-ADR-438)   // 275 → 278 (U2-ADR-439)
-  assert.equal(bericht.unterFelder, 194, 'alle UnterFelder angenommen'); // 13.09.2026: +3, 20.09.2026: +7, s. o.
+  assert.equal(bericht.unterFelder, 198, 'alle UnterFelder angenommen');   // 194 → 198 (05.10.2026, U2-ADR-471)
+  // 13.09.2026: +3, 20.09.2026: +7, s. o.
   assert.deepEqual(bericht.verworfen, [], 'nichts verworfen — die Kennungen stammen aus dem Bestand selbst');
   const nachher = JSON.stringify(V.SEKTOREN.map((s) => ({ id: s.id, sektionen: s.sektionen })));
   assert.equal(nachher, vorher,
@@ -139,13 +141,13 @@ test('[Aufrufer·Positivkontrolle] der Rundweg-Vergleich erkennt eine echte Abwe
   assert.notEqual(nachher, vorher, 'ein fehlendes Feld bleibt unbemerkt — der Rundweg-Vergleich misst nichts');
 });
 
-test('[Aufrufer·UnterFelder] die 194 UnterFelder landen an ihrem Träger, nicht als Geschwister', () => {
+test('[Aufrufer·UnterFelder] die 198 UnterFelder landen an ihrem Träger, nicht als Geschwister', () => {
   const { V } = ladeKern();
   V.buergermodulBuendelAnwenden(buendelAusBestand(V));
   let top = 0, unter = 0;
   for (const s of V.bereicheAlle()) { const z = feldZahl(s); top += z.top; unter += z.unter; }
-  assert.equal(top, 321, 'landeten UnterFelder flach, stünden hier 515 statt 321 — die Bürgerin sähe 194 Felder zu viel');   // 320 → 321 (U2-ADR-459)   // 316 → 320 (U2-ADR-467)   // 312 → 316 (U2-ADR-455)   // 283 → 312 (U2-ADR-440)   // 275 → 278 (U2-ADR-439)
-  assert.equal(unter, 194, 'die UnterFelder hängen an ihrem Trägerfeld');
+  assert.equal(top, 321, 'landeten UnterFelder flach, stünden hier 519 statt 321 — die Bürgerin sähe 198 Felder zu viel');   // 320 → 321 (U2-ADR-459)   // 316 → 320 (U2-ADR-467)   // 312 → 316 (U2-ADR-455)   // 283 → 312 (U2-ADR-440)   // 275 → 278 (U2-ADR-439)
+  assert.equal(unter, 198, 'die UnterFelder hängen an ihrem Trägerfeld');   // 194 → 198 (05.10.2026, U2-ADR-471)
 });
 
 test('[Aufrufer·Teil-Bündel] ein Bündel ohne einen Bereich leert ihn NICHT', () => {

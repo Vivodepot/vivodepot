@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- ERFUNDENE Fixture in der Form, die der XSD-Umwandler des FIM-Portals liefert: Elementnamen sind Kennungen. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:xoev-de:xfall:standard:fim-s99000001_1.0" xmlns:xfd="urn:xoev-de:xfall:standard:fim-s99000001_1.0">
+  <xs:element name="fim.S99000001.00000001001000">
+    <xs:complexType><xs:sequence>
+      <xs:element name="G99000002"><xs:complexType><xs:sequence>
+        <xs:element name="F99000003"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="01"/><xs:enumeration value="02"/></xs:restriction></xs:simpleType></xs:element>
+      </xs:sequence></xs:complexType></xs:element>
+    </xs:sequence></xs:complexType>
+  </xs:element>
+</xs:schema>

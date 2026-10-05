@@ -47,10 +47,15 @@ const ZAHL = /(?<![\w.])\d{6,18}(?![\w.])/g;
 const IS_A = ['1166', '80003'].join('');
 const HIERARCHIE = new RegExp(String.raw`\$subsumes|\$expand|subsumedBy|\bsubsumes\b|descendantOf|descendant-of|ancestorOf|memberOf|\bECL\b|['"]is-a['"]|\bis-a\b|(?:<<?|\^)\s*\d{6,18}\b|\b` + IS_A + String.raw`\b`);
 
+/* Die Modul-Kennung in einer Editions-URI (`http://snomed.info/sct/<Modul>/version/<Datum>`, RF2-Konvention) ist die Angabe,
+   aus welcher Edition ein Code stammt — kein genutztes Konzept. Profile fixieren sie in `coding.version` (KBV-PKA, U2-ADR-471).
+   Gezählt wird sie nur dort nicht; dieselbe Zahl außerhalb einer Editions-URI zählt wie jede andere. */
+const EDITIONS_URI = /snomed\.info\/sct\/(\d{6,18})\/version\//g;
 function idsInText(text) {
   const ids = new Set();
-  for (const m of text.matchAll(/snomed/gi)) {
-    const fenster = text.slice(Math.max(0, m.index - UMKREIS), m.index + UMKREIS);
+  const ohneEdition = text.replace(EDITIONS_URI, (m, modul) => m.replace(modul, '#'.repeat(modul.length)));
+  for (const m of ohneEdition.matchAll(/snomed/gi)) {
+    const fenster = ohneEdition.slice(Math.max(0, m.index - UMKREIS), m.index + UMKREIS);
     for (const n of fenster.matchAll(ZAHL)) if (istKonzeptId(n[0])) ids.add(n[0]);
   }
   return ids;

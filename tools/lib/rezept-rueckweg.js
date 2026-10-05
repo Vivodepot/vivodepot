@@ -2,9 +2,10 @@
 /* ════════════════════════════════════════════════════════════════════════════
    rezept-rueckweg.js — der Rückweg eines Auslieferungslaufs (23.09.2026)
    ────────────────────────────────────────────────────────────────────────────
-   Schritt 4 überschreibt `rezepte/<slug>.json` auf der Ablage; die alte `.jws` deckt die neuen Bytes nicht mehr,
-   und bis Schritt 5 signiert hat, liefert der Worker kein Produkt aus (src/rezept-kette.js im Gateway). Schlägt
-   Schritt 5 fehl, bleibt es so. Dieser Rückweg stellt den alten, gültigen Zustand wieder her:
+   Bis 05.10.2026 überschrieb Schritt 4 `rezepte/<slug>.json`, und erst Schritt 5 signierte; schlug Schritt 5 fehl,
+   lieferte der Worker kein Produkt aus (src/rezept-kette.js im Gateway). Seit NICHT-ATOMAR gehen Rezept und Signatur
+   als Paar hoch (tools/kern-ausliefern.js). Der Rückweg bleibt: zum Stand vor dem Lauf, wenn der neue nicht gelten soll.
+   Er stellt den alten, gültigen Zustand wieder her:
 
      SICHERN        vor dem ersten Überschreiben je Slug die alten `.json` UND `.jws` holen und außerhalb des Baums
                     ablegen, mit `sicherung.json` (SHA-256 je Datei). Der Baum bleibt sauber, sonst wäre

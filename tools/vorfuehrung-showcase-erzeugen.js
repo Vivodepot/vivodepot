@@ -120,6 +120,95 @@ function _wertAufloesen(V, wert, ids) {
   return wert;
 }
 
+/* FREITEXT IN DER SPRACHE DER VORFÜHRUNG (05.10.2026). Die Beispieldaten sind deutsch geschrieben. Codewerte (`verwitwet`,
+   `ja`, Code-Listen) zeigt das Produkt in seiner Sprache an; Freitext nicht — eine englische Vorführung zeigte deutsche
+   Antworten („Tochter“, Medikation, Ablageorte). Darum trägt die Depot-Datei je weiterer Sprache eine Tabelle
+   `uebersetzung: { en: { "<pfad>": "…" } }`, und ein Bau in einer anderen Sprache als Deutsch WIRFT, solange ein Freitext ohne
+   Übersetzung bleibt. Freitext heißt: Feldart text/textarea nach der Definition des Kerns (Felder und Listen-Unterfelder),
+   `text` eines Listeneintrags ohne Code-Liste, die Freitextangaben einer Person und die Beschriftung eines Dokuments.
+   Ausgenommen sind Eigennamen und Kontaktangaben (EIGENNAMEN, benannt, keine Wortliste) und Werte ohne Buchstaben.
+   Pfade: fields.<kennung>[.<i>.text] · lists.<kennung>.<i>.<unterfeld> · people.<key>.<feld> · documents.<i>.beschriftung.
+   Eine Datei, die in einer anderen Sprache geschrieben ist, sagt es mit `sprache` (maria-mustermann-depot.json: en).
+   Die Probe dazu hält es über alle englischen Demos und Vorführungen. */
+const EIGENNAMEN = Object.freeze([
+  'fields.identity.givenName', 'fields.identity.familyName', 'fields.identity.secondLastName', 'fields.identity.birthName',
+  'fields.identity.streetAddress', 'fields.identity.postcodeCity', 'fields.identity.placeOfBirth',
+  'fields.identity.telephone', 'fields.identity.email', 'fields.identity.birthPlace',
+  'lists.administration.ongoingAdministrativeCases.authority', 'lists.advanceCare.provisionInstruments.certifyingBody',
+  'lists.advanceCare.provisionInstruments.centralRegisterOfPowersOf', 'lists.finance.accounts.iban',
+]);
+const PERSON_FREITEXT = Object.freeze(['beziehung', 'aufgabe', 'fachrichtung']);
+const _hatWorte = (s) => typeof s === 'string' && /\p{L}{2,}/u.test(s);
+function _istFreitextDef(def) { return !!def && (def.typ === 'text' || def.typ === 'textarea'); }
+
+// Jede Freitext-Stelle der Depot-Datei als { pfad, wert } — ohne Eigennamen und ohne Werte ohne Buchstaben.
+function freitextStellen(V, daten) {
+  const aus = [];
+  const nimm = (pfad, wert, eigenMuster) => { if (_hatWorte(wert) && !EIGENNAMEN.includes(eigenMuster || pfad)) aus.push({ pfad, wert }); };
+  for (const [kennung, roh] of Object.entries(daten.fields || {})) {
+    const { sektor, feld } = _kennungAufloesen(V, kennung);
+    const def = V.feldDefFuer(sektor, feld);
+    if (typeof roh === 'string') { if (_istFreitextDef(def)) nimm('fields.' + kennung, roh); continue; }
+    if (Array.isArray(roh)) roh.forEach((e, i) => { if (e && typeof e === 'object' && !e.codeListe && typeof e.text === 'string') nimm('fields.' + kennung + '.' + i + '.text', e.text, 'fields.' + kennung); });
+  }
+  for (const [kennung, eintraege] of Object.entries(daten.lists || {})) {
+    const { sektor, feld } = _kennungAufloesen(V, kennung);
+    const unterDefs = new Map((V.feldDefFuer(sektor, feld).unterFelder || []).map((u) => [u.id, u]));
+    eintraege.forEach((e, i) => {
+      for (const [unter, wert] of Object.entries(e)) {
+        if (typeof wert === 'string' && _istFreitextDef(unterDefs.get(unter))) nimm('lists.' + kennung + '.' + i + '.' + unter, wert, 'lists.' + kennung + '.' + unter);
+      }
+    });
+  }
+  for (const p of daten.people || []) for (const f of PERSON_FREITEXT) if (typeof p[f] === 'string') nimm('people.' + p.key + '.' + f, p[f]);
+  (daten.documents || []).forEach((d, i) => nimm('documents.' + i + '.beschriftung', d.beschriftung));
+  return aus;
+}
+
+function _pfadSetzen(daten, pfad) {
+  const t = pfad.split('.');
+  if (t[0] === 'fields') {
+    const kennung = t[1] + '.' + t[2];
+    if (!(kennung in (daten.fields || {}))) return null;
+    if (t.length === 3) return { holen: () => daten.fields[kennung], setzen: (w) => { daten.fields[kennung] = w; } };
+    const e = (daten.fields[kennung] || [])[Number(t[3])];
+    return e && t[4] === 'text' ? { holen: () => e.text, setzen: (w) => { e.text = w; } } : null;
+  }
+  if (t[0] === 'lists') {
+    const e = ((daten.lists || {})[t[1] + '.' + t[2]] || [])[Number(t[3])];
+    return e && t[4] in e ? { holen: () => e[t[4]], setzen: (w) => { e[t[4]] = w; } } : null;
+  }
+  if (t[0] === 'people') {
+    const p = (daten.people || []).find((x) => x.key === t[1]);
+    return p && t[2] in p ? { holen: () => p[t[2]], setzen: (w) => { p[t[2]] = w; } } : null;
+  }
+  if (t[0] === 'documents') {
+    const d = (daten.documents || [])[Number(t[1])];
+    return d && t[2] === 'beschriftung' ? { holen: () => d.beschriftung, setzen: (w) => { d.beschriftung = w; } } : null;
+  }
+  return null;
+}
+
+// Die Depot-Datei in der Sprache der Vorführung. Die Datei ist deutsch geschrieben, außer sie sagt es anders (`sprache`);
+// jede andere Sprache braucht ihre Tabelle.
+function uebersetzungAnwenden(V, daten, sprache = 'de') {
+  if (sprache === (daten.sprache || 'de')) return daten;
+  const tabelle = (daten.uebersetzung || {})[sprache] || {};
+  const neu = JSON.parse(JSON.stringify(daten));
+  const funde = [];
+  for (const [pfad, wert] of Object.entries(tabelle)) {
+    const z = _pfadSetzen(neu, pfad);
+    if (!z || typeof z.holen() !== 'string') { funde.push(pfad + ': diese Stelle gibt es in der Datei nicht'); continue; }
+    // Gleich dem Original ist erlaubt (ein Arzneimittel heißt in beiden Sprachen so): der Eintrag ist die Entscheidung, nicht die Lücke.
+    if (typeof wert !== 'string' || !wert.trim()) { funde.push(pfad + ': Übersetzung leer'); continue; }
+    z.setzen(wert);
+  }
+  const offen = new Set(freitextStellen(V, daten).map((s) => s.pfad).filter((p) => !(p in tabelle)));
+  for (const p of offen) funde.push(p + ': ohne Übersetzung (' + sprache + ')');
+  if (funde.length) throw new Error('Depot-Datei in ' + sprache + ': ' + funde.length + ' Freitext-Stelle(n) nicht in der Sprache der Vorführung — ' + funde.join(' | '));
+  return neu;
+}
+
 // Ersetzt die Zufalls-ids (uuidV4) durch feste, in Reihenfolge ihres ersten Auftretens.
 function _idsFestschreiben(nutzlast) {
   const text = JSON.stringify(nutzlast);
@@ -163,10 +252,12 @@ function _dokumenteEinlesen(V, dokumente, ordner) {
   });
 }
 
-function showcaseNutzlastErzeugen({ daten, V, dokumentOrdner } = {}) {
+function showcaseNutzlastErzeugen({ daten, V, dokumentOrdner, sprache } = {}) {
   if (!V) throw new Error('showcaseNutzlastErzeugen: V fehlt. Der Kern kommt aus einem erzeugten Produkt (_kernAusProdukt), nie aus dem blanken Kern.');
   if (!daten) { daten = JSON.parse(fs.readFileSync(DATEN_PFAD, 'utf8')); dokumentOrdner = dokumentOrdner || path.dirname(DATEN_PFAD); }
   if (daten.format !== 'showcaseDepot/1') throw new Error('showcase-depot.json: unbekanntes Format ' + daten.format);
+  // Ohne Sprache bleibt die Datei, wie sie ist (Prüfwerkzeuge, die nur Kennungen ansehen); Demo und Vorführung nennen sie immer.
+  if (sprache) daten = uebersetzungAnwenden(V, daten, sprache);
   V.vorschauDepotErzeugen();
   // Die Schreibwege stempeln Urheberschaft — ohne Sitzungs-Akteur werfen sie. Die Beispielperson erklärt sich
   // selbst, wie beim Anlegen eines Depots; die Stempel selbst gehören nicht in die Nutzlast (s. INHALTS_FELDER).
@@ -274,7 +365,7 @@ function vorfuehrungNutzlastErzeugen({ sprache = 'de', szenen, daten, V, dokumen
     format: 'showcase/1', sprache,
     stationSekunden: szenen.stationSekunden, leerlaufSekunden: szenen.leerlaufSekunden, warnSekunden: szenen.warnSekunden,
     texte: Object.assign({}, texte), stationen,
-    depot: showcaseNutzlastErzeugen({ daten, V, dokumentOrdner }),
+    depot: showcaseNutzlastErzeugen({ daten, V, dokumentOrdner, sprache }),
   };
 }
 
@@ -351,4 +442,4 @@ if (require.main === module) {
   try { main(process.argv.slice(2)); } catch (e) { console.error('FEHLER:', e.message); process.exitCode = 1; }
 }
 
-module.exports = { showcaseNutzlastErzeugen, vorfuehrungNutzlastErzeugen, vorfuehrungDateiErzeugen, showcaseInKernBacken, SHOWCASE_BEGIN, SHOWCASE_ENDE, INHALTS_FELDER, _produktPruefen, _produktSprache, _kernAusProdukt, _noindexEinsetzen, NOINDEX_META };
+module.exports = { showcaseNutzlastErzeugen, freitextStellen, uebersetzungAnwenden, EIGENNAMEN, PERSON_FREITEXT, vorfuehrungNutzlastErzeugen, vorfuehrungDateiErzeugen, showcaseInKernBacken, SHOWCASE_BEGIN, SHOWCASE_ENDE, INHALTS_FELDER, _produktPruefen, _produktSprache, _kernAusProdukt, _noindexEinsetzen, NOINDEX_META };

@@ -70,28 +70,29 @@
       "herausgeber": "Kassenärztliche Bundesvereinigung (KBV)",
       "quelle": {
         "url": "https://packages.fhir.org/kbv.mio.patientenkurzakte/1.0.0",
-        "abgerufen": "2026-09-29"
+        "abgerufen": "2026-10-02"
       },
       "lizenz": {
         "status": "geprueft",
-        "text": "Genutzt wird allein der Code Weglaufgefaehrdung aus https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFD_Runaway_Risk (Version 1.0.0): die KBV gibt dieses CodeSystem unter Apache-2.0 heraus (kassenaerztliche-bundesvereinigung/MIOParser, src/Definitions/KBV/PKA/1.0.0/CodeSystem/NFDRunawayRisk.ts, Kopf „The KBV licenses this file to you under the Apache License, Version 2.0“; Repo-Lizenz laut GitHub-API Apache-2.0; nachgesehen 29.09.2026). Das FHIR-Paket selbst trägt kein license-Feld; seine Profile werden nicht umgesetzt."
+        "text": "Die KBV gibt die maschinenlesbaren Definitionen der PKA 1.0.0 (Profile, Extensions, CodeSystems, ValueSets) unter Apache-2.0 heraus: kassenaerztliche-bundesvereinigung/MIOParser, Commit 0f39da3c86212d63885bf221dfb772f691a794e3, src/Definitions/KBV/PKA/1.0.0, je Datei mit dem Kopf „The KBV licenses this file to you under the Apache License, Version 2.0“; Repo-Lizenz laut GitHub-API Apache-2.0 (nachgesehen 01.10.2026). Das FHIR-Paket selbst trägt kein license-Feld und dient nur der Prüfung. Die SNOMED-Konzepte der Ausgabe sind aktive GPS-Konzepte (tools/snomed-freigabe.json)."
       },
       "richtung": [
         "schreiben"
       ],
       "bereich": "gesundheit",
       "status": "teilweise",
-      "artefakte": [],
+      "artefakte": [
+        "hl7-validator-cli-6.9.12",
+        "kbv-mio-patientenkurzakte-1.0.0"
+      ],
       "exportwege": [
-        "fhir-ips"
+        "fhir-ips",
+        "kbv-pka"
       ],
       "importwege": [],
       "bezuege": null,
-      "grund": "Nur der Weglauf-Code im IPS-Flag (health.wanderingRisk). Der nachkoordinierte SNOMED-Ausdruck des ValueSets KBV_VS_MIO_NFD_Runaway_Risk bleibt draußen (GPS-Nutzungsmuster: keine Beziehungen). Die KBV rät von einer Umsetzung der PKA 1.0.0 ab, weil sie überarbeitet wird — Wiedervorlage bei der Nachfolgeversion: URL und Version des CodeSystems neu prüfen.",
-      "kandidat": {
-        "werkzeug": "gematik Referenzvalidator (app-referencevalidator, Apache-2.0) mit dem KBV-Paket",
-        "quelle": "https://github.com/gematik/app-referencevalidator"
-      }
+      "grund": "Geschrieben werden der Weglauf-Code im IPS-Flag (health.wanderingRisk) und, seit U2-ADR-471, die Vorsorgevollmacht als DPE-Bundle (Persönliche Erklärungen, gegen das Paket validiert: tools/kbv-pka-validieren.js). Noch nicht: die Patientenverfügung im DPE (dasselbe Muster, Folgeposten) und der Notfalldatensatz (NFD). Der nachkoordinierte SNOMED-Ausdruck des ValueSets KBV_VS_MIO_NFD_Runaway_Risk bleibt draußen (GPS-Nutzungsmuster: keine Beziehungen). Die KBV rät von einer bundesweiten Umsetzung der PKA 1.0.0 ab, weil sie überarbeitet wird — Wiedervorlage in U2-ADR-471, eine neue Fassung meldet tools/kbv-pka-fassung-pruefen.js.",
+      "pruefer": "tools/kbv-pka-validieren.js"
     },
     {
       "id": "eu-lab",

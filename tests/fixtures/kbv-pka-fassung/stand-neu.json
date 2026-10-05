@@ -1,0 +1,5 @@
+{
+  "_zweck": "Erfundener Stand mit einer neuen Fassung 1.1.0 in beiden Quellen. Erwartet: rot, mit beiden Fundstellen.",
+  "paketregister": { "dist-tags": { "latest": "1.1.0" }, "versions": { "1.0.0": {}, "1.1.0": {} } },
+  "mioparser": [ { "name": "1.0.0", "type": "dir" }, { "name": "1.1.0", "type": "dir" }, { "name": "index.ts", "type": "file" } ]
+}

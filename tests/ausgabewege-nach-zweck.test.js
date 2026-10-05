@@ -146,7 +146,10 @@ test('[Zweck·angehalten] kein Zweck-Schlüssel ist gebaut worden', () => {
   /* NACHGEZOGEN 04.09.2026 (U2-ADR-257): 17 → 18. Der neue Schlüssel ist
      `schreiber` — welche der eingebauten Schreibformen ein Ausgabe-Modul nennt (`FORMAT_SCHREIBER`,
      die Spiegelseite zu `leser`). Auch er ist NICHT `zweck`; der abgewiesene Zug bleibt abgewiesen. */
-  assert.equal(schluessel.length, 18,
+  /* NACHGEZOGEN 05.10.2026 (U2-ADR-465, Wort der Gegenlesung): 18 → 21. Die neuen Schlüssel sind
+     `namensraum`, `wurzel` und `hinweis` — Namensraum und Wurzel einer Leistungs-XML (FIM) und ein
+     XML-Kommentar in der Datei. Keiner ist `zweck`; der abgewiesene Zug bleibt abgewiesen. */
+  assert.equal(schluessel.length, 21,
     'die Schlüsselmenge hat sich verändert: ' + schluessel.join(', '));
   assert.ok(schluessel.includes('sprache'),
     'der sechzehnte Schlüssel ist `sprache` (1.0a) — steht er nicht mehr da, ist die '
@@ -157,4 +160,7 @@ test('[Zweck·angehalten] kein Zweck-Schlüssel ist gebaut worden', () => {
   assert.ok(schluessel.includes('schreiber'),
     'der achtzehnte Schlüssel ist `schreiber` (U2-ADR-257) — steht er nicht mehr da, kann ein '
     + 'Ausgabe-Modul wieder nur JSON schreiben');
+  for (const k of ['namensraum', 'wurzel', 'hinweis']) {
+    assert.ok(schluessel.includes(k), '`' + k + '` (U2-ADR-465) fehlt — eine FIM-Leistungs-XML hätte wieder keinen Namensraum, keine Wurzel oder keinen Hinweis');
+  }
 });

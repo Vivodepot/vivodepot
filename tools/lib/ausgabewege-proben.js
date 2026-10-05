@@ -44,6 +44,7 @@ const WEGE = Object.freeze({
   blackboxHerunterladen: { fremd: 'eigener Rundlauf: die Datei öffnet mit dem Passwort der Inhaberin, ohne Sub-Schlüssel', proben: [{ datei: 'tests/blackbox-export.test.js', titel: '[Klasse-A] Empfänger-Roundtrip' }] },
   _depotBlobSpeichern: { fremd: 'eigener Rundlauf: verschlüsseln, entschlüsseln, vollständiges Depot; Magic-Kopf und nur Chiffrat an der geschriebenen Datei', proben: [{ datei: 'tests/golden-master-ausgabewege.test.js', titel: '[Golden-Master · Vorpruefung] der Datei-Rundlauf' }, { datei: DATEI, titel: '[Ausgabeweg·Datei·_dateizielFuerAnlegenSichern]' }] },
   flowIsikExport: { fremd: 'HL7-FHIR-Validator gegen ISiK 6.0.0 mit den amtlichen Texten zur Laufzeit (tools/isik-validieren.js); die Probe hält das Tor und dass ohne Erlaubnis nie eine Datei entsteht', proben: [{ datei: 'tests/isik-dokumente.test.js', titel: '[ISiK·Tor] ohne eingelesene KDL' }] },
+  flowKbvPkaExport: { fremd: 'HL7-FHIR-Validator gegen kbv.mio.patientenkurzakte#1.0.0 (tools/kbv-pka-validieren.js, Sammelaufruf in tests/konformitaet/externe-validatoren.mjs); die Probe hält eine Datei je Bundle und keine bei geschlossenem Tor', proben: [{ datei: 'tests/kbv-pka-vollmacht.test.js', titel: '[PKA·Ausgabeweg] eine Datei je Bundle' }] },
   flowMappeVerwahrungHerunterladen: { fremd: 'HL7-FHIR-Validator (tests/konformitaet/externe-validatoren.mjs, gültig und ein kaputtes Gegenstück); das Original byte-gleich (SHA-256) im Binary', proben: [{ datei: 'tests/verwahrungsnachweis-huelle.test.js', titel: '[Verwahrung·Hülle] Laborbefund und Entlassbrief' }] },
   flowMappeOriginalHerunterladen: { fremd: 'Byte-Vergleich (SHA-256) gegen die Originaldatei', proben: [{ datei: 'tests/original-byte-treu-bom.test.js', titel: '[U2-ADR-233] BOM-behaftete eu-lab-Datei: Original-Download' }] },
   _vereinbarungAngebotSichern: { fremd: 'keiner (eigenes Text-Format; Inhaltsprüfung: nur Kennungen, Quellen, Prüfsummen)', proben: [{ datei: 'tests/vereinbarung-angebot-antwort.test.js', titel: '[Angebot] Text-Hin-und-Rückweg' }] },
@@ -60,6 +61,7 @@ const FORMAT_DATEI = 'tests/ausgabewege-artefakte.test.js';
 const FORMATE = Object.freeze({
   'fhir-ips': { fremd: 'JSON-Parser + Verweis-Auflösung; HL7-Validator (tests/konformitaet/externe-validatoren.mjs)', titel: '[Ausgabeweg·Format·fhir-ips]' },
   'isik': { fremd: 'JSON-Parser; HL7-Validator gegen ISiK 6.0.0 mit den amtlichen Texten zur Laufzeit (tools/isik-validieren.js)', titel: '[Ausgabeweg·Format·isik]' },
+  'kbv-pka': { fremd: 'JSON-Parser; HL7-Validator gegen kbv.mio.patientenkurzakte#1.0.0 (tools/kbv-pka-validieren.js)', titel: '[Ausgabeweg·Format·kbv-pka]' },
   'sd-jwt-vc-identitaet': { fremd: 'JSON-Parser; Struktur (vct/iss/iat/claims)', titel: '[Ausgabeweg·Format·sd-jwt-vc-identitaet]' },
   'sd-jwt-vc-finanzen': { fremd: 'JSON-Parser; _sd_felder gegen claims', titel: '[Ausgabeweg·Format·sd-jwt-vc-finanzen]' },
   'sd-jwt-vc-sozialversicherung': { fremd: 'JSON-Parser; mit/ohne Freigabe', titel: '[Ausgabeweg·Format·sd-jwt-vc-sozialversicherung]' },

@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 252546
+   "bytes": 254566
   },
   "satz": {
-   "bytes": 29011
+   "bytes": 28997
   }
  },
  "fremdcode": [
@@ -200,6 +200,7 @@
   "Organization",
   "Parent",
   "Password",
+  "Patient",
   "Practitioner",
   "Predictor",
   "Procedure",
@@ -245,8 +246,8 @@
   "dauerhaft": [
    {
     "name": "CODE-LISTEN",
-    "satz": 1751,
-    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840). Angehoben 1687 → 1705 am 02.10.2026 von Hand, mit Wort der Gegenlesung: der Sektionstitel „Advance Directives“ in IPS_BEGRIFFE.sektionen, wörtlich aus hl7.fhir.uv.ips#2.0.0 (Composition-uv-ips, sectionAdvanceDirectives), U2-ADR-466. Angehoben 1705 → 1818 am 02.10.2026 von Hand, mit ausdrücklichem Ja des Halters der Übergangsregion (Bedingung der Gegenlesung): +113 B IHE-D-Anzeigetexte (v863), Abbau mit dem Ab-Werk-Modul Codelisten (Achse Felder). Die vier amtlichen Anzeigetexte von IHE Deutschland für die ISiK-Ausgabe, unter CC BY 4.0 mit Namensnennung, erzeugt aus code-listen/terminologie/isik.json (U2-ADR-468).",
+    "satz": 2009,
+    "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840). Angehoben 1687 → 1705 am 02.10.2026 von Hand, mit Wort der Gegenlesung: der Sektionstitel „Advance Directives“ in IPS_BEGRIFFE.sektionen, wörtlich aus hl7.fhir.uv.ips#2.0.0 (Composition-uv-ips, sectionAdvanceDirectives), U2-ADR-466. Angehoben 1705 → 1818 am 02.10.2026 von Hand, mit ausdrücklichem Ja des Halters der Übergangsregion (Bedingung der Gegenlesung): +113 B IHE-D-Anzeigetexte (v863), Abbau mit dem Ab-Werk-Modul Codelisten (Achse Felder). Die vier amtlichen Anzeigetexte von IHE Deutschland für die ISiK-Ausgabe, unter CC BY 4.0 mit Namensnennung, erzeugt aus code-listen/terminologie/isik.json (U2-ADR-468). Angehoben 1751 → 2009 am 05.10.2026 von Hand, mit ausdrücklichem Ja des Halters der Übergangsregion und Wort der Gegenlesung (02.10.2026, +258 relativ, bestätigt 04.10.2026): +258 B KBV-PKA-Festwerte (U2-ADR-471), Abbau mit dem Ab-Werk-Modul Codelisten (Achse Felder).",
     "probe": "tests/code-listen-lizenzhinweise-im-kern.test.js"
    },
    {
@@ -1001,6 +1002,85 @@
    "auf": 252546,
    "daneben": {},
    "grund": "Hilfe-Themen 12 bis 14: drei neue Kennungen in HILFE_THEMEN (lese-app-empfaengerin, daten-hereinholen, daten-herausgeben), 21+17+17 Byte; Wortlaut im Textsatz, nicht im Gerüst (04.10.2026, relativ +55)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 252546,
+   "auf": 252779,
+   "daneben": {},
+   "grund": "Klartext-Bindung, U2-ADR-156-Nachtrag (05.10.2026): Kennungen und Feldnamen der Bindung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 252779,
+   "auf": 252804,
+   "daneben": {},
+   "grund": "Klartext-Bindung, U2-ADR-156-Nachtrag (05.10.2026): +25 für stand_marke und gespeichert_am in der Basismenge Stand v917",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 252804,
+   "auf": 253855,
+   "daneben": {
+    "satz": -14
+   },
+   "grund": "Zugkopf zug-folge1 (relativ +1051 auf die Klartext-Bindung): KBV-Patientenkurzakte (U2-ADR-471): DPE-Bundle-Bau der Vorsorgevollmacht, Tor-Gründe, Ausgabeweg und Registereintrag, Stufe 92; nur Mechanik des Adapters (Feldpfade, Profil-URLs, Codes als Kennung), Texte im Textsatz, Festwerte in code-listen/terminologie. Dazu 'Patient' als FHIR-resourceType in technischeWoerter (vorher satz). Wort der Gegenlesung 02.10.2026, bestätigt 04.10.2026 (+1051 = 1030 + 21 Umbuchung); relativ zum Kanon beim Umsetzen auf 4d933f550 am 05.10.2026 gleich gemessen.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 253855,
+   "auf": 253905,
+   "daneben": {},
+   "grund": "Zugkopf zug-folge1 (relativ +50): KBV-Patientenkurzakte (U2-ADR-471), Bedingung 4b des Klartext-Registers: der Hinweis „nicht verschlüsselt“ vor dem Speichern (klartextHinweisVorSpeichern: Markup und Rückgabewert, der Satz aus dem Textsatz) und der benannte Export-Erzeuger kbvPkaExportBundles; nur Mechanik. Wort der Gegenlesung 05.10.2026 (+50, zusammen mit +1051 vom 04.10. relativ +1101).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 253905,
+   "auf": 253992,
+   "daneben": {},
+   "grund": "Zugkopf zug-folge1 (relativ +87): TEMPLATE-URL-SCHEMA-UNGEPRUEFT: Schemaprüfung der Quell-URLs in validateTemplate (Feldnamen und Prüfgrund-Kennungen)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 253992,
+   "auf": 254462,
+   "daneben": {},
+   "grund": "U2-ADR-465 FIM-XML (relativ +470, im Stapel nach dem Sicherheits-Wagen): Format-Module mit bereich/fest/namensraum/wurzel/werte/teil und hinweis; nur Mechanik, Wortlaut im Modul. Wort der Gegenlesung 05.10.2026 (+470)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 254462,
+   "auf": 254566,
+   "daneben": {},
+   "grund": "Zugkopf zug-folge1 (relativ +104, nach FIM): Befund FACH-IMPORT-MATERIAL-UEBERNOMMEN (05.10.2026): Feldnamen der Fach-Material-Liste, Marke fachDepotUUID und die Textkennungen importFaecherNeuEinrichten und kreiseFachVerwaist",
    "laengste": {
     "einzel": 0,
     "lauf": 62

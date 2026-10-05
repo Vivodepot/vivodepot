@@ -57,7 +57,8 @@ const TRAEGER = Object.freeze({
 
 const DOKUMENT_NAMENSRAUM = 'dok:';
 
-/* Namentlich: die beiden Haftungssätze (U2-ADR-025), die Meldungen der Sperre und der Vermerk über ersetzte Ab-Werk-Fassungen (E4). */
+/* Namentlich: die beiden Haftungssätze (U2-ADR-025), die Meldungen der Sperre, der Vermerk über ersetzte Ab-Werk-Fassungen (E4) und die Warnung der Klartext-Bindung
+   (U2-ADR-156-Nachtrag, 05.10.2026) — ein Modul darf nicht überschreiben, was eine veränderte Datei meldet. */
 const NAMENTLICH = Object.freeze([
   'strings:fussHaftung.text',
   'strings:dokFussHaftung.text',
@@ -68,6 +69,10 @@ const NAMENTLICH = Object.freeze([
   'strings:erweiterungTeilweiseErsetzt.text',
   'strings:abWerkFassungErsetztTitel.text',
   'strings:abWerkFassungErsetztText.text',
+  'strings:klartextBindungTitel.text',
+  'strings:klartextBindungOrtText.text',
+  'strings:klartextBindungOrtKeinText.text',
+  'strings:klartextBindungFremdText.text',
 ]);
 
 function korpusWurzeln(kern) {

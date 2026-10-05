@@ -1115,6 +1115,16 @@ const STUFEN = [
     nachher: (d) => d.anschriftVorschlaege.identity.houseNumber === '4' && d.anschriftVorschlaege.menschen.p1.city === 'Köln'
                  && d.sektoren.identity.street === undefined && d.menschen[0].familyName === undefined
                  && d.sektoren.identity.streetAddress === 'Lindenweg 4' && d.menschen[0].name === 'Maria von der Heide' },
+  { nach: 92, was: 'Anschrift des Ablageorts einer Vorsorgevollmacht (U2-ADR-471, 02.10.2026): vier Unterfelder '
+                 + 'storageStreet/-HouseNumber/-PostalCode/-City für die KBV-Patientenkurzakte; die Stufe schreibt nichts, '
+                 + 'der Freitext storageLocation bleibt byte-gleich, geraten wird nie. Ausführlich: tests/schema-92-ablageort-anschrift.test.js.',
+    baue: () => basis(91, sek('advanceCare', { provisionInstruments: [
+      { instrument: 'enduring-power-of-attorney', typeOfPowerOfAttorney: 'vorsorge', storageLocation: 'beim Notar, Hauptstraße 5, 80331 München' }] })),
+    vorher:  (d) => d.sektoren.advanceCare.provisionInstruments[0].storageLocation === 'beim Notar, Hauptstraße 5, 80331 München',
+    nachher: (d) => d.schemaVersion >= 92
+                 && d.sektoren.advanceCare.provisionInstruments[0].storageLocation === 'beim Notar, Hauptstraße 5, 80331 München'
+                 && !('storageStreet' in d.sektoren.advanceCare.provisionInstruments[0])
+                 && !('storageCity' in d.sektoren.advanceCare.provisionInstruments[0]) },
 ];
 
 module.exports = { STUFEN, basis };

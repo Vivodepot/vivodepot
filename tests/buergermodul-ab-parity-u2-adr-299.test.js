@@ -58,7 +58,7 @@ async function gerendertesHTML(kern, sektorId, depotName) {
 
 /* ══ Das Bündel selbst — Sanity vor jedem Vergleich ═══════════════════════════════════════ */
 
-test('[U2-ADR-299] das Bündel deckt alle 13 nativen Sektoren, 465 Feld-Definitionen (271 Top-Level + 194 Unterfelder)', () => {
+test('[U2-ADR-299] das Bündel deckt alle 13 nativen Sektoren, 489 Feld-Definitionen (291 Top-Level + 198 Unterfelder)', () => {
   assert.equal(ALLE_SEKTOREN.length, 13);
   let top = 0, unter = 0;
   for (const sid of ALLE_SEKTOREN) {
@@ -76,8 +76,9 @@ test('[U2-ADR-299] das Bündel deckt alle 13 nativen Sektoren, 465 Feld-Definiti
   // 13.09.2026: +3 Unterfelder (zvr_abschrift/zvr_abschrift_datum/zvr_abschrift_stelle,
   // Unterfelder von vorsorge_instrumente) — der gemessene Stand, ändert sich diese Zahl,
   // gehört die Zeile neu gemessen.
-  assert.equal(unter, 194, 'Unterfelder');
-  assert.equal(top + unter, 485);   // 481 → 485 (01.10.2026, U2-ADR-467); 477 → 481 (29.09.2026, U2-ADR-455); 472 → 477 (27.09.2026, U2-ADR-438: fünf Top-Level-Felder); 469 → 472 (27.09.2026, U2-ADR-439)
+  // 194 → 198 (05.10.2026, U2-ADR-471: storageStreet/-HouseNumber/-PostalCode/-City am Vorsorge-Instrument, gemessen).
+  assert.equal(unter, 198, 'Unterfelder');
+  assert.equal(top + unter, 489);   // 485 → 489 (05.10.2026, U2-ADR-471: vier Unterfelder); 481 → 485 (01.10.2026, U2-ADR-467); 477 → 481 (29.09.2026, U2-ADR-455); 472 → 477 (27.09.2026, U2-ADR-438: fünf Top-Level-Felder); 469 → 472 (27.09.2026, U2-ADR-439)
 });
 
 test('[U2-ADR-299] SEKTOREN/Feld-Definitionen: das Bündel nennt für JEDEN Sektor GENAU dieselben Kennungen wie der native Bestand — nicht mehr, nicht weniger', async () => {

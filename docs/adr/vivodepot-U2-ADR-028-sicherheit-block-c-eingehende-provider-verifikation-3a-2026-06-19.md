@@ -3,7 +3,7 @@
 **Status:** Akzeptiert (Ebene 3a verdrahtet; Ebene 3b bewusst außerhalb des Scopes)
 **Datum:** 19.06.2026
 **Kategorie:** SICHERHEIT, TRUST
-**Grundlage:** Krypto-Gutachten-Mängelliste 19.06. + Befund-Vermerk Trust-/Verifikations-Ebenen 19.06. (Ebene 3a „eingehende Verifikation eigener Provider-Zertifikate": Primitive vorhanden, aber 0 Call-Sites = nicht verdrahtet).
+**Grundlage:** Mängelliste aus dem internen Abgleich der Krypto-Durchsicht vom 23.05.2026 (Stand 19.06., nicht veröffentlicht) + Befund-Vermerk Trust-/Verifikations-Ebenen 19.06. (Ebene 3a „eingehende Verifikation eigener Provider-Zertifikate": Primitive vorhanden, aber 0 Call-Sites = nicht verdrahtet).
 **Drei-Anker:**
 - **Code-Stelle:** `vivodepot.html` — neues `IMPORT_FORMATE`-Format `provider-credential` (`signiert:true`); `importPlan` (fail-closed bei `signiert`); neu `importPlanGeprueft` + geteilter `_planAusRoh`; `flowImportAuto`/`flowImportDatei` rufen `await importPlanGeprueft`; nutzt `verifiziereProviderCredentialGegenSentinel`/`_verifyJWS` + `TEST_SENTINEL_PUBLIC_JWK`.
 - **Sprint-Commit:** dieser Bau (Sicherheits-Kette Block C).
@@ -80,3 +80,9 @@ quelle:    invariante
 ```
 
 *Bindung nachgetragen 05.08.2026 (ADR-Konformitäts-Wächter, Tranche 1).*
+
+## Nachtrag 04.10.2026
+
+Die Mängelliste vom 19.06. ist der interne Abgleich der Krypto-Durchsicht vom 23.05.2026 gegen
+den damaligen Code. Frühere Fassungen dieses ADR nannten sie ohne den Hinweis „intern“; die
+Benennung ist korrigiert. An Befund und Entscheidung ändert sich nichts.

@@ -3,7 +3,7 @@
 **Status:** Akzeptiert (Negativ-Tests fixiert; A1-Zielkonflikt offen — Produktentscheidung)
 **Datum:** 19.06.2026
 **Kategorie:** SICHERHEIT
-**Grundlage:** Krypto-Gutachten-Mängelliste 19.06. (Befund 4.1 Stufe-1-Plain-Cache, Befund 2.4 extractable).
+**Grundlage:** Mängelliste aus dem internen Abgleich der Krypto-Durchsicht vom 23.05.2026 (Stand 19.06., nicht veröffentlicht) (Befund 4.1 Stufe-1-Plain-Cache, Befund 2.4 extractable).
 **Drei-Anker:**
 - **Code-Stelle:** `vivodepot.html` — `NOTFALL_KERN_FELDER` (Allowlist), `notfallCacheBauen`/`notfallCacheAusUmschlag` (Z.6106/6111), `depotSerialisieren` (Z.5175 `notfallCache`); `importMasterAesKey` (Z.2216), `deriveSubKey` (Z.2286), `deriveDepotKeyV2` (Z.2312) — alle `extractable:false`.
 - **Sprint-Commit:** dieser Bau (Sicherheits-Kette Block A).
@@ -36,7 +36,7 @@ Alle Geheim-Schlüssel sind `extractable:false` (gemessen): PBKDF2-Basis (Z.2203
 - **Offen:** A1-Zielkonflikt (Stufe-1-Cache) — Produktentscheidung.
 
 ## Implementations-Verweis
-Tests: neu `sicherheit-block-a.test.js` (3 Negativ-Tests, je mit Gutachten-Befund-Kommentar). Kein `vivodepot.html`-Eingriff.
+Tests: neu `sicherheit-block-a.test.js` (3 Negativ-Tests, je mit Befund-Kommentar aus der internen Durchsicht). Kein `vivodepot.html`-Eingriff.
 
 ## Konformität
 
@@ -74,3 +74,9 @@ und konnte deshalb **nie** anschlagen (vakuum-grün: immer grün, ohne etwas zu 
 Laufzeit-Seite trägt der **Runtime**-Teil der Inventur, die statische Seite der Always-on-Test
 `u2-062-geheime-schluessel-nie-extrahierbar`, der die **echte Form** prüft (Argument-Position +
 `usages`) statt eines Musters, das die API gar nicht erzeugt. Beide sind oben als `pruefung:` gebunden.*
+
+## Nachtrag 04.10.2026
+
+Die Mängelliste vom 19.06. ist der interne Abgleich der Krypto-Durchsicht vom 23.05.2026 gegen
+den damaligen Code. Frühere Fassungen dieses ADR nannten sie ohne den Hinweis „intern“; die
+Benennung ist korrigiert. An Befund und Entscheidung ändert sich nichts.

@@ -21,7 +21,7 @@ const { execFileSync } = require('node:child_process');
 
 // Das Repo aus der eigenen origin-Adresse (owner/name), nicht fest im Code: dieselbe Datei läuft in jedem Klon.
 function repoAusOrigin() {
-  const url = execFileSync('git', ['remote', 'get-url', 'origin'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  const url = execFileSync('git', ['remote', 'get-url', 'origin'], { maxBuffer: 256 * 1024 * 1024, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
   const m = /github\.com[:/]([^/]+\/[^/]+?)(?:\.git)?$/.exec(url);
   if (!m) throw new Error('origin ist keine GitHub-Adresse');
   return m[1];

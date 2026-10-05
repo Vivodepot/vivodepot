@@ -1,17 +1,18 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-04 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-05 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
 ---
 
-## Export-Formate (11)
+## Export-Formate (12)
 
 | Kennung | Erzeuger | MIME | Endung | Sektor | Flags | Versions-/Profil-Belege im Code |
 |---|---|---|---|---|---|---|
 | `fhir-ips` | `fhirIpsBundle` | application/fhir+json | json | health | — | `http://hl7.org/fhir/StructureDefinition/data-absent-reason`, `http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationStatement-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/device-eu-eps`, `http://hl7.eu/fhir/eps/StructureDefinition/deviceUseStatement-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-status-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-edd-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Flag-alert-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/composition-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/bundle-eu-eps`, `resourceType:AllergyIntolerance`, `resourceType:MedicationStatement`, `resourceType:Condition`, `resourceType:Procedure`, `resourceType:Device`, `resourceType:DeviceUseStatement`, `resourceType:Observation`, `resourceType:Flag`, `resourceType:Composition`, `resourceType:RelatedPerson`, `resourceType:Provenance`, `resourceType:Bundle` |
 | `isik` | `isikDokumente` | application/fhir+json | json | health | nurExport | `resourceType:DocumentReference`, `resourceType:Bundle` |
+| `kbv-pka` | `kbvPkaExportBundles` | application/fhir+json | json | advanceCare | nurExport | kein Versions-/Profil-Marker im Code gefunden |
 | `sd-jwt-vc-identitaet` | `sdJwtVcIdentitaet` | application/dc+sd-jwt | sd-jwt | identity | — | `vct:urn:vivodepot:identitaet` |
 | `xoev-verwaltung` | `xoevVerwaltung` | application/json | json | administration | — | kein Versions-/Profil-Marker im Code gefunden |
 | `bildungsangaben` | `edciBildung` | application/json | json | education | — | kein Versions-/Profil-Marker im Code gefunden |
@@ -51,7 +52,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**13 Sektoren, 321 Felder, 194 Unterfelder gesamt.**
+**13 Sektoren, 321 Felder, 198 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
@@ -63,7 +64,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `health` | Gesundheit | 32 | 10 |
 | `education` | Bildung & Beruf | 31 | 0 |
 | `socialInsurance` | Sozialversicherung | 22 | 7 |
-| `advanceCare` | Vorsorge & Recht | 49 | 75 |
+| `advanceCare` | Vorsorge & Recht | 49 | 79 |
 | `administration` | Verwaltung & Behörden | 27 | 18 |
 | `housing` | Wohnen & Eigentum | 15 | 11 |
 | `emergencyPreparedness` | Krisenvorsorge | 33 | 0 |
@@ -85,13 +86,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): 12034
-- E2E (Playwright): 542 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 28 aus Schleifen über CPU-Drosselungen = **570 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
+- E2E (Playwright): 547 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 28 aus Schleifen über CPU-Drosselungen = **575 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
 - Wächter-Register (intern): 142
-- Schema-Version: 91 · SCHALEN_STAND: v917 · Build-Version: v1.0
+- Schema-Version: 92 · SCHALEN_STAND: v918 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (426)
+## ADR-Register (431)
 
 | Nummer | Titel |
 |---|---|
@@ -255,6 +256,8 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-154 | Bereiche sind das fünfte Einlass-Register — und ein angedockter Bereich kommt auf dasselbe Blatt |
 | U2-ADR-155 | Ein Leser trägt seine Version — und XML und CSV folgen der Konvention, die JSON schon hat |
 | U2-ADR-156 | Empfängerkreise — ein Empfänger, ein Passwort, ein Zuschnitt |
+| U2-ADR-156 | Die Tür eines Fachs: was ihre Trennung vom Anker-Schlüssel trägt |
+| U2-ADR-156 | Klartext-Bindung: Ort-Hinweis und weitergetragene Felder im Geheimteil gebunden |
 | U2-ADR-157 | Ein Modul schlägt vor, die Bürgerin hebt |
 | U2-ADR-158 | Eine Person gilt als verstorben — und das löst das Ereignis „Tod" aus |
 | U2-ADR-159 | Kein Feld, das Geheimnisse aufnimmt, ohne `autocomplete="off"` UND explizites Räumen beim Laden |
@@ -517,10 +520,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-460 | Anfrage per QR — kompakte Transportform und Kurzlink mit Weiterleitung auf die eigene App |
 | U2-ADR-463 | Ablage ohne Netz — Passwort aus Wörtern, Zusammenführen, Doppelklick öffnet die Datei |
 | U2-ADR-464 | Was eine Depotdatei über ihre Versionen verrät: Einheiten auf 1-KiB-Stufen, Stand-Marke statt Zeitpunkt |
+| U2-ADR-465 | Format-Module: Felder aus mehreren Bereichen, feste Werte, Namensraum aus dem Modul |
 | U2-ADR-466 | Vollmacht und Patientenverfügung im IPS/EPS-Export |
 | U2-ADR-467 | Getrennte Namens- und Anschriftsfelder, ohne Raten |
 | U2-ADR-468 | ISiK Stufe 6 — Vollmacht und IPS als DocumentReference für das Krankenhaus |
+| U2-ADR-471 | KBV-Patientenkurzakte — die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis |
 | U2-ADR-473 | Erscheinungsbild im Branding-Modul — Token-Vollständigkeit, Profile, Steckplatz Navigation |
+| U2-ADR-483 | Vorprüfung im Studio — dieselben Einlass-Regeln wie der Kern, ein Urteil in Klartext, Angaben erst zur Signatur |
 
 ---
 
@@ -537,11 +543,11 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 36 |
 | `.karte` | 5 | 68 |
-| `.modal` | 19 | 156 |
-| `.toast` | 9 | 298 |
+| `.modal` | 19 | 162 |
+| `.toast` | 9 | 300 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 19 | 5 |
-| `.leer` | 3 | 296 |
+| `.leer` | 3 | 297 |
 | `.pause-erlaubnis` | 2 | 3 |
 | `.hinweis-box` | 7 | 27 |

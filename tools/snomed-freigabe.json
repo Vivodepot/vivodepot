@@ -1,6 +1,14 @@
 {
   "_zweck": "Die SNOMED-CT-Konzepte, die im Bestand stehen. Seit der Antwort von SNOMED International vom 28.09.2026 (Ticket #61950) gilt: jedes AKTIVE Konzept des Global Patient Set (CC BY-ND 4.0) darf genutzt werden, ohne es einzeln anzufragen — solange das Nutzungsmuster gilt: unveränderter Begriff (FSN oder US Preferred Term), keine Hierarchie, keine Beziehungen, keine Subsumption, kein ECL. Eine Kennung steht hier darum nicht mehr, weil sie genehmigt wurde, sondern weil sie im gepinnten GPS-Release aktiv ist und ihr Begriff wörtlich aus dem Release stammt (Feld gps). Geprüft: node tools/snomed-gps-abgleich.js --gps <release.zip>; der gepinnte Release steht mit Name und SHA-256 in tools/standards-artefakte.json. Gemessen mit tools/snomed-ids-messen.js, gehalten von den SNOMED-Proben der Suite.",
   "freigegeben": {
+    "77386006": {
+      "begriff": "Pregnancy",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
     "91935009": {
       "begriff": "Allergy to peanut",
       "freigabe": "SNOMED-Ticket #61950",
@@ -33,8 +41,43 @@
         "aktiv": true
       }
     },
+    "161714006": {
+      "begriff": "Estimated date of delivery",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "186065003": {
+      "begriff": "Power of attorney medical report (record artifact)",
+      "begriffArt": "fsn",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
     "278149003": {
       "begriff": "Blood group A Rh(D) positive",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "371538006": {
+      "begriff": "Advance directive report (record artifact)",
+      "begriffArt": "fsn",
+      "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "408403008": {
+      "begriff": "Patient held record (record artifact)",
+      "begriffArt": "fsn",
       "freigabe": "SNOMED-Ticket #61950",
       "gps": {
         "release": "20260101",
@@ -44,6 +87,14 @@
     "716186003": {
       "begriff": "No known allergy",
       "freigabe": "SNOMED-Ticket #61950",
+      "gps": {
+        "release": "20260101",
+        "aktiv": true
+      }
+    },
+    "762952008": {
+      "begriff": "Peanut",
+      "freigabe": "SNOMED-Ticket #61950, 2026-09-28 (aktives GPS-Konzept, Nutzungsmuster)",
       "gps": {
         "release": "20260101",
         "aktiv": true
@@ -73,33 +124,9 @@
         "aktiv": true
       }
     },
-    "762952008": {
-      "begriff": "Peanut",
-      "freigabe": "SNOMED-Ticket #61950, 2026-09-28 (aktives GPS-Konzept, Nutzungsmuster)",
-      "gps": {
-        "release": "20260101",
-        "aktiv": true
-      }
-    },
     "442571000124108": {
       "begriff": "Tree nut",
       "freigabe": "SNOMED-Ticket #61950, 2026-09-28 (aktives GPS-Konzept, Nutzungsmuster)",
-      "gps": {
-        "release": "20260101",
-        "aktiv": true
-      }
-    },
-    "77386006": {
-      "begriff": "Pregnancy",
-      "freigabe": "SNOMED-Ticket #61950",
-      "gps": {
-        "release": "20260101",
-        "aktiv": true
-      }
-    },
-    "161714006": {
-      "begriff": "Estimated date of delivery",
-      "freigabe": "SNOMED-Ticket #61950",
       "gps": {
         "release": "20260101",
         "aktiv": true

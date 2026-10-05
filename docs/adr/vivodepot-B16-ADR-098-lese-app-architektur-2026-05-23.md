@@ -9,7 +9,7 @@
 **Datum:** 23. Mai 2026
 **Autorinnen:** Produktverantwortliche
 **Anschluss-ADRs:** B16-ADR-014 (Lese-App eigenständig), B16-ADR-050 (Krypto-Architektur-Fundament), B16-ADR-061v3 (Notfall-Cache-Konsolidierung), B16-ADR-063 (FHIR-Provenance-Mapping), B16-ADR-064 (Beziehungs-Codierung), B16-ADR-082 (Test-Schlüssel-Bypass-Entfernung), B16-ADR-084 (Lese-Datei-Provenance-Anzeige), B16-ADR-085 (Lese-App-Krypto-Sync mit B16-ADR-050)
-**Verweise:** Architektur-Konzept v1.0, Krypto-Architektur, Krypto-Gutachten.2026 (nicht veröffentlicht), Produkt-Abstimmung und technische Verifikation vom 23.05.2026
+**Verweise:** Architektur-Konzept v1.0, Krypto-Architektur, interne Krypto-Durchsicht vom 23.05.2026 (nicht veröffentlicht), Produkt-Abstimmung und technische Verifikation vom 23.05.2026
 
 ---
 
@@ -162,9 +162,9 @@ Die Lese-App nimmt keine White-Label-Anbieter-Konfiguration. Eine Pilotpartnerin
 |---|---|
 | Adressaten-Schnitt | Architektur-Konzept, B16-ADR-014, Produkt-Abstimmung |
 | Drei Empfangs-Formate | Architektur-Konzept (Welcome-Schicht 4), B16-ADR-096 |
-| Krypto-Sync B16-ADR-085-Erweiterung | B16-ADR-085, Krypto-Architektur, Krypto-Gutachten |
-| AAD-Bindung | Krypto-Architektur, Krypto-Gutachten |
-| JWS-Header-Allowlist | Krypto-Architektur (Mitigation), Krypto-Gutachten, B16-ADR-082 |
+| Krypto-Sync B16-ADR-085-Erweiterung | B16-ADR-085, Krypto-Architektur, interne Krypto-Durchsicht |
+| AAD-Bindung | Krypto-Architektur, interne Krypto-Durchsicht |
+| JWS-Header-Allowlist | Krypto-Architektur (Mitigation), interne Krypto-Durchsicht, B16-ADR-082 |
 | Speicher-Verhalten als DSGVO-Anker | Architektur-Konzept, Datenschutz-Architektur (Phase 3, nach der rechtlichen Prüfung) |
 | EUPL-1.2-Lizenz | Architektur-Konzept (Phase 2, nach der rechtlichen Konsolidierung), rechtliche Erstprüfung |
 | Sieben Test-Klassen | Produkt-Abstimmung, technische Verifikation |
@@ -179,3 +179,9 @@ Die Lese-App nimmt keine White-Label-Anbieter-Konfiguration. Eine Pilotpartnerin
 ## Nachtrag (2026-07-12) — passwortloser Notfall-Cache-Pfad entfernt (U2-ADR-078)
 
 Der passwortlose Stufe-1-Cache ist ersatzlos entfernt (U2-ADR-078). In der Lese-App entfällt damit der passwortlose File-Cache-Lesepfad (`notfallCacheAusUmschlag` + Notfall-Knopf in der Passwort-Sicht): ein zugesandtes Voll-Depot wird nur noch mit dem Übergabe-Passwort geöffnet — konsistent mit Punkt 2 (Empfangs-Pfade sind passwort-/schlüssel-geschützt). Der davon getrennte QR-Notfall-Parser (`parseNotfallQrText`) ist seit U2-ADR-077 toter Code und bleibt für einen separaten U2-ADR-077-Folge-Schnitt stehen. Details: `docs/adr/vivodepot-U2-ADR-078-ruecknahme-stufe1-cache-2026-07-12.md` (cleanslate).
+
+## Nachtrag 04.10.2026
+
+Die Krypto-Durchsicht vom 23.05.2026 war intern. Frühere Fassungen dieses ADR bezeichneten sie so,
+dass sie als externe Prüfung gelesen werden konnte; die Benennung ist korrigiert. An Befund und
+Entscheidung ändert sich nichts.

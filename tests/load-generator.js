@@ -206,6 +206,8 @@ const EXPORT_HOOK = `
   VEREINBARUNG_PRAEFIX, vereinbarungAusText, vereinbarungAlsText, vereinbarungAngebotAnzeigen, baueVereinbarungsAntwort, baueVereinbarungsAntwortSigniert,
   // U2-ADR-460 (v851) — kompakte Transportform und QR zum Kurzlink
   ANFRAGE_KOMPAKT_PRAEFIX, KURZLINK_MAX_ZEICHEN, anfrageKompakt, kurzlinkGueltig, kurzlinkQrDataUrl, anfrageQrTeilAnhaengen,
+  // E1 (05.10.2026) — Vorprüfung in Klartext
+  STUDIO_EINLASS_PRUEFEN, einlassUrteil, einlassZeileText, vorabUrteilVorlage,
 };
 `;
 

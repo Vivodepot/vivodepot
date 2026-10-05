@@ -29,7 +29,7 @@ const { execFileSync } = require('node:child_process');
    `commit <pfad>` auf den Index, den der Commit wirklich trägt — ein abgestreifter Index ergäbe
    einen Beleg für einen Baum, der nie committet wird. */
 function git(args) {
-  return execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  return execFileSync('git', args, { maxBuffer: 256 * 1024 * 1024, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 }
 
 function belegVerzeichnis() {

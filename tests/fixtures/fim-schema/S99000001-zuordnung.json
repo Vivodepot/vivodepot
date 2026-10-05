@@ -1,0 +1,11 @@
+{
+  "format": "fim-s99000001",
+  "sektor": "identity",
+  "label": "Probe-Antrag S99000001 (erfunden; nicht einreichbar ohne Anhang)",
+  "hinweis": "Erfundene Probe: nicht einreichbar ohne Anhang",
+  "felder": {
+    "G99000002.F99000003": { "feld": "familyName" },
+    "G99000002.F99000004": { "feld": "givenName" },
+    "G99000002.F99000005": { "fest": "true" }
+  }
+}

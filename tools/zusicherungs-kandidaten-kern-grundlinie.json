@@ -65,13 +65,13 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
     },
-    "flowSubDepotEinhaengen": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
-    },
     "flowMappeVerwahrungHerunterladen": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die die Hülle gerade selbst herunterlädt, wenn das Original nicht lesbar ist — keine Aussage, auf die sich ein Dritter verlässt (28.09.2026, Verwahrung V1)."
+    },
+    "flowSubDepotEinhaengen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
     },
     "flowSubDepotWiderspruchFesthalten": {
       "entscheidung": "kein-zusicherungssatz",
@@ -84,6 +84,18 @@
     "importUngueltigNachricht": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "klartextBindungHinweisText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Warnung, dass eine Datei nach dem Speichern verändert wurde (Klartext-Bindung, U2-ADR-156-Nachtrag); sagt nichts über Herkunft oder Prüfung aus. Alle vier Texte stehen auf der Schutzliste, kein Modul überschreibt sie. Einzelwort der Gegenlesung 05.10.2026."
+    },
+    "klartextBindungHinweisZeigen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Warnung, dass eine Datei nach dem Speichern verändert wurde (Klartext-Bindung, U2-ADR-156-Nachtrag); sagt nichts über Herkunft oder Prüfung aus. Alle vier Texte stehen auf der Schutzliste, kein Modul überschreibt sie. Einzelwort der Gegenlesung 05.10.2026."
+    },
+    "mappeListeHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Marke „abgelaufen“ aus dem Ablaufdatum, das im gehaltenen Nachweis selbst steht — beschriftet dessen Angabe gegen den lokalen Tag, sichert nichts zu."
     },
     "mappeRefAnzeigeHTML": {
       "entscheidung": "kein-zusicherungssatz",
@@ -100,6 +112,14 @@
     "metaZeile": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Beschriftung eines leeren Werts (leerZustand) — sagt nichts über Vertrauen oder Zustand der Anwendung."
+    },
+    "nachweisGueltigkeitMelden": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Meldet die Gültigkeitsangaben aus dem Nachweis selbst; „Status nicht geprüft“ sagt ausdrücklich, dass die App nichts geprüft hat — keine Zusicherung."
+    },
+    "nachweisGueltigkeitSaetze": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Gültigkeitsangaben aus dem Nachweis selbst (validFrom/validUntil, issuanceDate/expirationDate) gegen den lokalen Tag; „Status nicht geprüft“ verneint eine Prüfung, statt eine zu behaupten."
     },
     "notvertretungAblaufText": {
       "entscheidung": "kein-zusicherungssatz",
@@ -164,18 +184,6 @@
     "zeichneWiderrufPdf": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
-    },
-    "mappeListeHTML": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Marke „abgelaufen“ aus dem Ablaufdatum, das im gehaltenen Nachweis selbst steht — beschriftet dessen Angabe gegen den lokalen Tag, sichert nichts zu."
-    },
-    "nachweisGueltigkeitMelden": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Meldet die Gültigkeitsangaben aus dem Nachweis selbst; „Status nicht geprüft“ sagt ausdrücklich, dass die App nichts geprüft hat — keine Zusicherung."
-    },
-    "nachweisGueltigkeitSaetze": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Gültigkeitsangaben aus dem Nachweis selbst (validFrom/validUntil, issuanceDate/expirationDate) gegen den lokalen Tag; „Status nicht geprüft“ verneint eine Prüfung, statt eine zu behaupten."
     }
   }
 }

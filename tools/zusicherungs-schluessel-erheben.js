@@ -78,6 +78,8 @@ const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
   'moduleUngeprueftHinweis', 'moduleUngeprueftZeile',
   'pdfHerkunftTeilauszugEins', 'pdfHerkunftTeilauszugMehrere', 'pdfHerkunftVersion', 'pdfHerkunftVollstaendig',
   'vereinbarungAnnahmeUngeprueft', 'vereinbarungAnnahmeUngeprueftText', 'vereinbarungStatusUngeprueft',
+  // Befund KLARTEXT-EXPORT-OHNE-HINWEIS (freigegebener Wortlaut, 03.10.2026): der Hinweis „nicht verschlüsselt“ vor dem Speichern eines Klartext-Wegs, zuerst die KBV-PKA (U2-ADR-471).
+  'klartextNichtVerschluesselt',
   'vorlagenAbgelaufenZusatz', 'vorlagenWiderrufenZusatz', 'zurueckgehaltenVorhanden',
 ]);
 

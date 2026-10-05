@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/build-feldkatalog.js aus vivodepot.html SEKTOREN und tools/bereich-templates/*.json. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 671,
+  "anzahl": 675,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -481,6 +481,30 @@
       "kennung": "advanceCare.provisionInstruments/storageLocation",
       "bereich": "advanceCare",
       "label": "Ablageort",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storageStreet",
+      "bereich": "advanceCare",
+      "label": "Ablageort: Straße",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storageHouseNumber",
+      "bereich": "advanceCare",
+      "label": "Ablageort: Hausnummer",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storagePostalCode",
+      "bereich": "advanceCare",
+      "label": "Ablageort: Postleitzahl",
+      "template": "vivodepot-advanceCare.json"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storageCity",
+      "bereich": "advanceCare",
+      "label": "Ablageort: Ort",
       "template": "vivodepot-advanceCare.json"
     },
     {

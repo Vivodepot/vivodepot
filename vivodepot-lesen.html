@@ -1935,6 +1935,10 @@ const SCHUTZ_SCHLUESSEL_LESEN = new Set([
   "strings:erweiterungGesperrtVermerk.text",
   "strings:erweiterungTeilweiseErsetzt.text",
   "strings:fussHaftung.text",
+  "strings:klartextBindungFremdText.text",
+  "strings:klartextBindungOrtKeinText.text",
+  "strings:klartextBindungOrtText.text",
+  "strings:klartextBindungTitel.text",
   "vollmachtBmj#acceptPaymentsAndValuables.frage",
   "vollmachtBmj#acceptPaymentsAndValuables.sektion",
   "vollmachtBmj#accountsCustodyAccountsSafes.frage",
@@ -2002,9 +2006,8 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "32895d90e7e48d2f263858f9f5481996e35ff25dd033eb987818eee7120aeecc",
   "3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
   "4308672df53e5658a326398cf18bdc0ee5c462e562232ff409074ce9f0df4a71",
+  "434fb5d6198176873d30ffb32cf83722ba3be3e00152ba1159469cee2de11d07",
   "44276a8bc8ce390e4b01575e0b7dcbb1551cd18a49b2442f754b9f694e88213c",
-  "4a163cfd8cfefd70db6167a9e9ab4f0aaaa0c3f4bb53727bb44f5ac39b91bed4",
-  "4a1a0cefc5949c7f9bef58beb621e78238a6d0407173d47eaf686e71c9a7d1cc",
   "5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
   "645dd0c53ccf8aa3b8bff064236e112f989f6c16c1f34c263343a7747c48fc58",
@@ -2013,10 +2016,10 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "7b79b98f9580e1db1582fa5d26ae10aaae25879357a0996f438b006f178d3098",
   "81ffd0453d77d68d56b48747c1514a94126cd0b3911034e7f7af60112f17eecb",
   "8211701bc1860c8baddf1258e90aa5e4e450e5adf15073df60c0188db4326055",
+  "8459c1a9536e90f01348d53d857e87d7e857bc7ead98f06385f307cb21695767",
   "923f9e59ebcee0efaf47a3d2102efe8fa1b511d00ebf0f911307eca597741028",
   "92c3230ae93365ca353cd24c3bbdce01f4e572b6959466b05f2afc739c1ad044",
   "95ec50c9f948594082effa342c12f8c7053729bcfb110d78c6b4b7508cc70f4f",
-  "989af3cd946d56af72c88fc1367c814310cb49b88b5d0a17fa3eb44041ebf8cc",
   "98df1da45043df597a335ee31c17c91e082871a18baed7fc22ab56a8dc798459",
   "9a01109354bbf33e180ddf0da88a573a0e31a091692f73ee7b6bdd2cc7f72a2b",
   "9ec1b079ddeb40ef42f4e8e3e33627a7b1bdc5e5d7b523f7e194728f2346970b",
@@ -2026,11 +2029,12 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "adf3f3de7da57b9a4f735002c03b4cc5b8ad17770a22300cb81f9222b3b9d8d6",
   "b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
   "b71b4dbbbbd4d3f0e58289968cf98ea1d9d3c1e4a7e1ad226664c5e9d6f7c44c",
+  "c00302bfe2638cbf65dd79f56822046de7910d6ba6647a5f5d2ba3c07f6edcf9",
   "c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
   "e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
   "e2f2d8003f4ff16a46bc25344a5d3f638bf25e6af1b97f62e1ccf29d3a0aede5",
   "e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
-  "ec0979eca20bdf2ec93fef2208281c1beb1a956b5bc78d61dddc2e6a2909bfd8",
+  "e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
   "f83a315b153b8486359fbc28d0180ada8971e0404fe2f03e54d9b87b28c0e5ee",
   "fa2bd114de70a9963df8d8d22d9610312149b456364ae1b6aa77afbe4bbd992c",
   "fbef7f1831d1a8bb8a3a055c0b70df9d51e57c1e037244be54f395bea72c9ba8",
@@ -6999,6 +7003,10 @@ const SEKTOREN = Object.freeze([
       {
         "format": "ics-vorsorge",
         "label": "Termine für den Kalender"
+      },
+      {
+        "format": "kbv-pka",
+        "label": "Patientenkurzakte (KBV)"
       }
     ],
     "wizards": [
@@ -7115,6 +7123,58 @@ const SEKTOREN = Object.freeze([
                     "guardian-nomination",
                     "ki-verfuegung",
                     "custodian-appointment"
+                  ]
+                }
+              },
+              {
+                "id": "storageStreet",
+                "label": "Ablageort: Straße",
+                "typ": "text",
+                "beispiel": "Hauptstraße",
+                "sensibel": true,
+                "sichtbarWenn": {
+                  "feld": "instrument",
+                  "wert": [
+                    "enduring-power-of-attorney"
+                  ]
+                }
+              },
+              {
+                "id": "storageHouseNumber",
+                "label": "Ablageort: Hausnummer",
+                "typ": "text",
+                "beispiel": "5",
+                "sensibel": true,
+                "sichtbarWenn": {
+                  "feld": "instrument",
+                  "wert": [
+                    "enduring-power-of-attorney"
+                  ]
+                }
+              },
+              {
+                "id": "storagePostalCode",
+                "label": "Ablageort: Postleitzahl",
+                "typ": "text",
+                "beispiel": "80331",
+                "sensibel": true,
+                "sichtbarWenn": {
+                  "feld": "instrument",
+                  "wert": [
+                    "enduring-power-of-attorney"
+                  ]
+                }
+              },
+              {
+                "id": "storageCity",
+                "label": "Ablageort: Ort",
+                "typ": "text",
+                "beispiel": "München",
+                "sensibel": true,
+                "sichtbarWenn": {
+                  "feld": "instrument",
+                  "wert": [
+                    "enduring-power-of-attorney"
                   ]
                 }
               },

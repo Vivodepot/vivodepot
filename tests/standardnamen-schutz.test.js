@@ -184,3 +184,16 @@ test('[Standardnamen·Rückwärtslesen·Rot-Beweis] die frühere Kennung bleibt 
   assert.equal(V.formatModulPruefen(modul('bildungsangaben')).grund, 'reserviert', 'die neue Kennung');
   assert.notEqual(V.formatModulPruefen(modul('eigenes-bildungsformat')).grund, 'reserviert', 'Gegenprobe: ein freier Name ist nicht reserviert');
 });
+
+/* U2-ADR-465: ein Format-Modul im Repo ist unsigniert; ein fremder Namensraum darin ist ein Mangel. */
+test('[Standardnamen·Namensraum] kein Modul im Repo setzt einen fremden Namensraum', () => {
+  assert.deepEqual(W.modulNamensraeume(), []);
+});
+test('[Standardnamen·Namensraum·Rot-Beweis] ein unsigniertes Modul mit urn:xoev-de-Namensraum fällt, der eigene nicht', () => {
+  const fremd = { modulTyp: 'format', format: 'probe', namensraum: 'urn:xoev-de:xfall:standard:fim-s99000001_1.0' };
+  const eigen = { modulTyp: 'format', format: 'probe2', namensraum: 'urn:vivodepot:probe:1' };
+  const f = W.modulNamensraeume(undefined, [{ ort: 'probe.json', wert: [fremd, eigen] }]);
+  assert.deepEqual(f, ['probe.json: Format-Modul probe setzt den fremden Namensraum urn:xoev-de:xfall:standard:fim-s99000001_1.0 ohne Signatur']);
+  const r = W.pruefen({ extraModule: [{ ort: 'probe.json', wert: fremd }] });
+  assert.ok(r.maengel.some((m) => /fremden Namensraum/.test(m)), 'der Mangel landet im Gesamturteil');
+});

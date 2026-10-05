@@ -52,3 +52,10 @@ test('[SNOMED·GPS-Abgleich·Rot-Beweis] inaktiv, fehlend, anderer Begriff, ohne
   const leise = console.error; console.error = () => {};
   try { assert.equal(main(['--gps', path.join(FIX, 'gibt-es-nicht_20990101T120000Z.txt')]), 2); } finally { console.error = leise; }
 });
+
+test('[SNOMED·GPS-Abgleich·FSN] mit begriffArt fsn gilt der FSN — und nur er (Profile, die den FSN fixieren, U2-ADR-471)', () => {
+  const frei = (begriff) => ({ freigegeben: { 1000000001: { begriff, begriffArt: 'fsn', gps: gpsFeld } } });
+  assert.deepEqual(abgleich({ freigabe: frei('Erfundenes Konzept A (finding)'), offen: null, tabelle, release: '20990101' }).befund, []);
+  const { befund } = abgleich({ freigabe: frei('Erfundenes Konzept A'), offen: null, tabelle, release: '20990101' });
+  assert.deepEqual(befund, ['1000000001: begriff „Erfundenes Konzept A" ist nicht der FSN „Erfundenes Konzept A (finding)"']);
+});

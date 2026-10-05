@@ -15,6 +15,14 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.918] – 2026-10-05
+
+### Hinzugefügt
+- Die Vorsorgevollmacht als Datei nach dem Medizinischen Informationsobjekt Patientenkurzakte 1.0.0 der
+  Kassenärztlichen Bundesvereinigung (U2-ADR-471), eine Datei je bevollmächtigter Person. Dafür lässt sich zum Ablageort der Vollmacht
+  jetzt die Anschrift eintragen (Straße, Hausnummer, Postleitzahl, Ort); der bisherige freie Text bleibt unverändert stehen.
+  Fehlt etwas, das der Standard verlangt (etwa die Krankenversichertennummer), sagt Vivodepot, was fehlt.
+
 ## [v1.0.917] – 2026-10-05
 
 ### Hinzugefügt

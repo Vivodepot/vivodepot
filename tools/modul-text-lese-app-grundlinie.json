@@ -12,11 +12,11 @@
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
     },
     "unterfeld-beschriftung": {
-      "anzahl": 258,
+      "anzahl": 262,
       "grund": "Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen"
     },
     "hinweis-beispiel": {
-      "anzahl": 452,
+      "anzahl": 456,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "feldgruppen": {

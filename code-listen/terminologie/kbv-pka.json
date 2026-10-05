@@ -1,0 +1,82 @@
+{
+  "_zweck": "Codes und Profile der KBV-PKA-Ausgabe der Vorsorgevollmacht (U2-ADR-471): ein DPE-Bundle nach MIO Patientenkurzakte 1.0.0 je bevollmächtigter Person. Alle Werte sind vom Profil fixiert (fixedCode, fixedString, fixedCanonical) und hier unverändert übernommen — kein Produkttext. Gelesen über IPS_BEGRIFFE.kbvPka.",
+  "kbvPka": {
+    "_herkunft": "Profile, CodeSystems und Festwerte: kbv.mio.patientenkurzakte#1.0.0 (KBV), maschinenlesbar unter Apache-2.0 im MIOParser der KBV (github.com/kassenaerztliche-bundesvereinigung/MIOParser, Commit 0f39da3c86212d63885bf221dfb772f691a794e3, src/Definitions/KBV/PKA/1.0.0). SNOMED-Konzepte 408403008, 371538006, 186065003 aktiv im GPS-Release 20260101 mit dem Begriff, den das Profil fixiert (tools/snomed-freigabe.json). LOINC 59284-0 und 57016-8 mit der vom Profil fixierten Anzeige. KVNR-System aus de.basisprofil.r4#0.9.13 (identifier-kvid-10). Gemessen am validator_cli offline am 02.10.2026 (tools/kbv-pka-validieren.js).",
+    "fassung": "1.0.0",
+    "profilBundle": "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_NFDxDPE_Bundle|1.0.0",
+    "profilComposition": "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_DPE_Composition_DPE|1.0.0",
+    "profilPatient": "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_DPE_Patient_DPE|1.0.0",
+    "profilErklaerung": "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_DPE_Consent_Personal_Consent|1.0.0",
+    "profilVertretung": "https://fhir.kbv.de/StructureDefinition/KBV_PR_MIO_NFDxDPE_Consent_Active_Advance_Directive|1.0.0",
+    "extAblageort": "https://fhir.kbv.de/StructureDefinition/KBV_EX_MIO_NFDxDPE_Consent_Description_File_Location",
+    "extDeutsch": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Terminology_German",
+    "bundleTyp": {
+      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_MIO_NFDxDPE_Bundle_Type",
+      "code": "DPE_Vorsorgevollmacht"
+    },
+    "dokumentTyp": {
+      "system": "http://snomed.info/sct",
+      "version": "http://snomed.info/sct/900000000000207008/version/20210731",
+      "code": "408403008",
+      "display": "Patient held record (record artifact)"
+    },
+    "titel": "DPE",
+    "abschnittTitel": "Persönliche Erklärungen",
+    "abschnitt": {
+      "system": "http://snomed.info/sct",
+      "version": "http://snomed.info/sct/900000000000207008/version/20210731",
+      "code": "371538006",
+      "display": "Advance directive report (record artifact)"
+    },
+    "kategorie": {
+      "system": "http://loinc.org",
+      "version": "2.71",
+      "code": "59284-0",
+      "display": "Consent Document"
+    },
+    "scopeErklaerung": {
+      "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+      "version": "4.0.1",
+      "code": "adr",
+      "display": "Privacy Consent"
+    },
+    "scopeVertretung": {
+      "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+      "version": "4.0.1",
+      "code": "patient-privacy",
+      "display": "Privacy Consent"
+    },
+    "artVollmacht": {
+      "system": "http://snomed.info/sct",
+      "version": "http://snomed.info/sct/900000000000207008/version/20210731",
+      "code": "186065003",
+      "display": "Power of attorney medical report (record artifact)",
+      "deutsch": "DPE_Vorsorgevollmacht"
+    },
+    "regelVertretung": {
+      "system": "http://loinc.org",
+      "version": "2.71",
+      "code": "57016-8",
+      "display": "Patient Consent",
+      "deutsch": "Einwilligung"
+    },
+    "rolle": {
+      "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+      "version": "2018-08-12",
+      "code": "AGNT",
+      "display": "agent"
+    },
+    "kvnr": {
+      "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+      "typSystem": "http://fhir.de/CodeSystem/identifier-type-de-basis",
+      "typCode": "GKV",
+      "typDisplay": "Gesetzliche Krankenversicherung"
+    },
+    "geschlechtAmtlich": {
+      "url": "http://fhir.de/StructureDefinition/gender-amtlich-de",
+      "system": "http://fhir.de/CodeSystem/gender-amtlich-de",
+      "code": "D",
+      "display": "divers"
+    }
+  }
+}

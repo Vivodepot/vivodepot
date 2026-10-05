@@ -136,6 +136,11 @@ const ZUWACHS = Object.freeze([
   { bereich: 'identitaet', sektion: 'person', feld: 'houseNumber', unterfeld: null, art: 'feld', adr: 'U2-ADR-467' },
   { bereich: 'identitaet', sektion: 'person', feld: 'postalCode', unterfeld: null, art: 'feld', adr: 'U2-ADR-467' },
   { bereich: 'identitaet', sektion: 'person', feld: 'city', unterfeld: null, art: 'feld', adr: 'U2-ADR-467' },
+  // U2-ADR-471 (Schema 92) — die Anschrift des Ablageorts am Vorsorge-Instrument in vier Teilen, für die KBV-Patientenkurzakte.
+  { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'storageStreet', art: 'feld', adr: 'U2-ADR-471' },
+  { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'storageHouseNumber', art: 'feld', adr: 'U2-ADR-471' },
+  { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'storagePostalCode', art: 'feld', adr: 'U2-ADR-471' },
+  { bereich: 'advanceCare', sektion: 'meine-vorsorge', feld: 'provisionInstruments', unterfeld: 'storageCity', art: 'feld', adr: 'U2-ADR-471' },
 ]);
 
 // Sicht 1 — der eingefrorene BEREICHSBESTAND: benannte Feld-Stellen, nie Array-Positionen.

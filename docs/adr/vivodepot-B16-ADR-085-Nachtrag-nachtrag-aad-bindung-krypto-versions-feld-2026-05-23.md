@@ -7,10 +7,10 @@
 
 - **Status:** akzeptiert
 - **Datum:** 2026-05-23
-- **Konsultiert:** Krypto-Gutachten vom 23.05.2026 (nicht veröffentlicht)
+- **Konsultiert:** interne Krypto-Durchsicht vom 23.05.2026 (nicht veröffentlicht)
 - **Kategorien:** SICHERHEIT | ARCHITEKTUR
 - **Format:** MADR 4.0 mit Vivodepot-Erweiterungen
-- **Bezug:** Krypto-Gutachten 23.05.2026 Sektion 5.1 (Audit-Befund zur Try-Catch-Mechanik), Krypto-Architektur (Abschnitte AAD-Bindung und `kryptoVersion`-Feld), Architektur-Konzept v1.0 (Krypto-Abschnitte), B16-ADR-098 (Lese-App-Architektur) Punkt 3
+- **Bezug:** interne Krypto-Durchsicht 23.05.2026 Sektion 5.1 (Befund zur Try-Catch-Mechanik), Krypto-Architektur (Abschnitte AAD-Bindung und `kryptoVersion`-Feld), Architektur-Konzept v1.0 (Krypto-Abschnitte), B16-ADR-098 (Lese-App-Architektur) Punkt 3
 - **Ergänzt:** B16-ADR-085 (Lese-App-Krypto-Sync auf B16-ADR-050-Stand, akzeptiert 19.05.2026)
 
 ## Kontext und Problemstellung
@@ -19,7 +19,7 @@ B16-ADR-085 hat am 19.05.2026 die Lese-App auf den B16-ADR-050-Stand (600.000 PB
 
 Die Try-Catch-Mechanik ist im Code seit dem B16-ADR-085-Sprint umgesetzt und funktional. Die B16-ADR-085 hat ausdrücklich eine **Format-Erweiterung um ein Iterationen-Feld im Container-Header** als Alternative geprüft und verworfen — mit der Begründung „kein größerer Eingriff plus Test-Aufwand auf beiden Seiten".
 
-Das Krypto-Gutachten vom 23.05.2026 hat in Sektion 5.1 diese Architektur-Wahl als **falsche Pragmatik** identifiziert. Die Try-Catch-Mechanik ist nicht für die heute im Code lebenden Werte (600k und 200k) ein konkretes Sicherheits-Problem — beide AES-GCM-Schlüssel sind unter den Bestand-Iterationen kryptographisch gleichwertig stark gegen Brute-Force. Aber:
+Die interne Krypto-Durchsicht vom 23.05.2026 hat in Sektion 5.1 diese Architektur-Wahl als **falsche Pragmatik** identifiziert. Die Try-Catch-Mechanik ist nicht für die heute im Code lebenden Werte (600k und 200k) ein konkretes Sicherheits-Problem — beide AES-GCM-Schlüssel sind unter den Bestand-Iterationen kryptographisch gleichwertig stark gegen Brute-Force. Aber:
 
 — **Iterations-Zahl ist nicht kryptographisch authentifiziert.** Sie steht im Klartext-Header neben dem verschlüsselten Container. Wenn die App in einer künftigen Version „600.000 oder 1.000.000" als Try-Catch-Pfade implementiert, kann eine Angreiferin mit Schreib-Zugriff auf die Datei (kompromittiertes Cloud-Sync-Verzeichnis, manipulierte USB-Stick-Distribution) den Header so manipulieren, dass die App den schwächeren Pfad wählt. Strukturell ist die Architektur offen für künftige Iteration-Downgrade-Angriffe.
 
@@ -106,7 +106,7 @@ Bestand-Übergaben aus der 200.000-Zeit werden zum v1.0-Tag nicht mehr unterstü
 
 Statt eines `kryptoVersion`-Feld-Sprungs auf 2 mit PBKDF2-AAD-Bindung wird Argon2id eingeführt.
 
-**Verworfen.** Argon2id ist in Web Crypto API nicht nativ (Stand Mai 2026). Eine externe Argon2id-Bibliothek würde die Trusted Computing Base erweitern und die Single-File-Architektur durchbrechen. Begründung gemäß Krypto-Architektur und Krypto-Gutachten.
+**Verworfen.** Eine externe Argon2id-Bibliothek würde die Trusted Computing Base erweitern und die Single-File-Architektur durchbrechen. Begründung gemäß Krypto-Architektur und interner Krypto-Durchsicht.
 
 ## Konsequenzen
 
@@ -166,14 +166,24 @@ Bestand-Depots auf v1 werden über die Allowlist akzeptiert; Lazy-Migration auf 
 
 | Aussage | Quelle |
 |---|---|
-| Try-Catch-Mechanik ist Iteration-Downgrade-anfällig | Krypto-Gutachten 23.05.2026 Sektion 5.1 |
-| Format-Erweiterung war ursprünglich falsche Pragmatik | Krypto-Gutachten 23.05.2026 Sektion 5.1 letzter Absatz |
+| Try-Catch-Mechanik ist Iteration-Downgrade-anfällig | interne Krypto-Durchsicht 23.05.2026 Sektion 5.1 |
+| Format-Erweiterung war ursprünglich falsche Pragmatik | interne Krypto-Durchsicht 23.05.2026 Sektion 5.1 letzter Absatz |
 | AAD-Bindung als strukturelle Lösung | Krypto-Architektur, Abschnitt AAD-Bindung |
 | `kryptoVersion`-Feld mit Allowlist | Krypto-Architektur, Abschnitt `kryptoVersion`-Feld |
-| Performance-Fallback-Authentifizierung | B16-ADR-061v3 Festlegung 3, Krypto-Gutachten 2.2 |
+| Performance-Fallback-Authentifizierung | B16-ADR-061v3 Festlegung 3, interne Krypto-Durchsicht 2.2 |
 | Lese-App-Konsistenz | B16-ADR-098 Punkt 3 |
 | Web-Crypto-`additionalData`-Parameter | Web Crypto API W3C-Spec |
 
 ---
 
 *Stand 23. Mai 2026. Ergänzt B16-ADR-085 vom 19.05.2026 um AAD-Bindung der Iterations-Zahl und `kryptoVersion`-Feld-Allowlist. Code-Implementation vor v1.0-Tag (30.05.2026) ist in den Anschluss-Aufgaben benannt. Bei einer künftigen ADR-Format-Konsolidierung (Sprint V8.1) wird dieser Nachtrag entweder als eigener ADR-Eintrag weitergeführt oder in den B16-ADR-085-Haupttext integriert; aktuell ist er als eigenständige Markdown-Datei lesbar.*
+
+## Nachtrag 04.10.2026
+
+Die Krypto-Durchsicht vom 23.05.2026 war intern. Frühere Fassungen dieses ADR bezeichneten sie so,
+dass sie als externe Prüfung gelesen werden konnte; die Benennung ist korrigiert. An Befund und
+Entscheidung ändert sich nichts.
+
+## Nachtrag 05.10.2026
+
+Gestrichen, weil ohne Suchweg: unter Alternative 3 die Aussage, Argon2id sei in der Web Crypto API nicht vorhanden. Die Verwerfung trägt sich aus der Erweiterung der Trusted Computing Base. An der Entscheidung ändert sich nichts.

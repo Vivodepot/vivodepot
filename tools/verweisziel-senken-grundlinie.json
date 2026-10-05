@@ -1,0 +1,22 @@
+{
+  "zweck": "Jedes dynamische Verweisziel in Kern und Lese-App mit dem Grund, warum es kein fremdes Schema tragen kann. Gehalten von tools/verweisziel-senken-pruefen.js, Probe tests/verweisziel-senken-waechter.test.js. Darf nur schrumpfen.",
+  "eintraege": [
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(href)", "anzahl": 1, "grund": "_vorfuehrungPruefungHTML: verlinkt nur einen relativen Pfad (/^[\\w./-]+$/, kein führender Schrägstrich), sonst Text; Wert aus der Ab-Werk-Demo." },
+    { "datei": "vivodepot.html", "ausdruck": "adresse + (richtung < 0 ? '&zurueck=1' : '')", "anzahl": 1, "grund": "vorfuehrungSchritt: AB_WERK_SHOWCASE.schrittAdressen, Ab-Werk-Saat zur Bauzeit, keine fremde Eingabe." },
+    { "datei": "vivodepot.html", "ausdruck": "url", "anzahl": 2, "grund": "Download: URL.createObjectURL(blob) unmittelbar davor, eine blob:-Adresse der eigenen Seite." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(ziel)", "anzahl": 2, "grund": "wortlautVorlageHTML (titelLink) und feldWertHTML (verweis): ziel = _verweisZielGeprueft(...), nur https:, sonst null und Text. Probe tests/vorlagen-url-schema.test.js." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(MARKEN_ADRESSEN.shlAbholen)", "anzahl": 1, "grund": "Konstante MARKEN_ADRESSEN (eingefroren, https), gehalten von tools/marken-adressen-pruefen.js." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(MARKEN_ADRESSEN.shlAblage)", "anzahl": 1, "grund": "Konstante MARKEN_ADRESSEN (eingefroren, https), gehalten von tools/marken-adressen-pruefen.js." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(QUELLCODE_LINK)", "anzahl": 1, "grund": "Konstante QUELLCODE_LINK (https-Literal)." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(VIVODEPOT_HERKUNFT_LINK)", "anzahl": 1, "grund": "Konstante VIVODEPOT_HERKUNFT_LINK (https-Literal, Herkunftsort, unersetzbar)." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(_eigenerWert(DATENSCHUTZ_LINK, textsatzSpracheAktiv()) || DATENSCHUTZ_LINK.de)", "anzahl": 1, "grund": "Konstante DATENSCHUTZ_LINK (eingefroren, beide Werte https-Literale), Auswahl nur nach Sprache." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(_markeAktualisierungen())", "anzahl": 1, "grund": "_markeAktualisierungen: eingebaute Konstante oder Branding-Wert nach _BRANDING_AKTUALISIERUNGEN_MUSTER (^https://Hostname)." },
+    { "datei": "vivodepot.html", "ausdruck": "ziel", "anzahl": 1, "grund": "window.open im Knopf „Nach neuer Version suchen“: ziel = _markeAktualisierungen(), s. o., nur https." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(_mappeVorschauBlobUrl || _inhaltPdf)", "anzahl": 1, "grund": "Mappen-Vorschau (iframe src): eine blob:-URL aus URL.createObjectURL, sonst _inhaltPdf aus _mappeInhaltAlsQuelle, das nur eine data:application/pdf-Form nach _MAPPE_PDF_DATA_URL durchlässt." },
+    { "datei": "vivodepot.html", "ausdruck": "escapeHTML(q)", "anzahl": 1, "grund": "bedingungAbschnittHTML: Quellen aus bedingungskatalog(), jeder Eintrag durch bedingungskatalogModulPruefen nur mit protocol https:." },
+    { "datei": "vivodepot-lesen.html", "ausdruck": "escapeHTML('https://' + domain + '/')", "anzahl": 1, "grund": "topbarMarkeLinkHTML: fest https://, domain nur als reiner Hostname (_MARKE_HOST), sonst kein Link." },
+    { "datei": "vivodepot-lesen.html", "ausdruck": "url", "anzahl": 1, "grund": "Download: URL.createObjectURL(blob) unmittelbar davor, eine blob:-Adresse der eigenen Seite." },
+    { "datei": "vivodepot-lesen.html", "ausdruck": "adresse + (r < 0 ? '&zurueck=1' : '')", "anzahl": 1, "grund": "Vorführung: AB_WERK_VORFUEHRUNG_LESEN.schrittAdressen, Ab-Werk-Saat zur Bauzeit, keine fremde Eingabe." },
+    { "datei": "vivodepot-lesen.html", "ausdruck": "st.selbst", "anzahl": 1, "grund": "Vorführung: Station aus AB_WERK_VORFUEHRUNG_LESEN, Ab-Werk-Saat zur Bauzeit, keine fremde Eingabe." }
+  ]
+}

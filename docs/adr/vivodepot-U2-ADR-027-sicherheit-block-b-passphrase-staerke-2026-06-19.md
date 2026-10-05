@@ -3,7 +3,7 @@
 **Status:** Akzeptiert (gebaut, hinweisend/nicht-blockierend; B2-Entscheidung Zwang-vs.-Empfehlung offen — Produktentscheidung)
 **Datum:** 19.06.2026
 **Kategorie:** SICHERHEIT, UX
-**Grundlage:** Krypto-Gutachten-Mängelliste 19.06., Befund 1.7 (keine Passwort-Stärke-Rückmeldung).
+**Grundlage:** Mängelliste aus dem internen Abgleich der Krypto-Durchsicht vom 23.05.2026 (Stand 19.06., nicht veröffentlicht), Befund 1.7 (keine Passwort-Stärke-Rückmeldung).
 **Drei-Anker:**
 - **Code-Stelle:** `vivodepot.html` — `passwortStaerke`/`PW_BLOCKLISTE`/`pwGrundFehler`/`pwStaerkeAnzeigeVerdrahten` (nach `modalPwFelderVerdrahten`); `STRINGS.pwStaerke*`; eingehängt in `_depotIdentitaetUndPasswortAbfragen` (Feld `id-pw`) und `flowPasswortSetzen` (Feld `pw-neu`); CSS `.pw-staerke` (neben `.feld-inline-fehler`).
 - **Sprint-Commit:** dieser Bau (Sicherheits-Kette Block B).
@@ -16,7 +16,7 @@ bleibt offen wie im Dokument selbst vermerkt.
 
 ## Kontext
 
-Das Krypto-Gutachten (Befund 1.7) bemängelt, dass beim Setzen eines Depot-Passworts keine
+Die interne Krypto-Durchsicht (Befund 1.7) bemängelt, dass beim Setzen eines Depot-Passworts keine
 Stärke-Rückmeldung erscheint — nur die harte Mindestlänge 8. Für die Zielgruppe (oft ältere
 Menschen, die ihr Depot selbst absichern) ist eine ruhige, verständliche Rückmeldung wertvoll,
 ohne sie zu bevormunden oder im Panik-Moment auszusperren.
@@ -92,3 +92,9 @@ quelle:    invariante
 ```
 
 *Bindung nachgetragen 05.08.2026 (ADR-Konformitäts-Wächter, Tranche 1).*
+
+## Nachtrag 04.10.2026
+
+Die Mängelliste vom 19.06. ist der interne Abgleich der Krypto-Durchsicht vom 23.05.2026 gegen
+den damaligen Code. Frühere Fassungen dieses ADR nannten sie ohne den Hinweis „intern“; die
+Benennung ist korrigiert. An Befund und Entscheidung ändert sich nichts.

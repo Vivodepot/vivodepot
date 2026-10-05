@@ -42,5 +42,18 @@
     "finance.accounts": [
       { "institution": { "institution": "bank" }, "accountType": "Girokonto", "iban": "DE00 0000 0000 0000 0000 00" }
     ]
+  },
+  "uebersetzung": {
+    "en": {
+      "fields.housing.tenancyAgreementStorage": "Folder “Housing”, since 2019",
+      "fields.education.occupationRole": "Surveying engineer",
+      "fields.education.universitySubject": "Surveying (Dipl.-Ing.)",
+      "lists.identity.idDocuments.0.system": "Germany",
+      "lists.advanceCare.provisionInstruments.0.storageLocation": "Folder “Provisions”, study",
+      "lists.finance.taxIdsTaxNumbers.0.system": "Germany",
+      "lists.finance.accounts.0.accountType": "Current account",
+      "people.bruder.beziehung": "brother",
+      "people.hausarzt.fachrichtung": "General practice"
+    }
   }
 }

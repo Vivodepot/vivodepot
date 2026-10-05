@@ -145,12 +145,12 @@ test('[Versions-Belege] keine Marker im Code → leere Liste, nicht erfunden', (
   assert.deepEqual(versionsBelegeAusFunktion(fn), []);
 });
 
-test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 11 Export- und 18 Import-Formate', () => {
+test('[Positivkontrolle] echter Lauf gegen den echten Kern: keine unlesbaren ADR-Titel, mindestens 130 ADR-Einträge, 12 Export- und 18 Import-Formate', () => {
   const f = erzeugeFaktenbasis();
   assert.ok(f.adrZahl > 130, `zu wenige ADR-Einträge erkannt: ${f.adrZahl}`);
   assert.ok(!f.adr.some((a) => a.titel.startsWith('(kein Titel')), 'unlesbare ADR-Titel im echten Lauf');
   // 11 -> 10 (U2-ADR-NNN, 18.09.2026): der offene JSON-Vollexport ist aus EXPORT_FORMATE entfernt.
-  assert.equal(f.exportFormateZahl, 11);   // 10 -> 11 (01.10.2026, v863: isik, U2-ADR-468)
+  assert.equal(f.exportFormateZahl, 12);   // 11 -> 12 (05.10.2026: kbv-pka, U2-ADR-471); 10 -> 11 (01.10.2026, v863: isik, U2-ADR-468)
   assert.equal(f.importFormateZahl, 18);   // 17 → 18 (30.09.2026, v836: openbadges-3-extern, U2-ADR-445)
 });
 
@@ -169,7 +169,8 @@ test('[Negativprobe / Rotmachbarkeit] --check schlägt an, wenn eine echte Kern-
   const bisherig = fs.readFileSync(AUSGABE, 'utf8');
   // U2-ADR-NNN (18.09.2026): 11 -> 10 Exportwege (der offene JSON-Vollexport ist entfernt).
   // 02.10.2026 (v863, U2-ADR-468): 10 -> 11 Exportwege (isik, ISiK Stufe 6).
-  const verfaelscht = bisherig.replace('## Export-Formate (11)', '## Export-Formate (12)');
+  // 05.10.2026 (U2-ADR-471): 11 -> 12 Exportwege (kbv-pka, KBV-Patientenkurzakte).
+  const verfaelscht = bisherig.replace('## Export-Formate (12)', '## Export-Formate (13)');
   assert.notEqual(verfaelscht, bisherig, 'Fixture griff nicht — Text nicht gefunden');
   const f = erzeugeFaktenbasis();
   const neu = formatiereMarkdown(f);

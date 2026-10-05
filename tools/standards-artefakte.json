@@ -30,6 +30,16 @@
     "herkunft": "curl + shasum -a 256 am 28.09.2026; der Validator lädt das Paket selbst über -ig"
   },
   {
+    "id": "kbv-mio-patientenkurzakte-1.0.0",
+    "art": "daten",
+    "version": "1.0.0",
+    "lizenz": "Apache-2.0",
+    "url": "https://packages.fhir.org/kbv.mio.patientenkurzakte/1.0.0",
+    "sha256": "37e7b759c9dfd4292a5ae544650e7cc924608669c01dc5a686e5d61e3b49d6c8",
+    "entpacken": "tgz",
+    "herkunft": "curl + shasum -a 256 am 02.10.2026 (100097 Bytes); das Paket trägt kein license-Feld, die KBV gibt dieselben Definitionen unter Apache-2.0 im MIOParser heraus (Commit 0f39da3c86212d63885bf221dfb772f691a794e3); der Validator lädt das Paket selbst über -ig"
+  },
+  {
     "id": "edc-ap-shapes-generic-full-1.1.0",
     "art": "daten",
     "version": "1.1.0",
@@ -128,5 +138,15 @@
     "sha256": "5b8fdee7090f0a0fb7266d10dd0f6f1f8a37d286e3c06b1aa82e01d6d4f0a8a4",
     "entpacken": null,
     "herkunft": "Positivfall des PDF/A-3b-Profils aus dem veraPDF-Testkorpus, curl + shasum -a 256 am 01.10.2026"
+  },
+  {
+    "id": "kosit-validator-1.6.3",
+    "art": "werkzeug",
+    "version": "1.6.3",
+    "lizenz": "Apache-2.0",
+    "url": "https://github.com/itplr-kosit/validator/releases/download/v1.6.3/validator-1.6.3-standalone.jar",
+    "sha256": "799e64befca97d4080e03608c80b85dd5a5ecc5f4ae4f35d1116ec2855b9a7c9",
+    "entpacken": null,
+    "herkunft": "curl + shasum -a 256 am 05.10.2026 (10 648 594 Byte, Release vom 20.08.2026); beschafft von tools/kosit-beschaffen.mjs (Pin im Adapter tests/konformitaet/adapter/kosit-validator.mjs)"
   }
 ]

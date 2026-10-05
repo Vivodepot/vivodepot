@@ -18,7 +18,8 @@
    (U2-ADR-326, tests/zugang-zum-recht-ab-werk-einlass.test.js).
 
    Aufruf:  node tools/vorfuehrung-zugang-zum-recht-demodepot-erzeugen.js [ziel] [--en]
-            --en baut im englischen Produkt (derselbe Inhalt).
+            --en baut im englischen Produkt, mit den englischen Antworten aus DEPOT_DATEN.uebersetzung.en (05.10.2026;
+            vorher derselbe deutsche Inhalt).
 
    SEIT 04.10.2026 IM PRODUKT ab Werk: das Depot entsteht im Privat-Produkt seiner Sprache (privat-de bzw. privat-en,
    tests/produkt-html-erzeugen.js), nicht im nackten Kern mit eingelassenem Sprachmodul. Seine Module sind damit die
@@ -33,40 +34,67 @@ const { produktHtml } = require('../tests/produkt-html-erzeugen.js');
 const STANDARD_PASSWORT = 'zugang-zum-recht-vorfuehrung-2026';
 const DATEI_MAGIC_PREFIX = 'VIVODEPOT' + String.fromCharCode(1);
 
+/* Teil 0 — die Person (dieselbe Fixture-Persona wie der Auszug-Rendertest). Teil A — wirtschaftliche Verhältnisse.
+   Teil B — Vermögen. Teil C — die Angelegenheit. */
+const DEPOT_DATEN = Object.freeze({
+  fields: {
+    'identity.givenName': 'Elisabeth',
+    'identity.familyName': 'Wredenhagen',
+    'identity.secondLastName': 'Sonnenschein',
+    'identity.birthDate': '1958-03-14',
+    'identity.streetAddress': 'Lindenweg 4',
+    'identity.postcodeCity': '80331 München',
+    'identity.telephone': '0171 2345678',
+    'identity.email': 'elisabeth.ews@beispielpost.example',
+    'assets.yourOwnIncomeNetMonthly': '1.180 €',
+    'assets.incomeOfOtherPeopleInThe': '210 € Witwenrente',
+    'assets.maintenanceObligations': 'keine',
+    'assets.monthlyCommitments': 'Krankenzusatzversicherung 38 €',
+    'assets.livingSituation': 'mit_angehoerigen',
+    'assets.housingCostsOwnShare': '340 €',
+    'assets.numberOfPeopleInTheHome': '2',
+    'finance.ongoingLoansDebts': 'keine',
+    'finance.valuablesStorageLocations': 'keine nennenswerten',
+  },
+  lists: {
+    'administration.ongoingAdministrativeCases': [{
+      authority: 'Amtsgericht München', typeOfCase: 'Mieterhöhung, Widerspruch prüfen',
+      opposingParty: 'Vermieterin (Hausverwaltung Musterweg GmbH)',
+      alreadyAdvisedBy: 'noch keine',
+    }],
+  },
+  uebersetzung: {
+    en: {
+      'fields.assets.incomeOfOtherPeopleInThe': '€210 widow’s pension',
+      'fields.assets.maintenanceObligations': 'none',
+      'fields.assets.monthlyCommitments': 'Supplementary health insurance €38',
+      'fields.finance.ongoingLoansDebts': 'none',
+      'fields.finance.valuablesStorageLocations': 'none worth mentioning',
+      'lists.administration.ongoingAdministrativeCases.0.typeOfCase': 'Rent increase, check whether to object',
+      'lists.administration.ongoingAdministrativeCases.0.opposingParty': 'Landlord (Hausverwaltung Musterweg GmbH)',
+      'lists.administration.ongoingAdministrativeCases.0.alreadyAdvisedBy': 'nobody yet',
+    },
+  },
+});
+
 async function baueDemodepot({ passwort = STANDARD_PASSWORT, sprache = 'de' } = {}) {
   const { V } = ladeKern({ htmlPfad: produktHtml(sprache === 'en' ? 'privat-en' : 'privat-de') });
   await V.depotAnlegen(passwort);
   V.akteurSelbstErklaeren('Elisabeth');
 
-  // Teil 0 — die Person. Dieselbe Fixture-Persona wie der Auszug-Rendertest.
-  V.sektorFeldSetzen('identity', 'givenName', 'Elisabeth');
-  V.sektorFeldSetzen('identity', 'familyName', 'Wredenhagen');
-  V.sektorFeldSetzen('identity', 'secondLastName', 'Sonnenschein');
-  V.sektorFeldSetzen('identity', 'birthDate', '1958-03-14');
-  V.sektorFeldSetzen('identity', 'streetAddress', 'Lindenweg 4');
-  V.sektorFeldSetzen('identity', 'postcodeCity', '80331 München');
-  V.sektorFeldSetzen('identity', 'telephone', '0171 2345678');
-  V.sektorFeldSetzen('identity', 'email', 'elisabeth.ews@beispielpost.example');
-
-  // Teil A — wirtschaftliche Verhältnisse.
-  V.sektorFeldSetzen('assets', 'yourOwnIncomeNetMonthly', '1.180 €');
-  V.sektorFeldSetzen('assets', 'incomeOfOtherPeopleInThe', '210 € Witwenrente');
-  V.sektorFeldSetzen('assets', 'maintenanceObligations', 'keine');
-  V.sektorFeldSetzen('assets', 'monthlyCommitments', 'Krankenzusatzversicherung 38 €');
-  V.sektorFeldSetzen('assets', 'livingSituation', 'mit_angehoerigen');
-  V.sektorFeldSetzen('assets', 'housingCostsOwnShare', '340 €');
-  V.sektorFeldSetzen('assets', 'numberOfPeopleInTheHome', '2');
-
-  // Teil B — Vermögen.
-  V.sektorFeldSetzen('finance', 'ongoingLoansDebts', 'keine');
-  V.sektorFeldSetzen('finance', 'valuablesStorageLocations', 'keine nennenswerten');
-
-  // Teil C — die Angelegenheit.
-  V.listenEintragHinzufuegen('administration', 'ongoingAdministrativeCases', {
-    authority: 'Amtsgericht München', typeOfCase: 'Mieterhöhung, Widerspruch prüfen',
-    opposingParty: 'Vermieterin (Hausverwaltung Musterweg GmbH)',
-    alreadyAdvisedBy: 'noch keine',
-  });
+  // Die Werte als Daten im Format der Showcase-Depots (fields/lists), mit Tabelle je weiterer Sprache: eine englische
+  // Vorführung zeigt englische Antworten (05.10.2026). Derselbe Wächter wie dort — uebersetzungAnwenden wirft bei einem
+  // Freitext ohne Übersetzung (tools/vorfuehrung-showcase-erzeugen.js; die Probe hält es über alle englischen Vorführungen).
+  const { uebersetzungAnwenden } = require('./vorfuehrung-showcase-erzeugen.js');
+  const daten = uebersetzungAnwenden(V, DEPOT_DATEN, sprache);
+  for (const [kennung, wert] of Object.entries(daten.fields)) {
+    const [sektor, feld] = kennung.split('.');
+    V.sektorFeldSetzen(sektor, feld, wert);
+  }
+  for (const [kennung, eintraege] of Object.entries(daten.lists)) {
+    const [sektor, feld] = kennung.split('.');
+    for (const e of eintraege) V.listenEintragHinzufuegen(sektor, feld, e);
+  }
 
   const umschlag = await V.depotSerialisieren();
   return { umschlag, passwort };
@@ -85,4 +113,4 @@ if (require.main === module) {
   }).catch((e) => { console.error('FEHLER:', e); process.exitCode = 1; });
 }
 
-module.exports = { baueDemodepot, STANDARD_PASSWORT, DATEI_MAGIC_PREFIX };
+module.exports = { baueDemodepot, STANDARD_PASSWORT, DATEI_MAGIC_PREFIX, DEPOT_DATEN };

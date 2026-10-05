@@ -315,6 +315,7 @@ const EXPORT_HOOK = `
   vereinbarungPdfAnhang: (typeof vereinbarungPdfAnhang !== 'undefined' ? vereinbarungPdfAnhang : undefined),
   _pdfAnhangEinbetten: (typeof _pdfAnhangEinbetten !== 'undefined' ? _pdfAnhangEinbetten : undefined),
   pdfDatenfassungEinbetten: (typeof pdfDatenfassungEinbetten !== 'undefined' ? pdfDatenfassungEinbetten : undefined),
+  formatNamensraumFremd: (typeof formatNamensraumFremd !== 'undefined' ? formatNamensraumFremd : undefined),   // U2-ADR-465
   bedingungAbschnittHTML: (typeof bedingungAbschnittHTML !== 'undefined' ? bedingungAbschnittHTML : undefined),
   flowErbscheinXmlSichern: (typeof flowErbscheinXmlSichern !== 'undefined' ? flowErbscheinXmlSichern : undefined),
   empfaengerDateiHerausgeben: (typeof empfaengerDateiHerausgeben !== 'undefined' ? empfaengerDateiHerausgeben : undefined),
@@ -995,6 +996,12 @@ const EXPORT_HOOK = `
   _aktuelleDepotUUID: () => aktuelleDepotUUID,
   // Kern-Fix Umschlagfeld-Verlust (22.09.2026): die gemerkten unbekannten Umschlag-Felder, für die Wisch-Proben (typeof-Guard: ältere Stände kennen sie nicht).
   _umschlagFremdfelder: () => (typeof aktuelleUmschlagFremdfelder !== 'undefined' ? aktuelleUmschlagFremdfelder : undefined),
+  // Klartext-Bindung (U2-ADR-156-Nachtrag, 05.10.2026): der Befund nach dem letzten Öffnen und die Basismenge (typeof-Guard: ältere Stände kennen sie nicht).
+  _klartextBindungBefund: () => (typeof _klartextBindungBefund !== 'undefined' ? _klartextBindungBefund : undefined),
+  UMSCHLAG_FELDER_BASIS: (typeof UMSCHLAG_FELDER_BASIS !== 'undefined' ? UMSCHLAG_FELDER_BASIS : undefined),
+  klartextBindungHinweisText: (typeof klartextBindungHinweisText !== 'undefined' ? klartextBindungHinweisText : undefined),
+  klartextBindungHinweisZeigen: (typeof klartextBindungHinweisZeigen !== 'undefined' ? klartextBindungHinweisZeigen : undefined),
+  _umschlagOhneKlartextHinweise: (typeof _umschlagOhneKlartextHinweise !== 'undefined' ? _umschlagOhneKlartextHinweise : undefined),
   // U2-ADR-244: fähigkeitsabhängiger Anlege-Hinweis (typeof-Guard: existiert nicht in älteren
   // geladenen Ständen, z. B. tests/docx-streichung-gegenprobe.test.js gegen einen historischen Commit).
   anlegenSpeicherHinweis: (typeof anlegenSpeicherHinweis !== 'undefined' ? anlegenSpeicherHinweis : undefined),
@@ -1016,6 +1023,9 @@ const EXPORT_HOOK = `
   empfaengerkreiseListe, empfaengerkreisFinden, empfaengerkreisSetzen, empfaengerkreisEntfernen,
   empfaengerkreisAusgabeVermerken, empfaengerDateiHerausgeben, empfaengerkreiseAbschnittHTML,
   empfaengerkreisFachEinrichten, empfaengerkreisFachEntfernen, empfaengerkreisHatFach,
+  // Befund FACH-IMPORT-MATERIAL-UEBERNOMMEN (05.10.2026): typeof-abgesichert, ältere Kerne kennen beide Namen nicht.
+  empfaengerkreisFachVerwaist: (typeof empfaengerkreisFachVerwaist !== 'undefined') ? empfaengerkreisFachVerwaist : undefined,
+  _FACH_MATERIAL_FELDER: (typeof _FACH_MATERIAL_FELDER !== 'undefined') ? _FACH_MATERIAL_FELDER : undefined,
   empfaengerkreisGiltBisVorschlaege: (typeof empfaengerkreisGiltBisVorschlaege === 'function' ? empfaengerkreisGiltBisVorschlaege : undefined),
   fachAbgelaufen: (typeof fachAbgelaufen === 'function' ? fachAbgelaufen : undefined),
   _delegationsRecht: (typeof _delegationsRecht === 'function' ? _delegationsRecht : undefined),
@@ -1662,6 +1672,10 @@ const EXPORT_HOOK = `
   ipsUebersetzungGeprueft: (typeof ipsUebersetzungGeprueft !== 'undefined' ? ipsUebersetzungGeprueft : undefined),
   ipsExportSpracheWaehlen: (typeof ipsExportSpracheWaehlen !== 'undefined' ? ipsExportSpracheWaehlen : undefined),
   isikDokumente: (typeof isikDokumente !== 'undefined' ? isikDokumente : undefined),
+  kbvPkaVollmacht: (typeof kbvPkaVollmacht !== 'undefined' ? kbvPkaVollmacht : undefined),
+  kbvPkaExportBundles: (typeof kbvPkaExportBundles !== 'undefined' ? kbvPkaExportBundles : undefined),
+  klartextHinweisVorSpeichern: (typeof klartextHinweisVorSpeichern !== 'undefined' ? klartextHinweisVorSpeichern : undefined),
+  KBV_PKA_ANSCHRIFT: (typeof KBV_PKA_ANSCHRIFT !== 'undefined' ? KBV_PKA_ANSCHRIFT : undefined),
   KDL_SYSTEM: (typeof KDL_SYSTEM !== 'undefined' ? KDL_SYSTEM : undefined),
   KDL_GEBRAUCHT: (typeof KDL_GEBRAUCHT !== 'undefined' ? KDL_GEBRAUCHT : undefined),
   KDL_FREIGABE: (typeof KDL_FREIGABE !== 'undefined' ? KDL_FREIGABE : undefined),
@@ -1671,6 +1685,7 @@ const EXPORT_HOOK = `
   _kdlSelbstLadenDialog: (typeof _kdlSelbstLadenDialog !== 'undefined' ? _kdlSelbstLadenDialog : undefined),
   isikErlaubnisFehlt: (typeof isikErlaubnisFehlt !== 'undefined' ? isikErlaubnisFehlt : undefined),
   flowIsikExport: (typeof flowIsikExport !== 'undefined' ? flowIsikExport : undefined),
+  flowKbvPkaExport: (typeof flowKbvPkaExport !== 'undefined' ? flowKbvPkaExport : undefined),
   IPS_BEGRIFFE: (typeof IPS_BEGRIFFE !== 'undefined' ? IPS_BEGRIFFE : undefined),
   ipsBegriffeAnmelden: (typeof ipsBegriffeAnmelden !== 'undefined' ? ipsBegriffeAnmelden : undefined),
   _browserFragtNachDauerspeicher: (typeof _browserFragtNachDauerspeicher !== 'undefined' ? _browserFragtNachDauerspeicher : undefined),
