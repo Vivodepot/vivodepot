@@ -38,32 +38,15 @@ description:
     localisedName: Vivodepot
     genericName: "Persönliche Dokumentenablage"
     shortDescription: >
-      Quelloffene Offline-Anwendung: Menschen halten ihre Unterlagen aus allen Lebensbereichen und geben
-      Auszüge, etwa als FHIR, vCard oder iCalendar.
+      Offline-Anwendung, mit der Menschen ihre Unterlagen aus allen Lebensbereichen selbst speichern und
+      gezielt weitergeben.
     longDescription: >
-      Vivodepot ist eine Anwendung (EUPL-1.2) in einer einzelnen HTML-Datei. Sie läuft ohne Internetverbindung
-      im Browser und ohne Konto; kein Server hält die Unterlagen. Die Unterlagen werden auf dem Gerät
-      verschlüsselt (AES-256-GCM). Menschen halten die Unterlagen ihres eigenen Lebens aus dreizehn Bereichen
-      in einer verschlüsselten Datei, die sie selbst besitzen. Die Reihe 1.0 ist seit September 2026
-      öffentlich.
+      Vivodepot ist eine quelloffene Anwendung in einer einzigen HTML-Datei. Sie läuft im Browser, ohne
+      Internetverbindung und ohne Konto. Die Unterlagen werden verschlüsselt in einer Datei gespeichert, die bei
+      der Person selbst liegt, nicht auf einem Server.
 
-      Die Unterlagen eines Menschen liegen bei vielen Stellen, und jede empfangende Stelle erwartet ihr
-      eigenes Format. Ohne eine Kopie in der Hand der Person heißt jede Übergabe neu abtippen, oder die
-      Unterlagen liegen bei einem Anbieter, der damit zum neuen Verantwortlichen wird.
-
-      Vivodepot gibt Auszüge aus, unter anderem in HL7 FHIR (International Patient Summary, mit dem
-      HL7-Validator geprüft), vCard und iCalendar. Es exportiert Selbstauskünfte als signierte SD-JWT VC, wo
-      der Browser Ed25519 unterstützt, und liest signierte Nachweise festgelegter Typen (W3C Verifiable
-      Credentials). Es unterstützt das Handeln für andere und Unterlagen ohne Aussteller, etwa Vollmachten und
-      Patientenverfügungen.
-
-      Die Anwendung lässt sich aus der gehosteten Fassung öffnen oder aus dem Repository als einzelne Datei
-      bauen; sie öffnet sich im Browser, ohne Installation und ohne Server. Eine offene Spezifikation ihres
-      Datenformats mit einem eigenständigen Prüfprogramm ist geplant.
-
-      Die Ausgabe für Bürgerinnen und Bürger ist kostenlos und quelloffen. Eine kostenpflichtige Ausgabe für
-      Selbstständige und Geschäftsführende sowie einzelne Templates werden verkauft; Organisationen können die
-      Anwendung unter eigenem Namen herausgeben.
+      Müssen Unterlagen weitergegeben werden, etwa an eine Behörde, eine Praxis oder eine Bank, gibt die Person
+      nur den passenden Auszug heraus, in gängigen Formaten wie HL7 FHIR, vCard, iCalendar oder PDF.
     features:
       - Läuft offline, ohne Konto und ohne Server
       - Verschlüsselung mit AES-256-GCM, Schlüssel aus dem Passwort der Nutzerin
@@ -82,31 +65,15 @@ description:
     localisedName: Vivodepot
     genericName: "Personal document vault"
     shortDescription: >
-      Open-source offline application: people keep their records across all areas of life and give recipients
-      extracts, such as FHIR, vCard or iCalendar.
+      Offline application that lets people store their records from all areas of life themselves and pass on
+      only what is needed.
     longDescription: >
-      Vivodepot is an application (EUPL-1.2) in a single HTML file. It runs offline in the browser, without an
-      account; no server holds the records. Records are encrypted client-side (AES-256-GCM). People keep the
-      records of their own life across thirteen areas in one encrypted file they hold themselves. The 1.0
-      series has been public since September 2026.
+      Vivodepot is an open-source application in a single HTML file. It runs in the browser without an
+      internet connection and without an account. The records are stored encrypted in one file that stays with the person, not on a
+      server.
 
-      A person's records are spread across institutions, and each recipient expects its own format. Without a
-      citizen-held copy, every handover means retyping, or the records sit with a provider that becomes a new
-      controller.
-
-      Vivodepot produces extracts, among them HL7 FHIR (International Patient Summary, validated with the HL7
-      validator), vCard and iCalendar. It exports self-asserted statements as signed SD-JWT VCs where the
-      browser supports Ed25519, and reads signed credentials of defined types (W3C Verifiable Credentials). It
-      supports acting on behalf of others and records with no issuer, such as powers of attorney and advance
-      directives.
-
-      The application can be opened from the hosted version or built from the repository as a single file; it
-      opens in a browser, without installation or server. An open specification of its data format with a
-      standalone validator is planned.
-
-      The edition for citizens is free of charge and open source. A paid edition for the self-employed and for
-      company directors is sold, as are individual content templates; organisations can publish the
-      application under their own name.
+      When records have to be passed on, for example to an authority, a doctor's practice or a bank, the person
+      hands over only the relevant extract, in common formats such as HL7 FHIR, vCard, iCalendar or PDF.
     features:
       - Runs offline, with no account and no server
       - AES-256-GCM encryption, key derived from the user's password
