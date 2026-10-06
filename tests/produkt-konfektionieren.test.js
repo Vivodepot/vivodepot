@@ -439,57 +439,21 @@ test('[produktTextErzeugen·Gleichheit] liefert byte-für-byte denselben Text wi
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });
 
-/* ── Marke-Achse-Plan §2b/§6 Schritt 5 (14.09.2026) — Partner-Font-Parameter ──
-   Kein zweiter, echter Partner-Font im Repo verfügbar (nur Inter ist committet) — die Probe
-   nutzt darum Inters eigene, bereits zugeschnittene Bytes unter einem ANDEREN Slug/Familiennamen
-   als Stellvertreter. Das beweist die VERDRAHTUNG (Vendoring + Vertrauensliste + _PDF_MARKE_
-   SCHRIFT-Auflösung), nicht die Zeichendeckung eines echten, andersartigen Partner-Fonts —
-   Letzteres bleibt, wie in §7 offen benannt, ein Punkt vor dem ersten echten Partner-Bau. */
-const { REGULAR_PFAD: INTER_REGULAR_PFAD } = require('../tools/build-pdf-inter-einbetten.js');
+/* ── Schriften einer Einrichtung (v896) ──
+   Bis v895 gab es einen Partner-Font-Parameter, der einen vendorten Block in das Produkt-Exemplar schrieb. Er entfällt: die Schrift
+   kommt im Erscheinungsbild-Modul des Rezepts, geprüft beim Bauen (tests/erscheinungsbild-schriften.test.js). */
 
-test('[Produkt-Konfektionieren·Partner-Font] ohne partnerFont bleibt die Vertrauensliste leer — alle vier heutigen Produkte unverändert', () => {
-  const ziel = tmpOrdner('produkt-konfektionieren-partnerfont-ohne');
-  try {
-    const r = konfektionieren({ ziel, slug: 'privat-de', modulauswahl: [], vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n' });
-    assert.equal(r.partnerFont, null);
-    const kernText = fs.readFileSync(path.join(r.ordner, 'vivodepot.html'), 'utf8');
-    assert.match(kernText, /_PDF_SCHRIFTEN_VENDORT_ZUSAETZLICH = Object\.freeze\(\[\]\);/, 'Vertrauensliste muss leer bleiben, wenn kein partnerFont übergeben wird');
-  } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
-});
-
-test('[Produkt-Konfektionieren·Partner-Font] mit partnerFont wird der Block vendort UND in die Vertrauensliste eingetragen — _PDF_MARKE_SCHRIFT löst ihn auf, sobald das Branding-Modul dieselbe Familie nennt', () => {
-  const ziel = tmpOrdner('produkt-konfektionieren-partnerfont-mit');
-  try {
-    const partnerFont = {
-      slug: 'partnerprobe', familie: 'Partnerprobe', regularPfad: INTER_REGULAR_PFAD,
-      version: 'probe-1', lizenz: 'OFL-1.1', spdx: 'OFL-1.1', hinweis: 'Schritt-5-Integrationsprobe (Inter-Bytes als Stellvertreter)',
-    };
-    const r = konfektionieren({ ziel, slug: 'privat-de', modulauswahl: [], vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n', partnerFont });
-    assert.equal(r.partnerFont, 'Partnerprobe');
-    const kernZiel = path.join(r.ordner, 'vivodepot.html');
-    const kernText = fs.readFileSync(kernZiel, 'utf8');
-    assert.match(kernText, /@vd-lib name="partnerprobe-pdf-font"/, 'der vendorte Block muss im Produkt-Exemplar stehen');
-    assert.match(kernText, /_PDF_SCHRIFTEN_VENDORT_ZUSAETZLICH = Object\.freeze\(\['Partnerprobe'\]\);/, 'die Familie muss in der Vertrauensliste stehen');
-
-    // Ende-zu-Ende: setzt zusätzlich AB_WERK_BRANDING_PRODUKT mit passender schriftart —
-    // dieselbe Probe wie eine echte Branding-Modul-Einbackung, nur ohne den vollen
-    // _unsigniertesModulKlassifizieren-Umweg (der ist bereits anderswo getestet).
-    const mitBranding = kernText.replace(
-      /const AB_WERK_BRANDING_PRODUKT = null;/,
-      "const AB_WERK_BRANDING_PRODUKT = { modulTyp: 'branding', moduleVersion: 1, herkunft: 'partnerprobe', name: 'Partner AG', farbePrimaer: '#112233', schriftart: 'Partnerprobe' };",
-    );
-    assert.notEqual(mitBranding, kernText, 'Testaufbau: AB_WERK_BRANDING_PRODUKT-Marker muss im geschriebenen Kern vorkommen');
-    fs.writeFileSync(kernZiel, mitBranding, 'utf8');
-    const vorher = process.env.KERN_HTML_PATH;
-    process.env.KERN_HTML_PATH = kernZiel;
-    delete require.cache[require.resolve('./load-kern.js')];
-    try {
-      const { ladeKern: ladeKernFrisch } = require('./load-kern.js');
-      const { V } = ladeKernFrisch();
-      assert.equal(V._PDF_MARKE_SCHRIFT, 'Partnerprobe', '_PDF_MARKE_SCHRIFT muss den Partner-Font auflösen, wenn Vendoring+Vertrauensliste+Branding zusammenspielen');
-    } finally {
-      if (vorher === undefined) delete process.env.KERN_HTML_PATH; else process.env.KERN_HTML_PATH = vorher;
-      delete require.cache[require.resolve('./load-kern.js')];
-    }
-  } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
+test('[Produkt-Konfektionieren·Schriften] die Schrift kommt mit dem Erscheinungsbild — jedes der vier Produkte trägt eine PDF-Schrift, kein Partner-Font-Weg mehr (v896)', () => {
+  const { PRODUKTE } = require('../tools/lib/vier-produkte.js');
+  const { testProduktText } = require('./produkt-test-backen.js');
+  const kern = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
+  assert.equal(/VD-PDF-PARTNER-FONTS|AB_WERK_PDF_SCHRIFTEN_PRODUKT|_PDF_SCHRIFTEN_VENDORT_ZUSAETZLICH/.test(kern), false, 'Partner-Andockpunkte sind entfallen');
+  for (const p of PRODUKTE) {
+    const text = testProduktText(kern, { slug: p.slug });
+    const m = /\/\* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN \*\/\nconst AB_WERK_ERSCHEINUNGSBILD_PRODUKT = ([\s\S]*?);\n\/\* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:END/.exec(text);
+    assert.ok(m, p.slug + ': Region gefunden');
+    const modul = JSON.parse(m[1]);
+    const pdf = (modul.schriften || []).filter((s) => s.pdf === true && s.stil === 'normal');
+    assert.ok(pdf.length >= 1, p.slug + ': PDF-Grundschnitt im Erscheinungsbild');
+  }
 });

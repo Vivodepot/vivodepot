@@ -15,6 +15,30 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.919] – 2026-10-06
+
+### Hinzugefügt
+- Trägt ein Produkt die Marke einer Einrichtung, steht ihr Logo oben in den PDF-Dateien; auf Notfallkarte, Dokumenten und
+  dem Widerruf einer Herausgabe steht die Marke klein im unteren Rand jeder Seite. Ab Werk bleibt das PDF, wie es war.
+- Das Studio, das Vorlagen-Werkzeug für Einrichtungen, liegt jetzt im öffentlichen Repository, unter EUPL-1.2 wie die
+  anderen Anwendungen.
+
+### Geändert
+- Keine Serifenschrift mehr: Alle Texte stehen in derselben Schrift.
+- Die Schriften kommen aus dem Erscheinungsbild-Modul, das eigene Schriften mitbringen kann (U2-ADR-473); das PDF nimmt sie
+  nur, wenn sie jedes Zeichen der Angaben darstellen, sonst die mitgelieferte Inter. Steht keine geprüfte Schrift zur
+  Verfügung, entsteht kein PDF; ein Hinweis sagt das und bietet an, die Angaben als Datei herauszugeben.
+- Der Code für den älteren Antwort-Umschlag ist aus der Anwendung entfernt. Die Lese-App öffnet bereits ausgegebene
+  Antworten im älteren Format weiter.
+- SECURITY.md beschreibt die Passwortprüfung so, wie die Anwendung sie vornimmt: Pflicht ist nur die Mindestlänge von
+  8 Zeichen, alles Weitere ist ein Hinweis. Drei weitere Stellen in STANDARDS.md, SOVEREIGNTY.md und docs/pruefebene.md
+  sind an den Code angeglichen.
+
+### Behoben
+- Ein Hinweis, der nur einmal erscheint, konnte ausbleiben, wenn gerade ein anderer Dialog offen war, oder von einem
+  späteren Dialog überdeckt werden, etwa der Hinweis, dass sich eine Datei aus einer neueren Fassung nur lesen lässt.
+  Jetzt kommt er, sobald der Dialog davor geschlossen ist.
+
 ## [v1.0.918] – 2026-10-05
 
 ### Hinzugefügt

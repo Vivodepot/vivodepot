@@ -1,0 +1,12 @@
+{
+ "zweck": "Die Schriften des Erscheinungsbilds „heute“ (v896): je Eintrag eine Datei und ihre Beschreibung. tools/erscheinungsbild-modul.js liest die Datei, kodiert sie base64 und schreibt den Eintrag in `schriften[]` des Moduls. Bildschirm: WOFF2 (FontFace). PDF: TTF mit pdf: true (jsPDF). Die Bytes sind dieselben, die bis v895 im Gerüst standen (Bildschirm: tools/erscheinung/schriften/Inter-*.woff2, SHA-Pins in tests/fixtures/inter-subset.json; PDF: tools/schrift-pdf-quellen/).",
+ "schriften": [
+  { "datei": "schriften/Inter-400.woff2", "familie": "Inter", "gewicht": 400, "stil": "normal", "lizenz": "OFL-1.1", "quelle": "https://github.com/rsms/inter" },
+  { "datei": "schriften/Inter-500.woff2", "familie": "Inter", "gewicht": 500, "stil": "normal", "lizenz": "OFL-1.1", "quelle": "https://github.com/rsms/inter" },
+  { "datei": "schriften/Inter-600.woff2", "familie": "Inter", "gewicht": 600, "stil": "normal", "lizenz": "OFL-1.1", "quelle": "https://github.com/rsms/inter" },
+  { "datei": "schriften/Inter-700.woff2", "familie": "Inter", "gewicht": 700, "stil": "normal", "lizenz": "OFL-1.1", "quelle": "https://github.com/rsms/inter" },
+  { "datei": "../schrift-pdf-quellen/Inter-Regular-pdf-subset.ttf", "familie": "Inter", "gewicht": 400, "stil": "normal", "pdf": true, "lizenz": "OFL-1.1", "quelle": "https://github.com/rsms/inter" },
+  { "datei": "../schrift-pdf-quellen/Inter-Bold-pdf-subset.ttf", "familie": "Inter", "gewicht": 700, "stil": "normal", "pdf": true, "lizenz": "OFL-1.1", "quelle": "https://github.com/rsms/inter" },
+  { "datei": "../schrift-pdf-quellen/Inter-Italic-pdf-subset.ttf", "familie": "Inter", "gewicht": 400, "stil": "italic", "pdf": true, "lizenz": "OFL-1.1", "quelle": "https://github.com/rsms/inter" }
+ ]
+}

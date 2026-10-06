@@ -93,7 +93,7 @@ GENAU diese eine Schrift nicht mehr unverändert. Ein Branding-Override-Mechanis
 PDF-Schriftart ist trotzdem NICHT Teil dieses Nachtrags (Freigabe, 13.09.2026, „ohne das
 jetzt auszubauen") — kein fremdes Branding kann heute eine andere PDF-Schrift einbringen, das
 bliebe teuer (eigene Zuschnitt-/Lizenzprüfung je Font, s. Rezept in
-`tools/build-pdf-inter-einbetten.js`) und hat keinen Auftrag. Gebaut ist nur das GERÜST dafür:
+damals das Werkzeug build-pdf-inter-einbetten, mit U2-ADR-473 W4 entfernt; Rezept heute in `tools/schrift-pdf-quellen/README.md`) und hat keinen Auftrag. Gebaut ist nur das GERÜST dafür:
 alle Aufrufstellen (27 `setFont`, 3 `addFont`) lesen von einem einzigen benannten Ort
 (`_PDF_MARKE_SCHRIFT` im Kern) statt von verstreuten `'Inter'`-Literalen — ein künftiger
 `_markeSchriftPdf()`-Accessor (fiele dann unter denselben Rangfolge-Mechanismus wie

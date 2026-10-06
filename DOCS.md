@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v918.
+Erzeugt aus der veröffentlichten Fassung v919.
 
 ---
 
@@ -76,8 +76,8 @@ Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.
 
 ## Zahlen
 
-- Suite: 12034 · E2E: 575 · Wächter-Register: 142
-- Schema-Version: 92 · SCHALEN_STAND: v918 · Build-Version: v1.0
+- E2E: 575 (gezählt, nicht ausgeführt) · Wächter-Register: 142
+- Schema-Version: 92 · SCHALEN_STAND: v919 · Build-Version: v1.0
 - ADR-Register: 431 Einträge
 
 Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-05, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.

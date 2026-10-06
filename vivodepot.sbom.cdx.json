@@ -161,7 +161,7 @@
       "type": "file",
       "name": "font-inter",
       "version": "bundled-woff2",
-      "description": "Schriftfamilie Inter — inline als base64-WOFF2 (@font-face, CSS-Head), as-is/kein Subset. Schnitte: 400=InterDisplay-Regular, 500=Inter-Medium, 600=Inter-SemiBold, 700=Inter-Bold; kein Italic. Lizenz-Nachweis: OFL.txt. Status: inline. (file-Komponente analog Code-Listen; eingebettete libraries: jsPDF + qrcode-generator.)",
+      "description": "Schriftfamilie Inter — base64-WOFF2 im Erscheinungsbild-Modul (schriften[], Dateien tools/erscheinung/schriften/; seit v896 nicht mehr @font-face im Gerüst), auf die genutzten Zeichen zugeschnitten (tools/font-subset.py). Schnitte: 400=InterDisplay-Regular, 500=Inter-Medium, 600=Inter-SemiBold, 700=Inter-Bold; kein Italic. Lizenz-Nachweis: OFL.txt. Status: inline. (file-Komponente analog Code-Listen; eingebettete libraries: jsPDF + qrcode-generator.)",
       "author": "The Inter Project Authors",
       "supplier": {
         "name": "The Inter Project Authors",
@@ -246,7 +246,7 @@
       "type": "file",
       "name": "font-inter-pdf",
       "version": "pdf-subset-2026-09-13",
-      "description": "Schriftfamilie Inter, PDF-Einbettung (U2-ADR-263-Nachtrag) — inline als base64-TrueType, jsPDF addFileToVFS/addFont. GETRENNT von font-inter (dort: UI-Schrift, woff2/@font-face, kein Subset). Hier: auf tatsächlich gebrauchte Codepunkte zugeschnittene Statik-Instanzen Regular/Bold/Italic, Bau-Rezept in tools/build-pdf-inter-einbetten.js. Status: inline.",
+      "description": "Schriftfamilie Inter, PDF-Einbettung (U2-ADR-263-Nachtrag) — base64-TrueType im Erscheinungsbild-Modul (schriften[], pdf: true; seit v896 kein vendorter Block im Gerüst), registriert im Gerüst-Block pdf-schriften-registrieren. GETRENNT von font-inter (dort: UI-Schrift, woff2/@font-face, eigener Zuschnitt). Hier: auf tatsächlich gebrauchte Codepunkte zugeschnittene Statik-Instanzen Regular/Bold/Italic, Bau-Rezept in tools/build-pdf-inter-einbetten.js. Status: inline.",
       "author": "The Inter Project Authors",
       "supplier": {
         "name": "The Inter Project Authors",

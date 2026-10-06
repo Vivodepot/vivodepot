@@ -43,17 +43,14 @@ const MARKER_DAUERHAFT = Object.freeze({
   'AB_WERK_VOR_DEPOT_KONFIGURATION': { art: 'leer', grund: 'HTML-Backplatz: window.__vorDepotKonfiguration = null; produktTextErzeugen füllt ihn beim Bau. W0 kennt nur JS-Konstanten (Befund W0-BLIND, Achsen-Ratsche v892).' },
   'AB_WERK_SERVICE_WORKER_VORHANDEN': { art: 'leer', grund: 'HTML-Backplatz: window.__abWerkServiceWorkerVorhanden = null; produktTextErzeugen setzt ihn beim Bau. W0 kennt nur JS-Konstanten (Befund W0-BLIND, Achsen-Ratsche v892).' },
   'AB_WERK_BEREICHS_ERSATZ': { art: 'leer', grund: 'Backplatz des Bereichsersatzes in Zuweisungsform, im Gerüst ohne Zeile; W0 sieht ihn als Konstante nicht (Befund W0-BLIND, Achsen-Ratsche v892).' },
-  'AB_WERK_PDF_SCHRIFTEN_PRODUKT': { art: 'leer', grund: 'Backplatz der Template-Schrift des PDFs (_PDF_SCHRIFTEN_VENDORT_ZUSAETZLICH = Object.freeze([])); Ziel von v896. W0 sieht ihn als Konstante nicht (Befund W0-BLIND, Achsen-Ratsche v892).' },
-  'VD-PDF-PARTNER-FONTS': { art: 'leer', grund: 'HTML-Steckplatz für vendorte Partner-Schriften des PDFs, im Gerüst ohne Inhalt.' },
   'BEREICHE_NATIV_KATALOG': { art: 'leer', grund: 'Backplatz des nativen Bereichskatalogs (= null), gefüllt aus tools/bereiche-nativ-katalog-modul.json; Region ohne AB_WERK-Präfix (Befund W0-BLIND, Achsen-Ratsche v892).' },
   'LEBENSLAGEN_KATALOG': { art: 'leer', grund: 'Backplatz des Lebenslagen-Katalogs (= null), gefüllt aus tools/lebenslagen-katalog-modul.json; Region ohne AB_WERK-Präfix (Befund W0-BLIND, Achsen-Ratsche v892).' },
 });
 const MARKER_UEBERGANG = Object.freeze({
   'KENNUNG-MAPPING': 'Trägt Inhalt der Achse Felder (97 KB) — Abbaupfad bei der Achsen-Ratsche (Achsen-Ratsche tools/geruest-achsen-halter.json, ab v892).',
   'FIM-BEZUEGE': 'Trägt Inhalt der Achse Felder (2 KB) — Abbaupfad bei der Achsen-Ratsche (Achsen-Ratsche tools/geruest-achsen-halter.json, ab v892).',
-  'PDF-INTER-B64': 'Trägt Designinhalt (Inter als Base64 für das PDF, 190 KB) — zieht mit v896 in den Backplatz AB_WERK_PDF_SCHRIFTEN_PRODUKT; zählt bis dahin auch in der Design-Ratsche (tools/erscheinungsbild-ausserhalb-grundlinie.json).',
 });
-const UEBERGANG_DECKEL = 3;
+const UEBERGANG_DECKEL = 2;   // v896: PDF-INTER-B64 ist ins Erscheinungsbild-Modul gezogen
 const MARKER_AUSSERHALB_W0 = Object.freeze({ ...Object.fromEntries(Object.entries(MARKER_DAUERHAFT).map(([n, e]) => [n, e.grund])), ...MARKER_UEBERGANG });
 
 /* Sollwert „leer im Gerüst" eines Backplatzes: zwischen den Markern, ohne Kommentare, nur nichts oder EINE Zuweisung eines

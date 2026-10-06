@@ -132,7 +132,7 @@ Diese ADR liess „eine vollere Schrift einbetten" ausdrücklich offen (s. Absat
 fehlt heute ein reales, geprüftes Kandidaten-Schriftmaß") — kein Widerspruch, ein benannter
 Nachtrag. Auftrag „Kern: Eingabe springt, Sub-Depot-Farbe, PDF-CI" (13.09.2026) liefert das
 Maß: Inter (Regular/Bold/Italic), auf die gebrauchten Codepunkte zugeschnitten, offline als
-TrueType eingebettet (`tools/build-pdf-inter-einbetten.js`, Rezept dort; Lizenz OFL-1.1, s.
+TrueType eingebettet (damals das Werkzeug build-pdf-inter-einbetten, mit U2-ADR-473 W4 entfernt; das Rezept steht heute in `tools/schrift-pdf-quellen/README.md`; Lizenz OFL-1.1, s.
 NOTICE.md/THIRD_PARTY_LICENSES).
 
 **Damit war der Rot-Beweis unten (Polnisch ż/ł/ć) wertlos geworden** — genau der Fall aus

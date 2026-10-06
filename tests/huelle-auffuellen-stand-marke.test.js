@@ -7,7 +7,7 @@
    Und: eine ältere ausgelieferte Fassung (v818, v843) öffnet die neue Datei fehlerfrei — sonst wäre es ein
    Versionssprung. Gemessen wird außerdem, was ihr Konfliktvergleich mit einer Datei ohne Zeitpunkt tut.
    ═══════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // nur-privat: s. tests/helfer/nur-privat.js
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');

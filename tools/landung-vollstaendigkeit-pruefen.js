@@ -75,10 +75,36 @@ const path = require('node:path');
 const { execFileSync, spawnSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
 
+/* Zeitgrenze je git-Aufruf (LANDUNG-VOLLSTAENDIGKEIT-HAENGT, 06.10.2026): im pre-push hing ein `git apply --check`
+   viermal bis zu zwei Stunden in read() auf stdin, die Eingabe kam nie mit EOF an (sample: cmd_apply → strbuf_read →
+   read). Darum (a) die Eingabe aus einer Datei statt über eine Pipe — EOF ist dann sicher — und (b) eine Zeitgrenze, die
+   GESCHLOSSEN fehlschlägt: ein Abbruch wirft, der Lauf endet rot mit Meldung, nie „passt“ und nie still übersprungen. */
+const GIT_ZEITGRENZE_MS = Number(process.env.VD_LANDUNG_GIT_ZEITGRENZE_MS) || 5 * 60 * 1000;
+
 function git(args, cwd, extraEnv, eingabe) {
-  const r = spawnSync('git', args, {
-    cwd, env: { ...ohneGitUmgebung(), ...(extraEnv || {}) }, encoding: 'utf8', input: eingabe, maxBuffer: 512 * 1024 * 1024,
-  });
+  let eingabeDatei = null;
+  let fd = null;
+  if (eingabe !== undefined && eingabe !== null) {
+    eingabeDatei = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'landung-voll-eingabe-')), 'eingabe');
+    fs.writeFileSync(eingabeDatei, eingabe);
+    fd = fs.openSync(eingabeDatei, 'r');
+  }
+  let r;
+  try {
+    r = spawnSync('git', args, {
+      cwd, env: { ...ohneGitUmgebung(), ...(extraEnv || {}) }, encoding: 'utf8', maxBuffer: 512 * 1024 * 1024,
+      stdio: [fd === null ? 'ignore' : fd, 'pipe', 'pipe'], timeout: GIT_ZEITGRENZE_MS, killSignal: 'SIGKILL',
+    });
+  } finally {
+    if (fd !== null) fs.closeSync(fd);
+    if (eingabeDatei) fs.rmSync(path.dirname(eingabeDatei), { recursive: true, force: true });
+  }
+  if (r.error || r.signal) {
+    const grund = r.error && r.error.code === 'ETIMEDOUT' ? 'Zeitgrenze ' + GIT_ZEITGRENZE_MS + ' ms überschritten'
+      : (r.error ? r.error.message : 'Signal ' + r.signal);
+    throw new Error('landung-vollstaendigkeit: git ' + args.slice(0, 3).join(' ') + ' abgebrochen (' + grund
+      + ') — der Lauf ist NICHT gemessen und gilt als rot.');
+  }
   return { status: r.status, out: r.stdout || '', err: r.stderr || '' };
 }
 
@@ -456,6 +482,6 @@ function ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen, arbeitsb
 if (require.main === module) main();
 
 module.exports = {
-  pruefen, einordnen, patchIds, ausnahmenLesen, zukunftsZweigeLesen,
+  git, GIT_ZEITGRENZE_MS, pruefen, einordnen, patchIds, ausnahmenLesen, zukunftsZweigeLesen,
   schnappschussSchreiben, schnappschussLesen, KANDIDAT_MUSTER, ausgabeZeilen, ursachenZeile, arbeitsbaeumeJeZweig, zweigHinweis, zweigPruefen, LANDEZIELE, APP_ARBEITSBAUM, URTEILE,
 };

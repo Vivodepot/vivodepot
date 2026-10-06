@@ -14,7 +14,7 @@ Die vier Komponenten:
 1. **Bürger-App** — `vivodepot.html`
 2. **Lese-App** — `vivodepot-lesen.html`
 3. **VC-Issuer** — `vivodepot-vc-issuer.html`
-4. **Studio** (früher Template-Generator) — nicht im öffentlichen Stand
+4. **Studio** (früher Template-Generator) — `vivodepot-studio.html`
 
 ## Das Krypto-Block-Hash-Gate (der wichtigste Test)
 

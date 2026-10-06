@@ -58,7 +58,8 @@ const TRAEGER = Object.freeze({
 const DOKUMENT_NAMENSRAUM = 'dok:';
 
 /* Namentlich: die beiden Haftungssätze (U2-ADR-025), die Meldungen der Sperre, der Vermerk über ersetzte Ab-Werk-Fassungen (E4) und die Warnung der Klartext-Bindung
-   (U2-ADR-156-Nachtrag, 05.10.2026) — ein Modul darf nicht überschreiben, was eine veränderte Datei meldet. */
+   (U2-ADR-156-Nachtrag, 05.10.2026) — ein Modul darf nicht überschreiben, was eine veränderte Datei meldet —, und der Hinweis „kein PDF ohne geprüfte Schrift“
+   (Rückfallstufe 3 der PDF-Schrift, U2-ADR-473 W4). */
 const NAMENTLICH = Object.freeze([
   'strings:fussHaftung.text',
   'strings:dokFussHaftung.text',
@@ -73,6 +74,7 @@ const NAMENTLICH = Object.freeze([
   'strings:klartextBindungOrtText.text',
   'strings:klartextBindungOrtKeinText.text',
   'strings:klartextBindungFremdText.text',
+  'strings:pdfOhneSchriftHinweis.text',
 ]);
 
 function korpusWurzeln(kern) {

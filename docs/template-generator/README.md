@@ -1,6 +1,6 @@
 # Vivodepot Studio (früher Template-Generator)
 
-**Im öffentlichen Repo nicht enthalten:** Das Studio selbst liegt derzeit nicht im öffentlichen Stand. Die Beschreibung und die Schemata in diesem Ordner gelten für es. Bis v847 hieß das Werkzeug Template-Generator; Ordner und Schemata tragen den alten Namen weiter, und wo unten „Generator“ steht, ist das Studio gemeint.
+Das Studio selbst ist [`vivodepot-studio.html`](../../vivodepot-studio.html) in der Wurzel des Repositorys; die Beschreibung und die Schemata in diesem Ordner gelten für es. Bis v847 hieß das Werkzeug Template-Generator; Ordner und Schemata tragen den alten Namen weiter, und wo unten „Generator“ steht, ist das Studio gemeint.
 
 Eines von vier Vivodepot-Werkzeugen (Bürger-App, Lese-App, VC-Issuer, Studio). Single-File-HTML, offline-first, ohne Netzwerk-Zugriff zur Laufzeit.
 
@@ -23,7 +23,7 @@ Teil A): **`institutionsArt`**, **`bereich`**, **`rechtsraum`**, **`format`** un
 eigener „Oder: …"-Baustein mit eigenem „Modul erzeugen"-Knopf. Alle fünf Prüf-Pfade sind wortgleiche
 Spiegel der jeweiligen Kern-Prüfer (`institutionsArtModulPruefen`/`bereichsModulPruefen`/
 `rechtsraumModulPruefen`/`formatModulPruefen`/`brandingModulPruefen` in `vivodepot.html`) — dieselbe
-Ablehnung im Generator wie im Kern, keine zweite Wahrheit. Getestet im internen Prüfbestand
+Ablehnung im Generator wie im Kern, keine zweite Wahrheit. Getestet im Prüfbestand
 (Fälle IA-01–IA-08, BM-01–BM-08, RR-01–RR-11, FM-01–FM-11, BD-01–BD-06). `branding` ist zudem das
 einzige Register mit `nurGeprueft: true` — ein unsignierter Weg ist dort strukturell versperrt.
 
@@ -72,7 +72,7 @@ Das erzeugte Paket folgt `docs/template-generator/submission-schema.json` — **
 
 ## Tests (Klasse-A)
 
-Die Klasse-A-Proben im internen Prüfbestand (Harness `tests/load-generator.js`):
+Die Klasse-A-Proben (Harness `tests/load-generator.js`):
 
 - **T-A-01** Schlüsselpaar-Roundtrip · **T-A-02** Pfad-A-Template → Schema · **T-A-03** CSV-Import · **T-A-04** Konformitäts-Blockierung · **T-A-05** Submission-Format (eingebettet + Datei-Schema) · **T-A-06** Import-Symmetrie via VC-Issuer · **T-A-07** Sorge-Markierung · **T-A-08** Block-Integrität (VdCrypto-Hash + JWS byte-identisch) · zzgl. Sicherheits-Scan (kein Storage/Netzwerk).
 

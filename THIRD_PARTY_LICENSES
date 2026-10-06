@@ -13,7 +13,8 @@ noble-ed25519 wirklich eingebettet. Der SBOM
    Bezug: https://github.com/parallax/jsPDF
    purl:  pkg:npm/jspdf@4.2.1
    SPDX-License-Identifier: MIT
-   SHA-256 (inline-Block): 6b0863aff1f684280850cf3da6c34a43cc220f200a268e9f8050aa770bec47df
+   SHA-256 (inline-Block): 0bd87ba718f9d4ecbd3fba86bdb86ac4e0fdf2b1e2203c87a4ecc130d4bed379
+   (nachgerechnet 03.10.2026 mit tools/third-party-hashes-pruefen.js; der vorige Wert stammte vom Juni und passte nicht mehr)
 
    MIT License
 
@@ -138,12 +139,17 @@ noble-ed25519 wirklich eingebettet. Der SBOM
    soll sehen, dass hier einmal etwas vorgesehen war und warum es das nicht mehr ist.
 
 -------------------------------------------------------------------------------
-4) Inter (Schriftfamilie) — STATUS: inline (base64-WOFF2, @font-face im CSS-Head)
+4) Inter (Schriftfamilie) — STATUS: im Erscheinungsbild-Modul (base64-WOFF2 in `schriften[]`, Dateien
+   tools/erscheinung/schriften/Inter-*.woff2; seit v896 nicht mehr als @font-face im Gerüst, jedes Produkt
+   bekommt sie mit der Rezept-Zutat erscheinungsbildModul)
    Autor: The Inter Project Authors (Rasmus Andersson)
    Bezug: https://github.com/rsms/inter
    SPDX-License-Identifier: OFL-1.1   (Volltext: siehe OFL.txt + Upstream LICENSE.txt)
-   Version: bundled woff2 (as-is, kein Subset). Reserved Font Name: "Inter".
-   Eingebettete Schnitte und SHA-256 der Quelldateien (assets/fonts/):
+   Version: woff2, auf die genutzten Zeichen zugeschnitten (Subset seit 09.06.2026, Werkzeug
+   tools/font-subset.py; Prüfung: python3 tools/font-subset.py --check). Reserved Font Name: "Inter".
+   Fassung der Quelle: Inter 4.001 (git-9221beed3, name-ID 5). Eingebettete Schnitte und SHA-256 der
+   Quelldateien VOR dem Zuschnitt (ursprünglich assets/fonts/; die Bytes liegen in der Git-Historie:
+   git show a1d5660d4^:vivodepot-clean-slate-kern.html, die vier @font-face-Blöcke):
      400 InterDisplay-Regular.woff2  4da7f83ac92e735dbe6fb1c0dc68d61f2ea32654203b601bfe492a727046d12c
      500 Inter-Medium.woff2          7e80d9f65861ee6836a0081d4e75d88fb8789e5651d05edbc49640442a9610ee
      600 Inter-SemiBold.woff2        5013f48d77ab627b1db7c2415914284ef09abc3f60a8e0d0d8f3cd1bfebefb5e
@@ -152,22 +158,21 @@ noble-ed25519 wirklich eingebettet. Der SBOM
    Inter-Text. Kein Italic eingebettet.
 
 -------------------------------------------------------------------------------
-5) Inter (Schriftfamilie, PDF-Einbettung) — STATUS: inline (base64-TrueType, vendorter
-   Font-Modul-Block `@vd-lib name="inter-pdf-font"`, id=inter_pdf_font_VivodepotInline,
-   nach jsPDF/vor qrcode-generator; U2-ADR-263-Nachtrag 13.09.2026, U2-ADR-097-Nachtrag
-   14.09.2026 — Vendoring-Grenze)
+5) Inter (Schriftfamilie, PDF-Einbettung) — STATUS: im Erscheinungsbild-Modul (base64-TrueType in `schriften[]`
+   mit `pdf: true`; seit v896 kein vendorter Block mehr im Gerüst, registriert im Gerüst-Block
+   „pdf-schriften-registrieren“, U2-ADR-097-Nachtrag)
    Autor: The Inter Project Authors (Rasmus Andersson)
    Bezug: https://github.com/rsms/inter
-   SPDX-License-Identifier: OFL-1.1   (Volltext: siehe OFL.txt + Upstream LICENSE.txt)
-   Eigener Eintrag, GETRENNT von Eintrag 4 (dort: UI-Schrift, woff2/@font-face, kein
-   Subset). Hier: eigens auf die tatsächlich gebrauchten Codepunkte zugeschnittene
-   TrueType-Statik-Instanzen (aus derselben Variable-Font-Quelle, andere Bau- und
-   Einbettungsart) — für jsPDF, das kein WOFF2/@font-face liest. Rezept zum
-   Nachbauen: Kopf-Kommentar in tools/build-pdf-inter-einbetten.js.
-   Eingebettete Schnitte und SHA-256 der Quelldateien (tools/schrift-pdf-quellen/):
-     Regular  Inter-Regular-pdf-subset.ttf  5d417702786d2e4b34ffa008259e32f114e28949c15805420c5830c56fa80db2
-     Bold     Inter-Bold-pdf-subset.ttf     cb6c5a6af590b24c4b9c25527088644e5ac8dc721348381060f56d0559dc87ba
-     Italic   Inter-Italic-pdf-subset.ttf   23ed1296e8c0d152c240f9b944747dd3f96add61b15f59076ba81b2747dc3df6
+   SPDX-License-Identifier: OFL-1.1   (Volltext: siehe OFL.txt, byte-gleich mit Upstream LICENSE.txt)
+   Eigener Eintrag, GETRENNT von Eintrag 4 (dort: UI-Schrift, WOFF2, eigener Zuschnitt). Hier: eigens auf
+   die gebrauchten Codepunkte zugeschnittene TrueType-Statik-Instanzen (aus derselben Variable-Font-Quelle,
+   Release v4.1, „Version 4.001;git-9221beed3“) — für jsPDF, das kein WOFF2 liest. Rezept, Herkunft und
+   Prüfsummen: tools/schrift-pdf-quellen/README.md.
+   SHA-256 der Quelldateien (tools/schrift-pdf-quellen/), nachgemessen 03.10.2026 (die vorigen Werte
+   stammten aus dem Zuschnitt vor dem 23.09.2026):
+     Regular  Inter-Regular-pdf-subset.ttf  3ec64dedf4cc3fbbb996a6eca47c1afd317fd14ca67e4dc13931d9ad1fd79b49
+     Bold     Inter-Bold-pdf-subset.ttf     93d436b13f081429158388735a3a3984b7f6e47ff8b372673dfee73ffbbf49f4
+     Italic   Inter-Italic-pdf-subset.ttf   6b61c36b249d1ca07d659437c4bca4050e3dfd4a8c5f791b85d895fb9cc55957
 
 -------------------------------------------------------------------------------
 WORTLISTEN (Passwort-Vorschlag, U2-ADR-463) — STATUS: inline (Sprachmodule, Kennung

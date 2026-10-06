@@ -145,8 +145,10 @@
      Default Salbei-Mittel (bereits seit Jahren die Farbe von .nav-item.aktiv, ≥3:1 auf Papier
      gerechnet bestätigt) — von setzeSubDepotAkzent auf die echte Sub-Farbe gezogen, von
      entferneSubDepotAkzentOverride zurückgesetzt. */
-  /* Schrift */
-  --font-narrativ: Georgia, "Palatino Linotype", Palatino, serif;
+  /* Schrift. Keine Serifen (Produktentscheidung 03.10.2026: keine Serifenschrift): die Erzählschrift (.narrativ, .logo,
+     .frage, .deckblatt-name) war bis v895 Georgia/Palatino/serif; sie folgt jetzt der Grundschrift. Der Wächter
+     tools/serifen-pruefen.js hält Serifenfamilien und den generischen Rückfall `serif` aus Kern, Modulen und Nebenanwendungen. */
+  --font-narrativ: var(--font-inter);
   --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --line-feiner: #efeee7;   /* sehr feine Innen-Trennlinien innerhalb einer .gruppe */
   /* Schriftgrößen */

@@ -100,6 +100,7 @@ test('[Negativprobe] istExtern feuert auf die Mutation — und nur auf sie (rot 
 
 const H        = require_('../e2e-cross/support/helpers.js');   // Reise-Bausteine der Cross-Suite
 const LK       = require_('../load-kern.js');                   // extrahiereScripts: eigener Code ≠ Bibliothek
+const { pdfSchriftTuerenPruefen } = require_('../helfer/pdf-schrift-tueren.js');   // v896: die statische PDF-Schrift-Prüfung
 
 /* ── Test-Sentinel-Daten. Ausschließlich Testmaterial, nie Produktivwerte. ────
    Die Marker-Werte sind zugleich die Klartext-Probe aus Schritt D: genau diese
@@ -387,22 +388,23 @@ describe('Offline-Garantie V1 — jsPDF-Netzpfad statisch unerreichbar (B)', () 
   const { script1, script2 } = LK.extrahiereScripts(html);
   const eigenerCode = script1 + '\n' + script2;
 
-  test('[B-stat] Eigener Code ruft NIE addFont / addFileToVFS / loadFile', () => {
-    for (const tuer of ['addFont', 'addFileToVFS', 'loadFile', 'loadImageFile']) {
-      const treffer = eigenerCode.split(tuer).length - 1;
-      assert.equal(treffer, 0,
-        `Eigener Code nennt ${tuer} (${treffer}×) — das ist die jsPDF-Tür zum synchronen XMLHttpRequest.`);
-    }
+  test('[B-stat] PDF-Schriften: keine Tür im eigenen Code, genau ein Registrier-Block, VFS vor addFont (U2-ADR-097-Nachtrag v896)', () => {
+    // Dieselbe Prüfung läuft in der Suite: tests/pdf-schrift-tueren.test.js, mit den Rot-Beweisen.
+    assert.deepEqual(pdfSchriftTuerenPruefen(html, LK.extrahiereScripts), []);
   });
 
   test('[B-stat] JEDER addImage-Aufruf übergibt eine data:-URL, keinen abrufbaren Verweis', () => {
     // U2-ADR-120 Zug 7 (Widerruf-PDF): ZWEITER addImage-Aufruf, gleiches Muster wie die
     // Notfallkarte — dieselbe Variable qrDataUrl, gespeist ausschließlich aus createDataURL()/null
     // (unten geprüft). Die Zahl wächst bewusst mit; die Garantie bleibt: KEIN abrufbarer Verweis.
+    // v896 (Marke im PDF): dazu ZWEI addImage für das Logo der Marke (Kopf und Fuß), Argument marke.logo.dataUrl — gesetzt nur,
+    // wenn pdfLogoMasse() es als data:image/(png|jpeg);base64 gelesen hat (unten geprüft).
     const stellen = [...eigenerCode.matchAll(/addImage\(\s*([^,)]+)/g)].map(m => m[1].trim());
-    assert.equal(stellen.length, 2,
-      `Erwartet genau ZWEI addImage im eigenen Code (Notfallkarte + Übergabe-Widerruf), gefunden ${stellen.length}: ${stellen.join(' | ')}`);
-    for (const s of stellen) assert.equal(s, 'qrDataUrl', `addImage-Argument unerwartet: ${s}`);
+    assert.equal(stellen.length, 4,
+      `Erwartet genau VIER addImage im eigenen Code (QR: Notfallkarte + Übergabe-Widerruf; Logo: Kopf + Fuß), gefunden ${stellen.length}: ${stellen.join(' | ')}`);
+    for (const s of stellen) assert.ok(s === 'qrDataUrl' || s === 'marke.logo.dataUrl', `addImage-Argument unerwartet: ${s}`);
+    assert.match(eigenerCode, /logo: \(masse && !masse\.cmyk\) \? \{ dataUrl: logoRoh, masse \} : null/, 'das Logo wird nur nach pdfLogoMasse gesetzt');
+    assert.match(eigenerCode, /\/\^data:image\\\/\(png\|jpeg\);base64,/, 'pdfLogoMasse lässt nur data:image/(png|jpeg);base64 durch');
     // …und `qrDataUrl` stammt ausschließlich aus dem QR-Erzeuger (data:image/…;base64) oder ist null.
     const zuweisungen = [...eigenerCode.matchAll(/\bqrDataUrl\s*=\s*([^;\n]+)/g)].map(m => m[1].trim());
     assert.ok(zuweisungen.length > 0, 'keine qrDataUrl-Zuweisung gefunden — die Analyse ist veraltet');
@@ -412,50 +414,6 @@ describe('Offline-Garantie V1 — jsPDF-Netzpfad statisch unerreichbar (B)', () 
     }
   });
 
-  test('[B-stat] PDF-Schriften sind ausschließlich jsPDF-Standardschriften ODER die eine geprüfte Vendor-Ausnahme (kein VFS, kein Nachladen)', () => {
-    // Die Standard-14 sind in jsPDF fest eingebaut; nur eine NICHT eingebaute Schrift
-    // schickt loadFile(postScriptName) los.
-    const STANDARD = new Set(['helvetica', 'times', 'courier', 'symbol', 'zapfdingbats']);
-    // 'inter' läuft NICHT über ein Literal, sondern über die Gerüst-Konstante _PDF_MARKE_SCHRIFT
-    // (U2-ADR-400) — beide Aufrufformen werden erkannt, die Konstante wird auf ihren tatsächlichen
-    // Wert aufgelöst statt geraten.
-    // NACHTRAG 14.09.2026 (Marke-Achse-Plan §6 Schritt 4): die Zuweisung ist seit
-    // `_markeSchriftPdf()` kein reines Literal mehr, sondern `_markeSchriftPdf() || 'Inter'` — das
-    // Muster unten erkennt BEIDE Formen. Der dynamische Zweig (`_markeSchriftPdf()`) braucht hier
-    // keine eigene Prüfung: die Funktion selbst gibt nur Namen zurück, die in
-    // `_PDF_SCHRIFTEN_VENDORT_ZUSAETZLICH` stehen — und JEDER Name dort ist per Konstruktion ein
-    // vendorter Block (Schritt 5, produkt-konfektionieren.js vendort Block UND setzt den Namen in
-    // einem Zug). Das statische Fallback-Literal bleibt darum der einzige Wert, den diese Probe
-    // gegen STANDARD/die Vendor-Ausnahme prüfen muss.
-    const konstDef = eigenerCode.match(/const\s+_PDF_MARKE_SCHRIFT\s*=\s*(?:_markeSchriftPdf\(\)\s*\|\|\s*)?'([^']+)'/);
-    const literale = [...eigenerCode.matchAll(/setFont\(\s*'([^']+)'/g)].map(m => m[1].toLowerCase());
-    const konstAufrufe = [...eigenerCode.matchAll(/setFont\(\s*_PDF_MARKE_SCHRIFT\b/g)];
-    const familien = literale.slice();
-    if (konstAufrufe.length > 0) {
-      assert.ok(konstDef, '_PDF_MARKE_SCHRIFT wird für setFont benutzt, ist aber nirgends definiert — die Analyse ist veraltet');
-      familien.push(konstDef[1].toLowerCase());
-    }
-    assert.ok(familien.length > 0, 'keine setFont-Aufrufe gefunden — die Analyse ist veraltet');
-    const fremde = [...new Set(familien)].filter(f => !STANDARD.has(f));
-    // STRUKTURELLE Ausnahme (Marke-Achse-Plan §3, 14.09.2026 — ersetzt die vormals auf 'inter'
-    // eng gebundene Fassung): eine Nicht-Standard-Schrift ist NUR zulässig, wenn ihr EIGENER,
-    // namentlich passender vendorter Font-Modul-Block nachweislich vorhanden ist UND sich über
-    // jsPDFs Font-Registrierungs-Ereignis einträgt — kein offener Listeneintrag, der unabhängig
-    // vom tatsächlichen Vendoring gälte, und keine Wächter-Pflege je neuem Partner-Font: der
-    // Test prüft strukturell (Block vorhanden + registriert sich selbst), nicht namentlich.
-    const ungedeckt = [];
-    for (const f of fremde) {
-      const muster = new RegExp(
-        '<!--\\s*@vd-lib name="' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '-pdf-font"[\\s\\S]*?<script[^>]*>([\\s\\S]*?)<\\/script>',
-      );
-      const vendorBlock = html.match(muster);
-      if (!vendorBlock) { ungedeckt.push(`${f} (kein @vd-lib-Block "${f}-pdf-font" gefunden)`); continue; }
-      if (!/jsPDFAPI\.events\.push\(\s*\[\s*'addFonts'/.test(vendorBlock[1])) {
-        ungedeckt.push(`${f} (Block vorhanden, registriert sich aber nicht über jsPDFs Font-Registrierungs-Ereignis)`);
-      }
-    }
-    assert.deepEqual(ungedeckt, [], `Nicht-Standard-PDF-Schrift(en) im eigenen Code ohne gedeckten Vendor-Block: ${ungedeckt.join(' | ')}`);
-  });
 });
 
 /* ════════════════════════════════════════════════════════════════════════

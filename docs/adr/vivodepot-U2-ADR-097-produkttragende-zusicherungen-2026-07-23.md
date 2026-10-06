@@ -350,6 +350,31 @@ lebendigkeits-geprüften Ausnahmeliste für die zwei einzigen echten, unbedenkli
 heutigen Bestand. Gate-Nachweis mit dem exakten abgelehnten Vorschlag, Positivkontrolle gegen reine
 Bankbegriffe. Näher dokumentiert in U2-ADR-031 Stück 9 (derselbe Auftrag, dort die technische Seite).
 
+## Nachtrag — PDF-Schriften aus dem Erscheinungsbild, die Prüfung der Offline-Garantie (v896, 03.10.2026)
+
+**Die Zusicherung bleibt:** kein Nachladen, auch nicht beim PDF. jsPDFs einzige XHR-Tür ist `loadFile`; erreichbar wäre sie über
+`addFont` für eine Schrift, die nicht im virtuellen Dateisystem liegt. Bis v895 lag die PDF-Inter als vendorter Block
+(`@vd-lib name="inter-pdf-font"`) im Gerüst, und der Wächter verlangte für jede Nicht-Standard-Schrift genau so einen Block.
+
+**Was sich ändert, ist nur die Prüfung.** Seit v896 trägt das Gerüst keine Schrift (U2-ADR-473): die PDF-Schrift kommt als TTF
+(`schriften[]`, `pdf: true`) aus dem geprüften Erscheinungsbild des Produkts, dem Ab-Werk-Modul der Konfektion. Registriert wird
+sie in GENAU EINEM Gerüst-Block, `<script id="pdf-schriften-registrieren">` nach jsPDF — die eine benannte Ausnahme:
+- (a) eigener Code (die beiden Kern-Skripte) nennt `addFont`/`addFileToVFS`/`loadFile`/`loadImageFile` weiterhin nie;
+- (b) der Block registriert über jsPDFs `addFonts`-Ereignis, nennt `loadFile`/`loadImageFile` nie, und jedem `addFont(X, …)`
+  geht `addFileToVFS(X, …)` derselben Datei voraus — die Schrift liegt im VFS, bevor jsPDF sie anfragt;
+- (c) vor dem Registrieren eine Formprüfung je Schrift: TTF-Anfang exakt (`/^AAEAAA/`) und die Größengrenze je Schnitt aus
+  `ERSCHEINUNGSBILD_REGELN.schriftenMaxBytesJeSchnitt`. Schriftbytes kommen nur aus dem Ab-Werk-Modul des Produkts; jsPDF parst nie
+  eine fremde Datei.
+
+**Rückfallkette (Entscheidung 02./03.10.2026):** Schrift aus dem Modul → Ab-Werk-Inter des Produkts, eingebettet, PDF/A bleibt →
+erst wenn auch die nicht registriert werden kann: kein PDF, Schutztext `pdfOhneSchriftmodul`, kein Absturz, kein Netz. Stufe 3 ist
+im Auslieferungszustand unerreichbar: der Bau scheitert ohne PDF-Schrift (`erscheinungsbildSchriftenVorBacken`), und ein Wächter
+über die vier konfektionierten Produkte verlangt sie in jeder Region (`tests/produkt-konfektionieren.test.js`). Eine Schrift aus
+einem eingelassenen Einrichtungs-Modul (Stufe 1) kommt mit dem Branding-Wagen; für sie gilt dieselbe Prüfung.
+
+Rot-Beweise: `addFont` außerhalb des Blocks · `loadFile` im Block · `addFont` ohne vorangehendes `addFileToVFS` · zweiter bzw. kein
+Block · `_PDF_MARKE_SCHRIFT` als Literal. Der Browserlauf (`tests/konformitaet/offline-garantie.mjs`) nutzt denselben Helfer.
+
 ## Konformität
 
 ```konformitaet
@@ -458,6 +483,15 @@ aussage:   Kein Server (§1), Instanz B16-057: keine Telemetrie-/Analytics-Einbi
 zustand:   prüfbar
 pruefung:  tests/konformitaet/offline-garantie.mjs#NULL externe HTTP/S-Requests bei Laden + Nutzung
 pruefung:  tests/netz-verbote.test.js#b16-057-keine-telemetrie-analytics
+quelle:    invariante
+```
+
+```konformitaet
+aussage:   Kein Nachladen (§1), Instanz PDF-Schriften (v896): die PDF-Schrift kommt aus dem Erscheinungsbild und wird in genau
+           einem Gerüst-Block registriert; eigener Code öffnet keine jsPDF-Tür, jedem addFont geht addFileToVFS derselben
+           Datei voraus, loadFile kommt nirgends vor.
+zustand:   prüfbar
+pruefung:  tests/pdf-schrift-tueren.test.js#der Kern hält die Türen zu: keine Tür im eigenen Code, genau ein Registrier-Block, VFS vor addFont
 quelle:    invariante
 ```
 

@@ -1,0 +1,144 @@
+{
+ "zweck": "Eingefrorene Antwort-Umschläge v1 (U2-ADR-153). Der Kern schreibt v1 seit dem 05.10.2026 nicht mehr; die Lese-App öffnet v1 weiter. Diese Datei ersetzt den Kern als Gegenstück der Rückwärts-Probe. Nicht neu erzeugen: sie hält fest, was ausgelieferte Fassungen geschrieben haben.",
+ "herkunft": "erzeugt am 05.10.2026 mit vivodepot.html aus Commit 1a491361f (antwortVerschluesselnPasswort / antwortVerschluesselnSchluessel), Prüfschlüssel und Passwort von der Erzeugung selbst gewählt Der Prüfschlüssel des Verfahrens schluesselpaar ist am selben Tag mit demselben Kern neu gewählt: sein d beginnt mit der Probe-Marke NURPROBEantwortV1 (benannte Ausnahme des Geheimnis-Scanners); der öffentliche Teil ist daraus abgeleitet.",
+ "testwerte": "testPasswort und testPrivateJwk sind TESTWERTE, bei der Erzeugung dieser Fixture frisch gewählt; sie schützen nichts außer diesen zwei Umschlägen. Der Inhalt (Hedwig Brandt) ist erfunden.",
+ "datensatz": {
+  "format": "vivodepot-anlass",
+  "formatKennung": "vivodepot-anlass@1",
+  "anlass": {
+   "id": "anfrage",
+   "titel": "Aufnahme in die vollstationäre Pflege"
+  },
+  "erstelltAm": "2026-10-05T09:08:08.482Z",
+  "vertretung": null,
+  "felder": [
+   {
+    "kennung": "identity.givenName",
+    "bereich": "identity",
+    "feld": "givenName",
+    "label": "Vorname",
+    "wert": "Hedwig",
+    "roh": "Hedwig",
+    "herkunft": {
+     "art": "eingetragen",
+     "verifiziert": false
+    },
+    "zweck": "Aufnahmebogen",
+    "pflicht": true
+   },
+   {
+    "kennung": "identity.familyName",
+    "bereich": "identity",
+    "feld": "familyName",
+    "label": "Nachname",
+    "wert": "Brandt",
+    "roh": "Brandt",
+    "herkunft": {
+     "art": "eingetragen",
+     "verifiziert": false
+    },
+    "zweck": "Aufnahmebogen",
+    "pflicht": true
+   },
+   {
+    "kennung": "identity.birthDate",
+    "bereich": "identity",
+    "feld": "birthDate",
+    "label": "Geburtsdatum",
+    "wert": "14.03.1938",
+    "roh": "1938-03-14",
+    "herkunft": {
+     "art": "eingetragen",
+     "verifiziert": false
+    },
+    "zweck": "Aufnahmebogen",
+    "pflicht": true
+   },
+   {
+    "kennung": "socialInsurance.careLevel",
+    "bereich": "socialInsurance",
+    "feld": "careLevel",
+    "label": "Pflegegrad",
+    "wert": "Pflegegrad 3",
+    "roh": "3",
+    "herkunft": {
+     "art": "eingetragen",
+     "verifiziert": false
+    },
+    "zweck": "Aufnahmebogen",
+    "pflicht": true
+   }
+  ],
+  "fehlend": [],
+  "zurueckgehalten": {
+   "sensibel": 0,
+   "pflicht": 0
+  },
+  "modulHerkunft": {
+   "format": 1,
+   "geprueft": 0,
+   "ungeprueft": 0,
+   "unbekannt": 0,
+   "module": []
+  },
+  "moduleStand": {
+   "format": 1,
+   "unbekannt": 0,
+   "module": []
+  },
+  "anfrage": {
+   "von": "Pflegeheim Sonnenhof gGmbH",
+   "anbieterId": "heim/sonnenhof",
+   "zweck": "Aufnahme in die vollstationäre Pflege",
+   "grundlage": "Heimvertrag",
+   "vorgang": "AUF-2026-0815",
+   "gueltigBis": "2099-12-31"
+  },
+  "absender": {
+   "name": "Hedwig Brandt",
+   "rolle": "selbst"
+  },
+  "unbekannt": [],
+  "vollstaendig": true
+ },
+ "einmalpasswort": {
+  "testPasswort": "fixture-v1-einmalpasswort",
+  "umschlag": {
+   "dateiTyp": "vivodepot-antwort",
+   "v": 1,
+   "verfahren": "einmalpasswort",
+   "vorgang": "AUF-2026-0815",
+   "anbieterId": "heim/sonnenhof",
+   "erstelltAm": "2026-10-05T09:08:08.482Z",
+   "salt": "hNLVOTS5NcWsoeJMyWA68A==",
+   "iv": "gFjQuWAyVyhqCquy",
+   "ct": "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"
+  }
+ },
+ "schluesselpaar": {
+  "testPrivateJwk": {
+   "kty": "EC",
+   "x": "eiGC056B54VVcV4SAdfWQbDZdqRS5FPWdFe1682-LR8",
+   "y": "Ji2Ss-MY1a11rSaJY0qsRs3QRaSDYbhYIYVpDqKfl0g",
+   "crv": "P-256",
+   "d": "NURPROBEantwortV1PruefschluesselNurFuerDieA"
+  },
+  "umschlag": {
+   "dateiTyp": "vivodepot-antwort",
+   "v": 1,
+   "verfahren": "schluesselpaar",
+   "vorgang": "AUF-2026-0815",
+   "anbieterId": "heim/sonnenhof",
+   "erstelltAm": "2026-10-05T18:19:38.298Z",
+   "salt": "rnZ4Mk2VB4khAmjjL39/9Q==",
+   "epk": {
+    "kty": "EC",
+    "x": "KErWSoUg9HoeZ8CmwVYpb7wPWhu9PyXM591GE2HCR4w",
+    "y": "rTVzfHXUQeYUNIT5kq59PG183XB3hWcpLrqQkqQ8nGM",
+    "crv": "P-256"
+   },
+   "iv": "1miG/jsTmdLuXp/r",
+   "ct": "Bbt0Slq0HZ1kKsQWg01vOtcS8gbvPBFNPnfiLUBKFR08fsxtWOQMYSVF7SFDiQ/sQoJiBu2sq4kP3+0+GVCsmqcRpjYeqh/zgZcVdBWpR8bfScdEjJsM94ZY128r4B92z4WpiRzanLQnBi67pzr+SiMF9YGHVXiIp8WWU+pBe7kmJeCUgbNqTs9o1F04R2fmYV+O6DJVgMQ1yaBGLiXmizX/mja0kIzJDb5Qxn2j0YCB07nO5bXwZ+1t54K0oxONMGslD7otzngt5KOCzmmJr1HcTEfiGcHgi1MthZmcEj0J9r2gbQgfj+vsmLQsSx33z4Ts8mCC2DkgP56l90HoA1HjFuK54u9+ODfYA0AO9zKsu6Kma7tWeKTPmIH5Q4IAq7Ln9suxbJzWeOGr0iHqrijFP/9tA7PrfE/wOFOjtUYMVnBGtVGSyer3dHWOR0619CMPrJKhGUTh02ebCtFD1ip/i+sS7DKJRN66l/su0iyVJbTQzc0CkWSl9ODzmp5S0d7yIZujejxi/+k0VVen1Zkz2cavupXNdx+45s3IcpJ0pNekVxYW5+TcTm47uJnYparxNpsXZAwjw+Nsm545yqS5Vh4UZsEaI0jTPpCmlylYq7oQUA/nZ+Ek/x+Y1kax1NW/d9mxDy8tphaF50YvzuwUA+lonYSFrVD+J4rRzgBLB+EseYU04TdsptaH9PLaMQdwDDRUa1drspOikZbJml0wvOzj2kSOutRIR2MbWjl4Uom95fM20yj3c0btdIavecw14pIV2Vj+vuXId3d6pu7L/loS5LFl5CxhcudcPvIorCQKq9vSdnbMD0Qb3dhr4qwrTFKCJ3iYPB8Mqku/1vhgjIRI7ysPQla2AzOXv8lMXxDlNZLerD6Q0JlFqHYtLP1Jpw9k6gIm5Y1aO9959K72WAyxtZaXjzWkz4alU91gdQlQtPNdrOtX/Jpb4GtCeyYsYkWUw9MTVY3TOkxq1RIzDbVME5ugUfXyjxn7S1hQK2DCDfR40NULVNCikfv3Xr7PkwA2iuLb53PVG8gOSPzwQsNm+MHUUkQmUIjUela/fmTxKWV2IvJN3ArzTemGPrBRBAJ2b2l0Ese/m9KncG3Kvy/IXNcTSwXNBWPh5P/+gxDgrH2aSssheXu/CNsrersxgWrB7ZYKzyEQZBPqxxJvlEbllv9Dp3qZhWq9C20Qa2qpSeihQFSWe33YBtOSW2AeEjGmOvbXOTvSuRj5DRdo4Yml7Pyx5Q/cVbz6Fln/AOOlsIqNjaty1y+NTEHPAMaChkrvFIjOgpSsr1oMe9Hy55Lv1LGwSrVxKfW672puw7Sk1O4/Lx9PJotja1Ef2IygsTmDusSBV3rVu0FwDCEFFryCq461KU9XOoeW8GD3jHXQLamAXMeN/49qQNWwnBhreY329RtOHflbWgr4U55Wp9lFGgSSzxnXXvC1Czy/Tp3TVfVTi3Vuz2RjG2DHGu2q4M0kvIUP/bdcKbmE+rz11xcNTnjTflwlPyvSXxbgXpMsC5gmS9XJ2oueci6bQlZj6HfUpfZGAxHYVOIvr5YnS0LUDIkMlRSUcGI6dlH1WDeufZmiqGOfA2xcacUJ8rQOyxQww28vTa+hPBVMDHd4rRIsv85zITGj+HzwJv1QenxWCNlgHtkdHYFyeDrr/5xy9/mMJNbYVpBQT5+6XQ6ndYv6yLT9MCEfwklxHbPxxBs3ORIW8bCaQ4plsdz43plIdS3CNL4/bL24B6Ggd9OS/k52eYyBIQUT1SVdIP0cnhd1uUp02iWGrMjE5oCv0qWRGCYwQs+ZzQfdDAu/myI9gBVEBp4qudsBmxTAWR7Ggv3KdrluQUq+Alidc16vG8YglMOpQcdK1GYtQgwVzXvK+BBDi3XrsNBQxDFnud23J9h5jYIxVTa1IKxkqsDGKq+CrzHk0eh1vWGmE6ke4PQbLDZBJw6cU++CN5Oj4rAo0dDDZnNxkoD/LVVhRpoeYpOzZYha6LTeJxiMDPybAtoI8VwO0W6wya772+lhFr7KFRbVebKIWhupXAx8RomiBgFjyoopf+rZz4GPfyiEuwN4g6quA2TKV/CMlRiC2Qk8jwHjl7aE6HJn6chJmhE4TqVl9l1ajoklAjNAQcm04S4Q"
+  }
+ }
+}

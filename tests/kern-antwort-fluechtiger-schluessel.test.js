@@ -1,7 +1,10 @@
 'use strict';
-/* Der flüchtige ECDH-Schlüssel der Antwort (Schlüsselpaar-Verfahren, `antwortVerschluesselnSchluessel` im Kern) wird nie
+/* Der flüchtige ECDH-Schlüssel der Antwort (Schlüsselpaar-Verfahren, `antwortJweSchluessel` im Kern) wird nie
    herausgeholt: nur sein öffentlicher Teil reist als `epk`, und der ist in WebCrypto immer exportierbar. Darum entsteht er
    mit extractable:false — ein `exportKey` auf den privaten Teil wirft.
+   Bis 05.10.2026 hielt die Probe den Schreiber des Umschlags v1 (`antwortVerschluesselnSchluessel`); der ist aus dem Kern
+   entfernt (tests/kern-antwort-v1-entfernt.test.js). Seit U2-ADR-449 schreibt der Kern die Antwort als JWE, und dessen
+   Schreiber trägt dieselbe Zusicherung.
 
    Gemessen wird am echten Aufruf: die Probe hört `generateKey` mit und hält den Schlüssel fest, den der Kern bekommt.
    Die Gegenprobe: die Antwort öffnet in der Lese-App weiter. Der Rot-Beweis: eine Fassung mit extractable:true wird gemeldet.
@@ -31,7 +34,7 @@ async function mitgehoert(V, pub) {
     return k;
   };
   try {
-    const umschlag = await V.antwortVerschluesselnSchluessel({ felder: [] }, pub, { vorgang: 'probe-vorgang' });
+    const umschlag = await V.antwortJweSchluessel(JSON.stringify({ felder: [] }), pub, { vorgang: 'probe-vorgang' });
     return { umschlag, gesehen };
   } finally {
     webcrypto.subtle.generateKey = orig;
@@ -56,14 +59,15 @@ test('[Kern · Antwort] der flüchtige Schlüssel ist nicht herausholbar; ein ex
 test('[Kern · Antwort] Gegenprobe: die Antwort öffnet in der Lese-App mit dem privaten Empfangsschlüssel', async () => {
   const { pub, priv } = await empfangsPaar();
   const { umschlag } = await mitgehoert(ladeKern().V, pub);
-  assert.ok(umschlag.epk && !('d' in umschlag.epk), 'nur der öffentliche Teil reist');
-  const ds = await ladeLesen().V.antwortEntschluesselnSchluessel(umschlag, priv);
-  assert.deepEqual(JSON.parse(JSON.stringify(ds.felder)), []);
+  const kopf = JSON.parse(Buffer.from(String(umschlag).split('.')[0], 'base64url').toString('utf8'));
+  assert.ok(kopf.epk && !('d' in kopf.epk), 'nur der öffentliche Teil reist');
+  const ds = JSON.parse((await ladeLesen().V.antwortJweOeffnen(umschlag, { privateJwk: priv })).klartext);
+  assert.deepEqual(ds.felder, []);
 });
 
 test('[Kern · Antwort · Rot-Beweis] eine Fassung mit extractable:true wird gemeldet', async () => {
   const html = fs.readFileSync(KERN, 'utf8');
-  const a = "  const fluechtig = await crypto.subtle.generateKey(\n    { name: 'ECDH', namedCurve: ANTWORT_ECDH_KURVE }, false, ['deriveBits']);";
+  const a = "  const fluechtig = await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits']);";
   assert.equal(html.split(a).length, 2, 'Vorbedingung: die Stelle steht genau einmal');
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'kern-fluechtig-'));
   try {

@@ -1,0 +1,228 @@
+{
+ "zweck": "Codepunkte, die die vier gebackenen Produkte verwenden (tools/schrift-bedarf-messen.js) und die die eingebettete Inter nicht führt — je mit Grund. Jeder fehlende Codepunkt, der hier nicht steht, macht tools/font-subset.py --check und tests/font-coverage.test.js rot; ebenso ein Eintrag, der nicht mehr fehlt (die Liste kann nur kürzer werden). grund 'quelle' wird geprüft: der Codepunkt muss in einem Headroom-Bereich liegen und fehlt in der Quelle vor dem Zuschnitt (git show a1d5660d4^:vivodepot-clean-slate-kern.html, Inter 4.001). Ein Eintrag mit sichtbar: true zeichnet in der Oberfläche in einer Ersatzschrift und gehört zu einem eigenen Befund (SICHTBAR-ERSATZSCHRIFT). Ein Eintrag unter bereiche mit grund 'nur-export' deckt einen ganzen Bereich, aber nur, wenn keines seiner Zeichen außerhalb der genannten Region vorkommt.",
+ "stand": "2026-10-03",
+ "ausnahmen": [
+  {
+   "cp": "U+00AD",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich von tools/font-subset.py, der beim Zuschnitt vollständig behalten wurde — fehlt also schon in der Inter-Quelle, kein Zuschnitt-Verlust."
+  },
+  {
+   "cp": "U+21C4",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich von tools/font-subset.py, der beim Zuschnitt vollständig behalten wurde — fehlt also schon in der Inter-Quelle, kein Zuschnitt-Verlust."
+  },
+  {
+   "cp": "U+21E2",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich von tools/font-subset.py, der beim Zuschnitt vollständig behalten wurde — fehlt also schon in der Inter-Quelle, kein Zuschnitt-Verlust."
+  },
+  {
+   "cp": "U+2259",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich von tools/font-subset.py, der beim Zuschnitt vollständig behalten wurde — fehlt also schon in der Inter-Quelle, kein Zuschnitt-Verlust."
+  },
+  {
+   "cp": "U+2261",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich von tools/font-subset.py, der beim Zuschnitt vollständig behalten wurde — fehlt also schon in der Inter-Quelle, kein Zuschnitt-Verlust."
+  },
+  {
+   "cp": "U+25B8",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich, fehlt also schon in der Inter-Quelle. SICHTBAR: Aufklapp-Marker (CSS content an summary::before/::after, Depot-Pille .dp-chevron) zeichnen in einer Ersatzschrift — eigener Befund SICHTBAR-ERSATZSCHRIFT, nicht still hier.",
+   "sichtbar": true,
+   "befund": "w4-schriften-entwurf-schema-pruefung-v881-2026-10-02.md#SICHTBAR-ERSATZSCHRIFT"
+  },
+  {
+   "cp": "U+25BE",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich, fehlt also schon in der Inter-Quelle. SICHTBAR: Aufklapp-Marker (CSS content an summary::before/::after, Depot-Pille .dp-chevron) zeichnen in einer Ersatzschrift — eigener Befund SICHTBAR-ERSATZSCHRIFT, nicht still hier.",
+   "sichtbar": true,
+   "befund": "w4-schriften-entwurf-schema-pruefung-v881-2026-10-02.md#SICHTBAR-ERSATZSCHRIFT"
+  },
+  {
+   "cp": "U+2610",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich, fehlt also schon in der Inter-Quelle. SICHTBAR in Dokumentzeilen: auswahlPaar/auswahlPaarGruppe schreiben „☒ ja  ☐ nein“; wo diese Zeilen als HTML erscheinen, zeichnen sie in einer Ersatzschrift — eigener Befund SICHTBAR-ERSATZSCHRIFT, nicht still hier.",
+   "sichtbar": true,
+   "befund": "w4-schriften-entwurf-schema-pruefung-v881-2026-10-02.md#SICHTBAR-ERSATZSCHRIFT"
+  },
+  {
+   "cp": "U+2611",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich, fehlt also schon in der Inter-Quelle. Nur in einem Code-Kommentar."
+  },
+  {
+   "cp": "U+2612",
+   "grund": "quelle",
+   "notiz": "Liegt in einem Headroom-Bereich, fehlt also schon in der Inter-Quelle. SICHTBAR in Dokumentzeilen: auswahlPaar/auswahlPaarGruppe schreiben „☒ ja  ☐ nein“; wo diese Zeilen als HTML erscheinen, zeichnen sie in einer Ersatzschrift — eigener Befund SICHTBAR-ERSATZSCHRIFT, nicht still hier.",
+   "sichtbar": true,
+   "befund": "w4-schriften-entwurf-schema-pruefung-v881-2026-10-02.md#SICHTBAR-ERSATZSCHRIFT"
+  },
+  {
+   "cp": "U+02C6",
+   "grund": "nur-code",
+   "notiz": "Nur in der PDF-Glyphenliste (Kommentar und Zahlenliste der WinAnsi-Abdeckung), nicht in der Oberfläche. In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+02DC",
+   "grund": "nur-code",
+   "notiz": "Nur in der PDF-Glyphenliste (Kommentar und Zahlenliste der WinAnsi-Abdeckung), nicht in der Oberfläche. In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+2122",
+   "grund": "nur-code",
+   "notiz": "Nur in der PDF-Glyphenliste (Kommentar und Zahlenliste der WinAnsi-Abdeckung), nicht in der Oberfläche. In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+0300",
+   "grund": "nur-code",
+   "notiz": "Nur als Bereich in einem regulären Ausdruck (Diakritika nach normalize('NFD') entfernen). In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+036F",
+   "grund": "nur-code",
+   "notiz": "Nur als Bereich in einem regulären Ausdruck (Diakritika nach normalize('NFD') entfernen). In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+03B2",
+   "grund": "nur-code",
+   "notiz": "Nur in Code-Kommentaren (β, ⟦M⟧, ⟹, ⟺). In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+27E6",
+   "grund": "nur-code",
+   "notiz": "Nur in Code-Kommentaren (β, ②, ⟦M⟧, ⟹, ⟺)."
+  },
+  {
+   "cp": "U+27E7",
+   "grund": "nur-code",
+   "notiz": "Nur in Code-Kommentaren (β, ②, ⟦M⟧, ⟹, ⟺)."
+  },
+  {
+   "cp": "U+27F9",
+   "grund": "nur-code",
+   "notiz": "Nur in Code-Kommentaren (β, ②, ⟦M⟧, ⟹, ⟺). In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+27FA",
+   "grund": "nur-code",
+   "notiz": "Nur in Code-Kommentaren (β, ②, ⟦M⟧, ⟹, ⟺). In der Quelle vorhanden (Inter 4.001), beim Zuschnitt nicht behalten, weil der Kern das Zeichen damals noch nicht verwendete; ein neuer Zuschnitt holt es zurück, sobald es sichtbar gebraucht wird."
+  },
+  {
+   "cp": "U+2500",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+2550",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+2551",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+2554",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+2557",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+255A",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+255D",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+2560",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+2563",
+   "grund": "nur-code",
+   "notiz": "Rahmenzeichen der Code-Kommentare (── ══ ╔╗)."
+  },
+  {
+   "cp": "U+2580",
+   "grund": "nur-code",
+   "notiz": "In der vendorten qrcode-generator-Bibliothek (createASCII), nicht in der Oberfläche."
+  },
+  {
+   "cp": "U+2584",
+   "grund": "nur-code",
+   "notiz": "In der vendorten qrcode-generator-Bibliothek (createASCII), nicht in der Oberfläche."
+  },
+  {
+   "cp": "U+2588",
+   "grund": "nur-code",
+   "notiz": "In der vendorten qrcode-generator-Bibliothek (createASCII), nicht in der Oberfläche."
+  },
+  {
+   "cp": "U+FE59",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FE5A",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FE5B",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FE5C",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FE5D",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FE5E",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FE64",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FE65",
+   "grund": "nur-code",
+   "notiz": "In einer vendorten Bibliothek als Klammer-Tabelle eines regulären Ausdrucks."
+  },
+  {
+   "cp": "U+FFFD",
+   "grund": "nur-code",
+   "notiz": "Nur in einem regulären Ausdruck (PNG-Signatur als Text erkannt)."
+  }
+ ],
+ "bereiche": [
+  {
+   "von": "U+0370",
+   "bis": "U+04FF",
+   "grund": "nur-export",
+   "region": "AB_WERK_IPS_BEGLEITTEXT",
+   "notiz": "Griechisch und Kyrillisch der IPS-Begleittexte in 24 EU-Sprachen (tools/ips-begleittext-modul.json). Sie gehen nur als FHIR-Narrativ in die Exportdatei; die App zeichnet sie nicht mit ihrer Schrift. Geprüft: kein Zeichen dieses Bereichs kommt in einem der vier Produkte außerhalb der Region vor — einzeln gelistete Codepunkte (β) gehen vor."
+  }
+ ]
+}

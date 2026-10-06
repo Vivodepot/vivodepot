@@ -78,8 +78,11 @@ Pre-Push-Gate abgedeckt; das hier wäre zusätzliche Tiefe, kein Erstnachweis).
 
 Diese Prüfungen gibt es nicht:
 
-- **Kein Fuzzing.** Keine automatisierte Eingaben-Zufallsgenerierung gegen Parser oder
-  Krypto-Pfade.
+- **Kein Fuzzer im Dauerlauf.** Erzeugte Eingaben gibt es in den Eigenschaftsprüfungen
+  (je 150 bis 500 Läufe, darunter beliebiges JSON gegen die Import-Erkenner
+  und Speichern/Laden beliebiger Feldwerte) und als feste Sätze fehlerhafter Eingaben gegen die
+  Importparser (`tests/g3-fuzzing-importparser.test.js`). Einen Fuzzer, der über lange Läufe nach
+  Abstürzen sucht, gibt es nicht.
 - **Keine externe Sicherheitsprüfung.** Kein durchgeführtes Penetrationstest, kein bezahltes
   Audit. Die Krypto-Bausteine sind gegen Standard-Testvektoren geprüft (Ebene 3), nicht von einer
   externen Stelle abgenommen.

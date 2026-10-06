@@ -2915,6 +2915,7 @@
     "strings:exportUnstimmigTrotzdem.text": "Trotzdem erstellen",
     "strings:pdfSchriftDeckungTitel.text": "PDF nicht erstellt",
     "strings:pdfSchriftDeckungHinweis.text": "Die eingebettete Schrift kann diese Zeichen nicht darstellen. Damit kein falscher Text entsteht, wurde die PDF-Datei nicht erzeugt:",
+    "strings:pdfOhneSchriftHinweis.text": "Für die PDF-Datei steht keine geprüfte Schrift zur Verfügung. Damit kein falscher Text entsteht, wurde keine PDF-Datei erzeugt. Ihre Angaben können Sie stattdessen als Datei herausgeben.",
     "strings:pdfSchriftDeckungFeldUnbekannt.text": "(Feld unbekannt)",
     "strings:pdfSchriftDeckungFeldTitel.text": "Titel",
     "strings:exportFormatOhneZielHinweis.text": "Dieses Format kann diese Angabe nicht abbilden.",

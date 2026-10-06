@@ -7,7 +7,8 @@
    BEFUND. `PBKDF2_ITERATIONS = 600000` ist Teil des gepinnten VdCrypto-Blocks (Script 1;
    `tools/krypto-block-propagation-pruefen.js` hält ihn byte-identisch in allen Trägern). Drei
    Stellen führen DENSELBEN Wert als eigene Konstante oder eigenes Literal, statt den Block zu
-   lesen: `ANG_PBKDF2_ITERATIONEN` (Kern und Lese-App; bis 04.10.2026 hieß die der Lese-App `ANTWORT_PBKDF2_ITERATIONEN`) und drei
+   lesen: `ANG_PBKDF2_ITERATIONEN` (Lese-App, bis 04.10.2026 dort `ANTWORT_PBKDF2_ITERATIONEN`; im Kern bis 05.10.2026, mit dem
+   Antwort-Umschlag v1 entfernt) und drei
    hartcodierte `iterationen: 600000` in `tools/schluesseluebergabe-messen.js`. Jede davon
    KÖNNTE unbemerkt vom Block abweichen — nichts prüfte es. Dieselbe Fehlerklasse wie 34.7/34.9
    (eine Angabe an mehreren Stellen, nur eine gepflegt), hier für eine Krypto-Stärkegröße statt

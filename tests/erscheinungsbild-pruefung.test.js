@@ -15,7 +15,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const { ladeKern } = require('./load-kern.js');
 const P = require('../tools/lib/produkt-text-erzeugen.js');
-const { cssZuModul, modulText, stilBauen, QUELLE_HEUTE, ZIEL_HEUTE } = require('../tools/erscheinungsbild-modul.js');
+const { cssZuModul, modulText, stilBauen, QUELLE_HEUTE, ZIEL_HEUTE, schriftenBauen } = require('../tools/erscheinungsbild-modul.js');
 
 const REPO = path.join(__dirname, '..');
 const KERN = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
@@ -44,7 +44,7 @@ const kurz = (u) => ({
 });
 
 test('[Erscheinungsbild] das Modul ist der Bau aus der Quelle (tools/erscheinungsbild-modul.js --check)', () => {
-  assert.equal(fs.readFileSync(ZIEL_HEUTE, 'utf8'), modulText(cssZuModul(fs.readFileSync(QUELLE_HEUTE, 'utf8'), 'heute', { stil: stilBauen() })));
+  assert.equal(fs.readFileSync(ZIEL_HEUTE, 'utf8'), modulText(cssZuModul(fs.readFileSync(QUELLE_HEUTE, 'utf8'), 'heute', { stil: stilBauen(), schriften: schriftenBauen() })));
 });
 
 test('[Erscheinungsbild] die Anzeige-Mechanik im Gerüst ist genau die display-Mechanik der stil-Quellen', () => {

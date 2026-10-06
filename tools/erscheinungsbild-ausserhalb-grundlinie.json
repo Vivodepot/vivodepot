@@ -1,11 +1,5 @@
 {
   "beschreibung": "Gestaltung, die das Gerüst noch AUSSERHALB der Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT trägt (v894, 02.10.2026): modusabhängige Regeln und eingebettete Schriften (CSS-@font-face und die PDF-Inter in PDF-INTER-B64). Darf nur sinken (tools/erscheinungsbild-waechter-pruefen.js --grundlinie-schreiben) und ist ab leerBis leer. Eigentümer: Design-Strang (Erscheinungsbild und Schrift), Schriften und Modus-Regeln, Abnahme im Befund OBERFLAECHENSCHRIFT-LATEIN-SUBSET. leerBis 04.10.2026 einmalig von v899 auf v919 verschoben (Schriften und Modus-Regeln nicht gelandet, Wort der Gegenlesung); ein zweites Verschieben ist ein Befund, kein Wort. Zählweg: node tools/erscheinungsbild-waechter-pruefen.js",
   "leerBis": "v919",
-  "stellen": [
-    "schrift: @font-face 400",
-    "schrift: @font-face 500",
-    "schrift: @font-face 600",
-    "schrift: @font-face 700",
-    "schrift: PDF-INTER-B64"
-  ]
+  "stellen": []
 }

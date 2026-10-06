@@ -70,7 +70,7 @@ Lizenz und Verfügbarkeit sind zwei Fragen. Unter EUPL-1.2 steht alles, was von 
 
 - Die Anwendung: im öffentlichen Repository
 - Die Lese-Anwendung: im öffentlichen Repository
-- Das Studio (Vorlagen-Generator): derzeit nicht im öffentlichen Repository
+- Das Studio (Vorlagen-Generator): im öffentlichen Repository
 - Der Nachweis-Aussteller (VC-Issuer): im öffentlichen Repository
 - Das Schlüssel-Teilen: im öffentlichen Repository
 - Der Konfektionierer: im öffentlichen Repository
@@ -163,7 +163,7 @@ Licence and availability are two questions. Everything that comes from us is und
 
 - The application: in the public repository
 - The reader application: in the public repository
-- The studio (template generator): currently not in the public repository
+- The studio (template generator): in the public repository
 - The credential issuer (VC issuer): in the public repository
 - Key sharing: in the public repository
 - The product assembler: in the public repository

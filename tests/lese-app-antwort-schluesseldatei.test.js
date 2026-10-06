@@ -8,22 +8,15 @@
    localStorage, sessionStorage oder IndexedDB (im Sandkasten gibt es sie nicht — ein Zugriff würde werfen).
    JavaScript kann einen String nicht nullen; geprüft wird, dass kein Verweis über den Aufruf hinaus bleibt.
 
-   Alle Schlüssel und Passwörter erzeugt die Probe selbst. */
+   Das Schlüsseldatei-Passwort erzeugt die Probe selbst; Umschlag und Empfangsschlüssel stammen aus der v1-Fixture. */
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeLesen, LESEN_PATH } = require('./load-lesen.js');
-const { ladeKern } = require('./load-kern.js');
 const fs = require('node:fs');
 
 const HTML = fs.readFileSync(LESEN_PATH, 'utf8');
 const PW = 'probe-passwort-antwort-7Q';
 
-async function empfangsPaar() {
-  const p = await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']);
-  return { pub: await crypto.subtle.exportKey('jwk', p.publicKey), priv: await crypto.subtle.exportKey('jwk', p.privateKey) };
-}
-let _kern = null;
-function kern() { if (!_kern) _kern = ladeKern().V; return _kern; }
 
 /* Die Seite, mit einem Dateileser, der den Inhalt der „gewählten Datei“ liefert, und einer mitlesenden Konsole. */
 /* Aufzeichnende Attrappen für den Browser-Speicher (localStorage, sessionStorage, IndexedDB), an Sandkasten und window:
@@ -62,9 +55,12 @@ async function oeffnenUeberDenKnopf(s, umschlag, dateiText, passwort) {
   return { fehler: fehler.hidden ? '' : fehler.textContent, app: s.document.getElementById('app').innerHTML };
 }
 
+/* Der Umschlag v1 kommt aus der eingefrorenen Fixture: der Kern schreibt ihn seit 05.10.2026 nicht mehr, die Lese-App
+   öffnet ihn weiter (tests/kern-antwort-v1-entfernt.test.js). */
+const V1 = JSON.parse(fs.readFileSync(require('node:path').join(__dirname, 'fixtures', 'antwort-v1-umschlaege.json'), 'utf8'));
 async function fall() {
-  const { pub, priv } = await empfangsPaar();
-  const umschlag = await kern().antwortVerschluesselnSchluessel({ felder: [] }, pub, { vorgang: 'probe-vorgang' });
+  const priv = V1.schluesselpaar.testPrivateJwk;
+  const umschlag = JSON.parse(JSON.stringify(V1.schluesselpaar.umschlag));
   /* verpackt mit der Hülle der Lese-App selbst; dass sie byte-gleich mit Studio und Issuer ist, hält der Propagationsprüfer */
   return { umschlag, priv, vdkey: JSON.stringify(await ladeLesen().V.schuetzeSchluesselJwk(priv, PW)) };
 }

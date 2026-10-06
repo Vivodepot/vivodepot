@@ -26,6 +26,8 @@
      node tools/design-bildvergleich.js --basis <git-ref> [--aus <verz>] [--gate]
             [--erlaubt <szenen-teil>]… [--nur <szenen-teil>] [--sprachen de,en] [--geraete desktop,handy]
      node tools/design-bildvergleich.js --basis-datei <kern.html> [--nachher <kern.html>] …   wie --basis, Vorher aus einer Datei
+     … [--basis-repo <pfad>]   Vorher mit dem Backschritt und den Modulen DIESES Baums backen (eine Fassung, deren Kern
+                              neuere Modulfelder nicht kennt, z. B. vor v896 ohne `schriften`); ohne Angabe der eigene Baum
      node tools/design-bildvergleich.js --vorher <a.html> --nachher <b.html>   (eine Szene „seite", ohne Depot)
      node tools/design-bildvergleich.js --gegenprobe <git-ref|arbeitsbaum> [--gate]   eine Fassung gegen sich selbst (Werkzeug-Ruhe)
    ════════════════════════════════════════════════════════════════════════════ */
@@ -197,13 +199,13 @@ async function szenenAufnehmen(browser, geraet, url, filter) {
   return raus;
 }
 
-async function backen(html, slug, ziel) {
-  const { testProduktText } = require(path.join(REPO, 'tests', 'produkt-test-backen.js'));
+async function backen(html, slug, ziel, repo = REPO) {
+  const { testProduktText } = require(path.join(repo, 'tests', 'produkt-test-backen.js'));
   fs.writeFileSync(ziel, testProduktText(html, { slug }));
   return 'file://' + ziel;
 }
 
-async function vergleichen({ vorherHtml, nachherHtml, aus, sprachen = ['de', 'en'], geraete = ['desktop', 'handy'], nur = null, roh = false }) {
+async function vergleichen({ vorherHtml, nachherHtml, aus, sprachen = ['de', 'en'], geraete = ['desktop', 'handy'], nur = null, roh = false, basisRepo = REPO }) {
   const { chromium } = require('playwright');
   fs.mkdirSync(aus, { recursive: true });
   // Deterministisch rastern (Befund 02.10.2026): mit GPU-Rasterung schwankte die Kantenglättung runder Ecken zwischen Läufen
@@ -219,7 +221,7 @@ async function vergleichen({ vorherHtml, nachherHtml, aus, sprachen = ['de', 'en
         urlA = 'file://' + path.join(aus, 'vorher.html'); fs.writeFileSync(urlA.slice(7), vorherHtml);
         urlB = 'file://' + path.join(aus, 'nachher.html'); fs.writeFileSync(urlB.slice(7), nachherHtml);
       } else {
-        urlA = await backen(vorherHtml, 'privat-' + sprache, path.join(aus, `vorher-privat-${sprache}.html`));
+        urlA = await backen(vorherHtml, 'privat-' + sprache, path.join(aus, `vorher-privat-${sprache}.html`), basisRepo);
         urlB = await backen(nachherHtml, 'privat-' + sprache, path.join(aus, `nachher-privat-${sprache}.html`));
       }
       for (const geraet of geraete) {
@@ -302,6 +304,7 @@ async function main() {
     vorherHtml, nachherHtml, aus, roh,
     sprachen: (arg('--sprachen') || 'de,en').split(','), geraete: (arg('--geraete') || 'desktop,handy').split(','),
     nur: viele('--nur').length ? viele('--nur') : null,
+    basisRepo: arg('--basis-repo') ? path.resolve(arg('--basis-repo')) : REPO,
   });
   const erlaubt = viele('--erlaubt');
   let rot = 0;

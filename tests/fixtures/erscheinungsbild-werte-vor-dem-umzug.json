@@ -1,7 +1,7 @@
 {
- "zweck": "Die Token-Werte des Erscheinungsbilds je Ebene, wie sie VOR dem Umzug im Stylesheet des Kerns standen (:root, html.high-contrast, html.dark-mode). Erhoben aus dem Stand b759b7a4b, wörtlich verglichen (242 von 242 gleich); dazu --vorfuehrung-fs-pruefung aus der Regel .vorfuehrung-pruefung des Kanons e04f89d27 (0.85rem), beim Aufsetzen als Token gefasst. Eine gewollte Änderung eines Werts zieht diese Datei bewusst nach. NACHGEZOGEN 04.10.2026 (Befund Kontrast der Ebenen und Zustände): zwei Werte geändert (--chrome-feld-hover, --feld-rahmen-dialog) und achtzehn Werte hinzugefügt (--notfall-schrift, --auf-warnung, --btn-hover, --link je Ebene, --menue-hover, --papier-ink*, --papier-salbei-light, Nacht-Werte für --notfall-flaeche, --fehler-flaeche, --feld-fehler-schrift, --btn-sek-hover, --vollmacht-pause); gewollt, Schrift unter 4,5:1.",
+ "zweck": "Die Token-Werte des Erscheinungsbilds je Ebene, wie sie VOR dem Umzug im Stylesheet des Kerns standen (:root, html.high-contrast, html.dark-mode). Erhoben aus dem Stand b759b7a4b, wörtlich verglichen (242 von 242 gleich); dazu --vorfuehrung-fs-pruefung aus der Regel .vorfuehrung-pruefung des Kanons e04f89d27 (0.85rem), beim Aufsetzen als Token gefasst. Eine gewollte Änderung eines Werts zieht diese Datei bewusst nach. NACHGEZOGEN 04.10.2026 (Befund Kontrast der Ebenen und Zustände): zwei Werte geändert (--chrome-feld-hover, --feld-rahmen-dialog) und achtzehn Werte hinzugefügt (--notfall-schrift, --auf-warnung, --btn-hover, --link je Ebene, --menue-hover, --papier-ink*, --papier-salbei-light, Nacht-Werte für --notfall-flaeche, --fehler-flaeche, --feld-fehler-schrift, --btn-sek-hover, --vollmacht-pause); gewollt, Schrift unter 4,5:1. NACHGEZOGEN 05.10.2026 (Produktentscheidung keine Serifen, 03.10.2026): ein Wert geändert (--font-narrativ von Georgia/Palatino/serif auf var(--font-inter)); Wächter tools/serifen-pruefen.js.",
  "quelle": "b759b7a4b",
- "pruefsumme": "7501e000407f543f2446f50ed13b970a24f9ea3dc3656cf42233e18fd0d45524",
+ "pruefsumme": "762a738f51f8d8ebee1902545020e824a96d46e1a99b926568077434c55a4f74",
  "basis": {
   "--salbei-dunkel": "#4F6539",
   "--salbei-mid": "#7B9A6A",
@@ -65,7 +65,7 @@
   "--kiesel-papier-linie": "#9a8f85",
   "--schilf-papier-linie": "#879478",
   "--malve-papier-linie": "#a2899b",
-  "--font-narrativ": "Georgia, \"Palatino Linotype\", Palatino, serif",
+  "--font-narrativ": "var(--font-inter)",
   "--font-inter": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
   "--line-feiner": "#efeee7",
   "--fs-xs": "0.75rem",

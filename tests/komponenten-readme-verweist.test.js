@@ -20,7 +20,7 @@ const REPO = path.join(__dirname, '..');
 const KOMPONENTEN = [
   { readme: 'docs/lese-app/README.md', datei: 'vivodepot-lesen.html', oeffentlich: true },
   { readme: 'docs/vc-issuer/README.md', datei: 'vivodepot-vc-issuer.html', oeffentlich: true },
-  { readme: 'docs/template-generator/README.md', datei: 'vivodepot-studio.html', oeffentlich: false },
+  { readme: 'docs/template-generator/README.md', datei: 'vivodepot-studio.html', oeffentlich: true },
 ];
 
 function befund(k, text, dateiDa) {

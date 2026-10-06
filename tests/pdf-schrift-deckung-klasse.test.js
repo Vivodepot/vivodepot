@@ -4,7 +4,7 @@
    (1) jedes Zeichen, das in einem Sprachmodul oder einer Ab-Werk-Datei eines Produkts steht, sagt der Kern als
        PDF-darstellbar zu — abgeleitet aus den Moduldateien, nicht aus einer Handliste;
    (2) jede Zusage des Kerns liegt wirklich in allen drei eingebetteten Schnitten (tools/schrift-pdf-quellen/*.ttf, deren
-       Bytes tests/pdf-inter-einbetten.test.js gegen den Kern hält) — sonst würde eine erweiterte Zusage ohne neue Schrift
+       Bytes seit v896 die Schriften-Prüfung des Erscheinungsbilds hält, tests/erscheinungsbild-schriften.test.js) — sonst würde eine erweiterte Zusage ohne neue Schrift
        still leere Kästchen drucken. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');

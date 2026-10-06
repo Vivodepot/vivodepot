@@ -254,6 +254,24 @@
    "grund": "ergebnis.thumbprint und verwendet aus eingelesenen Anteilen laufen über h() (1471). Dazu kommt nur der feste Text von sentinelWarnungHTML."
   },
   {
+   "datei": "vivodepot-studio.html",
+   "funktion": "el",
+   "zeile": 10139,
+   "abdruck": "1953723bff696bf4",
+   "anzahl": 1,
+   "code": "else if (k === 'html') e.innerHTML = attrs[k]",
+   "grund": "Der 'html'-Schlüssel von el() wird nur an einer Stelle genutzt (9149), mit L(...) und festen Literalen. Eine grep-Suche nach html: bzw. 'html' findet keine weitere Nutzung."
+  },
+  {
+   "datei": "vivodepot-studio.html",
+   "funktion": "sprachAnwenden",
+   "zeile": 11976,
+   "abdruck": "062c12db9a748313",
+   "anzahl": 2,
+   "code": "if (LANG === 'en') n.innerHTML = n.getAttribute('data-en-html')",
+   "grund": "dataset.deHtml ist das beim ersten sprachAnwenden() (Boot, 10593) gesicherte statische innerHTML derselben Markup-Elemente. Spätere textContent-Fehlertexte (7749) ändern die Sicherung nicht."
+  },
+  {
    "datei": "vivodepot.html",
    "funktion": "hilfeOeffnen",
    "zeile": 8512,

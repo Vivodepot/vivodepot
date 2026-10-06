@@ -36,7 +36,8 @@ Account, keine Anmeldung. Die Anwendung selbst sendet keine Daten an einen Serve
   bis sie geprüft ist (`tests/html-senken-grundlinie.test.js`).
 - Im eigenen Code kommt kein `fetch`, kein `XMLHttpRequest`, kein `WebSocket`, kein
   `navigator.sendBeacon`, kein `EventSource`, kein entferntes `import()` und kein
-  `<link rel="preconnect">` vor. Jede dieser acht Formen hat eine eigene Prüfung.
+  `<link rel="preconnect">` oder `dns-prefetch` vor, und der Code liest `navigator.connection`
+  (den Netzzustand) nicht. Für jede dieser acht Stellen gibt es eine eigene Prüfung.
 - Ein Playwright-Lauf zeichnet den echten Netzwerkverkehr über einen vollständigen Ablauf auf —
   Depot anlegen, füllen, PDF erzeugen, exportieren, wieder einlesen — und verlangt **null**
   externe HTTP/S-Requests und **null** WebSocket-Verbindungen.

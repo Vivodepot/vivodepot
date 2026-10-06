@@ -601,6 +601,43 @@ function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInha
 }
 /* ==PRODUKT_TEXT_ERZEUGEN:END== */
 
+/* ── Schriften des Erscheinungsbilds beim Bauen (v896) — AUSSERHALB des gepinnten Abschnitts ─────────────────────────────
+   Bewusst nicht in _erscheinungsbildVorBacken: der Abschnitt oben ist byte-gleich ans Schwesterrepo gepinnt. Aufgerufen von
+   tools/produkt-konfektionieren.js (konfektionieren) und tests/produkt-test-backen.js, VOR produktTextErzeugen.
+   Dieselbe Prüfung wie der Kern (aus dem Kerntext, kein Spiegel, tools/lib/schriften-pruefen.js), dazu die Bau-Pflicht der
+   Entscheidung (Produktentscheidung 02.10.2026: „die Template-Schrift ist der feste Rückfall“): JEDE Erscheinungsbild-Zutat trägt
+   eine PDF-Schrift — TTF, fsType ohne Bit 1/8/9, Deckung von R.pdfPflicht —, sonst baut das Produkt nicht. Ein Kern vor v896
+   kennt den Abschnitt nicht; dann ist hier nichts zu prüfen. */
+function pdfPflichtMenge(R) {
+  const p = R.pdfPflicht || { bereiche: [], luecken: [], einzeln: [] };
+  const aus = [];
+  for (const [a, b] of p.bereiche) for (let cp = a; cp <= b; cp++) if (!p.luecken.includes(cp)) aus.push(cp);
+  return aus.concat(p.einzeln);
+}
+function erscheinungsbildSchriftenVorBacken(kernText, unsignierteModule, datei = 'vivodepot.html') {
+  if (!kernText.includes('function _ebSchriftenFormPruefen(')) return;
+  const modul = (unsignierteModule || []).map((m) => m.roh).find((r) => r && r.modulTyp === 'erscheinungsbild');
+  if (!modul) return;
+  const { schriftenPrueferAusKern } = require('./schriften-pruefen.js');
+  const R = erscheinungsbildRegelnLesen(kernText);
+  const sp = schriftenPrueferAusKern(kernText);
+  const funde = modul.schriften !== undefined ? sp._ebSchriftenPruefen(modul.schriften, R).map((f) => (f.schluessel === null ? '-' : f.schluessel) + ': ' + f.grund) : [];
+  const pdf = Array.isArray(modul.schriften) ? modul.schriften.filter((s) => s && s.pdf === true && s.stil === 'normal') : [];
+  if (!pdf.length) funde.push('pdf-schrift-fehlt: das Erscheinungsbild „' + modul.id + '“ trägt keine PDF-Schrift (TTF, pdf: true, stil normal)');
+  /* Rückfallkette (U2-ADR-473 W4): Stufe 2 ist die Ab-Werk-Inter. Jedes Erscheinungsbild trägt sie, auch eines mit eigener
+     Profilschrift — sonst fiele ein Dokument mit einem Zeichen, das die Profilschrift nicht hat, gleich auf „kein PDF“. */
+  else if (!pdf.some((s) => s.familie === 'Inter')) funde.push('pdf-inter-fehlt: das Erscheinungsbild „' + modul.id + '“ trägt keine Ab-Werk-Inter als PDF-Schrift (Rückfallstufe 2)');
+  for (const s of pdf) {
+    const b = sp._ebB64Bytes(s.ttf);
+    const t = b && sp._ebTtfTabellen(b);
+    const cmap = t && sp._ebTtfCmap(t, b);
+    if (!cmap) continue;
+    const fehlt = pdfPflichtMenge(R).filter((cp) => !cmap.has(cp));
+    if (fehlt.length) funde.push(s.familie + ' ' + s.gewicht + ': pdf-deckung (' + fehlt.length + ' Zeichen, z. B. U+' + fehlt[0].toString(16).toUpperCase().padStart(4, '0') + ')');
+  }
+  if (funde.length) throw new Error('Erscheinungsbild ' + (modul.id || '?') + ' (' + datei + '): Schriften verletzen die Regeln des Kerns:\n  ' + funde.join('\n  '));
+}
+
 module.exports = {
   AB_WERK_REGIONEN, _regionSpanne, _regionLinksseite, _regionIstReineNutzlast, _regionNutzlastSetzen,
   _unsigniertesModulKlassifizieren, _abWerkModuleAufText,
@@ -608,5 +645,5 @@ module.exports = {
   SERVICE_WORKER_MARKER_BEGIN, SERVICE_WORKER_MARKER_ENDE, _serviceWorkerVorhandenSpanne, _serviceWorkerVorhandenAufText,
   produktTextErzeugen, ENTWICKLERLEISTE_MARKEN, _entwicklerleisteSchneiden,
   HERKUNFTSORT_BLOCK_ANFANG, HERKUNFTSORT_BLOCK_ENDE, herkunftsortBlockFinden, herkunftsortAngabenLesen, herkunftsortRezeptPruefen,
-  erscheinungsbildRegelnLesen, _erscheinungsbildPruefen, _erscheinungsbildVorBacken, _ebStilPruefen,
+  erscheinungsbildRegelnLesen, _erscheinungsbildPruefen, _erscheinungsbildVorBacken, _ebStilPruefen, erscheinungsbildSchriftenVorBacken, pdfPflichtMenge,
 };

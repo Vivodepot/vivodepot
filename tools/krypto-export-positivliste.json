@@ -15,6 +15,14 @@
       "grund": "Der Export dient nur dazu, x zu lesen; d wird sofort verworfen, weiter geht allein der öffentliche Teil." },
     { "datei": "vivodepot-schluessel-teilen.html", "funktion": "schluesselZusammensetzen", "regel": "jwkMitD",
       "grund": "Zweck der Zeremonie: der Anker wird aus den Anteilen zusammengesetzt. Das JWK verlässt das Werkzeug nur als passwortgeschützte .vdkey-Datei und lebt bis zu diesem einen Gebrauch, längstens bis zum Zeitlimit oder Verlassen der Seite." },
+    { "datei": "vivodepot-studio.html", "funktion": "erzeugeSchluesselpaarRoh", "regel": "generateKey",
+      "grund": "Der Ed25519-Signierschlüssel muss genau einmal herausgeholt werden: für die passwortverschlüsselte Schlüsseldatei (.vdkey). Im Speicher hält der Tresor danach nur einen nicht herausholbaren CryptoKey (SCHLUESSEL_TRESOR)." },
+    { "datei": "vivodepot-studio.html", "funktion": "erzeugeSchluesselpaarRoh", "regel": "exportKey",
+      "grund": "Der eine Export des Signierschlüssels: das JWK geht direkt in schuetzeSchluesselJwk (Datei .vdkey) und in halteAusJwk (nicht herausholbar); danach hält niemand das JWK. Probe: tests/generator-schluessel-tresor.test.js." },
+    { "datei": "vivodepot-studio.html", "funktion": "erzeugeEmpfangsSchluesselpaar", "regel": "generateKey",
+      "grund": "Der ECDH-Empfangsschlüssel muss genau einmal herausgeholt werden: für die passwortverschlüsselte Schlüsseldatei (.empfang.vdkey), mit der die Institution Antworten öffnet. Im Speicher hält EMPFANGS_TRESOR nur einen nicht herausholbaren CryptoKey." },
+    { "datei": "vivodepot-studio.html", "funktion": "erzeugeEmpfangsSchluesselpaar", "regel": "exportKey",
+      "grund": "Der eine Export des Empfangsschlüssels: das JWK geht direkt in schuetzeSchluesselJwk und in einen nicht herausholbaren Import; danach hält niemand das JWK. Probe: tests/generator-empfangs-schluessel.test.js." },
     { "datei": "vivodepot.html", "funktion": "antwortJwePasswort", "regel": "generateKey",
       "grund": "JWE PBES2: wrapKey('raw', cek, …) verlangt einen herausholbaren Inhaltsschlüssel. Er ist flüchtig, verlässt die Funktion nur eingewickelt (AES-KW) und wird nie im Klartext exportiert." }
   ]

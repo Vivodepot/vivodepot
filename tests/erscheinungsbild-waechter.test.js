@@ -44,9 +44,12 @@ test('[Erscheinungsbild·Ratsche·Rot-Beweis] eine neue Modus-Regel ist rot; ein
 });
 
 test('[Erscheinungsbild·Ratsche·Rot-Beweis] ab dem Stand leerBis ist jede verbliebene Stelle rot', () => {
+  // Seit W4 ist die Liste leer (die Schriften sind im Modul) — die Stelle wird darum eingeschmuggelt, statt auf eine verbliebene zu bauen.
   // Die Schwelle kommt aus der Grundlinie (leerBis), nicht aus dem Test: am 04.10.2026 einmalig von v899 auf v919 verschoben.
   const leer = GRUNDLINIE.leerBis;
-  const amStand = KERN.replace(/const SCHALEN_STAND = 'v\d+'/, `const SCHALEN_STAND = '${leer}'`);
+  const mitStelle = KERN.replace('<style id="design-system">\n', '<style id="design-system">\n  @font-face { font-family: "Probe"; font-weight: 400; src: url("data:font/woff2;base64,d09GMg=="); }\n');
+  assert.notEqual(mitStelle, KERN, 'Vorbedingung: Anker für die eingeschmuggelte Stelle');
+  const amStand = mitStelle.replace(/const SCHALEN_STAND = 'v\d+'/, `const SCHALEN_STAND = '${leer}'`);
   assert.equal(W.schalenStand(amStand), Number(leer.slice(1)));
   assert.ok(W.pruefen({ html: amStand, grundlinie: GRUNDLINIE }).fehler.some((f) => f.includes('≥ ' + leer)));
 });

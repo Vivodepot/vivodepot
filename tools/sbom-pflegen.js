@@ -125,20 +125,20 @@ function hashesVonBuffer(buf) {
   ];
 }
 
-/* ── font-inter: die vier @font-face-Blöcke, decodiert, gehasht ──────────── */
-function fontInterHashesUndDateien(html) {
-  const start = html.indexOf('@font-face {');
-  const ende = html.indexOf(':root {', start);
-  if (start < 0 || ende < 0) throw new Error('font-face-Region nicht gefunden.');
-  const region = html.slice(start, ende);
-  const treffer = [...region.matchAll(/data:font\/woff2;base64,([A-Za-z0-9+/=]+)"/g)];
-  if (treffer.length !== 4) throw new Error(`Erwartet vier @font-face-Blöcke, gefunden: ${treffer.length}.`);
+/* ── font-inter: die vier Bildschirm-Schnitte, gehasht ──────────────────────
+   Seit v896 nicht mehr als @font-face im Gerüst, sondern als Dateien des Erscheinungsbilds
+   (tools/erscheinung/schriften/Inter-*.woff2), die jedes Produkt im Modul mitbekommt. Gehasht
+   werden dieselben Bytes wie bis v895 — die Komponente bleibt gleich. `html` wird nicht mehr
+   gebraucht; der Parameter bleibt, damit die Aufrufer unverändert bleiben. */
+function fontInterHashesUndDateien(html) {   // eslint-disable-line no-unused-vars
+  const ordner = path.join(REPO, 'tools', 'erscheinung', 'schriften');
   const NAMEN = ['InterDisplay-Regular.woff2 (weight 400)', 'Inter-Medium.woff2 (weight 500)',
     'Inter-SemiBold.woff2 (weight 600)', 'Inter-Bold.woff2 (weight 700)'];
   const alleHashes = [];
-  for (const m of treffer) {
-    const buf = Buffer.from(m[1], 'base64');
-    alleHashes.push(...hashesVonBuffer(buf));
+  for (const w of [400, 500, 600, 700]) {
+    const datei = path.join(ordner, 'Inter-' + w + '.woff2');
+    if (!fs.existsSync(datei)) throw new Error('Schriftdatei fehlt: ' + path.relative(REPO, datei));
+    alleHashes.push(...hashesVonBuffer(fs.readFileSync(datei)));
   }
   return { hashes: alleHashes, dateinamen: NAMEN };
 }

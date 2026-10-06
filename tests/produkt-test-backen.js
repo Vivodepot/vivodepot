@@ -11,7 +11,7 @@ let _vorDepotFn = null;
 
 function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, ...modulOptionen } = {}) {
   const { PRODUKTE, modulDateienFuer } = require(path.join(REPO, 'tools', 'lib', 'vier-produkte.js'));
-  const { _unsigniertesModulKlassifizieren, produktTextErzeugen } = require(path.join(REPO, 'tools', 'lib', 'produkt-text-erzeugen.js'));
+  const { _unsigniertesModulKlassifizieren, produktTextErzeugen, erscheinungsbildSchriftenVorBacken } = require(path.join(REPO, 'tools', 'lib', 'produkt-text-erzeugen.js'));
   const { PRODUKT_DATEISATZ } = require(path.join(REPO, 'tools', 'produkt-konfektionieren.js'));
   const produkt = PRODUKTE.find((p) => p.slug === slug);
   if (!produkt) throw new Error('Test-Backen: unbekanntes Produkt „' + slug + '"');
@@ -23,6 +23,7 @@ function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, ...mo
   // es hier darum weg. Der Auslieferungsweg kennt diese Nachsicht nicht.
   if (!html.includes('/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN */')) module = module.filter((k) => k.region.modulTyp !== 'erscheinungsbild');
   if (!_vorDepotFn) _vorDepotFn = require(path.join(REPO, 'tests', 'load-issuer.js')).ladeIssuer().V.vorDepotKonfigurationDateiInhalt;
+  erscheinungsbildSchriftenVorBacken(html, module);   // v896 — wie konfektionieren, vor produktTextErzeugen
   return produktTextErzeugen(html, {
     modulauswahl: [],
     vorDepotKonfigurationInhaltFn: _vorDepotFn,

@@ -172,7 +172,7 @@ Siehe Abschnitt 3.2.
 
 ### 6.3 Passphrase-Stärke-Schätzung beim Erst-Setup
 
-Vivodepot prüft beim Master-Passwort-Setup die Länge (≥ 8 Zeichen) und berechnet einen einfachen Score (Zeichenklassen-Mix). Eine vollständige Offline-Stärke-Schätzung wie zxcvbn ist nicht eingebettet. Das ist ein strukturelles Restrisiko: Bürger können semantisch schwache Passwörter wählen (z. B. häufige Wörter), die der Score-Check nicht erkennt. Mitigation: Hinweis-Text beim Setup empfiehlt mind. 12 Zeichen mit Groß-/Kleinbuchstaben, Ziffern und Sonderzeichen. Eine zxcvbn-Integration ist für eine spätere Release-Iteration vorgesehen.
+Hart geprüft wird beim Setzen des Passworts nur die Mindestlänge von 8 Zeichen (`pwGrundFehler`). Die Stärke-Anzeige darunter ist ein Hinweis und blockiert nichts (`passwortStaerke`): Sie misst Länge (Stufen bei 8, 12 und 16 Zeichen) und Zeichenklassen und stuft eine kurze Liste verbreiteter Passwörter, reine Ziffernfolgen und ein wiederholtes einzelnes Zeichen immer als schwach ein. Ein aus sechs Listenwörtern vorgeschlagenes Passwort gilt als stark (U2-ADR-463). Eine Stärke-Schätzung wie zxcvbn ist nicht eingebettet. Das bleibt ein Restrisiko: Ein selbst gewähltes Passwort aus häufigen Wörtern, das nicht auf der Liste steht, erkennt die Anzeige nicht als schwach.
 
 ### 6.4 Standard-Template-Signierung
 
@@ -226,6 +226,11 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v919 | 2026-10-06 | privat-de | `08dece201af9269871d947e86cdaca25c2ce63b282111f7600553e6dbc470c03` |
+| v919 | 2026-10-06 | privat-en | `5e2df156697dc73cf5261c22bb38d3cd49a09bf71fb18cd3e5c0f15c2bf07caa` |
+| v919 | 2026-10-06 | pro-de | `207451cd622c350d65d2c75d765f47b443575312ee6852a2b9662d2a667e68de` |
+| v919 | 2026-10-06 | pro-en | `fe3e428de66b63e26e5d07ea52fff561e9faeb6a787fd7662a16263ec0befe75` |
+| v919 | 2026-10-06 | service-worker | `765c01f98504a7d1d32f347014d12026bf676c0640af7af4d9c1df983a1b5732` |
 | v918 | 2026-10-05 | privat-de | `21cdc5e02fb006b7b9ebb2af08a1191915b134d3ee2fe93491cb1b61d759c329` |
 | v918 | 2026-10-05 | privat-en | `30158d8c20ca157b1dcafea06b400b5702fd836018b3655639ce7656e4db99df` |
 | v918 | 2026-10-05 | pro-de | `be8c37737088c2fd66f404d7bde3241faef8c5ee5f8564ea85d91590de8a8f44` |

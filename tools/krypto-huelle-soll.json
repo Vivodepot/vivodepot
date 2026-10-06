@@ -4,61 +4,73 @@
   "schuetzeSchluesselJwk": [
    "vivodepot-vc-issuer.html",
    "vivodepot-schluessel-teilen.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_aadFuerSchluesselhuelle": [
    "vivodepot-vc-issuer.html",
    "vivodepot-schluessel-teilen.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "istGeschuetzteSchluesseldatei": [
    "vivodepot-vc-issuer.html",
    "vivodepot-schluessel-teilen.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "PROTECTED_KEY_MARKER_VERSION": [
    "vivodepot-vc-issuer.html",
    "vivodepot-schluessel-teilen.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "PROTECTED_KEY_VERSION_ALLOWLIST": [
    "vivodepot-vc-issuer.html",
    "vivodepot-schluessel-teilen.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "entschluesseleSchluesselJwk": [
    "vivodepot-vc-issuer.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_signJWS": [
    "vivodepot-vc-issuer.html",
    "vivodepot-lesen.html",
-   "vivodepot.html"
+   "vivodepot.html",
+   "vivodepot-studio.html"
   ],
   "_verifyJWS": [
    "vivodepot-vc-issuer.html",
    "vivodepot-lesen.html",
-   "vivodepot.html"
+   "vivodepot.html",
+   "vivodepot-studio.html"
   ],
   "_jwsImportSignKey": [
    "vivodepot-vc-issuer.html",
    "vivodepot-lesen.html",
-   "vivodepot.html"
+   "vivodepot.html",
+   "vivodepot-studio.html"
   ],
   "_jwsImportVerifyKey": [
    "vivodepot-vc-issuer.html",
    "vivodepot-lesen.html",
-   "vivodepot.html"
+   "vivodepot.html",
+   "vivodepot-studio.html"
   ],
   "_jwsAlgFuerKey": [
    "vivodepot-vc-issuer.html",
    "vivodepot-lesen.html",
-   "vivodepot.html"
+   "vivodepot.html",
+   "vivodepot-studio.html"
   ],
   "_jwsWebCryptoParams": [
    "vivodepot-vc-issuer.html",
    "vivodepot-lesen.html",
-   "vivodepot.html"
+   "vivodepot.html",
+   "vivodepot-studio.html"
   ],
   "jwkThumbprintRfc7638": [
    "vivodepot-vc-issuer.html",
@@ -101,38 +113,6 @@
    "vivodepot-lesen.html"
   ],
   "_blattSubject": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "antwortEntschluesselnSchluessel": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "antwortEntschluesselnPasswort": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "_angDeriveKey": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "_antwortEcdhImportPrivate": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "_antwortEcdhImportPublic": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "_antwortEcdhSchluessel": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "_antwortOeffnen": [
-   "vivodepot.html",
-   "vivodepot-lesen.html"
-  ],
-  "_antwortAad": [
    "vivodepot.html",
    "vivodepot-lesen.html"
   ],

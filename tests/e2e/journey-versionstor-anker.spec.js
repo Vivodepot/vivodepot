@@ -75,7 +75,16 @@ async function journey(page, url) {
   await page.click('#w-oeffnen');
   await page.waitForSelector('#app.an', { state: 'attached', timeout: 20000 });
 
-  await expect(page.locator('#neuere-fassung-hinweis'), 'der sichtbare Hinweis „nur lesen" fehlt').toBeVisible({ timeout: 15000 });
+  // Fehlt der Hinweis, nennt die Meldung den offenen Dialog und die letzten Dialogtitel (Befund VERSIONSTOR-HINWEIS-AIR-ROT:
+  // am 05.10.2026 auf dem Prüfrechner rot, ohne dass zu sehen war, was den Platz hielt).
+  const hinweisDa = await page.locator('#neuere-fassung-hinweis').waitFor({ state: 'visible', timeout: 15000 }).then(() => true).catch(() => false);
+  if (!hinweisDa) {
+    const lage = await page.evaluate(() => ({
+      offen: document.getElementById('modal-rueck').classList.contains('an') ? (document.getElementById('modal-titel') || {}).textContent : '(kein Dialog offen)',
+      spur: window.__vdOeffentlich._dialogSpur(),
+    }));
+    expect(hinweisDa, 'der sichtbare Hinweis „nur lesen" fehlt — offen: ' + lage.offen + ' · Spur: ' + JSON.stringify(lage.spur)).toBe(true);
+  }
   expect(await page.evaluate(() => window.__vdOeffentlich.ankerDaten().schemaVersion)).toBe(neuer);
   await page.click('#m-ok');
 

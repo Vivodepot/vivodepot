@@ -220,7 +220,7 @@ test('[Gerüst-Wächter] die Positivliste hängt an den Konstanten: sie führt a
 });
 
 test('[Gerüst-Wächter] jeder Fremdcode-Block trägt Herkunft und Erkennung namentlich, und der Grundlinie fehlt kein Eintrag', () => {
-  assert.ok(GRUNDLINIE.fremdcode.length >= 3);
+  assert.ok(GRUNDLINIE.fremdcode.length >= 2);   // jsPDF, qrcode — der Inter-Block ist mit v896 ins Erscheinungsbild-Modul gezogen
   for (const r of GRUNDLINIE.fremdcode) {
     assert.ok(r.name && r.herkunft && r.herkunft.length >= 30, r.name + ': Herkunft');
     assert.ok(r.erkennung && (r.erkennung.scriptId || r.erkennung.lizenzKopf), r.name + ': Erkennung über id oder Lizenzkopf, nie über Zeichenketten');

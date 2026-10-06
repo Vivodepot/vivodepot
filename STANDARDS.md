@@ -143,11 +143,11 @@ selbst auftaucht.
 
 ## Verwaltung, Bildung und Meldewesen — Verwaltungs-Stammdaten, FIM, Bildungsangaben, EDC (extern), ELSTER, xMeld
 
-Sechs Kanäle, alle **ohne mechanisch nachweisbaren Versions-/Profil-Marker eines Standards im jeweiligen
-Erzeuger-Quelltext** — das ist eine Lücke der Faktenbasis, keine Aussage, dass die
-Formate falsch wären. Wer die genaue FIM-Schema-Version braucht, muss sie an der
-Quelle (Code-Kommentar, externe Spezifikation) nachschlagen; dieses Dokument behauptet sie nicht,
-weil der Code selbst sie an dieser Stelle nicht trägt.
+Sechs Kanäle. Keiner trägt einen **mechanisch nachweisbaren Versions- oder Profil-Marker eines Standards im
+Erzeuger-Quelltext**; das ist eine Lücke der Faktenbasis, keine Aussage, dass die Formate falsch wären.
+Der Export `fim-json` nennt seinen Bezug (den Baukasten mit einem Stand-Datum und die Codeliste des
+Freigabestatus), aber keine FIM-Schema-Version; je Feld nennt er Kennung, Fassung und Freigabestatus des Datenfelds.
+Eine Schema-Version behauptet dieses Dokument darum nicht.
 
 | Kanal | Export | Import | Sektor |
 |---|---|---|---|
@@ -197,7 +197,7 @@ und `VivodepotProviderCredential`.
 ## Interner Versionsstand
 
 <!-- STANDZAHLEN:BEGIN — erzeugt von tools/build-standzahlen.js; Quelle: vivodepot.html -->
-Schema-Version 92, `SCHALEN_STAND` v918.
+Schema-Version 92, `SCHALEN_STAND` v919.
 <!-- STANDZAHLEN:END -->
 
 ---

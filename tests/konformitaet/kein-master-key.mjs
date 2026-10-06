@@ -35,15 +35,15 @@
  *
  *   Punkt 2 (kein zweites persistiertes Schlüsselmaterial) → der
  *   Vertrauensperson-Auszug (U2-ADR-062, `_angDeriveKey`/
- *   `angehoerigenCache`) IST persistiertes, passwortabgeleitetes
+ *   `angehoerigenCache`; beide seit 05.10.2026 nicht mehr im Kern) IST persistiertes, passwortabgeleitetes
  *   Schlüsselmaterial — von der Bürgerin selbst im Owner-Setup eingerichtet
  *   (`flowVertrauenspersonEinrichten`), physisch hinterlegt, nicht durch
  *   Vivodepot. Er bleibt außerhalb dieser Probe: er sperrt laut ADR-062
  *   ausdrücklich „nie das volle Depot, nie den Master-Schlüssel" auf, ist
  *   Allowlist-only und trägt einen eigenen Master-Leak-Test
  *   (`tests/angehoerigen-blaetter-zuschnitt.test.js`). [G12-Einziger-Setzer] prüft
- *   diese Grenze mit — sie schließt _angDeriveKey und alle drei
- *   Vertrauensperson-Flows ein, nicht nur den Anker-Pfad.
+ *   diese Grenze mit — sie schloss _angDeriveKey (bis 05.10.2026 im Kern) und
+ *   alle drei Vertrauensperson-Flows ein, nicht nur den Anker-Pfad.
  *
  * Ausführen: node --test tests/konformitaet/kein-master-key.mjs
  */
@@ -101,8 +101,8 @@ describe('U2-ADR-097 §3: kein Master-Key (G12)', () => {
     assert.ok(bodySetup, 'setupMasterSession() nicht gefunden — die Analyse ist veraltet.');
     assert.match(bodySetup, /sessionHkdfKey\s*=\s*await\s+importMasterHkdfKey\s*\(/,
       'setupMasterSession() setzt sessionHkdfKey nicht mehr aus importMasterHkdfKey() — die Probe wäre sonst vakuum-grün.');
-    // Der REST des eigenen Codes (inkl. aller drei Vertrauensperson-Flows,
-    // _angDeriveKey und jeder anderen Funktion) darf sessionHkdfKey nur auf
+    // Der REST des eigenen Codes (inkl. aller drei Vertrauensperson-Flows
+    // und jeder anderen Funktion) darf sessionHkdfKey nur auf
     // `null` setzen, nie auf einen Wert — das ist zugleich der Beleg für die
     // U2-ADR-062-Grenze (SP-Auflage Punkt 2): der Vertrauens-Auszug berührt
     // dieses Feld nicht.

@@ -53,10 +53,14 @@ einzige Schranke, und genau darum muss sie bewacht sein.
 Passwort die Datei als Inhaberin, weil der Anker auf Platz 0 zuerst versucht wird. Das ist keine Frage der Schlüsselableitung.
 Ob die Oberfläche beim Einrichten davor warnt, ist eine Produktfrage und liegt außerhalb dieses Nachtrags.
 
-**Eingangsweg Import.** Ein Vollimport (Format `json`) übernimmt die Empfängerkreise einer Quelldatei samt Fach-Material.
-Gemessen am 05.10.2026: Ein so übernommenes Fach öffnet am Ziel nicht, weil Tür und AAD an die neue `depotUUID` gebunden sind.
-Für die Trennung der Tür vom Anker ändert das nichts. Dass der Import das Material überhaupt übernimmt, ist ein eigener Befund
-und wird in einem eigenen Schnitt geschlossen; der Abschnitt wird dann nachgezogen.
+**Eingangsweg Import.** Ein Vollimport (Format `json`) übernimmt die Empfängerkreise einer Quelldatei, aber kein Fach-Material:
+`importAnwenden` entfernt aus jedem Kreis `kdfSalt`, `tuerSalt`, `fachSchluessel`, `fachKeyRoh` und `fachSeit`
+(`_FACH_MATERIAL_FELDER`), und eine Meldung nennt die Kreise, deren Fach neu einzurichten ist. Jedes neu eingerichtete Fach
+bekommt damit ein frisches `kdfSalt` im Zieldepot; die Bedingung oben gilt auch nach einem Import. Als Tiefenverteidigung hält
+`fachDepotUUID` beim Einrichten die UUID fest, an die die AAD der Tür gebunden ist; ein Fach mit fremder UUID gilt als verwaist,
+der Schreibweg lässt es aus. Fächer ohne Marke stammen aus der Zeit davor und gelten unverändert. Bis v917 übernahm der Import
+das Material (Befund FACH-IMPORT-MATERIAL-UEBERNOMMEN, geschlossen ab v918). Weg zum Nachsehen:
+`grep -n "_FACH_MATERIAL_FELDER\|fachDepotUUID" vivodepot.html`, Probe `tests/fach-import-material.test.js`.
 
 ## Was der Zugang einer Vertrauensperson freigibt
 

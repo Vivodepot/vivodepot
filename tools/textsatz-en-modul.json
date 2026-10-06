@@ -3038,6 +3038,7 @@
     "strings:exportUnstimmigTrotzdem.text": "Create anyway",
     "strings:pdfSchriftDeckungTitel.text": "PDF not created",
     "strings:pdfSchriftDeckungHinweis.text": "The embedded font cannot display these characters. To avoid producing incorrect text, the PDF file was not created:",
+    "strings:pdfOhneSchriftHinweis.text": "No verified font is available for the PDF file. To avoid producing incorrect text, no PDF file was created. You can hand over your information as a file instead.",
     "strings:pdfSchriftDeckungFeldUnbekannt.text": "(field unknown)",
     "strings:pdfSchriftDeckungFeldTitel.text": "Title",
     "strings:exportFormatOhneZielHinweis.text": "This format cannot represent this detail.",

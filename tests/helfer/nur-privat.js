@@ -28,7 +28,10 @@ const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 53;   // 52 → 53 am 04.10.2026 (Gegenlesung erteilt): altkern-referenz liest das interne Fassungsregister (v894).
+const DECKEL = 55;   // 53 → 55 am 05.10.2026 (Gegenlesung erteilt, Befund ZUSCHNITT-TESTS-GIT-GESCHICHTE): huelle-auffuellen-stand-marke und
+                     //   pruefe-standards-echt-gate lesen die private Geschichte (GIT), gefunden von zuschnitt-tests-messen am Studio-Wagen;
+                     //   adr-commit-hashes-waechter und faktenbasis-erzeugen standen schon hier, dort kam nur der Testname dazu.
+                     // 52 → 53 am 04.10.2026 (Gegenlesung erteilt): altkern-referenz liest das interne Fassungsregister (v894).
                      // 40 → 41 am 25.09.2026: ZUSCHNITT-Fall, gefunden in der Vorprobe des öffentlichen Stands
                      // 42 → 43 am 26.09.2026: build-datum-lockstep, öffentlich ein einziger Commit vom Tag der Veröffentlichung
                      // 43 → 44 am 26.09.2026: hooks-eigener-baum-suite, öffentlich ohne eingerichtete Hooks (GIT)
@@ -94,6 +97,8 @@ const NUR_PRIVAT = {
   ] },
   "tests/adr-commit-hashes-waechter.test.js": { grund: BESTAND, tests: [
     "[ADR-Hash-Wächter] die echten ADR-Dateien tragen heute keine tote Commit-Hash-Referenz",
+    // 05.10.2026 (Gegenlesung erteilt): liest den Betreff der veröffentlichten Gegenstücke per git log (GIT).
+    ["[ADR-Hash-Wächter·nicht veröffentlicht] jede benannte Ausnahme hat ein veröffentlichtes Gegenstück mit gleichem Betreff", GIT],
   ] },
   "tests/adr-konformitaet-pruefen.test.js": { grund: BESTAND, tests: [
     "[Konformitäts-Wächter] pruefung auf eine WIRKLICH existierende Probe ist GRÜN (Positivkontrolle)",
@@ -167,7 +172,8 @@ const NUR_PRIVAT = {
   "tests/faktenbasis-erzeugen.test.js": { grund: GIT, tests: [
     ["[ADR-Register] doppelt vergebene Nummern (Nachtrag-Dateien) bleiben als zwei Einträge erhalten", BESTAND],
     "[Rot⇄Grün] nach Wiederherstellung der echten Datei stimmt --check wieder überein",
-    "[Faktenbasis·Commit] ein gelandeter Commit steht nackt, ein ungepushter trägt seinen Vermerk",
+    // 05.10.2026 (Gegenlesung erteilt): der Test wurde umbenannt, der alte Name lief ins Leere; jetzt hält testMitPrivat jeden Namen.
+    "[Faktenbasis·Commit] nur ein von origin/u2-kanon erreichbarer Commit wird gestempelt (Stand Kanon), ein loser nicht",
   ] },
   "tests/faktenbasis-ohne-suite.test.js": { grund: BESTAND, tests: [
     "[Gegenprobe] --ohne-suite gegen eine unveränderte Datei bleibt --check-grün",
@@ -191,7 +197,14 @@ const NUR_PRIVAT = {
   "tests/hooks-laufen-wirklich.test.js": { grund: BESTAND, tests: [
     "[Hooks] core.hooksPath zeigt ins eigene Arbeitsverzeichnis, und die Hooks sind die versionierten",
   ] },
-  "tests/invarianten-register.test.js": { grund: BESTAND, tests: [
+  // 05.10.2026 (Gegenlesung erteilt): die Rot-Beweise holen den Kern der Fassungen v857, v818 und v843 per git log/show
+  // aus origin/u2-kanon (GIT). Die übrigen Proben der Datei laufen öffentlich.
+  "tests/huelle-auffuellen-stand-marke.test.js": { grund: GIT, tests: [
+    "[Auffüllen] eine kleine Änderung ändert keine Länge — Rot-Beweis am Stand davor",
+    "[Ältere Fassung·v818] öffnet die neue Datei (aufgefüllt, ohne Zeitpunkt) fehlerfrei — und was ihr Konfliktvergleich tut",
+    "[Ältere Fassung·v843] öffnet die neue Datei (aufgefüllt, ohne Zeitpunkt) fehlerfrei — und was ihr Konfliktvergleich tut",
+  ] },
+    "tests/invarianten-register.test.js": { grund: BESTAND, tests: [
     "[Invarianten-Register] das echte Register ist stimmig: Proben geöffnet und auffindbar, Grundlinie exakt",
     "[Invarianten-Register·CLI] ohne Argument: Exit 0 und die ungemessene Hälfte steht in der Ausgabe",
   ] },
@@ -216,7 +229,13 @@ const NUR_PRIVAT = {
   "tests/modul-app-signieren-und-packen.test.js": { grund: BESTAND, tests: [
     "[Merkdatei] die echte MERKDATEI ist gitignored",
   ] },
-  "tests/pro-struktur-wie-privat.test.js": { grund: GIT, tests: [
+  // 05.10.2026 (Gegenlesung erteilt): `git rev-parse <commit>^` am letzten Commit von itb-shacl.mjs. Öffentlich grün nur, wenn die
+  // Datei nach dem ersten Veröffentlichungs-Commit noch einmal geändert wurde; das hängt von der öffentlichen Geschichte ab
+  // (überholt den Beschluss vom 01.10.2026, der den Test draußen ließ).
+  "tests/pruefe-standards-echt-gate.test.js": { grund: GIT, tests: [
+    "[Standards-echt-Gate·Werkzeug fehlt] ohne Werkzeug: eigener Exit und „KEIN roter Prüfbefund\" — am echten Skript, über einen Bereich mit Anlass",
+  ] },
+    "tests/pro-struktur-wie-privat.test.js": { grund: GIT, tests: [
     "[B1·Tabelle] die Tabelle ist frisch aus ihren Quellen erzeugt und reist in der eingebackenen Region mit",
   ] },
   "tests/pruefstand-bindung.test.js": { grund: BESTAND, tests: [
@@ -263,11 +282,29 @@ function istOeffentlich(repo = REPO) {
   return !fs.existsSync(path.join(repo, MARKE));
 }
 
-function testMitPrivat(datei, { repo = REPO, nodeTest = require('node:test').test } = {}) {
+/* Jeder gelistete Name muss als Test angemeldet werden (05.10.2026, Befund ZUSCHNITT-TESTS-GIT-GESCHICHTE). Ein umbenannter
+   Test fiel sonst still aus der Liste: faktenbasis-erzeugen trug einen Namen, den es nicht mehr gab, und der neue Test lief
+   öffentlich rot. Geprüft wird am Ende der Datei, nachdem alle Tests angemeldet sind, auch zusammengesetzte Namen. */
+function nichtAngemeldet(eintrag, gesehen) {
+  return ((eintrag && eintrag.tests) || []).map((t) => (Array.isArray(t) ? t[0] : t)).filter((n) => !gesehen.has(n));
+}
+
+function testMitPrivat(datei, { repo = REPO, nodeTest, nachher } = {}) {
+  // Mit eingespeistem nodeTest (Proben am Helfer selbst) prüft nur, wer `nachher` ausdrücklich mitgibt.
+  if (nachher === undefined) nachher = nodeTest ? null : require('node:test').after;
+  if (!nodeTest) nodeTest = require('node:test').test;
   const rel = path.relative(repo, datei).split(path.sep).join('/');
   const eintrag = NUR_PRIVAT[rel];
   const oeffentlich = istOeffentlich(repo);
+  const gesehen = new Set();
+  if (eintrag && nachher) {
+    nachher(() => {
+      const fehlt = nichtAngemeldet(eintrag, gesehen);
+      if (fehlt.length) throw new Error('tests/helfer/nur-privat.js nennt für ' + rel + ' Tests, die es nicht gibt (umbenannt?): ' + fehlt.join(' | '));
+    });
+  }
   const huelle = (name, ...rest) => {
+    gesehen.add(name);
     // Ein Test steht als Name (Grund des Eintrags) oder als [Name, Grund], wenn er einen eigenen Grund hat.
     const treffer = eintrag && eintrag.tests.find((t) => (Array.isArray(t) ? t[0] : t) === name);
     if (treffer && oeffentlich) {
@@ -280,4 +317,4 @@ function testMitPrivat(datei, { repo = REPO, nodeTest = require('node:test').tes
   return Object.assign(huelle, nodeTest);
 }
 
-module.exports = { testMitPrivat, istOeffentlich, NUR_PRIVAT, DECKEL, MARKE, GIT, BESTAND, ZUSCHNITT };
+module.exports = { testMitPrivat, nichtAngemeldet, istOeffentlich, NUR_PRIVAT, DECKEL, MARKE, GIT, BESTAND, ZUSCHNITT };

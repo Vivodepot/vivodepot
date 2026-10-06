@@ -18,9 +18,18 @@ function echtesJsPdf() {
   fenster.window = fenster; fenster.self = fenster; fenster.globalThis = fenster;
   vm.runInNewContext(lib, fenster, { filename: 'jspdf(eingebettet)' });
   if (!fenster.jspdf || !fenster.jspdf.jsPDF) throw new Error('jsPDF hat sich nicht angemeldet');
-  // Die eingebetteten Schriften (Inter) hängen sich per Ereignis an dieselbe jsPDF-Instanz — im selben Kontext laden.
-  const schriften = bloecke.find((b) => /PDF-INTER-B64:BEGIN/.test(b.slice(0, 200)));
-  if (schriften) vm.runInContext(schriften, fenster, { filename: 'pdf-inter(eingebettet)' });
+  // Die PDF-Schriften (v896): sie kommen aus dem Erscheinungsbild des GEBACKENEN Produkts und hängen sich im Block
+  // „pdf-schriften-registrieren“ per Ereignis an dieselbe jsPDF-Instanz. Darum hier, im selben Kontext: erst das Kopf-Skript
+  // des gebackenen Kerns (ERSCHEINUNGSBILD; ohne document wendet es nichts an), dann der Registrier-Block. Bis v895 lag die
+  // Inter als eigener vendorter Block im Gerüst.
+  const { testProduktText } = require('./produkt-test-backen.js');
+  const produkt = testProduktText(html, { slug: 'privat-de' });
+  const kopf = /<script id="erscheinungsbild">([\s\S]*?)<\/script>/.exec(produkt);
+  const registrieren = /<script id="pdf-schriften-registrieren">([\s\S]*?)<\/script>/.exec(produkt);
+  if (kopf && registrieren) {
+    vm.runInContext(kopf[1], fenster, { filename: 'erscheinungsbild(gebacken)' });
+    vm.runInContext(registrieren[1], fenster, { filename: 'pdf-schriften-registrieren' });
+  }
   // Der QR-Generator (eigener Skriptblock) — der Widerrufs-Beleg und die Notfallkarte zeichnen ihn ein.
   const qrBlock = bloecke.find((b) => /QR Code Generator/.test(b.slice(0, 300)));
   if (qrBlock) { vm.runInContext(qrBlock, fenster, { filename: 'qrcode(eingebettet)' }); _qr = fenster.qrcode || null; }

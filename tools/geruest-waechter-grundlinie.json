@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 254566
+   "bytes": 255129
   },
   "satz": {
-   "bytes": 28997
+   "bytes": 28892
   }
  },
  "fremdcode": [
@@ -153,15 +153,6 @@
     "scriptId": "qrcode_VivodepotInline"
    },
    "bytes": 1354
-  },
-  {
-   "name": "inter",
-   "herkunft": "Inter (Schrift) als Base64 zwischen PDF-INTER-B64:BEGIN/END, eingebettet als eigener Skriptblock; nur die Restzeichenketten außerhalb der Region zählen hier",
-   "version": "ohne Versionsangabe",
-   "erkennung": {
-    "scriptId": "inter_pdf_font_VivodepotInline"
-   },
-   "bytes": 143
   },
   {
    "name": "noble-ed25519",
@@ -1084,6 +1075,28 @@
    "laengste": {
     "einzel": 0,
     "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 254566,
+   "auf": 255443,
+   "daneben": {},
+   "grund": "U2-ADR-473 W4: Schriften aus dem Gerüst ins Erscheinungsbild — Schriftprüfung im Kern, Rückfallkette der PDF-Schrift, Registrier-Block; fremdcode inter entfällt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 255443,
+   "auf": 255451,
+   "daneben": {},
+   "grund": "Einmal-Dialoge in Reihe: Schlüssel der Reihe und Spur-Kennungen (Befund VERSIONSTOR-HINWEIS-AIR-ROT)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
    }
   }
  ],

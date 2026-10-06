@@ -131,9 +131,9 @@
      wie das Banner selbst direkt daneben (behoben seit dem A11y-Fund vom 12.08.2026). */
   html.dark-mode .vorschau-banner .btn { color: var(--salbei-nacht); }
   /* Inter-Body in Hochkontrast & Nacht kraeftiger (400 -> 500) fuer Lesbarkeit auf
-     kontraststarkem/dunklem Grund. Nur Inter; Georgia bleibt in allen Themes unveraendert. */
+     kontraststarkem/dunklem Grund. Nur Inter; die Erzählschrift (--font-narrativ, seit 03.10.2026 ebenfalls Inter) bleibt bei 400. */
   html.high-contrast body, html.dark-mode body { font-weight: var(--fw-medium); }
-  /* Georgia-Elemente ohne eigenes Gewicht gegen die 500-Vererbung schuetzen -> bleiben 400. */
+  /* Elemente der Erzählschrift ohne eigenes Gewicht gegen die 500-Vererbung schuetzen -> bleiben 400. */
   html.high-contrast .narrativ, html.high-contrast .logo, html.high-contrast .sektor-intro,
   html.high-contrast .leer-platzhalter, html.high-contrast .deckblatt-name, html.high-contrast .wizard-frage,
   html.dark-mode .narrativ, html.dark-mode .logo, html.dark-mode .sektor-intro,

@@ -26,7 +26,7 @@ Vivodepot wird als EUPL-1.2-lizenziertes Werk gemäß Art. 5 EUPL unter Mitgabe 
 `https://github.com/rsms/inter` — Volltext siehe `OFL.txt`
 Quelle der Schnitte seit 23.09.2026: Release v4.1, `Inter-4.1.zip` (SHA-256 `9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e`),
 `InterVariable.ttf` und `InterVariable-Italic.ttf`, „Version 4.001;git-9221beed3"; die vorigen Schnitte stammten aus git-66647c0bb.
-Rezept: `tools/build-pdf-inter-einbetten.js`.
+Rezept, Herkunft und Prüfsummen: `tools/schrift-pdf-quellen/README.md`. Seit v896 reisen die Schnitte im Erscheinungsbild-Modul (`schriften[]`, `pdf: true`).
 
 **Probe-Schrift (nur Test-Fixture, wird nicht ausgeliefert)** — `tests/fixtures/pdf-schrift-probe-klein.ttf`, abgeleitet aus Inter 4.1
 (dieselbe Quelle wie oben), Regular-Instanz auf U+0020–U+007E und U+00A0 zugeschnitten, Versalhöhe (OS/2 sCapHeight) von 1490

@@ -7,7 +7,7 @@
    keine Datei, die es nicht gibt").
 
    _SUBDEPOT_PALETTE_HEX existiert, weil jsPDF keine CSS-Variablen kennt — die
-   PDF-Farb-Übersteuerung (_pdfSubAkzentPrimaerRgb, tests/pdf-inter-einbetten.test.js)
+   PDF-Farb-Übersteuerung (_pdfSubAkzentPrimaerRgb)
    braucht echte #rrggbb-Werte. Ohne diesen Wächter könnte die JS-Konstante vom
    CSS-:root-Block abschreiben (Copy-Paste-Fehler) oder bei einer künftigen
    Palette-Änderung im CSS unbemerkt zurückbleiben.

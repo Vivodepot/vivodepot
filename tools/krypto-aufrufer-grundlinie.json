@@ -15,24 +15,24 @@
    "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)"
   },
   "exportKey": {
-   "anzahl": 2,
-   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)"
+   "anzahl": 1,
+   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
   },
   "decrypt": {
-   "anzahl": 1,
-   "grund": "Bestand vor dem Bau"
+   "anzahl": 0,
+   "grund": "Bestand vor dem Bau · 05.10.2026: 1 → 0 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
   },
   "encrypt": {
-   "anzahl": 5,
-   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcEinwickeln (byte-gleich zu wrapKey raw, das für HKDF nicht geht); Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)"
+   "anzahl": 4,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcEinwickeln (byte-gleich zu wrapKey raw, das für HKDF nicht geht); Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 5 → 4 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
   },
   "deriveBits": {
-   "anzahl": 2,
-   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)"
+   "anzahl": 1,
+   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
   },
   "importKeyRaw": {
-   "anzahl": 9,
-   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)"
+   "anzahl": 7,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 9 → 7 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
   },
   "halterOeffentlichAusSeed": {
    "anzahl": 1,

@@ -5,7 +5,7 @@
    lösen das Gate aus. Gegenprobe: eine Kern-Zeile anderswo und eine reine Dokument-Änderung lösen nichts aus, und ein
    Push ohne Diff läuft gar nicht erst — mit dem Datum des letzten gemessenen Laufs im Hinweis.
    ════════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // nur-privat: s. tests/helfer/nur-privat.js
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const { execFileSync, spawnSync } = require('node:child_process');

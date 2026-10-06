@@ -110,6 +110,19 @@ function extrahiereScripts(html) {
   return { script1: html.slice(o1e, c1), script2: html.slice(o2e, c2), bounds: [[o1e, c1], [o2e, c2]] };
 }
 
+/* Das Kopf-Skript <script id="erscheinungsbild"> (v894/v896): Region AB_WERK_ERSCHEINUNGSBILD_PRODUKT, Regeln, Prüfen, Anwenden.
+   Seit v896 trägt es auch die Schriften, aus denen die PDF-Schrift kommt — darum lädt ladeKern es mit, VOR Script 1 wie im Dokument.
+   Im DOM-Stub prüft es, wendet aber nichts an (erscheinungsbildAnwenden verlangt CSSOM). Fehlt das Skript (Kern vor v894), null. */
+function extrahiereErscheinungsbild(html) {
+  const OPEN = '<script id="erscheinungsbild">', CLOSE = '</script>';
+  const o = html.indexOf(OPEN);
+  if (o < 0) return null;
+  const oe = o + OPEN.length, c = html.indexOf(CLOSE, oe);
+  if (c < 0) return null;
+  return { kopf: html.slice(oe, c), bounds: [oe, c] };
+}
+const ERSCHEINUNGSBILD_REGION = /(\/\* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN \*\/\n)([\s\S]*?)(\/\* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:END \*\/)/;
+
 // Kanonischer Krypto-Block: Inhalt zwischen den Tags, ohne das eine führende
 // Zeilenende direkt hinter "<script>". Entspricht byte-genau dem Inhalt der
 // Zeilen 216–474 (== PORT-VERBATIM.js).
@@ -415,11 +428,9 @@ const EXPORT_HOOK = `
   // A378 (20.08.2026) — der Code-Fall: die Form einer Angabe reist mit
   codeSystemPruefen, _codeFormLesen,
   // Kette, Auftrag 8 (20.08.2026) — der verschlüsselte Rückweg
-  ANTWORT_FORMAT_ID, ANTWORT_FORMAT_VERSION, ANTWORT_VERFAHREN, ANTWORT_ECDH_KURVE, ANTWORT_HKDF_INFO,
-  _antwortAad, antwortVerschluesselnPasswort, antwortEntschluesselnPasswort,
-  antwortVerschluesselnSchluessel, antwortEntschluesselnSchluessel,
+  // Der Umschlag v1 (Schreiber, Öffner, AAD) ist seit 05.10.2026 aus dem Kern entfernt; nur die Lese-App öffnet ihn noch.
   antwortJweSchluessel: (typeof antwortJweSchluessel === 'function' ? antwortJweSchluessel : undefined), antwortJwePasswort: (typeof antwortJwePasswort === 'function' ? antwortJwePasswort : undefined), antwortJweKopf: (typeof antwortJweKopf === 'function' ? antwortJweKopf : undefined),
-  antwortVerschluesseln, istAntwortUmschlag,
+  antwortVerschluesseln,
   qrTeileZusammensetzen, anfrageAusTeilen, anfrageAusEingabe,
   _anfrageAntwortAusgeben, _anfrageAntwortSchreiben,
   modulFassungEntscheiden, _vorlageAbgelaufen, _vorlageDokAusgabe,
@@ -572,11 +583,20 @@ const EXPORT_HOOK = `
   _pdfKaestchenMass: (typeof _pdfKaestchenMass === 'function' ? _pdfKaestchenMass : undefined),
   _pdfSchriftLueckenBuendeln: (typeof _pdfSchriftLueckenBuendeln === 'function' ? _pdfSchriftLueckenBuendeln : undefined),
   pdfZeichenUnterstuetzt: (typeof pdfZeichenUnterstuetzt === 'function' ? pdfZeichenUnterstuetzt : undefined),
+  // v896 (BRANDING-NICHT-IM-PDF) — PDF-Schrift einer Marke prüfen, s. tests/pdf-schrift-pruefen.test.js.
+  pdfSchriftPruefen: (typeof pdfSchriftPruefen === 'function' ? pdfSchriftPruefen : undefined),
+  pdfLogoMasse: (typeof pdfLogoMasse === 'function' ? pdfLogoMasse : undefined),
+  pdfMarkeKopfZeichnen: (typeof pdfMarkeKopfZeichnen === 'function' ? pdfMarkeKopfZeichnen : undefined),
+  pdfMarkeFussAufAllenSeiten: (typeof pdfMarkeFussAufAllenSeiten === 'function' ? pdfMarkeFussAufAllenSeiten : undefined),
+  _pdfMarke: (typeof _pdfMarke === 'function' ? _pdfMarke : undefined),
   PDF_WINANSI_ZUSATZ: (typeof PDF_WINANSI_ZUSATZ !== 'undefined' ? PDF_WINANSI_ZUSATZ : undefined),
   // U2-ADR-263-Nachtrag (13.09.2026, PDF-CI) — Sub-Depot-Farbe im PDF. Die Einbettung selbst
   // (addFileToVFS/addFont) ist seit U2-ADR-097-Nachtrag (14.09.2026) kein Kern-Export mehr —
-  // sie läuft im vendorten inter-pdf-font-Block, s. tests/pdf-inter-einbetten.test.js.
+  // seit v896 im Gerüst-Block pdf-schriften-registrieren, die Schrift aus dem Erscheinungsbild (tests/pdf-schrift-tueren.test.js).
   _PDF_MARKE_SCHRIFT: (typeof _PDF_MARKE_SCHRIFT !== 'undefined' ? _PDF_MARKE_SCHRIFT : undefined),
+  // v896: das Kopf-Skript läuft in ladeKern mit — das geprüfte Erscheinungsbild und die Region des gebackenen Kerns.
+  ERSCHEINUNGSBILD: (typeof ERSCHEINUNGSBILD !== 'undefined' ? ERSCHEINUNGSBILD : undefined),
+  AB_WERK_ERSCHEINUNGSBILD_PRODUKT: (typeof AB_WERK_ERSCHEINUNGSBILD_PRODUKT !== 'undefined' ? AB_WERK_ERSCHEINUNGSBILD_PRODUKT : undefined),
   _pdfSubAkzentPrimaerRgb: (typeof _pdfSubAkzentPrimaerRgb === 'function' ? _pdfSubAkzentPrimaerRgb : undefined),
   _SUBDEPOT_PALETTE_HEX: (typeof _SUBDEPOT_PALETTE_HEX !== 'undefined' ? _SUBDEPOT_PALETTE_HEX : undefined),
   _subDepotAkzentHexAufgeloest: (typeof _subDepotAkzentHexAufgeloest === 'function' ? _subDepotAkzentHexAufgeloest : undefined),
@@ -2047,7 +2067,16 @@ function ladeKern(opts) {
   // Proben, die den Quelltext MUTIEREN (Rot-Beweis an einer Kopie) und danach ein volles Produkt
   // brauchen — ohne diese Angabe meint KERN_HTML_PATH „genau diesen Text", also das nackte Gerüst.
   if (!opts.blank && ((!process.env.KERN_HTML_PATH && !opts.htmlPfad) || opts.backen)) html = _standardProduktBaken(html, opts);
+  // `opts.ohneErscheinungsbild` (v896): das gebackene Produkt, aber die Region leer — wie das nackte Gerüst ohne Erscheinungsbild.
+  // Die Region wird auf genau so viele Zeilen gesetzt, wie sie hatte, damit die Zeilentreue des Abdeckungsmodus hält.
+  if (opts.ohneErscheinungsbild) html = html.replace(ERSCHEINUNGSBILD_REGION, (_, a, inhalt, e) => a + 'const AB_WERK_ERSCHEINUNGSBILD_PRODUKT = null;' + '\n'.repeat((inhalt.match(/\n/g) || []).length) + e);
+  // `opts.erscheinungsbildModul` (W4, 05.10.2026): das gebackene Produkt mit einem ANDEREN Erscheinungsbild in der Region — für
+  // Proben, die ein Profil mit eigener Schrift brauchen (Rückfallkette der PDF-Schrift). Zeilenzahl der Region bleibt gleich.
+  if (opts.erscheinungsbildModul) html = html.replace(ERSCHEINUNGSBILD_REGION, (_, a, inhalt, e) => a + 'const AB_WERK_ERSCHEINUNGSBILD_PRODUKT = ' + JSON.stringify(opts.erscheinungsbildModul) + ';' + '\n'.repeat((inhalt.match(/\n/g) || []).length) + e);
   const { script1, script2, bounds } = extrahiereScripts(html);
+  const erscheinung = extrahiereErscheinungsbild(html);
+  const kopf = erscheinung ? erscheinung.kopf : '';
+  if (erscheinung) bounds.unshift(erscheinung.bounds);
 
   const documentStub = makeDocument();
   const windowStub = { crypto: webcrypto, addEventListener: () => {}, location: opts.location || { href: '' } };
@@ -2169,7 +2198,7 @@ function ladeKern(opts) {
   // `__LOAD_KERN_EXPORT__` ist AUSSERHALB des Kern-IIFE deklariert (`var`, hoisted auf DIESE
   // äußere new Function()) — EXPORT_HOOK schreibt sie von INNEN bare, die äußere Quelle gibt
   // sie am Ende zurück (s. Kommentar an EXPORT_HOOK/spliceVorKernVerschluss oben).
-  const source = 'var __LOAD_KERN_EXPORT__;\n' + script1 + '\n'
+  const source = 'var __LOAD_KERN_EXPORT__;\n' + kopf + '\n' + script1 + '\n'
     + spliceVorKernVerschluss(script2, codelisten.join('\n') + '\n' + exportHook)
     + '\n;return __LOAD_KERN_EXPORT__;';
 

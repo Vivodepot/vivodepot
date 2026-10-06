@@ -23,7 +23,7 @@
 
      node tools/erscheinungsbild-modul.js                    → baut tools/erscheinung/erscheinungsbild-heute-modul.json
      node tools/erscheinungsbild-modul.js --check            → Exit 1, wenn das Modul nicht dem Bau aus der Quelle entspricht
-     node tools/erscheinungsbild-modul.js --quelle <css> --ziel <json> --id <id>   → anderes Profil
+     node tools/erscheinungsbild-modul.js --quelle <css> --ziel <json> --id <id> [--schriften <json>]   → anderes Profil
    ═══════════════════════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -33,6 +33,20 @@ const QUELLE_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'heute.css');
 const ZIEL_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-heute-modul.json');
 const STIL_REIHENFOLGE = path.join(REPO, 'tools', 'erscheinung', 'stil-reihenfolge.json');
 const STIL_ORDNER = path.join(REPO, 'tools', 'erscheinung', 'stil');
+const SCHRIFTEN_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'schriften.json');
+
+/* Der Abschnitt `schriften` (v896): je Eintrag der Liste (tools/erscheinung/schriften.json) die Datei, base64, als `woff2` bzw. —
+   mit `pdf: true` — als `ttf`. Geprüft wird nicht hier, sondern im Kern (_ebSchriftenPruefen) und beim Backen. */
+function schriftenBauen(liste = SCHRIFTEN_HEUTE) {
+  if (!fs.existsSync(liste)) return undefined;
+  const basis = path.dirname(liste);
+  return JSON.parse(fs.readFileSync(liste, 'utf8')).schriften.map((e) => {
+    const b64 = fs.readFileSync(path.resolve(basis, e.datei)).toString('base64');
+    const { datei, ...rest } = e;
+    return Object.assign({ familie: rest.familie, gewicht: rest.gewicht, stil: rest.stil },
+      rest.pdf === true ? { ttf: b64, pdf: true } : { woff2: b64 }, { lizenz: rest.lizenz, quelle: rest.quelle });
+  });
+}
 
 /* Der Abschnitt `stil` (Lesart B, 02.10.2026): je Teil der CSS-Text aus tools/erscheinung/stil/<teil>.css, in der Reihenfolge von
    stil-reihenfolge.json (= Kaskade). Kommentare und Leerzeilen fallen weg — das Modul trägt nur Regeln; die Begründungen
@@ -68,7 +82,7 @@ function _deklarationen(innen, wo) {
   return tokens;
 }
 
-function cssZuModul(cssText, id, { stil } = {}) {
+function cssZuModul(cssText, id, { stil, schriften } = {}) {
   const css = _ohneKommentare(cssText);
   const modul = { modulTyp: 'erscheinungsbild', id, basis: {}, hochkontrast: {}, dunkel: {} };
   const gesehen = new Set();
@@ -87,6 +101,7 @@ function cssZuModul(cssText, id, { stil } = {}) {
   if (rest.trim()) throw new Error('Text außerhalb der Blöcke: „' + rest.trim().slice(0, 60) + '"');
   if (!Object.keys(modul.basis).length) throw new Error('Kein :root-Block — ein Erscheinungsbild ohne Basis ist keines');
   if (stil) modul.stil = stil;
+  if (schriften) modul.schriften = schriften;
   return modul;
 }
 
@@ -105,7 +120,9 @@ function main(argv) {
   const id = _arg(argv, '--id') || 'heute';
   const stil = _arg(argv, '--stil-reihenfolge') ? stilBauen({ reihenfolge: path.resolve(_arg(argv, '--stil-reihenfolge')), ordner: path.join(path.dirname(path.resolve(_arg(argv, '--stil-reihenfolge'))), 'stil') })
     : (quelle === QUELLE_HEUTE ? stilBauen() : undefined);
-  const soll = modulText(cssZuModul(fs.readFileSync(quelle, 'utf8'), id, { stil }));
+  const schriften = _arg(argv, '--schriften') ? schriftenBauen(path.resolve(_arg(argv, '--schriften')))
+    : (quelle === QUELLE_HEUTE ? schriftenBauen() : undefined);
+  const soll = modulText(cssZuModul(fs.readFileSync(quelle, 'utf8'), id, { stil, schriften }));
   if (argv.includes('--check')) {
     const ist = fs.existsSync(ziel) ? fs.readFileSync(ziel, 'utf8') : null;
     if (ist !== soll) {
@@ -120,10 +137,11 @@ function main(argv) {
   const m = JSON.parse(soll);
   console.log('geschrieben: ' + path.relative(REPO, ziel) + ' (basis ' + Object.keys(m.basis).length + ', hochkontrast '
     + Object.keys(m.hochkontrast).length + ', dunkel ' + Object.keys(m.dunkel).length
-    + (m.stil ? ', stil ' + Object.keys(m.stil).join('+') + ' ' + Object.values(m.stil).reduce((n, t) => n + Buffer.byteLength(t), 0) + ' B' : '') + ')');
+    + (m.stil ? ', stil ' + Object.keys(m.stil).join('+') + ' ' + Object.values(m.stil).reduce((n, t) => n + Buffer.byteLength(t), 0) + ' B' : '')
+    + (m.schriften ? ', schriften ' + m.schriften.length : '') + ')');
   return 0;
 }
 
-module.exports = { cssZuModul, modulText, stilBauen, QUELLE_HEUTE, ZIEL_HEUTE, STIL_REIHENFOLGE, EBENE_JE_SELEKTOR };
+module.exports = { cssZuModul, modulText, stilBauen, schriftenBauen, SCHRIFTEN_HEUTE, QUELLE_HEUTE, ZIEL_HEUTE, STIL_REIHENFOLGE, EBENE_JE_SELEKTOR };
 
 if (require.main === module) process.exit(main(process.argv.slice(2)));

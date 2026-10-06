@@ -13,6 +13,10 @@
     {
       "datei": "vivodepot-vc-issuer.html",
       "name": "VC-Issuer"
+    },
+    {
+      "datei": "vivodepot-studio.html",
+      "name": "Vorlagen-Erzeuger"
     }
   ],
   "keineAnwendung": [

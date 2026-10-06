@@ -85,10 +85,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Prüfebene
 
-- Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): 12034
+- Suite (Node-Tests, `node --test`): nicht angegeben
 - E2E (Playwright): 547 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 28 aus Schleifen über CPU-Drosselungen = **575 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
 - Wächter-Register (intern): 142
-- Schema-Version: 92 · SCHALEN_STAND: v918 · Build-Version: v1.0
+- Schema-Version: 92 · SCHALEN_STAND: v919 · Build-Version: v1.0
 
 ---
 
@@ -543,11 +543,11 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 36 |
 | `.karte` | 5 | 68 |
-| `.modal` | 19 | 162 |
+| `.modal` | 19 | 167 |
 | `.toast` | 9 | 300 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 19 | 5 |
-| `.leer` | 3 | 297 |
+| `.leer` | 3 | 298 |
 | `.pause-erlaubnis` | 2 | 3 |
 | `.hinweis-box` | 7 | 27 |

@@ -99,7 +99,6 @@ const {
   slugGueltig, buendelListeAusDatei,
 } = require('./modul-app-packen.js');
 const { PRODUKTE } = require('./lib/vier-produkte.js');
-const { fontInDateiEinbetten, familieAlsVendortRegistrieren } = require('./build-pdf-marke-schrift-einbetten.js');
 // „den letzten Bauabschnitt zusammenführen" (12.09.2026): der fs-freie
 // Backschritt selbst ist nach tools/lib/produkt-text-erzeugen.js ausgelagert — byte-für-byte
 // dieselbe Datei liegt im Schwesterrepo (vivodepot-download-gateway, `src/produkt-text-
@@ -110,7 +109,7 @@ const {
   _unsigniertesModulKlassifizieren, _abWerkModuleAufText,
   _vorDepotKonfigurationSpanne, _vorDepotKonfigurationAufText,
   _serviceWorkerVorhandenSpanne,
-  produktTextErzeugen,
+  produktTextErzeugen, erscheinungsbildSchriftenVorBacken,
 } = require('./lib/produkt-text-erzeugen.js');
 
 const REPO = path.join(__dirname, '..');
@@ -286,17 +285,8 @@ function vorbedingungenPruefen({ slug, bundlePfad }) {
    `_abWerkModuleAufText` oben. Der Isolationsprobe (tests/e2e/ab-werk-isolationsprobe.spec.js)
    liegt daran: eine allein geöffnete vivodepot.html muss ihr Modul TRAGEN, nicht daneben
    FINDEN. */
-/* Marke-Achse-Plan §2b/§6 Schritt 5 (14.09.2026): `partnerFont` ist NEU und optional —
-   `{ slug, familie, regularPfad, boldPfad?, italicPfad?, version, lizenz, spdx, hinweis }`,
-   dieselbe Form, die `tools/build-pdf-marke-schrift-einbetten.js` ohnehin verlangt. Baut,
-   FALLS gesetzt, NACH dem Gerüst-Schreiben zwei additive, unabhängig geprüfte Dinge in genau
-   DIESES Produkt-Exemplar: den vendorten Font-Block (Bytes) und den Eintrag in
-   `_PDF_SCHRIFTEN_VENDORT_ZUSAETZLICH` (Vertrauensliste, ohne die `_markeSchriftPdf()` den
-   Namen nie zurückgäbe, selbst mit vendorten Bytes). Ob die zugehörige Branding-JSON
-   (`schriftart: partnerFont.familie`) tatsächlich mitgegeben wird, ist NICHT Sache dieser
-   Funktion — das bleibt, wie bei `unsignierteModulDateien`, Sache des Aufrufers: dieses
-   Werkzeug entscheidet nicht, was im Produkt landet (s. Kopf-Kommentar der Datei). Berührt
-   KEINES der vier heutigen Produkte, `partnerFont` bleibt dort `undefined`. */
+/* `partnerFont` (bis v895) entfällt: eine Einrichtung mit eigener Schrift bringt sie im Erscheinungsbild-Modul ihres Rezepts mit
+   (`schriften[]`, Bildschirm WOFF2 und PDF-TTF, v896, U2-ADR-097-Nachtrag) — geprüft beim Bauen, kein zweiter Einbettungsweg. */
 /* `kernQuelle` (optional): der Kern-Text, aus dem gebaut wird. Ohne ihn liest die Funktion die echte
    vivodepot.html — eine Probe, die einen ABWEICHENDEN Kern bauen will, gibt ihn hier mit, statt die echte
    Datei zu überschreiben und wiederherzustellen (dabei sahen parallel laufende Proben den kaputten Kern). */
@@ -304,7 +294,7 @@ function vorbedingungenPruefen({ slug, bundlePfad }) {
    (`__abWerkServiceWorkerVorhanden = true`) und der sw.js des Repos daneben (dieselbe, die mit dem Stand ausgeliefert
    wird). Ohne den Schalter bleibt es beim Einzeldatei-Produkt. Anlass: eine Prüfung von außen baute
    aus dem öffentlichen Stand nach und bekam genau in dieser einen Zeile eine andere Prüfsumme als SECURITY.md. */
-function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModulDateien, partnerFont, subdepotPalette, kernQuelle, mitEntwicklerleiste, wieAusgeliefert }) {
+function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModulDateien, subdepotPalette, kernQuelle, mitEntwicklerleiste, wieAusgeliefert }) {
   const zielOrdner = path.join(ziel, slug);
   fs.mkdirSync(zielOrdner, { recursive: true });
   const kernZiel = path.join(zielOrdner, 'vivodepot.html');
@@ -321,13 +311,12 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   // dazukommen.
   const dateisatz = wieAusgeliefert ? [...PRODUKT_DATEISATZ, 'sw.js'] : PRODUKT_DATEISATZ;
   const serviceWorkerVorhanden = dateisatz.includes('sw.js');
+  // v896: die Schriften des Erscheinungsbilds, mit der Bau-Pflicht „jede Erscheinung trägt eine PDF-Schrift“ — außerhalb des
+  // gepinnten Abschnitts von produktTextErzeugen, darum hier davor (s. tools/lib/produkt-text-erzeugen.js).
+  erscheinungsbildSchriftenVorBacken(kernText, unsignierteModule);
   const { text, module } = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste });
   fs.writeFileSync(kernZiel, text, 'utf8');
   if (wieAusgeliefert) fs.copyFileSync(path.join(REPO, 'sw.js'), path.join(zielOrdner, 'sw.js'));
-  if (partnerFont) {
-    fontInDateiEinbetten(kernZiel, partnerFont);
-    familieAlsVendortRegistrieren(kernZiel, partnerFont.familie);
-  }
   if (subdepotPalette) {
     _subdepotPaletteInsDateiSchreiben(kernZiel, subdepotPalette);
   }
@@ -336,7 +325,6 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
     dateien: [...dateisatz],
     anzahlModule: modulauswahl.length,
     unsignierteModule: module,
-    partnerFont: partnerFont ? partnerFont.familie : null,
     subdepotPalette: !!subdepotPalette,
   };
 }
@@ -375,31 +363,16 @@ function gerüstByteGleich(ordnerA, ordnerB) {
   return { gleich: abweichungen.length === 0, abweichungen };
 }
 
-/* Liest eine `--partnerFont`-JSON-Datei (`{slug, familie, regular, bold?, italic?, version,
-   lizenz, spdx, hinweis}`) — Feldnamen wie am CLI von build-pdf-marke-schrift-einbetten.js,
-   Font-Pfade relativ zur JSON-Datei selbst aufgelöst (nicht relativ zum CWD), damit die
-   Konfiguration portabel bleibt. */
-function _partnerFontLesen(konfigPfad) {
-  let roh;
-  try { roh = JSON.parse(fs.readFileSync(konfigPfad, 'utf8')); }
-  catch (e) { throw new Error('--partnerFont nicht lesbar/kein JSON: ' + konfigPfad + ' — ' + e.message); }
-  const basis = path.dirname(konfigPfad);
-  const aufloesen = (p) => (p ? path.resolve(basis, p) : undefined);
-  return {
-    slug: roh.slug, familie: roh.familie,
-    regularPfad: aufloesen(roh.regular), boldPfad: aufloesen(roh.bold), italicPfad: aufloesen(roh.italic),
-    version: roh.version, lizenz: roh.lizenz, spdx: roh.spdx, hinweis: roh.hinweis,
-  };
-}
-
 function main() {
   const argv = process.argv.slice(2);
   const argWert = (name) => { const i = argv.indexOf(name); return (i >= 0 && argv[i + 1]) ? argv[i + 1] : null; };
   const slug = argWert('--slug');
   const bundlePfad = argWert('--bundle');
   const ziel = path.resolve(argWert('--ziel') || path.join(REPO, 'produkte'));
-  const partnerFontPfad = argWert('--partnerFont');
-  const partnerFont = partnerFontPfad ? _partnerFontLesen(path.resolve(partnerFontPfad)) : undefined;
+  if (argWert('--partnerFont')) {
+    process.stderr.write('produkt-konfektionieren: --partnerFont gibt es seit v896 nicht mehr — die Schrift einer Einrichtung kommt im Erscheinungsbild-Modul ihres Rezepts (schriften[]).\n');
+    process.exit(1);
+  }
   const subdepotPalettePfad = argWert('--subdepotPalette');
   const subdepotPalette = subdepotPalettePfad ? JSON.parse(fs.readFileSync(path.resolve(subdepotPalettePfad), 'utf8')) : undefined;
 
@@ -415,7 +388,7 @@ function main() {
   const { ladeIssuer } = require(path.join(REPO, 'tests', 'load-issuer.js'));
   const ISSUER = ladeIssuer().V;
   const r = konfektionieren({
-    ziel, slug, modulauswahl, unsignierteModulDateien, partnerFont, subdepotPalette,
+    ziel, slug, modulauswahl, unsignierteModulDateien, subdepotPalette,
     vorDepotKonfigurationInhaltFn: ISSUER.vorDepotKonfigurationDateiInhalt,
   });
   process.stdout.write('produkt-konfektionieren: ' + slug + '\n');
@@ -423,7 +396,6 @@ function main() {
   process.stdout.write('  Dateien: ' + r.dateien.join(', ') + '\n');
   process.stdout.write('  Module:  ' + r.anzahlModule + '\n');
   process.stdout.write('  Unsign.: ' + (r.unsignierteModule.join(', ') || '(keins — nativer Rückfall)') + '\n');
-  process.stdout.write('  Partner-Font: ' + (r.partnerFont || '(keiner — nativ Inter)') + '\n');
   process.stdout.write('  Sub-Depot-Palette: ' + (r.subdepotPalette ? 'gesetzt (Gültigkeit entscheidet der Kern beim Laden)' : '(keine — native Haus-Palette)') + '\n');
 }
 
