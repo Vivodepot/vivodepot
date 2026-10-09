@@ -1,0 +1,6 @@
+{
+  "herkunft": "example-org",
+  "sprache": "en",
+  "moduleVersion": 1,
+  "arten": [ { "kennung": "example-allotment-association", "label": "Allotment association" } ]
+}

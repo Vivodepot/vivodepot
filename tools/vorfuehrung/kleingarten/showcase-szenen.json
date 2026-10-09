@@ -1,0 +1,82 @@
+{
+ "format": "showcaseSzenen/1",
+ "hinweis": "Demo Kleingartenverein. Heiter im Ton, gleiche Wege wie die ernsten Demos. Die Station zur Herausgabe an den Vorstand fehlt absichtlich: Sie braucht den neuen Stationstyp „Bereichs-Herausgabe“. Es gibt keinen passenden Anlass, deshalb ausschließlich Bereichs-Stationen.",
+ "noindex": true,
+ "stationSekunden": 8,
+ "leerlaufSekunden": 90,
+ "warnSekunden": 10,
+ "texte": {
+  "de": {
+   "streifen": "Vorführung · Beispieldaten einer erfundenen Person",
+   "tippen": "Tippen Sie, um das Beispiel-Depot selbst zu öffnen.",
+   "leerlaufHinweis": "Die Vorführung beginnt gleich von vorn.",
+   "weiterAnsehen": "Weiter ansehen",
+   "gesperrt": "In der Vorführung wird nichts gespeichert und nichts verschickt.",
+   "schliessen": "Schließen",
+   "auszug": "Auszug",
+   "notizLabel": "Erklärung",
+   "mehr": "mehr",
+   "weniger": "weniger"
+  },
+  "en": {
+   "streifen": "Demonstration · sample data of a fictional person",
+   "tippen": "Tap to open the example depot yourself.",
+   "leerlaufHinweis": "The demonstration will restart shortly.",
+   "weiterAnsehen": "Keep exploring",
+   "gesperrt": "Nothing is saved and nothing is sent in this demonstration.",
+   "schliessen": "Close",
+   "auszug": "excerpt",
+   "notizLabel": "Explanation",
+   "mehr": "more",
+   "weniger": "less"
+  }
+ },
+ "stationen": [
+  {
+   "ansicht": "uebersicht",
+   "titel": {
+    "de": "Ein Kleingarten hat eigene Unterlagen",
+    "en": "An allotment has records of its own"
+   },
+   "text": {
+    "de": "Hier geht es um eine Parzelle, drei Schlüssel und die Frage, wer im Urlaub gießt.",
+    "en": "This one is about an allotment, three keys and the question of who waters the beans in August."
+   }
+  },
+  {
+   "ansicht": "bereich",
+   "ziel": "housing",
+   "titel": {
+    "de": "Wo der Pachtvertrag liegt",
+    "en": "Where the lease is kept"
+   },
+   "text": {
+    "de": "Parzelle 27, Laube mit Gerätehaus, und der Ordner, in dem der Pachtvertrag steht.",
+    "en": "Plot 27, a hut with a shed, and the folder the lease sits in."
+   }
+  },
+  {
+   "ansicht": "bereich",
+   "ziel": "administration",
+   "titel": {
+    "de": "Welcher Schlüssel wozu gehört",
+    "en": "Which key opens what"
+   },
+   "text": {
+    "de": "Tor, Laube, Gerätehaus — und wer einen Zweitschlüssel hat. Das behält man sonst im Kopf, bis es jemand anders wissen muss.",
+    "en": "Gate, hut, shed — and who holds a spare. You keep that in your head until somebody else has to know it."
+   }
+  },
+  {
+   "ansicht": "schluss",
+   "titel": {
+    "de": "Dieselben Wege, anderes Thema",
+    "en": "Same routes, different subject"
+   },
+   "text": {
+    "de": "Festhalten, ausgeben, zurückbekommen: Das ist bei der Pacht dasselbe wie im Betrieb und in der Klinik.",
+    "en": "Record it, hand it out, get something back: the allotment works exactly like the business and the clinic."
+   }
+  }
+ ]
+}

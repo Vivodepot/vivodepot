@@ -149,24 +149,35 @@ describe('[renderSidebar] Cluster als <details class="nav-gruppe">, aktiver Bere
     }
   });
 
-  /* Jeder der dreizehn Bereiche trägt seine Unterzeile im gerenderten Markup — nicht nur
-     als Textsatz-Eintrag, sondern tatsächlich im DOM, unter dem Label, ≤28 Zeichen (der
-     eigene Wächter dafür steht in tests/nav-unterzeile-laenge-guard.test.js). */
-  test('jeder der dreizehn Bereiche trägt eine nav-item-sub-Unterzeile im Markup', async () => {
+  /* Navigation A, ruhige Fassung (05.10.2026, „Viel zuviel Kleinscheiss“): je Bereich EINE Zeile, keine Unterzeile in der
+     Leiste. Die Unterzeilen bleiben im Katalog (`s.navUnterzeile`, Längenwächter tests/nav-unterzeile-laenge-guard.test.js). */
+  test('kein Bereich trägt in der Seitenleiste eine Unterzeile — die Unterzeile bleibt im Katalog', async () => {
     const { V, document } = await frischMitDepot();
     V.betreteApp();
-    const sbHtml = document.getElementById('sidebar').innerHTML;
-    for (const id of ALLE_DREIZEHN) {
-      const re = new RegExp('data-sektor="' + id + '"[\\s\\S]*?<span class="nav-item-sub">[^<]+</span>');
-      assert.match(sbHtml, re, `Bereich "${id}" trägt keine nav-item-sub-Unterzeile im Markup`);
-    }
+    const html = document.getElementById('sidebar').innerHTML;
+    const knoepfe = html.match(/<button class="nav-item[^"]*" data-sektor="[^"]+">[\s\S]*?<\/button>/g) || [];
+    assert.ok(knoepfe.length >= 13, 'Vorbedingung: die Bereiche stehen in der Leiste');
+    assert.deepEqual(knoepfe.filter((b) => b.includes('nav-item-sub')), [], 'Bereiche mit Unterzeile in der Leiste');
+    assert.ok(V.bereicheAlle().some((s) => s.navUnterzeile), 'die Unterzeile ist im Katalog nicht verloren');
   });
 
-  test('„Alle Bereiche zeigen"-Umschalter steht weiterhin VOR den Clustern (Fortsetzen-Fokus 26.08.2026 — Nachfolger der früheren EINTRAGEN-Überschrift, s. V.STRINGS.gruppeEintragen, das hier nicht mehr im Markup steht)', async () => {
+  test('der Titel „Bereiche“ steht VOR den Clustern (Navigation A, 05.10.2026 — Nachfolger des Umschalters „Alle Bereiche zeigen“)', async () => {
     const { V, document } = await frischMitDepot();
     V.betreteApp();
     const sbHtml = document.getElementById('sidebar').innerHTML;
-    assert.ok(sbHtml.indexOf(V.STRINGS.navAlleBereicheZeigen) < sbHtml.indexOf('nav-gruppe'),
-      '"Alle Bereiche zeigen" muss weiterhin vor den Clustern stehen');
+    assert.ok(sbHtml.indexOf(V.STRINGS.gruppeBereiche) < sbHtml.indexOf('nav-gruppe'), 'der Titel „Bereiche“ muss vor den Clustern stehen');
+  });
+
+  test('bis NAV_FLACH_BIS angezeigte Bereiche steht die Leiste flach, ohne Cluster (Pro); darüber mit Clustern (Privat) — Rot-Beweis über die Schwelle', async () => {
+    const { V, document } = await frischMitDepot();
+    V.betreteApp();
+    const cluster = (h) => (h.match(/<details class="nav-gruppe"( open)?>/g) || []).length;   // ohne -austausch/-fremd
+    assert.ok(V.bereicheAlle().length > V.NAV_FLACH_BIS, 'Vorbedingung: Privat zeigt mehr Bereiche als die Schwelle');
+    assert.ok(cluster(document.getElementById('sidebar').innerHTML) > 0, 'Privat: Cluster');
+    V.getData().bereichssatz = ['identity', 'people', 'health'];   // dieselbe Leiste mit wenigen Bereichen
+    V.renderSidebar();
+    const html = document.getElementById('sidebar').innerHTML;
+    assert.equal(cluster(html), 0, 'wenige Bereiche: keine Cluster');
+    assert.equal(html.split('data-sektor=').length - 1, 3, 'wenige Bereiche: flach, jeder genau einmal');
   });
 });

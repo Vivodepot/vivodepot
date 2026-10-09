@@ -14,7 +14,7 @@ gleichlaufProben({
   typ: 'branding',
   positiv: [
     ['nur Hauptfarbe', basis],
-    ['alle Felder', mit({ farbeSekundaer: '#8a6d3a', schriftart: 'Source Sans Pro', logo: LOGO, name: 'Sparkasse Musterstadt',
+    ['alle Felder', mit({ farbeSekundaer: '#8a6d3a', schriftart: 'Segoe UI', logo: LOGO, name: 'Sparkasse Musterstadt',
       domain: 'example.org', kontakt: 'hilfe@example.org', aktualisierungen: 'https://example.org/module/' })],
     ['nur Zweitfarbe', nur({ farbeSekundaer: '#aabbcc' })],
     ['nur Schriftart mit Rand-Leerraum', nur({ schriftart: '  Inter  ' })],
@@ -25,8 +25,12 @@ gleichlaufProben({
     ['nur Aktualisierungen ohne Pfad', nur({ aktualisierungen: 'HTTPS://example.org' })],
     ['Ab-Werk-Form mit logo null', { modulTyp: 'branding', moduleVersion: 1, herkunft: 'vivodepot', name: 'Vivodepot',
       domain: 'vivodepot.de', farbePrimaer: '#4F6539', farbeSekundaer: '#8a6d3a', schriftart: 'Inter', logo: null }],
-    ['Grenzwerte', nur({ schriftart: 'x'.repeat(100), name: 'n'.repeat(200), domain: 'a'.repeat(61) + '.' + 'b'.repeat(38),
+    // Die Schriftart braucht seit dem 05.10.2026 eine Datei im Erscheinungsbild; 100 Zeichen trägt keine Familie. Die Längengrenze
+    // bleibt am Negativfall „Schriftart zu lang" geprüft.
+    ['Grenzwerte', nur({ name: 'n'.repeat(200), domain: 'a'.repeat(61) + '.' + 'b'.repeat(38),
       logo: 'data:image/png;base64,' + 'A'.repeat(273066 - 22) })],
+    ['Modell white-label', mit({ modell: 'white-label' })],
+    ['Modell branding', mit({ modell: 'branding' })],
     ['mit Einlass-Marken', mit({ appVersion: 'v1', ungeprueft: false, eingelassenAm: '2026-09-26T00:00:00Z',
       anbieterId: 'a', anbieterIdGeprueft: true })],
   ],

@@ -31,6 +31,7 @@ function fsaMitschrieb() {
     aufrufe++;
     const h = {
       name: (opt && opt.suggestedName) || 'x', inhalt: null, schreibvorgaenge: 0,
+      getFile: async () => ({ size: h.inhalt == null ? 0 : h.inhalt.length, text: async () => h.inhalt || '' }),   // wie ein echtes Handle
       createWritable: async () => {
         const teile = [];
         return { write: async (b) => { teile.push(typeof b === 'string' ? b : await b.text()); },

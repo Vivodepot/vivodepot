@@ -72,13 +72,14 @@ test('4) feldEingetragen/feldValidieren: Chip-Array statt Skalar', () => {
   assert.equal(V.feldValidieren(feld, 'Penicillin').ok, false, 'ein Skalar-String ist für ein codeListe-Feld kein gültiger Wert mehr');
 });
 
-test('5) feldWertHTML/feldWertText: Chip-Array wird „, "-getrennt angezeigt, Code dezent, Komma bleibt EIN Chip', () => {
+test('5) feldWertHTML/feldWertText: Chip-Array wird „, "-getrennt angezeigt, ohne Code, Komma bleibt EIN Chip', () => {
   const { V } = ladeKern();
   const feld = { id: 'allergien', typ: 'text', codeListe: 'snomedAllergen' };
   const chips = [V.chipAusEingabe('snomedAllergen', 'Allergie gegen Penicillin'), { text: 'Hausstaub, Milben' }];
   const html = V.feldWertHTML(feld, chips);
   assert.ok(html.includes('Allergie gegen Penicillin'));
-  assert.ok(/feld-code/.test(html) && html.includes('91936005'), 'Code dezent für den codierten Chip');
+  // Seit 07.10.2026 (Entscheidung „keine technischen Markierungen in der Benutzersicht“) steht der Code nicht mehr neben dem Chip.
+  assert.ok(!/feld-code/.test(html) && !html.includes('91936005'), 'kein Code in der Anzeige des codierten Chips');
   assert.ok(html.includes('Hausstaub, Milben'), 'Freitext-Chip mit Komma bleibt unangetastet im Text');
   const text = V.feldWertText(feld, chips);
   assert.ok(text.includes('Allergie gegen Penicillin') && text.includes('Hausstaub, Milben'));

@@ -97,7 +97,8 @@ test('[publiccode·openCoDE·Rot-Beweis] Fassung 0.3 und ein fehlendes Pflichtfe
   const echt = fs.readFileSync(DATEI, 'utf8');
   // Die Vorlagen-Punkte, je einzeln verletzt: "0", DE groß, genericName fehlt oder zu lang, organisation-Block.
   assert.ok(pruefen(echt.replace(/^publiccodeYmlVersion:.*$/m, 'publiccodeYmlVersion: "0"')).some((f) => f.includes('verlangt "0.4"')));
-  assert.ok(pruefen(echt.replace(/^    - "de"$/m, '    - DE')).some((f) => f.includes('Ländercode groß')));
+  // Die Datei trägt kein countries mehr (optional, keine Länderannahme); der Fall wird deshalb eingesetzt.
+  assert.ok(pruefen(echt.replace(/^  scope:\n/m, '  countries:\n    - DE\n  scope:\n')).some((f) => f.includes('Ländercode groß')));
   assert.ok(pruefen(echt.replace(/^    genericName:.*\n/gm, '')).some((f) => f.includes('genericName fehlt')));
   assert.ok(pruefen(echt.replace(/^    genericName:.*$/m, '    genericName: "' + 'x'.repeat(36) + '"')).some((f) => f.includes('36 Zeichen')));
   assert.ok(pruefen(echt + '\norganisation:\n  uri: "https://vivodepot.de"\n').some((f) => f.includes('organisation-Block')));

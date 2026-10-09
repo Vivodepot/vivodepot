@@ -25,9 +25,13 @@
  *      das mit einer data:-URL. Statischer Beleg schlägt Laufzeit-Beobachtung.
  *   C — Rückweg in dieselbe Komponente: speichern → schließen → eigene Datei
  *      wieder öffnen → entschlüsseln. Bisher nur über die Grenze zur Lese-App.
- *   D — die aus dem BROWSER geschriebene .vivodepot trägt kein Klartext-
- *      Personendatum (Muster aus tests/notfall-cache.test.js, auf die Datei
- *      angewandt statt auf den Umschlag im Speicher).
+ *   D — die aus dem BROWSER geschriebene .vivodepot trägt die INHALTE des Depots
+ *      (Name, Geburtsdatum, Gesundheitswerte) nicht im Klartext (Muster aus
+ *      tests/notfall-cache.test.js, auf die Datei angewandt statt auf den
+ *      Umschlag im Speicher). Geltungsbereich: ein Depot ohne Ortshinweis. Der
+ *      Ortshinweis ist Text der Halterin und steht gewollt im Klartext; das hält
+ *      tests/umschlag-klartext-ort-hinweis.test.js (Befund KLARTEXT-ORTSHINWEIS-
+ *      ZUSICHERUNG, 07.10.2026).
  *   E — Nachweis-Artefakt: maschinenlesbares Protokoll je Lauf.
  *
  * Wiederverwendet statt neu gebaut: die Reise-Bausteine der Cross-Suite

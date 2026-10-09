@@ -38,7 +38,7 @@ test('2) Roundtrip: Freitext landet im Feld; codierter Wert (exakter Treffer) wi
   V.wizardSchrittSetzen('anamwiz', 3, 'Blinddarm 2008');                 // voroperationen
   V.wizardSchrittSetzen('anamwiz', 5, 'Vater Herzinfarkt');             // familienanamnese
   // Codierter Chip: exakter Treffer in icd10 → { text, code:{system,code} } (Chip-Mechanik E1 Option C)
-  const chip = V.chipAusEingabe('icd10', 'Essentielle (primäre) Hypertonie');
+  const chip = V.chipAusEingabe('icd10', 'Bluthochdruck');
   assert.ok(chip.code, 'chipAusEingabe liefert einen Chip mit Code');
   V.wizardSchrittSetzen('anamwiz', 0, [chip]);                          // krankheiten (icd10) — Chip-Array
   const d = V.getData();

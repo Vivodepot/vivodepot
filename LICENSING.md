@@ -5,9 +5,12 @@ Lizenztext in [LICENSE](LICENSE): der amtliche Volltext der European Union Publi
 Fassung 1.2 (`SPDX-License-Identifier: EUPL-1.2`). Amtliche Fassungen in allen EU-Sprachen:
 https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
 
-**Was unter EUPL-1.2 steht:** alles, was von uns stammt — Anwendung, Lese-Anwendung,
-Modul-Erzeuger, Werkzeuge, der Signier- und Ausgabebetrieb, Proben, Dokumentation und die
-Bürgervorlagen, soweit deren Wortlaut von uns stammt. Was nicht unser ist, lizenzieren wir nicht:
+**Was unter EUPL-1.2 steht:** alles, was zum offenen Projekt gehört — Anwendung, Lese-Anwendung,
+Studio, die Modul- und Vorlagen-Erzeuger, alles, womit man Signaturen und Nachweise prüft,
+Werkzeuge, Proben, Dokumentation und die Bürgervorlagen, soweit deren Wortlaut von uns stammt.
+**Nicht Teil des offenen Projekts** ist der Signier- und Ausgabebetrieb: die Schlüssel und der
+Ablauf, mit dem Vivodepot Zertifikate ausstellt und Module, Vorlagen und Rezepte signiert. Was
+davon bereits unter EUPL-1.2 veröffentlicht wurde, bleibt unter EUPL-1.2. Was nicht unser ist, lizenzieren wir nicht:
 amtlicher Wortlaut Dritter (Formulare und Textbausteine von Bundes- und Landesbehörden; die
 maßgebliche Liste ist [docs/fremdquellen.md](docs/fremdquellen.md)), fremde Software, Schriften und
 Code-Listen mit ihren eigenen Lizenzen ([NOTICE.md](NOTICE.md),
@@ -30,9 +33,10 @@ Lizenzschwelle und ohne kommerzielle Sonderbedingung.
 ## Eine Lizenz für die gesamte Software
 
 Die Vivodepot-Anwendung als Ganzes ist Open Source unter der EUPL-1.2. Das schließt die
-Hauptanwendung `vivodepot.html`, die Leseansicht `vivodepot-lesen.html`, den Modul-Erzeuger,
-die Test-Suite, die Werkzeuge und alle weiteren Code-Dateien des Repositories ein — und die
-Bürgervorlagen, soweit deren Wortlaut von uns stammt.
+Hauptanwendung `vivodepot.html`, die Leseansicht `vivodepot-lesen.html`, das Studio
+`vivodepot-studio.html`, die Modul- und Vorlagen-Erzeuger, die Prüfwerkzeuge, die Test-Suite,
+die Werkzeuge und alle weiteren Code-Dateien des öffentlichen Repositories ein — und die Bürgervorlagen,
+soweit deren Wortlaut von uns stammt.
 
 Was das bedeutet:
 
@@ -46,7 +50,9 @@ Was das bedeutet:
 - Die EUPL-1.2 ist reziprok — abgeleitete Werke müssen wieder unter EUPL-1.2 (oder einer
   kompatiblen Lizenz) verfügbar sein.
 
-Der Signier- und Ausgabebetrieb ist Teil dieser Software und trägt dieselbe Lizenz.
+Wer unsignierte Module, eigene Vorlagen oder Produkte baut, findet die Werkzeuge dafür in diesem
+Repository. Eine Signatur unter dem Vivodepot-Anker stellt der Ausgabebetrieb aus; er ist ein
+Dienst, kein Teil der Software. Die Anwendung kennzeichnet unsignierte Module als unsigniert.
 
 ## Amtlicher Wortlaut Dritter — was nicht unser ist
 
@@ -66,7 +72,7 @@ welche Bedingungen dafür gelten, bestimmt die Stelle, die es herausgibt.
 ## Was heute öffentlich liegt
 
 <!-- VERFUEGBARKEIT:BEGIN de -->
-Lizenz und Verfügbarkeit sind zwei Fragen. Unter EUPL-1.2 steht alles, was von uns stammt. Nicht jeder Teil liegt derzeit im öffentlichen Repository; diese Liste wird aus dem Veröffentlichungsschnitt erzeugt, nicht von Hand geschrieben:
+Lizenz und Verfügbarkeit sind zwei Fragen. Unter EUPL-1.2 steht alles, was zum offenen Projekt gehört. Nicht jeder Teil liegt derzeit im öffentlichen Repository; diese Liste wird aus dem Veröffentlichungsschnitt erzeugt, nicht von Hand geschrieben:
 
 - Die Anwendung: im öffentlichen Repository
 - Die Lese-Anwendung: im öffentlichen Repository
@@ -74,8 +80,8 @@ Lizenz und Verfügbarkeit sind zwei Fragen. Unter EUPL-1.2 steht alles, was von 
 - Der Nachweis-Aussteller (VC-Issuer): im öffentlichen Repository
 - Das Schlüssel-Teilen: im öffentlichen Repository
 - Der Konfektionierer: im öffentlichen Repository
-- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (3 von 11 zurückgehalten)
-- Die Modul- und Vorlagen-Erzeuger: derzeit nicht im öffentlichen Repository
+- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (2 von 11 zurückgehalten)
+- Die Modul- und Vorlagen-Erzeuger: im öffentlichen Repository
 <!-- VERFUEGBARKEIT:END de -->
 
 ## Warum keine Lizenzschwelle
@@ -104,16 +110,26 @@ Lizenzgespräche und Klärungen: **[lizenz@vivodepot.de](mailto:lizenz@vivodepot
 
 ## In English
 
-Everything that comes from us is under the EUPL-1.2; what is not ours we do not license. The binding
+Everything in the open project is under the EUPL-1.2; what is not ours we do not license. The binding
 text is the EUPL-1.2 in [LICENSE](LICENSE). Licence and availability are two questions: which parts
 are in the public repository today is listed below, generated from the publication cut.
 
 ### Free software under the EUPL-1.2
 
-Covered: the application itself, the reader application, the module
-generator, the tooling, the signing and issuing tools, the test suite,
-the documentation — and the citizen templates, to the extent that we
-wrote their wording.
+Covered: everything that belongs to the open project — the application
+itself, the reader application, the Studio, the module and template
+builders, everything needed to verify signatures and credentials, the
+tooling, the test suite, the documentation — and the citizen templates,
+to the extent that we wrote their wording.
+
+Not part of the open project: the signing and issuing service, that is
+the keys and the procedure by which Vivodepot issues certificates and
+signs modules, templates and recipes. Anything from it that has already
+been published under the EUPL-1.2 stays under the EUPL-1.2. The tools
+for building unsigned modules, your own templates or products are in
+this repository. A signature under the Vivodepot anchor is issued by the
+issuing service; it is a service, not part of the software. The
+application marks unsigned modules as unsigned.
 
 License:     European Union Public Licence, version 1.2
 Full text:   [LICENSE](LICENSE) (official text; all EU languages at
@@ -159,7 +175,7 @@ the party that issues it sets the terms.
 ### What is in the public repository today
 
 <!-- VERFUEGBARKEIT:BEGIN en -->
-Licence and availability are two questions. Everything that comes from us is under the EUPL-1.2. Not every part is currently in the public repository; this list is generated from the publication cut, not written by hand:
+Licence and availability are two questions. Everything in the open project is under the EUPL-1.2. Not every part is currently in the public repository; this list is generated from the publication cut, not written by hand:
 
 - The application: in the public repository
 - The reader application: in the public repository
@@ -167,8 +183,8 @@ Licence and availability are two questions. Everything that comes from us is und
 - The credential issuer (VC issuer): in the public repository
 - Key sharing: in the public repository
 - The product assembler: in the public repository
-- The signing and certificate tools: partly in the public repository (3 of 11 held back)
-- The module and template builders: currently not in the public repository
+- The signing and certificate tools: partly in the public repository (2 of 11 held back)
+- The module and template builders: in the public repository
 <!-- VERFUEGBARKEIT:END en -->
 
 Third-party software shipped with Vivodepot: [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).

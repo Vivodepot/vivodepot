@@ -165,12 +165,12 @@ test('[U2-ADR-297·VDK-Integration·Rot-Beweis] ein UNSIGNIERTES Branding-Bünde
 
 test('[U2-ADR-297·VDK-Integration] ein Vor-Depot-Bündel mit kontrastschwacher Farbe lässt die Kopfzeile beim Fallback, obwohl Schrift/Name trotzdem wirken', async () => {
   const V = kern();
-  const modul = { modulTyp: 'branding', moduleVersion: 1, herkunft: 'probe', sprache: 'de', farbePrimaer: '#808080', schriftart: 'Georgia' };
+  const modul = { modulTyp: 'branding', moduleVersion: 1, herkunft: 'probe', sprache: 'de', farbePrimaer: '#808080', schriftart: 'Inter' };
   const buendel = await signiertesBuendel(V, modul);
   const root = fakeRoot();
   await V.vorDepotKonfigurationAnwenden([buendel], root, OPTS);
   assert.equal(root.style._werte['--vd-branding-topbar-primaer'], undefined, 'Kontrast-Gate greift auch am echten Einlassweg');
-  assert.equal(root.style._werte['--vd-branding-schriftart'], 'Georgia', 'ein einzelnes Farbfeld darf die restlichen, gültigen Branding-Felder nicht mit verwerfen');
+  assert.match(root.style._werte['--vd-branding-schriftart'] || '', /^Inter,.*sans-serif$/, 'ein einzelnes Farbfeld darf die restlichen, gültigen Branding-Felder nicht mit verwerfen');
 });
 
 /* ── Marke-Achse-Plan §8a (14.09.2026) — Topbar-Icon, dieselbe Fall-2-Gate wie die Farbe ── */
@@ -187,12 +187,22 @@ function fakeRootMitLogoMark() {
   return root;
 }
 
-test('[Marke-Achse·§8a] _brandingProduktTopbarAnwenden tauscht das Topbar-Icon, wenn branding.logo gültig ist', () => {
+/* Zwei Modelle (05.10.2026, U2-ADR-297-Nachtrag): A 'branding' (Vorgabe) setzt das Partner-Logo VOR die Vivodepot-Bildmarke,
+   B 'white-label' ersetzt sie. Vorher ersetzte jedes gültige Logo die Bildmarke — das ist jetzt allein Modell B. */
+test('[Marke-Achse·§8a] _brandingProduktTopbarAnwenden setzt das Partner-Logo in die Kopfzeile; Modell A behält die Vivodepot-Bildmarke daneben', () => {
   const V = kern();
   const root = fakeRootMitLogoMark();
   V._brandingProduktTopbarAnwenden({ farbePrimaer: '#8b1a2b', logo: LOGO_PNG_1X1 }, root);
-  assert.match(root._logoMark.innerHTML, /^<img src="data:image\/png;base64,/, 'das Icon muss durch ein <img> mit der Logo-Daten-URL ersetzt werden');
-  assert.doesNotMatch(root._logoMark.innerHTML, /#vd-logo/, 'das native SVG-Icon darf nicht mehr stehen, wenn ein gültiges Partner-Logo vorliegt');
+  assert.match(root._logoMark.innerHTML, /^<img src="data:image\/png;base64,/, 'das Partner-Logo steht vorn als <img> mit der Logo-Daten-URL');
+  assert.match(root._logoMark.innerHTML, /#vd-logo/, 'Modell A (ohne Feld): die Vivodepot-Bildmarke bleibt daneben');
+});
+
+test('[Marke-Achse·§8a·Modell B] mit modell white-label ersetzt das Partner-Logo die Vivodepot-Bildmarke', () => {
+  const V = kern();
+  const root = fakeRootMitLogoMark();
+  V._brandingProduktTopbarAnwenden({ farbePrimaer: '#8b1a2b', logo: LOGO_PNG_1X1 }, root, 'white-label');
+  assert.match(root._logoMark.innerHTML, /^<img src="data:image\/png;base64,/);
+  assert.doesNotMatch(root._logoMark.innerHTML, /#vd-logo/, 'Modell B: keine Vivodepot-Bildmarke in der Kopfzeile');
 });
 
 test('[Marke-Achse·§8a] ohne branding.logo bleibt das native SVG-Icon stehen — der Regelfall, alle vier heutigen Produkte', () => {

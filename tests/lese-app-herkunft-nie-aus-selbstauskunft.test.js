@@ -73,7 +73,7 @@ test('[Lese-App · Herkunft · Fall B · Gegenprobe] ein nach Inhalt ab Werk gel
 });
 
 test('[Lese-App · Herkunft · Fall B · Rot-Beweis] eine Fassung, die dem Feld abWerk glaubt, läßt das Modul verschwinden und fällt', async () => {
-  const a = '        if (_abWerkGleichLesen(m)) continue;';
+  const a = '        if (_abWerkHerkunftLesen(m)) continue;';
   assert.equal(HTML.split(a).length, 2, 'Vorbedingung: die Stelle steht genau einmal');
   const { V } = ladeLesen({ html: HTML.replace(a, '        if (m.abWerk === true) continue;') });
   const d = { textsatzModule: [{ sprache: 'fr', moduleVersion: 1, abWerk: true, texte: {} }] };

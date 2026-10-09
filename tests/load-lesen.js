@@ -155,7 +155,7 @@ const EXPORT_HOOK = `
   antwortEntschluesselnPasswort, antwortEntschluesselnSchluessel, istAntwortUmschlag,
   antwortMitSchluesseldateiOeffnen, schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei,
   antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C,
-  antwortAnzeigeModell, qrTeileZusammensetzen,
+  antwortAnzeigeModell, antwortAngabeHerkunft, antwortHerkunftAbweichung, antwortHerkunftZeileHTML, qrTeileZusammensetzen,
   renderAntwortOeffnen, renderAntwort, antwortWeitergeben, anlassAnzeigeModell, renderAnlass,
   renderKamera, kameraStoppen, kameraMoeglich, kameraLeserMoeglich,
   feldEingetragen, feldWertText, listenEintragZusammenfassung, _unterfeldLabelLesen, entitaetAnzeige,
@@ -187,6 +187,14 @@ const EXPORT_HOOK = `
   bereichUebersetztLesen: (typeof bereichUebersetztLesen !== 'undefined' ? bereichUebersetztLesen : undefined),
   nichtUebersetzteZeigenSetzenLesen: (typeof nichtUebersetzteZeigenSetzenLesen !== 'undefined' ? nichtUebersetzteZeigenSetzenLesen : undefined),
   _depotUebernehmenGeprueft: (typeof _depotUebernehmenGeprueft !== 'undefined' ? _depotUebernehmenGeprueft : undefined),
+  _abWerkGleichLesen: (typeof _abWerkGleichLesen !== 'undefined' ? _abWerkGleichLesen : undefined),
+  _abWerkHerkunftLesen: (typeof _abWerkHerkunftLesen !== 'undefined' ? _abWerkHerkunftLesen : undefined),
+  _modulRezeptFingerabdruck: (typeof _modulRezeptFingerabdruck !== 'undefined' ? _modulRezeptFingerabdruck : undefined),
+  _istSchutzKennung: (typeof _istSchutzKennung !== 'undefined' ? _istSchutzKennung : undefined),
+  _textsatzSchutzVertraut: (typeof _textsatzSchutzVertraut !== 'undefined' ? _textsatzSchutzVertraut : undefined),
+  /* Nur für Proben: ein Modul als „nach Inhalt ab Werk festgestellt“ merken, ohne den asynchronen Öffnungsweg. Steht für das Ergebnis
+     von _depotModuleAbWerkPruefenLesen; wer die Prüfung selbst proben will, nimmt _depotUebernehmenGeprueft. */
+  _alsAbWerkFestgestelltLesen: (m) => { if (m && typeof m === 'object') _ABWERK_BELEGT_LESEN.add(m); return m; },
   _textsatzModulBelegtInfo: (typeof _textsatzModulBelegtInfo !== 'undefined' ? _textsatzModulBelegtInfo : undefined),
   _TEXTSATZ_BELEGT: (typeof _TEXTSATZ_BELEGT !== 'undefined' ? _TEXTSATZ_BELEGT : undefined),
   sprachfassungLueckenAnzahl: (typeof sprachfassungLueckenAnzahl !== 'undefined' ? sprachfassungLueckenAnzahl : undefined),
@@ -323,6 +331,8 @@ function ladeLesen(opts) {
     V.setData = (v) => {
       if (v && typeof v === 'object' && !Object.isFrozen(v) && !(v.abWerkMitschrift && Array.isArray(v.abWerkMitschrift.situationen))) {
         v.abWerkMitschrift = Object.assign({}, v.abWerkMitschrift, { situationen: _situationenSaat() });
+        // Die Saat ist die Nutzlast des Standard-Produkts — beim echten Öffnen erkennt sie der Fingerabdruck als ab Werk.
+        for (const m of v.abWerkMitschrift.situationen) V._alsAbWerkFestgestelltLesen(m);
       }
       return setDataRoh(v);
     };

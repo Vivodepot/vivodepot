@@ -96,10 +96,12 @@ test('[U2-ADR-189·depotLaden] ein zweites, sprachlich unbeteiligtes Depot setzt
   // Selbst-Einlass-Sperre (04.10.2026): das Test-Modul ist gegen den Test-Sentinel signiert und wäre beim Öffnen gesperrt. Dieser
   // Test prüft die Fill-Runde, nicht die Sperre (die prüft die eigene Probe der Sperre) — darum hier abgeschaltet.
   leser.SELBST_EINLASS_GESPERRT = false;
-  await leser.depotLaden(umschlagHu, PW_HU);
+  // Schutz-Wagen S1/S2: die Bereichsbeschriftung setzt nur ein beim Öffnen nachgeprüftes Modul (modulBelegGeprueft), nie das Feld
+  // `ungeprueft` aus der Datei. Das Modul ist gegen den Test-Anker signiert, darum geht OPTS an die Ladeprüfung.
+  await leser.depotLaden(umschlagHu, PW_HU, OPTS);
   assert.equal(leser.SEKTOREN.find((s) => s.id === 'health').label, 'Egészség', 'Vorbedingung: Depot 1 füllt SEKTOREN auf Hungarian — das ist der bereits bekannte Weg (Teil 1)');
 
-  await leser.depotLaden(umschlagDe, PW_DE);
+  await leser.depotLaden(umschlagDe, PW_DE, OPTS);
 
   assert.equal(leser.textsatzSpracheAktiv(), 'de', 'Vorbedingung: die aktive Sprache selbst wechselt korrekt zurück auf Deutsch');
   assert.equal(leser.SEKTOREN.find((s) => s.id === 'health').label, 'Gesundheit',

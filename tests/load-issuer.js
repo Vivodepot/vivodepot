@@ -142,7 +142,7 @@ const EXPORT_HOOK = `
   SITZUNG_AUDIT, auditEintrag, auditLogJSON, renderAudit,
   // „Prüfung vor Verteilung einhängen" (25.08.2026)
   _pruefeGroessenDisziplin, _pruefeReservierteKennungen, _pruefeNamensraumKollision,
-  _pruefeTemplateSignaturen, _tplSlugVc, _namensraumIndex,
+  _pruefeTemplateSignaturen, _pruefeEinreichungSignatur, einreichungNutzlast, _kanonisch, einreichungStammdatenVermerk, EINREICHUNG_OHNE_STAMMDATENSIGNATUR_BIS, _tplSlugVc, _namensraumIndex,
   SUBMISSION_MAX_BYTES, SUBMISSION_MAX_UNTERFELDER, SUBMISSION_MAX_TEMPLATES, SUBMISSION_MAX_FELDER_PRO_TEMPLATE,
 };
 `;

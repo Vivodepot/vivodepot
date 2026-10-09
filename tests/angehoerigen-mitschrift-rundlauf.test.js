@@ -28,7 +28,10 @@ test('[Fach 11] ein nacktes Gerüst liest die fünf Blätter aus der Mitschrift 
   const mitschrift = JSON.parse(JSON.stringify(voll.V.getData().abWerkMitschrift));
 
   const { V } = ladeKern({ blank: true });
-  V._angehoerigenVorlagenAusDepotAnmelden({ abWerkMitschrift: mitschrift });
+  // Wie beim Öffnen: erst die Inhaltsprüfung — ab Werk ist die Mitschrift nur nach Inhalt (Befund MITSCHRIFT-AB-WERK-NACH-POSITION).
+  const d = { abWerkMitschrift: mitschrift };
+  await V._depotModuleAbWerkPruefen(d, true);
+  V._angehoerigenVorlagenAusDepotAnmelden(d);
   assert.deepEqual(V.angehoerigenSituationenAlle().map((s) => s.id).sort(),
     ['beerdigung', 'behoerden_nachlass', 'krankenhausakut', 'meine_menschen', 'pflegeheimakut']);
 

@@ -127,6 +127,15 @@ herkunft: invariante
 pruefung: tests/wahrhaftigkeit-fristen.test.js#[Block5] das echte Produkt trägt keine unklassifizierte Aussage (Grundlinie aktuell)
 ```
 
+## Nachtrag 06.10.2026 — Schreibtisch-Safari über Engine-Erkennung, Anlegen auf dem iOS-Tab
+
+Entscheidung 1 (kein UA-Muster) bleibt. Schreibtisch-Safari wird jetzt über eine Fähigkeit erkannt: nur WebKit kennt das
+Systemschrift-Schlüsselwort `-apple-system-body` (`CSS.supports('font', '-apple-system-body')`, gemessen an den Engines
+Chromium, Gecko und WebKit). Es gibt dort keinen eigenen Hinweis, die Einstufung gilt nur für Erinnerung und Datei-Schritt.
+Auf dem iOS-Tab führt „Depot anlegen“ zuerst zum Anlegen in der App vom Home-Bildschirm. Der Speicher des Tabs wandert beim
+Hinzufügen nicht mit, darum nennt der iOS-Hinweis jetzt den Weg über die Datei („als Datei sichern, dann in der App öffnen“)
+statt den Schutz des schon angelegten Depots. Quellen: webkit.org/tracking-prevention („7-Day Cap on All Script-Writeable Storage“, „Home Screen Web Application Domain Exempt From ITP“); webkit.org/blog/14445 („Safari does not copy over any other kind of local storage“).
+
 ---
 
 *Vivodepot GmbH · Berlin · 03.09.2026*

@@ -50,8 +50,22 @@
     },
     "layout": {
       "type": "object",
-      "maxProperties": 0,
-      "description": "Layout-Beschreibung des Profils (Entscheidung vom 02.10.2026). Form und Prüfung bringt v897 (layoutBeschreibungPruefen, v897); bis dahin nur leer."
+      "description": "Layout-Beschreibung des Profils (U2-ADR-473, W3). Leer = Bauform des Gerüsts. Sonst je Fach die Bausteine in ihrer Reihenfolge und Form. Welche Bausteine es gibt, in welchem Fach sie stehen dürfen, welche Formen sie dort haben und welche Pflicht sind (LAYOUT_PFLICHT), prüfen Kern und Bau gegen ERSCHEINUNGSBILD_REGELN; das Schema hält nur die Form.",
+      "additionalProperties": false,
+      "properties": {
+        "hilfeForm": { "enum": ["text", "info"] },
+        "feldRaster": { "enum": ["einspaltig", "zweispaltig"] },
+        "faecher": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kopf": { "$ref": "#/$defs/layoutFach" },
+            "seitenrand": { "$ref": "#/$defs/layoutFach" },
+            "inhalt": { "$ref": "#/$defs/layoutFach" },
+            "fuss": { "$ref": "#/$defs/layoutFach" }
+          }
+        }
+      }
     },
     "stil": {
       "type": "object",
@@ -179,6 +193,18 @@
     }
   },
   "$defs": {
+    "layoutFach": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["baustein"],
+        "additionalProperties": false,
+        "properties": {
+          "baustein": { "type": "string", "pattern": "^[a-z]{1,40}$" },
+          "form": { "type": "string", "pattern": "^[a-z]{1,40}$" }
+        }
+      }
+    },
     "wert": {
       "type": "string",
       "pattern": "^[#a-zA-Z0-9 .,%()'\"+\\-*/]{1,300}$",

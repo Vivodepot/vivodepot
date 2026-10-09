@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 255129
+   "bytes": 257515
   },
   "satz": {
-   "bytes": 28892
+   "bytes": 28784
   }
  },
  "fremdcode": [
@@ -237,7 +237,7 @@
   "dauerhaft": [
    {
     "name": "CODE-LISTEN",
-    "satz": 2009,
+    "satz": 1772,
     "grund": "Die Lizenz- und Urheberhinweise der eingebetteten Codelisten, deren Wortlaut nicht in LIZENZ-WORTLAUT steht (etwa die SNOMED-GPS-Zeile), und die Verweise darauf: Texte, die wir führen müssen; sie wegzulassen wäre eine Rechtsverletzung, kein Aufräumen. Die Probe sichert ihr Vorhandensein. Dazu die Daten der Codelisten selbst. Angehoben 1241 → 1349 am 29.09.2026 von Hand (das Werkzeug hat für Regionen keinen Anhebungsweg), mit Wort der Gegenlesung: Codelisten-Daten C56 und drei ATC-Codes, amtlich, Demo Patientin (v829). Angehoben 1349 → 1677 am 30.09.2026 von Hand, mit Wort der Gegenlesung: fünf LOINC-Codes der NFD-Abbildung (Sektionen, Schwangerschaftsstatus, Entbindungstermin) und die Terminologie-Konstante des IPS (SNOMED-GPS-Begriffe, KBV-Code, Sektionstitel), amtliche Daten statt Gerüst (v835). Angehoben 1677 → 1687 am 01.10.2026 von Hand, mit Wort der Gegenlesung: Rollencode-Platzhalter in eigenem Namensraum, frühere URI urn:xoev-de als aliasUris, Kürzel „Rollencode“ statt „XÖV“ (v840). Angehoben 1687 → 1705 am 02.10.2026 von Hand, mit Wort der Gegenlesung: der Sektionstitel „Advance Directives“ in IPS_BEGRIFFE.sektionen, wörtlich aus hl7.fhir.uv.ips#2.0.0 (Composition-uv-ips, sectionAdvanceDirectives), U2-ADR-466. Angehoben 1705 → 1818 am 02.10.2026 von Hand, mit ausdrücklichem Ja des Halters der Übergangsregion (Bedingung der Gegenlesung): +113 B IHE-D-Anzeigetexte (v863), Abbau mit dem Ab-Werk-Modul Codelisten (Achse Felder). Die vier amtlichen Anzeigetexte von IHE Deutschland für die ISiK-Ausgabe, unter CC BY 4.0 mit Namensnennung, erzeugt aus code-listen/terminologie/isik.json (U2-ADR-468). Angehoben 1751 → 2009 am 05.10.2026 von Hand, mit ausdrücklichem Ja des Halters der Übergangsregion und Wort der Gegenlesung (02.10.2026, +258 relativ, bestätigt 04.10.2026): +258 B KBV-PKA-Festwerte (U2-ADR-471), Abbau mit dem Ab-Werk-Modul Codelisten (Achse Felder).",
     "probe": "tests/code-listen-lizenzhinweise-im-kern.test.js"
    },
@@ -249,8 +249,8 @@
    },
    {
     "name": "LIZENZ-WORTLAUT",
-    "satz": 2890,
-    "grund": "Die Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar verlangt (LOINC § 10, BfArM-Downloadbedingungen ICD-10-GM § 1 und ATC-GM § 1); der Kern reist als einzelne Datei, eine NOTICE reist nicht mit. Genau drei Werte, jeder byte-gleich mit seinem Original unter code-listen/wortlaut/ — ein eigener Satz ist rot. Aufgenommen am 27.09.2026 mit Wort der Gegenlesung, CODE-LISTEN sank um dieselben Byte. Seit 04.10.2026 auch der SNOMED-GPS-Pflichtwortlaut (CC BY-ND 4.0; Ticket 61950 Pkt. 6, dazu der CAP-Satz der GPS-Seite), 2383 → 2890 Byte, von Hand mit Wort der Gegenlesung (das Werkzeug kennt für dauerhafte Regionen nur Senken).",
+    "satz": 3820,
+    "grund": "Die Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar verlangt (LOINC § 10, BfArM-Downloadbedingungen ICD-10-GM § 1 und ATC-GM § 1); der Kern reist als einzelne Datei, eine NOTICE reist nicht mit. Genau drei Werte, jeder byte-gleich mit seinem Original unter code-listen/wortlaut/ — ein eigener Satz ist rot. Aufgenommen am 27.09.2026 mit Wort der Gegenlesung, CODE-LISTEN sank um dieselben Byte. Seit 04.10.2026 auch der SNOMED-GPS-Pflichtwortlaut (CC BY-ND 4.0; Ticket 61950 Pkt. 6, dazu der CAP-Satz der GPS-Seite), 2383 → 2890 Byte, von Hand mit Wort der Gegenlesung (das Werkzeug kennt für dauerhafte Regionen nur Senken). Angehoben 2890 → 3820 am 07.10.2026, Zi-Band 2, mit Wort der Gegenlesung.",
     "probe": "tests/lizenz-wortlaut-im-kern.test.js"
    }
   ]
@@ -1094,6 +1094,213 @@
    "auf": 255451,
    "daneben": {},
    "grund": "Einmal-Dialoge in Reihe: Schlüssel der Reihe und Spur-Kennungen (Befund VERSIONSTOR-HINWEIS-AIR-ROT)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 255129,
+   "auf": 255172,
+   "daneben": {},
+   "grund": "Schutz-Wagen S1: Ladeprüfung aller Modultypen (Feldnamen der Belegkette, Fehler- und Fachkennungen)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 255172,
+   "auf": 255202,
+   "daneben": {},
+   "grund": "Schutz-Wagen 05.10.2026: Mitschrift nur nach Inhalt (_mitschriftNachInhalt, Verwurf-Grund mitschrift-nicht-ab-werk), Vivodepot-Marke nur ab Werk, frühere Fassungen der Mitschrift; Wort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 62
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 254570,
+   "auf": 255431,
+   "daneben": {},
+   "grund": "U2-ADR-473 W3a: Layout-Vokabular und LAYOUT_PFLICHT als Namen in ERSCHEINUNGSBILD_REGELN (nur Namen, Kopf-Skript-Wächter mit Rot-Beweis); Wort der Gegenlesung einzeln, 05.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 255431,
+   "auf": 255629,
+   "daneben": {},
+   "grund": "+198, Wort TOP 06.10.: Kennungen der Vorführ-Ansicht ausgabe (VORFUEHRUNG_AUSGABEN, Ziel bestaetigen, Textschlüssel ausgabeKopf/ausgabeChiffrat), nur Namen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 255455,
+   "auf": 256090,
+   "daneben": {},
+   "grund": "Umschau → Depot anlegen und Einstieg (06.10.2026, Befund UMSCHAU-EINTRAGEN-STILL, Produktentscheidung Einstieg): Feld-Schaltfläche in feldZeileHTML, Klick-Delegat und umschauEinrichten, Einlesen und Sub-Depots in der Leiste auch in der Umschau, Grund-Satz im Anlege-Dialog, Startseite „Depot anlegen“ mit leisem „Erst umsehen“, zwei Regeln der Anzeige-Mechanik; Wort der Gegenlesung einzeln (+511, +124)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256090,
+   "auf": 256110,
+   "daneben": {},
+   "grund": "07.10.2026: +20, Bezugsrahmen-Erkennung in positionieren() der Personen-Auswahl (Befund REFM-VORSCHLAEGE-IM-GLAS); Wort TOP einzeln",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256110,
+   "auf": 256243,
+   "daneben": {},
+   "grund": "Befunde Schrift (SCHRIFTART-OHNE-DATEI-SERIFEN, PDF-PROFILSCHRIFT-BAUPFLICHT-ZU-STRENG): Schriftstapel endet auf sans-serif, PDF-Druckprobe; Wort Gegenlesung +133",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256223,
+   "auf": 256400,
+   "daneben": {},
+   "grund": "Safari-Lücke (06.10.2026, Befund SAFARI-TAB-SPEICHER-OHNE-DATEI): Engine-Erkennung _webkitEngine und Einstufung webkitTabMitFrist, Erinnerungszweig webkitFrist, Dialoge „In der App anlegen“ und „Als Datei ablegen“; Wort der Gegenlesung einzeln (+177)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256420,
+   "auf": 256435,
+   "daneben": {},
+   "grund": "SUB-PASSWORTWECHSEL-VERLIERT-FAECHER: Fehlerkennung fach-ausschnitt (Wechsel über ein Fach abgewiesen), nur Kennung, kein Text; Wort TOP einzeln 07.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256435,
+   "auf": 256477,
+   "daneben": {},
+   "grund": "Kind-Datei-Konflikt (KINDDATEI-UEBERSCHREIBT-EIGENE-KOPIE): Rückgabewert 'konflikt' an drei Stellen und das Toast-Kennzeichen; Prüfblatt und Karte ohne Doppelung, satz ±0",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256477,
+   "auf": 256534,
+   "daneben": {},
+   "grund": "ICD-Anzeige (Befund ICD-TITEL-LIVE-VERAENDERT), 07.10.2026, mit Wort der Gegenlesung. LIZENZ-WORTLAUT: Angehoben 2890 → 3820 am 07.10.2026, Zi-Band 2, mit Wort der Gegenlesung (Quellenangabe Band 2 der BfArM-Downloadbedingungen ICD-10-GM, byte-gleich in code-listen/wortlaut/icd-10-gm-quellenangabe.txt). struktur +57: die Klartext-Anzeigestelle codeChipKlartext und die Klassen code-alltag/code-amtlich.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "region:LIZENZ-WORTLAUT",
+   "von": 2890,
+   "auf": 3820,
+   "daneben": {
+    "struktur": 57
+   },
+   "grund": "ICD-Anzeige (Befund ICD-TITEL-LIVE-VERAENDERT), 07.10.2026, mit Wort der Gegenlesung. LIZENZ-WORTLAUT: Angehoben 2890 → 3820 am 07.10.2026, Zi-Band 2, mit Wort der Gegenlesung (Quellenangabe Band 2 der BfArM-Downloadbedingungen ICD-10-GM, byte-gleich in code-listen/wortlaut/icd-10-gm-quellenangabe.txt). struktur +57: die Klartext-Anzeigestelle codeChipKlartext und die Klassen code-alltag/code-amtlich."
+  },
+  {
+   "ziel": "struktur",
+   "von": 256534,
+   "auf": 256644,
+   "daneben": {},
+   "grund": "07.10.2026: +110, _umschauFokusWennFrei (Fokus nach dem Anlegen aus der Umschau zurück ins angeklickte Feld, jedes Bedienelement); Wort TOP einzeln",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256644,
+   "auf": 256739,
+   "daneben": {},
+   "grund": "SENSIBEL-FILTER-BEREICHSBAUSTEIN (07.10.2026): Positivliste EMPFAENGER_BLATT_OHNE_SENSIBEL_FILTER (3 Kennungen, ADR-Verweise, Grund-Kennung) und die Kennungen des Filters; Wort der Gegenlesung 07.10.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256443,
+   "auf": 256477,
+   "daneben": {},
+   "grund": "Befund ERSCHEINUNGSBILD-RUECKFALL-SPEICHERSTATUS (07.10.2026): der Token --auf-fehler-kern in der Schutz-Token-Liste und in DESIGN_TOKEN_RESERVIERT; Wort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256477,
+   "auf": 256597,
+   "daneben": {},
+   "grund": "v922 Design-Wagen: Umschau-Knopftext nennt das Feld, Dialog-Fokus hin und zurück, Fokus-Rückweg nach Personen-Anlage, Personen-Zweitknopf erst ab einer Person; Wort der Gegenlesung 08.10.2026 (+120)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256597,
+   "auf": 256720,
+   "daneben": {},
+   "grund": "Haftungs-Sprachgrenze Weg B (HAFTUNG-SPRACHGRENZE): Sprachkennung, Endonyme, Rücknahme-Weiche je Kennung (Weg A je Kennung), strings:-Regel; +123 relativ (umgesetzt auf Zugkopf 00c538739: 256597 → 256720), Wort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 256720,
+   "auf": 257492,
+   "daneben": {},
+   "grund": "v922 Hinzufügen-Konvention: erster Listeneintrag im eigenen Namensraum (data-eintrag-…), Zweitknopf aus der Textart weitererEintrag, Alle Angaben, Fold-Filter, Karteileiche; Wort der Gegenlesung 08.10.2026 (+772)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 257492,
+   "auf": 257515,
+   "daneben": {},
+   "grund": "Haftung C (HAFTUNG-C-FEHLT-IM-DOKUMENT-PDF): Kartenfuß und C als ein Absatz (K3: Karte bleibt eine A6-Seite, 6 pt wie der bisherige Kartenfuß), C unter dem Widerruf, benannter Dokument-Fuß; +23 relativ zum Zugkopf af77a428d, Wort der Gegenlesung",
    "laengste": {
     "einzel": 0,
     "lauf": 64

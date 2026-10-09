@@ -146,8 +146,11 @@ test('[Feldregister] die Seite löst den Platzhalter ab: kein externes Skript, k
   assert.ok(!/<script/i.test(seite), 'kein Skript auf der Seite');
   assert.ok(!/<link\b[^>]*rel=["']?stylesheet/i.test(seite), 'kein externes Stylesheet');
   assert.ok(!/@import|fonts\.googleapis|fonts\.gstatic/i.test(seite), 'keine externe Schrift');
-  const fremd = (seite.match(/https?:\/\/[^"'\s)]+/g) || []).filter((u) => !u.startsWith('https://vivodepot.de'));
-  assert.deepEqual(fremd, [], 'die einzige externe Adresse ist vivodepot.de (Fuß, wie im Platzhalter)');
+  /* Erlaubt: vivodepot.de (Fuß, wie im Platzhalter), die eigene Kennungs-Adresse und der CC0-Rechtstext
+     (U2-ADR-NNN) — beides Verweise, kein geladener Inhalt. */
+  const erlaubt = ['https://vivodepot.de', 'https://register.vivodepot.de/feld/', 'https://creativecommons.org/publicdomain/zero/1.0/'];
+  const fremd = (seite.match(/https?:\/\/[^"'\s)<&]+/g) || []).filter((u) => !erlaubt.some((e) => u.startsWith(e)));
+  assert.deepEqual(fremd, [], 'nur vivodepot.de, die eigene Kennungs-Adresse und der CC0-Rechtstext');
 
   assert.ok(seite.includes('Vivodepot GmbH'), 'im Fuß steht die Vivodepot GmbH, wie im Platzhalter');
   assert.ok(!seite.includes('noindex'),
@@ -309,7 +312,7 @@ test('[Feldregister·Status] ein inaktiver Eintrag bleibt in JSON und Seite geli
     'der Nachfolger steht neben dem deaktivierten Eintrag');
 });
 
-test('[Feldregister·Status] Schlüsselreihenfolge im Eintrag: kennung, bereich, status, (nachfolger), label', () => {
+test('[Feldregister·Status] Schlüsselreihenfolge im Eintrag: kennung, bereich, status, (nachfolger), label, uri', () => {
   const katalog = JSON.parse(fs.readFileSync(KATALOG, 'utf8'));
   const alt = katalog.felder[0].kennung;
   const neu = katalog.felder[1].kennung;
@@ -317,10 +320,10 @@ test('[Feldregister·Status] Schlüsselreihenfolge im Eintrag: kennung, bereich,
   const register = JSON.parse(artefakt.json);
 
   const permanenterEintrag = register.felder.find((f) => f.status === 'permanent');
-  assert.deepEqual(Object.keys(permanenterEintrag), ['kennung', 'bereich', 'status', 'label']);
+  assert.deepEqual(Object.keys(permanenterEintrag), ['kennung', 'bereich', 'status', 'label', 'uri']);
 
   const obsoleterEintrag = register.felder.find((f) => f.kennung === alt);
-  assert.deepEqual(Object.keys(obsoleterEintrag), ['kennung', 'bereich', 'status', 'nachfolger', 'label']);
+  assert.deepEqual(Object.keys(obsoleterEintrag), ['kennung', 'bereich', 'status', 'nachfolger', 'label', 'uri']);
 });
 
 test('[Feldregister·Status] die Seite erklärt die drei Wörter — deutsch und englisch', () => {

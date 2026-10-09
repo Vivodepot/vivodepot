@@ -18,18 +18,20 @@ test('ein Branding-Modul ändert die sichtbare Basis-Schriftart (body, getComput
   expect(ohneBranding).toContain('Inter');
 
   const mitBranding = await page.evaluate(() => {
-    window.__vdOeffentlich.brandingAnwenden({ farbePrimaer: null, farbeSekundaer: null, schriftart: 'Comic Sans MS' });
+    window.__vdOeffentlich.brandingAnwenden({ farbePrimaer: null, farbeSekundaer: null, schriftart: 'Roboto' });
     return getComputedStyle(document.body).fontFamily;
   });
   expect(mitBranding).not.toBe(ohneBranding);
-  expect(mitBranding).toContain('Comic Sans MS');
+  // Eine Marke nimmt nur eine Schrift mit Datei oder aus dem Kern-Stapel an (Befund SCHRIFTART-OHNE-DATEI-SERIFEN, 05.10.2026,
+  // Kommentar „SCHRIFTART NUR MIT DATEI“ in vivodepot.html); Roboto steht im Stapel und rückt an die erste Stelle.
+  expect(mitBranding.split(',')[0].trim().replace(/^["']|["']$/g, '')).toBe('Roboto');
 
   // Reset-Weg seit U2-ADR-400 §1 (vivodepot.html:32612, _depotSpeicherZuruecksetzen): kein
   // hartes brandingAnwenden(null) mehr — der echte Reset fällt auf
   // _letztesBrandingOderAbWerk(null) zurück (den vollen Ab-Werk-Stack), damit ein geschlossenes
   // Depot nicht kurz die native Marke zeigt. Derselbe Weg hier, sonst prüft dieser Test einen
   // Reset-Pfad, den das Produkt gar nicht mehr geht — ein echt kaputter Reset (bliebe z. B. bei
-  // Comic Sans MS stehen) fällt weiterhin durch, denn _letztesBrandingOderAbWerk(null) kennt
+  // Roboto stehen) fällt weiterhin durch, denn _letztesBrandingOderAbWerk(null) kennt
   // dieses Depot-lose window.__vdOeffentlich.brandingAnwenden-Fenster nicht und liefert unverändert den
   // Ab-Werk-Wert zurück.
   const nachReset = await page.evaluate(() => {

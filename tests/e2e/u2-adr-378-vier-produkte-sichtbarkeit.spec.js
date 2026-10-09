@@ -49,8 +49,8 @@ const WELCOME_DE = 'Was möchten Sie erledigen?';
 const WELCOME_EN = 'What would you like to do?';
 const PRO_KARTE_SELEKTOR = '[data-modul-karte="pro-geschaeftsfuehrerin-notfallmappe"]';
 const PRO_BEREICH_ID = 'pro-vertretung-vollmachten';
-const PRO_BEREICH_LABEL_DE = 'Vertretung und Vollmachten';
-const PRO_BEREICH_LABEL_EN = 'Authority and powers of attorney';
+const PRO_BEREICH_LABEL_DE = 'Vollmachten';
+const PRO_BEREICH_LABEL_EN = 'Powers';
 
 let ziel;
 const ordner = {};

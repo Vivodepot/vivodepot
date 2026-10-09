@@ -35,6 +35,11 @@
    Weg (ohne `--ohne-suite`), danach trägt jede Fortschreibung die zuletzt gemessene Zahl
    weiter. `npm run ableitungen:build` (`tools/ableitungen-build.js`) nutzt diesen Modus für
    alle vier Träger in einem Befehl.
+   DIE FORTGESCHRIEBENE ZAHL SAGT, DASS SIE FORTGESCHRIEBEN IST (06.10.2026, Befund FAKTENBASIS-SUITE-ZAHL-
+   FORTGESCHRIEBEN): bis hierher trug die übernommene Zeile weiter „echter Lauf `node --test`“ — die Zahl 12034 stand
+   vom 27.09. an unverändert da und las sich wie heute gemessen, bis auf eine öffentliche Seite. Ein echter Lauf
+   schreibt jetzt Datum und Stand in die Zeile; `--ohne-suite` schreibt KEINE Zahl, sondern „nicht neu gemessen (letzte
+   Messung <Datum>, <Stand>)“ (`suiteZeileFortschreiben`; Wort TOP: weglassen statt einschränken, die Datei geht hinaus).
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -450,11 +455,15 @@ function formatiereMarkdown(f) {
   m += '- JWS-Signatur primär: ' + f.jwsAlgPrimaer + ' · Fallback: ' + f.jwsAlgFallback + '\n';
   m += '- Krypto-Version: ' + f.kryptoVersion + '\n\n';
   m += '---\n\n## Prüfebene\n\n';
-  m += '- Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): ' + (f.pruefebene.suiteZahl ?? f.pruefebene.suiteHinweis) + '\n';
+  m += (f.pruefebene.suiteZahl != null
+    ? suiteZeileGemessen(f.pruefebene.suiteZahl, f.erzeugtAm, f.commit)
+    : '- Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): ' + f.pruefebene.suiteHinweis) + '\n';
   m += '- E2E (Playwright): ' + f.pruefebene.e2eZahl + ' `test(`-Aufrufe in `tests/e2e/*.spec.js`'
     + ' + ' + f.pruefebene.e2eSchleifenZuwachs + ' aus Schleifen über CPU-Drosselungen = **'
-    + (f.pruefebene.e2eZahl + f.pruefebene.e2eSchleifenZuwachs) + ' ausgeführte Tests**'
-    + ' (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)\n';
+    + (f.pruefebene.e2eZahl + f.pruefebene.e2eSchleifenZuwachs) + ' Tests je Lauf**'
+    // 06.10.2026 (Befund FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN, dieselbe Klasse): vorher „ausgeführte Tests“ neben „nicht
+    // ausgeführt“ — die Zahl ist aus dem Quelltext gezählt, so viele Tests fährt ein Lauf; ausgeführt wurde hier nichts.
+    + ' (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)\n';
   m += '- Wächter-Register (intern): ' + (f.pruefebene.waechterZahl ?? ('nicht ermittelbar' + (f.pruefebene.waechterHinweis ? ' (' + f.pruefebene.waechterHinweis + ')' : ''))) + '\n';
   m += '- Schema-Version: ' + f.schemaVersion + ' · SCHALEN_STAND: ' + f.schalenStand + ' · Build-Version: ' + f.buildVersion + '\n\n';
   m += '---\n\n## ADR-Register (' + f.adrZahl + ')\n\n';
@@ -478,6 +487,48 @@ function formatiereMarkdown(f) {
 // bei jedem Lauf per Definition, und die Suite-Zahl wird in --check gar nicht erst ermittelt
 // (s. Kommentar in pruefebeneZahlen — ein echter Lauf dort wäre rekursiv). Beide werden auf einen
 // festen Platzhalter normalisiert, bevor verglichen wird.
+/* Die Suite-Zeile und ihre Herkunft (06.10.2026, Befund FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN; Wort TOP: weglassen statt
+   einschränken). Diese Datei geht öffentlich hinaus — eine Zahl, die nicht in DIESEM Lauf gemessen wurde, steht darum gar nicht
+   da, auch nicht mit Etikett. Zwei Formen:
+     gemessen          „- Suite (Node-Tests, echter Lauf `node --test` am <Datum>, <Stand>, TAP-Summenzeile): N“
+     nicht gemessen    „- Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung <Datum>, <Stand>)“ — OHNE Zahl;
+                       wer sie braucht, findet sie im Commit der letzten Messung
+   Die Zeile bleibt in beiden Fällen stehen: --check vergleicht sie normalisiert (normalisiertFuerVergleich).
+   Ältere Formen, die beim Fortschreiben vorkommen: die Zeile ohne Datum („echter Lauf `node --test`, TAP-Summenzeile): N“) —
+   ihre Herkunft kommt aus der Geschichte der Datei; und „…: nicht angegeben“ (Quelle v1.0.919) — Herkunft unbekannt.
+   Doppelpunkte bleiben aus der ersten Klammer heraus: Leser nehmen die Zahl hinter dem ersten „):“. */
+const SUITE_GEMESSEN = /^- Suite \(Node-Tests, echter Lauf `node --test` am (\d{4}-\d{2}-\d{2}), ([^,]+), TAP-Summenzeile\): (\d+)$/;
+const SUITE_NICHT_GEMESSEN = /^- Suite \(Node-Tests, `node --test`\): nicht neu gemessen \(letzte Messung ([^,)]+)(?:, ([^)]+))?\)$/;
+const SUITE_ALT = /^- Suite \(Node-Tests, echter Lauf `node --test`, TAP-Summenzeile\): (\d+)$/;
+const SUITE_NICHT_ANGEGEBEN = /^- Suite \(Node-Tests, `node --test`\): nicht angegeben$/;
+function standOhneKlammer(stand) { return String(stand || 'Arbeitsstand ohne Hash').replace(/[(),:]/g, '').replace(/\s+/g, ' ').trim(); }
+function suiteZeileGemessen(zahl, datum, stand) {
+  return '- Suite (Node-Tests, echter Lauf `node --test` am ' + datum + ', ' + standOhneKlammer(stand) + ', TAP-Summenzeile): ' + zahl;
+}
+function suiteZeileNichtGemessen(datum, stand) {
+  return '- Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung ' + (datum ? datum + ', ' + standOhneKlammer(stand) : 'unbekannt') + ')';
+}
+function suiteZeileFortschreiben(zeile, { herkunftSuchen = herkunftAusGeschichte } = {}) {
+  let m;
+  if (SUITE_NICHT_GEMESSEN.test(zeile)) return zeile;
+  if ((m = SUITE_GEMESSEN.exec(zeile))) return suiteZeileNichtGemessen(m[1], m[2]);
+  if ((m = SUITE_ALT.exec(zeile))) { const h = herkunftSuchen(m[1]); return h ? suiteZeileNichtGemessen(h.datum, h.hash) : suiteZeileNichtGemessen(null); }
+  if (SUITE_NICHT_ANGEGEBEN.test(zeile)) return suiteZeileNichtGemessen(null);
+  return null;   // keine erkennbare Suite-Zeile (etwa ein Hinweis aus --check) — der Aufrufer bricht ab, statt zu raten
+}
+// Der Commit, der die Zahl in docs/faktenbasis.md einführte (der älteste mit dieser Zeile), mit seinem Datum.
+function herkunftAusGeschichte(zahl) {
+  try {
+    const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
+    const out = execFileSync('git', ['log', '--reverse', '--format=%h %as', '-S', 'TAP-Summenzeile): ' + zahl, '--', 'docs/faktenbasis.md'],
+      { cwd: REPO, encoding: 'utf8', env: ohneGitUmgebung(), stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 64 * 1024 * 1024 });
+    const erste = out.split('\n').find(Boolean);
+    if (!erste) return null;
+    const [hash, datum] = erste.split(' ');
+    return { hash, datum };
+  } catch (_) { return null; }
+}
+
 function normalisiertFuerVergleich(text) {
   return text
     .replace(/\*\*Erzeugt am:\*\* [\d-]+ · \*\*Commit:\*\* `[^`]+`/, '**Erzeugt am:** DATUM · **Commit:** `COMMIT`')
@@ -572,16 +623,23 @@ function main() {
         + 'Abbruch, statt eine geratene Zahl zu schreiben. Einmal ohne --ohne-suite laufen lassen.');
       process.exit(1);
     }
-    neuerText = neuerText.replace(/^- Suite \(Node-Tests,.*$/m, bestehendeZeile[0]);
+    const fortgeschrieben = suiteZeileFortschreiben(bestehendeZeile[0]);
+    if (!fortgeschrieben) {
+      console.error('faktenbasis-erzeugen --ohne-suite: die Suite-Zeile in ' + AUSGABE + ' hat keine bekannte Form — '
+        + 'Abbruch, statt zu raten. Einmal ohne --ohne-suite laufen lassen.');
+      process.exit(1);
+    }
+    neuerText = neuerText.replace(/^- Suite \(Node-Tests,.*$/m, fortgeschrieben);
   }
   fs.writeFileSync(AUSGABE, neuerText);
   console.log('faktenbasis-erzeugen: docs/faktenbasis.md geschrieben (' + f.exportFormateZahl + ' Export-, ' + f.importFormateZahl + ' Import-Formate, ' + f.adrZahl + ' ADRs).'
-    + (OHNE_SUITE ? ' Suite-Zahl unverändert übernommen (--ohne-suite).' : ''));
+    + (OHNE_SUITE ? ' Suite nicht neu gemessen, Zeile ohne Zahl, mit letzter Messung (--ohne-suite).' : ''));
 }
 
 if (require.main === module) main();
 module.exports = {
-  commitHash, vonKanonErreichbar,
+  commitHash, vonKanonErreichbar, suiteZeileGemessen, suiteZeileNichtGemessen, suiteZeileFortschreiben, herkunftAusGeschichte,
+  SUITE_GEMESSEN, SUITE_NICHT_GEMESSEN, SUITE_ALT, SUITE_NICHT_ANGEGEBEN,
   erzeugeFaktenbasis, pruefebeneZahlen, formatiereMarkdown, versionsBelegeAusFunktion, erzeugerName, importErzeugerName,
   importWegBeschreiben, adrRegister, normalisiertFuerVergleich, vergleichsBefund, gestaltungsKlassen, DESIGN_KLASSEN,
 };

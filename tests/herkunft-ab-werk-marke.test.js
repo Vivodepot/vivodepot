@@ -55,7 +55,9 @@ test('[cross-20 · Spiegel] die Lese-App zählt dieselbe Datei gleich — markie
   V.modulEinlassen(JSON.stringify(fremd));
   const { V: L } = ladeLesen();
   const kern = V.modulHerkunftBerechnen(V.getData());
-  const lesen = L.modulHerkunftBerechnen(V.getData());
+  /* Die Lese-App stellt „ab Werk“ beim Öffnen nach Inhalt fest (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, 05.10.2026): gezählt wird
+     darum nach dem Öffnungsweg, wie der Empfänger die Datei sieht — ohne ihn zählte jeder Eintrag der Mitschrift als fremd. */
+  const lesen = L.modulHerkunftBerechnen(await L._depotUebernehmenGeprueft(JSON.parse(JSON.stringify(V.getData()))));
   assert.deepEqual([lesen.geprueft, lesen.ungeprueft, lesen.unbekannt], [kern.geprueft, kern.ungeprueft, kern.unbekannt]);
   assert.equal(lesen.ungeprueft, 1);
 });

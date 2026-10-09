@@ -146,7 +146,7 @@ const EXPORT_HOOK = `
   // damit die Probe die MELDUNG prueft und nicht eine zweite, danebenlaufende Fassung
   // davon: NICHT_ABBILDBARE_EIGENSCHAFTEN ist der Gegenstand, nicht eine Kopie.
   // (Dieser Block steht IN einem Template-Literal — kein Backtick, kein Dollar.)
-  normFeldtyp, normFeldtypBefund, normalisiereFeldBefund, NICHT_ABBILDBARE_EIGENSCHAFTEN,
+  normFeldtyp, normFeldtypBefund, normalisiereFeldBefund, parseCodeWerte, NICHT_ABBILDBARE_EIGENSCHAFTEN,
   felderAngleichungen, angleichSatz, FELD_BEKANNTE_SCHLUESSEL,
   // Nachtrag 16.09.2026 (alle Feld-Eigenschaften): Kern-Liste plus benannte Eigene
   GENERATOR_EIGENE_FELD_SCHLUESSEL, FELD_NICHT_DURCHGEREICHT, FELD_OHNE_KERN_VERBRAUCHER, feldnameText,
@@ -155,7 +155,7 @@ const EXPORT_HOOK = `
   // Trust-1B Schritt 2a — Anbieter signiert das Template
   templateJwsErzeugen, baueSubmissionSigniert,
   // Schnitt 24.08.2026 (A523/Sammelvorlagen) — mehrere Vorlagen in einer Einreichung
-  baueTemplateObjekt, baueSammelSubmission, baueSammelSubmissionSigniert,
+  baueTemplateObjekt, baueSammelSubmission, baueSammelSubmissionSigniert, einreichungNutzlast, rechtstextAngabe, rechtstextHash, _kanonisch, RECHTSTEXTE,
   // 1E Basistemplate-Treuhand-Signatur (U2-ADR-040)
   basistemplateTreuhandSignieren, _basisInhalt, _pubAusPriv,
   // Code-Review-Fund 27./28.08.2026: zentrale Sign-dann-selbst-verifizieren-Sequenz

@@ -49,6 +49,51 @@
                   "typ": "datum"
                 }
               ]
+            },
+            {
+              "id": "tpl_substitute_technical_manager",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_deputy_permit",
+              "typ": "text"
+            }
+          ]
+        },
+        {
+          "id": "benannte-personen",
+          "felder": [
+            {
+              "id": "tpl_first_aid_fire_evacuation_staff",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_task",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_person",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_delegated_safety_duties",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_task",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_person",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_delegated_on",
+                  "typ": "datum"
+                }
+              ]
             }
           ]
         },

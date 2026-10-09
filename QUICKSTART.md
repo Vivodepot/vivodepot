@@ -4,8 +4,8 @@
 
 ## 1. Öffnen
 
-[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/) (englisch:
-[https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/)) in einem aktuellen Browser öffnen —
+[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github) (englisch:
+[https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github)) in einem aktuellen Browser öffnen —
 keine Installation. Wer mag, legt die Seite auf den Startbildschirm bzw. installiert sie über das
 Browser-Menü; dann läuft sie auch offline.
 

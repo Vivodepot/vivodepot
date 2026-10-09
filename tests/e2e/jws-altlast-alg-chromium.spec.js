@@ -28,7 +28,10 @@ const { GEBACKENE_PRODUKT_PFADE } = require('./global-setup.js');
 const KERN = fs.readFileSync(GEBACKENE_PRODUKT_PFADE['privat-de'], 'utf8');
 const BEGIN = '// >>> VIVODEPOT-JWS-BLOCK BEGIN';
 const END = '// >>> VIVODEPOT-JWS-BLOCK END <<<';
-const JWS_BLOCK = KERN.slice(KERN.indexOf(BEGIN), KERN.indexOf(END) + END.length);
+const JWS_VON = KERN.indexOf(BEGIN);
+const JWS_BIS = KERN.indexOf(END);
+if (JWS_VON < 0 || JWS_BIS < 0) throw new Error('JWS-Block: Anfangs- oder Endmarke fehlt im gebackenen Kern');
+const JWS_BLOCK = KERN.slice(JWS_VON, JWS_BIS + END.length);
 
 test.beforeEach(() => {
   expect(JWS_BLOCK.length, 'JWS-Block muss gefunden sein').toBeGreaterThan(1000);

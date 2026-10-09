@@ -69,7 +69,23 @@ const E2E_CROSS_PFAD = 'tests/e2e-cross/';
    die Proben oder ihre Konfiguration ändern. Das Firefox-Binary kommt mit `tools/arbeitsbaum-einsatzbereit-machen.js`
    (`npx playwright install firefox`); fehlt es, ist der Lauf rot, nicht übersprungen. */
 const E2E_FIREFOX_PFAD = 'tests/e2e-firefox/';
-const FIREFOX_TRAEGER = ['vivodepot.html', 'vivodepot-lesen.html', 'playwright.config.firefox.js'];
+const FIREFOX_TRAEGER = ['vivodepot.html', 'vivodepot-lesen.html', 'playwright.config.firefox.js', 'playwright.config.drei-browser.js'];
+/* SPEICHERN IN DREI BROWSERN (05.10.2026): dieselbe Anlass-Regel trägt die Reise tests/e2e-drei-browser/ (Chromium, Firefox,
+   WebKit; Datei-Weg und Browser-Kopie). Sie läuft nach den Firefox-Proben; WebKit fährt sonst kein Weg. */
+const E2E_DREI_BROWSER_PFAD = 'tests/e2e-drei-browser/';
+/* Das gebackene Produkt, das die Reisen öffnen, entsteht nicht allein aus vivodepot.html: Backweg und Moduldateien jedes
+   der vier Produkte tragen den Speicherweg mit (Gegenlesung 05.10.2026). Genau diese Dateien, zur Laufzeit erhoben,
+   nicht ganze Ordner (tools/, tests/fixtures/ wären zu breit). */
+const PRODUKT_BACKWEG = ['tests/produkt-test-backen.js', 'tests/e2e/global-setup.js', 'tools/lib/produkt-text-erzeugen.js',
+  'tools/lib/vier-produkte.js', 'tools/produkt-konfektionieren.js'];
+function produktTraeger() {
+  const path = require('node:path');
+  const { PRODUKTE, modulDateienFuer } = require(path.join(__dirname, '..', 'tools', 'lib', 'vier-produkte.js'));
+  const wurzel = path.join(__dirname, '..');
+  const dateien = new Set(PRODUKT_BACKWEG);
+  for (const p of PRODUKTE) for (const f of modulDateienFuer(p)) dateien.add(path.relative(wurzel, f).split(path.sep).join('/'));
+  return dateien;
+}
 
 /* OBERFLÄCHEN MIT EIGENER E2E-PROBE (29.09.2026): eine reine Änderung an einer Nebenanwendung (Anlass: das Studio)
    löste keinen Lauf aus, weil die Regel nur DATEISATZ kannte — ihre Cross-Proben liefen bei solchen Commits nie mit.
@@ -134,7 +150,8 @@ function anlassEntscheiden(dateien) {
 
 function firefoxAnlassGegeben(dateien) {
   if (dateien === null) return { ja: true, grund: 'neuer Zweig oder kein messbarer Bereich' };
-  const t = dateien.filter((d) => FIREFOX_TRAEGER.includes(d) || d.startsWith(E2E_FIREFOX_PFAD));
+  const produkt = produktTraeger();
+  const t = dateien.filter((d) => FIREFOX_TRAEGER.includes(d) || d.startsWith(E2E_FIREFOX_PFAD) || d.startsWith(E2E_DREI_BROWSER_PFAD) || produkt.has(d));
   return t.length ? { ja: true, grund: 'Firefox-relevant geändert: ' + t.join(', ') } : { ja: false, grund: 'weder Oberfläche noch Firefox-Probe im Bereich' };
 }
 
@@ -256,6 +273,13 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, spawn = spawnSy
     if (f.status !== 0) {
       console.error('[e2e-bereich] ABBRUCH: die Firefox-Proben sind rot — oder das Firefox-Binary fehlt (kein Überspringen).');
       console.error('              Beheben mit: npx playwright install firefox  (oder node tools/arbeitsbaum-einsatzbereit-machen.js)');
+      return 1;
+    }
+    console.log('[e2e-bereich] Speichern in drei Browsern …');
+    const d = spawn('npm', ['run', 'test:e2e:drei-browser', '--', '--workers=1'], { stdio: 'inherit' });
+    if (d.status !== 0) {
+      console.error('[e2e-bereich] ABBRUCH: Speichern in drei Browsern ist rot — oder ein Browser-Binary fehlt (kein Überspringen).');
+      console.error('              Beheben mit: npx playwright install chromium firefox webkit');
       return 1;
     }
   }

@@ -41,6 +41,13 @@ function bekannteBereicheErzeugen(produkte = PRODUKTE) {
       neu[id] = def;
     }
   }
+  // Die Pro-Felder aus P4 (U2-ADR-243 §7) stehen nicht im Bereichsersatz, sondern in tools/pro-felder-erweiterung.json —
+  // dieselbe Struktur wie in den Templates, hier mit den deutschen Beschriftungs-Literalen wie der Rest dieser Datei.
+  require('./lib/pro-felder-erweiterung.js').strukturEinbauen(neu, undefined, 'de');
+  // Beschriftung ohne Ausfall-Aufhänger, wie im deutschen Sprachmodul (tools/textsatz-de-pro-felder-daten.js); Kennung unverändert.
+  for (const sek of ((neu['pro-finanzen-verbindlichkeiten'] || {}).sektionen || [])) {
+    for (const f of (sek.felder || [])) if (f.id === 'tpl_versorgungslage_der_familie_im_ausfall') f.label = 'Versorgungslage der Familie';
+  }
   // Code-Review 17.09.2026 (B1): die eingefrorene Zuordnung der Kennungen aus der englischen
   // Pro-Vorlage reist mit, damit jedes Produkt eine alte pro-en-Datei gleich übernimmt.
   const vorlagenKennungen = JSON.parse(fs.readFileSync(VORLAGEN_KENNUNGEN_PFAD, 'utf8'));

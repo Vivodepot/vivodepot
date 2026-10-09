@@ -58,3 +58,32 @@ test('[Erzeuger-Marken-Palette] der echte Erzeuger ist heute sauber (Zielzustand
   assert.ok(befund.hexGesamt > 0, 'Vorbedingung: der Style-Block trägt überhaupt Hex-Farben');
   assert.deepEqual(befund.fremde, [], 'Fremdfarbe im Erzeuger gefunden: ' + JSON.stringify(befund.fremde));
 });
+
+/* ══ Region STUDIO-ERSCHEINUNG (Studio S0, 08.10.2026, Wort der Gegenlesung) ══════════════════════════════════════════
+   Die gebackene Region trägt die Farben des App-Moduls. Ausgeblendet nur, wenn sie genau einmal da ist und der frisch erzeugten
+   gleicht. Rot-Beweise: eine Fremdfarbe außerhalb, die Region von Hand verändert, eine zweite Region. */
+{
+  const paletteRot = (text) => { const p = temp(text); try { return !pruefeDatei(p).sauber; } finally { fs.unlinkSync(p); } };
+  const B = require('../tools/studio-erscheinung-backen.js');
+  const STUDIO_TEXT = require('node:fs').readFileSync(B.STUDIO, 'utf8');
+  const REGION = B.regionLesen(STUDIO_TEXT);
+  const varianten = {
+    fremdAussen: STUDIO_TEXT.replace('</style>\n</head>', '.fremd { color: #1b6ec2; }\n</style>\n</head>'),
+    vonHand: STUDIO_TEXT.replace(REGION, REGION.replace('#f7f8f4', '#1b6ec2')),
+    zweiteRegion: STUDIO_TEXT.replace('</style>\n</head>', REGION + '\n</style>\n</head>'),   // nur die Marken doppelt, keine Fremdfarbe
+  };
+  for (const [name, text] of Object.entries(varianten)) {
+    test('[Region STUDIO-ERSCHEINUNG · Rot-Beweis ' + name + '] ' + 'Marken-Palette: sauber ist falsch', () => {
+      assert.notEqual(text, STUDIO_TEXT, 'die Variante greift');
+      assert.equal(paletteRot(text), true);
+    });
+  }
+  test('[Region STUDIO-ERSCHEINUNG] die echte Studio-Datei: Region genau einmal, gleich dem Modul, ausgeblendet; nichts rot', () => {
+    const r = B.regionGeprueftAusblenden(STUDIO_TEXT);
+    assert.equal(r.fehler, null);
+    assert.equal(r.ausgeblendet, true);
+    assert.equal(r.text.length, STUDIO_TEXT.length, 'zeilentreu');
+    assert.equal(paletteRot(STUDIO_TEXT), false);
+  });
+}
+

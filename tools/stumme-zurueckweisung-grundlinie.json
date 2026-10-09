@@ -51,20 +51,6 @@
     "grund": "Ein ungültiges Stellensatz-Modul: der Rumpf ist ein bloßes `continue;`, ohne Zeile in einer Verwurfsliste (ob die Funktion davor eine schreibt, ist nicht geprüft)."
    },
    {
-    "ort": "_textsatzModuleBelegPruefen",
-    "bedingung": "!certRes || !certRes.gueltig",
-    "art": "ausnahme",
-    "grund": "Eine Belegprüfung, keine Modul-Zurückweisung: ein Sprachmodul, dessen Beleg (Aussteller-Zertifikat, Signatur) nicht prüfbar ist, bleibt angemeldet und trägt nur keine Zusicherungssätze; das ist die Vertrauensgrenze bei der Arbeit, und der Stand steht als Prüfstand-Marke in der Anzeige, nicht in der Lücken-Spur.",
-    "probe": "tests/sprachmodul-zusicherungen-signiert.test.js"
-   },
-   {
-    "ort": "_textsatzModuleBelegPruefen",
-    "bedingung": "!tv || !tv.gueltig || !tv.nutzlast || tv.nutzlast.modulTyp !== 'textsatz'",
-    "art": "ausnahme",
-    "grund": "Eine Belegprüfung, keine Modul-Zurückweisung: ein Sprachmodul, dessen Beleg (Aussteller-Zertifikat, Signatur) nicht prüfbar ist, bleibt angemeldet und trägt nur keine Zusicherungssätze; das ist die Vertrauensgrenze bei der Arbeit, und der Stand steht als Prüfstand-Marke in der Anzeige, nicht in der Lücken-Spur.",
-    "probe": "tests/sprachmodul-zusicherungen-signiert.test.js"
-   },
-   {
     "ort": "_textsatzRueckfallRegistryBauen",
     "bedingung": "!geprueft.gueltig",
     "art": "offen",

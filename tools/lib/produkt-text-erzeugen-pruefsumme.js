@@ -73,7 +73,10 @@ function codePruefsumme(text) {
 // Prüfung des Erscheinungsbilds vor dem Backen (Regeln aus dem Kern, dieselben Fälle wie im Kern). Pin neu gehasht (vorher f81f1fa1…);
 // die Gateway-Kopie hat nach der Landung nachgezogen (04.10.2026); die Brücke, die bis dahin Auslieferung und Rezept-Signatur
 // anhielt, ist entfernt.
-const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = 'd4ac166c3ae7b4bd8777be2f175bb925f234f56158e3a5495e97084ba0fbd91c';
+// 05.10.2026 (U2-ADR-473 W3): die Prüfung der Layout-Beschreibung (_ebLayoutPruefen, LAYOUT_PFLICHT) im Abschnitt. Pin neu gehasht
+// (vorher d4ac166c…). Die Gateway-Kopie hat nach dem Release v920 nachgezogen (06.10.2026); die Layout-Brücke, die bis dahin nur
+// Rezepte mit Layout-Modul anhielt, ist entfernt.
+const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '98112d279bd7d3e1d3c91f1bcd5e2b94536d17ac0ad37f5dc55219aec93c28f1';
 
 const PRODUKT_TEXT_ERZEUGEN_PFAD = path.join(__dirname, 'produkt-text-erzeugen.js');
 

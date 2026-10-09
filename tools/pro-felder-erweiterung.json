@@ -1,0 +1,1468 @@
+{
+ "_hinweis": "Quelle der Pro-Felder aus P4 (U2-ADR-243 §7). Wortlaut aus dem gegengelesenen Feldentwurf vom 23.09.2026, Nr. 37 ohne Ausfall-Aufhänger. Die Struktur steht zusätzlich in tools/bereich-templates/vivodepot-pro-*.json (dort von Hand gepflegt, gleichgehalten von tests/pro-felder-erweiterung.test.js); Beschriftungen und Hinweise gehen über die Sprachmodule. `quelle` ist intern und erscheint nicht in der Oberfläche.",
+ "neueSektionen": [
+  {
+   "bereich": "pro-gesellschaft-nachfolge",
+   "id": "gesellschafter-und-anteile",
+   "de": "Gesellschafter und Anteile",
+   "en": "Partners and shares"
+  },
+  {
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "id": "abschluss-und-steuern",
+   "de": "Abschluss und Steuern",
+   "en": "Accounts and taxes"
+  },
+  {
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "id": "liquiditaet-und-glaeubiger",
+   "de": "Liquidität und Gläubiger",
+   "en": "Liquidity and creditors"
+  },
+  {
+   "bereich": "pro-betrieb-zugaenge",
+   "id": "beschaeftigte",
+   "de": "Beschäftigte",
+   "en": "Employees"
+  },
+  {
+   "bereich": "pro-betrieb-zugaenge",
+   "id": "datenschutz",
+   "de": "Datenschutz",
+   "en": "Data protection"
+  },
+  {
+   "bereich": "pro-aufbewahrung-ordnung",
+   "id": "pruefungen",
+   "de": "Prüfungen",
+   "en": "Audits"
+  },
+  {
+   "bereich": "pro-kontakte-vertretungsplan",
+   "id": "benannte-personen",
+   "de": "Benannte Personen",
+   "en": "Designated persons"
+  }
+ ],
+ "felder": [
+  {
+   "nr": 1,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "wer-darf-handeln",
+   "id": "tpl_internal_limits_on_authority",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "GmbHG § 37",
+   "de": {
+    "label": "Interne Beschränkungen der Geschäftsführung",
+    "hint": "Welche Geschäfte brauchen die Zustimmung der Gesellschafter? Wo ist das festgelegt (Satzung, Geschäftsordnung, Beschluss)?"
+   },
+   "en": {
+    "label": "Internal limits on managing directors",
+    "hint": "Which transactions need shareholder approval? Where is this laid down (articles, rules of procedure, resolution)?"
+   }
+  },
+  {
+   "nr": 2,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "wer-darf-handeln",
+   "id": "tpl_exemption_from_self_dealing",
+   "typ": "auswahl",
+   "sensibel": false,
+   "quelle": "BGB § 181; GmbHG § 35 Abs. 3",
+   "de": {
+    "label": "Befreiung vom Insichgeschäft",
+    "hint": "Ist jemand von der Beschränkung für Geschäfte mit sich selbst befreit?"
+   },
+   "en": {
+    "label": "Exemption from self-dealing restriction",
+    "hint": "Is anyone exempt from the restriction on transactions with themselves?"
+   },
+   "optionen": [
+    {
+     "wert": "ja",
+     "de": "Ja",
+     "en": "Yes"
+    },
+    {
+     "wert": "nein",
+     "de": "Nein",
+     "en": "No"
+    },
+    {
+     "wert": "weiss_nicht",
+     "de": "Weiß nicht",
+     "en": "Don't know"
+    }
+   ]
+  },
+  {
+   "nr": "2a",
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "wer-darf-handeln",
+   "id": "tpl_exemption_from_self_dealing_details",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "BGB § 181; GmbHG § 35 Abs. 3",
+   "de": {
+    "label": "Befreiung vom Insichgeschäft: wer, und wo steht es",
+    "hint": "Wer ist befreit, und wo ist es festgehalten?"
+   },
+   "en": {
+    "label": "Exemption from self-dealing: who, and where recorded",
+    "hint": "Who is exempt, and where is it recorded?"
+   }
+  },
+  {
+   "nr": 3,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "wer-darf-handeln",
+   "id": "tpl_domestic_business_address",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "GmbHG § 8 Abs. 4 Nr. 1; HGB §§ 29, 106",
+   "de": {
+    "label": "Inländische Geschäftsanschrift",
+    "hint": "Die im Register eingetragene Anschrift."
+   },
+   "en": {
+    "label": "Registered business address in Germany",
+    "hint": "The address entered in the commercial register."
+   }
+  },
+  {
+   "nr": 4,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "wer-darf-handeln",
+   "id": "tpl_authorised_recipient",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "GmbHG § 10 Abs. 2 S. 2",
+   "de": {
+    "label": "Empfangsberechtigte Person",
+    "hint": "Falls eingetragen: wer Schriftstücke für die Gesellschaft entgegennehmen darf."
+   },
+   "en": {
+    "label": "Person authorised to receive documents",
+    "hint": "If registered: who may accept documents on behalf of the company."
+   }
+  },
+  {
+   "nr": 5,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "wer-darf-handeln",
+   "id": "tpl_who_may_grant_prokura",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "HGB § 48 Abs. 1; GmbHG § 46 Nr. 7",
+   "de": {
+    "label": "Wer Prokura erteilen darf",
+    "hint": "Wer kann im Unternehmen Prokura erteilen oder widerrufen?"
+   },
+   "en": {
+    "label": "Who may grant Prokura",
+    "hint": "Who in the business can grant or revoke Prokura (statutory commercial power of attorney)?"
+   }
+  },
+  {
+   "nr": 6,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "vollmachten",
+   "id": "tpl_third_parties_notified_of_authority",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "BGB §§ 170, 171",
+   "de": {
+    "label": "Wem eine Vollmacht mitgeteilt wurde",
+    "hint": "Banken, Geschäftspartner oder Behörden, denen eine Vollmacht bekannt gegeben ist."
+   },
+   "en": {
+    "label": "Who has been told of a power of attorney",
+    "hint": "Banks, business partners or authorities that have been notified of a power of attorney."
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_name",
+     "typ": "text",
+     "de": "Name",
+     "en": "Name"
+    },
+    {
+     "id": "tpl_power_of_attorney",
+     "typ": "text",
+     "de": "Vollmacht",
+     "en": "Power of attorney"
+    },
+    {
+     "id": "tpl_notified_on",
+     "typ": "datum",
+     "de": "Mitgeteilt am",
+     "en": "Notified on"
+    }
+   ]
+  },
+  {
+   "nr": 7,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "vollmachten",
+   "id": "tpl_power_of_attorney_original",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "BGB §§ 172, 175, 176",
+   "de": {
+    "label": "Vollmachtsurkunden",
+    "hint": "Wo liegt das Original, und wurde eine erloschene Vollmacht zurückgegeben?"
+   },
+   "en": {
+    "label": "Power-of-attorney documents",
+    "hint": "Where is the original, and has an expired power of attorney been returned?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_power_of_attorney",
+     "typ": "text",
+     "de": "Vollmacht",
+     "en": "Power of attorney"
+    },
+    {
+     "id": "tpl_original_kept_at",
+     "typ": "text",
+     "de": "Verbleib des Originals",
+     "en": "Where the original is kept"
+    },
+    {
+     "id": "tpl_returned_on",
+     "typ": "datum",
+     "de": "Zurückgegeben am",
+     "en": "Returned on"
+    }
+   ]
+  },
+  {
+   "nr": 8,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "vollmachten",
+   "id": "tpl_court_approval_for_business",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "BGB §§ 1852, 1854",
+   "de": {
+    "label": "Gerichtliche Genehmigungen",
+    "hint": "Falls eine Betreuung besteht: liegt eine Genehmigung des Betreuungsgerichts für das Erwerbsgeschäft oder eine Prokura vor? Aktenzeichen, Datum."
+   },
+   "en": {
+    "label": "Court approvals",
+    "hint": "If a legal guardianship exists: is there an approval by the guardianship court for the business or for a Prokura? File number, date."
+   }
+  },
+  {
+   "nr": 9,
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "vollmachten",
+   "id": "tpl_tax_authority_power_of_attorney",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "AO § 80",
+   "de": {
+    "label": "Vollmachten gegenüber dem Finanzamt",
+    "hint": "Wer darf gegenüber dem Finanzamt handeln, und in welchem Umfang?"
+   },
+   "en": {
+    "label": "Powers of attorney for the tax office",
+    "hint": "Who may act towards the tax office (Finanzamt), and to what extent?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_authorised_person",
+     "typ": "text",
+     "de": "Bevollmächtigte",
+     "en": "Authorised person"
+    },
+    {
+     "id": "tpl_scope",
+     "typ": "text",
+     "de": "Umfang",
+     "en": "Scope"
+    },
+    {
+     "id": "tpl_tax_office",
+     "typ": "text",
+     "de": "Finanzamt",
+     "en": "Tax office"
+    }
+   ]
+  },
+  {
+   "nr": 10,
+   "bereich": "pro-gesellschaft-nachfolge",
+   "sektion": "gesellschafter-und-anteile",
+   "id": "tpl_outstanding_capital_contributions",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "GmbHG §§ 16 Abs. 2, 19",
+   "de": {
+    "label": "Offene Einlagen",
+    "hint": "Sind auf Geschäftsanteile noch Einlagen offen? Auf welchen Anteil, in welcher Höhe?"
+   },
+   "en": {
+    "label": "Outstanding capital contributions",
+    "hint": "Are contributions on any shares still unpaid? On which share, how much?"
+   }
+  },
+  {
+   "nr": 11,
+   "bereich": "pro-gesellschaft-nachfolge",
+   "sektion": "gesellschafter-und-anteile",
+   "id": "tpl_partner_personal_details",
+   "typ": "liste",
+   "sensibel": true,
+   "quelle": "BGB § 707 Abs. 2; HGB § 106 Abs. 2; PartGG § 4",
+   "de": {
+    "label": "Gesellschafterinnen und Gesellschafter",
+    "hint": "Die im Register angemeldeten Angaben jeder Gesellschafterin."
+   },
+   "en": {
+    "label": "Partners",
+    "hint": "The details of each partner as filed with the register."
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_name",
+     "typ": "text",
+     "de": "Name",
+     "en": "Name"
+    },
+    {
+     "id": "tpl_date_of_birth",
+     "typ": "datum",
+     "de": "Geburtsdatum",
+     "en": "Date of birth"
+    },
+    {
+     "id": "tpl_place_of_residence",
+     "typ": "text",
+     "de": "Wohnort",
+     "en": "Place of residence"
+    }
+   ]
+  },
+  {
+   "nr": 12,
+   "bereich": "pro-gesellschaft-nachfolge",
+   "sektion": "gesellschafter-und-anteile",
+   "id": "tpl_beneficial_owners",
+   "typ": "liste",
+   "sensibel": true,
+   "quelle": "GwG §§ 19, 20",
+   "de": {
+    "label": "Wirtschaftlich Berechtigte",
+    "hint": "Wer steht wirtschaftlich hinter dem Unternehmen, und wann wurde zuletzt an das Transparenzregister gemeldet?"
+   },
+   "en": {
+    "label": "Beneficial owners",
+    "hint": "Who ultimately owns or controls the business, and when was the Transparency Register (Transparenzregister) last notified?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_name",
+     "typ": "text",
+     "de": "Name",
+     "en": "Name"
+    },
+    {
+     "id": "tpl_nature_and_extent_of_interest",
+     "typ": "text",
+     "de": "Art und Umfang des Interesses",
+     "en": "Nature and extent of interest"
+    },
+    {
+     "id": "tpl_nationality",
+     "typ": "text",
+     "de": "Staatsangehörigkeit",
+     "en": "Nationality"
+    },
+    {
+     "id": "tpl_reported_on",
+     "typ": "datum",
+     "de": "Gemeldet am",
+     "en": "Reported on"
+    }
+   ]
+  },
+  {
+   "nr": 13,
+   "bereich": "pro-gesellschaft-nachfolge",
+   "sektion": "gesellschafter-und-anteile",
+   "id": "tpl_settlement_on_leaving",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "BGB § 728; HGB § 135",
+   "de": {
+    "label": "Abfindung beim Ausscheiden",
+    "hint": "Was gilt, wenn eine Gesellschafterin ausscheidet? Wo ist es geregelt?"
+   },
+   "en": {
+    "label": "Settlement when a partner leaves",
+    "hint": "What applies if a partner leaves? Where is it laid down?"
+   }
+  },
+  {
+   "nr": 14,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_bookkeeping_type",
+   "typ": "auswahl",
+   "sensibel": false,
+   "quelle": "HGB §§ 238, 241a; AO § 141",
+   "de": {
+    "label": "Art der Buchführung",
+    "hint": "Wie wird der Gewinn ermittelt?"
+   },
+   "en": {
+    "label": "Type of bookkeeping",
+    "hint": "How is profit determined (balance sheet or cash-basis accounting)?"
+   },
+   "optionen": [
+    {
+     "wert": "bilanz",
+     "de": "Bilanz",
+     "en": "Balance sheet"
+    },
+    {
+     "wert": "einnahmenueberschussrechnung",
+     "de": "Einnahmenüberschussrechnung",
+     "en": "Cash-basis accounting"
+    },
+    {
+     "wert": "weiss_nicht",
+     "de": "Weiß nicht",
+     "en": "Don't know"
+    }
+   ]
+  },
+  {
+   "nr": 15,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_annual_accounts",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "HGB §§ 242, 245, 264",
+   "de": {
+    "label": "Jahresabschlüsse",
+    "hint": "Wann wurde der Abschluss aufgestellt, wer hat unterzeichnet, und wo liegt er?"
+   },
+   "en": {
+    "label": "Annual financial statements",
+    "hint": "When were the statements prepared, who signed them, and where are they kept?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_financial_year",
+     "typ": "text",
+     "de": "Geschäftsjahr",
+     "en": "Financial year"
+    },
+    {
+     "id": "tpl_prepared_on",
+     "typ": "datum",
+     "de": "Aufgestellt am",
+     "en": "Prepared on"
+    },
+    {
+     "id": "tpl_signed_by",
+     "typ": "text",
+     "de": "Unterzeichnet von",
+     "en": "Signed by"
+    },
+    {
+     "id": "tpl_kept_at",
+     "typ": "text",
+     "de": "Ablageort",
+     "en": "Kept at"
+    }
+   ]
+  },
+  {
+   "nr": 16,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_size_category",
+   "typ": "auswahl",
+   "sensibel": false,
+   "quelle": "HGB §§ 267, 267a",
+   "de": {
+    "label": "Größenklasse",
+    "hint": "Die Größenklasse der Gesellschaft nach dem letzten Abschluss."
+   },
+   "en": {
+    "label": "Company size category",
+    "hint": "The company's size category according to the latest financial statements."
+   },
+   "optionen": [
+    {
+     "wert": "kleinst",
+     "de": "Kleinst",
+     "en": "Micro"
+    },
+    {
+     "wert": "klein",
+     "de": "Klein",
+     "en": "Small"
+    },
+    {
+     "wert": "mittel",
+     "de": "Mittel",
+     "en": "Medium"
+    },
+    {
+     "wert": "gross",
+     "de": "Groß",
+     "en": "Large"
+    },
+    {
+     "wert": "weiss_nicht",
+     "de": "Weiß nicht",
+     "en": "Don't know"
+    }
+   ]
+  },
+  {
+   "nr": 17,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_approval_of_annual_accounts",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "GmbHG §§ 42a, 46 Nr. 1",
+   "de": {
+    "label": "Feststellung der Abschlüsse",
+    "hint": "Wann haben die Gesellschafter den Abschluss festgestellt?"
+   },
+   "en": {
+    "label": "Approval of the financial statements",
+    "hint": "When did the shareholders formally approve the statements?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_financial_year",
+     "typ": "text",
+     "de": "Geschäftsjahr",
+     "en": "Financial year"
+    },
+    {
+     "id": "tpl_approved_on",
+     "typ": "datum",
+     "de": "Festgestellt am",
+     "en": "Approved on"
+    }
+   ]
+  },
+  {
+   "nr": 18,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_disclosure_company_register",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "HGB §§ 325, 326",
+   "de": {
+    "label": "Offenlegung",
+    "hint": "Wann wurde der Abschluss beim Unternehmensregister eingereicht?"
+   },
+   "en": {
+    "label": "Publication",
+    "hint": "When were the statements filed with the company register (Unternehmensregister)?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_financial_year",
+     "typ": "text",
+     "de": "Geschäftsjahr",
+     "en": "Financial year"
+    },
+    {
+     "id": "tpl_filed_on",
+     "typ": "datum",
+     "de": "Offengelegt oder hinterlegt am",
+     "en": "Published or deposited on"
+    }
+   ]
+  },
+  {
+   "nr": 19,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_tax_matters_responsible",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "AO §§ 34, 35, 69",
+   "de": {
+    "label": "Wer die Steuern des Unternehmens erledigt",
+    "hint": "Wer gibt Erklärungen ab und zahlt die Steuern des Unternehmens?"
+   },
+   "en": {
+    "label": "Who handles the business's taxes",
+    "hint": "Who files returns and pays the business's taxes?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_person",
+     "typ": "text",
+     "de": "Person",
+     "en": "Person"
+    },
+    {
+     "id": "tpl_task",
+     "typ": "text",
+     "de": "Aufgabe",
+     "en": "Task"
+    }
+   ]
+  },
+  {
+   "nr": 20,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "liquiditaet-und-glaeubiger",
+   "id": "tpl_creditor_list_location",
+   "typ": "text",
+   "sensibel": true,
+   "quelle": "InsO § 13 Abs. 1 S. 3–7",
+   "de": {
+    "label": "Gläubigerübersicht",
+    "hint": "Wo liegt eine aktuelle Aufstellung der Gläubiger und offenen Forderungen?"
+   },
+   "en": {
+    "label": "List of creditors",
+    "hint": "Where is an up-to-date list of creditors and outstanding claims kept?"
+   }
+  },
+  {
+   "nr": 21,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "liquiditaet-und-glaeubiger",
+   "id": "tpl_insolvency_contacts",
+   "typ": "textarea",
+   "sensibel": true,
+   "quelle": "InsO §§ 15a, 15b, 17–19",
+   "de": {
+    "label": "Ansprechpartner in der Krise",
+    "hint": "Wer berät in einer Zahlungskrise (Steuerberatung, Anwältin), und wie ist sie erreichbar?"
+   },
+   "en": {
+    "label": "Contacts in a financial crisis",
+    "hint": "Who advises in a liquidity crisis (tax adviser, lawyer), and how can they be reached?"
+   }
+  },
+  {
+   "nr": 22,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "liquiditaet-und-glaeubiger",
+   "id": "tpl_crisis_early_warning",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "StaRUG § 1",
+   "de": {
+    "label": "Krisenfrüherkennung",
+    "hint": "Wie wird die Liquidität überwacht, von wem, und in welchem Abstand?"
+   },
+   "en": {
+    "label": "Early crisis detection",
+    "hint": "How is liquidity monitored, by whom, and how often?"
+   }
+  },
+  {
+   "nr": 23,
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "liquiditaet-und-glaeubiger",
+   "id": "tpl_half_capital_loss_meeting",
+   "typ": "datum",
+   "sensibel": true,
+   "quelle": "GmbHG § 49 Abs. 3",
+   "de": {
+    "label": "Letzte Versammlung wegen Kapitalverlust",
+    "hint": "Falls es eine gab: Datum der Gesellschafterversammlung."
+   },
+   "en": {
+    "label": "Last meeting due to capital loss",
+    "hint": "If there was one: date of the shareholders' meeting."
+   }
+  },
+  {
+   "nr": 24,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "zulassungen",
+   "id": "tpl_crafts_register",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "HwO §§ 6, 7, 10, 16",
+   "de": {
+    "label": "Handwerksrolle",
+    "hint": "Eintrag, Betriebsleitung, Handwerkskarte und zuständige Kammer."
+   },
+   "en": {
+    "label": "Register of Crafts",
+    "hint": "Entry in the Handwerksrolle, technical manager, craft card and the competent chamber."
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_entry",
+     "typ": "text",
+     "de": "Eintrag",
+     "en": "Entry"
+    },
+    {
+     "id": "tpl_technical_manager",
+     "typ": "text",
+     "de": "Betriebsleitung",
+     "en": "Technical manager"
+    },
+    {
+     "id": "tpl_craft_card",
+     "typ": "text",
+     "de": "Handwerkskarte",
+     "en": "Craft card"
+    },
+    {
+     "id": "tpl_chamber",
+     "typ": "text",
+     "de": "Kammer",
+     "en": "Chamber"
+    }
+   ]
+  },
+  {
+   "nr": 25,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "zulassungen",
+   "id": "tpl_tax_registration_of_business",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "AO § 138; GewO § 14",
+   "de": {
+    "label": "Anzeigen an Gemeinde und Finanzamt",
+    "hint": "Eröffnung, Verlegung oder Aufgabe, wann angezeigt."
+   },
+   "en": {
+    "label": "Notifications to municipality and tax office",
+    "hint": "Opening, relocation or closure, and when it was notified."
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_occasion",
+     "typ": "text",
+     "de": "Anlass",
+     "en": "Occasion"
+    },
+    {
+     "id": "tpl_notified_on",
+     "typ": "datum",
+     "de": "Angezeigt am",
+     "en": "Notified on"
+    },
+    {
+     "id": "tpl_tax_office",
+     "typ": "text",
+     "de": "Finanzamt",
+     "en": "Tax office"
+    }
+   ]
+  },
+  {
+   "nr": 26,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "zulassungen",
+   "id": "tpl_business_identification_number",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "AO § 139c",
+   "de": {
+    "label": "Wirtschafts-Identifikationsnummer",
+    "hint": "Die W-IdNr. des Unternehmens."
+   },
+   "en": {
+    "label": "Business identification number",
+    "hint": "The company's Wirtschafts-Identifikationsnummer (W-IdNr.)."
+   }
+  },
+  {
+   "nr": 27,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "beschaeftigte",
+   "id": "tpl_working_time_records",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "ArbZG § 16 Abs. 2; MiLoG § 17",
+   "de": {
+    "label": "Arbeitszeitaufzeichnungen",
+    "hint": "Wie und wo wird die Arbeitszeit der Beschäftigten festgehalten?"
+   },
+   "en": {
+    "label": "Working-time records",
+    "hint": "How and where is employees' working time recorded?"
+   }
+  },
+  {
+   "nr": 28,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "beschaeftigte",
+   "id": "tpl_risk_assessment_and_safety_staff",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "ArbSchG §§ 5, 6; ASiG §§ 2, 5",
+   "de": {
+    "label": "Arbeitsschutz",
+    "hint": "Wo liegt die Gefährdungsbeurteilung? Wer ist Betriebsärztin und Fachkraft für Arbeitssicherheit?"
+   },
+   "en": {
+    "label": "Occupational safety",
+    "hint": "Where is the risk assessment kept? Who are the company doctor and the occupational safety specialist?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_risk_assessment_kept_at",
+     "typ": "text",
+     "de": "Gefährdungsbeurteilung: Ablageort",
+     "en": "Risk assessment: kept at"
+    },
+    {
+     "id": "tpl_company_doctor",
+     "typ": "text",
+     "de": "Betriebsärztin oder Betriebsarzt",
+     "en": "Company doctor"
+    },
+    {
+     "id": "tpl_safety_specialist",
+     "typ": "text",
+     "de": "Fachkraft für Arbeitssicherheit",
+     "en": "Occupational safety specialist"
+    }
+   ]
+  },
+  {
+   "nr": 29,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "beschaeftigte",
+   "id": "tpl_accident_insurance_membership",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "SGB VII §§ 165, 192",
+   "de": {
+    "label": "Unfallversicherung",
+    "hint": "Zuständige Berufsgenossenschaft, Unternehmernummer, Termin des Lohnnachweises."
+   },
+   "en": {
+    "label": "Statutory accident insurance",
+    "hint": "Competent accident insurance body (Berufsgenossenschaft), company number, payroll report date."
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_insurance_body",
+     "typ": "text",
+     "de": "Berufsgenossenschaft",
+     "en": "Accident insurance body"
+    },
+    {
+     "id": "tpl_membership_number",
+     "typ": "text",
+     "de": "Mitglieds- oder Unternehmernummer",
+     "en": "Membership or company number"
+    },
+    {
+     "id": "tpl_payroll_report_date",
+     "typ": "datum",
+     "de": "Lohnnachweis bis",
+     "en": "Payroll report by"
+    }
+   ]
+  },
+  {
+   "nr": 30,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "datenschutz",
+   "id": "tpl_record_of_processing",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "DSGVO Art. 30",
+   "de": {
+    "label": "Verzeichnis der Verarbeitungstätigkeiten",
+    "hint": "Wo liegt es, und wer pflegt es?"
+   },
+   "en": {
+    "label": "Record of processing activities",
+    "hint": "Where is it kept, and who maintains it?"
+   }
+  },
+  {
+   "nr": 31,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "datenschutz",
+   "id": "tpl_data_protection_officer",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "DSGVO Art. 37; BDSG § 38",
+   "de": {
+    "label": "Datenschutzbeauftragte",
+    "hint": "Falls benannt: Name und Kontakt."
+   },
+   "en": {
+    "label": "Data protection officer",
+    "hint": "If appointed: name and contact details."
+   }
+  },
+  {
+   "nr": 32,
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "datenschutz",
+   "id": "tpl_data_processing_agreements",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "DSGVO Art. 28 Abs. 3",
+   "de": {
+    "label": "Verträge zur Auftragsverarbeitung",
+    "hint": "Welche Dienstleister verarbeiten Daten im Auftrag, und wo liegen die Verträge?"
+   },
+   "en": {
+    "label": "Data processing agreements",
+    "hint": "Which service providers process data on the business's behalf, and where are the agreements kept?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_service_provider",
+     "typ": "text",
+     "de": "Dienstleister",
+     "en": "Service provider"
+    },
+    {
+     "id": "tpl_agreement_kept_at",
+     "typ": "text",
+     "de": "Vertrag: Ablageort",
+     "en": "Agreement kept at"
+    }
+   ]
+  },
+  {
+   "nr": 33,
+   "bereich": "pro-aufbewahrung-ordnung",
+   "sektion": "aufbewahrung-und-ordnung",
+   "id": "tpl_storage_form_and_reader",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "HGB § 257 Abs. 3; AO § 147 Abs. 2, 5",
+   "de": {
+    "label": "Form der Aufbewahrung",
+    "hint": "Papier oder elektronisch? Welche Programme oder Geräte braucht man, um die Unterlagen zu lesen?"
+   },
+   "en": {
+    "label": "How records are kept",
+    "hint": "Paper or electronic? Which software or devices are needed to read the records?"
+   }
+  },
+  {
+   "nr": 34,
+   "bereich": "pro-aufbewahrung-ordnung",
+   "sektion": "aufbewahrung-und-ordnung",
+   "id": "tpl_records_integrity_notes",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "HGB § 239; AO § 146 Abs. 3, 4",
+   "de": {
+    "label": "Hinweise zu den Unterlagen",
+    "hint": "Verwendete Abkürzungen, Kennzeichen oder Sprachen, die ein Dritter kennen muss."
+   },
+   "en": {
+    "label": "Notes on the records",
+    "hint": "Abbreviations, codes or languages used that someone else would need to know."
+   }
+  },
+  {
+   "nr": 35,
+   "bereich": "pro-aufbewahrung-ordnung",
+   "sektion": "pruefungen",
+   "id": "tpl_tax_audit_contact",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "AO §§ 200, 147 Abs. 6",
+   "de": {
+    "label": "Ansprechperson bei einer Außenprüfung",
+    "hint": "Wer begleitet eine Betriebsprüfung des Finanzamts?"
+   },
+   "en": {
+    "label": "Contact for a tax audit",
+    "hint": "Who accompanies a tax audit by the tax office?"
+   }
+  },
+  {
+   "nr": 36,
+   "bereich": "pro-aufbewahrung-ordnung",
+   "sektion": "pruefungen",
+   "id": "tpl_social_security_audit",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "SGB IV § 28p Abs. 6a",
+   "de": {
+    "label": "Prüfung durch die Rentenversicherung",
+    "hint": "Wer liefert die Daten für die Betriebsprüfung, und über welches Programm?"
+   },
+   "en": {
+    "label": "Social security audit",
+    "hint": "Who provides the data for the pension insurance audit, and through which software?"
+   }
+  },
+  {
+   "nr": 37,
+   "bereich": "pro-kontakte-vertretungsplan",
+   "sektion": "vertretungsplan",
+   "id": "tpl_substitute_technical_manager",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "HwO § 4 Abs. 2",
+   "de": {
+    "label": "Ersatz-Betriebsleitung",
+    "hint": "Wer könnte die Betriebsleitung übernehmen?"
+   },
+   "en": {
+    "label": "Substitute technical manager",
+    "hint": "Who could take over as technical manager (Betriebsleiter)?"
+   }
+  },
+  {
+   "nr": 38,
+   "bereich": "pro-kontakte-vertretungsplan",
+   "sektion": "vertretungsplan",
+   "id": "tpl_deputy_permit",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "GastG § 9 (Landesrecht beachten)",
+   "de": {
+    "label": "Stellvertretungserlaubnis",
+    "hint": "Falls vorhanden: für wen, von welcher Behörde, bis wann."
+   },
+   "en": {
+    "label": "Deputy permit",
+    "hint": "If one exists: for whom, issued by which authority, valid until when."
+   }
+  },
+  {
+   "nr": 39,
+   "bereich": "pro-kontakte-vertretungsplan",
+   "sektion": "benannte-personen",
+   "id": "tpl_first_aid_fire_evacuation_staff",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "ArbSchG § 10",
+   "de": {
+    "label": "Erste Hilfe, Brandschutz, Räumung",
+    "hint": "Wer ist dafür benannt?"
+   },
+   "en": {
+    "label": "First aid, fire safety, evacuation",
+    "hint": "Who has been designated for these tasks?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_task",
+     "typ": "text",
+     "de": "Aufgabe",
+     "en": "Task"
+    },
+    {
+     "id": "tpl_person",
+     "typ": "text",
+     "de": "Person",
+     "en": "Person"
+    }
+   ]
+  },
+  {
+   "nr": 40,
+   "bereich": "pro-kontakte-vertretungsplan",
+   "sektion": "benannte-personen",
+   "id": "tpl_delegated_safety_duties",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "ArbSchG § 13 Abs. 2",
+   "de": {
+    "label": "Übertragene Aufgaben im Arbeitsschutz",
+    "hint": "Wem wurden Aufgaben im Arbeitsschutz schriftlich übertragen?"
+   },
+   "en": {
+    "label": "Delegated occupational safety duties",
+    "hint": "To whom have occupational safety duties been delegated in writing?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_task",
+     "typ": "text",
+     "de": "Aufgabe",
+     "en": "Task"
+    },
+    {
+     "id": "tpl_person",
+     "typ": "text",
+     "de": "Person",
+     "en": "Person"
+    },
+    {
+     "id": "tpl_delegated_on",
+     "typ": "datum",
+     "de": "Übertragen am",
+     "en": "Delegated on"
+    }
+   ]
+  },
+  {
+   "nr": "T1",
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "wer-darf-handeln",
+   "id": "tpl_managing_director_register_details",
+   "typ": "liste",
+   "sensibel": true,
+   "quelle": "GmbHG § 10 Abs. 1 S. 1, § 44; HRV § 43 Nr. 4 lit. b",
+   "deckt": "Geschäftsführer: Familienname, Vorname, Geburtsdatum, Wohnort; Stellvertreter",
+   "de": {
+    "label": "Geschäftsführung laut Register",
+    "hint": "Die im Handelsregister eingetragenen Angaben jeder Geschäftsführerin und Stellvertreterin."
+   },
+   "en": {
+    "label": "Managing directors as registered",
+    "hint": "The details of each managing director and deputy as entered in the commercial register."
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_name",
+     "typ": "text",
+     "de": "Name",
+     "en": "Name"
+    },
+    {
+     "id": "tpl_date_of_birth",
+     "typ": "datum",
+     "de": "Geburtsdatum",
+     "en": "Date of birth"
+    },
+    {
+     "id": "tpl_place_of_residence",
+     "typ": "text",
+     "de": "Wohnort",
+     "en": "Place of residence"
+    },
+    {
+     "id": "tpl_power_of_representation",
+     "typ": "text",
+     "de": "Vertretungsbefugnis",
+     "en": "Power of representation"
+    }
+   ]
+  },
+  {
+   "nr": "T2",
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "vollmachten",
+   "id": "tpl_prokura_scope",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "HGB § 49 Abs. 2; § 50 Abs. 3",
+   "deckt": "Umfang der Prokura: Grundstücksbefugnis, Filialprokura",
+   "de": {
+    "label": "Umfang der Prokura",
+    "hint": "Darf die Prokura auch Grundstücke veräußern oder belasten? Ist sie auf eine Filiale beschränkt?"
+   },
+   "en": {
+    "label": "Scope of Prokura",
+    "hint": "May the Prokura also sell or encumber real property? Is it limited to one branch?"
+   }
+  },
+  {
+   "nr": "T3",
+   "bereich": "pro-vertretung-vollmachten",
+   "sektion": "vollmachten",
+   "id": "tpl_central_register_of_powers",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "BNotO § 78a Abs. 1, 2; VRegV § 1",
+   "deckt": "Registrierung im Zentralen Vorsorgeregister (freiwillig): Datum, Aufbewahrungsort, Umfang",
+   "de": {
+    "label": "Zentrales Vorsorgeregister",
+    "hint": "Falls eingetragen: wann, und welche Vollmacht?"
+   },
+   "en": {
+    "label": "Central Register of Powers of Attorney",
+    "hint": "If registered: when, and which power of attorney (Zentrales Vorsorgeregister)?"
+   }
+  },
+  {
+   "nr": "T4",
+   "bereich": "pro-gesellschaft-nachfolge",
+   "sektion": "gesellschafter-und-anteile",
+   "id": "tpl_share_transfer_and_redemption",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "GmbHG § 34 Abs. 1, 2; BGB § 711 Abs. 1; HGB § 105 Abs. 3",
+   "deckt": "Einziehung nur mit Satzungsgrundlage · Zustimmung der Mitgesellschafter zur Anteilsübertragung",
+   "de": {
+    "label": "Übertragung und Einziehung von Anteilen",
+    "hint": "Braucht die Übertragung eines Anteils die Zustimmung der Mitgesellschafter? Erlaubt die Satzung eine Einziehung? Wo steht es?"
+   },
+   "en": {
+    "label": "Transfer and redemption of shares",
+    "hint": "Does transferring a share need the other partners' consent? Do the articles allow shares to be redeemed? Where is this laid down?"
+   }
+  },
+  {
+   "nr": "T5",
+   "bereich": "pro-gesellschaft-nachfolge",
+   "sektion": "gesellschafter-und-anteile",
+   "id": "tpl_succession_evidence_documents",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "HGB § 12 Abs. 1 S. 5",
+   "deckt": "Rechtsnachfolge-Urkunden für Registeranmeldungen",
+   "de": {
+    "label": "Nachweise der Rechtsnachfolge",
+    "hint": "Wo liegen Urkunden, mit denen eine Rechtsnachfolge im Register nachgewiesen wird?"
+   },
+   "en": {
+    "label": "Evidence of legal succession",
+    "hint": "Where are the documents kept that prove a legal succession to the register?"
+   }
+  },
+  {
+   "nr": "T6",
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_inventory_location",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "HGB § 240 Abs. 1, 2",
+   "deckt": "Inventar mit Schulden",
+   "de": {
+    "label": "Inventar",
+    "hint": "Wo liegt die letzte Aufstellung von Vermögen und Schulden?"
+   },
+   "en": {
+    "label": "Inventory",
+    "hint": "Where is the latest list of assets and liabilities kept?"
+   }
+  },
+  {
+   "nr": "T7",
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_fixed_asset_register",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "EStG § 4 Abs. 3; EStDV § 60 Abs. 4",
+   "deckt": "Einnahmenüberschussrechnung mit Anlageverzeichnis",
+   "de": {
+    "label": "Anlageverzeichnis",
+    "hint": "Wo liegt das Verzeichnis des Anlagevermögens, und wer führt es?"
+   },
+   "en": {
+    "label": "Fixed asset register",
+    "hint": "Where is the register of fixed assets kept, and who maintains it?"
+   }
+  },
+  {
+   "nr": "T8",
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_electronic_submission_of_accounts",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "EStG § 5b Abs. 1; EStDV § 60 Abs. 4",
+   "deckt": "E-Bilanz · elektronische Übermittlung der Einnahmenüberschussrechnung",
+   "de": {
+    "label": "Elektronische Übermittlung der Abschlüsse",
+    "hint": "Wer übermittelt Bilanz oder Einnahmenüberschussrechnung elektronisch an das Finanzamt, und mit welchem Programm?"
+   },
+   "en": {
+    "label": "Electronic submission of accounts",
+    "hint": "Who submits the balance sheet or cash-basis accounts electronically to the tax office, and with which software?"
+   }
+  },
+  {
+   "nr": "T9",
+   "bereich": "pro-finanzen-verbindlichkeiten",
+   "sektion": "abschluss-und-steuern",
+   "id": "tpl_contingent_liabilities",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "HGB §§ 251, 268 Abs. 7",
+   "deckt": "Haftungsverhältnisse für Dritte (Bürgschaften)",
+   "de": {
+    "label": "Haftungsverhältnisse",
+    "hint": "Für wen haftet das Unternehmen, etwa durch Bürgschaften oder Garantien? Wo sind sie festgehalten?"
+   },
+   "en": {
+    "label": "Contingent liabilities",
+    "hint": "For whom is the business liable, for example through guarantees or sureties? Where are they recorded?"
+   }
+  },
+  {
+   "nr": "T10",
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "beschaeftigte",
+   "id": "tpl_employer_number",
+   "typ": "text",
+   "sensibel": false,
+   "quelle": "SGB IV § 18i",
+   "deckt": "Entgeltunterlagen, Meldedaten, Betriebsnummer, Lohnkonto",
+   "de": {
+    "label": "Betriebsnummer",
+    "hint": "Die Betriebsnummer des Unternehmens für die Sozialversicherung."
+   },
+   "en": {
+    "label": "Employer number",
+    "hint": "The business's employer number (Betriebsnummer) for social security."
+   }
+  },
+  {
+   "nr": "T11",
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "beschaeftigte",
+   "id": "tpl_social_security_contributions",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "SGB IV §§ 23, 28a, 28e, 28f Abs. 3",
+   "deckt": "Sozialversicherung: Zahlung, Fälligkeit, Beitragsnachweis; Betriebsnummer und Einzugsstelle",
+   "de": {
+    "label": "Sozialversicherungsbeiträge",
+    "hint": "An welche Einzugsstellen gehen die Beiträge, und wer reicht die Beitragsnachweise ein?"
+   },
+   "en": {
+    "label": "Social security contributions",
+    "hint": "To which collecting agencies do contributions go, and who submits the contribution statements?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_collecting_agency",
+     "typ": "text",
+     "de": "Einzugsstelle",
+     "en": "Collecting agency"
+    },
+    {
+     "id": "tpl_statements_submitted_by",
+     "typ": "text",
+     "de": "Beitragsnachweis durch",
+     "en": "Statements submitted by"
+    }
+   ]
+  },
+  {
+   "nr": "T12",
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "beschaeftigte",
+   "id": "tpl_payroll_records",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "EStG § 41 Abs. 1; LStDV § 4; SGB IV § 28f Abs. 1; BVV §§ 8, 9",
+   "deckt": "Lohnkonto und seine Inhalte · Entgeltunterlagen und ihre Inhalte",
+   "de": {
+    "label": "Lohnkonten und Entgeltunterlagen",
+    "hint": "Wo werden Lohnkonten und Entgeltunterlagen geführt, von wem, mit welchem Programm?"
+   },
+   "en": {
+    "label": "Payroll accounts and pay records",
+    "hint": "Where are payroll accounts and pay records kept, by whom, and with which software?"
+   }
+  },
+  {
+   "nr": "T13",
+   "bereich": "pro-betrieb-zugaenge",
+   "sektion": "betrieb-und-zugaenge",
+   "id": "tpl_electronic_record_keeping_systems",
+   "typ": "liste",
+   "sensibel": false,
+   "quelle": "AO § 146a Abs. 1, 4",
+   "deckt": "Elektronische Aufzeichnungssysteme: Meldung der acht Angaben, Sicherheitseinrichtung",
+   "de": {
+    "label": "Elektronische Aufzeichnungssysteme",
+    "hint": "Kassen und ähnliche Systeme: welches System, welche Sicherheitseinrichtung, wann dem Finanzamt gemeldet?"
+   },
+   "en": {
+    "label": "Electronic record-keeping systems",
+    "hint": "Tills and similar systems: which system, which security device, when notified to the tax office?"
+   },
+   "unterFelder": [
+    {
+     "id": "tpl_system",
+     "typ": "text",
+     "de": "System",
+     "en": "System"
+    },
+    {
+     "id": "tpl_security_device",
+     "typ": "text",
+     "de": "Sicherheitseinrichtung",
+     "en": "Security device"
+    },
+    {
+     "id": "tpl_notified_on",
+     "typ": "datum",
+     "de": "Gemeldet am",
+     "en": "Notified on"
+    }
+   ]
+  },
+  {
+   "nr": "T14",
+   "bereich": "pro-aufbewahrung-ordnung",
+   "sektion": "pruefungen",
+   "id": "tpl_tax_data_access",
+   "typ": "textarea",
+   "sensibel": false,
+   "quelle": "AO § 147 Abs. 6; GoBD Rz. 166, 167",
+   "deckt": "Datenzugriff der Finanzbehörde, auch beim Dritten; Altsystem",
+   "de": {
+    "label": "Datenzugriff bei einer Außenprüfung",
+    "hint": "Wie erhält eine Prüferin Zugriff auf die Daten, auch bei Dienstleistern und in früher genutzten Programmen?"
+   },
+   "en": {
+    "label": "Data access during a tax audit",
+    "hint": "How does an auditor get access to the data, including at service providers and in previously used software?"
+   }
+  }
+ ],
+ "anderweitigGedeckt": [
+  {
+   "zeile": "Vollmachtsurkunde: Verbleib des Originals, Rückgabe, Kraftloserklärung",
+   "durch": "tpl_power_of_attorney_original"
+  },
+  {
+   "zeile": "Gewerbeanzeige (Beginn, Verlegung, Änderung, Aufgabe)",
+   "durch": "tpl_tax_registration_of_business"
+  },
+  {
+   "zeile": "Handwerksrolle, Betriebsleiter, Handwerkskarte, Anzeigen an die Kammer",
+   "durch": "tpl_crafts_register, tpl_substitute_technical_manager"
+  },
+  {
+   "zeile": "Stellvertretung im Gewerbe (erlaubt, nicht verlangt)",
+   "durch": "tpl_deputy_permit"
+  },
+  {
+   "zeile": "Aufbewahrung im Empfangsformat, E-Rechnung",
+   "durch": "P5 (Rechnungsarchiv mit KoSIT-Prüfung)"
+  }
+ ],
+ "berufsrechtlichNachP2": [
+  "Vertretung bei Verhinderung; beA-Zugang",
+  "Vertretung bei Verhinderung (StBerG)",
+  "Allgemeiner Vertreter, Anzeige an die Kammer",
+  "Notarvertretung",
+  "Praxisvertretung, Mitteilung an die KV"
+ ],
+ "bereichsSatz": {
+  "bereiche": [
+   "pro-vertretung-vollmachten",
+   "pro-gesellschaft-nachfolge",
+   "pro-finanzen-verbindlichkeiten",
+   "pro-betrieb-zugaenge",
+   "pro-aufbewahrung-ordnung",
+   "pro-kontakte-vertretungsplan"
+  ],
+  "de": "Hier halten Sie fest, was es in Ihrem Unternehmen gibt und wo es liegt. Ob etwas fehlt, prüft {marke} nicht.",
+  "en": "Here you record what exists in your business and where it is kept. {marke} does not check whether anything is missing."
+ }
+}

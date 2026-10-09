@@ -96,17 +96,29 @@ test('[Erscheinungsbild·Kopf-Skript] außerhalb der Region nur Namen — kein W
 
 test('[Erscheinungsbild·Kopf-Skript·Rot-Beweis] ein eingeschmuggelter Wert wird gefunden', () => {
   for (const [name, schmuggel] of [['hex', '"#4F6539"'], ['px', '"12px"'], ['rgb', '"rgb(0,0,0)"'], ['Zahl als Text', '"4.5"'], ['Satz', '"ein Wert"']]) {
-    const t = KERN.replace('"pflicht": []', '"pflicht": [' + schmuggel + ']');
+    const t = KERN.replace('"pflicht": [', '"pflicht": [' + schmuggel + ',');
     assert.notEqual(t, KERN, 'Testvoraussetzung: Anker für ' + name);
     assert.deepEqual(nichtNamen(t), [schmuggel.slice(1, -1)], name);
   }
 });
 
+test('[Erscheinungsbild·Kopf-Skript·Rot-Beweis] ein Wert im Layout-Vokabular (Form, Fach, Parameter) wird gefunden', () => {
+  const stellen = [
+    ['Form mit Farbwert', '"marke": {"kopf":[]', '"marke": {"kopf":["#4F6539"]', '#4F6539'],
+    ['Fach mit px-Maß', '"faecher": ["kopf"', '"faecher": ["12px","kopf"', '12px'],
+    ['Parameter mit rgb', '"hilfeForm":["text"', '"hilfeForm":["rgb(0,0,0)","text"', 'rgb(0,0,0)'],
+  ];
+  for (const [name, alt, neu, fund] of stellen) {
+    assert.equal(KERN.split(alt).length, 2, 'Testvoraussetzung: Anker für ' + name + ' genau einmal');
+    assert.deepEqual(nichtNamen(KERN.replace(alt, neu)), [fund], name);
+  }
+});
+
 test('[Erscheinungsbild·Kopf-Skript·Rot-Beweis] der Kind-Kombinator gilt nur hinter html.<klasse> — in einem gewöhnlichen Namen bleibt er rot', () => {
   const gut = '"html.vorfuehrung>body>#vorfuehrung-schleife"';
-  assert.deepEqual(nichtNamen(KERN.replace('"pflicht": []', '"pflicht": [' + gut + ']')), [], 'Gegenprobe: der Selektor der Vorführungsebene ist ein Name');
+  assert.deepEqual(nichtNamen(KERN.replace('"pflicht": [', '"pflicht": [' + gut + ',')), [], 'Gegenprobe: der Selektor der Vorführungsebene ist ein Name');
   for (const schmuggel of ['"a>b"', '"--farbe>x"', '"#app>.x"', '":root>x"']) {
-    const t = KERN.replace('"pflicht": []', '"pflicht": [' + schmuggel + ']');
+    const t = KERN.replace('"pflicht": [', '"pflicht": [' + schmuggel + ',');
     assert.notEqual(t, KERN, 'Testvoraussetzung: Anker');
     assert.deepEqual(nichtNamen(t), [schmuggel.slice(1, -1)], schmuggel);
   }
@@ -114,7 +126,7 @@ test('[Erscheinungsbild·Kopf-Skript·Rot-Beweis] der Kind-Kombinator gilt nur h
 
 test('[Erscheinungsbild·Kopf-Skript·Rot-Beweis] ein Selektor mit Kind-Kombinator, der einen Wert trägt, wird gefunden', () => {
   for (const schmuggel of ['"html.vorfuehrung>body>#x{color:#fff}"', '"html.vorfuehrung>#x:#fff"', '"html.vorfuehrung>#x12px"']) {
-    const t = KERN.replace('"pflicht": []', '"pflicht": [' + schmuggel + ']');
+    const t = KERN.replace('"pflicht": [', '"pflicht": [' + schmuggel + ',');
     assert.notEqual(t, KERN, 'Testvoraussetzung: Anker');
     assert.deepEqual(nichtNamen(t), [schmuggel.slice(1, -1)], schmuggel);
   }

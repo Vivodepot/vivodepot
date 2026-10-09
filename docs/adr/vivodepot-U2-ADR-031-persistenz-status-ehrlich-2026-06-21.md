@@ -661,3 +661,10 @@ bestätigt), U2-ADR-011 (Auto-Save / Speicher-Status), U2-ADR-097 (produkttragen
 §-Zusage „kein Konto, keine Anmeldung", Stück 9), U2-ADR-125 (Browser-Testfähigkeit als
 Voraussetzung für Änderungen am Speicher-/Statusweg — Stück 12 ist ihr erster Nachweisfall nach
 Stück 11). Befund: `befund-generationen-persistenz-2026-06-21.md` (intern).
+
+## Nachtrag 06.10.2026 — Stück 4 auf WebKit im Tab
+
+Stück 4 (iOS-Install-Hinweis) schützte nur ein künftig in der App angelegtes Depot: beim Hinzufügen zum Home-Bildschirm übernimmt
+WebKit den Speicher des Tabs nicht. Auf WebKit im Tab gehört darum die erste Datei zum Anlegen (`_dateiNachAnlegenAnbieten`,
+dieselbe verschlüsselte Sicherungskopie wie aus dem Menü), und der iOS-Hinweis führt über die Datei in die App. Befund
+SAFARI-TAB-SPEICHER-OHNE-DATEI, Probe `tests/safari-luecke.test.js`, E2E `tests/e2e/safari-tab-anlegen.spec.js`. Quellen: webkit.org/tracking-prevention („7-Day Cap on All Script-Writeable Storage“, „Home Screen Web Application Domain Exempt From ITP“); webkit.org/blog/14445 („Safari does not copy over any other kind of local storage“).

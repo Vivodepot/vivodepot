@@ -192,6 +192,34 @@ JavaScript-Engines (V8, SpiderMonkey) erstellen intern Kopien von Strings und ha
 
 **Mitigation für Bürgerinnen:** Browser-Tab nach Nutzung schließen. Bei besonders sensiblen Operationen (Erst-Setup, Passwort-Änderung) Browser-Tab danach neu starten.
 
+### 6.6 Was in der Depot-Datei unverschlüsselt steht
+
+Die Depot-Datei beginnt mit einem Dateikopf, der Kennung `VIVODEPOT` und einem Byte für die Format-Version (U2-ADR-043,
+`DATEI_MAGIC_PREFIX` in `vivodepot.html`). Danach folgt die Hülle. Unverschlüsselt stehen dort:
+
+- **Angaben zum Entschlüsseln:** das Verfahren (`kryptoVersion`), das Salz der Schlüsselableitung (`pbkdf2`) und das Depot-Salz
+  (`depotSalt`). In Dateien älterer Formate stehen hier zusätzlich Initialisierungsvektor und Chiffrat (`iv`, `ct`).
+- **Die Kennung des Depots** (`depotUUID`).
+- **Die Einheiten** (`einheiten`): je Einheit eine abgeleitete Adresse und die Länge, auf 1-KiB-Stufen aufgefüllt (U2-ADR-464). Der
+  Inhalt jeder Einheit ist verschlüsselt.
+- **Die Fächer** (`umschlagTabelle`): je Fach seine Kennung, die Parameter der Schlüsselableitung und die Schlüssel je Adresse,
+  jeweils mit dem Anker- bzw. Fach-Schlüssel gewickelt; sichtbar ist damit auch die Zahl der Einträge. Bei einem Fach für einen
+  Empfängerkreis steht dort zusätzlich der Fach-Schlüssel, mit dem Passwort des Empfängers verschlossen (`fachSchluessel`). Der
+  Geheimteil jedes Fach-Eintrags (`geheim`) ist verschlüsselt.
+- **Die Wiederherstellung** (`wiederherstellung`), wenn eingerichtet: Form, Salz und Initialisierungsvektor. Die Hülle selbst
+  (`huelle`) ist verschlüsselt.
+- **Die Stand-Marke** einer heruntergeladenen Datei (`stand_marke`, in älteren Dateien `gespeichert_am`), U2-ADR-464.
+- **Der Ortshinweis** (`angehoerigenOrt`), wenn die Halterin einen einträgt: Text, den sie selbst schreibt, damit eine Angehörige vor
+  dem Passwort erfährt, wo ein zweites Passwort liegt (U2-ADR-062-Nachtrag). Jeder, der die Datei hat, kann ihn lesen, auch ohne
+  diese Anwendung. Die Anwendung sagt das beim Eintragen und rät, ihn unpräzise zu halten.
+- **Felder einer neueren Fassung**, wenn die Datei aus einer neueren Fassung stammt und diese Fassung sie nicht kennt: Sie werden
+  unverändert zurückgeschrieben; eine Änderung erkennt die Anwendung beim Öffnen über die Klartext-Bindung (U2-ADR-156-Nachtrag
+  Klartext-Bindung).
+
+Fundstellen: `DATEI_MAGIC_PREFIX`, `UMSCHLAG_FELDER_BEKANNT` und `UMSCHLAG_FELDER_BASIS` in `vivodepot.html`; die Hülle entsteht in
+`depotSerialisieren`. Weg zum Nachsehen: die Probe `tests/umschlag-klartext-ort-hinweis.test.js` hält jedes Feld der Hülle mit Grund
+fest und prüft die geschriebene Hülle.
+
 ---
 
 ## 7 · Geltungs- und Verbindlichkeits-Hinweis
@@ -226,6 +254,16 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v922 | 2026-10-08 | privat-de | `c3ee437f62a8598033f88f4d67b500faff47c6e7fc12698f2a68fbdf92760a22` |
+| v922 | 2026-10-08 | privat-en | `bd34a33d8f70933b7257a45ad56cbc9bb0724157c1869b5262ae5080ce61336a` |
+| v922 | 2026-10-08 | pro-de | `e78a00d13df04cff19496857d89ea625e8957391dbd4ce12b8104f661ec3340c` |
+| v922 | 2026-10-08 | pro-en | `a5cee8dcf2a3f162fc94211a8f4ef99d8c02863fbf97a599fed91a1ec1fb295d` |
+| v922 | 2026-10-08 | service-worker | `92ea09ea25fc7885cf7f66b5ba0839eb1a64dc43e7e220d9deae4de16362b210` |
+| v920 | 2026-10-06 | privat-de | `efe6aae32a07cf216166f2c63616c530b1b3d0e0da4ceca2ff82c45a35b81aa3` |
+| v920 | 2026-10-06 | privat-en | `9ae22072a832c14a08a434bac1408b0a2a9044b93acaa8bca99b40b295467bee` |
+| v920 | 2026-10-06 | pro-de | `c04dfbce206cc78e2f1ca3ebb3d85f895c19a917e84ea6f7b4848bc0ae2e19ed` |
+| v920 | 2026-10-06 | pro-en | `2c64c9048a0b2c6fa1d23f4a9e5206d2cb35d0bb6cb38e94365d4fc71fd06a95` |
+| v920 | 2026-10-06 | service-worker | `e4de514f0811796b5ff31f11a164eb77b16310349fb66957efc78c512077a160` |
 | v919 | 2026-10-06 | privat-de | `08dece201af9269871d947e86cdaca25c2ce63b282111f7600553e6dbc470c03` |
 | v919 | 2026-10-06 | privat-en | `5e2df156697dc73cf5261c22bb38d3cd49a09bf71fb18cd3e5c0f15c2bf07caa` |
 | v919 | 2026-10-06 | pro-de | `207451cd622c350d65d2c75d765f47b443575312ee6852a2b9662d2a667e68de` |
@@ -311,6 +349,40 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 | v787 | 2026-09-23 | pro-en | `c556eb95a7e42f49cb4c70c50e5357e72cdd328c4c82f333fc364440546fa564` |
 
 <!-- fassungen-register:ende -->
+
+
+---
+
+## 9 · Krypto-Parameter
+
+Die Tabelle ist aus dem Code erzeugt und wird bei jedem Commit gegen ihn geprüft. Sie beschreibt den Stand des Repositorys.
+
+<!-- krypto-parameter:anfang — erzeugt von tools/krypto-parameter-tabelle.js --build, nicht von Hand ändern -->
+
+Die Zahlen, Längen, Namen und Info-Präfixe in der Spalte „Wert“ sind aus `vivodepot.html` und `vivodepot-lesen.html` gelesen; die übrige Beschreibung und die Spalte „Entscheidung“ sind geschrieben und werden mit derselben Prüfung gehalten (jede genannte ADR muss als Datei vorliegen). „Auflage: externer Review“ heißt: die Entscheidung verlangt vor Produktivschaltung eine externe kryptographische Prüfung dieses Wegs; „externer Review empfohlen“ heißt: sie empfiehlt sie.
+
+| Angabe | Wert | Code-Stelle | Entscheidung |
+|---|---|---|---|
+| Passwort-Ableitung | PBKDF2-HMAC-SHA-256, 600.000 Iterationen, Ergebnis 256 Bit; das Ergebnis ist nur Eingangsschlüssel für HKDF | `PBKDF2_ITERATIONS`, `deriveMasterBits` | U2-ADR-213 |
+| PBKDF2-Salt | 16 Byte, zufällig, neu beim Anlegen und bei jedem Passwortwechsel | `depotAnlegen`, `passwortWechselDurchfuehren` | U2-ADR-002 |
+| Depot-Schlüssel | HKDF-SHA-256, Salt 32 Byte je Depot, Info `vivodepot/v3/depot/` + Depot-UUID, AES-GCM 256 Bit, nicht extrahierbar | `deriveDepotKeyV2`, `SUBDEPOT_CRYPTO_SALT_LENGTH_BYTES` | U2-ADR-002, U2-ADR-016 · externer Review empfohlen |
+| Verschlüsselung | AES-256-GCM, IV 12 Byte, je Verschlüsselung neu per `crypto.getRandomValues`, Tag 128 Bit (WebCrypto-Vorgabe) | `encryptData` | — |
+| Krypto-Versionen | [3, 4], in Kern und Lese-App vor jeder Ableitung aus einem Depot-Umschlag geprüft | `KRYPTO_VERSION_ALLOWLIST` | U2-ADR-149 |
+| AAD (Version 3) | `kryptoVersion`, `iterationen`, `kdfTyp` | `_AAD_DEPOT_V2` | B16-ADR-085-Nachtrag |
+| AAD je Feld-Einheit (Version 4) | `kryptoVersion`, `iterationen`, `kdfTyp`, `depotUUID`, `adresse` | `_aadEinheitV4` | U2-ADR-149 |
+| Feld-Einheiten | je Einheit ein eigener Inhaltsschlüssel aus 32 Zufallsbyte, unter dem Depot-Schlüssel gewickelt | `_einheitSchluesselNeu` | U2-ADR-149 |
+| Feld-Adressen | HMAC-SHA-256 über den Feldnamen, auf 16 Byte gekürzt; Schlüssel per HKDF, Info `vivodepot/v4/adressen/` + Depot-UUID | `deriveAdressKeyV4`, `ZERFALL_ADRESSE_BYTES` | U2-ADR-149 |
+| Signaturschlüssel der Halterin | Ed25519-Seed per HKDF, Info `vivodepot/v4/halter-signatur/` + Depot-UUID, nirgends gespeichert | `deriveHalterSignaturV4` | U2-ADR-457 · Auflage: externer Review |
+| Fach-Tür (Empfängerkreise) | PBKDF2 über das Passwort der Empfängerin mit eigenem Salt, danach HKDF mit demselben Info-String wie der Depot-Schlüssel (`vivodepot/v3/depot/`) | `_fachTuerSchluessel` | U2-ADR-156 |
+| Fach-Zugang | der Fach-Schlüssel wickelt nur die freigegebenen Einheiten; für die übrigen stehen Attrappen gleicher Länge | `_zerfallAttrappe` | U2-ADR-156 |
+| Wiederherstellungs-Hülle | Code mit 27 Stellen Crockford-Base32; PBKDF2 (600.000) mit eigenem 32-Byte-Salt, das Ergebnis dient direkt als AES-GCM-Schlüssel (IV 12 Byte) und wickelt das Ergebnis der Passwort-Ableitung | `WHC_STELLEN`, `_whcFrisch`, `_whcEinwickeln` | U2-ADR-430 |
+| QR-Übergabe | PBKDF2 (600.000) direkt zu AES-GCM 256 Bit, ohne HKDF | `_empfaengerQrSchluesselVerschluesseln` | keine ADR |
+| Einmalpasswort (Lese-App) | PBKDF2 direkt zu einem AES-Schlüssel, ohne HKDF | `_angDeriveKey` | U2-ADR-062, U2-ADR-153 · Auflage: externer Review |
+| Antwort als JWE, Einmalpasswort | PBES2-HS512+A256KW, PBKDF2-SHA-512 mit 600.000 Iterationen | `_jwePbes2Schluessel` | U2-ADR-449 · Auflage: externer Review |
+| SMART Health Link | JWE `alg: dir`, A256GCM, zufälliger Schlüssel 32 Byte | `_jweCompactDir` | U2-ADR-047 · externer Review empfohlen (von U2-ADR-449 und U2-ADR-457 als Auflage übernommen) |
+| Nicht extrahierbar | geheime Schlüssel werden mit `extractable: false` abgeleitet oder importiert; benannte Ausnahme: der Inhaltsschlüssel der Antwort als JWE (`antwortJwePasswort`), den das Einmalpasswort wickelt. Eine Prüfung der Suite sieht jede weitere Ausnahme | — | U2-ADR-026 |
+
+<!-- krypto-parameter:ende -->
 
 ---
 

@@ -82,18 +82,17 @@ test('[A497·4] ein mehrwertiges Feld (Ausweis) trägt zwei Einträge, über den
   await depotAnlegen(page);
   await oeffneSektor(page, 'identity');
 
-  // Erster Eintrag.
-  await page.click('[data-eintrag-hinzufuegen="idDocuments"]');
-  await page.waitForSelector('#modal-inhalt [data-edit="system"]', { state: 'visible' });
-  await page.fill('#modal-inhalt [data-edit="system"]', 'Personalausweis');
-  await page.fill('#modal-inhalt [data-edit="documentNumber"]', 'E2E-AUSWEIS-1');
-  await page.click('#m-ok');
-  await page.waitForSelector('#modal-inhalt', { state: 'hidden' });
+  // Erster Eintrag — bei leerer Liste stehen seine Eingaben direkt im Bereich (Hinzufügen, 07.10.2026); er entsteht, wenn der
+  // Fokus die Gruppe verlässt.
+  const inline = '#content [data-liste-inline="idDocuments"]';
+  await page.fill(inline + ' [data-eintrag-edit="system"]', 'Personalausweis');
+  await page.fill(inline + ' [data-eintrag-edit="documentNumber"]', 'E2E-AUSWEIS-1');
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());   // der Fokus verlässt die Gruppe
   await page.waitForFunction(() =>
     Array.isArray(window.__vdOeffentlich.ankerDaten().sektoren.identity && window.__vdOeffentlich.ankerDaten().sektoren.identity.idDocuments)
     && window.__vdOeffentlich.ankerDaten().sektoren.identity.idDocuments.length === 1);
 
-  // Zweiter Eintrag — derselbe Weg, dasselbe Feld, ein ANDERES System.
+  // Zweiter Eintrag — über „Weiteres Ausweisdokument hinzufügen“ und den echten Dialog, ein ANDERES System.
   await page.click('[data-eintrag-hinzufuegen="idDocuments"]');
   await page.waitForSelector('#modal-inhalt [data-edit="system"]', { state: 'visible' });
   await page.fill('#modal-inhalt [data-edit="system"]', 'Reisepass');

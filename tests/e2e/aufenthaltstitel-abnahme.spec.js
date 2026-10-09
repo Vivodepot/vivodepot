@@ -25,12 +25,12 @@ test('Aufenthaltstitel-Listen-Eintrag mit Gültigkeit in der Vergangenheit → P
   await depotAnlegen(page);
   await oeffneSektor(page, 'identity');
 
-  await page.click('[data-eintrag-hinzufuegen="residencePermit"]');
-  await page.waitForSelector('#modal-inhalt [data-edit="validUntil"]', { state: 'visible' });
-  await page.fill('#modal-inhalt [data-edit="number"]', 'AT-12345');
-  await page.fill('#modal-inhalt [data-edit="validUntil"]', '2020-01-01');   // eindeutig überfällig
-  await page.click('#m-ok');
-  await page.waitForSelector('#modal-inhalt', { state: 'hidden' });
+  // Hinzufügen (07.10.2026): bei leerer Liste stehen die Eingaben des ersten Eintrags direkt im Bereich; er entsteht, wenn der Fokus
+  // die Gruppe verlässt.
+  const inline = '#content [data-liste-inline="residencePermit"]';
+  await page.fill(inline + ' [data-eintrag-edit="number"]', 'AT-12345');
+  await page.fill(inline + ' [data-eintrag-edit="validUntil"]', '2020-01-01');   // eindeutig überfällig
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
 
   await page.waitForFunction(() =>
     Array.isArray(window.__vdOeffentlich.ankerDaten().sektoren.identity && window.__vdOeffentlich.ankerDaten().sektoren.identity.residencePermit)

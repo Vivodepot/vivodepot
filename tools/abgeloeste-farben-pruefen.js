@@ -133,6 +133,26 @@ function tokenWerte() {
   return werte;
 }
 
+/* Eine Datei zählen. Studio S0 (08.10.2026, Wort der Gegenlesung): die Region STUDIO-ERSCHEINUNG (Farben des App-Moduls,
+   gebacken) zählt nicht mit, aber NUR, wenn sie genau einmal da ist und der frisch erzeugten gleicht
+   (tools/studio-erscheinung-backen.js regionGeprueftAusblenden); sonst zählt jede Farbe darin, und der Grund zählt als Fund. */
+// Ohne den Erzeuger (etwa in einer verworfenen Kopie mit wenigen Dateien) wird nichts ausgeblendet: dann zählt jede Farbe.
+function regionGeprueftAusblenden(text, modul) {
+  let f = null;
+  try { f = require('./studio-erscheinung-backen.js').regionGeprueftAusblenden; } catch (_) { return { text, ausgeblendet: false, fehler: null }; }
+  return f(text, modul);
+}
+function ohneGegenstueckImText(datei, text, werte, opts = {}) {
+  const r = regionGeprueftAusblenden(text, opts.modul);
+  let stil = _stilBloecke(_maskiereKommentare(r.text));
+  // Die Token-Definitionen laengentreu ausblenden: gezaehlt werden VERWENDUNGEN.
+  stil = stil.replace(/--[a-z0-9-]+\s*:\s*[^;{}]*;/gi, (x) => ' '.repeat(x.length));
+  const treffer = (stil.match(/#[0-9a-fA-F]{3,8}\b/g) || [])
+    .map((x) => x.toLowerCase()).filter((h) => !werte.has(h));
+  const funde = [...new Set(treffer)].map((h) => ({ datei, wert: h, treffer: treffer.filter((x) => x === h).length }));
+  if (r.fehler) funde.push({ datei, wert: r.fehler, treffer: 1 });
+  return { anzahl: treffer.length + (r.fehler ? 1 : 0), funde };
+}
 function ohneGegenstueck() {
   const werte = tokenWerte();
   const jeDatei = {};
@@ -140,15 +160,9 @@ function ohneGegenstueck() {
   for (const datei of ANWENDUNGEN) {
     const pfad = path.join(REPO, datei);
     if (!fs.existsSync(pfad)) continue;
-    let stil = _stilBloecke(_maskiereKommentare(fs.readFileSync(pfad, 'utf8')));
-    // Die Token-Definitionen laengentreu ausblenden: gezaehlt werden VERWENDUNGEN.
-    stil = stil.replace(/--[a-z0-9-]+\s*:\s*[^;{}]*;/gi, (x) => ' '.repeat(x.length));
-    const treffer = (stil.match(/#[0-9a-fA-F]{3,8}\b/g) || [])
-      .map((x) => x.toLowerCase()).filter((h) => !werte.has(h));
-    jeDatei[datei] = treffer.length;
-    for (const h of new Set(treffer)) {
-      funde.push({ datei, wert: h, treffer: treffer.filter((x) => x === h).length });
-    }
+    const z = ohneGegenstueckImText(datei, fs.readFileSync(pfad, 'utf8'), werte);
+    jeDatei[datei] = z.anzahl;
+    funde.push(...z.funde);
   }
   const summe = Object.values(jeDatei).reduce((a, b) => a + b, 0);
   return { summe, jeDatei, funde, tokenAnzahl: werte.size };
@@ -238,4 +252,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { pruefen, ohneGegenstueck, tokenWerte, erscheinungsbildQuellen, ABGELOEST, ANWENDUNGEN, AUSNAHMEN, GEGENSTUECK_GRUNDLINIE };
+module.exports = { ohneGegenstueckImText, pruefen, ohneGegenstueck, tokenWerte, erscheinungsbildQuellen, ABGELOEST, ANWENDUNGEN, AUSNAHMEN, GEGENSTUECK_GRUNDLINIE };

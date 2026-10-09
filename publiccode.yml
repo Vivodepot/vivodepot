@@ -4,14 +4,14 @@ publiccodeYmlVersion: "0.4"   # nach der offiziellen openCoDE-Vorlage (28.09.202
 name: Vivodepot
 # openCoDE verlangt das eigene Projekt; es spiegelt den Ursprung github.com/vivodepot/vivodepot.
 url: "https://gitlab.opencode.de/vivodepot/vivodepot"
-landingURL: "https://vivodepot.de"
+landingURL: "https://vivodepot.de/?von=github"
 # Das Logo im obersten Ordner, als PNG (der openCoDE-Server liefert SVG als text/plain aus, discourse.opencode.de/t/4670); Das Logo ist Kennzeichen der Vivodepot GmbH und nicht von der EUPL erfasst.
 logo: logo.png
 
 # softwareVersion und releaseDate setzt der Zuschnitt-Bau aus der zuletzt ausgelieferten Kern-Fassung, nie von Hand;
 # die Einträge je Fassung stehen in CHANGELOG.md.
-softwareVersion: "1.0.919"
-releaseDate: "2026-10-06"
+softwareVersion: "1.0.922"
+releaseDate: "2026-10-08"
 
 developmentStatus: stable
 softwareType: standalone/web
@@ -28,8 +28,6 @@ intendedAudience:
   # Bewusst nur "society": Vivodepot ist auf keinen Sektor und keine Altersgruppe zugeschnitten.
   scope:
     - society
-  countries:
-    - "de"
 
 
 
@@ -38,17 +36,19 @@ description:
     localisedName: Vivodepot
     genericName: "Persönliche Dokumentenablage"
     shortDescription: >
-      Offline-Anwendung, mit der Menschen ihre Unterlagen aus allen Lebensbereichen selbst speichern und
-      gezielt weitergeben.
+      Quelloffene Anwendung, mit der Menschen ihre Unterlagen selbst halten und Auszüge gezielt weitergeben.
     longDescription: >
-      Vivodepot ist eine quelloffene Anwendung in einer einzigen HTML-Datei. Sie läuft im Browser, ohne
-      Internetverbindung und ohne Konto. Die Unterlagen werden verschlüsselt in einer Datei gespeichert, die bei
-      der Person selbst liegt, nicht auf einem Server.
+      Wer etwas beantragt, gibt dieselben Angaben immer wieder ab, und jede Stelle will sie in ihrer eigenen Form.
+      Das heißt abtippen, oder die Unterlagen bleiben bei der Stelle, der man sie einmal gegeben hat.
 
-      Müssen Unterlagen weitergegeben werden, etwa an eine Behörde, eine Praxis oder eine Bank, gibt die Person
-      nur den passenden Auszug heraus, in gängigen Formaten wie HL7 FHIR, vCard, iCalendar oder PDF.
+      Vivodepot hält die Unterlagen bei der Person. Sie liegen in einer verschlüsselten Datei, die der Mensch selbst
+      besitzt, für das eigene Leben. Die Anwendung ist eine einzelne HTML-Datei, läuft im Browser und braucht kein Konto.
+      Wer eine Stelle bedienen will, gibt einen Auszug heraus, in einem offenen Format wie FHIR. Die Anwendung sendet
+      keine Daten aus dem Depot an einen Server.
+
+      Der Quelltext ist offen (EUPL-1.2).
     features:
-      - Läuft offline, ohne Konto und ohne Server
+      - Läuft ohne Konto
       - Verschlüsselung mit AES-256-GCM, Schlüssel aus dem Passwort der Nutzerin
       - Ausgabe als HL7 FHIR International Patient Summary
       - Weitere Ausgaben als vCard, Kalenderdatei und PDF
@@ -65,17 +65,18 @@ description:
     localisedName: Vivodepot
     genericName: "Personal document vault"
     shortDescription: >
-      Offline application that lets people store their records from all areas of life themselves and pass on
-      only what is needed.
+      Open-source application that lets people keep their own records and hand out extracts where they are needed.
     longDescription: >
-      Vivodepot is an open-source application in a single HTML file. It runs in the browser without an
-      internet connection and without an account. The records are stored encrypted in one file that stays with the person, not on a
-      server.
+      Anyone who applies for something hands over the same details again and again, and every office wants them in its
+      own format. That means retyping, or the records stay with whoever received them once.
 
-      When records have to be passed on, for example to an authority, a doctor's practice or a bank, the person
-      hands over only the relevant extract, in common formats such as HL7 FHIR, vCard, iCalendar or PDF.
+      Vivodepot keeps the records with the person. They sit in one encrypted file the person holds, for one's own life.
+      The application is a single HTML file, runs in the browser and needs no account. To serve a recipient, the person
+      hands out an extract in an open format such as FHIR. The application sends no data from the depot to any server.
+
+      The source code is open (EUPL-1.2).
     features:
-      - Runs offline, with no account and no server
+      - No account needed
       - AES-256-GCM encryption, key derived from the user's password
       - Export as HL7 FHIR International Patient Summary
       - Further exports as vCard, calendar file and PDF
@@ -90,7 +91,7 @@ description:
       - docs/screenshots/vivodepot-beispielansicht.png
 
 legal:
-  # Die Lizenz des ganzen Repositorys; Einzelheiten stehen in LICENSING.md.
+  # Einzelheiten zur Lizenz stehen in LICENSING.md.
   license: EUPL-1.2
   mainCopyrightOwner: "Vivodepot GmbH"
 
@@ -102,7 +103,7 @@ maintenance:
       affiliation: "Vivodepot GmbH, Berlin"
 
 localisation:
-  localisationReady: false
+  localisationReady: true
   availableLanguages:
     - de
     - en

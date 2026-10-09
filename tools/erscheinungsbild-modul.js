@@ -32,6 +32,13 @@ const REPO = path.join(__dirname, '..');
 const QUELLE_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'heute.css');
 const ZIEL_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-heute-modul.json');
 const STIL_REIHENFOLGE = path.join(REPO, 'tools', 'erscheinung', 'stil-reihenfolge.json');
+// Profil „Salbei mit Glas“ (U2-ADR-473 W5a): Quelle, stil-Reihenfolge und Ziel, gebaut wie jedes Profil (--quelle … --stil-reihenfolge …).
+const PROFIL_SALBEI_GLAS = Object.freeze({
+  id: 'salbei-glas',
+  quelle: path.join(REPO, 'tools', 'erscheinung', 'salbei-glas.css'),
+  stilReihenfolge: path.join(REPO, 'tools', 'erscheinung', 'stil-reihenfolge-salbei-glas.json'),
+  ziel: path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-salbei-glas-modul.json'),
+});
 const STIL_ORDNER = path.join(REPO, 'tools', 'erscheinung', 'stil');
 const SCHRIFTEN_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'schriften.json');
 
@@ -142,6 +149,6 @@ function main(argv) {
   return 0;
 }
 
-module.exports = { cssZuModul, modulText, stilBauen, schriftenBauen, SCHRIFTEN_HEUTE, QUELLE_HEUTE, ZIEL_HEUTE, STIL_REIHENFOLGE, EBENE_JE_SELEKTOR };
+module.exports = { cssZuModul, modulText, stilBauen, schriftenBauen, SCHRIFTEN_HEUTE, QUELLE_HEUTE, ZIEL_HEUTE, STIL_REIHENFOLGE, EBENE_JE_SELEKTOR, PROFIL_SALBEI_GLAS };
 
 if (require.main === module) process.exit(main(process.argv.slice(2)));

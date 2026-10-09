@@ -1,0 +1,124 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "en",
+  "kennung": "vivodepot/pro-kanzlei",
+  "fassung": 1,
+  "bereiche": {
+    "pro-kanzlei": {
+      "id": "pro-kanzlei",
+      "label": "Law practice",
+      "icon": "scale",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Cover & succession",
+      "clusterRang": 1,
+      "sektionen": [
+        {
+          "id": "vertretung-und-abwicklung",
+          "label": "Cover and winding up of the practice",
+          "felder": [
+            {
+              "id": "tpl_attorney_representative",
+              "typ": "liste",
+              "label": "Representative",
+              "hint": "Who represents you if you cannot work in the practice for more than a week? Since when has this been arranged?",
+              "quelle": "BRAO § 53",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_arranged_on",
+                  "typ": "datum",
+                  "label": "Arranged on"
+                }
+              ]
+            },
+            {
+              "id": "tpl_practice_winding_up_wish",
+              "typ": "text",
+              "label": "Preference for winding up the practice",
+              "hint": "Whom would you suggest to the bar association to wind up the practice (Abwickler)?",
+              "quelle": "BRAO § 55"
+            }
+          ]
+        },
+        {
+          "id": "kanzlei-und-pflichten",
+          "label": "Practice and professional duties",
+          "felder": [
+            {
+              "id": "tpl_bar_membership",
+              "typ": "liste",
+              "label": "Bar association",
+              "hint": "Competent bar association (Rechtsanwaltskammer) and membership number.",
+              "quelle": "BRAO § 60",
+              "unterFelder": [
+                {
+                  "id": "tpl_chamber",
+                  "typ": "text",
+                  "label": "Chamber"
+                },
+                {
+                  "id": "tpl_membership_number",
+                  "typ": "text",
+                  "label": "Membership number"
+                }
+              ]
+            },
+            {
+              "id": "tpl_professional_liability_insurance",
+              "typ": "liste",
+              "label": "Professional liability insurance",
+              "hint": "Insurer and policy number.",
+              "quelle": "BRAO § 51",
+              "unterFelder": [
+                {
+                  "id": "tpl_insurer",
+                  "typ": "text",
+                  "label": "Insurer"
+                },
+                {
+                  "id": "tpl_policy_number",
+                  "typ": "text",
+                  "label": "Policy number"
+                }
+              ]
+            },
+            {
+              "id": "tpl_client_files_location",
+              "typ": "textarea",
+              "label": "Client files",
+              "hint": "Where are the client files (Handakten) kept, and who has access? Only the location, no client data.",
+              "quelle": "BRAO § 50"
+            },
+            {
+              "id": "tpl_bea_access",
+              "typ": "textarea",
+              "label": "beA: who has access rights",
+              "hint": "Who holds access rights to the special electronic lawyers' mailbox (beA), for example the representative or the person winding up the practice? Only names and procedures: certificates and access codes stay with their holders.",
+              "quelle": "BRAO § 31a; RAVPV § 26 Abs. 1"
+            },
+            {
+              "id": "tpl_confidentiality_obligations",
+              "typ": "text",
+              "label": "Bound to confidentiality",
+              "hint": "Who in the practice has been bound to confidentiality, and where is the declaration kept?",
+              "quelle": "BRAO § 43a; StGB § 203"
+            },
+            {
+              "id": "tpl_practice_software",
+              "typ": "text",
+              "label": "Practice software and data access",
+              "hint": "Which software does the practice use, and where is it recorded how a representative gets access? No access data.",
+              "quelle": "Ablagefeld ohne Norm (Quellenregel E:3338)"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

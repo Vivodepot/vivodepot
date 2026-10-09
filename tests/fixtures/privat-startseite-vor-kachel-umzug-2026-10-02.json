@@ -1,0 +1,402 @@
+{
+ "privat-de": {
+  "ohneDepot": "<h1 class=\"welcome-brand\" id=\"overlay-titel\"><svg class=\"welcome-logo-mark\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#vd-logo\"/></svg><span class=\"welcome-wort\"><span class=\"lw-vivo-d\">VIVO</span><span class=\"lw-depot-d\">DEPOT</span></span></h1><p class=\"frage narrativ\">Was möchten Sie erledigen?</p><div class=\"klasse-titel\">Lebensereignisse</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"geburt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 12h.01\"/><path d=\"M15 12h.01\"/><path d=\"M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5\"/><path d=\"M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1\"/></svg></span><span>Geburt eines Kindes</span></button><button class=\"anlass\" data-anlass=\"volljaehrig\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg></span><span>Volljährigkeit oder Auszug</span></button><button class=\"anlass\" data-anlass=\"hauskauf\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Hauskauf oder Heirat</span></button><button class=\"anlass\" data-anlass=\"notar\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"M7 21h10\"/><path d=\"M12 3v18\"/><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/></svg></span><span>Termin beim Notar oder bei der Bank</span></button><button class=\"anlass\" data-anlass=\"umzug\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Umzug oder Haushaltsauflösung</span></button><button class=\"anlass\" data-anlass=\"krisenvorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><polyline points=\"3.29 7 12 12 20.71 7\"/><path d=\"m7.5 4.27 9 5.15\"/></svg></span><span>Krisenvorsorge</span></button><button class=\"anlass\" data-anlass=\"trennung-scheidung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg></span><span>Trennung oder Scheidung</span></button><button class=\"anlass\" data-anlass=\"arbeitslosigkeit\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 12V7H5a2 2 0 0 1 0-4h14v4\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h16v-5\"/><path d=\"M18 12a2 2 0 0 0 0 4h4v-4Z\"/></svg></span><span>Arbeitslosigkeit</span></button></div><div class=\"klasse-titel\">Gesundheit & Pflege</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"arzt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 2v2\"/><path d=\"M5 2v2\"/><path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"/><path d=\"M8 15a6 6 0 0 0 12 0v-3\"/><circle cx=\"20\" cy=\"10\" r=\"2\"/></svg></span><span>Arzttermin</span></button><button class=\"anlass\" data-anlass=\"krankenhaus\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z\"/><path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\"/></svg></span><span>Krankenhaus-Aufenthalt</span></button><button class=\"anlass\" data-anlass=\"pflegeheim\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Einzug ins Pflegeheim</span></button><button class=\"anlass\" data-anlass=\"rechtliche-betreuung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Rechtliche Betreuung</span></button></div><div class=\"klasse-titel\">Tod, Erbe & Offenes</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"todesfall\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/><path d=\"M10 9H8\"/></svg></span><span>Ein Todesfall ist eingetreten</span></button><button class=\"anlass\" data-anlass=\"eigene-vorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Vorsorge treffen</span></button></div><div class=\"anlass-sekundaer\"><div class=\"klasse-titel\">Oder erst einmal umsehen</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"einfach-so\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg></span><span>Einfach so — weil es Zeit wird</span></button><button class=\"anlass\" data-anlass=\"umsehen\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>Ich schaue mich erst einmal um</span></button></div></div><div style=\"margin-top:var(--space-5)\"><button class=\"btn btn-sek\" id=\"a-zurueck\">Zurück</button></div>",
+  "mitDepot": "<h1 class=\"welcome-brand\" id=\"overlay-titel\"><svg class=\"welcome-logo-mark\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#vd-logo\"/></svg><span class=\"welcome-wort\"><span class=\"lw-vivo-d\">VIVO</span><span class=\"lw-depot-d\">DEPOT</span></span></h1><p class=\"frage narrativ\">Was möchten Sie erledigen?</p><div class=\"klasse-titel\">Lebensereignisse</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"geburt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 12h.01\"/><path d=\"M15 12h.01\"/><path d=\"M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5\"/><path d=\"M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1\"/></svg></span><span>Geburt eines Kindes</span></button><button class=\"anlass\" data-anlass=\"volljaehrig\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg></span><span>Volljährigkeit oder Auszug</span></button><button class=\"anlass\" data-anlass=\"hauskauf\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Hauskauf oder Heirat</span></button><button class=\"anlass\" data-anlass=\"notar\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"M7 21h10\"/><path d=\"M12 3v18\"/><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/></svg></span><span>Termin beim Notar oder bei der Bank</span></button><button class=\"anlass\" data-anlass=\"umzug\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Umzug oder Haushaltsauflösung</span></button><button class=\"anlass\" data-anlass=\"krisenvorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><polyline points=\"3.29 7 12 12 20.71 7\"/><path d=\"m7.5 4.27 9 5.15\"/></svg></span><span>Krisenvorsorge</span></button><button class=\"anlass\" data-anlass=\"trennung-scheidung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg></span><span>Trennung oder Scheidung</span></button><button class=\"anlass\" data-anlass=\"arbeitslosigkeit\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 12V7H5a2 2 0 0 1 0-4h14v4\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h16v-5\"/><path d=\"M18 12a2 2 0 0 0 0 4h4v-4Z\"/></svg></span><span>Arbeitslosigkeit</span></button></div><div class=\"klasse-titel\">Gesundheit & Pflege</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"arzt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 2v2\"/><path d=\"M5 2v2\"/><path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"/><path d=\"M8 15a6 6 0 0 0 12 0v-3\"/><circle cx=\"20\" cy=\"10\" r=\"2\"/></svg></span><span>Arzttermin</span></button><button class=\"anlass\" data-anlass=\"krankenhaus\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z\"/><path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\"/></svg></span><span>Krankenhaus-Aufenthalt</span></button><button class=\"anlass\" data-anlass=\"pflegeheim\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Einzug ins Pflegeheim</span></button><button class=\"anlass\" data-anlass=\"rechtliche-betreuung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Rechtliche Betreuung</span></button></div><div class=\"klasse-titel\">Tod, Erbe & Offenes</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"todesfall\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/><path d=\"M10 9H8\"/></svg></span><span>Ein Todesfall ist eingetreten</span></button><button class=\"anlass\" data-anlass=\"eigene-vorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Vorsorge treffen</span></button></div><div class=\"anlass-sekundaer\"><div class=\"klasse-titel\">Oder erst einmal umsehen</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"einfach-so\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg></span><span>Einfach so — weil es Zeit wird</span></button><button class=\"anlass\" data-anlass=\"umsehen\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>Ich schaue mich erst einmal um</span></button></div></div><div style=\"margin-top:var(--space-5)\"><button class=\"btn btn-sek\" id=\"a-zurueck\">Zurück</button></div>",
+  "anlaesse": [
+   {
+    "id": "geburt",
+    "klasse": 1,
+    "icon": "baby",
+    "ziel": {
+     "wizard": "gebwiz"
+    },
+    "versteckt": false,
+    "label": "Geburt eines Kindes"
+   },
+   {
+    "id": "volljaehrig",
+    "klasse": 1,
+    "icon": "user",
+    "ziel": {
+     "step": "start"
+    },
+    "versteckt": false,
+    "label": "Volljährigkeit oder Auszug"
+   },
+   {
+    "id": "hauskauf",
+    "klasse": 1,
+    "icon": "home",
+    "ziel": {
+     "step": "immobilien"
+    },
+    "versteckt": false,
+    "label": "Hauskauf oder Heirat"
+   },
+   {
+    "id": "notar",
+    "klasse": 1,
+    "icon": "scale",
+    "ziel": {
+     "step": "testament"
+    },
+    "versteckt": false,
+    "label": "Termin beim Notar oder bei der Bank"
+   },
+   {
+    "id": "umzug",
+    "klasse": 1,
+    "icon": "home",
+    "ziel": {
+     "wizard": "umzwiz"
+    },
+    "versteckt": false,
+    "label": "Umzug oder Haushaltsauflösung"
+   },
+   {
+    "id": "krisenvorsorge",
+    "klasse": 1,
+    "icon": "package",
+    "ziel": {
+     "lage": "ausst-krisenvorsorge"
+    },
+    "versteckt": false,
+    "label": "Krisenvorsorge"
+   },
+   {
+    "id": "trennung-scheidung",
+    "klasse": 1,
+    "icon": "users",
+    "ziel": {
+     "lage": "trennung-scheidung"
+    },
+    "versteckt": false,
+    "label": "Trennung oder Scheidung"
+   },
+   {
+    "id": "arbeitslosigkeit",
+    "klasse": 1,
+    "icon": "wallet",
+    "ziel": {
+     "lage": "arbeitslosigkeit"
+    },
+    "versteckt": false,
+    "label": "Arbeitslosigkeit"
+   },
+   {
+    "id": "arzt",
+    "klasse": 2,
+    "icon": "stethoscope",
+    "ziel": {
+     "sbl": 2
+    },
+    "versteckt": false,
+    "label": "Arzttermin"
+   },
+   {
+    "id": "krankenhaus",
+    "klasse": 2,
+    "icon": "heartPulse",
+    "ziel": {
+     "sbl": 5
+    },
+    "versteckt": false,
+    "label": "Krankenhaus-Aufenthalt"
+   },
+   {
+    "id": "pflegeheim",
+    "klasse": 2,
+    "icon": "shield",
+    "ziel": {
+     "wizard": "pflwiz"
+    },
+    "versteckt": false,
+    "label": "Einzug ins Pflegeheim"
+   },
+   {
+    "id": "rechtliche-betreuung",
+    "klasse": 2,
+    "icon": "shield",
+    "ziel": {
+     "lage": "rechtliche-betreuung"
+    },
+    "versteckt": false,
+    "label": "Rechtliche Betreuung"
+   },
+   {
+    "id": "todesfall",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "zwischenfrage": [
+      "erbfall",
+      "todesfall-uebernahme",
+      "verwitwung"
+     ]
+    },
+    "versteckt": false,
+    "label": "Ein Todesfall ist eingetreten"
+   },
+   {
+    "id": "erbfall",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "sbl": "erbfall"
+    },
+    "versteckt": true,
+    "label": "Erbfall"
+   },
+   {
+    "id": "todesfall-uebernahme",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "sbl": "todesfall-uebernahme"
+    },
+    "versteckt": true,
+    "label": "Todesfall"
+   },
+   {
+    "id": "verwitwung",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "lage": "verwitwung"
+    },
+    "versteckt": true,
+    "label": "Verwitwung"
+   },
+   {
+    "id": "eigene-vorsorge",
+    "klasse": 3,
+    "icon": "shield",
+    "ziel": {
+     "lage": "eigene-vorsorge"
+    },
+    "versteckt": false,
+    "label": "Vorsorge treffen"
+   },
+   {
+    "id": "einfach-so",
+    "klasse": 0,
+    "icon": "star",
+    "ziel": {
+     "step": "assistenten"
+    },
+    "versteckt": false,
+    "label": "Einfach so — weil es Zeit wird"
+   },
+   {
+    "id": "umsehen",
+    "klasse": 0,
+    "icon": "chevronRight",
+    "ziel": {
+     "demo": true
+    },
+    "versteckt": false,
+    "label": "Ich schaue mich erst einmal um"
+   }
+  ]
+ },
+ "privat-en": {
+  "ohneDepot": "<h1 class=\"welcome-brand\" id=\"overlay-titel\"><svg class=\"welcome-logo-mark\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#vd-logo\"/></svg><span class=\"welcome-wort\"><span class=\"lw-vivo-d\">VIVO</span><span class=\"lw-depot-d\">DEPOT</span></span></h1><p class=\"frage narrativ\">What would you like to do?</p><div class=\"klasse-titel\">Life events</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"geburt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 12h.01\"/><path d=\"M15 12h.01\"/><path d=\"M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5\"/><path d=\"M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1\"/></svg></span><span>Birth of a child</span></button><button class=\"anlass\" data-anlass=\"volljaehrig\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg></span><span>Coming of age or moving out</span></button><button class=\"anlass\" data-anlass=\"hauskauf\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Buying a home or getting married</span></button><button class=\"anlass\" data-anlass=\"notar\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"M7 21h10\"/><path d=\"M12 3v18\"/><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/></svg></span><span>Appointment with a notary or bank</span></button><button class=\"anlass\" data-anlass=\"umzug\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Moving house or clearing a household</span></button><button class=\"anlass\" data-anlass=\"krisenvorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><polyline points=\"3.29 7 12 12 20.71 7\"/><path d=\"m7.5 4.27 9 5.15\"/></svg></span><span>Crisis preparedness</span></button><button class=\"anlass\" data-anlass=\"trennung-scheidung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg></span><span>Separation or divorce</span></button><button class=\"anlass\" data-anlass=\"arbeitslosigkeit\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 12V7H5a2 2 0 0 1 0-4h14v4\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h16v-5\"/><path d=\"M18 12a2 2 0 0 0 0 4h4v-4Z\"/></svg></span><span>Unemployment</span></button></div><div class=\"klasse-titel\">Health & care</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"arzt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 2v2\"/><path d=\"M5 2v2\"/><path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"/><path d=\"M8 15a6 6 0 0 0 12 0v-3\"/><circle cx=\"20\" cy=\"10\" r=\"2\"/></svg></span><span>Doctor's appointment</span></button><button class=\"anlass\" data-anlass=\"krankenhaus\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z\"/><path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\"/></svg></span><span>Hospital stay</span></button><button class=\"anlass\" data-anlass=\"pflegeheim\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Moving into a care home</span></button><button class=\"anlass\" data-anlass=\"rechtliche-betreuung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Court-appointed representation</span></button></div><div class=\"klasse-titel\">Death, inheritance & loose ends</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"todesfall\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/><path d=\"M10 9H8\"/></svg></span><span>A death has occurred</span></button><button class=\"anlass\" data-anlass=\"eigene-vorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Making provisions</span></button></div><div class=\"anlass-sekundaer\"><div class=\"klasse-titel\">Or just have a look around first</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"einfach-so\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg></span><span>Just because — it's about time</span></button><button class=\"anlass\" data-anlass=\"umsehen\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>I'm just looking around for now</span></button></div></div><div style=\"margin-top:var(--space-5)\"><button class=\"btn btn-sek\" id=\"a-zurueck\">Back</button></div>",
+  "mitDepot": "<h1 class=\"welcome-brand\" id=\"overlay-titel\"><svg class=\"welcome-logo-mark\" aria-hidden=\"true\" focusable=\"false\"><use href=\"#vd-logo\"/></svg><span class=\"welcome-wort\"><span class=\"lw-vivo-d\">VIVO</span><span class=\"lw-depot-d\">DEPOT</span></span></h1><p class=\"frage narrativ\">What would you like to do?</p><div class=\"klasse-titel\">Life events</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"geburt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 12h.01\"/><path d=\"M15 12h.01\"/><path d=\"M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5\"/><path d=\"M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1\"/></svg></span><span>Birth of a child</span></button><button class=\"anlass\" data-anlass=\"volljaehrig\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg></span><span>Coming of age or moving out</span></button><button class=\"anlass\" data-anlass=\"hauskauf\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Buying a home or getting married</span></button><button class=\"anlass\" data-anlass=\"notar\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"/><path d=\"M7 21h10\"/><path d=\"M12 3v18\"/><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/></svg></span><span>Appointment with a notary or bank</span></button><button class=\"anlass\" data-anlass=\"umzug\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/></svg></span><span>Moving house or clearing a household</span></button><button class=\"anlass\" data-anlass=\"krisenvorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><polyline points=\"3.29 7 12 12 20.71 7\"/><path d=\"m7.5 4.27 9 5.15\"/></svg></span><span>Crisis preparedness</span></button><button class=\"anlass\" data-anlass=\"trennung-scheidung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg></span><span>Separation or divorce</span></button><button class=\"anlass\" data-anlass=\"arbeitslosigkeit\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 12V7H5a2 2 0 0 1 0-4h14v4\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h16v-5\"/><path d=\"M18 12a2 2 0 0 0 0 4h4v-4Z\"/></svg></span><span>Unemployment</span></button></div><div class=\"klasse-titel\">Health & care</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"arzt\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M11 2v2\"/><path d=\"M5 2v2\"/><path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"/><path d=\"M8 15a6 6 0 0 0 12 0v-3\"/><circle cx=\"20\" cy=\"10\" r=\"2\"/></svg></span><span>Doctor's appointment</span></button><button class=\"anlass\" data-anlass=\"krankenhaus\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z\"/><path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\"/></svg></span><span>Hospital stay</span></button><button class=\"anlass\" data-anlass=\"pflegeheim\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Moving into a care home</span></button><button class=\"anlass\" data-anlass=\"rechtliche-betreuung\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Court-appointed representation</span></button></div><div class=\"klasse-titel\">Death, inheritance & loose ends</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"todesfall\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/><path d=\"M10 9H8\"/></svg></span><span>A death has occurred</span></button><button class=\"anlass\" data-anlass=\"eigene-vorsorge\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/></svg></span><span>Making provisions</span></button></div><div class=\"anlass-sekundaer\"><div class=\"klasse-titel\">Or just have a look around first</div><div class=\"anlass-grid\"><button class=\"anlass\" data-anlass=\"einfach-so\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2\"/></svg></span><span>Just because — it's about time</span></button><button class=\"anlass\" data-anlass=\"umsehen\"><span class=\"ico\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>I'm just looking around for now</span></button></div></div><div style=\"margin-top:var(--space-5)\"><button class=\"btn btn-sek\" id=\"a-zurueck\">Back</button></div>",
+  "anlaesse": [
+   {
+    "id": "geburt",
+    "klasse": 1,
+    "icon": "baby",
+    "ziel": {
+     "wizard": "gebwiz"
+    },
+    "versteckt": false,
+    "label": "Birth of a child"
+   },
+   {
+    "id": "volljaehrig",
+    "klasse": 1,
+    "icon": "user",
+    "ziel": {
+     "step": "start"
+    },
+    "versteckt": false,
+    "label": "Coming of age or moving out"
+   },
+   {
+    "id": "hauskauf",
+    "klasse": 1,
+    "icon": "home",
+    "ziel": {
+     "step": "immobilien"
+    },
+    "versteckt": false,
+    "label": "Buying a home or getting married"
+   },
+   {
+    "id": "notar",
+    "klasse": 1,
+    "icon": "scale",
+    "ziel": {
+     "step": "testament"
+    },
+    "versteckt": false,
+    "label": "Appointment with a notary or bank"
+   },
+   {
+    "id": "umzug",
+    "klasse": 1,
+    "icon": "home",
+    "ziel": {
+     "wizard": "umzwiz"
+    },
+    "versteckt": false,
+    "label": "Moving house or clearing a household"
+   },
+   {
+    "id": "krisenvorsorge",
+    "klasse": 1,
+    "icon": "package",
+    "ziel": {
+     "lage": "ausst-krisenvorsorge"
+    },
+    "versteckt": false,
+    "label": "Crisis preparedness"
+   },
+   {
+    "id": "trennung-scheidung",
+    "klasse": 1,
+    "icon": "users",
+    "ziel": {
+     "lage": "trennung-scheidung"
+    },
+    "versteckt": false,
+    "label": "Separation or divorce"
+   },
+   {
+    "id": "arbeitslosigkeit",
+    "klasse": 1,
+    "icon": "wallet",
+    "ziel": {
+     "lage": "arbeitslosigkeit"
+    },
+    "versteckt": false,
+    "label": "Unemployment"
+   },
+   {
+    "id": "arzt",
+    "klasse": 2,
+    "icon": "stethoscope",
+    "ziel": {
+     "sbl": 2
+    },
+    "versteckt": false,
+    "label": "Doctor's appointment"
+   },
+   {
+    "id": "krankenhaus",
+    "klasse": 2,
+    "icon": "heartPulse",
+    "ziel": {
+     "sbl": 5
+    },
+    "versteckt": false,
+    "label": "Hospital stay"
+   },
+   {
+    "id": "pflegeheim",
+    "klasse": 2,
+    "icon": "shield",
+    "ziel": {
+     "wizard": "pflwiz"
+    },
+    "versteckt": false,
+    "label": "Moving into a care home"
+   },
+   {
+    "id": "rechtliche-betreuung",
+    "klasse": 2,
+    "icon": "shield",
+    "ziel": {
+     "lage": "rechtliche-betreuung"
+    },
+    "versteckt": false,
+    "label": "Court-appointed representation"
+   },
+   {
+    "id": "todesfall",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "zwischenfrage": [
+      "erbfall",
+      "todesfall-uebernahme",
+      "verwitwung"
+     ]
+    },
+    "versteckt": false,
+    "label": "A death has occurred"
+   },
+   {
+    "id": "erbfall",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "sbl": "erbfall"
+    },
+    "versteckt": true,
+    "label": "Inheritance case"
+   },
+   {
+    "id": "todesfall-uebernahme",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "sbl": "todesfall-uebernahme"
+    },
+    "versteckt": true,
+    "label": "Death of another person"
+   },
+   {
+    "id": "verwitwung",
+    "klasse": 3,
+    "icon": "fileText",
+    "ziel": {
+     "lage": "verwitwung"
+    },
+    "versteckt": true,
+    "label": "Widowhood"
+   },
+   {
+    "id": "eigene-vorsorge",
+    "klasse": 3,
+    "icon": "shield",
+    "ziel": {
+     "lage": "eigene-vorsorge"
+    },
+    "versteckt": false,
+    "label": "Making provisions"
+   },
+   {
+    "id": "einfach-so",
+    "klasse": 0,
+    "icon": "star",
+    "ziel": {
+     "step": "assistenten"
+    },
+    "versteckt": false,
+    "label": "Just because — it's about time"
+   },
+   {
+    "id": "umsehen",
+    "klasse": 0,
+    "icon": "chevronRight",
+    "ziel": {
+     "demo": true
+    },
+    "versteckt": false,
+    "label": "I'm just looking around for now"
+   }
+  ]
+ }
+}

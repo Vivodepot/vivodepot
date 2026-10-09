@@ -43,7 +43,8 @@ test('[Textsatz-Einlass·Positivkontrolle] ein Modul, dessen Kennungen alle beka
   V._moduleEinlassWirken(r);
   assert.equal(toasts.length, 1);
   assert.equal(toasts[0].art, 'ok', 'Erfolg bleibt Erfolg');
-  assert.ok(toasts[0].text.includes('textsatz') && toasts[0].text.includes('fr'));
+  // Seit 07.10.2026 ohne Modul-Typ und -Kennung (keine technischen Markierungen in der Benutzersicht).
+  assert.ok(!toasts[0].text.includes('textsatz') && !/\bfr\b/.test(toasts[0].text), 'keine technische Kennung in der Meldung: ' + toasts[0].text);
 });
 
 /* ── BEFUND 1 — ALLES VERWORFEN ───────────────────────────────────────────────────────────── */
@@ -106,7 +107,8 @@ test('[Textsatz-Einlass·teilweise] die Person sieht die Warnung mit der Zahl st
   assert.equal(toasts.length, 1);
   assert.equal(toasts[0].art, 'warn', 'mit Verlust ist es keine Erfolgsmeldung');
   assert.ok(toasts[0].text.includes('2'), 'die Zahl steht in der Meldung: ' + toasts[0].text);
-  assert.ok(toasts[0].text.includes('textsatz') && toasts[0].text.includes('fr'));
+  // Seit 07.10.2026 ohne Modul-Typ und -Kennung (keine technischen Markierungen in der Benutzersicht).
+  assert.ok(!toasts[0].text.includes('textsatz') && !/\bfr\b/.test(toasts[0].text), 'keine technische Kennung in der Meldung: ' + toasts[0].text);
   assert.equal(V.getData().textsprache, 'fr', 'angenommen bleibt angenommen: das Modul wirkt, der Verlust ist benannt');
 });
 

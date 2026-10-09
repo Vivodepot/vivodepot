@@ -250,18 +250,19 @@ test('5) Keine Emoji im Markup; Sie-Form (Pflicht-Marker per ARIA, nicht „Du")
     'keine Du-Form in der Maschine');
 });
 
-test('5) Andock-Format (FHIR_IPS, W3C_VC, …) NICHT sichtbar — nur als Tooltip/ARIA', async () => {
+/* Seit 07.10.2026 steht das Andock-Format nirgends in der Benutzersicht, auch nicht als Tooltip oder Vorlesetext: Entscheidung der
+   Produktverantwortung „keine technischen Markierungen in der Benutzersicht“, „aber auch nicht für Nutzer erkennbar“ (Nachtrag in der
+   Entscheidung „Gestaltung: Fläche und Abstand statt Linien“ vom 07.10.2026). Das Format bleibt in den Daten; muss die Person ein Format
+   wählen, geschieht das in Worten, nie als Kürzel. Früher hielt diese Probe Tooltip und ARIA fest. */
+test('5) Andock-Format (FHIR_IPS, W3C_VC, …) steht nirgends in der Benutzersicht — weder als Text noch als Tooltip noch als ARIA', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
-  V.renderSektor(testSektor());
+  const sektor = testSektor();
+  V.renderSektor(sektor);
   const html = document.getElementById('content').innerHTML;
-
-  // Das Format ist im Markup, aber nur in title-Attribut und aria-label — visuell verborgen.
-  assert.match(html, /title="Andock-Format: TEST_FORMAT"/, 'Format im title-Attribut (Tooltip)');
-  assert.match(html, /aria-label="Andock-Format: TEST_FORMAT"/, 'Format im aria-label');
-  // Der bereich-format-Span existiert (für Screen-Reader), wird per CSS visuell verborgen.
-  assert.match(html, /<span class="bereich-format" aria-label="Andock-Format: TEST_FORMAT">TEST_FORMAT<\/span>/,
-    'bereich-format Span vorhanden (CSS verbirgt visuell)');
+  assert.ok(html.length > 200, 'Voraussetzung: der Bereich wurde gezeichnet');
+  assert.equal(sektor.format, 'TEST_FORMAT', 'das Format bleibt in den Daten');
+  assert.ok(!html.includes('TEST_FORMAT'), 'kein Format-Kürzel im Markup: nicht im Text, nicht in title, nicht in aria-label');
 });
 
 test('5) Pflicht-Marker mit ARIA-Label „Pflichtangabe"', async () => {

@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-05 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-08 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -85,14 +85,14 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Prüfebene
 
-- Suite (Node-Tests, `node --test`): nicht angegeben
-- E2E (Playwright): 547 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 28 aus Schleifen über CPU-Drosselungen = **575 ausgeführte Tests** (mechanisch gezählt, nicht ausgeführt — die Differenz ist konstant)
-- Wächter-Register (intern): 142
-- Schema-Version: 92 · SCHALEN_STAND: v919 · Build-Version: v1.0
+- Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
+- E2E (Playwright): 603 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 41 aus Schleifen über CPU-Drosselungen = **644 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 143
+- Schema-Version: 92 · SCHALEN_STAND: v922 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (431)
+## ADR-Register (436)
 
 | Nummer | Titel |
 |---|---|
@@ -258,6 +258,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-156 | Empfängerkreise — ein Empfänger, ein Passwort, ein Zuschnitt |
 | U2-ADR-156 | Die Tür eines Fachs: was ihre Trennung vom Anker-Schlüssel trägt |
 | U2-ADR-156 | Klartext-Bindung: Ort-Hinweis und weitergetragene Felder im Geheimteil gebunden |
+| U2-ADR-156 | Sensibel-Filter: jeder enge Baustein, ausgenommen die drei Ab-Werk-Blätter |
 | U2-ADR-157 | Ein Modul schlägt vor, die Bürgerin hebt |
 | U2-ADR-158 | Eine Person gilt als verstorben — und das löst das Ereignis „Tod" aus |
 | U2-ADR-159 | Kein Feld, das Geheimnisse aufnimmt, ohne `autocomplete="off"` UND explizites Räumen beim Laden |
@@ -527,6 +528,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-471 | KBV-Patientenkurzakte — die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis |
 | U2-ADR-473 | Erscheinungsbild im Branding-Modul — Token-Vollständigkeit, Profile, Steckplatz Navigation |
 | U2-ADR-483 | Vorprüfung im Studio — dieselben Einlass-Regeln wie der Kern, ein Urteil in Klartext, Angaben erst zur Signatur |
+| U2-ADR-486 | Post-Quanten-Übergang — Anker-Agilität zuerst, dann hybride Verfahren |
+| U2-ADR-488 | Schema-Adressen — die Kennung löst auf, jede Fassung bleibt |
+| U2-ADR-491 | Passkey als zweiter Entsperrweg in der Web-App — abgelehnt |
+| U2-ADR-492 | Die Menge der eingebauten Bereiche kommt aus dem gebackenen Katalog des Produkts |
 
 ---
 
@@ -536,18 +541,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 36 | 228 |
+| `.btn` | 37 | 234 |
 | `.btn-sek` | 15 | 107 |
-| `.btn-dezent` | 5 | 11 |
+| `.btn-dezent` | 5 | 12 |
 | `.btn-klein` | 3 | 15 |
 | `.btn-notfall` | 2 | 0 |
-| `.btn-mini` | 10 | 36 |
-| `.karte` | 5 | 68 |
-| `.modal` | 19 | 167 |
-| `.toast` | 9 | 300 |
+| `.btn-mini` | 10 | 37 |
+| `.karte` | 6 | 68 |
+| `.modal` | 19 | 171 |
+| `.toast` | 9 | 301 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 37 | 2 |
-| `.sidebar` | 19 | 5 |
-| `.leer` | 3 | 298 |
+| `.sidebar` | 14 | 5 |
+| `.leer` | 3 | 302 |
 | `.pause-erlaubnis` | 2 | 3 |
 | `.hinweis-box` | 7 | 27 |

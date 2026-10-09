@@ -28,7 +28,12 @@ const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 55;   // 53 → 55 am 05.10.2026 (Gegenlesung erteilt, Befund ZUSCHNITT-TESTS-GIT-GESCHICHTE): huelle-auffuellen-stand-marke und
+const DECKEL = 58;   // 57 → 58 am 07.10.2026 (Gegenlesung erteilt, Befund FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN): faktenbasis-suite-herkunft,
+                     //   nur der Rot-Beweis; er fährt faktenbasis-erzeugen --ohne-suite, das das zurückgehaltene Wächter-Register lädt (BESTAND).
+                     // 55 → 57 am 05.10.2026 (Gegenlesung erteilt, Befund ÖFFENTLICHE-CI-ROT): kdl-selbst-laden, nur der Ausgabewege-Test;
+                     //   er lädt über tools/rundlauf-matrix.js das zurückgehaltene Referenzdepot (BESTAND), öffentlich rot an v917; dazu
+                     //   hilfe-passwort-schluessel-aussage, nur der Test über den zurückgehaltenen Website-Export (BESTAND).
+                     // 53 → 55 am 05.10.2026 (Gegenlesung erteilt, Befund ZUSCHNITT-TESTS-GIT-GESCHICHTE): huelle-auffuellen-stand-marke und
                      //   pruefe-standards-echt-gate lesen die private Geschichte (GIT), gefunden von zuschnitt-tests-messen am Studio-Wagen;
                      //   adr-commit-hashes-waechter und faktenbasis-erzeugen standen schon hier, dort kam nur der Testname dazu.
                      // 52 → 53 am 04.10.2026 (Gegenlesung erteilt): altkern-referenz liest das interne Fassungsregister (v894).
@@ -175,6 +180,9 @@ const NUR_PRIVAT = {
     // 05.10.2026 (Gegenlesung erteilt): der Test wurde umbenannt, der alte Name lief ins Leere; jetzt hält testMitPrivat jeden Namen.
     "[Faktenbasis·Commit] nur ein von origin/u2-kanon erreichbarer Commit wird gestempelt (Stand Kanon), ein loser nicht",
   ] },
+  "tests/faktenbasis-suite-herkunft.test.js": { grund: BESTAND, tests: [
+    "[Suite-Herkunft·Rot-Beweis] --ohne-suite auf der alten Zeile schreibt keine Zahl, sondern die letzte Messung",
+  ] },
   "tests/faktenbasis-ohne-suite.test.js": { grund: BESTAND, tests: [
     "[Gegenprobe] --ohne-suite gegen eine unveränderte Datei bleibt --check-grün",
   ] },
@@ -194,6 +202,11 @@ const NUR_PRIVAT = {
   ] },
   // Liest core.hooksPath des privaten Arbeitsbaums. Der öffentliche Zuschnitt trägt in hooks/ nur _hook-log.sh und setzt keinen
   // Hook-Pfad; außerhalb von CI wäre die Probe dort rot, ohne dass etwas falsch ist.
+  // 05.10.2026 (Gegenlesung erteilt, Befund ÖFFENTLICHE-CI-ROT): der Website-Export der Hilfe ist zurückgehalten (BESTAND);
+  // die übrigen Proben der Datei lesen nur Textsätze und Kern und laufen öffentlich.
+  "tests/hilfe-passwort-schluessel-aussage.test.js": { grund: BESTAND, tests: [
+    "[Passwort-Schlüssel] der Website-Export sagt es nirgends",
+  ] },
   "tests/hooks-laufen-wirklich.test.js": { grund: BESTAND, tests: [
     "[Hooks] core.hooksPath zeigt ins eigene Arbeitsverzeichnis, und die Hooks sind die versionierten",
   ] },
@@ -207,6 +220,11 @@ const NUR_PRIVAT = {
     "tests/invarianten-register.test.js": { grund: BESTAND, tests: [
     "[Invarianten-Register] das echte Register ist stimmig: Proben geöffnet und auffindbar, Grundlinie exakt",
     "[Invarianten-Register·CLI] ohne Argument: Exit 0 und die ungemessene Hälfte steht in der Ausgabe",
+  ] },
+  // 05.10.2026 (Gegenlesung erteilt, Befund ÖFFENTLICHE-CI-ROT): die Ausgabewege-Probe fährt die Rundlauf-Matrix über das
+  // zurückgehaltene Referenzdepot (BESTAND). Die übrigen KDL-Proben der Datei laufen öffentlich.
+  "tests/kdl-selbst-laden.test.js": { grund: BESTAND, tests: [
+    "[KDL·Ausgabewege] kein Registry-Format, nicht das IPS und nicht der Erbschein-Auszug tragen die eingelesene KDL",
   ] },
   "tests/kennung-vorkommen-finden.test.js": { grund: BESTAND, tests: [
     "[Bestand] alle umbenannten Codes: jeder Treffer ist geführt, keine Grundlinie veraltet",

@@ -35,6 +35,7 @@ const GRUPPEN = [
   ['menschen-register', /^menschenRegister/, 'Beschriftung der Eingabemaske des Menschen-Registers'],
   ['hinweis-beispiel', /\.(hint|beispiel)$/, 'Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie'],
   ['seitenleiste', /\.navUnterzeile$/, 'Unterzeile der Kern-Seitenleiste'],
+  ['eingabe-zweitknopf', /\.weitererEintrag$/, 'Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe'],
 ];
 const GRUPPE_UNTERFELD = ['unterfeld-beschriftung', 'Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen'];
 const GRUPPE_KERN_FELD = ['feld-nur-im-kern', 'Feld oder Sektion, die die Lese-App nicht führt'];

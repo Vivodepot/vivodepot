@@ -39,7 +39,6 @@ const ERLAUBT = {
   zerfallSchreiben: {
     _depotV4Schreiben: 'der eine Speicherweg für jedes Depot (U2-ADR-002: ein Mechanismus für alle Depots); wer ihn ruft, steht unter depotV4Schreiben',
     empfaengerDateiErzeugen: 'eine eigene Empfänger-Datei, nicht die Depot-Datei',
-    subDepotEigenerPasswortWechsel: 'GESPERRT für neuere Subs: Passwortwechsel',
   },
   // Seit 23.09.2026 (U2-ADR-002) schreiben Anker und Sub über EINEN Weg; die Aufrufer standen vorher unter zerfallSchreiben.
   depotV4Schreiben: {
@@ -47,11 +46,12 @@ const ERLAUBT = {
     subDepotEntsiegeln: 'GESPERRT für neuere Subs: NFC-Neuversiegeln nach NFD-Rückfall',
     subDepotNeuVersiegeln: 'trägt das Tor für neuere Subs selbst (gibt den alten Umschlag zurück)',
     subDepotVersiegeln: 'versiegelt einen übergebenen Inhalt (Anlegen eines Subs), nicht die geöffnete Datei',
+    // Seit 07.10.2026 (Befund SUB-PASSWORTWECHSEL-VERLIERT-FAECHER) über den gemeinsamen Weg statt _zerfallSchreiben/encryptDepot.
+    subDepotEigenerPasswortWechsel: 'GESPERRT für neuere Subs: Passwortwechsel',
   },
   encryptDepot: {
     depotSerialisierenV3: 'Altformat, im Kern ohne Aufrufer (s. eigene Probe)',
     _zerfallSchreiben: 'die Verschlüsselung unter der Engstelle',
-    subDepotEigenerPasswortWechsel: 'GESPERRT für neuere Subs, s. o.',
     empfaengerkreisFachEinrichten: 'Schlüssel eines Empfänger-Fachs; erreicht die Platte nur über depotSerialisieren',
   },
   createWritable: {

@@ -116,6 +116,27 @@ den Design-Inhalt sonst nicht gesenkt.)
    `data-erscheinungsbild="rueckfall"`, `ERSCHEINUNGSBILD_RUECKFALL`.
 5. **Rückfall ohne konstruierte Stylesheets:** `insertRule` in das Gerüst-Stylesheet (CSSOM, kein neues Element).
 
+## Nachtrag W3a (05.10.2026): die Layout-Beschreibung wird geprüft, LAYOUT_PFLICHT
+
+Der erste Teil von W3 füllt die Andockstelle aus dem Nachtrag v894, Punkt 4. Die Anordnung bleibt, wie sie ist: `renderSidebar` und
+`renderTopbar` lesen die Beschreibung erst mit W3b, auf dem Commit von Navigation A.
+
+1. **Das Vokabular steht im Block `ERSCHEINUNGSBILD_REGELN`** unter `layout`: die Fächer des Gerüsts (`kopf`, `seitenrand`, `inhalt`,
+   `fuss`), je Baustein die Fächer, in denen er stehen darf, und je Fach seine Formen, die Parameter (`hilfeForm`: Text oder „i“,
+   `feldRaster`: ein- oder zweispaltig) und die optionalen Bausteine. Jeder andere Baustein steht genau einmal. Eine Beschreibung
+   kann umstellen, aber keinen Weg verlieren.
+2. **`pflicht` (LAYOUT_PFLICHT)** nennt, was ein Mensch in jeder Lage braucht: Notfall, Hilfe, Ausgang, Bedienhilfen,
+   Sicherungsanzeige, Warnungen, Herkunft (Baustein `ursprung`; `herkunft` ist ein Vertrauensfeld und bleibt dem
+   Prüfweg vorbehalten). Fehlt einer, heißt der Fund `pflicht-fehlt`.
+3. **Kern und Bau prüfen mit derselben Funktion** `_ebLayoutPruefen`, Zeichen für Zeichen gleich. Ein Verstoß verwirft das ganze
+   Modul, wie jeder andere Fund. Ein leeres `layout` heißt „keine Beschreibung“, dann gilt die Bauform des Gerüsts.
+4. **Gateway.** Der Abschnitt `PRODUKT_TEXT_ERZEUGEN` ändert sich. Das Gateway zieht nach Landung und Release nach. Bis dahin
+   greift die Layout-Brücke im Cross-Repo-Abgleich, nach Zustand. Sie sperrt Auslieferung und Signatur nicht, sonst hielte sie das
+   Release an, das W3a trägt. Das alte Gateway weist jedes nicht leere `layout` ab, und zwar beim Abruf. Darum hält
+   `kern-ausliefern` vor dem Hochladen jedes Rezept an, dessen Modul ein Layout trägt (auch im Trockenlauf), und kein Modul unter
+   `tools/erscheinung` darf eines tragen. Die Brücke entfällt mit dem Ereignis „Gateway-main trägt den Abschnitt“ (Gateway-Pin =
+   Kanon-Pin). Reihenfolge: Release mit W3a, dann der Gateway-Nachzug, erst dann ein Modul mit Layout (W5).
+
 ## Was aus U2-ADR-339 aufgehoben oder erweitert wird
 
 - „Die 69 verbleibenden globalen `:root`-Tokens“: die Tabelle führt jetzt jedes gestaltende `:root`-Token; ein neues Token ohne
@@ -211,6 +232,23 @@ konformitaet:
       - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Rot-Beweis] kein Selektor auf eine geschützte Anzeige in stil — Kern und Bauweg weisen ab"
       - tests/e2e/erscheinungsbild-schutz.spec.js "[Schutz·Rot-Beweis] `* { display: none }` → Rückfall; die Sicherungsanzeige ist sichtbar, sobald sie eingeblendet wird"
       - tests/e2e/erscheinungsbild-schutz.spec.js "[Schutz·Gegenprobe] „heute" fällt nicht zurück — nach dem Anlegen, in Notfall und Hilfe"
+  - aussage: >-
+      Eine Layout-Beschreibung wird in Kern und Bau mit derselben Funktion gegen das Vokabular geprüft; ein unbekanntes Fach, ein
+      unbekannter Baustein, eine falsche Form, ein doppelter oder fehlender Baustein und ein fehlender Pflicht-Baustein (LAYOUT_PFLICHT)
+      verwerfen das ganze Modul.
+    zustand: erfuellt
+    herkunft: U2-ADR-473 Nachtrag W3a (05.10.2026)
+    pruefung:
+      - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Layout] die Layout-Prüfung steht in Kern und Bauweg Zeichen für Zeichen gleich"
+      - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Layout] Navigation A und Zonen als Beschreibung bestehen beide Prüfungen; ein leeres layout heißt Bauform des Gerüsts"
+      - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Rot-Beweis] ein fehlender Pflicht-Baustein (LAYOUT_PFLICHT) — Kern und Bauweg weisen ab"
+  - aussage: >-
+      Das Gateway trägt die Layout-Prüfung byte-gleich mit dem Kern (Nachzug nach dem Release v920, 06.10.2026). Die Brücke,
+      die bis dahin jedes Rezept mit Layout-Modul anhielt, ist entfernt.
+    zustand: erfuellt
+    herkunft: U2-ADR-473 Nachtrag W3a (05.10.2026), Nachzug 06.10.2026
+    pruefung:
+      - tests/produkt-text-erzeugen-cross-repo-abgleich.test.js "[Produkt-Text-Erzeugen·Cross-Repo] der eigene Abschnitt ist byte-gleich mit dem Abschnitt auf Gateway-main"
 ```
 
 ---

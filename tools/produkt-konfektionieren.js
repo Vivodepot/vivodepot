@@ -99,6 +99,7 @@ const {
   slugGueltig, buendelListeAusDatei,
 } = require('./modul-app-packen.js');
 const { PRODUKTE } = require('./lib/vier-produkte.js');
+const { wurzelKopfzeileZuruecksetzen } = require('./lib/wurzel-kopfzeile.js');
 // „den letzten Bauabschnitt zusammenführen" (12.09.2026): der fs-freie
 // Backschritt selbst ist nach tools/lib/produkt-text-erzeugen.js ausgelagert — byte-für-byte
 // dieselbe Datei liegt im Schwesterrepo (vivodepot-download-gateway, `src/produkt-text-
@@ -298,13 +299,15 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   const zielOrdner = path.join(ziel, slug);
   fs.mkdirSync(zielOrdner, { recursive: true });
   const kernZiel = path.join(zielOrdner, 'vivodepot.html');
-  const kernText = kernQuelle !== undefined ? kernQuelle : fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
+  // Aus dem öffentlichen Stand gebaut, trägt die Wurzeldatei die Zuschnitt-Kopfzeile; ein Produkt trägt die Quellzeile
+  // (WURZEL_KOPFZEILE, tools/lib/wurzel-kopfzeile.js). So bleiben die Bytes gleich, woher der Kern auch kommt.
+  const kernText = wurzelKopfzeileZuruecksetzen(kernQuelle !== undefined ? kernQuelle : fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8'));
   const unsignierteModule = (unsignierteModulDateien || []).map(_unsigniertesModulLesen);
   // Das Erscheinungsbild ab Werk (v894, U2-ADR-473 Nachtrag): nennt die Auswahl kein eigenes Erscheinungsbild-Modul und trägt
   // der Kern die Region, kommt „heute" dazu — wie ein nativer Rückfall, nie ein nacktes Produkt. produktTextErzeugen selbst
   // bleibt streng (Region ohne Modul wirft); die Vorgabe steht hier, beim Zusammenstellen, nicht im Backschritt.
   if (kernText.includes('/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN */') && !unsignierteModule.some((m) => m.roh && m.roh.modulTyp === 'erscheinungsbild')) {
-    unsignierteModule.push(_unsigniertesModulLesen(require('./lib/vier-produkte.js').ERSCHEINUNGSBILD_HEUTE_PFAD));
+    unsignierteModule.push(_unsigniertesModulLesen(require('./lib/vier-produkte.js').ERSCHEINUNGSBILD_AB_WERK_PFAD));
   }
   // (12.09.2026): die Bedingung ist der Dateisatz, nicht das Produkt — abgeleitet
   // aus PRODUKT_DATEISATZ, nicht hart codiert, damit sie mitzieht, sollte sw.js hier je wieder

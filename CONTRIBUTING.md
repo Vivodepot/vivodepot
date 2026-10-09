@@ -44,13 +44,9 @@ Projekt baut und liefert nicht selbst Inhalte für jeden Rechtsraum, sondern wil
 möglich machen — ohne den Kern-Mechanismus zu forken.
 
 Wer das Repository klont und für ein anderes Land oder eine andere Sprache anpassen will, findet
-die Anleitung in [`docs/JURISDICTIONS.md`](docs/JURISDICTIONS.md) (englisch): fünf Schichten mit
-fünf verschiedenen Ständen, was heute allein und ohne Änderung am Kern möglich ist (ein
-Rechtsraum-Modul, Schicht 1; seit 17.08.2026 auch ein `textsatz`-Modul für Schicht 2–4),
-und was dafür noch niemand gebaut hat (vor allem: ein Umschalter in der Oberfläche, mit dem eine
-Bürgerin die Sprache tatsächlich wählen könnte). Das Dokument ist eine Karte dessen, was
-existiert, was nicht existiert und wo die Grenzen liegen, damit sich Arbeit planen lässt, statt
-Lücken einzeln zu entdecken.
+die Karte in [`docs/JURISDICTIONS.md`](docs/JURISDICTIONS.md) und die Bauanleitung je Modultyp in
+[`docs/modules/`](docs/modules/README.md) (beide englisch). Rechtsraum, Sprache, Bereiche,
+Erscheinungsbild und Vorlagen sind Module: JSON-Dateien gegen ein Schema, ohne Änderung am Kern.
 
 Vor einem größeren Beitrag in diese Richtung lohnt das Gespräch mit der Maintainerin: mehrere
 Grundsatzfragen sind dort ausdrücklich noch nicht entschieden.

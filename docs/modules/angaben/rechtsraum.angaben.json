@@ -1,0 +1,9 @@
+{
+  "rechtsraum": "XA",
+  "sprache": "en",
+  "moduleVersion": 1,
+  "typen": [
+    { "typ": "living-will", "katalogVersion": 1, "formvorschriften": "{\"hinweis\": \"Example only: written form, signed by the person. Not legal advice for any real country.\"}", "zweck": "gesundheitssorge" },
+    { "typ": "__eigen__", "typEigen": "tpl_example-instrument", "katalogVersion": 1, "wortlaut": "Example wording for an instrument that only exists in this example legal system." }
+  ]
+}

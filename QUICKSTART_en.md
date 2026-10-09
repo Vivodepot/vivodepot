@@ -4,8 +4,8 @@
 
 ## 1. Open
 
-Open [https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/) (German:
-[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/)) in any current browser — no
+Open [https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github) (German:
+[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github)) in any current browser — no
 installation. Optionally add it to your home screen or install it from the browser menu; then it also
 works offline.
 

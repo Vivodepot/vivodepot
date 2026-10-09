@@ -1,0 +1,6 @@
+{
+  "herkunft": "example-org",
+  "sprache": "en",
+  "moduleVersion": 1,
+  "bereiche": [ { "id": "example-garden", "label": "Allotment garden", "icon": "folder" } ]
+}

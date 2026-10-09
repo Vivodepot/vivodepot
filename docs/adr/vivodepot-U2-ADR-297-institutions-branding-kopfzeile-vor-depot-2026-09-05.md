@@ -9,7 +9,8 @@ offengelassen), U2-ADR-294 §3 (05.09.2026, „Kopfzeile bleibt für immer Salbe
 nicht zurückgenommen), U2-ADR-236 (03.09.2026, „Rahmen folgt Kontext").
 **Anker:** Auftrag vom 05.09.2026, Entscheidung, wörtlich: „die sparkasse zb
 färbt rot".
-**Status heute:** gilt — Fall 2 vollständig gebaut, s. Konformität.
+**Status heute:** gilt — Fall 2 vollständig gebaut, s. Konformität. Nachtrag 05.10.2026: Ab-Werk-Saat eines Partners als
+Transportweg von Fall 2, zwei Modelle (U2-ADR-400, B16-ADR-008).
 
 ---
 
@@ -105,6 +106,34 @@ Ein Depot ohne Branding-Modul sieht in jeder hier gebauten Hinsicht aus wie vor 
 Fallback-Kette ist additiv. Jede künftige Institutionsfarbe bleibt vom neuen Kontrast-Gate
 gedeckt, nicht nur vom bestehenden Hex-Format-Wächter.
 
+## Nachtrag 05.10.2026: Die Ab-Werk-Saat eines Partners ist ein Transportweg von Fall 2
+
+**Anlass.** Ein Branding-Modul, das der Bau in die Region `AB_WERK_BRANDING_PRODUKT` legt (U2-ADR-384), setzte Name und
+Domain, aber weder das Logo noch die Kopfzeilenfarbe noch die Palette. Der Grund war die Ausnahme in
+`vorDepotKonfigurationAnwenden`: Kopfzeile und Palette hingen allein am signierten Vor-Depot-Bündel, „sonst färbte auch die
+Ab-Werk-Marke die Kopfzeile". Diese Ausnahme hatte nur die eigene Marke im Blick; ab Werk war damals immer Vivodepot.
+
+**Entscheidung.**
+1. Für ein Partner-Branding ist die Ab-Werk-Saat ein Transportweg von Fall 2, neben dem signierten Vor-Depot-Bündel
+   (U2-ADR-400: alles Sichtbare gehört dem Partner; B16-ADR-008: White Label als Produktstrategie). Es gilt eine Quelle:
+   das signierte Bündel geht vor, sonst das Partner-Branding der Bau-Region (`faerbend`). Kopfzeilenfarbe, Logo, Palette
+   und Bildmarke nehmen alle diese Quelle.
+2. Partner heißt: der Wert stammt aus der Bau-Region, und deren `herkunft` ist nicht `vivodepot`
+   (`_abWerkPartnerBranding`). Geprüft wird nur dieser Regionswert, nie ein Branding-Modul aus einer Depot-Datei oder
+   einem Einlass. Die eigene Vivodepot-Marke bleibt ungefärbt, wie oben entschieden.
+3. Zwei Modelle, Feld `modell` im Branding-Modul: `branding` (Vorgabe) zeigt Partnerfarbe und Partner-Logo, die
+   Vivodepot-Bildmarke bleibt daneben; `white-label` zeigt keine Vivodepot-Bildmarke, Vivodepot steht dann nur am
+   Herkunftsort (Lizenzhinweis, Impressumslink, Datenschutz-Link; U2-ADR-400). Das Feld wirkt nur aus der Bau-Region oder
+   einem signierten Vor-Depot-Bündel. Fehlt es oder trägt es einen anderen Wert, gilt `branding`.
+
+**Unverändert.** Fall 1 (fremder Beitrag im Bürgerdepot: nur Rand, U2-ADR-296), die Kontrastregel der Kopfzeile, der
+Herkunftsort.
+
+**Grenzen, benannt.** Die Lese-App kennt die Partnermarke nicht: ein Depot aus einem Partnerprodukt trägt kein
+Branding-Modul (gemessen: `brandingModule` leer, auch die Mitschrift ohne Marke). Die Willkommensseite zeigt in beiden
+Modellen weiter die Vivodepot-Wortmarke (VIVO/DEPOT); für Modell B ist das offen. Die statische Kopfzeile im HTML trägt
+bis zum ersten Lauf der Vor-Depot-Konfiguration die Vivodepot-Bildmarke.
+
 ## Konformität
 
 ```konformitaet
@@ -162,6 +191,39 @@ pruefung: tests/e2e/marke-topbar-produkt-sichtbar.spec.js#ein Vor-Depot-Branding
 pruefung: tests/e2e/marke-topbar-produkt-sichtbar.spec.js#eine kontrastschwache Institutionsfarbe füllt die Kopfzeile NICHT — der Salbei-Fallback bleibt sichtbar bestehen
 ```
 
+
+```konformitaet
+aussage:  Ein Partner-Branding der Bau-Region färbt Kopfzeile, Logo und Palette in allen vier Produkten; Modell A behält die
+          Vivodepot-Bildmarke daneben, Modell B zeigt sie nicht und der Herkunftsort bleibt.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/white-label-ab-werk-partner.test.js#[White Label ab Werk·A] in allen vier Produkten
+pruefung: tests/white-label-ab-werk-partner.test.js#[White Label ab Werk·B] in allen vier Produkten
+```
+
+```konformitaet
+aussage:  Die eigene Vivodepot-Marke bleibt ungefärbt mit Bildmarke, auch wenn sie in der Bau-Region steht.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/white-label-ab-werk-partner.test.js#[White Label ab Werk·Gegenprobe] in allen vier Produkten
+```
+
+```konformitaet
+aussage:  Herkunft und Modell wirken nie aus einer Depot-Datei, einem unsignierten Einlass oder dem In-Depot-Weg.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/white-label-ab-werk-partner.test.js#[White Label ab Werk·Rot-Beweis Depot-Datei]
+pruefung: tests/white-label-ab-werk-partner.test.js#[White Label ab Werk·Rot-Beweis Einlass]
+pruefung: tests/white-label-ab-werk-partner.test.js#[White Label ab Werk·Rot-Beweis In-Depot-Weg]
+```
+
+```konformitaet
+aussage:  Jedes sichtbare Fall-2-Merkmal nimmt dieselbe Quelle; jede Vivodepot-Bildmarke geht durch einen Helfer.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/white-label-eine-quelle.test.js#[White Label·eine Quelle] jedes sichtbare Fall-2-Merkmal nimmt dieselbe Quelle (faerbend), jede Bildmarke geht durch den einen Helfer
+pruefung: tests/white-label-eine-quelle.test.js#[White Label·eine Quelle] ein Partnerprodukt aus der Bau-Region zeigt in jedem Fall-2-Merkmal den Partner
+```
 ---
 
 *Vivodepot GmbH · Berlin · 05.09.2026*

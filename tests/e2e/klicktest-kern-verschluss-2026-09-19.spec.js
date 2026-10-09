@@ -67,7 +67,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { test, expect } = require('@playwright/test');
-const {
+const { inLeisteKlicken,
   KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN,
   oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, einmalDialogeSchliessen,
 } = require('./helpers');
@@ -213,7 +213,7 @@ for (const [slug, url] of Object.entries({ 'privat-en': KERN_URL_PRIVAT_EN, 'pro
           return origAppendChild.call(this, kind);
         };
       });
-      await page.click('[data-weitergeben-zentral]');
+      await inLeisteKlicken(page, '[data-weitergeben-zentral]');
       await page.waitForSelector('[data-hz-ganzes]', { state: 'visible' });
       await page.click('[data-hz-ganzes]');
       // `flowVollDepotPdf()` ohne Argument (echter Klickweg) geht IMMER über die „Das wird

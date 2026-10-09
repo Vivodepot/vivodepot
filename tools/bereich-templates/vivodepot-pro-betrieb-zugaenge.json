@@ -118,6 +118,24 @@
                   "typ": "text"
                 }
               ]
+            },
+            {
+              "id": "tpl_electronic_record_keeping_systems",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_system",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_security_device",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_notified_on",
+                  "typ": "datum"
+                }
+              ]
             }
           ]
         },
@@ -183,6 +201,50 @@
                   "typ": "datum"
                 }
               ]
+            },
+            {
+              "id": "tpl_crafts_register",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_entry",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_technical_manager",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_craft_card",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_chamber",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_tax_registration_of_business",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_occasion",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_notified_on",
+                  "typ": "datum"
+                },
+                {
+                  "id": "tpl_tax_office",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_business_identification_number",
+              "typ": "text"
             }
           ]
         },
@@ -268,6 +330,100 @@
                 },
                 {
                   "id": "tpl_vertretung",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "beschaeftigte",
+          "felder": [
+            {
+              "id": "tpl_working_time_records",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_risk_assessment_and_safety_staff",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_risk_assessment_kept_at",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_company_doctor",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_safety_specialist",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_accident_insurance_membership",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_insurance_body",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_membership_number",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_payroll_report_date",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_employer_number",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_social_security_contributions",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_collecting_agency",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_statements_submitted_by",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_payroll_records",
+              "typ": "textarea"
+            }
+          ]
+        },
+        {
+          "id": "datenschutz",
+          "felder": [
+            {
+              "id": "tpl_record_of_processing",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_data_protection_officer",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_data_processing_agreements",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_service_provider",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_agreement_kept_at",
                   "typ": "text"
                 }
               ]

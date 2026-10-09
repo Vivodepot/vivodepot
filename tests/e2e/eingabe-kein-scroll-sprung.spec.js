@@ -96,27 +96,25 @@ test('[Befund-1·ref] taxAdvisor (finance) — Freitext-Override setzen + blur, 
   expect(Math.abs(delta), 'ref-Feld darf keinen Scroll-Sprung auslösen').toBeLessThanOrEqual(TOLERANZ_PX);
 });
 
-test('[Befund-1·Listen-Unterfeld] idDocuments.validUntil (identity, Modal) — genau das Auftrags-Beispiel, kein Scroll-Sprung', async ({ page }) => {
+test('[Befund-1·Listen-Unterfeld] idDocuments.validUntil (identity, erster Eintrag inline) — genau das Auftrags-Beispiel, kein Scroll-Sprung', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   const { delta } = await scrollSprungMessen(page, {
     vor: async (p) => {
       await oeffneSektor(p, 'identity');
-      await p.click('[data-eintrag-hinzufuegen="idDocuments"]');
-      await p.waitForSelector('#modal-inhalt');
-      await p.waitForSelector('#modal-inhalt [data-edit="validUntil"]');
+      // Hinzufügen (07.10.2026): bei leerer Liste steht der erste Eintrag inline; das Übernehmen zeichnet den Bereich neu — genau
+      // dort darf kein Sprung entstehen (vorher prüfte diese Probe den Dialog, der für den ersten Eintrag entfallen ist).
+      await p.waitForSelector('#content [data-liste-inline="idDocuments"] [data-eintrag-edit="validUntil"]');
+      // Vor der Messung ins Bild bringen: sonst scrollte erst `fill` in der Aktion dorthin, und die Probe mäße das Hinscrollen.
+      await p.locator('#content [data-liste-inline="idDocuments"] [data-eintrag-edit="validUntil"]').scrollIntoViewIfNeeded();
     },
     aktion: async (p) => {
-      await p.fill('#modal-inhalt [data-edit="validUntil"]', '2030-01-01');
-      // KEIN waitForSelector(state:'detached') hier — gemessen (nicht angenommen): #modal-inhalt
-      // ist ein wiederverwendetes Singleton-Element, das beim Schließen nur versteckt wird, nie
-      // aus dem DOM entfernt. Ein Warten auf "detached" hängt bis zum Testtimeout (30s) und reisst
-      // danach die ganze Seite über Playwrights eigenes Cleanup — sah wie ein App-Absturz aus, war
-      // keiner (Fehldiagnose selbst gemessen und verworfen, s. Bericht).
-      await p.click('#m-ok');
+      await p.fill('#content [data-liste-inline="idDocuments"] [data-eintrag-edit="validUntil"]', '2030-01-01');
+      await p.evaluate(() => document.activeElement && document.activeElement.blur());
+      await p.waitForSelector('#content [data-feld-liste="idDocuments"] .liste-eintraege li');
     },
   });
-  expect(Math.abs(delta), 'Listen-Unterfeld-Modal (Ausweis/gültig — das Auftrags-Beispiel) darf keinen Scroll-Sprung auslösen').toBeLessThanOrEqual(TOLERANZ_PX);
+  expect(Math.abs(delta), 'Listen-Unterfeld, erster Eintrag inline (Ausweis/gültig — das Auftrags-Beispiel), darf keinen Scroll-Sprung auslösen').toBeLessThanOrEqual(TOLERANZ_PX);
 });
 
 test('[Befund-1·Sub-Depot-Feld] givenName im Sub-Kontext — Wert setzen + blur, kein Scroll-Sprung', async ({ page }) => {

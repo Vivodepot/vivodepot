@@ -1,0 +1,520 @@
+{
+  "hinweis": "Testkorpus für das .vivodepot-Format, erzeugt von tools/format-korpus-erzeugen.js. Alle Inhalte sind erfunden. Die Passwörter sind absichtlich offen: Es sind öffentliche Testpasswörter für genau diese Dateien. Sie gehören zu keinem echten Depot. Weder die Dateien noch die Passwörter dürfen als Vorlage für ein echtes Depot dienen.",
+  "spezifikation": "docs/format/SPEZIFIKATION.md",
+  "pruefprogramm": "node tools/format-pruefen.js",
+  "heute": "2026-10-05",
+  "felder": {
+    "erwartet": "Urteil und Codes des Prüfprogramms, von Hand gesetzt.",
+    "kern": "Verhalten der Anwendung beim Öffnen, am Kern gemessen.",
+    "strenger": "Warum das Prüfprogramm strenger urteilt als die Anwendung."
+  },
+  "faelle": [
+    {
+      "datei": "g01-v4-mit-kopf.vivodepot",
+      "beschreibung": "Gültig: kryptoVersion 4 mit Dateikopf, wie die Anwendung heute schreibt.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig",
+        "codes": []
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g02-v4-ohne-kopf.vivodepot",
+      "beschreibung": "Gültig mit Hinweis: Altdatei ohne Dateikopf (vor U2-ADR-043).",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-OHNE-KOPF"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g03-v3.vivodepot",
+      "beschreibung": "Gültig: kryptoVersion 3, ein einzelner verschlüsselter Block.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig",
+        "codes": []
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g04-fach-inhaberin.vivodepot",
+      "beschreibung": "Gültig: Datei mit einem Fach, geöffnet mit dem Passwort der Inhaberin.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-ATTRAPPE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g05-fach-empfaenger.vivodepot",
+      "beschreibung": "Gültig: dieselbe Form, geöffnet mit dem Passwort des Fachs (nur dessen Ausschnitt).",
+      "passwort": "korpus-test-fach",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-ATTRAPPE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g06-wiederherstellung.vivodepot",
+      "beschreibung": "Gültig: mit Hülle für den Wiederherstellungs-Code (U2-ADR-430). Der Code selbst ist nicht beigelegt; die Hülle wird nur auf Form geprüft.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig",
+        "codes": []
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g07-blackbox.vivodepot",
+      "beschreibung": "Gültig mit Hinweisen: Blackbox-Hülle um den Umschlag (U2-ADR-124), ohne Dateikopf, wie die Anwendung sie beim Herausgeben eines Teil-Depots schreibt.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-BLACKBOX-HUELLE",
+          "VDF-OHNE-KOPF"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g08-schema-neuer.vivodepot",
+      "beschreibung": "Gültig mit Hinweis: Inhalt einer neueren Schemastufe, nur lesbar.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-SCHEMA-NEUER"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g09-feld-unbekannt.vivodepot",
+      "beschreibung": "Gültig mit Hinweis: eine Feldkennung, die nicht im Feldregister steht.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-FELD-UNBEKANNT"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g10-fremdfeld.vivodepot",
+      "beschreibung": "Gültig mit Hinweisen: nachträglich eingefügtes Klartextfeld außerhalb der Basismenge; die Bindung meldet es.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-FREMDFELD",
+          "VDF-BINDUNG-FREMD"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet-mit-warnung"
+      }
+    },
+    {
+      "datei": "g11-ort-veraendert.vivodepot",
+      "beschreibung": "Gültig mit Hinweis: der Ort-Hinweis im Klartext wurde verändert.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-ATTRAPPE",
+          "VDF-BINDUNG-ORT"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet-mit-warnung"
+      }
+    },
+    {
+      "datei": "g12-adresse-name.vivodepot",
+      "beschreibung": "Gültig mit Hinweis: eine Einheit trägt einen anderen Namen als ihre Adresse.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-ADRESSE-NAME"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g13-polster-ungleich.vivodepot",
+      "beschreibung": "Gültig mit Hinweis: der Geheimteil des Ankers ist kürzer als der des Fachs.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-ATTRAPPE",
+          "VDF-POLSTER"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g14-kreisname-umlaut.vivodepot",
+      "beschreibung": "Gültig mit Hinweisen: ein Fach, dessen Kreisname einen Umlaut trägt; der Geheimteil des Fachs ist länger als der des Ankers.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-ATTRAPPE",
+          "VDF-POLSTER"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "n01-ohne-passwort.vivodepot",
+      "beschreibung": "Nicht vollständig geprüft: ohne Passwort endet die Prüfung nach Stufe 1.",
+      "passwort": null,
+      "erwartet": {
+        "urteil": "nicht-geprueft",
+        "codes": []
+      },
+      "kern": {
+        "ergebnis": "nicht-versucht"
+      }
+    },
+    {
+      "datei": "n02-falsches-passwort.vivodepot",
+      "beschreibung": "Nicht vollständig geprüft: das Passwort passt nicht. Das ist kein Urteil über die Datei.",
+      "passwort": "korpus-test-falsch",
+      "erwartet": {
+        "urteil": "nicht-geprueft",
+        "codes": [
+          "VDF-PASSWORT"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "n03-fach-abgelaufen.vivodepot",
+      "beschreibung": "Nicht vollständig geprüft: das Fach ist abgelaufen (U2-ADR-452).",
+      "passwort": "korpus-test-fach",
+      "erwartet": {
+        "urteil": "nicht-geprueft",
+        "codes": [
+          "VDF-ATTRAPPE",
+          "VDF-FACH-ABGELAUFEN"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u01-kein-json.vivodepot",
+      "beschreibung": "Ungültig: nach dem Kopf folgt abgeschnittenes JSON.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-KEIN-JSON"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u02-kein-objekt.vivodepot",
+      "beschreibung": "Ungültig: das JSON ist eine Liste.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-KEIN-OBJEKT"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u03-kopf-version.vivodepot",
+      "beschreibung": "Ungültig: unbekannte Kopf-Version 2.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-KOPF-VERSION"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      },
+      "strenger": "Befund KOPF-VERSION (05.10.2026): die Anwendung prüft das Versions-Byte beim Lesen nicht und öffnet die Datei als Fassung 1. Fix folgt im selben Wagen."
+    },
+    {
+      "datei": "u04-kryptoversion.vivodepot",
+      "beschreibung": "Ungültig: kryptoVersion 5 ist nicht beschrieben.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-KRYPTOVERSION"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u05-pflichtfeld.vivodepot",
+      "beschreibung": "Ungültig: depotUUID fehlt.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-PFLICHTFELD"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u06-salz-laenge.vivodepot",
+      "beschreibung": "Ungültig: depotSalt hat 16 statt 32 Byte.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-SALZ-LAENGE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u07-form-beide.vivodepot",
+      "beschreibung": "Ungültig: trägt iv/ct UND einheiten/umschlagTabelle.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-FORM"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u08-tabelle-leer.vivodepot",
+      "beschreibung": "Ungültig: die Umschlagstabelle ist leer.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-TABELLE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u09-eintrag-kennung.vivodepot",
+      "beschreibung": "Ungültig: der erste Eintrag heißt nicht „Fach 1“.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-EINTRAG"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u10-kdf-iterationen.vivodepot",
+      "beschreibung": "Ungültig: kdf.iterationen nennt 100000 statt der verlangten Rundenzahl.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-KDF-PARAMETER"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      },
+      "strenger": "Der Kern liest kdf.iterationen bewusst nicht (U2-ADR-230) und leitet immer mit der festen Rundenzahl ab. Eine Datei, die eine andere Zahl nennt, ist trotzdem nicht in diesem Format geschrieben."
+    },
+    {
+      "datei": "u11-iv-laenge.vivodepot",
+      "beschreibung": "Ungültig: der IV einer Einheit hat 16 statt 12 Byte.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-IV-LAENGE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u12-einheit-ohne-umschlag.vivodepot",
+      "beschreibung": "Ungültig: zu einer Einheit fehlt im Anker-Eintrag der Umschlag.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-PAARE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u13-umschlag-ohne-einheit.vivodepot",
+      "beschreibung": "Ungültig: zu einem Umschlag fehlt die Einheit.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-PAARE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u14-whc-form.vivodepot",
+      "beschreibung": "Ungültig: das Feld „wiederherstellung“ trägt eine unbekannte Form.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-WHC-FORM"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      },
+      "strenger": "Der Kern übergeht eine Hülle fremder Form und öffnet die Datei mit dem Passwort (_whcFeldGueltig); nach dem Format ist das Feld falsch."
+    },
+    {
+      "datei": "u15-paar-entfernt.vivodepot",
+      "beschreibung": "Ungültig: eine Einheit samt allen Umschlägen entfernt. Nur das Verzeichnis im Geheimteil fängt das.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-VERZEICHNIS"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u16-einheiten-vertauscht.vivodepot",
+      "beschreibung": "Ungültig: zwei Einheiten samt Umschlägen gegeneinander vertauscht; die AAD bindet jede an ihre Adresse.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-EINHEIT"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u17-chiffrat-gekippt.vivodepot",
+      "beschreibung": "Ungültig: ein Byte im Chiffrat einer Einheit gekippt.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-EINHEIT"
+        ]
+      },
+      "kern": {
+        "ergebnis": "lehnt-ab"
+      }
+    },
+    {
+      "datei": "u18-geheimteil.vivodepot",
+      "beschreibung": "Ungültig: der Geheimteil des Ankers entschlüsselt zu einem Text statt einem Objekt.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-GEHEIMTEIL"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      },
+      "strenger": "Der Kern fällt bei einem Geheimteil ohne Verzeichnis auf den Vergleich für Dateien vor dem 21.08.2026 zurück und öffnet."
+    },
+    {
+      "datei": "u19-inhalt.vivodepot",
+      "beschreibung": "Ungültig: kryptoVersion 3, im Inhalt ist ein Bereich kein Objekt.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "ungueltig",
+        "codes": [
+          "VDF-INHALT"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      },
+      "strenger": "Der Kern normalisiert den Inhalt beim Öffnen (depotNormalisieren) und repariert, was er kann."
+    }
+  ]
+}

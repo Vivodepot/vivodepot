@@ -11,6 +11,9 @@
      3  `git tag -s` — git signiert mit der Konfiguration der Person, die das Werkzeug aufruft
      4  der Tag-Inhalt trägt eine Signatur (SSH oder OpenPGP)
      5  `git tag -v` ist grün
+   Vor 3: für den Baum des Release-Commits liegt ein Beleg des öffentlichen Laufs vor, und er ist grün
+   (tools/oeffentlicher-lauf-beleg.js, 05.10.2026). Mit `--grundliste <datei>` (JSON-Liste bekannter roter Proben)
+   hält nur eine NEUE rote Probe an — für die Zeit, bis ein bekannter roter Stand abgearbeitet ist.
    Schlägt 3, 4 oder 5 fehl, wird der lokale Tag wieder gelöscht und der Lauf endet rot (Exit 1) — ein unsignierter oder
    nicht prüfbarer Tag kann so nicht versehentlich mitgepusht werden.
 
@@ -23,12 +26,13 @@
    mit einem SSH-Schlüssel). Die Probe (tests/oeffentlich-tag-signieren.test.js) arbeitet mit Wegwerf-Schlüsseln im Temp.
 
    Aufruf:
-     node tools/oeffentlich-tag-signieren.js --klon <öffentlicher Klon> --tag v1.0.<Fassung> --auslieferungen <datei> --staende <datei> [--commit <rev>]
+     node tools/oeffentlich-tag-signieren.js --klon <öffentlicher Klon> --tag v1.0.<Fassung> --auslieferungen <datei> --staende <datei> [--commit <rev>] [--grundliste <datei>]
    ═════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
+const { belegLesen, laufBelegPruefen } = require('./oeffentlicher-lauf-beleg.js');
 
 const TAG_MUSTER = /^v1\.0\.\d+$/;
 const SIGNATUR = /-----BEGIN (SSH|PGP) SIGNATURE-----/;
@@ -111,7 +115,7 @@ function fassungPruefen(tag, { standDoku, oeffentlicheStaende }) {
   return { ok: true };
 }
 
-function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, schreiben = (t) => process.stdout.write(t), env } = {}) {
+function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, grundliste, schreiben = (t) => process.stdout.write(t), env } = {}) {
   const rot = (satz) => { schreiben('[tag-signieren] ROT — ' + satz + '\n'); return 1; };
   if (!klon || !fs.existsSync(path.join(klon, '.git'))) return rot('kein Git-Klon: ' + klon);
   if (!TAG_MUSTER.test(String(tag || ''))) return rot('der Tag heißt v1.0.<Fassung>, nicht „' + tag + '“');
@@ -129,6 +133,15 @@ function signieren({ klon, tag, commit = 'HEAD', auslieferungen, staende, schrei
     return rot('git verify-commit ist rot für ' + commit + ' — der Release-Commit entsteht mit `git commit -S`, und die Prüfung '
       + 'braucht gpg.ssh.allowedSignersFile in der eigenen git-Konfiguration\n' + String(vc.stderr || '').trim());
   }
+  // Der öffentliche Lauf für genau diesen Baum (05.10.2026): ohne grünen Beleg kein Tag.
+  let liste = null;
+  if (grundliste) {
+    try { liste = JSON.parse(fs.readFileSync(grundliste, 'utf8')); } catch { return rot('die Grundliste ist nicht lesbar: ' + grundliste); }
+    if (!Array.isArray(liste) || liste.some((x) => typeof x !== 'string')) return rot('die Grundliste ist keine Liste von Probennamen');
+  }
+  const baum = git(klon, ['rev-parse', commit + '^{tree}'], { env }).stdout.trim();
+  const lauf = laufBelegPruefen(belegLesen(klon, baum), { baum, grundliste: liste });
+  if (!lauf.ok) return rot(lauf.grund);
   const loeschen = () => git(klon, ['tag', '-d', tag], { env });
   const s = git(klon, ['tag', '-s', tag, '-m', 'Vivodepot ' + tag, commit], { erben: true, env });
   if (s.status !== 0) { loeschen(); return rot('git tag -s ist gescheitert (ist das Signieren in git eingerichtet?)'); }
@@ -154,7 +167,8 @@ function main() {
   const argv = process.argv.slice(2);
   const arg = (n) => { const i = argv.indexOf('--' + n); return i >= 0 ? argv[i + 1] : undefined; };
   return signieren({ klon: arg('klon') && path.resolve(arg('klon')), tag: arg('tag'), commit: arg('commit') || 'HEAD',
-    auslieferungen: arg('auslieferungen') && path.resolve(arg('auslieferungen')), staende: arg('staende') && path.resolve(arg('staende')) });
+    auslieferungen: arg('auslieferungen') && path.resolve(arg('auslieferungen')), staende: arg('staende') && path.resolve(arg('staende')),
+    grundliste: arg('grundliste') && path.resolve(arg('grundliste')) });
 }
 
 if (require.main === module) process.exitCode = main();

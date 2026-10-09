@@ -35,6 +35,7 @@
      --wie-ausgeliefert: mit Service Worker und sw.js daneben, byte-gleich mit dem, was der Shop ausliefert — damit
      lässt sich die Prüfsumme je Fassung aus SECURITY.md nachrechnen (29.09.2026).
    ════════════════════════════════════════════════════════════════════════════ */
+const fs = require('node:fs');
 const path = require('node:path');
 const { konfektionieren, gerüstByteGleich } = require('./produkt-konfektionieren.js');
 const { PRODUKTE, modulDateienFuer } = require('./lib/vier-produkte.js');
@@ -61,6 +62,9 @@ function main() {
   const ergebnisse = {};
   for (const p of PRODUKTE) {
     const unsignierteModulDateien = modulDateienFuer(p);
+    // Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH (07.10.2026): jeder Verweis des Produkts löst auf, sonst bricht der Bau ab.
+    require('./lib/produkt-verweise-pruefen.js').produktVerweiseSichern(p.slug, unsignierteModulDateien.map((f) => ({
+      roh: JSON.parse(fs.readFileSync(f, 'utf8')), basisname: path.basename(f) })));
     ergebnisse[p.slug] = konfektionieren({
       ziel, slug: p.slug, modulauswahl: [],
       vorDepotKonfigurationInhaltFn: ISSUER.vorDepotKonfigurationDateiInhalt,

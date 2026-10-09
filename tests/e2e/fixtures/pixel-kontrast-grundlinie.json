@@ -1,0 +1,4 @@
+{
+ "beschreibung": "Ausnahmeliste der Pixel-Kontrast-Probe (tests/e2e/pixel-kontrast.spec.js): bekannte Unterschreitungen, je konkret mit Befund, Sicht (Ansicht:Farbe/Modus), Element und Text, kein Muster. Darf nur sinken (Register gegenlesung-zaehler, Richtung L). Ein Eintrag ohne Verstoß im Lauf ist rot: er entfällt im Commit, der seinen Befund schließt. `gemessen` ist der Wert der Erhebung, nicht Teil des Abgleichs.",
+ "bekannt": []
+}

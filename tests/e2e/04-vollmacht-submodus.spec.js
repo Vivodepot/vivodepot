@@ -26,7 +26,7 @@ test('Depot-Pille → Menü → „Depots, die ich aufbewahre" öffnet die Verwa
   await page.click('#tb-depot-pille');
   await page.waitForSelector('#tb-depot-menue-verwaltung', { state: 'visible' });
   await page.click('#tb-depot-menue-verwaltung');
-  await expect(page.locator('#content')).toContainText('Verwaltete Depots');
+  await expect(page.locator('#content')).toContainText('Sub-Depots');
   // Leerzustand ist klar benannt (kein Crash, kein Code). Wortarbeit 04.08.: „Sub-Depot"
   // ist internes Wort, die Oberfläche sagt „eingehängtes Depot".
   await expect(page.locator('#content')).toContainText('eingehängte');

@@ -3,7 +3,7 @@
   "specVersion": "1.4",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-10-04T00:00:00Z",
+    "timestamp": "2026-10-07T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -377,18 +377,18 @@
       "licenses": [
         {
           "license": {
-            "name": "Die vorliegende Ausgabe beruht\n(1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und\n(2) auf der australischen ICD-10-AM, First Edition.\nDie englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.\n© zu (1): Weltgesundheitsorganisation (WHO) 1992\n© zu (2): Commonwealth of Australia 1998\nDer Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nDas Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDie Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM)."
+            "name": "Die vorliegende Ausgabe beruht\n(1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und\n(2) auf der australischen ICD-10-AM, First Edition.\nDie englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.\n© zu (1): Weltgesundheitsorganisation (WHO) 1992\n© zu (2): Commonwealth of Australia 1998\nDer Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nDas Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDie Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).\n\nDas Alphabetische Verzeichnis zur ICD-10-GM entstand auf der Basis des Diagnosenthesaurus des Zentralinstituts für die kassenärztliche Versorgung in der Bundesrepublik Deutschland (Zi). Es wurde im Laufe der Jahre ergänzt um Texte aus dem Alphabetischen Verzeichnis der ICD-10-WHO.\nFür den Diagnosenthesaurus gilt als Inhaber der Nutzungsrechte:\nZentralinstitut für die kassenärztliche Versorgung in der Bundesrepublik Deutschland (Zi)\nSalzufer 8, 10587 Berlin\nInternet: https://www.zi.de\nDer Inhaber der Nutzungsrechte für diese Teile ist:\nBundesinstitut für Arzneimittel und Medizinprodukte (BfArM), Kurt-Georg-Kiesinger-Allee 3, 53175 Bonn.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDer Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM)."
           }
         }
       ],
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "a26b2655d4d1552fb142823b141a9e7f4254e4db103b5f1eb5a88308cf89cf7e"
+          "content": "2ec31765afcf30ec3096158b01f287b18eaa6750f658f22663bbce98ece76a04"
         },
         {
           "alg": "SHA-512",
-          "content": "9c69c1086404f59949d952c510956228502b63ac481277a33f7b1087824c87f52eb2cac70fd0fb397ae2e3f8cf872196bed8a0206dbf48f59c60cda252cd3744"
+          "content": "9d880ba4571bcea09ec7604e86d18ed738a2357928912fa48a42dcdc03efcbe8fe7226092f52302febaa15e0db801647d3ee8c44c40b8495c5f81693d12bf66f"
         }
       ],
       "properties": [

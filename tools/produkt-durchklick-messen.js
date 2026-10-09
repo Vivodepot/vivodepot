@@ -103,8 +103,8 @@ async function sichtAufnehmen(page, name, ausgabe, liste, bereich, screenshotMod
   liste.push(Object.assign({ sicht: name, foto, evalMs, screenshotMs }, daten));
 }
 
-// Die Vollbild-Overlays des Kerns (Kennungen auf „-overlay“), die aufraeumen() schließt.
-const VOLLBILD_OVERLAYS = Object.freeze(['pv-dok-overlay', 'hilfe-overlay', 'notfallblatt-overlay']);
+// Die Vollbild-Overlays des Kerns (Kennungen auf „-overlay“), die aufraeumen() schließt — die Liste steht in einer eigenen Datei.
+const { VOLLBILD_OVERLAYS } = require('./lib/vollbild-overlays.js');
 
 // Alles schließen, was eine Sicht verdeckt: Anlass-Auswahl (Overlay), Dokument-Overlay, Dialog.
 async function aufraeumen(page) {

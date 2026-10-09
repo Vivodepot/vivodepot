@@ -1446,17 +1446,17 @@
         },
         {
           "id": "ein-sub-depot-uebernehmen",
-          "hint": "Ein Sub-Depot wird als verschlüsselte Datei übergeben und lässt sich in Ihre eigene Verwaltung aufnehmen, ohne dass die Datei neu verschlüsselt werden muss. Öffnen Sie dazu in Ihrem Depot die Übersicht „Verwaltete Depots“ (in der Seitenleiste) und wählen Sie dort „Depot einhängen“.",
+          "hint": "Ein Sub-Depot wird als verschlüsselte Datei übergeben und lässt sich in Ihre eigene Verwaltung aufnehmen, ohne dass die Datei neu verschlüsselt werden muss. Öffnen Sie dazu in Ihrem Depot die Übersicht „Sub-Depots“ (in der Seitenleiste) und wählen Sie dort „Depot einhängen“.",
           "titel": "Ein Sub-Depot übernehmen"
         },
         {
           "id": "ein-sub-depot-weitergeben",
-          "hint": "Führen Sie selbst ein Sub-Depot, das jetzt an eine bevollmächtigte Person gehen soll, stehen in „Verwaltete Depots“ zwei Wege mit unterschiedlicher Folge. „Verschlüsselte Datei exportieren“ gibt eine Kopie heraus — Ihre eigene Verwaltung bleibt bestehen, ein erneuter Export ist jederzeit möglich. „Übergabe abgeschlossen — aus meiner Verwaltung entfernen“ mit der Wahl „Ich gebe es ab.“ löscht den Umschlag bei Ihnen — unumkehrbar, eine spätere Wiederaufnahme ist danach gesperrt.",
+          "hint": "Führen Sie selbst ein Sub-Depot, das jetzt an eine bevollmächtigte Person gehen soll, stehen in „Sub-Depots“ zwei Wege mit unterschiedlicher Folge. „Verschlüsselte Datei exportieren“ gibt eine Kopie heraus — Ihre eigene Verwaltung bleibt bestehen, ein erneuter Export ist jederzeit möglich. „Übergabe abgeschlossen — aus meiner Verwaltung entfernen“ mit der Wahl „Ich gebe es ab.“ löscht den Umschlag bei Ihnen — unumkehrbar, eine spätere Wiederaufnahme ist danach gesperrt.",
           "titel": "Ein Sub-Depot weitergeben"
         },
         {
           "id": "zugang-zu-den-daten",
-          "hint": "Ein übergebenes Sub-Depot hängen Sie wie in Schritt 3 beschrieben in „Verwaltete Depots“ ein — die Datei bleibt dabei mit ihrem eigenen Passwort versiegelt, das Ihnen separat mitgeteilt werden muss. Das ist bei einem übergebenen Sub-Depot der einzige Weg. Nur wenn Sie stattdessen die vollständige Depot-Datei der verstorbenen Person selbst vorliegen haben und diese zu Lebzeiten ein Fach für Sie eingerichtet hatte, öffnen Sie sie über die Willkommensseite mit „Datei öffnen“ und dem Passwort, das sie Ihnen dafür gegeben oder hinterlegt hat — erreichbar nur außerhalb einer bereits offenen Sitzung, also über die Startseite.",
+          "hint": "Ein übergebenes Sub-Depot hängen Sie wie in Schritt 3 beschrieben in „Sub-Depots“ ein — die Datei bleibt dabei mit ihrem eigenen Passwort versiegelt, das Ihnen separat mitgeteilt werden muss. Das ist bei einem übergebenen Sub-Depot der einzige Weg. Nur wenn Sie stattdessen die vollständige Depot-Datei der verstorbenen Person selbst vorliegen haben und diese zu Lebzeiten ein Fach für Sie eingerichtet hatte, öffnen Sie sie über die Willkommensseite mit „Datei öffnen“ und dem Passwort, das sie Ihnen dafür gegeben oder hinterlegt hat — erreichbar nur außerhalb einer bereits offenen Sitzung, also über die Startseite.",
           "titel": "Zugang zu den Daten"
         },
         {

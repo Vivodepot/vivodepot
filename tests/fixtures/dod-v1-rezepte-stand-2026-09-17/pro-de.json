@@ -6,160 +6,145 @@
     "de": "VD Pro — Deutsch",
     "en": "VD Pro — German"
   },
-  "kernStand": "kern/v919.html",
-  "kernPruefsumme": "519a272ccb8ff18eef613c25c79f4ec28435f40b5edb7e5758f34e98ffaa93a6",
-  "sprachmodul": "module/v919/textsatz-de-modul.json",
-  "sprachmodulPruefsumme": "9516002fe86e5ecdba80185cabb9cd72a6f8919caed9d240dc425675380e6052",
+  "kernStand": "kern/v922.html",
+  "kernPruefsumme": "48f72f7eaf7f6f897e32473546a38129d91d5125d52554e0e2d81a027c5dc664",
+  "sprachmodul": "module/v922/textsatz-de-modul.json",
+  "sprachmodulPruefsumme": "f48cdcf2458fc45b854963b9fc5f1c1d6251ea1fa2015fdb4baab246eda28db5",
   "rechtsraumModul": null,
   "rechtsraumModulPruefsumme": null,
-  "erscheinungsbildModul": "module/v919/erscheinungsbild-heute-modul.json",
-  "erscheinungsbildModulPruefsumme": "3c9b9e8c04e8d813fc8839cfebbe4cde5e5da6f2cd9234d9dcb49b42b49ec73a",
+  "erscheinungsbildModul": "module/v922/erscheinungsbild-salbei-glas-modul.json",
+  "erscheinungsbildModulPruefsumme": "32df518d7d12f97d384fb34113d869312f6c0e4f5de6cd115f110580cd0f7131",
   "bereichsmodule": [
     {
       "modulTyp": "logikModul",
-      "pfad": "module/v919/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul.json",
-      "pruefsumme": "9a21b1871dfe1902e1b54598a90f8dec9057fa3f3f23db3fcf92088f07255d31"
+      "pfad": "module/v922/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul.json",
+      "pruefsumme": "18efa0262dbc35b0b0bba534f85701067cfc55ada5c83f0ef788366f715fb7bd"
     },
     {
       "modulTyp": "bereicheBekannt",
-      "pfad": "module/v919/vivodepot-bereiche-bekannt.json",
-      "pruefsumme": "75e06970857dbf9701610396c3d9b8d7076d42a6abf3e58713f582dcaf378883"
+      "pfad": "module/v922/vivodepot-bereiche-bekannt.json",
+      "pruefsumme": "2314fb4e6a7e40fc7b8bfa1bf16b2572f31c133964d3fc2fc3d94a856647d220"
     },
     {
       "modulTyp": "bereich",
-      "pfad": "module/v919/vivodepot-pro-aufbewahrung-ordnung.json",
-      "pruefsumme": "e6f37381f12d21d3171e7370263a998195be0a1780a29bcecc2c6bfe6201adb3"
+      "pfad": "module/v922/vivodepot-pro-aufbewahrung-ordnung.json",
+      "pruefsumme": "c0e0caab6212618662d0acabe92786b445d3636e72a66281516f3d6a58ecf772"
     },
     {
       "modulTyp": "bereich",
-      "pfad": "module/v919/vivodepot-pro-betrieb-zugaenge.json",
-      "pruefsumme": "23c98d938112800acdc3c3ea394b2d31ee20776a04a5688348d913ff1d1d7d5d"
+      "pfad": "module/v922/vivodepot-pro-betrieb-zugaenge.json",
+      "pruefsumme": "788adc2af7b0bc259a8878c3ec488a2708fa5d38199fdbaabbd2ad7a53a6faa9"
     },
     {
       "modulTyp": "bereich",
-      "pfad": "module/v919/vivodepot-pro-finanzen-verbindlichkeiten.json",
-      "pruefsumme": "9d4e2aac8533d789f02451c88b82fbdf69a448699d04119ba2806038868640ef"
+      "pfad": "module/v922/vivodepot-pro-finanzen-verbindlichkeiten.json",
+      "pruefsumme": "0cc4c9486c4b9613cad100c38ce6d0c742cd53b1d9525ce78fac57fd1f0d9280"
     },
     {
       "modulTyp": "bereich",
-      "pfad": "module/v919/vivodepot-pro-gesellschaft-nachfolge.json",
-      "pruefsumme": "bc24e3f0bb66b15a7aeff843d95a4a8df6e4cd0c1d7a95e7937afb1c5732d473"
+      "pfad": "module/v922/vivodepot-pro-gesellschaft-nachfolge.json",
+      "pruefsumme": "d87488ab6e076eff7563a20447c4ad4d6ee3b9346a4f5ea0eeda212eff5cdf16"
     },
     {
       "modulTyp": "bereich",
-      "pfad": "module/v919/vivodepot-pro-kontakte-vertretungsplan.json",
-      "pruefsumme": "46fbefb405cd436034c33b4aa4d3c54a86dd9fc69a0a7c9db3157598d14c7767"
+      "pfad": "module/v922/vivodepot-pro-kontakte-vertretungsplan.json",
+      "pruefsumme": "b8921b22a92b34cf84654e16dcac94e5d0b8d3dd81d7c3c626efa2c9d906682d"
     },
     {
       "modulTyp": "bereich",
-      "pfad": "module/v919/vivodepot-pro-vertretung-vollmachten.json",
-      "pruefsumme": "3d493ed99927540cf373969dac8d77a4c34499ecf053d19a3ad5af23e6ec4c5d"
+      "pfad": "module/v922/vivodepot-pro-vertretung-vollmachten.json",
+      "pruefsumme": "9669625ef0c2d48b1a1f35bdc6ce3703368ac7ccd806c36c914e3735c9d77677"
     },
     {
       "modulTyp": "bereich",
-      "pfad": "module/v919/vivodepot-identity.json",
+      "pfad": "module/v922/vivodepot-identity.json",
       "pruefsumme": "1a38dd5fd9cebe7927bb726bf025a5a26d9448c3a45c5cc2f60de78afe41ddf7"
     },
     {
       "modulTyp": "dokumentModul",
-      "pfad": "module/v919/vivodepot-dokumentmodul-patientenverfuegung.json",
+      "pfad": "module/v922/vivodepot-dokumentmodul-patientenverfuegung.json",
       "pruefsumme": "8219a9f6d49b1b22149b8585fda0e4ee98ae9ef59652db2e058db6dd30c8e8d2"
     },
     {
       "modulTyp": "dokumentModul",
-      "pfad": "module/v919/vivodepot-dokumentmodul-ki-verfuegung.json",
+      "pfad": "module/v922/vivodepot-dokumentmodul-ki-verfuegung.json",
       "pruefsumme": "ab02ca7768027f53b4a91e86d4f62a9c5806e4441bee5cc777a1336066f71399"
     },
     {
       "modulTyp": "dokumentModul",
-      "pfad": "module/v919/vivodepot-dokumentmodul-vorsorgevollmacht.json",
+      "pfad": "module/v922/vivodepot-dokumentmodul-vorsorgevollmacht.json",
       "pruefsumme": "5bafe15409febe7cba7c5bf70156143bbce295a3e20197c977c47463f94fa2cb"
     },
     {
       "modulTyp": "dokumentModul",
-      "pfad": "module/v919/vivodepot-dokumentmodul-betreuungsverfuegung.json",
+      "pfad": "module/v922/vivodepot-dokumentmodul-betreuungsverfuegung.json",
       "pruefsumme": "60bbac668a9aef121d5c1a7832b84bf12b6c688fd81f71acdb10c73a4150b290"
     },
     {
       "modulTyp": "dokumente",
-      "pfad": "module/v919/vivodepot-dokumente-de.json",
+      "pfad": "module/v922/vivodepot-dokumente-de.json",
       "pruefsumme": "93731afb18dac9ebf0df29ee667c636a77e68b077a55ba53623c3219c5815891"
     },
     {
       "modulTyp": "rechtsraum",
-      "pfad": "module/v919/rechtsraum-de-modul.json",
+      "pfad": "module/v922/rechtsraum-de-modul.json",
       "pruefsumme": "ec4dec144b6589e30ccf11768ec98baf977a64b6af0d6d634460410de876c3ee"
     },
     {
       "modulTyp": "standardVorlage",
-      "pfad": "module/v919/vivodepot-standardvorlage-patientenverfuegung.json",
+      "pfad": "module/v922/vivodepot-standardvorlage-patientenverfuegung.json",
       "pruefsumme": "c9484281c86ea3282ae93734997160485d071bbcef9f8f3da3e62b6330d4c0bc"
     },
     {
       "modulTyp": "standardVorlage",
-      "pfad": "module/v919/vivodepot-standardvorlage-betreuungsverfuegung.json",
+      "pfad": "module/v922/vivodepot-standardvorlage-betreuungsverfuegung.json",
       "pruefsumme": "6da9f3c91e8110873a156df9e4162e4dda6c27147a69599c72971c20bca52e8a"
     },
     {
       "modulTyp": "standardVorlage",
-      "pfad": "module/v919/vivodepot-standardvorlage-vorsorgevollmacht.json",
+      "pfad": "module/v922/vivodepot-standardvorlage-vorsorgevollmacht.json",
       "pruefsumme": "1e34acc594ad2286704002b11fe242916e9cdb651368049724b248235429149c"
     },
     {
       "modulTyp": "standardVorlage",
-      "pfad": "module/v919/vivodepot-standardvorlage-organspende.json",
+      "pfad": "module/v922/vivodepot-standardvorlage-organspende.json",
       "pruefsumme": "8452f979701404aba817015a2c88617b2a4313aed4771e729c548dc11a61b804"
     },
     {
       "modulTyp": "bereicheNativ",
-      "pfad": "module/v919/bereiche-nativ-katalog-modul.json",
+      "pfad": "module/v922/bereiche-nativ-katalog-modul.json",
       "pruefsumme": "47aea902ad21b8579e1ffa7cffcb6ae27c9bcd104416e54adce931654967913e"
     },
     {
-      "modulTyp": "lebenslagen",
-      "pfad": "module/v919/lebenslagen-katalog-modul.json",
-      "pruefsumme": "a98efb3bbe63a56de3a21d2c3d2647f8032b358b32d71114282824f28ba4eeef"
-    },
-    {
       "modulTyp": "situation",
-      "pfad": "module/v919/buergermodul-situationen-ab-werk.json",
-      "pruefsumme": "db2530f4aa2d1192180dee236290223cc0986cc180dab6f9bf05b0f2877e9dba"
-    },
-    {
-      "modulTyp": "wizard",
-      "pfad": "module/v919/buergermodul-wizards-ab-werk.json",
-      "pruefsumme": "84e93fcaf628288358a5e1de40414a63e2ef310ae92e343b94d9cc2a536d521e"
+      "pfad": "module/v922/vivodepot-pro-situationen-de.json",
+      "pruefsumme": "699583127e8eeb9d648d9de1851671247dea436a368988e6eb6bc1f09e215968"
     },
     {
       "modulTyp": "ips-begleittext",
-      "pfad": "module/v919/ips-begleittext-modul.json",
+      "pfad": "module/v922/ips-begleittext-modul.json",
       "pruefsumme": "23fbc85985e7bf7dd8f4c07897698ace0c4e682501d14dddc8896d9900a5fa78"
     },
     {
       "modulTyp": "angehoerigenVorlage",
-      "pfad": "module/v919/vivodepot-angehoerigen-de.json",
+      "pfad": "module/v922/vivodepot-angehoerigen-de.json",
       "pruefsumme": "4e3a5e2e3757751329754dde1e986385a537f13e2a5edf3ff9699b2a2b8ee67c"
     },
     {
       "modulTyp": "sprachangebot",
-      "pfad": "module/v919/sprachangebot-en-vordepot-modul.json",
-      "pruefsumme": "3821c555d653b5c689bb903c91b9f2b682d3e382ab2ca922bd5719360b6fa631"
+      "pfad": "module/v922/sprachangebot-en-vordepot-modul.json",
+      "pruefsumme": "ce71a8c82a7db0cb8b8ab9f9db6909583581943d21e83eb7da570a224e904938"
     }
   ],
   "templates": [
     {
       "modulTyp": "logikModul",
-      "pfad": "templates/v919/vivodepot-pro-notar-kanzleivertretung-logikmodul.json",
-      "pruefsumme": "7f9877e1a59dcc91e4ac8b8d3295a9bb68bcbcaa7c9655efe2da310eb6c881dd"
-    },
-    {
-      "modulTyp": "logikModul",
-      "pfad": "templates/v919/zugang-zum-recht-beratungshilfe-logikmodul.json",
+      "pfad": "templates/v922/zugang-zum-recht-beratungshilfe-logikmodul.json",
       "pruefsumme": "ee4d8327174e137a8ef069c6fef8cdfe436596407ad49e0cb09914a1a932ad95"
     },
     {
       "modulTyp": "logikModul",
-      "pfad": "templates/v919/erbschein-vorbereitung-logikmodul.json",
+      "pfad": "templates/v922/erbschein-vorbereitung-logikmodul.json",
       "pruefsumme": "f10b1a96257df6b274893dc9c3870a3d9c4e62a563ee6aafd62c6a5181870a42"
     }
   ]

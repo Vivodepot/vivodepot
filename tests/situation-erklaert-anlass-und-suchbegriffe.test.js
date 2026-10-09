@@ -19,7 +19,9 @@ const bloecke = () => [{ id: 'b', titel: 'B', eintraege: [{ quelle: 'identity', 
 const modul = (situationen) => [{ modulTyp: 'situation', herkunft: 'vivodepot', moduleVersion: 1, situationen }];
 function blank(situationen) {
   const { V } = ladeKern({ blank: true });
-  V._situationModulAbWerkSeed({ abWerkMitschrift: { situationen: modul(situationen) } });
+  // Das Template steht hier für Inhalt, den ein Produkt ab Werk trägt: seit dem Befund MITSCHRIFT-AB-WERK-NACH-POSITION (05.10.2026)
+  // gilt eine Mitschrift nur nach Inhalt als ab Werk — die Probe merkt ihre Module darum ausdrücklich als festgestellt.
+  V._situationModulAbWerkSeed({ abWerkMitschrift: { situationen: modul(situationen).map((m) => V._alsAbWerkFestgestellt(m)) } });
   return V;
 }
 

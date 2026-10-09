@@ -78,20 +78,38 @@ test('[SUB-DEPOT-PERSONEN·Ausnahme] eine ausgenommene Liste wird nicht nachgezo
   assert.deepEqual(ohneMenschen.menschen, []);
 });
 
-test('[SUB-DEPOT-PERSONEN·Institution] die Antwort aus dem Sub-Depot trägt den Namen der Bevollmächtigten, nie ihren Datensatz; Sensibles nur mit Freigabe', async () => {
+/* Seit SENSIBEL-FILTER-BEREICHSBAUSTEIN (07.10.2026, tests/empfaenger-sensibel-filter.test.js) hält ein Bereichs-Baustein
+   sensible Felder und Unterfelder schon beim Bilden des Fachs zurück. Die sensible Eintragungsnummer erreicht das Sub-Depot
+   darum nur, wenn die Inhaberin des Ankers sie freigibt; im Sub-Depot gilt dann wieder die Vorgabe (die Markierungen reisen
+   nicht mit, EMPFAENGER_NIE), und die Antwort gibt sie erst mit Freigabe heraus. */
+async function annaSubDepot(ankerGibtFrei) {
   const { V } = ladeKern();
   await V.depotAnlegen('anker-personen-pw-2026');
   V.akteurSelbstErklaeren('Gertrud Beispiel');
   const anna = V.personHinzufuegen({ name: 'Anna Beispiel', beziehung: 'kind', tel: '0301111111', birthDate: '1970-04-05', adresse: 'Beispielweg 9, 12345 Beispielstadt', email: 'anna@example.de' });
   V.listenEintragHinzufuegen('advanceCare', 'provisionInstruments',
     { instrument: 'enduring-power-of-attorney', typeOfPowerOfAttorney: 'vorsorge', authorizedPersons: [{ ref: anna }], centralRegisterOfPowersOf: 'ZVR-2021-0815' });
+  if (ankerGibtFrei) V.sensibelFeldSetzen('advanceCare', V.LISTEN_UNTERFELD_PRAEFIX + 'provisionInstruments:enduring-power-of-attorney:centralRegisterOfPowersOf', false);
   const r = await V.empfaengerDateiErzeugen({ id: 'k1', name: 'Anna', bausteine: ['bereich:advanceCare'] }, PW);
   const { V: W } = ladeKern();
   await W.depotLaden(JSON.parse(JSON.stringify(r.umschlag)), PW);
-  const ZVR = 'advanceCare.provisionInstruments[enduring-power-of-attorney].centralRegisterOfPowersOf';
+  return W;
+}
+const ZVR = 'advanceCare.provisionInstruments[enduring-power-of-attorney].centralRegisterOfPowersOf';
+
+test('[SUB-DEPOT-PERSONEN·Institution] die Antwort aus dem Sub-Depot trägt den Namen der Bevollmächtigten, nie ihren Datensatz; Sensibles nur mit Freigabe', async () => {
+  const W = await annaSubDepot(true);
   const ds = JSON.stringify(W.zusammenstellungDatensatz([EPA, ZVR], { id: 'x', titel: '' }));
   assert.match(ds, /Anna Beispiel/);
   for (const w of ['1970-04-05', 'Beispielweg 9', 'anna@example.de']) assert.ok(!ds.includes(w), 'Datensatz der Person in der Antwort: ' + w);
   assert.ok(!ds.includes('ZVR-2021-0815'), 'die sensible Eintragungsnummer geht ohne Freigabe nicht mit');
   assert.match(JSON.stringify(W.zusammenstellungDatensatz([ZVR], { id: 'x', titel: '' }, { sensibel: true })), /ZVR-2021-0815/, 'mit Freigabe schon');
+});
+
+test('[SUB-DEPOT-PERSONEN·Institution] ohne Freigabe der Inhaberin erreicht die sensible Eintragungsnummer das Sub-Depot gar nicht', async () => {
+  const W = await annaSubDepot(false);
+  assert.ok(!JSON.stringify(W.getData()).includes('ZVR-2021-0815'), 'nicht im Fach');
+  assert.ok(!JSON.stringify(W.zusammenstellungDatensatz([ZVR], { id: 'x', titel: '' }, { sensibel: true })).includes('ZVR-2021-0815'),
+    'auch mit Freigabe im Sub-Depot nicht: was der Anker zurückhält, kann das Sub-Depot nicht herausgeben');
+  assert.match(JSON.stringify(W.zusammenstellungDatensatz([EPA], { id: 'x', titel: '' })), /Anna Beispiel/, 'die Vollmacht selbst ist da');
 });

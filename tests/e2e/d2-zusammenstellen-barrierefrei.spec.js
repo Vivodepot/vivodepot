@@ -27,14 +27,14 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const { AxeBuilder } = require('@axe-core/playwright');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen } = require('./helpers');
 
 const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 async function zumZusammenstellen(page) {
   await oeffneApp(page);
   await depotAnlegen(page);
-  await page.click('[data-weitergeben-zentral]');
+  await inLeisteKlicken(page, '[data-weitergeben-zentral]');
   await page.click('[data-hz-zusammenstellen]');
   await page.waitForTimeout(250);
   await expect(page.locator('#zus-suche')).toBeVisible();

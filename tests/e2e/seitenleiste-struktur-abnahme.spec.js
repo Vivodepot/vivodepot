@@ -4,64 +4,56 @@
    10.08.2026, echter Klickweg durch jeden verschobenen Eintrag)
    ────────────────────────────────────────────────────────────────────────
    Zug 1: zwei Gruppen statt einer („Nachsehen" — drei Lesesichten — und
-   „Austausch" — Einlesen/Herausgeben/Verwaltete Depots), Depot verlassen
+   „Austausch" — Einlesen/Herausgeben/Sub-Depots), Depot verlassen
    bleibt ungruppiert ganz unten.
    Zug 2: die zwei Erklärseiten (Sub-Depot-Konzept, Bestandsübersicht)
    verlassen die Navigation, bleiben aber über einen Verweis am Kopf der
    jeweiligen Handlungssicht erreichbar.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen } = require('./helpers');
 
-test('NACHSEHEN-Gruppe: alle drei Lesesichten per Klick erreichbar, Gruppenüberschrift sichtbar', async ({ page }) => {
+test('„Austausch und Überblick“: ein eingeklappter Punkt unter den Bereichen, alle drei Lesesichten per Klick erreichbar (Navigation A, 05.10.2026)', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
-  // Fortsetzen-Fokus (26.08.2026): die frühere Überschrift „Eintragen" über dem Zwölf-Bereiche-
-  // Baum ist entfallen — der Baum steckt jetzt hinter dem Umschalter „Alle Bereiche zeigen"
-  // (eigenes <summary>, kein .gruppe-titel). „Weitermachen" (26.08.2026) selbst wieder ENTFERNT
-  // (28.08.2026, Entscheidung: bereits vor dem Bau abgelehntes Konzept, s. renderSidebar()
-  // im Kern) — keine Gruppen-Überschrift dafür mehr.
-  const gruppen = page.locator('.gruppe-titel');
-  await expect(gruppen).toContainText(['Nachsehen', 'Austausch']);
+  // Navigation A: EIN Gruppentitel („Bereiche“), die übrigen Wege stehen im eingeklappten Punkt. Er ist zu, bis man ihn öffnet.
+  await expect(page.locator('#sidebar .gruppe-titel')).toHaveText(['Bereiche']);
+  const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
+  await expect(punkt.locator('summary')).toHaveText('Austausch und Überblick');
+  await expect(page.locator('#sidebar [data-mappe]')).toBeHidden();
 
-  await page.click('[data-mappe]');
+  await inLeisteKlicken(page, '[data-mappe]');
   await expect(page.locator('.bereich-kopf h2')).toContainText('Was hier liegt');
 
-  await page.click('[data-prueftermine]');
+  await inLeisteKlicken(page, '[data-prueftermine]');
   await expect(page.locator('#content')).toContainText('Prüftermine');
 
-  await page.click('[data-uebergabe-protokoll]');
+  await inLeisteKlicken(page, '[data-uebergabe-protokoll]');
   await expect(page.locator('#content')).toContainText('Herausgegeben');
 });
 
-test('AUSTAUSCH-Gruppe: Verwaltete Depots per Klick erreichbar, eigene Gruppenüberschrift trennt sie von „Herausgegeben"', async ({ page }) => {
+test('„Austausch und Überblick“: jeder Weg steht genau einmal darin, Sub-Depots per Klick erreichbar', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
-  // Reihenfolge im DOM: „Herausgegeben" (NACHSEHEN) steht vor der AUSTAUSCH-Überschrift,
-  // die wiederum vor „Verwaltete Depots" steht — die frühere Verwechslungsgefahr
-  // („Herausgegeben" direkt über „Daten herausgeben", ohne trennende Überschrift) ist damit
-  // strukturell aufgelöst, nicht nur behauptet.
-  const sidebarHtml = await page.locator('#sidebar').innerHTML();
-  const herausgegebenPos = sidebarHtml.indexOf('Herausgegeben');
-  const austauschPos = sidebarHtml.indexOf('Austausch');
-  const verwaltetePos = sidebarHtml.indexOf('Verwaltete Depots');
-  expect(herausgegebenPos).toBeGreaterThan(-1);
-  expect(herausgegebenPos).toBeLessThan(austauschPos);
-  expect(austauschPos).toBeLessThan(verwaltetePos);
+  const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
+  for (const anker of ['data-einlesen-zentral', 'data-weitergeben-zentral', 'data-uebergabe-protokoll', 'data-mappe', 'data-prueftermine', 'data-verwaltete-depots']) {
+    await expect(page.locator('#sidebar [' + anker + ']')).toHaveCount(1);
+    await expect(punkt.locator('[' + anker + ']')).toHaveCount(1);
+  }
 
-  await page.click('[data-verwaltete-depots]');
-  await expect(page.locator('.bereich-kopf h2')).toContainText('Verwaltete Depots');
+  await inLeisteKlicken(page, '[data-verwaltete-depots]');
+  await expect(page.locator('.bereich-kopf h2')).toContainText('Sub-Depots');
 });
 
-test('„Wofür eingehängte Depots da sind" ist kein Sidebar-Eintrag mehr, aber über einen Verweis in „Verwaltete Depots" per Klick erreichbar', async ({ page }) => {
+test('„Wofür eingehängte Depots da sind" ist kein Sidebar-Eintrag mehr, aber über einen Verweis in „Sub-Depots" per Klick erreichbar', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
   await expect(page.locator('[data-subdepot-konzept]')).toHaveCount(0);
 
-  await page.click('[data-verwaltete-depots]');
+  await inLeisteKlicken(page, '[data-verwaltete-depots]');
   const link = page.locator('#verwaltete-subkonzept-link');
   await expect(link).toBeVisible();
   await expect(link).toHaveText('Wofür eingehängte Depots da sind');
@@ -75,7 +67,7 @@ test('„Was hier hineingehört" ist kein Sidebar-Eintrag mehr, aber über einen
 
   await expect(page.locator('[data-bestand-auswahl]')).toHaveCount(0);
 
-  await page.click('[data-mappe]');
+  await inLeisteKlicken(page, '[data-mappe]');
   const link = page.locator('#mappe-bestand-link');
   await expect(link).toBeVisible();
   await expect(link).toHaveText('Was hier hineingehört');
@@ -87,11 +79,17 @@ test('„Depot verlassen" bleibt ganz unten, ohne eigene Gruppenüberschrift', a
   await oeffneApp(page);
   await depotAnlegen(page);
   const sidebarHtml = await page.locator('#sidebar').innerHTML();
+  // Jede Marke muss gefunden sein: ein −1 machte den Vergleich und den Schnitt unten leer grün (bis 05.10.2026 so geschehen,
+  // als „Verwaltete Depots“ umbenannt wurde). Wächter der Klasse: tools/e2e-fundstelle-ungeprueft-pruefen.js.
   const verlassenPos = sidebarHtml.indexOf('data-verlassen');
   const austauschPos = sidebarHtml.indexOf('Austausch');
+  const subDepotsPos = sidebarHtml.indexOf('Sub-Depots');
+  expect(austauschPos, 'Austausch steht in der Leiste').toBeGreaterThanOrEqual(0);
+  expect(subDepotsPos, 'Sub-Depots steht in der Leiste').toBeGreaterThanOrEqual(0);
+  expect(verlassenPos, 'Depot verlassen steht in der Leiste').toBeGreaterThanOrEqual(0);
   expect(verlassenPos).toBeGreaterThan(austauschPos);
   // Zwischen der letzten AUSTAUSCH-Zeile und „Depot verlassen" steht keine weitere
   // .gruppe-titel-Überschrift.
-  const zwischenteil = sidebarHtml.slice(sidebarHtml.indexOf('Verwaltete Depots'), verlassenPos);
+  const zwischenteil = sidebarHtml.slice(subDepotsPos, verlassenPos);
   expect(zwischenteil).not.toContain('gruppe-titel');
 });

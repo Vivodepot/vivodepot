@@ -1,0 +1,12 @@
+{
+  "von": "Example Housing Cooperative",
+  "zweck": "Membership application",
+  "grundlage": "Statutes of the cooperative, section 3 (membership)",
+  "vorgang": "EXAMPLE-2026-0001",
+  "gueltigBis": "2099-12-31",
+  "felder": [
+    { "kennung": "identity.givenName", "zweck": "Name in the register of members", "pflicht": true },
+    { "kennung": "identity.familyName", "zweck": "Name in the register of members", "pflicht": true },
+    { "kennung": "identity.email", "zweck": "Invitation to the general meeting", "pflicht": false }
+  ]
+}

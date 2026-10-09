@@ -15,7 +15,7 @@
    `tests/kette-07-die-anfrage.test.js`.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten, KERN_URL_PRIVAT_DE } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten, KERN_URL_PRIVAT_DE } = require('./helpers');
 
 // Schnitt-Nachtrag (19.09.2026): war die rohe vivodepot.html — seit BUERGERMODUL_BUENDEL
 // entfernt ist, hat die keine nativen Bereiche mehr, depotAnlegen()/oeffneSektor() liefen
@@ -48,7 +48,7 @@ test('Zug 6: eine Anfrage kommt an ihrem Ort an — mit Grundlage vor der Antwor
   await depotAnlegen(page);
 
   // Der Ort aus Auftrag 4 — KEIN neuer Menüpunkt, er stand schon da.
-  await page.click('[data-uebergabe-protokoll]');
+  await inLeisteKlicken(page, '[data-uebergabe-protokoll]');
   await page.waitForSelector('#anfragen-ort', { state: 'visible' });
   await expect(page.locator('#anfrage-empfangen')).toBeVisible();
 
@@ -76,7 +76,7 @@ test('Zug 6: eine Anfrage kommt an ihrem Ort an — mit Grundlage vor der Antwor
 test('Zug 4: der Bestätigungsschritt steht VOR der Antwort — nicht vorbelegt, nicht überspringbar', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
-  await page.click('[data-uebergabe-protokoll]');
+  await inLeisteKlicken(page, '[data-uebergabe-protokoll]');
   await page.click('#anfrage-empfangen');
   await page.fill('#anfrage-text', JSON.stringify(ANFRAGE));
   await page.click('#m-ok');

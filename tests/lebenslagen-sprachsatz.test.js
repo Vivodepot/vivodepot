@@ -49,8 +49,9 @@ function deckungBefund(katalog, de, en) {
 function lesestellenBefund(kern) {
   const code = kern.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/(^|[^:])\/\/[^\n]*/g, '$1 ');
   const treffer = [...code.matchAll(/\bLEBENSLAGEN_KATALOG\b/g)].length;
-  // Erwartet: die Deklaration in der Region und die zwei Lesungen in der BAUSTEINE-Zeile.
-  return treffer === 3 ? [] : ['LEBENSLAGEN_KATALOG kommt ' + treffer + '× im Code vor, erwartet 3 (Region + BAUSTEINE)'];
+  // Erwartet: die Deklaration in der Region, die zwei Lesungen in der BAUSTEINE-Zeile und seit dem Kachel-Schnitt (02.10.2026)
+  // drei in der ANLAESSE-Zeile — sie liest nur Kennung, Klasse, Symbol und Ziel; die Beschriftung kommt aus `anlass:<id>.label`.
+  return treffer === 6 ? [] : ['LEBENSLAGEN_KATALOG kommt ' + treffer + '× im Code vor, erwartet 6 (Region + BAUSTEINE + ANLAESSE)'];
 }
 
 test('[Lebenslagen·Sprachsatz] jede Lage hat Name, Unterlagen und Hinweise deutsch (wortgleich) und englisch', () => {

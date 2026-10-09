@@ -84,10 +84,14 @@ test('[Sicherheit] Ausbruch-Probe in der Sidebar-Navigation (data-sektor, angedo
 test('[Sicherheit] Ausbruch-Probe bei den Situationsblättern (data-situation)', () => {
   // Seit SIT2a kommen die Situationen aus der Datei: ein bösartiger Titel im Template (Mitschrift) darf im
   // Attribut nicht ausbrechen — derselbe Aufruf wie bei den anderen Senken.
+  // Seit dem Befund MITSCHRIFT-AB-WERK-NACH-POSITION (05.10.2026) ist eine Mitschrift nur nach Inhalt ab Werk; ein untergeschobener
+  // Titel fiele schon an der strengen Prüfung (kein-reiner-text). Diese Probe gilt der zweiten Linie, dem Escapen: sie behandelt
+  // den Eintrag darum ausdrücklich als ab Werk festgestellt.
   const { V: L } = ladeLesen({ ohneSaat: true });
+  const sit = L._alsAbWerkFestgestelltLesen({ modulTyp: 'situation', herkunft: 'vivodepot', moduleVersion: 1, situationen: {
+    geburt: { icon: 'baby', modus: 'eigen', titel: 'Geburt" onmouseover="alert(1)', bloecke: [] } } });
   L.setData({ schemaVersion: 83, menschen: [], urheberschaft: {}, mappe: [], feldDefinitionen: [], sensibelFelder: {}, sektoren: {},
-    abWerkMitschrift: { situationen: [{ modulTyp: 'situation', herkunft: 'vivodepot', moduleVersion: 1, situationen: {
-      geburt: { icon: 'baby', modus: 'eigen', titel: 'Geburt" onmouseover="alert(1)', bloecke: [] } } }] } });
+    abWerkMitschrift: { situationen: [sit] } });
   const nav = L.sidebarHTML();
   assert.ok(nav.includes('data-situation="geburt"'), 'Voraussetzung: die Situation steht in der Navigation');
   assert.ok(!nav.includes('" onmouseover="alert(1)'),

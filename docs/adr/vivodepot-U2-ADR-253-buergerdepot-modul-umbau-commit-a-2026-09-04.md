@@ -2,7 +2,7 @@
 
 **Datum:** 04.09.2026
 **Status:** Gilt für Commit A · Commit B ist offene Bauarbeit (bereinigt 25.09.2026)
-**Status heute:** gilt für Commit A · Teil 1 eines mehrteiligen ADRs, wie U2-ADR-252
+**Status heute:** gilt für Commit A · Teil 1 eines mehrteiligen ADRs, wie U2-ADR-252 · §2, die fest eingetragene Liste `BEREICH_IDS_EINGEBAUT`: Nachfolge U2-ADR-492 (07.10.2026)
 **Bezug:** U2-ADR-246/U2-ADR-250/U2-ADR-251 (die vier Einlass-Register, deren rohe
 Konsumenten hier entkoppelt werden) · U2-ADR-252 (Vor-Depot-Provisionierung,
 Voraussetzung für Kanal B) · `tests/paket3-commitA-entkopplung.test.js` (Rot-Beweis)

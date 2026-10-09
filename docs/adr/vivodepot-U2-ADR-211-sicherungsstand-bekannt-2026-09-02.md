@@ -133,6 +133,14 @@ pruefung: tests/sicherungsstand-bekannt.test.js#ersetzt der Zustands-Wortlaut BE
 pruefung: tests/sicherungsstand-bekannt.test.js#exportErinnerungVielleichtZeigen() ohne sicherungsStand
 ```
 
+## Nachtrag 06.10.2026 — Schwelle auf WebKit im Tab
+
+Auf WebKit im Tab (iPhone/iPad im Safari-Tab, Safari auf dem Mac, jeweils ohne gewährten Dauerspeicher) löscht der Browser allen
+Skript-Speicher einer Seite nach sieben Tagen ohne Besuch. Die 14-Tage-Schwelle lag dort über der Räumungsfrist. Dort ist die
+Erinnerung jetzt fällig, sobald seit der letzten Datei Änderungen bestehen, beim nächsten Besuch (`exportErinnerungModell`,
+Feld `webkitFrist`, Einstufung `webkitTabMitFrist()`). Überall sonst bleibt die Schwelle 14 Tage. Probe:
+`tests/safari-luecke.test.js`. Quellen: webkit.org/tracking-prevention („7-Day Cap on All Script-Writeable Storage“, „Home Screen Web Application Domain Exempt From ITP“); webkit.org/blog/14445 („Safari does not copy over any other kind of local storage“).
+
 ---
 
 *Vivodepot GmbH · Berlin · 02.09.2026*

@@ -12,11 +12,11 @@
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
     },
     "unterfeld-beschriftung": {
-      "anzahl": 262,
+      "anzahl": 308,
       "grund": "Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen"
     },
     "hinweis-beispiel": {
-      "anzahl": 456,
+      "anzahl": 511,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "feldgruppen": {
@@ -24,7 +24,7 @@
       "grund": "Feldgruppen und Vorschlagslisten des Kerns (Eingabe)"
     },
     "feld-nur-im-kern": {
-      "anzahl": 10,
+      "anzahl": 16,
       "grund": "Feld oder Sektion, die die Lese-App nicht führt"
     },
     "situationsblaetter": {
@@ -38,6 +38,10 @@
     "assistenten": {
       "anzahl": 330,
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
+    },
+    "eingabe-zweitknopf": {
+      "anzahl": 87,
+      "grund": "Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe"
     },
     "lebenslagen": {
       "anzahl": 74,

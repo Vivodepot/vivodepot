@@ -35,9 +35,8 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     const sd = FIX.stammdaten;
     await p.fill('#sd-name', sd.anbieterName); await p.selectOption('#sd-rechtsform', sd.rechtsform);
     await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
-    await p.fill('#sd-k-name', sd.kontaktName); await p.fill('#sd-k-funktion', sd.kontaktFunktion);
+    await p.fill('#sd-k-name', sd.kontaktName);
     await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
-    await p.selectOption('#sd-bereich', sd.bereich); await p.fill('#sd-usecase', sd.useCase);
     await p.click('#sd-weiter');
     await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
     await p.click('#sk-erzeugen');
@@ -90,7 +89,17 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     const { ctx, p } = await bisZumPaketKnopf(browser);
     await H.downloadNachTmp(p, H.frischerTmp('gen1-schluessel2'), () => p.click('#pr-submit'));
     expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);    // nach dem Signieren
-    // ein zweites Paket ohne Schlüssel: der Knopf ist gesperrt und die Seite sagt, was fehlt
+    // Befund STUDIO-ERFOLG-NEBEN-SCHLUESSELHINWEIS (05.10.2026): direkt nach dem Erzeugen steht der Erfolg allein. Vorher
+    // standen darüber der gelbe „Schlüssel nicht im Speicher“ und der gesperrte Knopf (Rot-Beweis: die Fassung vor dem Fix
+    // zeigte genau das, im Browser nachgestellt).
+    await expect(p.locator('#fs-fertig')).toBeVisible();
+    await expect(p.locator('#fs-fertig')).toContainText(/signiert/);
+    await expect(p.locator('#pr-schluessel-hinweis')).toBeHidden();
+    await expect(p.locator('#pr-submit')).toBeHidden();
+    // ein zweites Paket ohne Schlüssel: wer den Dialog neu öffnet, sieht den gesperrten Knopf und was fehlt
+    await p.click('#fs-fertig-zu');
+    await p.click('#fertig-oeffnen');
+    await expect(p.locator('#fs-fertig')).toBeHidden();
     await p.click('#pr-pruefen');
     await expect(p.locator('#pr-submit')).toBeDisabled();
     await expect(p.locator('#pr-schluessel-hinweis')).toBeVisible();

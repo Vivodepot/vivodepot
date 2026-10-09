@@ -1315,9 +1315,7 @@ const SUBMISSION_SCHEMA = {
         "anbieterTyp",
         "rechtsform",
         "adresse",
-        "kontakt",
-        "bereich",
-        "useCase"
+        "kontakt"
       ],
       "properties": {
         "anbieterId": {
@@ -1385,9 +1383,7 @@ const SUBMISSION_SCHEMA = {
           "additionalProperties": false,
           "required": [
             "name",
-            "funktion",
-            "email",
-            "telefon"
+            "email"
           ],
           "properties": {
             "name": {
@@ -1409,7 +1405,7 @@ const SUBMISSION_SCHEMA = {
           }
         },
         "bereich": {
-          "description": "Geplanter Anwendungs-Bereich. Einer der dreizehn Vivodepot-Bereiche.",
+          "description": "Freiwillig (seit 05.10.2026 nicht mehr erfragt; den Bereich trägt jedes Feld der Vorlage selbst). Ältere Pakete tragen ihn: einer der Vivodepot-Bereiche.",
           "type": "string",
           "enum": [
             "identity",
@@ -1434,7 +1430,7 @@ const SUBMISSION_SCHEMA = {
           ]
         },
         "useCase": {
-          "description": "Beschreibung des Use Cases (Freitext, 50–500 Zeichen).",
+          "description": "Freiwillig (seit 05.10.2026 nicht mehr erfragt). Ältere Pakete tragen eine Beschreibung des Verwendungszwecks (Freitext, 50–500 Zeichen).",
           "type": "string",
           "minLength": 50,
           "maxLength": 500
@@ -2611,6 +2607,22 @@ const SUBMISSION_SCHEMA = {
         ]
       }
     },
+    "rechtstext": {
+      "description": "Befund EINREICHUNG-STAMMDATEN-UNSIGNIERT / Entscheidung 05.10.2026: welcher Wortlaut der Einreichungsbedingungen beim Absenden galt. Kennung und Stand wie im Studio angezeigt, sha256 = SHA-256 (hex) über JSON.stringify des Wortlauts (beide Sprachen). Gedeckt von einreichungJws.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kennung", "stand", "sha256"],
+      "properties": {
+        "kennung": { "type": "string", "pattern": "^RT-[A-Z]+-[0-9]+$" },
+        "stand": { "type": "string", "pattern": "^[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "einreichungJws": {
+      "description": "JWS des Anbieters (derselbe Schlüssel wie templatesJws) über {submissionId, anbieter, rechtstext}. Pflicht, sobald templatesJws vorhanden ist; der VC-Issuer verifiziert es gegen publicKeyJwk und vergleicht die Nutzlast mit dem Paket.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
+    },
     "kennungVorschlaege": {
       "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag OHNE Vorlage drumherum -- die fünfte Ausgabeart neben `templates`, gebaut nach dem Muster von `codeListen` (U2-ADR-051). Mindestens `templates` oder `kennungVorschlaege` ist Pflicht (s. `anyOf` auf oberster Ebene). Die Prüfung gegen den bestehenden Katalog (Dublette, auch gegen inaktivierte Kennungen) läuft NICHT hier -- das leistet eine eigene Prüfung gegen den erzeugten Feldkatalog, den dieses Schema nicht kennt.",
       "type": "array",
@@ -2989,6 +3001,10 @@ function submissionZuAnbieterDaten(paket) {
     submissionId: paket && paket.submissionId,
     templates: templates,       // Stufe 1 (U2-ADR-037): Feld-Definitionen durchreichen, jetzt je Vorlage
     templatesJws: templatesJws, // 1B Schritt 2b: anbieter-signierte Templates separat durchreichen, index-gleich
+    // Befund EINREICHUNG-STAMMDATEN-UNSIGNIERT (05.10.2026): was die Einreichungs-Signatur deckt, unverändert aus dem Paket
+    anbieter: a,
+    rechtstext: paket && paket.rechtstext,
+    einreichungJws: paket && paket.einreichungJws,
   };
 }
 function validiereSubmission(paket) { return _validateSchema(SUBMISSION_SCHEMA, paket); }
@@ -3173,6 +3189,51 @@ async function _pruefeTemplateSignaturen(daten) {
   return fehler;
 }
 
+/* Befund EINREICHUNG-STAMMDATEN-UNSIGNIERT (05.10.2026): die Vorlagen-Signatur deckte die Angaben zur Einrichtung nicht.
+   Das Studio signiert mit demselben Schlüssel {submissionId, anbieter, rechtstext} als `einreichungJws`. Hier: ein Paket
+   MIT Vorlagen-Signatur muss es tragen; es muss gegen publicKeyJwk verifizieren, und seine Nutzlast muss genau den
+   Werten im Paket entsprechen (kanonisch, Schlüssel sortiert) — sonst wurde nach dem Signieren etwas geändert.
+   Ein Paket ganz ohne Signatur (manuelle Anbieter-Eingabe, PLAIN) bleibt wie bisher erlaubt. */
+function einreichungNutzlast(paket) {
+  return { submissionId: paket.submissionId, anbieter: paket.anbieter, rechtstext: paket.rechtstext };
+}
+function _kanonisch(x) {
+  if (Array.isArray(x)) return '[' + x.map(_kanonisch).join(',') + ']';
+  if (x && typeof x === 'object') return '{' + Object.keys(x).filter((k) => x[k] !== undefined).sort().map((k) => JSON.stringify(k) + ':' + _kanonisch(x[k])).join(',') + '}';
+  return JSON.stringify(x === undefined ? null : x);
+}
+/* Übergang (05.10.2026, Gegenlesung): ein Paket, das vor diesem Stand signiert wurde, trägt kein einreichungJws. Bis
+   zu diesem Zeitpunkt nimmt der Issuer es noch an, mit dem Vermerk unten; danach weist er es ab und sagt, was zu tun
+   ist. Die Probe wird nach dem Stichtag rot, damit der Übergang entfernt wird. */
+const EINREICHUNG_OHNE_STAMMDATENSIGNATUR_BIS = '2027-01-05T00:00:00Z';
+const VERMERK_STAMMDATEN_UNSIGNIERT = 'Stammdaten nicht signiert, von Vivodepot geprüft.';
+function _imStammdatenUebergang(jetzt) {
+  return ((jetzt && typeof jetzt.getTime === 'function') ? jetzt : new Date()).getTime() < Date.parse(EINREICHUNG_OHNE_STAMMDATENSIGNATUR_BIS);
+}
+/* Vermerk für die Anzeige: ein signiertes Paket ohne Einreichungs-Signatur, das im Übergang noch angenommen wird. */
+function einreichungStammdatenVermerk(daten, jetzt) {
+  const signiert = daten && Array.isArray(daten.templatesJws) && daten.templatesJws.some(Boolean);
+  return (signiert && !daten.einreichungJws && _imStammdatenUebergang(jetzt)) ? VERMERK_STAMMDATEN_UNSIGNIERT : '';
+}
+async function _pruefeEinreichungSignatur(daten, jetzt) {
+  const signiert = daten && Array.isArray(daten.templatesJws) && daten.templatesJws.some(Boolean);
+  if (!daten || !daten.einreichungJws) {
+    if (!signiert || _imStammdatenUebergang(jetzt)) return [];
+    return ['Signatur: die Angaben zur Einrichtung sind nicht signiert (einreichungJws fehlt). Bitte das Paket im Studio neu erzeugen.'];
+  }
+  let verifyKey;
+  try { verifyKey = await _jwsImportVerifyKey(daten.publicKeyJwk); }
+  catch (e) { return ['Signatur: Anbieter-Public-Key nicht importierbar — ' + e.message]; }
+  let ergebnis;
+  try { ergebnis = await _verifyJWS(daten.einreichungJws, verifyKey); }
+  catch (e) { return ['Signatur: Angaben zur Einrichtung — Verify-Fehler: ' + e.message]; }
+  if (!ergebnis.gueltig) return ['Signatur: Angaben zur Einrichtung — ' + ergebnis.grund];
+  if (_kanonisch(ergebnis.nutzlast) !== _kanonisch(einreichungNutzlast(daten))) {
+    return ['Signatur: die Angaben zur Einrichtung wurden nach dem Signieren geändert.'];
+  }
+  return [];
+}
+
 /* ── 1B Schritt 2b: Ausliefer-Bundle ───────────────────────────────────────
    Ein Objekt fuer die Buergerin: das Provider-Zertifikat als JWS-Compact PLUS,
    SEPARAT, das anbieter-signierte Template-JWS. Die TA signiert das Template NICHT
@@ -3324,7 +3385,7 @@ function stapelPruefen(pakete, katalog) {
     if (!pk.ok) {
       return { nr: nr, gueltig: false, daten: d, bestaetigt: false, grund: 'Anbieter-Public-Key ungültig: ' + pk.fehler.join(' · ') };
     }
-    return { nr: nr, gueltig: true, daten: d, bestaetigt: false, grund: '' };
+    return { nr: nr, gueltig: true, daten: d, bestaetigt: false, grund: einreichungStammdatenVermerk(d) };
   });
 }
 
@@ -3354,7 +3415,7 @@ async function stapelAusstellen(zeilen, signierFn, opts) {
     }
     // Auftrag „Prüfung vor Verteilung einhängen": Signatur, unmittelbar vor der
     // tatsächlichen Ausstellung (async, s. Kopfkommentar bei _pruefeTemplateSignaturen).
-    const sigFehler = await _pruefeTemplateSignaturen(z.daten);
+    const sigFehler = (await _pruefeTemplateSignaturen(z.daten)).concat(await _pruefeEinreichungSignatur(z.daten));
     if (sigFehler.length) {
       uebersprungen++;
       ergebnis.push(Object.assign({}, basis, { ausgestellt: false, grund: sigFehler.slice(0, 3).join(' · ') }));
@@ -3747,6 +3808,7 @@ function fuelleAnbieterFelder(d) {
 let _aktiveSubmissionId = null;
 let _aktivesTemplate = null;   // Stufe 1 (U2-ADR-037): Template der geladenen Submission, durchgereicht ins Credential
 let _aktivesTemplateJws = null;   // 1B Schritt 2b: anbieter-signiertes Template-JWS der Submission, separat ausgeliefert
+let _aktiveEinreichung = null;    // Befund EINREICHUNG-STAMMDATEN-UNSIGNIERT: die geladene Submission für die Einreichungs-Signatur
 /* Auftrag "Der Rückweg zum Kern" (27.08.2026): Modul-Umschlag aus dem Erzeuger (fünf additive
    Register-Typen — institutionsArt/bereich/rechtsraum/format/branding). Der Erzeuger signiert das
    Modul bereits SELBST (`baue<Typ>Signiert`, s. dort) — dieser Import liest nur die fertige
@@ -3849,13 +3911,16 @@ async function onSubmissionDatei(file) {
      Datenverlust: die Statuszeile sagt es der Bedienerin, wenn mehr als eine Vorlage da ist. */
   _aktivesTemplate = (d.templates && d.templates[0]) || null;
   _aktivesTemplateJws = (d.templatesJws && d.templatesJws[0]) || null;
+  _aktiveEinreichung = d;
   const vorlagenHinweis = d.templates.length > 1
     ? ' ACHTUNG: Diese Submission trägt ' + d.templates.length + ' Vorlagen — dieser Einzel-Weg stellt nur '
       + 'die erste aus. Für alle Vorlagen bitte die Stapel-Ausstellung nutzen.'
     : '';
+  const stammdatenVermerk = einreichungStammdatenVermerk(d);
   setStatus('submissionStatus',
-    'Paket übernommen. Submission-ID: ' + (d.submissionId || '—') + ' · ' + d.anbieterName + '. Bitte Ablaufdatum bestätigen.' + vorlagenHinweis,
-    vorlagenHinweis ? 'warn' : 'ok');
+    'Paket übernommen. Submission-ID: ' + (d.submissionId || '—') + ' · ' + d.anbieterName + '. Bitte Ablaufdatum bestätigen.' + vorlagenHinweis
+      + (stammdatenVermerk ? ' ' + stammdatenVermerk : ''),
+    (vorlagenHinweis || stammdatenVermerk) ? 'warn' : 'ok');
 }
 
 // datetime-local (lokale Zeit, ohne Zone) → ISO UTC (sekundengenau).
@@ -3908,7 +3973,7 @@ async function onAusstellen() {
     templates: _aktivesTemplate ? [_aktivesTemplate] : [],
     templatesJws: _aktivesTemplateJws ? [_aktivesTemplateJws] : [],
     publicKeyJwk: pk.jwk,
-  });
+  }).then((f) => _aktiveEinreichung ? _pruefeEinreichungSignatur(Object.assign({}, _aktiveEinreichung, { publicKeyJwk: pk.jwk })).then((g) => f.concat(g)) : f);
   if (sigFehler.length) { setStatus('issueStatus', sigFehler.slice(0, 3).join(' · '), 'err'); return; }
 
   // Auftrag "Der Rückweg zum Kern" (27.08.2026): Modul-Umschlag geladen? Dieselbe Stelle wie

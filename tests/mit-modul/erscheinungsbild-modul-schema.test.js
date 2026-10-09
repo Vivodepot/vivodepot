@@ -32,3 +32,23 @@ test('[Erscheinungsbild·Schema·Rot-Beweis] jeder Grammatikfall wird vom Schema
     assert.equal(P._erscheinungsbildPruefen(modul, R).gueltig, false, name + ': der Bauweg nimmt den Wert an');
   }
 });
+
+test('[Erscheinungsbild·Schema·Layout] die Beschreibungen der Fixtures sind gültig; Fächer und Parameter des Schemas sind die der Regeln im Kern', () => {
+  const layouts = require('../helfer/layout-beschreibungen.js');
+  for (const name of ['navigation-a', 'zonen']) {
+    const m = JSON.parse(JSON.stringify(HEUTE)); m.layout = layouts[name];
+    assert.equal(pruefe(m), true, name + ': ' + JSON.stringify(pruefe.errors));
+  }
+  const L = SCHEMA.properties.layout.properties;
+  assert.deepEqual(Object.keys(L.faecher.properties).sort(), [...R.layout.faecher].sort());
+  for (const p of Object.keys(R.layout.parameter)) assert.deepEqual(L[p].enum, R.layout.parameter[p], p);
+  assert.deepEqual(Object.keys(L).filter((k) => k !== 'faecher').sort(), Object.keys(R.layout.parameter).sort());
+});
+
+test('[Erscheinungsbild·Schema·Layout·Rot-Beweis] ein Eintrag mit fremdem Schlüssel und ein unbekanntes Fach weist das Schema ab', () => {
+  const layouts = require('../helfer/layout-beschreibungen.js');
+  const a = JSON.parse(JSON.stringify(HEUTE)); a.layout = JSON.parse(JSON.stringify(layouts['navigation-a'])); a.layout.faecher.kopf[0].html = '<b>';
+  const b = JSON.parse(JSON.stringify(HEUTE)); b.layout = JSON.parse(JSON.stringify(layouts['navigation-a'])); b.layout.faecher.oben = [];
+  assert.equal(pruefe(a), false);
+  assert.equal(pruefe(b), false);
+});

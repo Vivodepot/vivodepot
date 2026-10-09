@@ -60,7 +60,10 @@ test('[U2-ADR-465] der eigene Namensraum steht an der Wurzel; ein fremder nur mi
   const V = await depot();
   const eigen = V.formatModulZuExportKanal(Object.assign({}, MODUL, { namensraum: 'urn:vivodepot:probe:1' }));
   assert.match(eigen.baue({}), /<antrag xmlns="urn:vivodepot:probe:1">/);
-  const signiert = V.formatModulZuExportKanal(Object.assign({}, MODUL, { namensraum: NS_FREMD, ungeprueft: false }));
+  // Verifiziert heißt: von der Ladeprüfung bzw. dem Einlassweg festgestellt (modulBelegGeprueft), nie aus einem Feld des Moduls.
+  const signiertesModul = Object.assign({}, MODUL, { namensraum: NS_FREMD });
+  V._modulBelegAlsGeprueftSetzen(signiertesModul, { stufe: 'extern-ungeprueft', anbieterId: null });
+  const signiert = V.formatModulZuExportKanal(signiertesModul);
   assert.match(signiert.baue({}), new RegExp('<antrag xmlns="' + NS_FREMD.replace(/[.:]/g, '\\$&') + '">'));
   assert.equal(V.formatNamensraumFremd(NS_FREMD), true);
   assert.equal(V.formatNamensraumFremd('https://vivodepot.de/ns/probe'), false);
@@ -70,6 +73,20 @@ test('[U2-ADR-465·Rot-Beweis] ein unsigniertes Modul mit urn:xoev-de-Namensraum
   const V = await depot();
   assert.equal(V.formatModulZuExportKanal(Object.assign({}, MODUL, { namensraum: NS_FREMD })), null, 'ohne Kennzeichen');
   assert.equal(V.formatModulZuExportKanal(Object.assign({}, MODUL, { namensraum: NS_FREMD, ungeprueft: true })), null, 'selbst angedockt');
+});
+
+/* Befund FORMAT-NAMENSRAUM-AUS-SELBSTAUSKUNFT (05.10.2026): vorher genügte `ungeprueft: false` im Modul selbst für einen fremden
+   Namensraum. Die Datei sagt das über sich, wie sie will. */
+test('[U2-ADR-465·Befund·Rot-Beweis] ein Modul, das ungeprueft:false selbst trägt, bekommt keinen fremden Namensraum', async () => {
+  const V = await depot();
+  const behauptet = Object.assign({}, MODUL, { namensraum: NS_FREMD, ungeprueft: false });
+  assert.ok(V.formatModulPruefen(behauptet).gueltig, 'Vorbedingung: das Modul selbst ist gültig — nur die Selbstauskunft fehlt am Beleg');
+  assert.equal(V.formatModulZuExportKanal(behauptet), null);
+});
+test('[U2-ADR-465·Befund] ein Format-Modul, das nach Inhalt ab Werk ist, schreibt seinen fremden Namensraum (Ausweg Rezept)', async () => {
+  const V = await depot();
+  const abWerk = V._alsAbWerkFestgestellt(Object.assign({}, MODUL, { namensraum: NS_FREMD }));
+  assert.ok(V.formatModulZuExportKanal(abWerk));
 });
 
 test('[U2-ADR-465·Rot-Beweis] Prüfung: Namensraum ohne XML, bereich/fest beim Einlesen, unbekannter Bereich, nur feste Werte', () => {

@@ -170,7 +170,8 @@ test('[Gerüst-Wächter·Eimer] ein nicht eingetragener Bibliotheksblock ist NIC
 const ECHT = fs.readFileSync(STANDARD_DATEI, 'utf8');
 const KONSTANTEN = konstantenMessen(ECHT);
 const GRUNDLINIE = grundlinieLesen();
-const OPT = { fremdcode: GRUNDLINIE.fremdcode, technischeWoerter: GRUNDLINIE.technischeWoerter };
+// Mit den Belegen, wie messen() sie liest (Terminologie und Pflicht-Wortlaut, tools/lib/geruest-belege.js).
+const OPT = { fremdcode: GRUNDLINIE.fremdcode, technischeWoerter: GRUNDLINIE.technischeWoerter, ...require('../tools/lib/geruest-belege.js').belegeLesen() };
 const LITERALE = literaleMessen(ECHT, OPT);
 const ECHT_MESSUNG = { ...KONSTANTEN, probleme: [...KONSTANTEN.probleme, ...LITERALE.probleme], literale: LITERALE };
 const fremdSumme = (l) => Object.values(l.fremdcode).reduce((a, b) => a + b, 0);
@@ -504,7 +505,8 @@ const regionenGrund = (uebergang, dauerhaft, deckel = uebergang.length) => ({ ue
 test('[Gerüst-Wächter·Regionen] die Messung ordnet die Zeichenketten der Region zu, in dieselben Eimer', () => {
   const html = '<html>\n<script>\n/* R1:BEGIN */\nconst a = "kennung"; const b = "ein satzförmiger Text";\n/* R1:END */\nconst c = "aussen";\n</script>\n</html>\n';
   const r = literaleMessen(html, {});
-  assert.deepEqual(r.regionen, { R1: { struktur: Buffer.byteLength('kennung'), satz: Buffer.byteLength('ein satzförmiger Text'), fremdcode: 0 } });
+  const satz = Buffer.byteLength('ein satzförmiger Text');
+  assert.deepEqual(r.regionen, { R1: { struktur: Buffer.byteLength('kennung'), satz, fremdcode: 0, terminologie: 0, satzOhneWortlaut: satz } });
   assert.equal(r.innerhalb, Buffer.byteLength('kennung') + Buffer.byteLength('ein satzförmiger Text'));
   assert.equal(r.ausserhalb, Buffer.byteLength('aussen'));
 });
@@ -782,4 +784,52 @@ test('[Gerüst-Wächter·Lange Ketten·Rot-Beweis] ein 2-KB-Base64-Literal fäll
 test('[Gerüst-Wächter·Lange Ketten] die bekannten langen Ketten stehen in der Grundlinie, und keine neue ist dazugekommen', () => {
   assert.ok(Array.isArray(GRUNDLINIE.langeKettenBekannt) && GRUNDLINIE.langeKettenBekannt.length > 0, 'Vorbedingung: Liste erhoben');
   assert.ok(GRUNDLINIE.langeKettenBekannt.every((k) => k.bytes > ZUWACHS_HOECHSTENS && /^[0-9a-f]{64}$/.test(k.sha256)));
+});
+
+/* ── Terminologie und Pflicht-Wortlaut (06.10.2026, ICD-Anzeige, Befund ICD-TITEL-LIVE-VERAENDERT) ─────────────────────────
+   CODE-LISTEN: ein belegter amtlicher Begriff (tools/lib/geruest-belege.js) zählt als Terminologie, nicht als Satz; ein
+   eigener Text im Feld anzeigeName zählt als Satz und fällt. LIZENZ-WORTLAUT: eine dauerhafte Region steigt nur benannt
+   (--anhebung region:<NAME>) und nur, wenn ihr ganzer satzförmiger Inhalt byte-gleich unter code-listen/wortlaut/ steht. */
+const { belegeLesen } = require('../tools/lib/geruest-belege.js');
+const BELEGE = belegeLesen();
+const echteMessung = (text, belege = BELEGE) => messen(text, GRUNDLINIE, belege);
+
+test('[Gerüst-Wächter·Terminologie] amtliche Begriffe in CODE-LISTEN zählen nicht als Satz; Rot-Beweis: ein eigener Text im anzeigeName fällt', () => {
+  const m = echteMessung(ECHT);
+  assert.ok(m.literale.regionen['CODE-LISTEN'].terminologie > 0, 'Vorbedingung: belegte Begriffe erkannt');
+  assert.deepEqual(regionenPruefen(m.literale.regionen, GRUNDLINIE.regionen), []);
+  const alt = '"anzeigeName":"Bluthochdruck"';
+  assert.ok(ECHT.includes(alt), 'Vorbedingung: der Alltagsbegriff steht im Kern');
+  const eigenerText = 'Hoher Druck im Blut';
+  const eigen = echteMessung(ECHT.replace(alt, '"anzeigeName":"' + eigenerText + '"'));
+  // Unabhängig vom Deckel: der eigene Text zählt mit seinen vollen Byte als Satz der Region.
+  assert.equal(eigen.literale.regionen['CODE-LISTEN'].satz - m.literale.regionen['CODE-LISTEN'].satz, Buffer.byteLength(eigenerText));
+  assert.match(regionenPruefen(eigen.literale.regionen, GRUNDLINIE.regionen).join('\n'), /regionen\.CODE-LISTEN \(dauerhaft\): wächst um/);
+});
+
+test('[Gerüst-Wächter·Wortlaut] LIZENZ-WORTLAUT steigt benannt, wenn alles byte-gleich im Original steht; CODE-LISTEN und ein fremder Satz nie', () => {
+  const zusatz = ' Zusatzsatz, der in keinem Original steht.';
+  const anker = 'Der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM)."';
+  assert.ok(ECHT.includes(anker), 'Vorbedingung: der Band-2-Wortlaut steht im Kern');
+  const gewachsen = ECHT.replace(anker, anker.slice(0, -1) + zusatz + '"');
+  const antrag = (ziel) => ({ anhebungen: [{ ziel, grund: 'Rot-Beweis: benannte Anhebung einer dauerhaften Region im Test' }] });
+  // Ohne Beleg im Original: verweigert.
+  const r1 = grundlinieAktualisieren(echteMessung(gewachsen), GRUNDLINIE, antrag('region:LIZENZ-WORTLAUT'));
+  assert.equal(r1.ok, false);
+  assert.match(r1.verweigert.join('\n'), /region:LIZENZ-WORTLAUT: \d+ Byte satzförmiger Inhalt stehen in keiner Datei unter code-listen\/wortlaut/);
+  // Steht der neue Wert byte-gleich in den Originalen: angenommen, als benannter Zuwachs.
+  const wert = (() => { const i = gewachsen.indexOf(zusatz); const a = gewachsen.lastIndexOf('"', gewachsen.lastIndexOf('icd10:', i) + 8); return gewachsen.slice(a + 1, gewachsen.indexOf('"', i)); })();
+  const mitBeleg = { terminologie: BELEGE.terminologie, wortlaut: new Set([...BELEGE.wortlaut, wert]) };
+  const r2 = grundlinieAktualisieren(echteMessung(gewachsen, mitBeleg), GRUNDLINIE, antrag('region:LIZENZ-WORTLAUT'));
+  assert.equal(r2.ok, true, (r2.verweigert || []).join('\n'));
+  assert.ok(r2.zuwaechse.some((z) => z.ziel === 'region:LIZENZ-WORTLAUT'), 'der Zuwachs steht benannt im Register');
+  // CODE-LISTEN: dieselbe Anhebung wird verweigert — ihr Inhalt ist nicht byte-gleich gegen Originale geprüft.
+  const cl = ECHT.replace('"anzeigeName":"Bluthochdruck"', '"anzeigeName":"Bluthochdruck, eigener Zusatz"');
+  const r3 = grundlinieAktualisieren(echteMessung(cl), GRUNDLINIE, antrag('region:CODE-LISTEN'));
+  assert.equal(r3.ok, false);
+  assert.match(r3.verweigert.join('\n'), /region:CODE-LISTEN: \d+ Byte satzförmiger Inhalt stehen in keiner Datei unter code-listen\/wortlaut/);
+  // Ein Übergang steigt nie, auch nicht benannt.
+  const r4 = grundlinieAktualisieren(echteMessung(ECHT), GRUNDLINIE, antrag('region:KDL-LIZENZ'));
+  assert.equal(r4.ok, false);
+  assert.match(r4.verweigert.join('\n'), /region:KDL-LIZENZ: ein Übergang steigt nie/);
 });

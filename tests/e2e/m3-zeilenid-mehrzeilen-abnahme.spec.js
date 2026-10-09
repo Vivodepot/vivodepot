@@ -40,13 +40,13 @@
    nachher), danach beide wieder grün.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers');
 
 const KONSOLE_HARMLOS = /Content-Security-Policy|frame-ancestors/i;
 
 /** Eine Instrument-Zeile über den echten Klickweg anlegen (Bearbeiten-Modus vorausgesetzt). */
 async function instrumentZeileAnlegen(page, { typ, datum }) {
-  await page.click('[data-eintrag-hinzufuegen="provisionInstruments"]');
+  await listenDialogOeffnen(page, 'provisionInstruments');
   const modal = page.locator('#modal-inhalt');
   await expect(modal).toBeVisible();
   await modal.locator('[data-edit="instrument"]').selectOption(typ);

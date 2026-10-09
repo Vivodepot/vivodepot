@@ -12,7 +12,7 @@
    Schreibweg gehört darum an den echten DOM.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, KERN_URL_PRIVAT_DE } = require('./helpers.js');
+const { oeffneApp, depotAnlegen, KERN_URL_PRIVAT_DE, listenDialogOeffnen } = require('./helpers.js');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -104,7 +104,7 @@ async function legeInstrumentAn(page) {
   await page.evaluate(() => window.__vdOeffentlich.oeffneSektor('identity'));         // aktiver Bereich lage-fremd
   await page.evaluate(() => window.__vdOeffentlich.oeffneLebenslage('eigene-vorsorge'));
   await page.waitForSelector('[data-lage-sektor="advanceCare"]');
-  await page.click('[data-lage-sektor="advanceCare"] [data-eintrag-hinzufuegen="provisionInstruments"]');
+  await listenDialogOeffnen(page, 'provisionInstruments', { bereich: '[data-lage-sektor="advanceCare"]' });
   await page.waitForSelector('#modal-inhalt [data-edit="instrument"]');
   await page.selectOption('#modal-inhalt [data-edit="instrument"]', 'will');   // Typ wählen (löst die Gates)
   await page.fill('#modal-inhalt [data-edit="storageLocation"]', 'Ordner Vorsorge, Fach 1');

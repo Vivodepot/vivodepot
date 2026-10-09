@@ -37,7 +37,7 @@ test('Anlass „Todesfall" öffnet direkt das Situationsblatt „Nach einem Tode
   await expect(page.locator('#content')).toContainText('Nach einem Todesfall');
 });
 
-test('das Blatt nennt Weg 2 („Verwaltete Depots") und Weg 3 („Datei öffnen"), aber nie Weg 1', async ({ page }) => {
+test('das Blatt nennt Weg 2 („Sub-Depots") und Weg 3 („Datei öffnen"), aber nie Weg 1', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
 
@@ -51,7 +51,7 @@ test('das Blatt nennt Weg 2 („Verwaltete Depots") und Weg 3 („Datei öffnen"
   await page.click('[data-zwischenfrage-anlass="todesfall-uebernahme"]');
 
   const text = await page.locator('#content').innerText();
-  expect(text).toMatch(/Verwaltete Depots/);
+  expect(text).toMatch(/Sub-Depots/);
   expect(text).toMatch(/Datei öffnen/);
   expect(text).not.toMatch(/Als Angehörige öffnen/);
   expect(text).not.toMatch(/Verselbstständig/i);

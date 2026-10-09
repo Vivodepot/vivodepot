@@ -37,6 +37,11 @@
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
     },
     {
+      "datei": "tests/fixtures/privat-startseite-vor-kachel-umzug-2026-10-02.json",
+      "enthaelt": "*",
+      "grund": "eingefrorener Beleg (Privat-Startseite vor dem Kachel-Schnitt), bleibt unangetastet; der Vergleichstest prueft Zeichengleichheit"
+    },
+    {
       "datei": "tests/fixtures/golden-master-ausgabewege-baseline.json",
       "enthaelt": "*",
       "grund": "Aufnahme des Kerns (erzeugt): Id-Achsen, Basis-Option, Modul-Ids"
@@ -105,6 +110,11 @@
       "datei": "tests/fixtures/ab-werk-fassung-v670-erbschein.json",
       "enthaelt": "\"wert\": \"testament\"",
       "grund": "Byte-gleiche Kopie einer früher AUSGELIEFERTEN Ab-Werk-Fassung (E4, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in der Region ABWERK-FRUEHERE-FASSUNGEN-KERN, darum darf die alte Kennung nicht umgeschrieben werden (04.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v810-situationen.json",
+      "enthaelt": "\"step\": \"testament\"",
+      "grund": "Byte-gleiche Kopie der in v810 AUSGELIEFERTEN Situationen-Nutzlast der Mitschrift (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf die alte Kennung nicht umgeschrieben werden (05.10.2026)"
     },
     {
       "datei": "tests/fixtures/ab-werk-fassung-v718-erbschein.json",
@@ -779,6 +789,16 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "\"dok:vorsorgevollmacht#9/appliesBeyondDeath.text\"",
       "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-de.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (DE) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-en.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (EN) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
     }
   ],
   "patientenverfuegung": [
@@ -1386,6 +1406,16 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "\"dok:patientenverfuegung#7/proposedPerson.texte[1]\"",
       "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-de.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (DE) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-en.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (EN) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
     }
   ],
   "betreuungsverfuegung": [
@@ -1648,6 +1678,16 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "\"dok:betreuungsverfuegung#4/whatTheCareArrangementShould.satz\"",
       "grund": "Region SCHUTZ-SCHLUESSEL-LESEN (zweiter Träger der Schutzliste, aus demselben Erzeuger wie SCHUTZ-SCHLUESSEL-KERN): Kennungen der Dokument-Textbausteine, keine Dokumenttyp-Achse (04.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-de.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (DE) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-en.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (EN) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
     }
   ],
   "sorgerechtsverfuegung": [
@@ -1844,6 +1884,16 @@
       "datei": "tools/bereiche-nativ-katalog-modul.json",
       "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
       "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Katalog der nativen Bereiche (seit Gerüst-Schnitt S7 in dieser Moduldatei, vorher im Kern), anderes Vokabular als der Typ-Code"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-de.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (DE) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
+    },
+    {
+      "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-en.json",
+      "enthaelt": "*",
+      "grund": "Byte-gleiche Kopie des in v918 AUSGELIEFERTEN Textsatz-Moduls (EN) als Mitschrift (Befund HAFTUNG-SPRACHGRENZE, belegt vom Erzeuger der früher ausgelieferten Fassungen): ihr Fingerabdruck steht in den früheren Fassungen, darum darf keine alte Kennung darin umgeschrieben werden (06.10.2026)"
     }
   ]
 }

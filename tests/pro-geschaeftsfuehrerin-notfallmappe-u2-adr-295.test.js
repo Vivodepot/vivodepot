@@ -148,10 +148,11 @@ test('[Pro-Geschäftsführerin] das Bundle landet unsigniert im logikModule-Slot
   assert.equal(eintrag.anbieterIdGeprueft, false);
 });
 
-test('[Pro-Geschäftsführerin] Rot-Beweis: ohne die drei Abschnitte Vertretung/Nachfolge/Notfall wäre der Zuschnitt nicht erfüllt', async () => {
+test('[Pro-Geschäftsführerin] Rot-Beweis: ohne die drei Abschnitte Vertretung/Nachfolge/Vertretungsplan wäre der Zuschnitt nicht erfüllt', async () => {
   const { V } = await ladeKern();
   const modul = JSON.parse(BUNDLE_TEXT);
   const titel = modul.abschnitte.map((a) => a.titel);
-  assert.deepEqual(titel, ['Teil A — Vertretung', 'Teil B — Nachfolge', 'Teil C — Notfall'],
-    'genau diese drei Worte sind als Inhalt genannt — s. Auftrag, 05.09.2026');
+  // Teil C hieß bis 02.10.2026 „Notfall"; „Notfall" ist seit U2-ADR-243 Teil 2 kein Anlass in Pro (Nachtrag U2-ADR-295).
+  assert.deepEqual(titel, ['Teil A — Vertretung', 'Teil B — Nachfolge', 'Teil C — Vertretungsplan und Erreichbarkeit'],
+    'genau diese drei Abschnitte sind als Inhalt genannt — s. Auftrag, 05.09.2026, und Nachtrag U2-ADR-295');
 });

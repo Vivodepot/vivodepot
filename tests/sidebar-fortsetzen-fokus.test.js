@@ -30,35 +30,42 @@ async function frischMitDepot() {
   return k;
 }
 
-describe('[renderSidebar] Fortsetzen-Fokus: Bereiche-Baum hinter Umschalter, NACHSEHEN offen', () => {
-  test('keine Bereichs-Ansicht aktiv (Anlass-/Situationsansicht): "Alle Bereiche zeigen" ist ZU', async () => {
+describe('[renderSidebar] Navigation A (05.10.2026): Bereiche sichtbar, EIN eingeklappter Punkt „Austausch und Überblick“', () => {
+  test('keine Hülle „Alle Bereiche zeigen“ mehr: die Bereiche stehen direkt unter dem Titel „Bereiche“', async () => {
     const { V, document } = await frischMitDepot();
     V.betreteApp();
-    V.oeffneSituation('geburt');   // wechselt aktiveAnsicht auf 'situation', kein Bereich mehr aktiv
+    V.oeffneSituation('geburt');
     const html = document.getElementById('sidebar').innerHTML;
-    const umschalter = html.match(/<details class="bereiche-umschalter"[^>]*>/);
-    assert.ok(umschalter, '"Alle Bereiche zeigen"-Umschalter fehlt im Markup');
-    assert.ok(!umschalter[0].includes(' open'), 'ohne aktiven Bereich darf der Umschalter nicht offen sein');
+    assert.ok(!/bereiche-umschalter/.test(html), 'der Umschalter „Alle Bereiche zeigen“ ist entfallen');
+    assert.ok(html.includes('<div class="gruppe-titel">' + V.STRINGS.gruppeBereiche + '</div>'), 'Titel „Bereiche“');
+    assert.ok(html.indexOf(V.STRINGS.gruppeBereiche) < html.indexOf('data-sektor='), 'der Titel steht vor den Bereichen');
   });
 
-  test('ein Bereich ist aktiv: "Alle Bereiche zeigen" ist OFFEN — sonst verschwindet die aktive Markierung hinter dem geschlossenen <details>', async () => {
+  test('„Austausch und Überblick“ ist EIN eingeklappter Punkt, offen nur, wenn eine seiner Sichten aktiv ist', async () => {
     const { V, document } = await frischMitDepot();
     V.betreteApp();
     V.oeffneSektor('health');
-    const html = document.getElementById('sidebar').innerHTML;
-    const umschalter = html.match(/<details class="bereiche-umschalter"[^>]*>/);
-    assert.ok(umschalter, '"Alle Bereiche zeigen"-Umschalter fehlt im Markup');
-    assert.ok(umschalter[0].includes(' open'), 'mit aktivem Bereich muss der Umschalter offen sein (Weitermachen zeigt die Markierung nicht mehr ersatzweise an)');
+    let html = document.getElementById('sidebar').innerHTML;
+    const zu = html.match(/<details class="nav-gruppe nav-gruppe-austausch"[^>]*>/);
+    assert.ok(zu, 'der Punkt fehlt im Markup');
+    assert.ok(!zu[0].includes(' open'), 'ohne aktive Sicht daraus bleibt er zu');
+    V.oeffneMappe();
+    html = document.getElementById('sidebar').innerHTML;
+    assert.ok(html.match(/<details class="nav-gruppe nav-gruppe-austausch"[^>]*>/)[0].includes(' open'), 'mit aktiver Sicht daraus ist er offen');
   });
 
-  test('NACHSEHEN-Gruppe ist IMMER offen, unabhängig vom Bereiche-Umschalter', async () => {
+  test('jeder Weg des Punkts steht genau einmal in der Seitenleiste und in ihm (nicht mehr zwei Gruppen NACHSEHEN/AUSTAUSCH)', async () => {
     const { V, document } = await frischMitDepot();
     V.betreteApp();
     const html = document.getElementById('sidebar').innerHTML;
-    const nachsehen = html.match(/<div class="gruppe-titel">Nachsehen<\/div>[\s\S]*?(?=<div class="gruppe-titel">|<div class="verlassen")/);
-    assert.ok(nachsehen, 'NACHSEHEN-Block nicht gefunden');
-    assert.match(nachsehen[0], /Meine Dokumente/);
-    assert.match(nachsehen[0], /Herausgegeben/);
+    const start = html.indexOf('<details class="nav-gruppe nav-gruppe-austausch"');
+    const punkt = html.slice(start, html.indexOf('</details>', start));
+    assert.ok(start >= 0, 'der Punkt fehlt im Markup');
+    for (const anker of ['data-einlesen-zentral', 'data-weitergeben-zentral', 'data-uebergabe-protokoll', 'data-mappe', 'data-prueftermine', 'data-verwaltete-depots']) {
+      assert.equal(html.split(anker + '=').length - 1, 1, anker + ' genau einmal in der Seitenleiste');
+      assert.ok(punkt.includes(anker + '='), anker + ' steht im Punkt „Austausch und Überblick“');
+    }
+    assert.equal(html.split('class="gruppe-titel"').length - 1, 1, 'nur noch EIN Gruppentitel („Bereiche“), keine Titel NACHSEHEN/AUSTAUSCH');
   });
 
   test('"Weitermachen" erscheint NIRGENDS mehr — auch nicht nach mehreren Bereichsbesuchen (Entscheidung 28.08.2026)', async () => {
@@ -79,6 +86,6 @@ describe('[renderSidebar] Fortsetzen-Fokus: Bereiche-Baum hinter Umschalter, NAC
     const html = document.getElementById('sidebar').innerHTML;
     assert.match(html, /<button class="nav-item nav-item-klein" data-verlassen="1">/);
     assert.ok(html.lastIndexOf('data-verlassen') > html.lastIndexOf('data-verwaltete-depots'),
-      'Depot verlassen muss nach Austausch-Gruppe stehen (unverändert aus altem Verhalten übernommen)');
+      'Depot verlassen muss nach dem Punkt „Austausch und Überblick“ stehen');
   });
 });

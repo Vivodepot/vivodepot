@@ -44,7 +44,9 @@ async function wizardSchrittTippen(page, feldId, wert) {
   await expect(page.locator('.wizard-frage')).toBeVisible();
   await page.evaluate((fid) => {
     const def = window.__vdOeffentlich.WIZARD_BY_ID.pvwiz;
-    window.__vdOeffentlich.wizardSchrittIndex = def.schritte.findIndex(s => s.feld && s.feld.id === fid);
+    const schritt = def.schritte.findIndex(s => s.feld && s.feld.id === fid);
+    if (schritt < 0) throw new Error('Wizard-Schritt nicht gefunden: ' + fid);
+    window.__vdOeffentlich.wizardSchrittIndex = schritt;
     window.__vdOeffentlich.renderContent();
   }, feldId);
   await expect(page.locator(`#content [data-edit="${feldId}"]`)).toBeVisible();

@@ -1,0 +1,20 @@
+{
+  "hinweis": "Formatwerte der .vivodepot-Datei, die NICHT im gepinnten Krypto-Block stehen. Die Krypto-Parameter (PBKDF2-Runden, HKDF-Kennungen, Salz- und Schlüssellängen, erlaubte kryptoVersion, Adresslänge) liest tools/format-pruefen.js zur Laufzeit aus vivodepot-krypto-kern-PORT-VERBATIM.js, derselben Quelle wie der Kern. Jeder Wert hier nennt unter `kern` die Konstante in vivodepot.html, an die ihn tests/format-spezifikation-kern.test.js bindet. Werte ohne eigene Konstante im Kern (`kern: null`) bindet die Probe am Verhalten: an einer Datei, die der Kern gerade geschrieben hat.",
+  "formatVersion": 1,
+  "werte": {
+    "dateiKennung": { "wert": "VIVODEPOT", "kern": "DATEI_MAGIC" },
+    "dateiKopfVersionen": { "wert": [1], "kern": "DATEI_MAGIC_VERSION" },
+    "schemaVersionAktuell": { "wert": 92, "kern": "SCHEMA_VERSION_AKTUELL" },
+    "einheitStufeBytes": { "wert": 1024, "kern": "EINHEIT_STUFE_BYTES" },
+    "geheimPolsterZeichen": { "wert": 512, "kern": "ZERFALL_GEHEIM_POLSTER" },
+    "umschlagFelderBasis": { "wert": ["kryptoVersion", "depotUUID", "pbkdf2", "depotSalt", "iv", "ct", "einheiten", "umschlagTabelle", "angehoerigenOrt", "wiederherstellung", "stand_marke", "gespeichert_am"], "kern": "UMSCHLAG_FELDER_BASIS" },
+    "pbkdf2SalzBytes": { "wert": 16, "kern": null },
+    "ivBytes": { "wert": 12, "kern": null },
+    "fachKennungPraefix": { "wert": "Fach ", "kern": "ZERFALL_FACH_KENNUNG" },
+    "whcFeld": { "wert": "wiederherstellung", "kern": "WHC_FELD" },
+    "whcForm": { "wert": 1, "kern": "WHC_FORM" },
+    "whcSalzBytes": { "wert": 32, "kern": null },
+    "whcHuelleBytes": { "wert": 48, "kern": null },
+    "blackboxDateiTyp": { "wert": "vivodepot-blackbox-export", "kern": null }
+  }
+}

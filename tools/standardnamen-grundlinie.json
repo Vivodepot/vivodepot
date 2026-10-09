@@ -2,7 +2,7 @@
   "_zweck": "Fundstellen je Standardname, der heute ohne Registerzeile mit Prüfer in einem Außentext oder einer Ausgabe steht (30.09.2026). Die Zahl darf nur sinken; ein Name ohne Eintrag darf nicht auftauchen. Erhebung: node tools/standardnamen-pruefen.js --json",
   "namen": {
     "ELSTER": 4,
-    "FIM": 9,
+    "FIM": 7,
     "XMeld": 1
   }
 }

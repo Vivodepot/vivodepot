@@ -166,6 +166,64 @@
                   "typ": "text"
                 }
               ]
+            },
+            {
+              "id": "tpl_internal_limits_on_authority",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_exemption_from_self_dealing",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "ja"
+                },
+                {
+                  "wert": "nein"
+                },
+                {
+                  "wert": "weiss_nicht"
+                }
+              ]
+            },
+            {
+              "id": "tpl_exemption_from_self_dealing_details",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_domestic_business_address",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_authorised_recipient",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_who_may_grant_prokura",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_managing_director_register_details",
+              "typ": "liste",
+              "sensibel": true,
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_date_of_birth",
+                  "typ": "datum"
+                },
+                {
+                  "id": "tpl_place_of_residence",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_power_of_representation",
+                  "typ": "text"
+                }
+              ]
             }
           ]
         },
@@ -178,6 +236,72 @@
             },
             {
               "id": "tpl_betreuungsverfuegung_ablageort",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_third_parties_notified_of_authority",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_power_of_attorney",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_notified_on",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_power_of_attorney_original",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_power_of_attorney",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_original_kept_at",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_returned_on",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_court_approval_for_business",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_tax_authority_power_of_attorney",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_authorised_person",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_scope",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_tax_office",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_prokura_scope",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_central_register_of_powers",
               "typ": "text"
             }
           ]

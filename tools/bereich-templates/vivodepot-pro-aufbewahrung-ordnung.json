@@ -72,6 +72,14 @@
                   "typ": "datum"
                 }
               ]
+            },
+            {
+              "id": "tpl_storage_form_and_reader",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_records_integrity_notes",
+              "typ": "textarea"
             }
           ]
         },
@@ -95,6 +103,23 @@
                   "typ": "text"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "id": "pruefungen",
+          "felder": [
+            {
+              "id": "tpl_tax_audit_contact",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_social_security_audit",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_tax_data_access",
+              "typ": "textarea"
             }
           ]
         },

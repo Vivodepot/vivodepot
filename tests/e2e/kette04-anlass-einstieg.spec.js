@@ -10,7 +10,7 @@
    findet und geht.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
 
 test('der Weg nach draußen: Herausgeben-Tür → Anlass → Übersicht — wenige Zeilen, nicht das ganze Depot', async ({ page }) => {
   await oeffneApp(page);
@@ -25,7 +25,7 @@ test('der Weg nach draußen: Herausgeben-Tür → Anlass → Übersicht — weni
   await page.waitForTimeout(150);
 
   // Die Tür „Herausgeben" — ohne neuen Menüpunkt, sie gab es schon.
-  await page.click('[data-weitergeben-zentral]');
+  await inLeisteKlicken(page, '[data-weitergeben-zentral]');
   const tuer = page.locator('#modal-inhalt');
   await expect(tuer).toBeVisible();
 
@@ -54,7 +54,7 @@ test('das freie Zusammenstellen: suchen, aufnehmen, ein leeres Feld an Ort und S
   await oeffneApp(page);
   await depotAnlegen(page);
 
-  await page.click('[data-weitergeben-zentral]');
+  await inLeisteKlicken(page, '[data-weitergeben-zentral]');
   await page.click('[data-hz-zusammenstellen]');
   await page.waitForTimeout(250);
 

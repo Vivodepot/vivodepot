@@ -10,7 +10,6 @@
 
    AUSNAHMEN — nur technische Bezeichner, die das Werkzeug selbst vorgibt und
    die ein Code-Pfad lesen muss (abgestimmt 26.09.2026):
-     · die Umgebungsvariable, an der eine Agentensitzung erkannt wird,
      · der Prozessname (in Backticks oder Anführungszeichen),
      · das Konfigurationsverzeichnis mit führendem Punkt,
      · Temp-Pfad-Erkenner: das Temp-Verzeichnis des Prozesses (`…-<uid>`),
@@ -19,6 +18,10 @@
      · die .gitignore-Zeile, die die Regeldatei des Werkzeugs aus dem Repo
        hält (technische Kennung).
    Die Liste ist geschlossen; eine neue Ausnahme ist eine neue Entscheidung.
+   ENTFALLEN (07.10.2026, Befund AGENTENSPERRE-FAIL-OPEN): die Umgebungsvariable,
+   an der eine Agentensitzung erkannt wurde. Keine Sperre liest sie mehr — alle
+   gehen über den Menschen-Nachweis (tools/lib/live-sperre.js), und
+   tests/agentensperre-ohne-agentvariable.test.js hält das für tools/ und hooks/.
 
    Das Muster kommt aus der einen Quelle tools/lib/ki-nennung-muster.js, die
    auch die ADR-Probe liest. Die ADRs (docs/adr/) prüft allein
@@ -40,9 +43,13 @@ const W = WOERTER.WERKZEUG;
 const S = WOERTER.GESPRAECH;
 const Z = WOERTER.ZWEITES;
 
+// Positivliste der Dateien, die die Umgebungsvariable noch nennen dürfen (07.10.2026 mit Deckel 8 angelegt; am selben Tag auf 0
+// gesunken, Befund AGENTENSPERRE-FAIL-OPEN). Der Deckel bleibt als Ratsche stehen: die Liste bleibt leer, die Ausnahme ist entfernt.
+const UMGEBUNGSVARIABLE_DATEIEN = Object.freeze([]);
+const UMGEBUNGSVARIABLE_DECKEL = 0;
+
 // Abschließend. `dateien` fehlt = überall erlaubt; sonst nur in diesen Dateien.
 const AUSNAHMEN = [
-  { name: 'Umgebungsvariable', muster: new RegExp(W.toUpperCase() + 'CODE', 'g') },
   { name: 'Konfigurationsverzeichnis', muster: new RegExp('\\.' + W + '\\b', 'g') },
   { name: 'Prozessname', muster: new RegExp('[`"\']' + W + '[`"\']', 'g') },
   { name: 'Temp-Pfad-Erkenner', muster: new RegExp(W + '-(?:\\d|…|\\[0-9\\])', 'g'),
@@ -92,11 +99,12 @@ test('[Repo·ohne KI-Nennung·Rot-Beweis] die Formen vom 26.09.2026 fallen, die 
     ['tests/e2e/zug5-depot-pille-menue.spec.js', '   GEMESSEN beim Bau (Browser-Probe, ' + G + '-Browser-Pane): der erste Entwurf'],
     ['docs/x.md', '**Klärungs-Sitzung:** ' + S[0].toUpperCase() + S.slice(1) + ' vom 22.05.2026'],
     ['docs/x.md', Z[0].toUpperCase() + Z.slice(1) + 's-Feedback empfahl CI/CD-Härtung'],
+    // bis 07.10.2026 eine Ausnahme, seitdem eine Form wie jede andere (AGENTENSPERRE-FAIL-OPEN)
+    ['tools/lib/live-sperre.js', "  if (env." + U + "CODE) return 'in einer Agentensitzung gestartet (" + U + "CODE gesetzt)';"],
   ].map(([datei, text], i) => ({ ort: datei + ':' + (i + 1), datei, text }));
   assert.equal(befund(alt).length, alt.length, 'jede alte Form muß fallen');
 
   const bleibt = [
-    ['tools/lib/live-sperre.js', "  if (env." + U + "CODE) return 'in einer Agentensitzung gestartet (" + U + "CODE gesetzt)';"],
     ['tools/baeume-aufraeumen-erheben.js', '   2. „Läuft da was" filtert auf `' + W + '`, nicht auf `node`: der `' + W + '`-Prozess'],
     ['tools/worktree-belegung-pruefen.js', '   an der cwd erkannt, nicht am Namen "node"/"' + W + '":'],
     ['tools/paragraphen-schnitt-messen.js', "const NIE = new Set(['.git', '." + W + "']);"],
@@ -108,7 +116,10 @@ test('[Repo·ohne KI-Nennung·Rot-Beweis] die Formen vom 26.09.2026 fallen, die 
   ].map(([datei, text], i) => ({ ort: datei + ':' + (i + 1), datei, text }));
   assert.deepEqual(befund(bleibt), []);
 
-  // Dateigebundene Ausnahmen gelten nur an ihrem Ort: dieselbe Form woanders fällt.
+  // Dateigebundene Ausnahmen gelten nur an ihrem Ort: dieselbe Form woanders fällt. Die Variable fällt seit 07.10.2026 überall.
+  assert.ok(UMGEBUNGSVARIABLE_DATEIEN.length <= UMGEBUNGSVARIABLE_DECKEL, 'die Positivliste der Umgebungsvariable wächst nicht über ihren Deckel');
+  assert.equal(UMGEBUNGSVARIABLE_DATEIEN.length, UMGEBUNGSVARIABLE_DECKEL, 'Deckel exakt: sinkt die Liste, sinkt der Deckel im selben Commit');
+  assert.equal(befund([{ ort: 'tools/lib/live-sperre.js:1', datei: 'tools/lib/live-sperre.js', text: '  if (env.' + U + 'CODE) return 1;' }]).length, 1);
   assert.equal(befund([{ ort: 'README.md:1', datei: 'README.md', text: '/' + U + '.md' }]).length, 1);
   assert.equal(befund([{ ort: 'tools/x.js:1', datei: 'tools/x.js', text: 'const tmp = "/tmp/' + W + '-501";' }]).length, 1);
 });

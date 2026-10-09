@@ -152,6 +152,7 @@ test('[ADR-333·rot] ein Array-Element wechselt, und zwar NICHT das erste', () =
   // nicht mehr den unberührten deutschen Text. "Unberührt" bleibt trotzdem WAHR im Sinn, den
   // dieser Test prüfen soll: die drei anderen Indizes folgen NICHT dem geänderten Index 2.
   // Rückfall-Reihenfolge (19.09.2026): was 'zz' nicht trägt, kommt aus dem Rückfall (Englisch, sonst Deutsch) — nie aus dem geänderten Index 2.
+  // HAFTUNG-SPRACHGRENZE (07.10.2026): ein Dokument-Wortlaut bleibt auch im Rückfall byte-gleich — keine Sprachangabe im Text.
   assert.equal(block.texte[0], vorher[0], 'das erste bleibt unberuehrt (Rückfalltext, nicht das dritte Element)');
   assert.equal(block.texte[1], vorher[1], 'das zweite ebenso');
   assert.equal(block.texte[3], vorher[3], 'und das vierte auch');

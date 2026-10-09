@@ -1,0 +1,8 @@
+{
+  "_zweck": "Erfundene Fixture für tools/icd-alphabet-begriffe.js — kein Eintrag des echten Verzeichnisses.",
+  "alphabet": { "eintraege": [
+    { "nr": "90002", "code": "X00.00", "text": "Beispielkrankheit ohne Komplikation" },
+    { "nr": "90003", "code": "X00.00", "text": "Beispielleiden" }
+  ] },
+  "daten": [ { "code": "X00.00" } ]
+}

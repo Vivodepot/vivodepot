@@ -21,5 +21,8 @@ const ZWEITES = ['gem', 'ini'].join('');
 
 const KI_NENNUNG_MUSTER = new RegExp(WERKZEUG + '|' + GESPRAECH + '|\\b' + ZWEITES, 'i');
 const KI_NENNUNG_GREP = [WERKZEUG, GESPRAECH, ZWEITES].join('|');
+// Der Name des Anbieters (08.10.2026): privat erlaubt (Trailer-Prüfung, Geheimnis-Scan), im öffentlichen Zuschnitt nicht —
+// darum nicht Teil von KI_NENNUNG_MUSTER, sondern eigens für die Probe am öffentlichen Zuschnitt.
+const ANBIETER = ['anthr', 'opic'].join('');
 
-module.exports = { KI_NENNUNG_MUSTER, KI_NENNUNG_GREP, WOERTER: Object.freeze({ WERKZEUG, GESPRAECH, ZWEITES }) };
+module.exports = { KI_NENNUNG_MUSTER, KI_NENNUNG_GREP, WOERTER: Object.freeze({ WERKZEUG, GESPRAECH, ZWEITES, ANBIETER }) };

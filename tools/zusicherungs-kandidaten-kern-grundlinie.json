@@ -61,10 +61,6 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
     },
-    "flowImportVorschau": {
-      "entscheidung": "kein-zusicherungssatz",
-      "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
-    },
     "flowMappeVerwahrungHerunterladen": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die die Hülle gerade selbst herunterlädt, wenn das Original nicht lesbar ist — keine Aussage, auf die sich ein Dritter verlässt (28.09.2026, Verwahrung V1)."

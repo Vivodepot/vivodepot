@@ -7,7 +7,7 @@
    mit Code nicht. Hier: (1) die Aussage „Passwort einziger Schlüssel/Weg“ steht in keinem Hilfetext, keinem Export und keiner Lese-App-
    Antwort; (2) in den Bedienflüssen nur dort, wo der Kern sie bedingt zeigt (ohne Code); (3) der Hinweis nach dem Sichern wechselt mit
    dem Code; (4) Rot-Beweis auf den alten Sätzen. Gesucht wird inhaltlich (beide Sprachen, alle Ausgabewege), nicht nach einer Kennung. */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -16,7 +16,7 @@ const WURZEL = path.join(__dirname, '..');
 const lies = (p) => fs.readFileSync(path.join(WURZEL, p), 'utf8');
 const DE = JSON.parse(lies('tools/textsatz-de-modul.json')).texte;
 const EN = JSON.parse(lies('tools/textsatz-en-modul.json')).texte;
-const EXPORT = JSON.parse(lies(['docs', 'hilfe-website-' + 'export.json'].join('/')));   // der Pfad ist zusammengesetzt: die Datei geht nicht ins öffentliche Repo
+const exportLesen = () => JSON.parse(lies(['docs', 'hilfe-website-' + 'export.json'].join('/')));   // erst im Test, der ihn braucht; der Pfad ist zusammengesetzt: die Datei geht nicht ins öffentliche Repo
 const KERN = lies('vivodepot.html');
 
 /* Die Aussage: das Passwort sei der einzige Schlüssel/Weg, oder es gebe keinen Weg ohne Passwort. */
@@ -39,7 +39,7 @@ test('[Passwort-Schlüssel] keine Hilfe-Kennung, kein Textsatz-Text außerhalb d
 
 test('[Passwort-Schlüssel] der Website-Export sagt es nirgends', () => {
   const funde = [];
-  for (const thema of EXPORT.themen) for (const sprache of ['de', 'en']) {
+  for (const thema of exportLesen().themen) for (const sprache of ['de', 'en']) {
     const re = sprache === 'de' ? EINZIGER_DE : EINZIGER_EN;
     for (const t of [thema[sprache].titel, thema[sprache].einleitung, ...thema[sprache].abschnitte]) if (re.test(t || '')) funde.push(sprache + ' ' + thema.id);
   }

@@ -81,16 +81,27 @@ function hexFundeImStyle(text) {
   return funde;
 }
 
-function pruefeDatei(pfad) {
-  const text = fs.readFileSync(pfad, 'utf8');
-  const funde = hexFundeImStyle(text);
+/* Studio S0 (08.10.2026, Wort der Gegenlesung): die Region STUDIO-ERSCHEINUNG trägt die Farben des App-Moduls, gebacken von
+   tools/studio-erscheinung-backen.js. Ausgeblendet wird sie nur, wenn sie genau einmal da ist und der dort frisch erzeugten
+   Region gleicht (regionGeprueftAusblenden); sonst wird jede Farbe darin geprüft, und der Grund ist ein eigener Fund. */
+// Ohne den Erzeuger (etwa in einer verworfenen Kopie mit wenigen Dateien) wird nichts ausgeblendet: dann zählt jede Farbe.
+function regionGeprueftAusblenden(text, modul) {
+  let f = null;
+  try { f = require('./studio-erscheinung-backen.js').regionGeprueftAusblenden; } catch (_) { return { text, ausgeblendet: false, fehler: null }; }
+  return f(text, modul);
+}
+function pruefeDatei(pfad, opts = {}) {
+  const roh = fs.readFileSync(pfad, 'utf8');
+  const r = regionGeprueftAusblenden(roh, opts.modul);
+  const funde = hexFundeImStyle(r.text);
   const fremde = funde.filter((h) => !ERLAUBTE_HEX.has(h));
   const fremdeEindeutig = [...new Set(fremde)];
   return {
     pfad,
     hexGesamt: funde.length,
     fremde: fremdeEindeutig,
-    sauber: fremdeEindeutig.length === 0,
+    regionFehler: r.fehler,
+    sauber: fremdeEindeutig.length === 0 && !r.fehler,
   };
 }
 
@@ -116,6 +127,7 @@ function main() {
   } else {
     console.log('erzeuger-marken-palette-pruefen: FREMDFARBE gefunden in ' + path.relative(REPO, befund.pfad) + ':');
     for (const h of befund.fremde) console.log('  ' + h);
+    if (befund.regionFehler) console.log('  ' + befund.regionFehler);
   }
 
   if (check && !befund.sauber) process.exit(1);

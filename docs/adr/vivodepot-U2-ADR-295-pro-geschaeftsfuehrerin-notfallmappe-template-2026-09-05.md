@@ -184,3 +184,17 @@ Browser, echter Datei-Upload für BEIDE Dateien — die vier Pro-Bereiche und da
 ---
 
 *Vivodepot GmbH · Berlin · 05.09.2026*
+
+---
+
+## Nachtrag 02.10.2026 — sichtbare Texte ohne „Notfall"
+
+Mit U2-ADR-243 Teil 2 entfällt „Notfall" als Anlass in Pro. Geändert sind nur sichtbare Texte, DE und EN: Titel und
+Überschrift „Geschäftsführerin — Vertretung und Nachfolge" („Managing director — representation and succession"),
+„Teil C — Vertretungsplan und Erreichbarkeit", der Dateiname des Auszugs („Geschaeftsfuehrerin-Vertretung-Nachfolge"),
+Werkzeugleisten-Hinweis und die Einleitungssätze von Teil A und B (kein „ausfällt", kein „Notfall"). Ebenso im
+Notar-Template (U2-ADR-287): „Teil A — wer handelt, wenn die Notarin vertreten wird".
+
+**Kennungen bleiben** (`pro-geschaeftsfuehrerin-notfallmappe`, `klasse`, `knopfAttr`, Dateinamen im Repo): niemand
+sieht sie, und sie sind in Rezepten, Proben und der Mitschrift bestehender Dateien verankert. Der Titel dieses ADR
+bleibt als Name des Entscheids stehen. Wächter: `tests/pro-texte-ohne-notfall.test.js`.

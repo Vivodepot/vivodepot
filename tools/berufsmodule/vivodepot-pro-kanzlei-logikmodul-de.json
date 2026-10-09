@@ -1,0 +1,174 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-kanzlei-vertretung",
+  "titel": "Kanzlei — Vertretung und Abwicklung",
+  "sektor": "pro-kanzlei",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretung": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_attorney_representative",
+      "unterfeld": "tpl_name"
+    },
+    "abwicklung_wunsch": {
+      "typ": "feld",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_practice_winding_up_wish"
+    },
+    "kammer": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_bar_membership",
+      "unterfeld": "tpl_chamber"
+    },
+    "haftpflicht": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_professional_liability_insurance",
+      "unterfeld": "tpl_insurer"
+    },
+    "handakten": {
+      "typ": "feld",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_client_files_location"
+    },
+    "bea": {
+      "typ": "feld",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_bea_access"
+    },
+    "vertretungsplan_aufgabe": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe",
+      "unterfeld": "tpl_aufgabe"
+    },
+    "vertretungsplan_person": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe",
+      "unterfeld": "tpl_person"
+    },
+    "kontakt_telefon": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "telephone"
+    },
+    "kontakt_email": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "email"
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "Teil A — wer vertritt, wer wickelt ab",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Rechtsanwältinnen sorgen für eine Vertretung, wenn sie länger als eine Woche nicht in der Kanzlei tätig sein können; einen Abwickler bestellt die Rechtsanwaltskammer. Dieser Auszug sammelt, was das Depot dazu hält, und ersetzt weder die Bestellung noch eine Auskunft der Kammer."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretung",
+          "frage": "Vertretung?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "abwicklung_wunsch",
+          "frage": "Wunsch für die Kanzleiabwicklung?",
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    },
+    {
+      "titel": "Teil B — Kanzlei und Berufspflichten",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kammer",
+          "frage": "Rechtsanwaltskammer?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "haftpflicht",
+          "frage": "Berufshaftpflicht: Versicherer?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "handakten",
+          "frage": "Handakten: wo, wer hat Zugang?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "bea",
+          "frage": "beA: wer ist zugangsberechtigt?",
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    },
+    {
+      "titel": "Teil C — Vertretungsplan und Erreichbarkeit",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_aufgabe",
+          "frage": "Vertretungsplan — welche Aufgaben sind zugeteilt?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_person",
+          "frage": "Vertretungsplan — wer übernimmt sie?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_telefon",
+          "frage": "Telefon?",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_email",
+          "frage": "E-Mail?",
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Kanzlei — Vertretung und Abwicklung",
+    "klasse": "pro-kanzlei-vertretung-dok",
+    "herkunftText": "Zusammenstellung dieser Anwendung aus den Pro- und Depot-Angaben — keine amtliche Vorlage, keine Verbindung zu einer Rechtsanwaltskammer.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder die Bestellung einer Vertretung noch die eines Abwicklers — beides bleibt Sache der Rechtsanwältin und der zuständigen Kammer.",
+    "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",
+    "knopfAttr": "pro-kanzlei-vertretung-dokument",
+    "dateiBasis": "Kanzlei-Vertretung",
+    "toolbarHinweis": "Dieser Auszug hilft, Vertretung und Kanzleiabwicklung vorzubereiten. Er ersetzt keine Bestellung und keine Auskunft der Rechtsanwaltskammer, und er wird an niemanden übermittelt."
+  }
+}

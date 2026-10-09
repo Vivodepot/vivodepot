@@ -21,7 +21,7 @@
     "health.emergencyContacts": [{ "person": "bruder" }],
     "health.allergiesMedicationFoodOther": [{ "codeListe": "snomedAllergen", "text": "Allergie gegen Penicillin" }],
     "health.medicationOngoing": [{ "codeListe": "atc", "text": "Ramipril" }],
-    "health.chronicConditionsDiagnoses": [{ "codeListe": "icd10", "text": "Essentielle (primäre) Hypertonie" }],
+    "health.chronicConditionsDiagnoses": [{ "codeListe": "icd10", "text": "Bluthochdruck" }],
     "housing.ownedOrRented": "miete",
     "housing.landlordPropertyManagement": { "person": "vermieterin" },
     "housing.tenancyAgreementStorage": "Ordner „Wohnen“, seit 2019",

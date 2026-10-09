@@ -214,6 +214,10 @@ const KONTRAKT_FAKTEN = [
   { name: 'url', bedeutung: 'URL der Wortlautquelle (Broschüre)', wirkungsort: 'vivodepot.html:21723 (Pflicht)', status: 'geprueft' },
   { name: 'use', bedeutung: 'Verwendungszweck des JWK (z. B. "sig")', wirkungsort: 'kein fachlicher Treffer gefunden — evtl. nur an WebCrypto-Import durchgereicht', status: 'unklar' },
   { name: 'useCase', bedeutung: 'Freitext-Begründung im Antrag', wirkungsort: 'kein Treffer', status: 'ohne-wirkung' },
+  // 05.10.2026 (Befund EINREICHUNG-STAMMDATEN-UNSIGNIERT): Einreichungs-Signatur und Rechtstext — der VC-Issuer prüft sie, der Kern sieht das Paket nie.
+  { name: 'einreichungJws', bedeutung: 'JWS des Anbieters über {submissionId, anbieter, rechtstext}, derselbe Schlüssel wie templatesJws', wirkungsort: 'kein Treffer — der VC-Issuer prüft es (_pruefeEinreichungSignatur)', status: 'ohne-wirkung' },
+  { name: 'rechtstext', bedeutung: 'Kennung, Stand und SHA-256 des Wortlauts der Einreichungsbedingungen beim Absenden, gedeckt von einreichungJws', wirkungsort: 'kein Treffer — der VC-Issuer prüft ihn über einreichungJws', status: 'ohne-wirkung' },
+  { name: 'sha256', bedeutung: 'SHA-256 (hex) des Rechtstext-Wortlauts (in rechtstext)', wirkungsort: 'kein Treffer — Teil von rechtstext', status: 'ohne-wirkung' },
   { name: 'ustId', bedeutung: 'USt-ID der Institution', wirkungsort: 'kein Treffer', status: 'ohne-wirkung' },
   { name: 'verborgenWenn', bedeutung: 'Bedingte Sichtbarkeit eines Feldes', wirkungsort: 'vivodepot.html:21140-21143 (Form-Gate, ohne .feld ignoriert)', status: 'entgegengenommen' },
   { name: 'version', bedeutung: 'Fassung der Vorlage', wirkungsort: 'vivodepot.html:22755 (ältere Fassung → Ablehnung)', status: 'geprueft' },

@@ -4,8 +4,9 @@
    ────────────────────────────────────────────────────────────────────────
    Dieselben Zusicherungen wie tests/pro-struktur-wie-privat.test.js, am
    konfektionierten Produkt in Chromium statt im Node-Harnisch:
-   - die Seitenleiste gliedert Pro in Themen-Cluster, keine einzige Gruppe
-     „Bereiche“/„Areas“, kein Ordner-Icon;
+   - die Seitenleiste zeigt Pro flach (Navigation A, 05.10.2026: bis neun
+     Bereiche keine Cluster-Gruppe), keine Auffanggruppe „Bereiche“/„Areas“,
+     kein Ordner-Icon;
    - der Bereich identity trägt Name und Geburtsdatum;
    - „Weitere Bereiche“ fehlt im frischen Depot und erscheint erst, wenn die
      Person selbst ein Template einlässt.
@@ -44,6 +45,11 @@ function seitenleisteLesen(page) {
       weitere: [...sb.querySelectorAll('[data-modul-verzeichnis]')].map((b) => b.getAttribute('data-modul-verzeichnis')),
       fremdeGruppe: !!sb.querySelector('.nav-gruppe-fremd'),
       anlassEinstieg: !!sb.querySelector('[data-anlass-auswahl]'),
+      // Navigation A (05.10.2026): Bereichs-Gruppen sind die klappenden Gruppen außer „Austausch und Überblick“ und
+      // „Weitere Bereiche“; flach stehen die Bereichs-Knöpfe, die in keiner Gruppe liegen.
+      bereichsGruppen: [...sb.querySelectorAll('details.nav-gruppe:not(.nav-gruppe-austausch):not(.nav-gruppe-fremd)')]
+        .filter((d) => d.querySelector('[data-sektor]')).length,
+      flacheBereiche: [...sb.querySelectorAll('[data-sektor]')].filter((b) => !b.closest('details.nav-gruppe')).length,
     };
   });
 }
@@ -61,9 +67,13 @@ async function anlassEinstiegPruefen(page, slug) {
 
 async function strukturPruefen(page, slug) {
   const sb = await anlassEinstiegPruefen(page, slug);
-  const bereichsGruppen = sb.gruppen.filter((g) => !/^(Bereiche|Areas)\b/.test(g));
+  // Navigation A (Produktentscheidung 05.10.2026, „flache Pro-Leiste“): bis NAV_FLACH_BIS = 9 Bereiche steht die Leiste
+  // flach — keine Themen-Cluster in der Leiste, jeder Bereich eine Zeile. Die Cluster im Datenmodell
+  // (bereicheNachCluster) prüft weiter tests/pro-struktur-wie-privat.test.js.
   expect(sb.gruppen.some((g) => /^(Bereiche|Areas)\s*(\(\d+\))?$/.test(g)), 'keine Auffanggruppe: ' + sb.gruppen.join(' | ')).toBe(false);
-  expect(bereichsGruppen.length, sb.gruppen.join(' | ')).toBeGreaterThanOrEqual(3);
+  expect(sb.bereichsGruppen, 'flache Pro-Leiste, keine Cluster-Gruppe: ' + sb.gruppen.join(' | ')).toBe(0);
+  expect(sb.flacheBereiche, 'Pro-Bereiche stehen flach in der Leiste').toBeGreaterThanOrEqual(7);
+  expect(sb.flacheBereiche, 'flach nur bis NAV_FLACH_BIS').toBeLessThanOrEqual(9);
   expect(sb.ordnerIcons).toBe(0);
   expect(sb.fremdeGruppe).toBe(false);
   expect(sb.weitere).toEqual([]);
@@ -75,8 +85,8 @@ async function strukturPruefen(page, slug) {
   for (const f of ['givenName', 'familyName', 'birthDate']) expect(felder, f).toContain(f);
 }
 
-test('[Pro-Struktur·Browser·pro-de] Themen-Cluster, kein Ordner-Icon, identity mit Name und Geburtsdatum, keine „Weitere Bereiche“', ({ page }) => strukturPruefen(page, 'pro-de'));
-test('[Pro-Struktur·Browser·pro-en] Themen-Cluster, kein Ordner-Icon, identity mit Name und Geburtsdatum, keine „Weitere Bereiche“', ({ page }) => strukturPruefen(page, 'pro-en'));
+test('[Pro-Struktur·Browser·pro-de] flache Leiste ohne Cluster, kein Ordner-Icon, identity mit Name und Geburtsdatum, keine „Weitere Bereiche“', ({ page }) => strukturPruefen(page, 'pro-de'));
+test('[Pro-Struktur·Browser·pro-en] flache Leiste ohne Cluster, kein Ordner-Icon, identity mit Name und Geburtsdatum, keine „Weitere Bereiche“', ({ page }) => strukturPruefen(page, 'pro-en'));
 
 test('[Pro-Struktur·Browser·privat-de] der Anlass-Einstieg steht auf Willkommen und in der Seitenleiste (Gegenprobe zu Pro)', ({ page }) => anlassEinstiegPruefen(page, 'privat-de'));
 

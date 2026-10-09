@@ -13,6 +13,9 @@
      feldregister.json          die Liste, maschinenlesbar
      feldregister.json.sha256   die Prüfsumme, Format wie `vivodepot.html.sha256`
      index.html                 die Registerseite, die den Platzhalter ablöst
+     feldregister.jsonld        dasselbe als Begriffsschema (SKOS, JSON-LD) — U2-ADR-NNN
+     feld/<kennung>/            je Kennung eine feste Adresse: index.html + index.jsonld,
+                                 dazu feld/.htaccess (tools/lib/feldregister-adressen.js)
      index.json                 der KATALOG-INDEX (Register-Katalog-Plan §6 Schritt 3,
                                  14.09.2026) — nennt, welche Achsen-Register es unter diesem
                                  Verzeichnis gibt, je mit Fassung+Prüfsumme. Heute EIN Eintrag
@@ -64,6 +67,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { INDEX_DATEI, indexEintragBauen, indexJsonBauen, vorhandenenIndexLesen } = require('./lib/register-index.js');
+const adressen = require('./lib/feldregister-adressen.js');
 
 const REPO = path.join(__dirname, '..');
 const KATALOG_PFAD = path.join(REPO, 'bereiche', 'feldkatalog.json');
@@ -268,15 +272,25 @@ function registerJson(felder, fassung) {
   return JSON.stringify({
     hinweis: KOPFZEILE,
     fassung: { datum: fassung.datum, kern: fassung.kern },
+    /* U2-ADR-NNN: CC0 für das Eigene, in der Datei selbst — wer sie kopiert, nimmt die Lizenz mit. */
+    lizenz: { ...adressen.LIZENZ },
+    herausgeber: adressen.HERAUSGEBER,
     schluesselraum: 'kennung',
+    adressen: {
+      kennung: adressen.ADRESS_BASIS + '<kennung>',
+      begriffsschema: adressen.ADRESS_BASIS,
+      jsonld: adressen.SCHEMA_JSONLD_DATEI,
+      fassungen: 'v<kern>/' + JSON_DATEI,
+    },
     anzahl: felder.length,
     herkunft: {
       quelle: 'bereiche/feldkatalog.json',
       erzeugerDerQuelle: 'tools/build-feldkatalog.js aus vivodepot.html SEKTOREN',
       kennungsform: '<bereich>.<feld> · Unterfelder <bereich>.<listenfeld>/<unterfeld>',
       pruefsumme: PRUEFSUMMEN_DATEI,
+      quellenhinweis: adressen.QUELLENHINWEIS,
     },
-    felder,
+    felder: felder.map((f) => ({ ...f, uri: adressen.adresse(f.kennung) })),
   }, null, 2) + '\n';
 }
 
@@ -396,6 +410,13 @@ function seiteHtml(gruppen, fassung, hash, generatorUrl) {
   z.push('  stimmt die Zeile überein, ist die Liste unter dieser Adresse die, die der Erzeuger');
   z.push('  gebaut hat.</p>');
   z.push('');
+  z.push('  <p class="lizenz">Jede Kennung hat eine feste Adresse: <code>' + htmlText(adressen.ADRESS_BASIS) + '&lt;kennung&gt;</code>,');
+  z.push('  als Seite und als JSON-LD (SKOS); das ganze Verzeichnis als <a href="' + adressen.SCHEMA_JSONLD_DATEI + '">'
+    + adressen.SCHEMA_JSONLD_DATEI + '</a>. Kennungen, Beschriftungen und Adressen sind unter');
+  z.push('  <a href="' + adressen.LIZENZ.url + '">CC0 1.0</a> freigegeben.</p>');
+  z.push('  <p class="lizenz lang-en" lang="en">Every identifier has a permanent address, as a page and as JSON-LD (SKOS).');
+  z.push('  Identifiers, labels and addresses are dedicated to the public domain under CC0 1.0.</p>');
+  z.push('');
   z.push('  <p class="undurchsichtig">Eine Kennung ist ein Name zum Wiederfinden, nicht zum');
   z.push('  Übersetzen: ihre Bedeutung steht in den Beschriftungen, auf Deutsch und auf Englisch.</p>');
   z.push('');
@@ -459,7 +480,7 @@ function seiteHtml(gruppen, fassung, hash, generatorUrl) {
       const statusSpan = '<span class="status status-' + htmlText(f.status) + '">' + htmlText(f.status)
         + (f.nachfolger ? ' <span class="status-nachfolger">→ <code>' + htmlText(f.nachfolger)
           + '</code></span>' : '') + '</span>';
-      z.push('      <li><code>' + htmlText(f.kennung) + '</code>' + statusSpan
+      z.push('      <li><a href="' + htmlText(adressen.ORDNER + '/' + f.kennung + '/') + '"><code>' + htmlText(f.kennung) + '</code></a>' + statusSpan
         + '<span class="label">' + htmlText(f.label.de) + '</span>'
         + '<span class="label label-en" lang="en">' + htmlText(f.label.en) + '</span></li>');
     }
@@ -498,6 +519,8 @@ function bauen(opt) {
   const json = registerJson(felder, fassung);
   const hash = hashVonText(json);
   return {
+    jsonld: adressen.schemaJsonld(felder, fassung),
+    adressDateien: adressen.adressDateien(felder),
     fassung,
     anzahl: felder.length,
     gruppen,
@@ -516,10 +539,14 @@ function schreiben(zielOrdner, artefakt) {
     [JSON_DATEI, artefakt.json],
     [PRUEFSUMMEN_DATEI, artefakt.pruefsumme],
     [SEITEN_DATEI, artefakt.html],
+    [adressen.SCHEMA_JSONLD_DATEI, artefakt.jsonld],
     [INDEX_DATEI, index],
   ];
-  return dateien.map(([name, inhalt]) => {
+  /* feld/ wird ganz neu geschrieben: eine Seite, deren Kennung im Katalog fehlt, darf nicht liegen bleiben. */
+  fs.rmSync(path.join(zielOrdner, adressen.ORDNER), { recursive: true, force: true });
+  return dateien.concat(artefakt.adressDateien).map(([name, inhalt]) => {
     const p = path.join(zielOrdner, name);
+    fs.mkdirSync(path.dirname(p), { recursive: true });
     fs.writeFileSync(p, inhalt);
     return { name, pfad: p, bytes: Buffer.byteLength(inhalt, 'utf8') };
   });
@@ -553,7 +580,9 @@ function main() {
   console.log('feldregister-bauen: ' + artefakt.anzahl + ' Kennungen in '
     + artefakt.gruppen.length + ' Bereichen · Fassung ' + artefakt.fassung.datum
     + ' · Kern ' + artefakt.fassung.kern + ' (gelesen, nicht gesetzt)');
-  for (const g of geschrieben) {
+  const feld = geschrieben.filter((g) => g.name.startsWith(adressen.ORDNER + '/'));
+  console.log('  ' + (adressen.ORDNER + '/').padEnd(26) + String(feld.length).padStart(7) + ' Dateien (Kennungs-Adressen)');
+  for (const g of geschrieben.filter((x) => !feld.includes(x))) {
     console.log('  ' + g.name.padEnd(26) + (g.bytes / 1024).toFixed(1).padStart(7) + ' KB  ' + g.pfad);
   }
   console.log('  SHA-256 ' + artefakt.hash);

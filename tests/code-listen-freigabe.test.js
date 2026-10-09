@@ -49,8 +49,9 @@ function maengel(register, listen, traeger) {
     } else if (s.art !== 'standard') m.push(l.systemId + ': standard.art muss „standard“ sein (kein eigener Namensraum)');
     if (daten.length) {
       if (!e.pflichthinweis) m.push(l.systemId + ': Pflichthinweis fehlt im Register');
+      // Ein Pflichthinweis aus mehreren Teilen (ICD-10-GM: Band 1 und Band 2 des Anhangs) steht als Liste; jeder Teil wörtlich.
       else for (const [name, text] of Object.entries(traeger)) {
-        if (!normal(text).includes(normal(e.pflichthinweis))) m.push(l.systemId + ': Pflichthinweis steht nicht wörtlich in ' + name);
+        for (const teil of [].concat(e.pflichthinweis)) if (!normal(text).includes(normal(teil))) m.push(l.systemId + ': Pflichthinweis steht nicht wörtlich in ' + name);
       }
     }
     // anzeigeNameEigen: der offizielle Begriff für alle Codes oder für keinen (dann fehlt display bewusst, für alle gleich).

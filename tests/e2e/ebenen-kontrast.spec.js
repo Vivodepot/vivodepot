@@ -170,6 +170,33 @@ test('[Ebenen-Kontrast·Rot-Beweis·Zustand] ein Hover unter 4,5:1 macht den Fin
   expect(f.some((x) => x.z === 'hover' && x.art === 'schrift' && /\.btn/.test(x.sel))).toBe(true);
 });
 
+/* Feldrand (07.10.2026): gezählt wird nur eine wirklich gezeichnete Kante mit ≥ 3:1, oder die Feldfläche mit ≥ 3:1. */
+test('[Ebenen-Kontrast·Rot-Beweis·Feldrand] ein Feld ohne jede Kante und mit zu heller Fläche ist rot, mit kräftiger Unterkante grün', async ({ page }) => {
+  await mitDepot(page);
+  await page.evaluate(() => {
+    const h = document.createElement('div'); h.id = 'feldrand-probe'; h.style.background = '#ffffff';
+    h.innerHTML = '<input id="fr-ohne" value="x" style="border:0;background:#f4f4f4;color:#000">'
+      + '<input id="fr-unten" value="x" style="border:0;border-bottom:1px solid #6b6b6b;background:#f4f4f4;color:#000">';
+    document.body.prepend(h);
+  });
+  const f = await page.evaluate(messenImBrowser, null);
+  expect(f.some((x) => x.art === 'rand' && /#fr-ohne/.test(x.sel))).toBe(true);
+  expect(f.some((x) => x.art === 'rand' && /#fr-unten/.test(x.sel))).toBe(false);
+});
+
+test('[Ebenen-Kontrast·Rot-Beweis·Feldrand] eine Unterkante mit 0 px oder durchsichtiger Farbe zählt nicht', async ({ page }) => {
+  await mitDepot(page);
+  await page.evaluate(() => {
+    const h = document.createElement('div'); h.id = 'feldrand-probe2'; h.style.background = '#ffffff';
+    h.innerHTML = '<input id="fr-null" value="x" style="border:0;border-bottom:0 solid #000;background:#f4f4f4;color:#000">'
+      + '<input id="fr-durchsichtig" value="x" style="border:0;border-bottom:2px solid transparent;background:#f4f4f4;color:#000">';
+    document.body.prepend(h);
+  });
+  const f = await page.evaluate(messenImBrowser, null);
+  expect(f.some((x) => x.art === 'rand' && /#fr-null/.test(x.sel))).toBe(true);
+  expect(f.some((x) => x.art === 'rand' && /#fr-durchsichtig/.test(x.sel))).toBe(true);
+});
+
 test('[Ebenen-Kontrast·Regel] ein Element ohne Text wird nicht geprüft, ein Element mit Text fällt nicht heraus', async ({ page }) => {
   await mitDepot(page);
   await page.evaluate(() => {

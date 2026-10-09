@@ -51,6 +51,7 @@ async function blockHashImLauf(page) {
     const s = [...document.querySelectorAll('script:not([src])')].find((x) => x.textContent.includes(marker));
     if (!s) return { grund: 'kein Inline-<script> im geladenen Dokument trägt den Krypto-Block' };
     const anfang = s.textContent.indexOf(marker);
+    if (anfang < 0) return { grund: 'Blockanfang nicht gefunden' };
     /* Der Block reicht bis zum Ende seiner Zuweisung — gemessen wie im Gate:
        vom Blockanfang bis einschliesslich der abschliessenden Freeze-Zeile. */
     const marke = '});\n';

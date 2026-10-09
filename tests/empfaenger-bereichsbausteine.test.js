@@ -17,6 +17,10 @@ async function depotMitMarkern() {
   d.sektoren.health = { bloodType: 'MARKER-GESUNDHEIT' };
   d.sektoren.housing = { residenceType: 'MARKER-WOHNEN' };
   d.sektoren.finance = { bankName: 'MARKER-FINANZEN' };
+  /* Seit dem Befund SENSIBEL-FILTER-BEREICHSBAUSTEIN (07.10.2026) hält ein Bereichs-Baustein sensibel markierte Felder
+     zurück (tests/empfaenger-sensibel-filter.test.js). Diese Probe misst den Schnitt nach Bereichen; ihr Gesundheits-
+     Marker steht auf einem ab Werk sensiblen Feld und ist darum freigegeben — wie die Halterin es über die Markierung tut. */
+  d.sensibelFelder = { health: { bloodType: false } };
   return { V, d };
 }
 const werte = (subset) => JSON.stringify(subset);
@@ -89,6 +93,7 @@ async function geoeffnet(datei, pw) {
 }
 const alleVier = (d) => {
   d.sektoren.health = { chronicConditionsDiagnoses: M.gesundheit };
+  d.sensibelFelder = { health: { chronicConditionsDiagnoses: false } };   // freigegeben, s. depotMitMarkern
   d.sektoren.housing = { streetHouseNumber: M.wohnen };
   d.sektoren.finance = { taxNumber: M.finanzen };
 };

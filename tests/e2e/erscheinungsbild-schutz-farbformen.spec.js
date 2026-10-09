@@ -40,6 +40,12 @@ function produktMit(zusatzStil) {
   return 'file://' + path.join(ordner, 'vivodepot.html');
 }
 
+/* Der Selektor der Proben ist der des Erscheinungsbilds ab Werk („Salbei mit Glas“: html:not(.dark-mode):not(.high-contrast) .topbar),
+   damit die angehängte Farbprobe ihn bei gleicher Spezifität als spätere Regel überstimmt. Mit nur `.topbar` überstimmte das Glas die Probe,
+   und der Rot-Beweis pflanzte nichts (Air-Lauf am 07.10.2026). */
+const KOPF = 'html:not(.dark-mode):not(.high-contrast) .topbar';
+/* Der geschützte Speicherstatus malt mit --auf-akzent der Kopfzeile (nicht mit `color` der Kopfzeile); der Rot-Beweis setzt darum auch
+   --auf-akzent hell, sonst trifft die helle Schrift nur Elemente, die die Laufzeitprobe nicht prüft (07.10.2026, Wort der Gegenlesung). */
 const zustand = (page) => page.evaluate(() => ({
   attr: document.documentElement.getAttribute('data-erscheinungsbild'),
   gruende: (ERSCHEINUNGSBILD_RUECKFALL || []).map((v) => v.element + ':' + v.grund),
@@ -47,14 +53,14 @@ const zustand = (page) => page.evaluate(() => ({
 const warten = async (page) => { await page.waitForTimeout(700); };
 
 test('[Farbformen·Rot-Beweis·falscher Rückfall] dunkler Text auf hellem color-mix-Grund bleibt stehen', async ({ page }) => {
-  await oeffneApp(page, { url: produktMit('.topbar { --auf-akzent: #162517; background: color-mix(in srgb, #b8aecb 55%, #ffffff); color: #162517; }') });
+  await oeffneApp(page, { url: produktMit(KOPF + ' { --auf-akzent: #162517; background: color-mix(in srgb, #b8aecb 55%, #ffffff); color: #162517; }') });
   await depotAnlegen(page, { name: 'Maria Mustermann' });
   await warten(page);
   expect(await zustand(page)).toEqual({ attr: null, gruende: [] });
 });
 
 test('[Farbformen·Rot-Beweis·falscher Durchlauf] heller Text auf hellem color-mix-Grund fällt zurück', async ({ page }) => {
-  await oeffneApp(page, { url: produktMit('.topbar { background: color-mix(in srgb, #ffffff 90%, #f0f0f0); color: #ffffff; }') });
+  await oeffneApp(page, { url: produktMit(KOPF + ' { --auf-akzent: #ffffff; background: color-mix(in srgb, #ffffff 90%, #f0f0f0); color: #ffffff; }') });
   await depotAnlegen(page, { name: 'Maria Mustermann' });
   await warten(page);
   const z = await zustand(page);

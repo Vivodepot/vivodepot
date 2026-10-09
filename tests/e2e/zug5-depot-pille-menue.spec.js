@@ -15,7 +15,7 @@
    Playwright schon) — dieser Test ist der rote Beleg dafür, dass Enter das
    Menü öffnet und NICHT sofort wieder schließt. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen } = require('./helpers');
 
 async function menueOeffnenPerKlick(page) {
   await page.click('#tb-depot-pille');
@@ -91,14 +91,14 @@ test('[Zug5] "Depots, die ich aufbewahre" öffnet weiterhin die Verwaltete-Depot
   await depotAnlegen(page);
   await menueOeffnenPerKlick(page);
   await page.click('#tb-depot-menue-verwaltung');
-  await expect(page.locator('#content')).toContainText('Verwaltete Depots');
+  await expect(page.locator('#content')).toContainText('Sub-Depots');
 });
 
-test('[Zug5·A] Sidebar-Eintrag „Verwaltete Depots" führt zum selben Ziel und wird als aktiv markiert', async ({ page }) => {
+test('[Zug5·A] Sidebar-Eintrag „Sub-Depots" führt zum selben Ziel und wird als aktiv markiert', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
-  await page.click('[data-verwaltete-depots="1"]');
-  await expect(page.locator('#content')).toContainText('Verwaltete Depots');
+  await inLeisteKlicken(page, '[data-verwaltete-depots="1"]');
+  await expect(page.locator('#content')).toContainText('Sub-Depots');
   await expect(page.locator('[data-verwaltete-depots="1"]')).toHaveClass(/\baktiv\b/);
 });
 
@@ -147,7 +147,7 @@ test('[U2-ADR-238] "Depots, die ich aufbewahre" öffnet die Verwaltete-Depots-Si
     await new Promise(requestAnimationFrame);
   });
   await page.click('#tb-depot-menue-verwaltung');
-  await expect(page.locator('#content')).toContainText('Verwaltete Depots');
+  await expect(page.locator('#content')).toContainText('Sub-Depots');
 });
 
 test('[U2-ADR-238] Klick ausserhalb schliesst das Menü weiterhin (Maus/Touch, jetzt über pointerdown statt Fokus)', async ({ page }) => {

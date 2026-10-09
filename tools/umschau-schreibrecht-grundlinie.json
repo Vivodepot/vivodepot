@@ -1,0 +1,10 @@
+{
+ "beschreibung": "Funktionen des Kerns, die Modus.darfBearbeiten() lesen und imVorschau() nicht nennen (tools/umschau-schreibrecht-pruefen.js). Bestand am 06.10.2026, je mit Grund, warum dort in der Umschau keine Eintrage-Stelle schweigt. Darf nur sinken (Register gegenlesung-zaehler, Richtung L).",
+ "funktionen": [
+  { "name": "bearbeitungSpeichern", "grund": "Schreibweg ohne eigene Oberfläche: ohne Schreibrecht gibt es nichts zu sichern, der Aufrufer zeigt den Weg" },
+  { "name": "flowMappeVorschau", "grund": "Anzeige eines Dokuments; darfBearbeiten wählt nur die Typ-Darstellung, keine Eintrage-Stelle" },
+  { "name": "renderAnfrage", "grund": "Antwort auf eine eingegangene Anfrage setzt ein geöffnetes Depot voraus; in der Umschau gibt es keine Anfrage" },
+  { "name": "renderSituation", "grund": "Die Felder laufen über feldZeileHTML (Umschau-Schaltfläche); darf steuert hier nur Herausgeben und den Diktier-Hinweis" },
+  { "name": "zeigeKernFehler", "grund": "Die Stelle ist die Schreib-API (kernAPI), sie wirft ohne Schreibrecht; keine Oberfläche, der Messer ordnet sie der Funktion davor zu" }
+ ]
+}

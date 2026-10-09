@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v919.
+Erzeugt aus der veröffentlichten Fassung v922.
 
 ---
 
@@ -64,9 +64,9 @@ Prüfkette auswertet, liegt nicht in diesem Repository.
 Zwei Rezept-/Modul-Kombinationen aus diesem System, als Szenen-Vorführung durchspielbar statt nur
 beschrieben — jede zeigt dasselbe Feld-Modell an einem anderen Rezept:
 
-- [Betreuungsverein-Demo (Gerda Mustermann)](https://vivodepot.de/demo/betreuungsverein/de/vivodepot.html) ([English](https://vivodepot.de/demo/betreuungsverein/en/vivodepot.html)) — ein Depot unter fremdem Namen ausgegeben (Institution als Rezept-
+- [Betreuungsverein-Demo (Gerda Mustermann)](https://vivodepot.de/demo/betreuungsverein/de/vivodepot.html?von=github) ([English](https://vivodepot.de/demo/betreuungsverein/en/vivodepot.html?von=github)) — ein Depot unter fremdem Namen ausgegeben (Institution als Rezept-
   Aussteller, s. „Module" oben), mit Vollmacht, Form und Ablageort als eigenen Feldern.
-- [Kleingarten-Demo (Bernd Mustermann)](https://vivodepot.de/demo/kleingarten/de/vivodepot.html) ([English](https://vivodepot.de/demo/kleingarten/en/vivodepot.html)) — derselbe Bereichs-/Feld-Bestand an einem Depot, das nicht von einer
+- [Kleingarten-Demo (Bernd Mustermann)](https://vivodepot.de/demo/kleingarten/de/vivodepot.html?von=github) ([English](https://vivodepot.de/demo/kleingarten/en/vivodepot.html?von=github)) — derselbe Bereichs-/Feld-Bestand an einem Depot, das nicht von einer
   Person, sondern von einer Sache handelt (kein natives Rechtssubjekt vorausgesetzt).
 
 Beide mit erfundenen Personen- und Institutionsnamen (Musternamen-Schema, kein echtes
@@ -76,11 +76,11 @@ Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.
 
 ## Zahlen
 
-- E2E: 575 (gezählt, nicht ausgeführt) · Wächter-Register: 142
-- Schema-Version: 92 · SCHALEN_STAND: v919 · Build-Version: v1.0
-- ADR-Register: 431 Einträge
+- E2E: 644 (gezählt, nicht ausgeführt) · Wächter-Register: 143
+- Schema-Version: 92 · SCHALEN_STAND: v922 · Build-Version: v1.0
+- ADR-Register: 436 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-05, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-08, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -108,19 +108,24 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-05, Commit `(Arbeitsstand, ohne H
 
 ## Dateien direkt unter `docs/`
 
+- [`docs/DATA-MODEL.md`](docs/DATA-MODEL.md) — DATA-MODEL.md — Areas, field IDs and the field register
 - [`docs/e2e-anleitung.md`](docs/e2e-anleitung.md) — E2E-Reise-Ebene — Anleitung
 - [`docs/faktenbasis.md`](docs/faktenbasis.md) — Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 - [`docs/fremdquellen.md`](docs/fremdquellen.md) — Fremdquellen-Register
-- [`docs/JURISDICTIONS.md`](docs/JURISDICTIONS.md) — JURISDICTIONS.md — Localizing Vivodepot for a New Country or Language
+- [`docs/INTEGRATION.md`](docs/INTEGRATION.md) — INTEGRATION.md — Connecting another application to Vivodepot
+- [`docs/integrieren.md`](docs/integrieren.md) — integrieren.md — eine andere Anwendung an Vivodepot anbinden
+- [`docs/JURISDICTIONS.md`](docs/JURISDICTIONS.md) — JURISDICTIONS.md — Adapting Vivodepot to another country or language
 - [`docs/konformitaet-quellen.md`](docs/konformitaet-quellen.md) — Konformitäts-Quellen
 - [`docs/pruefebene.md`](docs/pruefebene.md) — Die Prüfebene
 - [`docs/pruefstelle-zulassung.md`](docs/pruefstelle-zulassung.md) — Zulassung einer Prüfstelle für Sprachmodule
 - [`docs/release-planung.md`](docs/release-planung.md) — Release-Planung
+- [`docs/REQUESTS-AND-RESPONSES.md`](docs/REQUESTS-AND-RESPONSES.md) — REQUESTS-AND-RESPONSES.md — Asking a person for data and opening the reply
 - [`docs/standards-schnittstelle.md`](docs/standards-schnittstelle.md) — Standards-Register und Prüf-Rahmen
+- [`docs/VERIFYING-SIGNATURES.md`](docs/VERIFYING-SIGNATURES.md) — VERIFYING-SIGNATURES.md — How to check a Vivodepot signature yourself
 
 ## Unterordner unter `docs/`
 
-- `docs/adr/` — 461 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 466 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)
@@ -131,10 +136,13 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-05, Commit `(Arbeitsstand, ohne H
 - `docs/e2e-cross/` — 1 Datei(en), siehe [`docs/e2e-cross/README.md`](docs/e2e-cross/README.md)
 - `docs/ereignis-achse-modul/` — 1 Datei(en)
 - `docs/erscheinung-modul/` — 1 Datei(en)
+- `docs/feldregister/` — 1 Datei(en)
+- `docs/format/` — 39 Datei(en), auch in Unterordnern
 - `docs/format-modul/` — 1 Datei(en)
 - `docs/institutions-art-modul/` — 1 Datei(en)
 - `docs/lese-app/` — 1 Datei(en), siehe [`docs/lese-app/README.md`](docs/lese-app/README.md)
 - `docs/logik-modul/` — 1 Datei(en)
+- `docs/modules/` — 18 Datei(en), auch in Unterordnern, siehe [`docs/modules/README.md`](docs/modules/README.md)
 - `docs/rechtsraum-modul/` — 1 Datei(en)
 - `docs/screenshots/` — 3 Datei(en)
 - `docs/security/` — 1 Datei(en)

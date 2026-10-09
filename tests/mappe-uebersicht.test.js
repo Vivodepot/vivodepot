@@ -12,19 +12,21 @@ const { ladeKern } = require('./load-kern.js');
 
 const PW = 'pw';
 
-test('Sidebar: FINDEN-Gruppe mit Mappe-Eintrag, nach EINTRAGEN; keine Topbar-Doppelung', async () => {
+test('Sidebar: Mappe-Eintrag im Punkt „Austausch und Überblick", nach den Bereichen; keine Topbar-Doppelung', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.renderSidebar();
   const html = document.getElementById('sidebar').innerHTML;
-  assert.ok(html.includes(V.STRINGS.gruppeFinden), 'FINDEN-Gruppe');
+  assert.ok(html.includes(V.STRINGS.gruppeAustausch), 'Punkt „Austausch und Überblick" (Navigation A (05.10.2026), Nachfolger von FINDEN/Nachsehen)');
   assert.ok(html.includes('data-mappe'), 'Mappe-Eintrag verdrahtet');
   assert.ok(html.includes(V.STRINGS.navMappe), 'Mappe-Label');
   // FINDEN steht nach dem Bereiche-Baum (HERAUSHOLEN ist aufgelöst). Fortsetzen-Fokus
   // (26.08.2026): die frühere EINTRAGEN-Überschrift ist entfallen — V.STRINGS.gruppeEintragen
   // stünde hier nicht mehr im Sidebar-Markup (indexOf -1, Vergleich würde vakuos wahr bleiben);
   // „Alle Bereiche zeigen" ist der reale Nachfolger an dieser Stelle.
-  assert.ok(html.indexOf(V.STRINGS.navAlleBereicheZeigen) < html.indexOf(V.STRINGS.gruppeFinden), 'FINDEN nach dem Bereiche-Baum');
+  // Navigation A (05.10.2026): der Titel „Bereiche" ist die Landmarke vor dem Baum, „Austausch und Überblick" folgt danach.
+  assert.ok(html.indexOf(V.STRINGS.gruppeBereiche) < html.indexOf(V.STRINGS.gruppeAustausch), 'Austausch und Überblick nach dem Bereiche-Baum');
+  assert.ok(html.indexOf(V.STRINGS.gruppeAustausch) < html.indexOf('data-mappe'), 'Mappe steht im Punkt Austausch und Überblick');
 });
 
 test('oeffneMappe schaltet die Ansicht auf „mappe" und rendert die Übersicht', async () => {

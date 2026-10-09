@@ -444,6 +444,35 @@ test('[WHC·#15] kein Text der beiden Sprachmodule sagt „kein Weg zurück", oh
   assert.deepEqual(aussentextFunde(Object.fromEntries(readme.map((a, i) => ['README#' + i, a]))), []);
 });
 
+/* Befund SOUVERAENITAET-KEIN-ZWEITSCHLUESSEL (06.10.2026): die Probe oben las nur README.md. SOVEREIGNTY.md und FAQ.md
+   gehören zu den Texten des Befunds („es gibt keinen Zweitschlüssel“), die Probe sah sie nicht. Gelesen wird jetzt jede Markdown-Datei des
+   Bestands, absatzweise; ADRs und CHANGELOG nicht (sie beschreiben Stände, auch frühere). */
+test('[WHC·#15·Markdown] keine Markdown-Datei des Bestands sagt „kein Weg zurück“, ohne den Wiederherstellungs-Code zu nennen', () => {
+  // Eigene Bestandsliste statt der des Zuschnitt-Werkzeugs: das Werkzeug bleibt drinnen, diese Probe geht hinaus.
+  const wurzel = path.join(__dirname, '..');
+  const gelistet = fs.existsSync(path.join(wurzel, '.git'))
+    ? require('node:child_process').execFileSync('git', ['ls-files', '*.md'], { cwd: wurzel, encoding: 'utf8', env: ohneGitUmgebung() }).split('\n').filter(Boolean)
+    : fs.readdirSync(wurzel, { recursive: true }).map((d) => d.split(path.sep).join('/')).filter((d) => !/(^|\/)(node_modules|\.git)\//.test(d));
+  const dateien = gelistet.filter((d) => d.endsWith('.md') && !d.startsWith('docs/adr/') && !/CHANGELOG/.test(d));
+  assert.ok(dateien.includes('SOVEREIGNTY.md') && dateien.includes('FAQ.md'), 'die beiden Dateien des Befunds sind dabei');
+  const funde = [];
+  for (const d of dateien) {
+    let text;
+    try { text = fs.readFileSync(path.join(__dirname, '..', d), 'utf8'); } catch (_) { continue; }
+    funde.push(...aussentextFunde(Object.fromEntries(text.split(/\n\s*\n/).map((a, i) => [d + '#' + i, a]))));
+  }
+  assert.deepEqual(funde, []);
+});
+
+test('[WHC·#15·Hilfe] der Hilfetext „Depot und Passwort“ nennt den Code schon im ersten Abschnitt, Deutsch und Englisch', () => {
+  const lies = (s) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', `textsatz-${s}-modul.json`), 'utf8')).texte;
+  const K = 'hilfe:depot-anlegen-passwort.abschnitt0';
+  assert.match(lies('de')[K], MIT_ZUSATZ);
+  assert.match(lies('en')[K], MIT_ZUSATZ);
+  const alt = 'Das Passwort kennt nur Sie. Niemand kann es für Sie zurücksetzen, auch wir nicht. Wählen Sie ein Passwort, das Sie sich merken können, und schreiben Sie es zusätzlich auf.';
+  assert.doesNotMatch(alt, MIT_ZUSATZ, 'Rot-Beweis: der alte Abschnitt nannte den Code nicht');
+});
+
 test('[WHC·#15·Rot-Beweis] der alte Satz des Notfall-Blatt-Angebots wird gefunden, der neue nicht', () => {
   const alt = 'Wenn Sie Ihr Passwort vergessen, ist Ihr Depot sonst nicht mehr zu öffnen — auch nicht von uns.';
   assert.deepEqual(aussentextFunde({ alt, neu: alt.replace('nicht mehr zu öffnen', 'nur noch mit einem Wiederherstellungs-Code zu öffnen') }), ['alt']);

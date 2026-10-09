@@ -1,0 +1,22 @@
+{
+  "modulTyp": "rechtsraum",
+  "rechtsraum": "XA",
+  "moduleVersion": 1,
+  "sprache": "en",
+  "typen": {
+    "living-will": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": { "hinweis": "Example only: written form, signed by the person. Not legal advice for any real country." },
+      "fristenVorrang": null,
+      "zweck": ["gesundheitssorge"]
+    },
+    "tpl_example-instrument": {
+      "katalogVersion": 1,
+      "wortlaut": "Example wording for an instrument that only exists in this example legal system.",
+      "formvorschriften": null,
+      "fristenVorrang": null,
+      "zweck": null
+    }
+  }
+}

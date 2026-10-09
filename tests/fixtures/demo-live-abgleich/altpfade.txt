@@ -1,0 +1,2 @@
+# Adressen früherer Demo-Stände, die nicht mehr ausgeliefert werden dürfen (synthetisch)
+demo/alt/vivodepot.html

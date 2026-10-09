@@ -55,8 +55,16 @@ function messenImBrowser(nurIndex) {
       // Rand oder Fläche des Felds gegen seinen Grund (der Grund OHNE die eigene Fläche)
       const eltern = e.parentElement ? grund(e.parentElement) : g;
       const flaeche = ueber(roh(cs.backgroundColor), eltern);
-      const rand = parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== 'none' ? ueber(roh(cs.borderTopColor), eltern) : null;
-      const best = Math.max(verh(flaeche, eltern), rand ? verh(rand, eltern) : 0);
+      // Rand: jede der vier Kanten, die wirklich gezeichnet ist (Breite ≥ 1 px, Stil nicht none/hidden, Farbe nicht durchsichtig);
+      // es zählt die stärkste gegen ihre angrenzende Fläche. WCAG 1.4.11 nennt die Unterkante ausdrücklich als Feldgrenze
+      // („bottom border and faint grey background“); vorher las der Finder nur die Oberkante (07.10.2026, Wort der Gegenlesung).
+      // Gleichwertig: die Fläche des Felds gegen seine Umgebung.
+      let rand = 0;
+      for (const s of ['Top', 'Right', 'Bottom', 'Left']) {
+        const b = parseFloat(cs['border' + s + 'Width']); const st = cs['border' + s + 'Style']; const c = roh(cs['border' + s + 'Color']);
+        if (b >= 1 && st !== 'none' && st !== 'hidden' && c.a > 0) rand = Math.max(rand, verh(ueber(c, eltern), eltern));
+      }
+      const best = Math.max(verh(flaeche, eltern), rand);
       if (best < (schwelle || 3)) funde.push({ art: 'rand', sel: name(e), r: Math.round(best * 100) / 100, t: (e.placeholder || e.type || '').slice(0, 24) });
     }
   };

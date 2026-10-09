@@ -54,7 +54,9 @@ async function aufTextfeldSchrittSpringen(page) {
   await expect(page.locator('.wizard-frage')).toBeVisible();
   await page.evaluate(() => {
     const def = window.__vdOeffentlich.WIZARD_BY_ID.pvwiz;
-    window.__vdOeffentlich.wizardSchrittIndex = def.schritte.findIndex(s => s.feld && s.feld.id === 'supportFromChurchOrCommunity');
+    const schritt = def.schritte.findIndex(s => s.feld && s.feld.id === 'supportFromChurchOrCommunity');
+    if (schritt < 0) throw new Error('Wizard-Schritt nicht gefunden: supportFromChurchOrCommunity');
+    window.__vdOeffentlich.wizardSchrittIndex = schritt;
     window.__vdOeffentlich.renderContent();
   });
   await expect(page.locator('[data-edit="supportFromChurchOrCommunity"]')).toBeVisible();

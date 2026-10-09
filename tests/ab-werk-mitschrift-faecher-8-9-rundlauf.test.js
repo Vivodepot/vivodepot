@@ -56,12 +56,12 @@ const PW = 'probe-passwort-ab-werk-mitschrift-8-9-2026-09-18';
 
 /* Konfektioniert pro-de EINMAL für die ganze Datei (teuer, s. Kopf-Kommentar) und lädt es
    als Kern — derselbe Aufbau wie tests/mitschrift-deckt-abwerk-regionen.test.js. */
-function proDeKernLaden() {
+function proDeKernLaden(slug = 'pro-de') {
   const ziel = fs.mkdtempSync(path.join(os.tmpdir(), 'ab-werk-mitschrift-89-'));
   const ISSUER = ladeIssuer().V;
-  const p = PRODUKTE.find((x) => x.slug === 'pro-de');
+  const p = PRODUKTE.find((x) => x.slug === slug);
   const r = konfektionieren({
-    ziel, slug: 'pro-de', modulauswahl: [],
+    ziel, slug, modulauswahl: [],
     vorDepotKonfigurationInhaltFn: ISSUER.vorDepotKonfigurationDateiInhalt,
     unsignierteModulDateien: modulDateienFuer(p),
   });
@@ -95,8 +95,9 @@ test('[Klasse-A] AB_WERK-Mitschrift Fach 8 (situationen): echter Rundlauf — pr
     'die eingebackene Situationen-Quelle darf im entschlüsselten Depot nicht leer ankommen');
   const situationIds = d.abWerkMitschrift.situationen
     .flatMap((datei) => Object.keys((datei && datei.situationen) || {}));
-  assert.ok(situationIds.includes('geburt'),
-    'eine konkrete, aus pro-de eingebackene Situation ("geburt") muss im entschlüsselten Depot stehen — Proben: ' + situationIds.join(', '));
+  // Seit U2-ADR-243 Teil 2 (02.10.2026) trägt pro-de eigene Situationen statt der privaten.
+  assert.ok(situationIds.includes('pro-vertretung'),
+    'eine konkrete, aus pro-de eingebackene Situation ("pro-vertretung") muss im entschlüsselten Depot stehen — Proben: ' + situationIds.join(', '));
 });
 
 test('[Klasse-A] AB_WERK-Mitschrift Fach 9 (dokumentModule): echter Rundlauf — pro-de backt ein, Depot anlegen, verschlüsseln, entschlüsseln, Inhalt ist da', async () => {
@@ -118,10 +119,11 @@ test('[Klasse-A] AB_WERK-Mitschrift Fach 9 (dokumentModule): echter Rundlauf —
     'ein konkretes, aus pro-de eingebackenes Dokument-Modul muss im entschlüsselten Depot stehen — Proben: ' + kennungen.join(', '));
 });
 
-test('[Klasse-A] AB_WERK-Mitschrift Fach 10 (wizards): echter Rundlauf — pro-de backt ein, Depot anlegen, verschlüsseln, entschlüsseln, Inhalt ist da', async () => {
-  const V = proDeKernLaden();
+/* Seit dem Kachel-Schnitt (02.10.2026, U2-ADR-243 §6) trägt Pro keine privaten Assistenten mehr; Fach 10 wird an privat-de geprüft. */
+test('[Klasse-A] AB_WERK-Mitschrift Fach 10 (wizards): echter Rundlauf — privat-de backt ein, Depot anlegen, verschlüsseln, entschlüsseln, Inhalt ist da', async () => {
+  const V = proDeKernLaden('privat-de');
   assert.ok(Array.isArray(V.AB_WERK_WIZARD_QUELLEN) && V.AB_WERK_WIZARD_QUELLEN.length > 0,
-    'Voraussetzung: pro-de muss AB_WERK_WIZARD_QUELLEN wirklich backen — sonst prüft die Probe nichts');
+    'Voraussetzung: privat-de muss AB_WERK_WIZARD_QUELLEN wirklich backen — sonst prüft die Probe nichts');
 
   await V.depotAnlegen(PW);
   const umschlag = await V.depotSerialisieren();
@@ -135,11 +137,11 @@ test('[Klasse-A] AB_WERK-Mitschrift Fach 10 (wizards): echter Rundlauf — pro-d
   const wizardIds = d.abWerkMitschrift.wizards
     .flatMap((datei) => Object.keys((datei && datei.wizards) || {}));
   assert.ok(wizardIds.includes('gebwiz'),
-    'ein konkreter, aus pro-de eingebackener Wizard ("gebwiz") muss im entschlüsselten Depot stehen — Proben: ' + wizardIds.join(', '));
+    'ein konkreter, aus privat-de eingebackener Wizard ("gebwiz") muss im entschlüsselten Depot stehen — Proben: ' + wizardIds.join(', '));
 });
 
 test('[Klasse-A] AB_WERK-Mitschrift Fach 8/9/10 · Gegenkontrolle: der VOLLEXPORT hält alle drei Fächer weiter unbedingt zurück', async () => {
-  const V = proDeKernLaden();
+  const V = proDeKernLaden('privat-de');   // trägt alle drei Fächer (Pro seit dem Kachel-Schnitt ohne Assistenten)
   await V.depotAnlegen(PW);
   const d = V.getData();
   assert.ok(d.abWerkMitschrift.situationen.length > 0 && d.abWerkMitschrift.dokumentModule.length > 0 && d.abWerkMitschrift.wizards.length > 0,

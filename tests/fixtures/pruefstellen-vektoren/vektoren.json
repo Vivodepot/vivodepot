@@ -1,0 +1,42 @@
+{
+  "zweck": "Eingefrorene Ein-/Ausgabe-Vektoren je Prüfstelle der externen Krypto-Prüfung (U2-ADR-062, Auflage 1). Jede Stelle wird gegen einen Wert geprüft, den eine zweite, unabhängige Implementierung gerechnet hat. Nicht neu erzeugen: die Werte sind mit SHA-256 in tests/pruefstellen-vektoren.test.js eingefroren.",
+  "herkunft": "Stellen 1 und 4 erzeugt am 07.10.2026 mit node:crypto (OpenSSL: pbkdf2Sync, aes-256-gcm, hkdfSync), nicht mit dem Web-Crypto-Code des Produkts. Stelle 2 ist der eingefrorene Umschlag aus tests/fixtures/antwort-v1-umschlaege.json, mit node:crypto gegengerechnet. Stelle 3 ist RFC 7520 Abschnitt 5.3 (PBES2-HS512+A256KW), Figuren 96, 97, 99, 100, wörtlich.",
+  "testwerte": "Alle Passwörter, Codes, Salze, IVs und Master-Bits sind TESTWERTE mit der Probe-Marke NURPROBEpruef oder aus ihr abgeleitet (SHA-256 eines Markentexts). Sie schützen nichts und stammen nie aus echtem Material.",
+  "qrV1": {
+    "stelle": "QR-Übergabe v1 (_empfaengerQrSchluesselVerschluesseln im Kern, _empfaengerQrEntschluesseln in der Lese-App)",
+    "testPasswort": "NURPROBEpruefQr-Vektor-1",
+    "iterationen": 600000,
+    "salzB64": "UEUNsjhGMo2/XoqUxGC2LA==",
+    "ivB64": "/C657/YjmQLBXQbq",
+    "nutzlastJson": "{\"v\":1,\"kreis\":\"NURPROBEpruef\",\"erzeugt\":0,\"ablauf\":86400000,\"inhalt\":{\"probe\":\"NURPROBEpruef\"}}",
+    "chiffratMitTagB64": "nYJz+bk1noGfIWqU/8avJeU33He21HXFdHHRHePBj1zQEY8dt3r14R8xjzxiBRip8TeAGojmhKX3FwlBKl96atn6dao6Ns6hXujTejBAl+kX1g27Jk2kx+bkF+nsndr613t1ZiAUZBgHMuwQe6Q3bQ==",
+    "payloadB64u": "eyJ2IjoxLCJzIjoiVUVVTnNqaEdNbzIvWG9xVXhHQzJMQT09IiwiaSI6Ii9DNjU3L1lqbVFMQlhRYnEiLCJjIjoibllKeitiazFub0dmSVdxVS84YXZKZVUzM0hlMjFIWEZkSEhSSGVQQmoxelFFWThkdDNyMTRSOHhqenhpQlJpcDhUZUFHb2ptaEtYM0Z3bEJLbDk2YXRuNmRhbzZOczZoWHVqVGVqQkFsK2tYMWcyN0prMmt4K2JrRituc25kcjYxM3QxWmlBVVpCZ0hNdXdRZTZRM2JRPT0ifQ"
+  },
+  "antwortV1Einmalpasswort": {
+    "stelle": "Antwort v1 mit Einmalpasswort (antwortEntschluesselnPasswort, nur Lese-App)",
+    "quelle": "tests/fixtures/antwort-v1-umschlaege.json#einmalpasswort",
+    "klartextSha256": "4acfe5102dd8a5e0c7330ed724fde48d8d6854bc0eaa0373d7d0148b32554553"
+  },
+  "jwePbes2Rfc7520": {
+    "stelle": "JWE PBES2-HS512+A256KW (_jwePbes2Schluessel in Kern und Lese-App)",
+    "quelle": "RFC 7520, Abschnitt 5.3, https://www.rfc-editor.org/rfc/rfc7520.txt",
+    "passwort": "entrap_o–peter_long–credit_tun",
+    "p2sB64u": "8Q1SzinasR3xchYz6ZZcHA",
+    "p2c": 8192,
+    "encryptedKeyB64u": "d3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g",
+    "cekB64u": "uwsjJXaBK407Qaf0_zpcpmr1Cs0CC50hIUEyGNEt3m0"
+  },
+  "wiederherstellungsCode": {
+    "stelle": "Wiederherstellungs-Code (_whcCodeBits, _whcEinwickeln, _whcAuspacken im Kern)",
+    "testStellen": "NPR0BEHPJ1WHC2VEKT0R3ABCDEF",
+    "iterationen": 600000,
+    "salzB64": "x+nonJMXcZEMGnJmB7E8tR2ftS3F+Lrd6Hp7uu5ZATA=",
+    "ivB64": "OokfkNP0llk9euRZ",
+    "masterBitsB64": "GxTwU4pB2k5aZNZXqsAJV4lTB22jUSwtn5RG+B0MiLo=",
+    "depotUUID": "NURPROBEpruef-whc-depot",
+    "kryptoVersion": 3,
+    "huelleB64": "FIa7mcxyq6ZsDBoqKLGl9W6aeRZBaWJDYerwDtZKlBtTQYHqOWuQLiNIiwdL7xoy",
+    "hkdfInfo": "NURPROBEpruef whc ableitung",
+    "hkdfAbgeleitetB64": "0OVhMjsm+8I7yZodtbWy3D0By+1fRKpHuwm+POnEzUU="
+  }
+}

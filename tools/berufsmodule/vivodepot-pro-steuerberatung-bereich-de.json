@@ -1,0 +1,136 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-steuerberatung",
+  "fassung": 1,
+  "bereiche": {
+    "pro-steuerberatung": {
+      "id": "pro-steuerberatung",
+      "label": "Steuerberatung",
+      "icon": "scale",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge",
+      "clusterRang": 1,
+      "sektionen": [
+        {
+          "id": "vertretung-und-abwicklung",
+          "label": "Vertretung und Praxisabwicklung",
+          "felder": [
+            {
+              "id": "tpl_general_representative",
+              "typ": "liste",
+              "label": "Allgemeiner Vertreter",
+              "hint": "Wer vertritt Sie, wenn Sie länger an der Berufsausübung gehindert sind? Wann bestellt, wann der Kammer angezeigt?",
+              "quelle": "StBerG § 69",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_appointed_on",
+                  "typ": "datum",
+                  "label": "Bestellt am"
+                },
+                {
+                  "id": "tpl_notified_to_chamber_on",
+                  "typ": "datum",
+                  "label": "Der Kammer angezeigt am"
+                }
+              ]
+            },
+            {
+              "id": "tpl_trusted_person_at_chamber",
+              "typ": "text",
+              "label": "Vertrauensperson bei der Kammer",
+              "hint": "Ist bei der Steuerberaterkammer eine Person hinterlegt, die im Vertretungsfall angesprochen wird? Wer?",
+              "quelle": "Vorgabe der Steuerberaterkammer (Vertrauensperson, z. B. StBK Nürnberg)"
+            },
+            {
+              "id": "tpl_practice_winding_up_wish",
+              "typ": "text",
+              "label": "Wunsch für die Praxisabwicklung",
+              "hint": "Wen würden Sie der Kammer für die Abwicklung der Praxis vorschlagen?",
+              "quelle": "StBerG § 70"
+            }
+          ]
+        },
+        {
+          "id": "kanzlei-und-pflichten",
+          "label": "Kanzlei und Berufspflichten",
+          "felder": [
+            {
+              "id": "tpl_chamber_membership",
+              "typ": "liste",
+              "label": "Steuerberaterkammer",
+              "hint": "Zuständige Kammer und Mitgliedsnummer.",
+              "quelle": "StBerG § 73",
+              "unterFelder": [
+                {
+                  "id": "tpl_chamber",
+                  "typ": "text",
+                  "label": "Kammer"
+                },
+                {
+                  "id": "tpl_membership_number",
+                  "typ": "text",
+                  "label": "Mitgliedsnummer"
+                }
+              ]
+            },
+            {
+              "id": "tpl_professional_liability_insurance",
+              "typ": "liste",
+              "label": "Berufshaftpflichtversicherung",
+              "hint": "Versicherer und Versicherungsnummer.",
+              "quelle": "StBerG § 67",
+              "unterFelder": [
+                {
+                  "id": "tpl_insurer",
+                  "typ": "text",
+                  "label": "Versicherer"
+                },
+                {
+                  "id": "tpl_policy_number",
+                  "typ": "text",
+                  "label": "Versicherungsnummer"
+                }
+              ]
+            },
+            {
+              "id": "tpl_client_files_location",
+              "typ": "textarea",
+              "label": "Handakten und Mandantenverzeichnis",
+              "hint": "Wo liegen Handakten und Mandantenverzeichnis, und wer hat Zugang? Nur der Ort, keine Mandantendaten.",
+              "quelle": "StBerG § 66"
+            },
+            {
+              "id": "tpl_tax_adviser_mailbox_access",
+              "typ": "textarea",
+              "label": "Steuerberaterpostfach: wer ist nutzungsberechtigt",
+              "hint": "Wer darf das besondere elektronische Steuerberaterpostfach nutzen, etwa Vertretung oder Abwicklung? Hier stehen nur Namen und Wege, keine Zugangsdaten.",
+              "quelle": "StBerG § 86d"
+            },
+            {
+              "id": "tpl_confidentiality_obligations",
+              "typ": "text",
+              "label": "Zur Verschwiegenheit verpflichtet",
+              "hint": "Wer in der Kanzlei ist zur Verschwiegenheit verpflichtet worden, und wo liegt die Erklärung?",
+              "quelle": "StBerG § 57; StGB § 203"
+            },
+            {
+              "id": "tpl_practice_software",
+              "typ": "text",
+              "label": "Kanzleisoftware und Datenzugänge",
+              "hint": "Welche Programme nutzt die Kanzlei, und wo steht, wie eine Vertretung Zugang erhält? Keine Zugangsdaten.",
+              "quelle": "Ablagefeld ohne Norm (Quellenregel E:3338)"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

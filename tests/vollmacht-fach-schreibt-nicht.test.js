@@ -28,6 +28,9 @@ async function fachKontext(ladeKern) {
   const d = M.getData();
   d.sektoren.identity = { givenName: 'Gerda', familyName: 'Beispiel' };
   d.sektoren.health = { ongoingTreatmentNext: 'WERT-DER-MUTTER-GESUNDHEIT' };
+  // Freigegeben (Einzelfreigabe über die Markierung): seit SENSIBEL-FILTER-BEREICHSBAUSTEIN hält ein Bereichs-Baustein
+  // sensible Felder zurück (tests/empfaenger-sensibel-filter.test.js); dieses Feld ist ab Werk sensibel.
+  d.sensibelFelder = { health: { ongoingTreatmentNext: false } };
   d.sektoren.finance = { companyPensionScheme: 'WERT-DER-MUTTER-FINANZEN' };
   M.setData(d);
   await M.empfaengerkreisSetzen({ name: 'Anna Gesundheit', bausteine: ['bereich:health'] });

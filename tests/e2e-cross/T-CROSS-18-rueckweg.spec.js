@@ -49,7 +49,7 @@ async function antwortUeberOberflaeche(browser, tmp, anfrage, { mitNummer = true
     await b.keyboard.press('Tab');
     await b.waitForTimeout(200);
   }
-  await b.click('[data-uebergabe-protokoll]');
+  await kern.inLeisteKlicken(b, '[data-uebergabe-protokoll]');
   await b.waitForSelector('#anfrage-empfangen', { state: 'visible' });
   await b.click('#anfrage-empfangen');
   await b.fill('#anfrage-text', JSON.stringify(anfrage));
@@ -83,7 +83,7 @@ test('T-CROSS-18 die Bürgerin beantwortet, die Institution öffnet — verschl�
     await b.waitForTimeout(200);
 
     // Die Anfrage annehmen — über den Ort aus Auftrag 4, kein neuer Menüpunkt.
-    await b.click('[data-uebergabe-protokoll]');
+    await kern.inLeisteKlicken(b, '[data-uebergabe-protokoll]');
     await b.waitForSelector('#anfrage-empfangen', { state: 'visible' });
     await b.click('#anfrage-empfangen');
     await b.fill('#anfrage-text', JSON.stringify(ANFRAGE));

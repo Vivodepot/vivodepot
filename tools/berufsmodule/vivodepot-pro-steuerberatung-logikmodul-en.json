@@ -1,0 +1,200 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-steuerberatung-vertretung",
+  "titel": "Tax advisory practice — cover and winding up",
+  "sektor": "pro-steuerberatung",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "allgemeiner_vertreter": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_general_representative",
+      "unterfeld": "tpl_name"
+    },
+    "vertreter_angezeigt": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_general_representative",
+      "unterfeld": "tpl_notified_to_chamber_on"
+    },
+    "vertrauensperson": {
+      "typ": "feld",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_trusted_person_at_chamber"
+    },
+    "abwicklung_wunsch": {
+      "typ": "feld",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_practice_winding_up_wish"
+    },
+    "kammer": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_chamber_membership",
+      "unterfeld": "tpl_chamber"
+    },
+    "haftpflicht": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_professional_liability_insurance",
+      "unterfeld": "tpl_insurer"
+    },
+    "handakten": {
+      "typ": "feld",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_client_files_location"
+    },
+    "postfach": {
+      "typ": "feld",
+      "sektor": "pro-steuerberatung",
+      "feld": "tpl_tax_adviser_mailbox_access"
+    },
+    "vertretungsplan_aufgabe": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe",
+      "unterfeld": "tpl_aufgabe"
+    },
+    "vertretungsplan_person": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe",
+      "unterfeld": "tpl_person"
+    },
+    "kontakt_telefon": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "telephone"
+    },
+    "kontakt_email": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "email"
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "Part A — who covers, who winds up",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "If prevented from practising for a longer period, tax advisers appoint a general representative and notify the chamber; a person to wind up the practice is appointed by the chamber. This extract collects what the depot holds on this and replaces neither the appointment nor information from the chamber of tax advisers."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "allgemeiner_vertreter",
+          "frage": "General representative?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertreter_angezeigt",
+          "frage": "Notified to the chamber on?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertrauensperson",
+          "frage": "Trusted person registered with the chamber?",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "abwicklung_wunsch",
+          "frage": "Preference for winding up the practice?",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Part B — practice and professional duties",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kammer",
+          "frage": "Chamber of tax advisers?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "haftpflicht",
+          "frage": "Professional liability: insurer?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "handakten",
+          "frage": "Client files and client list: where, who has access?",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "postfach",
+          "frage": "Tax adviser mailbox: who is authorised?",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Part C — cover plan and contact details",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_aufgabe",
+          "frage": "Cover plan — which tasks are assigned?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_person",
+          "frage": "Cover plan — who takes them on?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_telefon",
+          "frage": "Telephone?",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_email",
+          "frage": "Email?",
+          "luecke": "— not recorded —"
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Tax advisory practice — cover and winding up",
+    "klasse": "pro-steuerberatung-vertretung-dok",
+    "herkunftText": "Compiled by this application from the Pro and depot details — not an official template, no connection to a chamber of tax advisers.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "This extract replaces neither the appointment of a representative nor that of a person to wind up the practice — both remain a matter for the tax adviser and the competent chamber.",
+    "fussText": " · Preparation aid, not an official document",
+    "knopfAttr": "pro-steuerberatung-vertretung-dokument",
+    "dateiBasis": "Tax-advisory-cover",
+    "toolbarHinweis": "This extract helps prepare cover and the winding up of the practice. It replaces no appointment and no information from the chamber of tax advisers, and it is never transmitted to anyone."
+  }
+}

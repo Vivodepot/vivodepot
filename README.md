@@ -1,5 +1,10 @@
 # Vivodepot
 
+Die `vivodepot.html` in diesem Verzeichnis ist das Gerüst, kein fertiges Produkt: die gemeinsame Grundlage ohne Sprach- und
+Bereichsmodule. Produkte: [vivodepot.de](https://vivodepot.de/?von=github). Die Prüfsummen der ausgelieferten Produkte je Fassung stehen in
+[`SECURITY.md`, Abschnitt 8](SECURITY.md#8--fingerabdruck-je-fassung); [`vivodepot.html.sha256`](vivodepot.html.sha256) gilt für die
+veröffentlichte `vivodepot.html`.
+
 Vivodepot ist ein verschlüsseltes Dokumentendepot für das eigene Leben — Identität, Gesundheit,
 Finanzen, Vorsorge und mehr, unter der eigenen Kontrolle. Die Anwendung ist eine
 einzelne HTML-Datei, die vollständig im Browser läuft.
@@ -25,8 +30,8 @@ Für Bürgerinnen und Bürger ist Vivodepot kostenlos.
 
 ## Wie man anfängt
 
-[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/) (englisch:
-[https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/)) in einem aktuellen Browser öffnen —
+[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github) (englisch:
+[https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github)) in einem aktuellen Browser öffnen —
 keine Installation, keine Registrierung. Wer mag, legt die Seite auf den Startbildschirm oder
 installiert sie; dann läuft sie auch offline. Die Anwendung legt beim ersten Start ein neues,
 passwortgeschütztes Depot an und speichert es als eigene Datei. Schritt für Schritt:
@@ -85,4 +90,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Stand
 
-Fassung v919.
+Fassung v922.

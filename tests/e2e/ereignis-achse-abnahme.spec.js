@@ -19,7 +19,7 @@
    klicken (UI-Klick), Verschwinden belegen.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
 
 test('Ereignis-Achse: Familienstandswechsel markiert die Vollmacht, „Bleibt, wie es ist" nimmt den Anlass wieder', async ({ page }) => {
   const fehler = [];
@@ -46,7 +46,7 @@ test('Ereignis-Achse: Familienstandswechsel markiert die Vollmacht, „Bleibt, w
   await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); window.__vdOeffentlich.renderContent(); });
 
   // ── Prüftermine-Sicht: der Anlass ist sichtbar, mit Grund ──
-  await page.click('[data-prueftermine]');
+  await inLeisteKlicken(page, '[data-prueftermine]');
   const zeile = page.locator('.ampel-zeile', { hasText: 'Zu prüfen, weil' });
   await expect(zeile).toBeVisible();
   await expect(zeile).toContainText('Familienstand geändert');

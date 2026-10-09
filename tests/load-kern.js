@@ -122,6 +122,7 @@ function extrahiereErscheinungsbild(html) {
   return { kopf: html.slice(oe, c), bounds: [oe, c] };
 }
 const ERSCHEINUNGSBILD_REGION = /(\/\* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN \*\/\n)([\s\S]*?)(\/\* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:END \*\/)/;
+const BRANDING_PRODUKT_REGION = /(\/\* AB_WERK_BRANDING_PRODUKT:BEGIN \*\/\n)([\s\S]*?)(\/\* AB_WERK_BRANDING_PRODUKT:END \*\/)/;
 
 // Kanonischer Krypto-Block: Inhalt zwischen den Tags, ohne das eine führende
 // Zeilenende direkt hinter "<script>". Entspricht byte-genau dem Inhalt der
@@ -258,6 +259,8 @@ const EXPORT_HOOK = `
   // ältere Kern-Fassungen laden, die diese Namen noch nicht kennen (s. Regel „Neuer Kern-Export:
   // typeof absichern"). KEINE Backticks in diesem Kommentar — EXPORT_HOOK ist selbst ein
   // Template-Literal, ein Backtick hier bricht es mitten durch (Werkzeug-Falle, s. Memory).
+  codeChipInhaltHTML: (typeof codeChipInhaltHTML === 'function' ? codeChipInhaltHTML : undefined),
+  codeChipKlartext: (typeof codeChipKlartext === 'function' ? codeChipKlartext : undefined),
   blackboxDateiname: (typeof blackboxDateiname === 'function' ? blackboxDateiname : undefined),
   subDepotWiderspruchErfassen: (typeof subDepotWiderspruchErfassen === 'function' ? subDepotWiderspruchErfassen : undefined),
   subDepotWiderspruchEntfernen: (typeof subDepotWiderspruchEntfernen === 'function' ? subDepotWiderspruchEntfernen : undefined),
@@ -630,6 +633,11 @@ const EXPORT_HOOK = `
   get ANLAESSE() { return (typeof anlaesseAlle === 'function') ? anlaesseAlle() : ANLAESSE; },
   anlaesseAlle: (typeof anlaesseAlle === 'function' ? anlaesseAlle : undefined),
   _situationModulAbWerkSeed: (typeof _situationModulAbWerkSeed === 'function' ? _situationModulAbWerkSeed : undefined),
+  _ruhendeSituationenWecken: (typeof _ruhendeSituationenWecken === 'function' ? _ruhendeSituationenWecken : undefined),
+  _abWerkMitschriftFelderNachtragen: (typeof _abWerkMitschriftFelderNachtragen === 'function' ? _abWerkMitschriftFelderNachtragen : undefined),
+  modulBuendelListeEinlassenGeprueft: (typeof modulBuendelListeEinlassenGeprueft === 'function' ? modulBuendelListeEinlassenGeprueft : undefined),
+  _alleModulRegisterAusDepotAnmelden: (typeof _alleModulRegisterAusDepotAnmelden === 'function' ? _alleModulRegisterAusDepotAnmelden : undefined),
+  _MODUL_EINLASS_MAX_BUENDEL: (typeof _MODUL_EINLASS_MAX_BUENDEL !== 'undefined' ? _MODUL_EINLASS_MAX_BUENDEL : undefined),
   _abWerkMitschriftAusLebendemTemplateFuellen: (typeof _abWerkMitschriftAusLebendemTemplateFuellen === 'function' ? _abWerkMitschriftAusLebendemTemplateFuellen : undefined),
   renderBestandsAuswahl, waehleLage, oeffneBestandsAuswahl,   // A61 — Achse „Bestand", umgezogen 04.08.2026
   // PV-Dokument (BMJ-Zusammensteller, PV-Bau 10.07.): eine Quelle PV_BMJ für Wizard + Generator
@@ -970,6 +978,9 @@ const EXPORT_HOOK = `
   // Stück 4 (U2-ADR-031) — persist() ehrlich auswerten + iOS-Install-Hinweis
   hatPersistApi, erhoehtesVerlustRisiko, iosNichtInstalliert,
   iosInstallHinweisNoetig, iosInstallHinweisVielleichtZeigen, sitzungEtablieren,
+  // Safari-Lücke (06.10.2026): Engine-Erkennung und Einstufung „WebKit im Tab mit Räumungsfrist“.
+  webkitTabMitFrist: (typeof webkitTabMitFrist !== 'undefined' ? webkitTabMitFrist : undefined),
+  _webkitEngine: (typeof _webkitEngine !== 'undefined' ? _webkitEngine : undefined),
   _persistGewaehrtWert: () => _persistGewaehrt,
   _iosHinweisGezeigt: () => _iosInstallHinweisGezeigt,
   serviceWorkerRegistrieren, _swRegistrierenErlaubt,
@@ -1039,6 +1050,9 @@ const EXPORT_HOOK = `
   _empfaengerBausteinById: (typeof _empfaengerBausteinById !== 'undefined' ? _empfaengerBausteinById : undefined),
   _kreisBereichsbausteineSichtbar: (typeof _kreisBereichsbausteineSichtbar !== 'undefined' ? _kreisBereichsbausteineSichtbar : undefined),
   empfaengerBausteinTripel, empfaengerZuschnittModell,
+  // Befund SENSIBEL-FILTER-BEREICHSBAUSTEIN (07.10.2026): Positivliste und Prädikat des Sensibel-Filters enger Bausteine
+  EMPFAENGER_BLATT_OHNE_SENSIBEL_FILTER: (typeof EMPFAENGER_BLATT_OHNE_SENSIBEL_FILTER !== 'undefined' ? EMPFAENGER_BLATT_OHNE_SENSIBEL_FILTER : undefined),
+  empfaengerSensibelFilterGilt: (typeof empfaengerSensibelFilterGilt !== 'undefined' ? empfaengerSensibelFilterGilt : undefined),
   empfaengerDateiErzeugen, empfaengerDateiname, EMPFAENGER_PW_MIN,
   empfaengerkreiseListe, empfaengerkreisFinden, empfaengerkreisSetzen, empfaengerkreisEntfernen,
   empfaengerkreisAusgabeVermerken, empfaengerDateiHerausgeben, empfaengerkreiseAbschnittHTML,
@@ -1100,8 +1114,11 @@ const EXPORT_HOOK = `
   // Vorführung (AB_WERK_SHOWCASE, 15.09.2026) — typeof-gesichert, damit KERN_HTML_PATH auf einen älteren Kern lädt.
   AB_WERK_SHOWCASE: (typeof AB_WERK_SHOWCASE !== 'undefined' ? AB_WERK_SHOWCASE : undefined),
   VORFUEHRUNG_ANSICHTEN: (typeof VORFUEHRUNG_ANSICHTEN !== 'undefined' ? VORFUEHRUNG_ANSICHTEN : undefined),
+  // Station 'ausgabe' (06.10.2026, VERTAMA): die fahrbaren Wege, der lesbare JWE-Auszug und die Stationssteuerung selbst.
+  VORFUEHRUNG_AUSGABEN: (typeof VORFUEHRUNG_AUSGABEN !== 'undefined' ? VORFUEHRUNG_AUSGABEN : undefined),
+  vorfuehrungJweAuszug: (typeof vorfuehrungJweAuszug === 'function' ? vorfuehrungJweAuszug : undefined),
+  _vorfuehrungAnsichtZeigen: (typeof _vorfuehrungAnsichtZeigen === 'function' ? _vorfuehrungAnsichtZeigen : undefined),
   vorfuehrungGebacken: (typeof vorfuehrungGebacken === 'function' ? vorfuehrungGebacken : undefined),
-  sektorFormatLesen: (typeof sektorFormatLesen === 'function' ? sektorFormatLesen : undefined),
   // Bildungsangaben (01.10.2026, vorher edci-bildung): frühere Kennung und frühere schemaVersion werden gelesen.
   formatKennungLesen: (typeof formatKennungLesen === 'function' ? formatKennungLesen : undefined),
   BILDUNGSANGABEN_SCHEMA: (typeof BILDUNGSANGABEN_SCHEMA !== 'undefined' ? BILDUNGSANGABEN_SCHEMA : undefined),
@@ -1227,6 +1244,8 @@ const EXPORT_HOOK = `
   _feldTerminId, _feldTerminZerlegen, _feldTerminName,
   // Glied 5 (17.08.2026): EIN Einlassweg für alle Register
   EINLASS_REGISTER, modulEinlassen, eingelasseneModule,
+  _modulAnzeigeName: (typeof _modulAnzeigeName === 'function' ? _modulAnzeigeName : undefined),
+  _istEigeneMarkeInhalt: (typeof _istEigeneMarkeInhalt === 'function' ? _istEigeneMarkeInhalt : undefined),
   // U2-ADR-258 (04.09.2026): die Herkunft eines Moduls reist bis zum Empfaenger. typeof-Absicherung,
   // damit ein Bestandstest gegen eine aeltere Kern-Fassung (KERN_HTML_PATH) nicht bricht.
   modulHerkunftStand: (typeof modulHerkunftStand !== 'undefined' ? modulHerkunftStand : undefined),
@@ -1246,11 +1265,17 @@ const EXPORT_HOOK = `
   vorDepotKonfigurationLaden: (typeof vorDepotKonfigurationLaden !== 'undefined' ? vorDepotKonfigurationLaden : undefined),
   vorDepotKonfigurationAnwenden: (typeof vorDepotKonfigurationAnwenden !== 'undefined' ? vorDepotKonfigurationAnwenden : undefined),
   modulEinlassenGeprueft: (typeof modulEinlassenGeprueft !== 'undefined' ? modulEinlassenGeprueft : undefined),
+  // Schutz-Wagen S1 (04.10.2026): Ladeprüfung aller Modultypen.
+  _depotModuleBelegPruefen: (typeof _depotModuleBelegPruefen !== 'undefined' ? _depotModuleBelegPruefen : undefined),
+  modulBelegGeprueft: (typeof modulBelegGeprueft !== 'undefined' ? modulBelegGeprueft : undefined),
   // E4 (04.10.2026): alte Ab-Werk-Kopien beim Öffnen ersetzen.
   _alteAbWerkKopienErsetzen: (typeof _alteAbWerkKopienErsetzen !== 'undefined' ? _alteAbWerkKopienErsetzen : undefined),
   _abWerkErsetztNamenSetzen: (n) => { _abWerkErsetztNamen = n; },
   abWerkErsetztHinweisZeigen: (typeof abWerkErsetztHinweisZeigen !== 'undefined' ? abWerkErsetztHinweisZeigen : undefined),
   ABWERK_FRUEHERE_FASSUNGEN_KERN: (typeof ABWERK_FRUEHERE_FASSUNGEN_KERN !== 'undefined' ? ABWERK_FRUEHERE_FASSUNGEN_KERN : undefined),
+  // HAFTUNG-SPRACHGRENZE (06.10.2026): Rücknahme-Liste und die Erkennung der früheren Fassung, deren Schutztexte gelten.
+  ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN: (typeof ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN !== 'undefined' ? ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN : undefined),
+  _abWerkFruehereSchutz: (m) => (typeof _ABWERK_FRUEHER_SCHUTZ !== 'undefined' && !!_ABWERK_FRUEHER_SCHUTZ && _ABWERK_FRUEHER_SCHUTZ.has(m)),
   _pruefstufeFuerModul: (typeof _pruefstufeFuerModul === 'function' ? _pruefstufeFuerModul : undefined),
   _geltungPasst: (typeof _geltungPasst === 'function' ? _geltungPasst : undefined),
   _istPrueferUnterTreuhand: (typeof _istPrueferUnterTreuhand === 'function' ? _istPrueferUnterTreuhand : undefined),
@@ -1454,6 +1479,7 @@ const EXPORT_HOOK = `
   // Auftrag „Branding anschließen" (07.09.2026) — Fund 1: name/domain waren geprüft,
   // nie angewendet. typeof-abgesichert wie die Geschwister direkt oben.
   _markeName: (typeof _markeName !== 'undefined' ? _markeName : undefined),
+  NAV_FLACH_BIS: (typeof NAV_FLACH_BIS !== 'undefined' ? NAV_FLACH_BIS : undefined),   // Navigation A (05.10.2026)
   _markeDomain: (typeof _markeDomain !== 'undefined' ? _markeDomain : undefined),
   _markePlatzhalterAufloesen: (typeof _markePlatzhalterAufloesen !== 'undefined' ? _markePlatzhalterAufloesen : undefined),
   // 34.7 (Angaben am Herkunftsort): die Ergänzungen der Ausgangsprüfung sind sichtbar, keine stille Reparatur (tests/herkunftsort-invariante.test.js).
@@ -1474,6 +1500,12 @@ const EXPORT_HOOK = `
   _bereichFremdeMarkeHerkunft: (typeof _bereichFremdeMarkeHerkunft !== 'undefined' ? _bereichFremdeMarkeHerkunft : undefined),
   // U2-ADR-297 (05.09.2026) — Fall 2: Vor-Depot-Branding füllt die Kopfzeile.
   _brandingProduktTopbarAnwenden: (typeof _brandingProduktTopbarAnwenden !== 'undefined' ? _brandingProduktTopbarAnwenden : undefined),
+  // White Label ab Werk (05.10.2026): das Partner-Branding der Bau-Region, das Modell (A Branding / B White Label), die Bildmarke.
+  _abWerkPartnerBranding: (typeof _abWerkPartnerBranding !== 'undefined' ? _abWerkPartnerBranding : undefined),
+  _brandingModellAus: (typeof _brandingModellAus !== 'undefined' ? _brandingModellAus : undefined),
+  _vdBildmarkeHTML: (typeof _vdBildmarkeHTML !== 'undefined' ? _vdBildmarkeHTML : undefined),
+  _brandingProduktIconAnwenden: (typeof _brandingProduktIconAnwenden !== 'undefined' ? _brandingProduktIconAnwenden : undefined),
+  _brandingLogoZulaessig: (typeof _brandingLogoZulaessig !== 'undefined' ? _brandingLogoZulaessig : undefined),
   _brandingTopbarKontrastText: (typeof _brandingTopbarKontrastText !== 'undefined' ? _brandingTopbarKontrastText : undefined),
   _brandingKontrastVerhaeltnisHex: (typeof _brandingKontrastVerhaeltnisHex !== 'undefined' ? _brandingKontrastVerhaeltnisHex : undefined),
   _brandingPaletteAbleiten: (typeof _brandingPaletteAbleiten !== 'undefined' ? _brandingPaletteAbleiten : undefined),
@@ -1607,7 +1639,7 @@ const EXPORT_HOOK = `
   _bausteinHatEintraege,   // K2 (Auftrag K1/K2/K6, 09.08.2026)
   lebenslageAlsBlatt, oeffneLebenslage, _lageBlattSpeichern, _faltContainer,   // A58/A68 (U2-ADR-117) — das eine Lage-Blatt + Schreibweg
   get aktiveLageId() { return aktiveLageId; },
-  istCodierterWert, codeSystemKuerzel, _codeEintraege, chipAusEingabe, chipListeMitNeuem,
+  istCodierterWert, _codeEintraege, chipAusEingabe, chipListeMitNeuem,
   // Gemeinsamer JWS-Block (Krypto-Fundament der drei Säulen)
   JWS_TYP, JWS_ALG_PRIMAER, JWS_ALG_FALLBACK,
   _signJWS, _verifyJWS, _jwsImportSignKey, _jwsImportVerifyKey,
@@ -1651,6 +1683,9 @@ const EXPORT_HOOK = `
   REZEPT_FINGERABDRUECKE_KERN: (typeof REZEPT_FINGERABDRUECKE_KERN !== 'undefined' ? REZEPT_FINGERABDRUECKE_KERN : undefined),
   _EINLASS_META_FELDER: (typeof _EINLASS_META_FELDER !== 'undefined' ? _EINLASS_META_FELDER : undefined),
   _modulRezeptFingerabdruck: (typeof _modulRezeptFingerabdruck === 'function' ? _modulRezeptFingerabdruck : undefined),
+  // Haftung C (HAFTUNG-C-FEHLT-IM-DOKUMENT-PDF, 07.10.2026): abgesichert, weil Proben auch Kerne von vor dem Fix laden.
+  _dokFussHaftungMitMarke: (typeof _dokFussHaftungMitMarke === 'function' ? _dokFussHaftungMitMarke : undefined),
+  _dokFussSegmente: (typeof _dokFussSegmente === 'function' ? _dokFussSegmente : undefined),
   _textsatzPruefstufeFuerSchutz: (typeof _textsatzPruefstufeFuerSchutz === 'function' ? _textsatzPruefstufeFuerSchutz : undefined),
   _depotModuleSperreMarkieren: (typeof _depotModuleSperreMarkieren === 'function' ? _depotModuleSperreMarkieren : undefined),
   _depotModulGesperrt: (typeof _depotModulGesperrt === 'function' ? _depotModulGesperrt : undefined),
@@ -1660,6 +1695,12 @@ const EXPORT_HOOK = `
   gesperrteDepotModuleNamen: (typeof gesperrteDepotModuleNamen === 'function' ? gesperrteDepotModuleNamen : undefined),
   erweiterungenGesperrtHinweisZeigen: (typeof erweiterungenGesperrtHinweisZeigen === 'function' ? erweiterungenGesperrtHinweisZeigen : undefined),
   _selbstEinlassFrei: (typeof _selbstEinlassFrei === 'function' ? _selbstEinlassFrei : undefined),
+  /* Schutz-Wagen S2: das Ergebnis der Ladeprüfung, für Proben, die ein Modul als „Kette beim Öffnen nachgeprüft“ voraussetzen.
+     Die echte Prüfung belegt tests/ladepruefung-alle-modultypen.test.js. */
+  /* Schutz-Wagen S6: ein Ergebnis setzen wie die Ladeprüfung, gebunden an den Inhalt zur Setzzeit (_modulBelegMerken). */
+  _modulBelegAlsGeprueftSetzen: (m, r) => { _modulBelegMerken(m, r); return m; },
+  _modulFingerabdruck: (typeof _modulFingerabdruck !== 'undefined' ? _modulFingerabdruck : undefined),
+  get _MODUL_BELEG_GEPRUEFT() { return (typeof _MODUL_BELEG_GEPRUEFT !== 'undefined' ? _MODUL_BELEG_GEPRUEFT : undefined); },
   get SELBST_EINLASS_GESPERRT() { return (typeof SELBST_EINLASS_GESPERRT !== 'undefined' ? SELBST_EINLASS_GESPERRT : undefined); },
   set SELBST_EINLASS_GESPERRT(v) { SELBST_EINLASS_GESPERRT = v; },
   _istZusicherungsKennung: (typeof _istZusicherungsKennung === 'function' ? _istZusicherungsKennung : undefined),
@@ -1734,6 +1775,13 @@ const EXPORT_HOOK = `
   // anzufassen.
   AB_WERK_LOGIK_MODUL_QUELLEN: (typeof AB_WERK_LOGIK_MODUL_QUELLEN !== 'undefined' ? AB_WERK_LOGIK_MODUL_QUELLEN : undefined),
   _logikModulAbWerkSeed: (typeof _logikModulAbWerkSeed !== 'undefined' ? _logikModulAbWerkSeed : undefined),
+  _wizardModulAbWerkSeed: (typeof _wizardModulAbWerkSeed !== 'undefined' ? _wizardModulAbWerkSeed : undefined),
+  _mitschriftNachInhalt: (typeof _mitschriftNachInhalt !== 'undefined' ? _mitschriftNachInhalt : undefined),
+  _abWerkHerkunft: (typeof _abWerkHerkunft !== 'undefined' ? _abWerkHerkunft : undefined),
+  _depotModuleAbWerkPruefen: (typeof _depotModuleAbWerkPruefen !== 'undefined' ? _depotModuleAbWerkPruefen : undefined),
+  /* Nur für Proben: ein Modul als „nach Inhalt ab Werk festgestellt“ merken — steht für das Ergebnis von _depotModuleAbWerkPruefen bzw.
+     für Inhalt, den ein konfektioniertes Produkt ab Werk trägt. Wer die Prüfung selbst proben will, nimmt _depotModuleAbWerkPruefen. */
+  _alsAbWerkFestgestellt: (m) => { if (!_ABWERK_BELEGT) _ABWERK_BELEGT = new WeakSet(); if (m && typeof m === 'object') _ABWERK_BELEGT.add(m); return m; },
   // Strang A, Schnitt-Vorbedingung (17.09.2026) — die produktunabhängige Ab-Werk-Quelle der
   // zwei Auszüge (erbschein-vorbereitung/zugang-zum-recht-beratungshilfe), unabhängig von
   // AB_WERK_LOGIK_MODUL_QUELLEN (die ist produktspezifisch, s. dort) und vom Bündel.
@@ -2073,6 +2121,9 @@ function ladeKern(opts) {
   // `opts.erscheinungsbildModul` (W4, 05.10.2026): das gebackene Produkt mit einem ANDEREN Erscheinungsbild in der Region — für
   // Proben, die ein Profil mit eigener Schrift brauchen (Rückfallkette der PDF-Schrift). Zeilenzahl der Region bleibt gleich.
   if (opts.erscheinungsbildModul) html = html.replace(ERSCHEINUNGSBILD_REGION, (_, a, inhalt, e) => a + 'const AB_WERK_ERSCHEINUNGSBILD_PRODUKT = ' + JSON.stringify(opts.erscheinungsbildModul) + ';' + '\n'.repeat((inhalt.match(/\n/g) || []).length) + e);
+  // `opts.brandingProdukt` (05.10.2026): das gebackene Produkt mit einem Branding-Modul in der Bau-Region AB_WERK_BRANDING_PRODUKT —
+  // dieselbe Stelle, die der Konfektionierer füllt. Für Proben eines Partnerprodukts (White Label ab Werk). Zeilenzahl bleibt gleich.
+  if (opts.brandingProdukt) html = html.replace(BRANDING_PRODUKT_REGION, (_, a, inhalt, e) => a + 'const AB_WERK_BRANDING_PRODUKT = ' + JSON.stringify(opts.brandingProdukt) + ';' + '\n'.repeat((inhalt.match(/\n/g) || []).length) + e);
   const { script1, script2, bounds } = extrahiereScripts(html);
   const erscheinung = extrahiereErscheinungsbild(html);
   const kopf = erscheinung ? erscheinung.kopf : '';
@@ -2103,6 +2154,8 @@ function ladeKern(opts) {
     setTimeout, clearTimeout,
     queueMicrotask,
     window: windowStub,
+    // Safari-Lücke (06.10.2026): CSS.supports für die Engine-Erkennung (ohne Option fehlt CSS, wie in Node).
+    ...(opts.CSS ? { CSS: opts.CSS } : {}),
     document: documentStub,
     // Vorher ein reines Capability-Objekt ({createObjectURL, revokeObjectURL}) OHNE die
     // eigentliche URL-Klasse — im echten Browser ist `URL` der Web-URL-Parser UND trägt diese

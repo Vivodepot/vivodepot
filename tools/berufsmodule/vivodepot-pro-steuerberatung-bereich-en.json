@@ -1,0 +1,136 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "en",
+  "kennung": "vivodepot/pro-steuerberatung",
+  "fassung": 1,
+  "bereiche": {
+    "pro-steuerberatung": {
+      "id": "pro-steuerberatung",
+      "label": "Tax advisory practice",
+      "icon": "scale",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Cover & succession",
+      "clusterRang": 1,
+      "sektionen": [
+        {
+          "id": "vertretung-und-abwicklung",
+          "label": "Cover and winding up of the practice",
+          "felder": [
+            {
+              "id": "tpl_general_representative",
+              "typ": "liste",
+              "label": "General representative (allgemeiner Vertreter)",
+              "hint": "Who represents you if you are prevented from practising for a longer period? When appointed, when notified to the chamber?",
+              "quelle": "StBerG § 69",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_appointed_on",
+                  "typ": "datum",
+                  "label": "Appointed on"
+                },
+                {
+                  "id": "tpl_notified_to_chamber_on",
+                  "typ": "datum",
+                  "label": "Notified to the chamber on"
+                }
+              ]
+            },
+            {
+              "id": "tpl_trusted_person_at_chamber",
+              "typ": "text",
+              "label": "Trusted person registered with the chamber",
+              "hint": "Has a person been registered with the chamber of tax advisers who will be contacted if cover is needed? Who?",
+              "quelle": "Vorgabe der Steuerberaterkammer (Vertrauensperson, z. B. StBK Nürnberg)"
+            },
+            {
+              "id": "tpl_practice_winding_up_wish",
+              "typ": "text",
+              "label": "Preference for winding up the practice",
+              "hint": "Whom would you suggest to the chamber to wind up the practice (Praxisabwickler)?",
+              "quelle": "StBerG § 70"
+            }
+          ]
+        },
+        {
+          "id": "kanzlei-und-pflichten",
+          "label": "Practice and professional duties",
+          "felder": [
+            {
+              "id": "tpl_chamber_membership",
+              "typ": "liste",
+              "label": "Chamber of tax advisers",
+              "hint": "Competent chamber (Steuerberaterkammer) and membership number.",
+              "quelle": "StBerG § 73",
+              "unterFelder": [
+                {
+                  "id": "tpl_chamber",
+                  "typ": "text",
+                  "label": "Chamber"
+                },
+                {
+                  "id": "tpl_membership_number",
+                  "typ": "text",
+                  "label": "Membership number"
+                }
+              ]
+            },
+            {
+              "id": "tpl_professional_liability_insurance",
+              "typ": "liste",
+              "label": "Professional liability insurance",
+              "hint": "Insurer and policy number.",
+              "quelle": "StBerG § 67",
+              "unterFelder": [
+                {
+                  "id": "tpl_insurer",
+                  "typ": "text",
+                  "label": "Insurer"
+                },
+                {
+                  "id": "tpl_policy_number",
+                  "typ": "text",
+                  "label": "Policy number"
+                }
+              ]
+            },
+            {
+              "id": "tpl_client_files_location",
+              "typ": "textarea",
+              "label": "Client files and client list",
+              "hint": "Where are the client files (Handakten) and the client list kept, and who has access? Only the location, no client data.",
+              "quelle": "StBerG § 66"
+            },
+            {
+              "id": "tpl_tax_adviser_mailbox_access",
+              "typ": "textarea",
+              "label": "Tax adviser mailbox: who is authorised",
+              "hint": "Who may use the special electronic tax adviser mailbox, for example the representative or the person winding up the practice? Only names and procedures, no access data.",
+              "quelle": "StBerG § 86d"
+            },
+            {
+              "id": "tpl_confidentiality_obligations",
+              "typ": "text",
+              "label": "Bound to confidentiality",
+              "hint": "Who in the practice has been bound to confidentiality, and where is the declaration kept?",
+              "quelle": "StBerG § 57; StGB § 203"
+            },
+            {
+              "id": "tpl_practice_software",
+              "typ": "text",
+              "label": "Practice software and data access",
+              "hint": "Which software does the practice use, and where is it recorded how a representative gets access? No access data.",
+              "quelle": "Ablagefeld ohne Norm (Quellenregel E:3338)"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

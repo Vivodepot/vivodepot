@@ -1281,7 +1281,7 @@ test('[BD-06] Grund-Parität mit dem echten Kern-Prüfer für jeden Ablehnungsfa
 test('[Generator·Einreichen] nach dem Submission-Paket nennt der Generator die Einreichadresse — keine erfundene „in der Begrüßung genannte"', () => {
   const quelle = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'vivodepot-studio.html'), 'utf8');
   assert.match(quelle, /const EINREICH_ADRESSE = 'register@vivodepot\.de';/);
-  const erfolg = quelle.slice(quelle.indexOf("'✓ Submission-Paket erzeugt'"), quelle.indexOf('/* ── F-9 Hilfe / Beispiele'));
+  const erfolg = quelle.slice(quelle.indexOf('function fertigKarteZeigen('), quelle.indexOf('function fertigKarteZuruecksetzen('));
   assert.ok(erfolg.length > 0, 'Vorbedingung: der Erfolgs-Abschnitt ist gefunden');
   assert.ok(erfolg.includes('EINREICH_ADRESSE'), 'die Erfolgsmeldung nennt die Einreichadresse nicht');
   assert.ok(!/in der Begrüßung genannte/.test(quelle), 'der Verweis auf eine Adresse, die die Begrüßung nie nannte, ist zurück');

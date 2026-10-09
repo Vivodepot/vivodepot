@@ -46,6 +46,13 @@ const M_NICHT_ANERKANNT = { modulTyp: 'textsatz', moduleVersion: 1, texte: {}, s
 const M_BESTAND = { modulTyp: 'textsatz', moduleVersion: 1, texte: {}, sprache: 'it',
   eingelassenAm: '2026-08-22' };
 
+/* Schutz-Wagen S2 (04.10.2026): „geprüft“ kommt nur noch aus der Ladeprüfung beim Öffnen, nie aus `ungeprueft`/`pruefstufe` im
+   Modul. Die Fälle hier setzen eine beim Öffnen nachgeprüfte Kette VORAUS (die Prüfung selbst belegt
+   tests/ladepruefung-alle-modultypen.test.js); `nachgeprueft` trägt das Ergebnis ein, das die Ladeprüfung für sie hätte. */
+function nachgeprueft(V, m) {
+  if (m && typeof m === 'object' && m.ungeprueft === false && typeof m.pruefstufe === 'string') V._modulBelegAlsGeprueftSetzen(m, { stufe: m.pruefstufe, anbieterId: null });
+  return m;
+}
 async function kernMit(module) {
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
@@ -56,6 +63,7 @@ async function kernMit(module) {
   // geleert, damit diese Datei weiterhin ausschließlich die hier konstruierten Fälle zählt.
   d.logikModule = [];
   V.setData(d);
+  for (const m of d.textsatzModule) nachgeprueft(V, m);
   return V;
 }
 
@@ -63,8 +71,9 @@ async function kernMit(module) {
 
 test('[258·Stand] ein signiertes Modul mit anerkannter Kette heißt „geprueft"', async () => {
   const V = await kernMit([]);
-  assert.equal(V.modulHerkunftStand(M_GEPRUEFT), 'geprueft');
-  assert.equal(V.modulHerkunftStand(M_INTERN), 'geprueft');
+  assert.equal(V.modulHerkunftStand(M_GEPRUEFT), 'ungeprueft', 'Schutz-Wagen S2: ohne Ladeprüfung zählt die Selbstauskunft nicht');
+  assert.equal(V.modulHerkunftStand(nachgeprueft(V, M_GEPRUEFT)), 'geprueft');
+  assert.equal(V.modulHerkunftStand(nachgeprueft(V, M_INTERN)), 'geprueft');
 });
 
 test('[258·Stand] ein selbst eingelassenes Modul heißt „ungeprueft"', async () => {
@@ -322,6 +331,7 @@ test('[258·Ordnung] die Lese-App urteilt nie milder als der Kern', async () => 
   const faelle = [M_GEPRUEFT, M_INTERN, M_UNSIGNIERT, M_NICHT_ANERKANNT, M_BESTAND,
                   null, {}, { ungeprueft: 'ja' }, { ungeprueft: false, pruefstufe: 'extern-ungeprueft' }];
   let hoechster = 0;
+  for (const m of faelle) nachgeprueft(V, m);
   for (const m of faelle) {
     const kern = V.modulHerkunftStand(m);
     const lesen = L.modulHerkunftStand(m);

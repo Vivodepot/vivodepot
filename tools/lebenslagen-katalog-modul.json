@@ -448,5 +448,76 @@
         "emergencyPreparedness.noteForEmergencyResponders"
       ]
     }
+  ],
+  "anlaesse": [
+    {
+      "id": "umzug",
+      "klasse": 1,
+      "icon": "home",
+      "ziel": {
+        "wizard": "umzwiz"
+      }
+    },
+    {
+      "id": "krisenvorsorge",
+      "klasse": 1,
+      "icon": "package",
+      "ziel": {
+        "lage": "ausst-krisenvorsorge"
+      }
+    },
+    {
+      "id": "trennung-scheidung",
+      "klasse": 1,
+      "icon": "users",
+      "ziel": {
+        "lage": "trennung-scheidung"
+      }
+    },
+    {
+      "id": "arbeitslosigkeit",
+      "klasse": 1,
+      "icon": "wallet",
+      "ziel": {
+        "lage": "arbeitslosigkeit"
+      }
+    },
+    {
+      "id": "rechtliche-betreuung",
+      "klasse": 2,
+      "icon": "shield",
+      "ziel": {
+        "lage": "rechtliche-betreuung"
+      }
+    },
+    {
+      "id": "todesfall",
+      "klasse": 3,
+      "icon": "fileText",
+      "ziel": {
+        "zwischenfrage": [
+          "erbfall",
+          "todesfall-uebernahme",
+          "verwitwung"
+        ]
+      }
+    },
+    {
+      "id": "verwitwung",
+      "klasse": 3,
+      "icon": "fileText",
+      "versteckt": true,
+      "ziel": {
+        "lage": "verwitwung"
+      }
+    },
+    {
+      "id": "eigene-vorsorge",
+      "klasse": 3,
+      "icon": "shield",
+      "ziel": {
+        "lage": "eigene-vorsorge"
+      }
+    }
   ]
 }

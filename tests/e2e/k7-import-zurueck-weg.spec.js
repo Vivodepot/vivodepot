@@ -6,7 +6,7 @@
    prüfbar (querySelectorAll liefert dort immer [], s. tests/load-kern.js).
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen } = require('./helpers');
 
 const KONSOLE_HARMLOS = [
   /Content Security Policy directive '(frame-ancestors|report-uri|sandbox)' is ignored when delivered via/i,
@@ -22,7 +22,7 @@ test('K7: Daten einlesen → Bereich wählen → Zurück → wieder hinein, ohne
   await depotAnlegen(page);
 
   // Zentrale Tür (Sidebar) öffnen.
-  await page.click('[data-einlesen-zentral]');
+  await inLeisteKlicken(page, '[data-einlesen-zentral]');
   await expect(page.locator('#modal-titel')).toHaveText('Wohin einlesen?');
   await expect(page.locator('[data-iz-sektor="identity"]')).toBeVisible();
 

@@ -339,6 +339,25 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Auftrag des Bundesministeriums für Gesundheit (BMG)
     Die Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung
     des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).
+    Alphabetisches Verzeichnis zur ICD-10-GM, Version 2026: Alltagsbegriffe und Suchbegriffe der
+    Anzeige, unverändert übernommen (nur die genutzten Einträge, Belege in code-listen/icd10.json).
+    Quellenangabe nach dem Anhang der Bedingungen (Band 2, Alphabetisches Verzeichnis):
+    Das Alphabetische Verzeichnis zur ICD-10-GM entstand auf der Basis des
+    Diagnosenthesaurus des Zentralinstituts für die kassenärztliche Versorgung in der
+    Bundesrepublik Deutschland (Zi). Es wurde im Laufe der Jahre ergänzt um Texte aus dem
+    Alphabetischen Verzeichnis der ICD-10-WHO.
+    Für den Diagnosenthesaurus gilt als Inhaber der Nutzungsrechte:
+    Zentralinstitut für die kassenärztliche Versorgung in der Bundesrepublik Deutschland
+    (Zi)
+    Salzufer 8, 10587 Berlin
+    Internet: https://www.zi.de
+    Der Inhaber der Nutzungsrechte für diese Teile ist:
+    Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM), Kurt-Georg-Kiesinger-Allee
+    3, 53175 Bonn.
+    Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag
+    des Bundesministeriums für Gesundheit (BMG)
+    Der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für
+    Arzneimittel und Medizinprodukte (BfArM).
     Nicht verwendet: ICD-O-3.
     URI: http://fhir.de/CodeSystem/bfarm/icd-10-gm
 

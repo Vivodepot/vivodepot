@@ -18,9 +18,20 @@
 
      node tools/serifen-pruefen.js                     → prüft die Standardmenge gegen die Grundlinie, Exit 1 bei Zuwachs
      node tools/serifen-pruefen.js --datei <pfad> …    → listet die Funde in den genannten Dateien (ohne Grundlinie)
+     node tools/serifen-pruefen.js --modul <pfad> … [--erscheinungsbild <pfad>] [--kern <pfad>]
+                                                       → löst die `schriftart` der Branding-Module auf (Modulweg), Exit 1 bei Fund
+
+   MODULWEG (05.10.2026, Befund SCHRIFTART-OHNE-DATEI-SERIFEN): Die Dateisicht sieht nur Stapel, die als Text dastehen. Eine
+   `schriftart` aus einem Branding-Modul wird erst im Kern zum Stapel — `schriftart: "Barlow"` ohne Datei ergab `Barlow` allein,
+   also die Standardschrift des Browsers, eine Serifenschrift, ohne dass irgendwo `serif` stand. Der Modulweg schneidet die
+   Stapel-Funktionen aus dem Kerntext (von `const _BRANDING_SCHRIFT_GENERISCH` bis vor `function brandingModulPruefen(`, kein
+   Spiegel) und löst die Schriftart gegen ein Erscheinungsbild zu genau dem Stapel auf, den der Kern anwenden würde. Fund ist:
+   eine Schriftart ohne Datei (der Kern verwirft sie), ein serifer Stapel, ein Stapel, der nicht auf `sans-serif` endet. Ohne
+   `--modul` prüft der Standardlauf jedes Branding-Modul unter tools/ gegen das Ab-Werk-Erscheinungsbild „heute“.
    ═══════════════════════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 
 const REPO = path.join(__dirname, '..');
 const GRUNDLINIE = path.join(__dirname, 'serifen-grundlinie.json');
@@ -108,6 +119,83 @@ function funde(text) {
   return raus;
 }
 
+/* ── Modulweg ─────────────────────────────────────────────────────────────────────────────────────────── */
+const KERN = path.join(REPO, 'vivodepot.html');
+const ERSCHEINUNGSBILD_HEUTE = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-heute-modul.json');
+const STAPEL_ANKER = ['const _BRANDING_SCHRIFT_GENERISCH = ', 'function brandingModulPruefen('];
+
+/* Die Stapel-Funktionen des Kerns, aus dem Kerntext geschnitten und in einem leeren vm-Kontext ausgeführt. Fehlt ein Anker, wirft
+   es, statt still nichts zu prüfen. */
+function stapelAufloeserAusKern(kernText) {
+  const a = kernText.indexOf(STAPEL_ANKER[0]), e = kernText.indexOf(STAPEL_ANKER[1], a);
+  if (a < 0 || e < 0) throw new Error('serifen-pruefen: Anker der Schrift-Stapel im Kern nicht gefunden (' + (a < 0 ? STAPEL_ANKER[0] : STAPEL_ANKER[1]) + ')');
+  const kontext = vm.createContext({});
+  vm.runInContext(kernText.slice(a, e) + '\n;this.__s = { _brandingSchriftStapel, _brandingSchriftFamilie };', kontext);
+  return kontext.__s;
+}
+
+/* Ein Erscheinungsbild-Modul (roh, wie unter tools/erscheinung) in der Form, die die Kern-Funktionen lesen: { schriften, basis }. */
+function ebAusModul(modul) {
+  return { schriften: Array.isArray(modul && modul.schriften) ? modul.schriften : [], basis: (modul && modul.basis) || {} };
+}
+
+/* Endet der Stapel auf `sans-serif`? Ein `var(--x, …)` gilt mit seinem Rückfall. */
+function stapelEndetSans(stapel) {
+  let t = String(stapel || '').trim();
+  if (/^var\(/.test(t)) t = varRueckfall(t) || '';
+  const teile = t.split(',').map((x) => x.trim().replace(/^["']|["']$/g, '').trim()).filter(Boolean);
+  return teile.length > 0 && /^sans-serif$/i.test(teile[teile.length - 1]);
+}
+
+/* Der Stapel, den der Kern für dieses Branding-Modul anwendet: die Marke (brandingAnwenden), sonst der Kern-Stapel der Basis
+   (`font-family: var(--vd-branding-schriftart, var(--font-inter))`, tools/erscheinung/stil/grundlage.css). */
+function modulStapel(modul, eb, aufloeser) {
+  const marke = aufloeser._brandingSchriftStapel(modul && modul.schriftart, eb);
+  return marke || String((eb.basis || {})['--font-inter'] || '');
+}
+
+/* Funde eines Branding-Moduls: [{ art, stapel, grund }]. */
+function modulFunde(modul, eb, aufloeser) {
+  const raus = [];
+  if (!modul || typeof modul !== 'object' || modul.schriftart == null) return raus;
+  if (!aufloeser._brandingSchriftFamilie(modul.schriftart, eb)) raus.push({ art: 'modul-schriftart', stapel: String(modul.schriftart).slice(0, 120), grund: 'schriftart-ohne-datei' });
+  const stapel = modulStapel(modul, eb, aufloeser);
+  if (stapelPruefen(stapel)) raus.push({ art: 'modul-stapel', stapel: stapel.slice(0, 120), grund: 'serif' });
+  else if (!stapelEndetSans(stapel)) raus.push({ art: 'modul-stapel', stapel: stapel.slice(0, 120), grund: 'endet-nicht-auf-sans-serif' });
+  return raus;
+}
+
+/* Die Branding-Module unter tools/ (was ausgeliefert oder vorgeführt wird). */
+function standardModule() {
+  const raus = [];
+  const sammeln = (ordner) => {
+    for (const n of fs.readdirSync(ordner)) {
+      const p = path.join(ordner, n);
+      if (n === 'node_modules') continue;
+      if (fs.statSync(p).isDirectory()) sammeln(p);
+      else if (n.endsWith('.json')) {
+        let m; try { m = JSON.parse(fs.readFileSync(p, 'utf8')); } catch (_) { continue; }
+        if (m && m.modulTyp === 'branding') raus.push(p);
+      }
+    }
+  };
+  sammeln(path.join(REPO, 'tools'));
+  return raus;
+}
+
+/* Prüft Branding-Module (Pfade) gegen ein Erscheinungsbild: { '<pfad>': [Funde] } nur mit Fund. */
+function moduleMessen(pfade, opts) {
+  const o = opts || {};
+  const aufloeser = stapelAufloeserAusKern(fs.readFileSync(o.kern || KERN, 'utf8'));
+  const eb = ebAusModul(JSON.parse(fs.readFileSync(o.erscheinungsbild || ERSCHEINUNGSBILD_HEUTE, 'utf8')));
+  const ergebnis = {};
+  for (const p of pfade) {
+    const f = modulFunde(JSON.parse(fs.readFileSync(p, 'utf8')), eb, aufloeser);
+    if (f.length) ergebnis[path.relative(REPO, p)] = f;
+  }
+  return ergebnis;
+}
+
 function messen(dateien) {
   const ergebnis = {};
   for (const d of dateien) {
@@ -133,6 +221,14 @@ function gegenGrundlinie(gemessen, grundlinie) {
 
 function main() {
   const argv = process.argv.slice(2);
+  const wert = (n) => { const i = argv.indexOf(n); return i >= 0 ? path.resolve(argv[i + 1]) : undefined; };
+  if (argv.includes('--modul')) {
+    const pfade = argv.filter((a, i) => argv[i - 1] === '--modul').map((p) => path.resolve(p));
+    const g = moduleMessen(pfade, { erscheinungsbild: wert('--erscheinungsbild'), kern: wert('--kern') });
+    console.log(JSON.stringify(g, null, 2));
+    process.exitCode = Object.keys(g).length ? 1 : 0;
+    return;
+  }
   if (argv.includes('--datei')) {
     const dateien = argv.filter((a, i) => argv[i - 1] === '--datei').map((p) => path.resolve(p));
     const g = messen(dateien);
@@ -144,9 +240,13 @@ function main() {
   const { zuwachs, gesunken } = gegenGrundlinie(messen(standardDateien()), grundlinie);
   for (const z of zuwachs) console.error('[serifen] NEU: ' + z);
   for (const s of gesunken) console.log('[serifen] gesunken (Grundlinie senken): ' + s);
-  process.exitCode = zuwachs.length ? 1 : 0;
-  if (!zuwachs.length) console.log('[serifen] keine neue Serifenschrift');
+  const module = moduleMessen(standardModule());
+  for (const [p, f] of Object.entries(module)) console.error('[serifen] MODUL: ' + p + ' — ' + f.map((x) => x.grund + ' (' + x.stapel + ')').join(' | '));
+  const rot = zuwachs.length || Object.keys(module).length;
+  process.exitCode = rot ? 1 : 0;
+  if (!rot) console.log('[serifen] keine neue Serifenschrift, kein Branding-Modul mit Schrift ohne Datei');
 }
 
-module.exports = { funde, stapelIstSerif, stapelPruefen, varRueckfall, kurzformFamilie, messen, gegenGrundlinie, standardDateien, GRUNDLINIE, REPO };
+module.exports = { funde, stapelIstSerif, stapelPruefen, varRueckfall, kurzformFamilie, messen, gegenGrundlinie, standardDateien, GRUNDLINIE, REPO,
+  stapelAufloeserAusKern, ebAusModul, stapelEndetSans, modulStapel, modulFunde, standardModule, moduleMessen, KERN, ERSCHEINUNGSBILD_HEUTE, STAPEL_ANKER };
 if (require.main === module) main();

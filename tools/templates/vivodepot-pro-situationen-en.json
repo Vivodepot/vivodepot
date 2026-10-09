@@ -1,0 +1,436 @@
+{
+  "modulTyp": "situation",
+  "herkunft": "vivodepot",
+  "moduleVersion": 1,
+  "situationen": {
+    "pro-vertretung": {
+      "icon": "users",
+      "modus": "eigen",
+      "titel": "Cover",
+      "einfuehrung": "Someone takes over your duties for a period while you remain the owner. Here you see what the person covering for you needs: who may act, who takes on which task, and where access, ongoing matters and payments are recorded.",
+      "anlass": {
+        "klasse": 1,
+        "icon": "users",
+        "ziel": {
+          "sbl": "pro-vertretung"
+        },
+        "position": 0
+      },
+      "suchbegriffe": [
+        "cover",
+        "holiday",
+        "absence",
+        "power of attorney",
+        "procuration"
+      ],
+      "bloecke": [
+        {
+          "id": "wer-handeln-darf",
+          "titel": "Who may act",
+          "eintraege": [
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_vertretungsregelung"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_weitere_vertretungsberechtigte_person_vorhanden"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_weitere_geschaeftsfuehrer_vorstaende"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_prokura"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_handlungsvollmacht"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_unternehmervollmacht"
+            }
+          ]
+        },
+        {
+          "id": "wer-was-uebernimmt",
+          "titel": "Who takes on what",
+          "eintraege": [
+            {
+              "quelle": "pro-kontakte-vertretungsplan",
+              "feld": "tpl_wer_uebernimmt_welche_aufgabe"
+            },
+            {
+              "quelle": "pro-kontakte-vertretungsplan",
+              "feld": "tpl_nicht_zu_benachrichtigende_personen"
+            }
+          ]
+        },
+        {
+          "id": "laufender-betrieb",
+          "titel": "Day-to-day operations",
+          "eintraege": [
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_fachanwendung"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_behoerdenzugang"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_zugangsmittel"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_laufender_auftrags_projektstand"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_laufender_rechtsstreit"
+            },
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_bankverbindung"
+            },
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_wiederkehrende_zahlung"
+            },
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_steuerfrist"
+            }
+          ]
+        },
+        {
+          "id": "erreichbarkeit",
+          "titel": "How to reach the owner",
+          "eintraege": [
+            {
+              "quelle": "identity",
+              "feld": "givenName"
+            },
+            {
+              "quelle": "identity",
+              "feld": "familyName"
+            },
+            {
+              "quelle": "identity",
+              "feld": "telephone"
+            },
+            {
+              "quelle": "identity",
+              "feld": "email"
+            }
+          ]
+        }
+      ]
+    },
+    "pro-uebergabe": {
+      "icon": "package",
+      "modus": "eigen",
+      "titel": "Handover",
+      "einfuehrung": "A task or an area passes permanently to another person. Here you see what belongs to it: applications and access, staff, contracts and premises, records and how they are organised, recurring payments.",
+      "anlass": {
+        "klasse": 1,
+        "icon": "package",
+        "ziel": {
+          "sbl": "pro-uebergabe"
+        },
+        "position": 1
+      },
+      "suchbegriffe": [
+        "handover",
+        "hand over a task",
+        "responsibility"
+      ],
+      "bloecke": [
+        {
+          "id": "betrieb-und-zugaenge",
+          "titel": "Operations and access",
+          "eintraege": [
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_fachanwendung"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_behoerdenzugang"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_zugangsmittel"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_administration_intern_extern"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_personal"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_raeume"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_fuhrpark"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_maschine_oder_betriebsausstattung"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_laufender_auftrags_projektstand"
+            }
+          ]
+        },
+        {
+          "id": "unterlagen",
+          "titel": "Records and organisation",
+          "eintraege": [
+            {
+              "quelle": "pro-aufbewahrung-ordnung",
+              "feld": "tpl_geschaeftsunterlagen"
+            },
+            {
+              "quelle": "pro-aufbewahrung-ordnung",
+              "feld": "tpl_aufbewahrungsfrist"
+            },
+            {
+              "quelle": "pro-aufbewahrung-ordnung",
+              "feld": "tpl_archivdienstleister"
+            },
+            {
+              "quelle": "pro-aufbewahrung-ordnung",
+              "feld": "tpl_wer_von_diesem_depot_weiss"
+            }
+          ]
+        },
+        {
+          "id": "zahlungen-und-zustaendigkeit",
+          "titel": "Payments and responsibility",
+          "eintraege": [
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_wiederkehrende_zahlung"
+            },
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_versicherung"
+            },
+            {
+              "quelle": "pro-kontakte-vertretungsplan",
+              "feld": "tpl_wer_uebernimmt_welche_aufgabe"
+            }
+          ]
+        }
+      ]
+    },
+    "pro-einarbeitung": {
+      "icon": "graduationCap",
+      "modus": "eigen",
+      "titel": "Onboarding",
+      "einfuehrung": "A new person learns what is where and who knows what. Here you see how records are organised, the applications and keys, the obligations of the trade and the contact persons.",
+      "anlass": {
+        "klasse": 1,
+        "icon": "graduationCap",
+        "ziel": {
+          "sbl": "pro-einarbeitung"
+        },
+        "position": 2
+      },
+      "suchbegriffe": [
+        "onboarding",
+        "new employee",
+        "induction"
+      ],
+      "bloecke": [
+        {
+          "id": "was-wo-liegt",
+          "titel": "What is where",
+          "eintraege": [
+            {
+              "quelle": "pro-aufbewahrung-ordnung",
+              "feld": "tpl_geschaeftsunterlagen"
+            },
+            {
+              "quelle": "pro-aufbewahrung-ordnung",
+              "feld": "tpl_branchenpflicht"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_schluessel_und_schliessanlage"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_tresor_und_bankschliessfach"
+            }
+          ]
+        },
+        {
+          "id": "womit-gearbeitet-wird",
+          "titel": "What we work with",
+          "eintraege": [
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_fachanwendung"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_administration_intern_extern"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_datensicherung"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_genehmigung_oder_berufsrechtliche_zulassung"
+            }
+          ]
+        },
+        {
+          "id": "wer-was-weiss",
+          "titel": "Who knows what",
+          "eintraege": [
+            {
+              "quelle": "pro-kontakte-vertretungsplan",
+              "feld": "tpl_wer_uebernimmt_welche_aufgabe"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_steuerberatung"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_notar"
+            }
+          ]
+        }
+      ]
+    },
+    "pro-nachfolge": {
+      "icon": "landmark",
+      "modus": "eigen",
+      "titel": "Succession",
+      "einfuehrung": "The business or practice passes to a successor. Here you see what carries the succession: company and contracts, inheritance arrangements, liabilities, licences, property and intellectual property rights.",
+      "anlass": {
+        "klasse": 1,
+        "icon": "landmark",
+        "ziel": {
+          "sbl": "pro-nachfolge"
+        },
+        "position": 3
+      },
+      "suchbegriffe": [
+        "succession",
+        "business transfer",
+        "practice transfer",
+        "business succession"
+      ],
+      "bloecke": [
+        {
+          "id": "gesellschaft",
+          "titel": "Company and arrangements",
+          "eintraege": [
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_gesellschafterliste"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_gesellschaftsvertrag"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_aufsichtsgremium_beirat_aufsichtsrat"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_erbregelung_auf_die_gesellschaft_abgestimmt"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_testament_oder_erbvertrag_ablageort"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_jahresabschluss_wo_der_aktuelle_stand_liegt"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_notar"
+            },
+            {
+              "quelle": "pro-gesellschaft-nachfolge",
+              "feld": "tpl_steuerberatung"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_zustaendiges_registergericht"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_registernummer"
+            },
+            {
+              "quelle": "pro-vertretung-vollmachten",
+              "feld": "tpl_vollmacht_ueber_den_tod_hinaus"
+            }
+          ]
+        },
+        {
+          "id": "verbindlichkeiten",
+          "titel": "Liabilities and contracts",
+          "eintraege": [
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_kredit"
+            },
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_persoenliche_sicherheit_buergschaft"
+            },
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_vertrag_mit_kontrollwechsel_klausel"
+            },
+            {
+              "quelle": "pro-finanzen-verbindlichkeiten",
+              "feld": "tpl_versorgungslage_der_familie_im_ausfall"
+            }
+          ]
+        },
+        {
+          "id": "betrieb",
+          "titel": "Licences, property, IP rights",
+          "eintraege": [
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_genehmigung_oder_berufsrechtliche_zulassung"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_immobilie_im_eigentum"
+            },
+            {
+              "quelle": "pro-betrieb-zugaenge",
+              "feld": "tpl_schutzrecht_patent_marke_rezeptur"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

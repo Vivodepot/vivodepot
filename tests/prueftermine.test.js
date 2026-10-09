@@ -59,7 +59,7 @@ test('[Prüftermine] Welcome-Schirm zeigt keine Ampel-Sektion mehr', async () =>
 });
 
 /* ── Sidebar: „Prüftermine"-Eintrag unter FINDEN, mit Untertitel ────────── */
-test('[Prüftermine] Sidebar trägt den Eintrag (Label + b16-Untertitel) unter FINDEN', async () => {
+test('[Prüftermine] Sidebar trägt den Eintrag (Label; Untertitel seit Navigation A, 05.10.2026, nicht mehr in der Leiste) im Punkt „Austausch und Überblick"', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.renderSidebar();
@@ -67,9 +67,9 @@ test('[Prüftermine] Sidebar trägt den Eintrag (Label + b16-Untertitel) unter F
   assert.ok(html.includes('data-prueftermine'), 'Prüftermine-Eintrag verdrahtet');
   assert.ok(html.includes(V.STRINGS.navPrueftermine), 'Label „Prüftermine"');
   assert.equal(V.STRINGS.navPrueftermine, 'Prüftermine');
-  assert.ok(html.includes(V.STRINGS.navPrueftermineSub), 'Untertitel „Was wann erneuern"');
-  assert.equal(V.STRINGS.navPrueftermineSub, 'Was wann erneuern');
-  assert.ok(html.indexOf(V.STRINGS.gruppeFinden) < html.indexOf('data-prueftermine'), 'unter FINDEN');
+  assert.ok(!html.includes('Was wann erneuern'), 'kein Untertitel in der Leiste (Navigation A, ruhige Fassung)');
+  assert.equal(Object.prototype.hasOwnProperty.call(V.STRINGS, 'navPrueftermineSub'), false, 'Schlüssel navPrueftermineSub entfallen (Navigation A, 06.10.2026)');
+  assert.ok(html.indexOf(V.STRINGS.gruppeAustausch) < html.indexOf('data-prueftermine'), 'im Punkt „Austausch und Überblick" (Navigation A (05.10.2026))');
   assert.ok(html.indexOf('data-mappe') < html.indexOf('data-prueftermine'), 'nach Meine Mappe');
 });
 

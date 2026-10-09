@@ -19,8 +19,8 @@
       DIESEM Baum heraus — das berührt keine fremde Arbeitskopie. Fragen zum
       ARBEITSVERZEICHNIS selbst (ungetrackte/geänderte Dateien, Alter) laufen
       ausschließlich über das Dateisystem (`fs`), nie über `git status`.
-   2. „Läuft da was" filtert auf `claude`, nicht auf `node` — gemessen (nicht
-      angenommen): der `claude`-Prozess selbst wechselt sein Arbeitsverzeichnis
+   2. „Läuft da was" filtert auf den Prozess der Agentensitzung, nicht auf `node` — gemessen
+      (nicht angenommen): dieser Prozess selbst wechselt sein Arbeitsverzeichnis
       NIE (jede Sitzung zeigt in `lsof` dieselbe Haupt-cwd, unabhängig vom
       Scratchpad-Baum, in dem sie tatsächlich arbeitet). Was tatsächlich in den
       Baum wechselt, sind ihre Kindprozesse (Bash-Aufrufe, `node --test`,

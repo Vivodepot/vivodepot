@@ -2,7 +2,7 @@
   "modulTyp": "bereicheBekannt",
   "neu": {
     "pro-vertretung-vollmachten": {
-      "label": "Vertretung und Vollmachten",
+      "label": "Vollmachten",
       "icon": "scale",
       "merkmale": [
         "vorsorgeRegal"
@@ -197,6 +197,85 @@
                   "label": "Erreichbarkeit"
                 }
               ]
+            },
+            {
+              "id": "tpl_internal_limits_on_authority",
+              "typ": "textarea",
+              "label": "Interne Beschränkungen der Geschäftsführung",
+              "hint": "Welche Geschäfte brauchen die Zustimmung der Gesellschafter? Wo ist das festgelegt (Satzung, Geschäftsordnung, Beschluss)?"
+            },
+            {
+              "id": "tpl_exemption_from_self_dealing",
+              "typ": "auswahl",
+              "label": "Befreiung vom Insichgeschäft",
+              "hint": "Ist jemand von der Beschränkung für Geschäfte mit sich selbst befreit?",
+              "optionen": [
+                {
+                  "wert": "ja",
+                  "label": "Ja"
+                },
+                {
+                  "wert": "nein",
+                  "label": "Nein"
+                },
+                {
+                  "wert": "weiss_nicht",
+                  "label": "Weiß nicht"
+                }
+              ]
+            },
+            {
+              "id": "tpl_exemption_from_self_dealing_details",
+              "typ": "text",
+              "label": "Befreiung vom Insichgeschäft: wer, und wo steht es",
+              "hint": "Wer ist befreit, und wo ist es festgehalten?"
+            },
+            {
+              "id": "tpl_domestic_business_address",
+              "typ": "text",
+              "label": "Inländische Geschäftsanschrift",
+              "hint": "Die im Register eingetragene Anschrift."
+            },
+            {
+              "id": "tpl_authorised_recipient",
+              "typ": "text",
+              "label": "Empfangsberechtigte Person",
+              "hint": "Falls eingetragen: wer Schriftstücke für die Gesellschaft entgegennehmen darf."
+            },
+            {
+              "id": "tpl_who_may_grant_prokura",
+              "typ": "text",
+              "label": "Wer Prokura erteilen darf",
+              "hint": "Wer kann im Unternehmen Prokura erteilen oder widerrufen?"
+            },
+            {
+              "id": "tpl_managing_director_register_details",
+              "typ": "liste",
+              "label": "Geschäftsführung laut Register",
+              "hint": "Die im Handelsregister eingetragenen Angaben jeder Geschäftsführerin und Stellvertreterin.",
+              "sensibel": true,
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_date_of_birth",
+                  "typ": "datum",
+                  "label": "Geburtsdatum"
+                },
+                {
+                  "id": "tpl_place_of_residence",
+                  "typ": "text",
+                  "label": "Wohnort"
+                },
+                {
+                  "id": "tpl_power_of_representation",
+                  "typ": "text",
+                  "label": "Vertretungsbefugnis"
+                }
+              ]
             }
           ]
         },
@@ -213,6 +292,93 @@
               "id": "tpl_betreuungsverfuegung_ablageort",
               "typ": "text",
               "label": "Betreuungsverfügung — Ablageort"
+            },
+            {
+              "id": "tpl_third_parties_notified_of_authority",
+              "typ": "liste",
+              "label": "Wem eine Vollmacht mitgeteilt wurde",
+              "hint": "Banken, Geschäftspartner oder Behörden, denen eine Vollmacht bekannt gegeben ist.",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_power_of_attorney",
+                  "typ": "text",
+                  "label": "Vollmacht"
+                },
+                {
+                  "id": "tpl_notified_on",
+                  "typ": "datum",
+                  "label": "Mitgeteilt am"
+                }
+              ]
+            },
+            {
+              "id": "tpl_power_of_attorney_original",
+              "typ": "liste",
+              "label": "Vollmachtsurkunden",
+              "hint": "Wo liegt das Original, und wurde eine erloschene Vollmacht zurückgegeben?",
+              "unterFelder": [
+                {
+                  "id": "tpl_power_of_attorney",
+                  "typ": "text",
+                  "label": "Vollmacht"
+                },
+                {
+                  "id": "tpl_original_kept_at",
+                  "typ": "text",
+                  "label": "Verbleib des Originals"
+                },
+                {
+                  "id": "tpl_returned_on",
+                  "typ": "datum",
+                  "label": "Zurückgegeben am"
+                }
+              ]
+            },
+            {
+              "id": "tpl_court_approval_for_business",
+              "typ": "textarea",
+              "label": "Gerichtliche Genehmigungen",
+              "hint": "Falls eine Betreuung besteht: liegt eine Genehmigung des Betreuungsgerichts für das Erwerbsgeschäft oder eine Prokura vor? Aktenzeichen, Datum."
+            },
+            {
+              "id": "tpl_tax_authority_power_of_attorney",
+              "typ": "liste",
+              "label": "Vollmachten gegenüber dem Finanzamt",
+              "hint": "Wer darf gegenüber dem Finanzamt handeln, und in welchem Umfang?",
+              "unterFelder": [
+                {
+                  "id": "tpl_authorised_person",
+                  "typ": "text",
+                  "label": "Bevollmächtigte"
+                },
+                {
+                  "id": "tpl_scope",
+                  "typ": "text",
+                  "label": "Umfang"
+                },
+                {
+                  "id": "tpl_tax_office",
+                  "typ": "text",
+                  "label": "Finanzamt"
+                }
+              ]
+            },
+            {
+              "id": "tpl_prokura_scope",
+              "typ": "textarea",
+              "label": "Umfang der Prokura",
+              "hint": "Darf die Prokura auch Grundstücke veräußern oder belasten? Ist sie auf eine Filiale beschränkt?"
+            },
+            {
+              "id": "tpl_central_register_of_powers",
+              "typ": "text",
+              "label": "Zentrales Vorsorgeregister",
+              "hint": "Falls eingetragen: wann, und welche Vollmacht?"
             }
           ]
         },
@@ -233,7 +399,7 @@
       "clusterTitel": "Vertretung & Nachfolge"
     },
     "pro-gesellschaft-nachfolge": {
-      "label": "Gesellschaft und Nachfolgeregelung",
+      "label": "Gesellschaft und Nachfolge",
       "icon": "landmark",
       "sektionen": [
         {
@@ -377,6 +543,89 @@
           ]
         },
         {
+          "id": "gesellschafter-und-anteile",
+          "label": "Gesellschafter und Anteile",
+          "felder": [
+            {
+              "id": "tpl_outstanding_capital_contributions",
+              "typ": "textarea",
+              "label": "Offene Einlagen",
+              "hint": "Sind auf Geschäftsanteile noch Einlagen offen? Auf welchen Anteil, in welcher Höhe?"
+            },
+            {
+              "id": "tpl_partner_personal_details",
+              "typ": "liste",
+              "label": "Gesellschafterinnen und Gesellschafter",
+              "hint": "Die im Register angemeldeten Angaben jeder Gesellschafterin.",
+              "sensibel": true,
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_date_of_birth",
+                  "typ": "datum",
+                  "label": "Geburtsdatum"
+                },
+                {
+                  "id": "tpl_place_of_residence",
+                  "typ": "text",
+                  "label": "Wohnort"
+                }
+              ]
+            },
+            {
+              "id": "tpl_beneficial_owners",
+              "typ": "liste",
+              "label": "Wirtschaftlich Berechtigte",
+              "hint": "Wer steht wirtschaftlich hinter dem Unternehmen, und wann wurde zuletzt an das Transparenzregister gemeldet?",
+              "sensibel": true,
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_nature_and_extent_of_interest",
+                  "typ": "text",
+                  "label": "Art und Umfang des Interesses"
+                },
+                {
+                  "id": "tpl_nationality",
+                  "typ": "text",
+                  "label": "Staatsangehörigkeit"
+                },
+                {
+                  "id": "tpl_reported_on",
+                  "typ": "datum",
+                  "label": "Gemeldet am"
+                }
+              ]
+            },
+            {
+              "id": "tpl_settlement_on_leaving",
+              "typ": "textarea",
+              "label": "Abfindung beim Ausscheiden",
+              "hint": "Was gilt, wenn eine Gesellschafterin ausscheidet? Wo ist es geregelt?"
+            },
+            {
+              "id": "tpl_share_transfer_and_redemption",
+              "typ": "textarea",
+              "label": "Übertragung und Einziehung von Anteilen",
+              "hint": "Braucht die Übertragung eines Anteils die Zustimmung der Mitgesellschafter? Erlaubt die Satzung eine Einziehung? Wo steht es?"
+            },
+            {
+              "id": "tpl_succession_evidence_documents",
+              "typ": "text",
+              "label": "Nachweise der Rechtsnachfolge",
+              "hint": "Wo liegen Urkunden, mit denen eine Rechtsnachfolge im Register nachgewiesen wird?"
+            }
+          ]
+        },
+        {
           "id": "allgemein",
           "label": "Allgemein",
           "felder": [
@@ -393,7 +642,7 @@
       "clusterTitel": "Vertretung & Nachfolge"
     },
     "pro-finanzen-verbindlichkeiten": {
-      "label": "Finanzen und Verbindlichkeiten",
+      "label": "Finanzen",
       "icon": "wallet",
       "sektionen": [
         {
@@ -538,7 +787,200 @@
             {
               "id": "tpl_versorgungslage_der_familie_im_ausfall",
               "typ": "text",
-              "label": "Versorgungslage der Familie im Ausfall"
+              "label": "Versorgungslage der Familie"
+            }
+          ]
+        },
+        {
+          "id": "abschluss-und-steuern",
+          "label": "Abschluss und Steuern",
+          "felder": [
+            {
+              "id": "tpl_bookkeeping_type",
+              "typ": "auswahl",
+              "label": "Art der Buchführung",
+              "hint": "Wie wird der Gewinn ermittelt?",
+              "optionen": [
+                {
+                  "wert": "bilanz",
+                  "label": "Bilanz"
+                },
+                {
+                  "wert": "einnahmenueberschussrechnung",
+                  "label": "Einnahmenüberschussrechnung"
+                },
+                {
+                  "wert": "weiss_nicht",
+                  "label": "Weiß nicht"
+                }
+              ]
+            },
+            {
+              "id": "tpl_annual_accounts",
+              "typ": "liste",
+              "label": "Jahresabschlüsse",
+              "hint": "Wann wurde der Abschluss aufgestellt, wer hat unterzeichnet, und wo liegt er?",
+              "unterFelder": [
+                {
+                  "id": "tpl_financial_year",
+                  "typ": "text",
+                  "label": "Geschäftsjahr"
+                },
+                {
+                  "id": "tpl_prepared_on",
+                  "typ": "datum",
+                  "label": "Aufgestellt am"
+                },
+                {
+                  "id": "tpl_signed_by",
+                  "typ": "text",
+                  "label": "Unterzeichnet von"
+                },
+                {
+                  "id": "tpl_kept_at",
+                  "typ": "text",
+                  "label": "Ablageort"
+                }
+              ]
+            },
+            {
+              "id": "tpl_size_category",
+              "typ": "auswahl",
+              "label": "Größenklasse",
+              "hint": "Die Größenklasse der Gesellschaft nach dem letzten Abschluss.",
+              "optionen": [
+                {
+                  "wert": "kleinst",
+                  "label": "Kleinst"
+                },
+                {
+                  "wert": "klein",
+                  "label": "Klein"
+                },
+                {
+                  "wert": "mittel",
+                  "label": "Mittel"
+                },
+                {
+                  "wert": "gross",
+                  "label": "Groß"
+                },
+                {
+                  "wert": "weiss_nicht",
+                  "label": "Weiß nicht"
+                }
+              ]
+            },
+            {
+              "id": "tpl_approval_of_annual_accounts",
+              "typ": "liste",
+              "label": "Feststellung der Abschlüsse",
+              "hint": "Wann haben die Gesellschafter den Abschluss festgestellt?",
+              "unterFelder": [
+                {
+                  "id": "tpl_financial_year",
+                  "typ": "text",
+                  "label": "Geschäftsjahr"
+                },
+                {
+                  "id": "tpl_approved_on",
+                  "typ": "datum",
+                  "label": "Festgestellt am"
+                }
+              ]
+            },
+            {
+              "id": "tpl_disclosure_company_register",
+              "typ": "liste",
+              "label": "Offenlegung",
+              "hint": "Wann wurde der Abschluss beim Unternehmensregister eingereicht?",
+              "unterFelder": [
+                {
+                  "id": "tpl_financial_year",
+                  "typ": "text",
+                  "label": "Geschäftsjahr"
+                },
+                {
+                  "id": "tpl_filed_on",
+                  "typ": "datum",
+                  "label": "Offengelegt oder hinterlegt am"
+                }
+              ]
+            },
+            {
+              "id": "tpl_tax_matters_responsible",
+              "typ": "liste",
+              "label": "Wer die Steuern des Unternehmens erledigt",
+              "hint": "Wer gibt Erklärungen ab und zahlt die Steuern des Unternehmens?",
+              "unterFelder": [
+                {
+                  "id": "tpl_person",
+                  "typ": "text",
+                  "label": "Person"
+                },
+                {
+                  "id": "tpl_task",
+                  "typ": "text",
+                  "label": "Aufgabe"
+                }
+              ]
+            },
+            {
+              "id": "tpl_inventory_location",
+              "typ": "text",
+              "label": "Inventar",
+              "hint": "Wo liegt die letzte Aufstellung von Vermögen und Schulden?"
+            },
+            {
+              "id": "tpl_fixed_asset_register",
+              "typ": "text",
+              "label": "Anlageverzeichnis",
+              "hint": "Wo liegt das Verzeichnis des Anlagevermögens, und wer führt es?"
+            },
+            {
+              "id": "tpl_electronic_submission_of_accounts",
+              "typ": "text",
+              "label": "Elektronische Übermittlung der Abschlüsse",
+              "hint": "Wer übermittelt Bilanz oder Einnahmenüberschussrechnung elektronisch an das Finanzamt, und mit welchem Programm?"
+            },
+            {
+              "id": "tpl_contingent_liabilities",
+              "typ": "textarea",
+              "label": "Haftungsverhältnisse",
+              "hint": "Für wen haftet das Unternehmen, etwa durch Bürgschaften oder Garantien? Wo sind sie festgehalten?"
+            }
+          ]
+        },
+        {
+          "id": "liquiditaet-und-glaeubiger",
+          "label": "Liquidität und Gläubiger",
+          "felder": [
+            {
+              "id": "tpl_creditor_list_location",
+              "typ": "text",
+              "label": "Gläubigerübersicht",
+              "hint": "Wo liegt eine aktuelle Aufstellung der Gläubiger und offenen Forderungen?",
+              "sensibel": true
+            },
+            {
+              "id": "tpl_insolvency_contacts",
+              "typ": "textarea",
+              "label": "Ansprechpartner in der Krise",
+              "hint": "Wer berät in einer Zahlungskrise (Steuerberatung, Anwältin), und wie ist sie erreichbar?",
+              "sensibel": true
+            },
+            {
+              "id": "tpl_crisis_early_warning",
+              "typ": "textarea",
+              "label": "Krisenfrüherkennung",
+              "hint": "Wie wird die Liquidität überwacht, von wem, und in welchem Abstand?"
+            },
+            {
+              "id": "tpl_half_capital_loss_meeting",
+              "typ": "datum",
+              "label": "Letzte Versammlung wegen Kapitalverlust",
+              "hint": "Falls es eine gab: Datum der Gesellschafterversammlung.",
+              "sensibel": true
             }
           ]
         },
@@ -559,7 +1001,7 @@
       "clusterTitel": "Betrieb & Finanzen"
     },
     "pro-betrieb-zugaenge": {
-      "label": "Betrieb und Zugänge",
+      "label": "Betrieb",
       "icon": "lock",
       "sektionen": [
         {
@@ -694,6 +1136,29 @@
                   "label": "Wer kann zurückspielen"
                 }
               ]
+            },
+            {
+              "id": "tpl_electronic_record_keeping_systems",
+              "typ": "liste",
+              "label": "Elektronische Aufzeichnungssysteme",
+              "hint": "Kassen und ähnliche Systeme: welches System, welche Sicherheitseinrichtung, wann dem Finanzamt gemeldet?",
+              "unterFelder": [
+                {
+                  "id": "tpl_system",
+                  "typ": "text",
+                  "label": "System"
+                },
+                {
+                  "id": "tpl_security_device",
+                  "typ": "text",
+                  "label": "Sicherheitseinrichtung"
+                },
+                {
+                  "id": "tpl_notified_on",
+                  "typ": "datum",
+                  "label": "Gemeldet am"
+                }
+              ]
             }
           ]
         },
@@ -773,6 +1238,63 @@
                   "label": "Frist/Ablauf"
                 }
               ]
+            },
+            {
+              "id": "tpl_crafts_register",
+              "typ": "liste",
+              "label": "Handwerksrolle",
+              "hint": "Eintrag, Betriebsleitung, Handwerkskarte und zuständige Kammer.",
+              "unterFelder": [
+                {
+                  "id": "tpl_entry",
+                  "typ": "text",
+                  "label": "Eintrag"
+                },
+                {
+                  "id": "tpl_technical_manager",
+                  "typ": "text",
+                  "label": "Betriebsleitung"
+                },
+                {
+                  "id": "tpl_craft_card",
+                  "typ": "text",
+                  "label": "Handwerkskarte"
+                },
+                {
+                  "id": "tpl_chamber",
+                  "typ": "text",
+                  "label": "Kammer"
+                }
+              ]
+            },
+            {
+              "id": "tpl_tax_registration_of_business",
+              "typ": "liste",
+              "label": "Anzeigen an Gemeinde und Finanzamt",
+              "hint": "Eröffnung, Verlegung oder Aufgabe, wann angezeigt.",
+              "unterFelder": [
+                {
+                  "id": "tpl_occasion",
+                  "typ": "text",
+                  "label": "Anlass"
+                },
+                {
+                  "id": "tpl_notified_on",
+                  "typ": "datum",
+                  "label": "Angezeigt am"
+                },
+                {
+                  "id": "tpl_tax_office",
+                  "typ": "text",
+                  "label": "Finanzamt"
+                }
+              ]
+            },
+            {
+              "id": "tpl_business_identification_number",
+              "typ": "text",
+              "label": "Wirtschafts-Identifikationsnummer",
+              "hint": "Die W-IdNr. des Unternehmens."
             }
           ]
         },
@@ -884,6 +1406,130 @@
           ]
         },
         {
+          "id": "beschaeftigte",
+          "label": "Beschäftigte",
+          "felder": [
+            {
+              "id": "tpl_working_time_records",
+              "typ": "text",
+              "label": "Arbeitszeitaufzeichnungen",
+              "hint": "Wie und wo wird die Arbeitszeit der Beschäftigten festgehalten?"
+            },
+            {
+              "id": "tpl_risk_assessment_and_safety_staff",
+              "typ": "liste",
+              "label": "Arbeitsschutz",
+              "hint": "Wo liegt die Gefährdungsbeurteilung? Wer ist Betriebsärztin und Fachkraft für Arbeitssicherheit?",
+              "unterFelder": [
+                {
+                  "id": "tpl_risk_assessment_kept_at",
+                  "typ": "text",
+                  "label": "Gefährdungsbeurteilung: Ablageort"
+                },
+                {
+                  "id": "tpl_company_doctor",
+                  "typ": "text",
+                  "label": "Betriebsärztin oder Betriebsarzt"
+                },
+                {
+                  "id": "tpl_safety_specialist",
+                  "typ": "text",
+                  "label": "Fachkraft für Arbeitssicherheit"
+                }
+              ]
+            },
+            {
+              "id": "tpl_accident_insurance_membership",
+              "typ": "liste",
+              "label": "Unfallversicherung",
+              "hint": "Zuständige Berufsgenossenschaft, Unternehmernummer, Termin des Lohnnachweises.",
+              "unterFelder": [
+                {
+                  "id": "tpl_insurance_body",
+                  "typ": "text",
+                  "label": "Berufsgenossenschaft"
+                },
+                {
+                  "id": "tpl_membership_number",
+                  "typ": "text",
+                  "label": "Mitglieds- oder Unternehmernummer"
+                },
+                {
+                  "id": "tpl_payroll_report_date",
+                  "typ": "datum",
+                  "label": "Lohnnachweis bis"
+                }
+              ]
+            },
+            {
+              "id": "tpl_employer_number",
+              "typ": "text",
+              "label": "Betriebsnummer",
+              "hint": "Die Betriebsnummer des Unternehmens für die Sozialversicherung."
+            },
+            {
+              "id": "tpl_social_security_contributions",
+              "typ": "liste",
+              "label": "Sozialversicherungsbeiträge",
+              "hint": "An welche Einzugsstellen gehen die Beiträge, und wer reicht die Beitragsnachweise ein?",
+              "unterFelder": [
+                {
+                  "id": "tpl_collecting_agency",
+                  "typ": "text",
+                  "label": "Einzugsstelle"
+                },
+                {
+                  "id": "tpl_statements_submitted_by",
+                  "typ": "text",
+                  "label": "Beitragsnachweis durch"
+                }
+              ]
+            },
+            {
+              "id": "tpl_payroll_records",
+              "typ": "textarea",
+              "label": "Lohnkonten und Entgeltunterlagen",
+              "hint": "Wo werden Lohnkonten und Entgeltunterlagen geführt, von wem, mit welchem Programm?"
+            }
+          ]
+        },
+        {
+          "id": "datenschutz",
+          "label": "Datenschutz",
+          "felder": [
+            {
+              "id": "tpl_record_of_processing",
+              "typ": "text",
+              "label": "Verzeichnis der Verarbeitungstätigkeiten",
+              "hint": "Wo liegt es, und wer pflegt es?"
+            },
+            {
+              "id": "tpl_data_protection_officer",
+              "typ": "text",
+              "label": "Datenschutzbeauftragte",
+              "hint": "Falls benannt: Name und Kontakt."
+            },
+            {
+              "id": "tpl_data_processing_agreements",
+              "typ": "liste",
+              "label": "Verträge zur Auftragsverarbeitung",
+              "hint": "Welche Dienstleister verarbeiten Daten im Auftrag, und wo liegen die Verträge?",
+              "unterFelder": [
+                {
+                  "id": "tpl_service_provider",
+                  "typ": "text",
+                  "label": "Dienstleister"
+                },
+                {
+                  "id": "tpl_agreement_kept_at",
+                  "typ": "text",
+                  "label": "Vertrag: Ablageort"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "id": "allgemein",
           "label": "Allgemein",
           "felder": [
@@ -900,7 +1546,7 @@
       "clusterTitel": "Betrieb & Finanzen"
     },
     "pro-aufbewahrung-ordnung": {
-      "label": "Aufbewahrung und Ordnung",
+      "label": "Unterlagen",
       "icon": "save",
       "sektionen": [
         {
@@ -979,6 +1625,18 @@
                   "label": "Frist"
                 }
               ]
+            },
+            {
+              "id": "tpl_storage_form_and_reader",
+              "typ": "textarea",
+              "label": "Form der Aufbewahrung",
+              "hint": "Papier oder elektronisch? Welche Programme oder Geräte braucht man, um die Unterlagen zu lesen?"
+            },
+            {
+              "id": "tpl_records_integrity_notes",
+              "typ": "textarea",
+              "label": "Hinweise zu den Unterlagen",
+              "hint": "Verwendete Abkürzungen, Kennzeichen oder Sprachen, die ein Dritter kennen muss."
             }
           ]
         },
@@ -1011,6 +1669,30 @@
           ]
         },
         {
+          "id": "pruefungen",
+          "label": "Prüfungen",
+          "felder": [
+            {
+              "id": "tpl_tax_audit_contact",
+              "typ": "text",
+              "label": "Ansprechperson bei einer Außenprüfung",
+              "hint": "Wer begleitet eine Betriebsprüfung des Finanzamts?"
+            },
+            {
+              "id": "tpl_social_security_audit",
+              "typ": "text",
+              "label": "Prüfung durch die Rentenversicherung",
+              "hint": "Wer liefert die Daten für die Betriebsprüfung, und über welches Programm?"
+            },
+            {
+              "id": "tpl_tax_data_access",
+              "typ": "textarea",
+              "label": "Datenzugriff bei einer Außenprüfung",
+              "hint": "Wie erhält eine Prüferin Zugriff auf die Daten, auch bei Dienstleistern und in früher genutzten Programmen?"
+            }
+          ]
+        },
+        {
           "id": "allgemein",
           "label": "Allgemein",
           "felder": [
@@ -1027,7 +1709,7 @@
       "clusterTitel": "Betrieb & Finanzen"
     },
     "pro-kontakte-vertretungsplan": {
-      "label": "Kontakte und Vertretungsplan",
+      "label": "Kontakte und Vertretung",
       "icon": "users",
       "sektionen": [
         {
@@ -1076,6 +1758,65 @@
                   "id": "tpl_vertretung_ab_wann",
                   "typ": "datum",
                   "label": "Vertretung ab wann"
+                }
+              ]
+            },
+            {
+              "id": "tpl_substitute_technical_manager",
+              "typ": "text",
+              "label": "Ersatz-Betriebsleitung",
+              "hint": "Wer könnte die Betriebsleitung übernehmen?"
+            },
+            {
+              "id": "tpl_deputy_permit",
+              "typ": "text",
+              "label": "Stellvertretungserlaubnis",
+              "hint": "Falls vorhanden: für wen, von welcher Behörde, bis wann."
+            }
+          ]
+        },
+        {
+          "id": "benannte-personen",
+          "label": "Benannte Personen",
+          "felder": [
+            {
+              "id": "tpl_first_aid_fire_evacuation_staff",
+              "typ": "liste",
+              "label": "Erste Hilfe, Brandschutz, Räumung",
+              "hint": "Wer ist dafür benannt?",
+              "unterFelder": [
+                {
+                  "id": "tpl_task",
+                  "typ": "text",
+                  "label": "Aufgabe"
+                },
+                {
+                  "id": "tpl_person",
+                  "typ": "text",
+                  "label": "Person"
+                }
+              ]
+            },
+            {
+              "id": "tpl_delegated_safety_duties",
+              "typ": "liste",
+              "label": "Übertragene Aufgaben im Arbeitsschutz",
+              "hint": "Wem wurden Aufgaben im Arbeitsschutz schriftlich übertragen?",
+              "unterFelder": [
+                {
+                  "id": "tpl_task",
+                  "typ": "text",
+                  "label": "Aufgabe"
+                },
+                {
+                  "id": "tpl_person",
+                  "typ": "text",
+                  "label": "Person"
+                },
+                {
+                  "id": "tpl_delegated_on",
+                  "typ": "datum",
+                  "label": "Übertragen am"
                 }
               ]
             }

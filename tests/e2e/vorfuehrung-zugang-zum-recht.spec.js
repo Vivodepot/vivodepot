@@ -148,7 +148,10 @@ async function auszugImFrischenDepot(page, produktUrl) {
 }
 
 test('Beratungshilfe-Auszug — Sperrfall: die englische Altdatei mit eingelassenem Sprachmodul zeigt den Sperr-Hinweis, der Auszug bleibt englisch', async ({ page }) => {
-  const overlay = await vorfuehrlauf(page, { depotDatei: 'altdatei-demo-en-2026-09-10.vivodepot', spracheLabel: 'EN-Altdatei', schrittPrefix: 'en-alt', produktUrl: KERN_URL_PRIVAT_EN, gesperrt: 'textsatz · en' });
+  // Der Sperr-Hinweis nennt das mitgebrachte Modul mit Art und Sprache. Bis v920 als technische Kennung („textsatz · en“),
+  // seit v921 in der Benutzersicht ohne technische Namen (strings:modulArtTextsatz „Labels“ · Sprachname „English“).
+  // Geprüft wird dieselbe Aussage: der Hinweis benennt genau dieses Modul.
+  const overlay = await vorfuehrlauf(page, { depotDatei: 'altdatei-demo-en-2026-09-10.vivodepot', spracheLabel: 'EN-Altdatei', schrittPrefix: 'en-alt', produktUrl: KERN_URL_PRIVAT_EN, gesperrt: 'Labels · English' });
   await expect(overlay).toContainText('About the applicant');
   await expect(overlay).toContainText('First name? Elisabeth');
 });

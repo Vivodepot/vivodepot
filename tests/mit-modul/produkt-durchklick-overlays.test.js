@@ -7,7 +7,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { VOLLBILD_OVERLAYS } = require('../../tools/produkt-durchklick-messen.js');
+const { VOLLBILD_OVERLAYS } = require('../../tools/lib/vollbild-overlays.js');
 
 const REPO = path.join(__dirname, '..', '..');
 

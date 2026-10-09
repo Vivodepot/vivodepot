@@ -1,0 +1,87 @@
+{
+ "beschreibung": "Ratsche „Anordnung im Gerüst“ (U2-ADR-473 W6): Funktionen, die Rahmen-Markup fest schreiben, und das statische Markup von Kopf und Tab-Leiste (Zahl und Folge der Elemente). Darf nur sinken; W3b senkt auf 0. `schutz`: fest gewollte Schreibwege geschützter Anzeigen, je mit Grund und eigenem Wort. Zählweg: node tools/geruest-anordnung-pruefen.js",
+ "funktionen": [
+  "renderFooter",
+  "renderSidebar"
+ ],
+ "kopf": {
+  "anzahl": 51,
+  "folge": [
+   "header.topbar",
+   "button#tb-menue.a11y-btn",
+   "span.ico",
+   "button#tb-marke.marke",
+   "span.logo-mark",
+   "svg.logo-svg",
+   "use",
+   "span.logo-wort",
+   "span.lw-vivo",
+   "span.lw-depot",
+   "div.depot-pille-wrap",
+   "button#tb-depot-pille.depot-pille",
+   "span.dp-punkt",
+   "span#tb-depot-name",
+   "span.dp-chevron",
+   "div#tb-depot-menue.depot-menue",
+   "button#tb-depot-menue-liste.depot-menue-eintrag",
+   "button#tb-depot-menue-verwaltung.depot-menue-eintrag",
+   "button#tb-depot-menue-sicherungskopie.depot-menue-eintrag",
+   "span#tb-sub-hinweis.tb-sub-hinweis",
+   "span.tb-sub-punkt",
+   "span#tb-sub-name",
+   "button#tb-pw-hinweis.tb-pw-hinweis",
+   "span.ico",
+   "span.tb-pw-text",
+   "span.tb-pw-cta",
+   "span.tb-pw-cta-kurz",
+   "div#tb-save-status.tb-save-status",
+   "span.ico",
+   "span.tb-save-text",
+   "button#tb-save-knopf.tb-save-knopf",
+   "span.spacer",
+   "div#tb-a11y.a11y-leiste",
+   "button#tb-schrift.a11y-btn",
+   "span",
+   "button#tb-kontrast.a11y-btn",
+   "span.ico",
+   "button#tb-nacht.a11y-btn",
+   "span.ico",
+   "button#tb-vorlesen.a11y-btn",
+   "span.ico",
+   "button#tb-einstellungen.a11y-btn",
+   "span.ico",
+   "button#tb-schliessen.a11y-btn",
+   "span.ico",
+   "span.dev-leiste",
+   "span#tb-dev-label",
+   "select#tb-modus-select",
+   "option",
+   "option",
+   "option"
+  ]
+ },
+ "tabLeiste": {
+  "anzahl": 13,
+  "folge": [
+   "nav#bottom-tabs.bottom-tabs",
+   "button#bt-eintragen.bt-tab",
+   "span.ico",
+   "span.bt-label",
+   "button#bt-herausgeben.bt-tab",
+   "span.ico",
+   "span.bt-label",
+   "button#bt-einlesen.bt-tab",
+   "span.ico",
+   "span.bt-label",
+   "button#bt-verwaltet.bt-tab",
+   "span.ico",
+   "span.bt-label"
+  ]
+ },
+ "schutz": [
+  {
+   "name": "_staleCacheWarnungAnzeigen",
+   "grund": "hängt die Warnung „veraltete Fassung im Speicher“ (ff-stale-warnung, geschützte Anzeige: Warnungen) an die Fußzeile; sie muss in jedem Layout erscheinen und ist darum fest gewollt (U2-ADR-473 Nachtrag v894, Schutz gewinnt). Wort der Gegenlesung einzeln."
+  }
+ ]
+}

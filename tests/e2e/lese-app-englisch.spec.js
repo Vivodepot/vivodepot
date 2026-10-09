@@ -109,7 +109,9 @@ test('[Lese-App·Vorsprache] nach dem Entschlüsseln gilt die Sprache der DATEI,
 test('[Lese-App·Vorsprache] der Kopf der Datei verrät die Sprache nicht: die Datei trägt keinen Klartext-Sprachhinweis', async () => {
   const pfad = await depotDatei('en');
   const roh = fs.readFileSync(pfad, 'utf8');
-  const kopf = JSON.parse(roh.slice(roh.indexOf('{')));
+  const kopfAnfang = roh.indexOf('{');
+  expect(kopfAnfang, 'die Depotdatei trägt einen JSON-Kopf').toBeGreaterThanOrEqual(0);
+  const kopf = JSON.parse(roh.slice(kopfAnfang));
   expect(JSON.stringify(Object.keys(kopf))).not.toMatch(/sprache|lang|locale/i);
   expect(roh).not.toContain('textsprache');
 });

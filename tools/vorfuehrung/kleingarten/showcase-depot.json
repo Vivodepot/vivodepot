@@ -1,0 +1,71 @@
+{
+ "format": "showcaseDepot/1",
+ "owner": "Bernd Mustermann",
+ "hinweis": "Erfundenes Vereinsmitglied mit Parzelle, für die Demo Kleingartenverein. Der Pachtvertrag liegt im Bereich Wohnen, die Schlüssel im Bereich Verwaltung. Keine echten Nummern, Telefon im reservierten Beispielbereich.",
+ "people": [
+  {
+   "key": "nachbarin",
+   "name": "Halina",
+   "beziehung": "Parzellennachbarin",
+   "tel": "+49 30 0000020"
+  },
+  {
+   "key": "vorstand",
+   "name": "Kleingartenverein Beispielgrund e.V.",
+   "tel": "+49 30 0000021",
+   "adresse": "Beispielgrund 1, 10000 Beispielstadt"
+  },
+  {
+   "key": "tochter",
+   "name": "Rieke",
+   "beziehung": "Tochter",
+   "tel": "+49 30 0000022"
+  }
+ ],
+ "institutions": [
+  {
+   "key": "verein",
+   "name": "Kleingartenverein Beispielgrund e.V.",
+   "art": "verein"
+  }
+ ],
+ "fields": {
+  "identity.givenName": "Bernd",
+  "identity.familyName": "Mustermann",
+  "identity.birthDate": "1957-05-02",
+  "housing.ownedOrRented": "miete",
+  "housing.landlordPropertyManagement": {
+   "person": "vorstand"
+  },
+  "housing.tenancyAgreementStorage": "Pachtvertrag Parzelle 27, Ordner „Garten“, Regal links",
+  "housing.specialLivingSituation": "Kleingarten, Parzelle 27, Laube mit Gerätehaus",
+  "administration.keyStorageLocation": "Torschlüssel und Laubenschlüssel am Schlüsselbrett in der Diele, Gerätehausschlüssel in der Laube"
+ },
+ "lists": {
+  "administration.homeKeyWhoHoldsOne": [
+   {
+    "who": {
+     "person": "nachbarin"
+    },
+    "note": "Parzelle 28, Tor und Laube"
+   },
+   {
+    "who": {
+     "person": "tochter"
+    },
+    "note": "Tor, Laube, Gerätehaus"
+   }
+  ]
+ },
+ "uebersetzung": {
+  "en": {
+   "fields.housing.tenancyAgreementStorage": "Tenancy agreement (allotment lease) for plot 27, “Garden” folder, shelf on the left",
+   "fields.housing.specialLivingSituation": "Allotment garden, plot 27, cabin with tool shed",
+   "fields.administration.keyStorageLocation": "Gate key and cabin key on the key rack in the hallway, tool shed key in the cabin",
+   "lists.administration.homeKeyWhoHoldsOne.0.note": "Plot 28, gate and cabin",
+   "lists.administration.homeKeyWhoHoldsOne.1.note": "Gate, cabin, tool shed",
+   "people.nachbarin.beziehung": "plot neighbour",
+   "people.tochter.beziehung": "daughter"
+  }
+ }
+}

@@ -16,7 +16,7 @@
   ],
   "neu": {
     "pro-vertretung-vollmachten": {
-      "label": "Vertretung und Vollmachten",
+      "label": "Vollmachten",
       "icon": "scale",
       "merkmale": [
         "vorsorgeRegal"
@@ -247,7 +247,7 @@
       "clusterTitel": "Vertretung & Nachfolge"
     },
     "pro-gesellschaft-nachfolge": {
-      "label": "Gesellschaft und Nachfolgeregelung",
+      "label": "Gesellschaft und Nachfolge",
       "icon": "landmark",
       "sektionen": [
         {
@@ -407,7 +407,7 @@
       "clusterTitel": "Vertretung & Nachfolge"
     },
     "pro-finanzen-verbindlichkeiten": {
-      "label": "Finanzen und Verbindlichkeiten",
+      "label": "Finanzen",
       "icon": "wallet",
       "sektionen": [
         {
@@ -573,7 +573,7 @@
       "clusterTitel": "Betrieb & Finanzen"
     },
     "pro-betrieb-zugaenge": {
-      "label": "Betrieb und Zugänge",
+      "label": "Betrieb",
       "icon": "lock",
       "sektionen": [
         {
@@ -914,7 +914,7 @@
       "clusterTitel": "Betrieb & Finanzen"
     },
     "pro-aufbewahrung-ordnung": {
-      "label": "Aufbewahrung und Ordnung",
+      "label": "Unterlagen",
       "icon": "save",
       "sektionen": [
         {
@@ -1041,7 +1041,7 @@
       "clusterTitel": "Betrieb & Finanzen"
     },
     "pro-kontakte-vertretungsplan": {
-      "label": "Kontakte und Vertretungsplan",
+      "label": "Kontakte und Vertretung",
       "icon": "users",
       "sektionen": [
         {

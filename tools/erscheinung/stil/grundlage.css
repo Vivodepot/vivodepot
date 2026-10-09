@@ -417,6 +417,10 @@
     color: var(--vd-branding-topbar-text, var(--auf-akzent));
     display: flex; align-items: center; gap: var(--space-4);
     padding: 0 var(--space-5); border-bottom: 3px solid var(--akzent);
+    /* Eigene Ebene über dem Inhalt (07.10.2026): setzt ein Profil backdrop-filter auf die Kopfzeile, wird sie ein eigener
+       Stapelkontext, und ihre Aufklapp-Menüs (z-index 60) zählen nur noch darin — die später gezeichneten Glas-Karten lagen
+       dann darüber, „Sicherungskopie erstellen“ war nicht klickbar. Dieselbe Ebene wie auf dem Handy (sticky, 95). */
+    position: relative; z-index: 95;
   }
   /* Logo (Struktur-Spec §3): Bildmarke auf cremefarbenem Plättchen + Wortzug. Ganzes Element = Home-Klick. */
   .topbar .marke { display: inline-flex; align-items: center; gap: var(--space-2);
@@ -544,25 +548,11 @@
      jetzt dieselbe Klapp-Struktur wie die dreizehn echten Bereiche, dazu ein eigenes Icon in der
      Summary als Nicht-nativ-Kennzeichnung — kein neuer Text, nur ein zusätzliches Zeichen davor. */
   .sidebar .nav-gruppe-fremd > summary .ico { flex: 0 0 auto; margin-right: var(--space-2); opacity: 0.7; }
-  /* Fortsetzen-Fokus (Klick-Dummy validiert, 26.08.2026): "Alle Bereiche zeigen" — derselbe
-     Umschalter-Stil wie .nav-gruppe (eine Hierarchiestufe höher, umschließt die ganzen Cluster). */
-  /* Zieht denselben Gewichtsschritt mit wie .nav-gruppe > summary (Gesamtbild-UX-Konzept,
-     Abschnitt A, 27.08.2026) — sonst driften zwei als „derselbe Umschalter-Stil" gedachte
-     Regeln wieder auseinander, genau das Muster, das U2-ADR-171 hier schon einmal behoben hat. */
-  /* Pro mit der Struktur von Privat (17.09.2026): Der Umschalter sah aus wie die Cluster-Überschriften
-     darunter und wie „Weitere Bereiche“ daneben — drei gleich klingende Ebenen, eine davon enthält
-     die anderen. Er wird darum als Umschalter gezeichnet, nicht als Überschrift: kleiner, ohne
-     Fettdruck, gedämpfte Farbe. Die Cluster stehen eine Stufe eingerückt darunter. Wörter bleiben. */
-  .sidebar .bereiche-umschalter > summary {
-    list-style: none; cursor: pointer; display: flex; align-items: center; width: 100%;
-    font-size: var(--fs-xs); font-weight: var(--fw-medium); color: var(--ink3);
-    padding: 6px var(--space-5) 4px; min-height: 24px;
-  }
-  .sidebar .bereiche-umschalter > .nav-gruppe > summary { padding-left: calc(var(--space-5) + var(--space-3)); }
-  .sidebar .bereiche-umschalter > .nav-gruppe .nav-item[data-sektor] { padding-left: calc(var(--space-5) + var(--space-3) + var(--space-3)); }
-  .sidebar .bereiche-umschalter > summary::-webkit-details-marker { display: none; }
-  .sidebar .bereiche-umschalter > summary::after { content: '▾'; margin-left: auto; transition: transform 0.15s ease; }
-  .sidebar .bereiche-umschalter[open] > summary::after { transform: rotate(180deg); }
+  /* Navigation A (05.10.2026): der Umschalter „Alle Bereiche zeigen“ (26.08.2026) ist entfallen — die Cluster stehen direkt
+     unter dem Titel „Bereiche“ und tragen den .nav-gruppe-Stil oben; keine eigene Einrückungsstufe mehr. */
+  /* Navigation A (05.10.2026): „Austausch und Überblick“ ist kein Bereich — eine Linie trennt ihn von den Clustern darüber,
+     derselbe Strich wie über „Depot verlassen“. */
+  .sidebar .nav-gruppe-austausch { border-top: 1px solid var(--line); margin-top: var(--space-2); padding-top: var(--space-1); }
   .sidebar .nav-item-klein { font-size: var(--fs-xs); color: var(--ink3); padding: 6px var(--space-5); border-top: 1px solid var(--line); margin-top: var(--space-2); }
   /* U2-ADR-174 — Karten-Baustein (UX-Designsprache Karten-Baustein vom 25.08.2026):
      dieselbe Rand+Schatten+Rundung-Kombination wie .modal (Zeile 1424) und das bestehende .karte
@@ -1180,6 +1170,10 @@
      Widerspruch, kein Einzelfall — betrifft „Neuer Eintrag" (Kind/Institution) UND den
      verschachtelten Kind-Inline-Editor gleichermaßen (dieselbe Klasse, derselbe Kontext). */
   .liste-eintrag-form .feld-zeile-sub { grid-template-columns: 1fr; gap: var(--space-1); padding: var(--space-1) 0; border-top: none; }
+  /* Hinzufügen (07.10.2026): der erste Eintrag einer leeren Liste steht als Eingaben im Bereich; „Alle Angaben“ ist ein leiser Verweis. */
+  .liste-inline { display: flex; flex-direction: column; gap: var(--space-1); }
+  .liste-alle-angaben { align-self: flex-start; background: none; border: 0; padding: 2px 0; min-height: 24px; color: var(--link); font: inherit;
+    font-size: var(--fs-sm); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   /* U2-ADR-064: conditional Unterfeld-Zeile ausgeblendet (schlägt das grid-display der .feld-zeile). */
   
   /* Ref-Picker — Dropdown plus Override-Freitext nebeneinander. */
@@ -1377,7 +1371,10 @@
   .modal-fehler[hidden] { display: none; }
   /* Beschäftigt-Zustand des Anlegen-Knopfs: ausgegraut + kleiner, drehender Ring,
      damit die mehrere Sekunden lange PBKDF2-Ableitung nicht wie ein Einfrieren wirkt. */
-  .btn[disabled], .btn:disabled { opacity: 0.65; cursor: default; }
+  /* Deaktiviert: ruhige Fläche statt Abblenden. opacity 0.65 ergab auf den Glasflächen 1,99:1 (Ebenen-Finder, 07.10.2026); die Schrift
+     bleibt lesbar (≥ 4,5:1 in Hell, Nacht, Hochkontrast), und Hover und Druck ändern nichts, damit der Knopf nicht bedienbar wirkt. */
+  .btn[disabled], .btn:disabled { opacity: 1; cursor: default; background: var(--salbei-light); color: var(--ink2); border-color: transparent; box-shadow: none; }
+  html .btn:is([disabled], :disabled):is(:hover, :active) { background: var(--salbei-light); color: var(--ink2); }
   .btn-laeuft { position: relative; }
   .btn-laeuft::before { content: ""; display: inline-block; width: 14px; height: 14px; margin-right: var(--space-2);
     vertical-align: -2px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%;
@@ -1633,8 +1630,10 @@
      Toast MIT Knopf (aktion) schon eine eigene Handlung trägt; die Fläche bleibt dort bewusst
      ohne Klick-Zusage, sonst konkurriert ein Flächen-Klick mit dem Knopf. */
   .toast:not(.toast-tipp) { cursor: pointer; }
-  .toast.fehler { background: var(--error); }
-  .toast.ok { background: var(--success); }
+  /* Schrift auf der farbigen Fläche: --auf-akzent, nicht --white — --white wird nachts selbst dunkel (#1f261f) und lag auf --success/--error
+     bei 2,40 bzw. 2,85:1 (Befund TOAST-NACHT-KONTRAST, 06.10.2026). */
+  .toast.fehler { background: var(--error); color: var(--auf-akzent); }
+  .toast.ok { background: var(--success); color: var(--auf-akzent); }
   /* §2 (U2-ADR-024): im Sub-Depot tragen Erfolgs- + neutrale Toasts den Sub-Akzent (--akzent an der
      Wurzel). Fehler (--error) und Warnung (--warning) behalten ihre Funktions-Signalfarben — Sicherheits-
      Signale werden nie überfärbt. Scope html.vm-akzent → nur im Sub-Kontext, Anker bleibt unverändert. */
@@ -2007,6 +2006,10 @@
   /* Phase-1-Nachbesserung: die Liste WÄCHST mit dem längsten Namen (width:max-content) statt zu kürzen — min =
      Feldbreite, Max = Viewport (setzt _refMehrfachVerdrahten). Ellipsis nur als allerletzte Reserve, wenn Max greift.
      Klar als Auswahl erkennbar: kräftiger Rahmen + Schatten, Optionen mit Trennlinie/Hover, Tap-Höhe ≥44px. */
+  /* Eine offene Personen-Auswahl hebt ihre Karte (07.10.2026): ist die Karte ein eigener Stapelkontext (Glas), läge der Teil
+     der Liste, der über die Karte hinausragt, sonst unter der nächsten Karte. */
+  #app .sektion:has(.refm-vorschlaege:not([hidden])), #app .feldgruppen-karte:has(.refm-vorschlaege:not([hidden])),
+  #app .karte:has(.refm-vorschlaege:not([hidden])) { position: relative; z-index: 70; }
   .refm-vorschlaege { position: fixed; z-index: 60; margin: 0; box-sizing: border-box; width: max-content;
     padding: var(--space-1); list-style: none; background: var(--white); border: 1.5px solid var(--salbei-mid);
     border-radius: var(--radius-md); box-shadow: var(--schatten-vorschlaege); max-height: 15rem; overflow-y: auto; }
@@ -2776,3 +2779,15 @@
   /* Schließen-Knopf des Wiedereinstiegs-Hinweises: Tinte der Warnfläche (Nacht 2,45:1), Hover hellt auf statt abzudunkeln (Hell 4,16:1) */
   .wiedereinstieg-banner .wb-x { color: var(--auf-warnung); }
   .wiedereinstieg-banner .wb-x:hover { background: var(--banner-x-hell-hover); }
+  /* Umschau (06.10.2026): ohne Depot ist der Feldwert eine Schaltfläche zu „Depot anlegen“. Sie sieht aus wie ein leeres
+     Eingabefeld mit dem Wort „Eintragen“ rechts — sichtbar anklickbar, Zielgröße wie ein Feld. */
+  .feld-umschau-eintragen { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); width: 100%;
+    min-height: var(--ziel); padding: var(--space-2) var(--space-3); border: 1px dashed var(--line); border-radius: var(--radius-feld);
+    background: var(--feld-flaeche); color: var(--ink2); font: inherit; text-align: left; cursor: pointer; }
+  .feld-umschau-eintragen:hover { border-style: solid; border-color: var(--salbei-dunkel); }
+  /* Der Hinweis nennt das Feld („Geburtsdatum eintragen“, 08.10.2026) und darf darum umbrechen; fest breit schob er auf dem Telefon die Seite
+     seitwärts (gemessen bei 375 px: bis 469 px Inhalt in 327 px Knopf). */
+  .feld-umschau-eintragen-hinweis { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; text-align: right; color: var(--salbei-dunkel); font-weight: var(--fw-semibold); }
+  html.dark-mode .feld-umschau-eintragen-hinweis { color: var(--salbei-nacht); }
+  .anlegen-grund { margin: 0 0 var(--space-3); color: var(--ink); font-weight: var(--fw-medium); }
+  .welcome-umsehen { margin: var(--space-3) 0 0; text-align: center; }

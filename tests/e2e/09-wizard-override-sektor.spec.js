@@ -40,7 +40,9 @@ test('1b: pflwiz-Override-Schritt (pflegezeit) landet in meine-menschen, NICHT i
   // Kern-Funktion; das Ausfüllen + „Fertig" laufen danach als ECHTE UI-Events.
   await page.evaluate(() => {
     const def = window.__vdOeffentlich.WIZARD_BY_ID.pflwiz;
-    window.__vdOeffentlich.wizardSchrittIndex = def.schritte.findIndex(s => s.feld && s.feld.id === 'careLeaveFamilyCareLeave');
+    const schritt = def.schritte.findIndex(s => s.feld && s.feld.id === 'careLeaveFamilyCareLeave');
+    if (schritt < 0) throw new Error('Wizard-Schritt nicht gefunden: careLeaveFamilyCareLeave');
+    window.__vdOeffentlich.wizardSchrittIndex = schritt;
     window.__vdOeffentlich.renderContent();
   });
   // Sicherstellen, dass wir wirklich auf pflegezeit (Override meine-menschen) stehen.

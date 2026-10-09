@@ -70,7 +70,7 @@ function etimeInMinuten(etime) {
 }
 
 function alleProzesse() {
-  const roh = execFileSync('ps', ['-eo', 'pid,ppid,etime,command'], { encoding: 'utf8' });
+  const roh = execFileSync('ps', ['-eo', 'pid,ppid,etime,command'], { maxBuffer: 256 * 1024 * 1024, encoding: 'utf8' });
   const zeilen = roh.split('\n').slice(1).filter((z) => z.trim());
   return zeilen.map((z) => {
     const m = z.match(/^\s*(\d+)\s+(\d+)\s+(\S+)\s+(.*)$/);
@@ -82,7 +82,7 @@ function alleProzesse() {
 
 function cwdVon(pid) {
   try {
-    const roh = execFileSync('lsof', ['-a', '-d', 'cwd', '-p', String(pid), '-Fn'], { encoding: 'utf8' });
+    const roh = execFileSync('lsof', ['-a', '-d', 'cwd', '-p', String(pid), '-Fn'], { maxBuffer: 256 * 1024 * 1024, encoding: 'utf8' });
     const zeile = roh.split('\n').find((z) => z.startsWith('n'));
     return zeile ? zeile.slice(1) : null;
   } catch (_) { return null; }
@@ -116,11 +116,11 @@ function findeWaisen(aelterAlsMinuten, repo) {
 }
 
 function eigenePgid() {
-  try { return Number(execFileSync('ps', ['-o', 'pgid=', '-p', String(process.pid)], { encoding: 'utf8' }).trim()); } catch (_) { return -1; }
+  try { return Number(execFileSync('ps', ['-o', 'pgid=', '-p', String(process.pid)], { maxBuffer: 256 * 1024 * 1024, encoding: 'utf8' }).trim()); } catch (_) { return -1; }
 }
 
 function pgidVon(pid) {
-  try { return Number(execFileSync('ps', ['-o', 'pgid=', '-p', String(pid)], { encoding: 'utf8' }).trim()); } catch (_) { return -1; }
+  try { return Number(execFileSync('ps', ['-o', 'pgid=', '-p', String(pid)], { maxBuffer: 256 * 1024 * 1024, encoding: 'utf8' }).trim()); } catch (_) { return -1; }
 }
 
 /* Befund HOCH (20.09.2026): der Rot-Beweis dieser Datei erzeugt einen ECHTEN Waisen

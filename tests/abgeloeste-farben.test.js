@@ -17,7 +17,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
-const { pruefen, ohneGegenstueck, tokenWerte, ABGELOEST, ANWENDUNGEN, AUSNAHMEN, GEGENSTUECK_GRUNDLINIE } = require('../tools/abgeloeste-farben-pruefen.js');
+const { pruefen, ohneGegenstueck, ohneGegenstueckImText, tokenWerte, ABGELOEST, ANWENDUNGEN, AUSNAHMEN, GEGENSTUECK_GRUNDLINIE } = require('../tools/abgeloeste-farben-pruefen.js');
 const { _maskiereKommentare } = require('../tools/textsatz-umstellen.js');
 
 const REPO = path.join(__dirname, '..');
@@ -163,3 +163,32 @@ test('[Farbe·Negativkontrolle] ein abgelöster Wert IM KOMMENTAR bleibt grün',
   assert.ok(!maskiert.includes('#3d5a2a'), 'der Wert im Kommentar ist maskiert');
   assert.ok(maskiert.includes('#4f6539'), 'der Wert im Code bleibt sichtbar');
 });
+
+/* ══ Region STUDIO-ERSCHEINUNG (Studio S0, 08.10.2026, Wort der Gegenlesung) ══════════════════════════════════════════
+   Die gebackene Region trägt die Farben des App-Moduls. Ausgeblendet nur, wenn sie genau einmal da ist und der frisch erzeugten
+   gleicht. Rot-Beweise: eine Fremdfarbe außerhalb, die Region von Hand verändert, eine zweite Region. */
+{
+  const gegenRot = (text) => ohneGegenstueckImText('vivodepot-studio.html', text, tokenWerte()).anzahl > 0;
+  const B = require('../tools/studio-erscheinung-backen.js');
+  const STUDIO_TEXT = require('node:fs').readFileSync(B.STUDIO, 'utf8');
+  const REGION = B.regionLesen(STUDIO_TEXT);
+  const varianten = {
+    fremdAussen: STUDIO_TEXT.replace('</style>\n</head>', '.fremd { color: #1b6ec2; }\n</style>\n</head>'),
+    vonHand: STUDIO_TEXT.replace(REGION, REGION.replace('#f7f8f4', '#1b6ec2')),
+    zweiteRegion: STUDIO_TEXT.replace('</style>\n</head>', REGION + '\n</style>\n</head>'),   // nur die Marken doppelt, keine Fremdfarbe
+  };
+  for (const [name, text] of Object.entries(varianten)) {
+    test('[Region STUDIO-ERSCHEINUNG · Rot-Beweis ' + name + '] ' + 'Gegenrichtung: zählt mehr als null', () => {
+      assert.notEqual(text, STUDIO_TEXT, 'die Variante greift');
+      assert.equal(gegenRot(text), true);
+    });
+  }
+  test('[Region STUDIO-ERSCHEINUNG] die echte Studio-Datei: Region genau einmal, gleich dem Modul, ausgeblendet; nichts rot', () => {
+    const r = B.regionGeprueftAusblenden(STUDIO_TEXT);
+    assert.equal(r.fehler, null);
+    assert.equal(r.ausgeblendet, true);
+    assert.equal(r.text.length, STUDIO_TEXT.length, 'zeilentreu');
+    assert.equal(gegenRot(STUDIO_TEXT), false);
+  });
+}
+

@@ -105,6 +105,33 @@ function anzahl(env = process.env) {
   return Number.isInteger(n) && n >= 1 ? n : 2;
 }
 
+/* LASTGRENZE (06.10.2026). Am 06.10.2026 lag die Last bei 86–173 (12:36–12:40, `uptime`), die Verbindung fiel aus, der
+   Rechner musste aus. Die Plätze zählten nur Läufe, nicht die Last: Erzeuger, Bildaufnahmen und Proben ohne Platz und rund
+   dreißig Fenster liefen daneben. Darum wartet jeder Lauf, der über diese Plätze geht (--holen), und jeder kleine Lauf
+   (--klein: Erzeuger, Bildaufnahmen, gezielte Proben, ohne Platz), bis die 1-Minuten-Last unter VD_LAST_GRENZE liegt
+   (Vorgabe 12). Geprüft wird nur an der ECHTEN Schlange (kein VD_SUITE_PLATZ_DIR): Proben arbeiten in eigenen
+   Verzeichnissen und würden sonst an der Last der Suite hängen, die sie selbst fährt. Ein geerbter Platz wartet nicht noch
+   einmal. Unter einem Testläufer ohne eigenes Verzeichnis wartet nichts: dort verweigert verzeichnis() die echte Schlange
+   laut, und das darf keine Lastpause verdecken (sonst hängt diese Probe an der Last der Maschine). */
+function lastGrenze(env = process.env) {
+  const n = Number(env.VD_LAST_GRENZE);
+  return Number.isFinite(n) && n > 0 ? n : 12;
+}
+function lastAbwarten({ env = process.env, grenze = lastGrenze(env), last = () => os.loadavg()[0], wartenS = 0, pauseS = 15,
+  melden = () => {}, pruefen = !env.VD_SUITE_PLATZ_DIR && !env[UMGEBUNG_GEHALTEN] && !testlaeuferMerkmale(env).length } = {}) {
+  if (!pruefen) return { frei: true, geprueft: false, grenze };
+  let l = last();
+  if (l < grenze) return { frei: true, geprueft: true, last: l, grenze };
+  melden({ last: l, grenze });
+  const ende = Date.now() + wartenS * 1000;
+  while (Date.now() < ende) {
+    if (pauseS > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, pauseS * 1000);
+    l = last();
+    if (l < grenze) return { frei: true, geprueft: true, last: l, grenze };
+  }
+  return { frei: false, geprueft: true, last: l, grenze };
+}
+
 /* PLATZART AIR (s. Kopf). */
 function airVerzeichnis(dir) { return path.join(dir, 'air'); }
 function anzahlAir(env = process.env) {
@@ -435,7 +462,7 @@ function meldungBelegt(r) {
 }
 
 module.exports = {
-  UMGEBUNG_GEHALTEN, TESTLAEUFER_MERKMALE, testlaeuferMerkmale, verzeichnis, anzahl, prozessLebt, halter,
+  UMGEBUNG_GEHALTEN, TESTLAEUFER_MERKMALE, testlaeuferMerkmale, verzeichnis, anzahl, prozessLebt, halter, lastGrenze, lastAbwarten,
   platzHolen, platzHolenMitWarten, platzFreigeben, meldungBelegt,
   wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV, artVon,
   eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren,

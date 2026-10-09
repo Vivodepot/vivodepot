@@ -42,7 +42,7 @@ test('[Branding-CSS] brandingAnwenden setzt alle drei Werte, wenn vorhanden', ()
   V.brandingAnwenden({ farbePrimaer: '#112233', farbeSekundaer: '#445566', schriftart: 'Inter' }, root);
   assert.equal(root.style._werte['--vd-branding-primaer'], '#112233');
   assert.equal(root.style._werte['--vd-branding-sekundaer'], '#445566');
-  assert.equal(root.style._werte['--vd-branding-schriftart'], 'Inter');
+  assert.match(root.style._werte['--vd-branding-schriftart'], /^Inter,.*, sans-serif$/, 'Stapel endet auf sans-serif');
 });
 
 test('[Branding-CSS] brandingAnwenden ohne farbePrimaer setzt nichts, wirft nicht', () => {

@@ -40,8 +40,11 @@ anfragende Stelle die Antwort geschickt. Wer tatsächlich antwortete, stand nirg
    der Bank; die Betreuungsverfügung schlägt eine Person vor, vertreten darf die erst nach der Bestellung durch das Gericht. Wer
    im Teil nur als vorgeschlagene Betreuerin steht, antwortet darum als `'teil'`.
 4. **Der Absender ist eine Angabe der Person, nicht geprüft.** Die Lese-App kennzeichnet ihn genauso wie jede andere Angabe der
-   Antwort (Herkunftsanzeige: „von der Person angegeben“). „Geprüft“ steht nur bei `absender.herkunft.verifiziert === true` — den
-   schreibt der Kern heute nicht; er ist der Platz für einen späteren geprüften Nachweis der Vertretung.
+   Antwort (Herkunftsanzeige: „von der Person angegeben“). „Geprüft“ steht erst, wenn die Antwort einen Nachweis mitbringt, den die
+   Lese-App selbst nachprüft; das ist der Platz für einen späteren geprüften Nachweis der Vertretung. **Nachtrag 05.10.2026:** bis
+   dahin hieß es hier „nur bei `absender.herkunft.verifiziert === true`“. Die Antwort ist verschlüsselt, aber nicht signiert; das Feld
+   steht in der Datei und ist Selbstauskunft. Die Lese-App macht daraus nie „geprüft“ — weder beim Absender noch bei einer Angabe
+   (`antwortAngabeHerkunft` in vivodepot-lesen.html).
 5. **Die Lese-App macht daraus die Überschrift:** „Antwort von {name} ({Rolle}) auf die Anfrage von {Stelle}“. „für {fuer}“ steht
    nur, wenn die Zeile darunter („Angaben zu …“) die Vertretene nicht ohnehin nennt. Im Fall `'kreis'`: „Antwort aus dem Teil
    „{name}“ des Depots von {fuer} …“. Eine unbekannte Rolle wird weggelassen, nicht übersetzt. „Von: <Stelle>“ entfällt; der
@@ -94,7 +97,7 @@ zustand:  geprüft
 herkunft: invariante
 pruefung: tests/anfrage-antwort-absender.test.js#[Lese-App · Absender] „Antwort von Anna Mustermann (bevollmächtigt) auf die Anfrage von …", als Angabe der Person
 pruefung: tests/anfrage-antwort-absender.test.js#[Lese-App · Absender · Verträglichkeit] eine Antwort ohne das Feld (vor v807) bleibt lesbar und sagt, dass der Absender fehlt
-pruefung: tests/anfrage-antwort-absender.test.js#[Lese-App · Absender · Rot-Beweis] unbekannte Rolle wird weggelassen, nicht übersetzt; geprüft nur mit verifiziert: true
+pruefung: tests/anfrage-antwort-absender.test.js#[Lese-App · Absender · Rot-Beweis] unbekannte Rolle wird weggelassen, nicht übersetzt; geprüft nie aus der Datei
 pruefung: tests/anfrage-antwort-absender.test.js#[Lese-App · Absender] Deutsch und Englisch tragen jeden Schlüssel
 ```
 
@@ -127,10 +130,10 @@ sondern im Produkt. Geändert:
 - Der Freigabe-Dialog auf dem Handy („Herausgeben“ vor dem Ende der Liste) und Werte je Zeile.
 
 ```konformitaet
-aussage:  Die Lese-App sagt die Herkunft der Angaben in einer Zeile über der Liste und vermerkt nur Abweichungen; nur verifiziert:true gilt als geprüft; die Angaben stehen vor Zweck und Grundlage der Anfrage.
+aussage:  Die Lese-App sagt die Herkunft der Angaben in einer Zeile über der Liste und vermerkt nur Abweichungen; aus der Datei gilt nichts als geprüft, auch nicht verifiziert:true (Nachtrag 05.10.2026); die Angaben stehen vor Zweck und Grundlage der Anfrage.
 zustand:  geprüft
 herkunft: Nachtrag 26.09.2026
-pruefung: tests/lese-app-antwort-herkunft.test.js#[Herkunft·Antwort] eine Zeile über der Liste sagt, woher die Angaben stammen; einen Vermerk trägt nur die abweichende Angabe
+pruefung: tests/lese-app-antwort-herkunft.test.js#[Herkunft·Antwort·Befund] verifiziert:true in der Datei macht keine Angabe geprüft; EINE Zeile sagt es, kein Vermerk an den Zeilen
 pruefung: tests/lese-app-antwort-herkunft.test.js#[Herkunft·Rot-Beweis] eine Anzeige, die alles als geprüft ausgibt, fällt an der Probe „keine geprüft“ durch
 pruefung: tests/lese-app-antwort-kopf.test.js#[Lese-App·Reihenfolge] die Angaben vor Zweck und Grundlage der Anfrage; davor steht nur die Herkunft (U2-ADR-258)
 pruefung: tests/lese-app-antwort-kopf.test.js#[Lese-App·Wert] „Notvertretung durch den Ehegatten: abgelehnt" statt „… abgelehnt: ja"; ein anderer Rohwert bleibt, wie er ist

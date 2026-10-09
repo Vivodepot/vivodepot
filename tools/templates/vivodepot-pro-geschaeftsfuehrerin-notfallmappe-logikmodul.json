@@ -1,7 +1,7 @@
 {
   "modulTyp": "logikModul",
   "id": "pro-geschaeftsfuehrerin-notfallmappe",
-  "titel": "Geschäftsführerin — Vertretung, Nachfolge, Notfall",
+  "titel": "Geschäftsführerin — Vertretung und Nachfolge",
   "sektor": "pro-vertretung-vollmachten",
   "moduleVersion": 1,
   "herkunft": "vivodepot",
@@ -30,7 +30,7 @@
     {
       "titel": "Teil A — Vertretung",
       "bloecke": [
-        { "typ": "immer", "texte": ["Wer handelt für die Gesellschaft, wenn die Geschäftsführerin kurzfristig ausfällt? Dieser Auszug sammelt, was das Pro-Depot dazu bereits hält. Er ersetzt weder eine Handlungsvollmacht selbst noch eine Auskunft des Registergerichts."] },
+        { "typ": "immer", "texte": ["Wer handelt für die Gesellschaft, wenn die Geschäftsführerin vertreten wird? Dieser Auszug sammelt, was das Pro-Depot dazu bereits hält. Er ersetzt weder eine Handlungsvollmacht selbst noch eine Auskunft des Registergerichts."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
           "frage": "Vertretungsregelung der Gesellschaft?", "luecke": "— nicht erfasst —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "prokura_inhaber",
@@ -40,7 +40,7 @@
     {
       "titel": "Teil B — Nachfolge",
       "bloecke": [
-        { "typ": "immer", "texte": ["Die folgenden Angaben stammen aus dem Pro-Modul „Gesellschaft und Nachfolgeregelung“ — derselben Datengrundlage, die auch eine Übergabe oder einen Notfall trägt, hier auf die Nachfolge der Geschäftsführung gelesen."] },
+        { "typ": "immer", "texte": ["Die folgenden Angaben stammen aus dem Pro-Modul „Gesellschaft und Nachfolgeregelung“ — derselben Datengrundlage, die auch eine Vertretung oder Übergabe trägt, hier auf die Nachfolge der Geschäftsführung gelesen."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "nachfolgeklausel",
           "frage": "Nachfolgeklausel im Gesellschaftsvertrag vorhanden?", "luecke": "— nicht erfasst —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "gesellschafterliste_stand",
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "titel": "Teil C — Notfall",
+      "titel": "Teil C — Vertretungsplan und Erreichbarkeit",
       "bloecke": [
         { "typ": "immer", "texte": ["Hinweis: „Aufgabe“ und „Person“ werden als zwei getrennte Listen gelesen (dieselbe Zeilen-Reihenfolge, keine automatische Paar-Zusammenfassung) — der Bau selbst kann das Sichten von Zeile zu Zeile ergänzen, wenn gebraucht."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_aufgabe",
@@ -69,14 +69,14 @@
     }
   ],
   "dokAusgabe": {
-    "h1": "Geschäftsführerin — Vertretung, Nachfolge, Notfall",
+    "h1": "Geschäftsführerin — Vertretung und Nachfolge",
     "klasse": "pro-geschaeftsfuehrerin-notfallmappe-dok",
     "herkunftText": "Zusammenstellung dieser Anwendung aus den Pro-Modul- und Depot-Angaben — keine amtliche Vorlage, keine Rechtsberatung, keine Verbindung zum Registergericht.",
     "unterschrift": false,
     "unterschriftErsatzHinweis": "Dieser Auszug ersetzt weder eine Handlungsvollmacht noch einen Gesellschafterbeschluss selbst — beide bleiben Sache der Gesellschaft und ihrer Berater.",
     "fussText": " · Vorbereitungshilfe, kein amtliches Dokument",
     "knopfAttr": "pro-geschaeftsfuehrerin-notfallmappe-dokument",
-    "dateiBasis": "Geschaeftsfuehrerin-Notfallmappe",
-    "toolbarHinweis": "Dieser Auszug hilft, Vertretung, Nachfolge und Notfall der Geschäftsführung vorzubereiten. Er ersetzt keine rechtliche Beratung, und er wird an niemanden übermittelt."
+    "dateiBasis": "Geschaeftsfuehrerin-Vertretung-Nachfolge",
+    "toolbarHinweis": "Dieser Auszug hilft, Vertretung und Nachfolge der Geschäftsführung vorzubereiten. Er ersetzt keine rechtliche Beratung, und er wird an niemanden übermittelt."
   }
 }

@@ -1,0 +1,12 @@
+{
+  "herkunft": "example-org",
+  "sprache": "en",
+  "situationen": [
+    {
+      "titel": "If I am in hospital",
+      "icon": "users",
+      "einfuehrung": "What the person who looks after things for me needs first.",
+      "bloecke": [ { "titel": "Who I am", "eintraege": [ { "quelle": "identity", "feld": "givenName" } ] } ]
+    }
+  ]
+}

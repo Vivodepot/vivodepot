@@ -28,11 +28,11 @@
    Lesepfad, der ohne echtes DOM nicht zu prüfen ist.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers');
 
 async function instrumentModalOeffnen(page) {
   await oeffneSektor(page, 'advanceCare');
-  await page.locator('[data-eintrag-hinzufuegen="provisionInstruments"]').click();
+  await listenDialogOeffnen(page, 'provisionInstruments');
   await page.waitForTimeout(250);
 }
 

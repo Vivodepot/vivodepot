@@ -127,9 +127,11 @@ test('[Integration] stapelAusstellen weist eine Zeile mit ungültiger Template-S
   const boesesTemplate = { felder: [{ feldname: 'Böses Feld', feldtyp: 'text', pflicht: false, bereich: 'gesundheit' }] };
   const gutesJws = await signiertesTemplateJws(V, gutesTemplate, SENTINEL_PRIVATE_JWK);
   const boesesJws = await signiertesTemplateJws(V, boesesTemplate, FREMD_PRIVATE_JWK);   // falscher Schlüssel
+  // seit 05.10.2026 (EINREICHUNG-STAMMDATEN-UNSIGNIERT): ein signiertes Paket trägt auch die Einreichungs-Signatur
+  const gutEinreichung = await signiertesTemplateJws(V, { submissionId: 's1' }, SENTINEL_PRIVATE_JWK);
 
   const zeilen = [
-    { nr: 1, gueltig: true, bestaetigt: true, daten: { anbieterId: 'institution/gut-de', anbieterName: 'Gut', anbieterTyp: 'institution/x-de', publicKeyJwk: SENTINEL_PUBLIC_JWK, templates: [gutesTemplate], templatesJws: [gutesJws], submissionId: 's1' } },
+    { nr: 1, gueltig: true, bestaetigt: true, daten: { anbieterId: 'institution/gut-de', anbieterName: 'Gut', anbieterTyp: 'institution/x-de', publicKeyJwk: SENTINEL_PUBLIC_JWK, templates: [gutesTemplate], templatesJws: [gutesJws], einreichungJws: gutEinreichung, submissionId: 's1' } },
     { nr: 2, gueltig: true, bestaetigt: true, daten: { anbieterId: 'institution/boese-de', anbieterName: 'Böse', anbieterTyp: 'institution/x-de', publicKeyJwk: SENTINEL_PUBLIC_JWK, templates: [boesesTemplate], templatesJws: [boesesJws], submissionId: 's2' } },
   ];
   const key = await webcrypto.subtle.importKey('jwk', SENTINEL_PRIVATE_JWK, { name: 'Ed25519' }, false, ['sign']);

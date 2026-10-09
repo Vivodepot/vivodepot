@@ -29,6 +29,9 @@ async function mutterDatei(giltBis, lade) {
   V.akteurSelbstErklaeren('Gerda Beispiel');
   const d = V.getData();
   d.sektoren.health = { ongoingTreatmentNext: 'WERT-IM-FACH' };
+  // Freigegeben (Einzelfreigabe über die Markierung): seit SENSIBEL-FILTER-BEREICHSBAUSTEIN hält ein Bereichs-Baustein
+  // sensible Felder zurück (tests/empfaenger-sensibel-filter.test.js); dieses Feld ist ab Werk sensibel.
+  d.sensibelFelder = { health: { ongoingTreatmentNext: false } };
   V.setData(d);
   await V.empfaengerkreisSetzen({ name: 'Anna Gesundheit', bausteine: ['bereich:health'] });
   await V.empfaengerkreisFachEinrichten(V.empfaengerkreiseListe()[0], PW_FACH, undefined, giltBis);

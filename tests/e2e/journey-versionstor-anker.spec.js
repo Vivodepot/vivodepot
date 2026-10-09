@@ -56,6 +56,10 @@ async function journey(page, url) {
     d.schemaVersion = d.schemaVersion + 1;
     return d.schemaVersion;
   });
+  // Das Anlegen schreibt schon eine Datei in dieselbe Attrappe (Zug 1 „Depot ist Datei“). Ohne Zurücksetzen nahm die Abfrage
+  // unten unter Last diese Anlege-Bytes (aktuelle Fassung, Vorname „Maria“ statt „Vorher“) statt der neueren Datei — dann gab es
+  // nichts zu sperren und keinen Hinweis (Befund VERSIONSTOR-HINWEIS-AIR-ROT, 08.10.2026 zweimal im pre-push: „kein Dialog offen“).
+  await page.evaluate(() => { window.__bwBytes = null; });
   await page.click('#tb-save-status .tb-save-knopf');
   await expect.poll(() => page.evaluate(() => window.__bwBytes !== null), { timeout: 8000 }).toBe(true);
   const bytes = await page.evaluate(() => window.__bwBytes);

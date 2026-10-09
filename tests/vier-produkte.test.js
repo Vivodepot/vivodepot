@@ -128,8 +128,8 @@ test('[Vier-Produkte] konfektionieren() backt eine unsignierte Textsatz-Datei in
       vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
       unsignierteModulDateien: [EN_MODUL_PFAD],
     });
-    // Seit v894 legt konfektionieren() ohne eigenes Erscheinungsbild das Ab-Werk-Modul „heute" dazu.
-    assert.deepEqual(r.unsignierteModule, ['textsatz-en-modul.json', 'erscheinungsbild-heute-modul.json']);
+    // Seit v894 legt konfektionieren() ohne eigenes Erscheinungsbild das Ab-Werk-Modul dazu (seit v921 „Salbei mit Glas“, vier-produkte.js).
+    assert.deepEqual(r.unsignierteModule, ['textsatz-en-modul.json', path.basename(require('../tools/lib/vier-produkte.js').ERSCHEINUNGSBILD_AB_WERK_PFAD)]);
     assert.equal(fs.existsSync(path.join(r.ordner, 'textsatz-en-modul.json')), false,
       'seit U2-ADR-387 keine Begleitdatei mehr — die Nutzlast steckt im Gerüst');
     const kern = fs.readFileSync(path.join(r.ordner, 'vivodepot.html'), 'utf8');
@@ -146,7 +146,7 @@ test('[Vier-Produkte] ohne unsignierteModulDateien legt konfektionieren() nur da
       ziel, slug: 'privat-de', modulauswahl: [],
       vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
     });
-    assert.deepEqual(r.unsignierteModule, ['erscheinungsbild-heute-modul.json'], 'kein nacktes Produkt, sonst unverändert');
+    assert.deepEqual(r.unsignierteModule, [path.basename(require('../tools/lib/vier-produkte.js').ERSCHEINUNGSBILD_AB_WERK_PFAD)], 'kein nacktes Produkt, sonst unverändert');
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });
 

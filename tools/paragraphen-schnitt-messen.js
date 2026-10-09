@@ -39,7 +39,8 @@ const path = require('node:path');
 const REPO = path.join(__dirname, '..');
 const FIXTURE_DIR = path.join(REPO, 'tests', 'fixtures', 'paragraphen-raus');
 const ENDUNGEN = ['.html', '.js', '.json', '.mjs', '.cjs'];
-const VERZEICHNISSE_NIE = new Set(['.git', 'node_modules', 'docs', 'tests', 'produkte', '.osv-cache', 'test-results', 'playwright-report', 'coverage', '.claude']);
+// Verzeichnisse mit führendem Punkt (Versionsverwaltung, Caches, Werkzeug-Konfiguration) tragen keinen Bürgertext.
+const VERZEICHNISSE_NIE = new Set(['node_modules', 'docs', 'tests', 'produkte', 'test-results', 'playwright-report', 'coverage']);
 const MAX_BYTES = 12 * 1024 * 1024;
 const MIN_LAENGE = 30;   // ein kürzerer Satz träfe zu viele Nachbarn: nicht messbar, also rot (Probe)
 
@@ -89,7 +90,7 @@ function dateienSammeln(wurzel, extra) {
     for (const n of fs.readdirSync(path.join(wurzel, rel)).sort()) {
       const r = rel ? path.join(rel, n) : n;
       const st = fs.statSync(path.join(wurzel, r));
-      if (st.isDirectory()) { if (!VERZEICHNISSE_NIE.has(n)) ab(r); continue; }
+      if (st.isDirectory()) { if (!n.startsWith('.') && !VERZEICHNISSE_NIE.has(n)) ab(r); continue; }
       if (!ENDUNGEN.includes(path.extname(n))) continue;
       if (/\.(test|spec)\.js$/.test(n) || /grundlinie/i.test(n)) continue;
       lies(r);

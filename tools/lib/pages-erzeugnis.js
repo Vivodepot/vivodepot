@@ -21,7 +21,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const P = require('./produkt-text-erzeugen.js');
-const { PRODUKTE, modulDateienFuer, ERSCHEINUNGSBILD_HEUTE_PFAD } = require('./vier-produkte.js');
+const { PRODUKTE, modulDateienFuer, ERSCHEINUNGSBILD_AB_WERK_PFAD } = require('./vier-produkte.js');
 
 const REPO = path.join(__dirname, '..', '..');
 const KERN_PFAD = path.join(REPO, 'vivodepot.html');
@@ -43,7 +43,7 @@ function produktFuerPages(slug = 'privat-de', { kernText = fs.readFileSync(KERN_
   return text;
 }
 
-function geruestMitErscheinungsbild({ kernText = fs.readFileSync(KERN_PFAD, 'utf8'), modulPfad = ERSCHEINUNGSBILD_HEUTE_PFAD } = {}) {
+function geruestMitErscheinungsbild({ kernText = fs.readFileSync(KERN_PFAD, 'utf8'), modulPfad = ERSCHEINUNGSBILD_AB_WERK_PFAD } = {}) {
   const modul = _modulLesen(modulPfad);
   const klassifiziert = [P._unsigniertesModulKlassifizieren(modul.roh, modul.basisname)];
   P._erscheinungsbildVorBacken(kernText, klassifiziert, 'vivodepot.html');

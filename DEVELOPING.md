@@ -56,8 +56,8 @@ embedded.
 A locally built product does not register a service worker (its file set is `vivodepot.html`
 only, see `PRODUKT_DATEISATZ` in `tools/produkt-konfektionieren.js`). A self-hosted copy therefore works
 while online; for offline use, open the downloaded file directly. The official addresses
-[https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/) and
-[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/) ship a service worker (`sw.js`)
+[https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github) and
+[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github) ship a service worker (`sw.js`)
 and also work offline once installed.
 
 ## Reproduce the published checksums
@@ -130,6 +130,9 @@ explains which and why.
 ## Where to read on
 
 - [`DOCS.md`](DOCS.md) — the index of all documents
+- [`docs/modules/`](docs/modules/README.md) — building a module (legal system, language, area, appearance, template) without changing the core
+- [`docs/INTEGRATION.md`](docs/INTEGRATION.md) — connecting another application
+- [`docs/VERIFYING-SIGNATURES.md`](docs/VERIFYING-SIGNATURES.md) — checking a module, template or recipe signature yourself
 - [`docs/adr/`](docs/adr/) — why it is built the way it is
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — how to contribute
 - [`SECURITY.md`](SECURITY.md) — reporting vulnerabilities, verifying the cryptographic chain

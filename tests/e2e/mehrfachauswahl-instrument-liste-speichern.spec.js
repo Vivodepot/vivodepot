@@ -26,14 +26,14 @@
    mehr, ersetzt durch `.click()`/`toHaveAttribute('aria-pressed', …)`.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers');
 
 test('KI-Verfügung über die Instrument-Liste anlegen: ki_zweck bleibt nach dem Speichern erhalten', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
 
-  await page.locator('[data-eintrag-hinzufuegen="provisionInstruments"]').click();
+  await listenDialogOeffnen(page, 'provisionInstruments');
   await page.waitForSelector('#modal-inhalt');
 
   await page.selectOption('select[data-edit="instrument"]', 'ki-verfuegung');
@@ -63,7 +63,7 @@ test('dieselbe Zeile erneut geöffnet: die Mehrfachauswahl-Häkchen kommen vorbe
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
 
-  await page.locator('[data-eintrag-hinzufuegen="provisionInstruments"]').click();
+  await listenDialogOeffnen(page, 'provisionInstruments');
   await page.waitForSelector('#modal-inhalt');
   await page.selectOption('select[data-edit="instrument"]', 'ki-verfuegung');
   await page.selectOption('select[data-edit="basicDecision"]', 'erlaubnis');
@@ -74,7 +74,9 @@ test('dieselbe Zeile erneut geöffnet: die Mehrfachauswahl-Häkchen kommen vorbe
 
   const idx = await page.evaluate(() => {
     const liste = (window.__vdOeffentlich.ankerDaten().sektoren.advanceCare && window.__vdOeffentlich.ankerDaten().sektoren.advanceCare.provisionInstruments) || [];
-    return liste.findIndex((r) => r && r.instrument === 'ki-verfuegung');
+    const i = liste.findIndex((r) => r && r.instrument === 'ki-verfuegung');
+    if (i < 0) throw new Error('ki-verfuegung steht nicht in provisionInstruments');
+    return i;
   });
   expect(idx).toBeGreaterThanOrEqual(0);
 

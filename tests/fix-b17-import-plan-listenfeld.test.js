@@ -72,13 +72,17 @@ test('[B17·Negativkontrolle] ein flaches Sektorfeld bleibt unverändert korrekt
   assert.equal(plan.zeilen[0].label, 'Vorname');
 });
 
-test('[B17·Negativkontrolle] eine wirklich unbekannte feldId bleibt beim Selektor-Rückfall', () => {
+test('[B17·Negativkontrolle] eine wirklich unbekannte feldId wird aufgefangen und steht unter dem Bereichsnamen, nie als Selektor', () => {
   /* feldDefFuer liefert `undefined`, "wenn es die Kennung wirklich nirgends gibt — das bleibt ein
      Befund" (Kommentar an ihrer Definition). _planAusRoh muss diesen Fall weiter sauber auffangen,
-     nicht werfen. */
+     nicht werfen. Seit 07.10.2026 (Entscheidung „keine technischen Markierungen in der Benutzersicht“) steht die Zeile unter dem
+     Namen des Bereichs, nicht unter dem Selektor. */
   const { V } = ladeKern();
   const plan = V._planAusRoh('b17-test', { label: 'Test' }, {
     felder: [{ sektorId: 'advanceCare', feldId: 'liste:provisionInstruments:enduring-power-of-attorney:erfundenes_feld', wert: 'x' }],
   });
-  assert.equal(plan.zeilen[0].label, 'liste:provisionInstruments:enduring-power-of-attorney:erfundenes_feld');
+  const bereich = V.bereicheAlle().find((b) => b.id === 'advanceCare');
+  assert.ok(bereich && bereich.label, 'Voraussetzung: der Bereich hat einen Namen');
+  assert.equal(plan.zeilen[0].label, bereich.label);
+  assert.ok(!plan.zeilen[0].label.includes('erfundenes_feld'), 'der Selektor steht nicht in der Benutzersicht');
 });

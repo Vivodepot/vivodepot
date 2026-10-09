@@ -1,0 +1,9 @@
+{
+  "modulTyp": "branding",
+  "moduleVersion": 1,
+  "herkunft": "example-org",
+  "name": "Example Advice Centre",
+  "farbePrimaer": "#1F4E79",
+  "farbeSekundaer": "#6B8E23",
+  "domain": "example.org"
+}

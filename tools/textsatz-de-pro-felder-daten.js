@@ -50,6 +50,11 @@ function bauen() {
   return baueSektionen(vorlageDe, vorlageDe, { ja: 'Ja', nein: 'Nein' }).enTexte;
 }
 
-const TEXTSATZ_DE_PRO_FELDER = Object.freeze(bauen());
+// Die Pro-Felder aus P4 (U2-ADR-243 §7) mit vorgegebenen Kennungen: tools/pro-felder-erweiterung.json über tools/lib/pro-felder-erweiterung.js.
+const { texte: erweiterungTexte } = require('./lib/pro-felder-erweiterung.js');
+// Beschriftungen ohne Ausfall-Aufhänger (U2-ADR-243 §7): die Kennung entsteht aus dem Feldnamen der Vorlage und bleibt darum
+// unverändert; nur die sichtbare Beschriftung wird hier gesetzt. Wächter: tests/pro-texte-ohne-notfall.test.js.
+const BESCHRIFTUNG_STATT_VORLAGE = Object.freeze({ 'pro-finanzen-verbindlichkeiten.tpl_versorgungslage_der_familie_im_ausfall.label': 'Versorgungslage der Familie' });
+const TEXTSATZ_DE_PRO_FELDER = Object.freeze(Object.assign(bauen(), erweiterungTexte('de'), BESCHRIFTUNG_STATT_VORLAGE));
 
-module.exports = { TEXTSATZ_DE_PRO_FELDER, bauen };
+module.exports = { TEXTSATZ_DE_PRO_FELDER, BESCHRIFTUNG_STATT_VORLAGE, bauen };

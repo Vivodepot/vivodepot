@@ -41,6 +41,13 @@ const M_BEKANNT_V3 = { modulTyp: 'textsatz', moduleVersion: 3, texte: {}, sprach
 const M_OHNE_VERSION = { modulTyp: 'textsatz', texte: {}, sprache: 'it',
   ungeprueft: true, eingelassenAm: '2026-07-01' };
 
+/* Schutz-Wagen S2 (04.10.2026): die Prüfstufe kommt nur noch aus der Ladeprüfung beim Öffnen, nie aus `ungeprueft`/`pruefstufe` im
+   Modul. Die Fälle hier setzen eine beim Öffnen nachgeprüfte Kette VORAUS (die Prüfung selbst belegt
+   tests/ladepruefung-alle-modultypen.test.js); `nachgeprueft` trägt das Ergebnis ein, das die Ladeprüfung für sie hätte. */
+function nachgeprueft(V, m) {
+  if (m && typeof m === 'object' && m.ungeprueft === false && typeof m.pruefstufe === 'string') V._modulBelegAlsGeprueftSetzen(m, { stufe: m.pruefstufe, anbieterId: null });
+  return m;
+}
 async function kernMit(module) {
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
@@ -51,6 +58,7 @@ async function kernMit(module) {
   // geleert, damit diese Datei weiterhin ausschließlich die hier konstruierten Fälle zählt.
   d.logikModule = [];
   V.setData(d);
+  for (const reg of Object.keys(d)) if (Array.isArray(d[reg])) for (const m of d[reg]) nachgeprueft(V, m);
   return V;
 }
 

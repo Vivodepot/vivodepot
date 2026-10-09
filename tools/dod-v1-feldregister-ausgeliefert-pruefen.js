@@ -34,6 +34,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const path = require('node:path');
 const { bauen, PRUEFSUMMEN_DATEI } = require('./feldregister-bauen.js');
+const { ADRESS_BASIS } = require('./lib/feldregister-adressen.js');
 
 const LIVE_BASIS_VORGABE = 'https://register.vivodepot.de';
 
@@ -86,12 +87,55 @@ async function liveHashLesen(basis) {
   }
 }
 
+/* KENNUNGS-ADRESSEN (U2-ADR-NNN, 06.10.2026). Die Prüfsumme deckt feldregister.json — samt Lizenz —, nicht die Seiten
+   unter feld/. Darum im --live-Lauf eine Stichprobe: die erste Kennung, das erste Unterfeld, die letzte. Jede muss unter
+   ihrer Adresse (ohne und mit Schrägstrich, Weiterleitungen gefolgt) mit 200 antworten und ihre Kennung zeigen; ihr
+   JSON-LD unter feld/<kennung>/index.jsonld muss die Adresse als @id tragen. Die Aushandlung per Accept ist kein
+   Muss (sie hängt an mod_rewrite) und wird nur berichtet. */
+function stichprobeKennungen(felder) {
+  const unter = felder.find((f) => f.kennung.includes('/'));
+  return [...new Set([felder[0], unter, felder[felder.length - 1]].filter(Boolean).map((f) => f.kennung))];
+}
+
+function stichprobeAuswerten(kennung, antworten) {
+  const fehler = [];
+  for (const [art, a] of Object.entries({ ohneSchraegstrich: antworten.ohne, mitSchraegstrich: antworten.mit })) {
+    if (!a || a.status !== 200) fehler.push(art + ': HTTP ' + (a ? a.status : 'kein Abruf'));
+    else if (!a.text.includes('<code>' + kennung + '</code>')) fehler.push(art + ': Seite zeigt die Kennung nicht');
+  }
+  let id = null;
+  try { id = JSON.parse(antworten.jsonld.text)['@id']; } catch { /* unten als Fehler */ }
+  if (!antworten.jsonld || antworten.jsonld.status !== 200 || id !== ADRESS_BASIS + kennung) fehler.push('index.jsonld: @id ' + id);
+  let aushandlung = false;
+  try { aushandlung = JSON.parse(antworten.accept.text)['@id'] === ADRESS_BASIS + kennung; } catch { aushandlung = false; }
+  return { kennung, gruen: fehler.length === 0, fehler, aushandlung };
+}
+
+async function adressenLivePruefen(basis, felder, fetchFn = fetch) {
+  const holen = async (url, kopf) => {
+    try {
+      const a = await fetchFn(url, { headers: kopf || {}, redirect: 'follow', signal: AbortSignal.timeout(15000) });
+      return { status: a.status, text: await a.text() };
+    } catch (e) { return { status: 0, text: String(e.message) }; }
+  };
+  const b = basis.replace(/\/+$/, '') + '/feld/';
+  const aus = [];
+  for (const k of stichprobeKennungen(felder)) {
+    aus.push(stichprobeAuswerten(k, {
+      ohne: await holen(b + k), mit: await holen(b + k + '/'), jsonld: await holen(b + k + '/index.jsonld'),
+      accept: await holen(b + k, { Accept: 'application/ld+json' }),
+    }));
+  }
+  return aus;
+}
+
 async function main() {
   const alsJson = process.argv.includes('--json');
   const live = process.argv.includes('--live') || argWert('--webspace-url') !== null;
   const basis = argWert('--webspace-url') || LIVE_BASIS_VORGABE;
 
-  const kanonHash = bauen({}).hash;
+  const artefakt = bauen({});
+  const kanonHash = artefakt.hash;
   const liveText = live
     ? await liveHashLesen(basis)
     /* Fixture-Fall: der gemessene Stand vom 17.09.2026 selbst ist „nichts veröffentlicht" —
@@ -100,6 +144,10 @@ async function main() {
 
   const ergebnis = vergleichen(kanonHash, liveText);
   ergebnis.quelle = live ? basis : '(Fixture Stand 17.09.2026: nicht veröffentlicht, gemessen per curl)';
+  if (live) {
+    ergebnis.adressen = await adressenLivePruefen(basis, JSON.parse(artefakt.json).felder);
+    if (ergebnis.adressen.some((a) => !a.gruen)) { ergebnis.gruen = false; ergebnis.grund = ergebnis.grund === 'uebereinstimmend' ? 'adressen' : ergebnis.grund; }
+  }
 
   if (alsJson) {
     process.stdout.write(JSON.stringify(ergebnis, null, 2) + '\n');
@@ -107,6 +155,10 @@ async function main() {
     process.stdout.write('Feldregister ausgeliefert vs. Kanon — Quelle: ' + ergebnis.quelle + '\n');
     process.stdout.write('  Kanon-Prüfsumme: ' + ergebnis.kanonHash + '\n');
     process.stdout.write('  Live-Prüfsumme:  ' + (ergebnis.liveHash || '(keine)') + '\n');
+    for (const a of ergebnis.adressen || []) {
+      process.stdout.write('  Adresse ' + a.kennung + ': ' + (a.gruen ? 'ok' : a.fehler.join('; '))
+        + ' · Aushandlung per Accept: ' + (a.aushandlung ? 'ja' : 'nein (HTML, JSON-LD unter index.jsonld)') + '\n');
+    }
     if (ergebnis.gruen) {
       process.stdout.write('GRÜN — ausgeliefert entspricht dem aktuellen Kanon.\n');
     } else {
@@ -117,4 +169,4 @@ async function main() {
 }
 
 if (require.main === module) main();
-module.exports = { vergleichen, hashAusPruefsummenzeile, liveHashLesen, LIVE_BASIS_VORGABE };
+module.exports = { vergleichen, hashAusPruefsummenzeile, liveHashLesen, LIVE_BASIS_VORGABE, stichprobeKennungen, stichprobeAuswerten, adressenLivePruefen };

@@ -10,6 +10,9 @@
    vertrauter Schlüssel steht in der Temp-Globalkonfiguration, außerhalb des Klons — wie bei der Schlüsselhalterin.
    ROT-BEWEIS: ein unsignierter Commit, ein Klon ohne eingerichtete Prüfung, ein vorhandener Tag und ein fremder Schlüssel
    enden rot, und es bleibt kein neuer Tag stehen. Der Klon trägt dabei nie eine Schlüsseldatei.
+   BELEG DES ÖFFENTLICHEN LAUFS (05.10.2026): jeder Commit der Wegwerf-Umgebung bekommt einen grünen Beleg für seinen Baum,
+   damit die Rot-Beweise oben aus ihrem eigenen Grund fallen. Eigene Proben: fehlender, fremder, roter Beleg und die
+   Grundliste bekannter roter Proben.
    ═════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -18,6 +21,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { signieren, tagInhaltSigniert } = require('../tools/oeffentlich-tag-signieren.js');
+const lauf = require('../tools/oeffentlicher-lauf-beleg.js');
 
 const PRINZIPAL = 'probe@example.invalid';
 
@@ -49,6 +53,12 @@ function wegwerfUmgebung() {
     fs.writeFileSync(path.join(klon, 'SECURITY.md'), '### 2.1 Repository\nFingerabdruck ' + (fpInSecurity || 'SHA256:' + 'A'.repeat(43)) + '\n### 2.2 Weiter\n');
     g('add', '.');
     g('commit', '-q', ...(signiert ? ['-S'] : []), '-m', 'Stand');
+    belegFuerHead({ unit: { exit: 0, rot: [] }, e2e: { exit: 0, rot: [] } });
+  };
+  const belegFuerHead = (teile) => {
+    const baum = g('rev-parse', 'HEAD^{tree}').trim();
+    lauf.belegSchreiben(klon, { baum, commit: g('rev-parse', 'HEAD').trim(), datum: '2026-10-05', ...teile });
+    return baum;
   };
   // Die zwei Register (Auslieferungen, öffentliche Stände) liegen außerhalb des Klons; der jüngste öffentliche Stand ist v1.0.857.
   const auslieferungen = path.join(tmp, 'auslieferungen.md');
@@ -57,7 +67,7 @@ function wegwerfUmgebung() {
   fs.writeFileSync(staende, JSON.stringify({ staende: [{ fassung: 'v1.0.843' }, { fassung: 'v1.0.857' }] }));
   const register = { auslieferungen, staende };
   const aufraeumen = () => fs.rmSync(tmp, { recursive: true, force: true });
-  return { env, klon, g, schluessel, vertrauen, signierenEinrichten, commit, aufraeumen, register };
+  return { env, klon, g, schluessel, vertrauen, signierenEinrichten, commit, aufraeumen, register, belegFuerHead, tmp };
 }
 const leise = () => {};
 const tags = (u) => u.g('tag', '-l').split('\n').filter(Boolean);
@@ -190,4 +200,53 @@ test('[Tag-Signatur·Grenze] das Werkzeug nennt weder einen Schlüsselpfad noch 
   assert.equal(/allowed_signers|allowedSignersFile=|user\.signingkey|\.ssh\//.test(code), false);
   // Gegenprobe: die alte Fassung (Prüfung gegen .github/allowed_signers) fiele hier auf.
   assert.equal(/allowed_signers/.test("const erlaubt = path.join(klon, '.github', 'allowed_signers');"), true);
+});
+
+test('[Tag-Signatur·Öffentlicher Lauf·Rot-Beweis] ohne Beleg, mit rotem Beleg, mit Beleg eines anderen Baums: rot, kein Tag', () => {
+  const u = wegwerfUmgebung();
+  try {
+    const k = u.schluessel('release');
+    u.signierenEinrichten(k); u.vertrauen(k.oeffentlich);
+    u.commit(true, k.fp);
+    const baum = u.g('rev-parse', 'HEAD^{tree}').trim();
+    fs.rmSync(lauf.belegPfad(u.klon, baum));
+    let text = '';
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: (t) => { text += t; }, env: u.env }), 1);
+    assert.match(text, /kein Beleg des öffentlichen Laufs/);
+    u.belegFuerHead({ unit: { exit: 1, rot: ['[X] eine Probe'] }, e2e: { exit: 0, rot: [] } });
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 1, 'roter Beleg');
+    u.belegFuerHead({ unit: { exit: 0, rot: [] }, e2e: { exit: 1, rot: [] } });
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 1, 'Abbruch ohne Namen');
+    fs.writeFileSync(lauf.belegPfad(u.klon, baum), JSON.stringify({ baum: 'f'.repeat(40), unit: { exit: 0, rot: [] }, e2e: { exit: 0, rot: [] } }));
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 1, 'Beleg eines anderen Baums');
+    assert.deepEqual(tags(u), [], 'kein Tag bleibt stehen');
+  } finally { u.aufraeumen(); }
+});
+
+test('[Tag-Signatur·Öffentlicher Lauf·Grundliste] bekannte rote Proben halten nicht an, eine neue schon', () => {
+  const u = wegwerfUmgebung();
+  try {
+    const k = u.schluessel('release');
+    u.signierenEinrichten(k); u.vertrauen(k.oeffentlich);
+    u.commit(true, k.fp);
+    const grundliste = path.join(u.tmp, 'grundliste.json');
+    fs.writeFileSync(grundliste, JSON.stringify(['tests/e2e/a.spec.js › bekannt']));
+    u.belegFuerHead({ unit: { exit: 0, rot: [] }, e2e: { exit: 1, rot: ['tests/e2e/a.spec.js › bekannt', 'tests/e2e/b.spec.js › neu'] } });
+    let text = '';
+    assert.equal(signieren({ ...u.register, grundliste, klon: u.klon, tag: 'v1.0.900', schreiben: (t) => { text += t; }, env: u.env }), 1);
+    assert.match(text, /neue rote Probe.*b\.spec\.js › neu/);
+    u.belegFuerHead({ unit: { exit: 0, rot: [] }, e2e: { exit: 1, rot: ['tests/e2e/a.spec.js › bekannt'] } });
+    assert.equal(signieren({ ...u.register, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 1, 'ohne Grundliste gilt nur grün');
+    assert.equal(signieren({ ...u.register, grundliste, klon: u.klon, tag: 'v1.0.900', schreiben: leise, env: u.env }), 0, 'nur Bekanntes rot');
+  } finally { u.aufraeumen(); }
+});
+
+test('[Öffentlicher Lauf·Auswertung] rote Namen aus node --test und aus dem Playwright-Bericht', () => {
+  const ausgabe = 'ℹ pass 3\n✖ failing tests:\n\ntest at tests/a.test.js:1:1\n✖ [A] fällt (1.5ms)\n  Error: x\n\ntest at tests/b.test.js:1:1\n✖ tests/b.test.js (60.1ms)\n';
+  assert.deepEqual(lauf.roteUnitProben(ausgabe), ['[A] fällt', 'tests/b.test.js']);
+  assert.deepEqual(lauf.roteUnitProben('ℹ pass 3\n'), []);
+  const bericht = { suites: [{ file: 'altkern.spec.js', specs: [{ title: 'baut nach', ok: false }, { title: 'grün', ok: true }],
+    suites: [{ specs: [{ title: 'innen', ok: false }] }] }] };
+  assert.deepEqual(lauf.roteReisen(bericht), ['altkern.spec.js › baut nach', 'altkern.spec.js › innen']);
+  assert.deepEqual(lauf.roteReisen(null), []);
 });

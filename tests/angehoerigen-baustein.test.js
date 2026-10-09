@@ -75,9 +75,16 @@ test('[Baustein · Vertrauen · Rot-Beweis] eine UNGEPRÜFTE Vorlage kann keinen
   d.angehoerigenVorlagenModule = [weit()];
   V._angehoerigenVorlagenAusDepotAnmelden(d);
   assert.equal(V.empfaengerBausteineAlle().find((b) => b.id === 'geburt').weit, false, 'unsigniert: weit wird zurückgenommen');
-  d.angehoerigenVorlagenModule = [weit({ ungeprueft: false })];
+  // Schutz-Wagen S2 (04.10.2026): das Feld allein ist Selbstauskunft — weit bleibt zurückgenommen.
+  d.angehoerigenVorlagenModule = [weit({ ungeprueft: false, pruefstufe: 'intern', anbieterIdGeprueft: true })];
   V._angehoerigenVorlagenAusDepotAnmelden(d);
-  assert.equal(V.empfaengerBausteineAlle().find((b) => b.id === 'geburt').weit, true, 'verifiziert: weit bleibt');
+  assert.equal(V.empfaengerBausteineAlle().find((b) => b.id === 'geburt').weit, false, 'nur behauptet verifiziert: weit wird zurückgenommen');
+  // Beim Öffnen nachgeprüfte Kette (Ergebnis der Ladeprüfung eingetragen; die Prüfung selbst: tests/ladepruefung-alle-modultypen.test.js).
+  const nach = weit({ ungeprueft: false });
+  V._modulBelegAlsGeprueftSetzen(nach, { stufe: 'extern-geprueft:herausgeber', anbieterId: null });
+  d.angehoerigenVorlagenModule = [nach];
+  V._angehoerigenVorlagenAusDepotAnmelden(d);
+  assert.equal(V.empfaengerBausteineAlle().find((b) => b.id === 'geburt').weit, true, 'nachgeprüft: weit bleibt');
   assert.equal(V.empfaengerBausteineAlle().find((b) => b.id === 'erbe').weit, true, 'ab Werk unverändert');
 });
 

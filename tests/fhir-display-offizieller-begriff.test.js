@@ -11,9 +11,10 @@
    Elements genau der `quellBegriff` der Liste oder fehlt, und `text` trägt
    den eigenen Namen. LOINC trägt seit v810 den LONG_COMMON_NAME als
    quellBegriff (display = dieser); ATC hat bis zur Rechtsklärung keinen
-   (display fehlt); ICD-10-GM ebenso, bis der Gerüst-Wächter die
-   amtlichen Titel als Terminologie-Daten einordnen kann (endständige Codes
-   hält tests/icd10gm-endstaendig.test.js).
+   (display fehlt). ICD-10-GM trägt seit der ICD-Anzeige (06.10.2026) den
+   amtlichen Titel der Systematik als quellBegriff (endständige Codes und
+   Titel hält tests/icd10gm-endstaendig.test.js, die Anzeige
+   tests/icd-anzeige-amtlich.test.js).
    ROT-BEWEIS: die LOINC-Liste von c30128b6a (ohne Kennzeichen); ein Bundle,
    das den eigenen Namen als display trägt.
    ════════════════════════════════════════════════════════════════════════ */
@@ -65,7 +66,7 @@ async function bundleMitAllenSystemen() {
   V.sektorFeldSetzen('identity', 'birthDate', '1950-03-14');
   V.sektorFeldSetzen('health', 'allergiesMedicationFoodOther', [V.chipAusEingabe('snomedAllergen', 'Allergie gegen Penicillin')]);
   V.sektorFeldSetzen('health', 'medicationOngoing', [V.chipAusEingabe('atc', 'Ramipril')]);
-  V.sektorFeldSetzen('health', 'chronicConditionsDiagnoses', [V.chipAusEingabe('icd10', 'Essentielle (primäre) Hypertonie')]);
+  V.sektorFeldSetzen('health', 'chronicConditionsDiagnoses', [V.chipAusEingabe('icd10', 'Bluthochdruck')]);
   return V.fhirIpsBundle(undefined, { sensibel: true });
 }
 
@@ -76,7 +77,7 @@ test('[FHIR·display] jede Liste mit Daten trägt anzeigeNameEigen; im IPS-Bundl
   for (const s of ['http://snomed.info/sct', 'http://fhir.de/CodeSystem/bfarm/atc', 'http://fhir.de/CodeSystem/bfarm/icd-10-gm']) assert.ok(cs.includes(s), 'Vorbedingung: ' + s + ' im Bundle');
   assert.deepEqual(bundleBefund(b, LISTEN), []);
   const icd = codings(b).find((x) => x.c.system === 'http://fhir.de/CodeSystem/bfarm/icd-10-gm');
-  assert.equal(icd.c.display, undefined, 'ICD bis zur Einordnung der amtlichen Titel ohne display');
+  assert.equal(icd.c.display, 'Essentielle Hypertonie, nicht näher bezeichnet: Ohne Angabe einer hypertensiven Krise', 'ICD: der amtliche Titel der Systematik 2026');
   assert.equal(icd.c.code, 'I10.90');
   assert.equal(codings(b).find((x) => x.c.system === 'http://fhir.de/CodeSystem/bfarm/atc').c.display, undefined);
 });

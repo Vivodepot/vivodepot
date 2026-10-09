@@ -6,14 +6,113 @@
   "codingVersion": "2026",
   "kuerzel": "ICD-10-GM",
   "anzeigeNameEigen": true,
+  "herkunftPflicht": true,
   "lizenzWortlaut": "icd-10-gm-quellenangabe.txt",
-  "lizenz": "Die vorliegende Ausgabe beruht\n(1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und\n(2) auf der australischen ICD-10-AM, First Edition.\nDie englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.\n© zu (1): Weltgesundheitsorganisation (WHO) 1992\n© zu (2): Commonwealth of Australia 1998\nDer Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nDas Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDie Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).",
+  "lizenz": "Die vorliegende Ausgabe beruht\n(1) auf der vollständigen amtlichen Fassung der Internationalen statistischen Klassifikation der Krankheiten und verwandter Gesundheitsprobleme, 10. Revision, und\n(2) auf der australischen ICD-10-AM, First Edition.\nDie englischsprachige Originalausgabe zu (1) wurde 1992 von der Weltgesundheitsorganisation (WHO) veröffentlicht als International Statistical Classification of Diseases and Related Health Problems, Tenth Revision, Geneva, WHO, Vol. 1, 1992; die englischsprachige Originalausgabe zu (2) wurde 1998 vom australischen National Centre for Classification in Health veröffentlicht als Volume 1 of The International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Australian Modification (ICD-10-AM), First Edition.\n© zu (1): Weltgesundheitsorganisation (WHO) 1992\n© zu (2): Commonwealth of Australia 1998\nDer Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nDas Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDie Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).\n\nDas Alphabetische Verzeichnis zur ICD-10-GM entstand auf der Basis des Diagnosenthesaurus des Zentralinstituts für die kassenärztliche Versorgung in der Bundesrepublik Deutschland (Zi). Es wurde im Laufe der Jahre ergänzt um Texte aus dem Alphabetischen Verzeichnis der ICD-10-WHO.\nFür den Diagnosenthesaurus gilt als Inhaber der Nutzungsrechte:\nZentralinstitut für die kassenärztliche Versorgung in der Bundesrepublik Deutschland (Zi)\nSalzufer 8, 10587 Berlin\nInternet: https://www.zi.de\nDer Inhaber der Nutzungsrechte für diese Teile ist:\nBundesinstitut für Arzneimittel und Medizinprodukte (BfArM), Kurt-Georg-Kiesinger-Allee 3, 53175 Bonn.\nHerausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)\nDer Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).",
   "status": "seed",
   "hinweis": "Sample/Seed, ICD-10-GM-Vollliste ~15.000 Codes ausstehend",
+  "alphabet": {
+    "quelle": "Alphabetisches Verzeichnis zur ICD-10-GM, Version 2026 (BfArM), Klassifikationsdatei icd10gm2026alpha_edvtxt_20250926.txt, Stand 26.09.2025, aus icd10gm2026alpha-txt.zip (SHA-256 03cd90e1a0a397c2058c1398fe7f4a38346f80c0d1530c595850767862709cd9)",
+    "hinweis": "Nur die genutzten Einträge, zeichengleich (§ 62 UrhG); nr = BfArM-interne laufende Nummer (Feld 2), alle mit Druckkennzeichen 1 (Buchfassung). Geprüft von tools/icd-alphabet-begriffe.js --alphabet <datei>.",
+    "eintraege": [
+      {
+        "nr": "99043",
+        "code": "E11.90",
+        "text": "Typ-2-Diabetes mellitus ohne Komplikation"
+      },
+      {
+        "nr": "99048",
+        "code": "E11.90",
+        "text": "Typ-2-Diabetes mellitus"
+      },
+      {
+        "nr": "27887",
+        "code": "E11.90",
+        "text": "Altersdiabetes"
+      },
+      {
+        "nr": "16704",
+        "code": "I10.90",
+        "text": "Bluthochdruck"
+      },
+      {
+        "nr": "26745",
+        "code": "I10.90",
+        "text": "Essentielle Hypertonie"
+      },
+      {
+        "nr": "16690",
+        "code": "I10.90",
+        "text": "Hypertonie"
+      },
+      {
+        "nr": "16691",
+        "code": "I10.90",
+        "text": "Hoher Blutdruck"
+      },
+      {
+        "nr": "16367",
+        "code": "J45.99",
+        "text": "Asthma bronchiale"
+      },
+      {
+        "nr": "20267",
+        "code": "J45.99",
+        "text": "Asthma"
+      },
+      {
+        "nr": "16368",
+        "code": "J45.99",
+        "text": "Bronchialasthma"
+      },
+      {
+        "nr": "20721",
+        "code": "C56",
+        "text": "Ovarialkrebs"
+      },
+      {
+        "nr": "119958",
+        "code": "C56",
+        "text": "Maligner Tumor des Ovars"
+      }
+    ]
+  },
   "daten": [
-    { "code": "E11.90", "anzeigeName": "Diabetes mellitus Typ 2, ohne Komplikationen", "synonyme": ["Diabetes Typ 2", "Zuckerkrankheit"], "kategorie": "Stoffwechsel" },
-    { "code": "I10.90", "anzeigeName": "Essentielle (primäre) Hypertonie", "synonyme": ["Bluthochdruck", "Hypertonie"], "kategorie": "Herz-Kreislauf" },
-    { "code": "J45.99", "anzeigeName": "Asthma bronchiale, nicht näher bezeichnet", "synonyme": ["Asthma"], "kategorie": "Atemwege" },
-    { "code": "C56", "anzeigeName": "Bösartige Neubildung des Ovars", "kategorie": "Onkologie" }
+    {
+      "code": "E11.90",
+      "quellBegriff": "Diabetes mellitus, Typ 2: Ohne Komplikationen: Nicht als entgleist bezeichnet",
+      "anzeigeName": "Typ-2-Diabetes mellitus ohne Komplikation",
+      "synonyme": [
+        "Typ-2-Diabetes mellitus",
+        "Altersdiabetes"
+      ]
+    },
+    {
+      "code": "I10.90",
+      "quellBegriff": "Essentielle Hypertonie, nicht näher bezeichnet: Ohne Angabe einer hypertensiven Krise",
+      "anzeigeName": "Bluthochdruck",
+      "synonyme": [
+        "Essentielle Hypertonie",
+        "Hypertonie",
+        "Hoher Blutdruck"
+      ]
+    },
+    {
+      "code": "J45.99",
+      "quellBegriff": "Asthma bronchiale, nicht näher bezeichnet: Ohne Angabe zu Kontrollstatus und Schweregrad",
+      "anzeigeName": "Asthma bronchiale",
+      "synonyme": [
+        "Asthma",
+        "Bronchialasthma"
+      ]
+    },
+    {
+      "code": "C56",
+      "quellBegriff": "Bösartige Neubildung des Ovars",
+      "anzeigeName": "Ovarialkrebs",
+      "synonyme": [
+        "Maligner Tumor des Ovars"
+      ]
+    }
   ]
 }

@@ -6,6 +6,8 @@
    gegen eine TEMP-Kopie über `--ausgabe` — nie die committete docs/faktenbasis.md.
    Der Rot-Beweis, den der Auftrag ausdrücklich verlangt: `--ohne-suite` darf eine
    bestehende Suite-Zahl nicht verändern — weder raten noch auf Null setzen.
+   Seit 06.10.2026 (Befund FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN, Wort TOP): sie steht dann gar nicht mehr da — die Zeile
+   sagt „nicht neu gemessen (letzte Messung <Datum>, <Stand>)“ und trägt die Herkunft der letzten Messung, nicht deren Zahl.
    ════════════════════════════════════════════════════════════════════════ */
 const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // nur-privat: s. tests/helfer/nur-privat.js
 const assert = require('node:assert/strict');
@@ -21,7 +23,7 @@ function tempPfad() {
   return path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'vd-faktenbasis-ohne-suite-test-')), 'faktenbasis.md');
 }
 
-test('[Rot-Beweis] --ohne-suite übernimmt eine bestehende Suite-Zahl unverändert, misst nicht neu', () => {
+test('[Rot-Beweis] --ohne-suite misst nicht neu und schreibt keine alte Zahl fort, sondern die letzte Messung', () => {
   const temp = tempPfad();
   // Grundgerüst (ohne --ohne-suite, ohne --check) — die Suite-Zeile ist hier noch ein
   // Platzhaltertext, kein Meßwert (s. `pruefebeneZahlen`, `--ausgabe`-Zweig) — irrelevant für
@@ -30,7 +32,7 @@ test('[Rot-Beweis] --ohne-suite übernimmt eine bestehende Suite-Zahl unverände
   const vorher = fs.readFileSync(temp, 'utf8');
   const geplanteZahl = '424242';
   const praepariert = vorher.replace(/^- Suite \(Node-Tests,.*$/m,
-    '- Suite (Node-Tests, echter Lauf `node --test`, TAP-Summenzeile): ' + geplanteZahl);
+    '- Suite (Node-Tests, echter Lauf `node --test` am 2026-01-02, abc1234 Stand Kanon, TAP-Summenzeile): ' + geplanteZahl);
   assert.notEqual(praepariert, vorher, 'Anker für die Suite-Zeile nicht gefunden — Test veraltet');
   fs.writeFileSync(temp, praepariert);
 
@@ -39,10 +41,11 @@ test('[Rot-Beweis] --ohne-suite übernimmt eine bestehende Suite-Zahl unverände
   const dauerMs = Date.now() - start;
 
   const nachher = fs.readFileSync(temp, 'utf8');
-  assert.match(nachher, new RegExp(geplanteZahl),
-    '--ohne-suite muss die bestehende Zahl unverändert übernehmen, nicht neu messen');
-  assert.ok(!/nicht ermittelt|UNGEMESSEN|nicht neu gemessen/.test(nachher.match(/^- Suite \(Node-Tests,.*$/m)[0]),
-    'die geschriebene Zeile darf keinen Platzhalter tragen, wenn eine echte Zahl bestand');
+  const zeile = nachher.match(/^- Suite \(Node-Tests,.*$/m)[0];
+  assert.equal(zeile, '- Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-01-02, abc1234 Stand Kanon)',
+    '--ohne-suite schreibt die Herkunft der letzten Messung, nicht ihre Zahl');
+  assert.doesNotMatch(nachher, new RegExp(geplanteZahl), 'die alte Zahl geht nicht weiter');
+  assert.ok(!/nicht ermittelt|UNGEMESSEN/.test(zeile), 'kein Platzhalter, wenn eine Messung bestand');
   // Ein echter Suite-Lauf dauert ~50s (s. Kommentar in pruefebeneZahlen) — 15s ist eine grosszügige
   // Schwelle, die jeden versehentlichen Rückfall auf den teuren Pfad zuverlässig fängt, ohne auf
   // exakte Millisekunden angewiesen zu sein.

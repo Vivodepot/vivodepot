@@ -5,6 +5,8 @@
    Gegenstand: jeder Schriftstapel in den Anwendungen (alle *.html im Repo-Wurzelordner), in den
    Erscheinungsbild-Quellen und -Modulen (tools/erscheinung) und jsPDF `setFont('times')`.
    Ratsche: tools/serifen-grundlinie.json, die Zahl je Datei darf nur sinken.
+   Modulweg (05.10.2026): die `schriftart` eines Branding-Moduls, aufgelöst zu dem Stapel, den der Kern anwenden würde —
+   keine Schriftart ohne Datei, kein serifer Stapel, jeder Stapel endet auf sans-serif.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -59,4 +61,55 @@ test('[Serifen·Rot-Beweis] Formen außerhalb des font-family-Stapels: SVG-Attri
   assert.deepEqual(art("ctx.font = 'bold 12px Inter, sans-serif';"), [], 'Sans im Canvas');
   assert.deepEqual(art('.x { font: 16px/1.4 var(--font-ui); }'), [], 'Kurzform mit Token');
   assert.deepEqual(art('.x { font-family: var(--font-narrativ); }'), [], 'Token ohne Rückfall');
+});
+
+/* ── Modulweg (05.10.2026, Befund SCHRIFTART-OHNE-DATEI-SERIFEN) ── */
+const { execFileSync } = require('node:child_process');
+const KERN_TEXT = fs.readFileSync(S.KERN, 'utf8');
+const EB = S.ebAusModul(JSON.parse(fs.readFileSync(S.ERSCHEINUNGSBILD_HEUTE, 'utf8')));
+const os = require('node:os');
+/* Das Modul des Rot-Beweises steht hier, nicht als Fixture-Datei: es ist kein Depot und braucht keinen Platz im Fixture-Bestand. */
+const GEORGIA_MODUL = { modulTyp: 'branding', moduleVersion: 1, herkunft: 'probe-serifen', farbePrimaer: '#1a3a8b', schriftart: 'Georgia' };
+
+test('[Serifen·Modulweg] die Branding-Module unter tools/ lösen zu einem Sans-Stapel auf, jede Schriftart hat eine Datei', () => {
+  const module = S.standardModule().map((p) => path.relative(S.REPO, p));
+  assert.ok(module.includes(path.join('tools', 'buergermodul', 'vd-branding.json')), 'die eigene Marke ist in der Menge');
+  assert.deepEqual(S.moduleMessen(S.standardModule()), {});
+});
+
+test('[Serifen·Modulweg] der Kern löst Inter zu einem Stapel auf, der auf sans-serif endet', () => {
+  const A = S.stapelAufloeserAusKern(KERN_TEXT);
+  const stapel = S.modulStapel({ schriftart: 'Inter' }, EB, A);
+  assert.match(stapel, /^Inter,/);
+  assert.equal(S.stapelEndetSans(stapel), true);
+  assert.equal(S.stapelPruefen(stapel), false);
+  assert.deepEqual(S.modulFunde({ schriftart: 'Inter' }, EB, A), []);
+});
+
+test('[Serifen·Modulweg·Rot-Beweis] ein Branding-Modul mit schriftart „Georgia“ ohne Datei wird gefunden — auch über die Kommandozeile', () => {
+  const A = S.stapelAufloeserAusKern(KERN_TEXT);
+  const f = S.modulFunde(GEORGIA_MODUL, EB, A);
+  assert.deepEqual(f.map((x) => x.grund), ['schriftart-ohne-datei']);
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'serifen-modul-'));
+  try {
+    const datei = path.join(tmp, 'branding.json');
+    fs.writeFileSync(datei, JSON.stringify(GEORGIA_MODUL));
+    let code = 0;
+    try { execFileSync(process.execPath, [path.join(S.REPO, 'tools', 'serifen-pruefen.js'), '--modul', datei], { stdio: 'pipe' }); } catch (e) { code = e.status; }
+    assert.equal(code, 1);
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
+test('[Serifen·Modulweg·Rot-Beweis] reicht der Kern die Schriftart roh durch (der alte Stand), sind Serifen und der fehlende Sans-Abschluss rot', () => {
+  const alt = 'function _brandingSchriftStapel(schriftart, eb) {';
+  assert.ok(KERN_TEXT.includes(alt), 'Anker der Mutation');
+  const mutiert = KERN_TEXT.replace(alt, alt + ' return typeof schriftart === "string" ? schriftart : null;');
+  const A = S.stapelAufloeserAusKern(mutiert);
+  assert.ok(S.modulFunde({ schriftart: 'Georgia' }, EB, A).some((x) => x.grund === 'serif'), 'Georgia');
+  assert.ok(S.modulFunde({ schriftart: 'Barlow' }, EB, A).some((x) => x.grund === 'endet-nicht-auf-sans-serif'), 'Barlow allein');
+  assert.ok(S.modulFunde({ schriftart: 'Inter' }, EB, A).some((x) => x.grund === 'endet-nicht-auf-sans-serif'), 'selbst Inter allein');
+});
+
+test('[Serifen·Modulweg·Rot-Beweis] fehlt der Anker im Kern, wirft der Wächter statt still zu schweigen', () => {
+  assert.throws(() => S.stapelAufloeserAusKern(KERN_TEXT.replace(S.STAPEL_ANKER[0], 'const _UMBENANNT = ')), /Anker/);
 });

@@ -51,7 +51,7 @@ function argWert(name) { const i = process.argv.indexOf(name); return i > 0 ? pr
 function log(s) { process.stdout.write(s + '\n'); }
 
 function pushLaeuft() {
-  const ps = execFileSync('ps', ['-axo', 'command='], { encoding: 'utf8' });
+  const ps = execFileSync('ps', ['-axo', 'command='], { maxBuffer: 256 * 1024 * 1024, encoding: 'utf8' });
   return ps.split('\n').some((z) => /(^|\/)git(\s+-C\s+\S+)?\s+push\b/.test(z) || /git-remote-https/.test(z));
 }
 function warteBisKeinPush(trocken) {

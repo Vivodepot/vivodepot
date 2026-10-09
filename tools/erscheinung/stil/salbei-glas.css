@@ -1,0 +1,249 @@
+/* Profil „Salbei mit Glas“ (U2-ADR-473 W5a): helle Kopfzeile und Leiste als Glas (M2/F2 Teil 1), Glas-Werte wie vivodepot.de, Nacht neutral,
+ Fußzeile gegliedert. Die Anordnung (Kachel-Zone, „i“, zwei Spalten) ist Layout und folgt mit W5b. */
+/* ── Kopfzeile: hell auf Grund, Rahmen trägt die Depot-Farbe (U2-ADR-236) ── */
+/* --auf-akzent folgt einer Marken-Kopfzeile (deren geprüfte Schriftfarbe), sonst dunkle Tinte auf dem hellen Glas. Der geschützte Speicherstatus malt
+   damit; fest dunkel ergab er auf einer Marken-Kopfzeile 1,76 bzw. 2,28:1, und der Kern fiel aufs nackte Gerüst zurück (gemessen 07.10.2026). */
+html:not(.dark-mode):not(.high-contrast) .topbar {
+--auf-akzent: var(--vd-branding-topbar-text, var(--ink)); --vm-chrome-text: var(--vd-branding-topbar-text, var(--ink)); --punkt-rand: rgba(22,37,23,.3);
+--chrome-feld-flaeche: var(--white); --chrome-feld-rand: #7d8f70; --chrome-feld-hover: var(--salbei-light);
+--wortmarke-vivo: var(--ink); --wortmarke-depot: var(--salbei-dunkel);
+background: var(--vd-branding-topbar-primaer, rgba(255,255,255,.66)); color: var(--vd-branding-topbar-text, var(--ink));
+box-shadow: 0 18px 50px rgba(79,101,57,.10);
+-webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4);
+}
+/* Die helle Unterkante nur im eigenen Depot; im Sub-Depot gilt die Basisregel (3 px in seiner Farbe, U2-ADR-236). */
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .topbar { border-bottom: 1px solid rgba(255,255,255,.92); }
+html:not(.dark-mode):not(.high-contrast) .topbar .btn { border: 1px solid #7d8f70; background: var(--white); color: var(--ink); }
+html:not(.dark-mode):not(.high-contrast) .topbar .btn:hover { background: var(--salbei-light); }
+html:not(.dark-mode):not(.high-contrast) .topbar .marke:hover { background: var(--salbei-light); }
+html:not(.dark-mode):not(.high-contrast) .depot-pille, html:not(.dark-mode):not(.high-contrast) .modus-badge { background: var(--white); border-color: #7d8f70; }
+
+/* ── Seitenleiste: Glas, deckender Rückfall ── */
+html:not(.dark-mode):not(.high-contrast) .sidebar {
+background: rgba(226,234,218,.86); -webkit-backdrop-filter: blur(22px) saturate(140%); backdrop-filter: blur(22px) saturate(140%);
+border-right: 1px solid var(--line);
+}
+@media (prefers-reduced-transparency: reduce) {
+html:not(.dark-mode):not(.high-contrast) .sidebar { background: #e2eada; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+html:not(.dark-mode):not(.high-contrast) .sidebar { background: #e2eada; }
+}
+.nav-item { border-radius: var(--radius-knopf); }
+html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv { background: rgba(79,101,57,.10); }
+html:not(.dark-mode):not(.high-contrast) .nav-item:hover { background: rgba(255,255,255,.55); }
+.nav-gruppe > summary { font-weight: var(--fw-semibold); }
+
+/* ── Eingabesicht: Spaltenlinien statt Karten ── */
+.content { padding-left: var(--space-7); }
+.bereich-kopf h1, .bereich-kopf h2 { color: var(--ink); font-size: 2rem; letter-spacing: -0.025em; }
+.sektion, .sektion--eingabe { background: transparent; border: 0; border-top: 1px solid var(--ink); border-radius: 0; box-shadow: none; padding: var(--space-4) 0 0; }
+.sektion-titel { margin: 0 0 var(--space-4); color: var(--ink3); font-size: 0.72rem; font-weight: var(--fw-semibold); letter-spacing: 0.08em; }
+.feldgruppen-karte, .situation-block, .anfragen-ort {
+background: transparent; border: 0; border-radius: 0; box-shadow: none; padding-left: 0; margin-bottom: 0; overflow: visible;
+border-top: 1px solid var(--line);
+}
+.feldgruppen-karte:first-of-type { border-top: 0; }
+.feldgruppen-karte > summary, .situation-block > summary, .anfragen-ort > summary { padding-left: 0; padding-right: 0; }
+.feldgruppen-karte-koerper { padding-left: 0; padding-right: 0; border-top: 0; }
+.feld-zeile { border-top-color: var(--line); }
+.feld-label { color: var(--ink2); font-weight: var(--fw-medium); }
+.feld-zeile input, .feld-zeile select { background-color: var(--feld-flaeche); }
+
+/* Im Sub-Depot färbt die Farbe nur Linie und Punkt, nicht den Text (Zielbild F2): die Rollen-Regel „Text = --vm-akzent-stark"
+ aus dem Kern (14.09.2026) bleibt für Bestand „heute", M2 nimmt Tinte. */
+#app.modus-vollmacht.vm-akzent .nav-item.aktiv,
+#app.modus-vollmacht.vm-akzent .bereich-kopf h1,
+#app.modus-vollmacht.vm-akzent .bereich-kopf h2,
+#app.modus-vollmacht.vm-akzent .deckblatt-name,
+#app.modus-vollmacht.vm-akzent .sektor-intro { color: var(--ink); }
+#app.modus-vollmacht.vm-akzent .nav-item.aktiv { color: var(--salbei-dunkel); }
+#app.modus-vollmacht.vm-akzent .sektion-titel { color: var(--ink3); }
+#app.modus-vollmacht.vm-akzent .feld-label, #app.modus-vollmacht.vm-akzent .sektion-hint, #app.modus-vollmacht.vm-akzent .feld-hint { color: var(--ink2); }
+#app.modus-vollmacht .content .sektion { border-color: var(--ink); }
+.bereich-kopf .ico, #app.modus-vollmacht.vm-akzent .bereich-kopf .ico { color: var(--ink3); }
+
+/* ── Sub-Depot: die Farbe als Linie und Tönung, nie als Textfarbe (Produktentscheidung 04.10.2026) ──
+ Banner: Tönung 30 % des Tons auf Weiß (Tinte darauf ≥ 11:1, für alle acht Töne gerechnet), Rand 8 px + Haarrand in der
+ Linienfassung. Seitenleiste 8 px, Inhaltsblock 6 px. --vm-linie/--akzent setzt der Kern beim Betreten. */
+#app.modus-vollmacht .vollmacht-banner {
+background: color-mix(in srgb, var(--akzent) 30%, var(--white));
+border: 1px solid var(--vm-linie); border-left: 8px solid var(--vm-linie);
+}
+#app.modus-vollmacht .sidebar { border-left-width: 8px; }
+#app.modus-vollmacht .content-narrow { border-left: 6px solid var(--vm-linie); padding-left: var(--space-5); }
+/* Handy: der Name allein genügt, „Geöffnet:" bricht die Kopfzeile um */
+@media (max-width: 600px) { .tb-sub-praefix { display: none; } }
+/* Salbei mit Glas (Vorschau 05.10.2026, Attrappe): Salbei bleibt Markenfarbe wie vivodepot.de, Kopf und Leiste als Glas, nachts neutral. */
+html.dark-mode #app:not(.modus-vollmacht) #sidebar.sidebar { border-left-color: #d4d7d1; }
+html.dark-mode #app:not(.modus-vollmacht) .app-fuss { border-top-color: #d4d7d1; }
+html.dark-mode #app #sidebar .nav-item.aktiv { background: #d4d7d1; color: #151719; }
+html.dark-mode #app #sidebar .nav-item.aktiv .ico { color: #151719; }
+html:not(.dark-mode):not(.high-contrast) body, html:not(.dark-mode):not(.high-contrast) #app { background: radial-gradient(1200px 500px at 15% 0%, #DCE6D0 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #E4E9F0 0%, transparent 55%), var(--cream); }
+html.dark-mode body, html.dark-mode #app { background: radial-gradient(1200px 700px at 8% 0%, #262b27 0%, transparent 60%), radial-gradient(1000px 800px at 95% 100%, #2a2622 0%, transparent 65%), var(--cream); }
+html:not(.high-contrast) .sidebar, html:not(.high-contrast) .main, html:not(.high-contrast) .content { background-color: transparent; }
+/* Fußzeile gegliedert (Produktentscheidung 05.10.2026): Hinweis allein in Zeile 1, darunter links Version, Stand,
+ Lizenz und rechts Kontakt, Quellcode, Aktualisierungen. Ohne Trenner, Abstand gliedert. */
+#app .app-fuss { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 20px; row-gap: 6px; padding: 10px 24px 12px; }
+#app .app-fuss .ff-trenner { display: none; }
+#app .app-fuss .ff-haftung { flex: 1 0 100%; order: 0; color: var(--ink2); }
+#app .app-fuss .ff-version { order: 1; }
+#app .app-fuss .ff-datum { order: 2; }
+#app .app-fuss .ff-lizenz { order: 3; }
+#app .app-fuss a[href^="mailto:"] { order: 5; margin-left: auto; }
+#app .app-fuss .ff-quellcode { order: 6; }
+#app .app-fuss a[target="_blank"]:not(.ff-quellcode) { order: 7; }
+/* Glas wie vivodepot.de (vd.css, Glas-Bahn 05.10.2026). Abweichungen mit Grund: Kopf und Leiste liegen bündig am Fensterrand, darum ohne
+ Radius 24px; die Kachel-Zone ist dichter (.86), weil Leisten-Einträge unter ihr laufen; nachts und „Transparenz reduzieren“ eigene Werte. */
+html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .topbar, html.dark-mode #app:not(.modus-vollmacht) .sidebar { border-color: rgba(255,255,255,.08); box-shadow: none; }
+
+/* Kontrast auf Glas, gemessen am gebauten Produkt (05.10.2026): Unterzeilen in Tinte 2 statt 3, der Pfeil der Depot-Pille voll deckend
+ (Bestand „heute“ 3,29:1 im Hochkontrast), „Zurück zu meinem Depot“ in Tinte statt Depot-Farbe (die Depot-Farbe ist nie Textfarbe). */
+#sidebar .nav-item-sub { color: var(--ink2); }
+.dp-chevron { opacity: 1; }
+#app.modus-vollmacht #vm-zurueck { color: var(--ink); }
+html.dark-mode #sidebar .nav-item.aktiv .nav-item-sub { color: inherit; }
+/* Glas auf der ganzen Fläche (Produktentscheidung 06.10.2026: „auf dem ganzen Bildschirm, auch die Navigation“): das Lichtfeld trägt die ganze
+ Seite; Kopf, Leiste, Dialog, Abdunklung und Vorführ-Spalte sind Glas, der Inhalt liegt in leicht gläsernen Karten. Eingabefelder bleiben
+ deckend (Lesbarkeit). Werte wie vivodepot.de (Glas-Bahn). Rückfall: „Transparenz reduzieren“ und Hochkontrast deckend. */
+html:not(.dark-mode):not(.high-contrast) body, html:not(.dark-mode):not(.high-contrast) #app, html:not(.dark-mode):not(.high-contrast) #app .content { background: radial-gradient(1200px 500px at 15% 0%, #DCE6D0 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #E4E9F0 0%, transparent 55%), var(--cream); background-attachment: fixed; }
+html:not(.dark-mode):not(.high-contrast) #app .sidebar { background: rgba(255,255,255,.58); border-right: 1px solid rgba(255,255,255,.92); -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4); }
+html:not(.dark-mode):not(.high-contrast) #app .app-fuss { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(28,42,30,.22); -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2); }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.92); box-shadow: 0 18px 50px rgba(79,101,57,.14), inset 0 1px 0 rgba(255,255,255,.92); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: 24px; }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal .modal-aktionen { background: transparent; }
+html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); }
+html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar, html.dark-mode:not(.high-contrast) #app .app-fuss { background: rgba(26,28,31,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+html.dark-mode:not(.high-contrast) body, html.dark-mode:not(.high-contrast) #app { background: radial-gradient(1200px 500px at 15% 0%, #262b27 0%, transparent 60%), radial-gradient(900px 500px at 100% 100%, #23262d 0%, transparent 55%), var(--cream); background-attachment: fixed; }
+html.dark-mode:not(.high-contrast) #modal-rueck .modal { background: rgba(30,32,35,.82); border: 1px solid rgba(255,255,255,.08); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-radius: 24px; }
+@media (prefers-reduced-transparency: reduce) {
+/* Dieselben Selektoren wie das Glas oben (gleiche Spezifität, später = gewinnt): sonst bliebe das Glas stehen (Probe glas-flaechen). */
+html:not(.dark-mode):not(.high-contrast) .topbar, html:not(.dark-mode):not(.high-contrast) #app .sidebar, html:not(.dark-mode):not(.high-contrast) #app .app-fuss, html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal, html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte, html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: #f7f8f4; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar, html.dark-mode:not(.high-contrast) #app .app-fuss, html.dark-mode:not(.high-contrast) #modal-rueck .modal, html.dark-mode:not(.high-contrast) .vorfuehrung-spalte, html.dark-mode:not(.high-contrast) #app .sektion, html.dark-mode:not(.high-contrast) #app .feldgruppen-karte { background: #1e2023; -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* Die Abdunklung bleibt ein Schleier, nur ohne Weichzeichner. */
+html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(28,42,30,.45); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+/* Nachts ist --success in diesem Profil hell (neutraler Akzent): die Schrift des OK-Hinweises nimmt dann den dunklen Grund. */
+html.dark-mode:not(.high-contrast) #toast-host .toast.ok { color: var(--cream); }
+
+/* ── Ruhig: Gliederung über Fläche und Abstand, Linien nur für Fokus und Fehler (Entscheidung 07.10.2026) ──
+ Felder und „+ Hinzufügen“ hinterlegt statt umrandet; ein Feld bleibt über seine Unterkante als Feld erkennbar (WCAG 1.4.11:
+ „bottom border and faint grey background“, Feldgrenze ≥ 3:1 über --feld-rahmen). Keine Zierbalken, keine Trennlinien zwischen
+ Abschnitten und Zeilen. Im Hochkontrast bleibt alles wie in der Grundlage: dort tragen Rahmen. Die Sub-Depot-Farbe bleibt
+ (U2-ADR-236), sie zeigt sich als Tönung des Hinweises und als Unterkante der Kopfzeile, nicht als Balken. */
+html:not(.high-contrast) .sektion, html:not(.high-contrast) .sektion--eingabe { border-top: 0; padding-top: 0; margin-top: var(--space-7); }
+html:not(.high-contrast) .sektion-titel { color: var(--ink2); }
+html:not(.high-contrast) .feldgruppen-karte, html:not(.high-contrast) .situation-block, html:not(.high-contrast) .anfragen-ort { border-top: 0; margin-top: var(--space-4); }
+html:not(.high-contrast) .feld-zeile { border-top: 0; }
+html:not(.high-contrast) .toc { border: 0; background: transparent; padding-left: 0; padding-right: 0; }
+html:not(.high-contrast) .toc-liste a { border-bottom: 0; text-decoration: underline; text-decoration-color: transparent; }
+html:not(.high-contrast) .toc-liste a:hover { text-decoration-color: currentColor; }
+html:not(.high-contrast) :is(.content, .modal) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) {
+border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: rgba(79,101,57,.07);
+}
+/* Nachts ist das hinterlegte Feld dunkel; die Grundlage hält Felder nachts hell mit Papier-Tinte. Darum trägt das Feld hier die Nacht-Tinte (vorher 1,12 bis 1,57:1, Ebenen-Finder). */
+html.dark-mode:not(.high-contrast) :is(.content, .modal) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.07); color: var(--ink); }
+html:not(.high-contrast) .doku-panel { border: 0; background: rgba(79,101,57,.05); }
+html.dark-mode:not(.high-contrast) .doku-panel { background: rgba(255,255,255,.05); }
+html:not(.high-contrast) .pause-erlaubnis { border-top: 0; }
+html:not(.high-contrast) .gueltigkeit-zeile--eingebettet { border-left: 0; }
+html:not(.high-contrast) .doku-vorschlag-zeile, html:not(.high-contrast) .zusatz-aktionen { border-top: 0; }
+html:not(.high-contrast) .doku-std-badge { border-color: transparent; background: rgba(79,101,57,.10); }
+html.dark-mode:not(.high-contrast) .doku-std-badge { border-color: transparent; background: rgba(255,255,255,.10); }
+html:not(.high-contrast) .content .btn-sek:not(:disabled) { border-color: transparent; background: rgba(79,101,57,.10); }
+/* Listen und Karten: Fläche und Abstand statt Rahmen und Trennstrich. */
+html:not(.high-contrast) .regal-karten { border: 0; background: transparent; gap: var(--space-1); }
+html:not(.high-contrast) .regal-karte { border-top: 0; border-radius: var(--radius-sm); background: rgba(79,101,57,.05); }
+html.dark-mode:not(.high-contrast) .regal-karte { background: rgba(255,255,255,.05); }
+html:not(.high-contrast) .doku-wortlaut { border: 0; background: rgba(79,101,57,.05); }
+html.dark-mode:not(.high-contrast) .doku-wortlaut { background: rgba(255,255,255,.05); }
+html:not(.high-contrast) .liste-eintrag, html:not(.high-contrast) .liste-eintrag summary { border: 0; }
+html:not(.high-contrast) .wortlaut-block, html:not(.high-contrast) :is(.zusatz-aktionen, .bereich-assistenten) .wizard-gruppe > summary { border: 0; background: rgba(79,101,57,.07); }
+html.dark-mode:not(.high-contrast) .wortlaut-block, html.dark-mode:not(.high-contrast) :is(.zusatz-aktionen, .bereich-assistenten) .wizard-gruppe > summary { background: rgba(255,255,255,.07); }
+html:not(.high-contrast) .liste-eintrag { background: rgba(79,101,57,.05); }
+html.dark-mode:not(.high-contrast) .liste-eintrag { background: rgba(255,255,255,.05); }
+/* Mehrfachauswahl: ungewählt leicht hinterlegt, gewählt als volle Fläche (die Wahl hängt nicht an einem Rahmen). */
+html:not(.high-contrast) .feld-mehrfach-pill { border-color: transparent; background: rgba(79,101,57,.10); }
+html:not(.dark-mode):not(.high-contrast) .feld-mehrfach-pill.aktiv { border-color: transparent; background: var(--salbei-dunkel); color: var(--white); }
+html.dark-mode:not(.high-contrast) .feld-mehrfach-pill { border-color: transparent; background: rgba(255,255,255,.10); }
+html.dark-mode:not(.high-contrast) .feld-mehrfach-pill.aktiv { border-color: transparent; background: rgba(255,255,255,.28); color: var(--white); }
+html.dark-mode:not(.high-contrast) .content .btn-sek:not(:disabled) { background: rgba(255,255,255,.10); }
+html:not(.high-contrast) .btn-mini { border-color: transparent; background: rgba(79,101,57,.10); color: var(--ink); }
+html.dark-mode:not(.high-contrast) .btn-mini { background: rgba(255,255,255,.10); }
+/* Wo man ist: der aktive Punkt der Seitenleiste als volle Fläche (wie in der Freigabe vom 05.10.). */
+html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv { background: var(--salbei-dunkel); color: var(--white); font-weight: var(--fw-semibold); }
+html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv .ico { color: var(--white); }
+html.dark-mode:not(.high-contrast) .nav-item.aktiv { background: rgba(255,255,255,.16); color: var(--white); font-weight: var(--fw-semibold); }
+/* Sub-Depot ohne Balken: Tönung und Kopfzeilen-Unterkante tragen die Farbe. */
+html:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner { border: 0; }
+html:not(.high-contrast) #app.modus-vollmacht .content-narrow { border-left: 0; padding-left: 0; }
+html:not(.high-contrast) #app.modus-vollmacht .sidebar { border-left-width: var(--akzent-rand); }
+html:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv { background: color-mix(in srgb, var(--akzent) 30%, var(--white)); color: var(--ink); }
+html:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv .ico { color: var(--ink); }
+
+/* ── Seitenleiste, Ebenen (07.10.2026, Vorschau freigegeben): „Bereiche“ und „Austausch und Überblick“ sind dieselbe Stufe und die
+   stärkste; die Gruppen darunter ruhiger. Gegliedert über Abstand, ohne Linien. ── */
+.sidebar .gruppe-titel, .sidebar .nav-gruppe-austausch > summary {
+font-size: 15px; font-weight: 700; letter-spacing: normal; text-transform: none; color: var(--ink); padding-top: 14px;
+}
+.sidebar details.nav-gruppe:not(.nav-gruppe-austausch) > summary { font-size: 14px; font-weight: 500; color: var(--ink2); }
+.sidebar .nav-gruppe-austausch, .sidebar .nav-item-klein { border-top: 0; border-bottom: 0; }
+.sidebar .nav-gruppe-austausch { margin-top: 12px; }
+
+/* ── App-Start in der Sprache der Website (07.10.2026, zweiter Entwurf freigegeben): Glaskarte ohne Rand, Pillen-Knöpfe, der Hauptknopf
+   gefüllt, die übrigen als ruhige Fläche ohne Symbol; Vorlesen und Installationshinweis als leiser Text. Bleibt der Bildschirm der App. ── */
+html:not(.dark-mode):not(.high-contrast) #overlay { background: radial-gradient(1100px 520px at 12% 0%, var(--salbei-light) 0%, transparent 60%), var(--cream); }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt.karte {
+border: 0; border-radius: 22px; background: rgba(255,255,255,.72); box-shadow: 0 18px 50px rgba(79,101,57,.10); padding: 40px 44px 36px; max-width: 620px;
+}
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-kopf { position: relative; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .vor-depot-sprache { position: absolute; top: -18px; right: -20px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-brand { margin: 8px 0 22px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub { font-size: 17px; line-height: 1.6; color: var(--ink2); margin: 0 0 6px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sub:first-of-type { font-size: 20px; font-weight: 650; color: var(--ink); letter-spacing: -0.005em; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt > .welcome-kopf + div { text-align: center; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #vorlese-sicht {
+border: 0; background: none; box-shadow: none; color: var(--ink2); padding: 4px; text-decoration: underline; text-underline-offset: 3px; font-size: 14px;
+}
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-aktionen { margin-top: 26px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anlass {
+border-radius: var(--radius-pill); padding: 15px 26px; font-size: 16px; font-weight: 600; box-shadow: 0 10px 24px rgba(79,101,57,.18);
+}
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer { gap: 10px; margin-top: 12px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer .btn-sek {
+border: 0; border-radius: var(--radius-pill); background: rgba(79,101,57,.10); color: var(--ink); font-weight: 500; padding: 13px 20px; flex: 1 1 auto; white-space: nowrap;
+}
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer .btn-sek svg { display: none; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anfangen { color: var(--ink2); }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung { background: none; border: 0; box-shadow: none; padding: 0; margin-top: 30px; text-align: center; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .install-empfehlung-titel { font-size: 13px; color: var(--ink2); font-weight: 600; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .webapp-hinweis { font-size: 13px; color: var(--ink2); justify-content: center; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .webapp-hinweis svg { display: none; }
+@media (max-width: 600px) {
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt.karte { padding: 32px 20px 28px; border-radius: 18px; }
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .vor-depot-sprache { position: static; display: flex; margin: -12px 0 6px auto; width: max-content; }
+}
+
+/* ── Listen nach der Konvention „Hinzufügen“ (07.10.2026, freigegeben): Einträge als Zeilen auf ruhiger Fläche, Bearbeiten und Entfernen
+   als leise Verweise, darunter der Zweitknopf „Weitere … hinzufügen“ als ruhige Fläche ohne Plus und ohne Symbol. ── */
+.feld-liste-editor .liste-eintraege { padding-left: 0; margin: 0; list-style: none; }
+html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege > li {
+display: flex; align-items: baseline; gap: 16px; padding: 10px 12px; margin-bottom: 6px; background: rgba(79,101,57,.05); border: 0; border-radius: var(--radius-sm);
+}
+.feld-liste-editor .liste-eintrag-zusammenfassung { flex: 1; color: var(--ink); }
+html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege .btn-mini {
+background: none; border: 0; box-shadow: none; padding: 2px 0; min-height: 24px; color: var(--link); font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px;
+}
+.feld-liste-editor .liste-eintraege .btn-mini[disabled] { display: none; }
+html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:not([hidden]) {
+display: inline-block; align-self: flex-start; margin-top: 8px; padding: 9px 16px; min-height: 40px; border: 0; border-radius: var(--radius-md); box-shadow: none;
+background: rgba(79,101,57,.10); color: var(--ink); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
+}
+html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:hover { background: rgba(79,101,57,.16); }
+/* Auf grobem Zeigegerät bleibt die Trefferfläche bei 44 px (A47), auch für die leisen Verweise. */
+@media (pointer: coarse) {
+html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:not([hidden]),
+html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege .btn-mini { min-height: 44px; }
+.liste-alle-angaben { min-height: 44px; }
+}

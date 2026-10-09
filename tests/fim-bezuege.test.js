@@ -1,6 +1,6 @@
 'use strict';
 /* FIM-Bezüge im Produkt (U2-ADR-456, 30.09.2026): Kennung, Fassung und Freigabestatus je Depot-Feld, aus bereiche/bezuege.json in die
-   Kern-Region FIM-BEZUEGE erzeugt, sichtbar unter dem Feld und im fim-json-Export — und der Export geprüft gegen die gepinnten Zeilen. */
+   Kern-Region FIM-BEZUEGE erzeugt, im fim-json-Export (unter dem Feld seit 07.10.2026 nicht mehr) — und der Export geprüft gegen die gepinnten Zeilen. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -49,19 +49,8 @@ test('[FIM·Name] ohne belegte Freigabe steht in der Region kein Name — auch w
   assert.ok(R.zeilenAusTabelle(t, LOCK).zeilen.some((z) => z.name === 'erfundener Name'), 'Rot-Beweis: mit Freigabe käme der Name durch');
 });
 
-test('[FIM·Anzeige] unter dem Feld steht Kennung, Fassung und fest/nicht fest — ohne FIM-Namen', () => {
-  const { V } = ladeKern({ zusatzBindungen: ['feldBezugZeileHTML'] });
-  const zeile = V.__zusatz.feldBezugZeileHTML;
-  const fest = zeile('identity', 'familyName');
-  assert.match(fest, /data-fim-bezug="F60000227"/);
-  assert.match(fest, /F60000227/);
-  assert.match(fest, /1\.1/);
-  assert.ok(fest.includes(V.STRINGS.feldBezugFest));
-  const nichtFest = zeile('identity', 'streetAddress');
-  assert.match(nichtFest, /G00000587/);
-  assert.ok(nichtFest.includes(V.STRINGS.feldBezugNichtFest), 'eine nicht feste Fassung steht sichtbar so da');
-  assert.equal(zeile('identity', 'secondLastName'), '', 'ohne Bezug keine Zeile');
-});
+/* [FIM·Anzeige] entfällt seit 07.10.2026: der Bezug steht nicht mehr unter dem Feld (Entscheidung „keine technischen Markierungen in der
+   Benutzersicht“, gehalten von der Benutzersicht-Probe). Er bleibt in den Daten und im Export (unten). */
 
 test('[FIM·Export] fim-json trägt Bezugsdatensatz, Stand und je Wert den gepinnten Bezug — und der Prüfer findet nichts', async () => {
   const { V } = await mitDepot();

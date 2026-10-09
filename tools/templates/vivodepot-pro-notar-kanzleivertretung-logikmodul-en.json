@@ -24,7 +24,7 @@
   },
   "abschnitte": [
     {
-      "titel": "Part A — who acts if the notary is unavailable",
+      "titel": "Part A — who acts while the notary is being represented",
       "bloecke": [
         { "typ": "immer", "texte": ["For the locum case of a notary's office, the competent chamber of notaries appoints a substitute. This extract collects what the depot already holds on it and replaces neither the appointment nor information from the chamber."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
@@ -38,7 +38,7 @@
     {
       "titel": "Part B — admission and cover plan",
       "bloecke": [
-        { "typ": "immer", "texte": ["The following details come from the Pro module \"Business handover\" — the same underlying data that also supports a handover or an emergency, read here for the locum case."] },
+        { "typ": "immer", "texte": ["The following details come from the Pro module \"Business handover\" — the same underlying data that also supports cover or a handover, read here for the locum case."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_bezeichnung",
           "frage": "Professional admission(s)/license(s)?", "format": { "typ": "liste" }, "luecke": "— not recorded —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_frist",

@@ -3,7 +3,7 @@
    in einem Depot eine Vorsorgevollmacht-Zeile anlegen, den Erkennungs-Vorschlag erscheinen
    sehen, annehmen. Gegentest: Zeile entfernen, kein Vorschlag mehr. */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers');
 
 const KONSOLE_HARMLOS = /Content-Security-Policy|frame-ancestors/i;
 
@@ -18,7 +18,7 @@ test('Vorsorgevollmacht-Zeile anlegen → Erkennungs-Vorschlag erscheint, annehm
   // Instrument-Zeile über den echten Klickweg anlegen. Eine Vorsorgevollmacht trägt viele
   // pflichtige ja/nein-Unterfelder (Umfang/Beschränkungen) — jedes leer gebliebene Pflichtfeld
   // blockt das Speichern (echte Probe: erst bricht es am Modal, dann geht es durch).
-  await page.click('[data-eintrag-hinzufuegen="provisionInstruments"]');
+  await listenDialogOeffnen(page, 'provisionInstruments');
   await page.waitForSelector('#modal-inhalt [data-edit="instrument"]');
   await page.selectOption('#modal-inhalt [data-edit="instrument"]', 'enduring-power-of-attorney');
   // sichtbarWenn-Kaskade: eine Antwort macht das nächste Feld erst sichtbar — darum wiederholt
@@ -63,7 +63,7 @@ test('Gegentest: Zeile wieder entfernen lässt den Vorschlag verschwinden', asyn
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
 
-  await page.click('[data-eintrag-hinzufuegen="provisionInstruments"]');
+  await listenDialogOeffnen(page, 'provisionInstruments');
   await page.waitForSelector('#modal-inhalt [data-edit="instrument"]');
   await page.selectOption('#modal-inhalt [data-edit="instrument"]', 'custodianship-declaration');
   for (let runde = 0; runde < 20; runde++) {

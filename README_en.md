@@ -25,8 +25,8 @@ For citizens, Vivodepot is free of charge.
 
 ## How to get started
 
-Open [https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/) (German:
-[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/)) in any current browser — no
+Open [https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github) (German:
+[https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github)) in any current browser — no
 installation, no registration. Optionally add it to your home screen or install it; then it also works
 offline. On first start the application creates a new, password-protected depot and stores it as its
 own file. Step by step: [`QUICKSTART_en.md`](QUICKSTART_en.md).
@@ -79,4 +79,4 @@ Responsibility for, review of and approval of every change lie with Vivodepot Gm
 
 ## Version
 
-Version v919.
+Version v922.

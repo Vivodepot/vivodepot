@@ -163,11 +163,13 @@ test('[Lese-App · Absender · Verträglichkeit] eine Antwort ohne das Feld (vor
   assert.match(document.getElementById('app').innerHTML, /id="antwort-person">Angaben zu Gertrud Mustermann/, 'der Rest der Antwort steht wie zuvor');
 });
 
-test('[Lese-App · Absender · Rot-Beweis] unbekannte Rolle wird weggelassen, nicht übersetzt; geprüft nur mit verifiziert: true', () => {
+/* Seit dem Befund ANTWORT-VERIFIZIERT-SELBSTAUSKUNFT (05.10.2026) macht auch `verifiziert: true` den Absender nicht geprüft: die
+   Antwort ist nicht signiert, das Feld ist Selbstauskunft der Datei (vivodepot-lesen.html, antwortAngabeHerkunft). */
+test('[Lese-App · Absender · Rot-Beweis] unbekannte Rolle wird weggelassen, nicht übersetzt; geprüft nie aus der Datei', () => {
   const { V: L, document } = ladeLesen();
   assert.match(kopf(L, document, DS({ name: 'X Mustermann', rolle: 'notar' })), /^Antwort von X Mustermann auf die Anfrage/);
   assert.equal(L.antwortAnzeigeModell(DS({ name: 'X', rolle: 'selbst', herkunft: { verifiziert: 'ja' } })).absender.herkunft, 'eingetragen');
-  assert.equal(L.antwortAnzeigeModell(DS({ name: 'X', rolle: 'selbst', herkunft: { verifiziert: true } })).absender.herkunft, 'geprueft');
+  assert.equal(L.antwortAnzeigeModell(DS({ name: 'X', rolle: 'selbst', herkunft: { verifiziert: true } })).absender.herkunft, 'eingetragen');
   assert.equal(L.antwortAnzeigeModell(DS({ name: '   ', rolle: 'selbst' })).absender, null, 'ein leerer Name ist kein Absender');
 });
 

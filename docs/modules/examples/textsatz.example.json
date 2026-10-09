@@ -1,0 +1,14 @@
+{
+  "modulTyp": "textsatz",
+  "sprache": "nl",
+  "moduleVersion": 1,
+  "regeln": {
+    "datumsformat": "TT/MM/JJJJ",
+    "dezimaltrenner": ",",
+    "tausendertrenner": ".",
+    "waehrung": "EUR"
+  },
+  "texte": {
+    "strings:depotPilleEigen.text": "Mijn depot"
+  }
+}

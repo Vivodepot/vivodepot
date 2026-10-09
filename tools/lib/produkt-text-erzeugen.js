@@ -479,6 +479,44 @@ function _ebPx(wert) {
   if (!m) return null;
   return m[2] === 'rem' ? parseFloat(m[1]) * 16 : parseFloat(m[1]);
 }
+/* Die Layout-Beschreibung (W3, U2-ADR-473): WÖRTLICH die Funktion _ebLayoutPruefen aus dem Kopf-Skript des Kerns
+   (tests/erscheinungsbild-pruefung.test.js vergleicht die beiden Texte und urteilt mit beiden über denselben Satz von Fällen). */
+function _ebLayoutPruefen(layout, R) {
+  const L = R.layout, funde = [];
+  const fund = function (schluessel, grund) { funde.push({ ebene: 'layout', schluessel: schluessel, grund: grund }); };
+  const objekt = function (o) { return !!o && typeof o === 'object' && !Array.isArray(o); };
+  const eigen = function (o, k) { return Object.prototype.hasOwnProperty.call(o, k); };
+  if (!objekt(layout)) { fund(null, 'layout-kein-objekt'); return funde; }
+  if (!Object.keys(layout).length) return funde;
+  for (const k of Object.keys(layout)) {
+    if (k === 'faecher') continue;
+    if (!eigen(L.parameter, k)) fund(k, 'layout-schluessel-unbekannt');
+    else if (L.parameter[k].indexOf(layout[k]) < 0) fund(k, 'parameter-unbekannt');
+  }
+  if (!objekt(layout.faecher)) { fund('faecher', 'faecher-kein-objekt'); return funde; }
+  const gezaehlt = {};
+  for (const fach of Object.keys(layout.faecher)) {
+    if (L.faecher.indexOf(fach) < 0) { fund(fach, 'fach-unbekannt'); continue; }
+    const liste = layout.faecher[fach];
+    if (!Array.isArray(liste)) { fund(fach, 'fach-keine-liste'); continue; }
+    for (const e of liste) {
+      if (!objekt(e) || typeof e.baustein !== 'string') { fund(fach, 'eintrag-kein-objekt'); continue; }
+      if (Object.keys(e).some(function (k) { return k !== 'baustein' && k !== 'form'; })) fund(e.baustein, 'eintrag-schluessel-unbekannt');
+      if (!eigen(L.bausteine, e.baustein)) { fund(e.baustein, 'baustein-unbekannt'); continue; }
+      const def = L.bausteine[e.baustein];
+      gezaehlt[e.baustein] = (gezaehlt[e.baustein] || 0) + 1;
+      if (gezaehlt[e.baustein] === 2) fund(e.baustein, 'baustein-doppelt');
+      if (!eigen(def, fach)) { fund(e.baustein, 'baustein-falsches-fach'); continue; }
+      const formen = def[fach];
+      if (formen.length ? formen.indexOf(e.form === undefined ? formen[0] : e.form) < 0 : e.form !== undefined) fund(e.baustein, 'form-unbekannt');
+    }
+  }
+  for (const name of Object.keys(L.bausteine)) {
+    if (gezaehlt[name] || L.optional.indexOf(name) >= 0) continue;
+    fund(name, R.pflicht.indexOf(name) >= 0 ? 'pflicht-fehlt' : 'baustein-fehlt');
+  }
+  return funde;
+}
 /* Die Grammatik eines `stil`-Teils — dieselbe wie _ebStilPruefen im Kern (Lesart B, Auflagen der Gegenlesung 1–3). */
 function _ebStilPruefen(teil, text, R) {
   const g = [];
@@ -519,10 +557,8 @@ function _erscheinungsbildPruefen(modul, R) {
   if (!modul || typeof modul !== 'object' || Array.isArray(modul)) return { gueltig: false, verworfene: [{ ebene: null, schluessel: null, grund: 'kein-objekt' }], verstoesse };
   for (const s of Object.keys(modul)) if (!R.schluessel.includes(s)) verworfene.push({ ebene: null, schluessel: s, grund: 'unbekannter-schluessel' });
   if (modul.modulTyp !== 'erscheinungsbild') verworfene.push({ ebene: null, schluessel: 'modulTyp', grund: 'falscher-modultyp' });
-  // `layout`: bis v897 seine Prüfung hier einhängt, nur leer — dieselbe Stelle wie im Kern.
-  if (modul.layout !== undefined && !(modul.layout && typeof modul.layout === 'object' && !Array.isArray(modul.layout) && !Object.keys(modul.layout).length)) {
-    verworfene.push({ ebene: null, schluessel: 'layout', grund: 'layout-ungeprueft' });
-  }
+  // `layout` (W3, LAYOUT_PFLICHT): dieselbe Prüfung wie im Kern, an derselben Stelle.
+  if (modul.layout !== undefined) for (const f of _ebLayoutPruefen(modul.layout, R)) verworfene.push(f);
   const bekannt = (n) => R.token.includes(n) || R.geschuetzt.includes(n);
   const ebenen = {};
   for (const ebene of Object.keys(R.ebenen)) {
@@ -561,7 +597,6 @@ function _erscheinungsbildPruefen(modul, R) {
       const px = _ebPx(aufgeloest);
       if (px !== null && px < grenze) verstoesse.push({ regel: 'mindestgroesse', ebene, schluessel: name, wert: px });
     }
-    // Andockstelle LAYOUT_PFLICHT (v897, v897) — dieselbe Stelle wie im Kern (erscheinungsbildPruefen). Heute ist R.pflicht leer.
   }
   return { gueltig: !verworfene.length && !verstoesse.length, verworfene, verstoesse };
 }
@@ -606,8 +641,22 @@ function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInha
    tools/produkt-konfektionieren.js (konfektionieren) und tests/produkt-test-backen.js, VOR produktTextErzeugen.
    Dieselbe Prüfung wie der Kern (aus dem Kerntext, kein Spiegel, tools/lib/schriften-pruefen.js), dazu die Bau-Pflicht der
    Entscheidung (Produktentscheidung 02.10.2026: „die Template-Schrift ist der feste Rückfall“): JEDE Erscheinungsbild-Zutat trägt
-   eine PDF-Schrift — TTF, fsType ohne Bit 1/8/9, Deckung von R.pdfPflicht —, sonst baut das Produkt nicht. Ein Kern vor v896
-   kennt den Abschnitt nicht; dann ist hier nichts zu prüfen. */
+   die Ab-Werk-Inter als PDF-Schrift — TTF, fsType ohne Bit 1/8/9, Deckung von R.pdfPflicht —, sonst baut das Produkt nicht. Ein Kern
+   vor v896 kennt den Abschnitt nicht; dann ist hier nichts zu prüfen.
+   PROFILSCHRIFT (Befund PDF-PROFILSCHRIFT-BAUPFLICHT-ZU-STRENG, 05.10.2026): die volle pdfPflicht gilt nur für die Ab-Werk-Inter
+   (familie „Inter“), die Stufe 2 der Rückfallkette. Gemessen: einer reinen Latein-Hausschrift (Barlow) fehlten 276 der 634 Zeichen
+   — sie kam nie ins PDF, obwohl die Rückfallkette zur Laufzeit (_pdfSchriftWaehlen im Kern) genau dafür da ist. Eine Profilschrift
+   braucht Format (TTF) und fsType (beides prüft schon _ebSchriftenPruefen) und die Latein-Grunddeckung PDF_PROFIL_LATEIN:
+   Basic Latin (U+0020–U+007E) und Latin-1 Supplement (U+00A0–U+00FF ohne das weiche Trennzeichen U+00AD, das vor dem Zeichnen
+   entfällt). Das ist der Zeichenvorrat der Buchstaben, Ziffern und Satzzeichen der deutschen und englischen Oberfläche (ä ö ü ß é
+   § ° « » …); die typografischen Zeichen darüber (– „ “ … €) und jedes Zeichen eines Namens wie „ł“ oder „ő“ deckt die Laufzeit:
+   trägt die Profilschrift ein Zeichen des Depots oder der festen Texte nicht, setzt das ganze Dokument in Inter (_pdfDruckProbe). */
+const PDF_PROFIL_LATEIN = Object.freeze((() => {
+  const aus = [];
+  for (let cp = 0x20; cp <= 0x7E; cp++) aus.push(cp);
+  for (let cp = 0xA0; cp <= 0xFF; cp++) if (cp !== 0xAD) aus.push(cp);
+  return aus;
+})());
 function pdfPflichtMenge(R) {
   const p = R.pdfPflicht || { bereiche: [], luecken: [], einzeln: [] };
   const aus = [];
@@ -632,8 +681,9 @@ function erscheinungsbildSchriftenVorBacken(kernText, unsignierteModule, datei =
     const t = b && sp._ebTtfTabellen(b);
     const cmap = t && sp._ebTtfCmap(t, b);
     if (!cmap) continue;
-    const fehlt = pdfPflichtMenge(R).filter((cp) => !cmap.has(cp));
-    if (fehlt.length) funde.push(s.familie + ' ' + s.gewicht + ': pdf-deckung (' + fehlt.length + ' Zeichen, z. B. U+' + fehlt[0].toString(16).toUpperCase().padStart(4, '0') + ')');
+    const inter = s.familie === 'Inter';
+    const fehlt = (inter ? pdfPflichtMenge(R) : PDF_PROFIL_LATEIN).filter((cp) => !cmap.has(cp));
+    if (fehlt.length) funde.push(s.familie + ' ' + s.gewicht + ': ' + (inter ? 'pdf-deckung' : 'pdf-latein-deckung') + ' (' + fehlt.length + ' Zeichen, z. B. U+' + fehlt[0].toString(16).toUpperCase().padStart(4, '0') + ')');
   }
   if (funde.length) throw new Error('Erscheinungsbild ' + (modul.id || '?') + ' (' + datei + '): Schriften verletzen die Regeln des Kerns:\n  ' + funde.join('\n  '));
 }
@@ -645,5 +695,5 @@ module.exports = {
   SERVICE_WORKER_MARKER_BEGIN, SERVICE_WORKER_MARKER_ENDE, _serviceWorkerVorhandenSpanne, _serviceWorkerVorhandenAufText,
   produktTextErzeugen, ENTWICKLERLEISTE_MARKEN, _entwicklerleisteSchneiden,
   HERKUNFTSORT_BLOCK_ANFANG, HERKUNFTSORT_BLOCK_ENDE, herkunftsortBlockFinden, herkunftsortAngabenLesen, herkunftsortRezeptPruefen,
-  erscheinungsbildRegelnLesen, _erscheinungsbildPruefen, _erscheinungsbildVorBacken, _ebStilPruefen, erscheinungsbildSchriftenVorBacken, pdfPflichtMenge,
+  erscheinungsbildRegelnLesen, _erscheinungsbildPruefen, _erscheinungsbildVorBacken, _ebStilPruefen, _ebLayoutPruefen, erscheinungsbildSchriftenVorBacken, pdfPflichtMenge, PDF_PROFIL_LATEIN,
 };

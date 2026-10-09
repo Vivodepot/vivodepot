@@ -2,7 +2,7 @@
 /* Der zuletzt AUSGELIEFERTE Kern eines Produkts, aus dem Fassungsregister (v894, U2-ADR-473 Nachtrag).
    ───────────────────────────────────────────────────────────────────────────────────────────────
    Der Shop baut mit dem jeweils neuen produktTextErzeugen auch aus hochgeladenen ALTEN Kernen. Die Probe dafür
-   (tests/e2e/altkern-shop-bau.spec.js) soll nicht an einem festen Stand hängen bleiben, sondern mit jeder Auslieferung
+   (eine interne E2E-Spec, sie braucht das Fassungsregister) soll nicht an einem festen Stand hängen bleiben, sondern mit jeder Auslieferung
    mitwandern: sie nimmt die höchste Fassung des Produkts im Register und deren kanonCommit.
 
    Fehlt der kanonCommit in dieser Zeile, bricht die Auswahl ab — sie fällt NICHT still auf eine ältere Zeile zurück, die

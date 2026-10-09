@@ -31,14 +31,14 @@
    beide wieder grün.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor } = require('./helpers.js');
+const { oeffneApp, depotAnlegen, oeffneSektor, listenDialogOeffnen } = require('./helpers.js');
 
 test('[U2-ADR-202 · Sichtbarkeit] die Kinder-Liste blendet den jeweils anderen Zweig live um, nicht erst nach dem Neu-Öffnen', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await oeffneSektor(page, 'people');
 
-  await page.click('[data-eintrag-hinzufuegen="childrenAndDependants"]');
+  await listenDialogOeffnen(page, 'childrenAndDependants');
   await page.waitForSelector('#modal-inhalt [data-sub-zeile="type"] select');
 
   // Vor jeder Auswahl (art noch leer) sind laut Schema beide Zweige sichtbar — das ist der
@@ -62,7 +62,7 @@ test('[U2-ADR-202 · Rot-Beweis] ein Wert, der bei der Speicherung unsichtbar is
   await depotAnlegen(page);
   await oeffneSektor(page, 'people');
 
-  await page.click('[data-eintrag-hinzufuegen="childrenAndDependants"]');
+  await listenDialogOeffnen(page, 'childrenAndDependants');
   await page.waitForSelector('#modal-inhalt [data-sub-zeile="type"] select');
 
   // Reihenfolge ist die Probe selbst: ERST den Vertretungs-Zweig befüllen (während er sichtbar

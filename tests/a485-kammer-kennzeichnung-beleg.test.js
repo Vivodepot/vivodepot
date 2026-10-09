@@ -60,8 +60,10 @@ test('[A485·Beleg] … und im tatsächlich gerenderten Einstellungen-HTML, nich
   V._bereichsModuleAusDepotAnmelden(V.getData());
 
   const html = V.einstellungenHTML();
-  assert.ok(html.includes('kammer-p18-beleg'),
-    'die Kennung des Kammer-Moduls muss im gerenderten Einstellungen-Text stehen');
+  // Seit 07.10.2026 beim Namen, nicht bei der Kennung (Entscheidung „keine technischen Markierungen in der Benutzersicht“).
+  assert.ok(html.includes('Kammer-Testbereich'),
+    'das Kammer-Modul muss im gerenderten Einstellungen-Text beim Namen genannt sein');
+  assert.ok(!html.includes('kammer-p18-beleg'), 'die Kennung steht nicht in der Benutzersicht');
   assert.ok(html.includes(V.STRINGS.moduleUngeprueftHinweis),
     'der "niemand hat es geprüft"-Hinweis muss neben dem Kammer-Modul stehen');
 });

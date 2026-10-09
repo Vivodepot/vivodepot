@@ -1,0 +1,124 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pro-kanzlei",
+  "fassung": 1,
+  "bereiche": {
+    "pro-kanzlei": {
+      "id": "pro-kanzlei",
+      "label": "Kanzlei",
+      "icon": "scale",
+      "cluster": "pro-vertretung-nachfolge",
+      "clusterTitel": "Vertretung & Nachfolge",
+      "clusterRang": 1,
+      "sektionen": [
+        {
+          "id": "vertretung-und-abwicklung",
+          "label": "Vertretung und Kanzleiabwicklung",
+          "felder": [
+            {
+              "id": "tpl_attorney_representative",
+              "typ": "liste",
+              "label": "Vertretung",
+              "hint": "Wer vertritt Sie, wenn Sie länger als eine Woche nicht in der Kanzlei tätig sein können? Seit wann ist das geregelt?",
+              "quelle": "BRAO § 53",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_arranged_on",
+                  "typ": "datum",
+                  "label": "Geregelt am"
+                }
+              ]
+            },
+            {
+              "id": "tpl_practice_winding_up_wish",
+              "typ": "text",
+              "label": "Wunsch für die Kanzleiabwicklung",
+              "hint": "Wen würden Sie der Rechtsanwaltskammer für die Abwicklung der Kanzlei vorschlagen?",
+              "quelle": "BRAO § 55"
+            }
+          ]
+        },
+        {
+          "id": "kanzlei-und-pflichten",
+          "label": "Kanzlei und Berufspflichten",
+          "felder": [
+            {
+              "id": "tpl_bar_membership",
+              "typ": "liste",
+              "label": "Rechtsanwaltskammer",
+              "hint": "Zuständige Kammer und Mitgliedsnummer.",
+              "quelle": "BRAO § 60",
+              "unterFelder": [
+                {
+                  "id": "tpl_chamber",
+                  "typ": "text",
+                  "label": "Kammer"
+                },
+                {
+                  "id": "tpl_membership_number",
+                  "typ": "text",
+                  "label": "Mitgliedsnummer"
+                }
+              ]
+            },
+            {
+              "id": "tpl_professional_liability_insurance",
+              "typ": "liste",
+              "label": "Berufshaftpflichtversicherung",
+              "hint": "Versicherer und Versicherungsnummer.",
+              "quelle": "BRAO § 51",
+              "unterFelder": [
+                {
+                  "id": "tpl_insurer",
+                  "typ": "text",
+                  "label": "Versicherer"
+                },
+                {
+                  "id": "tpl_policy_number",
+                  "typ": "text",
+                  "label": "Versicherungsnummer"
+                }
+              ]
+            },
+            {
+              "id": "tpl_client_files_location",
+              "typ": "textarea",
+              "label": "Handakten",
+              "hint": "Wo liegen die Handakten, und wer hat Zugang? Nur der Ort, keine Mandantendaten.",
+              "quelle": "BRAO § 50"
+            },
+            {
+              "id": "tpl_bea_access",
+              "typ": "textarea",
+              "label": "beA: wer ist zugangsberechtigt",
+              "hint": "Wer hat eine Zugangsberechtigung zum besonderen elektronischen Anwaltspostfach, etwa Vertretung oder Abwicklung? Nur Namen und Wege: Zertifikate und Zugangscodes bleiben bei ihren Inhabern.",
+              "quelle": "BRAO § 31a; RAVPV § 26 Abs. 1"
+            },
+            {
+              "id": "tpl_confidentiality_obligations",
+              "typ": "text",
+              "label": "Zur Verschwiegenheit verpflichtet",
+              "hint": "Wer in der Kanzlei ist zur Verschwiegenheit verpflichtet worden, und wo liegt die Erklärung?",
+              "quelle": "BRAO § 43a; StGB § 203"
+            },
+            {
+              "id": "tpl_practice_software",
+              "typ": "text",
+              "label": "Kanzleisoftware und Datenzugänge",
+              "hint": "Welche Programme nutzt die Kanzlei, und wo steht, wie eine Vertretung Zugang erhält? Keine Zugangsdaten.",
+              "quelle": "Ablagefeld ohne Norm (Quellenregel E:3338)"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

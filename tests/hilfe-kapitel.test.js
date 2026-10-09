@@ -196,3 +196,18 @@ test('[Hilfe·Aktivierung] hilfeOeffnen injiziert das Overlay und verdrahtet Dru
   assert.match(KERN_QUELLE, /document\.body\.appendChild\(ov\);[\s\S]{0,400}getElementById\('hilfe-drucken'\)/,
     'dieselbe DOM-Injektions-Mechanik wie notfallblattOeffnen, kein zweiter Overlay-Weg');
 });
+
+/* Bearbeitungsreste (06.10.2026): „Was Vivodepot nicht sieht“ zeigte in der Anwendung und auf der Website
+   „(alt: „die einzigen beiden Dinge“)“, eine Notiz aus der Überarbeitung, die im Text stehen geblieben war. Kein Text
+   der beiden Sprachmodule trägt eine solche Notiz; „(früher alle {alt} Monate)“ ist Inhalt und zählt nicht. */
+const BEARBEITUNGSREST = /\((?:alt|neu|old|new|vorher|TODO|FIXME):\s/i;
+test('[Hilfe·Bearbeitungsrest] kein Text der Sprachmodule trägt eine Notiz „(alt: …)“ aus der Überarbeitung', () => {
+  const funde = [];
+  for (const s of ['de', 'en']) {
+    const texte = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'tools', `textsatz-${s}-modul.json`), 'utf8')).texte;
+    for (const [k, t] of Object.entries(texte)) if (typeof t === 'string' && BEARBEITUNGSREST.test(t)) funde.push(s + ' ' + k);
+  }
+  assert.deepEqual(funde, []);
+  assert.ok(BEARBEITUNGSREST.test('… auf Ihren Wiederherstellungs-Code. (alt: „die einzigen beiden Dinge“)'), 'Rot-Beweis: der Rest vom 06.10. wird gefunden');
+  assert.ok(!BEARBEITUNGSREST.test('(früher alle {alt} Monate)') && !BEARBEITUNGSREST.test('(old address)'), 'Inhalt zählt nicht');
+});

@@ -131,6 +131,151 @@
           ]
         },
         {
+          "id": "abschluss-und-steuern",
+          "felder": [
+            {
+              "id": "tpl_bookkeeping_type",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "bilanz"
+                },
+                {
+                  "wert": "einnahmenueberschussrechnung"
+                },
+                {
+                  "wert": "weiss_nicht"
+                }
+              ]
+            },
+            {
+              "id": "tpl_annual_accounts",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_financial_year",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_prepared_on",
+                  "typ": "datum"
+                },
+                {
+                  "id": "tpl_signed_by",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_kept_at",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_size_category",
+              "typ": "auswahl",
+              "optionen": [
+                {
+                  "wert": "kleinst"
+                },
+                {
+                  "wert": "klein"
+                },
+                {
+                  "wert": "mittel"
+                },
+                {
+                  "wert": "gross"
+                },
+                {
+                  "wert": "weiss_nicht"
+                }
+              ]
+            },
+            {
+              "id": "tpl_approval_of_annual_accounts",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_financial_year",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_approved_on",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_disclosure_company_register",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_financial_year",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_filed_on",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_tax_matters_responsible",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "tpl_person",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_task",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_inventory_location",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_fixed_asset_register",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_electronic_submission_of_accounts",
+              "typ": "text"
+            },
+            {
+              "id": "tpl_contingent_liabilities",
+              "typ": "textarea"
+            }
+          ]
+        },
+        {
+          "id": "liquiditaet-und-glaeubiger",
+          "felder": [
+            {
+              "id": "tpl_creditor_list_location",
+              "typ": "text",
+              "sensibel": true
+            },
+            {
+              "id": "tpl_insolvency_contacts",
+              "typ": "textarea",
+              "sensibel": true
+            },
+            {
+              "id": "tpl_crisis_early_warning",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_half_capital_loss_meeting",
+              "typ": "datum",
+              "sensibel": true
+            }
+          ]
+        },
+        {
           "id": "allgemein",
           "felder": [
             {

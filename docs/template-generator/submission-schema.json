@@ -47,9 +47,7 @@
         "anbieterTyp",
         "rechtsform",
         "adresse",
-        "kontakt",
-        "bereich",
-        "useCase"
+        "kontakt"
       ],
       "properties": {
         "anbieterId": {
@@ -117,9 +115,7 @@
           "additionalProperties": false,
           "required": [
             "name",
-            "funktion",
-            "email",
-            "telefon"
+            "email"
           ],
           "properties": {
             "name": {
@@ -141,7 +137,7 @@
           }
         },
         "bereich": {
-          "description": "Geplanter Anwendungs-Bereich. Einer der dreizehn Vivodepot-Bereiche.",
+          "description": "Freiwillig (seit 05.10.2026 nicht mehr erfragt; den Bereich trägt jedes Feld der Vorlage selbst). Ältere Pakete tragen ihn: einer der Vivodepot-Bereiche.",
           "type": "string",
           "enum": [
             "identity",
@@ -166,7 +162,7 @@
           ]
         },
         "useCase": {
-          "description": "Beschreibung des Use Cases (Freitext, 50–500 Zeichen).",
+          "description": "Freiwillig (seit 05.10.2026 nicht mehr erfragt). Ältere Pakete tragen eine Beschreibung des Verwendungszwecks (Freitext, 50–500 Zeichen).",
           "type": "string",
           "minLength": 50,
           "maxLength": 500
@@ -1342,6 +1338,22 @@
           }
         ]
       }
+    },
+    "rechtstext": {
+      "description": "Befund EINREICHUNG-STAMMDATEN-UNSIGNIERT / Entscheidung 05.10.2026: welcher Wortlaut der Einreichungsbedingungen beim Absenden galt. Kennung und Stand wie im Studio angezeigt, sha256 = SHA-256 (hex) über JSON.stringify des Wortlauts (beide Sprachen). Gedeckt von einreichungJws.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kennung", "stand", "sha256"],
+      "properties": {
+        "kennung": { "type": "string", "pattern": "^RT-[A-Z]+-[0-9]+$" },
+        "stand": { "type": "string", "pattern": "^[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "einreichungJws": {
+      "description": "JWS des Anbieters (derselbe Schlüssel wie templatesJws) über {submissionId, anbieter, rechtstext}. Pflicht, sobald templatesJws vorhanden ist; der VC-Issuer verifiziert es gegen publicKeyJwk und vergleicht die Nutzlast mit dem Paket.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$"
     },
     "kennungVorschlaege": {
       "description": "U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag OHNE Vorlage drumherum -- die fünfte Ausgabeart neben `templates`, gebaut nach dem Muster von `codeListen` (U2-ADR-051). Mindestens `templates` oder `kennungVorschlaege` ist Pflicht (s. `anyOf` auf oberster Ebene). Die Prüfung gegen den bestehenden Katalog (Dublette, auch gegen inaktivierte Kennungen) läuft NICHT hier -- das leistet eine eigene Prüfung gegen den erzeugten Feldkatalog, den dieses Schema nicht kennt.",

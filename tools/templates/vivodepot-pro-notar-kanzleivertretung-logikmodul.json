@@ -24,7 +24,7 @@
   },
   "abschnitte": [
     {
-      "titel": "Teil A — wer handelt, wenn die Notarin ausfällt",
+      "titel": "Teil A — wer handelt, wenn die Notarin vertreten wird",
       "bloecke": [
         { "typ": "immer", "texte": ["Für den Vertretungsfall einer Notarkanzlei gibt es eine Vertreterbestellung durch die zuständige Notarkammer. Dieser Auszug sammelt, was das Depot dazu bereits hält, und ersetzt weder die Bestellung noch eine Auskunft der Notarkammer."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
@@ -38,7 +38,7 @@
     {
       "titel": "Teil B — Zulassung und Vertretungsplan",
       "bloecke": [
-        { "typ": "immer", "texte": ["Die folgenden Angaben stammen aus dem Pro-Modul „Betriebsübergabe“ — derselben Datengrundlage, die auch eine Übergabe oder einen Notfall trägt, hier auf den Vertretungsfall gelesen."] },
+        { "typ": "immer", "texte": ["Die folgenden Angaben stammen aus dem Pro-Modul „Betriebsübergabe“ — derselben Datengrundlage, die auch eine Vertretung oder Übergabe trägt, hier auf den Vertretungsfall gelesen."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_bezeichnung",
           "frage": "Berufsrechtliche Zulassung(en)?", "format": { "typ": "liste" }, "luecke": "— nicht erfasst —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "zulassung_frist",

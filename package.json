@@ -42,6 +42,7 @@
     "feldtyp:spiegel": "node tools/feldtyp-spiegel-pruefen.js --gate",
     "standzahlen:build": "node tools/build-standzahlen.js",
     "standzahlen:check": "node tools/build-standzahlen.js --check",
+    "bereiche:waechter": "node tools/bereichslisten-pruefen.js",
     "bereiche:zahl": "node tools/bereichszahl-pruefen.js",
     "styleguide:komponenten": "node tools/styleguide-komponenten-abgleich.js --check",
     "sbom:build": "node tools/sbom-pflegen.js",
@@ -53,7 +54,8 @@
     "fassungen:check": "node tools/fassungen-register.js --check",
     "worktree:check": "node tools/worktree-guard.js",
     "waechter:inventur": "node tools/waechter-inventur.js",
-    "schema:wirkung": "node tools/schema-wirkung-pruefen.js"
+    "schema:wirkung": "node tools/schema-wirkung-pruefen.js",
+    "test:e2e:drei-browser": "playwright test --config=playwright.config.drei-browser.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.1",

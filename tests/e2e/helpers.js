@@ -130,7 +130,9 @@ async function einmalDialogeSchliessen(page, fristMs = 10000) {
     // NUR an den festen Griffen entscheiden, nie „irgendeinen offenen Dialog wegklicken":
     // ein blinder Klick auf #m-ok traf schon den Anlege-Dialog (Doppel-Absenden) bzw. das
     // Angebot selbst (dann ging das Druck-Blatt auf und blockierte die Reise erst recht).
-    if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
+    if (await page.locator('#safari-datei-nach-anlegen').isVisible().catch(() => false)) {
+      await page.click('#m-zweit');                 // WebKit im Tab (Safari-Lücke A, U2-ADR-211): „Später“ beim Datei-Schritt, er reiht sich vor das Code-Angebot
+    } else if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
       await page.click('#m-zweit');                 // U2-ADR-430: „Ohne Code weiter" — der benannte Ablehnungs-Schritt folgt
     } else if (await page.locator('#whc-tragweite').isVisible().catch(() => false)) {
       await page.click('#m-zweit');                 // die Ablehnung bestätigen; danach kommt das Notfall-Blatt-Angebot
@@ -218,6 +220,15 @@ async function einstellungenAbschnittOeffnen(page, zielSelektor) {
 //    „Weitermachen", einmal weiterhin an seinem Platz im Zwölf-Bereiche-Baum) — ohne die
 //    Verengung auf `details.bereiche-umschalter [data-sektor="…"]` würde `.click()` im Strict
 //    Mode an zwei Treffern scheitern, sobald derselbe Bereich ein zweites Mal geöffnet wird.
+// Navigation A (05.10.2026): Daten einlesen/herausgeben, Herausgegeben, Meine Dokumente, Prüftermine und Verwaltete Depots
+// stehen im EINEN eingeklappten Punkt „Austausch und Überblick“. Der Test geht denselben Weg wie die Nutzerin: erst
+// aufklappen, dann klicken — kein Klick auf ein unsichtbares Element.
+async function inLeisteKlicken(page, selektor) {
+  const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
+  if (await punkt.count() && !(await punkt.evaluate((el) => el.open))) await punkt.locator('summary').click();
+  await page.click('#sidebar ' + selektor);
+}
+
 async function oeffneSektor(page, sektorId) {
   const umschalter = page.locator('details.bereiche-umschalter');
   if (await umschalter.count()) {
@@ -229,7 +240,10 @@ async function oeffneSektor(page, sektorId) {
     const offen = await gruppe.evaluate((el) => el.open);
     if (!offen) await gruppe.locator('summary').click();
   }
-  const knopf = page.locator(`details.bereiche-umschalter [data-sektor="${sektorId}"]`);
+  // Navigation A (05.10.2026): die Hülle „Alle Bereiche zeigen“ gibt es nicht mehr, die Cluster stehen direkt in der
+  // Seitenleiste (flach bei wenigen Bereichen, sonst in Clustern). Verengt auf `#sidebar`, damit die Karten der Übersicht
+  // (auch `data-sektor`) nie treffen.
+  const knopf = page.locator(`#sidebar [data-sektor="${sektorId}"]`);
   await knopf.click();
   await page.waitForSelector('#content .bereich-kopf');
   await feldgruppenKartenOeffnen(page);
@@ -415,7 +429,26 @@ async function streifenUeberdeckt(seite) {
   });
 }
 
-module.exports = {
+/* Hinzufügen (07.10.2026, Produktentscheidung): bei leerer Liste steht der erste Eintrag als Eingaben im Bereich, der Dialog „Neuer
+   Eintrag“ öffnet sich über „Weitere … hinzufügen“ (ab einem Eintrag) oder, bei Einträgen mit mehr als sechs Teilen, über „Alle
+   Angaben“. Proben, die den Dialog selbst prüfen, öffnen ihn über diesen einen Weg. Für eine leere kurze Liste gibt es keinen
+   Dialog-Einstieg mehr: dann legt `vorbelegen` einen Eintrag an (wie ein früher eingetragener), und der Zweitknopf öffnet ihn. */
+async function listenDialogOeffnen(page, feldId, { bereich = '', sektor = null, vorbelegen = null } = {}) {
+  const vor = bereich ? bereich + ' ' : '';
+  let knopf = page.locator(vor + '[data-eintrag-hinzufuegen="' + feldId + '"]');
+  if (!(await knopf.count())) knopf = page.locator(vor + '[data-eintrag-alle-angaben="' + feldId + '"]');
+  if (!(await knopf.count()) && sektor && vorbelegen) {
+    await page.evaluate(({ sektor, feldId, vorbelegen }) => {
+      window.__vdOeffentlich.listenEintragHinzufuegen(sektor, feldId, vorbelegen);
+      window.__vdOeffentlich.oeffneSektor(sektor);
+    }, { sektor, feldId, vorbelegen });
+    knopf = page.locator(vor + '[data-eintrag-hinzufuegen="' + feldId + '"]');
+  }
+  if (!(await knopf.count())) throw new Error('listenDialogOeffnen: kein Einstieg in den Dialog für ' + feldId + ' (leere kurze Liste ohne vorbelegen?)');
+  await knopf.first().click();
+}
+
+module.exports = { inLeisteKlicken, listenDialogOeffnen,
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
   oeffneApp, depotAnlegen, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,

@@ -16,7 +16,7 @@
    → tatsächlich beim Dokument angekommen (nicht nur auf der Bereichsseite).
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen } = require('./helpers');
 
 test('M4: Prüfblatt "Ansehen/bearbeiten" springt WIRKLICH zum Dokument, nicht nur zur Bereichsseite', async ({ page }) => {
   const fehler = [];
@@ -31,7 +31,7 @@ test('M4: Prüfblatt "Ansehen/bearbeiten" springt WIRKLICH zum Dokument, nicht n
     window.__vdOeffentlich.dokumentAnlegen({ name: 'Mietvertrag', sektorId: 'housing', gueltigAb: '2025-01-01', pruefIntervallMonate: 12 }, new Date());
   });
 
-  await page.click('[data-prueftermine]');
+  await inLeisteKlicken(page, '[data-prueftermine]');
   await expect(page.locator('[data-prtm-bearb]').first()).toBeVisible();
   await page.click('[data-prtm-bearb]');
 

@@ -36,6 +36,8 @@ const R = P.erscheinungsbildRegelnLesen(KERN);
 const OPT = (module) => ({ modulauswahl: [], vorDepotKonfigurationInhaltFn: () => '[]', unsignierteModule: module, serviceWorkerVorhanden: true });
 const ALS_ZUTAT = (roh) => ({ roh, basisname: 'erscheinungsbild-probe.json' });
 const mit = (fn) => { const m = JSON.parse(JSON.stringify(HEUTE)); fn(m); return m; };
+const LAYOUTS = require('./helfer/layout-beschreibungen.js');
+const mitLayout = (fn, name = 'navigation-a') => mit((m) => { m.layout = JSON.parse(JSON.stringify(LAYOUTS[name])); fn(m.layout); });
 // Ein Urteil auf das Vergleichbare verkürzt: Gründe/Regeln je Schlüssel, sortiert (die Kern-Fassung trägt zusätzlich `ebenen`).
 const kurz = (u) => ({
   gueltig: u.gueltig,
@@ -83,6 +85,30 @@ test('[Erscheinungsbild] „heute" besteht beide Prüfungen; ohne Modul bleibt d
   assert.equal(K.ergebnis.grund, 'kein-modul');
 });
 
+test('[Erscheinungsbild·Layout] Navigation A und Zonen als Beschreibung bestehen beide Prüfungen; ein leeres layout heißt Bauform des Gerüsts', () => {
+  for (const name of ['navigation-a', 'zonen']) {
+    const m = mitLayout(() => {}, name);
+    assert.deepEqual(kurz(K.pruefen(m)), { gueltig: true, funde: [] }, name + ' im Kern');
+    assert.deepEqual(kurz(P._erscheinungsbildPruefen(m, R)), { gueltig: true, funde: [] }, name + ' im Bauweg');
+  }
+  const leer = mit((m) => { m.layout = {}; });
+  assert.equal(K.pruefen(leer).gueltig, true);
+  assert.equal(P._erscheinungsbildPruefen(leer, R).gueltig, true);
+});
+
+test('[Erscheinungsbild·Layout] die Layout-Prüfung steht in Kern und Bauweg Zeichen für Zeichen gleich', () => {
+  const funktion = (text) => { const a = text.indexOf('function _ebLayoutPruefen(layout, R) {'); assert.ok(a >= 0); return text.slice(a, text.indexOf('\n}\n', a) + 2); };
+  assert.equal(funktion(fs.readFileSync(path.join(REPO, 'tools/lib/produkt-text-erzeugen.js'), 'utf8')), funktion(KERN));
+});
+
+test('[Erscheinungsbild·Layout] jeder Pflicht-Baustein (LAYOUT_PFLICHT) ist ein Baustein des Vokabulars und nicht optional', () => {
+  assert.ok(R.pflicht.length > 0);
+  for (const name of R.pflicht) {
+    assert.ok(Object.prototype.hasOwnProperty.call(R.layout.bausteine, name), name);
+    assert.ok(!R.layout.optional.includes(name), name);
+  }
+});
+
 /* Der gemeinsame Satz: jeder Fall mit dem erwarteten Fund. Beide Umsetzungen müssen ihn genau so finden. */
 const FAELLE = [
   ...require('./helfer/erscheinungsbild-grammatik-faelle.js')
@@ -90,7 +116,24 @@ const FAELLE = [
   ['unbekannter Token-Name (Auflage B)', mit((m) => { m.basis['--frei-erfunden'] = '#000000'; }), 'basis:--frei-erfunden:unbekannt'],
   ['geschütztes Token', mit((m) => { m.dunkel['--akzent'] = '#000000'; }), 'dunkel:--akzent:geschuetzt'],
   ['unbekannter Modul-Schlüssel', mit((m) => { m.skript = 'x'; }), '-:skript:unbekannter-schluessel'],
-  ['layout mit Inhalt, bevor v897 seine Prüfung einhängt', mit((m) => { m.layout = { menue: 'kopf' }; }), '-:layout:layout-ungeprueft'],
+  // Layout-Beschreibung (W3, LAYOUT_PFLICHT): je Grund ein Fall, ausgehend von der gültigen Beschreibung „navigation-a“.
+  ['layout: kein Objekt', mit((m) => { m.layout = ['kopf']; }), 'layout:-:layout-kein-objekt'],
+  ['layout: unbekannter Schlüssel', mitLayout((l) => { l.skript = 'x'; }), 'layout:skript:layout-schluessel-unbekannt'],
+  ['layout: unbekannter Parameterwert', mitLayout((l) => { l.feldRaster = 'dreispaltig'; }), 'layout:feldRaster:parameter-unbekannt'],
+  ['layout: Fächer kein Objekt', mitLayout((l) => { l.faecher = []; }), 'layout:faecher:faecher-kein-objekt'],
+  ['layout: unbekanntes Fach', mitLayout((l) => { l.faecher.oben = []; }), 'layout:oben:fach-unbekannt'],
+  ['layout: Fach keine Liste', mitLayout((l) => { l.faecher.fuss = { baustein: 'ursprung' }; }), 'layout:fuss:fach-keine-liste'],
+  ['layout: Eintrag kein Objekt', mitLayout((l) => { l.faecher.inhalt.push('ansicht'); }), 'layout:inhalt:eintrag-kein-objekt'],
+  ['layout: Eintrag mit fremdem Schlüssel', mitLayout((l) => { l.faecher.inhalt[1].html = '<b>'; }), 'layout:ansicht:eintrag-schluessel-unbekannt'],
+  ['layout: unbekannter Baustein', mitLayout((l) => { l.faecher.kopf.push({ baustein: 'werbung' }); }), 'layout:werbung:baustein-unbekannt'],
+  ['layout: Baustein doppelt', mitLayout((l) => { l.faecher.kopf.push({ baustein: 'einstellungen' }); }), 'layout:einstellungen:baustein-doppelt'],
+  ['layout: Baustein im falschen Fach', mitLayout((l) => { l.faecher.fuss.push(l.faecher.kopf.splice(3, 1)[0]); }), 'layout:sicherungsanzeige:baustein-falsches-fach'],
+  ['layout: Form passt nicht zum Fach', mitLayout((l) => { l.faecher.seitenrand[4].form = 'reiter'; }), 'layout:bereiche:form-unbekannt'],
+  ['layout: Form an einem Baustein ohne Formen', mitLayout((l) => { l.faecher.kopf[0].form = 'gross'; }), 'layout:marke:form-unbekannt'],
+  ['layout: ein Weg fehlt', mitLayout((l) => { l.faecher.seitenrand.splice(6, 1); }), 'layout:austausch:baustein-fehlt'],
+  ['layout: Pflicht Notfall fehlt (LAYOUT_PFLICHT)', mitLayout((l) => { l.faecher.seitenrand.splice(2, 1); }), 'layout:notfall:pflicht-fehlt'],
+  ['layout: Pflicht Sicherungsanzeige fehlt (LAYOUT_PFLICHT)', mitLayout((l) => { l.faecher.kopf.splice(3, 1); }), 'layout:sicherungsanzeige:pflicht-fehlt'],
+  ['layout: Pflicht Herkunft fehlt (LAYOUT_PFLICHT)', mitLayout((l) => { l.faecher.fuss = []; }), 'layout:ursprung:pflicht-fehlt'],
   ['Verweis auf einen unbekannten Namen', mit((m) => { m.basis['--line'] = 'var(--gibt-es-nicht)'; }), 'basis:--line:unbekannter-verweis'],
   ['Text-Kontrast unter 4,5:1 (Auflage D)', mit((m) => { m.basis['--ink3'] = '#a0a0a0'; }), 'basis:--ink3/--cream:kontrast'],
   ['Notfall ausgeblendet: Schrift = Fläche im Nachtmodus (Auflage D)', mit((m) => { m.dunkel['--modus-notfall'] = 'var(--auf-akzent)'; }), 'dunkel:--auf-akzent/--modus-notfall:kontrast'],
@@ -124,6 +167,12 @@ test('[Erscheinungsbild·Rot-Beweis] kein erfundener Text über content in stil 
 });
 test('[Erscheinungsbild·Rot-Beweis] kein Selektor auf eine geschützte Anzeige in stil — Kern und Bauweg weisen ab', () => {
   kernUndBauwegWeisenAb('stil: Selektor auf den Notfall');
+});
+
+test('[Erscheinungsbild·Rot-Beweis] ein fehlender Pflicht-Baustein (LAYOUT_PFLICHT) — Kern und Bauweg weisen ab', () => {
+  kernUndBauwegWeisenAb('layout: Pflicht Notfall fehlt');
+  kernUndBauwegWeisenAb('layout: Pflicht Sicherungsanzeige fehlt');
+  kernUndBauwegWeisenAb('layout: Pflicht Herkunft fehlt');
 });
 
 for (const [name, modul, fund] of FAELLE) {

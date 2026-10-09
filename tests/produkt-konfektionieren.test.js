@@ -29,6 +29,7 @@ const {
   PRODUKT_DATEISATZ, _ohneAbWerkNutzlast,
 } = require('../tools/produkt-konfektionieren.js');
 const { _entwicklerleisteSchneiden } = require('../tools/lib/produkt-text-erzeugen.js');
+const { wurzelKopfzeileZuruecksetzen } = require('../tools/lib/wurzel-kopfzeile.js');
 
 const REPO = path.join(__dirname, '..');
 const FIXTURES = path.join(__dirname, 'fixtures', 'produkt-konfektionieren');
@@ -193,7 +194,7 @@ test('[Produkt-Konfektionieren] die Kopie ist byte-identisch zur Quelle AUSSERHA
       ziel, slug: 'privat-de', modulauswahl: [],
       vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
     });
-    const quelle = _ohneAbWerkNutzlast(_entwicklerleisteSchneiden(fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8'), 'vivodepot.html'), 'vivodepot.html');
+    const quelle = _ohneAbWerkNutzlast(_entwicklerleisteSchneiden(wurzelKopfzeileZuruecksetzen(fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8')), 'vivodepot.html'), 'vivodepot.html');
     const kopie = _ohneAbWerkNutzlast(fs.readFileSync(path.join(r.ordner, 'vivodepot.html'), 'utf8'), 'vivodepot.html');
     assert.equal(kopie, quelle, 'Gerüst-Kopie weicht AUSSERHALB der Marker-Regionen vom Quell-vivodepot.html ab');
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
@@ -427,11 +428,12 @@ test('[produktTextErzeugen·Gleichheit] liefert byte-für-byte denselben Text wi
     const vorDepotKonfigurationInhaltFn = (liste) => 'window.__vorDepotKonfiguration = ' + JSON.stringify(liste) + ';\n';
     const rEcht = konfektionieren({ ziel, slug: 'privat-de', modulauswahl, vorDepotKonfigurationInhaltFn });
 
-    const kernText = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
-    // Seit v894 legt konfektionieren() ohne eigenes Erscheinungsbild „heute" dazu — dieselbe Eingabe hier ausdrücklich.
-    const heute = require('../tools/lib/vier-produkte.js').ERSCHEINUNGSBILD_HEUTE_PFAD;
+    const kernText = wurzelKopfzeileZuruecksetzen(fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8'));
+    // konfektionieren() legt ohne eigenes Erscheinungsbild das Ab-Werk-Modul dazu (v894 „heute", seit 07.10.2026 aus
+    // ERSCHEINUNGSBILD_AB_WERK_PFAD) — dieselbe Eingabe hier ausdrücklich, aus derselben Konstante.
+    const abWerk = require('../tools/lib/vier-produkte.js').ERSCHEINUNGSBILD_AB_WERK_PFAD;
     const rPur = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn,
-      unsignierteModule: [{ roh: JSON.parse(fs.readFileSync(heute, 'utf8')), basisname: path.basename(heute) }] });
+      unsignierteModule: [{ roh: JSON.parse(fs.readFileSync(abWerk, 'utf8')), basisname: path.basename(abWerk) }] });
 
     const geschrieben = fs.readFileSync(path.join(rEcht.ordner, 'vivodepot.html'), 'utf8');
     assert.equal(rPur.text, geschrieben,

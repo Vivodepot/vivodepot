@@ -80,9 +80,8 @@ for (const sprache of ['de', 'en']) {
       await p.fill('#sd-name', sd.anbieterName);
       await p.selectOption('#sd-rechtsform', sd.rechtsform);
       await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
-      await p.fill('#sd-k-name', sd.kontaktName); await p.fill('#sd-k-funktion', sd.kontaktFunktion);
+      await p.fill('#sd-k-name', sd.kontaktName);
       await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
-      await p.selectOption('#sd-bereich', sd.bereich); await p.fill('#sd-usecase', sd.useCase);
       await p.click('#sd-weiter');
       await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
       await p.click('#sk-erzeugen');
@@ -99,9 +98,9 @@ for (const sprache of ['de', 'en']) {
       expect(paket.templates[0].felder[1].pflicht).toBe(true);
       expect(paket.templatesJws.length).toBe(1);
       expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);     // der Schlüssel ist nach dem Signieren verworfen
-      // Der Weg nach dem Erzeugen ist sichtbar: Absenden mit vorbereiteter E-Mail an die Einreichadresse
-      await expect(p.locator('#absenden-block')).toBeVisible();
-      const mail = await p.locator('#absenden-mail').getAttribute('href');
+      // Der Weg nach dem Erzeugen ist sichtbar: die Erfolgskarte mit vorbereiteter E-Mail an die Einreichadresse
+      await expect(p.locator('#fs-fertig')).toBeVisible();
+      const mail = await p.locator('#fs-fertig-mail').getAttribute('href');
       expect(mail).toMatch(/^mailto:register@vivodepot\.de\?subject=/);
       expect(decodeURIComponent(mail)).toContain(paket.submissionId);
       await ctx.close();

@@ -52,13 +52,15 @@ also nichts behob, was `--ohne-suite` nicht auch behebt. Die Meldung nennt jetzt
 ```yaml
 konformitaet:
   - aussage: >-
-      --ohne-suite übernimmt eine bestehende Suite-Zahl unverändert und mißt nicht neu
-      (Laufzeit deutlich unter der eines echten Suite-Laufs).
+      --ohne-suite mißt nicht neu (Laufzeit deutlich unter der eines echten Suite-Laufs) und
+      schreibt keine alte Suite-Zahl fort, sondern „nicht neu gemessen (letzte Messung <Datum>, <Stand>)“
+      ohne Zahl. Bis 07.10.2026 übernahm es die Zahl unverändert; abgelöst mit dem Befund
+      FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN (eine Suite-Zahl erscheint nur gemessen, mit Datum).
     zustand: erfuellt
-    herkunft: U2-ADR-358 (07.09.2026)
+    herkunft: U2-ADR-358 (07.09.2026), Nachtrag 07.10.2026
     pruefung:
       - tests/faktenbasis-ohne-suite.test.js
-        "[Rot-Beweis] --ohne-suite übernimmt eine bestehende Suite-Zahl unverändert, misst nicht neu"
+        "[Rot-Beweis] --ohne-suite misst nicht neu und schreibt keine alte Zahl fort, sondern die letzte Messung"
 
   - aussage: >-
       --ohne-suite bricht ab statt eine geratene Zahl zu schreiben, wenn die Ausgabedatei

@@ -87,6 +87,9 @@ function blockFuer(liste) {
     // anzeigeNameEigen (26.09.2026, SNOMED GPS): die Anzeige ist eine eigene Bezeichnung, kein Begriff des Systems;
     // der unveränderte Begriff steht je Eintrag in quellBegriff und allein er geht als coding.display hinaus.
     ...(liste.anzeigeNameEigen ? ['  anzeigeNameEigen: true,'] : []),
+    // herkunftPflicht (06.10.2026, ICD-Anzeige): jeder angezeigte Text ist amtlich oder gekennzeichnet; die Belege (Nummer im
+    // amtlichen Verzeichnis) bleiben in der JSON-Quelle unter `alphabet`, der Kern braucht nur die Texte.
+    ...(liste.herkunftPflicht ? ['  herkunftPflicht: true,'] : []),
     // codingVersion (28.09.2026): die Fassung, die als Coding.version hinausgeht (Basisprofil DE: Pflicht für ICD-10-GM und
     // ATC, die Jahreszahl). aliasUris: frühere System-URIs derselben Liste; sie werden an jedem Einlass und im Export auf
     // `uri` umgeschrieben (kanonischesCodeSystem im Kern) und dürfen im Produktcode nur hier stehen.

@@ -1,0 +1,244 @@
+{
+ "schemas": {
+  "anfrage": {
+   "adresse": "https://vivodepot.de/schemas/anfrage-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/anfrage/1.json",
+     "blob": "79306b8e405482524884b9b127dc69496f50f46d",
+     "shaKanon": "cd6180e3cc82ff6c64f6d0bfda0976461ecf930543dbeea5eb618943980fe564",
+     "shaAusgeliefert": "635e1ee949e2a044c004df71ac6d614b7c793f041b4859c1c40f249549c88d47"
+    }
+   ]
+  },
+  "angehoerigen-vorlage-modul": {
+   "adresse": "https://vivodepot.de/schemas/angehoerigen-vorlage-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/angehoerigen-vorlage-modul/1.json",
+     "blob": "724aad1c7b49c0cebb74e8de220dcc2027e5db95",
+     "shaKanon": "d22a65dce88f6f4b2523f888d64acccaf7b5fccd595675a7f540310c738091a6",
+     "shaAusgeliefert": "2c316c47ee4a799d6028c00c1e5a2cf4508d39538516880293ca5b9be19a6915"
+    }
+   ]
+  },
+  "bedingungskatalog-modul": {
+   "adresse": "https://vivodepot.de/schemas/bedingungskatalog-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/bedingungskatalog-modul/1.json",
+     "blob": "14d5b8d33868c5561d345ce5a7ee483bd757eab2",
+     "shaKanon": "2538e70e760290b0755481cc4c8907c5286a655711bda1d50f740aa422b3f849",
+     "shaAusgeliefert": "de036363b2f0467c2137ce68ce6b3a05a22dfff55024ababc629d249db25bd68"
+    }
+   ]
+  },
+  "bereich-modul": {
+   "adresse": "https://vivodepot.de/schemas/bereich-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/bereich-modul/1.json",
+     "blob": "7a107992ec0bbcca04e2899311fdb2e4633ec3bb",
+     "shaKanon": "3ebe1edb6c162c44555329c9b2aed680b900fd90e015d154742a007f243b50f3",
+     "shaAusgeliefert": "b3c384506f2bd23066712e7cabafb39cb340c040d09e48e54ad08f3163e66d09"
+    }
+   ]
+  },
+  "blattformat-modul": {
+   "adresse": "https://vivodepot.de/schemas/blattformat-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/blattformat-modul/1.json",
+     "blob": "6642884474286b7c2697449b97d509ff7bea4c3d",
+     "shaKanon": "c7e8d4c6905155683f2d2115202b88b75bc588ce137e1c979fe8552e954f82d6",
+     "shaAusgeliefert": "6f1461f84d4c83cde64113b32743ad6584d29d912a57e6b2529a2066250a640a"
+    }
+   ]
+  },
+  "branding-modul": {
+   "adresse": "https://vivodepot.de/schemas/branding-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/branding-modul/1.json",
+     "blob": "1b100c805e3fcc3840b4e461f6c26ad21452fd3d",
+     "shaKanon": "6b522ea30a87da3bb7dc061b0a370bc85f57df25b656b15d4631a49b2bdd8a0e",
+     "shaAusgeliefert": "13540b550575169833e0c172d55bde5174f4e5b35dcde09cc0bfa1b8a4492d9c"
+    }
+   ]
+  },
+  "design-modul": {
+   "adresse": "https://vivodepot.de/schemas/design-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/design-modul/1.json",
+     "blob": "5e075d57c2b739d45819cccb784ce7b68b881960",
+     "shaKanon": "fe100512539bba2930ba4b76117b83e4825f35318a2af8f1ec80134c75aec9f9",
+     "shaAusgeliefert": "9be3771e617aba9d996ee008859caeb34f1d8bdc6c6b5bfb7bc690bccf14dda3"
+    }
+   ]
+  },
+  "ereignis-achse-modul": {
+   "adresse": "https://vivodepot.de/schemas/ereignis-achse-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/ereignis-achse-modul/1.json",
+     "blob": "a8c1e10890179444d3e36c71c77b729a34adf4e1",
+     "shaKanon": "f97d8e68f24c4fd5fc277f3d250ca15fd4c55ad6fa20eb95e73a474003c0b875",
+     "shaAusgeliefert": "5a227956f80fa52af9eed1342fdf79f2e532e62b7420b711eab9ca4331b59d35"
+    }
+   ]
+  },
+  "erscheinung-modul": {
+   "adresse": "https://vivodepot.de/schemas/erscheinung-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/erscheinung-modul/1.json",
+     "blob": "f7b811813d6223aa1c5b9139dd4c84ec13a6e7fe",
+     "shaKanon": "25c18eae7d3933cc22bed8a869697a2b3820adcfd8bcd2919cd7dcc8a4e48ae1",
+     "shaAusgeliefert": "a17c3ce3bf1f0288d3c56564b90dc1fda23dd4bfb3ef00dbb61216d2a14b1205"
+    }
+   ]
+  },
+  "feldregister": {
+   "adresse": "https://vivodepot.de/schemas/feldregister-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/feldregister/1.json",
+     "blob": "786caa276fef31a3449ca1aa57f2662e5032958d",
+     "shaKanon": "5cec5da34afad14f2450a032f7c613a6334e125a367fd7ff6a54baf1926c2b11",
+     "shaAusgeliefert": "cf806fdc2e007381249823ff9d3766d9a0bd1c7a40d7d3d4ca593051a8256dde"
+    }
+   ]
+  },
+  "field-model": {
+   "adresse": "https://vivodepot.de/schemas/field-model-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/field-model/1.json",
+     "blob": "f509cf5fafe91b8c5fe0d8cc5045edf2fc483d1d",
+     "shaKanon": "28df4c4e835836818e3eafc92469f05c091776747eee5f72be5caee13e844906",
+     "shaAusgeliefert": "45ef7af4cfee699882c8e0c8a24c011cebd511c45066de497e4bf87e5285d04a"
+    }
+   ]
+  },
+  "format-modul": {
+   "adresse": "https://vivodepot.de/schemas/format-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/format-modul/1.json",
+     "blob": "e28efa0c6a7fe88dd0b271e6990879f8bacb8d7d",
+     "shaKanon": "dd1e538beb6cc50ac812f4506e39b0231b5bc778f05f926b4b59275a44a920a1",
+     "shaAusgeliefert": "d612dbbbb6899fd24e7297e5cca5988bec48f41302059ef5e67f6681ee3d9e2d"
+    }
+   ]
+  },
+  "institutions-art-modul": {
+   "adresse": "https://vivodepot.de/schemas/institutions-art-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/institutions-art-modul/1.json",
+     "blob": "3cf5f234762cc2ea906df2cf674715d2993e9388",
+     "shaKanon": "36a8b6645e27ddace1e32446a61725d293568c9992e426fccbf4f08d6d705630",
+     "shaAusgeliefert": "badfbeb8e9827032e5511969cfc79aafdf4c88e20a2ae87d4d3db292f2af0cdb"
+    }
+   ]
+  },
+  "logik-modul": {
+   "adresse": "https://vivodepot.de/schemas/logik-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/logik-modul/1.json",
+     "blob": "0598223cb2d37895715204c0d168a63f649df71a",
+     "shaKanon": "d083fc50e31e11d305f65a7bbd39799b326344ca159849c310a22b6b94dbe4dd",
+     "shaAusgeliefert": "fb3686d47f26e9e70905f72f1fe2151e5289806503a6d37e7f510331725f6765"
+    }
+   ]
+  },
+  "rechtsraum-modul": {
+   "adresse": "https://vivodepot.de/schemas/rechtsraum-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/rechtsraum-modul/1.json",
+     "blob": "92691472649eee8fc25abcac369f5d76dbb9ebb8",
+     "shaKanon": "ef3c316f9059865295edbc9e7552f0a3d430e8d0a65f4f741c3739a00dd5a75a",
+     "shaAusgeliefert": "c2be686813d84fa0bacf8c7885bc6a0ee495dfd17b511f1f4cf2852e8099ee19"
+    }
+   ]
+  },
+  "situation-modul": {
+   "adresse": "https://vivodepot.de/schemas/situation-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/situation-modul/1.json",
+     "blob": "4466a0f2a7c4c0b5adffd9cc5e24439c5490c3be",
+     "shaKanon": "af119608c01c4e0be560ddf5845b1993a62af8a2ce5dbdbba715fc1cd1028947",
+     "shaAusgeliefert": "961dd706d95baed8d1821d931a79e8d430e4e60d66914861508315056173c984"
+    }
+   ]
+  },
+  "stellensatz-modul": {
+   "adresse": "https://vivodepot.de/schemas/stellensatz-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/stellensatz-modul/1.json",
+     "blob": "c55ce3b8b5a11b2b85564f61cf8d388ff0126384",
+     "shaKanon": "c4cfd34c81b8bca680e9a5a8ad463d2da48fcbbe4202c72bbb0cc14cca418441",
+     "shaAusgeliefert": "70903d66dc04755b76d1756636379f21bb1a47ab493a505e339fa1d98a3ba319"
+    }
+   ]
+  },
+  "submission": {
+   "adresse": "https://vivodepot.de/schemas/submission-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/submission/1.json",
+     "blob": "107e2d870842e865bf2f03127691ed215666fc8d",
+     "shaKanon": "da39083777f934ba49694d680bfbb254beaf4aa579281adead447f85b85c0f02",
+     "shaAusgeliefert": "6546d7421dcd535528d579646a815de1cf0077b101d5a7018ae0742b3872cfc7"
+    }
+   ]
+  },
+  "textsatz-modul": {
+   "adresse": "https://vivodepot.de/schemas/textsatz-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/textsatz-modul/1.json",
+     "blob": "e089de7db7bb0e5ffed52e38af90bd7afb2345b3",
+     "shaKanon": "c628a88301da2ccde2718b2877189c61eb23f7f3d7abf2c9c677b6fc0b5c7d7c",
+     "shaAusgeliefert": "0ed0de6413e5dde01474063d05e18b64957ad85e201730ed0724b66439fea633"
+    }
+   ]
+  },
+  "wizard-modul": {
+   "adresse": "https://vivodepot.de/schemas/wizard-modul-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/wizard-modul/1.json",
+     "blob": "6c2181e26bdc4cfa5eb0d8fd51c0aaf73213e6d6",
+     "shaKanon": "614c5ffa4c9334f1f34e157c80dd49df347c5ac6e2e7db4d9de0741990ab9184",
+     "shaAusgeliefert": "c58745c637406c0cfddb1e1fe32ff890682bf1a1e7cb26c10e7d74a0703176dc"
+    }
+   ]
+  }
+ }
+}

@@ -17,7 +17,7 @@
      node tools/altkern-nachbau-pruefen.js --ohne-tausch   # Kontrolle: der alte Baum mit seinem eigenen Werkzeug
      node tools/altkern-nachbau-pruefen.js --manipuliere   # Rot-Beweis: eine Zutat um ein Zeichen verändert
      --produkt <slug> (Vorgabe privat-de) · --register <pfad> (ein anderes Fassungsregister, z. B. das des Kanons) · --json
-   Probe: tests/e2e/altkern-shop-bau.spec.js (läuft mit der E2E im pre-push).
+   Probe: eine interne E2E-Spec zum Altkern-Shop-Bau (läuft mit der E2E im pre-push).
    ═══════════════════════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const os = require('node:os');

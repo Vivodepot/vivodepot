@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/build-feldkatalog.js aus vivodepot.html SEKTOREN und tools/bereich-templates/*.json. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 675,
+  "anzahl": 785,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -3022,6 +3022,18 @@
       "template": "vivodepot-pro-aufbewahrung-ordnung.json"
     },
     {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_storage_form_and_reader",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Form der Aufbewahrung",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_records_integrity_notes",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Hinweise zu den Unterlagen",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
       "kennung": "pro-aufbewahrung-ordnung.tpl_depot_zuletzt_durchgesehen_am",
       "bereich": "pro-aufbewahrung-ordnung",
       "label": "Depot zuletzt durchgesehen am",
@@ -3043,6 +3055,24 @@
       "kennung": "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_rolle",
       "bereich": "pro-aufbewahrung-ordnung",
       "label": "Rolle",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_tax_audit_contact",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Ansprechperson bei einer Außenprüfung",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_social_security_audit",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Prüfung durch die Rentenversicherung",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_tax_data_access",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Datenzugriff bei einer Außenprüfung",
       "template": "vivodepot-pro-aufbewahrung-ordnung.json"
     },
     {
@@ -3190,6 +3220,30 @@
       "template": "vivodepot-pro-betrieb-zugaenge.json"
     },
     {
+      "kennung": "pro-betrieb-zugaenge.tpl_electronic_record_keeping_systems",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Elektronische Aufzeichnungssysteme",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_electronic_record_keeping_systems/tpl_system",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "System",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_electronic_record_keeping_systems/tpl_security_device",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Sicherheitseinrichtung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_electronic_record_keeping_systems/tpl_notified_on",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Gemeldet am",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
       "kennung": "pro-betrieb-zugaenge.tpl_schluessel_und_schliessanlage",
       "bereich": "pro-betrieb-zugaenge",
       "label": "Schlüssel und Schließanlage",
@@ -3253,6 +3307,66 @@
       "kennung": "pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung/tpl_frist_ablauf",
       "bereich": "pro-betrieb-zugaenge",
       "label": "Frist/Ablauf",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_crafts_register",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Handwerksrolle",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_crafts_register/tpl_entry",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Eintrag",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_crafts_register/tpl_technical_manager",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Betriebsleitung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_crafts_register/tpl_craft_card",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Handwerkskarte",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_crafts_register/tpl_chamber",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Kammer",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tax_registration_of_business",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Anzeigen an Gemeinde und Finanzamt",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_occasion",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Anlass",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notified_on",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Angezeigt am",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Finanzamt",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_business_identification_number",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Wirtschafts-Identifikationsnummer",
       "template": "vivodepot-pro-betrieb-zugaenge.json"
     },
     {
@@ -3355,6 +3469,120 @@
       "kennung": "pro-betrieb-zugaenge.tpl_laufender_rechtsstreit/tpl_vertretung",
       "bereich": "pro-betrieb-zugaenge",
       "label": "Vertretung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_working_time_records",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Arbeitszeitaufzeichnungen",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_risk_assessment_and_safety_staff",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Arbeitsschutz",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_risk_assessment_and_safety_staff/tpl_risk_assessment_kept_at",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Gefährdungsbeurteilung: Ablageort",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_risk_assessment_and_safety_staff/tpl_company_doctor",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Betriebsärztin oder Betriebsarzt",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_risk_assessment_and_safety_staff/tpl_safety_specialist",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Fachkraft für Arbeitssicherheit",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_accident_insurance_membership",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Unfallversicherung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_accident_insurance_membership/tpl_insurance_body",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Berufsgenossenschaft",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_accident_insurance_membership/tpl_membership_number",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Mitglieds- oder Unternehmernummer",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_accident_insurance_membership/tpl_payroll_report_date",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Lohnnachweis bis",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_employer_number",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Betriebsnummer",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_social_security_contributions",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Sozialversicherungsbeiträge",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_social_security_contributions/tpl_collecting_agency",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Einzugsstelle",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_social_security_contributions/tpl_statements_submitted_by",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Beitragsnachweis durch",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_payroll_records",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Lohnkonten und Entgeltunterlagen",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_record_of_processing",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Verzeichnis der Verarbeitungstätigkeiten",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_data_protection_officer",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Datenschutzbeauftragte",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_data_processing_agreements",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Verträge zur Auftragsverarbeitung",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_data_processing_agreements/tpl_service_provider",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Dienstleister",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_data_processing_agreements/tpl_agreement_kept_at",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Vertrag: Ablageort",
       "template": "vivodepot-pro-betrieb-zugaenge.json"
     },
     {
@@ -3504,7 +3732,151 @@
     {
       "kennung": "pro-finanzen-verbindlichkeiten.tpl_versorgungslage_der_familie_im_ausfall",
       "bereich": "pro-finanzen-verbindlichkeiten",
-      "label": "Versorgungslage der Familie im Ausfall",
+      "label": "Versorgungslage der Familie",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_bookkeeping_type",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Art der Buchführung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_annual_accounts",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Jahresabschlüsse",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_annual_accounts/tpl_financial_year",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Geschäftsjahr",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_annual_accounts/tpl_prepared_on",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Aufgestellt am",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_annual_accounts/tpl_signed_by",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Unterzeichnet von",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_annual_accounts/tpl_kept_at",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Ablageort",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_size_category",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Größenklasse",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_approval_of_annual_accounts",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Feststellung der Abschlüsse",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_approval_of_annual_accounts/tpl_financial_year",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Geschäftsjahr",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_approval_of_annual_accounts/tpl_approved_on",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Festgestellt am",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_disclosure_company_register",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Offenlegung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_disclosure_company_register/tpl_financial_year",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Geschäftsjahr",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_disclosure_company_register/tpl_filed_on",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Offengelegt oder hinterlegt am",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_tax_matters_responsible",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Wer die Steuern des Unternehmens erledigt",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_tax_matters_responsible/tpl_person",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Person",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_tax_matters_responsible/tpl_task",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Aufgabe",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_inventory_location",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Inventar",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_fixed_asset_register",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Anlageverzeichnis",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_electronic_submission_of_accounts",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Elektronische Übermittlung der Abschlüsse",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_contingent_liabilities",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Haftungsverhältnisse",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_creditor_list_location",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Gläubigerübersicht",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_insolvency_contacts",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Ansprechpartner in der Krise",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_crisis_early_warning",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Krisenfrüherkennung",
+      "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_half_capital_loss_meeting",
+      "bereich": "pro-finanzen-verbindlichkeiten",
+      "label": "Letzte Versammlung wegen Kapitalverlust",
       "template": "vivodepot-pro-finanzen-verbindlichkeiten.json"
     },
     {
@@ -3634,6 +4006,84 @@
       "template": "vivodepot-pro-gesellschaft-nachfolge.json"
     },
     {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_outstanding_capital_contributions",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Offene Einlagen",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Gesellschafterinnen und Gesellschafter",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_name",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Name",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_date_of_birth",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Geburtsdatum",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_place_of_residence",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Wohnort",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Wirtschaftlich Berechtigte",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_name",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Name",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_nature_and_extent_of_interest",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Art und Umfang des Interesses",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_nationality",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Staatsangehörigkeit",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_reported_on",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Gemeldet am",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_settlement_on_leaving",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Abfindung beim Ausscheiden",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_share_transfer_and_redemption",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Übertragung und Einziehung von Anteilen",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_succession_evidence_documents",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Nachweise der Rechtsnachfolge",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
       "kennung": "pro-gesellschaft-nachfolge.notiz",
       "bereich": "pro-gesellschaft-nachfolge",
       "label": "Notiz",
@@ -3679,6 +4129,60 @@
       "kennung": "pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_vertretung_ab_wann",
       "bereich": "pro-kontakte-vertretungsplan",
       "label": "Vertretung ab wann",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_substitute_technical_manager",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Ersatz-Betriebsleitung",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_deputy_permit",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Stellvertretungserlaubnis",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_first_aid_fire_evacuation_staff",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Erste Hilfe, Brandschutz, Räumung",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_first_aid_fire_evacuation_staff/tpl_task",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Aufgabe",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_first_aid_fire_evacuation_staff/tpl_person",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Person",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_delegated_safety_duties",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Übertragene Aufgaben im Arbeitsschutz",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_task",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Aufgabe",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_person",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Person",
+      "template": "vivodepot-pro-kontakte-vertretungsplan.json"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_delegated_on",
+      "bereich": "pro-kontakte-vertretungsplan",
+      "label": "Übertragen am",
       "template": "vivodepot-pro-kontakte-vertretungsplan.json"
     },
     {
@@ -3862,6 +4366,72 @@
       "template": "vivodepot-pro-vertretung-vollmachten.json"
     },
     {
+      "kennung": "pro-vertretung-vollmachten.tpl_internal_limits_on_authority",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Interne Beschränkungen der Geschäftsführung",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_exemption_from_self_dealing",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Befreiung vom Insichgeschäft",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_exemption_from_self_dealing_details",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Befreiung vom Insichgeschäft: wer, und wo steht es",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_domestic_business_address",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Inländische Geschäftsanschrift",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_authorised_recipient",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Empfangsberechtigte Person",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_who_may_grant_prokura",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Wer Prokura erteilen darf",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Geschäftsführung laut Register",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_name",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Name",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_date_of_birth",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Geburtsdatum",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_place_of_residence",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Wohnort",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_power_of_representation",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vertretungsbefugnis",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
       "kennung": "pro-vertretung-vollmachten.tpl_patientenverfuegung_ablageort",
       "bereich": "pro-vertretung-vollmachten",
       "label": "Patientenverfügung — Ablageort",
@@ -3871,6 +4441,96 @@
       "kennung": "pro-vertretung-vollmachten.tpl_betreuungsverfuegung_ablageort",
       "bereich": "pro-vertretung-vollmachten",
       "label": "Betreuungsverfügung — Ablageort",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Wem eine Vollmacht mitgeteilt wurde",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_name",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Name",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_power_of_attorney",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vollmacht",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_notified_on",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Mitgeteilt am",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_power_of_attorney_original",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vollmachtsurkunden",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_power_of_attorney_original/tpl_power_of_attorney",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vollmacht",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_power_of_attorney_original/tpl_original_kept_at",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Verbleib des Originals",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_power_of_attorney_original/tpl_returned_on",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Zurückgegeben am",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_court_approval_for_business",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Gerichtliche Genehmigungen",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Vollmachten gegenüber dem Finanzamt",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_authorised_person",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Bevollmächtigte",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_scope",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Umfang",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_tax_office",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Finanzamt",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura_scope",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Umfang der Prokura",
+      "template": "vivodepot-pro-vertretung-vollmachten.json"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_central_register_of_powers",
+      "bereich": "pro-vertretung-vollmachten",
+      "label": "Zentrales Vorsorgeregister",
       "template": "vivodepot-pro-vertretung-vollmachten.json"
     },
     {

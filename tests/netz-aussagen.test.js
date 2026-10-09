@@ -65,3 +65,43 @@ test('Textsatz DE: keine pauschale Netz-Aussage', () => {
 test('Textsatz EN: keine pauschale Netz-Aussage', () => {
   assert.deepEqual(funde(textsatz('textsatz-en-modul.json')), []);
 });
+
+/* publiccode.yml (06.10.2026): die Beschreibung im Verzeichnis ist ein Außentext wie der Textsatz, und die features
+   standen außerhalb dieser Probe („Läuft offline, ohne Konto und ohne Server“). Gelesen wird der Abschnitt
+   `description` je Sprache: Kurz- und Langbeschreibung als Fließtext, jede Zeile der Listen als eigener Satz. */
+function publiccodeTexte(yml) {
+  const raus = {};
+  let sprache = null, feld = null;
+  const z = yml.split('\n');
+  const ab = z.findIndex((l) => /^description:\s*$/.test(l));
+  for (let i = ab + 1; ab >= 0 && i < z.length && !/^\S/.test(z[i]); i++) {
+    const l = z[i];
+    let m;
+    if ((m = /^  ([a-z]{2}):\s*$/.exec(l))) { sprache = m[1]; continue; }
+    if (/^\s*#/.test(l) || !sprache) continue;
+    if ((m = /^    (\w+):\s*(.*)$/.exec(l))) {
+      feld = m[1];
+      const wert = m[2].replace(/^>-?\s*|^["']|["']$/g, '').trim();
+      if (wert) raus[sprache + ':' + feld] = wert;
+      continue;
+    }
+    if ((m = /^\s+-\s+(.*)$/.exec(l))) { raus[sprache + ':' + feld + ':' + i] = m[1].trim() + '.'; continue; }
+    if (feld && l.trim()) raus[sprache + ':' + feld] = ((raus[sprache + ':' + feld] || '') + ' ' + l.trim()).trim();
+  }
+  return raus;
+}
+
+test('publiccode.yml: keine pauschale Netz-Aussage in Beschreibung und features (DE, EN)', () => {
+  const texte = publiccodeTexte(fs.readFileSync(path.join(__dirname, '..', 'publiccode.yml'), 'utf8'));
+  for (const k of ['de:shortDescription', 'de:longDescription', 'en:shortDescription', 'en:longDescription']) {
+    assert.ok(texte[k] && texte[k].length > 40, 'Vorbedingung: ' + k + ' wird gelesen');
+  }
+  assert.ok(Object.keys(texte).filter((k) => /:features:/.test(k)).length >= 10, 'Vorbedingung: die features werden gelesen');
+  assert.deepEqual(funde(texte), []);
+});
+
+test('publiccode.yml·Rot-Beweis: die features-Zeilen vom 05.10.2026 fallen, auch eingebettet in die Datei', () => {
+  const alt = 'description:\n  de:\n    features:\n      - Läuft offline, ohne Konto und ohne Server\n  en:\n    features:\n      - Runs offline, with no account and no server\n';
+  assert.equal(funde(publiccodeTexte(alt)).length, 2);
+  assert.deepEqual(funde(publiccodeTexte(alt.replace('Läuft offline, ohne Konto und ohne Server', 'Läuft ohne Konto').replace('Runs offline, with no account and no server', 'No account needed'))), []);
+});

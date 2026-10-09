@@ -20,7 +20,11 @@ const PW_NEU = 'whc-e2e-neues-passwort-2026';
 // Die Sätze aus dem deutschen Sprachmodul — der Kern hält STRINGS nicht auf `window`.
 const DE = require('../../tools/textsatz-de-modul.json').texte;
 const T = (k) => { const t = DE['strings:' + k + '.text']; if (!t) throw new Error('Text fehlt: ' + k); return t; };
-const umschlag = (bytes) => JSON.parse(bytes.slice(bytes.indexOf('{')));
+const umschlag = (bytes) => {
+  const anfang = bytes.indexOf('{');
+  if (anfang < 0) throw new Error('Umschlag: kein JSON-Anfang in der Datei');
+  return JSON.parse(bytes.slice(anfang));
+};
 
 async function dateiAttrappe(page) {
   await page.evaluate(() => {

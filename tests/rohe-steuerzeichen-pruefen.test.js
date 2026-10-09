@@ -97,7 +97,7 @@ test('[Steuerzeichen-Ratsche] eine Datei, die git wegen eines rohen NUL als bin�
 
 test('[Steuerzeichen-Ratsche] alle namentlichen Ausnahmen sind einzeln benannt, mit eigenem Grund — '
   + 'keine Endungs- oder Ordner-Pauschale (14 aus dem Meßbericht + die eigene Fixture dieses Wächters)', () => {
-  assert.equal(AUSNAHMEN.size, 17);   // +2 (04.10.2026): die Vorführ-Depots vor dem Umbau stehen als Altdateien daneben
+  assert.equal(AUSNAHMEN.size, 51);   // +2 (04.10.2026): die Vorführ-Depots vor dem Umbau stehen als Altdateien daneben; +34 (05.10.2026): Testkorpus des Formats mit Dateikopf, je Datei benannt
   for (const [datei, grund] of AUSNAHMEN) {
     assert.equal(typeof grund, 'string', datei + ': Grund fehlt');
     assert.ok(grund.trim().length > 10, datei + ': Grund zu kurz, um ein echter Grund zu sein');

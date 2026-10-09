@@ -148,13 +148,26 @@ test('[Einlass · Vertrauen] eine unsignierte Vorlage ersetzt kein ab-Werk-Blatt
   assert.ok(V.ANGEHOERIGEN_VORLAGEN_MODUL_VERWORFEN.some((v) => v.id === 'krankenhausakut' && v.grund === 'doppelt'));
 });
 
-test('[Einlass · Vertrauen] eine VERIFIZIERTE Vorlage (ungeprueft: false) darf ein ab-Werk-Blatt ersetzen, und nur dieses', async () => {
+/* Schutz-Wagen S2 (04.10.2026): „verifiziert“ heißt beim Öffnen nachgeprüfte Kette (modulBelegGeprueft), nie das Feld
+   `ungeprueft: false` im Modul. Die Kette selbst prüft tests/ladepruefung-alle-modultypen.test.js; hier wird ihr Ergebnis eingetragen. */
+test('[Einlass · Vertrauen · Rot-Beweis] eine Vorlage, die nur `ungeprueft: false` behauptet, ersetzt kein ab-Werk-Blatt', async () => {
+  const { V } = await kernMitDepot();
+  const behauptet = Object.assign(HEBAMME(), { ungeprueft: false, anbieterId: 'test-anbieter', anbieterIdGeprueft: true, pruefstufe: 'intern',
+    situationen: { krankenhausakut: blatt('Krankenhaus (behauptet geprüft)', [{ quelle: 'identity', feld: 'givenName' }]) } });
+  const d = V.getData();
+  d.angehoerigenVorlagenModule = [behauptet];
+  V._angehoerigenVorlagenAusDepotAnmelden(d);
+  assert.equal(V._angSituationById('krankenhausakut').titel, 'Krankenhaus', 'der ab-Werk-Wortlaut bleibt');
+});
+
+test('[Einlass · Vertrauen] eine beim Öffnen NACHGEPRÜFTE Vorlage darf ein ab-Werk-Blatt ersetzen, und nur dieses', async () => {
   const { V } = await kernMitDepot();
   const geprueft = Object.assign(HEBAMME(), { ungeprueft: false, anbieterId: 'test-anbieter', anbieterIdGeprueft: true,
     situationen: { krankenhausakut: blatt('Krankenhaus (geprüfte Fassung)', [{ quelle: 'identity', feld: 'givenName' }]),
       pflegeheimakut: blatt('Pflegeheim (geprüft)', []) } });
   const d = V.getData();
   d.angehoerigenVorlagenModule = [geprueft];
+  V._modulBelegAlsGeprueftSetzen(geprueft, { stufe: 'extern-geprueft:herausgeber', anbieterId: 'test-anbieter' });
   V._angehoerigenVorlagenAusDepotAnmelden(d);
   const kh = V._angSituationById('krankenhausakut');
   assert.equal(kh.titel, 'Krankenhaus (geprüfte Fassung)');

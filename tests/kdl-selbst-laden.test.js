@@ -18,7 +18,7 @@
    Alle KDL-Texte hier sind ERFUNDEN (die amtlichen stehen nirgends im Repo; tests/kdl-nicht-im-kern.test.js prüft, dass kein
    erfundener Text einem amtlichen gleicht).
    ═══════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');

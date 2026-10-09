@@ -124,9 +124,6 @@ const REGIONEN_AUSNAHMEN = Object.freeze({
        Alle folgenden Regionen wurden einzeln gegen die konsumierende Stelle gelesen (nicht
        vermutet) -- jede traegt eine eigene, unabhaengige Wertraum-/Namensraum-Begruendung wie
        die bereits bestehenden Eintraege oben, keine pauschale Ausnahme. */
-    { beginn: "{ id: 'krisenvorsorge', klasse: 1, icon: 'package',       ziel: { lage: 'ausst-krisenvorsorge' } },",
-      ende: "{ id: 'krisenvorsorge', klasse: 1, icon: 'package',       ziel: { lage: 'ausst-krisenvorsorge' } },",
-      grund: "Kachel-Id der Startseite (BAUSTEINE), kein Bereichs-Bezug -- eigener Kopf-Kommentar direkt darueber: \"Gleiches Wort fuer Kachel und Bereich bewusst\" (11.08.2026 entschieden, s. dort). Die Kachel oeffnet ueber `ziel.lage` dieselbe Lebenslage-Maschine wie die uebrigen Kacheln -- kein Bereichs-Feld-Zugriff." },
     { beginn: "function parseXMeld(text) {", ende: "  return { vorname, nachname, geburtsname, geburtsdatum, geburtsort, nationalitaet, strasse, hausnummer, plz, ort, familienstand, ausweis_nr };\n}",
       grund: "Funktionsrumpf VOR der bereits ausgenommenen XMELD_IDENTITAET_MAPPING: liest die eigenen, deutschen Tag-Namen der externen XÖV/XMeld-Nachricht (`_xTief(person, 'geburtsname')`/`'geburtsdatum'`/`'geburtsort'`/`'familienstandsangabe'`/`'familienstand'` u.a.) -- das amtliche XÖV-Schema selbst benennt seine Elemente deutsch, keine Vivodepot-Kennung. Umbenennen wuerde den Parser gegen echte XMeld-Nachrichten brechen. Ganze Funktion ausgenommen statt einzeln, weil alle Tag-Reads derselben Quelle (die eingehende XML) und demselben Grund folgen." },
     /* Nicht ausgenommen: die Schluessellisten von personHinzufuegen/personAktualisieren und die Ids in

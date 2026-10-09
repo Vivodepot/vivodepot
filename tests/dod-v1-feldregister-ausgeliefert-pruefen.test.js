@@ -72,3 +72,21 @@ test('[vergleichen] Rot-Beweis Normalisierung: Groß-/Kleinschreibung allein mac
   const r = vergleichen(HASH_A, HASH_A.toUpperCase() + '  feldregister.json\n');
   assert.equal(r.gruen, true, 'ROT ERWARTET, wenn die Normalisierung fehlt: Groß-/Kleinschreibung dürfte kein Vergleichsunterschied sein');
 });
+
+/* U2-ADR-NNN: Stichprobe der Kennungs-Adressen im --live-Lauf, ohne Netz geprüft über eine Fake-Ablage. */
+const D = require('../tools/dod-v1-feldregister-ausgeliefert-pruefen.js');
+const A = require('../tools/lib/feldregister-adressen.js');
+test('[DoD·Feldregister·Adressen] Stichprobe: erste Kennung, ein Unterfeld, letzte — grün nur mit Seite und JSON-LD', async () => {
+  const felder = [{ kennung: 'a1.x' }, { kennung: 'a1.liste/feld' }, { kennung: 'z9.y' }];
+  assert.deepEqual(D.stichprobeKennungen(felder), ['a1.x', 'a1.liste/feld', 'z9.y']);
+  const ablage = (fehlt) => async (url, o) => {
+    const k = url.replace('https://r.test/feld/', '').replace(/\/(index\.jsonld)?$/, '');
+    if (k === fehlt) return { status: 404, text: async () => 'weg' };
+    const jsonld = url.endsWith('index.jsonld') || (o.headers && o.headers.Accept);
+    return { status: 200, text: async () => (jsonld ? JSON.stringify({ '@id': A.ADRESS_BASIS + k }) : '<code>' + k + '</code>') };
+  };
+  const gruen = await D.adressenLivePruefen('https://r.test', felder, ablage(null));
+  assert.ok(gruen.every((a) => a.gruen && a.aushandlung), JSON.stringify(gruen));
+  const rot = await D.adressenLivePruefen('https://r.test', felder, ablage('a1.liste/feld'));
+  assert.deepEqual(rot.map((a) => a.gruen), [true, false, true], 'Rot-Beweis: eine fehlende Unterfeld-Seite ist rot');
+});

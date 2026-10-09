@@ -42,12 +42,14 @@ test('[Rein/Raus] Sidebar trägt „Daten weitergeben" + „Daten einlesen" — 
   assert.ok(html.includes(V.STRINGS.einlesenKnopf), 'Label „Daten einlesen"');
 });
 
-test('[Rein/Raus] Nav-Rang: die Türen stehen NACH der Finden-Gruppe (Reihenfolge rein → nachschauen → raus)', async () => {
+test('[Rein/Raus] Nav-Rang (Produktentscheidung 05.10.2026): im Punkt „Austausch und Überblick“ zuerst die Türen (einlesen, herausgeben, Herausgegeben), dann die Überblicke', async () => {
   const { V, document } = await editierbareSitzung();
   V.renderSidebar();
   const html = document.getElementById('sidebar').innerHTML;
-  assert.ok(html.indexOf('data-prueftermine') < html.indexOf('data-weitergeben-zentral'),
-    'Weitergeben-Tür nach Finden/Prüftermine, am Ende der Sidebar');
+  const reihe = ['data-einlesen-zentral', 'data-weitergeben-zentral', 'data-uebergabe-protokoll', 'data-mappe', 'data-prueftermine', 'data-verwaltete-depots']
+    .map((a) => html.indexOf(a + '='));
+  assert.ok(reihe.every((p) => p >= 0), 'jeder Eintrag steht in der Leiste');
+  assert.deepEqual(reihe, [...reihe].sort((x, y) => x - y), 'Reihenfolge: einlesen, herausgeben, Herausgegeben, Meine Dokumente, Prüftermine, Sub-Depots');
 });
 
 test('[Rein/Raus] Türen NUR in bearbeitbaren Modi — im read-only-Modus (notfall) ausgeblendet', async () => {

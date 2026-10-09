@@ -25,7 +25,8 @@ const FREMDMARKE_FIXTURE = Object.freeze({
   domain: 'test-institut-fremdmarke.example',
   farbePrimaer: '#8b1a2b',
   farbeSekundaer: '#1a3a8b',
-  schriftart: 'Georgia',
+  // Eine Familie mit Datei (Systemfamilie des Kern-Stapels): eine ohne Datei wird seit dem 05.10.2026 verworfen.
+  schriftart: 'Segoe UI',
   logo: null,
 });
 

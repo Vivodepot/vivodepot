@@ -23,7 +23,39 @@ function funktionsKoerper(name) {
   return KERN.slice(m.index, n ? n.index : KERN.length);
 }
 
-const SCHREIBWEGE = ['depotSerialisierenV4', 'subDepotVersiegeln', 'subDepotNeuVersiegeln', 'subDepotEntsiegeln'];
+// subDepotEigenerPasswortWechsel seit 07.10.2026 (Befund SUB-PASSWORTWECHSEL-VERLIERT-FAECHER): er stand nicht auf dieser
+// Hand-Liste und schrieb darum unbemerkt mit eigenem encryptDepot und `faecher: []`. Die Klassenprobe darunter zählt
+// deshalb nicht nach Liste, sondern jeden encryptDepot-Aufruf im Kern.
+const SCHREIBWEGE = ['depotSerialisierenV4', 'subDepotVersiegeln', 'subDepotNeuVersiegeln', 'subDepotEntsiegeln', 'subDepotEigenerPasswortWechsel'];
+
+// Wer im Kern `encryptDepot(` aufruft — je Funktion mit Grund. Ein neuer Aufrufer ist rot: er schreibt einen Umschlag am
+// gemeinsamen Speicherweg vorbei, bis er hier begründet steht (und ein Depot-Umschlag gehört nie hierher).
+const ENCRYPT_AUFRUFER = {
+  _zerfallSchreiben: 'der gemeinsame Speicherweg selbst: Einheiten und Geheimteile',
+  empfaengerkreisFachEinrichten: 'verschließt den Fach-Schlüssel unter der Tür des Empfängers — kein Depot-Umschlag',
+  depotSerialisierenV3: 'v3-Schreibweg des Ankers für Werkzeug/E2E (bare-Kanal), nie für ein Sub-Depot',
+};
+function encryptAufrufer(text) {
+  const raus = new Set();
+  let fn = null;
+  for (const z of text.split('\n')) {
+    const m = /^(async )?function ([A-Za-z_$][\w$]*)\(/.exec(z);
+    if (m) fn = m[2];
+    if (/encryptDepot\(/.test(z) && !/^\s*(\/\/|\*)/.test(z) && !/->\s*Promise/.test(z)) raus.add(fn);
+  }
+  return [...raus].sort();
+}
+
+test('[SUB-SONDERLOCKEN·Mechanik·Klasse] jeder encryptDepot-Aufrufer im Kern steht begründet da — kein Umschlag am Speicherweg vorbei', () => {
+  assert.deepEqual(encryptAufrufer(KERN), Object.keys(ENCRYPT_AUFRUFER).sort());
+});
+
+test('[SUB-SONDERLOCKEN·Mechanik·Klasse·Rot-Beweis] ein eigener encryptDepot in einem Sub-Weg fiele auf', () => {
+  const kopie = KERN.replace('_depotV4Schreiben(inhalt, { hkdfKey: masterKey, pbkdf2Salt, depotSalt, depotUUID: umschlag.depotUUID }, fremd)',
+    'VdCrypto.encryptDepot(inhalt, subKey, _AAD_DEPOT_V2)');
+  assert.notEqual(kopie, KERN, 'Vorbedingung: die Stelle im Passwortwechsel gibt es');
+  assert.ok(encryptAufrufer(kopie).includes('subDepotEigenerPasswortWechsel'), 'der Aufrufer wäre nicht begründet — rot');
+});
 
 test('[SUB-SONDERLOCKEN·Mechanik] jeder Weg, der einen Depot-Umschlag schreibt, geht durch _depotV4Schreiben — keiner verschlüsselt selbst', () => {
   for (const name of SCHREIBWEGE) {

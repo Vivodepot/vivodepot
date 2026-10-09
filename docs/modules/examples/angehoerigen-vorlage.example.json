@@ -1,0 +1,15 @@
+{
+  "modulTyp": "angehoerigenVorlage",
+  "moduleVersion": 1,
+  "herkunft": "example-org",
+  "sprache": "en",
+  "situationen": {
+    "hospital-stay": {
+      "titel": "If I am in hospital",
+      "einfuehrung": "What the person who looks after things for me needs first.",
+      "bloecke": [
+        { "titel": "Who I am", "eintraege": [ { "quelle": "identity", "feld": "givenName" } ] }
+      ]
+    }
+  }
+}

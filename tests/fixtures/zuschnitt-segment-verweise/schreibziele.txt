@@ -1,0 +1,7 @@
+=== schreiben
+const REPO = path.join(__dirname, '..');
+fs.writeFileSync(path.join(REPO, 'docs', 'stand.md'), text);
+=== ueberKonstante
+const REPO = path.join(__dirname, '..');
+const VERMERK = path.join(REPO, 'docs', 'stand.md');
+fs.writeFileSync(VERMERK, text);

@@ -9,7 +9,7 @@
         "phone": "",
         "description": "Vivodepot GmbH (Berlin, Germany) develops and maintains Vivodepot, an open-source application (EUPL-1.2) in which people keep the records of their own life in one encrypted file they hold themselves.",
         "webpageUrl": {
-            "url": "https://vivodepot.de",
+            "url": "https://vivodepot.de/?von=github",
             "wellKnown": "https://vivodepot.de/.well-known/funding-manifest-urls"
         }
     },
@@ -18,7 +18,7 @@
         "name": "Vivodepot",
         "description": "Each edition of Vivodepot is a single HTML file that runs offline in the browser, without an account; no server holds the records. People keep the records of their own life across thirteen areas, encrypted client-side (AES-256-GCM), and hand recipients extracts, among them HL7 FHIR (International Patient Summary, validated with the HL7 validator), vCard and iCalendar. An open specification of the underlying data format with a standalone validator is planned, so that other implementations and institutions can build on it.",
         "webpageUrl": {
-            "url": "https://vivodepot.de",
+            "url": "https://vivodepot.de/?von=github",
             "wellKnown": "https://vivodepot.de/.well-known/funding-manifest-urls"
         },
         "repositoryUrl": {

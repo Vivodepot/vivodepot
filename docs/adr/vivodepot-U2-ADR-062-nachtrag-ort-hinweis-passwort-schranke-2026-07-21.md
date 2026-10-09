@@ -128,3 +128,15 @@ quelle:    invariante
 ```
 
 *Bindung nachgetragen 05.08.2026 (ADR-Konformitäts-Wächter, Tranche 1).*
+
+## Berichtigung 07.10.2026: Der Ortshinweis kann ein Personendatum tragen
+
+Oben steht unter dem Stichwort „Verhältnis zu U2-ADR-078“: „der offengelegte Inhalt ist ein von der Bürgerin frei gewählter Hinweistext,
+kein Personendatum.“ Der zweite Teil ist **falsch**. Der Ortshinweis ist freier Text der Halterin. Er kann ein Personendatum
+enthalten, etwa „bei Tante Erna, Hauptstr. 5“, und jeder, der die Datei hat, kann ihn ohne Passwort lesen. Der Satz oben bleibt zur
+Nachvollziehbarkeit stehen.
+
+Unverändert gilt die Entscheidung selbst (Beschluss A, bewusst getragene Offenlegung), ebenso der Hinweis der Oberfläche beim
+Eintragen (`strings:ortHinweisSichtbarkeitKreis`: lesbar für jeden mit der Datei, unpräzise halten). Was unverschlüsselt in der
+Datei steht, nennt SECURITY.md, Abschnitt 6.6. Befund KLARTEXT-ORTSHINWEIS-ZUSICHERUNG; Probe
+`tests/umschlag-klartext-ort-hinweis.test.js`.

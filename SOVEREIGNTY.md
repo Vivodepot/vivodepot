@@ -102,8 +102,9 @@ Wiederherstellungsweg beim Anbieter wäre ein Zweitschlüssel in fremder Hand.
 **Der Mechanismus.** Das Depot ist eine Datei auf ihrem Gerät. Sie kann sie kopieren, sichern,
 mitnehmen, löschen — ohne Vivodepot zu fragen.
 
-**Was es hält:** Die geschriebene Datei trägt kein Klartext-Personendatum; das wird nach einem
-vollständigen Ablauf am erzeugten Byte-Strom geprüft, nicht am Vorsatz. Und die Datei kommt in
+**Was es hält:** Die Inhalte des Depots stehen in der geschriebenen Datei nur verschlüsselt. Für Name,
+Geburtsdatum und Gesundheitswerte wird das nach einem vollständigen Ablauf am erzeugten Byte-Strom geprüft,
+nicht am Vorsatz. Was unverschlüsselt bleibt, nennt SECURITY.md, Abschnitt 6.6. Und die Datei kommt in
 dieselbe Anwendung zurück: derselbe Prüflauf öffnet die eben geschriebene Datei erneut und
 entschlüsselt sie.
 

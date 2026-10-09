@@ -29,6 +29,8 @@ function bauen() {
   return baueSektionen(vorlageDe, vorlageEn).enTexte;
 }
 
-const TEXTSATZ_EN_PRO_FELDER = Object.freeze(bauen());
+// Die Pro-Felder aus P4 (U2-ADR-243 §7) mit vorgegebenen Kennungen: tools/pro-felder-erweiterung.json über tools/lib/pro-felder-erweiterung.js.
+const { texte: erweiterungTexte } = require('./lib/pro-felder-erweiterung.js');
+const TEXTSATZ_EN_PRO_FELDER = Object.freeze(Object.assign(bauen(), erweiterungTexte('en')));
 
 module.exports = { TEXTSATZ_EN_PRO_FELDER, bauen };

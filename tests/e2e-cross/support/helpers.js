@@ -150,7 +150,9 @@ const kern = {
       // NUR an den festen Griffen entscheiden, nie „irgendeinen offenen Dialog wegklicken":
       // ein blinder Klick auf #m-ok traf schon den Anlege-Dialog (Doppel-Absenden) bzw. das
       // Angebot selbst (dann ging das Druck-Blatt auf und blockierte die Reise erst recht).
-      if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
+      if (await page.locator('#safari-datei-nach-anlegen').isVisible().catch(() => false)) {
+        await page.click('#m-zweit');                 // WebKit im Tab (Safari-Lücke A, U2-ADR-211): „Später“ beim Datei-Schritt, er reiht sich vor das Code-Angebot
+      } else if (await page.locator('#whc-angebot').isVisible().catch(() => false)) {
         await page.click('#m-zweit');               // U2-ADR-430: „Ohne Code weiter" — der benannte Ablehnungs-Schritt folgt
       } else if (await page.locator('#whc-tragweite').isVisible().catch(() => false)) {
         await page.click('#m-zweit');               // die Ablehnung bestätigen; danach das Notfall-Blatt-Angebot
@@ -176,13 +178,20 @@ const kern = {
   // (`details.bereiche-umschalter […]`): ein bereits besuchter Bereich steht danach ZUSÄTZLICH
   // flach unter „Weitermachen" — ohne die Verengung träfe der Klick im Strict Mode zwei Elemente
   // (dieselbe Falle wie in tests/e2e/helpers.js).
+  // Navigation A (05.10.2026): Wege im eingeklappten Punkt „Austausch und Überblick“ erst aufklappen, dann klicken.
+  async inLeisteKlicken(page, selektor) {
+    const punkt = page.locator('#sidebar details.nav-gruppe-austausch');
+    if (await punkt.count() && !(await punkt.evaluate((el) => el.open))) await punkt.locator('summary').click();
+    await page.click('#sidebar ' + selektor);
+  },
   async oeffneSektor(page, sektorId) {
     const umschalter = page.locator('details.bereiche-umschalter');
     if (await umschalter.count()) {
       const umschalterOffen = await umschalter.evaluate((el) => el.open);
       if (!umschalterOffen) await umschalter.locator('summary').first().click();
     }
-    const knopf = page.locator(`details.bereiche-umschalter [data-sektor="${sektorId}"]`);
+    // Navigation A (05.10.2026): ohne Umschalter; verengt auf die Seitenleiste (die Karten der Übersicht tragen auch data-sektor).
+    const knopf = page.locator(`#sidebar [data-sektor="${sektorId}"]`);
     const gruppe = page.locator('details.nav-gruppe', { has: page.locator(`[data-sektor="${sektorId}"]`) });
     if (await gruppe.count()) {
       const offen = await gruppe.evaluate((el) => el.open);
@@ -368,11 +377,8 @@ const generator = {
     await page.fill('#sd-ort', sd.ort);
     await page.fill('#sd-land', sd.land);
     await page.fill('#sd-k-name', sd.kontaktName);
-    await page.fill('#sd-k-funktion', sd.kontaktFunktion);
     await page.fill('#sd-k-email', sd.kontaktEmail);
     await page.fill('#sd-k-telefon', sd.kontaktTelefon);
-    await page.selectOption('#sd-bereich', sd.bereich);
-    await page.fill('#sd-usecase', sd.useCase);
     await page.click('#sd-weiter');                      // Angaben → Schlüssel
   },
   async schluesselErzeugen(page) {
@@ -436,9 +442,8 @@ generator.blattBauenUndErzeugen = async function blattBauenUndErzeugen(page, tmp
   await page.waitForSelector('#sd-name', { state: 'visible' });
   await page.fill('#sd-name', sd.anbieterName); await page.selectOption('#sd-rechtsform', sd.rechtsform);
   await page.fill('#sd-strasse', sd.strasse); await page.fill('#sd-plz', sd.plz); await page.fill('#sd-ort', sd.ort);
-  await page.fill('#sd-k-name', sd.kontaktName); await page.fill('#sd-k-funktion', sd.kontaktFunktion);
+  await page.fill('#sd-k-name', sd.kontaktName);
   await page.fill('#sd-k-email', sd.kontaktEmail); await page.fill('#sd-k-telefon', sd.kontaktTelefon);
-  await page.selectOption('#sd-bereich', sd.bereich); await page.fill('#sd-usecase', sd.useCase);
   await page.click('#sd-weiter');
   await page.fill('#sk-pw1', SCHLUESSEL_PASSWORT_E2E); await page.fill('#sk-pw2', SCHLUESSEL_PASSWORT_E2E);
   await page.click('#sk-erzeugen');

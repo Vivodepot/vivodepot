@@ -29,12 +29,14 @@ const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'pro-struktur-'));
 after(() => fs.rmSync(TMP, { recursive: true, force: true }));
 
 const gebaut = new Map();
-/* `mitAlterVorlage`: das Produkt, wie es bis v720 gebaut wurde — mit der Pro-Vorlage. */
-function kern(slug, mitAlterVorlage) {
-  const schluessel = slug + (mitAlterVorlage ? '-alt' : '');
+/* `mitAlterVorlage`: das Produkt, wie es bis v720 gebaut wurde — mit der Pro-Vorlage.
+   `mitNotar`: das Produkt, wie es bis v921 gebaut wurde — mit dem Notar-Template ab Werk (ruht seit 07.10.2026, Nachtrag U2-ADR-427). */
+function kern(slug, mitAlterVorlage, mitNotar) {
+  const schluessel = slug + (mitAlterVorlage ? '-alt' : '') + (mitNotar ? '-notar' : '');
   if (!gebaut.has(schluessel)) {
     const p = VP.PRODUKTE.find((x) => x.slug === slug);
-    const extra = mitAlterVorlage ? [slug === 'pro-en' ? VP.PRO_VORLAGE_EN_PFAD : VP.PRO_VORLAGE_DE_PFAD] : [];
+    const extra = (mitAlterVorlage ? [slug === 'pro-en' ? VP.PRO_VORLAGE_EN_PFAD : VP.PRO_VORLAGE_DE_PFAD] : [])
+      .concat(mitNotar ? [slug === 'pro-en' ? VP.PRO_NOTAR_TEMPLATE_PFAD_EN : VP.PRO_NOTAR_TEMPLATE_PFAD_DE] : []);
     const r = konfektionieren({
       ziel: path.join(TMP, schluessel), slug, modulauswahl: [],
       vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
@@ -158,9 +160,9 @@ function weitereEintraege(html) {
   return (html.match(/data-modul-verzeichnis="[^"]*"/g) || []).map((x) => x.slice('data-modul-verzeichnis="'.length, -1));
 }
 
-/* Seit U2-ADR-427 backt pro-de/pro-en das Notar-Template (id pro-notar-kanzleivertretung) ein — die Testschablone trägt dieselbe Kennung
-   und würde als „selbst geladen“ zu Recht abgewiesen (kennung-ab-werk). Für ein SELBST geladenes Template nimmt die Probe darum eine eigene
-   Kennung; die alte Kennung dient unten als Gegenprobe (sie ist jetzt ab Werk belegt). */
+/* Von U2-ADR-427 bis v921 backte pro-de/pro-en das Notar-Template (id pro-notar-kanzleivertretung) ein — die Testschablone trägt dieselbe
+   Kennung. Seit 07.10.2026 ruht Notar in Pro (Nachtrag U2-ADR-427, kehrt mit der Berufsmodul-Wahl zurück, ADR 489). Für ein SELBST geladenes
+   Template nimmt die Probe darum eine eigene Kennung, unabhängig davon, ob Notar gerade ab Werk steht. */
 const EIGENE_SCHABLONE_ID = 'pro-testschablone-selbst-geladen';
 function eigeneSchablone() {
   const m = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'pro-logikmodul-testschablone-zwei-de.json'), 'utf8'));
@@ -325,16 +327,16 @@ test('[B1·Tabelle] die Tabelle ist frisch aus ihren Quellen erzeugt und reist i
 test('[B2] eine Datei kann das Merkmal abWerk weder entfernen noch einem selbst geladenen Modul anheften', async () => {
   const k = await frisch('pro-de');
   const d = k.V.getData();
-  // Ein eingebackenes Modul des Produkts (das Notar-Template) liegt als Kopie im Depot, ohne Marke.
-  const notar = JSON.parse(JSON.stringify(k.V._logikModuleAlle(d).find((m) => m.id === 'pro-notar-kanzleivertretung')));
-  delete notar.abWerk;
-  d.logikModule = (d.logikModule || []).concat([notar]);
+  // Ein eingebackenes Modul des Produkts (das Geschäftsführerin-Modul) liegt als Kopie im Depot, ohne Marke.
+  const gf = JSON.parse(JSON.stringify(k.V._logikModuleAlle(d).find((m) => m.id === 'pro-geschaeftsfuehrerin-notfallmappe')));
+  delete gf.abWerk;
+  d.logikModule = (d.logikModule || []).concat([gf]);
   const r = k.V.modulEinlassen(eigeneSchablone());
   assert.equal(r.angenommen, true, r.grund);
   for (const m of k.V.getData().logikModule) if (m.id === EIGENE_SCHABLONE_ID) m.abWerk = true;
   const w = await wiederOeffnen('pro-de', k.V);
   const nach = new Map(w.V.getData().logikModule.map((m) => [m.id, m]));
-  assert.equal(nach.get('pro-notar-kanzleivertretung').abWerk, true, 'entfernt in der Datei, gesetzt beim Laden');
+  assert.equal(nach.get('pro-geschaeftsfuehrerin-notfallmappe').abWerk, true, 'entfernt in der Datei, gesetzt beim Laden');
   assert.equal(nach.get(EIGENE_SCHABLONE_ID).abWerk, undefined, 'angeheftet in der Datei, entfernt beim Laden');
   /* Selbst-Einlass-Sperre (04.10.2026, Wort der Gegenlesung): solange sie steht, wirkt ein selbst geladenes Modul nach dem
      Wiederöffnen nicht und steht nicht in der Seitenleiste — gewollt; die Daten bleiben (Probe [Sperre·eigenes Depot]).
@@ -363,18 +365,74 @@ test('[B3] ein selbst eingelassenes Logikmodul mit der Kennung eines ab Werk ein
   assert.equal(pro.V.modulEinlassen(JSON.stringify(fremd)).grund, 'kennung-ab-werk', 'auch das eingebackene Pro-Logikmodul');
 });
 
-test('[Notar-Template ab Werk] pro-de und pro-en tragen das Notar-Template eingebacken (ab Werk); dieselbe Kennung selbst geladen wird abgewiesen (U2-ADR-427)', async () => {
+/* ── Notar ruht in Pro (07.10.2026, Nachtrag U2-ADR-427; kehrt mit der Berufsmodul-Wahl beim Kauf zurück, ADR 489) ── */
+test('[Notar ruht] pro-de und pro-en tragen das Notar-Template nicht mehr ab Werk; das Produkt bis v921 trug es (Rot-Beweis am Bau mit Notar)', async () => {
   for (const slug of ['pro-de', 'pro-en']) {
     const k = await frisch(slug);
-    const notar = k.V._logikModuleAlle(k.V.getData()).find((m) => m.id === 'pro-notar-kanzleivertretung');
-    assert.ok(notar, slug + ': das Notar-Template fehlt im Produkt');
-    assert.deepEqual(weitereEintraege(seitenleiste(k)), [], slug + ': erscheint nicht unter „Weitere Bereiche“');
+    assert.ok(!k.V._logikModuleAlle(k.V.getData()).some((m) => m.id === 'pro-notar-kanzleivertretung'), slug + ': Notar steht noch ab Werk');
+    const alt = kern(slug, false, true);
+    await alt.V.depotAnlegen(PW);
+    assert.ok(alt.V._logikModuleAlle(alt.V.getData()).some((m) => m.id === 'pro-notar-kanzleivertretung'),
+      slug + ': Rot-Beweis — mit Notar im Rezept (Stand v921) steht es ab Werk da, die Probe sähe es');
   }
-  const pro = await frisch('pro-de');
-  const eigen = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'pro-logikmodul-testschablone-zwei-de.json'), 'utf8'));
-  assert.equal(pro.V.modulEinlassen(JSON.stringify(eigen)).grund, 'kennung-ab-werk');
   const privat = await frisch('privat-de');
   assert.ok(!privat.V._logikModuleAlle(privat.V.getData()).some((m) => m.id === 'pro-notar-kanzleivertretung'), 'privat trägt das Pro-Template nicht');
+});
+
+/* TOP-Bedingung 1: Notar ist ein Auszug (logikModul) und hält KEINE eigenen Werte — es liest Felder der Pro-Bereiche. Ein Pro-Depot aus
+   v920/v921 mit ausgefüllten Notar-Feldern verliert in v922 nichts: öffnen, speichern, wieder öffnen; die Werte stehen in ihren Bereichen
+   (die Felder sind dort definiert, also sichtbar) und im Volldatensatz (vollExportJSON als Meßinstrument). */
+const NOTAR_WERTE = {
+  'pro-vertretung-vollmachten': { tpl_vertretungsregelung: 'Einzelvertretung Probe', tpl_prokura: [{ id: 'z1', tpl_wer: 'Prokura Probe' }] },
+  'pro-betrieb-zugaenge': { tpl_genehmigung_oder_berufsrechtliche_zulassung: [{ id: 'z1', tpl_bezeichnung: 'Bestallung Probe', tpl_frist_ablauf: '2030-01-01' }] },
+  'pro-kontakte-vertretungsplan': { tpl_wer_uebernimmt_welche_aufgabe: [{ id: 'z1', tpl_aufgabe: 'Verwahrung Probe', tpl_person: 'Vertretung Probe' }] },
+  'pro-gesellschaft-nachfolge': { tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden: 'Klausel Probe' },
+};
+function notarWerteFehlen(V) {
+  const d = V.getData();
+  const fehlt = [];
+  for (const [b, felder] of Object.entries(NOTAR_WERTE)) {
+    const def = V.bereicheAlle().find((x) => x.id === b);
+    const ids = new Set(def ? def.sektionen.flatMap((s) => s.felder.map((f) => f.id)) : []);
+    for (const [f, wert] of Object.entries(felder)) {
+      if (JSON.stringify((d.sektoren[b] || {})[f]) !== JSON.stringify(wert)) fehlt.push(b + '.' + f + ' (Wert)');
+      if (!ids.has(f)) fehlt.push(b + '.' + f + ' (nicht im Bereich sichtbar)');
+    }
+  }
+  const voll = JSON.stringify(V.vollExportJSON({ sensibel: true }));
+  for (const felder of Object.values(NOTAR_WERTE)) {
+    for (const wert of Object.values(felder)) {
+      for (const t of JSON.stringify(wert).match(/[A-Za-z]+ Probe/g)) if (!voll.includes(t)) fehlt.push(t + ' (Export)');
+    }
+  }
+  return fehlt;
+}
+async function notarBestandPruefen(slug) {
+  const alt = kern(slug, false, true);
+  await alt.V.depotAnlegen(PW);
+  alt.V.setzeSitzungsAkteur({ personId: 'ich', eigenschaft: 'selbst' });
+  const d = alt.V.getData();
+  for (const [b, felder] of Object.entries(NOTAR_WERTE)) d.sektoren[b] = Object.assign({}, d.sektoren[b] || {}, JSON.parse(JSON.stringify(felder)));
+  alt.V.setData(d);
+  assert.ok(alt.V.dokumentHTML('pro-notar-kanzleivertretung').includes('Einzelvertretung Probe'), 'Vorbedingung: v921 zeigt die Werte im Notar-Auszug');
+  assert.deepEqual(notarWerteFehlen(alt.V), [], 'Vorbedingung am alten Stand');
+  const einmal = await wiederOeffnen(slug, alt.V);
+  assert.deepEqual(notarWerteFehlen(einmal.V), [], 'nach dem Öffnen in v922');
+  const zweimal = await wiederOeffnen(slug, einmal.V);
+  assert.deepEqual(notarWerteFehlen(zweimal.V), [], 'nach Speichern und erneutem Öffnen in v922');
+}
+test('[Notar ruht · Bestand pro-de] ein Depot aus v921 mit Notar-Werten behält sie: öffnen, speichern, wieder öffnen, sichtbar, im Export', () => notarBestandPruefen('pro-de'));
+test('[Notar ruht · Bestand pro-en] ein Depot aus v921 mit Notar-Werten behält sie: öffnen, speichern, wieder öffnen, sichtbar, im Export', () => notarBestandPruefen('pro-en'));
+
+test('[Notar ruht · Rot-Beweis] die Bestandsprobe sieht einen verlorenen Wert', async () => {
+  const k = await frisch('pro-de');
+  const d = k.V.getData();
+  for (const [b, felder] of Object.entries(NOTAR_WERTE)) d.sektoren[b] = Object.assign({}, d.sektoren[b] || {}, JSON.parse(JSON.stringify(felder)));
+  delete d.sektoren['pro-gesellschaft-nachfolge'].tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden;
+  k.V.setData(d);
+  const fehlt = notarWerteFehlen(k.V);
+  assert.ok(fehlt.includes('pro-gesellschaft-nachfolge.tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden (Wert)'), JSON.stringify(fehlt));
+  assert.ok(fehlt.includes('Klausel Probe (Export)'), JSON.stringify(fehlt));
 });
 
 test('[B3·Gegenprobe] Vivodepots eigenes Modul, Zeichen für Zeichen gleich, bleibt einlassbar und steht danach einmal da', async () => {

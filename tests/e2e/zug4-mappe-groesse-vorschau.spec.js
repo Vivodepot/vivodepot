@@ -12,10 +12,10 @@
    für die reine dataUrlZuBlob()-Logik). */
 const fs = require('node:fs');
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { inLeisteKlicken, oeffneApp, depotAnlegen } = require('./helpers');
 
 async function oeffneMappeSicht(page) {
-  await page.click('[data-mappe]');
+  await inLeisteKlicken(page, '[data-mappe]');
   await page.waitForSelector('#mappe-add', { state: 'visible' });
 }
 

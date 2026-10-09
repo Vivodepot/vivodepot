@@ -1,0 +1,5 @@
+0|90001|1|||||Beispielkrankheit - s. Art der Krankheit
+1|90002|1|X00.00||||Beispielkrankheit ohne Komplikation
+1|90003|1|X00.00||||Beispielleiden
+1|90004|0|X00.00||||Beispielleiden, nur elektronisch
+1|90005|1|X00.10||||Andere Beispielkrankheit

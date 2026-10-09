@@ -126,7 +126,9 @@ test('[Fehlerpfad 3/5·B] Sub-Kontext über #vm-zurueck verlassen, WÄHREND ein 
 
   await page.evaluate(() => {
     const def = window.__vdOeffentlich.WIZARD_BY_ID.pvwiz;
-    window.__vdOeffentlich.wizardSchrittIndex = def.schritte.findIndex(s => s.feld && s.feld.id === 'supportFromChurchOrCommunity');
+    const schritt = def.schritte.findIndex(s => s.feld && s.feld.id === 'supportFromChurchOrCommunity');
+    if (schritt < 0) throw new Error('Wizard-Schritt nicht gefunden: supportFromChurchOrCommunity');
+    window.__vdOeffentlich.wizardSchrittIndex = schritt;
     window.__vdOeffentlich.renderContent();
   });
   // Eine Pflichtverletzung ist am Textfeld nicht erzwingbar (nicht pflicht) — die schärfere,
@@ -134,7 +136,9 @@ test('[Fehlerpfad 3/5·B] Sub-Kontext über #vm-zurueck verlassen, WÄHREND ein 
   // einschmuggeln, die die Registry nicht kennt (grund:'auswahl'), am Schritt `pv_m_lebenserhalt`.
   await page.evaluate(() => {
     const def = window.__vdOeffentlich.WIZARD_BY_ID.pvwiz;
-    window.__vdOeffentlich.wizardSchrittIndex = def.schritte.findIndex(s => s.feld && s.feld.id === 'lifeSustainingMeasures');
+    const schritt = def.schritte.findIndex(s => s.feld && s.feld.id === 'lifeSustainingMeasures');
+    if (schritt < 0) throw new Error('Wizard-Schritt nicht gefunden: lifeSustainingMeasures');
+    window.__vdOeffentlich.wizardSchrittIndex = schritt;
     window.__vdOeffentlich.renderContent();
   });
   await page.evaluate(() => {

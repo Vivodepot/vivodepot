@@ -15,6 +15,77 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.922] – 2026-10-08
+
+Enthält die nicht einzeln ausgelieferte Fassung v921.
+
+### Hinzugefügt
+- Pro ohne Notfall: Pro kennt die Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge, dazu 55 neue Felder und die
+  Berufsmodule Steuerberatung und Kanzlei. Eine ältere Pro-Datei behält ihre Werte (U2-ADR-243).
+- ICD-Codes zeigen immer den amtlichen Titel, daneben den Begriff aus dem Alphabetischen Verzeichnis. Was die amtliche Liste
+  nicht führt, steht als „nicht amtlich“ da.
+- Beispiel-Integration `examples/anfrage-antwort`: eine Anfrage bauen und eine Antwort öffnen, ohne Vivodepot-Server.
+- Integratoren-Leitfaden: Datenmodell und Anfrage/Antwort auf Englisch, dazu eine deutsche Gesamtfassung.
+- Die Schemas führen ein Verzeichnis ihrer Fassungen; jede Fassung bekommt eine eigene, unveränderliche Adresse unter
+  `vivodepot.de/schemas/` (U2-ADR-488).
+- Feldregister: CC0 steht in der Datei, jede Kennung bekommt eine feste Adresse unter `/feld/`, mit Fassungen.
+
+### Geändert
+- Die vier Produkte tragen ab Werk das Erscheinungsbild „Salbei mit Glas“: Fläche und Abstand statt Linien, ab Werk ohne Icons.
+- Die Startseite bietet „Depot anlegen“ und leiser darunter „Erst umsehen“. Wer in der Umschau etwas eintragen will, kommt
+  direkt zu „Depot anlegen“; nach dem Anlegen steht der Fokus wieder im angeklickten Feld. Die Knöpfe der Umschau nennen ihr
+  Feld, zum Beispiel „Geburtsdatum eintragen“.
+- Die Seitenleiste zeigt ihre Ebenen deutlicher, und der Eintrags-Dialog nimmt den Fokus.
+- In Listen steht der erste Eintrag im Bereich, darunter „Weitere(s) … hinzufügen“.
+- In der Benutzersicht stehen keine technischen Markierungen mehr.
+- Pro trägt keine privaten Kacheln und Lebenslagen mehr. pro-de und pro-en kommen ab Werk ohne das Notariatsmodul; es soll
+  künftig mit der Wahl des Berufsmoduls beim Kauf kommen.
+- Die öffentliche Wurzeldatei `vivodepot.html` nennt in ihrer ersten Kommentarzeile Fassung, Rolle und Prüfweg, und das README
+  sagt in den ersten Zeilen, dass sie das Gerüst ist.
+
+### Behoben
+- Ein Fach mit einem Bereich als Baustein enthielt auch die als sensibel markierten Felder dieses Bereichs (v917 bis v920). Ab
+  v922 gibt ein Bereich diese Felder nicht mehr her; freigegebene Felder bleiben darin. Das Fach wird beim nächsten Speichern
+  neu gebildet. Eine Datei, die schon weitergegeben wurde, bleibt, wie sie war: Wer sie weitergegeben hat, gibt die neue Datei
+  weiter.
+- Der Haftungshinweis steht in jedem erzeugten Dokument, auch im PDF und auf der Notfallkarte.
+- Öffnet man ein Depot in einer anderen Sprache, behält die Mitschrift einer früheren Fassung ihre Schutztexte; zurückgezogene
+  Fassungen zeigen ihre Sprache an.
+- Der eigene Passwortwechsel im Sub-Depot behält Fächer und Ortshinweis und schreibt keinen Fach-Ausschnitt als ganzes Depot.
+- Das Mitschreiben in eine Kind-Datei überschreibt keine eigene Kopie der Person mehr.
+- In Safari im Tab bleibt nichts mehr nur still im Browserspeicher: „Depot anlegen“ bietet zuerst die App an, im Browser danach
+  „Als Datei ablegen“, und die Erinnerung zum Sichern kommt beim nächsten Besuch, sobald es seit der letzten Datei Änderungen
+  gibt.
+- Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd, und kein Assistent zeigt auf eine leere Seite.
+- Eine Schriftart ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück.
+- Studio: Optionen ohne Code und Zeilen eines Format-Moduls gehen nicht mehr still verloren.
+- Felder sind nachts lesbar, deaktivierte Knöpfe ebenso, und der Fokus bleibt in einem zugeklappten Feld sichtbar.
+- Berichtigt: Der Ortshinweis eines Depots steht im Klartext in der Hülle. SOVEREIGNTY.md sagte zuvor, die Datei trage kein
+  Klartext-Personendatum; SECURITY.md nennt in Abschnitt 6.6 jetzt jedes Feld der Hülle, das nicht verschlüsselt ist.
+
+## [v1.0.920] – 2026-10-06
+
+### Hinzugefügt
+- Eine Beschreibung des Dateiformats des Depots für Dritte (docs/format/SPEZIFIKATION.md), dazu ein eigenständiges
+  Prüfprogramm, das den Kern nicht lädt, und ein Satz Testdateien.
+
+### Geändert
+- Die Leiste zeigt nur noch die Bereiche, ohne Unterzeilen. Daten einlesen, Daten herausgeben, Herausgegeben, Meine
+  Dokumente, Prüftermine und Sub-Depots stehen gesammelt unter einem eingeklappten Punkt „Austausch und Überblick“.
+- Die verwalteten Depots heißen jetzt überall „Sub-Depots“.
+- Pro: Die Bereiche heißen kürzer: Vollmachten, Gesellschaft und Nachfolge, Finanzen, Betrieb, Unterlagen, Kontakte und
+  Vertretung.
+- Studio: Beim Einreichen fragt die Maske nicht mehr nach Funktion, Anwendungsbereich und Use Case; die Telefonnummer ist
+  freiwillig. Nach dem Erzeugen zeigt eine Karte, dass die Einreichung fertig ist. Die deutschen Texte sagen „Einreichung“
+  und „Vorlage“ statt Submission und Template.
+- Vorführung „Aufnahme im Krankenhaus: wer entscheidet für Frau Mustermann?“: Das Herausgeben zeigt drei eigene Schritte,
+  Auswahl, Bestätigen und die Datei.
+
+### Behoben
+- Ein Partnerprodukt trug ab Werk den Namen des Partners, aber nicht dessen Logo, Kopfzeilenfarbe und Farben. Jetzt
+  trägt es alle drei.
+- Erfolgs- und Fehlermeldungen waren im Nachtmodus kaum lesbar. Jetzt haben sie genug Kontrast.
+
 ## [v1.0.919] – 2026-10-06
 
 ### Hinzugefügt

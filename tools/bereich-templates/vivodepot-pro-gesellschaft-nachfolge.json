@@ -126,6 +126,69 @@
           ]
         },
         {
+          "id": "gesellschafter-und-anteile",
+          "felder": [
+            {
+              "id": "tpl_outstanding_capital_contributions",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_partner_personal_details",
+              "typ": "liste",
+              "sensibel": true,
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_date_of_birth",
+                  "typ": "datum"
+                },
+                {
+                  "id": "tpl_place_of_residence",
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "tpl_beneficial_owners",
+              "typ": "liste",
+              "sensibel": true,
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_nature_and_extent_of_interest",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_nationality",
+                  "typ": "text"
+                },
+                {
+                  "id": "tpl_reported_on",
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "tpl_settlement_on_leaving",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_share_transfer_and_redemption",
+              "typ": "textarea"
+            },
+            {
+              "id": "tpl_succession_evidence_documents",
+              "typ": "text"
+            }
+          ]
+        },
+        {
           "id": "allgemein",
           "felder": [
             {

@@ -8,12 +8,15 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { konfektionieren } = require('../tools/produkt-konfektionieren.js');
+const { wurzelKopfzeileZuruecksetzen } = require('../tools/lib/wurzel-kopfzeile.js');
 const { PRODUKTE, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
 const { _entwicklerleisteSchneiden, ENTWICKLERLEISTE_MARKEN } = require('../tools/lib/produkt-text-erzeugen.js');
 const { ladeIssuer } = require('./load-issuer.js');
 const { testProduktText } = require('./produkt-test-backen.js');
 
-const KERN = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+// Im öffentlichen Zuschnitt trägt die Wurzeldatei eine eigene Kopfzeile; das Produkt trägt die Quellzeile (WURZEL_KOPFZEILE).
+const KERN_ROH = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const KERN = wurzelKopfzeileZuruecksetzen(KERN_ROH);
 
 function ausgeliefert(slug) {
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-artefakt-'));
@@ -40,8 +43,9 @@ for (const p of PRODUKTE) {
 
 test('[E2E-Artefakt·Byte·Rot-Beweis] E2E-globalSetup und ladeKern backen dasselbe Test-Artefakt', () => {
   const { bakeProdukt } = require('./e2e/global-setup.js');
-  const erwartet = testProduktText(KERN, { slug: 'privat-de' });
-  assert.equal(bakeProdukt(KERN, 'privat-de'), erwartet, 'tests/e2e/global-setup.js');
+  // Beide Backwege lesen die Wurzeldatei, wie sie im Baum liegt; hier gilt also der Rohtext, nicht die zurückgesetzte Zeile.
+  const erwartet = testProduktText(KERN_ROH, { slug: 'privat-de' });
+  assert.equal(bakeProdukt(KERN_ROH, 'privat-de'), erwartet, 'tests/e2e/global-setup.js');
   assert.equal(require('./load-kern.js').ladeKern().html, erwartet, 'tests/load-kern.js');
 });
 

@@ -116,7 +116,9 @@ test('[Glied 5·Rot 3] der Hinweis erscheint — und nur, wenn es etwas zu sagen
   const html = V.einstellungenHTML();
   assert.ok(html.includes(V.STRINGS.einstAbschnittModule), 'der Abschnitt steht da');
   assert.ok(html.includes('Niemand hat sie geprüft'), 'und der Hinweis sagt, was der Unterschied ist');
-  assert.ok(html.includes('fr-kammer'), 'das Modul wird beim Namen genannt');
+  // Beim Namen, nicht beim Herkunftskürzel (07.10.2026): ein Modul ohne eigenen Namen heißt nach seiner Art.
+  assert.ok(html.includes(V.STRINGS.modulArtInstitutionsArt), 'das Modul wird beim Namen genannt');
+  assert.ok(!html.includes('fr-kammer'), 'das Herkunftskürzel steht nicht in der Benutzersicht');
 });
 
 test('[Glied 5] die Marke reist AM MODUL mit — sie überlebt Export und Re-Import', () => {

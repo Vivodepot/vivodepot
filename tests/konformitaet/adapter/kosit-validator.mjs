@@ -10,8 +10,8 @@
        -format-modul.json). Sie hält den Weg Kern → Datei → KoSIT, ohne dass FIM-Inhalt im Repo steht.
      · Echt: VD_FIM_XSD (das gepinnte XSD der Leistung) und VD_FIM_MODUL (das Modul), beide außerhalb des Repos,
        solange die FITKO der Nutzung der Inhalte nicht zugestimmt hat (U2-ADR-456, U2-ADR-465).
-   Das Modul wird hier mit `ungeprueft: false` gebaut, als hätte der Einlassweg seine Signatur verifiziert — die
-   Signaturbedingung selbst hält tests/u2-adr-465-format-bereiche-fest-namensraum.test.js. Geprüft wird hier, ob
+   Das Modul gilt hier als von der Ladeprüfung nachgeprüft (das Ergebnis wird gesetzt wie in den Proben, nie über ein Feld
+   des Moduls) — die Signaturbedingung selbst hält tests/u2-adr-465-format-bereiche-fest-namensraum.test.js. Geprüft wird hier, ob
    die geschriebene Datei das Schema erfüllt.
 
    DAS URTEIL kommt aus dem Bericht (createReportInput), nicht aus dem Rückgabecode: gelesen = ein Szenario hat
@@ -151,7 +151,9 @@ export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), 
     const [bereich, feld] = k.split('.');
     if (!ohne.includes(feld)) V.sektorFeldSetzen(bereich, feld, wert);
   }
-  const kanal = V.formatModulZuExportKanal(Object.assign({}, modul, { ungeprueft: false }));
+  const geprueft = Object.assign({}, modul);
+  V._modulBelegAlsGeprueftSetzen(geprueft, { stufe: 'extern-ungeprueft', anbieterId: null });
+  const kanal = V.formatModulZuExportKanal(geprueft);
   if (!kanal) throw new Error('das Modul ergibt keinen Kanal: ' + (V.formatModulPruefen(modul).grund || '?'));
   const pfad = path.join(arbeit(), name + '.xml');
   fs.writeFileSync(pfad, kanal.baue({ sensibel }));

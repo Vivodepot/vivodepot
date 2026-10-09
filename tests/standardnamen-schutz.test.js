@@ -87,12 +87,12 @@ test('[Standardnamen·Rückwärtslesen] eine alte Vorlage mit Format-Kürzel XOE
   assert.equal(g.gueltig, true, JSON.stringify(g.grund));
   assert.deepEqual(g.verworfene, n.verworfene, 'das alte Kürzel wird genauso angenommen wie das neue');
   assert.equal(g.bereiche[0].format, 'XOEV', 'gelesen wird das alte Kürzel, nichts wird umgeschrieben');
-  assert.equal(V.sektorFormatLesen('XOEV'), 'VERWALTUNG');
-  assert.equal(V.sektorFormatLesen('FHIR_IPS'), 'FHIR_IPS');
   await V.depotAnlegen('pw');
   V.renderSektor(Object.assign({ label: 'Verwaltung' }, g.bereiche[0], { id: 'alt-verwaltung' }));
   const html = document.getElementById('content').innerHTML;
-  assert.ok(html.includes('VERWALTUNG') && !html.includes('XOEV'), 'angezeigt wird das neue Kürzel');
+  // Seit 07.10.2026 steht gar kein Format-Kürzel mehr in der Benutzersicht (Entscheidung „keine technischen Markierungen“); das alte nie.
+  assert.ok(html.includes('Verwaltung'), 'Voraussetzung: der Bereich wurde gezeichnet');
+  assert.ok(!html.includes('XOEV') && !html.includes('VERWALTUNG'), 'kein Format-Kürzel in der Benutzersicht, das alte schon gar nicht');
   assert.equal(V.SEKTOR_FORMATE.XOEV, undefined, 'geschrieben wird nur das neue');
 });
 
@@ -167,7 +167,6 @@ test('[Standardnamen·Rückwärtslesen] die alte Kennung edci-bildung und das al
   assert.equal(V.exportFormatFuerId('edci-bildung').id, 'bildungsangaben');
   assert.equal(V.importFormatFuerId('edci-bildung').id, 'bildungsangaben');
   assert.equal(V.importKlartextFuer('edci-bildung'), V.importKlartextFuer('bildungsangaben'));
-  assert.equal(V.sektorFormatLesen('EDCI'), 'BILDUNG');
   assert.equal(V.SEKTOR_FORMATE.EDCI, undefined);
   V.vorschauDepotErzeugen();
   const aus = V.exportFormatFuerId('bildungsangaben').baue({});

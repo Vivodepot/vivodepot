@@ -34,7 +34,7 @@
       "pattern": "^#[0-9a-fA-F]{6}$"
     },
     "schriftart": {
-      "description": "Google-Font-Kennung; ohne Rand-Leerraum 1 bis 100 Zeichen.",
+      "description": "Name einer Schriftfamilie, ohne Rand-Leerraum 1 bis 100 Zeichen. Der Kern nimmt sie nur an, wenn das Erscheinungsbild des Produkts für sie einen Bildschirm-Schnitt (woff2) trägt oder sie im Grund-Schriftstapel steht; das kann ein Schema nicht sehen.",
       "type": [
         "string",
         "null"
@@ -105,6 +105,10 @@
     "anbieterIdGeprueft": {
       "description": "Vom Einlass gesetzt.",
       "type": "boolean"
+    },
+    "modell": {
+      "description": "Wie ein Partnerprodukt die Marke zeigt: 'branding' (Vorgabe) mit der Vivodepot-Bildmarke neben dem Partner-Logo, 'white-label' ohne sie (Vivodepot dann nur am Herkunftsort). Wirkt nur aus der Bau-Region eines konfektionierten Produkts oder aus einem signierten Vor-Depot-Bündel, nie aus einer Depot-Datei; ein anderer Wert wird verworfen.",
+      "enum": ["branding", "white-label", null]
     }
   },
   "anyOf": [

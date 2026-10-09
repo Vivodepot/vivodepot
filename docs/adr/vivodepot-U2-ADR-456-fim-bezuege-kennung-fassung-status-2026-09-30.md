@@ -4,7 +4,7 @@
 **Datum:** 30.09.2026
 **Kategorie:** STANDARDS, ARCHITEKTUR
 **Status heute:** gilt
-**Betrifft:** `bereiche/bezuege.json`, `bereiche/bezuege-quellen.json`, `tools/bezuege-erheben.js`, `tools/fim-bezuege-region.js`, `tools/fim-export-pruefen.js`, `vivodepot.html` (Region `FIM-BEZUEGE`, `fimBezugFuer`, `_fimFelderMitBezug`, `fimVerwaltung`, `feldBezugZeileHTML`), `tools/standards-register/xml-xsd.json`.
+**Betrifft:** `bereiche/bezuege.json`, `bereiche/bezuege-quellen.json`, `tools/bezuege-erheben.js`, `tools/fim-bezuege-region.js`, `tools/fim-export-pruefen.js`, `vivodepot.html` (Region `FIM-BEZUEGE`, `_fimFelderMitBezug`, `fimVerwaltung`), `tools/standards-register/xml-xsd.json`.
 **Bezug:** U2-ADR-409 (Abbilden, nicht umbenennen), U2-ADR-442 (FIM: Depot-Kennungen auf Baukasten-Datenfelder, Schema je Leistung), U2-ADR-030 (Selbstauskunft im Export).
 
 ## Frage
@@ -20,6 +20,10 @@ Wie zeigt das Produkt, welche Depot-Angabe welchem Datenfeld des FIM-Baukastens 
 5. **Im Kern eine erzeugte Region, ohne Sätze.** `FIM-BEZUEGE:BEGIN/END` trägt dieselben Zeilen, den Freigabestatus als Code der amtlichen FIM-Codeliste `urn:xoev-de:fim:codeliste:xdatenfelder.freigabestatus` (2 in Bearbeitung, 5 fachlich freigegeben silber, 6 gold; so tragen ihn auch die XDatenfelder-3-Dateien) und den Stand als Datum, geschrieben nur von `tools/fim-bezuege-region.js`; eine Probe hält Region und Tabelle gleich. Die Region ist öffentlich wie der übrige Kern (Entscheidung der Inhaberin vom 29.09.2026: Kennung, Fassung und Status auch im öffentlichen Zuschnitt).
 6. **Sichtbar im Produkt.** Unter einem Feld mit Bezug steht dezent eine Zeile mit Kennung, Fassung und fest/nicht fest. Der Export `fim-json` trägt `bezugsdatensatz: fim-baukasten`, den Stand, die Codeliste (`freigabestatusListe`) und je Wert `fimFeld { id, fassung, freigabestatus, fest }`, mit denselben Filtern wie jeder Export (sensibel nur mit Zustimmung, verifiziert stämmige Werte nicht als Selbstauskunft). Die früher erfundene Kennung `fim-stammdaten-0001` entfällt. Der Verwaltungsblock `stammdaten` bleibt für den Rückweg.
 7. **Geprüft, nicht behauptet.** `tools/bezuege-erheben.js --quelle` hält jede Zeile gegen die gepinnte Datei (Kennung, Fassung, Prüfsumme) und den gepinnten Status; `tools/fim-export-pruefen.js` hält jeden Export gegen die Zeilen.
+
+## Nachtrag 07.10.2026 — kein Bezug unter dem Feld
+
+Entscheidung vom 07.10.2026: keine technischen Markierungen in der Benutzersicht. Die Zeile unter dem Feld (Punkt 6, erster Satz) entfällt, mit ihr die Anzeigefunktion und ihre drei Texte. Der Bezug bleibt in der Kern-Region, im Export `fim-json` und in der öffentlichen Zuordnungsliste; Punkt 7 gilt unverändert.
 
 ## Was diese Entscheidung nicht leistet
 
@@ -52,11 +56,11 @@ konformitaet:
       - tests/fim-bezuege.test.js "[FIM·Region] die Kern-Region ist genau die Tabelle (tools/fim-bezuege-region.js)"
       - tests/fim-bezuege.test.js "[FIM·Name] ohne belegte Freigabe steht in der Region kein Name — auch wenn die Tabelle einen trüge"
   - aussage: >-
-      Unter einem Feld mit Bezug stehen Kennung, Fassung und fest/nicht fest; ohne Bezug steht nichts.
+      Unter einem Feld steht kein FIM-Bezug; der Bezug bleibt in Region und Export.
     zustand: erfuellt
-    herkunft: U2-ADR-456 (30.09.2026)
+    herkunft: U2-ADR-456, Nachtrag 07.10.2026
     pruefung:
-      - tests/fim-bezuege.test.js "[FIM·Anzeige] unter dem Feld steht Kennung, Fassung und fest/nicht fest — ohne FIM-Namen"
+      - tests/benutzersicht-ohne-technische-markierungen.test.js "[Benutzersicht] kein bekannter Weg zeigt eine technische Markierung (Deckel 0)"
   - aussage: >-
       fim-json trägt je Wert den gepinnten Bezug, keine erfundene Schema-Kennung, und jede Abweichung davon findet der Export-Prüfer.
     zustand: erfuellt

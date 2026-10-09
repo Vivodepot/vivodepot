@@ -18,7 +18,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { jweLesbarerTeil } = require('../helfer/jwe-lesbar.js');
-const { KERN_URL_PRIVAT_DE, oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten } = require('./helpers.js');
+const { KERN_URL_PRIVAT_DE, oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten, inLeisteKlicken } = require('./helpers.js');
 
 const ANKER_PW = 'anker-todesfall-pw-2026';
 const FACH_PW = 'fach-erbe-pw-2026';
@@ -96,7 +96,8 @@ test('[Journey c·Todesfall] Angehörige öffnet die Fach-Datei, findet „Behö
   });
 
   await test.step('Anfrage des Standesamts annehmen, Abgleich sehen', async () => {
-    await ang.locator('text=Herausgegeben').first().click();
+    // Navigation A: „Herausgegeben“ steht im eingeklappten Punkt „Austausch und Überblick“ — erst aufklappen, wie die Nutzerin.
+    await inLeisteKlicken(ang, '[data-uebergabe-protokoll]');
     await ang.locator('#anfrage-empfangen').click();
     await ang.fill('#anfrage-text', JSON.stringify(ANFRAGE));
     await ang.click('#m-ok');

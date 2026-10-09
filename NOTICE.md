@@ -33,6 +33,12 @@ Rezept, Herkunft und Prüfsummen: `tools/schrift-pdf-quellen/README.md`. Seit v8
 auf 1100 gesetzt, umbenannt in „VivodepotProbeKlein" — SIL Open Font License 1.1, Volltext siehe `OFL.txt`. Zweck: der
 Nachweis, dass die PDF-Kästchen der Metrik der aktiven Schrift folgen (tests/e2e/pdf-kaestchen-vektor.spec.js).
 
+**Probe-Schriften mit Kyrillisch und Griechisch (nur Test-Fixtures, werden nicht ausgeliefert)** —
+`tests/fixtures/pdf-schrift/kyrillisch-griechisch.ttf` und `…-bold.ttf`, aus `extras/ttf/Inter-Regular.ttf` bzw. `Inter-Bold.ttf`
+desselben Releases v4.1 (Prüfsumme oben), zugeschnitten auf die Codepunkte der Ab-Werk-Inter und U+0370–U+04FF, Namen unverändert —
+SIL Open Font License 1.1, Volltext siehe `OFL.txt`. Zweck: der Nachweis, dass ein Erscheinungsbild eine PDF-Schrift für Namen in
+kyrillischer und griechischer Schrift mitbringen kann (tests/pdf-namen-nicht-latein.test.js).
+
 ---
 
 ## Eingebettete Code-Listen (Auszüge)
@@ -53,6 +59,17 @@ Der Generaldirektor der Weltgesundheitsorganisation (WHO) hat die Übersetzungsr
 Das Commonwealth of Australia hat die Übersetzungsrechte für eine deutschsprachige Ausgabe an das Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) vergeben, das für die Übersetzung allein verantwortlich ist.  
 Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)  
 Die Erstellung bzw. der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).
+
+**ICD-10-GM, Alphabetisches Verzeichnis** — Alltagsbegriffe und Suchbegriffe der ICD-Anzeige, unverändert übernommen; Quellenangabe nach dem Anhang der Downloadbedingungen (Band 2):
+Das Alphabetische Verzeichnis zur ICD-10-GM entstand auf der Basis des Diagnosenthesaurus des Zentralinstituts für die kassenärztliche Versorgung in der Bundesrepublik Deutschland (Zi). Es wurde im Laufe der Jahre ergänzt um Texte aus dem Alphabetischen Verzeichnis der ICD-10-WHO.  
+Für den Diagnosenthesaurus gilt als Inhaber der Nutzungsrechte:  
+Zentralinstitut für die kassenärztliche Versorgung in der Bundesrepublik Deutschland (Zi)  
+Salzufer 8, 10587 Berlin  
+Internet: https://www.zi.de  
+Der Inhaber der Nutzungsrechte für diese Teile ist:  
+Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM), Kurt-Georg-Kiesinger-Allee 3, 53175 Bonn.  
+Herausgegeben vom Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) im Auftrag des Bundesministeriums für Gesundheit (BMG)  
+Der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinstituts für Arzneimittel und Medizinprodukte (BfArM).
 
 **LOINC** — Regenstrief Institute, Inc., LOINC-Lizenz:
 This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.

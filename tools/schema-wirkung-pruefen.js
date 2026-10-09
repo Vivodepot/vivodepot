@@ -60,6 +60,10 @@ const AUSNAHMEN = Object.freeze({
   // Feld. Dieselbe Klasse wie `useCase` — Freitext für die Prüfstelle, nicht für den Kern.
   kennungVorschlaege:  'Ein Kennungs-Vorschlag ist an die Freigabe im Postfach gerichtet (U2-ADR-409), nicht an ein Depot-Feld — erst eine freigegebene Kennung wirkt, dann über den Feldkatalog wie jede andere.',
   begruendung:         'Freitext-Begründung EINES Kennungs-Vorschlags; die freigebende Stelle liest sie, nicht der Kern — dieselbe Klasse wie useCase.',
+  // 05.10.2026 (Befund EINREICHUNG-STAMMDATEN-UNSIGNIERT): beide gehören zur Einreichung selbst. Der VC-Issuer prüft
+  // sie (`_pruefeEinreichungSignatur`), der Kern sieht das Paket nie — dieselbe Klasse wie templatesJws.
+  rechtstext:          'Welcher Wortlaut der Einreichungsbedingungen beim Absenden galt; der VC-Issuer prüft ihn über einreichungJws, nicht der Kern.',
+  einreichungJws:      'Signatur des Anbieters über submissionId, anbieter und rechtstext; der VC-Issuer verifiziert sie, der Kern sieht das Paket nie.',
 });
 
 // Schlüsselnamen des Schemas, rekursiv, ohne Duplikate.

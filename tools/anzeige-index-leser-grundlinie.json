@@ -212,6 +212,14 @@
     "zusammenstellenTreffer": {
       "art": "fund",
       "grund": "Treffer beim Zusammenstellen zum Herausgeben — Datenfrage."
+    },
+    "_wizardZielImProdukt": {
+      "art": "anzeige",
+      "grund": "Fragt, ob das Produkt den Zielbereich eines Assistenten ANZEIGT: ohne ihn wird der Assistent weder angeboten noch gestartet (Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH)."
+    },
+    "wizardAbschluss": {
+      "art": "anzeige",
+      "grund": "Öffnet nach „Fertig“ den Zielbereich nur, wenn das Produkt ihn anzeigt, sonst die Übersicht — nie eine leere Seite ohne Markierung (Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH)."
     }
   }
 }

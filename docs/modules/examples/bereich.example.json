@@ -1,0 +1,15 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "example-org",
+  "sprache": "en",
+  "bereiche": {
+    "example-garden": {
+      "label": "Allotment garden",
+      "icon": "folder",
+      "sektionen": [
+        { "id": "lease", "label": "Lease", "felder": [] }
+      ]
+    }
+  }
+}

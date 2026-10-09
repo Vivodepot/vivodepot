@@ -124,6 +124,11 @@
      Urheberangabe in HERKUNFTSORT-ANGABEN und, seit 27.09.2026, die Pflicht-Quellenangaben der Lizenzgeber in
      LIZENZ-WORTLAUT, byte-gleich gegen ihre Originale unter code-listen/wortlaut/). Ihre Probe sichert das
      VORHANDENSEIN, nicht das Weglassen: sie ist rot, wenn der Text weg ist. Die Byte-Zahlen stehen in der Grundlinie.
+     Zwei Ergänzungen (06.10.2026, ICD-Anzeige, Befund ICD-TITEL-LIVE-VERAENDERT): (a) in einer Region zählt ein belegter
+     amtlicher Begriff als Terminologie, nicht als Satz — quellBegriff, anzeigeName und synonyme einer Liste mit
+     herkunftPflicht, und nur, was tools/lib/geruest-belege.js gegen den mitgeführten Auszug des amtlichen Verzeichnisses
+     belegt; ein eigener Text bleibt Satz. (b) Eine dauerhafte Region, deren GANZER satzförmiger Inhalt byte-gleich eine
+     Datei unter code-listen/wortlaut/ ist, darf benannt steigen (--anhebung region:<NAME> --grund); jede andere nie.
    Der Sollwert misst Zeichenketten-Inhalt, nicht die Länge der Region: eine geleerte Region
    (`const X = Object.freeze([]);`, ihre eigene Deklaration) trägt 0 Byte Satz, der Sollwert ist also
    erreichbar. Nach S4, S7 und dem S5-Rest blieben im ganzen Gerüst 1 945 Byte satzförmig, und das war
@@ -174,6 +179,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const vm = require('node:vm');
+const { belegeLesen } = require('./lib/geruest-belege.js');
 
 const REPO = path.join(__dirname, '..');
 const STANDARD_DATEI = path.join(REPO, 'vivodepot.html');
@@ -403,6 +409,8 @@ function literaleMessen(text, optionen = {}) {
   const imInnern = {};
   const register = optionen.fremdcode || [];
   const technische = new Set(optionen.technischeWoerter || []);
+  const terminologie = optionen.terminologie || new Set();
+  const wortlaut = optionen.wortlaut || new Set();
   const blocksGefunden = new Set();
   const fremdBytes = new Map(register.map((r) => [r.name, 0]));
   const eimer = { struktur: 0, satz: 0 };
@@ -437,11 +445,13 @@ function literaleMessen(text, optionen = {}) {
       const region = regionVon(l.s);
       if (region) {
         innerhalb += b;
-        const e = imInnern[region] || (imInnern[region] = { struktur: 0, satz: 0, fremdcode: 0 });
+        const e = imInnern[region] || (imInnern[region] = { struktur: 0, satz: 0, fremdcode: 0, terminologie: 0, satzOhneWortlaut: 0 });
         if (fremd) e.fremdcode += b;
+        else if (terminologie.has(wert)) e.terminologie += b; // belegter amtlicher Begriff (tools/lib/geruest-belege.js), kein Satz
         else {
           const artInnen = eimerVon(wert, technische);
           e[artInnen] += b;
+          if (artInnen === 'satz' && !wortlaut.has(wert)) e.satzOhneWortlaut += b;
           if (optionen.sammeln) optionen.sammeln({ art: artInnen, region, bytes: b, wert, ort: l.s });
         }
         continue;
@@ -793,11 +803,21 @@ function grundlinieAktualisieren(messung, alt, { anhebungen = [] } = {}) {
     }
     for (const e of alt.regionen.uebergang) {
       const i = ist(e.name);
+      if (beantragt.has('region:' + e.name)) verweigert.push('region:' + e.name + ': ein Übergang steigt nie, er sinkt auf 0.');
       if (i > e.satz) verweigert.push('regionen.' + e.name + ': Deckel würde von ' + e.satz + ' auf ' + i + ' steigen.');
       else if (i > 0) uebergang.push({ ...e, satz: i });
     }
     for (const e of alt.regionen.dauerhaft) {
       const i = ist(e.name);
+      // Einzige Ausnahme von „nie“ (06.10.2026, ICD-Anzeige): eine dauerhafte Region, deren GESAMTER satzförmiger Inhalt
+      // byte-gleich eine Datei unter code-listen/wortlaut/ ist, darf benannt steigen (--anhebung region:<NAME> --grund).
+      const zielR = 'region:' + e.name;
+      if (i > e.satz && beantragt.has(zielR)) {
+        const rest = (gem[e.name] && gem[e.name].satzOhneWortlaut) || 0;
+        if (rest > 0) verweigert.push(zielR + ': ' + rest + ' Byte satzförmiger Inhalt stehen in keiner Datei unter code-listen/wortlaut/ — eine Region steigt nur, wenn ihr ganzer Inhalt byte-gleich gegen die Originale geprüft ist.');
+        else { eintraege.push({ ziel: zielR, von: e.satz, auf: i, antrag: beantragt.get(zielR) }); dauerhaft.push({ ...e, satz: i }); }
+        continue;
+      }
       if (i > e.satz) verweigert.push('regionen.' + e.name + ': Deckel würde von ' + e.satz + ' auf ' + i + ' steigen.');
       else if (i === 0) verweigert.push('regionen.' + e.name + ': dauerhafter Sollwert, der Inhalt ist weg — die Probe sichert sein Vorhandensein.');
       else dauerhaft.push({ ...e, satz: i });
@@ -863,9 +883,10 @@ const BESCHREIBUNG = 'Grundlinie für tests/geruest-waechter-pruefen.test.js (W0
 
 function kb(bytes) { return (bytes / 1000).toFixed(1).replace('.', ','); }
 
-function messen(text, grundlinie = {}) {
+function messen(text, grundlinie = {}, belege) {
   const m = konstantenMessen(text);
-  const l = literaleMessen(text, { fremdcode: grundlinie.fremdcode, technischeWoerter: grundlinie.technischeWoerter });
+  const b = belege || belegeLesen();
+  const l = literaleMessen(text, { fremdcode: grundlinie.fremdcode, technischeWoerter: grundlinie.technischeWoerter, terminologie: b.terminologie, wortlaut: b.wortlaut });
   return { konstanten: m.konstanten, probleme: [...m.probleme, ...l.probleme], literale: l };
 }
 

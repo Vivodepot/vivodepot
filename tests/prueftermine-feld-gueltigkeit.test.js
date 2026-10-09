@@ -135,14 +135,18 @@ test('[Teil B·Rot] der Klick landet am FELD, nicht nur im Bereich', () => {
   assert.equal(V._feldTerminId('wohnen', 'tpl_ablauf'), 'feld:wohnen:tpl_ablauf');
 });
 
-test('[Teil B] ein Feld ohne Beschriftung verliert seine Zeile nicht — es zeigt seine Id', () => {
+/* Seit 07.10.2026 (Entscheidung „keine technischen Markierungen in der Benutzersicht“) steht dort nie mehr die Feld-Kennung: die Zeile
+   bleibt (der Termin geht nicht verloren) und trägt den Namen des Bereichs, ohne bekannten Bereich den Sammelnamen aus dem Textsatz. */
+test('[Teil B] ein Feld ohne Beschriftung verliert seine Zeile nicht — es zeigt den Namen des Bereichs, nie seine Kennung', () => {
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
-  V.feldGueltigkeitSetzen('wohnen', 'ein_namenloses_feld', null, '2026-09-30');
+  V.feldGueltigkeitSetzen('housing', 'ein_namenloses_feld', null, '2026-09-30');
+  V.feldGueltigkeitSetzen('nicht_mehr_da', 'noch_ein_feld', null, '2026-09-30');
   const z = V.prueftermineFelder(JETZT);
-  assert.equal(z.length, 1);
-  assert.equal(z[0].name, 'ein_namenloses_feld',
-    'eine Zeile ohne Namen wäre schlimmer als eine mit einem technischen');
+  assert.equal(z.length, 2, 'beide Zeilen bleiben');
+  const namen = z.map((x) => x.name);
+  assert.ok(namen.every((n) => n && !/ein_namenloses_feld|noch_ein_feld/.test(n)), 'nie die Kennung: ' + namen.join(', '));
+  assert.ok(namen.includes(V.STRINGS.templateAbschnittDefault), 'ohne bekannten Bereich der Sammelname');
 });
 
 test('[Teil B] ein EINGEBAUTES Feld trägt seine echte Beschriftung', () => {

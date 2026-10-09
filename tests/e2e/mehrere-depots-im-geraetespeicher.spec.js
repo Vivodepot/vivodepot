@@ -101,6 +101,7 @@ test('[Mehrere Depots·Rot-Beweis] in einer Kopie, die nur den neuesten Record v
   test.setTimeout(120000);
   const quelle = fs.readFileSync(GEBACKENE_PRODUKT_PFADE['privat-de'], 'utf8');
   const a = quelle.indexOf('async function depotAusIdbLaden(');
+  expect(a, 'Vorbedingung: depotAusIdbLaden steht im Kern').toBeGreaterThanOrEqual(0);
   const alt = 'for (const record of liste) {';
   const i = quelle.indexOf(alt, a);
   expect(i > a && i - a < 4000, 'Vorbedingung: die Schleife steht in depotAusIdbLaden').toBe(true);

@@ -1,7 +1,7 @@
 {
   "modulTyp": "logikModul",
   "id": "pro-geschaeftsfuehrerin-notfallmappe",
-  "titel": "Managing director — representation, succession, emergency",
+  "titel": "Managing director — representation and succession",
   "sektor": "pro-vertretung-vollmachten",
   "moduleVersion": 1,
   "herkunft": "vivodepot",
@@ -30,7 +30,7 @@
     {
       "titel": "Part A — Representation",
       "bloecke": [
-        { "typ": "immer", "texte": ["Who acts for the company if the managing director is suddenly unavailable? This extract collects what the Pro depot already holds on that question. It replaces neither a commercial power of attorney (Handlungsvollmacht) itself nor information from the commercial register court (Registergericht)."] },
+        { "typ": "immer", "texte": ["Who acts for the company while the managing director is being represented? This extract collects what the Pro depot already holds on that question. It replaces neither a commercial power of attorney (Handlungsvollmacht) itself nor information from the commercial register court (Registergericht)."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsregelung",
           "frage": "Company's representation arrangement?", "luecke": "— not recorded —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "prokura_inhaber",
@@ -40,7 +40,7 @@
     {
       "titel": "Part B — Succession",
       "bloecke": [
-        { "typ": "immer", "texte": ["The following details come from the Pro module \"Company and succession arrangements\" — the same underlying data that also supports a handover or an emergency, read here for managing-director succession."] },
+        { "typ": "immer", "texte": ["The following details come from the Pro module \"Company and succession arrangements\" — the same underlying data that also supports cover or a handover, read here for managing-director succession."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "nachfolgeklausel",
           "frage": "Succession clause (Nachfolgeklausel) in the articles of association (Gesellschaftsvertrag) present?", "luecke": "— not recorded —" },
         { "typ": "frageAntwortOderLuecke", "feldId": "gesellschafterliste_stand",
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "titel": "Part C — Emergency",
+      "titel": "Part C — Cover plan and contact details",
       "bloecke": [
         { "typ": "immer", "texte": ["Note: \"Task\" and \"Person\" are read as two separate lists (same line order, no automatic pairing) — the extract itself can be extended to cross-reference line by line, if needed."] },
         { "typ": "frageAntwortOderLuecke", "feldId": "vertretungsplan_aufgabe",
@@ -69,14 +69,14 @@
     }
   ],
   "dokAusgabe": {
-    "h1": "Managing director — representation, succession, emergency",
+    "h1": "Managing director — representation and succession",
     "klasse": "pro-geschaeftsfuehrerin-notfallmappe-dok",
     "herkunftText": "Compilation by this application from the Pro module and depot data — not an official form, not legal advice, no connection to the commercial register court (Registergericht).",
     "unterschrift": false,
     "unterschriftErsatzHinweis": "This extract replaces neither a commercial power of attorney (Handlungsvollmacht) nor a shareholders' resolution (Gesellschafterbeschluss) itself — both remain a matter for the company and its advisers.",
     "fussText": " · Preparation aid, not an official document",
     "knopfAttr": "pro-geschaeftsfuehrerin-notfallmappe-dokument",
-    "dateiBasis": "Geschaeftsfuehrerin-Notfallmappe",
-    "toolbarHinweis": "This extract helps prepare representation, succession and emergency arrangements for the managing director's role. It replaces no legal advice, and it is never transmitted to anyone."
+    "dateiBasis": "Managing-director-representation-succession",
+    "toolbarHinweis": "This extract helps prepare representation and succession arrangements for the managing director's role. It replaces no legal advice, and it is never transmitted to anyone."
   }
 }

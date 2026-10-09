@@ -30,7 +30,9 @@ async function journey(page, browser, url) {
 
   await page.evaluate(([w, g]) => {
     const V = window.__vdOeffentlich;
-    V.sektorFeldSetzen('housing', 'tenancyAgreementStorage', w);
+    // Ein ab Werk NICHT sensibles Wohnfeld: seit SENSIBEL-FILTER-BEREICHSBAUSTEIN hält ein Bereichs-Baustein sensible Felder
+    // zurück (tests/empfaenger-sensibel-filter.test.js); vorher stand hier der Ablageort des Mietvertrags (sensibel).
+    V.sektorFeldSetzen('housing', 'tenancyTerminationHandover', w);
     V.sektorFeldSetzen('health', 'insuranceNumber', g);
     V.bearbeitungSpeichern();
   }, [WOHNEN, GESUNDHEIT]);

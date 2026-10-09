@@ -81,8 +81,10 @@ test('[Sub-Depot] kein „Unterdepot“ in den Texten, den Sprachmodulen und der
   assert.deepEqual(treffer, []);
   assert.ok(Object.keys(V.STRINGS).length > 1000, 'Ausbeute: die Texte des Kerns sind geladen');
   const einleitung = (rel) => JSON.parse(fs.readFileSync(path.join(__dirname, '..', rel), 'utf8')).texte['hilfe:sub-depot.einleitung'];
-  assert.match(einleitung('tools/textsatz-de-modul.json'), /Verwaltete Depots/, 'Ausbeute: die Hilfe nennt den Begriff der App');
-  assert.match(einleitung('tools/textsatz-en-modul.json'), /Managed depots/, 'Ausbeute: die englische Hilfe nennt den Begriff der App');
-  assert.doesNotMatch(einleitung('tools/textsatz-de-modul.json') + einleitung('tools/textsatz-en-modul.json'), /Sub-?Depot/i, 'Nutzertext der Hilfe ohne „Sub-Depot“ (Entscheidung 04.10.2026)');
+  /* „Sub-Depots“ ist der geltende Name, nicht ein neuer: App und Hilfe kehren am 05.10.2026 zu ihm zurück, nachdem zwischenzeitlich
+     „Verwaltete Depots“ / „Depots, die ich aufbewahre“ darin stand. Der Wächter gegen „Unterdepot“ oben bleibt unverändert. */
+  assert.match(einleitung('tools/textsatz-de-modul.json'), /Sub-Depots/, 'Ausbeute: die Hilfe nennt den Begriff der App');
+  assert.match(einleitung('tools/textsatz-en-modul.json'), /Sub-depots/, 'Ausbeute: die englische Hilfe nennt den Begriff der App');
+  assert.doesNotMatch(einleitung('tools/textsatz-de-modul.json') + einleitung('tools/textsatz-en-modul.json'), /Verwaltete Depots|Managed depots/i, 'kein Zwischenname mehr in der Hilfe (Rückkehr zu „Sub-Depots“, 05.10.2026)');
   assert.ok(WORT.test('im Alltag auch Unterdepot'), 'Rot-Beweis im Test: der alte Satz würde gefunden');
 });

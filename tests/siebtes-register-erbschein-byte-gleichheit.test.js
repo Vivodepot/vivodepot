@@ -35,6 +35,17 @@ function ohneTeilC(html) {
   assert.match(html, TEIL_C, 'Teil C fehlt im Auszug — dann wäre der Vergleich unten keiner');
   return html.replace(TEIL_C, '');
 }
+/* Haftung C (HAFTUNG-C-FEHLT-IM-DOKUMENT-PDF, 08.10.2026) ist ebenfalls ein GEWOLLTER Zusatz: der Dokument-Fuß trägt seine Segmente
+   [Rechtsraum-Satz, Quelle, C] je in einem <div>. Verglichen wird der Fuß in der eingefrorenen Form (die Quelle allein); C muss als
+   letztes Segment dastehen, sonst wäre das Zurückführen eine stille Lücke. */
+const FUSS_NEU = /<footer class="pv-dok-fuss">((?:<div>[^<]*<\/div>)*)<\/footer>/;
+function fussWieVorher(html, C) {
+  const m = html.match(FUSS_NEU);
+  assert.ok(m, 'der Dokument-Fuß fehlt');
+  const segmente = [...m[1].matchAll(/<div>([^<]*)<\/div>/g)].map((x) => x[1]);
+  assert.equal(segmente[segmente.length - 1], C, 'Haftung C steht als letztes Segment im Fuß');
+  return html.replace(FUSS_NEU, '<footer class="pv-dok-fuss">' + segmente.slice(0, -1).join('') + '</footer>');
+}
 function anfuehrungszeichenGleich(html) {
   // Dazu seit 16.09.2026 die typografische Umstellung der eigenen Sätze (tools/lib/anfuehrung-gleich.js).
   return require('../tools/lib/anfuehrung-gleich.js').anfuehrungGleich(html.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
@@ -87,14 +98,14 @@ test('[Siebtes-Register·Byte-Gleichheit] leeres Depot — das Bundle ueber den 
   const { V } = await ladeKern();
   await leeresDepotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(ohneTeilC(html)), anfuehrungszeichenGleich(golden('erbschein-leer')));
+  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(html), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-leer')));
 });
 
 test('[Siebtes-Register·Byte-Gleichheit] volles Depot — das Bundle ueber den echten Einlassweg liefert BYTE-GLEICH dasselbe wie die vorher fest verdrahtete ERBSCHEIN_MODUL', async () => {
   const { V } = await ladeKern();
   await volles_depotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(ohneTeilC(html)), anfuehrungszeichenGleich(golden('erbschein-voll')));
+  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(html), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-voll')));
 });
 
 test('[Siebtes-Register] das Bundle wird ANGENOMMEN, ohne einen einzigen verworfenen Schluessel', async () => {

@@ -1,0 +1,4 @@
+/* Teil „ohne Icons“ (Entscheidung 07.10.2026: Icons im Modul abschaltbar). Wer ihn in die stil-Reihenfolge aufnimmt, zeigt keine
+ Zier-Icons in Seitenleiste, Bereichsüberschriften und Schnellwegen; dort steht immer auch Text. Die Knöpfe der Kopfzeile tragen ihre
+ Bedeutung allein im Icon und haben einen zugänglichen Namen (aria-label, gesetzt vom Kern); sie behalten ihr Icon. */
+.nav-item .ico, .bereich-kopf .ico, .sidebar .ico { display: none; }

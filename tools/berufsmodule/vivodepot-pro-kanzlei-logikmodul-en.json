@@ -1,0 +1,174 @@
+{
+  "modulTyp": "logikModul",
+  "id": "pro-kanzlei-vertretung",
+  "titel": "Law practice — cover and winding up",
+  "sektor": "pro-kanzlei",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "vertretung": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_attorney_representative",
+      "unterfeld": "tpl_name"
+    },
+    "abwicklung_wunsch": {
+      "typ": "feld",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_practice_winding_up_wish"
+    },
+    "kammer": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_bar_membership",
+      "unterfeld": "tpl_chamber"
+    },
+    "haftpflicht": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_professional_liability_insurance",
+      "unterfeld": "tpl_insurer"
+    },
+    "handakten": {
+      "typ": "feld",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_client_files_location"
+    },
+    "bea": {
+      "typ": "feld",
+      "sektor": "pro-kanzlei",
+      "feld": "tpl_bea_access"
+    },
+    "vertretungsplan_aufgabe": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe",
+      "unterfeld": "tpl_aufgabe"
+    },
+    "vertretungsplan_person": {
+      "typ": "listenfeldAlle",
+      "sektor": "pro-kontakte-vertretungsplan",
+      "feld": "tpl_wer_uebernimmt_welche_aufgabe",
+      "unterfeld": "tpl_person"
+    },
+    "kontakt_telefon": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "telephone"
+    },
+    "kontakt_email": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "email"
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "Part A — who covers, who winds up",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Lawyers arrange a representative if they cannot work in the practice for more than a week; a person to wind up the practice is appointed by the bar association. This extract collects what the depot holds on this and replaces neither the appointment nor information from the bar association."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretung",
+          "frage": "Representative?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "abwicklung_wunsch",
+          "frage": "Preference for winding up the practice?",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Part B — practice and professional duties",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kammer",
+          "frage": "Bar association?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "haftpflicht",
+          "frage": "Professional liability: insurer?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "handakten",
+          "frage": "Client files: where, who has access?",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "bea",
+          "frage": "beA: who has access rights?",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Part C — cover plan and contact details",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_aufgabe",
+          "frage": "Cover plan — which tasks are assigned?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "vertretungsplan_person",
+          "frage": "Cover plan — who takes them on?",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_telefon",
+          "frage": "Telephone?",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kontakt_email",
+          "frage": "Email?",
+          "luecke": "— not recorded —"
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Law practice — cover and winding up",
+    "klasse": "pro-kanzlei-vertretung-dok",
+    "herkunftText": "Compiled by this application from the Pro and depot details — not an official template, no connection to a bar association.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "This extract replaces neither the appointment of a representative nor that of a person to wind up the practice — both remain a matter for the lawyer and the competent bar association.",
+    "fussText": " · Preparation aid, not an official document",
+    "knopfAttr": "pro-kanzlei-vertretung-dokument",
+    "dateiBasis": "Law-practice-cover",
+    "toolbarHinweis": "This extract helps prepare cover and the winding up of the practice. It replaces no appointment and no information from the bar association, and it is never transmitted to anyone."
+  }
+}

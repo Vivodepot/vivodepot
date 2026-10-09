@@ -1,0 +1,437 @@
+{
+ "zweck": "Verweise ins Leere, die es am 07.10.2026 in gebauten Produkten gab (Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH). Positivliste, darf nur sinken; ein neuer Eintrag braucht Rot-Beweis und Wort der Gegenlesung. Jede Zeile heißt: Ziel fehlt, Entscheidung offen. Eigentümer: Pro-Strang. Gemessen mit tools/lib/produkt-verweise-pruefen.js (produktVerweiseMessen), gehalten von tests/produkt-verweise-aufloesen.test.js.",
+ "eintraege": [
+  {
+   "produkt": "pro-de",
+   "modul": "vivodepot-dokumente-de.json",
+   "pfad": ".korpusWizard[0].ziel",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen: Assistent pvwiz/kiwiz, Entscheidung A (07.10.2026) nimmt ihn aus dem Pro-Rezept; bis dahin bietet der Kern ihn nicht an (Notanker, kein Ersatz für A)."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "vivodepot-dokumente-de.json",
+   "pfad": ".korpusWizard[1].ziel",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen: Assistent pvwiz/kiwiz, Entscheidung A (07.10.2026) nimmt ihn aus dem Pro-Rezept; bis dahin bietet der Kern ihn nicht an (Notanker, kein Ersatz für A)."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "vivodepot-standardvorlage-patientenverfuegung.json",
+   "pfad": ".standardVorlagen.patientenverfuegung",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "vivodepot-standardvorlage-betreuungsverfuegung.json",
+   "pfad": ".standardVorlagen.betreuungsverfuegung",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "vivodepot-standardvorlage-vorsorgevollmacht.json",
+   "pfad": ".standardVorlagen.vorsorgevollmacht",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "vivodepot-standardvorlage-organspende.json",
+   "pfad": ".standardVorlagen.organspende",
+   "art": "bereich-fehlt",
+   "ziel": "health",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.einkommen_netto",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.haushalt_einkommen",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.unterhalt",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.belastungen",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.wohnsituation",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.wohnkosten_eigenanteil",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.personen_im_haushalt",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.schulden",
+   "art": "bereich-fehlt",
+   "ziel": "finance",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.wertgegenstaende",
+   "art": "bereich-fehlt",
+   "ziel": "finance",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.vorgang_stellen",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.vorgang_art",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.gegenseite",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.beratung_bisher",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".abschnitte[1].bloecke[5].format",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.testament_form",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.kinder_namen",
+   "art": "bereich-fehlt",
+   "ziel": "people",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.testament_bedachte_namen",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.erben_namen",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-de",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".abschnitte[0].bloecke[3].format",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "vivodepot-dokumente-de.json",
+   "pfad": ".korpusWizard[0].ziel",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen: Assistent pvwiz/kiwiz, Entscheidung A (07.10.2026) nimmt ihn aus dem Pro-Rezept; bis dahin bietet der Kern ihn nicht an (Notanker, kein Ersatz für A)."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "vivodepot-dokumente-de.json",
+   "pfad": ".korpusWizard[1].ziel",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen: Assistent pvwiz/kiwiz, Entscheidung A (07.10.2026) nimmt ihn aus dem Pro-Rezept; bis dahin bietet der Kern ihn nicht an (Notanker, kein Ersatz für A)."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "vivodepot-standardvorlage-patientenverfuegung.json",
+   "pfad": ".standardVorlagen.patientenverfuegung",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "vivodepot-standardvorlage-betreuungsverfuegung.json",
+   "pfad": ".standardVorlagen.betreuungsverfuegung",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "vivodepot-standardvorlage-vorsorgevollmacht.json",
+   "pfad": ".standardVorlagen.vorsorgevollmacht",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "vivodepot-standardvorlage-organspende.json",
+   "pfad": ".standardVorlagen.organspende",
+   "art": "bereich-fehlt",
+   "ziel": "health",
+   "grund": "Ziel fehlt, Entscheidung offen (b): Standardvorlage der privaten Vorsorge in Pro."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.einkommen_netto",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.haushalt_einkommen",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.unterhalt",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.belastungen",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.wohnsituation",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.wohnkosten_eigenanteil",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.personen_im_haushalt",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.schulden",
+   "art": "bereich-fehlt",
+   "ziel": "finance",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.wertgegenstaende",
+   "art": "bereich-fehlt",
+   "ziel": "finance",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.vorgang_stellen",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.vorgang_art",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.gegenseite",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".datenSchema.beratung_bisher",
+   "art": "bereich-fehlt",
+   "ziel": "administration",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "zugang-zum-recht-beratungshilfe-logikmodul.json",
+   "pfad": ".abschnitte[1].bloecke[5].format",
+   "art": "bereich-fehlt",
+   "ziel": "assets",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.testament_form",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.kinder_namen",
+   "art": "bereich-fehlt",
+   "ziel": "people",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.testament_bedachte_namen",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".datenSchema.erben_namen",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  },
+  {
+   "produkt": "pro-en",
+   "modul": "erbschein-vorbereitung-logikmodul.json",
+   "pfad": ".abschnitte[0].bloecke[3].format",
+   "art": "bereich-fehlt",
+   "ziel": "advanceCare",
+   "grund": "Ziel fehlt, Lücke zum Schließen, nicht zum Weglassen: außen demonstriert (Zugang zu Recht), wird nie zurückgebaut; Entscheidung offen (c)/(d), wie Pro die gelesenen Bereiche führt."
+  }
+ ]
+}

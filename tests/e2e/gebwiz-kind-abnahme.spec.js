@@ -62,7 +62,8 @@ test('Assistent mit Kindesnamen → Kind in „Kinder und Schutzbefohlene" sicht
   // zuletzt besuchten Bereich ab). Das äußere `<summary>` ("Alle Bereiche zeigen") ist die neue,
   // immer sichtbare Stelle — dieselbe Eigenschaft, die dieser Test schon immer wollte.
   await expect(page.locator('.wizard-frage')).toHaveCount(0);
-  await expect(page.locator('.sidebar .bereiche-umschalter > summary')).toBeVisible();
+  // Navigation A (05.10.2026): der Umschalter ist entfallen; die immer sichtbare Stelle ist jetzt der Titel „Bereiche“.
+  await expect(page.locator('.sidebar .gruppe-titel').first()).toBeVisible();
 
   // Das Kind steht wirklich in „Kinder und Schutzbefohlene" — über die reguläre Sicht geprüft.
   await oeffneSektor(page, 'people');
