@@ -2,7 +2,7 @@
 
 **Datum:** 03.09.2026
 **Status:** Angenommen · gebaut 03.09.2026 (Suite grün)
-**Status heute:** gilt
+**Status heute:** gilt, mit Nachtrag 09.10.2026 (die ganze Oberfläche trägt den Ton, neue Palette)
 **Bezug:** Bruch C — Fläche→Rand-Umbau (27.08.2026, `tests/sub-depot-akzent-rand-statt-flaeche.test.js`,
 kein eigenes ADR) · U2-ADR-024 (Sub-Depot-Akzent-Wurzel-Vererbung) · D47 (10.06.2026, Umkehr) ·
 UX-Konzept §7/§8 (25.08.2026, Sidebar/Fußzeile auf Papierton) · Palettentausch (05.08.2026,
@@ -145,4 +145,62 @@ wurden alle geprüft und bewusst NICHT geändert — kein offener Punkt, keine �
 
 ---
 
-*Vivodepot GmbH · Berlin · 03.09.2026*
+## Nachtrag 09.10.2026 · die ganze Oberfläche im Ton des Depots, neue Palette
+
+**Festgelegt am 05.10.2026, gebaut nach „Fläche statt Linien“ (07.10.2026):** Im geöffneten Sub-Depot trägt die ganze
+Oberfläche den Ton des Depots: Kopfzeile, Seitenleiste, Inhalt, Fuß, Banner und Karten. Ausgenommen ist nur die Marke in der Kopfzeile.
+Kein Salbei neben der Depot-Farbe, keine Linie. Die Fläche ist der Pastellton; Knöpfe und der aktive Bereich nehmen seinen dunklen
+Partner (Mischung mit neutralem Dunkel). Der Ton selbst ist nie Schriftfarbe. Nachts wird die Fläche nicht dunkler, sondern bleibt
+klar: Banner, aktiver Bereich und Hauptknopf sind ein helles Band mit dunkler Schrift.
+
+**Palette (acht Töne):** Ton, Altrose, Nebel, Kiesel, Malve, Pfirsich, Hellblau, Rosé. Hafer, Schilf und Flieder wählt kein neues Depot
+mehr. Ein Bestandsdepot behält seinen Namen in der Datei und wird nur in der Anzeige abgebildet: Hafer → Pfirsich, Schilf → Nebel,
+Flieder → Malve (`SUBDEPOT_ANZEIGE_ABBILDUNG`). Die Abbildung schreibt nichts.
+
+**Werte aus dem Modul, Mechanik im Gerüst:** Die Töne und ihre Fassungen (`--<ton>`, `-text`, `-linie`, `-papier-linie`) stehen im
+Erscheinungsbild-Modul; das Gerüst kennt nur die Namen, die Abbildung und die Rollen. Auch das PDF liest die Töne aus dem Modul
+(`_subDepotModulHex`), die frühere Kopie der Werte im Kern entfällt. Die Namen der Töne kommen aus dem Textsatz
+(`strings:subFarbeName<Ton>`, DE und EN).
+
+**Kontrast, gerechnet über die acht Töne:** Schrift hell ≥ 5,9:1 (Seitenleiste), 7,9:1 (Inhalt), 9,9:1 (Karten); weiße Schrift auf dem
+Partner ≥ 6,9:1; Feldkante ≥ 4,7:1; nachts Schrift ≥ 4,9:1, Banner 9,0:1. Die Regeln gelten nur in einem eingehängten Depot (`.vm-akzent`),
+nicht im reinen Vollmacht-Modus mit seinem dunklen Akzent: sonst nähme der Kern bei einem einzigen Kontrastverstoß das ganze
+Erscheinungsbild zurück.
+
+**Partnerfarben (Kontrastboden und Farbabstand).** Ein Partner kann die acht Töne der Sub-Depots selbst kuratieren (`_subdepotPartnerPaletteGueltig`). Geprüft wird die ganze Palette, nicht der einzelne Ton: Reißt ein Ton eine der Bedingungen, wird die gesamte Partner-Palette verworfen, und das Haus bleibt bei seinen Tönen („abweisen, nicht abdunkeln“, wie U2-ADR-408 und U2-ADR-297). Jeder der acht Töne muss
+
+1. gegen Weiß (`#ffffff`) und gegen Papier (`#fdfbf7`) ein Kontrastverhältnis von mindestens **1,15** erreichen (`_SUBDEPOT_PARTNER_MIN_KONTRAST`; bis zum 09.10.2026, Fassung v922, galt 1,5), und
+2. von der Salbei-Leiste des eigenen Depots (`#e2eada`) einen Farbabstand **ΔE2000 ≥ 12** haben (`_SUBDEPOT_PARTNER_MIN_DELTA_E`, gerechnet nach CIEDE2000, Sharma/Wu/Dalal 2005, `_farbAbstandDE2000`).
+
+*Warum der Boden sinkt.* Seit der Palette vom 05.10.2026 ist der Ton Fläche, nicht Linie. Die hellen Haus-Töne liegen unter 1,5: Pfirsich 1,22/1,18, Hellblau 1,20/1,16, Rosé 1,27/1,22 gegen Weiß/Papier (Quellkommentar `vivodepot.html:29412-29414`). Bei 1,5 bestünde die Haus-Palette ihre eigene Prüfung nicht. 1,15 fängt weiter Töne, die fast weiß sind: `#fdf3f6` hat 1,09:1 gegen Weiß, liegt mit ΔE 14,6 aber weit genug von der Salbei-Leiste und fällt allein am Boden. Ein Ton wie `#fbfbfb` (1,03:1, ΔE 9,6) fällt an beiden Bedingungen.
+
+*Warum ein Farbabstand dazukommt.* Der Boden sagt nichts darüber, ob sich die Fläche vom eigenen Depot abhebt. Ein blasses Grün mit genug Kontrast (`#dce6d4`, 1,29:1) liegt bei ΔE 1,5 zur Salbei-Leiste und ginge als Fläche durch, ohne als Farbe eines anderen Depots erkennbar zu sein. Das Kriterium trägt die Fläche über den Farbton. Bezugswert ist die Pastell-Tabelle vom 05.10.2026 (Pfirsich zur Salbei-Leiste: 12,1); die acht Haus-Töne erfüllen es.
+
+*Was gleich bleibt.* Die Haus-Palette besteht als Partner-Palette dieselbe Prüfung. Ohne Partner-Palette ändert sich nichts (`AB_WERK_SUBDEPOT_PALETTE_PRODUKT = null`). Die Kontrast-Zahlen darüber (Schrift, Feldkante, Nacht) betreffen die abgeleiteten Fassungen der Töne und bleiben unberührt.
+
+**Proben:** `tests/e2e/sub-depot-rahmen-folgt-kontext.spec.js` (Kopfzeile im Ton, Marke unverändert, mit Rot-Beweis „Akzentfläche an
+der Marke“; Seitenleiste und Inhalt im Ton und zurück; zwei Töne, zwei Flächen) · `tests/e2e/flaeche-statt-linien.spec.js` (keine Linie
+im Sub-Depot) · die Wächter der Färbung im Vollmacht-Modus und `tests/sub-depot-akzent-rand-statt-flaeche.test.js` (umgestellt) ·
+`tests/pdf-subdepot-akzent.test.js` (PDF aus dem Modul) · `tests/subdepot-partner-palette.test.js` (Partnerfarben).
+
+## Konformität
+
+```konformitaet
+aussage:   Die acht Haus-Töne bestehen als Partner-Palette Boden 1,15 und ΔE2000 ≥ 12 zur Salbei-Leiste; fast weiß
+           (#fbfbfb) und blasses Grün (#dce6d4) werden verworfen.
+zustand:   geprüft
+herkunft:  U2-ADR-236-Nachtrag (09.10.2026)
+pruefung:  tests/subdepot-partner-palette.test.js#[Partner-Palette·Kriterien] die acht Haus-Töne erfüllen Boden und Farbabstand; fast weiß und blasses Grün werden verworfen
+```
+
+```konformitaet
+aussage:   Reißt ein einzelner Ton eine der Bedingungen (Kontrastboden oder Farbabstand), wird die ganze Partner-Palette
+           verworfen, nicht nur der eine Ton.
+zustand:   geprüft
+herkunft:  U2-ADR-236-Nachtrag (09.10.2026), Regel aus U2-ADR-408
+pruefung:  tests/subdepot-partner-palette.test.js#[Schritt 6·Gültigkeitsprüfung·Rot-Beweis] EIN Ton unter dem Kontrast-Boden verwirft die GANZE Palette, nicht nur den einen Ton
+```
+
+---
+
+*Vivodepot GmbH · Berlin · 03.09.2026 · Nachtrag 09.10.2026*

@@ -62,7 +62,7 @@ Wie Fassungen erscheinen und wie lange sie unterstützt werden, steht in [`docs/
 
 ### 2.2 Prüfsummen je Fassung
 
-Die Prüfsummen jeder ausgelieferten Fassung stehen in [Abschnitt 8](#8--fingerabdruck-je-fassung) dieser Datei; wie man sie aus dem Quelltext nachrechnet, steht in [`DEVELOPING.md`](DEVELOPING.md).
+Die Prüfsummen jeder ausgelieferten Fassung stehen in [Abschnitt 8](#8--fingerabdruck-je-fassung) dieser Datei; wie man sie aus dem Quelltext nachrechnet, steht in [`DEVELOPING.md`](DEVELOPING.md). Nachgerechnet wird am öffentlichen Tag der Fassung; nicht jede ausgelieferte Fassung hat einen.
 
 ### 2.3 Handelsregister-Bezug
 
@@ -254,6 +254,16 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v927 | 2026-10-12 | privat-de | `afbf811950c330325dabc1f069ce9e13dd876a809f651c7c6373f1f78b1c4431` |
+| v927 | 2026-10-12 | privat-en | `04f841ea9af020cb5c93c8083885775ea0fa6414ff0463069ccb934db0ab0b12` |
+| v927 | 2026-10-12 | pro-de | `4504c187af109cd1e2c32264e806ed50b790db1102544b5b7c04698ebea791f6` |
+| v927 | 2026-10-12 | pro-en | `fb8e8714ef4fb1fa0c7448b2407df15d4facbeb3dc2197daea5c39ca50d62c99` |
+| v927 | 2026-10-12 | service-worker | `06f842f54927116a9da9492c5226e90405f851b3b123c447680842a39ef5512b` |
+| v923 | 2026-10-09 | privat-de | `7cbb6f58bad4e58c65ce9b9b2dec0b3c13321adf21780f573364634ed5932b65` |
+| v923 | 2026-10-09 | privat-en | `4c05ed6f0c17574c8ea3d7e0b687f502813fbb671bc201fa179cc1543d7cd868` |
+| v923 | 2026-10-09 | pro-de | `5d605477e961ef76687eefae5efc725476f054bcfd38e8083df91c5eed8ca7ba` |
+| v923 | 2026-10-09 | pro-en | `e2236317e66433ec58babd64d8e9bc6b2f5ee2f50c42198e9f6010b419505c28` |
+| v923 | 2026-10-09 | service-worker | `030f719a28db3ae14bccf1ed99ea509e96f4cbb97804ea2d853d2eb7102359d7` |
 | v922 | 2026-10-08 | privat-de | `c3ee437f62a8598033f88f4d67b500faff47c6e7fc12698f2a68fbdf92760a22` |
 | v922 | 2026-10-08 | privat-en | `bd34a33d8f70933b7257a45ad56cbc9bb0724157c1869b5262ae5080ce61336a` |
 | v922 | 2026-10-08 | pro-de | `e78a00d13df04cff19496857d89ea625e8957391dbd4ce12b8104f661ec3340c` |

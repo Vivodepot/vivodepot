@@ -124,10 +124,9 @@ Pilotpartner eine maschinelle Konformitätszusage vertraglich verlangt.
 
 ### 4e — Die Nicht-Prüfliste bindet vertraglich, nicht nur redaktionell
 
-Der Template-Mechanismus ist entgeltlich: Institutionen erstellen über den Generator eigene
-Vorlagen, Vivodepot zertifiziert sie und stellt das in Rechnung. Damit ist 4c keine
-Formulierungsfrage mehr. Eine zahlende Institution wird annehmen, dass sie mehr erwirbt als die
-Feststellung, dass ihr Formular wohlgeformt ist — und der Abstand zwischen dem Bezahlten und dem
+Institutionen erstellen über den Generator eigene Vorlagen, und Vivodepot zertifiziert sie.
+Damit ist 4c keine Formulierungsfrage mehr. Eine Institution, die ihre Vorlage zertifizieren lässt, wird annehmen, dass sie mehr erwirbt als die
+Feststellung, dass ihr Formular wohlgeformt ist — und der Abstand zwischen dem Erwarteten und dem
 Attestierten ist die Stelle, an der Haftung entsteht.
 
 **Die Aufzählung aus 4c gehört deshalb in den Anbieter-Vertrag**, nicht nur auf die Webseite.

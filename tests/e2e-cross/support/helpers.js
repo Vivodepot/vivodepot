@@ -360,6 +360,7 @@ const SCHLUESSEL_PASSWORT_E2E = 'e2e-probe-passwort-77';
 const generator = {
   async oeffnen(page, sprache) {
     await page.goto(URLS.generator);
+    await page.click('#kopf-fachebene');                  // seit S1 (08.10.2026) steht der Eingang davor; die Proben arbeiten in der Fachebene
     await page.waitForSelector('#start-leer', { state: 'visible' });
     await page.click(sprache === 'en' ? '#sp-en' : '#sp-de');   // die Sprache des Browsers soll nicht mitspielen
   },
@@ -371,7 +372,7 @@ const generator = {
     await page.click('#fertig-oeffnen');                 // ohne Angaben öffnet der Dialog bei den Angaben
     await page.waitForSelector('#sd-name', { state: 'visible' });
     await page.fill('#sd-name', sd.anbieterName);
-    await page.selectOption('#sd-rechtsform', sd.rechtsform);
+    await page.fill('#sd-rechtsform', sd.rechtsform);   // U2-ADR-495: freies Feld mit Vorschlägen, kein Auswahlfeld mehr
     await page.fill('#sd-strasse', sd.strasse);
     await page.fill('#sd-plz', sd.plz);
     await page.fill('#sd-ort', sd.ort);
@@ -440,7 +441,8 @@ generator.blattBauenUndErzeugen = async function blattBauenUndErzeugen(page, tmp
   await page.fill('#ab-sprache', blatt.sprache || 'de');
   await page.click('#blatt-fertig');
   await page.waitForSelector('#sd-name', { state: 'visible' });
-  await page.fill('#sd-name', sd.anbieterName); await page.selectOption('#sd-rechtsform', sd.rechtsform);
+  await page.fill('#sd-name', sd.anbieterName); await page.fill('#sd-rechtsform', sd.rechtsform);
+  await page.fill('#sd-land', sd.land || 'Deutschland');   // U2-ADR-495: kein Land mehr voreingestellt
   await page.fill('#sd-strasse', sd.strasse); await page.fill('#sd-plz', sd.plz); await page.fill('#sd-ort', sd.ort);
   await page.fill('#sd-k-name', sd.kontaktName);
   await page.fill('#sd-k-email', sd.kontaktEmail); await page.fill('#sd-k-telefon', sd.kontaktTelefon);

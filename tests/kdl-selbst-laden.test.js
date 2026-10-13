@@ -174,7 +174,7 @@ test('[KDL·Tor·Rot] an einer Kern-Kopie mit gesetzter Freigabe entsteht die Da
     await V.kdlEinlesen('kdl.json', bytesVon(codeSystem(V)));
     assert.deepEqual(V.isikErlaubnisFehlt(), []);
     const r = V.isikDokumente('2026-10-02T12:00:00Z', { sensibel: true, urschriftBestaetigt: mappeId });
-    const codings = r.bundle.entry.flatMap((e) => e.resource.type.coding).filter((c) => c.system === V.KDL_SYSTEM);
+    const codings = r.bundle.entry.filter((e) => e.resource.resourceType === 'DocumentReference').flatMap((e) => e.resource.type.coding).filter((c) => c.system === V.KDL_SYSTEM);
     assert.deepEqual(codings.map((c) => c.display).sort(), [MARKE_P, MARKE_V].sort());
   } finally {
     if (vorher === undefined) delete process.env.KERN_HTML_PATH; else process.env.KERN_HTML_PATH = vorher;

@@ -103,6 +103,9 @@
      Namen geprüft gegen jeden bestehenden Token — auch gegen die stillgelegte Palette in
      Abschnitt 2.3 des Style Guide (dort: schiefer/sand/lehm/lavendel/pflaume/olive, s. dort). */
   --schilf: #bbcda7; --malve: #cdadc4;
+  /* Palette 05.10.2026 (Entscheidung Design, U2-ADR-236 Nachtrag): drei Töne aus den Lebensbereich-Kacheln. Hafer, Schilf und Flieder
+     bleiben als Werte stehen, nur für Bestandsdepots; neue Sub-Depots wählen sie nicht mehr, angezeigt werden sie als Pfirsich, Nebel, Malve. */
+  --pfirsich: #F6E6DA; --hellblau: #E4EBF4; --rose: #F3E1DA;
   /* Aktive Sub-Depot-Farbe — Fallback Salbei-dunkel für den kurzen Moment vor dem
      JS-Override; jedes betretene eingehängte Depot setzt sofort eine echte Palettenfarbe,
      keines bleibt „ohne Farbe" (Zug 3 — das Entfernen des Overrides ist ein eigener,
@@ -116,6 +119,7 @@
      eine künftige einzelne Ausnahme möglich bliebe, ohne dass etwas umgebaut werden müsste. */
   --hafer-text: #1c2a1e; --ton-text: #1c2a1e; --flieder-text: #1c2a1e; --altrose-text: #1c2a1e; --nebel-text: #1c2a1e; --kiesel-text: #1c2a1e;
   --schilf-text: #1c2a1e; --malve-text: #1c2a1e;
+  --pfirsich-text: #1c2a1e; --hellblau-text: #1c2a1e; --rose-text: #1c2a1e;
   /* Gesamtbild-UX-Konzept, Abschnitt C (27.08.2026) — Randlinien-Fassung NUR für den
      „nie betreten"-Zustand (sd-kopf[data-nie-betreten]): die Flächen-Töne oben (--hafer usw.)
      fallen als 3px-Linie auf Weiß unter 3:1 (SC 1.4.11, gerechnet — s. tests/gesamtbild-ux-
@@ -125,6 +129,8 @@
      liegt sie sogar deutlich höher, s. Testdatei). */
   --hafer-linie: #878468; --ton-linie: #98806a; --flieder-linie: #848291; --altrose-linie: #90817a; --nebel-linie: #78878b; --kiesel-linie: #888477;
   --schilf-linie: #77886c; --malve-linie: #8f7f89;
+  /* Die drei neuen Töne: Rand als dunkler Partner desselben Farbtons (gemessen 05.10.2026), ≥ 4,1:1 auf Weiß, ≥ 4,0:1 auf Papier, ≥ 3,7:1 nachts. */
+  --pfirsich-linie: #977358; --hellblau-linie: #647e9f; --rose-linie: #996e5e;
   /* U2-ADR-236 — zweite Randfassung derselben sechs Farben, kalibriert gegen --papier-bereich
      (#fdfbf7 hell) statt gegen Weiß: die -linie-Töne oben unterschreiten dort 3:1 bei drei von
      sechs Farben (ton 2,92:1, altrose 2,91:1, nebel 2,92:1 — gerechnet mit tools/lib/kontrast.js,
@@ -134,6 +140,7 @@
      Nacht (--papier-bereich wird dort selbst zu --cream, s. :root-Kaskade). */
   --hafer-papier-linie: #878468; --ton-papier-linie: #98806a; --flieder-papier-linie: #848291; --altrose-papier-linie: #90817a; --nebel-papier-linie: #78878b; --kiesel-papier-linie: #888477;
   --schilf-papier-linie: #77886c; --malve-papier-linie: #8f7f89;
+  --pfirsich-papier-linie: #977358; --hellblau-papier-linie: #647e9f; --rose-papier-linie: #996e5e;
   /* aktiver Akzent — wird von Modus.setze() gesetzt, einquellig */
   /* U2-ADR-236 — "der Rahmen trägt die Farbe des Depots, in dem man gerade ist": dieselbe
      Wurzel-Vererbung wie --akzent (U2-ADR-024 §2), aber die auf --papier-bereich sichere

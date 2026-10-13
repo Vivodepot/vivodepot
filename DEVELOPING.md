@@ -62,8 +62,9 @@ and also work offline once installed.
 
 ## Reproduce the published checksums
 
-`SECURITY.md` (section 8) lists the SHA-256 of every delivered version of each product and of its `sw.js`. To check
-one against the source, build the products as they are delivered, with the service worker:
+`SECURITY.md` (section 8) lists the SHA-256 of every delivered version of each product and of its `sw.js`. Not every
+delivered version has a public tag. To check a version against the source, check out its public tag and build the
+products as they are delivered, with the service worker:
 
 ```
 git checkout v1.0.<version>

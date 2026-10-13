@@ -397,6 +397,12 @@ herkunft: invariante
 pruefung: tests/yb-zeichen-an-der-funktion.test.js#[YB-Zeichen] drei eingebettete Zeichen sind echte PNG-Dateien, je Funktion eines
 ```
 
+## Nachtrag 10.10.2026 — der Hinweis auf die Anbindung steht neben der Partnermarke (U2-ADR-496)
+
+Die Entscheidung oben lässt den Markennamen Vivodepot nur am Herkunftsort erscheinen. U2-ADR-496 (Festlegung vom 08.10.2026) ändert das in einem Punkt: Ein Partner kann das Vivodepot-Logo durch sein eigenes ersetzen, der Hinweis auf die Anbindung bleibt. In der App steht „powered by Vivodepot“, auch bei öffentlichen Stellen sichtbar; auf allem, was die App verlässt, steht „Erstellt mit Vivodepot“. Wortlaut und Ort stehen unter dem Vorbehalt aus U2-ADR-496 (der Hinweis darf keine Autorschaft am Rechtstext vortäuschen; ein Eintrag im Klartext-Teil des Umschlags berührt die Klartext-Bindung und braucht eine eigene Prüfung).
+
+Was heute gilt: Gebaut ist die Entscheidung oben, nicht die Änderung. Die bestehende Zeile im Herkunftsort der Einstellungen („Bereitgestellt mit {urheberin}“, `herkunftPoweredBy`) bleibt davon unberührt; der Hinweis „powered by Vivodepot“ in der App und „Erstellt mit Vivodepot“ auf Ausgaben sind noch nicht gebaut. Die Klauseln dieser ADR, die „Vivodepot nur am Herkunftsort“ binden (`tests/white-label-greift.test.js`), beschreiben weiter das gebaute Verhalten. Mit dem Bau des Hinweises werden Klauseln und Proben im selben Schritt angepasst; bis dahin ist die Änderung eine Festlegung ohne Probe. Das Programmzeichen eines Standards (Nachtrag 16.09.2026) bleibt, wie es ist.
+
 ---
 
-*Vivodepot GmbH · Berlin · 10.09.2026 · Nachtrag 16.09.2026*
+*Vivodepot GmbH · Berlin · 10.09.2026 · Nachtrag 16.09.2026 · Nachtrag 10.10.2026*

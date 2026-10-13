@@ -1,0 +1,13 @@
+{
+  "art": "stellensatz",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"mit bekannter Kennung","urteil":"bestanden","dokument":{"modulTyp":"stellensatz","moduleVersion":1,"rechtsraum":"AT","stellen":{"identity.dateOfSeparation":"Bezirksgericht"}}},
+    {"name":"ohne modulTyp, höhere Fassung","urteil":"bestanden","dokument":{"modulTyp":"stellensatz","moduleVersion":3,"rechtsraum":"AT","stellen":{"identity.dateOfSeparation":"Bezirksgericht"}}},
+    {"name":"ohne rechtsraum","urteil":"abgewiesen","regel":"stellensatz.rechtsraum","dokument":{"modulTyp":"stellensatz","moduleVersion":1,"stellen":{"identity.dateOfSeparation":"Bezirksgericht"}}},
+    {"name":"rechtsraum DE","urteil":"abgewiesen","regel":"stellensatz.reserviert","dokument":{"modulTyp":"stellensatz","moduleVersion":1,"rechtsraum":"DE","stellen":{"identity.dateOfSeparation":"Bezirksgericht"}}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"stellensatz.moduleVersion","dokument":{"modulTyp":"stellensatz","rechtsraum":"AT","stellen":{"identity.dateOfSeparation":"Bezirksgericht"}}},
+    {"name":"ohne stellen","urteil":"abgewiesen","regel":"stellensatz.stellen","dokument":{"modulTyp":"stellensatz","moduleVersion":1,"rechtsraum":"AT"}},
+    {"name": "eine Zeichenkette statt eines Objekts, als stellensatz geprüft", "urteil": "abgewiesen", "regel": "stellensatz.kein-objekt", "erzwingeArt": "stellensatz", "dokument": "kein Objekt"}
+  ]
+}

@@ -15,6 +15,83 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+### Hinweis
+- Von den seit v917 ausgelieferten Fassungen haben v920 und v923 keinen öffentlichen Tag.
+
+## [v1.0.927] – 2026-10-12
+
+### Sicherheit
+- Bereiche, die eine Datei aus einem anderen Vivodepot-Produkt mitbringt, werden weiter alle angezeigt, mit allen Angaben.
+  Entspricht die Beschreibung eines Bereichs einer von Vivodepot ausgelieferten (geprüft werden der Aufbau und jede Beschriftung
+  einzeln), verhält er sich wie bisher. Sonst zeigt die Anwendung ihn als gewöhnliche Abschnitte und Felder, mit einem Rand, und
+  führt ihn in der Herkunftsangabe als Erweiterung ohne geprüfte Herkunft. Ein solcher Bereich bringt keine eigenen Prüftermine,
+  Assistenten oder Ausgabeformate mit; Verweise auf Personen und Stellen werden darin gelesen, nicht bearbeitet. Die Beschreibung
+  und die Angaben bleiben unverändert in der Datei (U2-ADR-398, Nachtrag).
+
+### Behoben
+- Öffnete ein Produkt eine Datei, die mit einem anderen Vivodepot-Produkt angelegt war, schrieb es seine eigenen Beschriftungen
+  in die Datei. Danach konnten Beschriftungen in der Lese-App oder in einem dritten Produkt in einer anderen Sprache erscheinen.
+  Das Öffnen lässt die Beschriftungen in der Datei jetzt unverändert.
+
+### Geändert
+- Kennt eine Datei Felder noch nicht, die das öffnende Produkt inzwischen führt, ersetzt das Produkt die Beschreibung des
+  Bereichs in der Datei durch seine eigene, statt einzelne Felder anzuhängen. Die Angaben der Person bleiben unberührt
+  (U2-ADR-243, Nachtrag).
+
+## [v1.0.923] – 2026-10-09
+
+### Hinzugefügt
+- Das Studio fragt zuerst „Was möchten Sie anbieten?“ und zeigt sechs Kacheln; das bisherige Studio steht als „Fachebene“ einen
+  Klick dahinter, zurück geht es über „Zur Auswahl“ (U2-ADR-493).
+- Der Assistent „Aufnahmebogen“ führt in zwei Schritten, Einrichtung und Bogen, zum Einreichen. Rechts zeigt eine Vorschau, wie die
+  Person den Bogen in ihrem Depot sieht.
+- Eine Anfrage darf Felder einer Vorlage der Einrichtung mit Angabe der Stelle nennen (`bereich.<Stelle>:Feld`). Die Antwort ist die gewohnte verschlüsselte Datei und führt je
+  Vorlage einen eigenen Block für die Antwort auf diese Vorlage (U2-ADR-366).
+
+### Geändert
+- Der Vorschlag aus sechs Wörtern steht beim Öffnen schon im Feld und sichtbar darüber, in jedem Feld für ein neues Passwort, auch
+  in den Passwörtern für eine Person, die etwas sehen darf (Datei, QR-Code, Fach). Wer selbst tippt, ersetzt den Vorschlag ganz; die Bestätigung bleibt leer.
+- Ein selbst gewähltes Passwort braucht beim Setzen und Ändern mindestens 12 statt 8 Zeichen, ebenso das Passwort für „Fach in meiner
+  Datei einrichten“. Ein Depot mit kürzerem Passwort öffnet weiter; die Passwörter für die Datei und den QR-Code einer Person,
+  die etwas sehen darf, bleiben bei mindestens 8 Zeichen.
+- Der QR-Code für eine Person, die etwas sehen darf, bindet Formatversion und Zweck in die Verschlüsselung (U2-ADR-156). Die
+  Lese-App nimmt QR-Codes der bisherigen Form noch bis einschließlich 15.11.2026 an; eine unbekannte Fassung nennt sie
+  beim Namen, statt „falsches Passwort“ zu sagen.
+- Das Erscheinungsbild kommt auch außerhalb des Inhalts ohne Linien aus: Kopfleiste, Seitenleiste und Fuß stehen auf Fläche. Fokus
+  und Fehler behalten ihre Kennzeichnung.
+- Im geöffneten Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke behält ihre helle Fläche (U2-ADR-236).
+- Die Töne für ein Sub-Depot sind Ton, Altrose, Nebel, Kiesel, Malve, Pfirsich, Hellblau und Rosé. Hafer, Schilf und Flieder wählt
+  kein neues Depot mehr; ein bestehendes Sub-Depot behält seinen Namen in der Datei und erscheint als Pfirsich, Nebel bzw. Malve.
+- Das Feld „Name im Depot“ (Neue Person) sagt, wozu es da ist: „So erscheint die Person überall im Depot. Familienname und Vornamen
+  darunter brauchen Formulare und Ämter.“ In Dokumenten heißt das Feld „Name“.
+- Der Hinweis zum Einrichten in der Kopfzeile trägt kein Warndreieck mehr.
+- `docs/vc-issuer/did.json` trägt den öffentlichen Schlüssel der Trust-Authority statt einer Vorlage mit Platzhalter.
+- Kleinere sichtbare Änderungen: Das Studio trägt den Glas-Look, sein Kopf „VIVODEPOT Studio“ steht in einer Zeile. Das PDF
+  nimmt die Töne eines Sub-Depots aus dem Erscheinungsbild-Modul. Die Stärke-Anzeige meldet unter 12 Zeichen immer „schwach“.
+  Partnerfarben für ein
+  Sub-Depot dürfen heller sein (Kontrast gegen Weiß und Papier mindestens 1,15 statt 1,5), müssen sich dafür deutlicher von der
+  Salbei-Leiste abheben (Farbabstand ΔE2000 mindestens 12).
+
+### Sicherheit
+- VD-SEC-014 (mittel): Behoben in v923: Beim Erzeugen eines Freigabe-Links prüfte Vivodepot die Adresse der Ablage nur auf ihre Länge, die
+  Seite „Freigabe abholen“ nur auf den Anfang „https://“. Beim Erzeugen wurden Adressen mit anderem Anfang, mit Zugangsdaten
+  oder mit Leer- und Steuerzeichen angenommen, und die Person sah den Host nicht, bevor der Link entstand. Betroffen: der Freigabe-Link in den ausgelieferten
+  Fassungen seit mindestens v670 bis v922, die Seite „Freigabe abholen“ von v803 bis v922.
+  Was zu tun ist: auf v923 aktualisieren bzw. die App neu laden. Ab v923 prüft der Dialog die Adresse, nennt den Host vor dem Link
+  und weist auf eine andere als die voreingestellte Ablage hin; bei Zweifel an der Ablage-Adresse eines früher erzeugten Links den
+  Link neu erzeugen.
+- VD-SEC-015 (mittel): Behoben in v923: Eine Anfrage konnte Felder aus der Vorlage einer Einrichtung über die interne Schreibweise des Felds ansprechen, ohne dass geprüft wurde, ob die
+  anfragende Stelle diese Vorlage ausgestellt hat; das galt auch für eine unsignierte Anfrage. Die Antwort konnte so Angaben aus
+  der Vorlage einer anderen Stelle zur Freigabe anbieten, und schon die Zeile unter „Diese Angaben gibt es in Vivodepot nicht:“ zeigte, dass die
+  Person eine Vorlage dieser Stelle hat. Betroffen: die ausgelieferten Fassungen seit mindestens v670 bis v922.
+  Was zu tun ist: auf v923 aktualisieren bzw. die App neu laden. Ab v923 löst ein Vorlagenfeld nur für die geprüfte Stelle auf, der
+  die Vorlage gehört; eine bereits herausgegebene Antwort bleibt, wie sie war.
+
+### Behoben
+- Eintragszeilen in Listen zeigen ein ausgefülltes, nicht sensibles Unterfeld mit seiner Beschriftung („Beschriftung: Wert“), in
+  Notfallblatt, PDF, Zusammenfassung und Lese-App, auf Deutsch und Englisch. Zuvor stand dort meist der Wert allein; Ja/Nein und Datum trugen ihre
+  Beschriftung schon. Im Kern bleibt die Zeile der Vorsorge-Instrumente wie bisher.
+
 ## [v1.0.922] – 2026-10-08
 
 Enthält die nicht einzeln ausgelieferte Fassung v921.
@@ -118,12 +195,25 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
   jetzt die Anschrift eintragen (Straße, Hausnummer, Postleitzahl, Ort); der bisherige freie Text bleibt unverändert stehen.
   Fehlt etwas, das der Standard verlangt (etwa die Krankenversichertennummer), sagt Vivodepot, was fehlt.
 
+### Geändert
+- Englisch: Ein Hinweis zur Beratungshilfe sagt jetzt „advice assistance“ statt „legal aid“.
+
 ## [v1.0.917] – 2026-10-05
 
 ### Hinzugefügt
 - Vorführung „Vertretung“ (englisch): eine vertretende Person mit
   Rechtsgrundlage, Umfang und Geltungsdauer in der Patientenkurzakte. Der FHIR-Auszug zeigt die vertretende Person und die
   Einwilligung; über der Datei steht das Ergebnis des Validators mit einem Link zum vollständigen Bericht.
+- SD-JWT VC: Die Ausgaben im Format SD-JWT VC tragen jetzt eine Signatur (Ed25519) und enden auf `.sd-jwt`. Die Datei
+  ist selbst signiert, mit einem Schlüssel, den die Anwendung aus dem Passwort der Person ableitet. Das ersetzt nicht
+  die Bestätigung einer ausstellenden Stelle. Unterstützt der Browser Ed25519 nicht, entsteht eine unsignierte Datei
+  mit der Endung `.jwt` (U2-ADR-457).
+- Nachweise in „Bildung & Beruf“ zeigen ihre Gültigkeit: gültig ab, gültig bis, abgelaufen oder noch nicht gültig. Ein
+  abgelaufener Nachweis ist in der Liste markiert. Ob ein Nachweis widerrufen wurde, fragt die App nicht ab.
+- Die Lizenzhinweise zu LOINC und SNOMED CT (Global Patient Set) stehen im Wortlaut in den Einstellungen.
+- Hilfe: drei neue Themen („Lese-App“, „Daten einlesen“, „Daten herausgeben“). Das Thema „Depot und Passwort“ sagt
+  jetzt, was gilt, wenn Sie einen Wiederherstellungs-Code eingerichtet haben.
+- Vivodepot Pro bringt die Auszüge „Erbschein — Vorbereitungsauszug“ und „Beratungshilfe — Vorbereitungsauszug“ mit.
 
 ### Geändert
 - Vorführungen: Die Notiz steht auf einem eigenen Platz und bleibt im Bild, auch hinter Dialogen und auf dem Handy.
@@ -145,6 +235,13 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
   Bundesministeriums der Justiz. In Ziffer 2.7 stehen bevollmächtigte und betreuende Person mit Name, Anschrift und Kontakt wie im
   Formular; der Hinweis auf die Vorsorgevollmacht erscheint nur, wenn die Besprechung bejaht ist. Ziffer 2.12 fragt getrennt,
   wo Sie sich informiert haben und wer Sie beraten hat. Eine fehlende Angabe bleibt eine Lücke zum Ausfüllen.
+- Bringt eine Datei die Kopie eines mitgelieferten Auszugs aus einer früheren Fassung mit, ersetzt die App sie beim
+  Öffnen durch die aktuelle Fassung und vermerkt das nach dem Öffnen und in den Einstellungen. Eine veränderte Kopie
+  bleibt, wie sie ist.
+- Im Studio und beim Sichern in „Schlüssel teilen“ werden private Schlüssel nur noch mit Passwort gespeichert
+  (Dateiendung `.vdkey`).
+- Die Ausgabe heißt jetzt „Bildungsangaben (maschinenlesbar)“, vorher „Bildungsnachweise (maschinenlesbar)“.
+- Der Hinweis am Feld „Abschrift im Register hinterlegt“ (Zentrales Vorsorgeregister) ist neu gefasst.
 
 ### Behoben
 - Firefox fragte beim ersten Sichern ohne Vorwarnung, ob die Seite Daten dauerhaft speichern darf. Jetzt sagt ein Hinweis

@@ -4,11 +4,15 @@
    ────────────────────────────────────────────────────────────────────────────
    Die Mitschrift (`abWerkMitschrift.bereich`) entsteht beim Anlegen und ist für die Lese-App die einzige Quelle der
    Bereichsdefinitionen. Bekommt ein Bereich später ein Feld, füllt der Kern es — die Lese-App derselben Datei kannte es
-   nicht. Entschieden: beim Öffnen werden fehlende Sektionen und Felder aus dem öffnenden Produkt ergänzt, Bestehendes wird
-   nie verändert. Gemessen an einem ECHT konfektionierten pro-de:
-   (1) eine Datei, deren Mitschrift ein Feld und eine Sektion noch nicht kennt, trägt beide nach dem Öffnen, mit
-       Beschriftung; die Lese-App zeigt den Wert, kein „nicht dargestellt";
-   (2) alles, was in der Mitschrift schon stand, ist byte-gleich;
+   nicht. Entschieden: beim Öffnen wird die Mitschrift aus dem öffnenden Produkt nachgezogen.
+   SEIT 11.10.2026 (Befund MITSCHRIFT-AB-WERK-NACH-POSITION) ersetzt das Nachtragen, statt anzuhängen: eine Definition der Datei, die
+   nach Inhalt als ausgeliefert erkannt ist, bekommt ganz die Form des Produkts; jede andere bleibt byte-gleich stehen. Die „alte
+   Datei“ ist darum eine echte: die Bereichs-Mitschrift, wie das Pro-Produkt einer früher ausgelieferten Fassung sie beim Anlegen
+   schrieb (Fixture, erzeugt aus den ausgelieferten Ständen).
+   Gemessen an einem ECHT konfektionierten pro-de:
+   (1) eine Datei, deren Mitschrift ein Feld noch nicht kennt, trägt es nach dem Öffnen, mit Beschriftung; die Lese-App zeigt
+       den Wert, kein „nicht dargestellt";
+   (2) eine erkannte Definition hat danach die Form des Produkts; eine von Hand geänderte ist byte-gleich;
    (3) idempotent: ein zweites Öffnen ändert nichts;
    (4) ein Bereich, den die Mitschrift nicht führt, wird nur nachgetragen, wenn die Datei Werte in ihm trägt.
    Rot-Beweis: vor dem Bau scheitert (1) (gemessen: Feld fehlt in der Mitschrift, Lese-App meldet es als nicht dargestellt).
@@ -28,7 +32,7 @@ const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'mitschrift-nachtragen-'));
 after(() => fs.rmSync(TMP, { recursive: true, force: true }));
 
 const BEREICH = 'pro-vertretung-vollmachten';
-const FELD = 'tpl_registernummer';
+const FELD = 'tpl_domestic_business_address';   // führt das Produkt heute, die frühere Fassung der Vorlage noch nicht
 
 let gebaut = null;
 function kern() {
@@ -56,18 +60,19 @@ const bereichIn = (mitschrift, id) => {
 };
 const feldIn = (def, feldId) => (def.sektionen || []).flatMap((s) => s.felder || []).find((f) => f && f.id === feldId) || null;
 
-/* Eine Datei „aus einem älteren Produkt": ihre Mitschrift kennt FELD und die letzte Sektion von BEREICH noch nicht. */
+/* Die Bereichs-Mitschrift einer früher ausgelieferten Fassung (Quelle und Weg stehen in der Datei). */
+const FRUEHER = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'mitschrift-bereich-nach-nachtragen-v923-pro.json'), 'utf8'));
+const produktForm = (V, id) => bereichIn(V._abWerkMitschriftErzeugen().bereich, id);
+
+/* Eine Datei aus einem älteren Produkt: angelegt im heutigen Produkt, ihre Bereichs-Mitschrift ist die der früheren Fassung. */
 async function alteDatei() {
   const { V } = kern();
   await V.depotAnlegen(PW);
   V.setzeSitzungsAkteur({ personId: 'ich', eigenschaft: 'selbst' });
   V.sektorFeldSetzen(BEREICH, FELD, 'HRB 4711');
-  const umschlag = await V.depotSerialisieren();
   const d = JSON.parse(JSON.stringify(V.getData()));
-  const def = bereichIn(d.abWerkMitschrift.bereich, BEREICH);
-  for (const s of def.sektionen) s.felder = s.felder.filter((f) => f.id !== FELD);
-  const letzte = def.sektionen.pop();
-  return { V, umschlag, d, letzte };
+  d.abWerkMitschrift.bereich = JSON.parse(JSON.stringify(FRUEHER.bereichBeimAnlegen));
+  return { V, d };
 }
 /* Die präparierte Mitschrift in den Umschlag zurück: über den Kern selbst (setData + Serialisieren). */
 async function mitMitschrift(V, d) {
@@ -81,42 +86,36 @@ async function oeffnen(umschlag) {
   return k.V;
 }
 
-test('[Nachtragen] fehlendes Feld und fehlende Sektion stehen nach dem Öffnen in der Mitschrift, mit Beschriftung; die Lese-App zeigt den Wert', async () => {
-  const { V, d, letzte } = await alteDatei();
-  assert.equal(feldIn(bereichIn(d.abWerkMitschrift.bereich, BEREICH), FELD), null, 'Vorbedingung: die alte Mitschrift kennt das Feld nicht');
+test('[Nachtragen] ein Feld, das die frühere Fassung nicht kannte, steht nach dem Öffnen in der Mitschrift, mit Beschriftung; die Lese-App zeigt den Wert', async () => {
+  const { V, d } = await alteDatei();
+  assert.equal(feldIn(bereichIn(d.abWerkMitschrift.bereich, BEREICH), FELD), null, 'Vorbedingung: die Mitschrift von ' + FRUEHER.quelle + ' kennt das Feld nicht');
   const neu = await oeffnen(await mitMitschrift(V, d));
   const def = bereichIn(neu.getData().abWerkMitschrift.bereich, BEREICH);
   const feld = feldIn(def, FELD);
   assert.ok(feld, 'das Feld ist nachgetragen');
   assert.ok(typeof feld.label === 'string' && feld.label.trim(), 'mit Beschriftung');
-  assert.ok(def.sektionen.some((s) => s.id === letzte.id), 'die Sektion ist nachgetragen');
 
   const L = ladeLesen({ ohneSaat: true }).V;
-  L.setData(L._foldVollmachtenLesen(JSON.parse(JSON.stringify(neu.getData()))));
+  /* Über den einen Einstieg der Lese-App: die Inhaltsprüfung läuft vor der Anmeldung (Mitschrift-Bereiche gelten nur nach Inhalt). */
+  L.setData(await L._depotUebernehmenGeprueft(JSON.parse(JSON.stringify(neu.getData()))));
   assert.deepEqual(JSON.parse(JSON.stringify(L._darstellungsLuecken())).felder, [], 'kein „nicht dargestellt"');
   assert.ok(String(L.sektorHTML(BEREICH)).includes('HRB 4711'), 'die Lese-App zeigt den Wert');
 });
 
-test('[Byte-gleich] was in der Mitschrift schon stand, bleibt unverändert; nur angehängt wird', async () => {
+test('[Ersetzt] eine erkannte Definition hat nach dem Öffnen die Form des Produkts; eine von Hand geänderte bleibt byte-gleich', async () => {
   const { V, d } = await alteDatei();
+  const HAND = 'pro-kontakte-vertretungsplan';
+  const vonHand = bereichIn(d.abWerkMitschrift.bereich, HAND);
+  vonHand.sektionen[0].felder.pop();   // so hat kein Produkt diese Definition je geschrieben
   const neu = await oeffnen(await mitMitschrift(V, d));
   const nach = neu.getData().abWerkMitschrift.bereich;
-  assert.equal(nach.length >= d.abWerkMitschrift.bereich.length, true);
-  d.abWerkMitschrift.bereich.forEach((m, i) => {
-    for (const [id, alt] of Object.entries(m.bereiche || {})) {
-      const jetzt = nach[i].bereiche[id];
-      const { sektionen: altS, ...altRest } = alt;
-      const { sektionen: neuS, ...neuRest } = jetzt;
-      assert.deepEqual(neuRest, altRest, id + ': Bereichskopf unverändert');
-      altS.forEach((s, j) => {
-        const { felder: altF, ...sRest } = s;
-        const { felder: neuF, ...nRest } = neuS[j];
-        assert.deepEqual(nRest, sRest, id + '#' + s.id + ': Sektionskopf unverändert, gleiche Stelle');
-        assert.deepEqual(neuF.slice(0, altF.length), altF, id + '#' + s.id + ': vorhandene Felder unverändert, gleiche Stelle');
-      });
-    }
-  });
+  for (const m of d.abWerkMitschrift.bereich) for (const id of Object.keys(m.bereiche || {})) {
+    if (id === HAND) continue;
+    assert.deepEqual(JSON.parse(JSON.stringify(bereichIn(nach, id))), JSON.parse(JSON.stringify(produktForm(neu, id))), id + ': die Form des Produkts');
+  }
+  assert.deepEqual(JSON.parse(JSON.stringify(bereichIn(nach, HAND))), JSON.parse(JSON.stringify(vonHand)), HAND + ': nicht erkannt, bleibt byte-gleich');
   assert.deepEqual(neu.getData().abWerkMitschrift.sprache, d.abWerkMitschrift.sprache, 'Fach sprache unverändert');
+  assert.equal(neu.getData().sektoren[BEREICH][FELD], 'HRB 4711', 'die Angabe der Person bleibt');
 });
 
 test('[Idempotent] ein zweites Öffnen ändert die Mitschrift nicht mehr', async () => {

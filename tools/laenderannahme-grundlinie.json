@@ -1,0 +1,15 @@
+{
+ "gegenstand": "U2-ADR-495: Land, Rechtsraum und Rechtsform als feste Vorgabe im Code statt aus dem Rechtsraum-Modul",
+ "jeDatei": {
+  "vivodepot-studio.html": {
+   "land-vorgabe": 0,
+   "rechtsraum-vorgabe": 0,
+   "rechtsform-liste": 0
+  },
+  "vivodepot-vc-issuer.html": {
+   "land-vorgabe": 0,
+   "rechtsraum-vorgabe": 0,
+   "rechtsform-liste": 0
+  }
+ }
+}

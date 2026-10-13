@@ -30,6 +30,7 @@ const { PRODUKTE, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
 const _gebackenerOrdner = fs.mkdtempSync(path.join(os.tmpdir(), 'weg-buergerweg-'));
 const _produkt = PRODUKTE.find((p) => p.slug === 'privat-de');
 const _gebacken = konfektionieren({
+  mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
   ziel: _gebackenerOrdner,
   slug: 'privat-de',
   modulauswahl: [],

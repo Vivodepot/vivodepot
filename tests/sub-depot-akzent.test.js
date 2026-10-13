@@ -5,8 +5,8 @@
    1) Die 6 Palette-Token liegen im :root mit den freigegebenen Hex.
    2) --vm-chrome ist eine Laufzeit-Variable mit Fallback Salbei-dunkel (kein
       betretenes Depot bleibt je ohne echten Override, Zug 3).
-   3) subDepotAkzentToken: Whitelist + Read-time-Fallback 'hafer' (erste Farbe,
-      keine Sonderbedeutung).
+   3) subDepotAkzentToken: Whitelist + Read-time-Fallback auf die erste Farbe der
+      Palette, keine Sonderbedeutung (bis 09.10.2026 'hafer', seither 'ton').
    4) Betreten setzt --vm-chrome (+ mid/tief via color-mix) auf den Akzent des
       eingehängten Depots; Verlassen entfernt die Overrides über den EIGENEN,
       farbfreien Weg `entferneSubDepotAkzentOverride` (Zug 3 — keine Farbe trägt
@@ -33,24 +33,43 @@ test('Palette: 6 Token im :root mit den freigegebenen Hex + --vm-chrome variabel
   assert.ok(/--vm-chrome:\s*var\(--salbei-dunkel\)/.test(html), '--vm-chrome Fallback var(--salbei-dunkel)');
 });
 
-test('subDepotAkzentToken: Whitelist + Read-time-Fallback auf hafer', () => {
+test('subDepotAkzentToken: Whitelist + Read-time-Fallback auf ton', () => {
   const { V } = ladeKern();
-  // U2-ADR-236 (03.09.2026): schilf/malve angehängt, sechs auf acht.
-  assert.deepEqual([...V.SUBDEPOT_PALETTE], ['hafer', 'ton', 'flieder', 'altrose', 'nebel', 'kiesel', 'schilf', 'malve']);
+  // Palette 05.10.2026 (U2-ADR-236 Nachtrag), im Kern seit 09.10.2026: acht Töne, klar von Salbei
+  // unterschieden. Hafer, Schilf und Flieder sind keine Palettenmitglieder mehr.
+  assert.deepEqual([...V.SUBDEPOT_PALETTE], ['ton', 'altrose', 'nebel', 'kiesel', 'malve', 'pfirsich', 'hellblau', 'rose']);
   assert.equal(V.subDepotAkzentToken('ton'), 'ton');
-  assert.equal(V.subDepotAkzentToken('hafer'), 'hafer');
-  assert.equal(V.subDepotAkzentToken(undefined), 'hafer');   // Bestands-Sub-Depot ohne Feld
-  assert.equal(V.subDepotAkzentToken('unbekannt'), 'hafer');  // unbekannter Wert (auch: alte Palette, z. B. 'schiefer')
+  assert.equal(V.subDepotAkzentToken('rose'), 'rose');
+  // seit 09.10.2026: erster Ton der neuen Palette
+  assert.equal(V.subDepotAkzentToken(undefined), 'ton');   // Bestands-Sub-Depot ohne Feld
+  assert.equal(V.subDepotAkzentToken(''), 'ton');          // leerer Wert
+  assert.equal(V.subDepotAkzentToken('unbekannt'), 'ton');  // unbekannter Wert (auch: alte Palette, z. B. 'schiefer')
 });
 
-test('subDepotAnlegen schreibt akzent (Default hafer; gewählt: ton)', async () => {
+test('subDepotAkzentToken: Bestandsdepots mit hafer/schilf/flieder werden nur in der Anzeige abgebildet', () => {
+  const { V } = ladeKern();
+  // Ein Bestandsdepot trägt seinen alten Namen in der Datei weiter; angezeigt wird der nächste Ton der neuen Palette.
+  assert.deepEqual({ ...V.SUBDEPOT_ANZEIGE_ABBILDUNG }, { hafer: 'pfirsich', schilf: 'nebel', flieder: 'malve' });
+  assert.equal(V.subDepotAkzentToken('hafer'), 'pfirsich');
+  assert.equal(V.subDepotAkzentToken('schilf'), 'nebel');
+  assert.equal(V.subDepotAkzentToken('flieder'), 'malve');
+  // Rot-Beweis: die Abbildung greift nur für genau diese drei alten Namen, nicht für jeden Fremdwert.
+  assert.equal(V.subDepotAkzentToken('schiefer'), 'ton', 'ein anderer alter Name fällt auf den Fallback, nicht in die Abbildung');
+  for (const ziel of Object.values(V.SUBDEPOT_ANZEIGE_ABBILDUNG)) {
+    assert.ok(V.SUBDEPOT_PALETTE.includes(ziel), ziel + ': Abbildungsziel ist ein Palettenton');
+  }
+});
+
+test('subDepotAnlegen schreibt akzent (Default ton; gewählt: kiesel; alter Name wird abgebildet)', async () => {
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
   V.betreteApp();
   const e1 = await V.subDepotAnlegen({ bezeichnung: 'A', inhaberin: 'I', verwaltungsTyp: 'verwaltet' }, PW);
-  assert.equal(e1.akzent, 'hafer', 'Default ist hafer');
-  const e2 = await V.subDepotAnlegen({ bezeichnung: 'B', inhaberin: 'J', verwaltungsTyp: 'verwaltet', akzent: 'ton' }, PW);
-  assert.equal(e2.akzent, 'ton', 'gewählter Akzent wird gespeichert');
+  assert.equal(e1.akzent, 'ton', 'Default ist ton (seit 09.10.2026: erster Ton der neuen Palette)');
+  const e2 = await V.subDepotAnlegen({ bezeichnung: 'B', inhaberin: 'J', verwaltungsTyp: 'verwaltet', akzent: 'kiesel' }, PW);
+  assert.equal(e2.akzent, 'kiesel', 'gewählter Akzent wird gespeichert');
+  const e3 = await V.subDepotAnlegen({ bezeichnung: 'C', inhaberin: 'K', verwaltungsTyp: 'verwaltet', akzent: 'flieder' }, PW);
+  assert.equal(e3.akzent, 'malve', 'ein alter Name wird beim Anlegen auf den Palettenton abgebildet gespeichert');
 });
 
 test('Betreten setzt --vm-chrome auf den Akzent; Verlassen entfernt Override', async () => {
@@ -69,7 +88,7 @@ test('Betreten setzt --vm-chrome auf den Akzent; Verlassen entfernt Override', a
   assert.equal(style.getPropertyValue('--vm-chrome-tief'), '', 'tief-Override entfernt');
 });
 
-test('Jede der sechs Farben setzt beim Betreten einen echten Override (Zug 3 — keine Ausnahme mehr)', async () => {
+test('Jede der acht Farben setzt beim Betreten einen echten Override (Zug 3 — keine Ausnahme mehr)', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.betreteApp();
@@ -95,23 +114,24 @@ test('entferneSubDepotAkzentOverride ist der einzige farbfreie Weg zurück (Zug 
   assert.equal(document.documentElement.style.getPropertyValue('--vm-akzent-stark'), '');
 });
 
-test('Bestands-Sub-Depot OHNE akzent fällt beim Betreten auf Hafer (Read-time-Fallback)', async () => {
+test('Bestands-Sub-Depot OHNE akzent fällt beim Betreten auf Ton (Read-time-Fallback)', async () => {
   const { V, document } = ladeKern();
   await V.depotAnlegen(PW);
   V.betreteApp();
-  const e = await V.subDepotAnlegen({ bezeichnung: 'Alt', inhaberin: 'L', verwaltungsTyp: 'verwaltet', akzent: 'ton' }, PW);
+  // Angelegt mit kiesel, nicht mit ton — sonst wäre der Fallback vom gespeicherten Wert nicht zu unterscheiden.
+  const e = await V.subDepotAnlegen({ bezeichnung: 'Alt', inhaberin: 'L', verwaltungsTyp: 'verwaltet', akzent: 'kiesel' }, PW);
   delete e.akzent;   // simuliert ein vor Commit B angelegtes Sub-Depot ohne Feld
   await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
   V.subKontextBetreten(e.depotUUID);
-  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--hafer)', 'Fallback Hafer → echter Override, kein Default-Nichts');
+  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--ton)', 'Fallback Ton (seit 09.10.2026: erster Ton der neuen Palette) → echter Override, kein Default-Nichts');
 });
 
 test('akzent liegt in Klartext-Metadaten, NICHT im verschlüsselten Umschlag', async () => {
   const { V } = ladeKern();
   await V.depotAnlegen(PW);
   V.betreteApp();
-  const e = await V.subDepotAnlegen({ bezeichnung: 'B', inhaberin: 'J', verwaltungsTyp: 'verwaltet', akzent: 'flieder' }, PW);
-  assert.equal(e.akzent, 'flieder');
+  const e = await V.subDepotAnlegen({ bezeichnung: 'B', inhaberin: 'J', verwaltungsTyp: 'verwaltet', akzent: 'malve' }, PW);
+  assert.equal(e.akzent, 'malve');
   assert.ok(!('akzent' in e.umschlag), 'akzent darf nicht im Umschlag liegen');
 });
 
@@ -130,22 +150,23 @@ test('[White-Label] subDepotAkzentIstHex: Form prüfen, nicht Zugehörigkeit', (
   assert.equal(V.subDepotAkzentIstHex('3355aa'), false, 'fehlendes # ungültig');
   assert.equal(V.subDepotAkzentIstHex('#3355a'), false, '5 Stellen ungültig');
   assert.equal(V.subDepotAkzentIstHex('#gggggg'), false, 'kein Hex-Zeichen ungültig');
-  assert.equal(V.subDepotAkzentIstHex('hafer'), false, 'ein Palette-Name ist kein Hex');
+  assert.equal(V.subDepotAkzentIstHex('ton'), false, 'ein Palette-Name ist kein Hex');
   assert.equal(V.subDepotAkzentIstHex(''), false, 'leerer String ungültig');
   assert.equal(V.subDepotAkzentIstHex(null), false, 'null ungültig — wirft nicht');
   assert.equal(V.subDepotAkzentIstHex(undefined), false, 'undefined ungültig — wirft nicht');
   assert.equal(V.subDepotAkzentIstHex(42), false, 'kein String ungültig — wirft nicht');
 });
 
-test('[White-Label] subDepotAkzentToken: ein gültiger Hex geht durch (normalisiert), alles andere bleibt hafer', () => {
+test('[White-Label] subDepotAkzentToken: ein gültiger Hex geht durch (normalisiert), alles andere fällt auf ton', () => {
   const { V } = ladeKern();
   assert.equal(V.subDepotAkzentToken('#3355AA'), '#3355aa', 'Großschreibung wird normalisiert');
   assert.equal(V.subDepotAkzentToken('#35a'), '#3355aa', '3-stellig wird auf 6-stellig verdoppelt');
   // Tor bleibt geschlossen — dieselbe Read-time-Fallback-Garantie wie vorher, jetzt auch gegen
   // Werte, die wie eine Farbe AUSSEHEN, es aber nicht sind (kein Schmuggelweg über die Form).
-  assert.equal(V.subDepotAkzentToken('javascript:alert(1)'), 'hafer', 'kein Hex, kein Palette-Name → hafer');
-  assert.equal(V.subDepotAkzentToken('#3355aaff'), 'hafer', '8-stellig (mit Alpha) nicht unterstützt → hafer');
-  assert.equal(V.subDepotAkzentToken({ toString: () => '#3355aa' }), 'hafer', 'kein String → hafer, kein stilles toString()');
+  // Fallback seit 09.10.2026: erster Ton der neuen Palette (ton, vorher hafer).
+  assert.equal(V.subDepotAkzentToken('javascript:alert(1)'), 'ton', 'kein Hex, kein Palette-Name → ton');
+  assert.equal(V.subDepotAkzentToken('#3355aaff'), 'ton', '8-stellig (mit Alpha) nicht unterstützt → ton');
+  assert.equal(V.subDepotAkzentToken({ toString: () => '#3355aa' }), 'ton', 'kein String → ton, kein stilles toString()');
 });
 
 test('[White-Label] subDepotAnlegen mit freiem Hex speichert ihn normalisiert in akzent', async () => {
@@ -160,8 +181,9 @@ test('[White-Label] subDepotAnlegen mit freiem Hex speichert ihn normalisiert in
 test('[White-Label] subDepotAkzentFarbe: literaler Hex für einen freien Wert, var(--token) für die acht benannten', () => {
   const { V } = ladeKern();
   assert.equal(V.subDepotAkzentFarbe('#2244aa'), '#2244aa');
-  assert.equal(V.subDepotAkzentFarbe('ton'), 'var(--ton)');
-  assert.equal(V.subDepotAkzentFarbe('unbekannt'), 'var(--hafer)', 'Fallback bleibt var(--hafer), kein var(--#…)');
+  assert.equal(V.subDepotAkzentFarbe('kiesel'), 'var(--kiesel)');
+  // seit 09.10.2026: erster Ton der neuen Palette
+  assert.equal(V.subDepotAkzentFarbe('unbekannt'), 'var(--ton)', 'Fallback ist var(--ton), kein var(--#…)');
 });
 
 test('[White-Label] subDepotTextFarbe: ein sehr dunkler Hex bekommt Weiß, ein sehr heller bekommt Ink — beide AA-geprüft', () => {
@@ -228,8 +250,9 @@ test('[White-Label·Rot-Beweis] ein Wert, der wie eine Farbe aussieht, es aber n
   await V.depotAnlegen(PW);
   V.betreteApp();
   const e = await V.subDepotAnlegen({ bezeichnung: 'Sch', inhaberin: 'X', verwaltungsTyp: 'verwaltet', akzent: '#zzzzzz' }, PW);
-  assert.equal(e.akzent, 'hafer', 'ungültige Form fällt auf hafer, kein Schmuggelweg über akzent');
+  // seit 09.10.2026: erster Ton der neuen Palette
+  assert.equal(e.akzent, 'ton', 'ungültige Form fällt auf ton, kein Schmuggelweg über akzent');
   await V.subDepotVertrauenOeffnen(e.depotUUID, PW);
   V.subKontextBetreten(e.depotUUID);
-  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--hafer)');
+  assert.equal(document.documentElement.style.getPropertyValue('--vm-chrome'), 'var(--ton)');
 });

@@ -183,6 +183,7 @@ const KONTRAKT_FAKTEN = [
   { name: 'publicKeyJwk', bedeutung: 'Öffentlicher Schlüssel der Institution', wirkungsort: 'vivodepot.html:3845-3846 (Thumbprint), :22298/:22322 (Signaturprüfung)', status: 'geprueft' },
   { name: 'quelle', bedeutung: 'Herkunft des Feldwerts: neu (Formular, Default) oder depot (automatisch aus einem Depot-Feld gelesen, s. depotSchema)', wirkungsort: 'noch keiner — s. depotSchema', status: 'ohne-wirkung' },
   { name: 'rechtsform', bedeutung: 'Rechtsform der Institution', wirkungsort: 'kein Treffer', status: 'ohne-wirkung' },
+  { name: 'rechtsraum', bedeutung: 'Kürzel des Rechtsraums der Institution, freiwillig (U2-ADR-495)', wirkungsort: 'kein Treffer im Kern; der Aussteller schreibt es ins Zertifikat (credentialSubject.rechtsraum)', status: 'ohne-wirkung' },
   { name: 'referenzbereich', bedeutung: 'Referenzbereich eines Messwerts', wirkungsort: 'vivodepot.html:21130, :35795 (Übernahme/Anzeige)', status: 'entgegengenommen' },
   { name: 'regel', bedeutung: 'Unterschlüssel von gueltigkeitVorschlag: Regel des Vorschlags', wirkungsort: '_templateFeldZuModell (vivodepot.html): Übernahme als Text', status: 'entgegengenommen' },
   { name: 'rolle', bedeutung: 'Freie Rolle eines Verweises (U2-ADR-253) (16.09.2026, Kern-Feldeigenschaften im Einreich-Schema)', wirkungsort: '_templateFeldZuModell (vivodepot.html): Übernahme, offenes Vokabular', status: 'entgegengenommen' },

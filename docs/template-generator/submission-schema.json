@@ -45,7 +45,6 @@
         "anbieterId",
         "anbieterName",
         "anbieterTyp",
-        "rechtsform",
         "adresse",
         "kontakt"
       ],
@@ -66,15 +65,16 @@
           "minLength": 1
         },
         "rechtsform": {
+          "description": "Rechtsform, freiwillig, als freier Text. Vorschläge kommen aus dem Rechtsraum-Modul des gewählten Rechtsraums (U2-ADR-495); bis dahin stand hier eine feste deutsche Liste. Höchstens 120 Zeichen, keine Steuerzeichen: sie steht in einem signierten Zertifikat und wird angezeigt.",
           "type": "string",
-          "enum": [
-            "e.V.",
-            "GmbH",
-            "AG",
-            "Anstalt öffentlichen Rechts",
-            "Behörde",
-            "sonstige Körperschaft"
-          ]
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[^\\u0000-\\u001F\\u007F-\\u009F]+$"
+        },
+        "rechtsraum": {
+          "description": "Kürzel des Rechtsraums der Institution, freiwillig (U2-ADR-495). Der Rechtsraum kommt aus einem Rechtsraum-Modul.",
+          "type": "string",
+          "pattern": "^[A-Z]{2,8}$"
         },
         "ustId": {
           "description": "USt-ID falls vorhanden (optional).",

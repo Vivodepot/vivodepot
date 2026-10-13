@@ -1,6 +1,6 @@
 'use strict';
 /* Befund E2E-ARTEFAKT (interner Befund vom 23.09.2026): das Test-Artefakt IST der Auslieferungs-Bau,
-   bis auf genau die Region der Entwicklerleiste — byteweise. Die Trägheit der Region im Browser prüft
+   bis auf genau die Region der Entwicklerleiste und die Region der Kern-Testfläche (U2-ADR-494) — byteweise. Die Trägheit der Region im Browser prüft
    tests/mit-modul/e2e-artefakt-traege-browser.test.js. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -10,7 +10,7 @@ const path = require('node:path');
 const { konfektionieren } = require('../tools/produkt-konfektionieren.js');
 const { wurzelKopfzeileZuruecksetzen } = require('../tools/lib/wurzel-kopfzeile.js');
 const { PRODUKTE, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
-const { _entwicklerleisteSchneiden, ENTWICKLERLEISTE_MARKEN } = require('../tools/lib/produkt-text-erzeugen.js');
+const { _entwicklerleisteSchneiden, ENTWICKLERLEISTE_MARKEN, _kernTestflaecheSchneiden } = require('../tools/lib/produkt-text-erzeugen.js');
 const { ladeIssuer } = require('./load-issuer.js');
 const { testProduktText } = require('./produkt-test-backen.js');
 
@@ -29,14 +29,14 @@ function ausgeliefert(slug) {
 }
 
 for (const p of PRODUKTE) {
-  test(`[E2E-Artefakt·Byte] ${p.slug}: Test-Artefakt minus genau die Leisten-Region == ausgeliefertes Produkt`, () => {
+  test(`[E2E-Artefakt·Byte] ${p.slug}: Test-Artefakt minus genau die Leisten- und die Testflächen-Region == ausgeliefertes Produkt`, () => {
     const { datei, ordner } = ausgeliefert(p.slug);
     try {
       const auslieferung = fs.readFileSync(datei, 'utf8');
       const testArtefakt = testProduktText(KERN, { slug: p.slug });
       assert.notEqual(testArtefakt, auslieferung, 'Vorbedingung: das Test-Artefakt trägt die Leiste');
-      assert.equal(_entwicklerleisteSchneiden(testArtefakt, 'vivodepot.html'), auslieferung,
-        'jede Abweichung außerhalb der Leisten-Region ist ein Fund');
+      assert.equal(_kernTestflaecheSchneiden(_entwicklerleisteSchneiden(testArtefakt, 'vivodepot.html'), 'vivodepot.html'), auslieferung,
+        'jede Abweichung außerhalb der Leisten- und der Testflächen-Region ist ein Fund');
     } finally { fs.rmSync(ordner, { recursive: true, force: true }); }
   });
 }

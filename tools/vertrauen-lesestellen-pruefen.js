@@ -99,9 +99,9 @@ function skripte(html) {
   return raus;
 }
 
-/* Alle Lesestellen: [{ funktion, feld, art, code }]. `funktion` ist die zuletzt begonnene benannte Funktion oder die
-   Top-Level-Deklaration (const/let/var), in der die Zeile steht. */
-function lesestellen(html) {
+/* Jede Codezeile mit der Funktion, in der sie steht: [{ funktion, code }]. `funktion` ist die zuletzt begonnene benannte Funktion
+   oder die Top-Level-Deklaration (const/let/var), in der die Zeile steht. Kommentare sind entfernt. */
+function codezeilen(html) {
   const raus = [];
   for (const block of skripte(html)) {
     let fn = '?';
@@ -111,11 +111,18 @@ function lesestellen(html) {
       m = zeile.match(/^(?:const|let|var)\s+([A-Za-z0-9_$]+)\s*=/);
       if (m) fn = m[1];
       const code = zeile.trim();
-      if (!code) continue;
-      for (const [art, re] of MUSTER) {
-        const t = code.match(re);
-        if (t) { raus.push({ funktion: fn, feld: art === 'zeichenkette' ? t[2] : t[1], art, code }); break; }
-      }
+      if (code) raus.push({ funktion: fn, code });
+    }
+  }
+  return raus;
+}
+/* Alle Lesestellen: [{ funktion, feld, art, code }]. */
+function lesestellen(html) {
+  const raus = [];
+  for (const { funktion, code } of codezeilen(html)) {
+    for (const [art, re] of MUSTER) {
+      const t = code.match(re);
+      if (t) { raus.push({ funktion, feld: art === 'zeichenkette' ? t[2] : t[1], art, code }); break; }
     }
   }
   return raus;
@@ -135,4 +142,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { FELDER, DATEIEN, ohneKommentare, skripte, lesestellen };
+module.exports = { FELDER, DATEIEN, ohneKommentare, skripte, lesestellen, codezeilen };

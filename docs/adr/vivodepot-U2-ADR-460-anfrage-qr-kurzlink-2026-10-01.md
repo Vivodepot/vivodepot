@@ -23,7 +23,7 @@ verlässlich lesbar. Wie kommt die Anfrage trotzdem per QR zur Bürgerin, ohne d
    den Faktor 0,55–0,6; für einen direkten QR reicht es nicht, aber die Adresse hinter der Weiterleitung wird kürzer.
 2. **Entpacken mit Grenze.** Die App entpackt mit dem eingebauten `DecompressionStream`, in Stücken, und bricht über 64 KB ab —
    eine Dekompressionsbombe wird abgewiesen, bevor sie gesammelt ist. Das Zertifikat reist mit, weil die App die Kette zur
-   Vivodepot-Wurzel offline prüft; genau diese Kette ist das, wofür eine Stelle bezahlt.
+   Vivodepot-Wurzel offline prüft; genau diese Kette macht die Prüfung ohne Netz möglich.
 3. **Der QR trägt einen Kurzlink.** Die Stelle legt die kompakte Form ab — auf ihrem eigenen Webspace oder auf
    share.vivodepot.de — und der QR trägt nur die kurze Adresse. Beim Aufruf leitet der Server auf die App-Adresse weiter, die
    Anfrage im Fragment.

@@ -10,8 +10,8 @@
    der Titel-Trenner ist im Bestand uneinheitlich, s. faktenbasis-erzeugen.js-
    Fund vom 13.08.: Dateiname ist die verlässliche Quelle). Status kommt aus der
    Zeile "**Status heute:** …", die Zug 1 desselben Auftrags in die einzelnen
-   ADR-Dateien einträgt — fehlt sie, ist der Status "ungeprüft" (ehrlich
-   eingestanden, nicht erfunden).
+   ADR-Dateien einträgt — fehlt sie, ist der Status "ungeprüft" (so
+   benannt, nicht erfunden).
 
    `--check`: schreibt nichts, meldet Drift (Exit 1) — für den Wächter/Hook.
    Ohne Flag: schreibt docs/adr/README.md neu.
@@ -24,11 +24,6 @@ const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
 const ADR_DIR = path.join(REPO, 'docs', 'adr');
-const CHECK = process.argv.includes('--check');
-const AUSGABE_ARG_INDEX = process.argv.indexOf('--ausgabe');
-const AUSGABE = AUSGABE_ARG_INDEX !== -1
-  ? path.resolve(process.argv[AUSGABE_ARG_INDEX + 1])
-  : path.join(ADR_DIR, 'README.md');
 
 const AUSGENOMMEN = new Set(['README.md']);
 
@@ -45,8 +40,8 @@ const AUSGENOMMEN = new Set(['README.md']);
    den es nicht geben durfte. */
 const DATEINAME_MUSTER = /^vivodepot-(U2-ADR-(\d{3}[a-z]?))(?:-nachtrag)?-.*-(\d{4}-\d{2}-\d{2})\.md$/i;
 
-function sammleAdrDateien() {
-  return fs.readdirSync(ADR_DIR)
+function sammleAdrDateien(adrOrdner = ADR_DIR) {
+  return fs.readdirSync(adrOrdner)
     .filter(f => f.endsWith('.md') && !AUSGENOMMEN.has(f))
     .sort();
 }
@@ -78,7 +73,7 @@ function sammleAdrDateien() {
 
    Was der Rueckfall weiterhin bedeutet, und nur das: die Zeile FEHLT. Dass das
    auffaellt, prueft `tools/adr-readme-uebereinstimmung.js` (dritte Richtung) —
-   hier bleibt es beim ehrlichen „ungeprüft", damit die Tabelle erzeugbar
+   hier bleibt es beim offenen „ungeprüft", damit die Tabelle erzeugbar
    bleibt, auch waehrend eine neue ADR-Datei noch unfertig im Baum liegt. */
 const DURCH = '(?:\\s+durch\\s+U2-ADR-\\d+(?:-Nachtrag)?)?';
 const STATUS_KATEGORIE = new RegExp(
@@ -116,8 +111,8 @@ function titelAusH1(dateiInhalt) {
     .trim();
 }
 
-function baueZeile(datei) {
-  const inhalt = fs.readFileSync(path.join(ADR_DIR, datei), 'utf8');
+function baueZeile(datei, adrOrdner = ADR_DIR) {
+  const inhalt = fs.readFileSync(path.join(adrOrdner, datei), 'utf8');
   const m = datei.match(DATEINAME_MUSTER);
   const istNachtrag = /-nachtrag-/i.test(datei);
   const nummer = m ? m[1] + (istNachtrag ? '-Nachtrag' : '') : datei;
@@ -184,7 +179,7 @@ benennt; neue ADRs nennen keine solche Datei mehr.
 
 Vier Zustände: **gilt** (Beleg am Code geführt) · **teilweise überholt** / **überholt** durch ein
 anderes U2-ADR · **gegenstandslos** (der Gegenstand existiert nicht mehr) · **ungeprüft** (noch
-nicht durchgesehen — ehrlich offen, nicht erfunden). Diese Tabelle wird erzeugt
+nicht durchgesehen — der Status bleibt offen, nicht erfunden). Diese Tabelle wird erzeugt
 (\`tools/adr-readme-erzeugen.js\`), nicht von Hand gepflegt.
 
 **Stand:** ${zeilen.length} Dateien — ${zaehlungText}.
@@ -232,8 +227,19 @@ function erzeugeIndexNachStatus(zeilen) {
   return out;
 }
 
+/* Die Übersicht über die ADR-Dateien EINES Ordners, als Text. Der Ordner ist ein Argument, damit dieselbe Erzeugung auch über
+   einen Ordner läuft, der nur einen Teil der ADRs trägt: eine Übersicht nennt dann genau die Dateien, die neben ihr liegen. */
+function adrUebersichtErzeugen(adrOrdner = ADR_DIR) {
+  return erzeugeMarkdown(sammleAdrDateien(adrOrdner).map((datei) => baueZeile(datei, adrOrdner)));
+}
+
 function main() {
-  const zeilen = sammleAdrDateien().map(baueZeile);
+  const CHECK = process.argv.includes('--check');
+  const AUSGABE_ARG_INDEX = process.argv.indexOf('--ausgabe');
+  const AUSGABE = AUSGABE_ARG_INDEX !== -1
+    ? path.resolve(process.argv[AUSGABE_ARG_INDEX + 1])
+    : path.join(ADR_DIR, 'README.md');
+  const zeilen = sammleAdrDateien().map((datei) => baueZeile(datei));
   const markdown = erzeugeMarkdown(zeilen);
 
   if (CHECK) {
@@ -250,4 +256,5 @@ function main() {
   console.log(`[adr-readme-erzeugen] ${AUSGABE} geschrieben — ${zeilen.length} ADR-Dateien erfasst.`);
 }
 
-main();
+if (require.main === module) main();
+module.exports = { adrUebersichtErzeugen, sammleAdrDateien, baueZeile, erzeugeMarkdown };

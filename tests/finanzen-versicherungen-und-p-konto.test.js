@@ -69,7 +69,8 @@ test('[Finanzen·P-Konto] Kern und Lese-App zeigen dieselbe Zusammenfassung, mit
   const { V: K } = ladeKern();
   K.setData(K.leeresDepot());
   const zk = K.listenEintragZusammenfassung(finanzFeld(K, 'accounts'), eintrag, 'finance');
-  assert.equal(zk, 'Sparkasse · Basiskonto · Pfändungsschutzkonto (P-Konto): ja');
+  // Seit 02.10.2026 trägt jedes Unterfeld seine Beschriftung, nicht nur ja/nein (Befund LESE-APP-UNTERFELD-OHNE-BESCHRIFTUNG).
+  assert.equal(zk, 'Bank / Institut: Sparkasse · Art des Kontos: Basiskonto · Pfändungsschutzkonto (P-Konto): ja');
   const { V: L } = ladeLesen();
   const zl = L.listenEintragZusammenfassung(finanzFeld(L, 'accounts'), eintrag, 'finance');
   assert.equal(zl, zk, 'Kern und Lese-App zeigen denselben Text');

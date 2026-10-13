@@ -410,6 +410,34 @@ function _entwicklerleisteSchneiden(text, datei) {
   if (out.indexOf('ENTWICKLERLEISTE:') >= 0) throw new Error('ENTWICKLERLEISTE-Marker ohne Anfang in ' + datei);
   return out;
 }
+/* Eine Region zwischen zwei Marken, die je auf einer eigenen Zeile stehen, ganz herausschneiden (U2-ADR-494, 09.10.2026).
+   Genau EINE Region: fehlt EINE der Marken, steht sie verkehrt oder doppelt, wird nicht gebacken (fail-closed, nicht raten). Ein Kern
+   OHNE BEIDE Marken ist ein Kern vor U2-ADR-494 und baut wie bisher — dieselbe Rückwärtsregel wie beim Erscheinungsbild (Kern ohne
+   Region). Dass der heutige Kern beide Marken trägt, hält die Probe der Kern-Testfläche am Kern fest. */
+function _eineRegionSchneiden(text, [anfang, ende], name, datei) {
+  const i = text.indexOf(anfang);
+  const j = text.indexOf(ende);
+  if (i < 0 && j < 0) return text;
+  if (i < 0 || j < 0 || j < i) throw new Error(name + '-Marken fehlen oder stehen verkehrt in ' + datei + ' — nicht raten, nachsehen.');
+  if (text.indexOf(anfang, i + 1) >= 0 || text.indexOf(ende, j + 1) >= 0) throw new Error(name + '-Marken stehen mehrfach in ' + datei + ' — genau eine Region.');
+  let k = j + ende.length;
+  if (text[k] === '\n') k += 1;
+  return text.slice(0, i) + text.slice(k);
+}
+/* Kern-Testfläche: `window.__vdOeffentlich` ist eine Fläche für Proben und Werkzeuge, nicht für das Produkt. Sie fällt aus jedem
+   Erzeugnis, außer bei der benannten Test-Option mitTestflaeche:true. Weg B ruft dieselbe Funktion. */
+const KERN_TESTFLAECHE_MARKEN = Object.freeze(['/* KERN_TESTFLAECHE:BEGIN */', '/* KERN_TESTFLAECHE:END */']);
+function _kernTestflaecheSchneiden(text, datei) { return _eineRegionSchneiden(text, KERN_TESTFLAECHE_MARKEN, 'KERN_TESTFLAECHE', datei); }
+/* Nachlade-Zweig der Vor-Depot-Konfiguration: ein Produkt aus diesem Backschritt trägt die Konfiguration IMMER eingebacken, als
+   Array-Zuweisung. Fehlt sie, ist das ein Baufehler; trägt sie sie, braucht das Produkt den Zweig nicht, der die Begleitdatei
+   nachlädt. Nur Weg B (gehostete Modul-Apps, U2-ADR-182) lädt nach und schneidet ihn darum nicht. */
+const VOR_DEPOT_NACHLADEN_MARKEN = Object.freeze(['/* VOR_DEPOT_NACHLADEN:BEGIN */', '/* VOR_DEPOT_NACHLADEN:END */']);
+const VOR_DEPOT_EINGEBACKEN = '<script id="vor-depot-konfiguration">window.__vorDepotKonfiguration = [';
+function _vorDepotNachladenSchneiden(text, datei) {
+  // Leerraum um das Gleichheitszeichen ist frei (die Serialisierung gehört dem Bauweg); verlangt ist die Array-Zuweisung.
+  if (!/<script id="vor-depot-konfiguration">window\.__vorDepotKonfiguration\s*=\s*\[/.test(text)) throw new Error('Die Vor-Depot-Konfiguration ist in ' + datei + ' nicht als Array eingebacken — ein Produkt lädt sie nicht nach (U2-ADR-494).');
+  return _eineRegionSchneiden(text, VOR_DEPOT_NACHLADEN_MARKEN, 'VOR_DEPOT_NACHLADEN', datei);
+}
 const SPRACHKENNUNG_MUSTER = /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{1,8})*$/;
 function _htmlLangAufText(text, module, datei) {
   const kennungen = [...new Set((module || [])
@@ -619,15 +647,16 @@ function _erscheinungsbildVorBacken(kernText, klassifiziert, datei) {
   }
 }
 
-function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste }) {
+function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste, mitTestflaeche }) {
   const datei = 'vivodepot.html';
   kernText = mitEntwicklerleiste === true ? kernText : _entwicklerleisteSchneiden(kernText, datei);
+  kernText = mitTestflaeche === true ? kernText : _kernTestflaecheSchneiden(kernText, datei);
   // Spezifikation 34.7 (md5 aa468bfa): BEIM ERZEUGEN abweisen. Ein Rezept, dessen Sprachmodul einen Herkunftsort-Schlüssel ohne die Angabe der Urheberin setzt, bringt
   // kein Produkt hervor: der Mangel ist hier sichtbar, wo er behoben werden kann. Die Schlüsselmenge liest der Konfektionierer aus DEMSELBEN Kern-Text (Block
   // HERKUNFTSORT_ANGABEN), aus dem er baut — dieselbe Quelle wie Kern und tools/herkunftsort-pruefen.js. Die Ergänzung beim Anzeigen ist nicht die einzige Prüfung.
   const angabenFehler = herkunftsortRezeptPruefen(kernText, (unsignierteModule || []).map((m) => m.roh));
   if (angabenFehler.length) throw new Error('Das Rezept trägt die Angabe der Urheberin nicht (Spezifikation 34.7):\n  ' + angabenFehler.join('\n  '));
-  const nachVorDepot = _vorDepotKonfigurationAufText(kernText, modulauswahl, vorDepotKonfigurationInhaltFn, datei);
+  const nachVorDepot = _vorDepotNachladenSchneiden(_vorDepotKonfigurationAufText(kernText, modulauswahl, vorDepotKonfigurationInhaltFn, datei), datei);
   const nachServiceWorker = _serviceWorkerVorhandenAufText(nachVorDepot, serviceWorkerVorhanden !== undefined ? serviceWorkerVorhanden : false, datei);
   const klassifiziert = (unsignierteModule || []).map((m) => _unsigniertesModulKlassifizieren(m.roh, m.basisname));
   _erscheinungsbildVorBacken(nachServiceWorker, klassifiziert, datei);
@@ -635,6 +664,24 @@ function produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInha
   return { text: _htmlLangAufText(quelle, (unsignierteModule || []).map((m) => m.roh), datei), module: ergebnis.module };
 }
 /* ==PRODUKT_TEXT_ERZEUGEN:END== */
+
+/* ── Testfläche im Erzeugnis: verweigern auf dem Auslieferungsweg (U2-ADR-494, Wort der Gegenlesung 10.10.2026) ──────────────
+   AUSSERHALB des gepinnten Abschnitts. Der Backschritt baut einen Kern ganz ohne KERN_TESTFLAECHE-Marken wie bisher (Rückwärtsregel) —
+   dann bliebe die Fläche im Produkt. Darum prüft jeder Weg, der ein Erzeugnis AUSLIEFERT (konfektionieren ohne Test-Option,
+   kern-ausliefern, beide Pages-Erzeugnisse), das fertige Ergebnis und verweigert es, wenn außerhalb von Kommentaren die Zuweisung
+   der Fläche steht. Die Suite allein reichte nicht: sie sieht den heutigen Kern, nicht den Kern, aus dem gerade gebaut wird. */
+// Kopfvermerk einer Testfassung aus tools/vier-produkte-erzeugen.js --mit-testflaeche (Wort der Gegenlesung 10.10.2026): wer eine
+// solche Datei als Kern oder Produkt einspeist, bekommt sie auf keinem Auslieferungsweg durch.
+const TESTFASSUNG_VERMERK = '<!-- TESTFASSUNG (U2-ADR-494): trägt die Test-Fläche window.__vdOeffentlich für Proben — nicht ausliefern -->';
+function testflaecheImErzeugnis(text) {
+  const t = String(text);
+  return t.includes(TESTFASSUNG_VERMERK)
+    || t.split('\n').some((z) => !/^\s*(\/\/|\/\*|\*)/.test(z) && /\bwindow\.__vdOeffentlich\s*=/.test(z));
+}
+function testflaecheVerweigern(text, wo) {
+  if (testflaecheImErzeugnis(text)) throw new Error(wo + ': das Erzeugnis trägt die Test-Fläche window.__vdOeffentlich — ausgeliefert wird es so nicht (U2-ADR-494).');
+  return text;
+}
 
 /* ── Schriften des Erscheinungsbilds beim Bauen (v896) — AUSSERHALB des gepinnten Abschnitts ─────────────────────────────
    Bewusst nicht in _erscheinungsbildVorBacken: der Abschnitt oben ist byte-gleich ans Schwesterrepo gepinnt. Aufgerufen von
@@ -694,6 +741,7 @@ module.exports = {
   VOR_DEPOT_MARKER_BEGIN, VOR_DEPOT_MARKER_ENDE, _vorDepotKonfigurationSpanne, _vorDepotKonfigurationAufText,
   SERVICE_WORKER_MARKER_BEGIN, SERVICE_WORKER_MARKER_ENDE, _serviceWorkerVorhandenSpanne, _serviceWorkerVorhandenAufText,
   produktTextErzeugen, ENTWICKLERLEISTE_MARKEN, _entwicklerleisteSchneiden,
+  KERN_TESTFLAECHE_MARKEN, _kernTestflaecheSchneiden, testflaecheImErzeugnis, testflaecheVerweigern, TESTFASSUNG_VERMERK, VOR_DEPOT_NACHLADEN_MARKEN, VOR_DEPOT_EINGEBACKEN, _vorDepotNachladenSchneiden,
   HERKUNFTSORT_BLOCK_ANFANG, HERKUNFTSORT_BLOCK_ENDE, herkunftsortBlockFinden, herkunftsortAngabenLesen, herkunftsortRezeptPruefen,
   erscheinungsbildRegelnLesen, _erscheinungsbildPruefen, _erscheinungsbildVorBacken, _ebStilPruefen, _ebLayoutPruefen, erscheinungsbildSchriftenVorBacken, pdfPflichtMenge, PDF_PROFIL_LATEIN,
 };

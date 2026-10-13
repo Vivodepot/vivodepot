@@ -76,7 +76,7 @@ These principles bind all contributions equally, including whoever wrote them. T
 
 **Out of scope, on purpose.** This document governs *structure*. It deliberately does not cover:
 
-- **Business model** — who pays, and the principle that citizens never do. Lives elsewhere; it is non-negotiable but not a structural rule.
+- **Business model** — who pays, and the principle that Vivodepot Private is free for citizens. Lives elsewhere; it is non-negotiable but not a structural rule.
 - **Licensing of individual templates** — the license split for the template mechanism. A separate, non-negotiable decision, documented in its own place.
 - **User experience** — low-threshold design for older users. Its *architectural* part (no account, no login, offline) already follows from Root 1; the design part is not a structural principle.
 - **Enforcement / governance** — *who* decides whether a foreign module conforms, and by what procedure. This layer exists and is acknowledged here, but is documented separately (see `CONTRIBUTING.md` and, when it exists, a governance document). Text alone does not bind; the enforcement layer is what makes conformance real.
@@ -103,7 +103,7 @@ Vivodepot ist gebaut, um jede einzelne Mitwirkende zu überdauern und von Mensch
 
 **Zeitachse vor v1.** Struktur wird vor v1 gebaut, nach v1 fließt nur noch Inhalt. Vor echten Depots ist struktureller Umbau billig; gegen echte verschlüsselte Depots wird er teuer und im großen Stil praktisch unmöglich. Der Andock-Mechanismus, der Modul-Vertrag, die gemeinsame Struktur müssen vor v1 stehen. Die Module wachsen danach ewig weiter — das ist Inhalt, und Inhalt darf jederzeit fließen.
 
-**Stand dieses Dokuments.** Bindet alle Beiträge gleich, auch den der Urheberin. Steht über der ADR-Reihe (ADRs verweisen herauf), ist selbst kein ADR. Ausdrücklich ausgelagert: Geschäftsmodell (wer zahlt — Bürger nie), Template-Lizenzierung, UX, Durchsetzung/Governance, interne Arbeitsweise. Änderungen an diesem Dokument: sichtbar, datiert, begründet — nie still.
+**Stand dieses Dokuments.** Bindet alle Beiträge gleich, auch den der Urheberin. Steht über der ADR-Reihe (ADRs verweisen herauf), ist selbst kein ADR. Ausdrücklich ausgelagert: Geschäftsmodell (wer zahlt), Template-Lizenzierung, UX, Durchsetzung/Governance, interne Arbeitsweise. Änderungen an diesem Dokument: sichtbar, datiert, begründet — nie still.
 
 **Änderungen.** 25.09.2026: das Wort „ehrlich“ aus der Überschrift „Kompatibilität“ gestrichen (englisch „honestly“). Grund: ein Etikett, keine Aussage; der Inhalt des Abschnitts ist unverändert.
 

@@ -46,7 +46,8 @@ async function zustand(browser, url, { anfangen }) {
     return {
       dom: kopie.outerHTML,
       lokal: speicher(localStorage), sitzung: speicher(sessionStorage),
-      globale: Object.getOwnPropertyNames(window).sort(),
+      // Die Test-Fläche (U2-ADR-494) ist der zweite benannte Unterschied der Testfassung neben der Leiste.
+      globale: Object.getOwnPropertyNames(window).filter((n) => n !== '__vdOeffentlich').sort(),
       htmlKlassen: document.documentElement.className, lang: document.documentElement.lang,
     };
   });

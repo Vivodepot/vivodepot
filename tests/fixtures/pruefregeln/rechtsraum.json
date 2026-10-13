@@ -1,0 +1,15 @@
+{
+  "art": "rechtsraum",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"ein tpl_-Typ ohne Wortlaut","urteil":"bestanden","dokument":{"modulTyp":"rechtsraum","moduleVersion":1,"rechtsraum":"AT","typen":{"tpl_erbvertrag":{"katalogVersion":1}}}},
+    {"name":"mit Wortlaut und Sprache","urteil":"bestanden","dokument":{"modulTyp":"rechtsraum","moduleVersion":1,"rechtsraum":"AT","typen":{"tpl_erbvertrag":{"katalogVersion":2,"wortlaut":"Text","formvorschriften":{"paragraf":"§ 1"},"fristenVorrang":null,"zweck":["nachlass"]}},"sprache":"de-AT"}},
+    {"name":"ohne rechtsraum","urteil":"abgewiesen","regel":"rechtsraum.rechtsraum","dokument":{"modulTyp":"rechtsraum","moduleVersion":1,"typen":{"tpl_erbvertrag":{"katalogVersion":1}}}},
+    {"name":"rechtsraum DE","urteil":"abgewiesen","regel":"rechtsraum.reserviert","dokument":{"modulTyp":"rechtsraum","moduleVersion":1,"rechtsraum":"DE","typen":{"tpl_erbvertrag":{"katalogVersion":1}}}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"rechtsraum.moduleVersion","dokument":{"modulTyp":"rechtsraum","rechtsraum":"AT","typen":{"tpl_erbvertrag":{"katalogVersion":1}}}},
+    {"name":"ohne typen","urteil":"abgewiesen","regel":"rechtsraum.typen","dokument":{"modulTyp":"rechtsraum","moduleVersion":1,"rechtsraum":"AT"}},
+    {"name":"Wortlaut ohne Sprache","urteil":"abgewiesen","regel":"allgemein.sprache","dokument":{"modulTyp":"rechtsraum","moduleVersion":1,"rechtsraum":"AT","typen":{"tpl_erbvertrag":{"katalogVersion":1,"wortlaut":"Text"}}}},
+    {"name":"Wortlaut, Sprache falscher Form","urteil":"abgewiesen","regel":"allgemein.sprache-form","dokument":{"modulTyp":"rechtsraum","moduleVersion":1,"rechtsraum":"AT","typen":{"tpl_erbvertrag":{"katalogVersion":1,"wortlaut":"Text"}},"sprache":"Deutsch"}},
+    {"name": "eine Zeichenkette statt eines Objekts, als rechtsraum geprüft", "urteil": "abgewiesen", "regel": "rechtsraum.kein-objekt", "erzwingeArt": "rechtsraum", "dokument": "kein Objekt"}
+  ]
+}

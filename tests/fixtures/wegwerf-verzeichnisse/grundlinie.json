@@ -1,6 +1,7 @@
 {
- "_beschreibung": "Grundlinie DER FIXTURE (nicht des echten Repos). tests/beispiel-ohne-aufraeumen.js ist absichtlich schlecht und hier bewusst gelistet, damit der Standardlauf ohne Argument grün ist; die zugehörige Probe entfernt den Eintrag testweise (in einer temporären Kopie), um den Rot-Beweis zu führen.",
+ "_beschreibung": "Grundlinie DER FIXTURE (nicht des echten Repos). tests/beispiel-ohne-aufraeumen.js und tests/e2e/beispiel-ohne-aufraeumen.spec.js sind absichtlich schlecht und hier bewusst gelistet, damit der Standardlauf ohne Argument grün ist; die zugehörige Probe entfernt den Eintrag testweise (in einer temporären Kopie), um den Rot-Beweis zu führen.",
  "ohneAufraeumen": [
-  "tests/beispiel-ohne-aufraeumen.js"
+  "tests/beispiel-ohne-aufraeumen.js",
+  "tests/e2e/beispiel-ohne-aufraeumen.spec.js"
  ]
 }

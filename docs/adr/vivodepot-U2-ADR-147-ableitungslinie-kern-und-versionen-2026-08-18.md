@@ -61,7 +61,7 @@ geschlossen. Eine unbekannte Eigenschaft wird **namentlich verworfen** und verwi
 Modul. Das ist die bereits gebaute Linie aus A281 und A294 und gilt für jede künftige Erweiterung.
 
 **5 · Ableitungen zahlen nicht auf Kosten des Bürgers.** Der Grundsatz bleibt unberührt: die
-Bürgerausgabe ist vollständig und dauerhaft kostenlos. Eine Ableitung enthält keine besseren
+Bürgerausgabe (Vivodepot Privat) ist vollständig und dauerhaft kostenlos. Eine Ableitung enthält keine besseren
 Funktionen, sondern andere Inhalte und Zusicherungen.
 
 ## Konsequenzen

@@ -174,8 +174,8 @@ test('[Kette 07 · Zug 1] LESBAR, NICHT BINÄR — ein Justiziar liest Zweck und
 for (const angabe of ['zweck', 'grundlage', 'vorgang', 'gueltigBis']) {
   test('[Kette 07 · Zug 1 · Rot-Beweis] ohne „' + angabe + '" in der Form kommt die Angabe NICHT an', async () => {
     await mitMutation(
-      "const ANFRAGE_SCHLUESSEL = Object.freeze(['modulTyp', 'format', 'anfrageVersion', 'appVersion',\n  'von', 'anbieterId', 'zweck', 'grundlage', 'vorgang', 'gestelltAm', 'gueltigBis', 'felder', 'antwort']);",
-      "const ANFRAGE_SCHLUESSEL = Object.freeze(['modulTyp', 'format', 'anfrageVersion', 'appVersion',\n  'von', 'anbieterId', 'zweck', 'grundlage', 'vorgang', 'gestelltAm', 'gueltigBis', 'felder', 'antwort'].filter(k => k !== '" + angabe + "'));",
+      "const ANFRAGE_SCHLUESSEL = Object.freeze(['modulTyp', 'format', 'anfrageVersion', 'appVersion',\n  'von', 'anbieterId', 'zweck', 'grundlage', 'vorgang', 'gestelltAm', 'gueltigBis', 'felder', 'antwort', 'rechtsraum']);",
+      "const ANFRAGE_SCHLUESSEL = Object.freeze(['modulTyp', 'format', 'anfrageVersion', 'appVersion',\n  'von', 'anbieterId', 'zweck', 'grundlage', 'vorgang', 'gestelltAm', 'gueltigBis', 'felder', 'antwort', 'rechtsraum'].filter(k => k !== '" + angabe + "'));",
       async (V) => {
         const g = V.anfragePruefen(heimAnfrage());
         // Entweder die Anfrage fällt durch, oder die Angabe steht als verworfen da —

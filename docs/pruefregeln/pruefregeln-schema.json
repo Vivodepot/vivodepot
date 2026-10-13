@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vivodepot.de/schemas/pruefregeln-schema.json",
+  "title": "Vivodepot Prüfregeln",
+  "description": "Die Regeln, nach denen die Bürger-App ein Modul, eine Vorlage, eine Anfrage oder ein Einreichungs-Paket annimmt oder abweist. Maßstab ist die App; jede Regel mit kernGrund gibt einen Ablehnungsgrund ihrer Prüfer wieder. tools/vorlage-pruefen.js --regeln-pruefen hält Datei und App zusammen.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "fassung", "stand", "grundsatz", "massstab", "urteile", "schweren", "arten", "regeln"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "format": { "const": "vivodepot-pruefregeln" },
+    "fassung": { "type": "integer", "minimum": 1, "description": "Steigt mit jeder Änderung an einer Regel." },
+    "stand": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "grundsatz": { "$ref": "#/$defs/satz" },
+    "massstab": { "$ref": "#/$defs/satz" },
+    "urteile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bestanden", "gemeldet", "abgewiesen", "nichtGeprueft"],
+      "properties": {
+        "bestanden": { "$ref": "#/$defs/satz" },
+        "gemeldet": { "$ref": "#/$defs/satz" },
+        "abgewiesen": { "$ref": "#/$defs/satz" },
+        "nichtGeprueft": { "$ref": "#/$defs/satz" }
+      }
+    },
+    "schweren": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["abweisung", "meldung", "hinweis"],
+      "properties": {
+        "abweisung": { "$ref": "#/$defs/satz" },
+        "meldung": { "$ref": "#/$defs/satz" },
+        "hinweis": { "$ref": "#/$defs/satz" }
+      }
+    },
+    "arten": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/art" } },
+    "regeln": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/regel" } }
+  },
+  "$defs": {
+    "art": { "type": "string", "pattern": "^[a-z][A-Za-z]*$" },
+    "satz": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["de", "en"],
+      "properties": {
+        "de": { "type": "string", "minLength": 1 },
+        "en": { "type": "string", "minLength": 1 }
+      }
+    },
+    "regel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kennung", "art", "kernGrund", "schwere", "satz"],
+      "properties": {
+        "kennung": { "type": "string", "pattern": "^[a-z][A-Za-z]*\\.[A-Za-z][A-Za-z0-9-]*$", "description": "Art, Punkt, Kennwort. Bleibt über Fassungen stabil." },
+        "art": { "$ref": "#/$defs/art" },
+        "kernGrund": { "anyOf": [{ "type": "string", "minLength": 1 }, { "type": "null" }], "description": "Der Ablehnungsgrund, wie ihn die App zurückgibt. null: eine Zeile der Vorab-Prüfung selbst, kein Grund der App." },
+        "abgleich": { "enum": ["gleich", "anfang", "ende"], "description": "Wie kernGrund verglichen wird. Fehlt die Angabe: gleich." },
+        "schwere": { "enum": ["abweisung", "meldung", "hinweis"] },
+        "satz": { "$ref": "#/$defs/satz" },
+        "dynamisch": { "const": true, "description": "Die App setzt diesen Grund zur Laufzeit zusammen; er steht in ihrem Quelltext nicht als Literal." }
+      }
+    }
+  }
+}

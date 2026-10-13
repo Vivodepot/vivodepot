@@ -228,3 +228,83 @@ test('[kundenzertifikat-ausstellen] Ausgabe-Schlüssel == Subjekt-Schlüssel →
     assert.ok(!fs.existsSync(ausgabePfad), 'keine Ausgabedatei bei Abbruch');
   });
 });
+
+/* ── U2-ADR-495 (09.10.2026): Rechtsform frei, Rechtsraum im Zertifikat — abwärtsverträglich ──
+   (1) Ein neues Zertifikat (freie Rechtsform, credentialSubject.rechtsraum) verifiziert im heutigen Kern UND im Kern vor
+       U2-ADR-495: das ist derselbe Kern ohne die drei Änderungen (Schlüssellisten, Rechtsraum der Anfrage), also das
+       Verhalten der ausgelieferten v922 für diesen Fall. Ebenso wird eine Anfrage mit `rechtsraum` dort weiter verarbeitet.
+   (2) Die Rechtsform steht signiert im Zertifikat: Längengrenze und keine Steuerzeichen bei der Ausstellung; keine App
+       schreibt sie über innerHTML. */
+const ADR495_KERN_AENDERUNGEN = [
+  ["'typen', 'name', 'rechtsformen',", "'typen',"],
+  ["'gueltigBis', 'felder', 'antwort', 'rechtsraum']);", "'gueltigBis', 'felder', 'antwort']);"],
+  ["      ...(rechtsraum ? { rechtsraum } : {}),\n", ''],
+];
+function kernVorAdr495() {
+  let html = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+  for (const [neu, alt] of ADR495_KERN_AENDERUNGEN) {
+    assert.equal(html.split(neu).length - 1, 1, 'Vorbedingung: die Änderung steht genau einmal im Kern: ' + neu.trim().slice(0, 60));
+    html = html.replace(neu, alt);
+  }
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kern-vor-adr495-'));
+  const datei = path.join(dir, 'kern.html');
+  fs.writeFileSync(datei, html);
+  try { return ladeKern({ htmlPfad: datei, backen: true }).V; }
+  finally { fs.rmSync(dir, { recursive: true, force: true }); }
+}
+test('[kundenzertifikat-ausstellen · U2-ADR-495] ein Zertifikat mit freier Rechtsform und Rechtsraum verifiziert im heutigen Kern und im Kern davor', async () => {
+  await mitTmpVerzeichnis(async (tmp) => {
+    const { vdkeyPfad, ausstellerPfad, subjektPfad } = await aufbauen(tmp);
+    const ausgabePfad = path.join(tmp, 'kundenzertifikat.json');
+    const angaben = Object.assign({}, ANBIETER_ANGABEN_FIXTURE, { rechtsform: 'Körperschaft öffentlichen Rechts (AT)', rechtsraum: 'AT',
+      adresse: { strasse: 'Platz 1', plz: '1010', ort: 'Wien', land: 'Österreich' } });
+    const ok = await lauf({
+      anbieterId: 'institution/test-kunde-at', anbieterName: 'Test-Kunde Wien', anbieterTyp: 'institution/test',
+      subjektPublicJwkPfad: subjektPfad, ausgabeSchluesselVdkeyPfad: vdkeyPfad, passphrase: 'wegwerf-ausgabe-passphrase',
+      ausstellerZertifikatPfad: ausstellerPfad, ausgabeDateiArg: ausgabePfad,
+      anbieterAngaben: angaben, anbieterPruefung: ANBIETERPRUEFUNG_FIXTURE,
+    });
+    assert.equal(ok, true);
+    const ergebnis = JSON.parse(fs.readFileSync(ausgabePfad, 'utf8'));
+    for (const [name, V] of [['heute', ladeKern().V], ['vor U2-ADR-495', kernVorAdr495()]]) {
+      const res = await V.verifiziereProviderCredential(ergebnis.certJws, {
+        ankerJwk: SENTINEL_PUBLIC_JWK, jetzt: '2026-06-01T00:00:00Z', ausstellerZertifikatJws: ergebnis.ausstellerZertifikatJws,
+      });
+      assert.equal(res.gueltig, true, name + ': ' + (res.grund || ''));
+      assert.equal(res.nutzlast.credentialSubject.rechtsraum, 'AT', name);
+      assert.equal(res.nutzlast.credentialSubject.rechtsform, 'Körperschaft öffentlichen Rechts (AT)', name);
+    }
+  });
+});
+test('[kundenzertifikat-ausstellen · U2-ADR-495] eine Anfrage mit Rechtsraum verarbeitet auch der Kern davor: gültig, der Schlüssel nur gemeldet', () => {
+  const V = kernVorAdr495();
+  const g = V.anfragePruefen({ modulTyp: 'anfrage', anfrageVersion: 1, von: 'Bürgerservice Beispiel', zweck: 'Termin vereinbaren',
+    grundlage: 'Ihre Einwilligung', vorgang: 'A-1', gueltigBis: '2099-12-31', rechtsraum: 'AT',
+    felder: [{ kennung: 'identity.familyName', zweck: 'Damit wir Ihren Termin finden', pflicht: true }], antwort: { art: 'einmalpasswort' } });
+  assert.equal(g.gueltig, true, String(g.grund));
+  assert.ok(g.verworfene.some((v) => v.schluessel === 'rechtsraum' && v.grund === 'unbekannt'));
+});
+test('[kundenzertifikat-ausstellen · U2-ADR-495 · Rot-Beweis] eine zu lange Rechtsform oder eine mit Steuerzeichen wird nicht ausgestellt', () => {
+  const { anbieterAngabenPruefen, RECHTSFORM_MAX } = require('../tools/lib/anbieter-angaben.js');
+  assert.throws(() => anbieterAngabenPruefen(Object.assign({}, ANBIETER_ANGABEN_FIXTURE, { rechtsform: 'x'.repeat(RECHTSFORM_MAX + 1) })), /länger als/);
+  assert.throws(() => anbieterAngabenPruefen(Object.assign({}, ANBIETER_ANGABEN_FIXTURE, { rechtsform: 'GmbH\u0007' })), /Steuerzeichen/);
+  assert.throws(() => anbieterAngabenPruefen(Object.assign({}, ANBIETER_ANGABEN_FIXTURE, { rechtsform: 'GmbH\u009B' })), /Steuerzeichen/);
+});
+test('[kundenzertifikat-ausstellen · U2-ADR-495] keine App schreibt die Rechtsform über innerHTML', () => {
+  for (const f of ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-studio.html', 'vivodepot-vc-issuer.html']) {
+    const zeilen = fs.readFileSync(path.join(__dirname, '..', f), 'utf8').split('\n').filter((z) => /rechtsform/i.test(z) && /innerHTML|outerHTML|insertAdjacentHTML/.test(z));
+    assert.deepEqual(zeilen, [], f);
+  }
+});
+test('[kundenzertifikat-ausstellen · U2-ADR-495] ein Zertifikat von vor U2-ADR-495 (Rechtsform aus der alten Liste, ohne Rechtsraum) bleibt gültig', async () => {
+  const alt = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'zertifikat-vor-u2-adr-495', 'anbieter-zertifikat-gmbh.json'), 'utf8'));
+  assert.equal(Object.keys(alt.ankerPublicJwk).includes('d'), false, 'das Fixture trägt nur den öffentlichen Schlüssel');
+  const { V } = ladeKern();
+  const res = await V.verifiziereProviderCredential(alt.certJws, { ankerJwk: alt.ankerPublicJwk, jetzt: '2026-06-01T00:00:00Z' });
+  assert.equal(res.gueltig, true, String(res.grund || ''));
+  assert.equal(res.nutzlast.credentialSubject.rechtsform, 'GmbH');
+  assert.equal('rechtsraum' in res.nutzlast.credentialSubject, false);
+  const { anbieterAngabenPruefen } = require('../tools/lib/anbieter-angaben.js');
+  assert.doesNotThrow(() => anbieterAngabenPruefen(Object.assign({}, ANBIETER_ANGABEN_FIXTURE, { rechtsform: res.nutzlast.credentialSubject.rechtsform })),
+    'die alte Rechtsform ist weiter eine gültige Angabe');
+});

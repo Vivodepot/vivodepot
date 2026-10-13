@@ -12,19 +12,17 @@
 
    „rechtsform bekommt 'natürliche Person', ladungsfähige Anschrift ist dann Pflicht" (Produktentscheidung,
    über -05) — KEIN eigenes personOderInstitution-Feld daneben: die Unterscheidung steckt im
-   rechtsform-Enum. adresse ist ohnehin für jede Rechtsform Pflicht (nicht nur für die natürliche
+   rechtsform-Wert (seit U2-ADR-495 freier Text, kein Enum mehr). adresse ist ohnehin für jede Rechtsform Pflicht (nicht nur für die natürliche
    Person) — dieselbe Anforderung wie im bestehenden Submission-Schema, hier nur nachvollzogen.
    ════════════════════════════════════════════════════════════════════════════ */
 
-const RECHTSFORMEN = Object.freeze([
-  'natürliche Person',
-  'e.V.',
-  'GmbH',
-  'AG',
-  'Anstalt öffentlichen Rechts',
-  'Behörde',
-  'sonstige Körperschaft',
-]);
+/* U2-ADR-495 (09.10.2026): keine feste deutsche Liste mehr. Die Rechtsform bleibt bei der AUSSTELLUNG Pflicht (wer
+   bescheinigt wird, muss benannt sein), aber als freier Text; welche Rechtsformen es gibt, sagt das Rechtsraum-Modul
+   (`rechtsformen`), nicht dieses Werkzeug. „natürliche Person“ ist weiter ein Wert wie jeder andere. `rechtsraum` ist
+   freiwillig und, wenn gesetzt, ein Kürzel. */
+const RECHTSRAUM_KUERZEL = /^[A-Z]{2,8}$/;
+const RECHTSFORM_MAX = 120;
+const RECHTSFORM_STEUERZEICHEN = /[\u0000-\u001F\u007F-\u009F]/;
 
 function _feldPruefen(wo, obj, pfad, feld) {
   const wert = obj && obj[feld];
@@ -39,8 +37,15 @@ function _feldPruefen(wo, obj, pfad, feld) {
 function anbieterAngabenPruefen(a) {
   const wo = 'Anbieter-Angaben';
   if (!a || typeof a !== 'object') throw new Error(wo + ' fehlen ganz — ohne sie wird nicht signiert.');
-  if (!RECHTSFORMEN.includes(a.rechtsform)) {
-    throw new Error(wo + ': rechtsform fehlt oder unbekannt (erwartet eine von ' + RECHTSFORMEN.join('/') + ').');
+  if (typeof a.rechtsform !== 'string' || !a.rechtsform.trim()) {
+    throw new Error(wo + ': rechtsform fehlt.');
+  }
+  // Sie steht im signierten Zertifikat und wird angezeigt: eine Längengrenze und keine Steuerzeichen.
+  if (a.rechtsform.length > RECHTSFORM_MAX || RECHTSFORM_STEUERZEICHEN.test(a.rechtsform)) {
+    throw new Error(wo + ': rechtsform ist länger als ' + RECHTSFORM_MAX + ' Zeichen oder enthält Steuerzeichen.');
+  }
+  if (a.rechtsraum !== undefined && !(typeof a.rechtsraum === 'string' && RECHTSRAUM_KUERZEL.test(a.rechtsraum))) {
+    throw new Error(wo + ': rechtsraum ist gesetzt, aber kein Kürzel (zwei bis acht Großbuchstaben).');
   }
   if (!a.adresse || typeof a.adresse !== 'object') {
     throw new Error(wo + ': adresse fehlt — ladungsfähige Anschrift ist Pflicht, auch für „natürliche Person".');
@@ -54,4 +59,4 @@ function anbieterAngabenPruefen(a) {
   return a;
 }
 
-module.exports = { RECHTSFORMEN, anbieterAngabenPruefen };
+module.exports = { RECHTSRAUM_KUERZEL, RECHTSFORM_MAX, anbieterAngabenPruefen };

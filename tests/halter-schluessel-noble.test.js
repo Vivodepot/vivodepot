@@ -10,7 +10,9 @@
      equals wird auf dem Pfad nicht gerufen (NBL-03-007);
    · die Selbstprobe im Block: ein falsches x, eine falsche Länge, eine fehlende Ableitung → kein Schlüssel; die Kopie des
      Seeds ist danach überschrieben, auch im Fehlerfall;
-   · genau eine Stelle im Kern reicht die Bibliothek hinein. */
+   · genau eine Stelle im Kern reicht die Bibliothek hinein;
+   · dieselbe Regel über jede Erzeugnis-Datei des Baums: der Block fehlt, oder er reicht nur getPublicKey hinaus. verify
+     und sign der Bibliothek sind damit nirgends erreichbar (NBL-03-003: der Fix 8c08ff6 fehlt in fa14496). */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -96,6 +98,86 @@ test('[Halter·noble·Pfad] der Kern ruft aus der Bibliothek nur getPublicKey; e
   P.equals = function (...a) { gleich++; return equals.apply(this, a); };
   try { await noble.getPublicKey(ausHex(RFC8032[1][0])); } finally { P.equals = equals; }
   assert.equal(gleich, 0);
+});
+
+/* DIESELBE REGEL ÜBER JEDES ERZEUGNIS (11.10.2026, Nachtrag zu U2-ADR-457). Der Prüfbericht führt NBL-03-003 (Verformbarkeit
+   von Signaturen in verify) als Medium; der Fix 8c08ff6 fehlt im eingebetteten Stand fa14496. Solange das so ist, darf kein
+   Erzeugnis verify oder sign aus dieser Bibliothek erreichen. Die Probe darüber liest nur den Kern; bettete ein anderes
+   Erzeugnis den Block ein, sähe sie es nicht.
+   WELCHE DATEIEN: jede .html des Baums und jede .js/.mjs an der Wurzel, beim Lauf gesucht, keine Liste von Hand. Ein neues
+   Erzeugnis ist damit von selbst dabei. GRENZE: Skripte in Unterordnern (Werkzeuge, Proben) und andere Repositorys liest
+   die Probe nicht; Prüfcode lädt die Bibliothek absichtlich ganz. */
+const WURZEL = path.join(__dirname, '..');
+const NICHT_DURCHSUCHT = new Set(['node_modules', '.git', 'tests', 'test-results', 'playwright-report', 'coverage']);
+const BLOCK_TAG = /<script\b[^>]*\bid=["']noble_ed25519_VivodepotInline["'][^>]*>/;
+const SCHLUSSZEILE = "Object.defineProperty(globalThis, 'vdNobleEd25519', { value: Object.freeze({ getPublicKey }), writable: false, configurable: false });\n";
+const BIBLIOTHEK_MARKE = '// noble-ed25519 fa14496 — Anfang der eingebetteten Bibliothek';
+function erzeugnisDateien() {
+  const raus = [];
+  const gehe = (ordner, tiefe) => {
+    for (const e of fs.readdirSync(ordner, { withFileTypes: true })) {
+      const voll = path.join(ordner, e.name);
+      if (e.isDirectory()) { if (!NICHT_DURCHSUCHT.has(e.name) && !e.name.startsWith('_')) gehe(voll, tiefe + 1); continue; }
+      if (!e.isFile()) continue;
+      if (e.name.endsWith('.html') || (tiefe === 0 && /\.m?js$/.test(e.name))) raus.push(path.relative(WURZEL, voll));
+    }
+  };
+  gehe(WURZEL, 0);
+  return raus.sort();
+}
+/* Rein: was an einem Dateitext gegen die Regel steht. Leere Liste heißt: der Block fehlt, oder er reicht nur getPublicKey hinaus. */
+function nobleVerstoesse(text) {
+  const raus = [];
+  const tag = BLOCK_TAG.exec(text);
+  let aussen = text;
+  if (tag) {
+    const ende = text.indexOf('</script>', tag.index);
+    const block = text.slice(tag.index + tag[0].length, ende < 0 ? text.length : ende);
+    aussen = text.slice(0, tag.index) + text.slice(ende < 0 ? text.length : ende);
+    if (!block.endsWith(SCHLUSSZEILE)) raus.push('der Block endet nicht mit der Zeile, die nur getPublicKey hinausreicht');
+    if ((block.match(/vdNobleEd25519/g) || []).length !== 1) raus.push('der Block nennt vdNobleEd25519 nicht genau einmal');
+    if (BLOCK_TAG.test(aussen)) raus.push('ein zweiter Block');
+  }
+  if (aussen.includes(BIBLIOTHEK_MARKE)) raus.push('die Bibliothek steht außerhalb des benannten Blocks');
+  if (/vdNobleEd25519\s*(?:\.|\[|\?\.)\s*(?!getPublicKey\b)[\w'"`]/.test(aussen)) raus.push('Zugriff auf die Bibliothek neben getPublicKey');
+  if (/['"`]vdNobleEd25519['"`]/.test(aussen)) raus.push('vdNobleEd25519 wird außerhalb des Blocks gesetzt oder nachgeschlagen');
+  return raus;
+}
+
+test('[Halter·noble·Erzeugnisse] in jeder Erzeugnis-Datei fehlt der Bibliotheksblock, oder er reicht nur getPublicKey hinaus', () => {
+  const dateien = erzeugnisDateien();
+  assert.ok(dateien.includes('vivodepot.html') && dateien.includes('vivodepot-lesen.html') && dateien.length >= 6,
+    'Vorbedingung: die Suche findet die Erzeugnisse (' + dateien.length + ')');
+  const mitBlock = [];
+  for (const rel of dateien) {
+    const text = fs.readFileSync(path.join(WURZEL, rel), 'utf8');
+    if (BLOCK_TAG.test(text)) mitBlock.push(rel);
+    assert.deepEqual(nobleVerstoesse(text), [], rel);
+  }
+  // Positivkontrolle: die Regel trifft heute auf einen echten Block, sie besteht nicht leer.
+  assert.ok(mitBlock.includes('vivodepot.html'), 'der Kern trägt den Block');
+});
+
+test('[Halter·noble·Erzeugnisse·Rot-Beweis] ein gepflanzter Block, der verify hinausreicht, und ein gepflanzter Zugriff fallen', () => {
+  const kern = fs.readFileSync(path.join(WURZEL, 'vivodepot.html'), 'utf8');
+  const lesen = fs.readFileSync(path.join(WURZEL, 'vivodepot-lesen.html'), 'utf8');
+  const { block } = eingebettet(kern);
+  const tag = '<script type="module" id="noble_ed25519_VivodepotInline">\n';
+  assert.deepEqual(nobleVerstoesse(lesen), [], 'Vorbedingung: die Lese-App ist heute ohne Block und ohne Verstoß');
+  // Gegenprobe: derselbe Block, unverändert in ein anderes Erzeugnis gesetzt, ist erlaubt.
+  assert.deepEqual(nobleVerstoesse(lesen + tag + block + '</script>\n'), []);
+  // Der Block reicht verify mit hinaus.
+  const offen = block.replace('Object.freeze({ getPublicKey })', 'Object.freeze({ getPublicKey, verify })');
+  assert.notEqual(offen, block);
+  assert.ok(nobleVerstoesse(lesen + tag + offen + '</script>\n').length > 0);
+  // Der Block bekommt eine zweite Tür.
+  assert.ok(nobleVerstoesse(lesen + tag + block.replace(SCHLUSSZEILE, 'globalThis.vdNobleEd25519Alles = { verify };\n' + SCHLUSSZEILE) + '</script>\n').length > 0);
+  // Zugriffe von außen auf mehr als getPublicKey, in den Schreibweisen, die erreichbar wären.
+  for (const zugriff of ['globalThis.vdNobleEd25519.verify(s, m, k);', "globalThis.vdNobleEd25519['sign'](m, k);", "const b = globalThis['vdNobleEd25519'];"]) {
+    assert.ok(nobleVerstoesse(kern + '\n<script>' + zugriff + '</script>\n').length > 0, zugriff);
+  }
+  // Die Bibliothek unter anderem Namen eingebettet.
+  assert.ok(nobleVerstoesse(lesen + '<script type="module">\n' + block + '</script>\n').length > 0);
 });
 
 test('[Halter·Selbstprobe] richtiges x wird angenommen; falsches x, falsche Länge, fehlende Ableitung → kein Schlüssel; Kopie überschrieben', async () => {

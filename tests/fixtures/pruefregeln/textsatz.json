@@ -1,0 +1,14 @@
+{
+  "art": "textsatz",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"mit bekannter Kennung","urteil":"bestanden","dokument":{"modulTyp":"textsatz","moduleVersion":1,"sprache":"it","texte":{"mobility.label":"Mobilità e viaggi"}}},
+    {"name":"mit vollem Regeln-Kopf","urteil":"bestanden","dokument":{"modulTyp":"textsatz","moduleVersion":1,"sprache":"it","texte":{"mobility.label":"Mobilità e viaggi"},"regeln":{"schreibrichtung":"rtl","datumsformat":"JJJJ-MM-TT","dezimaltrenner":".","tausendertrenner":",","waehrung":"CHF","sprachkennung":"it-CH"}}},
+    {"name":"ohne sprache","urteil":"abgewiesen","regel":"textsatz.sprache","dokument":{"modulTyp":"textsatz","moduleVersion":1,"texte":{"mobility.label":"Mobilità e viaggi"}}},
+    {"name":"sprache de","urteil":"abgewiesen","regel":"textsatz.reserviert","dokument":{"modulTyp":"textsatz","moduleVersion":1,"sprache":"de","texte":{"mobility.label":"Mobilità e viaggi"}}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"textsatz.moduleVersion","dokument":{"modulTyp":"textsatz","sprache":"it","texte":{"mobility.label":"Mobilità e viaggi"}}},
+    {"name":"ohne texte","urteil":"abgewiesen","regel":"textsatz.texte","dokument":{"modulTyp":"textsatz","moduleVersion":1,"sprache":"it"}},
+    {"name":"nur unbekannte Kennungen","urteil":"abgewiesen","regel":"textsatz.leer","dokument":{"modulTyp":"textsatz","moduleVersion":1,"sprache":"it","texte":{"gibt.es.nicht":"x"}}},
+    {"name": "eine Zeichenkette statt eines Objekts, als textsatz geprüft", "urteil": "abgewiesen", "regel": "textsatz.kein-objekt", "erzwingeArt": "textsatz", "dokument": "kein Objekt"}
+  ]
+}

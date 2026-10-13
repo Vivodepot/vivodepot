@@ -25,6 +25,10 @@
    langsame Testdatei, (b) jede langsame Probe, die einen geänderten Pfad nennt — wörtlich oder als
    Join-Folge gequoteter Segmente —, (c) jede Probe, die unter `spiegelt` der Liste für einen geänderten Pfad erklärt ist (für
    Pfade, die eine Textsuche nicht sieht). spiegelBefunde hält die Klasse: wer einen Hook spiegelt, muss zurückkommen.
+   (d) NEUE DATEI (08.10.2026, Befund SCHNELLSTUFE-OHNE-NEUE-DATEI): jede Probe, die unter `bei_neuer_datei` der Liste für ein
+   Verzeichnis-Präfix erklärt ist, sobald der Diff dort eine Datei NEU anlegt (auch umbenannt). Anlass: ein Commit brachte ein
+   neues Werkzeug ohne Zuschnitt-Entscheidung; die Probe des Ausschluss-Wächters ist langsam und lief im pre-commit nicht,
+   das Rot kam erst am Zugkopf.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -98,6 +102,14 @@ function listePruefen(liste, testDateienListe) {
       if (!Array.isArray(pfade) || !pfade.length || pfade.some((p) => typeof p !== 'string' || !p)) f.push('spiegelt ohne Pfade: ' + d);
     }
   }
+  const nd = liste.bei_neuer_datei || {};
+  if (typeof nd !== 'object' || Array.isArray(nd)) f.push('bei_neuer_datei ist kein Objekt');
+  else {
+    for (const [d, praefixe] of Object.entries(nd)) {
+      if (!liste.langsam.includes(d)) f.push('bei_neuer_datei nennt eine Datei, die nicht langsam ist: ' + d);
+      if (!Array.isArray(praefixe) || !praefixe.length || praefixe.some((p) => typeof p !== 'string' || !p.endsWith('/'))) f.push('bei_neuer_datei ohne Verzeichnis-Präfixe (mit „/“ am Ende): ' + d);
+    }
+  }
   const sortiert = [...liste.langsam].sort();
   if (sortiert.join('\n') !== liste.langsam.join('\n')) f.push('nicht sortiert');
   return f;
@@ -114,14 +126,17 @@ function nenntPfad(quelle, pfad) {
 }
 
 /** Langsame Dateien, die der Diff zurück in die Schnellstufe holt: [{ datei, grund }]. */
-function anlassDateien(liste, geaendert, lesen) {
+function anlassDateien(liste, geaendert, lesen, neu = []) {
   const langsam = (liste && liste.langsam) || [];
   const spiegelt = (liste && liste.spiegelt) || {};
+  const beiNeu = (liste && liste.bei_neuer_datei) || {};
   const aus = [];
   for (const d of langsam) {
     if (geaendert.includes(d)) { aus.push({ datei: d, grund: 'selbst geändert' }); continue; }
     const erklaert = (spiegelt[d] || []).find((p) => geaendert.includes(p));
     if (erklaert) { aus.push({ datei: d, grund: erklaert + ' (spiegelt)' }); continue; }
+    const neuDa = (neu || []).find((p) => (beiNeu[d] || []).some((v) => p.startsWith(v)));
+    if (neuDa) { aus.push({ datei: d, grund: neuDa + ' (neue Datei)' }); continue; }
     let quelle = null;
     for (const p of geaendert) {
       if (p === d) continue;

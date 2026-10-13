@@ -6,7 +6,7 @@
 **Nimmt wieder auf:** ADR-063 (FHIR-Provenance im IPS-Bundle) — interne Reihe.
 **Baut auf:** U2-ADR-079 (delegierter IPS-Export mit RelatedPerson + delegierter Provenance).
 **Verwandt:** Zusagen-Audit 12.07. Kategorie 0.3; U2-ADR-005 (Provenienz pro Datensatz, App-intern).
-**Status heute:** gilt — Beleg `tests/fhir-ips-delegiert.test.js`.
+**Status heute:** gilt — Beleg `tests/fhir-ips-delegiert.test.js`; erweitert am 09.10.2026 (Nachtrag: Herkunft je Ressource, `tests/herkunft-je-ressource.test.js`).
 
 ---
 
@@ -82,5 +82,44 @@ aussage:   U2-081: im Selbst-Fall baut fhirIpsBundle genau EINE Provenance mit a
 zustand:   prüfbar
 pruefung:  tests/fhir-ips-delegiert.test.js#[T081-1] Selbst-Fall: Provenance agent.who = Patient, KEIN onBehalfOf, target = Composition, recorded
 pruefung:  tests/fhir-ips-delegiert.test.js#[T081-2] Selbst-Fall: Provenance ist der letzte Eintrag, Composition bleibt erster
+quelle:    entscheidung
+```
+
+## Nachtrag 09.10.2026 — Herkunft je Ressource: „von der Person bereitgestellt“
+
+**Anlass.** VO (EU) 2025/327 (EHDS) Art. 5 Abs. 1 verlangt, dass Daten, die die Person selbst oder ihre Vertretung eingetragen
+hat, „clearly distinguishable“ sind (dazu Erwägungsgrund 12, Anhang I Nr. 1.15). Die technische Form ist nicht normiert; der
+Durchführungsrechtsakt nach Art. 15 steht aus. Die Provenance oben bezeugte nur die Zusammenstellung der Composition — welche
+Einträge von der Person stammen, sagte sie nicht. Die KBV-PKA und die ISiK-DocumentReferences trugen gar keine Autorschaft der
+Person als Verweis.
+
+**Entscheidung.** Jeder FHIR-Bundle, den der Kern **selbst erzeugt**, sagt mit Standardelementen, dass die Person ihn angelegt hat:
+
+1. **Eine Provenance, deren `target` jede erzeugte Ressource ist** (die Composition bleibt das erste Ziel), mit `agent.type` =
+   `author` (provenance-participant-type), `agent.who` = Patient, bei Vertretung RelatedPerson mit `onBehalfOf` = Patient, und
+   `activity` = `CREATE` (v3-DataOperation). Weiter genau eine Provenance je Bundle — nicht die B16-ADR-063-Option-A.
+2. **IPS: je Ressource das Feld, das das Profil kennt** — `recorder`/`asserter` (AllergyIntolerance, Condition, Procedure),
+   `informationSource` (MedicationStatement), `source` (DeviceUseStatement), `performer` (Observation). uv-ips 2.0.0 und
+   eu-eps 1.0.0-ballot lassen dort Patient und RelatedPerson zu (Weg: `snapshot` der Profile im Paket-Cache `~/.fhir/packages`).
+3. **KBV-PKA:** `Composition.author` bleibt „unknown“ — das DPE-Profil verbietet dort jeden Verweis (`reference` max=0,
+   `KBVPRMIODPECompositionDPE`). Die Autorschaft steht in der Provenance aus 1; `Bundle.entry` ist im NFDxDPE-Bundle offen.
+4. **ISiK:** `DocumentReference.author` ist ein logischer Verweis auf die Person über die KVNR (dieselbe Kennung wie `subject`),
+   der Name bleibt `display`. Der Collection-Bundle trägt die Provenance aus 1 mit demselben logischen Verweis. Der KDL-Code
+   „patienteneigen“ bleibt.
+
+**Nicht gebaut.** Kein eigener Code „patient-provided“ und kein `meta.security`/`meta.source` — beides ist nirgends normiert, ein
+Wert nur aus einem Ballot (Euridice) wäre eine Annahme. Aufnehmen, sobald der Durchführungsrechtsakt oder ein EU-IG ihn festlegt.
+Durchgereichte Originale (Verwahrungsnachweis, U2-ADR-444) sind nicht von der Person erzeugt; dort bleibt die Person Verwahrerin.
+
+**Klassenwächter.** `tests/herkunft-je-ressource.test.js` sucht jede Funktion im Kern, die einen FHIR-Bundle baut. Jede steht
+dort als Erzeuger mit Probe oder als ausgenommen mit Grund; ein neuer Erzeuger ohne Eintrag ist rot.
+
+```konformitaet
+aussage:   Jeder vom Kern selbst erzeugte FHIR-Bundle (IPS selbst und delegiert, KBV-PKA, ISiK) trägt eine Provenance mit
+           agent.type = author, activity = CREATE und der Person als agent.who, deren target jede erzeugte Ressource ist;
+           ein neuer Bundle-Erzeuger ohne Eintrag fällt.
+zustand:   prüfbar
+pruefung:  tests/herkunft-je-ressource.test.js#[Herkunft·IPS selbst] jede erzeugte Ressource ist Ziel einer Provenance mit der Person als Autorin
+pruefung:  tests/herkunft-je-ressource.test.js#[Herkunft·Klassenwächter] jede Funktion im Kern, die ein FHIR-Bundle baut, ist Erzeuger mit Probe oder benannt ausgenommen
 quelle:    entscheidung
 ```

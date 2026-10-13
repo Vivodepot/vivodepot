@@ -229,6 +229,19 @@ Die Pro-Bereiche benennen nicht um: Die geplante Umbenennung („Stufe 89/90") i
 in die Mitschrift nachgetragen, nur angehängt, nichts Vorhandenes verändert, keine Unterfelder (I1-UF bleibt offen). Ein
 Bereich, den die Mitschrift nicht führt, kommt nur hinzu, wenn die Datei Werte in ihm trägt.
 
+**Nachtrag 11.10.2026 — Posten 54 berichtigt: das Nachtragen ersetzt, statt anzuhängen.** Der Satz „nur angehängt, nichts
+Vorhandenes verändert“ gilt ab v926 nicht mehr. Grund ist der Befund MITSCHRIFT-AB-WERK-NACH-POSITION: Eine Definition, an die
+Sektionen oder Felder angehängt wurden, hat kein Produkt je so ausgeliefert; eine Bereichsdefinition der Mitschrift gilt aber nur
+noch, wenn ihr Inhalt einer ausgelieferten entspricht (Nachtrag an U2-ADR-398). Jetzt gilt: Eine Definition der Datei, die nach
+Inhalt als ausgeliefert erkannt ist, in der Sprache des öffnenden Produkts steht und deren Felder die Form des Produkts alle
+führt, wird ganz durch die Form des Produkts ersetzt. Jede andere bleibt unverändert stehen. Die Angaben der Person stehen in
+`sektoren` und werden dabei nie angefasst. Der Zweck von Posten 54 bleibt: Die Lese-App bekommt die Beschreibung neuer Felder
+weiter aus der Datei. Was v922 und v923 angehängt haben, bleibt lesbar: Diese Strukturen sind aus den ausgelieferten
+Ständen erhoben und stehen in der Menge der ausgelieferten Bereichsstrukturen. Der zweite Satz oben (ein fehlender Bereich kommt nur
+mit Werten hinzu) gilt unverändert.
+Proben: `tests/mitschrift-felder-nachtragen.test.js` (echte frühere Pro-Mitschrift als Vorlage; erkannte Definition wird
+ersetzt, eine von Hand geänderte bleibt byte-gleich), `tests/mitschrift-bereich-nach-inhalt.test.js` (die drei Sperren, mit Rot-Beweis).
+
 **Proben:** `tests/pro-felder-erweiterung.test.js` (Quelle mit Fundstelle, keine Pflicht in einer Kennung, kein Feld fragt
 nach PIN oder Passwort, `sensibel` bei sechs benannten Feldern, Templates gleich der Quelle, Altbestand byte-gleich gegen
 `tests/fixtures/pro-bereiche-vor-feld-erweiterung-2026-10-02.json`, Beschriftung, Hinweis und Einführungssatz je Sprache

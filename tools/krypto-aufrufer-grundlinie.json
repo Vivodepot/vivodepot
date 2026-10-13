@@ -37,6 +37,160 @@
   "halterOeffentlichAusSeed": {
    "anzahl": 1,
    "grund": " · U2-ADR-457 Nachtrag v865: _halterSignaturHolen reicht die eingebettete noble-ed25519 (fa14496) in deriveHalterSignaturV4; genau eine Stelle, Bedingung der Krypto-Gegenlesung"
+  },
+  "verify": {
+   "anzahl": 1,
+   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
+  },
+  "sign": {
+   "anzahl": 1,
+   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
+  }
+ },
+ "weitereDateien": {
+  "vivodepot-studio.html": {
+   "operationen": {
+    "deriveMasterBits": {
+     "anzahl": 3,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen)"
+    },
+    "unwrapKey": {
+     "anzahl": 1,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen) · +1 W4 (09.10.2026): das Studio öffnet eingegangene Antworten mit antwortJweOeffnen, zeichengleich mit der Lese-App (ANTWORT-JWE-BLOCK, U2-ADR-449; Spiegelprobe tests/antwort-jwe.test.js über drei Dateien)"
+    },
+    "wrapKey": {
+     "anzahl": 0,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen)"
+    },
+    "exportKey": {
+     "anzahl": 4,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen)"
+    },
+    "decrypt": {
+     "anzahl": 2,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen) · +1 W4 (09.10.2026): das Studio öffnet eingegangene Antworten mit antwortJweOeffnen, zeichengleich mit der Lese-App (ANTWORT-JWE-BLOCK, U2-ADR-449; Spiegelprobe tests/antwort-jwe.test.js über drei Dateien)"
+    },
+    "encrypt": {
+     "anzahl": 1,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen)"
+    },
+    "deriveBits": {
+     "anzahl": 4,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen) · +1 W4 (09.10.2026): das Studio öffnet eingegangene Antworten mit antwortJweOeffnen, zeichengleich mit der Lese-App (ANTWORT-JWE-BLOCK, U2-ADR-449; Spiegelprobe tests/antwort-jwe.test.js über drei Dateien)"
+    },
+    "importKeyRaw": {
+     "anzahl": 5,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen) · +2 W4 (09.10.2026): das Studio öffnet eingegangene Antworten mit antwortJweOeffnen, zeichengleich mit der Lese-App (ANTWORT-JWE-BLOCK, U2-ADR-449; Spiegelprobe tests/antwort-jwe.test.js über drei Dateien)"
+    },
+    "halterOeffentlichAusSeed": {
+     "anzahl": 0,
+     "grund": "Bestand des Studios vor W4, erhoben 09.10.2026 auf 919ecb4bd mit W1/W2 (ganze Datei, ohne Kommentarzeilen)"
+    },
+    "verify": {
+     "anzahl": 2,
+     "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
+    },
+    "sign": {
+     "anzahl": 3,
+     "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
+    }
+   }
+  },
+  "vivodepot-lesen.html": {
+   "operationen": {
+    "deriveMasterBits": {
+     "anzahl": 4,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "unwrapKey": {
+     "anzahl": 1,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "wrapKey": {
+     "anzahl": 0,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "exportKey": {
+     "anzahl": 0,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "decrypt": {
+     "anzahl": 4,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "encrypt": {
+     "anzahl": 1,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "deriveBits": {
+     "anzahl": 5,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "importKeyRaw": {
+     "anzahl": 8,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "halterOeffentlichAusSeed": {
+     "anzahl": 0,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "verify": {
+     "anzahl": 2,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "sign": {
+     "anzahl": 3,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    }
+   }
+  },
+  "vivodepot-vc-issuer.html": {
+   "operationen": {
+    "deriveMasterBits": {
+     "anzahl": 3,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "unwrapKey": {
+     "anzahl": 0,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "wrapKey": {
+     "anzahl": 0,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "exportKey": {
+     "anzahl": 2,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "decrypt": {
+     "anzahl": 1,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "encrypt": {
+     "anzahl": 1,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "deriveBits": {
+     "anzahl": 3,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "importKeyRaw": {
+     "anzahl": 3,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "halterOeffentlichAusSeed": {
+     "anzahl": 0,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "verify": {
+     "anzahl": 2,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    },
+    "sign": {
+     "anzahl": 3,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+    }
+   }
   }
  }
 }

@@ -11,13 +11,13 @@
       "anzahl": 77,
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
     },
-    "unterfeld-beschriftung": {
-      "anzahl": 308,
-      "grund": "Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen"
-    },
     "hinweis-beispiel": {
       "anzahl": 511,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
+    },
+    "unterfeld-beschriftung": {
+      "anzahl": 92,
+      "grund": "Beschriftung eines sensiblen Listen-Unterfelds (selbst oder über sein Trägerfeld); die Lese-App zeigt den Wert nie, also auch nicht seine Beschriftung. Alle übrigen Unterfelder tragen ihre Beschriftung seit 05.10.2026"
     },
     "feldgruppen": {
       "anzahl": 70,
@@ -32,7 +32,7 @@
       "grund": "Situationsblätter (Bauteil 3, eigener Zweig): Beispiele werden nie angezeigt; die übrigen Texte sinken, sobald die Blätter über textLesen laufen"
     },
     "menschen-register": {
-      "anzahl": 34,
+      "anzahl": 36,
       "grund": "Beschriftung der Eingabemaske des Menschen-Registers"
     },
     "assistenten": {

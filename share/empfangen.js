@@ -77,6 +77,7 @@ const TEXTE = {
       unvollstaendig: 'Im Link fehlt die Adresse oder der Schlüssel.',
       abgelaufen: 'Diese Freigabe ist abgelaufen. Bitte bei der Absenderin einen neuen Link erbitten.',
       nichthttps: 'Der Link zeigt nicht auf eine gesicherte Adresse (https). Abruf abgelehnt.',
+      adresse: 'Die Adresse im Link enthält Zugangsdaten, Leer- oder Steuerzeichen. Abruf abgelehnt.',
       verbraucht: 'Die Freigabe ist nicht mehr abrufbar — sie wurde bereits geholt oder ist abgelaufen.',
       passcode: 'Der Passcode wurde nicht angenommen. ACHTUNG: die Gegenstelle zählt Fehlversuche und sperrt die Freigabe danach. Bitte den Passcode genau prüfen, bevor Sie es noch einmal versuchen.',
       verbindung: 'Der Abruf hat nicht geklappt. Möglicherweise erlaubt der fremde Server keinen Zugriff aus dem Browser. Bitte bei der Absenderin nachfragen — und beachten Sie den Hinweis oben.',
@@ -112,6 +113,7 @@ const TEXTE = {
       unvollstaendig: 'The link is missing the address or the key.',
       abgelaufen: 'This share has expired. Please ask the sender for a new link.',
       nichthttps: 'The link does not point to a secure (https) address. Retrieval refused.',
+      adresse: 'The address in the link contains credentials, spaces or control characters. Retrieval refused.',
       verbraucht: 'The share is no longer available — it has already been retrieved, or it expired.',
       passcode: 'The passcode was not accepted. NOTE: the other side counts failed attempts and disables the share after a limit. Please check the passcode carefully before trying again.',
       verbindung: 'Retrieval failed. The other server may not allow browser access. Please ask the sender — and see the note above.',
@@ -169,6 +171,35 @@ function b64uZuBytes(s) {
 }
 function b64uZuText(s) { return new TextDecoder().decode(b64uZuBytes(s)); }
 
+/* ══ SHL-ABLAGE-URL-BLOCK (Befund SHL-ABLAGE-URL-UNGEPRUEFT, 07.10.2026) — im Kern und in der Abholseite unter share/ zeichengleich ══
+   Die Ablage-Adresse eines SHL: beim Erzeugen (Kern) und beim Lesen (Abholseite) dieselbe Entscheidung. Nur https, ohne
+   Zugangsdaten, ohne Leer-, Steuer- und Unicode-Leerzeichen, ohne Backslash, auch nicht prozentkodiert. Geprüft mit new URL()
+   und gegen die Originaleingabe: was der Parser still entfernt oder umdeutet, gilt als falsch. Keine Regex-Literale mit
+   Anführungszeichen (Zerleger der HTML-Senken-Wächter). Spiegel- und Entscheidungsprobe: tests/shl-ablage-url-pruefen.test.js. */
+function shlAblageUrlPruefen(roh, opt) {
+  if (typeof roh !== 'string' || !roh) return { ok: false, grund: 'leer' };
+  // 128 Zeichen gelten für die url im shlink:/ (Spec); die location im Manifest hat keine solche Grenze.
+  if (!(opt && opt.ohneLaenge) && roh.length > 128) return { ok: false, grund: 'laenge' };
+  for (let i = 0; i < roh.length; i++) {
+    const c = roh.charCodeAt(i);
+    if (c <= 0x20 || (c >= 0x7f && c <= 0xa0) || c === 0x5c || c === 0x1680 || (c >= 0x2000 && c <= 0x200b) ||
+        c === 0x2028 || c === 0x2029 || c === 0x202f || c === 0x205f || c === 0x3000 || c === 0xfeff) {
+      return { ok: false, grund: 'zeichen' };
+    }
+  }
+  if (/%(?:[01][0-9a-f]|20|7f)/i.test(roh)) return { ok: false, grund: 'zeichen' };
+  let u;
+  try { u = new URL(roh); } catch (e) { return { ok: false, grund: 'form' }; }
+  if (u.protocol !== 'https:') return { ok: false, grund: 'kein-https' };
+  if (u.username || u.password) return { ok: false, grund: 'zugangsdaten' };
+  if (!u.hostname) return { ok: false, grund: 'form' };
+  const kopf = 'https://' + u.host;
+  const original = roh.slice(0, kopf.length).toLowerCase() === kopf ? kopf + roh.slice(kopf.length) : null;
+  if (original === null || (u.href !== original && u.href !== original + '/')) return { ok: false, grund: 'form' };
+  return { ok: true, host: u.host };
+}
+/* ══ ENDE SHL-ABLAGE-URL-BLOCK ══ */
+
 /* ── Schritt 1: den Link lesen. Rein lokal, kein Netzaufruf. ───────────────────────────── */
 function linkLesen(roh) {
   const text = String(roh || '').trim();
@@ -184,7 +215,9 @@ function linkLesen(roh) {
   }
   // Nur https. Ein Klartext-Abruf wäre hier besonders falsch: die Chiffre ginge zwar
   // verschlüsselt über die Leitung, die Adresse aber offen — und sie ist das Geheimnis.
-  if (!/^https:\/\//i.test(nutzlast.url)) return { fehler: 'nichthttps' };
+  // Dieselbe Prüfung wie beim Erzeugen (SHL-ABLAGE-URL-BLOCK): nur https, ohne Zugangsdaten, ohne Leer- und Steuerzeichen.
+  const adresse = shlAblageUrlPruefen(nutzlast.url);
+  if (!adresse.ok) return { fehler: adresse.grund === 'kein-https' ? 'nichthttps' : 'adresse' };
   if (Number.isFinite(nutzlast.exp) && nutzlast.exp * 1000 < Date.now()) {
     return { fehler: 'abgelaufen' };
   }
@@ -252,7 +285,8 @@ async function jweHolen(p) {
   // Sind beide da, sind sie laut Spec identisch; dann kostet `embedded` einen Abruf weniger.
   if (typeof datei.embedded === 'string' && datei.embedded) return datei.embedded.trim();
   if (typeof datei.location === 'string' && datei.location) {
-    if (!/^https:\/\//i.test(datei.location)) throw new Error('nichthttps');
+    const ort = shlAblageUrlPruefen(datei.location, { ohneLaenge: true });
+    if (!ort.ok) throw new Error(ort.grund === 'kein-https' ? 'nichthttps' : 'adresse');
     const zweite = await fetch(datei.location, { method: 'GET', referrerPolicy: 'no-referrer' });
     if (zweite.status === 404 || zweite.status === 410) throw new Error('verbraucht');
     if (!zweite.ok) throw new Error('verbindung');

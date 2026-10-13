@@ -78,7 +78,7 @@ for (const sprache of ['de', 'en']) {
       await p.waitForSelector('#sd-name', { state: 'visible' });
       const sd = FIX.stammdaten;
       await p.fill('#sd-name', sd.anbieterName);
-      await p.selectOption('#sd-rechtsform', sd.rechtsform);
+      await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
       await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
       await p.fill('#sd-k-name', sd.kontaktName);
       await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
@@ -166,3 +166,55 @@ for (const sprache of ['de', 'en']) {
     });
   });
 }
+
+/* ── Eingang auf schmalem Bildschirm (10.10.2026) ─────────────────────────────────────────────────────────────────────
+   Gemessen wird die BERECHNETE Kachel im Browser bei 375 px Breite, nicht eine CSS-Zeile: keine Mindesthöhe, das Zeichen
+   steht neben dem Titel, der Titel beginnt oben in der Kachel.
+   Der Fall dahinter: ein Commit nahm die Regeln für Bildschirme bis 760 px heraus, bevor die kompakte Grundregel da war;
+   dazwischen war jede Kachel auf dem Telefon wieder mindestens 196 px hoch. Der Rot-Beweis stellt genau diesen Stand im
+   Browser her (die hohe Grundregel, keine Regel für schmale Bildschirme) und misst dieselben Größen noch einmal.
+   Die Rechnung ohne Browser steht in tests/studio-eingang.test.js, [Eingang · 7]. */
+const KACHEL_HOCH = 196;   // die Mindesthöhe der hohen Grundregel
+const GRUNDREGEL_HOCH = [
+  '.eingang-kachel { padding: 28px 28px 26px !important; min-height: 196px !important; }',
+  '.eingang-kachel .ek-titel { margin: 44px 0 8px !important; font-size: 22px !important; }',
+  '.eingang-kachel .ek-glyph { left: 28px !important; top: 26px !important; width: 30px !important; height: 30px !important; }',
+].join('\n');
+async function kachelnMessen(p) {
+  return p.evaluate(() => [...document.querySelectorAll('#raum-eingang .eingang-kachel')].map((k) => {
+    const r = k.getBoundingClientRect();
+    const titel = k.querySelector('.ek-titel').getBoundingClientRect();
+    const zeichen = k.querySelector('.ek-glyph').getBoundingClientRect();
+    return { id: k.id, hoehe: Math.round(r.height), mindestens: getComputedStyle(k).minHeight,
+      titelOben: Math.round(titel.top - r.top), zeichenNeben: zeichen.right <= titel.left && zeichen.top < titel.bottom };
+  }));
+}
+function kachelBefunde(kacheln) {
+  const raus = [];
+  for (const k of kacheln) {
+    if (parseFloat(k.mindestens) > 0) raus.push(k.id + ': Mindesthöhe ' + k.mindestens);
+    if (k.titelOben > 30) raus.push(k.id + ': der Titel beginnt erst bei ' + k.titelOben + ' px');
+    if (!k.zeichenNeben) raus.push(k.id + ': das Zeichen steht nicht neben dem Titel');
+  }
+  return raus;
+}
+test.describe('T-CROSS-30 Eingang · 375 px', () => {
+  test('die Kacheln sind kompakt: keine Mindesthöhe, Titel oben, Zeichen daneben; mit der hohen Grundregel ist es rot', async ({ browser }) => {
+    const ctx = await browser.newContext({ viewport: { width: 375, height: 812 } });
+    const p = await ctx.newPage();
+    await p.goto(H.URLS.generator);
+    await p.waitForSelector('#raum-eingang .eingang-kachel', { state: 'visible' });
+    const kacheln = await kachelnMessen(p);
+    expect(kacheln.length).toBe(6);
+    expect(kachelBefunde(kacheln)).toEqual([]);
+    // Die Kachel ohne Zusatzzeile ist niedriger als die alte Mindesthöhe: das Kompakte kommt auf dem Telefon an.
+    expect(kacheln.find((k) => k.id === 'ein-anfrage').hoehe).toBeLessThan(KACHEL_HOCH);
+
+    // Rot-Beweis: der Stand mit der hohen Grundregel und ohne Regel für schmale Bildschirme.
+    await p.addStyleTag({ content: GRUNDREGEL_HOCH });
+    const hoch = await kachelnMessen(p);
+    expect(hoch.every((k) => k.hoehe >= KACHEL_HOCH)).toBe(true);
+    expect(kachelBefunde(hoch).length).toBeGreaterThanOrEqual(3 * hoch.length);
+    await ctx.close();
+  });
+});

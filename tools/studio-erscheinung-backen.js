@@ -30,16 +30,16 @@ const BEGIN = '/* STUDIO-ERSCHEINUNG:BEGIN — erzeugt von tools/studio-erschein
 const ENDE = '/* STUDIO-ERSCHEINUNG:END */';
 
 /* Die Grund-Tokens, die das Studio aus der Ebene `basis` übernimmt. */
-const TOKENS = Object.freeze(['--ink', '--ink2', '--ink3', '--salbei-dunkel', '--salbei-mid', '--salbei-light', '--cream', '--white', '--line', '--gold', '--gold-soft', '--error']);
+const TOKENS = Object.freeze(['--ink', '--ink2', '--ink3', '--salbei-dunkel', '--salbei-mid', '--salbei-light', '--cream', '--white', '--line', '--gold', '--gold-soft', '--error', '--info']);
 
 /* Die Flächen: welche Fläche der App (Selektor im Modul, ohne den Modus-Vorsatz) welcher Fläche des Studios entspricht. */
 const MODUS = 'html:not(.dark-mode):not(.high-contrast) ';
 const ROLLEN = Object.freeze([
   { name: 'grundflaeche', app: '#app .content', studio: 'body' },
   { name: 'kopf', app: '.topbar', studio: 'header.app' },
-  { name: 'karte', app: '#app .karte', studio: '.kachel, .palette, .eigenschaften, .karte-innen, .bsp-karte, .weg-liste li, .fs, .blatt-meta, .bk-blatt' },
+  { name: 'karte', app: '#app .karte', studio: '.kachel, .palette, .eigenschaften, .karte-innen, .bsp-karte, .weg-liste li, .fs, .blatt-meta, .bk-blatt, .as-telefon' },
   { name: 'dialog', app: '#modal-rueck .modal', studio: 'dialog.dlg' },
-  { name: 'vorschau', app: '.vorfuehrung-spalte', studio: '.vorschau.hat-felder' },
+  { name: 'vorschau', app: '.vorfuehrung-spalte', studio: '.vorschau.hat-felder, .as-rechts' },
 ]);
 /* Nur diese Eigenschaften machen das Glas einer Fläche aus; alles andere (Abstände, Variablen der App) bleibt draußen. */
 const GLAS_EIGENSCHAFTEN = Object.freeze(['background', 'background-color', 'background-attachment', '-webkit-backdrop-filter', 'backdrop-filter', 'box-shadow', 'border-radius']);

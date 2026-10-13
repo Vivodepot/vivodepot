@@ -1,0 +1,4 @@
+#!/bin/sh
+# Fixture für die Startweg-Achse (tools/wegwerf-verzeichnisse-pruefen.js): eine Befehlszeile, die den Test-Runner
+# über den Lauf-Helfer startet — das GUTE Beispiel. Kommentarzeilen wie diese mit node --test zählen nicht.
+node tools/lib/test-lauf.js -- env -u NODE_TEST_CONTEXT node --no-sparkplug --test tests/beispiel.test.js

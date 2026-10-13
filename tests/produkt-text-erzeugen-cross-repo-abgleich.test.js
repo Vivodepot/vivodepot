@@ -16,6 +16,8 @@
    ausgeliefert wird) und vergleicht ihn mit dem ECHTEN Abschnitt hier. Kein Pin, keine zweite, unabhängige
    Wahrheit. Die befristete Ausnahme bis zum Gateway-Nachzug (22.–29.09.2026) ist entfernt: der Nachzug ist auf
    Gateway-main gelandet (40b62aa), beide Abschnitte sind byte-gleich, beide Pins wortgleich.
+   Ebenso die Brücke zur Kern-Testfläche (U2-ADR-494, 10.–11.10.2026): der Nachzug liegt auf Gateway-main (196290b),
+   die Brücke und ihr Rot-Beweis sind entfernt. Jede Abweichung ist wieder rot.
 
    Ist der Schwesterrepo nicht lokal vorhanden (CI, ein frischer Checkout, eine fremde Maschine),
    bleibt der Befund UNGEMESSEN (t.skip — zählt NICHT als bestanden) statt STILL GRÜN zu

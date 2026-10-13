@@ -295,7 +295,7 @@ function vorbedingungenPruefen({ slug, bundlePfad }) {
    (`__abWerkServiceWorkerVorhanden = true`) und der sw.js des Repos daneben (dieselbe, die mit dem Stand ausgeliefert
    wird). Ohne den Schalter bleibt es beim Einzeldatei-Produkt. Anlass: eine Prüfung von außen baute
    aus dem öffentlichen Stand nach und bekam genau in dieser einen Zeile eine andere Prüfsumme als SECURITY.md. */
-function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModulDateien, subdepotPalette, kernQuelle, mitEntwicklerleiste, wieAusgeliefert }) {
+function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModulDateien, subdepotPalette, kernQuelle, mitEntwicklerleiste, mitTestflaeche, wieAusgeliefert }) {
   const zielOrdner = path.join(ziel, slug);
   fs.mkdirSync(zielOrdner, { recursive: true });
   const kernZiel = path.join(zielOrdner, 'vivodepot.html');
@@ -317,7 +317,9 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   // v896: die Schriften des Erscheinungsbilds, mit der Bau-Pflicht „jede Erscheinung trägt eine PDF-Schrift“ — außerhalb des
   // gepinnten Abschnitts von produktTextErzeugen, darum hier davor (s. tools/lib/produkt-text-erzeugen.js).
   erscheinungsbildSchriftenVorBacken(kernText, unsignierteModule);
-  const { text, module } = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste });
+  const { text, module } = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste, mitTestflaeche });
+  // U2-ADR-494: ohne die Test-Option verlässt kein Erzeugnis mit Test-Fläche diesen Weg (auch nicht aus einem Kern ohne Marken).
+  if (mitTestflaeche !== true) require('./lib/produkt-text-erzeugen.js').testflaecheVerweigern(text, 'konfektionieren ' + slug);
   fs.writeFileSync(kernZiel, text, 'utf8');
   if (wieAusgeliefert) fs.copyFileSync(path.join(REPO, 'sw.js'), path.join(zielOrdner, 'sw.js'));
   if (subdepotPalette) {

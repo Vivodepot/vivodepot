@@ -76,7 +76,10 @@ function codePruefsumme(text) {
 // 05.10.2026 (U2-ADR-473 W3): die Prüfung der Layout-Beschreibung (_ebLayoutPruefen, LAYOUT_PFLICHT) im Abschnitt. Pin neu gehasht
 // (vorher d4ac166c…). Die Gateway-Kopie hat nach dem Release v920 nachgezogen (06.10.2026); die Layout-Brücke, die bis dahin nur
 // Rezepte mit Layout-Modul anhielt, ist entfernt.
-const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '98112d279bd7d3e1d3c91f1bcd5e2b94536d17ac0ad37f5dc55219aec93c28f1';
+// 09.10.2026 (U2-ADR-494): der Abschnitt schneidet die Kern-Testfläche (KERN_TESTFLAECHE, außer bei mitTestflaeche:true) und den
+// Nachlade-Zweig der Vor-Depot-Konfiguration (VOR_DEPOT_NACHLADEN) heraus; ein Produkt ohne eingebackene Konfiguration wird nicht
+// gebaut. Ein Kern ganz ohne die Marken baut wie bisher (Rückwärtsregel wie beim Erscheinungsbild). Pin neu gehasht (vorher 98112d27…). Die Gateway-Kopie zieht Kopie und Pin nach, abgestimmt am Zugkopf.
+const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '0d9639c65ce1f53c67f05e14fd98cebf2ac7de2a4e822efedf5d034fb54a6143';
 
 const PRODUKT_TEXT_ERZEUGEN_PFAD = path.join(__dirname, 'produkt-text-erzeugen.js');
 

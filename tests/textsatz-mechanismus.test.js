@@ -612,7 +612,7 @@ test('[Textsatz·Modul·Zug 3] Assistent, Anlass, Menschen-Register und Institut
   assert.equal(wiz.titel, 'Geburt eines Kindes');
   assert.equal(wiz.schritte[0].feld.label, 'Geburtsklinik / Geburtsort');
   assert.equal(V.ANLAESSE.find((a) => a.id === 'umzug').label, 'Umzug oder Haushaltsauflösung');
-  assert.equal(mrfName().label, 'Name');
+  assert.equal(mrfName().label, 'Name im Depot');
   assert.equal(instAnm().label, 'Anmerkung');
 });
 

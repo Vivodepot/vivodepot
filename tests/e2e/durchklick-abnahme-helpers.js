@@ -84,6 +84,7 @@ function echtesProduktUrl(slug) {
   const ziel = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-durchklick-abnahme-' + slug + '-'));
   _wegwerfVerzeichnisse.push(ziel);
   const r = konfektionieren({
+    mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
     ziel, slug: p.slug, modulauswahl: [],
     vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
     unsignierteModulDateien: modulDateienFuer(p),

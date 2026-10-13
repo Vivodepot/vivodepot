@@ -50,6 +50,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { suiteDateien } = require('../scripts/suite-dateien-kern.js');
+const { mitTestLauf } = require('./lib/test-lauf.js');   // eigenes TMPDIR je Testlauf (Befund TEMP-RESTE-WIEDER)
 
 const REPO = path.join(__dirname, '..');
 const argv = process.argv.slice(2);
@@ -95,7 +96,7 @@ function suiteMessen() {
   const { execFileSync } = require('node:child_process');
   const dateien = suiteDateien(REPO);
   let roh = '';
-  try { roh = execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }); }
+  try { roh = mitTestLauf((env) => execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env })); }
   catch (e) { roh = (e.stdout || '') + (e.stderr || ''); }
   const m = /^ℹ tests (\d+)$/m.exec(roh);
   return m ? Number(m[1]) : null;

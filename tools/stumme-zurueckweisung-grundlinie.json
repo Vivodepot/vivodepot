@@ -123,6 +123,13 @@
     "bedingung": "!geprueft.gueltig",
     "art": "offen",
     "grund": "Das Gegenstück zu logikModulAbschnitteHTML der Lese-App: der Rumpf ist ein bloßes `continue;` beim Zeichnen eines ungültigen Logik-Moduls (die Lese-App-Fassung schreibt jetzt eine Spur)."
+   },
+   {
+    "ort": "_anfrageVorlagenBelegPruefen",
+    "bedingung": "!k || k.gueltig !== true || !k.nutzlast || ((k.anbieter || {}).anbieterId || null) !== anbieter",
+    "art": "ausnahme",
+    "grund": "Keine Modul-Ladeprüfung, nichts wird zurückgewiesen: die Vorlage bleibt im Depot und sichtbar. Übersprungen wird nur ihr Feld in DIESER einen Antwort; die Person sieht es nicht in der Auswahl, und die Einrichtung bekommt eine Zeile unbekannt, byte-gleich mit einer Kennung, die es nicht gibt (kein Orakel, U2-ADR-366-Nachtrag). Gilt nur für dieses eine continue; Proben P13–P15 (gefälscht, abgelaufen, widerrufen).",
+    "probe": "tests/vorlagen-rueckweg.test.js"
    }
   ]
  }

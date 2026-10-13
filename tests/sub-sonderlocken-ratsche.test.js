@@ -79,18 +79,17 @@ const POSITIVLISTE = [
     grund: 'die Blackbox-Hülle (Export/Einhängen) — seit S1 trägt sie dasselbe Format wie jede Depot-Datei; die Hülle selbst ist noch ein eigener Weg' },
   { kennung: 'S9', stelle: 'async function leseSubUmschlag(', datei: 'vivodepot-lesen.html',
     grund: 'Lese-App: eigener Einstieg für Sub-Umschläge; liest seit S1 V4 über denselben Leser wie jede Depot-Datei' },
-  { kennung: 'S11', stelle: 'e.vertretungsGrundlageUmzugOffen',
-    grund: 'händischer Umzug der Vertretungsgrundlage (Stufe 67) in subDepotVertrauenOeffnen — braucht Anker-Eintrag und Sub-Passwort zugleich' },
 ];
 // NICHT gezählt, mit Grund: S4 (Ablage im Anker) IST die Position — der eine Unterschied, den es geben darf.
 // S7 geteilt: Akzentfarbe und Akteur 'unter-vollmacht' folgen aus der Position (jemand handelt für eine andere Person) —
 // nicht gezählt. Die deklarierte, nie gelesene Regel 'nach-umfang' ist abgebaut (28.09.2026, v824): der Umfang ist das Fach,
 // durchgesetzt im Bearbeitungstor für jedes Depot gleich (tests/vollmacht-fach-schreibt-nicht.test.js).
-// Gestrichen: S1 (Anlage V3), S2 (Neuversiegeln V3-Annahme), S3 (keine Fächer), beide mit Probe (sub-depot-gleiches-format,
+// Gestrichen: S11 (händischer Umzug der Vertretungsgrundlage) am 07.10.2026 — ein Eintrag aus einer Testfassung vor Stufe 67
+// meldet jetzt `sub-vor-stufe-67` und bleibt unverändert (tests/sub-depot-vor-stufe-67.test.js). S1 (Anlage V3), S2 (Neuversiegeln V3-Annahme), S3 (keine Fächer), beide mit Probe (sub-depot-gleiches-format,
 // sub-depot-v4-neuversiegeln); S5 (Migrationen) mit tests/sub-depot-migrationen.test.js; S10 nie gelandet (geparkt).
 // Die KENNUNGEN sind festgeschrieben, nicht nur ihre Zahl: sonst könnte ein neuer Sonderweg einen abgebauten ersetzen, und
 // die Zahl bliebe gleich. Die Grundlinie schrumpft im selben Commit wie die Liste — sie wächst nie.
-const KENNUNGEN_GRUNDLINIE = ['S6', 'S8', 'S9', 'S11'];
+const KENNUNGEN_GRUNDLINIE = ['S6', 'S8', 'S9'];
 const DECKEL = KENNUNGEN_GRUNDLINIE.length;
 
 function positivlisteUrteil(liste) {

@@ -25,7 +25,7 @@ async function bisZumNamenSchrittDurchklicken(page) {
   await expect(page.locator('#content [data-edit="guidedBirthEntryChildsNameNot"]')).toBeVisible();
 }
 
-test('Geburts-Assistent mit genanntem Namen → Kind-Eintrag entsteht → Sub-Depot-Vorschlag → „Ja" öffnet den echten, leeren Passwort-Dialog', async ({ page }) => {
+test('Geburts-Assistent mit genanntem Namen → Kind-Eintrag entsteht → Sub-Depot-Vorschlag → „Ja" öffnet den echten Passwort-Dialog, Vorschlag vorbelegt, Bestätigung leer', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await gebwizStarten(page);
@@ -52,12 +52,13 @@ test('Geburts-Assistent mit genanntem Namen → Kind-Eintrag entsteht → Sub-De
 
   await page.click('#m-ok');   // „Ja, Depot anlegen"
 
-  // Der ECHTE Sub-Depot-Dialog öffnet — Vorname vorbefüllt (aus dem Kind-Namen), Passwort LEER.
+  // Der ECHTE Sub-Depot-Dialog öffnet. Seit 08.10.2026 steht der Vorschlag aus sechs Wörtern schon im Passwortfeld;
+  // die Bestätigung bleibt leer (tests/passwort-vorschlag.test.js).
   await expect(page.locator('#id-pw')).toBeVisible();
   // U2-ADR-467: der Name des Kindes steht in EINEM Feld — der Vorname wird nicht daraus geraten, das Feld bleibt leer.
   await expect(page.locator('#id-vorname')).toHaveValue('');
   await page.fill('#id-vorname', 'Mia');
-  await expect(page.locator('#id-pw')).toHaveValue('');
+  await expect(page.locator('#id-pw')).toHaveValue(/^[a-zäöüß]+(-[a-zäöüß]+){5}$/);
   await expect(page.locator('#id-pw2')).toHaveValue('');
 });
 

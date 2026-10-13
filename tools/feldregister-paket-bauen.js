@@ -3,7 +3,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    feldregister-paket-bauen.js — das Feldregister als npm-Paket @vivodepot/feldregister
    ────────────────────────────────────────────────────────────────────────
-   U2-ADR-NNN (06.10.2026). Entscheidung der Produktverantwortung vom 03.10.2026: npm-Paket, CC0. Das Konto `vivodepot`
+   U2-ADR-490 (06.10.2026). Entscheidung der Produktverantwortung vom 03.10.2026: npm-Paket, CC0. Das Konto `vivodepot`
    gehört der Produktverantwortung; der Scope @vivodepot ist damit ihrer.
 
    DIESES WERKZEUG VERÖFFENTLICHT NICHT. Es baut den Paketordner und prüft ihn. `npm publish` führt die Kontoinhaberin

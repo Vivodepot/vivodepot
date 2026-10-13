@@ -1,0 +1,11 @@
+{
+  "art": "erscheinung",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"eine Rolle","urteil":"bestanden","dokument":{"modulTyp":"erscheinung","moduleVersion":1,"herkunft":"probe","label":"16px"}},
+    {"name":"alle fünf Rollen, alle Einheiten","urteil":"bestanden","dokument":{"modulTyp":"erscheinung","moduleVersion":1,"herkunft":"probe","label":"16px","wert":"1.125rem","gruppe":"0.9em","abschnitt":"18px","titel":"2.5rem"}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"erscheinung.moduleVersion","dokument":{"modulTyp":"erscheinung","herkunft":"probe","label":"16px"}},
+    {"name":"keine Rolle gesetzt","urteil":"abgewiesen","regel":"erscheinung.nichts-gueltiges-gesetzt","dokument":{"modulTyp":"erscheinung","moduleVersion":1,"herkunft":"probe"}},
+    {"name": "eine Zeichenkette statt eines Objekts, als erscheinung geprüft", "urteil": "abgewiesen", "regel": "erscheinung.kein-objekt", "erzwingeArt": "erscheinung", "dokument": "kein Objekt"}
+  ]
+}

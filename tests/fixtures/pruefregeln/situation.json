@@ -1,0 +1,15 @@
+{
+  "art": "situation",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"nur Titel","urteil":"bestanden","dokument":{"modulTyp":"situation","moduleVersion":1,"herkunft":"probe","sprache":"de","situationen":{"zz-probe":{"titel":"Probe"}}}},
+    {"name":"mit Symbol und Blöcken","urteil":"bestanden","dokument":{"modulTyp":"situation","moduleVersion":1,"herkunft":"probe","sprache":"de","situationen":{"zz-probe":{"titel":"Probe","icon":"star","bloecke":[{"id":"b1","titel":"Block","eintraege":[{"quelle":"identity","feld":"givenName"}]},{"eintraege":[]}]}}}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"situation.moduleVersion","dokument":{"modulTyp":"situation","herkunft":"probe","sprache":"de","situationen":{"zz-probe":{"titel":"Probe"}}}},
+    {"name":"ohne herkunft","urteil":"abgewiesen","regel":"situation.herkunft","dokument":{"modulTyp":"situation","moduleVersion":1,"sprache":"de","situationen":{"zz-probe":{"titel":"Probe"}}}},
+    {"name":"ohne situationen","urteil":"abgewiesen","regel":"situation.situationen","dokument":{"modulTyp":"situation","moduleVersion":1,"herkunft":"probe","sprache":"de"}},
+    {"name":"ohne sprache","urteil":"abgewiesen","regel":"allgemein.sprache","dokument":{"modulTyp":"situation","moduleVersion":1,"herkunft":"probe","situationen":{"zz-probe":{"titel":"Probe"}}}},
+    {"name":"sprache Großbuchstaben","urteil":"abgewiesen","regel":"allgemein.sprache-form","dokument":{"modulTyp":"situation","moduleVersion":1,"herkunft":"probe","sprache":"DE","situationen":{"zz-probe":{"titel":"Probe"}}}},
+    {"name":"situationen leer","urteil":"abgewiesen","regel":"situation.leer","dokument":{"modulTyp":"situation","moduleVersion":1,"herkunft":"probe","sprache":"de","situationen":{}}},
+    {"name": "eine Zeichenkette statt eines Objekts, als situation geprüft", "urteil": "abgewiesen", "regel": "situation.kein-objekt", "erzwingeArt": "situation", "dokument": "kein Objekt"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "art": "ereignisAchse",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"ein Eintrag","urteil":"bestanden","dokument":{"modulTyp":"ereignisAchse","moduleVersion":1,"herkunft":"probe","eintraege":[{"sektorId":"finance","feldId":"zz_probe_feld","ereignisse":["tod"]}]}},
+    {"name":"alle Ereignisse, mit Unterfeld","urteil":"bestanden","dokument":{"modulTyp":"ereignisAchse","moduleVersion":1,"herkunft":"probe","eintraege":[{"sektorId":"health","feldId":"zz_f","unterFeldId":"zz_u","ereignisse":["familienstand","tod","betreuung","geburt"]}]}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"ereignisAchse.moduleVersion","dokument":{"modulTyp":"ereignisAchse","herkunft":"probe","eintraege":[{"sektorId":"finance","feldId":"zz_probe_feld","ereignisse":["tod"]}]}},
+    {"name":"ohne herkunft","urteil":"abgewiesen","regel":"ereignisAchse.herkunft","dokument":{"modulTyp":"ereignisAchse","moduleVersion":1,"eintraege":[{"sektorId":"finance","feldId":"zz_probe_feld","ereignisse":["tod"]}]}},
+    {"name":"ohne eintraege","urteil":"abgewiesen","regel":"ereignisAchse.eintraege","dokument":{"modulTyp":"ereignisAchse","moduleVersion":1,"herkunft":"probe"}},
+    {"name":"eintraege leer","urteil":"abgewiesen","regel":"ereignisAchse.leer","dokument":{"modulTyp":"ereignisAchse","moduleVersion":1,"herkunft":"probe","eintraege":[]}},
+    {"name": "eine Zeichenkette statt eines Objekts, als ereignisAchse geprüft", "urteil": "abgewiesen", "regel": "ereignisAchse.kein-objekt", "erzwingeArt": "ereignisAchse", "dokument": "kein Objekt"}
+  ]
+}

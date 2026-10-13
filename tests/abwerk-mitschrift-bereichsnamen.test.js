@@ -61,10 +61,12 @@ for (const slug of ['pro-de', 'pro-en']) {
 test('[Mitschrift·Bereichsnamen·Diagnose] die Lese-App nennt den Grund je verworfenem Bereich, auch wenn das GANZE Modul verworfen wird', () => {
   const { ladeLesen } = require('./load-lesen.js');
   const L = ladeLesen().V;
-  const depot = { abWerkMitschrift: { bereich: [{
+  /* Im Fach der Datei-Module, nicht in der Mitschrift: seit 11.10.2026 erreicht eine nie ausgelieferte Definition aus der Mitschrift den
+     Prüfer gar nicht mehr (sie wird vorher als nicht ausgeliefert benannt); was diese Probe hält, ist die Diagnose des Prüfers selbst. */
+  const depot = { bereichsModule: [{
     modulTyp: 'bereich', moduleVersion: 1, herkunft: 'vivodepot', sprache: 'de',
     bereiche: { 'fremd-ohne-namen-diagnose': { id: 'fremd-ohne-namen-diagnose', sektionen: [] } },
-  }] } };
+  }] };
   L._bereichsModuleAusDepotAnmeldenLesen(depot);
   const gruende = L.BEREICHS_MODUL_VERWORFEN_LESEN.map((v) => (v.id ? v.id + ':' : '') + v.grund);
   assert.ok(gruende.includes('fremd-ohne-namen-diagnose:kein-label'),

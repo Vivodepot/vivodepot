@@ -39,6 +39,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
+const { mitTestLauf } = require('./lib/test-lauf.js');
 
 const REPO = path.join(__dirname, '..');
 const argv = process.argv.slice(2);
@@ -166,10 +167,10 @@ for (const g of gates) {
   /* Der ausgepackte Stand kennt seinen Commit nicht — er trägt keine Historie.
      Wer ihn in ein Protokoll schreibt (offline-garantie.mjs), bekommt ihn hier
      hereingereicht. Wo git antwortet, gilt git; die Variable springt nur ein. */
-  const r = spawnSync(g.cmd, g.args, {
-    cwd: ziel, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024,
-    env: { ...process.env, VD_AUSGEPACKTER_STAND: sha },
-  });
+  const env = { ...process.env, VD_AUSGEPACKTER_STAND: sha };
+  const starten = (umgebung) => spawnSync(g.cmd, g.args, { cwd: ziel, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env: umgebung });
+  // Ein Start des Test-Runners bekommt ein eigenes TMPDIR samt Temp-Netz (Befund TEMP-RESTE-WIEDER).
+  const r = g.args.includes('--test') ? mitTestLauf(starten, { env }) : starten(env);
   const sek = Number(process.hrtime.bigint() - t0) / 1e9;
   const aus = (r.stdout || '') + (r.stderr || '');
   const gruen = r.status === 0;

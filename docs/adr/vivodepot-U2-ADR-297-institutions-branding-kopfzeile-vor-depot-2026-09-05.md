@@ -10,7 +10,7 @@ nicht zurückgenommen), U2-ADR-236 (03.09.2026, „Rahmen folgt Kontext").
 **Anker:** Auftrag vom 05.09.2026, Entscheidung, wörtlich: „die sparkasse zb
 färbt rot".
 **Status heute:** gilt — Fall 2 vollständig gebaut, s. Konformität. Nachtrag 05.10.2026: Ab-Werk-Saat eines Partners als
-Transportweg von Fall 2, zwei Modelle (U2-ADR-400, B16-ADR-008).
+Transportweg von Fall 2 (U2-ADR-400).
 
 ---
 
@@ -115,7 +115,7 @@ Ab-Werk-Marke die Kopfzeile". Diese Ausnahme hatte nur die eigene Marke im Blick
 
 **Entscheidung.**
 1. Für ein Partner-Branding ist die Ab-Werk-Saat ein Transportweg von Fall 2, neben dem signierten Vor-Depot-Bündel
-   (U2-ADR-400: alles Sichtbare gehört dem Partner; B16-ADR-008: White Label als Produktstrategie). Es gilt eine Quelle:
+   (U2-ADR-400: alles Sichtbare gehört dem Partner). Es gilt eine Quelle:
    das signierte Bündel geht vor, sonst das Partner-Branding der Bau-Region (`faerbend`). Kopfzeilenfarbe, Logo, Palette
    und Bildmarke nehmen alle diese Quelle.
 2. Partner heißt: der Wert stammt aus der Bau-Region, und deren `herkunft` ist nicht `vivodepot`

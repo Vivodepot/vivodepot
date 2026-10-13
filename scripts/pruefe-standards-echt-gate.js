@@ -20,6 +20,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync, spawnSync } = require('node:child_process');
+const { mitTestLauf } = require('../tools/lib/test-lauf.js');   // eigenes TMPDIR je Testlauf (Befund TEMP-RESTE-WIEDER)
 const { geaenderteDateien } = require('./pruefe-e2e-bereich.js');
 
 const REPO = path.join(__dirname, '..');
@@ -114,7 +115,7 @@ async function main() {
     if (!v.ok) { fehlt.push(g.id + ': ' + v.grund + ' — Beheben: Docker Desktop starten; einmal ' + g.beheben); continue; }
     const env = Object.assign({}, process.env);
     delete env.NODE_TEST_CONTEXT;
-    const lauf = spawnSync('node', ['--no-sparkplug', '--test', g.probe], { cwd: REPO, encoding: 'utf8', env, timeout: 300000 });
+    const lauf = mitTestLauf((laufEnv) => spawnSync('node', ['--no-sparkplug', '--test', g.probe], { cwd: REPO, encoding: 'utf8', env: laufEnv, timeout: 300000 }), { env });
     const aus = (lauf.stdout || '') + (lauf.stderr || '');
     const todo = /ℹ todo (\d+)/.exec(aus);
     if ((lauf.error && lauf.error.code === 'ETIMEDOUT') || lauf.status !== 0 || !todo || todo[1] !== '0') {

@@ -129,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 257515
+   "bytes": 259665
   },
   "satz": {
-   "bytes": 28784
+   "bytes": 28740
   }
  },
  "fremdcode": [
@@ -1301,6 +1301,140 @@
    "auf": 257515,
    "daneben": {},
    "grund": "Haftung C (HAFTUNG-C-FEHLT-IM-DOKUMENT-PDF): Kartenfuß und C als ein Absatz (K3: Karte bleibt eine A6-Seite, 6 pt wie der bisherige Kartenfuß), C unter dem Widerruf, benannter Dokument-Fuß; +23 relativ zum Zugkopf af77a428d, Wort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 257515,
+   "auf": 257541,
+   "daneben": {},
+   "grund": "QR-Übergabe v2 bindet Formatversion und Zweck über die AAD: Zeichenkette 'vivodepot/empfaenger-qr/v2' (26 Zeichen) als EMPFAENGER_QR_AAD, U2-ADR-156-Nachtrag QR-Übergabe",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 257539,
+   "auf": 257748,
+   "daneben": {},
+   "grund": "Vorlagen-Rückweg: Prüffunktion anfrageVorlagenfeldPruefen, Belegnachrechnung und antwortAuf (U2-ADR-366-Nachtrag); Wort TOP einzeln 09.10. (+209), relativ zum Zugkopf",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 257724,
+   "auf": 257856,
+   "daneben": {},
+   "grund": "SHL-Ablage-Adresse: Prüfblock SHL-ABLAGE-URL-BLOCK und Host-Bestätigung im Teil-Dialog (Befund SHL-ABLAGE-URL-UNGEPRUEFT), +132 relativ zum Zugkopf 6203b06ad",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 257880,
+   "auf": 257904,
+   "daneben": {},
+   "grund": "Ausgabe-Beschriftung (09.10.2026): Textart ausgabeLabel und Helfer feldAusgabeBeschriftung, über den alle Ausgabewege die Beschriftung eines Unterfelds lesen (+24 Byte, Wort TOP einzeln)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 257904,
+   "auf": 257939,
+   "daneben": {},
+   "grund": "LESE-APP-UNTERFELD-OHNE-BESCHRIFTUNG: Kern-Code der Unterfeld-Beschriftung in listenEintragZusammenfassung (Parität mit der Lese-App), kein Text, kein Gestaltungswert; Wort TOP einzeln 05.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 257923,
+   "auf": 258347,
+   "daneben": {
+    "satz": -44
+   },
+   "grund": "Sub-Depot im Ton (09.10.2026, U2-ADR-236 Nachtrag): neue Palette und Anzeige-Abbildung, Töne aus dem Modul, Farbname aus dem Textsatz, Partner-Kriterium mit ΔE2000 (+424 Byte, Wort TOP einzeln)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 258335,
+   "auf": 258559,
+   "daneben": {},
+   "grund": "Anker-Satz: Konstanten ANKER_SATZ, ANKER_OHNE_KID, ANKER_WIDERRUFEN und _ankerWaehlen in Kern und Lese-App (U2-ADR-486 Punkt 2), Wort der Gegenlesung zu +224",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 258559,
+   "auf": 258572,
+   "daneben": {},
+   "grund": "Hash-Kennung der Fingerabdruck-Mengen: Zeichenkette 'sha256:' in _fingerabdruckBekannt (Kern und Lese-App), U2-ADR-486 Punkt 7; Wort der Gegenlesung zu +13",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 258572,
+   "auf": 258794,
+   "daneben": {},
+   "grund": "Herkunft je Ressource (Nachtrag U2-ADR-081): technische FHIR-Bezeichner der Provenance je Ressource und der Herkunftsfelder; Wort TOP einzeln 10.10.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 258794,
+   "auf": 258854,
+   "daneben": {},
+   "grund": "U2-ADR-495: Schlüsselnamen name/rechtsformen im Rechtsraum-Modul und rechtsraum in der Anfrage samt Verwerfungsgrund: Struktur, kein Inhalt.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 258824,
+   "auf": 259144,
+   "daneben": {},
+   "grund": "Bereiche der Mitschrift nach Inhalt (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, 11.10.2026): Zerlegung einer Bereichsdefinition in Struktur und Texte, die zwei Abdruck-Formen, das Urteil gegen die zwei Mengen, die geschlossenen Listen dessen, was ein Bereich aus der Datei behält, und die Herkunftszählung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 259144,
+   "auf": 259665,
+   "daneben": {},
+   "grund": "Bereich aus der Datei, Feld-Ebene (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, 11.10.2026): die geschlossenen Listen für Abschnitt, Feld, Unterfeld, Option, Feldtypen und die Art eines Verweises, und das Abstreifen der Felder",
    "laengste": {
     "einzel": 0,
     "lauf": 64

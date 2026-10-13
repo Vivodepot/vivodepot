@@ -14,6 +14,10 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { defineConfig, devices } = require('@playwright/test');
 const path = require('node:path');
+// Eigenes TMPDIR samt Temp-Netz für den ganzen Lauf (Befund TEMP-RESTE-WIEDER): BEIM LADEN gesetzt, nicht erst im globalSetup —
+// tests/e2e/global-setup.js rechnet seine Pfade unter os.tmpdir() schon beim Laden aus, und die Specs laden es beim Sammeln.
+// Worker erben die Umgebung; das globalTeardown räumt das Verzeichnis (tools/lib/test-lauf.js).
+require('./tools/lib/test-lauf.js').playwrightLaufBeginnen();
 
 module.exports = defineConfig({
   testDir: path.join(__dirname, 'tests', 'e2e'),
@@ -24,6 +28,7 @@ module.exports = defineConfig({
   // Schnitt-Nachtrag (18.09.2026): backt die vier Produkte einmal vor dem ganzen Lauf —
   // s. Kopf-Kommentar in tests/e2e/global-setup.js für den Anlass und den gemessenen Preis.
   globalSetup: require.resolve('./tests/e2e/global-setup.js'),
+  globalTeardown: require.resolve('./tests/e2e/global-teardown.js'),
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

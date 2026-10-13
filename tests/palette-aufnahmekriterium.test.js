@@ -105,36 +105,25 @@ test('[Aufnahmekriterium] entferneSubDepotAkzentOverride ist der einzige farbfre
   assert.ok(V.SUBDEPOT_PALETTE.includes(V.subDepotAkzentToken('schiefer')), 'Fallback ist eine echte Palettenfarbe');
 });
 
-/* ── 3 · Die Kopfzeile bleibt Salbei, in allen drei Themes ────────────────── */
+/* ── 3 · Die Kopfzeile: Basis Salbei, im Sub-Depot nur ein Anteil von --akzent ─── */
 
 function themeBlock(html, sel) {
   const i = html.indexOf(sel);
   return html.slice(i, html.indexOf('\n  }', i) + 4);
 }
+/* Seit 09.10.2026 (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag) trägt die Kopfzeile im Sub-Depot den Ton des Depots, die Marke nicht.
+   Bis dahin hieß dieser Abschnitt „Die Kopfzeile bleibt Salbei, in allen drei Themes“ und verbot jeden Selektor auf die Topbar im
+   Vollmacht-Modus. Weiter verboten: --vm-chrome und jede Füllung, die kein Anteil von --akzent ist, in allen drei Themes. */
 
-test('[Aufnahmekriterium] Kopfzeile: kein Theme übersteuert die Topbar-Fläche mit dem Sub-Akzent', () => {
+test('[Aufnahmekriterium] Kopfzeile: kein Theme setzt die Topbar-Fläche im Sub-Kontext auf --vm-chrome oder eine feste Farbe', () => {
   const html = kernMitHeute(ladeKern().html);
-  // Hell (:root) und Nacht/HC (Theme-Blöcke) — keiner davon darf .topbar auf --vm-chrome setzen.
-  // Ein exaktes Selektor-Ende (Komma oder öffnende Klammer, keine Fortsetzung wie `.tb-eng-2`) —
-  // sonst träfe ein UNVERWANDTES, längeres Selektor (z. B. eine Breakpoint-Regel auf ein
-  // Kind-Element) fälschlich denselben Text-Präfix und würde als Verstoß gelten (Befund
-  // 20.09.2026: `#app.modus-vollmacht .topbar.tb-eng-2 #tb-depot-name { max-width: … }` setzt
-  // keine Farbe, träfe aber den bisherigen reinen Substring-Vergleich).
-  for (const sel of ['#app.modus-vollmacht .topbar', 'html.dark-mode #app.modus-vollmacht .topbar',
-    'html.high-contrast #app.modus-vollmacht .topbar']) {
-    const re = new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*[{,]');
-    assert.ok(!re.test(html), `kein Selektor "${sel}" — die Kopfzeile bleibt in jedem Theme aussen vor`);
-  }
-  // Die Basis-Regel (gilt in allen drei Themes gleich, da --salbei-dunkel sich kaum bewegt)
-  // bleibt Salbei — das IST der Beleg für „dieselbe Fläche wie im Anker".
-  // U2-ADR-297 (05.09.2026, Fall 2): die Basis-Regel trägt seither einen zweiten Fallback
-  // (--vd-branding-topbar-primaer/-text, nur von der Vor-Depot-Konfiguration gesetzt, s. dort)
-  // VOR --salbei-dunkel/--auf-akzent — eine andere Achse (welches PRODUKT das ist), nicht der
-  // hier geprüfte Sub-Akzent (in welchem eingehängten Depot man liest). Die Probe bleibt
-  // scharf für genau das, was sie zusichert: background/color fallen unbedingt auf
-  // Salbei/--auf-akzent zurück, nie auf --vm-chrome (die separate `--fokus`-Regel derselben
-  // Klasse, .topbar { --fokus: var(--vm-chrome-text); }, ist eine andere Eigenschaft — Fokusring,
-  // nicht Fläche/Text — und war schon vor diesem ADR da, unberührt).
+  const regeln = [...html.matchAll(/[^{}]*#app\.modus-vollmacht\s+\.topbar\s*[{,][^{}]*\{[^}]*\}|[^{}]*#app\.modus-vollmacht\s+\.topbar\s*\{[^}]*\}/g)].map((m) => m[0]);
+  const flaeche = (r) => (r.match(/background(?:-color)?\s*:\s*([^;}]+)/) || [])[1];
+  const falsch = regeln.filter((r) => { const f = flaeche(r); return f && (/--vm-chrome/.test(f) || !/^color-mix\(in srgb, var\(--akzent\) \d+%, #[0-9a-f]{6}\)\s*$/i.test(f.trim())); });
+  assert.deepEqual(falsch, [], 'die Kopfzeile trägt im Sub-Kontext nur einen Anteil von --akzent');
+  // Rot-Beweis: die frühere Übersteuerung auf --vm-chrome fiele auf.
+  const rot = '#app.modus-vollmacht .topbar { background: var(--vm-chrome); }';
+  assert.ok(/--vm-chrome/.test(flaeche(rot)), 'Rot-Beweis: --vm-chrome an der Topbar wird erkannt');
   assert.ok(/\.topbar\s*\{[^}]*background:\s*var\((--vd-branding-topbar-primaer,\s*)?var\(--salbei-dunkel\)\)?/.test(html), 'Topbar-Fläche fällt auf Salbei-dunkel zurück, unbedingt');
   assert.ok(/\.topbar\s*\{[^}]*color:\s*var\((--vd-branding-topbar-text,\s*)?var\(--auf-akzent\)\)?/.test(html), 'Topbar-Text fällt auf --auf-akzent zurück, unbedingt (nicht --vm-chrome-text)');
 });

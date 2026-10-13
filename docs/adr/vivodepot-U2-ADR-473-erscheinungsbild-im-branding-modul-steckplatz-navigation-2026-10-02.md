@@ -6,7 +6,7 @@
 **Linie:** U2
 **Bezug:** U2-ADR-339 (Design-Namensraum: Typprüfung statt Namensliste) · U2-ADR-351 (Erscheinungs-Modul, fünf Schriftgrad-Rollen) ·
 U2-ADR-384 (Ab-Werk-Saat der eigenen Marke) · U2-ADR-362 · U2-ADR-400 (Herkunftsort) · U2-ADR-408 · U2-ADR-174 (Akkordeon-Grid) ·
-U2-ADR-236 (Sub-Depot-Palette) · B16-ADR-008 (White Label)
+U2-ADR-236 (Sub-Depot-Palette) · U2-ADR-400 (White Label)
 **Status heute:** gilt — Belege im `konformitaet`-Block unten. Gebaut ist W1; W2–W7 sind entschieden und folgen mit ihren Fassungen.
 
 ## Frage
@@ -254,3 +254,8 @@ konformitaet:
 ---
 
 *Vivodepot GmbH · Berlin · 02.10.2026*
+
+## Nachtrag W3 · 09.10.2026
+
+Die Sub-Depot-Palette ist Modul-Wert (U2-ADR-236, Nachtrag 09.10.2026): Töne und Fassungen stehen in jedem Erscheinungsbild-Modul, das
+Gerüst liest sie auch für das PDF von dort. Die Einfärbung der ganzen Oberfläche im Sub-Depot steht im Stil des Moduls.

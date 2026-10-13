@@ -80,9 +80,13 @@ function erheben() {
   return { abdruecke: [...abdruecke].sort(), quellen: [...new Set(quellen)].sort() };
 }
 
+/* Hash-Kennung (U2-ADR-486 Punkt 7, 08.10.2026): jeder Eintrag der Region trägt `sha256:`. Berechnet und verglichen wird weiter
+   über den reinen Hex-Wert; `ohneKennung` nimmt die Kennung ab, damit ein Vergleich mit einer Region vor der Kennung gleich ausgeht. */
+const KENNUNG = 'sha256:';
+const ohneKennung = (x) => (typeof x === 'string' && x.startsWith(KENNUNG)) ? x.slice(KENNUNG.length) : x;
 function region(abdruecke, t) {
   t = t || TRAEGER.kern;
-  return t.begin + '\nconst ' + t.konstante + ' = new Set(' + JSON.stringify(abdruecke).replace(/","/g, '",\n  "').replace(/^\[/, '[\n  ').replace(/\]$/, '\n]') + ');\n' + t.ende;
+  return t.begin + '\nconst ' + t.konstante + ' = new Set(' + JSON.stringify(abdruecke.map((x) => KENNUNG + x)).replace(/","/g, '",\n  "').replace(/^\[/, '[\n  ').replace(/\]$/, '\n]') + ');\n' + t.ende;
 }
 function alteAus(kern, t) {
   t = t || TRAEGER.kern;
@@ -102,8 +106,9 @@ function regionErsetzen(kern, neu, t) {
 /* Für kern-ausliefern: passt die Region im auszuliefernden Kern zu den Rezepten? Wirft mit Nennung, sonst true. */
 function pruefen(kernText) {
   const soll = erheben().abdruecke;
-  const ist = alteAus(kernText);
-  if (!ist) throw new Error('rezept-fingerabdruecke: die Region REZEPT-FINGERABDRUECKE-KERN fehlt im Kern.');
+  const roh = alteAus(kernText);
+  if (!roh) throw new Error('rezept-fingerabdruecke: die Region REZEPT-FINGERABDRUECKE-KERN fehlt im Kern.');
+  const ist = roh.map(ohneKennung);
   const fehlt = soll.filter((x) => !ist.includes(x));
   const zuviel = ist.filter((x) => !soll.includes(x));
   if (fehlt.length || zuviel.length) {
@@ -141,4 +146,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { erheben, region, regionErsetzen, alteAus, pruefen, fingerabdruck, kanonischJSON, EINLASS_META_FELDER, BEGIN, ENDE, TRAEGER, KERN, LESE };
+module.exports = { erheben, region, regionErsetzen, alteAus, pruefen, fingerabdruck, ohneKennung, KENNUNG, kanonischJSON, EINLASS_META_FELDER, BEGIN, ENDE, TRAEGER, KERN, LESE };

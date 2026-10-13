@@ -24,6 +24,10 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { defineConfig, devices } = require('@playwright/test');
 const path = require('node:path');
+// Eigenes TMPDIR samt Temp-Netz für den ganzen Lauf (Befund TEMP-RESTE-WIEDER): BEIM LADEN gesetzt, nicht erst im globalSetup —
+// tests/e2e/global-setup.js rechnet seine Pfade unter os.tmpdir() schon beim Laden aus, und die Specs laden es beim Sammeln.
+// Worker erben die Umgebung; das globalTeardown räumt das Verzeichnis (tools/lib/test-lauf.js).
+require('./tools/lib/test-lauf.js').playwrightLaufBeginnen();
 
 module.exports = defineConfig({
   testDir: path.join(__dirname, 'tests', 'e2e-cross'),
@@ -40,6 +44,7 @@ module.exports = defineConfig({
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   // Hash-Gate vor allen Browser-Tests (Architektur-Vertrag).
   globalSetup: require.resolve('./tests/e2e-cross/support/global-setup.js'),
+  globalTeardown: require.resolve('./tests/e2e/global-teardown.js'),
   outputDir: path.join(__dirname, 'tests', 'e2e-cross', '.artifacts'),
   use: {
     offline: true,                // Sicherheits-Anforderung: kein Netz (file:// genügt).

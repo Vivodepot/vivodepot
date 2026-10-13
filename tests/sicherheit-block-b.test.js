@@ -38,14 +38,14 @@ test('B-Negativ-3: eine lange, gemischte Passphrase wird als stark eingestuft', 
   assert.ok(!s.bekannt, 'nicht als verbreitet markiert');
 });
 
-// Befund 1.7 — die harte Mindestlänge-8 bleibt nach dem Umbau eine echte Schranke
+// Befund 1.7 — die harte Mindestlänge (seit 08.10.2026: 12) bleibt nach dem Umbau eine echte Schranke
 // (die hinweisende Stärke darf sie NICHT ersetzen).
-test('B-Negativ-4: Mindestlänge-8 wird weiter erzwungen; kurzes PW kommt nicht durch', () => {
+test('B-Negativ-4: Mindestlänge 12 wird weiter erzwungen; kurzes PW kommt nicht durch', () => {
   const { V } = ladeKern();
-  // Angriff a): ein 7-Zeichen-Passwort am Setz-Tor → muss zurückgewiesen werden.
-  assert.equal(V.pwGrundFehler('1234567'), 'pwMin8Fehler', '7 Zeichen → harte Schranke greift (Setzen blockiert)');
+  // Angriff a): ein 11-Zeichen-Passwort am Setz-Tor → muss zurückgewiesen werden.
+  assert.equal(V.pwGrundFehler('12345678901'), 'pwMinFehler', '11 Zeichen → harte Schranke greift (Setzen blockiert)');
   assert.equal(V.pwGrundFehler(''), 'pwSetzenLeer', 'leeres PW → eigene Meldung');
-  assert.equal(V.pwGrundFehler('12345678'), null, 'ab 8 Zeichen lässt die Grund-Schranke durch (Stärke ist davon getrennt)');
+  assert.equal(V.pwGrundFehler('123456789012'), null, 'ab 12 Zeichen lässt die Grund-Schranke durch (Stärke ist davon getrennt)');
   // Angriff b): ein kurzes, aber zeichen-reiches PW darf vom Balken NICHT als mittel/stark belohnt werden.
   assert.equal(V.passwortStaerke('aB3$x').stufe, 'schwach',
     '5 Zeichen mit allen Klassen → bleibt schwach (Längen-Untergrenze, der Balken überspringt sie nie)');

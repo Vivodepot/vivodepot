@@ -1,0 +1,281 @@
+{
+  "hinweis": "ERZEUGT von tools/bausteinregister-bauen.js aus vivodepot.html (EINLASS_REGISTER) und tools/bausteinregister/beschriftungen.json. Nicht von Hand bearbeiten.",
+  "fassung": {
+    "kern": "v927"
+  },
+  "lizenz": {
+    "spdx": "CC0-1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "gilt_fuer": "diese Liste",
+    "nicht_fuer": "die Module und Vorlagen der Herausgeberinnen"
+  },
+  "herausgeber": "Vivodepot GmbH",
+  "einleitung": {
+    "de": "Diese Liste nennt abschließend die Bausteine, mit denen Herausgeberinnen Vorlagen und Module für Vivodepot gestalten: die Modularten unten und die Kennungen des Feldregisters. Jede Fassung dieser Liste bleibt unter ihrer Adresse abrufbar. Wird ein Baustein eingestellt, steht hier, wann das angekündigt wurde und ab wann es gilt; Herausgeberinnen, die ihn in einer signierten Vorlage oder einem signierten Modul verwenden, erhalten die Ankündigung zusätzlich in Textform.",
+    "en": "This list sets out, exhaustively, the building blocks publishers use to design templates and modules for Vivodepot: the module types below and the identifiers of the field register. Every edition of this list remains available at its address. If a building block is discontinued, this page shows when that was announced and when it takes effect; publishers who use it in a signed template or a signed module also receive the announcement in text form."
+  },
+  "feldkennungen": {
+    "datei": "feldregister.json",
+    "seite": "./",
+    "hinweis": "Die Kennungen des Feldregisters derselben Fassung sind Bausteine."
+  },
+  "fassungen": "v<kern>/bausteine.json",
+  "anzahl": 15,
+  "bausteine": [
+    {
+      "typ": "textsatz",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Sprachmodul",
+        "en": "Language module"
+      },
+      "zweck": {
+        "de": "Die Oberflächentexte einer Sprache, je Kennung ein Text.",
+        "en": "The interface texts of one language, one text per identifier."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/textsatz-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/textsatz-modul/1.json"
+      }
+    },
+    {
+      "typ": "stellensatz",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Stellensatz",
+        "en": "Office register"
+      },
+      "zweck": {
+        "de": "Für einen Rechtsraum die zuständige Stelle je Feldkennung.",
+        "en": "For one jurisdiction, the responsible office per field identifier."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/stellensatz-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/stellensatz-modul/1.json"
+      }
+    },
+    {
+      "typ": "rechtsraum",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Rechtsraum-Modul",
+        "en": "Jurisdiction module"
+      },
+      "zweck": {
+        "de": "Rechtsraumspezifischer Inhalt: Wortlaut, Formvorschriften, Fristen und Vorrangregeln.",
+        "en": "Jurisdiction-specific content: wording, formal requirements, deadlines and precedence rules."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/rechtsraum-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/rechtsraum-modul/1.json"
+      }
+    },
+    {
+      "typ": "institutionsArt",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Institutionsarten",
+        "en": "Institution types"
+      },
+      "zweck": {
+        "de": "Weitere Arten von Institutionen für die Auswahl, je Kennung eine Beschriftung.",
+        "en": "Further institution types for selection, one label per identifier."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/institutions-art-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/institutions-art-modul/1.json"
+      }
+    },
+    {
+      "typ": "blattformat",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Blattformat",
+        "en": "Page format"
+      },
+      "zweck": {
+        "de": "Die Papiergröße der Blatt-Ausgaben (PDF).",
+        "en": "The paper size of printed outputs (PDF)."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/blattformat-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/blattformat-modul/1.json"
+      }
+    },
+    {
+      "typ": "bedingungskatalog",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Bedingungskatalog",
+        "en": "Condition catalogue"
+      },
+      "zweck": {
+        "de": "Die Bedingungen, unter denen etwas herausgegeben werden kann, je Eintrag Kennung und Quelle.",
+        "en": "The conditions under which something may be released, each with identifier and source."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/bedingungskatalog-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/bedingungskatalog-modul/1.json"
+      }
+    },
+    {
+      "typ": "format",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Format-Modul",
+        "en": "Format module"
+      },
+      "zweck": {
+        "de": "Ein Ein- oder Ausgabekanal: welche Datei erkannt wird und welcher Pfad auf welches Feld führt.",
+        "en": "An input or output channel: which file is recognised and which path leads to which field."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/format-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/format-modul/1.json"
+      }
+    },
+    {
+      "typ": "bereich",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Bereichs-Modul",
+        "en": "Area module"
+      },
+      "zweck": {
+        "de": "Ein oder mehrere Bereiche mit Rubrik, Symbol, Abschnitten, Feldern und Ausgabewegen.",
+        "en": "One or more areas with heading, icon, sections, fields and output channels."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/bereich-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/bereich-modul/1.json"
+      }
+    },
+    {
+      "typ": "situation",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Situations-Modul",
+        "en": "Situation module"
+      },
+      "zweck": {
+        "de": "Eigene Situationen (Anlässe) mit Titel, Symbol und Verweisen auf bestehende Felder.",
+        "en": "Own situations (occasions) with title, icon and references to existing fields."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/situation-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/situation-modul/1.json"
+      }
+    },
+    {
+      "typ": "wizard",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Assistenten-Modul",
+        "en": "Assistant module"
+      },
+      "zweck": {
+        "de": "Eigene Assistenten mit Ziel und Schritten, je Schritt eine Frage und ein Feld.",
+        "en": "Own assistants with a target and steps, each step one question and one field."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/wizard-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/wizard-modul/1.json"
+      }
+    },
+    {
+      "typ": "ereignisAchse",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Ereignis-Achse",
+        "en": "Event axis"
+      },
+      "zweck": {
+        "de": "Welche Lebensereignisse die Felder eines Moduls berühren, oder warum ein Feld ausgenommen ist.",
+        "en": "Which life events the fields of a module touch, or why a field is excluded."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/ereignis-achse-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/ereignis-achse-modul/1.json"
+      }
+    },
+    {
+      "typ": "angehoerigenVorlage",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Angehörigen-Vorlage",
+        "en": "Relatives template"
+      },
+      "zweck": {
+        "de": "Blätter für Angehörige in einer Sprache, mit Verweisen auf bestehende Felder.",
+        "en": "Sheets for relatives in one language, with references to existing fields."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/angehoerigen-vorlage-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/angehoerigen-vorlage-modul/1.json"
+      }
+    },
+    {
+      "typ": "branding",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Markenmodul",
+        "en": "Brand module"
+      },
+      "zweck": {
+        "de": "Farben, Schrift, Logo, Name und Kontaktangaben einer Institution.",
+        "en": "Colours, typeface, logo, name and contact details of an institution."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/branding-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/branding-modul/1.json"
+      }
+    },
+    {
+      "typ": "logikModul",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Logikmodul",
+        "en": "Logic module"
+      },
+      "zweck": {
+        "de": "Ein Auszug als reine Daten: welche Felder er liest und wie er sie darstellt.",
+        "en": "An extract as pure data: which fields it reads and how it presents them."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/logik-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/logik-modul/1.json"
+      }
+    },
+    {
+      "typ": "erscheinung",
+      "status": "bereitgestellt",
+      "label": {
+        "de": "Erscheinungsmodul",
+        "en": "Appearance module"
+      },
+      "zweck": {
+        "de": "Die Schriftgrößen von bis zu fünf Rollen der Oberfläche.",
+        "en": "The type sizes of up to five interface roles."
+      },
+      "schema": {
+        "adresse": "https://vivodepot.de/schemas/erscheinung-modul-schema.json",
+        "fassung": 1,
+        "fassungAdresse": "https://vivodepot.de/schemas/erscheinung-modul/1.json"
+      }
+    }
+  ]
+}

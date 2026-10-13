@@ -62,7 +62,7 @@ async function zulaessig(sprache, kennung) {
 /* Die Kennungen, die die Rücknahme-Tabelle des Kerns für den Abdruck `m` zurückzieht (leer, wenn er nicht darauf steht). */
 async function zurueckgezogen(V, m) {
   const fp = await V._modulRezeptFingerabdruck(m);
-  return (V.ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN.get(fp) || []).slice();
+  return (V.ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN.get('sha256:' + fp) || []).slice();   // Schlüssel mit Hash-Kennung (U2-ADR-486 Punkt 7)
 }
 
 /* Eingefroren (Wort der Gegenlesung, 06.10.2026): die Fixtures sind die ausgelieferten v918-Bytes. Ein Nachziehen auf eine spätere
@@ -83,8 +83,8 @@ test('[Haftung·Sprachgrenze·Vorbedingung] die Fixtures sind die v918-Fassungen
   const { V } = ladeKern({ produkt: 'privat-de' });
   for (const sprache of ['de', 'en']) {
     const fp = await V._modulRezeptFingerabdruck(FIXTURE(sprache));
-    assert.ok(V.ABWERK_FRUEHERE_FASSUNGEN_KERN.has(fp), sprache + ': Abdruck in den früheren Fassungen — sonst prüfte die Probe die Sperre');
-    assert.ok(!V.REZEPT_FINGERABDRUECKE_KERN.has(fp), sprache + ': nicht die laufende Fassung — sonst prüfte die Probe nichts');
+    assert.ok(V.ABWERK_FRUEHERE_FASSUNGEN_KERN.has('sha256:' + fp), sprache + ': Abdruck in den früheren Fassungen — sonst prüfte die Probe die Sperre');
+    assert.ok(!V.REZEPT_FINGERABDRUECKE_KERN.has('sha256:' + fp) && !V.REZEPT_FINGERABDRUECKE_KERN.has(fp), sprache + ': nicht die laufende Fassung — sonst prüfte die Probe nichts');
     assert.ok(FIXTURE(sprache).texte[HAFTUNG], sprache + ': die Mitschrift trägt den Haftungshinweis');
   }
 });

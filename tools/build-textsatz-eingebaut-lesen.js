@@ -103,15 +103,20 @@ function kennungenAusKern() {
         if (!kennung) continue;   // abgeleitete Zeilen tragen keine Kennung, wie build-feldkatalog.js
         raus[kennung + '.label'] = f.label;
         /* Optionen und Listen-Unterfelder (Lese-App zeigt Auswahlwerte als Klartext-Label, `_optionLabelLesen`).
-           Sensibilität entscheidet die Lese-App zur Laufzeit (Nutzer-Markierung), darum steht jede Option hier;
-           die Beschriftung eines Unterfelds nur, wenn sie angezeigt wird: bei ja/nein-Optionen. */
+           Sensibilität entscheidet die Lese-App zur Laufzeit (Nutzer-Markierung), darum steht jede Option hier.
+           Seit 05.10.2026 (Befund LESE-APP-UNTERFELD-OHNE-BESCHRIFTUNG) trägt jedes Unterfeld eines Listeneintrags seine
+           Beschriftung, darum steht jede hier, nicht nur die bei ja/nein-Optionen: Sonst fiele ein englisches Produkt für
+           diese Kennungen auf die deutsche Definition zurück. */
         for (const o of (f.optionen || [])) {
           if (o && typeof o.wert === 'string') raus[s.id + '.' + f.id + '/' + o.wert + '.label'] = o.label;
         }
         for (const u of (f.unterFelder || [])) {
           if (!u || typeof u.id !== 'string') continue;
           const optionen = (u.optionen || []).filter((o) => o && typeof o.wert === 'string');
-          if (optionen.some((o) => /^(ja|nein)$/i.test(String(o.label)))) raus[s.id + '.' + f.id + '/' + u.id + '.label'] = u.label;
+          // Die Ausgabe-Beschriftung vor der Eingabe-Beschriftung, wie feldAusgabeBeschriftung im Kern: ein Dokument trägt
+          // „Name“, nicht den Eingabehinweis „Name im Depot“.
+          const beschriftung = (typeof u.ausgabeLabel === 'string' && u.ausgabeLabel) ? u.ausgabeLabel : u.label;
+          if (typeof beschriftung === 'string' && beschriftung) raus[s.id + '.' + f.id + '/' + u.id + '.label'] = beschriftung;
           for (const o of optionen) raus[s.id + '.' + f.id + '/' + u.id + '/' + o.wert + '.label'] = o.label;
         }
       }
@@ -127,7 +132,7 @@ function region(kennungen) {
     '/* Wörtlicher Auszug aus AB_WERK_TEXTSATZ_DE.texte im Kern — nur die Kennung-Formen, die die',
     '   Lese-App rendert: Sektor-Label (<id>.label), Sektions-Label (<sektorId>#<sektionId>.label),',
     '   Feld-Label (<sektorId>.<feldId>.label), Optionen (<sektorId>.<feldId>[/<unterfeld>]/<wert>.label),',
-    '   ja/nein-Unterfeld-Label (<sektorId>.<feldId>/<unterfeld>.label), Einführungstext (<id>.einfuehrungstext).',
+    '   Unterfeld-Label (<sektorId>.<feldId>/<unterfeld>.label), Einführungstext (<id>.einfuehrungstext).',
     '   Der SCHLÜSSELRAUM ist der Zweck dieser Tabelle —',
     "   `_textsatzKennungBekannt()` fragt nur `hasOwnProperty`, die Werte sind das deutsche",
     '   Original als Beleg, nicht als eigener Konsument. */',

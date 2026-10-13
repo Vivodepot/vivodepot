@@ -85,7 +85,7 @@ async function erzeugnisse(cache, aus) {
   if (!r.bundle || r.gruende.length) throw new Error('Generator lieferte nicht beide DocumentReferences: ' + r.gruende.join(', '));
   const faelle = [];
   const schreiben = (name, res, erwartet) => { const p = path.join(aus, name + '.json'); fs.writeFileSync(p, JSON.stringify(res, null, 1)); faelle.push({ name, pfad: p, erwartet }); };
-  const nach = (code) => r.bundle.entry.map((e) => e.resource).find((d) => d.type.coding[0].code === code);
+  const nach = (code) => r.bundle.entry.map((e) => e.resource).find((d) => d.resourceType === 'DocumentReference' && d.type.coding[0].code === code);
   schreiben('dr1-vollmacht-urschrift', nach(T.kdlVollmacht.code), 'gueltig');
   schreiben('dr2-ips', nach(T.kdlPatienteneigen.code), 'gueltig');
   const ohneKdl = JSON.parse(JSON.stringify(nach(T.kdlVollmacht.code))); ohneKdl.type.coding.shift();

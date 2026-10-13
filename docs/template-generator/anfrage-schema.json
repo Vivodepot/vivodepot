@@ -15,6 +15,7 @@
     "anbieterId": { "type": "string", "description": "Bezeichner der Institution. Bei einer geprüften Anfrage kommt er aus dem Zertifikat (F3)." },
     "zweck": { "type": "string", "minLength": 3, "description": "Wozu, im Klartext — ein Satz, den eine Person liest." },
     "grundlage": { "type": "string", "minLength": 3, "description": "Auf welcher Grundlage gefragt wird. Vivodepot PRÜFT SIE NICHT — die Angabe steht da, sichtbar vorher und nachweisbar hinterher." },
+    "rechtsraum": { "type": "string", "pattern": "^[A-Z]{2,8}$", "description": "Nach welchem Recht gefragt wird: Kürzel eines Rechtsraum-Moduls, freiwillig (U2-ADR-495)." },
     "vorgang": { "type": "string", "minLength": 1, "description": "Die Kennung des Vorgangs. Zusammen mit anbieterId die Identität der Anfrage." },
     "gestelltAm": { "type": "string", "description": "Datum der Anfrage (ISO). Optional." },
     "gueltigBis": { "type": "string", "minLength": 4, "description": "Bis wann sie gilt (ISO-Datum). Was abläuft, wird als abgelaufen gezeigt und nicht stillschweigend beantwortet." },

@@ -1,0 +1,12 @@
+{
+  "art": "bedingungskatalog",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"ein Eintrag","urteil":"bestanden","dokument":{"modulTyp":"bedingungskatalog","moduleVersion":1,"herkunft":"kammer-x","eintraege":[{"kennung":"SD-BASE","quelle":"https://example.org/bedingungen/sd-base"}]}},
+    {"name":"mehrere Einträge mit beispiel","urteil":"bestanden","dokument":{"modulTyp":"bedingungskatalog","moduleVersion":1,"herkunft":"kammer-x","eintraege":[{"kennung":"PDC-AI","quelle":"https://example.org/a","beispiel":true},{"kennung":"x_1.v-2","quelle":"HTTPS://Example.org:8443/p?q=1#f","beispiel":false},{"kennung":" Rand ","quelle":"  https://nutzer@example.org  "},{"kennung":"IPV6","quelle":"https://[::1]/pfad mit leerzeichen"}]}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"bedingungskatalog.moduleVersion","dokument":{"modulTyp":"bedingungskatalog","herkunft":"kammer-x","eintraege":[{"kennung":"SD-BASE","quelle":"https://example.org/bedingungen/sd-base"}]}},
+    {"name":"ohne herkunft","urteil":"abgewiesen","regel":"bedingungskatalog.herkunft","dokument":{"modulTyp":"bedingungskatalog","moduleVersion":1,"eintraege":[{"kennung":"SD-BASE","quelle":"https://example.org/bedingungen/sd-base"}]}},
+    {"name":"ohne eintraege","urteil":"abgewiesen","regel":"bedingungskatalog.eintraege","dokument":{"modulTyp":"bedingungskatalog","moduleVersion":1,"herkunft":"kammer-x"}},
+    {"name": "eine Zeichenkette statt eines Objekts, als bedingungskatalog geprüft", "urteil": "abgewiesen", "regel": "bedingungskatalog.kein-objekt", "erzwingeArt": "bedingungskatalog", "dokument": "kein Objekt"}
+  ]
+}

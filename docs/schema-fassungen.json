@@ -9,6 +9,13 @@
      "blob": "79306b8e405482524884b9b127dc69496f50f46d",
      "shaKanon": "cd6180e3cc82ff6c64f6d0bfda0976461ecf930543dbeea5eb618943980fe564",
      "shaAusgeliefert": "635e1ee949e2a044c004df71ac6d614b7c793f041b4859c1c40f249549c88d47"
+    },
+    {
+     "n": 2,
+     "adresse": "https://vivodepot.de/schemas/anfrage/2.json",
+     "blob": "6dca09cb994973f79942140bf4a23c024359ea94",
+     "shaKanon": "d49a23ca8ee33c1ba47f79cb7fdf89e3f82958e5668fcacea139e500bbffa812",
+     "shaAusgeliefert": "1e2930c8fd9b568c8a1ce4d100a586fb50cf7c0dc497bfbe8779aae72fbf8c80"
     }
    ]
   },
@@ -81,6 +88,13 @@
      "blob": "5e075d57c2b739d45819cccb784ce7b68b881960",
      "shaKanon": "fe100512539bba2930ba4b76117b83e4825f35318a2af8f1ec80134c75aec9f9",
      "shaAusgeliefert": "9be3771e617aba9d996ee008859caeb34f1d8bdc6c6b5bfb7bc690bccf14dda3"
+    },
+    {
+     "n": 2,
+     "adresse": "https://vivodepot.de/schemas/design-modul/2.json",
+     "blob": "6b831a1f229a265d849e7ebdff00b360581e8ca9",
+     "shaKanon": "1bdce8f1851c2e4dd72b11aac52c3cfa4659d49a4229c3a2fb8122f6fd098ba5",
+     "shaAusgeliefert": "c1841f5c508ddbbf15c15d9809194256ed84608ee2bb4028722281e779948ae7"
     }
    ]
   },
@@ -168,6 +182,18 @@
     }
    ]
   },
+  "pruefregeln": {
+   "adresse": "https://vivodepot.de/schemas/pruefregeln-schema.json",
+   "fassungen": [
+    {
+     "n": 1,
+     "adresse": "https://vivodepot.de/schemas/pruefregeln/1.json",
+     "blob": "d11c6975d2a0d56601f0fcc7fb03be498b1aaee2",
+     "shaKanon": "b96769f830d2f065ee64ff18c5d473bfc4859b816ccc431e8c8f0d9a74ef8e85",
+     "shaAusgeliefert": "edb0a102e0d2a4969579f7438adc3959fc59a655688a48dcf5ad725379959f8a"
+    }
+   ]
+  },
   "rechtsraum-modul": {
    "adresse": "https://vivodepot.de/schemas/rechtsraum-modul-schema.json",
    "fassungen": [
@@ -213,6 +239,13 @@
      "blob": "107e2d870842e865bf2f03127691ed215666fc8d",
      "shaKanon": "da39083777f934ba49694d680bfbb254beaf4aa579281adead447f85b85c0f02",
      "shaAusgeliefert": "6546d7421dcd535528d579646a815de1cf0077b101d5a7018ae0742b3872cfc7"
+    },
+    {
+     "n": 2,
+     "adresse": "https://vivodepot.de/schemas/submission/2.json",
+     "blob": "a1a75e9072f3cb5bba290be58705e23c6f64c1e5",
+     "shaKanon": "f2911719e90d8614baa61ccdb187886d6dbd6c31ad4b16121d3e673baea241c4",
+     "shaAusgeliefert": "f2c81167aa4d29ec99b4009a647c45360a81d3df6606b175ff13e2ea3fceaf42"
     }
    ]
   },

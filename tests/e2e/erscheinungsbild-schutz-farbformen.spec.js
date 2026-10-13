@@ -31,6 +31,7 @@ function produktMit(zusatzStil) {
     eb.roh = { ...eb.roh, stil: { ...eb.roh.stil, farbprobe: zusatzStil } };
   }
   const text = produktTextErzeugen(fs.readFileSync(KERN_PFAD, 'utf8'), {
+    mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
     modulauswahl: [], unsignierteModule: module, serviceWorkerVorhanden: false,
     vorDepotKonfigurationInhaltFn: require(path.join(REPO, 'tests', 'load-issuer.js')).ladeIssuer().V.vorDepotKonfigurationDateiInhalt,
   }).text;

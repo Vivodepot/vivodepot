@@ -100,6 +100,21 @@ function makeDocument() {
 }
 
 const EXPORT_HOOK = `
+function __bereichsDefinitionenPruefenSynchron(d) {
+  try {
+    const obj = (v) => !!v && typeof v === 'object' && !Array.isArray(v);
+    const ms = d && d.abWerkMitschrift;
+    if (!obj(ms)) return;
+    const paare = [];
+    for (const m of (Array.isArray(ms.bereich) ? ms.bereich : [])) if (obj(m) && obj(m.bereiche)) for (const id of Object.keys(m.bereiche)) paare.push([id, m.bereiche[id]]);
+    if (obj(ms.bereichsErsatz) && obj(ms.bereichsErsatz.neu)) for (const id of Object.keys(ms.bereichsErsatz.neu)) paare.push([id, ms.bereichsErsatz.neu[id]]);
+    for (const [id, definition] of paare) {
+      if (!obj(definition) || _BEREICHSDEFINITION_AUSGELIEFERT_LESEN.has(definition)) continue;
+      const f = _bereichsDefinitionFormen(id, definition);
+      if (_bereichsDefinitionUrteil(BEREICHSSTRUKTUREN_AUSGELIEFERT_LESEN, BEREICHSTEXTE_AUSGELIEFERT_LESEN, __probeSha256(f.struktur), f.texte.map(__probeSha256))) _BEREICHSDEFINITION_AUSGELIEFERT_LESEN.add(definition);
+    }
+  } catch (_) { /* nicht pruefbar: nicht ausgeliefert */ }
+}
 ;globalThis.__LESEN__ = {
   // VdCrypto-Surface (Script 1)
   VdCrypto, deriveDepotKeyV2, deriveMasterBits, importMasterHkdfKey,
@@ -225,14 +240,24 @@ const EXPORT_HOOK = `
   // koennen: setData weist nur zu und laeuft an allen Lese-Spiegeln vorbei — ein Test darueber
   // prueft die Folds NICHT, sondern nur, was ohnehin schon in der Datei stand.
   // (Keine Backticks in diesem Block: die Exportliste wird als Template-Literal ausgewertet.)
-  _foldVollmachtenLesen, instrumentZeileModellLesen,
+  instrumentZeileModellLesen,
+  /* Befund MITSCHRIFT-AB-WERK-NACH-POSITION (11.10.2026): Bereiche aus der Mitschrift gelten nur nach Inhalt. Beim echten Oeffnen
+     misst das der eine Einstieg (_depotUebernehmenGeprueft, asynchron) VOR der Anmeldung. Die meisten Proben falten und melden
+     synchron an; damit sie dieselbe Entscheidung sehen wie die Anwendung, laeuft hier vor dem Falten und vor der Bereichs-Anmeldung
+     derselbe Vergleich in synchroner Form. Der Lader ruft dafuer die Funktionen der Lese-App selbst (_bereichsDefinitionFormen fuer
+     Zerlegung und Formen, _bereichsDefinitionUrteil fuer das Urteil, dem er die zwei Mengen der Lese-App uebergibt) und ersetzt allein den SHA-256 (Node
+     statt WebCrypto); er traegt keine eigene Kopie der Prueflogik. Nichts wird pauschal als ausgeliefert gemerkt: eine erfundene Definition bleibt
+     verworfen. Dass beide Wege gleich urteilen, haelt tests/mitschrift-bereich-nach-inhalt.test.js. */
+  _bereichsDefinitionenPruefenSynchronLesen: __bereichsDefinitionenPruefenSynchron,
+  _bereichsDefinitionAusgeliefertLesen: (typeof _bereichsDefinitionAusgeliefertLesen !== 'undefined' ? _bereichsDefinitionAusgeliefertLesen : undefined),
+  _foldVollmachtenLesen: (d) => { __bereichsDefinitionenPruefenSynchron(d); return _foldVollmachtenLesen(d); },
   /* U2-ADR-323 (06.09.2026): angedockte Bereiche erreichen den Empfaenger. Mit
      typeof-Absicherung — parallele Zweige tragen diese Fassung der Lese-App noch nicht, und ein
      fehlender Name beendete hier nicht diese eine Probe, sondern JEDE Probe der Lese-App mit
      einem ReferenceError. SEKTOR_BY_ID ist seit dieser Aenderung eine let-Bindung: als Getter
      exportiert, sonst waere der Export der Schnappschuss VOR der Anmeldung. */
   bereichsModulPruefenLesen: (typeof bereichsModulPruefenLesen !== 'undefined' ? bereichsModulPruefenLesen : undefined),
-  _bereichsModuleAusDepotAnmeldenLesen: (typeof _bereichsModuleAusDepotAnmeldenLesen !== 'undefined' ? _bereichsModuleAusDepotAnmeldenLesen : undefined),
+  _bereichsModuleAusDepotAnmeldenLesen: (d) => { __bereichsDefinitionenPruefenSynchron(d || (typeof data !== 'undefined' ? data : null)); return _bereichsModuleAusDepotAnmeldenLesen(d); },
   bereicheAlleLesen: (typeof bereicheAlleLesen !== 'undefined' ? bereicheAlleLesen : undefined),
   // LA1 (19.09.2026) — der Hinweis auf nicht Darstellbares (DoD-Schlußmessung Punkt 4).
   _darstellungsLuecken: (typeof _darstellungsLuecken !== 'undefined' ? _darstellungsLuecken : undefined),
@@ -259,6 +284,8 @@ const EXPORT_HOOK = `
   _sektorDatenFuerLesen,   // Schema 89 (U2-ADR-439): liest die Urkunden-Ablageorte auch aus einem Stand bis Schema 88
   // QR-Übergabe empfangen (b16-Wiedereinbau, Krisenvorsorge-Auftrag 24.08.2026, Zug 3c)
   EMPFAENGER_QR_HASH_PRAEFIX, _empfaengerQrHashLesen, _empfaengerQrEntschluesseln,
+  EMPFAENGER_QR_AAD: (typeof EMPFAENGER_QR_AAD !== 'undefined' ? EMPFAENGER_QR_AAD : undefined),
+  EMPFAENGER_QR_V1_ANNAHME_BIS: (typeof EMPFAENGER_QR_V1_ANNAHME_BIS !== 'undefined' ? EMPFAENGER_QR_V1_ANNAHME_BIS : undefined),
   renderEmpfaengerQrPasswort, boot,
   // (10.09.2026) — Branding erreicht die Lese-App, U2-ADR-362-Interceptor gespiegelt
   _markeName, _markeDomain, _markePlatzhalterAufloesen, _markeAnzeigeAnwenden, escapeHTML, topbarHTML,
@@ -319,6 +346,7 @@ function ladeLesen(opts) {
     URL: Object.assign(class extends URL {}, { createObjectURL: () => 'blob:stub', revokeObjectURL: () => {} }),
     navigator: {},
   };
+  sandbox.__probeSha256 = (s) => crypto.createHash('sha256').update(String(s), 'utf8').digest('hex');   // fuer die synchrone Inhaltspruefung der Proben (s. Exportliste)
   sandbox.globalThis = sandbox;
   vm.createContext(sandbox);
 

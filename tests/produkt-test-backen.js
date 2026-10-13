@@ -1,8 +1,9 @@
 'use strict';
 /* Das Test-Artefakt ist der Auslieferungs-Bau: derselbe Backschritt (produktTextErzeugen), dieselben
    Argumente wie tools/produkt-konfektionieren.js#konfektionieren für die vier Produkte — bis auf GENAU
-   eine benannte Test-Option, mitEntwicklerleiste:true. Geteilt von tests/e2e/global-setup.js und
-   tests/load-kern.js; die Gleichheit hält tests/e2e-artefakt-gleich-auslieferung.test.js. */
+   zwei benannte Test-Optionen: mitEntwicklerleiste:true und mitTestflaeche:true (U2-ADR-494, die Fläche
+   window.__vdOeffentlich für Proben). Geteilt von tests/e2e/global-setup.js und tests/load-kern.js; die
+   Gleichheit halten tests/e2e-artefakt-gleich-auslieferung.test.js und tests/kern-testflaeche.test.js. */
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -30,6 +31,7 @@ function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, ...mo
     unsignierteModule: module,
     serviceWorkerVorhanden: PRODUKT_DATEISATZ.includes('sw.js'),
     mitEntwicklerleiste: true,
+    mitTestflaeche: true,
   }).text;
 }
 

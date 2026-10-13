@@ -278,6 +278,12 @@
             "text": {
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Penicillin</div>"
+            },
+            "recorder": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "asserter": {
+              "reference": "urn:uuid:«uuid»"
             }
           }
         },
@@ -315,6 +321,12 @@
             "text": {
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Hausstaubmilben</div>"
+            },
+            "recorder": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "asserter": {
+              "reference": "urn:uuid:«uuid»"
             }
           }
         },
@@ -338,6 +350,9 @@
             "text": {
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Ramipril 5 mg morgens</div>"
+            },
+            "informationSource": {
+              "reference": "urn:uuid:«uuid»"
             }
           }
         },
@@ -361,6 +376,9 @@
             "text": {
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Metformin 500 mg, zweimal täglich</div>"
+            },
+            "informationSource": {
+              "reference": "urn:uuid:«uuid»"
             }
           }
         },
@@ -390,6 +408,12 @@
             "text": {
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Diabetes mellitus Typ 2</div>"
+            },
+            "recorder": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "asserter": {
+              "reference": "urn:uuid:«uuid»"
             }
           }
         },
@@ -419,6 +443,12 @@
             "text": {
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Bluthochdruck (essentielle Hypertonie)</div>"
+            },
+            "recorder": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "asserter": {
+              "reference": "urn:uuid:«uuid»"
             }
           }
         },
@@ -442,7 +472,13 @@
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Blinddarm-Entfernung (1979)</div>"
             },
-            "performedDateTime": "1979"
+            "performedDateTime": "1979",
+            "recorder": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "asserter": {
+              "reference": "urn:uuid:«uuid»"
+            }
           }
         },
         {
@@ -465,7 +501,13 @@
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Hüft-TEP rechts (2019)</div>"
             },
-            "performedDateTime": "2019"
+            "performedDateTime": "2019",
+            "recorder": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "asserter": {
+              "reference": "urn:uuid:«uuid»"
+            }
           }
         },
         {
@@ -488,7 +530,13 @@
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Kaiserschnitt (1994)</div>"
             },
-            "performedDateTime": "1994"
+            "performedDateTime": "1994",
+            "recorder": {
+              "reference": "urn:uuid:«uuid»"
+            },
+            "asserter": {
+              "reference": "urn:uuid:«uuid»"
+            }
           }
         },
         {
@@ -539,6 +587,9 @@
             "text": {
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">Hüft-TEP rechts (Stryker), seit 2019</div>"
+            },
+            "source": {
+              "reference": "urn:uuid:«uuid»"
             }
           }
         },
@@ -1266,11 +1317,99 @@
             "target": [
               {
                 "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
+              },
+              {
+                "reference": "urn:uuid:«uuid»"
               }
             ],
             "recorded": "2026-01-15T09:00:00.000Z",
+            "activity": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                  "code": "CREATE"
+                }
+              ]
+            },
             "agent": [
               {
+                "type": {
+                  "coding": [
+                    {
+                      "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                      "code": "author"
+                    }
+                  ]
+                },
                 "who": {
                   "reference": "urn:uuid:«uuid»"
                 }
@@ -1640,11 +1779,11 @@
                 },
                 {
                   "label": "Ausweisdokumente",
-                  "wert": "DE · T11XXXXX3 · Ausgestellt am: 01.06.2011 · Gültig bis: 01.06.2021; DE · T22XXXXX9 · Ausgestellt am: 01.06.2021 · Gültig bis: 01.06.2031"
+                  "wert": "Land / System: DE · Ausweisnummer: T11XXXXX3 · Ausgestellt am: 01.06.2011 · Gültig bis: 01.06.2021; Land / System: DE · Ausweisnummer: T22XXXXX9 · Ausgestellt am: 01.06.2021 · Gültig bis: 01.06.2031"
                 },
                 {
                   "label": "Aufenthaltstitel",
-                  "wert": "DE · AT-XXXXXX1 · Ausgestellt am: 01.01.2015 · Gültig bis: 01.01.2020; DE · AT-XXXXXX2 · Ausgestellt am: 01.01.2020 · Gültig bis: 01.01.2025"
+                  "wert": "Land / System: DE · Nummer: AT-XXXXXX1 · Ausgestellt am: 01.01.2015 · Gültig bis: 01.01.2020; Land / System: DE · Nummer: AT-XXXXXX2 · Ausgestellt am: 01.01.2020 · Gültig bis: 01.01.2025"
                 },
                 {
                   "label": "Weitere Angaben",
@@ -1661,7 +1800,7 @@
               "zeilen": [
                 {
                   "label": "Frühere Namen",
-                  "wert": "Elisabeth Immergrün · geführt bis: 14.06.1985 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · geführt bis: 01.02.2003 · Scheidung oder Rückkehr zum Geburtsnamen"
+                  "wert": "Name: Elisabeth Immergrün · geführt bis: 14.06.1985 · Anlass: Heirat · Nachweis — Ablageort: Heiratsurkunde, Ordner „Familie\"; Name: Elisabeth Wredenhagen · geführt bis: 01.02.2003 · Anlass: Scheidung oder Rückkehr zum Geburtsnamen"
                 }
               ]
             },
@@ -1670,7 +1809,7 @@
               "zeilen": [
                 {
                   "label": "Tiere",
-                  "wert": "Felix, Europäisch Kurzhaar · Brunhilde Waltraud Immergrün · Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Bruno"
+                  "wert": "Tier — Name & Art: Felix, Europäisch Kurzhaar · Betreuung im Notfall — Person & Kontakt: Brunhilde Waltraud Immergrün · Futter / Besonderheiten / Medikamente: Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · Weitere Hinweise: sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Tier — Name & Art: Bruno"
                 }
               ]
             },
@@ -1699,7 +1838,7 @@
               "zeilen": [
                 {
                   "label": "Kinder und Schutzbefohlene",
-                  "wert": "Konstantin-Emanuel Wredenhagen-Sonnenschein · leibliches Kind · gemeinsame elterliche Sorge · In Ausbildung / Studium: ja · Ausbildung voraussichtlich bis: 31.07.2027 · Ordner „Familie\", Aktenschrank Wohnzimmer; Mia · leibliches Kind · aus zweiter Ehe des Vaters, lebt überwiegend bei mir · gemeinsame elterliche Sorge · Aufenthaltsbestimmungsrecht bei mir, im Übrigen gemeinsam mit dem Vater · Wechselmodell, ca. 60/40 zu meinen Gunsten · In Ausbildung / Studium: nein"
+                  "wert": "Person: Konstantin-Emanuel Wredenhagen-Sonnenschein · Art: leibliches Kind · Gesetzliche Vertretung (elterliche Sorge): gemeinsame elterliche Sorge · In Ausbildung / Studium: ja · Ausbildung voraussichtlich bis: 31.07.2027 · Geburtsurkunde — Ablageort: Ordner „Familie\", Aktenschrank Wohnzimmer; Person: Mia · Art: leibliches Kind · Art — Ergänzung: aus zweiter Ehe des Vaters, lebt überwiegend bei mir · Gesetzliche Vertretung (elterliche Sorge): gemeinsame elterliche Sorge · Sorgerecht — Ergänzung (Teilsorge u. Ä.): Aufenthaltsbestimmungsrecht bei mir, im Übrigen gemeinsam mit dem Vater · Betreuungsmodell: Wechselmodell, ca. 60/40 zu meinen Gunsten · In Ausbildung / Studium: nein"
                 }
               ]
             },
@@ -1708,7 +1847,7 @@
               "zeilen": [
                 {
                   "label": "Unterhaltsverpflichtungen und -ansprüche",
-                  "wert": "Mia · Kindesunterhalt · 480 EUR / Monat · ich zahle · gemäß Vereinbarung vom 03.05.2020, Düsseldorfer Tabelle Stufe 3; Trennungsunterhalt"
+                  "wert": "Person: Mia · Art: Kindesunterhalt · Betrag: 480 EUR / Monat · Richtung: ich zahle · Anmerkung: gemäß Vereinbarung vom 03.05.2020, Düsseldorfer Tabelle Stufe 3; Art: Trennungsunterhalt"
                 }
               ]
             },
@@ -1746,7 +1885,7 @@
               "zeilen": [
                 {
                   "label": "Fahrzeuge",
-                  "wert": "VW Golf 8 Variant, 1.5 TSI, Kennzeichen M-EW 4521 · Handschuhfach; Fahrrad, Pedelec Kalkhoff Endeavour; Vespa Primavera 125, Kennzeichen M-EW 88 · Aktenordner „Fahrzeuge\" · Sparkassen-Leasing, Vertrag endet 2028"
+                  "wert": "Marke / Modell / Kennzeichen: VW Golf 8 Variant, 1.5 TSI, Kennzeichen M-EW 4521 · Fahrzeugausweis — Ablageort: Handschuhfach; Marke / Modell / Kennzeichen: Fahrrad, Pedelec Kalkhoff Endeavour; Marke / Modell / Kennzeichen: Vespa Primavera 125, Kennzeichen M-EW 88 · Fahrzeugausweis — Ablageort: Aktenordner „Fahrzeuge\" · Leasingvertrag — Ablageort: Sparkassen-Leasing, Vertrag endet 2028"
                 },
                 {
                   "label": "KFZ-Versicherung",
@@ -1786,7 +1925,7 @@
                 },
                 {
                   "label": "ELEFAND-Registrierungen",
-                  "wert": "ELE-2025-58204 · Thailand · Gültig bis: 31.12.2026; ELE-2023-11029 · Marokko · Gültig bis: 15.01.2024"
+                  "wert": "Registrierungsnr.: ELE-2025-58204 · Länder: Thailand · Gültig bis: 31.12.2026; Registrierungsnr.: ELE-2023-11029 · Länder: Marokko · Gültig bis: 15.01.2024"
                 },
                 {
                   "label": "Botschaftskontakt",
@@ -1806,7 +1945,7 @@
               "zeilen": [
                 {
                   "label": "Steuer-IDs / Steuernummern",
-                  "wert": "12 345 678 901; 98 765 432 100"
+                  "wert": "Steuer-ID / Steuernummer: 12 345 678 901; Steuer-ID / Steuernummer: 98 765 432 100"
                 },
                 {
                   "label": "Betriebliche Altersvorsorge (bAV) — Anbieter",
@@ -1838,11 +1977,11 @@
                 },
                 {
                   "label": "Private Sachversicherungen",
-                  "wert": "Rechtsschutzversicherung · Beispiel-Versicherung; Hausratversicherung · Beispiel-Versicherung"
+                  "wert": "Art der Versicherung: Rechtsschutzversicherung · Versicherer: Beispiel-Versicherung; Art der Versicherung: Hausratversicherung · Versicherer: Beispiel-Versicherung"
                 },
                 {
                   "label": "Konten",
-                  "wert": "Kreissparkasse Oberbayern-Nord eG · Girokonto · DE89 3704 0044 0532 0130 00 · Maximiliane Alexandra Wredenhagen-Sonnenschein · Ordner „Vorsorge\" · Hauptkonto, monatliche Abbuchungen; Deutsche Bank Privat- und Geschäftskunden AG · Tagesgeldkonto · DE12 1203 0000 0000 2020 51 · Konstantin-Emanuel Wredenhagen-Sonnenschein · Ordner „Vorsorge\"; DKB · Wertpapierdepot · DE45 1203 0000 0009 8765 43"
+                  "wert": "Bank / Institut: Kreissparkasse Oberbayern-Nord eG · Art des Kontos: Girokonto · IBAN: DE89 3704 0044 0532 0130 00 · Bankvollmacht(en) (aus Vorsorge): Maximiliane Alexandra Wredenhagen-Sonnenschein · Ordner „Vorsorge\" · Notiz: Hauptkonto, monatliche Abbuchungen; Bank / Institut: Deutsche Bank Privat- und Geschäftskunden AG · Art des Kontos: Tagesgeldkonto · IBAN: DE12 1203 0000 0000 2020 51 · Bankvollmacht(en) (aus Vorsorge): Konstantin-Emanuel Wredenhagen-Sonnenschein · Ordner „Vorsorge\"; Bank / Institut: DKB · Art des Kontos: Wertpapierdepot · IBAN: DE45 1203 0000 0009 8765 43"
                 },
                 {
                   "label": "Steuerberater",
@@ -1882,7 +2021,7 @@
                 },
                 {
                   "label": "Kreditkarten",
-                  "wert": "Visa · …4521 · Gültig bis: 01.06.2028; Mastercard Gold · …7788 · Gültig bis: 01.11.2027"
+                  "wert": "Anbieter · letzte 4 Ziffern: Visa · …4521 · Gültig bis: 01.06.2028; Anbieter · letzte 4 Ziffern: Mastercard Gold · …7788 · Gültig bis: 01.11.2027"
                 },
                 {
                   "label": "Offene Forderungen & Bürgschaften",
@@ -1890,7 +2029,7 @@
                 },
                 {
                   "label": "Vermögenswerte für den Nachlass",
-                  "wert": "Eigentumswohnung · München-Schwabing; Wertpapierdepot · DKB; Lebensversicherung · Allianz; Bausparvertrag · Schwäbisch Hall"
+                  "wert": "Vermögenswert: Eigentumswohnung · Wo / bei wem: München-Schwabing; Vermögenswert: Wertpapierdepot · Wo / bei wem: DKB; Vermögenswert: Lebensversicherung · Wo / bei wem: Allianz; Vermögenswert: Bausparvertrag · Wo / bei wem: Schwäbisch Hall"
                 }
               ]
             }
@@ -1958,7 +2097,7 @@
                 },
                 {
                   "label": "Fachärztinnen und Fachärzte",
-                  "wert": "Dr. med. Prof. Cordelia Habichtsberg-von der Marwitz · Kardiologie; Dr. Tom Nguyen · Neurologie"
+                  "wert": "Fachärztin / Facharzt: Dr. med. Prof. Cordelia Habichtsberg-von der Marwitz · Fachgebiet: Kardiologie; Fachärztin / Facharzt: Dr. Tom Nguyen · Fachgebiet: Neurologie"
                 },
                 {
                   "label": "Laufende Behandlung / nächste Termine",
@@ -2018,7 +2157,7 @@
                 },
                 {
                   "label": "Krankenkassenkarten",
-                  "wert": "Geldbeutel · Gültig bis (inkl. EHIC): 01.03.2030; Geldbeutel, altes Fach · Gültig bis (inkl. EHIC): 01.01.2025"
+                  "wert": "Ablageort: Geldbeutel · Gültig bis (inkl. EHIC): 01.03.2030; Ablageort: Geldbeutel, altes Fach · Gültig bis (inkl. EHIC): 01.01.2025"
                 },
                 {
                   "label": "Notfallkarte / Patientenausweis",
@@ -2058,11 +2197,11 @@
                 },
                 {
                   "label": "Operationen / Eingriffe",
-                  "wert": "Blinddarm-Entfernung · 1979; Hüft-TEP rechts · 2019; Kaiserschnitt · 1994"
+                  "wert": "Eingriff: Blinddarm-Entfernung · Jahr: 1979; Eingriff: Hüft-TEP rechts · Jahr: 2019; Eingriff: Kaiserschnitt · Jahr: 1994"
                 },
                 {
                   "label": "Familienanamnese",
-                  "wert": "Vater · Herzinfarkt (verstorben) · 61; Mutter · Diabetes Typ 2 · 70; Schwester · Brustkrebs (behandelt, in Remission)"
+                  "wert": "Angehörige / Angehöriger: Vater · Erkrankung: Herzinfarkt (verstorben) · Alter bei Erkrankung: 61; Angehörige / Angehöriger: Mutter · Erkrankung: Diabetes Typ 2 · Alter bei Erkrankung: 70; Angehörige / Angehöriger: Schwester · Erkrankung: Brustkrebs (behandelt, in Remission)"
                 }
               ]
             }
@@ -2194,7 +2333,7 @@
               "zeilen": [
                 {
                   "label": "Rentenversicherungsnummern",
-                  "wert": "65 120358 A 456; 65 120358 A 456-2"
+                  "wert": "Rentenversicherungsnummer: 65 120358 A 456; Rentenversicherungsnummer: 65 120358 A 456-2"
                 },
                 {
                   "label": "Pflegekasse",
@@ -2202,7 +2341,7 @@
                 },
                 {
                   "label": "Pflegekasse-Nummern",
-                  "wert": "PK-XXXXXXX; PK-YYYYYYY (Vorgängernummer)"
+                  "wert": "Pflegekasse-Nummer: PK-XXXXXXX; Pflegekasse-Nummer: PK-YYYYYYY (Vorgängernummer)"
                 },
                 {
                   "label": "Pflegekasse — Telefon",
@@ -2239,7 +2378,7 @@
                 },
                 {
                   "label": "Schwerbehindertenausweise",
-                  "wert": "Geldbeutel · Gültig bis: 31.12.2029; Geldbeutel, alter Ausweis · Gültig bis: 31.12.2024"
+                  "wert": "Ablageort: Geldbeutel · Gültig bis: 31.12.2029; Ablageort: Geldbeutel, alter Ausweis · Gültig bis: 31.12.2024"
                 },
                 {
                   "label": "Ambulanter Pflegedienst — Name & Kontakt",
@@ -2477,7 +2616,7 @@
               "zeilen": [
                 {
                   "label": "BundID",
-                  "wert": "elisabeth.wredenhagen-sonnenschein@beispielpost.example · Ordner „Digitale Zugänge\", Schreibtisch; elisabeth.immergruen@beispielpost.example · Ordner „Digitale Zugänge\" — altes Konto, vor der Namensänderung"
+                  "wert": "BundID — E-Mail-Adresse: elisabeth.wredenhagen-sonnenschein@beispielpost.example · BundID — Unterlagen (Ablageort): Ordner „Digitale Zugänge\", Schreibtisch; BundID — E-Mail-Adresse: elisabeth.immergruen@beispielpost.example · BundID — Unterlagen (Ablageort): Ordner „Digitale Zugänge\" — altes Konto, vor der Namensänderung"
                 },
                 {
                   "label": "BundID — Verifizierungsstufe",
@@ -2485,7 +2624,7 @@
                 },
                 {
                   "label": "Laufende Verwaltungsvorgänge",
-                  "wert": "Deutsche Rentenversicherung · Rentenantrag · RV-2026-00417 · Datum (Antrag/Beginn): 12.03.2026 · 1.240 EUR monatlich · Sachbearbeiterin Frau Meyer · Unterlagen eingereicht, Rückmeldung ausstehend; Stadt München, Bürgerbüro · Ummeldung · Datum (Antrag/Beginn): 01.06.2026 · Nach Umzug erledigt; Amtsgericht München · Beratungshilfe · BerH-2026-0912 · Datum (Antrag/Beginn): 20.08.2026 · Antrag vorbereitet, Unterlagen vollständig · Vermieter Herbert Osterwald · Rechtsanwältin Dr. Sommer, 03/2026"
+                  "wert": "Behörde: Deutsche Rentenversicherung · Art des Vorgangs: Rentenantrag · Aktenzeichen: RV-2026-00417 · Datum (Antrag/Beginn): 12.03.2026 · Betrag: 1.240 EUR monatlich · Referenz / Kontaktperson: Sachbearbeiterin Frau Meyer · Notiz: Unterlagen eingereicht, Rückmeldung ausstehend; Behörde: Stadt München, Bürgerbüro · Art des Vorgangs: Ummeldung · Datum (Antrag/Beginn): 01.06.2026 · Notiz: Nach Umzug erledigt; Behörde: Amtsgericht München · Art des Vorgangs: Beratungshilfe · Aktenzeichen: BerH-2026-0912 · Datum (Antrag/Beginn): 20.08.2026 · Notiz: Antrag vorbereitet, Unterlagen vollständig · Gegenseite: Vermieter Herbert Osterwald · Bereits beraten durch: Rechtsanwältin Dr. Sommer, 03/2026"
                 }
               ]
             },
@@ -2562,7 +2701,7 @@
                 },
                 {
                   "label": "Wohnungsschlüssel — wer hat einen?",
-                  "wert": "Ersatzschlüssel, Wohnungstür + Keller; Nachbarin im 2. Stock links, nur Wohnungstür"
+                  "wert": "Anmerkung: Ersatzschlüssel, Wohnungstür + Keller; Anmerkung: Nachbarin im 2. Stock links, nur Wohnungstür"
                 },
                 {
                   "label": "Krypto-Wallets — Übersicht",
@@ -2607,7 +2746,7 @@
               "zeilen": [
                 {
                   "label": "Weitere Wohnungen",
-                  "wert": "Seestraße 12 · 83209 Prien am Chiemsee · Eigentum · Ferienwohnung, Mai bis Oktober selbst genutzt, sonst über eine Agentur vermietet; Miete · Herbert Osterwald · 08051 998877 · verwaltung@chiemsee-immo.example · 620 EUR warm · 1.240 EUR (Sparkasse Rosenheim) · Mietvertrag — befristet bis (falls Zeitmietvertrag): 31.08.2027"
+                  "wert": "Straße & Hausnummer: Seestraße 12 · PLZ & Ort: 83209 Prien am Chiemsee · Eigentum oder Miete?: Eigentum · Besondere Wohnsituation: Ferienwohnung, Mai bis Oktober selbst genutzt, sonst über eine Agentur vermietet; Eigentum oder Miete?: Miete · Vermieter / Hausverwaltung: Herbert Osterwald · Vermieter — Telefon: 08051 998877 · Vermieter — E-Mail: verwaltung@chiemsee-immo.example · Monatliche Miete / HV-Kosten: 620 EUR warm · Mietkaution — Bank & Betrag: 1.240 EUR (Sparkasse Rosenheim) · Mietvertrag — befristet bis (falls Zeitmietvertrag): 31.08.2027"
                 }
               ]
             }
@@ -2779,7 +2918,7 @@
                 },
                 {
                   "label": "Wer ist auf mich angewiesen?",
-                  "wert": "Mutter Brunhilde (89) · lebt im Pflegeheim, ich zahle den Eigenanteil und besuche sie wöchentlich; Katze Felix · Nachbarin füttert bei kurzer Abwesenheit"
+                  "wert": "Wer ist auf Sie angewiesen?: Mutter Brunhilde (89) · Situation / was zu beachten ist: lebt im Pflegeheim, ich zahle den Eigenanteil und besuche sie wöchentlich; Wer ist auf Sie angewiesen?: Katze Felix · Situation / was zu beachten ist: Nachbarin füttert bei kurzer Abwesenheit"
                 },
                 {
                   "label": "Hinweise zu familiären Besonderheiten",
@@ -2819,7 +2958,7 @@
                 },
                 {
                   "label": "Persönliche Briefe / Worte an Personen",
-                  "wert": "meine Tochter Mia · Liebe Mia, du warst das größte Geschenk meines Lebens. Bleib neugierig und mutig …; Konstantin-Emanuel · Lieber Konstantin, ich bin stolz auf den Menschen, der du geworden bist."
+                  "wert": "An wen?: meine Tochter Mia · Brief / Worte: Liebe Mia, du warst das größte Geschenk meines Lebens. Bleib neugierig und mutig …; An wen?: Konstantin-Emanuel · Brief / Worte: Lieber Konstantin, ich bin stolz auf den Menschen, der du geworden bist."
                 },
                 {
                   "label": "Was ich noch sagen möchte — was noch wichtig ist",
@@ -2935,11 +3074,11 @@
                 },
                 {
                   "label": "Ausweisdokumente",
-                  "wert": "DE · T11XXXXX3 · Ausgestellt am: 01.06.2011 · Gültig bis: 01.06.2021; DE · T22XXXXX9 · Ausgestellt am: 01.06.2021 · Gültig bis: 01.06.2031"
+                  "wert": "Land / System: DE · Ausweisnummer: T11XXXXX3 · Ausgestellt am: 01.06.2011 · Gültig bis: 01.06.2021; Land / System: DE · Ausweisnummer: T22XXXXX9 · Ausgestellt am: 01.06.2021 · Gültig bis: 01.06.2031"
                 },
                 {
                   "label": "Aufenthaltstitel",
-                  "wert": "DE · AT-XXXXXX1 · Ausgestellt am: 01.01.2015 · Gültig bis: 01.01.2020; DE · AT-XXXXXX2 · Ausgestellt am: 01.01.2020 · Gültig bis: 01.01.2025"
+                  "wert": "Land / System: DE · Nummer: AT-XXXXXX1 · Ausgestellt am: 01.01.2015 · Gültig bis: 01.01.2020; Land / System: DE · Nummer: AT-XXXXXX2 · Ausgestellt am: 01.01.2020 · Gültig bis: 01.01.2025"
                 },
                 {
                   "label": "Weitere Angaben",
@@ -2956,7 +3095,7 @@
               "zeilen": [
                 {
                   "label": "Frühere Namen",
-                  "wert": "Elisabeth Immergrün · geführt bis: 14.06.1985 · Heirat · Heiratsurkunde, Ordner „Familie\"; Elisabeth Wredenhagen · geführt bis: 01.02.2003 · Scheidung oder Rückkehr zum Geburtsnamen"
+                  "wert": "Name: Elisabeth Immergrün · geführt bis: 14.06.1985 · Anlass: Heirat · Nachweis — Ablageort: Heiratsurkunde, Ordner „Familie\"; Name: Elisabeth Wredenhagen · geführt bis: 01.02.2003 · Anlass: Scheidung oder Rückkehr zum Geburtsnamen"
                 }
               ]
             },
@@ -2965,7 +3104,7 @@
               "zeilen": [
                 {
                   "label": "Tiere",
-                  "wert": "Felix, Europäisch Kurzhaar · Brunhilde Waltraud Immergrün · Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Bruno"
+                  "wert": "Tier — Name & Art: Felix, Europäisch Kurzhaar · Betreuung im Notfall — Person & Kontakt: Brunhilde Waltraud Immergrün · Futter / Besonderheiten / Medikamente: Trockenfutter, zweimal täglich; Tablette gegen Schilddrüsenüberfunktion morgens im Futter versteckt · Weitere Hinweise: sehr scheu bei fremden Geräuschen, versteckt sich dann unter dem Sofa im Wohnzimmer; Tier — Name & Art: Bruno"
                 }
               ]
             },
@@ -12697,7 +12836,9 @@
             "institutionsFeld/anmerkung.label": "Anmerkung",
             "institutionsFeld/anmerkung.beispiel": "nur nachmittags erreichbar",
             "menschenRegister.label": "Menschen, die mir wichtig sind",
-            "menschenRegister/name.label": "Name",
+            "menschenRegister/name.label": "Name im Depot",
+            "menschenRegister/name.hint": "So erscheint die Person überall im Depot. Familienname und Vornamen darunter brauchen Formulare und Ämter.",
+            "menschenRegister/name.ausgabeLabel": "Name",
             "menschenRegister/name.beispiel": "Anna Schmidt",
             "menschenRegister/familyName.label": "Familienname",
             "menschenRegister/familyName.beispiel": "Schmidt",
@@ -13119,8 +13260,8 @@
             "strings:fussKontakt.text": "info@vivodepot.de",
             "strings:fussQuellcode.text": "Quellcode auf GitHub",
             "strings:fussHaftung.text": "Werkzeug, kein Berater · keine Rechts-, Finanz-, Steuer- oder medizinische Beratung · alle Dokumente sind Entwürfe",
-            "strings:fussHashLabel.text": "SHA-256:",
-            "strings:fussHashPlatzhalter.text": "wird beim Release gesetzt",
+            "strings:fussHashLabel.text": "Prüfsumme (SHA-256):",
+            "strings:fussPruefsummeOrt.text": "veröffentlicht je ausgelieferter Fassung in SECURITY.md, Abschnitt „Fingerabdruck je Fassung“ (Quellcode auf GitHub)",
             "strings:fussVersionLabel.text": "Version",
             "strings:fussStandLabel.text": "Stand",
             "strings:fussAktualisierungenLabel.text": "Aktualisierungen",
@@ -13197,8 +13338,8 @@
             "strings:idVornamePflicht.text": "Vorname erforderlich.",
             "strings:idNachnamePflicht.text": "Nachname erforderlich.",
             "strings:optionalKlammer.text": "(optional)",
-            "strings:pwMin8Hinweis.text": "mindestens 8 Zeichen",
-            "strings:pwMin8Fehler.text": "Das Passwort muss mindestens 8 Zeichen haben.",
+            "strings:pwMinHinweis.text": "mindestens 12 Zeichen",
+            "strings:pwMinFehler.text": "Das Passwort muss mindestens 12 Zeichen haben.",
             "strings:pwStaerkeLabel.text": "Passwort-Stärke:",
             "strings:pwStaerkeSchwach.text": "schwach",
             "strings:pwStaerkeMittel.text": "mittel",
@@ -13490,6 +13631,8 @@
             "strings:kreisePw2Label.text": "Passwort wiederholen",
             "strings:kreisePwPlaceholder.text": "Mindestens 8 Zeichen",
             "strings:kreiseFehlerPwKurz.text": "Das Passwort braucht mindestens 8 Zeichen.",
+            "strings:kreiseFachPwPlaceholder.text": "Mindestens 12 Zeichen",
+            "strings:kreiseFachFehlerPwKurz.text": "Das Passwort braucht mindestens 12 Zeichen.",
             "strings:kreiseFehlerPwUngleich.text": "Die beiden Eingaben sind nicht gleich.",
             "strings:kreiseDateiErzeugenKnopf.text": "Datei erzeugen",
             "strings:kreiseDateiFertigToast.text": "Datei erzeugt.",
@@ -13515,7 +13658,7 @@
             "strings:kreiseFachKnopf.text": "Fach in meiner Datei einrichten",
             "strings:kreiseFachEntfernenKnopf.text": "Fach entfernen",
             "strings:kreiseFachTitel.text": "Fach in Ihrer Datei einrichten",
-            "strings:kreiseFachText.text": "Diese Person kann dann Ihre eigene {marke}-Datei öffnen — und sieht darin genau das, was Sie angekreuzt haben. Vergeben Sie ein Passwort für sie, mindestens 8 Zeichen. Wirksam wird es, sobald Sie das nächste Mal speichern.",
+            "strings:kreiseFachText.text": "Diese Person kann dann Ihre eigene {marke}-Datei öffnen — und sieht darin genau das, was Sie angekreuzt haben. Vergeben Sie ein Passwort für sie, mindestens 12 Zeichen. Wirksam wird es, sobald Sie das nächste Mal speichern.",
             "strings:kreiseFachAktiv.text": "Fach in Ihrer Datei: eingerichtet.",
             "strings:kreiseFachInaktiv.text": "Kein Fach in Ihrer Datei.",
             "strings:kreiseFachVerwaist.text": "Das Fach stammt aus einer anderen Datei und lässt sich hier nicht öffnen. Richten Sie es neu ein.",
@@ -13877,6 +14020,14 @@
             "strings:subBezeichnungLabel.text": "Bezeichnung dieses Depots",
             "strings:subInhaberinLabel.text": "Inhaberin / Inhaber",
             "strings:subFarbeLabel.text": "Akzentfarbe (eingehängtes Depot)",
+            "strings:subFarbeNameTon.text": "Ton",
+            "strings:subFarbeNameAltrose.text": "Altrose",
+            "strings:subFarbeNameNebel.text": "Nebel",
+            "strings:subFarbeNameKiesel.text": "Kiesel",
+            "strings:subFarbeNameMalve.text": "Malve",
+            "strings:subFarbeNamePfirsich.text": "Pfirsich",
+            "strings:subFarbeNameHellblau.text": "Hellblau",
+            "strings:subFarbeNameRose.text": "Rosé",
             "strings:subPwLabel.text": "Eigenes Passwort für dieses Depot",
             "strings:subPwHinweis.text": "Dieses Passwort gehört der Inhaberin dieses Depots und schützt den Inhalt unabhängig von Ihrem Passwort als verwaltende Person. Niemand kann es zurücksetzen — wir eingeschlossen. Vergessen Sie es, bleibt dieses Depot dauerhaft verschlossen. Bewahren Sie es sicher auf.",
             "strings:subVorschauErklaer.text": "Legen Sie zuerst Ihr eigenes {marke} mit Passwort an, bevor Sie für andere Personen verwalten.",
@@ -13905,6 +14056,7 @@
             "strings:subGeoeffnet.text": "Depot für diese Sitzung entsiegelt.",
             "strings:subVersiegelt.text": "Depot wieder versiegelt.",
             "strings:subFalsch.text": "Das Passwort stimmt nicht — das Depot bleibt versiegelt.",
+            "strings:subVorStufe67.text": "Dieses Sub-Depot stammt aus einer älteren Testfassung und lässt sich in dieser Fassung nicht öffnen. Es bleibt unverändert gespeichert.",
             "strings:subSelbstFachAusschnitt.text": "Mit diesem Passwort öffnet sich nur ein Fach, nicht das ganze Depot. Das Passwort des Depots ändert nur die Person, der es gehört.",
             "strings:subAngelegt.text": "Depot angelegt und versiegelt.",
             "strings:verwaltungsTypEigen.text": "Eigenes Depot",
@@ -14474,7 +14626,10 @@
             "strings:shlUrlHinweis.text": "Diese Adresse bekommen Sie von share.vivodepot.de nach dem Hochladen — kopieren Sie sie von dort hierher, höchstens 128 Zeichen.",
             "strings:shlBauenKnopf.text": "Freigabe-Link erzeugen",
             "strings:shlErgebnisLabel.text": "Freigabe-Link — an den Empfänger geben:",
-            "strings:shlUrlFehler.text": "Die Adresse fehlt oder ist länger als 128 Zeichen. Bitte eine kürzere https-Adresse verwenden.",
+            "strings:shlUrlFehler.text": "Die Adresse muss mit https:// beginnen, darf weder Zugangsdaten noch Leer- oder Steuerzeichen enthalten und höchstens 128 Zeichen lang sein.",
+            "strings:shlHostBestaetigen.text": "Die Datei liegt bei: {host}. Ist das die Ablage, auf die Sie die Datei hochgeladen haben?",
+            "strings:shlHostFremd.text": "Das ist nicht die voreingestellte Ablage. Erzeugen Sie den Link nur, wenn Sie die Datei selbst dort abgelegt haben.",
+            "strings:shlHostKnopf.text": "Ja, Freigabe-Link erzeugen",
             "strings:shlGueltigBis.text": "Gültig bis {datum}. Datei und Link getrennt weitergeben — die Datei ist nur verschlüsselter Text, der Schlüssel steckt im Link.",
             "strings:importIdentitaetLabel.text": "Identitäts-Angaben einlesen",
             "strings:importFinanzenLabel.text": "Finanz-Angaben einlesen",
@@ -21074,6 +21229,40 @@
             "moduleVersion": 1,
             "sprache": "de",
             "anbieterId": "vivodepot",
+            "name": {
+              "de": "Deutschland",
+              "en": "Germany"
+            },
+            "rechtsformen": [
+              {
+                "kennung": "e.V.",
+                "labelEn": "Registered association (e.V.)",
+                "art": "verein"
+              },
+              {
+                "kennung": "GmbH",
+                "labelEn": "GmbH (limited company)",
+                "art": "unternehmen"
+              },
+              {
+                "kennung": "AG",
+                "labelEn": "AG (public limited company)",
+                "art": "unternehmen"
+              },
+              {
+                "kennung": "Anstalt öffentlichen Rechts",
+                "labelEn": "Public-law institution"
+              },
+              {
+                "kennung": "Behörde",
+                "labelEn": "Public authority",
+                "art": "behoerde"
+              },
+              {
+                "kennung": "sonstige Körperschaft",
+                "labelEn": "Other corporate body"
+              }
+            ],
             "typen": {
               "enduring-power-of-attorney": {
                 "katalogVersion": 1,
@@ -30736,7 +30925,9 @@
             "institutionsFeld/anmerkung.label": "Anmerkung",
             "institutionsFeld/anmerkung.beispiel": "nur nachmittags erreichbar",
             "menschenRegister.label": "Menschen, die mir wichtig sind",
-            "menschenRegister/name.label": "Name",
+            "menschenRegister/name.label": "Name im Depot",
+            "menschenRegister/name.hint": "So erscheint die Person überall im Depot. Familienname und Vornamen darunter brauchen Formulare und Ämter.",
+            "menschenRegister/name.ausgabeLabel": "Name",
             "menschenRegister/name.beispiel": "Anna Schmidt",
             "menschenRegister/familyName.label": "Familienname",
             "menschenRegister/familyName.beispiel": "Schmidt",
@@ -31158,8 +31349,8 @@
             "strings:fussKontakt.text": "info@vivodepot.de",
             "strings:fussQuellcode.text": "Quellcode auf GitHub",
             "strings:fussHaftung.text": "Werkzeug, kein Berater · keine Rechts-, Finanz-, Steuer- oder medizinische Beratung · alle Dokumente sind Entwürfe",
-            "strings:fussHashLabel.text": "SHA-256:",
-            "strings:fussHashPlatzhalter.text": "wird beim Release gesetzt",
+            "strings:fussHashLabel.text": "Prüfsumme (SHA-256):",
+            "strings:fussPruefsummeOrt.text": "veröffentlicht je ausgelieferter Fassung in SECURITY.md, Abschnitt „Fingerabdruck je Fassung“ (Quellcode auf GitHub)",
             "strings:fussVersionLabel.text": "Version",
             "strings:fussStandLabel.text": "Stand",
             "strings:fussAktualisierungenLabel.text": "Aktualisierungen",
@@ -31236,8 +31427,8 @@
             "strings:idVornamePflicht.text": "Vorname erforderlich.",
             "strings:idNachnamePflicht.text": "Nachname erforderlich.",
             "strings:optionalKlammer.text": "(optional)",
-            "strings:pwMin8Hinweis.text": "mindestens 8 Zeichen",
-            "strings:pwMin8Fehler.text": "Das Passwort muss mindestens 8 Zeichen haben.",
+            "strings:pwMinHinweis.text": "mindestens 12 Zeichen",
+            "strings:pwMinFehler.text": "Das Passwort muss mindestens 12 Zeichen haben.",
             "strings:pwStaerkeLabel.text": "Passwort-Stärke:",
             "strings:pwStaerkeSchwach.text": "schwach",
             "strings:pwStaerkeMittel.text": "mittel",
@@ -31529,6 +31720,8 @@
             "strings:kreisePw2Label.text": "Passwort wiederholen",
             "strings:kreisePwPlaceholder.text": "Mindestens 8 Zeichen",
             "strings:kreiseFehlerPwKurz.text": "Das Passwort braucht mindestens 8 Zeichen.",
+            "strings:kreiseFachPwPlaceholder.text": "Mindestens 12 Zeichen",
+            "strings:kreiseFachFehlerPwKurz.text": "Das Passwort braucht mindestens 12 Zeichen.",
             "strings:kreiseFehlerPwUngleich.text": "Die beiden Eingaben sind nicht gleich.",
             "strings:kreiseDateiErzeugenKnopf.text": "Datei erzeugen",
             "strings:kreiseDateiFertigToast.text": "Datei erzeugt.",
@@ -31554,7 +31747,7 @@
             "strings:kreiseFachKnopf.text": "Fach in meiner Datei einrichten",
             "strings:kreiseFachEntfernenKnopf.text": "Fach entfernen",
             "strings:kreiseFachTitel.text": "Fach in Ihrer Datei einrichten",
-            "strings:kreiseFachText.text": "Diese Person kann dann Ihre eigene {marke}-Datei öffnen — und sieht darin genau das, was Sie angekreuzt haben. Vergeben Sie ein Passwort für sie, mindestens 8 Zeichen. Wirksam wird es, sobald Sie das nächste Mal speichern.",
+            "strings:kreiseFachText.text": "Diese Person kann dann Ihre eigene {marke}-Datei öffnen — und sieht darin genau das, was Sie angekreuzt haben. Vergeben Sie ein Passwort für sie, mindestens 12 Zeichen. Wirksam wird es, sobald Sie das nächste Mal speichern.",
             "strings:kreiseFachAktiv.text": "Fach in Ihrer Datei: eingerichtet.",
             "strings:kreiseFachInaktiv.text": "Kein Fach in Ihrer Datei.",
             "strings:kreiseFachVerwaist.text": "Das Fach stammt aus einer anderen Datei und lässt sich hier nicht öffnen. Richten Sie es neu ein.",
@@ -31916,6 +32109,14 @@
             "strings:subBezeichnungLabel.text": "Bezeichnung dieses Depots",
             "strings:subInhaberinLabel.text": "Inhaberin / Inhaber",
             "strings:subFarbeLabel.text": "Akzentfarbe (eingehängtes Depot)",
+            "strings:subFarbeNameTon.text": "Ton",
+            "strings:subFarbeNameAltrose.text": "Altrose",
+            "strings:subFarbeNameNebel.text": "Nebel",
+            "strings:subFarbeNameKiesel.text": "Kiesel",
+            "strings:subFarbeNameMalve.text": "Malve",
+            "strings:subFarbeNamePfirsich.text": "Pfirsich",
+            "strings:subFarbeNameHellblau.text": "Hellblau",
+            "strings:subFarbeNameRose.text": "Rosé",
             "strings:subPwLabel.text": "Eigenes Passwort für dieses Depot",
             "strings:subPwHinweis.text": "Dieses Passwort gehört der Inhaberin dieses Depots und schützt den Inhalt unabhängig von Ihrem Passwort als verwaltende Person. Niemand kann es zurücksetzen — wir eingeschlossen. Vergessen Sie es, bleibt dieses Depot dauerhaft verschlossen. Bewahren Sie es sicher auf.",
             "strings:subVorschauErklaer.text": "Legen Sie zuerst Ihr eigenes {marke} mit Passwort an, bevor Sie für andere Personen verwalten.",
@@ -31944,6 +32145,7 @@
             "strings:subGeoeffnet.text": "Depot für diese Sitzung entsiegelt.",
             "strings:subVersiegelt.text": "Depot wieder versiegelt.",
             "strings:subFalsch.text": "Das Passwort stimmt nicht — das Depot bleibt versiegelt.",
+            "strings:subVorStufe67.text": "Dieses Sub-Depot stammt aus einer älteren Testfassung und lässt sich in dieser Fassung nicht öffnen. Es bleibt unverändert gespeichert.",
             "strings:subSelbstFachAusschnitt.text": "Mit diesem Passwort öffnet sich nur ein Fach, nicht das ganze Depot. Das Passwort des Depots ändert nur die Person, der es gehört.",
             "strings:subAngelegt.text": "Depot angelegt und versiegelt.",
             "strings:verwaltungsTypEigen.text": "Eigenes Depot",
@@ -32513,7 +32715,10 @@
             "strings:shlUrlHinweis.text": "Diese Adresse bekommen Sie von share.vivodepot.de nach dem Hochladen — kopieren Sie sie von dort hierher, höchstens 128 Zeichen.",
             "strings:shlBauenKnopf.text": "Freigabe-Link erzeugen",
             "strings:shlErgebnisLabel.text": "Freigabe-Link — an den Empfänger geben:",
-            "strings:shlUrlFehler.text": "Die Adresse fehlt oder ist länger als 128 Zeichen. Bitte eine kürzere https-Adresse verwenden.",
+            "strings:shlUrlFehler.text": "Die Adresse muss mit https:// beginnen, darf weder Zugangsdaten noch Leer- oder Steuerzeichen enthalten und höchstens 128 Zeichen lang sein.",
+            "strings:shlHostBestaetigen.text": "Die Datei liegt bei: {host}. Ist das die Ablage, auf die Sie die Datei hochgeladen haben?",
+            "strings:shlHostFremd.text": "Das ist nicht die voreingestellte Ablage. Erzeugen Sie den Link nur, wenn Sie die Datei selbst dort abgelegt haben.",
+            "strings:shlHostKnopf.text": "Ja, Freigabe-Link erzeugen",
             "strings:shlGueltigBis.text": "Gültig bis {datum}. Datei und Link getrennt weitergeben — die Datei ist nur verschlüsselter Text, der Schlüssel steckt im Link.",
             "strings:importIdentitaetLabel.text": "Identitäts-Angaben einlesen",
             "strings:importFinanzenLabel.text": "Finanz-Angaben einlesen",
@@ -39113,6 +39318,40 @@
             "moduleVersion": 1,
             "sprache": "de",
             "anbieterId": "vivodepot",
+            "name": {
+              "de": "Deutschland",
+              "en": "Germany"
+            },
+            "rechtsformen": [
+              {
+                "kennung": "e.V.",
+                "labelEn": "Registered association (e.V.)",
+                "art": "verein"
+              },
+              {
+                "kennung": "GmbH",
+                "labelEn": "GmbH (limited company)",
+                "art": "unternehmen"
+              },
+              {
+                "kennung": "AG",
+                "labelEn": "AG (public limited company)",
+                "art": "unternehmen"
+              },
+              {
+                "kennung": "Anstalt öffentlichen Rechts",
+                "labelEn": "Public-law institution"
+              },
+              {
+                "kennung": "Behörde",
+                "labelEn": "Public authority",
+                "art": "behoerde"
+              },
+              {
+                "kennung": "sonstige Körperschaft",
+                "labelEn": "Other corporate body"
+              }
+            ],
             "typen": {
               "enduring-power-of-attorney": {
                 "katalogVersion": 1,

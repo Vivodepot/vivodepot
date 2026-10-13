@@ -24,8 +24,9 @@ const { execFileSync } = require('node:child_process');
 const REPO = path.join(__dirname, '..');
 const WERKZEUG = path.join(REPO, 'tools', 'build-code-listen.js');
 const KERN = path.join(REPO, 'vivodepot.html');
-const BEGIN = '<!-- CODE-LISTEN:BEGIN — generierter Bereich (tools/build-code-listen.js); Quellen: code-listen/<systemId>.json -->';
-const ENDE = '<!-- CODE-LISTEN:END -->';
+// Seit U2-ADR-494 (09.10.2026) JS-Kommentarmarken innerhalb des Kern-Verschlusses (Script 2), nicht mehr HTML-Kommentare am Dateiende.
+const BEGIN = '/* CODE-LISTEN:BEGIN — generierter Bereich (tools/build-code-listen.js); Quellen: code-listen/<systemId>.json */';
+const ENDE = '/* CODE-LISTEN:END */';
 
 test('[build-code-listen·Drift-Wächter] die inline @vd-codeliste-Blöcke in vivodepot.html sind aktuell — kein Drift zum Erzeuger', () => {
   assert.doesNotThrow(() => execFileSync(process.execPath, [WERKZEUG, '--check'], { stdio: 'pipe' }),
@@ -39,7 +40,7 @@ test('[build-code-listen·Rot-Beweis] eine verfälschte Region in einer Kopie l�
   const original = fs.readFileSync(KERN, 'utf8');
   const a = original.indexOf(BEGIN), b = original.indexOf(ENDE);
   assert.ok(a >= 0 && b >= 0, 'ANKER VERFEHLT: CODE-LISTEN-Marker stehen nicht mehr so in vivodepot.html');
-  const verfaelscht = original.slice(0, a + BEGIN.length) + '\n<script>/* leer */</script>\n' + original.slice(b);
+  const verfaelscht = original.slice(0, a + BEGIN.length) + '\n/* leer */\n' + original.slice(b);
   const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'build-code-listen-rot-')), 'kern-kopie.html');
   fs.writeFileSync(tmp, verfaelscht, 'utf8');
   try {

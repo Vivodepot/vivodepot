@@ -3,7 +3,8 @@
    liegen lassen, die Platte war fast voll. Zusicherungen gegen die Klasse (tools/lib/temp-aufraeumen.js):
    (1) im Testprozess räumt der Preload jedes mkdtemp beim Prozessende — sync, callback, promise und ESM;
    (2) die Wache gibt dem Lauf ein eigenes TMPDIR; was darin liegen bleibt, ist rot, und es wird geräumt;
-   (3) im gemeinsamen tmpdir räumt sie nur verwaiste vd-lauf-*-Verzeichnisse — nie etwas anderes.
+   (3) im gemeinsamen tmpdir räumt sie nur verwaiste vd-lauf-*-Verzeichnisse — nie etwas anderes; verwaist heißt seit
+       10.10.2026 (TEMP-RESTE-WIEDER): Besitzer-Datei da, ihr Prozess nachweislich fort (ESRCH) — nie nach Alter oder Namen.
    Jede Probe hier arbeitet in einem eigenen Verzeichnis, das sie selbst anlegt und räumt. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -106,17 +107,69 @@ test('[Temp·Wache] der Lauf sieht sein eigenes TMPDIR', () => {
   } finally { fs.rmSync(basis, { recursive: true, force: true }); fs.rmSync(merk, { force: true }); }
 });
 
+/* Ein Laufverzeichnis mit Besitzer-Datei, wie T.laufVerzeichnis es anlegt — für eine fremde PID von Hand gebaut. */
+function laufMitBesitzer(basis, name, pid) {
+  const dir = path.join(basis, name);
+  fs.mkdirSync(dir);
+  if (pid !== undefined) fs.writeFileSync(path.join(dir, T.BESITZER_DATEI), String(pid) + '\n');
+  return dir;
+}
+
 test('[Temp·Räumen] nur verwaiste vd-lauf-*-Verzeichnisse — ein lebender Lauf und jeder fremde Name bleiben', () => {
   const basis = eigenes();
   try {
     const totePid = spawnSync(process.execPath, ['-e', '0']).pid;
-    fs.mkdirSync(path.join(basis, T.LAUF_PRAEFIX + totePid + '-abc'));
-    fs.mkdirSync(path.join(basis, T.LAUF_PRAEFIX + process.pid + '-lebt'));
+    laufMitBesitzer(basis, T.LAUF_PRAEFIX + totePid + '-abc', totePid);
+    laufMitBesitzer(basis, T.LAUF_PRAEFIX + process.pid + '-lebt', process.pid);
     fs.mkdirSync(path.join(basis, 'kvf-alt-und-fremd'));
     const alt = new Date(Date.now() - 24 * 3600 * 1000);
     fs.utimesSync(path.join(basis, 'kvf-alt-und-fremd'), alt, alt);
     assert.deepEqual(T.verwaisteLaeufeRaeumen({ basis }), [T.LAUF_PRAEFIX + totePid + '-abc']);
     assert.deepEqual(fs.readdirSync(basis).sort(), ['kvf-alt-und-fremd', T.LAUF_PRAEFIX + process.pid + '-lebt'].sort(),
       'ein Muster-Räumen nach Präfixen gibt es nicht — auch ein alter Test-Rest bleibt, den räumt eine geprüfte Liste von Hand');
+  } finally { fs.rmSync(basis, { recursive: true, force: true }); }
+});
+
+/* Auflage der Gegenlesung (TEMP-RESTE-WIEDER, 10.10.2026): geräumt wird NUR, was eine Besitzer-Datei trägt, deren Prozess
+   nachweislich fort ist (ESRCH) — nie nach Alter, nie nach dem Namen allein. */
+test('[Temp·Räumen·Rot-Beweis] lebender Besitzer bleibt, toter Besitzer geht — auch wenn beide alt sind und der Name lügt', () => {
+  const basis = eigenes();
+  try {
+    const totePid = spawnSync(process.execPath, ['-e', '0']).pid;
+    const alt = new Date(Date.now() - 7 * 24 * 3600 * 1000);
+    // Name nennt eine tote PID, die Besitzer-Datei den lebenden Prozess: maßgeblich ist die Datei — er bleibt.
+    const lebt = laufMitBesitzer(basis, T.LAUF_PRAEFIX + totePid + '-name-tot-besitzer-lebt', process.pid);
+    // Name nennt den lebenden Prozess, die Besitzer-Datei eine tote PID: er geht.
+    const tot = laufMitBesitzer(basis, T.LAUF_PRAEFIX + process.pid + '-name-lebt-besitzer-tot', totePid);
+    for (const d of [lebt, tot]) fs.utimesSync(d, alt, alt);
+    assert.equal(T.besitzerTot(totePid), true, 'Vorbedingung: der kurzlebige Kindprozess ist fort');
+    assert.equal(T.besitzerTot(process.pid), false, 'Vorbedingung: dieser Prozess lebt');
+    assert.deepEqual(T.verwaisteLaeufeRaeumen({ basis }), [path.basename(tot)],
+      'ROT vorher: geräumt wurde nach der PID im Namen — der lebende Lauf wäre verschwunden, der tote geblieben');
+    assert.ok(fs.existsSync(lebt) && !fs.existsSync(tot));
+  } finally { fs.rmSync(basis, { recursive: true, force: true }); }
+});
+
+test('[Temp·Räumen·Rot-Beweis] ohne Besitzer-Datei, mit unlesbarer PID oder ohne Signalrecht (EPERM) bleibt ein Laufverzeichnis liegen', () => {
+  const basis = eigenes();
+  try {
+    const totePid = spawnSync(process.execPath, ['-e', '0']).pid;
+    const ohne = laufMitBesitzer(basis, T.LAUF_PRAEFIX + totePid + '-ohne-besitzer');
+    const kaputt = laufMitBesitzer(basis, T.LAUF_PRAEFIX + totePid + '-kaputt', 'keine-zahl');
+    // PID 1 (launchd/init) lebt immer; ohne Root wirft process.kill(1, 0) EPERM — das ist kein Nachweis, dass er fort ist.
+    const eperm = laufMitBesitzer(basis, T.LAUF_PRAEFIX + '1-eperm', 1);
+    assert.equal(T.besitzerTot(1), false);
+    assert.deepEqual(T.verwaisteLaeufeRaeumen({ basis }), [],
+      'ROT vorher: ein Verzeichnis ohne Besitzer-Datei, dessen Name eine tote PID nennt, wurde geräumt');
+    for (const d of [ohne, kaputt, eperm]) assert.ok(fs.existsSync(d), d);
+  } finally { fs.rmSync(basis, { recursive: true, force: true }); }
+});
+
+test('[Temp·Wache] das Laufverzeichnis trägt seine Besitzer-Datei, und sie zählt nicht als Rest', () => {
+  const basis = eigenes();
+  try {
+    const dir = T.laufVerzeichnis(basis);
+    assert.equal(T.besitzerLesen(dir), process.pid);
+    assert.deepEqual(T.reste(dir), { anzahl: 0, praefixe: {} });
   } finally { fs.rmSync(basis, { recursive: true, force: true }); }
 });

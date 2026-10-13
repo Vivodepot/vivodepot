@@ -4,6 +4,40 @@
   "moduleVersion": 1,
   "sprache": "de",
   "anbieterId": "vivodepot",
+  "name": {
+    "de": "Deutschland",
+    "en": "Germany"
+  },
+  "rechtsformen": [
+    {
+      "kennung": "e.V.",
+      "labelEn": "Registered association (e.V.)",
+      "art": "verein"
+    },
+    {
+      "kennung": "GmbH",
+      "labelEn": "GmbH (limited company)",
+      "art": "unternehmen"
+    },
+    {
+      "kennung": "AG",
+      "labelEn": "AG (public limited company)",
+      "art": "unternehmen"
+    },
+    {
+      "kennung": "Anstalt öffentlichen Rechts",
+      "labelEn": "Public-law institution"
+    },
+    {
+      "kennung": "Behörde",
+      "labelEn": "Public authority",
+      "art": "behoerde"
+    },
+    {
+      "kennung": "sonstige Körperschaft",
+      "labelEn": "Other corporate body"
+    }
+  ],
   "typen": {
     "enduring-power-of-attorney": {
       "katalogVersion": 1,

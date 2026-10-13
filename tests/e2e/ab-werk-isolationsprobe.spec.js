@@ -40,6 +40,7 @@ function isolierteProduktDatei(slug, produktauswahl) {
   const ISSUER = ladeIssuer().V;
   const voll = fs.mkdtempSync(path.join(os.tmpdir(), 'ab-werk-isolationsprobe-voll-'));
   const r = konfektionieren({
+    mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
     ziel: voll, slug, modulauswahl: [],
     vorDepotKonfigurationInhaltFn: ISSUER.vorDepotKonfigurationDateiInhalt,
     unsignierteModulDateien: modulDateienFuer(produktauswahl),

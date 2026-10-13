@@ -1,0 +1,12 @@
+{
+  "art": "design",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"eine Farbe","urteil":"bestanden","dokument":{"modulTyp":"design","tokens":{"--gold":"#0a0b0c"}}},
+    {"name":"je Kategorie ein Token","urteil":"bestanden","dokument":{"modulTyp":"design","tokens":{"--teal":"#1F6B5E","--fs-xl":"1.4rem","--space-1":"-4px","--font-inter":" \"Source Sans Pro\", sans-serif ","--shadow-soft":"0 1px 2px rgba(0, 0, 0, .08)"}}},
+    {"name":"ohne tokens","urteil":"abgewiesen","regel":"design.keine-tokens","dokument":{"modulTyp":"design"}},
+    {"name":"tokens als Liste","urteil":"abgewiesen","regel":"design.tokens-kein-objekt","dokument":{"modulTyp":"design","tokens":["--gold"]}},
+    {"name":"tokens leer","urteil":"abgewiesen","regel":"design.nichts-gueltiges-gesetzt","dokument":{"modulTyp":"design","tokens":{}}},
+    {"name": "eine Zeichenkette statt eines Objekts, als design geprüft", "urteil": "abgewiesen", "regel": "design.kein-objekt", "erzwingeArt": "design", "dokument": "kein Objekt"}
+  ]
+}

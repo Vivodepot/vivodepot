@@ -118,21 +118,54 @@ kryptoVersion trägt einen Wechsel für das Depot. Für Signaturen und Anker tr�
 - **Eigenes Hybrid-Format für JWE oder JWS ohne IETF-Bezeichner:** nicht interoperabel und nicht validierbar.
 - **PQ-Verfahren allein, nicht hybrid:** BSI TR-02102-1 und ECCG ACM v2.0 wollen gitterbasierte Verfahren hybrid. Hashbasierte Signaturen (SLH-DSA, XMSS, LMS) dürfen allein stehen (TR-02102-1 5.3.4).
 
+## Nachtrag 07.10.2026 — Anker-Satz gebaut (Punkt 2)
+
+- **Gebaut in Kern und Lese-App, wertgleich:**
+  - `ANKER_SATZ` (heute genau ein Eintrag: der v2-Anker `vivodepot-trust-authority-v2-22082026`, `alg` EdDSA),
+  - `ANKER_WIDERRUFEN` (leer),
+  - `ANKER_OHNE_KID`,
+  - die Auswahl `_ankerWaehlen` in `verifiziereProviderCredential`.
+  - Die Zeilenverweise oben gelten am Kanon c159013f0. Maßgeblich sind die Namen, nicht die Zeilen.
+- **Ohne `kid` gilt nur v2,** als eingefrorene Ausnahme für die heute ausgelieferten Zertifikate. Jeder künftige Anker verlangt einen `kid`, und ein Zertifikat ohne `kid` wird nie gegen einen anderen Anker geprüft. **Folge:** Wird v2 in `ANKER_WIDERRUFEN` eingetragen, fallen alle kid-losen Zertifikate. Das ist gewollt; die Basiszertifikate werden dann unter einem neuen Anker neu ausgestellt (Punkt 5).
+- **Der Algorithmus kommt aus dem Anker-Eintrag,** nicht aus dem Header. Weicht der Header ab, ist das Zertifikat abgelehnt, bevor eine Signatur geprüft wird.
+- **Zeitbezug und seine Grenze:**
+  - `nurPruefenBis` gilt gegen die lokale Uhr; offline ist das nicht anders lösbar.
+  - `gueltigBis` gilt gegen das `issuanceDate` des Zertifikats. Das ist eine Angabe des Signierenden: Die Prüfung fängt Versehen und offen späte Signaturen, aber keinen kompromittierten alten Schlüssel, der rückdatiert.
+  - Dagegen hilft allein `ANKER_WIDERRUFEN`, und der greift unabhängig von jedem Datum.
+- **Ein zweiter Anker** (ES256, später hybrid) kommt mit einer Schlüsselzeremonie. Dieser Nachtrag fügt keinen Schlüssel hinzu.
+
+## Nachtrag 08.10.2026 — Hash-Kennung gebaut (Punkt 7)
+
+- **Gebaut:** Alle Einträge von `REZEPT_FINGERABDRUECKE` und `ABWERK_FRUEHERE_FASSUNGEN` tragen in Kern und Lese-App `sha256:`.
+  - Die Erzeuger schreiben die Kennung.
+  - Gelesen wird nur über `_fingerabdruckBekannt`: Es nimmt beide Formen; eine andere Kennung ist nie ein Treffer.
+  - Der Beleg der früheren Fassungen hält weiter den reinen Hex-Wert.
+- **Abweichung von Punkt 7** („neue Einträge bekommen eine Kennung, bestehende gelten als SHA-256“): Umgestellt sind auch die bestehenden Einträge.
+  - Die Mengen stehen nur in der App, und die Erzeuger berechnen sie bei jeder Landung vollständig neu. Keine Datei und keine ausgelieferte Fassung hängt am alten Format.
+  - Der Grund der früheren Regel war die Monotonie: Die Menge früherer Fassungen verliert nie einen Eintrag, und ein naiver Mengenvergleich sähe bei der Umstellung alle Einträge als entfernt und neu.
+  - Darum vergleicht der Monotonie-Wächter normalisiert (Kennung ab), und ein beim Umstellen verlorener Eintrag fällt weiter auf.
+  - Die Umstellung ist ein eigener Commit: gleiche Anzahl (49 und 118), normalisiert gleiche Menge.
+
 ```yaml
 konformitaet:
   - aussage: >-
       Kern und Lese-App prüfen eine Kette gegen den Anker ihres kid aus einem eingebauten Anker-Satz mit Laufzeit; ein
       abgelöster Anker prüft bis nurPruefenBis weiter, ein abgelaufener wird abgelehnt.
-    zustand: offen
-    frist: 2027-12-31
-    bedingung: Bau des Anker-Satzes (Befund ANKER-OHNE-LAUFZEIT-UND-SATZ)
-    herkunft: U2-ADR-486 (06.10.2026)
+    zustand: geprüft
+    herkunft: U2-ADR-486 (06.10.2026), gebaut 07.10.2026
+    pruefung:
+      - tests/anker-satz.test.js "[Anker-Satz·Kern] zwei Anker zugleich gültig, je nach kid"
+      - tests/anker-satz.test.js "[Anker-Satz·Kern·Rot-Beweis] nach nurPruefenBis abgelehnt, davor gültig"
+      - tests/anker-satz.test.js "[Anker-Satz·Lese-App] zwei Anker zugleich gültig, je nach kid"
+      - tests/anker-satz.test.js "[Anker-Satz·Lese-App·Rot-Beweis] nach nurPruefenBis abgelehnt, davor gültig"
   - aussage: >-
-      Neue Fingerabdrücke tragen eine Kennung des Hash-Verfahrens (sha256:); Einträge ohne Kennung gelten als SHA-256.
-    zustand: offen
-    frist: 2027-12-31
-    bedingung: mit dem Anker-Satz (Befund FINGERABDRUCK-OHNE-HASH-KENNUNG)
-    herkunft: U2-ADR-486 (06.10.2026)
+      Die Fingerabdruck-Mengen tragen eine Kennung des Hash-Verfahrens (sha256:); gelesen wird über eine Funktion, die eine
+      andere Kennung nie als Treffer nimmt.
+    zustand: geprüft
+    herkunft: U2-ADR-486 (06.10.2026), gebaut 08.10.2026
+    pruefung:
+      - tests/fingerabdruck-kennung.test.js "[Hash-Kennung] jeder Eintrag der vier Mengen ist sha256: plus 64 Hex"
+      - tests/fingerabdruck-kennung.test.js "[Hash-Kennung] _fingerabdruckBekannt nimmt beide Formen, eine andere Kennung ist kein Treffer (Kern und Lese-App)"
   - aussage: >-
       Kein eingebautes Basiszertifikat läuft über 2035-12-31 hinaus.
     zustand: offen

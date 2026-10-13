@@ -20,15 +20,34 @@
       Präfixen aus dem Code im gemeinsamen tmpdir: viele Präfixe sind zusammengesetzt
       (`produkt-html-${slug}-`), das Erkennen wäre unsicher, und eine Aufräumaktion, die an fremde
       Dateien geht, kann private Daten gefährden (entschieden am 28.09.2026).
+
+   BESITZER-DATEI (10.10.2026, Befund TEMP-RESTE-WIEDER): jedes Laufverzeichnis trägt die PID seines
+   Besitzers in einer eigenen Datei (BESITZER_DATEI). Verwaist ist ein Laufverzeichnis NUR, wenn diese
+   Datei existiert und ihr Prozess nachweislich fort ist (process.kill(pid, 0) wirft ESRCH). Ein
+   Verzeichnis ohne Besitzer-Datei, mit unlesbarer PID oder mit einem Prozess, den wir nur nicht
+   signalisieren dürfen (EPERM), bleibt liegen — nie wird nach Alter oder nach dem Namen allein
+   geräumt. Laufverzeichnisse von vor dieser Fassung (ohne Besitzer-Datei) räumt darum nichts mehr
+   von selbst; sie gehen nur über eine geprüfte Liste von Hand.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 
 const LAUF_PRAEFIX = 'vd-lauf-';
-/** Ein eigenes TMPDIR für einen Lauf. */
+const BESITZER_DATEI = '.vd-lauf-besitzer';
+/** Ein eigenes TMPDIR für einen Lauf, mit der PID seines Besitzers darin. */
 function laufVerzeichnis(basis = os.tmpdir(), pid = process.pid) {
-  return fs.mkdtempSync(path.join(basis, LAUF_PRAEFIX + pid + '-'));
+  const dir = fs.mkdtempSync(path.join(basis, LAUF_PRAEFIX + pid + '-'));
+  fs.writeFileSync(path.join(dir, BESITZER_DATEI), String(pid) + '\n');
+  return dir;
+}
+
+/** Die PID aus der Besitzer-Datei, oder null (keine Datei, nicht lesbar, keine Zahl). */
+function besitzerLesen(dir) {
+  let text;
+  try { text = fs.readFileSync(path.join(dir, BESITZER_DATEI), 'utf8'); } catch (_) { return null; }
+  const pid = Number(String(text).trim());
+  return Number.isInteger(pid) && pid > 0 ? pid : null;
 }
 
 /** Räumt ein Laufverzeichnis samt Inhalt (die Wache ruft es nach jedem Lauf, in jedem Fall). */
@@ -44,7 +63,7 @@ const LAUF_CACHES = Object.freeze([
 /** Was im Laufverzeichnis liegt, nach Präfix gezählt (Präfix = Name bis zum letzten Bindestrich); Caches zählen nicht. */
 function reste(dir) {
   let namen = [];
-  try { namen = fs.readdirSync(dir).filter((n) => !LAUF_CACHES.some((c) => c.muster.test(n))); } catch (_) { return { anzahl: 0, praefixe: {} }; }
+  try { namen = fs.readdirSync(dir).filter((n) => n !== BESITZER_DATEI && !LAUF_CACHES.some((c) => c.muster.test(n))); } catch (_) { return { anzahl: 0, praefixe: {} }; }
   const praefixe = {};
   for (const n of namen) {
     const p = n.includes('-') ? n.slice(0, n.lastIndexOf('-') + 1) : n;
@@ -58,18 +77,28 @@ function prozessLebt(pid) {
   try { process.kill(pid, 0); return true; } catch (e) { return e.code === 'EPERM'; }
 }
 
-/** Verwaiste Laufverzeichnisse (vd-lauf-<pid>-…, PID tot) im gemeinsamen tmpdir. Sonst nichts. */
+/* Nachweislich fort: nur ESRCH. EPERM heißt „lebt, gehört jemand anderem“; jeder andere Fehler ist kein Nachweis. */
+function besitzerTot(pid) {
+  if (!Number.isInteger(pid) || pid <= 0) return false;
+  try { process.kill(pid, 0); return false; } catch (e) { return e.code === 'ESRCH'; }
+}
+
+/** Verwaiste Laufverzeichnisse (vd-lauf-*, Besitzer-Datei da, Besitzer nachweislich fort) im gemeinsamen tmpdir. Sonst nichts. */
 function verwaisteLaeufeRaeumen({ basis = os.tmpdir() } = {}) {
   const geraeumt = [];
   let namen = [];
   try { namen = fs.readdirSync(basis); } catch (_) { return geraeumt; }
   for (const n of namen) {
     if (!n.startsWith(LAUF_PRAEFIX)) continue;
-    const pid = Number(n.slice(LAUF_PRAEFIX.length).split('-')[0]);
-    if (prozessLebt(pid)) continue;
-    try { laufVerzeichnisRaeumen(path.join(basis, n)); geraeumt.push(n); } catch (_) { /* nächstes Mal */ }
+    const dir = path.join(basis, n);
+    const pid = besitzerLesen(dir);
+    if (pid === null || !besitzerTot(pid)) continue;
+    try { laufVerzeichnisRaeumen(dir); geraeumt.push(n); } catch (_) { /* nächstes Mal */ }
   }
   return geraeumt;
 }
 
-module.exports = { LAUF_PRAEFIX, LAUF_CACHES, laufVerzeichnis, laufVerzeichnisRaeumen, reste, verwaisteLaeufeRaeumen, prozessLebt };
+module.exports = {
+  LAUF_PRAEFIX, LAUF_CACHES, BESITZER_DATEI, laufVerzeichnis, laufVerzeichnisRaeumen, reste, verwaisteLaeufeRaeumen,
+  prozessLebt, besitzerLesen, besitzerTot,
+};

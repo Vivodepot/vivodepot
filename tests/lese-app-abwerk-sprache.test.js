@@ -105,6 +105,12 @@ test('Eine kaputte Mitschrift bricht das Öffnen nicht', () => {
    Datei. Die Lese-App las bis heute nur die Fächer, die eine Bürgerin selbst
    gefüllt hat — und zeigte darum von einem Pro-Depot Werte ohne Namen. */
 
+/* Seit 11.10.2026 (Befund MITSCHRIFT-AB-WERK-NACH-POSITION) meldet die Lese-App aus der Mitschrift nur eine Bereichsdefinition an, die
+   Vivodepot so ausgeliefert hat. Die Proben hier nehmen darum die ausgelieferte Definition (die Region „Bereiche aller
+   Vivodepot-Produkte“), keine erfundene; dass eine erfundene verworfen wird, hält tests/mitschrift-bereich-nach-inhalt.test.js. */
+const AUSGELIEFERT = () => JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'tools', 'vivodepot-bereiche-bekannt.json'), 'utf8')).neu;
+const ERSTES_TEXTFELD = (def) => def.sektionen.flatMap((s) => s.felder).find((f) => f.typ === 'text' || f.typ === 'textarea');
+
 const PRO_MITSCHRIFT = () => ({
   sektoren: {}, textsatzModule: [], bereichsModule: [], logikModule: [],
   abWerkMitschrift: {
@@ -113,7 +119,7 @@ const PRO_MITSCHRIFT = () => ({
     logikModul: [{ id: 'proUebergabe', sektor: 'pro-betrieb-zugaenge', titel: 'Übergabe', abschnitte: [] }],
     bereichsErsatz: {
       ersetzt: ['health'],
-      neu: { 'pro-betrieb-zugaenge': { label: 'Betrieb und Zugänge', icon: 'folder', sektionen: [] } },
+      neu: { 'pro-betrieb-zugaenge': AUSGELIEFERT()['pro-betrieb-zugaenge'] },
     },
   },
 });
@@ -171,20 +177,14 @@ test('[Rot 5·Rangfolge] ein depot-eigenes Modul gewinnt gegen dasselbe aus der 
    aus einer Vorlage erschien (anderer Weg), ein Feld aus der Sektion nicht. Diese Probe hält
    genau das: ein Sektions-Feld eines mitgeschriebenen Pro-Bereichs wird mit seinem Wert gezeigt. */
 
+const PV = 'pro-vertretung-vollmachten';
+const PV_FELD = () => ERSTES_TEXTFELD(AUSGELIEFERT()[PV]).id;
 const PRO_MIT_FELDERN = () => ({
-  sektoren: { 'pro-vertretung-vollmachten': { notiz: 'WERT-AUS-DER-DATEI' } },
+  sektoren: { [PV]: { [PV_FELD()]: 'WERT-AUS-DER-DATEI' } },
   textsatzModule: [], bereichsModule: [], logikModule: [],
   abWerkMitschrift: {
     bereich: [], sprache: null, logikModul: [],
-    bereichsErsatz: {
-      ersetzt: ['health'],
-      neu: {
-        'pro-vertretung-vollmachten': {
-          label: 'Vertretung und Vollmachten', icon: 'folder',
-          sektionen: [{ id: 'allgemein', label: 'Allgemein', felder: [{ id: 'notiz', typ: 'textarea', label: 'Notiz' }] }],
-        },
-      },
-    },
+    bereichsErsatz: { ersetzt: ['health'], neu: { [PV]: AUSGELIEFERT()[PV] } },
   },
 });
 
@@ -196,7 +196,8 @@ test('[Rot 6] ein Pro-Bereich aus der Datei trägt seine Sektionen und Felder', 
   const pv = L.bereicheAlleLesen().find((b) => b.id === 'pro-vertretung-vollmachten');
   assert.ok(pv, 'der Pro-Bereich muss bekannt sein');
   const felder = pv.sektionen.reduce((n, s) => n + s.felder.length, 0);
-  assert.equal(felder, 1, 'der Bereich trägt sein Feld — nicht nur seinen Namen');
+  const soll = AUSGELIEFERT()[PV].sektionen.reduce((n, s) => n + s.felder.length, 0);
+  assert.ok(soll >= 1 && felder === soll, 'der Bereich trägt seine Felder — nicht nur seinen Namen (' + felder + ' von ' + soll + ')');
 });
 
 test('[Rot 6·Wert] und der Wert erscheint in der Ansicht des Bereichs', () => {

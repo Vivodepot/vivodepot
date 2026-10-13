@@ -10,9 +10,14 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { defineConfig } = require('@playwright/test');
 const path = require('node:path');
+// Eigenes TMPDIR samt Temp-Netz für den ganzen Lauf (Befund TEMP-RESTE-WIEDER): BEIM LADEN gesetzt, nicht erst im globalSetup —
+// tests/e2e/global-setup.js rechnet seine Pfade unter os.tmpdir() schon beim Laden aus, und die Specs laden es beim Sammeln.
+// Worker erben die Umgebung; das globalTeardown räumt das Verzeichnis (tools/lib/test-lauf.js).
+require('./tools/lib/test-lauf.js').playwrightLaufBeginnen();
 
 module.exports = defineConfig({
   testDir: path.join(__dirname, 'tests', 'demo'),
+  globalTeardown: require.resolve('./tests/e2e/global-teardown.js'),
   testMatch: '**/*.spec.js',
   timeout: 6 * 60 * 1000,
   fullyParallel: false,

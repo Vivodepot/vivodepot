@@ -60,7 +60,7 @@ test('[SBOM·Fremdstellen·Rot-Beweis] ein neues HL7-System ohne Lizenzbeleg bri
 });
 
 test('[SBOM·Fremdstellen·Rot-Beweis] ohne Terminologie-Block oder mit leerer Wortliste bricht die Erzeugung ab', () => {
-  const ohneBlock = KERN.replace('<!-- @vd-terminologie isik -->', '<!-- entfernt -->');
+  const ohneBlock = KERN.replace('/* @vd-terminologie isik ', '/* entfernt ');
   assert.throws(() => S.erzeugeSBOM(ohneBlock, SBOM, REPO), /@vd-terminologie isik/);
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-sbom-fremd-'));
   try {

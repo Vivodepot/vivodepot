@@ -84,7 +84,7 @@ function leseFaktenbasisZahlen(pfad = FAKTENBASIS) {
 
 /* Dieselbe Quelle, aus der `scripts/osv-scan.py` liest: die Komponentenliste
    der SBOM. NICHT die Zahl der Komponenten MIT `purl` (osv-scan meldet „2
-   Paket-Komponenten (mit purl)") — die Seite sagt „Bibliotheken geprüft", und
+   Paket-Komponenten (mit purl)", so bis 11.10.2026) — die Seite sagt „Bibliotheken geprüft", und
    geprüft werden alle Komponenten. Wer die beiden Zahlen verwechselt, stellt
    zwei verschiedene Zählgegenstände nebeneinander (§7.6). */
 function leseSbomKomponenten(pfad = SBOM) {

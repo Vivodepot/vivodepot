@@ -64,7 +64,7 @@ test('[Weg B·2] hat das Produkt ein eigenes Modul der Sprache, gewinnt es — i
 test('[Weg B·3] eine auf der Rücknahme-Liste zurückgezogene Kennung steht im Rückfall mit Sprachangabe (Weg A je Kennung)', async () => {
   for (const sprache of ['de', 'en']) {
     const fp = await ladeKern({ produkt: 'privat-de' }).V._modulRezeptFingerabdruck(FIXTURE(sprache));
-    const V = await oeffnen('privat-' + sprache, 'privat-' + andere(sprache), sprache, FIXTURE(sprache), (K) => { K.ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN.set(fp, [HAFTUNG]); });
+    const V = await oeffnen('privat-' + sprache, 'privat-' + andere(sprache), sprache, FIXTURE(sprache), (K) => { K.ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN.set('sha256:' + fp, [HAFTUNG]); });
     assert.equal(V.textsatzSpracheAktiv(), sprache);
     assert.equal(V.textLesen(HAFTUNG), null, sprache + ': zurückgezogen — der Schutztext der Mitschrift gilt nicht');
     const angezeigt = V.STRINGS.dokFussHaftung;
@@ -216,17 +216,17 @@ test('[Weg B·Lese-App] die englische v918-Mitschrift trägt ihre Schutztexte; e
   const { V, schutz } = await leseOeffnen(FIXTURE('en'));
   assert.ok(schutz.length >= 1, 'Vorbedingung: die Lese-App kennt Schutz-Kennungen der Mitschrift');
   const fp0 = await ladeKern({ produkt: 'privat-de' }).V._modulRezeptFingerabdruck(FIXTURE('en'));
-  const zurueck = vm.runInContext('Array.from(ABWERK_SCHUTZ_ZURUECKGEZOGEN_LESEN.get(' + JSON.stringify(fp0) + ') || [])', ladeLesen().sandbox);
+  const zurueck = vm.runInContext('Array.from(ABWERK_SCHUTZ_ZURUECKGEZOGEN_LESEN.get(' + JSON.stringify('sha256:' + fp0) + ') || [])', ladeLesen().sandbox);
   assert.deepEqual(schutz.filter((k) => !zurueck.includes(k) && V.textLesen(k) !== FIXTURE('en').texte[k]), [], 'voller Abdruck einer früheren Fassung: jeder nicht zurückgezogene Schutztext gilt');
   assert.deepEqual(schutz.filter((k) => zurueck.includes(k) && V.textLesen(k) !== null), [], 'eine zurückgezogene Kennung gilt nicht');
   const m = FIXTURE('en'); m.moduleVersion = m.moduleVersion + 1;
   const B = await leseOeffnen(m);
   assert.deepEqual(B.schutz.filter((k) => B.V.textLesen(k) !== null), [], 'kein Abdruck: kein Schutztext');
   const fp = await ladeKern({ produkt: 'privat-de' }).V._modulRezeptFingerabdruck(FIXTURE('en'));
-  const Z = await leseOeffnen(FIXTURE('en'), (sb) => vm.runInContext('ABWERK_SCHUTZ_ZURUECKGEZOGEN_LESEN.set(' + JSON.stringify(fp) + ', ' + JSON.stringify(schutz) + ')', sb));
+  const Z = await leseOeffnen(FIXTURE('en'), (sb) => vm.runInContext('ABWERK_SCHUTZ_ZURUECKGEZOGEN_LESEN.set(' + JSON.stringify('sha256:' + fp) + ', ' + JSON.stringify(schutz) + ')', sb));
   assert.deepEqual(Z.schutz.filter((k) => Z.V.textLesen(k) !== null), [], 'jede Kennung zurückgezogen: kein Schutztext');
   const eine = schutz.find((k) => !zurueck.includes(k));
-  const E = await leseOeffnen(FIXTURE('en'), (sb) => vm.runInContext('ABWERK_SCHUTZ_ZURUECKGEZOGEN_LESEN.set(' + JSON.stringify(fp) + ', ' + JSON.stringify([eine]) + ')', sb));
+  const E = await leseOeffnen(FIXTURE('en'), (sb) => vm.runInContext('ABWERK_SCHUTZ_ZURUECKGEZOGEN_LESEN.set(' + JSON.stringify('sha256:' + fp) + ', ' + JSON.stringify([eine]) + ')', sb));
   assert.equal(E.V.textLesen(eine), null, 'die zurückgezogene Kennung gilt nicht');
   assert.deepEqual(E.schutz.filter((k) => k !== eine && !zurueck.includes(k) && E.V.textLesen(k) !== FIXTURE('en').texte[k]), [], 'je Kennung: die übrigen Schutztexte gelten weiter');
 });

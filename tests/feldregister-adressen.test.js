@@ -1,5 +1,5 @@
 'use strict';
-/* Proben zu U2-ADR-NNN: Lizenz in der Datei, eine feste Adresse je Kennung (feld/<kennung>/), Begriffsschema als
+/* Proben zu U2-ADR-490: Lizenz in der Datei, eine feste Adresse je Kennung (feld/<kennung>/), Begriffsschema als
    JSON-LD (SKOS). Die Adresse ist eine Einbahnstraße — darum prüfen die Proben ihre Form, ihre Vollzähligkeit und
    dass eine Seite byte-gleich bleibt, solange sich die Kennung nicht ändert. */
 const { test } = require('node:test');
@@ -87,7 +87,8 @@ test('[Feldregister·Adressen] die Seite je Kennung lädt nichts von außen und 
 test('[Feldregister·Adressen] eine neue Kern-Fassung lässt jede Kennungs-Datei byte-gleich', () => {
   const kern = path.join(wegwerfOrdner(), 'kern.html');
   try {
-    fs.writeFileSync(kern, "const SCHALEN_STAND = 'v999';\n");
+    // Der Kern trägt sein Icon (tools/lib/navicon.js): ohne es bricht der Bau ab, statt ein Register ohne Icon zu bauen.
+    fs.writeFileSync(kern, "const SCHALEN_STAND = 'v999';\n" + require('../tools/lib/navicon.js').naviconLinks() + '\n');
     const a = W.bauen({ datum: '2026-10-06' }).adressDateien;
     const b = W.bauen({ datum: '2027-01-01', kernPfad: kern }).adressDateien;
     assert.deepEqual(a, b);
@@ -111,10 +112,15 @@ test('[Feldregister·Adressen·Rot-Beweis] ein einbuchstabiges Pfadsegment wirft
   A.adressenPruefen(KENNUNGEN.map((kennung) => ({ kennung })));
 });
 
-test('[Feldregister·Adressen] .htaccess: Aushandlung nur mit mod_rewrite, sonst HTML', () => {
+test('[Feldregister·Adressen] .htaccess: Aushandlung nur mit mod_rewrite und mit RewriteBase /feld/, sonst HTML', () => {
   const h = A.HTACCESS_INHALT;
   assert.match(h, /^DirectoryIndex index\.html$/m);
-  const rewrite = h.split('\n').filter((z) => /Rewrite/.test(z));
-  const imModul = h.slice(h.indexOf('<IfModule mod_rewrite.c>'), h.indexOf('</IfModule>'));
-  for (const z of rewrite) assert.ok(imModul.includes(z), 'außerhalb von IfModule: ' + z);
+  assert.deepEqual(A.htaccessBefunde(h), []);
+});
+
+test('[Feldregister·Adressen·Rot-Beweis] eine .htaccess ohne RewriteBase oder mit Rewrite außerhalb von IfModule ist rot', () => {
+  const ohneBase = A.HTACCESS_INHALT.split('\n').filter((z) => z.trim() !== 'RewriteBase /feld/').join('\n');
+  assert.ok(A.htaccessBefunde(ohneBase).some((b) => /ohne RewriteBase/.test(b)), 'gemessen am Register v922: ohne RewriteBase 404');
+  const draussen = A.HTACCESS_INHALT + 'RewriteRule ^x$ y [L]\n';
+  assert.ok(A.htaccessBefunde(draussen).some((b) => /außerhalb von IfModule/.test(b)));
 });

@@ -409,8 +409,8 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderCodeOeffnen",
-   "zeile": 34678,
-   "abdruck": "21f5b992083d242e",
+   "zeile": 35019,
+   "abdruck": "1d18c403e8eacbf8",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\"><h1 class=\"welcome-brand\" id=\"overlay-titel\">' + escapeHTML(vorDepotText('whcOeffnenCodeLabel')) + '</h1></div>' + '<p class=\"crypto-auff\" id=\"whc-oeffnen-auf",
    "grund": "renderCodeOeffnen: der Dateiname und alle vorDepotText-Texte stehen in escapeHTML. _whcCodeFeld maskiert id per escapeAttr und label per escapeHTML; pwVorschlagHTML (U2-ADR-463) maskiert die id per escapeAttr und jeden Text per escapeHTML."

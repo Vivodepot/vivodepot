@@ -1,5 +1,5 @@
 'use strict';
-/* U2-ADR-NNN: feldregister.json besteht ihr Schema mit Ajv 2020 im Strict-Modus — dem Prüfer, den Integratoren nehmen. */
+/* U2-ADR-490: feldregister.json besteht ihr Schema mit Ajv 2020 im Strict-Modus — dem Prüfer, den Integratoren nehmen. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const Ajv2020 = require('ajv/dist/2020');

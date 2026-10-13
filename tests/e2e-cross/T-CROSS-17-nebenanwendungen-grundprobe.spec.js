@@ -111,6 +111,7 @@ test.describe('T-CROSS-17 Grundproben der drei Anwendungen ohne E2E', () => {
     const ctx = await browser.newContext({ acceptDownloads: true });
     const p = await ctx.newPage();
     await p.goto(URL('vivodepot-studio.html'));
+    await p.click('#kopf-fachebene');   // seit S1 steht der Eingang vor der Fachebene
     await p.waitForSelector('#start-leer', { state: 'visible' });
     await pruefeGeneration4(p, 'Vorlagen-Erzeuger');
 

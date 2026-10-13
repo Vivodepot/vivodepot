@@ -375,6 +375,10 @@ einem eingelassenen Einrichtungs-Modul (Stufe 1) kommt mit dem Branding-Wagen; f
 Rot-Beweise: `addFont` außerhalb des Blocks · `loadFile` im Block · `addFont` ohne vorangehendes `addFileToVFS` · zweiter bzw. kein
 Block · `_PDF_MARKE_SCHRIFT` als Literal. Der Browserlauf (`tests/konformitaet/offline-garantie.mjs`) nutzt denselben Helfer.
 
+## Nachtrag — §4 gilt für Vivodepot Privat (10.10.2026)
+
+Die Zusage in §4 gilt für **Vivodepot Privat**. Vivodepot Pro und Waren (zum Beispiel der Stick) sind getrennte Angebote; §4 ist auf sie nicht anzuwenden.
+
 ## Konformität
 
 ```konformitaet

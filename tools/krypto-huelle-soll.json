@@ -118,17 +118,67 @@
   ],
   "_jweConcatKdf": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_jwePbes2Schluessel": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "antwortJweOeffnen": [
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_jwkThumbprint": [
    "vivodepot.html",
    "vivodepot-lesen.html"
   ],
   "_modulRezeptFingerabdruck": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_ankerWaehlen": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "ANKER_OHNE_KID": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "ANKER_SATZ": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "ANKER_WIDERRUFEN": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_fingerabdruckBekannt": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_bereichsAbdruck": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_bereichsDefinitionFormen": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_bereichsDefinitionUrteil": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_fingerabdruckZurueckgezogen": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "FINGERABDRUCK_KENNUNG": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_fingerabdruckHexGueltig": [
    "vivodepot.html",
    "vivodepot-lesen.html"
   ]

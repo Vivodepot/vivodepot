@@ -1,5 +1,7 @@
 {
   "dateien": [
+    "bausteine.json",
+    "bausteine.json.sha256",
     "brandingregister.json",
     "brandingregister.json.sha256",
     "feldregister.json",
@@ -15,6 +17,8 @@
     "sprachregister.json",
     "sprachregister.json.sha256",
     "studio.html",
+    "v718/bausteine.json",
+    "v718/bausteine.json.sha256",
     "v718/brandingregister.json",
     "v718/brandingregister.json.sha256",
     "v718/feldregister.json",

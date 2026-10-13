@@ -178,3 +178,21 @@ der Bürgerin; ein Verlust dort ist endgültig.
 ---
 
 *Vivodepot GmbH · 20.08.2026*
+
+## Nachtrag 11.10.2026 zu Punkt 2: Zeigen ist nicht Bewerten
+
+Die Anwendung zeigt der Person an jeder Anfrage, wie viele Angaben verlangt sind, wie viele davon die Stelle als nötig bezeichnet,
+wie viele bei der Person als sensibel markiert sind und wie oft diese Stelle schon gefragt hat. Sie zeigt die Zahlen immer, ohne
+Schwelle und ohne Wertung, und sperrt nichts. Ob die Anfrage angemessen ist, prüft sie weiterhin nicht.
+
+```yaml
+konformitaet:
+  - aussage: >-
+      An jeder Anfrage zeigt die Anwendung die Zahl der verlangten Angaben, die Zahl der als nötig bezeichneten, die Zahl der bei
+      der Person als sensibel markierten und die Zahl der bisherigen Anfragen dieser Stelle; immer, ohne Schwelle, ohne wertendes
+      Wort, und ohne etwas zu sperren.
+    zustand: offen
+    frist: 2026-10-31
+    bedingung: Anzeige gelandet, Probe mit Rot-Beweis je Fall (Zahlen fehlen, Anzeige hängt an einer Schwelle, wertendes Wort im Text)
+    herkunft: U2-ADR-152, Nachtrag 11.10.2026
+```

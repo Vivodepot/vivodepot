@@ -34,6 +34,10 @@
      (Standard-Ziel: produkte/, gitignored)
      --wie-ausgeliefert: mit Service Worker und sw.js daneben, byte-gleich mit dem, was der Shop ausliefert — damit
      lässt sich die Prüfsumme je Fassung aus SECURITY.md nachrechnen (29.09.2026).
+     --mit-testflaeche: die Testfassung (U2-ADR-494, window.__vdOeffentlich für Proben und Messwerkzeuge); NICHT das ausgelieferte
+     Produkt. Für Werkzeuge, die die Produkte im Browser über die Test-Fläche bedienen. Unverwechselbar: Standard-Ziel
+     produkte-testfassung/, je Produkt der Ordner <slug>-testfassung/, und ein Kopfvermerk in der Datei, an dem jeder
+     Auslieferungsweg sie verweigert (testflaecheVerweigern).
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -53,8 +57,10 @@ function exitCodeFuer(ergebnis) { return ergebnis && ergebnis.ok === true ? 0 : 
 function main() {
   const argv = process.argv.slice(2);
   const argWert = (name) => { const i = argv.indexOf(name); return (i >= 0 && argv[i + 1]) ? argv[i + 1] : null; };
-  const ziel = path.resolve(argWert('--ziel') || path.join(REPO, 'produkte'));
   const wieAusgeliefert = argv.includes('--wie-ausgeliefert');
+  const mitTestflaeche = argv.includes('--mit-testflaeche');
+  const ziel = path.resolve(argWert('--ziel') || path.join(REPO, mitTestflaeche ? 'produkte-testfassung' : 'produkte'));
+  if (wieAusgeliefert && mitTestflaeche) throw new Error('--wie-ausgeliefert und --mit-testflaeche schließen sich aus.');
 
   const { ladeIssuer } = require(path.join(REPO, 'tests', 'load-issuer.js'));
   const ISSUER = ladeIssuer().V;
@@ -70,7 +76,19 @@ function main() {
       vorDepotKonfigurationInhaltFn: ISSUER.vorDepotKonfigurationDateiInhalt,
       unsignierteModulDateien,
       wieAusgeliefert,
+      mitTestflaeche,
     });
+    if (mitTestflaeche) {
+      // Unverwechselbar machen: Ordner <slug>-testfassung, Kopfvermerk direkt nach dem Doctype.
+      const { TESTFASSUNG_VERMERK } = require('./lib/produkt-text-erzeugen.js');
+      const neu = ergebnisse[p.slug].ordner + '-testfassung';
+      fs.rmSync(neu, { recursive: true, force: true });
+      fs.renameSync(ergebnisse[p.slug].ordner, neu);
+      const datei = path.join(neu, 'vivodepot.html');
+      const text = fs.readFileSync(datei, 'utf8');
+      fs.writeFileSync(datei, text.replace(/^(<!DOCTYPE html>\n)/i, '$1' + TESTFASSUNG_VERMERK + '\n'), 'utf8');
+      ergebnisse[p.slug].ordner = neu;
+    }
     process.stdout.write('erzeugt: ' + p.slug + ' — ' + ergebnisse[p.slug].ordner + '\n');
     process.stdout.write('  Module: ' + (ergebnisse[p.slug].unsignierteModule.join(', ') || '(keins — nativer Rückfall)') + '\n');
   }

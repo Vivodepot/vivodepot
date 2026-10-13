@@ -167,3 +167,92 @@ UI-Beschriftung (der eingebaute Rückfall), auch wenn ihre eigenen Werte unverä
 bleiben. Das war nicht Teil des Auftrags (die vier roten Beweise nennen „Bereiche lesbar", nicht
 „Sprache bleibt aktiv") und wurde bewusst nicht mitgebaut, um den Auftrag nicht stillschweigend
 zu erweitern — offene Frage, falls gewünscht ein eigener, kleiner Folgezug.
+
+## Nachtrag 11.10.2026 — Bereich und Bereichsersatz der Mitschrift gelten nur nach Inhalt
+
+Befund MITSCHRIFT-AB-WERK-NACH-POSITION, Teil Bereich und Bereichsersatz. Die Mitschrift steht in der Datei; wer die Datei hat,
+kann sie ändern. Kern und Lese-App säten aus den Fächern `bereich` und `bereichsErsatz` bisher jeden Bereich, allein weil er an
+dieser Stelle stand. Die übrigen Fächer gelten seit 05.10.2026 nur nach Inhalt (Rezept-Abdruck des Moduls).
+
+**Was gemessen wurde.** Für diese beiden Fächer trägt weder der Rezept-Abdruck noch ein Abdruck über die ganze Definition:
+
+- Die Bereichs-Mitschrift ist nicht die Template-Datei. Das Produkt schreibt je Bereich die Definition mit seinen
+  Beschriftungen; der Bereichsersatz ist kein Modul.
+- Jedes bis v923 ausgelieferte Produkt, das eine Datei öffnete, schrieb seine eigenen Beschriftungen in die Definitionen der
+  Datei: in seiner Sprache, in seinem Wortlaut, mit aufgelöstem Markennamen. Ab v922 hängte das Nachtragen dazu fehlende
+  Sektionen und Felder an. Über jede ausgelieferte Fassung und jedes ihrer vier Produkte gemessen, änderte das Öffnen an einer
+  Definition nur die Werte der Eigenschaften `label`, `hint` und `beispiel` und, beim Nachtragen, die Zahl der Sektionen und
+  Felder. Volle Definitionen vervielfachen sich so über Fassungen und Sprachen und lassen sich nicht abschließend aufzählen.
+
+**Entscheidung.**
+
+1. Zwei eigene Mengen, getrennt von den Modul- und Rezept-Abdrücken, beide mit Art und Kennung in den Bytes:
+   - **Struktur:** SHA-256 über die kanonische Form von `{ art: 'bereichsstruktur', id, definition }`. In der Definition ist
+     jeder Zeichenketten-Wert der Eigenschaften `label`, `hint`, `beispiel` durch die leere Zeichenkette ersetzt; die
+     Eigenschaft bleibt stehen.
+   - **Text:** je Text SHA-256 über die kanonische Form von `{ art: 'bereichstext', id, ort, schluessel, text }`. `ort` ist die
+     Kette der Kennungen der umschließenden Objekte (`id`, sonst `format`, sonst `wert`), ohne Listenplätze; `schluessel` ist
+     die Eigenschaft.
+2. Eine Definition gilt als ausgeliefert, wenn ihr Struktur-Abdruck in der einen und jeder ihrer Texte in der anderen Menge
+   steht. Ein Text gilt nur für diesen Bereich, diese Stelle und diese Eigenschaft. Eine Datei kann damit an einer Stelle
+   höchstens den Wortlaut einer anderen ausgelieferten Fassung oder Sprache zeigen. Eigenen Text, eigene Felder, eine eigene
+   Struktur, einen Text an anderer Stelle, eine zusätzliche Text-Eigenschaft oder einen Wert, der keine Zeichenkette ist,
+   bringt sie nicht ein.
+3. Beide Mengen entstehen allein aus den ausgelieferten Ständen, nie von Hand, und der Lauf ist wiederholbar (zwei Läufe
+   schreiben dieselben Bytes). Hinein geht: was die vier Produkte jeder ausgelieferten Fassung beim Anlegen mitschreiben; die
+   Definitionen der Region „Bereiche aller Vivodepot-Produkte“ jeder Fassung; jeder dieser Texte mit aufgelöstem
+   Markenplatzhalter, aufgelöst vom Kern der Fassung selbst; und die Strukturen, die das Nachtragen der Fassungen, die es beim
+   Laden aufrufen, aus diesen Definitionen macht (so oft angewandt, bis nichts Neues entsteht). Der Stand, der gerade gebaut
+   wird, zählt als Quelle mit. Die Einträge stehen ungekürzt als `sha256:…` in Kern und Lese-App.
+4. Sichtbarkeit und Rechte sind zwei Dinge. Gesät und gezeigt wird aus beiden Fächern JEDE strukturell gültige Definition, mit
+   allen Angaben: jede Datei öffnet in jedem Produkt (U2-ADR-160; „Jede Datei öffnet in jedem Produkt, und alles muss drin
+   sein“). Das Urteil aus Punkt 2 entscheidet nur, als was sie gilt. Eine als ausgeliefert erkannte Definition behält, was sie
+   trägt. Jede andere gilt als „aus der Datei“: Sie erscheint als gewöhnliche Abschnitte und Felder, im Kern mit dem Rand
+   „fremd“, und Herkunftssatz und PDF-Fuß zählen sie als Erweiterung ohne geprüfte Herkunft. Von den Eigenschaften, die über das
+   Anzeigen hinaus wirken, behält sie nur die Darstellung der zwei Register, deren Zeilen im Depot liegen und nicht im Bereich:
+   die Merkmale `personenRegister` und `stellenRegister`, die Rollen `personenSektion`, `schutzbefohleneSektion` und
+   `stellenSektion` (nur für eine Sektion desselben Bereichs) und `stellenListe` mit dem festen Speicher `institutionen`. Ohne sie
+   stünden die Zeilen des Stellen-Registers in keiner Ansicht. Alles Übrige fällt in der Kopie für die Anzeige weg: jedes andere
+   Merkmal, jede andere Rolle (Ankername, Familienstand, Kontaktkanäle, Auszüge, Listen-Rollen), `wizardId`, `wizards`,
+   `exporte`, `standardDokumente`, `deckblatt`, `format`. Die behaltene Menge steht als geschlossene Listen im Kern; eine Probe
+   schlägt an, wenn sie wächst. Dasselbe gilt eine Ebene tiefer (berichtigt am 11.10.2026, Befund
+   DATEI-BEREICH-FELD-EIGENSCHAFTEN; mit v926 gingen die Felder eines solchen Bereichs noch mit allen Eigenschaften durch, und ein
+   Feld mit der Marke `frist` setzte einen Termin in die Prüftermine des Depots): an Abschnitt, Feld, Unterfeld und Option bleibt
+   nur, was in einer geschlossenen Liste steht, nämlich was zeigt und Eingabe annimmt (Kennung, Typ aus einer festen Typenliste,
+   Beschriftungen, Optionen, Unterfelder, Eingabehilfen) und was nur einschränkt (`sensibel`, `pflicht`, `keineZukunft`,
+   `datumJahrMin`). Marken, Fristen, Prüf-Intervalle, Gültigkeitsvorschläge, Zweck und Rolle eines Verweises, Quellen,
+   Code-Listen, Ersetzungen und Sichtbarkeitsbedingungen fallen, ebenso jede künftige Eigenschaft; ein unbekannter Typ wird als
+   Text gezeigt. Ein Verweis auf eine Person oder Stelle wird in einem solchen Bereich nur gelesen: der Name steht da, Auswahl und
+   Anlegen gibt es nicht; die Art des Verweises bleibt nur für Stellen stehen, weil der Name sonst nicht lesbar wäre. Die Anzeige
+   „wird verwendet in“ nennt den Bereich bei der Stelle; sie zeigt, was in der Datei steht. Eine Probe ordnet jede
+   Feld-Eigenschaft des Repos ein und schlägt an, wenn eine neue ohne Einordnung auftaucht. In der Datei bleibt die Definition unverändert; öffnet später eine Anwendung, die sie erkennt,
+   zeigt diese sie wieder ganz. Einen Hinweis „Bereich nicht angezeigt“ gibt es nicht, weil kein Bereich der Datei ausgeblendet
+   wird. Die Lese-App übernimmt aus einem Datei-Bereich nur Kennung, Beschriftung und Abschnitte.
+5. Ein Treffer macht nichts „ab Werk“. Die Saat läuft weiter ohne die Ab-Werk-Ausnahme, eingebaute Kennungen bleiben dem
+   Produkt vorbehalten, und die Liste `ersetzt` des Bereichsersatzes wirkt aus einer Datei nie.
+6. Ab v926 verändert das Öffnen die Mitschrift einer Datei nur noch auf einem Weg: Das Nachtragen ersetzt eine als
+   ausgeliefert erkannte Definition durch die Form des Produkts (Nachtrag an U2-ADR-243). Die Saat arbeitet auf Kopien; die
+   Beschriftungen des öffnenden Produkts gelangen nicht mehr in die Datei.
+7. Mit jeder Auslieferung wachsen die Mengen um die Strukturen und Texte der neuen Fassung. Eine Probe verlangt, dass jede
+   ausgelieferte Fassung im Beleg steht.
+
+**Benannte Grenze.** Der Markenplatzhalter ist mit dem Markennamen aufgelöst, den die ausgelieferten Produkte tragen. Hat eine
+Anwendung mit der Vor-Depot-Marke einer Institution eine fremde Datei geöffnet und gespeichert, steht in deren Mitschrift ein
+Text mit diesem Namen, den die Text-Menge nicht führt. Dasselbe gilt für die Datei einer neueren Fassung in einer älteren
+Anwendung und für den Bereich eines Partners. Folge: In einem Produkt, das den Bereich nicht selbst führt, erscheint er nach
+Punkt 4 als „aus der Datei“, schlicht und mit allen Angaben; im eigenen Produkt ändert sich nichts.
+
+**Korrektur vor der Landung (11.10.2026).** Die erste Fassung dieses Nachtrags säte nur erkannte Definitionen und nannte die
+übrigen in einem Hinweis. Das hätte Bereiche ausgeblendet, die jede Fassung davor gezeigt hat, und stand gegen U2-ADR-160 und
+gegen die Zusicherung dieses ADR. Der Befund MITSCHRIFT-AB-WERK-NACH-POSITION schließt darum über die Herkunft, nicht über das
+Ausblenden. Proben: `tests/mitschrift-bereich-nach-inhalt.test.js`, Abschnitt 5.
+
+**Zwei Fächer ohne Leser.** Die Fächer Rechtsraum-Katalog und Dokumente der Mitschrift werden geschrieben und im Vollexport
+zurückgehalten, aber von keinem Code gelesen. Für sie gibt es keine Inhaltsprüfung; eine Probe wird rot, sobald ein Leser
+dazukommt.
+
+**Proben:** `tests/mitschrift-bereich-nach-inhalt.test.js` (Rundreise Pro → Privat → Pro → Privat ohne Verlust und ohne Verwurf;
+untergeschobene und um ein Zeichen geänderte Definition in beiden Fächern; dieselbe Definition unter anderer Kennung; je Angriff
+aus Punkt 2 eine Probe; das Öffnen einer fremden Datei lässt ihre Mitschrift byte-gleich; Hinweis mit einem Namen, der Markup
+enthält; Lese-App; je mit Rot-Beweis), `tests/vertrauen-nie-aus-selbstauskunft.test.js` (keine Lesestelle der Mitschrift ist
+mehr als offen geführt; die zwei Fächer ohne Leser).

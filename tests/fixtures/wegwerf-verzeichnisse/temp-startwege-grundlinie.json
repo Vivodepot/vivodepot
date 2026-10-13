@@ -1,0 +1,29 @@
+{
+ "_beschreibung": "Positivliste DER FIXTURE für die Startweg- und Stellen-Achse (nicht des echten Repos). Die drei schlechten Beispiele stehen hier, damit der Standardlauf ohne Argument grün ist; die Proben entfernen Einträge in einer temporären Kopie, um den Rot-Beweis zu führen.",
+ "deckel": 3,
+ "eintraege": [
+  {
+   "achse": "startweg",
+   "datei": "tools/startweg-ohne-helfer.js",
+   "anzahl": 1,
+   "grund": "Fixture: absichtlich ohne Lauf-Helfer",
+   "eigentuemer": "Fixture"
+  },
+  {
+   "achse": "stelle",
+   "datei": "tests/beispiel-ohne-aufraeumen.js",
+   "variable": "dir",
+   "anzahl": 1,
+   "grund": "Fixture: absichtlich ohne Aufräumen",
+   "eigentuemer": "Fixture"
+  },
+  {
+   "achse": "stelle",
+   "datei": "tests/e2e/beispiel-ohne-aufraeumen.spec.js",
+   "variable": "ordner",
+   "anzahl": 1,
+   "grund": "Fixture: absichtlich ohne Aufräumen",
+   "eigentuemer": "Fixture"
+  }
+ ]
+}

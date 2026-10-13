@@ -33,7 +33,7 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await p.click('#start-leer');
     await p.click('#fertig-oeffnen');
     const sd = FIX.stammdaten;
-    await p.fill('#sd-name', sd.anbieterName); await p.selectOption('#sd-rechtsform', sd.rechtsform);
+    await p.fill('#sd-name', sd.anbieterName); await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
     await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
     await p.fill('#sd-k-name', sd.kontaktName);
     await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);

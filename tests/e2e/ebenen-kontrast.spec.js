@@ -74,19 +74,22 @@ test('[Ebenen-Kontrast] Depot-Menü der Kopfzeile: Schrift ≥ 4,5:1 und Feldran
   expect(await ansichtPruefen(page)).toEqual([]);
 });
 
-test('[Ebenen-Kontrast] Sub-Depot, Bereich Finanzen: Schrift ≥ 4,5:1 und Feldrand ≥ 3:1 in Hell, Nacht, Hochkontrast, in Ruhe und allen Zuständen', async ({ page }) => {
-  test.setTimeout(240000);
-  await (async (page) => {
+/* Seit 09.10.2026 (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag) trägt die ganze Oberfläche im Sub-Depot den Ton des Depots. Darum gilt
+   die Prüfung für jeden Ton der Palette, nicht nur für einen (Bedingung aus der Entscheidung: Schrift ≥ 4,5:1, Rand und Fokus ≥ 3:1 auf jeder
+   getönten Fläche, hell, nachts und im Hochkontrast). */
+for (const ton of ['ton', 'altrose', 'nebel', 'kiesel', 'malve', 'pfirsich', 'hellblau', 'rose']) {
+  test(`[Ebenen-Kontrast] Sub-Depot „${ton}“, Bereich Finanzen: Schrift ≥ 4,5:1 und Feldrand ≥ 3:1 in Hell, Nacht, Hochkontrast, in Ruhe und allen Zuständen`, async ({ page }) => {
+    test.setTimeout(240000);
     await mitDepot(page);
-    await page.evaluate(async (pw) => {
-      const e = await window.__vdOeffentlich.subDepotAnlegen({ bezeichnung: 'Mama', inhaberin: 'Mama Muster', verwaltungsTyp: 'verwaltet', akzent: 'flieder' }, pw);
+    await page.evaluate(async ([pw, akzent]) => {
+      const e = await window.__vdOeffentlich.subDepotAnlegen({ bezeichnung: 'Mama', inhaberin: 'Mama Muster', verwaltungsTyp: 'verwaltet', akzent }, pw);
       await window.__vdOeffentlich.subDepotVertrauenOeffnen(e.depotUUID, pw);
       window.__vdOeffentlich.subKontextBetreten(e.depotUUID);
-    }, 'e2e-passwort-123');
+    }, ['e2e-passwort-123', ton]);
     await oeffneSektor(page, 'finance');
-  })(page);
-  expect(await ansichtPruefen(page)).toEqual([]);
-});
+    expect(await ansichtPruefen(page)).toEqual([]);
+  });
+}
 
 test('[Ebenen-Kontrast] Anlass-Auswahl: Schrift ≥ 4,5:1 und Feldrand ≥ 3:1 in Hell, Nacht, Hochkontrast, in Ruhe und allen Zuständen', async ({ page }) => {
   test.setTimeout(240000);

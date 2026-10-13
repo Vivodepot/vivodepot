@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-08 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-12 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -11,7 +11,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | Kennung | Erzeuger | MIME | Endung | Sektor | Flags | Versions-/Profil-Belege im Code |
 |---|---|---|---|---|---|---|
 | `fhir-ips` | `fhirIpsBundle` | application/fhir+json | json | health | — | `http://hl7.org/fhir/StructureDefinition/data-absent-reason`, `http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/MedicationStatement-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Condition-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Procedure-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/device-eu-eps`, `http://hl7.eu/fhir/eps/StructureDefinition/deviceUseStatement-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-status-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Observation-pregnancy-edd-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Flag-alert-uv-ips`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Composition-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/composition-eu-eps`, `http://hl7.org/fhir/uv/ips/StructureDefinition/Bundle-uv-ips`, `http://hl7.eu/fhir/eps/StructureDefinition/bundle-eu-eps`, `resourceType:AllergyIntolerance`, `resourceType:MedicationStatement`, `resourceType:Condition`, `resourceType:Procedure`, `resourceType:Device`, `resourceType:DeviceUseStatement`, `resourceType:Observation`, `resourceType:Flag`, `resourceType:Composition`, `resourceType:RelatedPerson`, `resourceType:Provenance`, `resourceType:Bundle` |
-| `isik` | `isikDokumente` | application/fhir+json | json | health | nurExport | `resourceType:DocumentReference`, `resourceType:Bundle` |
+| `isik` | `isikDokumente` | application/fhir+json | json | health | nurExport | `resourceType:DocumentReference`, `resourceType:Provenance`, `resourceType:Bundle` |
 | `kbv-pka` | `kbvPkaExportBundles` | application/fhir+json | json | advanceCare | nurExport | kein Versions-/Profil-Marker im Code gefunden |
 | `sd-jwt-vc-identitaet` | `sdJwtVcIdentitaet` | application/dc+sd-jwt | sd-jwt | identity | — | `vct:urn:vivodepot:identitaet` |
 | `xoev-verwaltung` | `xoevVerwaltung` | application/json | json | administration | — | kein Versions-/Profil-Marker im Code gefunden |
@@ -86,13 +86,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
-- E2E (Playwright): 603 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 41 aus Schleifen über CPU-Drosselungen = **644 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
-- Wächter-Register (intern): 143
-- Schema-Version: 92 · SCHALEN_STAND: v922 · Build-Version: v1.0
+- E2E (Playwright): 613 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 51 aus Schleifen über CPU-Drosselungen = **664 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 145
+- Schema-Version: 92 · SCHALEN_STAND: v927 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (436)
+## ADR-Register (433)
 
 | Nummer | Titel |
 |---|---|
@@ -258,6 +258,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-156 | Empfängerkreise — ein Empfänger, ein Passwort, ein Zuschnitt |
 | U2-ADR-156 | Die Tür eines Fachs: was ihre Trennung vom Anker-Schlüssel trägt |
 | U2-ADR-156 | Klartext-Bindung: Ort-Hinweis und weitergetragene Felder im Geheimteil gebunden |
+| U2-ADR-156 | QR-Übergabe eines Empfängerkreises: Format v2 mit gebundener Version |
 | U2-ADR-156 | Sensibel-Filter: jeder enge Baustein, ausgenommen die drei Ab-Werk-Blätter |
 | U2-ADR-157 | Ein Modul schlägt vor, die Bürgerin hebt |
 | U2-ADR-158 | Eine Person gilt als verstorben — und das löst das Ereignis „Tod" aus |
@@ -418,7 +419,6 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-339 | Der Design-Namensraum bekommt eine Typprüfung statt einer Namensliste |
 | U2-ADR-340 | Ein Design darf keine Warnung ausblenden — die Zusicherung misst das Ergebnis, nicht den Weg |
 | U2-ADR-341 | Optionen aus einer Situation gehören hinter die Bündel-Anwendung, nicht in ein Literal davor |
-| U2-ADR-341 | U2-ADR-341b (A1b) · SITUATIONEN sind real ins Bündel umgezogen — der native Block ist leer |
 | U2-ADR-342 | Der Beleg bleibt im Depot — und zwei Klassen von Lesern sehen verschiedene Dinge |
 | U2-ADR-343 | Die 39 amtlich übernehmbaren Wortlaute — mechanisch gegen die BMJ-Formulare belegt |
 | U2-ADR-344 | Die drei amtlichen BMJ-Dokumente verlassen den nativen Block |
@@ -441,7 +441,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-362 | Branding anschließen — `name`/`domain` erreichen die Bürgerin |
 | U2-ADR-363 | Der Rückfall auf Deutsch verlässt textLesen() |
 | U2-ADR-364 | Nur lateinische Schrift im deutschen Sprachmodul — ein Beispiel getauscht, ein Wächter dauerhaft |
-| U2-ADR-366 | Die Ausgabe wird zur Antwort auf ein benanntes Template — Schema-Bindung zuerst, Orchestrierung und Zeitachse beschrieben, nicht gebaut |
+| U2-ADR-366 | Der Rückweg einer Vorlage läuft über die Anfrage, und nur die geprüfte Stelle erreicht ihre eigenen Felder |
 | U2-ADR-367 | `TEXTSATZ_EINGEBAUT` wird das deutsche Sprachmodul selbst |
 | U2-ADR-368 | Rechtsraum DE wird ein Modul, wie Sprache — heben und verdrahten, nicht umschalten |
 | U2-ADR-369 | Der umgedrehte Wächter 3 — eine benannte Erlaubnisliste für das Deutsch-Leck |
@@ -469,20 +469,11 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-400 | White Label — Reichweite bis ins PDF, EIN Herkunftsort (Nummer beim Landen zu bestätigen) |
 | U2-ADR-401 | Achsen-Verriegelung — exklusive Achsen schlagen an, statt still zu überschreiben (Nummer beim Landen zu bestätigen) |
 | U2-ADR-402 | Vollimport — acht Schlüssel bleiben draußen, weil sie DIESER Datei gehören, nicht der Bürgerin (Nummer beim Landen zu bestätigen) |
-| U2-ADR-404 | Provisionierung mit K9/Weg C verdrahtet — plus ein gefundener Bestandsfehler |
-| U2-ADR-405 | Zutaten-Prüfsumme gegen das Rezeptbuch im Schwesterrepo |
-| U2-ADR-406 | `produktTextErzeugen` in den Schwesterrepo kopiert, mit gepinnter Code-Prüfsumme |
-| U2-ADR-407 | `tools/kern-ausliefern.js` — der Auslieferungsweg zum Speicher |
 | U2-ADR-408 | Die Palette folgt der Marke — White Label bis zum letzten Grünton |
 | U2-ADR-409 | Das Feldregister — der Bestand nach außen, Vorschläge nach innen |
 | U2-ADR-410 | ZVR-Abschrift — das Register nimmt ab 01.10.2026 den Text selbst |
-| U2-ADR-411 | Der Bestellweg — Produkte entstehen aus Rezept und Zutaten; für v1 je Version, je Bestellung nach v1 |
 | U2-ADR-412 | Jede Herausgabe bekommt auch ein PDF — drei Chiffrat-Ausnahmen |
-| U2-ADR-413 | Vorführung — ein gebackenes Beispiel-Depot, das nichts verlässt |
-| U2-ADR-414 | Das Produkt ist ein signiertes Rezept — die Kette ersetzt die gepinnte Prüfsumme |
 | U2-ADR-415 | Vom Stick geöffnet — beim Schließen auf den Stick, danach die Browser-Kopie räumen |
-| U2-ADR-416 | Sprachmodule werden mit jeder Version ausgeliefert |
-| U2-ADR-417 | U2-ADR-417 (Nummer beim Landen zu bestätigen) · Situationen/Wizards ab Werk — eigener Speisepfad statt Fremdmodul-Prüfer |
 | U2-ADR-419 | U2-ADR-419 (Nummer beim Landen zu bestätigen) · Manifest-Konfektionierung — Bibliothek + Wächter (Block D) |
 | U2-ADR-420 | U2-ADR-420 (Nummer beim Landen zu bestätigen) · Doppelt vergebene ADR-Nummern: gefunden, benannt, eine sofort behoben |
 | U2-ADR-421 | U2-ADR-421 (Nummer beim Landen zu bestätigen) · VD Pro ersetzt statt ergänzt |
@@ -491,7 +482,6 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-424 | Private Sachversicherungen strukturiert, Basiskonto und P-Konto als Kontomerkmal |
 | U2-ADR-425 | Hilfe in der Datei — Bedienungsanleitung als Kern-Inhalt |
 | U2-ADR-426 | Das Gerüst trägt keinen vollen Sprachsatz — Englisch kommt als Modul |
-| U2-ADR-427 | Templates stehen im Rezept in einer eigenen Liste |
 | U2-ADR-428 | Deutsch ist ein Sprachmodul — das Gerüst trägt keinen Sprachsatz |
 | U2-ADR-429 | Ein Depot trägt seine Sprache, und die Bürgerin schaltet unter den vollen Sprachen um |
 | U2-ADR-430 | Wiederherstellungs-Hülle, abwählbar |
@@ -530,8 +520,15 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-483 | Vorprüfung im Studio — dieselben Einlass-Regeln wie der Kern, ein Urteil in Klartext, Angaben erst zur Signatur |
 | U2-ADR-486 | Post-Quanten-Übergang — Anker-Agilität zuerst, dann hybride Verfahren |
 | U2-ADR-488 | Schema-Adressen — die Kennung löst auf, jede Fassung bleibt |
+| U2-ADR-490 | Feldregister — CC0, eine feste Adresse je Kennung, Fassungen, npm-Paket |
 | U2-ADR-491 | Passkey als zweiter Entsperrweg in der Web-App — abgelehnt |
 | U2-ADR-492 | Die Menge der eingebauten Bereiche kommt aus dem gebackenen Katalog des Produkts |
+| U2-ADR-493 | Studio in zwei Ebenen — Eingang nach dem Ziel, die Fachebene dahinter |
+| U2-ADR-494 | Die Test-Fläche window.__vdOeffentlich ist im ausgelieferten Produkt verschlossen |
+| U2-ADR-495 | Angaben ohne Länderannahme — Rechtsform, Land und Rechtsraum aus dem Rechtsraum-Modul |
+| U2-ADR-496 | Anbindung an Vivodepot: offene Definition, Prüfbericht statt Zeichen, veröffentlichte Prüfregeln |
+| U2-ADR-497 | Die Beschriftung eines Felds in Ausgaben ist getrennt von seiner Beschriftung in der Eingabe |
+| U2-ADR-498 | Automatische Signatur einer Einreichung — die Signierstelle holt ab, die Annahmestelle hält keinen Schlüssel |
 
 ---
 
@@ -541,7 +538,7 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 37 | 234 |
+| `.btn` | 37 | 235 |
 | `.btn-sek` | 15 | 107 |
 | `.btn-dezent` | 5 | 12 |
 | `.btn-klein` | 3 | 15 |
@@ -553,6 +550,6 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 14 | 5 |
-| `.leer` | 3 | 302 |
+| `.leer` | 3 | 303 |
 | `.pause-erlaubnis` | 2 | 3 |
 | `.hinweis-box` | 7 | 27 |

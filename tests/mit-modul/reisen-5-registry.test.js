@@ -29,6 +29,7 @@ const { reiseAusfuehren } = require('../../tools/lib/reisen-kern.js');
    vivodepot.html erreichte keine echten Bereiche/Felder. Derselbe Weg wie überall sonst
    (`konfektionieren()`, synchron), Standard-Produkt privat-de. */
 const _gebacken = konfektionieren({
+  mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
   ziel: fs.mkdtempSync(path.join(os.tmpdir(), 'reisen5-buergerweg-')),
   slug: 'privat-de',
   modulauswahl: [],

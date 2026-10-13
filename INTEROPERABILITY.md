@@ -116,11 +116,11 @@ Im Repo halten `tests/shl-provider.test.js` und `tests/shl-abholseite.test.js` d
 JWE, beide Wege, CSP der Abhol-Seite); ob die Abhol-Seite im echten Browser entschlüsselt, prüft
 `node tools/shl-empfangen-probe.js` in einem bewussten Lauf gegen den Ablage-Host.
 
-**Die FHIR-Profilvalidierung läuft getrennt** (`npm run test:konformitaet:extern`), weil sie den
-HL7-`validator_cli` und einen Paketabruf braucht. Sie ist deshalb **nicht** Teil des
-Push-Gates — wer den Nachweis führen will, fährt sie eigens. Das steht hier, weil eine
-Konformitätszusage, deren Prüfung nur manchmal läuft, sonst mehr verspricht, als sie hält; genau
-dieser Fehler ist Vivodepot am 26.07.2026 unterlaufen und hat zu U2-ADR-106 geführt.
+**Die FHIR-Profilvalidierung läuft im Push-Gate, bei Anlass** (`npm run test:konformitaet:extern`, gerufen von
+`scripts/pruefe-fhir-gate.js`). Anlass ist ein Push, der eine ausgelieferte Datei oder eine Datei des Prüflaufs
+ändert; ein Push ohne solche Datei fährt sie nicht. Sie braucht Java und den HL7-`validator_cli` in der
+festgelegten Fassung. Fehlt eines davon, wird der Push abgewiesen: ungemessen gilt nicht als bestanden. Bis zum
+19.09.2026 lief sie nur getrennt (U2-ADR-106).
 
 ---
 

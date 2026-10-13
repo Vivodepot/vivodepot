@@ -147,7 +147,7 @@ test('[Feldregister] die Seite löst den Platzhalter ab: kein externes Skript, k
   assert.ok(!/<link\b[^>]*rel=["']?stylesheet/i.test(seite), 'kein externes Stylesheet');
   assert.ok(!/@import|fonts\.googleapis|fonts\.gstatic/i.test(seite), 'keine externe Schrift');
   /* Erlaubt: vivodepot.de (Fuß, wie im Platzhalter), die eigene Kennungs-Adresse und der CC0-Rechtstext
-     (U2-ADR-NNN) — beides Verweise, kein geladener Inhalt. */
+     (U2-ADR-490) — beides Verweise, kein geladener Inhalt. */
   const erlaubt = ['https://vivodepot.de', 'https://register.vivodepot.de/feld/', 'https://creativecommons.org/publicdomain/zero/1.0/'];
   const fremd = (seite.match(/https?:\/\/[^"'\s)<&]+/g) || []).filter((u) => !erlaubt.some((e) => u.startsWith(e)));
   assert.deepEqual(fremd, [], 'nur vivodepot.de, die eigene Kennungs-Adresse und der CC0-Rechtstext');

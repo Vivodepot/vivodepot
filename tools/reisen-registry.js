@@ -31,7 +31,7 @@
 const path = require('node:path');
 const { einmalDialogeSchliessen, feldgruppenKartenOeffnen } = require('../tests/e2e/helpers.js');
 
-const PW = 'Reise-2026!';
+const PW = 'Reise-2026!!';   // ≥ 12 Zeichen (PW_MIN_EIGEN, 08.10.2026)
 
 /* Unter dem Breakpoint liegt die Seitenleiste als Off-canvas-Drawer (#tb-menue öffnet
    ihn per Klasse `menue-auf` an #app) — ohne das ist `[data-sektor]` „outside of the
@@ -85,7 +85,7 @@ async function oeffneAnlassAuswahlMobil(seite) {
   await seite.click('[data-anlass-auswahl]', { timeout: 5000 });
 }
 
-/* CW-1 (24.08.2026): `erbfall` ist keine eigene Kachel mehr im Raster — die Kachelsicht
+/* Testrunde 24.08.2026, Fall 1: `erbfall` ist keine eigene Kachel mehr im Raster — die Kachelsicht
    zeigt die zusammengelegte „Ein Todesfall ist eingetreten"-Kachel (`data-anlass="todesfall"`),
    die eine Zwischenfrage öffnet (`waehleAnlass`, `ziel.zwischenfrage`). `erbfall` bleibt als Ziel
    hinter der Option „Ich kümmere mich um den Nachlass …" (`data-zwischenfrage-anlass="erbfall"`)
@@ -691,7 +691,7 @@ const REISE_3_ANJA = {
    entsiegeln, den Sub-Kontext betreten (`#tb-sub-name` zeigt „Geöffnet: Heinrich"
    neben der unveränderten Depot-Pille, Palettentausch Zug 2), ein echtes Feld
    eintragen. */
-const SUB_PW = 'Sub-2026!';
+const SUB_PW = 'Sub-Depot-2026!';   // ≥ 12 Zeichen (PW_MIN_EIGEN, 08.10.2026)
 const REISE_4_THOMAS = {
   id: 'reise-4-thomas',
   persona: { name: 'Thomas', alter: 48, profil: 'Sohn mit Vollmacht, legt Sub-Depot für Vater Heinrich an' },

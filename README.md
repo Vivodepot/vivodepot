@@ -17,7 +17,7 @@ Themenbereiche über eigene Vorlagen ergänzen wollen: der Kern kennt kein einze
 
 ## Was es kostet
 
-Für Bürgerinnen und Bürger ist Vivodepot kostenlos.
+Für Bürgerinnen und Bürger ist Vivodepot Privat kostenlos.
 
 ## Wie es funktioniert
 
@@ -90,4 +90,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Stand
 
-Fassung v922.
+Fassung v927.

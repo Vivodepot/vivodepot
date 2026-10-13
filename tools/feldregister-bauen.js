@@ -13,7 +13,7 @@
      feldregister.json          die Liste, maschinenlesbar
      feldregister.json.sha256   die Prüfsumme, Format wie `vivodepot.html.sha256`
      index.html                 die Registerseite, die den Platzhalter ablöst
-     feldregister.jsonld        dasselbe als Begriffsschema (SKOS, JSON-LD) — U2-ADR-NNN
+     feldregister.jsonld        dasselbe als Begriffsschema (SKOS, JSON-LD) — U2-ADR-490
      feld/<kennung>/            je Kennung eine feste Adresse: index.html + index.jsonld,
                                  dazu feld/.htaccess (tools/lib/feldregister-adressen.js)
      index.json                 der KATALOG-INDEX (Register-Katalog-Plan §6 Schritt 3,
@@ -68,6 +68,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { INDEX_DATEI, indexEintragBauen, indexJsonBauen, vorhandenenIndexLesen } = require('./lib/register-index.js');
 const adressen = require('./lib/feldregister-adressen.js');
+const navicon = require('./lib/navicon.js');
 
 const REPO = path.join(__dirname, '..');
 const KATALOG_PFAD = path.join(REPO, 'bereiche', 'feldkatalog.json');
@@ -272,7 +273,7 @@ function registerJson(felder, fassung) {
   return JSON.stringify({
     hinweis: KOPFZEILE,
     fassung: { datum: fassung.datum, kern: fassung.kern },
-    /* U2-ADR-NNN: CC0 für das Eigene, in der Datei selbst — wer sie kopiert, nimmt die Lizenz mit. */
+    /* U2-ADR-490: CC0 für das Eigene, in der Datei selbst — wer sie kopiert, nimmt die Lizenz mit. */
     lizenz: { ...adressen.LIZENZ },
     herausgeber: adressen.HERAUSGEBER,
     schluesselraum: 'kennung',
@@ -336,7 +337,7 @@ function htmlText(s) {
    Ersetzt ist allein der Abschnitt „Stand": statt „noch nicht veröffentlicht"
    steht dort jetzt die Liste selbst. Kein externes Skript, keine externe
    Schrift, kein Tracker — dieselbe Zusage wie beim Kern. */
-function seiteHtml(gruppen, fassung, hash, generatorUrl) {
+function seiteHtml(gruppen, fassung, hash, generatorUrl, iconLinks) {
   const anzahl = gruppen.reduce((n, g) => n + g.felder.length, 0);
   const stand = datumDeutsch(fassung.datum);
   const z = [];
@@ -351,6 +352,7 @@ function seiteHtml(gruppen, fassung, hash, generatorUrl) {
      Diese Seite trägt den Bestand. Ein Register, das Suchmaschinen nicht führen dürfen, findet
      auch der nicht, der danach sucht — und die Vorbilder sind sämtlich indexiert. */
   z.push('<title>Feldregister — Vivodepot</title>');
+  if (iconLinks) z.push(iconLinks);   // das Icon des Kerns (tools/lib/navicon.js)
   z.push('<!-- ' + KOPFZEILE);
   z.push('     Fassung ' + stand + ' · Kern ' + fassung.kern + ' · ' + anzahl + ' Kennungen. -->');
   z.push('<style>');
@@ -527,7 +529,9 @@ function bauen(opt) {
     json,
     hash,
     pruefsumme: pruefsummenZeile(hash),
-    html: seiteHtml(gruppen, fassung, hash, o.generatorUrl || null),
+    html: seiteHtml(gruppen, fassung, hash, o.generatorUrl || null, navicon.naviconLinks(o.kernPfad ? { quelle: o.kernPfad } : {})),
+    // Das Icon der Register-Wurzel, auf das die Kennungsseiten verweisen: dekodiert aus demselben Kern (tools/lib/navicon.js).
+    favicon: navicon.faviconPng(o.kernPfad ? { quelle: o.kernPfad } : {}),
     indexEintrag: indexEintrag(felder.length, fassung, hash),
   };
 }
@@ -541,6 +545,7 @@ function schreiben(zielOrdner, artefakt) {
     [SEITEN_DATEI, artefakt.html],
     [adressen.SCHEMA_JSONLD_DATEI, artefakt.jsonld],
     [INDEX_DATEI, index],
+    [navicon.FAVICON_DATEI, artefakt.favicon],
   ];
   /* feld/ wird ganz neu geschrieben: eine Seite, deren Kennung im Katalog fehlt, darf nicht liegen bleiben. */
   fs.rmSync(path.join(zielOrdner, adressen.ORDNER), { recursive: true, force: true });

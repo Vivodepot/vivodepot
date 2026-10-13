@@ -82,6 +82,13 @@ konformitaet:
       - tests/einlass-regeln-studio-bereich.test.js "[Vorprüfung·Studio] die Vorlage wird ohne Angaben zur Einrichtung und ohne Schlüssel geprüft"
 ```
 
+## Nachtrag 10.10.2026 — die automatische Signatur hat eine eigene Entscheidung
+
+Die Abgrenzung oben nimmt die automatische Signatur nach einem Urteil ohne Auffälligkeit aus dieser Entscheidung aus. Sie ist
+seit dem 10.10.2026 in U2-ADR-498 entschieden (die Signierstelle holt ab, die Annahmestelle hält keinen Schlüssel), noch nicht
+gebaut. Alles andere hier gilt unverändert: Das Urteil des Studios bleibt eine Vorhersage, und der Weg „selbst verteilen,
+unsigniert“ ist weiter nicht Teil dieser Entscheidung.
+
 ---
 
 *Vivodepot GmbH · Berlin · 05.10.2026*

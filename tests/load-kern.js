@@ -89,6 +89,33 @@ const HTML_PATH = process.env.KERN_HTML_PATH
   : path.join(REPO, 'vivodepot.html');
 const PORT_VERBATIM_PATH = path.join(REPO, 'vivodepot-krypto-kern-PORT-VERBATIM.js');
 
+/* FASSUNGSVERGLEICH BEI FREMDER DATEI (11.10.2026). Dieser Adapter nennt in seiner Ausgabeliste Namen des Kerns, neben dem
+   er liegt. Lädt er über KERN_HTML_PATH oder `opts.htmlPfad` eine ANDERE Datei, kann sie eine andere Fassung tragen. Ein
+   älterer Kern unter neuerem Adapter ist an vielen Stellen per typeof abgesichert; ein NEUERER Kern unter älterem Adapter
+   (oder ein Name, den die Absicherung vergaß) scheiterte bisher mit `<name> is not defined`, ohne dass jemand sah, warum.
+   Gemessen am 11.10.2026: die Proben eines Quellstands luden einen Kern einer anderen Fassung und fielen an einem Namen.
+   Darum: scheitert das Auswerten einer fremden Datei, deren Fassungsstempel (SCHALEN_STAND) von dem des eigenen Baums
+   abweicht, steht der Grund in EINEM Satz vor der ursprünglichen Meldung. Verglichen wird nur der Stempel, nie die Bytes:
+   eine abgewandelte Kopie DERSELBEN Fassung (Rot-Beweis an einer Kopie) lädt wie bisher, und eine andere Fassung, die
+   fehlerfrei lädt, lädt ebenfalls wie bisher — ohne Meldung, ohne Abbruch. */
+const EIGENER_KERN_PFAD = path.join(REPO, 'vivodepot.html');
+function fassungsStempelAus(text) {
+  const m = /const SCHALEN_STAND = '(v\d+)'/.exec(String(text || ''));
+  return m ? m[1] : null;
+}
+/* Der eine Satz, oder null (dieselbe Datei, dieselbe Fassung, oder der eigene Kern ist nicht lesbar). `eigenerText` nur für
+   die Probe; sonst wird der Kern des eigenen Baums gelesen. */
+function fassungsAbweichung(geladenerPfad, geladenerText, eigenerText) {
+  if (path.resolve(geladenerPfad) === EIGENER_KERN_PFAD) return null;
+  let eigener = eigenerText;
+  if (eigener === undefined) { try { eigener = fs.readFileSync(EIGENER_KERN_PFAD, 'utf8'); } catch (_) { return null; } }
+  const adapter = fassungsStempelAus(eigener);
+  const datei = fassungsStempelAus(geladenerText);
+  if (!adapter || adapter === datei) return null;
+  return 'Der Testadapter gehört zur Fassung ' + adapter + ', die geladene Datei ' + geladenerPfad + ' trägt '
+    + (datei ? 'die Fassung ' + datei : 'keinen Fassungsstempel') + ' — Adapter und Kern stammen nicht aus demselben Stand.';
+}
+
 // Erwarteter Hash des Krypto-Blocks (== vivodepot-krypto-kern-PORT-VERBATIM.js).
 // Umbau „Englisch vor v1" (14.09.2026): der Block selbst (Krypto-Logik) ist byte-identisch
 // geblieben -- nur ZWEI Kennung-BEISPIELE im Kopf-Kommentar wurden mitgezogen (sozialversicherung.gdb
@@ -243,7 +270,7 @@ function makeDocument() {
 }
 
 /* ── Kontext bauen, Blöcke laden, interne Bindings exportieren ───────────── */
-// U2-ADR-NNN (18.09.2026, Kern-Verschluss): EXPORT_HOOK selbst muss jetzt INNERHALB des
+// Kern-Verschluss (18.09.2026, U2-ADR-494): EXPORT_HOOK selbst muss jetzt INNERHALB des
 // Kern-IIFE laufen (s. spliceVorKernVerschluss), sonst sieht es keinen der eingeschlossenen
 // Namen. Ein `return` dort würde nur aus DIESEM IIFE zurückkehren, nicht aus der äußeren
 // new Function() — sein Ergebnis ginge verloren (V wäre `undefined`). Darum schreibt der Hook
@@ -262,6 +289,7 @@ const EXPORT_HOOK = `
   codeChipInhaltHTML: (typeof codeChipInhaltHTML === 'function' ? codeChipInhaltHTML : undefined),
   codeChipKlartext: (typeof codeChipKlartext === 'function' ? codeChipKlartext : undefined),
   blackboxDateiname: (typeof blackboxDateiname === 'function' ? blackboxDateiname : undefined),
+  feldAusgabeBeschriftung: (typeof feldAusgabeBeschriftung === 'function' ? feldAusgabeBeschriftung : undefined),   // 09.10.2026, ältere Kerne kennen sie nicht
   subDepotWiderspruchErfassen: (typeof subDepotWiderspruchErfassen === 'function' ? subDepotWiderspruchErfassen : undefined),
   subDepotWiderspruchEntfernen: (typeof subDepotWiderspruchEntfernen === 'function' ? subDepotWiderspruchEntfernen : undefined),
   prueftermineWidersprueche: (typeof prueftermineWidersprueche === 'function' ? prueftermineWidersprueche : undefined),
@@ -352,7 +380,11 @@ const EXPORT_HOOK = `
   // Strang 3 / Commit B — Sub-Depot-Akzentfarbe (Palette + Laufzeit-Variabilisierung)
   SUBDEPOT_PALETTE, subDepotAkzentToken, setzeSubDepotAkzent, entferneSubDepotAkzentOverride,
   // Strang 3 / Commit C — Auswahl-UI + pro-Farbe-Textfarbe (D28)
-  SUBDEPOT_FARB_NAMEN, subDepotTextFarbe, subDepotAkzentStark,
+  SUBDEPOT_FARB_NAMEN: (typeof SUBDEPOT_FARB_NAMEN !== 'undefined' ? SUBDEPOT_FARB_NAMEN : undefined),   // bis 09.10.2026
+  subDepotFarbName: (typeof subDepotFarbName === 'function' ? subDepotFarbName : undefined),   // ab 09.10.2026, Namen aus dem Textsatz
+  SUBDEPOT_ANZEIGE_ABBILDUNG: (typeof SUBDEPOT_ANZEIGE_ABBILDUNG !== 'undefined' ? SUBDEPOT_ANZEIGE_ABBILDUNG : undefined),
+  _subDepotModulHex: (typeof _subDepotModulHex === 'function' ? _subDepotModulHex : undefined),
+  subDepotTextFarbe, subDepotAkzentStark,
   subDepotAkzentLinie: (typeof subDepotAkzentLinie !== 'undefined' ? subDepotAkzentLinie : undefined),
   // White-Label-Akzent (12.09.2026, Nutzer-Rückmeldung) — freier Hex neben den acht benannten Tönen
   subDepotAkzentIstHex: (typeof subDepotAkzentIstHex !== 'undefined' ? subDepotAkzentIstHex : undefined),
@@ -419,6 +451,11 @@ const EXPORT_HOOK = `
   ANFRAGE_ANTWORT_ARTEN, ANFRAGE_WERT_SCHLUESSEL, ANFRAGE_LINK_MARKE,
   anfragePruefen, anfrageAbgelaufen, anfrageAbgleich, anfrageFeldNachtragen, anfrageAntwortDatensatz,
   anfrageSignaturPruefen, anfrageBestaetigungModell, anfrageAusText,
+  anfrageVorlagenfeldPruefen: (typeof anfrageVorlagenfeldPruefen !== 'undefined' ? anfrageVorlagenfeldPruefen : undefined),
+  anfrageAntwortDatensatzGeprueft: (typeof anfrageAntwortDatensatzGeprueft !== 'undefined' ? anfrageAntwortDatensatzGeprueft : undefined),
+  anfrageAuswahlKennungen: (typeof anfrageAuswahlKennungen !== 'undefined' ? anfrageAuswahlKennungen : undefined),
+  _anfrageUmschlagAusEintrag: (typeof _anfrageUmschlagAusEintrag !== 'undefined' ? _anfrageUmschlagAusEintrag : undefined),
+  anfragePruefenMitVorlagen: (typeof anfragePruefenMitVorlagen !== 'undefined' ? anfragePruefenMitVorlagen : undefined),
   anfrageZustand, anfrageMerken, anfrageBeantwortetVermerken, anfrageEinstiegSchritte,
   anfrageEintragFuerId, oeffneAnfrage, renderAnfrage, flowAnfrageEmpfangen, flowAnfrageAntworten,
   flowAnfrageEinstieg, anfrageAusAdresseVielleicht,
@@ -520,6 +557,9 @@ const EXPORT_HOOK = `
   _fhirObservationHTML, _fhirDokumentAnsichtHTML,     // U2-ADR-076 Nachtrag: Observation-Darstellung + kombiniert
   // U2-ADR-047 — SHL-Provider (Offline-Teil): JWE + shlink:/-Payload; Upload = offener Stub
   _jweCompactDir, shlProviderPayload, shlUriBauen, shlDateiHochladen, shlProviderErzeugen, SHL_URI_PRAEFIX,
+  // Befund SHL-ABLAGE-URL-UNGEPRUEFT (07.10.2026): Prüfung der Ablage-Adresse und Bestätigung des Hosts
+  shlAblageUrlPruefen: (typeof shlAblageUrlPruefen !== 'undefined' ? shlAblageUrlPruefen : undefined),
+  _shlHostBestaetigungZeigen: (typeof _shlHostBestaetigungZeigen !== 'undefined' ? _shlHostBestaetigungZeigen : undefined),
   // Die zwei Freigabewege (Nachtrag U2-ADR-047): exportiert, damit die Proben den Manifest-Weg
   // gegen die Tabelle halten koennen und nicht gegen eine im Test nachgebaute Kopie.
   SHL_FREIGABEWEGE: (typeof SHL_FREIGABEWEGE !== 'undefined' ? SHL_FREIGABEWEGE : undefined),
@@ -605,11 +645,13 @@ const EXPORT_HOOK = `
   _subDepotAkzentHexAufgeloest: (typeof _subDepotAkzentHexAufgeloest === 'function' ? _subDepotAkzentHexAufgeloest : undefined),
   // Marke-Achse-Plan §5/§6 Schritt 6 (14.09.2026) — Sub-Depot-Partner-Palette, Rangfolge-Vorbau.
   _subdepotPartnerPaletteGueltig: (typeof _subdepotPartnerPaletteGueltig === 'function' ? _subdepotPartnerPaletteGueltig : undefined),
+  _farbAbstandDE2000: (typeof _farbAbstandDE2000 === 'function' ? _farbAbstandDE2000 : undefined),   // 09.10.2026
   _subdepotPaletteAktiv: (typeof _subdepotPaletteAktiv === 'function' ? _subdepotPaletteAktiv : undefined),
   _subDepotAkzentAlsHexOderNull: (typeof _subDepotAkzentAlsHexOderNull === 'function' ? _subDepotAkzentAlsHexOderNull : undefined),
   AB_WERK_SUBDEPOT_PALETTE_PRODUKT: (typeof AB_WERK_SUBDEPOT_PALETTE_PRODUKT !== 'undefined' ? AB_WERK_SUBDEPOT_PALETTE_PRODUKT : undefined),
   _SUBDEPOT_PARTNER_MIN_KONTRAST: (typeof _SUBDEPOT_PARTNER_MIN_KONTRAST !== 'undefined' ? _SUBDEPOT_PARTNER_MIN_KONTRAST : undefined),
   fhirIpsBundle, flowGesundheitFhirExport, flowSektorExport,
+  IPS_HERKUNFT_FELDER: (typeof IPS_HERKUNFT_FELDER !== 'undefined' ? IPS_HERKUNFT_FELDER : undefined),   // Herkunft je Ressource (Nachtrag U2-ADR-081)
   BEZIEHUNGS_CODES, BEZIEHUNG_ROLECODE_SYSTEM, BEZIEHUNG_NULLFLAVOR_SYSTEM,   // U2-ADR-079 — delegierte RelatedPerson-Codierung
   dateiMitMagic, magicStrippen, DATEI_MAGIC_PREFIX,
   oeffneSituation, oeffneSektorFeld,
@@ -1077,6 +1119,8 @@ const EXPORT_HOOK = `
   EMPFAENGER_QR_LESE_URL: (typeof EMPFAENGER_QR_LESE_URL !== 'undefined' ? EMPFAENGER_QR_LESE_URL : undefined),
   EMPFAENGER_QR_HASH_PRAEFIX: (typeof EMPFAENGER_QR_HASH_PRAEFIX !== 'undefined' ? EMPFAENGER_QR_HASH_PRAEFIX : undefined),
   EMPFAENGER_QR_MAX_ZEICHEN: (typeof EMPFAENGER_QR_MAX_ZEICHEN !== 'undefined' ? EMPFAENGER_QR_MAX_ZEICHEN : undefined),
+  EMPFAENGER_QR_VERSION: (typeof EMPFAENGER_QR_VERSION !== 'undefined' ? EMPFAENGER_QR_VERSION : undefined),
+  EMPFAENGER_QR_AAD: (typeof EMPFAENGER_QR_AAD !== 'undefined' ? EMPFAENGER_QR_AAD : undefined),
   prueftermineFristen, prueftermineZeilen, _zeilenBezeichnung, feldHatMarke, feldMarkenPruefen, FELD_MARKEN_ERLAUBT,
   ereignisMarkieren, EREIGNIS_ACHSE_FELDER, EREIGNIS_ARTEN, _inhaberPersonIdFinden, dokumenteFuerEintrag,
   blattVorschlagPruefen, blattVorschlaege, blattFeldGehoben,
@@ -1199,7 +1243,7 @@ const EXPORT_HOOK = `
   _logikModulKennungenUmschreiben: (typeof _logikModulKennungenUmschreiben !== 'undefined' ? _logikModulKennungenUmschreiben : undefined),
   // Doppel-Knopf-Regression (21.07.2026): die Dialoge selbst prüfbar machen
   ui, _dateiNameErfragen, flowSubDepotNachAnker, flowSubDepotAushaengen,
-  renderFooter, BUILD_VERSION, BUILD_SHA256, SCHALEN_STAND,   // F2: _swCacheStandFuellen entfallen (Werkstatt-Labels weg)
+  renderFooter, BUILD_VERSION, SCHALEN_STAND,   // F2: _swCacheStandFuellen entfallen (Werkstatt-Labels weg)
   // A70 (31.07.2026) — proaktive Stale-Cache-Warnung: Kern-Vergleich, die Prüfung und der DOM-anhängende Aufruf
   _staleCacheGeneration, _staleCacheWarnungPruefen, _staleCacheWarnungAnzeigen,
   // Datums-Helfer + Versions-Hinweis (Teil 3) — geteilt von der Dokument-Ebene (1b: Erinnerungs-Modell abgelöst)
@@ -1777,6 +1821,32 @@ const EXPORT_HOOK = `
   _logikModulAbWerkSeed: (typeof _logikModulAbWerkSeed !== 'undefined' ? _logikModulAbWerkSeed : undefined),
   _wizardModulAbWerkSeed: (typeof _wizardModulAbWerkSeed !== 'undefined' ? _wizardModulAbWerkSeed : undefined),
   _mitschriftNachInhalt: (typeof _mitschriftNachInhalt !== 'undefined' ? _mitschriftNachInhalt : undefined),
+  _bereichsDefinitionZerlegen: (typeof _bereichsDefinitionZerlegen !== 'undefined' ? _bereichsDefinitionZerlegen : undefined),
+  _bereichsAbdruck: (typeof _bereichsAbdruck !== 'undefined' ? _bereichsAbdruck : undefined),
+  _bereichsDefinitionFormen: (typeof _bereichsDefinitionFormen !== 'undefined' ? _bereichsDefinitionFormen : undefined),
+  _bereichsDefinitionUrteil: (typeof _bereichsDefinitionUrteil !== 'undefined' ? _bereichsDefinitionUrteil : undefined),
+  /* Nur für Proben: eine Bereichsdefinition so stellen, als hätte die Inhaltsprüfung sie als ausgeliefert erkannt (steht für das
+     Ergebnis von _bereichsDefinitionenPruefen; s. tests/helfer/mitschrift-als-ausgeliefert.js). */
+  _alsAusgeliefertFestgestellt: (definition) => { _bereichsDefinitionVomProduktGeschrieben(definition); return definition; },
+  _bereichsDefinitionAusgeliefert: (typeof _bereichsDefinitionAusgeliefert !== 'undefined' ? _bereichsDefinitionAusgeliefert : undefined),
+  _bereichsDefinitionenPruefen: (typeof _bereichsDefinitionenPruefen !== 'undefined' ? _bereichsDefinitionenPruefen : undefined),
+  _mitschriftBereichsDefinitionen: (typeof _mitschriftBereichsDefinitionen !== 'undefined' ? _mitschriftBereichsDefinitionen : undefined),
+  _mitschriftBereicheFuerSaat: (typeof _mitschriftBereicheFuerSaat !== 'undefined' ? _mitschriftBereicheFuerSaat : undefined),
+  _BEREICH_VERWEISE: (typeof _BEREICH_VERWEISE !== 'undefined' ? _BEREICH_VERWEISE : undefined),
+  _BEREICH_AUS_DATEI_MERKMALE: (typeof _BEREICH_AUS_DATEI_MERKMALE !== 'undefined' ? _BEREICH_AUS_DATEI_MERKMALE : undefined),
+  _BEREICH_AUS_DATEI_SEKTIONS_ROLLEN: (typeof _BEREICH_AUS_DATEI_SEKTIONS_ROLLEN !== 'undefined' ? _BEREICH_AUS_DATEI_SEKTIONS_ROLLEN : undefined),
+  _BEREICH_AUS_DATEI_SPEICHER: (typeof _BEREICH_AUS_DATEI_SPEICHER !== 'undefined' ? _BEREICH_AUS_DATEI_SPEICHER : undefined),
+  _BEREICH_AUS_DATEI_ABSCHNITT: (typeof _BEREICH_AUS_DATEI_ABSCHNITT !== 'undefined' ? _BEREICH_AUS_DATEI_ABSCHNITT : undefined),
+  _BEREICH_AUS_DATEI_FELD: (typeof _BEREICH_AUS_DATEI_FELD !== 'undefined' ? _BEREICH_AUS_DATEI_FELD : undefined),
+  _BEREICH_AUS_DATEI_UNTERFELD: (typeof _BEREICH_AUS_DATEI_UNTERFELD !== 'undefined' ? _BEREICH_AUS_DATEI_UNTERFELD : undefined),
+  _BEREICH_AUS_DATEI_OPTION: (typeof _BEREICH_AUS_DATEI_OPTION !== 'undefined' ? _BEREICH_AUS_DATEI_OPTION : undefined),
+  _BEREICH_AUS_DATEI_FELDTYPEN: (typeof _BEREICH_AUS_DATEI_FELDTYPEN !== 'undefined' ? _BEREICH_AUS_DATEI_FELDTYPEN : undefined),
+  _BEREICH_AUS_DATEI_ENTITAET: (typeof _BEREICH_AUS_DATEI_ENTITAET !== 'undefined' ? _BEREICH_AUS_DATEI_ENTITAET : undefined),
+  _BEREICH_AUS_DATEI_VERWEISTYPEN: (typeof _BEREICH_AUS_DATEI_VERWEISTYPEN !== 'undefined' ? _BEREICH_AUS_DATEI_VERWEISTYPEN : undefined),
+  /* Gilt dieses Bereichs-Objekt der Saat als „aus der Datei“ (nicht als ausgeliefert erkannt)? */
+  _bereichAusDatei: (b) => !!_BEREICH_AUS_DATEI && _BEREICH_AUS_DATEI.has(b),
+  BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN: (typeof BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN !== 'undefined' ? BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN : undefined),
+  BEREICHSTEXTE_AUSGELIEFERT_KERN: (typeof BEREICHSTEXTE_AUSGELIEFERT_KERN !== 'undefined' ? BEREICHSTEXTE_AUSGELIEFERT_KERN : undefined),
   _abWerkHerkunft: (typeof _abWerkHerkunft !== 'undefined' ? _abWerkHerkunft : undefined),
   _depotModuleAbWerkPruefen: (typeof _depotModuleAbWerkPruefen !== 'undefined' ? _depotModuleAbWerkPruefen : undefined),
   /* Nur für Proben: ein Modul als „nach Inhalt ab Werk festgestellt“ merken — steht für das Ergebnis von _depotModuleAbWerkPruefen bzw.
@@ -1825,7 +1895,7 @@ const EXPORT_HOOK = `
 };
 `;
 
-// U2-ADR-NNN (18.09.2026, Kern-Verschluss): Script 2 schließt seither mit einem IIFE, das
+// Kern-Verschluss (18.09.2026, U2-ADR-494): Script 2 schließt seither mit einem IIFE, das
 // alle Top-Level-Namen bis auf eine benannte, kleine Fläche einschließt (Marker in
 // vivodepot.html: `@vd-kern-verschluss-ende`, direkt vor der schließenden Klammer). Sowohl
 // EXPORT_HOOK als auch die Codelisten-Blöcke unten rufen Kern-Namen BARE auf — sie müssen
@@ -1835,7 +1905,7 @@ const KERN_VERSCHLUSS_MARKER = '@vd-kern-verschluss-ende';
 function spliceVorKernVerschluss(script2Text, einfuegen) {
   const idx = script2Text.indexOf(KERN_VERSCHLUSS_MARKER);
   if (idx < 0) {
-    // U2-ADR-NNN-Nachtrag (18.09.2026): KERN_HTML_PATH ist der im ganzen Modul dokumentierte,
+    // Kern-Verschluss-Nachtrag (18.09.2026): KERN_HTML_PATH ist der im ganzen Modul dokumentierte,
     // ausdrückliche Weg, einen HISTORISCHEN (vor dem Kern-Verschluss liegenden) Kern zu laden
     // (s. Kommentar an HTML_PATH oben; dieselbe Umlenkung nutzen u. a. docx-streichung-
     // gegenprobe.test.js, u2-adr-257-format-schreiber.test.js, wizard-optionen-aus-
@@ -1863,9 +1933,10 @@ function spliceVorKernVerschluss(script2Text, einfuegen) {
   return script2Text.slice(0, zeilenstart) + einfuegen + '\n' + script2Text.slice(zeilenstart);
 }
 
-// Paket 3: die @vd-codeliste-<script>-Blöcke am Dateiende. Sie rufen das in Script 2
-// definierte codeListeAnmelden() — im Browser laufen sie nach der App; hier spleissen wir
-// sie in die zusammengefügte Quelle VOR dem Kern-Verschluss (s. spliceVorKernVerschluss).
+// Paket 3: die @vd-codeliste-<script>-Blöcke am Dateiende EINES ÄLTEREN KERNS (KERN_HTML_PATH). Sie rufen das in
+// Script 2 definierte codeListeAnmelden() — im Browser liefen sie nach der App; hier spleissen wir sie in die
+// zusammengefügte Quelle VOR dem Kern-Verschluss (s. spliceVorKernVerschluss). Seit U2-ADR-494 (09.10.2026) stehen die
+// Code-Listen des heutigen Kerns als Region CODE-LISTEN schon IN Script 2; dort findet diese Funktion nichts.
 // jsPDF & andere Blöcke werden NICHT geladen (nur Blöcke, deren Inhalt mit
 // `/* @vd-codeliste */` beginnt).
 function extrahiereCodelisten(html) {
@@ -2111,6 +2182,9 @@ function ladeKern(opts) {
   // `opts.htmlPfad` (01.10.2026): ein anderer Kern für DIESEN Aufruf — etwa eine ältere ausgelieferte Fassung, die eine
   // neu geschriebene Datei öffnen soll. Wie KERN_HTML_PATH: genau dieser Text, ungebacken (außer mit opts.backen).
   let html = fs.readFileSync(opts.htmlPfad || HTML_PATH, 'utf8');
+  // Für den Fassungsvergleich (s. fassungsAbweichung oben): der Text, wie er auf der Platte liegt, vor jedem Backen.
+  const geladenerPfad = opts.htmlPfad || HTML_PATH;
+  const geladenerRohtext = html;
   // `opts.backen` (19.09.2026): auch bei umgelenktem KERN_HTML_PATH das Standard-Produkt backen. Für
   // Proben, die den Quelltext MUTIEREN (Rot-Beweis an einer Kopie) und danach ein volles Produkt
   // brauchen — ohne diese Angabe meint KERN_HTML_PATH „genau diesen Text", also das nackte Gerüst.
@@ -2241,7 +2315,7 @@ function ladeKern(opts) {
   const exportHook = zusatz.length
     ? EXPORT_HOOK.replace(';__LOAD_KERN_EXPORT__ = {', ';__LOAD_KERN_EXPORT__ = { __zusatz: {' + zusatz.map((n) => n + ': (typeof ' + n + " !== 'undefined' ? " + n + ' : undefined)').join(', ') + '},')
     : EXPORT_HOOK;
-  // U2-ADR-NNN (18.09.2026, Kern-Verschluss): Script 2 endet seither auf ein IIFE, das fast
+  // Kern-Verschluss (18.09.2026, U2-ADR-494): Script 2 endet seither auf ein IIFE, das fast
   // alle Top-Level-Namen einschließt (vorher lagen 1581 offen auf `window`). EXPORT_HOOK und
   // die Codelisten rufen aber genau solche Namen bare auf (codeListeAnmelden, Dutzende Exporte)
   // — vor dem Verschluss hing das am selben flachen Geltungsbereich wie der Rest des Kerns,
@@ -2256,6 +2330,10 @@ function ladeKern(opts) {
     + '\n;return __LOAD_KERN_EXPORT__;';
 
   let V;
+  // Die Klammer um beide Auswertungswege (11.10.2026): scheitert eine FREMDE Datei anderer Fassung, sagt die Meldung es
+  // zuerst. Der Fehler bleibt derselbe (Typ, Stapel); nur seine Meldung bekommt den Satz vorangestellt. Die zwei Zweige
+  // darunter sind bewusst nicht neu eingerückt.
+  try {
   if (ABDECKUNG_TEMPDATEI) {
     // Zeilentreue Rekonstruktion (s. `baueZeilentreueQuelle` oben): script1/script2
     // landen auf denselben Zeilennummern wie in `vivodepot.html`. codelisten +
@@ -2291,6 +2369,13 @@ function ladeKern(opts) {
   } else {
     // eslint-disable-next-line no-new-func
     V = new Function(...namen, source)(...werte);
+  }
+  } catch (e) {
+    const satz = fassungsAbweichung(geladenerPfad, geladenerRohtext);
+    if (satz && e && typeof e.message === 'string') {
+      try { e.message = satz + ' Ursache: ' + e.message; } catch (_) { /* Meldung nicht schreibbar: der Fehler geht unverändert weiter */ }
+    }
+    throw e;
   }
   if (process.env.SEKTOREN_POISON && V && V.SEKTOREN) {
     V.SEKTOREN = new Proxy(V.SEKTOREN, {
@@ -2335,6 +2420,9 @@ module.exports = {
   kryptoBlock,
   sha256,
   HTML_PATH,
+  // Fassungsvergleich bei fremder Datei (11.10.2026): der eine Satz, für die Probe und für Werkzeuge, die vorab fragen wollen.
+  fassungsAbweichung,
+  fassungsStempelAus,
   PORT_VERBATIM_PATH,
   BLOCK_HASH_ERWARTET,
   webcrypto,

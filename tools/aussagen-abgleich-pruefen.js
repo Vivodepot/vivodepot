@@ -60,6 +60,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { suiteDateien } = require('../scripts/suite-dateien-kern.js');
+const { mitTestLauf } = require('./lib/test-lauf.js');   // eigenes TMPDIR je Testlauf (Befund TEMP-RESTE-WIEDER)
 
 const argv = process.argv.slice(2);
 const argWert = (n) => { const i = argv.indexOf('--' + n); return i >= 0 && argv[i + 1] ? argv[i + 1] : null; };
@@ -198,7 +199,7 @@ function standMessen(repo, opt) {
       'Tests': mitSuite ? (() => {
         const dateien = suiteDateien(repo);
         try {
-          const roh = execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: repo, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+          const roh = mitTestLauf((env) => execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: repo, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env }));
           const m = roh.match(/^ℹ tests (\d+)$/m);
           return m ? Number(m[1]) : null;
         } catch (e) {

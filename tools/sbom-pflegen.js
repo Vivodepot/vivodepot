@@ -360,7 +360,10 @@ function dateinamenAus(komponente) {
 const HL7_THO_BASIS = 'http://terminology.hl7.org/CodeSystem/';
 const HL7_THO_CC0 = Object.freeze(['allergyintolerance-clinical', 'allergyintolerance-verification', 'condition-clinical',
   'consentcategorycodes', 'consentscope', 'list-empty-reason', 'provenance-participant-type', 'v3-Confidentiality',
-  'v3-NullFlavor', 'v3-RoleClass', 'v3-RoleCode']);
+  'v3-NullFlavor', 'v3-RoleClass', 'v3-RoleCode',
+  // 10.10.2026 (Herkunft je Ressource, Provenance.activity): Feld copyright von CodeSystem-v3-DataOperation.json im Paket
+  // hl7.terminology.r5#7.1.0 (~/.fhir/packages), derselbe CC0-Satz.
+  'v3-DataOperation']);
 const HL7_THO_OFFEN = Object.freeze(['iso-21089-lifecycle']);
 
 /* System → Menge der Codes, die direkt dahinter stehen (`…/<id>', code: 'x'` oder `…/<id>","code":"x"`). Systeme ohne
@@ -381,13 +384,17 @@ function wortlisteAusModul(sprache, repo) {
   return text;
 }
 
-/* Inhalt des Skriptblocks nach `<!-- @vd-terminologie <name> -->`, zwischen `<script>` und `</script>`. */
+/* Der Terminologie-Block `<name>`: die Kommentarzeile `/* @vd-terminologie <name> — Herkunft … *\/` und die folgende Zeile mit dem
+   Anmelde-Aufruf. Seit U2-ADR-494 (09.10.2026) steht er in der Region CODE-LISTEN innerhalb des Kern-Verschlusses, nicht mehr als
+   eigener <script>-Block; tools/build-code-listen.js schreibt genau diese zwei Zeilen. */
 function terminologieBlock(html, name) {
-  const marker = html.indexOf(`<!-- @vd-terminologie ${name} -->`);
+  const marker = html.indexOf(`/* @vd-terminologie ${name} `);
   if (marker < 0) return null;
-  const auf = html.indexOf('<script>', marker);
-  const zu = html.indexOf('</script>', auf);
-  return auf < 0 || zu < 0 ? null : html.slice(auf + '<script>'.length, zu);
+  const kommentarEnde = html.indexOf('\n', marker);
+  const zeilenEnde = kommentarEnde < 0 ? -1 : html.indexOf('\n', kommentarEnde + 1);
+  if (zeilenEnde < 0) return null;
+  const block = html.slice(marker, zeilenEnde);
+  return block.split('\n')[1].startsWith('ipsBegriffeAnmelden(') ? block : null;
 }
 
 function hashesAusDateien(dateinamen, repo) {
@@ -576,7 +583,7 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
   // IHE Deutschland — Value Sets for XDS (ISiK-Ausgabe) — Hash über den Terminologie-Block `@vd-terminologie isik`.
   {
     const block = terminologieBlock(html, 'isik');
-    if (!block) throw new Error('Kein Block <!-- @vd-terminologie isik --> im Kern gefunden.');
+    if (!block) throw new Error('Kein Block @vd-terminologie isik im Kern gefunden (Region CODE-LISTEN).');
     komponenten.push({
       'bom-ref': 'terminologie-ihe-xds-value-sets', type: 'data', name: 'terminologie-ihe-xds-value-sets', version: '4.0.0',
       description: 'IHE Deutschland, Value Sets for XDS 4.0.0 (Commit aa1e0e5b): vier Codes mit unveränderter Bezeichnung in der Ausgabe für Krankenhäuser (ISiK). Der gehashte Block trägt daneben eigene und fremde Kennungen ohne Werkcharakter (Profil-URL, KDL-Codes, s. NOTICE.md). Nachweis: NOTICE.md, THIRD_PARTY_LICENSES.',

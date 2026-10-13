@@ -26,6 +26,7 @@ const { reiseAusfuehren } = require('../../tools/lib/reisen-kern.js');
    Bereichsinhalt), bleibt aber dieselbe Klasse Test wie die übrigen Reisen — derselbe Weg wie
    überall sonst (`konfektionieren()`, synchron), Standard-Produkt privat-de. */
 const _gebacken = konfektionieren({
+  mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
   ziel: fs.mkdtempSync(path.join(os.tmpdir(), 'reisenvarianten-buergerweg-')),
   slug: 'privat-de',
   modulauswahl: [],

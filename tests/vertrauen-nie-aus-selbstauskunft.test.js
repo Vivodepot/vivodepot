@@ -16,7 +16,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { lesestellen, DATEIEN, FELDER } = require('../tools/vertrauen-lesestellen-pruefen.js');
+const { lesestellen, codezeilen, DATEIEN, FELDER } = require('../tools/vertrauen-lesestellen-pruefen.js');
 
 const QUELLE = Object.freeze(Object.fromEntries(Object.entries(DATEIEN).map(([k, d]) => [k, fs.readFileSync(path.join(__dirname, '..', d), 'utf8')])));
 
@@ -46,12 +46,12 @@ const G = Object.freeze({
   EINGEBAUTE_KARTE: 'liest die eingebaute Tabelle _MODUL_KARTE des Produkts, kein Feld der Datei',
   KORPUS_TEXT: 'Quellenangabe des eingebauten KI-Korpus (Text), kein Modul',
   VORFUEHRUNG: 'Name einer Hervorhebung der Vorführung, kein Feld',
-  MITSCHRIFT_NACH_INHALT: 'liest die Mitschrift und nimmt einen Eintrag nur nach Inhalt als ab Werk (_mitschriftNachInhalt bzw. _abWerkGleichLesen)',
+  MITSCHRIFT_NACH_INHALT: 'liest die Mitschrift und nimmt einen Eintrag nur nach Inhalt als ab Werk (_mitschriftNachInhalt bzw. _abWerkGleichLesen), eine Bereichsdefinition nur nach Inhalt als ausgeliefert (_bereichsDefinitionAusgeliefert, in der Lese-App mit der Endung Lesen); gezeigt wird jede, jede andere gilt als „aus der Datei“ ohne Vorrechte',
   MITSCHRIFT_SCHREIBER: 'schreibt die Mitschrift aus den eigenen Ab-Werk-Konstanten des Produkts (Anlegen, Nachfüllen)',
   MITSCHRIFT_EXPORT: 'hält die Mitschrift aus dem Vollexport heraus bzw. weist sie beim Vollimport ab',
   MITSCHRIFT_PRUEFUNG: 'die Inhaltsprüfung selbst (Fingerabdruck) bzw. die Herkunftszählung, die nicht erkannte Einträge zählt',
   MITSCHRIFT_SPRACHE: 'die Sprache der Mitschrift wählt nur die Anzeigesprache; Vertrauen für Zusicherungen allein aus dem Beleg (bleibt unvertraut)',
-  MITSCHRIFT_BEREICH_OFFEN: 'Bereich/Bereichsersatz der Mitschrift — noch ohne Fingerabdruck; OFFEN im Befund MITSCHRIFT-AB-WERK-NACH-POSITION (Eigentümer Schutz-Wagen)',
+  MITSCHRIFT_UMZUG: 'räumt nach dem Umzug der Pro-Identität die leere Definition `pro-identitaet` aus dem Fach bereichsErsatz; nimmt nur heraus, entscheidet kein Vertrauen',
   BAU_REGION: 'liest herkunft nur an der Bau-Region AB_WERK_BRANDING_PRODUKT (eine Konstante, die der Konfektionierer füllt, nie Datei oder Einlass); die eigene Vivodepot-Marke färbt nicht (tests/white-label-ab-werk-partner.test.js, U2-ADR-297-Nachtrag); Wort der Gegenlesung 05.10.2026',
   MITSCHRIFT_LESE_ANZEIGE: 'die Lese-App zeigt Logikmodule der Mitschrift; nicht erkannte zählt modulHerkunftBerechnen als Erweiterung',
 });
@@ -63,12 +63,16 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "_textsatzAbWerkRegistrySeed", "try { mitschrift = (d && d.abWerkMitschrift && d.abWerkMitschrift.sprache) || null; } catch (_) { mitschrift = null; }", G.MITSCHRIFT_SPRACHE],
   ["kern", "_logikModulAbWerkSeed", "try { if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.logikModul)) quelle = _mitschriftNachInhalt(d.abWerkMitschrift.logikModul); } catch (_) {                                            }", G.MITSCHRIFT_NACH_INHALT],
   ["kern", "textsatzSpracheAktiv", "const ms = data.abWerkMitschrift && data.abWerkMitschrift.sprache;", G.MITSCHRIFT_SPRACHE],
-  ["kern", "_bereichModulAbWerkSeed", "if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.bereich)) mitschrift = d.abWerkMitschrift.bereich;", G.MITSCHRIFT_BEREICH_OFFEN],
-  ["kern", "_bereichModulAbWerkSeed", "const e = d && d.abWerkMitschrift && d.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_BEREICH_OFFEN],
-  ["kern", "_bereichModulAbWerkSeed", "const s = d.abWerkMitschrift.sprache;", G.MITSCHRIFT_BEREICH_OFFEN],
-  ["kern", "_bereichModulAbWerkSeed", "if (!d.abWerkMitschrift || typeof d.abWerkMitschrift !== 'object') d.abWerkMitschrift = {};", G.MITSCHRIFT_BEREICH_OFFEN],
-  ["kern", "_bereichModulAbWerkSeed", "const fach = d.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_BEREICH_OFFEN],
-  ["kern", "_bereichModulAbWerkSeed", "d.abWerkMitschrift.bereichsErsatz = { modulTyp: 'bereichsErsatz', ersetzt: [], neu: JSON.parse(JSON.stringify(bereiche)) };", G.MITSCHRIFT_BEREICH_OFFEN],
+  /* Bereich und Bereichsersatz der Mitschrift (11.10.2026, Befund MITSCHRIFT-AB-WERK-NACH-POSITION geschlossen): je Bereichsdefinition nach Inhalt
+     (tests/mitschrift-bereich-nach-inhalt.test.js); Stufe 5 schreibt das Fach aus der eingebackenen Region des Produkts. */
+  ["kern", "_bereichModulAbWerkSeed", "if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.bereich)) mitschrift = _mitschriftBereicheFuerSaat(d.abWerkMitschrift.bereich, mitschriftAusDatei);", G.MITSCHRIFT_NACH_INHALT],
+  ["kern", "_bereichModulAbWerkSeed", "const e = d && d.abWerkMitschrift && d.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_NACH_INHALT],
+  ["kern", "_bereichModulAbWerkSeed", "const s = d.abWerkMitschrift.sprache;", G.MITSCHRIFT_SPRACHE],
+  ["kern", "_bereichModulAbWerkSeed", "if (!d.abWerkMitschrift || typeof d.abWerkMitschrift !== 'object') d.abWerkMitschrift = {};", G.MITSCHRIFT_SCHREIBER],
+  ["kern", "_bereichModulAbWerkSeed", "const fach = d.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_SCHREIBER],
+  ["kern", "_bereichModulAbWerkSeed", "d.abWerkMitschrift.bereichsErsatz = { modulTyp: 'bereichsErsatz', ersetzt: [], neu: JSON.parse(JSON.stringify(bereiche)) };", G.MITSCHRIFT_SCHREIBER],
+  ["kern", "_bereichModulAbWerkSeed", "for (const id of Object.keys(d.abWerkMitschrift.bereichsErsatz.neu)) _bereichsDefinitionVomProduktGeschrieben(d.abWerkMitschrift.bereichsErsatz.neu[id]);", G.MITSCHRIFT_SCHREIBER],
+  ["kern", "_mitschriftBereichsDefinitionen", "const ms = d && d.abWerkMitschrift;", G.MITSCHRIFT_PRUEFUNG],
   ["kern", "_angehoerigenVorlagenAusDepotAnmelden", "try { if (ziel && ziel.abWerkMitschrift && Array.isArray(ziel.abWerkMitschrift.angehoerigen)) abWerk = _mitschriftNachInhalt(ziel.abWerkMitschrift.angehoerigen, mitschriftVerworfen); } catch (_) {                                 }", G.MITSCHRIFT_NACH_INHALT],
   ["kern", "_abWerkStrukturInsDepot", "if (!d.abWerkMitschrift || typeof d.abWerkMitschrift !== 'object') d.abWerkMitschrift = {};", G.MITSCHRIFT_SCHREIBER],
   ["kern", "_abWerkStrukturInsDepot", "d.abWerkMitschrift.bereich = m.bereich;", G.MITSCHRIFT_SCHREIBER],
@@ -105,15 +109,16 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "_situationModulAbWerkSeed", "try { if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.situationen)) mitschrift = _mitschriftNachInhalt(d.abWerkMitschrift.situationen, SITUATIONEN_MODUL_VERWORFEN); } catch (_) {                                            }", G.MITSCHRIFT_NACH_INHALT],
   ["kern", "_wizardModulAbWerkSeed", "try { if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.wizards)) mitschrift = _mitschriftNachInhalt(d.abWerkMitschrift.wizards, WIZARDS_MODUL_VERWORFEN); } catch (_) {                                            }", G.MITSCHRIFT_NACH_INHALT],
   ["kern", "_depotModuleAbWerkPruefen", "const ms = d.abWerkMitschrift;", G.MITSCHRIFT_PRUEFUNG],
-  ["kern", "_proIdentitaetUebernehmen", "const fach = ziel.abWerkMitschrift && ziel.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_BEREICH_OFFEN],
+  ["kern", "_proIdentitaetUebernehmen", "const fach = ziel.abWerkMitschrift && ziel.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_UMZUG],
   ["lesen", "_depotModuleAbWerkPruefenLesen", "try { for (const m of ((d.abWerkMitschrift && Array.isArray(d.abWerkMitschrift.logikModul)) ? d.abWerkMitschrift.logikModul : [])) if (m && typeof m.id === 'string') mitschriftIds.add(m.id); } catch (_) {            }", G.MITSCHRIFT_PRUEFUNG],
   ["lesen", "_depotModuleAbWerkPruefenLesen", "const ms = d.abWerkMitschrift;", G.MITSCHRIFT_PRUEFUNG],
   ["lesen", "_textsatzModuleAusDepotAnmelden", "try { abWerkSprache = (ziel && ziel.abWerkMitschrift && ziel.abWerkMitschrift.sprache) || null; } catch (_) { abWerkSprache = null; }", G.MITSCHRIFT_SPRACHE],
   ["lesen", "modulHerkunftBerechnen", "const ms = (d.abWerkMitschrift && typeof d.abWerkMitschrift === 'object') ? d.abWerkMitschrift : null;", G.MITSCHRIFT_PRUEFUNG],
-  ["lesen", "_mitschriftBereichsQuellenLesen", "const m = ziel && ziel.abWerkMitschrift;", G.MITSCHRIFT_BEREICH_OFFEN],
+  ["lesen", "_mitschriftBereichsQuellenLesen", "const m = ziel && ziel.abWerkMitschrift;", G.MITSCHRIFT_NACH_INHALT],
+  ["lesen", "_bereichsDefinitionenPruefenLesen", "const ms = d && d.abWerkMitschrift;", G.MITSCHRIFT_PRUEFUNG],
   ["lesen", "_angehoerigenVorlagenAusDepotAnmeldenLesen", "try { if (ziel && ziel.abWerkMitschrift && Array.isArray(ziel.abWerkMitschrift.angehoerigen)) mitschrift = ziel.abWerkMitschrift.angehoerigen; } catch (_) { mitschrift = []; }", G.MITSCHRIFT_NACH_INHALT],
   ["lesen", "_situationenAusDepotAnmeldenLesen", "try { if (ziel && ziel.abWerkMitschrift && Array.isArray(ziel.abWerkMitschrift.situationen)) mitschrift = ziel.abWerkMitschrift.situationen; } catch (_) { mitschrift = []; }", G.MITSCHRIFT_NACH_INHALT],
-  ["lesen", "_proIdentitaetUebernehmen", "const fach = ziel.abWerkMitschrift && ziel.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_BEREICH_OFFEN],
+  ["lesen", "_proIdentitaetUebernehmen", "const fach = ziel.abWerkMitschrift && ziel.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_UMZUG],
   ["lesen", "_logikModuleAlleLesen", "const m = ziel && ziel.abWerkMitschrift;", G.MITSCHRIFT_LESE_ANZEIGE],
   ["kern", "_mitschriftNachInhalt", "else if (Array.isArray(verworfen)) verworfen.push({ herkunft: (m && m.herkunft) || null, grund: 'mitschrift-nicht-ab-werk' });", G.ANBIETER],
   ["kern", "TEXTSATZ_MODUL_SCHLUESSEL", "'texte', 'regeln', 'rechtsraum', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft', 'originaleSumme']);", G.SCHLUESSEL],
@@ -192,6 +197,7 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "EINLASS_REGISTER", "kennung: (m) => (m && m.herkunft) || null,", G.ANBIETER, 9],
   ["kern", "_EINLASS_META_FELDER", "const _EINLASS_META_FELDER = Object.freeze(['ungeprueft', 'eingelassenAm', 'anbieterIdGeprueft', 'beleg', 'abWerk', 'pruefstufe', 'anbieterId']);", G.SCHLUESSEL],
   ["kern", "_modulBelegNachpruefen", "const k = await _belegKettePruefen(m.beleg, opts);", G.BELEG_AN_PRUEFUNG],
+  ["kern", "_anfrageVorlagenBelegPruefen", "const b = v && v.beleg;", G.BELEG_AN_PRUEFUNG],
   ["kern", "_zug3TrennenAuswahl57", "if (_m70.beleg) continue;", G.NIE_UMSCHREIBEN],
   ["kern", "_depotModuleBelegPruefen", "if (!m || typeof m !== 'object' || !m.beleg || modulBelegGeprueft(m)) continue;", G.BELEG_AN_PRUEFUNG],
   ["kern", "modulEinlassen", "delete markiert.abWerk;", G.SCHREIBER],
@@ -205,6 +211,10 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "modulHerkunftStand", "return beleg.stufe === 'extern-ungeprueft' ? 'ungeprueft' : 'geprueft';", G.ABSTUFEN],
   ["kern", "modulHerkunftStand", "if (m.ungeprueft === true || m.ungeprueft === false || m.beleg) return 'ungeprueft';", G.ABSTUFEN],
   ["kern", "modulHerkunftBerechnen", "const stand = _depotModulGesperrt(reg.slot, m) ? 'ungeprueft' : modulHerkunftStand(m);", G.ZURUECKGABEWERT],
+  ["kern", "modulHerkunftBerechnen", "raus.ungeprueft++;", G.MITSCHRIFT_PRUEFUNG],
+  ["kern", "modulHerkunftBerechnen", "raus.module.push({ typ: 'bereich', kennung: id, stand: 'ungeprueft', stufe: null });", G.MITSCHRIFT_PRUEFUNG],
+  ["lesen", "modulHerkunftBerechnen", "raus.ungeprueft++;", G.MITSCHRIFT_PRUEFUNG],
+  ["lesen", "modulHerkunftBerechnen", "raus.module.push({ slot: 'abWerkMitschrift.' + fach, stand: 'ungeprueft', stufe: null });", G.MITSCHRIFT_PRUEFUNG],
   ["kern", "modulHerkunftGiltAlsGeprueft", "return h.ungeprueft === 0 && h.unbekannt === 0;", G.ABGELEITET],
   ["kern", "modulHerkunftOhnePruefung", "return (Number.isInteger(h.ungeprueft) ? h.ungeprueft : 0) + (Number.isInteger(h.unbekannt) ? h.unbekannt : 0);", G.ABGELEITET],
   ["kern", "importPlanGeprueft", "if (!def.signiert) return importPlan(formatId, text);", G.EIGENE_SIGNATUR],
@@ -343,6 +353,26 @@ for (const datei of Object.keys(DATEIEN)) {
   }
 }
 
+/* Die Herkunftszählung der Bereiche „aus der Datei“ (11.10.2026) steht mit vier Zeilen in der Positivliste: sie schreiben die
+   niedrigste Stufe und lesen kein Feld der Datei. Liest an derselben Stelle jemand den Stand aus der Definition, oder setzt er eine
+   höhere Stufe, muss der Wächter anschlagen: als neue Stelle oder als Eintrag der Positivliste, der seinen Gegenstand verloren hat. */
+const ohneGegenstand = (quelle) => { const ist = zaehlen(quelle); return [...soll].filter(([k, n]) => ist.get(k) !== n).map(([k]) => k); };
+for (const [datei, eintrag, ausFeld] of [
+  ['kern', "raus.module.push({ typ: 'bereich', kennung: id, stand: 'ungeprueft', stufe: null });", "raus.module.push({ typ: 'bereich', kennung: id, stand: definition.pruefstufe, stufe: null });"],
+  ['lesen', "raus.module.push({ slot: 'abWerkMitschrift.' + fach, stand: 'ungeprueft', stufe: null });", "raus.module.push({ slot: 'abWerkMitschrift.' + fach, stand: bereiche[id].pruefstufe, stufe: null });"],
+]) {
+  test('[Vertrauen·Klasse·Rot-Beweis] ' + datei + ' · Herkunftszählung der Datei-Bereiche: ein Stand aus einem Feld der Datei oder eine höhere Stufe wird gefunden', () => {
+    const zaehler = 'raus.ungeprueft++;';
+    for (const z of [eintrag, zaehler]) assert.equal(QUELLE[datei].split(z).length, 2, 'Vorbedingung: steht genau einmal: ' + z);
+    const feld = Object.assign({}, QUELLE, { [datei]: QUELLE[datei].replace(eintrag, ausFeld) });
+    assert.ok(unerlaubt(feld).some((k) => k.includes('pruefstufe')), 'ein Stand aus der Definition ist eine neue Lesestelle');
+    const hoeher = Object.assign({}, QUELLE, { [datei]: QUELLE[datei].replace(zaehler, 'raus.geprueft++;') });
+    assert.ok(unerlaubt(hoeher).length + ohneGegenstand(hoeher).length >= 1, 'eine höhere Stufe an dieser Stelle bleibt nicht unbemerkt');
+    const hoeherImEintrag = Object.assign({}, QUELLE, { [datei]: QUELLE[datei].replace(eintrag, eintrag.replace("'ungeprueft'", "'geprueft'")) });
+    assert.ok(unerlaubt(hoeherImEintrag).length + ohneGegenstand(hoeherImEintrag).length >= 1, '„geprueft“ im Eintrag bleibt nicht unbemerkt');
+  });
+}
+
 test('[Vertrauen·Klasse·Rot-Beweis] ein Kommentar ist keine Stelle; eine zweite gleiche Zeile in einer gelisteten Funktion ist eine', () => {
   const a = ANKER.kern;
   const kommentar = QUELLE.kern.replace(a, '/* m.ungeprueft === false */\n// m.pruefstufe\n' + a);
@@ -364,6 +394,9 @@ const ALTE_STAENDE = Object.freeze([
   ['MITSCHRIFT-AB-WERK-NACH-POSITION', 'kern',
     "  try { if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.wizards)) mitschrift = _mitschriftNachInhalt(d.abWerkMitschrift.wizards, WIZARDS_MODUL_VERWORFEN); } catch (_) { /* Mitschrift nicht lesbar, bleibt leer */ }",
     "  try { if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.wizards)) mitschrift = d.abWerkMitschrift.wizards; } catch (_) { /* Mitschrift nicht lesbar, bleibt leer */ }"],
+  ['MITSCHRIFT-AB-WERK-NACH-POSITION (Bereich)', 'kern',
+    '    if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.bereich)) mitschrift = _mitschriftBereicheFuerSaat(d.abWerkMitschrift.bereich, mitschriftAusDatei);',
+    '    if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.bereich)) mitschrift = d.abWerkMitschrift.bereich;'],
   ['VIVODEPOT-MARKE-AUS-SELBSTAUSKUNFT', 'kern',
     "    if (eigeneText.toLowerCase() === 'vivodepot') return abWerk ? STRINGS.vivodepotAuszugBadge : '';",
     "    if (roh.herkunft === 'vivodepot') return STRINGS.vivodepotAuszugBadge;"],
@@ -375,6 +408,34 @@ for (const [befund, datei, neu, alt] of ALTE_STAENDE) {
     assert.ok(funde.length >= 1, befund);
   });
 }
+
+/* Befund MITSCHRIFT-AB-WERK-NACH-POSITION, Fächer `rechtsraumKatalogQuelle` und `dokumente` der Mitschrift (11.10.2026): für sie gibt es
+   keine Inhaltsprüfung, und es braucht keine, solange NIEMAND sie liest. Sie werden geschrieben (leere Vorlage, Anlegen) und im
+   Vollexport zurückgehalten. Gesucht wird jede Nennung von `rechtsraumKatalogQuelle` und jeder Zugriff `.dokumente` in einer Funktion,
+   die die Mitschrift anfasst. Kommt ein Leser dazu, ist diese Probe rot, bis er nach Inhalt prüft. */
+const ZWEI_FAECHER_SCHREIBER = Object.freeze(['leeresDepot', '_abWerkMitschriftErzeugen', '_abWerkStrukturInsDepot', 'vollExportJSON']);
+function leserDerZweiFaecher(quelle) {
+  const raus = [];
+  for (const datei of Object.keys(DATEIEN)) {
+    const mitMitschrift = new Set(lesestellen(quelle[datei]).filter((s) => s.feld === 'abWerkMitschrift').map((s) => s.funktion));
+    for (const z of codezeilen(quelle[datei])) {
+      const nennt = /\brechtsraumKatalogQuelle\b/.test(z.code) || (mitMitschrift.has(z.funktion) && /\.\s*dokumente\b/.test(z.code));
+      if (nennt && ZWEI_FAECHER_SCHREIBER.indexOf(z.funktion) < 0) raus.push(datei + ' | ' + z.funktion + ' | ' + z.code);
+    }
+  }
+  return raus;
+}
+test('[Vertrauen·Mitschrift] Rechtsraum-Katalog und Dokumente der Mitschrift liest niemand, weder Kern noch Lese-App', () => {
+  assert.deepEqual(leserDerZweiFaecher(QUELLE), []);
+});
+test('[Vertrauen·Mitschrift·Rot-Beweis] eine gepflanzte Lesestelle eines der zwei Fächer wird gefunden', () => {
+  const stelle = '  const ms = d && d.abWerkMitschrift;\n';
+  for (const [fach, datei] of [['dokumente', 'kern'], ['rechtsraumKatalogQuelle', 'lesen']]) {
+    assert.ok(QUELLE[datei].split(stelle).length >= 2, 'Vorbedingung: die Stelle steht in ' + datei);
+    const gepflanzt = QUELLE[datei].replace(stelle, stelle + '  const gelesen = ms && ms.' + fach + ';\n');
+    assert.ok(leserDerZweiFaecher(Object.assign({}, QUELLE, { [datei]: gepflanzt })).length >= 1, fach + ' in ' + datei);
+  }
+});
 
 test('[Vertrauen·Fall A] ein Modul mit selbst gesetztem ungeprueft:false und pruefstufe zählt nie als geprüft', () => {
   const { V } = require('./load-kern.js').ladeKern();

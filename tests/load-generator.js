@@ -130,7 +130,7 @@ const EXPORT_HOOK = `
   // Kennungs-Umbau (15.09.2026): alte Beschriftungen führen auf heutige Bereichs-IDs
   normBereich, bereichLabel, BEREICH_ALT_LABEL,
   // GEN1 (19.09.2026) — die Arbeitsfläche: Zweisprachigkeit, Rechtstexte, Modul-Kacheln
-  L, meldungL, MELDUNG_EN, BEREICH_LABEL_EN, RECHTSFORM_EN, RECHTSTEXTE, RECHT_REIHENFOLGE, MODUL_KACHELN, katalogLabel,
+  L, meldungL, MELDUNG_EN, BEREICH_LABEL_EN, RECHTSTEXTE, RECHT_REIHENFOLGE, MODUL_KACHELN, katalogLabel,
   spracheFuerProbeSetzen: (s) => { LANG = s; },
   // GEN1 (19.09.2026) — der Schlüssel-Tresor und der Zustand, gegen den seine Zusicherungen gemessen werden
   SCHLUESSEL_TRESOR, SCHLUESSEL_LIMIT_MS, SCHLUESSEL_KLICK_FRIST_MS, SCHLUESSEL_PASSWORT_MINDESTLAENGE,
@@ -138,7 +138,7 @@ const EXPORT_HOOK = `
   schluesselErzeugen, schluesselDateiLaden, schluesselDateiNeuSpeichern, _istSignierSchluessel, STATE, submissionErzeugen, gen1Binden, EMPFANGS_TRESOR, entwurfBauen, signiereMitTresor, paletteEintraege,
   // GEN3 — Angehörigen-Blätter
   BLATT_ICONS, BLATT_MODULTYP, BLATT_FORMAT, blattNeu, blattModulBauen, blattModulPruefen, pruefeBlatt, baueBlattSigniert, blattDateiname, blattSonderzeiger, blattZeigerBekannt, blattErzeugen,
-  RECHTSFORMEN, VD_CODE_LISTEN, BEREICH_CODESYSTEME, BEISPIEL_TEMPLATES,
+  STUDIO_RECHTSRAEUME, rechtsraumEintrag, rechtsraumAnzeige, rechtsformenFuer, rechtsformFuerArt, VD_CODE_LISTEN, BEREICH_CODESYSTEME, BEISPIEL_TEMPLATES,
   codeSystemeFuerBereich, uuidV4, isoJetzt, slug, landKuerzel,
   erzeugeSchluesselpaarRoh, publicJwkFuerSubmission,
   csvZuFelder, normalisiereFeld, baueAnbieter,
@@ -208,6 +208,16 @@ const EXPORT_HOOK = `
   ANFRAGE_KOMPAKT_PRAEFIX, KURZLINK_MAX_ZEICHEN, anfrageKompakt, kurzlinkGueltig, kurzlinkQrDataUrl, anfrageQrTeilAnhaengen,
   // E1 (05.10.2026) — Vorprüfung in Klartext
   STUDIO_EINLASS_PRUEFEN, einlassUrteil, einlassZeileText, vorabUrteilVorlage,
+  // Neugestaltung A+ mit Glas, S2 (08.10.2026) — der Assistent Aufnahmebogen
+  ASSISTENT, ASSISTENT_BEISPIELE, ASSISTENT_REGISTER, assistentFelder, assistentBeispielLaden, feldAusBasisBauen, feldAusKatalog,
+  // W1 (09.10.2026) — der Assistent Anfrage
+  ANF_AS, ANF_AS_BEISPIELE, anfrageUmschlag, anfrageAssistentNeu, anfrageAssistentBeispiel, anfrageAssistentHinzu, anfrageAssistentState, anfrageAssistentLuecken,
+  // W2 (09.10.2026) — Einmalpasswort und Brief
+  EINMALPASSWORT_ZEICHEN, einmalpasswortErzeugen, anfrageBriefText, anfragePasswortZettel,
+  // W4 (09.10.2026) — eingegangene Antworten öffnen
+  antwortJweOeffnen, antwortStudioModell, antwortFehlerText,
+  // Befund STUDIO-EMPFEHLUNG-OHNE-WEG (10.10.2026) — jede Meldung der Prüfung hat ein Ziel, Schritt 3 einen Knopf „Beheben“
+  MELDUNG_ZIEL, meldungZiel, meldungBeheben, pruefZeile, STAMMDATEN_FEHLER_FELD,
 };
 `;
 

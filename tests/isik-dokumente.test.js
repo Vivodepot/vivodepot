@@ -58,7 +58,7 @@ async function depot(opts, { mitKvnr = true, datei } = {}) {
   }
   return { V, mappeId };
 }
-const drNach = (b, code) => b.entry.map((e) => e.resource).find((r) => r.type.coding[0].code === code);
+const drNach = (b, code) => b.entry.map((e) => e.resource).find((r) => r.resourceType === 'DocumentReference' && r.type.coding[0].code === code);
 
 test('[ISiK·Tor·Kern] wie ausgeliefert trägt der Kern keinen KDL-Text — das Tor ist zu, und kein Weg erzeugt eine Datei', async () => {
   const dateien = [];
@@ -95,9 +95,12 @@ test('[ISiK·DR] interne Probe: zwei DocumentReferences nach ISiKDokumentenMetad
   const r = V.isikDokumente('2026-10-01T12:00:00Z', { sensibel: true, urschriftBestaetigt: mappeId, anzeigetexte: platzhalter(V) });
   assert.deepEqual(r.gruende, []);
   assert.equal(r.bundle.type, 'collection');
-  assert.equal(r.bundle.entry.length, 2);
-  for (const e of r.bundle.entry) {
+  assert.deepEqual(r.bundle.entry.map((e) => e.resource.resourceType), ['DocumentReference', 'DocumentReference', 'Provenance'],
+    'zwei DocumentReferences, dahinter die Provenance der Person (Herkunft je Ressource)');
+  for (const e of r.bundle.entry.filter((x) => x.resource.resourceType === 'DocumentReference')) {
     const d = e.resource;
+    assert.deepEqual(d.author[0].identifier, { system: 'http://fhir.de/sid/gkv/kvid-10', value: KVNR }, 'Autorin ist die Person selbst');
+    assert.equal(d.author[0].type, 'Patient');
     assert.deepEqual(d.meta.profile, [PROFIL]);
     assert.match(d.masterIdentifier.value, /^urn:oid:2\.25\.\d+$/);
     assert.deepEqual(d.subject.identifier, { system: 'http://fhir.de/sid/gkv/kvid-10', value: KVNR });

@@ -244,7 +244,7 @@ async function lauf(opts) {
     anbieterId, anbieterName, anbieterTyp,
     publicKeyJwk: subjektPubJwk,
     issuanceDate, expirationDate,
-    rechtsform: anbieterAngaben.rechtsform, adresse: anbieterAngaben.adresse, kontakt: anbieterAngaben.kontakt,
+    rechtsform: anbieterAngaben.rechtsform, rechtsraum: anbieterAngaben.rechtsraum, adresse: anbieterAngaben.adresse, kontakt: anbieterAngaben.kontakt,
     ustId: anbieterAngaben.ustId,
     anbieterPruefung, anbieterPruefungAbgeschaltet,
   });

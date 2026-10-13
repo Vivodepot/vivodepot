@@ -33,7 +33,7 @@ function kopfSkript(kernText = KERN) {
 const K = kopfSkript();
 const R = P.erscheinungsbildRegelnLesen(KERN);
 
-const OPT = (module) => ({ modulauswahl: [], vorDepotKonfigurationInhaltFn: () => '[]', unsignierteModule: module, serviceWorkerVorhanden: true });
+const OPT = (module) => ({ modulauswahl: [], vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];', unsignierteModule: module, serviceWorkerVorhanden: true });
 const ALS_ZUTAT = (roh) => ({ roh, basisname: 'erscheinungsbild-probe.json' });
 const mit = (fn) => { const m = JSON.parse(JSON.stringify(HEUTE)); fn(m); return m; };
 const LAYOUTS = require('./helfer/layout-beschreibungen.js');

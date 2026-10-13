@@ -92,9 +92,7 @@ einen Nachtmodus sowie eine Vorlesefunktion.
 
 ## Was kostet Vivodepot?
 
-Für Bürgerinnen und Bürger nichts. Die gesamte Software ist Open Source (EUPL-1.2). Finanziert
-wird die Weiterentwicklung über Angebote, die Institutionen freiwillig beziehen — Zertifikat,
-Marke und das signierte Jahresbündel ([`LICENSING.md`](LICENSING.md)).
+Vivodepot Privat kostet nichts. Der Quelltext der Anwendung ist offen (EUPL-1.2, [`LICENSING.md`](LICENSING.md)).
 
 ## Ich habe eine Sicherheitslücke gefunden — wohin damit?
 

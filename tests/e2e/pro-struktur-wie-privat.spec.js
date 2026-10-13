@@ -25,6 +25,7 @@ function produktUrl(slug) {
     const { ladeIssuer } = require('../load-issuer.js');
     const ISSUER = ladeIssuer().V;
     const r = konfektionieren({
+      mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
       ziel: fs.mkdtempSync(path.join(os.tmpdir(), 'pro-struktur-e2e-')), slug, modulauswahl: [],
       vorDepotKonfigurationInhaltFn: ISSUER.vorDepotKonfigurationDateiInhalt,
       unsignierteModulDateien: modulDateienFuer(PRODUKTE.find((x) => x.slug === slug)),

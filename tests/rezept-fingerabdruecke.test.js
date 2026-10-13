@@ -15,14 +15,14 @@ const F = require('../tools/rezept-fingerabdruecke-erheben.js');
 const kern = () => fs.readFileSync(F.KERN, 'utf8');
 
 test('[Fingerabdrücke·Drift] die Region im Kern ist genau das Erzeugnis aus den Rezepten', () => {
-  assert.deepEqual(F.alteAus(kern()), F.erheben().abdruecke, 'Region und Rezepte laufen auseinander — npm run rezepte:fingerabdruecke');
+  assert.deepEqual(F.alteAus(kern()).map(F.ohneKennung), F.erheben().abdruecke, 'Region und Rezepte laufen auseinander — npm run rezepte:fingerabdruecke');
   assert.equal(F.pruefen(kern()), true);
 });
 
 /* Zweiter Träger (Schutz-Wagen, 04.10.2026): die Lese-App entscheidet wie der Kern nach Inhalt. */
 test('[Fingerabdrücke·Drift·Lese-App] die Region in der Lese-App ist dieselbe Menge wie im Kern', () => {
   const lese = fs.readFileSync(F.LESE, 'utf8');
-  assert.deepEqual(F.alteAus(lese, F.TRAEGER.lese), F.erheben().abdruecke, 'Lese-App und Rezepte laufen auseinander — npm run rezepte:fingerabdruecke');
+  assert.deepEqual(F.alteAus(lese, F.TRAEGER.lese).map(F.ohneKennung), F.erheben().abdruecke, 'Lese-App und Rezepte laufen auseinander — npm run rezepte:fingerabdruecke');
   assert.deepEqual(F.alteAus(lese, F.TRAEGER.lese), F.alteAus(kern()), 'Kern und Lese-App tragen verschiedene Fingerabdrücke');
 });
 
@@ -37,7 +37,7 @@ test('[Fingerabdrücke·Träger] jedes der vier Produkte trägt dieselbe Region'
   const soll = F.erheben().abdruecke;
   for (const produkt of ['privat-de', 'privat-en', 'pro-de', 'pro-en']) {
     const { V } = ladeKern({ produkt });
-    assert.deepEqual([...V.REZEPT_FINGERABDRUECKE_KERN].sort(), soll, produkt);
+    assert.deepEqual([...V.REZEPT_FINGERABDRUECKE_KERN].map(F.ohneKennung).sort(), soll, produkt);   // Region trägt `sha256:` (U2-ADR-486 Punkt 7)
   }
 });
 
@@ -69,7 +69,7 @@ test('[Fingerabdrücke·Rot-Beweis] ein Modul mit eigenem „Fingerabdruck“-Fe
   const { V } = ladeKern();
   const echt = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'erbschein-vorbereitung-logikmodul.json'), 'utf8'));
   const hex = F.fingerabdruck(echt);
-  assert.ok(V.REZEPT_FINGERABDRUECKE_KERN.has(hex), 'Vorbedingung: das echte Modul steht in der Region');
+  assert.ok(V.REZEPT_FINGERABDRUECKE_KERN.has(F.KENNUNG + hex), 'Vorbedingung: das echte Modul steht in der Region (mit Hash-Kennung, U2-ADR-486 Punkt 7)');
   const falsch = Object.assign({}, echt, { titel: 'GEAENDERT', fingerabdruck: hex, rezeptFingerabdruck: hex, sha256: hex });
   assert.notEqual(await V._modulRezeptFingerabdruck(falsch), hex);
   const PW = 'fingerabdruck-feld-pw-2026';

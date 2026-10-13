@@ -1,0 +1,5366 @@
+{
+ "zweck": "Bereichs-Mitschrift einer Datei aus v787: wie sie beim Anlegen geschrieben wurde (bereichBeimAnlegen) und wie v923 (45a59fa9c) sie nach dem Öffnen speichert (bereich); Weg gleich·privat-de. Erzeugt aus den ausgelieferten Ständen, nicht von Hand.",
+ "quelle": "v787",
+ "ziel": "v923",
+ "zielCommit": "45a59fa9c",
+ "weg": "gleich·privat-de",
+ "ohneAusgelieferteForm": [
+  "advanceCare",
+  "health",
+  "identity"
+ ],
+ "vomNachtragenGeaendert": [
+  "advanceCare",
+  "health",
+  "identity"
+ ],
+ "bereichBeimAnlegen": [
+  {
+   "modulTyp": "bereich",
+   "moduleVersion": 1,
+   "herkunft": "vivodepot",
+   "sprache": "de",
+   "kennung": "vivodepot/advanceCare",
+   "fassung": 1,
+   "bereiche": {
+    "advanceCare": {
+     "id": "advanceCare",
+     "format": "GENERISCH",
+     "icon": "scale",
+     "merkmale": [
+      "vorsorgeRegal"
+     ],
+     "rollen": {
+      "instrumenteListe": "provisionInstruments",
+      "auszugSektion": "erbschein-vorbereitung",
+      "instrumentTypUnterfeld": "instrument"
+     },
+     "exporte": [
+      {
+       "format": "ics-vorsorge",
+       "label": "Termine für den Kalender"
+      }
+     ],
+     "wizards": [
+      "pvwiz",
+      "kiwiz",
+      "pflwiz",
+      "heirwiz"
+     ],
+     "wizardId": null,
+     "standardDokumente": [
+      {
+       "typ": "enduring-power-of-attorney",
+       "name": "Vorsorgevollmacht",
+       "empfRhythmusMonate": 12,
+       "hinweis": "In der Praxis wird empfohlen, eine Vorsorgevollmacht gelegentlich erneut zu datieren und zu unterschreiben — das erleichtert es Dritten, sie als aktuellen Willen anzuerkennen.",
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "living-will",
+       "name": "Patientenverfügung",
+       "empfRhythmusMonate": 12,
+       "hinweis": "Eine Patientenverfügung gilt unbefristet. In der Praxis wird empfohlen, sie gelegentlich erneut zu datieren und zu unterschreiben — das erleichtert es Ärztinnen und Ärzten, sie als aktuellen Willen anzuerkennen.",
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "custodianship-declaration",
+       "name": "Betreuungsverfügung",
+       "empfRhythmusMonate": 12,
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "guardian-nomination",
+       "name": "Sorgerechtsverfügung",
+       "empfRhythmusMonate": 12,
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "ki-verfuegung",
+       "name": "Verfügung zur digitalen Nachbildung",
+       "empfRhythmusMonate": 12,
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "will",
+       "name": "Testament",
+       "empfRhythmusMonate": null,
+       "hinweis": "Kein fester Rhythmus — bei Änderung der Lebensumstände (Heirat, Geburt, Trennung, Vermögen) prüfen.",
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      }
+     ],
+     "sektionen": [
+      {
+       "id": "meine-vorsorge",
+       "felder": [
+        {
+         "id": "provisionInstruments",
+         "typ": "liste",
+         "zusammenfassungFelder": [
+          "instrument",
+          "typeOfPowerOfAttorney",
+          "morePreciseDescription",
+          "authorizedPersons",
+          "proposedPerson",
+          "alternatePerson",
+          "proposedPerson2",
+          "alternatePerson2",
+          "namedIndividuals",
+          "digitalEstateAdministration2",
+          "whoWasAppointedAsCourt",
+          "personsNamedInTheWill"
+         ],
+         "unterFelder": [
+          {
+           "id": "instrument",
+           "typ": "auswahl",
+           "pflicht": true,
+           "unterdrueckeInZusammenfassungWennGesetzt": "typeOfPowerOfAttorney",
+           "optionen": [
+            {
+             "wert": "enduring-power-of-attorney",
+             "label": "Vorsorgevollmacht"
+            },
+            {
+             "wert": "living-will",
+             "label": "Patientenverfügung"
+            },
+            {
+             "wert": "will",
+             "label": "Testament"
+            },
+            {
+             "wert": "custodianship-declaration",
+             "label": "Betreuungsverfügung"
+            },
+            {
+             "wert": "guardian-nomination",
+             "label": "Sorgerechtsverfügung"
+            },
+            {
+             "wert": "ki-verfuegung",
+             "label": "Verfügung zur digitalen Nachbildung"
+            },
+            {
+             "wert": "custodian-appointment",
+             "label": "Betreuerbestellung (bereits bestellter Betreuer)"
+            }
+           ],
+           "label": "Instrument"
+          },
+          {
+           "id": "form",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung"
+            ]
+           },
+           "optionen": [
+            {
+             "wert": "privat",
+             "label": "privatschriftlich (selbst verfasst)"
+            },
+            {
+             "wert": "beglaubigt",
+             "label": "amtlich / notariell beglaubigt"
+            },
+            {
+             "wert": "beurkundet",
+             "label": "notariell beurkundet"
+            }
+           ],
+           "label": "Form"
+          },
+          {
+           "id": "certifyingBody",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "form",
+            "wert": [
+             "beurkundet",
+             "beglaubigt"
+            ]
+           },
+           "label": "Beurkundende / beglaubigende Stelle",
+           "beispiel": "Notar Dr. Sommer, München · Urkundenrolle Nr. 123/2024"
+          },
+          {
+           "id": "storageLocation",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung",
+             "custodian-appointment"
+            ]
+           },
+           "label": "Ablageort",
+           "beispiel": "beim Notar · Tresor zuhause · Hinweiszettel im Geldbeutel"
+          },
+          {
+           "id": "dateOfLastChange",
+           "typ": "datum",
+           "keineZukunft": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung"
+            ]
+           },
+           "label": "Datum der letzten Änderung"
+          },
+          {
+           "id": "timeLimitedUntilIfAgreed",
+           "typ": "datum",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Befristet gültig bis (falls vereinbart)",
+           "hint": "Nur wenn die Vollmacht befristet erteilt wurde. Bei unbefristeter Vollmacht leer lassen."
+          },
+          {
+           "id": "typeOfPowerOfAttorney",
+           "typ": "auswahl",
+           "pflicht": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "vorsorge",
+             "label": "Vorsorgevollmacht"
+            },
+            {
+             "wert": "bank",
+             "label": "Bankvollmacht"
+            },
+            {
+             "wert": "betreuung",
+             "label": "Betreuungsvollmacht"
+            }
+           ],
+           "label": "Art der Vollmacht"
+          },
+          {
+           "id": "note",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "typeOfPowerOfAttorney",
+            "wert": "betreuung"
+           },
+           "label": "Hinweis",
+           "hint": "„Betreuungsvollmacht“ ist kein Rechtsbegriff und wird von {marke} nicht mehr angeboten — gemeint war vermutlich eine Vorsorge-, Gesundheits- oder Generalvollmacht (dann bitte „Vorsorgevollmacht“ wählen und die passenden Kästchen weiter unten setzen) oder eine gesetzliche Betreuung durch Gerichtsbeschluss (kein Instrument der Inhaberin — als Grundlage bei einem Sub-Depot erfassbar). Der bisherige Eintrag bleibt unverändert erhalten, bis das geprüft ist."
+          },
+          {
+           "id": "morePreciseDescription",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung"
+            ]
+           },
+           "label": "Genauer bezeichnen",
+           "beispiel": "z. B. Commerzbank, für meinen Sohn"
+          },
+          {
+           "id": "authorizedPersons",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "verweisZweck": "vollmacht",
+           "verweisKontextFeld": "certifyingBody",
+           "label": "Bevollmächtigte Person(en)"
+          },
+          {
+           "id": "howDoThePeopleRepresentYou",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "authorizedPersons",
+            "minAnzahl": 2
+           },
+           "optionen": [
+            {
+             "wert": "gleichwertig",
+             "label": "gleichwertig — jede darf allein handeln"
+            },
+            {
+             "wert": "nacheinander",
+             "label": "nacheinander — in der genannten Reihenfolge (Ersatz)"
+            }
+           ],
+           "label": "Wie vertreten die Personen?",
+           "hint": "Gleichwertig: jede bevollmächtigte Person darf einzeln handeln. Nacheinander: die erste ist zuständig, die nächste nur als Ersatz — die Reihenfolge oben bestimmt die Vertretung."
+          },
+          {
+           "id": "healthCareGeneralDecision",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — allgemein entscheiden"
+          },
+          {
+           "id": "healthCareMedicalProcedures",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr (§ 1829 BGB)"
+          },
+          {
+           "id": "healthCareMedicalRecords",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — Krankenunterlagen, Schweigepflichtentbindung"
+          },
+          {
+           "id": "healthCarePlacementDepriving",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — freiheitsentziehende Unterbringung (§ 1831 Absatz 1 BGB)"
+          },
+          {
+           "id": "healthCareMeasuresDepriving",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — freiheitsentziehende Maßnahmen in Einrichtung (§ 1831 Absatz 4 BGB)"
+          },
+          {
+           "id": "healthCareCompulsoryMedical",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — ärztliche Zwangsmaßnahmen (§ 1832 Absatz 1 BGB)"
+          },
+          {
+           "id": "healthCareAdmissionToHospital",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — Verbringung ins Krankenhaus bei drohender Zwangsmaßnahme (§ 1832 Absatz 4 BGB)"
+          },
+          {
+           "id": "determinePlaceOfResidence",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Aufenthalt bestimmen"
+          },
+          {
+           "id": "manageAnExistingTenancyWindUp",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Bestehenden Mietvertrag wahrnehmen, Haushalt auflösen"
+          },
+          {
+           "id": "concludeAndTerminateANew",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Neuen Mietvertrag abschließen und kündigen"
+          },
+          {
+           "id": "concludeAndTerminateHousingAnd",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Wohn- und Betreuungsvertrag abschließen und kündigen"
+          },
+          {
+           "id": "representationWithAuthorities",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Vertretung bei Behörden, Versicherungen, Sozialleistungsträgern"
+          },
+          {
+           "id": "assetManagementGeneral",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Vermögensverwaltung — allgemein"
+          },
+          {
+           "id": "disposeOfAssets",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Über Vermögensgegenstände verfügen"
+          },
+          {
+           "id": "acceptPaymentsAndValuables",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Zahlungen und Wertgegenstände annehmen"
+          },
+          {
+           "id": "enterIntoLiabilities",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Verbindlichkeiten eingehen"
+          },
+          {
+           "id": "accountsCustodyAccountsSafes",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Konten, Depots, Safes — Geschäftsverkehr mit Kreditinstituten"
+          },
+          {
+           "id": "customaryGiftsWithinWhatCare",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Übliche Schenkungen im betreuungsrechtlich zulässigen Rahmen"
+          },
+          {
+           "id": "transactionsExpresslyExcluded",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Ausdrücklich ausgeschlossene Geschäfte",
+           "beispiel": "z. B. kein Verkauf der selbstbewohnten Immobilie"
+          },
+          {
+           "id": "mailAndTelecommunications",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Post und Fernmeldeverkehr (auch elektronisch)"
+          },
+          {
+           "id": "representationInCourt",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Vertretung vor Gericht"
+          },
+          {
+           "id": "mayGrantASubPowerOfAttorney",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Untervollmacht erteilen dürfen"
+          },
+          {
+           "id": "alsoProposeTheAuthorizedPerson",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Bevollmächtigte Person auch als Betreuer/in vorschlagen"
+          },
+          {
+           "id": "appliesBeyondDeath",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Geltung über den Tod hinaus"
+          },
+          {
+           "id": "furtherProvisions",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Weitere Regelungen"
+          },
+          {
+           "id": "note2",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "typeOfPowerOfAttorney",
+            "wert": [
+             "bank"
+            ]
+           },
+           "label": "Hinweis",
+           "hint": "Diese Vollmacht kann sich mit anderen überschneiden — achten Sie darauf, dass Ihre Vollmachten zueinander passen."
+          },
+          {
+           "id": "centralRegisterOfPowersOf",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Zentrales Vorsorgeregister — Eintragungsnummer",
+           "beispiel": "ZVR-2024-987654"
+          },
+          {
+           "id": "copyDepositedInTheRegister",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "custodianship-declaration",
+             "living-will"
+            ]
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Abschrift im Register hinterlegt",
+           "hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat."
+          },
+          {
+           "id": "copyDepositedOn",
+           "sensibel": true,
+           "typ": "datum",
+           "sichtbarWenn": {
+            "feld": "copyDepositedInTheRegister",
+            "wert": "ja"
+           },
+           "label": "Abschrift hinterlegt am"
+          },
+          {
+           "id": "depositedBy",
+           "sensibel": true,
+           "typ": "ref",
+           "entitaet": "institution",
+           "sichtbarWenn": {
+            "feld": "copyDepositedInTheRegister",
+            "wert": "ja"
+           },
+           "label": "Hinterlegt durch",
+           "hint": "Die Stelle, die die Abschrift eingestellt hat — Betreuungsbehörde, Betreuungsverein, Anwaltskanzlei oder Notariat."
+          },
+          {
+           "id": "medicalSupervisionBy",
+           "sensibel": true,
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "arzt",
+           "verweisZweck": "aerztlich",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "living-will"
+           },
+           "label": "Ärztlich begleitet durch"
+          },
+          {
+           "id": "organDonation",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "living-will"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja, vollumfänglich"
+            },
+            {
+             "wert": "teil",
+             "label": "ja, eingeschränkt"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            },
+            {
+             "wert": "familie",
+             "label": "Familie entscheidet"
+            }
+           ],
+           "label": "Organspende"
+          },
+          {
+           "id": "whatRestriction",
+           "sensibel": true,
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "organDonation",
+            "wert": "teil"
+           },
+           "label": "Welche Einschränkung?",
+           "beispiel": "z. B. nur Herz und Nieren; keine Hornhaut; nur für Transplantation, nicht für Forschung"
+          },
+          {
+           "id": "organDonationRegister",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "living-will"
+           },
+           "label": "Organspende-Register — Erklärungs-ID",
+           "beispiel": "A3K7B9X"
+          },
+          {
+           "id": "statutorySuccessionOr",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "optionen": [
+            {
+             "wert": "gesetzlich",
+             "label": "Die gesetzliche Erbfolge soll gelten"
+            },
+            {
+             "wert": "abweichend",
+             "label": "Mein Testament weicht bewusst davon ab"
+            },
+            {
+             "wert": "unklar",
+             "label": "Noch unklar — Beratung gewünscht"
+            }
+           ],
+           "label": "Gesetzliche Erbfolge oder abweichender Wille?"
+          },
+          {
+           "id": "personsNamedInTheWill",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sensibel": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "label": "Im Testament bedachte Person(en)",
+           "hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament anzusehen. Der Inhalt des Testaments bleibt außerhalb von {marke}."
+          },
+          {
+           "id": "aboutTheWill",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "label": "Zum Testament",
+           "hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}, sondern bei einer Notarin, einem Notar oder in anwaltlicher Beratung."
+          },
+          {
+           "id": "personalNotesOnThis",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "label": "Persönliche Notizen dazu",
+           "hint": "Was Sie hier notieren, sind Ihre Aufzeichnungen; ein Testament wird daraus nicht.",
+           "beispiel": "Gedanken und offene Fragen, die ich festhalten möchte"
+          },
+          {
+           "id": "proposedPerson",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Vorgeschlagene Person"
+          },
+          {
+           "id": "alternatePerson",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Ersatzperson"
+          },
+          {
+           "id": "whoShouldNotBeAppointed",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Wer nicht bestellt werden soll"
+          },
+          {
+           "id": "whatTheCareArrangementShould",
+           "sensibel": true,
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Was die Betreuung regeln soll",
+           "beispiel": "Wohnung halten, solange es geht; vertraute Hausärztin behalten"
+          },
+          {
+           "id": "whatTheCareArrangementShould2",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Was die Betreuung nicht soll",
+           "beispiel": "kein Umzug ins Heim ohne Rücksprache mit der Familie"
+          },
+          {
+           "id": "proposedPerson2",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "familie",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "guardian-nomination"
+           },
+           "label": "Vorgeschlagene Person"
+          },
+          {
+           "id": "alternatePerson2",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "familie",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "guardian-nomination"
+           },
+           "label": "Ersatzperson"
+          },
+          {
+           "id": "wishesForUpbringingCare",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "guardian-nomination"
+           },
+           "label": "Wünsche zur Erziehung & Betreuung",
+           "beispiel": "Geschwister sollen zusammenbleiben; gewohnte Schule beibehalten"
+          },
+          {
+           "id": "basicDecision",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "untersagung",
+             "label": "Ich untersage jede KI-gestützte Nachbildung meiner Person nach meinem Tod."
+            },
+            {
+             "wert": "erlaubnis",
+             "label": "Ich erlaube eine KI-gestützte Nachbildung meiner Person nach meinem Tod, unter den nachfolgend festgelegten Bedingungen."
+            }
+           ],
+           "label": "Grundentscheidung"
+          },
+          {
+           "id": "purpose",
+           "typ": "mehrfachauswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "trauer",
+             "label": "zur persönlichen Trauerbegleitung im engsten Kreis"
+            },
+            {
+             "wert": "erinnerung",
+             "label": "zur Bewahrung von Erinnerungen und Familiengeschichte"
+            },
+            {
+             "wert": "bildung",
+             "label": "zu Bildungs- oder Dokumentationszwecken"
+            }
+           ],
+           "label": "Zweck"
+          },
+          {
+           "id": "authorizedParties",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "benannte",
+             "label": "ausschließlich namentlich benannte Personen"
+            },
+            {
+             "wert": "angehoerige",
+             "label": "meine engsten Angehörigen"
+            }
+           ],
+           "label": "Berechtigte"
+          },
+          {
+           "id": "namedIndividuals",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "label": "Namentlich benannte Personen"
+          },
+          {
+           "id": "scope",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "privat",
+             "label": "nur privater Raum"
+            },
+            {
+             "wert": "oeffentlich",
+             "label": "auch öffentlich zugängliche Räume (z. B. Gedenkseiten)"
+            }
+           ],
+           "label": "Raum"
+          },
+          {
+           "id": "permittedDataTypes",
+           "typ": "mehrfachauswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "schriftverkehr",
+             "label": "Schriftverkehr und Textnachrichten"
+            },
+            {
+             "wert": "sprache",
+             "label": "Sprachaufnahmen"
+            },
+            {
+             "wert": "fotovideo",
+             "label": "Foto- und Videomaterial"
+            },
+            {
+             "wert": "hinterlegt",
+             "label": "eigens hinterlegte Materialien"
+            }
+           ],
+           "label": "Zulässige Datenarten"
+          },
+          {
+           "id": "timeLimit",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "jahre",
+             "label": "Löschung nach einer bestimmten Anzahl Jahre"
+            },
+            {
+             "wert": "letzte_person",
+             "label": "Löschung mit dem Tod der letzten zugangsberechtigten Person"
+            },
+            {
+             "wert": "zeitpunkt",
+             "label": "Löschung zu einem bestimmten Zeitpunkt"
+            }
+           ],
+           "label": "Befristung"
+          },
+          {
+           "id": "numberOfYears",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "timeLimit",
+            "wert": "jahre"
+           },
+           "label": "Anzahl Jahre",
+           "beispiel": "zehn"
+          },
+          {
+           "id": "date",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "timeLimit",
+            "wert": "zeitpunkt"
+           },
+           "label": "Zeitpunkt",
+           "beispiel": "31.12.2040"
+          },
+          {
+           "id": "behaviouralLimit",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "belegt",
+             "label": "nur belegtes Material, keine darüber hinausgehenden Aussagen"
+            },
+            {
+             "wert": "frei",
+             "label": "frei im Rahmen des dokumentierten Charakters, keine Politik/Religion/Finanzen/Rechtsgeschäfte"
+            }
+           ],
+           "label": "Verhaltensgrenze"
+          },
+          {
+           "id": "digitalEstateAdministration",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "benannt",
+             "label": "benannte Person, bevollmächtigt zum Pausieren/Löschen"
+            },
+            {
+             "wert": "angehoerige",
+             "label": "gemeinsam meine benannten Angehörigen"
+            }
+           ],
+           "label": "Digitale Nachlassverwaltung"
+          },
+          {
+           "id": "digitalEstateAdministration2",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "label": "Digitale Nachlassverwaltung — Person"
+          },
+          {
+           "id": "whoWasAppointedAsCourt",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Wer wurde als Betreuer/in bestellt?"
+          },
+          {
+           "id": "areasOfResponsibility",
+           "sensibel": true,
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Aufgabenbereiche",
+           "hint": "Übernehmen Sie die Formulierung aus dem Betreuerausweis oder dem Gerichtsbeschluss. Dort steht auch, für welche Aufgabenbereiche die Bestellung gilt.",
+           "beispiel": "Gesundheitssorge; Vermögenssorge; Aufenthaltsbestimmung"
+          },
+          {
+           "id": "careCourt",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Betreuungsgericht",
+           "beispiel": "Amtsgericht München"
+          },
+          {
+           "id": "fileReferenceNumber",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Aktenzeichen",
+           "beispiel": "XVII 1234/25"
+          },
+          {
+           "id": "appointedSince",
+           "marken": [
+            "giltAb"
+           ],
+           "typ": "datum",
+           "keineZukunft": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Bestellt seit"
+          },
+          {
+           "id": "nextCourtReviewDateIfKnown",
+           "typ": "datum",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Nächster gerichtlicher Überprüfungstermin (falls bekannt)",
+           "hint": "Das Gericht prüft eine Betreuung von Zeit zu Zeit. Den Termin finden Sie im Gerichtsbeschluss."
+          }
+         ],
+         "label": "Vorsorge-Instrumente",
+         "hint": "Jedes Vorsorge-Instrument als eigener Eintrag — Art wählen, dann erscheinen die passenden Felder."
+        }
+       ],
+       "label": "Meine Vorsorge"
+      },
+      {
+       "id": "estate",
+       "felder": [
+        {
+         "id": "heirsBriefOverview",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "verweisZweck": "familiaer",
+         "label": "Erben — Kurzübersicht"
+        }
+       ],
+       "label": "Erbe",
+       "hint": "Wer erbt — unabhängig davon, ob ein Testament vorliegt. Das Testament selbst steht oben unter „Meine Vorsorge“."
+      },
+      {
+       "id": "erbschein-vorbereitung",
+       "felder": [],
+       "label": "Erbschein — Vorbereitungsauszug"
+      },
+      {
+       "id": "care-preferences",
+       "felder": [
+        {
+         "id": "personalCareDignity",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Körperpflege & Würde",
+         "beispiel": "tägliche Körperpflege gewohnt; Intimsphäre wahren"
+        },
+        {
+         "id": "dietSpecialRequirements",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Ernährung & Besonderheiten",
+         "beispiel": "vegetarisch; keine Tomaten; viel Tee"
+        },
+        {
+         "id": "dailyRoutineActivities",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Alltag & Aktivitäten",
+         "beispiel": "morgens Radio; nachmittags Gartenspaziergang wenn möglich"
+        },
+        {
+         "id": "otherWishesNotes",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Sonstige Wünsche & Hinweise",
+         "beispiel": "religiöse Begleitung erwünscht; meine Brille immer in Reichweite"
+        },
+        {
+         "id": "aidsEGWalkerHearingAid",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Hilfsmittel (z. B. Rollator, Hörgerät, Rollstuhl)",
+         "beispiel": "Rollator (zuhause), Hörgerät beidseitig"
+        },
+        {
+         "id": "contentOfTheAdvanceDirective",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja"
+          },
+          {
+           "wert": "nein",
+           "label": "nein"
+          }
+         ],
+         "label": "Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?",
+         "hint": "Haben Sie mit der Person, die Sie in Ihrer Vorsorgevollmacht bevollmächtigt haben, über den Inhalt Ihrer Patientenverfügung gesprochen? Nicht gemeint ist, ob diese Person zugestimmt hat. Ohne Angabe fehlt der Zusatz im gedruckten Dokument — sonst nichts."
+        },
+        {
+         "id": "contentOfTheAdvanceDirective2",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja"
+          },
+          {
+           "wert": "nein",
+           "label": "nein"
+          }
+         ],
+         "label": "Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?",
+         "hint": "Haben Sie mit der Person, die Sie in Ihrer Betreuungsverfügung als Betreuerin oder Betreuer vorschlagen, über den Inhalt Ihrer Patientenverfügung gesprochen? Nicht gemeint ist, ob diese Person zugestimmt hat. Ohne Angabe fehlt der Zusatz im gedruckten Dokument — sonst nichts."
+        },
+        {
+         "id": "provisionDocumentsCheckedIn",
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja, alles aktuell"
+          },
+          {
+           "wert": "teil",
+           "label": "teilweise — muss noch ergänzt werden"
+          },
+          {
+           "wert": "nein",
+           "label": "noch nicht geprüft"
+          }
+         ],
+         "label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
+         "hint": "Vollmacht, Betreuungsverfügung und Patientenverfügung sollten vorliegen, bevor die Pflege übernommen wird — sonst entscheidet im Ernstfall niemand rechtssicher."
+        }
+       ],
+       "label": "Pflegewünsche",
+       "hint": "Diese Angaben ergänzen die Patientenverfügung und helfen Pflegepersonen, Ihren Willen zu kennen."
+      }
+     ],
+     "label": "Vorsorge & Recht"
+    }
+   }
+  },
+  {
+   "modulTyp": "bereich",
+   "moduleVersion": 1,
+   "herkunft": "vivodepot",
+   "sprache": "de",
+   "kennung": "vivodepot/health",
+   "fassung": 1,
+   "bereiche": {
+    "health": {
+     "id": "health",
+     "format": "FHIR_IPS",
+     "icon": "heartPulse",
+     "exporte": [
+      {
+       "format": "fhir-ips",
+       "label": "Gesundheitsdaten"
+      }
+     ],
+     "wizards": [
+      "anamwiz",
+      "pflwiz"
+     ],
+     "standardDokumente": [
+      {
+       "typ": "health-insurance-card",
+       "name": "Krankenkassenkarte (inkl. EHIC)",
+       "empfRhythmusMonate": null,
+       "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Steht aufgedruckt auf der Karte, meist 5–6 Jahre gültig.",
+       "felder": [
+        {
+         "sektorId": "health",
+         "feldId": "healthInsuranceCards",
+         "unterfeldId": "validUntilInclEhic"
+        }
+       ]
+      }
+     ],
+     "sektionen": [
+      {
+       "id": "notfall-aerzte",
+       "felder": [
+        {
+         "id": "generalPractitioner",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "arzt",
+         "verweisZweck": "aerztlich",
+         "label": "Hausärztin / Hausarzt"
+        },
+        {
+         "id": "specialistDoctors",
+         "sensibel": true,
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "specialistDoctor",
+           "sensibel": true,
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "facharzt",
+           "verweisZweck": "aerztlich",
+           "verweisKontextFeld": "specialty",
+           "label": "Fachärztin / Facharzt"
+          },
+          {
+           "id": "specialty",
+           "sensibel": true,
+           "typ": "text",
+           "vorschlaege": [
+            "Allgemeinmedizin",
+            "Innere Medizin",
+            "Kardiologie",
+            "Neurologie",
+            "Orthopädie",
+            "Gynäkologie",
+            "Urologie",
+            "Dermatologie",
+            "Augenheilkunde",
+            "Hals-Nasen-Ohrenheilkunde",
+            "Psychiatrie und Psychotherapie",
+            "Onkologie"
+           ],
+           "label": "Fachgebiet",
+           "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — die Landeskammern führen eigene Weiterbildungsordnungen, frei eintragen bleibt möglich.",
+           "beispiel": "Kardiologie · Onkologie · Neurologie"
+          }
+         ],
+         "label": "Fachärztinnen und Fachärzte",
+         "hint": "Behandelnde Ärztin oder Arzt aus Onkologie, Kardiologie, Neurologie oder einem anderen Fachgebiet, das Sie regelmäßig aufsuchen — je eine Person mit ihrem Fachgebiet."
+        },
+        {
+         "id": "ongoingTreatmentNext",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Laufende Behandlung / nächste Termine",
+         "beispiel": "Reha-Termine bis 15.07., Nachsorge alle 3 Monate"
+        },
+        {
+         "id": "bloodType",
+         "sensibel": true,
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "0+",
+           "label": "0 +"
+          },
+          {
+           "wert": "0-",
+           "label": "0 −"
+          },
+          {
+           "wert": "A+",
+           "label": "A +"
+          },
+          {
+           "wert": "A-",
+           "label": "A −"
+          },
+          {
+           "wert": "B+",
+           "label": "B +"
+          },
+          {
+           "wert": "B-",
+           "label": "B −"
+          },
+          {
+           "wert": "AB+",
+           "label": "AB +"
+          },
+          {
+           "wert": "AB-",
+           "label": "AB −"
+          },
+          {
+           "wert": "unbekannt",
+           "label": "unbekannt"
+          }
+         ],
+         "label": "Blutgruppe"
+        },
+        {
+         "id": "allergiesMedicationFoodOther",
+         "sensibel": true,
+         "typ": "text",
+         "codeListe": "snomedAllergen",
+         "label": "Allergien (Medikamente, Nahrung, Sonstiges)",
+         "beispiel": "Penicillin"
+        },
+        {
+         "id": "chronicConditionsDiagnoses",
+         "sensibel": true,
+         "typ": "text",
+         "codeListe": "icd10",
+         "label": "Chronische Erkrankungen / Diagnosen",
+         "beispiel": "Diabetes mellitus Typ 2"
+        },
+        {
+         "id": "healthInsurance",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "institution",
+         "verweisZweck": "aerztlich",
+         "label": "Krankenversicherung",
+         "hint": "Welche Krankenkasse? Nummer steht auf der Karte.",
+         "beispiel": "AOK Bayern"
+        },
+        {
+         "id": "medicationOngoing",
+         "sensibel": true,
+         "typ": "text",
+         "codeListe": "atc",
+         "label": "Medikamente (laufend)",
+         "beispiel": "Ramipril 5 mg morgens"
+        },
+        {
+         "id": "insuranceNumber",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Versichertennummer",
+         "hint": "Steht auf der Krankenkassenkarte.",
+         "beispiel": "A123456780"
+        },
+        {
+         "id": "implantsProsthesesPacemakers",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Implantate / Prothesen / Schrittmacher",
+         "hint": "Wichtig für MRT-Eignung und Narkose.",
+         "beispiel": "Hüft-TEP rechts (Stryker), seit 2019"
+        },
+        {
+         "id": "heightCm",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Körpergröße (cm)",
+         "beispiel": "172"
+        },
+        {
+         "id": "bodyWeightKg",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Körpergewicht (kg)",
+         "beispiel": "68"
+        },
+        {
+         "id": "vaccinationRecordStorage",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Impfbuch — Ablageort",
+         "beispiel": "Schreibtisch oben links"
+        },
+        {
+         "id": "emergencyContacts",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "rolle": "pflegeperson",
+         "ebene": "modul",
+         "verweisZweck": "pflege",
+         "label": "Notfallkontakte",
+         "hint": "Wer kümmert sich im Notfall? Mehrere möglich — im Notfall-QR erscheinen alle. Für Arztberichte und Entlassungsplanung."
+        },
+        {
+         "id": "insuredThrough",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Versichert über",
+         "hint": "Bei Familienversicherung: über wen sind Sie versichert?",
+         "beispiel": "eigene Versicherung"
+        },
+        {
+         "id": "supplementaryInsurance",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "vorschlaege": [
+          "Auslandsreisekrankenversicherung",
+          "Zahnzusatzversicherung",
+          "Krankenhaustagegeld",
+          "Pflegezusatzversicherung",
+          "Krankentagegeld",
+          "Brillenversicherung"
+         ],
+         "label": "Zusatzversicherungen",
+         "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — frei eintragen bleibt möglich.",
+         "beispiel": "Auslandsreisekrankenversicherung bei ADAC"
+        },
+        {
+         "id": "healthInsuranceCards",
+         "typ": "liste",
+         "ebene": "modul",
+         "unterFelder": [
+          {
+           "id": "system",
+           "typ": "text",
+           "label": "Land / System"
+          },
+          {
+           "id": "storageLocation",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Ablageort",
+           "beispiel": "Geldbeutel"
+          },
+          {
+           "id": "validUntilInclEhic",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Gültig bis (inkl. EHIC)",
+           "hint": "Steht aufgedruckt auf der Karte, meist 5–6 Jahre gültig. Deckt auch die EHIC auf der Rückseite ab — dieselbe Karte, ein Ablaufdatum."
+          }
+         ],
+         "label": "Krankenkassenkarten",
+         "hint": "Jede Karte als eigener Eintrag — z. B. bei Versicherung in mehreren Ländern."
+        },
+        {
+         "id": "emergencyCardPatientId",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Notfallkarte / Patientenausweis",
+         "beispiel": "Geldbeutel, hinter dem Ausweis"
+        },
+        {
+         "id": "smoking",
+         "sensibel": true,
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "nie",
+           "label": "nie geraucht"
+          },
+          {
+           "wert": "ex",
+           "label": "früher, jetzt nicht mehr"
+          },
+          {
+           "wert": "leicht",
+           "label": "gelegentlich"
+          },
+          {
+           "wert": "taegl",
+           "label": "täglich"
+          }
+         ],
+         "label": "Rauchen"
+        },
+        {
+         "id": "alcohol",
+         "sensibel": true,
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "nie",
+           "label": "kein Alkohol"
+          },
+          {
+           "wert": "selten",
+           "label": "selten"
+          },
+          {
+           "wert": "maess",
+           "label": "gelegentlich, maßvoll"
+          },
+          {
+           "wert": "taegl",
+           "label": "täglich"
+          }
+         ],
+         "label": "Alkohol"
+        },
+        {
+         "id": "vaccinations",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "vorschlaege": [
+          "Tetanus",
+          "Diphtherie",
+          "Pertussis",
+          "Poliomyelitis",
+          "Masern",
+          "Mumps",
+          "Röteln",
+          "Influenza",
+          "Pneumokokken",
+          "Herpes Zoster",
+          "FSME",
+          "Hepatitis A",
+          "Hepatitis B",
+          "COVID-19"
+         ],
+         "label": "Impfungen",
+         "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — frei eintragen bleibt möglich.",
+         "beispiel": "Tetanus 2022, Grippe jährlich"
+        },
+        {
+         "id": "findingsOnAUsbStick",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Befunde auf USB-Stick?",
+         "beispiel": "Stick im Schrank, Fach „Gesundheit“"
+        },
+        {
+         "id": "preventiveCheckUpsLatestDates",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Vorsorgeuntersuchungen — letzte Termine",
+         "beispiel": "Mammographie 03/2024, Koloskopie 2022"
+        },
+        {
+         "id": "dentistNameContact",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "zahnarzt",
+         "ebene": "modul",
+         "verweisZweck": "aerztlich",
+         "label": "Zahnarzt — Name & Kontakt"
+        },
+        {
+         "id": "dentalBonusBookletStorage",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Bonusheft — Ablageort",
+         "beispiel": "Schreibtisch oben links"
+        },
+        {
+         "id": "ehicCardEuropeanHealth",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "EHIC-Karte (Europäische Krankenversicherungskarte)",
+         "hint": "Gültigkeit wird beim Feld „Krankenkassenkarte (inkl. EHIC) — gültig bis“ mitgeführt — dieselbe physische Karte, ein Datum.",
+         "beispiel": "EHIC-Nr. auf Rückseite KK-Karte"
+        },
+        {
+         "id": "operationsProcedures",
+         "sensibel": true,
+         "typ": "liste",
+         "ebene": "modul",
+         "unterFelder": [
+          {
+           "id": "procedure",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Eingriff",
+           "beispiel": "Blinddarm-Entfernung"
+          },
+          {
+           "id": "year",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Jahr",
+           "beispiel": "2008"
+          }
+         ],
+         "label": "Operationen / Eingriffe"
+        },
+        {
+         "id": "familyMedicalHistory",
+         "sensibel": true,
+         "typ": "liste",
+         "ebene": "modul",
+         "unterFelder": [
+          {
+           "id": "familyMember",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Angehörige / Angehöriger",
+           "beispiel": "Vater"
+          },
+          {
+           "id": "condition",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Erkrankung",
+           "beispiel": "Herzinfarkt"
+          },
+          {
+           "id": "ageAtDiagnosis",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Alter bei Erkrankung",
+           "beispiel": "60"
+          }
+         ],
+         "label": "Familienanamnese",
+         "hint": "Jede Erkrankung in der nahen Familie als eigener Eintrag — wichtig für Vorsorge und ärztliche Einschätzung."
+        }
+       ],
+       "label": "Notfall, Ärzte, Impfungen, Befunde",
+       "hint": "Allergien, Medikamente, Blutgruppe — im Notfall sofort zur Hand."
+      }
+     ],
+     "label": "Gesundheit"
+    }
+   }
+  },
+  {
+   "modulTyp": "bereich",
+   "moduleVersion": 1,
+   "herkunft": "vivodepot",
+   "sprache": "de",
+   "kennung": "vivodepot/identity",
+   "fassung": 1,
+   "bereiche": {
+    "identity": {
+     "id": "identity",
+     "format": "SD_JWT_VC",
+     "icon": "user",
+     "merkmale": [
+      "ankerIdentitaet"
+     ],
+     "rollen": {
+      "ankerNameFelder": [
+       "givenName",
+       "familyName",
+       "secondLastName",
+       "displayFamilyNameFirst"
+      ],
+      "familienstandFeld": "maritalStatus",
+      "telefonFeld": "telephone",
+      "emailFeld": "email",
+      "adresseFelder": [
+       "streetAddress",
+       "postcodeCity"
+      ]
+     },
+     "exporte": [
+      {
+       "format": "sd-jwt-vc-identitaet",
+       "label": "Identitätsnachweis (maschinenlesbar)"
+      },
+      {
+       "format": "vcard-identitaet",
+       "label": "Als Kontaktkarte (für Adressbuch/Handy)"
+      }
+     ],
+     "wizards": [
+      "heirwiz",
+      "umzwiz"
+     ],
+     "deckblatt": {
+      "fotoFeld": "profilePhotoCoverPage",
+      "nameFelder": [
+       "givenName",
+       "familyName",
+       "secondLastName"
+      ]
+     },
+     "standardDokumente": [
+      {
+       "typ": "national-id-card",
+       "name": "Personalausweis",
+       "empfRhythmusMonate": null,
+       "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt.",
+       "felder": [
+        {
+         "sektorId": "identity",
+         "feldId": "idDocuments",
+         "unterfeldId": "validUntil"
+        }
+       ]
+      },
+      {
+       "typ": "residence-permit",
+       "name": "Aufenthaltstitel",
+       "empfRhythmusMonate": null,
+       "vorlaufTage": 90,
+       "hinweis": "Kein fester Rhythmus und kein berechneter Vorschlag — die Frist hängt von Art und Grundlage ab. Empfehlung: rechtzeitig vor Ablauf verlängern, üblich sind drei Monate Vorlauf.",
+       "felder": [
+        {
+         "sektorId": "identity",
+         "feldId": "residencePermit",
+         "unterfeldId": "validUntil"
+        }
+       ]
+      }
+     ],
+     "sektionen": [
+      {
+       "id": "person",
+       "felder": [
+        {
+         "id": "givenName",
+         "typ": "text",
+         "label": "Vorname",
+         "beispiel": "Maria"
+        },
+        {
+         "id": "familyName",
+         "typ": "text",
+         "label": "Nachname",
+         "beispiel": "Mustermann"
+        },
+        {
+         "id": "secondLastName",
+         "typ": "text",
+         "label": "Zweiter Nachname",
+         "hint": "Nur ausfüllen, wenn zwei Nachnamen getrennt geführt werden sollen — sonst reicht ein Nachname.",
+         "beispiel": "García"
+        },
+        {
+         "id": "displayFamilyNameFirst",
+         "typ": "checkbox",
+         "label": "Familienname zuerst anzeigen",
+         "hint": "Für Namen, die in dieser Reihenfolge geschrieben werden — z. B. Nagy Peter statt Peter Nagy. Wirkt sich nur auf die Anzeige-Reihenfolge aus, nicht auf die Felder selbst."
+        },
+        {
+         "id": "birthDate",
+         "typ": "datum",
+         "keineZukunft": true,
+         "datumJahrMin": 1900,
+         "label": "Geburtsdatum"
+        },
+        {
+         "id": "yearOfBirthIfTheExactDayIs",
+         "typ": "text",
+         "eingabeTyp": "numeric",
+         "label": "Geburtsjahr (falls der Tag unbekannt ist)",
+         "beispiel": "1990"
+        },
+        {
+         "id": "telephone",
+         "typ": "text",
+         "eingabeTyp": "tel",
+         "label": "Telefon",
+         "beispiel": "0151 12345678"
+        },
+        {
+         "id": "streetAddress",
+         "typ": "text",
+         "label": "Straße & Hausnummer",
+         "beispiel": "Lindenweg 4"
+        },
+        {
+         "id": "postcodeCity",
+         "typ": "text",
+         "label": "PLZ & Ort",
+         "beispiel": "80331 München"
+        },
+        {
+         "id": "email",
+         "typ": "text",
+         "eingabeTyp": "email",
+         "label": "E-Mail",
+         "beispiel": "maria.mustermann@example.de"
+        },
+        {
+         "id": "nationality",
+         "sensibel": true,
+         "typ": "text",
+         "vorschlaege": [
+          "deutsch",
+          "österreichisch",
+          "schweizerisch",
+          "türkisch",
+          "polnisch",
+          "italienisch",
+          "französisch",
+          "US-amerikanisch",
+          "staatenlos"
+         ],
+         "label": "Staatsangehörigkeit",
+         "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — Mehrfachstaatlichkeit frei eintragen.",
+         "beispiel": "deutsch"
+        },
+        {
+         "id": "birthName",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Geburtsname",
+         "hint": "Der Name bei der Geburt. Weitere frühere Namen — z. B. durch eine spätere Heirat oder Scheidung — tragen Sie unten unter „Frühere Namen“ ein.",
+         "beispiel": "Müller"
+        },
+        {
+         "id": "birthPlace",
+         "typ": "text",
+         "label": "Geburtsort",
+         "beispiel": "Augsburg"
+        },
+        {
+         "id": "gender",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "m",
+           "label": "männlich"
+          },
+          {
+           "wert": "w",
+           "label": "weiblich"
+          },
+          {
+           "wert": "d",
+           "label": "divers"
+          },
+          {
+           "wert": "k",
+           "label": "keine Angabe"
+          }
+         ],
+         "label": "Geschlecht"
+        },
+        {
+         "id": "maritalStatus",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ledig",
+           "label": "ledig"
+          },
+          {
+           "wert": "verh",
+           "label": "verheiratet"
+          },
+          {
+           "wert": "elp",
+           "label": "eingetragene Lebenspartnerschaft"
+          },
+          {
+           "wert": "getrennt",
+           "label": "getrennt lebend"
+          },
+          {
+           "wert": "geschieden",
+           "label": "geschieden"
+          },
+          {
+           "wert": "verwitwet",
+           "label": "verwitwet"
+          }
+         ],
+         "label": "Familienstand",
+         "hint": "Bestimmt die gesetzliche Erbfolge."
+        },
+        {
+         "id": "maritalPropertyRegime",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "verh",
+           "elp"
+          ]
+         },
+         "optionen": [
+          {
+           "wert": "zugewinn",
+           "label": "Zugewinngemeinschaft (gesetzlich, ohne Ehevertrag)"
+          },
+          {
+           "wert": "guetertrenn",
+           "label": "Gütertrennung"
+          },
+          {
+           "wert": "guetergem",
+           "label": "Gütergemeinschaft"
+          }
+         ],
+         "label": "Güterstand",
+         "hint": "Ohne Ehevertrag gilt automatisch die Zugewinngemeinschaft. Ein Ehevertrag kann etwas anderes bestimmen."
+        },
+        {
+         "id": "dateOfSeparation",
+         "typ": "datum",
+         "keineZukunft": true,
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "getrennt",
+           "geschieden"
+          ]
+         },
+         "label": "Trennungsdatum",
+         "hint": "Stichtag für Steuer und Vermögensauskunft. Die Beweislast für das Datum liegt bei der Person, die sich darauf beruft."
+        },
+        {
+         "id": "choiceOfNameAfterMarriage",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "verh",
+           "elp"
+          ]
+         },
+         "optionen": [
+          {
+           "wert": "ehename_meiner",
+           "label": "gemeinsamer Ehename, meiner"
+          },
+          {
+           "wert": "ehename_partner",
+           "label": "gemeinsamer Ehename, der des Partners"
+          },
+          {
+           "wert": "eigener_name",
+           "label": "jede und jeder behält den eigenen Namen"
+          },
+          {
+           "wert": "begleitname",
+           "label": "Begleitname geführt"
+          }
+         ],
+         "label": "Namenswahl nach der Heirat",
+         "hint": "Die Namenswahl wirkt auf Ausweis, Bank und Versicherungen. Der Name selbst steht unter Identität, der frühere als Geburtsname — hier wird nur die Form gewählt, kein Name eingetragen."
+        },
+        {
+         "id": "choiceOfNameAfterMarriage2",
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "verh",
+           "elp"
+          ]
+         },
+         "label": "Namenswahl nach der Heirat — frühere Angabe",
+         "hint": "Automatisch übernommen, weil die alte Angabe keiner Namensform eindeutig entsprach (vor der Umstellung auf ein Auswahlfeld). Kann gelöscht werden, sobald oben eine Form gewählt ist. Steht hier ein tatsächlicher Name, gehört er in die Liste „Frühere Namen“.",
+         "beispiel": "gemeinsamer Ehename Mustermann; Geburtsname als Begleitname"
+        },
+        {
+         "id": "idDocuments",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "system",
+           "typ": "text",
+           "label": "Land / System",
+           "beispiel": "Deutschland"
+          },
+          {
+           "id": "documentNumber",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Ausweisnummer",
+           "beispiel": "T012345678"
+          },
+          {
+           "id": "issuedOn",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Ausgestellt am"
+          },
+          {
+           "id": "validUntil",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Gültig bis",
+           "hint": "Das genaue Ablaufdatum steht auf Ihrem Ausweis."
+          }
+         ],
+         "label": "Ausweisdokumente",
+         "hint": "Jedes Ausweisdokument als eigener Eintrag — mehrere Staatsangehörigkeiten, mehrere Ausweise."
+        },
+        {
+         "id": "residencePermitType",
+         "sensibel": true,
+         "typ": "text",
+         "vorschlaege": [
+          "Aufenthaltserlaubnis",
+          "Niederlassungserlaubnis",
+          "Blaue Karte EU",
+          "Visum",
+          "Duldung",
+          "Fiktionsbescheinigung"
+         ],
+         "label": "Aufenthaltstitel — Art",
+         "hint": "Nur ausfüllen, wenn Sie einen befristeten Aufenthaltsstatus haben. Freitext mit Vorschlägen — die Titel-Landschaft ändert sich mit dem Recht, kein fester Katalog."
+        },
+        {
+         "id": "residencePermit",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "system",
+           "typ": "text",
+           "label": "Land / System"
+          },
+          {
+           "id": "number",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Nummer",
+           "beispiel": "ZAB1234567"
+          },
+          {
+           "id": "issuedOn",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Ausgestellt am"
+          },
+          {
+           "id": "validUntil",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Gültig bis",
+           "hint": "Kein berechneter Vorschlag — die Frist hängt von Art und Grundlage ab und steht auf Ihrem Titel/Ihrer Bescheinigung."
+          },
+          {
+           "id": "responsibleImmigration",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Zuständige Ausländerbehörde",
+           "beispiel": "Ausländerbehörde München"
+          },
+          {
+           "id": "fileReferenceNumber",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Aktenzeichen"
+          }
+         ],
+         "label": "Aufenthaltstitel"
+        },
+        {
+         "id": "profilePhotoCoverPage",
+         "typ": "ref",
+         "entitaet": "mappe",
+         "label": "Profilfoto (Deckblatt)",
+         "hint": "Ein Foto als Deckblatt Ihres Depots — aus Ihren Dokumenten wählen oder direkt hochladen."
+        },
+        {
+         "id": "furtherDetails",
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Weitere Angaben",
+         "beispiel": "z. B. Künstlername, frühere Wohnsitze"
+        },
+        {
+         "id": "taxClass",
+         "sensibel": true,
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "I",
+           "label": "I"
+          },
+          {
+           "wert": "II",
+           "label": "II"
+          },
+          {
+           "wert": "III",
+           "label": "III"
+          },
+          {
+           "wert": "IV",
+           "label": "IV"
+          },
+          {
+           "wert": "IV_faktor",
+           "label": "IV mit Faktor"
+          },
+          {
+           "wert": "V",
+           "label": "V"
+          },
+          {
+           "wert": "VI",
+           "label": "VI"
+          }
+         ],
+         "label": "Steuerklasse"
+        },
+        {
+         "id": "taxClassEarlierEntry",
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Steuerklasse — frühere Angabe",
+         "hint": "Automatisch übernommen, weil die alte Angabe nicht eindeutig einer Steuerklasse zuzuordnen war (vor der Umstellung auf ein Auswahlfeld). Kann gelöscht werden, sobald oben eine Steuerklasse gewählt ist."
+        },
+        {
+         "id": "reRegistrationWithTheResidents",
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Ummeldung beim Einwohnermeldeamt",
+         "hint": "Ein Wohnungswechsel ist binnen zwei Wochen bei der Meldebehörde anzuzeigen.",
+         "beispiel": "Termin Bürgerbüro 12.07.; ummelden binnen zwei Wochen"
+        }
+       ],
+       "label": "Person"
+      },
+      {
+       "id": "fruehere-namen",
+       "felder": [
+        {
+         "id": "formerNames",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "name",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Name",
+           "beispiel": "Maria Müller"
+          },
+          {
+           "id": "usedUntil",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "geführt bis"
+          },
+          {
+           "id": "reason",
+           "sensibel": true,
+           "typ": "auswahl",
+           "optionen": [
+            {
+             "wert": "heirat",
+             "label": "Heirat"
+            },
+            {
+             "wert": "scheidung",
+             "label": "Scheidung oder Rückkehr zum Geburtsnamen"
+            },
+            {
+             "wert": "namensaenderung",
+             "label": "behördliche Namensänderung"
+            },
+            {
+             "wert": "adoption",
+             "label": "Adoption"
+            },
+            {
+             "wert": "einbuergerung",
+             "label": "Einbürgerung"
+            },
+            {
+             "wert": "personenstand",
+             "label": "Personenstandsänderung"
+            },
+            {
+             "wert": "transkription",
+             "label": "andere Umschrift/Transkription desselben Namens"
+            },
+            {
+             "wert": "sonstiges",
+             "label": "sonstiges"
+            }
+           ],
+           "label": "Anlass"
+          },
+          {
+           "id": "note",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "reason",
+            "wert": "personenstand"
+           },
+           "label": "Hinweis",
+           "hint": "Ein früherer Vorname und eine frühere Geschlechtsangabe sind nach § 13 SBGG besonders geschützt (Offenbarungsverbot). Sie müssen diese Angabe nicht eintragen, um Ihre Namenskette zu belegen — die übrigen Einträge dieser Liste reichen dafür oft aus."
+          },
+          {
+           "id": "proofStorageLocation",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Nachweis — Ablageort",
+           "beispiel": "Ordner „Unterlagen alt“"
+          }
+         ],
+         "label": "Frühere Namen"
+        }
+       ],
+       "label": "Frühere Namen",
+       "hint": "Alte Papiere — Zeugnisse, Rentenkonto, Versicherungspolicen, Grundbuch, alte Konten — lauten oft auf frühere Namen. Bei der Rente und im Erbfall ist die Namenskette das, was jemand belegen muss."
+      },
+      {
+       "id": "pets",
+       "felder": [
+        {
+         "id": "pets",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "petNameSpecies",
+           "typ": "text",
+           "label": "Tier — Name & Art",
+           "beispiel": "Felix, Katze"
+          },
+          {
+           "id": "emergencyCarePersonContact",
+           "typ": "ref",
+           "entitaet": "person",
+           "label": "Betreuung im Notfall — Person & Kontakt"
+          },
+          {
+           "id": "vetNameContact",
+           "typ": "ref",
+           "entitaet": "person",
+           "label": "Tierarzt — Name & Kontakt"
+          },
+          {
+           "id": "medication",
+           "typ": "text",
+           "label": "Futter / Besonderheiten / Medikamente",
+           "beispiel": "trocken, 2× täglich; Tabletten gegen Diabetes morgens"
+          },
+          {
+           "id": "otherNotes",
+           "typ": "text",
+           "label": "Weitere Hinweise",
+           "beispiel": "scheu vor lauten Geräuschen"
+          }
+         ],
+         "label": "Tiere"
+        }
+       ],
+       "label": "Haustiere",
+       "hint": "Wenn Sie plötzlich ins Krankenhaus müssen oder nicht mehr nach Hause kommen — wer kümmert sich um Ihr Tier?"
+      }
+     ],
+     "label": "Identität & Person"
+    }
+   }
+  }
+ ],
+ "bereich": [
+  {
+   "modulTyp": "bereich",
+   "moduleVersion": 1,
+   "herkunft": "vivodepot",
+   "sprache": "de",
+   "kennung": "vivodepot/advanceCare",
+   "fassung": 1,
+   "bereiche": {
+    "advanceCare": {
+     "id": "advanceCare",
+     "format": "GENERISCH",
+     "icon": "scale",
+     "merkmale": [
+      "vorsorgeRegal"
+     ],
+     "rollen": {
+      "instrumenteListe": "provisionInstruments",
+      "auszugSektion": "erbschein-vorbereitung",
+      "instrumentTypUnterfeld": "instrument"
+     },
+     "exporte": [
+      {
+       "format": "ics-vorsorge",
+       "label": "Termine für den Kalender"
+      }
+     ],
+     "wizards": [
+      "pvwiz",
+      "kiwiz",
+      "pflwiz",
+      "heirwiz"
+     ],
+     "wizardId": null,
+     "standardDokumente": [
+      {
+       "typ": "enduring-power-of-attorney",
+       "name": "Vorsorgevollmacht",
+       "empfRhythmusMonate": 12,
+       "hinweis": "In der Praxis wird empfohlen, eine Vorsorgevollmacht gelegentlich erneut zu datieren und zu unterschreiben — das erleichtert es Dritten, sie als aktuellen Willen anzuerkennen.",
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "living-will",
+       "name": "Patientenverfügung",
+       "empfRhythmusMonate": 12,
+       "hinweis": "Eine Patientenverfügung gilt unbefristet. In der Praxis wird empfohlen, sie gelegentlich erneut zu datieren und zu unterschreiben — das erleichtert es Ärztinnen und Ärzten, sie als aktuellen Willen anzuerkennen.",
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "custodianship-declaration",
+       "name": "Betreuungsverfügung",
+       "empfRhythmusMonate": 12,
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "guardian-nomination",
+       "name": "Sorgerechtsverfügung",
+       "empfRhythmusMonate": 12,
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "ki-verfuegung",
+       "name": "Verfügung zur digitalen Nachbildung",
+       "empfRhythmusMonate": 12,
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      },
+      {
+       "typ": "will",
+       "name": "Testament",
+       "empfRhythmusMonate": null,
+       "hinweis": "Kein fester Rhythmus — bei Änderung der Lebensumstände (Heirat, Geburt, Trennung, Vermögen) prüfen.",
+       "felder": [
+        {
+         "sektorId": "advanceCare",
+         "feldId": "provisionInstruments"
+        }
+       ]
+      }
+     ],
+     "sektionen": [
+      {
+       "id": "meine-vorsorge",
+       "felder": [
+        {
+         "id": "provisionInstruments",
+         "typ": "liste",
+         "zusammenfassungFelder": [
+          "instrument",
+          "typeOfPowerOfAttorney",
+          "morePreciseDescription",
+          "authorizedPersons",
+          "proposedPerson",
+          "alternatePerson",
+          "proposedPerson2",
+          "alternatePerson2",
+          "namedIndividuals",
+          "digitalEstateAdministration2",
+          "whoWasAppointedAsCourt",
+          "personsNamedInTheWill"
+         ],
+         "unterFelder": [
+          {
+           "id": "instrument",
+           "typ": "auswahl",
+           "pflicht": true,
+           "unterdrueckeInZusammenfassungWennGesetzt": "typeOfPowerOfAttorney",
+           "optionen": [
+            {
+             "wert": "enduring-power-of-attorney",
+             "label": "Vorsorgevollmacht"
+            },
+            {
+             "wert": "living-will",
+             "label": "Patientenverfügung"
+            },
+            {
+             "wert": "will",
+             "label": "Testament"
+            },
+            {
+             "wert": "custodianship-declaration",
+             "label": "Betreuungsverfügung"
+            },
+            {
+             "wert": "guardian-nomination",
+             "label": "Sorgerechtsverfügung"
+            },
+            {
+             "wert": "ki-verfuegung",
+             "label": "Verfügung zur digitalen Nachbildung"
+            },
+            {
+             "wert": "custodian-appointment",
+             "label": "Betreuerbestellung (bereits bestellter Betreuer)"
+            }
+           ],
+           "label": "Instrument"
+          },
+          {
+           "id": "form",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung"
+            ]
+           },
+           "optionen": [
+            {
+             "wert": "privat",
+             "label": "privatschriftlich (selbst verfasst)"
+            },
+            {
+             "wert": "beglaubigt",
+             "label": "amtlich / notariell beglaubigt"
+            },
+            {
+             "wert": "beurkundet",
+             "label": "notariell beurkundet"
+            }
+           ],
+           "label": "Form"
+          },
+          {
+           "id": "certifyingBody",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "form",
+            "wert": [
+             "beurkundet",
+             "beglaubigt"
+            ]
+           },
+           "label": "Beurkundende / beglaubigende Stelle",
+           "beispiel": "Notar Dr. Sommer, München · Urkundenrolle Nr. 123/2024"
+          },
+          {
+           "id": "storageLocation",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung",
+             "custodian-appointment"
+            ]
+           },
+           "label": "Ablageort",
+           "beispiel": "beim Notar · Tresor zuhause · Hinweiszettel im Geldbeutel"
+          },
+          {
+           "id": "dateOfLastChange",
+           "typ": "datum",
+           "keineZukunft": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung"
+            ]
+           },
+           "label": "Datum der letzten Änderung"
+          },
+          {
+           "id": "timeLimitedUntilIfAgreed",
+           "typ": "datum",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Befristet gültig bis (falls vereinbart)",
+           "hint": "Nur wenn die Vollmacht befristet erteilt wurde. Bei unbefristeter Vollmacht leer lassen."
+          },
+          {
+           "id": "typeOfPowerOfAttorney",
+           "typ": "auswahl",
+           "pflicht": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "vorsorge",
+             "label": "Vorsorgevollmacht"
+            },
+            {
+             "wert": "bank",
+             "label": "Bankvollmacht"
+            },
+            {
+             "wert": "betreuung",
+             "label": "Betreuungsvollmacht"
+            }
+           ],
+           "label": "Art der Vollmacht"
+          },
+          {
+           "id": "note",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "typeOfPowerOfAttorney",
+            "wert": "betreuung"
+           },
+           "label": "Hinweis",
+           "hint": "„Betreuungsvollmacht“ ist kein Rechtsbegriff und wird von {marke} nicht mehr angeboten — gemeint war vermutlich eine Vorsorge-, Gesundheits- oder Generalvollmacht (dann bitte „Vorsorgevollmacht“ wählen und die passenden Kästchen weiter unten setzen) oder eine gesetzliche Betreuung durch Gerichtsbeschluss (kein Instrument der Inhaberin — als Grundlage bei einem Sub-Depot erfassbar). Der bisherige Eintrag bleibt unverändert erhalten, bis das geprüft ist."
+          },
+          {
+           "id": "morePreciseDescription",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "living-will",
+             "will",
+             "custodianship-declaration",
+             "guardian-nomination",
+             "ki-verfuegung"
+            ]
+           },
+           "label": "Genauer bezeichnen",
+           "beispiel": "z. B. Commerzbank, für meinen Sohn"
+          },
+          {
+           "id": "authorizedPersons",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "verweisZweck": "vollmacht",
+           "verweisKontextFeld": "certifyingBody",
+           "label": "Bevollmächtigte Person(en)"
+          },
+          {
+           "id": "howDoThePeopleRepresentYou",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "authorizedPersons",
+            "minAnzahl": 2
+           },
+           "optionen": [
+            {
+             "wert": "gleichwertig",
+             "label": "gleichwertig — jede darf allein handeln"
+            },
+            {
+             "wert": "nacheinander",
+             "label": "nacheinander — in der genannten Reihenfolge (Ersatz)"
+            }
+           ],
+           "label": "Wie vertreten die Personen?",
+           "hint": "Gleichwertig: jede bevollmächtigte Person darf einzeln handeln. Nacheinander: die erste ist zuständig, die nächste nur als Ersatz — die Reihenfolge oben bestimmt die Vertretung."
+          },
+          {
+           "id": "healthCareGeneralDecision",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — allgemein entscheiden"
+          },
+          {
+           "id": "healthCareMedicalProcedures",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — ärztliche Eingriffe, auch mit Lebensgefahr (§ 1829 BGB)"
+          },
+          {
+           "id": "healthCareMedicalRecords",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — Krankenunterlagen, Schweigepflichtentbindung"
+          },
+          {
+           "id": "healthCarePlacementDepriving",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — freiheitsentziehende Unterbringung (§ 1831 Absatz 1 BGB)"
+          },
+          {
+           "id": "healthCareMeasuresDepriving",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — freiheitsentziehende Maßnahmen in Einrichtung (§ 1831 Absatz 4 BGB)"
+          },
+          {
+           "id": "healthCareCompulsoryMedical",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — ärztliche Zwangsmaßnahmen (§ 1832 Absatz 1 BGB)"
+          },
+          {
+           "id": "healthCareAdmissionToHospital",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Gesundheitssorge — Verbringung ins Krankenhaus bei drohender Zwangsmaßnahme (§ 1832 Absatz 4 BGB)"
+          },
+          {
+           "id": "determinePlaceOfResidence",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Aufenthalt bestimmen"
+          },
+          {
+           "id": "manageAnExistingTenancyWindUp",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Bestehenden Mietvertrag wahrnehmen, Haushalt auflösen"
+          },
+          {
+           "id": "concludeAndTerminateANew",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Neuen Mietvertrag abschließen und kündigen"
+          },
+          {
+           "id": "concludeAndTerminateHousingAnd",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Wohn- und Betreuungsvertrag abschließen und kündigen"
+          },
+          {
+           "id": "representationWithAuthorities",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Vertretung bei Behörden, Versicherungen, Sozialleistungsträgern"
+          },
+          {
+           "id": "assetManagementGeneral",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Vermögensverwaltung — allgemein"
+          },
+          {
+           "id": "disposeOfAssets",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Über Vermögensgegenstände verfügen"
+          },
+          {
+           "id": "acceptPaymentsAndValuables",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Zahlungen und Wertgegenstände annehmen"
+          },
+          {
+           "id": "enterIntoLiabilities",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Verbindlichkeiten eingehen"
+          },
+          {
+           "id": "accountsCustodyAccountsSafes",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Konten, Depots, Safes — Geschäftsverkehr mit Kreditinstituten"
+          },
+          {
+           "id": "customaryGiftsWithinWhatCare",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Übliche Schenkungen im betreuungsrechtlich zulässigen Rahmen"
+          },
+          {
+           "id": "transactionsExpresslyExcluded",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Ausdrücklich ausgeschlossene Geschäfte",
+           "beispiel": "z. B. kein Verkauf der selbstbewohnten Immobilie"
+          },
+          {
+           "id": "mailAndTelecommunications",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Post und Fernmeldeverkehr (auch elektronisch)"
+          },
+          {
+           "id": "representationInCourt",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Vertretung vor Gericht"
+          },
+          {
+           "id": "mayGrantASubPowerOfAttorney",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Untervollmacht erteilen dürfen"
+          },
+          {
+           "id": "alsoProposeTheAuthorizedPerson",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Bevollmächtigte Person auch als Betreuer/in vorschlagen"
+          },
+          {
+           "id": "appliesBeyondDeath",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Geltung über den Tod hinaus"
+          },
+          {
+           "id": "furtherProvisions",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Weitere Regelungen"
+          },
+          {
+           "id": "note2",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "typeOfPowerOfAttorney",
+            "wert": [
+             "bank"
+            ]
+           },
+           "label": "Hinweis",
+           "hint": "Diese Vollmacht kann sich mit anderen überschneiden — achten Sie darauf, dass Ihre Vollmachten zueinander passen."
+          },
+          {
+           "id": "centralRegisterOfPowersOf",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "enduring-power-of-attorney"
+           },
+           "label": "Zentrales Vorsorgeregister — Eintragungsnummer",
+           "beispiel": "ZVR-2024-987654"
+          },
+          {
+           "id": "copyDepositedInTheRegister",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": [
+             "enduring-power-of-attorney",
+             "custodianship-declaration",
+             "living-will"
+            ]
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            }
+           ],
+           "label": "Abschrift im Register hinterlegt",
+           "hint": "Seit dem 01.10.2026 kann im Zentralen Vorsorgeregister nicht nur der Hinweis stehen, sondern der Text selbst — behandelnde Ärztinnen können ihn dann lesen. Hinterlegen dürfen das nur Betreuungsbehörden, Betreuungsvereine, Anwältinnen und Notare; Sie selbst können es nicht. Tragen Sie hier ein, ob es für Sie jemand getan hat."
+          },
+          {
+           "id": "copyDepositedOn",
+           "sensibel": true,
+           "typ": "datum",
+           "sichtbarWenn": {
+            "feld": "copyDepositedInTheRegister",
+            "wert": "ja"
+           },
+           "label": "Abschrift hinterlegt am"
+          },
+          {
+           "id": "depositedBy",
+           "sensibel": true,
+           "typ": "ref",
+           "entitaet": "institution",
+           "sichtbarWenn": {
+            "feld": "copyDepositedInTheRegister",
+            "wert": "ja"
+           },
+           "label": "Hinterlegt durch",
+           "hint": "Die Stelle, die die Abschrift eingestellt hat — Betreuungsbehörde, Betreuungsverein, Anwaltskanzlei oder Notariat."
+          },
+          {
+           "id": "medicalSupervisionBy",
+           "sensibel": true,
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "arzt",
+           "verweisZweck": "aerztlich",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "living-will"
+           },
+           "label": "Ärztlich begleitet durch"
+          },
+          {
+           "id": "organDonation",
+           "sensibel": true,
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "living-will"
+           },
+           "optionen": [
+            {
+             "wert": "ja",
+             "label": "ja, vollumfänglich"
+            },
+            {
+             "wert": "teil",
+             "label": "ja, eingeschränkt"
+            },
+            {
+             "wert": "nein",
+             "label": "nein"
+            },
+            {
+             "wert": "familie",
+             "label": "Familie entscheidet"
+            }
+           ],
+           "label": "Organspende"
+          },
+          {
+           "id": "whatRestriction",
+           "sensibel": true,
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "organDonation",
+            "wert": "teil"
+           },
+           "label": "Welche Einschränkung?",
+           "beispiel": "z. B. nur Herz und Nieren; keine Hornhaut; nur für Transplantation, nicht für Forschung"
+          },
+          {
+           "id": "organDonationRegister",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "living-will"
+           },
+           "label": "Organspende-Register — Erklärungs-ID",
+           "beispiel": "A3K7B9X"
+          },
+          {
+           "id": "statutorySuccessionOr",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "optionen": [
+            {
+             "wert": "gesetzlich",
+             "label": "Die gesetzliche Erbfolge soll gelten"
+            },
+            {
+             "wert": "abweichend",
+             "label": "Mein Testament weicht bewusst davon ab"
+            },
+            {
+             "wert": "unklar",
+             "label": "Noch unklar — Beratung gewünscht"
+            }
+           ],
+           "label": "Gesetzliche Erbfolge oder abweichender Wille?"
+          },
+          {
+           "id": "personsNamedInTheWill",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sensibel": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "label": "Im Testament bedachte Person(en)",
+           "hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament anzusehen. Der Inhalt des Testaments bleibt außerhalb von {marke}."
+          },
+          {
+           "id": "aboutTheWill",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "label": "Zum Testament",
+           "hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}, sondern bei einer Notarin, einem Notar oder in anwaltlicher Beratung."
+          },
+          {
+           "id": "personalNotesOnThis",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "will"
+           },
+           "label": "Persönliche Notizen dazu",
+           "hint": "Was Sie hier notieren, sind Ihre Aufzeichnungen; ein Testament wird daraus nicht.",
+           "beispiel": "Gedanken und offene Fragen, die ich festhalten möchte"
+          },
+          {
+           "id": "proposedPerson",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Vorgeschlagene Person"
+          },
+          {
+           "id": "alternatePerson",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Ersatzperson"
+          },
+          {
+           "id": "whoShouldNotBeAppointed",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "bevollmaechtigte",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Wer nicht bestellt werden soll"
+          },
+          {
+           "id": "whatTheCareArrangementShould",
+           "sensibel": true,
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Was die Betreuung regeln soll",
+           "beispiel": "Wohnung halten, solange es geht; vertraute Hausärztin behalten"
+          },
+          {
+           "id": "whatTheCareArrangementShould2",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodianship-declaration"
+           },
+           "label": "Was die Betreuung nicht soll",
+           "beispiel": "kein Umzug ins Heim ohne Rücksprache mit der Familie"
+          },
+          {
+           "id": "proposedPerson2",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "familie",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "guardian-nomination"
+           },
+           "label": "Vorgeschlagene Person"
+          },
+          {
+           "id": "alternatePerson2",
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "familie",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "guardian-nomination"
+           },
+           "label": "Ersatzperson"
+          },
+          {
+           "id": "wishesForUpbringingCare",
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "guardian-nomination"
+           },
+           "label": "Wünsche zur Erziehung & Betreuung",
+           "beispiel": "Geschwister sollen zusammenbleiben; gewohnte Schule beibehalten"
+          },
+          {
+           "id": "basicDecision",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "untersagung",
+             "label": "Ich untersage jede KI-gestützte Nachbildung meiner Person nach meinem Tod."
+            },
+            {
+             "wert": "erlaubnis",
+             "label": "Ich erlaube eine KI-gestützte Nachbildung meiner Person nach meinem Tod, unter den nachfolgend festgelegten Bedingungen."
+            }
+           ],
+           "label": "Grundentscheidung"
+          },
+          {
+           "id": "purpose",
+           "typ": "mehrfachauswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "trauer",
+             "label": "zur persönlichen Trauerbegleitung im engsten Kreis"
+            },
+            {
+             "wert": "erinnerung",
+             "label": "zur Bewahrung von Erinnerungen und Familiengeschichte"
+            },
+            {
+             "wert": "bildung",
+             "label": "zu Bildungs- oder Dokumentationszwecken"
+            }
+           ],
+           "label": "Zweck"
+          },
+          {
+           "id": "authorizedParties",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "benannte",
+             "label": "ausschließlich namentlich benannte Personen"
+            },
+            {
+             "wert": "angehoerige",
+             "label": "meine engsten Angehörigen"
+            }
+           ],
+           "label": "Berechtigte"
+          },
+          {
+           "id": "namedIndividuals",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "label": "Namentlich benannte Personen"
+          },
+          {
+           "id": "scope",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "privat",
+             "label": "nur privater Raum"
+            },
+            {
+             "wert": "oeffentlich",
+             "label": "auch öffentlich zugängliche Räume (z. B. Gedenkseiten)"
+            }
+           ],
+           "label": "Raum"
+          },
+          {
+           "id": "permittedDataTypes",
+           "typ": "mehrfachauswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "schriftverkehr",
+             "label": "Schriftverkehr und Textnachrichten"
+            },
+            {
+             "wert": "sprache",
+             "label": "Sprachaufnahmen"
+            },
+            {
+             "wert": "fotovideo",
+             "label": "Foto- und Videomaterial"
+            },
+            {
+             "wert": "hinterlegt",
+             "label": "eigens hinterlegte Materialien"
+            }
+           ],
+           "label": "Zulässige Datenarten"
+          },
+          {
+           "id": "timeLimit",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "jahre",
+             "label": "Löschung nach einer bestimmten Anzahl Jahre"
+            },
+            {
+             "wert": "letzte_person",
+             "label": "Löschung mit dem Tod der letzten zugangsberechtigten Person"
+            },
+            {
+             "wert": "zeitpunkt",
+             "label": "Löschung zu einem bestimmten Zeitpunkt"
+            }
+           ],
+           "label": "Befristung"
+          },
+          {
+           "id": "numberOfYears",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "timeLimit",
+            "wert": "jahre"
+           },
+           "label": "Anzahl Jahre",
+           "beispiel": "zehn"
+          },
+          {
+           "id": "date",
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "timeLimit",
+            "wert": "zeitpunkt"
+           },
+           "label": "Zeitpunkt",
+           "beispiel": "31.12.2040"
+          },
+          {
+           "id": "behaviouralLimit",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "belegt",
+             "label": "nur belegtes Material, keine darüber hinausgehenden Aussagen"
+            },
+            {
+             "wert": "frei",
+             "label": "frei im Rahmen des dokumentierten Charakters, keine Politik/Religion/Finanzen/Rechtsgeschäfte"
+            }
+           ],
+           "label": "Verhaltensgrenze"
+          },
+          {
+           "id": "digitalEstateAdministration",
+           "typ": "auswahl",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "optionen": [
+            {
+             "wert": "benannt",
+             "label": "benannte Person, bevollmächtigt zum Pausieren/Löschen"
+            },
+            {
+             "wert": "angehoerige",
+             "label": "gemeinsam meine benannten Angehörigen"
+            }
+           ],
+           "label": "Digitale Nachlassverwaltung"
+          },
+          {
+           "id": "digitalEstateAdministration2",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "ki-verfuegung"
+           },
+           "label": "Digitale Nachlassverwaltung — Person"
+          },
+          {
+           "id": "whoWasAppointedAsCourt",
+           "typ": "refMehrfach",
+           "entitaet": "person",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Wer wurde als Betreuer/in bestellt?"
+          },
+          {
+           "id": "areasOfResponsibility",
+           "sensibel": true,
+           "typ": "textarea",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Aufgabenbereiche",
+           "hint": "Übernehmen Sie die Formulierung aus dem Betreuerausweis oder dem Gerichtsbeschluss. Dort steht auch, für welche Aufgabenbereiche die Bestellung gilt.",
+           "beispiel": "Gesundheitssorge; Vermögenssorge; Aufenthaltsbestimmung"
+          },
+          {
+           "id": "careCourt",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Betreuungsgericht",
+           "beispiel": "Amtsgericht München"
+          },
+          {
+           "id": "fileReferenceNumber",
+           "sensibel": true,
+           "typ": "text",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Aktenzeichen",
+           "beispiel": "XVII 1234/25"
+          },
+          {
+           "id": "appointedSince",
+           "marken": [
+            "giltAb"
+           ],
+           "typ": "datum",
+           "keineZukunft": true,
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Bestellt seit"
+          },
+          {
+           "id": "nextCourtReviewDateIfKnown",
+           "typ": "datum",
+           "sichtbarWenn": {
+            "feld": "instrument",
+            "wert": "custodian-appointment"
+           },
+           "label": "Nächster gerichtlicher Überprüfungstermin (falls bekannt)",
+           "hint": "Das Gericht prüft eine Betreuung von Zeit zu Zeit. Den Termin finden Sie im Gerichtsbeschluss."
+          }
+         ],
+         "label": "Vorsorge-Instrumente",
+         "hint": "Jedes Vorsorge-Instrument als eigener Eintrag — Art wählen, dann erscheinen die passenden Felder."
+        }
+       ],
+       "label": "Meine Vorsorge"
+      },
+      {
+       "id": "estate",
+       "felder": [
+        {
+         "id": "heirsBriefOverview",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "verweisZweck": "familiaer",
+         "label": "Erben — Kurzübersicht"
+        }
+       ],
+       "label": "Erbe",
+       "hint": "Wer erbt — unabhängig davon, ob ein Testament vorliegt. Das Testament selbst steht oben unter „Meine Vorsorge“."
+      },
+      {
+       "id": "erbschein-vorbereitung",
+       "felder": [],
+       "label": "Erbschein — Vorbereitungsauszug"
+      },
+      {
+       "id": "care-preferences",
+       "felder": [
+        {
+         "id": "personalCareDignity",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Körperpflege & Würde",
+         "beispiel": "tägliche Körperpflege gewohnt; Intimsphäre wahren"
+        },
+        {
+         "id": "dietSpecialRequirements",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Ernährung & Besonderheiten",
+         "beispiel": "vegetarisch; keine Tomaten; viel Tee"
+        },
+        {
+         "id": "dailyRoutineActivities",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Alltag & Aktivitäten",
+         "beispiel": "morgens Radio; nachmittags Gartenspaziergang wenn möglich"
+        },
+        {
+         "id": "otherWishesNotes",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Sonstige Wünsche & Hinweise",
+         "beispiel": "religiöse Begleitung erwünscht; meine Brille immer in Reichweite"
+        },
+        {
+         "id": "aidsEGWalkerHearingAid",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Hilfsmittel (z. B. Rollator, Hörgerät, Rollstuhl)",
+         "beispiel": "Rollator (zuhause), Hörgerät beidseitig"
+        },
+        {
+         "id": "contentOfTheAdvanceDirective",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja"
+          },
+          {
+           "wert": "nein",
+           "label": "nein"
+          }
+         ],
+         "label": "Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?",
+         "hint": "Haben Sie mit der Person, die Sie in Ihrer Vorsorgevollmacht bevollmächtigt haben, über den Inhalt Ihrer Patientenverfügung gesprochen? Nicht gemeint ist, ob diese Person zugestimmt hat. Ohne Angabe fehlt der Zusatz im gedruckten Dokument — sonst nichts."
+        },
+        {
+         "id": "contentOfTheAdvanceDirective2",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja"
+          },
+          {
+           "wert": "nein",
+           "label": "nein"
+          }
+         ],
+         "label": "Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?",
+         "hint": "Haben Sie mit der Person, die Sie in Ihrer Betreuungsverfügung als Betreuerin oder Betreuer vorschlagen, über den Inhalt Ihrer Patientenverfügung gesprochen? Nicht gemeint ist, ob diese Person zugestimmt hat. Ohne Angabe fehlt der Zusatz im gedruckten Dokument — sonst nichts."
+        },
+        {
+         "id": "provisionDocumentsCheckedIn",
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja, alles aktuell"
+          },
+          {
+           "wert": "teil",
+           "label": "teilweise — muss noch ergänzt werden"
+          },
+          {
+           "wert": "nein",
+           "label": "noch nicht geprüft"
+          }
+         ],
+         "label": "Vorsorgedokumente bei Pflegebedarf geprüft?",
+         "hint": "Vollmacht, Betreuungsverfügung und Patientenverfügung sollten vorliegen, bevor die Pflege übernommen wird — sonst entscheidet im Ernstfall niemand rechtssicher."
+        }
+       ],
+       "label": "Pflegewünsche",
+       "hint": "Diese Angaben ergänzen die Patientenverfügung und helfen Pflegepersonen, Ihren Willen zu kennen."
+      },
+      {
+       "id": "spousal-representation",
+       "felder": [
+        {
+         "id": "spousalRepresentationObjection",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja"
+          },
+          {
+           "wert": "nein",
+           "label": "nein"
+          }
+         ],
+         "label": "Ich lehne eine Notvertretung durch meinen Ehegatten in Gesundheitsfragen ab"
+        },
+        {
+         "id": "spousalRepresentationObjectionSince",
+         "typ": "datum",
+         "sichtbarWenn": {
+          "feld": "spousalRepresentationObjection",
+          "wert": "ja"
+         },
+         "label": "Erklärt am"
+        },
+        {
+         "id": "spousalObjectionRegistered",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja"
+          },
+          {
+           "wert": "nein",
+           "label": "nein"
+          }
+         ],
+         "sichtbarWenn": {
+          "feld": "spousalRepresentationObjection",
+          "wert": "ja"
+         },
+         "label": "Im Zentralen Vorsorgeregister eingetragen"
+        },
+        {
+         "id": "spousalObjectionRegisterNumber",
+         "typ": "text",
+         "sensibel": true,
+         "sichtbarWenn": {
+          "feld": "spousalObjectionRegistered",
+          "wert": "ja"
+         },
+         "label": "Eintragungsnummer der Ablehnung im Zentralen Vorsorgeregister",
+         "beispiel": "ZVR-2024-987654"
+        }
+       ],
+       "label": "Notvertretung durch Ehegatten in Gesundheitsfragen",
+       "hint": "Können Sie wegen Bewusstlosigkeit oder Krankheit in Gesundheitsfragen nicht selbst entscheiden, darf Ihr Ehegatte Sie darin bis zu sechs Monate vertreten, wenn Sie nicht getrennt leben. Das gilt nicht, wenn Sie eine solche Vertretung ablehnen oder jemanden für Gesundheitsfragen bevollmächtigt haben und die behandelnde Ärztin oder Ihr Ehegatte davon weiß. Damit eine Ablehnung gefunden wird, können Sie sie im Zentralen Vorsorgeregister eintragen lassen. Keine Rechtsberatung. Fundstelle: § 1358 BGB, § 78a BNotO."
+      },
+      {
+       "id": "communication-support",
+       "felder": [
+        {
+         "id": "communicationLanguage",
+         "typ": "text",
+         "label": "Sprache, in der man sich am besten mit Ihnen verständigt",
+         "beispiel": "Türkisch; Deutsch nur einfach"
+        },
+        {
+         "id": "communicationSupport",
+         "typ": "mehrfachauswahl",
+         "optionen": [
+          {
+           "wert": "dolmetschen",
+           "label": "Dolmetschen"
+          },
+          {
+           "wert": "gebaerdensprache",
+           "label": "Gebärdensprache"
+          },
+          {
+           "wert": "leichte-sprache",
+           "label": "Leichte Sprache"
+          }
+         ],
+         "label": "Unterstützung bei der Verständigung"
+        },
+        {
+         "id": "supportPerson",
+         "typ": "ref",
+         "entitaet": "person",
+         "verweisZweck": "pflege",
+         "label": "Begleit- oder Vertrauensperson bei Gesprächen",
+         "hint": "Wer bei wichtigen Gesprächen dabei sein soll, zum Beispiel bei der Aufnahme im Krankenhaus."
+        },
+        {
+         "id": "whatHelpsMe",
+         "typ": "textarea",
+         "label": "Was mir hilft",
+         "beispiel": "Langsam und in kurzen Sätzen sprechen; wichtige Punkte bitte aufschreiben."
+        },
+        {
+         "id": "doNotInform",
+         "sensibel": true,
+         "typ": "textarea",
+         "label": "Wer nicht informiert werden soll",
+         "hint": "Diese Angabe steht nie auf der Notfallkarte und nie in der Angehörigen-Sicht. Sie geht nur hinaus, wenn Sie sie ausdrücklich freigeben.",
+         "beispiel": "Mein Onkel Peter; mein früherer Arbeitgeber"
+        }
+       ],
+       "label": "Verständigung und Unterstützung",
+       "hint": "Was andere wissen sollten, damit man sich gut mit Ihnen verständigt und Sie selbst mitentscheiden können, etwa bei der Aufnahme im Krankenhaus oder bei einem Termin. Hör- und Sehhilfen tragen Sie bei den Hilfsmitteln ein."
+      }
+     ],
+     "label": "Vorsorge & Recht"
+    }
+   }
+  },
+  {
+   "modulTyp": "bereich",
+   "moduleVersion": 1,
+   "herkunft": "vivodepot",
+   "sprache": "de",
+   "kennung": "vivodepot/health",
+   "fassung": 1,
+   "bereiche": {
+    "health": {
+     "id": "health",
+     "format": "FHIR_IPS",
+     "icon": "heartPulse",
+     "exporte": [
+      {
+       "format": "fhir-ips",
+       "label": "Gesundheitsdaten"
+      }
+     ],
+     "wizards": [
+      "anamwiz",
+      "pflwiz"
+     ],
+     "standardDokumente": [
+      {
+       "typ": "health-insurance-card",
+       "name": "Krankenkassenkarte (inkl. EHIC)",
+       "empfRhythmusMonate": null,
+       "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt. Steht aufgedruckt auf der Karte, meist 5–6 Jahre gültig.",
+       "felder": [
+        {
+         "sektorId": "health",
+         "feldId": "healthInsuranceCards",
+         "unterfeldId": "validUntilInclEhic"
+        }
+       ]
+      }
+     ],
+     "sektionen": [
+      {
+       "id": "notfall-aerzte",
+       "felder": [
+        {
+         "id": "generalPractitioner",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "arzt",
+         "verweisZweck": "aerztlich",
+         "label": "Hausärztin / Hausarzt"
+        },
+        {
+         "id": "specialistDoctors",
+         "sensibel": true,
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "specialistDoctor",
+           "sensibel": true,
+           "typ": "ref",
+           "entitaet": "person",
+           "rolle": "facharzt",
+           "verweisZweck": "aerztlich",
+           "verweisKontextFeld": "specialty",
+           "label": "Fachärztin / Facharzt"
+          },
+          {
+           "id": "specialty",
+           "sensibel": true,
+           "typ": "text",
+           "vorschlaege": [
+            "Allgemeinmedizin",
+            "Innere Medizin",
+            "Kardiologie",
+            "Neurologie",
+            "Orthopädie",
+            "Gynäkologie",
+            "Urologie",
+            "Dermatologie",
+            "Augenheilkunde",
+            "Hals-Nasen-Ohrenheilkunde",
+            "Psychiatrie und Psychotherapie",
+            "Onkologie"
+           ],
+           "label": "Fachgebiet",
+           "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — die Landeskammern führen eigene Weiterbildungsordnungen, frei eintragen bleibt möglich.",
+           "beispiel": "Kardiologie · Onkologie · Neurologie"
+          }
+         ],
+         "label": "Fachärztinnen und Fachärzte",
+         "hint": "Behandelnde Ärztin oder Arzt aus Onkologie, Kardiologie, Neurologie oder einem anderen Fachgebiet, das Sie regelmäßig aufsuchen — je eine Person mit ihrem Fachgebiet."
+        },
+        {
+         "id": "ongoingTreatmentNext",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Laufende Behandlung / nächste Termine",
+         "beispiel": "Reha-Termine bis 15.07., Nachsorge alle 3 Monate"
+        },
+        {
+         "id": "bloodType",
+         "sensibel": true,
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "0+",
+           "label": "0 +"
+          },
+          {
+           "wert": "0-",
+           "label": "0 −"
+          },
+          {
+           "wert": "A+",
+           "label": "A +"
+          },
+          {
+           "wert": "A-",
+           "label": "A −"
+          },
+          {
+           "wert": "B+",
+           "label": "B +"
+          },
+          {
+           "wert": "B-",
+           "label": "B −"
+          },
+          {
+           "wert": "AB+",
+           "label": "AB +"
+          },
+          {
+           "wert": "AB-",
+           "label": "AB −"
+          },
+          {
+           "wert": "unbekannt",
+           "label": "unbekannt"
+          }
+         ],
+         "label": "Blutgruppe"
+        },
+        {
+         "id": "allergiesMedicationFoodOther",
+         "sensibel": true,
+         "typ": "text",
+         "codeListe": "snomedAllergen",
+         "label": "Allergien (Medikamente, Nahrung, Sonstiges)",
+         "beispiel": "Penicillin"
+        },
+        {
+         "id": "chronicConditionsDiagnoses",
+         "sensibel": true,
+         "typ": "text",
+         "codeListe": "icd10",
+         "label": "Chronische Erkrankungen / Diagnosen",
+         "beispiel": "Diabetes mellitus Typ 2"
+        },
+        {
+         "id": "healthInsurance",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "institution",
+         "verweisZweck": "aerztlich",
+         "label": "Krankenversicherung",
+         "hint": "Welche Krankenkasse? Nummer steht auf der Karte.",
+         "beispiel": "AOK Bayern"
+        },
+        {
+         "id": "medicationOngoing",
+         "sensibel": true,
+         "typ": "text",
+         "codeListe": "atc",
+         "label": "Medikamente (laufend)",
+         "beispiel": "Ramipril 5 mg morgens"
+        },
+        {
+         "id": "insuranceNumber",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Versichertennummer",
+         "hint": "Steht auf der Krankenkassenkarte.",
+         "beispiel": "A123456780"
+        },
+        {
+         "id": "implantsProsthesesPacemakers",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Implantate / Prothesen / Schrittmacher",
+         "hint": "Wichtig für MRT-Eignung und Narkose.",
+         "beispiel": "Hüft-TEP rechts (Stryker), seit 2019"
+        },
+        {
+         "id": "heightCm",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Körpergröße (cm)",
+         "beispiel": "172"
+        },
+        {
+         "id": "bodyWeightKg",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Körpergewicht (kg)",
+         "beispiel": "68"
+        },
+        {
+         "id": "vaccinationRecordStorage",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Impfbuch — Ablageort",
+         "beispiel": "Schreibtisch oben links"
+        },
+        {
+         "id": "emergencyContacts",
+         "typ": "refMehrfach",
+         "entitaet": "person",
+         "rolle": "pflegeperson",
+         "ebene": "modul",
+         "verweisZweck": "pflege",
+         "label": "Notfallkontakte",
+         "hint": "Wer kümmert sich im Notfall? Mehrere möglich — im Notfall-QR erscheinen alle. Für Arztberichte und Entlassungsplanung."
+        },
+        {
+         "id": "insuredThrough",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Versichert über",
+         "hint": "Bei Familienversicherung: über wen sind Sie versichert?",
+         "beispiel": "eigene Versicherung"
+        },
+        {
+         "id": "supplementaryInsurance",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "vorschlaege": [
+          "Auslandsreisekrankenversicherung",
+          "Zahnzusatzversicherung",
+          "Krankenhaustagegeld",
+          "Pflegezusatzversicherung",
+          "Krankentagegeld",
+          "Brillenversicherung"
+         ],
+         "label": "Zusatzversicherungen",
+         "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — frei eintragen bleibt möglich.",
+         "beispiel": "Auslandsreisekrankenversicherung bei ADAC"
+        },
+        {
+         "id": "healthInsuranceCards",
+         "typ": "liste",
+         "ebene": "modul",
+         "unterFelder": [
+          {
+           "id": "system",
+           "typ": "text",
+           "label": "Land / System"
+          },
+          {
+           "id": "storageLocation",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Ablageort",
+           "beispiel": "Geldbeutel"
+          },
+          {
+           "id": "validUntilInclEhic",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Gültig bis (inkl. EHIC)",
+           "hint": "Steht aufgedruckt auf der Karte, meist 5–6 Jahre gültig. Deckt auch die EHIC auf der Rückseite ab — dieselbe Karte, ein Ablaufdatum."
+          }
+         ],
+         "label": "Krankenkassenkarten",
+         "hint": "Jede Karte als eigener Eintrag — z. B. bei Versicherung in mehreren Ländern."
+        },
+        {
+         "id": "emergencyCardPatientId",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Notfallkarte / Patientenausweis",
+         "beispiel": "Geldbeutel, hinter dem Ausweis"
+        },
+        {
+         "id": "smoking",
+         "sensibel": true,
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "nie",
+           "label": "nie geraucht"
+          },
+          {
+           "wert": "ex",
+           "label": "früher, jetzt nicht mehr"
+          },
+          {
+           "wert": "leicht",
+           "label": "gelegentlich"
+          },
+          {
+           "wert": "taegl",
+           "label": "täglich"
+          }
+         ],
+         "label": "Rauchen"
+        },
+        {
+         "id": "alcohol",
+         "sensibel": true,
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "nie",
+           "label": "kein Alkohol"
+          },
+          {
+           "wert": "selten",
+           "label": "selten"
+          },
+          {
+           "wert": "maess",
+           "label": "gelegentlich, maßvoll"
+          },
+          {
+           "wert": "taegl",
+           "label": "täglich"
+          }
+         ],
+         "label": "Alkohol"
+        },
+        {
+         "id": "vaccinations",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "vorschlaege": [
+          "Tetanus",
+          "Diphtherie",
+          "Pertussis",
+          "Poliomyelitis",
+          "Masern",
+          "Mumps",
+          "Röteln",
+          "Influenza",
+          "Pneumokokken",
+          "Herpes Zoster",
+          "FSME",
+          "Hepatitis A",
+          "Hepatitis B",
+          "COVID-19"
+         ],
+         "label": "Impfungen",
+         "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — frei eintragen bleibt möglich.",
+         "beispiel": "Tetanus 2022, Grippe jährlich"
+        },
+        {
+         "id": "findingsOnAUsbStick",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Befunde auf USB-Stick?",
+         "beispiel": "Stick im Schrank, Fach „Gesundheit“"
+        },
+        {
+         "id": "preventiveCheckUpsLatestDates",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Vorsorgeuntersuchungen — letzte Termine",
+         "beispiel": "Mammographie 03/2024, Koloskopie 2022"
+        },
+        {
+         "id": "dentistNameContact",
+         "sensibel": true,
+         "typ": "ref",
+         "entitaet": "person",
+         "rolle": "zahnarzt",
+         "ebene": "modul",
+         "verweisZweck": "aerztlich",
+         "label": "Zahnarzt — Name & Kontakt"
+        },
+        {
+         "id": "dentalBonusBookletStorage",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Bonusheft — Ablageort",
+         "beispiel": "Schreibtisch oben links"
+        },
+        {
+         "id": "ehicCardEuropeanHealth",
+         "sensibel": true,
+         "typ": "text",
+         "ebene": "modul",
+         "label": "EHIC-Karte (Europäische Krankenversicherungskarte)",
+         "hint": "Gültigkeit wird beim Feld „Krankenkassenkarte (inkl. EHIC) — gültig bis“ mitgeführt — dieselbe physische Karte, ein Datum.",
+         "beispiel": "EHIC-Nr. auf Rückseite KK-Karte"
+        },
+        {
+         "id": "operationsProcedures",
+         "sensibel": true,
+         "typ": "liste",
+         "ebene": "modul",
+         "unterFelder": [
+          {
+           "id": "procedure",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Eingriff",
+           "beispiel": "Blinddarm-Entfernung"
+          },
+          {
+           "id": "year",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Jahr",
+           "beispiel": "2008"
+          }
+         ],
+         "label": "Operationen / Eingriffe"
+        },
+        {
+         "id": "familyMedicalHistory",
+         "sensibel": true,
+         "typ": "liste",
+         "ebene": "modul",
+         "unterFelder": [
+          {
+           "id": "familyMember",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Angehörige / Angehöriger",
+           "beispiel": "Vater"
+          },
+          {
+           "id": "condition",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Erkrankung",
+           "beispiel": "Herzinfarkt"
+          },
+          {
+           "id": "ageAtDiagnosis",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Alter bei Erkrankung",
+           "beispiel": "60"
+          }
+         ],
+         "label": "Familienanamnese",
+         "hint": "Jede Erkrankung in der nahen Familie als eigener Eintrag — wichtig für Vorsorge und ärztliche Einschätzung."
+        },
+        {
+         "id": "pregnancy",
+         "sensibel": true,
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja, schwanger"
+          }
+         ],
+         "label": "Schwangerschaft",
+         "hint": "Nur „ja“ oder leer. Leer heißt keine Angabe, eine Schwangerschaft ist damit nicht ausgeschlossen."
+        },
+        {
+         "id": "pregnancyEstimatedDueDate",
+         "sensibel": true,
+         "typ": "datum",
+         "sichtbarWenn": {
+          "feld": "pregnancy",
+          "wert": "ja"
+         },
+         "label": "Errechneter Entbindungstermin"
+        },
+        {
+         "id": "wanderingRisk",
+         "sensibel": true,
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ja",
+           "label": "ja"
+          }
+         ],
+         "label": "Weglaufgefährdung",
+         "hint": "Hat sich die Person schon einmal ohne Orientierung von ihrem Aufenthaltsort entfernt und sich dabei gefährdet?"
+        },
+        {
+         "id": "wanderingRiskDetails",
+         "sensibel": true,
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "wanderingRisk",
+          "wert": "ja"
+         },
+         "label": "Weglaufgefährdung — Umstände",
+         "hint": "Kurz, höchstens 175 Zeichen: wann, wie, was hilft.",
+         "beispiel": "verlässt nachts die Wohnung und findet nicht zurück; reagiert auf den Vornamen"
+        }
+       ],
+       "label": "Notfall, Ärzte, Impfungen, Befunde",
+       "hint": "Allergien, Medikamente, Blutgruppe — im Notfall sofort zur Hand."
+      }
+     ],
+     "label": "Gesundheit"
+    }
+   }
+  },
+  {
+   "modulTyp": "bereich",
+   "moduleVersion": 1,
+   "herkunft": "vivodepot",
+   "sprache": "de",
+   "kennung": "vivodepot/identity",
+   "fassung": 1,
+   "bereiche": {
+    "identity": {
+     "id": "identity",
+     "format": "SD_JWT_VC",
+     "icon": "user",
+     "merkmale": [
+      "ankerIdentitaet"
+     ],
+     "rollen": {
+      "ankerNameFelder": [
+       "givenName",
+       "familyName",
+       "secondLastName",
+       "displayFamilyNameFirst"
+      ],
+      "familienstandFeld": "maritalStatus",
+      "telefonFeld": "telephone",
+      "emailFeld": "email",
+      "adresseFelder": [
+       "streetAddress",
+       "postcodeCity"
+      ]
+     },
+     "exporte": [
+      {
+       "format": "sd-jwt-vc-identitaet",
+       "label": "Identitätsnachweis (maschinenlesbar)"
+      },
+      {
+       "format": "vcard-identitaet",
+       "label": "Als Kontaktkarte (für Adressbuch/Handy)"
+      }
+     ],
+     "wizards": [
+      "heirwiz",
+      "umzwiz"
+     ],
+     "deckblatt": {
+      "fotoFeld": "profilePhotoCoverPage",
+      "nameFelder": [
+       "givenName",
+       "familyName",
+       "secondLastName"
+      ]
+     },
+     "standardDokumente": [
+      {
+       "typ": "national-id-card",
+       "name": "Personalausweis",
+       "empfRhythmusMonate": null,
+       "hinweis": "Kein fester Rhythmus — das Ablaufdatum führt.",
+       "felder": [
+        {
+         "sektorId": "identity",
+         "feldId": "idDocuments",
+         "unterfeldId": "validUntil"
+        }
+       ]
+      },
+      {
+       "typ": "residence-permit",
+       "name": "Aufenthaltstitel",
+       "empfRhythmusMonate": null,
+       "vorlaufTage": 90,
+       "hinweis": "Kein fester Rhythmus und kein berechneter Vorschlag — die Frist hängt von Art und Grundlage ab. Empfehlung: rechtzeitig vor Ablauf verlängern, üblich sind drei Monate Vorlauf.",
+       "felder": [
+        {
+         "sektorId": "identity",
+         "feldId": "residencePermit",
+         "unterfeldId": "validUntil"
+        }
+       ]
+      }
+     ],
+     "sektionen": [
+      {
+       "id": "person",
+       "felder": [
+        {
+         "id": "givenName",
+         "typ": "text",
+         "label": "Vorname",
+         "beispiel": "Maria"
+        },
+        {
+         "id": "familyName",
+         "typ": "text",
+         "label": "Nachname",
+         "beispiel": "Mustermann"
+        },
+        {
+         "id": "secondLastName",
+         "typ": "text",
+         "label": "Zweiter Nachname",
+         "hint": "Nur ausfüllen, wenn zwei Nachnamen getrennt geführt werden sollen — sonst reicht ein Nachname.",
+         "beispiel": "García"
+        },
+        {
+         "id": "displayFamilyNameFirst",
+         "typ": "checkbox",
+         "label": "Familienname zuerst anzeigen",
+         "hint": "Für Namen, die in dieser Reihenfolge geschrieben werden — z. B. Nagy Peter statt Peter Nagy. Wirkt sich nur auf die Anzeige-Reihenfolge aus, nicht auf die Felder selbst."
+        },
+        {
+         "id": "birthDate",
+         "typ": "datum",
+         "keineZukunft": true,
+         "datumJahrMin": 1900,
+         "label": "Geburtsdatum"
+        },
+        {
+         "id": "yearOfBirthIfTheExactDayIs",
+         "typ": "text",
+         "eingabeTyp": "numeric",
+         "label": "Geburtsjahr (falls der Tag unbekannt ist)",
+         "beispiel": "1990"
+        },
+        {
+         "id": "telephone",
+         "typ": "text",
+         "eingabeTyp": "tel",
+         "label": "Telefon",
+         "beispiel": "0151 12345678"
+        },
+        {
+         "id": "streetAddress",
+         "typ": "text",
+         "label": "Straße & Hausnummer",
+         "beispiel": "Lindenweg 4"
+        },
+        {
+         "id": "postcodeCity",
+         "typ": "text",
+         "label": "PLZ & Ort",
+         "beispiel": "80331 München"
+        },
+        {
+         "id": "email",
+         "typ": "text",
+         "eingabeTyp": "email",
+         "label": "E-Mail",
+         "beispiel": "maria.mustermann@example.de"
+        },
+        {
+         "id": "nationality",
+         "sensibel": true,
+         "typ": "text",
+         "vorschlaege": [
+          "deutsch",
+          "österreichisch",
+          "schweizerisch",
+          "türkisch",
+          "polnisch",
+          "italienisch",
+          "französisch",
+          "US-amerikanisch",
+          "staatenlos"
+         ],
+         "label": "Staatsangehörigkeit",
+         "hint": "Vorschläge sind Bequemlichkeit, keine Grenze — Mehrfachstaatlichkeit frei eintragen.",
+         "beispiel": "deutsch"
+        },
+        {
+         "id": "birthName",
+         "sensibel": true,
+         "typ": "text",
+         "label": "Geburtsname",
+         "hint": "Der Name bei der Geburt. Weitere frühere Namen — z. B. durch eine spätere Heirat oder Scheidung — tragen Sie unten unter „Frühere Namen“ ein.",
+         "beispiel": "Müller"
+        },
+        {
+         "id": "birthPlace",
+         "typ": "text",
+         "label": "Geburtsort",
+         "beispiel": "Augsburg"
+        },
+        {
+         "id": "gender",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "m",
+           "label": "männlich"
+          },
+          {
+           "wert": "w",
+           "label": "weiblich"
+          },
+          {
+           "wert": "d",
+           "label": "divers"
+          },
+          {
+           "wert": "k",
+           "label": "keine Angabe"
+          }
+         ],
+         "label": "Geschlecht"
+        },
+        {
+         "id": "maritalStatus",
+         "typ": "auswahl",
+         "optionen": [
+          {
+           "wert": "ledig",
+           "label": "ledig"
+          },
+          {
+           "wert": "verh",
+           "label": "verheiratet"
+          },
+          {
+           "wert": "elp",
+           "label": "eingetragene Lebenspartnerschaft"
+          },
+          {
+           "wert": "getrennt",
+           "label": "getrennt lebend"
+          },
+          {
+           "wert": "geschieden",
+           "label": "geschieden"
+          },
+          {
+           "wert": "verwitwet",
+           "label": "verwitwet"
+          }
+         ],
+         "label": "Familienstand",
+         "hint": "Bestimmt die gesetzliche Erbfolge."
+        },
+        {
+         "id": "maritalPropertyRegime",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "verh",
+           "elp"
+          ]
+         },
+         "optionen": [
+          {
+           "wert": "zugewinn",
+           "label": "Zugewinngemeinschaft (gesetzlich, ohne Ehevertrag)"
+          },
+          {
+           "wert": "guetertrenn",
+           "label": "Gütertrennung"
+          },
+          {
+           "wert": "guetergem",
+           "label": "Gütergemeinschaft"
+          }
+         ],
+         "label": "Güterstand",
+         "hint": "Ohne Ehevertrag gilt automatisch die Zugewinngemeinschaft. Ein Ehevertrag kann etwas anderes bestimmen."
+        },
+        {
+         "id": "dateOfSeparation",
+         "typ": "datum",
+         "keineZukunft": true,
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "getrennt",
+           "geschieden"
+          ]
+         },
+         "label": "Trennungsdatum",
+         "hint": "Stichtag für Steuer und Vermögensauskunft. Die Beweislast für das Datum liegt bei der Person, die sich darauf beruft."
+        },
+        {
+         "id": "choiceOfNameAfterMarriage",
+         "typ": "auswahl",
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "verh",
+           "elp"
+          ]
+         },
+         "optionen": [
+          {
+           "wert": "ehename_meiner",
+           "label": "gemeinsamer Ehename, meiner"
+          },
+          {
+           "wert": "ehename_partner",
+           "label": "gemeinsamer Ehename, der des Partners"
+          },
+          {
+           "wert": "eigener_name",
+           "label": "jede und jeder behält den eigenen Namen"
+          },
+          {
+           "wert": "begleitname",
+           "label": "Begleitname geführt"
+          }
+         ],
+         "label": "Namenswahl nach der Heirat",
+         "hint": "Die Namenswahl wirkt auf Ausweis, Bank und Versicherungen. Der Name selbst steht unter Identität, der frühere als Geburtsname — hier wird nur die Form gewählt, kein Name eingetragen."
+        },
+        {
+         "id": "choiceOfNameAfterMarriage2",
+         "typ": "text",
+         "sichtbarWenn": {
+          "feld": "maritalStatus",
+          "wert": [
+           "verh",
+           "elp"
+          ]
+         },
+         "label": "Namenswahl nach der Heirat — frühere Angabe",
+         "hint": "Automatisch übernommen, weil die alte Angabe keiner Namensform eindeutig entsprach (vor der Umstellung auf ein Auswahlfeld). Kann gelöscht werden, sobald oben eine Form gewählt ist. Steht hier ein tatsächlicher Name, gehört er in die Liste „Frühere Namen“.",
+         "beispiel": "gemeinsamer Ehename Mustermann; Geburtsname als Begleitname"
+        },
+        {
+         "id": "idDocuments",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "system",
+           "typ": "text",
+           "label": "Land / System",
+           "beispiel": "Deutschland"
+          },
+          {
+           "id": "documentNumber",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Ausweisnummer",
+           "beispiel": "T012345678"
+          },
+          {
+           "id": "issuedOn",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Ausgestellt am"
+          },
+          {
+           "id": "validUntil",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Gültig bis",
+           "hint": "Das genaue Ablaufdatum steht auf Ihrem Ausweis."
+          }
+         ],
+         "label": "Ausweisdokumente",
+         "hint": "Jedes Ausweisdokument als eigener Eintrag — mehrere Staatsangehörigkeiten, mehrere Ausweise."
+        },
+        {
+         "id": "residencePermitType",
+         "sensibel": true,
+         "typ": "text",
+         "vorschlaege": [
+          "Aufenthaltserlaubnis",
+          "Niederlassungserlaubnis",
+          "Blaue Karte EU",
+          "Visum",
+          "Duldung",
+          "Fiktionsbescheinigung"
+         ],
+         "label": "Aufenthaltstitel — Art",
+         "hint": "Nur ausfüllen, wenn Sie einen befristeten Aufenthaltsstatus haben. Freitext mit Vorschlägen — die Titel-Landschaft ändert sich mit dem Recht, kein fester Katalog."
+        },
+        {
+         "id": "residencePermit",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "system",
+           "typ": "text",
+           "label": "Land / System"
+          },
+          {
+           "id": "number",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Nummer",
+           "beispiel": "ZAB1234567"
+          },
+          {
+           "id": "issuedOn",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Ausgestellt am"
+          },
+          {
+           "id": "validUntil",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "Gültig bis",
+           "hint": "Kein berechneter Vorschlag — die Frist hängt von Art und Grundlage ab und steht auf Ihrem Titel/Ihrer Bescheinigung."
+          },
+          {
+           "id": "responsibleImmigration",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Zuständige Ausländerbehörde",
+           "beispiel": "Ausländerbehörde München"
+          },
+          {
+           "id": "fileReferenceNumber",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Aktenzeichen"
+          }
+         ],
+         "label": "Aufenthaltstitel"
+        },
+        {
+         "id": "profilePhotoCoverPage",
+         "typ": "ref",
+         "entitaet": "mappe",
+         "label": "Profilfoto (Deckblatt)",
+         "hint": "Ein Foto als Deckblatt Ihres Depots — aus Ihren Dokumenten wählen oder direkt hochladen."
+        },
+        {
+         "id": "furtherDetails",
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Weitere Angaben",
+         "beispiel": "z. B. Künstlername, frühere Wohnsitze"
+        },
+        {
+         "id": "taxClass",
+         "sensibel": true,
+         "typ": "auswahl",
+         "ebene": "modul",
+         "optionen": [
+          {
+           "wert": "I",
+           "label": "I"
+          },
+          {
+           "wert": "II",
+           "label": "II"
+          },
+          {
+           "wert": "III",
+           "label": "III"
+          },
+          {
+           "wert": "IV",
+           "label": "IV"
+          },
+          {
+           "wert": "IV_faktor",
+           "label": "IV mit Faktor"
+          },
+          {
+           "wert": "V",
+           "label": "V"
+          },
+          {
+           "wert": "VI",
+           "label": "VI"
+          }
+         ],
+         "label": "Steuerklasse"
+        },
+        {
+         "id": "taxClassEarlierEntry",
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Steuerklasse — frühere Angabe",
+         "hint": "Automatisch übernommen, weil die alte Angabe nicht eindeutig einer Steuerklasse zuzuordnen war (vor der Umstellung auf ein Auswahlfeld). Kann gelöscht werden, sobald oben eine Steuerklasse gewählt ist."
+        },
+        {
+         "id": "reRegistrationWithTheResidents",
+         "typ": "text",
+         "ebene": "modul",
+         "label": "Ummeldung beim Einwohnermeldeamt",
+         "hint": "Ein Wohnungswechsel ist binnen zwei Wochen bei der Meldebehörde anzuzeigen.",
+         "beispiel": "Termin Bürgerbüro 12.07.; ummelden binnen zwei Wochen"
+        },
+        {
+         "id": "street",
+         "typ": "text",
+         "label": "Straße",
+         "beispiel": "Lindenweg"
+        },
+        {
+         "id": "houseNumber",
+         "typ": "text",
+         "label": "Hausnummer",
+         "beispiel": "4"
+        },
+        {
+         "id": "postalCode",
+         "typ": "text",
+         "label": "Postleitzahl",
+         "beispiel": "80331"
+        },
+        {
+         "id": "city",
+         "typ": "text",
+         "label": "Ort",
+         "beispiel": "München"
+        }
+       ],
+       "label": "Person"
+      },
+      {
+       "id": "fruehere-namen",
+       "felder": [
+        {
+         "id": "formerNames",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "name",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Name",
+           "beispiel": "Maria Müller"
+          },
+          {
+           "id": "usedUntil",
+           "sensibel": true,
+           "typ": "datum",
+           "label": "geführt bis"
+          },
+          {
+           "id": "reason",
+           "sensibel": true,
+           "typ": "auswahl",
+           "optionen": [
+            {
+             "wert": "heirat",
+             "label": "Heirat"
+            },
+            {
+             "wert": "scheidung",
+             "label": "Scheidung oder Rückkehr zum Geburtsnamen"
+            },
+            {
+             "wert": "namensaenderung",
+             "label": "behördliche Namensänderung"
+            },
+            {
+             "wert": "adoption",
+             "label": "Adoption"
+            },
+            {
+             "wert": "einbuergerung",
+             "label": "Einbürgerung"
+            },
+            {
+             "wert": "personenstand",
+             "label": "Personenstandsänderung"
+            },
+            {
+             "wert": "transkription",
+             "label": "andere Umschrift/Transkription desselben Namens"
+            },
+            {
+             "wert": "sonstiges",
+             "label": "sonstiges"
+            }
+           ],
+           "label": "Anlass"
+          },
+          {
+           "id": "note",
+           "typ": "hinweis",
+           "sichtbarWenn": {
+            "feld": "reason",
+            "wert": "personenstand"
+           },
+           "label": "Hinweis",
+           "hint": "Ein früherer Vorname und eine frühere Geschlechtsangabe sind nach § 13 SBGG besonders geschützt (Offenbarungsverbot). Sie müssen diese Angabe nicht eintragen, um Ihre Namenskette zu belegen — die übrigen Einträge dieser Liste reichen dafür oft aus."
+          },
+          {
+           "id": "proofStorageLocation",
+           "sensibel": true,
+           "typ": "text",
+           "label": "Nachweis — Ablageort",
+           "beispiel": "Ordner „Unterlagen alt“"
+          }
+         ],
+         "label": "Frühere Namen"
+        }
+       ],
+       "label": "Frühere Namen",
+       "hint": "Alte Papiere — Zeugnisse, Rentenkonto, Versicherungspolicen, Grundbuch, alte Konten — lauten oft auf frühere Namen. Bei der Rente und im Erbfall ist die Namenskette das, was jemand belegen muss."
+      },
+      {
+       "id": "pets",
+       "felder": [
+        {
+         "id": "pets",
+         "typ": "liste",
+         "unterFelder": [
+          {
+           "id": "petNameSpecies",
+           "typ": "text",
+           "label": "Tier — Name & Art",
+           "beispiel": "Felix, Katze"
+          },
+          {
+           "id": "emergencyCarePersonContact",
+           "typ": "ref",
+           "entitaet": "person",
+           "label": "Betreuung im Notfall — Person & Kontakt"
+          },
+          {
+           "id": "vetNameContact",
+           "typ": "ref",
+           "entitaet": "person",
+           "label": "Tierarzt — Name & Kontakt"
+          },
+          {
+           "id": "medication",
+           "typ": "text",
+           "label": "Futter / Besonderheiten / Medikamente",
+           "beispiel": "trocken, 2× täglich; Tabletten gegen Diabetes morgens"
+          },
+          {
+           "id": "otherNotes",
+           "typ": "text",
+           "label": "Weitere Hinweise",
+           "beispiel": "scheu vor lauten Geräuschen"
+          }
+         ],
+         "label": "Tiere"
+        }
+       ],
+       "label": "Haustiere",
+       "hint": "Wenn Sie plötzlich ins Krankenhaus müssen oder nicht mehr nach Hause kommen — wer kümmert sich um Ihr Tier?"
+      },
+      {
+       "id": "civil-status-certificates",
+       "felder": [
+        {
+         "id": "birthCertificateStorage",
+         "typ": "text",
+         "sensibel": true,
+         "label": "Eigene Geburtsurkunde — Ablageort",
+         "beispiel": "Mappe „Urkunden“, Schreibtisch"
+        },
+        {
+         "id": "marriageCertificateStorage",
+         "typ": "text",
+         "sensibel": true,
+         "label": "Ehe- oder Lebenspartnerschaftsurkunde — Ablageort",
+         "beispiel": "Mappe „Urkunden“, Schreibtisch"
+        },
+        {
+         "id": "familyRegisterBookStorage",
+         "typ": "text",
+         "sensibel": true,
+         "label": "Familienstammbuch — Ablageort",
+         "beispiel": "Schreibtisch, untere Schublade"
+        }
+       ],
+       "label": "Personenstandsurkunden",
+       "hint": "Wo Ihre Urkunden liegen. Nach einem Todesfall verlangt das Standesamt sie für den Sterbeeintrag, das Nachlassgericht für den Erbschein."
+      }
+     ],
+     "label": "Identität & Person"
+    }
+   }
+  }
+ ]
+}

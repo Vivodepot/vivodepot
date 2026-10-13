@@ -2,7 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    feldregister-adressen.js — eine feste Adresse je Kennung, Lizenz, Begriffsschema
    ────────────────────────────────────────────────────────────────────────
-   U2-ADR-NNN (06.10.2026; Entscheidung der Produktverantwortung vom 03.10.2026: CC0 für das Eigene,
+   U2-ADR-490 (06.10.2026; Entscheidung der Produktverantwortung vom 03.10.2026: CC0 für das Eigene,
    Adresse `register.vivodepot.de/feld/<kennung>`, HTML für Menschen, JSON-LD/SKOS für Maschinen).
 
    DIE ADRESSE IST EINE EINBAHNSTRASSE. Wer sie einmal in eine Vorlage, ein Formularschema oder eine
@@ -27,6 +27,7 @@
    in `feldregister.json` und unter `v<stand>/feldregister.json`, das die Auslieferung des Registers unveränderlich ablegt.
    ════════════════════════════════════════════════════════════════════════ */
 
+const { FAVICON_LINK } = require('./navicon.js');
 const ADRESS_BASIS = 'https://register.vivodepot.de/feld/';
 const ORDNER = 'feld';
 const SEITE = 'index.html';
@@ -125,6 +126,7 @@ function begriffSeite(f) {
   z.push('<link rel="canonical" href="' + htmlText(adresse(f.kennung)) + '">');
   z.push('<link rel="alternate" type="application/ld+json" href="' + JSONLD + '">');
   z.push('<link rel="license" href="' + LIZENZ.url + '">');
+  z.push(FAVICON_LINK);   // die Datei in der Register-Wurzel, nicht der data-URI: rund 1.350 Seiten
   z.push('<style>');
   z.push('  :root { --salbei: #4F6539; --cream: #FAF8F3; --ink: #21261F; --ink2: #5A6154; --line: #DDD9CE; }');
   z.push('  body { margin: 0; background: var(--cream); color: var(--ink); line-height: 1.6;');
@@ -163,13 +165,17 @@ function begriffSeite(f) {
   return z.join('\n') + '\n';
 }
 
-/* Inhaltsaushandlung: nur, wenn mod_rewrite da ist. DirectoryIndex und AddType sind Kern bzw. mod_mime. */
+/* Inhaltsaushandlung: nur, wenn mod_rewrite da ist. DirectoryIndex und AddType sind Kern bzw. mod_mime.
+   Die Regel ist relativ zu feld/ und verlangt darum RewriteBase /feld/ (htaccessBefunde prüft das). */
 const HTACCESS_INHALT = [
   '# ERZEUGT von tools/feldregister-bauen.js (tools/lib/feldregister-adressen.js). Nicht von Hand bearbeiten.',
   'DirectoryIndex index.html',
   'AddType application/ld+json .jsonld',
   '<IfModule mod_rewrite.c>',
   '  RewriteEngine On',
+  /* Ohne RewriteBase setzt der Webspace (IONOS) das Ziel einer relativen Regel nicht unter /feld/ zusammen:
+     gemessen am Register v922 (09.10.2026) lieferte Accept: application/ld+json 404 statt index.jsonld. */
+  '  RewriteBase /feld/',
   '  RewriteCond %{HTTP_ACCEPT} application/(ld\\+)?json',
   '  RewriteCond %{REQUEST_FILENAME} -d',
   '  RewriteRule ^(.+?)/?$ $1/index.jsonld [L]',
@@ -194,7 +200,7 @@ function schemaKopf() {
 function schemaSeite() {
   return ['<!doctype html>', '<html lang="de">', '<head>', '<meta charset="utf-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
-    '<title>Feldregister — Vivodepot</title>',
+    '<title>Feldregister — Vivodepot</title>', FAVICON_LINK,
     '<link rel="canonical" href="' + ADRESS_BASIS + '">',
     '<link rel="alternate" type="application/ld+json" href="/' + SCHEMA_JSONLD_DATEI + '">',
     '</head>', '<body>',
@@ -203,6 +209,22 @@ function schemaSeite() {
       + SCHEMA_JSONLD_DATEI + '</a>.</p>',
     '<p lang="en">Every identifier of the <a href="/">field register</a> has its own page under this address.</p>',
     '</body>', '</html>', ''].join('\n');
+}
+
+/** Befunde zu einer feld/.htaccess: jede Rewrite-Zeile innerhalb von IfModule mod_rewrite, und die relative Regel nur
+    mit RewriteBase /feld/ davor. Leer heißt in Ordnung. */
+function htaccessBefunde(text) {
+  const befunde = [];
+  const zeilen = String(text).split('\n');
+  const anfang = zeilen.findIndex((z) => z.trim() === '<IfModule mod_rewrite.c>');
+  const ende = anfang < 0 ? -1 : zeilen.findIndex((z, i) => i > anfang && z.trim() === '</IfModule>');
+  zeilen.forEach((z, i) => {
+    if (/^\s*Rewrite/.test(z) && !(i > anfang && i < ende)) befunde.push('Zeile ' + (i + 1) + ' außerhalb von IfModule mod_rewrite: ' + z.trim());
+  });
+  const base = zeilen.findIndex((z) => z.trim() === 'RewriteBase /feld/');
+  const regel = zeilen.findIndex((z) => /^\s*RewriteRule /.test(z));
+  if (regel >= 0 && (base < 0 || base > regel)) befunde.push('RewriteRule ohne RewriteBase /feld/ davor — der Webspace setzt das Ziel sonst falsch zusammen');
+  return befunde;
 }
 
 /** Alle Dateien unter feld/, als [relativer Pfad, Inhalt] — sortiert. */
@@ -224,5 +246,5 @@ function adressDateien(felder) {
 module.exports = {
   ADRESS_BASIS, ORDNER, SEITE, JSONLD, HTACCESS, HTACCESS_INHALT, SCHEMA_JSONLD_DATEI,
   LIZENZ, HERAUSGEBER, QUELLENHINWEIS, SKOS_KONTEXT,
-  adresse, adressenPruefen, schemaKopf, schemaSeite, begriff, begriffJsonld, schemaJsonld, begriffSeite, adressDateien,
+  adresse, adressenPruefen, htaccessBefunde, schemaKopf, schemaSeite, begriff, begriffJsonld, schemaJsonld, begriffSeite, adressDateien,
 };

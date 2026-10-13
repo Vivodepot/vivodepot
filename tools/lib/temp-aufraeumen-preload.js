@@ -13,6 +13,15 @@
    als Kindprozess startet, bekommen es nicht — manche geben ihr Verzeichnis bewusst an den Aufrufer
    zurück, und das würde beim Ende des Kindes verschwinden.
 
+   ÜBER NODE_OPTIONS (10.10.2026, Befund TEMP-RESTE-WIEDER): tools/lib/test-lauf.js gibt jedem Testlauf
+   NODE_OPTIONS mit `--require` auf diese Datei, damit auch Läufe ohne das package.json-Skript gedeckt
+   sind. NODE_OPTIONS erbt aber JEDER Nachfahr, auch das Werkzeug, das ein Test startet. Darum gilt beim
+   Laden über NODE_OPTIONS dieselbe Grenze wie oben, als Regel statt als Zufall: wach wird nur ein
+   Testprozess (eine Testdatei unter node --test, NODE_TEST_CONTEXT; ein Playwright-Worker,
+   TEST_WORKER_INDEX), und er setzt AKTIV_MARKE, damit seine Kinder ruhig bleiben. Der Runner selbst
+   (--test in execArgv) legt nichts an und bleibt ruhig, sonst erbten seine Testdateien die Marke.
+   Der ausdrückliche --require (execArgv) wirkt wie bisher, ohne diese Regel.
+
    ESM: `import { mkdtempSync } from 'node:fs'` bindet beim Import; syncBuiltinESMExports() gleicht die
    benannten Exporte nach dem Austausch ab, damit auch .mjs-Proben erfasst sind.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -30,7 +39,14 @@ const direktImTmp = (p) => {
   return path.dirname(voll) === path.resolve(os.tmpdir()) ? voll : null;
 };
 
-if (!fs.mkdtempSync.__vdTempAufraeumen) {
+const AKTIV_MARKE = 'VD_TEMP_AUFRAEUMEN_AKTIV';
+const ausdruecklich = process.execArgv.some((a) => /temp-aufraeumen-preload\.js$/.test(a));
+const istRunner = process.execArgv.some((a) => a === '--test' || a.startsWith('--test='));
+const istTestprozess = !!(process.env.NODE_TEST_CONTEXT || process.env.TEST_WORKER_INDEX);
+const wach = ausdruecklich || (!istRunner && istTestprozess && !process.env[AKTIV_MARKE]);
+
+if (wach && !fs.mkdtempSync.__vdTempAufraeumen) {
+  process.env[AKTIV_MARKE] = String(process.pid);
   const sync = fs.mkdtempSync;
   const cb = fs.mkdtemp;
   const prom = fs.promises.mkdtemp;
@@ -71,4 +87,4 @@ if (!fs.mkdtempSync.__vdTempAufraeumen) {
   });
 }
 
-module.exports = { angelegt };
+module.exports = { angelegt, wach, AKTIV_MARKE };

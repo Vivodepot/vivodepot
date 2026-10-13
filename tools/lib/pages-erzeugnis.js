@@ -40,7 +40,7 @@ function produktFuerPages(slug = 'privat-de', { kernText = fs.readFileSync(KERN_
     unsignierteModule: modulDateienFuer(p).map(_modulLesen),
     serviceWorkerVorhanden: true,
   });
-  return text;
+  return P.testflaecheVerweigern(text, 'pages ' + slug);   // U2-ADR-494
 }
 
 function geruestMitErscheinungsbild({ kernText = fs.readFileSync(KERN_PFAD, 'utf8'), modulPfad = ERSCHEINUNGSBILD_AB_WERK_PFAD } = {}) {
@@ -48,7 +48,11 @@ function geruestMitErscheinungsbild({ kernText = fs.readFileSync(KERN_PFAD, 'utf
   const klassifiziert = [P._unsigniertesModulKlassifizieren(modul.roh, modul.basisname)];
   P._erscheinungsbildVorBacken(kernText, klassifiziert, 'vivodepot.html');
   const region = P.AB_WERK_REGIONEN.find((r) => r.modulTyp === 'erscheinungsbild');
-  return P._regionNutzlastSetzen(kernText, region, modul.roh, 'vivodepot.html');
+  /* U2-ADR-494 (09.10.2026): auch Weg B ist ein ausgeliefertes Erzeugnis — Entwicklerleiste und Test-Fläche fallen wie in
+     produktTextErzeugen, mit denselben Funktionen. Den Nachlade-Zweig der Vor-Depot-Konfiguration behält Weg B: er trägt sein
+     Produkt zur Laufzeit in der Begleitdatei (U2-ADR-182). */
+  const ohneTestteile = P._kernTestflaecheSchneiden(P._entwicklerleisteSchneiden(kernText, 'vivodepot.html'), 'vivodepot.html');
+  return P.testflaecheVerweigern(P._regionNutzlastSetzen(ohneTestteile, region, modul.roh, 'vivodepot.html'), 'pages weg-b');   // U2-ADR-494
 }
 
 module.exports = { produktFuerPages, geruestMitErscheinungsbild };

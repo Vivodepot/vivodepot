@@ -1,0 +1,15 @@
+{
+  "art": "wizard",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"Ziel Bereich","urteil":"bestanden","dokument":{"modulTyp":"wizard","moduleVersion":1,"herkunft":"probe","sprache":"de","wizards":{"zz-probe":{"titel":"Probe","ziel":{"sektor":"finance"},"schritte":[{"feld":{"id":"zz_probe_feld","typ":"text"},"frage":"Frage?"}]}}}},
+    {"name":"mit Symbol, Einleitung, Abschluss, mehreren Schritten","urteil":"bestanden","dokument":{"modulTyp":"wizard","moduleVersion":1,"herkunft":"probe","sprache":"de","wizards":{"zz-probe":{"titel":"Probe","ziel":{"sektor":"finance"},"schritte":[{"feld":{"id":"zz_probe_feld","typ":"text"},"frage":"Frage?"},{"feld":{"id":"zz_zwei"},"frage":"Noch eine?","hilfe":"x"}],"icon":"star","einleitung":"Los geht es.","abschluss":{"text":"Fertig."}}}}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"wizard.moduleVersion","dokument":{"modulTyp":"wizard","herkunft":"probe","sprache":"de","wizards":{"zz-probe":{"titel":"Probe","ziel":{"sektor":"finance"},"schritte":[{"feld":{"id":"zz_probe_feld","typ":"text"},"frage":"Frage?"}]}}}},
+    {"name":"ohne herkunft","urteil":"abgewiesen","regel":"wizard.herkunft","dokument":{"modulTyp":"wizard","moduleVersion":1,"sprache":"de","wizards":{"zz-probe":{"titel":"Probe","ziel":{"sektor":"finance"},"schritte":[{"feld":{"id":"zz_probe_feld","typ":"text"},"frage":"Frage?"}]}}}},
+    {"name":"ohne wizards","urteil":"abgewiesen","regel":"wizard.wizards","dokument":{"modulTyp":"wizard","moduleVersion":1,"herkunft":"probe","sprache":"de"}},
+    {"name":"ohne sprache","urteil":"abgewiesen","regel":"allgemein.sprache","dokument":{"modulTyp":"wizard","moduleVersion":1,"herkunft":"probe","wizards":{"zz-probe":{"titel":"Probe","ziel":{"sektor":"finance"},"schritte":[{"feld":{"id":"zz_probe_feld","typ":"text"},"frage":"Frage?"}]}}}},
+    {"name":"sprache Unsinn","urteil":"abgewiesen","regel":"allgemein.sprache-form","dokument":{"modulTyp":"wizard","moduleVersion":1,"herkunft":"probe","sprache":"deutsch-","wizards":{"zz-probe":{"titel":"Probe","ziel":{"sektor":"finance"},"schritte":[{"feld":{"id":"zz_probe_feld","typ":"text"},"frage":"Frage?"}]}}}},
+    {"name":"wizards leer","urteil":"abgewiesen","regel":"wizard.leer","dokument":{"modulTyp":"wizard","moduleVersion":1,"herkunft":"probe","sprache":"de","wizards":{}}},
+    {"name": "eine Zeichenkette statt eines Objekts, als wizard geprüft", "urteil": "abgewiesen", "regel": "wizard.kein-objekt", "erzwingeArt": "wizard", "dokument": "kein Objekt"}
+  ]
+}

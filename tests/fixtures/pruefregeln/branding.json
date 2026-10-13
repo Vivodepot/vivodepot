@@ -1,0 +1,11 @@
+{
+  "art": "branding",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"nur Hauptfarbe","urteil":"bestanden","dokument":{"modulTyp":"branding","moduleVersion":1,"herkunft":"probe","farbePrimaer":"#4F6539"}},
+    {"name":"alle Felder","urteil":"bestanden","dokument":{"modulTyp":"branding","moduleVersion":1,"herkunft":"probe","farbePrimaer":"#4F6539","farbeSekundaer":"#8a6d3a","schriftart":"Segoe UI","logo":"data:image/png;base64,iVBORw0KGgo=","name":"Sparkasse Musterstadt","domain":"example.org","kontakt":"hilfe@example.org","aktualisierungen":"https://example.org/module/"}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"branding.moduleVersion","dokument":{"modulTyp":"branding","herkunft":"probe","farbePrimaer":"#4F6539"}},
+    {"name":"nichts gesetzt","urteil":"abgewiesen","regel":"branding.nichts-gueltiges-gesetzt","dokument":{"modulTyp":"branding","moduleVersion":1,"herkunft":"probe"}},
+    {"name": "eine Zeichenkette statt eines Objekts, als branding geprüft", "urteil": "abgewiesen", "regel": "branding.kein-objekt", "erzwingeArt": "branding", "dokument": "kein Objekt"}
+  ]
+}

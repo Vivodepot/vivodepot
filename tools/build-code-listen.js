@@ -3,9 +3,14 @@
    build-code-listen.js (Paket 3) — generiert die inline @vd-codeliste-Blöcke
    ────────────────────────────────────────────────────────────────────────
    Quelle der Wahrheit sind die JSON-Dateien unter code-listen/<systemId>.json.
-   Dieses Skript wandelt sie in die inline-<script>-Blöcke der HTML zwischen den
-   Markern CODE-LISTEN:BEGIN … CODE-LISTEN:END (analog zum byte-identischen
+   Dieses Skript wandelt sie in Anmelde-Aufrufe zwischen den Markern
+   CODE-LISTEN:BEGIN … CODE-LISTEN:END (analog zum byte-identischen
    Krypto-Block-Pattern: EINE generierte Region, deterministisch).
+   Seit U2-ADR-494 (09.10.2026) steht die Region INNERHALB des Kern-Verschlusses
+   (Script 2, direkt vor `@vd-kern-verschluss-ende`) und ruft codeListeAnmelden /
+   ipsBegriffeAnmelden bare. Vorher waren es eigene <script>-Blöcke am Dateiende, die
+   über window.__vdOeffentlich riefen — damit hing das ausgelieferte Produkt an der
+   Test-Fläche. Test- und Auslieferungsfassung tragen die Region jetzt gleich.
 
    Update einer Liste: code-listen/<systemId>.json bearbeiten (oder neue Datei
    anlegen / alte löschen), dann `node tools/build-code-listen.js` — die HTML wird
@@ -26,8 +31,8 @@ const _iH = process.argv.indexOf('--html');
 const HTML = _iH >= 0 && process.argv[_iH + 1]
   ? path.resolve(process.argv[_iH + 1]) : path.join(REPO, 'vivodepot.html');
 const QUELLEN = path.join(REPO, 'code-listen');
-const BEGIN = '<!-- CODE-LISTEN:BEGIN — generierter Bereich (tools/build-code-listen.js); Quellen: code-listen/<systemId>.json -->';
-const END = '<!-- CODE-LISTEN:END -->';
+const BEGIN = '/* CODE-LISTEN:BEGIN — generierter Bereich (tools/build-code-listen.js); Quellen: code-listen/<systemId>.json */';
+const END = '/* CODE-LISTEN:END */';
 /* LIZENZ-WORTLAUT (27.09.2026): die Pflicht-Quellenangaben, die der Lizenzgeber IM weitergegebenen Exemplar
    verlangt (LOINC § 10, BfArM-Downloadbedingungen ICD-10-GM § 1 und ATC-GM § 1), stehen als eigene Region im
    Hauptskript, byte-gleich aus code-listen/wortlaut/<datei>. Eine Liste mit `lizenzWortlaut` bettet in CODE-LISTEN
@@ -73,14 +78,10 @@ function blockFuer(liste) {
   const datenJs = (liste.daten && liste.daten.length) ? '[\n' + eintraege + '\n  ]' : '[]';
   return [
     // Ohne `hinweis` (27.09.2026): codeListeAnmelden übernimmt das Feld nicht, es war im Kern nur Kommentartext, zweimal je
-    // Liste. Es bleibt in code-listen/<id>.json, der Quelle. Die Markierung selbst liest tests/load-kern.js (Blockanfang).
-    `<!-- @vd-codeliste systemId="${liste.systemId}" -->`,
-    '<script>',
+    // Liste. Es bleibt in code-listen/<id>.json, der Quelle.
     `/* @vd-codeliste ${liste.systemId} */`,
-    // U2-ADR-NNN (18.09.2026, Kern-Verschluss): codeListeAnmelden ist kein bare Top-Level-Name
-    // mehr, sondern liegt unter dem Namensraum window.__vdOeffentlich — derselbe Grund wie für
-    // jeden anderen der 60 dort geführten Namen (Konvention: „keine Sonderlocken").
-    `window.__vdOeffentlich.codeListeAnmelden(${j(liste.systemId)}, {`,
+    // U2-ADR-494: bare, innerhalb des Kern-Verschlusses — nicht über window.__vdOeffentlich (die Fläche fehlt im Produkt).
+    `codeListeAnmelden(${j(liste.systemId)}, {`,
     `  uri: ${j(liste.uri || '')}, version: ${j(liste.version || '')}, kuerzel: ${j(liste.kuerzel || liste.systemId)},`,
     // teilliste (C2): Ausschnitt eines größeren Systems — vom Oberbegriff-Matching ausgenommen.
     ...(liste.teilliste ? ['  teilliste: true,'] : []),
@@ -102,27 +103,25 @@ function blockFuer(liste) {
       : (liste.daten && liste.daten.length) ? [`  lizenz: ${j(liste.lizenz || '')},`] : []),
     `  daten: ${datenJs}`,
     '});',
-    '</script>',
   ].join('\n');
 }
 
 function generiereRegion() {
   const listen = ladeQuellen();
   const kopf = [
-    '<!-- ════════════════════════════════════════════════════════════════════════',
-    '     CODE-LISTEN (Paket 3) — öffentliche Daten, KEINE Krypto. Je ein Block pro System,',
-    '     registriert über window.__vdOeffentlich.codeListeAnmelden() (in Script 2 definiert,',
-    '     U2-ADR-NNN Kern-Verschluss). SEED/STUB-Stand —',
-    '     generiert aus code-listen/<systemId>.json. NICHT von Hand editieren; stattdessen die',
-    '     JSON-Quellen ändern und `node tools/build-code-listen.js` laufen lassen.',
-    '     SNOMED: zwei Konzepte aus dem Global Patient Set (CC BY-ND 4.0, siehe THIRD_PARTY_LICENSES). ════ -->',
+    '/* ════════════════════════════════════════════════════════════════════════',
+    '   CODE-LISTEN (Paket 3) — öffentliche Daten, KEINE Krypto. Je ein Aufruf pro System,',
+    '   registriert über codeListeAnmelden() innerhalb des Kern-Verschlusses (U2-ADR-494).',
+    '   SEED/STUB-Stand — generiert aus code-listen/<systemId>.json. NICHT von Hand editieren;',
+    '   stattdessen die JSON-Quellen ändern und `node tools/build-code-listen.js` laufen lassen.',
+    '   SNOMED: zwei Konzepte aus dem Global Patient Set (CC BY-ND 4.0, siehe THIRD_PARTY_LICENSES). ════ */',
   ].join('\n');
   return '\n' + kopf + '\n\n' + listen.map(blockFuer).concat(terminologieBloecke()).join('\n\n') + '\n';
 }
 
 /* TERMINOLOGIE-LITERALE (29.09.2026, v835): Begriffe fremder Code-Systeme und IPS-Sektionstitel, die der Export braucht,
    die aber weder Produkttext (Textsatz) noch eine Eingabeliste sind. Quelle code-listen/terminologie/<name>.json; je
-   Datei ein Block, der sie über window.__vdOeffentlich.ipsBegriffeAnmelden in den Kern hebt. Felder mit `_` (Zweck,
+   Datei ein Aufruf, der sie über ipsBegriffeAnmelden in den Kern hebt (bare, innerhalb des Kern-Verschlusses, U2-ADR-494). Felder mit `_` (Zweck,
    Herkunft) bleiben in der Quelle; die Herkunft steht als Kommentar im Block. */
 function terminologieBloecke() {
   const dir = path.join(QUELLEN, 'terminologie');
@@ -141,11 +140,8 @@ function terminologieBloecke() {
     const daten = ohne(roh);
     const name = f.replace(/\.json$/, '');
     return [
-      `<!-- @vd-terminologie ${name} -->`,
-      '<script>',
       `/* @vd-terminologie ${name} — Herkunft: ${herkunft.join(' · ').replace(/\*\//g, '* /')} */`,
-      `window.__vdOeffentlich.ipsBegriffeAnmelden(${JSON.stringify(daten)});`,
-      '</script>',
+      `ipsBegriffeAnmelden(${JSON.stringify(daten)});`,
     ].join('\n');
   });
 }

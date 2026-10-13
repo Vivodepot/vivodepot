@@ -31,7 +31,7 @@ import { createRequire } from 'node:module';
    liefe an einem Gegenstand, den es als Produkt nicht gibt. Ohne Umlenkung wird darum das konfektionierte deutsche Produkt gemessen. */
 const HTML_PFAD = process.env.KERN_HTML_PATH
   ? resolve(process.env.KERN_HTML_PATH)
-  : createRequire(import.meta.url)('../produkt-html-erzeugen.js').produktHtml('privat-de');
+  : createRequire(import.meta.url)('../produkt-html-erzeugen.js').produktHtmlTestfassung('privat-de');   // die Probe öffnet jede Sicht über window.__vdOeffentlich (U2-ADR-494)
 const FILE_URL = pathToFileURL(HTML_PFAD).href;
 // EN-301-549: die axe-Regeln zu EN 301 549 V3.2.1 Kap. 9 (Web, = WCAG 2.1 AA); Registerzeile barrierefreiheit/en-301-549.
 const TAGS    = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa', 'EN-301-549'];

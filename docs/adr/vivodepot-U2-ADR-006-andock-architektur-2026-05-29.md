@@ -2,10 +2,10 @@
 
 **Status:** Akzeptiert
 **Datum:** 29.05.2026
-**Kategorie:** ARCHITEKTUR, GESCHÄFTSMODELL
+**Kategorie:** ARCHITEKTUR
 **Cross-Referenz (Produktiv-Kanon):** `ADR-065` (Template-Übergabe-Mechanismus, JWS-signiert, Trust Authority — Klärungen 2–8 geklärt), `ADR-063` (FHIR-Provenance), `ADR-002` (FHIR R4).
 **U2-Bezug:** U2-ADR-005 (Urheberschaft). Erster Andockfall: Gesundheits-Sektor.
-**Status heute:** gilt — Andock-Architektur im Kern nachweisbar: `codeSlotSicherstellen()` (Kommentar „U2-ADR-006: leerer Code-Slot"), Template-Schicht unter `docs/template-generator/`, FHIR-IPS-Bundle-Export vorhanden. Abschnitt „Geschäftsmodell“ überholt, s. Nachtrag 03.10.2026.
+**Status heute:** gilt — Andock-Architektur im Kern nachweisbar: `codeSlotSicherstellen()` (Kommentar „U2-ADR-006: leerer Code-Slot"), Template-Schicht unter `docs/template-generator/`, FHIR-IPS-Bundle-Export vorhanden.
 
 ---
 
@@ -27,10 +27,6 @@ Der Auslöser war die Codierungs-Frage im Gesundheits-Sektor: FHIR verlangt hint
 
 **Ohne Template** trägt ein Sektor Freitext mit „uncodiert"-Vermerk (FHIR-konform: `CodeableConcept` darf nur Text tragen). **Mit Template** codiert er. Damit ist die Lizenzfrage (z. B. SNOMED CT, lizenzpflichtig) eine **Bestückungs-Frage**, keine Fundament-Frage: Das Template wird mitgeliefert oder nicht; die Architektur bleibt gleich.
 
-## Geschäftsmodell
-
-Die Template-Zertifizierungsstelle ist kein Anhängsel, sondern der Punkt, an dem aus dem kostenlosen Bürger-Werkzeug die institutionelle Einnahmequelle wird. Eine Klinik liefert ein FHIR-Medizin-Template, eine Kasse ein Sozialversicherungs-Template, ein Finanzinstitut sein eigenes — Vivodepot zertifiziert. Ein Mechanismus, viele Bereiche (Energiegenossenschaften, Behörden, Stiftungen). Die kommerzielle Template-Ebene und die Zertifizierungsgebühren liegen in der BUSL-Schicht.
-
 ## Konsequenzen
 
 - **Kern bleibt niedrigschwellig und klein;** Codierung und Formate sind andockbare Schichten.
@@ -42,19 +38,14 @@ Die Template-Zertifizierungsstelle ist kein Anhängsel, sondern der Punkt, an de
 
 Ob die U2-Linie bereits einen Template-Mechanismus hat, ist am Code zu prüfen, bevor die Übersetzungs-Schicht über das erste Beispiel hinaus gebaut wird. In der Produktiv-Linie ist der Mechanismus `ADR-065` (JWS-signiert, Verifiable Credentials, Trust Authority) — geklärt, aber in U2 noch nicht zwingend vorhanden. Die Zertifizierungsstelle als Trust Authority ist ein eigener, gewichtiger Baustein, kein Nebenprodukt eines Sektor-Ausbaus.
 
-## Grenze (Rechts-/Geschäftssphäre, nicht technisch)
-
-Template-Zertifizierungsgebühren, BUSL-Schicht für die kommerzielle Template-Ebene, SNOMED-CT-Lizenz — offene Punkte für die rechtliche und geschäftliche Klärung, nicht für diese ADR.
-
 ## Erster Andockfall
 
 Der Gesundheits-Sektor wird jetzt schlank gebaut: Speicher- und Anzeige-Schicht, optionaler Code-Slot pro Eintrag (vorerst leer), FHIR-Korrespondenz pro Feldgruppe als Anschluss-Notiz — ohne IPS-/FHIR-Maschinerie im Kern. Der Code-Slot und die Anschluss-Notiz sind die Vorkehrung, die diese Architektur einlöst, ohne den Template-Mechanismus vorauszusetzen.
 
-## Nachtrag 03.10.2026 — Geschäftsmodell und Lizenz überholt
+## Nachtrag 03.10.2026 — Lizenz
 
-Der Abschnitt „Geschäftsmodell“ und die in „Grenze“ genannten Zertifizierungsgebühren und die
-BUSL-Schicht gelten nicht mehr (s. U2-ADR-270). Die Lizenz ist die EUPL-1.2, maßgeblich ist
-[LICENSING.md](../../LICENSING.md).
+Die Lizenz ist die EUPL-1.2, maßgeblich ist [LICENSING.md](../../LICENSING.md) (s. U2-ADR-270). Die Abschnitte „Geschäftsmodell“ und „Grenze“
+dieser ADR sind am 10.10.2026 aus dem öffentlichen Text genommen; geschäftliche Festlegungen gehören nicht in eine ADR.
 
 Zum Begriff „zertifiziert“ gilt U2-ADR-097 §8.
 

@@ -369,6 +369,42 @@
         "--malve-papier-linie": {
           "$ref": "#/$defs/farbe"
         },
+        "--pfirsich": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--pfirsich-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--pfirsich-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--pfirsich-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hellblau": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hellblau-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hellblau-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--hellblau-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--rose": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--rose-text": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--rose-linie": {
+          "$ref": "#/$defs/farbe"
+        },
+        "--rose-papier-linie": {
+          "$ref": "#/$defs/farbe"
+        },
         "--fw-regular": {
           "$ref": "#/$defs/zahl"
         },

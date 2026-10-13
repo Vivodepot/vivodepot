@@ -64,14 +64,14 @@ test('[Fehlerpfad 1/5] Entsiegeln mit falschem Passwort — Modal bleibt offen, 
   await page.waitForSelector(`[data-entsiegeln="${uuid}"]`, { state: 'visible' });
   await page.click(`[data-entsiegeln="${uuid}"]`);
   await page.waitForSelector('#sub-auf', { state: 'visible' });
-  const toastsVorher = await page.locator('#toast-host .toast').count();
   await page.fill('#sub-auf', SUB_PW + '-FALSCH');
   await page.click('#m-ok');
 
-  // Ein NEUER Toast mit dem echten Fehlertext (STRINGS.subFalsch) — nicht irgendein
-  // hängengebliebener Erfolgs-Toast aus dem Anlegen davor.
-  await expect(page.locator('#toast-host .toast')).toHaveCount(toastsVorher + 1, { timeout: 5000 });
-  await expect(page.locator('#toast-host .toast').last()).toContainText('Passwort stimmt nicht');
+  // Der Toast mit dem echten Fehlertext (STRINGS.subFalsch) — gesucht an seinem TEXT, nicht an einer Zählung.
+  // Befund E2E-TOAST-RELATIV-GEZAEHLT (08.10.2026): hier stand toHaveCount(vorher + 1). Das falsche Passwort wird
+  // per PBKDF2 langsam abgeleitet; währenddessen laufen die älteren Toasts ab (3200 ms), und „vorher + 1“ wird nie
+  // erreicht. Wächter: tests/e2e-relative-zaehlung-verboten.test.js.
+  await expect(page.locator('#toast-host .toast', { hasText: 'Passwort stimmt nicht' })).toHaveCount(1, { timeout: 15000 });
   // … das Modal bleibt offen — KEIN halb durchgelaufener Übergang.
   await expect(page.locator('#sub-auf'), 'Modal darf bei falschem Passwort NICHT schließen').toBeVisible();
   // Der Eintrag gilt weiterhin als versiegelt, nicht als betreten.

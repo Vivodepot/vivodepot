@@ -6,23 +6,19 @@
   "id": "did:web:vivodepot.de",
   "verificationMethod": [
     {
-      "id": "did:web:vivodepot.de#key-1",
+      "id": "did:web:vivodepot.de#vivodepot-trust-authority-v2-22082026",
       "type": "JsonWebKey2020",
       "controller": "did:web:vivodepot.de",
       "publicKeyJwk": {
-        "_HINWEIS": "HIER den OEFFENTLICHEN Schluessel (Inhalt deiner *.public.jwk) einsetzen. NIEMALS den privaten Schluessel. Beispiel fuer Ed25519/EdDSA unten — Werte ersetzen.",
         "kty": "OKP",
         "crv": "Ed25519",
-        "x": "<<< BASE64URL-OEFFENTLICHER-SCHLUESSEL — aus deiner public.jwk >>>",
+        "x": "YTLr-GfRPpyM8d_Ldal1_ankpgFyOwT9ly_G-QyJCZc",
         "alg": "EdDSA",
         "use": "sig"
       }
     }
   ],
   "assertionMethod": [
-    "did:web:vivodepot.de#key-1"
-  ],
-  "authentication": [
-    "did:web:vivodepot.de#key-1"
+    "did:web:vivodepot.de#vivodepot-trust-authority-v2-22082026"
   ]
 }

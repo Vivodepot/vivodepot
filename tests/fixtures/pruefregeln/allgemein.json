@@ -1,0 +1,16 @@
+{
+  "art": "allgemein",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name": "appVersion ist Text", "urteil": "abgewiesen", "regel": "allgemein.appVersion", "dokument": {"modulTyp": "blattformat", "moduleVersion": 1, "herkunft": "probe", "format": "letter", "appVersion": "eins"}},
+    {"name": "Modul verlangt eine neuere App", "urteil": "abgewiesen", "regel": "allgemein.app-zu-alt", "dokument": {"modulTyp": "blattformat", "moduleVersion": 1, "herkunft": "probe", "format": "letter", "appVersion": 9999}},
+    {"name": "45 Ebenen tief", "urteil": "abgewiesen", "regel": "allgemein.zu-tief", "dokument": {"modulTyp": "textsatz", "moduleVersion": 1, "sprache": "it", "texte": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {"e": {}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}},
+    {"name": "Beschriftung ohne Sprache", "urteil": "abgewiesen", "regel": "allgemein.sprache", "dokument": {"modulTyp": "institutionsArt", "moduleVersion": 1, "herkunft": "probe", "arten": {"zz-probe": "Probe"}}},
+    {"name": "Sprache in falscher Form", "urteil": "abgewiesen", "regel": "allgemein.sprache-form", "dokument": {"modulTyp": "institutionsArt", "moduleVersion": 1, "herkunft": "probe", "sprache": "Deutsch!", "arten": {"zz-probe": "Probe"}}},
+    {"name": "unbekannter modulTyp", "urteil": "nichtGeprueft", "regel": "allgemein.unbekannte-art", "dokument": {"modulTyp": "zz-gibt-es-nicht", "moduleVersion": 1}},
+    {"name": "eine Liste statt eines Objekts", "urteil": "nichtGeprueft", "regel": "allgemein.unbekannte-art", "dokument": [1, 2, 3]},
+    {"name": "Objekt ohne erkennbare Art", "urteil": "nichtGeprueft", "regel": "allgemein.unbekannte-art", "dokument": {"titel": "irgendetwas"}},
+    {"name": "Erscheinungsbild ohne Signatur: Form bestanden, Hinweis", "urteil": "bestanden", "regel": "allgemein.nur-signiert-erlaubt", "dokument": {"modulTyp": "branding", "moduleVersion": 1, "herkunft": "probe", "farbePrimaer": "#112233"}},
+    {"name": "Modul im Umschlag: Signatur nicht geprüft", "urteil": "bestanden", "regel": "allgemein.signatur-nicht-geprueft", "dokument": {"format": "zz-umschlag", "modul": {"modulTyp": "blattformat", "moduleVersion": 1, "herkunft": "probe", "format": "letter"}, "modulSignaturJws": "erfunden.keine.signatur"}}
+  ]
+}

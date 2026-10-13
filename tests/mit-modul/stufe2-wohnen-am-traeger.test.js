@@ -1,4 +1,8 @@
 'use strict';
+/* Hinweis (11.10.2026, Befund MITSCHRIFT-AB-WERK-NACH-POSITION): Diese Datei hält Rangfolge, Reihenfolge und Sicherheitsgrenze der Saat an
+   Bereichsdefinitionen, die für die Probe ausdrücklich ALS ERKANNT GESTELLT sind (mitschriftAlsAusgeliefert, tests/helfer). Ob eine
+   Definition erkannt wird und dass eine erfundene, nicht gestellte verworfen wird, hält tests/mitschrift-bereich-nach-inhalt.test.js
+   über den echten Weg. */
 /* ════════════════════════════════════════════════════════════════════════════
    Stufe 2 — `wohnen` verlässt das Bündel und kommt über eine EINGEBAUTE Quelle
    (Auftrag, 09.09.2026, zweiter Anlauf)
@@ -38,6 +42,7 @@
    die vollständigen Blöcke „[Stufe 2·Reihenfolge]" und „[Stufe 2·Rangfolge]" weiter unten.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, describe } = require('node:test');
+const { mitschriftAlsAusgeliefert } = require('../helfer/mitschrift-als-ausgeliefert.js');   // Proben mit erfundenem Bereich: s. dort
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -139,6 +144,7 @@ describe('[Stufe 2·Reihenfolge] der gesäte Bereich steht an seinem kanonischen
       bereiche: { 'zzz-fremder-bereich': { label: 'Fremd', icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'zzz_a', label: 'A', typ: 'text' }] }] } },
     }];
+    mitschriftAlsAusgeliefert(V, d);
     V._bereichsModuleAusDepotAnmelden(d);
     const ids = V.bereicheAlle().map((b) => b.id);
     assert.equal(ids[ids.length - 1], 'zzz-fremder-bereich',
@@ -199,6 +205,7 @@ describe('[Stufe 2·Rangfolge] eingebaut vor Produkt vor Mitschrift', () => {
       bereiche: { housing: { label: 'FALSCH AUS DER MITSCHRIFT', icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'w_a', label: 'A', typ: 'text' }] }] } },
     }] };
+    mitschriftAlsAusgeliefert(V, d);
     const treffer = V._bereichModulAbWerkSeed(d).find((b) => b.id === 'housing');
     assert.ok(treffer, 'ROT ERWARTET: `wohnen` erscheint gar nicht in der Saat');
     assert.notEqual(treffer.label, 'FALSCH AUS DER MITSCHRIFT',
@@ -215,6 +222,7 @@ describe('[Stufe 2·Rangfolge] eingebaut vor Produkt vor Mitschrift', () => {
       bereiche: { housing: { label: 'Kaperung', icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'w_a', label: 'A', typ: 'text' }] }] } },
     }] };
+    mitschriftAlsAusgeliefert(V, d);
     V._bereichModulAbWerkSeed(d);
     /* DER GRUND IST `reserviert`, NICHT `doppelt-ab-werk` — gemessen, nicht erwartet.
        Ein Mitschrift-Eintrag läuft mit `abWerk: false`; für ihn ist `wohnen` eine RESERVIERTE
@@ -240,6 +248,7 @@ describe('[Stufe 2·Rangfolge] eingebaut vor Produkt vor Mitschrift', () => {
       bereiche: { 'pro-eigener-bereich': { label: 'Aus der Datei', icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'p_a', label: 'A', typ: 'text' }] }] } },
     }] };
+    mitschriftAlsAusgeliefert(V, d);
     const ids = V._bereichModulAbWerkSeed(d).map((b) => b.id);
     assert.ok(ids.includes('housing'), 'die eingebaute Quelle wird weiter gesät');
     assert.ok(ids.includes('pro-eigener-bereich'),
@@ -256,6 +265,7 @@ describe('[Stufe 2·Rangfolge] eingebaut vor Produkt vor Mitschrift', () => {
       bereiche: { 'pro-ohne-label': { icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'q_a', label: 'A', typ: 'text' }] }] } },
     }] };
+    mitschriftAlsAusgeliefert(V, d);
     const ids = V._bereichModulAbWerkSeed(d).map((b) => b.id);
     assert.ok(!ids.includes('pro-ohne-label'),
       'ROT ERWARTET: ein Mitschrift-Eintrag ohne Label darf nicht durchkommen — sonst liefe '

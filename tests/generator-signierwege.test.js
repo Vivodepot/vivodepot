@@ -9,7 +9,8 @@
 
    BEWIESEN wird an der Quelle, was am Verhalten nicht zu messen ist — dass es keinen dritten Weg gibt:
      · das Feld der Schlüsseldatei wird nur in `schluesselDateiGewaehlt` gelesen, und nur dort in den Tresor;
-     · keine Datei wird sonst als Schlüssel gelesen (`datei.text()`);
+     · keine Datei wird sonst gelesen (`<beliebiger Name>.text()`), unabhängig vom Variablennamen; einzige benannte Ausnahme
+       ist die Antwort-Annahme (siehe ANTWORT_LESER);
      · jeder Aufruf eines `bau…Signiert` aus der Oberfläche steht in `signiereMitTresor`/`signiereEinmal`;
      · nur die Tresor-Hülle, ihre Hilfen und die eine ungebundene Treuhand-Funktion importieren einen Schlüssel zum Signieren;
      · jeder Signier-Handler der Oberfläche ruft den Tresor.
@@ -31,6 +32,15 @@ const IMPORTEURE = ['_jwsImportSignKey', '_signSchluessel', 'halteAusJwk', 'temp
 
 /* Die eine Stelle, die die Schlüsseldatei liest (Laden und Neu-Speichern gehen beide über sie). */
 const DATEI_LESER = '_schluesselDateiLesen';
+/* Die eine Ausnahme: `antwortenOeffnen` liest eingegangene Antworten aus der Antwort-Annahme `#an-dateien`. Eine Antwort ist ein
+   JWE, kein Schlüssel; sie wird mit dem Passwort der Anfrage geöffnet. Gebunden an die QUELLE, nicht an einen Variablennamen:
+   jede `.files`-Quelle im Rumpf muss `$('an-dateien').files` sein, sonst ist auch dort jedes Lesen ein Fund. */
+const ANTWORT_LESER = 'antwortenOeffnen';
+const ANTWORT_QUELLE = "$('an-dateien').files";
+function liestNurAntworten(koerper) {
+  const quellen = (koerper.match(/\.files\b/g) || []).length;
+  return quellen > 0 && quellen === koerper.split(ANTWORT_QUELLE).length - 1;
+}
 /* Das Passwort der Schlüsseldatei in den Proben (frei erfunden, nur hier). */
 const PW = 'probe-passwort-signierwege';
 function skript(html) { const a = html.indexOf('<script>', html.indexOf('</script>')); return html.slice(a); }
@@ -49,7 +59,12 @@ function rumpf(q, name) {
 function signierwegFunde(html) {
   const q = skript(html); const f = [];
   for (const m of q.matchAll(/\$\('pr-privkey'\)/g)) { const fn = funktionVor(q, m.index); if (fn !== DATEI_LESER) f.push('schluesselfeld-gelesen-in:' + fn); }
-  for (const m of q.matchAll(/\bdatei\.text\(\)/g)) { const fn = funktionVor(q, m.index); if (fn !== DATEI_LESER) f.push('datei-als-schluessel-gelesen-in:' + fn); }
+  for (const m of q.matchAll(/\.text\(\)/g)) {
+    const fn = funktionVor(q, m.index);
+    if (fn === DATEI_LESER) continue;
+    if (fn === ANTWORT_LESER && liestNurAntworten(rumpf(q, fn))) continue;
+    f.push('datei-als-schluessel-gelesen-in:' + fn);
+  }
   for (const m of q.matchAll(/await (baue\w+Signiert)\(/g)) {
     const zeile = q.slice(q.lastIndexOf('\n', m.index) + 1, q.indexOf('\n', m.index));
     if (!/signiereMitTresor\(|signiereEinmal\(/.test(zeile)) f.push('signierer-am-tresor-vorbei:' + m[1] + ' in ' + funktionVor(q, m.index));
@@ -83,6 +98,23 @@ test('[Signierwege·Rot-Beweis] ein gelesenes Schlüsselfeld, ein Signierer am T
   assert.ok(signierwegFunde(m5).some((x) => x.startsWith('datei-als-schluessel-gelesen-in:formatErzeugen')));
   assert.equal(m4, HTML);   // (Kontrolle: der erlaubte Weg selbst ist unverändert und bleibt ohne Fund)
   assert.ok(HTML.includes('    const r = await SCHLUESSEL_TRESOR.ausDatei(inhalt, passwort);'), 'der erlaubte Weg steht im Studio');
+});
+
+test('[Signierwege·Rot-Beweis] eine gelesene Datei außerhalb des Lesers ist rot unter jedem Namen; die Antwort-Annahme bleibt grün', () => {
+  // (a) eine Schlüsseldatei, gelesen über einen anders benannten Bezeichner in einer anderen Funktion
+  const a1 = HTML.replace('async function _signSchluessel(x) {', "async function heimlichLesen() { const kf = document.querySelector('#x').files[0]; return JSON.parse(await kf.text()); }\nasync function _signSchluessel(x) {");
+  assert.notEqual(a1, HTML, 'Vorbedingung: die Mutation greift');
+  assert.ok(signierwegFunde(a1).includes('datei-als-schluessel-gelesen-in:heimlichLesen'), signierwegFunde(a1).join());
+  // (a) auch IN antwortenOeffnen: eine zweite Quelle neben der Antwort-Annahme hebt die Ausnahme auf
+  const a2 = HTML.replace('async function antwortenOeffnen() {', "async function antwortenOeffnen() {\n  const kf = $('pr-privkey-zwei').files[0]; await kf.text();");
+  assert.notEqual(a2, HTML);
+  assert.ok(signierwegFunde(a2).includes('datei-als-schluessel-gelesen-in:antwortenOeffnen'), signierwegFunde(a2).join());
+  // (b) die Antwort-Annahme bleibt grün, auch unter einem anderen Namen der Schleifenvariable
+  assert.ok(HTML.includes("for (const datei of dateien) {") && /async function antwortenOeffnen\(\)/.test(HTML), 'Vorbedingung: die Antwort-Annahme steht im Studio');
+  assert.ok(!signierwegFunde(HTML).some((x) => x.endsWith(':antwortenOeffnen')));
+  const b1 = HTML.replace('for (const datei of dateien) {', 'for (const eingang of dateien) {').replace('try { text = await datei.text(); }', 'try { text = await eingang.text(); }');
+  assert.notEqual(b1, HTML);
+  assert.ok(!signierwegFunde(b1).some((x) => x.endsWith(':antwortenOeffnen')), 'die Ausnahme hängt nicht am Namen');
 });
 
 test('[Signierwege] jede Modul-Ausgabeart signiert mit dem Tresor-Schlüssel — auf ihren Knopf, auf keinen anderen', async () => {

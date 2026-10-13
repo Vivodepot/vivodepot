@@ -1,5 +1,5 @@
 {
- "zweck": "Sperre für das Werkzeug, das die Register ausliefert (04.10.2026, Befund ALTE-REGISTER-PFADE-JWK-LIVE). (1) mindestCommits: der Kanon-Commit des Stands muss jeden dieser Commits enthalten, sonst baut das Werkzeug nicht. (2) zurueckgezogen: Dateien mit dieser SHA-256 werden nie wieder hochgeladen, gleich unter welchem Pfad. Einträge werden nur angefügt, nie entfernt.",
+ "zweck": "Sperre für das Werkzeug, das die Register ausliefert (04.10.2026, Befund ALTE-REGISTER-PFADE-JWK-LIVE). (1) mindestCommits: der Kanon-Commit des Stands muss jeden dieser Commits enthalten, sonst baut das Werkzeug nicht. (2) zurueckgezogen: Dateien mit dieser SHA-256 werden nie wieder hochgeladen, gleich unter welchem Pfad. Einträge werden nur angefügt, nie entfernt. (3) ausgabearten (09.10.2026): jede Art einer ausgelieferten Datei (erste Pfadebene bei Ordnern, sonst Dateiname bis zum ersten Punkt) steht hier, mit ihrer Lizenz (SPDX oder null), sonst baut das Werkzeug nicht. Eine neue Art ist ein neuer Schlüssel und braucht das Wort der Gegenlesung im Commit.",
  "mindestCommits": [
   {
    "commit": "17bc2c76b73e0169a58074b5ca2b57e1693433fa",
@@ -147,5 +147,72 @@
    "datum": "2026-10-04",
    "grund": "Code-Dateien am 04.10. vom Webspace zurückgezogen (ohne JWK-Fix 17bc2c76b); nachprüfbar im Kanon unter dem jeweiligen Stand."
   }
- ]
+ ],
+ "ausgabearten": {
+  "bausteine": {
+   "lizenz": "CC0-1.0",
+   "seit": "2026-10-09",
+   "beleg": "neue Art: abschließende Liste der Bausteine (Herausgeberbedingungen § 3 Abs. 6); Wort der Gegenlesung im Commit"
+  },
+  "brandingregister": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "fassungen": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "favicon": {
+   "lizenz": null,
+   "seit": "2026-10-09",
+   "beleg": "neue Art: Navicon für alle Seiten des Registers; Wort der Gegenlesung im Commit"
+  },
+  "feld": {
+   "lizenz": "CC0-1.0",
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "feldregister": {
+   "lizenz": "CC0-1.0",
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "generator": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "index": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "lesen": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "modulregister": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "rechtsraumregister": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "sprachregister": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  },
+  "studio": {
+   "lizenz": null,
+   "seit": "v922",
+   "beleg": "nachträglich, Wort der Gegenlesung 09.10.2026 zu feld/ und CC0 (Entscheidung a); Bestand der Auslieferung v922"
+  }
+ }
 }

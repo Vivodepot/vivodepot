@@ -73,7 +73,7 @@ damit sichtbar.
 `nicht-prüfbar` — Die Aussage lässt sich grundsätzlich nicht maschinell
 prüfen. **Erfordert `grund`.** Dieser Zustand ist kein Makel; er ist ehrlicher
 als eine Prüfung, die weniger misst, als sie behauptet. Beispiel: die Zusage,
-dass Bürgerinnen und Bürger nie zahlen, ist im Quelltext nur als Abwesenheit
+dass Bürgerinnen und Bürger für Vivodepot Privat nie zahlen, ist im Quelltext nur als Abwesenheit
 eines Zahlungspfads sichtbar — die Zusage für die Zukunft misst kein Test.
 
 `ausgesetzt` — Die Prüfung wäre möglich, ist aber wegen einer offenen

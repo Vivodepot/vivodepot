@@ -12,7 +12,7 @@ areas: the core knows no single subject, modules carry the content.
 
 ## What it costs
 
-For citizens, Vivodepot is free of charge.
+For citizens, Vivodepot Private is free of charge.
 
 ## How it works
 
@@ -79,4 +79,4 @@ Responsibility for, review of and approval of every change lie with Vivodepot Gm
 
 ## Version
 
-Version v922.
+Version v927.

@@ -10,7 +10,7 @@
 - **ADR-Bezug:** dieser ADR (U2-ADR-027).
 
 **Status heute:** gilt — Beleg `tests/sicherheit-block-b.test.js#B-Negativ-5`; Zwang-vs.-Empfehlung
-bleibt offen wie im Dokument selbst vermerkt.
+ist seit 08.10.2026 entschieden: Vorschlag vorbelegt, eigenes Passwort mindestens 12 Zeichen (Nachtrag unten).
 
 ---
 
@@ -84,7 +84,7 @@ erzwungen + kurzes-aber-reiches PW bleibt schwach, sichtbare DOM-Rückmeldung). 
 
 ```konformitaet
 aussage:   Die Stärke-Rückmeldung wird sichtbar in den DOM geschrieben (aria-live, nicht still) —
-           die beiden harten Untergrenzen (Länge < 8, Blockliste/Trivialfolge) drücken die
+           die beiden harten Untergrenzen (Länge unter PW_MIN_EIGEN, Blockliste/Trivialfolge) drücken die
            Bewertung immer auf „schwach".
 zustand:   prüfbar
 pruefung:  tests/sicherheit-block-b.test.js#B-Negativ-5: die Stärke-Anzeige wird sichtbar in den DOM geschrieben (nicht still)
@@ -98,3 +98,44 @@ quelle:    invariante
 Die Mängelliste vom 19.06. ist der interne Abgleich der Krypto-Durchsicht vom 23.05.2026 gegen
 den damaligen Code. Frühere Fassungen dieses ADR nannten sie ohne den Hinweis „intern“; die
 Benennung ist korrigiert. An Befund und Entscheidung ändert sich nichts.
+
+## Nachtrag 08.10.2026 — Mindestlänge 12 für das eigene Passwort
+
+Die Geschäftsführung hat am 08.10.2026 die offene B2-Frage entschieden. Der Vorschlag aus sechs
+Wörtern (U2-ADR-463) steht beim Setzen schon im Feld. Wer ein eigenes Passwort wählt, braucht
+mindestens 12 Zeichen statt 8 (Konstante `PW_MIN_EIGEN`, Schranke `pwGrundFehler`, Texte
+`pwMinFehler`/`pwMinHinweis` in Deutsch und Englisch). Die Stärke-Anzeige zieht ihre harte
+Untergrenze mit. So nennt sie nie „mittel“ für ein Passwort, das sich nicht setzen lässt.
+
+Die Regel gilt nur beim Setzen und Ändern: Anlegen, Setzen aus der Vorschau, Wechseln, neues
+Passwort nach dem Wiederherstellungs-Code und das Ändern im Sub-Depot. Das Öffnen prüft keine
+Länge. Ein Depot, dessen Passwort aus einer früheren Fassung kürzer ist, öffnet weiter.
+Dieselbe Untergrenze gilt für das Fach-Passwort eines Kreises (U2-ADR-156). Es öffnet einen weiteren
+Schlüssel in derselben Datei; mit 8 Zeichen bliebe es der schwächste Zugang zur eigenen Datei
+(Entscheidung der Geschäftsführung, 08.10.2026). Auch hier gilt die Regel nur beim Einrichten; ein
+Fach aus einer früheren Fassung öffnet weiter. Passwörter für Dateien, die das Depot verlassen
+(Empfänger-Datei, QR), behalten vorerst ihre eigene Untergrenze `EMPFAENGER_PW_MIN`.
+
+```konformitaet
+aussage:   Jeder Weg, der ein neues eigenes Passwort liest, geht durch pwGrundFehler, und die
+           Mindestlänge ist 12.
+zustand:   geprüft
+pruefung:  tests/passwort-min12.test.js#[PW-12·Klasse] jeder Weg, der ein neues eigenes Passwort liest, geht durch pwGrundFehler
+quelle:    invariante
+```
+
+```konformitaet
+aussage:   Ein Depot mit kürzerem Passwort aus einer früheren Fassung öffnet weiter; der Lade-Weg
+           prüft keine Länge.
+zustand:   geprüft
+pruefung:  tests/passwort-min12.test.js#[PW-12·Öffnen] ein Depot mit 8-Zeichen-Passwort aus einer früheren Fassung öffnet weiter
+quelle:    invariante
+```
+
+```konformitaet
+aussage:   Das Fach-Passwort eines Kreises hat dieselbe Untergrenze wie das eigene Passwort; ein Fach
+           mit kürzerem Passwort aus einer früheren Fassung öffnet weiter.
+zustand:   geprüft
+pruefung:  tests/passwort-min12.test.js#[PW-12·Fach·Öffnen] ein Fach mit 8-Zeichen-Passwort aus einer früheren Fassung öffnet weiter
+quelle:    invariante
+```

@@ -35,5 +35,14 @@ function wurzelKopfzeileSetzen(text) {
 function wurzelKopfzeileZuruecksetzen(text) {
   return OEFFENTLICH_MUSTER.test(text) ? text.replace(OEFFENTLICH_MUSTER, WURZEL_KOPFZEILE.quellzeile) : text;
 }
+/* Läuft diese Prüfung im öffentlichen Zuschnitt? Erkennbar an der öffentlichen Zeile in der Wurzeldatei. Proben, die den
+   Kanon-Baum zählen oder zurückgehaltene Dateien lesen (Hooks, Zahl der Seiten und Specs), gelten dort nicht; sie nennen das
+   mit dieser Funktion, statt ihre Zählung zu lockern (öffentlicher Lauf v927, 13.10.2026: fünf Proben rot, alle aus diesem Grund). */
+function imOeffentlichenZuschnitt(wurzel) {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  try { return OEFFENTLICH_MUSTER.test(fs.readFileSync(path.join(wurzel, WURZEL_KOPFZEILE.datei), 'utf8')); } catch (_) { return false; }
+}
+const IM_ZUSCHNITT_GRUND = 'im öffentlichen Zuschnitt: die Probe zählt bzw. liest den Kanon-Baum (zurückgehaltene Dateien)';
 
-module.exports = { WURZEL_KOPFZEILE, wurzelKopfzeileOeffentlich, wurzelKopfzeileSetzen, wurzelKopfzeileZuruecksetzen };
+module.exports = { WURZEL_KOPFZEILE, wurzelKopfzeileOeffentlich, wurzelKopfzeileSetzen, wurzelKopfzeileZuruecksetzen, imOeffentlichenZuschnitt, IM_ZUSCHNITT_GRUND };

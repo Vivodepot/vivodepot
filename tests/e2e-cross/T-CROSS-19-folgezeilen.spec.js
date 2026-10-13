@@ -23,6 +23,7 @@ const URL = 'file://' + path.join(REPO, 'vivodepot-studio.html');
 
 async function zumTemplateSchritt(p) {
   await p.goto(URL);
+  await p.click('#kopf-fachebene');   // seit S1 steht der Eingang vor der Fachebene
   await p.waitForSelector('#start-leer', { state: 'visible' });
   await p.click('#start-leer');
   await p.waitForSelector('#tpl-anzahl', { state: 'visible' });   // der Schritt steht

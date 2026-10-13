@@ -46,6 +46,7 @@ const path = require('node:path');
 const { cssQuelle } = require('./lib/kern-mit-erscheinungsbild.js');   // v894: CSS aus „Gerüst + heute"
 const { execSync, execFileSync } = require('node:child_process');
 const { suiteDateien } = require('../scripts/suite-dateien-kern.js');
+const { mitTestLauf } = require('./lib/test-lauf.js');   // eigenes TMPDIR je Testlauf (Befund TEMP-RESTE-WIEDER)
 
 const REPO = path.join(__dirname, '..');
 const CHECK = process.argv.includes('--check');
@@ -168,8 +169,7 @@ function zaehleFelder(sektor) {
 // Trenner benutzt wurde. Nur Dateien, deren NAME ein "U2-ADR-<Zahl>" trägt, zählen als ADR — das
 // schließt README.md automatisch aus, ohne sie namentlich zu nennen. (Die frühere U2-INDEX-Datei
 // traf dasselbe Muster nie und ist seit 15.08.2026 ohnehin kein Bewohner von docs/adr/ mehr.)
-function adrRegister() {
-  const ordner = path.join(REPO, 'docs', 'adr');
+function adrRegister(ordner = path.join(REPO, 'docs', 'adr')) {
   const dateien = fs.readdirSync(ordner).filter((f) => f.endsWith('.md') && /U2-ADR-\d+/.test(f));
   const eintraege = [];
   for (const datei of dateien) {
@@ -232,7 +232,7 @@ function pruefebeneZahlen(htmlText, { mitSuite = false } = {}) {
     // im Arbeitsbaum mit, den ein frischer Checkout nicht kennt (s. ADR).
     const dateien = suiteDateien(REPO);
     try {
-      const out = execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+      const out = mitTestLauf((env) => execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env }));
       const m = out.match(/^ℹ tests (\d+)$/m);
       if (m) suiteZahl = parseInt(m[1], 10); else suiteHinweis = 'Lauf ausgeführt, aber Summenzeile nicht gefunden';
     } catch (e) {
@@ -425,6 +425,15 @@ function erzeugeFaktenbasis({ mitSuite = false } = {}) {
   };
 }
 
+/* Der Abschnitt „ADR-Register“ als Text, von der Überschrift bis zur letzten Tabellenzeile. Eigene Funktion, damit ein Bau,
+   der nur einen Teil der ADRs trägt, den Abschnitt mit demselben Wortlaut aus seinem eigenen Ordner setzen kann. */
+function adrRegisterAbschnitt(eintraege) {
+  let m = '## ADR-Register (' + eintraege.length + ')\n\n';
+  m += '| Nummer | Titel |\n|---|---|\n';
+  for (const a of eintraege) m += '| ' + a.nummer + ' | ' + a.titel + ' |\n';
+  return m;
+}
+
 function formatiereMarkdown(f) {
   let m = '';
   m += '# Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt\n\n';
@@ -466,9 +475,7 @@ function formatiereMarkdown(f) {
     + ' (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)\n';
   m += '- Wächter-Register (intern): ' + (f.pruefebene.waechterZahl ?? ('nicht ermittelbar' + (f.pruefebene.waechterHinweis ? ' (' + f.pruefebene.waechterHinweis + ')' : ''))) + '\n';
   m += '- Schema-Version: ' + f.schemaVersion + ' · SCHALEN_STAND: ' + f.schalenStand + ' · Build-Version: ' + f.buildVersion + '\n\n';
-  m += '---\n\n## ADR-Register (' + f.adrZahl + ')\n\n';
-  m += '| Nummer | Titel |\n|---|---|\n';
-  for (const a of f.adr) m += '| ' + a.nummer + ' | ' + a.titel + ' |\n';
+  m += '---\n\n' + adrRegisterAbschnitt(f.adr);
   m += '\n---\n\n## Gestaltung (' + f.gestaltung.length + ' Klassen)\n\n';
   /* ÖFFENTLICHE FASSUNG (26.09.2026): diese Datei geht hinaus. Die Spalte „Deklarationen" gab die CSS-Regeln wörtlich aus —
      mit ihren Kommentaren, und die trugen interne Kürzel und Arbeitsvermerke. Öffentlich stehen je Klasse nur Zahlen: Regeln
@@ -641,5 +648,5 @@ module.exports = {
   commitHash, vonKanonErreichbar, suiteZeileGemessen, suiteZeileNichtGemessen, suiteZeileFortschreiben, herkunftAusGeschichte,
   SUITE_GEMESSEN, SUITE_NICHT_GEMESSEN, SUITE_ALT, SUITE_NICHT_ANGEGEBEN,
   erzeugeFaktenbasis, pruefebeneZahlen, formatiereMarkdown, versionsBelegeAusFunktion, erzeugerName, importErzeugerName,
-  importWegBeschreiben, adrRegister, normalisiertFuerVergleich, vergleichsBefund, gestaltungsKlassen, DESIGN_KLASSEN,
+  importWegBeschreiben, adrRegister, adrRegisterAbschnitt, normalisiertFuerVergleich, vergleichsBefund, gestaltungsKlassen, DESIGN_KLASSEN,
 };

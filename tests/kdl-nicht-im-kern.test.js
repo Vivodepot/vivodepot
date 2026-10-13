@@ -101,7 +101,7 @@ test('[KDL·Kern] kein KDL-Block, genau zwei Codes in KDL_GEBRAUCHT, die URL gen
 });
 
 test('[KDL·Kern·Rot-Beweis] ein gebackener Block, ein dritter Code in KDL_GEBRAUCHT und eine zweite URL werden gefunden', () => {
-  assert.deepEqual(kernOhnePaket(KERN + '\n<!-- @vd-terminologie kdl -->'), ['@vd-terminologie kdl']);
+  assert.deepEqual(kernOhnePaket(KERN + '\n/* @vd-terminologie kdl — Herkunft: Probe */'), ['@vd-terminologie kdl']);
   const drei = KERN.replace(/(const KDL_GEBRAUCHT = Object\.freeze\(\{[^}]*)\}\)/, "$1, dritte: 'ZZ999999' })");
   assert.equal(kernOhnePaket(drei).length, 1);
   assert.match(kernOhnePaket(drei)[0], /nicht genau zwei/);

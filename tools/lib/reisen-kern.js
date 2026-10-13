@@ -94,6 +94,11 @@ function erfasseZustandBrowser() {
   )];
   const hinweise = [];
   const hinweiseGesehen = new Set();
+  // Flüchtig ist hier genau EIN exakt bekannter Wert (Muster wie maskiereFluechtigeWerte): der Inhalt eines
+  // Passwortfelds. Der Passwortvorschlag steht vorbelegt im Feld UND sichtbar darüber und ist je Öffnen neu
+  // (08.10.2026); ohne Maskierung wiche jeder Lauf von der Grundlinie ab. Nur der Wortlaut des Felds wird
+  // ersetzt, kein Muster — ein anderer Text bleibt sichtbar und damit diff-relevant.
+  const pwWerte = [...wurzel.querySelectorAll('input[type="password"]')].map((i) => i.value).filter((w) => w && w.length >= 6);
   for (const e of hinweisKandidaten) {
     if (!sichtbar(e)) continue;
     // Im Eingabe-Modus trägt `.feld-wert` ein echtes Formularelement (feldInputHTML), kein
@@ -102,7 +107,7 @@ function erfasseZustandBrowser() {
     // Eingabefeld selbst wird schon als Aktion erfasst (aktionsKnoten, unten) — hier nur der
     // echte Anzeige-Fall (Notfall-Sicht, Cross-Sektor-Referenz, Situationsblatt).
     if (e.matches('.feld-wert') && e.querySelector('input, select, textarea, button')) continue;
-    const t = text(e);
+    const t = pwWerte.reduce((acc, w) => acc.split(w).join('<FLUECHTIG>'), text(e));
     if (!t || hinweiseGesehen.has(t)) continue;
     hinweiseGesehen.add(t);
     hinweise.push(t);

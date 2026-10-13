@@ -5,9 +5,9 @@
    ERZEUGT, nicht getippt (23.09.2026)
    ────────────────────────────────────────────────────────────────────────────
    DER BEFUND: FAQ.md und docs/cra/supportzeitraum-und-eol.md versprachen einen
-   veröffentlichten SHA-256 je Fassung. Es gab keinen Ort dafür. BUILD_SHA256 im
-   Kern war leer und kann es nur bleiben (eine Datei kann ihren eigenen Hash nicht
-   tragen), `vivodepot.html.sha256` deckt den KERN, die Bürgerin bekommt aber ein
+   veröffentlichten SHA-256 je Fassung. Es gab keinen Ort dafür. Die Hash-Konstante im
+   Kern war leer und konnte es nur bleiben (eine Datei kann ihren eigenen Hash nicht
+   tragen; seit 10.10.2026 entfernt), `vivodepot.html.sha256` deckt den KERN, die Bürgerin bekommt aber ein
    PRODUKT. Die echte Produkt-Prüfsumme stand nur im Rezept auf der Ablage — und das
    wird bei der nächsten Auslieferung überschrieben.
 

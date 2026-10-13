@@ -1,0 +1,13 @@
+{
+  "art": "institutionsArt",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"eine Art mit Sprache","urteil":"bestanden","dokument":{"modulTyp":"institutionsArt","moduleVersion":1,"sprache":"fr","arten":{"notaire":"Notariat"}}},
+    {"name":"mehrere Arten, Sprache mit Region und Rand","urteil":"bestanden","dokument":{"modulTyp":"institutionsArt","moduleVersion":1,"sprache":" de-AT ","arten":{"notaire":"Notariat","kammer":"Kammer"}}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"institutionsArt.moduleVersion","dokument":{"modulTyp":"institutionsArt","sprache":"fr","arten":{"notaire":"Notariat"}}},
+    {"name":"ohne arten","urteil":"abgewiesen","regel":"institutionsArt.arten","dokument":{"modulTyp":"institutionsArt","moduleVersion":1,"sprache":"fr"}},
+    {"name":"Beschriftung ohne Sprache","urteil":"abgewiesen","regel":"allgemein.sprache","dokument":{"modulTyp":"institutionsArt","moduleVersion":1,"arten":{"notaire":"Notariat"}}},
+    {"name":"Sprache in falscher Form","urteil":"abgewiesen","regel":"allgemein.sprache-form","dokument":{"modulTyp":"institutionsArt","moduleVersion":1,"sprache":"FR","arten":{"notaire":"Notariat"}}},
+    {"name": "eine Zeichenkette statt eines Objekts, als institutionsArt geprüft", "urteil": "abgewiesen", "regel": "institutionsArt.kein-objekt", "erzwingeArt": "institutionsArt", "dokument": "kein Objekt"}
+  ]
+}

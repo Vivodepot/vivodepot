@@ -802,13 +802,12 @@ const STUFEN = [
      Rückweg-Proben am Bestandsdepot, und die Depot-Datei liegt allein beim Bürger.
 
      Sie legt den Schlüssel für behaltene Zusammenstellungen an (Auftrag 4 füllt ihn),
-     versioniert die Format-Kennungen im Übergabe-Protokoll (F2) und MERKT den Umzug der
-     Vertretungsgrundlage hinter das Sub-Passwort VOR (E1) — vollziehen kann sie ihn nicht:
-     sie läuft mit dem Anker-Passwort, der Inhalt hängt am Sub-Passwort. Sie löscht darum
-     nichts; `subDepotVertrauenOeffnen` zieht nach, sobald beide vorliegen. */
+     versioniert die Format-Kennungen im Übergabe-Protokoll (F2). Eine Vertretungsgrundlage im
+     Klartext-Eintrag eines Sub-Depots bleibt seit dem 07.10.2026 (SUB-SONDERLOCKEN S11) unverändert
+     stehen: die Stufe merkt nichts vor und löscht nichts; geöffnet wird ein solches Sub-Depot nicht. */
   { nach: 67, was: 'zusammenstellungen[] entsteht; export:<id> im Übergabe-Protokoll wird '
-                 + 'export:<id>@<version> (F2); eine gesetzte vertretungsGrundlage wird für den '
-                 + 'Umzug hinter das Sub-Passwort vorgemerkt, nicht gelöscht (E1) — Kette Auftrag 2',
+                 + 'export:<id>@<version> (F2); eine gesetzte vertretungsGrundlage im Eintrag bleibt '
+                 + 'unverändert stehen (S11, 07.10.2026) — Kette Auftrag 2',
     basis: () => Object.assign(basis(), { schemaVersion: 66,
       uebergabeProtokoll: [{ kennung: 'u-1', empfaenger: 'E', zweck: 'Z', umfang: 'U',
         zeitpunkt: '2026-08-01T00:00:00.000Z', herkunft: 'export:json' }],
@@ -816,13 +815,11 @@ const STUFEN = [
     vorher:  (d) => d.schemaVersion === 66
                  && !Array.isArray(d.zusammenstellungen)
                  && d.uebergabeProtokoll[0].herkunft === 'export:json'
-                 && d.verwalteteDepots[0].vertretungsGrundlage === 'betreuung'
-                 && !d.verwalteteDepots[0].vertretungsGrundlageUmzugOffen,
+                 && d.verwalteteDepots[0].vertretungsGrundlage === 'betreuung',
     nachher: (d) => d.schemaVersion >= 67
                  && Array.isArray(d.zusammenstellungen) && d.zusammenstellungen.length === 0
                  && d.uebergabeProtokoll[0].herkunft === 'export:json@1'
-                 && d.verwalteteDepots[0].vertretungsGrundlage === 'betreuung'
-                 && d.verwalteteDepots[0].vertretungsGrundlageUmzugOffen === true,
+                 && JSON.stringify(d.verwalteteDepots[0]) === JSON.stringify({ depotUUID: 'sub-1', bezeichnung: 'M', vertretungsGrundlage: 'betreuung' }),
     geprueftIn: 'tests/kette-02-migrationsstufe-67.test.js' },
   /* ── Der Ort für Anfragen (Kette, Auftrag 7, Zug 6 — 20.08.2026) ────────────────────
      Auftrag 4 hat den Bereich „Wer hat Sie gefragt" gebaut und ausdrücklich KEINEN

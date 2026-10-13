@@ -1,0 +1,18 @@
+{
+  "art": "logikModul",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"ohne moduleVersion (Kern verlangt sie nicht)","urteil":"bestanden","dokument":{"modulTyp":"logikModul","id":"zz-probe","titel":"Probe","sektor":"finance","herkunft":"probe","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne modulTyp","urteil":"bestanden","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","sektor":"finance","herkunft":"probe","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne id","urteil":"abgewiesen","regel":"logikModul.id","dokument":{"modulTyp":"logikModul","moduleVersion":1,"titel":"Probe","sektor":"finance","herkunft":"probe","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne titel","urteil":"abgewiesen","regel":"logikModul.titel","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","sektor":"finance","herkunft":"probe","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne sektor","urteil":"abgewiesen","regel":"logikModul.sektor","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","herkunft":"probe","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne herkunft","urteil":"abgewiesen","regel":"logikModul.herkunft","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","sektor":"finance","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne datenSchema","urteil":"abgewiesen","regel":"logikModul.datenSchema","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","sektor":"finance","herkunft":"probe","abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne abschnitte","urteil":"abgewiesen","regel":"logikModul.abschnitte","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","sektor":"finance","herkunft":"probe","datenSchema":{},"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"Datenlese-Eintrag null","urteil":"abgewiesen","regel":"logikModul.blockstruktur","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","sektor":"finance","herkunft":"probe","datenSchema":{"a":null},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel"}}},
+    {"name":"ohne dokAusgabe","urteil":"abgewiesen","regel":"logikModul.dokAusgabe","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","sektor":"finance","herkunft":"probe","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}]}},
+    {"name":"Unterschrift false ohne Ersatz-Hinweis","urteil":"abgewiesen","regel":"logikModul.unterschriftErsatzHinweis","dokument":{"modulTyp":"logikModul","moduleVersion":1,"id":"zz-probe","titel":"Probe","sektor":"finance","herkunft":"probe","datenSchema":{},"abschnitte":[{"titel":"x","bloecke":[{"typ":"immer","texte":["Text"]}]}],"dokAusgabe":{"h1":"Titel","unterschrift":false}}},
+    {"name": "eine Zeichenkette statt eines Objekts, als logikModul geprüft", "urteil": "abgewiesen", "regel": "logikModul.kein-objekt", "erzwingeArt": "logikModul", "dokument": "kein Objekt"}
+  ]
+}

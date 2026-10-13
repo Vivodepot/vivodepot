@@ -1,0 +1,13 @@
+{
+  "art": "blattformat",
+  "hinweis": "Erfundene Fälle. Kein Fall stammt aus einer echten Einreichung.",
+  "faelle": [
+    {"name":"a4","urteil":"bestanden","dokument":{"modulTyp":"blattformat","moduleVersion":1,"herkunft":"kanzlei-x","format":"a4"}},
+    {"name":"Letter groß geschrieben","urteil":"bestanden","dokument":{"modulTyp":"blattformat","moduleVersion":1,"herkunft":"kanzlei-x","format":"Letter"}},
+    {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"blattformat.moduleVersion","dokument":{"modulTyp":"blattformat","herkunft":"kanzlei-x","format":"a4"}},
+    {"name":"ohne herkunft","urteil":"abgewiesen","regel":"blattformat.herkunft","dokument":{"modulTyp":"blattformat","moduleVersion":1,"format":"a4"}},
+    {"name":"ohne format","urteil":"abgewiesen","regel":"blattformat.format","dokument":{"modulTyp":"blattformat","moduleVersion":1,"herkunft":"kanzlei-x"}},
+    {"name": "eine Zeichenkette statt eines Objekts, als blattformat geprüft", "urteil": "abgewiesen", "regel": "blattformat.kein-objekt", "erzwingeArt": "blattformat", "dokument": "kein Objekt"},
+    {"name": "unbekanntes Format: das Schema nennt die Stelle dazu", "urteil": "abgewiesen", "regel": "allgemein.schema", "dokument": {"modulTyp": "blattformat", "moduleVersion": 1, "herkunft": "probe", "format": "zz-kein-format"}}
+  ]
+}

@@ -111,7 +111,7 @@ html:not(.dark-mode):not(.high-contrast) #app .sidebar { background: rgba(255,25
 html:not(.dark-mode):not(.high-contrast) #app .app-fuss { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
 html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(28,42,30,.22); -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2); }
-html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.92); box-shadow: 0 18px 50px rgba(79,101,57,.14), inset 0 1px 0 rgba(255,255,255,.92); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: 24px; }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,.72); border: 1px solid transparent; box-shadow: 0 18px 50px rgba(79,101,57,.14); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: 24px; }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal .modal-aktionen { background: transparent; }
 html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); }
 html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar, html.dark-mode:not(.high-contrast) #app .app-fuss { background: rgba(26,28,31,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
@@ -139,11 +139,11 @@ html:not(.high-contrast) .feld-zeile { border-top: 0; }
 html:not(.high-contrast) .toc { border: 0; background: transparent; padding-left: 0; padding-right: 0; }
 html:not(.high-contrast) .toc-liste a { border-bottom: 0; text-decoration: underline; text-decoration-color: transparent; }
 html:not(.high-contrast) .toc-liste a:hover { text-decoration-color: currentColor; }
-html:not(.high-contrast) :is(.content, .modal) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) {
+html:not(.high-contrast) :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) {
 border: 0; border-bottom: var(--feld-rahmen); border-radius: var(--radius-feld) var(--radius-feld) 0 0; background-color: rgba(79,101,57,.07);
 }
 /* Nachts ist das hinterlegte Feld dunkel; die Grundlage hält Felder nachts hell mit Papier-Tinte. Darum trägt das Feld hier die Nacht-Tinte (vorher 1,12 bis 1,57:1, Ebenen-Finder). */
-html.dark-mode:not(.high-contrast) :is(.content, .modal) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.07); color: var(--ink); }
+html.dark-mode:not(.high-contrast) :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.07); color: var(--ink); }
 html:not(.high-contrast) .doku-panel { border: 0; background: rgba(79,101,57,.05); }
 html.dark-mode:not(.high-contrast) .doku-panel { background: rgba(255,255,255,.05); }
 html:not(.high-contrast) .pause-erlaubnis { border-top: 0; }
@@ -175,12 +175,53 @@ html.dark-mode:not(.high-contrast) .btn-mini { background: rgba(255,255,255,.10)
 html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv { background: var(--salbei-dunkel); color: var(--white); font-weight: var(--fw-semibold); }
 html:not(.dark-mode):not(.high-contrast) .nav-item.aktiv .ico { color: var(--white); }
 html.dark-mode:not(.high-contrast) .nav-item.aktiv { background: rgba(255,255,255,.16); color: var(--white); font-weight: var(--fw-semibold); }
-/* Sub-Depot ohne Balken: Tönung und Kopfzeilen-Unterkante tragen die Farbe. */
+/* Sub-Depot: die ganze Oberfläche im Ton des Depots (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag), ausgenommen die Marke in der
+   Kopfzeile; kein Salbei neben der Depot-Farbe, keine Linie (Fläche statt Linien, 07.10.2026). Nur in einem eingehängten Depot (.vm-akzent,
+   gesetzt vom Kern beim Betreten), nicht im reinen Vollmacht-Modus mit seinem dunklen Akzent. Die Fläche ist der Pastellton, Knopf und
+   aktiver Bereich nehmen seinen dunklen Partner (Mischung mit neutralem Dunkel, nicht dem grünlichen --ink), der Ton selbst ist nie Schriftfarbe. Gerechnet über die acht Töne:
+   Schrift hell ≥ 5,9:1 (Leiste), 7,9:1 (Inhalt), 9,9:1 (Karten); Knopf weiß auf Partner ≥ 6,5:1; Feldkante ≥ 4,5:1; nachts Schrift ≥ 4,9:1,
+   Banner 9,0:1, Feldkante 6,4:1. Die Zweit- und Drittschrift ist dafür im Sub-Depot eine Stufe kräftiger. */
 html:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner { border: 0; }
 html:not(.high-contrast) #app.modus-vollmacht .content-narrow { border-left: 0; padding-left: 0; }
-html:not(.high-contrast) #app.modus-vollmacht .sidebar { border-left-width: var(--akzent-rand); }
-html:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv { background: color-mix(in srgb, var(--akzent) 30%, var(--white)); color: var(--ink); }
-html:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv .ico { color: var(--ink); }
+html:not(.high-contrast) #app.modus-vollmacht .sidebar { border-left: 0; border-right: 0; }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht {
+  --ink2: #26372a; --ink3: #2e3f31;
+  --feld-rahmen: 1px solid color-mix(in srgb, var(--akzent) 40%, #1c1c1c);
+  --sd-partner: color-mix(in srgb, var(--akzent) 30%, #1c1c1c);
+}
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .topbar { background: color-mix(in srgb, var(--akzent) 70%, #f7f9f5); }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .sidebar { background: color-mix(in srgb, var(--akzent) 85%, #f7f9f5); }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content { background: color-mix(in srgb, var(--akzent) 45%, #f7f9f5); }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .app-fuss { background: color-mix(in srgb, var(--akzent) 70%, #f7f9f5); }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content :is(.sektion, .feldgruppen-karte, .karte) { background: color-mix(in srgb, var(--akzent) 18%, #ffffff); }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .vollmacht-banner { background: var(--akzent); color: var(--ink); }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht :is(.content, .modal, .suche-feld) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]), select, textarea) { background-color: rgba(255,255,255,.55); }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv,
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content .btn:not(.btn-sek):not(#vm-zurueck):not(:disabled) { background: var(--sd-partner); color: #ffffff; border-color: transparent; }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv .ico { color: #ffffff; }
+/* Die Marke ist ausgenommen: sie behält ihre eigene helle Fläche, damit die Wortmarke lesbar bleibt (auf der getönten Kopfzeile 3,93:1). */
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .topbar .marke { background: rgba(255,255,255,.78); border-radius: var(--radius-pill); }
+/* Hinweistexte, die im eigenen Depot eine Akzent- oder Zweitfarbe tragen, stehen auf der getönten Fläche in der Schriftfarbe (3,86 bzw. 4,0:1). */
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht :is(.doku-std-badge, .pause-erlaubnis) { color: var(--ink); }
+html.vm-akzent:not(.high-contrast) #app.modus-vollmacht .doku-std-badge { border-color: transparent; }
+/* Abgeschaltete Knöpfe ohne Rand wie die übrigen; der Ton ist nie Schriftfarbe, auch nicht im Hochkontrast (Zweitknopf beim Überfahren 4,46:1). */
+html.vm-akzent:not(.high-contrast) #app.modus-vollmacht .content .btn:disabled { border-color: transparent; }
+html.vm-akzent.high-contrast #app.modus-vollmacht .content .btn-sek { color: var(--ink); }
+html.vm-akzent:not(.high-contrast) #app.modus-vollmacht .content .btn-sek { border-color: transparent; }
+html.vm-akzent:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .content .btn-sek:not(:disabled) { background: rgba(255,255,255,.6); color: var(--ink); }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht {
+  --ink3: #c4ccc4;
+  --feld-rahmen: 1px solid color-mix(in srgb, var(--akzent) 45%, #e9ede7);
+  --sd-hell: color-mix(in srgb, var(--akzent) 70%, #e9ede7);
+}
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .content { background: color-mix(in srgb, var(--akzent) 16%, #1b1f1c); }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht :is(.topbar, .sidebar, .app-fuss) { background: color-mix(in srgb, var(--akzent) 24%, #1b1f1c); }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .content :is(.sektion, .feldgruppen-karte, .karte) { background: color-mix(in srgb, var(--akzent) 10%, #1b1f1c); }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner,
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner #vm-zurueck,
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv,
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .content .btn:not(.btn-sek):not(#vm-zurueck):not(:disabled) { background: var(--sd-hell); color: #162517; border-color: transparent; }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .nav-item.aktiv .ico { color: #162517; }
 
 /* ── Seitenleiste, Ebenen (07.10.2026, Vorschau freigegeben): „Bereiche“ und „Austausch und Überblick“ sind dieselbe Stufe und die
    stärkste; die Gruppen darunter ruhiger. Gegliedert über Abstand, ohne Linien. ── */
@@ -247,3 +288,41 @@ html:not(.dark-mode):not(.high-contrast) .content .btn-mini.liste-weitere:not([h
 html:not(.dark-mode):not(.high-contrast) .feld-liste-editor .liste-eintraege .btn-mini { min-height: 44px; }
 .liste-alle-angaben { min-height: 44px; }
 }
+
+/* ── Fläche statt Linien (Produktentscheidung 07.10.2026, bestätigt 08.10.2026: „Fläche statt Linien“, nicht „Fläche plus Unterkante“):
+   gegliedert wird über Fläche und Abstand; Linien und Rahmen nur für Fokus und Fehler. Kopf, Seitenleiste, Fußzeile, Dialoge und Hinweise
+   ohne Linien; Knöpfe mit sichtbarem Inhalt (Text oder Icon) brauchen keine Grenze (WCAG 2.2 Understanding 1.4.11, „Boundaries“) und tragen
+   eine ruhige Fläche. Hochkontrast bleibt unverändert. Zählprobe: tests/e2e/linien-je-ansicht.spec.js. ── */
+html:not(.high-contrast) .topbar,
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .topbar,
+html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .topbar { border-bottom: 0; }
+html:not(.dark-mode):not(.high-contrast) .topbar .btn, html:not(.dark-mode):not(.high-contrast) .topbar .a11y-btn,
+html:not(.dark-mode):not(.high-contrast) .depot-pille, html:not(.dark-mode):not(.high-contrast) .modus-badge { border-color: transparent; background: rgba(255,255,255,.72); }
+html.dark-mode:not(.high-contrast) .topbar .btn, html.dark-mode:not(.high-contrast) .topbar .a11y-btn,
+html.dark-mode:not(.high-contrast) .depot-pille, html.dark-mode:not(.high-contrast) .modus-badge { border-color: transparent; background: rgba(255,255,255,.10); }
+html:not(.high-contrast) .dp-punkt { border-color: transparent; }
+html:not(.dark-mode):not(.high-contrast) #app:not(.modus-vollmacht) .sidebar, html.dark-mode:not(.high-contrast) #app:not(.modus-vollmacht) .sidebar,
+html.dark-mode #app:not(.modus-vollmacht) #sidebar.sidebar { border-left-color: transparent; border-right-color: transparent; }
+html:not(.high-contrast) #app.modus-vollmacht .sidebar { border-right-color: transparent; }
+html:not(.high-contrast) .nav-item, html:not(.high-contrast) .nav-item.aktiv { border-left-color: transparent; }
+html:not(.high-contrast) #app .app-fuss, html.dark-mode #app:not(.modus-vollmacht) .app-fuss { border-top-color: transparent; }
+html:not(.high-contrast) .content .feld-umschau-eintragen { border-color: transparent; background: rgba(79,101,57,.10); }
+html.dark-mode:not(.high-contrast) .content .feld-umschau-eintragen { background: rgba(255,255,255,.10); }
+html:not(.high-contrast) .deckblatt-platzhalter, html:not(.high-contrast) .deckblatt-foto { border-color: transparent; background: rgba(79,101,57,.10); }
+/* Nachts dunkler statt heller unterlegt: helle Schrift auf weiß getönter Fläche fiel unter 4,5:1 (Kampagne Ebene 4, „Foto“ 4,39:1). */
+html.dark-mode:not(.high-contrast) .deckblatt-platzhalter, html.dark-mode:not(.high-contrast) .deckblatt-foto { background: rgba(0,0,0,.22); }
+html:not(.high-contrast) .btn-sek:not(:disabled) { border-color: transparent; background: rgba(79,101,57,.10); }
+/* Der Passwort-Hinweis steht in der Kopfzeile, auch auf einer Partnerfarbe: er behält seine eigene, deckende Hinweisfläche (durchscheinend fiel er auf Weinrot auf 1,1:1, und der Kern nahm das ganze Erscheinungsbild zurück, Befund FREMDMARKE-FARBE-UEBERDECKT). */
+html:not(.high-contrast) .tb-pw-hinweis { border-color: transparent; }
+/* Anlegen ist freiwillig: kein Warndreieck am Hinweis (Bedingung der Gegenlesung, 09.10.2026); der Text bleibt, die Fläche bleibt. */
+.tb-pw-hinweis .ico { display: none; }
+html.dark-mode:not(.high-contrast) .btn-sek:not(:disabled) { border-color: transparent; background: rgba(255,255,255,.10); }
+html:not(.high-contrast) .hinweis-box, html:not(.high-contrast) .install-empfehlung,
+html:not(.high-contrast) .d37-namensbanner, html:not(.high-contrast) .sprach-luecke { border-color: transparent; }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal, html.dark-mode:not(.high-contrast) #modal-rueck .modal,
+html.dark-mode:not(.high-contrast) .karte { border-color: transparent; }
+/* Sub-Depot: der Rückweg-Knopf im Banner als Fläche statt mit Rahmen; der Farbpunkt neben dem Namen ohne Ring (der Name trägt die Zuordnung). */
+html:not(.dark-mode):not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { border-color: transparent; background: rgba(255,255,255,.6); }
+html.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { border-color: transparent; background: rgba(0,0,0,.2); }
+html.vm-akzent.dark-mode:not(.high-contrast) #app.modus-vollmacht .vollmacht-banner .btn { background: rgba(255,255,255,.6); color: #162517; }
+html:not(.high-contrast) .tb-sub-punkt, html:not(.high-contrast) .modus-punkt { border-color: transparent; }

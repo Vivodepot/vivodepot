@@ -1,0 +1,10 @@
+{
+ "zweck": "Ein Anbieter-Zertifikat, ausgestellt VOR U2-ADR-495 (Issuer-Stand 919ecb4bd): Rechtsform aus der damaligen festen Liste, ohne Rechtsraum. Signiert von einem Wegwerf-Anker; hier steht nur dessen öffentlicher Schlüssel, der private wurde nie gespeichert.",
+ "erzeugtAm": "2026-10-08",
+ "ankerPublicJwk": {
+  "kty": "OKP",
+  "crv": "Ed25519",
+  "x": "lYrs-saWC3DmMyAh-m3DXM5-5qtpDUbYWR4U4VUfaVU"
+ },
+ "certJws": "eyJhbGciOiJFZERTQSIsInR5cCI6InZjK2p3dCJ9.eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvbnMvY3JlZGVudGlhbHMvdjIiLCJodHRwczovL3Zpdm9kZXBvdC5kZS9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiVml2b2RlcG90UHJvdmlkZXJDcmVkZW50aWFsIl0sImlzc3VlciI6ImRpZDp3ZWI6dml2b2RlcG90LmRlIiwiaXNzdWFuY2VEYXRlIjoiMjAyNi0wMS0wMVQwMDowMDowMFoiLCJleHBpcmF0aW9uRGF0ZSI6IjIwOTktMDEtMDFUMDA6MDA6MDBaIiwiY3JlZGVudGlhbFN1YmplY3QiOnsiYW5iaWV0ZXJJZCI6Imluc3RpdHV0aW9uL2FsdC1rdW5kZS1kZSIsImFuYmlldGVyTmFtZSI6IkFsdC1LdW5kZSBHbWJIIiwiYW5iaWV0ZXJUeXAiOiJpbnN0aXR1dGlvbi90ZXN0IiwicHVibGljS2V5SndrIjp7ImtleV9vcHMiOlsidmVyaWZ5Il0sImV4dCI6dHJ1ZSwiYWxnIjoiRWQyNTUxOSIsImNydiI6IkVkMjU1MTkiLCJ4IjoiRUVHTGhaTUo4NWoyLXFraDc5aFkzQ2RzRGp3Y3NXcWJDb2ZZUlN3enVPdyIsImt0eSI6Ik9LUCJ9LCJyZWNodHNmb3JtIjoiR21iSCJ9fQ.fpHvPFTMSru4EPgWpT_bBiNcSEmCxd5e_7C3Bg8nw_HpBX8mjXZcXi5LMFWz3PQ0l9lMkeCpxK_JovMvz66eBg"
+}

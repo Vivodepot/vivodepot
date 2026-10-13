@@ -7,6 +7,8 @@
    2 · Feldgrenze ≥ 3:1 am Bild: die Unterkante jedes Feldes gegen die Fläche direkt darunter, tags und nachts, auf Glas (WCAG 1.4.11).
    3 · Fokusrand der Bereichsüberschrift: bei Mausbedienung keiner, bei Tastaturbedienung sichtbar (WCAG 2.4.7), in Chromium und WebKit.
    4 · Jeder Knopf ohne sichtbaren Text hat einen zugänglichen Namen, in den vier Produkten und der Lese-App (Icons sind ab Werk aus).
+   5 · Außerhalb des Inhalts (bestätigt 08.10.2026): Start, Anlege-Dialog, Kopfleiste, Seitenleiste und Fuß tags und nachts, dazu das
+       geöffnete Sub-Depot, je genau die Zahl im selben Deckel. Bedeutung tragen dort nur Fokus, Fehler und die Warnung im Dialog.
    Jede Messung mit Rot-Beweis. */
 const { test, expect, webkit } = require('@playwright/test');
 const fs = require('node:fs');
@@ -17,6 +19,21 @@ const PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_
 const ANSICHTEN = { privat: ['finance', 'advanceCare', 'people'], pro: ['pro-gesellschaft-nachfolge', 'pro-vertretung-vollmachten', 'pro-kontakte-vertretungsplan'] };
 const DECKEL_PFAD = path.join(__dirname, 'fixtures', 'linien-deckel.json');
 const LESE_APP = 'file://' + path.resolve(__dirname, '../../vivodepot-lesen.html');
+/* Die Feldregel, an EINER Stelle. WCAG 2.2 Understanding 1.4.11: ein Feld ist an einer Unterkante mit 3:1 zu erkennen (Abb. 31) oder,
+   ohne Rand, an einer Fläche mit 3:1 gegen die Umgebung (Abb. 34). `unterkante`: die Unterkante ist die Feldgrenze und zählt nicht als
+   Linie, sie muss 3:1 halten. `flaeche`: kein Rand, die Fläche selbst muss 3:1 halten. `flaeche-mit-beschriftung`: kein Rand, die
+   Fläche muss sich nur abheben, das Feld erkennt man an seiner sichtbaren Beschriftung. */
+const FELDREGELN = {
+  unterkante: { unterkanteIstGrenze: true, mindestKontrast: 3 },
+  flaeche: { unterkanteIstGrenze: false, mindestKontrast: 3 },
+  'flaeche-mit-beschriftung': { unterkanteIstGrenze: false, mindestKontrast: 1.05 },
+};
+const FELDREGEL = FELDREGELN.unterkante;
+/* Im geöffneten Sub-Depot trägt die ganze Oberfläche die Farbe des Depots (Entscheidung 05.10.2026, U2-ADR-236 Nachtrag): keine
+   Linie mehr, auch nicht an der Seitenleiste. Bis 09.10.2026 stand hier die Farblinie der Seitenleiste als einzige erlaubte Linie. */
+const SUB_DEPOT_FARBLINIE = [];
+/* Bedeutung außerhalb von Fokus und Fehler: die Warnung im Anlege-Dialog (ein vergessenes Passwort ist nicht wiederherstellbar). */
+const BEDEUTUNG = '.modal-warnung';
 
 async function oeffnen(page, url) {
   await page.setViewportSize({ width: 1280, height: 860 });
@@ -37,10 +54,14 @@ async function bereich(page, id) {
   await page.waitForTimeout(150);
 }
 
-/* Im Browser: jede sichtbare Randseite im Inhalt, außer Feldunterkante, Fokus und Fehler. */
-function LINIEN() {
+/* Im Browser: jede sichtbare Randseite im Inhalt (oder, mit `ausserhalb`, überall außer im Inhalt), außer Feldgrenze, Fokus, Fehler
+   und Bedeutung. */
+function LINIEN(opt) {
+  const { ausserhalb = false, unterkanteIstGrenze = true, bedeutung = '' } = opt || {};
   const aus = [];
-  for (const el of document.querySelectorAll('#content *')) {
+  for (const el of document.querySelectorAll(ausserhalb ? 'body *' : '#content *')) {
+    if (ausserhalb && el.closest('#content')) continue;
+    if (bedeutung && el.closest(bedeutung)) continue;
     const r = el.getBoundingClientRect();
     if (!r.width || !r.height || el.closest('[hidden]') || !el.checkVisibility({ visibilityProperty: true, contentVisibilityAuto: true })) continue;
     const cs = getComputedStyle(el);
@@ -51,7 +72,7 @@ function LINIEN() {
       if (!w || st === 'none' || st === 'hidden') continue;
       const m = col.match(/[\d.]+/g) || []; const alpha = m.length >= 4 ? Number(m[3]) : (col === 'transparent' ? 0 : 1);
       if (!alpha) continue;
-      if (feld && seite === 'Bottom') continue;
+      if (feld && seite === 'Bottom' && unterkanteIstGrenze) continue;
       aus.push(el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/)[0] : '') + ':' + seite);
     }
   }
@@ -99,7 +120,7 @@ test.describe('Fläche statt Linien', () => {
       let felderGesamt = 0;
       for (const id of ANSICHTEN[slug.startsWith('pro') ? 'pro' : 'privat']) {
         await bereich(page, id);
-        const linien = await page.evaluate(LINIEN);
+        const linien = await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze });
         gemessen[slug + '/' + id] = linien.length;
         if (process.env.LINIEN_LISTE) fs.appendFileSync(process.env.LINIEN_LISTE, slug + '/' + id + '\t' + linien.join(', ') + '\n');
         if (!process.env.LINIEN_DECKEL_MESSEN) expect(linien.length, slug + '/' + id + ': ' + linien.join(', ')).toBe(deckel[slug + '/' + id]);
@@ -108,7 +129,7 @@ test.describe('Fläche statt Linien', () => {
           await page.waitForTimeout(250);
           const k = await feldgrenzen(page);
           felderGesamt += k.length;
-          expect(Math.min(...k.map((x) => x.k)), slug + '/' + id + ' ' + modus + ': Feldgrenze ' + k.filter((x) => x.k < 3).map((x) => x.name + ' ' + x.k).join(', ')).toBeGreaterThanOrEqual(3);
+          expect(Math.min(...k.map((x) => x.k)), slug + '/' + id + ' ' + modus + ': Feldgrenze ' + k.filter((x) => x.k < FELDREGEL.mindestKontrast).map((x) => x.name + ' ' + x.k).join(', ')).toBeGreaterThanOrEqual(FELDREGEL.mindestKontrast);
           if (modus === 'nacht') await page.evaluate(() => document.getElementById('tb-nacht').click());
         }
       }
@@ -128,6 +149,118 @@ test.describe('Fläche statt Linien', () => {
     await page.waitForTimeout(150);
     expect((await page.evaluate(LINIEN)).length, 'die Linie über dem Abschnitt wird gezählt').toBeGreaterThan(vorher);
     expect(Math.min(...(await feldgrenzen(page)).map((x) => x.k)), 'eine blasse Unterkante fällt unter 3:1').toBeLessThan(3);
+  });
+
+  /* 5 · Außerhalb des Inhalts. Gezählt wird, was die Bürgerin sieht, bevor und während sie im Inhalt arbeitet. */
+  const ausserhalb = (page) => page.evaluate(LINIEN, { ausserhalb: true, unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG });
+  const nacht = (page) => page.evaluate(() => document.getElementById('tb-nacht').click()).then(() => page.waitForTimeout(250));
+  const pruefe = (schluessel, linien) => {
+    gemessen[schluessel] = linien.length;
+    if (process.env.LINIEN_LISTE) fs.appendFileSync(process.env.LINIEN_LISTE, schluessel + '\t' + linien.join(', ') + '\n');
+    if (!process.env.LINIEN_DECKEL_MESSEN) expect(linien.length, schluessel + ': ' + linien.join(', ')).toBe(deckel[schluessel]);
+  };
+  const messenSchreiben = () => {
+    if (!process.env.LINIEN_DECKEL_MESSEN) return;
+    const alt = fs.existsSync(DECKEL_PFAD) ? JSON.parse(fs.readFileSync(DECKEL_PFAD, 'utf8')) : {};
+    fs.writeFileSync(DECKEL_PFAD, JSON.stringify(Object.assign(alt, gemessen), Object.keys(Object.assign(alt, gemessen)).sort(), 1) + '\n');
+  };
+
+  for (const [slug, url] of PRODUKTE) {
+    test(`[Linien·Rahmen] ${slug}: Start, Anlege-Dialog, Kopfleiste, Seitenleiste und Fuß tags und nachts genau im Deckel`, async ({ page }) => {
+      test.setTimeout(120000);
+      await page.setViewportSize({ width: 1280, height: 860 });
+      await h.oeffneApp(page, { url });
+      pruefe(slug + '/start', await ausserhalb(page));
+      await page.click('#w-anfangen');
+      await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
+      await page.click('#tb-pw-hinweis');
+      await page.waitForSelector('#id-pw', { state: 'visible' });
+      pruefe(slug + '/anlegen-dialog', await ausserhalb(page));
+      messenSchreiben();
+    });
+
+    test(`[Linien·Rahmen·Depot] ${slug}: Kopfleiste, Seitenleiste und Fuß im angelegten Depot tags und nachts genau im Deckel`, async ({ page }) => {
+      test.setTimeout(120000);
+      await oeffnen(page, url);
+      await bereich(page, ANSICHTEN[slug.startsWith('pro') ? 'pro' : 'privat'][0]);
+      pruefe(slug + '/rahmen-tag', await ausserhalb(page));
+      await nacht(page);
+      pruefe(slug + '/rahmen-nacht', await ausserhalb(page));
+      messenSchreiben();
+    });
+  }
+
+  async function subDepotBetreten(page, akzent) {
+    const pw = 'linien-sub-depot-482';
+    await page.click('#tb-depot-pille');
+    await page.waitForSelector('#tb-depot-menue-verwaltung', { state: 'visible' });
+    await page.click('#tb-depot-menue-verwaltung');
+    await page.waitForSelector('#sub-neu', { state: 'visible' });
+    await page.click('#sub-neu');
+    await page.waitForSelector('#id-vorname', { state: 'visible' });
+    await page.fill('#id-vorname', 'Ida Beispiel');
+    await page.click(`.farb-kreis[data-akzent="${akzent}"]`);
+    await page.fill('#id-pw', pw);
+    await page.fill('#id-pw2', pw);
+    await page.click('#m-ok');
+    await page.waitForSelector('#id-vorname', { state: 'detached' });
+    const uuid = await page.evaluate(() => window.__vdOeffentlich.ankerDaten().verwalteteDepots.slice(-1)[0].depotUUID);
+    await page.click(`[data-entsiegeln="${uuid}"]`);
+    await page.waitForSelector('#sub-auf', { state: 'visible' });
+    await page.fill('#sub-auf', pw);
+    await page.click('#m-ok');
+    await page.waitForSelector('#sub-auf', { state: 'detached' });
+    await page.click(`[data-betreten="${uuid}"]`);
+    await page.waitForSelector('#app.modus-vollmacht', { state: 'attached' });
+    for (let i = 0; i < 6; i++) {
+      if (!(await page.locator('#modal-rueck.an').count())) break;
+      await page.locator('#modal-rueck.an').locator('#m-abbr, #m-zweit, #m-ok').first().click().catch(() => {});
+      await page.waitForTimeout(250);
+    }
+  }
+
+  const SUB_PRODUKTE = PRODUKTE.filter(([s]) => s.endsWith('-de'));
+  for (const [slug, url] of SUB_PRODUKTE) {
+    test(`[Linien·Sub-Depot] ${slug}: das geöffnete Sub-Depot trägt seine Farbe als Fläche, ohne Balken und Rand, tags und nachts genau im Deckel`, async ({ page }) => {
+      test.setTimeout(120000);
+      await oeffnen(page, url);
+      await subDepotBetreten(page, 'malve');
+      const ansicht = ANSICHTEN[slug.startsWith('pro') ? 'pro' : 'privat'][0];
+      await bereich(page, ansicht);
+      for (const modus of ['tag', 'nacht']) {
+        if (modus === 'nacht') await nacht(page);
+        const innen = await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG });
+        const alle = innen.concat(await ausserhalb(page));
+        pruefe(slug + '/sub-depot-' + modus, alle);
+        if (!process.env.LINIEN_DECKEL_MESSEN) expect(alle, slug + '/sub-depot-' + modus + ': genau die Farblinie der Seitenleiste').toEqual(SUB_DEPOT_FARBLINIE);
+      }
+      messenSchreiben();
+    });
+  }
+
+  test('[Linien·Rahmen·Rot-Beweis] eine Linie unter der Kopfleiste, ein Rand an der Seitenleiste und ein Balken am Sub-Depot-Banner werden gezählt', async ({ page }) => {
+    await oeffnen(page, h.KERN_URL_PRIVAT_DE);
+    await subDepotBetreten(page, 'malve');
+    const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
+    const vorher = await alle();
+    // Die Form vor dem 08.10.2026: Kopfleiste mit Unterkante, Seitenleiste mit Rand, Sub-Depot mit farbigem Balken.
+    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('.topbar { border-bottom: 1px solid #ccd5c4 !important; } #sidebar { border-right: 1px solid #ccd5c4 !important; } .vollmacht-banner { border-left: 4px solid #B8AECB !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
+    await page.waitForTimeout(150);
+    const nachher = await alle();
+    for (const teil of ['topbar', 'sidebar', 'vollmacht-banner']) {
+      expect(nachher.filter((l) => l.includes(teil)).length, teil + ' wird gezählt').toBeGreaterThan(vorher.filter((l) => l.includes(teil)).length);
+    }
+  });
+
+  test('[Linien·Sub-Depot·Rot-Beweis] eine Linie im Sub-Depot fällt auf, auch die frühere Farblinie der Seitenleiste', async ({ page }) => {
+    await oeffnen(page, h.KERN_URL_PRIVAT_DE);
+    await subDepotBetreten(page, 'malve');
+    const alle = async () => (await page.evaluate(LINIEN, { unterkanteIstGrenze: FELDREGEL.unterkanteIstGrenze, bedeutung: BEDEUTUNG })).concat(await ausserhalb(page));
+    expect(await alle(), 'Voraussetzung: keine Linie').toEqual(SUB_DEPOT_FARBLINIE);
+    // Die Form bis 09.10.2026: die Farbe des Sub-Depots als Linie an der Seitenleiste.
+    await page.evaluate(() => { const s = new CSSStyleSheet(); s.replaceSync('#sidebar { border-left: 8px solid #7b7076 !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; });
+    await page.waitForTimeout(150);
+    expect(await alle(), 'die Linie der Seitenleiste wird erkannt').toContain('nav.sidebar:Left');
   });
 
   /* Fokus über die Umschau: dort gibt es keine Dialogkette nach dem Anlegen, und die Navigation der offenen Gruppe ist sichtbar. */

@@ -87,7 +87,7 @@ async function liveHashLesen(basis) {
   }
 }
 
-/* KENNUNGS-ADRESSEN (U2-ADR-NNN, 06.10.2026). Die Prüfsumme deckt feldregister.json — samt Lizenz —, nicht die Seiten
+/* KENNUNGS-ADRESSEN (U2-ADR-490, 06.10.2026). Die Prüfsumme deckt feldregister.json — samt Lizenz —, nicht die Seiten
    unter feld/. Darum im --live-Lauf eine Stichprobe: die erste Kennung, das erste Unterfeld, die letzte. Jede muss unter
    ihrer Adresse (ohne und mit Schrägstrich, Weiterleitungen gefolgt) mit 200 antworten und ihre Kennung zeigen; ihr
    JSON-LD unter feld/<kennung>/index.jsonld muss die Adresse als @id tragen. Die Aushandlung per Accept ist kein
@@ -108,6 +108,8 @@ function stichprobeAuswerten(kennung, antworten) {
   if (!antworten.jsonld || antworten.jsonld.status !== 200 || id !== ADRESS_BASIS + kennung) fehler.push('index.jsonld: @id ' + id);
   let aushandlung = false;
   try { aushandlung = JSON.parse(antworten.accept.text)['@id'] === ADRESS_BASIS + kennung; } catch { aushandlung = false; }
+  /* HTML statt JSON-LD ist erlaubt (ohne mod_rewrite), ein Fehler nicht: am Register v922 kam mit Accept 404. */
+  if (!antworten.accept || antworten.accept.status !== 200) fehler.push('Accept: application/ld+json: HTTP ' + (antworten.accept ? antworten.accept.status : 'kein Abruf'));
   return { kennung, gruen: fehler.length === 0, fehler, aushandlung };
 }
 

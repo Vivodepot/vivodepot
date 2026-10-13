@@ -1,7 +1,7 @@
 # U2-ADR-047 — SHL-Provider (Offline-Teil): JWE-Erzeugung + shlink:/-Payload aus dem autoritativen Original
 
 **Datum:** 04.07.2026
-**Status:** **Angenommen** (02.08.2026 offiziell angenommen) · vorher Entwurf · 04.07.2026 (Offline-Teil gebaut, Suite/Gates grün; Annahme + Krypto-Review = Produktentscheidung). Der Ablage-/Upload-Schritt bleibt bewusst offen.
+**Status:** **Angenommen** (02.08.2026 offiziell angenommen) · vorher Entwurf · 04.07.2026 (Offline-Teil gebaut, Suite/Gates grün; Annahme + Krypto-Review = Produktentscheidung). Der Ablage-/Upload-Schritt bleibt bewusst offen. Nachtrag 09.10.2026 (Ablage-Adresse geprüft).
 **Nummer:** U2-ADR-047 (verifiziert: höchste belegte in `docs/adr/` ist U2-ADR-046).
 **Typ:** Interoperabilität/Krypto — SMART Health Links Provider (Erzeugung), Offline-Grenze.
 **Bezug:** U2-ADR-045 (autoritative Original-Ablage — die Quelle des Klartexts) · U2-ADR-044 (SHL/xShare Scope, post-RC) · U2-ADR-042 (Lab-Modul) · JWS-Block (`d0541ea7…`, base64url-Helfer, read-only genutzt) · VdCrypto-Block (`8d31c678…`, NICHT berührt). Spec: SMART Health Links (VCI / hl7.org SMART Health Cards & Links, `links-specification.html`) · xShare-basiertes One-Time-Share (externer Vertragspartner). Spec-Recherche 04.07.
@@ -89,6 +89,31 @@ Der Text oben bleibt stehen, wie er am 04.07. und 12.07. galt. Drei seiner Aussa
    einen fremden `shlink:/` auf, für beide Wege (Nachtrag in U2-ADR-183). Die Einlese-Tür des Kerns
    verweist auf sie (`flowEinlesenZentral`).
 
+## Nachtrag (09.10.2026) — die Ablage-Adresse im Teil-Link wird geprüft, der Host vor dem Link bestätigt
+
+Der Text oben bleibt stehen. Er beschreibt für die Adresse der Ablage nur die Länge (`url` ≤ 128 Zeichen). Das reichte nicht.
+
+**Anlass.** Befund SHL-ABLAGE-URL-UNGEPRUEFT (07.10.2026, MITTEL). `shlUriBauen` prüfte die Adresse der Ablage nur auf ihre Länge, die Abholseite (`share/empfangen.js`) die Adresse aus dem Link und die `location` aus dem Manifest nur auf den Anfang `https://`. Durch gingen Adressen mit anderem Anfang (`http:`, `javascript:`, `data:`), mit Zugangsdaten (`https://name:pw@host`) und mit Leer- und Steuerzeichen. Die Person sah den Host nicht, bevor der Link entstand. Der Inhalt der Datei blieb dabei verschlüsselt; der Link kann aber auf eine Adresse zeigen, die die Person nicht meinte. Der Mangel gilt für alle Fassungen mit dem Freigabe-Link (Stand vor dem Fix: `git show 0e6607309:vivodepot.html`, `shlUriBauen`, nur Längenprüfung).
+
+**Entscheidung.**
+
+1. **Ein Block entscheidet, an beiden Stellen.** `shlAblageUrlPruefen` (Kommentarrahmen `SHL-ABLAGE-URL-BLOCK … ENDE SHL-ABLAGE-URL-BLOCK`) steht zeichengleich in `vivodepot.html` und in `share/empfangen.js`. Er lässt eine Adresse nur durch, wenn sie
+   - mit `new URL()` als `https:` gelesen wird,
+   - keine Zugangsdaten trägt,
+   - keinen Host-Teil auslässt,
+   - kein Leer-, Steuer- oder Unicode-Leerzeichen enthält, auch nicht prozentkodiert (`%00`–`%1f`, `%20`, `%7f`),
+   - keinen Backslash enthält (prozentkodiert als `%5c` wird er nicht geprüft),
+   - und der Parser nichts still entfernt oder umdeutet: die gelesene Adresse muss der Originaleingabe entsprechen.
+   Jede abgewiesene Adresse bekommt einen Grund (`leer`, `laenge`, `zeichen`, `form`, `kein-https`, `zugangsdaten`).
+2. **Die 128 Zeichen gelten für die `url` im Link, beim Erzeugen und beim Lesen.** Das ist die Grenze der Spezifikation für die `url` im `shlink:/` (siehe oben). Nur die `location` im Manifest hat keine solche Grenze und wird mit `{ ohneLaenge: true }` geprüft.
+3. **Erzeugen.** `shlUriBauen` wirft bei jeder abgewiesenen Adresse; der Dialog zeigt den neu gefassten Text `shlUrlFehler`.
+4. **Der Host steht vor dem Link da.** Vor dem Bauen zeigt der Dialog „Die Datei liegt bei: {host}. Ist das die Ablage, auf die Sie die Datei hochgeladen haben?“ (`shlHostBestaetigen`). Erst nach „Ja, Freigabe-Link erzeugen“ (`shlHostKnopf`) entsteht der Link. Weicht der Host von der Ablage in `MARKEN_ADRESSEN.shlAblage` ab (U2-ADR-183: `share.vivodepot.de`), steht ein Hinweis dabei (`shlHostFremd`: „Das ist nicht die voreingestellte Ablage. Erzeugen Sie den Link nur, wenn Sie die Datei selbst dort abgelegt haben.“). Der Hinweis nennt keine Marke, damit ein Partnerprodukt ihn ohne Vivodepot zeigt. Die Anzeige setzt den Host mit `textContent`, nicht mit `innerHTML`.
+5. **Abholseite.** `share/empfangen.js` prüft die `url` des Links und die `location` des Manifests über denselben Block. Die frühere Prüfung nur auf den Anfang `https://` entfällt.
+
+**Was dieser Nachtrag nicht ändert.** Er sagt nichts darüber, welcher Host gut ist. Eine Person darf eine andere Ablage als `share.vivodepot.de` verwenden; sie sieht dann den Host und den Hinweis. Offline-Invariante (`connect-src 'none'`), JWE-Form und Schlüssel im Link bleiben wie oben. U2-ADR-183 bleibt unberührt (es sagt nichts zum Adress-Schema).
+
+**Vorbeugung.** Die Befund-Ratsche führt den Befund als geschlossen; ausgeliefert ist der Fix ab v923. Als Abnahme der Vorbeugung ist eine Klassenprobe benannt: Jede Stelle in Kern und Abholseite, die eine Adresse aus einem Link oder Manifest übernimmt und aufruft, geht durch den Block oder steht mit Grund in einer Liste, die nur sinken darf. Diese Klassenprobe ist offen und noch nicht gebaut; die Belege unten decken Kern und Abholseite einzeln.
+
 ## Konformität
 
 ```konformitaet
@@ -110,3 +135,39 @@ quelle:    invariante
 ```
 
 *Zweite Bindung nachgetragen 26.09.2026 (Korrektur oben, Punkt 1).*
+
+*Bindungen nachgetragen 10.10.2026 (Nachtrag 09.10.2026, Befund SHL-ABLAGE-URL-UNGEPRUEFT).*
+
+```konformitaet
+aussage:   Der Block für die Ablage-Adresse steht in Kern und Abholseite zeichengleich, und beide entscheiden
+           bei jeder Adresse gleich.
+zustand:   geprüft
+herkunft:  U2-ADR-047-Nachtrag (09.10.2026), Befund SHL-ABLAGE-URL-UNGEPRUEFT
+pruefung:  tests/shl-ablage-url-pruefen.test.js#[SHL-Adresse·Spiegel] der Block steht im Kern und in der Abholseite zeichengleich, und beide entscheiden gleich
+```
+
+```konformitaet
+aussage:   Gute Adressen gehen mit Host durch; jede böse Form (anderes Schema, Zugangsdaten, Leer- und
+           Steuerzeichen) fällt mit ihrem Grund und ging durch die frühere Prüfung (nur Länge bzw. Anfang).
+zustand:   geprüft
+herkunft:  U2-ADR-047-Nachtrag (09.10.2026), Befund SHL-ABLAGE-URL-UNGEPRUEFT
+pruefung:  tests/shl-ablage-url-pruefen.test.js#[SHL-Adresse] gute Adressen gehen durch, mit Host; jede böse Form fällt mit ihrem Grund
+pruefung:  tests/shl-ablage-url-pruefen.test.js#[SHL-Adresse·Rot] jede böse Form ging durch die alte Prüfung — Erzeugen: nur Länge, Lesen: nur Präfix
+```
+
+```konformitaet
+aussage:   shlUriBauen wirft bei jeder bösen Form, und die Abholseite prüft Link-Adresse und Manifest-location
+           über den Block, nicht mehr über eine Präfix-Regel.
+zustand:   geprüft
+herkunft:  U2-ADR-047-Nachtrag (09.10.2026)
+pruefung:  tests/shl-ablage-url-pruefen.test.js#[SHL-Adresse·Erzeugen] shlUriBauen wirft bei jeder bösen Form und baut den Link bei einer guten
+pruefung:  tests/shl-ablage-url-pruefen.test.js#[SHL-Adresse·Lesen] die Abholseite prüft url und location über den Block, keine Präfix-Regex mehr
+```
+
+```konformitaet
+aussage:   Der Host steht sichtbar da, bevor der Link entsteht; ein anderer Host als die voreingestellte Ablage
+           bekommt einen Hinweis.
+zustand:   geprüft
+herkunft:  U2-ADR-047-Nachtrag (09.10.2026)
+pruefung:  tests/shl-ablage-url-pruefen.test.js#[SHL-Adresse·Oberfläche] der Host steht sichtbar da, bevor der Link entsteht; ein fremder Host bekommt einen Hinweis
+```

@@ -80,16 +80,14 @@ Lizenz und Verfügbarkeit sind zwei Fragen. Unter EUPL-1.2 steht alles, was zum 
 - Der Nachweis-Aussteller (VC-Issuer): im öffentlichen Repository
 - Das Schlüssel-Teilen: im öffentlichen Repository
 - Der Konfektionierer: im öffentlichen Repository
-- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (2 von 11 zurückgehalten)
+- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (3 von 12 zurückgehalten)
 - Die Modul- und Vorlagen-Erzeuger: im öffentlichen Repository
 <!-- VERFUEGBARKEIT:END de -->
 
 ## Warum keine Lizenzschwelle
 
 Eine Bürger-Datensouveränitäts-Plattform muss frei sein, weil Souveränität nicht hinter einer
-Bezahlschranke leben kann. Die wirtschaftliche Tragfähigkeit von Vivodepot hängt nicht an einer
-Lizenzschwelle, sondern an Zertifikat, Marke und dem signierten Jahresbündel — Angeboten, die
-eine Institution freiwillig bezieht, nicht an eine Nutzungsgrenze der Software selbst.
+Bezahlschranke leben kann.
 
 **Eine Zusage, die wir geben:** Wir versprechen, dass Vivodepot nie restriktiver wird. Es kann
 nur freier werden.
@@ -183,7 +181,7 @@ Licence and availability are two questions. Everything in the open project is un
 - The credential issuer (VC issuer): in the public repository
 - Key sharing: in the public repository
 - The product assembler: in the public repository
-- The signing and certificate tools: partly in the public repository (2 of 11 held back)
+- The signing and certificate tools: partly in the public repository (3 of 12 held back)
 - The module and template builders: in the public repository
 <!-- VERFUEGBARKEIT:END en -->
 

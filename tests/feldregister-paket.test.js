@@ -1,5 +1,5 @@
 'use strict';
-/* Proben zu U2-ADR-NNN, npm-Paket @vivodepot/feldregister. Gebaut, nie veröffentlicht: kein `npm publish`, kein Token,
+/* Proben zu U2-ADR-490, npm-Paket @vivodepot/feldregister. Gebaut, nie veröffentlicht: kein `npm publish`, kein Token,
    keine Anmeldung in diesen Proben. `npm pack --dry-run` liest nur den Ordner. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');

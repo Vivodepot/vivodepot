@@ -138,7 +138,7 @@ async function kernMitFruehererFassung(variante) {
   const fp = await K0._modulRezeptFingerabdruck(kopie(modul));
   const region = 'const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([\n';
   assert.equal(KERN_HTML.split(region).length, 2, 'Vorbedingung: die Region steht genau einmal');
-  let html = KERN_HTML.replace(region, region + '  "' + fp + '",\n');
+  let html = KERN_HTML.replace(region, region + '  "sha256:' + fp + '",\n');   // Form der Region seit der Hash-Kennung (U2-ADR-486 Punkt 7)
   if (variante) html = variante(html);
   const p = path.join(_wegwerfDir('frueher-'), 'vivodepot.html');
   fs.writeFileSync(p, html);
@@ -155,7 +155,7 @@ test('[Frühere Fassung·Kern·Befund] ein Sprachmodul einer früheren Fassung i
   assert.equal(V._depotModulGesperrt('textsatzModule', m), false, 'keine Sperre, keine Warnung');
 });
 test('[Frühere Fassung·Kern·Befund·Rot-Beweis] ohne die frühere Fassung wäre es gesperrt', async () => {
-  const a = '      else if (ABWERK_FRUEHERE_FASSUNGEN_KERN.has(fp)) {\n        _ABWERK_FRUEHER.add(m);\n        _ABWERK_FRUEHER_SCHUTZ.set(m, ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN.get(fp) || []);\n      }\n';
+  const a = '      else if (_fingerabdruckBekannt(ABWERK_FRUEHERE_FASSUNGEN_KERN, fp)) {\n        _ABWERK_FRUEHER.add(m);\n        _ABWERK_FRUEHER_SCHUTZ.set(m, _fingerabdruckZurueckgezogen(ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN, fp));\n      }\n';
   assert.equal(KERN_HTML.split(a).length, 2, 'Vorbedingung');
   const { V, m } = await kernMitFruehererFassung((h) => h.replace(a, ''));
   assert.equal(V._depotModulGesperrt('textsatzModule', m), true, 'der alte Stand sperrt die echte frühere Datei — genau das fängt die Probe oben');

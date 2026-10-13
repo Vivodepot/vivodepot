@@ -39,8 +39,9 @@ const os = require('node:os');
 
 // S8 (U2-ADR-428): das rohe Gerüst trägt keinen deutschen Satz mehr — auf ihm rendert der Eingangsschirm kein `#w-anfangen`, und die Messung liefe ins Leere.
 // Gemessen wird darum am konfektionierten deutschen Produkt (dasselbe Depot-Einrichten wie zuvor, nur am Produkt statt am Gerüst).
-const { produktHtml } = require('../produkt-html-erzeugen.js');
-const HTML_PATH = produktHtml('privat-de');
+// Die Probe öffnet jeden Bereich über window.__vdOeffentlich: sie misst an der Testfassung (U2-ADR-494).
+const { produktHtmlTestfassung } = require('../produkt-html-erzeugen.js');
+const HTML_PATH = produktHtmlTestfassung('privat-de');
 const HTML = fs.readFileSync(HTML_PATH, 'utf8');
 const AXE = require.resolve('axe-core');
 const SEKTOREN = ['identitaet', 'gesundheit', 'finanzen', 'wohnen', 'mobilitaet',

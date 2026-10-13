@@ -1,4 +1,8 @@
 'use strict';
+/* Hinweis (11.10.2026, Befund MITSCHRIFT-AB-WERK-NACH-POSITION): Diese Datei hält Rangfolge, Reihenfolge und Sicherheitsgrenze der Saat an
+   Bereichsdefinitionen, die für die Probe ausdrücklich ALS ERKANNT GESTELLT sind (mitschriftAlsAusgeliefert, tests/helfer). Ob eine
+   Definition erkannt wird und dass eine erfundene, nicht gestellte verworfen wird, hält tests/mitschrift-bereich-nach-inhalt.test.js
+   über den echten Weg. */
 /* ════════════════════════════════════════════════════════════════════════════
    Zug 0 — die Unterscheidbarkeit herstellen (Auftrag, 09.09.2026)
    ────────────────────────────────────────────────────────────────────────────
@@ -22,6 +26,7 @@
    folgenlos. Er stellt nur her, dass der Unterschied überhaupt sichtbar WERDEN kann.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, describe } = require('node:test');
+const { mitschriftAlsAusgeliefert } = require('../helfer/mitschrift-als-ausgeliefert.js');   // Proben mit erfundenem Bereich: s. dort
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -149,6 +154,7 @@ describe('[Zug 0·Unterscheidbarkeit] V.SEKTOREN und bereicheAlle() fallen ausei
       bereiche: { 'fremd-mitgebracht': { label: 'Aus der Datei', icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'f_a', label: 'A', typ: 'text' }] }] } },
     }] };
+    mitschriftAlsAusgeliefert(V, d);
     const saat = V._bereichModulAbWerkSeed(d).map((b) => b.id);
     assert.ok(saat.includes('fremd-mitgebracht'), 'die Mitschrift wird gesät');
     assert.ok(!V.SEKTOREN.some((b) => b.id === 'fremd-mitgebracht'),
@@ -203,6 +209,7 @@ describe('[Zug 0·Vereinigung] die Datei bringt alles mit, auch wenn das Produkt
     const { V } = ladeKernAusText(mitFixture(quelle()));
     const d = V.leeresDepot();
     d.abWerkMitschrift = { bereich: [MITSCHRIFT_FREMD] };
+    mitschriftAlsAusgeliefert(V, d);
     const ids = V._bereichModulAbWerkSeed(d).map((b) => b.id);
     assert.ok(ids.includes('zug0-probebereich'), 'die Produkt-Quelle muss weiter gesät werden');
     assert.ok(ids.includes('fremd-mitgebracht'),
@@ -218,6 +225,7 @@ describe('[Zug 0·Vereinigung] die Datei bringt alles mit, auch wenn das Produkt
       bereiche: { 'zug0-probebereich': { label: 'FALSCH, AUS DER MITSCHRIFT', icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'f_a', label: 'A', typ: 'text' }] }] } },
     })] };
+    mitschriftAlsAusgeliefert(V, d);
     const treffer = V._bereichModulAbWerkSeed(d).find((b) => b.id === 'zug0-probebereich');
     assert.equal(treffer.label, 'Zug-0-Probebereich',
       'die lebendige Produkt-Quelle muss gewinnen — sonst überschriebe eine Depot-Datei die '
@@ -234,6 +242,7 @@ describe('[Zug 0·Vereinigung] die Datei bringt alles mit, auch wenn das Produkt
       bereiche: { 'fremd-ohne-label': { icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'f_b', label: 'B', typ: 'text' }] }] } },
     }] };
+    mitschriftAlsAusgeliefert(V, d);
     const ids = V._bereichModulAbWerkSeed(d).map((b) => b.id);
     assert.ok(!ids.includes('fremd-ohne-label'),
       'ROT ERWARTET: ein Mitschrift-Eintrag ohne Label darf nicht durchkommen — täte er es, '
@@ -253,6 +262,7 @@ describe('[Zug 0·Vereinigung] die Datei bringt alles mit, auch wenn das Produkt
       bereiche: { 'zug0-probebereich': { label: 'Kaperung', icon: 'folder',
         sektionen: [{ id: 's', label: 'S', felder: [{ id: 'f_a', label: 'A', typ: 'text' }] }] } },
     })] };
+    mitschriftAlsAusgeliefert(V, d);
     V._bereichModulAbWerkSeed(d);
     assert.ok(V.BEREICHS_MODUL_VERWORFEN.some(
       (v) => v.id === 'zug0-probebereich' && (v.grund === 'doppelt-ab-werk' || v.grund === 'reserviert')),

@@ -87,9 +87,27 @@ function gebackeneProdukteSicherstellen() {
   if (veraltet) gebackeneProdukteSchreiben();
 }
 
+/* LAUFVERZEICHNIS (10.10.2026, Befund TEMP-RESTE-WIEDER): die Konfiguration setzt beim Laden ein eigenes TMPDIR
+   (tools/lib/test-lauf.js, playwrightLaufBeginnen), das ihr globalTeardown (global-teardown.js) räumt — die gebackenen
+   Dateien landen darin und verschwinden mit dem Lauf. Hier erst anzulegen ginge nicht: die Pfade oben stehen seit dem
+   Laden dieser Datei fest, ein späteres TMPDIR sähen nur die Worker. Fehlt es, hat eine Konfiguration den Helfer nicht
+   geladen — das ist ein Fehler der Konfiguration, kein Grund, still in das gemeinsame tmpdir zu backen. */
+function laufVerzeichnisVerlangen(env = process.env) {
+  const { UMGEBUNG_LAUF } = require(path.join(REPO, 'tools', 'lib', 'test-lauf.js'));
+  const dir = env[UMGEBUNG_LAUF];
+  if (!dir || !fs.existsSync(dir) || path.resolve(os.tmpdir()) !== path.resolve(dir)) {
+    throw new Error('[global-setup] kein eigenes Laufverzeichnis: die Playwright-Konfiguration ruft '
+      + "require('./tools/lib/test-lauf.js').playwrightLaufBeginnen() nicht beim Laden (Befund TEMP-RESTE-WIEDER).");
+  }
+  return dir;
+}
+
 module.exports = async function globalSetup() {
+  laufVerzeichnisVerlangen();
   gebackeneProdukteSchreiben();
 };
+
+module.exports.laufVerzeichnisVerlangen = laufVerzeichnisVerlangen;
 
 module.exports.gebackeneProdukteSicherstellen = gebackeneProdukteSicherstellen;
 module.exports.GEBACKENE_PRODUKT_PFADE = GEBACKENE_PRODUKT_PFADE;

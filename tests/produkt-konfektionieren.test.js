@@ -187,14 +187,18 @@ test('[Produkt-Konfektionieren] konfektionieren() legt NUR vivodepot.html ab, Vo
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });
 
-test('[Produkt-Konfektionieren] die Kopie ist byte-identisch zur Quelle AUSSERHALB der Ab-Werk-Regionen und der Entwicklerleiste', () => {
+test('[Produkt-Konfektionieren] die Kopie ist byte-identisch zur Quelle AUSSERHALB der Ab-Werk-Regionen, der Entwicklerleiste, der Test-Fläche und des Nachlade-Zweigs', () => {
   const ziel = tmpOrdner('produkt-konfektionieren-ziel');
   try {
     const r = konfektionieren({
       ziel, slug: 'privat-de', modulauswahl: [],
       vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
     });
-    const quelle = _ohneAbWerkNutzlast(_entwicklerleisteSchneiden(wurzelKopfzeileZuruecksetzen(fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8')), 'vivodepot.html'), 'vivodepot.html');
+    // U2-ADR-494: der Backschritt schneidet zusätzlich die Test-Fläche und den Nachlade-Zweig der Vor-Depot-Konfiguration.
+    const P494 = require('../tools/lib/produkt-text-erzeugen.js');
+    const ohneSchnitte = P494._kernTestflaecheSchneiden(_entwicklerleisteSchneiden(wurzelKopfzeileZuruecksetzen(fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8')), 'vivodepot.html'), 'vivodepot.html');
+    const [nlA, nlE] = P494.VOR_DEPOT_NACHLADEN_MARKEN;
+    const quelle = _ohneAbWerkNutzlast(ohneSchnitte.slice(0, ohneSchnitte.indexOf(nlA)) + ohneSchnitte.slice(ohneSchnitte.indexOf(nlE) + nlE.length + 1), 'vivodepot.html');
     const kopie = _ohneAbWerkNutzlast(fs.readFileSync(path.join(r.ordner, 'vivodepot.html'), 'utf8'), 'vivodepot.html');
     assert.equal(kopie, quelle, 'Gerüst-Kopie weicht AUSSERHALB der Marker-Regionen vom Quell-vivodepot.html ab');
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }

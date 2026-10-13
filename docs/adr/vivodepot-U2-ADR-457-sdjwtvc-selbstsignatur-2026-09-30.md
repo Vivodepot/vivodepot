@@ -24,7 +24,7 @@ eingearbeitet.
 1. **Selbst signiert, formkonform, Vertrauen null ohne Institutionssignatur.** Die kompakte Form ist ein SD-JWT im Sinne von
    RFC 9901 §4.1. Ein SD-JWT-VC-Prüfer nach draft-ietf-oauth-sd-jwt-vc-19 lehnt den Aussteller trotzdem ab: Er muss den Schlüssel
    über ein https-`iss` mit Metadaten oder eine x5c-Kette einer Stelle zuordnen, und beides gibt es hier nicht. Das ist gewollt.
-   Vertrauen entsteht nur über die Signatur einer Institution, und die bleibt das Geschäftsmodell; die Selbst-Signatur ersetzt
+   Vertrauen entsteht nur über die Signatur einer Institution; die Selbst-Signatur ersetzt
    sie nicht. Außentexte sagen „selbst signiert“, nie „verifizierbar“ ohne diesen Zusatz.
 2. **Schlüssel aus dem Passwort, nirgends gespeichert.**
    - HKDF-SHA-256 aus dem Sitzungsschlüssel mit dem Depot-Salt und eigener Domäne `vivodepot/v4/halter-signatur/<depotUUID>`,
@@ -117,6 +117,13 @@ Affinform):
 - Byte-Kopien und BigInt-Zwischenwerte der Bibliothek (Seed-Kopie, SHA-512-Ergebnis mit Skalar und prefix) sind nicht löschbar.
 - Ein Wechsel der Fassung braucht eine neue Krypto-Gegenlesung.
 
+**Nachtrag 11.10.2026, Einstufung der acht Punkte.** Der Prüfbericht stuft die acht Punkte nicht einheitlich ein. Die
+Zusammenfassung (S. 4) nennt sie „Low or Info“; die Überschriften führen 2 Info, 5 Low und 1 Medium (NBL-03-003,
+Verformbarkeit von Signaturen in verify). Die Zeile oben lautet richtig: keine Schwachstelle; acht Punkte, davon 1 Medium,
+5 Low, 2 Info. NBL-03-003 liegt nicht auf dem Pfad von getPublicKey; der Fix 8c08ff6 fehlt in fa14496. Wer verify aus dieser
+Bibliothek je aufruft, braucht vorher diesen Fix. Eine Probe hält das über jede Erzeugnis-Datei: der Block fehlt, oder er
+reicht nur getPublicKey hinaus.
+
 ## Was nicht entschieden ist
 
 - **Registrierte `vct`** statt `urn:vivodepot:*`: Es gibt dafür heute weder ein Rulebook noch einen Katalogeintrag (Teil 2 von
@@ -201,4 +208,8 @@ konformitaet:
         "[Halter·noble·Pfad] der Kern ruft aus der Bibliothek nur getPublicKey; equals bleibt auf dem Pfad ungerufen (NBL-03-007)"
       - tests/halter-schluessel-noble.test.js
         "[Halter·Aufrufer] genau eine Stelle im Kern reicht die Bibliothek in die Ableitung"
+      - tests/halter-schluessel-noble.test.js
+        "[Halter·noble·Erzeugnisse] in jeder Erzeugnis-Datei fehlt der Bibliotheksblock, oder er reicht nur getPublicKey hinaus"
+      - tests/halter-schluessel-noble.test.js
+        "[Halter·noble·Erzeugnisse·Rot-Beweis] ein gepflanzter Block, der verify hinausreicht, und ein gepflanzter Zugriff fallen"
 ```

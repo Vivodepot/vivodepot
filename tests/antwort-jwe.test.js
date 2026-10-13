@@ -66,6 +66,15 @@ test('[Antwort·JWE] Schlüsselpaar: der Kern schreibt eine JWE, die Lese-App ö
   assert.deepEqual(JSON.parse(offen.klartext), JSON.parse(JSON.stringify(ds)));
 });
 
+test('[Antwort·JWE] Einmalpasswort: das Studio öffnet dieselbe Antwort wie die Lese-App, ein falsches Passwort nicht', async () => {
+  const V = await depot();
+  const a = anfrage({ art: 'einmalpasswort', an: 'aufnahme@probe.example' });
+  const ds = V.anfrageAntwortDatensatz(a, { sensibel: false });
+  const jwe = await V.antwortVerschluesseln(ds, a, { passwort: EINMAL });
+  const S = require('./load-generator.js').ladeGenerator().V;
+  assert.deepEqual(JSON.parse((await S.antwortJweOeffnen(jwe, { passwort: EINMAL })).klartext), JSON.parse(JSON.stringify(ds)));
+  await assert.rejects(S.antwortJweOeffnen(jwe, { passwort: 'falsch' }), 'ein falsches Passwort öffnet nicht');
+});
 test('[Antwort·JWE] Einmalpasswort: PBES2-HS512+A256KW mit festem p2c, die Lese-App öffnet', async () => {
   const V = await depot();
   const a = anfrage({ art: 'einmalpasswort', an: 'aufnahme@probe.example' });
@@ -180,6 +189,39 @@ test('[Antwort·JWE·Fläche] der Kern schreibt nur, die Lese-App öffnet nur: j
   assert.equal(/async function antwortJweOeffnen\(/.test(kern), false, 'kein Öffnen im Kern — Krypto-Fläche ohne Zweck');
   assert.equal(/async function antwortJweSchluessel\(|async function antwortJwePasswort\(/.test(lesen), false, 'kein Schreiben in der Lese-App');
   assert.equal(/async function antwortJweSchluessel\(/.test(kern) && /async function antwortJweOeffnen\(/.test(lesen), true);
+});
+
+/* ── Spiegel, dritte Kopie (09.10.2026): das Studio öffnet die Antworten, die seine Anfragen bekommen. Es trägt denselben Block
+   und dasselbe Öffnen wie die Lese-App, zeichengleich, und schreibt nie. ── */
+const OEFFNEN_ANFANG = '/* ══ ANTWORT-JWE ÖFFNEN (U2-ADR-449)';
+const OEFFNEN_ENDE = '/* ══ ENDE ANTWORT-JWE ÖFFNEN ══ */';
+function oeffnen(text) {
+  const a = text.indexOf(OEFFNEN_ANFANG), e = text.indexOf(OEFFNEN_ENDE);
+  if (a < 0 || e < a || text.indexOf(OEFFNEN_ANFANG, a + 1) >= 0) return null;
+  return text.slice(a, e + OEFFNEN_ENDE.length);
+}
+const DREI = ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-studio.html'];
+function spiegelBefunde(texte) {
+  const b = texte.map(block), f = [];
+  texte.forEach((_, i) => { if (!b[i]) f.push(DREI[i] + ': Block fehlt oder steht mehrfach'); else if (b[i] !== b[0]) f.push(DREI[i] + ': Block weicht ab'); });
+  const ol = oeffnen(texte[1]), os = oeffnen(texte[2]);
+  if (!os || os !== ol) f.push('vivodepot-studio.html: das Öffnen weicht von der Lese-App ab');
+  return f;
+}
+test('[Antwort·JWE·Spiegel] der Block steht in Kern, Lese-App und Studio genau einmal und zeichengleich, das Öffnen in Lese-App und Studio', () => {
+  assert.deepEqual(spiegelBefunde(DREI.map((d) => fs.readFileSync(path.join(WURZEL, d), 'utf8'))), []);
+});
+test('[Antwort·JWE·Spiegel·Rot-Beweis] eine abweichende Kopie im Studio wird bemerkt, im Block wie im Öffnen', () => {
+  const texte = DREI.map((d) => fs.readFileSync(path.join(WURZEL, d), 'utf8'));
+  const blockAnders = texte.slice(); blockAnders[2] = blockAnders[2].replace('const ANTWORT_JWE_P2C = 600000;', 'const ANTWORT_JWE_P2C = 10000;');
+  assert.deepEqual(spiegelBefunde(blockAnders), ['vivodepot-studio.html: Block weicht ab']);
+  const oeffnenAnders = texte.slice(); oeffnenAnders[2] = oeffnenAnders[2].replace("if (kopf.p2c !== ANTWORT_JWE_P2C) throw new Error('jwe-p2c');", '');
+  assert.deepEqual(spiegelBefunde(oeffnenAnders), ['vivodepot-studio.html: das Öffnen weicht von der Lese-App ab']);
+});
+test('[Antwort·JWE·Fläche] das Studio öffnet nur, es schreibt keine Antwort', () => {
+  const studio = fs.readFileSync(path.join(WURZEL, 'vivodepot-studio.html'), 'utf8');
+  assert.equal(/async function antwortJweSchluessel\(|async function antwortJwePasswort\(/.test(studio), false);
+  assert.equal(/async function antwortJweOeffnen\(/.test(studio), true);
 });
 
 /* Die Fehlercodes `jwe-*` sind für Proben und Protokoll, nie für die Person: jeder Fehlschlag beim Schreiben erreicht sie als

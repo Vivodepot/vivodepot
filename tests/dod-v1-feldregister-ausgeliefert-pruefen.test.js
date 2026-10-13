@@ -73,7 +73,7 @@ test('[vergleichen] Rot-Beweis Normalisierung: Groß-/Kleinschreibung allein mac
   assert.equal(r.gruen, true, 'ROT ERWARTET, wenn die Normalisierung fehlt: Groß-/Kleinschreibung dürfte kein Vergleichsunterschied sein');
 });
 
-/* U2-ADR-NNN: Stichprobe der Kennungs-Adressen im --live-Lauf, ohne Netz geprüft über eine Fake-Ablage. */
+/* U2-ADR-490: Stichprobe der Kennungs-Adressen im --live-Lauf, ohne Netz geprüft über eine Fake-Ablage. */
 const D = require('../tools/dod-v1-feldregister-ausgeliefert-pruefen.js');
 const A = require('../tools/lib/feldregister-adressen.js');
 test('[DoD·Feldregister·Adressen] Stichprobe: erste Kennung, ein Unterfeld, letzte — grün nur mit Seite und JSON-LD', async () => {
@@ -89,4 +89,14 @@ test('[DoD·Feldregister·Adressen] Stichprobe: erste Kennung, ein Unterfeld, le
   assert.ok(gruen.every((a) => a.gruen && a.aushandlung), JSON.stringify(gruen));
   const rot = await D.adressenLivePruefen('https://r.test', felder, ablage('a1.liste/feld'));
   assert.deepEqual(rot.map((a) => a.gruen), [true, false, true], 'Rot-Beweis: eine fehlende Unterfeld-Seite ist rot');
+});
+
+test('[DoD·Feldregister·Adressen·Rot-Beweis] Accept: application/ld+json mit 404 ist rot, HTML als Rückfall nicht', () => {
+  const k = 'a1.x';
+  const seite = { status: 200, text: '<code>' + k + '</code>' };
+  const jsonld = { status: 200, text: JSON.stringify({ '@id': A.ADRESS_BASIS + k }) };
+  assert.equal(D.stichprobeAuswerten(k, { ohne: seite, mit: seite, jsonld, accept: { status: 404, text: 'weg' } }).gruen, false);
+  const html = D.stichprobeAuswerten(k, { ohne: seite, mit: seite, jsonld, accept: seite });
+  assert.equal(html.gruen, true);
+  assert.equal(html.aushandlung, false);
 });

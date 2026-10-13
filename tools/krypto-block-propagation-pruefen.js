@@ -321,7 +321,9 @@ function traegerzahlPruefen(traegerAnzahl) {
 /* Die Soll-Liste steht als Daten in tools/krypto-huelle-soll.json (geteilt über tools/lib/mit-interner-ergaenzung.js: Seiten, die
    nicht in den öffentlichen Zuschnitt gehen, stehen in der internen Ergänzung). Die Gruppen und ihr Warum stehen dort. */
 const HUELLE_SOLL = Object.freeze(require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(path.join(__dirname, 'krypto-huelle-soll.json')).soll);
-const HUELLE_KONSTANTEN = ['PROTECTED_KEY_MARKER_VERSION', 'PROTECTED_KEY_VERSION_ALLOWLIST'];
+// ANKER_* (07.10.2026, U2-ADR-486 Punkt 2): der Anker-Satz ist in Kern und Lese-App wertgleich, sonst prüften beide gegen verschiedene Anker.
+// FINGERABDRUCK_KENNUNG (09.10.2026, U2-ADR-486 Punkt 7): die Hash-Kennung der Fingerabdruck-Mengen und der Rücknahme-Liste ist in Kern und Lese-App wertgleich.
+const HUELLE_KONSTANTEN = ['PROTECTED_KEY_MARKER_VERSION', 'PROTECTED_KEY_VERSION_ALLOWLIST', 'ANKER_OHNE_KID', 'ANKER_SATZ', 'ANKER_WIDERRUFEN', 'FINGERABDRUCK_KENNUNG'];
 const HUELLE_FUNKTIONEN = Object.keys(HUELLE_SOLL).filter((n) => !HUELLE_KONSTANTEN.includes(n));
 /* Gleichnamig, gewollt verschieden — je mit Grund. Eine Ausnahme ohne Gegenstand (der Name ist nicht mehr geteilt oder
    fällt nicht mehr ins Muster) ist selbst rot, damit die Liste nicht still veraltet. */

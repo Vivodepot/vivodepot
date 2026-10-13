@@ -103,11 +103,12 @@ test('Keine Code-Tabelle im Kern (kein SNOMED/LOINC/ICD-System hardkodiert)', ()
   //    an eine bestimmte return-Zeile gekoppelt — flowSektorExport wächst mit weiteren Export-Formaten.)
   snapshot = snapshot.replace(/Export-Modul — FHIR R4[\s\S]*?function flowSektorExport\(format\) \{[\s\S]*?\n}/, '');
   // 3) Paket 3 (text+code-Andock): die Code-Systeme leben jetzt LEGITIM in den dedizierten
-  //    @vd-codeliste-<script>-Blöcken am Dateiende + im Registry-/Export-Andock. Das ist genau
+  //    @vd-codeliste-Blöcken der Region CODE-LISTEN + im Registry-/Export-Andock. Das ist genau
   //    der designierte Ort (öffentliche Daten, keine Krypto) — analog zum IPS-Block oben
   //    herausgeschnitten. Die Invariante bleibt: KEINE klinischen Code-Systeme in der übrigen
-  //    App-Logik gestreut, NUR in diesen klar abgegrenzten Bereichen.
-  snapshot = snapshot.replace(/CODE-LISTEN \(Paket 3\)[\s\S]*$/, '');   // alle @vd-codeliste-Seed-Blöcke + Rest der Datei
+  //    App-Logik gestreut, NUR in diesen klar abgegrenzten Bereichen. Seit U2-ADR-494 steht die Region
+  //    innerhalb des Kern-Verschlusses (Script 2); geschnitten wird darum bis zu ihrer END-Marke, nicht bis Dateiende.
+  snapshot = snapshot.replace(/CODE-LISTEN \(Paket 3\)[\s\S]*?CODE-LISTEN:END \*\//, '');   // alle @vd-codeliste-Seed-Blöcke
   // 4) LIZENZ-WORTLAUT (27.09.2026): die Pflicht-Quellenangaben der Lizenzgeber nennen ihr System beim Namen — kein Code,
   //    sondern Text, den wir führen müssen, byte-gleich gegen code-listen/wortlaut/ gehalten (tests/lizenz-wortlaut-im-kern.test.js).
   snapshot = snapshot.replace(/LIZENZ-WORTLAUT:BEGIN[\s\S]*?LIZENZ-WORTLAUT:END \*\//, '');

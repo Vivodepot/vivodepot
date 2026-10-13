@@ -98,6 +98,23 @@ Objekt-Form wäre in jedem der drei Fälle unhandlicher.
 ist; die Format-Version sagt, was eine Kennung bedeutet. Zwei verschiedene Fragen — eine gemeinsame
 Zahl beantwortete beide falsch.
 
+## Nachtrag 07.10.2026: kein Umzug mehr, ein definierter Fehler
+
+Der Absatz „Sie zieht die Vertretungsgrundlage nicht selbst um“ ist überholt. Der händische Umzug in
+`subDepotVertrauenOeffnen` war ein Weg, den nur Sub-Depots gingen (U2-ADR-002, Klassenwächter
+`tests/sub-sonderlocken-ratsche.test.js`, Kennung S11). Gemessen: vor dem 20.08.2026 gab es keine
+ausgelieferte Fassung, Einträge mit Klartext-Grundlage gibt es nur aus internen Testfassungen.
+
+Jetzt gilt:
+
+- Die Stufe 67 lässt einen solchen Eintrag unverändert. Sie merkt nichts vor und löscht nichts.
+- `subDepotVertrauenOeffnen` öffnet ein solches Sub-Depot nicht und meldet vor jeder Ableitung den
+  Fehler `sub-vor-stufe-67`. Der Dialog zeigt dazu einen Satz aus dem Textsatz.
+- Der Eintrag bleibt byte-gleich, beim Öffnen und über jedes weitere Sichern des Ankers. Nichts geht
+  still verloren.
+
+Probe: `tests/sub-depot-vor-stufe-67.test.js`. Entscheidung mit Wort der Gegenlesung, 06.10.2026.
+
 ---
 
 *Vivodepot GmbH · 20.08.2026*

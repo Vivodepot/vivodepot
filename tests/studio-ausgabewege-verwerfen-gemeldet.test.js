@@ -90,6 +90,7 @@ const FILTER = {
   'fehlstellenAuskunft | (k) => k !== \'_typRoh\' && !KERN_TORWAECHTER.FELD_SCHLUESSEL.has(k)': [K, 'die Auskunft selbst: sammelt, was der Kern verwirft'],
   '_kennungNameSlug | Boolean': [L, 'leere Wortteile einer Kennung'],
   'wegAktualisieren | (b) => /^Feld \\d|^Es ist noch kein Feld/.test(b) && !/^Es ist noch kein Feld/.test(b)': [K, 'Anzeige der Blocker'],
+  'anfrageAssistentTrefferZeigen | (t) => !drin.has(t.kennung)': [K, 'Suche im Assistenten Anfrage: blendet schon gewählte Angaben aus der Trefferliste aus'],
   'paletteEintraege | (e) => e.kennung.indexOf(\'/\') < 0 && e.kennung.indexOf(\'[\') < 0': [K, 'Palette'],
   'paletteRendern | (e) => !q || e.label.toLowerCase().indexOf(q) >= 0': [K, 'Suche in der Palette'],
   'paletteRendern | (b) => gruppen[b]': [K, 'Palette'],

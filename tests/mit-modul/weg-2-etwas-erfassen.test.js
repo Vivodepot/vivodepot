@@ -32,6 +32,7 @@ const _gebacken = konfektionieren({
   modulauswahl: [],
   vorDepotKonfigurationInhaltFn: () => 'window.__vorDepotKonfiguration = [];\n',
   unsignierteModulDateien: modulDateienFuer(PRODUKTE.find((p) => p.slug === 'privat-de')),
+  mitTestflaeche: true,   // die Probe bedient das Produkt über window.__vdOeffentlich (U2-ADR-494)
 });
 const HTML = 'file://' + path.join(_gebacken.ordner, 'vivodepot.html');
 const PW = 'Weg2-Bürgerweg-2026!';

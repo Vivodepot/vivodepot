@@ -3,7 +3,7 @@
   "specVersion": "1.4",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-10-07T00:00:00Z",
+    "timestamp": "2026-10-10T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -748,11 +748,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "0f8b76d9204019b31009f3096de4a65cba5fef6ed939922dd9a29bbe957bbffe"
+          "content": "606fd99181db1e97b4111ab8f5925c9c46e4351d07540fe48cbd08a9c2188f86"
         },
         {
           "alg": "SHA-512",
-          "content": "990dab61b84bddb2c3a683d350c54e606ed2365844ebdef611303b8566c7ca6655821f5b95604065dc90dd98988ca7065c069ca8a4a7555c3318bb9e2c51b12c"
+          "content": "f5c738fbe97a189b1abe65310da4c446fc9614d07db00e49d2f72fad68830993e016479b2b960ef27ce8bf4207d0e2b81da0b4fd5a191262271438b75c18f02c"
         }
       ],
       "properties": [
@@ -797,11 +797,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "8a761aa4a64afa3a7c058a9afbf37767e731750eb0f5caf00412786022441d06"
+          "content": "ee8267cc5da018aea8fc8aaecfcfcdb20ebb253da6419832ed355d66b9502e40"
         },
         {
           "alg": "SHA-512",
-          "content": "9f3d12ab54c7c1548f18068f4b049bb6b711061b459b6a9c65b384b8ee7b0462ae5972e86264f134eb901e80533fd11344879988f8245923e067edb0f3a029d5"
+          "content": "59d4af7aeb766e56f43a81c136176948869c83ad203c45875768340b8e833fd98e7467b5c0d2b618125950e0e7cde316921d49fa371c7520e233d37f9848cfe5"
         }
       ],
       "properties": [
@@ -852,6 +852,10 @@
         {
           "name": "vivodepot:codesystem",
           "value": "http://terminology.hl7.org/CodeSystem/v3-Confidentiality"
+        },
+        {
+          "name": "vivodepot:codesystem",
+          "value": "http://terminology.hl7.org/CodeSystem/v3-DataOperation"
         },
         {
           "name": "vivodepot:codesystem",

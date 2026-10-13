@@ -37,7 +37,7 @@ const GRUPPEN = [
   ['seitenleiste', /\.navUnterzeile$/, 'Unterzeile der Kern-Seitenleiste'],
   ['eingabe-zweitknopf', /\.weitererEintrag$/, 'Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe'],
 ];
-const GRUPPE_UNTERFELD = ['unterfeld-beschriftung', 'Beschriftung eines Listen-Unterfelds; die Lese-App zeigt sie nur bei ja/nein-Optionen'];
+const GRUPPE_UNTERFELD = ['unterfeld-beschriftung', 'Beschriftung eines sensiblen Listen-Unterfelds (selbst oder über sein Trägerfeld); die Lese-App zeigt den Wert nie, also auch nicht seine Beschriftung. Alle übrigen Unterfelder tragen ihre Beschriftung seit 05.10.2026'];
 const GRUPPE_KERN_FELD = ['feld-nur-im-kern', 'Feld oder Sektion, die die Lese-App nicht führt'];
 
 function ladeLese(quelle) {

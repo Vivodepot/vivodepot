@@ -49,12 +49,12 @@ test('1a) listenEintragZusammenfassung zieht skalare Sub-Werte mit „ · " zusa
   const { V } = ladeKern();
   const z = V.listenEintragZusammenfassung(kinderFeld(),
     { vorname: 'Anna', nachname: 'Müller', gebdatum: '2020-05-30' });
-  assert.equal(z, 'Anna · Müller · Geburtsdatum: 30.05.2020');   // seit 01.10.2026 (v839): ein Datum steht beschriftet und deutsch
+  assert.equal(z, 'Vorname: Anna · Nachname: Müller · Geburtsdatum: 30.05.2020');   // seit 02.10.2026 trägt jedes Unterfeld seine Beschriftung   // seit 01.10.2026 (v839): ein Datum steht beschriftet und deutsch
 });
 
 test('1b) listenEintragZusammenfassung überspringt leere Sub-Werte', () => {
   const { V } = ladeKern();
-  assert.equal(V.listenEintragZusammenfassung(kinderFeld(), { vorname: 'Anna' }), 'Anna');
+  assert.equal(V.listenEintragZusammenfassung(kinderFeld(), { vorname: 'Anna' }), 'Vorname: Anna');
   assert.equal(V.listenEintragZusammenfassung(kinderFeld(), {}), '');
   assert.equal(V.listenEintragZusammenfassung(kinderFeld(), null), '');
 });
@@ -62,7 +62,7 @@ test('1b) listenEintragZusammenfassung überspringt leere Sub-Werte', () => {
 test('1c) listenEintragZusammenfassung zeigt für auswahl das Label, nicht den Schlüssel', () => {
   const { V } = ladeKern();
   const z = V.listenEintragZusammenfassung(kinderFeld(), { vorname: 'Anna', sorge: 'g' });
-  assert.equal(z, 'Anna · gemeinsam');
+  assert.equal(z, 'Vorname: Anna · Sorgerecht: gemeinsam');
 });
 
 test('1d) listenEintragZusammenfassung löst ref-Sub-Werte über entitaetAnzeige auf', async () => {
@@ -72,12 +72,12 @@ test('1d) listenEintragZusammenfassung löst ref-Sub-Werte über entitaetAnzeige
 
   const z = V.listenEintragZusammenfassung(unterhaltFeld(),
     { person: { ref: id, override: '' }, art: 'monatlich', betrag: '300 EUR' });
-  assert.equal(z, 'Maria Beispiel · monatlich · 300 EUR');
+  assert.equal(z, 'Person: Maria Beispiel · Art: monatlich · Betrag: 300 EUR');
 
   // Override gewinnt vor Lookup.
   const z2 = V.listenEintragZusammenfassung(unterhaltFeld(),
     { person: { ref: id, override: 'Manuell anders' } });
-  assert.equal(z2, 'Manuell anders');
+  assert.equal(z2, 'Person: Manuell anders');
 });
 
 test('1e) feldWertHTML für liste mit unterFelder rendert <ul> mit <li> pro Eintrag', async () => {
@@ -88,8 +88,8 @@ test('1e) feldWertHTML für liste mit unterFelder rendert <ul> mit <li> pro Eint
     { vorname: 'Ben' },
   ]);
   assert.match(html, /<ul class="liste-eintraege">/, 'Liste als <ul>');
-  assert.match(html, /<li data-eintrag="0">[^<]*Anna · M\./, 'Eintrag 0 mit Zusammenfassung');
-  assert.match(html, /<li data-eintrag="1">[^<]*Ben/, 'Eintrag 1 mit Zusammenfassung');
+  assert.match(html, /<li data-eintrag="0">[^<]*Vorname: Anna · Nachname: M\./, 'Eintrag 0 mit Zusammenfassung');
+  assert.match(html, /<li data-eintrag="1">[^<]*Vorname: Ben/, 'Eintrag 1 mit Zusammenfassung');
 });
 
 test('1f) feldWertHTML für liste OHNE unterFelder bleibt Anzahl-Anzeige (rückwärtskompatibel)', () => {
