@@ -173,6 +173,8 @@ function _unsigniertesModulLesen(quellPfad) {
   let roh;
   try { roh = JSON.parse(fs.readFileSync(quellPfad, 'utf8')); }
   catch (e) { throw new Error('Unsignierte Modul-Datei nicht lesbar/kein JSON: ' + quellPfad + ' — ' + e.message); }
+  // Beschriftungen von Situationen und Assistenten sind reiner Text, bevor sie eingebacken werden (tools/lib/zutat-reiner-text.js).
+  require('./lib/zutat-reiner-text.js').zutatReinerTextPruefen(roh, path.basename(quellPfad));
   return _unsigniertesModulKlassifizieren(roh, path.basename(quellPfad));
 }
 

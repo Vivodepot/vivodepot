@@ -15,6 +15,30 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.928] – 2026-10-13
+
+### Sicherheit
+- VD-SEC-016 (kritisch): Behoben in v928: Hatte eine Kachel der Startseite keine eigene Beschriftung, trug sie den Titel ihrer
+  Situation, und dieser Titel wurde ohne Maskierung ins Markup gesetzt. Für Situationen, die ein Produkt ab Werk mitbringt, prüften
+  weder die Anwendung noch die Zusammenstellung des Produkts den Titel auf reinen Text; eine solche Situation hätte Programmcode im
+  Fenster der Anwendung ausführen können. Eine fremde Depot-Datei war kein Weg dazu. Betroffen: die ausgelieferten Fassungen seit
+  v922 bis v927.
+  Was zu tun ist: auf v928 aktualisieren. Ab v928 zeigt die Kachel den Titel als Text, und die
+  Zusammenstellung nimmt Beschriftungen von Situationen und Assistenten nur als reinen Text an.
+- VD-SEC-017 (kritisch): Behoben in v928: Aus der Kennung eines Logikmoduls entstand ein Attribut am Knopf seiner Karte, und die
+  Kennung wurde nur auf ihre Länge geprüft. Ein Modul, das mit einem Produkt ausgeliefert oder mit einer Signatur versehen war,
+  deren Kette gegen den eingebauten Anker prüft, hätte über seine Kennung Programmcode im Fenster der Anwendung ausführen können.
+  Betroffen: die ausgelieferten Fassungen seit mindestens v670 bis v927.
+  Was zu tun ist: auf v928 aktualisieren. Ab v928 hat die Kennung beim Einlass eine feste Form (Buchstaben,
+  Ziffern, Bindestrich, Unterstrich), und die Karte entsteht nur mit einem Attributnamen in dieser Form.
+- VD-SEC-018 (kritisch): Behoben in v928: Texte eines Sprachmoduls wurden beim Einlass auf reinen Text geprüft, die Platzhalter für
+  die Marke und für eine andere Beschriftung aber erst danach eingesetzt, ohne erneute Prüfung. Ein Sprachmodul, das mit einem
+  Produkt ausgeliefert oder mit geprüfter Kette signiert war, hätte so Programmcode im Fenster der Anwendung ausführen können.
+  Betroffen: die ausgelieferten Fassungen seit v787 bis v927.
+  Was zu tun ist: auf v928 aktualisieren. Ab v928 gilt die Prüfung für den Text nach dem Einsetzen.
+- Werte in den Eingabemasken (Beispieltext und Optionswert aus der Beschreibung eines Bereichs oder einer Vorlage, Verweis auf
+  eine Person oder Stelle aus der Datei) werden in Attributen vollständig maskiert, bisher nur am Anführungszeichen.
+
 ### Hinweis
 - Von den seit v917 ausgelieferten Fassungen haben v920 und v923 keinen öffentlichen Tag.
 
@@ -27,6 +51,13 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   führt ihn in der Herkunftsangabe als Erweiterung ohne geprüfte Herkunft. Ein solcher Bereich bringt keine eigenen Prüftermine,
   Assistenten oder Ausgabeformate mit; Verweise auf Personen und Stellen werden darin gelesen, nicht bearbeitet. Die Beschreibung
   und die Angaben bleiben unverändert in der Datei (U2-ADR-398, Nachtrag).
+- VD-SEC-022 (hoch): Behoben in v927: Die ausgelieferten Produkte enthielten eine Schnittstelle für automatische Tests. Über sie
+  konnte Programmcode, der in die Seite gelangt war, den ganzen Inhalt des geöffneten Depots auslesen, auch Angaben, die gerade
+  nicht angezeigt wurden. Ein solcher Code konnte darüber außerdem ein selbst ausgestelltes Anbieter-Zertifikat als gültig prüfen
+  lassen und ein Erscheinungsbild unter einer erfundenen Anbieterkennung als geprüft einlassen. Ab dieser Fassung fehlt die
+  Schnittstelle in allen ausgelieferten Produkten; jeder Auslieferungsweg weist ein Produkt ab, das sie trägt. Betroffen: die
+  ausgelieferten Fassungen v787 bis v923.
+  Was zu tun ist: auf v927 aktualisieren.
 
 ### Behoben
 - Öffnete ein Produkt eine Datei, die mit einem anderen Vivodepot-Produkt angelegt war, schrieb es seine eigenen Beschriftungen
@@ -77,14 +108,14 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   Seite „Freigabe abholen“ nur auf den Anfang „https://“. Beim Erzeugen wurden Adressen mit anderem Anfang, mit Zugangsdaten
   oder mit Leer- und Steuerzeichen angenommen, und die Person sah den Host nicht, bevor der Link entstand. Betroffen: der Freigabe-Link in den ausgelieferten
   Fassungen seit mindestens v670 bis v922, die Seite „Freigabe abholen“ von v803 bis v922.
-  Was zu tun ist: auf v923 aktualisieren bzw. die App neu laden. Ab v923 prüft der Dialog die Adresse, nennt den Host vor dem Link
+  Was zu tun ist: auf v923 aktualisieren. Ab v923 prüft der Dialog die Adresse, nennt den Host vor dem Link
   und weist auf eine andere als die voreingestellte Ablage hin; bei Zweifel an der Ablage-Adresse eines früher erzeugten Links den
   Link neu erzeugen.
 - VD-SEC-015 (mittel): Behoben in v923: Eine Anfrage konnte Felder aus der Vorlage einer Einrichtung über die interne Schreibweise des Felds ansprechen, ohne dass geprüft wurde, ob die
   anfragende Stelle diese Vorlage ausgestellt hat; das galt auch für eine unsignierte Anfrage. Die Antwort konnte so Angaben aus
   der Vorlage einer anderen Stelle zur Freigabe anbieten, und schon die Zeile unter „Diese Angaben gibt es in Vivodepot nicht:“ zeigte, dass die
   Person eine Vorlage dieser Stelle hat. Betroffen: die ausgelieferten Fassungen seit mindestens v670 bis v922.
-  Was zu tun ist: auf v923 aktualisieren bzw. die App neu laden. Ab v923 löst ein Vorlagenfeld nur für die geprüfte Stelle auf, der
+  Was zu tun ist: auf v923 aktualisieren. Ab v923 löst ein Vorlagenfeld nur für die geprüfte Stelle auf, der
   die Vorlage gehört; eine bereits herausgegebene Antwort bleibt, wie sie war.
 
 ### Behoben

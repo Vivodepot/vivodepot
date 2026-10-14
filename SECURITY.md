@@ -254,6 +254,11 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v928 | 2026-10-13 | privat-de | `51f5a7d716f340c55d4e8a994d02293ae8839ddc803339ab94558af7afbde999` |
+| v928 | 2026-10-13 | privat-en | `88c6a14c553f4a3730c802a1f0e4ee17e0449b362459c88a9a7246aabb3acc1d` |
+| v928 | 2026-10-13 | pro-de | `e645ca3afc1682279664a58c1f41e336db0d7f9675fa5767836226a6d46b4c8e` |
+| v928 | 2026-10-13 | pro-en | `5feb5a6c34512656b6f116c0af48daa7a74487c66ee1d3382dfcea0cbf440a4d` |
+| v928 | 2026-10-13 | service-worker | `3201e408b146e72ac8f471c40a3ff891645ab27c0c7ca96c53d6f9569ff89252` |
 | v927 | 2026-10-12 | privat-de | `afbf811950c330325dabc1f069ce9e13dd876a809f651c7c6373f1f78b1c4431` |
 | v927 | 2026-10-12 | privat-en | `04f841ea9af020cb5c93c8083885775ea0fa6414ff0463069ccb934db0ab0b12` |
 | v927 | 2026-10-12 | pro-de | `4504c187af109cd1e2c32264e806ed50b790db1102544b5b7c04698ebea791f6` |

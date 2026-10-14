@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/bausteinregister-bauen.js aus vivodepot.html (EINLASS_REGISTER) und tools/bausteinregister/beschriftungen.json. Nicht von Hand bearbeiten.",
   "fassung": {
-    "kern": "v927"
+    "kern": "v928"
   },
   "lizenz": {
     "spdx": "CC0-1.0",

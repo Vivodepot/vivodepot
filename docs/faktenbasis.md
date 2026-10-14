@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-12 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-12 · **Fassung:** v928 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -88,7 +88,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
 - E2E (Playwright): 613 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 51 aus Schleifen über CPU-Drosselungen = **664 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
 - Wächter-Register (intern): 145
-- Schema-Version: 92 · SCHALEN_STAND: v927 · Build-Version: v1.0
+- Schema-Version: 92 · SCHALEN_STAND: v928 · Build-Version: v1.0
 
 ---
 

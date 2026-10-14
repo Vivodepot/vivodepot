@@ -12,8 +12,9 @@
    derselben Stelle in beiden Formen, zählt er einmal.
 
    ALS GESCHÜTZT GILT NUR, WAS BELEGT IST:
-     - der Ausdruck beginnt mit `escapeHTML(`, `escapeAttr(` oder `encodeURIComponent(`, oder mit `esc(` in einer
-       Datei, in der `const esc = escapeHTML` steht;
+     - der Ausdruck beginnt mit `escapeHTML(`, `escapeAttr(`, `escapeTextknoten(` oder `encodeURIComponent(`, oder mit
+       `esc(` in einer Datei, in der `const esc = escapeHTML` steht (`escapeTextknoten` maskiert & < > und ist nur zwischen
+       zwei Tags richtig; Lage und Zahl seiner Aufrufer hält tests/anlass-kachel-titel-reiner-text.test.js);
      - der Ausdruck ist genau ein Textsatz-Wert `STRINGS.<name>`: jeder Wert geht beim Einlass durch
        `_textsatzWertZulaessig` → `_istReinerText` (kein Tag, keine Zeichenreferenz, kein `"`); die wenigen
        Schlüssel in `_TEXTSATZ_HTML_ERLAUBT` tragen nur eine feste Absatzform;
@@ -45,7 +46,7 @@ const path = require('node:path');
 const REPO = path.join(__dirname, '..');
 const GRUNDLINIE = path.join(__dirname, 'textknoten-verkettung-grundlinie.json');
 const DATEIEN = ['vivodepot.html', 'vivodepot-lesen.html'];
-const MASKIERT = /^(?:escapeHTML|escapeAttr|encodeURIComponent)\s*\(/;
+const MASKIERT = /^(?:escapeHTML|escapeAttr|escapeTextknoten|encodeURIComponent)\s*\(/;
 const ESC = /^esc\s*\(/;
 const ESC_XML = /^escapeXml\s*\(/;
 const TEXTSATZ = /^STRINGS\.[A-Za-z_$][\w$]*$/;

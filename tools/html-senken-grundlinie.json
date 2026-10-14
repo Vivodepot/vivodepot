@@ -806,10 +806,10 @@
    "datei": "vivodepot.html",
    "funktion": "_refMehrfachVerdrahten",
    "zeile": 57645,
-   "abdruck": "fc5e127e7ea1ab60",
+   "abdruck": "124754b60028b056",
    "anzahl": 1,
-   "code": "liste.innerHTML = treffer.map(v => '<li role=\"option\" data-id=\"' + String(v.id).replace(/\"/g, '&quot;') + '\">' + escapeHTML(v.name || '') + '</li>').join(''); liste.hidden = false; aktivIdx = -1; try ",
-   "grund": "v.name läuft über escapeHTML. v.id steht in einem Attribut mit doppelten Anführungszeichen, und \" wird durch &quot; ersetzt; ein Ausbruch ist damit nicht möglich."
+   "code": "liste.innerHTML = treffer.map(v => '<li role=\"option\" data-id=\"' + escapeAttr(v.id) + '\">' + escapeHTML(v.name || '') + '</li>').join('')",
+   "grund": "v.name läuft über escapeHTML, v.id über escapeAttr (bis v927 nur \" → &quot;; Befund ATTRIBUTWERT-NUR-ANFUEHRUNGSZEICHEN). Beide Werte kommen aus dem Depot (Vorschläge für ein Mehrfach-Verweisfeld)."
   },
   {
    "datei": "vivodepot.html",
@@ -818,7 +818,7 @@
    "abdruck": "4d3d34324af1d48c",
    "anzahl": 1,
    "code": "tmp.innerHTML = _refmZeileHTML(feld, { ref: '', override: '' })",
-   "grund": "_refmZeileHTML (53850) setzt ref, override und anzeige nur in Attribute mit doppelten Anführungszeichen, jeweils mit \"→&quot;. fid und Entität laufen über escapeAttr, Beschriftung und STRINGS über escapeHTML. Hier wird ohnehin ein leerer Eintrag übergeben."
+   "grund": "_refmZeileHTML (53850) setzt ref, override und anzeige nur in Attribute mit doppelten Anführungszeichen, jeweils über escapeAttr (seit v928). fid und Entität laufen über escapeAttr, Beschriftung und STRINGS über escapeHTML. Hier wird ohnehin ein leerer Eintrag übergeben."
   },
   {
    "datei": "vivodepot.html",

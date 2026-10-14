@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <!--
-  Vivodepot — Fassung v1.0.927. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
+  Vivodepot — Fassung v1.0.928. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
   SPDX-License-Identifier: EUPL-1.2
   Copyright (c) 2026 Vivodepot GmbH, Berlin.
 
@@ -2458,7 +2458,7 @@ const APP_VERSION = 1;
 // aus, zeigt der Fuß-Stempel den ALTEN Stand — der SW-Cache-Stale-Fehler wird in einer Sekunde
 // sichtbar (mehrfach am 12./13.07. aufgetreten). Zusammen mit dem live gelesenen SW-Cache-Namen
 // beantwortet der Stempel: welche Bytes sind geladen (SCHALEN_STAND) und was hält der SW (SW-Cache).
-const SCHALEN_STAND = 'v927';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
+const SCHALEN_STAND = 'v928';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v928 (Zug zug-folge9): Fremdtext in vier Senken geschlossen — die Anlass-Kachel zeigt den Titel ihrer Situation als Text, die Kennung eines Logikmoduls hat am Einlass die Form eines Attributnamens, Platzhalter in Texten eines Sprachmoduls werden nach dem Einsetzen noch einmal auf reinen Text geprüft, Werte in Attributen der Eingabemasken laufen über die Attribut-Maskierung; davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
 // (18.09.2026): beide Linien brachten ihre eigene Erhöhung unabhängig voneinander (Schnitt v734,
 // Verschluss v743) — hier zur gemeinsamen v744 zusammengeführt, Zuteilung.
 // Vorige (Schnitt-Linie, v734): v731 doppelt vergeben (vdm4-lese-app-trennung-2026-09-17), hier
@@ -2565,7 +2565,7 @@ function heuteLokal(d = new Date()) {
 // Konstanten waren nie aneinander gebunden. Jetzt erzwungen: tests/build-datum-lockstep.test.js
 // vergleicht diese Zeile gegen die vorige Commit-Fassung und schlägt fehl, wenn SCHALEN_STAND
 // sich geändert hat, ohne dass BUILD_DATUM ebenfalls angefasst wurde. IMMER gemeinsam bumpen.
-const BUILD_DATUM = '2026-10-12';
+const BUILD_DATUM = '2026-10-13';
 // Schwelle (Tage), ab der der Versions-Hinweis erscheint. ~6 Monate.
 const VERSION_HINWEIS_SCHWELLE_TAGE = 183;
 /* Die Marken-Stelle des Kerns (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst nirgends —
@@ -4405,11 +4405,13 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
   "sha256:07863b2944d284c9dbe6b8aca7fd5beb7aeb76e7783b8730a326439876917587",
   "sha256:0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
+  "sha256:0d4d10947b17e1946510a7a0ca98e575f32b6df2f5ff28d408ed2614a4e1114b",
   "sha256:0d8605a8bc42b0c2796e2d9f5d6dde4f79563d245e67f7f4c665e3669600b2d2",
   "sha256:0e84db0f4b730a393d6d1d8926347f56909f2e23562057964853e2f65df6f253",
   "sha256:0f01455aa7ca63e9cb44e0861ea466b9a1c6f1dee81fbc9d73cfbc958d0cdbb8",
   "sha256:0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
   "sha256:10277e2dd1c9ae51cbc473c4dc496a3063b83cdfb24d4918da0a676f17ffe64c",
+  "sha256:1228935368d4b2d7b2862c5d951700eaecea366520aa9f3f95444d155db7ccbd",
   "sha256:1325be7201bda1e4b147a97157c3911c98d5463d92f9875a90c7cba80c18bdf7",
   "sha256:1a0b18c37ce583b608790e55148334e2f2a324b3547e99a5fae7d7b210ee5f8c",
   "sha256:1cc70be29ecb51dd95125876a9d64bc552393278ec73a3b6001425e81c08c028",
@@ -4450,6 +4452,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:55612457037aeb703fd5834ebf3b0ba53d5c071bcc52844770d85bf69933b5c7",
   "sha256:5bd5e6e949176e2cfb74ec7602cea48df323b80472344d0d190357e19aed458e",
   "sha256:5c5e7287af886961549d353866f38f7bfdf3e63367666b81a50e667d419653ce",
+  "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
   "sha256:645dd0c53ccf8aa3b8bff064236e112f989f6c16c1f34c263343a7747c48fc58",
@@ -9112,7 +9115,7 @@ function _textsatzRueckfall(kennung) {
     if (!satz || typeof satz[kennung] !== 'string') continue;
     if (TEXTSATZ_RUECKFAELLE.indexOf(kennung) < 0) TEXTSATZ_RUECKFAELLE.push(kennung);
     const geschuetzt = _istZusicherungsKennung(kennung);
-    let text = _beschriftungPlatzhalterAufloesen(_markePlatzhalterAufloesen(satz[kennung], kennung), 0, geschuetzt);
+    let text = _textsatzAufgeloest(satz[kennung], kennung, geschuetzt);
     if (s !== sprache) {
       TEXTSATZ_RUECKFALL_SPRACHE[kennung] = s;
       // Zusicherung (U2-ADR-331) und, seit HAFTUNG-SPRACHGRENZE F3, jede Schutz-Kennung: der Satz trägt die Sprache, in der er steht.
@@ -9595,6 +9598,20 @@ function _markeAufgeloestZuruecksetzen(baum) {
   gehe(baum);
   return baum;
 }
+/* Befund PLATZHALTER-NACH-REINTEXT-PRUEFUNG: die Reiner-Text-Regel prüft beim Einlass den Satz, wie er im Modul steht. Die
+   Platzhalter ({marke}, {beschriftung:x}) werden erst beim Lesen eingesetzt; aus zwei Texten, die einzeln reiner Text sind
+   (»<{beschriftung:x}« und »img src=q onerror=…>«), entstand so ein Tag. Darum gilt dieselbe Regel noch einmal für das
+   ERGEBNIS, an dieser einen Stelle für beide Leser (aktives Modul und Rückfall): besteht der aufgelöste Text sie nicht,
+   bleibt der Satz mit sichtbarem Platzhalter stehen, so wie er im Modul steht. Einen ungeprüften Ausgang gibt es nicht:
+   zurück geht ein Ergebnis, das reiner Text ist, oder der Satz selbst. In den wenigen Sätzen, die HTML sein dürfen
+   (_TEXTSATZ_HTML_ERLAUBT), wird stattdessen jeder eingesetzte Text maskiert eingesetzt, die Marke wie die Beschriftung.
+   Probe: tests/textsatz-platzhalter-reiner-text.test.js. */
+function _textsatzAufgeloest(roh, kennung, geschuetzt) {
+  const html = !!kennung && Object.prototype.hasOwnProperty.call(_TEXTSATZ_HTML_ERLAUBT, kennung);
+  const text = _beschriftungPlatzhalterAufloesen(_markePlatzhalterAufloesen(roh, kennung), 0, geschuetzt, html);
+  if (html || text === roh || _istReinerText(text)) return text;
+  return roh;
+}
 function textLesen(kennung) {
   // U2-ADR-363 (Zug 2): KEIN Rueckfall auf AB_WERK_TEXTSATZ_DE mehr - das Geruest selbst kennt
   // keine Sprache. Was heute noch denselben Text liefert wie vor diesem Umbau, liefert ihn
@@ -9608,7 +9625,7 @@ function textLesen(kennung) {
   const nachSprache = _TEXTSATZ_MODUL_REGISTRY[textsatzSpracheAktiv()];
   const rechtsraum = nachSprache ? textsatzRechtsraumAktiv() : '';
   const satz = nachSprache && ((rechtsraum && nachSprache[rechtsraum]) || nachSprache['']);
-  return (satz && typeof satz[kennung] === 'string') ? _beschriftungPlatzhalterAufloesen(_markePlatzhalterAufloesen(satz[kennung], kennung), 0, _istZusicherungsKennung(kennung)) : null;
+  return (satz && typeof satz[kennung] === 'string') ? _textsatzAufgeloest(satz[kennung], kennung, _istZusicherungsKennung(kennung)) : null;
 }
 /* Beschriftungs-Platzhalter (19.09.2026) — `{beschriftung:schluessel}` setzt beim LESEN die aktuelle Beschriftung eines ANDEREN Textes ein (in der aktiven
    Sprache), statt sie abzuschreiben. Anlass: der Rückweg-Hinweis zitierte „Schon ein Vivodepot? Datei öffnen“, der Startknopf hieß längst „Schon ein Depot? …“
@@ -9628,13 +9645,16 @@ function _beschriftungZielText(kennung) {
   }
   return null;
 }
-function _beschriftungPlatzhalterAufloesen(text, tiefe, geschuetzt) {
+function _beschriftungPlatzhalterAufloesen(text, tiefe, geschuetzt, maskiert) {
   if (typeof text !== 'string' || text.indexOf('{beschriftung:') < 0 || tiefe > 3) return text;
   return text.replace(/\{beschriftung:([A-Za-z0-9_]+)\}/g, (voll, schluessel) => {
     if (geschuetzt && !_istZusicherungsKennung('strings:' + schluessel + '.text')) return voll;
     // Erst das aktive Modul, dann der Rückfall (Ab-Werk-Saat): trägt ein Fremdmodul den Zielschlüssel nicht, kommt er aus dem Rückfall, wie der Satz selbst.
     const roh = _beschriftungZielText('strings:' + schluessel + '.text');
-    return typeof roh === 'string' ? _beschriftungPlatzhalterAufloesen(_markePlatzhalterAufloesen(roh, 'strings:' + schluessel + '.text'), tiefe + 1, geschuetzt) : voll;
+    if (typeof roh !== 'string') return voll;
+    // `maskiert` (nur der äußere Satz darf HTML sein): die eingesetzte Beschriftung ist Text und wird als Text eingesetzt.
+    const ziel = _beschriftungPlatzhalterAufloesen(_markePlatzhalterAufloesen(roh, 'strings:' + schluessel + '.text'), tiefe + 1, geschuetzt, false);
+    return maskiert ? escapeHTML(ziel) : ziel;
   });
 }
 /* U2-ADR-303 (05.09.2026) — der Hinweis für den Sammelgrund `'leer'`: alle Einträge eines
@@ -14036,6 +14056,12 @@ function _logikKarteLesen(da) {
 // knopfAttr landet ungeprueft in einem querySelectorAll-Attributselektor ('[data-' + knopfAttr + ']',
 // s. Klickweg-Verdrahtung) — darum ein enger, sicherer Zeichensatz statt freiem String.
 const LOGIK_KNOPF_ATTR_MUSTER = /^[a-z][a-z0-9-]*$/;
+/* Die Kennung eines Logikmoduls (Befund LOGIK-KENNUNG-ROH-IM-TAG): sie steht als Teil eines Attributnamens im Markup der Karte
+   und in einem Selektor, wenn das Modul kein eigenes knopfAttr nennt. Erlaubt ist, was dort nichts öffnen oder schließen kann:
+   Buchstaben, Ziffern, Bindestrich, Unterstrich. Groß- und Kleinbuchstaben bleiben beide erlaubt, weil das Studio die Kennung
+   als freien Text annimmt und Module mit solchen Kennungen im Umlauf sein können; Leerraum, Anführungszeichen, spitze Klammern,
+   Gleichheitszeichen, Schrägstrich und Punkt nie (mit ihnen entstand schon bisher kein gültiger Attributname oder Selektor). */
+const LOGIK_KENNUNG_MUSTER = /^[A-Za-z][A-Za-z0-9_-]*$/;
 function _logikBedingungGueltig(bed, tiefe) {
   if (tiefe > 6) return false;   // gegen künstlich verschachtelte Bedingungsbäume, dieselbe Grössenordnung wie _MODUL_EINLASS_MAX_TIEFE
   if (!bed || typeof bed !== 'object' || LOGIK_BEDINGUNG_TYPEN.indexOf(bed.typ) < 0) return false;
@@ -14092,7 +14118,8 @@ function logikModulPruefen(modul) {
   for (const k of Object.keys(modul)) {
     if (LOGIK_MODUL_SCHLUESSEL.indexOf(k) < 0) verworfene.push({ schluessel: k, grund: 'unbekannt' });
   }
-  if (typeof modul.id !== 'string' || !modul.id.trim() || modul.id.length > 100) {
+  // Form der Kennung: LOGIK_KENNUNG_MUSTER (Befund LOGIK-KENNUNG-ROH-IM-TAG).
+  if (typeof modul.id !== 'string' || !modul.id.trim() || modul.id.length > 100 || !LOGIK_KENNUNG_MUSTER.test(modul.id)) {
     return { gueltig: false, grund: 'id', logik: null, verworfene };
   }
   if (typeof modul.titel !== 'string' || !modul.titel.trim()) {
@@ -39435,7 +39462,7 @@ function renderAnlassAuswahl(frage, vonApp) {
     // bleiben vollständig funktionsfähig über waehleAnlass(id) — nur aus dem Kachel-Raster
     // genommen, damit sie hier nicht zusätzlich zur zusammenfassenden Kachel erscheinen.
     for (const a of _kachelnDer(k.n)) {
-      html += '<button class="anlass" data-anlass="' + escapeAttr(a.id) + '"><span class="ico">' + icon(a.icon, 22) + '</span><span>' + a.label + '</span></button>';
+      html += '<button class="anlass" data-anlass="' + escapeAttr(a.id) + '"><span class="ico">' + icon(a.icon, 22) + '</span><span>' + escapeTextknoten(a.label) + '</span></button>';
     }
     html += '</div>';
   }
@@ -39445,7 +39472,7 @@ function renderAnlassAuswahl(frage, vonApp) {
   const sekundaer = alle.filter(x => x.klasse === 0 && !x.versteckt && _anlassSichtbar(x));
   if (sekundaer.length) {
     html += '<div class="anlass-sekundaer"><div class="klasse-titel">' + STRINGS.anlassSekundaer + '</div><div class="anlass-grid">' +
-      sekundaer.map(a => '<button class="anlass" data-anlass="' + escapeAttr(a.id) + '"><span class="ico">' + icon(a.icon, 22) + '</span><span>' + a.label + '</span></button>').join('') +
+      sekundaer.map(a => '<button class="anlass" data-anlass="' + escapeAttr(a.id) + '"><span class="ico">' + icon(a.icon, 22) + '</span><span>' + escapeTextknoten(a.label) + '</span></button>').join('') +
       '</div></div>';
   }
   html += '<div style="margin-top:var(--space-5)"><button class="btn btn-sek" id="a-zurueck">' + STRINGS.btnZurueck + '</button></div>';
@@ -51751,6 +51778,7 @@ function logikModulAuszugKartenHTML(sektorId) {
     const logik = geprueft.logik;
     if (logik.sektor !== sektorId) continue;
     if (!logik.dokAusgabe.karte) continue;                  // ein Auszug ohne Kaertchen ist kein Fehler
+    if (!LOGIK_KENNUNG_MUSTER.test(logik.dokAusgabe.knopfAttr)) continue;   // ein Attributname lässt sich nicht maskieren: nur im Muster, sonst keine Karte
     auszuege.push(logik);
   }
   auszuege.sort((a, b) => (a.id < b.id ? -1 : (a.id > b.id ? 1 : 0)));
@@ -61444,7 +61472,7 @@ function _refmZeileHTML(feld, eintrag) {
   z += '<div class="refm-combo">';
   z += '<input type="text" class="refm-name' + (gesetzt ? ' refm-name--gesetzt' : '') + '" role="combobox" aria-autocomplete="list" aria-expanded="false" autocomplete="off"'
      + ' data-edit-refm-override="' + escapeAttr(fid) + '"' + al
-     + ' placeholder="' + escapeHTML(STRINGS.refmNamePlatzhalter) + '" value="' + anzeige.replace(/"/g, '&quot;') + '">';
+     + ' placeholder="' + escapeHTML(STRINGS.refmNamePlatzhalter) + '" value="' + escapeAttr(anzeige) + '">';
   // Overwrite-Fix (20.07.2026): der Bestätigt-Zustand (sonst nur die lokale `schmutzig`-Variable
   // in comboVerdrahten(), die _refmSammeln() nie sah) wird hier zusätzlich maschinenlesbar auf die
   // Ref-Box geschrieben — `data-refm-bestaetigt` plus der zuletzt bestätigte {ref,override} als
@@ -61453,9 +61481,9 @@ function _refmZeileHTML(feld, eintrag) {
   // liest oder schreibt, muss diese Kopplung kennen.
   z += '<input type="hidden" class="refm-ref" data-edit-refm="' + escapeAttr(fid) + '" data-entitaet="' + escapeAttr(entitaet) + '"'
      + ' data-refm-bestaetigt="' + (gesetzt ? '1' : '') + '"'
-     + ' data-refm-bestand-ref="' + String(ref).replace(/"/g, '&quot;') + '"'
-     + ' data-refm-bestand-override="' + String(override).replace(/"/g, '&quot;') + '"'
-     + ' value="' + String(ref).replace(/"/g, '&quot;') + '">';
+     + ' data-refm-bestand-ref="' + escapeAttr(ref) + '"'
+     + ' data-refm-bestand-override="' + escapeAttr(override) + '"'
+     + ' value="' + escapeAttr(ref) + '">';
   z += '<ul class="refm-vorschlaege" role="listbox" hidden></ul>';
   z += '</div>';
   // Knöpfe als eine Gruppe. Der „Übernehmen"-Haken bestätigt den getippten Namen (Enter-Alternative für die
@@ -61512,7 +61540,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
   // 16.09.2026: roh — maskiert wird an jeder Senke über escapeAttr (vorher hier nur das ", dort nichts).
   const v = (roh != null && typeof roh !== 'object') ? String(roh) : '';
   // UX: dezenter Platzhalter aus feld.beispiel — Format-Hilfe in der Eingabe, verschwindet beim Tippen.
-  const ph = (feld.beispiel != null && feld.beispiel !== '') ? ' placeholder="' + String(feld.beispiel).replace(/"/g, '&quot;') + '"' : '';
+  const ph = (feld.beispiel != null && feld.beispiel !== '') ? ' placeholder="' + escapeAttr(feld.beispiel) + '"' : '';
   // A11y (WCAG 3.3.2 / 4.1.2): das sichtbare .feld-zeile-Label ist NICHT programmatisch mit dem
   // Input verknüpft (Inputs tragen data-edit statt id). Jedes Eingabe-Element bekommt daher einen
   // aria-label aus der Feld-Beschriftung — deckungsgleich mit dem sichtbaren Text (auch 2.5.3).
@@ -61591,7 +61619,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
       let h = '<select data-edit="' + escapeAttr(fid) + '" data-typ="auswahl"' + al + '><option value="">' + escapeHTML(STRINGS.subGrundlageLeer) + '</option>';
       for (const o of optionen) {
         const sel = (o.wert === roh) ? ' selected' : '';
-        h += '<option value="' + String(o.wert).replace(/"/g, '&quot;') + '"' + sel + '>' +
+        h += '<option value="' + escapeAttr(o.wert) + '"' + sel + '>' +
           escapeHTML(String(o.label)) + '</option>';
       }
       return h + '</select>';
@@ -61611,7 +61639,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
       for (const o of optionen) {
         const aktiv = gewaehlt.indexOf(o.wert) >= 0;
         h += '<button type="button" class="feld-mehrfach-pill' + (aktiv ? ' aktiv' : '') + '" data-edit-multi="' + escapeAttr(fid) + '" value="' +
-          String(o.wert).replace(/"/g, '&quot;') + '" aria-pressed="' + (aktiv ? 'true' : 'false') + '">' + escapeHTML(String(o.label)) + '</button>';
+          escapeAttr(o.wert) + '" aria-pressed="' + (aktiv ? 'true' : 'false') + '">' + escapeHTML(String(o.label)) + '</button>';
       }
       return h + '</div>';
     }
@@ -61626,7 +61654,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
         let hm = '<div class="feld-ref-picker"><select data-edit-ref="' + escapeAttr(fid) + '" data-typ="ref" data-entitaet="mappe"' + al + '><option value="">' + escapeHTML(STRINGS.subGrundlageLeer) + '</option>';
         for (const v of mappeVorschlag()) {
           const s = (v.id === ref) ? ' selected' : '';
-          hm += '<option value="' + String(v.id).replace(/"/g, '&quot;') + '"' + s + '>' + escapeHTML(v.name) + '</option>';
+          hm += '<option value="' + escapeAttr(v.id) + '"' + s + '>' + escapeHTML(v.name) + '</option>';
         }
         return hm + '<option value="__upload__">+ ' + escapeHTML(STRINGS.mappeHinzufuegen) + '</option></select></div>';
       }
@@ -61637,7 +61665,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
         let hb = '<div class="feld-ref-picker"><select data-edit-ref="' + escapeAttr(fid) + '" data-typ="ref" data-entitaet="bank-power-of-attorney"' + al + '><option value="">' + escapeHTML(STRINGS.subGrundlageLeer) + '</option>';
         for (const v of bankvollmachtVorschlag()) {
           const s = (v.id === ref) ? ' selected' : '';
-          hb += '<option value="' + String(v.id).replace(/"/g, '&quot;') + '"' + s + '>' + escapeHTML(v.name) + '</option>';
+          hb += '<option value="' + escapeAttr(v.id) + '"' + s + '>' + escapeHTML(v.name) + '</option>';
         }
         return hb + '</select></div>';
       }
@@ -61649,7 +61677,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
       h += '<option value="">' + escapeHTML(STRINGS.subGrundlageLeer) + '</option>';
       for (const v of vorschlaege) {
         const sel = (v.id === ref) ? ' selected' : '';
-        h += '<option value="' + String(v.id).replace(/"/g, '&quot;') + '"' + sel + '>' + escapeHTML(v.name || '') + '</option>';
+        h += '<option value="' + escapeAttr(v.id) + '"' + sel + '>' + escapeHTML(v.name || '') + '</option>';
       }
       h += '<option value="__neu__">+ ' + (entitaet === 'institution' ? STRINGS.refNeueInstitutionOption : STRINGS.refNeuePersonOption) + ' ' + STRINGS.refOptionAnlegenSuffix + '</option>';
       h += '</select>';
@@ -61669,7 +61697,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
         h += '<button type="button" class="btn-mini" data-person-oeffnen="' + escapeHTML(ref) + '">' + escapeHTML(STRINGS.personOeffnenKnopf) + '</button>';
       }
       h += '<input type="text" data-edit-override="' + escapeAttr(fid) + '"' + al + ' placeholder="' + escapeAttr(STRINGS.refFreitextPlatzhalter) + '" value="' +
-        override.replace(/"/g, '&quot;') + '">';
+        escapeAttr(override) + '">';
       return h + '</div>';
     }
     case 'refMehrfach': {
@@ -62836,7 +62864,7 @@ function _refMehrfachVerdrahten(container, feldeFinden) {
         // (war die Klickfalle) — Neuanlage läuft über Enter/„Übernehmen"-Haken, nie über die Liste.
         if (!treffer.length) { verbergen(); return; }
         liste.innerHTML = treffer.map(v =>
-          '<li role="option" data-id="' + String(v.id).replace(/"/g, '&quot;') + '">' + escapeHTML(v.name || '') + '</li>').join('');
+          '<li role="option" data-id="' + escapeAttr(v.id) + '">' + escapeHTML(v.name || '') + '</li>').join('');
         liste.hidden = false; aktivIdx = -1; try { eingabe.setAttribute('aria-expanded', 'true'); } catch (_) {}
         // Unter dem Feld ausrichten und dem Feld beim Scrollen/Resize folgen, solange die Liste offen ist.
         positionieren();
@@ -63678,6 +63706,13 @@ function urheberschaftZeileHTML(sektorId, feldId) {
 function escapeHTML(s) {
   if (s == null) s = '';
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+/* Für Text ZWISCHEN zwei Tags, nie in einem Attribut (Befund ANLASS-KACHEL-TITEL-ROH): maskiert, was dort Markup beginnen
+   kann (& < >). Anführungszeichen und Apostroph bleiben stehen; zwischen Tags sind sie Text, und die Beschriftungen der
+   Anlass-Kacheln (»Doctor's appointment«) bleiben so zeichengleich mit dem Stand davor. */
+function escapeTextknoten(s) {
+  if (s == null) s = '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 /* Für einen Wert in einem Attribut (16.09.2026). Dieselbe Maskierung wie escapeHTML, aber ausdrücklich
    benannt und robust gegen Nicht-Zeichenketten: an einer Attribut-Stelle soll man sehen, dass sie
