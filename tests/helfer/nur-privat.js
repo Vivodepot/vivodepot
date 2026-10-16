@@ -28,7 +28,9 @@ const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 58;   // 57 → 58 am 07.10.2026 (Gegenlesung erteilt, Befund FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN): faktenbasis-suite-herkunft,
+const DECKEL = 59;   // 58 → 59 am 15.10.2026 (Wort der Gegenlesung, einzeln, Wagen V2a Antwort-Seed): antwort-seed-sicherbarkeit, nur die
+                     //   Probe mit dem Kern von vor dem Wagen; sie liest ihn mit git show 4d9d3b9c3 aus der privaten Geschichte (GIT).
+                     // 57 → 58 am 07.10.2026 (Gegenlesung erteilt, Befund FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN): faktenbasis-suite-herkunft,
                      //   nur der Rot-Beweis; er fährt faktenbasis-erzeugen --ohne-suite, das das zurückgehaltene Wächter-Register lädt (BESTAND).
                      // 55 → 57 am 05.10.2026 (Gegenlesung erteilt, Befund ÖFFENTLICHE-CI-ROT): kdl-selbst-laden, nur der Ausgabewege-Test;
                      //   er lädt über tools/rundlauf-matrix.js das zurückgehaltene Referenzdepot (BESTAND), öffentlich rot an v917; dazu
@@ -84,6 +86,9 @@ const NUR_PRIVAT = {
   ] },
   "tests/fhir-display-offizieller-begriff.test.js": { grund: GIT, tests: [
     "[FHIR·display·Rot-Beweis] die LOINC-Liste von c30128b6a und der eigene Name als display fallen",   // git show c30128b6a
+  ] },
+  "tests/antwort-seed-sicherbarkeit.test.js": { grund: GIT, tests: [
+    "[Sicherbarkeit·Kern vor dem Wagen] der Kern von vor dem Wagen öffnet eine Sicherung mit Seed, und seine nächste Sicherung trägt ihn weiter",   // git show 4d9d3b9c3
   ] },
   "tests/wiederherstellungs-code.test.js": { grund: GIT, tests: [
     "[WHC·#3] der Kern von vor dem Bau öffnet eine Datei mit Hülle mit dem Passwort; eine Datei mit kaputtem Pflichtfeld nicht",   // git show 875d31856

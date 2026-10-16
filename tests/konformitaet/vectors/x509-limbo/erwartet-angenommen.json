@@ -1,0 +1,6 @@
+{
+ "zweck": "x509-limbo-Fälle im Umfang, erwartet FAILURE, die der X.509-Leser nach einer entschiedenen eigenen Regel annimmt — kein Befund, aber auch nicht „bewusst anders“: hier weicht die Regel selbst von limbo ab. Festgelegt 15.10.2026 vor jedem Lauf.",
+ "faelle": [
+  {"id": "rfc5280::eku::ee-wrong-eku", "regel": "_X509_EKU_ERLAUBT", "grund": "Das Blatt trägt nur clientAuth; limbo erwartet serverAuth. _X509_EKU_ERLAUBT enthält clientAuth (entschieden 15.10.2026, vorläufig)."}
+ ]
+}

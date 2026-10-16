@@ -154,7 +154,7 @@ test('[Bildung halten · Ansicht] das Original zeigt den ehrlichen Hinweis, Heru
   const id = ablegen(k.V, 'mcSigniert');
   k.V.flowMappeVorschau(id);
   const m = k.document.getElementById('modal-inhalt').innerHTML;
-  assert.ok(m.includes('Das Siegel prüft, wem Sie es vorzeigen.'), 'ehrlicher Hinweis fehlt');
+  assert.ok(m.includes(k.V.STRINGS.mappeEdcHinweis), 'Hinweis fehlt');
   assert.ok(m.includes('data-mappe-herunterladen'), 'Herunterladen fehlt');
   assert.ok(m.includes('data-mappe-uebernehmen') && m.includes('Bildungsfelder'), '„Werte übernehmen" mit Bildungs-Hinweis fehlt');
   assert.ok(!m.includes('data-mappe-shl'), 'SHL-Knopf an einem Bildungsnachweis');

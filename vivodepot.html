@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <!--
-  Vivodepot — Fassung v1.0.929. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
+  Vivodepot — Fassung v1.0.930. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
   SPDX-License-Identifier: EUPL-1.2
   Copyright (c) 2026 Vivodepot GmbH, Berlin.
 
@@ -2500,7 +2500,7 @@ const APP_VERSION = 1;
 // aus, zeigt der Fuß-Stempel den ALTEN Stand — der SW-Cache-Stale-Fehler wird in einer Sekunde
 // sichtbar (mehrfach am 12./13.07. aufgetreten). Zusammen mit dem live gelesenen SW-Cache-Namen
 // beantwortet der Stempel: welche Bytes sind geladen (SCHALEN_STAND) und was hält der SW (SW-Cache).
-const SCHALEN_STAND = 'v929';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v929 (Zug zug-folge10): Safari am Schreibtisch gilt nicht mehr als iPhone oder iPad — iosNichtInstalliert verlangt zu navigator.standalone auch Berührungspunkte (maxTouchPoints oder groben Zeiger), darum bietet Safari am Mac nach „Depot anlegen“ kein „In der App anlegen“ und keinen Home-Bildschirm-Hinweis mehr an; iPadOS im Desktop-Modus bleibt ein iPad; das xShare-Yellow-Button-Zeichen und der SMART-Health-Link-Weg gehören nur zu Gesundheit — ein Bildungsnachweis (EDC, Open Badge) und jedes andere autoritative Original außerhalb von Gesundheit trägt kein Zeichen mehr (eine Prüfung, eine Tür, ein Wächter gegen die Klasse), und shlProviderPayload und flowShlVorbereiten lehnen ein solches Original ab; ein älteres Original ohne Bereichsangabe bleibt teilbar; eine Modul-App legt ihre Begleitdatei vorabkonfiguration.js bei der Installation des Service Workers mit ab und startet nach dem ersten Besuch auch ohne Netz mit ihrer Konfiguration (Befund MODUL-APP-VORABKONFIGURATION-OFFLINE); der Textsatz-Lauf bricht an keiner angedockten Situation mehr ab — eine eingefrorene Situation wird nicht beschrieben, ihre Blöcke werden gefüllt (TEXTSATZ-LAUF-BRICHT-AN-ANGEDOCKTER-SITUATION); eine vom Browser mit „Seite speichern“ gesicherte Kopie führt nichts mehr aus und zeigt nur einen Hinweis; der Schutz gegen das Einbetten in eine fremde Seite hängt nicht mehr am Stil-Element und wirft nicht, wenn es fehlt; in der gehosteten Fassung trägt der Abschnitt „Über“ der Einstellungen den Eintrag „… als Datei erhalten“, ein Link auf den Schalter ?datei=1 des Dienstes; sw.js lässt den Schalter durch, legt seine Antwort nicht ab und beantwortet ihn nicht aus dem Speicher (Befund ANWENDUNG-ALS-DATEI-OHNE-WEG). Davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463); scheitert beim ersten Sichern das Schreiben in die gewählte Datei, sagt die Anwendung, dass die Sicherung stattdessen im Download-Ordner liegt; jede Abweisung beim Öffnen nennt ihren Grund — eine Datei einer anderen Krypto-Fassung, ein beschädigter Stand und kein Depot auf dem Gerät heißen nicht mehr falsches Passwort; beim Einlesen wird gesagt, was nicht übernommen wurde (Modul, Vorlage, Anfrage), eine Anfrage oder Vorlage aus einer neueren Fassung wird als solche benannt, und die Übersicht einer Anfrage sagt, wenn mit den Voreinstellungen Nötiges zurückbleibt; v928 (Zug zug-folge9): Fremdtext in vier Senken geschlossen — die Anlass-Kachel zeigt den Titel ihrer Situation als Text, die Kennung eines Logikmoduls hat am Einlass die Form eines Attributnamens, Platzhalter in Texten eines Sprachmoduls werden nach dem Einsetzen noch einmal auf reinen Text geprüft, Werte in Attributen der Eingabemasken laufen über die Attribut-Maskierung; davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
+const SCHALEN_STAND = 'v930';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v930 (Zug zug-folge11): eine im Browser gesicherte Seite trägt die Werte der Eingabefelder nicht mehr im Quelltext; die Anwendung übernimmt sie nach dem Zeichnen in die Eigenschaft der Felder; an der Oberfläche ändert sich nichts; ein Depot kann einen zufälligen Wert für künftig signierte Antworten an Stellen verschlüsselt mitführen, der mit jeder Sicherung, jedem Passwortwechsel und jeder Wiederherstellung mitgeht und in keiner Ausgabe steht; die Vorschau eines abgelegten PDF nennt Name und Größe statt eines leeren Rahmens, den die Richtlinie der Anwendung immer blockiert hatte; Herunterladen öffnet die Datei; die Aktionen an den Karten der Verwaltung finden ihre Karte auch im betretenen Sub-Depot, der Export als verschlüsselte Datei geht wieder; im betretenen Sub-Depot entsteht kein Sub-Depot zweiter Ebene (Befunde SUB-DEPOT-EXPORT-KLICKWEG, SUB-DEPOT-ANLEGEN-IM-SUB-KONTEXT); die Aktionen an den Karten der Verwaltung finden ihre Karte auch im betretenen Sub-Depot, der Export als verschlüsselte Datei geht wieder (Befund SUB-DEPOT-EXPORT-KLICKWEG); eine Datei mit digitaler Signatur eines Dritten (PDF mit Signatur, FHIR-Bündel mit Signatur) trägt in der Vorschau den Hinweis, dass Vivodepot die Signatur nicht prüft, und bietet einen Text zum Kopieren für die Prüfstelle an; der Hinweis zu Bildungsnachweisen (EDC, Open Badge) nennt die Prüfstelle des Standards. Davor:; ein FIM-Format-Modul nimmt Anhänge auf — die Person wählt die Datei, und die Ausgabe trägt sie an der Stelle, die das Leistungsschema verlangt; ein fehlender Pflicht-Anhang wird benannt, nicht erfunden. v929 (Zug zug-folge10): Safari am Schreibtisch gilt nicht mehr als iPhone oder iPad — iosNichtInstalliert verlangt zu navigator.standalone auch Berührungspunkte (maxTouchPoints oder groben Zeiger), darum bietet Safari am Mac nach „Depot anlegen“ kein „In der App anlegen“ und keinen Home-Bildschirm-Hinweis mehr an; iPadOS im Desktop-Modus bleibt ein iPad; das xShare-Yellow-Button-Zeichen und der SMART-Health-Link-Weg gehören nur zu Gesundheit — ein Bildungsnachweis (EDC, Open Badge) und jedes andere autoritative Original außerhalb von Gesundheit trägt kein Zeichen mehr (eine Prüfung, eine Tür, ein Wächter gegen die Klasse), und shlProviderPayload und flowShlVorbereiten lehnen ein solches Original ab; ein älteres Original ohne Bereichsangabe bleibt teilbar; eine Modul-App legt ihre Begleitdatei vorabkonfiguration.js bei der Installation des Service Workers mit ab und startet nach dem ersten Besuch auch ohne Netz mit ihrer Konfiguration (Befund MODUL-APP-VORABKONFIGURATION-OFFLINE); der Textsatz-Lauf bricht an keiner angedockten Situation mehr ab — eine eingefrorene Situation wird nicht beschrieben, ihre Blöcke werden gefüllt (TEXTSATZ-LAUF-BRICHT-AN-ANGEDOCKTER-SITUATION); eine vom Browser mit „Seite speichern“ gesicherte Kopie führt nichts mehr aus und zeigt nur einen Hinweis; der Schutz gegen das Einbetten in eine fremde Seite hängt nicht mehr am Stil-Element und wirft nicht, wenn es fehlt; in der gehosteten Fassung trägt der Abschnitt „Über“ der Einstellungen den Eintrag „… als Datei erhalten“, ein Link auf den Schalter ?datei=1 des Dienstes; sw.js lässt den Schalter durch, legt seine Antwort nicht ab und beantwortet ihn nicht aus dem Speicher (Befund ANWENDUNG-ALS-DATEI-OHNE-WEG). Davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463); scheitert beim ersten Sichern das Schreiben in die gewählte Datei, sagt die Anwendung, dass die Sicherung stattdessen im Download-Ordner liegt; jede Abweisung beim Öffnen nennt ihren Grund — eine Datei einer anderen Krypto-Fassung, ein beschädigter Stand und kein Depot auf dem Gerät heißen nicht mehr falsches Passwort; beim Einlesen wird gesagt, was nicht übernommen wurde (Modul, Vorlage, Anfrage), eine Anfrage oder Vorlage aus einer neueren Fassung wird als solche benannt, und die Übersicht einer Anfrage sagt, wenn mit den Voreinstellungen Nötiges zurückbleibt; v928 (Zug zug-folge9): Fremdtext in vier Senken geschlossen — die Anlass-Kachel zeigt den Titel ihrer Situation als Text, die Kennung eines Logikmoduls hat am Einlass die Form eines Attributnamens, Platzhalter in Texten eines Sprachmoduls werden nach dem Einsetzen noch einmal auf reinen Text geprüft, Werte in Attributen der Eingabemasken laufen über die Attribut-Maskierung; davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
 // (18.09.2026): beide Linien brachten ihre eigene Erhöhung unabhängig voneinander (Schnitt v734,
 // Verschluss v743) — hier zur gemeinsamen v744 zusammengeführt, Zuteilung.
 // Vorige (Schnitt-Linie, v734): v731 doppelt vergeben (vdm4-lese-app-trennung-2026-09-17), hier
@@ -2607,7 +2607,7 @@ function heuteLokal(d = new Date()) {
 // Konstanten waren nie aneinander gebunden. Jetzt erzwungen: tests/build-datum-lockstep.test.js
 // vergleicht diese Zeile gegen die vorige Commit-Fassung und schlägt fehl, wenn SCHALEN_STAND
 // sich geändert hat, ohne dass BUILD_DATUM ebenfalls angefasst wurde. IMMER gemeinsam bumpen.
-const BUILD_DATUM = '2026-10-14';
+const BUILD_DATUM = '2026-10-15';
 // Schwelle (Tage), ab der der Versions-Hinweis erscheint. ~6 Monate.
 const VERSION_HINWEIS_SCHWELLE_TAGE = 183;
 /* Die Marken-Stelle des Kerns (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst nirgends —
@@ -4078,6 +4078,8 @@ const ZUSICHERUNGS_SCHLUESSEL_KERN = Object.freeze([
   'klartextNichtVerschluesselt',
   'krisenvorsorgeBedarfHerkunftAbgeleitet',
   'krisenvorsorgeBedarfHerkunftUeberschrieben',
+  'mappeFremdPruefHinweis',
+  'mappePruefKopieText',
   'modulHerkunftUnbekanntHinweis',
   'modulPruefstufeGeprueftZusatz',
   'modulPruefstufeUngeprueftZusatz',
@@ -4404,13 +4406,11 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "sha256:2ffa1fee03cdb283b3d1634245b018132736607e2866d87bee7e7b9334320f94",
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
-  "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
   "sha256:48eecf50d5bda7dbe67e03ef2f76088788100d6e818f5ed24d1dab06bd10fb94",
   "sha256:525d92f3334b2cb544ee89d1a541c661dfda1411ad187e067fef42e2eaf1ee64",
   "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
-  "sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",
   "sha256:64c87d3825b00e4f002c2a71945f8a5390cc19a40c97b9e91c38c4c4e9e9aee6",
   "sha256:67533c21c1d79f9a342f32a9e5372d8b951a6aa74f34579da136884991fb54d6",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
@@ -4427,6 +4427,7 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "sha256:a076ff45e5b4156e0b3f0e2fc1b0510ccd34cb3c4816e00f04373143da2a59de",
   "sha256:a23b61e455773b6983c2b158b3aabba7ccd1b6ba5e912f95745ca157bb3992d2",
   "sha256:a349e68d1d95c99b7f4d8813cc22470fb1d6716a8175ac5c8f7c0647966a6b54",
+  "sha256:a505d35786820273ab27f58748ce5dda2f00470c089f5a04212a881633732926",
   "sha256:b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
   "sha256:c00302bfe2638cbf65dd79f56822046de7910d6ba6647a5f5d2ba3c07f6edcf9",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
@@ -4434,6 +4435,7 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
   "sha256:e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
   "sha256:e8af4c9308a1cc2b3018c66b914b8f7f598007d557016bb10037ebec2fa2837c",
+  "sha256:eda559dab476d53a6d18ef7b54b9266f2b096b58b3320484ea3e4012a6c689fa",
   "sha256:f0aa343ddabb16159f31263cfe29e05b90429a9bc316b385e23e946f32fb6487",
   "sha256:fbef7f1831d1a8bb8a3a055c0b70df9d51e57c1e037244be54f395bea72c9ba8",
   "sha256:feb419a2bf7efa68348d922c4748978e5649c22d93888305b6d9139247a3e69b",
@@ -4473,6 +4475,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:35bb24ef2f3d1bb8e9e63103667809d466c477069b0d8f6d0d0942b5fdd7df0e",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
   "sha256:3c5325d8c30b9dc9574a1aeae9cd4dad77eea1aa12e0ff9c64781f5b0769818e",
+  "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
   "sha256:4308672df53e5658a326398cf18bdc0ee5c462e562232ff409074ce9f0df4a71",
   "sha256:4344fd54b019ca170bed4ee15d2a1c0d94e04b9e21ba3aecbfb4be99755745de",
   "sha256:434fb5d6198176873d30ffb32cf83722ba3be3e00152ba1159469cee2de11d07",
@@ -4497,6 +4500,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
+  "sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",
   "sha256:645dd0c53ccf8aa3b8bff064236e112f989f6c16c1f34c263343a7747c48fc58",
   "sha256:64c87d3825b00e4f002c2a71945f8a5390cc19a40c97b9e91c38c4c4e9e9aee6",
   "sha256:67533c21c1d79f9a342f32a9e5372d8b951a6aa74f34579da136884991fb54d6",
@@ -18571,6 +18575,53 @@ async function depotMitCodeLaden(umschlag, codeEingabe, pwNeu) {
   return obj;
 }
 
+/* ══ ANTWORT-SEED — Plan „signierte Antwort und Zertifikat der Stelle", Wagen V2a (15.10.2026) ═══════════════════════
+   Ein Zufallswert je Depot (32 Byte), aus dem der nächste Wagen (V2) den Schlüssel je Stelle ableitet. Entschieden in
+   der Lesung des Plans: die Ableitung nimmt NICHT den passwortabgeleiteten Halter-Seed — sonst wechselte jeder
+   Passwortwechsel den Schlüssel bei allen Stellen. Der Seed ist darum INHALT des Depots, kein Sitzungsmaterial:
+   - er liegt im verschlüsselten Teil (eine Zerfall-Einheit wie jeder oberste Schlüssel), nie im Klartext-Umschlag;
+   - er reist mit jeder Sicherung, jedem Passwortwechsel und jeder Wiederherstellung, denn sie schreiben `data` ganz;
+   - er geht in KEINE Ausgabe: vollExportJSON löscht ihn unbedingt (auch beim Umzug), EMPFAENGER_NIE sperrt ihn für
+     jeden Ausschnitt, alle übrigen Wege lesen benannte Felder. Gehalten von der Sicherbarkeits-Probe des Antwort-Seeds.
+   KEIN Schema-Sprung: der Schlüssel ist additiv, ein Depot ohne ihn heißt „noch keiner angelegt" und braucht keine
+   Migration. Ein Sprung machte zudem jede neue Datei für einen Kern von vor dem Wagen zur „neueren Fassung" (nur lesen).
+   NICHT in leeresDepot(): angelegt wird er beim ersten Bedarf, genau einmal je Depot (`_antwortSeedHolen`). Ein
+   vorhandener, aber unlesbarer Eintrag wird nie still ersetzt — ein neuer Seed hieße neue Schlüssel bei allen Stellen. */
+const ANTWORT_SEED_FELD = 'antwortSeed';
+const ANTWORT_SEED_FORM = 1;
+const ANTWORT_SEED_BYTES = 32;
+function _antwortSeedB64u(bytes) {
+  return bytesToBase64(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function _antwortSeedAusB64u(text) {
+  const b64 = String(text).replace(/-/g, '+').replace(/_/g, '/');
+  return base64ToBytes(b64 + '='.repeat((4 - (b64.length % 4)) % 4));
+}
+// Genau diese zwei Schlüssel, Form 1, 43 Zeichen base64url = 32 Byte. Alles andere ist kein Seed dieser Fassung.
+function _antwortSeedGueltig(f) {
+  if (!f || typeof f !== 'object' || Array.isArray(f) || f.form !== ANTWORT_SEED_FORM) return false;
+  if (Object.keys(f).sort().join(',') !== 'form,wert') return false;
+  if (typeof f.wert !== 'string' || !/^[A-Za-z0-9_-]{43}$/.test(f.wert)) return false;
+  try { return _antwortSeedAusB64u(f.wert).length === ANTWORT_SEED_BYTES; } catch (e) { return false; }
+}
+/* Der eine Zugang. Liefert den Seed als frische Kopie (32 Byte; der Aufrufer darf sie nullen). Fehlt er, entsteht er hier
+   und wird mit dem nächsten Speichern geschrieben; ein zweiter Aufruf liefert dieselben Bytes. `ziel` ist für Proben und
+   für ein Depot-Objekt außerhalb der offenen Sitzung; ohne `ziel` gilt das offene Depot. */
+function _antwortSeedHolen(ziel) {
+  const d = ziel || data;
+  if (!d || typeof d !== 'object') throw new Error('antwort-seed:kein-depot');
+  if (Object.prototype.hasOwnProperty.call(d, ANTWORT_SEED_FELD)) {
+    if (!_antwortSeedGueltig(d[ANTWORT_SEED_FELD])) throw new Error('antwort-seed:ungueltig');
+    return _antwortSeedAusB64u(d[ANTWORT_SEED_FELD].wert);
+  }
+  if (d === data && neuereFassungNurLesen()) throw new Error('antwort-seed:nur-lesen');   // Versionstor: nichts anlegen, was nicht gespeichert werden darf
+  const roh = crypto.getRandomValues(new Uint8Array(ANTWORT_SEED_BYTES));
+  d[ANTWORT_SEED_FELD] = { form: ANTWORT_SEED_FORM, wert: _antwortSeedB64u(roh) };
+  roh.fill(0);
+  if (d === data) markiereUngespeichert(1);
+  return _antwortSeedAusB64u(d[ANTWORT_SEED_FELD].wert);
+}
+
 async function _passwortProbeRoundtrip(pwNfc) {
   const umschlag = await depotSerialisieren();
   const master = await depotMasterHkdfKey(pwNfc, aktuelleSalt);                       // 600k, Bits werden dort genullt
@@ -21003,6 +21054,10 @@ function isikDokumente(jetzt, opt) {
    sensiblen Felder (dieselbe Übersicht wie beim IPS-Export), dann — nur bei einer Datei, die das Kennzeichen nicht trägt — die
    einmalige Bestätigung „das ist die unterschriebene Vollmacht“. Jeder Grund ohne Datei wird gesagt, nicht nur vermerkt.
    `optionen` (programmatisch): { sensibel, urschriftBestaetigt } — ohne Dialog, dieselben Prüfungen. */
+// Gründe einer Abweisung als Liste im Dialog — jeder Satz einzeln maskiert (ISiK, KBV-PKA, Anhänge im Format-Modul).
+function _gruendeAlsListeHTML(gruende, satz) {
+  return '<ul class="einst-hint">' + gruende.map((g) => '<li>' + escapeHTML(satz(g)) + '</li>').join('') + '</ul>';
+}
 function _isikGruendeSagen(gruende) {
   // {mappe}: die Beschriftung des echten Knopfs, nicht abgeschrieben (tests/zitierte-beschriftung.test.js).
   const satz = (g) => (_eigenerWert(STRINGS, 'isikGrund_' + g.replace(/-/g, '_')) || g).replace('{mappe}', () => STRINGS.navMappe);
@@ -21011,7 +21066,7 @@ function _isikGruendeSagen(gruende) {
     const laden = gruende.includes('kdl-nicht-geladen')
       ? { label: STRINGS.kdlLadenKnopf, handler: (schliessen) => { schliessen(); _kdlSelbstLadenDialog(); } } : undefined;
     ui.modal({ titel: STRINGS.isikExportLabel,
-      koerperHTML: '<ul class="einst-hint">' + gruende.map((g) => '<li>' + escapeHTML(satz(g)) + '</li>').join('') + '</ul>',
+      koerperHTML: _gruendeAlsListeHTML(gruende, satz),
       primaerLabel: STRINGS.btnSchliessen, onPrimaer: (s) => s(), ohneAbbrechen: true, zweitAktion: laden });
   }
 }
@@ -21214,7 +21269,7 @@ function _kbvPkaGruendeSagen(gruende) {
   const satz = (g) => _eigenerWert(STRINGS, 'kbvPkaGrund_' + g.replace(/-/g, '_')) || g;
   if (typeof ui !== 'undefined' && ui.modal) {
     ui.modal({ titel: STRINGS.kbvPkaExportLabel,
-      koerperHTML: '<ul class="einst-hint">' + gruende.map((g) => '<li>' + escapeHTML(satz(g)) + '</li>').join('') + '</ul>',
+      koerperHTML: _gruendeAlsListeHTML(gruende, satz),
       primaerLabel: STRINGS.btnSchliessen, onPrimaer: (s) => s(), ohneAbbrechen: true });
   }
 }
@@ -21671,6 +21726,10 @@ function vollExportJSON(optionen) {
   if (kopie && Object.prototype.hasOwnProperty.call(kopie, '_migrationSicherung81')) delete kopie._migrationSicherung81;
   if (kopie && Object.prototype.hasOwnProperty.call(kopie, '_migrationSicherung88')) delete kopie._migrationSicherung88;
   if (kopie && Object.prototype.hasOwnProperty.call(kopie, '_migrationSicherung90')) delete kopie._migrationSicherung90;
+  /* Antwort-Seed (Wagen V2a): Material für die Schlüssel je Stelle, kein Wert über die Bürgerin. Unbedingt gelöscht, auch beim
+     Umzug (`{sensibel: true}`) — er reist allein in der verschlüsselten Datei. Ein Umzug in ein anderes Depot bekommt dort
+     beim ersten Bedarf einen eigenen. */
+  if (kopie && Object.prototype.hasOwnProperty.call(kopie, ANTWORT_SEED_FELD)) delete kopie[ANTWORT_SEED_FELD];
   if (!inklSensibel && kopie && kopie.sektoren) {
     for (const s of bereicheAlle()) {   // A389: vollExportJSON — sensible Werte auch in einem angedockten Bereich zurückhalten
       const sd = kopie.sektoren[s.id];
@@ -21845,8 +21904,77 @@ function _credentialOhneClaims(roh) {
   return !!(roh && typeof roh === 'object' && roh.claims && typeof roh.claims === 'object'
     && !Array.isArray(roh.claims) && Object.keys(roh.claims).length === 0);
 }
+/* U2-ADR-465 Nachtrag: Wortlaut je Rolle und je Grund — feste Verweise, damit jeder Text einen Leser hat. */
+function _formatAnhangRolleText(rolle) {
+  if (rolle === 'bescheid') return STRINGS.formatAnhangRolleBescheid;
+  if (rolle === 'vollmacht-nachweis') return STRINGS.formatAnhangRolleVollmacht;
+  if (rolle === 'lichtbild') return STRINGS.formatAnhangRolleLichtbild;
+  return rolle;
+}
+const _FORMAT_ANHANG_GRUND_TEXT = Object.freeze({
+  'anhang-unbestaetigt': () => STRINGS.formatAnhangGrundUnbestaetigt,
+  'anhang-datei-fehlt': () => STRINGS.formatAnhangGrundDateiFehlt,
+  'anhang-ist-entwurf': () => STRINGS.formatAnhangGrundEntwurf,
+  'anhang-keine-vollmacht': () => STRINGS.formatAnhangGrundKeineVollmacht,
+  'anhang-art-passt-nicht': () => STRINGS.formatAnhangGrundArt,
+  'anhang-inhalt-ungueltig': () => STRINGS.formatAnhangGrundInhalt,
+  'vertreter-privat': () => STRINGS.formatAnhangGrundVertreterPrivat,
+  'vertreter-mehrere': () => STRINGS.formatAnhangGrundVertreterMehrere,
+  'vertreter-fehlt': () => STRINGS.formatAnhangGrundVertreterFehlt,
+});
+function _formatAnhangGruendeSagen(def, gruende) {
+  const satz = (g) => String((_eigenerWert(_FORMAT_ANHANG_GRUND_TEXT, g.grund) || (() => g.grund))() || g.grund)
+    .replace('{rolle}', () => _formatAnhangRolleText(g.rolle)).replace('{mappe}', () => STRINGS.navMappe);
+  if (typeof ui !== 'undefined' && ui.modal) {
+    ui.modal({ titel: def.label, koerperHTML: '<p class="einst-hint">' + escapeHTML(STRINGS.formatAnhangKeineDatei) + '</p>'
+      + _gruendeAlsListeHTML(gruende, satz),
+      primaerLabel: STRINGS.btnSchliessen, onPrimaer: (sch) => sch(), ohneAbbrechen: true });
+  }
+}
+/* Die Kandidaten je Rolle aus „Meine Dokumente“: nie eine von Vivodepot erzeugte Datei; für den Nachweis der Vollmacht nur die
+   Urschrift, auf die das Dokument der Vorsorgevollmacht zeigt (wie bei ISiK); für das Lichtbild nur JPEG oder PNG. */
+function formatAnhangKandidaten(rolle) {
+  const r = _eigenerWert(FORMAT_ANHANG_ROLLEN, rolle);
+  if (!r) return [];
+  if (r.urschrift) { const u = _isikUrschrift({}); return (u.datei && u.grund === 'urschrift-unbestaetigt') ? [u.datei] : []; }
+  return (data && Array.isArray(data.mappe) ? data.mappe : [])
+    .filter((m) => m && !_isikVonVivodepot(m) && (!r.mime || r.mime.test(String(m.mime || ''))));
+}
+/* Die Wahl beim Export: je Rolle eine Datei oder keine. Der Knopf ist die Bestätigung, dass es die Nachweise sind. */
+function _formatAnhangWahl(def, exportOpt, weiter) {
+  if (!(typeof ui !== 'undefined' && ui.modal) || !def.anhaenge || !def.anhaenge.length) return weiter(exportOpt);
+  const zeilen = def.anhaenge.map((a) => {
+    const kand = formatAnhangKandidaten(a.rolle);
+    const optionen = '<option value="">' + escapeHTML(STRINGS.formatAnhangKeiner) + '</option>'
+      + kand.map((m) => '<option value="' + escapeAttr(m.id) + '">' + escapeHTML(m.beschriftung || m.dateiname || m.id) + '</option>').join('');
+    return '<label class="einst-hint" for="fa-' + escapeAttr(a.rolle) + '">' + escapeHTML(_formatAnhangRolleText(a.rolle))
+      + escapeHTML(a.pflicht ? ' ' + STRINGS.formatAnhangPflicht : '') + '</label>'
+      + '<select id="fa-' + escapeAttr(a.rolle) + '" data-anhang-rolle="' + escapeAttr(a.rolle) + '">' + optionen + '</select>';
+  }).join('');
+  ui.modal({
+    titel: STRINGS.formatAnhangTitel,
+    koerperHTML: '<p class="einst-hint">' + escapeHTML(STRINGS.formatAnhangText.replace('{mappe}', () => STRINGS.navMappe)) + '</p>' + zeilen,
+    primaerLabel: STRINGS.formatAnhangBestaetigen,
+    onPrimaer: (schliessen) => {
+      const anhaenge = {};
+      for (const a of def.anhaenge) {
+        const el = document.getElementById('fa-' + a.rolle);
+        if (el && el.value) anhaenge[a.rolle] = String(el.value);
+      }
+      schliessen();
+      return weiter(Object.assign({}, exportOpt || {}, { anhaenge }));
+    },
+  });
+  return 'frage';
+}
 function _formatExportDownload(def, optionen) {
+  // U2-ADR-465 Nachtrag: ein Kanal mit Anhängen sammelt die Gründe, aus denen keine Datei entsteht.
+  if (def.anhaenge && def.anhaenge.length) optionen = Object.assign({}, optionen || {}, { _anhangGruende: [] });
   const roh = def.baue(optionen || {});
+  if (roh === null && optionen && Array.isArray(optionen._anhangGruende) && optionen._anhangGruende.length) {
+    _formatAnhangGruendeSagen(def, optionen._anhangGruende);
+    return;
+  }
   /* Kein stilles leeres Credential (17.09.2026, v1-Blocker). Ein Credential-Format, dessen Claims leer
      bleiben, gab bisher eine gültig aussehende Datei ohne Inhalt heraus, mit „fertig". Gemessen an der
      Sozialversicherung: 15 der 19 Angaben sind sensibel (Pflegegrad, GdB, Pflegekasse …); ohne
@@ -21911,7 +22039,7 @@ function flowFormatExport(formatId, optionen) {
       sektorId: def.sektor || null,
       titel: def.label,
       formatId,   // „Export-Lücken in drei Töpfe" (12.08.2026): markiert Topf-B-Felder dieses Formats
-      aufFortfahren: (o) => _formatExportDownload(def, o),
+      aufFortfahren: (o) => _formatAnhangWahl(def, o, (o2) => _formatExportDownload(def, o2)),   // U2-ADR-465 Nachtrag
     });
     return;
   }
@@ -25433,7 +25561,7 @@ const FORMAT_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'app
   'label', 'sprache', 'akzeptiert', 'leser', 'schreiber', 'quelle', 'quelleWurzelFallback', 'erkennen', 'zuordnung',
   'ungeprueft', 'eingelassenAm', 'rechtsraum', 'namensraum', 'wurzel', 'hinweis']);   // `namensraum`, `wurzel`, `hinweis`: U2-ADR-465 // `sprache`: 1.0a — in welcher Sprache steht `label` // `appVersion`: F5 — Untergrenze an die Anwendung, geprüft im Einlassweg // `rechtsraum`: U2-ADR-255 (04.09.2026), optional — s. formatModulPruefen // `schreiber`: U2-ADR-257 (04.09.2026), optional, fehlt er gilt `json@1` — s. FORMAT_SCHREIBER
 const FORMAT_ERKENNER_SCHLUESSEL = Object.freeze(['pfad', 'gleich', 'vorhanden', 'istObjekt']);
-const FORMAT_ZUORDNUNG_SCHLUESSEL = Object.freeze(['feld', 'ziel', 'alsListe', 'bereich', 'fest', 'werte', 'teil']);   // bereich/fest/werte/teil: U2-ADR-465
+const FORMAT_ZUORDNUNG_SCHLUESSEL = Object.freeze(['feld', 'ziel', 'alsListe', 'bereich', 'fest', 'werte', 'teil', 'anhang', 'pflicht', 'vertreter']);   // bereich/fest/werte/teil: U2-ADR-465; anhang/pflicht/vertreter: U2-ADR-465 Nachtrag
 /* U2-ADR-465: Teile eines Datums (ISO JJJJ-MM-TT, auch nur JJJJ oder JJJJ-MM), benannt wie Leser und Schreiber — das Modul
    wählt einen Namen, der Kern liefert die Funktion. Ein fehlender Teil ergibt keinen Wert, keinen erfundenen. */
 const FORMAT_TEILE = Object.freeze({
@@ -25451,6 +25579,22 @@ const _FORMAT_HINWEIS_FORM = /^(?!.*--)[^\u0000-\u001f<>]{1,300}(?<!-)$/;
 const _FORMAT_NAMENSRAUM_EIGEN = /^(?:urn:vivodepot:|https?:\/\/(?:www\.)?vivodepot\.de\/)/i;
 function formatNamensraumFremd(ns) { return typeof ns === 'string' && !!ns && !_FORMAT_NAMENSRAUM_EIGEN.test(ns); }
 const _FORMAT_FEST_TYPEN = Object.freeze(['string', 'number', 'boolean']);
+/* U2-ADR-465 Nachtrag (05.10.2026): Anhänge. Ein Modul nennt die ROLLE eines Anhangs, nie eine Datei; die Datei wählt und
+   bestätigt die Person beim Export aus „Meine Dokumente“ (`optionen.anhaenge[rolle] = Mappe-Kennung`). Der Inhalt steht als
+   xs:base64Binary im Element, in der Form von `content` im XFall-Container. Je Rolle, welche Dateiart sie annimmt (`mime`,
+   null = jede) und ob die Datei die Urschrift einer Vorsorgevollmacht sein muss (`urschrift`). */
+const FORMAT_ANHANG_ROLLEN = Object.freeze({
+  bescheid: Object.freeze({ mime: null, urschrift: false }),
+  'vollmacht-nachweis': Object.freeze({ mime: null, urschrift: true }),
+  lichtbild: Object.freeze({ mime: /^image\/(?:jpeg|png)$/, urschrift: false }),
+});
+/* U2-ADR-465 Nachtrag: Felder der bevollmächtigten Person (U2-ADR-467, getrennt geführt). Geschrieben nur, wenn der Nachweis
+   der Vollmacht (Rolle `vollmacht-nachweis`) bestätigt beiliegt — ohne Nachweis kein Antrag in Vertretung. */
+const FORMAT_VERTRETER_FELDER = Object.freeze(['familyName', 'givenName', 'street', 'houseNumber', 'postalCode', 'city']);
+/* xs:base64Binary (XML Schema 1.1 Teil 2, 3.3.17), ohne Leerraum: Vierergruppen, am Ende höchstens zwei „=“ mit den dort
+   erlaubten Zeichen davor. Gilt für den Inhalt, den der Kern schreibt — eine eigene Regel, nicht das Urteil des Validators
+   (xs:anyType nimmt alles an). */
+const _FORMAT_BASE64_FORM = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=|[A-Za-z0-9+/][AQgw]==)?$/;
 // Ein Pfad liest Daten; er läuft die Prototypenkette NICHT hoch.
 const _FORMAT_PFAD_VERBOTEN = Object.freeze(['__proto__', 'constructor', 'prototype']);
 
@@ -25678,6 +25822,21 @@ function formatModulPruefen(modul) {
        genau einen Bereich. */
     const hatFest = Object.prototype.hasOwnProperty.call(z, 'fest');
     if ((z.bereich != null || hatFest) && richtung !== 'export') { verworfene.push({ ziel: z.ziel, grund: 'nur-ausgabe' }); continue; }
+    /* U2-ADR-465 Nachtrag: `anhang` (eine Rolle aus FORMAT_ANHANG_ROLLEN, wahlweise `pflicht`) und `vertreter` (ein Feld der
+       bevollmächtigten Person) stehen allein — ohne `feld`, `fest` und die übrigen Schlüssel — und tragen nur in der Ausgabe. */
+    if ((z.anhang != null || z.vertreter != null || z.pflicht != null) && richtung !== 'export') { verworfene.push({ ziel: z.ziel, grund: 'nur-ausgabe' }); continue; }
+    if (z.anhang != null || z.vertreter != null) {
+      const allein = Object.keys(z).filter((s) => ['ziel', 'anhang', 'pflicht', 'vertreter'].indexOf(s) < 0).length === 0;
+      const art = (z.anhang != null) ? 'anhang' : 'vertreter';
+      if (!allein || (z.anhang != null && z.vertreter != null)) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-' + art }); continue; }
+      if (art === 'anhang' && (typeof z.anhang !== 'string' || !Object.prototype.hasOwnProperty.call(FORMAT_ANHANG_ROLLEN, z.anhang))) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-anhang-rolle' }); continue; }
+      if (art === 'vertreter' && (z.pflicht != null || FORMAT_VERTRETER_FELDER.indexOf(z.vertreter) < 0)) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-vertreter' }); continue; }
+      if (z.pflicht != null && typeof z.pflicht !== 'boolean') { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-pflicht' }); continue; }
+      if (!_formatPfadTeile(z.ziel)) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-ziel' }); continue; }
+      zuordnung.push(art === 'anhang' ? { anhang: z.anhang, ziel: z.ziel, pflicht: z.pflicht === true } : { vertreter: z.vertreter, ziel: z.ziel });
+      continue;
+    }
+    if (z.pflicht != null) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-pflicht' }); continue; }   // `pflicht` gibt es nur am Anhang
     if (hatFest) {
       if (z.feld != null || _FORMAT_FEST_TYPEN.indexOf(typeof z.fest) < 0) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-fest' }); continue; }
       if (!_formatPfadTeile(z.ziel)) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-ziel' }); continue; }
@@ -25716,6 +25875,9 @@ function formatModulPruefen(modul) {
   }
   if (!zuordnung.length) return nein('zuordnung-leer');
   if (!zuordnung.some((z) => z.feld)) return nein('zuordnung-nur-fest');   // ein Kanal ohne ein einziges Depot-Feld gibt nichts heraus
+  // U2-ADR-465 Nachtrag: die bevollmächtigte Person steht nur mit dem Nachweis der Vollmacht in der Datei — ohne die Rolle nie.
+  if (zuordnung.some((z) => z.vertreter) && !zuordnung.some((z) => z.anhang === 'vollmacht-nachweis')) return nein('vertreter-ohne-nachweis');
+  if (new Set(zuordnung.filter((z) => z.anhang).map((z) => z.anhang)).size !== zuordnung.filter((z) => z.anhang).length) return nein('anhang-rolle-doppelt');
 
   /* B3 (Kette, Auftrag 3, Zug 6 — 20.08.2026): Ein Modul mit einem verschachtelten UND einem
      flachen Ziel kam bis heute mit `gueltig: true` zurück — mit EINER statt zwei Zuordnungen.
@@ -25831,6 +25993,55 @@ function formatModulZuImportKanal(modul) {
 /* Dieselbe Beschreibung, andere Richtung — EXPORT_FORMATE-Gegenstück. Derselbe Schnitt:
    `baueAusMapping` ist der Motor, `quelle` ist der Umschlag. Der Export trägt ihn besser als
    der Import (A272: 6 von 11 laufen schon über eine Tabelle). */
+/* U2-ADR-465 Nachtrag: die Anhänge eines Kanals auflösen. `optionen.anhaenge` ist { rolle: Mappe-Kennung } — die Wahl, die die
+   Person beim Export trifft und bestätigt; eine Kennung, die dort nicht steht, ist kein Anhang. Was nicht trägt, wird BENANNT:
+     anhang-unbestaetigt   ein Pflicht-Anhang ist nicht gewählt
+     anhang-datei-fehlt    die gewählte Kennung steht nicht (mehr) in „Meine Dokumente“
+     anhang-ist-entwurf    die Datei hat Vivodepot erzeugt (nie ein Nachweis, wie bei ISiK `_isikVonVivodepot`)
+     anhang-keine-vollmacht  für den Nachweis der Vollmacht ist nur die Urschrift der Vorsorgevollmacht zulässig
+     anhang-art-passt-nicht  die Dateiart passt nicht zur Rolle (Lichtbild: JPEG oder PNG)
+     anhang-inhalt-ungueltig der Inhalt ist kein Base64 (Data-URL ohne „;base64,“ oder mit fremden Zeichen)
+   Gibt { jeRolle: { rolle: { datei, b64 } }, gruende } — mit einem Grund entsteht keine Datei (der Aufrufer sagt ihn). */
+function formatAnhaengeAufloesen(zuordnung, opt) {
+  const jeRolle = Object.create(null);
+  const gruende = [];
+  const gewaehlt = (opt && opt.anhaenge && typeof opt.anhaenge === 'object') ? opt.anhaenge : {};
+  for (const z of zuordnung) {
+    if (!z.anhang) continue;
+    const rolle = _eigenerWert(FORMAT_ANHANG_ROLLEN, z.anhang);
+    const id = Object.prototype.hasOwnProperty.call(gewaehlt, z.anhang) ? gewaehlt[z.anhang] : null;
+    if (!id) { if (z.pflicht) gruende.push({ rolle: z.anhang, grund: 'anhang-unbestaetigt' }); continue; }
+    const datei = mappeEintrag(id);
+    if (!datei) { gruende.push({ rolle: z.anhang, grund: 'anhang-datei-fehlt' }); continue; }
+    if (_isikVonVivodepot(datei)) { gruende.push({ rolle: z.anhang, grund: 'anhang-ist-entwurf' }); continue; }
+    if (rolle.urschrift) {
+      const u = _isikUrschrift({ urschriftBestaetigt: id });
+      if (u.grund || !u.datei || u.datei.id !== id) { gruende.push({ rolle: z.anhang, grund: 'anhang-keine-vollmacht' }); continue; }
+    }
+    if (rolle.mime && !rolle.mime.test(String(datei.mime || ''))) { gruende.push({ rolle: z.anhang, grund: 'anhang-art-passt-nicht' }); continue; }
+    const m = /^data:[^,]*;base64,(.*)$/s.exec(String(datei.inhalt || ''));
+    const b64 = m ? m[1].replace(/\s+/g, '') : '';
+    if (!b64 || !_FORMAT_BASE64_FORM.test(b64)) { gruende.push({ rolle: z.anhang, grund: 'anhang-inhalt-ungueltig' }); continue; }
+    jeRolle[z.anhang] = { datei, b64 };
+  }
+  return { jeRolle, gruende };
+}
+/* U2-ADR-465 Nachtrag: die bevollmächtigte Person der Vorsorgevollmacht, deren Urschrift als Nachweis beiliegt. Genau eine
+   Person, nicht als „Privat“ markiert — mehrere werden nicht ausgewählt (der Antrag kennt eine), eine private geht nicht
+   hinaus (wie bei der KBV-Ausgabe). Gelesen werden nur die getrennt geführten Felder (U2-ADR-467), nie aus `name` zerlegt. */
+function formatVertreterAufloesen() {
+  const ac = (data && data.sektoren && data.sektoren.advanceCare) || {};
+  const refs = [];
+  for (const z of (Array.isArray(ac.provisionInstruments) ? ac.provisionInstruments : [])) {
+    if (!z || z.instrument !== 'enduring-power-of-attorney') continue;
+    for (const r of (Array.isArray(z.authorizedPersons) ? z.authorizedPersons : [])) if (r && r.ref && refs.indexOf(r.ref) < 0) refs.push(r.ref);
+  }
+  const personen = refs.map((ref) => (Array.isArray(data.menschen) ? data.menschen : []).find((m) => m && m.id === ref)).filter(Boolean);
+  if (personen.some((p) => p.nichtMitgeben)) return { grund: 'vertreter-privat' };
+  if (personen.length > 1) return { grund: 'vertreter-mehrere' };
+  if (!personen.length) return { grund: 'vertreter-fehlt' };
+  return { person: personen[0] };
+}
 function formatModulZuExportKanal(modul) {
   const g = formatModulPruefen(modul);
   if (!g.gueltig || g.kanal.richtung !== 'export') return null;
@@ -25847,7 +26058,7 @@ function formatModulZuExportKanal(modul) {
   if (formatNamensraumFremd(k.namensraum) && !modulBelegGeprueft(modul) && !_abWerkGleich(modul)) return null;
   const mapping = k.zuordnung.filter(z => z.feld).map(z => (z.alsListe ? { feld: z.feld, ziel: z.ziel, transform: _formatAlsListe }
                                                    : { feld: z.feld, ziel: z.ziel }));
-  const mehrereBereiche = k.zuordnung.some(z => z.bereich || z.werte || z.teil || Object.prototype.hasOwnProperty.call(z, 'fest'));
+  const mehrereBereiche = k.zuordnung.some(z => z.bereich || z.werte || z.teil || z.anhang || z.vertreter || Object.prototype.hasOwnProperty.call(z, 'fest'));
   // U2-ADR-465: Rohwert statt Beschriftung, wenn eine Werteabbildung oder ein Datumsteil verlangt ist.
   const umformung = (z) => {
     if (!z.werte && !z.teil) return z.alsListe ? _formatAlsListe : null;
@@ -25867,15 +26078,31 @@ function formatModulZuExportKanal(modul) {
     if (roh === undefined || roh === null || roh === '') return;
     opt._unabgebildet.push({ bereich: z.bereich || k.sektor, feld: z.feld, ziel: z.ziel });
   };
+  // U2-ADR-465 Nachtrag: die Rollen der Anhänge, für die Wahl beim Export (Reihenfolge der Zuordnung).
+  const anhaenge = k.zuordnung.filter((z) => z.anhang).map((z) => ({ rolle: z.anhang, pflicht: z.pflicht === true }));
   return {
     id: k.format, kategorie: 'sektor', sektor: k.sektor, label: k.label,
     nurExport: true, eingelassen: true, rechtsraum: k.rechtsraum,   // U2-ADR-255
+    anhaenge,
     // U2-ADR-257: `mime`/`endung` folgen dem Schreiber statt fest JSON zu behaupten. Ohne
     // `schreiber` ist das derselbe Wert wie vorher — `json@1` trägt application/json + json.
     mime: schreiber.mime, endung: schreiber.endung,
     dateibasis: 'Vivodepot_' + k.format.replace(/[^A-Za-z0-9_-]/g, '_'),
     baue: (opt) => {
       let claims;
+      /* U2-ADR-465 Nachtrag: zuerst die Anhänge. Trägt einer nicht (Pflicht-Anhang ungewählt, Entwurf statt Urschrift …),
+         entsteht KEINE Datei — `null`, die Gründe in `optionen._anhangGruende`. Kein stiller Platzhalter im Element. */
+      const aw = anhaenge.length ? formatAnhaengeAufloesen(k.zuordnung, opt) : { jeRolle: {}, gruende: [] };
+      let vertreter = null;
+      if (k.zuordnung.some((z) => z.vertreter) && aw.jeRolle['vollmacht-nachweis']) {
+        const v = formatVertreterAufloesen();
+        if (v.grund) aw.gruende.push({ rolle: 'vollmacht-nachweis', grund: v.grund });
+        else vertreter = v.person;
+      }
+      if (aw.gruende.length) {
+        if (opt && Array.isArray(opt._anhangGruende)) opt._anhangGruende.push(...aw.gruende);
+        return null;
+      }
       if (!mehrereBereiche) claims = baueAusMapping(k.sektor, mapping, opt);
       else {
         /* U2-ADR-465: in der Reihenfolge der Zuordnung (ein XSD verlangt seine Elementfolge), jedes Feld durch denselben
@@ -25883,6 +26110,12 @@ function formatModulZuExportKanal(modul) {
         claims = {};
         for (const z of k.zuordnung) {
           if (Object.prototype.hasOwnProperty.call(z, 'fest')) { _formatPfadSchreiben(claims, z.ziel, z.fest); continue; }
+          if (z.anhang) { if (aw.jeRolle[z.anhang]) _formatPfadSchreiben(claims, z.ziel, aw.jeRolle[z.anhang].b64); continue; }
+          if (z.vertreter) {
+            const w = vertreter && (typeof vertreter[z.vertreter] === 'string') ? vertreter[z.vertreter].trim() : '';
+            if (w) _formatPfadSchreiben(claims, z.ziel, w);
+            continue;
+          }
           const tf = umformung(z);
           const einzeln = baueAusMapping(z.bereich || k.sektor, [tf ? { feld: z.feld, ziel: z.ziel, transform: tf } : { feld: z.feld, ziel: z.ziel }], opt);
           const w = _formatPfadLesen(einzeln, z.ziel);
@@ -26648,6 +26881,7 @@ const EMPFAENGER_NIE = Object.freeze(new Set([
   'urheberschaft', 'feldGueltigkeit', 'feldGueltigkeitGerettet', 'sensibelFelder',
   'bereicheVerwaist', 'feldDefinitionenVerwaist', 'bereicheVerwaistIdentitaet', // U2-ADR-187: dieselbe Sperre wie die Werte, die sie benennt
   '_letzterAnlass', '_wiedereinstiegHinweisGezeigt',
+  ANTWORT_SEED_FELD,             // Wagen V2a: Krypto-Material des Ankers (Schlüssel je Stelle), nie in einer fremden Datei
 ]));
 
 // Die Tripel eines Bausteins — dieselbe Quelle, aus der die Blätter gezeichnet werden.
@@ -26927,6 +27161,40 @@ function _autoritativRohBytes(eintrag) {
   if (i < 0) return null;
   try { return Uint8Array.from(atob(du.slice(i + 7)), c => c.charCodeAt(0)); }
   catch (e) { return null; }
+}
+
+/* ── Prüfhinweis bei fremder Signatur (14.10.2026, Option O2 des Berichts zur Übergabe an Fachverfahren) ─────────────────────
+   Vivodepot hält ein Original unverändert und prüft die Signatur eines Dritten nicht (U2-ADR-443/445). Beim Weitergeben sagt der Dialog,
+   WER prüft und womit: ein Bildungsnachweis (EDC, Open Badge) nennt die offizielle Prüfstelle im Wortlaut des Hinweises; ein FHIR-Dokument
+   oder ein PDF bekommt einen Satz nur dann, wenn eine Signatur ERKANNT ist (Anwesenheit, keine Prüfung) — ohne erkannte Signatur steht
+   nichts da. Erkannt wird FHIR an `signature` des Bündels oder an einer Provenance mit `signature` im Bündel, PDF am Signaturfeld
+   (ByteRange). Die Adressen stehen im Textsatz als Text, nicht als Link. */
+function _fhirSignaturErkannt(eintrag) {
+  const text = _autoritativKlartext(eintrag);
+  if (text == null) return false;
+  let o; try { o = JSON.parse(text); } catch (_) { return false; }
+  if (!o || typeof o !== 'object') return false;
+  if (o.signature) return true;
+  return Array.isArray(o.entry) && o.entry.some((x) => x && x.resource && x.resource.resourceType === 'Provenance' && x.resource.signature);
+}
+function _pdfSignaturErkannt(eintrag) {
+  const bytes = _autoritativRohBytes(eintrag);
+  if (!bytes) return false;
+  let t = ''; for (let i = 0; i < bytes.length; i += 8192) t += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
+  return /\/ByteRange\s*\[/.test(t);
+}
+// 'edc' | 'ob3' | 'signatur' | null — null heißt: kein Prüfhinweis.
+function mappePruefArt(eintrag) {
+  if (!eintrag || !eintrag.inhalt) return null;
+  const bild = eintrag.autoritativ ? BILDUNG_DOK_TYPEN.find((d) => d.ig === eintrag.gepruefteIG) : null;
+  if (bild) return bild.typ === 'edc' ? 'edc' : (bild.typ === 'ob3' ? 'ob3' : 'signatur');
+  if (eintrag.mime === 'application/pdf') return _pdfSignaturErkannt(eintrag) ? 'signatur' : null;
+  if (eintrag.autoritativ && eintrag.mime === 'application/fhir+json') return _fhirSignaturErkannt(eintrag) ? 'signatur' : null;
+  return null;
+}
+function mappePruefKopieText(art) {
+  const stelle = art === 'edc' ? STRINGS.mappePruefStelleEdc : (art === 'ob3' ? STRINGS.mappePruefStelleOb3 : STRINGS.mappePruefStelleStandard);
+  return STRINGS.mappePruefKopieText + ' ' + stelle + '.';
 }
 
 /* ── FHIR-Narrative-Renderer (U2-ADR-076, Gazelle „Content Consumer Imports and Renders Sample") ──
@@ -33689,6 +33957,7 @@ function istEntsiegelt(depotUUID) { return sessionSubKeys.has(depotUUID); }
 // Speichert WEDER das Passwort NOCH einen abgeleiteten Schlüssel.
 async function subDepotAnlegen({ bezeichnung, inhaberin, verwaltungsTyp, vertretungsGrundlage, vorname, nachname, nachname2, familienname_zuerst, akzent, vertreteneRegisterId }, subPasswort) {
   if (!data) throw new Error('Kein offenes Depot.');
+  if (imSubKontext()) throw new Error(STRINGS.subAnlegenNurAnker);   // flaches Modell (B16-ADR-052), s. renderVerwalteteDepots
   if (!Array.isArray(data.verwalteteDepots)) data.verwalteteDepots = [];
   const typ = (verwaltungsTyp === 'delegiert') ? 'delegiert' : 'verwaltet';
   // D35 Commit 4: rechtliche Grundlage als Klartext-Metadatum (Whitelist + Fallback null),
@@ -33748,7 +34017,7 @@ async function subDepotAnlegen({ bezeichnung, inhaberin, verwaltungsTyp, vertret
 
 // Vertrauens-Modus betreten: Passwort prüfen, Sub-Key + Inhalt in die RAM-Map.
 async function subDepotVertrauenOeffnen(depotUUID, subPasswort) {
-  const e = (data && data.verwalteteDepots || []).find(x => x.depotUUID === depotUUID);
+  const e = verwalteterEintrag(depotUUID);
   if (!e) throw new Error('Sub-Depot nicht gefunden: ' + depotUUID);
   /* SUB-SONDERLOCKEN S11 (07.10.2026): ein Eintrag, der die Vertretungsgrundlage noch im Klartext trägt, stammt aus
      einer internen Testfassung vor Stufe 67 (20.08.2026). Er wird nicht geöffnet und nicht verändert — ein definierter
@@ -33785,6 +34054,15 @@ let aktiverSubKontext = null;   // depotUUID des aktiven Sub-Depots | null = Ank
 let _ankerData = null;          // hält die Anker-Daten, solange ein Sub-Kontext aktiv ist
 let _ankerAkteur = null;        // hält den Anker-Sitzungs-Akteur, solange ein Sub-Kontext aktiv ist
 function ankerDaten() { return _ankerData || data; }            // trägt verwalteteDepots
+/* Kartenaktionen der Verwaltungsliste (15.10.2026, Befund SUB-DEPOT-EXPORT-KLICKWEG): die Liste zeigt die Karten aus dem
+   Anker-Depot (renderVerwalteteDepots). Jede Aktion an einer Karte — Export als verschlüsselte Datei, Aushängen, Wieder-
+   aufnehmen, Widerspruch, Vertrauen öffnen — sucht ihren Eintrag am selben Ort. Bis hierher suchten sie in `data`: hatte
+   die Person ein Sub-Depot betreten, ist `data` dessen Inhalt, und jede dieser Aktionen fand die Karte nicht („Sub-Depot
+   nicht gefunden“, angezeigt als „Das hat nicht geklappt“). Klassenwächter: tests/verwaltung-karten-aus-anker.test.js. */
+function verwalteterEintrag(depotUUID) {
+  const anker = ankerDaten();
+  return ((anker && Array.isArray(anker.verwalteteDepots)) ? anker.verwalteteDepots : []).find((x) => x.depotUUID === depotUUID);
+}
 function imSubKontext() { return aktiverSubKontext != null; }
 // U2-ADR-425 (18.09.2026, Nachtrag): die Zusage vom 27.07.2026 (Voll-Sicherung nennt
 // verwaltete Depots) hatte ihren einzigen Träger im entfernten offenen JSON-Export — dieser
@@ -34643,8 +34921,7 @@ function blackboxDateiAusUmschlag(umschlag) {
 // es läuft keine Entschlüsselung, kein Schlüssel wird berührt, kein Klartext entsteht.
 function subDepotBlackboxExportieren(depotUUID) {
   if (!data) throw new Error('Kein offenes Depot.');
-  const eintrag = (Array.isArray(data.verwalteteDepots) ? data.verwalteteDepots : [])
-    .find(x => x.depotUUID === depotUUID);
+  const eintrag = verwalteterEintrag(depotUUID);
   if (!eintrag) throw new Error('Sub-Depot nicht gefunden: ' + depotUUID);
   // Aus dem Archiv ist kein Re-Export möglich, bis ausdrücklich reaktiviert wurde
   // (verhindert, dass eine veraltete Blackbox unbemerkt die Kette entlangwandert).
@@ -34945,8 +35222,7 @@ function subDepotAushaengen(depotUUID, { empfaenger, absicht = 'beiseitelegen' }
   if (absicht !== 'beiseitelegen' && absicht !== 'abgeben') {
     throw new Error('Unbekannte Absicht beim Aushängen: ' + absicht);
   }
-  const eintrag = (Array.isArray(data.verwalteteDepots) ? data.verwalteteDepots : [])
-    .find(x => x.depotUUID === depotUUID);
+  const eintrag = verwalteterEintrag(depotUUID);
   if (!eintrag) throw new Error('Sub-Depot nicht gefunden: ' + depotUUID);
   if (!verwaltungAktiv(eintrag)) throw new Error('Sub-Depot ist bereits übergeben-archiviert.');
 
@@ -34991,7 +35267,7 @@ function subDepotAushaengen(depotUUID, { empfaenger, absicht = 'beiseitelegen' }
    Befund-Ratsche (WIDERSPRUCH-SELBSTWEG). */
 function subDepotWiderspruchErfassen(depotUUID, { gegenstand, erklaertVon, weitergegebenDurch, wiedervorlageAm } = {}) {
   if (!data) throw new Error('widerspruch-ohne-depot');
-  const e = (Array.isArray(data.verwalteteDepots) ? data.verwalteteDepots : []).find((x) => x.depotUUID === depotUUID);
+  const e = verwalteterEintrag(depotUUID);
   if (!e) throw new Error('widerspruch-sub-depot-unbekannt');
   const g = String(gegenstand == null ? '' : gegenstand).trim();
   if (!g) throw new Error('widerspruch-ohne-gegenstand');
@@ -35015,7 +35291,7 @@ function subDepotWiderspruchErfassen(depotUUID, { gegenstand, erklaertVon, weite
 }
 function subDepotWiderspruchEntfernen(depotUUID, widerspruchId) {
   if (!data) throw new Error('widerspruch-ohne-depot');
-  const e = (Array.isArray(data.verwalteteDepots) ? data.verwalteteDepots : []).find((x) => x.depotUUID === depotUUID);
+  const e = verwalteterEintrag(depotUUID);
   const w = e && Array.isArray(e.widersprueche) ? e.widersprueche.find((x) => x.id === widerspruchId) : null;
   if (!w) throw new Error('widerspruch-unbekannt');
   if (w.entfernt) return w;
@@ -35067,8 +35343,7 @@ function prueftermineWidersprueche(jetzt) {
 // ist wieder ein Export möglich. Anhängender Audit-Eintrag mit Person, wo bekannt.
 function subDepotReaktivieren(depotUUID) {
   if (!data) throw new Error('Kein offenes Depot.');
-  const eintrag = (Array.isArray(data.verwalteteDepots) ? data.verwalteteDepots : [])
-    .find(x => x.depotUUID === depotUUID);
+  const eintrag = verwalteterEintrag(depotUUID);
   if (!eintrag) throw new Error('Sub-Depot nicht gefunden: ' + depotUUID);
   if (verwaltungAktiv(eintrag)) throw new Error('Sub-Depot ist bereits aktiv verwaltet.');
   /* ABGEGEBEN HEISST ABGEGEBEN (27.07.2026, Posten 41).
@@ -36122,6 +36397,7 @@ function umschlagAusDatei(datei) {
 // Sitzungs-Akteur oder depotUUID-Kollision. Audit am Anker, anhängend, mit Person.
 function subDepotEinhaengen(datei, { bezeichnung, inhaberin } = {}) {
   if (!data) throw new Error('Kein offenes Depot.');
+  if (imSubKontext()) throw new Error(STRINGS.subAnlegenNurAnker);   // flaches Modell (B16-ADR-052), s. renderVerwalteteDepots
   const umschlag = umschlagAusDatei(datei);   // wirft bei falschem Datei-Typ
   pruefeBlackboxUmschlag(umschlag);           // untrusted input — wirft bei Fehler
 
@@ -50299,9 +50575,7 @@ function _faltContainer(c, vorherDaten, schreib, stempelNs) {
   // nicht diese Zeile (Muster K für diese drei Felder: derselbe Mechanismus wie beim Personen-Widget).
   c.querySelectorAll('[data-chip-liste]').forEach(feldEl => {
     const fid = feldEl.getAttribute('data-chip-liste');
-    const chips = Array.prototype.map.call(feldEl.querySelectorAll('.chip[data-chip]'), (el) => {
-      try { return JSON.parse(el.getAttribute('data-chip')); } catch (_) { return null; }
-    }).filter(Boolean);
+    const chips = Array.prototype.map.call(feldEl.querySelectorAll('.chip[data-chip]'), (el) => chipDaten(el)).filter(Boolean);
     const vorher = Array.isArray(vorherDaten[fid]) ? vorherDaten[fid] : [];
     if (chips.length) neu[fid] = chips; else delete neu[fid];
     if (JSON.stringify(vorher) !== JSON.stringify(chips)) geaendert.push(fid);
@@ -50745,9 +51019,7 @@ function _wizardAktuellerWert() {
     // Chip-Mechanik: die bestätigten Chips liegen im DOM (data-chip je .chip-Element).
     const feldEl = c.querySelector('[data-chip-liste="' + feld.id + '"]');
     if (!feldEl) return undefined;
-    const chips = Array.prototype.map.call(feldEl.querySelectorAll('.chip[data-chip]'), (el) => {
-      try { return JSON.parse(el.getAttribute('data-chip')); } catch (_) { return null; }
-    }).filter(Boolean);
+    const chips = Array.prototype.map.call(feldEl.querySelectorAll('.chip[data-chip]'), (el) => chipDaten(el)).filter(Boolean);
     return chips.length ? chips : undefined;
   }
   if (feld.typ === 'mehrfachauswahl') {
@@ -54978,7 +55250,7 @@ function renderMappe() {
     };
   }
 }
-// Vorschau eines Eintrags: Bild im Modal, PDF im Browser-Viewer (iframe), sonst Hinweis.
+// Vorschau eines Eintrags: Bild im Modal, bei einem PDF Name und Größe (kein Rahmen, s. unten), sonst Hinweis.
 // U2-ADR-049: Feld-Übernahme aus einem autoritativen Original. Nur Typen MIT `uebernahmeFormat` (heute IPS —
 // der bestehende fhir-ips-Mapper _fhirIpsFelder). Liest das verbatim Original READ-ONLY und baut den bestehenden
 // Import-Plan (neu/gleich/konflikt). Liefert den Plan — oder null (kein Mapper / nicht autoritativ / unlesbar).
@@ -55000,8 +55272,6 @@ function flowMappeWerteUebernehmen(mappeId) {
   flowImportVorschau(plan);
 }
 
-// Zug 4b — Objekt-URL der offenen PDF-Vorschau (falls eine offen ist), zum Freigeben beim Schließen.
-let _mappeVorschauBlobUrl = null;
 function flowMappeVorschau(id) {
   const e = mappeEintrag(id);
   if (!e) return;
@@ -55016,13 +55286,14 @@ function flowMappeVorschau(id) {
   if (/^image\//.test(e.mime || '') && _inhaltBild) {
     koerperHTML = '<img class="mappe-vorschau-bild" src="' + escapeHTML(_inhaltBild) + '" alt="">';
   } else if (e.mime === 'application/pdf' && _inhaltPdf) {
-    // Zug 4b (Auftrag „Erfolg ohne Wirkung", 08.08.2026) — Chrome/Edge/Firefox blockieren PDF-
-    // Rendering im iframe bei einer `data:`-Quelle (der leere Rahmen aus dem Befund); eine
-    // `blob:`-Objekt-URL rendert. Freigegeben beim Schließen des Modals (s. u.), nicht früher —
-    // sie wird gebraucht, solange die Vorschau offen ist.
-    const _pdfBlob = dataUrlZuBlob(_inhaltPdf);
-    _mappeVorschauBlobUrl = _pdfBlob ? URL.createObjectURL(_pdfBlob) : null;
-    koerperHTML = '<iframe class="mappe-vorschau-pdf" src="' + escapeHTML(_mappeVorschauBlobUrl || _inhaltPdf) + '" title="' + escapeHTML(titel) + '"></iframe>';
+    /* 15.10.2026 (Befund PDF-VORSCHAU-VON-CSP-BLOCKIERT): Hier stand ein Rahmen mit einer `blob:`-Adresse. Die Richtlinie der
+       Anwendung hat kein `frame-src`, es gilt also `default-src 'none'`, und der Browser blockierte den Rahmen. Gemessen in
+       Chromium (tests/e2e/pdf-vorschau-rahmen.spec.js), die Vorschau blieb immer leer. Ohne `sandbox` hätte ein geladenes
+       Dokument zudem dieselben Rechte wie die Anwendung gehabt. Die Richtlinie bleibt unverändert; die Vorschau nennt Name
+       und Größe, das Herunterladen unten öffnet die Datei. Ein Weg, das PDF in der Anwendung anzusehen, ist eigener Posten. */
+    koerperHTML = '<p class="mappe-vorschau-datei">' + escapeHTML(e.dateiname || titel) + ' · ' +
+      escapeHTML(groesseLesbar(dataUrlGroesse(_inhaltPdf))) + '</p>' +
+      '<div class="hinweis-box">' + escapeHTML(STRINGS.mappeKeineVorschau) + '</div>';
   } else if (e.mime === 'application/fhir+json' && e.inhalt) {
     // U2-ADR-076 (Gazelle „Renders"): das vom Aussteller gelieferte Narrative sicher rendern (Allowlist-
     // Rebuild); kein Narrative → ehrlicher Hinweis, kein Ersatztext. Der Renderer liest nur (verbatim bleibt).
@@ -55040,6 +55311,14 @@ function flowMappeVorschau(id) {
   if (_bildungTyp) koerperHTML += '<div class="hinweis-box">' + escapeHTML(_bildungTyp.hinweis) + '</div>';
   // v867: Gültigkeit und Status des Nachweises, aus dem Original gelesen.
   if (_bildungTyp) koerperHTML += nachweisGueltigkeitHTML(mappeNachweisGueltigkeit(e));
+  // Prüfhinweis (14.10.2026): Bildung trägt ihn im Hinweis oben; FHIR und PDF nur bei erkannter Signatur. Dazu der Text zum Kopieren für die Stelle.
+  const _pruefArt = mappePruefArt(e);
+  if (_pruefArt === 'signatur') koerperHTML += '<div class="hinweis-box">' + escapeHTML(STRINGS.mappeFremdPruefHinweis) + '</div>';
+  if (_pruefArt) {
+    koerperHTML += '<details data-pruef-kopie><summary class="einst-hint">' + escapeHTML(STRINGS.mappePruefKopieKnopf) + '</summary>' +
+      // Der Text lässt sich markieren und kopieren; kein Zugriff auf die Zwischenablage.
+      '<p class="einst-hint" data-pruef-kopie-text tabindex="0">' + escapeHTML(mappePruefKopieText(_pruefArt)) + '</p></details>';
+  }
   // U2-ADR-049: bei einem autoritativen Original eines Typs MIT Feld-Mapper (heute IPS) und in bearbeitbarem
   // Modus optional „Werte übernehmen" anbieten — additiv in die flachen Felder, Original bleibt read-only.
   const _mDef = (e.autoritativ && Modus.darfBearbeiten()) ? _autoritativTypDef(e.gepruefteIG) : null;
@@ -55073,11 +55352,7 @@ function flowMappeVorschau(id) {
     escapeHTML(STRINGS.mappeEntfernenKnopf) + '</button>';
   ui.modal({
     titel, koerperHTML, primaerLabel: STRINGS.btnSchliessen,
-    onPrimaer: (s) => {
-      // Zug 4b: die PDF-Vorschau-Objekt-URL freigeben, sobald das Modal schließt — nicht früher.
-      if (_mappeVorschauBlobUrl) { try { URL.revokeObjectURL(_mappeVorschauBlobUrl); } catch (_) {} _mappeVorschauBlobUrl = null; }
-      s();
-    },
+    onPrimaer: (s) => s(),
     ohneAbbrechen: true,
   });
   const _mbox = document.getElementById('modal-inhalt');
@@ -60103,6 +60378,62 @@ function anfrageEinstiegSchritte(anfrage, pruef) {
   return { ok: true, anfrage: g.anfrage, schritte, unbekannt };
 }
 
+/* ══ STELLENKENNUNG-BLOCK (U2-ADR-501 Abschnitt B, Punkte 9 und 10) — in vivodepot.html und vivodepot-lesen.html zeichengleich ══
+   Die EINE Stelle, die aus einer rohen Kennung die Kennung der Stelle baut: `aud` der signierten Antwort und (ab V2) die Eingabe der
+   Ableitung je Stelle. Kein Krypto-Aufruf. Der Kern nutzt ihn bis zum Bau der Ableitung und des Signierens nicht; die Lese-App liest
+   damit `aud`. Spiegel-Probe: tests/stellenkennung-spiegel.test.js.
+   FORM:  signiert:<art>:<länge>:<kennung>   (art = anbieter | dns | org)
+          unsigniert:<länge>:<kennung>
+   <länge> ist die Zahl der UTF-8-Bytes der normalisierten Kennung, vier Dezimalziffern mit führenden Nullen (feste Breite, ADR Punkt 9).
+   Zwei Domänen trennen eine geprüfte Kennung von einer, die eine Anfrage nur über sich behauptet; eine unsignierte Anfrage mit fremder
+   Kennung ergibt so nie die Kennung einer geprüften Stelle.
+   GEWÄHLT, weil das ADR es offen läßt (im Bericht gelistet):
+     · Längenpräfix als vier Dezimalziffern im Text (nicht als Bytes); Kennungen über 9999 Byte sind ungültig.
+     · Normalisierung: NFC, Leerraum außen weg; Steuerzeichen sind ungültig.
+       dns: ASCII-Kleinschreibung, ein Punkt am Ende fällt weg, nur Buchstaben/Ziffern/Bindestrich/Punkt.
+       anbieter und unsigniert: Kleinschreibung (wie die Anbieter-Kennung beim Einlass, `_textsatzBelegtEintragen`).
+       org (organizationIdentifier aus dem Subject, Punkt 10): unverändert bis auf Leerraum außen — die Schreibweise gehört dem Register.
+     · Art `org` ist ergänzt: Punkt 9 nennt nur Anbieter und DNS, Punkt 10 nimmt für x509_hash das organizationIdentifier.
+   EINGABE: { ausZertifikat: true, art, kennung } für eine Kennung aus einem geprüften Zertifikat (Domäne `signiert:`),
+            { ausZertifikat: false, kennung } für eine Kennung, die nur die Anfrage nennt (Domäne `unsigniert:`).
+   Ungültige Eingabe ergibt `null`, nie eine Teil-Kennung. */
+const STELLENKENNUNG_ARTEN = Object.freeze(['anbieter', 'dns', 'org']);
+function stellenKennung(roh) {
+  const r = (roh && typeof roh === 'object') ? roh : {};
+  if (typeof r.kennung !== 'string') return null;
+  let k = r.kennung.normalize('NFC').trim();
+  if (!k || /[\u0000-\u001f\u007f]/.test(k)) return null;
+  let kopf;
+  if (r.ausZertifikat === true) {
+    if (!STELLENKENNUNG_ARTEN.includes(r.art)) return null;
+    if (r.art === 'dns') {
+      k = k.replace(/[A-Z]/g, (c) => c.toLowerCase()).replace(/\.$/, '');
+      if (!/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/.test(k) || k.includes('..')) return null;
+    } else if (r.art === 'anbieter') {
+      k = k.toLowerCase();
+    }
+    kopf = 'signiert:' + r.art + ':';
+  } else if (r.ausZertifikat === false) {
+    if (r.art !== undefined) return null;
+    k = k.toLowerCase();
+    kopf = 'unsigniert:';
+  } else {
+    return null;
+  }
+  const laenge = new TextEncoder().encode(k).length;
+  if (laenge > 9999) return null;
+  return kopf + String(laenge).padStart(4, '0') + ':' + k;
+}
+/* Die Umkehrung, nur zum Anzeigen und Vergleichen: zerlegt eine Kennung in Herkunft der Kennung (ausZertifikat), Art und Kennung, prüft die Länge und daß die
+   Kennung schon normalisiert ist (stellenKennung ergibt wieder denselben Text). Sonst `null`. */
+function stellenKennungTeile(text) {
+  if (typeof text !== 'string') return null;
+  const m = /^(signiert):(anbieter|dns|org):(\d{4}):([\s\S]*)$/.exec(text) || /^(unsigniert):()(\d{4}):([\s\S]*)$/.exec(text);
+  if (!m) return null;
+  const teile = m[2] ? { ausZertifikat: true, art: m[2], kennung: m[4] } : { ausZertifikat: false, kennung: m[4] };
+  return stellenKennung(teile) === text ? teile : null;
+}
+/* ══ ENDE STELLENKENNUNG-BLOCK ══ */
 /* ══ DER VERSCHLÜSSELTE RÜCKWEG (Kette, Auftrag 8, Zug 1 — 20.08.2026) ═════════════════════
    *Danach empfängt die Institution, ohne etwas zu installieren.*
 
@@ -63139,7 +63470,7 @@ function _refMehrfachVerdrahten(container, feldeFinden) {
       // und Speichern erneut getippt wird, ohne erneut zu bestätigen.
       const waehle = (id, name) => {
         refFeld.value = id || ''; eingabe.value = name || ''; schmutzig = false;
-        refFeld.dataset.refmBestandRef = id || ''; refFeld.dataset.refmBestandOverride = name || '';
+        refFeld.dataset.refmBestandRef = id || ''; wertDatenSetzen(refFeld, 'data-refm-bestand-override', name || '');
         verbergen(); zustand(); melden();
       };
       // Auswahl per Tap/Enter: bekannte Person aus der Vorschlagsliste → ref setzen (keine Neuanlage).
@@ -63282,8 +63613,8 @@ function _chipFelderVerdrahten(container) {
     const dedupVorhanden = (text) => {
       const key = text.trim().toLowerCase();
       return Array.prototype.some.call(liste.querySelectorAll('[data-chip]'), (el) => {
-        try { return String(JSON.parse(el.getAttribute('data-chip')).text || '').trim().toLowerCase() === key; }
-        catch (_) { return false; }
+        const d = chipDaten(el);
+        return !!d && String(d.text || '').trim().toLowerCase() === key;
       });
     };
     // Speicherpfad-Gate meldet sich über ein bubbelndes 'change' auf dem Feld-Container — dieselbe
@@ -63300,7 +63631,7 @@ function _chipFelderVerdrahten(container) {
       if (dedupVorhanden(chip.text)) return;
       const span = document.createElement('span');
       span.className = 'chip';
-      span.setAttribute('data-chip', JSON.stringify(chip));
+      wertDatenSetzen(span, 'data-chip', JSON.stringify(chip));   // der Inhalt liegt nicht im Attribut (s. feldWerteAusAttributenLoesen)
       span.innerHTML = chipInnerHTML(chip);
       wegKnopfVerdrahten(span);
       liste.appendChild(span);
@@ -63417,7 +63748,7 @@ function _refmSammeln(container, fid) {
       : ((sel && sel.dataset.refmBestandRef) || '');
     const override = bestaetigt
       ? ((ov && ov.value) || '')
-      : ((sel && sel.dataset.refmBestandOverride) || '');
+      : ((sel && wertDaten(sel, 'data-refm-bestand-override')) || '');
     if (ref || (override && override.trim())) out.push({ ref, override });
   });
   return out;
@@ -64021,6 +64352,84 @@ function escapeAttr(s) {
   return escapeHTML(String(s == null ? '' : s));
 }
 
+/* Feldwerte stehen nicht als Attribut im Dokument (15.10.2026, Befund GESICHERTE-KOPIE-TRAEGT-KLARTEXT, zweiter Schritt).
+   „Seite speichern“ schreibt das Dokument mit seinen Attributen. Die Feld-Bauer zeichnen einen Wert weiter als `value`,
+   `checked`, `selected`, Textarea-Inhalt oder `data-chip`; gleich nach dem Einfügen (MutationObserver, vor jeder neuen
+   Aufgabe des Browsers) übernimmt diese Stelle den Wert in die Eigenschaft des Elements und entfernt ihn aus dem Attribut.
+   Zwei data-Attribute tragen ebenfalls Werte der Person (`data-chip`, `data-refm-bestand-override`): ihr Inhalt liegt in
+   `_WERT_DATEN`, das Attribut bleibt leer als Marke stehen. Gelesen und geschrieben wird nur über `wertDaten` /
+   `wertDatenSetzen`; ein Schreiben am Attribut vorbei fängt der Beobachter über `attributeFilter` ab.
+   Warum nicht in jedem Bauer einzeln: Code, der direkt nach dem Einfügen `el.value` liest, liest so weiter den Wert, und
+   ein neuer Bauer fällt nicht durch. Ausgenommen sind Typen, deren `value` eine feste Angabe der Definition ist (Kästchen,
+   Knöpfe) oder an der Eigenschaft hängt (hidden). Gezeichneter Text (Deckblatt, Listen, Überschriften) bleibt im Dokument;
+   das ist die benannte Grenze in SECURITY.md 6.9. */
+const _WERT_DATEN = new WeakMap();   // Element → { Attributname: Wert }
+const _WERT_DATEN_ATTRIBUTE = ['data-chip', 'data-refm-bestand-override'];
+function wertDaten(el, attr) {
+  const m = el && _WERT_DATEN.get(el);
+  if (m && Object.prototype.hasOwnProperty.call(m, attr)) return m[attr];
+  return el && el.getAttribute ? el.getAttribute(attr) : null;
+}
+function wertDatenSetzen(el, attr, wert) {
+  let m = _WERT_DATEN.get(el);
+  if (!m) { m = {}; _WERT_DATEN.set(el, m); }
+  m[attr] = wert == null ? '' : String(wert);
+  el.setAttribute(attr, '');   // das Attribut bleibt als Marke, Selektoren wie `.chip[data-chip]` treffen weiter
+}
+function chipDaten(el) {
+  try { return JSON.parse(wertDaten(el, 'data-chip')); } catch (_) { return null; }
+}
+const _WERT_AUS_DEFINITION = { hidden: 1, checkbox: 1, radio: 1, button: 1, submit: 1, image: 1, file: 1 };   // der Kern hat keine Formulare
+const _WERT_TRAEGER = ['input', 'textarea', 'option[selected]', '[data-chip]', '[data-refm-bestand-override]'].join(',');
+function feldWerteAusAttributenLoesen(wurzel) {
+  if (!wurzel || typeof wurzel.querySelectorAll !== 'function') return;
+  const knoten = Array.prototype.slice.call(wurzel.querySelectorAll(_WERT_TRAEGER));
+  if (typeof wurzel.matches === 'function' && wurzel.matches(_WERT_TRAEGER)) knoten.unshift(wurzel);
+  for (const el of knoten) {
+    if (el.tagName === 'INPUT') {
+      const typ = String(el.getAttribute('type') || 'text').toLowerCase();
+      /* Reihenfolge überall: Wert lesen, Attribut entfernen, Wert als Eigenschaft setzen. Andersherum hob Chromium die
+         Auswahl einer Option beim Entfernen von `selected` wieder auf (gemessen 15.10.2026, die Auswahlfelder standen danach
+         leer); so hängt das Ergebnis nicht davon ab, wie ein Browser das Entfernen nach einem Setzen behandelt. */
+      if ((typ === 'checkbox' || typ === 'radio') && el.hasAttribute('checked')) { el.removeAttribute('checked'); el.checked = true; }
+      if (!_WERT_AUS_DEFINITION[typ] && el.hasAttribute('value')) {
+        const wert = el.value;
+        el.removeAttribute('value');
+        el.value = wert;
+      }
+    } else if (el.tagName === 'TEXTAREA') {
+      if (el.firstChild) {
+        const wert = el.value;
+        el.textContent = '';
+        el.value = wert;
+      }
+    } else if (el.tagName === 'OPTION') {
+      el.removeAttribute('selected');
+      el.selected = true;
+    }
+    // Kein `continue` in dieser Schleife (15.10.2026): ein verstecktes Eingabefeld trägt `data-refm-bestand-override` und muss
+    // auch hier ankommen (tests/feldwerte-als-eigenschaft-klasse.test.js hält das).
+    for (const attr of _WERT_DATEN_ATTRIBUTE) {
+      const roh = el.getAttribute(attr);
+      if (roh) wertDatenSetzen(el, attr, roh);
+    }
+  }
+}
+let _FELDWERTE_BEOBACHTER = null;
+function feldWerteAusAttributenBeobachten(doc) {
+  if (typeof MutationObserver !== 'function' || !doc || !doc.documentElement) return null;
+  feldWerteAusAttributenLoesen(doc.documentElement);
+  const mo = new MutationObserver((liste) => {
+    for (const m of liste) {
+      if (m.type === 'attributes') { const roh = m.target.getAttribute(m.attributeName); if (roh) wertDatenSetzen(m.target, m.attributeName, roh); continue; }
+      for (const n of m.addedNodes) if (n.nodeType === 1) feldWerteAusAttributenLoesen(n);
+    }
+  });
+  mo.observe(doc.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: _WERT_DATEN_ATTRIBUTE });
+  return mo;
+}
+try { _FELDWERTE_BEOBACHTER = feldWerteAusAttributenBeobachten(typeof document !== 'undefined' ? document : null); } catch (_) { _FELDWERTE_BEOBACHTER = null; }
+
 // Nutzer-Rückmeldung (v1.0-rc.501, 12.09.2026): „Ich dachte, dass ich in der Maske ‚Notfall'
 // auch die Möglichkeit hätte, etwas zu ändern […] man muss an die Stelle gehen, wo man es
 // ursprünglich eingetragen hat." Produktentscheidung: die Notfall-Sicht bleibt eine Lesesicht
@@ -64337,7 +64746,13 @@ function renderVerwalteteDepots() {
     // nur nicht mehr als eigener Sidebar-Eintrag).
     '<p class="sektor-intro"><button class="btn-dezent" id="verwaltete-subkonzept-link">' + escapeHTML(STRINGS.navSubKonzept) + '</button></p>';
 
-  if (darfAnlegen) {
+  /* Flaches Modell (B16-ADR-052, ADR-068v2 Klärung 4–7: keine Kaskade): Sub-Depots entstehen nur im eigenen Depot. Im
+     betretenen Sub-Depot schrieben Anlegen und Einhängen in dessen Inhalt und erzeugten eine zweite Ebene, die die Liste
+     (aus dem Anker) nie zeigte (15.10.2026, Befund SUB-DEPOT-ANLEGEN-IM-SUB-KONTEXT). Darum erscheinen beide dort nicht. */
+  if (darfAnlegen && imSubKontext()) {
+    html += '<p class="sektor-intro" id="sub-anlegen-nur-anker">' + escapeHTML(STRINGS.subAnlegenNurAnker) + '</p>';
+  }
+  if (darfAnlegen && !imSubKontext()) {
     const _vorschauA = imVorschau();   // D35: Lage A — eigenes Anker-Depot noch nicht gesichert
     html += '<div style="margin:var(--space-3) 0 var(--space-5)">' +
       '<button class="btn" id="sub-neu"' + (_vorschauA ? ' disabled aria-disabled="true"' : '') + '>' + svgIcon(ICONS.plus) + ' ' + STRINGS.btnSubAnlegen + '</button>' +
@@ -64495,7 +64910,7 @@ function _widerspruchListeHTML(e, darf) {
   return h;
 }
 function flowSubDepotWiderspruchFesthalten(depotUUID) {
-  const e = (data && data.verwalteteDepots || []).find(x => x.depotUUID === depotUUID);
+  const e = verwalteterEintrag(depotUUID);
   const name = (e && (e.inhaberin || e.bezeichnung)) || '';
   ui.modal({
     titel: STRINGS.widerspruchTitel.replaceAll('{name}', name),
@@ -64534,6 +64949,7 @@ function flowSubDepotWiderspruchEntfernen(depotUUID, widerspruchId) {
 }
 
 function flowSubDepotAnlegen(vorausfuellen) {
+  if (imSubKontext()) { ui.toast(STRINGS.subAnlegenNurAnker, 'info'); return; }   // flaches Modell, s. renderVerwalteteDepots
   if (imVorfuehrung()) { vorfuehrungSperreMelden(); return; }   // Vorführung: kein Übergang
   // D35-Fix: KEIN stiller Redirect mehr. In Lage A (Vorschau) ist „Sub-Depot anlegen"
   // sichtbar-aber-deaktiviert; Erklärtext + Link „Passwort jetzt setzen →" führen bewusst
@@ -64624,7 +65040,7 @@ function flowSubDepotEntsiegeln(depotUUID) {
 // Es wird kein Passwort abgefragt — die verwaltende Person reicht nur den
 // versiegelten Umschlag weiter. Protokolliert wird ausschließlich im Anker.
 function flowSubDepotBlackboxExport(depotUUID) {
-  const e = (data && data.verwalteteDepots || []).find(x => x.depotUUID === depotUUID);
+  const e = verwalteterEintrag(depotUUID);
   const bez = (e && e.bezeichnung) ? e.bezeichnung : '';
   ui.modal({
     titel: STRINGS.blackboxTitel,
@@ -64850,7 +65266,7 @@ function _subSelbstPasswortAendernZeigen() {
    entfernen. Wer den Umschlag entfernt, während die Datei nicht angekommen ist,
    löscht ein Depot. */
 function flowSubDepotAushaengen(depotUUID) {
-  const e = (data && data.verwalteteDepots || []).find(x => x.depotUUID === depotUUID);
+  const e = verwalteterEintrag(depotUUID);
   const bez = (e && e.bezeichnung) ? e.bezeichnung : '';
   const name = (e && e.inhaberin) ? e.inhaberin : (bez || '—');
   const mitName = (t) => String(t).replaceAll('{name}', escapeHTML(name));
@@ -64908,7 +65324,7 @@ function flowSubDepotAushaengen(depotUUID) {
 // Wieder in die Verwaltung aufnehmen (Rettungs-Pfad). Erst danach ist wieder
 // ein Export möglich.
 function flowSubDepotReaktivieren(depotUUID) {
-  const e = (data && data.verwalteteDepots || []).find(x => x.depotUUID === depotUUID);
+  const e = verwalteterEintrag(depotUUID);
   const bez = (e && e.bezeichnung) ? e.bezeichnung : '';
   ui.modal({
     titel: STRINGS.reaktivierenTitel,
@@ -64933,6 +65349,7 @@ function flowSubDepotReaktivieren(depotUUID) {
 // Einhängen: liest eine Blackbox-Datei (Datei-Picker), prüft sie (untrusted input)
 // und zeigt erst dann den Bestätigungs-Dialog. Nie automatisch (Klärung 7).
 function flowSubDepotEinhaengen() {
+  if (imSubKontext()) { ui.toast(STRINGS.subAnlegenNurAnker, 'info'); return; }   // flaches Modell, s. renderVerwalteteDepots
   if (imVorfuehrung()) { vorfuehrungSperreMelden(); return; }   // Vorführung: kein Übergang
   const input = document.createElement('input');
   input.type = 'file';
@@ -65252,6 +65669,668 @@ document.getElementById('tb-modus-select').onchange = (e) => {
 if (/[?&]dev=1\b/.test((window.location && window.location.search) || '')) {
   const _dl = document.querySelector('.dev-leiste');
   if (_dl) _dl.style.display = 'inline-flex';
+}
+/* ENTWICKLERLEISTE:END */
+/* X509-LESER:BEGIN */
+/* ══ X.509-LESER (Produktteil, nicht geschnitten) ═════════════════════════════════════════════════════════════════════
+   Entscheidung 15.10.2026 „eigener Leser, kein pkijs", mit Fremdvektoren als Probe (Wycheproof, x509-limbo) und einer
+   Gegenprobe mit openssl außerhalb des Kerns (tools/x509-gegenprobe.js). Proben: tests/x509-leser.test.js,
+   tests/x509-limbo.test.js. Der Leser gehört in den Umfang der externen Krypto-Prüfung.
+   Inhalt: ein strenger DER-Leser mit festen Grenzen, ein X.509-Leser für genau die Felder, die das Zertifikat einer Stelle
+   braucht, die Kettenprüfung gegen eine übergebene Ankerliste, die Bindung client_id ↔ Blatt und die ECDSA-Prüfung.
+   Grundsätze (fail-closed): was der Leser nicht versteht, weist er ab. Vertrauen kommt allein aus der Ankerliste, nie aus
+   der Anwesenheit eines Zertifikats in x5c. crypto.subtle rechnet eine Signatur nur in _x509EcdsaPruefen nach (genau eine
+   Stelle); Schlüssel sind öffentlich und nicht herausholbar.
+   GRENZEN (fest, vor jedem Lauf gewählt):
+     _DER_HOECHSTENS_BYTES 16384  ein Zertifikat bzw. eine DER-Eingabe; übliche Zertifikate liegen unter 2 KiB. Jede Länge
+                                  darüber ist „der-laenge-zu-gross", jede Eingabe darüber „der-zu-gross" — vor dem Lesen.
+     Längenfeld höchstens 2 Bytes (Langform 0x81/0x82); 0x83 und mehr ist „der-laenge-zu-gross".
+     _DER_HOECHSTENS_TIEFE 10     Verschachtelung konstruierter Elemente; ein Zertifikat braucht 6 (Zertifikat > TBS > [3] >
+                                  Erweiterungen > Erweiterung > Wert bzw. TBS > Name > RDN > Attribut > Wert). Darüber
+                                  „der-zu-tief". Der Gang ist iterativ, jedes Element kostet mindestens 2 Bytes: höchstens
+                                  8192 Elemente je Eingabe, keine Rekursion, nichts kann hängen.
+   NAMEN werden byteweise verglichen (Aussteller des Kinds = Inhaber der CA, als ganzes DER). RFC 5280 §7.1 erlaubt mehr
+   (Groß/Klein, Leerraum, PrintableString gegen UTF8String); diese Gleichheit wird hier bewusst NICHT hergestellt: ein Name,
+   der nur nach RFC 5280 gleich ist, findet seinen Aussteller nicht („zertifikat-unbekannt"). Probe in tests/x509-leser.test.js.
+   NICHT PRÜFBAR, darum abgewiesen („nicht-pruefbar"): nameConstraints, policyConstraints, policyMappings, inhibitAnyPolicy und
+   eine kritische certificatePolicies, jede unbekannte kritische Erweiterung. Die Teilmenge: basicConstraints, keyUsage,
+   subjectAltName (dNSName), extendedKeyUsage, certificatePolicies (nicht kritisch; nur die OIDs).
+   BLATT: keyUsage muss stehen und digitalSignature ODER nonRepudiation tragen (fehlt keyUsage, ist das abgewiesen — RFC 5280
+   ließe dann jeden Zweck zu, das ist zu weit für das Zertifikat einer Stelle; Wort vom 15.10.2026). extendedKeyUsage darf
+   fehlen; steht sie, muss sie eine OID aus _X509_EKU_ERLAUBT tragen, sonst „eku-fremd" (vorläufig, s. dort).
+   CA und Anker (jedes Zertifikat, das ein anderes ausstellt): CA:TRUE und keyCertSign, streng; ein leerer Inhaber-Name ist
+   „name-leer"; eine EKU an einer Zwischen-CA, wenn sie steht, aus derselben Menge wie am Blatt, sonst „eku-fremd"; ein Anker
+   mit irgendeiner EKU ist „anker-eku" (vorläufig abgewiesen, Lesung offen 15.10.). Eine kritische EKU ist „eku-kritisch"
+   (EN 319 412-2 V2.5.1 §4.3.10), eine Seriennummer über 20 Oktette „seriennummer-zu-lang" (RFC 5280 §4.1.2.2).
+   ZWEI EINGÄNGE: _x509KettePruefen ist die Pfadprüfung mit den Regeln für Blatt und CA (so misst sie x509-limbo, dessen Blätter
+   keine Richtlinie tragen). _x509StellePruefen ist der Eingang für das Zertifikat einer Stelle: dieselbe Prüfung und dazu am Blatt
+   Pflicht certificatePolicies („policy-fehlt"). Ein Produktaufruf nimmt _x509StellePruefen. */
+
+const _DER_HOECHSTENS_BYTES = 16384;
+const _DER_HOECHSTENS_TIEFE = 10;
+
+/* Ein DER-Element (Tag, Länge, Inhalt) ab `pos`, höchstens bis `grenze` (Vorgabe: Pufferende). Abgelehnt mit einem
+   Grund-Code: unbestimmte Länge (0x80), eine Länge über das Ende hinaus, eine nicht minimale Länge (Langform, wo die
+   Kurzform reicht, oder führende 0x00-Bytes), eine Länge über der Grenze und die Hochtag-Form (Tag & 0x1f === 0x1f). */
+function _derLesen(bytes, pos, grenze) {
+  if (!(bytes instanceof Uint8Array)) throw new Error('der-keine-bytes');
+  if (bytes.length > _DER_HOECHSTENS_BYTES) throw new Error('der-zu-gross');
+  const ende0 = grenze === undefined ? bytes.length : grenze;
+  if (!Number.isInteger(pos) || pos < 0 || pos + 2 > ende0) throw new Error('der-zu-kurz');
+  const tag = bytes[pos];
+  if ((tag & 0x1f) === 0x1f) throw new Error('der-fremder-tag');
+  const l0 = bytes[pos + 1];
+  let laenge, kopfLaenge;
+  if (l0 < 0x80) { laenge = l0; kopfLaenge = 2; }
+  else if (l0 === 0x80) throw new Error('der-unbestimmte-laenge');
+  else {
+    const n = l0 & 0x7f;
+    if (n > 2) throw new Error('der-laenge-zu-gross');
+    if (pos + 2 + n > ende0) throw new Error('der-laenge-hinter-ende');
+    if (bytes[pos + 2] === 0) throw new Error('der-laenge-nicht-minimal');
+    laenge = 0;
+    for (let i = 0; i < n; i++) laenge = laenge * 256 + bytes[pos + 2 + i];
+    if (laenge < 0x80) throw new Error('der-laenge-nicht-minimal');
+    if (laenge > _DER_HOECHSTENS_BYTES) throw new Error('der-laenge-zu-gross');
+    kopfLaenge = 2 + n;
+  }
+  const inhaltStart = pos + kopfLaenge, ende = inhaltStart + laenge;
+  if (ende > ende0) throw new Error('der-laenge-hinter-ende');
+  return { tag, kopfLaenge, laenge, inhaltStart, ende };
+}
+// Genau ein Element, das den ganzen Puffer füllt — Bytes dahinter sind „Restbytes".
+function _derGanz(bytes) {
+  const el = _derLesen(bytes, 0);
+  if (el.ende !== bytes.length) throw new Error('der-restbytes');
+  return el;
+}
+function _derKinder(bytes, el) {
+  const kinder = [];
+  for (let p = el.inhaltStart; p < el.ende;) { const k = _derLesen(bytes, p, el.ende); kinder.push(k); p = k.ende; }
+  return kinder;
+}
+/* Der ganze Baum einmal, iterativ: jedes konstruierte Element (Bit 0x20) wird zerlegt, bis zur Tiefengrenze. Danach ist
+   jede Länge im Zertifikat geprüft — auch in Teilen, die der Leser sonst nur roh weitergibt (Namen). */
+function _derStrukturPruefen(bytes) {
+  const wurzel = _derGanz(bytes);
+  const stapel = [[wurzel, 1]];
+  while (stapel.length) {
+    const [el, tiefe] = stapel.pop();
+    if (tiefe > _DER_HOECHSTENS_TIEFE) throw new Error('der-zu-tief');
+    if (el.tag & 0x20) for (const k of _derKinder(bytes, el)) stapel.push([k, tiefe + 1]);
+  }
+  return wurzel;
+}
+function _derErwarte(el, tag) { if (!el || el.tag !== tag) throw new Error('der-tag-unerwartet'); return el; }
+// Das ganze Element samt Kopf, als Kopie — Namen werden byteweise verglichen, nicht gedeutet.
+function _derRoh(bytes, el) { return bytes.slice(el.inhaltStart - el.kopfLaenge, el.ende); }
+function _derBytesGleich(a, b) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+function _derOid(bytes, el) {
+  _derErwarte(el, 0x06);
+  if (el.laenge === 0) throw new Error('der-oid-leer');
+  const teile = [];
+  let wert = 0, neu = true;
+  for (let i = el.inhaltStart; i < el.ende; i++) {
+    const b = bytes[i];
+    if (neu && b === 0x80) throw new Error('der-oid-nicht-minimal');
+    wert = wert * 128 + (b & 0x7f);
+    if (wert > 0xffffffff) throw new Error('der-oid-zu-gross');
+    neu = !(b & 0x80);
+    if (neu) { teile.push(wert); wert = 0; }
+  }
+  if (!neu) throw new Error('der-oid-abgeschnitten');
+  const erstes = teile[0] < 40 ? [0, teile[0]] : teile[0] < 80 ? [1, teile[0] - 40] : [2, teile[0] - 80];
+  return erstes.concat(teile.slice(1)).join('.');
+}
+// Eine kleine nicht negative INTEGER (Version, pathLen), minimal kodiert.
+function _derKleineZahl(bytes, el) {
+  _derErwarte(el, 0x02);
+  if (el.laenge < 1 || el.laenge > 4) throw new Error('der-zahl-form');
+  const a = el.inhaltStart;
+  if (bytes[a] & 0x80) throw new Error('der-zahl-negativ');
+  if (el.laenge > 1 && bytes[a] === 0 && !(bytes[a + 1] & 0x80)) throw new Error('der-zahl-nicht-minimal');
+  let z = 0;
+  for (let i = a; i < el.ende; i++) z = z * 256 + bytes[i];
+  return z;
+}
+// BOOLEAN in DER: genau ein Byte, 0x00 oder 0xff.
+function _derWahr(bytes, el) {
+  _derErwarte(el, 0x01);
+  if (el.laenge !== 1 || (bytes[el.inhaltStart] !== 0x00 && bytes[el.inhaltStart] !== 0xff)) throw new Error('der-bool-form');
+  return bytes[el.inhaltStart] === 0xff;
+}
+// BIT STRING: das erste Inhaltsbyte zählt die ungenutzten Bits; für Signatur und Schlüssel muss es 0 sein.
+function _derBitsGanz(bytes, el) {
+  _derErwarte(el, 0x03);
+  if (el.laenge < 2 || bytes[el.inhaltStart] !== 0) throw new Error('der-bitstring-form');
+  return bytes.slice(el.inhaltStart + 1, el.ende);
+}
+/* UTCTime (YYMMDDHHMMSSZ, 1950–2049) und GeneralizedTime (YYYYMMDDHHMMSSZ, ab 2050), wie RFC 5280 §4.1.2.5 sie
+   vorschreibt: immer mit Sekunden, immer „Z", keine Bruchteile. Rückgabe: Millisekunden seit 1970. */
+function _derZeit(bytes, el) {
+  let text = '';
+  for (let i = el.inhaltStart; i < el.ende; i++) text += String.fromCharCode(bytes[i]);
+  let m, jahr;
+  if (el.tag === 0x17) {
+    m = /^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})Z$/.exec(text);
+    if (!m) throw new Error('x509-zeit-form');
+    jahr = Number(m[1]); jahr += jahr < 50 ? 2000 : 1900;
+  } else if (el.tag === 0x18) {
+    m = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})Z$/.exec(text);
+    if (!m) throw new Error('x509-zeit-form');
+    jahr = Number(m[1]);
+    if (jahr < 2050) throw new Error('x509-zeit-form');
+  } else throw new Error('x509-zeit-form');
+  const [mo, ta, st, mi, se] = [m[2], m[3], m[4], m[5], m[6]].map(Number);
+  const ms = Date.UTC(jahr, mo - 1, ta, st, mi, se);
+  const d = new Date(ms);
+  if (d.getUTCFullYear() !== jahr || d.getUTCMonth() !== mo - 1 || d.getUTCDate() !== ta || d.getUTCHours() !== st
+      || d.getUTCMinutes() !== mi || d.getUTCSeconds() !== se) throw new Error('x509-zeit-form');
+  return ms;
+}
+
+const _X509_SIGNATUR_ALGS = Object.freeze({
+  '1.2.840.10045.4.3.2': Object.freeze({ name: 'ecdsa-with-SHA256', hash: 'SHA-256' }),
+  '1.2.840.10045.4.3.3': Object.freeze({ name: 'ecdsa-with-SHA384', hash: 'SHA-384' }),
+  '1.2.840.10045.4.3.4': Object.freeze({ name: 'ecdsa-with-SHA512', hash: 'SHA-512' }),
+  '1.3.101.112': Object.freeze({ name: 'Ed25519', hash: null }),
+});
+const _X509_KURVEN_OID = Object.freeze({ '1.2.840.10045.3.1.7': 'P-256', '1.3.132.0.34': 'P-384', '1.3.132.0.35': 'P-521' });
+// Bytes je Koordinate bzw. je Hälfte von r‖s.
+const _X509_KURVEN_BYTES = Object.freeze({ 'P-256': 32, 'P-384': 48, 'P-521': 66 });
+// Erweiterungen, deren Inhalt eine Prüfung verlangt, die dieser Leser nicht leistet — stehen sie da, ist das Zertifikat
+// nicht prüfbar, kritisch oder nicht (2.5.29.30 nameConstraints, .36 policyConstraints, .33 policyMappings, .54 inhibitAnyPolicy).
+const _X509_NICHT_PRUEFBAR = Object.freeze({
+  '2.5.29.30': 'x509-namensbeschraenkung', '2.5.29.36': 'x509-richtlinie', '2.5.29.33': 'x509-richtlinie', '2.5.29.54': 'x509-richtlinie',
+});
+/* extendedKeyUsage am Blatt — zur Entscheidung vorgelegt 15.10.2026, vorläufig: Zugangszertifikate der EU müssen keine EKU
+   tragen (das Zertifikat des Referenz-Verifiers trägt keine), darum gilt eine fehlende EKU als angenommen. Steht eine EKU,
+   muss sie eine dieser OIDs tragen: serverAuth, clientAuth, ISO/IEC 18013-5 Reader Authentication, anyExtendedKeyUsage.
+   Dieselbe Menge gilt für eine EKU an einer CA. Ändert die Entscheidung das, ändert sich diese eine Zeile. */
+const _X509_EKU_ERLAUBT = Object.freeze(['1.3.6.1.5.5.7.3.1', '1.3.6.1.5.5.7.3.2', '1.0.18013.5.1.6', '2.5.29.37.0']);
+/* Richtlinien der ETSI für Zugangszertifikate (ETSI TS 119 411-8): nur erkannt und am Blatt als etsiRichtlinien zurückgegeben,
+   zur Anzeige. Verlangt wird irgendeine certificatePolicies, keine bestimmte OID. */
+const _X509_ETSI_RICHTLINIEN = Object.freeze(['0.4.0.194118.1.1', '0.4.0.194118.1.2', '0.4.0.194118.1.3', '0.4.0.194118.1.4']);
+
+// AlgorithmIdentifier der Signatur: nur die OID, ohne Parameter (RFC 5758 §3.2, RFC 8410 §3).
+function _x509AlgLesen(bytes, el) {
+  _derErwarte(el, 0x30);
+  const k = _derKinder(bytes, el);
+  if (k.length !== 1) throw new Error('x509-alg-parameter');
+  const oid = _derOid(bytes, k[0]);
+  if (!Object.prototype.hasOwnProperty.call(_X509_SIGNATUR_ALGS, oid)) throw new Error('x509-alg-unbekannt');
+  return Object.assign({ oid }, _X509_SIGNATUR_ALGS[oid]);
+}
+// SubjectPublicKeyInfo: id-ecPublicKey mit benannter Kurve (Punkt unkomprimiert) oder Ed25519 (32 Bytes).
+function _x509SpkiLesen(bytes, el) {
+  _derErwarte(el, 0x30);
+  const k = _derKinder(bytes, el);
+  if (k.length !== 2) throw new Error('x509-schluessel-form');
+  const alg = _derKinder(bytes, _derErwarte(k[0], 0x30));
+  const punkt = _derBitsGanz(bytes, k[1]);
+  const algOid = alg.length ? _derOid(bytes, alg[0]) : '';
+  if (algOid === '1.2.840.10045.2.1' && alg.length === 2) {
+    const kurveOid = _derOid(bytes, alg[1]);
+    if (!Object.prototype.hasOwnProperty.call(_X509_KURVEN_OID, kurveOid)) throw new Error('x509-kurve-unbekannt');
+    const kurve = _X509_KURVEN_OID[kurveOid];
+    if (punkt.length !== 1 + 2 * _X509_KURVEN_BYTES[kurve] || punkt[0] !== 0x04) throw new Error('x509-schluessel-form');
+    return { spki: _derRoh(bytes, el), kurve, kurveOid };
+  }
+  if (algOid === '1.3.101.112' && alg.length === 1) {
+    if (punkt.length !== 32) throw new Error('x509-schluessel-form');
+    return { spki: _derRoh(bytes, el), kurve: 'Ed25519', kurveOid: algOid };
+  }
+  throw new Error('x509-schluessel-unbekannt');
+}
+/* Die Erweiterungen, die der Leser versteht: basicConstraints, keyUsage, subjectAltName, extendedKeyUsage, certificatePolicies
+   (nicht kritisch, nur die policyIdentifier). Die aus _X509_NICHT_PRUEFBAR weisen ab; eine kritische certificatePolicies ebenso;
+   jede andere darf nur stehen, wenn sie nicht kritisch ist (RFC 5280 §4.2: eine unbekannte kritische Erweiterung heißt ablehnen). */
+function _x509ErweiterungenLesen(bytes, el, z) {
+  const folge = _derKinder(bytes, el);
+  if (folge.length !== 1) throw new Error('x509-form');
+  const liste = _derKinder(bytes, _derErwarte(folge[0], 0x30));
+  if (!liste.length) throw new Error('x509-form');
+  const gesehen = new Set();
+  for (const erw of liste) {
+    const t = _derKinder(bytes, _derErwarte(erw, 0x30));
+    if (t.length < 2 || t.length > 3) throw new Error('x509-form');
+    const oid = _derOid(bytes, t[0]);
+    if (gesehen.has(oid)) throw new Error('x509-erweiterung-doppelt');
+    gesehen.add(oid);
+    let kritisch = false;
+    if (t.length === 3) {
+      kritisch = _derWahr(bytes, t[1]);
+      if (!kritisch) throw new Error('x509-vorgabe-kodiert');   // DEFAULT FALSE steht in DER nie da
+    }
+    const huelle = _derErwarte(t[t.length - 1], 0x04);
+    const wert = bytes.slice(huelle.inhaltStart, huelle.ende);
+    // Jeder extnValue ist selbst striktes DER: genau ein vollständiges Element, keine Restbytes, in den Grenzen — auch bei einer
+    // Erweiterung, die der Leser sonst überliest (RFC 5280 §4.1, X.690 DER).
+    try { _derStrukturPruefen(wert); } catch (_) { throw new Error('erweiterung-form'); }
+    if (Object.prototype.hasOwnProperty.call(_X509_NICHT_PRUEFBAR, oid)) throw new Error(_X509_NICHT_PRUEFBAR[oid]);
+    if (oid === '2.5.29.19') {
+      const bc = _derStrukturPruefen(wert); _derErwarte(bc, 0x30);
+      const k = _derKinder(wert, bc);
+      let i = 0;
+      z.bcKritisch = kritisch;
+      if (k[i] && k[i].tag === 0x01) { z.ca = _derWahr(wert, k[i]); if (!z.ca) throw new Error('x509-vorgabe-kodiert'); i++; }
+      if (k[i]) { if (!z.ca) throw new Error('x509-form'); z.pfadLaenge = _derKleineZahl(wert, k[i]); i++; }
+      if (i !== k.length) throw new Error('x509-form');
+    } else if (oid === '2.5.29.15') {
+      const ku = _derGanz(wert); _derErwarte(ku, 0x03);
+      if (ku.laenge < 1 || wert[ku.inhaltStart] > 7) throw new Error('x509-form');
+      const b1 = ku.laenge >= 2 ? wert[ku.inhaltStart + 1] : 0;
+      z.keyUsage = true;
+      z.digitalSignature = !!(b1 & 0x80);
+      z.nonRepudiation = !!(b1 & 0x40);
+      z.keyCertSign = !!(b1 & 0x04);
+    } else if (oid === '2.5.29.17') {
+      const san = _derStrukturPruefen(wert); _derErwarte(san, 0x30);
+      const namen = _derKinder(wert, san);
+      if (!namen.length) throw new Error('x509-san-form');
+      z.sanKritisch = kritisch;
+      for (const n of namen) {
+        if (n.tag !== 0x82) continue;
+        let name = '';
+        for (let i = n.inhaltStart; i < n.ende; i++) {
+          if (wert[i] > 0x7e || wert[i] < 0x21) throw new Error('x509-san-form');
+          name += String.fromCharCode(wert[i]);
+        }
+        z.dnsNamen.push(name);
+      }
+    } else if (oid === '2.5.29.37') {
+      // EN 319 412-2 V2.5.1 §4.3.10: extendedKeyUsage „shall not be marked critical".
+      if (kritisch) throw new Error('eku-kritisch');
+      const eku = _derStrukturPruefen(wert); _derErwarte(eku, 0x30);
+      const oids = _derKinder(wert, eku).map((k) => _derOid(wert, k));
+      if (!oids.length) throw new Error('x509-eku-form');
+      z.eku = oids;
+    } else if (oid === '2.5.29.32') {
+      if (kritisch) throw new Error('x509-richtlinie');
+      const cp = _derStrukturPruefen(wert); _derErwarte(cp, 0x30);
+      const infos = _derKinder(wert, cp);
+      if (!infos.length) throw new Error('x509-richtlinie-form');
+      z.richtlinien = infos.map((pi) => {
+        const t = _derKinder(wert, _derErwarte(pi, 0x30));
+        if (t.length < 1 || t.length > 2) throw new Error('x509-richtlinie-form');
+        return _derOid(wert, t[0]);
+      });
+    } else if (kritisch) throw new Error('x509-kritisch-unbekannt');
+  }
+}
+/* X.509 v3 — nur die Felder, die das Zertifikat einer Stelle braucht. Namen bleiben roh (DER), verglichen wird byteweise.
+   `roh` ist das ganze Zertifikat (für x509_hash). */
+function _x509Lesen(derBytes) {
+  const b = derBytes instanceof Uint8Array ? derBytes : new Uint8Array(derBytes);
+  if (b.length > _DER_HOECHSTENS_BYTES) throw new Error('der-zu-gross');
+  const zert = _derErwarte(_derStrukturPruefen(b), 0x30);
+  const oben = _derKinder(b, zert);
+  if (oben.length !== 3) throw new Error('x509-form');
+  const [tbs, sigAlg, sigWert] = oben;
+  _derErwarte(tbs, 0x30);
+  const signaturAlgorithmus = _x509AlgLesen(b, sigAlg);
+  const signaturWert = _derBitsGanz(b, sigWert);
+  const t = _derKinder(b, tbs);
+  // version [0] EXPLICIT — nur v3 (Wert 2).
+  if (!t[0] || t[0].tag !== 0xa0) throw new Error('x509-nicht-v3');
+  const v = _derKinder(b, t[0]);
+  if (v.length !== 1 || _derKleineZahl(b, v[0]) !== 2) throw new Error('x509-nicht-v3');
+  // serialNumber: höchstens 20 Oktette (RFC 5280 §4.1.2.2), gezählt ohne das Vorzeichen-Nullbyte. 0 wird angenommen (bewusst).
+  const seriell = _derErwarte(t[1], 0x02);
+  if (seriell.laenge < 1) throw new Error('x509-form');
+  if (seriell.laenge - (seriell.laenge > 1 && b[seriell.inhaltStart] === 0 ? 1 : 0) > 20) throw new Error('seriennummer-zu-lang');
+  // Der Algorithmus innen muss dem außen gleichen (RFC 5280 §4.1.1.2), byteweise.
+  if (!t[2] || !_derBytesGleich(_derRoh(b, t[2]), _derRoh(b, sigAlg))) throw new Error('x509-alg-ungleich');
+  const aussteller = _derRoh(b, _derErwarte(t[3], 0x30));
+  const gueltig = _derKinder(b, _derErwarte(t[4], 0x30));
+  if (gueltig.length !== 2) throw new Error('x509-form');
+  const inhaber = _derRoh(b, _derErwarte(t[5], 0x30));
+  const schluessel = _x509SpkiLesen(b, t[6]);
+  const z = {
+    roh: b.slice(), tbs: _derRoh(b, tbs), signaturAlgorithmus, signaturWert, aussteller, inhaber,
+    nichtVor: _derZeit(b, gueltig[0]), nichtNach: _derZeit(b, gueltig[1]),
+    spki: schluessel.spki, kurve: schluessel.kurve, kurveOid: schluessel.kurveOid,
+    ca: false, bcKritisch: false, sanKritisch: false, pfadLaenge: null, keyUsage: false, keyCertSign: false, digitalSignature: false, nonRepudiation: false,
+    dnsNamen: [], eku: null, richtlinien: null, etsiRichtlinien: [],
+  };
+  // issuerUniqueID/subjectUniqueID ([1]/[2]) gibt es hier nicht; nach [3] steht nichts mehr.
+  if (t.length > 8) throw new Error('x509-form');
+  if (t.length === 8) _x509ErweiterungenLesen(b, _derErwarte(t[7], 0xa3), z);
+  // RFC 5280 §4.1.2.6/§4.2.1.6: ein leerer Inhaber verlangt einen subjectAltName, als kritisch markiert.
+  if (inhaber.length === 2 && !z.sanKritisch) throw new Error('san-bei-leerem-subject');
+  // RFC 5280 §4.2.1.9: in einer CA ist basicConstraints kritisch — für Zwischen-CAs und Anker.
+  if (z.ca && !z.bcKritisch) throw new Error('ca-bc-nicht-kritisch');
+  // RFC 5280 §4.2.1.3: keyCertSign nur mit basicConstraints cA=TRUE.
+  if (z.keyCertSign && !z.ca) throw new Error('keycertsign-ohne-ca');
+  if (z.richtlinien) z.etsiRichtlinien = z.richtlinien.filter((o) => _X509_ETSI_RICHTLINIEN.includes(o));
+  return z;
+}
+
+/* DER-ECDSA-Sig-Value (SEQUENCE { r INTEGER, s INTEGER }) → r‖s fester Länge je Kurve (32/48/66 Bytes je Hälfte), wie
+   WebCrypto und JOSE ihn erwarten. Abgelehnt: falsche Zahl von Elementen, negative, zu große oder nicht minimal
+   kodierte INTEGER, jede DER-Abweichung, die der Leser darunter findet. */
+function _ecdsaDerZuRs(sigDer, kurve) {
+  if (!Object.prototype.hasOwnProperty.call(_X509_KURVEN_BYTES, kurve)) throw new Error('ecdsa-kurve-unbekannt');
+  const n = _X509_KURVEN_BYTES[kurve];
+  const b = sigDer instanceof Uint8Array ? sigDer : new Uint8Array(sigDer);
+  const folge = _derGanz(b);
+  if (folge.tag !== 0x30) throw new Error('ecdsa-keine-folge');
+  const zahlen = _derKinder(b, folge);
+  if (zahlen.length !== 2) throw new Error('ecdsa-zwei-zahlen');
+  const rs = new Uint8Array(2 * n);
+  zahlen.forEach((el, k) => {
+    if (el.tag !== 0x02) throw new Error('ecdsa-keine-zahl');
+    let a = el.inhaltStart;
+    if (el.ende === a) throw new Error('ecdsa-zahl-leer');
+    if (b[a] & 0x80) throw new Error('ecdsa-zahl-negativ');
+    if (b[a] === 0 && el.ende - a > 1) {
+      if (!(b[a + 1] & 0x80)) throw new Error('ecdsa-zahl-nicht-minimal');
+      a++;
+    }
+    if (el.ende - a > n) throw new Error('ecdsa-zahl-zu-gross');
+    rs.set(b.subarray(a, el.ende), k * n + n - (el.ende - a));
+  });
+  return rs;
+}
+
+/* P-384 und P-521 nur nach Messung je Engine. Gemessen ist bisher keine WebKit-Fassung (Safari, jeder Browser unter iOS):
+   dort weist der Leser beide Kurven sichtbar ab („kurve-nicht-gemessen"), bis die Messung hier eingetragen ist. Erkannt wird
+   WebKit an einer Fähigkeit, nicht am Namen (_webkitEngine, kein UA-Muster, U2-ADR-097 §12). Überall sonst entscheidet eine
+   Fähigkeitsprobe: importKey des Basispunkts G der Kurve (SEC 2, als SPKI; öffentlich, kein Schlüssel von irgendwem). Scheitert
+   sie, „kurve-nicht-unterstuetzt". P-256 gilt überall (Bestand: der JWS-Block prüft ES256 seit v865 in allen Engines). */
+const _X509_KURVEN_WEBKIT_GEMESSEN = Object.freeze({ 'P-384': false, 'P-521': false });
+const _X509_KURVEN_PROBE_SPKI = Object.freeze({
+  'P-384': '3076301006072a8648ce3d020106052b8104002203620004aa87ca22be8b05378eb1c71ef320ad746e1d3b628ba79b9859f741e082542a385502f25dbf55296c3a545e3872760ab73617de4a96262c6f5d9e98bf9292dc29f8f41dbd289a147ce9da3113b5f0b8c00a60b1ce1d7e819d7a431d7c90ea0e5f',
+  'P-521': '30819b301006072a8648ce3d020106052b81040023038186000400c6858e06b70404e9cd9e3ecb662395b4429c648139053fb521f828af606b4d3dbaa14b5e77efe75928fe1dc127a2ffa8de3348b3c1856a429bf97e7e31c2e5bd66011839296a789a3bc0045c8a5fb42c7d1bd998f54449579b446817afbd17273e662c97ee72995ef42640c550b9013fad0761353c7086a272c24088be94769fd16650',
+});
+const _x509KurvenFaehig = new Map();
+// null, wenn die Kurve hier geprüft werden darf; sonst der Grund-Code.
+async function _x509KurvePruefen(kurve) {
+  if (kurve === 'P-256') return null;
+  if (!Object.prototype.hasOwnProperty.call(_X509_KURVEN_PROBE_SPKI, kurve)) return 'kurve-nicht-unterstuetzt';
+  if (_webkitEngine() && !_X509_KURVEN_WEBKIT_GEMESSEN[kurve]) return 'kurve-nicht-gemessen';
+  if (!_x509KurvenFaehig.has(kurve)) {
+    const hex = _X509_KURVEN_PROBE_SPKI[kurve];
+    const spki = new Uint8Array(hex.length / 2);
+    for (let i = 0; i < spki.length; i++) spki[i] = parseInt(hex.substr(2 * i, 2), 16);
+    let ok = false;
+    try { await crypto.subtle.importKey('spki', spki, { name: 'ECDSA', namedCurve: kurve }, false, ['verify']); ok = true; } catch (_) { ok = false; }
+    _x509KurvenFaehig.set(kurve, ok);
+  }
+  return _x509KurvenFaehig.get(kurve) ? null : 'kurve-nicht-unterstuetzt';
+}
+
+/* Die einzige Stelle des Kerns außerhalb des JWS-Blocks, die WebCrypto eine ECDSA-Signatur nachrechnen lässt: öffentlicher
+   Schlüssel aus SPKI, nicht herausholbar. Eine Kurve ohne Freigabe (s. _x509KurvePruefen) wirft ihren Grund-Code. */
+async function _x509EcdsaPruefen(spkiDer, kurve, hash, daten, rs) {
+  const kurveGrund = await _x509KurvePruefen(kurve);
+  if (kurveGrund) throw new Error(kurveGrund);
+  const schluessel = await crypto.subtle.importKey('spki', spkiDer, { name: 'ECDSA', namedCurve: kurve }, false, ['verify']);
+  return crypto.subtle.verify({ name: 'ECDSA', hash }, schluessel, rs, daten);
+}
+
+// x5c ist base64 (nicht base64url), RFC 7515 §4.1.6 — streng gelesen, die Größe vor dem Dekodieren begrenzt.
+function _x5cB64Bytes(text) {
+  if (typeof text !== 'string' || !text.length || text.length % 4 !== 0 || !/^[A-Za-z0-9+/]+={0,2}$/.test(text)) throw new Error('x5c-form');
+  if (text.length > Math.ceil(_DER_HOECHSTENS_BYTES / 3) * 4) throw new Error('der-zu-gross');
+  return Uint8Array.from(atob(text), (c) => c.charCodeAt(0));
+}
+function _x509Zeitpunkt(jetzt) {
+  const ms = jetzt instanceof Date ? jetzt.getTime() : jetzt === undefined ? Date.now() : new Date(jetzt).getTime();
+  if (!Number.isFinite(ms)) throw new Error('jetzt-form');
+  return ms;
+}
+const _X509_KETTE_HOECHSTENS = 3;   // Blatt + höchstens zwei Zwischen-CAs, der Anker zählt nicht mit
+// Lesefehler, die nicht an der Form liegen, sondern an einer Prüfung, die der Leser nicht leistet.
+const _X509_GRUND_NICHT_PRUEFBAR = Object.freeze(['x509-kritisch-unbekannt', 'x509-namensbeschraenkung', 'x509-richtlinie']);
+// Lesefehler, die als eigener Grund-Code zurückgehen (eine benannte Regel, nicht bloß eine Formabweichung).
+const _X509_GRUND_EIGEN = Object.freeze(['eku-kritisch', 'seriennummer-zu-lang', 'san-bei-leerem-subject', 'ca-bc-nicht-kritisch',
+  'keycertsign-ohne-ca', 'erweiterung-form']);
+
+// Hat `aus` `z` ausgestellt? Name byteweise, Befugnis, Name nicht leer, EKU der CA, dann die Signatur. Ed25519 als Aussteller
+// ist „zertifikat-form".
+async function _x509AusgestelltVon(z, aus) {
+  if (!_derBytesGleich(z.aussteller, aus.inhaber)) return 'zertifikat-unbekannt';
+  if (!aus.ca || !aus.keyCertSign) return 'ca-ohne-befugnis';
+  if (aus.inhaber.length === 2) return 'name-leer';   // 30 00: ein Name ohne RDN
+  if (aus.eku && !aus.eku.some((o) => _X509_EKU_ERLAUBT.includes(o))) return 'eku-fremd';
+  if (!z.signaturAlgorithmus.hash || aus.kurve === 'Ed25519') return 'zertifikat-form';
+  let rs;
+  try { rs = _ecdsaDerZuRs(z.signaturWert, aus.kurve); } catch (_) { return 'signatur-ungueltig'; }
+  let ok = false;
+  try { ok = await _x509EcdsaPruefen(aus.spki, aus.kurve, z.signaturAlgorithmus.hash, z.tbs, rs); } catch (e) {
+    if (e && (e.message === 'kurve-nicht-gemessen' || e.message === 'kurve-nicht-unterstuetzt')) return e.message;
+    ok = false;
+  }
+  return ok ? null : 'signatur-ungueltig';
+}
+
+/* Die x5c-Kette gegen eine übergebene Ankerliste (DER-Zertifikate). x5c[0] ist das Blatt, danach die Zwischen-CAs. Steht
+   ein Anker am Ende von x5c, wird er geduldet und abgestreift — Vertrauen begründet er nicht.
+   Rückgabe { gueltig: true, blatt } oder { gueltig: false, grund, detail? } mit den Codes zertifikat-unbekannt,
+   signatur-ungueltig, zertifikat-zeit, zertifikat-form, nicht-pruefbar, kette-zu-lang, ca-ohne-befugnis, name-leer, blatt-zweck,
+   eku-fremd, eku-kritisch, anker-eku, seriennummer-zu-lang, san-bei-leerem-subject, ca-bc-nicht-kritisch, keycertsign-ohne-ca,
+   blatt-ist-ca, cn-mehrfach, cn-form, cn-hostname-nicht-im-san, erweiterung-form, kurve-nicht-gemessen, kurve-nicht-unterstuetzt.
+   Produktaufrufer rufen diese Funktion nicht direkt, sondern _x509StellePruefen (Klassenprobe in tests/x509-leser.test.js). */
+async function _x509KettePruefen(x5cB64Liste, anker, jetzt) {
+  const nein = (grund, detail) => (detail ? { gueltig: false, grund, detail } : { gueltig: false, grund });
+  let zeit;
+  try { zeit = _x509Zeitpunkt(jetzt); } catch (_) { return nein('zertifikat-form'); }
+  if (!Array.isArray(x5cB64Liste) || !x5cB64Liste.length || !Array.isArray(anker)) return nein('zertifikat-form');
+  if (x5cB64Liste.length > _X509_KETTE_HOECHSTENS + 1) return nein('kette-zu-lang');
+  let roh, kette, anz;
+  try {
+    roh = x5cB64Liste.map(_x5cB64Bytes);
+    anz = anker.map((a) => ({ roh: a instanceof Uint8Array ? a : new Uint8Array(a) }));
+    for (const a of anz) a.z = _x509Lesen(a.roh);
+    if (roh.length > 1 && anz.some((a) => _derBytesGleich(a.roh, roh[roh.length - 1]))) roh = roh.slice(0, -1);
+    kette = roh.map(_x509Lesen);
+  } catch (e) {
+    const m = e && e.message;
+    if (_X509_GRUND_EIGEN.includes(m)) return nein(m);
+    return _X509_GRUND_NICHT_PRUEFBAR.includes(m) ? nein('nicht-pruefbar', m) : nein('zertifikat-form', m);
+  }
+  if (kette.length > _X509_KETTE_HOECHSTENS) return nein('kette-zu-lang');
+  for (const z of kette) if (zeit < z.nichtVor || zeit > z.nichtNach) return nein('zertifikat-zeit');
+  for (let i = 0; i + 1 < kette.length; i++) {
+    const aus = kette[i + 1];
+    // pathLen: unter einer CA dürfen höchstens pfadLaenge weitere CAs folgen (hier: i Zwischen-CAs unter `aus`).
+    if (aus.pfadLaenge !== null && i > aus.pfadLaenge) return nein('ca-ohne-befugnis');
+    const fehler = await _x509AusgestelltVon(kette[i], aus);
+    if (fehler) return nein(fehler);
+  }
+  // Vertrauen kommt allein aus der Ankerliste — nie aus der Anwesenheit eines Zertifikats in x5c.
+  const ankerGrund = await _x509AnkerPruefen(kette[kette.length - 1], kette.length - 1, anz, zeit);
+  if (ankerGrund) return nein(ankerGrund);
+  // Das Blatt: keyUsage Pflicht, mit digitalSignature oder nonRepudiation; eine EKU, wenn sie steht, aus der erlaubten Menge.
+  const blatt = kette[0];
+  // Ein Blatt ist keine CA (das Zertifikat einer Stelle stellt nichts aus).
+  if (blatt.ca) return nein('blatt-ist-ca');
+  const cnGrund = _x509BlattCnPruefen(blatt);
+  if (cnGrund) return nein(cnGrund);
+  if (!blatt.keyUsage) return nein('blatt-zweck', 'keyusage-fehlt');
+  if (!blatt.digitalSignature && !blatt.nonRepudiation) return nein('blatt-zweck', 'keyusage-ohne-signatur');
+  if (blatt.eku && !blatt.eku.some((o) => _X509_EKU_ERLAUBT.includes(o))) return nein('eku-fremd');
+  return { gueltig: true, blatt };
+}
+/* Der Eingang für das Zertifikat einer Stelle (ETSI-Profil der Zugangszertifikate): die Pfadprüfung oben und dazu am Blatt
+   Pflicht certificatePolicies, irgendeine OID („policy-fehlt"). Rückgabe wie _x509KettePruefen, dazu stelle { anzeige, kennung }
+   aus organizationName/organizationIdentifier (nie aus dem CN); blatt.etsiRichtlinien nennt erkannte ETSI-Richtlinien. */
+async function _x509StellePruefen(x5cB64Liste, anker, jetzt) {
+  const r = await _x509KettePruefen(x5cB64Liste, anker, jetzt);
+  if (!r.gueltig) return r;
+  if (!r.blatt.richtlinien) return { gueltig: false, grund: 'policy-fehlt' };
+  return { gueltig: true, blatt: r.blatt, stelle: _x509StelleAnzeige(r.blatt) };
+}
+/* Hat ein Anker der Liste das letzte Kettenglied ausgestellt? `unterAnker` zählt die CAs zwischen Anker und Blatt (für
+   pathLen des Ankers). Rückgabe null oder der Grund-Code; mehrere Anker mit gleichem Namen werden alle versucht. Ein Anker
+   ohne CA:TRUE und keyCertSign stellt nichts aus („ca-ohne-befugnis") — auch als Anker, streng. */
+async function _x509AnkerPruefen(letztes, unterAnker, anz, zeit) {
+  const passend = anz.filter((a) => _derBytesGleich(a.z.inhaber, letztes.aussteller));
+  if (!passend.length) return 'zertifikat-unbekannt';
+  let grund = null;
+  for (const a of passend) {
+    // Ein Anker mit irgendeiner extendedKeyUsage: vorläufig abgewiesen, Lesung offen 15.10. (Zwischen-CAs: Regel in _x509AusgestelltVon).
+    if (a.z.eku) { grund = 'anker-eku'; continue; }
+    if (zeit < a.z.nichtVor || zeit > a.z.nichtNach) { grund = grund || 'zertifikat-zeit'; continue; }
+    if (a.z.pfadLaenge !== null && unterAnker > a.z.pfadLaenge) { grund = 'ca-ohne-befugnis'; continue; }
+    const fehler = await _x509AusgestelltVon(letztes, a.z);
+    if (!fehler) return null;
+    grund = fehler;
+  }
+  return grund;
+}
+
+const _X509_OID_CN = '2.5.4.3';
+const _X509_OID_ORGANISATION = '2.5.4.10';
+const _X509_OID_ORG_KENNUNG = '2.5.4.97';
+/* Alle Werte eines Attributs (OID) im Namen (DER) als Text. Nur UTF8String (streng dekodiert) und PrintableString (nur ihre
+   Zeichen) — jede andere Kodierung eines gesuchten Attributs wirft „name-wert-form"; ein kaputter Name „name-form". */
+function _x509NamensWerte(nameDer, oid) {
+  const werte = [];
+  const name = _derErwarte(_derGanz(nameDer), 0x30);
+  for (const rdn of _derKinder(nameDer, name)) {
+    for (const atv of _derKinder(nameDer, _derErwarte(rdn, 0x31))) {
+      const t = _derKinder(nameDer, _derErwarte(atv, 0x30));
+      if (t.length !== 2) throw new Error('name-form');
+      if (_derOid(nameDer, t[0]) !== oid) continue;
+      const w = t[1];
+      const roh = nameDer.slice(w.inhaltStart, w.ende);
+      let text;
+      if (w.tag === 0x0c) {
+        try { text = new TextDecoder('utf-8', { fatal: true }).decode(roh); } catch (_) { throw new Error('name-wert-form'); }
+      } else if (w.tag === 0x13) {
+        text = String.fromCharCode(...roh);
+        if (!/^[A-Za-z0-9 '()+,\-./:=?]*$/.test(text)) throw new Error('name-wert-form');
+      } else throw new Error('name-wert-form');
+      werte.push(text);
+    }
+  }
+  return werte;
+}
+
+/* Die Kennung der Stelle im Inhaber des Blatts: organizationIdentifier (2.5.4.97), genau einmal, als UTF8String oder
+   PrintableString (ETSI TS 119 411-8 V1.1.1, GEN-6.6.1-05). Rückgabe der Text oder ein Grund-Code (kennung-fehlt,
+   kennung-mehrdeutig, kennung-form). Nie aus dem CN. */
+function _x509OrganisationsKennung(blatt) {
+  let werte;
+  try { werte = _x509NamensWerte(blatt.inhaber, _X509_OID_ORG_KENNUNG); } catch (_) { return { grund: 'kennung-form' }; }
+  if (!werte.length) return { grund: 'kennung-fehlt' };
+  if (werte.length > 1) return { grund: 'kennung-mehrdeutig' };
+  if (!werte[0].length) return { grund: 'kennung-form' };
+  return { kennung: werte[0] };
+}
+
+/* Der CN des Blatts. Er wird weder als Kennung noch als Anzeige ausgewertet (beides kommt aus organizationName und
+   organizationIdentifier); geprüft wird nur, dass er nichts Falsches behauptet. Im Zugangszertifikat ist der CN ein freier
+   Handels- oder Dienstname (ETSI TS 119 411-8 GEN-6.1.1-04) — „Stadt Musterstadt Bürgeramt" und „verifier" bleiben angenommen.
+   Abgewiesen: mehr als ein CN („cn-mehrfach"), ein CN in anderer Kodierung als UTF8String/PrintableString („cn-form"), und ein
+   CN in Gestalt eines Rechnernamens (Buchstaben/Ziffern/Bindestrich, mindestens ein Punkt, kein Leerraum; ASCII oder IDN), der
+   keinem dNSName im SAN byte-gleich ist („cn-hostname-nicht-im-san"). Rückgabe null oder der Grund-Code. */
+function _x509BlattCnPruefen(blatt) {
+  let werte;
+  try { werte = _x509NamensWerte(blatt.inhaber, _X509_OID_CN); } catch (_) { return 'cn-form'; }
+  if (werte.length > 1) return 'cn-mehrfach';
+  if (werte.length === 1 && /^[\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)+\.?$/u.test(werte[0]) && !blatt.dnsNamen.includes(werte[0])) {
+    return 'cn-hostname-nicht-im-san';
+  }
+  return null;
+}
+
+/* Anzeige und Kennung der Stelle — allein aus organizationName (2.5.4.10, genau einer) und organizationIdentifier, nie aus dem
+   CN. Ohne organizationName ist die Anzeige der organizationIdentifier; fehlt beides, null. */
+function _x509StelleAnzeige(blatt) {
+  let namen = [];
+  try { namen = _x509NamensWerte(blatt.inhaber, _X509_OID_ORGANISATION); } catch (_) { namen = []; }
+  const k = _x509OrganisationsKennung(blatt);
+  const kennung = k.kennung || null;
+  const anzeige = namen.length === 1 && namen[0].length ? namen[0] : kennung;
+  return { anzeige, kennung };
+}
+
+/* client_id ↔ Blatt (OID4VP 1.0 §5.9.3; Kennung nach ETSI TS 119 411-8 V1.1.1, GEN-6.6.1-05; Wort vom 15.10.2026):
+   „x509_san_dns:<name>": <name> muss einem dNSName im SAN des Blatts zeichengleich gleichen — mehrere SAN-Einträge sind
+   erlaubt, nur der genannte muss treffen; kein Platzhalter (ein „*" im Namen ist schon Form-Fehler, ein „*.…" im SAN trifft
+   nie), kein Abgleich ohne Groß/Klein. Die Kennung der Stelle ist dann dieser Name.
+   „x509_hash:<wert>": <wert> muss base64url (ohne Auffüllung) von SHA-256 über das ganze DER des Blatts sein; die Kennung der
+   Stelle ist der organizationIdentifier im Inhaber des Blatts — genau einer, Pflicht (fehlt er: „kennung-fehlt").
+   Jedes andere Präfix ist abgewiesen. Rückgabe { gueltig: true, kennung } oder { gueltig: false, grund } mit client-id-form,
+   client-id-praefix-unbekannt, san-passt-nicht, hash-passt-nicht, kennung-fehlt, kennung-mehrdeutig, kennung-form. */
+async function _x509ClientIdBinden(clientId, blatt) {
+  const nein = (grund) => ({ gueltig: false, grund });
+  if (typeof clientId !== 'string' || !blatt || !(blatt.roh instanceof Uint8Array)) return nein('client-id-form');
+  const i = clientId.indexOf(':');
+  if (i <= 0) return nein('client-id-form');
+  const praefix = clientId.slice(0, i), wert = clientId.slice(i + 1);
+  if (praefix === 'x509_san_dns') {
+    if (!/^[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?$/.test(wert)) return nein('client-id-form');
+    return blatt.dnsNamen.includes(wert) ? { gueltig: true, kennung: wert } : nein('san-passt-nicht');
+  }
+  if (praefix === 'x509_hash') {
+    if (!/^[A-Za-z0-9_-]{43}$/.test(wert)) return nein('client-id-form');
+    const h = new Uint8Array(await crypto.subtle.digest('SHA-256', blatt.roh));
+    let bin = '';
+    for (const b of h) bin += String.fromCharCode(b);
+    const soll = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    if (soll !== wert) return nein('hash-passt-nicht');
+    const k = _x509OrganisationsKennung(blatt);
+    return k.grund ? nein(k.grund) : { gueltig: true, kennung: k.kennung };
+  }
+  return nein('client-id-praefix-unbekannt');
+}
+/* X509-LESER:END */
+/* ENTWICKLERLEISTE:BEGIN */
+/* ══ OID4VP-SPIKE (O1, nur Entwicklerfassung) ══════════════════════════════════════════════════════════════════════ */
+// Spike, kein Produktcode: der Backschritt schneidet diese Spanne aus jedem Produkt (_entwicklerleisteSchneiden in
+// tools/lib/produkt-text-erzeugen.js; die Probe tests/oid4vp-spike.test.js hält, dass danach kein Bezeichner des
+// Spikes übrig bleibt). Grundlage: Entscheidung 14.10.2026 „Übergabe wie Wallet, Ergänzung", RbB O1.
+// Seit 15.10.2026 liegt der X.509-Leser (DER, Zertifikat, Kette, ECDSA) im Produktteil (Spanne X509-LESER davor); hier
+// bleibt nur, was die OID4VP-Anfrage betrifft: die Prüfung der Anfrage-JWS mit ES256/ES384/ES512.
+
+// Erlaubt sind allein die drei ECDSA-Algorithmen, jeder an seine Kurve gebunden (RFC 7518 §3.4).
+const _OID4VP_JWS_ALGS = Object.freeze({
+  ES256: Object.freeze({ kurve: 'P-256', hash: 'SHA-256', laenge: 64 }),
+  ES384: Object.freeze({ kurve: 'P-384', hash: 'SHA-384', laenge: 96 }),
+  ES512: Object.freeze({ kurve: 'P-521', hash: 'SHA-512', laenge: 132 }),
+});
+/* Eine JWS (Compact) mit dem öffentlichen Schlüssel aus `spkiDer` prüfen. Jeder andere alg (none, HS*, RS*, EdDSA) ist
+   „alg-nicht-erlaubt"; ein alg, der nicht zur Kurve des Schlüssels passt, „alg-passt-nicht"; eine Signatur anderer Länge
+   als 64/96/132 Bytes „signatur-form"; eine Kurve ohne Freigabe in dieser Engine ihr Grund-Code aus _x509KurvePruefen.
+   Rückgabe { gueltig, kopf, nutzlast, grund }. */
+async function _oid4vpJwsPruefen(jwsCompact, spkiDer) {
+  const r = { gueltig: false, kopf: null, nutzlast: null, grund: '' };
+  const nein = (grund) => { r.grund = grund; return r; };
+  if (typeof jwsCompact !== 'string') return nein('jws-form');
+  const teile = jwsCompact.split('.');
+  if (teile.length !== 3 || !teile.every((t) => /^[A-Za-z0-9_-]*$/.test(t))) return nein('jws-form');
+  try {
+    r.kopf = JSON.parse(_jwsB64uToString(teile[0]));
+    r.nutzlast = JSON.parse(_jwsB64uToString(teile[1]));
+  } catch (_) { return nein('jws-form'); }
+  if (!r.kopf || typeof r.kopf !== 'object' || Array.isArray(r.kopf)) return nein('jws-form');
+  const alg = r.kopf.alg;
+  if (typeof alg !== 'string' || !Object.prototype.hasOwnProperty.call(_OID4VP_JWS_ALGS, alg)) return nein('alg-nicht-erlaubt');
+  // `crit` nennt Kopf-Erweiterungen, die verstanden werden müssen — der Spike versteht keine.
+  if (Object.prototype.hasOwnProperty.call(r.kopf, 'crit')) return nein('jws-form');
+  const soll = _OID4VP_JWS_ALGS[alg];
+  let spki;
+  try { spki = _x509SpkiLesen(spkiDer, _derGanz(spkiDer)); } catch (_) { return nein('schluessel-form'); }
+  if (spki.kurve !== soll.kurve) return nein('alg-passt-nicht');
+  const sig = _jwsB64uToBytes(teile[2]);
+  if (sig.length !== soll.laenge) return nein('signatur-form');
+  let ok = false;
+  try { ok = await _x509EcdsaPruefen(spki.spki, soll.kurve, soll.hash, new TextEncoder().encode(teile[0] + '.' + teile[1]), sig); } catch (e) {
+    if (e && (e.message === 'kurve-nicht-gemessen' || e.message === 'kurve-nicht-unterstuetzt')) return nein(e.message);
+    ok = false;
+  }
+  if (!ok) return nein('signatur-ungueltig');
+  r.gueltig = true;
+  r.grund = 'ok';
+  return r;
 }
 /* ENTWICKLERLEISTE:END */
 
@@ -65809,6 +66888,9 @@ window.__vdOeffentlich = {
   get wizardSchrittIndex() { return wizardSchrittIndex; }, set wizardSchrittIndex(v) { wizardSchrittIndex = v; }, // bare-Kanal, E2E/Werkzeug: 09-wizard-override-sektor.spec.js, +4 weitere
   wizardSichtbareIndizes, // bare-Kanal, E2E/Werkzeug: fehlerpfad-wizard-abbruch.spec.js
   zeichneDokumentPdf, // bare-Kanal, E2E/Werkzeug: fix-dokument-pdf-unterschrift-false.spec.js
+  feldInputHTML, // E2E: gesicherte-kopie.spec.js (Klassenprobe über alle Feld-Bauer)
+  chipDaten, // E2E: gesicherte-kopie.spec.js
+  get _FELDWERTE_BEOBACHTER() { return _FELDWERTE_BEOBACHTER; }, // E2E: gesicherte-kopie.spec.js (Rot-Beweis, Leistung)
 };
 /* KERN_TESTFLAECHE:END */
 /* CODE-LISTEN:BEGIN — generierter Bereich (tools/build-code-listen.js); Quellen: code-listen/<systemId>.json */

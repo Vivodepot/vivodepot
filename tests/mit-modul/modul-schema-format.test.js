@@ -34,6 +34,9 @@ gleichlaufProben({
     ['U2-ADR-465: xml@1 mit Werteabbildung und Datumsteil', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'Konto.art', werte: { a: 'A', b: 1 } },
       { bereich: 'identity', feld: 'birthDate', ziel: 'Person.jahr', teil: 'jahr' }] })],
     ['U2-ADR-465: xml@1 mit Wurzelnamen mit Punkten', (() => { const m = mitXml({ wurzel: 'fim.S99000001.00000001001000' }); delete m.quelle; return m; })()],
+    ['U2-ADR-465 Nachtrag: xml@1 mit Anhängen, Pflicht und bevollmächtigter Person', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'Konto.nr' },
+      { anhang: 'vollmacht-nachweis', ziel: 'Vertretung.nachweis' }, { vertreter: 'familyName', ziel: 'Vertretung.name' },
+      { anhang: 'bescheid', ziel: 'Bescheid', pflicht: true }, { anhang: 'lichtbild', ziel: 'Bild', pflicht: false }] })],
     ['U2-ADR-465: xml@1 mit Namensraum, zweitem Bereich und festem Wert', mitXml({ namensraum: 'urn:vivodepot:probe:1',
       zuordnung: [{ feld: 'accounts', ziel: 'Konto.nr' }, { fest: true, ziel: 'Konto.geprueft' }, { bereich: 'identity', feld: 'givenName', ziel: 'Person.vorname' }] })],
   ],
@@ -95,6 +98,7 @@ gleichlaufProben({
     ['U2-ADR-465: quelle und wurzel zugleich', mitXml({ wurzel: 'w' }), 'schreiber-xml-zwei-wurzeln'],
     ['U2-ADR-465: wurzel an json@1', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', wurzel: 'w' }); delete m.leser; return m; })(), 'wurzel-ohne-xml'],
     ['U2-ADR-465: hinweis mit „--“', mitXml({ hinweis: 'a -- b' }), 'hinweis'],
+    ['U2-ADR-465 Nachtrag: nur ein Anhang, kein Depot-Feld', mitXml({ zuordnung: [{ anhang: 'bescheid', ziel: 'a.b', pflicht: true }] }), 'zuordnung-nur-fest'],
     ['U2-ADR-465: hinweis an json@1', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', hinweis: 'x' }); delete m.leser; return m; })(), 'hinweis-ohne-xml'],
   ],
   nurKern: {
@@ -102,6 +106,8 @@ gleichlaufProben({
     sektor: 'Ob ein Bereich existiert, hängt am laufenden Bereichsbestand (eingebaute und angedockte Bereiche) — das Schema prüft nur, dass eine Kennung dasteht.',
     leser: 'Ob eine Leser-Kennung auflöst, hängt an der eingebauten Lesertabelle samt früheren Kennungen — das Schema prüft nur Form und Pflicht.',
     schreiber: 'Ob eine Schreiber-Kennung auflöst, hängt an der eingebauten Schreibertabelle — das Schema prüft nur die Form.',
+    'vertreter-ohne-nachweis': 'U2-ADR-465 Nachtrag: ob neben einem `vertreter` ein Eintrag mit der Rolle vollmacht-nachweis steht, ist eine Bedingung über zwei Einträge der Liste — das Schema prüft jeden Eintrag für sich.',
+    'anhang-rolle-doppelt': 'U2-ADR-465 Nachtrag: dass jede Anhang-Rolle höchstens einmal vorkommt, ist eine Bedingung über die ganze Liste — das Schema prüft jeden Eintrag für sich.',
     'zuordnung-leer': 'Ob ein Feld im Bereich existiert, hängt am laufenden Feldbestand — der Kern verwirft unbekannte Felder einzeln; bleibt keine Zuordnung übrig, lehnt er ab.',
   },
   nurKernFaelle: [
@@ -110,6 +116,8 @@ gleichlaufProben({
     ['unbekannter Bereich', mit({ sektor: 'gibtesnicht' }), 'sektor'],
     ['unbekannter Leser', mit({ leser: 'json@9' }), 'leser'],
     ['unbekannter Schreiber', mit({ schreiber: 'csv@1' }), 'schreiber'],
+    ['U2-ADR-465 Nachtrag: vertreter ohne Nachweis der Vollmacht', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'a' }, { vertreter: 'familyName', ziel: 'b' }] }), 'vertreter-ohne-nachweis'],
+    ['U2-ADR-465 Nachtrag: dieselbe Rolle zweimal', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'a' }, { anhang: 'bescheid', ziel: 'b' }, { anhang: 'bescheid', ziel: 'c' }] }), 'anhang-rolle-doppelt'],
     ['nur unbekannte Felder', mit({ zuordnung: [{ feld: 'gibtesnicht', ziel: 'x' }] }), 'zuordnung-leer'],
   ],
 });

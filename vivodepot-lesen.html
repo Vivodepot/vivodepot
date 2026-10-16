@@ -1711,6 +1711,23 @@ const _STRINGS_EINGEBAUT = ({
   antwortKeyPw: 'Passwort der Schlüsseldatei',
   antwortKeyFalsch: 'Das Passwort passt nicht, oder die Datei ist beschädigt.',
   antwortKeyKlartext: 'Diese Schlüsseldatei ist nicht verschlüsselt. Im Studio können Sie sie verschlüsselt neu speichern; löschen Sie danach die alte Datei.',
+  /* Die signierte Antwort (U2-ADR-501, Punkte 2, 3, 5 und 12): Sachangaben, nie „geprüft“, nie „echt“. Der zuerst gesehene Schlüssel
+     ist nicht „der richtige“, ein neuer Schlüssel ist keine Warnung, und eine fehlende Personenkennung ist kein Mangel (sie wird gar nicht genannt).
+     Die Liste der Schlüssel steht in tests/lese-app-signierte-antwort.test.js (ANZEIGE_SCHLUESSEL), die Wortprobe dort. */
+  antwortSignaturZeileBekannt: 'Unverändert seit dem Signieren · Schlüssel {abdruck} · bei dieser Stelle zuerst am {datum}',
+  antwortSignaturZeileNeu: 'Unverändert seit dem Signieren · neuer Schlüssel · {abdruck}',
+  antwortSignaturSachsatz: 'Signiert für {stelle}. Die Signatur zeigt, dass die Angaben seit dem Signieren unverändert sind und mit welchem Schlüssel signiert wurde. Wer antwortet, zeigt sie nicht. Schlüssel merkt sich die Lese-App nur, solange sie geöffnet ist.',
+  antwortOhneSignatur: 'Diese Antwort ist nicht signiert (ältere Fassung).',
+  // Wortlaut der Gegenlesung (15.10.2026), wörtlich; steht bei einer Antwort, deren aud in der Domäne unsigniert: liegt.
+  antwortSignaturOhneZertifikat: 'Die Anfrage trug kein Zertifikat; wer sie gestellt hat und wer die Antwort gelesen hat, ist nicht geprüft.',
+  antwortSignaturUngueltig: 'Die Signatur passt nicht zum Inhalt der Antwort. Die Antwort wird nicht angezeigt.',
+  antwortSignaturVerfahren: 'Die Antwort ist mit einem Verfahren signiert, das die Lese-App nicht annimmt. Die Antwort wird nicht angezeigt.',
+  antwortSignaturArt: 'Die Signatur ist nicht als Antwort auf eine Anfrage gekennzeichnet. Die Antwort wird nicht angezeigt.',
+  antwortSignaturUnlesbar: 'Die Signatur der Antwort lässt sich nicht lesen. Die Antwort wird nicht angezeigt.',
+  antwortSignaturUnvollstaendig: 'Der signierten Antwort fehlen Angaben, die zur Signatur gehören. Die Antwort wird nicht angezeigt.',
+  antwortSignaturZeit: 'Die signierte Antwort ist nach ihren eigenen Zeitangaben nicht gültig. Die Antwort wird nicht angezeigt.',
+  antwortSignaturFremdeStelle: 'Die Antwort ist für eine andere Stelle signiert. Die Antwort wird nicht angezeigt.',
+  antwortSignaturFremderVorgang: 'Die Antwort ist für eine andere Anfrage signiert. Die Antwort wird nicht angezeigt.',
   antwortTeilantwort: 'Dies ist eine TEILANTWORT. Nicht alle Angaben, nach denen Sie gefragt haben, sind enthalten.',
   antwortFehlend: 'Es fehlt:',
   antwortFreigestellt: 'freigestellt',
@@ -2175,13 +2192,11 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:2ffa1fee03cdb283b3d1634245b018132736607e2866d87bee7e7b9334320f94",
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
-  "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
   "sha256:48eecf50d5bda7dbe67e03ef2f76088788100d6e818f5ed24d1dab06bd10fb94",
   "sha256:525d92f3334b2cb544ee89d1a541c661dfda1411ad187e067fef42e2eaf1ee64",
   "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
-  "sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",
   "sha256:64c87d3825b00e4f002c2a71945f8a5390cc19a40c97b9e91c38c4c4e9e9aee6",
   "sha256:67533c21c1d79f9a342f32a9e5372d8b951a6aa74f34579da136884991fb54d6",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
@@ -2198,6 +2213,7 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:a076ff45e5b4156e0b3f0e2fc1b0510ccd34cb3c4816e00f04373143da2a59de",
   "sha256:a23b61e455773b6983c2b158b3aabba7ccd1b6ba5e912f95745ca157bb3992d2",
   "sha256:a349e68d1d95c99b7f4d8813cc22470fb1d6716a8175ac5c8f7c0647966a6b54",
+  "sha256:a505d35786820273ab27f58748ce5dda2f00470c089f5a04212a881633732926",
   "sha256:b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
   "sha256:c00302bfe2638cbf65dd79f56822046de7910d6ba6647a5f5d2ba3c07f6edcf9",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
@@ -2205,6 +2221,7 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
   "sha256:e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
   "sha256:e8af4c9308a1cc2b3018c66b914b8f7f598007d557016bb10037ebec2fa2837c",
+  "sha256:eda559dab476d53a6d18ef7b54b9266f2b096b58b3320484ea3e4012a6c689fa",
   "sha256:f0aa343ddabb16159f31263cfe29e05b90429a9bc316b385e23e946f32fb6487",
   "sha256:fbef7f1831d1a8bb8a3a055c0b70df9d51e57c1e037244be54f395bea72c9ba8",
   "sha256:feb419a2bf7efa68348d922c4748978e5649c22d93888305b6d9139247a3e69b",
@@ -2244,6 +2261,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:35bb24ef2f3d1bb8e9e63103667809d466c477069b0d8f6d0d0942b5fdd7df0e",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
   "sha256:3c5325d8c30b9dc9574a1aeae9cd4dad77eea1aa12e0ff9c64781f5b0769818e",
+  "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
   "sha256:4308672df53e5658a326398cf18bdc0ee5c462e562232ff409074ce9f0df4a71",
   "sha256:4344fd54b019ca170bed4ee15d2a1c0d94e04b9e21ba3aecbfb4be99755745de",
   "sha256:434fb5d6198176873d30ffb32cf83722ba3be3e00152ba1159469cee2de11d07",
@@ -2268,6 +2286,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
+  "sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",
   "sha256:645dd0c53ccf8aa3b8bff064236e112f989f6c16c1f34c263343a7747c48fc58",
   "sha256:64c87d3825b00e4f002c2a71945f8a5390cc19a40c97b9e91c38c4c4e9e9aee6",
   "sha256:67533c21c1d79f9a342f32a9e5372d8b951a6aa74f34579da136884991fb54d6",
@@ -6434,6 +6453,19 @@ const LESE_TEXTE_EN = Object.freeze({
   antwortKeyPw: "Key file password",
   antwortKeyFalsch: "The password does not match, or the file is damaged.",
   antwortKeyKlartext: "This key file is not encrypted. You can save it again with encryption in Studio; delete the old file afterwards.",
+  antwortSignaturZeileBekannt: "Unchanged since signing · key {abdruck} · first seen here on {datum}",
+  antwortSignaturZeileNeu: "Unchanged since signing · new key · {abdruck}",
+  antwortSignaturSachsatz: "Signed for {stelle}. The signature shows that the entries are unchanged since signing and which key signed them. It does not show who is replying. The reader app remembers keys only while it is open.",
+  antwortOhneSignatur: "This reply is not signed (earlier version).",
+  antwortSignaturOhneZertifikat: "The request carried no certificate; who made it and who read the reply is not verified.",
+  antwortSignaturUngueltig: "The signature does not match the content of the reply. The reply is not shown.",
+  antwortSignaturVerfahren: "The reply is signed with a method this reader app does not accept. The reply is not shown.",
+  antwortSignaturArt: "The signature is not marked as a reply to a request. The reply is not shown.",
+  antwortSignaturUnlesbar: "The signature of the reply cannot be read. The reply is not shown.",
+  antwortSignaturUnvollstaendig: "The signed reply lacks details that belong to the signature. The reply is not shown.",
+  antwortSignaturZeit: "By its own dates, the signed reply is not valid. The reply is not shown.",
+  antwortSignaturFremdeStelle: "The reply is signed for a different recipient. The reply is not shown.",
+  antwortSignaturFremderVorgang: "The reply is signed for a different request. The reply is not shown.",
   antwortFehlend: "Missing:",
   antwortFreigestellt: "exempted",
   antwortUnbekannt: "Vivodepot has no such details:",
@@ -18109,6 +18141,202 @@ async function antwortJweOeffnen(text, schluessel) {
 }
 /* ══ ENDE ANTWORT-JWE ÖFFNEN ══ */
 
+/* ══ STELLENKENNUNG-BLOCK (U2-ADR-501 Abschnitt B, Punkte 9 und 10) — in vivodepot.html und vivodepot-lesen.html zeichengleich ══
+   Die EINE Stelle, die aus einer rohen Kennung die Kennung der Stelle baut: `aud` der signierten Antwort und (ab V2) die Eingabe der
+   Ableitung je Stelle. Kein Krypto-Aufruf. Der Kern nutzt ihn bis zum Bau der Ableitung und des Signierens nicht; die Lese-App liest
+   damit `aud`. Spiegel-Probe: tests/stellenkennung-spiegel.test.js.
+   FORM:  signiert:<art>:<länge>:<kennung>   (art = anbieter | dns | org)
+          unsigniert:<länge>:<kennung>
+   <länge> ist die Zahl der UTF-8-Bytes der normalisierten Kennung, vier Dezimalziffern mit führenden Nullen (feste Breite, ADR Punkt 9).
+   Zwei Domänen trennen eine geprüfte Kennung von einer, die eine Anfrage nur über sich behauptet; eine unsignierte Anfrage mit fremder
+   Kennung ergibt so nie die Kennung einer geprüften Stelle.
+   GEWÄHLT, weil das ADR es offen läßt (im Bericht gelistet):
+     · Längenpräfix als vier Dezimalziffern im Text (nicht als Bytes); Kennungen über 9999 Byte sind ungültig.
+     · Normalisierung: NFC, Leerraum außen weg; Steuerzeichen sind ungültig.
+       dns: ASCII-Kleinschreibung, ein Punkt am Ende fällt weg, nur Buchstaben/Ziffern/Bindestrich/Punkt.
+       anbieter und unsigniert: Kleinschreibung (wie die Anbieter-Kennung beim Einlass, `_textsatzBelegtEintragen`).
+       org (organizationIdentifier aus dem Subject, Punkt 10): unverändert bis auf Leerraum außen — die Schreibweise gehört dem Register.
+     · Art `org` ist ergänzt: Punkt 9 nennt nur Anbieter und DNS, Punkt 10 nimmt für x509_hash das organizationIdentifier.
+   EINGABE: { ausZertifikat: true, art, kennung } für eine Kennung aus einem geprüften Zertifikat (Domäne `signiert:`),
+            { ausZertifikat: false, kennung } für eine Kennung, die nur die Anfrage nennt (Domäne `unsigniert:`).
+   Ungültige Eingabe ergibt `null`, nie eine Teil-Kennung. */
+const STELLENKENNUNG_ARTEN = Object.freeze(['anbieter', 'dns', 'org']);
+function stellenKennung(roh) {
+  const r = (roh && typeof roh === 'object') ? roh : {};
+  if (typeof r.kennung !== 'string') return null;
+  let k = r.kennung.normalize('NFC').trim();
+  if (!k || /[\u0000-\u001f\u007f]/.test(k)) return null;
+  let kopf;
+  if (r.ausZertifikat === true) {
+    if (!STELLENKENNUNG_ARTEN.includes(r.art)) return null;
+    if (r.art === 'dns') {
+      k = k.replace(/[A-Z]/g, (c) => c.toLowerCase()).replace(/\.$/, '');
+      if (!/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/.test(k) || k.includes('..')) return null;
+    } else if (r.art === 'anbieter') {
+      k = k.toLowerCase();
+    }
+    kopf = 'signiert:' + r.art + ':';
+  } else if (r.ausZertifikat === false) {
+    if (r.art !== undefined) return null;
+    k = k.toLowerCase();
+    kopf = 'unsigniert:';
+  } else {
+    return null;
+  }
+  const laenge = new TextEncoder().encode(k).length;
+  if (laenge > 9999) return null;
+  return kopf + String(laenge).padStart(4, '0') + ':' + k;
+}
+/* Die Umkehrung, nur zum Anzeigen und Vergleichen: zerlegt eine Kennung in Herkunft der Kennung (ausZertifikat), Art und Kennung, prüft die Länge und daß die
+   Kennung schon normalisiert ist (stellenKennung ergibt wieder denselben Text). Sonst `null`. */
+function stellenKennungTeile(text) {
+  if (typeof text !== 'string') return null;
+  const m = /^(signiert):(anbieter|dns|org):(\d{4}):([\s\S]*)$/.exec(text) || /^(unsigniert):()(\d{4}):([\s\S]*)$/.exec(text);
+  if (!m) return null;
+  const teile = m[2] ? { ausZertifikat: true, art: m[2], kennung: m[4] } : { ausZertifikat: false, kennung: m[4] };
+  return stellenKennung(teile) === text ? teile : null;
+}
+/* ══ ENDE STELLENKENNUNG-BLOCK ══ */
+/* ══ DIE SIGNIERTE ANTWORT LESEN (U2-ADR-501, Abschnitt A und C, Punkt 12) — nur in der Lese-App ══════════════════════════════
+   Ab dem Bau im Kern (hinter dem Schalter ANTWORT_SIGNIEREN, ab Werk aus) ist die Antwort sign-then-encrypt: ein JWS Compact im
+   JWE, der JWE-Kopf trägt `cty` `JWT`. Die Lese-App kommt ZUERST (Punkt 13): eine ältere Lese-App öffnet eine signierte Antwort nicht.
+   Was hier steht, liegt AUSSERHALB der gepinnten Blöcke (JWS-Block, ANTWORT-JWE-BLOCK, Öffnen): es ruft `antwortJweOeffnen`,
+   `_jwkThumbprint`, `_jwsImportVerifyKey` und `_verifyJWS` nur auf. Kein eigener WebCrypto-Aufruf.
+   WAS GEPRÜFT WIRD, in dieser Reihenfolge; jede Abweichung ist eine Abweisung mit Grund, und dann wird kein Inhalt gezeigt:
+     · Kopf: `typ` `vivodepot-antwort+jwt`, kein `crit`, `alg` nur `Ed25519` oder `EdDSA`, `jwk` nur OKP/Ed25519 (öffentlich, ohne `d`).
+       ES*, HS*, `none` und jede andere Paarung fallen hier, bevor gerechnet wird. Trägt der Kopf `kid`, muss es der Abdruck nach
+       RFC 7638 von `jwk` sein.
+     · Signatur über `_verifyJWS` (prüft auch `exp`/`nbf`, falls gesetzt).
+     · Nutzlast: `iat` (Zahl), `aud` eine Kennung der Stelle (stellenKennung, STELLENKENNUNG-BLOCK), `anfrage.vorgang` = der Vorgang
+       aus dem geschützten JWE-Kopf.
+   WOMIT `aud` VERGLICHEN WIRD (Entscheid der Gegenlesung, 15.10.2026): NUR mit der Kennung der Stelle, die eben ENTSCHLÜSSELT hat —
+   nie mit dem JWE-Kopf derselben Nachricht. Den schreibt, wer verschlüsselt: eine Stelle A, die eine Antwort öffnet und mit
+   unverändertem Kopf an Stelle B neu verschlüsselt, setzte sonst selbst den Vergleichswert. Die Lese-App hält beim Entschlüsseln nur
+   die Schlüsseldatei (kein Zertifikat der Stelle). Eine Kennung darin ist heute UNGEBUNDEN und wird darum nicht ausgewertet: bis zur
+   Bindung Anker → Anbieter-Zertifikat → signierte Anfrage → Schlüssel (Wagen V3b) gibt es keinen Abgleich, nur die Sachangabe
+   „Signiert für ‹aud›“ — auch kein „für eine andere Stelle“, dafür bräuchte es eine geprüfte Identität. Nie ein Rückgriff auf den
+   JWE-Kopf. antwortSignaturPruefen kann den Abgleich mit einer gebundenen Kennung bereits fahren (`erwartet.anbieterId`).
+   Der Vorgang hat keine solche Quelle: er wird gegen den geschützten JWE-Kopf gehalten, das fängt eine Antwort, deren Hülle zu
+   einer anderen Anfrage gehört, nicht aber eine bewußt umetikettierte (offen, Bericht).
+   SCHLÜSSELGEDÄCHTNIS: Die Lese-App hat keinen Speicher (kein localStorage, keine Datei). „Zuerst am …“ gilt darum nur, solange sie
+   geöffnet ist; der Sachsatz auf dem Blatt sagt das. Der zuerst gesehene Schlüssel ist nie „der richtige“ (Punkt 3).
+   Die Herkunftsanzeige der Angaben (antwortAngabeHerkunft, U2-ADR-437) bleibt unberührt: die Signatur macht keine Angabe geprüft.
+   Probe: tests/lese-app-signierte-antwort.test.js. */
+const ANTWORT_JWS_TYP = 'vivodepot-antwort+jwt';
+const ANTWORT_JWS_ALGS = Object.freeze(['Ed25519', 'EdDSA']);
+// Ansprüche der Signatur, die nicht zum Datensatz gehören; alles andere der Nutzlast ist der Datensatz wie bisher.
+const ANTWORT_JWS_ANSPRUECHE = Object.freeze(['iat', 'aud', 'anfrageAbdruck']);
+const _antwortSchluesselGesehen = new Map();
+
+function _antwortSignaturFehler(textSchluessel, kurz) {
+  const e = new Error('antwort-signatur-' + kurz);
+  e.antwortTextSchluessel = textSchluessel;
+  return e;
+}
+/* Der Satz für die Person zu einem Fehlschlag beim Öffnen: ein Grund der Signatur, sonst der bisherige Satz. Nie ein Code. */
+function antwortOeffnenFehlerText(err) {
+  const k = err && err.antwortTextSchluessel;
+  return (k && typeof STRINGS[k] === 'string') ? STRINGS[k] : STRINGS.antwortFalsch;
+}
+/* `cty` ist nach RFC 7515 §4.1.10 ohne Groß-/Kleinschreibung zu vergleichen. */
+function antwortJweTraegtJws(kopf) {
+  return !!(kopf && typeof kopf.cty === 'string' && kopf.cty.toLowerCase() === 'jwt');
+}
+async function antwortSignaturPruefen(jws, erwartet, opts) {
+  const e = erwartet || {};
+  const teile = typeof jws === 'string' ? jws.trim().split('.') : [];
+  if (teile.length !== 3) throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'form');
+  let kopf;
+  try { kopf = JSON.parse(_jwsB64uToString(teile[0])); } catch (x) { throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'kopf'); }
+  if (!kopf || typeof kopf !== 'object' || Array.isArray(kopf)) throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'kopf');
+  if (typeof kopf.typ !== 'string' || kopf.typ.toLowerCase() !== ANTWORT_JWS_TYP) throw _antwortSignaturFehler('antwortSignaturArt', 'typ');
+  if (kopf.crit !== undefined) throw _antwortSignaturFehler('antwortSignaturVerfahren', 'crit');
+  if (!ANTWORT_JWS_ALGS.includes(kopf.alg)) throw _antwortSignaturFehler('antwortSignaturVerfahren', 'alg');
+  const j = kopf.jwk;
+  if (!j || typeof j !== 'object' || j.kty !== 'OKP' || j.crv !== 'Ed25519' || j.d !== undefined
+      || typeof j.x !== 'string' || !/^[A-Za-z0-9_-]{43}$/.test(j.x)) throw _antwortSignaturFehler('antwortSignaturVerfahren', 'schluessel');
+  const oeffentlich = { kty: 'OKP', crv: 'Ed25519', x: j.x };
+  const abdruck = await _jwkThumbprint(oeffentlich);
+  if (kopf.kid !== undefined && kopf.kid !== abdruck) throw _antwortSignaturFehler('antwortSignaturUngueltig', 'kid');
+  let key;
+  try { key = await _jwsImportVerifyKey(oeffentlich); } catch (x) { throw _antwortSignaturFehler('antwortSignaturVerfahren', 'import'); }
+  const r = await _verifyJWS(teile.join('.'), key, opts);
+  if (!r.gueltig) {
+    if (r.abgelaufen || r.vorGueltigkeit) throw _antwortSignaturFehler('antwortSignaturZeit', 'zeit');
+    throw _antwortSignaturFehler('antwortSignaturUngueltig', 'signatur');
+  }
+  const n = r.nutzlast;
+  if (!n || typeof n !== 'object' || Array.isArray(n)) throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'nutzlast');
+  if (typeof n.iat !== 'number' || !isFinite(n.iat) || n.iat <= 0) throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'iat');
+  if (typeof n.aud !== 'string' || !n.aud) throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'aud');
+  // Vergleichswert allein aus der entschlüsselnden Identität (e.anbieterId); ohne sie kein Abgleich, nur die Sachangabe.
+  const eigene = typeof e.anbieterId === 'string' && e.anbieterId.trim()
+    ? [stellenKennung({ ausZertifikat: true, art: 'anbieter', kennung: e.anbieterId }), stellenKennung({ ausZertifikat: false, kennung: e.anbieterId })]
+    : null;
+  if (eigene && !eigene.includes(n.aud)) throw _antwortSignaturFehler('antwortSignaturFremdeStelle', 'aud');
+  const a = (n.anfrage && typeof n.anfrage === 'object' && !Array.isArray(n.anfrage)) ? n.anfrage : null;
+  if (!a || typeof a.vorgang !== 'string' || !a.vorgang) throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'vorgang');
+  /* GRENZE (U2-ADR-501, offen): Der Vorgang wird gegen den geschützten JWE-Kopf gehalten, weil die Lese-App keine Liste ihrer
+     Anfragen führt (kein Speicher, Dateikopf) und die Schlüsseldatei heute keine Anfrage trägt. Der Kopf gehört zur selben
+     Nachricht: das fängt eine Hülle, die zu einer anderen Anfrage gehört, nicht eine bewußt umetikettierte. Schärfer erst, wenn
+     die signierte Anfrage mit der Schlüsseldatei reist und ein Schlüssel genau einer Anfrage dient (Studio, eigener Wagen). */
+  if (a.vorgang !== String(e.vorgang || '')) throw _antwortSignaturFehler('antwortSignaturFremderVorgang', 'vorgang');
+  if (n.anfrageAbdruck !== undefined && typeof n.anfrageAbdruck !== 'string') throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'abdruck');
+  const datensatz = {};
+  for (const k of Object.keys(n)) if (!ANTWORT_JWS_ANSPRUECHE.includes(k)) datensatz[k] = n[k];
+  const audTeile = stellenKennungTeile(n.aud);
+  return {
+    datensatz,
+    // stelle: der lesbare Teil von aud (zum Anzeigen); aud: die ganze Kennung (Gedächtnis je Stelle).
+    // ausZertifikat: Domäne von aud (true signiert:, false unsigniert:, null keine lesbare Kennung) — nur für den Sachsatz.
+    signatur: { stelle: audTeile ? audTeile.kennung : n.aud, aud: n.aud, ausZertifikat: audTeile ? audTeile.ausZertifikat : null, abgeglichen: !!eigene, abdruck, abdruckKurz: _jwsB64uFromBytes(_jwsB64uToBytes(abdruck).slice(0, 8)),
+      signiertAm: new Date(n.iat * 1000).toISOString() },
+  };
+}
+/* Schlüsselkontinuität je Stelle (Punkt 1): nur im Speicher dieser geöffneten Lese-App. */
+function antwortSchluesselVermerken(stelle, abdruck, jetzt) {
+  const k = String(stelle) + '\n' + String(abdruck);
+  const vorher = _antwortSchluesselGesehen.get(k);
+  if (vorher) return { neu: false, zuerstAm: vorher };
+  const am = (jetzt ? new Date(jetzt) : new Date()).toISOString();
+  _antwortSchluesselGesehen.set(k, am);
+  return { neu: true, zuerstAm: am };
+}
+/* DER EINE WEG vom Umschlag zum Datensatz: öffnen, bei `cty` `JWT` die Signatur prüfen, sonst wie bisher. Liefert den Datensatz und
+   den Signaturstand für das Blatt (`zustand` 'signatur' oder 'ohne'). Eine Antwort ohne Signatur bleibt lesbar (Übergang, ohne Frist;
+   wie lange, ist im ADR offen). */
+async function antwortOeffnenMitSignatur(umschlag, schluessel, opts) {
+  if (umschlag && umschlag.jwe) {
+    const offen = await antwortJweOeffnen(umschlag.jwe, schluessel);
+    if (!antwortJweTraegtJws(offen.kopf)) return { datensatz: JSON.parse(offen.klartext), signatur: { zustand: 'ohne' } };
+    /* Kein Abgleich von `aud`, bis die Kennung der Stelle GEBUNDEN ist (Gegenlesung 15.10.2026). Ein Feld `anbieterId` in der
+       Schlüsseldatei ist heute ungebunden: das Studio schreibt es nicht, wer es findet, hat es von Hand gesetzt — eine Stelle Y, die
+       „X“ einträgt, sähe sonst eine an X signierte, weitergereichte Antwort als „für diese Stelle“. Darum wird es hier NICHT gelesen;
+       das Blatt zeigt nur die Sachangabe „Signiert für ‹aud›“. Scharf wird der Abgleich mit der Bindung Anker → Anbieter-Zertifikat →
+       signierte Anfrage → Schlüssel (U2-ADR-501, Wagen V3b); antwortSignaturPruefen kann ihn dann mit der gebundenen Kennung fahren.
+       Nie ein Rückgriff auf offen.kopf.anbieter. */
+    const erg = await antwortSignaturPruefen(offen.klartext, { anbieterId: '', vorgang: String(offen.kopf.vorgang || '') }, opts);
+    const gesehen = antwortSchluesselVermerken(erg.signatur.aud, erg.signatur.abdruck, opts && opts.jetzt);
+    return { datensatz: erg.datensatz, signatur: Object.assign({ zustand: 'signatur' }, erg.signatur, gesehen) };
+  }
+  return { datensatz: await _antwortOeffnenJeFassung(umschlag, schluessel), signatur: { zustand: 'ohne' } };
+}
+/* Die Zeile auf dem Blatt: Sachangaben, kein Warnstil (Klasse `hint`), nie „geprüft“. */
+function antwortSignaturHTML(sig) {
+  if (!sig) return '';
+  if (sig.zustand !== 'signatur') {
+    return '<p class="hint antwort-signatur" id="antwort-signatur" data-signatur="ohne">' + escapeHTML(STRINGS.antwortOhneSignatur) + '</p>';
+  }
+  const zeile = sig.neu
+    ? STRINGS.antwortSignaturZeileNeu.replace('{abdruck}', sig.abdruckKurz || '')
+    : STRINGS.antwortSignaturZeileBekannt.replace('{abdruck}', sig.abdruckKurz || '').replace('{datum}', datumKurz(sig.zuerstAm) || '—');
+  return '<p class="hint antwort-signatur" id="antwort-signatur" data-signatur="' + (sig.neu ? 'neuer-schluessel' : 'bekannter-schluessel') + '">'
+    + escapeHTML(zeile) + '</p>'
+    + '<p class="hint" id="antwort-signatur-sachsatz" data-abgleich="' + (sig.abgeglichen ? 'eigene-stelle' : 'ohne') + '">' + escapeHTML(STRINGS.antwortSignaturSachsatz.replace('{stelle}', sig.stelle || '—')) + '</p>'
+    + (sig.ausZertifikat === false ? '<p class="hint" id="antwort-signatur-ohne-zertifikat">' + escapeHTML(STRINGS.antwortSignaturOhneZertifikat) + '</p>' : '');
+}
+/* ══ ENDE SIGNIERTE ANTWORT LESEN ══ */
+
 /* ══ ZUG 3 — WAS DIE LESE-APP ZEIGT, UND NICHT MEHR ═══════════════════════════════════════
    Entschieden: die Lese-App liest und zeigt an. `antwortAnzeigeModell` ist die EINE Stelle,
    die entscheidet, was auf dem Blatt steht — und ein Wächter hält sie an ihrer Zusage fest
@@ -20000,10 +20228,10 @@ function renderAntwortOeffnen(umschlag) {
       e.preventDefault();
       const pw = el('antwort-pw').value;
       try {
-        const ds = await _antwortOeffnenJeFassung(umschlag, { passwort: pw });
+        const offen = await antwortOeffnenMitSignatur(umschlag, { passwort: pw });
         el('antwort-pw').value = '';
-        renderAntwort(ds, umschlag);
-      } catch (err) { el('antwort-pw').value = ''; fehler(STRINGS.antwortFalsch); el('antwort-pw').focus(); }
+        renderAntwort(offen.datensatz, umschlag, offen.signatur);
+      } catch (err) { el('antwort-pw').value = ''; fehler(antwortOeffnenFehlerText(err)); el('antwort-pw').focus(); }
     });
     const pf = el('antwort-pw'); if (pf && pf.focus) pf.focus();
   } else {
@@ -20044,11 +20272,11 @@ async function antwortMitSchluesseldateiOeffnen(umschlag, datei, passwort, fehle
       jwk = inhalt;
       klartext = !!(jwk && typeof jwk === 'object' && jwk.d);
     }
-    let ds;
-    try { ds = await _antwortOeffnenJeFassung(umschlag, { privateJwk: jwk }); }
-    catch (e) { fehler(STRINGS.antwortFalsch); return false; }
+    let offen;
+    try { offen = await antwortOeffnenMitSignatur(umschlag, { privateJwk: jwk }); }
+    catch (e) { fehler(antwortOeffnenFehlerText(e)); return false; }
     jwk = null; inhalt = null;
-    renderAntwort(ds, umschlag);
+    renderAntwort(offen.datensatz, umschlag, offen.signatur);
     const blatt = klartext && el('antwort-blatt');
     if (blatt) {
       // Über das DOM statt über eine HTML-Senke: der Hinweis ist reiner Text.
@@ -20106,7 +20334,9 @@ function antwortHerkunftZeileHTML(felder, id) {
   return '<p class="antwort-herkunft-zeile" id="' + id + '" data-herkunft="' + (n === felder.length ? 'geprueft' : n ? 'gemischt' : 'eingetragen') + '">'
     + escapeHTML(satz) + '</p>';
 }
-function renderAntwort(datensatz, umschlag) {
+/* `signatur` (U2-ADR-501): der Stand aus antwortOeffnenMitSignatur. Nur der Öffnen-Weg reicht ihn; ohne ihn (Klartext-Datensatz,
+   Vorführung) steht keine Signaturzeile auf dem Blatt. */
+function renderAntwort(datensatz, umschlag, signatur) {
   antwortDatensatz = datensatz;
   const m = antwortAnzeigeModell(datensatz, umschlag);
   const wrap = el('app');
@@ -20119,7 +20349,8 @@ function renderAntwort(datensatz, umschlag) {
     (m.person ? '<p class="antwort-person" id="antwort-person">' + escapeHTML(STRINGS.antwortAngabenZu.replace('{name}', m.person.name))
       + (m.person.geboren ? ', ' + escapeHTML(STRINGS.antwortGeboren.replace('{datum}', m.person.geboren)) : '') + '</p>' : '') +
     '<p class="hint" id="antwort-meta">' +
-      escapeHTML(STRINGS.antwortVorgang) + ' ' + escapeHTML(m.vorgang || '—') + '</p>';
+      escapeHTML(STRINGS.antwortVorgang) + ' ' + escapeHTML(m.vorgang || '—') + '</p>' +
+    antwortSignaturHTML(signatur);
   /* U2-ADR-258 — VOR der Feldliste, nicht danach: der Empfänger soll wissen, woraus die
      folgenden Angaben stammen, bevor er sie liest. Unbedingt, ohne Schalter — auch (und gerade)
      wenn die Angabe fehlt, denn dann gilt das Dokument als ungeprüft und das steht dort. */

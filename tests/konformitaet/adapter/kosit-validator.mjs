@@ -138,9 +138,50 @@ export function pruefeGegenSchema(umg, xsdPfad, pfade) {
 const PROBE_WERTE = Object.freeze({ 'identity.familyName': 'Muster', 'identity.givenName': 'Erika' });
 function probeWerte() { return process.env.VD_FIM_WERTE ? JSON.parse(fs.readFileSync(process.env.VD_FIM_WERTE, 'utf8')) : PROBE_WERTE; }
 
+/* U2-ADR-465 Nachtrag: ERFUNDENE Probe-Anhänge je Rolle — ein PDF mit Probetext, ein PNG mit einem Bildpunkt. Der Nachweis der
+   Vollmacht wird im Probe-Depot als Urschrift der Vorsorgevollmacht abgelegt, mit einer bevollmächtigten Person. Für den echten
+   Lauf: VD_FIM_ANHAENGE (JSON außerhalb des Repos, { rolle: pfad }, wahlweise "vertreter": { familyName, givenName, … }). */
+const PNG_EIN_PUNKT = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+export const PROBE_ANHAENGE = Object.freeze({
+  bescheid: Object.freeze({ dateiname: 'bescheid-probe.pdf', mime: 'application/pdf', bytes: Buffer.from('%PDF-1.4\n% erfundener Probe-Bescheid\n%%EOF\n') }),
+  'vollmacht-nachweis': Object.freeze({ dateiname: 'vollmacht-scan-probe.pdf', mime: 'application/pdf', bytes: Buffer.from('%PDF-1.4\n% erfundener Scan einer Vollmacht\n%%EOF\n') }),
+  lichtbild: Object.freeze({ dateiname: 'lichtbild-probe.png', mime: 'image/png', bytes: Buffer.from(PNG_EIN_PUNKT, 'base64') }),
+});
+export const PROBE_VERTRETER = Object.freeze({ familyName: 'Beispiel', givenName: 'Lea' });
+function probeAnhaenge() {
+  if (!process.env.VD_FIM_ANHAENGE) return { anhaenge: PROBE_ANHAENGE, vertreter: PROBE_VERTRETER };
+  const j = JSON.parse(fs.readFileSync(process.env.VD_FIM_ANHAENGE, 'utf8'));
+  const mime = (p) => (/\.png$/i.test(p) ? 'image/png' : /\.jpe?g$/i.test(p) ? 'image/jpeg' : 'application/pdf');
+  const anhaenge = {};
+  for (const [rolle, p] of Object.entries(j)) if (rolle !== 'vertreter') anhaenge[rolle] = { dateiname: path.basename(p), mime: mime(p), bytes: fs.readFileSync(p) };
+  return { anhaenge, vertreter: j.vertreter || null };
+}
+
+/** Legt die Probe-Anhänge in „Meine Dokumente“ ab und gibt { rolle: Mappe-Kennung } zurück — die Wahl der Person beim Export. */
+function anhaengeAblegen(V, anhaenge, vertreter) {
+  const gewaehlt = {};
+  for (const [rolle, a] of Object.entries(anhaenge)) {
+    const id = V.mappeEintragHinzufuegen({ beschriftung: a.dateiname, dateiname: a.dateiname, mime: a.mime, groesse: a.bytes.length,
+      inhalt: 'data:' + a.mime + ';base64,' + a.bytes.toString('base64') });
+    if (rolle === 'vollmacht-nachweis') {
+      const doc = V.dokumentAnlegen({ typ: 'enduring-power-of-attorney', sektorId: 'advanceCare', name: 'Vorsorgevollmacht' });
+      V.dokumentSetzen(doc.id, 'mappeRef', { ref: id });
+      const zeile = { instrument: 'enduring-power-of-attorney', authorizedPersons: [] };
+      if (vertreter) zeile.authorizedPersons.push({ ref: V.personHinzufuegen(Object.assign({ name: [vertreter.givenName, vertreter.familyName].filter(Boolean).join(' ') }, vertreter)) });
+      const ac = V.getData().sektoren.advanceCare || (V.getData().sektoren.advanceCare = {});
+      ac.provisionInstruments = [zeile];
+    }
+    gewaehlt[rolle] = id;
+  }
+  return gewaehlt;
+}
+
 /** Schreibt die Datei, die der Kern über `modul` aus einem Probe-Depot erzeugt. `ohne` lässt Felder leer; `sensibel`
-    ist die Zustimmung, die die Person im Export gibt (ohne sie fehlen sensible Felder wie die Staatsangehörigkeit). */
-export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), sensibel = !!process.env.VD_FIM_WERTE } = {}) {
+    ist die Zustimmung, die die Person im Export gibt (ohne sie fehlen sensible Felder wie die Staatsangehörigkeit).
+    `anhaenge` (Rolle → Probe-Datei) legt die Dateien ab und wählt sie; `gruende` nimmt die Gründe auf, wenn der Kern keine
+    Datei schreibt (dann ist der Rückgabewert null). */
+export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), sensibel = !!process.env.VD_FIM_WERTE,
+  anhaenge = probeAnhaenge().anhaenge, vertreter = probeAnhaenge().vertreter, gruende = [] } = {}) {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
@@ -154,9 +195,12 @@ export async function kernDatei(modul, name, { ohne = [], werte = probeWerte(), 
   const geprueft = Object.assign({}, modul);
   V._modulBelegAlsGeprueftSetzen(geprueft, { stufe: 'extern-ungeprueft', anbieterId: null });
   const kanal = V.formatModulZuExportKanal(geprueft);
+  const gewaehlt = anhaengeAblegen(V, anhaenge || {}, vertreter);
   if (!kanal) throw new Error('das Modul ergibt keinen Kanal: ' + (V.formatModulPruefen(modul).grund || '?'));
+  const text = kanal.baue({ sensibel, anhaenge: gewaehlt, _anhangGruende: gruende });
+  if (text === null) return null;
   const pfad = path.join(arbeit(), name + '.xml');
-  fs.writeFileSync(pfad, kanal.baue({ sensibel }));
+  fs.writeFileSync(pfad, text);
   return pfad;
 }
 
@@ -202,6 +246,17 @@ export default {
     const feld = (q.modul.zuordnung.find((z) => z.feld) || {}).feld;
     const pfad = await kernDatei(q.modul, 'kern-ohne-' + feld, { ohne: [feld] });
     return [{ standard: 'fim-leistungsschema', pfad, warum: 'ohne ' + feld + ' fehlt ein Pflichtelement; der Kern füllt es nicht' }];
+  },
+
+  /* U2-ADR-465 Nachtrag: ein Modul ohne Zuordnung des Pflicht-Anhangs (die Form der ersten Stufe) schreibt eine Datei ohne das
+     Element — das XSD lehnt sie ab. Der Kern selbst schreibt mit Zuordnung ohne gewählte Datei gar keine (tests/fim-anhang.test.js). */
+  async ohnePflichtAnhang() {
+    const q = quelle();
+    const z = q.modul.zuordnung.find((e) => e.anhang && e.pflicht);
+    if (!z) return [];
+    const modul = Object.assign({}, q.modul, { zuordnung: q.modul.zuordnung.filter((e) => e !== z) });
+    const pfad = await kernDatei(modul, 'kern-ohne-anhang-' + z.anhang);
+    return [{ standard: 'fim-leistungsschema', pfad, warum: 'ohne den Pflicht-Anhang ' + z.anhang + ' fehlt ein Pflichtelement' }];
   },
 
   aufraeumen() { if (_arbeit) { fs.rmSync(_arbeit, { recursive: true, force: true }); _arbeit = null; } },

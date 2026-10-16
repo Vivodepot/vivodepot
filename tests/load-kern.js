@@ -361,6 +361,12 @@ const EXPORT_HOOK = `
   _pdfAnhangEinbetten: (typeof _pdfAnhangEinbetten !== 'undefined' ? _pdfAnhangEinbetten : undefined),
   pdfDatenfassungEinbetten: (typeof pdfDatenfassungEinbetten !== 'undefined' ? pdfDatenfassungEinbetten : undefined),
   formatNamensraumFremd: (typeof formatNamensraumFremd !== 'undefined' ? formatNamensraumFremd : undefined),   // U2-ADR-465
+  // U2-ADR-465 Nachtrag: Anhänge und die bevollmächtigte Person
+  FORMAT_ANHANG_ROLLEN: (typeof FORMAT_ANHANG_ROLLEN !== 'undefined' ? FORMAT_ANHANG_ROLLEN : undefined),
+  FORMAT_VERTRETER_FELDER: (typeof FORMAT_VERTRETER_FELDER !== 'undefined' ? FORMAT_VERTRETER_FELDER : undefined),
+  formatAnhaengeAufloesen: (typeof formatAnhaengeAufloesen !== 'undefined' ? formatAnhaengeAufloesen : undefined),
+  formatAnhangKandidaten: (typeof formatAnhangKandidaten !== 'undefined' ? formatAnhangKandidaten : undefined),
+  _formatAnhangWahl: (typeof _formatAnhangWahl !== 'undefined' ? _formatAnhangWahl : undefined),
   bedingungAbschnittHTML: (typeof bedingungAbschnittHTML !== 'undefined' ? bedingungAbschnittHTML : undefined),
   flowErbscheinXmlSichern: (typeof flowErbscheinXmlSichern !== 'undefined' ? flowErbscheinXmlSichern : undefined),
   empfaengerDateiHerausgeben: (typeof empfaengerDateiHerausgeben !== 'undefined' ? empfaengerDateiHerausgeben : undefined),
@@ -579,6 +585,8 @@ const EXPORT_HOOK = `
   // Yellow-Button-Zeichen an der Funktion (Nachtrag U2-ADR-400, 16.09.2026) — typeof-abgesichert fuer aeltere Kern-Fassungen.
   ybZeichenHTML: (typeof ybZeichenHTML !== 'undefined' ? ybZeichenHTML : undefined),
   ybGesundheitStandard: (typeof ybGesundheitStandard !== 'undefined' ? ybGesundheitStandard : undefined),
+  mappePruefArt: (typeof mappePruefArt !== 'undefined' ? mappePruefArt : undefined),
+  mappePruefKopieText: (typeof mappePruefKopieText !== 'undefined' ? mappePruefKopieText : undefined),
   ybZeichenFuerQuelle: (typeof ybZeichenFuerQuelle !== 'undefined' ? ybZeichenFuerQuelle : undefined),
   depotGroesseBytes, groesseLesbar, oeffneMappe, renderMappe, mappeBereichLabel,
   oeffnePrueftermine, renderPrueftermine,
@@ -1058,6 +1066,10 @@ const EXPORT_HOOK = `
   whcHuelleEntfernen: (typeof whcHuelleEntfernen !== 'undefined' ? whcHuelleEntfernen : undefined),
   whcCodePasst: (typeof whcCodePasst !== 'undefined' ? whcCodePasst : undefined),
   depotMitCodeLaden: (typeof depotMitCodeLaden !== 'undefined' ? depotMitCodeLaden : undefined),
+  // Antwort-Seed, Wagen V2a (typeof-gesichert: ein Kern von vor dem Wagen kennt ihn nicht).
+  ANTWORT_SEED_FELD: (typeof ANTWORT_SEED_FELD !== 'undefined' ? ANTWORT_SEED_FELD : undefined),
+  _antwortSeedHolen: (typeof _antwortSeedHolen !== 'undefined' ? _antwortSeedHolen : undefined),
+  _antwortSeedGueltig: (typeof _antwortSeedGueltig !== 'undefined' ? _antwortSeedGueltig : undefined),
   _whcAuspacken: (typeof _whcAuspacken !== 'undefined' ? _whcAuspacken : undefined),
   _whcEinwickeln: (typeof _whcEinwickeln !== 'undefined' ? _whcEinwickeln : undefined),
   _whcCodeSchluessel: (typeof _whcCodeSchluessel !== 'undefined' ? _whcCodeSchluessel : undefined),

@@ -5,7 +5,7 @@
    Die Wege, die eine Einrichtung am Tablet geht, jeder Bildschirm gemessen:
      Eingang · Anfrage an Personen, Schritte 1 bis 6 bis „Anfrage erstellen“ · Aufnahmebogen bis „Fertigstellen und
      einreichen“ mit „Vorab prüfen“ · Fachebene: ein Entwurf (erfunden, mit Datum, Auswahl, Ja/Nein und einer Liste mit
-     Unterfeldern) über „Entwurf fortsetzen“, Arbeitsfläche, „Ausprobieren“, „Vorab prüfen“.
+     Unterfeldern) über „Entwurf fortsetzen“, Arbeitsfläche, „Vorschau“, „Vorab prüfen“.
    Je Bildschirm gilt:
      (1) kein waagerechter Überlauf (scrollWidth ≤ Fensterbreite);
      (2) kein Konsolenfehler und kein Seitenfehler;
@@ -151,7 +151,7 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await s.ctx.close();
     });
 
-    test('Fachebene: Entwurf fortsetzen, Arbeitsfläche, Ausprobieren, Vorab prüfen', async ({ browser }) => {
+    test('Fachebene: Entwurf fortsetzen, Arbeitsfläche, Vorschau, Vorab prüfen', async ({ browser }) => {
       test.setTimeout(120000);
       const s = await oeffnen(browser, geraet);
       const p = s.page;
@@ -164,7 +164,7 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await bildschirm(p, 'Arbeitsfläche', s);
       await p.tap('#ansicht-probieren');
       await expect(p.locator('#tpl-felder input[type="date"]').first()).toBeVisible();
-      await bildschirm(p, 'Ausprobieren', s);
+      await bildschirm(p, 'Vorschau', s);
       await p.tap('#ansicht-bauen');
       await p.tap('#fertig-oeffnen');
       await expect(p.locator('#sd-name')).toHaveValue(ENTWURF.anbieter.anbieterName);

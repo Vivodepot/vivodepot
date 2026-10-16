@@ -81,6 +81,8 @@ const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
   // Befund KLARTEXT-EXPORT-OHNE-HINWEIS (freigegebener Wortlaut, 03.10.2026): der Hinweis „nicht verschlüsselt“ vor dem Speichern eines Klartext-Wegs, zuerst die KBV-PKA (U2-ADR-471).
   'klartextNichtVerschluesselt',
   'vorlagenAbgelaufenZusatz', 'vorlagenWiderrufenZusatz', 'zurueckgehaltenVorhanden',
+  // Prüfhinweis bei fremder Signatur (v930): die Aussage „diese Anwendung prüft die Signatur nicht“ und der Text für die prüfende Stelle.
+  'mappeFremdPruefHinweis', 'mappePruefKopieText',
 ]);
 
 function funktionsIndex(quelle) {

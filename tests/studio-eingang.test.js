@@ -58,7 +58,7 @@ test('[Eingang · 1] keine Fachbegriffe im Eingang, deutsch und englisch', () =>
   assert.deepEqual(befundeFachbegriffe(HTML), []);
 });
 test('[Eingang · 1 · Rot-Beweis] ein Fachbegriff an einer Kachel wird gefunden', () => {
-  const kopie = HTML.replace('Für Integratoren: Bausteine, Formate und Prüfwerkzeuge.', 'Für Integratoren: FHIR, JSON und Prüfwerkzeuge.');
+  const kopie = HTML.replace('Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.', 'Für IT-Fachleute: FHIR, JSON und Prüfwerkzeuge.');
   assert.notEqual(kopie, HTML);
   assert.ok(befundeFachbegriffe(kopie).length);
 });
@@ -87,7 +87,7 @@ test('[Eingang · 4] höchstens eine der sechs Kacheln spricht von Gesundheit od
 });
 test('[Eingang · 4 · Rot-Beweis] zwei Gesundheitskacheln fallen auf', () => {
   const kopie = HTML.replace(ERSCHEINUNG_DE, 'Für Ihre Praxis: Anamnese und Pflegeplan.')
-    .replace('Für Integratoren: Bausteine, Formate und Prüfwerkzeuge.', 'Für Kliniken: Aufnahme ins Krankenhaus.');
+    .replace('Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.', 'Für Kliniken: Aufnahme ins Krankenhaus.');
   assert.ok(gesundheitsKacheln(kopie).length >= 2);
 });
 

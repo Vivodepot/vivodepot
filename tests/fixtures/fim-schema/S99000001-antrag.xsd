@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- ERFUNDENE Fixture für den KoSIT-Weg (Nummernkreis 99): ein Antrag in der Form, die der XSD-Umwandler des FIM-Portals
-     liefert — Elementnamen sind Kennungen, qualifizierte Elemente im Namensraum der Leistung. Kein echtes Schema. -->
+     liefert — Elementnamen sind Kennungen, qualifizierte Elemente im Namensraum der Leistung, Anhänge als xs:anyType.
+     Kein echtes Schema. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:xoev-de:xfall:standard:fim-s99000001_1.0" xmlns:xfd="urn:xoev-de:xfall:standard:fim-s99000001_1.0">
   <xs:element name="fim.S99000001.00000001001000">
     <xs:complexType><xs:sequence>
@@ -10,6 +11,12 @@
         <xs:element name="F99000005"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="true"/><xs:enumeration value="false"/></xs:restriction></xs:simpleType></xs:element>
         <xs:element name="F99000006" type="xs:anyType" minOccurs="0"/>
       </xs:sequence></xs:complexType></xs:element>
+      <xs:element name="G99000007" minOccurs="0"><xs:complexType><xs:sequence>
+        <xs:element name="F99000008" type="xs:anyType" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="F99000009" type="xs:string"/>
+        <xs:element name="F99000010" type="xs:string" minOccurs="0"/>
+      </xs:sequence></xs:complexType></xs:element>
+      <xs:element name="F99000011" type="xs:anyType" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence></xs:complexType>
   </xs:element>
 </xs:schema>

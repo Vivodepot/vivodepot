@@ -27,7 +27,6 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   _vereinbarungAngebotSichern: { klasse: 'vereinbarung', grund: 'das Angebot an die Stelle; trägt keine Depot-Daten und ist der Weg zur Vereinbarung selbst' },
   _vereinbarungBegleitdateiSichern: { klasse: 'vereinbarung', grund: 'die Vereinbarung als Begleitdatei zum Auszug; trägt nur Kennungen, Prüfsummen und den Stand, kein Depot-Feld' },
   _swAktivierenWennMoeglich: { klasse: 'kein-ausgabeweg', grund: 'Nachricht an den eigenen Service Worker; die Nutzlast ist die Konstante { type: \'SKIP_WAITING\' }, kein Depot-Feld (Probe: tests/tor-in-der-definition.test.js, G2)' },
-  flowMappeVorschau: { klasse: 'kein-ausgabeweg', grund: 'Objekt-URL für die PDF-Vorschau im eigenen Fenster, keine Datei' },
 
   _depotBlobSpeichern: { klasse: 'eigene-sicherung', grund: 'die verschlüsselte Depot-Datei der Person' },
   _dateizielFuerAnlegenSichern: { klasse: 'eigene-sicherung', grund: 'Speicherort der eigenen Depot-Datei beim Anlegen' },

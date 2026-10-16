@@ -108,7 +108,7 @@
  "vivodepot.html|fotoInner": 1,
  "vivodepot.html|frageText": 1,
  "vivodepot.html|gehtMit.map((e) =>": 1,
- "vivodepot.html|gruende.map((g) => '<li>' + escapeHTML(satz(g)) + '</li>').join('')": 2,
+ "vivodepot.html|gruende.map((g) => '<li>' + escapeHTML(satz(g)) + '</li>').join('')": 1,
  "vivodepot.html|gruppe.titel": 2,
  "vivodepot.html|h": 23,
  "vivodepot.html|hb": 1,
@@ -161,6 +161,7 @@
  "vivodepot.html|mitName(escapeHTML(STRINGS.aushaengenBestaetigenText)).split('\\n').join('<br>')": 1,
  "vivodepot.html|namen.map(n => '<li>' + escapeHTML(n) + '</li>').join('')": 1,
  "vivodepot.html|notfallZeileZuEingabeHTML(z)": 2,
+ "vivodepot.html|optionen": 1,
  "vivodepot.html|optionenHTML": 1,
  "vivodepot.html|pfad": 1,
  "vivodepot.html|pflichtMarker": 2,
@@ -217,6 +218,6 @@
  "vivodepot.html|zeile": 1,
  "vivodepot.html|zeile1": 1,
  "vivodepot.html|zeile2": 1,
- "vivodepot.html|zeilen": 1,
+ "vivodepot.html|zeilen": 2,
  "vivodepot.html|zusatzInhalt": 1
 }

@@ -52,7 +52,7 @@ test('mappeListeHTML: leere (gefilterte) Liste → „kein Treffer"-Hinweis', as
   assert.ok(!html.includes('mappe-eintrag'), 'keine Einträge');
 });
 
-test('flowMappeVorschau: Bild → <img> im Modal; PDF → <iframe>; sonst Hinweis', async () => {
+test('flowMappeVorschau: Bild → <img> im Modal; PDF → Name und Größe ohne Rahmen; sonst Hinweis', async () => {
   const { V, document, bild, pdf, txt } = await mitEintraegen();
   V.flowMappeVorschau(bild);
   let m = document.getElementById('modal-inhalt').innerHTML;
@@ -62,7 +62,10 @@ test('flowMappeVorschau: Bild → <img> im Modal; PDF → <iframe>; sonst Hinwei
 
   V.flowMappeVorschau(pdf);
   m = document.getElementById('modal-inhalt').innerHTML;
-  assert.ok(m.includes('mappe-vorschau-pdf') && m.includes('<iframe'), 'PDF im Viewer');
+  // 15.10.2026: kein Rahmen mehr (die Richtlinie blockierte ihn, Befund PDF-VORSCHAU-VON-CSP-BLOCKIERT)
+  assert.ok(!m.includes('<iframe'), 'PDF ohne Rahmen');
+  assert.ok(m.includes('mappe-vorschau-datei') && /\d+ KB|< 1 KB|KB|MB/.test(m), 'PDF: Name und Größe');
+  assert.ok(m.includes('data-mappe-herunterladen'), 'PDF: Herunterladen öffnet die Datei');
 
   V.flowMappeVorschau(txt);
   m = document.getElementById('modal-inhalt').innerHTML;

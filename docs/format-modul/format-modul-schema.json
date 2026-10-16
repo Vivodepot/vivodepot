@@ -208,7 +208,7 @@
       }
     },
     "zuordnung": {
-      "description": "Depot-Feld ↔ Pfad in der Datei. Ein Modul erfindet kein Feld: `feld` muss im Bereich `sektor` (bzw. `bereich`) existieren (prüft nur der Kern). U2-ADR-465: `bereich` liest ein Feld aus einem anderen Bereich, `fest` schreibt einen festen Wert statt eines Felds; beides trägt nur in der Ausgabe (der Kern verwirft es beim Einlesen einzeln). Die Folge der Einträge ist die Elementfolge. `werte` bildet den Rohwert auf einen Zielwert ab, `teil` nimmt einen Teil eines Datums; beides nur in der Ausgabe.",
+      "description": "Depot-Feld ↔ Pfad in der Datei. Ein Modul erfindet kein Feld: `feld` muss im Bereich `sektor` (bzw. `bereich`) existieren (prüft nur der Kern). U2-ADR-465: `bereich` liest ein Feld aus einem anderen Bereich, `fest` schreibt einen festen Wert statt eines Felds; beides trägt nur in der Ausgabe (der Kern verwirft es beim Einlesen einzeln). Die Folge der Einträge ist die Elementfolge. `werte` bildet den Rohwert auf einen Zielwert ab, `teil` nimmt einen Teil eines Datums; beides nur in der Ausgabe. U2-ADR-465 Nachtrag: `anhang` nennt die Rolle eines Anhangs (die Datei wählt die Person beim Export), `pflicht` sagt, ob ohne ihn keine Datei entsteht; `vertreter` ist ein Feld der bevollmächtigten Person und steht nur mit der Rolle `vollmacht-nachweis` (prüft der Kern). Beide allein, ohne `feld` und `fest`.",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -271,6 +271,29 @@
               "monat",
               "tag"
             ]
+          },
+          "anhang": {
+            "description": "U2-ADR-465 Nachtrag: Rolle eines Anhangs aus der Kern-Liste FORMAT_ANHANG_ROLLEN.",
+            "enum": [
+              "bescheid",
+              "vollmacht-nachweis",
+              "lichtbild"
+            ]
+          },
+          "pflicht": {
+            "description": "U2-ADR-465 Nachtrag: nur am Anhang.",
+            "type": "boolean"
+          },
+          "vertreter": {
+            "description": "U2-ADR-465 Nachtrag: Feld der bevollmächtigten Person (Kern-Liste FORMAT_VERTRETER_FELDER).",
+            "enum": [
+              "familyName",
+              "givenName",
+              "street",
+              "houseNumber",
+              "postalCode",
+              "city"
+            ]
           }
         },
         "anyOf": [
@@ -303,6 +326,26 @@
                 ]
               }
             }
+          },
+          {
+            "required": [
+              "anhang"
+            ],
+            "properties": {
+              "anhang": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": [
+              "vertreter"
+            ],
+            "properties": {
+              "vertreter": {
+                "type": "string"
+              }
+            }
           }
         ],
         "dependentSchemas": {
@@ -318,6 +361,39 @@
           "werte": {
             "properties": {
               "teil": false
+            }
+          },
+          "anhang": {
+            "properties": {
+              "feld": false,
+              "fest": false,
+              "bereich": false,
+              "alsListe": false,
+              "werte": false,
+              "teil": false,
+              "vertreter": false
+            }
+          },
+          "vertreter": {
+            "properties": {
+              "feld": false,
+              "fest": false,
+              "bereich": false,
+              "alsListe": false,
+              "werte": false,
+              "teil": false,
+              "anhang": false,
+              "pflicht": false
+            }
+          },
+          "pflicht": {
+            "required": [
+              "anhang"
+            ],
+            "properties": {
+              "anhang": {
+                "type": "string"
+              }
             }
           }
         }

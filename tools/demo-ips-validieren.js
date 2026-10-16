@@ -26,6 +26,17 @@ const { urteilsZuordnung } = require('./lib/fhir-urteil-zuordnung.js');
 
 const VORBEHALT = 'hl7.fhir.eu.eps liegt nur als 1.0.0-ballot vor — Meldungen können am fertigen Standard anders ausfallen.';
 
+// Der Rot-Beweis: trägt das Beispiel ein Consent mit actor, nimmt er ihm die Rolle (Vorsorge-Demos); sonst fehlt der Composition das
+// Pflichtelement subject (Demos ohne Vollmacht, z. B. „Unterwegs in Italien“, 15.10.2026) — beides muss am Validator fallen.
+function rotBeweis(bundle) {
+  const hatConsent = bundle.entry.some((e) => e.resource.resourceType === 'Consent' && e.resource.provision && e.resource.provision.actor);
+  if (hatConsent) return ohneActorRolle(bundle);
+  const b = JSON.parse(JSON.stringify(bundle));
+  const c = b.entry.map((e) => e.resource).find((r) => r.resourceType === 'Composition');
+  if (!c || !c.subject) throw new Error('Vorbedingung: das Beispiel trägt eine Composition mit subject');
+  delete c.subject;
+  return b;
+}
 function arg(name) {
   const i = process.argv.indexOf(name);
   return i > 0 ? process.argv[i + 1] : null;
@@ -96,7 +107,7 @@ function main() {
   const typen = [...new Set(bundle.entry.map((e) => e.resource.resourceType))];
   const faelle = [
     { name: 'demo-ips', pfad: path.join(aus, 'demo-ips.json'), inhalt: bundle, erwartet: 'gueltig' },
-    { name: 'demo-ips-ohne-actor-rolle', pfad: path.join(aus, 'demo-ips-ohne-actor-rolle.json'), inhalt: ohneActorRolle(bundle), erwartet: 'ungueltig' },
+    { name: 'demo-ips-ohne-actor-rolle', pfad: path.join(aus, 'demo-ips-ohne-actor-rolle.json'), inhalt: rotBeweis(bundle), erwartet: 'ungueltig' },
   ];
   for (const f of faelle) fs.writeFileSync(f.pfad, buendelText(f.inhalt));
   const outcome = path.join(aus, 'sammel.outcome.json');

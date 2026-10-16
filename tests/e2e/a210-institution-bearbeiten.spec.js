@@ -99,8 +99,9 @@ test('ein reiner Freitext-Override ohne Registereintrag ist NICHT klickbar (Gege
   await oeffneSektor(page, 'mobility');
   await page.fill('[data-edit-override="carInsurance"]', 'Irgendeine Versicherung, nie angelegt');
   await page.evaluate(() => { window.__vdOeffentlich.bearbeitungSpeichern(); window.__vdOeffentlich.renderContent(); });
+  // Seit 15.10.2026 steht ein Feldwert nicht mehr im Markup (GESICHERTE-KOPIE-TRAEGT-KLARTEXT), sondern am Feld: geprüft wird er dort.
+  await expect(page.locator('[data-edit-override="carInsurance"]')).toHaveValue('Irgendeine Versicherung, nie angelegt');
   const html = await page.locator('#content').innerHTML();
-  expect(html).toContain('Irgendeine Versicherung, nie angelegt');
   expect(html).not.toContain('data-institution-oeffnen');
 });
 

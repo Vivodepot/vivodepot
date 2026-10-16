@@ -34,9 +34,37 @@ test('[Pflichtdateien·.gitlab-ci.yml] dieselbe Parser-Fassung wie auf GitHub, u
   const github = fs.readFileSync(path.join(REPO, '.github', 'workflows', 'publiccode-pruefen.yml'), 'utf8');
   assert.ok(parserFassung(github), 'Vorbedingung: der GitHub-Workflow nennt eine Fassung');
   assert.equal(parserFassung(gitlab), parserFassung(github));
-  assert.match(gitlab, /publiccode-parser publiccode\.yml/);
+  assert.match(gitlab, /publiccode-parser (?:-no-network )?publiccode\.yml/);
   assert.match(gitlab, /^\s*- npm ci$/m);
   assert.match(gitlab, /^\s*- npm test$/m);
+});
+
+/* openCoDE-Pipeline gleich der GitHub-Suite (16.10.2026, Befund OPENCODE-PIPELINE-ROT): der GitLab-Job `tests` fuhr nur
+   npm ci && npm test und war in jeder Pipeline rot — ohne Chromium, ohne pdftotext/xmllint, im flachen Klon. Er trägt jetzt jede
+   Vorbereitung des GitHub-Jobs schicht1-unit. Die Netzprüfung des Parsers darf nur auf openCoDE fehlen (dort löst die eigene
+   Adresse intern auf); auf GitHub läuft sie mit Netz. */
+const VORBEREITUNG = (text) => ({
+  chromium: /npx playwright install --with-deps chromium/.test(text),
+  poppler: /apt-get install[^\n]*poppler-utils/.test(text),
+  xmllint: /apt-get install[^\n]*libxml2-utils/.test(text),
+  historie: /fetch-depth: 0|GIT_DEPTH: "0"/.test(text),
+});
+const OHNE_NETZ = /publiccode-parser -no-network/;
+test('[Pflichtdateien·.gitlab-ci.yml·Gleich GitHub] der Job tests trägt jede Vorbereitung von schicht1-unit; ohne Netz prüft nur openCoDE', () => {
+  const gitlab = fs.readFileSync(path.join(REPO, '.gitlab-ci.yml'), 'utf8');
+  const e2e = fs.readFileSync(path.join(REPO, '.github', 'workflows', 'e2e.yml'), 'utf8');
+  const github = fs.readFileSync(path.join(REPO, '.github', 'workflows', 'publiccode-pruefen.yml'), 'utf8');
+  const s1 = e2e.slice(e2e.indexOf('schicht1-unit:'), e2e.indexOf('e2e-reisen:'));
+  assert.deepEqual(VORBEREITUNG(s1), { chromium: true, poppler: true, xmllint: true, historie: true }, 'Vorbedingung: schicht1-unit trägt alle vier');
+  assert.deepEqual(VORBEREITUNG(gitlab), VORBEREITUNG(s1));
+  assert.equal(OHNE_NETZ.test(github), false, 'auf GitHub prüft der Parser mit Netz');
+});
+test('[Pflichtdateien·.gitlab-ci.yml·Gleich GitHub·Rot-Beweis] fehlt eine Vorbereitung oder prüft GitHub ohne Netz, fällt es auf', () => {
+  const gitlab = fs.readFileSync(path.join(REPO, '.gitlab-ci.yml'), 'utf8');
+  assert.equal(VORBEREITUNG(gitlab.replace(/.*npx playwright install.*\n/, '')).chromium, false);
+  assert.equal(VORBEREITUNG(gitlab.replace('poppler-utils', '')).poppler, false);
+  assert.equal(VORBEREITUNG(gitlab.replace('GIT_DEPTH: "0"', '')).historie, false);
+  assert.equal(OHNE_NETZ.test('    - publiccode-parser -no-network publiccode.yml'), true);
 });
 
 const DEVGUARD = (text) => ({

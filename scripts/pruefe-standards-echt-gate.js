@@ -46,7 +46,7 @@ const istEigene = (d) => ITB_EIGENE_DATEIEN.includes(d) || /^tests\/fixtures\/ob
 // Die Kennungen des Kernwegs, den der Lauf belegt: Erkennen, Verwahren, Herausgeben eines EDC. Hängt an Namen —
 // darum verlangt tests/pruefe-standards-echt-gate.test.js, daß jede Kern-Stelle, die EDC_AP_KONTEXT oder
 // BILDUNG_DOK_TYPEN liest, hier steht (kernStellenMitBildungstyp); ein neuer Pfad unter anderem Namen fällt dort auf.
-const KERN_WEG = /_ob3[A-Za-z]*|OB3_KENNUNG|mappeNachweisGueltigkeit|openbadges-3-extern|_jsonObjektAmAnfang|_edcOriginalAblegen|_edcNutzlastWennEdc|_edciExtern|EDC_AP_KONTEXT|BILDUNG_DOK_TYPEN|edci-europass-extern|importAutoritativDokument|_bytesZuDataUrl|_autoritativRohBytes|flowMappeOriginalHerunterladen|_autoritativTypDef|_ob3OriginalAblegen|shlProviderPayload|flowMappeVorschau/;
+const KERN_WEG = /_ob3[A-Za-z]*|OB3_KENNUNG|mappeNachweisGueltigkeit|mappePruefArt|openbadges-3-extern|_jsonObjektAmAnfang|_edcOriginalAblegen|_edcNutzlastWennEdc|_edciExtern|EDC_AP_KONTEXT|BILDUNG_DOK_TYPEN|edci-europass-extern|importAutoritativDokument|_bytesZuDataUrl|_autoritativRohBytes|flowMappeOriginalHerunterladen|_autoritativTypDef|_ob3OriginalAblegen|shlProviderPayload|flowMappeVorschau/;
 
 // Jede oberste Kern-Stelle (Funktion oder Konstante auf Spalte 0), die EDC_AP_KONTEXT, OB3_KENNUNG oder BILDUNG_DOK_TYPEN liest.
 function kernStellenMitBildungstyp(kernText) {

@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-14 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-15 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -86,13 +86,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
-- E2E (Playwright): 630 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 55 aus Schleifen über CPU-Drosselungen = **685 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- E2E (Playwright): 641 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 55 aus Schleifen über CPU-Drosselungen = **696 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
 - Wächter-Register (intern): 145
-- Schema-Version: 92 · SCHALEN_STAND: v929 · Build-Version: v1.0
+- Schema-Version: 92 · SCHALEN_STAND: v930 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (434)
+## ADR-Register (435)
 
 | Nummer | Titel |
 |---|---|
@@ -530,6 +530,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-496 | Anbindung an Vivodepot: offene Definition, Prüfbericht statt Zeichen, veröffentlichte Prüfregeln |
 | U2-ADR-497 | Die Beschriftung eines Felds in Ausgaben ist getrennt von seiner Beschriftung in der Eingabe |
 | U2-ADR-498 | Automatische Signatur einer Einreichung — die Signierstelle holt ab, die Annahmestelle hält keinen Schlüssel |
+| U2-ADR-501 | Die signierte Antwort und das Zertifikat der Stelle — für die Datei-Antwort und die direkte Übergabe |
 
 ---
 
@@ -546,11 +547,11 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 37 |
 | `.karte` | 6 | 68 |
-| `.modal` | 19 | 173 |
-| `.toast` | 9 | 303 |
+| `.modal` | 19 | 177 |
+| `.toast` | 9 | 305 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 14 | 5 |
-| `.leer` | 3 | 308 |
+| `.leer` | 3 | 312 |
 | `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 28 |
+| `.hinweis-box` | 7 | 30 |

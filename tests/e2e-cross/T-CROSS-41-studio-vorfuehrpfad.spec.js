@@ -3,18 +3,18 @@
    T-CROSS-41 — Studio auf dem Weg einer Vorführung, im Browser (Prüfung am iPad 14.10.2026, Nachtrag U2-ADR-493)
    ─────────────────────────────────────────────────
    Belegt im Browser, was die Node-Probe tests/studio-vorfuehrpfad.test.js nur ohne DOM sehen kann:
-   (1) „Ihr Zeichen“: das Feld ist leer, der Vorschlag steht als Platzhalter; Getipptes ersetzt ihn, die Vorschau zeigt nur
+   (1) „Ihr Aktenzeichen (freiwillig)“: das Feld ist leer, der Vorschlag steht als Platzhalter; Getipptes ersetzt ihn, die Vorschau zeigt nur
        das Getippte. Ein leeres Feld nimmt den Vorschlag.
-   (2) Beispiel „Anmeldung Stadtbibliothek“ (Liste mit drei Unterfeldern): unter „Ausprobieren“ legt „+ Eintrag hinzufügen“
+   (2) Beispiel „Anmeldung Stadtbibliothek“ (Liste mit drei Unterfeldern): unter „Vorschau“ legt „+ Eintrag hinzufügen“
        eine Zeile mit drei Eingaben an, „Entfernen“ nimmt sie weg; die Vorlage behält ihre Felder.
-   (3) Feldliste: ab Werk keine Kennung zu sehen, jede Zeile trägt sie im title; der Schalter „Kennungen zeigen“ blendet sie ein.
+   (3) Feldliste: ab Werk keine Kennung zu sehen, jede Zeile trägt sie im title; der Schalter „Technische Namen (Kennungen) zeigen“ blendet sie ein.
    Rot-Beweise je Prüfung in tests/studio-vorfuehrpfad.test.js (an veränderten Fassungen). Hier Gegenproben im Lauf.
    ═════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const H = require('./support/helpers');
 
 test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
-  test('(1) „Ihr Zeichen“: der Vorschlag ist Platzhalter, Getipptes ersetzt ihn', async ({ page: p }) => {
+  test('(1) „Ihr Aktenzeichen“: der Vorschlag ist Platzhalter, Getipptes ersetzt ihn', async ({ page: p }) => {
     await p.goto(H.URLS.generator);
     await p.click('#sp-de');
     await p.click('#ein-anfrage');
@@ -30,7 +30,7 @@ test.describe('T-CROSS-41 Studio auf dem Weg einer Vorführung', () => {
     await expect(p.locator('#aa-v-vorgang')).toHaveText(/^Anfrage-\d{4}-\d{2}-\d{2}$/);
   });
 
-  test('(2) Liste mit Unterfeldern: „+ Eintrag hinzufügen“ wirkt unter „Ausprobieren“', async ({ page: p }) => {
+  test('(2) Liste mit Unterfeldern: „+ Eintrag hinzufügen“ wirkt unter „Vorschau“', async ({ page: p }) => {
     await H.generator.oeffnen(p, 'de');
     await p.click('#bsp-bibliothek');
     await expect(p.locator('.vk')).toHaveCount(7);

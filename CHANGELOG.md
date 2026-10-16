@@ -15,6 +15,53 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.930] – 2026-10-16
+
+### Behoben
+- In „Meine Dokumente“ blieb die Vorschau eines PDF immer leer. Jetzt nennt sie Dateiname und Größe; geöffnet wird die Datei über
+  „Original herunterladen“.
+- Hatte die Person über „Dieses Depot ansehen“ ein Sub-Depot betreten, brachen die Aktionen an den Karten unter „Sub-Depots“ mit
+  „Das hat nicht geklappt“ ab, etwa „Als verschlüsselte Datei übergeben“, das Entfernen aus der Verwaltung und „Wieder in die
+  Verwaltung aufnehmen“. Sie wirken jetzt auch dort.
+- Im betretenen Sub-Depot ließ sich ein weiteres Depot anlegen oder einhängen; es erschien danach in keiner Liste und ließ sich
+  nicht exportieren. Dort stehen „Neues Depot anlegen“ und „Depot einhängen“ nicht mehr, sondern der Hinweis, dass ein Depot für
+  eine weitere Person im eigenen Depot angelegt wird.
+- Studio: Ein Feld aus dem Register, das schon in der Vorlage steht, wird nicht noch einmal angelegt. Das Studio sagt „… ist schon
+  in der Vorlage“ und zeigt das vorhandene Feld.
+
+### Sicherheit
+- VD-SEC-019 (hoch): Behoben in v930: Speicherte jemand die laufende Anwendung bei geöffnetem Depot mit „Seite speichern“ des
+  Browsers, standen die gezeigten Angaben lesbar in der Datei, und geöffnet zeigte sie ohne Passwort ein offenes Depot. Seit v929
+  führt eine solche Datei nichts aus und zeigt nur einen Hinweis; seit v930 stehen die Werte der Eingabefelder nicht mehr in ihrem
+  Quelltext. Was die Anwendung als Text zeigt, steht weiter darin. Die Depot-Datei und ihre Verschlüsselung waren nicht betroffen.
+  Gemessen in Chromium am serialisierten Stand der Seite und an der MHTML-Erfassung; der Speicherweg des Browser-Menüs, Safari und
+  Firefox sind nicht gemessen. Betroffen: die ausgelieferten Fassungen bis v929 (das Öffnen ohne Passwort: bis v928); die
+  Untergrenze ist nicht je Fassung geprüft.
+  Was zu tun ist: auf v930 aktualisieren, mit „Seite speichern“ gesicherte Dateien löschen und zum Sichern „Sicherungskopie
+  erstellen“ verwenden.
+
+### Hinzugefügt
+- Trägt eine Datei in „Meine Dokumente“ eine digitale Signatur ihres Ausstellers (ein PDF mit Signatur oder Gesundheitsdaten als
+  maschinenlesbare Datei mit Signatur), sagt die Vorschau, dass diese Anwendung die Signatur nicht prüft und die Datei unverändert
+  weitergibt. Unter „Prüfhinweis für die Stelle“ steht ein Text zum Markieren und Kopieren, der der empfangenden Stelle sagt,
+  womit sie prüft; diesen Text gibt es auch bei Bildungsnachweisen (Europass, Open Badges).
+- Studio: Ein neu gewähltes Feld aus dem Register kommt in seinen Bereich, in der Reihenfolge der Feldliste. Der Knopf „Nach
+  Bereichen ordnen“ sortiert vorhandene Felder einmal so; eigene Felder stehen hinter den Registerfeldern ihres Bereichs.
+
+### Geändert
+- Die Hinweise zu Bildungsnachweisen (Europass, Open Badges) in „Meine Dokumente“ nennen, dass diese Anwendung das Siegel bzw.
+  die Echtheit nicht prüft, und wo sich beides prüfen lässt: mit dem Europass-Viewer der Europäischen Kommission bzw. dem
+  Open-Badges-3.0-Verifier von 1EdTech, beides externe Dienste.
+- Die Lese-App kann Antworten lesen, die eine Signatur tragen: Sie zeigt dann, dass die Angaben seit dem Signieren unverändert
+  sind, und den Schlüssel; eine Antwort, deren Signatur nicht passt, wird nicht angezeigt. Die Anwendung selbst signiert Antworten
+  in dieser Fassung nicht.
+- Studio: „Ausprobieren“ heißt „Vorschau“. Das Ergebnis einer Anfrage zeigt zuerst den Brief für die Person, dann das Passwort,
+  dann den Link; jeder Speichern-Knopf sagt, für wen die Datei ist, und ein Satz nennt den Ordner „Downloads“. Beim Absenden
+  steht, dass die Einreichungs-Datei angehängt wird, nicht die Schlüsseldatei.
+- Studio: Wörter für Einrichtungen ohne Fachleute, etwa „Für IT-Fachleute“, „Ihr Aktenzeichen (freiwillig)“, „In welchem Land
+  gilt das Recht, nach dem Sie fragen?“, „An welche E-Mail-Adresse soll die Person ihre Antwort schicken?“, „Alle Felder ansehen
+  (Register)“ und „Technische Namen (Kennungen) zeigen“.
+
 ## [v1.0.929] – 2026-10-15
 
 ### Behoben

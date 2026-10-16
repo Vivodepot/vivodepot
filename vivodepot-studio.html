@@ -258,6 +258,7 @@
   .pal-eintrag:hover { background: var(--nav-hover); border-color: var(--akzent-flaeche-rand); }
   .pal-eintrag .pal-plus { flex: none; width: 26px; height: 26px; padding: 0; border-radius: 50%; line-height: 1; font-size: 16px; }
   .pal-eintrag small { display: block; color: var(--grau); font-size: 11.5px; }
+  .vk.markiert { outline: 3px solid var(--salbei-dunkel, #4F6539); outline-offset: 3px; }
   .pal-kennungen { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--grau); margin: 0 0 6px; }
   .pal-kennungen input { width: auto; margin: 0; }
   @media (pointer: coarse) { .pal-kennungen { min-height: 44px; } }
@@ -1340,7 +1341,7 @@ label.as-feld { margin: 0; }
       <span class="ek-text" data-en="Logo, colours and name for Vivodepot. Applied only once it is signed and confirmed by Vivodepot.">Logo, Farben und Name für Vivodepot. Wird erst angewendet, wenn es signiert und von Vivodepot bestätigt ist.</span></button>
     <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-anderes"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
       <span class="ek-titel" data-en="Something else">Etwas anderes</span>
-      <span class="ek-text" data-en="For integrators: building blocks, formats and checking tools.">Für Integratoren: Bausteine, Formate und Prüfwerkzeuge.</span></button>
+      <span class="ek-text" data-en="For IT specialists: building blocks, formats and checking tools.">Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.</span></button>
   </div>
   <p class="eingang-antworten"><button type="button" class="link-knopf" id="ein-antworten" data-en="Open replies you have received →">Eingegangene Antworten öffnen →</button></p>
   <p class="herkunft-satz"><span class="herkunft-i" aria-hidden="true">i</span><span data-en="Vivodepot confirms who the template comes from, not whether its content is correct.">Vivodepot bestätigt, von wem die Vorlage kommt, nicht ob ihr Inhalt richtig ist.</span></p>
@@ -1451,7 +1452,7 @@ label.as-feld { margin: 0; }
         <p class="as-lead" data-en="The person sees your name at the top of the request, before anything else.">Ihren Namen sieht die Person ganz oben in der Anfrage, vor allem anderen.</p>
         <label class="as-feld" for="aa-von"><span data-en="Name of your organisation">Name Ihrer Stelle</span></label>
         <input type="text" id="aa-von" class="as-eingabe" autocomplete="organization" placeholder="z. B. Bürgerservice Musterstadt" data-en-ph="e.g. Citizens’ Service Exampletown">
-        <label class="as-feld" for="aa-vorgang"><span data-en="Your reference for this matter">Ihr Zeichen für diesen Vorgang</span></label>
+        <label class="as-feld" for="aa-vorgang"><span data-en="Your file reference (optional)">Ihr Aktenzeichen (freiwillig)</span></label>
         <input type="text" id="aa-vorgang" class="as-eingabe" autocomplete="off">
         <p class="as-hilfe" data-en="It is on every reply, so you can match the reply to the matter.">Es steht auf jeder Antwort, damit Sie die Antwort dem Vorgang zuordnen können.</p>
         <div class="as-knoepfe"><button type="button" class="as-knopf" id="aa-weiter-1" data-en="Next →">Weiter →</button>
@@ -1479,7 +1480,7 @@ label.as-feld { margin: 0; }
         <p class="as-lead" data-en="The person reads both before replying. Vivodepot does not check the basis; it is shown to the person and stays on record.">Beides liest die Person, bevor sie antwortet. Vivodepot prüft die Grundlage nicht; sie steht sichtbar da und bleibt nachweisbar.</p>
         <label class="as-feld" for="aa-grundlage"><span data-en="Basis for the request">Grundlage der Anfrage</span></label>
         <input type="text" id="aa-grundlage" class="as-eingabe" autocomplete="off" placeholder="z. B. Ihre Einwilligung" data-en-ph="e.g. Your consent">
-        <label class="as-feld" for="aa-rechtsraum"><span data-en="Under which law are you asking? (optional)">Nach welchem Recht fragen Sie? (freiwillig)</span></label>
+        <label class="as-feld" for="aa-rechtsraum"><span data-en="In which country does the law apply that you are asking under? (optional; leave empty if you do not know)">In welchem Land gilt das Recht, nach dem Sie fragen? (freiwillig; leer lassen, wenn Sie es nicht wissen)</span></label>
         <select id="aa-rechtsraum" class="as-eingabe"></select>
         <label class="as-feld" for="aa-gueltig"><span data-en="The request is valid until">Die Anfrage gilt bis</span></label>
         <input type="date" id="aa-gueltig" class="as-eingabe">
@@ -1492,13 +1493,13 @@ label.as-feld { margin: 0; }
       <div id="aa-schritt-4" hidden>
         <h1 class="as-titel" data-en="How the reply reaches you">Wie die Antwort zu Ihnen kommt</h1>
         <p class="as-lead" data-en="The person saves the reply as a locked file and sends it to you. You open it with a password that you give the person together with the request.">Die Person speichert die Antwort als verschlossene Datei und schickt sie Ihnen. Sie öffnen sie mit einem Passwort, das Sie der Person zusammen mit der Anfrage geben.</p>
-        <label class="as-feld" for="aa-an"><span data-en="Where should the person send the file?">Wohin schickt die Person die Datei?</span></label>
+        <label class="as-feld" for="aa-an"><span data-en="To which e-mail address should the person send the reply?">An welche E-Mail-Adresse soll die Person ihre Antwort schicken?</span></label>
         <input type="text" id="aa-an" class="as-eingabe" autocomplete="email" placeholder="z. B. termine@musterstadt.de" data-en-ph="e.g. appointments@exampletown.org">
-        <p class="as-hilfe" data-en="An e-mail address or a place, for example your counter. The person sees it before replying.">Eine E-Mail-Adresse oder ein Ort, etwa Ihr Schalter. Die Person sieht es, bevor sie antwortet.</p>
+        <p class="as-hilfe" data-en="Instead of an address, a place also works, for example your counter. The person sees it before replying.">Statt einer Adresse geht auch ein Ort, etwa Ihr Schalter. Die Person sieht es, bevor sie antwortet.</p>
         <p class="as-meldung" id="aa-meldung-4" role="alert" hidden></p>
         <div class="as-knoepfe"><button type="button" class="as-knopf" id="aa-weiter-4" data-en="Next →">Weiter →</button>
           <button type="button" class="link-knopf" id="aa-zurueck-4" data-en="Back">Zurück</button></div>
-        <p class="as-fach"><button type="button" class="link-knopf" id="aa-fachebene" data-en="Use your own key pair instead (expert view)">Stattdessen mit eigenem Schlüsselpaar (Fachebene)</button></p>
+        <p class="as-fach"><button type="button" class="link-knopf" id="aa-fachebene" data-en="For advanced users: with your own key pair (expert view)">Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)</button></p>
       </div>
 
       <div id="aa-schritt-5" hidden>
@@ -1532,7 +1533,7 @@ label.as-feld { margin: 0; }
         <span hidden id="aa-v-woerter"><span data-ts="anfragePflichtFehlt" data-en="required">nötig</span><span data-ts="anfrageFreigestellt" data-en="optional">freigestellt</span><span data-ts="anfrageFeldZweckLabel" data-en="Why this detail:">Wozu diese Angabe:</span></span>
         <p class="aa-v-cta"><span class="as-knopf klein" data-ts="anfrageAntwortenCta" data-en="Reply">Antworten</span></p>
       </div>
-      <p class="herkunft-satz"><span class="herkunft-i" aria-hidden="true">i</span><span data-en="Without a signature, the person sees “Not verified”. If you sign with your key confirmed by Vivodepot, it shows “Verified”.">Ohne Signatur sieht die Person „Nicht geprüft“. Signieren Sie mit Ihrem von Vivodepot bestätigten Schlüssel, steht dort „Geprüft“.</span></p>
+      <p class="herkunft-satz"><span class="herkunft-i" aria-hidden="true">i</span><span data-en="The person sees “Not verified” because your request is not signed. You can still ask. “Verified” appears only if you sign with a key that Vivodepot has confirmed for your organisation; you do not need one now.">Die Person sieht „Nicht geprüft“, weil Ihre Anfrage nicht signiert ist. Fragen können Sie trotzdem. „Geprüft“ steht nur, wenn Sie mit einem Schlüssel signieren, den Vivodepot für Ihre Einrichtung bestätigt hat; den brauchen Sie jetzt nicht.</span></p>
     </aside>
   </div>
 </main>
@@ -1543,7 +1544,7 @@ label.as-feld { margin: 0; }
   <section class="held">
     <p class="ueberschrift-klein" data-en="For institutions">Für Institutionen</p>
     <h1 data-en="Build your template. See right away how it looks in Vivodepot.">Bauen Sie Ihre Vorlage. Sehen Sie sofort, wie sie in Vivodepot aussieht.</h1>
-    <p class="lead" data-en="No account, no installation. Everything runs in your browser and nothing is sent until you send it yourself. Try things out for as long as you like.">Kein Konto, keine Installation. Alles läuft in Ihrem Browser, und nichts wird gesendet, bevor Sie es selbst versenden. Probieren Sie so lange, wie Sie möchten.</p>
+    <p class="lead" data-en="No account, no installation. Everything runs in your browser and nothing is sent until you send it yourself. Take as long as you like.">Kein Konto, keine Installation. Alles läuft in Ihrem Browser, und nichts wird gesendet, bevor Sie es selbst versenden. Nehmen Sie sich so viel Zeit, wie Sie möchten.</p>
   </section>
 
   <section aria-labelledby="start-titel">
@@ -1613,7 +1614,7 @@ label.as-feld { margin: 0; }
   <section class="weg" aria-labelledby="weg-titel">
     <h2 id="weg-titel" class="abschnitt-titel" data-en="How it works">So läuft es ab</h2>
     <ol class="weg-liste">
-      <li><span class="weg-nr">1</span><div><strong data-en="Build">Bauen</strong><p data-en="Choose fields, arrange them, watch the preview. Try it out as long as you like; nothing is asked of you yet.">Felder wählen, anordnen, Vorschau ansehen. Probieren Sie, so lange Sie möchten; es wird noch nichts von Ihnen verlangt.</p></div></li>
+      <li><span class="weg-nr">1</span><div><strong data-en="Build">Bauen</strong><p data-en="Choose fields, arrange them, watch the preview. Take as long as you like; nothing is asked of you yet.">Felder wählen, anordnen, Vorschau ansehen. Nehmen Sie sich Zeit; es wird noch nichts von Ihnen verlangt.</p></div></li>
       <li><span class="weg-nr">2</span><div><strong data-en="Details and key">Angaben und Schlüssel</strong><p data-en="Only when you are done: who you are, and a digital key that ties the template to you.">Erst wenn Sie fertig sind: wer Sie sind und ein digitaler Schlüssel, der die Vorlage Ihnen zuordnet.</p></div></li>
       <li><span class="weg-nr">3</span><div><strong data-en="Send">Absenden</strong><p data-en="You get one file. Send it by e-mail to Vivodepot; the review takes a few working days.">Sie erhalten eine Datei. Schicken Sie sie per E-Mail an Vivodepot; die Prüfung dauert einige Werktage.</p></div></li>
     </ol>
@@ -1634,7 +1635,7 @@ label.as-feld { margin: 0; }
       <span class="status-chip" id="bau-status" role="status" aria-live="polite"></span>
     </div>
     <div class="ansicht-schalter" role="group" aria-label="Ansicht" data-en-aria="View">
-      <button type="button" id="ansicht-bauen" aria-pressed="true" data-en="Edit">Bearbeiten</button><button type="button" id="ansicht-probieren" aria-pressed="false" data-en="Try it">Ausprobieren</button>
+      <button type="button" id="ansicht-bauen" aria-pressed="true" data-en="Edit">Bearbeiten</button><button type="button" id="ansicht-probieren" aria-pressed="false" data-en="Preview">Vorschau</button>
     </div>
     <div class="bau-rechts">
       <button type="button" class="sekundaer" id="entwurf-sichern" data-en="Save draft">Entwurf sichern</button>
@@ -1655,12 +1656,12 @@ label.as-feld { margin: 0; }
     <aside class="palette" id="palette" aria-label="Felder wählen" data-en-aria="Choose fields">
       <div class="palette-kopf">
         <h2 data-en="Fields">Felder</h2>
-        <a class="link-klein" href="#" data-marke-href="register" target="_blank" rel="noopener noreferrer"><span data-en="Open the register">Register ansehen</span> ↗</a>
+        <a class="link-klein" href="#" data-marke-href="register" target="_blank" rel="noopener noreferrer"><span data-en="See all fields (register)">Alle Felder ansehen (Register)</span> ↗</a>
       </div>
       <label class="vis-hidden" for="pal-suche" data-en="Search fields">Felder suchen</label>
       <input type="search" id="pal-suche" placeholder="Feld suchen …" data-en-ph="Search fields …" autocomplete="off">
       <p class="hint" data-en="Click + or drag a field into the preview. Field names follow the language you work in: one template per language.">Mit + hinzufügen oder in die Vorschau ziehen. Die Feldnamen folgen der Sprache, in der Sie arbeiten: eine Vorlage je Sprache.</p>
-      <label class="pal-kennungen"><input type="checkbox" id="pal-kennungen"> <span data-en="Show identifiers">Kennungen zeigen</span></label>
+      <label class="pal-kennungen"><input type="checkbox" id="pal-kennungen"> <span data-en="Show technical names (identifiers)">Technische Namen (Kennungen) zeigen</span></label>
       <div id="pal-liste"></div>
       <details class="pal-frei">
         <summary data-en="A field of your own">Ein eigenes Feld</summary>
@@ -1690,6 +1691,7 @@ label.as-feld { margin: 0; }
         <div id="tpl-csv-status" class="meldung warn" hidden></div>
         <div id="tpl-angleich" class="meldung warn" role="status" aria-live="polite" hidden></div>
         <div class="vorschau-kopf">
+          <button type="button" class="sekundaer mini" id="tpl-ordnen" data-en="Sort by section">Nach Bereichen ordnen</button>
           <span class="anzahl-badge" id="tpl-anzahl">0 Feld(er)</span>
         </div>
         <div id="tpl-felder" class="vorschau" aria-label="Vorschau der Vorlage" data-en-aria="Preview of the template"></div>
@@ -1969,7 +1971,7 @@ label.as-feld { margin: 0; }
           <h3 data-en="Now send the file">Jetzt die Datei absenden</h3>
           <ol class="absenden-schritte">
             <li data-en="Open your e-mail programme (the button below prepares a message).">Öffnen Sie Ihr E-Mail-Programm (der Knopf unten bereitet eine Nachricht vor).</li>
-            <li data-en="Attach the file that was just downloaded.">Hängen Sie die eben heruntergeladene Datei an.</li>
+            <li data-en="Attach the submission file that was just saved (not the key file).">Hängen Sie die Einreichungs-Datei an, die gerade gespeichert wurde (nicht die Schlüsseldatei).</li>
             <li data-en="Send. Vivodepot checks who the template comes from and issues a certificate on success; that takes a few working days.">Absenden. Vivodepot prüft, von wem die Vorlage kommt, und stellt bei Erfolg ein Zertifikat aus; das dauert einige Werktage.</li>
           </ol>
           <div class="knopf-reihe">
@@ -13617,7 +13619,7 @@ function wegAktualisieren() {
 /* ── Feldkatalog-Palette ───────────────────────────────────────────────── */
 let paletteSuche = '';
 /* Kennungen in der Feldliste (Prüfung am iPad 14.10.2026): „identity.givenName“ unter jedem Feld liest eine Einrichtung als
-   Technik. Ab Werk eingeklappt, über „Kennungen zeigen“ erreichbar; jede Zeile trägt die Kennung weiter im title. Die Kennung ist
+   Technik. Ab Werk eingeklappt, über „Technische Namen (Kennungen) zeigen“ erreichbar; jede Zeile trägt die Kennung weiter im title. Die Kennung ist
    Vertrag und wird nicht umbenannt; was die Vorlage trägt, hängt am Schalter nicht (Probe: Einreichung byte-gleich). */
 let paletteKennungenZeigen = false;
 function paletteKennungKlein(text) { return paletteKennungenZeigen ? el('small', { class: 'pal-kennung', text: text }) : null; }
@@ -13708,8 +13710,64 @@ function feldAusBasisBauen(basis, felder, pos) {
   if ((roh.feldtyp === 'auswahl' || roh.feldtyp === 'mehrfachauswahl') && !roh.codeWerte.length) roh.codeWerte = [{ code: 'option-1', anzeige: L('Option 1', 'Option 1') }];
   return normalisiereFeldBefund(roh);
 }
+/* Anordnung nach Bereichen (15.10.2026): ein Feld aus dem Register kommt in seinen Bereich, in der Reihenfolge des Feldkatalogs;
+   die Bereiche stehen in der festen Reihenfolge (Identität & Person zuerst, also Name, Geburtsdatum und Anschrift vorn). Ein eigenes
+   Feld (ohne Register) bleibt, wo es angelegt wird; Ziehen auf eine Karte setzt es genau dorthin. „Nach Bereichen ordnen“ sortiert
+   die vorhandenen Felder einmal so (stabil: Gleichrangige behalten ihre Folge). Probe: tests/studio-vorfuehrpfad.test.js (7). */
+const FELD_BEREICH_REIHENFOLGE = BEREICHE.concat(PRO_BEREICHE);
+function feldKatalogIndex(f) {
+  if (!f) return -1;
+  if (f._kennung) return FELDKATALOG.findIndex((k) => k.kennung === f._kennung);
+  const b = normBereich(f.bereich);
+  return FELDKATALOG.findIndex((k) => k.bereich === b && (k.label === f.feldname || k.labelEn === f.feldname || katalogLabel(k) === f.feldname));
+}
+function feldRang(f) {
+  const b = FELD_BEREICH_REIHENFOLGE.indexOf(normBereich(f && f.bereich));
+  const k = feldKatalogIndex(f);
+  return [b < 0 ? FELD_BEREICH_REIHENFOLGE.length : b, k < 0 ? Number.MAX_SAFE_INTEGER : k];
+}
+function feldRangVergleich(a, b) { return a[0] - b[0] || a[1] - b[1]; }
+function einordnungsIndex(felder, neu) {
+  const r = feldRang(neu);
+  for (let i = 0; i < felder.length; i++) if (feldRangVergleich(feldRang(felder[i]), r) > 0) return i;
+  return felder.length;
+}
+function felderNachBereichen(felder) {
+  return felder.map((f, i) => ({ f, i, r: feldRang(f) })).sort((x, y) => feldRangVergleich(x.r, y.r) || x.i - y.i).map((x) => x.f);
+}
+function felderOrdnen() {
+  if (STATE.art === 'blatt' || !STATE.felder.length) return;
+  if (editorIndex != null) schliesseEditor();
+  STATE.felder = felderNachBereichen(STATE.felder);
+  rendereFelder();
+}
+/* Ein Registerfeld steht höchstens einmal in der Vorlage (Laien-Durchlauf 15.10.2026: „Name“ legte einen zweiten „Vorname“ an).
+   Steht es schon da, sagt das Studio es und rollt das vorhandene Feld in den Blick. */
+function vorhandenesRegisterfeld(basis) {
+  if (!basis || !basis._kennung) return -1;
+  const k = feldKatalogIndex(basis);
+  return k < 0 ? -1 : STATE.felder.findIndex((f) => feldKatalogIndex(f) === k);
+}
+function feldMarkieren(i) {
+  const v = $('tpl-felder');
+  const karte = v && v.querySelector ? v.querySelector('.vk[data-i="' + i + '"]') : null;
+  if (!karte || !karte.classList) return;
+  karte.classList.add('markiert');
+  if (karte.scrollIntoView) karte.scrollIntoView({ block: 'nearest' });   // ohne Gleiten: ein laufendes Ziehen trifft sonst daneben
+  setTimeout(() => { if (karte.classList) karte.classList.remove('markiert'); }, 1800);
+}
 function feldEinfuegen(basis, pos) {
   if (STATE.art === 'blatt') { blattEintragAusBasis(basis); return; }
+  const da = vorhandenesRegisterfeld(basis);
+  if (da >= 0) {
+    const st = $('tpl-csv-status');
+    if (st) { st.className = 'meldung warn'; st.hidden = false;
+      st.textContent = L('„' + STATE.felder[da].feldname + '“ ist schon in der Vorlage.', '“' + STATE.felder[da].feldname + '” is already in the template.'); }
+    ansichtSetzen(false);
+    feldMarkieren(da);
+    return;
+  }
+  if (pos == null && basis && basis._kennung) pos = einordnungsIndex(STATE.felder, basis);
   if (pos == null) pos = (editorIndex != null) ? editorIndex + 1 : STATE.felder.length;
   pos = Math.max(0, Math.min(pos, STATE.felder.length));
   if (!basis.bereich) basis = Object.assign({}, basis, { bereich: standardBereich(pos - 1) });
@@ -13717,8 +13775,7 @@ function feldEinfuegen(basis, pos) {
   STATE.felder.splice(pos, 0, bef.feld);
   rendereFelder();
   oeffneEditor(pos);
-  const karte = $('tpl-felder') && $('tpl-felder').querySelector ? $('tpl-felder').querySelector('.vk.gewaehlt') : null;
-  if (karte && karte.scrollIntoView) karte.scrollIntoView({ block: 'nearest' });
+  feldMarkieren(pos);
   zeigeAngleichung(bef.angeglichen, L('beim Anlegen dieses Feldes', 'when creating this field'));
   ansichtSetzen(false);
 }
@@ -13733,7 +13790,7 @@ function ansichtSetzen(probieren) {
   if (p) p.setAttribute('aria-pressed', String(probierenAn));
   rendereFelder();
 }
-/* Eine Liste unter „Ausprobieren“ (Prüfung am iPad 14.10.2026): „+ Eintrag hinzufügen“ legt eine Zeile mit den Eingaben der
+/* Eine Liste in der „Vorschau“ (Prüfung am iPad 14.10.2026): „+ Eintrag hinzufügen“ legt eine Zeile mit den Eingaben der
    Unterfelder an, wie die Person sie sähe; „Entfernen“ nimmt sie wieder weg. Nichts davon geht in die Vorlage, es ist die Vorschau.
    Unter „Bearbeiten“ bleibt der Knopf eine Anzeige (ein Antippen öffnet dort den Editor des Felds). Eine Liste ohne Unterfelder
    sagt das, statt einen Knopf ohne Wirkung zu zeigen. Gezeigt wird jedes Unterfeld, wie es steht: was der Einlass nicht annimmt
@@ -13903,7 +13960,7 @@ function dndBinden() {
         rendereFelder();
         const ed = editorIndex; oeffneEditor(ed);
       }
-    } else if (d.art === 'kat') feldEinfuegen(feldAusKatalog(d.idx), z.index);
+    } else if (d.art === 'kat') feldEinfuegen(feldAusKatalog(d.idx), z.karte ? z.index : null);   // in die leere Fläche: in den Bereich einordnen
     else if (d.art === 'typ') feldEinfuegen(feldAusTyp(d.id), z.index);
   });
   if (pal && pal.addEventListener) {
@@ -15460,22 +15517,25 @@ async function anfrageAssistentErzeugen() {
   const dateiname = anfrageDateiname('', umschlag.anfrage.vorgang);
   box.className = 'aa-ergebnis';
   box.appendChild(el('h2', { class: 'aa-erg-titel', text: L('Ihre Anfrage ist fertig.', 'Your request is ready.') }));
-  box.appendChild(el('h3', { text: L('1. Das Passwort für die Antworten', '1. The password for the replies') }));
-  box.appendChild(el('p', { class: 'as-hilfe', text: L('Bewahren Sie es zum Vorgang „', 'Keep it with your matter “') + umschlag.anfrage.vorgang
-    + L('“ auf, sonst können Sie die Antworten nicht öffnen. Vivodepot speichert es nicht und zeigt es nur jetzt.', '”, otherwise you cannot open the replies. Vivodepot does not store it and shows it only now.') }));
-  box.appendChild(el('code', { class: 'aa-passwort', id: 'aa-passwort', text: passwort }));
-  box.appendChild(el('p', { class: 'as-hilfe', text: L('Die Person bekommt es auf einem anderen Weg als die Anfrage: am Telefon, am Schalter oder mit einem eigenen Schreiben.',
-    'The person gets it by another route than the request: by phone, at your counter or in a separate letter.') }));
-  box.appendChild(el('div', { class: 'as-knoepfe' }, [el('button', { type: 'button', class: 'link-knopf', id: 'aa-zettel-laden',
-    onclick: () => blobDownload(dateiname.replace(/\.json$/, '-passwort.txt'), zettel, 'text/plain') }, [L('Passwort-Zettel herunterladen', 'Download password note')])]));
-  box.appendChild(el('h3', { text: L('2. Der Brieftext für die Person', '2. The letter for the person') }));
+  /* Reihenfolge (Laien-Durchlauf 15.10.2026): zuerst, was die Person bekommt (Brief), dann das Passwort, dann der Link. Jeder
+     Knopf sagt, für wen die Datei ist. Der Passwort-Zettel ist für die Person (er spricht sie an), getrennt vom Brief. */
+  box.appendChild(el('h3', { text: L('1. Der Brief für die Person', '1. The letter for the person') }));
   box.appendChild(el('p', { class: 'as-hilfe', text: L('Er enthält den Link, nicht das Passwort. Schicken Sie ihn per Post oder E-Mail.',
     'It contains the link, not the password. Send it by post or e-mail.') }));
   const ta = el('textarea', { class: 'as-eingabe aa-brief', id: 'aa-brief', rows: '12', readonly: '', 'aria-label': L('Brieftext', 'Letter') });
   ta.value = brief; box.appendChild(ta);
   box.appendChild(el('div', { class: 'as-knoepfe' }, [
-    el('button', { type: 'button', class: 'as-knopf klein', id: 'aa-brief-laden', onclick: () => blobDownload(dateiname.replace(/\.json$/, '-brief.txt'), brief, 'text/plain') }, [L('Brieftext herunterladen', 'Download letter')]),
-    el('button', { type: 'button', class: 'link-knopf', id: 'aa-datei-laden', onclick: () => blobDownload(dateiname, anfrageAlsText(umschlag)) }, [L('Anfrage als Datei herunterladen', 'Download request as a file')])]));
+    el('button', { type: 'button', class: 'as-knopf klein', id: 'aa-brief-laden', onclick: () => blobDownload(dateiname.replace(/\.json$/, '-brief.txt'), brief, 'text/plain') }, [L('Brief speichern (Text, für die Person)', 'Save letter (text, for the person)')]),
+    el('button', { type: 'button', class: 'link-knopf', id: 'aa-datei-laden', onclick: () => blobDownload(dateiname, anfrageAlsText(umschlag)) }, [L('Anfrage als Datei speichern (für die Person, zum Anhängen)', 'Save request as a file (for the person, to attach)')])]));
+  box.appendChild(el('h3', { text: L('2. Das Passwort (für Sie und die Person)', '2. The password (for you and the person)') }));
+  box.appendChild(el('p', { class: 'as-hilfe', text: L('Die Person verschließt damit ihre Antwort; Sie öffnen die Antworten damit. Bewahren Sie es zum Vorgang „', 'The person seals the reply with it; you open the replies with it. Keep it with your matter “') + umschlag.anfrage.vorgang
+    + L('“ auf, sonst können Sie die Antworten nicht öffnen. Vivodepot speichert es nicht und zeigt es nur jetzt.', '”, otherwise you cannot open the replies. Vivodepot does not store it and shows it only now.') }));
+  box.appendChild(el('code', { class: 'aa-passwort', id: 'aa-passwort', text: passwort }));
+  box.appendChild(el('p', { class: 'as-hilfe', text: L('Die Person bekommt es auf einem anderen Weg als die Anfrage: am Telefon, am Schalter oder mit einem eigenen Schreiben.',
+    'The person gets it by another route than the request: by phone, at your counter or in a separate letter.') }));
+  box.appendChild(el('div', { class: 'as-knoepfe' }, [el('button', { type: 'button', class: 'link-knopf', id: 'aa-zettel-laden',
+    onclick: () => blobDownload(dateiname.replace(/\.json$/, '-passwort.txt'), zettel, 'text/plain') }, [L('Passwort-Zettel speichern (für die Person, getrennt vom Brief)', 'Save password note (for the person, separate from the letter)')])]));
+  box.appendChild(el('p', { class: 'as-hilfe', id: 'aa-ablage-hinweis', text: L('Die Dateien liegen danach auf Ihrem Gerät im Ordner „Downloads“.', 'After saving, the files are in your device’s “Downloads” folder.') }));
   box.appendChild(el('h3', { text: L('3. Der Link allein, etwa für Ihre Website', '3. The link on its own, for example for your website') }));
   box.appendChild(el('code', { class: 'sub-id', id: 'aa-link', text: link }));
   box.appendChild(el('p', { class: 'herkunft-satz' }, [el('span', { class: 'herkunft-i', 'aria-hidden': 'true', text: 'i' }),
@@ -15539,6 +15599,7 @@ function gen1Binden() {
   an('start-module', 'click', () => modulOeffnen());
   an('bau-start', 'click', () => zeigeSchritt('fachebene'));
   an('ansicht-bauen', 'click', () => ansichtSetzen(false));
+  an('tpl-ordnen', 'click', felderOrdnen);
   an('ansicht-probieren', 'click', () => { if (editorIndex != null) schliesseEditor(); ansichtSetzen(true); });
   an('entwurf-sichern', 'click', entwurfSichern);
   an('ent-datei', 'change', entwurfDateiGewaehlt);

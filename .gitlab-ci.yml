@@ -36,11 +36,22 @@ publiccode:
   image: golang:1.25
   script:
     - go install github.com/italia/publiccode-parser-go/v5/publiccode-parser@v5.4.3
-    - "$(go env GOPATH)/bin/publiccode-parser publiccode.yml"
+    # -no-network (16.10.2026, Befund OPENCODE-PIPELINE-ROT): vom Runner auf openCoDE löst die eigene Projekt-Adresse auf eine
+    # interne Adresse auf, und der Parser verweigert die Netzprüfung („blocked attempt to connect to a non-public address“).
+    # Die Option schaltet nur die Netzprüfungen ab (Adresse, oEmbed); Logo und Screenshots werden weiter geprüft. Die Prüfung
+    # MIT Netz läuft auf GitHub (.github/workflows/publiccode-pruefen.yml) unverändert; die Probe hält beides fest.
+    - "$(go env GOPATH)/bin/publiccode-parser -no-network publiccode.yml"
 
+# Dieselben Vorbereitungen wie der GitHub-Job schicht1-unit (.github/workflows/e2e.yml), seit 16.10.2026 (Befund
+# OPENCODE-PIPELINE-ROT: bis dahin fuhr dieser Job nur npm ci && npm test und war in jeder Pipeline rot — kein Chromium, kein
+# pdftotext, flacher Klon). Die Probe in tests/pflichtdateien-oeffentliches-repo.test.js hält beide Jobs gleich.
 tests:
   stage: pruefen
   image: node:24
+  variables:
+    GIT_DEPTH: "0"
   script:
+    - apt-get update -q && apt-get install -y -q poppler-utils libxml2-utils
     - npm ci
+    - npx playwright install --with-deps chromium
     - npm test

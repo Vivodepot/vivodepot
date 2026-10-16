@@ -152,6 +152,8 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `format.schreiber-xml-wurzelname` | abweisung | Der Name des Wurzelelements ist kein gültiger XML-Name. | `schreiber-xml-wurzelname` |
 | `format.schreiber-xml-zwei-wurzeln` | abweisung | Eine Ausgabe mit dem XML-Schreiber nennt wurzel und quelle zugleich. | `schreiber-xml-zwei-wurzeln` |
 | `format.schreiber-xml-zielname` | abweisung | Ein ziel in zuordnung ist kein gültiger XML-Name. | `schreiber-xml-zielname` |
+| `format.vertreter-ohne-nachweis` | abweisung | Das Modul schreibt die bevollmächtigte Person, aber keinen Nachweis der Vollmacht als Anhang. | `vertreter-ohne-nachweis` |
+| `format.anhang-rolle-doppelt` | abweisung | Das Modul nennt dieselbe Rolle eines Anhangs mehr als einmal. | `anhang-rolle-doppelt` |
 
 ## bereich
 

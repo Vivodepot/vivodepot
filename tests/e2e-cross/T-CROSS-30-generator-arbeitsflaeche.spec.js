@@ -3,7 +3,7 @@
    T-CROSS-30 — GEN1: der Template-Generator als Arbeitsfläche, im Browser, DE und EN
    ─────────────────────────────────────────────────
    Belegt am ERZEUGTEN Artefakt (der heruntergeladenen Submission-Datei), nicht an einer Fixture:
-   Start → Felder ziehen und ordnen → Ausprobieren → Fertigstellen → Angaben → Schlüssel →
+   Start → Felder ziehen und ordnen → Vorschau → Fertigstellen → Angaben → Schlüssel →
    Paket. Der Rot-Beweis liegt im Kontrast: derselbe Weg gegen den früheren Fünf-Schritte-
    Assistenten (`#w-weiter`) läuft nicht mehr an (tests/generator-arbeitsflaeche.test.js hält
    das Markup-Kriterium samt Mutation).
@@ -67,7 +67,7 @@ for (const sprache of ['de', 'en']) {
       await expect(p.locator('.vk .vk-name', { hasText: 'Aufnahmedatum' })).toBeVisible();   // die Vorschau folgt dem Tippen sofort
       await expect(p.locator('#tpl-anzahl')).toContainText('3');
 
-      // Ausprobieren: Ziehen ist aus, Eingeben geht
+      // Vorschau: Ziehen ist aus, Eingeben geht
       await p.click('#ansicht-probieren');
       await expect(p.locator('.vk[draggable="true"]')).toHaveCount(0);
       await p.click('#ansicht-bauen');

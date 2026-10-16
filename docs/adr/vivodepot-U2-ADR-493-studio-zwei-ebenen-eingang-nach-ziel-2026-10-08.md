@@ -57,7 +57,7 @@ den Weg, den eine Einrichtung ohne IT bei einer Vorführung geht: Anfrage stelle
 Auf diesem Weg hakte die Fachebene an fünf Stellen:
 
 - In der Anfrage stand der Vorschlag „Anfrage-<Datum>“ als Text im Feld „Ihr Zeichen“. Wer hineintippte, hängte an ihn an.
-- Unter „Ausprobieren“ hatte „+ Eintrag hinzufügen“ bei einer Liste keine Wirkung, auch wenn die Liste Unterfelder trug.
+- Unter „Ausprobieren“ (heute „Vorschau“) hatte „+ Eintrag hinzufügen“ bei einer Liste keine Wirkung, auch wenn die Liste Unterfelder trug.
 - Die Feldliste zeigte unter jedem Feld die Kennung (`identity.givenName`). Eine Einrichtung liest das als Technik.
 - Vier der Beispiele und Kacheln der Fachebene sprachen von Gesundheit und Pflege; außer der Notariats-Erfassung gab es kein
   Beispiel aus einem anderen Bereich.
@@ -69,7 +69,7 @@ Die Fachebene wird also auch von Stellen bedient, die keine Fachleute haben. Das
 
 1. **„Ihr Zeichen“ ist ein Vorschlag, kein Text.** Der Vorschlag steht als Platzhalter; Getipptes ersetzt ihn. Bleibt das Feld
    leer, gilt der Vorschlag. Die Anfrage selbst ändert sich nicht: sie trägt wie bisher ein Zeichen.
-2. **Eine Liste mit Unterfeldern lässt sich unter „Ausprobieren“ ausfüllen.** „+ Eintrag hinzufügen“ legt eine Zeile mit den
+2. **Eine Liste mit Unterfeldern lässt sich unter „Vorschau“ ausfüllen.** „+ Eintrag hinzufügen“ legt eine Zeile mit den
    Eingaben der Unterfelder an, „Entfernen“ nimmt sie weg. Das ist Vorschau; die Vorlage ändert sich dadurch nicht. Eine Liste
    ohne Unterfelder sagt das, statt einen Knopf ohne Wirkung zu zeigen.
    Wer ein Listenfeld im Editor bearbeitet (etwa umbenennt), behält seine Unterfelder; bis hierher ersetzte jede Eingabe das
@@ -91,6 +91,13 @@ Die Fachebene wird also auch von Stellen bedient, die keine Fachleute haben. Das
   die App.
 - Nicht Teil: die übrigen technischen und englischen Wörter der Fachebene und des Erscheinungsbild-Blocks; der Schritt
   „Aussehen“ (U2-ADR-493, Abgrenzung). Sie folgen als eigene Wagen.
+
+## Nachtrag 15.10.2026 — Anordnung nach Bereichen
+
+Eine Einrichtung baut ihre Vorlage nach Bereichen gegliedert. Ein Feld aus dem Register kommt darum in seinen Bereich, in der
+Reihenfolge des Feldkatalogs; die Bereiche stehen in ihrer festen Folge (Identität & Person zuerst). Gezogen auf eine Karte landet
+ein Feld weiter genau dort. „Nach Bereichen ordnen“ sortiert vorhandene Felder einmal so. Ein Registerfeld steht höchstens einmal
+in der Vorlage. Der Knopf der Ansicht heißt „Vorschau“ statt „Ausprobieren“. Kein Schema, keine Signatur, kein Kern.
 
 ```yaml
 konformitaet:
@@ -142,11 +149,11 @@ konformitaet:
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Zeichen] der Vorschlag ist Platzhalter: Getipptes ersetzt ihn, ein leeres Feld nimmt ihn"
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Zeichen · Rot-Beweis] mit dem Vorschlag als Text hängt Getipptes an"
   - aussage: >-
-      Eine Liste mit Unterfeldern bekommt unter „Ausprobieren“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz.
+      Eine Liste mit Unterfeldern bekommt unter „Vorschau“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz.
     zustand: erfuellt
     herkunft: U2-ADR-493, Nachtrag 14.10.2026
     pruefung:
-      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Liste] eine Liste mit Unterfeldern bekommt unter „Ausprobieren“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Liste] eine Liste mit Unterfeldern bekommt unter „Vorschau“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz"
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Liste · Rot-Beweis] der frühere Knopf ohne Wirkung fällt auf"
   - aussage: >-
       Ein Listenfeld, das im Editor bearbeitet wird, behält seine Unterfelder.
@@ -179,4 +186,13 @@ konformitaet:
     pruefung:
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Erscheinungsbild] ohne Signatur ein Hinweis mit der Folge und dem Weg, keine rote Fehlermeldung; die Regel bleibt"
       - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Erscheinungsbild · Rot-Beweis] die frühere rote Meldung ohne Folge fällt auf"
+  - aussage: >-
+      Ein Registerfeld kommt in seinen Bereich, in Katalog-Reihenfolge, Identität & Person vorn; „Nach Bereichen ordnen“ sortiert
+      vorhandene Felder so, und die Einreichung bleibt gültig; ein Registerfeld steht höchstens einmal in der Vorlage.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 15.10.2026 (Anordnung nach Bereichen)
+    pruefung:
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung] ein Feld per + kommt in seinen Bereich, in Katalog-Reihenfolge; Personendaten stehen vorn"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung · Rot-Beweis] ohne das Einordnen stehen die Felder in der Folge des Antippens"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Feldordnung] ein Registerfeld, das schon da ist, wird nicht noch einmal angelegt; das Studio sagt es"
 ```

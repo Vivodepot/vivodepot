@@ -42,6 +42,17 @@ desselben Releases v4.1 (Prüfsumme oben), zugeschnitten auf die Codepunkte der 
 SIL Open Font License 1.1, Volltext siehe `OFL.txt`. Zweck: der Nachweis, dass ein Erscheinungsbild eine PDF-Schrift für Namen in
 kyrillischer und griechischer Schrift mitbringen kann (tests/pdf-namen-nicht-latein.test.js).
 
+**Wycheproof-Testvektoren (nur Test, werden nicht ausgeliefert)** — Test vectors from C2SP/wycheproof project, Apache License 2.0,
+`https://github.com/C2SP/wycheproof` — unverändert in `tests/konformitaet/vectors/` (`ecdsa_secp256r1_sha256_test.json`,
+`ecdsa_secp521r1_sha512_test.json`, `ed25519_test.json` und Auszüge in `wycheproof_*_vectors.mjs`). Herkunft und Prüfsummen:
+`tests/fixtures/oid4vp/README.md` und die Köpfe der Vektordateien und Proben. Zweck: Fremdvektoren für die Signaturprüfung des Kerns.
+
+**x509-limbo (nur Test, wird nicht ausgeliefert)** — C2SP/x509-limbo project — Apache License 2.0,
+`https://github.com/C2SP/x509-limbo`, Upstream-Stand `554528a9b0c0d95e071f55de018326f0b65a8364`, `limbo.json` (SHA-256
+`611e337b9fb477b927bae65434650692cb9d2070ff5b05f975d0403510acd4de`). Eine Auswahl der Fälle, umgeformt (Zertifikate je einmal,
+Fälle ohne private Schlüssel und ohne CRLs), liegt mit dem Lizenztext in `tests/konformitaet/vectors/x509-limbo/`; Auswahl und
+Prüfsummen: dortige `README.md`, erzeugt von `tools/x509-limbo-umfang-erzeugen.js`. Zweck: Fremdvektoren für die Pfadprüfung des X.509-Lesers.
+
 ---
 
 ## Eingebettete Code-Listen (Auszüge)

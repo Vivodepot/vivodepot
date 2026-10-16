@@ -245,8 +245,15 @@ laufenden Stand der Seite, enthält diese Datei bei geöffnetem Depot Angaben da
 Die Anwendung erkennt eine solche Datei beim Öffnen: sie führt dann nichts aus, zeigt keine Angaben und nennt statt dessen
 einen Hinweis. Die Angaben stehen trotzdem in der Datei und sind mit einem Texteditor lesbar; darum gehört sie gelöscht.
 
+Seit v930 stehen die Werte in Eingabefeldern nicht mehr im Quelltext einer solchen Datei: in einem Chromium-Stand der
+Seite, wie ihn `page.content()` und die MHTML-Erfassung von Chromium liefern, stehen sie weder als Attribut noch als Inhalt
+eines Textfelds. Was die Anwendung als Text zeigt, steht weiter darin. Für „Seite speichern“ im Browser-Menü, für das
+Format „Nur HTML“, für Safari und Firefox ist es nicht gemessen.
+
 Weg zum Nachsehen: der Block `rahmen-schutz` im Kopf von `vivodepot.html` setzt beim Start die Marke `data-vd-lauf`; die
-Proben `tests/rahmen-schutz-ohne-header.test.js` und `tests/e2e/gesicherte-kopie.spec.js` halten das Verhalten.
+Proben `tests/rahmen-schutz-ohne-header.test.js` und `tests/e2e/gesicherte-kopie.spec.js` halten das Verhalten; für die
+Eingabefelder die Fälle `[Gesicherte Kopie·Datei]`, `[Gesicherte Kopie·Klasse]` mit Rot-Beweis, `[Gesicherte Kopie·Dokument]`
+und `[Gesicherte Kopie·Chromium]` in derselben Datei.
 
 ## 7 · Geltungs- und Verbindlichkeits-Hinweis
 
@@ -279,6 +286,11 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v930 | 2026-10-16 | privat-de | `7ef3f3cda0f7f6f52c093f15b2c10aacf08e71a0755b4c130f36d1645f560c46` |
+| v930 | 2026-10-16 | privat-en | `2e6410dbd26e6d47b303b8299bc392463ada51f87f537a0b9ff4142fb968c9a6` |
+| v930 | 2026-10-16 | pro-de | `812b9ba48389c0bdcb23e3b87dee692c82057b8cb5b9ab99003400511fb3ac60` |
+| v930 | 2026-10-16 | pro-en | `93bab5bcdfcf7162da98f8c132e6886b63ba686f407f9a9699fdd453d92ecdf5` |
+| v930 | 2026-10-16 | service-worker | `e76e8d1cc5485c4540e225f2fc03fcc092f1b67d28e1c8f89aaf3564498fdd36` |
 | v929 | 2026-10-15 | privat-de | `b378f160f2b8acd1d5e900eaa74335e7e7dc163307551d35cc136fdf2b2cde98` |
 | v929 | 2026-10-15 | privat-en | `28c12904131e7d325a6ccf74a6a8563e349efe08085af82aa8ca02de93a4c899` |
 | v929 | 2026-10-15 | pro-de | `52c89c8a209fb71b31268b56f4bc69e7f0932796b9758146060fe81f69f6a00a` |

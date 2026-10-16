@@ -6,13 +6,17 @@
   "richtung": "export",
   "schreiber": "xml@1",
   "sektor": "identity",
-  "label": "Probe-Antrag S99000001 (erfunden; nicht einreichbar ohne Anhang)",
+  "label": "Probe-Antrag S99000001 (erfunden)",
   "wurzel": "fim.S99000001.00000001001000",
   "namensraum": "urn:xoev-de:xfall:standard:fim-s99000001_1.0",
-  "hinweis": "Erfundene Probe: nicht einreichbar ohne Anhang",
   "zuordnung": [
     { "feld": "familyName", "ziel": "G99000002.F99000003" },
     { "feld": "givenName", "ziel": "G99000002.F99000004" },
-    { "fest": "true", "ziel": "G99000002.F99000005" }
+    { "fest": "true", "ziel": "G99000002.F99000005" },
+    { "anhang": "lichtbild", "ziel": "G99000002.F99000006" },
+    { "anhang": "vollmacht-nachweis", "ziel": "G99000007.F99000008" },
+    { "vertreter": "familyName", "ziel": "G99000007.F99000009" },
+    { "vertreter": "givenName", "ziel": "G99000007.F99000010" },
+    { "anhang": "bescheid", "ziel": "F99000011", "pflicht": true }
   ]
 }

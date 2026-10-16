@@ -4,7 +4,7 @@
    ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
    (1) „Ihr Zeichen“ in der Anfrage: der Vorschlag „Anfrage-<Datum>“ ist Platzhalter, nicht Text. Getipptes ersetzt ihn,
        statt an ihn angehängt zu werden; ein leeres Feld nimmt den Vorschlag.
-   (2) Eine Liste mit Unterfeldern bekommt unter „Ausprobieren“ einen Knopf mit Wirkung. Hier der DOM-freie Teil und die
+   (2) Eine Liste mit Unterfeldern bekommt unter „Vorschau“ einen Knopf mit Wirkung. Hier der DOM-freie Teil und die
        Bindung; das Antippen im Browser prüft tests/e2e-cross/T-CROSS-41-studio-vorfuehrpfad.spec.js.
    (3) Die Kennungen der Feldliste sind ab Werk eingeklappt und über einen Schalter erreichbar; was die Vorlage trägt, hängt
        am Schalter nicht (die Einreichung ist byte-gleich).
@@ -44,7 +44,7 @@ test('[Vorführpfad · Zeichen · Rot-Beweis] mit dem Vorschlag als Text hängt 
   assert.match(V.anfrageAssistentState().anfrage.vorgang, /^Anfrage-\d{4}-\d{2}-\d{2}MA-117$/);
 });
 
-/* ── (2) Liste unter „Ausprobieren“ ─────────────────────────────────────────────────────────────────────────── */
+/* ── (2) Liste unter „Vorschau“ ─────────────────────────────────────────────────────────────────────────── */
 const LISTE = { feldname: 'Weitere Personen', feldtyp: 'liste', unterFelder: [{ feldname: 'Vorname', feldtyp: 'text' }, { feldname: 'Geburtsdatum', feldtyp: 'datum' }] };
 function listenZweig(html) {
   const a = html.indexOf('function vorschauSteuer(f) {');
@@ -54,13 +54,13 @@ function listeSteuerKoerper(html) {
   const a = html.indexOf('function listeSteuer(box, f) {');
   return a < 0 ? '' : html.slice(a, html.indexOf('\n}\n', a));
 }
-test('[Vorführpfad · Liste] eine Liste mit Unterfeldern bekommt unter „Ausprobieren“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz', () => {
+test('[Vorführpfad · Liste] eine Liste mit Unterfeldern bekommt unter „Vorschau“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz', () => {
   const { V } = ladeGenerator();
   assert.deepEqual(nativ(V.listeUnterfelder(LISTE)).map((u) => u.feldname), ['Vorname', 'Geburtsdatum']);
   assert.deepEqual(nativ(V.listeUnterfelder({ feldtyp: 'liste' })), []);
   assert.match(listenZweig(HTML), /t === 'liste'\) listeSteuer\(box, f\)/, 'der Listenzweig geht über listeSteuer');
   const k = listeSteuerKoerper(HTML);
-  assert.match(k, /if \(probierenAn\) knopf\.addEventListener\('click'/, 'der Knopf wirkt unter „Ausprobieren“');
+  assert.match(k, /if \(probierenAn\) knopf\.addEventListener\('click'/, 'der Knopf wirkt unter „Vorschau“');
   assert.match(k, /listeEintragAnhaengen\(/);
   assert.match(k, /keine Unterfelder/, 'ohne Unterfelder ein Satz statt eines Knopfs');
 });
@@ -222,4 +222,142 @@ test('[Vorführpfad · Raumwechsel] ein neuer Raum beginnt oben, sofort und ohne
   assert.notEqual(ohneRueckfall, rumpf, 'Kontrolle: die Zeile wurde ersetzt');
   const ohne = new Function('window', '$', ohneRueckfall + '\n}\nreturn raumZeigen;')(fenster, () => null);
   assert.throws(() => ohne('bau'), TypeError, 'Rot-Beweis 2: ohne Rückfall wirft der Raumwechsel');
+});
+
+/* ── (7) Anordnung nach Bereichen (15.10.2026) ──────────────────────────────────────────────────────────────────
+   Ein Feld aus dem Register kommt in seinen Bereich, in Katalog-Reihenfolge; Identität & Person steht vorn. „Nach Bereichen
+   ordnen“ sortiert vorhandene Felder einmal so. Die Einreichung bleibt gültig und trägt die neue Reihenfolge. */
+const KAT = (V, kennung) => { const i = V.FELDKATALOG.findIndex((k) => k.kennung === kennung); assert.ok(i >= 0, kennung); return i; };
+const ERSTES_FINANZFELD = (V) => { const i = V.FELDKATALOG.findIndex((k) => k.bereich === 'finance' && k.kennung.indexOf('/') < 0 && k.kennung.indexOf('[') < 0); assert.ok(i >= 0); return i; };
+function vierPerPlus(V) {
+  V.STATE.felder = [];
+  for (const i of [KAT(V, 'identity.birthDate'), ERSTES_FINANZFELD(V), KAT(V, 'identity.givenName'), KAT(V, 'identity.familyName')]) V.feldEinfuegen(V.feldAusKatalog(i), null);
+  return V.STATE.felder.map((f) => f.bereich + ':' + f.feldname);
+}
+test('[Vorführpfad · Feldordnung] ein Feld per + kommt in seinen Bereich, in Katalog-Reihenfolge; Personendaten stehen vorn', () => {
+  const { V } = ladeGenerator();
+  V.spracheFuerProbeSetzen('de');
+  const reihe = vierPerPlus(V);
+  assert.deepEqual(reihe.map((x) => x.split(':')[0]), ['identity', 'identity', 'identity', 'finance']);
+  const namen = reihe.slice(0, 3).map((x) => x.split(':')[1]);
+  const erwartet = ['identity.givenName', 'identity.familyName', 'identity.birthDate']
+    .map((k) => V.FELDKATALOG[KAT(V, k)]).sort((a, b) => V.FELDKATALOG.indexOf(a) - V.FELDKATALOG.indexOf(b)).map((k) => k.label);
+  assert.deepEqual(namen, erwartet);
+});
+test('[Vorführpfad · Feldordnung · Rot-Beweis] ohne das Einordnen stehen die Felder in der Folge des Antippens', () => {
+  const zeile = '  if (pos == null && basis && basis._kennung) pos = einordnungsIndex(STATE.felder, basis);\n';
+  const { V } = ladeGenerator({ html: ersetzt(zeile, '') });
+  V.spracheFuerProbeSetzen('de');
+  assert.equal(vierPerPlus(V)[1].split(':')[0], 'finance');
+});
+function gemischt(V) {
+  const f = (i) => V.feldAusBasisBauen(V.feldAusKatalog(i), [], 0).feld;
+  return [f(ERSTES_FINANZFELD(V)), { feldname: 'Eigene Frage', feldtyp: 'text', pflicht: false, bereich: 'identity', provenienzPflichtig: true },
+    f(KAT(V, 'identity.birthDate')), f(KAT(V, 'identity.givenName'))];
+}
+test('[Vorführpfad · Feldordnung] „Nach Bereichen ordnen“: Bereiche in fester Folge, Katalog-Reihenfolge darin; die Einreichung ist gültig und trägt die Folge', () => {
+  const { V } = ladeGenerator();
+  V.spracheFuerProbeSetzen('de');
+  const sortiert = nativ(V.felderNachBereichen(gemischt(V)));
+  assert.deepEqual(sortiert.map((x) => x.bereich), ['identity', 'identity', 'identity', 'finance']);
+  assert.equal(sortiert[2].feldname, 'Eigene Frage', 'ein eigenes Feld steht hinter den Registerfeldern seines Bereichs');
+  const state = { felder: sortiert, anbieter: V.baueAnbieter({ anbieterName: 'Beispielstelle', strasse: 'Am Markt 2', plz: '99999', ort: 'Beispielstadt', land: 'Deutschland',
+    kontaktName: 'Ansprechperson', kontaktEmail: 'kontakt@beispielstadt.example' }), publicKeyJwk: { kty: 'OKP', crv: 'Ed25519', x: 'a' } };
+  const paket = V.baueSubmission(state);
+  assert.deepEqual(nativ(V.validiereSubmission(paket)), [], 'Einreich-Schema');
+  assert.notEqual(V.vorabUrteilVorlage(state).urteil, 'abgewiesen', 'Vorprüfung gegen den Torwächter des Kerns');
+  assert.deepEqual(nativ(paket.templates[0].felder).map((x) => x.feldname), sortiert.map((x) => x.feldname), 'die Einreichung trägt die neue Folge');
+  // Der Knopf ist da und gebunden.
+  assert.match(HTML, /<button type="button" class="sekundaer mini" id="tpl-ordnen" data-en="Sort by section">Nach Bereichen ordnen<\/button>/);
+  assert.match(HTML, /an\('tpl-ordnen', 'click', felderOrdnen\);/);
+  // Ziehen in die leere Fläche ordnet ein, Ziehen auf eine Karte setzt genau dorthin.
+  assert.match(HTML, /feldEinfuegen\(feldAusKatalog\(d\.idx\), z\.karte \? z\.index : null\)/);
+});
+test('[Vorführpfad · Feldordnung · Rot-Beweis] ein Ordnen, das nichts ordnet, fällt auf', () => {
+  const alt = ersetzt("  return felder.map((f, i) => ({ f, i, r: feldRang(f) })).sort((x, y) => feldRangVergleich(x.r, y.r) || x.i - y.i).map((x) => x.f);",
+    '  return felder.slice();');
+  const { V } = ladeGenerator({ html: alt });
+  assert.equal(nativ(V.felderNachBereichen(gemischt(V)))[0].bereich, 'finance');
+});
+
+/* ── (8) Kein Doppel aus dem Register (15.10.2026) ─────────────────────────────────────────────────────────────── */
+test('[Vorführpfad · Feldordnung] ein Registerfeld, das schon da ist, wird nicht noch einmal angelegt; das Studio sagt es', () => {
+  const { V, document } = ladeGenerator();
+  V.spracheFuerProbeSetzen('de');
+  V.STATE.felder = [];
+  const vor = KAT(V, 'identity.givenName');
+  V.feldEinfuegen(V.feldAusKatalog(vor), null);
+  V.feldEinfuegen(V.feldAusKatalog(vor), null);
+  V.feldEinfuegen(V.feldAusKatalog(vor), 0);   // auch an eine bestimmte Stelle gezogen nicht
+  assert.equal(V.STATE.felder.length, 1);
+  assert.match(document.getElementById('tpl-csv-status').textContent, /ist schon in der Vorlage/);
+  V.spracheFuerProbeSetzen('en');
+  V.feldEinfuegen(V.feldAusKatalog(vor), null);
+  assert.match(document.getElementById('tpl-csv-status').textContent, /is already in the template/);
+});
+test('[Vorführpfad · Feldordnung · Rot-Beweis] ohne die Prüfung entsteht ein zweiter „Vorname“', () => {
+  const { V } = ladeGenerator({ html: ersetzt('  const da = vorhandenesRegisterfeld(basis);\n', '  const da = -1;\n') });
+  V.STATE.felder = [];
+  const vor = KAT(V, 'identity.givenName');
+  V.feldEinfuegen(V.feldAusKatalog(vor), null); V.feldEinfuegen(V.feldAusKatalog(vor), null);
+  assert.equal(V.STATE.felder.length, 2);
+});
+
+/* ── (9) „Vorschau“ statt „Ausprobieren“ (15.10.2026) ─────────────────────────────────────────────────────────── */
+const OHNE_KOMMENTARE = (h) => h.replace(/<!--[\s\S]*?-->/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+const PROBIER_WORT = /Ausprobier|Probieren Sie|Try it|Try out|Try things/i;
+test('[Vorführpfad · Vorschau] der Knopf heißt „Vorschau“ / „Preview“, und kein Studio-Text sagt mehr „Ausprobieren“ oder „Try out“', () => {
+  assert.match(HTML, /<button type="button" id="ansicht-probieren" aria-pressed="false" data-en="Preview">Vorschau<\/button>/);
+  assert.match(HTML, /<button type="button" id="ansicht-bauen" aria-pressed="true" data-en="Edit">Bearbeiten<\/button>/);
+  assert.doesNotMatch(OHNE_KOMMENTARE(HTML), PROBIER_WORT);
+});
+test('[Vorführpfad · Vorschau · Rot-Beweis] der alte Knopftext fällt auf, deutsch und englisch', () => {
+  const alt = ersetzt('data-en="Preview">Vorschau</button>', 'data-en="Try it">Ausprobieren</button>');
+  assert.match(OHNE_KOMMENTARE(alt), PROBIER_WORT);
+  assert.match(OHNE_KOMMENTARE(HTML.replace('data-en="Preview">Vorschau</button>', 'data-en="Try it out">Vorschau</button>')), PROBIER_WORT);
+});
+
+/* ── (10) Anfrage: Ergebnis in der Reihenfolge Brief, Passwort, Link; jeder Knopf sagt, für wen; Hinweis zur Signatur ─ */
+function ergebnisKoerper(html) {
+  const a = html.indexOf('async function anfrageAssistentErzeugen');
+  return html.slice(a, html.indexOf('\n}\n', a));
+}
+test('[Vorführpfad · Anfrage] das Ergebnis zeigt zuerst den Brief, dann das Passwort, dann den Link; jeder Knopf sagt, für wen die Datei ist', () => {
+  const k = ergebnisKoerper(HTML);
+  const i = ["'1. Der Brief für die Person'", "'2. Das Passwort (für Sie und die Person)'", "'3. Der Link allein"].map((t) => k.indexOf(t));
+  assert.ok(i.every((x) => x > 0) && i[0] < i[1] && i[1] < i[2], JSON.stringify(i));
+  for (const t of ['Brief speichern (Text, für die Person)', 'Save letter (text, for the person)', 'Anfrage als Datei speichern (für die Person, zum Anhängen)',
+    'Save request as a file (for the person, to attach)', 'Passwort-Zettel speichern (für die Person, getrennt vom Brief)', 'Save password note (for the person, separate from the letter)']) assert.ok(k.includes(t), t);
+  assert.ok(!/herunterladen'|'Download /.test(k), 'kein Knopf ohne Empfänger');
+  assert.match(HTML, /Die Person sieht „Nicht geprüft“, weil Ihre Anfrage nicht signiert ist\. Fragen können Sie trotzdem\. .*den brauchen Sie jetzt nicht\./);
+  assert.match(HTML, /data-en="The person sees “Not verified” because your request is not signed\. You can still ask\. .*you do not need one now\."/);
+  assert.match(HTML, /data-en="Attach the submission file that was just saved \(not the key file\)\.">Hängen Sie die Einreichungs-Datei an, die gerade gespeichert wurde \(nicht die Schlüsseldatei\)\.<\/li>/);
+});
+test('[Vorführpfad · Anfrage · Rot-Beweis] die frühere Reihenfolge und ein Knopf ohne Empfänger fallen auf', () => {
+  const alt = ersetzt("[L('Brief speichern (Text, für die Person)', 'Save letter (text, for the person)')]", "[L('Brieftext herunterladen', 'Download letter')]");
+  assert.ok(/herunterladen'|'Download /.test(ergebnisKoerper(alt)));
+  const k = ergebnisKoerper(HTML.replace("'1. Der Brief für die Person'", "'9. Der Brief für die Person'"));
+  assert.equal(k.indexOf("'1. Der Brief für die Person'"), -1);
+});
+
+/* ── (11) Wörter für Laien, Runde 2 (15.10.2026) ──────────────────────────────────────────────────────────────── */
+const RUNDE2 = [
+  ['Für IT-Fachleute: Bausteine, Formate und Prüfwerkzeuge.', 'For IT specialists: building blocks, formats and checking tools.'],
+  ['Ihr Aktenzeichen (freiwillig)', 'Your file reference (optional)'],
+  ['In welchem Land gilt das Recht, nach dem Sie fragen? (freiwillig; leer lassen, wenn Sie es nicht wissen)', 'In which country does the law apply that you are asking under? (optional; leave empty if you do not know)'],
+  ['An welche E-Mail-Adresse soll die Person ihre Antwort schicken?', 'To which e-mail address should the person send the reply?'],
+  ['Für Fortgeschrittene: mit eigenem Schlüsselpaar (Fachebene)', 'For advanced users: with your own key pair (expert view)'],
+  ['Alle Felder ansehen (Register)', 'See all fields (register)'],
+  ['Technische Namen (Kennungen) zeigen', 'Show technical names (identifiers)'],
+  ['Die Dateien liegen danach auf Ihrem Gerät im Ordner „Downloads“.', 'After saving, the files are in your device’s “Downloads” folder.'],
+];
+const RUNDE2_ALT = ['Für Integratoren:', 'For integrators:', 'Ihr Zeichen für diesen Vorgang', 'Nach welchem Recht fragen Sie?', 'Wohin schickt die Person die Datei?',
+  'Stattdessen mit eigenem Schlüsselpaar', 'Register ansehen', '>Kennungen zeigen<'];
+const runde2Befunde = (h) => RUNDE2.flat().filter((t) => !h.includes(t)).concat(RUNDE2_ALT.filter((t) => h.includes(t)));
+test('[Vorführpfad · Wörter] die Laien-Wörter stehen deutsch und englisch, die alten sind fort', () => {
+  assert.deepEqual(runde2Befunde(HTML), []);
+});
+test('[Vorführpfad · Wörter · Rot-Beweis] ein altes Wort zurück fällt auf', () => {
+  const alt = ersetzt('Ihr Aktenzeichen (freiwillig)', 'Ihr Zeichen für diesen Vorgang');
+  assert.deepEqual(runde2Befunde(alt), ['Ihr Aktenzeichen (freiwillig)', 'Ihr Zeichen für diesen Vorgang']);
 });

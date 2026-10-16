@@ -221,6 +221,8 @@ const EXPORT_HOOK = `
   antwortJweOeffnen, antwortStudioModell, antwortFehlerText,
   // Befund STUDIO-EMPFEHLUNG-OHNE-WEG (10.10.2026) — jede Meldung der Prüfung hat ein Ziel, Schritt 3 einen Knopf „Beheben“
   MELDUNG_ZIEL, meldungZiel, meldungBeheben, pruefZeile, STAMMDATEN_FEHLER_FELD,
+  // Anordnung nach Bereichen (15.10.2026)
+  FELD_BEREICH_REIHENFOLGE, feldKatalogIndex, feldRang, einordnungsIndex, felderNachBereichen, felderOrdnen, feldEinfuegen,
   // Studio auf dem Weg der Vorführung (14.10.2026): Zeichen als Vorschlag, Listen unter „Ausprobieren“, Kennungen eingeklappt, Erscheinungsbild-Satz
   anfrageVorgang, listeUnterfelder, paletteKennungKlein, brandingOhneSignaturSatz,
   paletteKennungenSetzen: (w) => { paletteKennungenZeigen = !!w; }, paletteKennungenAbWerk: () => paletteKennungenZeigen,

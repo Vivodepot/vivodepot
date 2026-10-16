@@ -129,7 +129,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 261239
+   "bytes": 263037
   },
   "satz": {
    "bytes": 28740
@@ -1523,6 +1523,83 @@
    "auf": 261239,
    "daneben": {},
    "grund": "+9 Byte: das Literal 'textsatz' im Modul-Einlass (eine Meldung statt zwei, ohne technische Textkennungen), 14.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261239,
+   "auf": 262258,
+   "daneben": {},
+   "grund": "+1019 Byte: Anhänge im FIM-Format-Modul (Dateiwahl, Rollen, Gründe), abzüglich der zusammengeführten Gründe-Liste (_gruendeAlsListeHTML), v930, 15.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261239,
+   "auf": 261509,
+   "daneben": {},
+   "grund": "Prüfhinweis fremde Signatur (v930), +270 Byte, relativ zu 17edb07df",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261239,
+   "auf": 261302,
+   "daneben": {},
+   "grund": "Hinweis-Absatz sub-anlegen-nur-anker im betretenen Sub-Depot: statt der Knöpfe Anlegen und Einhängen ein Absatz mit Kennung und Klasse (Befund SUB-DEPOT-ANLEGEN-IM-SUB-KONTEXT); der Text liegt im Textsatz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261239,
+   "auf": 261250,
+   "daneben": {},
+   "grund": "15.10.2026, relativ +11 Byte zu b78eff701: die PDF-Vorschau zeichnet Name und Größe statt eines leeren Rahmens (PDF-VORSCHAU-VON-CSP-BLOCKIERT); dazu BUILD_DATUM und zwei Ab-Werk-Fingerabdrücke v929, Aufteilung aus dem Diff gelesen; Einzelwort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261239,
+   "auf": 261350,
+   "daneben": {},
+   "grund": "Antwort-Seed (v930): Konstanten, Zugang und Gültigkeitsprüfung des Seeds, zwei Ausgabe-Sperren",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261350,
+   "auf": 261421,
+   "daneben": {},
+   "grund": "stellenKennung zeichengleich im Kern (Lese-App liest signierte Antworten, U2-ADR-501), ohne Aufrufer bis zur Ableitung je Stelle; relativ +71",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261239,
+   "auf": 261492,
+   "daneben": {},
+   "grund": "15.10.2026, relativ +253 Byte zu b78eff701: Feldwerte als Eigenschaft (GESICHERTE-KOPIE-TRAEGT-KLARTEXT), Beobachter und Helfer mit Selektor- und Attributnamen, drei Einträge der Testfläche, dazu BUILD_DATUM, v930-Kommentar und zwei Ab-Werk-Fingerabdrücke v929; Aufteilung aus Diff gelesen; Einzelwort der Gegenlesung",
    "laengste": {
     "einzel": 0,
     "lauf": 64

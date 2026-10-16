@@ -56,7 +56,7 @@ test('Zug 4a: eine Datei innerhalb der Grenze wird ganz normal abgelegt (Gegenpr
   await expect(page.locator('[data-mappe-id]')).toHaveCount(1);
 });
 
-test('Zug 4b: PDF-Vorschau nutzt eine blob:-URL (nicht data:) und ein Herunterladen-Knopf funktioniert', async ({ page }) => {
+test('Zug 4b: PDF-Vorschau nennt Name und Größe ohne Rahmen, und ein Herunterladen-Knopf funktioniert', async ({ page }) => {
   const inhalt = '%PDF-1.4 Zug4b Testinhalt, byte-genau geprüft';
   await dateiHochladen(page, { name: 'eigenes-dokument.pdf', mimeType: 'application/pdf', buffer: Buffer.from(inhalt, 'utf8') });
   await page.locator('#mappe-besch').waitFor({ state: 'visible' });
@@ -64,10 +64,10 @@ test('Zug 4b: PDF-Vorschau nutzt eine blob:-URL (nicht data:) und ein Herunterla
   await page.click('#m-ok');
 
   await page.click('[data-mappe-id]');
-  const iframe = page.locator('iframe.mappe-vorschau-pdf');
-  await expect(iframe).toBeVisible();
-  const src = await iframe.getAttribute('src');
-  expect(src, 'die Vorschau muss über eine Objekt-URL laufen, keine data:-URL (die blockieren Chrome/Edge/Firefox im iframe)').toMatch(/^blob:/);
+  // 15.10.2026: kein Rahmen mehr, die Richtlinie der Anwendung blockierte ihn (Befund PDF-VORSCHAU-VON-CSP-BLOCKIERT,
+  // tests/e2e/pdf-vorschau-rahmen.spec.js). Die Vorschau nennt Name und Größe; das Herunterladen öffnet die Datei.
+  await expect(page.locator('iframe')).toHaveCount(0);
+  await expect(page.locator('.mappe-vorschau-datei')).toContainText('eigenes-dokument.pdf');
 
   // Herunterladen-Knopf: vorher nur für autoritative FHIR-Importe gebaut — hier ein EIGENER Upload.
   const knopf = page.locator('[data-mappe-herunterladen]');

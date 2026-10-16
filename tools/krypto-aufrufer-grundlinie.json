@@ -39,8 +39,8 @@
    "grund": " · U2-ADR-457 Nachtrag v865: _halterSignaturHolen reicht die eingebettete noble-ed25519 (fa14496) in deriveHalterSignaturV4; genau eine Stelle, Bedingung der Krypto-Gegenlesung"
   },
   "verify": {
-   "anzahl": 1,
-   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
+   "anzahl": 2,
+   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026 · X.509-Leser (Wagen G, Entscheidung 15.10.2026 „eigener Leser“): genau eine neue ECDSA-Prüfstelle in _x509EcdsaPruefen, Spanne X509-LESER; Wort der Gegenlesung 15.10."
   },
   "sign": {
    "anzahl": 1,

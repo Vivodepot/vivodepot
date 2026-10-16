@@ -24,6 +24,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { _entwicklerleisteSchneiden } = require('../tools/lib/produkt-text-erzeugen.js');
 
 const WURZEL = path.join(__dirname, '..');
 const DATEIEN = ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-studio.html'];
@@ -78,6 +79,9 @@ const POSITIVLISTE = {
   'vivodepot.html|_ebTtfCmap|pid': { anzahl: 2, art: 'begriff', grund: 'Schriftparser: platformID' },
   'vivodepot.html|YB_ZEICHEN|mdoc': { anzahl: 1, art: 'begriff', grund: 'Zeichenfolge in eingebettetem Bild (base64)' },
   'vivodepot.html|Ba|eid': { anzahl: 1, art: 'begriff', grund: 'eingebettete Bibliothek (jsPDF/pako)' },
+  // 15.10.2026, Wort der Gegenlesung: der OID4VP-Spike in einer ENTWICKLERLEISTE-Spanne, aus jedem Produkt geschnitten (Probe unten).
+  'vivodepot.html|_OID4VP_JWS_ALGS|oid4vp': { anzahl: 1, art: 'begriff', grund: 'Spike, Entwicklerleiste: erlaubte JWS-Algorithmen der OID4VP-Anfrage (tests/oid4vp-spike.test.js)' },
+  'vivodepot.html|_oid4vpJwsPruefen|oid4vp': { anzahl: 3, art: 'begriff', grund: 'Spike, Entwicklerleiste: Prüfung der OID4VP-Anfrage-JWS (tests/oid4vp-spike.test.js)' },
   'vivodepot-lesen.html|TEXTSATZ_EINGEBAUT_LESEN|wallet': { anzahl: 2, art: 'begriff', grund: 'Krypto-Wallet-Bezeichnungen' },
   'vivodepot-lesen.html|SEKTOREN|wallet': { anzahl: 8, art: 'begriff', grund: 'Krypto-Wallet-Felder und Icon' },
   'vivodepot-lesen.html|SEKTOREN|eid': { anzahl: 1, art: 'begriff', grund: 'Beispieltext eines BundID-Felds (Vertrauensniveau)' },
@@ -169,4 +173,30 @@ test('[Ohne Wallet·Rot-Beweis] je Musterklasse fällt eine neue Stelle ohne Ein
     ['vivodepot.html|gelistet|wallet: 2 Fundzeilen statt 1']);
   const nurWalletArten = "['wallet']".slice(1, -1).split(',').map((s) => s.trim().replace(/['"]/g, ''));
   assert.equal(nurWalletArten.some((a) => a === 'einmalpasswort' || a === 'schluesselpaar'), false, 'eine Liste nur mit wallet fiele');
+});
+
+/* Einträge mit „Spike, Entwicklerleiste" im Grund (15.10.2026): ihre Definition muss in einer ENTWICKLERLEISTE-Spanne liegen —
+   im Kern vorhanden, nach dem Schnitt fort. Sonst stünde ein Produktweg unter dem Etikett des Spikes in der Liste. */
+const SPIKE_GRUND = /Spike, Entwicklerleiste/;
+function definitionDa(text, name) { return new RegExp('^(?:async )?function ' + name + '\\(|^(?:const|let|var) ' + name + '\\b', 'm').test(text); }
+function spikeEintraegeAusserhalb(texte, positiv = POSITIVLISTE) {
+  return Object.entries(positiv).filter(([, e]) => SPIKE_GRUND.test(e.grund)).map(([k]) => k).filter((k) => {
+    const [datei, name] = k.split('|');
+    const text = texte[datei] || '';
+    return !definitionDa(text, name) || definitionDa(_entwicklerleisteSchneiden(text, datei), name);
+  });
+}
+
+test('[Ohne Wallet·Spike] jeder Eintrag „Spike, Entwicklerleiste" nennt eine Definition in einer Entwicklerleisten-Spanne', () => {
+  const spike = Object.entries(POSITIVLISTE).filter(([, e]) => SPIKE_GRUND.test(e.grund)).map(([k]) => k);
+  assert.deepEqual(spike.sort(), ['vivodepot.html|_OID4VP_JWS_ALGS|oid4vp', 'vivodepot.html|_oid4vpJwsPruefen|oid4vp'], 'Positivkontrolle: die zwei Spike-Einträge');
+  assert.deepEqual(spikeEintraegeAusserhalb(TEXTE), []);
+});
+
+test('[Ohne Wallet·Spike·Rot-Beweis] ein Eintrag „Spike, Entwicklerleiste" auf einer Produktdefinition fällt, ebenso einer ohne Definition', () => {
+  const falsch = {
+    'vivodepot.html|formatAusgabeErzeugen|wallet': { anzahl: 2, art: 'begriff', grund: 'Spike, Entwicklerleiste: falsch etikettiert' },
+    'vivodepot.html|gibtEsNicht|oid4vp': { anzahl: 1, art: 'begriff', grund: 'Spike, Entwicklerleiste: fort' },
+  };
+  assert.deepEqual(spikeEintraegeAusserhalb(TEXTE, falsch).sort(), Object.keys(falsch).sort());
 });

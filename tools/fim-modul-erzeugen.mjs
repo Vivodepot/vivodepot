@@ -12,9 +12,12 @@
      · die Zuordnung des Moduls folgt der Elementfolge des XSD; ein Pfad, den das XSD nicht kennt, ist ein Fehler.
      · `fest` und die Zielwerte in `werte` müssen in der Aufzählung des Elements stehen, wenn es eine hat.
      · ein Pflichtelement ohne Zuordnung wird als Lücke BENANNT (Pfad), nicht gefüllt.
-     · Elemente vom Typ xs:anyType sind Anhänge. Die erste Stufe schreibt keinen Anhang; hat das Schema einen, verlangt
-       das Werkzeug einen `hinweis` in der Zuordnung — sonst erzeugt es nichts. Der Wortlaut kommt aus der Zuordnung,
-       nicht aus dem Werkzeug.
+     · Elemente vom Typ xs:anyType sind Anhänge. Sie werden nur über eine ROLLE zugeordnet (`anhang`: bescheid,
+       vollmacht-nachweis, lichtbild — die Liste des Kerns, FORMAT_ANHANG_ROLLEN), nie über ein Feld; `pflicht` übernimmt
+       das Werkzeug aus dem XSD (U2-ADR-465 Nachtrag). Bleibt ein Pflicht-Anhang ohne Zuordnung, verlangt das Werkzeug
+       einen `hinweis` in der Zuordnung — sonst erzeugt es nichts. Der Wortlaut kommt aus der Zuordnung, nicht aus dem
+       Werkzeug.
+     · `vertreter` (ein Feld der bevollmächtigten Person) nur zusammen mit der Rolle vollmacht-nachweis.
    Aufruf:
      node tools/fim-modul-erzeugen.mjs --xsd <pfad> --zuordnung <pfad> --ziel <modul.json>
      node tools/fim-modul-erzeugen.mjs            (erfundene Leistung S99000001, Ausgabe nach stdout)
@@ -31,6 +34,11 @@ export const FIXTURE = Object.freeze({
   xsd: path.join(FX, 'S99000001-antrag.xsd'),
   zuordnung: path.join(FX, 'S99000001-zuordnung.json'),
 });
+
+/* Die Rollen und Personenfelder des Kerns (FORMAT_ANHANG_ROLLEN, FORMAT_VERTRETER_FELDER) — Gleichlauf hält
+   tests/fim-modul-erzeugen.test.js. */
+export const ANHANG_ROLLEN = Object.freeze(['bescheid', 'vollmacht-nachweis', 'lichtbild']);
+export const VERTRETER_FELDER = Object.freeze(['familyName', 'givenName', 'street', 'houseNumber', 'postalCode', 'city']);
 
 const attr = (tag, name) => (new RegExp('\\s' + name + '="([^"]*)"').exec(tag) || [])[1];
 
@@ -75,15 +83,31 @@ export function modulErzeugen(xsdText, zuordnung) {
   const z = zuordnung.felder || {};
   const fehler = [];
   for (const p of Object.keys(z)) if (!jePfad.has(p)) fehler.push('Pfad nicht im Schema: ' + p);
-  const anhaenge = liste.filter((b) => b.anhang).map((b) => b.pfad);
-  if (anhaenge.length && !(typeof zuordnung.hinweis === 'string' && zuordnung.hinweis.trim()))
-    fehler.push('das Schema hat Anhänge (' + anhaenge.length + '), die erste Stufe schreibt keine: ohne `hinweis` in der Zuordnung kein Modul');
+  const offen = liste.filter((b) => b.anhang && b.pflicht && !(z[b.pfad] && z[b.pfad].anhang)).map((b) => b.pfad);
+  if (offen.length && !(typeof zuordnung.hinweis === 'string' && zuordnung.hinweis.trim()))
+    fehler.push('das Schema hat Pflicht-Anhänge ohne Zuordnung (' + offen.length + '): ohne `hinweis` in der Zuordnung kein Modul');
+  const rollen = Object.values(z).filter((e) => e && e.anhang).map((e) => e.anhang);
+  if (new Set(rollen).size !== rollen.length) fehler.push('eine Anhang-Rolle ist mehrfach zugeordnet');
+  if (Object.values(z).some((e) => e && e.vertreter) && !rollen.includes('vollmacht-nachweis'))
+    fehler.push('`vertreter` nur mit der Anhang-Rolle vollmacht-nachweis');
   const eintraege = [];
   const luecken = [];
   for (const b of liste) {
     const e = z[b.pfad];
-    if (b.anhang) { if (e) fehler.push('Anhang ist in der ersten Stufe nicht zuordenbar: ' + b.pfad); if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'anhang' }); continue; }
+    if (b.anhang) {
+      if (!e) { if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'anhang' }); continue; }
+      if (!e.anhang || Object.keys(e).some((k) => k !== 'anhang')) { fehler.push('Anhang nur über eine Rolle (`anhang`) zuordenbar: ' + b.pfad); continue; }
+      if (!ANHANG_ROLLEN.includes(e.anhang)) { fehler.push(b.pfad + ': unbekannte Anhang-Rolle ' + e.anhang); continue; }
+      eintraege.push(b.pflicht ? { anhang: e.anhang, ziel: b.pfad, pflicht: true } : { anhang: e.anhang, ziel: b.pfad });
+      continue;
+    }
     if (!e) { if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'ohne-zuordnung' }); continue; }
+    if (e.anhang) { fehler.push(b.pfad + ': `anhang` nur an einem Element vom Typ xs:anyType'); continue; }
+    if (e.vertreter) {
+      if (Object.keys(e).some((k) => k !== 'vertreter') || !VERTRETER_FELDER.includes(e.vertreter)) fehler.push(b.pfad + ': `vertreter` allein, mit einem Feld aus ' + VERTRETER_FELDER.join(', '));
+      else eintraege.push({ vertreter: e.vertreter, ziel: b.pfad });
+      continue;
+    }
     const hatFest = Object.prototype.hasOwnProperty.call(e, 'fest');
     if (hatFest === !!e.feld) { fehler.push(b.pfad + ': genau eines von `feld` und `fest`'); continue; }
     if (b.enum.length) {

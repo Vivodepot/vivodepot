@@ -1,0 +1,6 @@
+{
+ "zweck": "x509-limbo-Fälle im Umfang, erwartet FAILURE, die der Leser heute annimmt und die als offener Befund mit dieser Kennung geführt werden. Geduldet nur, solange der Befund offen ist (die interne Kopplungsprobe prüft es); ist er geschlossen oder entschieden, muss der Fall abgewiesen werden oder die Zeile hier fallen. Kein Teil von bewusst-anders.json — diese Liste schrumpft mit der Ratsche. Angelegt 15.10.2026 nach dem gemessenen Lauf.",
+ "faelle": [
+  {"id": "webpki::san::san-critical-with-nonempty-subject", "kennung": "X509-SAN-KRITISCH-BEI-SUBJECT-ANGENOMMEN"}
+ ]
+}

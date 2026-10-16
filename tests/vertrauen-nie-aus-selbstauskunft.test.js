@@ -461,3 +461,65 @@ test('[Vertrauen·Lexer-Tabelle] REGEX_KANN_FOLGEN_AUF enthält nur einzelne Sat
 test('[Vertrauen·Lexer-Tabelle·Rot-Beweis] ein Eintrag wie \'foo\' wird gefunden', () => {
   assert.deepEqual(lexerTabelleFehler("const REGEX_KANN_FOLGEN_AUF = new Set(['(', 'foo', '\\n']);"), ['"foo"']);
 });
+
+/* Die Signatur der Antwort (U2-ADR-501, Punkt 2 und 12): sie zeigt Unverändertheit und Schlüsselkontinuität, nie, wer antwortet.
+   Darum sagt KEIN Text der Lese-App zum Signaturstand „geprüft“, „verifiziert“ oder „echt“ — gefunden nach der Klasse (jeder
+   Textschlüssel `antwort…Signatur…`, Deutsch und Englisch), nicht nach einer Liste. Die Wortprobe der Anzeige im Einzelnen:
+   tests/lese-app-signierte-antwort.test.js. */
+const SIGNATUR_URTEIL = /geprüft|geprueft|verifiziert|\becht\b|verified|genuine|authentic/i;
+/* Verneinte Sätze, die nicht urteilen: eine GESCHLOSSENE Liste wörtlicher Sätze, kein Muster (Wort der Gegenlesung 15.10.2026,
+   mit der Auflage: je Satz ein Rot-Beweis, dass dieselbe Aussage ohne Verneinung rot bleibt). Ein neuer verneinter Satz kommt nur
+   mit Wort hier hinein. Herausgenommen wird genau der gelistete Satz, sonst nichts. */
+const SIGNATUR_VERNEINT_WOERTLICH = Object.freeze([
+  ['de', 'Die Anfrage trug kein Zertifikat; wer sie gestellt hat und wer die Antwort gelesen hat, ist nicht geprüft.',
+    'Die Anfrage trug kein Zertifikat; wer sie gestellt hat und wer die Antwort gelesen hat, ist geprüft.'],
+  ['en', 'The request carried no certificate; who made it and who read the reply is not verified.',
+    'The request carried no certificate; who made it and who read the reply is verified.'],
+]);
+function signaturUrteile(de, en) {
+  const f = [];
+  for (const k of Object.keys(de).filter((x) => /^antwort\w*Signatur/.test(x))) {
+    for (const [sprache, text] of [['de', de[k]], ['en', en[k]]]) {
+      if (typeof text !== 'string') continue;
+      let rest = text;
+      for (const [, verneint] of SIGNATUR_VERNEINT_WOERTLICH) rest = rest.split(verneint).join(' ');
+      if (SIGNATUR_URTEIL.test(rest)) f.push(k + ' (' + sprache + ')');
+    }
+  }
+  return f;
+}
+test('[Vertrauen·Signatur] kein Text des Signaturstands der Antwort sagt „geprüft“, „verifiziert“ oder „echt“', () => {
+  const { V } = require('./load-lesen.js').ladeLesen();
+  const de = Object.fromEntries(Object.keys(V.STRINGS).map((k) => [k, V.STRINGS[k]]));
+  assert.ok(Object.keys(de).filter((x) => /^antwort\w*Signatur/.test(x)).length >= 4, 'Ausbeute: die Klasse ist nicht leer');
+  assert.deepEqual(signaturUrteile(de, V.LESE_TEXTE_EN), []);
+  assert.deepEqual(verneintOhneGegenstand(de, V.LESE_TEXTE_EN), []);
+});
+/* Jeder gelistete Satz steht wörtlich unter einem Schlüssel der Klasse (/^antwort\w*Signatur/), in der Tabelle seiner Sprache —
+   nicht irgendwo. Sonst nähme die Ausnahme einen Satz heraus, den die Klasse gar nicht prüft, oder hinge an keinem Text mehr. */
+function verneintOhneGegenstand(de, en) {
+  const tabelle = { de, en };
+  return SIGNATUR_VERNEINT_WOERTLICH
+    .filter(([sprache, verneint]) => !Object.keys(tabelle[sprache] || {}).some((k) => /^antwort\w*Signatur/.test(k) && tabelle[sprache][k] === verneint))
+    .map(([sprache, verneint]) => sprache + ': ' + verneint);
+}
+test('[Vertrauen·Signatur·Gegenstand·Rot-Beweis] derselbe Satz unter einem Schlüssel außerhalb der Klasse macht die Probe rot', () => {
+  const [[, satzDe], [, satzEn]] = SIGNATUR_VERNEINT_WOERTLICH;
+  assert.deepEqual(verneintOhneGegenstand({ antwortSignaturOhneZertifikat: satzDe }, { antwortSignaturOhneZertifikat: satzEn }), [], 'Gegenprobe: in der Klasse grün');
+  assert.deepEqual(verneintOhneGegenstand({ antwortOhneZertifikat: satzDe }, { antwortSignaturOhneZertifikat: satzEn }), ['de: ' + satzDe]);
+  assert.deepEqual(verneintOhneGegenstand({ antwortSignaturOhneZertifikat: satzDe }, { antwortOhneZertifikat: satzEn }), ['en: ' + satzEn]);
+  assert.deepEqual(verneintOhneGegenstand({ antwortSignaturOhneZertifikat: satzEn }, { antwortSignaturOhneZertifikat: satzDe }).length, 2, 'falsche Sprache: rot');
+});
+test('[Vertrauen·Signatur·Rot-Beweis] ein neuer Signaturtext mit „verifiziert“ wird gefunden, ohne in einer Liste zu stehen', () => {
+  assert.deepEqual(signaturUrteile({ antwortSignaturNeuerText: 'Signatur verifiziert' }, {}), ['antwortSignaturNeuerText (de)']);
+  // Nur der wörtlich gelistete Satz ist ausgenommen: eine andere Verneinung bleibt rot.
+  assert.deepEqual(signaturUrteile({ antwortSignaturVerneint: 'Wer antwortet, ist nicht geprüft.' }, {}), ['antwortSignaturVerneint (de)']);
+});
+test('[Vertrauen·Signatur·Rot-Beweis] je gelistetem verneintem Satz: derselbe Satz ohne Verneinung ist rot, der gelistete nicht', () => {
+  for (const [, verneint, bejaht] of SIGNATUR_VERNEINT_WOERTLICH) {
+    assert.deepEqual(signaturUrteile({ antwortSignaturProbe: verneint }, {}), [], 'gelistet: ' + verneint);
+    assert.deepEqual(signaturUrteile({ antwortSignaturProbe: bejaht }, {}), ['antwortSignaturProbe (de)'], 'ohne Verneinung rot: ' + bejaht);
+    // Ein Urteil neben dem gelisteten Satz bleibt eines.
+    assert.deepEqual(signaturUrteile({ antwortSignaturProbe: verneint + ' Signatur verifiziert.' }, {}), ['antwortSignaturProbe (de)']);
+  }
+});

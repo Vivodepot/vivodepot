@@ -130,7 +130,8 @@ const REGISTRY = [
     original: { datei: 'vivodepot.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ZUORDNUNG_SCHLUESSEL' }],
     // U2-ADR-465: `bereich`, `fest`, `werte`, `teil` sind benannte Ausnahmen, Grund wie oben bei `namensraum`.
-    ausnahmen: ['bereich', 'fest', 'werte', 'teil'] },
+    // U2-ADR-465 Nachtrag: `anhang`, `pflicht`, `vertreter` aus demselben Grund (nur XML-Ausgabe-Module, die das Studio nicht erzeugt).
+    ausnahmen: ['bereich', 'fest', 'werte', 'teil', 'anhang', 'pflicht', 'vertreter'] },
   { label: 'BRANDING_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'BRANDING_MODUL_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'BRANDING_MODUL_SCHLUESSEL' }] },

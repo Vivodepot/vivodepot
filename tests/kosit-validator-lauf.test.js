@@ -75,8 +75,9 @@ test('[KoSIT·Szenario] das Szenario greift am Namensraum des Schemas, die Fixtu
   const modul = JSON.parse(fs.readFileSync(FIXTURE.modul, 'utf8'));
   assert.equal(modul.wurzel, k.wurzel);
   assert.equal(modul.namensraum, k.ns);
-  assert.match(modul.hinweis, /nicht einreichbar ohne Anhang/);
-  assert.match(modul.label, /nicht einreichbar ohne Anhang/);
+  // U2-ADR-465 Nachtrag: jeder Pflicht-Anhang ist über eine Rolle zugeordnet, also trägt das Modul keinen Hinweis mehr
+  assert.ok(modul.zuordnung.some((z) => z.anhang && z.pflicht), 'die erfundene Leistung hat einen Pflicht-Anhang');
+  assert.equal(modul.hinweis, undefined);
 });
 
 test('[KoSIT·Lauf] der KoSIT-Validator 1.6.3 ist beschafft', async (t) => {
@@ -84,12 +85,13 @@ test('[KoSIT·Lauf] der KoSIT-Validator 1.6.3 ist beschafft', async (t) => {
   assert.equal(v.ok, true, 'ungemessen: ' + v.grund);
 });
 
-test('[KoSIT·Lauf] die Datei des Kerns erfüllt das Schema der Leistung und trägt den Hinweis', async (t) => {
+test('[KoSIT·Lauf] die Datei des Kerns mit eingebetteten Anhängen erfüllt das Schema der Leistung', async (t) => {
   const { a, v } = await umgebungOderTodo(t);
   assert.equal(v.ok, true, 'ungemessen: ' + v.grund);
   const [fall] = await a.artefakte();
   assert.equal(fall.herkunft, 'generator');
-  assert.match(fs.readFileSync(fall.pfad, 'utf8'), /^<\?xml[^>]*\?>\n<!-- [^\n]*nicht einreichbar ohne Anhang -->\n/);
+  // KoSIT prüft hier den Rest der Datei: die Anhang-Elemente sind xs:anyType. Rundlauf und Base64-Form: tests/fim-anhang.test.js
+  assert.match(fs.readFileSync(fall.pfad, 'utf8'), /<F99000011>[A-Za-z0-9+/=]+<\/F99000011>/, 'der Pflicht-Anhang steht in der Datei');
   const u = a.urteile(v, fall.pfad);
   assert.equal(u.gelesen, true, u.fehler.join(' | '));
   assert.equal(u.gueltig, true, u.fehler.join(' | '));
@@ -103,4 +105,15 @@ test('[KoSIT·Lauf·Rot-Beweis] fehlt ein Pflichtfeld im Depot, lehnt KoSIT die 
   assert.equal(u.gelesen, true, u.fehler.join(' | '));
   assert.equal(u.gueltig, false);
   assert.ok(u.fehler.some((f) => /cvc-complex-type/.test(f)), u.fehler.join(' | '));
+});
+
+test('[KoSIT·Lauf·Rot-Beweis] ohne den Pflicht-Anhang lehnt KoSIT die Datei ab', async (t) => {
+  const { a, v } = await umgebungOderTodo(t);
+  assert.equal(v.ok, true, 'ungemessen: ' + v.grund);
+  const [fall] = await a.ohnePflichtAnhang();
+  assert.ok(fall, 'die erfundene Leistung hat einen Pflicht-Anhang');
+  const u = a.urteile(v, fall.pfad);
+  assert.equal(u.gelesen, true, u.fehler.join(' | '));
+  assert.equal(u.gueltig, false);
+  assert.ok(u.fehler.some((f) => /F99000011/.test(f)), u.fehler.join(' | '));
 });

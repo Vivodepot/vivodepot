@@ -1,0 +1,23 @@
+{
+ "zweck": "x509-limbo-Fälle im Umfang, erwartet FAILURE, die der X.509-Leser nach seinen Regeln bewusst annehmen darf. Festgelegt am 15.10.2026 VOR jedem Lauf des Lesers, aus den Fallbeschreibungen von limbo.json und openssl-Sicht der Zertifikate (AKI/SKI/EKU/Seriennummer), nicht aus einem Lauf. Wort der Gegenlesung 15.10.2026; Regel aki-an-wurzel entschieden 15.10.2026.",
+ "geltungsbereich": "Ankersatz Zugang (geschlossen)",
+ "hinweis": "Gilt nur für den geschlossenen Ankersatz der Zugangszertifikate. Ein neuer Ankersatz verlangt, die Liste neu zu lesen.",
+ "regeln": {"aki-ski-fehlt": "AKI und SKI dienen dem Pfadbau. Der Leser baut keinen Pfad: er folgt der geordneten x5c, vergleicht Namen byteweise und prüft jede Signatur bis zu einem Anker. Im geschlossenen Ankersatz entscheiden Signatur und Anker, nicht der Schlüsselbezeichner.", "seriennummer-null": "Die Seriennummer dient der Sperrprüfung und der Eindeutigkeit beim Aussteller. Der Leser prüft offline keine Sperre; Vertrauen kommt allein aus dem geschlossenen Ankersatz, und die Signatur der CA deckt das ganze Zertifikat.", "blatt-eku-fehlt-oder-any": "Zugangszertifikate müssen keine EKU tragen (Profil, Wort 15.10.2026); anyExtendedKeyUsage steht in _X509_EKU_ERLAUBT (vorläufig). Die EKU-Pflicht der CABF gilt für Web-TLS, nicht für Zugangszertifikate unter einem geschlossenen Ankersatz.", "aki-an-wurzel": "Die Wurzel ist Anker: ihr vertraut der Leser, weil sie in der geschlossenen Ankerliste steht, nicht wegen ihres Inhalts. Ihre AKI (welche Felder, ob sie zur SKI passt) dient nur dem Pfadbau, den der Leser nicht macht; er vergleicht Namen byteweise und prüft die Signatur mit dem Schlüssel des Ankers."},
+ "deckel": 13,
+ "deckelRegel": "Die Zahl kann nur sinken. Ein Eintrag ohne Wirkung (Fall fehlt, oder der Leser weist ihn ab) ist rot und wird entfernt. Jeder andere angenommene FAILURE-Fall im Umfang ist ein Befund.",
+ "faelle": [
+  {"id": "rfc5280::aki::leaf-missing-aki", "regel": "aki-ski-fehlt", "grund": "Blatt ohne AKI"},
+  {"id": "rfc5280::aki::intermediate-missing-aki", "regel": "aki-ski-fehlt", "grund": "Zwischen-CA ohne AKI"},
+  {"id": "rfc5280::aki::cross-signed-root-missing-aki", "regel": "aki-ski-fehlt", "grund": "quer signierte Wurzel (Anker) ohne AKI"},
+  {"id": "rfc5280::ski::root-missing-ski", "regel": "aki-ski-fehlt", "grund": "Wurzel (Anker) ohne SKI"},
+  {"id": "rfc5280::ski::intermediate-missing-ski", "regel": "aki-ski-fehlt", "grund": "Zwischen-CA ohne SKI"},
+  {"id": "rfc5280::serial::zero", "regel": "seriennummer-null", "grund": "Blatt mit Seriennummer 0"},
+  {"id": "webpki::eku::ee-without-eku", "regel": "blatt-eku-fehlt-oder-any", "grund": "Blatt ohne EKU"},
+  {"id": "webpki::eku::ee-anyeku", "regel": "blatt-eku-fehlt-oder-any", "grund": "Blatt mit serverAuth und anyExtendedKeyUsage"},
+  {"id": "webpki::aki::root-with-aki-missing-keyidentifier", "regel": "aki-an-wurzel", "grund": "AKI der Wurzel ohne keyIdentifier"},
+  {"id": "webpki::aki::root-with-aki-authoritycertissuer", "regel": "aki-an-wurzel", "grund": "AKI der Wurzel mit authorityCertIssuer"},
+  {"id": "webpki::aki::root-with-aki-authoritycertserialnumber", "regel": "aki-an-wurzel", "grund": "AKI der Wurzel mit authorityCertSerialNumber"},
+  {"id": "webpki::aki::root-with-aki-all-fields", "regel": "aki-an-wurzel", "grund": "AKI der Wurzel mit authorityCertIssuer und authorityCertSerialNumber"},
+  {"id": "webpki::aki::root-with-aki-ski-mismatch", "regel": "aki-an-wurzel", "grund": "keyIdentifier der AKI ungleich SKI an der selbst signierten Wurzel"}
+ ]
+}

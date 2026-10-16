@@ -170,6 +170,9 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   antwortEntschluesselnPasswort, antwortEntschluesselnSchluessel, istAntwortUmschlag,
   antwortMitSchluesseldateiOeffnen, schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei,
   antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C,
+  // U2-ADR-501: die signierte Antwort lesen (tests/lese-app-signierte-antwort.test.js)
+  antwortOeffnenMitSignatur, antwortSignaturPruefen, antwortSignaturHTML, antwortSchluesselVermerken, antwortOeffnenFehlerText,
+  antwortJweTraegtJws, ANTWORT_JWS_TYP, ANTWORT_JWS_ALGS, _jwkThumbprint, stellenKennung, stellenKennungTeile,
   antwortAnzeigeModell, antwortAngabeHerkunft, antwortHerkunftAbweichung, antwortHerkunftZeileHTML, qrTeileZusammensetzen,
   renderAntwortOeffnen, renderAntwort, antwortWeitergeben, anlassAnzeigeModell, renderAnlass,
   renderKamera, kameraStoppen, kameraMoeglich, kameraLeserMoeglich,
