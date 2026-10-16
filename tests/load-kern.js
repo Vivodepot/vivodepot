@@ -329,6 +329,7 @@ const EXPORT_HOOK = `
   _bytesAlsBinaerstring,   // S17 („Die Base64-Grenzen", 09.08.2026)
   importMasterAesKey, deriveKey, _AAD_UEBERGABE_V2, CRYPTO_VERSION_AKTUELL, KRYPTO_VERSION_ALLOWLIST,
   depotAnlegen, depotSerialisieren, depotLaden, depotDateiname, istGueltigerUmschlag, umschlagEntpacken,
+  oeffnenAbweisungText: (typeof oeffnenAbweisungText === 'function' ? oeffnenAbweisungText : undefined),   // Klassenwächter: jede Abweisung beim Öffnen nennt ihren echten Grund (seit v929; ältere Kerne kennen sie nicht)
   subDepotVersiegeln, subDepotEntsiegeln, subDepotAnlegen, flowKindSubDepotAnlegen,
   subDepotVertrauenOeffnen, subDepotVertrauenSchliessen,
   subDepotBlackboxExportieren, blackboxDateiAusUmschlag,
@@ -451,6 +452,15 @@ const EXPORT_HOOK = `
   ANFRAGE_ANTWORT_ARTEN, ANFRAGE_WERT_SCHLUESSEL, ANFRAGE_LINK_MARKE,
   anfragePruefen, anfrageAbgelaufen, anfrageAbgleich, anfrageFeldNachtragen, anfrageAntwortDatensatz,
   anfrageSignaturPruefen, anfrageBestaetigungModell, anfrageAusText,
+  // v929 — Anzeige-Modell für Importe, Grund einer abgelehnten Anfrage, Leser der Vorlagen-Formatfassung
+  importAnzeigeModell: (typeof importAnzeigeModell !== 'undefined' ? importAnzeigeModell : undefined),
+  importAnzeigeText: (typeof importAnzeigeText !== 'undefined' ? importAnzeigeText : undefined),
+  importAnzeigeZeigen: (typeof importAnzeigeZeigen !== 'undefined' ? importAnzeigeZeigen : undefined),
+  IMPORT_ANZEIGE_ARTEN: (typeof IMPORT_ANZEIGE_ARTEN !== 'undefined' ? IMPORT_ANZEIGE_ARTEN : undefined),
+  anfrageAblehnungsGrund: (typeof anfrageAblehnungsGrund !== 'undefined' ? anfrageAblehnungsGrund : undefined),
+  VORLAGE_FORMAT_FASSUNG_BEKANNT: (typeof VORLAGE_FORMAT_FASSUNG_BEKANNT !== 'undefined' ? VORLAGE_FORMAT_FASSUNG_BEKANNT : undefined),
+  VORLAGE_NUTZLAST_TYP: (typeof VORLAGE_NUTZLAST_TYP !== 'undefined' ? VORLAGE_NUTZLAST_TYP : undefined),
+  vorDepotVorlagenVerworfen: (typeof _vorDepotVorlagenVerworfen !== 'undefined' ? (() => _vorDepotVorlagenVerworfen) : undefined),
   anfrageVorlagenfeldPruefen: (typeof anfrageVorlagenfeldPruefen !== 'undefined' ? anfrageVorlagenfeldPruefen : undefined),
   anfrageAntwortDatensatzGeprueft: (typeof anfrageAntwortDatensatzGeprueft !== 'undefined' ? anfrageAntwortDatensatzGeprueft : undefined),
   anfrageAuswahlKennungen: (typeof anfrageAuswahlKennungen !== 'undefined' ? anfrageAuswahlKennungen : undefined),
@@ -568,6 +578,8 @@ const EXPORT_HOOK = `
   flowShlVorbereiten,
   // Yellow-Button-Zeichen an der Funktion (Nachtrag U2-ADR-400, 16.09.2026) — typeof-abgesichert fuer aeltere Kern-Fassungen.
   ybZeichenHTML: (typeof ybZeichenHTML !== 'undefined' ? ybZeichenHTML : undefined),
+  ybGesundheitStandard: (typeof ybGesundheitStandard !== 'undefined' ? ybGesundheitStandard : undefined),
+  ybZeichenFuerQuelle: (typeof ybZeichenFuerQuelle !== 'undefined' ? ybZeichenFuerQuelle : undefined),
   depotGroesseBytes, groesseLesbar, oeffneMappe, renderMappe, mappeBereichLabel,
   oeffnePrueftermine, renderPrueftermine,
   prueftermineDokumente, prueftermineDokumenteOhneTermin, prueftermineSektionHTML, prueftermineSpringeZuDokument, verdrahtePrueftermine,
@@ -1321,6 +1333,7 @@ const EXPORT_HOOK = `
   ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN: (typeof ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN !== 'undefined' ? ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN : undefined),
   _abWerkFruehereSchutz: (m) => (typeof _ABWERK_FRUEHER_SCHUTZ !== 'undefined' && !!_ABWERK_FRUEHER_SCHUTZ && _ABWERK_FRUEHER_SCHUTZ.has(m)),
   _pruefstufeFuerModul: (typeof _pruefstufeFuerModul === 'function' ? _pruefstufeFuerModul : undefined),
+  _prueferGeltung: (typeof _prueferGeltung === 'function' ? _prueferGeltung : undefined),
   _geltungPasst: (typeof _geltungPasst === 'function' ? _geltungPasst : undefined),
   _istPrueferUnterTreuhand: (typeof _istPrueferUnterTreuhand === 'function' ? _istPrueferUnterTreuhand : undefined),
   _originaleSummeKern: (typeof _originaleSummeKern === 'function' ? _originaleSummeKern : undefined),

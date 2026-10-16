@@ -16,6 +16,9 @@ Vivodepot wird als EUPL-1.2-lizenziertes Werk gemäß Art. 5 EUPL unter Mitgabe 
 **qrcode-generator 1.4.4** — Copyright (c) 2009 Kazuhiko Arase — MIT License
 `https://github.com/kazuhikoarase/qrcode-generator`
 
+**noble-ed25519, Upstream-Stand fa14496 (Tag 1.6.0-pre-audit)** — Copyright (c) 2019 Paul Miller — MIT License
+`https://github.com/paulmillr/noble-ed25519` — in geänderter Form eingebettet, Einzelheiten in `THIRD_PARTY_LICENSES`
+
 **pako 2.1.0** — Copyright (C) 2014-2017 Vitaly Puzrin and Andrei Tuputcyn; zlib-Anteile (C) 1995-2013 Jean-loup Gailly and Mark Adler — MIT AND Zlib License
 `https://github.com/nodeca/pako` — Bestandteil des jsPDF-Bundles, mit ihm im selben Skript-Block eingebettet
 

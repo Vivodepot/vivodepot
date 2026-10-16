@@ -1251,6 +1251,15 @@
               }
             }
           },
+          "nutzlastTyp": {
+            "description": "Sagt in der signierten Nutzlast, dass dies eine Vorlage ist. Das Studio schreibt den Wert in jede neue Vorlage; bereits signierte Vorlagen tragen ihn nicht und bleiben gueltig. Ein Modul traegt dieses Feld nie.",
+            "const": "vivodepot-vorlage"
+          },
+          "formatFassung": {
+            "description": "Fassung des Formats der Vorlage, nicht ihres Inhalts (dafuer steht version). Fehlt die Angabe, gilt 1. Die Zahl steigt nur, wenn eine Vorlage etwas tragen kann, das ein Leser der vorigen Fassung falsch oder gar nicht laese.",
+            "type": "integer",
+            "minimum": 1
+          },
           "vorlageId": {
             "description": "Kette Auftrag 6 Zug 2 (20.08.2026): stabile Kennung DIESER Vorlage beim Anbieter. Zusammen mit anbieterId ist sie die IDENTITAET der Vorlage — ueber den Wortlaut zu deduplizieren hiess: eine geaenderte Fassung war eine NEUE Vorlage, und die alte blieb daneben stehen.",
             "type": "string",

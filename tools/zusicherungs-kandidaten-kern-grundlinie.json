@@ -77,6 +77,10 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Widerrufs-Dokument, das die Nutzerin selbst erzeugt — keine Aussage über Dritte."
     },
+    "importAnzeigeText": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Restschlüssel importUngueltig: Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
     "importUngueltigNachricht": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
@@ -124,6 +128,10 @@
     "prueftermineSektionHTML": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
+    },
+    "renderAnfrage": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Restschlüssel anfrageTeilantwortMitVorgaben: Auskunft an die Person über ihre eigenen Voreinstellungen — keine Aussage, auf die sich ein Dritter verlässt."
     },
     "renderBestandsAuswahl": {
       "entscheidung": "kein-zusicherungssatz",

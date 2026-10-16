@@ -129,7 +129,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 259606
+   "bytes": 261239
   },
   "satz": {
    "bytes": 28740
@@ -1435,6 +1435,94 @@
    "auf": 259665,
    "daneben": {},
    "grund": "Bereich aus der Datei, Feld-Ebene (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, 11.10.2026): die geschlossenen Listen für Abschnitt, Feld, Unterfeld, Option, Feldtypen und die Art eines Verweises, und das Abstreifen der Felder",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 259665,
+   "auf": 260765,
+   "daneben": {},
+   "grund": "Anzeige-Modell für Importe (v929): Tabelle der 17 Importarten, Kennungen der Gründe, Leser für Formatfassung und Typfeld der Vorlage, Anschluss der drei Stellen; kein satzförmiger Inhalt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 260706,
+   "auf": 260708,
+   "daneben": {},
+   "grund": "+2 Byte: das 'warn'-Literal in importAnzeigeZeigen (v929, Hinweis zu Nicht-Übernommenem bleibt bis Schließen), 14.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 260708,
+   "auf": 260870,
+   "daneben": {},
+   "grund": "Befunde ERSTE-DATEISICHERUNG-SCHEITERT-STILL und KRYPTO-FASSUNG-HEISST-FALSCHES-PASSWORT (13.10.2026): Kennungen und Codes der zwei neuen Funktionen oeffnenAbweisungText und _schreibfehlerAnsagen, kein Satz; Wort der Gegenlesung einzeln, +162 relativ zu 6109be311",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 259606,
+   "auf": 259716,
+   "daneben": {},
+   "grund": "Eintrag „… als Datei erhalten“ im Abschnitt „Über“ der Einstellungen: ein Link auf den Schalter ?datei=1 des Dienstes mit download, Kennung und Klassen (Befund ANWENDUNG-ALS-DATEI-OHNE-WEG); die Wörter liegen im Textsatz",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 259606,
+   "auf": 259796,
+   "daneben": {},
+   "grund": "Befund GESICHERTE-KOPIE-TRAEGT-KLARTEXT / RAHMENSCHUTZ-FAELLT-IN-GESICHERTER-KOPIE (12.10.2026): Kennungen, Attributnamen und Selektoren des Kopf-Blocks der gesicherten Kopie in fünf Dateien, kein Satz; Wort der Gegenlesung einzeln, +190 relativ zu 6109be311",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 259606,
+   "auf": 259650,
+   "daneben": {},
+   "grund": "YB nur Gesundheit: Prüfung und Tür für das Zeichen, SHL-Tür (Einzelwort der Gegenlesung 14.10.2026, +44 Byte, genau ybGesundheitStandard, SHL:nur-gesundheit, fhir-lab-Lookup)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 259606,
+   "auf": 259622,
+   "daneben": {},
+   "grund": "Safari am Schreibtisch: das Zweitsignal (pointer:coarse) in _handgeraet (Einzelwort der Gegenlesung 14.10.2026, +16 Byte, genau dieses Literal)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 261230,
+   "auf": 261239,
+   "daneben": {},
+   "grund": "+9 Byte: das Literal 'textsatz' im Modul-Einlass (eine Meldung statt zwei, ohne technische Textkennungen), 14.10.2026",
    "laengste": {
     "einzel": 0,
     "lauf": 64

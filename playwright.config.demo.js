@@ -3,7 +3,7 @@
    Playwright-Konfiguration — Demo-Rohaufnahmen (Deliverable 3, xShare-TD)
    ────────────────────────────────────────────────────────────────────────
    Getrennt von playwright.config.js (E2E-Reise-Ebene): diese Specs zeichnen
-   STUMME Bildschirmvideos auf (recordVideo je Test, siehe tests/demo/*.spec.js)
+   STUMME Bildschirmvideos auf (recordVideo je Test, siehe tools/demo-aufnahme/*.spec.js)
    und laufen bewusst NICHT parallel (eine Aufnahme nach der anderen, damit
    Timing/Video nicht durch Nebenläufigkeit verzerrt wird).
    Bezug: „Playwright-Rohaufnahme der beiden Demo-Clips" (04.08.2026).
@@ -16,7 +16,7 @@ const path = require('node:path');
 require('./tools/lib/test-lauf.js').playwrightLaufBeginnen();
 
 module.exports = defineConfig({
-  testDir: path.join(__dirname, 'tests', 'demo'),
+  testDir: path.join(__dirname, 'tools', 'demo-aufnahme'),
   globalTeardown: require.resolve('./tests/e2e/global-teardown.js'),
   testMatch: '**/*.spec.js',
   timeout: 6 * 60 * 1000,

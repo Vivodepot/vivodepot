@@ -1,5 +1,6 @@
 {
  "grund": "Jede HTML-Senke mit dem Grund, warum sie sicher ist; geprüft von tests/html-senken-grundlinie.test.js. Verglichen wird über Datei und Abdruck (umschließende Funktion + Ausdruck); Zeile und Code dienen dem Wiederfinden.",
+ "ohneProbeDeckel": 83,
  "eintraege": [
   {
    "datei": "vivodepot-lesen.html",
@@ -44,7 +45,10 @@
    "abdruck": "b7eba520632f2489",
    "anzahl": 1,
    "code": "wrap.innerHTML = topbarHTML(STRINGS.sichtVoll, true) + subBannerHTML() + herkunftBlockHTML(modulHerkunftBerechnen(data)) + standBlockHTML(moduleStandBerechnen(data)) + (klartextWarnung ? '<div class=\"",
-   "grund": "Sicher seit v842: der Lückenblock (_lueckenBlockHTML) maskiert seine Sätze, die aus einem Sprachmodul überschreibbar sind (Probe tests/fremdtext-senken.test.js, Lese-App). Alle übrigen Teile maskieren selbst: herkunftBlockHTML, standBlockHTML, topbarHTML, sektorHTML (Prüfung D5)."
+   "grund": "Sicher seit v842: der Lückenblock (_lueckenBlockHTML) maskiert seine Sätze, die aus einem Sprachmodul überschreibbar sind (Probe tests/fremdtext-senken.test.js, Lese-App). Alle übrigen Teile maskieren selbst: herkunftBlockHTML, standBlockHTML, topbarHTML, sektorHTML (Prüfung D5).",
+   "probe": [
+    "tests/fremdtext-senken.test.js"
+   ]
   },
   {
    "datei": "vivodepot-lesen.html",
@@ -53,7 +57,10 @@
    "abdruck": "f2e62e7a27b4a71a",
    "anzahl": 1,
    "code": "sb.innerHTML = sidebarHTML()",
-   "grund": "Sicher seit v842: sidebarHTML() enthält den Lückenblock, dessen Sätze jetzt maskiert sind (Probe tests/fremdtext-senken.test.js, Lese-App). Bereichs-, Situations- und Blatt-IDs und -Titel sind maskiert (Prüfung D5)."
+   "grund": "Sicher seit v842: sidebarHTML() enthält den Lückenblock, dessen Sätze jetzt maskiert sind (Probe tests/fremdtext-senken.test.js, Lese-App). Bereichs-, Situations- und Blatt-IDs und -Titel sind maskiert (Prüfung D5).",
+   "probe": [
+    "tests/fremdtext-senken.test.js"
+   ]
   },
   {
    "datei": "vivodepot-lesen.html",
@@ -125,7 +132,10 @@
    "abdruck": "10aef2dfe58dbeb2",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + '<h1>' + escapeHTML(STRINGS.antwortTitel) + '</h1>' + '<p class=\"hint\" id=\"antwort-kopf\">' + escapeHTML(STRINGS.antwortVorgang) + ' <span id=\"antwo",
-   "grund": "renderAntwortOeffnen: nur feste Texte (STRINGS), jeder über escapeHTML; kein Wert aus der Datei oder der Antwort im Markup — der Vorgang kommt danach über textContent (04.10.2026). Probe: tests/lese-app-antwort-schluesseldatei.test.js, [Lese-App · Senke]."
+   "grund": "renderAntwortOeffnen: nur feste Texte (STRINGS), jeder über escapeHTML; kein Wert aus der Datei oder der Antwort im Markup — der Vorgang kommt danach über textContent (04.10.2026). Probe: tests/lese-app-antwort-schluesseldatei.test.js, [Lese-App · Senke].",
+   "probe": [
+    "tests/lese-app-antwort-schluesseldatei.test.js"
+   ]
   },
   {
    "datei": "vivodepot-lesen.html",
@@ -323,7 +333,10 @@
    "abdruck": "f9c985b36886bf56",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortKnoepfeHTML(alle, vorDepotText('ablageortOeffnen'))",
-   "grund": "_ablageorteAufStartseiteZeigen (U2-ADR-463): setzt nur _ablageortKnoepfeHTML ein. Dort ist der Dateiname des gemerkten Handles (von außen) über _ablageortSatz als Funktion eingesetzt ($&-Muster ohne Wirkung) und läuft im ganzen Satz durch escapeHTML; der Index über escapeAttr; sonst feste Literale und svgIcon. Probe mit Rot-Beweis: tests/ablageort-dateiname.test.js."
+   "grund": "_ablageorteAufStartseiteZeigen (U2-ADR-463): setzt nur _ablageortKnoepfeHTML ein. Dort ist der Dateiname des gemerkten Handles (von außen) über _ablageortSatz als Funktion eingesetzt ($&-Muster ohne Wirkung) und läuft im ganzen Satz durch escapeHTML; der Index über escapeAttr; sonst feste Literale und svgIcon. Probe mit Rot-Beweis: tests/ablageort-dateiname.test.js.",
+   "probe": [
+    "tests/ablageort-dateiname.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -332,7 +345,10 @@
    "abdruck": "a6e7294ad9c60baf",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortGemerktHTML(gemerkt.name)",
-   "grund": "_ablageortEinstellungZeigen (U2-ADR-463): setzt nur _ablageortGemerktHTML ein. Dort ist der Dateiname (von außen) über _ablageortSatz als Funktion eingesetzt und läuft im ganzen Satz durch escapeHTML; Knopftext aus STRINGS in escapeHTML; id fest. Probe mit Rot-Beweis: tests/ablageort-dateiname.test.js."
+   "grund": "_ablageortEinstellungZeigen (U2-ADR-463): setzt nur _ablageortGemerktHTML ein. Dort ist der Dateiname (von außen) über _ablageortSatz als Funktion eingesetzt und läuft im ganzen Satz durch escapeHTML; Knopftext aus STRINGS in escapeHTML; id fest. Probe mit Rot-Beweis: tests/ablageort-dateiname.test.js.",
+   "probe": [
+    "tests/ablageort-dateiname.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -395,7 +411,11 @@
    "abdruck": "53b7e0c73a6dc35a",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\">' + (vorDepotSprachangebotVorhanden() ? ('<button type=\"button\" class=\"btn-dezent vor-depot-sprache\" id=\"vor-depot-sprache\">' + svgIcon(ICONS.globe, 15) + ' <",
-   "grund": "renderWelcome: jedes vorDepotText(...) steht in escapeHTML. Sonst gibt es nur feste Literale (Deutsch/English, der leere Behälter w-ablageorte, U2-ADR-463), svgIcon(ICONS.x), installBlock aus _installBlockHTML, das ebenfalls maskiert ist, und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026. 07.10.2026: auch „Depot anlegen“ (welcomeDepotAnlegen) und „Erst umsehen“ (welcomeHierAnfangen) gehen über escapeHTML(vorDepotText(...)); Probe [Einstieg·Escape] mit Rot-Beweis in tests/umschau-eintragen-klasse.test.js."
+   "grund": "renderWelcome: jedes vorDepotText(...) steht in escapeHTML. Sonst gibt es nur feste Literale (Deutsch/English, der leere Behälter w-ablageorte, U2-ADR-463), svgIcon(ICONS.x), installBlock aus _installBlockHTML, das ebenfalls maskiert ist, und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026. 07.10.2026: auch „Depot anlegen“ (welcomeDepotAnlegen) und „Erst umsehen“ (welcomeHierAnfangen) gehen über escapeHTML(vorDepotText(...)); Probe [Einstieg·Escape] mit Rot-Beweis in tests/umschau-eintragen-klasse.test.js.",
+   "probe": [
+    "tests/white-label-bildmarke-formen.test.js",
+    "tests/umschau-eintragen-klasse.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -404,7 +424,10 @@
    "abdruck": "d6161b57c715c9fd",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\">' + (vorDepotSprachangebotVorhanden() ? ('<button type=\"button\" class=\"btn-dezent vor-depot-sprache\" id=\"vor-depot-sprache\">' + svgIcon(ICONS.globe, 15) + ' <",
-   "grund": "Die vorDepotText-Texte stehen in escapeHTML. dateiZeile maskiert _cryptoDatei.name, den Namen der gewählten Datei, mit escapeHTML; alles Übrige sind feste Literale, ICONS und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026."
+   "grund": "Die vorDepotText-Texte stehen in escapeHTML. dateiZeile maskiert _cryptoDatei.name, den Namen der gewählten Datei, mit escapeHTML; alles Übrige sind feste Literale, ICONS und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026.",
+   "probe": [
+    "tests/white-label-bildmarke-formen.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -422,7 +445,10 @@
    "abdruck": "f6126afc626cc64e",
    "anzahl": 1,
    "code": "el.innerHTML = html",
-   "grund": "frageText, k.titel, a.label und STRINGS kommen nur durch die Reintext-Filter (_textsatzWertZulaessig, _nichtReineTextStellen). {marke} wird seit v842 beim Lesen geprüft (_markeNameGeprueft) und in HTML-Sätzen maskiert eingesetzt (Probe tests/fremdtext-senken.test.js, Marke)."
+   "grund": "frageText, k.titel, a.label und STRINGS kommen nur durch die Reintext-Filter (_textsatzWertZulaessig, _nichtReineTextStellen). {marke} wird seit v842 beim Lesen geprüft (_markeNameGeprueft) und in HTML-Sätzen maskiert eingesetzt (Probe tests/fremdtext-senken.test.js, Marke).",
+   "probe": [
+    "tests/fremdtext-senken.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -449,7 +475,10 @@
    "abdruck": "8c9ae682866864b8",
    "anzahl": 1,
    "code": "woerterEl.innerHTML = letzter.split('-').map((w, i) => (i ? '<wbr><span>-' : '<span>') + escapeHTML(w) + '</span>').join('')",
-   "grund": "pwVorschlagVerdrahten (U2-ADR-463): die Wörter kommen aus der eingebackenen Wortliste des Produkts (passwortWortliste, nur a–z, geprüft in tests/passwort-vorschlag.test.js) und laufen trotzdem je Wort durch escapeHTML; sonst feste Literale (<wbr>, <span>)."
+   "grund": "pwVorschlagVerdrahten (U2-ADR-463): die Wörter kommen aus der eingebackenen Wortliste des Produkts (passwortWortliste, nur a–z, geprüft in tests/passwort-vorschlag.test.js) und laufen trotzdem je Wort durch escapeHTML; sonst feste Literale (<wbr>, <span>).",
+   "probe": [
+    "tests/passwort-vorschlag.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -467,7 +496,10 @@
    "abdruck": "f2da3cd5817399dc",
    "anzahl": 1,
    "code": "if (el) el.innerHTML = '<div class=\"welcome-kopf\">' + '<h1 class=\"welcome-brand\" id=\"overlay-titel\">' + _vdBildmarkeHTML('welcome-logo-mark') + '<span class=\"welcome-wort\"><span class=\"lw-vivo-d\">VIVO",
-   "grund": "escapeHTML(STRINGS.schlussSichtText) und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026."
+   "grund": "escapeHTML(STRINGS.schlussSichtText) und die Bildmarke: _vdBildmarkeHTML liefert genau zwei Formen (Probe tests/white-label-bildmarke-formen.test.js): das feste Vivodepot-SVG oder, nur in Modell B, ein <img>, dessen src allein das Logo der Bau-Region ist, geprüft mit _brandingLogoZulaessig (data:image/(png|jpeg);base64, höchstens 200 KB) und escapeAttr-maskiert; die Klasse ist an jedem Aufrufort ein festes Literal und ebenfalls maskiert. Kein Wert aus Depot-Datei oder Einlass. Neu geprüft am 06.10.2026.",
+   "probe": [
+    "tests/white-label-bildmarke-formen.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -629,7 +661,10 @@
    "abdruck": "07884a8930007c34",
    "anzahl": 1,
    "code": "ov.innerHTML = '<div class=\"pv-dok-toolbar\">' + da.toolbarHinweisHTML + (da.lueckenFelder ? _identitaetLueckenHinweisHTML(da.lueckenFelder) : '') + '<div class=\"pv-dok-knoepfe\"><button class=\"btn\" id=",
-   "grund": "Sicher seit v842: dokumentHTML maskiert klasse und fussText (vorher roh aus eingelassenen Modulen); toolbarHinweisHTML kommt aus Modulen nur als escapeHTML(toolbarHinweis) (logikModulPruefen), aus STRINGS nur in der Absatzform _TEXTSATZ_HINWEIS_ABSATZ_FORM mit maskierter Marke. Probe: tests/fremdtext-senken.test.js."
+   "grund": "Sicher seit v842: dokumentHTML maskiert klasse und fussText (vorher roh aus eingelassenen Modulen); toolbarHinweisHTML kommt aus Modulen nur als escapeHTML(toolbarHinweis) (logikModulPruefen), aus STRINGS nur in der Absatzform _TEXTSATZ_HINWEIS_ABSATZ_FORM mit maskierter Marke. Probe: tests/fremdtext-senken.test.js.",
+   "probe": [
+    "tests/fremdtext-senken.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",
@@ -782,7 +817,10 @@
    "abdruck": "90aa4e9ecc43af25",
    "anzahl": 1,
    "code": "c.innerHTML = html",
-   "grund": "Sicher seit v842: z.name und die Treffer über escapeHTML, die Anzahl nur aus einem Array (vorher z.kennungen.length roh aus dem Depot). Probe: tests/fremdtext-senken.test.js, Zusammenstellung."
+   "grund": "Sicher seit v842: z.name und die Treffer über escapeHTML, die Anzahl nur aus einem Array (vorher z.kennungen.length roh aus dem Depot). Probe: tests/fremdtext-senken.test.js, Zusammenstellung.",
+   "probe": [
+    "tests/fremdtext-senken.test.js"
+   ]
   },
   {
    "datei": "vivodepot.html",

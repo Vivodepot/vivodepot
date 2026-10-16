@@ -72,7 +72,7 @@ async function verletzungen(html) {
   alsGraph.exporte = Object.assign({}, V); delete alsGraph.exporte.SCHLUESSEL_TRESOR;
   if (findeSchluessel(alsGraph, jwk.d).length) v.push('b-material-erreichbar-ausserhalb-der-huelle');
   if (findeSchluessel({ zustand: T.zustand(), vorhanden: T.vorhanden() }, jwk.d).length) v.push('b-huelle-gibt-schluessel-heraus');
-  if (Object.keys(T).sort().join() !== ['ausDatei', 'beimVerwerfen', 'erzeugen', 'privatHerunterladen', 'huelleVerwerfen', 'signiereEinmal', 'verwerfen', 'vorhanden', 'zustand'].sort().join()) v.push('b-huelle-hat-neue-flaeche');
+  if (Object.keys(T).sort().join() !== ['ausDatei', 'beimVerwerfen', 'erzeugen', 'privatHerunterladen', 'huelleVerwerfen', 'sicherungPruefen', 'signiereEinmal', 'verwerfen', 'vorhanden', 'zustand'].sort().join()) v.push('b-huelle-hat-neue-flaeche');
   if (!Object.isFrozen(T)) v.push('b-huelle-nicht-eingefroren');
   if (/STATE\.(privateJwk|cryptoKeyPair)\s*=/.test(html)) v.push('b-state-bekommt-privates-material');
 

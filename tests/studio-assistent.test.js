@@ -158,3 +158,49 @@ test('[Assistent · Übergabe] „Weiter: Einreichen“ legt die Felder an, bele
   assert.match(q, /zeigeSchritt\('stammdaten'\);/);
   assert.ok(HTML.includes("an('ein-aufnahme', 'click', () => { assistentNeu(); zeigeSchritt('assistent'); });"), 'die Kachel „Aufnahmebogen“ führt in den Assistenten');
 });
+
+/* ── (7) „Frage hinzufügen“ ohne Doppel (iPad-Prüfung 14.10.2026) ──────────
+   Ein Standardfeld, das schon auf dem Bogen steht, legt ein zweites Antippen nicht noch einmal an: sonst stünde etwa
+   „Geburtsdatum“ zweimal im Bogen und in der Einreichung. Geprüft über ALLE Chips mit einem Standardfeld (die Klasse), nicht nur
+   über das eine, an dem es auffiel; „Anschrift“ zählt mit ihren vier Teilfeldern. Eigene Fragen und Auswahlen öffnen ein
+   Eingabefeld und legen nichts an; sie bleiben außen vor. */
+function regDoppel(V) {
+  const zahl = {};
+  for (const f of V.ASSISTENT.fragen) if (f.reg) zahl[f.reg] = (zahl[f.reg] || 0) + 1;
+  return Object.keys(zahl).filter((r) => zahl[r] > 1).sort();
+}
+function chipsZweimal(V) {
+  for (const [art] of V.ASSISTENT_HINZU) {
+    if (art !== 'anschrift' && !V.ASSISTENT_REGISTER[art]) continue;
+    V.assistentHinzu(art); V.assistentHinzu(art);
+  }
+}
+test('[Assistent · Doppel] „Geburtsdatum“ zu einem Beispiel, das es schon trägt, steht danach genau einmal da', () => {
+  const { V } = assistentMitBeispiel('verein');
+  assert.equal(V.ASSISTENT.fragen.filter((f) => f.reg === 'geburtsdatum').length, 1, 'Vorbedingung: das Beispiel trägt Geburtsdatum');
+  const vorher = V.ASSISTENT.fragen.length;
+  V.assistentHinzu('geburtsdatum');
+  assert.equal(V.ASSISTENT.fragen.filter((f) => f.reg === 'geburtsdatum').length, 1);
+  assert.equal(V.ASSISTENT.fragen.length, vorher);
+});
+test('[Assistent · Doppel] jeder Chip mit Standardfeld zweimal angetippt: kein Feld doppelt, jedes einmal da (auch die Anschrift)', () => {
+  const { V } = assistentMitBeispiel('verein');
+  chipsZweimal(V);
+  assert.deepEqual(regDoppel(V), []);
+  const da = new Set(V.ASSISTENT.fragen.map((f) => f.reg).filter(Boolean));
+  for (const r of ['vorname', 'nachname', 'geburtsdatum', 'strasse', 'hausnummer', 'plz', 'ort', 'email', 'telefon']) assert.ok(da.has(r), r + ' fehlt');
+  // Positivkontrolle: Die Chip-Liste trägt überhaupt Standardfelder; sonst hätte die Schleife nichts geprüft.
+  assert.ok(V.ASSISTENT_HINZU.filter(([art]) => V.ASSISTENT_REGISTER[art]).length >= 5);
+});
+test('[Assistent · Doppel · Rot-Beweis] mit der früheren Fassung (ohne Prüfung) steht „Geburtsdatum“ zweimal da, und die Klassenprobe findet es', () => {
+  const NEU = "  else if (ASSISTENT_REGISTER[art]) { if (!schonDa(art)) ASSISTENT.fragen.push({ reg: art }); }";
+  const ALT = '  else if (ASSISTENT_REGISTER[art]) ASSISTENT.fragen.push({ reg: art });';
+  assert.ok(HTML.includes(NEU), 'die Prüfung steht nicht mehr an ihrer Stelle; die Probe muss mitgezogen werden');
+  const { V } = ladeGenerator({ html: HTML.replace(NEU, ALT) });
+  V.ASSISTENT.sprache = 'de';
+  V.assistentBeispielLaden('verein');
+  V.assistentHinzu('geburtsdatum');
+  assert.equal(V.ASSISTENT.fragen.filter((f) => f.reg === 'geburtsdatum').length, 2);
+  chipsZweimal(V);
+  assert.ok(regDoppel(V).includes('vorname'));
+});

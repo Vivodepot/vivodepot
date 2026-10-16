@@ -278,6 +278,11 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `vorlage.kein-objekt` | abweisung | Die Vorlage ist kein JSON-Objekt. | `kein Template-Objekt` (anfang) |
 | `vorlage.nicht-serialisierbar` | abweisung | Die Vorlage lässt sich nicht als JSON schreiben. | `Template nicht serialisierbar` (anfang) |
 | `vorlage.zu-gross` | abweisung | Die Vorlage ist größer als 70 KB. | `Template zu groß` (anfang) |
+| `vorlage.formatfassung-ungueltig` | abweisung | formatFassung ist angegeben, aber keine ganze Zahl ab 1. | `formatfassung-ungueltig` |
+| `vorlage.zu-neu` | abweisung | Die Vorlage trägt eine Formatfassung, die diese Fassung der Anwendung noch nicht kennt. | `vorlage-zu-neu` |
+| `vorlage.nutzlasttyp-widerspruch` | abweisung | nutzlastTyp ist angegeben, heißt aber nicht vivodepot-vorlage, oder die Datei trägt zugleich modulTyp. | `nutzlasttyp-widerspruch` |
+| `vorlage.nutzlasttyp-fehlt` | abweisung | Ab Formatfassung 2 muss die Vorlage nutzlastTyp tragen. | `nutzlasttyp-fehlt` |
+| `vorlage.modul-keine-vorlage` | abweisung | Die Datei trägt modulTyp: sie ist ein Modul und keine Vorlage. | `modul-keine-vorlage` |
 | `vorlage.felder` | abweisung | felder fehlt oder ist leer. | `felder fehlt oder ist leer` (anfang) |
 | `vorlage.feld-kein-objekt` | abweisung | Ein Eintrag in felder ist kein Objekt. | `Feld ist kein Objekt` (anfang) |
 | `vorlage.feldname` | abweisung | Ein Feld hat keinen feldname, oder eine Sprachvariante davon ist leer. | `feldname fehlt` (anfang) |

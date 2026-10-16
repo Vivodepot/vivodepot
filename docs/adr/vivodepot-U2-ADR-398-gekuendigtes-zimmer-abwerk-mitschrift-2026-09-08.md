@@ -193,6 +193,8 @@ dieser Stelle stand. Die übrigen Fächer gelten seit 05.10.2026 nur nach Inhalt
    - **Text:** je Text SHA-256 über die kanonische Form von `{ art: 'bereichstext', id, ort, schluessel, text }`. `ort` ist die
      Kette der Kennungen der umschließenden Objekte (`id`, sonst `format`, sonst `wert`), ohne Listenplätze; `schluessel` ist
      die Eigenschaft.
+     Je Definition ist das Paar aus Ort und Eigenschaft eindeutig: zwei Texte am selben Ort unter derselben Eigenschaft wären
+     untereinander austauschbar. Der Erzeuger hält es für jede Definition, die in die Mengen eingeht, und schreibt sonst nichts.
 2. Eine Definition gilt als ausgeliefert, wenn ihr Struktur-Abdruck in der einen und jeder ihrer Texte in der anderen Menge
    steht. Ein Text gilt nur für diesen Bereich, diese Stelle und diese Eigenschaft. Eine Datei kann damit an einer Stelle
    höchstens den Wortlaut einer anderen ausgelieferten Fassung oder Sprache zeigen. Eigenen Text, eigene Felder, eine eigene

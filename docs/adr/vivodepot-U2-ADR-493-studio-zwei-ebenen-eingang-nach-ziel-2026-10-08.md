@@ -46,6 +46,52 @@ dem Fachpublikum (Integratoren) etwas verloren geht?
 - Die Fachebene bleibt in Funktion und Text so, wie sie war; geändert sind nur Erscheinungsbild, Zugänglichkeit und Sätze, die
   eine Quellenprüfung als falsch oder überzogen fand.
 
+## Nachtrag 14.10.2026 — Die Fachebene bedienen auch Stellen ohne Fachleute
+
+**Status:** Angenommen (14.10.2026, Wort der Gegenlesung vor dem Bau). **Bezug:** A523 (ein Erscheinungsbild geht nur signiert ein) · U2-ADR-096 und U2-ADR-325 (Listen mit Unterfeldern). Der Nachtrag ändert die Abgrenzung oben: die Fachebene ändert sich in den unten genannten Punkten in Funktion und Text.
+
+### Anlass
+
+U2-ADR-493 ließ die Fachebene unverändert und änderte nur den Eingang davor. Eine Prüfung des Studios am iPad (14.10.2026) ging
+den Weg, den eine Einrichtung ohne IT bei einer Vorführung geht: Anfrage stellen, Beispiel laden, ausprobieren, vorab prüfen.
+Auf diesem Weg hakte die Fachebene an fünf Stellen:
+
+- In der Anfrage stand der Vorschlag „Anfrage-<Datum>“ als Text im Feld „Ihr Zeichen“. Wer hineintippte, hängte an ihn an.
+- Unter „Ausprobieren“ hatte „+ Eintrag hinzufügen“ bei einer Liste keine Wirkung, auch wenn die Liste Unterfelder trug.
+- Die Feldliste zeigte unter jedem Feld die Kennung (`identity.givenName`). Eine Einrichtung liest das als Technik.
+- Vier der Beispiele und Kacheln der Fachebene sprachen von Gesundheit und Pflege; außer der Notariats-Erfassung gab es kein
+  Beispiel aus einem anderen Bereich.
+- Ein Erscheinungsbild ohne Signatur endete in einer roten Fehlermeldung, die die Folge nicht als nächsten Schritt nannte.
+
+Die Fachebene wird also auch von Stellen bedient, die keine Fachleute haben. Das ist der Grund dieses Nachtrags.
+
+### Entscheidung
+
+1. **„Ihr Zeichen“ ist ein Vorschlag, kein Text.** Der Vorschlag steht als Platzhalter; Getipptes ersetzt ihn. Bleibt das Feld
+   leer, gilt der Vorschlag. Die Anfrage selbst ändert sich nicht: sie trägt wie bisher ein Zeichen.
+2. **Eine Liste mit Unterfeldern lässt sich unter „Ausprobieren“ ausfüllen.** „+ Eintrag hinzufügen“ legt eine Zeile mit den
+   Eingaben der Unterfelder an, „Entfernen“ nimmt sie weg. Das ist Vorschau; die Vorlage ändert sich dadurch nicht. Eine Liste
+   ohne Unterfelder sagt das, statt einen Knopf ohne Wirkung zu zeigen.
+   Wer ein Listenfeld im Editor bearbeitet (etwa umbenennt), behält seine Unterfelder; bis hierher ersetzte jede Eingabe das
+   Feld ohne sie.
+3. **Kennungen sind eingeklappt, nicht gelöscht.** Ab Werk zeigt die Feldliste keine Kennung; jede Zeile trägt sie im `title`,
+   ein Schalter „Kennungen zeigen“ blendet sie ein. Die Kennungen sind Vertrag und bleiben unverändert. Was eine Vorlage trägt,
+   hängt am Schalter nicht: die Einreichung ist mit und ohne Schalter byte-gleich.
+4. **Gesundheit ist höchstens ein Drittel der Beispiele, abgerundet.** Gezählt wird über alle Beispiele der Fachebene, nicht
+   über eine Auswahl. Dazu kommen Beispiele aus Verein, Kommune, Stadtbibliothek und Arbeitgeber, mit erfundenen Inhalten. Jedes
+   Beispiel hat seine Kachel, besteht die Vorprüfung und trägt keine Liste ohne Unterfelder.
+5. **Ein Erscheinungsbild ohne Signatur bekommt einen Hinweis mit der Folge.** Er sagt, dass das Erscheinungsbild erst angewendet
+   wird, wenn es signiert und von Vivodepot bestätigt ist, und führt zu „Angaben und Schlüssel“. Die Regel aus A523 bleibt
+   unberührt: ein Erscheinungsbild geht nur signiert ein. Der Hinweis sagt nichts, was es nicht gibt.
+
+### Abgrenzung
+
+- Nicht Teil dieses Nachtrags: Unterfelder einer Liste im Feld-Editor anlegen und ändern. Eine Liste mit Unterfeldern entsteht
+  heute über einen Entwurf, eine CSV-Datei oder ein Beispiel. Der Editor dafür braucht einen eigenen Wagen mit Durchstich bis in
+  die App.
+- Nicht Teil: die übrigen technischen und englischen Wörter der Fachebene und des Erscheinungsbild-Blocks; der Schritt
+  „Aussehen“ (U2-ADR-493, Abgrenzung). Sie folgen als eigene Wagen.
+
 ```yaml
 konformitaet:
   - aussage: >-
@@ -88,4 +134,49 @@ konformitaet:
     herkunft: U2-ADR-493 (08.10.2026)
     pruefung:
       - tests/studio-glas-wie-app.test.js "[B6 · Klasse] jede Meldung von validiereStammdaten, die ein Feld der Maske meint, ist einem Feld zugeordnet, und das Feld existiert"
+  - aussage: >-
+      „Ihr Zeichen“ trägt den Vorschlag als Platzhalter; Getipptes ersetzt ihn, ein leeres Feld nimmt ihn.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 14.10.2026
+    pruefung:
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Zeichen] der Vorschlag ist Platzhalter: Getipptes ersetzt ihn, ein leeres Feld nimmt ihn"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Zeichen · Rot-Beweis] mit dem Vorschlag als Text hängt Getipptes an"
+  - aussage: >-
+      Eine Liste mit Unterfeldern bekommt unter „Ausprobieren“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 14.10.2026
+    pruefung:
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Liste] eine Liste mit Unterfeldern bekommt unter „Ausprobieren“ einen Knopf mit Wirkung, ohne Unterfelder einen Satz"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Liste · Rot-Beweis] der frühere Knopf ohne Wirkung fällt auf"
+  - aussage: >-
+      Ein Listenfeld, das im Editor bearbeitet wird, behält seine Unterfelder.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 14.10.2026
+    pruefung:
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Editor] ein umbenanntes Listenfeld behält seine Unterfelder"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Editor · Rot-Beweis] ohne die Übernahme der Unterfelder verliert die Liste sie beim Umbenennen"
+  - aussage: >-
+      Kennungen sind ab Werk eingeklappt und über einen Schalter erreichbar; die Einreichung ist mit und ohne Schalter byte-gleich.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 14.10.2026
+    pruefung:
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Kennungen] ab Werk eingeklappt, über den Schalter erreichbar; die Einreichung ist mit und ohne Schalter byte-gleich"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Kennungen · Rot-Beweis] eine ab Werk sichtbare Kennung fällt auf, und eine Vorlage, die vom Schalter abhängt, ist nicht byte-gleich"
+  - aussage: >-
+      Gesundheit ist höchstens ein Drittel aller Beispiele der Fachebene, abgerundet; jedes Beispiel hat seine Kachel und besteht
+      die Vorprüfung ohne Liste ohne Unterfelder.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 14.10.2026
+    pruefung:
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Beispiele] Gesundheit höchstens ein Drittel aller Beispiele (abgerundet); jedes Beispiel hat seine Kachel; Verein, Kommune, Bibliothek, Arbeitgeber sind da"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Beispiele] jedes Beispiel besteht die Vorprüfung, und keine Liste steht ohne Unterfelder da"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Beispiele · Rot-Beweis] ohne die vier neuen Beispiele ist Gesundheit mehr als ein Drittel, und eine Kachel ohne Beispiel fällt auf"
+  - aussage: >-
+      Ein Erscheinungsbild ohne Signatur bekommt einen Hinweis mit der Folge und dem Weg zu Angaben und Schlüssel, keine rote
+      Fehlermeldung; der Einlass urteilt wie bisher.
+    zustand: erfuellt
+    herkunft: U2-ADR-493, Nachtrag 14.10.2026
+    pruefung:
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Erscheinungsbild] ohne Signatur ein Hinweis mit der Folge und dem Weg, keine rote Fehlermeldung; die Regel bleibt"
+      - tests/studio-vorfuehrpfad.test.js "[Vorführpfad · Erscheinungsbild · Rot-Beweis] die frühere rote Meldung ohne Folge fällt auf"
 ```

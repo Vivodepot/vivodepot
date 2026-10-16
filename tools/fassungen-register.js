@@ -114,7 +114,7 @@ const SERVICE_WORKER_ZEILE = 'service-worker';
 // Reihenfolge der Produkte: die aus tools/lib/vier-produkte.js — die Zusammensetzung steht an ihren Orten
 // (U2-ADR-386), nicht als weitere Liste hier.
 let _reihenfolge = null;
-const produktReihenfolge = () => (_reihenfolge || (_reihenfolge = require('./lib/vier-produkte.js').PRODUKTE.map((p) => p.slug)));
+const produktReihenfolge = () => (_reihenfolge || (_reihenfolge = require('./lib/vier-produkte.js').auslieferbareProdukte().map((p) => p.slug)));   // Grundprodukte zuerst, dann die Zuschnitte (U2-ADR-489)
 const produktRang = (p) => { const r = produktReihenfolge(); const i = r.indexOf(p); return i < 0 ? r.length : i; };
 
 /* Neueste Fassung zuerst, Produkte in fester Folge. */

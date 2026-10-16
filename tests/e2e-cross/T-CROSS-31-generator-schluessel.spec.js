@@ -6,15 +6,20 @@
    kann: ein ECHTER Klick ist vertrauenswürdig, ein von einem Skript erzeugter nicht; und `window` trägt nichts.
    Rot-Beweis: die Gegenrichtung steht in derselben Datei — der synthetische Klick signiert NICHT, der echte
    danach schon; ohne diesen Kontrast wäre „wird abgewiesen“ auch dann grün, wenn der Knopf tot wäre.
-   Das Zeitlimit und der Rot-Beweis je Zusicherung stehen in tests/generator-schluessel-tresor.test.js.
+   Der Rot-Beweis je Zusicherung steht in tests/generator-schluessel-tresor.test.js.
+   ZEITLIMIT UND ECHTES VERLASSEN IM BROWSER (12.10.2026): bis hierher maß nur der Node-Harnisch das Zeitlimit, mit verkürzter
+   Frist, und das Verlassen war ein nachgestelltes Ereignis. Zwei Proben am Ende dieser Datei messen beides am echten
+   Browser: die Uhr des Browsers wird vorgestellt (das Limit der Seite bleibt 15 Minuten), und die Seite wird wirklich
+   verlassen und über „zurück“ wieder betreten.
    ═════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const H = require('./support/helpers');
 const FIX = require('./fixtures/reise-4-vertrauenskette.json');
 
-async function bisZumPaketKnopf(browser) {
+async function bisZumPaketKnopf(browser, vorDemOeffnen) {
   const ctx = await browser.newContext({ acceptDownloads: true });
   const p = await ctx.newPage();
+  if (vorDemOeffnen) await vorDemOeffnen(p);
   await H.generator.oeffnen(p, 'de');
   await H.generator.stammdaten(p, FIX.stammdaten);
   await H.generator.schluesselErzeugen(p);
@@ -185,6 +190,88 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     const datei = await H.downloadNachTmp(p, H.frischerTmp('gen1-modul'), () => p.click('#ia-erzeugen'));
     const umschlag = JSON.parse(require('node:fs').readFileSync(datei, 'utf8').replace(/^[^{]*/, ''));
     expect(umschlag.modulSignaturJws).toBeTruthy();
+    expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);
+    await ctx.close();
+  });
+  test('(c) Zeitlimit im Browser: mit vorgestellter Uhr ist der Schlüssel nach 15 Minuten fort, davor nicht; das Limit der Seite ist nicht verkürzt', async ({ browser }) => {
+    // Die Uhr des Browsers wird ersetzt, BEVOR die Seite ihren Zeitgeber stellt; sie läuft weiter und lässt sich vorstellen.
+    const { ctx, p } = await bisZumPaketKnopf(browser, (seite) => seite.clock.install());
+    const z = await p.evaluate(() => SCHLUESSEL_TRESOR.zustand());
+    expect(z.limitMs).toBe(15 * 60 * 1000);                                        // keine Testtür: das echte Limit
+    expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(true);
+    await p.clock.fastForward(14 * 60 * 1000);
+    expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(true);    // Gegenprobe: vor Ablauf ist er da
+    await p.clock.fastForward(61 * 1000);
+    expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);   // nach 15 Minuten fort
+    // und ein echter Klick signiert danach nichts mehr: die Seite verlangt die Schlüsseldatei
+    await expect(p.locator('#pr-schluessel-hinweis')).toBeVisible();
+    await expect(p.locator('#pr-submit')).toBeDisabled();
+    await ctx.close();
+  });
+
+  test('(c) echtes Verlassen: die Anwendung verwirft den Schlüssel im pagehide der Navigation; nach „zurück“ ist keiner da', async ({ browser }) => {
+    const { ctx, p } = await bisZumPaketKnopf(browser);
+    expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(true);
+    // Drei Messungen an der ECHTEN Navigation. Im beforeunload, dem letzten Ereignis vor dem pagehide, ist der Schlüssel noch
+    // da (sonst mäße die Probe nichts). Der Tresor meldet danach sein Verwerfen mit dem Grund „verlassen“, und im pagehide
+    // nach dem Griff der Anwendung ist der Schlüssel fort. Ein Messpunkt VOR dem Griff im selben pagehide geht nicht: am
+    // Fenster laufen die Hörer in der Reihenfolge ihrer Anmeldung, und die Anwendung hat sich zuerst angemeldet.
+    // Das Studio fragt beim Verlassen mit offener Arbeit nach (beforeunload): die Probe bestätigt die Rückfrage wie eine
+    // Person, die wirklich geht, und hält fest, dass sie kam. Das Ergebnis schreibt der zweite Messpunkt in den Speicher der
+    // Seite (im Entladen kommt weder eine Konsolenzeile noch ein Funktionsaufruf mehr an, und window.name leert der Browser
+    // beim Wechsel der Herkunft); gelesen wird es nach der Rückkehr.
+    const FACH = 'vd-probe-tresor-bei-pagehide';
+    const rueckfragen = [];
+    p.on('dialog', (d) => { rueckfragen.push(d.type()); d.accept(); });
+    await p.evaluate((fach) => {
+      // Ablauf des Verlassens, Schritt für Schritt in den Speicher der Seite geschrieben: je Ereignis, ob der Schlüssel da ist.
+      const ablauf = [];
+      const merke = (was, e) => {
+        ablauf.push({ was, da: SCHLUESSEL_TRESOR.vorhanden(), sichtbar: document.visibilityState, imSeitenCache: !!(e && e.persisted) });
+        const t = JSON.stringify(ablauf);
+        try { localStorage.setItem(fach, t); } catch (_) { /* dann der Sitzungsspeicher */ }
+        try { sessionStorage.setItem(fach, t); } catch (_) { /* dann fehlt die Messung, und die Probe sagt es */ }
+      };
+      merke('angemeldet');
+      // Der Melder des Tresors nennt den Grund. Er ersetzt hier den der Oberfläche; die Seite wird ohnehin verlassen.
+      SCHLUESSEL_TRESOR.beimVerwerfen((grund) => merke('verworfen:' + grund));
+      window.addEventListener('beforeunload', (e) => merke('beforeunload-einfang', e), true);
+      document.addEventListener('visibilitychange', (e) => merke('visibilitychange', e), true);
+      window.addEventListener('pagehide', (e) => merke('pagehide-danach', e));
+    }, FACH);
+    await p.goto('about:blank');
+    expect(p.url()).toBe('about:blank');     // die Seite ist wirklich verlassen, nicht an der Rückfrage hängen geblieben
+    expect(rueckfragen).toEqual(['beforeunload']);
+    // Rückkehr über „zurück“: gleich ob aus dem Seiten-Cache oder neu geladen, es ist kein Schlüssel da.
+    await p.goBack();
+    await p.waitForFunction(() => typeof SCHLUESSEL_TRESOR !== 'undefined');
+    expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);
+    const roh = await p.evaluate((fach) => {
+      let t = null;
+      try { t = localStorage.getItem(fach); localStorage.removeItem(fach); } catch (_) { /* weiter */ }
+      try { t = t || sessionStorage.getItem(fach); sessionStorage.removeItem(fach); } catch (_) { /* weiter */ }
+      return t;
+    }, FACH);
+    expect(roh, 'das pagehide der Navigation hat seine Messung im Speicher der Seite hinterlassen').not.toBeNull();
+    const ablauf = JSON.parse(roh);
+    const schritt = (was) => ablauf.find((x) => x.was === was);
+    const bericht = JSON.stringify(ablauf);
+    expect(schritt('angemeldet').da, bericht).toBe(true);
+    expect(schritt('pagehide-danach'), bericht).toBeTruthy();
+    expect(schritt('pagehide-danach').da, bericht).toBe(false);         // nach dem Griff der Anwendung im echten pagehide: fort
+    // Unmittelbar davor war er da, und verworfen hat ihn die Anwendung mit dem Grund „verlassen“, genau einmal und vor dem
+    // Messpunkt im pagehide. Ohne diese beiden Zeilen wäre „fort“ auch wahr, wenn der Schlüssel schon vorher gefehlt hätte.
+    expect(schritt('beforeunload-einfang').da, bericht).toBe(true);
+    expect(ablauf.filter((x) => x.was.startsWith('verworfen:')).map((x) => x.was), bericht).toEqual(['verworfen:verlassen']);
+    const iVerworfen = ablauf.findIndex((x) => x.was === 'verworfen:verlassen');
+    expect(iVerworfen, bericht).toBeGreaterThanOrEqual(0);
+    const iDanach = ablauf.findIndex((x) => x.was === 'pagehide-danach');
+    expect(iDanach, bericht).toBeGreaterThanOrEqual(0);
+    expect(iVerworfen, bericht).toBeLessThan(iDanach);
+    test.info().annotations.push({ type: 'Ablauf', description: bericht });
+    // und nach einem Neuladen ebenso
+    await p.reload();
+    await p.waitForFunction(() => typeof SCHLUESSEL_TRESOR !== 'undefined');
     expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);
     await ctx.close();
   });

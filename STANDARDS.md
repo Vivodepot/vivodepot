@@ -166,7 +166,8 @@ mit dem Text aufgerufenen Parsers, den die Faktenbasis erfasst.
 
 ## Depot-eigenes Format
 
-**Export/Import:** `json` — Vollexport (`vollExportJSON`) bzw. Vollimport (`_vollDepotParsen`).
+**Import:** `json` — Vollimport früherer JSON-Vollexporte (`_vollDepotParsen`). Sicherung und Umzug gehen über die
+verschlüsselte Depot-Datei („Sicherungskopie erstellen“).
 Kein externer Standard, kein Versions-/Profil-Marker im Sinne dieses Dokuments: das depot-eigene
 Format folgt der internen Datenmodell-Struktur, nicht einer externen Spezifikation.
 
@@ -197,7 +198,7 @@ und `VivodepotProviderCredential`.
 ## Interner Versionsstand
 
 <!-- STANDZAHLEN:BEGIN — erzeugt von tools/build-standzahlen.js; Quelle: vivodepot.html -->
-Schema-Version 92, `SCHALEN_STAND` v928.
+Schema-Version 92, `SCHALEN_STAND` v929.
 <!-- STANDZAHLEN:END -->
 
 ---

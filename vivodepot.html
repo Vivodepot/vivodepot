@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <!--
-  Vivodepot — Fassung v1.0.928. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
+  Vivodepot — Fassung v1.0.929. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
   SPDX-License-Identifier: EUPL-1.2
   Copyright (c) 2026 Vivodepot GmbH, Berlin.
 
@@ -40,18 +40,55 @@
      scheitert das (z. B. weil der Rahmen es per `sandbox` verhindert), bleibt der Inhalt über die
      CSS-Regel verborgen statt sichtbar zu werden. Dasselbe Muster in vivodepot-lesen.html; Probe
      in der Probe zum Rahmen-Schutz.
+     Seit 12.10.2026 hängt das Verbergen im Rahmen nicht mehr am Stil-Element (eine vom Browser gesicherte Kopie
+     trägt es nicht mehr), und derselbe Block erkennt eine solche Kopie an der Marke `data-vd-lauf` und ersetzt sie
+     durch einen Hinweis (Befunde RAHMENSCHUTZ-FAELLT-IN-GESICHERTER-KOPIE, GESICHERTE-KOPIE-TRAEGT-KLARTEXT).
      `id="rahmen-schutz"` ist Pflicht, kein Beiwerk: der Wächter (tools/krypto-block-
      propagation-pruefen.js) findet den byte-gepinnten VdCrypto-Block (Script 1) über das ERSTE
      namenlose Skript-Element im Dokument (reine Textsuche, keine echte HTML-Auswertung) — ein
      namenloses Element hier, vor Script 1, hätte den Wächter auf diesen Block statt auf den
      echten umgelenkt (real getroffen, sofort behoben, s. Bericht). -->
 <style id="rahmen-verbergen">body{display:none !important}</style>
+<style id="gesicherte-kopie-stil">#vd-gesicherte-kopie{max-width:36rem;margin:12vh auto;padding:0 1.5rem;line-height:1.6}</style>
 <script id="rahmen-schutz">
-  if (window.self === window.top) {
-    document.getElementById('rahmen-verbergen').remove();
-  } else {
-    try { window.top.location = window.self.location.href; } catch (e) { /* CSS-Verbergen bleibt bestehen */ }
-  }
+  (function () {
+    var wurzel = document.documentElement;
+    /* Gesicherte Kopie (12.10.2026): „Seite speichern“ im Browser schreibt den Stand NACH dem Skriptlauf, bei geöffnetem
+       Depot samt den gezeigten Angaben. Die Marke unten steht dann schon im Dokument, bevor ein eigenes Skript lief.
+       Eine solche Datei zeigt nichts und führt nichts aus: alle folgenden Skripte werden gesperrt, der Inhalt wird
+       entfernt, sobald er gelesen ist, und an seine Stelle tritt ein Hinweis. */
+    if (wurzel.hasAttribute('data-vd-lauf')) {
+      wurzel.style.setProperty('display', 'none', 'important');
+      var sperre = document.createElement('meta');
+      sperre.setAttribute('http-equiv', 'Content-Security-Policy');
+      sperre.setAttribute('content', ['script-src', "'none'"].join(' '));   // zwei Teile: eine Richtlinie, kein Satz
+      document.head.appendChild(sperre);
+      document.addEventListener('DOMContentLoaded', function () {
+        var koerper = document.body;
+        if (!koerper) return;
+        var hinweis = document.getElementById('vd-gesicherte-kopie');
+        while (koerper.firstChild) koerper.removeChild(koerper.firstChild);
+        if (hinweis) {
+          hinweis.removeAttribute('hidden');
+          koerper.appendChild(hinweis);
+          var kopf = hinweis.firstElementChild;   // die Kopfzeile des Hinweises
+          if (kopf) document.title = kopf.textContent;
+        }
+        var alt = document.getElementById('rahmen-verbergen');
+        if (alt) alt.remove();
+        wurzel.style.removeProperty('display');
+      });
+      return;
+    }
+    wurzel.setAttribute('data-vd-lauf', '1');
+    var oben = false;
+    try { oben = window.self === window.top; } catch (e) { oben = false; }
+    var stil = document.getElementById('rahmen-verbergen');
+    if (oben) { if (stil) stil.remove(); return; }
+    // Im fremden Rahmen: verbergen, ohne am Stil-Element zu hängen, und das umgebende Fenster auf sich umleiten.
+    wurzel.style.setProperty('display', 'none', 'important');
+    try { window.top.location = window.self.location.href; } catch (e) { /* bleibt verborgen */ }
+  })();
 </script>
 <!-- Erscheinungsbild (U2-ADR-473 Nachtrag, v894, 02.10.2026). Das Gerüst trägt keine Erscheinungswerte (Entscheidung
      vom 02.10.2026: „Das Gerüst muss komplett leer sein von Inhalten, auch Designinhalten“ (U2-ADR-426). Die Werte kommen
@@ -1831,6 +1868,11 @@ html.vm-akzent .toast.warn, html.vm-akzent .toast.warnung { background: var(--wa
      `hidden`; sonst nie sichtbar. -->
 <div id="eingang-fehler-hinweis" role="alert" hidden style="position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;padding:2rem;background:#fff;color:#111;font:16px/1.5 sans-serif;text-align:center;">Der Eingang konnte nicht aufgebaut werden.</div>
 
+<!-- Hinweis einer vom Browser gesicherten Kopie (12.10.2026). Statisches Markup, verborgen: der Kopf-Block zeigt in einer
+     gesicherten Kopie nur dieses Element und entfernt alles andere. Der Text steht hier und in keinem Skript, damit er da
+     ist, wenn kein Skript mehr läuft. -->
+<div id="vd-gesicherte-kopie" hidden><strong>Gespeicherte Kopie · Saved copy</strong><p lang="de">Diese Datei hat der Browser aus der laufenden Anwendung gespeichert. Sie ist nicht die Anwendung und kann Angaben in lesbarer Form enthalten. Bitte löschen Sie diese Datei. Die Anwendung als Datei erhalten Sie in der Anwendung selbst: in den Einstellungen der Eintrag „… als Datei erhalten“.</p><p lang="en">The browser saved this file from the running application. It is not the application and may contain details in readable form. Please delete this file. To get the application as a file, open the application and choose “Get … as a file” in Settings.</p></div>
+
 <!-- ════════════════════════════════════════════════════════════════════════
      „Produkt ist eine Datei" (10.09.2026): die Vor-Depot-Konfiguration (U2-ADR-
      182 Weg B, signierte Modul-Bündel), bisher `vorabkonfiguration.js` als externe Begleitdatei
@@ -2458,7 +2500,7 @@ const APP_VERSION = 1;
 // aus, zeigt der Fuß-Stempel den ALTEN Stand — der SW-Cache-Stale-Fehler wird in einer Sekunde
 // sichtbar (mehrfach am 12./13.07. aufgetreten). Zusammen mit dem live gelesenen SW-Cache-Namen
 // beantwortet der Stempel: welche Bytes sind geladen (SCHALEN_STAND) und was hält der SW (SW-Cache).
-const SCHALEN_STAND = 'v928';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v928 (Zug zug-folge9): Fremdtext in vier Senken geschlossen — die Anlass-Kachel zeigt den Titel ihrer Situation als Text, die Kennung eines Logikmoduls hat am Einlass die Form eines Attributnamens, Platzhalter in Texten eines Sprachmoduls werden nach dem Einsetzen noch einmal auf reinen Text geprüft, Werte in Attributen der Eingabemasken laufen über die Attribut-Maskierung; davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
+const SCHALEN_STAND = 'v929';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v929 (Zug zug-folge10): Safari am Schreibtisch gilt nicht mehr als iPhone oder iPad — iosNichtInstalliert verlangt zu navigator.standalone auch Berührungspunkte (maxTouchPoints oder groben Zeiger), darum bietet Safari am Mac nach „Depot anlegen“ kein „In der App anlegen“ und keinen Home-Bildschirm-Hinweis mehr an; iPadOS im Desktop-Modus bleibt ein iPad; das xShare-Yellow-Button-Zeichen und der SMART-Health-Link-Weg gehören nur zu Gesundheit — ein Bildungsnachweis (EDC, Open Badge) und jedes andere autoritative Original außerhalb von Gesundheit trägt kein Zeichen mehr (eine Prüfung, eine Tür, ein Wächter gegen die Klasse), und shlProviderPayload und flowShlVorbereiten lehnen ein solches Original ab; ein älteres Original ohne Bereichsangabe bleibt teilbar; eine Modul-App legt ihre Begleitdatei vorabkonfiguration.js bei der Installation des Service Workers mit ab und startet nach dem ersten Besuch auch ohne Netz mit ihrer Konfiguration (Befund MODUL-APP-VORABKONFIGURATION-OFFLINE); der Textsatz-Lauf bricht an keiner angedockten Situation mehr ab — eine eingefrorene Situation wird nicht beschrieben, ihre Blöcke werden gefüllt (TEXTSATZ-LAUF-BRICHT-AN-ANGEDOCKTER-SITUATION); eine vom Browser mit „Seite speichern“ gesicherte Kopie führt nichts mehr aus und zeigt nur einen Hinweis; der Schutz gegen das Einbetten in eine fremde Seite hängt nicht mehr am Stil-Element und wirft nicht, wenn es fehlt; in der gehosteten Fassung trägt der Abschnitt „Über“ der Einstellungen den Eintrag „… als Datei erhalten“, ein Link auf den Schalter ?datei=1 des Dienstes; sw.js lässt den Schalter durch, legt seine Antwort nicht ab und beantwortet ihn nicht aus dem Speicher (Befund ANWENDUNG-ALS-DATEI-OHNE-WEG). Davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463); scheitert beim ersten Sichern das Schreiben in die gewählte Datei, sagt die Anwendung, dass die Sicherung stattdessen im Download-Ordner liegt; jede Abweisung beim Öffnen nennt ihren Grund — eine Datei einer anderen Krypto-Fassung, ein beschädigter Stand und kein Depot auf dem Gerät heißen nicht mehr falsches Passwort; beim Einlesen wird gesagt, was nicht übernommen wurde (Modul, Vorlage, Anfrage), eine Anfrage oder Vorlage aus einer neueren Fassung wird als solche benannt, und die Übersicht einer Anfrage sagt, wenn mit den Voreinstellungen Nötiges zurückbleibt; v928 (Zug zug-folge9): Fremdtext in vier Senken geschlossen — die Anlass-Kachel zeigt den Titel ihrer Situation als Text, die Kennung eines Logikmoduls hat am Einlass die Form eines Attributnamens, Platzhalter in Texten eines Sprachmoduls werden nach dem Einsetzen noch einmal auf reinen Text geprüft, Werte in Attributen der Eingabemasken laufen über die Attribut-Maskierung; davor: v927 (Zug zug-folge8): ein Bereich aus der Datei, dessen Beschreibung nicht als ausgeliefert erkannt ist, behält auch an Abschnitt, Feld, Unterfeld und Option nur, was in einer geschlossenen Liste steht (zeigen, Eingabe annehmen, einschränken); Marken, Fristen, Prüf-Intervalle, Zweck und Rolle eines Verweises, Quellen und Sichtbarkeitsbedingungen kommen aus keiner solchen Beschreibung, und ein Verweis auf eine Person oder Stelle wird darin nur gelesen — vorher setzte ein solches Feld einen Termin in die Prüftermine des Depots (Befund DATEI-BEREICH-FELD-EIGENSCHAFTEN, U2-ADR-398, Nachtrag 11.10.2026). v926 (Zug zug-folge7b): Bereiche aus der Mitschrift einer Datei (Fächer bereich und bereichsErsatz) werden alle gezeigt; als ausgeliefert gilt eine Definition nur noch nach Inhalt (Struktur und jeder Text einzeln gegen die aus den ausgelieferten Ständen erhobenen Mengen), jede andere gilt als „aus der Datei“, behält von den Eigenschaften mit Wirkung nur die Darstellung des Personen- und des Stellen-Registers und zählt in der Herkunft als Erweiterung ohne geprüfte Herkunft; das Öffnen einer fremden Datei lässt ihre Mitschrift unverändert, das Nachtragen ersetzt eine erkannte Definition durch die Form des Produkts (Befund MITSCHRIFT-AB-WERK-NACH-POSITION, U2-ADR-398 und U2-ADR-243, Nachträge 11.10.2026). v925 (Zug zug-folge7c): die Fläche für Proben fehlt in jedem ausgelieferten Produkt, und ein Produkt lädt seine Vor-Depot-Konfiguration nicht mehr nach; die Einstellungen nennen, wo die Prüfsumme jeder ausgelieferten Fassung veröffentlicht ist, statt einen Wert zu versprechen, den die Datei nicht tragen kann. v924 (Zug zug-folge7): Anbieter-Zertifikate werden gegen einen Satz von Vertrauensankern geprüft, ausgewählt nach Schlüsselkennung, mit Widerrufsliste; der Algorithmus kommt aus dem Anker, nicht aus dem Zertifikat; die Fingerabdrücke bekannter Module und zurückgezogener Fassungen tragen ihr Hash-Verfahren (sha256:) als Kennung; ein Gesundheitsauszug sagt bei jedem Eintrag, dass ihn die Person selbst angelegt hat (FHIR-Herkunft je Eintrag, auch in der KBV-Patientenkurzakte und im Krankenhausdokument). v923 (Zug zug-folge6): QR-Codes zum Übergeben haben eine zweite Form; eine Lese-App vor v923 liest sie nicht, Codes der ersten Form öffnen weiter bis zum 15.11.2026; beim Anlegen steht der Passwortvorschlag schon im Feld, eine Bestätigung bleibt leer, wer selbst tippt, holt ihn mit „Passwort vorschlagen“ zurück; ein selbst gewähltes Passwort und das Fach-Passwort für Personen im Kreis brauchen mindestens 12 Zeichen statt 8, Depots und Fächer mit kürzerem Passwort öffnen weiter; Gliederung über Fläche statt Linien auch außerhalb des Inhalts; eine ausgefüllte Vorlage kommt über die Anfrage zurück, nur die geprüfte Stelle erreicht ihre eigenen Felder; die Ablage-Adresse in einem Teil-Link wird geprüft, ein fremder Host vor dem Öffnen bestätigt; Dokumente tragen die Ausgabe-Beschriftung eines Felds, nicht den Eingabehinweis; Kern und Lese-App zeigen jedes Unterfeld einer Liste als „Beschriftung: Wert“; ein Sub-Depot aus einer frühen Testfassung wird nicht mehr händisch umgezogen, es meldet sich verständlich und bleibt unverändert; im Sub-Depot trägt die ganze Oberfläche den Ton des Depots, nur die Marke nicht; acht neue Töne, die sich klar von Salbei unterscheiden, und ältere Depots in Hafer, Schilf oder Flieder erscheinen im nächsten neuen Ton; der Hinweis zum Einrichten in der Kopfzeile kommt ohne Warndreieck aus. v922 (Zug zug-folge5): die Seitenleiste zeigt „Bereiche“ und „Austausch und Überblick“ als zwei gleich starke Ebenen, der Start ist eine ruhige Karte mit klaren Knöpfen; eine leere Liste zeigt ihren ersten Eintrag direkt zum Ausfüllen, darunter erscheint danach „Weitere … hinzufügen“ (bei Personen erst ab einer Person); die Felder der Umschau nennen beim Eintragen ihren Namen, und der Eintragsdialog setzt den Fokus ins erste Feld; Pro trägt das Notariatsmodul nicht mehr ab Werk, es kehrt mit der Wahl des Berufsmoduls beim Kauf zurück; ein älteres Pro-Depot behält alle Werte, die der Notariatsauszug las; eine Datei aus einer früheren Fassung behält in einem anderssprachigen Produkt ihren Haftungshinweis und ihre geschützten Texte; ein Text, der in einer anderen Sprache erscheint, nennt seine Sprache; jedes erzeugte Dokument trägt den Haftungshinweis, auch als PDF und auf der Notfallkarte. v921 (Zug zug-folge4): Pro rahmt seine eigenen Bereiche und Berufsmodule nicht mehr als fremd ein; ein Assistent ohne Zielbereich im Produkt wird nicht angeboten, und kein Weg führt mehr auf eine leere Seite ohne Markierung. die vier Produkte tragen ab Werk ein anderes Erscheinungsbild-Modul (Glas auf der ganzen Fläche); auf WebKit im Tab bietet „Depot anlegen“ zuerst die App an und im Browser danach eine Datei, die Erinnerung kommt nach Änderungen sofort statt nach 14 Tagen; wer in der Umschau eintragen will, kommt sofort zu „Depot anlegen“, die Startseite bietet „Depot anlegen“ und leise „Erst umsehen“; Pro ohne Notfall, mit den Situationen Vertretung, Übergabe, Einarbeitung und Nachfolge; Pro trägt keine privaten Kacheln und Lebenslagen mehr, eine ältere Pro-Datei behält ihre Werte; 55 neue Pro-Felder, nur angehängt; Berufsmodule Steuerberatung und Kanzlei (U2-ADR-243). Eine Schriftart aus dem Erscheinungsbild ohne eigene Schriftdatei fällt nie auf eine Serifenschrift zurück; ob die Schrift eines Profils alle Zeichen trägt, die das PDF fest druckt, prüft der Bau. v920 (Zug zug-folge3): beim Öffnen wird die Signatur jedes mitgeführten Moduls offline nachgeprüft; Vertrauen und Herkunft kommen nur aus dieser Prüfung, nie aus einem Feld der Datei, auch in der Lese-App. v919 (Zug zug-folge2): die Anwendung schreibt keinen Antwort-Umschlag v1 mehr, die Lese-App öffnet ihn weiter; keine Serifenschrift mehr; die Schriften kommen mit dem Erscheinungsbild, das Gerüst trägt keine Schrift; ohne geprüfte PDF-Schrift kein PDF, mit Hinweis und Ausweg (U2-ADR-473); Einmal-Hinweise beim Öffnen stehen in einer Reihe; ein Hinweis, der warten musste oder überschrieben wurde, kommt nach dem nächsten Schließen, statt nach zehn Sekunden still auszufallen (u. a. „nur lesen“ zu einer Datei aus einer neueren Fassung). v918 (Zug zug-folge1): eine veränderte Datei wird erkannt: der Ort-Hinweis und weitergetragene Umschlagfelder sind im verschlüsselten Teil gebunden, nach dem Öffnen warnt die Anwendung; KBV-Patientenkurzakte, die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis, Anschrift des Ablageorts (U2-ADR-471); Beratungshilfe heißt auf Englisch „advice assistance“, nicht „legal aid“; ein Format-Modul schreibt eine XML-Datei nach einem FIM-Leistungsschema, mit Namensraum, festen Werten und Hinweis in der Datei (U2-ADR-465). v917 (eine Fassung je Zug, der ganze Sammelzug): die Lese-App hält die Schutzliste, alte Ab-Werk-Kopien werden beim Öffnen durch die mitgelieferte Fassung ersetzt (E4); Pro trägt Erbschein und Zugang ab Werk; Hilfe-Themen 12 bis 14; Pflichthinweise der Codelisten sichtbar. v894: das Gerüst trägt keinen Gestaltungswert, das Erscheinungsbild kommt als Modul (U2-ADR-473 Nachtrag). v885: Erweiterungen aus Dateien sind vorübergehend gesperrt; Haftungs- und amtliche Texte kommen nur aus der Anwendung. v884: Studio und Lese-App halten keinen privaten Schlüssel mehr im Klartext (Schlüsseldateien nur noch passwortverschlüsselt, .vdkey), die Lese-App prüft wie der Kern (Befund JWK-IN-STATE). v877: die Lese-App nennt eine Vorlage, deren Anbieter widerrufen und abgelaufen ist, als widerrufen, nicht nur als abgelaufen. v876: der Hinweis zur Abschrift im Zentralen Vorsorgeregister nennt die Rechtslage seit 01.10.2026 (wer einreicht, wer einsieht, was das Register nicht zeigt). v875: Vorführung myHealth (EN, Vertretung): der FHIR-Auszug zeigt RelatedPerson und Consent, über der Datei steht das Urteil des Validators. v874: Patientenverfügung im Wortlaut der BMJ-Textbausteine, Angabezeilen in 2.7 und 2.12 (U2-ADR-459). v872: Notiz der Vorführung: Platzhalter statt Rand, auch in der Lese-App; § 1829 BGB in Beschriftung und Frage. v868: Firefox warnt vor der Frage nach dauerhaftem Speicher; die Einstellungen sagen, wann der Browser das Depot löschen kann. v867: Gültigkeit gehaltener Nachweise: gültig ab/bis, abgelaufen und noch nicht gültig sichtbar, Status ungeprüft benannt. v865: die SD-JWT-Ausgaben sind selbst signiert (Ed25519, U2-ADR-457), auf beiden Wegen; der Halter-Schlüssel wird nie extrahierbar importiert (öffentlicher Schlüssel aus noble-ed25519 fa14496, Selbstprobe). v864: Bildungsangaben statt EDCI-Namen: der Bildungs-Export ist kein European Digital Credential; frühere Kennung und Schema werden weiter gelesen; Standardnamen je Weg geprüft. v863: ISiK Stufe 6: Vollmacht und IPS als DocumentReference für das Krankenhaus; die KDL lädt die Person selbst (U2-ADR-468). v860: Hüllen-Metadaten, jede Einheit auf 1-KiB-Stufen aufgefüllt, Stand-Marke statt Klartext-Zeitpunkt (U2-ADR-464). v857: Vollmacht, Patientenverfügung und Betreuungsverfügung als Sektion Advance Directives im IPS/EPS-Export (U2-ADR-466). v856: Namen und Anschrift in getrennten Feldern (Schema 91, U2-ADR-467); Anschrift aus der bisherigen Zeile nur als Vorschlag, Namen nie zerlegt. Davor: Anfrage per QR: kompakte Transportform z1. (deflate-raw über den JWS), Entpacken mit 64-KB-Grenze (U2-ADR-460). v852: die Sprache des IPS-Begleittexts wird beim Export gewählt (U2-ADR-458). v855: Ablage ohne Netz (U2-ADR-463).
 // (18.09.2026): beide Linien brachten ihre eigene Erhöhung unabhängig voneinander (Schnitt v734,
 // Verschluss v743) — hier zur gemeinsamen v744 zusammengeführt, Zuteilung.
 // Vorige (Schnitt-Linie, v734): v731 doppelt vergeben (vdm4-lese-app-trennung-2026-09-17), hier
@@ -2565,7 +2607,7 @@ function heuteLokal(d = new Date()) {
 // Konstanten waren nie aneinander gebunden. Jetzt erzwungen: tests/build-datum-lockstep.test.js
 // vergleicht diese Zeile gegen die vorige Commit-Fassung und schlägt fehl, wenn SCHALEN_STAND
 // sich geändert hat, ohne dass BUILD_DATUM ebenfalls angefasst wurde. IMMER gemeinsam bumpen.
-const BUILD_DATUM = '2026-10-13';
+const BUILD_DATUM = '2026-10-14';
 // Schwelle (Tage), ab der der Versions-Hinweis erscheint. ~6 Monate.
 const VERSION_HINWEIS_SCHWELLE_TAGE = 183;
 /* Die Marken-Stelle des Kerns (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst nirgends —
@@ -4353,22 +4395,22 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "sha256:05c687b2713c3a0d01e7b18e7a1e3efdb8c7cf355b1bc7bb800013d6446b255f",
   "sha256:0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
   "sha256:0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
-  "sha256:0d4d10947b17e1946510a7a0ca98e575f32b6df2f5ff28d408ed2614a4e1114b",
   "sha256:0d8605a8bc42b0c2796e2d9f5d6dde4f79563d245e67f7f4c665e3669600b2d2",
   "sha256:0f01455aa7ca63e9cb44e0861ea466b9a1c6f1dee81fbc9d73cfbc958d0cdbb8",
   "sha256:0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
   "sha256:10277e2dd1c9ae51cbc473c4dc496a3063b83cdfb24d4918da0a676f17ffe64c",
-  "sha256:1228935368d4b2d7b2862c5d951700eaecea366520aa9f3f95444d155db7ccbd",
   "sha256:2685b2331a675c920d9272f1c6ce819fa34b3153cc1ec58a654a5a1fa26d4bbf",
   "sha256:2ed1acce49b700471e62beddf17a7262e88b3ff73753f220f44af3d5739f26c6",
   "sha256:2ffa1fee03cdb283b3d1634245b018132736607e2866d87bee7e7b9334320f94",
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
+  "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
   "sha256:48eecf50d5bda7dbe67e03ef2f76088788100d6e818f5ed24d1dab06bd10fb94",
   "sha256:525d92f3334b2cb544ee89d1a541c661dfda1411ad187e067fef42e2eaf1ee64",
   "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
+  "sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",
   "sha256:64c87d3825b00e4f002c2a71945f8a5390cc19a40c97b9e91c38c4c4e9e9aee6",
   "sha256:67533c21c1d79f9a342f32a9e5372d8b951a6aa74f34579da136884991fb54d6",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
@@ -9290,6 +9332,7 @@ let _vorDepotZielGecached = null;
 // Slots. Getrennte Variable, weil die Schreibform eine andere ist (`plan`-Objekte, nie ein
 // `EINLASS_REGISTER`-Slot) — s. Kopf-Kommentar an `vorDepotKonfigurationAnwenden`.
 let _vorDepotVorlagenZertifikatePlan = [];
+let _vorDepotVorlagenVerworfen = [];   // v929: eingebackene Vorlagen, die nicht eingelassen wurden, je mit Grund
 // U2-ADR-404-Nachtrag (12.09.2026) — ein Ergebnis-Eintrag je angewendetem Plan, geschrieben von
 // `_vorDepotModulInsDepotUebernehmen`. `vollstaendigGescheitert: true` markiert ein signiertes
 // Zertifikat, das keine einzige seiner Felder setzen konnte (z. B. Zielbereich existiert im
@@ -10134,9 +10177,15 @@ function _textsatzBloeckeFuellen(bloecke, sitKennung, tun) {
    DER GETTER WIRD GENAU EINMAL GELEGT. Ein zweiter Aufruf mit `tun` wuerde sonst den
    vorigen Getter einwickeln, und die Kette waechst mit jedem Anmelden eines Moduls.
    Die rohe Quelle bleibt darum als nicht aufzaehlbares `_textsatzRoh` am Eintrag stehen. */
+/* EINE ANGEDOCKTE SITUATION BLEIBT EINGEFROREN (13.10.2026). situationsModulPruefen friert sie ein, ihr Titel ist
+   schon ein Getter, der die aktive Sprache liest. Der Lauf schrieb trotzdem in sie (Füllen wie Zurücknehmen), das warf,
+   und weil der Lauf alle Beschriftungen in einem Stück trägt, blieb die ganze Anwendung halb zurückgenommen — dieselbe
+   Bauart wie bei den Bereichen am 09.09.2026. Hier wird sie nicht beschrieben; ihre Blöcke gehören dem Modul und werden
+   gefüllt wie die einer eingebauten Situation (tests/textsatz-lauf-mit-angedocktem-modul.test.js). */
 function _textsatzAufSituationenAnwenden(liste, tun, vorprefix) {
   for (const sit of liste) {
     const kennung = (vorprefix || 'situation:') + sit.id;
+    if (!Object.isExtensible(sit)) { _textsatzBloeckeFuellen(sit.bloecke, kennung, tun); continue; }
     (tun || _TEXTSATZ_FUELLEN)(sit, kennung, false);
     if (sit._textsatzRoh) { _textsatzBloeckeFuellen(sit._textsatzRoh(), kennung, tun); continue; }
     const beschreibung = Object.getOwnPropertyDescriptor(sit, 'bloecke');
@@ -17516,7 +17565,11 @@ async function depotLaden(umschlag, password, belegOpts) {
   // keine Lese-Pfade für v1/v2. Wirft, BEVOR ~600k PBKDF2 laufen → ein v1/v2-Container
   // erreicht den B1-NFD-Retry nie (kein Konflikt mit den Trennungs-Negativtests).
   if (!umschlag || !KRYPTO_VERSION_ALLOWLIST.includes(umschlag.kryptoVersion)) {
-    throw new Error('Laden: nur kryptoVersion ' + KRYPTO_VERSION_ALLOWLIST.join('/') + ' (v3-only, keine Legacy-Lesepfade).');
+    // KRYPTO-FASSUNG-HEISST-FALSCHES-PASSWORT (13.10.2026): der Wurf trägt seinen Grund als Code — die Oberfläche
+    // nennt ihn (oeffnenAbweisungText), statt ein falsches Passwort zu behaupten.
+    const e = new Error('Laden: nur kryptoVersion ' + KRYPTO_VERSION_ALLOWLIST.join('/') + ' (v3-only, keine Legacy-Lesepfade).');
+    e.code = 'krypto-fassung';
+    throw e;
   }
   const pbkdf2Salt = base64ToBytes(umschlag.pbkdf2.salt);         // 16 Byte → masterBits
   const depotSalt = base64ToBytes(umschlag.depotSalt);           // 32 Byte → HKDF-Salt
@@ -17874,8 +17927,14 @@ async function dateiAusgeben(blob, dateiname, mime) {
    (neutral, frei wählbar) + ehrlicher Hinweis, danach stabilen Namen wiederverwenden. */
 async function _depotBlobSpeichern(blob) {
   let zielverlust = false;   // S11: ein Fehlschlag ist nur dann ein ZIELVERLUST, wenn vorher schon ein Ziel gemerkt war
+  /* ERSTE-DATEISICHERUNG-SCHEITERT-STILL (13.10.2026): hat die Nutzerin beim ERSTEN Sichern eine Datei gewählt und
+     scheitert das Schreiben dorthin (write/close, etwa bei vollem Speicher), fiel der Weg bisher ohne Ansage auf den
+     Download zurück — sie glaubte, an ihrem Ort liege eine Sicherung. Jetzt sagt es eine eigene Ansage, wie S11 beim
+     verlorenen Ziel. Ein Picker, der selbst scheitert, hat keine Datei gewählt: dort bleibt der stille Download. */
+  let gewaehlteDateiNichtGeschrieben = false;
   if (hatDateiSpeichernPicker()) {
     const hatteSchonEinZiel = !!_dateiHandle;
+    let dateiGewaehlt = hatteSchonEinZiel;
     try {
       if (!_dateiHandle) {
         _dateiHandle = await window.showSaveFilePicker({
@@ -17883,6 +17942,7 @@ async function _depotBlobSpeichern(blob) {
           types: [{ description: 'Vivodepot-Sicherung', accept: { 'application/octet-stream': ['.vivodepot'] } }],
         });
         _dateiName = (_dateiHandle && _dateiHandle.name) || _dateiName;
+        dateiGewaehlt = !!_dateiHandle;
       } else {
         // S11 (Auftrag „Das Stick-Versprechen halten", 09.08.2026) — VORHER prüfen, ob das gemerkte
         // Handle noch trägt, statt es blind zu versuchen und den Fehlschlag erst am Schreiben zu
@@ -17906,6 +17966,7 @@ async function _depotBlobSpeichern(blob) {
       // Picker direkt scheitert, verliert nichts (es gab noch kein Ziel), das bleibt der normale,
       // unveränderte Download-Pfad ohne Modal (EINE dateiAusgeben-Aufrufstelle bleibt es, s. u.).
       zielverlust = hatteSchonEinZiel;
+      gewaehlteDateiNichtGeschrieben = !hatteSchonEinZiel && dateiGewaehlt;
     }
   }
   // Nicht-FSA ODER FSA-Fehlschlag: stabiler Name (gewählt via UI-Geste über _dateiNameSicherstellen,
@@ -17920,6 +17981,7 @@ async function _depotBlobSpeichern(blob) {
   const zielname = _dateinameMitUhrzeit(_dateiName || depotDateiname(), new Date());
   const weg = await dateiAusgeben(blob, zielname, 'application/octet-stream');
   if (zielverlust && weg !== 'abgebrochen' && weg !== 'vorschau') { _zielwechselAnsagen(); return 'zielverlust'; }
+  if (gewaehlteDateiNichtGeschrieben && weg !== 'abgebrochen' && weg !== 'vorschau') { _schreibfehlerAnsagen(); return 'zielverlust'; }
   return weg;
 }
 
@@ -18101,6 +18163,19 @@ function _zielwechselAnsagen() {
     ui.modal({
       titel: STRINGS.zielwechselTitel,
       koerperHTML: '<p>' + escapeHTML(STRINGS.zielwechselText) + '</p>',
+      primaerLabel: STRINGS.btnSchliessen, onPrimaer: (schliessen) => schliessen(), ohneAbbrechen: true,
+    });
+  } catch (_) { /* eine Ansage darf den Speicherpfad nie blockieren */ }
+}
+
+// ERSTE-DATEISICHERUNG-SCHEITERT-STILL — die Ansage, wenn die gewählte Datei nicht geschrieben wurde. Bauart wie
+// _zielwechselAnsagen: Modal, kein Toast; sie meldet nur, was schon geschah, und blockiert den Speicherpfad nie.
+function _schreibfehlerAnsagen() {
+  try {
+    if (typeof ui === 'undefined' || !ui.modal) return;
+    ui.modal({
+      titel: STRINGS.schreibfehlerTitel,
+      koerperHTML: '<p>' + escapeHTML(STRINGS.schreibfehlerText) + '</p>',
       primaerLabel: STRINGS.btnSchliessen, onPrimaer: (schliessen) => schliessen(), ohneAbbrechen: true,
     });
   } catch (_) { /* eine Ansage darf den Speicherpfad nie blockieren */ }
@@ -19008,9 +19083,9 @@ async function depotAusIdbLaden(password) {
   for (const record of liste) {
     let umschlag;
     try { umschlag = JSON.parse(record.cipherBlob); }
-    catch (e) { ersterFehler = ersterFehler || new Error('Interner Stand beschädigt (kein gültiger Umschlag).'); continue; }
+    catch (e) { ersterFehler = ersterFehler || Object.assign(new Error('Interner Stand beschädigt (kein gültiger Umschlag).'), { code: 'datei-defekt' }); continue; }
     if (!umschlag || !KRYPTO_VERSION_ALLOWLIST.includes(umschlag.kryptoVersion)) {
-      ersterFehler = ersterFehler || new Error('Interner Stand: nur kryptoVersion ' + KRYPTO_VERSION_ALLOWLIST.join('/') + ' (v3-only, kein Bestand-Fallback).');
+      ersterFehler = ersterFehler || Object.assign(new Error('Interner Stand: nur kryptoVersion ' + KRYPTO_VERSION_ALLOWLIST.join('/') + ' (v3-only, kein Bestand-Fallback).'), { code: 'krypto-fassung' });
       continue;
     }
     try { await depotLaden(umschlag, password); }           // setzt data + Session-Globals
@@ -19179,7 +19254,18 @@ function erhoehtesVerlustRisiko() {
 // iOS-Safari, NICHT als App installiert? (navigator.standalone ist iOS-Safari-eigen — Feature-Detektion,
 // kein UA-Sniffing; === false heißt „auf iOS, aber nicht vom Home-Bildschirm geöffnet".)
 function iosNichtInstalliert() {
-  try { return typeof navigator !== 'undefined' && !!navigator && ('standalone' in navigator) && navigator.standalone === false; } catch (_) { return false; }
+  try { return typeof navigator !== 'undefined' && !!navigator && ('standalone' in navigator) && navigator.standalone === false && _handgeraet(); } catch (_) { return false; }
+}
+/* Handgerät oder Schreibtisch? (Befund SAFARI-ERKENNUNG-TRIFFT-SCHREIBTISCH-WEBKIT, 13.10.2026): navigator.standalone trägt auch
+   Safari am Mac (gemessen 12.10.2026 an Safari 27.0: Feld vorhanden und false, maxTouchPoints 0) und Playwright-WebKit am Schreibtisch;
+   allein reicht es nicht für „iPhone oder iPad“. Ein Handgerät hat Berührungspunkte: maxTouchPoints > 0, oder einen groben Zeiger
+   (pointer: coarse). iPadOS im Desktop-Modus meldet einen Mac-Browser und trägt trotzdem Berührungspunkte, bleibt also ein iPad. Eine
+   Fähigkeit, kein UA-Muster (U2-ADR-097 §12). */
+function _handgeraet() {
+  try {
+    if (navigator.maxTouchPoints > 0) return true;
+    return !!window.matchMedia('(pointer:coarse)').matches;   // ohne navigator/matchMedia wirft es, der Fang liefert false
+  } catch (_) { return false; }
 }
 /* WebKit im Tab mit Räumungsfrist (06.10.2026, Safari-Lücke, Nachtrag U2-ADR-219): WebKit löscht allen Skript-Speicher einer
    Seite nach sieben Tagen ohne Besuch (webkit.org/tracking-prevention, „7-Day Cap on All Script-Writeable Storage“); vom
@@ -26243,6 +26329,29 @@ function ybZeichenHTML(funktion) {
   if (!src) return '';
   return '<img class="yb-zeichen" data-yb-zeichen="' + escapeAttr(funktion) + '" src="' + escapeAttr(src) + '" alt="xShare Yellow Button" width="85" height="40">';
 }
+/* Das Zeichen gehört NUR zu Gesundheit (Produktentscheidung 13.10.2026: „xShare ist ausdrücklich nur Gesundheit"). Der Yellow-Button-Standard
+   deckt die Gesundheitsdokumente ab (IPS, Labor, Entlassbericht = MED_DOK_TYPEN); ein Bildungsnachweis oder ein anderes autoritatives
+   Original trägt es nicht. Befund: ybZeichenHTML hing an `autoritativ`/`autoritativDoc` ohne Bereichsprüfung, darum trugen auch
+   Bildungsnachweise das Zeichen (Mappe-Herunterladen, Verwahrung, Hochladen).
+   DIE EINE PRÜFUNG: ybGesundheitStandard mit einer Quelle — ein Mappe-Eintrag (gepruefteIG) oder ein Import-Format (sektor).
+   DIE EINE TÜR: Aufrufer rufen ybZeichenFuerQuelle mit Funktion und Quelle, nie den Baustein selbst; der Wächter
+   dieser Funktionen zählt, dass der Baustein ybZeichenHTML nur in seiner Definition und in ybZeichenFuerQuelle aufgerufen wird. */
+function ybGesundheitStandard(quelle) {
+  if (!quelle || typeof quelle !== 'object') return false;
+  if (typeof quelle.gepruefteIG === 'string' && quelle.gepruefteIG) return MED_DOK_TYPEN.some((d) => d.ig === quelle.gepruefteIG);
+  if (typeof quelle.sektor === 'string') return quelle.sektor === _ybGesundheitsSektor();   // Import-Format
+  // Älteres autoritatives Original ohne IG und ohne eigenen Bereich: vor den Bildungsnachweisen (U2-ADR-443) war jedes autoritative
+  // Original medizinisch, und sein Weg bleibt (A==B-Abnahme U2-ADR-321). Ein Mappe-Eintrag ohne Bereich trägt den Standardbereich.
+  return quelle.autoritativ === true && (quelle.bereich === undefined || quelle.bereich === MAPPE_BEREICH_DEFAULT);
+}
+// Der Sektor Gesundheit, gelesen aus dem Format, das die Labor-Befunde einliest — keine Bereichskennung als Literal im Kern.
+function _ybGesundheitsSektor() {
+  const f = IMPORT_FORMAT_BY_ID['fhir-lab'];
+  return f ? f.sektor : null;
+}
+function ybZeichenFuerQuelle(funktion, quelle) {
+  return ybGesundheitStandard(quelle) ? ybZeichenHTML(funktion) : '';
+}
 
 const SHL_URI_PRAEFIX = 'shlink:/';
 const SHL_STANDARD_TTL_SEK = 7 * 24 * 3600;   // Default-Ablauf, wenn kein exp übergeben wird (single-use, time-limited)
@@ -27018,6 +27127,9 @@ async function shlProviderPayload(mappeId, opts) {
   // Bewusst NUR diese Art ausgeschlossen, nicht „alles außer application/fhir+json“: ältere autoritative Einträge
   // tragen keinen MIME-Typ, und ihr Weg bleibt, wie er war (gemessen an der A==B-Abnahme U2-ADR-321, 28.09.2026).
   if (BILDUNG_DOK_TYPEN.some(d => d.ig === eintrag.gepruefteIG)) throw new Error('SHL:bildungsnachweis');
+  // xShare / SMART Health Links sind ausdrücklich nur Gesundheit (Produktentscheidung 13.10.2026): die zweite Tür hinter dem Knopf, für jeden
+  // anderen Bereich, den ein autoritatives Original je trägt. Dieselbe Prüfung wie beim Zeichen (ybGesundheitStandard).
+  if (!ybGesundheitStandard(eintrag)) throw new Error('SHL:nur-gesundheit');
   const klartext = _autoritativKlartext(eintrag);
   if (klartext == null) throw new Error('SHL: inhalt nicht lesbar.');
   const o = opts || {};
@@ -29919,12 +30031,34 @@ const _TEMPLATE_UNTERFELD_TYPEN = new Set(['text', 'textarea', 'zahl', 'datum', 
 const _TEMPLATE_MAX_BYTES = 70 * 1024;     // Größen-Cap auf das Template-Objekt (großzügig; legitime Templates liegen weit darunter)
 const _TEMPLATE_FELDNAME_MAX = 300;
 const _TEMPLATE_HILFETEXT_MAX = 2000;   // Z32/A112: optionaler Hilfetext je Feld
+const VORLAGE_FORMAT_FASSUNG_BEKANNT = 1;              // die höchste Formatfassung einer Vorlage, die dieser Leser kennt
+const VORLAGE_NUTZLAST_TYP = 'vivodepot-vorlage';      // Typfeld der signierten Nutzlast; ein Modul trägt es nie
+const VORLAGE_GRUND_ZU_NEU = 'vorlage-zu-neu';
 const _TEMPLATE_WORTLAUT_MAX = 60 * 1024;  // 1E: Cap auf den amtlichen Wortlaut-Block (unter dem Objekt-Gesamt-Cap)
 function validateTemplate(tpl) {
   if (!tpl || typeof tpl !== 'object') return 'kein Template-Objekt';
   let groesse;
   try { groesse = new TextEncoder().encode(JSON.stringify(tpl)).length; } catch (e) { return 'Template nicht serialisierbar'; }
   if (groesse > _TEMPLATE_MAX_BYTES) return 'Template zu groß (' + groesse + ' Byte)';
+  /* FORMATFASSUNG UND TYPFELD (v929, 12.10.2026; Befund VORLAGE-FASSUNGSUNABHAENGIG-UNGEPRUEFT). Diese Funktion läuft erst NACH
+     der Signaturprüfung (einziger Aufrufer: importPlanGeprueft) — die Fassung wird also aus der geprüften Nutzlast gelesen,
+     und „zu neu“ entsteht nie aus einer ungeprüften Datei. Fehlt `formatFassung`, gilt 1; der Wert wird NIE in das Objekt
+     geschrieben, über dem die Signatur geprüft wurde, und nie in eine gespeicherte Vorlage. Über das Abweisen als Ganzes
+     entscheidet nur diese eine Stelle. Sie steht vor der Feldprüfung: eine brechende Fassung trägt ihre Felder unter einem
+     anderen Schlüssel, und dieser Leser soll dann „zu neu“ sagen, nicht „felder fehlt“. */
+  const _hatFassung = Object.prototype.hasOwnProperty.call(tpl, 'formatFassung');
+  if (_hatFassung && !(Number.isInteger(tpl.formatFassung) && tpl.formatFassung >= 1)) return 'formatfassung-ungueltig';
+  const _fassung = _hatFassung ? tpl.formatFassung : 1;
+  if (_fassung > VORLAGE_FORMAT_FASSUNG_BEKANNT) return 'vorlage-zu-neu';   // wörtlich (== VORLAGE_GRUND_ZU_NEU): der Abgleich der Prüfregeln liest die Gründe als Literale
+  const _hatTyp = Object.prototype.hasOwnProperty.call(tpl, 'nutzlastTyp');
+  if (_hatTyp) {
+    if (tpl.nutzlastTyp !== VORLAGE_NUTZLAST_TYP) return 'nutzlasttyp-widerspruch';
+    if (Object.prototype.hasOwnProperty.call(tpl, 'modulTyp')) return 'nutzlasttyp-widerspruch';
+  } else if (_fassung >= 2) {
+    return 'nutzlasttyp-fehlt';
+  } else if (Object.prototype.hasOwnProperty.call(tpl, 'modulTyp')) {
+    return 'modul-keine-vorlage';
+  }
   if (!Array.isArray(tpl.felder) || tpl.felder.length === 0) return 'felder fehlt oder ist leer';   // L1
   for (const f of tpl.felder) {
     if (!f || typeof f !== 'object') return 'Feld ist kein Objekt';
@@ -30781,6 +30915,7 @@ function _istVorlagenZertifikat(b) {
 async function vorDepotKonfigurationAnwenden(buendel, root, opts) {
   const ziel = vorDepotKonfigurationLeer();
   _vorDepotVorlagenZertifikatePlan = [];
+  _vorDepotVorlagenVerworfen = [];
   try {
     const liste = Array.isArray(buendel) ? buendel : await vorDepotKonfigurationLaden();
     const alle = Array.isArray(liste) ? liste : [];
@@ -30801,8 +30936,14 @@ async function vorDepotKonfigurationAnwenden(buendel, root, opts) {
         const plan = await importPlanGeprueft('provider-credential', b, opts);
         if (plan && !plan.ungueltig && plan.wortlaut && plan.wortlautQuelle) {
           _vorDepotVorlagenZertifikatePlan.push(plan);
+        } else {
+          // v929: eine eingebackene Vorlage, die nicht eingelassen wird, wird gezählt und mit ihrem Grund gemerkt, nicht still übersprungen.
+          _vorDepotVorlagenVerworfen.push({ name: (plan && plan.quelleLabel) || '', grund: (plan && plan.templateVerworfen && plan.templateVerworfen.grund) || (plan && plan.grund) || 'abgewiesen' });
         }
-      } catch (e) { /* ein einzelnes kaputtes Zertifikat darf die übrigen nie verhindern */ }
+      } catch (e) {
+        /* ein einzelnes kaputtes Zertifikat darf die übrigen nie verhindern — aber es wird gemerkt */
+        _vorDepotVorlagenVerworfen.push({ name: '', grund: 'pruef-fehler' });
+      }
     }
     /* U2-ADR-253 Teil 4 (NGO-Härtetest, 04.09.2026) — Weg C. VORHER: jedes Bündel wurde
        einzeln, in Datei-Reihenfolge, gegen die LIVE-Indizes (SEKTOR_BY_ID/SITUATION_BY_ID)
@@ -31015,6 +31156,11 @@ function _vorDepotModulInsDepotUebernehmen() {
       }));
     }
   }
+  // v929: was beim Start nicht eingelassen wurde, wird hier gesagt — an der ersten Stelle, an der es eine Oberfläche gibt.
+  try {
+    const _vdText = importAnzeigeText(importAnzeigeModell('vor-depot-konfiguration', { ok: true, verworfene: _vorDepotVorlagenVerworfen }));
+    importAnzeigeZeigen(_vdText);
+  } catch (e) { /* die Meldung ist Zusatz; das Einlassen der übrigen bleibt davon unberührt */ }
 }
 
 /* REIN/testbar: einen Modul-Text einlassen. Nimmt den ROHTEXT einer Datei, damit derselbe
@@ -32274,7 +32420,7 @@ async function importPlanGeprueft(formatId, text, opts) {
   }
   // Erst NACH erfolgreicher Prüfung werden die Claims der geprüften Nutzlast zu Plan-Feldern.
   const roh = (typeof def.felderAusClaims === 'function') ? def.felderAusClaims(nutzlast) : null;
-  if (_tplGrund && roh) { (roh.verworfeneFelder || (roh.verworfeneFelder = [])).push({ name: 'Anbieter-Template', grund: 'template-ungueltig', detail: _tplGrund }); }
+  if (_tplGrund && roh) { (roh.verworfeneFelder || (roh.verworfeneFelder = [])).push({ name: 'Anbieter-Template', grund: (_tplGrund === VORLAGE_GRUND_ZU_NEU) ? VORLAGE_GRUND_ZU_NEU : 'template-ungueltig', detail: _tplGrund }); }
   const _plan = _planAusRoh(formatId, def, roh);
   /* ══ A376, Zug 4 — DIE MELDUNG, NICHT DIE SPERRE ═══════════════════════════════════════
      WER DEN DOKUMENTIERTEN WEG GEHT UND AUF `ungueltig` PRÜFT, SAH ERFOLG, während nichts
@@ -32293,7 +32439,7 @@ async function importPlanGeprueft(formatId, text, opts) {
      nicht in einer Liste; wer den Plan liest, stolpert darüber, ohne danach zu suchen. Das
      ist der Hausgrundsatz an dieser Stelle: prüfen, sagen, nicht sperren (A367). */
   if (_plan && _tplGrund) {
-    _plan.templateVerworfen = { grund: 'template-ungueltig', detail: String(_tplGrund) };
+    _plan.templateVerworfen = { grund: (_tplGrund === VORLAGE_GRUND_ZU_NEU) ? VORLAGE_GRUND_ZU_NEU : 'template-ungueltig', detail: String(_tplGrund) };
   }
   /* UND DER ZWEITE FALL DERSELBEN KLASSE: eine Liste OHNE Unterfelder ist schema-konform (das
      Einreich-Schema führt `unterFelder` als optional), aber sie ist „ein Name für nichts" —
@@ -32882,7 +33028,7 @@ function flowEinlesen(sektorId) {
     koerper += '<p class="einst-hint">' + escapeHTML(STRINGS.einlesenOderFormatHinweis) + '</p><div class="herausgeben-chooser">';
     for (const f of formate) {
       koerper += '<button type="button" class="btn btn-sek" data-i-format="' + escapeHTML(f.id) + '">' +
-        (f.autoritativDoc ? ybZeichenHTML('upload') : svgIcon(ICONS.fileText)) + ' ' + escapeHTML(f.label) + '</button>'
+        (f.autoritativDoc && ybGesundheitStandard(f) ? ybZeichenFuerQuelle('upload', f) : svgIcon(ICONS.fileText)) + ' ' + escapeHTML(f.label) + '</button>'
         // CW-28 (24.08.2026): welche Daten die Option WIRKLICH abdeckt, direkt am Knopf —
         // nur wo eine Abbildungsgrenze bekannt und ausdrücklich zu nennen ist (s. hinweis-Property).
         + (f.hinweis ? '<p class="einst-hint fs-xs">' + escapeHTML(f.hinweis) + '</p>' : '');
@@ -33026,7 +33172,7 @@ function flowImportDatei(formatId) {
   ui.modal({
     titel: def.label,
     koerperHTML:
-      (def.autoritativDoc ? '<p>' + ybZeichenHTML('upload') + '</p>' : '') +   // Yellow Button Upload (Nachtrag U2-ADR-400)
+      (def.autoritativDoc && ybGesundheitStandard(def) ? '<p>' + ybZeichenFuerQuelle('upload', def) + '</p>' : '') +   // Yellow Button Upload (Nachtrag U2-ADR-400)
       '<label for="i-datei">' + escapeHTML(STRINGS.importDateiLabel) + '</label>' +
       '<input id="i-datei" type="file"' + (def.akzeptiert ? ' accept="' + escapeHTML(def.akzeptiert) + '"' : '') + '>',   // B1/iOS: accept nur bei nicht-leerem Filter (leer = .vivodepot/Voll-Depot, nicht ausgrauen)
     primaerLabel: STRINGS.importDateiWeiter,
@@ -33160,6 +33306,86 @@ function importZeileBereinigt(zeile, verwaist) {
    ersten Sperrlisten-Eintrag (Befund A284 Zug 1). Eigene, kleine Lese-Stelle statt Inline-Ternary
    an jedem Aufrufer, damit beide Aufrufer (flowImportVorschau, flowMappeWerteUebernehmen)
    garantiert dieselbe Wahl treffen. */
+/* ══ ANZEIGE-MODELL FÜR IMPORTE (v929, 12.10.2026; Befund IMPORT-VERWIRFT-OHNE-ANZEIGE) ═════════════════════════════════
+   Die Einleser sagen in ihrem ERGEBNIS, was sie verworfen haben (`verworfene`, `defVerworfen`, `codeListenVerworfen`,
+   `vorlageAbgewiesen`, `grund`); die Oberfläche zeigte davon nur einen Teil und sagte daneben „eingelesen“. Hier entsteht aus
+   dem Ergebnis EIN Modell, und aus dem Modell der Satz. Rein, ohne DOM, damit eine Probe über alle Importarten es prüft.
+     importAnzeigeModell(art, ergebnis) → { art, angenommen, verworfen: [{ was, grund }], abgewiesen, zuNeu }
+   Eine Art, die hier nicht steht, ist kein leeres Ergebnis, sondern `abgewiesen: 'art-unbekannt'`. Die Liste ist die der
+   Importwege der Anwendung; verdrahtet sind in dieser Fassung `modul`, `vorlage` und `anfrage`, die übrigen folgen. */
+const IMPORT_ANZEIGE_ARTEN = Object.freeze(['depot-datei', 'interner-stand', 'datei-oeffnen-mit', 'wiederherstellungs-code',
+  'sub-depot-einhaengen', 'sub-depot-selbst', 'voll-depot-json', 'bereichs-format', 'autoritatives-dokument', 'b16-migration',
+  'vorlage', 'modul', 'vor-depot-konfiguration', 'anfrage', 'vereinbarung-antwort', 'kdl', 'mappe-datei']);
+const IMPORT_GRUENDE_ZU_NEU = Object.freeze(['anfrage-zu-neu', 'vorlage-zu-neu', 'app-zu-alt', 'neuere-fassung-nur-lesen']);
+function _importVerworfenZeilen(liste) {
+  return (Array.isArray(liste) ? liste : []).filter((v) => v && typeof v === 'object').map((v) => ({
+    was: String(v.name || v.label || v.kennung || v.schluessel || v.id || '').trim() || null,   // der Name, den der Einleser gibt; ohne Namen null
+    grund: (typeof v.grund === 'string' && v.grund) ? v.grund : 'ohne-grund',
+  }));
+}
+function importAnzeigeModell(art, ergebnis) {
+  const leer = { art: String(art), angenommen: 0, verworfen: [], abgewiesen: null, zuNeu: false };
+  if (IMPORT_ANZEIGE_ARTEN.indexOf(art) < 0) return Object.assign(leer, { abgewiesen: 'art-unbekannt' });
+  const e = (ergebnis && typeof ergebnis === 'object') ? ergebnis : null;
+  if (!e) return Object.assign(leer, { abgewiesen: 'kein-ergebnis' });
+  const m = leer;
+  if (art === 'vorlage') {
+    /* Rückgabe von importAnwenden: was beim Anwenden erst fällt (Kern-Kollision, reservierter Name, doppelt, ältere Fassung),
+       steht in keiner Vorschau. */
+    m.verworfen = _importVerworfenZeilen(e.defVerworfen).concat(_importVerworfenZeilen(e.codeListenVerworfen));
+    m.angenommen = (Array.isArray(e.defGesetzt) ? e.defGesetzt.length : (Number(e.defGesetzt) || 0))
+      + (Array.isArray(e.defAktualisiert) ? e.defAktualisiert.length : (Number(e.defAktualisiert) || 0));
+    if (e.vorlageAbgewiesen && typeof e.vorlageAbgewiesen === 'object') m.abgewiesen = e.vorlageAbgewiesen.grund || 'abgewiesen';
+    if (e.templateVerworfen && typeof e.templateVerworfen === 'object') m.abgewiesen = e.templateVerworfen.grund || 'abgewiesen';
+    // Dieselbe allgemeine Form wie unten, wo der Einleser sie liefert (ein ungültiger Plan, eine abgewiesene Datei).
+    m.verworfen = m.verworfen.concat(_importVerworfenZeilen(e.verworfene));
+    if (m.abgewiesen === null && (e.ungueltig === true || e.ok === false || e.gueltig === false || e.angenommen === false)) {
+      m.abgewiesen = (typeof e.grund === 'string' && e.grund) ? e.grund : 'abgewiesen';
+    }
+  } else {
+    /* Modul-Einlass, Anfrage und jeder Einleser mit derselben Form: { angenommen | gueltig | ok, grund, verworfene }. */
+    const gut = e.angenommen === true || e.gueltig === true || e.ok === true || e.ergebnis === 'angenommen';
+    m.angenommen = gut ? 1 : 0;
+    m.verworfen = _importVerworfenZeilen(e.verworfene);
+    if (!gut) m.abgewiesen = (typeof e.grund === 'string' && e.grund) ? e.grund : 'abgewiesen';
+  }
+  m.zuNeu = IMPORT_GRUENDE_ZU_NEU.indexOf(m.abgewiesen) >= 0 || /-zu-neu$/.test(String(m.abgewiesen || ''));
+  return m;
+}
+/* Der Satz zum Modell. Jeder Grund hat einen Wortlaut im Textsatz (`importGrund<Name>`); ein Grund ohne Wortlaut zeigt den
+   Namen ohne Klammer, nie das rohe Kürzel. Leere Zeichenkette heißt: nichts zu sagen. */
+/* Je Grund ein Leser, der den Text mit Punktzugriff holt: so sieht der Wächter gegen unbenutzte Texte jeden dieser Schlüssel. */
+const IMPORT_GRUND_TEXT = Object.freeze({
+  'kern-kollision': () => STRINGS.importGrundKernKollision, 'praefix': () => STRINGS.importGrundPraefix,
+  'doppelt': () => STRINGS.importGrundDoppelt, 'aeltere-fassung': () => STRINGS.importGrundAeltereFassung,
+  'feld-zweck': () => STRINGS.importGrundFeldZweck, 'feld-kennung': () => STRINGS.importGrundFeldKennung,
+  'feld-doppelt': () => STRINGS.importGrundFeldDoppelt, 'unbekannt': () => STRINGS.importGrundUnbekannt,
+  'feld-schluessel': () => STRINGS.importGrundUnbekannt, 'antwort-schluessel': () => STRINGS.importGrundUnbekannt,
+});
+function importAnzeigeText(modell) {
+  const m = (modell && typeof modell === 'object') ? modell : null;
+  if (!m) return '';
+  const saetze = [];
+  if (m.abgewiesen === 'anfrage-zu-neu') saetze.push(String(STRINGS.anfrageZuNeu || ''));
+  else if (m.abgewiesen === 'vorlage-zu-neu') saetze.push(String(STRINGS.vorlageZuNeu || ''));
+  else if (m.abgewiesen === 'aeltere-fassung' && m.art === 'vorlage') saetze.push(String(STRINGS.vorlageAeltereFassung || ''));
+  else if (m.zuNeu) saetze.push(String(STRINGS.importZuNeu || ''));                 // jede andere Art: „zu neu“ hat immer einen eigenen Satz
+  else if (m.abgewiesen) saetze.push(String(STRINGS.importUngueltig || ''));        // gewöhnliche Abweisung: der vorhandene Satz
+  const teile = (Array.isArray(m.verworfen) ? m.verworfen : []).map((v) => {
+    const leser = _eigenerWert(IMPORT_GRUND_TEXT, v.grund);
+    const vorlage = (typeof leser === 'function') ? String(leser() || '') : '';
+    if (vorlage) return vorlage.replace('{name}', v.was || '').replace(/\s+/g, ' ').trim();
+    return v.was || '';
+  }).filter(Boolean);
+  if (teile.length && STRINGS.importVerworfenZeile) saetze.push(String(STRINGS.importVerworfenZeile).replace('{liste}', teile.join(', ')));
+  return saetze.filter(Boolean).join(' ');
+}
+// v929: was nicht übernommen wurde, bleibt stehen, bis die Person schließt — eine Liste mit mehreren Namen ist in 3,2 s nicht zu lesen.
+function importAnzeigeZeigen(text) {
+  if (!text || typeof ui === 'undefined' || !ui || !ui.toast) return;
+  ui.toast(text, 'warn', { label: STRINGS.btnSchliessen, handler: () => {}, bleibt: true });
+}
+
 function importUngueltigNachricht(plan) {
   if (plan && plan.grund === 'signiert-pruefung-fehlt') return STRINGS.importSignierterNachweisPruefungFehlt;
   if (plan && typeof plan.ablehnungText === 'string' && plan.ablehnungText) return plan.ablehnungText;
@@ -33247,6 +33473,10 @@ function flowImportVorschau(plan) {
   // Abgewiesene Felder werden gezählt, nicht benannt (07.10.2026): ein abgewiesenes Feld hat oft keinen brauchbaren Namen, und der
   // Grund ist eine technische Angabe für den Anbieter. Nichts wird verschluckt, der Umfang bleibt sichtbar.
   if (_tplV.length) koerper += '<p class="export-uebersicht-zurueck">' + esc(STRINGS.importTemplateVerworfenAnzahl.replace('{n}', String(_tplV.length))) + '</p>';
+  // v929: eine Vorlage aus einer neueren Formatfassung wird als Ganzes nicht eingelassen und so benannt.
+  if (plan.templateVerworfen && plan.templateVerworfen.grund === VORLAGE_GRUND_ZU_NEU && STRINGS.vorlageZuNeu) {
+    koerper += '<p class="export-uebersicht-zurueck" id="import-vorlage-zu-neu">' + esc(STRINGS.vorlageZuNeu) + '</p>';
+  }
   koerper += '</div>';
   ui.modal({
     titel: STRINGS.importVorschauTitel,
@@ -33266,6 +33496,10 @@ function flowImportVorschau(plan) {
       schliessen();
       if (ui && ui.toast) {
         ui.toast(STRINGS.importFertig, 'ok');
+        // v929: was erst beim Anwenden verworfen wurde (Felder und Codelisten einer Vorlage, eine ältere Vorlagenfassung),
+        // stand in keiner Vorschau. Es wird nach dem Übernehmen namentlich gesagt.
+        const _vorlageText = importAnzeigeText(importAnzeigeModell('vorlage', ergebnis));
+        importAnzeigeZeigen(_vorlageText);
         // Posten „Vollimport ist kein Vollimport" (11.09.2026), Teil 2 — kein stiller Verlust,
         // auch nicht für absichtlich draußen bleibende Schlüssel. Zweites Toast, stapelt.
         const _nichtUebernommen = vollimportNichtUebernommenNamen(plan, ergebnis);
@@ -38428,7 +38662,8 @@ const ui = {
     if (aktion) textEl.className = 'toast-tipp-text';
     textEl.textContent = text;
     el.appendChild(textEl);
-    let timer = setTimeout(() => el.remove(), aktion ? 8000 : 3200);   // Knopf braucht mehr Lesezeit
+    // `aktion.bleibt` (v929): der Toast bleibt, bis die Person den Knopf drückt — für Listen, deren Inhalt sonst verloren wäre.
+    let timer = (aktion && aktion.bleibt) ? null : setTimeout(() => el.remove(), aktion ? 8000 : 3200);   // Knopf braucht mehr Lesezeit
     // (27.08.2026): mehrere schnell hintereinander ausgeloeste Toasts stapelten
     // sich unten (position:fixed) und verdeckten Seiteninhalt bis zu ~3,2s PRO Toast, ohne
     // Wegklick-Moeglichkeit. Nur bei !aktion — ein Toast MIT aktion hat schon eine bewusste
@@ -39241,6 +39476,20 @@ async function _angOrtHinweisAuffrischen() {
   } catch (_) { verstecken(); }   // ein Hinweis darf den Anmeldeweg nie blockieren
 }
 
+/* KRYPTO-FASSUNG-HEISST-FALSCHES-PASSWORT (13.10.2026) — EINE Stelle, die eine Abweisung beim Öffnen in Worte fasst.
+   Jede Abweisung nennt ihren echten Grund: eine Datei einer anderen Fassung, ein beschädigter Stand und ein abgelaufenes
+   Fach sind kein falsches Passwort. Nur was ohne Code bleibt — der GCM-Fehler nach NFC und NFD —, heißt „Das Passwort
+   stimmt nicht.“ Ein Klassenwächter (tests/oeffnen-abweisung-nennt-grund.test.js) hält, dass die Meldung zum falschen
+   Passwort nur hier steht. */
+function oeffnenAbweisungText(e) {
+  const code = e && e.code;
+  if (code === 'fach-abgelaufen') return _fachAbgelaufenText(e);
+  if (code === 'krypto-fassung') return vorDepotText('dateiFassungUnbekannt');
+  if (code === 'datei-defekt') return vorDepotText('dateiNichtLesbar');
+  if (code === 'kein-stand') return vorDepotText('oeffnenKeinStand');
+  return vorDepotText('entsperrPasswortFalsch');
+}
+
 // Öffnen aus dem crypto-overlay (Eigentümerin): vorbelegte ODER ausgewählte Datei + Depot-Passwort
 // → depotLaden() → App betreten. Der Angehörigen-Weg ist NICHT hier — er läuft cache-only über
 // angehoerigenEintritt() mit dem Vertrauens-Passwort (U2-ADR-062; die schwache Option-B-Tür ist zu).
@@ -39272,7 +39521,7 @@ async function cryptoOverlayOeffnen() {
       if (!geladen && _gehaltenerUmschlag) { await depotLaden(_gehaltenerUmschlag, pw); geladen = _gehaltenerUmschlag; }
       // Ohne beides gibt es nichts aufzuschliessen. Vorher fiel dieser Fall durch bis
       // betreteApp() — mit `data === null`, also einer sichtbar leeren App statt einer Meldung.
-      if (!geladen) { zeigeFehler(vorDepotText('entsperrPasswortFalsch')); return; }
+      if (!geladen) { zeigeFehler(oeffnenAbweisungText({ code: 'kein-stand' })); return; }   // nichts da, kein falsches Passwort
       _internEintritt = false; betreteApp();
       try { _ablageortGemerktUebernehmen(); } catch (_) {}   // U2-ADR-031 Nachtrag: gemerkter Ort wird das Ziel
       _stelleNachWiedereintrittAnfahren();   // U2-ADR-185 Stück 2 — dieselbe Stelle wie vorher
@@ -39280,7 +39529,7 @@ async function cryptoOverlayOeffnen() {
       // (depotAusIdbLaden hat sie geladen) — der Vor-Depot-Schalter darf sie nicht überschreiben.
       ui.toast(STRINGS.geoeffnet, 'ok');
     } catch (e) {
-      zeigeFehler(vorDepotText('entsperrPasswortFalsch'));
+      zeigeFehler(oeffnenAbweisungText(e));
     }
     return;
   }
@@ -39337,9 +39586,9 @@ async function cryptoOverlayOeffnen() {
     // EIGENEN Sprache aktiv — der Vor-Depot-Schalter darf sie nicht überschreiben.
     ui.toast(STRINGS.geoeffnet, 'ok');
   } catch (e) {
-    // U2-ADR-452: die Tür passte, aber das Fach ist abgelaufen — das ist kein falsches Passwort.
-    if (e && e.code === 'fach-abgelaufen') { zeigeFehler(_fachAbgelaufenText(e)); return; }
-    zeigeFehler(vorDepotText('entsperrPasswortFalsch'));   // GCM/AAD nach NFC+NFD: falsches Passwort
+    // U2-ADR-452: die Tür passte, aber das Fach ist abgelaufen — das ist kein falsches Passwort. Ebenso eine Datei
+    // einer anderen Fassung. Ohne Code bleibt nur der GCM/AAD-Fehler nach NFC+NFD: das falsche Passwort.
+    zeigeFehler(oeffnenAbweisungText(e));
   }
 }
 
@@ -39391,6 +39640,9 @@ async function codeOverlayOeffnen(internModus) {
     else if (internModus) umschlag = (await _internerUmschlagRoh()) || _gehaltenerUmschlag;
   } catch (e) { zeigeFehler(vorDepotText('dateiNichtLesbar')); return; }
   if (!umschlag || !istGueltigerUmschlag(umschlag)) { zeigeFehler(vorDepotText('dateiNichtLesbar')); return; }
+  // KRYPTO-FASSUNG-HEISST-FALSCHES-PASSWORT: eine Datei einer anderen Fassung hat nicht „keinen Code“ — sie ist aus einer
+  // Fassung, die diese Anwendung nicht öffnet. Derselbe Grund wie beim Öffnen mit dem Passwort.
+  if (!KRYPTO_VERSION_ALLOWLIST.includes(umschlag.kryptoVersion)) { zeigeFehler(vorDepotText('dateiFassungUnbekannt')); return; }
   const knopf = document.getElementById('whc-oeffnen');
   if (knopf) knopf.disabled = true;
   try {
@@ -49082,6 +49334,13 @@ function einstellungenHTML() {
         ? '<button type="button" class="btn btn-sek" id="einst-sw-pruefen">' + svgIcon(ICONS.fileDown) + ' ' + escapeHTML(STRINGS.einstSwPruefenKnopf) + '</button>' +
           '<p class="einst-hint">' + escapeHTML(STRINGS.einstSwPruefenHinweis) + '</p>'
         : '') +
+      // „Anwendung als Datei erhalten“ (12.10.2026, Befund ANWENDUNG-ALS-DATEI-OHNE-WEG): der eine Weg von der gehosteten Fassung
+      // zur Anwendung als Datei. Ein Link, dem die Person folgt, kein eigener Abruf: der Dienst beantwortet den Schalter mit der
+      // geltenden Fassung als Anhang und nennt die Fassung im Dateinamen; sw.js lässt ihn durch (istAnwendungAlsDatei). Relativ,
+      // nur der Abfrageteil — der Kern kennt keine Adresse des Dienstes. Als Datei geöffnet entfällt der Eintrag.
+      (_swRegistrierenErlaubt() ? '<a class="btn btn-sek" id="einst-anwendung-als-datei" href="?datei=1" download>' + svgIcon(ICONS.fileDown) + ' ' + escapeHTML(STRINGS.anwendungAlsDateiKnopf) + '</a>' +
+          '<p class="einst-hint">' + escapeHTML(STRINGS.anwendungAlsDateiHinweis) + '</p>'
+        : '') +
       '<div class="einst-update-anleitung"><div class="einst-update-titel">' + escapeHTML(STRINGS.einstUpdateAnleitungTitel) + '</div>' +
         '<ol class="einst-update-schritte"><li>' + escapeHTML(STRINGS.einstUpdateSchritt1) + '</li>' +
           '<li>' + escapeHTML(STRINGS.einstUpdateSchritt2) + '</li>' +
@@ -49278,11 +49537,13 @@ function _moduleEinlassWirken(r) {
     if (typeof ui !== 'undefined' && ui.toast) {
       // B3 (Kette Auftrag 3, Zug 6): angenommen, aber mit Verlust — das ist keine
       // Erfolgsmeldung, sondern eine Meldung mit Zahl.
-      if (r.unvollstaendig) {
-        ui.toast(STRINGS.moduleEinlassenUnvollstaendig.replace('{n}', String(r.verloreneZuordnungen || 0)), 'warn');
-      } else {
-        ui.toast(STRINGS.moduleEinlassenOk, 'ok');
-      }
+      // v929: was ein Prüfer aus dem Modul verworfen hat, wird gesagt — in EINER Meldung mit der Zahl, nicht als zweite.
+      // Ein Textsatz verwirft Textkennungen; die sind technisch und bleiben aus dem Satz, die Zahl nennt den Verlust.
+      const _zahl = r.unvollstaendig ? STRINGS.moduleEinlassenUnvollstaendig.replace('{n}', String(r.verloreneZuordnungen || 0)) : '';
+      const _verworfenText = (r.typ === 'textsatz') ? '' : importAnzeigeText(importAnzeigeModell('modul', r));
+      if (_verworfenText) importAnzeigeZeigen([_zahl, _verworfenText].filter(Boolean).join(' '));
+      else if (_zahl) ui.toast(_zahl, 'warn');
+      else ui.toast(STRINGS.moduleEinlassenOk, 'ok');
     }
     // Ein eingelassenes Modul wirkt SOFORT — sonst sähe der Erfolg wie einer aus und wäre keiner.
     /* (29.08.2026, ZWEITER Durchgang, eigener Screenshot-Test): der
@@ -54793,18 +55054,18 @@ function flowMappeVorschau(id) {
   // (FHIR-Import) gebaut; ein selbst abgelegtes PDF/Bild hatte nie einen Weg zurück aus der Mappe.
   if (e.inhalt) {
     koerperHTML += '<button type="button" class="btn btn-sek" data-mappe-herunterladen="' + escapeHTML(id) + '">' +
-      (e.autoritativ ? ybZeichenHTML('download') : svgIcon(ICONS.fileText)) + ' ' + escapeHTML(STRINGS.mappeHerunterladenKnopf) + '</button>';
+      (e.autoritativ && ybGesundheitStandard(e) ? ybZeichenFuerQuelle('download', e) : svgIcon(ICONS.fileText)) + ' ' + escapeHTML(STRINGS.mappeHerunterladenKnopf) + '</button>';
   }
   // Verwahrung V1: neben dem Original (byte-gleich) die Hülle mit Verwahrungsnachweis.
   if (e.autoritativ && e.inhalt) {
     koerperHTML += '<button type="button" class="btn btn-sek" data-mappe-verwahrung="' + escapeHTML(id) + '">' +
-      ybZeichenHTML('download') + ' ' + escapeHTML(STRINGS.mappeVerwahrungKnopf) + '</button>';
+      (ybGesundheitStandard(e) ? ybZeichenFuerQuelle('download', e) : svgIcon(ICONS.fileText)) + ' ' + escapeHTML(STRINGS.mappeVerwahrungKnopf) + '</button>';
   }
   // U2-ADR-047: autoritative Originale sicher weitergeben (SHL-Provider-Weg, manueller Host). SMART Health
   // Links tragen FHIR — ein Bildungsnachweis (U2-ADR-443) geht über den Download oben, nicht hierüber.
   if (e.autoritativ && !BILDUNG_DOK_TYPEN.some(d => d.ig === e.gepruefteIG)) {
     koerperHTML += '<button type="button" class="btn btn-sek" data-mappe-shl="' + escapeHTML(id) + '">' +
-      ybZeichenHTML('share') + ' ' + escapeHTML(STRINGS.shlKnopf) + '</button>';
+      (ybGesundheitStandard(e) ? ybZeichenFuerQuelle('share', e) : svgIcon(ICONS.fileText)) + ' ' + escapeHTML(STRINGS.shlKnopf) + '</button>';
   }
   // U2-ADR-045 (Nachtrag): jeder Mappe-Eintrag ist entfernbar — „es ist ihre Datei". Zweistufige
   // Bestätigung (ehrliche Warnung bei autoritativen Originalen) in flowMappeEntfernen.
@@ -54890,7 +55151,7 @@ function flowMappeEntfernen(id) {
    zur hochgeladenen Datei). Experimentell — SHL-Krypto wartet auf externe Prüfung. */
 async function flowShlVorbereiten(id) {
   const e = mappeEintrag(id);
-  if (!e || !e.autoritativ) { ui.toast(STRINGS.shlNurAutoritativ, 'fehler'); return; }
+  if (!e || !e.autoritativ || !ybGesundheitStandard(e)) { ui.toast(STRINGS.shlNurAutoritativ, 'fehler'); return; }   // nur Gesundheit (13.10.2026), s. shlProviderPayload
   const vb = await vereinbarungFreigabeHolen('shl');   // MyTerms Teil D
   if (vb === false) return;
   let teile;
@@ -54902,7 +55163,7 @@ async function flowShlVorbereiten(id) {
   // Läuft der Link um 23:00Z ab, ist das in Berlin bereits der Folgetag (Posten 21).
   const bis = heuteLokal(new Date(teile.exp * 1000));
   const koerperHTML =
-    '<p>' + ybZeichenHTML('share') + '</p>' +   // Yellow Button One-Time Share (Nachtrag U2-ADR-400)
+    (ybGesundheitStandard(e) ? '<p>' + ybZeichenFuerQuelle('share', e) + '</p>' : '') +   // Yellow Button One-Time Share (Nachtrag U2-ADR-400)
     '<p class="einst-hint">' + escapeHTML(STRINGS.shlEinfuehrung) + '</p>' +
     '<p><strong>' + escapeHTML(STRINGS.shlSchritt1) + '</strong></p>' +
     '<button type="button" class="btn btn-sek" id="shl-datei">' + svgIcon(ICONS.fileText) + ' ' + escapeHTML(STRINGS.shlDateiKnopf) + '</button>' +
@@ -59260,6 +59521,17 @@ function anfrageAbgleich(anfrage, optionen, pruef) {
     vorhanden, fehlend, unbekannt,
     pflichtFehlend, freigestelltFehlend: fehlend.filter(f => !f.pflicht),
     sensibelBetroffen: vorhanden.filter(f => f.sensibel).map(f => f.kennung),
+    /* Befund ANFRAGE-SENSIBEL-ERST-IM-EINZELSCHRITT (11.10.2026): `vollstaendig` unten beantwortet „HABE ich alles" und rechnet
+       mit `sensibel: true`. Was die Stelle bekommt, wenn die Person an den Vorgaben nichts ändert, ist eine andere Frage: eine
+       als nötig bezeichnete Angabe, die als sensibel zurückbleibt, macht die Antwort zur Teilantwort (`zurueckgehalten.pflicht`
+       in `_anfrageAntwortDatensatzMitPruefung`). Diese Angabe sagt es schon in der Übersicht, mit demselben Ergebnis wie
+       `vollstaendig` der Antwort. Probe: tests/kette-07-die-anfrage.test.js („wie die Antwort mit den Vorgaben"). */
+    // Sensibel über das Prädikat (feldIstSensibel, mit der Überschreibung der Inhaberin), nicht über das kopierte Flag.
+    vollstaendigMitVorgaben: !pflichtFehlend.length && !unbekannt.length && !vorhanden.some((f) => {
+      if (!f.pflicht) return false;
+      const def = kennungFeldDef(f.fuellKennung);
+      return !!(def && feldIstSensibel(def, f.bereich));
+    }),
     /* Die Angaben, die als blosser Text hinausgehen, obwohl ein Code verlangt sein könnte —
        je Kennung mit ihrer Form. Leer heisst: nichts zu sagen, und dann wird nichts gesagt. */
     nurTextHinaus: nurTextHinaus.map(f => ({ kennung: f.kennung, label: f.label, form: f.codeForm.form })),
@@ -59700,6 +59972,24 @@ async function anfrageAusKompakt(roh) {
 async function anfrageAusTextAsync(text) {
   const roh = _anfrageKompaktRoh(text);
   return roh !== null ? anfrageAusKompakt(roh) : anfrageAusText(text);
+}
+/* v929: WARUM ein eingefügter Text keine Anfrage ergab. `anfrageAusText` gibt bei jeder Ablehnung null zurück; der Grund aus
+   `anfragePruefen` ging dabei verloren, und „zu neu“ sah aus wie „keine Anfrage“. Liest dieselben zwei Formen (Text, Link),
+   ohne Signatur und ohne etwas zu merken. null heißt: kein lesbares JSON, also wirklich keine Anfrage. */
+function anfrageAblehnungsGrund(text) {
+  let t = String(text == null ? '' : text).trim();
+  if (!t) return null;
+  const i = t.indexOf(ANFRAGE_LINK_MARKE);
+  if (i >= 0 && t.charAt(0) !== '{') {
+    const entpackt = _anfrageB64uZuText(t.slice(i + ANFRAGE_LINK_MARKE.length).split('&')[0].trim());
+    if (!entpackt) return null;
+    t = entpackt.trim();
+  }
+  let o = null;
+  try { o = JSON.parse(t); } catch (e) { return null; }
+  if (!o || typeof o !== 'object' || Array.isArray(o)) return null;
+  const g = anfragePruefen((o.anfrage && typeof o.anfrage === 'object') ? o.anfrage : o);
+  return g.gueltig ? null : g;
 }
 async function anfrageAusEingabeAsync(text) {
   if (_anfrageKompaktRoh(text) === null) return anfrageAusEingabe(text);
@@ -60144,6 +60434,9 @@ function renderAnfrage() {
     html += '</div>';
     if (!ab.vollstaendig) {
       html += '<div class="hinweis-box" id="anfrage-teilantwort">' + escapeHTML(STRINGS.anfrageNichtVollstaendig) + '</div>';
+    } else if (!ab.vollstaendigMitVorgaben && STRINGS.anfrageTeilantwortMitVorgaben) {
+      // Befund ANFRAGE-SENSIBEL-ERST-IM-EINZELSCHRITT: vorhanden ist alles, aber mit den Voreinstellungen bliebe Nötiges zurück.
+      html += '<div class="hinweis-box" id="anfrage-teilantwort-vorgaben">' + escapeHTML(STRINGS.anfrageTeilantwortMitVorgaben) + '</div>';
     }
     if (zustand !== 'abgelaufen') {
       html += '<div class="bereich-aktionen"><button class="btn" id="anfrage-antworten">' +
@@ -60225,7 +60518,11 @@ function flowAnfrageEmpfangen() {
       const gelesen = await anfrageAusEingabeAsync(el ? el.value : '');
       if (!gelesen.ok) {
         if (ui && ui.toast) {
-          ui.toast(gelesen.grund === 'unvollstaendig'
+          // v929: „zu neu“ ist eine eigene Meldung, nicht „keine Anfrage“.
+          const _abl = (gelesen.grund === 'unvollstaendig') ? null : anfrageAblehnungsGrund(el ? el.value : '');
+          const _ablText = _abl ? importAnzeigeText(importAnzeigeModell('anfrage', _abl)) : '';
+          if (gelesen.grund !== 'unvollstaendig' && _abl && _abl.grund === 'anfrage-zu-neu' && _ablText) importAnzeigeZeigen(_ablText);
+          else ui.toast(gelesen.grund === 'unvollstaendig'
             ? STRINGS.anfrageTeileFehlen.replace('{liste}', (gelesen.fehlend || []).join(', ')).replace('{n}', String(gelesen.gesamt || 0))
             : STRINGS.anfrageEmpfangenFehler, 'warn');
         }
@@ -60238,6 +60535,9 @@ function flowAnfrageEmpfangen() {
       schliessen();
       if (!r.ok) { if (ui && ui.toast) ui.toast(STRINGS.anfrageEmpfangenFehler, 'warn'); return; }
       if (ui && ui.toast) ui.toast(STRINGS.anfrageEmpfangenOk.replace('{von}', r.eintrag.von), 'ok');
+      // v929: Felder und Schlüssel, die die Prüfung verworfen hat (ohne Zweck, ohne Kennung, doppelt, unbekannt), werden genannt.
+      const _anfrageVerworfenText = importAnzeigeText(importAnzeigeModell('anfrage', anfragePruefen(umschlag.anfrage)));
+      importAnzeigeZeigen(_anfrageVerworfenText);
       oeffneAnfrage(r.eintrag.id);
     },
   });

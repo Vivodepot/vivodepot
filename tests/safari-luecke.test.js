@@ -26,7 +26,7 @@ async function depot({ navigator, CSS }) {
 }
 
 test('[Safari-Lücke·iOS-Tab] Änderungen nach der letzten Datei: die Erinnerung ist beim nächsten Besuch fällig, nicht erst nach 14 Tagen', async () => {
-  const { V } = await depot({ navigator: { standalone: false, storage: { persist: async () => false } } });
+  const { V } = await depot({ navigator: { standalone: false, maxTouchPoints: 5, storage: { persist: async () => false } } });
   V.markiereAlsDateiGesichert();
   V.markiereUngespeichert(2);
   const m = V.exportErinnerungModell();
@@ -54,13 +54,13 @@ test('[Safari-Lücke·Gegenprobe] Chromium und Gecko: keine Einstufung, die 14-T
 });
 
 test('[Safari-Lücke·Gegenprobe] gewährter Dauerspeicher hebt die Einstufung auf', async () => {
-  const { V } = await depot({ navigator: { standalone: false, storage: { persist: async () => true } }, CSS: css(true) });
+  const { V } = await depot({ navigator: { standalone: false, maxTouchPoints: 5, storage: { persist: async () => true } }, CSS: css(true) });
   await V.depotInIdbSichern();   // fragt persist() an (U2-ADR-031)
   assert.equal(V.webkitTabMitFrist(), false);
 });
 
 test('[Safari-Lücke·Rot-Beweis] ohne den WebKit-Zweig wäre derselbe Zustand nicht fällig', async () => {
-  const { V } = await depot({ navigator: { standalone: false, storage: { persist: async () => false } } });
+  const { V } = await depot({ navigator: { standalone: false, maxTouchPoints: 5, storage: { persist: async () => false } } });
   V.markiereAlsDateiGesichert();
   V.markiereUngespeichert(2);
   const m = V.exportErinnerungModell();
@@ -75,7 +75,7 @@ test('[Safari-Lücke·Daten] die Datei aus dem Anlegen ist die verschlüsselte S
 });
 
 test('[Safari-Lücke·Umzug] der Hinweis auf dem iOS-Tab räumt nichts: der Tab-Stand bleibt, bis die Person selbst umzieht', async () => {
-  const { V } = await depot({ navigator: { standalone: false, storage: { persist: async () => false } } });
+  const { V } = await depot({ navigator: { standalone: false, maxTouchPoints: 5, storage: { persist: async () => false } } });
   await V.depotInIdbSichern();
   const vorher = (await V.VdStore.liste()).length;
   V.iosInstallHinweisVielleichtZeigen();

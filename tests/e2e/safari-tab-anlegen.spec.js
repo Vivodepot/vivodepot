@@ -26,7 +26,7 @@ async function anlegenBisDialog(page) {
 }
 
 test('[Safari-Tab] iOS im Tab: „Depot anlegen“ bietet zuerst das Anlegen in der App an, im Browser danach den Datei-Schritt', async ({ page }) => {
-  await page.addInitScript(() => { Object.defineProperty(navigator, 'standalone', { value: false, configurable: true }); });
+  await page.addInitScript(() => { Object.defineProperty(navigator, 'standalone', { value: false, configurable: true }); Object.defineProperty(navigator, 'maxTouchPoints', { value: 5, configurable: true }); });
   await page.setViewportSize({ width: 390, height: 844 });
   await anlegenBisDialog(page);
   await expect(page.locator('#modal-rueck.an #safari-app-anlegen')).toBeVisible();

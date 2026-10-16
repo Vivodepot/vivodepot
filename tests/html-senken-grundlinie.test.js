@@ -37,3 +37,25 @@ test('[HTML-Senken·Rot-Beweis] eine neue Senke mit einem Wert wird gefunden, fe
   assert.equal(G.abgleichen(s, gl).neu.length, 1, 'die dritte ist neu');
   assert.equal(G.abgleichen(s, { eintraege: [...gl.eintraege, { datei: 'probe.js', abdruck: 'x', anzahl: 1, grund: G.OFFEN }] }).ohneGrund.length, 1);
 });
+
+/* Senken ohne Probe (13.10.2026, Befund FREMDTEXT-KLASSE-NUR-EIN-REGISTER): der Grund einer Senke ist Prosa. Wo eine Probe
+   die Senke mit fremdem Text fährt, steht sie im Feld `probe` des Eintrags. Die Zahl der Einträge ohne Probe steht als
+   `ohneProbeDeckel` in tools/html-senken-grundlinie.json und darf nur sinken: genau gleich, nicht kleiner-gleich, damit
+   eine neue Probe den Deckel im selben Commit senkt. */
+const fs = require('node:fs');
+function ohneProbe(eintraege) { return eintraege.filter((e) => !(Array.isArray(e.probe) && e.probe.length)); }
+function probenFehlen(eintraege, repo) {
+  return eintraege.flatMap((e) => (e.probe || []).filter((p) => !/^tests\/.+\.(test|spec)\.js$/.test(p) || !fs.existsSync(path.join(repo, p))).map((p) => e.funktion + ': ' + p));
+}
+test('[HTML-Senken·Probe] der Deckel der Senken ohne Probe ist genau ihre Zahl, jede genannte Probe gibt es', () => {
+  const gl = G.lesen(REPO);
+  const deckel = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'html-senken-grundlinie.json'), 'utf8')).ohneProbeDeckel;
+  assert.ok(Number.isInteger(deckel), 'Vorbedingung: ohneProbeDeckel steht in der Grundlinie');
+  assert.equal(ohneProbe(gl.eintraege).length, deckel, 'Senken ohne Probe: Deckel und Bestand weichen ab (sinkt der Bestand, den Deckel im selben Commit senken)');
+  assert.deepEqual(probenFehlen(gl.eintraege, REPO), [], 'genannte Probe fehlt');
+});
+test('[HTML-Senken·Probe·Rot-Beweis] eine Senke mehr ohne Probe und eine Probe, die es nicht gibt, fallen auf', () => {
+  const e = [{ funktion: 'a', probe: ['tests/html-senken-grundlinie.test.js'] }, { funktion: 'b' }, { funktion: 'c', probe: ['tests/gibt-es-nicht.test.js'] }];
+  assert.equal(ohneProbe(e).length, 1);
+  assert.deepEqual(probenFehlen(e, REPO), ['c: tests/gibt-es-nicht.test.js']);
+});

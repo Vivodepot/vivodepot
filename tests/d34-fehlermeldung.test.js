@@ -54,7 +54,11 @@ test('[D34] der Anker-Aufrufer trennt Parse vs. GCM; Sub-Entsiegeln nutzt densel
      STRINGS.-Aufruf — beide Formen zählen. */
   const dateiNichtLesbarMuster = /catch \(e\) \{ zeigeFehler\((?:STRINGS\.dateiNichtLesbar|vorDepotText\('dateiNichtLesbar'\))\); return; \}/g;
   assert.equal((src.match(dateiNichtLesbarMuster) || []).length >= 1, true, 'Parse→dateiNichtLesbar (zeigeFehler-Aufrufer)');
-  assert.ok(/zeigeFehler\((?:STRINGS\.entsperrPasswortFalsch|vorDepotText\('entsperrPasswortFalsch'\))\)/.test(src), 'GCM→entsperrPasswortFalsch (zeigeFehler-Aufrufer)');
+  /* Nachtrag 13.10.2026 (Befund KRYPTO-FASSUNG-HEISST-FALSCHES-PASSWORT): die Öffnen-Stellen reichen ihre Abweisung an
+     oeffnenAbweisungText; dort bleibt der Wurf ohne Code (GCM nach NFC+NFD) das falsche Passwort. Klassenwächter:
+     tests/oeffnen-abweisung-nennt-grund.test.js. */
+  assert.ok(/zeigeFehler\(oeffnenAbweisungText\(e\)\)/.test(src), 'depotLaden-Fehler → oeffnenAbweisungText (zeigeFehler-Aufrufer)');
+  assert.ok(/function oeffnenAbweisungText\(e\) \{[\s\S]*?return vorDepotText\('entsperrPasswortFalsch'\);\n\}/.test(src), 'GCM ohne Code → entsperrPasswortFalsch');
   assert.ok(/!istGueltigerUmschlag\(umschlag\)/.test(src), 'Struktur-Check vor dem Entschlüsseln');
   // Sub-Entsiegeln teilt den „Das Passwort stimmt nicht"-Wortlaut.
   assert.match(VW.STRINGS.subFalsch, /^Das Passwort stimmt nicht/, 'Sub-Entsiegeln: gemeinsamer Wortlaut');

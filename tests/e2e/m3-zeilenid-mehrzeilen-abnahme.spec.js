@@ -6,7 +6,7 @@
    DER BEFUND, DER DIESE PROBE AUSLÖST: Die Mehrzeilen-Regel aus M3/Zug 1 ist
    ausschließlich im Node-Harnisch belegt (`tests/m3-eintrag-bezug-zug1.test.js`),
    und dort gegen eine gebaute Depot-Struktur. Gemessen am 16.08.: KEINE Probe
-   unter `tests/e2e/`, `tests/mit-modul/` oder `tests/demo/` nennt `zeilenId` —
+   unter `tests/e2e/`, `tests/mit-modul/` oder bei den Aufnahme-Skripten der Demo-Clips nennt `zeilenId` —
    der Weg, auf dem eine Bürgerin die Referenz tatsächlich erzeugt, war nie im
    Browser gefahren.
 

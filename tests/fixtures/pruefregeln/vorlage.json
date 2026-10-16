@@ -50,6 +50,10 @@
     {"name": "Broschüre ohne url", "urteil": "abgewiesen", "regel": "vorlage.broschuere-url", "dokument": {"felder": [{"feldname": "Hausärztin", "feldtyp": "text"}], "wortlautQuelleBroschuere": {"behoerde": "Musteramt", "titel": "Musterbroschüre"}}},
     {"name": "Quellen-url mit http", "urteil": "abgewiesen", "regel": "vorlage.quelle-url-nicht-https", "dokument": {"felder": [{"feldname": "Hausärztin", "feldtyp": "text"}], "wortlaut": "Mustertext.", "wortlautQuelle": {"behoerde": "Musteramt Musterstadt", "titel": "Musterformular", "lizenz": "CC0 1.0", "url": "http://example.org/quelle"}}},
     {"name": "Quellen-url kaputt", "urteil": "abgewiesen", "regel": "vorlage.quelle-url-ungueltig", "dokument": {"felder": [{"feldname": "Hausärztin", "feldtyp": "text"}], "wortlaut": "Mustertext.", "wortlautQuelle": {"behoerde": "Musteramt Musterstadt", "titel": "Musterformular", "lizenz": "CC0 1.0", "url": "keine adresse"}}},
-    {"name": "eine Zeichenkette statt eines Objekts, als vorlage geprüft", "urteil": "abgewiesen", "regel": "vorlage.kein-objekt", "erzwingeArt": "vorlage", "dokument": "kein Objekt"}
+    {"name": "eine Zeichenkette statt eines Objekts, als vorlage geprüft", "urteil": "abgewiesen", "regel": "vorlage.kein-objekt", "erzwingeArt": "vorlage", "dokument": "kein Objekt"},
+    {"name": "mit Formatfassung 1 und Typfeld", "urteil": "bestanden", "dokument": {"formatFassung": 1, "nutzlastTyp": "vivodepot-vorlage", "felder": [{"feldname": "Hausärztin", "feldtyp": "text"}]}},
+    {"name": "Formatfassung als Text", "urteil": "abgewiesen", "regel": "vorlage.formatfassung-ungueltig", "dokument": {"formatFassung": "1", "felder": [{"feldname": "Hausärztin", "feldtyp": "text"}]}},
+    {"name": "Formatfassung über der bekannten, Felder unter anderem Schlüssel", "urteil": "abgewiesen", "regel": "vorlage.zu-neu", "erzwingeArt": "vorlage", "dokument": {"formatFassung": 2, "nutzlastTyp": "vivodepot-vorlage", "felderNeu": [{"feldname": "Hausärztin", "feldtyp": "text"}]}},
+    {"name": "Typfeld mit anderem Wert", "urteil": "abgewiesen", "regel": "vorlage.nutzlasttyp-widerspruch", "dokument": {"nutzlastTyp": "etwas-anderes", "felder": [{"feldname": "Hausärztin", "feldtyp": "text"}]}}
   ]
 }

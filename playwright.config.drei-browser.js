@@ -19,9 +19,11 @@ module.exports = defineConfig({
   reporter: 'list',
   use: { trace: 'retain-on-failure', screenshot: 'only-on-failure', acceptDownloads: true },
   outputDir: path.join(__dirname, 'tests', 'e2e-drei-browser', '.artifacts'),
+  // Die iPad-Probe des Studios ist nur WebKit (das Gerät iPad ist WebKit); in den anderen Projekten läuft sie nicht,
+  // statt sich dort auszusetzen.
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] }, testIgnore: '**/studio-ipad.spec.js' },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] }, testIgnore: '**/studio-ipad.spec.js' },
     { name: 'webkit', use: { ...devices['Desktop Safari'] } },
   ],
 });

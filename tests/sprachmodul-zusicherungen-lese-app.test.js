@@ -15,8 +15,13 @@ const OPTS = Object.freeze({ ankerJwk: Object.freeze({ kty: 'OKP', crv: 'Ed25519
 const SATZ = 'strings:klartextHinweis.text';
 const SATZ_HU = 'Ez a fájl nincs titkosítva. Bárki elolvashatja, aki megnyitja.';
 
+/* Seit dem 12.10.2026 (Befund LESE-APP-PRUEFER-GELTUNG-UNGEPRUEFT) gibt die Lese-App die Prüfer-Stufe nur, wenn der
+   Geltungsbereich der Prüfstelle Modultyp und Sprache trägt und das Modul die Summen der Originalsätze der Lese-App nennt,
+   für Deutsch und Englisch. Die Summen rechnet hier das Werkzeug der Prüfstelle aus dem Baum, wie eine Stelle es täte. */
+const ORIGINALE_SUMME = Object.freeze({ lesen: require('../tools/lib/originale-summe.js').originaleSummenAusBaum(require('node:path').join(__dirname, '..')).lesen });
+const GELTUNG_HU = Object.freeze({ modulTypen: ['textsatz'], sprachen: ['hu'] });
 function modul(extra) {
-  return Object.assign({ modulTyp: 'textsatz', sprache: 'hu', moduleVersion: 1, texte: { [SATZ]: SATZ_HU } }, extra || {});
+  return Object.assign({ modulTyp: 'textsatz', sprache: 'hu', moduleVersion: 1, texte: { [SATZ]: SATZ_HU }, originaleSumme: ORIGINALE_SUMME }, extra || {});
 }
 async function paar() {
   const kp = await webcrypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
@@ -35,7 +40,7 @@ async function belegFuer(stelle, inhalt) {
   const signieren = async (nutzlast, jwk) => V._signJWS(nutzlast, await V._jwsImportSignKey(jwk), {});
   const zw = await paar(); const blatt = await paar();
   const [zwId, zwTyp, zwExtra, blattId, blattTyp] = {
-    pruefer: ['pruefstelle-x', V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, { rolle: 'pruefer' }, 'uebersetzer-hu', 'institution/test'],
+    pruefer: ['pruefstelle-x', V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, { rolle: 'pruefer', geltung: GELTUNG_HU }, 'uebersetzer-hu', 'institution/test'],
     herausgeber: ['fremde-ausgabestelle', V.AUSGABESTELLE_ANBIETERTYP, undefined, 'uebersetzer-hu', 'institution/test'],
     intern: ['vivodepot-ausgabestelle', V.AUSGABESTELLE_ANBIETERTYP, undefined, 'vivodepot', 'vivodepot/anbieter'],
   }[stelle];

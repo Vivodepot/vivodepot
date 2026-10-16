@@ -146,4 +146,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { erheben, region, regionErsetzen, alteAus, pruefen, fingerabdruck, ohneKennung, KENNUNG, kanonischJSON, EINLASS_META_FELDER, BEGIN, ENDE, TRAEGER, KERN, LESE };
+module.exports = { rezeptDateien, erheben, region, regionErsetzen, alteAus, pruefen, fingerabdruck, ohneKennung, KENNUNG, kanonischJSON, EINLASS_META_FELDER, BEGIN, ENDE, TRAEGER, KERN, LESE };

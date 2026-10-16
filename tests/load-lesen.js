@@ -211,6 +211,13 @@ function __bereichsDefinitionenPruefenSynchron(d) {
      von _depotModuleAbWerkPruefenLesen; wer die Prüfung selbst proben will, nimmt _depotUebernehmenGeprueft. */
   _alsAbWerkFestgestelltLesen: (m) => { if (m && typeof m === 'object') _ABWERK_BELEGT_LESEN.add(m); return m; },
   _textsatzModulBelegtInfo: (typeof _textsatzModulBelegtInfo !== 'undefined' ? _textsatzModulBelegtInfo : undefined),
+  // Geltung der Prüfstelle und Summen der Originalsätze (12.10.2026): Spiegel des Kerns, je mit typeof-Schutz.
+  _prueferGeltung: (typeof _prueferGeltung === 'function' ? _prueferGeltung : undefined),
+  _geltungPasst: (typeof _geltungPasst === 'function' ? _geltungPasst : undefined),
+  _pruefstufeFuerModul: (typeof _pruefstufeFuerModul === 'function' ? _pruefstufeFuerModul : undefined),
+  _originaleSummeLesen: (typeof _originaleSummeLesen === 'function' ? _originaleSummeLesen : undefined),
+  _originaleSummenLesen: (typeof _originaleSummenLesen === 'function' ? _originaleSummenLesen : undefined),
+  ORIGINALE_SPRACHEN_LESEN: (typeof ORIGINALE_SPRACHEN_LESEN !== 'undefined' ? ORIGINALE_SPRACHEN_LESEN : undefined),
   _TEXTSATZ_BELEGT: (typeof _TEXTSATZ_BELEGT !== 'undefined' ? _TEXTSATZ_BELEGT : undefined),
   sprachfassungLueckenAnzahl: (typeof sprachfassungLueckenAnzahl !== 'undefined' ? sprachfassungLueckenAnzahl : undefined),
   sprachfassungHinweisHTML: (typeof sprachfassungHinweisHTML !== 'undefined' ? sprachfassungHinweisHTML : undefined),

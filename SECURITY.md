@@ -160,7 +160,7 @@ und die Anwendung darf von Dritten weitergeführt werden. Einzelheiten:
 
 ## 6 · Strukturelle Restrisiken der Anwendungsklasse
 
-Vivodepot ist eine Single-File-Offline-Browser-Anwendung. Drei Befunde sind in dieser Anwendungsklasse strukturell nicht durch Code-Änderung lösbar. Sie werden hier explizit benannt.
+Vivodepot ist eine Single-File-Offline-Browser-Anwendung. Einige Risiken sind in dieser Anwendungsklasse strukturell nicht durch Code-Änderung lösbar. Sie werden hier explizit benannt.
 
 ### 6.1 Supply-Chain-Manipulation der HTML-Datei
 
@@ -220,7 +220,33 @@ Fundstellen: `DATEI_MAGIC_PREFIX`, `UMSCHLAG_FELDER_BEKANNT` und `UMSCHLAG_FELDE
 `depotSerialisieren`. Weg zum Nachsehen: die Probe `tests/umschlag-klartext-ort-hinweis.test.js` hält jedes Feld der Hülle mit Grund
 fest und prüft die geschriebene Hülle.
 
+### 6.7 Befallenes Gerät, manipulierte Browser-Erweiterung
+
+Die Anwendung läuft im Browser und kann nur schützen, was der Browser ihr überlässt. Schadsoftware auf dem Gerät und eine
+Browser-Erweiterung mit Zugriff auf die Seite können mitlesen, was auf dem Bildschirm steht und was eingetippt wird, auch das
+Passwort. Dagegen hilft keine Maßnahme in der Anwendung.
+
+**Mitigation für Bürgerinnen:** Öffnen Sie das Depot nur auf einem Gerät, dem Sie vertrauen, und in einem Browser ohne
+Erweiterungen, die auf alle Seiten zugreifen dürfen.
+
+### 6.8 Warnung beim Öffnen der Datei
+
+Eine Warnung eines Mail-Programms, Browsers oder Betriebssystems beim Öffnen einer HTML-Datei sagt nichts darüber, ob die Datei
+echt ist. Ob sie echt ist, zeigt der Vergleich des Fingerabdrucks (Abschnitt 2 und Abschnitt 8). Umgekehrt ist eine Datei,
+die ohne Warnung aufgeht, damit nicht geprüft.
+
 ---
+
+### 6.9 „Seite speichern“ des Browsers ist keine Sicherung
+
+Sichern Sie Ihr Depot mit „Sicherungskopie erstellen“, nicht mit „Seite speichern“ des Browsers. Speichert ein Browser den
+laufenden Stand der Seite, enthält diese Datei bei geöffnetem Depot Angaben daraus in lesbarer Form.
+
+Die Anwendung erkennt eine solche Datei beim Öffnen: sie führt dann nichts aus, zeigt keine Angaben und nennt statt dessen
+einen Hinweis. Die Angaben stehen trotzdem in der Datei und sind mit einem Texteditor lesbar; darum gehört sie gelöscht.
+
+Weg zum Nachsehen: der Block `rahmen-schutz` im Kopf von `vivodepot.html` setzt beim Start die Marke `data-vd-lauf`; die
+Proben `tests/rahmen-schutz-ohne-header.test.js` und `tests/e2e/gesicherte-kopie.spec.js` halten das Verhalten.
 
 ## 7 · Geltungs- und Verbindlichkeits-Hinweis
 
@@ -232,8 +258,7 @@ Die `SECURITY.md` ist Bestandteil der Vivodepot-Distribution. Bei Stick-Ausliefe
 
 ## 8 · Fingerabdruck je Fassung
 
-Jede ausgelieferte Fassung eines Produkts hat genau einen SHA-256. Ausgeliefert wird jedes Produkt über
-den Shop (der einzige Auslieferungsweg). Die Datei selbst kann ihren eigenen Fingerabdruck
+Jede ausgelieferte Fassung eines Produkts hat genau einen SHA-256. Die Datei selbst kann ihren eigenen Fingerabdruck
 nicht tragen (ihn einzutragen änderte die Datei und damit den Fingerabdruck); er steht deshalb hier.
 Die Tabelle ist aus dem internen Fassungsregister erzeugt, nicht getippt; der pre-commit-Hook hält
 beide gleich (`tools/fassungen-register.js --check`).
@@ -254,6 +279,11 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v929 | 2026-10-15 | privat-de | `b378f160f2b8acd1d5e900eaa74335e7e7dc163307551d35cc136fdf2b2cde98` |
+| v929 | 2026-10-15 | privat-en | `28c12904131e7d325a6ccf74a6a8563e349efe08085af82aa8ca02de93a4c899` |
+| v929 | 2026-10-15 | pro-de | `52c89c8a209fb71b31268b56f4bc69e7f0932796b9758146060fe81f69f6a00a` |
+| v929 | 2026-10-15 | pro-en | `00b3458b8b342ac212c5867c60d5c06f354978cd0fefdce39f78a5950496c1b1` |
+| v929 | 2026-10-15 | service-worker | `550bc76f3151905751c9e7498550f938f75f1dd1de3df9092964905e1f03a187` |
 | v928 | 2026-10-13 | privat-de | `51f5a7d716f340c55d4e8a994d02293ae8839ddc803339ab94558af7afbde999` |
 | v928 | 2026-10-13 | privat-en | `88c6a14c553f4a3730c802a1f0e4ee17e0449b362459c88a9a7246aabb3acc1d` |
 | v928 | 2026-10-13 | pro-de | `e645ca3afc1682279664a58c1f41e336db0d7f9675fa5767836226a6d46b4c8e` |

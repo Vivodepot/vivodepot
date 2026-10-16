@@ -52,7 +52,12 @@ const ANKER_PRIV = Object.freeze({
 const OPTS = Object.freeze({ ankerJwk: Object.freeze({ kty: 'OKP', crv: 'Ed25519', alg: 'Ed25519', x: ANKER_PRIV.x }), jetzt: '2026-09-16T12:00:00Z' });
 const SATZ = 'strings:klartextHinweis.text';
 const SATZ_HU = 'Ez a fájl nincs titkosítva. Bárki elolvashatja, aki megnyitja.';
-const modul = (extra) => Object.assign({ modulTyp: 'textsatz', sprache: 'hu', moduleVersion: 1, texte: { [SATZ]: SATZ_HU } }, extra || {});
+/* Seit dem 12.10.2026 (Befund LESE-APP-PRUEFER-GELTUNG-UNGEPRUEFT) verlangt die Lese-App für die Prüfer-Stufe den
+   Geltungsbereich der Prüfstelle und die Summen ihrer Originalsätze für Deutsch und Englisch; hier vom Werkzeug der
+   Prüfstelle aus dem Baum gerechnet. */
+const ORIGINALE_SUMME = Object.freeze({ lesen: require('../tools/lib/originale-summe.js').originaleSummenAusBaum(path.join(__dirname, '..')).lesen });
+const GELTUNG_HU = Object.freeze({ modulTypen: ['textsatz'], sprachen: ['hu'] });
+const modul = (extra) => Object.assign({ modulTyp: 'textsatz', sprache: 'hu', moduleVersion: 1, texte: { [SATZ]: SATZ_HU }, originaleSumme: ORIGINALE_SUMME }, extra || {});
 async function paar() {
   const kp = await webcrypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
   return { pub: await webcrypto.subtle.exportKey('jwk', kp.publicKey), priv: await webcrypto.subtle.exportKey('jwk', kp.privateKey) };
@@ -67,7 +72,7 @@ async function belegPruefer() {
   const sign = async (n, jwk) => V._signJWS(n, await V._jwsImportSignKey(jwk), {});
   const zw = await paar(); const blatt = await paar();
   return {
-    ausstellerZertifikatJws: await sign(zert('pruefstelle-x', V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, zw.pub, { rolle: 'pruefer' }), ANKER_PRIV),
+    ausstellerZertifikatJws: await sign(zert('pruefstelle-x', V.VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, zw.pub, { rolle: 'pruefer', geltung: GELTUNG_HU }), ANKER_PRIV),
     providerCredentialJws: await sign(zert('uebersetzer-hu', 'institution/test', blatt.pub), zw.priv),
     modulSignaturJws: await sign(modul(), blatt.priv),
   };

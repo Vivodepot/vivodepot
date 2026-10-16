@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v928.
+Erzeugt aus der veröffentlichten Fassung v929.
 
 ---
 
@@ -76,11 +76,11 @@ Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.
 
 ## Zahlen
 
-- E2E: 664 (gezählt, nicht ausgeführt) · Wächter-Register: 145
-- Schema-Version: 92 · SCHALEN_STAND: v928 · Build-Version: v1.0
-- ADR-Register: 433 Einträge
+- E2E: 685 (gezählt, nicht ausgeführt) · Wächter-Register: 145
+- Schema-Version: 92 · SCHALEN_STAND: v929 · Build-Version: v1.0
+- ADR-Register: 434 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-12, Fassung v928. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-14, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -125,7 +125,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-12, Fassung v928. Diese Zahlen ve
 
 ## Unterordner unter `docs/`
 
-- `docs/adr/` — 475 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 476 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)

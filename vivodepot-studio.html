@@ -16,12 +16,46 @@
      leitet sie um oder bleibt verborgen. `id` ist Pflicht: tools/krypto-block-propagation-pruefen.js findet den gepinnten
      VdCrypto-Block über das erste namenlose Skript. Probe: tests/rahmen-schutz-ohne-header.test.js. -->
 <style id="rahmen-verbergen">body{display:none !important}</style>
+<style id="gesicherte-kopie-stil">#vd-gesicherte-kopie{max-width:36rem;margin:12vh auto;padding:0 1.5rem;line-height:1.6}</style>
 <script id="rahmen-schutz">
-  if (window.self === window.top) {
-    document.getElementById('rahmen-verbergen').remove();
-  } else {
-    try { window.top.location = window.self.location.href; } catch (e) { /* CSS-Verbergen bleibt bestehen */ }
-  }
+  (function () {
+    var wurzel = document.documentElement;
+    /* Gesicherte Kopie (12.10.2026): „Seite speichern“ im Browser schreibt den Stand NACH dem Skriptlauf, bei geöffnetem
+       Depot samt den gezeigten Angaben. Die Marke unten steht dann schon im Dokument, bevor ein eigenes Skript lief.
+       Eine solche Datei zeigt nichts und führt nichts aus: alle folgenden Skripte werden gesperrt, der Inhalt wird
+       entfernt, sobald er gelesen ist, und an seine Stelle tritt ein Hinweis. */
+    if (wurzel.hasAttribute('data-vd-lauf')) {
+      wurzel.style.setProperty('display', 'none', 'important');
+      var sperre = document.createElement('meta');
+      sperre.setAttribute('http-equiv', 'Content-Security-Policy');
+      sperre.setAttribute('content', ['script-src', "'none'"].join(' '));   // zwei Teile: eine Richtlinie, kein Satz
+      document.head.appendChild(sperre);
+      document.addEventListener('DOMContentLoaded', function () {
+        var koerper = document.body;
+        if (!koerper) return;
+        var hinweis = document.getElementById('vd-gesicherte-kopie');
+        while (koerper.firstChild) koerper.removeChild(koerper.firstChild);
+        if (hinweis) {
+          hinweis.removeAttribute('hidden');
+          koerper.appendChild(hinweis);
+          var kopf = hinweis.firstElementChild;   // die Kopfzeile des Hinweises
+          if (kopf) document.title = kopf.textContent;
+        }
+        var alt = document.getElementById('rahmen-verbergen');
+        if (alt) alt.remove();
+        wurzel.style.removeProperty('display');
+      });
+      return;
+    }
+    wurzel.setAttribute('data-vd-lauf', '1');
+    var oben = false;
+    try { oben = window.self === window.top; } catch (e) { oben = false; }
+    var stil = document.getElementById('rahmen-verbergen');
+    if (oben) { if (stil) stil.remove(); return; }
+    // Im fremden Rahmen: verbergen, ohne am Stil-Element zu hängen, und das umgebende Fenster auf sich umleiten.
+    wurzel.style.setProperty('display', 'none', 'important');
+    try { window.top.location = window.self.location.href; } catch (e) { /* bleibt verborgen */ }
+  })();
 </script>
 <title>Vivodepot Studio</title>
 <!-- NAVICON:BEGIN — erzeugt von tools/navicon-einsetzen.js aus dem Kopf des Kerns, nicht von Hand ändern -->
@@ -112,7 +146,8 @@
   details.glossar summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
   dl.glossar dt { font-weight: 700; margin-top: 10px; }
   dl.glossar dd { margin: 2px 0 0; color: var(--grau); font-size: 14px; }
-  code.sub-id { display: inline-block; background: var(--akzent-flaeche); padding: 6px 10px; border-radius: 6px; font-size: 15px; margin: 6px 0; }
+  /* Ein Anfrage-Link ist ein langes Zeichen ohne Trennstelle: ohne Umbruch wurde die Seite auf dem iPad über 14 000 px breit. */
+  code.sub-id { display: inline-block; background: var(--akzent-flaeche); padding: 6px 10px; border-radius: 6px; font-size: 15px; margin: 6px 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-all; }
   .bsp-reihe { display: flex; gap: 10px; flex-wrap: wrap; }
   .bsp-karte { border: 1px solid var(--rand); border-radius: 10px; padding: 12px; flex: 1 1 200px; background: var(--auf-akzent); }
   .bsp-karte h4 { margin: 0 0 6px; font-size: 14px; }
@@ -204,6 +239,15 @@
   .palette-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
   .link-klein { font-size: 13px; color: var(--akzent-dunkel); }
   .link-knopf { background: none; border: 0; padding: 0; color: var(--akzent-dunkel); text-decoration: underline; font-size: inherit; cursor: pointer; }
+  .link-knopf[disabled] { opacity: .5; cursor: default; }
+  .sk-pruefen { margin-top: 22px; }
+  .sk-pruefen-titel { margin: 0 0 4px; font-size: 1em; }
+  .sk-pruef-erfolg, .sk-pruef-fehlschlag { border-radius: 12px; padding: 12px; margin: 10px 0; }
+  .sk-pruef-erfolg { background: var(--ok-bg); }
+  .sk-pruef-fehlschlag { background: var(--fehler-bg); }
+  .neben-text { display: block; color: var(--grau); font-size: .9em; font-weight: 400; }
+  .probier-satz { display: none; margin-top: 14px; }
+  .raum-bau.probieren .probier-satz { display: block; }
   .link-knopf:hover { background: none; color: var(--text); }
   input[type=search] { width: 100%; padding: 8px 10px; border: 1px solid var(--rand); border-radius: 8px; font: inherit; background: var(--auf-akzent); color: var(--text); }
   .pal-gruppe { margin-top: 8px; border-top: 1px solid var(--rand); }
@@ -214,6 +258,9 @@
   .pal-eintrag:hover { background: var(--nav-hover); border-color: var(--akzent-flaeche-rand); }
   .pal-eintrag .pal-plus { flex: none; width: 26px; height: 26px; padding: 0; border-radius: 50%; line-height: 1; font-size: 16px; }
   .pal-eintrag small { display: block; color: var(--grau); font-size: 11.5px; }
+  .pal-kennungen { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--grau); margin: 0 0 6px; }
+  .pal-kennungen input { width: auto; margin: 0; }
+  @media (pointer: coarse) { .pal-kennungen { min-height: 44px; } }
   .pal-frei { margin-top: 10px; border-top: 1px solid var(--rand); padding-top: 4px; }
   .pal-frei summary { cursor: pointer; font-weight: 600; padding: 8px 2px; font-size: 14px; }
   .pal-fehlt { margin-top: 12px; }
@@ -248,6 +295,8 @@
   .vk-steuer .vk-optionen { display: flex; flex-wrap: wrap; gap: 6px 14px; }
   .vk-steuer .vk-optionen label { margin: 0; font-weight: 400; display: flex; gap: 6px; align-items: center; }
   .vk-steuer .vk-optionen input { width: auto; }
+  .vk-steuer .vk-eintrag { border: 1px solid var(--rand); border-radius: 10px; padding: 8px 10px; margin: 0 0 8px; display: grid; gap: 6px; }
+  .vk-steuer .vk-unterfeld-name { display: block; font-size: 13px; font-weight: 600; margin-bottom: 2px; }
   .vk-aktionen { position: absolute; right: 8px; top: 6px; display: none; gap: 4px; }
   .vk:hover .vk-aktionen, .vk.gewaehlt .vk-aktionen, .vk:focus-within .vk-aktionen { display: flex; }
   .raum-bau:not(.probieren) .vk-steuer { pointer-events: none; opacity: .85; }
@@ -553,9 +602,30 @@ label.as-feld { margin: 0; }
   .eigenschaften.editor-offen { position: fixed; left: 0; right: 0; bottom: 0; top: auto; max-height: 82vh; overflow: auto; z-index: 40;
     border-radius: 22px 22px 0 0; background: var(--white); box-shadow: 0 -18px 50px color-mix(in srgb, var(--ink) 22%, transparent); }
 }
+/* Fingerbedienung (iPad-Prüfung 14.10.2026): bei grobem Zeiger mindestens 44 px Trefferfläche, wie in der App (dort an
+   `pointer: coarse` gebunden, nicht an die Breite: ein Tablet mit Finger bekommt 44 px, ein Fenster mit Maus nicht). Am
+   Schreibtisch ändert sich nichts. Steht außerhalb der gebackenen Region STUDIO-ERSCHEINUNG und als letzte Regel, damit keine
+   spätere Größenangabe sie überdeckt. Kästchen und Radios bleiben klein; ihre Beschriftung trägt die Fläche (WCAG 2.5.8,
+   gleichwertiges Ziel). Messung: tests/e2e-drei-browser/studio-ipad.spec.js mit tools/lib/trefferflaechen.js. */
+@media (pointer: coarse) {
+  button, select, textarea, summary, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) { min-height: 44px; }
+  /* WebKit zeichnet ein Auswahlfeld in eigener Höhe (gemessen 24 px) und übergeht min-height, auch mit menulist-button. Ohne
+     eigene Zeichnung gilt die Höhe; der Pfeil kommt als zwei Verläufe zurück (kein Bild, keine Adresse). */
+  select { -webkit-appearance: none; appearance: none; padding-right: 32px;
+    background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; }
+  button { min-width: 44px; }
+  a.kopf-knopf, a.knopf-link, a.link-klein, a.link-knopf, a.skip-link, .vk-steuer a { display: inline-flex; align-items: center; min-height: 44px; }
+  .check-zeile label, .vk-steuer .vk-optionen label, .as-frage-pflicht, .aa-pflicht { min-height: 44px; min-width: 44px; }
+  .check-zeile label { display: flex; align-items: center; }
+}
 </style>
 </head>
 <body>
+<!-- Hinweis einer vom Browser gesicherten Kopie (12.10.2026). Statisches Markup, verborgen: der Kopf-Block zeigt in einer
+     gesicherten Kopie nur dieses Element und entfernt alles andere. Der Text steht hier und in keinem Skript, damit er da
+     ist, wenn kein Skript mehr läuft. -->
+<div id="vd-gesicherte-kopie" hidden><strong>Gespeicherte Kopie · Saved copy</strong><p lang="de">Diese Datei hat der Browser aus der laufenden Anwendung gespeichert. Sie ist nicht die Anwendung und kann Angaben in lesbarer Form enthalten. Bitte löschen Sie diese Datei.</p><p lang="en">The browser saved this file from the running application. It is not the application and may contain details in readable form. Please delete this file.</p></div>
 <!-- Das Logo: dasselbe Symbol wie in vivodepot.html, byte-gleich (Probe tests/generator-kopf-fuss.test.js). -->
 <svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="vd-logo" viewBox="575 75 1850 1850">
 <rect x="647" y="155" fill="none" width="1706" height="1691"/>
@@ -1267,7 +1337,7 @@ label.as-feld { margin: 0; }
       <span class="ek-text" data-en="You issue documents as files in open formats. The person keeps them in their depot.">Sie geben Unterlagen als Datei in offenen Formaten heraus. Die Person legt sie in ihrem Depot ab.</span></button>
     <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-erscheinung"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
       <span class="ek-titel" data-en="Your own look">Eigenes Erscheinungsbild</span>
-      <span class="ek-text" data-en="Logo, colours and layout: Vivodepot with the face of your organisation.">Logo, Farben und Anordnung: Vivodepot im Gesicht Ihrer Einrichtung.</span></button>
+      <span class="ek-text" data-en="Logo, colours and name for Vivodepot. Applied only once it is signed and confirmed by Vivodepot.">Logo, Farben und Name für Vivodepot. Wird erst angewendet, wenn es signiert und von Vivodepot bestätigt ist.</span></button>
     <button type="button" role="listitem" class="kachel eingang-kachel" id="ein-anderes"><span class="ek-glyph" aria-hidden="true"></span><span class="ek-pfeil" aria-hidden="true">→</span>
       <span class="ek-titel" data-en="Something else">Etwas anderes</span>
       <span class="ek-text" data-en="For integrators: building blocks, formats and checking tools.">Für Integratoren: Bausteine, Formate und Prüfwerkzeuge.</span></button>
@@ -1489,6 +1559,26 @@ label.as-feld { margin: 0; }
         <span class="kachel-titel" data-en="Family sheet">Angehörigen-Blatt</span>
         <span class="kachel-text" data-en="A sheet for trusted people: what a hospital, a care home or the authorities need, taken from the person’s entries.">Ein Blatt für Vertrauenspersonen: was Krankenhaus, Pflegeheim oder Behörde brauchen, zusammengestellt aus den Angaben der Person.</span>
       </button>
+      <button type="button" class="kachel" id="bsp-verein">
+        <span class="kachel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.6 7.1 18.2l.9-5.5-4-3.9 5.5-.8z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+        <span class="kachel-titel" data-en="Membership application">Mitgliedsantrag</span>
+        <span class="kachel-text" data-en="Example: club. Load it and adapt it.">Beispiel: Verein. Laden und anpassen.</span>
+      </button>
+      <button type="button" class="kachel" id="bsp-kommune">
+        <span class="kachel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-5h6v5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+        <span class="kachel-titel" data-en="Residents’ parking permit">Bewohnerparkausweis</span>
+        <span class="kachel-text" data-en="Example: municipality. Load it and adapt it.">Beispiel: Kommune. Laden und anpassen.</span>
+      </button>
+      <button type="button" class="kachel" id="bsp-bibliothek">
+        <span class="kachel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 19V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM8 7h6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+        <span class="kachel-titel" data-en="City library registration">Anmeldung Stadtbibliothek</span>
+        <span class="kachel-text" data-en="Example: library, with a list for families. Load it and adapt it.">Beispiel: Bibliothek, mit einer Liste für Familien. Laden und anpassen.</span>
+      </button>
+      <button type="button" class="kachel" id="bsp-arbeitgeber">
+        <span class="kachel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+        <span class="kachel-titel" data-en="New employee form">Personalbogen</span>
+        <span class="kachel-text" data-en="Example: employer. Load it and adapt it.">Beispiel: Arbeitgeber. Laden und anpassen.</span>
+      </button>
       <button type="button" class="kachel" id="bsp-pflegeheim">
         <span class="kachel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26"><path d="M4 20V9l8-5 8 5v11M9 20v-6h6v6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg></span>
         <span class="kachel-titel" data-en="Care home admission form">Pflegeheim-Aufnahmebogen</span>
@@ -1570,6 +1660,7 @@ label.as-feld { margin: 0; }
       <label class="vis-hidden" for="pal-suche" data-en="Search fields">Felder suchen</label>
       <input type="search" id="pal-suche" placeholder="Feld suchen …" data-en-ph="Search fields …" autocomplete="off">
       <p class="hint" data-en="Click + or drag a field into the preview. Field names follow the language you work in: one template per language.">Mit + hinzufügen oder in die Vorschau ziehen. Die Feldnamen folgen der Sprache, in der Sie arbeiten: eine Vorlage je Sprache.</p>
+      <label class="pal-kennungen"><input type="checkbox" id="pal-kennungen"> <span data-en="Show identifiers">Kennungen zeigen</span></label>
       <div id="pal-liste"></div>
       <details class="pal-frei">
         <summary data-en="A field of your own">Ein eigenes Feld</summary>
@@ -1602,6 +1693,7 @@ label.as-feld { margin: 0; }
           <span class="anzahl-badge" id="tpl-anzahl">0 Feld(er)</span>
         </div>
         <div id="tpl-felder" class="vorschau" aria-label="Vorschau der Vorlage" data-en-aria="Preview of the template"></div>
+        <p class="herkunft-satz probier-satz" id="probier-herkunft"><span class="herkunft-i" aria-hidden="true">i</span><span data-en="Vivodepot confirms who the template comes from, not whether its content is correct.">Vivodepot bestätigt, von wem die Vorlage kommt, nicht ob ihr Inhalt richtig ist.</span></p>
       </div>
       <div id="tafel-wortlaut" role="tabpanel" aria-labelledby="reiter-wortlaut" hidden>
         <h3 data-en="Wording (optional) for a generated document">Wortlaut (optional) für ein erzeugtes Dokument</h3>
@@ -1801,19 +1893,32 @@ label.as-feld { margin: 0; }
         <div id="sk-downloads" hidden>
           <div class="karte-innen">
             <button type="button" class="sekundaer" id="sk-pub" data-en="Download public key">Öffentlichen Schlüssel herunterladen</button>
-            <span class="hint" id="sk-pub-status" style="margin-left:8px">noch nicht heruntergeladen</span>
+            <span class="hint" id="sk-pub-status" style="margin-left:8px" data-en="not downloaded yet">noch nicht heruntergeladen</span>
             <p class="hint" data-en="This file goes to Vivodepot for certification. It is not secret.">Diese Datei geht an Vivodepot zur Zertifizierung. Sie ist nicht geheim.</p>
           </div>
           <div class="karte-innen">
             <button type="button" class="sekundaer" id="sk-priv" data-en="Download private key (encrypted)">Privaten Schlüssel verschlüsselt herunterladen</button>
-            <span class="hint" id="sk-priv-status" style="margin-left:8px">noch nicht heruntergeladen</span>
-            <p class="hint rot" data-en="This file stays with you. Keep it safe (for example a USB stick in a safe PLUS an encrypted cloud copy). Without it you cannot update your templates later.">Diese Datei bleibt bei Ihnen. Bewahren Sie sie sicher auf (z. B. USB-Stick im Tresor PLUS verschlüsselte Cloud). Ohne diese Datei können Sie später keine Vorlagen mehr aktualisieren.</p>
+            <span class="hint" id="sk-priv-status" style="margin-left:8px" data-en="not downloaded yet">noch nicht heruntergeladen</span>
+            <p class="hint rot" data-en="This file stays with you. Keep it in two places, for example on a USB stick and in encrypted storage. Vivodepot has no copy and cannot restore it.">Diese Datei bleibt bei Ihnen. Legen Sie sie an zwei Orten ab, zum Beispiel auf einem USB-Stick und in einem verschlüsselten Speicher. Vivodepot hat keine Kopie und kann sie nicht wiederherstellen.</p>
+          </div>
+          <div id="sk-pruefen" class="sk-pruefen" hidden>
+            <h4 class="sk-pruefen-titel" data-en="Check your backup">Sicherung prüfen</h4>
+            <p class="hint" data-en="Open the file you have just saved.">Öffnen Sie die Datei, die Sie eben gespeichert haben.</p>
+            <label for="sk-pruef-datei" data-en="Key file">Schlüsseldatei</label>
+            <input type="file" id="sk-pruef-datei" accept=".vdkey,.json,application/json">
+            <label for="sk-pruef-pw" data-en="Key file password">Passwort der Schlüsseldatei</label>
+            <input type="password" id="sk-pruef-pw" autocomplete="current-password">
+            <div id="sk-pruef-ergebnis" role="status" aria-live="polite" hidden></div>
+            <div class="knopf-reihe">
+              <button type="button" id="sk-pruefen-knopf" data-en="Check">Prüfen</button>
+              <button type="button" class="sekundaer" id="sk-erneut-laden" hidden data-en="Download again">Erneut herunterladen</button>
+            </div>
           </div>
           <div id="sk-freigabe-hinweis" class="hint" hidden data-en="The private key is removed from the browser as soon as the package is created.">Der private Schlüssel wird aus dem Browser entfernt, sobald das Paket erzeugt ist.</div>
         </div>
         <p class="hint" id="sk-status" role="status" aria-live="polite"></p>
         <button type="button" class="mini sekundaer" id="sk-verwerfen" hidden data-en="Discard key now">Schlüssel jetzt verwerfen</button>
-        <div class="knopf-reihe"><button type="button" id="sk-weiter" disabled data-en="Both files saved: next →">Beide Dateien gesichert: weiter →</button></div>
+        <div class="knopf-reihe"><button type="button" class="link-knopf" id="sk-weiter" disabled data-en="Continue without checking">Ohne Prüfung weiter</button></div>
         <details class="fs-vorhanden">
           <summary data-en="I already have a key file">Ich habe schon eine Schlüsseldatei</summary>
           <label for="pr-privkey" data-en="Key file (.vdkey; older files: .jwk)">Schlüsseldatei (.vdkey; ältere Dateien: .jwk)</label>
@@ -7363,6 +7468,15 @@ const SUBMISSION_SCHEMA = {
               }
             }
           },
+          "nutzlastTyp": {
+            "description": "Sagt in der signierten Nutzlast, dass dies eine Vorlage ist. Das Studio schreibt den Wert in jede neue Vorlage; bereits signierte Vorlagen tragen ihn nicht und bleiben gueltig. Ein Modul traegt dieses Feld nie.",
+            "const": "vivodepot-vorlage"
+          },
+          "formatFassung": {
+            "description": "Fassung des Formats der Vorlage, nicht ihres Inhalts (dafuer steht version). Fehlt die Angabe, gilt 1. Die Zahl steigt nur, wenn eine Vorlage etwas tragen kann, das ein Leser der vorigen Fassung falsch oder gar nicht laese.",
+            "type": "integer",
+            "minimum": 1
+          },
           "vorlageId": {
             "description": "Kette Auftrag 6 Zug 2 (20.08.2026): stabile Kennung DIESER Vorlage beim Anbieter. Zusammen mit anbieterId ist sie die IDENTITAET der Vorlage — ueber den Wortlaut zu deduplizieren hiess: eine geaenderte Fassung war eine NEUE Vorlage, und die alte blieb daneben stehen.",
             "type": "string",
@@ -7507,7 +7621,8 @@ const SUBMISSION_SCHEMA = {
 /* ── Mini-JSON-Schema-Validator (dependency-frei) ──────────────────────────
    Deckt die im submission-schema.json benutzten Keywords ab: type, required,
    properties, additionalProperties:false, items, enum, const, minLength,
-   maxLength, minItems, pattern, allOf, anyOf, if/then, not. format ist advisory.
+   maxLength, minItems, maxItems, minimum, maximum, minProperties, maxProperties, propertyNames,
+   additionalProperties (false oder Schema), pattern, allOf, anyOf, oneOf, if/then, not. format ist advisory.
    Identische Semantik wie der Validator der Bürger-Testsuite (Symmetrie).
    anyOf ergänzt 13.09.2026 (U2-ADR-409 Punkt 3/5): erst ab hier kann das
    Schema „templates ODER kennungVorschlaege, nie keins von beiden" wirklich
@@ -7528,11 +7643,29 @@ function _validateSchema(schema, data, pfad, fehler) {
     if (schema.maxLength != null && data.length > schema.maxLength) fehler.push(pfad + ': zu lang');
     if (schema.pattern && !new RegExp(schema.pattern).test(data)) fehler.push(pfad + ': pattern verletzt');
   }
+  /* minimum/maximum ergänzt 13.10.2026: vorher übergangen, ohne Fehler. `"minimum": 1` an anfrageVersion und appVersion war
+     damit toter Text; eine 0 ging durch. Welche Schlüsselwörter ein geprüftes Schema benutzt und ob
+     dieser Prüfer sie kennt, hält tests/schema-pruefer-schluesselwoerter.test.js fest. */
+  if (typeof data === 'number') {
+    if (schema.minimum != null && data < schema.minimum) fehler.push(pfad + ': kleiner als ' + schema.minimum);
+    if (schema.maximum != null && data > schema.maximum) fehler.push(pfad + ': größer als ' + schema.maximum);
+  }
   if (data && typeof data === 'object' && !Array.isArray(data)) {
     (schema.required || []).forEach(k => { if (!(k in data)) fehler.push(pfad + ': Pflichtfeld fehlt: ' + k); });
     if (schema.additionalProperties === false && schema.properties) {
       Object.keys(data).forEach(k => { if (!(k in schema.properties)) fehler.push(pfad + ': unerlaubtes Feld: ' + k); });
     }
+    /* Ergänzt 13.10.2026, wie minimum/maximum unten: bis dahin still übergangen. Betroffen war das mehrsprachige
+       feldname ({sprache: text}), dessen Sprachkennungen und Texte niemand prüfte. */
+    if (schema.additionalProperties && typeof schema.additionalProperties === 'object') {
+      Object.keys(data).forEach(k => {
+        if (!schema.properties || !(k in schema.properties)) _validateSchema(schema.additionalProperties, data[k], pfad + '.' + k, fehler);
+      });
+    }
+    if (schema.propertyNames) Object.keys(data).forEach(k => _validateSchema(schema.propertyNames, k, pfad + '{' + k + '}', fehler));
+    const anzahl = Object.keys(data).length;
+    if (schema.minProperties != null && anzahl < schema.minProperties) fehler.push(pfad + ': zu wenige Felder');
+    if (schema.maxProperties != null && anzahl > schema.maxProperties) fehler.push(pfad + ': zu viele Felder');
     if (schema.properties) {
       Object.keys(schema.properties).forEach(k => {
         if (k in data) _validateSchema(schema.properties[k], data[k], pfad + '.' + k, fehler);
@@ -7541,6 +7674,7 @@ function _validateSchema(schema, data, pfad, fehler) {
   }
   if (Array.isArray(data)) {
     if (schema.minItems != null && data.length < schema.minItems) fehler.push(pfad + ': zu wenige Items');
+    if (schema.maxItems != null && data.length > schema.maxItems) fehler.push(pfad + ': zu viele Items');
     if (schema.items) data.forEach((it, i) => _validateSchema(schema.items, it, pfad + '[' + i + ']', fehler));
   }
   if (schema.not) {
@@ -7551,6 +7685,11 @@ function _validateSchema(schema, data, pfad, fehler) {
   if (schema.anyOf) {
     const treffer = schema.anyOf.some(s => _validateSchema(s, data, pfad, []).length === 0);
     if (!treffer) fehler.push(pfad + ': keine anyOf-Alternative erfüllt');
+  }
+  if (schema.oneOf) {
+    let treffer = 0;
+    schema.oneOf.forEach(s => { if (_validateSchema(s, data, pfad, []).length === 0) treffer++; });
+    if (treffer !== 1) fehler.push(pfad + ': ' + (treffer === 0 ? 'keine' : treffer) + ' oneOf-Alternativen erfüllt, verlangt genau eine');
   }
   if (schema.if) {
     const ok = _validateSchema(schema.if, data, pfad, []).length === 0;
@@ -8534,6 +8673,9 @@ const KERN_TORWAECHTER = (function () {
   const _TEMPLATE_MAX_BYTES = 70 * 1024;     // Größen-Cap auf das Template-Objekt (großzügig; legitime Templates liegen weit darunter)
   const _TEMPLATE_FELDNAME_MAX = 300;
   const _TEMPLATE_HILFETEXT_MAX = 2000;   // Z32/A112: optionaler Hilfetext je Feld
+  const VORLAGE_FORMAT_FASSUNG_BEKANNT = 1;              // die höchste Formatfassung einer Vorlage, die dieser Leser kennt
+  const VORLAGE_NUTZLAST_TYP = 'vivodepot-vorlage';      // Typfeld der signierten Nutzlast; ein Modul trägt es nie
+  const VORLAGE_GRUND_ZU_NEU = 'vorlage-zu-neu';
   const _TEMPLATE_WORTLAUT_MAX = 60 * 1024;  // 1E: Cap auf den amtlichen Wortlaut-Block (unter dem Objekt-Gesamt-Cap)
   const _TEMPLATE_RENDER_TYPEN = new Set(['text', 'textarea', 'zahl', 'datum', 'auswahl',
     'mehrfachauswahl', 'liste', 'ref', 'refMehrfach', 'verweis']);
@@ -8542,6 +8684,25 @@ const KERN_TORWAECHTER = (function () {
     let groesse;
     try { groesse = new TextEncoder().encode(JSON.stringify(tpl)).length; } catch (e) { return 'Template nicht serialisierbar'; }
     if (groesse > _TEMPLATE_MAX_BYTES) return 'Template zu groß (' + groesse + ' Byte)';
+    /* FORMATFASSUNG UND TYPFELD (v929, 12.10.2026; Befund VORLAGE-FASSUNGSUNABHAENGIG-UNGEPRUEFT). Diese Funktion läuft erst NACH
+       der Signaturprüfung (einziger Aufrufer: importPlanGeprueft) — die Fassung wird also aus der geprüften Nutzlast gelesen,
+       und „zu neu“ entsteht nie aus einer ungeprüften Datei. Fehlt `formatFassung`, gilt 1; der Wert wird NIE in das Objekt
+       geschrieben, über dem die Signatur geprüft wurde, und nie in eine gespeicherte Vorlage. Über das Abweisen als Ganzes
+       entscheidet nur diese eine Stelle. Sie steht vor der Feldprüfung: eine brechende Fassung trägt ihre Felder unter einem
+       anderen Schlüssel, und dieser Leser soll dann „zu neu“ sagen, nicht „felder fehlt“. */
+    const _hatFassung = Object.prototype.hasOwnProperty.call(tpl, 'formatFassung');
+    if (_hatFassung && !(Number.isInteger(tpl.formatFassung) && tpl.formatFassung >= 1)) return 'formatfassung-ungueltig';
+    const _fassung = _hatFassung ? tpl.formatFassung : 1;
+    if (_fassung > VORLAGE_FORMAT_FASSUNG_BEKANNT) return 'vorlage-zu-neu';   // wörtlich (== VORLAGE_GRUND_ZU_NEU): der Abgleich der Prüfregeln liest die Gründe als Literale
+    const _hatTyp = Object.prototype.hasOwnProperty.call(tpl, 'nutzlastTyp');
+    if (_hatTyp) {
+      if (tpl.nutzlastTyp !== VORLAGE_NUTZLAST_TYP) return 'nutzlasttyp-widerspruch';
+      if (Object.prototype.hasOwnProperty.call(tpl, 'modulTyp')) return 'nutzlasttyp-widerspruch';
+    } else if (_fassung >= 2) {
+      return 'nutzlasttyp-fehlt';
+    } else if (Object.prototype.hasOwnProperty.call(tpl, 'modulTyp')) {
+      return 'modul-keine-vorlage';
+    }
     if (!Array.isArray(tpl.felder) || tpl.felder.length === 0) return 'felder fehlt oder ist leer';   // L1
     for (const f of tpl.felder) {
       if (!f || typeof f !== 'object') return 'Feld ist kein Objekt';
@@ -9180,10 +9341,30 @@ function publicJwkFuerSubmission(jwk) {
    (normalisiereFeldBefund) — vorher fiel sie still weg.
    code_werte-Zelle: "code:Anzeige" Paare, getrennt durch ';' oder '|'.
    Ein Synonym optional als drittes Glied: "code:Anzeige:Synonym". */
+/* Das Trennzeichen wird an der Kopfzeile erkannt, nicht vorausgesetzt (11.10.2026): eine Tabelle aus einer deutschen
+   Tabellenkalkulation trägt das Semikolon und ergab vorher eine einzige Spalte. Liste und Regel sind wörtlich die des Kerns
+   (dort für das Einlesen von Tabellen); tests/generator-feld-eigenschaften.test.js hält beide gleich. */
+const _CSV_TRENNZEICHEN = Object.freeze([',', ';', '\t', '|']);
+function _csvTrennzeichen(kopf) {
+  let bestes = ',', hoechste = 0;
+  for (const t of _CSV_TRENNZEICHEN) {
+    let n = 0, inQ = false;
+    for (let i = 0; i < kopf.length; i++) {
+      const c = kopf[i];
+      if (c === '"') { inQ = !inQ; continue; }
+      if (!inQ && c === t) n++;
+    }
+    if (n > hoechste) { hoechste = n; bestes = t; }
+  }
+  return bestes;
+}
 function csvParseZeilen(text) {
   const zeilen = [];
   let feld = '', zeile = [], inQuote = false;
-  const s = String(text || '').replace(/\r\n?/g, '\n');
+  let s = String(text || '').replace(/\r\n?/g, '\n');
+  if (s.charCodeAt(0) === 0xFEFF) s = s.slice(1);   // BOM: gehört nicht in den ersten Spaltennamen
+  const kopfEnde = s.indexOf('\n');
+  const trenn = _csvTrennzeichen(kopfEnde < 0 ? s : s.slice(0, kopfEnde));
   for (let i = 0; i < s.length; i++) {
     const c = s[i];
     if (inQuote) {
@@ -9191,10 +9372,12 @@ function csvParseZeilen(text) {
         if (s[i + 1] === '"') { feld += '"'; i++; } else { inQuote = false; }
       } else { feld += c; }
     } else if (c === '"') { inQuote = true; }
-    else if (c === ',') { zeile.push(feld); feld = ''; }
+    else if (c === trenn) { zeile.push(feld); feld = ''; }
     else if (c === '\n') { zeile.push(feld); zeilen.push(zeile); feld = ''; zeile = []; }
     else { feld += c; }
   }
+  // Ein offenes Anführungszeichen schluckte den Rest der Datei still in ein Feld; jetzt wird es gesagt.
+  if (inQuote) throw new Error(L('Ein Anführungszeichen wird nicht geschlossen.', 'A quotation mark is not closed.'));
   if (feld !== '' || zeile.length) { zeile.push(feld); zeilen.push(zeile); }
   return zeilen.filter((z) => z.some((x) => String(x).trim() !== ''));
 }
@@ -9409,6 +9592,8 @@ function csvZuFelder(text) {
   if (!zeilen.length) return [];
   const header = zeilen[0].map((h) => String(h).trim().toLowerCase());
   const idx = (name) => header.indexOf(name);
+  // Ohne die Spalte „feldname“ wurde still die erste Spalte genommen; das ist dann meist die falsche Datei.
+  if (idx('feldname') < 0) throw new Error(L('In der Kopfzeile fehlt die Spalte „feldname“.', 'The header row has no “feldname” column.'));
   const iName = idx('feldname'), iTyp = idx('feldtyp'), iPflicht = idx('pflicht'),
         iBereich = idx('bereich'), iCs = idx('code_system'), iCw = idx('code_werte'),
         iHilfetext = idx('hilfetext');
@@ -9424,7 +9609,8 @@ function csvZuFelder(text) {
   });
   const felder = [];
   for (let z = 1; z < zeilen.length; z++) {
-    const r = zeilen[z];
+    // Eine Zeile mit weniger Zellen als die Kopfzeile: die fehlenden gelten als leer (vorher brach das ganze Einlesen ab).
+    const r = zeilen[z].concat(new Array(Math.max(0, header.length - zeilen[z].length)).fill(''));
     const feldname = (iName >= 0 ? r[iName] : r[0] || '').trim();
     if (!feldname) continue;
     const feld = {
@@ -9878,11 +10064,28 @@ function pruefeKonformitaet(state, opts) {
    sie gemeinsam buendeln. Rueckgabe traegt die Angleichungen SEPARAT (nicht als nicht-aufzaehlbare
    Objekt-Property wie vormals am paket selbst), weil eine Sammlung mehrerer Rueckgaben ihre
    Angleichungen zusammenfuehren muss, bevor ueberhaupt ein `paket` existiert. */
+/* FORMATFASSUNG UND TYPFELD DER VORLAGE (12.10.2026). Beide stehen auf der obersten Ebene der Vorlage, also in dem
+   Objekt, das signiert wird; wer sie nach dem Signieren ändert oder entfernt, bricht die Signatur.
+   `formatFassung` ist die Fassung des FORMATS, nicht des Inhalts (das ist `version`) und nicht des Werkzeugs (das ist
+   `generatorVersion`). Fehlt sie, gilt 1: alle vorher signierten Vorlagen bleiben gültig. Sie steigt nur, wenn eine
+   Vorlage etwas tragen kann, das ein Leser der vorigen Fassung falsch oder gar nicht läse.
+   `nutzlastTyp` sagt, dass die Nutzlast eine Vorlage ist. Ein Modul trägt das Feld nie; es hat `modulTyp`.
+   REGEL FÜR DEN TAG, AN DEM EINE FASSUNG BRICHT: sie lässt `felder` WEG und trägt ihre Felder unter einem neuen
+   Schlüssel. Ein Kern, der die Fassung nicht kennt, findet dann keine Felder und weist die Vorlage als Ganzes ab, statt
+   sie falsch zu lesen. Eine Vorlage trägt NIE beide Feldquellen. Solange Kerne ohne Leser für die Fassung im Umlauf
+   sind, bleibt es bei Fassung 1.
+   Nicht betroffen: die ab Werk mitgelieferten Vorlagen. Ihre Signatur deckt genau vier Schlüssel (`_basisInhalt`); sie
+   bleiben ohne beide Felder und gelten als Fassung 1.
+   Proben: tests/studio-vorlage-formatfassung-typfeld.test.js. */
+const VORLAGE_FORMAT_FASSUNG = 1;
+const VORLAGE_NUTZLAST_TYP = 'vivodepot-vorlage';
 function baueTemplateObjekt(state) {
   state = state || {};
   const _felderBefund = felderAngleichungen(state.felder);
   const felder = _felderBefund.felder;
   const template = Object.assign({
+    nutzlastTyp: VORLAGE_NUTZLAST_TYP,
+    formatFassung: VORLAGE_FORMAT_FASSUNG,
     felder: felder,
     /* Die drei Tauglichkeits-Flags sind am 20.08.2026 entfallen und werden hier NICHT mehr
        geschrieben. Das Einreich-Schema duldet sie weiter (bereits signierte Bündel tragen
@@ -10946,6 +11149,68 @@ function submissionDateiname(anbieterId, submissionId) {
 
 /* ── Beispiel-Templates (F-9) — abgestimmte Pilot-Anwendungsfälle ─────────── */
 const BEISPIEL_TEMPLATES = Object.freeze({
+  /* Beispiele außerhalb von Gesundheit (Prüfung am iPad 14.10.2026, Entscheidung zum Nachtrag U2-ADR-493): Verein, Kommune,
+     Stadtbibliothek, Arbeitgeber. Erfundene Inhalte, keine echten Stellen. Gesundheit höchstens ein Drittel aller Beispiele,
+     abgerundet (tests/studio-vorfuehrpfad.test.js). */
+  verein: {
+    titel: 'Mitgliedsantrag Sportverein', titelEn: 'Sports club membership application',
+    beschreibung: 'Aufnahme eines neuen Mitglieds (Verein).',
+    felder: [
+      { feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Nachname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Geburtsdatum', feldtyp: 'datum', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'E-Mail', feldtyp: 'text', pflicht: false, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Art der Mitgliedschaft', feldtyp: 'auswahl', pflicht: true, bereich: 'administration', gruppe: 'Mitgliedschaft',
+        codeWerte: [{ code: 'ordentlich', anzeige: 'Ordentliches Mitglied' }, { code: 'foerdernd', anzeige: 'Fördermitglied' }, { code: 'jugend', anzeige: 'Jugendmitglied' }] },
+      { feldname: 'Abteilung', feldtyp: 'auswahl', pflicht: false, bereich: 'administration', gruppe: 'Mitgliedschaft',
+        codeWerte: [{ code: 'fussball', anzeige: 'Fußball' }, { code: 'turnen', anzeige: 'Turnen' }, { code: 'schwimmen', anzeige: 'Schwimmen' }] },
+      { feldname: 'Eintritt zum', feldtyp: 'datum', pflicht: true, bereich: 'administration', gruppe: 'Mitgliedschaft' },
+    ],
+  },
+  kommune: {
+    titel: 'Antrag Bewohnerparkausweis', titelEn: 'Residents’ parking permit application',
+    beschreibung: 'Antrag bei der Stadtverwaltung (Kommune).',
+    felder: [
+      { feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Antragsteller' },
+      { feldname: 'Nachname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Antragsteller' },
+      { feldname: 'Straße und Hausnummer', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Antragsteller' },
+      { feldname: 'Postleitzahl', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Antragsteller' },
+      { feldname: 'Ort', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Antragsteller' },
+      { feldname: 'Kennzeichen des Fahrzeugs', feldtyp: 'text', pflicht: true, bereich: 'mobility', gruppe: 'Fahrzeug' },
+      { feldname: 'Fahrzeug auf mich zugelassen', feldtyp: 'jaNein', pflicht: true, bereich: 'mobility', gruppe: 'Fahrzeug' },
+      { feldname: 'Gültig ab', feldtyp: 'datum', pflicht: false, bereich: 'administration', gruppe: 'Ausweis' },
+    ],
+  },
+  bibliothek: {
+    titel: 'Anmeldung Stadtbibliothek', titelEn: 'City library registration',
+    beschreibung: 'Leseausweis, auch für Familien (Stadtbibliothek).',
+    felder: [
+      { feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Nachname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Geburtsdatum', feldtyp: 'datum', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'E-Mail', feldtyp: 'text', pflicht: false, bereich: 'identity', gruppe: 'Person', hilfetext: 'Für die Erinnerung vor Ablauf der Leihfrist.' },
+      { feldname: 'Art des Ausweises', feldtyp: 'auswahl', pflicht: true, bereich: 'administration', gruppe: 'Leseausweis',
+        codeWerte: [{ code: 'erwachsene', anzeige: 'Erwachsene' }, { code: 'ermaessigt', anzeige: 'Ermäßigt' }, { code: 'familie', anzeige: 'Familienausweis' }] },
+      { feldname: 'Erinnerung vor Ablauf der Leihfrist', feldtyp: 'jaNein', pflicht: false, bereich: 'administration', gruppe: 'Leseausweis' },
+      { feldname: 'Weitere Personen im Familienausweis', feldtyp: 'liste', pflicht: false, bereich: 'administration', gruppe: 'Leseausweis',
+        unterFelder: [{ feldname: 'Vorname', feldtyp: 'text' }, { feldname: 'Nachname', feldtyp: 'text' }, { feldname: 'Geburtsdatum', feldtyp: 'datum' }] },
+    ],
+  },
+  arbeitgeber: {
+    titel: 'Personalbogen', titelEn: 'New employee form',
+    beschreibung: 'Angaben neuer Mitarbeitender für die Personalabteilung (Arbeitgeber).',
+    felder: [
+      { feldname: 'Vorname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Nachname', feldtyp: 'text', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'Geburtsdatum', feldtyp: 'datum', pflicht: true, bereich: 'identity', gruppe: 'Person' },
+      { feldname: 'IBAN für die Gehaltszahlung', feldtyp: 'text', pflicht: true, bereich: 'finance', gruppe: 'Zahlung' },
+      { feldname: 'Steuer-Identifikationsnummer', feldtyp: 'text', pflicht: true, bereich: 'finance', gruppe: 'Steuer' },
+      { feldname: 'Rentenversicherungsnummer', feldtyp: 'text', pflicht: true, bereich: 'socialInsurance', gruppe: 'Sozialversicherung' },
+      { feldname: 'Arbeitszeit', feldtyp: 'auswahl', pflicht: true, bereich: 'education', gruppe: 'Beschäftigung',
+        codeWerte: [{ code: 'vollzeit', anzeige: 'Vollzeit' }, { code: 'teilzeit', anzeige: 'Teilzeit' }] },
+      { feldname: 'Erster Arbeitstag', feldtyp: 'datum', pflicht: true, bereich: 'education', gruppe: 'Beschäftigung' },
+    ],
+  },
   pflegeheim: {
     titel: 'Pflegeheim-Aufnahmebogen',
     beschreibung: 'Aufnahme einer neuen Bewohnerin / eines neuen Bewohners (Gesundheit + Vorsorge).',
@@ -11310,7 +11575,8 @@ async function schluesselErzeugen() {
     const r = await SCHLUESSEL_TRESOR.erzeugen({ passwort: passwort });
     passwort = null;
     STATE.publicKeyJwk = r.publicJwk;
-    STATE.pubDownloaded = false; STATE.privDownloaded = false;
+    STATE.pubDownloaded = false; STATE.privDownloaded = false; STATE.sicherungGeprueft = false;
+    { const e0 = $('sk-pruef-ergebnis'); if (e0) { leeren(e0); e0.hidden = true; } }
     $('sk-erfolg').hidden = false;
     $('sk-downloads').hidden = false;
     knopf.textContent = 'Neues Schlüsselpaar erstellen';
@@ -11339,11 +11605,54 @@ function ladePrivate() {
   if (!SCHLUESSEL_TRESOR.privatHerunterladen((text) => blobDownload(anbieterIdFuerDatei() + '.private.vdkey', text))) return;
   STATE.privDownloaded = true; aktualisiereSchluesselWeiter();
 }
+/* „Heruntergeladen“ ist nicht „gesichert“ (12.10.2026): ein ausgelöster Download sagt nichts darüber, ob die Datei
+   gespeichert, wiedergefunden oder aufbewahrt ist. Je Datei steht darum „heruntergeladen“, und geprüft ist die Sicherung
+   erst, wenn die Person die eben gespeicherte Schlüsseldatei mit ihrem Passwort wieder geöffnet hat (sicherungPruefen). Die
+   Prüfung ist ein Angebot: „Ohne Prüfung weiter“ bleibt möglich, der Stand bleibt dann „heruntergeladen“. */
 function aktualisiereSchluesselWeiter() {
-  $('sk-pub-status').textContent = STATE.pubDownloaded ? '✓ heruntergeladen' : 'noch nicht heruntergeladen';
-  $('sk-priv-status').textContent = STATE.privDownloaded ? '✓ heruntergeladen' : 'noch nicht heruntergeladen';
+  const ja = L('heruntergeladen', 'downloaded'), nein = L('noch nicht heruntergeladen', 'not downloaded yet');
+  $('sk-pub-status').textContent = STATE.pubDownloaded ? ja : nein;
+  $('sk-priv-status').textContent = STATE.privDownloaded ? (STATE.sicherungGeprueft ? L('heruntergeladen und geöffnet', 'downloaded and opened') : ja) : nein;
   const weiter = $('sk-weiter');
   weiter.disabled = !(STATE.pubDownloaded && STATE.privDownloaded);
+  // Ein Knopf, zwei Rollen: vor der Prüfung der Textknopf „Ohne Prüfung weiter“, danach der Hauptknopf „Weiter →“.
+  weiter.textContent = STATE.sicherungGeprueft ? L('Weiter →', 'Next →') : L('Ohne Prüfung weiter', 'Continue without checking');
+  if (weiter.classList) { if (STATE.sicherungGeprueft) weiter.classList.remove('link-knopf'); else weiter.classList.add('link-knopf'); }
+  // Der Abschnitt erscheint, sobald der private Schlüssel heruntergeladen ist und die verschlüsselte Datei noch im Speicher liegt.
+  const abschnitt = $('sk-pruefen');
+  if (abschnitt) abschnitt.hidden = !(STATE.privDownloaded && SCHLUESSEL_TRESOR.zustand().huelleDa);
+  const knopf = $('sk-pruefen-knopf');
+  if (knopf) knopf.hidden = !!STATE.sicherungGeprueft;
+  if (typeof fsStandAktualisieren === 'function') fsStandAktualisieren();
+}
+function sicherungPruefErgebnisZeigen(erfolg) {
+  const box = $('sk-pruef-ergebnis'); if (!box) return;
+  leeren(box); box.hidden = false;
+  box.className = erfolg ? 'sk-pruef-erfolg' : 'sk-pruef-fehlschlag';
+  box.appendChild(el('strong', { text: erfolg ? L('Die Datei lässt sich mit Ihrem Passwort öffnen.', 'The file opens with your password.')
+    : L('Die Datei ließ sich nicht öffnen.', 'The file could not be opened.') }));
+  box.appendChild(el('span', { class: 'neben-text', text: erfolg
+    ? L('Sie gehört zu diesem Schlüsselpaar. Legen Sie sie an zwei Orten ab. Vivodepot hat keine Kopie.', 'It belongs to this key pair. Keep it in two places. Vivodepot has no copy.')
+    : L('Das Passwort passt nicht, oder es ist eine andere Datei. Sie können es noch einmal versuchen oder den privaten Schlüssel erneut herunterladen.',
+        'The password does not match, or it is a different file. You can try again or download the private key again.') }));
+  const knopf = $('sk-pruefen-knopf'); if (knopf) knopf.textContent = erfolg ? L('Prüfen', 'Check') : L('Noch einmal prüfen', 'Check again');
+  const erneut = $('sk-erneut-laden'); if (erneut) erneut.hidden = !!erfolg;
+}
+/* Die gewählte Datei lesen und vom Tresor prüfen lassen. Hier wird nichts übernommen: der Schlüssel im Speicher bleibt der
+   des eben erzeugten Paars, und das Passwort verlässt diese Funktion nicht. */
+async function sicherungPruefen() {
+  const pwFeld = $('sk-pruef-pw');
+  let passwort = pwFeld ? pwFeld.value : '';
+  let erfolg = false;
+  try {
+    const inhalt = passwort ? await _schluesselDateiLesen('sk-pruef-datei') : null;   // null: keine Datei, undefined: nicht lesbar
+    erfolg = !!inhalt && await SCHLUESSEL_TRESOR.sicherungPruefen(inhalt, passwort, STATE.publicKeyJwk);
+  } catch (_) { erfolg = false; }
+  finally { passwort = null; if (pwFeld) pwFeld.value = ''; }
+  STATE.sicherungGeprueft = erfolg;
+  sicherungPruefErgebnisZeigen(erfolg);
+  aktualisiereSchluesselWeiter();
+  return erfolg;
 }
 function schluesselWeiter() {
   if (!(STATE.pubDownloaded && STATE.privDownloaded)) return;
@@ -11351,6 +11660,7 @@ function schluesselWeiter() {
   // kein erneutes Suchen der eben heruntergeladenen Datei mehr.
   SCHLUESSEL_TRESOR.huelleVerwerfen();   // ab hier gibt es nur noch den nicht herausholbaren Schlüssel
   $('sk-freigabe-hinweis').hidden = false;
+  aktualisiereSchluesselWeiter();   // der Abschnitt „Sicherung prüfen“ geht mit der verworfenen Datei
   zeigeSchritt('pruefung');
 }
 
@@ -11482,6 +11792,10 @@ function feldUebernehmen(live) {
     codeWerte: editorCodeWerte.slice(),
     ziel: $('ed-ziel').value.trim(),
   };
+  /* Unterfelder einer Liste gibt der Editor (noch) nicht ein. Sie kamen über Entwurf, CSV oder Beispiel und bleiben beim
+     Bearbeiten erhalten; bis 14.10.2026 ersetzte jede Eingabe im Editor das Feld ohne sie (Prüfung am iPad). */
+  const vorher = editorIndex != null ? STATE.felder[editorIndex] : null;
+  if (roh.feldtyp === 'liste' && vorher && Array.isArray(vorher.unterFelder)) roh.unterFelder = vorher.unterFelder.map((u) => Object.assign({}, u));
   if (live && !roh.feldname.trim()) return false;
   const fehler = [];
   if (!roh.feldname.trim()) fehler.push(L('Bitte geben Sie einen Feldnamen an.', 'Please enter a field name.'));
@@ -11526,6 +11840,7 @@ function csvDateiGewaehlt(ev) {
   reader.onload = () => {
     try {
       const erg = felderAngleichungen(csvZuFelder(String(reader.result || '')));
+      if (!erg.felder.length) throw new Error(L('Die Datei enthält keine Felder.', 'The file contains no fields.'));
       STATE.felder = STATE.felder.concat(erg.felder);
       status.className = 'meldung ok';
       status.textContent = L(erg.felder.length + ' Feld(er) aus „' + datei.name + '“ importiert. Bitte nachbearbeiten.', erg.felder.length + ' field(s) imported from “' + datei.name + '”. Please review them.');
@@ -11533,7 +11848,8 @@ function csvDateiGewaehlt(ev) {
       zeigeSchritt('template');
       zeigeAngleichung(erg.angeglichen, 'beim Einlesen von „' + datei.name + '“');
     } catch (e) {
-      status.textContent = 'CSV konnte nicht gelesen werden: ' + (e && e.message || e);
+      status.className = 'meldung fehler';
+      status.textContent = L('Die Tabelle konnte nicht gelesen werden: ', 'The table could not be read: ') + (e && e.message || e);
       status.hidden = false;
     }
     ev.target.value = '';
@@ -11738,7 +12054,9 @@ function renderefPruefung() {
     const ul = el('ul', {}); res.blocker.forEach((b) => ul.appendChild(pruefZeile(b))); bBox.appendChild(ul);
   } else {
     bBox.hidden = false; bBox.className = 'meldung ok';
-    bBox.appendChild(el('strong', { text: L('✓ Alle blockierenden Prüfungen bestanden.', '✓ All blocking checks passed.') }));
+    bBox.appendChild(el('strong', { text: L('✓ Aufbau und Vollständigkeit geprüft.', '✓ Structure and completeness checked.') }));
+    // Zweite Zeile, Nebentext: was das Studio NICHT prüft. Das Häkchen gehört nur zur ersten Zeile.
+    bBox.appendChild(el('span', { class: 'neben-text', id: 'pr-nicht-geprueft', text: L('Ob der Inhalt fachlich und rechtlich stimmt, prüft das Studio nicht.', 'The Studio does not check whether the content is professionally and legally correct.') }));
   }
   if (res.warnungen.length) {
     wBox.hidden = false;
@@ -12715,6 +13033,14 @@ function brandingLogoGewaehlt(ev) {
   };
   reader.readAsDataURL(datei);
 }
+/* Der Satz für ein Erscheinungsbild ohne Signatur: er nennt die Folge (wird erst nach Signatur und Bestätigung angewendet) und
+   den nächsten Schritt; eine Probe hält beides (tests/studio-vorfuehrpfad.test.js). */
+function brandingOhneSignaturSatz() {
+  return L('Erzeugt, noch ohne Signatur. Ein Erscheinungsbild wird erst angewendet, wenn es signiert und von Vivodepot bestätigt ist. '
+    + 'Geben Sie Ihre Angaben und Ihren Schlüssel ein und erzeugen Sie es dann erneut.',
+    'Created, not yet signed. An appearance is applied only once it is signed and confirmed by Vivodepot. '
+    + 'Enter your details and key, then create it again.');
+}
 async function brandingErzeugen(ev) {
   const ergBox = $('bd-ergebnis');
   leeren(ergBox); ergBox.hidden = false;
@@ -12746,8 +13072,12 @@ async function brandingErzeugen(ev) {
   } else {
     // Besonderheit branding (nurGeprueft): ANDERS als bei den übrigen fünf Typen ist „ohne
     // Signatur" hier keine brauchbare Option — jedes Bürger-Depot lehnt es komplett ab.
-    ergBox.className = 'meldung fehler';
-    ergBox.appendChild(el('strong', { text: L('⚠ Modul erzeugt und heruntergeladen — OHNE Signatur. Anders als bei den übrigen Modul-Arten wird ein unsigniertes Erscheinungsbild-Modul von KEINEM Bürger-Depot angenommen. Diese Datei ist nur der erste Schritt: sie muss noch durch den vollen Zertifizierungs-Weg (VC-Issuer) laufen, bevor sie irgendwo wirkt.', '⚠ Module created and downloaded WITHOUT a signature. Unlike the other module types, an unsigned appearance module is accepted by NO citizen depot. This file is only the first step: it still has to go through the full certification route (VC issuer) before it takes effect anywhere.') }));
+    // Prüfung am iPad (14.10.2026): ein Hinweis mit der Folge statt einer roten Fehlermeldung. Die Regel bleibt (nur signiert,
+    // erst nach der Bestätigung durch Vivodepot); gesagt wird, was jetzt zu tun ist, mit dem Knopf dorthin.
+    ergBox.className = 'meldung warn';
+    ergBox.appendChild(el('strong', { text: brandingOhneSignaturSatz() }));
+    ergBox.appendChild(el('div', { class: 'knopf-reihe' }, [el('button', { type: 'button', class: 'sekundaer', id: 'bd-angaben',
+      text: L('Angaben und Schlüssel eingeben', 'Enter details and key'), onclick: () => { dlgZu('dlg-module'); zeigeSchritt(naechsterFertigSchritt() === 'pruefung' ? 'schluessel' : naechsterFertigSchritt()); } })]));
   }
   if (pruefung.warnungen.length) {
     const ul = el('ul', {}); pruefung.warnungen.forEach((w) => ul.appendChild(el('li', { text: w }))); ergBox.appendChild(ul);
@@ -12864,7 +13194,7 @@ function ladeBeispiel(id) {
   zeigeSchritt('template');
   rendereFelder();
   const status = $('tpl-csv-status');
-  const titelEn = { pflegeheim: 'Care home admission form', anamnese: 'Medical history', notariat: 'Notary intake' }[id] || b.titel;
+  const titelEn = b.titelEn || { pflegeheim: 'Care home admission form', anamnese: 'Medical history', notariat: 'Notary intake' }[id] || b.titel;
   status.className = 'meldung ok';
   status.textContent = L('Beispiel „' + b.titel + '“ geladen — bitte an Ihren Bedarf anpassen.', 'Example “' + titelEn + '” loaded. Adapt it to your needs; the field names stay in German.');
   status.hidden = false;
@@ -12937,7 +13267,7 @@ function istGeschuetzteSchluesseldatei(geparst) {
      (c) Verworfen wird nach dem Signieren (einmal, gleich wie es ausgeht), beim Verlassen der Seite
          (`pagehide`) und nach dem Zeitlimit (absolut, ab Erzeugen oder Laden).
      (d) Jede Zusicherung hat ihre Probe mit Rot-Beweis (tests/generator-schluessel-tresor.test.js,
-         tests/e2e-cross/T-CROSS-21-generator-schluessel.spec.js).
+         tests/e2e-cross/T-CROSS-31-generator-schluessel.spec.js).
 
    WAS DAS NICHT LEISTET — und die ADR sagt es genauso: `extractable: false` schützt die BYTES, nicht die
    NUTZUNG. Ein Skript mit Zugriff auf die Seite kann nicht lesen, was hier liegt, aber es könnte
@@ -13019,13 +13349,34 @@ const SCHLUESSEL_TRESOR = (function () {
         jwk = null;
       }
     },
+    /* Sicherung prüfen (12.10.2026): öffnet die gewählte Schlüsseldatei mit dem Passwort und vergleicht ihren öffentlichen
+       Teil mit dem erwarteten. Hält nichts, ersetzt nichts, verwirft nichts: der Schlüssel im Speicher und die Hülle bleiben,
+       wie sie sind, und das geöffnete JWK lebt nur in diesem Aufruf. Eine Klartext-Datei gilt nicht als Sicherung.
+       Was das misst: die Hülle geht mit dem Passwort auf, und sie vergleicht das in der Datei abgelegte x, leitet es nicht
+       aus d ab. Für eine Datei, die das Studio selbst geschrieben hat, ist das dasselbe. Als Schlüsselprüfung für fremde
+       Dateien taugt die Methode darum nicht. Die Antwort ist immer true oder false, nie ein Schlüssel oder ein Fehler. */
+    async sicherungPruefen(inhalt, passwort, erwartetPublicJwk) {
+      let jwk = null;
+      try {
+        if (!istGeschuetzteSchluesseldatei(inhalt) || typeof passwort !== 'string' || !passwort) return false;
+        if (!erwartetPublicJwk || typeof erwartetPublicJwk.x !== 'string' || !erwartetPublicJwk.x) return false;
+        if (erwartetPublicJwk.kty !== 'OKP' || erwartetPublicJwk.crv !== 'Ed25519') return false;
+        jwk = await entschluesseleSchluesselJwk(inhalt, passwort);
+        if (!jwk || !jwk.d || !jwk.x || jwk.kty !== 'OKP' || jwk.crv !== 'Ed25519') return false;
+        return _pubAusPriv(jwk).x === erwartetPublicJwk.x;
+      } catch (_) {
+        return false;
+      } finally {
+        jwk = null;
+      }
+    },
     /* Die Datei für den Download: nur die verschlüsselte Hülle, nie das JWK. */
     privatHerunterladen(senke) {
       if (!huelleText) return false;
       senke(huelleText);
       return true;
     },
-    /* „Beide Dateien gesichert, weiter“: ab hier gibt es auch die Hülle nicht mehr, nur den Schlüssel. */
+    /* Nach „weiter“ in Schritt 2: ab hier gibt es auch die Hülle nicht mehr, nur den Schlüssel. */
     huelleVerwerfen() { const war = !!huelleText; huelleText = null; return war; },
     vorhanden() { return !!signKey; },
     /* Auskunft, kein Griff: Art und Zustand, nie der Schlüssel. */
@@ -13194,7 +13545,13 @@ function raumZeigen(welcher) {
   if (q) q.hidden = (welcher !== 'anfrage');
   if (s) s.hidden = (welcher !== 'start');
   if (b) b.hidden = (welcher !== 'bau');
-  if (typeof window !== 'undefined' && window.scrollTo) window.scrollTo(0, 0);
+  /* Ein neuer Raum beginnt oben, und zwar sofort: html trägt scroll-behavior: smooth, ein animiertes Hochrollen liefe
+     sonst noch, während jemand schon zieht oder tippt (15.10.2026, gefunden an der Ziehprobe der englischen Arbeitsfläche). */
+  /* Ältere WebKit-Fassungen kennen behavior: 'instant' im Wörterbuch nicht und werfen dann einen TypeError; der Raumwechsel
+     darf daran nicht scheitern, darum der frühere Aufruf als Rückfall. */
+  if (typeof window !== 'undefined' && window.scrollTo) {
+    try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); } catch (_) { window.scrollTo(0, 0); }
+  }
 }
 function zeigeSchritt(id) {
   aktiverSchritt = id;
@@ -13230,7 +13587,8 @@ function fsStandAktualisieren() {
     const sec = $(id.replace('-stand', '')); if (sec && sec.classList) { if (fertig) sec.classList.add('fertig'); else sec.classList.remove('fertig'); }
   };
   setze('fs-a-stand', STATE.anbieter ? '✓ ' + L('erfasst', 'done') : '', !!STATE.anbieter);
-  setze('fs-b-stand', schluesselFertig() ? '✓ ' + L('gesichert', 'saved') : '', schluesselFertig());
+  // Zwei Zustände, kein dritter: „heruntergeladen“ nach den zwei Downloads, „✓ Sicherung geprüft“ nach dem Wiederöffnen der Datei.
+  setze('fs-b-stand', schluesselFertig() ? (STATE.sicherungGeprueft ? '✓ ' + L('Sicherung geprüft', 'backup checked') : L('heruntergeladen', 'downloaded')) : '', schluesselFertig());
   setze('fs-c-stand', STATE.letzteSubmission ? '✓ ' + L('erzeugt', 'created') : '', !!STATE.letzteSubmission);
 }
 function naechsterFertigSchritt() { return !STATE.anbieter ? 'stammdaten' : (!schluesselFertig() ? 'schluessel' : 'pruefung'); }
@@ -13258,6 +13616,11 @@ function wegAktualisieren() {
 
 /* ── Feldkatalog-Palette ───────────────────────────────────────────────── */
 let paletteSuche = '';
+/* Kennungen in der Feldliste (Prüfung am iPad 14.10.2026): „identity.givenName“ unter jedem Feld liest eine Einrichtung als
+   Technik. Ab Werk eingeklappt, über „Kennungen zeigen“ erreichbar; jede Zeile trägt die Kennung weiter im title. Die Kennung ist
+   Vertrag und wird nicht umbenannt; was die Vorlage trägt, hängt am Schalter nicht (Probe: Einreichung byte-gleich). */
+let paletteKennungenZeigen = false;
+function paletteKennungKlein(text) { return paletteKennungenZeigen ? el('small', { class: 'pal-kennung', text: text }) : null; }
 /* Der Feldkatalog trägt die Beschriftung des Kerns in beiden Sprachen (`label`, `labelEn`; erzeugt von
    tools/build-feldkatalog.js). Der Feldname der Vorlage folgt der Sprache, in der gebaut wird (eine Vorlage je Sprache).
    Fehlt einmal eine englische Beschriftung, wird die Kennung gelesen („identity.givenName“ → „Given name“) — der Wächter
@@ -13290,7 +13653,7 @@ function paletteRendern() {
     const sz = blattSonderzeiger();
     ds.appendChild(el('summary', {}, [el('span', { text: L('Menschen und Vorsorge-Instrumente', 'People and provision instruments') }), el('span', { class: 'zahl', text: String(sz.length) })]));
     sz.forEach((z) => ds.appendChild(el('div', { class: 'pal-eintrag', draggable: 'true', 'data-sq': z.quelle, 'data-sf': z.feld }, [
-      el('span', {}, [L(z.de, z.en), el('small', { text: z.quelle + ' · ' + z.feld })]),
+      el('span', { title: z.quelle + ' · ' + z.feld }, [L(z.de, z.en), paletteKennungKlein(z.quelle + ' · ' + z.feld)]),
       el('button', { type: 'button', class: 'pal-plus', 'aria-label': L('Zum Block hinzufügen: ', 'Add to block: ') + L(z.de, z.en), text: '+', onclick: () => blattEintragHinzu(z.quelle, z.feld) }),
     ])));
     host.appendChild(ds);
@@ -13301,7 +13664,7 @@ function paletteRendern() {
     d.appendChild(el('summary', {}, [el('span', { text: bereichLabel(b) }), el('span', { class: 'zahl', text: String(gruppen[b].length) })]));
     gruppen[b].forEach((e) => {
       const zeile = el('div', { class: 'pal-eintrag', draggable: 'true', 'data-kat': String(e.idx) }, [
-        el('span', {}, [e.label, el('small', { text: e.kennung })]),
+        el('span', { title: e.kennung, 'data-kennung': e.kennung }, [e.label, paletteKennungKlein(e.kennung)]),
         el('button', { type: 'button', class: 'pal-plus', 'aria-label': L('Feld hinzufügen: ', 'Add field: ') + e.label, text: '+', onclick: () => feldEinfuegen(feldAusKatalog(e.idx), null) }),
       ]);
       d.appendChild(zeile);
@@ -13370,6 +13733,35 @@ function ansichtSetzen(probieren) {
   if (p) p.setAttribute('aria-pressed', String(probierenAn));
   rendereFelder();
 }
+/* Eine Liste unter „Ausprobieren“ (Prüfung am iPad 14.10.2026): „+ Eintrag hinzufügen“ legt eine Zeile mit den Eingaben der
+   Unterfelder an, wie die Person sie sähe; „Entfernen“ nimmt sie wieder weg. Nichts davon geht in die Vorlage, es ist die Vorschau.
+   Unter „Bearbeiten“ bleibt der Knopf eine Anzeige (ein Antippen öffnet dort den Editor des Felds). Eine Liste ohne Unterfelder
+   sagt das, statt einen Knopf ohne Wirkung zu zeigen. Gezeigt wird jedes Unterfeld, wie es steht: was der Einlass nicht annimmt
+   (eine Liste in der Liste, ein Unterfeld ohne Namen), meldet die Vorprüfung, die Vorschau verschweigt es nicht. */
+function listeUnterfelder(f) {
+  return Array.isArray(f && f.unterFelder) ? f.unterFelder : [];
+}
+function listeSteuer(box, f) {
+  const unter = listeUnterfelder(f);
+  if (!unter.length) {
+    box.appendChild(el('p', { class: 'hint vk-liste-leer', text: L('Diese Liste hat noch keine Unterfelder.', 'This list has no sub-fields yet.') }));
+    return;
+  }
+  const eintraege = el('div', { class: 'vk-eintraege' });
+  box.appendChild(eintraege);
+  const knopf = el('button', { type: 'button', class: 'sekundaer mini vk-eintrag-hinzu', text: L('+ Eintrag hinzufügen', '+ Add entry') });
+  if (probierenAn) knopf.addEventListener('click', (e) => { if (e && e.stopPropagation) e.stopPropagation(); listeEintragAnhaengen(eintraege, f, unter); });
+  box.appendChild(knopf);
+}
+function listeEintragAnhaengen(eintraege, f, unter) {
+  const zeile = el('div', { class: 'vk-eintrag', role: 'group', 'aria-label': L('Eintrag in ', 'Entry in ') + (f.feldname || '') });
+  unter.forEach((u) => { const v = (u && typeof u === 'object') ? u : {};
+    zeile.appendChild(el('div', { class: 'vk-unterfeld' }, [el('span', { class: 'vk-unterfeld-name', text: String(v.feldname || '') }), vorschauSteuer(v)])); });
+  zeile.appendChild(el('button', { type: 'button', class: 'mini vk-eintrag-weg', text: L('Entfernen', 'Remove'),
+    onclick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (zeile.parentNode) zeile.parentNode.removeChild(zeile); } }));
+  eintraege.appendChild(zeile);
+  return zeile;
+}
 function vorschauSteuer(f) {
   const t = f.feldtyp, name = f.feldname || '';
   const box = el('div', { class: 'vk-steuer' });
@@ -13390,7 +13782,7 @@ function vorschauSteuer(f) {
     const o = el('div', { class: 'vk-optionen' });
     (f.codeWerte || []).forEach((c) => o.appendChild(el('label', {}, [el('input', { type: 'checkbox' }), c.anzeige || c.code])));
     box.appendChild(o);
-  } else if (t === 'liste') box.appendChild(el('button', { type: 'button', class: 'sekundaer mini', text: L('+ Eintrag hinzufügen', '+ Add entry') }));
+  } else if (t === 'liste') listeSteuer(box, f);
   else if (t === 'ref' || t === 'refMehrfach') box.appendChild(el('input', { type: 'text', 'aria-label': name, placeholder: L('Person oder Stelle wählen …', 'Choose a person or body …') }));
   else if (t === 'verweis') box.appendChild(el('a', { href: '#', text: f.ziel || 'https://…', onclick: (e) => e.preventDefault() }));
   else box.appendChild(el('input', { type: 'text', 'aria-label': name }));
@@ -13541,10 +13933,13 @@ function feldLive() { if (editorIndex != null) feldUebernehmen(true); }
 
 /* ── Entwurf: als Datei sichern und wieder öffnen (kein Browser-Speicher) ── */
 const ENTWURF_FORMAT = 'vivodepot-generator-entwurf';
+/* Die Fassung der Entwurfsdatei. Geschrieben wird sie seit jeher (`version: 1`), gelesen wurde sie nicht: ein Entwurf aus einem
+   neueren Studio wäre still mit dem geöffnet worden, was dieses Studio davon versteht. Fehlt die Angabe, gilt Fassung 1. */
+const ENTWURF_VERSION = 1;
 function entwurfBauen() {
   wortlautGeaendert();
-  if (STATE.art === 'blatt') { blattMetaLesen(); return { format: ENTWURF_FORMAT, version: 1, sprache: LANG, art: 'blatt', blatt: STATE.blatt, felder: [], anbieter: STATE.anbieter || null }; }
-  return { format: ENTWURF_FORMAT, version: 1, sprache: LANG, felder: STATE.felder,
+  if (STATE.art === 'blatt') { blattMetaLesen(); return { format: ENTWURF_FORMAT, version: ENTWURF_VERSION, sprache: LANG, art: 'blatt', blatt: STATE.blatt, felder: [], anbieter: STATE.anbieter || null }; }
+  return { format: ENTWURF_FORMAT, version: ENTWURF_VERSION, sprache: LANG, felder: STATE.felder,
     wortlaut: STATE.wortlaut, wortlautQuelleBehoerde: STATE.wortlautQuelleBehoerde, wortlautQuelleTitel: STATE.wortlautQuelleTitel,
     wortlautQuelleLizenz: STATE.wortlautQuelleLizenz, wortlautQuelleBroschuereBehoerde: STATE.wortlautQuelleBroschuereBehoerde,
     wortlautQuelleBroschuereTitel: STATE.wortlautQuelleBroschuereTitel, wortlautQuelleBroschuereUrl: STATE.wortlautQuelleBroschuereUrl,
@@ -13570,6 +13965,10 @@ function entwurfDateiGewaehlt(ev) {
   reader.onload = () => {
     try {
       const d = JSON.parse(String(reader.result || ''));
+      if (d && d.format === ENTWURF_FORMAT && d.version !== undefined) {
+        if (!Number.isInteger(d.version) || d.version < 1) throw new Error(L('Die Angabe zur Fassung ist ungültig.', 'The version entry is invalid.'));
+        if (d.version > ENTWURF_VERSION) throw new Error(L('Er stammt aus einer neueren Fassung des Studios. Bitte öffnen Sie ihn mit der neueren Fassung.', 'It comes from a newer version of the Studio. Please open it with the newer version.'));
+      }
       if (d && d.format === ENTWURF_FORMAT && d.art === 'blatt' && d.blatt && Array.isArray(d.blatt.situationen)) {
         STATE.blatt = d.blatt; STATE.blattWahl = { s: 0, b: null };
         if (d.anbieter) stammdatenFuellen(d.anbieter);
@@ -13808,8 +14207,10 @@ function schluesselDateiGewaehlt() {
   const st = $('pr-privkey-status'), kt = $('pr-klartext');
   if (st) st.textContent = ''; if (kt) kt.hidden = true;
 }
-async function _schluesselDateiLesen() {
-  const inp = $('pr-privkey');
+/* `feldId`: das Dateifeld, aus dem gelesen wird. Ohne Angabe das Feld der vorhandenen Schlüsseldatei; „Sicherung prüfen“
+   nennt sein eigenes. Gelesen wird eine Schlüsseldatei nur hier. */
+async function _schluesselDateiLesen(feldId) {
+  const inp = feldId ? $(feldId) : $('pr-privkey');
   const datei = inp && inp.files && inp.files[0];
   if (!datei) return null;
   try { return JSON.parse(await datei.text()); } catch (e) { return undefined; }
@@ -13825,6 +14226,7 @@ async function schluesselDateiLaden() {
     const r = await SCHLUESSEL_TRESOR.ausDatei(inhalt, passwort);
     STATE.publicKeyJwk = STATE.publicKeyJwk || r.publicJwk;
     STATE.pubDownloaded = true; STATE.privDownloaded = true;
+    STATE.sicherungGeprueft = true;   // die Datei wurde eben mit ihrem Passwort geöffnet: dieselbe Prüfung
     if (st) st.textContent = '✓ ' + L('Schlüssel geladen', 'key loaded');
     aktualisiereSchluesselWeiter(); wegAktualisieren(); schluesselStatusZeigen();
     if ($('pr-blocker') && !$('fs-c-rumpf').hidden) renderefPruefung();
@@ -13881,11 +14283,11 @@ function fertigKarteZeigen(paket) {
   const signiert = !!(paket.templatesJws && paket.templatesJws.length);
   const mehr = paket.templates.length > 1 ? L(' (' + paket.templates.length + ' Vorlagen)', ' (' + paket.templates.length + ' templates)') : '';
   $('fs-fertig-titel').textContent = signiert
-    ? L('✓ Fertig: Einreichungs-Datei' + mehr + ' signiert und gespeichert', '✓ Done: submission file' + mehr + ' signed and saved')
-    : L('✓ Fertig: Einreichungs-Datei' + mehr + ' gespeichert', '✓ Done: submission file' + mehr + ' saved');
+    ? L('✓ Fertig: Einreichungs-Datei' + mehr + ' signiert und heruntergeladen', '✓ Done: submission file' + mehr + ' signed and downloaded')
+    : L('✓ Fertig: Einreichungs-Datei' + mehr + ' heruntergeladen', '✓ Done: submission file' + mehr + ' downloaded');
   $('fs-fertig-nummer').textContent = paket.submissionId;
-  $('fs-fertig-text').textContent = L('Senden Sie die Datei an ' + EINREICH_ADRESSE + '. Vivodepot prüft, von wem die Vorlage kommt, und stellt dann ein Zertifikat aus.',
-    'Send the file to ' + EINREICH_ADRESSE + '. Vivodepot checks who the template comes from and then issues a certificate.');
+  $('fs-fertig-text').textContent = L('Senden Sie die Datei an ' + EINREICH_ADRESSE + '. Vivodepot prüft, von wem die Vorlage kommt, und stellt dann ein Zertifikat aus. Es bestätigt nicht, ob ihr Inhalt richtig ist.',
+    'Send the file to ' + EINREICH_ADRESSE + '. Vivodepot checks who the template comes from and then issues a certificate. It does not confirm whether its content is correct.');
   const m = $('fs-fertig-mail'), a = $('absenden-mail'); if (m && a) m.setAttribute('href', a.getAttribute('href'));
   k.hidden = false; d.classList.add('fertig');
 }
@@ -14332,6 +14734,8 @@ function boot() {
   $('sk-pub') && $('sk-pub').addEventListener('click', ladePublic);
   $('sk-priv') && $('sk-priv').addEventListener('click', ladePrivate);
   $('sk-weiter') && $('sk-weiter').addEventListener('click', schluesselWeiter);
+  $('sk-pruefen-knopf') && $('sk-pruefen-knopf').addEventListener('click', sicherungPruefen);
+  $('sk-erneut-laden') && $('sk-erneut-laden').addEventListener('click', ladePrivate);
   $('sk-zurueck') && $('sk-zurueck').addEventListener('click', () => zeigeSchritt('stammdaten'));
 
   $('tpl-feld-hinzu') && $('tpl-feld-hinzu').addEventListener('click', () => oeffneEditor(null));
@@ -14572,9 +14976,12 @@ function assistentVerschieben(i, d) {
   const knopf = li && li.querySelectorAll ? li.querySelectorAll('.as-mini')[d < 0 ? 0 : 1] : null;
   if (knopf && !knopf.disabled && knopf.focus) knopf.focus();
 }
+/* Ein Standardfeld steht höchstens einmal auf dem Bogen: ein zweites Antippen legt es nicht doppelt an (iPad-Prüfung 14.10.2026;
+   die Anfrage filtert Vorhandenes ebenso, s. anfrageAssistentTrefferZeigen). Eigene Fragen und Auswahlen dürfen sich wiederholen. */
 function assistentHinzu(art) {
-  if (art === 'anschrift') ['strasse', 'hausnummer', 'plz', 'ort'].forEach((r) => ASSISTENT.fragen.push({ reg: r }));
-  else if (ASSISTENT_REGISTER[art]) ASSISTENT.fragen.push({ reg: art });
+  const schonDa = (r) => ASSISTENT.fragen.some((f) => f.reg === r);
+  if (art === 'anschrift') ['strasse', 'hausnummer', 'plz', 'ort'].forEach((r) => { if (!schonDa(r)) ASSISTENT.fragen.push({ reg: r }); });
+  else if (ASSISTENT_REGISTER[art]) { if (!schonDa(art)) ASSISTENT.fragen.push({ reg: art }); }
   else {
     const neu = $('as-neu'); if (!neu) return;
     neu.hidden = false; neu.dataset.art = art;
@@ -14828,7 +15235,7 @@ async function antwortenOeffnen() {
    geprüft“ (Produktentscheidung 20.08., Variante A); die Signatur ist der bezahlte Teil und bleibt in der Fachebene.
    Eine Anfrage fragt nur nach Angaben, die es im Depot gibt (Kennungen aus dem FELDKATALOG); eine eigene Frage ist Sache des
    Aufnahmebogens. Jede Angabe trägt ihren eigenen Zweck: ein Sammelzweck beantwortet die Frage nicht (ANFRAGE_SCHEMA). */
-const ANF_AS = { schritt: 1, von: '', vorgang: '', zweck: '', grundlage: '', rechtsraum: '', gueltigBis: '', antwortAn: '', gestelltAm: '', felder: [], suche: '' };
+const ANF_AS = { schritt: 1, von: '', vorgang: '', vorgangVorschlag: '', zweck: '', grundlage: '', rechtsraum: '', gueltigBis: '', antwortAn: '', gestelltAm: '', felder: [], suche: '' };
 const ANF_AS_HINZU = Object.freeze([['vorname', 'Vorname', 'First name'], ['nachname', 'Nachname', 'Last name'], ['geburtsdatum', 'Geburtsdatum', 'Date of birth'],
   ['anschrift', 'Anschrift', 'Address'], ['email', 'E-Mail', 'Email'], ['telefon', 'Telefon', 'Phone']]);
 /* Beispiele mit Zweck je Angabe, sektorübergreifend; Gesundheit kommt nicht vor (Sektorstreuung, ADR 493). */
@@ -14868,8 +15275,11 @@ function _aaDatum(tag) {
   const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
   return d.toLocaleDateString(LANG === 'en' ? 'en-GB' : 'de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
+/* „Ihr Zeichen“: der Vorschlag „Anfrage-<Datum>“ steht als Platzhalter im Feld, nicht als Text (Prüfung am iPad 14.10.2026:
+   ein Tippen hängte an den Vorschlag an, statt ihn zu ersetzen). Bleibt das Feld leer, gilt der Vorschlag. */
+function anfrageVorgang() { return ANF_AS.vorgang.trim() || String(ANF_AS.vorgangVorschlag || '').trim(); }
 function anfrageAssistentNeu() {
-  Object.assign(ANF_AS, { schritt: 1, von: ASSISTENT.name || '', vorgang: 'Anfrage-' + _aaHeute(), zweck: '', grundlage: '', rechtsraum: '', gueltigBis: _aaInTagen(30),
+  Object.assign(ANF_AS, { schritt: 1, von: ASSISTENT.name || '', vorgang: '', vorgangVorschlag: 'Anfrage-' + _aaHeute(), zweck: '', grundlage: '', rechtsraum: '', gueltigBis: _aaInTagen(30),
     antwortAn: '', gestelltAm: _aaHeute(), felder: [], suche: '' });
 }
 function anfrageAssistentHinzu(kurz, zweck) {
@@ -14885,7 +15295,7 @@ function anfrageAssistentBeispiel(id) {
 }
 /* Der Zustand für baueAnfrage — dieselbe Form wie STATE.anfrage im Anfrage-Block der Fachebene. */
 function anfrageAssistentState() {
-  return { anbieter: null, anfrage: { von: ANF_AS.von.trim(), zweck: ANF_AS.zweck.trim(), grundlage: ANF_AS.grundlage.trim(), rechtsraum: ANF_AS.rechtsraum, vorgang: ANF_AS.vorgang.trim(),
+  return { anbieter: null, anfrage: { von: ANF_AS.von.trim(), zweck: ANF_AS.zweck.trim(), grundlage: ANF_AS.grundlage.trim(), rechtsraum: ANF_AS.rechtsraum, vorgang: anfrageVorgang(),
     gestelltAm: ANF_AS.gestelltAm || _aaHeute(), gueltigBis: ANF_AS.gueltigBis, antwortArt: 'einmalpasswort', antwortAn: ANF_AS.antwortAn.trim(),
     felder: ANF_AS.felder.map((f) => ({ kennung: f.kennung, zweck: String(f.zweck || '').trim(), pflicht: f.pflicht !== false })), empfangPublicJwk: null } };
 }
@@ -14893,7 +15303,7 @@ function anfrageAssistentState() {
 function anfrageAssistentLuecken(schritt) {
   const l = [];
   if (schritt === 1) { if (ANF_AS.von.trim().length < 2) l.push(['aa-von', L('Bitte nennen Sie Ihre Stelle.', 'Please name your organisation.')]);
-    if (!ANF_AS.vorgang.trim()) l.push(['aa-vorgang', L('Bitte geben Sie ein Zeichen für den Vorgang an.', 'Please give a reference for the matter.')]); }
+    if (!anfrageVorgang()) l.push(['aa-vorgang', L('Bitte geben Sie ein Zeichen für den Vorgang an.', 'Please give a reference for the matter.')]); }
   if (schritt === 2) {
     if (ANF_AS.zweck.trim().length < 3) l.push(['aa-zweck', L('Bitte sagen Sie, wofür die Anfrage ist.', 'Please say what the request is for.')]);
     if (!ANF_AS.felder.length) l.push(['aa-suche', L('Bitte wählen Sie mindestens eine Angabe.', 'Please choose at least one detail.')]);
@@ -14928,6 +15338,7 @@ function anfrageAssistentZeigen() {
   }
   [['aa-von', 'von'], ['aa-vorgang', 'vorgang'], ['aa-zweck', 'zweck'], ['aa-grundlage', 'grundlage'], ['aa-gueltig', 'gueltigBis'], ['aa-an', 'antwortAn'], ['aa-suche', 'suche']]
     .forEach((p) => { const n = $(p[0]); if (n && n.value !== ANF_AS[p[1]]) n.value = ANF_AS[p[1]]; });
+  const vg = $('aa-vorgang'); if (vg) vg.placeholder = ANF_AS.vorgangVorschlag || '';
   // Rechtsraum (U2-ADR-495): „keine Angabe“ und jeder gebackene Rechtsraum, nichts voreingestellt.
   const rr = $('aa-rechtsraum');
   if (rr) { leeren(rr); rr.appendChild(el('option', { value: '', text: L('— keine Angabe —', '— not stated —') }));
@@ -14992,7 +15403,7 @@ function anfrageAssistentVorschau() {
   setze('aa-v-grundlage', ANF_AS.grundlage.trim());
   setze('aa-v-am', _aaDatum(ANF_AS.gestelltAm || _aaHeute()));
   setze('aa-v-bis', _aaDatum(ANF_AS.gueltigBis));
-  setze('aa-v-vorgang', ANF_AS.vorgang.trim());
+  setze('aa-v-vorgang', anfrageVorgang());
   setze('aa-v-an', ANF_AS.antwortAn.trim());
   setze('aa-v-anzahl', String(ANF_AS.felder.length));
   const host = $('aa-v-felder'); if (!host) return;
@@ -15138,6 +15549,7 @@ function gen1Binden() {
   an('wb-absenden', 'click', () => zeigeSchritt('pruefung'));
   ['a', 'b', 'c'].forEach((k) => an('fs-' + k + '-kopf', 'click', () => fsOeffnen(k)));
   an('pal-suche', 'input', () => { paletteSuche = $('pal-suche').value; paletteRendern(); });
+  an('pal-kennungen', 'change', () => { paletteKennungenZeigen = !!$('pal-kennungen').checked; paletteRendern(); });
   an('pal-vorschlagen', 'click', () => modulOeffnen('kv'));
   an('mod-angaben', 'click', () => { dlgZu('dlg-module'); zeigeSchritt(naechsterFertigSchritt() === 'pruefung' ? 'schluessel' : naechsterFertigSchritt()); });
   an('ed-loeschen', 'click', () => { if (editorIndex != null) loescheFeld(editorIndex); });

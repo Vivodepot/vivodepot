@@ -44,6 +44,9 @@
        — echter Netzabruf gegen jede url in der Registrierung (Vorgabe:
          docs/demo-verweis-ziele.json), schreibt status + gemessenAm zurück, meldet, welche
          Zeilen noch offen sind (status !== 'erreichbar'). Nie automatisiert gefahren.
+     node tools/demo-verweise-erreichbar-pruefen.js --paket <ordner> [--registrierung <pfad>]
+       — ohne Netz: jedes Ziel mit Status 'erreichbar' muss als Datei im Hochladen-Ordner der
+         Website liegen (Pfad der Adresse = Pfad im Ordner); sonst Ausgang 1 mit Liste.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -102,6 +105,44 @@ function offeneZeilen(registrierung) {
   return registrierung.anker.filter((a) => a.status !== ERREICHBAR);
 }
 
+/* ── Abgleich mit dem Hochladen-Ordner (13.10.2026) ─────────────────────────────────────────────
+   Klasse „ein Verweis zeigt ins Leere“: die Registrierung trug /demo/betreuungsverein/{de,en}/…
+   mit Status 'erreichbar', hochgeladen war /demo/betreuungsverein/vivodepot.html. Ein --live-Lauf
+   hätte das gemerkt, läuft aber nie von selbst (Kopfkommentar). Der Abgleich braucht kein Netz:
+   jedes Ziel, das als Link erscheint (Status 'erreichbar'), muss als Datei im Ordner liegen, der
+   hochgeladen wird. Pfad im Ordner = Pfad der Adresse auf dem Host der Website. */
+const WEBSITE_HOSTS = Object.freeze(['vivodepot.de', 'www.vivodepot.de']);
+
+/**
+ * @param {object} registrierung  geladene docs/demo-verweis-ziele.json
+ * @param {Set<string>} dateien   relative Pfade im Hochladen-Ordner, mit „/“ getrennt (z. B. „demo/x/vivodepot.html“)
+ * @returns {{id:string,url:string,grund:string}[]}  jedes verlinkte Ziel, das nicht im Ordner liegt
+ */
+function paketAbgleich(registrierung, dateien) {
+  const fehlt = [];
+  for (const a of registrierung.anker) {
+    if (a.status !== ERREICHBAR) continue;   // nicht verlinkt: der Erzeuger setzt nur den Namen
+    let u;
+    try { u = new URL(a.url); } catch { fehlt.push({ id: a.id, url: a.url, grund: 'keine gültige Adresse' }); continue; }
+    if (!WEBSITE_HOSTS.includes(u.hostname)) { fehlt.push({ id: a.id, url: a.url, grund: 'nicht auf der Website' }); continue; }
+    const pfad = decodeURIComponent(u.pathname).replace(/^\/+/, '');
+    if (!dateien.has(pfad)) fehlt.push({ id: a.id, url: a.url, grund: 'nicht im Hochladen-Ordner' });
+  }
+  return fehlt;
+}
+
+function dateienImOrdner(ordner) {
+  const raus = new Set();
+  const gehe = (rel) => {
+    for (const e of fs.readdirSync(path.join(ordner, rel), { withFileTypes: true })) {
+      const r = rel ? rel + '/' + e.name : e.name;
+      if (e.isDirectory()) gehe(r); else raus.add(r);
+    }
+  };
+  gehe('');
+  return raus;
+}
+
 /* ── CLI ──────────────────────────────────────────────────────────────────────────────────── */
 
 function argWert(name) {
@@ -143,11 +184,38 @@ function selbstProbe() {
       rot++;
     }
   }
+  // Abgleich mit dem Hochladen-Ordner, gegen ein Paket im Speicher (kein Dateizugriff).
+  const paket = new Set(['demo/da/vivodepot.html']);
+  const reg = (url, status = ERREICHBAR) => ({ anker: [{ id: 'x', url, status }] });
+  const abgleichFaelle = [
+    [reg('https://vivodepot.de/demo/da/vivodepot.html'), 0],
+    [reg('https://vivodepot.de/demo/da/de/vivodepot.html'), 1],
+    [reg('https://vivodepot.de/demo/da/de/vivodepot.html', NACHWEISLICH_UNERREICHBAR), 0],
+    [reg('https://example.org/demo/da/vivodepot.html'), 1],
+  ];
+  for (const [r, erwartet] of abgleichFaelle) {
+    const ist = paketAbgleich(r, paket).length;
+    if (ist !== erwartet) {
+      console.error(`[demo-verweise] ✗ Abgleich ${r.anker[0].url} (${r.anker[0].status}) → ${ist} fehlend, erwartet ${erwartet}`);
+      rot++;
+    }
+  }
   if (rot) { console.error(`\n${rot} Fall/Fälle rot.`); process.exit(1); }
-  console.log('[demo-verweise] ✓ Kategorisierung selbst geprüft, kein Netz.');
+  console.log('[demo-verweise] ✓ Kategorisierung und Abgleich selbst geprüft, kein Netz.');
+}
+
+function paketLauf(ordner, registrierungPfad) {
+  const fehlt = paketAbgleich(registrierungLesen(registrierungPfad), dateienImOrdner(ordner));
+  if (!fehlt.length) { console.log(`[demo-verweise] ✓ jedes verlinkte Ziel liegt in ${ordner}.`); return; }
+  fehlt.forEach((f) => console.error(`[demo-verweise] ✗ ${f.id}: ${f.grund} (${f.url})`));
+  process.exit(1);
 }
 
 async function main() {
+  if (argWert('--paket')) {
+    paketLauf(path.resolve(argWert('--paket')), argWert('--registrierung') || REGISTRIERUNG_VORGABE);
+    return;
+  }
   if (process.argv.includes('--live')) {
     const pfad = argWert('--registrierung') || REGISTRIERUNG_VORGABE;
     await liveLauf(pfad);
@@ -159,5 +227,6 @@ async function main() {
 module.exports = {
   ERREICHBAR, NACHWEISLICH_UNERREICHBAR, NICHT_GEMESSEN,
   kategorisiereAntwort, pruefeLive, registrierungLesen, ankerkarteAusRegistrierung, offeneZeilen,
+  paketAbgleich, dateienImOrdner,
 };
 if (require.main === module) main();

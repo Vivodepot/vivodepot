@@ -416,6 +416,9 @@ function erzeugeFaktenbasis({ mitSuite = false } = {}) {
     krypto,
     schemaVersion: V.SCHEMA_VERSION_AKTUELL,
     kryptoVersion: V.CRYPTO_VERSION_AKTUELL,
+    // Welche Krypto-Versionen der Kern LIEST (11.10.2026): bis hierher nannte die Faktenbasis nur CRYPTO_VERSION_AKTUELL (3),
+    // während STANDARDS.md und SOVEREIGNTY.md „3 und 4“ sagten. Gemessen wird die Liste, die das Lade-Gate prüft.
+    kryptoVersionenLesbar: Array.from(V.KRYPTO_VERSION_ALLOWLIST || []),
     schalenStand: V.SCHALEN_STAND,
     buildVersion: V.BUILD_VERSION,
     jwsAlgPrimaer: V.JWS_ALG_PRIMAER, jwsAlgFallback: V.JWS_ALG_FALLBACK,
@@ -462,7 +465,7 @@ function formatiereMarkdown(f) {
   m += '- PBKDF2-Iterationen: ' + (f.krypto.pbkdf2Iterationen || 'nicht gefunden') + '\n';
   m += '- AES-256-GCM verwendet: ' + (f.krypto.aes256Gcm ? 'ja' : 'nicht gefunden') + '\n';
   m += '- JWS-Signatur primär: ' + f.jwsAlgPrimaer + ' · Fallback: ' + f.jwsAlgFallback + '\n';
-  m += '- Krypto-Version: ' + f.kryptoVersion + '\n\n';
+  m += '- Krypto-Versionen (lesbar): ' + f.kryptoVersionenLesbar.join(' und ') + '\n\n';
   m += '---\n\n## Prüfebene\n\n';
   m += (f.pruefebene.suiteZahl != null
     ? suiteZeileGemessen(f.pruefebene.suiteZahl, f.erzeugtAm, f.commit)

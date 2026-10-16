@@ -42,6 +42,13 @@ const DIREKT = /direkt in (ihr|das) Depot|kommt direkt|automatisch (an|in)\b|dir
 const GESUNDHEIT = /Gesundheit|Pflege|Patient|Arzt|Ärzt|Klinik|Kranken|Praxis|Hebamme|health|care home|patient|medical|clinic|doctor/i;
 const SATZ_DE = 'Vivodepot bestätigt, von wem die Vorlage kommt, nicht ob ihr Inhalt richtig ist.';
 const SATZ_EN = 'Vivodepot confirms who the template comes from, not whether its content is correct.';
+/* Die Kachel „Eigenes Erscheinungsbild“ (iPad-Prüfung 14.10.2026): Ein Erscheinungsbild geht nur signiert ein (Branding nur
+   geprüft). Die Kachel nennt darum die Folge der Signatur; ein Hinweis ohne Folge läse sich wie „wirkt sofort“. „Anordnung“
+   verspricht sie nicht, solange das Studio sie nicht anbietet (U2-ADR-493 §2). */
+const ERSCHEINUNG_DE = 'Logo, Farben und Name für Vivodepot. Wird erst angewendet, wenn es signiert und von Vivodepot bestätigt ist.';
+const ERSCHEINUNG_FOLGE_DE = /erst angewendet, wenn es signiert/;
+const ERSCHEINUNG_FOLGE_EN = /only once it is signed/i;
+const ERSCHEINUNG_ZU_VIEL = /Anordnung|layout|arrangement/i;
 
 const befundeFachbegriffe = (html) => { const t = texte(eingangVon(html)); return [t.beide.match(FACHBEGRIFFE), t.de.match(FACHBEGRIFFE_DE)].filter(Boolean).map((m) => m[0]); };
 const befundeDirekt = (html) => kacheln(eingangVon(html)).filter((k) => DIREKT.test(k.text.beide)).map((k) => k.id);
@@ -79,7 +86,7 @@ test('[Eingang · 4] höchstens eine der sechs Kacheln spricht von Gesundheit od
   assert.ok(gesundheitsKacheln(HTML).length <= 1, gesundheitsKacheln(HTML).join(', '));
 });
 test('[Eingang · 4 · Rot-Beweis] zwei Gesundheitskacheln fallen auf', () => {
-  const kopie = HTML.replace('Logo, Farben und Anordnung: Vivodepot im Gesicht Ihrer Einrichtung.', 'Für Ihre Praxis: Anamnese und Pflegeplan.')
+  const kopie = HTML.replace(ERSCHEINUNG_DE, 'Für Ihre Praxis: Anamnese und Pflegeplan.')
     .replace('Für Integratoren: Bausteine, Formate und Prüfwerkzeuge.', 'Für Kliniken: Aufnahme ins Krankenhaus.');
   assert.ok(gesundheitsKacheln(kopie).length >= 2);
 });
@@ -212,4 +219,27 @@ test('[Eingang · 7 · Gegenprobe] dieselbe hohe Grundregel mit Regeln für schm
     + '  .eingang-kachel .ek-titel { margin: 0 0 4px; font-size: 18px; }\n}\n' + KACHEL_VOR_KOMPAKT.slice(ende);
   assert.deepEqual(kachelSchmalBefunde(mitSchmal, 375), []);
   assert.equal(angabe(mitSchmal, '.eingang-kachel', 'min-height', 1280), '196px');
+});
+
+function erscheinungsKachel(html) {
+  const k = kacheln(eingangVon(html)).find((x) => x.id === 'ein-erscheinung');
+  assert.ok(k, 'keine Kachel ein-erscheinung');
+  return k.text;
+}
+const erscheinungsBefunde = (html) => {
+  const t = erscheinungsKachel(html), raus = [];
+  if (!ERSCHEINUNG_FOLGE_DE.test(t.de)) raus.push('DE nennt die Folge der Signatur nicht');
+  if (!ERSCHEINUNG_FOLGE_EN.test(t.en)) raus.push('EN nennt die Folge der Signatur nicht');
+  if (ERSCHEINUNG_ZU_VIEL.test(t.beide)) raus.push('verspricht eine Anordnung');
+  return raus;
+};
+test('[Eingang · 8] „Eigenes Erscheinungsbild“ nennt die Folge der Signatur und verspricht keine Anordnung, deutsch und englisch', () => {
+  assert.deepEqual(erscheinungsBefunde(HTML), []);
+  assert.ok(erscheinungsKachel(HTML).de.includes(ERSCHEINUNG_DE));
+});
+test('[Eingang · 8 · Rot-Beweis] der frühere Kacheltext ohne Folge und mit „Anordnung“ fällt auf, beide Sprachen', () => {
+  const kopie = HTML.replace(ERSCHEINUNG_DE, 'Logo, Farben und Anordnung: Vivodepot im Gesicht Ihrer Einrichtung.')
+    .replace('Logo, colours and name for Vivodepot. Applied only once it is signed and confirmed by Vivodepot.', 'Logo, colours and layout: Vivodepot with the face of your organisation.');
+  assert.notEqual(kopie, HTML);
+  assert.deepEqual(erscheinungsBefunde(kopie), ['DE nennt die Folge der Signatur nicht', 'EN nennt die Folge der Signatur nicht', 'verspricht eine Anordnung']);
 });

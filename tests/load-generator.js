@@ -135,6 +135,7 @@ const EXPORT_HOOK = `
   // GEN1 (19.09.2026) — der Schlüssel-Tresor und der Zustand, gegen den seine Zusicherungen gemessen werden
   SCHLUESSEL_TRESOR, SCHLUESSEL_LIMIT_MS, SCHLUESSEL_KLICK_FRIST_MS, SCHLUESSEL_PASSWORT_MINDESTLAENGE,
   schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei, passwortAusFeldern,
+  sicherungPruefen, aktualisiereSchluesselWeiter, schluesselWeiter, fsStandAktualisieren,
   schluesselErzeugen, schluesselDateiLaden, schluesselDateiNeuSpeichern, _istSignierSchluessel, STATE, submissionErzeugen, gen1Binden, EMPFANGS_TRESOR, entwurfBauen, signiereMitTresor, paletteEintraege,
   // GEN3 — Angehörigen-Blätter
   BLATT_ICONS, BLATT_MODULTYP, BLATT_FORMAT, blattNeu, blattModulBauen, blattModulPruefen, pruefeBlatt, baueBlattSigniert, blattDateiname, blattSonderzeiger, blattZeigerBekannt, blattErzeugen,
@@ -155,7 +156,7 @@ const EXPORT_HOOK = `
   // Trust-1B Schritt 2a — Anbieter signiert das Template
   templateJwsErzeugen, baueSubmissionSigniert,
   // Schnitt 24.08.2026 (A523/Sammelvorlagen) — mehrere Vorlagen in einer Einreichung
-  baueTemplateObjekt, baueSammelSubmission, baueSammelSubmissionSigniert, einreichungNutzlast, rechtstextAngabe, rechtstextHash, _kanonisch, RECHTSTEXTE,
+  baueTemplateObjekt, VORLAGE_FORMAT_FASSUNG, VORLAGE_NUTZLAST_TYP, baueSammelSubmission, baueSammelSubmissionSigniert, einreichungNutzlast, rechtstextAngabe, rechtstextHash, _kanonisch, RECHTSTEXTE,
   // 1E Basistemplate-Treuhand-Signatur (U2-ADR-040)
   basistemplateTreuhandSignieren, _basisInhalt, _pubAusPriv,
   // Code-Review-Fund 27./28.08.2026: zentrale Sign-dann-selbst-verifizieren-Sequenz
@@ -210,6 +211,8 @@ const EXPORT_HOOK = `
   STUDIO_EINLASS_PRUEFEN, einlassUrteil, einlassZeileText, vorabUrteilVorlage,
   // Neugestaltung A+ mit Glas, S2 (08.10.2026) — der Assistent Aufnahmebogen
   ASSISTENT, ASSISTENT_BEISPIELE, ASSISTENT_REGISTER, assistentFelder, assistentBeispielLaden, feldAusBasisBauen, feldAusKatalog,
+  // iPad-Prüfung (14.10.2026) — „Frage hinzufügen“ ohne Doppel
+  ASSISTENT_HINZU, assistentHinzu,
   // W1 (09.10.2026) — der Assistent Anfrage
   ANF_AS, ANF_AS_BEISPIELE, anfrageUmschlag, anfrageAssistentNeu, anfrageAssistentBeispiel, anfrageAssistentHinzu, anfrageAssistentState, anfrageAssistentLuecken,
   // W2 (09.10.2026) — Einmalpasswort und Brief
@@ -218,6 +221,10 @@ const EXPORT_HOOK = `
   antwortJweOeffnen, antwortStudioModell, antwortFehlerText,
   // Befund STUDIO-EMPFEHLUNG-OHNE-WEG (10.10.2026) — jede Meldung der Prüfung hat ein Ziel, Schritt 3 einen Knopf „Beheben“
   MELDUNG_ZIEL, meldungZiel, meldungBeheben, pruefZeile, STAMMDATEN_FEHLER_FELD,
+  // Studio auf dem Weg der Vorführung (14.10.2026): Zeichen als Vorschlag, Listen unter „Ausprobieren“, Kennungen eingeklappt, Erscheinungsbild-Satz
+  anfrageVorgang, listeUnterfelder, paletteKennungKlein, brandingOhneSignaturSatz,
+  paletteKennungenSetzen: (w) => { paletteKennungenZeigen = !!w; }, paletteKennungenAbWerk: () => paletteKennungenZeigen,
+  feldUebernehmen, editorIndexSetzen: (i) => { editorIndex = i; },
 };
 `;
 

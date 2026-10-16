@@ -27,12 +27,46 @@
        VdCrypto-Block über das ERSTE namenlose Skript-Element (reine Textsuche) — ein namenloses
        Element davor lenkt ihn fehl (s. Kommentar an derselben Stelle im Kern). -->
   <style id="rahmen-verbergen">body{display:none !important}</style>
+  <style id="gesicherte-kopie-stil">#vd-gesicherte-kopie{max-width:36rem;margin:12vh auto;padding:0 1.5rem;line-height:1.6}</style>
   <script id="rahmen-schutz">
-    if (window.self === window.top) {
-      document.getElementById('rahmen-verbergen').remove();
-    } else {
-      try { window.top.location = window.self.location.href; } catch (e) { /* CSS-Verbergen bleibt bestehen */ }
-    }
+    (function () {
+      var wurzel = document.documentElement;
+      /* Gesicherte Kopie (12.10.2026): „Seite speichern“ im Browser schreibt den Stand NACH dem Skriptlauf, bei geöffnetem
+         Depot samt den gezeigten Angaben. Die Marke unten steht dann schon im Dokument, bevor ein eigenes Skript lief.
+         Eine solche Datei zeigt nichts und führt nichts aus: alle folgenden Skripte werden gesperrt, der Inhalt wird
+         entfernt, sobald er gelesen ist, und an seine Stelle tritt ein Hinweis. */
+      if (wurzel.hasAttribute('data-vd-lauf')) {
+        wurzel.style.setProperty('display', 'none', 'important');
+        var sperre = document.createElement('meta');
+        sperre.setAttribute('http-equiv', 'Content-Security-Policy');
+        sperre.setAttribute('content', ['script-src', "'none'"].join(' '));   // zwei Teile: eine Richtlinie, kein Satz
+        document.head.appendChild(sperre);
+        document.addEventListener('DOMContentLoaded', function () {
+          var koerper = document.body;
+          if (!koerper) return;
+          var hinweis = document.getElementById('vd-gesicherte-kopie');
+          while (koerper.firstChild) koerper.removeChild(koerper.firstChild);
+          if (hinweis) {
+            hinweis.removeAttribute('hidden');
+            koerper.appendChild(hinweis);
+            var kopf = hinweis.firstElementChild;   // die Kopfzeile des Hinweises
+            if (kopf) document.title = kopf.textContent;
+          }
+          var alt = document.getElementById('rahmen-verbergen');
+          if (alt) alt.remove();
+          wurzel.style.removeProperty('display');
+        });
+        return;
+      }
+      wurzel.setAttribute('data-vd-lauf', '1');
+      var oben = false;
+      try { oben = window.self === window.top; } catch (e) { oben = false; }
+      var stil = document.getElementById('rahmen-verbergen');
+      if (oben) { if (stil) stil.remove(); return; }
+      // Im fremden Rahmen: verbergen, ohne am Stil-Element zu hängen, und das umgebende Fenster auf sich umleiten.
+      wurzel.style.setProperty('display', 'none', 'important');
+      try { window.top.location = window.self.location.href; } catch (e) { /* bleibt verborgen */ }
+    })();
   </script>
   <title>Vivodepot · Lesen</title>
 <!-- NAVICON:BEGIN — erzeugt von tools/navicon-einsetzen.js aus dem Kopf des Kerns, nicht von Hand ändern -->
@@ -387,6 +421,10 @@
   </style>
 </head>
 <body>
+<!-- Hinweis einer vom Browser gesicherten Kopie (12.10.2026). Statisches Markup, verborgen: der Kopf-Block zeigt in einer
+     gesicherten Kopie nur dieses Element und entfernt alles andere. Der Text steht hier und in keinem Skript, damit er da
+     ist, wenn kein Skript mehr läuft. -->
+<div id="vd-gesicherte-kopie" hidden><strong>Gespeicherte Kopie · Saved copy</strong><p lang="de">Diese Datei hat der Browser aus der laufenden Anwendung gespeichert. Sie ist nicht die Anwendung und kann Angaben in lesbarer Form enthalten. Bitte löschen Sie diese Datei.</p><p lang="en">The browser saved this file from the running application. It is not the application and may contain details in readable form. Please delete this file.</p></div>
   <div id="app"></div>
   <script>
 /* ════════════════════════════════════════════════════════════════════════
@@ -1336,6 +1374,69 @@ function _modulPruefstufeAusZertifikat(certRes) {
   if (cs && cs.anbieterTyp === VIVODEPOT_KERN_ANBIETERTYP) return 'intern';
   return 'extern-ungeprueft';
 }
+/* GELTUNGSBEREICH DER PRÜFSTELLE UND BINDUNG AN DIE ORIGINALSÄTZE (12.10.2026, Befund LESE-APP-PRUEFER-GELTUNG-UNGEPRUEFT).
+   Bis hierher trug die Lese-App die Stufe allein aus dem Zertifikat ein. Der Kern verlangt seit dem 19.09.2026 dazu, dass der
+   Geltungsbereich der Prüfstelle Modultyp und Sprache trägt und dass das Modul die Summe der Originalsätze nennt, die die
+   Stelle vor sich hatte (`_pruefstufeFuerModul` im Kern). Ohne diese Regel durfte ein Sprachmodul unter einer Prüfstelle,
+   deren Geltung es nicht trägt, in der Lese-App Zusicherungssätze übersetzen: die Lese-App urteilte milder als der Kern.
+
+   `_prueferGeltung` und `_geltungPasst` sind wortgleich mit dem Kern. `_pruefstufeFuerModul` weicht an EINER Stelle ab, und
+   die ist entschieden: EINE ANWENDUNG VERLANGT DIE SUMME FÜR JEDE SPRACHE, DIE SIE EINGEBAUT FÜHRT. Der Kern führt je Produkt
+   eine Basissprache und verlangt eine Summe. Die Lese-App führt Deutsch und Englisch und verlangt beide,
+   `originaleSumme.lesen.de` und `originaleSumme.lesen.en`. Fehlt eine oder weicht eine ab, gibt es keine Prüfer-Stufe. Die
+   Lese-App lehnt dabei nichts ab (sie liest eine Datei, sie lässt nichts ein): das Modul bleibt, ohne Zusicherungssätze.
+   FOLGE: jede Änderung eines deutschen oder englischen Zusicherungssatzes der Lese-App nimmt allen Sprachmodulen von
+   Prüfstellen dort die Stufe, bis die Stelle neu gerechnet hat. Der Beleg der Summen im Repository macht das im Diff sichtbar. */
+function _prueferGeltung(certRes) {
+  if (certRes && certRes.ausstellerRolle === 'pruefer') return certRes.ausstellerGeltung || null;
+  const cs = _blattSubject(certRes);
+  return _istPrueferUnterTreuhand(certRes) && cs ? (cs.geltung || null) : null;
+}
+function _geltungPasst(geltung, modul) {
+  if (!geltung) return { passt: false, grund: 'geltung-fehlt' };
+  const liste = (v) => Array.isArray(v) && v.length > 0 && v.every((x) => typeof x === 'string' && x.trim() !== '');
+  if (typeof geltung !== 'object' || !liste(geltung.modulTypen) || !liste(geltung.sprachen)) return { passt: false, grund: 'geltung-ungueltig' };
+  if (!modul || !geltung.modulTypen.includes(modul.modulTyp)) return { passt: false, grund: 'geltung-modultyp' };
+  if (typeof modul.sprache === 'string' && !geltung.sprachen.includes(modul.sprache)) return { passt: false, grund: 'geltung-sprache' };
+  return { passt: true, grund: null };
+}
+/* Die Sprachen, die diese Anwendung eingebaut führt: für jede verlangt sie die Summe der Originalsätze. */
+const ORIGINALE_SPRACHEN_LESEN = Object.freeze(['de', 'en']);
+/* Summe der Zusicherungssätze DIESER Anwendung in einer Sprache: SHA-256 (hex) über das kanonische JSON
+   { app: 'lesen', sprache, saetze: [{ k, text }] }, Schlüssel sortiert, fehlender Satz als null. Dieselbe Form wie im Kern, dazu
+   die Anwendung in den gerechneten Bytes: eine Summe des Kerns trifft hier nie, auch wenn die Satzmengen einmal gleich wären.
+   `texte` nur für Proben. Das Werkzeug der Prüfstelle rechnet dieselbe Summe aus dieser Datei; eine Probe hält beide gleich. */
+function _originaleTexteLesen(sprache) {
+  return sprache === 'en' ? ZUSICHERUNG_TEXTE_EN : (sprache === 'de' ? _STRINGS_EINGEBAUT : null);
+}
+async function _originaleSummeLesen(sprache, texte) {
+  const t = texte || _originaleTexteLesen(sprache) || {};
+  const saetze = [...ZUSICHERUNGS_SCHLUESSEL_LESEN].sort().map((k) => ({ k, text: typeof t[k] === 'string' ? t[k] : null }));
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(_kanonischJSON({ app: 'lesen', sprache, saetze })));
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+async function _originaleSummenLesen() {
+  const werte = {};
+  for (const sprache of ORIGINALE_SPRACHEN_LESEN) werte[sprache] = await _originaleSummeLesen(sprache);
+  return { app: 'lesen', werte };
+}
+// summen: { app: 'lesen', werte: { de, en } }. → { stufe, grund }
+function _pruefstufeFuerModul(certRes, modul, summen) {
+  if (!certRes || !certRes.gueltig) return { stufe: 'extern-ungeprueft', grund: 'kette-ungueltig' };
+  const stufe = _modulPruefstufeAusZertifikat(certRes);
+  if (stufe !== 'extern-geprueft:pruefer') return { stufe, grund: null };
+  const g = _geltungPasst(_prueferGeltung(certRes), modul);
+  if (!g.passt) return { stufe: 'extern-ungeprueft', grund: g.grund };
+  if (modul && modul.modulTyp === 'textsatz') {
+    const jeApp = modul.originaleSumme && summen ? modul.originaleSumme[summen.app] : null;
+    for (const sprache of ORIGINALE_SPRACHEN_LESEN) {
+      const summe = jeApp && typeof jeApp === 'object' ? jeApp[sprache] : null;
+      if (typeof summe !== 'string' || !summe) return { stufe: 'extern-ungeprueft', grund: 'originale-fehlt' };
+      if (!summen || !summen.werte || summe !== summen.werte[sprache]) return { stufe: 'extern-ungeprueft', grund: 'originale-geaendert' };
+    }
+  }
+  return { stufe, grund: null };
+}
 
 async function _verifiziereTemplateSignatur(certNutzlast, templateJws, opts) {
   const cs = (certNutzlast && (certNutzlast.credentialSubject || (certNutzlast.vc && certNutzlast.vc.credentialSubject))) || {};
@@ -2065,22 +2166,22 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:05c687b2713c3a0d01e7b18e7a1e3efdb8c7cf355b1bc7bb800013d6446b255f",
   "sha256:0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
   "sha256:0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
-  "sha256:0d4d10947b17e1946510a7a0ca98e575f32b6df2f5ff28d408ed2614a4e1114b",
   "sha256:0d8605a8bc42b0c2796e2d9f5d6dde4f79563d245e67f7f4c665e3669600b2d2",
   "sha256:0f01455aa7ca63e9cb44e0861ea466b9a1c6f1dee81fbc9d73cfbc958d0cdbb8",
   "sha256:0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
   "sha256:10277e2dd1c9ae51cbc473c4dc496a3063b83cdfb24d4918da0a676f17ffe64c",
-  "sha256:1228935368d4b2d7b2862c5d951700eaecea366520aa9f3f95444d155db7ccbd",
   "sha256:2685b2331a675c920d9272f1c6ce819fa34b3153cc1ec58a654a5a1fa26d4bbf",
   "sha256:2ed1acce49b700471e62beddf17a7262e88b3ff73753f220f44af3d5739f26c6",
   "sha256:2ffa1fee03cdb283b3d1634245b018132736607e2866d87bee7e7b9334320f94",
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
+  "sha256:4184e260dcaab5c21db017eebf01c0e1fc11e75df35db3af5ce261fdd65c5219",
   "sha256:48eecf50d5bda7dbe67e03ef2f76088788100d6e818f5ed24d1dab06bd10fb94",
   "sha256:525d92f3334b2cb544ee89d1a541c661dfda1411ad187e067fef42e2eaf1ee64",
   "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
+  "sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",
   "sha256:64c87d3825b00e4f002c2a71945f8a5390cc19a40c97b9e91c38c4c4e9e9aee6",
   "sha256:67533c21c1d79f9a342f32a9e5372d8b951a6aa74f34579da136884991fb54d6",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
@@ -7768,6 +7869,7 @@ async function _textsatzModuleBelegPruefen(d, opts) {
   _TEXTSATZ_BELEGT.clear();
   _TEXTSATZ_INTERN_VOLL.clear();
   const liste = (d && Array.isArray(d.textsatzModule)) ? d.textsatzModule : [];
+  let summen = null;   // einmal je Öffnen gerechnet, erst wenn ein Modul einen Beleg trägt
   for (const m of liste) {
     try {
       const b = m && m.beleg;
@@ -7777,7 +7879,9 @@ async function _textsatzModuleBelegPruefen(d, opts) {
       if (!certRes || !certRes.gueltig) continue;
       const tv = await _verifiziereTemplateSignatur(certRes.nutzlast, b.modulSignaturJws, o);
       if (!tv || !tv.gueltig || !tv.nutzlast || tv.nutzlast.modulTyp !== 'textsatz') continue;
-      _textsatzBelegtEintragen(tv.nutzlast, _modulPruefstufeAusZertifikat(certRes), (tv.anbieter || {}).anbieterId || null);
+      // Die Stufe nach derselben Regel wie im Kern: Geltung der Prüfstelle und Summen der Originalsätze, nicht das Zertifikat allein.
+      if (!summen) summen = await _originaleSummenLesen();
+      _textsatzBelegtEintragen(tv.nutzlast, _pruefstufeFuerModul(certRes, tv.nutzlast, summen).stufe, (tv.anbieter || {}).anbieterId || null);
     } catch (e) { /* ein Modul, dessen Beleg nicht prüfbar ist, bleibt ohne Zusicherungssätze — nie ein Abbruch */ }
   }
   return _TEXTSATZ_BELEGT.size;

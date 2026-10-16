@@ -25,6 +25,24 @@ Auf der vorhandenen Kette (Anker → Zwischenstufe → Anbieter → Modul), kein
 
 Die Entscheidung „gilt dieses Modul für Zusicherungssätze?" ist eine reine Funktion, `_pruefstufeFuerModul(certRes, modul, summen)`, die Stufe und Grund liefert (`kette-ungueltig`, `geltung-fehlt`, `geltung-ungueltig`, `geltung-modultyp`, `geltung-sprache`, `originale-fehlt`, `originale-geaendert`). Wer ein Modul erneut prüft (Einlass, Laden), ruft sie mit derselben Kette auf.
 
+**Nachtrag 12.10.2026: die Lese-App hält dieselbe Regel (Befund LESE-APP-PRUEFER-GELTUNG-UNGEPRUEFT).** Bis hierher trug
+die Lese-App die Prüfstufe eines Sprachmoduls allein aus dem Zertifikat ein. Geltungsbereich und Summe prüfte nur der Kern;
+ein Sprachmodul unter einer Prüfstelle, deren Geltung es nicht trägt, durfte in der Lese-App Zusicherungssätze übersetzen.
+Jetzt gilt in beiden Anwendungen:
+- Der Geltungsbereich entscheidet in der Lese-App wie im Kern (`_prueferGeltung`, `_geltungPasst`, wortgleich).
+- **Eine Anwendung verlangt die Summe der Originalsätze für jede Sprache, die sie eingebaut führt.** Der Kern führt je
+  Produkt eine Basissprache und verlangt eine Summe. Die Lese-App führt Deutsch und Englisch und verlangt beide:
+  `originaleSumme.lesen.de` und `originaleSumme.lesen.en`. Fehlt eine oder weicht eine ab, gibt es dort keine Prüfer-Stufe.
+  Die Lese-App lehnt dabei nichts ab, sie stuft herab: das Modul bleibt, ohne Zusicherungssätze.
+- Die Summe der Lese-App läuft über ihre eigenen Zusicherungssätze und trägt die Anwendung in den gerechneten Bytes:
+  `{ app: 'lesen', sprache, saetze }`. Eine Summe des Kerns trifft dort nie. Die Form des Kerns bleibt, wie sie ist.
+- Das Werkzeug der Prüfstelle (`tools/lib/originale-summe.js`) rechnet die Summen der Lese-App mit.
+  `tools/originale-summen-stand.json` belegt die Summen je Anwendung und Sprache; eine Probe rechnet dagegen.
+
+**Folge.** Jede Änderung eines deutschen oder englischen Zusicherungssatzes der Lese-App nimmt allen Sprachmodulen von
+Prüfstellen dort die Stufe, bis die Stelle neu gerechnet hat. Der Beleg macht das im Diff sichtbar. Bis ein Modul die
+Summen der Lese-App trägt, bekommt dort kein Sprachmodul einer Prüfstelle die Stufe.
+
 ## Was diese Entscheidung nicht leistet
 
 Eine inhaltlich falsche Übersetzung mit richtiger Form erkennt keine Regel. Es tragen Signatur, Geltungsbereich, Laufzeit und die Zulassung der Stelle. Ein Widerruf erreicht rein offline genutzte Kopien nicht vor dem Ablauf. Das Verzeichnis der zugelassenen Stellen ist Auskunft, keine Vertrauensquelle; die Kette prüft die App selbst.
@@ -98,4 +116,27 @@ konformitaet:
         "[Werkzeug·Rot] eine Prüfstelle ohne Geltungsbereich wird nicht ausgestellt"
       - tests/pruefstelle-geltung-und-originale.test.js
         "[Werkzeug·Rot] Deutsch und Englisch sind app-eigen: dafür wird keine Prüfstelle zugelassen"
+  - aussage: >-
+      Die Lese-App gibt einem Sprachmodul nie eine höhere Prüfstufe als der Kern: der Geltungsbereich der Prüfstelle
+      entscheidet dort wie im Kern, und sie verlangt die Summe der Originalsätze für beide Sprachen, die sie eingebaut
+      führt; eine Summe des Kerns gilt dort nicht.
+    zustand: erfuellt
+    herkunft: U2-ADR-441, Nachtrag 12.10.2026
+    pruefung:
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese-App·Geltung·Befund] eine Prüfstelle, deren Geltung das Sprachmodul nicht trägt, gibt ihm in der Lese-App keine Prüfer-Stufe"
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese-App·Geltung·Rot-Beweis] eine Lese-App, die die Stufe wieder allein aus dem Zertifikat nimmt, gibt die Prüfer-Stufe ohne passende Geltung"
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese-App·Summe] die Lese-App verlangt die Summe für beide Sprachen, die sie eingebaut führt"
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese-App·Summe·Rot-Beweis] eine Summe des Kerns unter „lesen“ ergibt keine Stufe — auch bei gleicher Satzmenge"
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese-App·Klasse] bei gleichen genannten Summen ist die Stufe der Lese-App für dieselbe Kette und dasselbe Modul nie höher als die des Kerns, über alle Stufenregeln"
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese = Kern·Geltung] _prueferGeltung und _geltungPasst antworten in Kern und Lese-App gleich — Rot-Beweis je entfernter Regel"
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese-App·Summe·Werkzeug] das Werkzeug der Prüfstelle rechnet je Sprache dieselbe Summe wie die Lese-App"
+      - tests/lese-app-pruefer-geltung.test.js
+        "[Lese-App·Summe·Beleg] der Beleg im Repository nennt die Summen dieses Baums — Rot-Beweis: ein geänderter Satz fällt auf"
 ```

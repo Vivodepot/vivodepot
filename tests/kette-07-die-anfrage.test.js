@@ -131,7 +131,7 @@ async function mitMutation(anker, ersatz, pruefung) {
   process.env.KERN_HTML_PATH = tmp;
   try {
     delete require.cache[require.resolve('./load-kern.js')];
-    const { V } = require('./load-kern.js').ladeKern();
+    const { V } = require('./load-kern.js').ladeKern({ blank: true });   // genau der mutierte Text, ungebacken (wie bisher)
     await V.depotAnlegen(PW);
     await pruefung(V);
   } finally {
@@ -727,4 +727,62 @@ test('[Kette 07 · Wächter] der Feldkatalog des Erzeugers stimmt mit dem Kern �
   assert.equal(GEN.FELDKATALOG.length, ausKern.length, 'gleiche Zahl');
   assert.deepEqual(Array.from(GEN.FELDKATALOG).map((f) => f.kennung), ausKern.map((f) => f.kennung),
     'und dieselben Kennungen, in derselben Reihenfolge — eine Quelle, kein zweiter Katalog');
+});
+
+/* ══ Befund ANFRAGE-SENSIBEL-ERST-IM-EINZELSCHRITT (11.10.2026) ═══════════════════════════════════════════════════════════
+   Die Übersicht einer Anfrage rechnet mit `sensibel: true` („habe ich das") und konnte „vollständig" zeigen, während die Antwort
+   mit den Vorgaben der Person `vollstaendig: false` trug: eine als nötig bezeichnete sensible Angabe bleibt ab Werk zurück.
+   Was die Übersicht über die Vollständigkeit der ANTWORT sagt, muss dem Feld der Antwort gleichen. */
+function mitVorgabenFuellen(V) {
+  V.akteurSelbstErklaeren('Hedwig Brandt');
+  for (const a of ZWOELF) {
+    if (a.wert == null) continue;
+    const sel = V.kennungZuSelektor(a.kennung);
+    V.sektorFeldSetzen(sel.sektorId, sel.feldId, a.wert);
+  }
+  const p = V.personSicherstellen('Tochter Reiter');
+  V.sektorFeldSetzen('health', 'emergencyContacts', [{ ref: (p && (p.id || p)) || 'Tochter Reiter' }]);
+  V.listenEintragHinzufuegen('advanceCare', 'provisionInstruments', { instrument: 'enduring-power-of-attorney', storageLocation: 'Ordner im Wohnzimmer' });
+}
+test('[Kette 07 · Übersicht] die Übersicht sagt über die Vollständigkeit dasselbe wie die Antwort mit den Vorgaben', async () => {
+  const V = await heimaufnahmeDepot();
+  const ab = V.anfrageAbgleich(heimAnfrage(), { jetzt: JETZT });
+  const noetig = new Set(heimAnfrage().felder.filter(f => f.pflicht !== false).map(f => f.kennung));
+  assert.ok(ab.sensibelBetroffen.some(k => noetig.has(k)),
+    'Vorbedingung: mindestens eine als nötig bezeichnete Angabe ist als sensibel markiert');
+  assert.equal(ab.vollstaendig, true, 'Vorbedingung: vorhanden ist alles');
+  const ds = V.anfrageAntwortDatensatz(heimAnfrage(), { jetzt: JETZT });      // ohne Freigabe: die Vorgaben
+  assert.equal(ds.vollstaendig, false, 'Vorbedingung: die Antwort mit den Vorgaben ist eine Teilantwort');
+  assert.equal(ab.vollstaendigMitVorgaben, ds.vollstaendig, 'die Übersicht darf nicht mehr versprechen, als hinausgeht');
+});
+test('[Kette 07 · Übersicht · Gegenprobe] mit freigegebenen sensiblen Angaben ist die Antwort vollständig, und ohne sensible Pflichtangabe gleicht die Übersicht ihr ebenfalls', async () => {
+  const V = await heimaufnahmeDepot();
+  const ds = V.anfrageAntwortDatensatz(heimAnfrage(), { jetzt: JETZT, sensibel: true });
+  assert.equal(ds.vollstaendig, true);
+  const ab0 = V.anfrageAbgleich(heimAnfrage(), { jetzt: JETZT });
+  const ohne = heimAnfrage();
+  ohne.felder = ohne.felder.filter(f => ab0.sensibelBetroffen.indexOf(f.kennung) < 0);
+  const ab = V.anfrageAbgleich(ohne, { jetzt: JETZT });
+  assert.equal(ab.vollstaendigMitVorgaben, V.anfrageAntwortDatensatz(ohne, { jetzt: JETZT }).vollstaendig);
+  assert.equal(ab.vollstaendigMitVorgaben, true);
+});
+test('[Kette 07 · Übersicht · Rot-Beweis] ohne den Blick auf sensible Pflichtangaben verspricht die Übersicht wieder mehr als die Antwort', async () => {
+  /* Mutation auf einer KOPIE des Kerns, als gebackenes Produkt geladen: das nackte Gerüst kennt keine Bereiche, also auch kein
+     sensibles Feld, und der Unterschied ließe sich daran nicht zeigen. */
+  const original = fs.readFileSync(HTML_PATH, 'utf8');
+  // Der Blick auf sensible Pflichtangaben ist die eine Zeile, die eine nicht nötige Angabe überspringt; ohne sie zählt keine.
+  const anker = '      if (!f.pflicht) return false;\n      const def = kennungFeldDef(f.fuellKennung);';
+  assert.equal(original.split(anker).length - 1, 1, 'Vorbedingung: der Anker kommt genau einmal vor');
+  const tmp = path.join(os.tmpdir(), 'kette-07-uebersicht-probe-' + process.pid + '.html');
+  fs.writeFileSync(tmp, original.replace(anker, '      return false;\n      const def = kennungFeldDef(f.fuellKennung);'));
+  try {
+    const { V } = ladeKern({ htmlPfad: tmp, backen: true });
+    await V.depotAnlegen(PW);
+    mitVorgabenFuellen(V);
+    const ab = V.anfrageAbgleich(heimAnfrage(), { jetzt: JETZT });
+    const ds = V.anfrageAntwortDatensatz(heimAnfrage(), { jetzt: JETZT });
+    assert.equal(ds.vollstaendig, false, 'Vorbedingung: die Antwort mit den Vorgaben ist eine Teilantwort');
+    assert.notEqual(ab.vollstaendigMitVorgaben, ds.vollstaendig, 'die Mutation muss den Unterschied wieder öffnen');
+  } finally { fs.rmSync(tmp, { force: true }); }
+  assert.equal(fs.readFileSync(HTML_PATH, 'utf8'), original, 'die Probe darf den echten Kern nicht verändert haben');
 });

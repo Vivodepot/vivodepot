@@ -89,7 +89,7 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Fachebene mit Schlüssel', () =>
     await p.fill('#sd-k-name', sd.kontaktName); await p.fill('#sd-k-email', sd.kontaktEmail);
     await p.click('#sd-weiter');
     await H.generator.schluesselErzeugen(p);
-    await expect(p.locator('#fs-b-stand')).toContainText('gesichert');
+    await expect(p.locator('#fs-b-stand')).toContainText('heruntergeladen');   // seit 12.10.2026: ein Download ist keine Sicherung
     // Zwei Felder ohne Pflicht; dreiFelder öffnet danach den Dialog bei „Prüfen und absenden“.
     await H.generator.dreiFelder(p, FIX.felder.slice(0, 2).map((f) => Object.assign({}, f, { pflicht: false })));
     await expect(p.locator('#fs-c-rumpf')).toBeVisible();
@@ -105,7 +105,7 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Fachebene mit Schlüssel', () =>
 
     await p.click('#fertig-oeffnen');                                         // Angaben und Schlüssel stehen noch → Schritt 3
     await expect(p.locator('#fs-c-rumpf')).toBeVisible();
-    await expect(p.locator('#fs-b-stand')).toContainText('gesichert');
+    await expect(p.locator('#fs-b-stand')).toContainText('heruntergeladen');   // seit 12.10.2026: ein Download ist keine Sicherung
     await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT.de })).toHaveCount(0);
     await p.click('#pr-pruefen');
     await expect(p.locator('#pr-submit')).toBeEnabled();                      // der Schlüssel liegt weiter im Tresor

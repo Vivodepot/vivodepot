@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-12 · **Fassung:** v928 · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-14 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -79,20 +79,20 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 - PBKDF2-Iterationen: 600000
 - AES-256-GCM verwendet: ja
 - JWS-Signatur primär: EdDSA · Fallback: ES256
-- Krypto-Version: 3
+- Krypto-Versionen (lesbar): 3 und 4
 
 ---
 
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
-- E2E (Playwright): 613 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 51 aus Schleifen über CPU-Drosselungen = **664 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- E2E (Playwright): 630 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 55 aus Schleifen über CPU-Drosselungen = **685 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
 - Wächter-Register (intern): 145
-- Schema-Version: 92 · SCHALEN_STAND: v928 · Build-Version: v1.0
+- Schema-Version: 92 · SCHALEN_STAND: v929 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (433)
+## ADR-Register (434)
 
 | Nummer | Titel |
 |---|---|
@@ -520,6 +520,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-483 | Vorprüfung im Studio — dieselben Einlass-Regeln wie der Kern, ein Urteil in Klartext, Angaben erst zur Signatur |
 | U2-ADR-486 | Post-Quanten-Übergang — Anker-Agilität zuerst, dann hybride Verfahren |
 | U2-ADR-488 | Schema-Adressen — die Kennung löst auf, jede Fassung bleibt |
+| U2-ADR-489 | Ein verkauftes Produkt mit Zuschnitt hat eine Kennung, ein Rezept und eine Adresse |
 | U2-ADR-490 | Feldregister — CC0, eine feste Adresse je Kennung, Fassungen, npm-Paket |
 | U2-ADR-491 | Passkey als zweiter Entsperrweg in der Web-App — abgelehnt |
 | U2-ADR-492 | Die Menge der eingebauten Bereiche kommt aus dem gebackenen Katalog des Produkts |
@@ -538,18 +539,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 37 | 235 |
-| `.btn-sek` | 15 | 107 |
+| `.btn` | 37 | 236 |
+| `.btn-sek` | 15 | 108 |
 | `.btn-dezent` | 5 | 12 |
 | `.btn-klein` | 3 | 15 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 37 |
 | `.karte` | 6 | 68 |
-| `.modal` | 19 | 171 |
-| `.toast` | 9 | 301 |
+| `.modal` | 19 | 173 |
+| `.toast` | 9 | 303 |
 | `.banner-stapel` | 2 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 14 | 5 |
-| `.leer` | 3 | 303 |
+| `.leer` | 3 | 308 |
 | `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 27 |
+| `.hinweis-box` | 7 | 28 |

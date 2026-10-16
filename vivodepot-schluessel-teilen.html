@@ -42,12 +42,46 @@
      leitet sie um oder bleibt verborgen. `id` ist Pflicht: tools/krypto-block-propagation-pruefen.js findet den gepinnten
      VdCrypto-Block über das erste namenlose Skript. Mit Probe zum Rahmen-Schutz. -->
 <style id="rahmen-verbergen">body{display:none !important}</style>
+<style id="gesicherte-kopie-stil">#vd-gesicherte-kopie{max-width:36rem;margin:12vh auto;padding:0 1.5rem;line-height:1.6}</style>
 <script id="rahmen-schutz">
-  if (window.self === window.top) {
-    document.getElementById('rahmen-verbergen').remove();
-  } else {
-    try { window.top.location = window.self.location.href; } catch (e) { /* CSS-Verbergen bleibt bestehen */ }
-  }
+  (function () {
+    var wurzel = document.documentElement;
+    /* Gesicherte Kopie (12.10.2026): „Seite speichern“ im Browser schreibt den Stand NACH dem Skriptlauf, bei geöffnetem
+       Depot samt den gezeigten Angaben. Die Marke unten steht dann schon im Dokument, bevor ein eigenes Skript lief.
+       Eine solche Datei zeigt nichts und führt nichts aus: alle folgenden Skripte werden gesperrt, der Inhalt wird
+       entfernt, sobald er gelesen ist, und an seine Stelle tritt ein Hinweis. */
+    if (wurzel.hasAttribute('data-vd-lauf')) {
+      wurzel.style.setProperty('display', 'none', 'important');
+      var sperre = document.createElement('meta');
+      sperre.setAttribute('http-equiv', 'Content-Security-Policy');
+      sperre.setAttribute('content', ['script-src', "'none'"].join(' '));   // zwei Teile: eine Richtlinie, kein Satz
+      document.head.appendChild(sperre);
+      document.addEventListener('DOMContentLoaded', function () {
+        var koerper = document.body;
+        if (!koerper) return;
+        var hinweis = document.getElementById('vd-gesicherte-kopie');
+        while (koerper.firstChild) koerper.removeChild(koerper.firstChild);
+        if (hinweis) {
+          hinweis.removeAttribute('hidden');
+          koerper.appendChild(hinweis);
+          var kopf = hinweis.firstElementChild;   // die Kopfzeile des Hinweises
+          if (kopf) document.title = kopf.textContent;
+        }
+        var alt = document.getElementById('rahmen-verbergen');
+        if (alt) alt.remove();
+        wurzel.style.removeProperty('display');
+      });
+      return;
+    }
+    wurzel.setAttribute('data-vd-lauf', '1');
+    var oben = false;
+    try { oben = window.self === window.top; } catch (e) { oben = false; }
+    var stil = document.getElementById('rahmen-verbergen');
+    if (oben) { if (stil) stil.remove(); return; }
+    // Im fremden Rahmen: verbergen, ohne am Stil-Element zu hängen, und das umgebende Fenster auf sich umleiten.
+    wurzel.style.setProperty('display', 'none', 'important');
+    try { window.top.location = window.self.location.href; } catch (e) { /* bleibt verborgen */ }
+  })();
 </script>
 <title>Vivodepot · Schlüssel teilen</title>
 <!-- NAVICON:BEGIN — erzeugt von tools/navicon-einsetzen.js aus dem Kopf des Kerns, nicht von Hand ändern -->
@@ -125,6 +159,10 @@
 </style>
 </head>
 <body>
+<!-- Hinweis einer vom Browser gesicherten Kopie (12.10.2026). Statisches Markup, verborgen: der Kopf-Block zeigt in einer
+     gesicherten Kopie nur dieses Element und entfernt alles andere. Der Text steht hier und in keinem Skript, damit er da
+     ist, wenn kein Skript mehr läuft. -->
+<div id="vd-gesicherte-kopie" hidden><strong>Gespeicherte Kopie · Saved copy</strong><p lang="de">Diese Datei hat der Browser aus der laufenden Anwendung gespeichert. Sie ist nicht die Anwendung und kann Angaben in lesbarer Form enthalten. Bitte löschen Sie diese Datei.</p><p lang="en">The browser saved this file from the running application. It is not the application and may contain details in readable form. Please delete this file.</p></div>
 <main>
   <header class="produkt-kopf">
     <h1>Vivodepot · Schlüssel teilen</h1>

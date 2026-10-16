@@ -21,7 +21,6 @@
     "tests/fix-a70-stale-cache-warnung.test.js",
     "tests/fix-b17-import-plan-listenfeld.test.js",
     "tests/kennungs-umbau-review-k1-k6.test.js",
-    "tests/kette-07-die-anfrage.test.js",
     "tests/klasse-b-node-kern.test.js",
     "tests/korpus-wizard-ab-werk-umschlag.test.js",
     "tests/logikmodul-pruefen-rundlauf.test.js",

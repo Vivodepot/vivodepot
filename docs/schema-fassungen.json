@@ -246,6 +246,13 @@
      "blob": "a1a75e9072f3cb5bba290be58705e23c6f64c1e5",
      "shaKanon": "f2911719e90d8614baa61ccdb187886d6dbd6c31ad4b16121d3e673baea241c4",
      "shaAusgeliefert": "f2c81167aa4d29ec99b4009a647c45360a81d3df6606b175ff13e2ea3fceaf42"
+    },
+    {
+     "n": 3,
+     "adresse": "https://vivodepot.de/schemas/submission/3.json",
+     "blob": "ffc23eeca23cbe4b8162b3d8f929cda7be8fe884",
+     "shaKanon": "76a5148bab6f031097e2a2aabe478d5acd64e8b492ac85e495b9b4422bc3d471",
+     "shaAusgeliefert": "9960659fe9f21f52a2ccb134e17c1975f152607b64e7be0568ac870d30ef46fb"
     }
    ]
   },

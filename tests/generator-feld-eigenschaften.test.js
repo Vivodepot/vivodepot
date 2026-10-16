@@ -156,3 +156,80 @@ test('[Feld-Eigenschaften·CSV·Rot-Beweis] eine unbekannte Spalte fällt nicht 
   assert.equal(felder[0].kardinalitaet, undefined);
   assert.ok(angeglichen.some((a) => a.was === 'kardinalitaet'));
 });
+
+/* ── CSV: das Trennzeichen wird erkannt, nicht vorausgesetzt (11.10.2026) ───────────────────────────────────────────────
+   Der Erzeuger trennte nur am Komma. Eine Tabelle aus einer deutschen Tabellenkalkulation trägt das Semikolon; sie ergab
+   eine einzige Spalte, und die Felder fehlten. Der Kern erkennt beim Einlesen von Tabellen vier Trennzeichen an der
+   Kopfzeile; der Erzeuger tut jetzt dasselbe, mit derselben Regel. */
+const CSV_TABELLE = [
+  ['feldname', 'feldtyp', 'pflicht', 'bereich', 'hilfetext'],
+  ['Straße und Hausnummer', 'text', 'ja', 'identity', 'Zeile eins\nZeile zwei, mit Komma; Semikolon | Strich\tTab und „Anführung“ "doppelt"'],
+  ['Größe in cm', 'zahl', 'nein', 'identity', ''],
+];
+const csvZelle = (z, trenn) => (z.includes(trenn) || /["\n]/.test(z)) ? '"' + z.replace(/"/g, '""') + '"' : z;
+const csvMit = (trenn, zeilenende) => CSV_TABELLE.map((z) => z.map((x) => csvZelle(x, trenn)).join(trenn)).join(zeilenende || '\n');
+const csvFelder = (text) => j(G.felderAngleichungen(G.csvZuFelder(text)).felder.map((f) => ({ feldname: f.feldname, feldtyp: f.feldtyp, pflicht: f.pflicht, hilfetext: f.hilfetext })));
+const CSV_SOLL = [
+  { feldname: 'Straße und Hausnummer', feldtyp: 'text', pflicht: true, hilfetext: CSV_TABELLE[1][4] },
+  { feldname: 'Größe in cm', feldtyp: 'zahl', pflicht: false, hilfetext: undefined },
+].map((f) => j(f));
+
+for (const [name, trenn] of [['Komma', ','], ['Semikolon', ';'], ['Tabulator', '\t'], ['senkrechter Strich', '|']]) {
+  test('[Feld-Eigenschaften·CSV·Trennzeichen] ' + name + ': dieselbe Tabelle ergibt dieselben Felder, mit Umlauten, Anführungszeichen und Zeilenumbruch im Feld', () => {
+    assert.deepEqual(csvFelder(csvMit(trenn)), CSV_SOLL);
+    assert.deepEqual(csvFelder('﻿' + csvMit(trenn, '\r\n')), CSV_SOLL, 'mit BOM und Windows-Zeilenenden');
+  });
+}
+test('[Feld-Eigenschaften·CSV·Trennzeichen] die Kopfzeile entscheidet: Kommas in den Werten einer Semikolon-Tabelle trennen nicht', () => {
+  const f = csvFelder('feldname;feldtyp;pflicht;bereich;hilfetext\nOrt;text;nein;identity;Stadt, Gemeinde, Ortsteil');
+  assert.equal(f.length, 1);
+  assert.equal(f[0].hilfetext, 'Stadt, Gemeinde, Ortsteil');
+});
+test('[Feld-Eigenschaften·CSV·Trennzeichen·Rot-Beweis] wer nur am Komma trennt, findet in der Semikolon-Tabelle kein Feld', () => {
+  const nurKomma = (text) => String(text).split('\n')[0].split(',');
+  assert.equal(nurKomma(csvMit(';')).length, 1, 'die Kopfzeile ist dann eine einzige Spalte');
+  assert.equal(nurKomma(csvMit(',')).length, 5, 'Gegenprobe: die Komma-Tabelle hat am Komma fünf Spalten');
+  assert.equal(csvFelder(csvMit(';'))[0].feldname, 'Straße und Hausnummer', 'mit der Erkennung trägt das erste Feld seinen Namen');
+});
+test('[Feld-Eigenschaften·CSV·Trennzeichen·Klasse] Erzeuger und Kern erkennen mit derselben Liste und derselben Regel', () => {
+  const lies = (datei) => fs.readFileSync(path.join(__dirname, '..', datei), 'utf8');
+  const liste = (t) => (/const _CSV_TRENNZEICHEN = Object\.freeze\((\[[^\]]*\])\);/.exec(t) || [])[1];
+  const regel = (t) => (/\nfunction _csvTrennzeichen\(kopf\) \{[\s\S]*?\n\}\n/.exec(t) || [])[0];
+  const kern = lies('vivodepot.html'), erzeuger = lies('vivodepot-studio.html');
+  assert.ok(liste(kern) && regel(kern), 'Vorbedingung: der Kern trägt Liste und Regel');
+  assert.equal(liste(erzeuger), liste(kern), 'dieselben Trennzeichen');
+  assert.equal(regel(erzeuger), regel(kern), 'dieselbe Regel, wörtlich');
+  assert.notEqual(regel(erzeuger.replace("if (!inQ && c === t) n++;", 'if (c === t) n++;')), regel(kern), 'Rot-Beweis: eine abweichende Regel fällt auf');
+});
+
+/* ── CSV: eine kaputte Tabelle wird benannt oder verkraftet, nie still verschluckt (Nachtrag 11.10.2026) ───────────────
+   Gemessen am Stand davor: eine Zeile mit weniger Zellen als die Kopfzeile brach das ganze Einlesen mit einem technischen
+   Fehlertext ab; ein offenes Anführungszeichen schluckte den Rest der Datei in ein Feld; ohne die Spalte „feldname“ wurde
+   still die erste Spalte genommen. */
+const KOPF = 'feldname;feldtyp;pflicht;bereich;hilfetext';
+test('[Feld-Eigenschaften·CSV·kaputt] eine zu kurze Zeile wird eingelesen, die fehlenden Zellen gelten als leer', () => {
+  const f = csvFelder(KOPF + '\nOrt;text\nGröße;zahl;ja;identity;in cm');
+  assert.deepEqual(f.map((x) => x.feldname), ['Ort', 'Größe']);
+  assert.equal(f[0].pflicht, false);
+  assert.equal(f[1].hilfetext, 'in cm');
+});
+test('[Feld-Eigenschaften·CSV·kaputt] ein offenes Anführungszeichen wird gesagt, nicht verschluckt', () => {
+  assert.throws(() => G.csvZuFelder(KOPF + '\n"Ort;text;nein;identity;\nGröße;zahl;ja;identity;'), /Anführungszeichen/);
+});
+test('[Feld-Eigenschaften·CSV·kaputt] ohne die Spalte „feldname“ wird die Tabelle abgewiesen und der Grund genannt', () => {
+  assert.throws(() => G.csvZuFelder('name;typ\nOrt;text'), /feldname/);
+  assert.throws(() => G.csvZuFelder('das ist keine Tabelle, nur ein Satz.'), /feldname/);
+});
+test('[Feld-Eigenschaften·CSV·kaputt] leer oder nur Kopfzeile ergibt kein Feld und wirft nicht', () => {
+  assert.deepEqual(csvFelder(''), []);
+  assert.deepEqual(csvFelder('\uFEFF'), []);
+  assert.deepEqual(csvFelder(KOPF + '\n'), []);
+  assert.deepEqual(csvFelder(KOPF + '\n;;;;\n'), [], 'eine Zeile nur aus Trennzeichen ist leer');
+});
+test('[Feld-Eigenschaften·CSV·kaputt·Gegenprobe] die heile Tabelle bleibt unberührt, und die Oberfläche meldet „keine Felder“ statt „0 importiert“', () => {
+  assert.deepEqual(csvFelder(csvMit(';')), CSV_SOLL);
+  const quelle = fs.readFileSync(path.join(__dirname, '..', 'vivodepot-studio.html'), 'utf8');
+  const rumpf = quelle.slice(quelle.indexOf('function csvDateiGewaehlt('), quelle.indexOf('function csvDateiGewaehlt(') + 1600);
+  assert.match(rumpf, /if \(!erg\.felder\.length\) throw new Error\(L\('Die Datei enthält keine Felder\.'/);
+  assert.match(rumpf, /status\.className = 'meldung fehler';\n\s+status\.textContent = L\('Die Tabelle konnte nicht gelesen werden: '/, 'Fehlermeldung in beiden Sprachen, als Fehler gekennzeichnet');
+});

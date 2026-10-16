@@ -25,6 +25,7 @@
    Bürgerin/Produktentscheidung dockt sie über den bestehenden, funktionierenden Weg
    (Einstellungen → Module → Einlassen), kein Vor-Depot-Kanal, keine Signatur.
    ════════════════════════════════════════════════════════════════════════════ */
+const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..', '..');
@@ -241,6 +242,131 @@ const REZEPT_KOEPFE = Object.freeze({
   'pro-en': Object.freeze({ zugangsart: 'verkauft', odooProduktVorlageId: 37, anzeigename: Object.freeze({ de: 'VD Pro — Englisch', en: 'VD Pro — English' }) }),
 });
 
+/* PRODUKT-ZUSCHNITTE: Pro mit einem Berufsmodul ab Werk (U2-ADR-489, Pro-Konzept C2 vom 06.10.2026, gebaut 12.10.2026)
+   Die Kundin wählt ihr Berufsmodul beim Kauf; geliefert wird ein Pro, das dieses Modul im Rezept trägt. Ein Zuschnitt ist
+   KEIN fünftes Grundprodukt: `PRODUKTE` bleibt bei vier, und alles, was über `PRODUKTE` läuft, bleibt, wie es ist. Ein
+   Zuschnitt ist ein Pro-Grundprodukt plus die zwei Dateien eines Berufsmoduls (Bereich und Auszug) in seiner Modulliste.
+   KENNUNG: <produkt>-<sprache>-<zuschnitt>, z. B. pro-de-kanzlei. Der Zuschnitt nennt den Beruf, nie ein Land (den
+   Rechtsraum trägt das Modul selbst). Form wie ein DNS-Name: a–z, 0–9, Bindestrich, höchstens 63 Zeichen, kein Bindestrich
+   am Rand (mit dem Download-Dienst abgestimmt).
+   WELCHE BERUFE ES GIBT, steht nicht hier, sondern im Verzeichnis tools/berufsmodule/: jedes Berufsmodul, das dort mit beiden
+   Teilen in einer Sprache liegt, ergibt den Zuschnitt dieser Sprache. Ein neues Berufsmodul braucht hier keine Zeile.
+   NICHT IN DER GEMEINSAMEN ABDRUCK-LISTE: die Abdrücke der Berufsmodule stehen NICHT in REZEPT_FINGERABDRUECKE_KERN
+   (tools/rezept-fingerabdruecke-erheben.js liest allein PRODUKTE). Diese Liste gilt im Kern für jedes Produkt; stünde ein
+   Berufsmodul darin, gälte es als Datei in einem gewöhnlichen Pro oder Privat als ab Werk, und die Selbst-Einlass-Sperre
+   ließe das gekaufte Modul ohne Kauf durch (gemessen 12.10.2026: tests/pro-berufsmodule.test.js wurde rot). Ein Zuschnitt
+   erkennt sein Modul über die eigene Saat des Produkts. */
+const BERUFSMODUL_VERZEICHNIS = path.join(REPO, 'tools', 'berufsmodule');
+const BERUFSMODUL_TEILE = Object.freeze(['bereich', 'logikmodul']);
+const ZUSCHNITT_KENNUNG = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/;
+const berufsmodulPfad = (beruf, teil, sprache, verzeichnis = BERUFSMODUL_VERZEICHNIS) => path.join(verzeichnis, 'vivodepot-pro-' + beruf + '-' + teil + '-' + sprache + '.json');
+function berufsmoduleImBestand(verzeichnis = BERUFSMODUL_VERZEICHNIS) {
+  const berufe = new Set();
+  // Eine Teilkopie des Repos ohne dieses Verzeichnis (manche Proben bauen eine) hat schlicht keine Zuschnitte.
+  if (!fs.existsSync(verzeichnis)) return [];
+  for (const n of fs.readdirSync(verzeichnis).sort()) {
+    const m = /^vivodepot-pro-([a-z0-9]+(?:-[a-z0-9]+)*)-(?:bereich|logikmodul)-[a-z]{2}\.json$/.exec(n);
+    if (m) berufe.add(m[1]);
+  }
+  return [...berufe].sort();
+}
+function zuschnitteAus(verzeichnis = BERUFSMODUL_VERZEICHNIS) {
+  return berufsmoduleImBestand(verzeichnis).flatMap((beruf) => PRODUKTE.filter((p) => p.proModulPfad).map((basis) => {
+    const teile = BERUFSMODUL_TEILE.map((teil) => berufsmodulPfad(beruf, teil, basis.sprache, verzeichnis));
+    if (!teile.every((t) => fs.existsSync(t))) return null;   // das Berufsmodul gibt es in dieser Sprache nicht ganz: kein Zuschnitt
+    const slug = basis.slug + '-' + beruf;
+    if (!ZUSCHNITT_KENNUNG.test(slug)) throw new Error('Zuschnitt „' + slug + '“: die Kennung hat nicht die Form eines DNS-Namens (a–z, 0–9, Bindestrich, höchstens 63 Zeichen).');
+    return Object.freeze(Object.assign({}, basis, { slug, basis: basis.slug, zuschnitt: beruf,
+      berufsmodulPfade: Object.freeze(teile), modulPfade: Object.freeze([...(basis.modulPfade || []), ...teile]) }));
+  })).filter(Boolean);
+}
+const PRODUKT_ZUSCHNITTE = Object.freeze(zuschnitteAus());
+/* Der Rezeptkopf eines Zuschnitts: Zugangsart wie das Grundprodukt. Die Odoo-Produktvorlage ist je Berufsmodul ein EIGENER
+   Artikel (im Klon gemessen, 12.10.2026: Artikel tragen, Varianten nicht). Die Nummer vergibt Odoo; sie wird hier
+   eingetragen, sobald der Artikel angelegt ist. Ohne Eintrag gibt es für einen Zuschnitt KEINEN Rezeptkopf, und die Auslieferung
+   kann ihn nicht als verkäuflich aufs Regal legen: lieber kein Rezept als eines mit der Nummer eines anderen Artikels. */
+/* Eingetragen 12.10.2026: die vier Artikel stehen in der Shop-Instanz, unveröffentlicht (gemeldet vom Shop-Strang, dort
+   am Artikelstamm gelesen; Artikelreferenz vd-<kennung>). Die Nummer sagt, zu welchem Artikel ein Rezept gehört. Der
+   Download-Dienst entscheidet heute an der Kennung in der Kauf-Adresse, die am Artikel steht, nicht an dieser Nummer; sein
+   älterer Weg über die Zahlungsprüfung liest sie. Eine vertauschte Zeile ist darum in beiden Fällen ein Fehler. Dieselbe Zuordnung steht ein zweites Mal in tools/zuschnitt-artikel-beleg.json; wer hier eine
+   Zeile ändert, ändert sie dort, und die Probe [Pro·Zuschnitt·Artikel-Beleg] hält beide gegeneinander. */
+const ZUSCHNITT_ODOO_PRODUKT_VORLAGE = Object.freeze({
+  'pro-de-steuerberatung': 47,
+  'pro-de-kanzlei': 48,
+  'pro-en-steuerberatung': 49,
+  'pro-en-kanzlei': 50,
+});
+/* Der Beleg zur Tabelle oben: dieselbe Zuordnung ein zweites Mal, mit der Artikelreferenz des Shops (vd-<kennung>), in
+   tools/zuschnitt-artikel-beleg.json. Eine vertauschte oder nur an einer Stelle geänderte Zeile fällt damit auf. Liefert die
+   Abweichungen als Sätze; leer heißt: Tabelle und Beleg sagen dasselbe. Ob der Beleg selbst gegen den Shop gehalten wurde,
+   sagt sein Feld `abgleich`. */
+const ZUSCHNITT_ARTIKEL_BELEG_PFAD = path.join(__dirname, '..', 'zuschnitt-artikel-beleg.json');
+function zuschnittArtikelBelegLesen(pfad = ZUSCHNITT_ARTIKEL_BELEG_PFAD) { return JSON.parse(fs.readFileSync(pfad, 'utf8')); }
+function zuschnittArtikelAbweichungen(tabelle = ZUSCHNITT_ODOO_PRODUKT_VORLAGE, beleg = zuschnittArtikelBelegLesen()) {
+  const funde = [];
+  const zeilen = Array.isArray(beleg && beleg.artikel) ? beleg.artikel : [];
+  const jeKennung = new Map();
+  for (const z of zeilen) {
+    if (!z || typeof z.kennung !== 'string') { funde.push('Beleg: eine Zeile ohne Kennung'); continue; }
+    if (jeKennung.has(z.kennung)) funde.push('Beleg: ' + z.kennung + ' steht zweimal');
+    jeKennung.set(z.kennung, z);
+    if (z.artikelreferenz !== 'vd-' + z.kennung) funde.push('Beleg: ' + z.kennung + ' trägt die Artikelreferenz „' + z.artikelreferenz + '“, erwartet vd-' + z.kennung);
+    if (!Number.isInteger(z.odooProduktVorlageId)) funde.push('Beleg: ' + z.kennung + ' ohne ganze Artikelnummer');
+  }
+  const nummern = zeilen.map((z) => z && z.odooProduktVorlageId);
+  if (new Set(nummern).size !== nummern.length) funde.push('Beleg: eine Artikelnummer steht bei zwei Kennungen');
+  for (const [kennung, nummer] of Object.entries(tabelle)) {
+    const z = jeKennung.get(kennung);
+    if (!z) { funde.push(kennung + ': in der Tabelle, nicht im Beleg'); continue; }
+    if (z.odooProduktVorlageId !== nummer) funde.push(kennung + ': Tabelle sagt ' + nummer + ', Beleg sagt ' + z.odooProduktVorlageId);
+  }
+  for (const kennung of jeKennung.keys()) if (!(kennung in tabelle)) funde.push(kennung + ': im Beleg, nicht in der Tabelle');
+  return funde;
+}
+const ZUSCHNITT_ANZEIGENAME = Object.freeze({
+  kanzlei: Object.freeze({ de: 'Kanzlei', en: 'Law firm' }),
+  steuerberatung: Object.freeze({ de: 'Steuerberatung', en: 'Tax advisory' }),
+});
+function zuschnittRezeptKopf(z, odooVorlagen = ZUSCHNITT_ODOO_PRODUKT_VORLAGE) {
+  const basis = REZEPT_KOEPFE[z.basis];
+  const odoo = odooVorlagen[z.slug];
+  if (!basis || !Number.isInteger(odoo)) return null;
+  const name = ZUSCHNITT_ANZEIGENAME[z.zuschnitt] || { de: z.zuschnitt, en: z.zuschnitt };
+  return Object.freeze({ zugangsart: basis.zugangsart, odooProduktVorlageId: odoo,
+    anzeigename: Object.freeze({ de: basis.anzeigename.de + ' · ' + name.de, en: basis.anzeigename.en + ' · ' + name.en }) });
+}
+
+/* Was die Auslieferung aufs Regal legt: die vier Grundprodukte und jeder Zuschnitt, der einen Rezeptkopf HAT (also seine
+   eigene Artikelnummer). Ohne eingetragene Nummern sind das genau die vier Grundprodukte; die Nummern nachzutragen ist eine
+   reine Datenzeile in ZUSCHNITT_ODOO_PRODUKT_VORLAGE. Kern-Ausliefern, Rezepte-Signieren und Ablage-Prüfen lesen von hier.
+   Dazu kommt die Zurückhaltung unten: ohne abgeglichenen Beleg bleiben es die vier Grundprodukte. */
+/* Ein Zuschnitt geht erst hinaus, wenn seine Artikelnummer gegen den Shop gehalten wurde (12.10.2026). Bis dahin ist der
+   Beleg eine Abschrift derselben Hand, die die Tabelle geschrieben hat. Liefert den Grund als Satz, oder null, wenn nichts
+   zurückgehalten wird. Ein nicht lesbarer Beleg hält zurück. */
+const BELEG_TAG = /^\d{4}-\d{2}-\d{2}$/;
+function zuschnittZurueckhaltung(odooVorlagen = ZUSCHNITT_ODOO_PRODUKT_VORLAGE, beleg) {
+  if (!PRODUKT_ZUSCHNITTE.some((z) => zuschnittRezeptKopf(z, odooVorlagen))) return null;   // kein Zuschnitt mit Artikelnummer: nichts zurückzuhalten
+  let b = beleg;
+  if (b === undefined) { try { b = zuschnittArtikelBelegLesen(); } catch (e) { return 'Die Zuschnitte gehen nicht hinaus: der Beleg der Artikelnummern ist nicht lesbar.'; } }
+  const tag = b && b.abgleich;
+  const zeit = (typeof tag === 'string' && BELEG_TAG.test(tag)) ? Date.parse(tag + 'T00:00:00Z') : NaN;
+  if (Number.isNaN(zeit) || new Date(zeit).toISOString().slice(0, 10) !== tag) {   // auch der 30. Februar ist kein Datum
+    return 'Die Zuschnitte gehen nicht hinaus: ihre Artikelnummern sind noch nicht gegen den Shop abgeglichen (Feld „abgleich“ im Beleg trägt kein Datum).';
+  }
+  const abweichungen = zuschnittArtikelAbweichungen(odooVorlagen, b);
+  if (abweichungen.length) return 'Die Zuschnitte gehen nicht hinaus: Tabelle und Beleg der Artikelnummern weichen ab (' + abweichungen.join('; ') + ').';
+  return null;
+}
+function auslieferbareProdukte(odooVorlagen = ZUSCHNITT_ODOO_PRODUKT_VORLAGE, beleg) {
+  if (zuschnittZurueckhaltung(odooVorlagen, beleg)) return [...PRODUKTE];
+  return [...PRODUKTE, ...PRODUKT_ZUSCHNITTE.filter((z) => zuschnittRezeptKopf(z, odooVorlagen))];
+}
+function rezeptKoepfeAlle(odooVorlagen = ZUSCHNITT_ODOO_PRODUKT_VORLAGE, beleg) {
+  const koepfe = Object.assign({}, REZEPT_KOEPFE);
+  if (zuschnittZurueckhaltung(odooVorlagen, beleg)) return Object.freeze(koepfe);
+  for (const z of PRODUKT_ZUSCHNITTE) { const kopf = zuschnittRezeptKopf(z, odooVorlagen); if (kopf) koepfe[z.slug] = kopf; }
+  return Object.freeze(koepfe);
+}
 /* DIE MESSUNG, DIE VERLANGT: "wie viele deutsche Zeilen stehen im
    englischen Produkt?" — über den ECHTEN Lesepfad (`textLesen`/`textsatzSpracheAktiv`,
    dieselbe Funktion, die STRINGS/Feld-Labels tatsächlich liest), nicht nachgebaut.
@@ -281,4 +407,6 @@ module.exports = {
   BEREICH_TEMPLATE_VERZEICHNIS, BEREICH_TEMPLATE_PFADE_PRIVAT_13, BEREICH_TEMPLATE_PFADE_PRO_6,
   DOKUMENT_MODUL_VERZEICHNIS, DOKUMENT_MODUL_PFADE_4, DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD, STANDARD_VORLAGEN_PFADE_4, BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD, AB_WERK_FIXTURE_VERZEICHNIS, AB_WERK_FIXTURE_PFADE_4,
   deutscheZeilenImEnglischenProdukt,
+  PRODUKT_ZUSCHNITTE, ZUSCHNITT_KENNUNG, ZUSCHNITT_ODOO_PRODUKT_VORLAGE, BERUFSMODUL_VERZEICHNIS, berufsmoduleImBestand, zuschnitteAus, zuschnittRezeptKopf, auslieferbareProdukte, rezeptKoepfeAlle,
+  ZUSCHNITT_ARTIKEL_BELEG_PFAD, zuschnittArtikelBelegLesen, zuschnittArtikelAbweichungen, zuschnittZurueckhaltung,
 };

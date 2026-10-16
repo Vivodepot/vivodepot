@@ -15,6 +15,64 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.929] – 2026-10-15
+
+### Behoben
+- Eine Modul-App, die ihre Sprache, ihr Erscheinungsbild und ihre Module als Begleitdatei mitbringt, startet nach dem ersten
+  Besuch auch ohne Netz mit dieser Konfiguration. Bisher fehlte die Begleitdatei bis zu einem zweiten Besuch mit Netz.
+- Hatte die Person ein Modul mit eigenen Situationen angedockt, brach beim Öffnen eines Depots und beim Wechsel der Sprache
+  der Lauf ab, der alle Beschriftungen der Anwendung setzt. Danach konnten Beschriftungen in der falschen Sprache oder leer
+  erscheinen, nicht nur die der angedockten Situationen. Der Lauf schreibt nicht mehr in eine angedockte Situation; ihr
+  Titel folgt der Sprache wie bisher, ihre Blöcke werden beschriftet wie die einer eingebauten Situation.
+- Safari am Mac galt als iPhone oder iPad; nach „Depot anlegen“ erschienen dort das Angebot „In der App anlegen“ und der Hinweis
+  zum Home-Bildschirm.
+- Scheiterte beim Sichern das Schreiben in die gewählte Datei, legte die Anwendung die Sicherung ohne Ansage als Download ab. Jetzt
+  sagt sie, dass die Sicherung nicht in der gewählten Datei liegt.
+- Eine Datei einer anderen Fassung der Verschlüsselung oder ein beschädigter Stand hießen beim Öffnen „Das Passwort stimmt nicht.“
+  Jetzt nennt die Anwendung den Grund.
+- Die Übersicht einer Anfrage beachtet bei sensiblen Angaben die Einstellung der Person.
+- Studio am iPad: die Seite wird nicht mehr breiter als das Fenster, Bedienelemente sind bei Fingerbedienung mindestens 44 Pixel
+  groß, und „Frage hinzufügen“ legt ein schon vorhandenes Standardfeld nicht noch einmal an.
+- Studio: Beim Wechsel der Ansicht beginnt die neue Ansicht sofort oben, statt noch zu rollen.
+- Studio: Ein Entwurf aus einer neueren Fassung oder mit ungültiger Fassungsangabe wird mit einer Meldung abgelehnt, statt still
+  geöffnet zu werden.
+- Studio: Der Import einer Tabelle erkennt Semikolon, Tabulator und senkrechten Strich als Trennzeichen, nicht nur das Komma. Ein
+  offenes Anführungszeichen, eine fehlende Spalte „feldname“ und eine Datei ohne Felder werden mit Grund gemeldet; eine Zeile mit
+  zu wenigen Zellen wird eingelesen.
+
+### Sicherheit
+- VD-SEC-020 (mittel): Behoben in v929: Der Schutz gegen das Einbetten in eine fremde Seite hing an einem Element, das eine mit
+  „Seite speichern“ gesicherte Kopie nicht mehr trägt. Er verbirgt die Seite jetzt unabhängig davon. Betroffen: Kopien aus den
+  ausgelieferten Fassungen seit v787 bis v928; die ausgelieferte Anwendung selbst nicht.
+  Was zu tun ist: auf v929 aktualisieren und die bisher so gesicherten Kopien löschen; der Schutz gilt nur für Kopien, die ab
+  v929 gesichert werden.
+- VD-SEC-021 (hoch): Behoben in v929: Die Lese-App gab einem signierten Sprachmodul die Prüfer-Stufe allein nach dem Zertifikat
+  der Prüfstelle, ohne deren Geltungsbereich (Modultyp, Sprache) und die Bindung an die Originalsätze zu prüfen. Ein solches
+  Modul durfte dort Zusicherungssätze übersetzen, die Sätze, die eine empfangende Stelle über den Zustand eines Dokuments liest;
+  im Kern galt dasselbe Modul als ungeprüft. Betroffen: die ausgelieferten Fassungen seit v843 bis v928.
+  Was zu tun ist: auf v929 aktualisieren. Ab v929 prüft die Lese-App Geltung und Originalsätze wie der Kern; ein Sprachmodul
+  einer Prüfstelle bekommt dort die Stufe erst, wenn es die Summen der Originalsätze der Lese-App für Deutsch und Englisch trägt.
+
+### Hinzugefügt
+- Wer die Anwendung im Browser oder als installierte App nutzt, findet in den Einstellungen unter „Über …“ den Eintrag
+  „… als Datei erhalten“. Er liefert die Anwendung in der aktuellen Fassung als eine Datei zum Aufbewahren; das Depot ist darin
+  nicht enthalten. Wer die Anwendung schon als Datei geöffnet hat, sieht den Eintrag nicht.
+
+### Geändert
+- Das Zeichen des xShare-Knopfs und das Teilen über einen SMART Health Link gelten für Gesundheitsdokumente. Nachweise aus
+  anderen Bereichen, etwa Bildungsnachweise, tragen das Zeichen nicht mehr und werden nicht über einen SMART Health Link geteilt.
+- Was das Einlesen eines Moduls, einer Vorlage, einer Anfrage oder einer Konfiguration nicht übernimmt, nennt die Anwendung mit
+  Namen und Grund, und der Hinweis bleibt stehen, bis die Person ihn schließt. Eine Anfrage, Vorlage oder Datei aus einer neueren
+  Fassung sagt, dass eine aktuelle Fassung der Anwendung sie liest.
+- Studio: Beim Schlüssel steht je Datei nach dem Herunterladen „heruntergeladen“ statt „gesichert“. Neu ist der Abschnitt
+  „Sicherung prüfen“: er öffnet die eben gespeicherte Schlüsseldatei mit ihrem Passwort und vergleicht sie mit dem Schlüsselpaar.
+- Studio: Jede neue Vorlage nennt in ihrer signierten Nutzlast, dass sie eine Vorlage ist und in welcher Fassung ihres Formats sie
+  steht. Bisher signierte Vorlagen bleiben gültig.
+- Studio: Das Zeichen einer Anfrage steht als Vorschlag im Feld. Unter „Ausprobieren“ lassen sich bei einer Liste mit Unterfeldern
+  Einträge anlegen und entfernen. Kennungen in der Feldliste sind eingeklappt und lassen sich einblenden. Die Beispiele reichen über
+  Gesundheit hinaus (Verein, Kommune, Stadtbibliothek, Arbeitgeber). Ein Erscheinungsbild ohne Signatur nennt die Folge: es wird
+  erst angewendet, wenn es signiert und von Vivodepot bestätigt ist.
+
 ## [v1.0.928] – 2026-10-13
 
 ### Sicherheit
@@ -220,6 +278,15 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 
 ## [v1.0.918] – 2026-10-05
 
+### Sicherheit
+- VD-SEC-012 (mittel): Behoben in v918: Einige Angaben im Dateikopf einer Depot-Datei werden beim Öffnen gelesen, bevor das
+  Passwort eingegeben ist, etwa der Hinweis, wo das zweite Passwort liegt. Sie waren nicht gegen Änderung gebunden: Wer die Datei
+  veränderte, konnte einen falschen Hinweis anzeigen lassen oder ein Feld hinzufügen, das beim nächsten Speichern mitging. Der
+  verschlüsselte Inhalt war nicht betroffen. Betroffen: die ausgelieferten Fassungen seit v670 bis v917 (das Hinzufügen eines
+  Felds seit v787).
+  Was zu tun ist: auf v918 aktualisieren und die Datei einmal öffnen und speichern. Danach sind diese Angaben an den verschlüsselten
+  Inhalt gebunden; eine Änderung meldet die Anwendung nach der Passworteingabe, veränderte fremde Felder verwirft sie.
+
 ### Hinzugefügt
 - Die Vorsorgevollmacht als Datei nach dem Medizinischen Informationsobjekt Patientenkurzakte 1.0.0 der
   Kassenärztlichen Bundesvereinigung (U2-ADR-471), eine Datei je bevollmächtigter Person. Dafür lässt sich zum Ablageort der Vollmacht
@@ -392,11 +459,11 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 - VD-SEC-006 (kritisch): Behoben in v842: Ein fremdes Logikmodul konnte beim Öffnen seines Dokuments Programmcode in der
   Anwendung ausführen und damit angezeigte Depotdaten an eine fremde Adresse schicken — ohne Signatur eingelassen oder in
   einer fremden Depotdatei mitgebracht. Betroffen: Fassungen bis v841.
-  Was zu tun ist: auf v842 aktualisieren bzw. die App neu laden; Module und fremde Depotdateien nur aus bekannter Quelle.
+  Was zu tun ist: auf v842 aktualisieren; Module und fremde Depotdateien nur aus bekannter Quelle.
 - VD-SEC-007 (kritisch): Behoben in v842: Eine fremde Depotdatei konnte über den Namen ihrer Marke, den Anbieternamen einer
   Vorlage oder die Liste einer Zusammenstellung Programmcode in der Anwendung ausführen und Daten aus der geöffneten Datei
   an eine fremde Adresse bringen. Betroffen: Fassungen bis v841.
-  Was zu tun ist: auf v842 aktualisieren bzw. die App neu laden; fremde Depotdateien nur öffnen, wenn man der Absenderin
+  Was zu tun ist: auf v842 aktualisieren; fremde Depotdateien nur öffnen, wenn man der Absenderin
   vertraut.
 - VD-SEC-008 (kritisch): Behoben in v842: Im Ausstellungswerkzeug der Trust Authority konnte eine präparierte Einreichung
   über ihre Anbieter-Kennung Programmcode ausführen. Betroffen: Schalen-Fassungen bis v841.
@@ -434,7 +501,7 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
   (Übergabe-Datei eines Sub-Depots, Export-Dateien, Datei eines Empfängerkreises; bis v830 auch der Export an die
   EUDI-Wallet). Ein Dateiname liegt außerhalb der Verschlüsselung. Betroffen: alle Wege bis v811, der Export an die
   EUDI-Wallet bis v818.
-  Was zu tun ist: auf v830 aktualisieren bzw. die App neu laden; ältere Dateien bei Bedarf umbenennen.
+  Was zu tun ist: auf v830 aktualisieren; ältere Dateien bei Bedarf umbenennen.
 
 ### Behoben
 - FHIR-Export: `display` ist nur noch der offizielle Begriff des Codesystems oder fehlt; der eigene deutsche Name steht
@@ -453,11 +520,11 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 ### Sicherheit
 - VD-SEC-003 (hoch): Behoben: Felder, die ein Assistent unter einer Bedingung ausblendet, zeigten Listen-Editor,
   Bereichsansicht, PDF und Vorlesen trotzdem. Betroffen: Fassungen bis v806.
-  Was zu tun ist: auf v810 aktualisieren bzw. die App neu laden. Früher erzeugte PDFs können die ausgeblendeten Felder
+  Was zu tun ist: auf v810 aktualisieren. Früher erzeugte PDFs können die ausgeblendeten Felder
   enthalten; bei Bedarf neu erzeugen und die alten nicht weitergeben.
 - VD-SEC-005 (hoch): Behoben: Hatte die Person eine Bedingung für die Weitergabe festgelegt, ging der Auszug eines
   Empfängerkreises als QR-Code ohne die Vereinbarung hinaus, als Datei nicht. Betroffen: Fassungen bis v806.
-  Was zu tun ist: auf v810 aktualisieren bzw. die App neu laden.
+  Was zu tun ist: auf v810 aktualisieren.
 
 ### Hinzugefügt
 - JSON-Schemas (2020-12) für alle Modultypen unter `docs/<typ>-modul/`, je mit einer Probe, die Schema und
@@ -496,7 +563,7 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 
 ### Sicherheit
 - VD-SEC-001 (hoch): Behoben: Abgewählte Angaben aus Listen wurden beim Beantworten einer Anfrage trotzdem übermittelt.
-  Was zu tun ist: auf v805 aktualisieren bzw. die App neu laden.
+  Was zu tun ist: auf v805 aktualisieren.
 
 ## [v1.0.803] – 2026-09-26
 
@@ -525,7 +592,7 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 ### Sicherheit
 - VD-SEC-002 (hoch): Behoben: Beim Herausgeben einer Zusammenstellung, eines Anlass-Auszugs oder einer Antwort trug der
   Rohwert einer Liste auch zurückgehaltene Angaben hinaus. Betroffen: Fassungen bis v797.
-  Was zu tun ist: auf v799 aktualisieren bzw. die App neu laden. Früher erzeugte Zusammenstellungs- oder
+  Was zu tun ist: auf v799 aktualisieren. Früher erzeugte Zusammenstellungs- oder
   Anlass-Dateien können die zurückgehaltenen Angaben enthalten; bei Bedarf neu erzeugen und die alten nicht weitergeben.
 
 ## [v1.0.797] – 2026-09-25

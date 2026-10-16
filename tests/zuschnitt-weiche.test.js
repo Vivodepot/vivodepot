@@ -43,6 +43,7 @@ test('[Zuschnitt-Weiche·Rot-Beweis] dieselbe Kanon-Wurzel mit der öffentlichen
 const STELLEN = Object.freeze({
   'tests/kern-testflaeche.test.js': 2,          // Ratsche (Zahl der Specs), Klasse (Tiefe der Helfer)
   'tests/navicon-alle-seiten.test.js': 1,       // Zahl der Wurzel-Seiten
+  'tests/pro-zuschnitte.test.js': 1,            // Werkzeuge der Auslieferungskette, die der Zuschnitt zurückhält
   'tests/suite-rot-zusammenfassung.test.js': 1, // beide Hook-Proben (die Hooks sind zurückgehalten)
 });
 

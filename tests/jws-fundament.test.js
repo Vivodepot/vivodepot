@@ -192,7 +192,7 @@ test('[Klasse-A] T-A-04 Anker-Naht: Laufzeit prüft gegen Produktiv-Anker, Tests
 /* ── Mini-JSON-Schema-Validator (dependency-frei) ──────────────────────────
    Deckt die im submission-schema.json benutzten Keywords ab: type, required,
    properties, additionalProperties:false, items, enum, const, minLength,
-   maxLength, minItems, pattern, allOf, if/then, not. format ist advisory. */
+   maxLength, minItems, minimum, maximum, pattern, allOf, if/then, not. format ist advisory. */
 function validate(schema, data, pfad, fehler) {
   pfad = pfad || '$';
   fehler = fehler || [];
@@ -207,6 +207,10 @@ function validate(schema, data, pfad, fehler) {
     if (schema.minLength != null && data.length < schema.minLength) fehler.push(pfad + ': zu kurz');
     if (schema.maxLength != null && data.length > schema.maxLength) fehler.push(pfad + ': zu lang');
     if (schema.pattern && !new RegExp(schema.pattern).test(data)) fehler.push(pfad + ': pattern verletzt');
+  }
+  if (typeof data === 'number') {
+    if (schema.minimum != null && data < schema.minimum) fehler.push(pfad + ': kleiner als ' + schema.minimum);
+    if (schema.maximum != null && data > schema.maximum) fehler.push(pfad + ': größer als ' + schema.maximum);
   }
   if (data && typeof data === 'object' && !Array.isArray(data)) {
     (schema.required || []).forEach(k => { if (!(k in data)) fehler.push(pfad + ': Pflichtfeld fehlt: ' + k); });

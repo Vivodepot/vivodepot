@@ -1,0 +1,29 @@
+{
+ "was": "Zuordnung Zuschnitt-Kennung → Artikelvorlage im Shop. Zweite Stelle neben ZUSCHNITT_ODOO_PRODUKT_VORLAGE in tools/lib/vier-produkte.js; die Probe [Pro·Zuschnitt·Artikel-Beleg] hält beide gegeneinander.",
+ "quelle": "Artikelstamm der Shop-Instanz: Nummer der Artikelvorlage und Artikelreferenz je Artikel",
+ "stand": "2026-10-12",
+ "abgleich": null,
+ "abgleichHinweis": "null heißt: die Zeilen sind noch nicht von einer zweiten Stelle gegen eine gemessene Liste aus dem Shop gehalten. Nach dem Abgleich steht hier das Datum (JJJJ-MM-TT). Ohne Datum liefert die Auslieferung keinen Zuschnitt.",
+ "artikel": [
+  {
+   "kennung": "pro-de-steuerberatung",
+   "artikelreferenz": "vd-pro-de-steuerberatung",
+   "odooProduktVorlageId": 47
+  },
+  {
+   "kennung": "pro-de-kanzlei",
+   "artikelreferenz": "vd-pro-de-kanzlei",
+   "odooProduktVorlageId": 48
+  },
+  {
+   "kennung": "pro-en-steuerberatung",
+   "artikelreferenz": "vd-pro-en-steuerberatung",
+   "odooProduktVorlageId": 49
+  },
+  {
+   "kennung": "pro-en-kanzlei",
+   "artikelreferenz": "vd-pro-en-kanzlei",
+   "odooProduktVorlageId": 50
+  }
+ ]
+}

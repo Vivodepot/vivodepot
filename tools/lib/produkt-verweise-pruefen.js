@@ -87,7 +87,10 @@ function produktVerweiseMessen(produkt, module) {
 function produktVerweiseSichern(produkt, module, opts = {}) {
   const verstoesse = produktVerweiseMessen(produkt, module);
   const erlaubt = opts.grundlinie || grundlinieLesen(opts.grundlinienPfad);
-  const neu = verstoesse.filter((v) => !erlaubt.has(schluessel(v)));
+  // Ein Zuschnitt (Pro mit Berufsmodul, U2-ADR-489) erbt genau die bekannten Verweise seines Grundprodukts und keinen
+  // weiteren: verglichen wird unter dem Namen des Grundprodukts. Was das Berufsmodul neu ins Leere zeigen ließe, bricht den Bau.
+  const alsGrundprodukt = (v) => (opts.grundprodukt ? Object.assign({}, v, { produkt: opts.grundprodukt }) : v);
+  const neu = verstoesse.filter((v) => !erlaubt.has(schluessel(alsGrundprodukt(v))));
   if (neu.length) {
     throw new Error('Produkt „' + produkt + '“: ' + neu.length + ' Verweis(e) ins Leere — der Bau bricht ab (tools/lib/produkt-verweise-pruefen.js):\n  '
       + neu.map(schluessel).join('\n  '));

@@ -113,3 +113,28 @@ test('[Pro·Berufsmodul·ab Werk·Rot-Beweis] ohne das Modul im Rezept fehlt der
   await W.depotLaden(umschlag, PASSWORT);
   assert.equal(hatBereich(W) && hatAuszug(W), false, 'die Probe oben hängt am Rezept, nicht an der Datei');
 });
+
+/* Eine Datei aus einem Pro MIT Berufsmodul, geöffnet in einem Pro OHNE dieses Modul (U2-ADR-489, gemessen 12.10.2026): der
+   Bereich wird dort weiter gezeigt, aus der Beschreibung, die die Datei selbst mitführt; der Auszug des Berufsmoduls fehlt,
+   weil er am Rezept hängt. Nichts ist gesperrt. Die Angaben der Person bleiben in der Datei, auch über Speichern und
+   Wiederöffnen im anderen Produkt hinweg, und im Pro mit dem Modul ist auch der Auszug wieder da. */
+test('[Pro·Berufsmodul·anderes Produkt] die Angaben bleiben erhalten: ohne das Modul geöffnet, gespeichert und im Pro mit dem Modul wieder da', async () => {
+  const { V } = produktKern('pro-de', true);
+  await V.depotAnlegen(PASSWORT);
+  V.setzeSitzungsAkteur({ personId: 'ich', eigenschaft: 'selbst' });
+  V.sektorFeldSetzen(BERUF.bereich, BERUF.text, 'Kammer Beispiel, Herr Muster');
+  const ausZuschnitt = JSON.parse(JSON.stringify(await V.depotSerialisieren()));
+
+  const { V: ohne } = produktKern('pro-de', false);
+  await ohne.depotLaden(ausZuschnitt, PASSWORT);
+  assert.equal(hatAuszug(ohne), false, 'im Pro ohne das Modul fehlt der Auszug: er hängt am Rezept');
+  assert.equal(hatBereich(ohne), true, 'der Bereich wird aus der Datei weiter gezeigt');
+  assert.deepEqual(ohne.gesperrteDepotModule().map((g) => g.typ), [], 'nichts ist gesperrt');
+  assert.equal(ohne.getData().sektoren[BERUF.bereich][BERUF.text], 'Kammer Beispiel, Herr Muster', 'die Angabe steht weiter in der Datei');
+  const zurueck = JSON.parse(JSON.stringify(await ohne.depotSerialisieren()));
+
+  const { V: wieder } = produktKern('pro-de', true);
+  await wieder.depotLaden(zurueck, PASSWORT);
+  assert.ok(hatBereich(wieder) && hatAuszug(wieder), 'im Pro mit dem Modul gelten Bereich und Auszug wieder');
+  assert.equal(wieder.getData().sektoren[BERUF.bereich][BERUF.text], 'Kammer Beispiel, Herr Muster', 'die Angabe hat den Weg durch das andere Produkt überstanden');
+});

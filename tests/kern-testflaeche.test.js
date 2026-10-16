@@ -297,7 +297,7 @@ test('[Kern-Testfläche·Ratsche] die Zahl der Specs mit Testfläche steht genau
   // Der Deckel zählt den Kanon-Baum; der öffentliche Zuschnitt hält Specs zurück (tools/lib/wurzel-kopfzeile.js).
   const W = require('../tools/lib/wurzel-kopfzeile.js');
   if (W.imOeffentlichenZuschnitt(path.join(__dirname, '..'))) { t.skip(W.IM_ZUSCHNITT_GRUND); return; }
-  assert.equal(specsMitTestflaeche().length, 136); // 09.10.2026, Kanon 7c916762c, erhoben mit specsMitTestflaeche()
+  assert.equal(specsMitTestflaeche().length, 137); // 09.10.2026, Kanon 7c916762c, erhoben mit specsMitTestflaeche()
 });
 
 /* ── Klasse: kein Produkt ohne Fläche wird über die Fläche bedient (Befund TESTFLAECHE-AUF-ECHTEM-PRODUKT, 10.10.2026) ────────────

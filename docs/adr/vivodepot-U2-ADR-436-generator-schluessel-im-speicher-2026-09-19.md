@@ -134,6 +134,8 @@ pruefung: tests/generator-schluessel-tresor.test.js#[Schlüssel-Tresor·c] beim 
 pruefung: tests/generator-schluessel-tresor.test.js#[Schlüssel-Tresor·c] nach dem Zeitlimit wird der Schlüssel verworfen und gemeldet
 pruefung: tests/generator-schluessel-tresor.test.js#[Schlüssel-Tresor·c·Rot-Beweis] ohne Verwerfen nach dem Signieren, ohne pagehide, ohne Zeitlimit wird es gemeldet
 pruefung: tests/e2e-cross/T-CROSS-31-generator-schluessel.spec.js#(c) verworfen nach dem Signieren und beim Verlassen; danach verlangt die Seite die Schlüsseldatei
+pruefung: tests/e2e-cross/T-CROSS-31-generator-schluessel.spec.js#(c) Zeitlimit im Browser: mit vorgestellter Uhr ist der Schlüssel nach 15 Minuten fort, davor nicht; das Limit der Seite ist nicht verkürzt
+pruefung: tests/e2e-cross/T-CROSS-31-generator-schluessel.spec.js#(c) echtes Verlassen: die Anwendung verwirft den Schlüssel im pagehide der Navigation; nach „zurück“ ist keiner da
 ```
 ```konformitaet
 aussage:  Die echte Fassung des Generators verletzt keine der Zusicherungen (a), (b), (c); jede verschlechterte Fassung meldet ihre
