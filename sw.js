@@ -27,7 +27,7 @@
 // v804 (26.09.2026): Demos mit Handsteuerung — die Vorführung schaltet auf Wunsch Schritt für Schritt, auch über die Lese-App.
 // v805 (26.09.2026): Listen-Unterfelder folgen beim Herausgeben der Entscheidung der Person — abgewählt bleibt zurück, freigegeben geht mit.
 // v894 (03.10.2026): das Gerüst trägt keinen Gestaltungswert — Stylesheet und Werte kommen als Erscheinungsbild-Modul.
-const CACHE = 'vivodepot-shell-v930';
+const CACHE = 'vivodepot-shell-v931';
 
 // Die App-Schale. Einzeln & tolerant gecacht (fehlende Einträge brechen den
 // Install NICHT — z. B. wenn die Manifest-Entscheidung „inline" lautet und es
@@ -93,24 +93,33 @@ self.addEventListener('fetch', (e) => {
   if (url.origin !== self.location.origin) return;        // NIE fremde Origins
   if (istAnwendungAlsDatei(url)) return;                  // „Anwendung als Datei“: immer der Dienst, s. u.
 
+  /* Navigation ohne Abfrageteil (14.10.2026, Befund SW-NAVIGATION-MIT-ANHANG-VERFEHLT-SPEICHER): eine abgelegte App startet
+     oft mit dem Anhang ihrer ersten Adresse (`?von=…`). Mit dem vollen Vergleich fand sie die Schale nach jedem Release
+     nicht, ging als Seitenabruf an den Dienst und zählte dort erneut als Download. Für Navigationen zählt darum nur der
+     Pfad, beim Nachschlagen wie beim Ablegen; alle anderen Anfragen vergleichen weiter die volle Adresse. Der erste Besuch
+     geht ohnehin ans Netz (noch kein Service Worker) und behält seinen Anhang. Wächter:
+     tests/sw-navigation-ohne-anhang.test.js; Probe: tests/e2e/sw-navigation-ohne-anhang.spec.js. */
+  const istNavigation = req.mode === 'navigate';
+  const ablageSchluessel = istNavigation ? url.origin + url.pathname : req;
+
   e.respondWith((async () => {
     // Cache-first für die Schale.
-    const cached = await caches.match(req);
+    const cached = await caches.match(req, istNavigation ? { ignoreSearch: true } : undefined);
     if (cached) return cached;
     try {
       const net = await fetch(req);
       // Nur same-origin-Schale nachcachen (Navigation oder gelistete Schalen-URL).
       // KEIN Daten-Caching — IndexedDB ist strikt getrennt und wird nie berührt.
-      const istSchale = req.mode === 'navigate'
+      const istSchale = istNavigation
         || SCHALE.some((s) => url.pathname.endsWith(s.replace('./', '')));
       if (net && net.ok && istSchale) {
         const cache = await caches.open(CACHE);
-        cache.put(req, net.clone());
+        cache.put(ablageSchluessel, net.clone());
       }
       return net;
     } catch (err) {
       // Offline + nicht im Cache: für Navigationen die Schale ausliefern.
-      if (req.mode === 'navigate') {
+      if (istNavigation) {
         const schale = (await caches.match('./vivodepot.html'))
                     || (await caches.match('./'));
         if (schale) return schale;

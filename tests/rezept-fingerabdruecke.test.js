@@ -79,7 +79,7 @@ test('[Fingerabdrücke·Rot-Beweis] ein Modul mit eigenem „Fingerabdruck“-Fe
   const W = ladeKern({ produkt: 'pro-de' }).V;
   await W.depotLaden(JSON.parse(JSON.stringify(u)), PW);
   assert.equal(W._abWerkGleich(W.getData().logikModule[0]), false);
-  assert.equal(W.gesperrteDepotModule().length, 1);
+  assert.equal(W.nichtGewaehlteDepotModule().length, 1);
 });
 
 test('[Fingerabdrücke·Rot-Beweis] ein Kern mit veralteter oder fehlender Region fällt bei pruefen() durch — kern-ausliefern bricht ab', () => {

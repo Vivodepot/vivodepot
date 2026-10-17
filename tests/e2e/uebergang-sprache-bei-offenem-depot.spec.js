@@ -31,7 +31,7 @@ const KONSOLE_HARMLOS = [
   /Content Security Policy directive '(frame-ancestors|report-uri|sandbox)' is ignored when delivered via/i,
 ];
 const istHarmloseKonsole = (t) => KONSOLE_HARMLOS.some((re) => re.test(String(t)));
-const { oeffneApp, depotAnlegen, oeffneSektor, einstellungenAbschnittOeffnen } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, einstellungenAbschnittOeffnen, erweiterungEinlesenBestaetigen } = require('./helpers');
 
 const PW = 'sprache-uebergang-pw-963';
 
@@ -72,8 +72,7 @@ async function schliesseEinstellungen(page) {
   await page.waitForSelector('#modal-rueck.an', { state: 'detached' }).catch(() => {});
 }
 
-// FIXME-ID: SPERRE-EINLASS-UEBERGANG-SPRACHE-BEI-OFFENEM-DEPOT
-test.fixme('[Übergang 2] Sprachmodul in ein offenes Depot einlassen — Sidebar/Bereichs-Kopf wechseln sofort, ohne Absturz', async ({ page }) => {
+test('[Übergang 2] Sprachmodul in ein offenes Depot einlassen — Sidebar/Bereichs-Kopf wechseln sofort, ohne Absturz', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));
@@ -90,6 +89,7 @@ test.fixme('[Übergang 2] Sprachmodul in ein offenes Depot einlassen — Sidebar
     // ── DER ÜBERGANG: Sprachmodul einlassen, DEPOT BLEIBT OFFEN ─────────────
     await oeffneEinstellungen(page);
     await page.locator('#einst-modul-datei').setInputFiles(modulDatei);
+    await erweiterungEinlesenBestaetigen(page);   // Wahl statt Sperre (E3): ein unsigniertes Modul erst nach der Frage
 
     // Erfolgsmeldung (ui.toast) statt eines Absturzes — der Einlassweg wirft nie
     // (modulEinlassen-Kopfkommentar: „gibt IMMER ein Ergebnis zurück und wirft nie").
@@ -105,7 +105,8 @@ test.fixme('[Übergang 2] Sprachmodul in ein offenes Depot einlassen — Sidebar
 
     // Die Sidebar/der Bereichs-Kopf MÜSSEN sofort wirken — kein Neuladen, kein zweiter Klick.
     await expect(page.locator('.bereiche-umschalter, [data-sektor]').first(), 'Sidebar muss nach dem Sprachwechsel weiter rendern').toBeVisible();
-    await expect(page.locator('button', { hasText: 'Documents E2E-FR' }).first(), 'Sidebar zeigt sofort den neuen Text (Sprachmodul-Einlass wirkt ohne Reload)').toBeVisible();
+    // Die Mappe steht seit der ruhigen Navigation (05.10.2026) in einer zugeklappten Gruppe: geprüft wird ihr Text, nicht die Sichtbarkeit.
+    await expect(page.locator('#sidebar [data-mappe]').first(), 'Sidebar zeigt sofort den neuen Text (Sprachmodul-Einlass wirkt ohne Reload)').toContainText('Documents E2E-FR');
 
     expect(fehler, 'kein Absturz im Sprach-Übergang bei offenem Depot').toEqual([]);
   } finally {

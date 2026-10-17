@@ -149,7 +149,9 @@ test('[Zweck·angehalten] kein Zweck-Schlüssel ist gebaut worden', () => {
   /* NACHGEZOGEN 05.10.2026 (U2-ADR-465, Wort der Gegenlesung): 18 → 21. Die neuen Schlüssel sind
      `namensraum`, `wurzel` und `hinweis` — Namensraum und Wurzel einer Leistungs-XML (FIM) und ein
      XML-Kommentar in der Datei. Keiner ist `zweck`; der abgewiesene Zug bleibt abgewiesen. */
-  assert.equal(schluessel.length, 21,
+  /* NACHGEZOGEN 16.10.2026 (U2-ADR-465 Nachtrag, FIM-JSON): 21 → 22. Der neue Schlüssel ist `schemaUri` — die Adresse des
+     Schemas der Stelle, nur als Text, nie aufgelöst. Auch er ist NICHT `zweck`; der abgewiesene Zug bleibt abgewiesen. */
+  assert.equal(schluessel.length, 22,
     'die Schlüsselmenge hat sich verändert: ' + schluessel.join(', '));
   assert.ok(schluessel.includes('sprache'),
     'der sechzehnte Schlüssel ist `sprache` (1.0a) — steht er nicht mehr da, ist die '

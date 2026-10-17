@@ -67,6 +67,7 @@ function zeilen(kern, lesen) {
   const infoDepot = eins(kern, /^const HKDF_INFO_DEPOT_V2_PREFIX = '([^']+)';/m, 'HKDF_INFO_DEPOT_V2_PREFIX')[1];
   const infoAdresse = eins(kern, /^const HKDF_INFO_ADRESSE_V4_PREFIX = '([^']+)';/m, 'HKDF_INFO_ADRESSE_V4_PREFIX')[1];
   const infoHalter = eins(kern, /^const HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX = '([^']+)';/m, 'HKDF_INFO_HALTER_SIGNATUR_V4_PREFIX')[1];
+  const infoAntwort = eins(kern, /^const ANTWORT_SCHLUESSEL_INFO_PRAEFIX = '([^']+)';/m, 'ANTWORT_SCHLUESSEL_INFO_PRAEFIX')[1];
   const depotKey = rumpf(kern, 'deriveDepotKeyV2');
   eins(depotKey, /info: enc\.encode\(HKDF_INFO_DEPOT_V2_PREFIX \+ depotUUID\)/, 'deriveDepotKeyV2 Info');
   eins(depotKey, /\{ name: 'AES-GCM', length: HKDF_KEY_LENGTH_BITS \},\s*false,/, 'deriveDepotKeyV2 nicht extrahierbar');
@@ -122,13 +123,15 @@ function zeilen(kern, lesen) {
       c('deriveAdressKeyV4') + ', ' + c('ZERFALL_ADRESSE_BYTES'), 'U2-ADR-149'],
     ['Signaturschlüssel der Halterin', 'Ed25519-Seed per HKDF, Info ' + c(infoHalter) + ' + Depot-UUID, nirgends gespeichert',
       c('deriveHalterSignaturV4'), 'U2-ADR-457 · Auflage: externer Review'],
+    ['Signaturschlüssel je Stelle (Antwort)', 'Ed25519-Seed per HKDF-SHA-256 aus dem Antwort-Seed des Depots (32 Byte, Inhalt des Depots, nicht aus dem Passwort), Salt leer, Info ' + c(infoAntwort) + ' ‖ 0x00 ‖ Domäne ‖ 0x00 ‖ Länge (2 Byte) ‖ Kennung der Stelle; signiert jede Antwort, solange ' + c('ANTWORT_SIGNIEREN') + ' an ist',
+      c('antwortSchluesselJeStelle') + ', ' + c('antwortSchluesselInfo'), 'U2-ADR-501 · Auflage: externer Review'],
     ['Fach-Tür (Empfängerkreise)', 'PBKDF2 über das Passwort der Empfängerin mit eigenem Salt, danach HKDF mit demselben Info-String wie der Depot-Schlüssel (' + c(infoDepot) + ')',
       c('_fachTuerSchluessel'), 'U2-ADR-156'],
     ['Fach-Zugang', 'der Fach-Schlüssel wickelt nur die freigegebenen Einheiten; für die übrigen stehen Attrappen gleicher Länge',
       c('_zerfallAttrappe'), 'U2-ADR-156'],
     ['Wiederherstellungs-Hülle', 'Code mit ' + whcStellen + ' Stellen Crockford-Base32; PBKDF2 (' + tsd(iter) + ') mit eigenem ' + whcSalz + '-Byte-Salt, das Ergebnis dient direkt als AES-GCM-Schlüssel (IV ' + whcIv + ' Byte) und wickelt das Ergebnis der Passwort-Ableitung',
       c('WHC_STELLEN') + ', ' + c('_whcFrisch') + ', ' + c('_whcEinwickeln'), 'U2-ADR-430'],
-    ['QR-Übergabe', 'PBKDF2 (' + tsd(iter) + ') direkt zu AES-GCM 256 Bit, ohne HKDF', c('_empfaengerQrSchluesselVerschluesseln'), 'keine ADR'],
+    ['QR-Übergabe', 'PBKDF2 (' + tsd(iter) + ') direkt zu AES-GCM 256 Bit, ohne HKDF', c('_empfaengerQrSchluesselVerschluesseln'), 'U2-ADR-156 (Nachtrag QR-Übergabe, 04.10.2026)'],
     ['Einmalpasswort (Lese-App)', 'PBKDF2 direkt zu einem AES-Schlüssel, ohne HKDF', c('_angDeriveKey'), 'U2-ADR-062, U2-ADR-153 · Auflage: externer Review'],
     ['Antwort als JWE, Einmalpasswort', 'PBES2-HS512+A256KW, PBKDF2-' + pbesHash + ' mit ' + tsd(p2c) + ' Iterationen', c('_jwePbes2Schluessel'), 'U2-ADR-449 · Auflage: externer Review'],
     ['SMART Health Link', 'JWE ' + c('alg: dir') + ', A256GCM, zufälliger Schlüssel ' + bits / 8 + ' Byte', c('_jweCompactDir'), 'U2-ADR-047 · externer Review empfohlen (von U2-ADR-449 und U2-ADR-457 als Auflage übernommen)'],

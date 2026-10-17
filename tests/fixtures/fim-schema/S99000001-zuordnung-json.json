@@ -1,0 +1,28 @@
+{
+  "format": "fim-s99000001-json",
+  "sektor": "identity",
+  "label": "Probe-Antrag S99000001 als JSON (erfunden)",
+  "felder": {
+    "F99000009V1.0": {
+      "fest": "01"
+    },
+    "G99000002V1.0/F99000003V1.0": {
+      "feld": "familyName"
+    },
+    "G99000002V1.0/F99000004V1.0": {
+      "feld": "givenName"
+    },
+    "G99000002V1.0/F99000005V1.0": {
+      "feld": "gender",
+      "werte": {
+        "m": "m",
+        "w": "w",
+        "d": "d"
+      }
+    },
+    "G99000002V1.0/G99000006V1.0/F99000013V1.0": {
+      "feld": "birthDate",
+      "teil": "jahr"
+    }
+  }
+}

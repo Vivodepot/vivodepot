@@ -40,7 +40,7 @@ async function gesperrtIn(datei, slug, passwort) {
   const t = fs.readFileSync(path.join(REPO, datei), 'utf8');
   const { V } = P.kernAus(P.produktHtml(slug));
   await V.depotLaden(JSON.parse(t.slice(t.indexOf('{'))), passwort);
-  return V.gesperrteDepotModule().map((m) => m.typ + ' · ' + m.kennung);
+  return V.nichtGewaehlteDepotModule().map((m) => m.typ + ' · ' + m.kennung);
 }
 
 test('[Fixture-Depots·ab Werk] jede Fixture-Depotdatei öffnet in allen vier Produkten ohne gesperrtes Modul — oder ist benannt', async () => {
@@ -62,15 +62,14 @@ test('[Fixture-Depots·ab Werk] jede Fixture-Depotdatei öffnet in allen vier Pr
 /* Abnahme am Zugkopf (05.10.2026, Kanon 4d933f550, v917): Pro trägt Erbschein und Zugang seit 5e ab Werk. Die
    Partner-Vorführung (demo-de) öffnet darum in pro-de und pro-en ohne gesperrtes Modul, und der Erbschein-Auszug ist da.
    Vorher sperrte Pro an genau dieser Datei die zwei Logik-Module als Fremdkopien. */
-test('[Fixture-Depots·Pro·Erbschein] Pro öffnet die Partner-Vorführung ohne Sperr-Hinweis und mit Erbschein-Auszug', async () => {
+test('[Fixture-Depots·Pro·Erbschein] Pro öffnet die Partner-Vorführung ohne Wahl und mit Erbschein-Auszug', async () => {
   const t = fs.readFileSync(path.join(REPO, VZR + 'demo-de.vivodepot'), 'utf8');
   for (const slug of ['pro-de', 'pro-en']) {
     const k = P.kernAus(P.produktHtml(slug));
     await k.V.depotLaden(JSON.parse(t.slice(t.indexOf('{'))), PASSWORT[VZR + 'demo-de.vivodepot']);
-    assert.deepEqual(k.V.gesperrteDepotModule(), [], slug + ': kein gesperrtes Modul');
-    // Der Hinweis (erweiterungenGesperrtHinweisZeigen) zeigt genau gesperrteDepotModuleNamen(); ist die Liste leer, öffnet er nicht.
+    // Die Wahl (erweiterungenWahlZeigen) zeigt genau nichtGewaehlteDepotModule(); ist die Liste leer, öffnet sie nicht.
     // Ein DOM-Blick hilft hier nicht: der Stub-Dokument kennt die Kennung aus dem Kern-Quelltext und liefert immer ein Element.
-    assert.deepEqual(k.V.gesperrteDepotModuleNamen(), [], slug + ': der Hinweis hat keinen Namen zu zeigen');
+    assert.deepEqual(k.V.nichtGewaehlteDepotModule(), [], slug + ': kein Modul zur Wahl');
     const auszuege = k.V._logikModuleAlle(k.V.getData()).map((m) => m && m.id);
     assert.ok(auszuege.includes('erbschein-vorbereitung'), slug + ': Erbschein-Auszug sichtbar (' + auszuege.join(', ') + ')');
   }

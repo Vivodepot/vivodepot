@@ -107,3 +107,110 @@ test('[Reihe] imBaum: der Baum selbst und alles darunter, kein Namensvetter', ()
     assert.equal(sp.imBaum(baum, a.baumDran + '-zwei'), false);
   } finally { a.aufraeumen(); }
 });
+
+/* EIGENTÜMER DER MARKE (16.10.2026, Befund VORRANG-MARKE-FREMD-GELOESCHT): reiheLoeschen löscht nur die eigene Marke (cwd im
+   markierten Baum, derselbe Vergleich wie bei der Vergabe) oder eine ungültige; eine gültige fremde bleibt stehen, außer mit
+   `fremd: true`. reiheSetzen nennt eine überschriebene gültige fremde Marke. Geprüft wird an der DATEI, nicht nur an
+   Rückgabewerten — so fällt die Bibliothek davor (SUITE_PLATZ_LIB, s. o.) an der fremden Marke, die sie löscht.
+   Die Meldungen der Kommandozeile prüft die Probe zum Platz-CLI. */
+const markeDa = (dir) => fs.existsSync(path.join(dir, 'reihe'));
+
+test('[Reihe·Eigentümer·Rot-Beweis] reiheLoeschen aus einem fremden Baum lässt eine gültige Marke stehen und sagt, wem sie gehört', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran);
+    const r = sp.reiheLoeschen({ dir: a.dir, cwd: a.baumAnders });
+    assert.equal(markeDa(a.dir), true, 'die fremde Marke steht noch');
+    assert.equal(r.geloescht, false);
+    assert.equal(r.ergebnis, 'fremd');
+    assert.equal(r.marke.baum, fs.realpathSync(a.baumDran));
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·Eigentümer·Rot-Beweis] reiheSetzen auf eine gültige fremde Marke nennt die überschriebene und setzt trotzdem', () => {
+  const a = aufbau();
+  try {
+    const jetzt = Date.now();
+    markeSchreiben(a.dir, a.baumDran, jetzt);
+    const e = sp.reiheSetzen({ dir: a.dir, baum: a.baumAnders });
+    assert.deepEqual(e.ueberschrieben, { baum: fs.realpathSync(a.baumDran), gesetztAm: new Date(jetzt).toISOString() });
+    assert.equal(sp.reiheLesen({ dir: a.dir }).baum, fs.realpathSync(a.baumAnders), 'gesetzt wird trotzdem');
+    assert.equal(sp.reiheSetzen({ dir: a.dir, baum: a.baumAnders }).ueberschrieben, undefined, 'dieselbe Marke neu: nichts überschrieben');
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·Eigentümer] Gegenproben: eigene Marke (auch aus einem Unterordner) und abgelaufene fremde werden gelöscht; fremd: true löscht eine fremde', () => {
+  const a = aufbau();
+  try {
+    fs.mkdirSync(path.join(a.baumDran, 'unter'));
+    markeSchreiben(a.dir, a.baumDran);
+    sp.reiheLoeschen({ dir: a.dir, cwd: path.join(a.baumDran, 'unter') });
+    assert.equal(markeDa(a.dir), false, 'eigene Marke gelöscht');
+
+    markeSchreiben(a.dir, a.baumDran, Date.now() - REIHE_GUELTIG_MS - 1000);
+    sp.reiheLoeschen({ dir: a.dir, cwd: a.baumAnders });
+    assert.equal(markeDa(a.dir), false, 'abgelaufene fremde Marke gelöscht');
+
+    markeSchreiben(a.dir, a.baumDran);
+    sp.reiheLoeschen({ dir: a.dir, cwd: a.baumAnders, fremd: true });
+    assert.equal(markeDa(a.dir), false, 'fremd: true löscht die fremde Marke');
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·Eigentümer] Rückgabe nennt, was passiert ist', () => {
+  const a = aufbau();
+  try {
+    assert.equal(sp.reiheLoeschen({ dir: a.dir, cwd: a.baumAnders }).ergebnis, 'keine');
+    markeSchreiben(a.dir, a.baumDran);
+    assert.equal(sp.reiheLoeschen({ dir: a.dir, cwd: a.baumDran }).ergebnis, 'eigen');
+    markeSchreiben(a.dir, a.baumDran, Date.now() - REIHE_GUELTIG_MS - 1000);
+    const u = sp.reiheLoeschen({ dir: a.dir, cwd: a.baumAnders });
+    assert.equal(u.ergebnis, 'ungueltig'); assert.match(u.marke.grund, /abgelaufen/);
+    markeSchreiben(a.dir, a.baumDran);
+    const f = sp.reiheLoeschen({ dir: a.dir, cwd: a.baumAnders, fremd: true });
+    assert.equal(f.ergebnis, 'fremd-geloescht'); assert.equal(f.geloescht, true);
+  } finally { a.aufraeumen(); }
+});
+/* Rot-Beweis Eigentümer (16.10.2026, von Hand gefahren): mit der Bibliothek vor dieser Änderung fallen beide Proben
+   „Rot-Beweis“ (die fremde Marke ist weg; keine überschriebene genannt); die Gegenprobe bleibt grün. */
+
+/* VERWAISTE MARKE (16.10.2026, Befund VORRANG-MARKE-VERWAIST): nach der Schonfrist gilt die Marke nur mit einem lebenden
+   Halter oder Ticket im markierten Baum (Suite- oder Air-Platz). Rot-Beweis: die Bibliothek davor (SUITE_PLATZ_LIB auf
+   `git show <davor>:tools/lib/suite-platz.js`) hält die verwaiste Marke für gültig, und der fremde Push wartet. */
+const ELF_MIN = 11 * 60 * 1000;
+test('[Reihe·verwaist] nach der Schonfrist ohne lebenden Lauf im Baum: Marke gilt nicht, ein fremder Push nimmt den Platz', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    const r = sp.reiheLesen({ dir: a.dir });
+    assert.equal(r.gueltig, false, 'eine verwaiste Marke gilt nicht');
+    assert.match(r.grund, /verwaist/);
+    assert.equal(holen(a, 'pre-push', a.p(), a.baumAnders).geholt, true, 'der fremde Push wartet nicht hinter einer verwaisten Marke');
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·verwaist] in der Schonfrist gilt die Marke auch ohne Lauf; danach hält sie ein lebendes Ticket oder ein Halter', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - 5 * 60 * 1000);
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'in der Schonfrist: Marke vor dem Lauf gesetzt');
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    sp.ticketZiehen({ name: 'pre-push', pid: a.p(), dir: a.dir, cwd: path.join(a.baumDran) });   // wartet im markierten Baum
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'ein lebendes Ticket im Baum hält die Marke');
+    assert.equal(holen(a, 'pre-push', a.p(), a.baumAnders).geholt, false, 'der fremde Push wartet weiter');
+  } finally { a.aufraeumen(); }
+});
+
+test('[Reihe·verwaist] ein lebender Halter auf dem Air-Platz hält die Marke; ein toter nicht', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    const ad = sp.airVerzeichnis(a.dir);
+    fs.mkdirSync(ad, { recursive: true });
+    const lebend = a.p();
+    fs.writeFileSync(path.join(ad, 'platz-1.lock'), JSON.stringify({ pid: lebend, name: 'air-schicken', cwd: fs.realpathSync(a.baumDran), host: os.hostname() }));
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'der Air-Lauf im Baum hält die Marke');
+    fs.writeFileSync(path.join(ad, 'platz-1.lock'), JSON.stringify({ pid: 2 ** 22 + 12345, name: 'air-schicken', cwd: fs.realpathSync(a.baumDran), host: os.hostname() }));
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, false, 'ein toter Halter hält sie nicht');
+  } finally { a.aufraeumen(); }
+});

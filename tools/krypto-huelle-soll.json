@@ -130,9 +130,18 @@
    "vivodepot-lesen.html",
    "vivodepot-studio.html"
   ],
+  "antwortSignaturPruefen": [
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "empfangAnfrageAbdruck": [
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
   "_jwkThumbprint": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_modulRezeptFingerabdruck": [
    "vivodepot.html",

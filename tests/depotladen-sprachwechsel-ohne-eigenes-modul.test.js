@@ -93,12 +93,12 @@ test('[U2-ADR-189·depotLaden] ein zweites, sprachlich unbeteiligtes Depot setzt
   // Eine DRITTE Kern-Instanz lädt BEIDE nacheinander — genau der Fall, der die Bedingung prüft:
   // der zweite depotLaden()-Aufruf trifft auf ein bereits Hungarian gefülltes SEKTOREN.
   const leser = kern();
-  // Selbst-Einlass-Sperre (04.10.2026): das Test-Modul ist gegen den Test-Sentinel signiert und wäre beim Öffnen gesperrt. Dieser
-  // Test prüft die Fill-Runde, nicht die Sperre (die prüft die eigene Probe der Sperre) — darum hier abgeschaltet.
-  leser.SELBST_EINLASS_GESPERRT = false;
+  // Wahl beim Öffnen (Schutz-Wagen S5): ein Modul, das die Ladeprüfung nicht als nachgeprüft führt, steht beim Öffnen zur Wahl.
+  // Dieser Test prüft die Fill-Runde, nicht die Wahl (die prüfen die Proben [Sperre·…]) — darum hier gewählt.
   // Schutz-Wagen S1/S2: die Bereichsbeschriftung setzt nur ein beim Öffnen nachgeprüftes Modul (modulBelegGeprueft), nie das Feld
   // `ungeprueft` aus der Datei. Das Modul ist gegen den Test-Anker signiert, darum geht OPTS an die Ladeprüfung.
   await leser.depotLaden(umschlagHu, PW_HU, OPTS);
+  leser.depotModuleWaehlen(leser.nichtGewaehlteDepotModule().map((g) => g.modul));
   assert.equal(leser.SEKTOREN.find((s) => s.id === 'health').label, 'Egészség', 'Vorbedingung: Depot 1 füllt SEKTOREN auf Hungarian — das ist der bereits bekannte Weg (Teil 1)');
 
   await leser.depotLaden(umschlagDe, PW_DE, OPTS);

@@ -171,7 +171,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   antwortMitSchluesseldateiOeffnen, schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei,
   antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C,
   // U2-ADR-501: die signierte Antwort lesen (tests/lese-app-signierte-antwort.test.js)
-  antwortOeffnenMitSignatur, antwortSignaturPruefen, antwortSignaturHTML, antwortSchluesselVermerken, antwortOeffnenFehlerText,
+  antwortOeffnenMitSignatur, antwortSignaturPruefen, schluesselAnfrageBindung, empfangAnfrageAbdruck, _anfrageZertifikatZumTag, antwortSignaturHTML, antwortSchluesselVermerken, antwortOeffnenFehlerText,
   antwortJweTraegtJws, ANTWORT_JWS_TYP, ANTWORT_JWS_ALGS, _jwkThumbprint, stellenKennung, stellenKennungTeile,
   antwortAnzeigeModell, antwortAngabeHerkunft, antwortHerkunftAbweichung, antwortHerkunftZeileHTML, qrTeileZusammensetzen,
   renderAntwortOeffnen, renderAntwort, antwortWeitergeben, anlassAnzeigeModell, renderAnlass,
@@ -347,7 +347,8 @@ function ladeLesen(opts) {
     console, setTimeout, clearTimeout,
     window: windowStub, document: documentStub, location: locationStub,
     history: { replaceState: () => {} },
-    FileReader: function () {}, Blob: function () {},
+    // `opts.FileReader`: eine Probe, die den echten Lese-Weg einer Datei fährt (z. B. die Schlüsseldatei), reicht einen eigenen herein.
+    FileReader: opts.FileReader || function () {}, Blob: function () {},
     // Vorher ein reines Capability-Objekt ({createObjectURL, revokeObjectURL}) OHNE die echte
     // URL-Klasse — im Browser ist `URL` beides zugleich. Fund (12.09.2026, `verweis`-Feldtyp,
     // s. dieselbe Korrektur in load-kern.js): `new URL(...)` schlug im Sandkasten fehl, obwohl
@@ -360,10 +361,12 @@ function ladeLesen(opts) {
   sandbox.globalThis = sandbox;
   vm.createContext(sandbox);
 
-  const source = script1 + '\n' + script2 + '\n' + EXPORT_HOOK;
+  /* `opts.exportHook`: eine eigene Exportliste für eine ÄLTERE ausgelieferte Fassung (die Sicherbarkeits-Probe gegen die Lese-App
+     v929): die volle Liste nennt Namen, die es dort noch nicht gibt, und bräche beim Laden ab. */
+  const source = script1 + '\n' + script2 + '\n' + (opts.exportHook || EXPORT_HOOK);
   vm.runInContext(source, sandbox, { filename: path.basename(LESEN_PATH) + '(concat)' });
 
-  if (!opts.ohneSaat) {
+  if (!opts.ohneSaat && !opts.exportHook) {
     const V = sandbox.__LESEN__;
     const setDataRoh = V.setData;
     V.setData = (v) => {
@@ -375,7 +378,7 @@ function ladeLesen(opts) {
       return setDataRoh(v);
     };
   }
-  return { V: sandbox.__LESEN__, document: documentStub, html, script1, script2, location: locationStub, sandbox };
+  return { V: opts.exportHook ? sandbox.__ALT__ : sandbox.__LESEN__, document: documentStub, html, script1, script2, location: locationStub, sandbox };
 }
 
 module.exports = {

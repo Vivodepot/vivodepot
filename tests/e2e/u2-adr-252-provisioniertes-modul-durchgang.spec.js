@@ -25,7 +25,7 @@
 const { test, expect } = require('@playwright/test');
 const { webcrypto } = require('node:crypto');
 const { ladeKern } = require('../load-kern.js');
-const { depotAnlegen, KERN_URL_PRIVAT_DE } = require('./helpers');
+const { depotAnlegen, KERN_URL_PRIVAT_DE, erweiterungenWaehlen } = require('./helpers');
 
 const PW = 'adr252-e2e-passwort-999';
 const BEREICH_ID = 'e2e-adr252-provisioniert';
@@ -68,8 +68,7 @@ async function baueSignierteBuendel() {
   return [{ providerCredentialJws, modulSignaturJws }];
 }
 
-// FIXME-ID: SPERRE-EINLASS-U2-ADR-252-PROVISIONIERTES-MODUL-DURCHGANG
-test.fixme('[U2-ADR-252·Abnahme] ein provisioniertes Modul erscheint im frisch angelegten Depot — und nach dem Neuladen immer noch', async ({ page }) => {
+test('[U2-ADR-252·Abnahme] ein provisioniertes Modul erscheint im frisch angelegten Depot — und nach dem Neuladen immer noch', async ({ page }) => {
   const buendel = await baueSignierteBuendel();
 
   // Eigene FSA-Attrappe statt oeffneApp()s Standardweg — fängt den echten Schreibversuch in
@@ -144,6 +143,9 @@ test.fixme('[U2-ADR-252·Abnahme] ein provisioniertes Modul erscheint im frisch 
   await page.fill('#co-pw', PW);
   await page.click('#w-oeffnen');
   await page.waitForSelector('#app.an', { state: 'attached' });
+  // Wahl beim Öffnen (Schutz-Wagen, E1): die neu geladene Seite trägt die Provisionierung nicht mehr, das Modul ist
+  // gegen den Test-Anker signiert und steht darum zur Wahl; gewählt wirkt es.
+  await erweiterungenWaehlen(page);
 
   // 3 · Der eigentliche Beweis: nach dem Neuladen+Wiederöffnen ist der provisionierte Bereich
   // immer noch da — nicht nur im ursprünglichen Boot-Moment sichtbar, sondern tatsächlich in

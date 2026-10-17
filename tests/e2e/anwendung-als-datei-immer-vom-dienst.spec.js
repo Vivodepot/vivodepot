@@ -192,21 +192,17 @@ test('installiert und vom Service Worker bedient: jeder Abruf liefert die Fassun
   } finally { srv.close(); }
 });
 
-test('[Rot-Beweis] ohne die Ausnahme im Service Worker trägt die zweite Navigation die Fassung der ersten', async ({ page, context }) => {
+/* Seit v931 schlägt der Service Worker Navigationen ohne Abfrageteil nach (ignoreSearch, Befund
+   SW-NAVIGATION-MIT-ANHANG-VERFEHLT-SPEICHER). Ohne die Ausnahme fände er für `?datei=1` darum die gespeicherte Schale:
+   der Abruf erreicht den Dienst nie, und statt der geltenden Fassung als Datei käme die Anwendung als Seite. */
+test('[Rot-Beweis] ohne die Ausnahme im Service Worker erreicht der Abruf den Dienst nicht', async ({ page, context }) => {
   test.setTimeout(120_000);
   const { srv, zustand } = await starteDienst({ swOhneAusnahme: true });
   try {
     await bisZumEintrag(page, srv.address().port);
     const adresse = await schalterAdresse(page);
-    expect((await abrufAlsNavigation(context, adresse)).stand).toBe(ERSTER_STAND);
-    // Der Service Worker legt die Antwort nach der Auslieferung ab; warten, bis sie liegt.
-    await expect.poll(() => page.evaluate(async () => {
-      for (const n of await caches.keys()) { if (await (await caches.open(n)).match(location.pathname + '?datei=1')) return true; }
-      return false;
-    }), { timeout: 10_000 }).toBe(true);
-    const zweite = await abrufAlsNavigation(context, adresse);
-    expect(zweite.stand, 'aus dem Speicher: die Fassung des ersten Abrufs').toBe(ERSTER_STAND);
-    expect(zweite.name, 'unter dem Namen des ersten Abrufs').toBe('vivodepot-' + KENNUNG + '-v' + ERSTER_STAND + '.html');
-    expect(zustand.dateiAbrufe, 'der Dienst wurde nur einmal gefragt').toBe(1);
+    const erste = await abrufAlsNavigation(context, adresse, 4_000);
+    expect(zustand.dateiAbrufe, 'ohne die Ausnahme beantwortet der Service Worker den Schalter selbst').toBe(0);
+    expect(erste, 'es entsteht keine Datei des Dienstes').toBeNull();
   } finally { srv.close(); }
 });

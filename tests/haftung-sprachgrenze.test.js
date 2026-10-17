@@ -92,7 +92,7 @@ test('[Haftung·Sprachgrenze·Vorbedingung] die Fixtures sind die v918-Fassungen
 for (const [anlege, oeffne, sprache] of RICHTUNGEN) {
   test('[Haftung·Sprachgrenze] ' + anlege + '-Depot (Sprache ' + sprache + ') in ' + oeffne + ': nicht gesperrt, Sprache bleibt', async () => {
     const V = await v918DepotOeffnen(anlege, oeffne, sprache);
-    assert.equal(V.gesperrteDepotModule().length, 0, 'eine früher ausgelieferte Mitschrift ist nicht gesperrt');
+    assert.equal(V.nichtGewaehlteDepotModule().length, 0, 'eine früher ausgelieferte Mitschrift steht nicht zur Wahl, sie wirkt');
     assert.equal(V.textsatzSpracheAktiv(), sprache);
   });
 

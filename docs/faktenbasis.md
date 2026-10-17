@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-15 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-17 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -86,9 +86,9 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
-- E2E (Playwright): 641 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 55 aus Schleifen über CPU-Drosselungen = **696 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- E2E (Playwright): 670 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 57 aus Schleifen über CPU-Drosselungen = **727 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
 - Wächter-Register (intern): 145
-- Schema-Version: 92 · SCHALEN_STAND: v930 · Build-Version: v1.0
+- Schema-Version: 92 · SCHALEN_STAND: v931 · Build-Version: v1.0
 
 ---
 
@@ -541,17 +541,17 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
 | `.btn` | 37 | 236 |
-| `.btn-sek` | 15 | 108 |
+| `.btn-sek` | 15 | 109 |
 | `.btn-dezent` | 5 | 12 |
 | `.btn-klein` | 3 | 15 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 37 |
 | `.karte` | 6 | 68 |
-| `.modal` | 19 | 177 |
-| `.toast` | 9 | 305 |
-| `.banner-stapel` | 2 | 2 |
+| `.modal` | 19 | 179 |
+| `.toast` | 9 | 307 |
+| `.banner-stapel` | 3 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 14 | 5 |
-| `.leer` | 3 | 312 |
+| `.leer` | 3 | 313 |
 | `.pause-erlaubnis` | 2 | 3 |
-| `.hinweis-box` | 7 | 30 |
+| `.hinweis-box` | 7 | 32 |

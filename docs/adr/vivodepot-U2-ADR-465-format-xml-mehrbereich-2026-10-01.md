@@ -1,10 +1,10 @@
 # U2-ADR-465 · Format-Module: Felder aus mehreren Bereichen, feste Werte, Namensraum aus dem Modul
 
 **Status:** Akzeptiert, gebaut.
-**Datum:** 01.10.2026 (Entwurf), ergänzt 05.10.2026 (`werte`, `teil`, `hinweis`; Nachtrag Anhänge)
+**Datum:** 01.10.2026 (Entwurf), ergänzt 05.10.2026 (`werte`, `teil`, `hinweis`; Nachtrag Anhänge), 16.10.2026 (Nachtrag JSON: Ziel als Liste, `schemaUri`)
 **Kategorie:** ARCHITEKTUR, STANDARDS
 **Status heute:** gilt
-**Betrifft:** `vivodepot.html` (`FORMAT_MODUL_SCHLUESSEL`, `_xmlKanalGrund`, `FORMAT_ZUORDNUNG_SCHLUESSEL`, `formatNamensraumFremd`, `formatModulPruefen`, `formatModulZuExportKanal`, `_FORMAT_HINWEIS_FORM`, `FORMAT_ANHANG_ROLLEN`, `FORMAT_VERTRETER_FELDER`, `formatAnhaengeAufloesen`, `formatVertreterAufloesen`, `formatAnhangKandidaten`, `_formatAnhangWahl`), `docs/format-modul/format-modul-schema.json`, `tools/standardnamen-pruefen.js`, `tools/fim-modul-erzeugen.mjs`.
+**Betrifft:** `vivodepot.html` (`FORMAT_MODUL_SCHLUESSEL`, `_xmlKanalGrund`, `FORMAT_ZUORDNUNG_SCHLUESSEL`, `formatNamensraumFremd`, `formatModulPruefen`, `formatModulZuExportKanal`, `_FORMAT_HINWEIS_FORM`, `FORMAT_ANHANG_ROLLEN`, `FORMAT_VERTRETER_FELDER`, `formatAnhaengeAufloesen`, `formatVertreterAufloesen`, `formatAnhangKandidaten`, `_formatAnhangWahl`, `_formatPfadTeile`, `formatSchemaUriFremd`, `_FORMAT_SCHEMA_URI_FORM`), `docs/format-modul/format-modul-schema.json`, `tools/standardnamen-pruefen.js`, `tools/fim-modul-erzeugen.mjs`, `tests/konformitaet/adapter/ajv-json-schema.mjs`.
 **Bezug:** U2-ADR-257 (Schreiber `xml@1`), U2-ADR-145 (ein Einlassweg), U2-ADR-456 (FIM-Bezüge: Kennung, Fassung, Status), U2-ADR-030 (Selbstauskunft im Export), U2-ADR-013 („Meine Dokumente“), U2-ADR-468 (Urschrift der Vollmacht), U2-ADR-467 (getrennte Namen und Anschrift).
 
 ## Frage
@@ -54,6 +54,47 @@ Das erste Modul dieser Art bildet ein FIM-Stammdatenschema ab. Seine Struktur un
 Die Wahl „eingebettet“ folgt der Form von `content` im XFall-Container. Eine getrennte Übertragung mit FIT-Connect-Metadaten ist ein eigener Schritt beim Einreichweg. Die Frage an die FITKO, ob eingebettet oder als Verweis auf eine getrennte Anlage, steht.
 
 **Was KoSIT hier belegt.** `xs:anyType` nimmt jeden Inhalt an. Ein KoSIT-Grün belegt für die Datei mit Anhängen das Schema der übrigen Elemente und dass ein Pflicht-Anhang da ist — nicht die Form des Anhangs. Die Form halten zwei eigene Proben: der byte-gleiche Rundlauf und eine Base64-Regel, die nicht aus KoSIT und nicht aus dem Kern kommt.
+
+## Nachtrag 16.10.2026 · FIM als JSON: Ziel als Liste von Pfadstufen, `schemaUri`
+
+**Frage.** Das FIM-Portal liefert je Leistung auch ein JSON-Schema (draft 2020-12). Seine Schlüssel sind Kennung und Fassung
+(`G99000002V1.0`), Gruppen verschachtelt über `$defs`. Der Schreiber baut die Ausgabe aus Zielpfaden, die er an Punkten
+trennt; ein Zielpfad `G99000002V1.0.F99000003V1.0` ist mehrdeutig. Dieselbe Hürde löste Nr. 6 für den XML-Wurzelnamen; für
+JSON trifft sie jede Stufe. Weg zum Nachsehen der Form: die Schlüssel unter `properties` und `$defs` eines Schemas von
+schema.fim.fitko.net; im Repo die erfundene Form `tests/fixtures/fim-schema/S99000001_V1.0.schema.json`.
+
+**Entscheidung.**
+
+16. **`ziel` darf eine Liste von Pfadstufen sein**, additiv neben dem Punkt-Pfad (`["G99000002V1.0", "F99000003V1.0"]`). Jede
+    Stufe ist fremde Eingabe und wird geprüft wie ein Teilstück des Strings: Text, nicht leer und nicht nur Leerraum, keine
+    davon `__proto__`, `constructor` oder `prototype`, höchstens 64 Stufen (`_formatPfadTeile`). Eine Stufe mit Punkt gibt es
+    nur in der Listenform; der Punkt-String trennt weiter an jedem Punkt. Das gilt für `json@1` und `xml@1` gleich, für XML
+    bleibt der Test auf XML-Namen je Stufe. Geschrieben wird mit derselben Funktion wie bisher (`_formatPfadSchreiben`: nur
+    eigene Eigenschaften, nie entlang der Prototypenkette). Beim Einlesen ist die flache Zwischenebene nach der Stelle der
+    Zuordnung geschlüsselt, damit zwei Listen nie auf denselben Schlüssel fallen.
+17. **`schemaUri` am Modul: nur die Angabe.** Ein Ausgabe-Modul (jeder Schreiber) darf die Kennung des Schemas nennen, das
+    seine Ausgabe erfüllen soll. Feste Form: `https://`, Host in Kleinbuchstaben, ein Pfad ohne Anfrage, Fragment,
+    Anmeldedaten und Leerraum (`_FORMAT_SCHEMA_URI_FORM`). Der Kern löst sie nie auf und ruft kein Netz; der Kanal trägt sie
+    unverändert weiter (`kanal.schemaUri`), damit ein späterer Schritt sie nutzen kann. An einem Eingabe-Modul wird sie
+    abgewiesen (`schemaUri-ohne-ausgabe`).
+18. **Eine fremde `schemaUri` nur mit verifizierter Signatur**, wie ein fremder Namensraum (Nr. 7): jede Adresse außerhalb von
+    `https://vivodepot.de/` behauptet einen fremden Standard. Ohne Beleg der Ladeprüfung (`modulBelegGeprueft`) und nicht
+    nach Inhalt ab Werk gibt `formatModulZuExportKanal` keinen Kanal. Im Repo meldet `tools/standardnamen-pruefen.js` ein
+    Modul mit fremder `schemaUri` als Mangel.
+19. **Der Prüfer in der Suite ist Ajv** (8.20.0, exakt in `package.json` und `package-lock.json`; `ajv/dist/2020`, strict mode
+    in der Standard-Einstellung, offline: kein Nachladen, Verweise nur innerhalb des Schemas). Adapter
+    `tests/konformitaet/adapter/ajv-json-schema.mjs`, Registerzeile `fim-leistungsschema-json`. Die Probe prüft gegen das
+    erfundene Schema S99000001 (per SHA-256 in der Probe gepinnt); echte Schemas laufen per `VD_FIM_JSON_SCHEMA` und
+    `VD_FIM_JSON_MODUL` außerhalb des Repos, wie beim KoSIT-Lauf.
+20. **Der Erzeuger kennt den JSON-Weg.** `tools/fim-modul-erzeugen.mjs --json-schema` liest Blätter, Pflicht und
+    Aufzählungen aus dem Schema (Verweise nur `#/$defs/…`), schreibt Listen-Ziele und setzt `schemaUri` auf die `$id`.
+    Anhänge und `vertreter` trägt nur der XSD-Weg; `teil` nur an einem Zahlfeld.
+
+**Grenzen, benannt.** Echte FIM-Schemas tragen vereinzelt `format: date`; Ajv übersetzt das im strict mode nur mit
+ajv-formats, das nicht eingebunden ist — der Lauf scheitert dann laut, er winkt nicht durch (Weg: `pruefer()` aus dem
+Adapter auf das Schema der Leistung anwenden). Die Prüfung in der App vor dem Versand gegen das Schema im Modul ist ein
+eigener Schritt; dieser Nachtrag prüft nur in der Suite. Die Lizenzauflage oben gilt für das JSON-Schema einer Leistung
+unverändert.
 
 ## Was diese Entscheidung nicht leistet
 
@@ -157,6 +198,61 @@ konformitaet:
     pruefung:
       - tests/fim-modul-erzeugen.test.js
         "[FIM-Modul·Rot-Beweis] Pflicht-Anhang ohne Zuordnung und ohne hinweis: kein Modul; mit hinweis eine benannte Lücke"
+  - aussage: >-
+      Ein Ziel als Liste von Pfadstufen trägt Schlüssel mit Punkt in json@1 und xml@1; der Punkt-String trennt weiter.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (16.10.2026)
+    pruefung:
+      - tests/fim-json-schema-weg.test.js "[U2-ADR-465·Liste] json@1: Stufen mit Punkt werden Schlüssel, nicht Trennstellen"
+      - tests/fim-json-schema-weg.test.js
+        "[U2-ADR-465·Liste] xml@1: dieselbe Listenform, jede Stufe ein XML-Name (Punkte erlaubt)"
+      - tests/fim-json-schema-weg.test.js "[U2-ADR-465·Liste] Einlesen: eine Listen-Zuordnung liest denselben Schlüssel zurück"
+  - aussage: >-
+      Pfadstufen sind fremde Eingabe: verbotene, leere und fremde Stufen werden abgewiesen und nie in die Prototypenkette
+      geschrieben.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (16.10.2026)
+    pruefung:
+      - tests/fim-json-schema-weg.test.js
+        "[U2-ADR-465·Liste·Rot-Beweis] Auflage 1: verbotene, leere und fremde Stufen werden abgewiesen, nie geschrieben"
+  - aussage: >-
+      `schemaUri` ist nur Text in fester Form, nur an Ausgabe-Modulen, und Prüfen, Kanal und Ausgabe rufen kein Netz.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (16.10.2026)
+    pruefung:
+      - tests/fim-json-schema-weg.test.js "[U2-ADR-465·schemaUri] Form, nur Ausgabe, und der Kanal trägt sie unverändert"
+      - tests/fim-json-schema-weg.test.js "[U2-ADR-465·schemaUri] Auflage 2: Prüfen, Kanal und Ausgabe rufen kein Netz"
+  - aussage: >-
+      Eine fremde `schemaUri` nur mit verifizierter Signatur; ein unsigniertes Modul bekommt keinen Kanal, und im Repo nennt
+      kein Modul eine fremde.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (16.10.2026)
+    pruefung:
+      - tests/fim-json-schema-weg.test.js
+        "[U2-ADR-465·schemaUri·Rot-Beweis] eine fremde schemaUri ohne verifizierte Signatur bekommt keinen Kanal"
+      - tests/standardnamen-schutz.test.js
+        "[Standardnamen·schemaUri·Rot-Beweis] ein unsigniertes Modul mit fremder schemaUri fällt, die eigene nicht (U2-ADR-465 Nachtrag)"
+  - aussage: >-
+      Die JSON-Ausgabe des Kerns erfüllt das JSON-Schema der Leistung (Ajv, gepinnt, offline); fehlt ein Pflichtfeld im
+      Depot, lehnt Ajv ab.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (16.10.2026)
+    pruefung:
+      - tests/fim-json-schema-weg.test.js
+        "[U2-ADR-465·JSON] die Ausgabe des Kerns erfüllt das JSON-Schema (Ajv 2020, strict, offline)"
+      - tests/fim-json-schema-weg.test.js
+        "[U2-ADR-465·JSON·Rot-Beweis] fehlt ein Pflichtfeld im Depot, lehnt Ajv ab — der Kern erfindet nichts"
+      - tests/fim-json-schema-weg.test.js
+        "[U2-ADR-465·JSON] Auflage 3: ajv exakt gepinnt (package.json, Lockfile, installiert) und das Schema-Fixture per SHA-256"
+  - aussage: >-
+      Der Erzeuger schreibt aus dem JSON-Schema ein json@1-Modul mit Listen-Zielen und `schemaUri`.
+    zustand: erfuellt
+    herkunft: U2-ADR-465 Nachtrag (16.10.2026)
+    pruefung:
+      - tests/fim-modul-erzeugen.test.js
+        "[FIM-Modul·JSON] das erzeugte Modul ist genau das Modul, das der Ajv-Lauf prüft, und besteht die Prüfung des Kerns"
+      - tests/fim-modul-erzeugen.test.js
+        "[FIM-Modul·JSON·Rot-Beweis] unbekannter Pfad, Wert außerhalb der Aufzählung, teil an einem Textfeld, Anhang, fremder Verweis"
   - aussage: >-
       Ein Modul ohne die neuen Schlüssel schreibt wie zuvor.
     zustand: erfuellt

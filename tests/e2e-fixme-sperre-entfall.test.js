@@ -30,13 +30,20 @@ test('[Sperr-fixme·Rot-Beweis] ohne Schalter sind stehende fixmes rot, mit Scha
   const stellen = ['x.spec.js: SPERRE-EINLASS-X'];
   assert.deepEqual(urteil('\nvar SELBST_EINLASS_GESPERRT = true;\n', stellen), []);
   assert.deepEqual(urteil('\nvar SELBST_EINLASS_GESPERRT = false;\n', stellen), stellen);
-  assert.ok(sperrStellen(REPO).length >= 12, 'Vorbedingung: die Sperr-fixmes sind gefunden');
+  /* Bis zum Schutz-Wagen stand hier die Vorbedingung „mindestens 12 Sperr-fixmes gefunden“. Seit der Wahl (05.10.2026) gibt es
+     keine mehr; die Probe darüber hält, dass keine zurückkommen. Die Suche selbst prüft der gepflanzte Fall. */
+  const ordner = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'sperr-fixme-'));
+  try {
+    fs.mkdirSync(path.join(ordner, 'tests', 'e2e'), { recursive: true });
+    fs.writeFileSync(path.join(ordner, 'tests', 'e2e', 'x.spec.js'), "// FIXME-ID: SPERRE-EINLASS-X\ntest.fixme('x', () => {});\n");
+    assert.deepEqual(sperrStellen(ordner), ['x.spec.js: SPERRE-EINLASS-X'], 'die Suche findet eine gepflanzte Sperr-fixme');
+  } finally { fs.rmSync(ordner, { recursive: true, force: true }); }
 });
 
 /* Rückkehr des Prüfstands (04.10.2026, Wort der Gegenlesung): solange die Erbschein-E2E über den Klickweg als fixme ruht, zählt
    tests/pruefstand-bindung.test.js eine Klausel-Bindung weniger (706 → 705) und eine Konstruktions-Form weniger (492 → 491).
    Fällt der Sperr-Schalter oder steht die Probe wieder als test, müssen beide Zahlen zurück — diese Probe wird sonst rot. */
-const RUECKKEHR = { gueltig: 706, konstruktion: 492 };
+const RUECKKEHR = { gueltig: 735, konstruktion: 504 };   // 735/504 seit der Rückkehr der Erbschein-E2E mit dem Schutz-Wagen S5 (16.10.2026; konstruktion 493 → 501 → 503 durch andere Wagen, +1 mit der Rückkehr; Wort der Gegenlesung); davor 711/494; 706/492 vor der KBV-Patientenkurzakte (U2-ADR-471, +5/+2 auf dem Zugkopf zug-folge2); zurückgekehrt am 05.10.2026 mit dem Schutz-Wagen
 const ERBSCHEIN_FIXME = /test\.fixme\('volles Depot: Testament, Familienstand und Kind/;
 function prueftandWerte(text) {
   const wert = (k) => Number((new RegExp('^\\s*' + k + ':\\s*\\{\\s*wert:\\s*(\\d+)', 'm').exec(text) || [])[1]);
@@ -50,7 +57,7 @@ function rueckkehrUrteil(kern, spec, werte) {
   return raus;
 }
 
-test('[Sperr-fixme·Rückkehr] fällt die Sperre oder ruht die Erbschein-E2E nicht mehr, steht der Prüfstand wieder auf 706/492', () => {
+test('[Sperr-fixme·Rückkehr] fällt die Sperre oder ruht die Erbschein-E2E nicht mehr, steht der Prüfstand wieder auf dem Stand vor der Sperre (heute 735/504)', () => {
   const kern = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
   const spec = fs.readFileSync(path.join(REPO, 'tests', 'e2e', 'erbschein-vorbereitungsauszug-abnahme.spec.js'), 'utf8');
   const werte = prueftandWerte(fs.readFileSync(path.join(REPO, 'tests', 'pruefstand-bindung.test.js'), 'utf8'));

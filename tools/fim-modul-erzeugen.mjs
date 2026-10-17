@@ -18,8 +18,14 @@
        einen `hinweis` in der Zuordnung — sonst erzeugt es nichts. Der Wortlaut kommt aus der Zuordnung, nicht aus dem
        Werkzeug.
      · `vertreter` (ein Feld der bevollmächtigten Person) nur zusammen mit der Rolle vollmacht-nachweis.
+   JSON-WEG (U2-ADR-465 Nachtrag, 16.10.2026): aus dem JSON-Schema einer Leistung (draft 2020-12, Form des FIM-Portals:
+   Schlüssel aus Kennung und Fassung, Gruppen über `$defs`, `required`) ein Modul mit dem Schreiber json@1. Die Ziele sind
+   LISTEN von Pfadstufen (ein FIM-Schlüssel trägt selbst einen Punkt), `schemaUri` ist die `$id` des Schemas. In der Zuordnung
+   steht je Pfad die Stufenfolge mit „/“ verbunden (`G….V1.0/F….V1.0`). Dieselben Regeln wie oben für `feld`, `fest`, `werte`
+   und Lücken; `teil` nur an einem Zahlfeld. Anhänge und `vertreter` trägt nur der XSD-Weg (Fehler, nicht still übergangen).
    Aufruf:
      node tools/fim-modul-erzeugen.mjs --xsd <pfad> --zuordnung <pfad> --ziel <modul.json>
+     node tools/fim-modul-erzeugen.mjs --json-schema <pfad> --zuordnung <pfad> --ziel <modul.json>
      node tools/fim-modul-erzeugen.mjs            (erfundene Leistung S99000001, Ausgabe nach stdout)
    Exit 0 = Modul geschrieben (Lücken stehen in der Ausgabe), 1 = Fehler, 2 = Aufruf falsch.
    Probe: tests/fim-modul-erzeugen.test.js
@@ -33,6 +39,10 @@ const FX = path.join(HIER, '..', 'tests', 'fixtures', 'fim-schema');
 export const FIXTURE = Object.freeze({
   xsd: path.join(FX, 'S99000001-antrag.xsd'),
   zuordnung: path.join(FX, 'S99000001-zuordnung.json'),
+});
+export const FIXTURE_JSON = Object.freeze({
+  schema: path.join(FX, 'S99000001_V1.0.schema.json'),
+  zuordnung: path.join(FX, 'S99000001-zuordnung-json.json'),
 });
 
 /* Die Rollen und Personenfelder des Kerns (FORMAT_ANHANG_ROLLEN, FORMAT_VERTRETER_FELDER) — Gleichlauf hält
@@ -131,11 +141,82 @@ export function modulErzeugen(xsdText, zuordnung) {
   return { modul, luecken, fehler: [] };
 }
 
+/* ── JSON-Weg ─────────────────────────────────────────────────────────────── */
+const _JSON_TIEFE_HOECHSTENS = 32;
+/** Ein lokaler Verweis (`#/$defs/<name>`) aufgelöst; jeder andere ist ein Fehler — der Erzeuger lädt nichts nach. */
+function _defAufloesen(schema, knoten, kette) {
+  let k = knoten;
+  while (k && typeof k === 'object' && typeof k.$ref === 'string') {
+    const m = /^#\/\$defs\/([^/]+)$/.exec(k.$ref);
+    if (!m || !schema.$defs || !Object.prototype.hasOwnProperty.call(schema.$defs, m[1])) throw new Error('Verweis nicht im Schema: ' + k.$ref);
+    if (kette.includes(m[1])) throw new Error('Verweis im Kreis: ' + kette.concat(m[1]).join(' → '));
+    kette = kette.concat(m[1]);
+    k = schema.$defs[m[1]];
+  }
+  return { knoten: k, kette };
+}
+/** Alle Blätter eines JSON-Schemas in Schemafolge: Stufen, ob Pflicht, Aufzählung, Typ. */
+export function jsonBlaetter(schema) {
+  const raus = [];
+  (function lauf(knoten, stufen, pflicht, kette) {
+    if (stufen.length > _JSON_TIEFE_HOECHSTENS) throw new Error('Schema tiefer als ' + _JSON_TIEFE_HOECHSTENS + ' Stufen');
+    const { knoten: k, kette: weiter } = _defAufloesen(schema, knoten, kette);
+    if (!k || typeof k !== 'object') throw new Error('kein Schema-Knoten unter ' + stufen.join('/'));
+    if (k.type === 'object' && k.properties && typeof k.properties === 'object') {
+      const req = Array.isArray(k.required) ? k.required : [];
+      for (const name of Object.keys(k.properties)) {
+        if (name.includes('/')) throw new Error('Schlüssel mit „/“ ist in der Zuordnung nicht adressierbar: ' + name);
+        lauf(k.properties[name], stufen.concat(name), pflicht && req.includes(name), weiter);
+      }
+      return;
+    }
+    raus.push({ stufen, pfad: stufen.join('/'), pflicht, enum: Array.isArray(k.enum) ? k.enum.map(String) : [], typ: k.type || null });
+  })(schema, [], true, []);
+  return raus;
+}
+export function modulErzeugenJson(schema, zuordnung) {
+  const fehler = [];
+  let liste;
+  try { liste = jsonBlaetter(schema); } catch (e) { return { fehler: [e.message], luecken: [] }; }
+  if (typeof schema.$id !== 'string' || !/^https:\/\//.test(schema.$id)) fehler.push('das Schema hat keine https-`$id` (sie wird die schemaUri des Moduls)');
+  const jePfad = new Map(liste.map((b) => [b.pfad, b]));
+  const z = zuordnung.felder || {};
+  for (const p of Object.keys(z)) if (!jePfad.has(p)) fehler.push('Pfad nicht im Schema: ' + p);
+  const eintraege = [];
+  const luecken = [];
+  for (const b of liste) {
+    const e = z[b.pfad];
+    if (b.typ === 'array') { if (e) fehler.push(b.pfad + ': Listen (type array) trägt der JSON-Weg nicht'); else if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'liste' }); continue; }
+    if (!e) { if (b.pflicht) luecken.push({ pfad: b.pfad, art: 'ohne-zuordnung' }); continue; }
+    if (e.anhang || e.vertreter) { fehler.push(b.pfad + ': `anhang` und `vertreter` trägt nur der XSD-Weg'); continue; }
+    const hatFest = Object.prototype.hasOwnProperty.call(e, 'fest');
+    if (hatFest === !!e.feld) { fehler.push(b.pfad + ': genau eines von `feld` und `fest`'); continue; }
+    if (b.enum.length) {
+      if (hatFest && !b.enum.includes(String(e.fest))) fehler.push(b.pfad + ': fester Wert nicht in der Aufzählung');
+      if (e.werte) for (const w of Object.values(e.werte)) if (!b.enum.includes(String(w))) fehler.push(b.pfad + ': Zielwert ' + w + ' nicht in der Aufzählung');
+    }
+    if (e.teil && b.typ !== 'integer' && b.typ !== 'number') fehler.push(b.pfad + ': `teil` liefert eine Zahl, das Feld ist ' + (b.typ || 'ohne Typ'));
+    const ziel = b.stufen.slice();
+    const eintrag = hatFest ? { fest: e.fest, ziel } : { feld: e.feld, ziel };
+    if (!hatFest && e.bereich && e.bereich !== zuordnung.sektor) eintrag.bereich = e.bereich;
+    if (!hatFest && e.werte) eintrag.werte = e.werte;
+    if (!hatFest && e.teil) eintrag.teil = e.teil;
+    eintraege.push(eintrag);
+  }
+  if (fehler.length) return { fehler, luecken };
+  const modul = {
+    modulTyp: 'format', moduleVersion: zuordnung.moduleVersion || 1, sprache: zuordnung.sprache || 'de',
+    format: zuordnung.format, richtung: 'export', schreiber: 'json@1', sektor: zuordnung.sektor, label: zuordnung.label,
+    schemaUri: schema.$id, zuordnung: eintraege,
+  };
+  return { modul, luecken, fehler: [] };
+}
+
 function argumente(argv) {
   const a = {};
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
-    if (!['--xsd', '--zuordnung', '--ziel'].includes(k) || argv[i + 1] === undefined) return null;
+    if (!['--xsd', '--json-schema', '--zuordnung', '--ziel'].includes(k) || argv[i + 1] === undefined) return null;
     a[k.slice(2)] = argv[++i];
   }
   return a;
@@ -143,12 +224,14 @@ function argumente(argv) {
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   const a = argumente(process.argv.slice(2));
-  if (!a || (Object.keys(a).length && !(a.xsd && a.zuordnung))) {
-    console.error('Aufruf: node tools/fim-modul-erzeugen.mjs [--xsd <pfad> --zuordnung <pfad> [--ziel <modul.json>]]');
+  if (!a || (Object.keys(a).length && !((a.xsd || a['json-schema']) && a.zuordnung)) || (a.xsd && a['json-schema'])) {
+    console.error('Aufruf: node tools/fim-modul-erzeugen.mjs [--xsd <pfad> | --json-schema <pfad>] --zuordnung <pfad> [--ziel <modul.json>]');
     process.exit(2);
   }
-  const xsd = a.xsd || FIXTURE.xsd, zu = a.zuordnung || FIXTURE.zuordnung;
-  const r = modulErzeugen(fs.readFileSync(xsd, 'utf8'), JSON.parse(fs.readFileSync(zu, 'utf8')));
+  const zu = a.zuordnung || FIXTURE.zuordnung;
+  const r = a['json-schema']
+    ? modulErzeugenJson(JSON.parse(fs.readFileSync(a['json-schema'], 'utf8')), JSON.parse(fs.readFileSync(zu, 'utf8')))
+    : modulErzeugen(fs.readFileSync(a.xsd || FIXTURE.xsd, 'utf8'), JSON.parse(fs.readFileSync(zu, 'utf8')));
   for (const f of r.fehler) console.error('[fim-modul] FEHLER ' + f);
   for (const l of r.luecken) console.error('[fim-modul] Lücke ' + l.art + ': ' + l.pfad);
   if (r.fehler.length) process.exit(1);

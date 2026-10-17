@@ -15,7 +15,8 @@ const vm = require('node:vm');
 const WURZEL = path.join(__dirname, '..');
 const ANFANG = '/* ══ STELLENKENNUNG-BLOCK (U2-ADR-501';
 const ENDE = '/* ══ ENDE STELLENKENNUNG-BLOCK ══ */';
-const DATEIEN = ['vivodepot.html', 'vivodepot-lesen.html'];
+// Seit V3b (U2-ADR-501) auch im Studio: es liest signierte Antworten mit demselben Block.
+const DATEIEN = ['vivodepot.html', 'vivodepot-lesen.html', 'vivodepot-studio.html'];
 
 function block(text) {
   const a = text.indexOf(ANFANG), e = text.indexOf(ENDE);
@@ -59,11 +60,11 @@ function befunde(texte) {
   const b = texte.map(block);
   texte.forEach((_, i) => { if (!b[i]) f.push(DATEIEN[i] + ': Block fehlt oder steht mehrfach'); });
   if (f.length) return f;
-  if (b[0] !== b[1]) f.push('die Kopien sind nicht zeichengleich');
+  if (b.some((x) => x !== b[0])) f.push('die Kopien sind nicht zeichengleich');
   const sk = b.map(ausfuehren);
   for (const [ein, soll] of VEKTOREN) {
     const ist = sk.map((x) => x.stellenKennung(ein));
-    if (ist[0] !== ist[1]) f.push('verschieden für ' + JSON.stringify(ein) + ': ' + JSON.stringify(ist));
+    if (ist.some((v) => v !== ist[0])) f.push('verschieden für ' + JSON.stringify(ein) + ': ' + JSON.stringify(ist));
     else if (ist[0] !== soll) f.push('unerwartet für ' + JSON.stringify(ein) + ': ' + JSON.stringify(ist[0]) + ' statt ' + JSON.stringify(soll));
     if (soll !== null) {
       for (const x of sk) {

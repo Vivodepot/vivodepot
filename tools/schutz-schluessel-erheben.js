@@ -21,7 +21,7 @@
      2 die Korpora, die der Kern als Schrittsatz eines Dokuments anwendet
        (`_textsatzAufSchrittsatzAnwenden(<KORPUS>, '<wurzel>', …)`) — die Wurzel
        wird aus dem Kern gelesen, nicht hier genannt
-   dazu NAMENTLICH die Haftungssätze und die Meldungen der Sperre selbst (auch
+   dazu NAMENTLICH die Haftungssätze und die Texte der Wahl selbst (auch
    diese Meldungen setzt nur die Anwendung). Jeder Name muss im Textsatz
    stehen, sonst bricht die Erhebung ab, statt eine Sperre festzuschreiben, die
    nichts hält. Die Zusicherungen bleiben in ihrer eigenen Region; der Kern fragt
@@ -57,19 +57,41 @@ const TRAEGER = Object.freeze({
 
 const DOKUMENT_NAMENSRAUM = 'dok:';
 
-/* Namentlich: die beiden Haftungssätze (U2-ADR-025), die Meldungen der Sperre, der Vermerk über ersetzte Ab-Werk-Fassungen (E4) und die Warnung der Klartext-Bindung
-   (U2-ADR-156-Nachtrag, 05.10.2026) — ein Modul darf nicht überschreiben, was eine veränderte Datei meldet —, und der Hinweis „kein PDF ohne geprüfte Schrift“
-   (Rückfallstufe 3 der PDF-Schrift, U2-ADR-473 W4), und die Sprachangabe eines Rückfalls — ein Modul darf nicht verbergen, dass ein Satz in einer
+/* Namentlich: die beiden Haftungssätze (U2-ADR-025), die Texte der Wahl beim Öffnen und beim Hinzufügen (E3), der Vermerk über ersetzte
+   Ab-Werk-Fassungen (E4), die Warnung der Klartext-Bindung (U2-ADR-156-Nachtrag, 05.10.2026) — ein Modul darf nicht überschreiben,
+   was eine veränderte Datei meldet —, und der Hinweis „kein PDF ohne geprüfte Schrift“ (Rückfallstufe 3 der PDF-Schrift, U2-ADR-473 W4) sowie die Sprachangabe eines Rückfalls — ein Modul darf nicht verbergen, dass ein Satz in einer
    anderen Sprache steht (HAFTUNG-SPRACHGRENZE F3, 06.10.2026). */
 const NAMENTLICH = Object.freeze([
   'strings:fussHaftung.text',
   'strings:dokFussHaftung.text',
   'strings:rueckfallSprachangabe.text',   // die Sprachangabe eines Rückfalls (HAFTUNG-SPRACHGRENZE F3, 06.10.2026)
-  'strings:erweiterungGesperrtTitel.text',
-  'strings:erweiterungGesperrtText.text',
-  'strings:erweiterungGesperrtVermerk.text',
-  'strings:erweiterungEinlesenGesperrt.text',
+  'strings:erweiterungWahlTitel.text',
+  'strings:erweiterungWahlText.text',
+  'strings:erweiterungWahlSchutz.text',
+  'strings:erweiterungWahlZeile.text',
+  'strings:erweiterungWahlOk.text',
+  'strings:erweiterungWahlOhne.text',
+  'strings:erweiterungNichtVerwendetVermerk.text',
+  'strings:erweiterungVerwendenKnopf.text',
+  'strings:erweiterungHinzufuegenFrage.text',
+  'strings:erweiterungHinzufuegenJa.text',
+  'strings:erweiterungHinzufuegenNein.text',
   'strings:erweiterungTeilweiseErsetzt.text',
+  'strings:modulWirkungTextsatz.text',
+  'strings:modulWirkungStellensatz.text',
+  'strings:modulWirkungRechtsraum.text',
+  'strings:modulWirkungInstitutionsArt.text',
+  'strings:modulWirkungBlattformat.text',
+  'strings:modulWirkungBedingungskatalog.text',
+  'strings:modulWirkungFormat.text',
+  'strings:modulWirkungBereich.text',
+  'strings:modulWirkungSituation.text',
+  'strings:modulWirkungWizard.text',
+  'strings:modulWirkungEreignisAchse.text',
+  'strings:modulWirkungAngehoerigenVorlage.text',
+  'strings:modulWirkungBranding.text',
+  'strings:modulWirkungLogikModul.text',
+  'strings:modulWirkungErscheinung.text',   // was eine Erweiterung ändert, Teil der Wahl (VD-SEC-009 S5, 16.10.2026)
   'strings:abWerkFassungErsetztTitel.text',
   'strings:abWerkFassungErsetztText.text',
   'strings:klartextBindungTitel.text',

@@ -10,7 +10,8 @@
    WAS ES TUT: Aus einem Ordner mit dem Stand des Fassungs-Tags (Checkout des öffentlichen Repos) legt es in `--ziel`
      · die Anwendungsdateien (ANHAENGE), unverändert kopiert,
      · `SHA256SUMS` über sie,
-     · `release.json` (Name, Tag, Beschreibung aus dem CHANGELOG-Abschnitt der Fassung, Links auf die Paketdateien),
+     · `release.json` (Name, Tag, Beschreibung aus docs/release-notes/<fassung>.md, sonst aus dem CHANGELOG-Abschnitt der
+       Fassung, Links auf die Paketdateien) und `github-release.md` mit genau derselben Beschreibung,
    und gibt die Befehle aus: Hochladen in die Generic Package Registry, dann das Release anlegen.
 
    VORAB gibt es die vier Befehle für den signierten Stand aus (git commit -S, git tag -s, git verify-commit, git tag -v),
@@ -75,6 +76,38 @@ function mitPflichthinweisen(beschreibung, repo = path.join(__dirname, '..')) {
   return beschreibung + PFLICHTHINWEISE.map(([titel, datei]) => '\n\n### ' + titel + '\n\n' + fs.readFileSync(path.join(repo, datei), 'utf8')).join('');
 }
 
+/* RELEASE-NOTES (16.10.2026). Bis v930 trug das openCoDE-Release den deutschen CHANGELOG-Abschnitt; die geprüften Notes
+   (Deutsch und Englisch) wurden danach von Hand eingesetzt, auf openCoDE wie auf GitHub. Jetzt liegen sie im Stand des Tags unter
+   docs/release-notes/<fassung>.md, und openCoDE und GitHub lesen dieselbe Datei. Fehlt sie (ältere Fassungen), gilt wie bisher
+   der CHANGELOG-Abschnitt. Die Datei trägt nur die Notes: den Satz zu SHA256SUMS und die Pflichthinweise hängt dieses Werkzeug an,
+   beides doppelt wäre ein Fehler, ebenso eine fehlende Sprache. Probe: tests/opencode-release-vorbereiten.test.js, [Release·Notes]. */
+const NOTES_ORDNER = 'docs/release-notes';
+const SPRACHEN = Object.freeze(['## Deutsch', '## English']);
+const PRUEFSUMMEN_SATZ = Object.freeze({
+  de: 'Prüfsummen (SHA-256) der Anhänge in `SHA256SUMS`.',
+  en: 'SHA-256 checksums of the attachments are in `SHA256SUMS`.',
+});
+const LIZENZ_KOPF = '---\n\n## Lizenzhinweise / License notices\n\nPflichthinweise der Rechteinhaber, auf Englisch. / Required notices of the rights holders.';
+/* Rein: die Notes prüfen. Liefert die Liste der Fehler (leer = gut). `wortlaute` sind die Pflichthinweis-Texte. */
+function notesPruefen(text, wortlaute = []) {
+  const fehler = [];
+  for (const s of SPRACHEN) if (!new RegExp('^' + s + '\\s*$', 'm').test(text)) fehler.push('Release-Notes ohne Abschnitt „' + s + '“');
+  if (/SHA256SUMS/.test(text)) fehler.push('Release-Notes nennen SHA256SUMS — den Satz hängt das Werkzeug an');
+  for (const w of wortlaute) {
+    const anfang = String(w).trim().slice(0, 60);
+    if (anfang && text.includes(anfang)) fehler.push('Release-Notes tragen schon einen Pflichthinweis — den hängt das Werkzeug an');
+  }
+  return fehler;
+}
+/* Rein: die Notes vor die zwei Sprachfassungen des Prüfsummen-Satzes setzen, je ans Ende ihres Sprachabschnitts. */
+function notesMitPruefsummen(text) {
+  const t = String(text).trim();
+  const en = t.indexOf(SPRACHEN[1]);
+  const deTeil = t.slice(0, en).replace(/\s*(---\s*)?$/, '');
+  const enTeil = t.slice(en).trim();
+  return deTeil + '\n\n' + PRUEFSUMMEN_SATZ.de + '\n\n---\n\n' + enTeil + '\n\n' + PRUEFSUMMEN_SATZ.en;
+}
+
 function paketUrl(version, datei) {
   return `${HOST}/api/v4/projects/${PROJEKT_ID}/packages/generic/${PAKET}/${version}/${datei}`;
 }
@@ -85,9 +118,19 @@ function releaseVorbereiten({ quelle, fassung, ziel }) {
   if (!/^v1\.0\.\d+$/.test(String(fassung || ''))) fehler.push('Fassung im Format v1.0.<n> erwartet, nicht: ' + fassung);
   const fehlend = ANHAENGE.filter((d) => !fs.existsSync(path.join(quelle, d)));
   for (const d of fehlend) fehler.push('Anlage fehlt in der Quelle: ' + d);
-  const changelogPfad = path.join(quelle, 'CHANGELOG.md');
-  const beschreibung = fs.existsSync(changelogPfad) ? changelogAbschnitt(fs.readFileSync(changelogPfad, 'utf8'), fassung) : null;
-  if (!beschreibung) fehler.push('kein CHANGELOG-Abschnitt für ' + fassung);
+  const notesPfad = path.join(quelle, NOTES_ORDNER, String(fassung) + '.md');
+  const notes = fs.existsSync(notesPfad) ? fs.readFileSync(notesPfad, 'utf8') : null;
+  let beschreibung;
+  if (notes !== null) {
+    const wortlaute = PFLICHTHINWEISE.map(([, datei]) => fs.readFileSync(path.join(__dirname, '..', datei), 'utf8'));
+    for (const f of notesPruefen(notes, wortlaute)) fehler.push(f + ' (' + NOTES_ORDNER + '/' + fassung + '.md)');
+    beschreibung = notesMitPruefsummen(notes) + '\n\n' + LIZENZ_KOPF;
+  } else {
+    const changelogPfad = path.join(quelle, 'CHANGELOG.md');
+    const abschnitt = fs.existsSync(changelogPfad) ? changelogAbschnitt(fs.readFileSync(changelogPfad, 'utf8'), fassung) : null;
+    if (!abschnitt) fehler.push('kein CHANGELOG-Abschnitt für ' + fassung);
+    beschreibung = abschnitt && abschnitt + '\n\n' + PRUEFSUMMEN_SATZ.de;
+  }
   if (fehler.length) return { fehler, dateien: [], release: null, befehle: [] };
 
   const version = fassung.slice(1);
@@ -100,7 +143,7 @@ function releaseVorbereiten({ quelle, fassung, ziel }) {
   const release = {
     name: 'Vivodepot ' + fassung,
     tag_name: fassung,
-    description: mitPflichthinweisen(beschreibung + '\n\nPrüfsummen (SHA-256) der Anhänge in `SHA256SUMS`.'),
+    description: mitPflichthinweisen(beschreibung),
     assets: { links: alle.map((d) => ({ name: d.name, url: paketUrl(version, d.name), link_type: d.name.endsWith('.html') ? 'package' : 'other' })) },
   };
   const befehle = ['cd ' + JSON.stringify(ziel || '<ziel>')]
@@ -111,6 +154,8 @@ function releaseVorbereiten({ quelle, fassung, ziel }) {
     fs.mkdirSync(ziel, { recursive: true });
     for (const d of alle) fs.writeFileSync(path.join(ziel, d.name), d.inhalt);
     fs.writeFileSync(path.join(ziel, 'release.json'), JSON.stringify(release, null, 2) + '\n');
+    // Für das GitHub-Release (gh release create --notes-file): derselbe Text wie auf openCoDE, Byte für Byte.
+    fs.writeFileSync(path.join(ziel, 'github-release.md'), release.description + '\n');
   }
   return { fehler, dateien: alle.map(({ inhalt, ...rest }) => rest), release, befehle };
 }
@@ -136,4 +181,5 @@ function main(argv) {
 
 if (require.main === module) process.exitCode = main(process.argv.slice(2));
 
-module.exports = { ANHAENGE, PROJEKT_ID, PFLICHTHINWEISE, mitPflichthinweisen, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE };
+module.exports = { ANHAENGE, PROJEKT_ID, PFLICHTHINWEISE, mitPflichthinweisen, changelogAbschnitt, paketUrl, releaseVorbereiten, signierBefehle, main, FIXTURE,
+  NOTES_ORDNER, SPRACHEN, PRUEFSUMMEN_SATZ, notesPruefen, notesMitPruefsummen };

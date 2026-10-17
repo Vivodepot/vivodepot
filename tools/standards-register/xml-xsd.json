@@ -213,6 +213,34 @@
         "werkzeug": "KoSIT-Validator 1.6.3 (Apache-2.0) mit eigenem Szenario aus dem FIM-Stammdatenschema (XSD, Schematron falls geliefert)",
         "quelle": "https://github.com/itplr-kosit/validator"
       }
+    },
+    {
+      "id": "xjustiz-erbschein",
+      "name": "XJustiz (Ziel für die Erbschein-Vorbereitung an das Nachlassgericht)",
+      "version": "keine: eigenes XML (Namensraum urn:vivodepot:erbschein-vorbereitung:v1); Ziel XJustiz 4.0.0 (gültig 3.6.2, 4.0.0 vorhanden, nachgesehen 16.10.2026)",
+      "herausgeber": "Bund-Länder-Kommission für Informationstechnik in der Justiz (BLK-AG IT-Standards in der Justiz)",
+      "quelle": {
+        "url": "https://xjustiz.justiz.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Die Lizenz der XSD- und Schematron-Dateien auf xjustiz.justiz.de ist nicht gelesen (16.10.2026); bis geklärt: Genehmigung nötig."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "verwaltung",
+      "status": "fehlt",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Der Erbschein-Auszug (erbscheinAuszugXML, flowErbscheinXmlSichern) schreibt eigenes XML, laut eigenem Hinweis lose angelehnt, keine XJustiz-Nachricht; der Weg ist kein Eintrag in EXPORT_FORMATE. Geprüft nur durch xmllint auf Wohlgeformtheit und Wurzel, ohne Schema. Offener Befund XJUSTIZ-ERBSCHEIN-ANGELEHNT.",
+      "kandidat": {
+        "werkzeug": "KoSIT-Validator 1.6.3 (Apache-2.0) mit eigenem Szenario aus XSD und Schematron von XJustiz (beide offiziell auf xjustiz.justiz.de; ein fertiges Prüfwerkzeug bietet der Herausgeber nicht an, TeT-XJustiz ist laut Seite Tools_Anwendungen kein Validierungstool)",
+        "quelle": "https://github.com/itplr-kosit/validator"
+      }
     }
   ]
 }

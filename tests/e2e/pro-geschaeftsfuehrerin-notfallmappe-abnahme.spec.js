@@ -33,7 +33,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const path = require('node:path');
-const { oeffneApp, depotAnlegen, oeffneSektor, einstellungenAbschnittOeffnen } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, einstellungenAbschnittOeffnen, erweiterungEinlesenBestaetigen } = require('./helpers');
 
 const GF_BUNDLE_DATEI = path.join(__dirname, '..', '..', 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul.json');
 const PRO_BEREICHE_DATEI = path.join(__dirname, '..', '..', 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-bereich.json');
@@ -45,6 +45,7 @@ async function moduleDateiEinlassen(page, dateipfad) {
   await einstellungenAbschnittOeffnen(page, '#einst-modul-einlassen');
   await expect(page.locator('#einst-modul-einlassen')).toBeVisible();
   await page.locator('#einst-modul-datei').setInputFiles(dateipfad);
+  await erweiterungEinlesenBestaetigen(page);   // Wahl statt Sperre (E3): ein unsigniertes Modul erst nach der Frage
   await page.locator('#m-ok').click();   // Einstellungen-Modal schließen
 }
 
@@ -53,8 +54,7 @@ async function proUndGfEinlassen(page) {
   await moduleDateiEinlassen(page, GF_BUNDLE_DATEI);
 }
 
-// FIXME-ID: SPERRE-EINLASS-PRO-GESCHAEFTSFUEHRERIN-NOTFALLMAPPE-ABNAHME
-test.fixme('Regal-Karte erscheint erst NACH beiden Einlässen (Bereiche + Bundle), öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
+test('Regal-Karte erscheint erst NACH beiden Einlässen (Bereiche + Bundle), öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await oeffneSektor(page, 'advanceCare');
@@ -70,15 +70,17 @@ test.fixme('Regal-Karte erscheint erst NACH beiden Einlässen (Bereiche + Bundle
 
   await expect(page.locator('#pv-dok-overlay')).toBeVisible();
   const blatt = page.locator('#pv-dok-overlay .pv-dok-blatt');
-  await expect(blatt).toContainText('Geschäftsführerin — Vertretung, Nachfolge, Notfall');
-  await expect(blatt).toContainText('Teil A — Vertretung');
-  await expect(blatt).toContainText('Teil B — Nachfolge');
-  await expect(blatt).toContainText('Teil C — Notfall');
+  // Titel und Teile aus dem eingelassenen Logikmodul selbst, nicht abgeschrieben (Pro ohne Notfall, 07.10.2026, U2-ADR-243).
+  const gf = JSON.parse(require('node:fs').readFileSync(GF_BUNDLE_DATEI, 'utf8'));
+  const titel = JSON.stringify(gf).match(/"h1":\s*"([^"]+)"/)[1];
+  const teile = (JSON.stringify(gf).match(/"titel":\s*"Teil [A-Z] — [^"]+"/g) || []).map((t) => JSON.parse('{' + t + '}').titel);
+  expect(teile.length, 'das Logikmodul hat Teile').toBeGreaterThan(0);
+  await expect(blatt).toContainText(titel);
+  for (const t of teile) await expect(blatt).toContainText(t);
   await expect(blatt).toContainText('— nicht erfasst —');
 });
 
-// FIXME-ID: SPERRE-EINLASS-PRO-GESCHAEFTSFUEHRERIN-NOTFALLMAPPE-ABNAHME
-test.fixme('volles Depot: Prokura, Gesellschafterliste und Vertretungsplan erscheinen im Auszug in Klartext', async ({ page }) => {
+test('volles Depot: Prokura, Gesellschafterliste und Vertretungsplan erscheinen im Auszug in Klartext', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await proUndGfEinlassen(page);

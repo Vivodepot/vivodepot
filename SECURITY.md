@@ -286,6 +286,11 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v931 | 2026-10-17 | privat-de | `a70d0c51129b662300dc80ceb618f53986035dc25dc795416fac111e4d1ec477` |
+| v931 | 2026-10-17 | privat-en | `1dcc54b96b0b325157e91a0adb680b5a16582c65917ae13b15c967a4c45fdc58` |
+| v931 | 2026-10-17 | pro-de | `16aa33307da25c90bd8550f49e599ea02e82421cfaa33be62b54b6933714785a` |
+| v931 | 2026-10-17 | pro-en | `d00db137d6a441e9a009906292d58cca761a3f87a62b44b9156940b38a1d7c07` |
+| v931 | 2026-10-17 | service-worker | `96120714b84a3593aab2987cba8e3558b12efddce205ea45e4757d3af6fd327e` |
 | v930 | 2026-10-16 | privat-de | `7ef3f3cda0f7f6f52c093f15b2c10aacf08e71a0755b4c130f36d1645f560c46` |
 | v930 | 2026-10-16 | privat-en | `2e6410dbd26e6d47b303b8299bc392463ada51f87f537a0b9ff4142fb968c9a6` |
 | v930 | 2026-10-16 | pro-de | `812b9ba48389c0bdcb23e3b87dee692c82057b8cb5b9ab99003400511fb3ac60` |
@@ -430,10 +435,11 @@ Die Zahlen, Längen, Namen und Info-Präfixe in der Spalte „Wert“ sind aus `
 | Feld-Einheiten | je Einheit ein eigener Inhaltsschlüssel aus 32 Zufallsbyte, unter dem Depot-Schlüssel gewickelt | `_einheitSchluesselNeu` | U2-ADR-149 |
 | Feld-Adressen | HMAC-SHA-256 über den Feldnamen, auf 16 Byte gekürzt; Schlüssel per HKDF, Info `vivodepot/v4/adressen/` + Depot-UUID | `deriveAdressKeyV4`, `ZERFALL_ADRESSE_BYTES` | U2-ADR-149 |
 | Signaturschlüssel der Halterin | Ed25519-Seed per HKDF, Info `vivodepot/v4/halter-signatur/` + Depot-UUID, nirgends gespeichert | `deriveHalterSignaturV4` | U2-ADR-457 · Auflage: externer Review |
+| Signaturschlüssel je Stelle (Antwort) | Ed25519-Seed per HKDF-SHA-256 aus dem Antwort-Seed des Depots (32 Byte, Inhalt des Depots, nicht aus dem Passwort), Salt leer, Info `vivodepot/antwort-schluessel/v1` ‖ 0x00 ‖ Domäne ‖ 0x00 ‖ Länge (2 Byte) ‖ Kennung der Stelle; signiert jede Antwort, solange `ANTWORT_SIGNIEREN` an ist | `antwortSchluesselJeStelle`, `antwortSchluesselInfo` | U2-ADR-501 · Auflage: externer Review |
 | Fach-Tür (Empfängerkreise) | PBKDF2 über das Passwort der Empfängerin mit eigenem Salt, danach HKDF mit demselben Info-String wie der Depot-Schlüssel (`vivodepot/v3/depot/`) | `_fachTuerSchluessel` | U2-ADR-156 |
 | Fach-Zugang | der Fach-Schlüssel wickelt nur die freigegebenen Einheiten; für die übrigen stehen Attrappen gleicher Länge | `_zerfallAttrappe` | U2-ADR-156 |
 | Wiederherstellungs-Hülle | Code mit 27 Stellen Crockford-Base32; PBKDF2 (600.000) mit eigenem 32-Byte-Salt, das Ergebnis dient direkt als AES-GCM-Schlüssel (IV 12 Byte) und wickelt das Ergebnis der Passwort-Ableitung | `WHC_STELLEN`, `_whcFrisch`, `_whcEinwickeln` | U2-ADR-430 |
-| QR-Übergabe | PBKDF2 (600.000) direkt zu AES-GCM 256 Bit, ohne HKDF | `_empfaengerQrSchluesselVerschluesseln` | keine ADR |
+| QR-Übergabe | PBKDF2 (600.000) direkt zu AES-GCM 256 Bit, ohne HKDF | `_empfaengerQrSchluesselVerschluesseln` | U2-ADR-156 (Nachtrag QR-Übergabe, 04.10.2026) |
 | Einmalpasswort (Lese-App) | PBKDF2 direkt zu einem AES-Schlüssel, ohne HKDF | `_angDeriveKey` | U2-ADR-062, U2-ADR-153 · Auflage: externer Review |
 | Antwort als JWE, Einmalpasswort | PBES2-HS512+A256KW, PBKDF2-SHA-512 mit 600.000 Iterationen | `_jwePbes2Schluessel` | U2-ADR-449 · Auflage: externer Review |
 | SMART Health Link | JWE `alg: dir`, A256GCM, zufälliger Schlüssel 32 Byte | `_jweCompactDir` | U2-ADR-047 · externer Review empfohlen (von U2-ADR-449 und U2-ADR-457 als Auflage übernommen) |

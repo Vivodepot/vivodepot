@@ -217,15 +217,17 @@ function pruefungen(assert) {
       fn: (V) => {
         assert.equal(V.textsatzRegeln().waehrung, 'EUR',
           'das Depot rechnet in Euro — die Bürgerin in Quito nicht');
-        /* Positivkontrolle: ein Modul KANN die Regel ändern — der Weg ist nicht zu. */
+        /* Ein roh eingelegtes Modul wirkt mit seinen Texten, nicht mit seiner Währung. */
         const d = V.getData();
         d.textsprache = 'es';
         d.textsatzModule = [{ modulTyp: 'textsatz', moduleVersion: 1, sprache: 'es',
           texte: { 'identity.familyName.label': 'Apellidos' }, regeln: { waehrung: 'USD' } }];
         V.setData(d);
         V._textsatzModuleAusDepotAnmelden(d);
-        assert.equal(V.textsatzRegeln().waehrung, 'USD',
-          'Positivkontrolle: ein Modul setzt die Währung — der Schlüssel trägt, er trägt nur die falsche Dimension');
+        /* Schutz-Wagen S4: ein roh eingelegtes Modul setzt keine Währung mehr. Dass der Schlüssel
+           trägt, zeigt jetzt der Auslieferungsweg (Probe „[P19·Währung] … Vor-Depot“ in persona-p19-p20.test.js). */
+        assert.equal(V.textLesen('identity.familyName.label'), 'Apellidos', 'Vorbedingung: das Modul wirkt');
+        assert.notEqual(V.textsatzRegeln().waehrung, 'USD', 'ein roh eingelegtes Modul setzt keine Währung');
       } },
 
     { name: 'WER SIGNIERT IHR MODUL: kein Weg im Kern setzt eine Kammer voraus',

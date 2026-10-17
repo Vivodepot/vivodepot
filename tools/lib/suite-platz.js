@@ -63,10 +63,17 @@
    PLATZART AIR (04.10.2026). Ein Lauf auf einem entfernten Prüfrechner (ein Commit, der dort statt hier geprüft wird)
    belegt hier keinen Suite-Platz, aber einen AIR-PLATZ: Unterverzeichnis `air/` desselben
    Verzeichnisses, `VD_AIR_PLAETZE` (Vorgabe 1) — der Prüfrechner fährt einen Lauf zur Zeit. Wer warten muss, zieht ein Ticket in
-   `air/tickets/` wie oben. EIN PLATZ JE SITZUNG ÜBER BEIDE ARTEN: hält ein Lauf derselben Sitzung (dieselbe cwd auf diesem
-   Rechner) einen Suite-Platz, bekommt sie keinen Air-Platz, und umgekehrt — sonst liefe eine Sitzung hier und dort zugleich
-   und sähe für andere „frei“ aus. Ein geerbter Platz (VD_SUITE_PLATZ_GEHALTEN) gehört zum laufenden Lauf und zählt nicht
-   als zweiter. `--anzeigen` nennt beide Arten getrennt.
+   `air/tickets/` wie oben. `--anzeigen` nennt beide Arten getrennt.
+
+   AIR-PLATZ ALS DRITTER PLATZ (16.10.2026). Bis hierher galt „ein Platz je Sitzung über beide Arten“: hielt eine Sitzung
+   (dieselbe cwd auf diesem Rechner) einen Suite-Platz, bekam sie keinen Air-Platz, und umgekehrt. Das ließ den Prüfrechner
+   leer stehen, während hier ein Push oder eine Landung lief, deren Node-Suite und Chromium-Hauptlauf er hätte tragen können.
+   Jetzt zählt der Air-Platz unabhängig: eine Sitzung darf einen Suite-Platz UND den Air-Platz halten (z. B. pre-push: Rest
+   hier, Hauptlauf dort, parallel). Unverändert: VD_SUITE_PLAETZE und VD_AIR_PLAETZE, die Lastgrenze vor jedem Suite-Platz
+   (der Air-Platz hing nie an der Last hier — dort rechnet der Prüfrechner), Warteschlange, Vorrang, Push exklusiv und
+   Vorrang-Marke. Mehr als einen Suite-Platz bekommt ein Lauf weiterhin nicht: Kinder erben ihn (VERERBUNG oben).
+   LEERLAUF-WARNUNG (16.10.2026): `--anzeigen` warnt, wenn der Air-Platz frei ist, während hier Läufe mit auslagerbarem Anteil
+   einen Suite-Platz halten oder warten (AUSLAGERBAR unten) — wer die Plätze nachts liest, sieht den Leerlauf.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -141,10 +148,24 @@ function anzahlAir(env = process.env) {
 function gleicheSitzung(e, cwd, host = os.hostname()) {
   return !!e && (e.host === undefined || e.host === host) && echterPfad(e.cwd || '') === echterPfad(cwd);
 }
-/** Die lebenden Halter der ANDEREN Art, die zu dieser Sitzung gehören (nicht der Prozess selbst). */
-function sitzungHaeltAndereArt({ art, dir, cwd, pid, env = process.env }) {
-  const liste = art === 'air' ? halter({ dir, n: anzahl(env) }) : halter({ dir: airVerzeichnis(dir), n: anzahlAir(env) });
-  return liste.filter((h) => h.pid !== pid && gleicheSitzung(h, cwd));
+
+/* AUSLAGERBAR (16.10.2026, LEERLAUF-WARNUNG im Kopf). Läufe, deren schwerer Teil — Node-Suite und Chromium-Hauptlauf, die
+   Menge, die der Prüfrechner gleichwertig trägt (sein Gleichwertigkeitsbeleg) — auch dort laufen könnte. Benannt nach
+   den Namen, mit denen die Läufe ihren Platz holen (die beiden Git-Hooks, die Landungsvorbereitung, die
+   Wache von npm test); dazu jeder Lauf, dessen Name e2e oder chromium trägt. Nicht darunter: Erzeuger und reine
+   Firefox-/Cross-Läufe — die trägt der Prüfrechner nicht. Die Liste steuert nur die Warnung, keine Vergabe. */
+const AUSLAGERBAR_NAMEN = Object.freeze(['pre-push', 'landung-vorbereiten', 'pre-commit', 'npm test']);
+const AUSLAGERBAR_MUSTER = /e2e|chromium/i;
+function auslagerbar(name) { return AUSLAGERBAR_NAMEN.includes(name) || AUSLAGERBAR_MUSTER.test(String(name || '')); }
+/** Die Warnzeile, wenn der Air-Platz frei ist, während hier auslagerbare Läufe einen Platz halten oder warten; sonst null. */
+function airLeerlaufWarnung({ dir = verzeichnis(), env = process.env } = {}) {
+  const ad = airVerzeichnis(dir);
+  if (halter({ dir: ad, n: anzahlAir(env) }).length >= anzahlAir(env)) return null;
+  const laufen = halter({ dir, n: anzahl(env) }).filter((h) => auslagerbar(h.name)).length;
+  const warten = wartende({ dir }).filter((t) => auslagerbar(t.name)).length;
+  if (laufen + warten === 0) return null;
+  return 'WARNUNG: Air frei, während ' + (laufen + warten) + ' Läufe mit auslagerbarem Anteil auf dem Mac laufen/warten ('
+    + laufen + ' laufen, ' + warten + ' warten).';
 }
 
 function prozessLebt(pid) {
@@ -186,7 +207,7 @@ function wartende({ dir = verzeichnis() } = {}) {
 
 let ticketZaehler = 0;
 /** Zieht ein Ticket: der Name ordnet nach Zeit (feste Breite), dann PID und Zähler. */
-function ticketZiehen({ name, pid = process.pid, dir = verzeichnis(), cwd = process.cwd() } = {}) {
+function ticketZiehen({ name, pid = process.pid, dir = verzeichnis(), cwd = process.cwd(), extra = {} } = {}) {
   const tv = ticketVerzeichnis(dir);
   fs.mkdirSync(tv, { recursive: true });
   for (;;) {
@@ -195,11 +216,31 @@ function ticketZiehen({ name, pid = process.pid, dir = verzeichnis(), cwd = proc
     try {
       const fd = fs.openSync(pfad, 'wx');
       // host (02.10.2026): ohne ihn erkannte eigeneLaeufe kein Ticket als eigenes — --beenden --cwd sah Wartende nie.
-      fs.writeFileSync(fd, JSON.stringify({ pid, name, cwd, host: os.hostname(), gezogenAm: new Date().toISOString() }));
+      fs.writeFileSync(fd, JSON.stringify({ ...extra, pid, name, cwd, host: os.hostname(), gezogenAm: new Date().toISOString() }));
       fs.closeSync(fd);
       return pfad;
     } catch (e) { if (e.code !== 'EEXIST') throw e; }
   }
+}
+
+/* PUSH IN DER PAUSE (16.10.2026, Befund PUSH-FREIGABE-ZWEITER-PREPUSH): gibt ein pre-push seinen Platz frei, während der
+   eigene Prüfrechner für ihn rechnet (nach dem grünen lokalen Rest), sah die Exklusiv-Regel ihn nicht mehr — sie las nur
+   gehaltene Plätze —, und ein zweiter pre-push konnte den freien Platz nehmen: zwei Pushes zugleich. Jetzt hinterlässt die
+   Freigabe ein Pause-Ticket (name pre-push, pause: true). Es zählt für die Exklusiv-Regel wie ein gehaltener Push, aber NICHT
+   in der Schlange: andere Läufe nutzen den freien Platz. Es endet, wenn der Push neu holt, seinen Platz freigibt (Hook-Ende)
+   oder sein Prozess nicht mehr lebt (wartende() räumt Tickets toter Prozesse). */
+function pushPauseSetzen({ pid = process.pid, dir = verzeichnis(), cwd = process.cwd() } = {}) {
+  return ticketZiehen({ name: EXKLUSIV, pid, dir, cwd, extra: { pause: true } });
+}
+function pushPauseEnden({ pid = process.pid, dir = verzeichnis() } = {}) {
+  let weg = 0;
+  for (const t of wartende({ dir })) if (t.pause && t.pid === pid) { ticketAbgeben(t.pfad); weg += 1; }
+  return weg;
+}
+/** Hält ein ANDERER Push einen Platz oder steht er in der Pause? */
+function fremderPush({ dir, n, pid }) {
+  return halter({ dir, n }).some((h) => h.name === EXKLUSIV && h.pid !== pid)
+    || wartende({ dir }).some((t) => t.pause && t.name === EXKLUSIV && t.pid !== pid);
 }
 
 function ticketAbgeben(pfad) { if (pfad) { try { fs.unlinkSync(pfad); } catch (_) { /* schon weg */ } } }
@@ -216,6 +257,26 @@ function halter({ dir = verzeichnis(), n = anzahl() } = {}) {
 
 const REIHE_DATEI = 'reihe';
 const REIHE_GUELTIG_MS = 90 * 60 * 1000;
+/* VERWAISTE MARKE (16.10.2026, Befund VORRANG-MARKE-VERWAIST): eine Marke, deren Lauf nicht mehr lebt (Sitzung beendet,
+   Kontowechsel, Lauf abgebrochen), hielt die Schlange bis zum Ablauf der 90 Minuten auf — heute zweimal. Jetzt gilt sie nach
+   einer Schonfrist nur, solange im markierten Baum ein lebender Eintrag steht: ein Halter oder ein Ticket, auf den Suite-Plätzen
+   oder dem Air-Platz (dieselben Einträge wie in eigeneLaeufe, verglichen mit imBaum). Die Schonfrist deckt die übliche Folge
+   „Marke setzen, dann den Lauf starten“. Zwischen zwei Läufen desselben Baums (Ende des pre-commit, Start des Pushs) gilt sie
+   nach der Schonfrist kurz nicht; ein fremder Lauf kann dann einen Platz nehmen. Verloren ist sie nicht: sobald der Push ein
+   Ticket zieht, gilt sie wieder. Probe: tests/suite-platz-reihe.test.js, [Reihe·verwaist]. */
+const REIHE_SCHONFRIST_MS = 10 * 60 * 1000;
+function markeHatLauf(baum, { dir = verzeichnis(), host = os.hostname() } = {}) {
+  const lebt = (e) => e && (!e.host || e.host === host) && prozessLebt(e.pid) && imBaum(baum, e.cwd);
+  const ad = airVerzeichnis(dir);
+  const air = fs.existsSync(ad) ? [...halter({ dir: ad, n: anzahlAir() }), ...wartende({ dir: ad })] : [];
+  return [...halter({ dir }), ...wartende({ dir }), ...air].some(lebt);
+}
+/* WARTEZEIT AUF DEN PLATZ (16.10.2026). Vorgabe für jeden Lauf, der einen Platz holt und dabei wartet (Hooks, Landung, die Wache von
+   npm test, das CLI): 7200 s. Bis hierher 600 s — sind beide Plätze mit langen Läufen belegt, brach ein Push oder Commit nach zehn
+   Minuten ab und verlor seinen Platz in der Reihe, auch mit Vorrang-Marke (zweimal in einer Nacht gemessen). Überschreibbar mit
+   VD_SUITE_PLATZ_WARTEN_S. Probe: tests/suite-platz-wartezeit.test.js, auch dass kein Aufrufer eine eigene Zahl setzt. */
+const WARTEN_S_VORGABE = 7200;
+function wartenS(env = process.env) { const n = Number(env.VD_SUITE_PLATZ_WARTEN_S); return Number.isFinite(n) && n > 0 ? n : WARTEN_S_VORGABE; }
 
 /** Die Vorrang-Marke: null (keine) oder { baum, gesetztAm, gueltig, grund }. */
 function reiheLesen({ dir = verzeichnis(), jetzt = Date.now() } = {}) {
@@ -227,15 +288,41 @@ function reiheLesen({ dir = verzeichnis(), jetzt = Date.now() } = {}) {
   if (!m || typeof m.baum !== 'string' || !Number.isFinite(t)) return { baum: null, gueltig: false, grund: 'Marke unvollständig, altes Verhalten' };
   if (jetzt - t > REIHE_GUELTIG_MS) return { ...m, gueltig: false, grund: 'Marke abgelaufen, altes Verhalten' };
   if (!fs.existsSync(m.baum)) return { ...m, gueltig: false, grund: 'Marke abgelaufen (Baum fehlt), altes Verhalten' };
+  if (jetzt - t > REIHE_SCHONFRIST_MS && !markeHatLauf(echterPfad(m.baum), { dir })) {
+    return { ...m, gueltig: false, verwaist: true, grund: 'Marke verwaist (nach der Schonfrist kein lebender Lauf im Baum ' + m.baum + '), altes Verhalten' };
+  }
   return { ...m, gueltig: true };
 }
+/* EIGENTÜMER DER VORRANG-MARKE (16.10.2026, Befund VORRANG-MARKE-FREMD-GELOESCHT): Die Marke ist eine einzige Datei.
+   Vorher löschte reiheLoeschen sie ohne zu prüfen, wem sie gehört, und reiheSetzen überschrieb eine gültige fremde still —
+   jede Sitzung räumt nach ihrem Push die Marke, und so verschwand zweimal eine Marke, die für einen anderen Baum gesetzt war.
+   Jetzt sagt reiheSetzen, wessen gültige Marke es überschreibt (`ueberschrieben`), und reiheLoeschen löscht nur eine Marke,
+   deren Baum die cwd des Aufrufers enthält (derselbe Vergleich wie bei der Vergabe, imBaum mit realpath), eine ungültige
+   (sie wirkt ohnehin nicht) oder mit `fremd: true` bewusst eine fremde. */
 function reiheSetzen({ dir = verzeichnis(), baum, jetzt = Date.now() } = {}) {
   fs.mkdirSync(dir, { recursive: true });
+  const alt = reiheLesen({ dir, jetzt });
   const eintrag = { baum: echterPfad(baum), gesetztAm: new Date(jetzt).toISOString() };
   fs.writeFileSync(path.join(dir, REIHE_DATEI), JSON.stringify(eintrag) + '\n');
+  if (alt && alt.gueltig && alt.baum !== eintrag.baum) return { ...eintrag, ueberschrieben: { baum: alt.baum, gesetztAm: alt.gesetztAm } };
   return eintrag;
 }
-function reiheLoeschen({ dir = verzeichnis() } = {}) { try { fs.unlinkSync(path.join(dir, REIHE_DATEI)); return true; } catch (_) { return false; } }
+/**
+ * Entfernt die Vorrang-Marke, wenn sie dem Aufrufer gehört. Ergebnis { geloescht, ergebnis, marke }:
+ *   ergebnis 'keine'    — keine Marke gesetzt
+ *   ergebnis 'eigen'    — die Marke nennt den Baum der cwd: gelöscht
+ *   ergebnis 'ungueltig'— abgelaufen, unlesbar oder Baum fehlt: gelöscht (wirkt ohnehin nicht)
+ *   ergebnis 'fremd'    — gültige Marke eines anderen Baums: NICHT gelöscht
+ *   ergebnis 'fremd-geloescht' — gültige fremde Marke, mit `fremd: true` bewusst gelöscht
+ */
+function reiheLoeschen({ dir = verzeichnis(), cwd = process.cwd(), fremd = false, jetzt = Date.now() } = {}) {
+  const marke = reiheLesen({ dir, jetzt });
+  if (!marke) return { geloescht: false, ergebnis: 'keine', marke: null };
+  const ergebnis = !marke.gueltig ? 'ungueltig' : imBaum(marke.baum, cwd) ? 'eigen' : fremd ? 'fremd-geloescht' : 'fremd';
+  if (ergebnis === 'fremd') return { geloescht: false, ergebnis, marke };
+  try { fs.unlinkSync(path.join(dir, REIHE_DATEI)); } catch (_) { return { geloescht: false, ergebnis: 'keine', marke: null }; }
+  return { geloescht: true, ergebnis, marke };
+}
 /** Liegt ein Arbeitsverzeichnis im markierten Baum? */
 function imBaum(baum, cwd) {
   if (!baum || !cwd) return false;
@@ -257,13 +344,14 @@ function platzHolen(opts = {}) {
   if (env[UMGEBUNG_GEHALTEN]) return { geholt: true, geerbt: true, von: env[UMGEBUNG_GEHALTEN] };
   const { name, pid = process.pid, dir = verzeichnis(), n = anzahl(), cwd = process.cwd(), ticket = null } = opts;
   fs.mkdirSync(dir, { recursive: true });
-  // Ein Platz je Sitzung über beide Arten (PLATZART AIR): läuft diese Sitzung gerade auf dem Prüfrechner, wartet sie hier.
-  const airDerSitzung = sitzungHaeltAndereArt({ art: 'lokal', dir, cwd, pid, env });
-  if (airDerSitzung.length) return { geholt: false, halter: halter({ dir, n }), wartende: wartende({ dir }), sitzung: { art: 'air', halter: airDerSitzung } };
+  // Ein Air-Platz derselben Sitzung sperrt hier nichts mehr (AIR-PLATZ ALS DRITTER PLATZ, 16.10.2026).
   const reihe = reiheLesen({ dir });
   if (reihe && reihe.gueltig) {
     const jetztHalter = halter({ dir, n });
-    if (imBaum(reihe.baum, cwd)) return platzNehmen({ name, pid, dir, n, cwd, schlange: [], reihe });   // vor allen Tickets
+    if (imBaum(reihe.baum, cwd)) {
+      if (name === EXKLUSIV && fremderPush({ dir, n, pid })) return { geholt: false, halter: jetztHalter, wartende: wartende({ dir }), exklusiv: true, reihe };
+      return platzNehmen({ name, pid, dir, n, cwd, schlange: [], reihe });   // vor allen Tickets
+    }
     const andere = jetztHalter.filter((h) => !imBaum(reihe.baum, h.cwd));
     const markierterHaelt = jetztHalter.length > andere.length;
     const frei = n - jetztHalter.length;
@@ -271,7 +359,7 @@ function platzHolen(opts = {}) {
     // Ein Browserlauf nicht neben einem Browserlauf; wer so blockiert ist, hält den Zusatzplatz niemandem zu.
     const e2eHaelt = jetztHalter.some((h) => artVon(h.name) === 'e2e' && h.pid !== pid);
     const kannNehmen = (laufName) => !(artVon(laufName) === 'e2e' && e2eHaelt);
-    const schlange = wartende({ dir }).filter((t) => !imBaum(reihe.baum, t.cwd) && t.name !== EXKLUSIV && kannNehmen(t.name));
+    const schlange = wartende({ dir }).filter((t) => !t.pause && !imBaum(reihe.baum, t.cwd) && t.name !== EXKLUSIV && kannNehmen(t.name));
     const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : -1;
     const vorn = eigenerRang === 0 || (eigenerRang < 0 && schlange.length === 0);
     const darf = name !== EXKLUSIV && platzDa && kannNehmen(name) && vorn;
@@ -279,10 +367,11 @@ function platzHolen(opts = {}) {
     return platzNehmen({ name, pid, dir, n, cwd, schlange: [], reihe });
   }
   const reiheHinweis = reihe && !reihe.gueltig ? reihe.grund : null;
-  const pushHaelt = halter({ dir, n }).some((h) => h.name === EXKLUSIV && h.pid !== pid);
+  const pushHaelt = fremderPush({ dir, n, pid });
   if (name === EXKLUSIV && pushHaelt) return { geholt: false, halter: halter({ dir, n }), wartende: wartende({ dir }), exklusiv: true };
   // Ein Push, der hinter einem laufenden Push wartet, kann einen freien Platz nicht nehmen — er hält ihn niemandem zu.
-  const schlange = wartende({ dir }).filter((t) => !(pushHaelt && t.name === EXKLUSIV) || t.pfad === ticket);
+  // Ein Pause-Ticket hält niemandem einen Platz zu (PUSH-FREIGABE-ZWEITER-PREPUSH).
+  const schlange = wartende({ dir }).filter((t) => !t.pause && (!(pushHaelt && t.name === EXKLUSIV) || t.pfad === ticket));
   const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : -1;
   // Ohne Ticket: hinter allen derselben oder einer höheren Stufe — ein Push also vor wartenden Vorbereitungen.
   const rang = eigenerRang >= 0 ? eigenerRang : schlange.filter((t) => t.stufe <= vorrang(name)).length;
@@ -340,15 +429,14 @@ function platzHolenMitWarten(opts = {}, { wartenS = 0, pauseS = 10, melden = () 
 }
 
 /**
- * Holt den Air-Platz (PLATZART AIR). Ergebnis wie platzHolen; `sitzung` gesetzt, wenn dieselbe Sitzung einen Suite-Platz hält.
+ * Holt den Air-Platz (PLATZART AIR). Ergebnis wie platzHolen. Ein Suite-Platz derselben Sitzung sperrt ihn nicht
+ * (AIR-PLATZ ALS DRITTER PLATZ, 16.10.2026); keine Lastgrenze — der Lauf rechnet auf dem Prüfrechner.
  * Ohne Ticket steht der Aufrufer hinter allen wartenden Air-Läufen.
  */
 function airPlatzHolen({ name = 'air', pid = process.pid, dir = verzeichnis(), n, cwd = process.cwd(), ticket = null, env = process.env } = {}) {
   const ad = airVerzeichnis(dir);
   const na = n || anzahlAir(env);
   fs.mkdirSync(ad, { recursive: true });
-  const lokalDerSitzung = sitzungHaeltAndereArt({ art: 'air', dir, cwd, pid, env });
-  if (lokalDerSitzung.length) return { geholt: false, halter: halter({ dir: ad, n: na }), wartende: wartende({ dir: ad }), sitzung: { art: 'lokal', halter: lokalDerSitzung } };
   const schlange = wartende({ dir: ad });
   const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : schlange.length;
   if (eigenerRang > 0 && na - halter({ dir: ad, n: na }).length <= eigenerRang) return { geholt: false, halter: halter({ dir: ad, n: na }), wartende: schlange };
@@ -404,7 +492,16 @@ function eigeneLaeufe({ cwd = process.cwd(), dir = verzeichnis(), n = anzahl(), 
     if (passt(e)) plaetze.push({ platz: k, ...e });
     else if (eigen(e)) tot.push({ platz: k, pfad: platzPfad(dir, k), ...e });
   }
-  return { plaetze, wartende: wartende({ dir }).filter(passt), tot };
+  /* Air-Platz (16.10.2026, Air a4): der vom pre-commit abgelöste Frühlauf hält ihn als eigener Prozess mit der cwd des
+     Baums. Ohne diese Zeilen sähe --beenden ihn nie, und er liefe nach dem Ende der Sitzung verwaist weiter. */
+  const ad = airVerzeichnis(dir);
+  for (let k = 1; k <= anzahlAir(); k++) {
+    const e = lesen(platzPfad(ad, k));
+    if (passt(e)) plaetze.push({ platz: 'Air ' + k, air: true, ...e });
+    else if (eigen(e)) tot.push({ platz: 'Air ' + k, pfad: platzPfad(ad, k), ...e });
+  }
+  const airWartende = fs.existsSync(ad) ? wartende({ dir: ad }).filter(passt).map((t) => ({ ...t, air: true })) : [];
+  return { plaetze, wartende: [...wartende({ dir }).filter(passt), ...airWartende], tot };
 }
 
 /** Räumt eine tote eigene Sperre — nur, wenn dort noch derselbe, weiterhin tote Halter steht. */
@@ -440,12 +537,6 @@ function vorfahren(pid, psText) {
 }
 
 function meldungBelegt(r) {
-  if (r && r.sitzung) {
-    const h = r.sitzung.halter.map((x) => `${x.name} (PID ${x.pid}, seit ${x.gestartetAm})`).join(' · ');
-    return r.sitzung.art === 'air'
-      ? 'diese Sitzung läuft gerade auf dem Runner (' + h + ') — ein Platz je Sitzung über beide Arten; erst das Urteil abwarten.'
-      : 'diese Sitzung hält gerade einen Suite-Platz (' + h + ') — ein Platz je Sitzung über beide Arten; erst den Lauf hier beenden.';
-  }
   if (r && r.exklusiv) {
     const p = (r.halter || []).find((h) => h.name === EXKLUSIV);
     return 'ein anderer Push läuft' + (p ? ' (PID ' + p.pid + ', ' + p.cwd + ', seit ' + p.gestartetAm + ')' : '')
@@ -465,7 +556,8 @@ module.exports = {
   UMGEBUNG_GEHALTEN, TESTLAEUFER_MERKMALE, testlaeuferMerkmale, verzeichnis, anzahl, prozessLebt, halter, lastGrenze, lastAbwarten,
   platzHolen, platzHolenMitWarten, platzFreigeben, meldungBelegt,
   wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV, artVon,
-  eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren,
-  reiheLesen, reiheSetzen, reiheLoeschen, imBaum, REIHE_GUELTIG_MS,
+  eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren, pushPauseSetzen, pushPauseEnden, fremderPush,
+  reiheLesen, reiheSetzen, reiheLoeschen, imBaum, markeHatLauf, REIHE_GUELTIG_MS, REIHE_SCHONFRIST_MS, WARTEN_S_VORGABE, wartenS,
   airVerzeichnis, anzahlAir, airPlatzHolen, airPlatzHolenMitWarten, airPlatzFreigeben, gleicheSitzung,
+  AUSLAGERBAR_NAMEN, auslagerbar, airLeerlaufWarnung,
 };

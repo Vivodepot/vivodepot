@@ -30,8 +30,13 @@ function funktion(html, kopf) {
 function wortlautVerletzungen(html) {
   const v = [];
   // Klasse 1: kein Zustand, der nur aus einem ausgelösten Download folgt, heißt „gesichert“ oder „gespeichert“.
-  if (/L\('gesichert'/.test(funktion(html, 'function fsStandAktualisieren('))) v.push('schritt-kopf-sagt-gesichert');
-  if (!/L\('heruntergeladen', 'downloaded'\)/.test(funktion(html, 'function fsStandAktualisieren('))) v.push('schritt-kopf-ohne-heruntergeladen');
+  // Seit 16.10.2026 steht der Zustand in der Zeile des Schritts „Sicherung speichern“ (einreichenStufen) und in #sk-priv-status:
+  // „✓ Sicherung geprüft, heruntergeladen“. GEPRÜFT ist die Hülle im Speicher (Probe-Öffnung), HERUNTERGELADEN die Datei;
+  // „gespeichert“ oder „gesichert“ behauptete, was ein ausgelöster Download nicht belegt.
+  const stand = [(/if \(privSt\) privSt\.textContent = [^;]*;/.exec(funktion(html, 'function aktualisiereSchluesselWeiter(')) || [''])[0],
+    (/b \? \(STATE\.schluesselGeladen \? [^\n]*/.exec(funktion(html, 'function einreichenStufen(')) || [''])[0]].join('\n');
+  if (/L\('[^']*(gesichert|gespeichert)[^']*', '[^']*'\)/.test(stand.replace(/L\('Schlüsseldatei geladen'[^)]*\)/, ''))) v.push('schritt-kopf-sagt-gesichert');
+  if ((stand.match(/L\('Sicherung geprüft, heruntergeladen', 'Backup checked, downloaded'\)/g) || []).length !== 2) v.push('schritt-kopf-ohne-heruntergeladen');
   if (/Beide Dateien gesichert/.test(html)) v.push('knopf-sagt-gesichert');
   const karte = funktion(html, 'function fertigKarteZeigen(');
   if (!karte) v.push('erfolgskarte-nicht-gefunden');
@@ -54,21 +59,24 @@ function wortlautVerletzungen(html) {
   return v;
 }
 
-/* Der freigegebene Wortlaut (Vorlage vom 11.10.2026, zweite Fassung), deutsch und englisch. */
+/* Der freigegebene Wortlaut (Vorlage vom 11.10.2026, zweite Fassung; die Folge „Einreichen“ aus der Gestaltungsvorlage
+   „ohne Prüfschritt“, freigegeben 16.10.2026), deutsch und englisch. Der frühere Satz „Diese Datei bleibt bei Ihnen …“ ist
+   mit dieser Vorlage durch den Satz zur Sicherungsdatei ersetzt. */
 const WORTLAUT = [
-  '>Sicherung prüfen</h4>', 'data-en="Check your backup"',
-  '>Öffnen Sie die Datei, die Sie eben gespeichert haben.</p>',
-  '>Schlüsseldatei</label>', '>Passwort der Schlüsseldatei</label>',
-  'id="sk-pruefen-knopf" data-en="Check">Prüfen</button>',
-  'data-en="Continue without checking">Ohne Prüfung weiter</button>',
-  "L('Weiter →', 'Next →')",
+  '>Gespeicherte Sicherung prüfen</summary>', 'data-en="Check saved backup"',
+  '>Wählen Sie die heruntergeladene Datei aus und geben Sie ihr Passwort ein. So sehen Sie, dass die gespeicherte Datei aufgeht.</p>',
+  '>Sicherungsdatei</label>', 'id="sk-pruefen-knopf" class="sekundaer" data-en="Check saved backup">Gespeicherte Sicherung prüfen</button>',
+  '>Die Sicherungsdatei bleibt bei Ihnen. Bewahren Sie sie an zwei Orten auf, zum Beispiel auf einem USB-Stick und in einem verschlüsselten Speicher.</p>',
+  'data-en="The backup file stays with you. Keep it in two places, for example on a USB stick and in encrypted storage."',
+  '>Frei, sobald Ihre Schlüsselsicherung geprüft und bestätigt ist.</p>',
+  'data-en="Available as soon as your key backup is checked and confirmed."',
+  'data-en="Save backup">Sicherung speichern</button>', '>Passwort (mindestens 8 Zeichen)</label>', '>Passwort wiederholen</label>',
   "L('Die Datei lässt sich mit Ihrem Passwort öffnen.'",
   "L('Sie gehört zu diesem Schlüsselpaar. Legen Sie sie an zwei Orten ab. Vivodepot hat keine Kopie.'",
   "L('Die Datei ließ sich nicht öffnen.'",
   "L('Das Passwort passt nicht, oder es ist eine andere Datei. Sie können es noch einmal versuchen oder den privaten Schlüssel erneut herunterladen.'",
   "L('Noch einmal prüfen', 'Check again')", 'data-en="Download again">Erneut herunterladen</button>',
-  'Diese Datei bleibt bei Ihnen. Legen Sie sie an zwei Orten ab, zum Beispiel auf einem USB-Stick und in einem verschlüsselten Speicher. Vivodepot hat keine Kopie und kann sie nicht wiederherstellen.</p>',
-  "L('Sicherung geprüft', 'backup checked')", "L('heruntergeladen und geöffnet', 'downloaded and opened')",
+  "'✓ ' + L('Sicherung geprüft, heruntergeladen', 'Backup checked, downloaded')",
   "' signiert und heruntergeladen', '✓ Done: submission file' + mehr + ' signed and downloaded')",
   "L('✓ Aufbau und Vollständigkeit geprüft.', '✓ Structure and completeness checked.')",
 ];
@@ -84,8 +92,9 @@ test('[Studio·Sicherung·Klasse] kein Statuswort behauptet mehr, als das Studio
 
 test('[Studio·Sicherung·Rot-Beweis] die Messung meldet jede verschlechterte Fassung', () => {
   const faelle = [
-    ['schritt-kopf-sagt-gesichert', (h) => h.replace("L('heruntergeladen', 'downloaded')) : '', schluesselFertig());", "'✓ ' + L('gesichert', 'saved')) : '', schluesselFertig());")],
-    ['knopf-sagt-gesichert', (h) => h.replace('>Ohne Prüfung weiter</button>', '>Beide Dateien gesichert: weiter →</button>')],
+    ['schritt-kopf-sagt-gesichert', (h) => h.replace("'✓ ' + L('Sicherung geprüft, heruntergeladen', 'Backup checked, downloaded')", "'✓ ' + L('Sicherung gespeichert', 'Backup saved')")],
+    ['schritt-kopf-ohne-heruntergeladen', (h) => h.replace("L('Schlüsseldatei geladen', 'Key file loaded') : L('Sicherung geprüft, heruntergeladen', 'Backup checked, downloaded')", "L('Schlüsseldatei geladen', 'Key file loaded') : L('Sicherung geprüft', 'Backup checked')")],
+    ['knopf-sagt-gesichert', (h) => h.replace('>Sicherung speichern</button>', '>Beide Dateien gesichert: weiter →</button>')],
     ['erfolgskarte-sagt-gespeichert', (h) => h.replace("' signiert und heruntergeladen'", "' signiert und gespeichert'")],
     ['erfolgskarte-ohne-inhaltssatz', (h) => h.replace(' Es bestätigt nicht, ob ihr Inhalt richtig ist.', '')],
     ['schritt3-sagt-alle-pruefungen-bestanden', (h) => h.replace('✓ Aufbau und Vollständigkeit geprüft.', '✓ Alle blockierenden Prüfungen bestanden.')],
@@ -179,36 +188,29 @@ test('[Studio·Sicherung·Rot-Beweis] ein Tresor, der nicht mit dem Schlüsselpa
   assert.equal(await T.sicherungPruefen(fremd, PW, pub), true, 'die verschlechterte Fassung nimmt das fremde Paar an');
 });
 
-/* ── Der Schritt: zwei Zustände, kein dritter ── */
-test('[Studio·Sicherung·Schritt] „heruntergeladen“ bis zur Prüfung, danach „✓ Sicherung geprüft“', async () => {
-  const { V, document } = ladeGenerator();
-  const { datei, pub } = await paar(V);
-  V.STATE.publicKeyJwk = pub;
+/* ── Der Schritt „Sicherung speichern“ und das Angebot „Gespeicherte Sicherung prüfen“ (16.10.2026) ── */
+test('[Studio·Sicherung·Schritt] „✓ Sicherung geprüft, heruntergeladen“ nach Probe und Download; die freiwillige Prüfung der Datei bleibt', async () => {
+  const { V, document, sandbox } = ladeGenerator();
   const el = (id) => document.getElementById(id);
-  for (const id of ['sk-pruefen', 'sk-pruef-datei', 'sk-pruef-pw', 'sk-pruef-ergebnis', 'sk-pruefen-knopf', 'sk-erneut-laden'])
+  for (const id of ['sk-pruefen', 'sk-pruef-datei', 'sk-pruef-pw', 'sk-pruef-ergebnis', 'sk-pruefen-knopf', 'sk-erneut-laden', 'pr-submit', 'pr-sperre-hinweis'])
     assert.ok(el(id), 'das Element #' + id + ' steht im Studio');
+  let datei = null;
+  sandbox.blobDownload = (name, text) => { if (/\.vdkey$/.test(name)) datei = text; };
+  el('sk-pw1').value = PW; el('sk-pw2').value = PW;
+  assert.equal(el('sk-priv-status').textContent, '', 'vor dem Speichern kein Stand');
+  await require('node:vm').runInContext('ladePrivate()', sandbox);
+  assert.ok(datei, 'die Sicherung ist heruntergeladen');
+  assert.equal(el('sk-priv-status').textContent, '✓ Sicherung geprüft, heruntergeladen');
+  assert.equal(V.einreichungFrei(), true, 'nach Probe und Download ist die Einreichung frei');
+  assert.equal(el('pr-sperre-hinweis').hidden, true);
 
-  V.STATE.pubDownloaded = true; V.STATE.privDownloaded = true; V.STATE.sicherungGeprueft = false;
-  V.aktualisiereSchluesselWeiter();
-  assert.equal(el('fs-b-stand').textContent, 'heruntergeladen');
-  assert.equal(el('sk-priv-status').textContent, 'heruntergeladen');
-  assert.equal(el('sk-weiter').textContent, 'Ohne Prüfung weiter');
-  assert.equal(el('sk-weiter').disabled, false, 'ohne Prüfung geht es weiter');
-  assert.equal(el('sk-pruefen').hidden, false, 'der Abschnitt steht offen');
-
-  // Falsches Passwort: kein Häkchen, der Stand bleibt.
-  const tresorDatei = JSON.stringify(datei);
-  el('sk-pruef-datei').files = [{ text: async () => tresorDatei }];
+  // Die freiwillige Prüfung der gespeicherten Datei: falsches Passwort meldet, ändert das Tor nicht; richtiges bestätigt.
+  el('sk-pruef-datei').files = [{ text: async () => datei }];
   el('sk-pruef-pw').value = PW + 'x';
   assert.equal(await V.sicherungPruefen(), false);
-  assert.equal(el('fs-b-stand').textContent, 'heruntergeladen');
   assert.equal(el('sk-pruef-pw').value, '', 'das Passwortfeld ist nach der Prüfung leer');
   assert.equal(el('sk-erneut-laden').hidden, false, 'nach dem Fehlschlag steht „Erneut herunterladen“ da');
-
   el('sk-pruef-pw').value = PW;
   assert.equal(await V.sicherungPruefen(), true);
-  assert.equal(el('fs-b-stand').textContent, '✓ Sicherung geprüft');
-  assert.equal(el('sk-priv-status').textContent, 'heruntergeladen und geöffnet');
-  assert.equal(el('sk-weiter').textContent, 'Weiter →');
   assert.equal(el('sk-pruef-pw').value, '');
 });

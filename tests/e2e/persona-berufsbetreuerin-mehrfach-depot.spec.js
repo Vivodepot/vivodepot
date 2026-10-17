@@ -36,7 +36,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, browserEd25519SchluesselpaarErzeugen, browserJwsSignieren } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, browserEd25519SchluesselpaarErzeugen, browserJwsSignieren, erweiterungenWaehlen } = require('./helpers');
 
 const BETREUTE_A = {
   pw: 'betreute-anna-pw-741',
@@ -128,15 +128,19 @@ function alsTmpDatei(bytes, name) {
 // per Debug-Lauf an tests/e2e/uebergang-depot-a-nach-b.spec.js (identisches Muster: EIN Tab,
 // wechselnde Depots). Dieser Test will ausdrücklich den Inhalt der GEÖFFNETEN DATEI —
 // „Aus der Datei" (#m-zweit), falls der Dialog erscheint.
-async function depotOeffnen(page, dateiPfad, pw) {
+// Die Wahl beim Öffnen (Schutz-Wagen) trägt ebenfalls #m-zweit („Ohne diese Erweiterungen öffnen“) — der Konflikt-Klick
+// darf sie nicht treffen, darum nur ein #m-zweit in einem Dialog ohne Wahl-Liste. `mitWahl`: die Datei bringt ein selbst
+// eingelassenes Modul mit, die Bürgerin wählt es.
+async function depotOeffnen(page, dateiPfad, pw, { mitWahl = false } = {}) {
   await page.click('#w-datei');
   await page.setInputFiles('#co-datei', dateiPfad);
   await page.fill('#co-pw', pw);
   await page.click('#w-oeffnen');
-  const konfliktDatei = page.locator('#m-zweit');
+  const konfliktDatei = page.locator('#modal-inhalt:not(:has(#erweiterung-wahl-liste)) #m-zweit');
   const kamKonflikt = await konfliktDatei.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
   if (kamKonflikt) await konfliktDatei.click();
   await page.waitForSelector('#app.an', { state: 'attached' });
+  if (mitWahl) await erweiterungenWaehlen(page);
 }
 
 /* Dieselbe Anker→Ausgabestelle→Kunde-Kette wie tests/e2e/pilot-externe-herausgeberin-
@@ -201,8 +205,7 @@ async function bereichsModulAnzahl(page) {
   });
 }
 
-// FIXME-ID: SPERRE-EINLASS-PERSONA-BERUFSBETREUERIN-MEHRFACH-DEPOT
-test.fixme('[Persona·Berufsbetreuerin] zwei unabhängige Depots — kein Datenaustausch beim Wechsel', async ({ page }) => {
+test('[Persona·Berufsbetreuerin] zwei unabhängige Depots — kein Datenaustausch beim Wechsel', async ({ page }) => {
   await oeffneApp(page);
   await fsaAttrappeEinrichten(page);
 
@@ -231,7 +234,7 @@ test.fixme('[Persona·Berufsbetreuerin] zwei unabhängige Depots — kein Datena
 
   try {
     // ── Depot A wieder öffnen — NUR A-Werte, KEINE Spur von B ───────────────
-    await depotOeffnen(page, dateiA, BETREUTE_A.pw);
+    await depotOeffnen(page, dateiA, BETREUTE_A.pw, { mitWahl: true });
     await identitaetUndVorsorgePruefen(page, BETREUTE_A);
 
     await page.evaluate(() => { window.__vdOeffentlich.renderSidebar(); });

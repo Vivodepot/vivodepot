@@ -372,7 +372,7 @@ const generator = {
     await page.click('#fertig-oeffnen');                 // ohne Angaben öffnet der Dialog bei den Angaben
     await page.waitForSelector('#sd-name', { state: 'visible' });
     await page.fill('#sd-name', sd.anbieterName);
-    await page.fill('#sd-rechtsform', sd.rechtsform);   // U2-ADR-495: freies Feld mit Vorschlägen, kein Auswahlfeld mehr
+    await weitereAngabenOeffnen(page); await page.fill('#sd-rechtsform', sd.rechtsform);   // U2-ADR-495: freies Feld mit Vorschlägen, kein Auswahlfeld mehr
     await page.fill('#sd-strasse', sd.strasse);
     await page.fill('#sd-plz', sd.plz);
     await page.fill('#sd-ort', sd.ort);
@@ -380,19 +380,15 @@ const generator = {
     await page.fill('#sd-k-name', sd.kontaktName);
     await page.fill('#sd-k-email', sd.kontaktEmail);
     await page.fill('#sd-k-telefon', sd.kontaktTelefon);
-    await page.click('#sd-weiter');                      // Angaben → Schlüssel
+    await page.click('#sd-weiter');                      // Angaben → Fertig (Karte „Zum Behalten“)
   },
+  /* Seit 16.10.2026 geht der Schlüssel im Ablauf auf: die Karte „Zum Behalten“ in „Fertig“. „Sicherung speichern“ erzeugt
+     das Paar und lädt die Hülle (ECHTER Download, hier abgefangen und gespeichert); „Sicherung prüfen und bestätigen“
+     öffnet genau diese Datei mit dem Passwort. Erst danach ist „Einreichung speichern“ frei. #sk-pub ist aus
+     (STUDIO_OEFFENTLICHEN_SCHLUESSEL_EINZELN = false, bis zum Besitznachweis-Wagen /2): der öffentliche Schlüssel reist
+     in der Einreichung. */
   async schluesselErzeugen(page) {
-    await page.waitForSelector('#sk-erzeugen', { state: 'visible' });
-    await page.fill('#sk-pw1', SCHLUESSEL_PASSWORT_E2E); await page.fill('#sk-pw2', SCHLUESSEL_PASSWORT_E2E);
-    await page.click('#sk-erzeugen');
-    await page.waitForSelector('#sk-downloads:not([hidden])');
-    // #sk-weiter ist bewusst gesperrt, bis BEIDE Schlüssel heruntergeladen sind. #sk-pub / #sk-priv lösen
-    // über blobDownload ECHTE Datei-Downloads aus, die hier abgefangen werden.
-    await Promise.all([ page.waitForEvent('download'), page.click('#sk-pub') ]);
-    await Promise.all([ page.waitForEvent('download'), page.click('#sk-priv') ]);
-    await page.waitForSelector('#sk-weiter:not([disabled])', { state: 'visible' });
-    await page.click('#sk-weiter');                      // Schlüssel → Prüfen und absenden
+    return sicherungSpeichernUndPruefen(page);
   },
   // Drei einfache Felder auf der Arbeitsfläche anlegen (Palette „eigenes Feld", Eigenschaften live).
   async dreiFelder(page, felder) {
@@ -411,12 +407,32 @@ const generator = {
   },
   // Prüfen + Submission-Paket erzeugen → Download nach tmp.
   async submissionNachTmp(page, dir) {
-    await page.waitForSelector('#pr-pruefen', { state: 'visible' });
+    await einzelheitenOeffnen(page);
     await page.click('#pr-pruefen');
     await page.waitForSelector('#pr-submit:not([disabled])');
     return downloadNachTmp(page, dir, () => page.click('#pr-submit'));
   },
 };
+
+async function sicherungSpeichernUndPruefen(page) {
+  // Seit 16.10.2026 (Folge „Einreichen“, ohne eigenen Prüfschritt): Passwort zweimal, „Sicherung speichern“. Das Studio
+  // öffnet die Hülle vor dem Download im Speicher (Probe); danach ist „Einreichung speichern“ frei.
+  await page.waitForSelector('#sk-pw1', { state: 'visible' });
+  await page.fill('#sk-pw1', SCHLUESSEL_PASSWORT_E2E); await page.fill('#sk-pw2', SCHLUESSEL_PASSWORT_E2E);
+  await Promise.all([page.waitForEvent('download'), page.click('#sk-priv')]);
+  await page.waitForFunction(() => STATE.sicherungGeprueft === true && STATE.privDownloaded === true);
+}
+/* „Einzelheiten“ der Prüfung und „Mehr“ sind eingeklappt; die Proben öffnen sie wie eine Person, mit einem Klick. */
+async function einzelheitenOeffnen(page) {
+  if (!(await page.evaluate(() => document.getElementById('pr-einzelheiten').open))) await page.click('#pr-kurz-zeile');
+}
+async function weitereAngabenOeffnen(page) {
+  // Rechtsform, Rechtsraum, USt-ID und Telefon sind freiwillig und stehen seit 16.10.2026 eingeklappt unter „Weitere Angaben“.
+  if (!(await page.evaluate(() => document.querySelector('#fs-a-rumpf details.fs-mehr').open))) await page.click('#fs-a-rumpf details.fs-mehr > summary');
+}
+async function mehrOeffnen(page) {
+  if (!(await page.evaluate(() => document.getElementById('es-mehr').open))) await page.click('#es-mehr > summary');
+}
 
 /* Ein Angehörigen-Blatt im Generator bauen, signieren und als Datei erzeugen (GEN3). `blatt`: titel, icon, einfuehrung, block1, block2,
    rechtsraum, rechtsraumName. Es entstehen zwei Blöcke: der erste bekommt die ersten zwei Felder der Palette (per +), der zweite das vierte
@@ -441,19 +457,15 @@ generator.blattBauenUndErzeugen = async function blattBauenUndErzeugen(page, tmp
   await page.fill('#ab-sprache', blatt.sprache || 'de');
   await page.click('#blatt-fertig');
   await page.waitForSelector('#sd-name', { state: 'visible' });
-  await page.fill('#sd-name', sd.anbieterName); await page.fill('#sd-rechtsform', sd.rechtsform);
+  await page.fill('#sd-name', sd.anbieterName); await weitereAngabenOeffnen(page); await page.fill('#sd-rechtsform', sd.rechtsform);
   await page.fill('#sd-land', sd.land || 'Deutschland');   // U2-ADR-495: kein Land mehr voreingestellt
   await page.fill('#sd-strasse', sd.strasse); await page.fill('#sd-plz', sd.plz); await page.fill('#sd-ort', sd.ort);
   await page.fill('#sd-k-name', sd.kontaktName);
   await page.fill('#sd-k-email', sd.kontaktEmail); await page.fill('#sd-k-telefon', sd.kontaktTelefon);
   await page.click('#sd-weiter');
-  await page.fill('#sk-pw1', SCHLUESSEL_PASSWORT_E2E); await page.fill('#sk-pw2', SCHLUESSEL_PASSWORT_E2E);
-  await page.click('#sk-erzeugen');
-  await page.waitForSelector('#sk-downloads:not([hidden])');
-  const [pubDl] = await Promise.all([page.waitForEvent('download'), page.click('#sk-pub')]);
-  const publicJwk = JSON.parse(fs.readFileSync(await pubDl.path(), 'utf8'));
-  await Promise.all([page.waitForEvent('download'), page.click('#sk-priv')]);
-  await page.click('#sk-weiter');
+  await sicherungSpeichernUndPruefen(page);
+  // Der öffentliche Schlüssel kommt aus dem Zustand der Seite, nicht mehr aus #sk-pub (aus bis zum Besitznachweis-Wagen /2).
+  const publicJwk = await page.evaluate(() => STATE.publicKeyJwk);
   const datei = await downloadNachTmp(page, tmp, () => page.click('#ab-erzeugen'));
   return { datei, umschlag: JSON.parse(fs.readFileSync(datei, 'utf8')), publicJwk };
 };
@@ -462,5 +474,5 @@ module.exports = {
   REPO, URLS, SCHLUESSEL_PASSWORT_E2E,
   SENTINEL_PRIVATE_JWK, SENTINEL_PUBLIC_JWK,
   frischerTmp, tmpAufraeumen, downloadNachTmp, jsonDatei,
-  kern, lesen, issuer, generator,
+  kern, lesen, issuer, generator, sicherungSpeichernUndPruefen, einzelheitenOeffnen, mehrOeffnen, weitereAngabenOeffnen,
 };

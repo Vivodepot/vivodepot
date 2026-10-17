@@ -110,17 +110,17 @@ for (const beruf of BERUFE) for (const slug of ['pro-de', 'pro-en']) {
 
     V.sektorFeldSetzen(BEREICH, beruf.text, 'Kanzlei Beispiel, Frau Muster');
     const umschlag = JSON.parse(JSON.stringify(await V.depotSerialisieren()));
-    // Selbst-Einlass-Sperre (seit v885): die Vorlage ist gegen den Test-Anker signiert und beim Öffnen gesperrt.
-    // Gesperrt heißt nicht verloren: das Modul bleibt in der Datei, der Wert bleibt, und die Sperre benennt es.
+    // Wahl beim Öffnen (Schutz-Wagen S5): die Vorlage ist gegen den Test-Anker signiert, nicht gegen den eingebauten, und steht
+    // beim Öffnen zur Wahl. Nicht gewählt heißt nicht verloren: das Modul bleibt in der Datei, der Wert bleibt, die Wahl nennt es.
     const k2 = kern(slug);
     await k2.V.depotLaden(umschlag, 'Berufsmodul-Steuerberatung-2026');
     assert.equal(k2.V.getData().sektoren[BEREICH][beruf.text], 'Kanzlei Beispiel, Frau Muster');
-    assert.ok((k2.V.getData().bereichsModule || []).some((m) => m && m.bereiche && m.bereiche[BEREICH]), 'die gesperrte Vorlage bleibt in der Datei');
-    assert.ok(k2.V.gesperrteDepotModule().some((g) => g.typ === 'bereich'), 'die Sperre benennt die Vorlage');
-    // Ohne Sperre (wie nach ihrem Fall) reist die Vorlage mit der Datei.
+    assert.ok((k2.V.getData().bereichsModule || []).some((m) => m && m.bereiche && m.bereiche[BEREICH]), 'die nicht gewählte Vorlage bleibt in der Datei');
+    assert.ok(k2.V.nichtGewaehlteDepotModule().some((g) => g.typ === 'bereich'), 'die Wahl nennt die Vorlage');
+    // Gewählt reist die Vorlage mit der Datei.
     const k3 = kern(slug);
-    k3.V.SELBST_EINLASS_GESPERRT = false;
     await k3.V.depotLaden(umschlag, 'Berufsmodul-Steuerberatung-2026');
+    assert.ok(k3.V.depotModuleWaehlen(k3.V.nichtGewaehlteDepotModule().map((g) => g.modul)) > 0, 'Vorbedingung: die Vorlage wird gewählt');
     assert.ok(k3.V.bereicheAlle().some((x) => x.id === BEREICH), 'die Vorlage reist mit der Datei');
   });
 }

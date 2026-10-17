@@ -29,7 +29,7 @@ const PW = 'zugang-zum-recht-vorfuehrung-2026';
 const FIXTURE_DIR = path.join(__dirname, '..', 'fixtures', 'vorfuehrung-zugang-zum-recht');
 const SHOT_DIR = 'test-results/vorfuehrung-zugang-zum-recht';
 
-async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, produktUrl, gesperrt = null }) {
+async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, produktUrl, zurWahl = null }) {
   let n = 0;
   const shot = async (name) => {
     n += 1;
@@ -59,18 +59,18 @@ async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, pro
     await expect(migrationsHinweis).toHaveCount(0);
   }
 
-  // 2c · Sperre (v885): die Vorführ-Depots sind im Produkt ihrer Sprache ab Werk gebaut und tragen kein Modul im Einlass-Fach —
-  // es erscheint kein Sperr-Hinweis (vorher trug die englische Datei ein Sprachmodul eines Zwischenstands, und der Hinweis lag auf
-  // einem langsamen Rechner über dem Knopf). Jede Fixture-Depotdatei hält das in Node: tests/fixture-depots-ab-werk.test.js.
-  // Der Sperrfall (`gesperrt`): eine Altdatei mit absichtlich eingelassenem Modul — der Hinweis wird erwartet, sein Inhalt
-  // geprüft und er wird geschlossen, nicht abgewartet.
-  if (gesperrt) {
-    const sperrHinweis = page.locator('#erweiterungen-gesperrt-hinweis');
-    await expect(sperrHinweis, 'Sperr-Hinweis für das mitgebrachte Modul (' + spracheLabel + ')').toBeVisible({ timeout: 15000 });
-    await expect(sperrHinweis).toContainText(gesperrt);
-    await page.click('#modal-rueck #m-ok');
+  // 2c · Wahl beim Öffnen (Schutz-Wagen; vorher die Sperre v885): die Vorführ-Depots sind im Produkt ihrer Sprache ab Werk gebaut
+  // und tragen kein Modul im Einlass-Fach — es erscheint keine Wahl (vorher trug die englische Datei ein Sprachmodul eines
+  // Zwischenstands, und der Hinweis lag auf einem langsamen Rechner über dem Knopf). Jede Fixture-Depotdatei hält das in Node:
+  // tests/fixture-depots-ab-werk.test.js. Der Fall `zurWahl`: eine Altdatei mit absichtlich eingelassenem Modul — die Wahl wird
+  // erwartet, ihr Inhalt geprüft, und sie wird ohne das Modul geschlossen, nicht abgewartet.
+  if (zurWahl) {
+    const wahl = page.locator('#erweiterung-wahl-liste');
+    await expect(wahl, 'Wahl für das mitgebrachte Modul (' + spracheLabel + ')').toBeVisible({ timeout: 15000 });
+    await expect(wahl).toContainText(zurWahl);
+    await page.click('#modal-rueck #m-zweit');   // „Ohne diese Erweiterungen öffnen“
   }
-  await expect(page.locator('#erweiterungen-gesperrt-hinweis'), 'kein (weiterer) Sperr-Hinweis (' + spracheLabel + ')').toHaveCount(0);
+  await expect(page.locator('#erweiterung-wahl-liste'), 'keine (weitere) Wahl (' + spracheLabel + ')').toHaveCount(0);
 
   // 3 · Sektor „Vermögen" — der Zielsektor des Beratungshilfe-Auszugs.
   await oeffneSektor(page, 'assets');
@@ -85,7 +85,7 @@ async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, pro
   await knopf.click();
   const overlay = page.locator('#pv-dok-overlay');
   await expect(overlay).toBeVisible();
-  await expect(page.locator('#erweiterungen-gesperrt-hinweis'), 'auch danach kein Sperr-Hinweis').toHaveCount(0);
+  await expect(page.locator('#erweiterung-wahl-liste'), 'auch danach keine Wahl').toHaveCount(0);
   await shot('auszug-geoeffnet');
 
   // 6 · Der Auszug ist LÄNGER als ein Bildschirm (#pv-dok-overlay scrollt eigenständig,
@@ -147,11 +147,10 @@ async function auszugImFrischenDepot(page, produktUrl) {
   return overlay;
 }
 
-test('Beratungshilfe-Auszug — Sperrfall: die englische Altdatei mit eingelassenem Sprachmodul zeigt den Sperr-Hinweis, der Auszug bleibt englisch', async ({ page }) => {
-  // Der Sperr-Hinweis nennt das mitgebrachte Modul mit Art und Sprache. Bis v920 als technische Kennung („textsatz · en“),
-  // seit v921 in der Benutzersicht ohne technische Namen (strings:modulArtTextsatz „Labels“ · Sprachname „English“).
-  // Geprüft wird dieselbe Aussage: der Hinweis benennt genau dieses Modul.
-  const overlay = await vorfuehrlauf(page, { depotDatei: 'altdatei-demo-en-2026-09-10.vivodepot', spracheLabel: 'EN-Altdatei', schrittPrefix: 'en-alt', produktUrl: KERN_URL_PRIVAT_EN, gesperrt: 'Labels · English' });
+test('Beratungshilfe-Auszug — Wahlfall: die englische Altdatei mit eingelassenem Sprachmodul zeigt die Wahl, ohne Wahl bleibt der Auszug englisch', async ({ page }) => {
+  // Die Wahl nennt das mitgebrachte Modul mit Art und Sprache, in der Benutzersicht ohne technische Namen (seit v921:
+  // strings:modulArtTextsatz „Labels“ · Sprachname „English“, vorher „textsatz · en“).
+  const overlay = await vorfuehrlauf(page, { depotDatei: 'altdatei-demo-en-2026-09-10.vivodepot', spracheLabel: 'EN-Altdatei', schrittPrefix: 'en-alt', produktUrl: KERN_URL_PRIVAT_EN, zurWahl: 'Labels · English' });
   await expect(overlay).toContainText('About the applicant');
   await expect(overlay).toContainText('First name? Elisabeth');
 });

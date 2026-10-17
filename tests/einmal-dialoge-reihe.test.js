@@ -197,7 +197,7 @@ test('[Einmal-Dialoge·Klasse] im Kern plant niemand außerhalb der Reihe mit se
 /* Die acht Stellen, die am 05.10.2026 nach 40 × 250 ms still aufgaben (sieben an fc1a002f1, die achte kam mit dem
    Krypto-Strang): sieben warten jetzt in der Reihe, der WHC-Weg behält seine Frist und lässt beim Aufgeben los. */
 const ACHT = {
-  neuereFassungHinweisZeigen: 'reihe', abWerkErsetztHinweisZeigen: 'reihe', erweiterungenGesperrtHinweisZeigen: 'reihe',
+  neuereFassungHinweisZeigen: 'reihe', abWerkErsetztHinweisZeigen: 'reihe', erweiterungenWahlZeigen: 'reihe',
   migrationsHinweisZeigen: 'reihe', akteurBootstrapFehlerHinweisZeigen: 'reihe', notfallblattAnbieten: 'reihe',
   klartextBindungHinweisZeigen: 'reihe', _whcWennDialogFrei: 'frist',
 };

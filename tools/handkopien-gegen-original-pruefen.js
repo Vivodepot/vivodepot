@@ -121,8 +121,8 @@ const REGISTRY = [
     // keinen FORMAT_SCHREIBER_BEKANNT-Mirror für die Wertprüfung; s. Kommentar an der
     // FORMAT_MODUL_SCHLUESSEL-Deklaration in vivodepot-studio.html.
     // U2-ADR-465: `namensraum`, `wurzel`, `hinweis` aus demselben Grund (nur XML-Ausgabe-Module, deren
-    // Werte der Kern prüft; der Generator erzeugt keine).
-    ausnahmen: ['schreiber', 'namensraum', 'wurzel', 'hinweis'] },
+    // Werte der Kern prüft; der Generator erzeugt keine). U2-ADR-465 Nachtrag: `schemaUri` aus demselben Grund.
+    ausnahmen: ['schreiber', 'namensraum', 'wurzel', 'hinweis', 'schemaUri'] },
   { label: 'FORMAT_ERKENNER_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: 'FORMAT_ERKENNER_SCHLUESSEL' }] },

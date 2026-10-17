@@ -143,6 +143,8 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `format.wurzel-ohne-xml` | abweisung | wurzel ist kein Text oder steht nicht bei einer Ausgabe mit dem XML-Schreiber. | `wurzel-ohne-xml` |
 | `format.hinweis` | abweisung | hinweis hat nicht die verlangte Form. | `hinweis` |
 | `format.hinweis-ohne-xml` | abweisung | hinweis ist nur bei einer Ausgabe mit dem XML-Schreiber zulässig. | `hinweis-ohne-xml` |
+| `format.schemaUri` | abweisung | schemaUri ist keine https-Adresse in der verlangten Form (Host in Kleinbuchstaben, Pfad ohne Anfrage, Fragment und Leerraum). | `schemaUri` |
+| `format.schemaUri-ohne-ausgabe` | abweisung | schemaUri ist nur bei einer Ausgabe zulässig. | `schemaUri-ohne-ausgabe` |
 | `format.erkennen` | abweisung | erkennen ist angegeben, aber keine Liste. | `erkennen` |
 | `format.erkennen-leer` | abweisung | Von den Einträgen in erkennen ist keiner gültig. | `erkennen-leer` |
 | `format.zuordnung` | abweisung | zuordnung fehlt, ist keine Liste oder leer. | `zuordnung` |

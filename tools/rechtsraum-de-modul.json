@@ -135,5 +135,33 @@
         "uri": "https://www.gesetze-im-internet.de/bgb/__1358.html"
       }
     }
+  },
+  "lebenslageHinweise": {
+    "lange-krankheit": [
+      {
+        "text": {
+          "de": "Krankengeld gibt es wegen derselben Krankheit für höchstens 78 Wochen innerhalb von je drei Jahren.",
+          "en": "Sickness benefit (Krankengeld) for the same illness is paid for at most 78 weeks within each three-year period."
+        },
+        "quelle": "https://www.gesetze-im-internet.de/sgb_5/__48.html",
+        "norm": "§ 48 SGB V"
+      },
+      {
+        "text": {
+          "de": "Danach kann Arbeitslosengeld in Betracht kommen, auch wenn die Leistungsfähigkeit noch gemindert ist.",
+          "en": "After that, unemployment benefit may be available even if the ability to work is still reduced."
+        },
+        "quelle": "https://www.gesetze-im-internet.de/sgb_3/__145.html",
+        "norm": "§ 145 SGB III"
+      },
+      {
+        "text": {
+          "de": "Fordert die Krankenkasse auf, Leistungen zur Rehabilitation zu beantragen, gilt dafür eine Frist von zehn Wochen.",
+          "en": "If the health insurance fund asks for an application for rehabilitation benefits, a ten-week time limit applies."
+        },
+        "quelle": "https://www.gesetze-im-internet.de/sgb_5/__51.html",
+        "norm": "§ 51 SGB V"
+      }
+    ]
   }
 }

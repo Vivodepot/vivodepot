@@ -39,6 +39,9 @@ gleichlaufProben({
       { anhang: 'bescheid', ziel: 'Bescheid', pflicht: true }, { anhang: 'lichtbild', ziel: 'Bild', pflicht: false }] })],
     ['U2-ADR-465: xml@1 mit Namensraum, zweitem Bereich und festem Wert', mitXml({ namensraum: 'urn:vivodepot:probe:1',
       zuordnung: [{ feld: 'accounts', ziel: 'Konto.nr' }, { fest: true, ziel: 'Konto.geprueft' }, { bereich: 'identity', feld: 'givenName', ziel: 'Person.vorname' }] })],
+    ['U2-ADR-465 Nachtrag: json@1 mit Ziel-Liste und schemaUri', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', schemaUri: 'https://schema.example.org/s/S99000001V1.0.schema.json',
+      zuordnung: [{ feld: 'accounts', ziel: ['G99000002V1.0', 'F99000003V1.0'] }] }); delete m.leser; return m; })()],
+    ['U2-ADR-465 Nachtrag: xml@1 mit Ziel-Liste', mitXml({ zuordnung: [{ feld: 'accounts', ziel: ['G1V1.0', '@nr'] }] })],
   ],
   negativ: [
     ['kein Objekt', null, 'kein-objekt'],
@@ -100,6 +103,10 @@ gleichlaufProben({
     ['U2-ADR-465: hinweis mit „--“', mitXml({ hinweis: 'a -- b' }), 'hinweis'],
     ['U2-ADR-465 Nachtrag: nur ein Anhang, kein Depot-Feld', mitXml({ zuordnung: [{ anhang: 'bescheid', ziel: 'a.b', pflicht: true }] }), 'zuordnung-nur-fest'],
     ['U2-ADR-465: hinweis an json@1', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', hinweis: 'x' }); delete m.leser; return m; })(), 'hinweis-ohne-xml'],
+    ['U2-ADR-465 Nachtrag: schemaUri über http', (() => { const m = mit({ richtung: 'export', schreiber: 'json@1', schemaUri: 'http://schema.example.org/x.json' }); delete m.leser; return m; })(), 'schemaUri'],
+    ['U2-ADR-465 Nachtrag: schemaUri an einem Eingabe-Modul', mit({ schemaUri: 'https://vivodepot.de/schemas/x.json' }), 'schemaUri-ohne-ausgabe'],
+    ['U2-ADR-465 Nachtrag: Ziel-Liste mit __proto__-Stufe', mit({ zuordnung: [{ feld: 'accounts', ziel: ['a', '__proto__'] }] }), 'zuordnung-leer'],
+    ['U2-ADR-465 Nachtrag: Ziel-Liste leer', mit({ zuordnung: [{ feld: 'accounts', ziel: [] }] }), 'zuordnung-leer'],
   ],
   nurKern: {
     reserviert: 'Welche Kennungen ab Werk belegt sind, hängt an den eingebauten Ein- und Ausgabekanälen des Kerns — die Liste wächst mit dem Bestand, das Schema kennt sie nicht.',

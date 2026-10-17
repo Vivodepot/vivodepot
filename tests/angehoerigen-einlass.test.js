@@ -81,14 +81,13 @@ test('[Einlass · Rundlauf] einlesen → speichern → wieder öffnen → in der
   await V.depotLaden(umschlag, PW);
   const d = V.getData();
   assert.equal(d.angehoerigenVorlagenModule.length, 1, 'die Vorlage steht nach dem Öffnen im Depot');
-  /* Selbst-Einlass-Sperre (04.10.2026): eine selbst eingelassene, unsignierte Vorlage reist in der Datei mit und ist
-     nach dem Öffnen vorübergehend nicht aktiv — die Daten bleiben, die Meldung nennt sie; mit dem Schutz-Wagen wird sie
-     wieder wählbar. Die Lese-App (eigener Lesepfad, unten) zeigt sie unverändert mit der Marke „Nicht geprüfte Vorlage“. */
-  if (V._selbstEinlassFrei()) assert.ok(ids(V).includes('geburtsbeleg-hebamme'), 'das Blatt ist nach dem Öffnen in der Registry');
-  else {
-    assert.ok(!ids(V).includes('geburtsbeleg-hebamme'), 'gesperrt: nicht in der Registry');
-    assert.equal(V.gesperrteDepotModule().length, 1, 'und gemeldet');
-  }
+  /* Wahl beim Öffnen (Schutz-Wagen): eine selbst eingelassene, unsignierte Vorlage reist in der Datei mit und ist nach
+     dem Öffnen nicht gewählt — die Daten bleiben, die Wahl nennt sie; gewählt steht sie wieder in der Registry. Die
+     Lese-App (eigener Lesepfad, unten) zeigt sie unverändert mit der Marke „Nicht geprüfte Vorlage“. */
+  assert.ok(!ids(V).includes('geburtsbeleg-hebamme'), 'nicht gewählt: nicht in der Registry');
+  assert.equal(V.nichtGewaehlteDepotModule().length, 1, 'und zur Wahl gestellt');
+  V.depotModuleWaehlen(V.nichtGewaehlteDepotModule().map((g) => g.modul));
+  assert.ok(ids(V).includes('geburtsbeleg-hebamme'), 'gewählt: das Blatt ist in der Registry');
 
   const { V: L } = ladeLesen();
   const obj = JSON.parse(JSON.stringify(d));

@@ -2,6 +2,11 @@
  "beschreibung": "Grundlinie für tests/geruest-waechter-pruefen.test.js (W0, 20.09.2026). Achse 1 (Diagnose, sagt WO): je AB_WERK_*-Konstante der Byte-Deckel (UTF-8, das ganze Statement) und ob sie einen Andockpunkt NAME:BEGIN trägt. Achse 2 (bindend, sagt OB): die Zeichenketten außerhalb aller Marker-Regionen, in DREI Eimern. fremdcode: Zeichenketten in Skriptblöcken, die hier NAMENTLICH mit Herkunft stehen (Register, keine Erkennung); struktur: was keinen natürlichen Text tragen kann (Bezeichner, Markup ohne Wort, Selektoren, technischeWoerter), darf steigen, aber jeder Zuwachs steht namentlich in zuwaechse; satz: alles Satzförmige und jedes großgeschriebene Einzelwort, byte-exakt, nur sinkend, nie eine Ausnahme. Zuwachs und Senkung stehen je Eimer da, nie als Bilanz: das Register trennt, was das Werkzeug trennt; eine Zahl, die zwei Eimer zusammenfasst, hebt die Trennung auf, sie ist nicht ein Guthaben, sondern eine Bilanz. Wer eine Zeichenkette in fremdcode oder technischeWoerter aufnimmt, nimmt ihr den byte-exakten Schutz: im Zweifel NICHT aufnehmen. Gemessen mit tools/geruest-waechter-pruefen.js, exakt, kein Puffer.",
  "konstanten": [
   {
+   "name": "AB_WERK_AMTLICHE_VORLAGEN",
+   "bytes": 39,
+   "marker": true
+  },
+  {
    "name": "AB_WERK_ANGEHOERIGEN_QUELLEN",
    "bytes": 55,
    "marker": true
@@ -129,7 +134,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 263037
+   "bytes": 264871
   },
   "satz": {
    "bytes": 28740
@@ -1600,6 +1605,103 @@
    "auf": 261492,
    "daneben": {},
    "grund": "15.10.2026, relativ +253 Byte zu b78eff701: Feldwerte als Eigenschaft (GESICHERTE-KOPIE-TRAEGT-KLARTEXT), Beobachter und Helfer mit Selektor- und Attributnamen, drei Einträge der Testfläche, dazu BUILD_DATUM, v930-Kommentar und zwei Ab-Werk-Fingerabdrücke v929; Aufteilung aus Diff gelesen; Einzelwort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 263037,
+   "auf": 263435,
+   "daneben": {},
+   "grund": "V4: Schlüssel je Stelle und signierte Antwort (U2-ADR-501 H), Fix in anfrageMerken; relativ +398",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "AB_WERK_AMTLICHE_VORLAGEN",
+   "von": 0,
+   "auf": 39,
+   "daneben": {
+    "struktur": 479
+   },
+   "grund": "16.10.2026, relativ zu 06cdc25f4: neue Ab-Werk-Konstante AB_WERK_AMTLICHE_VORLAGEN (nativ null, Gerüst leer, 39 Byte) und eimer.struktur +479 Byte für die Prüfung auf aktive Inhalte (AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT): Prüfstelle für PDF, SVG und Typ, pdfBlobGeprueft an acht Erzeugern, Hinweis und Nachfrage an drei Wegen der Mappe; Aufteilung aus Diff gelesen; Einzelwort der Gegenlesung je Anhebung"
+  },
+  {
+   "ziel": "struktur",
+   "von": 263037,
+   "auf": 263516,
+   "daneben": {},
+   "grund": "16.10.2026, relativ zu 06cdc25f4: neue Ab-Werk-Konstante AB_WERK_AMTLICHE_VORLAGEN (nativ null, Gerüst leer, 39 Byte) und eimer.struktur +479 Byte für die Prüfung auf aktive Inhalte (AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT): Prüfstelle für PDF, SVG und Typ, pdfBlobGeprueft an acht Erzeugern, Hinweis und Nachfrage an drei Wegen der Mappe; Aufteilung aus Diff gelesen; Einzelwort der Gegenlesung je Anhebung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 263516,
+   "auf": 263531,
+   "daneben": {},
+   "grund": "16.10.2026, Nachtrag +15 Byte (insgesamt relativ +494 zu 06cdc25f4): Befunde der Quellenprüfung zu den aktiven Inhalten, Meldung vor dem Abbruch eines eigenen PDF, GoToR als Aktion, SVG-Ereignis nur im Tag; Einzelwort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 263531,
+   "auf": 263607,
+   "daneben": {},
+   "grund": "16.10.2026, Nachtrag +76 Byte (insgesamt relativ +570 zu 06cdc25f4): SVG-Prüfung über den Parser des Browsers (_svgAktivDom), Tag-Durchgang als Rückfall mit CDATA und Verarbeitungsanweisung, zwei Umgehungen der Textsuche geschlossen; Einzelwort der Gegenlesung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 264005,
+   "auf": 264075,
+   "daneben": {},
+   "grund": "FIM-JSON: Pfadstufen als Liste und schemaUri am Format-Modul (U2-ADR-465 Nachtrag, 16.10.2026), +70 relativ",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 264075,
+   "auf": 264226,
+   "daneben": {},
+   "grund": "16.10.2026: +151 Byte (264075 → 264226), Lebenslage Längere Krankheit: Hinweisbox mit Link zum Normtext und Typprüfung der Hinweise aus dem Rechtsraum-Modul; einzeln bestätigt vor dem Commit; relativ zu fe34a8065",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 264005,
+   "auf": 264604,
+   "daneben": {},
+   "grund": "VD-SEC-009 S5 Wahl statt Schalter: Sub-Depot, Bündel-Liste, Wirkung je Wahl",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 264226,
+   "auf": 264272,
+   "daneben": {},
+   "grund": "J4 QR-Adresse lesbar: Host und Pfad unter dem Code im Fenster für einen Empfängerkreis",
    "laengste": {
     "einzel": 0,
     "lauf": 64

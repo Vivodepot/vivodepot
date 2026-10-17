@@ -21,10 +21,14 @@ const SATZ = [
 const HINWEIS = 'Passen Sie im selben Zug jeden dieser Texte an: er sagt nur, was die Bestätigung bringt (unsigniert dockt an). '
   + 'Außerhalb des Repos gilt dasselbe für das Messeblatt des Herausgeber-Dienstes (Außenentwurf in der internen Ablage).';
 
+// Seit dem Schutz-Wagen S5 (Wahl statt Schalter) gibt es den Schalter nicht mehr: ein unsigniertes Modul wirkt nach einer
+// ausdrücklichen Wahl (depotModuleWaehlen). Das gilt als „frei“. Steht weder der Schalter noch die Wahl im Kern, sucht die
+// Probe ihren Gegenstand neu.
 function selbstEinlassGesperrt(kernText) {
   const m = /\bvar\s+SELBST_EINLASS_GESPERRT\s*=\s*(true|false)\s*;/.exec(kernText);
-  if (!m) throw new Error('Der Schalter SELBST_EINLASS_GESPERRT steht nicht mehr im Kern; diese Probe muss ihren Gegenstand neu finden.');
-  return m[1] === 'true';
+  if (m) return m[1] === 'true';
+  if (/\bfunction depotModuleWaehlen\(/.test(kernText)) return false;
+  throw new Error('Weder der Schalter SELBST_EINLASS_GESPERRT noch die Wahl (depotModuleWaehlen) steht im Kern; diese Probe muss ihren Gegenstand neu finden.');
 }
 function texteImRepo() {
   const alle = execFileSync('git', ['ls-files'], { cwd: WURZEL, encoding: 'utf8', env: ohneGitUmgebung() }).split('\n').filter(Boolean);
@@ -48,9 +52,8 @@ test('[Zertifikatssatz · Kopplung] ist der Selbst-Einlass frei, sagt kein Text 
     + b.join('\n  ') + '\n' + HINWEIS);
 });
 test('[Zertifikatssatz · Kopplung · Rot-Beweis] Sperre aus und alter Satz ist rot; Sperre an und alter Satz ist grün', () => {
-  const studio = lies('vivodepot-studio.html');
-  assert.ok(befunde(false, [studio]).length >= 2, 'der deutsche und der englische Satz stehen heute im Studio und würden gefunden');
-  assert.deepEqual(befunde(true, [studio]), [], 'solange gesperrt, darf der Satz stehen');
+  /* Bis zum Schutz-Wagen S5 (16.10.2026) prüfte diese Zeile den echten Satz im Studio; mit der Wahl fällt die Sperre, und der
+     Satz ist aus dem Studio entfernt (die Probe darüber hält das). Der Rot-Beweis läuft darum nur noch am gepflanzten Satz. */
   const alterSatz = ['x.html', 'Bei Erfolg stellt Vivodepot ein Zertifikat aus; erst damit wird die Vorlage in der App wirksam.'];
   assert.equal(befunde(false, [alterSatz]).length, 1);
   assert.equal(befunde(true, [alterSatz]).length, 0);
@@ -58,5 +61,6 @@ test('[Zertifikatssatz · Kopplung · Rot-Beweis] Sperre aus und alter Satz ist 
 test('[Zertifikatssatz · Kopplung] der Schalter wird aus dem Kern gelesen; fehlt er, bricht die Probe benannt ab', () => {
   assert.equal(typeof selbstEinlassGesperrt('var SELBST_EINLASS_GESPERRT = true;'), 'boolean');
   assert.equal(selbstEinlassGesperrt('var SELBST_EINLASS_GESPERRT = false;'), false);
-  assert.throws(() => selbstEinlassGesperrt('const ANDERES = 1;'), /steht nicht mehr im Kern/);
+  assert.equal(selbstEinlassGesperrt('function depotModuleWaehlen(module) {'), false, 'mit der Wahl gilt der Selbst-Einlass als frei');
+  assert.throws(() => selbstEinlassGesperrt('const ANDERES = 1;'), /Gegenstand neu finden/);
 });

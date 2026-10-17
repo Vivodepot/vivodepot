@@ -41,6 +41,14 @@
    den gemeinsamen Vorfahren mit origin/u2-kanon, einschließlich uncommitteter Änderungen und
    neuer, noch ungetrackter Dateien. Die ENTSCHEIDUNG ist dieselbe Funktion wie im pre-push
    (anlassEntscheiden) — nur die Dateiliste kommt aus einer anderen Quelle.
+
+   --ohne-haupt (16.10.2026; nur zusammen mit --arbeitsbaum): die Vorbereitung einer Landung lässt den Chromium-Hauptlauf
+   aus, wenn ihn beim Commit der eigene Prüfrechner übernimmt. Gefahren wird der ganze Rest: die Specs der Hauptkonfiguration,
+   die der Prüfrechner nicht fährt (je `--spec <pfad>`, vom Aufrufer genannt; eine fehlende Datei ist rot), dann Cross-Reisen,
+   Firefox-Proben und drei Browser wie immer.
+   Im pre-push (16.10.2026, gegen die Ref-Zeilen von stdin; dort über VD_E2E_TEIL): --ohne-haupt fährt Cross, Firefox und drei Browser, während der
+   Prüfrechner parallel den Hauptlauf fährt; --nur-haupt fährt danach allein den Hauptlauf, wenn der Prüfrechner kein Urteil
+   brachte. Zusammen ergeben beide genau die Läufe ohne Schalter. Beide zugleich sind ein Fehler.
    ════════════════════════════════════════════════════════════════════════ */
 const os = require('node:os');
 const { execFileSync, spawnSync } = require('node:child_process');
@@ -73,6 +81,10 @@ const FIREFOX_TRAEGER = ['vivodepot.html', 'vivodepot-lesen.html', 'playwright.c
 /* SPEICHERN IN DREI BROWSERN (05.10.2026): dieselbe Anlass-Regel trägt die Reise tests/e2e-drei-browser/ (Chromium, Firefox,
    WebKit; Datei-Weg und Browser-Kopie). Sie läuft nach den Firefox-Proben; WebKit fährt sonst kein Weg. */
 const E2E_DREI_BROWSER_PFAD = 'tests/e2e-drei-browser/';
+/* DAS STUDIO AM IPAD (14.10.2026): Die Drei-Browser-Reise trägt die iPad-Probe des Studios (studio-ipad.spec.js, nur WebKit).
+   Eine reine Studio-Änderung gab bis hierher keinen Anlass für sie; WebKit fährt sonst kein Weg. Die Studio-Datei gibt darum
+   denselben Anlass wie die Oberflächen oben. Folge: ein Studio-Push fährt auch die Firefox-Proben (ein Anlass für beide). */
+const DREI_BROWSER_TRAEGER = ['vivodepot-studio.html'];
 /* Das gebackene Produkt, das die Reisen öffnen, entsteht nicht allein aus vivodepot.html: Backweg und Moduldateien jedes
    der vier Produkte tragen den Speicherweg mit (Gegenlesung 05.10.2026). Genau diese Dateien, zur Laufzeit erhoben,
    nicht ganze Ordner (tools/, tests/fixtures/ wären zu breit). */
@@ -151,7 +163,7 @@ function anlassEntscheiden(dateien) {
 function firefoxAnlassGegeben(dateien) {
   if (dateien === null) return { ja: true, grund: 'neuer Zweig oder kein messbarer Bereich' };
   const produkt = produktTraeger();
-  const t = dateien.filter((d) => FIREFOX_TRAEGER.includes(d) || d.startsWith(E2E_FIREFOX_PFAD) || d.startsWith(E2E_DREI_BROWSER_PFAD) || produkt.has(d));
+  const t = dateien.filter((d) => FIREFOX_TRAEGER.includes(d) || DREI_BROWSER_TRAEGER.includes(d) || d.startsWith(E2E_FIREFOX_PFAD) || d.startsWith(E2E_DREI_BROWSER_PFAD) || produkt.has(d));
   return t.length ? { ja: true, grund: 'Firefox-relevant geändert: ' + t.join(', ') } : { ja: false, grund: 'weder Oberfläche noch Firefox-Probe im Bereich' };
 }
 
@@ -189,9 +201,17 @@ function lastMehrfach(anzahl = LAST_MESSUNGEN, abstandMs = LAST_ABSTAND_MS) {
 }
 
 function main() {
+  // Im pre-push kommt die Teilung über VD_E2E_TEIL (ohne-haupt | nur-haupt), damit die Aufrufzeile die eine Form behält,
+  // die die Proben des Hooks lesen (`node <skript> < "$STDIN_REFS"`); auf der Kommandozeile gelten die Schalter.
+  const teil = process.env.VD_E2E_TEIL || '';
+  if (teil && teil !== 'ohne-haupt' && teil !== 'nur-haupt') { console.error('[e2e-bereich] ABBRUCH: VD_E2E_TEIL=' + teil + ' ist unbekannt.'); return 1; }
+  const ohneHaupt = process.argv.includes('--ohne-haupt') || teil === 'ohne-haupt';
+  const nurHaupt = process.argv.includes('--nur-haupt') || teil === 'nur-haupt';
+  if (ohneHaupt && nurHaupt) { console.error('[e2e-bereich] ABBRUCH: --ohne-haupt und --nur-haupt schließen einander aus.'); return 1; }
   if (process.argv.includes('--arbeitsbaum')) {
+    if (nurHaupt) { console.error('[e2e-bereich] ABBRUCH: --nur-haupt gilt nur im pre-push.'); return 1; }
     const e = anlassEntscheiden(geaenderteDateienArbeitsbaum());
-    return laeufeFahren(e.anlass, e.firefox);
+    return laeufeFahren(e.anlass, e.firefox, { ohneHaupt, lueckenSpecs: specsAusArgv(process.argv) });
   }
   const roh = require('node:fs').readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[e2e-bereich] nichts zu pushen'); return 0; }
@@ -218,11 +238,19 @@ function main() {
     if (!firefox.ja) firefox = e.firefox;
     if (anlass.ja && firefox.ja) break;
   }
-  return laeufeFahren(anlass, firefox, { hauptVomRunner });
+  return laeufeFahren(anlass, firefox, { hauptVomRunner, ohneHaupt, nurHaupt });
 }
 
 // spawn/bereit/last einsetzbar (04.10.2026): die Probe prüft, WELCHE Läufe starten, ohne einen Browser zu starten.
-function laeufeFahren(anlass, firefox, { hauptVomRunner = false, spawn = spawnSync, bereit = playwrightBereit, last = lastMehrfach } = {}) {
+/* Die Specs nach `--spec` (wiederholbar). */
+function specsAusArgv(argv) {
+  const specs = [];
+  for (let i = 0; i < argv.length; i++) if (argv[i] === '--spec' && argv[i + 1]) specs.push(argv[++i]);
+  return specs;
+}
+
+function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = false, nurHaupt = false, lueckenSpecs = [], spawn = spawnSync, bereit = playwrightBereit,
+  last = lastMehrfach, existiert = (p) => require('node:fs').existsSync(require('node:path').join(__dirname, '..', p)) } = {}) {
   if (!anlass.ja && !firefox.ja) {
     console.log('[e2e-bereich] kein Anlass — ' + anlass.grund + '. Nicht gefahren.');
     return 0;
@@ -253,12 +281,26 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, spawn = spawnSy
   if (anlass.ja) {
     if (hauptVomRunner) {
       console.log('[e2e-bereich] Hauptlauf vom eigenen Runner für genau diesen Commit gefahren (Beleg) — hier nur die Cross-Reisen (vier Komponenten) …');
+    } else if (ohneHaupt) {
+      // Eine genannte Spec, die es nicht gibt, ist rot — sie fiele sonst still heraus.
+      const fehlt = lueckenSpecs.filter((s) => !existiert(s));
+      if (fehlt.length) { console.error('[e2e-bereich] ABBRUCH: genannte Spec fehlt: ' + fehlt.join(', ') + ' — rot, nicht übersprungen.'); return 1; }
+      console.log('[e2e-bereich] Hauptlauf getrennt, auf dem eigenen Prüfrechner oder danach (--ohne-haupt) — hier der Rest'
+        + (lueckenSpecs.length ? ': ' + lueckenSpecs.length + ' Spec(s) der Hauptkonfiguration, die er nicht fährt, dann' : ':') + ' die Cross-Reisen …');
+      if (lueckenSpecs.length) {
+        const r = spawn('npx', ['playwright', 'test', ...lueckenSpecs, '--workers=1'], { stdio: 'inherit' });
+        if (r.status !== 0) {
+          console.error('[e2e-bereich] ABBRUCH: die Specs der Hauptkonfiguration sind rot.');
+          return 1;
+        }
+      }
     } else {
       const r = spawn('npm', ['run', 'test:e2e'], { stdio: 'inherit' });
       if (r.status !== 0) {
         console.error('[e2e-bereich] ABBRUCH: die E2E-Suite ist rot.');
         return 1;
       }
+      if (nurHaupt) { console.log('[e2e-bereich] Hauptlauf grün (--nur-haupt; den Rest fuhr der Lauf davor).'); return 0; }
       console.log('[e2e-bereich] E2E-Suite grün. Jetzt die Cross-Reisen (vier Komponenten) …');
     }
     const c = spawn('npm', ['run', 'test:e2e:cross', '--', '--workers=1'], { stdio: 'inherit' });
@@ -267,6 +309,7 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, spawn = spawnSy
       return 1;
     }
   }
+  if (nurHaupt) { console.log('[e2e-bereich] --nur-haupt: kein Anlass für den Hauptlauf.'); return 0; }
   if (firefox.ja) {
     console.log('[e2e-bereich] Firefox-Proben …');
     const f = spawn('npm', ['run', 'test:e2e:firefox', '--', '--workers=1'], { stdio: 'inherit' });
@@ -287,6 +330,6 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, spawn = spawnSy
   return 0;
 }
 
-module.exports = { oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
+module.exports = { specsAusArgv, oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
 
 if (require.main === module) process.exit(main());

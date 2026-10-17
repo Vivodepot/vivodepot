@@ -78,20 +78,20 @@ test('[Schutzliste·intern·Rot-Beweis] Felder „vivodepot“, „intern“, �
   assert.notEqual(V.textLesen(HAFTUNG), 'FREMD');
 });
 
-/* Die Selbst-Einlass-Sperre nimmt ein signiertes Sprachmodul nur aus, wenn sein GANZER Inhalt gleich der beim Öffnen nachgeprüften
+/* Die Wahl beim Öffnen nimmt ein signiertes Sprachmodul nur aus, wenn sein GANZER Inhalt gleich der beim Öffnen nachgeprüften
    Nutzlast ist (_textsatzSigniertVollGleich). Der Zusicherungs-Fingerabdruck deckt nur die Zusicherungssätze: ein echter Beleg mit
    geänderten übrigen Texten hätte sonst als belegt gegolten. */
-test('[Sperre·signiert] unverändertes signiertes Bündel: beim Öffnen nicht gesperrt', async () => {
+test('[Sperre·signiert] unverändertes signiertes Bündel: beim Öffnen nicht zur Wahl', async () => {
   const { V, d } = await depotMitInternemBuendel();
   await neuLaden(V, d);
-  V._depotModuleSperreMarkieren(d, true);
-  assert.equal(V.gesperrteDepotModule().length, 0);
+  V._depotModuleNichtGewaehltMarkieren(d, true);
+  assert.equal(V.nichtGewaehlteDepotModule().length, 0);
 });
 
-test('[Sperre·signiert·Rot-Beweis] echter Beleg, ein übriger Text geändert: gesperrt', async () => {
+test('[Sperre·signiert·Rot-Beweis] echter Beleg, ein übriger Text geändert: zur Wahl', async () => {
   const { V, d } = await depotMitInternemBuendel();
   d.textsatzModule[0].texte['strings:fussQuellcode.text'] = 'FREMD';
   await neuLaden(V, d);
-  V._depotModuleSperreMarkieren(d, true);
-  assert.equal(V.gesperrteDepotModule().length, 1, 'der Beleg allein nimmt ein Modul mit anderem Inhalt nicht aus');
+  V._depotModuleNichtGewaehltMarkieren(d, true);
+  assert.equal(V.nichtGewaehlteDepotModule().length, 1, 'der Beleg allein nimmt ein Modul mit anderem Inhalt nicht aus');
 });

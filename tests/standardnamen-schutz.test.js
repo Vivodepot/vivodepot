@@ -196,3 +196,9 @@ test('[Standardnamen·Namensraum·Rot-Beweis] ein unsigniertes Modul mit urn:xoe
   const r = W.pruefen({ extraModule: [{ ort: 'probe.json', wert: fremd }] });
   assert.ok(r.maengel.some((m) => /fremden Namensraum/.test(m)), 'der Mangel landet im Gesamturteil');
 });
+test('[Standardnamen·schemaUri·Rot-Beweis] ein unsigniertes Modul mit fremder schemaUri fällt, die eigene nicht (U2-ADR-465 Nachtrag)', () => {
+  const fremd = { modulTyp: 'format', format: 'probe', schemaUri: 'https://schema.example.org/s/S99000001V1.0.schema.json' };
+  const eigen = { modulTyp: 'format', format: 'probe2', schemaUri: 'https://vivodepot.de/schemas/probe.schema.json' };
+  const f = W.modulNamensraeume(undefined, [{ ort: 'probe.json', wert: [fremd, eigen] }]);
+  assert.deepEqual(f, ['probe.json: Format-Modul probe nennt die fremde schemaUri https://schema.example.org/s/S99000001V1.0.schema.json ohne Signatur']);
+});

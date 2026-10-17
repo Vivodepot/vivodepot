@@ -75,8 +75,9 @@ Dieses ADR gilt für **beide Wege**: die Datei-Antwort auf eine Anfrage nach U2-
      Änderung und eine mit Seed öffnen mit dem dann aktuellen Kern und mit der Lese-App.
 9. **Ableitung:** HKDF-SHA-256 aus dem Antwort-Seed. Die 32 Byte Ausgabe sind der Ed25519-Seed. Import, Nicht-Extrahierbarkeit,
    Überschreiben der Puffer und Berechnung des öffentlichen Schlüssels folgen U2-ADR-457 Punkt 2 und 3.
-   - `info` = `vivodepot/antwort/v1` ‖ Domäne ‖ Länge ‖ Kennung. Die Länge ist ein Präfix fester Breite vor der Kennung.
-   - Zwei getrennte Domänen: `signiert:` für eine Stelle, deren Kennung aus einem geprüften Zertifikat stammt, `unsigniert:` für
+   - `info` in der festgeschriebenen Form von Punkt 28: `vivodepot/antwort-schluessel/v1` ‖ 0x00 ‖ Verwendung ‖ 0x00 ‖ Länge der
+     Kennung (2 Byte big-endian) ‖ Kennung. Die Kennung selbst trägt ihre Domäne und eine Länge fester Breite (Punkt 10, `stellenKennung`).
+   - Zwei getrennte Domänen der Kennung: `signiert:` für eine Stelle, deren Kennung aus einem geprüften Zertifikat stammt, `unsigniert:` für
      eine Kennung, die nur die Anfrage über sich behauptet. Eine unsignierte Anfrage mit fremder Kennung erzeugt so nie den
      Schlüssel einer geprüften Stelle.
    - In der Domäne `signiert:` steht vor der Kennung ihre Art (Anbieter-Kennung aus `ANKER_SATZ` oder DNS-Name aus dem Rahmen
@@ -217,6 +218,43 @@ Dieses ADR gilt für **beide Wege**: die Datei-Antwort auf eine Anfrage nach U2-
     „Identität über die Wallet“ ist gebaut, mit der Grenze „gleiche Sitzung, keine kryptographische Bindung“; eine Probe hält,
     dass eine Antwort ohne PID gültig angenommen und nicht als mangelhaft gezeigt wird.
 
+### G · Die Schlüsseldatei trägt ihre Anfrage (Nachtrag 15.10.2026, Wagen V3b)
+
+24. **Ein Empfangspaar je Anfrage.** Das Studio erzeugt das Paar beim Erzeugen der Anfrage, für genau diese Anfrage; ein früheres
+    Paar wird nicht wiederverwendet. Erst wird die Anfrage mit dem öffentlichen Teil signiert, dann die Schlüsseldatei geschrieben.
+25. **Eine Datei, kein Dateipaar.** Die `.vdkey` trägt die Anfrage als ungeschütztes Feld (sie ist nicht geheim), lesbar dazu
+    Vorgang und Datum; ihr Abdruck (SHA-256, base64url) steht im verschlüsselten JWK. Der Hüllen-Block bleibt unverändert: eine
+    ältere Lese-App überliest die zusätzlichen Felder. Der Dateiname nennt Vorgang und Datum, und die Lese-App sagt beim Öffnen,
+    welche Schlüsseldatei eine Antwort braucht.
+26. **Die Bindung in der Lese-App.** Abdruck → öffentlicher Teil des Schlüssels = Empfangsschlüssel der Anfrage → Zertifikat und
+    Anfrage-Signatur geprüft wie im Kern → `anbieterId` aus dem signierten Zertifikat. Erst damit wird `aud` abgeglichen (Punkt 12).
+    Der Vorgang kommt aus der getragenen Anfrage, nicht aus dem JWE-Kopf. Ohne Zertifikat ist die Stelle nicht gebunden: kein
+    Abgleich, nur die Sachangabe. Jeder Bruch der Kette ist eine Abweisung mit Satz.
+27. **Zeitpunkt: kein `iat` in der Anfrage.** Geprüft wird zum signierten Tag `gestelltAm` (UTC). Das Zertifikat trägt, wenn es zu
+    irgendeinem Zeitpunkt dieses Tages gültig war: notBefore ≤ Tagesende und notAfter ≥ Tagesanfang. Ein `iat` in der Nutzlast
+    ließe jede ältere Fassung einen unbekannten Schlüssel melden; eines im JWS-Kopf hieße den gepinnten JWS-Block ändern.
+    **Grenze:** Den Tag setzt die Stelle selbst. Mit einem abgelaufenen oder zurückgezogenen Schlüssel kann sie zurückdatieren;
+    offline gibt es keinen vertrauenswürdigen Zeitstempel. Das gälte für ein `iat` genauso. Ein Widerruf (Sperrliste, Anker)
+    schlägt jedes Datum.
+
+### H · Der Kern signiert (Nachtrag 16.10.2026, Wagen V4)
+
+28. **Ableitung des Schlüssels je Stelle, festgeschrieben.** HKDF-SHA-256 aus dem Antwort-Seed des Depots (32 Byte), Salt leer,
+    info = UTF-8 „vivodepot/antwort-schluessel/v1“ ‖ 0x00 ‖ UTF-8 Domäne ‖ 0x00 ‖ Länge der Kennung in Byte (2 Byte big-endian) ‖
+    UTF-8 Kennung (stellenKennung, Punkt 9). Die 32 Byte sind der Ed25519-Seed (RFC 8032), privat nur nicht extrahierbar importiert.
+    Domäne heute nur „antwort“; „sdjwt-halter“ ist vorgemerkt, über den Wechsel des Halter-Schlüssels nach U2-ADR-457 wird eigens
+    entschieden. **Testvektor:** Seed = Bytes 0x00 bis 0x1f, Kennung „signiert:anbieter:0014:heim/sonnenhof“ → öffentlicher
+    Schlüssel (x, base64url) „tIlI1AwNs41st1Lx3e5k1e3w3-lppuYUz6P4_UFWTRk“. Jede spätere Umsetzung muss ihn treffen, sonst findet sie
+    für alte Antworten nicht denselben Schlüssel.
+29. **Nutzlast und `aud`.** Wie Punkt 11; `aud` trägt die Domäne „signiert:“ nur, wenn die Anfrage beim Herausgeben frisch gegen ihr
+    Zertifikat geprüft ist, sonst „unsigniert:“ mit der Kennung, die die Anfrage nennt. Damit die frische Prüfung gelingt, trägt ein
+    gespeicherter Eintrag die rohe signierte Anfrage (Befund ANFRAGE-GESPEICHERT-NIE-GEPRUEFT, im selben Wagen geschlossen).
+30. **Ohne Ed25519 im Browser** bleibt die Antwort unsigniert; die Person kann antworten. Still bleibt das nicht, und beides ist
+    Bedingung des Wagens, der den Schalter umlegt: (a) Der Kern sagt es vor dem Senden in einem Satz („Diese Antwort wird nicht
+    signiert, weil Ihr Browser die nötige Signatur nicht kann.“). (b) Die Antwort trägt im verschlüsselten Teil die Angabe
+    „unsigniert: browser“, und die Lese-App zeigt sie als „unsigniert (Browser ohne Ed25519)“, nicht als Antwort einer älteren Fassung.
+31. **Schalter.** `ANTWORT_SIGNIEREN` steht mit diesem Wagen aus; umgelegt wird er in einem eigenen Wagen (Punkt 13).
+
 ## Abgrenzung
 
 - U2-ADR-080 bleibt: Vivodepot importiert und prüft keine Nachweise fremder Aussteller. Dieses ADR prüft das Zertifikat der
@@ -273,11 +311,15 @@ konformitaet:
     herkunft: U2-ADR-501 (15.10.2026)
   - aussage: >-
       Zwei Stellen ergeben zwei verschiedene Schlüssel, dieselbe Stelle denselben; eine unsignierte Anfrage mit der Kennung einer
-      geprüften Stelle ergibt nie deren Schlüssel.
-    zustand: offen
-    frist: 2026-12-31
-    bedingung: Probe zum Schlüssel je Stelle (geplant), Rot-Beweis mit einer Ableitung ohne Kennung und einer ohne Domänentrennung
-    herkunft: U2-ADR-501 (15.10.2026)
+      geprüften Stelle ergibt nie deren Schlüssel; nach Sicherung, frischem Öffnen und Wiederherstellung mit neuem Passwort bleibt der
+      Schlüssel je Stelle derselbe, und der Testvektor aus Punkt 28 stimmt.
+    zustand: erfuellt
+    herkunft: U2-ADR-501-Nachtrag (16.10.2026)
+    pruefung:
+      - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·Vektor] info in fester Form und der öffentliche Schlüssel aus dem Vektor, unabhängig nachgerechnet"
+      - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·je Stelle] zwei Stellen, zwei Schlüssel; dieselbe Stelle, derselbe; signiert und unsigniert getrennt"
+      - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·je Stelle·Rot-Beweis] eine Ableitung ohne die Kennung in info machte zwei Stellen gleich"
+      - tests/kern-antwort-signieren.test.js "[Antwort-Signatur·Sicherbarkeit] Sicherung, frischer Kern, Wiederherstellung mit Code und neuem Passwort: derselbe Schlüssel je Stelle"
   - aussage: >-
       Die Lese-App nimmt nur eine Ed25519-Signatur an und weist ein geändertes Byte, ein fremdes aud und den JWS einer anderen
       Anfrage ab.
@@ -320,6 +362,20 @@ konformitaet:
     frist: 2027-03-31
     bedingung: Proben in tests/x509-leser.test.js (geplant), Auswahl mit Zahl und sha256 vor dem ersten Lauf gepinnt
     herkunft: U2-ADR-501 (15.10.2026)
+  - aussage: >-
+      Eine Empfangs-Schlüsseldatei aus dem Studio trägt die Anfrage, für die ihr Paar entstand, mit dem Abdruck im verschlüsselten
+      Teil; die Lese-App gleicht aud nur gegen die Kennung aus dem signierten Zertifikat dieser Anfrage ab, nimmt den Vorgang aus der
+      Anfrage, weist jeden Bruch der Kette ab und prüft das Zertifikat nach der Tagesregel; eine neue Schlüsseldatei öffnet in der
+      ausgelieferten Lese-App v929 wie bisher.
+    zustand: erfuellt
+    herkunft: U2-ADR-501-Nachtrag (15.10.2026)
+    pruefung:
+      - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·gebunden·rot] eine an eine andere Stelle signierte Antwort wird abgewiesen"
+      - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Vorgang] der Vorgang kommt aus der Anfrage: ein umetikettierter JWE-Kopf hilft nicht"
+      - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Bruch] eine ausgetauschte Anfrage fällt am Abdruck auf"
+      - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Tag] Ausstellungstag, Ablauftag und ein ganz innerhalb des Tages gültiges Zertifikat tragen; der Vortag nicht"
+      - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Sicherbarkeit] die ausgelieferte Lese-App v929 öffnet mit einer neuen Schlüsseldatei eine Antwort wie bisher"
+      - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Rot-Beweis] ohne Weiterreichen der gebundenen Kennung ginge die fremde Antwort durch"
 ```
 
 ---

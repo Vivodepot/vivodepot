@@ -1,0 +1,18 @@
+{
+  "modulTyp": "format",
+  "moduleVersion": 1,
+  "sprache": "de",
+  "format": "fim-s99000001-json",
+  "richtung": "export",
+  "schreiber": "json@1",
+  "sektor": "identity",
+  "label": "Probe-Antrag S99000001 als JSON (erfunden)",
+  "schemaUri": "https://schema.example.org/immutable/schemas/S99000001V1.0.schema.json",
+  "zuordnung": [
+    { "fest": "01", "ziel": ["F99000009V1.0"] },
+    { "feld": "familyName", "ziel": ["G99000002V1.0", "F99000003V1.0"] },
+    { "feld": "givenName", "ziel": ["G99000002V1.0", "F99000004V1.0"] },
+    { "feld": "gender", "ziel": ["G99000002V1.0", "F99000005V1.0"], "werte": { "m": "m", "w": "w", "d": "d" } },
+    { "feld": "birthDate", "ziel": ["G99000002V1.0", "G99000006V1.0", "F99000013V1.0"], "teil": "jahr" }
+  ]
+}

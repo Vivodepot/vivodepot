@@ -68,6 +68,5 @@ test('[Sprache·Einstellungen] die Auswahl steht in den Einstellungen, neben dem
   V.betreteApp();
   const html = V.einstellungenHTML();
   assert.match(html, /id="einst-sprache"/);
-  /* Selbst-Einlass-Sperre (04.10.2026): bis zum Schutz steht an der Stelle des Knopfs Meldung B. */
-  assert.match(html, V._selbstEinlassFrei() ? /id="einst-modul-einlassen"/ : /id="einst-modul-einlassen-gesperrt"/, 'der Weg über eine Datei bzw. Meldung B steht da');
+  assert.match(html, /id="einst-modul-einlassen"/, 'der Weg über eine Datei steht da');
 });

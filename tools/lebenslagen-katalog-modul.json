@@ -91,6 +91,22 @@
       ]
     },
     {
+      "id": "lange-krankheit",
+      "sorte": "zustand",
+      "name": "Längere Krankheit",
+      "unterlagen": "Krankschreibungen, Schreiben der Krankenkasse zum Krankengeld, Arbeitsvertrag, Meldung bei der Agentur für Arbeit, Reha-Antrag und Reha-Bescheid",
+      "felder": [
+        "health.healthInsurance",
+        "health.insuranceNumber",
+        "health.ongoingTreatmentNext",
+        "education.employer",
+        "education.typeOfIncome",
+        "assets.additionalTypesOfIncome",
+        "socialInsurance.registeredAsUnemployedOn",
+        "socialInsurance.pensionInsuranceNumbers"
+      ]
+    },
+    {
       "id": "berufstaetigkeit",
       "sorte": "zustand",
       "name": "Berufstätigkeit",

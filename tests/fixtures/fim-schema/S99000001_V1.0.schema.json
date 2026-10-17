@@ -1,0 +1,86 @@
+{
+  "$defs": {
+    "F99000003V1.0": {
+      "minLength": 1,
+      "title": "Familienname",
+      "type": "string"
+    },
+    "F99000004V1.0": {
+      "maxLength": 50,
+      "minLength": 1,
+      "title": "Vorname",
+      "type": "string"
+    },
+    "F99000005V1.0": {
+      "enum": [
+        "m",
+        "w",
+        "d"
+      ],
+      "title": "Geschlecht",
+      "type": "string"
+    },
+    "F99000009V1.0": {
+      "enum": [
+        "01"
+      ],
+      "title": "Einwilligung",
+      "type": "string"
+    },
+    "F99000013V1.0": {
+      "minimum": 1900,
+      "title": "Geburtsjahr",
+      "type": "integer"
+    },
+    "G99000002V1.0": {
+      "properties": {
+        "F99000003V1.0": {
+          "$ref": "#/$defs/F99000003V1.0"
+        },
+        "F99000004V1.0": {
+          "$ref": "#/$defs/F99000004V1.0"
+        },
+        "F99000005V1.0": {
+          "$ref": "#/$defs/F99000005V1.0"
+        },
+        "G99000006V1.0": {
+          "$ref": "#/$defs/G99000006V1.0"
+        }
+      },
+      "required": [
+        "F99000003V1.0",
+        "F99000004V1.0"
+      ],
+      "title": "Antragstellende Person",
+      "type": "object"
+    },
+    "G99000006V1.0": {
+      "properties": {
+        "F99000013V1.0": {
+          "$ref": "#/$defs/F99000013V1.0"
+        }
+      },
+      "required": [
+        "F99000013V1.0"
+      ],
+      "title": "Geburtsdatum",
+      "type": "object"
+    }
+  },
+  "$id": "https://schema.example.org/immutable/schemas/S99000001V1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "F99000009V1.0": {
+      "$ref": "#/$defs/F99000009V1.0"
+    },
+    "G99000002V1.0": {
+      "$ref": "#/$defs/G99000002V1.0"
+    }
+  },
+  "required": [
+    "F99000009V1.0",
+    "G99000002V1.0"
+  ],
+  "title": "Probe-Antrag S99000001 (erfunden)",
+  "type": "object"
+}

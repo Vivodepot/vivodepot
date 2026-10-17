@@ -219,9 +219,10 @@ test('[Signierte Antwort·Einmalpasswort] auf dem Passwortweg gibt es keinen Abg
 test('[Signierte Antwort·ungebunden·Rot-Beweis] ein Öffnen-Weg, der die ungebundene anbieterId auswertet, behauptete einen Abgleich', async () => {
   const fs = require('node:fs');
   const html = fs.readFileSync(LESEN_PATH, 'utf8');
-  const zeile = "    const erg = await antwortSignaturPruefen(offen.klartext, { anbieterId: '', vorgang: String(offen.kopf.vorgang || '') }, opts);";
-  assert.equal(html.split(zeile).length, 2, 'Vorbedingung: der Öffnen-Weg ruft die Prüfung genau einmal ohne Kennung');
-  const falsch = "    const erg = await antwortSignaturPruefen(offen.klartext, { anbieterId: (schluessel && schluessel.privateJwk && schluessel.privateJwk.anbieterId) || '', vorgang: String(offen.kopf.vorgang || '') }, opts);";
+  // Ohne getragene Anfrage (Schlüsseldatei vor V3b) läuft der Öffnen-Weg über diesen Zweig: ohne Kennung.
+  const zeile = "      : { anbieterId: '', vorgang: String(offen.kopf.vorgang || '') };";
+  assert.equal(html.split(zeile).length, 2, 'Vorbedingung: der Öffnen-Weg ruft die Prüfung ohne gebundene Kennung genau einmal ohne Kennung');
+  const falsch = "      : { anbieterId: (schluessel && schluessel.privateJwk && schluessel.privateJwk.anbieterId) || '', vorgang: String(offen.kopf.vorgang || '') };";
   const L = ladeLesen({ html: html.replace(zeile, falsch) }).V;
   const empf = await empfangsPaar(STELLE);
   const r = await oeffne(L, await verschluessele(L, signiere(nutzlast(datensatz(), { aud: audVon(STELLE) }), edPaar()), empf.pub, { cty: 'JWT' }), empf.priv);

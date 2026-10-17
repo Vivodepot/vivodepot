@@ -126,7 +126,7 @@ function fundstellen(quelle, muster) {
   return raus;
 }
 const ERLAUBT_FELD = new Set(['ANTWORT_SEED_FELD', '_antwortSeedHolen', 'vollExportJSON', 'EMPFAENGER_NIE']);
-const ERLAUBT_AUFRUF_HOLEN = new Set([]);   // Wagen V2 trägt hier die Ableitung je Stelle ein — sonst niemand
+const ERLAUBT_AUFRUF_HOLEN = new Set(['antwortSchluesselJeStelle']);   // die Ableitung je Stelle (U2-ADR-501, Wagen V4, 16.10.2026) — sonst niemand
 function quelltextBefunde(quelle) {
   const f = [];
   for (const s of fundstellen(quelle, /\bantwortSeed\b/)) if (s.kontext !== 'ANTWORT_SEED_FELD') f.push('Literal ausserhalb der Konstante: ' + s.kontext + ' (Zeile ' + s.zeile + ')');

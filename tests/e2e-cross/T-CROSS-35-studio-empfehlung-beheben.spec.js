@@ -22,7 +22,23 @@ const FIX = require('./fixtures/reise-4-vertrauenskette.json');
 const KEINE_PFLICHT = { de: /keine Pflichtfelder/, en: /no required fields/ };
 const BEHEBEN = { de: 'Beheben', en: 'Fix' };
 
-async function assistentBisSchritt3(p, sprache) {
+// Seit „Einreichen in drei Schritten“ (16.10.2026) ist offen genau ein Schritt, und nur der Kopf von ① lässt sich
+// anklicken (einreichenStufen in vivodepot-studio.html). Schritt ③ erreicht man also über ① Angaben und ② Sicherung,
+// nicht mehr über seinen Kopf; der Rot-Beweis unten hält fest, dass der alte Weg zu ist.
+async function angabenUndSicherung(p) {
+  await p.waitForSelector('#sd-name', { state: 'visible' });                // ohne Angaben öffnet der Dialog bei ①
+  const sd = FIX.stammdaten;
+  await p.fill('#sd-name', sd.anbieterName);
+  await H.weitereAngabenOeffnen(p); await p.fill('#sd-rechtsform', sd.rechtsform);
+  await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
+  await p.fill('#sd-land', sd.land);
+  await p.fill('#sd-k-name', sd.kontaktName); await p.fill('#sd-k-email', sd.kontaktEmail);
+  await p.click('#sd-weiter');
+  await H.generator.schluesselErzeugen(p);
+  await expect(p.locator('#sk-priv-status')).toContainText(/Sicherung geprüft|Backup checked/);
+}
+
+async function assistentBisFertigDialog(p, sprache) {
   await p.goto(H.URLS.generator);
   await p.click(sprache === 'en' ? '#sp-en' : '#sp-de');   // die Sprache des Browsers soll nicht mitspielen
   await p.click('#ein-aufnahme');
@@ -35,18 +51,23 @@ async function assistentBisSchritt3(p, sprache) {
   await expect(p.locator('#as-felder .as-frage-pflicht input:checked')).toHaveCount(0);
   await p.click('#as-weiter-2');
   await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
-  await p.click('#fs-c-kopf');                                              // Schritt 3 lässt sich ohne Angaben und Schlüssel öffnen
-  await expect(p.locator('#fs-c-rumpf')).toBeVisible();
+}
+
+async function assistentBisSchritt3(p, sprache) {
+  await assistentBisFertigDialog(p, sprache);
+  await angabenUndSicherung(p);
+  await expect(p.locator('#fs-c-rumpf')).toBeVisible();                     // ① und ② erledigt → ③ steht offen
 }
 
 for (const sprache of ['de', 'en']) {
   test.describe('T-CROSS-35 Empfehlung mit Weg · Assistent · ' + sprache.toUpperCase(), () => {
     test('„Beheben“ führt in den Assistenten an den Schalter, danach ist die Empfehlung fort', async ({ browser }) => {
-      test.setTimeout(60000);
-      const ctx = await browser.newContext();
+      test.setTimeout(120000);
+      const ctx = await browser.newContext({ acceptDownloads: true });
       const p = await ctx.newPage();
       await assistentBisSchritt3(p, sprache);
 
+      await H.einzelheitenOeffnen(p);
       const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT[sprache] });
       await expect(zeile).toHaveCount(1);
       const knopf = zeile.locator('.pr-beheben');
@@ -64,7 +85,11 @@ for (const sprache of ['de', 'en']) {
 
       await p.click('#as-weiter-2');                                            // ein Klick zurück zum Fertigstellen, wie bisher
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
-      await p.click('#fs-c-kopf');
+      // Aus dem Assistenten öffnet der Dialog bei ① zum Ansehen der Angaben (assistentEinreichen → fsOeffnen('a'));
+      // sie stehen noch, ② ist erledigt, also führt „Weiter“ direkt zu ③.
+      await expect(p.locator('#sd-name')).toHaveValue(FIX.stammdaten.anbieterName);
+      await expect(p.locator('#fs-c-rumpf')).toBeHidden();
+      await p.click('#sd-weiter');
       await expect(p.locator('#fs-c-rumpf')).toBeVisible();
       await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT[sprache] })).toHaveCount(0);
       await ctx.close();
@@ -83,17 +108,18 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Fachebene mit Schlüssel', () =>
     await p.waitForSelector('#sd-name', { state: 'visible' });
     const sd = FIX.stammdaten;
     await p.fill('#sd-name', sd.anbieterName);
-    await p.fill('#sd-rechtsform', sd.rechtsform);                            // seit U2-ADR-495 ein freies Textfeld
+    await H.weitereAngabenOeffnen(p); await p.fill('#sd-rechtsform', sd.rechtsform);                            // seit U2-ADR-495 ein freies Textfeld
     await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
     await p.fill('#sd-land', sd.land);
     await p.fill('#sd-k-name', sd.kontaktName); await p.fill('#sd-k-email', sd.kontaktEmail);
     await p.click('#sd-weiter');
     await H.generator.schluesselErzeugen(p);
-    await expect(p.locator('#fs-b-stand')).toContainText('heruntergeladen');   // seit 12.10.2026: ein Download ist keine Sicherung
+    await expect(p.locator('#sk-priv-status')).toContainText('Sicherung geprüft');   // seit 16.10.2026: geprüft, bevor die Einreichung frei wird
     // Zwei Felder ohne Pflicht; dreiFelder öffnet danach den Dialog bei „Prüfen und absenden“.
     await H.generator.dreiFelder(p, FIX.felder.slice(0, 2).map((f) => Object.assign({}, f, { pflicht: false })));
     await expect(p.locator('#fs-c-rumpf')).toBeVisible();
 
+    await H.einzelheitenOeffnen(p);
     const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT.de });
     await expect(zeile).toHaveCount(1);
     await zeile.locator('.pr-beheben').click();
@@ -103,24 +129,40 @@ test.describe('T-CROSS-35 Empfehlung mit Weg · Fachebene mit Schlüssel', () =>
     await p.check('#ed-pflicht');
     await expect(p.locator('.vk').first().locator('.vk-stern')).toBeVisible();   // die Arbeitsfläche zeigt die Pflicht ohne Auswahl
 
-    await p.click('#fertig-oeffnen');                                         // Angaben und Schlüssel stehen noch → Schritt 3
+    await p.click('#fertig-oeffnen');                                         // Angaben und Schlüssel stehen noch → „Fertig“
     await expect(p.locator('#fs-c-rumpf')).toBeVisible();
-    await expect(p.locator('#fs-b-stand')).toContainText('heruntergeladen');   // seit 12.10.2026: ein Download ist keine Sicherung
+    await expect(p.locator('#sk-priv-status')).toContainText('Sicherung geprüft');   // seit 16.10.2026: geprüft, bevor die Einreichung frei wird
     await expect(p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT.de })).toHaveCount(0);
+    await H.einzelheitenOeffnen(p);
     await p.click('#pr-pruefen');
     await expect(p.locator('#pr-submit')).toBeEnabled();                      // der Schlüssel liegt weiter im Tresor
     await ctx.close();
   });
 });
 
-test.describe('T-CROSS-35 Empfehlung mit Weg · Rot-Beweis', () => {
-  test('ohne die Knöpfe „Beheben“ gibt es aus Schritt 3 keinen Weg zur Stelle', async ({ browser }) => {
+test.describe('T-CROSS-35 Empfehlung mit Weg · Rot-Beweis des alten Wegs', () => {
+  test('ohne Angaben und Sicherung öffnet der Kopf von Schritt 3 nichts', async ({ browser }) => {
     test.setTimeout(60000);
     const ctx = await browser.newContext();
+    const p = await ctx.newPage();
+    await assistentBisFertigDialog(p, 'de');
+    await expect(p.locator('#fs-c-kopf')).toBeDisabled();                     // der Weg der früheren Hilfsfunktion ist zu …
+    await p.locator('#fs-c-kopf').click({ force: true });                     // … auch ein erzwungener Klick öffnet ③ nicht
+    await expect(p.locator('#fs-c-rumpf')).toBeHidden();
+    await expect(p.locator('#sd-name')).toBeVisible();                        // offen ist ①
+    await ctx.close();
+  });
+});
+
+test.describe('T-CROSS-35 Empfehlung mit Weg · Rot-Beweis', () => {
+  test('ohne die Knöpfe „Beheben“ gibt es aus Schritt 3 keinen Weg zur Stelle', async ({ browser }) => {
+    test.setTimeout(120000);
+    const ctx = await browser.newContext({ acceptDownloads: true });
     const p = await ctx.newPage();
     await assistentBisSchritt3(p, 'de');
     await expect(p.locator('#pr-warnungen .pr-beheben')).not.toHaveCount(0);  // Gegenprobe: mit dem Bau sind sie da
     await p.evaluate(() => document.querySelectorAll('.pr-beheben').forEach((b) => b.remove()));
+    await H.einzelheitenOeffnen(p);
     const zeile = p.locator('#pr-warnungen li', { hasText: KEINE_PFLICHT.de });
     await expect(zeile).toHaveCount(1);                                       // die Meldung steht …
     await expect(p.locator('.pr-beheben')).toHaveCount(0);                    // … aber nichts führt zur Stelle

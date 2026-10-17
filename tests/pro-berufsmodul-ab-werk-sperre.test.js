@@ -1,14 +1,14 @@
 'use strict';
-/* Ein Berufsmodul ab Werk reist unter der Selbst-Einlass-Sperre und gilt (Pro-Konzept C2, 06.10.2026).
+/* Ein Berufsmodul ab Werk reist ohne Wahl und gilt (Pro-Konzept C2, 06.10.2026; seit dem Schutz-Wagen S5 Wahl statt Sperre).
    Die Kundin wählt ihr Berufsmodul beim Kauf; das Produkt bringt es im Rezept mit, wie Erbschein und Zugang zum Recht.
-   Die Sperre (SELBST_EINLASS_GESPERRT) sperrt beim Öffnen jedes Datei-Modul, das nicht ab Werk kam. Diese Probe hält,
-   dass sie das gekaufte Modul NICHT trifft: Pro darf die eigenen Module nicht sperren.
+   Ein Datei-Modul, das nicht ab Werk kam, wirkt beim Öffnen erst nach der Wahl der Person. Diese Probe hält, dass das
+   gekaufte Modul NICHT zur Wahl steht: Pro darf die eigenen Module nicht zurückhalten.
    Kein Test-Anker: das Modul kommt unsigniert über das Rezept des gebauten Produkts, wie die übrigen Ab-Werk-Module.
    Gegenstück: tests/pro-berufsmodule.test.js (Datei-Einlass, dort ist die Vorlage nach dem Wiederöffnen gesperrt).
    Zweiter Fall: eine Datei trägt schon eine Kopie des Moduls (früher über den Einlass hinzugenommen, gegen den Test-Anker
    signiert, wie in tests/pro-berufsmodule.test.js) und wird in einem Pro geöffnet, das dasselbe Modul ab Werk trägt. Die
    Sperre erkennt die Kopie am Fingerabdruck als ab Werk und sperrt sie nicht.
-   Rot-Beweis (gemessen 06.10.2026): ohne die Ab-Werk-Ausnahme in _depotModuleSperreMarkieren wird der zweite Fall rot;
+   Rot-Beweis (gemessen 06.10.2026): ohne die Ab-Werk-Ausnahme in _depotModuleNichtGewaehltMarkieren (vormals _depotModuleSperreMarkieren) wird der zweite Fall rot;
    und dasselbe Produkt ohne das Modul im Rezept zeigt den Bereich nach dem Öffnen nicht (letzte Probe). */
 const { test, after } = require('node:test');
 const assert = require('node:assert/strict');
@@ -76,12 +76,12 @@ for (const slug of ['pro-de', 'pro-en']) {
     const umschlag = JSON.parse(JSON.stringify(await V.depotSerialisieren()));
 
     const { V: W } = produktKern(slug, true);
-    assert.equal(W.SELBST_EINLASS_GESPERRT, true, 'Vorbedingung: die Sperre ist an');
+    assert.equal(typeof W.depotModuleWaehlen, 'function', 'Vorbedingung: die Wahl ist da');
     await W.depotLaden(umschlag, PASSWORT);
     assert.equal(W.getData().sektoren[BERUF.bereich][BERUF.text], 'Kammer Beispiel, Herr Muster', 'der Wert bleibt');
     assert.ok(hatBereich(W), 'der Bereich gilt nach dem Öffnen');
     assert.ok(hatAuszug(W), 'der Auszug gilt nach dem Öffnen');
-    assert.deepEqual(W.gesperrteDepotModule().map((g) => g.kennung), [], 'die Sperre trifft das gekaufte Modul nicht');
+    assert.deepEqual(W.nichtGewaehlteDepotModule().map((g) => g.kennung), [], 'das gekaufte Modul steht nicht zur Wahl');
   });
 }
 
@@ -95,10 +95,10 @@ test('[Pro·Berufsmodul·ab Werk·pro-de] eine Datei mit eingelassener Kopie öf
   const umschlag = JSON.parse(JSON.stringify(await V.depotSerialisieren()));
 
   const { V: W } = produktKern('pro-de', true);
-  assert.equal(W.SELBST_EINLASS_GESPERRT, true, 'Vorbedingung: die Sperre ist an');
+  assert.equal(typeof W.depotModuleWaehlen, 'function', 'Vorbedingung: die Wahl ist da');
   await W.depotLaden(umschlag, PASSWORT);
   assert.ok((W.getData().bereichsModule || []).length > 0, 'Vorbedingung: die Datei trägt die Kopie');
-  assert.deepEqual(W.gesperrteDepotModule().map((g) => g.typ + ':' + g.kennung), [], 'die Kopie des gekauften Moduls ist nicht gesperrt');
+  assert.deepEqual(W.nichtGewaehlteDepotModule().map((g) => g.typ + ':' + g.kennung), [], 'die Kopie des gekauften Moduls steht nicht zur Wahl');
   assert.ok(hatBereich(W) && hatAuszug(W), 'Bereich und Auszug gelten');
   assert.equal(W.getData().sektoren[BERUF.bereich][BERUF.text], 'Kammer Beispiel, Herr Muster', 'der Wert bleibt');
 });
@@ -129,7 +129,7 @@ test('[Pro·Berufsmodul·anderes Produkt] die Angaben bleiben erhalten: ohne das
   await ohne.depotLaden(ausZuschnitt, PASSWORT);
   assert.equal(hatAuszug(ohne), false, 'im Pro ohne das Modul fehlt der Auszug: er hängt am Rezept');
   assert.equal(hatBereich(ohne), true, 'der Bereich wird aus der Datei weiter gezeigt');
-  assert.deepEqual(ohne.gesperrteDepotModule().map((g) => g.typ), [], 'nichts ist gesperrt');
+  assert.deepEqual(ohne.nichtGewaehlteDepotModule().map((g) => g.typ), [], 'nichts steht zur Wahl');
   assert.equal(ohne.getData().sektoren[BERUF.bereich][BERUF.text], 'Kammer Beispiel, Herr Muster', 'die Angabe steht weiter in der Datei');
   const zurueck = JSON.parse(JSON.stringify(await ohne.depotSerialisieren()));
 

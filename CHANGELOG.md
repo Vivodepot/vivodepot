@@ -15,6 +15,58 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.931] – 2026-10-17
+
+### Behoben
+- Eine abgelegte App, die mit einem Zusatz in der Adresse startet, öffnet nach einem Update wieder aus dem Speicher des Geräts,
+  statt die Anwendung erneut aus dem Netz zu holen.
+- Eine Meldung, die bei offenem Dialog erscheint, etwa ein Fehler beim Export, lag unter dem Weichzeichner und war verschwommen.
+  Sie liegt jetzt über dem Dialog, in jedem Erscheinungsbild und ebenso bei Bannern; bei offenem Dialog steht sie am oberen Rand,
+  damit sie seine Knöpfe nicht verdeckt.
+- Die Gültigkeitszeile unter „Reisepass — ausgestellt am“ (Bereich „Mobilität & Reise“) stand eingerückt in der Spalte der
+  Beschriftung. Sie steht jetzt auf derselben linken Kante wie die übrigen Werte; ebenso die Gültigkeitszeile eines Felds in
+  „Finanzen“ und die Zeilen „Ausdrücklich keine …“ in „Gesundheit“.
+
+### Sicherheit
+- VD-SEC-009 (hoch): Behoben in v931.
+  Worum es geht: Vivodepot lässt sich um Erweiterungen ergänzen, das sind Zusatzmodule etwa für Sprache, Rechtsraum oder
+  Vorlagen. In Fassungen vor v917 konnte eine Erweiterung ohne Signatur Texte der Anwendung austauschen, auch amtliche Wortlaute
+  und die Haftungshinweise in der Anwendung und auf jedem PDF. Sie kam über die Einstellungen oder in einer fremden Depot-Datei,
+  die man mit ihrem Passwort öffnete. Angezeigt wurde nur, dass eine ungeprüfte Erweiterung aktiv ist.
+  Was jetzt gilt: Von v917 bis v930 waren solche Erweiterungen gesperrt. Seit v931 wirkt eine Erweiterung, die beim Öffnen einer
+  Depot-Datei mitkommt oder in den Einstellungen eingelesen wird, erst, wenn man sie wählt, und die Anwendung sagt dabei, was sie
+  ändert. Amtliche Wortlaute und Haftungshinweise kann eine Erweiterung ohne Signatur auch dann nicht ersetzen.
+  Betroffen: die vor v917 ausgelieferten Fassungen (zuletzt v857).
+  Was zu tun ist: auf v931 aktualisieren und keine Erweiterung aus einer Datei wählen, die man nicht selbst angelegt hat.
+
+### Hinzugefügt
+- Neue Lebenslage „Längere Krankheit“. Sie nennt die Unterlagen, die meist dazugehören (Krankschreibungen, Schreiben der
+  Krankenkasse zum Krankengeld, Arbeitsvertrag, Meldung bei der Agentur für Arbeit, Reha-Antrag und Reha-Bescheid), und unter
+  „Rechtslage …“ drei Hinweise zur Rechtslage in Deutschland zu Krankengeld, Arbeitslosengeld und Reha-Antrag, je mit einem Link
+  auf den Gesetzestext (§ 48 SGB V, § 145 SGB III, § 51 SGB V). Die Hinweise erscheinen, wenn Deutschland als Rechtsraum
+  vorgeschlagen ist.
+- Ein QR-Code, der auf eine Webadresse führt, nennt die Adresse lesbar darunter: im Fenster „QR-Code für diese Person“ Host und
+  Pfad, ohne den Teil mit dem Inhalt. Studio: unter dem QR-Code einer Anfrage steht ihre kurze Adresse, und „QR-Code mit Adresse
+  herunterladen“ liefert ein Bild zum Aushängen, auf dem die Adresse mitgedruckt ist.
+- Bevor eine Datei aus „Meine Dokumente“ hinausgeht, prüft die Anwendung sie auf aktive Inhalte, etwa ein Skript, eine Aktion, die
+  die Datei von sich aus auslöst, ein Formular, das Daten senden oder laden kann, oder einen Inhalt, der nicht zum Dateityp passt.
+  Bei einer Datei Dritter nennt die Vorschau den Fund; „Original herunterladen“, „Mit Verwahrungsnachweis herunterladen“ und
+  „Sicher weitergeben“ fragen dann vorher „Möchten Sie die Datei so weitergeben?“. Die Datei bleibt unverändert. Ein PDF, das die
+  Anwendung selbst erstellt, wird bei einem solchen Fund nicht ausgegeben, und eine Meldung nennt den Grund.
+
+### Geändert
+- Studio: Der Dialog hinter „Fertigstellen und einreichen“ heißt „Einreichen“ und führt in drei Schritten mit je einem Hauptknopf:
+  „Wer reicht ein?“, „Sicherung speichern“, „Einreichung speichern“, danach „E-Mail vorbereiten“. „Sicherung speichern“ erzeugt
+  das Schlüsselpaar und öffnet die Sicherung vor dem Download einmal mit dem Passwort; gelingt das nicht, entsteht keine Datei.
+  Danach steht „Sicherung geprüft, heruntergeladen“; „Ohne Prüfung weiter“ entfällt. Die Prüfergebnisse stehen in einer Zeile
+  „✓ Geprüft (Aufbau, nicht der Inhalt) · Einzelheiten“. Weitere Wege stehen unter „Mehr“, etwa „Ich habe schon eine
+  Schlüsseldatei“ und „Gespeicherte Sicherung prüfen“. Texte im Studio nennen Bedienelemente beim Namen statt mit „oben“
+  oder „links“.
+- Studio: Der Empfangsschlüssel entsteht für genau eine Anfrage, und die Schlüsseldatei gehört zu dieser Anfrage. Ihr Name endet
+  weiter auf „.empfang.vdkey“ und nennt jetzt Vorgang und Datum der Anfrage. Ältere Schlüsseldateien öffnen Antworten wie bisher.
+  Die Lese-App sagt beim Öffnen einer Antwort, an diesem Namen sei die passende Schlüsseldatei zu erkennen. Der Knopf
+  „Empfangs-Schlüsselpaar erstellen“ entfällt; das Paar entsteht beim Erzeugen der Anfrage.
+
 ## [v1.0.930] – 2026-10-16
 
 ### Behoben

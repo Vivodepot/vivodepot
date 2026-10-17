@@ -67,7 +67,7 @@
  "vivodepot.html|// U2-ADR-031 Nachtrag": 1,
  "vivodepot.html|: '')": 1,
  "vivodepot.html|: feldInputHTML(uf, eintrag ? eintrag[uf.id] : undefined, feld.id))": 1,
- "vivodepot.html|SPRACHE_ANKER": 2,
+ "vivodepot.html|SPRACHE_ANKER": 1,
  "vivodepot.html|_depotSymbolSVG(p4b, y)": 1,
  "vivodepot.html|_dokumentRhythmusOptionenHTML(0)": 1,
  "vivodepot.html|_dokumentRhythmusOptionenHTML(iv)": 1,
@@ -150,6 +150,7 @@
  "vivodepot.html|labelName": 1,
  "vivodepot.html|link": 1,
  "vivodepot.html|liste": 1,
+ "vivodepot.html|liste.map((g, i) => {": 1,
  "vivodepot.html|m.nr": 1,
  "vivodepot.html|mappeListeHTML(bereichsDocs)": 1,
  "vivodepot.html|mappeListeHTML(eintraege)": 1,
@@ -184,7 +185,6 @@
  "vivodepot.html|svgIcon(ICONS.fileText)": 5,
  "vivodepot.html|svgIcon(ICONS.fileText, 16)": 2,
  "vivodepot.html|svgIcon(ICONS.fileText, 18)": 1,
- "vivodepot.html|svgIcon(ICONS.globe, 16)": 1,
  "vivodepot.html|svgIcon(ICONS.lock)": 1,
  "vivodepot.html|svgIcon(ICONS.lock, 14)": 4,
  "vivodepot.html|svgIcon(ICONS.lock, 16)": 4,
@@ -219,5 +219,6 @@
  "vivodepot.html|zeile1": 1,
  "vivodepot.html|zeile2": 1,
  "vivodepot.html|zeilen": 2,
- "vivodepot.html|zusatzInhalt": 1
+ "vivodepot.html|zusatzInhalt": 1,
+ "vivodepot.html|}).join('')": 1
 }

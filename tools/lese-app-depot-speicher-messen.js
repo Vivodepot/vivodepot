@@ -13,7 +13,7 @@
    Ansicht daraus wird, steht an den genannten Zeilen.
 
    DEPOTS: `--depot <datei>=<passwort>` (beliebig oft) öffnet die Datei im Kern des Arbeitsstands und zählt die gesperrten Module
-   je Typ (gesperrteDepotModule).
+   je Typ (nichtGewaehlteDepotModule).
 
    Aufruf:  node tools/lese-app-depot-speicher-messen.js [--depot <datei>=<passwort>]… [--aus <datei>]
    Ohne --depot läuft es gegen den Arbeitsstand allein (so prüft es die Suite: tests/lese-app-depot-speicher-messen.test.js). */
@@ -73,7 +73,7 @@ async function gesperrtIn(datei, passwort) {
   const t = fs.readFileSync(path.resolve(datei), 'utf8');
   await V.depotLaden(JSON.parse(t.slice(t.indexOf('{'))), passwort);
   const je = {};
-  for (const m of V.gesperrteDepotModule()) je[m.typ] = (je[m.typ] || 0) + 1;
+  for (const m of V.nichtGewaehlteDepotModule()) je[m.typ] = (je[m.typ] || 0) + 1;
   return je;
 }
 

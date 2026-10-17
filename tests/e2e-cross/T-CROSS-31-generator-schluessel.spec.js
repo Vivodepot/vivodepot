@@ -24,7 +24,7 @@ async function bisZumPaketKnopf(browser, vorDemOeffnen) {
   await H.generator.stammdaten(p, FIX.stammdaten);
   await H.generator.schluesselErzeugen(p);
   await H.generator.dreiFelder(p, FIX.felder);
-  await p.waitForSelector('#pr-pruefen', { state: 'visible' });
+  await H.einzelheitenOeffnen(p);
   await p.click('#pr-pruefen');
   await expect(p.locator('#pr-submit')).toBeEnabled();
   return { ctx, p };
@@ -38,15 +38,13 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await p.click('#start-leer');
     await p.click('#fertig-oeffnen');
     const sd = FIX.stammdaten;
-    await p.fill('#sd-name', sd.anbieterName); await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
+    await p.fill('#sd-name', sd.anbieterName); await H.weitereAngabenOeffnen(p); await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
     await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
     await p.fill('#sd-k-name', sd.kontaktName);
     await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
     await p.click('#sd-weiter');
     await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
-    await p.click('#sk-erzeugen');
-    await p.waitForSelector('#sk-downloads:not([hidden])');
-    // das Material des privaten Anteils über den einzigen erlaubten Weg holen: die Datei
+    // „Sicherung speichern“ erzeugt das Paar und holt das Material über den einzigen erlaubten Weg: die Datei
     const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#sk-priv')]);
     // die Datei ist verschlüsselt (.vdkey) und trägt kein d; das Material holt die Probe über die Hülle der Seite selbst
     const huelle = JSON.parse(require('node:fs').readFileSync(await dl.path(), 'utf8'));
@@ -105,29 +103,28 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await p.click('#fs-fertig-zu');
     await p.click('#fertig-oeffnen');
     await expect(p.locator('#fs-fertig')).toBeHidden();
+    await H.einzelheitenOeffnen(p);
     await p.click('#pr-pruefen');
-    await expect(p.locator('#pr-submit')).toBeDisabled();
-    await expect(p.locator('#pr-schluessel-hinweis')).toBeVisible();
-    // beim Verlassen: pagehide räumt einen neuen Schlüssel
-    await p.click('#fs-b-kopf');
+    await expect(p.locator('#pr-submit')).toBeHidden();   // die Folge steht wieder bei „Sicherung speichern“
+    // beim Verlassen: pagehide räumt einen neuen Schlüssel (eine neue Sicherung in derselben Karte „Zum Behalten“)
     await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
-    await p.click('#sk-erzeugen');
-    // #sk-downloads ist vom ersten Paar noch sichtbar — gewartet wird auf den Tresor selbst: das Verschlüsseln der
-    // Schlüsseldatei (PBKDF2) braucht seine Zeit, und erst danach ist der neue Schlüssel da.
+    await Promise.all([p.waitForEvent('download'), p.click('#sk-priv')]);
+    // gewartet wird auf den Tresor selbst: das Verschlüsseln der Schlüsseldatei (PBKDF2) braucht seine Zeit.
     await p.waitForFunction(() => SCHLUESSEL_TRESOR.vorhanden());
     expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(true);
     await p.evaluate(() => window.dispatchEvent(new Event('pagehide')));
     expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);
+    await H.mehrOeffnen(p);
     await expect(p.locator('#sk-status')).toContainText(/Kein Schlüssel im Speicher/);
     await ctx.close();
   });
 
-  test('(a) der gehaltene Schlüssel ist nicht herausholbar, das Material nach „weiter“ fort', async ({ browser }) => {
+  test('(a) der gehaltene Schlüssel ist nicht herausholbar; die Hülle bleibt bis zum Signieren, danach ist beides fort', async ({ browser }) => {
     const { ctx, p } = await bisZumPaketKnopf(browser);
     const z = await p.evaluate(() => SCHLUESSEL_TRESOR.zustand());
     expect(z.extractable).toBe(false);
     expect(z.algorithmus).toBe('Ed25519');
-    expect(z.huelleDa).toBe(false);   // nach „weiter“ (im Helfer geklickt) gibt es die verschlüsselte Datei im Speicher nicht mehr
+    expect(z.huelleDa).toBe(true);    // seit 16.10.2026: die geprüfte Hülle (Chiffrat) bleibt bis zum Signieren, höchstens bis zum Zeitlimit
     await ctx.close();
   });
 
@@ -139,13 +136,24 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await p.click('#mod-kacheln [data-mod="anf"]');
     await p.selectOption('#anf-antwort-art', 'schluesselpaar');
     await p.fill('#anf-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#anf-pw2', H.SCHLUESSEL_PASSWORT_E2E);
-    await p.click('#anf-schluessel-erzeugen');
+    /* Ein Paar je Anfrage (U2-ADR-501, V3b): das Paar entsteht beim Erzeugen der Anfrage. Eine erfundene Anfrage, ohne Signierschlüssel. */
+    await p.fill('#anf-zweck', 'Aufnahme'); await p.fill('#anf-grundlage', 'Vertrag'); await p.fill('#anf-vorgang', 'PROBE-31');
+    await p.fill('#anf-gueltig', '2099-12-31');
+    await p.evaluate(() => { STATE.anfrage.von = 'Probe-Stelle'; STATE.anfrage.felder = [{ kennung: 'identity.givenName', zweck: 'Anrede', pflicht: true }]; });
+    const [dlAnfrage] = await Promise.all([p.waitForEvent('download'), p.click('#anf-erzeugen')]);
+    const anfrageText = require('node:fs').readFileSync(await dlAnfrage.path(), 'utf8');
     await p.waitForSelector('#anf-schluessel-downloads:not([hidden])');
     await expect(p.locator('#anf-schluessel-fertig')).toBeVisible();
     const [dl] = await Promise.all([p.waitForEvent('download'), p.click('#anf-schluessel-priv')]);
+    expect(dl.suggestedFilename()).toMatch(/\.PROBE-31\.\d{4}-\d{2}-\d{2}\.empfang\.vdkey$/);
     // die Datei ist verschlüsselt (.vdkey) und trägt kein d; das Material holt die Probe über die Hülle der Seite selbst
     const huelle = JSON.parse(require('node:fs').readFileSync(await dl.path(), 'utf8'));
     expect(huelle.d).toBeUndefined();
+    // sie trägt genau die heruntergeladene Anfrage, deren Abdruck im verschlüsselten JWK steht
+    expect(huelle.anfrage).toBe(anfrageText);
+    expect(huelle.vorgang).toBe('PROBE-31');
+    expect(await p.evaluate(async ([h, pw]) => (await entschluesseleSchluesselJwk(h, pw)).anfrageAbdruck === await empfangAnfrageAbdruck(h.anfrage),
+      [huelle, H.SCHLUESSEL_PASSWORT_E2E])).toBe(true);
     const d = await p.evaluate(async ([h, pw]) => (await entschluesseleSchluesselJwk(h, pw)).d, [huelle, H.SCHLUESSEL_PASSWORT_E2E]);
     expect(d && d.length > 20).toBeTruthy();
     const funde = await p.evaluate((dWert) => {
@@ -204,7 +212,6 @@ test.describe('T-CROSS-31 Schlüssel im Speicher', () => {
     await p.clock.fastForward(61 * 1000);
     expect(await p.evaluate(() => SCHLUESSEL_TRESOR.vorhanden())).toBe(false);   // nach 15 Minuten fort
     // und ein echter Klick signiert danach nichts mehr: die Seite verlangt die Schlüsseldatei
-    await expect(p.locator('#pr-schluessel-hinweis')).toBeVisible();
     await expect(p.locator('#pr-submit')).toBeDisabled();
     await ctx.close();
   });

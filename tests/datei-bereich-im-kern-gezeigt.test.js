@@ -26,7 +26,7 @@ async function imKernGezeigt() {
   d.bereichsModule = [kopie(MODUL)];
   d.sektoren['partner-werkstatt'] = { regal: 'Regal 7' };
   await V._depotModuleAbWerkPruefen(d, true);
-  V._depotModuleSperreMarkieren(d, true);
+  V._depotModuleNichtGewaehltMarkieren(d, true);
   V._bereichsModuleAusDepotAnmelden(d);
   if (!V._sektorIndexHalter()['partner-werkstatt']) return { angemeldet: false, html: '' };
   V.renderSektor('partner-werkstatt');

@@ -138,15 +138,12 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
 
   test('P4 eine Schlüsseldatei mit einem geänderten Zeichen und ein falsches Passwort werden abgewiesen, die unveränderte Datei lädt', async ({ browser }) => {
     test.setTimeout(180000);
-    // Die Schlüsseldatei entsteht im Studio selbst.
+    // Die Schlüsseldatei entsteht im Studio selbst („Sicherung speichern“ erzeugt das Paar und lädt die Datei).
     const ctx = await browser.newContext({ acceptDownloads: true });
     const p = await ctx.newPage();
     await H.generator.oeffnen(p, 'de');
     await H.generator.stammdaten(p, FIX.stammdaten);
     await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
-    await p.click('#sk-erzeugen');
-    await p.waitForSelector('#sk-downloads:not([hidden])');
-    await Promise.all([p.waitForEvent('download'), p.click('#sk-pub')]);
     const schluesseldatei = await H.downloadNachTmp(p, tmp, () => p.click('#sk-priv'));
     await ctx.close();
     const original = fs.readFileSync(schluesseldatei, 'utf8');
@@ -166,7 +163,8 @@ test.describe('T-CROSS-40 Studio-Kernabläufe', () => {
       const s = await c.newPage();
       await H.generator.oeffnen(s, 'de');
       await H.generator.stammdaten(s, FIX.stammdaten);
-      await s.evaluate(() => { document.querySelector('details.fs-vorhanden').open = true; });
+      await H.mehrOeffnen(s);
+      await s.click('#sk-vorhanden > summary');
       await s.setInputFiles('#pr-privkey', { name: 'schluessel.vdkey', mimeType: 'application/json', buffer: Buffer.from(inhalt, 'utf8') });
       await s.fill('#pr-privkey-pw', passwort);
       await s.click('#pr-privkey-laden');

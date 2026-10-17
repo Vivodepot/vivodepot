@@ -79,7 +79,10 @@ function codePruefsumme(text) {
 // 09.10.2026 (U2-ADR-494): der Abschnitt schneidet die Kern-Testfläche (KERN_TESTFLAECHE, außer bei mitTestflaeche:true) und den
 // Nachlade-Zweig der Vor-Depot-Konfiguration (VOR_DEPOT_NACHLADEN) heraus; ein Produkt ohne eingebackene Konfiguration wird nicht
 // gebaut. Ein Kern ganz ohne die Marken baut wie bisher (Rückwärtsregel wie beim Erscheinungsbild). Pin neu gehasht (vorher 98112d27…). Die Gateway-Kopie zieht Kopie und Pin nach, abgestimmt am Zugkopf.
-const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '0d9639c65ce1f53c67f05e14fd98cebf2ac7de2a4e822efedf5d034fb54a6143';
+// 16.10.2026 (AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT): eine neue Region AB_WERK_AMTLICHE_VORLAGEN (modulTyp 'amtlicheVorlagen', genau ein
+// Modul, kein Listentyp). Pin neu gehasht (vorher 0d9639c6…). Die Gateway-Kopie hat nachgezogen (Gateway-main, 17.10.2026);
+// die Brücke, die bis dahin den Stand vorher hielt, ist entfernt.
+const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '9bbee035c7fbcae75fc241f9b806bfda6bdcf564e9c38fd32f13655596886296';
 
 const PRODUKT_TEXT_ERZEUGEN_PFAD = path.join(__dirname, 'produkt-text-erzeugen.js');
 

@@ -29,7 +29,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen } = require('./helpers');
+const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen, erweiterungEinlesenBestaetigen, erweiterungenWaehlen } = require('./helpers');
 
 const PW = 'pro-modul-e2e-passwort-123';
 const BEREICH_ID = 'e2e-betriebsuebergabe';
@@ -86,10 +86,10 @@ async function oeffneEinstellungen(page) {
 async function moduleDateiEinlassen(page, dateipfad) {
   await oeffneEinstellungen(page);
   await page.locator('#einst-modul-datei').setInputFiles(dateipfad);
+  await erweiterungEinlesenBestaetigen(page);   // Wahl statt Sperre (E3): ein unsigniertes Modul erst nach der Frage
 }
 
-// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
-test.fixme('[Pro-Modul·1] Datei einlassen — der Bereich erscheint in der Sidebar', async ({ page }) => {
+test('[Pro-Modul·1] Datei einlassen — der Bereich erscheint in der Sidebar', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   await moduleDateiEinlassen(page, tempModulDatei());
@@ -97,20 +97,19 @@ test.fixme('[Pro-Modul·1] Datei einlassen — der Bereich erscheint in der Side
   await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toContainText('Betriebsübergabe (Test)');
 });
 
-// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
-test.fixme('[Pro-Modul·2] der Ungeprüft-Hinweis steht in den Einstellungen, mit Typ und Wortlaut für Menschen', async ({ page }) => {
+test('[Pro-Modul·2] der Ungeprüft-Hinweis steht in den Einstellungen, mit Typ und Wortlaut für Menschen', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   await moduleDateiEinlassen(page, tempModulDatei());
-  await expect(page.locator('.einst-modulliste')).toContainText('bereich');
+  // Die Art in Worten, nie der rohe Typ (Entscheidung 07.10.2026).
+  await expect(page.locator('.einst-modulliste')).toContainText('Bereich');
   // Der Wortlaut, den eine Bürgerin tatsächlich liest — nicht der interne Schlüsselname
   // "ungeprueft". Zug 3, erste Frage vorweggenommen: der Hinweis steht HIER, in den
   // Einstellungen — nicht an der Stelle, an der der Bereich selbst zu sehen ist (s. Bericht).
   await expect(page.locator('#modal-inhalt')).toContainText('Niemand hat sie geprüft');
 });
 
-// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
-test.fixme('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder öffnen — der eingelassene Bereich steht noch da', async ({ page }) => {
+test('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wieder öffnen — der eingelassene Bereich steht noch da', async ({ page }) => {
   await oeffneApp(page);
   await fsaAttrappeEinrichten(page);
   await depotAnlegen(page, { pw: PW });
@@ -130,14 +129,15 @@ test.fixme('[Pro-Modul·3] Depot sichern und schließen, die gesicherte Datei wi
     await page.fill('#co-pw', PW);
     await page.click('#w-oeffnen');
     await page.waitForSelector('#app.an', { state: 'attached' });
+    // Wahl beim Öffnen (Schutz-Wagen, E1): das selbst eingelassene Modul steht zur Wahl, die Bürgerin wählt es.
+    await erweiterungenWaehlen(page);
     await expect(page.locator('[data-sektor="' + BEREICH_ID + '"]')).toContainText('Betriebsübergabe (Test)');
   } finally {
     fs.rmSync(dateiPfad, { force: true });
   }
 });
 
-// FIXME-ID: SPERRE-EINLASS-PRO-MODUL-EINLASS-DURCHGANG
-test.fixme('[Pro-Modul·4] dieselbe Datei ein zweites Mal einlassen — kein zweiter, kein Fehler, keine stille Meldung', async ({ page }) => {
+test('[Pro-Modul·4] dieselbe Datei ein zweites Mal einlassen — kein zweiter, kein Fehler, keine stille Meldung', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page, { pw: PW });
   const dateipfad = tempModulDatei();

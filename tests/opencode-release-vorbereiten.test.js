@@ -87,3 +87,58 @@ test('[openCoDE-Release·Signieren·Rot-Beweis] ein unsignierter Befehl fiele au
   assert.equal(unsigniert.every((z) => / -S | -s /.test(z)), false);
   assert.equal(R.signierBefehle('v1.0.856').slice(0, 2).every((z) => / -S | -s /.test(z)), true);
 });
+
+/* RELEASE-NOTES (16.10.2026): liegt docs/release-notes/<fassung>.md im Tag-Stand, tragen openCoDE und GitHub genau diesen Text,
+   mit dem Prüfsummen-Satz in beiden Sprachen und den Pflichthinweisen; ohne die Datei gilt der CHANGELOG-Abschnitt wie bisher. */
+const NOTES = '## Deutsch\n\n**Fassung 1 (1. Oktober 2026)**\n\n### Behoben\n- Etwas auf Deutsch.\n\n---\n\n'
+  + '## English\n\n**Version 1 (1 October 2026)**\n\n### Fixed\n- Something in English.\n';
+const mitNotes = (text) => (q) => {
+  fs.mkdirSync(path.join(q, R.NOTES_ORDNER), { recursive: true });
+  fs.writeFileSync(path.join(q, R.NOTES_ORDNER, 'v1.0.1.md'), text);
+};
+const lesen = (ziel) => ({ rel: JSON.parse(fs.readFileSync(path.join(ziel, 'release.json'), 'utf8')), gh: fs.readFileSync(path.join(ziel, 'github-release.md'), 'utf8') });
+
+test('[Release·Notes] mit Notes-Datei: der geprüfte Text auf beiden Seiten, Prüfsummen-Satz je Sprache, Pflichthinweise am Ende', () =>
+  mitKopie(mitNotes(NOTES), (q) => mitZiel((ziel) => {
+    assert.deepEqual(R.releaseVorbereiten({ quelle: q, fassung: 'v1.0.1', ziel }).fehler, []);
+    const { rel } = lesen(ziel);
+    assert.ok(rel.description.startsWith('## Deutsch\n\n**Fassung 1'), rel.description.slice(0, 80));
+    assert.doesNotMatch(rel.description, /Erste Fixture-Fassung/, 'nicht der CHANGELOG-Abschnitt');
+    const de = rel.description.indexOf(R.PRUEFSUMMEN_SATZ.de), en = rel.description.indexOf('## English'), enSatz = rel.description.indexOf(R.PRUEFSUMMEN_SATZ.en);
+    assert.ok(de > 0 && de < en && en < enSatz, 'der deutsche Satz im deutschen, der englische im englischen Abschnitt');
+    for (const [titel] of R.PFLICHTHINWEISE) assert.ok(rel.description.indexOf('### ' + titel) > enSatz, titel + ' nach den Notes');
+  })));
+
+test('[Release·Notes·gleich] openCoDE und GitHub tragen denselben Text, mit und ohne Notes-Datei', () => {
+  for (const aendern of [mitNotes(NOTES), () => {}]) {
+    mitKopie(aendern, (q) => mitZiel((ziel) => {
+      assert.deepEqual(R.releaseVorbereiten({ quelle: q, fassung: 'v1.0.1', ziel }).fehler, []);
+      const { rel, gh } = lesen(ziel);
+      assert.equal(gh, rel.description + '\n');
+    }));
+  }
+});
+
+test('[Release·Notes·Rückfall] ohne Notes-Datei bleibt die Beschreibung, wie sie war: CHANGELOG-Abschnitt, Satz, Hinweise', () =>
+  mitKopie(() => {}, (q) => {
+    const r = R.releaseVorbereiten({ quelle: q, fassung: 'v1.0.1' });
+    const abschnitt = R.changelogAbschnitt(fs.readFileSync(path.join(q, 'CHANGELOG.md'), 'utf8'), 'v1.0.1');
+    assert.equal(r.release.description, R.mitPflichthinweisen(abschnitt + '\n\n' + R.PRUEFSUMMEN_SATZ.de));
+  }));
+
+test('[Release·Notes·Rot-Beweis] eine fehlende Sprache, ein eigener SHA256SUMS-Satz, ein eingefügter Pflichthinweis halten an', () => {
+  const loinc = fs.readFileSync(path.join(__dirname, '..', R.PFLICHTHINWEISE[0][1]), 'utf8');
+  const faelle = [
+    [NOTES.replace('## English', '## Englisch'), /ohne Abschnitt „## English“/],
+    [NOTES.replace('## Deutsch', 'Deutsch'), /ohne Abschnitt „## Deutsch“/],
+    [NOTES + '\nPrüfsummen in `SHA256SUMS`.\n', /nennen SHA256SUMS/],
+    [NOTES + '\n### LOINC\n\n' + loinc, /tragen schon einen Pflichthinweis/],
+  ];
+  for (const [text, muster] of faelle) {
+    mitKopie(mitNotes(text), (q) => {
+      const r = R.releaseVorbereiten({ quelle: q, fassung: 'v1.0.1' });
+      assert.equal(r.release, null, 'kein Release mit halbem Text');
+      assert.ok(r.fehler.some((f) => muster.test(f)), r.fehler.join(' | '));
+    });
+  }
+});

@@ -31,10 +31,48 @@
         }
       ]
     },
+    "pfadStufen": {
+      "description": "U2-ADR-465 Nachtrag: ein Pfad als Liste von Stufen, für Schlüssel mit Punkt (etwa „G99000002V1.0“). Jede Stufe ist ein Text, nicht nur Leerraum, keiner davon `__proto__`, `constructor` oder `prototype`; höchstens 64 Stufen.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "pattern": "\\S",
+        "not": {
+          "enum": [
+            "__proto__",
+            "constructor",
+            "prototype"
+          ]
+        }
+      }
+    },
+    "ziel": {
+      "description": "Ein Ziel: Punkt-getrennter Pfad oder (U2-ADR-465 Nachtrag) Liste von Pfadstufen. Eine Stufe mit Punkt gibt es nur in der Listenform.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/pfad"
+        },
+        {
+          "$ref": "#/$defs/pfadStufen"
+        }
+      ]
+    },
     "xmlPfad": {
       "description": "Pfad aus XML-Namen (ohne Präfix); nur die letzte Stufe darf `#text` oder `@name` sein.",
       "type": "string",
       "pattern": "^(?:[\\p{L}_][\\p{L}\\p{N}_·-]*\\.)*(?:[\\p{L}_][\\p{L}\\p{N}_·-]*|#text|@[\\p{L}_][\\p{L}\\p{N}_·-]*)$"
+    },
+    "xmlPfadStufen": {
+      "description": "U2-ADR-465 Nachtrag: Liste von Pfadstufen aus XML-Namen (Punkte erlaubt); `#text` und `@name` nur als letzte Stufe (prüft der Kern).",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "string",
+        "pattern": "^(?:[\\p{L}_][\\p{L}\\p{N}._·-]*|#text|@[\\p{L}_][\\p{L}\\p{N}._·-]*)$"
+      }
     }
   },
   "properties": {
@@ -139,6 +177,11 @@
       "maxLength": 300,
       "pattern": "^(?!.*--)[^\\u0000-\\u001f<>]*[^\\u0000-\\u001f<>-]$"
     },
+    "schemaUri": {
+      "description": "U2-ADR-465 Nachtrag: die Kennung des Schemas, das die Ausgabe erfüllen soll (etwa die Adresse eines FIM-JSON-Schemas) — nur Text, der Kern löst sie nie auf. Nur an einem Ausgabe-Modul. Eine Adresse außerhalb von https://vivodepot.de/ gibt der Kern nur einem Modul mit verifizierter Signatur frei (prüft nur der Kern).",
+      "type": "string",
+      "pattern": "^https://[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+/[A-Za-z0-9._~/-]{1,400}$"
+    },
     "erkennen": {
       "description": "UND-verknüpfte Vergleiche, an denen der Kanal seine Datei erkennt. Fehlt die Liste, wird der Kanal von Hand gewählt.",
       "type": [
@@ -223,7 +266,7 @@
             "pattern": "\\S"
           },
           "ziel": {
-            "$ref": "#/$defs/pfad"
+            "$ref": "#/$defs/ziel"
           },
           "alsListe": {
             "type": "boolean"
@@ -507,7 +550,14 @@
               "type": "object",
               "properties": {
                 "ziel": {
-                  "$ref": "#/$defs/xmlPfad"
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/xmlPfad"
+                    },
+                    {
+                      "$ref": "#/$defs/xmlPfadStufen"
+                    }
+                  ]
                 }
               }
             }
@@ -595,6 +645,29 @@
           "schreiber": {
             "type": "string",
             "pattern": "^\\s*xml@1\\s*$"
+          }
+        }
+      }
+    },
+    {
+      "description": "U2-ADR-465 Nachtrag: `schemaUri` nur an einem Ausgabekanal.",
+      "if": {
+        "required": [
+          "schemaUri"
+        ],
+        "properties": {
+          "schemaUri": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "richtung"
+        ],
+        "properties": {
+          "richtung": {
+            "const": "export"
           }
         }
       }

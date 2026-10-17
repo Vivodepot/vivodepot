@@ -145,18 +145,18 @@ async function kernMitFruehererFassung(variante) {
   const { V } = ladeKern({ htmlPfad: p });
   const d = { textsatzModule: [kopie(modul)], abWerkMitschrift: {} };
   await V._depotModuleAbWerkPruefen(d, true);
-  V._depotModuleSperreMarkieren(d, true);
+  V._depotModuleNichtGewaehltMarkieren(d, true);
   return { V, d, m: d.textsatzModule[0] };
 }
-test('[Frühere Fassung·Kern·Befund] ein Sprachmodul einer früheren Fassung ist nicht gesperrt und nicht ab Werk für den Schutz', async () => {
+test('[Frühere Fassung·Kern·Befund] ein Sprachmodul einer früheren Fassung steht nicht zur Wahl und ist nicht ab Werk für den Schutz', async () => {
   const { V, m } = await kernMitFruehererFassung();
   assert.equal(V._abWerkHerkunft(m), true);
   assert.equal(V._abWerkGleich(m), false);
-  assert.equal(V._depotModulGesperrt('textsatzModule', m), false, 'keine Sperre, keine Warnung');
+  assert.equal(V._depotModulNichtGewaehlt('textsatzModule', m), false, 'steht nicht zur Wahl, keine Warnung');
 });
-test('[Frühere Fassung·Kern·Befund·Rot-Beweis] ohne die frühere Fassung wäre es gesperrt', async () => {
+test('[Frühere Fassung·Kern·Befund·Rot-Beweis] ohne die frühere Fassung stünde es zur Wahl', async () => {
   const a = '      else if (_fingerabdruckBekannt(ABWERK_FRUEHERE_FASSUNGEN_KERN, fp)) {\n        _ABWERK_FRUEHER.add(m);\n        _ABWERK_FRUEHER_SCHUTZ.set(m, _fingerabdruckZurueckgezogen(ABWERK_SCHUTZ_ZURUECKGEZOGEN_KERN, fp));\n      }\n';
   assert.equal(KERN_HTML.split(a).length, 2, 'Vorbedingung');
   const { V, m } = await kernMitFruehererFassung((h) => h.replace(a, ''));
-  assert.equal(V._depotModulGesperrt('textsatzModule', m), true, 'der alte Stand sperrt die echte frühere Datei — genau das fängt die Probe oben');
+  assert.equal(V._depotModulNichtGewaehlt('textsatzModule', m), true, 'der alte Stand stellt die echte frühere Datei zur Wahl — genau das fängt die Probe oben');
 });

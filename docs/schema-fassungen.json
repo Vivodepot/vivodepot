@@ -162,6 +162,13 @@
      "blob": "7b59fa0ef0db7070dd70bb50cb63a7638d911091",
      "shaKanon": "80081197f55ea0c8732ae5532f96b54f40bb87245d94e7d10600066f78c780b3",
      "shaAusgeliefert": "d0ee315eb212b65019ca9f830d139ce0d4496cf87728412ba0cce84fff34aacf"
+    },
+    {
+     "n": 3,
+     "adresse": "https://vivodepot.de/schemas/format-modul/3.json",
+     "blob": "bc3ede1481232f08c3de56c3e57ea053ad9bd484",
+     "shaKanon": "fef83bf42bd27b33187586ae51176742a073c8ad8136494ed32bdf869e735004",
+     "shaAusgeliefert": "c2a9795682e471ec2d4362c381993cb640af598ea5973c32e254ff5e16493024"
     }
    ]
   },
@@ -210,6 +217,13 @@
      "blob": "92691472649eee8fc25abcac369f5d76dbb9ebb8",
      "shaKanon": "ef3c316f9059865295edbc9e7552f0a3d430e8d0a65f4f741c3739a00dd5a75a",
      "shaAusgeliefert": "c2be686813d84fa0bacf8c7885bc6a0ee495dfd17b511f1f4cf2852e8099ee19"
+    },
+    {
+     "n": 2,
+     "adresse": "https://vivodepot.de/schemas/rechtsraum-modul/2.json",
+     "blob": "e66ee974f09ca628bbb85dbf3c30750ad9fa3334",
+     "shaKanon": "468dc96bc3bea0ce975a72316905550502f60d0506b51a5628b9dc9038147fd4",
+     "shaAusgeliefert": "082e6771d890c41927664662a0ad56a1822fc6c705b84be3b6ba506735cbb491"
     }
    ]
   },

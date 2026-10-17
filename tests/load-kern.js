@@ -361,6 +361,7 @@ const EXPORT_HOOK = `
   _pdfAnhangEinbetten: (typeof _pdfAnhangEinbetten !== 'undefined' ? _pdfAnhangEinbetten : undefined),
   pdfDatenfassungEinbetten: (typeof pdfDatenfassungEinbetten !== 'undefined' ? pdfDatenfassungEinbetten : undefined),
   formatNamensraumFremd: (typeof formatNamensraumFremd !== 'undefined' ? formatNamensraumFremd : undefined),   // U2-ADR-465
+  formatSchemaUriFremd: (typeof formatSchemaUriFremd !== 'undefined' ? formatSchemaUriFremd : undefined),   // U2-ADR-465 Nachtrag
   // U2-ADR-465 Nachtrag: Anhänge und die bevollmächtigte Person
   FORMAT_ANHANG_ROLLEN: (typeof FORMAT_ANHANG_ROLLEN !== 'undefined' ? FORMAT_ANHANG_ROLLEN : undefined),
   FORMAT_VERTRETER_FELDER: (typeof FORMAT_VERTRETER_FELDER !== 'undefined' ? FORMAT_VERTRETER_FELDER : undefined),
@@ -934,6 +935,11 @@ const EXPORT_HOOK = `
   // (notfallCacheBauen/notfallCacheAusUmschlag/flowNotfallAusDatei/notfallStufe1 sind weg).
   renderNotfall,
   notfallKartenMeta, zeichneNotfallkarte, flowNotfallkartePdf,
+  // Aktive Inhalte in einer Ausgabe (16.10.2026, AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT); typeof-abgesichert für ältere Kerne.
+  ausgabeInhaltPruefen: (typeof ausgabeInhaltPruefen === 'function' ? ausgabeInhaltPruefen : undefined),
+  pdfBlobGeprueft: (typeof pdfBlobGeprueft === 'function' ? pdfBlobGeprueft : undefined),
+  mappeAktiveInhalte: (typeof mappeAktiveInhalte === 'function' ? mappeAktiveInhalte : undefined),
+  mappeAktivBestaetigen: (typeof mappeAktivBestaetigen === 'function' ? mappeAktivBestaetigen : undefined),
   // Format-Profile (Teil 3.5)
   baueAusMapping, VC_IDENTITAET_MAPPING, sdJwtVcIdentitaet,
   XOEV_VERWALTUNG_MAPPING, xoevVerwaltung, EDCI_BILDUNG_MAPPING, edciBildung,
@@ -1070,6 +1076,12 @@ const EXPORT_HOOK = `
   ANTWORT_SEED_FELD: (typeof ANTWORT_SEED_FELD !== 'undefined' ? ANTWORT_SEED_FELD : undefined),
   _antwortSeedHolen: (typeof _antwortSeedHolen !== 'undefined' ? _antwortSeedHolen : undefined),
   _antwortSeedGueltig: (typeof _antwortSeedGueltig !== 'undefined' ? _antwortSeedGueltig : undefined),
+  // Schlüssel je Stelle und signierte Antwort, Wagen V4 (typeof-gesichert wie oben).
+  ANTWORT_SIGNIEREN: (typeof ANTWORT_SIGNIEREN !== 'undefined' ? ANTWORT_SIGNIEREN : undefined),
+  antwortSchluesselInfo: (typeof antwortSchluesselInfo !== 'undefined' ? antwortSchluesselInfo : undefined),
+  antwortSchluesselJeStelle: (typeof antwortSchluesselJeStelle !== 'undefined' ? antwortSchluesselJeStelle : undefined),
+  antwortAudKennung: (typeof antwortAudKennung !== 'undefined' ? antwortAudKennung : undefined),
+  antwortSignieren: (typeof antwortSignieren !== 'undefined' ? antwortSignieren : undefined),
   _whcAuspacken: (typeof _whcAuspacken !== 'undefined' ? _whcAuspacken : undefined),
   _whcEinwickeln: (typeof _whcEinwickeln !== 'undefined' ? _whcEinwickeln : undefined),
   _whcCodeSchluessel: (typeof _whcCodeSchluessel !== 'undefined' ? _whcCodeSchluessel : undefined),
@@ -1313,6 +1325,7 @@ const EXPORT_HOOK = `
   // Glied 5 (17.08.2026): EIN Einlassweg für alle Register
   EINLASS_REGISTER, modulEinlassen, eingelasseneModule,
   _modulAnzeigeName: (typeof _modulAnzeigeName === 'function' ? _modulAnzeigeName : undefined),
+  _modulWirkung: (typeof _modulWirkung === 'function' ? _modulWirkung : undefined),
   _istEigeneMarkeInhalt: (typeof _istEigeneMarkeInhalt === 'function' ? _istEigeneMarkeInhalt : undefined),
   // U2-ADR-258 (04.09.2026): die Herkunft eines Moduls reist bis zum Empfaenger. typeof-Absicherung,
   // damit ein Bestandstest gegen eine aeltere Kern-Fassung (KERN_HTML_PATH) nicht bricht.
@@ -1707,6 +1720,8 @@ const EXPORT_HOOK = `
   BAUSTEIN_BY_ID, lebenslageFelder,   // A58 — Katalog liegt seit T5 im Kern (BAUSTEINE)
   _bausteinHatEintraege,   // K2 (Auftrag K1/K2/K6, 09.08.2026)
   lebenslageAlsBlatt, oeffneLebenslage, _lageBlattSpeichern, _faltContainer,   // A58/A68 (U2-ADR-117) — das eine Lage-Blatt + Schreibweg
+  _lebenslageHinweiseAusModulen: (typeof _lebenslageHinweiseAusModulen === 'function' ? _lebenslageHinweiseAusModulen : undefined),   // Lebenslage-Hinweise aus dem Rechtsraum-Modul (16.10.2026)
+  _rechtsraumLebenslageHinweise: (typeof _rechtsraumLebenslageHinweise === 'function' ? _rechtsraumLebenslageHinweise : undefined),
   get aktiveLageId() { return aktiveLageId; },
   istCodierterWert, _codeEintraege, chipAusEingabe, chipListeMitNeuem,
   // Gemeinsamer JWS-Block (Krypto-Fundament der drei Säulen)
@@ -1756,22 +1771,24 @@ const EXPORT_HOOK = `
   _dokFussHaftungMitMarke: (typeof _dokFussHaftungMitMarke === 'function' ? _dokFussHaftungMitMarke : undefined),
   _dokFussSegmente: (typeof _dokFussSegmente === 'function' ? _dokFussSegmente : undefined),
   _textsatzPruefstufeFuerSchutz: (typeof _textsatzPruefstufeFuerSchutz === 'function' ? _textsatzPruefstufeFuerSchutz : undefined),
-  _depotModuleSperreMarkieren: (typeof _depotModuleSperreMarkieren === 'function' ? _depotModuleSperreMarkieren : undefined),
-  _depotModulGesperrt: (typeof _depotModulGesperrt === 'function' ? _depotModulGesperrt : undefined),
+  _depotModuleNichtGewaehltMarkieren: (typeof _depotModuleNichtGewaehltMarkieren === 'function' ? _depotModuleNichtGewaehltMarkieren : undefined),
+  _depotModulNichtGewaehlt: (typeof _depotModulNichtGewaehlt === 'function' ? _depotModulNichtGewaehlt : undefined),
   _depotModuleWirksam: (typeof _depotModuleWirksam === 'function' ? _depotModuleWirksam : undefined),
   _abWerkGleich: (typeof _abWerkGleich === 'function' ? _abWerkGleich : undefined),
-  gesperrteDepotModule: (typeof gesperrteDepotModule === 'function' ? gesperrteDepotModule : undefined),
-  gesperrteDepotModuleNamen: (typeof gesperrteDepotModuleNamen === 'function' ? gesperrteDepotModuleNamen : undefined),
-  erweiterungenGesperrtHinweisZeigen: (typeof erweiterungenGesperrtHinweisZeigen === 'function' ? erweiterungenGesperrtHinweisZeigen : undefined),
-  _selbstEinlassFrei: (typeof _selbstEinlassFrei === 'function' ? _selbstEinlassFrei : undefined),
+  nichtGewaehlteDepotModule: (typeof nichtGewaehlteDepotModule === 'function' ? nichtGewaehlteDepotModule : undefined),
+  depotModuleWaehlen: (typeof depotModuleWaehlen === 'function' ? depotModuleWaehlen : undefined),
+  erweiterungenWahlZeigen: (typeof erweiterungenWahlZeigen === 'function' ? erweiterungenWahlZeigen : undefined),
+  _erweiterungWahlMoeglich: (typeof _erweiterungWahlMoeglich === 'function' ? _erweiterungWahlMoeglich : undefined),
+  _erweiterungHinzufuegenFragen: (typeof _erweiterungHinzufuegenFragen === 'function' ? _erweiterungHinzufuegenFragen : undefined),
+  _erweiterungAusEinstellungenFragen: (typeof _erweiterungAusEinstellungenFragen === 'function' ? _erweiterungAusEinstellungenFragen : undefined),
+  _erweiterungWahlKoerperHTML: (typeof _erweiterungWahlKoerperHTML === 'function' ? _erweiterungWahlKoerperHTML : undefined),
+  get _erweiterungWahlOffen() { return (typeof _erweiterungWahlOffen !== 'undefined' ? _erweiterungWahlOffen : undefined); },
   /* Schutz-Wagen S2: das Ergebnis der Ladeprüfung, für Proben, die ein Modul als „Kette beim Öffnen nachgeprüft“ voraussetzen.
      Die echte Prüfung belegt tests/ladepruefung-alle-modultypen.test.js. */
   /* Schutz-Wagen S6: ein Ergebnis setzen wie die Ladeprüfung, gebunden an den Inhalt zur Setzzeit (_modulBelegMerken). */
   _modulBelegAlsGeprueftSetzen: (m, r) => { _modulBelegMerken(m, r); return m; },
   _modulFingerabdruck: (typeof _modulFingerabdruck !== 'undefined' ? _modulFingerabdruck : undefined),
   get _MODUL_BELEG_GEPRUEFT() { return (typeof _MODUL_BELEG_GEPRUEFT !== 'undefined' ? _MODUL_BELEG_GEPRUEFT : undefined); },
-  get SELBST_EINLASS_GESPERRT() { return (typeof SELBST_EINLASS_GESPERRT !== 'undefined' ? SELBST_EINLASS_GESPERRT : undefined); },
-  set SELBST_EINLASS_GESPERRT(v) { SELBST_EINLASS_GESPERRT = v; },
   _istZusicherungsKennung: (typeof _istZusicherungsKennung === 'function' ? _istZusicherungsKennung : undefined),
   _textsatzModuleBelegPruefen: (typeof _textsatzModuleBelegPruefen !== 'undefined' ? _textsatzModuleBelegPruefen : undefined),
   _textsatzModulBelegtInfo: (typeof _textsatzModulBelegtInfo !== 'undefined' ? _textsatzModulBelegtInfo : undefined),

@@ -20,7 +20,7 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const path = require('node:path');
-const { oeffneApp, depotAnlegen, oeffneSektor, einstellungenAbschnittOeffnen } = require('./helpers');
+const { oeffneApp, depotAnlegen, oeffneSektor, einstellungenAbschnittOeffnen, erweiterungEinlesenBestaetigen } = require('./helpers');
 
 const BUNDLE_DATEI = path.join(__dirname, '..', 'fixtures', 'erbschein-vorbereitung-logikmodul.json');
 
@@ -31,6 +31,7 @@ async function erbscheinEinlassen(page) {
   await einstellungenAbschnittOeffnen(page, '#einst-modul-einlassen');
   await expect(page.locator('#einst-modul-einlassen')).toBeVisible();
   await page.locator('#einst-modul-datei').setInputFiles(BUNDLE_DATEI);
+  await erweiterungEinlesenBestaetigen(page);   // Wahl statt Sperre (E3): ein unsigniertes Modul erst nach der Frage
   await page.locator('#m-ok').click();   // Einstellungen-Modal schließen
 }
 
@@ -54,8 +55,7 @@ test('Erbschein liegt ab Werk vor: die Regal-Karte erscheint bei einer frisch an
   await expect(page.locator('[data-erbschein-dokument]')).toBeVisible();
 });
 
-// FIXME-ID: SPERRE-EINLASS-ERBSCHEIN-VORBEREITUNGSAUSZUG-ABNAHME
-test.fixme('Regal-Karte springt zur Sektion, der Knopf öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
+test('Regal-Karte springt zur Sektion, der Knopf öffnet den Auszug — leeres Depot zeigt nur Lücken', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await erbscheinEinlassen(page);
@@ -78,8 +78,7 @@ test.fixme('Regal-Karte springt zur Sektion, der Knopf öffnet den Auszug — le
   await expect(blatt).not.toContainText('Ort, Datum, Unterschrift');
 });
 
-// FIXME-ID: SPERRE-EINLASS-ERBSCHEIN-VORBEREITUNGSAUSZUG-ABNAHME
-test.fixme('volles Depot: Testament, Familienstand und Kind erscheinen im Auszug in Klartext', async ({ page }) => {
+test('volles Depot: Testament, Familienstand und Kind erscheinen im Auszug in Klartext', async ({ page }) => {
   await oeffneApp(page);
   await depotAnlegen(page);
   await erbscheinEinlassen(page);
@@ -112,8 +111,7 @@ test.fixme('volles Depot: Testament, Familienstand und Kind erscheinen im Auszug
   await expect(blatt).toContainText('Tochter Beispiel');
 });
 
-// FIXME-ID: SPERRE-EINLASS-ERBSCHEIN-VORBEREITUNGSAUSZUG-ABNAHME
-test.fixme('Zug 1b: "Als XML sichern" läuft über den echten Klickweg durch, ohne Absturz — NACH Einlass', async ({ page }) => {
+test('Zug 1b: "Als XML sichern" läuft über den echten Klickweg durch, ohne Absturz — NACH Einlass', async ({ page }) => {
   const fehler = [];
   page.on('pageerror', (e) => fehler.push(String(e)));
 

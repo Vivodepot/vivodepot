@@ -60,6 +60,8 @@ const PW = 'probe-passwort-empfang';
 function passwortEintragen(document) { document.getElementById('anf-pw1').value = PW; document.getElementById('anf-pw2').value = PW; }
 async function privatAusHuelle(V, text) { return V.entschluesseleSchluesselJwk(JSON.parse(text), PW); }
 const ERLAUBTE_EXPORTEURE = ['erzeugeSchluesselpaarRoh', 'erzeugeEmpfangsSchluesselpaar'];
+/* Ein Paar je Anfrage (U2-ADR-501, V3b): der Tresor erzeugt nur mit einer Anfrage, die `bauen` liefert. Hier eine erfundene. */
+const BAUEN = async () => ({ text: '{"format":"vivodepot-anfrage@1"}', vorgang: 'PROBE-1', gestelltAm: '2026-10-15' });
 
 async function verletzungen(html) {
   const v = [];
@@ -67,7 +69,7 @@ async function verletzungen(html) {
   V.SCHLUESSEL_TRESOR.beimVerwerfen(() => {});
   /* über den echten Aufruf der Seite: das Paar der Anfrage entsteht, mit dem Passwort aus den beiden Feldern */
   passwortEintragen(document);
-  await V.anfrageSchluesselErzeugen();
+  await V.anfrageSchluesselErzeugen(BAUEN);
   if (document.getElementById('anf-pw1').value !== '' || document.getElementById('anf-pw2').value !== '') v.push('gen2-passwortfeld-nicht-geleert');
   await V.SCHLUESSEL_TRESOR.erzeugen({ passwort: PW });
   let huelle = ''; V.EMPFANGS_TRESOR.privatHerunterladen((t) => { huelle = t; });
@@ -97,19 +99,19 @@ async function verletzungen(html) {
   if (Object.keys(E).sort().join() !== ['beimVerwerfen', 'erzeugen', 'privatHerunterladen', 'verwerfen', 'vorhanden', 'zustand'].sort().join()) v.push('gen2-huelle-hat-neue-flaeche');
   E.verwerfen('bestaetigt');
   if (E.vorhanden() || E.privatHerunterladen(() => {}) !== false) v.push('gen2-bestaetigen-verwirft-nicht');
-  await E.erzeugen({ passwort: PW }); await E.erzeugen({ passwort: PW });
+  await E.erzeugen({ passwort: PW, bauen: BAUEN }); await E.erzeugen({ passwort: PW, bauen: BAUEN });
   let ersetzt = 0; E.beimVerwerfen((g) => { if (g === 'ersetzt') ersetzt++; });
-  await E.erzeugen({ passwort: PW });
+  await E.erzeugen({ passwort: PW, bauen: BAUEN });
   if (ersetzt !== 1) v.push('gen2-neues-paar-verwirft-das-alte-nicht');
   const reg = {}; windowStub.addEventListener = (a, f) => { reg[a] = f; };
   sandbox.__GEN__.gen1Binden();
   V.SCHLUESSEL_TRESOR.beimVerwerfen(() => {});
   E.beimVerwerfen(() => {});
-  await E.erzeugen({ passwort: PW });
+  await E.erzeugen({ passwort: PW, bauen: BAUEN });
   if (typeof reg.pagehide !== 'function') v.push('gen2-kein-pagehide');
   else { reg.pagehide(); if (E.vorhanden()) v.push('gen2-verlassen-verwirft-nicht'); }
   let g = null; E.beimVerwerfen((x) => { g = x; });
-  await E.erzeugen({ limitMs: 40, passwort: PW });
+  await E.erzeugen({ limitMs: 40, passwort: PW, bauen: BAUEN });
   await warte(140);
   if (E.vorhanden() || g !== 'zeitlimit') v.push('gen2-zeitlimit-verwirft-nicht');
   return v;
@@ -143,14 +145,14 @@ test('[Empfangs-Schlüssel·Rot-Beweis] ein Klartext-JWK in STATE, eine Datei mi
 });
 
 test('[Empfangs-Schlüssel·Rot-Beweis] ohne Verwerfen bei Bestätigung, beim Verlassen, nach dem Zeitlimit und beim neuen Paar wird es gemeldet', async () => {
-  const m1 = HTML.replace("    if (uhr) { clearTimeout(uhr); uhr = null; }\n    if (hatteEtwas && melder) melder(grund || 'manuell');\n    return hatteEtwas;\n  }\n  return Object.freeze({\n    /* Neues Paar, mit dem Passwort der Schlüsseldatei.", "    if (uhr) { clearTimeout(uhr); uhr = null; }\n    return hatteEtwas;\n  }\n  return Object.freeze({\n    /* Neues Paar, mit dem Passwort der Schlüsseldatei.");
+  const m1 = HTML.replace("    if (uhr) { clearTimeout(uhr); uhr = null; }\n    if (hatteEtwas && melder) melder(grund || 'manuell');\n    return hatteEtwas;\n  }\n  return Object.freeze({\n    /* Neues Paar für GENAU EINE Anfrage, mit dem Passwort der Schlüsseldatei.", "    if (uhr) { clearTimeout(uhr); uhr = null; }\n    return hatteEtwas;\n  }\n  return Object.freeze({\n    /* Neues Paar für GENAU EINE Anfrage, mit dem Passwort der Schlüsseldatei.");
   assert.notEqual(m1, HTML, 'Vorbedingung: die Mutation greift');
   const f1 = await verletzungen(m1);
   assert.ok(f1.includes('gen2-neues-paar-verwirft-das-alte-nicht'), f1.join());
   const m2 = HTML.replace("EMPFANGS_TRESOR.verwerfen('verlassen'); });", '});');
   assert.notEqual(m2, HTML);
   assert.ok((await verletzungen(m2)).includes('gen2-verlassen-verwirft-nicht'));
-  const m3 = HTML.replace("        uhr = setTimeout(() => verwerfen('zeitlimit'), limitMs);\n        if (uhr && typeof uhr.unref === 'function') uhr.unref();\n        return { publicJwk: r.publicJwk };", "        return { publicJwk: r.publicJwk };");
+  const m3 = HTML.replace("        uhr = setTimeout(() => verwerfen('zeitlimit'), limitMs);\n        if (uhr && typeof uhr.unref === 'function') uhr.unref();\n        return { publicJwk: r.publicJwk, anfrage: anfrage };", "        return { publicJwk: r.publicJwk, anfrage: anfrage };");
   assert.notEqual(m3, HTML);
   assert.ok((await verletzungen(m3)).includes('gen2-zeitlimit-verwirft-nicht'));
 });
@@ -158,7 +160,7 @@ test('[Empfangs-Schlüssel·Rot-Beweis] ohne Verwerfen bei Bestätigung, beim Ve
 test('[Empfangs-Schlüssel] der Rückweg trägt: der öffentliche Teil steht in der Anfrage, mit dem privaten Teil aus der Hülle entschlüsselt sich, was daran verschlüsselt wurde', async () => {
   const { V, document } = ladeGenerator();
   passwortEintragen(document);
-  await V.anfrageSchluesselErzeugen();
+  await V.anfrageSchluesselErzeugen(BAUEN);
   let text = ''; V.EMPFANGS_TRESOR.privatHerunterladen((t) => { text = t; });
   const priv = await crypto.subtle.importKey('jwk', await privatAusHuelle(V, text), { name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits']);
   const pub = await crypto.subtle.importKey('jwk', V.STATE.anfrage.empfangPublicJwk, { name: 'ECDH', namedCurve: 'P-256' }, false, []);

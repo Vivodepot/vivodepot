@@ -93,7 +93,7 @@ test('[Studio · Passwort] zu kurz und ungleich: kein Schlüssel, eine Meldung o
 test('[Studio · Passwort] Empfangsschlüssel erzeugen: Felder leer, Datei verschlüsselt, Speicher nicht herausholbar', async () => {
   const s = seite();
   zweiFelder(s, 'anf-pw1', 'anf-pw2', PW, PW);
-  await s.V.anfrageSchluesselErzeugen();
+  await s.V.anfrageSchluesselErzeugen(async () => ({ text: '{"format":"vivodepot-anfrage@1"}', vorgang: 'PROBE-1', gestelltAm: '2026-10-15' }));
   assert.equal(s.V.EMPFANGS_TRESOR.zustand().extractable, false);
   s.V.EMPFANGS_TRESOR.privatHerunterladen((t) => s.downloads.push(t));
   assert.equal(s.V.istGeschuetzteSchluesseldatei(JSON.parse(s.downloads[0])), true);
@@ -154,13 +154,14 @@ test('[Studio · Passwort] eine Klartext-Datei wird nicht still geladen; neu ges
 });
 
 test('[Studio · Passwort] scheitert die Hülle beim Erzeugen, bleibt nichts im Tresor', async () => {
-  for (const [T, marke] of [['SCHLUESSEL_TRESOR', '        const huelle = await schuetzeSchluesselJwk(r.privateJwk, passwort);\n        await halteAusJwk'],
+  for (const [T, marke] of [['SCHLUESSEL_TRESOR', '        const huelle = await schuetzeSchluesselJwk(r.privateJwk, passwort);\n        huelleText = JSON.stringify'],
     ['EMPFANGS_TRESOR', "        const huelle = await schuetzeSchluesselJwk(r.privateJwk, passwort);\n        empfangKey"]]) {
     const ersatz = marke.replace('await schuetzeSchluesselJwk(r.privateJwk, passwort)', "await Promise.reject(new Error('hülle-gescheitert'))");
     assert.equal(HTML.split(marke).length, 2, 'Vorbedingung: die Stelle steht genau einmal (' + T + ')');
     const s = seite(HTML.replace(marke, ersatz));
     let grund = null; s.V[T].beimVerwerfen((g) => { grund = g; });
-    await assert.rejects(() => s.V[T].erzeugen({ passwort: PW }), /hülle-gescheitert/);
+    // Der Empfangs-Tresor erzeugt nur mit einer Anfrage (U2-ADR-501, ein Paar je Anfrage); der Signier-Tresor überliest `bauen`.
+    await assert.rejects(() => s.V[T].erzeugen({ passwort: PW, bauen: async () => ({ text: '{"format":"vivodepot-anfrage@1"}', vorgang: 'PROBE-1', gestelltAm: '2026-10-15' }) }), /hülle-gescheitert/);
     assert.equal(s.V[T].vorhanden(), false, T);
     assert.equal(s.V[T].zustand().huelleDa, false, T);
     assert.deepEqual(spuren(s, PW), [], T + ': auch nach dem Fehlschlag keine Passwortspur');

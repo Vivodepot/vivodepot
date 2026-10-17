@@ -37,7 +37,7 @@ const KONSOLE_HARMLOS = [
   /Content Security Policy directive '(frame-ancestors|report-uri|sandbox)' is ignored when delivered via/i,
 ];
 const istHarmloseKonsole = (t) => KONSOLE_HARMLOS.some((re) => re.test(String(t)));
-const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen } = require('./helpers');
+const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen, erweiterungEinlesenBestaetigen } = require('./helpers');
 
 const PW = 'einlass-institutionsart-pw-459';
 const KENNUNG = 'notaire';
@@ -60,8 +60,7 @@ async function oeffneEinstellungen(page) {
   await expect(page.locator('#einst-modul-einlassen')).toBeVisible();
 }
 
-// FIXME-ID: SPERRE-EINLASS-EINLASS-REGISTER-INSTITUTIONSART-BEI-OFFENEM-DEPOT
-test.fixme('[Einlass-Register 4/4] Institutions-Arten-Modul in ein offenes Depot einlassen — institutionsArtenAlle() trägt die neue Art', async ({ page }) => {
+test('[Einlass-Register 4/4] Institutions-Arten-Modul in ein offenes Depot einlassen — institutionsArtenAlle() trägt die neue Art', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));
@@ -74,6 +73,7 @@ test.fixme('[Einlass-Register 4/4] Institutions-Arten-Modul in ein offenes Depot
     // ── DER EINLASS: Institutions-Arten-Modul, DEPOT BLEIBT OFFEN ──────────
     await oeffneEinstellungen(page);
     await page.locator('#einst-modul-datei').setInputFiles(modulDatei);
+    await erweiterungEinlesenBestaetigen(page);   // Wahl statt Sperre (E3): ein unsigniertes Modul erst nach der Frage
     // GEÄNDERT (Auftrag, 12.09.2026): der generische Locator traf früher genau einen
     // Toast. Seit ADR-237 still speichert, stapeln sich daneben Autosave-Toasts
     // ("Gespeichert. Für eine Sicherung…") — Strict Mode bricht bei mehreren Treffern.

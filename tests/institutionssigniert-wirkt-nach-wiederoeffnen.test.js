@@ -1,7 +1,7 @@
 'use strict';
 /* Institutionssignierte Module wirken nach dem Wiederöffnen (Schutz-Wagen S6, 05.10.2026; Entscheidung der Produktverantwortung E2:
    „institutionssigniert wirkt ohne Rückfrage“). Ein Modul, dessen Kette die Ladeprüfung beim Öffnen nachgeprüft hat
-   (`_depotModuleBelegPruefen` → `modulBelegGeprueft`), steht nicht unter der Selbst-Einlass-Sperre — gleich welcher Typ und welche
+   (`_depotModuleBelegPruefen` → `modulBelegGeprueft`), steht nicht zur Wahl (Schutz-Wagen S5) und wirkt ohne sie — gleich welcher Typ und welche
    Prüfstufe, solange die Kette gültig und die Nutzlast inhaltsgleich ist. Die Schutzliste bleibt: Schutz-Kennungen übernimmt weiter nur
    ein Ab-Werk-Modul oder ein intern signiertes (`textsatzModulPruefen`), und Zusicherungen setzen nur die Prüfstufen in
    TEXTSATZ_ZUSICHERUNG_PRUEFSTUFEN.
@@ -52,7 +52,7 @@ async function eingelassen(V, nutzlast) {
   assert.equal(r.angenommen, true, 'Vorbedingung: das signierte Modul wird eingelassen — ' + r.grund);
   return d;
 }
-/* Wie depotLaden: neue Objekte aus der Datei, Vertrauen geleert, Ladeprüfung, dann die Sperre. */
+/* Wie depotLaden: neue Objekte aus der Datei, Vertrauen geleert, Ladeprüfung, dann die Markierung „nicht gewählt“. */
 async function wiederOeffnen(V, d, aendern) {
   const g = JSON.parse(JSON.stringify(d));
   if (aendern) aendern(g);
@@ -60,29 +60,30 @@ async function wiederOeffnen(V, d, aendern) {
   V._TEXTSATZ_BELEGT.clear(); V._TEXTSATZ_INTERN_VOLL.clear(); V._TEXTSATZ_SIGNIERT_VOLL.clear();
   await V._depotModuleBelegPruefen(g, true, OPTS);
   await V._textsatzModuleBelegPruefen(g, OPTS);
-  V._depotModuleSperreMarkieren(g, true);
+  V._depotModuleNichtGewaehltMarkieren(g, true);
   return g;
 }
 
-test('[S6·Vorbedingung] die Sperre steht (bis S5); S6 öffnet nur den nachgeprüft signierten Weg', () => {
+test('[S6·Vorbedingung] die Wahl steht (S5, kein Schalter); S6 nimmt nur den nachgeprüft signierten Weg von der Wahl aus', () => {
   const { V } = ladeKern();
-  assert.equal(V.SELBST_EINLASS_GESPERRT, true);
+  assert.equal(V.SELBST_EINLASS_GESPERRT, undefined, 'der Schalter ist mit S5 entfallen');
+  assert.equal(V._erweiterungWahlMoeglich(), true, 'Ladeprüfung und Schutzliste stehen');
 });
 
 for (const [fach, bau] of [['formatModule', formatModul], ['textsatzModule', () => hebammen()], ['logikModule', logikModul]]) {
-  test('[S6·' + fach + '] institutionssigniert, unverändert: nach dem Wiederöffnen nicht gesperrt', async () => {
+  test('[S6·' + fach + '] institutionssigniert, unverändert: nach dem Wiederöffnen nicht zur Wahl', async () => {
     const { V } = ladeKern();
     const g = await wiederOeffnen(V, await eingelassen(V, bau()));
     assert.ok(V.modulBelegGeprueft(g[fach][0]), 'Vorbedingung: Ladeprüfung erkennt die Kette');
-    assert.deepEqual(V.gesperrteDepotModuleNamen(g), []);
+    assert.equal(V.nichtGewaehlteDepotModule(g).length, 0);
   });
-  test('[S6·' + fach + '·Rot-Beweis] gleiche Kette, Inhalt geändert: gesperrt', async () => {
+  test('[S6·' + fach + '·Rot-Beweis] gleiche Kette, Inhalt geändert: steht zur Wahl', async () => {
     const { V } = ladeKern();
     const g = await wiederOeffnen(V, await eingelassen(V, bau()), (x) => {
       const m = x[fach][0];
       if (fach === 'formatModule') m.label = 'GEÄNDERT'; else if (fach === 'logikModule') m.titel = 'GEÄNDERT'; else m.texte[QUELLCODE] = 'GEÄNDERT';
     });
-    assert.equal(V.gesperrteDepotModule(g).length, 1);
+    assert.equal(V.nichtGewaehlteDepotModule(g).length, 1);
   });
 }
 
@@ -113,7 +114,7 @@ test('[S6·Hebammen·Schutz] die Schutzliste bleibt: ein Haftungssatz aus dem in
   const { V } = ladeKern();
   const g = await wiederOeffnen(V, await eingelassen(V, hebammen({ [QUELLCODE]: 'Forráskód', [HAFTUNG]: 'FREMD' })));
   g.textsprache = 'hu';
-  assert.deepEqual(V.gesperrteDepotModuleNamen(g), [], 'Vorbedingung: das Bündel ist nicht gesperrt');
+  assert.equal(V.nichtGewaehlteDepotModule(g).length, 0, 'Vorbedingung: das Bündel steht nicht zur Wahl');
   V._textsatzModuleAusDepotAnmelden(g);
   V.textsatzNeuAnwenden();
   assert.equal(V.textLesen(QUELLCODE), 'Forráskód');
@@ -121,16 +122,16 @@ test('[S6·Hebammen·Schutz] die Schutzliste bleibt: ein Haftungssatz aus dem in
 });
 
 /* Das Ergebnis der Ladeprüfung hängt am Modul-Objekt (WeakMap). Ohne Bindung an den Inhalt behielte ein nach der Prüfung an Ort und
-   Stelle geändertes Modul sein Vertrauen — mit S6 hieße das „nicht gesperrt“ für Inhalt, den niemand signiert hat. */
-test('[S6·Inhaltsbindung·Rot-Beweis] nach der Prüfung an Ort und Stelle geändert: kein Vertrauen, gesperrt', async () => {
+   Stelle geändertes Modul sein Vertrauen — mit S6 hieße das „wirkt ohne Wahl“ für Inhalt, den niemand signiert hat. */
+test('[S6·Inhaltsbindung·Rot-Beweis] nach der Prüfung an Ort und Stelle geändert: kein Vertrauen, steht zur Wahl', async () => {
   const { V } = ladeKern();
   const g = await wiederOeffnen(V, await eingelassen(V, formatModul()));
   const m = g.formatModule[0];
   assert.ok(V.modulBelegGeprueft(m), 'Vorbedingung: geprüft');
   m.label = 'NACHTRÄGLICH';
   assert.equal(V.modulBelegGeprueft(m), null);
-  V._depotModuleSperreMarkieren(g, true);
-  assert.equal(V.gesperrteDepotModule(g).length, 1);
+  V._depotModuleNichtGewaehltMarkieren(g, true);
+  assert.equal(V.nichtGewaehlteDepotModule(g).length, 1);
 });
 
 /* Klasse: das Ergebnis der Ladeprüfung wird nur über _modulBelegMerken gesetzt (mit Fingerabdruck) — kein zweiter Schreiber im Kern,

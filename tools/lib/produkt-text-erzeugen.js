@@ -42,6 +42,15 @@ const AB_WERK_REGIONEN = Object.freeze([
     nativerWert: 'null',
   },
   {
+    // Amtliche Vorlagen ohne Hinweis (16.10.2026, AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT): sha256 und Quelle amtlicher Dateien, die beim
+    // Weitergeben keinen Hinweis auf aktive Inhalte bekommen — genau ein Modul, das Gerüst trägt keines.
+    modulTyp: 'amtlicheVorlagen',
+    kennung: 'AB_WERK_AMTLICHE_VORLAGEN',
+    begin: '/* AB_WERK_AMTLICHE_VORLAGEN:BEGIN */',
+    ende: '/* AB_WERK_AMTLICHE_VORLAGEN:END */',
+    nativerWert: 'null',
+  },
+  {
     // IPS-Begleittext: die festen Sätze des FHIR-IPS-Exports je Exportsprache — genau ein Modul, wie textsatz.
     modulTyp: 'ips-begleittext',
     kennung: 'AB_WERK_IPS_BEGLEITTEXT',

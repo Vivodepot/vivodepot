@@ -448,11 +448,33 @@ async function listenDialogOeffnen(page, feldId, { bereich = '', sektor = null, 
   await knopf.first().click();
 }
 
+/* Wahl statt Sperre (Schutz-Wagen, E3). Ein Modul aus einer Datei, das weder ab Werk noch signiert ist, wird erst nach der
+   Frage `#erweiterung-hinzufuegen-frage` eingelesen; die Frage ersetzt das Einstellungen-Modal, nach „Verwenden“ öffnet
+   der Kern die Einstellungen neu. Ein signiertes Bündel oder ein Ab-Werk-Inhalt fragt nicht — darum wartet der Helfer
+   nur kurz und meldet, ob gefragt wurde. */
+async function erweiterungEinlesenBestaetigen(page, { timeout = 3000 } = {}) {
+  const frage = page.locator('#erweiterung-hinzufuegen-frage');
+  try { await frage.waitFor({ state: 'visible', timeout }); } catch (_) { return false; }
+  await page.locator('#m-ok').click();
+  await frage.waitFor({ state: 'detached' });
+  return true;
+}
+/* Beim Öffnen einer Datei mit solchen Modulen erscheint die Wahl (`#erweiterung-wahl-liste`), nichts vorgewählt. Der Helfer
+   kreuzt alle an und übernimmt — so, wie die Bürgerin ihre eigene Datei mit ihren Erweiterungen wieder öffnet. */
+async function erweiterungenWaehlen(page, { timeout = 15000 } = {}) {
+  const liste = page.locator('#erweiterung-wahl-liste');
+  await liste.waitFor({ state: 'visible', timeout });
+  for (const k of await page.locator('input.erweiterung-wahl').all()) await k.check();
+  await page.locator('#m-ok').click();
+  await liste.waitFor({ state: 'detached' });
+}
+
 module.exports = { inLeisteKlicken, listenDialogOeffnen,
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
   oeffneApp, depotAnlegen, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
   fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, einstellungenAbschnittOeffnen,
+  erweiterungEinlesenBestaetigen, erweiterungenWaehlen,
   starteLokalenServer,
   browserEd25519SchluesselpaarErzeugen, browserJwsSignieren,
 };

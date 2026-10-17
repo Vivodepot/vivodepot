@@ -159,6 +159,7 @@ function urteil(funde, grundlinie, { nurObergrenze = false } = {}) {
    verifizierter Signatur zulässig (der Kern gibt sonst keinen Kanal frei, formatModulZuExportKanal). Jedes Modul im
    Repo ist unsigniert (ab Werk oder Vorlage); trägt eines einen fremden Namensraum, ist das ein Mangel. */
 const NAMENSRAUM_EIGEN = /^(?:urn:vivodepot:|https?:\/\/(?:www\.)?vivodepot\.de\/)/i;
+const SCHEMA_URI_EIGEN = /^https:\/\/(?:www\.)?vivodepot\.de\//;   // wie _FORMAT_SCHEMA_URI_EIGEN im Kern
 const MODUL_ORTE = ['tools/templates', 'tools/bereich-templates', 'tools/dokument-module', 'tools'];
 function modulNamensraeume(wurzel = REPO, extra = []) {
   const funde = [];
@@ -174,6 +175,10 @@ function modulNamensraeume(wurzel = REPO, extra = []) {
       if (!x || typeof x !== 'object') return;
       if (x.modulTyp === 'format' && typeof x.namensraum === 'string' && !NAMENSRAUM_EIGEN.test(x.namensraum)) {
         funde.push(ort + ': Format-Modul ' + (x.format || '?') + ' setzt den fremden Namensraum ' + x.namensraum + ' ohne Signatur');
+      }
+      // U2-ADR-465 Nachtrag (16.10.2026): eine fremde `schemaUri` behauptet ebenso einen fremden Standard.
+      if (x.modulTyp === 'format' && typeof x.schemaUri === 'string' && !SCHEMA_URI_EIGEN.test(x.schemaUri)) {
+        funde.push(ort + ': Format-Modul ' + (x.format || '?') + ' nennt die fremde schemaUri ' + x.schemaUri + ' ohne Signatur');
       }
       for (const v of Object.values(x)) lauf(v);
     })(wert);

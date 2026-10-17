@@ -16,6 +16,9 @@
    privaten Repos. Der Lauf braucht `npm ci` und `npx playwright install chromium` vorher; Fremdwerkzeuge wie in der CI
    (poppler, xmllint).
 
+   Seit 17.10.2026: die Ausschlüsse für node_modules und Ausgaben schreibt das Werkzeug selbst in .git/info/exclude des Klons,
+   und die Ausgaben von npm test und E2E liegen neben dem Beleg (<baum>.unit.log, <baum>.e2e.log). Wer es mit gehaltenem
+   Suite-Platz aufruft, vererbt ihn (VD_SUITE_PLATZ_GEHALTEN) — sonst wartet npm test auf einen zweiten und bricht ab.
    Aufruf:  node tools/oeffentlicher-lauf-beleg.js --klon <öffentlicher Klon>
    Probe:   tests/oeffentlich-tag-signieren.test.js
    ═════════════════════════════════════════════════════════════════ */
@@ -71,7 +74,10 @@ function laufBelegPruefen(beleg, { baum, grundliste = null } = {}) {
   if (beleg.baum !== baum) return { ok: false, grund: 'der Beleg gilt für den Baum ' + beleg.baum + ', nicht für ' + baum };
   const rot = [...(beleg.unit && beleg.unit.rot) || [], ...(beleg.e2e && beleg.e2e.rot) || []];
   const abbruch = ['unit', 'e2e'].some((k) => !beleg[k] || (beleg[k].exit !== 0 && !(beleg[k].rot || []).length));
-  if (abbruch) return { ok: false, grund: 'der öffentliche Lauf brach ab, ohne eine rote Probe zu nennen' };
+  if (abbruch) {
+    const g = ['unit', 'e2e'].map((k) => beleg[k] && beleg[k].abbruch).filter(Boolean)[0];
+    return { ok: false, grund: 'der öffentliche Lauf brach ab, ohne eine rote Probe zu nennen' + (g ? ': ' + g : '') };
+  }
   if (!rot.length) return { ok: true };
   if (!grundliste) return { ok: false, grund: 'der öffentliche Lauf ist rot: ' + rot.slice(0, 5).join(' · ') + (rot.length > 5 ? ' …' : '') };
   const neu = rot.filter((r) => !grundliste.includes(r));
@@ -79,30 +85,60 @@ function laufBelegPruefen(beleg, { baum, grundliste = null } = {}) {
   return { ok: true };
 }
 
-function laufen(klon, schreiben = (t) => process.stdout.write(t)) {
+/* KLON-AUSSCHLÜSSE (17.10.2026, zweimal vergessen: v929, v930). `npm ci` und die Läufe legen node_modules und Ausgaben im Klon
+   an; ohne Ausschluss ist der Klon danach „nicht sauber“, und der Lauf endet rot, bevor er prüft. Der öffentliche Stand trägt
+   keine .gitignore dafür — darum schreibt dieses Werkzeug die Zeilen selbst in .git/info/exclude des Klons (nie in den Baum,
+   nie committet) und ergänzt nur, was fehlt. Liefert die ergänzten Zeilen. */
+const KLON_AUSSCHLUESSE = Object.freeze(['node_modules', 'test-results', 'playwright-report', 'tests/e2e/.artifacts']);
+function ausschluesseSichern(klon) {
+  const datei = path.join(klon, '.git', 'info', 'exclude');
+  let alt = '';
+  try { alt = fs.readFileSync(datei, 'utf8'); } catch { /* fehlt */ }
+  const da = new Set(alt.split('\n').map((z) => z.trim()));
+  const neu = KLON_AUSSCHLUESSE.filter((z) => !da.has(z));
+  if (neu.length) {
+    fs.mkdirSync(path.dirname(datei), { recursive: true });
+    fs.writeFileSync(datei, alt + (alt && !alt.endsWith('\n') ? '\n' : '') + neu.join('\n') + '\n');
+  }
+  return neu;
+}
+/* PLATZ (17.10.2026): `npm test` holt in der Wache selbst einen Suite-Platz. Hält der Aufrufer schon einen, ohne
+   VD_SUITE_PLATZ_GEHALTEN zu vererben, wartet npm test auf einen zweiten und bricht ab, ohne eine Probe zu fahren — Exit 1
+   ohne rote Probe. Das Urteil nennt dann diese Ursache statt eines namenlosen Abbruchs. */
+function platzAbbruch(ausgabe) {
+  return /\[suite-platz\] ABBRUCH/.test(String(ausgabe || ''))
+    ? 'npm test bekam keinen Suite-Platz — hält der Aufrufer schon einen, VD_SUITE_PLATZ_GEHALTEN vererben' : null;
+}
+
+function laufen(klon, schreiben = (t) => process.stdout.write(t), d = {}) {
+  const spawn = d.spawn || spawnSync;
   const rot = (satz) => { schreiben('[oeffentlicher-lauf] ROT — ' + satz + '\n'); return 1; };
   let st;
   try { st = fs.statSync(path.join(klon, '.git')); } catch { return rot('kein Git-Klon: ' + klon); }
   if (!st.isDirectory()) return rot('ein Worktree, kein eigenständiger Klon: ' + klon);
+  const ergaenzt = ausschluesseSichern(klon);
+  if (ergaenzt.length) schreiben('[oeffentlicher-lauf] .git/info/exclude ergänzt: ' + ergaenzt.join(', ') + '\n');
   if (git(klon, ['status', '--porcelain']).stdout.trim()) return rot('der Klon ist nicht sauber');
   if (/u2-kanon/.test(git(klon, ['for-each-ref', '--format=%(refname)']).stdout)) return rot('der Klon trägt Refs des privaten Repos');
   const baum = git(klon, ['rev-parse', 'HEAD^{tree}']).stdout.trim();
   const commit = git(klon, ['rev-parse', 'HEAD']).stdout.trim();
   const env = ohneGitUmgebung();
-  const unit = spawnSync('npm', ['test'], { cwd: klon, encoding: 'utf8', env, maxBuffer: 1 << 30 });
+  const unit = spawn('npm', ['test'], { cwd: klon, encoding: 'utf8', env, maxBuffer: 1 << 30 });
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'oeffentlicher-lauf-'));
   let e2e, bericht = null;
   try {
     const json = path.join(ordner, 'bericht.json');
-    e2e = spawnSync('npx', ['playwright', 'test', '--reporter=list,json'], { cwd: klon, encoding: 'utf8', env: { ...env, PLAYWRIGHT_JSON_OUTPUT_NAME: json }, maxBuffer: 1 << 30 });
+    e2e = spawn('npx', ['playwright', 'test', '--reporter=list,json'], { cwd: klon, encoding: 'utf8', env: { ...env, PLAYWRIGHT_JSON_OUTPUT_NAME: json }, maxBuffer: 1 << 30 });
     try { bericht = JSON.parse(fs.readFileSync(json, 'utf8')); } catch { bericht = null; }
   } finally { fs.rmSync(ordner, { recursive: true, force: true }); }
   const beleg = {
     baum, commit, datum: new Date().toISOString(),
-    unit: { exit: unit.status, rot: roteUnitProben(unit.stdout) },
+    unit: { exit: unit.status, rot: roteUnitProben(unit.stdout), ...(platzAbbruch((unit.stdout || '') + (unit.stderr || '')) ? { abbruch: platzAbbruch((unit.stdout || '') + (unit.stderr || '')) } : {}) },
     e2e: { exit: e2e.status, rot: roteReisen(bericht) },
   };
   belegSchreiben(klon, beleg);
+  // AUSGABE NEBEN DEN BELEG (17.10.2026): bis hierher fiel sie weg, und ein Exit 1 ohne rote Probe ließ sich nicht deuten.
+  for (const [k, r] of [['unit', unit], ['e2e', e2e]]) fs.writeFileSync(path.join(klon, '.git', ORDNER, baum + '.' + k + '.log'), (r.stdout || '') + (r.stderr || ''));
   const urteil = laufBelegPruefen(beleg, { baum });
   schreiben('[oeffentlicher-lauf] Beleg für Baum ' + baum + ': npm test Exit ' + unit.status + ' (' + beleg.unit.rot.length + ' rot), '
     + 'E2E Exit ' + e2e.status + ' (' + beleg.e2e.rot.length + ' rot)\n');
@@ -115,4 +151,4 @@ if (require.main === module) {
   process.exitCode = i >= 0 && argv[i + 1] ? laufen(path.resolve(argv[i + 1])) : (console.error('Aufruf: --klon <öffentlicher Klon>'), 2);
 }
 
-module.exports = { belegPfad, belegSchreiben, belegLesen, roteUnitProben, roteReisen, laufBelegPruefen, ORDNER };
+module.exports = { KLON_AUSSCHLUESSE, ausschluesseSichern, platzAbbruch, laufen, belegPfad, belegSchreiben, belegLesen, roteUnitProben, roteReisen, laufBelegPruefen, ORDNER };

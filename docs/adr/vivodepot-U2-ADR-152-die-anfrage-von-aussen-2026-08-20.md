@@ -196,3 +196,32 @@ konformitaet:
     bedingung: Anzeige gelandet, Probe mit Rot-Beweis je Fall (Zahlen fehlen, Anzeige hängt an einer Schwelle, wertendes Wort im Text)
     herkunft: U2-ADR-152, Nachtrag 11.10.2026
 ```
+
+## Nachtrag 15.10.2026 zu Punkt 5 und 6: zwei Wege, zwei Regeln
+
+Punkt 6 bleibt für den **Datei-Weg**: Eine Anfrage, die als Datei ankommt und deren Antwort die Person als Datei weitergibt, wird
+auch ohne Zertifikat angenommen und bekommt einen eigenen Schritt. Die Person entscheidet, was hinausgeht, und gibt die Datei selbst
+weiter.
+
+Für die **direkte Übergabe an eine Stelle** (auf Klick der Person, verschlüsselt an die in der Anfrage genannte Adresse; Entscheidung
+der Geschäftsführung vom 14.10.2026, Übergabe wie die Wallet) gilt eine strengere Regel: Ohne gültiges Zertifikat der Stelle geht
+nichts hinaus. Geprüft wird das Zertifikat der Stelle so, wie eine Wallet es prüft (Registration bzw. Access Certificate nach
+eIDAS/ARF), nicht nur gegen den eingebauten Anker von Vivodepot. Eine Anfrage ohne gültiges Zertifikat bleibt auf dem Datei-Weg möglich.
+
+Die Zusage für die direkte Übergabe steht an einer Stelle, in U2-ADR-501 (Klausel zum Ankersatz „Zugang“, Frist 31.03.2027,
+Eigentümer VD Krypto). Bis dahin sendet die direkte Übergabe nicht; es gibt sie heute nur als Spike.
+
+Punkt 5 bleibt: Jede Anfrage sagt, ob sie geprüft ist. Neu ist nur, dass „geprüft“ für die direkte Übergabe die Prüfung gegen die
+Vertrauenslisten nach eIDAS/ARF verlangt. Die Prüfung der Antwort durch die Stelle (Signatur der Person) regelt U2-ADR-501.
+
+Befunde: STELLE-NUR-EIGENER-ANKER (HOCH), ANTWORT-AN-STELLE-UNSIGNIERT (HOCH); Eigentümer VD Krypto; Einträge in der
+Befund-Ratsche.
+
+```yaml
+konformitaet:
+  - aussage: >-
+      Auf dem Datei-Weg wird eine Anfrage ohne Zertifikat weiter angenommen und bekommt einen eigenen Bestätigungsschritt.
+    zustand: gilt
+    pruefung: tests/kette-07-die-anfrage.test.js
+    herkunft: U2-ADR-152 Punkt 6, bestätigt im Nachtrag 15.10.2026
+```

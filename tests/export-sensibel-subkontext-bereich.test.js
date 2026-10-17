@@ -130,7 +130,7 @@ test('[U2-ADR-188·Sicherheit] Export „ohne sensible Daten" hält ein im Sub-K
      (neue Sitzung oder einfach Navigation) — GENAU DANN muss subKontextBetreten() selbst die
      Registry aus dem bereits im Sub stehenden Modul neu aufbauen. */
   await V.subKontextVerlassen();
-  await V.subDepotVertrauenOeffnen(eintrag.depotUUID, SUB_PW);
+  await V.subDepotVertrauenOeffnen(eintrag.depotUUID, SUB_PW, OPTS);
   V.subKontextBetreten(eintrag.depotUUID);
   /* Auflage (01.09.2026): die Export-Prüfung unten muss UNABHÄNGIG von dieser
      Diagnose fallen können — sonst ist nie bewiesen, dass die Export-Zeile selbst scharf ist,

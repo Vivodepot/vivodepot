@@ -250,3 +250,55 @@ test('[Öffentlicher Lauf·Auswertung] rote Namen aus node --test und aus dem Pl
   assert.deepEqual(lauf.roteReisen(bericht), ['altkern.spec.js › baut nach', 'altkern.spec.js › innen']);
   assert.deepEqual(lauf.roteReisen(null), []);
 });
+
+/* KLASSE KANDIDATEN-KLON (17.10.2026): zweimal (v929, v930) war der öffentliche Lauf rot, ohne dass ein Test lief — einmal
+   „Klon nicht sauber“ (node_modules ohne Ausschluss), einmal Exit 1 ohne rote Probe (npm test ohne vererbten Suite-Platz),
+   und die Ausgabe dazu fiel weg. Geprüft an einem echten Klon, npm und Playwright eingesetzt. */
+const { ohneGitUmgebung: ohneGit } = require('../tools/lib/ohne-git-umgebung.js');
+function kandidatenKlon() {
+  const k = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-lauf-klon-'));
+  const env = { ...ohneGit(), GIT_AUTHOR_NAME: 'Probe', GIT_AUTHOR_EMAIL: PRINZIPAL, GIT_COMMITTER_NAME: 'Probe', GIT_COMMITTER_EMAIL: PRINZIPAL };
+  const g = (...a) => execFileSync('git', ['-C', k, ...a], { env, encoding: 'utf8' }).trim();
+  g('init', '-q'); fs.writeFileSync(path.join(k, 'a'), 'a'); g('add', 'a'); g('commit', '-q', '-m', 'a');
+  fs.mkdirSync(path.join(k, 'node_modules', 'x'), { recursive: true }); fs.writeFileSync(path.join(k, 'node_modules', 'x', 'i.js'), '');
+  return { k, baum: g('rev-parse', 'HEAD^{tree}'), status: () => g('status', '--porcelain'), weg: () => fs.rmSync(k, { recursive: true, force: true }) };
+}
+const stub = (unit, e2e = { status: 0, stdout: '', stderr: '' }) => (bin) => (bin === 'npm' ? unit : e2e);
+
+test('[Öffentlicher Lauf·Klon] die Ausschlüsse schreibt das Werkzeug selbst; ein Klon mit node_modules läuft durch', () => {
+  const l = kandidatenKlon();
+  try {
+    assert.match(l.status(), /node_modules/, 'Rot-Beweis: ohne Ausschluss ist der Klon nicht sauber');
+    const aus = [];
+    const rc = lauf.laufen(l.k, (t) => aus.push(t), { spawn: stub({ status: 0, stdout: 'ok', stderr: '' }) });
+    assert.equal(rc, 0, aus.join(''));
+    assert.equal(l.status(), '', 'danach sauber');
+    const ex = fs.readFileSync(path.join(l.k, '.git', 'info', 'exclude'), 'utf8');
+    for (const z of lauf.KLON_AUSSCHLUESSE) assert.ok(ex.split('\n').includes(z), z);
+    assert.deepEqual(lauf.ausschluesseSichern(l.k), [], 'ein zweiter Lauf ergänzt nichts doppelt');
+  } finally { l.weg(); }
+});
+
+test('[Öffentlicher Lauf·Ausgabe] die Ausgaben von npm test und E2E liegen neben dem Beleg', () => {
+  const l = kandidatenKlon();
+  try {
+    lauf.laufen(l.k, () => {}, { spawn: stub({ status: 0, stdout: 'UNIT-AUS', stderr: 'UNIT-ERR' }, { status: 0, stdout: 'E2E-AUS', stderr: '' }) });
+    const o = path.join(l.k, '.git', lauf.ORDNER, l.baum);
+    assert.equal(fs.readFileSync(o + '.unit.log', 'utf8'), 'UNIT-AUSUNIT-ERR');
+    assert.equal(fs.readFileSync(o + '.e2e.log', 'utf8'), 'E2E-AUS');
+  } finally { l.weg(); }
+});
+
+test('[Öffentlicher Lauf·Platz·Rot-Beweis] npm test ohne Platz nennt die Ursache, ein anderer Abbruch nicht', () => {
+  for (const [ausgabe, muster] of [
+    ['[suite-platz] ABBRUCH: alle Suite-Plätze belegt', /keinen Suite-Platz — .*VD_SUITE_PLATZ_GEHALTEN vererben/],
+    ['Segmentation fault', /brach ab, ohne eine rote Probe zu nennen$/],
+  ]) {
+    const l = kandidatenKlon();
+    try {
+      const aus = [];
+      assert.equal(lauf.laufen(l.k, (t) => aus.push(t), { spawn: stub({ status: 1, stdout: '', stderr: ausgabe }) }), 1);
+      assert.match(aus.join('').trim().split('\n').pop(), muster);
+    } finally { l.weg(); }
+  }
+});

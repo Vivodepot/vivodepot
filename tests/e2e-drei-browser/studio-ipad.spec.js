@@ -71,6 +71,13 @@ async function oeffnen(browser, geraet) {
 
 /* Ein Bildschirm, vier Bedingungen. `raum` nimmt nur .vis-hidden heraus: das sind die Dateifelder in den Kacheln „Aus einer
    CSV-Datei“ und „Entwurf fortsetzen“, deren Trefferfläche die ganze Kachel ist (ihr <label>); das prüft `versteckteDateifelder`. */
+/* Seit „Einreichen in drei Schritten“ (16.10.2026) steht „Vorab prüfen“ unter „Mehr“ im Einreichen-Dialog, eingeklappt.
+   Die Probe öffnet „Mehr“ mit dem Finger, wie eine Person, und tippt dann. */
+async function vorabPruefenTippen(page) {
+  if (!(await page.evaluate(() => document.getElementById('es-mehr').open))) await page.tap('#es-mehr > summary');
+  await page.tap('#vorab-pruefen');
+}
+
 async function bildschirm(page, name, s) {
   const breite = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, fenster: window.innerWidth }));
   expect(breite.scroll, name + ': waagerechter Überlauf').toBeLessThanOrEqual(breite.fenster + 1);
@@ -145,7 +152,7 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await bildschirm(p, 'Bogen 2', s);
       await p.tap('#as-weiter-2');
       await expect(p.locator('#dlg-fertig[open]')).toHaveCount(1);
-      await p.tap('#vorab-pruefen');
+      await vorabPruefenTippen(p);
       await expect(p.locator('#vorab-ergebnis')).toBeVisible();
       await bildschirm(p, 'Fertigstellen, Vorab prüfen', s);
       await s.ctx.close();
@@ -168,7 +175,7 @@ for (const geraet of ['iPad Pro 11 landscape', 'iPad Pro 11']) {
       await p.tap('#ansicht-bauen');
       await p.tap('#fertig-oeffnen');
       await expect(p.locator('#sd-name')).toHaveValue(ENTWURF.anbieter.anbieterName);
-      await p.tap('#vorab-pruefen');
+      await vorabPruefenTippen(p);
       await expect(p.locator('#vorab-ergebnis')).toBeVisible();
       await bildschirm(p, 'Fachebene, Vorab prüfen', s);
 

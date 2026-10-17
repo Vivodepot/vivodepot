@@ -40,11 +40,16 @@ function zIndexVon(html, selektor) {
   return Number(m[1]);
 }
 
-test('[Runde2·Fund1] #toast-host liegt UNTER #modal-rueck (z-index), nicht darüber', () => {
+test('[Runde2·Fund1] #toast-host liegt ÜBER #modal-rueck (z-index) und rückt bei offenem Dialog an den oberen Rand', () => {
+  /* Umgekehrt am 16.10.2026 (Befund MELDUNG-UNTER-DEM-WEICHZEICHNER): unter dem Schleier mit Weichzeichner war eine Meldung nicht
+     lesbar. Das Ziel von Fund 1 bleibt: ein Toast verdeckt die Knöpfe eines offenen Dialogs nie. Das hält jetzt die Lage oben
+     (diese Probe) und am gerenderten Produkt tests/e2e/meldungen-ueber-dem-weichzeichner.spec.js. */
   const { html } = ladeKern();
   const toast = zIndexVon(html, '#toast-host {');
   const modal = zIndexVon(html, '#modal-rueck {');
-  assert.ok(toast < modal, 'toast-host (' + toast + ') muss unter modal-rueck (' + modal + ') liegen — sonst verdeckt ein Toast einen offenen Dialog');
+  assert.ok(toast > modal, 'toast-host (' + toast + ') muss über modal-rueck (' + modal + ') liegen — sonst liegt eine Meldung unter dem Weichzeichner');
+  assert.ok(/body:has\(#modal-rueck\.an\) #toast-host \{ bottom: auto; top:/.test(html),
+    'bei offenem Dialog muss der Toast an den oberen Rand rücken — sonst verdeckt er die Knöpfe des Dialogs');
 });
 
 test('[Runde2·Fund2] .sidebar (Off-canvas-Drawer) liegt ÜBER .bottom-tabs (mobile)', () => {

@@ -45,7 +45,7 @@ const AUSGESCHLOSSENE_FEHLALARME = [
   // KEIN Fehlalarm, sondern echte Dialoge (05.10.2026, Gegenlesung): bis 05.10. nur über den Parameter `versuch`
   // ausgenommen; seit der Reihe der Einmal-Dialoge nullstellig. E2E-Erfassung offen, Befund
   // EINMAL-HINWEISE-OHNE-SICHT-ERFASSUNG; Abnahme: die sieben in WEITERE_SICHTEN_NAMENTLICH, dieser Eintrag weg.
-  'klartextBindungHinweisZeigen', 'abWerkErsetztHinweisZeigen', 'erweiterungenGesperrtHinweisZeigen',
+  'klartextBindungHinweisZeigen', 'abWerkErsetztHinweisZeigen', 'erweiterungenWahlZeigen',
   'migrationsHinweisZeigen', 'akteurBootstrapFehlerHinweisZeigen', 'notfallblattAnbieten', 'neuereFassungHinweisZeigen',
   // Orchestrator/Schließer/Navigation — Ziel ist ausschließlich eine schon gezählte Sicht:
   'betreteApp', 'schliesseAnlassAuswahl', 'geheZuZuhause', 'vorschauVerwerfenUndZuhause',

@@ -1,0 +1,15 @@
+{
+  "modulTyp": "amtlicheVorlagen",
+  "moduleVersion": 1,
+  "anbieterId": "vivodepot",
+  "zweck": "Amtliche Dateien, die beim Weitergeben aus der Mappe keinen Hinweis auf aktive Inhalte bekommen. Erkannt am sha256, gleich aus welcher Quelle die Person die Datei mitbringt; eine andere Fassung fällt heraus.",
+  "vorlagen": [
+    {
+      "kennung": "bzga-organspendeausweis",
+      "sha256": "d5940f9659a13e2e927148abb87dc12149263db787ab8e14eacb9604b8459fd5",
+      "quelle": "https://www.bundesgesundheitsministerium.de/fileadmin/Dateien/3_Downloads/O/Organspende/Organspendeausweis_ausfuellbar.pdf",
+      "abgerufen": "2026-10-16",
+      "bytes": 129998
+    }
+  ]
+}

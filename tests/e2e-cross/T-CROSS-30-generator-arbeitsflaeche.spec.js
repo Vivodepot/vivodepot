@@ -73,22 +73,19 @@ for (const sprache of ['de', 'en']) {
       await p.click('#ansicht-bauen');
       await expect(p.locator('.vk[draggable="true"]')).toHaveCount(3);
 
-      // Fertigstellen: Angaben → Schlüssel → Prüfen und absenden
+      // Fertigstellen: Angaben → Fertig (Sicherung speichern und prüfen, dann Einreichung speichern)
       await p.click('#fertig-oeffnen');
       await p.waitForSelector('#sd-name', { state: 'visible' });
       const sd = FIX.stammdaten;
       await p.fill('#sd-name', sd.anbieterName);
-      await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
+      await H.weitereAngabenOeffnen(p); await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
       await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
       await p.fill('#sd-k-name', sd.kontaktName);
       await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
       await p.click('#sd-weiter');
-      await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
-      await p.click('#sk-erzeugen');
-      await p.waitForSelector('#sk-downloads:not([hidden])');
-      await Promise.all([ p.waitForEvent('download'), p.click('#sk-pub') ]);
-      await Promise.all([ p.waitForEvent('download'), p.click('#sk-priv') ]);
-      await p.click('#sk-weiter');
+      await expect(p.locator('#pr-submit')).toBeDisabled();   // vor der geprüften Sicherung gesperrt (16.10.2026)
+      await H.sicherungSpeichernUndPruefen(p);
+      await expect(p.locator('#sk-pub')).toBeHidden();   // aus bis zum Besitznachweis-Wagen /2; der öffentliche Schlüssel reist in der Einreichung
       await expect(p.locator('#pr-submit')).toBeEnabled();
       const datei = await H.downloadNachTmp(p, tmp, () => p.click('#pr-submit'));
 

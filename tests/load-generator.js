@@ -123,7 +123,7 @@ const EXPORT_HOOK = `
   anfrageAlsText, anfrageAlsLink, anfrageDateiname, ANFRAGE_LINK_ZIELE,
   anfrageStateLesen, anfrageRendern, anfrageTrefferRendern, anfrageGewaehltRendern, anfrageErzeugen,
   // Kette, Auftrag 8, Zug 1 (20.08.2026) — das Empfangs-Schlüsselpaar (ECDH P-256)
-  erzeugeEmpfangsSchluesselpaar, anfrageSchluesselErzeugen, anfrageSchluesselBlockZeigen, anfrageSchluesselLaden,
+  erzeugeEmpfangsSchluesselpaar, anfrageSchluesselErzeugen, empfangDateiname, empfangAnfrageAbdruck, anfrageSchluesselBlockZeigen, anfrageSchluesselLaden,
   // Generator-Kern (DOM-frei)
   GENERATOR_WERKZEUG, GENERATOR_VERSION, BEREICHE, FELDTYPEN, FELDTYP_IDS,
   PRO_BEREICHE, FELD_ZIEL_BEREICHE,   // Nachtrag U2-ADR-289 (16.09.2026): Pro-Bereiche als benannte Feld-Ziele
@@ -135,7 +135,7 @@ const EXPORT_HOOK = `
   // GEN1 (19.09.2026) — der Schlüssel-Tresor und der Zustand, gegen den seine Zusicherungen gemessen werden
   SCHLUESSEL_TRESOR, SCHLUESSEL_LIMIT_MS, SCHLUESSEL_KLICK_FRIST_MS, SCHLUESSEL_PASSWORT_MINDESTLAENGE,
   schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei, passwortAusFeldern,
-  sicherungPruefen, aktualisiereSchluesselWeiter, schluesselWeiter, fsStandAktualisieren,
+  sicherungPruefen, aktualisiereSchluesselWeiter, einreichungFrei, ladePrivate, fsStandAktualisieren,
   schluesselErzeugen, schluesselDateiLaden, schluesselDateiNeuSpeichern, _istSignierSchluessel, STATE, submissionErzeugen, gen1Binden, EMPFANGS_TRESOR, entwurfBauen, signiereMitTresor, paletteEintraege,
   // GEN3 — Angehörigen-Blätter
   BLATT_ICONS, BLATT_MODULTYP, BLATT_FORMAT, blattNeu, blattModulBauen, blattModulPruefen, pruefeBlatt, baueBlattSigniert, blattDateiname, blattSonderzeiger, blattZeigerBekannt, blattErzeugen,
@@ -218,7 +218,7 @@ const EXPORT_HOOK = `
   // W2 (09.10.2026) — Einmalpasswort und Brief
   EINMALPASSWORT_ZEICHEN, einmalpasswortErzeugen, anfrageBriefText, anfragePasswortZettel,
   // W4 (09.10.2026) — eingegangene Antworten öffnen
-  antwortJweOeffnen, antwortStudioModell, antwortFehlerText,
+  antwortJweOeffnen, antwortStudioModell, antwortFehlerText, antwortenOeffnen, antwortSignaturPruefen, antwortJweTraegtJws, antwortSignaturZeile, stellenKennung, _jwkThumbprint,
   // Befund STUDIO-EMPFEHLUNG-OHNE-WEG (10.10.2026) — jede Meldung der Prüfung hat ein Ziel, Schritt 3 einen Knopf „Beheben“
   MELDUNG_ZIEL, meldungZiel, meldungBeheben, pruefZeile, STAMMDATEN_FEHLER_FELD,
   // Anordnung nach Bereichen (15.10.2026)

@@ -143,7 +143,8 @@ test('[Empfehlung mit Weg · Assistent] Liste und Karte zeigen den Schalter und 
 /* ── (c) Schritt 3 ───────────────────────────────────────────────────────── */
 test('[Empfehlung mit Weg · Schritt 3] Blocker und Warnungen laufen über pruefZeile, die bei einem Ziel „Beheben“ anhängt', () => {
   const render = rumpf(HTML, 'renderefPruefung');
-  assert.match(render, /res\.blocker\.forEach\(\(b\) => ul\.appendChild\(pruefZeile\(b\)\)\)/);
+  // Seit 16.10.2026 ohne den Blocker „kein Schlüsselpaar“ (er entsteht in „Fertig“ selbst); jeder gezeigte läuft über pruefZeile.
+  assert.match(render, /gezeigt\.forEach\(\(b\) => ul\.appendChild\(pruefZeile\(b\)\)\)/);
   assert.match(render, /res\.warnungen\.forEach\(\(w\) => ul\.appendChild\(pruefZeile\(w\)\)\)/);
   const zeile = rumpf(HTML, 'pruefZeile');
   assert.match(zeile, /const ziel = meldungZiel\(meldung, STATE\.felder\);/);

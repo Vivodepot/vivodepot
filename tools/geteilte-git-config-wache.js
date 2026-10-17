@@ -168,7 +168,7 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
   if (platz) {
     const sp = require('./lib/suite-platz.js');
     geholt = sp.platzHolenMitWarten({ name: 'npm test', pid: process.pid }, {
-      wartenS: Number(process.env.VD_SUITE_PLATZ_WARTEN_S || 600),
+      wartenS: sp.wartenS(),
       melden: (x) => console.error('[suite-platz] ' + sp.meldungBelegt(x)),
     });
     if (!geholt.geholt) { console.error('[suite-platz] ABBRUCH: ' + sp.meldungBelegt(geholt)); return 1; }

@@ -192,6 +192,41 @@
     "anbieterIdGeprueft": {
       "description": "Vom Einlass gesetzt.",
       "type": "boolean"
+    },
+    "lebenslageHinweise": {
+      "description": "Freiwillig (16.10.2026): sachliche Auskünfte zur Rechtslage an einer Lebenslage, je Lage-Kennung eine Liste. Der Kern liest sie nur aus Modulen, die das Produkt ab Werk mitbringt, und nur für den vorgeschlagenen Rechtsraum; ein Eintrag ohne Text in der Anzeigesprache, ohne Norm oder ohne https-Quelle fällt weg.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text",
+            "quelle",
+            "norm"
+          ],
+          "properties": {
+            "text": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 400
+              }
+            },
+            "quelle": {
+              "type": "string",
+              "pattern": "^https://"
+            },
+            "norm": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        }
+      }
     }
   }
 }

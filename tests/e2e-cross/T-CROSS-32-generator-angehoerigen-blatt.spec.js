@@ -61,17 +61,13 @@ for (const sprache of ['de', 'en']) {
       await p.click('#blatt-fertig');
       await p.waitForSelector('#sd-name', { state: 'visible' });
       const sd = FIX.stammdaten;
-      await p.fill('#sd-name', sd.anbieterName); await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
+      await p.fill('#sd-name', sd.anbieterName); await H.weitereAngabenOeffnen(p); await p.fill('#sd-rechtsform', sd.rechtsform); await p.fill('#sd-land', sd.land || 'Deutschland');
       await p.fill('#sd-strasse', sd.strasse); await p.fill('#sd-plz', sd.plz); await p.fill('#sd-ort', sd.ort);
       await p.fill('#sd-k-name', sd.kontaktName);
       await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
       await p.click('#sd-weiter');
-      await p.fill('#sk-pw1', H.SCHLUESSEL_PASSWORT_E2E); await p.fill('#sk-pw2', H.SCHLUESSEL_PASSWORT_E2E);
-      await p.click('#sk-erzeugen');
-      await p.waitForSelector('#sk-downloads:not([hidden])');
-      await Promise.all([p.waitForEvent('download'), p.click('#sk-pub')]);
-      await Promise.all([p.waitForEvent('download'), p.click('#sk-priv')]);
-      await p.click('#sk-weiter');
+      await H.sicherungSpeichernUndPruefen(p);
+      await expect(p.locator('#sk-pub')).toBeHidden();   // aus bis zum Besitznachweis-Wagen /2
       await expect(p.locator('#ab-erzeugen')).toBeEnabled();
       await expect(p.locator('#pr-submit')).toBeHidden();
 

@@ -242,6 +242,20 @@
   .link-knopf[disabled] { opacity: .5; cursor: default; }
   .sk-pruefen { margin-top: 22px; }
   .sk-pruefen-titel { margin: 0 0 4px; font-size: 1em; }
+  /* Einreichen als Folge (16.10.2026, Gestaltungsvorlage „ohne Prüfschritt“): ein offener Schritt, erledigte als Zeile mit Haken,
+     spätere grau. Kein Rot. Werte in der Schreibweise der Nachbarregeln (die Abstands-Tokens gibt es im Studio nicht). */
+  .es-liste { list-style: none; margin: 12px 0; padding: 0; }
+  .es.fertig .fs-nr { font-size: 0; }
+  .es.fertig .fs-nr::after { content: "✓"; font-size: 14px; }
+  .es.es-spaeter .fs-kopf { color: var(--ink2); background: transparent; }
+  .es.es-spaeter .fs-nr { background: transparent; color: var(--ink2); border: 1px solid var(--rand); }
+  .es .fs-kopf:disabled { cursor: default; opacity: 1; }
+  .es.fertig .fs-kopf:not(:disabled) { cursor: pointer; }
+  .pr-kurz > summary { cursor: pointer; color: var(--ok); font-weight: 600; padding: 4px 0; }
+  .es-mehr > summary { cursor: pointer; font-weight: 600; text-decoration: underline; padding: 6px 0; }
+  .es-mehr .fs-vorhanden, .es-mehr .fs-sammlung, .es-mehr .fs-pruefen, .es-mehr .vorab { margin: 6px 0 6px 12px; }
+  .es-bedingungen { margin-top: 10px; }
+  .sperr-hinweis { margin: 12px 0 0; font-size: .9em; color: var(--ink2); }
   .sk-pruef-erfolg, .sk-pruef-fehlschlag { border-radius: 12px; padding: 12px; margin: 10px 0; }
   .sk-pruef-erfolg { background: var(--ok-bg); }
   .sk-pruef-fehlschlag { background: var(--fehler-bg); }
@@ -307,7 +321,7 @@
   .eig-leer p { color: var(--grau); }
   .eigenschaften .feld-grid { grid-template-columns: 1fr; }
   .eig-erweitert { margin-top: 12px; }
-  .eig-erweitert summary, .fs-vorhanden summary, .fs-sammlung summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+  .eig-erweitert summary, .fs-vorhanden summary, .fs-sammlung summary, .fs-pruefen summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
 
   dialog.dlg { border: 1px solid var(--rand); border-radius: 18px; padding: 0; width: min(720px, calc(100vw - 24px)); max-height: calc(100vh - 32px); background: var(--karte); color: var(--text); box-shadow: 0 24px 64px rgba(28,42,30,.28); }
   dialog.dlg-gross { width: min(860px, calc(100vw - 24px)); }
@@ -330,7 +344,8 @@
   .absenden-schritte { margin: 6px 0 10px; padding-left: 20px; }
   /* Nach dem Erzeugen ersetzt die Erfolgskarte den Dialog (Entscheidung 05.10.2026): kein Schlüssel-Hinweis und kein
      gesperrter Knopf neben dem Erfolg. Erst wer den Dialog neu öffnet, beginnt eine neue Einreichung. */
-  #dlg-fertig.fertig .lead-klein, #dlg-fertig.fertig .vorab, #dlg-fertig.fertig section.fs { display: none; }
+  /* Nach dem Erzeugen bleiben die Schritte als Zeilen mit Haken stehen; die Fertig-Karte folgt darunter. */
+  #dlg-fertig.fertig .vorab, #dlg-fertig.fertig .es .fs-rumpf { display: none; }
   .fs-fertig { border: 1px solid var(--ok-rand); border-radius: 12px; padding: 20px 22px; background: var(--ok-bg); }
   .fs-fertig h3 { margin: 0 0 10px; }
   .fs-fertig .sub-id { display: inline-block; margin: 4px 0 12px; }
@@ -434,6 +449,15 @@ dialog.dlg { background: rgba(255,255,255,.72); box-shadow: 0 18px 50px rgba(79,
   .vorschau.hat-felder, .as-rechts { background: #f7f8f4; -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 /* STUDIO-ERSCHEINUNG:END */
+/* Einreichen DECKEND (16.10.2026): im Dialog „Einreichen“ las man durch Glas die Formularseite dahinter mit. Der Dialog,
+   seine Schritte und der Hintergrund dahinter sind darum deckend bzw. gedimmt, wie in der Gestaltungsvorlage. Steht nach den
+   Glasregeln und außerhalb der erzeugten Region, mit Farben aus der Marken-Palette. Probe: tests/studio-einreichen-deckend.test.js. */
+#dlg-fertig { background: #fbfcf8; -webkit-backdrop-filter: none; backdrop-filter: none; }
+#dlg-fertig::backdrop { background: rgba(28,42,30,.55); }
+#dlg-fertig .fs, #dlg-fertig .karte-innen { background: #edefea; -webkit-backdrop-filter: none; backdrop-filter: none; }
+#dlg-fertig .es.es-offen { background: #ffffff; box-shadow: 0 6px 20px rgba(28,42,30,.08); }
+#dlg-fertig .es.es-spaeter { background: #f6f5f1; }
+#dlg-fertig .fs-rumpf input[type="password"], #dlg-fertig .fs-rumpf input[type="file"], #dlg-fertig .sk-pruefen input { width: 100%; box-sizing: border-box; }
 /* Studio über den Tokens der Region: die alten Studio-Namen zeigen auf die Tokens der App, keine Farbe als Literal.
    Fläche statt Linien (Regel 07.10.2026): Karten, Knöpfe, Chips und Felder ohne Rahmen, Felder hinterlegt; Linien bleiben
    nur für den Fokus und für Fehler. Text auf Glas ist immer --ink (Kontrast auch über einer dunklen Partnerfarbe). */
@@ -1504,7 +1528,7 @@ label.as-feld { margin: 0; }
 
       <div id="aa-schritt-5" hidden>
         <h1 class="as-titel" data-en="How the person sees it">So sieht es die Person</h1>
-        <p class="as-lead" data-en="On the right is the request exactly as the person sees it in Vivodepot. Check it once more.">Rechts steht die Anfrage so, wie die Person sie in Vivodepot sieht. Sehen Sie sie noch einmal durch.</p>
+        <p class="as-lead" data-en="The preview shows the request exactly as the person sees it in Vivodepot. Check it once more.">Die Vorschau zeigt die Anfrage so, wie die Person sie in Vivodepot sieht. Sehen Sie sie noch einmal durch.</p>
         <div id="aa-pruefung" aria-live="polite"></div>
         <div class="as-knoepfe"><button type="button" class="as-knopf" id="aa-weiter-5" data-en="Next: publish →">Weiter: Veröffentlichen →</button>
           <button type="button" class="link-knopf" id="aa-zurueck-5" data-en="Back">Zurück</button></div>
@@ -1647,8 +1671,7 @@ label.as-feld { margin: 0; }
     <ol>
       <li id="wb-bauen" class="ist-aktiv"><span class="wb-punkt">1</span><span data-en="Build">Bauen</span></li>
       <li><button type="button" id="wb-angaben"><span class="wb-punkt">2</span><span data-en="Details">Angaben</span></button></li>
-      <li><button type="button" id="wb-schluessel"><span class="wb-punkt">3</span><span data-en="Key">Schlüssel</span></button></li>
-      <li><button type="button" id="wb-absenden"><span class="wb-punkt">4</span><span data-en="Send">Absenden</span></button></li>
+      <li><button type="button" id="wb-absenden"><span class="wb-punkt">3</span><span data-en="Send">Absenden</span></button></li>
     </ol>
   </nav>
 
@@ -1808,120 +1831,172 @@ label.as-feld { margin: 0; }
 <!-- ═══ RAUM 3 · FERTIGSTELLEN (Dialog) ═══ -->
 <dialog id="dlg-fertig" class="dlg dlg-gross" aria-labelledby="fs-titel">
   <div class="dlg-kopf">
-    <h2 id="fs-titel" data-en="Finish and submit">Fertigstellen und einreichen</h2>
+    <h2 id="fs-titel" data-en="Submit">Einreichen</h2>
     <button type="button" class="dlg-zu" data-zu="dlg-fertig" aria-label="Schließen" data-en-aria="Close">×</button>
   </div>
   <div class="dlg-rumpf">
-    <p class="lead-klein" data-en="Three short steps. Your template stays as it is; you can close this window at any time and keep building.">Drei kurze Schritte. Ihre Vorlage bleibt, wie sie ist; Sie können dieses Fenster jederzeit schließen und weiterbauen.</p>
+    <!-- Einreichen, kurze Fassung (16.10.2026, Gestaltungsvorlage „ohne Prüfschritt“): EINE Folge, ein
+         Hauptknopf zur Zeit. Erledigte Schritte stehen als eine Zeile mit Haken, spätere als graue Zeile. Welcher Schritt
+         offen ist, rechnet einreichenStufen() aus dem Zustand; die Logik dahinter ist die von Wagen 1: erst die Sicherung
+         (das Paar entsteht beim Speichern), dann ihre Prüfung, dann die signierte Einreichung. -->
+    <details class="pr-kurz" id="pr-einzelheiten">
+      <summary id="pr-kurz-zeile" data-en="Checked (structure, not the content) · Details">✓ Geprüft (Aufbau, nicht der Inhalt) · Einzelheiten</summary>
+      <p class="hint" data-en="Here we only check formal completeness. Nobody checks whether the content is right; Vivodepot later confirms only who the template comes from.">Hier prüfen wir nur die formale Vollständigkeit. Ob der Inhalt richtig ist, prüft niemand; Vivodepot bestätigt später nur, von wem die Vorlage kommt.</p>
+      <div id="pr-blocker" hidden></div>
+      <div id="pr-warnungen" class="meldung warn" hidden></div>
+      <div id="pr-fehlstellen" class="meldung" hidden></div>
+      <div class="toolbar"><button type="button" class="sekundaer mini" id="pr-pruefen" data-en="Check again">Erneut prüfen</button></div>
+    </details>
 
-    <div class="vorab">
-      <button type="button" class="sekundaer" id="vorab-pruefen" data-en="Check in advance (no details needed)">Vorab prüfen (ohne Angaben)</button>
-      <div id="vorab-ergebnis" class="meldung" role="status" aria-live="polite" hidden></div>
-    </div>
-
-    <section class="fs" id="fs-a">
-      <button type="button" class="fs-kopf" id="fs-a-kopf" aria-expanded="true" aria-controls="fs-a-rumpf">
-        <span class="fs-nr">1</span><span class="fs-titel" data-en="Who is submitting?">Wer reicht ein?</span><span class="fs-stand" id="fs-a-stand"></span>
-      </button>
-      <div class="fs-rumpf" id="fs-a-rumpf">
-        <div id="sd-fehler" class="meldung" role="alert" tabindex="-1" hidden></div>
-        <div class="feld-grid">
-          <div class="voll">
-            <label for="sd-name" data-en="Name of the organisation">Name der Einrichtung</label>
-            <input type="text" id="sd-name" autocomplete="organization">
+    <ol class="es-liste">
+      <li class="fs es" id="fs-a">
+        <button type="button" class="fs-kopf es-zeile" id="fs-a-kopf" aria-expanded="true" aria-controls="fs-a-rumpf">
+          <span class="fs-nr">1</span><span class="fs-titel" id="fs-a-titel" data-en="Who is submitting?">Wer reicht ein?</span>
+        </button>
+        <div class="fs-rumpf" id="fs-a-rumpf">
+          <p class="hint" data-en="These details are part of the submission.">Diese Angaben stehen in der Einreichung.</p>
+          <div id="sd-fehler" class="meldung" role="alert" tabindex="-1" hidden></div>
+          <div class="feld-grid">
+            <div class="voll">
+              <label for="sd-name" data-en="Name of the organisation">Name der Einrichtung</label>
+              <input type="text" id="sd-name" autocomplete="organization">
+            </div>
+            <div class="voll">
+              <label for="sd-strasse" data-en="Street and number">Straße und Hausnummer</label>
+              <input type="text" id="sd-strasse" autocomplete="street-address">
+            </div>
+            <div>
+              <label for="sd-plz" data-en="Postcode">PLZ</label>
+              <input type="text" id="sd-plz" autocomplete="postal-code">
+            </div>
+            <div>
+              <label for="sd-ort" data-en="City">Ort</label>
+              <input type="text" id="sd-ort">
+            </div>
+            <div class="voll">
+              <label for="sd-land" data-en="Country">Land</label>
+              <input type="text" id="sd-land" autocomplete="country-name">
+            </div>
+            <div>
+              <label for="sd-k-name" data-en="Contact person">Ansprechperson</label>
+              <input type="text" id="sd-k-name" autocomplete="name">
+            </div>
+            <div>
+              <label for="sd-k-email" data-en="E-mail">E-Mail</label>
+              <input type="email" id="sd-k-email" autocomplete="email">
+            </div>
           </div>
-          <div>
-            <label for="sd-rechtsraum" data-en="Legal area (optional)">Rechtsraum (freiwillig)</label>
-            <select id="sd-rechtsraum"></select>
-          </div>
-          <div>
-            <label for="sd-rechtsform" data-en="Legal form (optional)">Rechtsform (freiwillig)</label>
-            <input type="text" id="sd-rechtsform" list="sd-rechtsform-liste" autocomplete="off" maxlength="120">
-            <datalist id="sd-rechtsform-liste"></datalist>
-          </div>
-          <div>
-            <label for="sd-ustid" data-en="VAT ID (if any)">USt-ID (falls vorhanden)</label>
-            <input type="text" id="sd-ustid">
-          </div>
-          <div class="voll">
-            <label for="sd-strasse" data-en="Street and number">Straße und Hausnummer</label>
-            <input type="text" id="sd-strasse" autocomplete="street-address">
-          </div>
-          <div>
-            <label for="sd-plz" data-en="Postcode">PLZ</label>
-            <input type="text" id="sd-plz" autocomplete="postal-code">
-          </div>
-          <div>
-            <label for="sd-ort" data-en="City">Ort</label>
-            <input type="text" id="sd-ort">
-          </div>
-          <div class="voll">
-            <label for="sd-land" data-en="Country">Land</label>
-            <input type="text" id="sd-land" autocomplete="country-name">
-          </div>
-          <div>
-            <label for="sd-k-name" data-en="Contact person">Ansprechperson</label>
-            <input type="text" id="sd-k-name" autocomplete="name">
-          </div>
-          <div>
-            <label for="sd-k-email" data-en="E-mail">E-Mail</label>
-            <input type="email" id="sd-k-email" autocomplete="email">
-          </div>
-          <div class="voll">
-            <label for="sd-k-telefon" data-en="Phone (optional)">Telefon (freiwillig)</label>
-            <input type="tel" id="sd-k-telefon" autocomplete="tel">
-          </div>
+          <details class="fs-mehr">
+            <summary data-en="More details (optional)">Weitere Angaben (freiwillig)</summary>
+            <div class="feld-grid">
+              <div>
+                <label for="sd-rechtsraum" data-en="Legal area (optional)">Rechtsraum (freiwillig)</label>
+                <select id="sd-rechtsraum"></select>
+              </div>
+              <div>
+                <label for="sd-rechtsform" data-en="Legal form (optional)">Rechtsform (freiwillig)</label>
+                <input type="text" id="sd-rechtsform" list="sd-rechtsform-liste" autocomplete="off" maxlength="120">
+                <datalist id="sd-rechtsform-liste"></datalist>
+              </div>
+              <div>
+                <label for="sd-ustid" data-en="VAT ID (if any)">USt-ID (falls vorhanden)</label>
+                <input type="text" id="sd-ustid">
+              </div>
+              <div class="voll">
+                <label for="sd-k-telefon" data-en="Phone (optional)">Telefon (freiwillig)</label>
+                <input type="tel" id="sd-k-telefon" autocomplete="tel">
+              </div>
+            </div>
+          </details>
+          <div class="knopf-reihe"><button type="button" id="sd-weiter" data-en="Next">Weiter</button></div>
         </div>
-        <div class="knopf-reihe"><button type="button" id="sd-weiter" data-en="Next: key →">Weiter zum Schlüssel →</button></div>
-      </div>
-    </section>
-
-    <section class="fs" id="fs-b">
-      <button type="button" class="fs-kopf" id="fs-b-kopf" aria-expanded="false" aria-controls="fs-b-rumpf">
-        <span class="fs-nr">2</span><span class="fs-titel" data-en="Sign">Signieren</span><span class="fs-stand" id="fs-b-stand"></span>
-      </button>
-      <div class="fs-rumpf" id="fs-b-rumpf" hidden>
-        <div class="schritt-kasten">
-          <p style="margin:0" data-en="With a digital key, Vivodepot can tie your template to you, like a letterhead that cannot be forged. It is created in your browser. You get two files: the public key goes to Vivodepot, the private key stays with you.">Mit einem digitalen Schlüssel kann Vivodepot Ihre Vorlage eindeutig Ihnen zuordnen, wie ein Briefkopf, der nicht gefälscht werden kann. Er entsteht in Ihrem Browser. Sie erhalten zwei Dateien: der öffentliche Schlüssel geht an Vivodepot, der private bleibt bei Ihnen.</p>
-        </div>
-        <label for="sk-pw1" data-en="Password for the key file">Passwort für die Schlüsseldatei</label>
-        <input type="password" id="sk-pw1" autocomplete="new-password">
-        <p class="hint" data-en="At least 8 characters. The file is encrypted with this password. Keep the file and the password separately. Without the password the file cannot be opened.">Mindestens 8 Zeichen. Die Datei wird mit diesem Passwort verschlüsselt. Bewahren Sie Datei und Passwort getrennt auf. Ohne das Passwort lässt sich die Datei nicht öffnen.</p>
-        <label for="sk-pw2" data-en="Repeat password">Passwort wiederholen</label>
-        <input type="password" id="sk-pw2" autocomplete="new-password">
-        <button type="button" id="sk-erzeugen" data-en="Create key pair">Schlüsselpaar erstellen</button>
-        <p class="hint" id="sk-pw-meldung" role="status" aria-live="polite"></p>
-        <div id="sk-erfolg" class="meldung ok" hidden data-en-html="The pair was created in your browser and is not stored yet. Please download <strong>both</strong> files now.">Das Paar wurde in Ihrem Browser erstellt. Es ist noch nicht gespeichert. Bitte laden Sie jetzt <strong>beide</strong> Dateien herunter.</div>
-        <div id="sk-downloads" hidden>
-          <div class="karte-innen">
+      </li>
+      <li class="fs es" id="es-sichern">
+        <button type="button" class="fs-kopf es-zeile" id="es-sichern-kopf" aria-expanded="false" aria-controls="es-sichern-rumpf" disabled>
+          <span class="fs-nr">2</span><span class="fs-titel" id="es-sichern-titel" data-en="Save backup">Sicherung speichern</span>
+        </button>
+        <div class="fs-rumpf" id="es-sichern-rumpf" hidden>
+          <p class="hint" data-en="The backup file stays with you. Keep it in two places, for example on a USB stick and in encrypted storage.">Die Sicherungsdatei bleibt bei Ihnen. Bewahren Sie sie an zwei Orten auf, zum Beispiel auf einem USB-Stick und in einem verschlüsselten Speicher.</p>
+          <div id="sk-passwort">
+            <label for="sk-pw1" data-en="Password (at least 8 characters)">Passwort (mindestens 8 Zeichen)</label>
+            <input type="password" id="sk-pw1" autocomplete="new-password">
+            <label for="sk-pw2" data-en="Repeat password">Passwort wiederholen</label>
+            <input type="password" id="sk-pw2" autocomplete="new-password">
+            <p class="hint" id="sk-pw-meldung" role="status" aria-live="polite"></p>
+          </div>
+          <div class="karte-innen" id="sk-pub-karte" hidden>
             <button type="button" class="sekundaer" id="sk-pub" data-en="Download public key">Öffentlichen Schlüssel herunterladen</button>
             <span class="hint" id="sk-pub-status" style="margin-left:8px" data-en="not downloaded yet">noch nicht heruntergeladen</span>
             <p class="hint" data-en="This file goes to Vivodepot for certification. It is not secret.">Diese Datei geht an Vivodepot zur Zertifizierung. Sie ist nicht geheim.</p>
           </div>
-          <div class="karte-innen">
-            <button type="button" class="sekundaer" id="sk-priv" data-en="Download private key (encrypted)">Privaten Schlüssel verschlüsselt herunterladen</button>
-            <span class="hint" id="sk-priv-status" style="margin-left:8px" data-en="not downloaded yet">noch nicht heruntergeladen</span>
-            <p class="hint rot" data-en="This file stays with you. Keep it in two places, for example on a USB stick and in encrypted storage. Vivodepot has no copy and cannot restore it.">Diese Datei bleibt bei Ihnen. Legen Sie sie an zwei Orten ab, zum Beispiel auf einem USB-Stick und in einem verschlüsselten Speicher. Vivodepot hat keine Kopie und kann sie nicht wiederherstellen.</p>
+          <div class="knopf-reihe">
+            <button type="button" id="sk-priv" class="haupt-knopf" data-en="Save backup">Sicherung speichern</button>
+            <span class="hint" id="sk-priv-status" data-en="not downloaded yet">noch nicht heruntergeladen</span>
           </div>
-          <div id="sk-pruefen" class="sk-pruefen" hidden>
-            <h4 class="sk-pruefen-titel" data-en="Check your backup">Sicherung prüfen</h4>
-            <p class="hint" data-en="Open the file you have just saved.">Öffnen Sie die Datei, die Sie eben gespeichert haben.</p>
-            <label for="sk-pruef-datei" data-en="Key file">Schlüsseldatei</label>
+        </div>
+      </li>
+      <li class="fs es" id="fs-c">
+        <button type="button" class="fs-kopf es-zeile" id="fs-c-kopf" aria-expanded="false" aria-controls="fs-c-rumpf" disabled>
+          <span class="fs-nr">3</span><span class="fs-titel" id="fs-c-titel" data-en="Save submission">Einreichung speichern</span>
+        </button>
+        <div class="fs-rumpf" id="fs-c-rumpf" hidden>
+          <p class="hint" data-en="The submission is signed with your key and saved as one file.">Die Einreichung wird mit Ihrem Schlüssel unterschrieben und als eine Datei gespeichert.</p>
+          <div id="pr-schluessel-hinweis" class="meldung warn" hidden data-en="The key is no longer in memory (after signing or the time limit). Load your key file, or save a new backup.">Der Schlüssel ist nicht mehr im Speicher (nach dem Signieren oder dem Zeitlimit). Laden Sie Ihre Schlüsseldatei, oder speichern Sie eine neue Sicherung.</div>
+          <div class="knopf-reihe">
+            <button type="button" id="pr-submit" class="haupt-knopf" disabled aria-describedby="pr-sperre-hinweis" data-en="Save submission">Einreichung speichern</button>
+            <button type="button" id="ab-erzeugen" class="haupt-knopf" disabled data-en="Create family sheet">Angehörigen-Blatt erzeugen</button>
+          </div>
+          <p class="hint es-bedingungen"><span data-en="With sending, the submission terms apply.">Mit dem Absenden gelten die Einreichungsbedingungen.</span> <button type="button" class="link-knopf" data-recht="einreichung" data-en="Read them">Ansehen</button></p>
+          <p class="sperr-hinweis" id="pr-sperre-hinweis" role="status" data-en="Available as soon as your key backup is checked and confirmed.">Frei, sobald Ihre Schlüsselsicherung geprüft und bestätigt ist.</p>
+          <div id="pr-ergebnis" class="meldung" hidden></div>
+        <div id="absenden-block" class="absenden" hidden>
+          <h3 data-en="Now send the file">Jetzt die Datei absenden</h3>
+          <ol class="absenden-schritte">
+            <li data-en="Open your e-mail programme (the button “Prepare the e-mail” prepares a message).">Öffnen Sie Ihr E-Mail-Programm (der Knopf „E-Mail vorbereiten“ bereitet eine Nachricht vor).</li>
+            <li data-en="Attach the submission file that was just saved (not the key file).">Hängen Sie die Einreichungs-Datei an, die gerade gespeichert wurde (nicht die Schlüsseldatei).</li>
+            <li data-en="Send. Vivodepot checks who the template comes from and issues a certificate on success; that takes a few working days.">Absenden. Vivodepot prüft, von wem die Vorlage kommt, und stellt bei Erfolg ein Zertifikat aus; das dauert einige Werktage.</li>
+          </ol>
+          <p class="hint" data-en="Your public key goes to Vivodepot with the submission.">Ihr öffentlicher Schlüssel geht mit der Einreichung an Vivodepot.</p>
+          <div class="knopf-reihe">
+            <a class="knopf-link haupt-knopf" id="absenden-mail" href="#"><span data-en="Prepare the e-mail">E-Mail vorbereiten</span></a>
+            <button type="button" class="sekundaer" id="absenden-kopieren" data-en="Copy address">Adresse kopieren</button>
+            <button type="button" class="sekundaer" id="absenden-nochmal" data-en="Download the file again">Datei erneut herunterladen</button>
+          </div>
+          <p class="hint" id="absenden-adresse"></p>
+        </div>
+        </div>
+      </li>
+    </ol>
+
+    <div id="fs-fertig" class="fs-fertig" hidden role="status" aria-live="polite">
+      <h3 id="fs-fertig-titel"></h3>
+      <p data-en="Your submission number for any questions:">Ihre Einreichungsnummer für Rückfragen:</p>
+      <code class="sub-id" id="fs-fertig-nummer"></code>
+      <p id="fs-fertig-text"></p>
+      <div class="knopf-reihe">
+        <a class="knopf-link haupt-knopf" id="fs-fertig-mail" href="#"><span data-en="Prepare the e-mail">E-Mail vorbereiten</span></a>
+        <button type="button" class="sekundaer" id="fs-fertig-zu" data-en="Close">Schließen</button>
+      </div>
+    </div>
+
+    <details class="es-mehr" id="es-mehr">
+      <summary data-en="More">Mehr</summary>
+        <details class="fs-pruefen" id="sk-pruefen-mehr">
+          <summary data-en="Check saved backup">Gespeicherte Sicherung prüfen</summary>
+          <div class="sk-pruefen" id="sk-pruefen">
+            <p class="hint" data-en="Choose the downloaded file and enter its password. This shows that the file you saved opens.">Wählen Sie die heruntergeladene Datei aus und geben Sie ihr Passwort ein. So sehen Sie, dass die gespeicherte Datei aufgeht.</p>
+            <label for="sk-pruef-datei" data-en="Backup file">Sicherungsdatei</label>
             <input type="file" id="sk-pruef-datei" accept=".vdkey,.json,application/json">
-            <label for="sk-pruef-pw" data-en="Key file password">Passwort der Schlüsseldatei</label>
+            <label for="sk-pruef-pw" data-en="Password">Passwort</label>
             <input type="password" id="sk-pruef-pw" autocomplete="current-password">
             <div id="sk-pruef-ergebnis" role="status" aria-live="polite" hidden></div>
             <div class="knopf-reihe">
-              <button type="button" id="sk-pruefen-knopf" data-en="Check">Prüfen</button>
+              <button type="button" id="sk-pruefen-knopf" class="sekundaer" data-en="Check saved backup">Gespeicherte Sicherung prüfen</button>
               <button type="button" class="sekundaer" id="sk-erneut-laden" hidden data-en="Download again">Erneut herunterladen</button>
             </div>
           </div>
-          <div id="sk-freigabe-hinweis" class="hint" hidden data-en="The private key is removed from the browser as soon as the package is created.">Der private Schlüssel wird aus dem Browser entfernt, sobald das Paket erzeugt ist.</div>
-        </div>
-        <p class="hint" id="sk-status" role="status" aria-live="polite"></p>
-        <button type="button" class="mini sekundaer" id="sk-verwerfen" hidden data-en="Discard key now">Schlüssel jetzt verwerfen</button>
-        <div class="knopf-reihe"><button type="button" class="link-knopf" id="sk-weiter" disabled data-en="Continue without checking">Ohne Prüfung weiter</button></div>
-        <details class="fs-vorhanden">
+        </details>
+        <details class="fs-vorhanden" id="sk-vorhanden">
           <summary data-en="I already have a key file">Ich habe schon eine Schlüsseldatei</summary>
           <label for="pr-privkey" data-en="Key file (.vdkey; older files: .jwk)">Schlüsseldatei (.vdkey; ältere Dateien: .jwk)</label>
           <input type="file" id="pr-privkey" accept=".vdkey,.json,.jwk,application/json">
@@ -1939,61 +2014,19 @@ label.as-feld { margin: 0; }
             <button type="button" id="pr-neu-speichern" data-en="Save again with encryption now">Jetzt verschlüsselt neu speichern</button>
           </div>
         </details>
-      </div>
-    </section>
-
-    <section class="fs" id="fs-c">
-      <button type="button" class="fs-kopf" id="fs-c-kopf" aria-expanded="false" aria-controls="fs-c-rumpf">
-        <span class="fs-nr">3</span><span class="fs-titel" data-en="Create the file">Datei erzeugen</span><span class="fs-stand" id="fs-c-stand"></span>
-      </button>
-      <div class="fs-rumpf" id="fs-c-rumpf" hidden>
-        <p class="hint" data-en="Here we only check formal completeness. Nobody checks whether the content is right; Vivodepot later confirms only who the template comes from.">Hier prüfen wir nur die formale Vollständigkeit. Ob der Inhalt richtig ist, prüft niemand; Vivodepot bestätigt später nur, von wem die Vorlage kommt.</p>
-        <div id="pr-blocker" hidden></div>
-        <div id="pr-warnungen" class="meldung warn" hidden></div>
-        <div id="pr-fehlstellen" class="meldung" hidden></div>
-        <div class="toolbar"><button type="button" class="sekundaer mini" id="pr-pruefen" data-en="Check again">Erneut prüfen</button></div>
-
         <details class="fs-sammlung">
           <summary data-en="Add another template to the same submission (optional)">Weitere Vorlage in dieselbe Einreichung aufnehmen (optional)</summary>
           <p class="hint" data-en="Add this template to the collection and start an empty one. Anyone who never uses this submits exactly one template.">Fügen Sie diese Vorlage der Sammlung hinzu und beginnen Sie eine leere. Wer das nie nutzt, reicht genau eine Vorlage ein.</p>
           <div id="sammlung-liste"></div>
           <div class="knopf-reihe"><button type="button" class="sekundaer" id="sammlung-hinzufuegen" data-en="Add this template to the collection, start the next">Diese Vorlage zur Sammlung hinzufügen, nächste beginnen</button></div>
         </details>
-
-        <div id="pr-schluessel-hinweis" class="meldung warn" hidden data-en="The key for the signature is not in memory. Create a key pair (step 2) or load your key file there.">Der Schlüssel für die Signatur ist nicht im Speicher. Erzeugen Sie ein Schlüsselpaar (Schritt 2) oder laden Sie dort Ihre Schlüsseldatei.</div>
-        <div class="knopf-reihe">
-          <button type="button" id="pr-submit" class="haupt-knopf" disabled data-en="Create submission file">Einreichungs-Datei erzeugen</button>
-          <button type="button" id="ab-erzeugen" class="haupt-knopf" disabled data-en="Create family sheet">Angehörigen-Blatt erzeugen</button>
-        </div>
-        <p class="hint"><span data-en="With sending, the submission terms apply.">Mit dem Absenden gelten die Einreichungsbedingungen.</span> <button type="button" class="link-knopf" data-recht="einreichung" data-en="Read them">Ansehen</button></p>
-        <div id="pr-ergebnis" class="meldung" hidden></div>
-        <div id="absenden-block" class="absenden" hidden>
-          <h3 data-en="Now send the file">Jetzt die Datei absenden</h3>
-          <ol class="absenden-schritte">
-            <li data-en="Open your e-mail programme (the button below prepares a message).">Öffnen Sie Ihr E-Mail-Programm (der Knopf unten bereitet eine Nachricht vor).</li>
-            <li data-en="Attach the submission file that was just saved (not the key file).">Hängen Sie die Einreichungs-Datei an, die gerade gespeichert wurde (nicht die Schlüsseldatei).</li>
-            <li data-en="Send. Vivodepot checks who the template comes from and issues a certificate on success; that takes a few working days.">Absenden. Vivodepot prüft, von wem die Vorlage kommt, und stellt bei Erfolg ein Zertifikat aus; das dauert einige Werktage.</li>
-          </ol>
-          <div class="knopf-reihe">
-            <a class="knopf-link haupt-knopf" id="absenden-mail" href="#"><span data-en="Prepare the e-mail">E-Mail vorbereiten</span></a>
-            <button type="button" class="sekundaer" id="absenden-kopieren" data-en="Copy address">Adresse kopieren</button>
-            <button type="button" class="sekundaer" id="absenden-nochmal" data-en="Download the file again">Datei erneut herunterladen</button>
-          </div>
-          <p class="hint" id="absenden-adresse"></p>
-        </div>
+      <div class="vorab">
+        <button type="button" class="sekundaer" id="vorab-pruefen" data-en="Check in advance (no details needed)">Vorab prüfen (ohne Angaben)</button>
+        <div id="vorab-ergebnis" class="meldung" role="status" aria-live="polite" hidden></div>
       </div>
-    </section>
-
-    <div id="fs-fertig" class="fs-fertig" hidden role="status" aria-live="polite">
-      <h3 id="fs-fertig-titel"></h3>
-      <p data-en="Your submission number for any questions:">Ihre Einreichungsnummer für Rückfragen:</p>
-      <code class="sub-id" id="fs-fertig-nummer"></code>
-      <p id="fs-fertig-text"></p>
-      <div class="knopf-reihe">
-        <a class="knopf-link haupt-knopf" id="fs-fertig-mail" href="#"><span data-en="Prepare the e-mail">E-Mail vorbereiten</span></a>
-        <button type="button" class="sekundaer" id="fs-fertig-zu" data-en="Close">Schließen</button>
-      </div>
-    </div>
+      <p class="hint" id="sk-status" role="status" aria-live="polite"></p>
+      <button type="button" class="mini sekundaer" id="sk-verwerfen" hidden data-en="Discard key now">Schlüssel jetzt verwerfen</button>
+    </details>
   </div>
 </dialog>
 
@@ -2040,13 +2073,12 @@ label.as-feld { margin: 0; }
         </div>
         <div id="anf-schluessel-block" class="karte-innen" hidden>
           <h4 style="margin-top:0"><span data-en="Receiving key pair">Empfangs-Schlüsselpaar</span></h4>
-          <p data-en-html="The key-pair method needs a <strong>second</strong> pair: the one from “Finish and submit” only signs and cannot decrypt anything. The public part travels in the request; with the private part you open every answer later. <strong>It is stored nowhere.</strong>">Für das Schlüsselpaar-Verfahren brauchen Sie ein <strong>zweites</strong> Paar — das aus „Fertigstellen“ signiert nur, es kann nichts entschlüsseln. Der öffentliche Teil reist in der Anfrage; mit dem privaten öffnen Sie später jede Antwort. <strong>Er wird nirgends gespeichert.</strong></p>
+          <p data-en-html="The key-pair method needs a <strong>second</strong> pair: the one from “Finish and submit” only signs and cannot decrypt anything. The pair is created when you create the request, for <strong>this request only</strong>. The public part travels in the request; with the private part you open the answers to it later. <strong>It is stored nowhere.</strong>">Für das Schlüsselpaar-Verfahren brauchen Sie ein <strong>zweites</strong> Paar — das aus „Fertigstellen“ signiert nur, es kann nichts entschlüsseln. Das Paar entsteht, wenn Sie die Anfrage erzeugen, und gilt <strong>nur für diese Anfrage</strong>. Der öffentliche Teil reist in der Anfrage; mit dem privaten öffnen Sie später die Antworten darauf. <strong>Er wird nirgends gespeichert.</strong></p>
           <label for="anf-pw1" data-en="Password for the key file">Passwort für die Schlüsseldatei</label>
           <input type="password" id="anf-pw1" autocomplete="new-password">
           <p class="hint" data-en="At least 8 characters. The file is encrypted with this password. Keep the file and the password separately. Without the password the file cannot be opened.">Mindestens 8 Zeichen. Die Datei wird mit diesem Passwort verschlüsselt. Bewahren Sie Datei und Passwort getrennt auf. Ohne das Passwort lässt sich die Datei nicht öffnen.</p>
           <label for="anf-pw2" data-en="Repeat password">Passwort wiederholen</label>
           <input type="password" id="anf-pw2" autocomplete="new-password">
-          <button type="button" id="anf-schluessel-erzeugen"><span data-en="Create receiving key pair">Empfangs-Schlüsselpaar erstellen</span></button>
           <p class="hint" id="anf-pw-meldung" role="status" aria-live="polite"></p>
           <div id="anf-schluessel-downloads" hidden>
             <button type="button" class="sekundaer" id="anf-schluessel-pub"><span data-en="Download the public part">Öffentlichen Teil herunterladen</span></button>
@@ -10316,7 +10348,9 @@ function validiereAnfrage(anfrage) { return _validateSchema(ANFRAGE_SCHEMA, anfr
    Eine Kennung, die der Kern nicht kennt, ist HIER ein Blocker: bei der Bürgerin wäre sie
    eine unbekannte Kennung, und die kostet sie eine Rückfrage, die offline niemand
    beantwortet. */
-function pruefeAnfrage(state) {
+/* `optionen.empfangFolgt`: das Empfangspaar entsteht erst beim Erzeugen, für genau diese Anfrage (U2-ADR-501, ein Paar je
+   Anfrage) — dann ist ein fehlender Schlüssel hier noch kein Blocker. */
+function pruefeAnfrage(state, optionen) {
   const anfrage = baueAnfrage(state);
   const blocker = validiereAnfrage(anfrage).slice();
   /* baueAnfrage lässt ein gewähltes Feld ohne Zweck weg — vorher still, die signierte Anfrage fragte weniger, als
@@ -10331,9 +10365,9 @@ function pruefeAnfrage(state) {
   const warnungen = [];
   /* Ein Blocker, kein Hinweis: eine Anfrage, die das Schlüsselpaar-Verfahren nennt und keinen
      Schlüssel mitbringt, ist unbeantwortbar — und das merkt erst die Bürgerin. */
-  if (anfrage.antwort.art === 'schluesselpaar' && !anfrage.antwort.publicKeyJwk) {
+  if (anfrage.antwort.art === 'schluesselpaar' && !anfrage.antwort.publicKeyJwk && !(optionen && optionen.empfangFolgt)) {
     blocker.push('Für das Schlüsselpaar-Verfahren fehlt das Empfangs-Schlüsselpaar. '
-      + 'Bitte im Anfrage-Block erzeugen und BEIDE Teile herunterladen.');
+      + 'Es entsteht beim Erzeugen der Anfrage in der Fachebene.');
   }
   for (const f of anfrage.felder) {
     if (!anfrageFeldkatalogKennt(f.kennung)) {
@@ -10520,6 +10554,45 @@ function kurzlinkQrDataUrl(text) {
   q.addData(String(text).trim());
   q.make();
   return { dataUrl: q.createDataURL(8, 4), module: q.getModuleCount() };
+}
+/* Das Bild für den Aushang: der QR und darunter die Adresse als lesbarer Text IM Bild (tools/qr-adresse-pruefen.js). Ein
+   Aushang wird ohne die Seite gescannt, auf der die Adresse daneben stand; wer scannt, soll vorher lesen können, wohin.
+   PNG über ein Canvas; ohne Canvas (Test, alter Browser) null — dann bleibt das GIF ohne Text. */
+function kurzlinkAushangZeilen(text, proZeile) {
+  // Die Adresse vollständig, mit https://. Der Hostname bleibt ungeteilt in der ersten Zeile; umbrochen wird nur nach »/« oder
+  // vor »?«, nie mitten im Wort. Ein Teil, der länger ist als die Zeile, steht allein in seiner Zeile (das Bild wird breiter).
+  const t = String(text == null ? '' : text).trim();
+  const m = /^(https:\/\/[^\/?#]+\/?)(.*)$/.exec(t);
+  const teile = m ? [m[1]].concat(m[2].match(/\?[^\/]*\/?|[^\/?]*\/|[^\/?]+/g) || []) : [t];
+  const zeilen = [];
+  let zeile = '';
+  for (const teil of teile) {
+    if (zeile && (zeile + teil).length > proZeile) { zeilen.push(zeile); zeile = teil; } else zeile += teil;
+  }
+  if (zeile) zeilen.push(zeile);
+  return zeilen;
+}
+function kurzlinkAushangBild(text) {
+  if (!kurzlinkGueltig(text) || typeof qrcode !== 'function' || typeof document === 'undefined') return null;
+  const q = qrcode(0, 'M');
+  q.addData(String(text).trim());
+  q.make();
+  const n = q.getModuleCount(), zelle = 8, rand = 4 * zelle, qrBreite = n * zelle + 2 * rand;
+  const schrift = 18, zeilenHoehe = 24, schriftart = schrift + 'px ui-monospace, Menlo, Consolas, monospace';
+  const zeilen = kurzlinkAushangZeilen(text, Math.max(8, Math.floor((qrBreite - 2 * zelle) / (schrift * 0.6))));
+  const cv = document.createElement('canvas');
+  const g = cv.getContext && cv.getContext('2d');
+  if (!g) return null;
+  g.font = schriftart;
+  const breite = Math.ceil(Math.max(qrBreite, ...zeilen.map((z) => g.measureText(z).width + 2 * zelle)));
+  cv.width = breite; cv.height = qrBreite + zeilen.length * zeilenHoehe + zelle;
+  g.fillStyle = '#fff'; g.fillRect(0, 0, cv.width, cv.height);
+  g.fillStyle = '#000';
+  const links = Math.floor((breite - n * zelle) / 2);
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) g.fillRect(links + c * zelle, rand + r * zelle, zelle, zelle);
+  g.font = schriftart; g.textAlign = 'center'; g.textBaseline = 'top';
+  zeilen.forEach((z, i) => g.fillText(z, breite / 2, qrBreite + i * zeilenHoehe - zelle));
+  return { dataUrl: cv.toDataURL('image/png'), zeilen };
 }
 function anfrageAlsLink(umschlag, basis) {
   const roh = _jwsB64uFromBytes(new TextEncoder().encode(JSON.stringify(umschlag)));
@@ -11291,6 +11364,17 @@ const BEISPIEL_TEMPLATES = Object.freeze({
    Kein Storage, kein Netzwerk — alle Zustände leben in STATE (im Speicher).
    ════════════════════════════════════════════════════════════════════════ */
 
+/* Der öffentliche Schlüssel als eigene Datei (Knopf „Öffentlichen Schlüssel herunterladen“, `.public.jwk`, in „Fertig“):
+   AUS, bis der Besitznachweis-Wagen /2 diese eine Zeile wieder umlegt. Die einzelne Datei trägt keinen Besitznachweis;
+   der Herausgeber-Antrag des Gateways weist sie darum ab („Der Schlüsseldatei fehlt der Besitznachweis.“, Befund
+   STUDIO-EINREICHUNG-ZWEI-FORMATE). Aus heißt: der Knopf ist nicht zu sehen (#sk-pub-karte); die Karte „Zum Behalten“
+   in „Fertig“ trägt nur die private Sicherung. Der öffentliche Schlüssel geht mit der Einreichung an Vivodepot
+   (`publicKeyJwk` im Paket). Wer umlegt, prüft den Satz am Anfang der Karte „Zum Behalten“ (#sk-block) mit.
+   Probe: tests/studio-oeffentlicher-schluessel-mit-einreichung.test.js. */
+const STUDIO_OEFFENTLICHEN_SCHLUESSEL_EINZELN = false;   // wird mit dem Besitznachweis-Wagen /2 umgelegt
+/* Der öffentliche Teil gilt als erledigt: mit dem Schalter aus immer (er reist in der Einreichung), sonst nach dem Download. */
+function oeffentlicherTeilErledigt() { return !STUDIO_OEFFENTLICHEN_SCHLUESSEL_EINZELN || !!STATE.pubDownloaded; }
+
 const STATE = {
   anbieter: null,          // zuletzt validierte Stammdaten (Schema-Form)
   publicKeyJwk: null,      // Public-JWK (bleibt)
@@ -11502,7 +11586,7 @@ function meldungBeheben(ziel) {
     stammdatenFehlerZeigen(bekannt);
     return;
   }
-  if (ziel.art === 'schluessel') { fsOeffnen('b'); return; }
+  if (ziel.art === 'schluessel') { fsOeffnen('c'); return; }
   dlgZu('dlg-fertig');
   if (fertigAusAssistent && STATE.art !== 'blatt' && ASSISTENT.fragen.length) {
     ASSISTENT.schritt = 2;
@@ -11527,7 +11611,7 @@ function meldungBeheben(ziel) {
   if (ziel2 && ziel2.scrollIntoView) ziel2.scrollIntoView({ block: 'nearest' });
   if (ziel2 && ziel2.focus) ziel2.focus();
 }
-/* Eine Zeile in Schritt 3: die Meldung, und wo sie ein Ziel hat, der Knopf „Beheben“. */
+/* Eine Zeile in „Fertig“: die Meldung, und wo sie ein Ziel hat, der Knopf „Beheben“. */
 function pruefZeile(meldung) {
   const li = el('li', {}, [meldungL(meldung)]);
   const ziel = meldungZiel(meldung, STATE.felder);
@@ -11544,7 +11628,8 @@ function stammdatenWeiter() {
   stammdatenFehlerZeigen(fehler);
   if (fehler.length) return;
   STATE.anbieter = a;
-  zeigeSchritt('schluessel');
+  stufeAOffen = false;
+  zeigeSchritt('pruefung');
 }
 
 /* ── F-3 Schlüsselpaar ───────────────────────────────────────────────────── */
@@ -11568,28 +11653,33 @@ function passwortAusFeldern(id1, id2, meldungId) {
 }
 const SCHLUESSEL_FALSCHES_PASSWORT = () => L('Das Passwort passt nicht, oder die Datei ist beschädigt.', 'The password does not match, or the file is damaged.');
 
+/* Das Paar entsteht beim ersten „Sicherung speichern“ (16.10.2026: die Schlüssel-Stufe geht im Ablauf auf). Gibt true
+   zurück, wenn danach ein Paar mit Hülle im Speicher liegt. Ein vorhandenes Paar wird nie ersetzt: ein zweiter Klick lädt
+   dieselbe Hülle noch einmal (ladePrivate). */
 async function schluesselErzeugen() {
-  const knopf = $('sk-erzeugen');
+  const knopf = $('sk-priv');
   let passwort = passwortAusFeldern('sk-pw1', 'sk-pw2', 'sk-pw-meldung');
-  if (!passwort) return;
-  knopf.disabled = true; knopf.textContent = 'Wird erzeugt …';
+  if (!passwort) return false;
+  if (knopf) { knopf.disabled = true; knopf.textContent = L('Wird erzeugt …', 'Creating …'); }
   try {
     const r = await SCHLUESSEL_TRESOR.erzeugen({ passwort: passwort });
     passwort = null;
     STATE.publicKeyJwk = r.publicJwk;
-    STATE.pubDownloaded = false; STATE.privDownloaded = false; STATE.sicherungGeprueft = false;
+    STATE.pubDownloaded = false; STATE.privDownloaded = false; STATE.schluesselGeladen = false;
+    STATE.sicherungGeprueft = r.probeBestanden === true;   // die Probe-Öffnung der Hülle im Tresor
     { const e0 = $('sk-pruef-ergebnis'); if (e0) { leeren(e0); e0.hidden = true; } }
-    $('sk-erfolg').hidden = false;
-    $('sk-downloads').hidden = false;
-    knopf.textContent = 'Neues Schlüsselpaar erstellen';
-    aktualisiereSchluesselWeiter();
     schluesselStatusZeigen();
+    return true;
   } catch (e) {
-    $('sk-erfolg').hidden = false;
-    $('sk-erfolg').textContent = 'Fehler bei der Schlüssel-Erzeugung: ' + (e && e.message || e);
+    const m = $('sk-pw-meldung');
+    if (m) m.textContent = (e && e.message === 'sicherung-probe')
+      ? L('Die Sicherung ließ sich mit diesem Passwort nicht wieder öffnen. Es wurde nichts heruntergeladen und nichts signiert. Bitte versuchen Sie es noch einmal.',
+          'The backup could not be reopened with this password. Nothing was downloaded and nothing was signed. Please try again.')
+      : L('Fehler bei der Schlüssel-Erzeugung: ', 'Error creating the key: ') + (e && e.message || e);
+    return false;
   } finally {
     passwort = null;
-    knopf.disabled = false;
+    if (knopf) { knopf.disabled = false; knopf.textContent = L('Sicherung speichern', 'Save backup'); }
   }
 }
 
@@ -11603,29 +11693,68 @@ function ladePublic() {
   blobDownload(anbieterIdFuerDatei() + '.public.jwk', JSON.stringify(STATE.publicKeyJwk, null, 2));
   STATE.pubDownloaded = true; aktualisiereSchluesselWeiter();
 }
-function ladePrivate() {
+async function ladePrivate() {
+  // Ein Schlüssel ohne Hülle (geprüfte Sicherung, geladene Datei) bekommt kein zweites Paar.
+  if (SCHLUESSEL_TRESOR.vorhanden() && !SCHLUESSEL_TRESOR.zustand().huelleDa) return;
+  if (!SCHLUESSEL_TRESOR.zustand().huelleDa && !(await schluesselErzeugen())) return;
   if (!SCHLUESSEL_TRESOR.privatHerunterladen((text) => blobDownload(anbieterIdFuerDatei() + '.private.vdkey', text))) return;
   STATE.privDownloaded = true; aktualisiereSchluesselWeiter();
+  if (typeof document !== 'undefined' && $('pr-blocker') && dlgOffen('dlg-fertig')) renderefPruefung();   // das Tor neu stellen
 }
 /* „Heruntergeladen“ ist nicht „gesichert“ (12.10.2026): ein ausgelöster Download sagt nichts darüber, ob die Datei
-   gespeichert, wiedergefunden oder aufbewahrt ist. Je Datei steht darum „heruntergeladen“, und geprüft ist die Sicherung
-   erst, wenn die Person die eben gespeicherte Schlüsseldatei mit ihrem Passwort wieder geöffnet hat (sicherungPruefen). Die
-   Prüfung ist ein Angebot: „Ohne Prüfung weiter“ bleibt möglich, der Stand bleibt dann „heruntergeladen“. */
+   gespeichert, wiedergefunden oder aufbewahrt ist. Darum heißt der Stand nach Schritt 2 „✓ Sicherung geprüft,
+   heruntergeladen“: GEPRÜFT ist die Hülle im Speicher (Probe-Öffnung in SCHLUESSEL_TRESOR.erzeugen, mit demselben
+   Passwort, vor dem Download), HERUNTERGELADEN ist die Datei. Dass sie gespeichert ist, belegt nur „Gespeicherte Sicherung
+   prüfen“ unter „Mehr“ (sicherungPruefen) — ein Angebot, kein Tor (Entscheidung 16.10.2026).
+   Das Tor (einreichungFrei): Schlüssel im Speicher, Probe bestanden, Datei heruntergeladen. Eine geladene, vorhandene
+   Schlüsseldatei erfüllt es: sie wurde eben mit ihrem Passwort geöffnet. */
+function einreichungFrei() { return SCHLUESSEL_TRESOR.vorhanden() && !!STATE.sicherungGeprueft && !!STATE.privDownloaded && oeffentlicherTeilErledigt(); }
 function aktualisiereSchluesselWeiter() {
-  const ja = L('heruntergeladen', 'downloaded'), nein = L('noch nicht heruntergeladen', 'not downloaded yet');
-  $('sk-pub-status').textContent = STATE.pubDownloaded ? ja : nein;
-  $('sk-priv-status').textContent = STATE.privDownloaded ? (STATE.sicherungGeprueft ? L('heruntergeladen und geöffnet', 'downloaded and opened') : ja) : nein;
-  const weiter = $('sk-weiter');
-  weiter.disabled = !(STATE.pubDownloaded && STATE.privDownloaded);
-  // Ein Knopf, zwei Rollen: vor der Prüfung der Textknopf „Ohne Prüfung weiter“, danach der Hauptknopf „Weiter →“.
-  weiter.textContent = STATE.sicherungGeprueft ? L('Weiter →', 'Next →') : L('Ohne Prüfung weiter', 'Continue without checking');
-  if (weiter.classList) { if (STATE.sicherungGeprueft) weiter.classList.remove('link-knopf'); else weiter.classList.add('link-knopf'); }
-  // Der Abschnitt erscheint, sobald der private Schlüssel heruntergeladen ist und die verschlüsselte Datei noch im Speicher liegt.
-  const abschnitt = $('sk-pruefen');
-  if (abschnitt) abschnitt.hidden = !(STATE.privDownloaded && SCHLUESSEL_TRESOR.zustand().huelleDa);
-  const knopf = $('sk-pruefen-knopf');
-  if (knopf) knopf.hidden = !!STATE.sicherungGeprueft;
-  if (typeof fsStandAktualisieren === 'function') fsStandAktualisieren();
+  const pubSt = $('sk-pub-status'); if (pubSt) pubSt.textContent = STATE.pubDownloaded ? L('heruntergeladen', 'downloaded') : L('noch nicht heruntergeladen', 'not downloaded yet');
+  const privSt = $('sk-priv-status');
+  if (privSt) privSt.textContent = (STATE.sicherungGeprueft && STATE.privDownloaded) ? '✓ ' + L('Sicherung geprüft, heruntergeladen', 'Backup checked, downloaded') : '';
+  const pubKarte = $('sk-pub-karte'); if (pubKarte) pubKarte.hidden = !STUDIO_OEFFENTLICHEN_SCHLUESSEL_EINZELN;
+  const huelleDa = SCHLUESSEL_TRESOR.zustand().huelleDa;
+  // Liegt ein Paar im Speicher, ist das Passwort vergeben: die Felder gehen, damit niemand ein zweites Paar meint.
+  const pwBlock = $('sk-passwort'); if (pwBlock) pwBlock.hidden = huelleDa || SCHLUESSEL_TRESOR.vorhanden();
+  const sperre = $('pr-sperre-hinweis'); if (sperre) sperre.hidden = einreichungFrei();
+  const submit = $('pr-submit'); if (submit && !einreichungFrei()) submit.disabled = true;
+  einreichenStufen();
+}
+/* Die Folge im Dialog „Einreichen“ (16.10.2026, Gestaltungsvorlage „ohne Prüfschritt“): ① Wer reicht ein? ② Sicherung speichern
+   ③ Einreichung speichern. Offen ist genau ein Schritt; erledigte stehen als eine Zeile mit Haken, spätere als graue Zeile.
+   `stufeAOffen` hält ① offen, wenn jemand die erledigte Zeile anklickt, um die Angaben zu ändern. */
+let stufeAOffen = false;
+function einreichenStufen() {
+  if (typeof document === 'undefined') return;
+  const a = !!STATE.anbieter && !stufeAOffen;
+  // Solange die Fertig-Karte steht, ist alles erledigt (der Schlüssel ist nach dem Signieren fort). Wer den Dialog neu
+  // öffnet, beginnt eine neue Einreichung: dann steht „Sicherung speichern“ wieder offen, oder die Schlüsseldatei unter „Mehr“.
+  const eingereicht = !!STATE.letzteSubmission && !!($('dlg-fertig') && $('dlg-fertig').classList && $('dlg-fertig').classList.contains('fertig'));
+  const b = einreichungFrei() || eingereicht;
+  const offen = !a ? 'a' : (!b ? 'b' : 'c');
+  const stufen = [
+    ['fs-a', 'fs-a-kopf', 'fs-a-rumpf', 'fs-a-titel', a, a ? (STATE.anbieter.anbieterName || '') : L('Wer reicht ein?', 'Who is submitting?')],
+    ['es-sichern', 'es-sichern-kopf', 'es-sichern-rumpf', 'es-sichern-titel', b,
+      b ? (STATE.schluesselGeladen ? L('Schlüsseldatei geladen', 'Key file loaded') : L('Sicherung geprüft, heruntergeladen', 'Backup checked, downloaded'))
+        : L('Sicherung speichern', 'Save backup')],
+    ['fs-c', 'fs-c-kopf', 'fs-c-rumpf', 'fs-c-titel', eingereicht,
+      eingereicht ? L('Einreichung gespeichert', 'Submission saved') : L('Einreichung speichern', 'Save submission')],
+  ];
+  const reihe = ['a', 'b', 'c'];
+  stufen.forEach(([li, kopf, rumpf, titel, erledigt, text], i) => {
+    const k = reihe[i];
+    const istOffen = k === offen && !eingereicht;
+    const spaeter = reihe.indexOf(k) > reihe.indexOf(offen);
+    const e = $(li); if (e && e.classList) {
+      e.classList.toggle('fertig', !!erledigt && !istOffen);
+      e.classList.toggle('es-spaeter', spaeter && !erledigt);
+      e.classList.toggle('es-offen', istOffen);
+    }
+    const r = $(rumpf); if (r) r.hidden = !istOffen;
+    const kk = $(kopf); if (kk) { kk.setAttribute('aria-expanded', String(istOffen)); kk.disabled = k !== 'a' || istOffen; }
+    const t = $(titel); if (t) t.textContent = text;
+  });
 }
 function sicherungPruefErgebnisZeigen(erfolg) {
   const box = $('sk-pruef-ergebnis'); if (!box) return;
@@ -11637,7 +11766,7 @@ function sicherungPruefErgebnisZeigen(erfolg) {
     ? L('Sie gehört zu diesem Schlüsselpaar. Legen Sie sie an zwei Orten ab. Vivodepot hat keine Kopie.', 'It belongs to this key pair. Keep it in two places. Vivodepot has no copy.')
     : L('Das Passwort passt nicht, oder es ist eine andere Datei. Sie können es noch einmal versuchen oder den privaten Schlüssel erneut herunterladen.',
         'The password does not match, or it is a different file. You can try again or download the private key again.') }));
-  const knopf = $('sk-pruefen-knopf'); if (knopf) knopf.textContent = erfolg ? L('Prüfen', 'Check') : L('Noch einmal prüfen', 'Check again');
+  const knopf = $('sk-pruefen-knopf'); if (knopf) knopf.textContent = erfolg ? L('Sicherung prüfen und bestätigen', 'Check and confirm backup') : L('Noch einmal prüfen', 'Check again');
   const erneut = $('sk-erneut-laden'); if (erneut) erneut.hidden = !!erfolg;
 }
 /* Die gewählte Datei lesen und vom Tresor prüfen lassen. Hier wird nichts übernommen: der Schlüssel im Speicher bleibt der
@@ -11651,19 +11780,16 @@ async function sicherungPruefen() {
     erfolg = !!inhalt && await SCHLUESSEL_TRESOR.sicherungPruefen(inhalt, passwort, STATE.publicKeyJwk);
   } catch (_) { erfolg = false; }
   finally { passwort = null; if (pwFeld) pwFeld.value = ''; }
-  STATE.sicherungGeprueft = erfolg;
+  // Ein Angebot, kein Tor (16.10.2026): eine misslungene Prüfung der gespeicherten Datei meldet sich, nimmt aber die
+  // bestandene Probe im Speicher nicht zurück.
+  if (erfolg) STATE.sicherungGeprueft = true;
+  // Die Sicherung ist belegt: die verschlüsselte Datei im Speicher braucht niemand mehr. Ab hier gibt es nur noch den
+  // nicht herausholbaren Schlüssel, bis er signiert (wie früher nach „Weiter“ in Schritt 2).
+  if (erfolg) SCHLUESSEL_TRESOR.huelleVerwerfen();
   sicherungPruefErgebnisZeigen(erfolg);
   aktualisiereSchluesselWeiter();
+  if (erfolg && $('pr-blocker')) renderefPruefung();   // das Tor der Einreichung (im Blatt-Modus: des Blatts) neu stellen
   return erfolg;
-}
-function schluesselWeiter() {
-  if (!(STATE.pubDownloaded && STATE.privDownloaded)) return;
-  // GEN1: der Schlüssel bleibt im Speicher, bis das Paket signiert ist (submissionErzeugen gibt ihn dann frei) —
-  // kein erneutes Suchen der eben heruntergeladenen Datei mehr.
-  SCHLUESSEL_TRESOR.huelleVerwerfen();   // ab hier gibt es nur noch den nicht herausholbaren Schlüssel
-  $('sk-freigabe-hinweis').hidden = false;
-  aktualisiereSchluesselWeiter();   // der Abschnitt „Sicherung prüfen“ geht mit der verworfenen Datei
-  zeigeSchritt('pruefung');
 }
 
 /* ── F-4/F-5/F-6 Template-Definition ─────────────────────────────────────── */
@@ -12050,10 +12176,21 @@ function renderefPruefung() {
   const res = pruefeKonformitaet(aktuellerState());
   const bBox = $('pr-blocker'); leeren(bBox);
   const wBox = $('pr-warnungen'); leeren(wBox);
-  if (res.blocker.length) {
+  /* Der fehlende Schlüssel wird hier nicht als Hindernis gezeigt (16.10.2026): er entsteht in derselben Ansicht, in der
+     Karte „Zum Behalten“, und deren Sperre sagt es schon. Für das Tor zählt er weiter (res.blocker unverändert). */
+  const gezeigt = res.blocker.filter((b) => !/^Es wurde noch kein Schlüsselpaar erzeugt\./.test(b));
+  // Eine Zeile oben (16.10.2026): „✓ Geprüft (Aufbau, nicht der Inhalt) · Einzelheiten“; Blocker öffnen die Einzelheiten.
+  const kurz = $('pr-kurz-zeile'), einz = $('pr-einzelheiten');
+  if (kurz) kurz.textContent = gezeigt.length ? L('Noch nicht vollständig · Einzelheiten', 'Not complete yet · Details')
+    : (res.warnungen.length ? L('✓ Geprüft (Aufbau, nicht der Inhalt) · ' + res.warnungen.length + ' Empfehlung(en)', '✓ Checked (structure, not the content) · ' + res.warnungen.length + ' recommendation(s)')
+      : L('✓ Geprüft (Aufbau, nicht der Inhalt) · Einzelheiten', '✓ Checked (structure, not the content) · Details'));
+  // Blocker öffnen die Einzelheiten; sind sie behoben, schließt sich, was sich selbst geöffnet hat.
+  if (einz && gezeigt.length) { einz.open = true; einz.dataset.vonSelbst = '1'; }
+  else if (einz && einz.dataset.vonSelbst) { einz.open = false; delete einz.dataset.vonSelbst; }
+  if (gezeigt.length) {
     bBox.hidden = false;
     bBox.className = ''; bBox.appendChild(el('strong', { text: L('Diese Punkte verhindern die Einreichung:', 'These points prevent submission:') }));
-    const ul = el('ul', {}); res.blocker.forEach((b) => ul.appendChild(pruefZeile(b))); bBox.appendChild(ul);
+    const ul = el('ul', {}); gezeigt.forEach((b) => ul.appendChild(pruefZeile(b))); bBox.appendChild(ul);
   } else {
     bBox.hidden = false; bBox.className = 'meldung ok';
     bBox.appendChild(el('strong', { text: L('✓ Aufbau und Vollständigkeit geprüft.', '✓ Structure and completeness checked.') }));
@@ -12086,8 +12223,10 @@ function renderefPruefung() {
       'Checked against the Vivodepot app’s own check, not against the rules of this form. What an older version of the app does, this page cannot know.') }));
   }
   const schluesselDa = SCHLUESSEL_TRESOR.vorhanden();
-  const sh = $('pr-schluessel-hinweis'); if (sh) sh.hidden = schluesselDa || res.blocker.length > 0;
-  $('pr-submit').disabled = res.blocker.length > 0 || !schluesselDa;
+  // Der Hinweis gilt nur dem verlorenen Schlüssel (Zeitlimit nach geprüfter Sicherung), nicht dem Anfang.
+  const sh = $('pr-schluessel-hinweis'); if (sh) sh.hidden = schluesselDa || !STATE.sicherungGeprueft || res.blocker.length > 0;
+  $('pr-submit').disabled = res.blocker.length > 0 || !einreichungFrei();
+  const sperre = $('pr-sperre-hinweis'); if (sperre) sperre.hidden = einreichungFrei();
   // vorherige Submission-Anzeige zurücksetzen, wenn neu geprüft
   sammlungRendern();
 }
@@ -12164,18 +12303,31 @@ function anfrageSchluesselBlockZeigen() {
   const art = ($('anf-antwort-art') && $('anf-antwort-art').value) || 'einmalpasswort';
   block.hidden = art !== 'schluesselpaar';
 }
-async function anfrageSchluesselErzeugen() {
+/* Ein Paar je Anfrage (U2-ADR-501, Wagen V3b): `bauen(publicJwk)` baut und signiert die Anfrage mit dem öffentlichen Teil und gibt
+   { text, vorgang, gestelltAm } zurück; erst danach schreibt der Tresor die Schlüsseldatei. Ohne Passwort `null` (die Meldung steht
+   am Feld). */
+async function anfrageSchluesselErzeugen(bauen) {
   let passwort = passwortAusFeldern('anf-pw1', 'anf-pw2', 'anf-pw-meldung');
-  if (!passwort) return;
+  if (!passwort) return null;
   let paar;
-  try { paar = await EMPFANGS_TRESOR.erzeugen({ passwort: passwort }); }
+  try { paar = await EMPFANGS_TRESOR.erzeugen({ passwort: passwort, bauen: bauen }); }
   finally { passwort = null; }
   STATE.anfrage.empfangPublicJwk = paar.publicJwk;
+  STATE.anfrage.empfangFuer = { vorgang: paar.anfrage.vorgang, gestelltAm: paar.anfrage.gestelltAm };
   $('anf-schluessel-downloads') && ($('anf-schluessel-downloads').hidden = false);
   empfangStatusZeigen();
+  return paar.anfrage;
+}
+/* Vorgang und Datum stehen im Namen der Schlüsseldatei (Wort der Gegenlesung 15.10.): wer später eine Antwort öffnet, findet die
+   Datei zu genau dieser Anfrage. */
+function empfangDateiname() {
+  const teil = (x) => String(x || '').replace(/[\/\\:*?"<>|\s]+/g, '_').replace(/^_+|_+$/g, '');
+  const fuer = STATE.anfrage.empfangFuer || {};
+  const vorgang = teil(fuer.vorgang), datum = teil(fuer.gestelltAm);
+  return anbieterIdFuerDatei() + (vorgang ? '.' + vorgang : '') + (datum ? '.' + datum : '') + '.empfang.vdkey';
 }
 function anfrageSchluesselLaden(welcher) {
-  if (welcher === 'priv') { EMPFANGS_TRESOR.privatHerunterladen((text) => blobDownload(anbieterIdFuerDatei() + '.empfang.vdkey', text)); return; }
+  if (welcher === 'priv') { EMPFANGS_TRESOR.privatHerunterladen((text) => blobDownload(empfangDateiname(), text)); return; }
   const pubJwk = STATE.anfrage.empfangPublicJwk;
   if (!pubJwk) return;
   blobDownload(anbieterIdFuerDatei() + '.empfang.pub.jwk', JSON.stringify(pubJwk, null, 2));
@@ -12212,7 +12364,12 @@ async function anfrageQrTeilAnhaengen(ergBox, umschlag, state) {
       const qr = kurzlinkQrDataUrl(feld.value);
       if (!qr) { ausgabe.appendChild(el('p', { class: 'meldung fehler', text: L('Das ist keine kurze https-Adresse.', 'This is not a short https address.') })); return; }
       ausgabe.appendChild(el('img', { src: qr.dataUrl, alt: L('QR-Code zur Anfrage: ', 'QR code for the request: ') + feld.value.trim(), class: 'anfrage-qr-bild' }));
-      ausgabe.appendChild(el('a', { href: qr.dataUrl, download: 'anfrage-qr.gif', text: L('QR-Code herunterladen', 'Download QR code') }));
+      // Wohin der Code führt, lesbar daneben (tools/qr-adresse-pruefen.js).
+      ausgabe.appendChild(el('p', { class: 'sub-id', 'data-qr-adresse': '1', text: feld.value.trim() }));
+      // Zum Aushängen das Bild MIT Adresse; fehlt das Canvas, das GIF ohne Text.
+      const aushang = kurzlinkAushangBild(feld.value);
+      ausgabe.appendChild(el('a', aushang ? { href: aushang.dataUrl, download: 'anfrage-qr.png', 'data-qr-aushang': '1', text: L('QR-Code mit Adresse herunterladen', 'Download QR code with address') }
+                                          : { href: qr.dataUrl, download: 'anfrage-qr.gif', text: L('QR-Code herunterladen', 'Download QR code') }));
     } }));
   teil.appendChild(ausgabe);
   ergBox.appendChild(teil);
@@ -12222,7 +12379,9 @@ async function anfrageErzeugen(ev) {
   leeren(ergBox); ergBox.hidden = false;
   anfrageStateLesen();
   const state = Object.assign(aktuellerState(), { anfrage: STATE.anfrage });
-  const pruefung = pruefeAnfrage(state);
+  // Im Schlüsselpaar-Weg entsteht das Empfangspaar hier, für genau diese Anfrage — ein früheres Paar wird nie wiederverwendet.
+  const mitPaar = STATE.anfrage.antwortArt === 'schluesselpaar';
+  const pruefung = pruefeAnfrage(state, { empfangFolgt: mitPaar });
   if (pruefung.blocker.length) {
     ergBox.className = 'meldung fehler';
     ergBox.appendChild(el('strong', { text: L('Die Anfrage ist noch nicht vollständig:', 'The request is not complete yet:') }));
@@ -12231,7 +12390,25 @@ async function anfrageErzeugen(ev) {
   }
   let privJwk = null;
   let umschlag;
-  try { umschlag = await signiereMitTresor(ev, (k) => baueAnfrageSigniert(state, k), () => baueAnfrageSigniert(state, null)); }
+  const signieren = () => signiereMitTresor(ev, (k) => baueAnfrageSigniert(state, k), () => baueAnfrageSigniert(state, null));
+  try {
+    if (mitPaar) {
+      /* Erst die Anfrage mit dem neuen öffentlichen Teil signieren, dann die Schlüsseldatei schreiben: sie trägt diese Anfrage. */
+      const gebaut = await anfrageSchluesselErzeugen(async (publicJwk) => {
+        STATE.anfrage.empfangPublicJwk = publicJwk;
+        const u = await signieren();
+        return { umschlag: u, text: anfrageAlsText(u), vorgang: u.anfrage.vorgang, gestelltAm: u.anfrage.gestelltAm };
+      });
+      if (!gebaut) {
+        ergBox.className = 'meldung fehler';
+        ergBox.appendChild(el('strong', { text: L('Bitte vergeben Sie zuerst ein Passwort für die Schlüsseldatei.', 'Please set a password for the key file first.') }));
+        return;
+      }
+      umschlag = gebaut.umschlag;
+    } else {
+      umschlag = await signieren();
+    }
+  }
   catch (e) {
     privJwk = null;
     ergBox.className = 'meldung fehler';
@@ -12245,6 +12422,10 @@ async function anfrageErzeugen(ev) {
   ergBox.appendChild(el('strong', { text: umschlag.anfrageJws
     ? '✓ Anfrage erzeugt (signiert) und heruntergeladen.'
     : '✓ Anfrage erzeugt und heruntergeladen — OHNE Signatur. Die Person bekommt sie als „nicht geprüft" angezeigt.' }));
+  if (mitPaar) {
+    ergBox.appendChild(el('p', { text: L('Laden Sie jetzt die Schlüsseldatei zu dieser Anfrage herunter (Knopf „Empfangsschlüssel verschlüsselt herunterladen“). Sie trägt die Anfrage und öffnet nur die Antworten darauf.',
+      'Now download the key file for this request (button “Download receiving key (encrypted)”). It carries the request and opens only the answers to it.') }));
+  }
   if (pruefung.warnungen.length) {
     const ul = el('ul', {}); pruefung.warnungen.forEach((w) => ul.appendChild(el('li', { text: w }))); ergBox.appendChild(ul);
   }
@@ -12287,7 +12468,7 @@ function kvVorschauAktualisieren() {
   if (kennung && anfrageFeldkatalogKennt(kennung)) {
     status.textContent = L('Diese Kennung gibt es bereits im Feldkatalog — bitte einen anderen Namen wählen.', 'This identifier already exists in the field catalogue. Please choose another name.');
   } else if (kennung && STATE.kennungVorschlaege.some((v) => v.kennung === kennung)) {
-    status.textContent = L('Diese Kennung steht schon in der Liste unten.', 'This identifier is already in the list below.');
+    status.textContent = L('Diese Kennung steht schon in der Liste.', 'This identifier is already in the list.');
   } else {
     status.textContent = '';
   }
@@ -12406,7 +12587,7 @@ async function kennungVorschlagErzeugen() {
   leeren(ergBox); ergBox.hidden = false;
   if (!STATE.kennungVorschlaege.length) {
     ergBox.className = 'meldung fehler';
-    ergBox.appendChild(el('strong', { text: L('Noch kein Vorschlag zur Einreichung hinzugefügt — oben „+ Zur Einreichung hinzufügen" klicken.', 'No suggestion added to the submission yet. Click “+ Add to the submission” above.') }));
+    ergBox.appendChild(el('strong', { text: L('Noch kein Vorschlag zur Einreichung hinzugefügt — „+ Zur Einreichung hinzufügen" klicken.', 'No suggestion added to the submission yet. Click “+ Add to the submission”.') }));
     return;
   }
   const state = Object.assign(aktuellerState(), { kennungVorschlaege: STATE.kennungVorschlaege });
@@ -13135,6 +13316,8 @@ function sammlungRendern() {
 async function submissionErzeugen(ev) {
   const res = pruefeKonformitaet(aktuellerState());
   if (res.blocker.length) { renderefPruefung(); return; }
+  // Auch ohne den gesperrten Knopf: nichts Signiertes, bevor die Sicherung geprüft ist (16.10.2026).
+  if (!einreichungFrei()) { renderefPruefung(); return; }
   const ergBox = $('pr-ergebnis'); leeren(ergBox); ergBox.hidden = false;
   // 1B 2a (Weg 2): den Private-Key NUR zum Signieren erneut laden, danach sofort vergessen
   // — die fruehe Loeschung am Schluessel-Schritt (privateKeyFreigeben) bleibt unangetastet.
@@ -13318,16 +13501,22 @@ const SCHLUESSEL_TRESOR = (function () {
       if (typeof passwort !== 'string' || passwort.length < SCHLUESSEL_PASSWORT_MINDESTLAENGE) throw new Error('passwort-zu-kurz');
       if (typeof optionen.limitMs === 'number') limitMs = optionen.limitMs; else limitMs = SCHLUESSEL_LIMIT_MS;
       let r = await erzeugeSchluesselpaarRoh();
+      let probe = null;
       try {
         const huelle = await schuetzeSchluesselJwk(r.privateJwk, passwort);
-        await halteAusJwk(r.privateJwk);
         huelleText = JSON.stringify(huelle, null, 2);
-        return { publicJwk: r.publicJwk };
+        /* Probe-Öffnung (16.10.2026, Wort der Krypto-Gegenlesung): genau die Hülle, die gleich heruntergeladen wird, geht mit demselben
+           Passwort auf und trägt diesen Schlüssel. Geöffnet wird der TEXT, wie er in die Datei geht, nicht das Objekt davor.
+           Scheitert sie, gibt es kein Paar, keinen Download und keine Signatur. Das Passwort verlässt diesen Aufruf nicht. */
+        probe = await entschluesseleSchluesselJwk(JSON.parse(huelleText), passwort);
+        if (!probe || probe.kty !== 'OKP' || probe.crv !== 'Ed25519' || !probe.d || _pubAusPriv(probe).x !== r.publicJwk.x) throw new Error('sicherung-probe');
+        await halteAusJwk(r.privateJwk);
+        return { publicJwk: r.publicJwk, probeBestanden: true };
       } catch (e) {
         verwerfen('fehler');
         throw e;
       } finally {
-        r = null;   // kein Verweis auf das JWK bleibt, auch nicht im Fehlerfall
+        r = null; probe = null;   // kein Verweis auf das JWK bleibt, auch nicht im Fehlerfall
       }
     },
     /* Eine vorhandene Schlüsseldatei. Eine .vdkey-Hülle wird mit dem Passwort geöffnet und sofort als nicht
@@ -13378,7 +13567,7 @@ const SCHLUESSEL_TRESOR = (function () {
       senke(huelleText);
       return true;
     },
-    /* Nach „weiter“ in Schritt 2: ab hier gibt es auch die Hülle nicht mehr, nur den Schlüssel. */
+    /* Nach der geprüften Sicherung (sicherungPruefen): ab hier gibt es auch die Hülle nicht mehr, nur den Schlüssel. */
     huelleVerwerfen() { const war = !!huelleText; huelleText = null; return war; },
     vorhanden() { return !!signKey; },
     /* Auskunft, kein Griff: Art und Zustand, nie der Schlüssel. */
@@ -13419,6 +13608,14 @@ function _istSignierSchluessel(x) {
    nicht als Klartext-JWK in STATE, und wird verworfen, wenn die Institution die Sicherung bestätigt, beim
    Verlassen der Seite, nach dem Zeitlimit oder wenn ein neues Paar entsteht.
    ══════════════════════════════════════════════════════════════════════════ */
+/* ══ ANFRAGE-ABDRUCK-BLOCK (U2-ADR-501, Wagen V3b) — in vivodepot-studio.html und vivodepot-lesen.html zeichengleich ══
+   Der Abdruck der Anfrage, die eine Empfangs-Schlüsseldatei trägt: SHA-256 über die UTF-8-Bytes des Anfragetexts, genau wie er in
+   der Datei steht, base64url ohne Auffüllung. Das Studio schreibt ihn ins verschlüsselte JWK, die Lese-App rechnet ihn nach. */
+async function empfangAnfrageAbdruck(text) {
+  const h = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(text))));
+  return _jwsB64uFromBytes(h);
+}
+/* ══ ENDE ANFRAGE-ABDRUCK-BLOCK ══ */
 const EMPFANGS_TRESOR = (function () {
   let empfangKey = null;   // CryptoKey ECDH P-256, extractable:false, ['deriveBits'] — die einzige Dauerform
   let huelleText = null;   // die VERSCHLÜSSELTE Schlüsseldatei (.vdkey) bis zur bestätigten Sicherung
@@ -13433,21 +13630,31 @@ const EMPFANGS_TRESOR = (function () {
     return hatteEtwas;
   }
   return Object.freeze({
-    /* Neues Paar, mit dem Passwort der Schlüsseldatei. Der private Teil wird genau einmal herausgeholt: in die
-       Hülle (.vdkey) und als nicht herausholbarer Schlüssel in den Speicher. Danach hält niemand das JWK. */
+    /* Neues Paar für GENAU EINE Anfrage, mit dem Passwort der Schlüsseldatei. Der private Teil wird genau einmal herausgeholt:
+       in die Hülle (.vdkey) und als nicht herausholbarer Schlüssel in den Speicher. Danach hält niemand das JWK.
+       EIN PAAR JE ANFRAGE (U2-ADR-501, Wagen V3b): `optionen.bauen(publicJwk)` baut und signiert die Anfrage mit dem öffentlichen
+       Teil, BEVOR die Hülle entsteht, und gibt { text, vorgang, gestelltAm } zurück. Die Hülle trägt die Anfrage dann ungeschützt
+       (`anfrage`, dazu lesbar `vorgang` und `gestelltAm`) und ihren Abdruck im verschlüsselten JWK (`anfrageAbdruck`): eine
+       ausgetauschte Anfrage fällt in der Lese-App am Abdruck auf. Der Hüllen-Block selbst bleibt unverändert; eine ältere Lese-App
+       überliest die zusätzlichen Felder (Probe gegen die ausgelieferte Lese-App v929). Ohne `bauen` entsteht kein Paar. */
     async erzeugen(optionen) {
       verwerfen('ersetzt');
       const passwort = optionen && optionen.passwort;
       if (typeof passwort !== 'string' || passwort.length < SCHLUESSEL_PASSWORT_MINDESTLAENGE) throw new Error('passwort-zu-kurz');
+      if (typeof optionen.bauen !== 'function') throw new Error('anfrage-fehlt');
       limitMs = (typeof optionen.limitMs === 'number') ? optionen.limitMs : SCHLUESSEL_LIMIT_MS;
       let r = await erzeugeEmpfangsSchluesselpaar();
       try {
+        const anfrage = await optionen.bauen(r.publicJwk);
+        if (!anfrage || typeof anfrage.text !== 'string' || !anfrage.text) throw new Error('anfrage-fehlt');
+        r.privateJwk.anfrageAbdruck = await empfangAnfrageAbdruck(anfrage.text);
         const huelle = await schuetzeSchluesselJwk(r.privateJwk, passwort);
         empfangKey = await crypto.subtle.importKey('jwk', r.privateJwk, { name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits']);
-        huelleText = JSON.stringify(huelle, null, 2);
+        huelleText = JSON.stringify(Object.assign(huelle, { anfrage: anfrage.text, vorgang: String(anfrage.vorgang || ''),
+          gestelltAm: String(anfrage.gestelltAm || '') }), null, 2);
         uhr = setTimeout(() => verwerfen('zeitlimit'), limitMs);
         if (uhr && typeof uhr.unref === 'function') uhr.unref();
-        return { publicJwk: r.publicJwk };
+        return { publicJwk: r.publicJwk, anfrage: anfrage };
       } catch (e) {
         verwerfen('fehler');
         throw e;
@@ -13523,7 +13730,7 @@ function spracheWaehlen(s) {
   rendereFelder(); paletteRendern(); modulKachelnRendern(); rechtRendern(); wegAktualisieren(); schluesselStatusZeigen();
   if (STATE.art === 'blatt') { blattIconsBefuellen(); blattEigenschaftenFuellen(); }
   if ($('feld-editor') && !$('feld-editor').hidden && editorIndex != null) oeffneEditor(editorIndex);
-  if (dlgOffen('dlg-fertig') && !$('fs-c-rumpf').hidden) renderefPruefung();
+  if (dlgOffen('dlg-fertig')) renderefPruefung();
 }
 
 /* ── Dialoge ───────────────────────────────────────────────────────────── */
@@ -13568,32 +13775,21 @@ function zeigeSchritt(id) {
   else if (id === 'template') { dlgZu('dlg-fertig'); raumZeigen('bau'); rendereFelder(); paletteRendern(); }
   else {
     if ($('raum-bau') && $('raum-bau').hidden) { raumZeigen('bau'); rendereFelder(); paletteRendern(); }
-    fsOeffnen(id === 'stammdaten' ? 'a' : (id === 'schluessel' ? 'b' : 'c'));
+    fsOeffnen(id === 'stammdaten' ? 'a' : 'c');   // „schluessel“ ist seit 16.10.2026 Teil von „Fertig“
   }
   wegAktualisieren();
 }
 function fsOeffnen(x) {
-  ['a', 'b', 'c'].forEach((k) => {
-    const r = $('fs-' + k + '-rumpf'), kopf = $('fs-' + k + '-kopf');
-    if (r) r.hidden = (k !== x);
-    if (kopf) kopf.setAttribute('aria-expanded', String(k === x));
-  });
-  if (x === 'c') renderefPruefung();
+  // Seit 16.10.2026 eine Folge: „a“ öffnet die Angaben zum Ändern, alles andere zeigt den Schritt, der dran ist.
+  stufeAOffen = (x === 'a');
+  renderefPruefung();
   dlgAuf('dlg-fertig');
-  fsStandAktualisieren();
+  aktualisiereSchluesselWeiter();
 }
-function schluesselFertig() { return !!(STATE.publicKeyJwk && STATE.pubDownloaded && STATE.privDownloaded); }
-function fsStandAktualisieren() {
-  const setze = (id, text, fertig) => {
-    const s = $(id); if (s) s.textContent = text;
-    const sec = $(id.replace('-stand', '')); if (sec && sec.classList) { if (fertig) sec.classList.add('fertig'); else sec.classList.remove('fertig'); }
-  };
-  setze('fs-a-stand', STATE.anbieter ? '✓ ' + L('erfasst', 'done') : '', !!STATE.anbieter);
-  // Zwei Zustände, kein dritter: „heruntergeladen“ nach den zwei Downloads, „✓ Sicherung geprüft“ nach dem Wiederöffnen der Datei.
-  setze('fs-b-stand', schluesselFertig() ? (STATE.sicherungGeprueft ? '✓ ' + L('Sicherung geprüft', 'backup checked') : L('heruntergeladen', 'downloaded')) : '', schluesselFertig());
-  setze('fs-c-stand', STATE.letzteSubmission ? '✓ ' + L('erzeugt', 'created') : '', !!STATE.letzteSubmission);
-}
-function naechsterFertigSchritt() { return !STATE.anbieter ? 'stammdaten' : (!schluesselFertig() ? 'schluessel' : 'pruefung'); }
+function schluesselFertig() { return !!(STATE.publicKeyJwk && oeffentlicherTeilErledigt() && STATE.privDownloaded); }
+/* Der Stand der Folge steht in den Zeilen selbst (einreichenStufen); dieser Name bleibt für die Aufrufer. */
+function fsStandAktualisieren() { einreichenStufen(); }
+function naechsterFertigSchritt() { return !STATE.anbieter ? 'stammdaten' : 'pruefung'; }
 function wegAktualisieren() {
   if (typeof document === 'undefined') return;
   const n = STATE.felder.length;
@@ -13610,7 +13806,6 @@ function wegAktualisieren() {
   const markiere = (id, fertig) => { const b = $(id); if (!b) return; const li = b.closest ? b.closest('li') : null; const ziel = li || b; if (ziel.classList) { if (fertig) ziel.classList.add('ist-fertig'); else ziel.classList.remove('ist-fertig'); } };
   if (STATE.art === 'blatt' && typeof blattStatus === 'function') blattStatus();
   markiere('wb-angaben', !!STATE.anbieter);
-  markiere('wb-schluessel', schluesselFertig());
   markiere('wb-absenden', !!STATE.letzteSubmission);
   fsStandAktualisieren();
   modulStandAktualisieren();
@@ -13649,7 +13844,7 @@ function paletteRendern() {
   const gruppen = {};
   alle.forEach((e) => { (gruppen[e.bereich] = gruppen[e.bereich] || []).push(e); });
   const bereiche = reihenfolge.filter((b) => gruppen[b]).concat(Object.keys(gruppen).filter((b) => reihenfolge.indexOf(b) < 0));
-  if (!bereiche.length) host.appendChild(el('p', { class: 'hint', text: L('Kein Feld dieses Namens. Sie können unten ein eigenes Feld anlegen oder eine Kennung vorschlagen.', 'No field with that name. You can create a field of your own below or suggest an identifier.') }));
+  if (!bereiche.length) host.appendChild(el('p', { class: 'hint', text: L('Kein Feld dieses Namens. Sie können ein eigenes Feld anlegen oder eine Kennung vorschlagen.', 'No field with that name. You can create a field of your own or suggest an identifier.') }));
   if (STATE.art === 'blatt') {
     const ds = el('details', { class: 'pal-gruppe' }); ds.setAttribute('open', '');
     const sz = blattSonderzeiger();
@@ -13854,7 +14049,7 @@ function rendereFelder() {
   if (!STATE.felder.length) {
     liste.appendChild(el('div', { class: 'vorschau-leer' }, [
       el('strong', { text: L('Hier entsteht Ihre Vorlage', 'Your template takes shape here') }),
-      el('span', { text: L('Wählen Sie links ein Feld mit + oder ziehen Sie es hierher. Sie sehen sofort, wie es in der App aussieht.', 'Choose a field on the left with + or drag it here. You see right away how it looks in the app.') }),
+      el('span', { text: L('Wählen Sie unter „Felder“ ein Feld mit + oder ziehen Sie es hierher. Sie sehen sofort, wie es in der App aussieht.', 'Choose a field under “Fields” with + or drag it here. You see right away how it looks in the app.') }),
     ]));
   }
   let letzterBereich = null, letzteGruppe = null;
@@ -14151,7 +14346,7 @@ const RECHTSTEXTE = Object.freeze({
       { h: 'Wie Sie einreichen' },
       'Sie senden die Datei selbst per E-Mail an register@vivodepot.de. Das Werkzeug versendet nichts automatisch. Bewahren Sie die Einreichungsnummer auf; Sie brauchen sie für Rückfragen.',
       { h: 'Was danach geschieht' },
-      'Vivodepot prüft, von wem Ihre Vorlage kommt. Das Studio prüft vorab nur, ob sie formal vollständig ist. Ob der Inhalt richtig ist, prüft niemand. Bei Erfolg stellt Vivodepot ein Zertifikat aus; erst damit wird die Vorlage in der App wirksam. Die Prüfung dauert in der Regel einige Werktage nach Eingang.',
+      'Vivodepot prüft, von wem Ihre Vorlage kommt. Das Studio prüft vorab nur, ob sie formal vollständig ist. Ob der Inhalt richtig ist, prüft niemand. Bei Erfolg stellt Vivodepot ein Zertifikat aus. Mit ihm wirkt die Vorlage in der App, ohne dass die Person sie erst eigens auswählen muss. Die Prüfung dauert in der Regel einige Werktage nach Eingang.',
       'Bei Rückfragen meldet sich das Team bei der Kontaktperson, die Sie angegeben haben. Lehnt Vivodepot ab, erhalten Sie eine Rückmeldung mit Hinweisen und können ein überarbeitetes Paket einreichen.',
       'Die Konditionen der Zertifizierung teilt Vivodepot Ihnen direkt mit.',
       { h: 'Was Sie zusichern' },
@@ -14168,7 +14363,7 @@ const RECHTSTEXTE = Object.freeze({
       { h: 'How you submit' },
       'You send the file yourself by e-mail to register@vivodepot.de. The tool sends nothing automatically. Keep the submission ID; you need it for any questions.',
       { h: 'What happens next' },
-      'Vivodepot checks who your template comes from. Beforehand, the Studio only checks that it is formally complete. Nobody checks whether the content is right. If the check succeeds, Vivodepot issues a certificate; only then does the template take effect in the app. The review usually takes a few working days after receipt.',
+      'Vivodepot checks who your template comes from. Beforehand, the Studio only checks that it is formally complete. Nobody checks whether the content is right. If the check succeeds, Vivodepot issues a certificate. With it, the template works in the app without the person having to choose it first. The review usually takes a few working days after receipt.',
       'If there are questions, the team contacts the contact person you named. If Vivodepot declines, you receive feedback with notes and can submit a revised package.',
       'Vivodepot tells you the terms of certification directly.',
       { h: 'What you confirm' },
@@ -14282,11 +14477,11 @@ async function schluesselDateiLaden() {
     if (inhalt === undefined) { if (st) st.textContent = L('Datei nicht lesbar (kein privater Schlüssel).', 'File not readable (not a private key).'); return; }
     const r = await SCHLUESSEL_TRESOR.ausDatei(inhalt, passwort);
     STATE.publicKeyJwk = STATE.publicKeyJwk || r.publicJwk;
-    STATE.pubDownloaded = true; STATE.privDownloaded = true;
+    STATE.pubDownloaded = true; STATE.privDownloaded = true; STATE.schluesselGeladen = true;
     STATE.sicherungGeprueft = true;   // die Datei wurde eben mit ihrem Passwort geöffnet: dieselbe Prüfung
     if (st) st.textContent = '✓ ' + L('Schlüssel geladen', 'key loaded');
     aktualisiereSchluesselWeiter(); wegAktualisieren(); schluesselStatusZeigen();
-    if ($('pr-blocker') && !$('fs-c-rumpf').hidden) renderefPruefung();
+    if ($('pr-blocker') && dlgOffen('dlg-fertig')) renderefPruefung();
   } catch (e) {
     const grund = e && e.message;
     if (grund === 'klartext') { if (kt) kt.hidden = false; if (st) st.textContent = ''; }
@@ -14347,10 +14542,12 @@ function fertigKarteZeigen(paket) {
     'Send the file to ' + EINREICH_ADRESSE + '. Vivodepot checks who the template comes from and then issues a certificate. It does not confirm whether its content is correct.');
   const m = $('fs-fertig-mail'), a = $('absenden-mail'); if (m && a) m.setAttribute('href', a.getAttribute('href'));
   k.hidden = false; d.classList.add('fertig');
+  einreichenStufen();
 }
 function fertigKarteZuruecksetzen() {
   const d = $('dlg-fertig'), k = $('fs-fertig');
   if (d) d.classList.remove('fertig'); if (k) k.hidden = true;
+  einreichenStufen();
 }
 
 /* ── Bereichs-Beschriftungen und Meldungen auf Englisch ─────────────────────
@@ -14419,8 +14616,8 @@ function empfangStatusZeigen(grund) {
     zeitlimit: L('Der private Teil wurde nach dem Zeitlimit aus dem Speicher entfernt. Wurde er nicht gesichert, erzeugen Sie ein neues Paar.', 'The private part was removed from memory after the time limit. If you did not save it, create a new pair.'),
     verlassen: '', manuell: L('Der private Teil ist aus dem Speicher entfernt.', 'The private part has been removed from memory.'), ersetzt: '' };
   const da = EMPFANGS_TRESOR.vorhanden();
-  if (da) z.textContent = L('Das Paar entstand in Ihrem Browser. Der private Teil liegt nur im Speicher, bis Sie unten bestätigen, dass Sie beide Teile gesichert haben (spätestens nach ' + Math.round(SCHLUESSEL_LIMIT_MS / 60000) + ' Minuten). Bitte laden Sie BEIDE Teile herunter.',
-    'The pair was created in your browser. The private part stays in memory only until you confirm below that you saved both parts (after ' + Math.round(SCHLUESSEL_LIMIT_MS / 60000) + ' minutes at the latest). Please download BOTH parts.');
+  if (da) z.textContent = L('Das Paar entstand in Ihrem Browser. Der private Teil liegt nur im Speicher, bis Sie bestätigen, dass Sie beide Teile gesichert haben (spätestens nach ' + Math.round(SCHLUESSEL_LIMIT_MS / 60000) + ' Minuten). Bitte laden Sie BEIDE Teile herunter.',
+    'The pair was created in your browser. The private part stays in memory only until you confirm that you saved both parts (after ' + Math.round(SCHLUESSEL_LIMIT_MS / 60000) + ' minutes at the latest). Please download BOTH parts.');
   else if (grund && gruende[grund] !== undefined) z.textContent = gruende[grund];
   const f = $('anf-schluessel-fertig'); if (f) f.hidden = !da;
 }
@@ -14732,7 +14929,8 @@ function blattPruefungRendern() {
     wBox.hidden = false; wBox.appendChild(el('strong', { text: L('Hinweise (kein Hindernis):', 'Notes (not blocking):') }));
     const ul = el('ul', {}); p.warnungen.forEach((x) => ul.appendChild(el('li', { text: x }))); wBox.appendChild(ul);
   } else wBox.hidden = true;
-  const knopf = $('ab-erzeugen'); if (knopf) knopf.disabled = p.blocker.length > 0;
+  // Ein Blatt darf unsigniert entstehen; liegt aber ein Schlüssel im Speicher, signiert es erst nach geprüfter Sicherung (16.10.2026).
+  const knopf = $('ab-erzeugen'); if (knopf) knopf.disabled = p.blocker.length > 0 || (SCHLUESSEL_TRESOR.vorhanden() && !einreichungFrei());
   const sh = $('pr-schluessel-hinweis'); if (sh) sh.hidden = true;
 }
 async function blattErzeugen(ev) {
@@ -14740,6 +14938,7 @@ async function blattErzeugen(ev) {
   const state = blattStateFuerBauen();
   const p = pruefeBlatt(state);
   if (p.blocker.length) { blattPruefungRendern(); return; }
+  if (SCHLUESSEL_TRESOR.vorhanden() && !einreichungFrei()) { blattPruefungRendern(); return; }
   let umschlag;
   try { umschlag = await signiereMitTresor(ev, (k) => baueBlattSigniert(state, k), () => baueBlattSigniert(state, null)); }
   catch (e) { erg.className = 'meldung fehler'; erg.appendChild(el('strong', { text: e.message || L('Signieren fehlgeschlagen.', 'Signing failed.') })); return; }
@@ -14787,10 +14986,8 @@ function boot() {
   $('sd-weiter') && $('sd-weiter').addEventListener('click', stammdatenWeiter);
   $('sd-zurueck') && $('sd-zurueck').addEventListener('click', () => zeigeSchritt('willkommen'));
 
-  $('sk-erzeugen') && $('sk-erzeugen').addEventListener('click', schluesselErzeugen);
   $('sk-pub') && $('sk-pub').addEventListener('click', ladePublic);
   $('sk-priv') && $('sk-priv').addEventListener('click', ladePrivate);
-  $('sk-weiter') && $('sk-weiter').addEventListener('click', schluesselWeiter);
   $('sk-pruefen-knopf') && $('sk-pruefen-knopf').addEventListener('click', sicherungPruefen);
   $('sk-erneut-laden') && $('sk-erneut-laden').addEventListener('click', ladePrivate);
   $('sk-zurueck') && $('sk-zurueck').addEventListener('click', () => zeigeSchritt('stammdaten'));
@@ -14824,7 +15021,6 @@ function boot() {
   $('anf-block') && $('anf-block').addEventListener('toggle', () => { if ($('anf-block').open) anfrageRendern(); });
   // Kette, Auftrag 8, Zug 1 — das Empfangs-Schlüsselpaar, nur beim Schlüsselpaar-Verfahren.
   $('anf-antwort-art') && $('anf-antwort-art').addEventListener('change', anfrageSchluesselBlockZeigen);
-  $('anf-schluessel-erzeugen') && $('anf-schluessel-erzeugen').addEventListener('click', anfrageSchluesselErzeugen);
   $('anf-schluessel-pub') && $('anf-schluessel-pub').addEventListener('click', () => anfrageSchluesselLaden('pub'));
   $('anf-schluessel-priv') && $('anf-schluessel-priv').addEventListener('click', () => anfrageSchluesselLaden('priv'));
   $('pr-zurueck') && $('pr-zurueck').addEventListener('click', () => zeigeSchritt('template'));
@@ -15207,6 +15403,153 @@ async function antwortJweOeffnen(text, schluessel) {
 }
 /* ══ ENDE ANTWORT-JWE ÖFFNEN ══ */
 
+/* ══ DIE SIGNIERTE ANTWORT IM STUDIO LESEN (U2-ADR-501, Wagen V3b) ══════════════════════════════════════════════════════
+   Das Studio öffnet Antworten mit dem Einmalpasswort (Eingegangene Antworten, unten). Ab dem Schalter ANTWORT_SIGNIEREN im Kern tragen
+   sie einen JWS (`cty` `JWT`). Geprüft wird hier GENAU wie in der Lese-App: der STELLENKENNUNG-BLOCK, `_kanonischJSON`, `_jwkThumbprint`
+   (RFC 7638) und der ANTWORT-SIGNATUR-BLOCK stehen zeichengleich mit der Lese-App (der Kopf des STELLENKENNUNG-BLOCKS nennt seine zwei
+   ersten Träger; Spiegelproben: tests/stellenkennung-spiegel.test.js, tests/studio-signierte-antwort.test.js). Das Studio gleicht `aud`
+   nicht ab — es hält keine gebundene Kennung der Stelle —, es zeigt die Sachangabe „Signiert für ‹aud›“. Der Vorgang kommt aus dem
+   geschützten JWE-Kopf; das Einmalpasswort gilt ohnehin nur für diesen Vorgang. Nie „geprüft“. */
+function _kanonischJSON(x) {
+  if (Array.isArray(x)) return '[' + x.map(_kanonischJSON).join(',') + ']';
+  if (x && typeof x === 'object') {
+    return '{' + Object.keys(x).sort().map((k) => JSON.stringify(k) + ':' + _kanonischJSON(x[k])).join(',') + '}';
+  }
+  return JSON.stringify(x === undefined ? null : x);
+}
+async function _jwkThumbprint(jwk) {
+  if (!jwk || !jwk.kty) return '';
+  let m;
+  if (jwk.kty === 'OKP')      m = { crv: jwk.crv, kty: jwk.kty, x: jwk.x };
+  else if (jwk.kty === 'EC')  m = { crv: jwk.crv, kty: jwk.kty, x: jwk.x, y: jwk.y };
+  else if (jwk.kty === 'RSA') m = { e: jwk.e, kty: jwk.kty, n: jwk.n };
+  else                        m = { kty: jwk.kty };
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(_kanonischJSON(m)));
+  return _jwsB64uFromBytes(new Uint8Array(buf));
+}
+/* ══ STELLENKENNUNG-BLOCK (U2-ADR-501 Abschnitt B, Punkte 9 und 10) — in vivodepot.html und vivodepot-lesen.html zeichengleich ══
+   Die EINE Stelle, die aus einer rohen Kennung die Kennung der Stelle baut: `aud` der signierten Antwort und (ab V2) die Eingabe der
+   Ableitung je Stelle. Kein Krypto-Aufruf. Der Kern nutzt ihn bis zum Bau der Ableitung und des Signierens nicht; die Lese-App liest
+   damit `aud`. Spiegel-Probe: tests/stellenkennung-spiegel.test.js.
+   FORM:  signiert:<art>:<länge>:<kennung>   (art = anbieter | dns | org)
+          unsigniert:<länge>:<kennung>
+   <länge> ist die Zahl der UTF-8-Bytes der normalisierten Kennung, vier Dezimalziffern mit führenden Nullen (feste Breite, ADR Punkt 9).
+   Zwei Domänen trennen eine geprüfte Kennung von einer, die eine Anfrage nur über sich behauptet; eine unsignierte Anfrage mit fremder
+   Kennung ergibt so nie die Kennung einer geprüften Stelle.
+   GEWÄHLT, weil das ADR es offen läßt (im Bericht gelistet):
+     · Längenpräfix als vier Dezimalziffern im Text (nicht als Bytes); Kennungen über 9999 Byte sind ungültig.
+     · Normalisierung: NFC, Leerraum außen weg; Steuerzeichen sind ungültig.
+       dns: ASCII-Kleinschreibung, ein Punkt am Ende fällt weg, nur Buchstaben/Ziffern/Bindestrich/Punkt.
+       anbieter und unsigniert: Kleinschreibung (wie die Anbieter-Kennung beim Einlass, `_textsatzBelegtEintragen`).
+       org (organizationIdentifier aus dem Subject, Punkt 10): unverändert bis auf Leerraum außen — die Schreibweise gehört dem Register.
+     · Art `org` ist ergänzt: Punkt 9 nennt nur Anbieter und DNS, Punkt 10 nimmt für x509_hash das organizationIdentifier.
+   EINGABE: { ausZertifikat: true, art, kennung } für eine Kennung aus einem geprüften Zertifikat (Domäne `signiert:`),
+            { ausZertifikat: false, kennung } für eine Kennung, die nur die Anfrage nennt (Domäne `unsigniert:`).
+   Ungültige Eingabe ergibt `null`, nie eine Teil-Kennung. */
+const STELLENKENNUNG_ARTEN = Object.freeze(['anbieter', 'dns', 'org']);
+function stellenKennung(roh) {
+  const r = (roh && typeof roh === 'object') ? roh : {};
+  if (typeof r.kennung !== 'string') return null;
+  let k = r.kennung.normalize('NFC').trim();
+  if (!k || /[\u0000-\u001f\u007f]/.test(k)) return null;
+  let kopf;
+  if (r.ausZertifikat === true) {
+    if (!STELLENKENNUNG_ARTEN.includes(r.art)) return null;
+    if (r.art === 'dns') {
+      k = k.replace(/[A-Z]/g, (c) => c.toLowerCase()).replace(/\.$/, '');
+      if (!/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/.test(k) || k.includes('..')) return null;
+    } else if (r.art === 'anbieter') {
+      k = k.toLowerCase();
+    }
+    kopf = 'signiert:' + r.art + ':';
+  } else if (r.ausZertifikat === false) {
+    if (r.art !== undefined) return null;
+    k = k.toLowerCase();
+    kopf = 'unsigniert:';
+  } else {
+    return null;
+  }
+  const laenge = new TextEncoder().encode(k).length;
+  if (laenge > 9999) return null;
+  return kopf + String(laenge).padStart(4, '0') + ':' + k;
+}
+/* Die Umkehrung, nur zum Anzeigen und Vergleichen: zerlegt eine Kennung in Herkunft der Kennung (ausZertifikat), Art und Kennung, prüft die Länge und daß die
+   Kennung schon normalisiert ist (stellenKennung ergibt wieder denselben Text). Sonst `null`. */
+function stellenKennungTeile(text) {
+  if (typeof text !== 'string') return null;
+  const m = /^(signiert):(anbieter|dns|org):(\d{4}):([\s\S]*)$/.exec(text) || /^(unsigniert):()(\d{4}):([\s\S]*)$/.exec(text);
+  if (!m) return null;
+  const teile = m[2] ? { ausZertifikat: true, art: m[2], kennung: m[4] } : { ausZertifikat: false, kennung: m[4] };
+  return stellenKennung(teile) === text ? teile : null;
+}
+/* ══ ENDE STELLENKENNUNG-BLOCK ══ */
+/* ══ ANTWORT-SIGNATUR-BLOCK (U2-ADR-501, Wagen V3b) — in vivodepot-lesen.html und vivodepot-studio.html zeichengleich ══
+   Die Prüfung einer signierten Antwort, wie oben beschrieben. Was die App danach zeigt und woher `erwartet` kommt, steht außerhalb. */
+const ANTWORT_JWS_TYP = 'vivodepot-antwort+jwt';
+const ANTWORT_JWS_ALGS = Object.freeze(['Ed25519', 'EdDSA']);
+// Ansprüche der Signatur, die nicht zum Datensatz gehören; alles andere der Nutzlast ist der Datensatz wie bisher.
+const ANTWORT_JWS_ANSPRUECHE = Object.freeze(['iat', 'aud', 'anfrageAbdruck']);
+
+function _antwortSignaturFehler(textSchluessel, kurz) {
+  const e = new Error('antwort-signatur-' + kurz);
+  e.antwortTextSchluessel = textSchluessel;
+  return e;
+}
+/* `cty` ist nach RFC 7515 §4.1.10 ohne Groß-/Kleinschreibung zu vergleichen. */
+function antwortJweTraegtJws(kopf) {
+  return !!(kopf && typeof kopf.cty === 'string' && kopf.cty.toLowerCase() === 'jwt');
+}
+async function antwortSignaturPruefen(jws, erwartet, opts) {
+  const e = erwartet || {};
+  const teile = typeof jws === 'string' ? jws.trim().split('.') : [];
+  if (teile.length !== 3) throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'form');
+  let kopf;
+  try { kopf = JSON.parse(_jwsB64uToString(teile[0])); } catch (x) { throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'kopf'); }
+  if (!kopf || typeof kopf !== 'object' || Array.isArray(kopf)) throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'kopf');
+  if (typeof kopf.typ !== 'string' || kopf.typ.toLowerCase() !== ANTWORT_JWS_TYP) throw _antwortSignaturFehler('antwortSignaturArt', 'typ');
+  if (kopf.crit !== undefined) throw _antwortSignaturFehler('antwortSignaturVerfahren', 'crit');
+  if (!ANTWORT_JWS_ALGS.includes(kopf.alg)) throw _antwortSignaturFehler('antwortSignaturVerfahren', 'alg');
+  const j = kopf.jwk;
+  if (!j || typeof j !== 'object' || j.kty !== 'OKP' || j.crv !== 'Ed25519' || j.d !== undefined
+      || typeof j.x !== 'string' || !/^[A-Za-z0-9_-]{43}$/.test(j.x)) throw _antwortSignaturFehler('antwortSignaturVerfahren', 'schluessel');
+  const oeffentlich = { kty: 'OKP', crv: 'Ed25519', x: j.x };
+  const abdruck = await _jwkThumbprint(oeffentlich);
+  if (kopf.kid !== undefined && kopf.kid !== abdruck) throw _antwortSignaturFehler('antwortSignaturUngueltig', 'kid');
+  let key;
+  try { key = await _jwsImportVerifyKey(oeffentlich); } catch (x) { throw _antwortSignaturFehler('antwortSignaturVerfahren', 'import'); }
+  const r = await _verifyJWS(teile.join('.'), key, opts);
+  if (!r.gueltig) {
+    if (r.abgelaufen || r.vorGueltigkeit) throw _antwortSignaturFehler('antwortSignaturZeit', 'zeit');
+    throw _antwortSignaturFehler('antwortSignaturUngueltig', 'signatur');
+  }
+  const n = r.nutzlast;
+  if (!n || typeof n !== 'object' || Array.isArray(n)) throw _antwortSignaturFehler('antwortSignaturUnlesbar', 'nutzlast');
+  if (typeof n.iat !== 'number' || !isFinite(n.iat) || n.iat <= 0) throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'iat');
+  if (typeof n.aud !== 'string' || !n.aud) throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'aud');
+  // Vergleichswert allein aus der entschlüsselnden Identität (e.anbieterId); ohne sie kein Abgleich, nur die Sachangabe.
+  const eigene = typeof e.anbieterId === 'string' && e.anbieterId.trim()
+    ? [stellenKennung({ ausZertifikat: true, art: 'anbieter', kennung: e.anbieterId }), stellenKennung({ ausZertifikat: false, kennung: e.anbieterId })]
+    : null;
+  if (eigene && !eigene.includes(n.aud)) throw _antwortSignaturFehler('antwortSignaturFremdeStelle', 'aud');
+  const a = (n.anfrage && typeof n.anfrage === 'object' && !Array.isArray(n.anfrage)) ? n.anfrage : null;
+  if (!a || typeof a.vorgang !== 'string' || !a.vorgang) throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'vorgang');
+  /* `e.vorgang` kommt aus der Anfrage, die die Schlüsseldatei trägt (seit V3b: ein Schlüssel dient genau einer Anfrage). GRENZE
+     (U2-ADR-501) nur noch ohne eine solche Anfrage (Einmalpasswort, ältere Schlüsseldatei): dann aus dem geschützten JWE-Kopf. Der
+     gehört zur selben Nachricht und fängt eine Hülle, die zu einer anderen Anfrage gehört, nicht eine bewußt umetikettierte. */
+  if (a.vorgang !== String(e.vorgang || '')) throw _antwortSignaturFehler('antwortSignaturFremderVorgang', 'vorgang');
+  if (n.anfrageAbdruck !== undefined && typeof n.anfrageAbdruck !== 'string') throw _antwortSignaturFehler('antwortSignaturUnvollstaendig', 'abdruck');
+  const datensatz = {};
+  for (const k of Object.keys(n)) if (!ANTWORT_JWS_ANSPRUECHE.includes(k)) datensatz[k] = n[k];
+  const audTeile = stellenKennungTeile(n.aud);
+  return {
+    datensatz,
+    // stelle: der lesbare Teil von aud (zum Anzeigen); aud: die ganze Kennung (Gedächtnis je Stelle).
+    // ausZertifikat: Domäne von aud (true signiert:, false unsigniert:, null keine lesbare Kennung) — nur für den Sachsatz.
+    signatur: { stelle: audTeile ? audTeile.kennung : n.aud, aud: n.aud, ausZertifikat: audTeile ? audTeile.ausZertifikat : null, abgeglichen: !!eigene, abdruck, abdruckKurz: _jwsB64uFromBytes(_jwsB64uToBytes(abdruck).slice(0, 8)),
+      signiertAm: new Date(n.iat * 1000).toISOString() },
+  };
+}
+/* ══ ENDE ANTWORT-SIGNATUR-BLOCK ══ */
 /* ══ Eingegangene Antworten (W4, 09.10.2026) ══════════════════════════════════════════════════════════════════════════
    Die Stelle öffnet hier, was Personen auf ihre Anfrage geschickt haben. Geöffnet wird mit antwortJweOeffnen (oben, zeichengleich
    mit der Lese-App); angezeigt wird ein Modell aus dem Datensatz, Text für Text über textContent: der Inhalt ist fremde Eingabe.
@@ -15221,7 +15564,20 @@ const ANTWORT_FEHLER_TEXT = Object.freeze({
   'jwe-p2c': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
   'jwe-alg': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
 });
+/* Die Sätze zu einer abgewiesenen Signatur (ANTWORT-SIGNATUR-BLOCK, `antwortTextSchluessel`), wortgleich mit der Lese-App. Nie ein Code. */
+const ANTWORT_SIGNATUR_TEXT = Object.freeze({
+  antwortSignaturUngueltig: ['Die Signatur passt nicht zum Inhalt der Antwort. Die Antwort wird nicht angezeigt.', 'The signature does not match the content of the reply. The reply is not shown.'],
+  antwortSignaturVerfahren: ['Die Antwort ist mit einem Verfahren signiert, das das Studio nicht annimmt. Die Antwort wird nicht angezeigt.', 'The reply is signed with a method the studio does not accept. The reply is not shown.'],
+  antwortSignaturArt: ['Die Signatur ist nicht als Antwort auf eine Anfrage gekennzeichnet. Die Antwort wird nicht angezeigt.', 'The signature is not marked as a reply to a request. The reply is not shown.'],
+  antwortSignaturUnlesbar: ['Die Signatur der Antwort lässt sich nicht lesen. Die Antwort wird nicht angezeigt.', 'The signature of the reply cannot be read. The reply is not shown.'],
+  antwortSignaturUnvollstaendig: ['Der signierten Antwort fehlen Angaben, die zur Signatur gehören. Die Antwort wird nicht angezeigt.', 'The signed reply lacks details that belong to the signature. The reply is not shown.'],
+  antwortSignaturZeit: ['Die signierte Antwort ist nach ihren eigenen Zeitangaben nicht gültig. Die Antwort wird nicht angezeigt.', 'By its own dates, the signed reply is not valid. The reply is not shown.'],
+  antwortSignaturFremdeStelle: ['Die Antwort ist für eine andere Stelle signiert. Die Antwort wird nicht angezeigt.', 'The reply is signed for a different recipient. The reply is not shown.'],
+  antwortSignaturFremderVorgang: ['Die Antwort ist für eine andere Anfrage signiert. Die Antwort wird nicht angezeigt.', 'The reply is signed for a different request. The reply is not shown.'],
+});
 function antwortFehlerText(e) {
+  const s = ANTWORT_SIGNATUR_TEXT[e && e.antwortTextSchluessel];
+  if (s) return L(s[0], s[1]);
   const t = ANTWORT_FEHLER_TEXT[e && e.message];
   return t ? L(t[0], t[1]) : L('Das Passwort passt nicht zu dieser Antwort, oder die Datei ist beschädigt.', 'The password does not match this reply, or the file is damaged.');
 }
@@ -15248,10 +15604,18 @@ function antwortStudioModell(ds) {
     herkunft: L('Von der Person angegeben, nicht geprüft.', 'Given by the person, not verified.'),
   };
 }
-function antwortKarte(dateiname, m) {
+/* Die Zeile zur Signatur einer Antwort: Sachangaben wie in der Lese-App, kein Warnstil, nie „geprüft“. `sig` aus antwortSignaturPruefen,
+   `null` für eine Antwort ohne Signatur. */
+function antwortSignaturZeile(sig) {
+  if (!sig) return L('Diese Antwort ist nicht signiert (ältere Fassung).', 'This reply is not signed (earlier version).');
+  return L('Unverändert seit dem Signieren · Schlüssel ' + sig.abdruckKurz + ' · Signiert für ' + (sig.stelle || '—'),
+    'Unchanged since signing · key ' + sig.abdruckKurz + ' · signed for ' + (sig.stelle || '—'));
+}
+function antwortKarte(dateiname, m, sig) {
   const karte = el('section', { class: 'aa-antwort' }, [
     el('h2', { class: 'aa-antwort-titel', text: m.absender ? m.absender : L('Antwort', 'Reply') }),
     el('p', { class: 'aa-v-meta', text: L('Ihr Zeichen: ', 'Your reference: ') + m.vorgang + ' · ' + dateiname }),
+    el('p', { class: 'aa-v-meta aa-signatur', text: antwortSignaturZeile(sig) }),
     el('p', { class: 'aa-herkunft', text: m.herkunft })]);
   const liste = el('dl', { class: 'aa-antwort-felder' });
   m.felder.forEach((f) => { liste.appendChild(el('dt', { text: f.label })); liste.appendChild(el('dd', { text: f.wert })); });
@@ -15273,7 +15637,13 @@ async function antwortenOeffnen() {
       try { text = await datei.text(); } catch (e) { text = ''; }
       try {
         const geoeffnet = await antwortJweOeffnen(text, { passwort });
-        box.appendChild(antwortKarte(datei.name, antwortStudioModell(JSON.parse(geoeffnet.klartext))));
+        // Eine signierte Antwort (cty JWT) wird geprüft, bevor etwas gezeigt wird; ohne Abgleich von aud (siehe Kopf oben).
+        if (antwortJweTraegtJws(geoeffnet.kopf)) {
+          const erg = await antwortSignaturPruefen(geoeffnet.klartext, { anbieterId: '', vorgang: String(geoeffnet.kopf.vorgang || '') });
+          box.appendChild(antwortKarte(datei.name, antwortStudioModell(erg.datensatz), erg.signatur));
+        } else {
+          box.appendChild(antwortKarte(datei.name, antwortStudioModell(JSON.parse(geoeffnet.klartext)), null));
+        }
       } catch (e) {
         box.appendChild(el('section', { class: 'aa-antwort' }, [el('h2', { class: 'aa-antwort-titel', text: datei.name }), el('p', { class: 'as-meldung', role: 'alert', text: antwortFehlerText(e) })]));
       }
@@ -15606,9 +15976,8 @@ function gen1Binden() {
   an('fertig-oeffnen', 'click', fertigOeffnen);
   an('fs-fertig-zu', 'click', () => { dlgZu('dlg-fertig'); fertigKarteZuruecksetzen(); });
   an('wb-angaben', 'click', () => zeigeSchritt('stammdaten'));
-  an('wb-schluessel', 'click', () => zeigeSchritt('schluessel'));
   an('wb-absenden', 'click', () => zeigeSchritt('pruefung'));
-  ['a', 'b', 'c'].forEach((k) => an('fs-' + k + '-kopf', 'click', () => fsOeffnen(k)));
+  an('fs-a-kopf', 'click', () => fsOeffnen('a'));
   an('pal-suche', 'input', () => { paletteSuche = $('pal-suche').value; paletteRendern(); });
   an('pal-kennungen', 'change', () => { paletteKennungenZeigen = !!$('pal-kennungen').checked; paletteRendern(); });
   an('pal-vorschlagen', 'click', () => modulOeffnen('kv'));
@@ -15626,7 +15995,7 @@ function gen1Binden() {
   an('sk-verwerfen', 'click', () => SCHLUESSEL_TRESOR.verwerfen('manuell'));
   an('anf-schluessel-fertig', 'click', () => EMPFANGS_TRESOR.verwerfen('bestaetigt'));
   EMPFANGS_TRESOR.beimVerwerfen((grund) => empfangStatusZeigen(grund));
-  SCHLUESSEL_TRESOR.beimVerwerfen((grund) => { wegAktualisieren(); schluesselStatusZeigen(grund); if ($('fs-c-rumpf') && !$('fs-c-rumpf').hidden) renderefPruefung(); });
+  SCHLUESSEL_TRESOR.beimVerwerfen((grund) => { wegAktualisieren(); schluesselStatusZeigen(grund); aktualisiereSchluesselWeiter(); if (dlgOffen('dlg-fertig')) renderefPruefung(); });
   if (typeof window !== 'undefined' && window.addEventListener) window.addEventListener('pagehide', () => { SCHLUESSEL_TRESOR.verwerfen('verlassen'); EMPFANGS_TRESOR.verwerfen('verlassen'); });
   an('absenden-kopieren', 'click', absendenKopieren);
   an('absenden-nochmal', 'click', absendenNochmal);

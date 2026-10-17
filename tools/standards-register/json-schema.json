@@ -66,7 +66,7 @@
         "json"
       ],
       "bezuege": null,
-      "grund": "Die verschlüsselte Depotsicherung ist das Eigenformat der App; kein fremder Standard beschreibt sie.",
+      "grund": "Die verschlüsselte Depotsicherung ist das Eigenformat der App; kein fremder Standard beschreibt sie. Geschrieben wird sie über _depotBlobSpeichern, _dateizielFuerAnlegenSichern, _subSelbstDateiSichern und _kindDateiOrtWaehlen; keiner davon ist ein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer.",
       "pruefer": "tests/a359-rundlauf-katalogbindung.test.js"
     },
     {
@@ -123,6 +123,208 @@
       "bezuege": null,
       "grund": "Signiertes Anbieter-Zertifikat im Eigenformat; der Rahmen JWS ist RFC 7515, der Inhalt eigen. Offener Posten: Prüfung am Normtext W3C VC Data Model 2.0.",
       "pruefer": "tests/sicherheit-block-c.test.js"
+    },
+    {
+      "id": "vivodepot-vereinbarung-angebot",
+      "name": "Vivodepot-Vereinbarungsangebot (Text, auch als QR)",
+      "version": "eigenes Textformat mit Präfix VEREINBARUNG_PRAEFIX",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Das Angebot einer Vereinbarung als Text, gezeigt als QR (_vereinbarungAngebotZeigen) oder gesichert als .txt (_vereinbarungAngebotSichern); beide über vereinbarungAlsText(vereinbarungAngebotErzeugen()). Probe: „[Angebot] Text-Hin-und-Rückweg“. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "pruefer": "tests/vereinbarung-angebot-antwort.test.js"
+    },
+    {
+      "id": "vivodepot-vereinbarung-begleitdatei",
+      "name": "Vivodepot-Vereinbarung als Begleitdatei (JSON)",
+      "version": "eigenes JSON (vereinbarungBegleitdaten)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Die Vereinbarung als Begleitdatei (_vereinbarungBegleitdateiSichern über vereinbarungBegleitdaten). Probe: „[Begleitdaten] dieselbe Prüfsumme wie im Protokoll, kein Depot-Feld“. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "pruefer": "tests/vereinbarung-bedingung-reist-mit.test.js"
+    },
+    {
+      "id": "vivodepot-blackbox",
+      "name": "Vivodepot-Blackbox (versiegeltes Sub-Depot an die Vertretung)",
+      "version": "eigenes Format (dateiTyp vivodepot-blackbox-export, Umschlag kryptoVersion 3)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Das versiegelte Sub-Depot (subDepotBlackboxExportieren, ausgegeben über blackboxHerunterladen, ebenso kindDateiAusgeben). Probe: „[Klasse-A] Empfänger-Roundtrip: exportierte Datei öffnet mit dem eigenen Passwort der Inhaberin“ mit Isolations-Gegenprobe. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "pruefer": "tests/blackbox-export.test.js"
+    },
+    {
+      "id": "vivodepot-empfaenger-datei",
+      "name": "Vivodepot-Empfänger-Datei (Ausschnitt für einen Empfängerkreis)",
+      "version": "eigenes Format (verschlüsselter Umschlag)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Der Ausschnitt für einen Empfängerkreis als Datei (empfaengerDateiHerausgeben über empfaengerDateiErzeugen). Probe: „[SUB-DEPOT-PERSONEN·Anfrage]“ erzeugt die Datei mit empfaengerDateiErzeugen und öffnet sie in einem zweiten Kern mit dem Passwort. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "pruefer": "tests/sub-depot-personenverweise.test.js"
+    },
+    {
+      "id": "vivodepot-empfaenger-qr",
+      "name": "Vivodepot-Empfänger-QR (derselbe Ausschnitt mit Lese-URL)",
+      "version": "eigenes Format (verschlüsselte Nutzlast im URL-Fragment)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Derselbe Ausschnitt als QR mit Lese-URL (empfaengerQrHerausgeben, gezeigt von _empfaengerQrErgebnisModal). Probe: „[QR-Empfang] Lese-App entschlüsselt dieselbe Nutzlast, die der Kern erzeugt hat“ mit Rot-Beweis falsches Passwort. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "pruefer": "tests/empfaenger-qr-uebergabe.test.js"
+    },
+    {
+      "id": "vivodepot-anlass",
+      "name": "Vivodepot-Anlass-Auszug (JSON)",
+      "version": "eigenes JSON (formatKennung vivodepot-anlass@1)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "querschnitt",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Der Anlass-Auszug als JSON-Datei (flowAnlassExport schreibt den Datensatz aus anlassAusgaben, also anlassDatensatz). Probe: „[DATENSATZ-ROH·Klasse] kein Datensatz-Ausgang trägt eine zurückgehaltene Angabe — über alle Kennungen, alle Anlässe, alle eingebauten Exporte“. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "pruefer": "tests/datensatz-roh-zurueckhaltung.test.js"
+    },
+    {
+      "id": "vivodepot-vorsorgedokument-html",
+      "name": "Vivodepot-Vorsorgedokument als HTML-Druckansicht",
+      "version": "eigenes HTML (dokumentHTML)",
+      "herausgeber": "Vivodepot",
+      "quelle": {
+        "url": "https://vivodepot.de/",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Eigenes Format von Vivodepot (EUPL-1.2 wie das Repo)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "dokumente",
+      "status": "kein-standard-vorhanden",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Das Vorsorgedokument als HTML-Druckansicht (dokumentOeffnen über dokumentHTML). Probe: „[K8·Byte-Gleichheit]“ je Dokument gegen die eingefrorene Fassung. Kein Eintrag in EXPORT_FORMATE, darum bleibt exportwege leer; der Prüfer ist eine eigene Probe, kein Fremdwerkzeug.",
+      "pruefer": "tests/k8-byte-gleichheit.test.js"
+    },
+    {
+      "id": "fim-leistungsschema-json",
+      "name": "FIM-Datenschema einer Leistung (JSON nach dem JSON-Schema des FIM-Portals)",
+      "version": "je Leistung und Fassung; JSON Schema draft 2020-12 (gepinnt außerhalb des Repos)",
+      "herausgeber": "FITKO (Föderale IT-Kooperation)",
+      "quelle": {
+        "url": "https://fimportal.de/",
+        "abgerufen": "2026-10-14"
+      },
+      "lizenz": {
+        "status": "genehmigung-noetig",
+        "text": "Wie fim-leistungsschema (tools/standards-register/xml-xsd.json): für die Inhalte der FIM-Bausteine ist keine Lizenz ausgewiesen. Schema-Struktur und Feldnamen stehen nur im eingelassenen Format-Modul und im gepinnten JSON-Schema außerhalb des Repos (U2-ADR-456, U2-ADR-465). Der Prüfer Ajv ist MIT (node_modules/ajv/LICENSE)."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "verwaltung",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": [
+        "fim-baukasten"
+      ],
+      "grund": "Der Kern schreibt die Datei über ein eingelassenes Format-Modul mit dem Schreiber json@1 (Ziele als Liste von Pfadstufen, schemaUri; U2-ADR-465 Nachtrag), ab Werk gibt es keinen Exportweg. Die Suite prüft den Weg mit der erfundenen Leistung S99000001 gegen Ajv 8.20.0 (draft 2020-12, strict, offline; Version exakt in package.json und package-lock.json); der Lauf gegen ein echtes Schema geht per VD_FIM_JSON_SCHEMA und VD_FIM_JSON_MODUL außerhalb des Repos. Offen: echte Schemas tragen `format: date`, das Ajv im strict mode nur mit ajv-formats übersetzt.",
+      "pruefer": "tests/fim-json-schema-weg.test.js"
     }
   ]
 }

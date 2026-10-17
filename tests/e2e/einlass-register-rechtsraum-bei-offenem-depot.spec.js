@@ -38,7 +38,7 @@ const KONSOLE_HARMLOS = [
   /Content Security Policy directive '(frame-ancestors|report-uri|sandbox)' is ignored when delivered via/i,
 ];
 const istHarmloseKonsole = (t) => KONSOLE_HARMLOS.some((re) => re.test(String(t)));
-const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen } = require('./helpers');
+const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen, erweiterungEinlesenBestaetigen } = require('./helpers');
 
 const PW = 'einlass-rechtsraum-pw-217';
 const WORTLAUT = 'Lasting Power of Attorney — Property and Financial Affairs (E2E-FR-Probe)';
@@ -60,8 +60,7 @@ async function oeffneEinstellungen(page) {
   await expect(page.locator('#einst-modul-einlassen')).toBeVisible();
 }
 
-// FIXME-ID: SPERRE-EINLASS-EINLASS-REGISTER-RECHTSRAUM-BEI-OFFENEM-DEPOT
-test.fixme('[Einlass-Register 3/4] Rechtsraum-Modul in ein offenes Depot einlassen — Registry trägt den Wortlaut', async ({ page }) => {
+test('[Einlass-Register 3/4] Rechtsraum-Modul in ein offenes Depot einlassen — Registry trägt den Wortlaut', async ({ page }) => {
   const fehler = [];
   page.on('console', (m) => { if (m.type() === 'error' && !istHarmloseKonsole(m.text())) fehler.push(m.text()); });
   page.on('pageerror', (e) => fehler.push(String(e)));
@@ -74,6 +73,7 @@ test.fixme('[Einlass-Register 3/4] Rechtsraum-Modul in ein offenes Depot einlass
     // ── DER EINLASS: Rechtsraum-Modul, DEPOT BLEIBT OFFEN ──────────────────
     await oeffneEinstellungen(page);
     await page.locator('#einst-modul-datei').setInputFiles(modulDatei);
+    await erweiterungEinlesenBestaetigen(page);   // Wahl statt Sperre (E3): ein unsigniertes Modul erst nach der Frage
     // GEÄNDERT (Auftrag, 12.09.2026): s. einlass-register-institutionsart-bei-offenem-
     // depot.spec.js — Autosave-Toasts (ADR-237) stapeln sich neben dem generischen Locator.
     await expect(page.locator('#toast-host .toast', { hasText: 'Erweiterung eingelesen' })).toBeVisible({ timeout: 5000 });

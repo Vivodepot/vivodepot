@@ -197,7 +197,7 @@ function inDepotVerstoesse(V, document) {
 }
 
 test('[White Label ab Werk·Rot-Beweis In-Depot-Weg] ein im Depot angedocktes unsigniertes Branding (modell white-label) wirkt nicht als ab Werk: Kopfzeile und Bildmarke bleiben', async () => {
-  // Die Wahl der Erweiterungen (S5) steht am Kopf nicht (kein depotModuleWaehlen/_erweiterungWahlMoeglich); geprüft wird darum der In-Depot-Weg.
+  // Der In-Depot-Weg ohne Wahl; die Wahl beim Öffnen (Schutz-Wagen S5) prüft „[White Label ab Werk·Rot-Beweis Wahl]“ darunter.
   assert.deepEqual(await inAllenVier(async (slug) => {
     const { V, document } = ladeKern({ produkt: slug });
     await V.depotAnlegen('white-label-probe-depot-1!');
@@ -274,6 +274,58 @@ test('[White Label ab Werk·Rot-Beweis Feld abWerk·Mutation] liest _abWerkPartn
   });
 });
 
+
+/* ── Die Wahl beim Öffnen (Schutz-Wagen S5; Auflage der Gegenlesung zum White-Label-Fix) ─────────────────────────────
+   Eine Datei bringt ein unsigniertes Branding-Modul mit, das sich selbst als Partnermarke ab Werk ausgibt. Die Bürgerin öffnet
+   die Datei und wählt es (depotModuleWaehlen). Gewählt heißt „wirkt in dieser Sitzung als Darstellung“, nie „ab Werk“: an allen
+   vier Stellen bleibt die eigene Marke — (a) _abWerkPartnerBranding() ist null, (b) Kopfzeilenfarbe und Palette sind nicht
+   gesetzt, (c) .logo-mark trägt #vd-logo und kein <img, (d) die Bildmarke am Willkommen trägt #vd-logo. */
+const WAHL_PW = 'white-label-wahl-probe-1!';
+const SELBST_AB_WERK_WAHL = Object.freeze({ modulTyp: 'branding', moduleVersion: 1, modell: 'white-label', herkunft: 'partner-x', abWerk: true,
+  name: 'Probebank Musterort', farbePrimaer: FARBE, logo: LOGO });
+async function geoeffnetUndGewaehlt(slug, kernOpts) {
+  const Q = ladeKern({ produkt: slug }).V;
+  await Q.depotAnlegen(WAHL_PW);
+  const d = JSON.parse(JSON.stringify(Q.getData()));
+  d.brandingModule = [JSON.parse(JSON.stringify(SELBST_AB_WERK_WAHL))];
+  Q.setData(d);
+  const umschlag = await Q.depotSerialisieren();
+  const { V } = ladeKern({ produkt: slug, ...(kernOpts || {}) });
+  await V.depotLaden(JSON.parse(JSON.stringify(umschlag)), WAHL_PW);
+  const zurWahl = V.nichtGewaehlteDepotModule().filter((g) => g.typ === 'branding');
+  assert.equal(zurWahl.length, 1, slug + ': Vorbedingung — das mitgebrachte Branding steht zur Wahl');
+  V.depotModuleWaehlen(zurWahl.map((g) => g.modul));
+  assert.equal(V.nichtGewaehlteDepotModule().filter((g) => g.typ === 'branding').length, 0, slug + ': Vorbedingung — gewählt');
+  const root = fakeRoot();
+  await V.vorDepotKonfigurationAnwenden([], root, OPTS);
+  return { V, root };
+}
+function gewaehltVerstoesse(V, root) {
+  const v = eigeneMarkeVerstoesse(V, root);
+  if (V._abWerkPartnerBranding() !== null) v.push('das gewählte Modul gilt als Partnermarke ab Werk');
+  return v;
+}
+test('[White Label ab Werk·Rot-Beweis Wahl] in allen vier Produkten: ein gewähltes unsigniertes Branding (white-label, partner-x, abWerk) färbt nicht als ab Werk — vier Stellen', async () => {
+  assert.deepEqual(await inAllenVier(async (slug) => { const { V, root } = await geoeffnetUndGewaehlt(slug); return gewaehltVerstoesse(V, root); }), []);
+});
+test('[White Label ab Werk·Rot-Beweis Wahl·Gegenprobe] liest der Weg das Feld des gewählten Moduls, fällt die Probe', async () => {
+  const ALT = "  return (AB_WERK_BRANDING_PRODUKT.herkunft !== 'vivodepot') ? _AB_WERK_BRANDING : null;\n}";
+  const LIEST_FELD = "  return (AB_WERK_BRANDING_PRODUKT.herkunft !== 'vivodepot') ? _AB_WERK_BRANDING : null;\n}\n"
+    + "function _abWerkPartnerBrandingFeld() {\n"
+    + "  const g = (typeof data !== 'undefined' && data && Array.isArray(data.brandingModule))\n"
+    + "    ? data.brandingModule.find((m) => m && m.abWerk === true && !_depotModulNichtGewaehlt('brandingModule', m)) : null;\n"
+    + "  return g ? brandingModulPruefen(g).modul || g : _abWerkPartnerBranding();\n}";
+  await mitMutiertemKern([ALT, LIEST_FELD], async (pfad) => {
+    const quelle = fs.readFileSync(pfad, 'utf8').replace('    const faerbend = echtesBuendel || _abWerkPartnerBranding();',
+      '    const faerbend = echtesBuendel || _abWerkPartnerBrandingFeld();');
+    fs.writeFileSync(pfad, quelle);
+    const { V, root } = await geoeffnetUndGewaehlt('privat-de', { htmlPfad: pfad, backen: true });
+    const funde = gewaehltVerstoesse(V, root);
+    assert.ok(funde.some((x) => x.startsWith('Kopfzeile gefärbt')), funde.join(' · '));
+    assert.ok(funde.includes('fremdes Bild in der Kopfzeile'), funde.join(' · '));
+  });
+});
+
 /* ── Signiertes Bündel trägt das Modell ebenso ─────────────────────────────────────────── */
 async function signiertesBuendel(V, modul) {
   const kp = await webcrypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
@@ -321,5 +373,6 @@ module.exports = {
     { fuer: '[White Label ab Werk·Rot-Beweis Depot-Datei]', diskriminante: eigeneMarkeVerstoesse },
     { fuer: '[White Label ab Werk·Rot-Beweis Einlass]', diskriminante: eigeneMarkeVerstoesse },
     { fuer: '[White Label ab Werk·Rot-Beweis In-Depot-Weg]', diskriminante: inDepotVerstoesse },
+    { fuer: '[White Label ab Werk·Rot-Beweis Wahl]', diskriminante: gewaehltVerstoesse },
   ],
 };

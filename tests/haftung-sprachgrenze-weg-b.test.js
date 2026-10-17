@@ -94,7 +94,7 @@ test('[Weg B·4] Sperre und Prüfung sehen weiter eine FRÜHERE Fassung, keine l
     assert.equal(V._abWerkFruehereSchutz(m), true, sprache + ': als frühere Fassung mit geltendem Schutztext erkannt');
     assert.equal(V._abWerkGleich(m), false, sprache + ': nicht „ab Werk laufend“');
     assert.equal(V._abWerkHerkunft(m), true, sprache + ': Herkunft ab Werk (frühere Fassung)');
-    assert.equal(V.gesperrteDepotModule().length, 0);
+    assert.equal(V.nichtGewaehlteDepotModule().length, 0);
   }
 });
 

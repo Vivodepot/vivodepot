@@ -87,3 +87,88 @@ test('[Namen·Rot-Beweis] ein leerer Name in Bereich, Abschnitt, Feld, Unterfeld
   assert.deepEqual(ohneNamen(bereiche, [{ id: 'l', titel: '' }]), ['b', 'b/s', 'b/f', 'b/f/u', 'lebenslage:l']);
   assert.deepEqual(ohneNamen([{ id: 'b', label: 'B', sektionen: [{ id: 's', label: 'S', felder: [{ id: 'f', label: 'F' }] }] }], [{ id: 'l', titel: 'L' }]), []);
 });
+
+/* Was eine Erweiterung ändert (VD-SEC-009 S5, 16.10.2026): wer wählt, sieht je Zeile die Art, den Herkunftsstand und einen Satz, worauf
+   die Wahl wirkt. Wie der Name ohne Rückfall: jede Art eines Einlass-Registers braucht in jedem Produkt ihren Satz. Geprüft über alle
+   Registerarten an allen drei Stellen einer Wahl — Wahl beim Öffnen, „Verwenden“ in den Einstellungen, Frage vor dem Einlesen. */
+for (const produkt of PRODUKTE) {
+  test(`[Wirkung] ${produkt}: jede Art von Erweiterung sagt, was sie ändert`, () => {
+    const { V } = ladeKern({ produkt });
+    assert.ok(V.EINLASS_REGISTER.length >= 10, 'Voraussetzung: die Register sind da');
+    assert.deepEqual(V.EINLASS_REGISTER.filter((r) => !name(V._modulWirkung(r.typ))).map((r) => r.typ), []);
+    const saetze = V.EINLASS_REGISTER.map((r) => V._modulWirkung(r.typ));
+    assert.equal(new Set(saetze).size, saetze.length, 'je Art ein eigener Satz');
+  });
+}
+
+test('[Wirkung·Rot-Beweis] eine Art ohne Satz wird gefunden', () => {
+  const { V } = ladeKern();
+  assert.equal(name(V._modulWirkung('unbekannteArt')), false);
+});
+
+/* Ein Depot mit je einer nicht gewählten Erweiterung jeder Registerart. */
+function depotMitJederArt(V) {
+  const d = V.leeresDepot();
+  for (const reg of V.EINLASS_REGISTER) d[reg.slot] = [{ modulTyp: reg.typ, titel: 'Probe ' + reg.typ }];
+  V._depotModuleNichtGewaehltMarkieren(d, true);
+  return d;
+}
+
+test('[Wirkung·Klasse] die Wahl beim Öffnen nennt für jede Registerart Art, Herkunft und Wirkung', () => {
+  const { V } = ladeKern();
+  const d = depotMitJederArt(V);
+  const liste = V.nichtGewaehlteDepotModule(d);
+  assert.deepEqual(liste.map((g) => g.typ).sort(), V.EINLASS_REGISTER.map((r) => r.typ).sort(), 'Voraussetzung: jede Art steht zur Wahl');
+  const html = V._erweiterungWahlKoerperHTML(liste);
+  const zeilen = html.split('<li>').slice(1);
+  assert.equal(zeilen.length, V.EINLASS_REGISTER.length);
+  const fehlt = V.EINLASS_REGISTER.filter((r, i) => {
+    const z = zeilen.find((x) => x.includes(V.escapeHTML('Probe ' + r.typ)));
+    return !z || !z.includes(V.escapeHTML(V._modulWirkung(r.typ))) || !z.includes(V.escapeHTML(V._modulAnzeigeName(r.typ, {})))
+      || z.includes('undefined');
+  }).map((r) => r.typ);
+  assert.deepEqual(fehlt, []);
+});
+
+test('[Wirkung·Klasse] die Frage vor dem Einlesen nennt für jede Registerart die Art in Worten und die Wirkung, nie den Typ', () => {
+  const { V } = ladeKern();
+  const fehlt = [];
+  for (const reg of V.EINLASS_REGISTER) {
+    let gesehen = null;
+    V.ui.modal = (opt) => { gesehen = opt; return () => {}; };
+    V._erweiterungHinzufuegenFragen({ modulTyp: reg.typ }, () => {});
+    const h = gesehen ? gesehen.koerperHTML : '';
+    if (!h.includes(V.escapeHTML(V._modulWirkung(reg.typ))) || !h.includes(V.escapeHTML(V._modulAnzeigeName(reg.typ, {})))
+      || h.includes(reg.typ + ' ·') || h.includes('undefined')) fehlt.push(reg.typ);
+  }
+  assert.deepEqual(fehlt, []);
+  let gefragt = false; let weiter = 0;
+  V.ui.modal = () => { gefragt = true; return () => {}; };
+  V._erweiterungHinzufuegenFragen({ modulTyp: 'unbekannteArt' }, () => { weiter++; });
+  assert.equal(gefragt, false, 'eine unbekannte Art wird nicht erfragt');
+  assert.equal(weiter, 1, 'sie geht an die Prüfstelle, die benannt ablehnt');
+});
+
+test('[Wirkung·Klasse] „Verwenden“ in den Einstellungen nennt die Wirkung jeder nicht gewählten Erweiterung', () => {
+  const { V } = ladeKern();
+  /* Gültige Module zweier Arten; die Zeile ist für jede Art derselbe Code, die Arten selbst hält die Probe oben. */
+  const d = V.leeresDepot();
+  d.textsatzModule = [{ modulTyp: 'textsatz', moduleVersion: 1, sprache: 'fr', texte: { 'strings:fussQuellcode.text': 'Probe' } }];
+  d.institutionsArten = [{ modulTyp: 'institutionsArt', sprache: 'de', herkunft: 'probe', name: 'Probe', moduleVersion: 1, arten: { a: 'A' } }];
+  V._depotModuleNichtGewaehltMarkieren(d, true);
+  V.setData(d);
+  assert.equal(V.nichtGewaehlteDepotModule().length, 2, 'Voraussetzung: beide sind nicht gewählt');
+  const html = V.einstellungenHTML();
+  const m = /<ul class="einst-modulliste">([\s\S]*?)<\/ul>/.exec(html);
+  const zeilen = (m ? m[1] : '').split('<li>').slice(1).filter((z) => z.includes('class="modul-nicht-gewaehlt"'));
+  assert.ok(zeilen.length >= 1, 'Voraussetzung: nicht gewählte Erweiterungen stehen in den Einstellungen');
+  const ohne = zeilen.filter((z) => !V.EINLASS_REGISTER.some((r) => z.includes(V.escapeHTML(V._modulWirkung(r.typ)))));
+  assert.deepEqual(ohne, []);
+});
+
+test('[Wirkung·Klasse·Rot-Beweis] eine Zeile ohne Wirkung fällt auf', () => {
+  const { V } = ladeKern();
+  const liste = V.nichtGewaehlteDepotModule(depotMitJederArt(V)).map((g) => Object.assign({}, g, { wirkung: '' }));
+  const html = V._erweiterungWahlKoerperHTML(liste);
+  assert.equal(V.EINLASS_REGISTER.every((r) => html.includes(V.escapeHTML(V._modulWirkung(r.typ)))), false);
+});

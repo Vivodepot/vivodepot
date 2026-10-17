@@ -27,24 +27,24 @@
    "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcEinwickeln (byte-gleich zu wrapKey raw, das für HKDF nicht geht); Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 5 → 4 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
   },
   "deriveBits": {
-   "anzahl": 1,
-   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
+   "anzahl": 2,
+   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 1 → 2 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF über den Seed; Wort der Gegenlesung 16.10."
   },
   "importKeyRaw": {
-   "anzahl": 7,
-   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 9 → 7 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
+   "anzahl": 9,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 9 → 7 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 7 → 9 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF-Basis und der öffentliche Ed25519-Prüfschlüssel der Selbstprobe; Wort der Gegenlesung 16.10."
   },
   "halterOeffentlichAusSeed": {
    "anzahl": 1,
    "grund": " · U2-ADR-457 Nachtrag v865: _halterSignaturHolen reicht die eingebettete noble-ed25519 (fa14496) in deriveHalterSignaturV4; genau eine Stelle, Bedingung der Krypto-Gegenlesung"
   },
   "verify": {
-   "anzahl": 2,
-   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026 · X.509-Leser (Wagen G, Entscheidung 15.10.2026 „eigener Leser“): genau eine neue ECDSA-Prüfstelle in _x509EcdsaPruefen, Spanne X509-LESER; Wort der Gegenlesung 15.10."
+   "anzahl": 3,
+   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026 · X.509-Leser (Wagen G, Entscheidung 15.10.2026 „eigener Leser“): genau eine neue ECDSA-Prüfstelle in _x509EcdsaPruefen, Spanne X509-LESER; Wort der Gegenlesung 15.10. · U2-ADR-501, Wagen V4 (16.10.2026): 2 → 3 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): die Selbstprobe des abgeleiteten Schlüssels; Wort der Gegenlesung 16.10."
   },
   "sign": {
-   "anzahl": 1,
-   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
+   "anzahl": 2,
+   "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026 · U2-ADR-501, Wagen V4 (16.10.2026): 1 → 2 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): die Selbstprobe des abgeleiteten Schlüssels (signiert wird die Antwort über _signJWS); Wort der Gegenlesung 16.10."
   }
  },
  "weitereDateien": {

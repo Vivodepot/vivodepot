@@ -150,6 +150,59 @@
       "bezuege": null,
       "grund": "Der Kern schreibt zwei DocumentReferences nach ISiKDokumentenMetadaten (U2-ADR-468, v863). Validator-Lauf gegen de.gematik.isik#6.0.0 mit tools/isik-validieren.js (validator_cli, offline, mit Suite-Platz); nicht in der Suite, weil die amtlichen Anzeigetexte nur zur Laufzeit aus dem lokalen Paket-Cache kommen. Interne Probe: tests/isik-dokumente.test.js.",
       "pruefer": "tools/isik-validieren.js"
+    },
+    {
+      "id": "smart-health-links",
+      "name": "SMART Health Links (Health Links Specification)",
+      "version": "SMART Health Cards and Links IG v1.0.0 (STU 1)",
+      "herausgeber": "HL7 International / FHIR Infrastructure",
+      "quelle": {
+        "url": "https://hl7.org/fhir/uv/smart-health-cards-and-links/links-specification.html",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "Die Spezifikationsseite verweist auf die FHIR-Lizenz (hl7.org/fhir/R4/license.html) und trägt das CC0-Zeichen; nachgesehen 16.10.2026."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "gesundheit",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Der Kern erzeugt den shlink:/-Payload mit Flag U (Direkt-GET, kein Manifest) und eine JWE dir/A256GCM über das verwahrte Original (U2-ADR-047, flowShlVorbereiten); der Weg ist kein Eintrag in EXPORT_FORMATE. Geprüft nur im eigenen JWE-Rundlauf (tests/shl-provider.test.js), kein Fremdprüfer. Für den shlink:/-Rahmen ist noch kein Prüfer recherchiert; das FHIR-Dokument im JWE soll vor jeder Ausgabe durch den HL7-Validator (Hinweis in tools/shl-belegstrecke.js).",
+      "kandidat": {
+        "werkzeug": "HL7 FHIR Validator (validator_cli, Apache-2.0; im Manifest 6.9.12) über das FHIR-Dokument im JWE; deckt den shlink:/-Rahmen nicht",
+        "quelle": "https://github.com/hapifhir/org.hl7.fhir.core/releases"
+      }
+    },
+    {
+      "id": "verwahrungsnachweis",
+      "name": "Verwahrungsnachweis (Hülle): FHIR-Bundle collection mit Binary, Patient und Provenance",
+      "version": "FHIR R4 4.0.1, Basisressourcen ohne eigenes IG",
+      "herausgeber": "HL7 International",
+      "quelle": {
+        "url": "https://hl7.org/fhir/R4/bundle.html",
+        "abgerufen": "2026-10-16"
+      },
+      "lizenz": {
+        "status": "geprueft",
+        "text": "FHIR-Lizenz (hl7.org/fhir/R4/license.html): Creative Commons „No Rights Reserved“ (CC0); nachgesehen 16.10.2026."
+      },
+      "richtung": [
+        "schreiben"
+      ],
+      "bereich": "gesundheit",
+      "status": "teilweise",
+      "artefakte": [],
+      "exportwege": [],
+      "importwege": [],
+      "bezuege": null,
+      "grund": "Das Original mit Verwahrungsnachweis (verwahrungsNachweisBundle, flowMappeVerwahrungHerunterladen; U2-ADR-444); kein Eintrag in EXPORT_FORMATE. Geprüft im Konformitätslauf mit dem HL7-Validator: Fälle verwahrung-laborbefund und verwahrung-entlassbrief gültig, verwahrung-ohne-target ungültig. Läuft nicht in npm test, nur mit beschafftem Validator.",
+      "pruefer": "tests/konformitaet/externe-validatoren.mjs"
     }
   ]
 }

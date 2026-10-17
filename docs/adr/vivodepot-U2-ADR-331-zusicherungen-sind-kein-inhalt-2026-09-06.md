@@ -239,6 +239,13 @@ weil kein Test danach fragte.
 wird rot in dem Moment, in dem die Lücke scharf wird. Ihr Text sagt, warum sie da ist, damit sie
 niemand als redundant entfernt.
 
+## Nachtrag 04.10.2026 · Die Mitschrift ist vertrauenswürdig nur bei Rezept-Inhalt
+
+Betrifft den Riegel aus ZS2: `{ vertrauenswuerdig: true }` bekommt die Mitschrift nur unter dieser Bedingung.
+Die Mitschrift einer Datei (`d.abWerkMitschrift.sprache`) läuft über eine Prüffunktion, `_mitschriftPruefer`. Vertrauenswürdig ist sie nur, wenn ihr Inhalt beim Öffnen gleich einer Nutzlast eines Vivodepot-Rezepts ist: Fingerabdruck-Abgleich gegen `REZEPT_FINGERABDRUECKE_KERN`, das Ergebnis steht in `_ABWERK_BELEGT`. Ein Feld im Modul entscheidet das nie. Sonst bleibt die Mitschrift unvertraut wie bisher.
+
+Eine Probe hält die drei Fundstellen von `_textsatzModulPruefenGeruest` (Definition, Ab-Werk-DE, `_mitschriftPruefer`). Mit Wort der Gegenlesung.
+
 ## Konformität
 
 ```yaml

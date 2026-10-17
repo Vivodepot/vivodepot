@@ -6,6 +6,7 @@
    ein Pflicht-Anhang ohne Zuordnung ergibt ohne `hinweis` kein Modul (U2-ADR-465 Nachtrag: Anhänge über Rollen, `pflicht`
    aus dem XSD, `vertreter` nur mit dem Nachweis der Vollmacht); Pflichtelemente ohne Zuordnung werden benannt;
    feste Werte und Werteabbildungen müssen in der Aufzählung stehen; ein unbekannter Pfad ist ein Fehler.
+   JSON-Weg (U2-ADR-465 Nachtrag): aus dem JSON-Schema dasselbe für json@1, Ziele als Liste von Pfadstufen, `schemaUri` = `$id`.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -82,4 +83,43 @@ test('[FIM-Modul] ein Pflichtelement ohne Zuordnung wird benannt, nicht gefüllt
   const r = modulErzeugen(xsd(), z);
   assert.deepEqual(r.luecken, [{ pfad: 'G99000002.F99000004', art: 'ohne-zuordnung' }]);
   assert.ok(!r.modul.zuordnung.some((e) => e.ziel === 'G99000002.F99000004'));
+});
+
+/* ── JSON-Weg (U2-ADR-465 Nachtrag): aus dem JSON-Schema ein json@1-Modul mit Listen-Zielen und schemaUri ─────────── */
+const jsonSchema = () => JSON.parse(fs.readFileSync(path.join(FX, 'S99000001_V1.0.schema.json'), 'utf8'));
+const zuJson = () => JSON.parse(fs.readFileSync(path.join(FX, 'S99000001-zuordnung-json.json'), 'utf8'));
+
+test('[FIM-Modul·JSON] das erzeugte Modul ist genau das Modul, das der Ajv-Lauf prüft, und besteht die Prüfung des Kerns', async () => {
+  const { modulErzeugenJson } = await laden();
+  const r = modulErzeugenJson(jsonSchema(), zuJson());
+  assert.deepEqual(r.fehler, []);
+  assert.deepEqual(r.luecken, []);
+  assert.deepEqual(r.modul, JSON.parse(fs.readFileSync(path.join(FX, 'S99000001-format-modul-json.json'), 'utf8')));
+  assert.equal(r.modul.schemaUri, jsonSchema().$id);
+  assert.ok(r.modul.zuordnung.every((e) => Array.isArray(e.ziel)), 'jedes Ziel als Liste von Pfadstufen');
+  const { ladeKern } = require('./load-kern.js');
+  const g = ladeKern().V.formatModulPruefen(r.modul);
+  assert.equal(g.gueltig, true, 'Grund: ' + g.grund);
+});
+
+test('[FIM-Modul·JSON·Rot-Beweis] unbekannter Pfad, Wert außerhalb der Aufzählung, teil an einem Textfeld, Anhang, fremder Verweis', async () => {
+  const { modulErzeugenJson } = await laden();
+  const mit = (felder) => modulErzeugenJson(jsonSchema(), Object.assign(zuJson(), { felder: Object.assign(zuJson().felder, felder) })).fehler;
+  assert.ok(mit({ 'G99000002V1.0/F99000999V1.0': { feld: 'givenName' } }).some((f) => /nicht im Schema/.test(f)));
+  assert.ok(mit({ 'F99000009V1.0': { fest: '02' } }).some((f) => /Aufzählung/.test(f)));
+  assert.ok(mit({ 'G99000002V1.0/F99000005V1.0': { feld: 'gender', werte: { m: 'x' } } }).some((f) => /Zielwert x/.test(f)));
+  assert.ok(mit({ 'G99000002V1.0/F99000004V1.0': { feld: 'birthDate', teil: 'jahr' } }).some((f) => /`teil` liefert eine Zahl/.test(f)));
+  assert.ok(mit({ 'G99000002V1.0/F99000004V1.0': { anhang: 'bescheid' } }).some((f) => /nur der XSD-Weg/.test(f)));
+  const s = jsonSchema(); s.properties['F99000009V1.0'] = { $ref: 'https://schema.example.org/fremd.json' };
+  assert.ok(modulErzeugenJson(s, zuJson()).fehler.some((f) => /Verweis nicht im Schema/.test(f)), 'kein Nachladen');
+  const ohneId = jsonSchema(); delete ohneId.$id;
+  assert.ok(modulErzeugenJson(ohneId, zuJson()).fehler.some((f) => /\$id/.test(f)));
+});
+
+test('[FIM-Modul·JSON] ein Pflichtfeld ohne Zuordnung wird benannt, nicht gefüllt; ein freiwilliges nicht', async () => {
+  const { modulErzeugenJson } = await laden();
+  const z = zuJson(); delete z.felder['G99000002V1.0/F99000003V1.0']; delete z.felder['G99000002V1.0/F99000005V1.0'];
+  const r = modulErzeugenJson(jsonSchema(), z);
+  assert.deepEqual(r.luecken, [{ pfad: 'G99000002V1.0/F99000003V1.0', art: 'ohne-zuordnung' }]);
+  assert.ok(!r.modul.zuordnung.some((e) => e.ziel.join('/') === 'G99000002V1.0/F99000003V1.0'));
 });

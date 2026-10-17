@@ -31,11 +31,12 @@
         "vcard-menschen"
       ],
       "bezuege": null,
-      "grund": "Erzeugt VERSION:4.0; geprüft durch den eigenen Parser-Rundlauf. Einen offiziellen Validator von IETF oder IANA gibt es nicht (Suche 01.10.2026); Prüfer der Wahl ist ein unabhängiger Parser plus die ABNF aus RFC 6350.",
-      "kandidat": {
-        "werkzeug": "ical.js 2.2.1 (MPL-2.0, offline; parst vCard 4 und iCalendar) gegen die ABNF aus RFC 6350",
-        "quelle": "https://github.com/kewisch/ical.js"
-      }
+      "grund": "Erzeugt VERSION:4.0. Geprüft durch einen Fremdleser: vcard-parser 1.0.0 (MIT) liest jede vom Kern erzeugte Karte einzeln und verlangt FN, mit Rot-Beweis (tools/ausgaenge-fremdparser-pruefen.js). Kein Urteil gegen die ABNF. Ein offizieller Validator von IETF oder IANA wurde nicht gefunden (s. suche).",
+      "suche": {
+        "quelle": "https://datatracker.ietf.org/doc/html/rfc6350",
+        "ergebnis": "Gesucht: ein Validator des Herausgebers zu RFC 6350. Mit der RFC (rfc-editor.org/rfc/rfc6350.txt und datatracker) liefert die IETF keinen Validator; ein Validator von IETF oder IANA wurde nicht gefunden. Nicht offizielle Bibliotheken gibt es, sie zählen nicht als offiziell. Eine gezielte Suche nach einem Werkzeug von CalConnect ist nicht abgeschlossen. Suche 01.10.2026, wiederholt 16.10.2026."
+      },
+      "pruefer": "tests/mit-modul/ausgaenge-fremdparser-pruefen.test.js"
     },
     {
       "id": "icalendar-2",
@@ -61,11 +62,12 @@
       ],
       "importwege": [],
       "bezuege": null,
-      "grund": "Erzeugt VERSION:2.0 mit PRODID und CALSCALE; geprüft durch den ical.js-Rundlauf in der Suite. Der Online-Validator von icalendar.org lädt Daten hoch und ist für Nutzerdaten ungeeignet.",
-      "kandidat": {
-        "werkzeug": "iCal4j 4.3.0 (BSD-3-Clause, offline, Validierungsframework) als unabhängige Zweitmeinung zu ical.js",
-        "quelle": "https://github.com/ical4j/ical4j"
-      }
+      "grund": "Erzeugt VERSION:2.0 mit PRODID und CALSCALE. Geprüft durch einen Fremdleser: ical.js 2.2.1 (MPL-2.0) liest den vom Kern erzeugten Prüftermin-Kalender eines migrierten Altdepots und prüft UID, SUMMARY und DTSTART („[EXP1] ics-vorsorge (kein Einlesekanal): Fremdparser (ical.js) findet das migrierte Dokument“); dazu die Fremdleser-Probe mit Rot-Beweisen in tests/mit-modul/ausgaenge-fremdparser-pruefen.test.js. Ein offizieller Validator wurde nicht gefunden (s. suche); der Online-Validator von icalendar.org ist kein Werkzeug des Herausgebers und lädt Daten hoch, für Nutzerdaten ungeeignet. Als unabhängige Zweitmeinung kommt iCal4j 4.3.0 (BSD-3-Clause, github.com/ical4j/ical4j) in Frage, nicht eingehängt.",
+      "suche": {
+        "quelle": "https://icalendar.org/validator.html",
+        "ergebnis": "Gesucht: ein Validator des Herausgebers zu RFC 5545. Der Validator auf icalendar.org wird von einem privaten Entwickler betrieben (Z Content), nicht von IETF oder CalConnect, und bietet keine Offline-Fassung; ein Validator von IETF oder CalConnect wurde nicht gefunden. Suche 16.10.2026."
+      },
+      "pruefer": "tests/mit-modul/export-rundlauf-altes-depot-exp1.test.js"
     }
   ]
 }
