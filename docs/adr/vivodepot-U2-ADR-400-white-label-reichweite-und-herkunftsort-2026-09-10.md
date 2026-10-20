@@ -95,9 +95,11 @@ jetzt auszubauen") — kein fremdes Branding kann heute eine andere PDF-Schrift 
 bliebe teuer (eigene Zuschnitt-/Lizenzprüfung je Font, s. Rezept in
 damals das Werkzeug build-pdf-inter-einbetten, mit U2-ADR-473 W4 entfernt; Rezept heute in `tools/schrift-pdf-quellen/README.md`) und hat keinen Auftrag. Gebaut ist nur das GERÜST dafür:
 alle Aufrufstellen (27 `setFont`, 3 `addFont`) lesen von einem einzigen benannten Ort
-(`_PDF_MARKE_SCHRIFT` im Kern) statt von verstreuten `'Inter'`-Literalen — ein künftiger
-`_markeSchriftPdf()`-Accessor (fiele dann unter denselben Rangfolge-Mechanismus wie
-`_markeFarbePrimaerHex()`) ändert diese eine Stelle, nicht dreißig. Test:
+(`_PDF_MARKE_SCHRIFT` im Kern) statt von verstreuten `'Inter'`-Literalen — ein Accessor, der
+unter denselben Rangfolge-Mechanismus fällt wie `_markeFarbePrimaerHex()`, ändert diese eine
+Stelle, nicht dreißig. Gebaut wurde er als `_markeSchriftPdf()` in v691; mit U2-ADR-473 W4 am
+05.10.2026 ist er wieder aus dem Kern genommen, die Schriften kommen seither aus dem
+Erscheinungsbild (Fund 18.10.2026, `tools/adr-code-stellen-pruefen.js`). Test:
 `tests/pdf-inter-einbetten.test.js#[PDF-CI·Gerüst, U2-ADR-400-Nachtrag] …`.
 
 **Gemessen, nicht vollständig behoben: 97 Fundstellen der blanken Wortmarke** (s. Punkt 4,

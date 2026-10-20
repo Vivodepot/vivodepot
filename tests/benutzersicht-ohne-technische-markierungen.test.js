@@ -11,7 +11,7 @@
      · die rohe Feld- oder Bereichskennung, wenn eine Beschriftung fehlt
      · ein Platzhalter statt eines Namens („ohne Bezeichnung“, „(ohne Namen)“, „(ohne Kennung)“, „?“). Entscheidung: „auf keinen Fall steht
        irgendwo "ohne Bezeichnung"!“ Ein fehlender Name ist ein Fehler an der Quelle: eingebaute Namen hält
-       tests/namen-vollstaendig.test.js, fremde Felder ohne Namen weist die Einlassprüfung ab.
+       eine nicht öffentliche Probe, fremde Felder ohne Namen weist die Einlassprüfung ab.
    Rot-Beweis je Weg: der frühere Wortlaut ist rot. */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');

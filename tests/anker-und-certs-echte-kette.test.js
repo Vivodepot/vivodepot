@@ -32,7 +32,7 @@
    BESTAND: dass die vier ausgelieferten Vorlagen mit dem ausgelieferten Anker
    und den ausgelieferten Zertifikaten zusammenpassen.
    ════════════════════════════════════════════════════════════════════════════ */
-const test = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 

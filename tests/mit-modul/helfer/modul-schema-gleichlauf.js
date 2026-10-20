@@ -21,7 +21,7 @@
    auf der Liste, den der Kern nicht mehr kennt, fällt auch.
 
    ajv ist devDependency und nur hier geladen — nie im Kern, nie in der Lese-App
-   (tests/modul-schemas-klasse.test.js hält das fest). Darum liegt der Helfer mit seinen Proben unter
+   (eine nicht öffentliche Probe hält das fest). Darum liegt der Helfer mit seinen Proben unter
    tests/mit-modul/ (Schicht 1 läuft ohne externes Modul, tests/schicht-1-ohne-lieferkette.test.js).
    ════════════════════════════════════════════════════════════════════════ */
 const test = require('node:test');

@@ -4,7 +4,7 @@
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v931.
+Erzeugt aus der veröffentlichten Fassung v933.
 
 ---
 
@@ -34,10 +34,9 @@ mit dem laufenden Umbau.)
 Bereichs-/Logikmodule und Templates, jede mit eigener Prüfsumme. Ein Cloudflare-Worker
 (`vivodepot-download-gateway`) prüft die Signaturkette (Anker → Ausgabestelle → Rezept) und
 baut das Produkt daraus — kein Commit und kein Deploy für ein neues Produkt, nur ein neues
-signiertes Rezept. **Gebaut, aber nicht in Betrieb** (Stand 18.09.2026): der Worker ist
-eingerichtet und die Rezept-Kette trägt, aber der auslösende Bestellweg (Mollie-Zahlung → per
-IMAP abgeholte, DKIM-geprüfte Odoo-Bestellmail → Abgleich → Token) kann noch keine Bestellung
-abschließen, weil dafür nötige Konfigurationswerte fehlen.
+signiertes Rezept. **In Betrieb** (Stand 18.10.2026): der Worker liefert die Privat-Produkte
+aus, und die Rezepte der Produkte sind signiert. Der Bestellweg für Pro (Zahlung → Bestellung →
+Token) ist gebaut; seine Inbetriebnahme läuft.
 
 **Wo das heute steht (Stand 18.09.2026):**
 
@@ -76,11 +75,11 @@ Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.
 
 ## Zahlen
 
-- E2E: 727 (gezählt, nicht ausgeführt) · Wächter-Register: 145
-- Schema-Version: 92 · SCHALEN_STAND: v931 · Build-Version: v1.0
+- E2E: 813 (gezählt, nicht ausgeführt) · Wächter-Register: 146
+- Schema-Version: 92 · SCHALEN_STAND: v933 · Build-Version: v1.0
 - ADR-Register: 435 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-17, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-18, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
@@ -125,7 +124,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-17, Commit `(Arbeitsstand, ohne H
 
 ## Unterordner unter `docs/`
 
-- `docs/adr/` — 477 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 472 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)
@@ -137,7 +136,7 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-17, Commit `(Arbeitsstand, ohne H
 - `docs/ereignis-achse-modul/` — 1 Datei(en)
 - `docs/erscheinung-modul/` — 1 Datei(en)
 - `docs/feldregister/` — 1 Datei(en)
-- `docs/format/` — 39 Datei(en), auch in Unterordnern
+- `docs/format/` — 42 Datei(en), auch in Unterordnern
 - `docs/format-modul/` — 1 Datei(en)
 - `docs/institutions-art-modul/` — 1 Datei(en)
 - `docs/lese-app/` — 1 Datei(en), siehe [`docs/lese-app/README.md`](docs/lese-app/README.md)

@@ -41,7 +41,7 @@ function achsenRegisterJson({ schluesselraum, kopfzeile, herkunft, eintraege, fa
 }
 
 /* Formprüfung — wirft benannt, statt still ein falsches Register zu erzeugen
-   (dasselbe Prinzip wie `tools/feldregister-bauen.js`s Status-Prüfung). */
+   (dasselbe Prinzip wie `ein nicht öffentliches Werkzeug`s Status-Prüfung). */
 const STATUS_ERLAUBT = Object.freeze(['permanent', 'deprecated', 'obsoleted']);
 function eintraegeFormPruefen(eintraege, schluesselFeld) {
   const gesehen = new Set();

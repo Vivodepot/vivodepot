@@ -43,7 +43,7 @@ function sprachbuendelDeckung(V, eintraege) {
      `textsatzModulPruefen` weist sie ungetrustet als `zusicherung` ab. Sie hier weiter zu
      VERLANGEN hieße, ein Bündel für etwas zu rügen, das es nicht (mehr) tun darf. */
   const soll = Object.keys(deTexte()).filter((k) => !V._istZusicherungsKennung(k));
-  /* ZUSICHERUNGSSÄTZE, WIEDER VERLANGT (19.09.2026, Entwurf U2-ADR-NNN): ein SIGNIERTES Sprachmodul darf sie in einer Sprache setzen, die
+  /* ZUSICHERUNGSSÄTZE, WIEDER VERLANGT (19.09.2026, U2-ADR-423): ein SIGNIERTES Sprachmodul darf sie in einer Sprache setzen, die
      die Anwendung nicht selbst trägt (nicht `de`, nicht `en`). Wer signiert, bürgt — ein Modul mit dem Stempel der Prüferin soll nicht
      stillschweigend Lücken in genau diesen Sätzen tragen. Gefragt wird nach den Kennungen des Kerns UND der Lese-App (eigene Liste, eigene
      Sätze); die Lese-App-Schlüssel stehen für den Kern als „unbekannt", darum zählt hier der ROHE Modultext. */

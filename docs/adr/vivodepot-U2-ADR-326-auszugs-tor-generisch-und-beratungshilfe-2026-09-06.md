@@ -39,7 +39,7 @@ vivodepot.html, Torwaechter
     html += erbscheinAuszugSektionHTML();
 ```
 
-Die **Rolle** war längst Daten (`tools/buergermodul/vd-privat.json`), die **Kennung** daneben nicht.
+Die **Rolle** war längst Daten (eine nicht öffentliche Datei), die **Kennung** daneben nicht.
 Ein zweites Template hätte eine zweite hartkodierte Zeile gebraucht — genau das Statische, das die
 Vorgabe oben ausschließt. **Die Lese-App ging den generischen Weg
 (`logikModulAbschnitteHTML`) längst; der Kern hinkte hinterher, nicht umgekehrt.**
@@ -342,3 +342,32 @@ beschreibt und nicht den Bestand — ein eingefrorener Maßstab, dessen Zahlen w
   Sektion mit dieser Rolle und braucht keine Änderung hier. Damit ein Verzeichnis Name, Herkunft und
   Stand aus dem Template selbst lesen kann statt aus einer Liste im Kern, reichen sie seit diesem
   Zug durch die geprüfte Form hindurch (`herkunft`, `moduleVersion`, `eingelassenAm`).
+
+## Nachtrag 12.10.2026 · Die Karte trägt eine Zeile aus dem Textsatz, und die Suche kennt die Vorlagen
+
+**Anlass.** Die zwei Vorbereitungsauszüge (Beratungshilfe, Erbschein) wurden außen unter dem Namen des Vorhabens
+gezeigt, zu dem sie gehören. Im Produkt stand dieser Name nirgends: beide Knöpfe hießen gleich, die Suche fand weder
+den Namen noch „Erbschein“, und keine Hilfe nannte die Auszüge.
+
+**Was sich an diesem ADR ändert.** Abschnitt 2 sagt, der Erbschein-Auszug bleibe zeichengleich zum festen Renderer von
+davor. Das gilt weiter mit EINER gewollten Abweichung: über dem Hinweis einer Karte steht eine Zeile aus dem Textsatz
+der Vorlage (`dokument.<id>.gruppe`), wenn der Textsatz eine führt. Die Probe
+`tests/logikmodul-auszug-tor.test.js` hält den Rest der Karte weiter Zeichen für Zeichen und verlangt die Zeile
+ausdrücklich. Die Knopftexte nennen seither den Auszug, den sie öffnen; sie kommen wie bisher aus dem Textsatz.
+
+**Was dazukommt, im selben Sinn wie dieses ADR (das Gerüst kennt keine Kennung einer Vorlage):**
+
+- Die Suche führt die Vorlagen ab Werk als eigene Quelle. Titel und Suchwörter liest sie aus dem Textsatz
+  (`dokument.<id>.name`, `dokument.<id>.suchbegriffe`), die Vorlagen aus der Saat des Produkts, nicht aus dem Depot;
+  der Katalog bleibt vor und nach dem Öffnen eines Depots derselbe. Ein Treffer öffnet den Auszug auf demselben Weg
+  wie sein Knopf.
+- Der Status einer Vorlage im Regal hat einen eigenen Text. Vorher lieh er sich den Knopftext des Erbscheins.
+- Die Hilfe führt ein Thema zu den Vorbereitungsauszügen; der Wortlaut steht im Textsatz.
+
+**Probe.** `tests/zugang-zum-recht-unter-diesem-namen-auffindbar.test.js`: je Produkt und Sprache Suche und Hilfe, in
+den Privat-Produkten die Karten mit verschiedenen Knopftexten, eine Gegenprobe am Gerüst ohne Vorlagen und ein Wächter
+für jede Vorlage mit Karte.
+
+**Grenzen.** In den Pro-Produkten haben die zwei Vorlagen keinen Bereich, an dem eine Karte hängt; dort führen Suche
+und Hilfe zum Auszug. Die Lese-App zeigt die Zeile an der Karte nicht. Der englische Name des Vorhabens ist aus dem
+Namen des amtlichen Quellcodes hergeleitet, nicht aus einer amtlichen englischen Seite.

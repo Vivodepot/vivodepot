@@ -52,10 +52,8 @@
       "beschreibung": "Gültig: Datei mit einem Fach, geöffnet mit dem Passwort der Inhaberin.",
       "passwort": "korpus-test-inhaberin",
       "erwartet": {
-        "urteil": "gueltig-mit-hinweisen",
-        "codes": [
-          "VDF-ATTRAPPE"
-        ]
+        "urteil": "gueltig",
+        "codes": []
       },
       "kern": {
         "ergebnis": "oeffnet"
@@ -66,10 +64,8 @@
       "beschreibung": "Gültig: dieselbe Form, geöffnet mit dem Passwort des Fachs (nur dessen Ausschnitt).",
       "passwort": "korpus-test-fach",
       "erwartet": {
-        "urteil": "gueltig-mit-hinweisen",
-        "codes": [
-          "VDF-ATTRAPPE"
-        ]
+        "urteil": "gueltig",
+        "codes": []
       },
       "kern": {
         "ergebnis": "oeffnet"
@@ -152,7 +148,6 @@
       "erwartet": {
         "urteil": "gueltig-mit-hinweisen",
         "codes": [
-          "VDF-ATTRAPPE",
           "VDF-BINDUNG-ORT"
         ]
       },
@@ -181,7 +176,6 @@
       "erwartet": {
         "urteil": "gueltig-mit-hinweisen",
         "codes": [
-          "VDF-ATTRAPPE",
           "VDF-POLSTER"
         ]
       },
@@ -191,7 +185,33 @@
     },
     {
       "datei": "g14-kreisname-umlaut.vivodepot",
-      "beschreibung": "Gültig mit Hinweisen: ein Fach, dessen Kreisname einen Umlaut trägt; der Geheimteil des Fachs ist länger als der des Ankers.",
+      "beschreibung": "Gültig: ein Fach, dessen Kreisname einen Umlaut trägt; alle Geheimteile gleich lang (seit dem Fix POLSTER-UTF8).",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig",
+        "codes": []
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "a01-attrappe-vor-fix.vivodepot",
+      "beschreibung": "Gültig mit Hinweis: eingefroren, geschrieben von einer Fassung vor dem Fix ATTRAPPE-LAENGE (Korpus g04 im Commit 69dea4d14). Die Attrappen sind 63 Byte lang, echte Umschläge 62; ohne Passwort ist erkennbar, welche Einheiten das Fach öffnet.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig-mit-hinweisen",
+        "codes": [
+          "VDF-ATTRAPPE"
+        ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "a02-polster-vor-fix.vivodepot",
+      "beschreibung": "Gültig mit Hinweisen: eingefroren, geschrieben von einer Fassung vor den Fixes ATTRAPPE-LAENGE und POLSTER-UTF8 (Korpus g14 im Commit 69dea4d14). Der Geheimteil des Fachs mit dem Kreisnamen „Tante Bärbel“ ist länger als der des Ankers.",
       "passwort": "korpus-test-inhaberin",
       "erwartet": {
         "urteil": "gueltig-mit-hinweisen",
@@ -199,6 +219,18 @@
           "VDF-ATTRAPPE",
           "VDF-POLSTER"
         ]
+      },
+      "kern": {
+        "ergebnis": "oeffnet"
+      }
+    },
+    {
+      "datei": "g15-kreisname-emoji.vivodepot",
+      "beschreibung": "Gültig: zwei Fächer, Kreisnamen mit Emoji (4 Byte in UTF-8) und Umlaut; alle Geheimteile und Umschläge gleich lang.",
+      "passwort": "korpus-test-inhaberin",
+      "erwartet": {
+        "urteil": "gueltig",
+        "codes": []
       },
       "kern": {
         "ergebnis": "oeffnet"
@@ -237,7 +269,6 @@
       "erwartet": {
         "urteil": "nicht-geprueft",
         "codes": [
-          "VDF-ATTRAPPE",
           "VDF-FACH-ABGELAUFEN"
         ]
       },

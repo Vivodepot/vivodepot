@@ -67,7 +67,8 @@ for (const sprache of ['de', 'en']) {
       await p.fill('#sd-k-email', sd.kontaktEmail); await p.fill('#sd-k-telefon', sd.kontaktTelefon);
       await p.click('#sd-weiter');
       await H.sicherungSpeichernUndPruefen(p);
-      await expect(p.locator('#sk-pub')).toBeHidden();   // aus bis zum Besitznachweis-Wagen /2
+      // Das Blatt geht an die eigenen Leute: keine Antragsdatei, die Karte steht im Blatt-Modus nicht da.
+      await expect(p.locator('#sk-antrag-karte')).toBeHidden();
       await expect(p.locator('#ab-erzeugen')).toBeEnabled();
       await expect(p.locator('#pr-submit')).toBeHidden();
 

@@ -64,7 +64,7 @@ async function seiteOeffnen(browser) {
 async function eingerichtet(seite) {
   await seite.click('#w-anfangen');
   await seite.waitForTimeout(300);
-  await seite.click('#tb-pw-hinweis');
+  await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await seite.waitForTimeout(300);
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'], ['#id-pw', PW], ['#id-pw2', PW]]) {
     await seite.fill(sel, wert);
@@ -153,7 +153,7 @@ async function wegGehen(seite, { probe = PROBE } = {}) {
 
 test('[Weg 2] Etwas erfassen — tippen, und der Wert kommt an', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite, fehler } = await seiteOeffnen(browser);
     assert.ok(await eingerichtet(seite), 'Vorlauf: das Depot ist eingerichtet');
@@ -167,7 +167,7 @@ test('[Weg 2] Etwas erfassen — tippen, und der Wert kommt an', async () => {
 /* ── POSITIVKONTROLLE (§3.5b) ─────────────────────────────────────────────── */
 test('[Weg 2·Positivkontrolle] ohne Eingabefelder bricht der Weg mit der erwarteten Meldung', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteOeffnen(browser);
     assert.ok(await eingerichtet(seite));
@@ -185,7 +185,7 @@ test('[Weg 2·Positivkontrolle] ohne Eingabefelder bricht der Weg mit der erwart
 /* ── NEGATIVKONTROLLE (§3.5d) ─────────────────────────────────────────────── */
 test('[Weg 2·Negativkontrolle] das Entfernen eines unbeteiligten Elements bricht nichts', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteOeffnen(browser);
     assert.ok(await eingerichtet(seite));

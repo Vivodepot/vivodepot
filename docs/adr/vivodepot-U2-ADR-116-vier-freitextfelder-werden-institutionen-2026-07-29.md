@@ -7,7 +7,7 @@
 **U2-Bezug:** U2-ADR-104 (der verwandte Fall, **anders** entschieden — die Abgrenzung steht unten
 und ist der eigentliche Gegenstand dieses ADR) · U2-ADR-108 (jeder Sprung der Kette bringt seine
 Probe mit) · U2-ADR-109 (der vorige Sprung, 41→42)
-**Anker:** Fixlisten-Posten C10 · interner Bericht `c10-institutionen-referenzen-2026-07-29.md`
+**Anker:** Fixlisten-Posten C10 · interner Bericht vom 29.07.2026
 **Status heute:** gilt — Beleg `tests/migration-stufen.test.js`.
 
 ---
@@ -205,7 +205,9 @@ Probe rot und keine andere.
   **Die Messung dazu ist die eigentliche Lehre.** Der erste, werfende Lauf meldete GENAU EINE
   Fundstelle — ein werfender Wächter bricht beim ersten Fund ab und verdeckt alle folgenden.
   Umhüllt und *recordierend* gemessen waren es **sieben** ⟦M⟧, alle in `tests/fixtures/persona-p3.js`.
-  Vier davon schrieben eine rohe **Register-id** in ein `ref`-Feld; da `refAnzeigeName` einen
+  Vier davon schrieben eine rohe **Register-id** in ein `ref`-Feld; da `refAnzeigeName` (Stand
+  29.07.2026, als eigenständige Funktion inzwischen aus dem Code entfernt — Fund 20.09.2026,
+  `tools/adr-code-stellen-pruefen.js`, Ersatz nicht recherchiert) einen
   blanken String als `override` liest (`:12691`), zeigte die Persona dort ihre **UUID** statt
   „Jonas Bodenstein-Aluko". Ein stiller Anzeigefehler, den nur diese Messung sichtbar gemacht hat
   — nicht der Wächter, den man nach dem ersten Wurf für erledigt gehalten hätte.

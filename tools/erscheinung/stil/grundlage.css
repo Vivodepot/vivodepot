@@ -208,6 +208,8 @@
   .datei-waehler { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
   .datei-waehler-name { font-size: var(--fs-sm); color: var(--ink2); }
   .welcome-sub { color: var(--ink3); font-size: var(--fs-base); margin: var(--space-1) 0 0; line-height: 1.5; }
+  /* Hinweis im Fluss (kein Toast): steht zwischen Kopf und Knöpfen, bricht um, überlagert nichts (Browserlauf 13.10.2026, 390 px). */
+  .welcome-hinweis { margin: var(--space-3) 0 0; padding: var(--space-3); border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); font-size: var(--fs-sm); line-height: 1.5; overflow-wrap: anywhere; }
   /* Dezenter Web-App-Hinweis am Fuß der Willkommens-Karte. */
   .webapp-hinweis { display: flex; align-items: flex-start; gap: var(--space-2); color: var(--ink3); font-size: var(--fs-sm); margin: var(--space-5) 0 0; line-height: 1.5; }
   .webapp-hinweis svg { flex: 0 0 auto; color: var(--ink3); margin-top: 3px; }
@@ -1888,6 +1890,9 @@
   
   /* Code-Listen (Paket 3) — Code dezent neben dem Anzeige-Namen; Autocomplete-Feld voll breit. */
   .feld-code { font-size: var(--fs-feld-code); color: var(--ink3); opacity: 0.85; white-space: nowrap; }
+  /* Der amtliche TITEL ist ein Satz, kein Code (Befund DEMO-ITALIEN-NOTIZ-NICHT-SICHTBAR, 16.10.2026): ungebrochen schob
+     „Essentielle Hypertonie, nicht näher bezeichnet: …“ den Bereich auf dem Handy über den Rand, #app wurde seitlich scrollbar. */
+  .feld-code.code-amtlich { white-space: normal; overflow-wrap: anywhere; }
   .feld-code-picker { display: block; }
   .feld-code-picker input { width: 100%; }
   /* Chip-Mechanik (E1 Option C, Chip-Mechanik) — dieselbe Bestätigungs-Konvention wie

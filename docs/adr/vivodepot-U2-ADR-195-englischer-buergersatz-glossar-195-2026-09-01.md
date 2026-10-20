@@ -222,7 +222,7 @@ und 29 NUR_UNSCHOEN-Fälle — stilistische Holprigkeiten ohne Sinnfehler (unidi
 Wortstellung, US/UK-Mischformen in Beispieltexten, uneinheitliche Groß-/Kleinschreibung bei
 Geschwister-Optionen, ein Anführungszeichen-Ausreißer). **Dieser Nachtrag baut die 29
 NUR_UNSCHOEN-Fälle — vollständig, Kennung für Kennung gegen den Bericht
-`lesedurchgang-volltext-2026-09-01.md` (Anhang B) geprüft.**
+interner Bericht vom 01.09.2026 (Anhang B) geprüft.**
 
 **Eine Abweichung von der Quelle, offen benannt statt still übernommen:** Anhang B trägt die
 Überschrift „29 Punkte", die Tabelle selbst zählt 30 Zeilen. Ausgezählt, nicht der Überschrift
@@ -252,7 +252,7 @@ Entscheidung dieses Nachtrags.
 
 ```konformitaet
 aussage:  Die 29 NUR_UNSCHOEN-Funde des vollen Lesedurchgangs (Anhang B,
-          `lesedurchgang-volltext-2026-09-01.md`) sind behoben — stilistisch, ohne
+          interner Bericht vom 01.09.2026) sind behoben — stilistisch, ohne
           Bedeutungsänderung, jede Kennung einzeln gegen das deutsche Original geprüft.
 zustand:  geprüft
 herkunft: entscheidung

@@ -26,6 +26,14 @@ const fs = require('node:fs');
 const os = require('node:os');
 
 const REPO = path.join(__dirname, '..', '..', '..');
+/* Die Anlege-Aufforderung: der obere Hinweis (`data-anlegen-weg`) ODER die Karte im Inhalt (ihr Knopf); je Ansicht genau eine. */
+const ANLEGE_WEG_KANON = ':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen])';
+// Ältere ausgelieferte Stände: der Hinweis oben ohne `data-anlegen-weg`. Er ist nur dann der Weg, wenn der Stand keinen der Kanon-Wege zeigt;
+// Zwischenstände tragen Hinweis UND Karte, dort gilt weiter die Karte (wie vor dieser Ergänzung).
+const ANLEGE_WEG_ALTSTAND = '#tb-pw-hinweis';
+const ANLEGE_WEG = ':is([data-anlegen-weg], #tb-pw-hinweis, [data-bereich-leer="vorschau"] [data-umschau-eintragen])';
+// Eigene Frist für das Warten auf die Aufforderung, wie in tests/e2e/helpers.js: ein Stand ohne diesen Weg wird benannt, statt bis zur Testgrenze zu warten.
+const ANLEGE_WEG_FRIST_MS = 60_000;
 
 /* ── file://-URLs der vier Komponenten ───────────────────────────────────── */
 const { GEBACKENE_PRODUKT_PFADE, gebackeneProdukteSicherstellen } = require('../../e2e/global-setup.js');
@@ -108,7 +116,7 @@ const kern = {
     await page.goto(url || URLS.kern);
     // Lage A (Strang 2 Commit A) — ODER, seit der interne Speicher auch unter file:// gilt, der
     // Entsperr-Schirm eines im Kontext bereits gespeicherten Depots (#co-pw, cryptoInternAufforderung).
-    await page.waitForSelector('#w-anlass, #co-pw', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen, #co-pw', { state: 'visible' });
   },
   async depotAnlegen(page, { name = 'Test Anker', pw = 'cross-e2e-pw-123' } = {}) {
     // Setup-first (vivodepot.html:12636): der Klick auf #tb-pw-hinweis ruft flowDepotAnlegen() →
@@ -123,8 +131,15 @@ const kern = {
     const nachname = teile.slice(1).join(' ') || 'Anker';            // Anker verlangt Nachname (Pflicht)
     await page.click('#w-anfangen');
     await page.waitForSelector('#app.an', { state: 'attached' });
-    await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-    await page.click('#tb-pw-hinweis');
+    // :visible, sonst nähme der Wartepunkt den ersten Treffer, den verborgenen Hinweis
+    await page.waitForSelector(ANLEGE_WEG + ':visible', { state: 'attached', timeout: ANLEGE_WEG_FRIST_MS }).catch((e) => {
+      throw new Error('Anlege-Aufforderung nicht gefunden: weder #tb-pw-hinweis noch data-anlegen-weg noch die Umschau-Karte, nach '
+        + (ANLEGE_WEG_FRIST_MS / 1000) + ' s; Stand der Seite: ' + page.url() + ' (' + String((e && e.message) || e).split('\n')[0] + ')');
+    });
+    // Genau EINE Anlege-Aufforderung je Ansicht (Hinweis oben ODER Karte im Inhalt).
+    const wege = await page.locator(ANLEGE_WEG_KANON + ':visible').count();
+    if (wege > 1) throw new Error('Anlege-Aufforderungen in dieser Ansicht: ' + wege + ' (erwartet: genau eine)');
+    await page.click((wege === 1 ? ANLEGE_WEG_KANON : ANLEGE_WEG_ALTSTAND) + ':visible');
     await page.waitForSelector('#id-pw', { state: 'visible' });
     await page.fill('#id-vorname', vorname);
     await page.fill('#id-nachname', nachname);
@@ -384,11 +399,13 @@ const generator = {
   },
   /* Seit 16.10.2026 geht der Schlüssel im Ablauf auf: die Karte „Zum Behalten“ in „Fertig“. „Sicherung speichern“ erzeugt
      das Paar und lädt die Hülle (ECHTER Download, hier abgefangen und gespeichert); „Sicherung prüfen und bestätigen“
-     öffnet genau diese Datei mit dem Passwort. Erst danach ist „Einreichung speichern“ frei. #sk-pub ist aus
-     (STUDIO_OEFFENTLICHEN_SCHLUESSEL_EINZELN = false, bis zum Besitznachweis-Wagen /2): der öffentliche Schlüssel reist
-     in der Einreichung. */
+     öffnet genau diese Datei mit dem Passwort. Danach „Antragsdatei erstellen“ (öffentlicher Schlüssel mit Besitznachweis,
+     STUDIO_OEFFENTLICHEN_SCHLUESSEL_EINZELN = true); erst dann ist „Einreichung speichern“ frei. */
   async schluesselErzeugen(page) {
-    return sicherungSpeichernUndPruefen(page);
+    await sicherungSpeichernUndPruefen(page);
+    // Die Antragsdatei (#sk-antrag) löst über blobDownload einen ECHTEN Datei-Download aus, der hier abgefangen wird.
+    await page.fill('#sk-antragsnummer', '0123456789abcdef0123456789abcdef');   // Antragsnummer aus dem Antragsformular (erfunden)
+    await Promise.all([ page.waitForEvent('download'), page.click('#sk-antrag') ]);
   },
   // Drei einfache Felder auf der Arbeitsfläche anlegen (Palette „eigenes Feld", Eigenschaften live).
   async dreiFelder(page, felder) {
@@ -464,7 +481,7 @@ generator.blattBauenUndErzeugen = async function blattBauenUndErzeugen(page, tmp
   await page.fill('#sd-k-email', sd.kontaktEmail); await page.fill('#sd-k-telefon', sd.kontaktTelefon);
   await page.click('#sd-weiter');
   await sicherungSpeichernUndPruefen(page);
-  // Der öffentliche Schlüssel kommt aus dem Zustand der Seite, nicht mehr aus #sk-pub (aus bis zum Besitznachweis-Wagen /2).
+  // Im Blatt-Modus keine Antragsdatei (sie gehört nur zur Einreichung): der öffentliche Schlüssel kommt aus dem Zustand der Seite.
   const publicJwk = await page.evaluate(() => STATE.publicKeyJwk);
   const datei = await downloadNachTmp(page, tmp, () => page.click('#ab-erzeugen'));
   return { datei, umschlag: JSON.parse(fs.readFileSync(datei, 'utf8')), publicJwk };

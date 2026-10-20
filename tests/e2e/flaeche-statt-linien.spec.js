@@ -15,7 +15,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const h = require('./helpers.js');
 
-const PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_PRIVAT_EN], ['pro-de', h.KERN_URL_PRO_DE], ['pro-en', h.KERN_URL_PRO_EN]];
+const PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_PRIVAT_EN], ['pro-de', h.KERN_URL_PRO_DE], ['pro-en', h.KERN_URL_PRO_EN]].filter(([slug]) => h.baubar(slug));
 const ANSICHTEN = { privat: ['finance', 'advanceCare', 'people'], pro: ['pro-gesellschaft-nachfolge', 'pro-vertretung-vollmachten', 'pro-kontakte-vertretungsplan'] };
 const DECKEL_PFAD = path.join(__dirname, 'fixtures', 'linien-deckel.json');
 const LESE_APP = 'file://' + path.resolve(__dirname, '../../vivodepot-lesen.html');
@@ -172,8 +172,8 @@ test.describe('Fläche statt Linien', () => {
       await h.oeffneApp(page, { url });
       pruefe(slug + '/start', await ausserhalb(page));
       await page.click('#w-anfangen');
-      await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-      await page.click('#tb-pw-hinweis');
+      await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
+      await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
       await page.waitForSelector('#id-pw', { state: 'visible' });
       pruefe(slug + '/anlegen-dialog', await ausserhalb(page));
       messenSchreiben();
@@ -219,7 +219,9 @@ test.describe('Fläche statt Linien', () => {
     }
   }
 
-  const SUB_PRODUKTE = PRODUKTE.filter(([s]) => s.endsWith('-de'));
+  // Als Literal (dieselben zwei Einträge wie PRODUKTE.filter(-de)): die E2E-Zählung (A423) liest die Länge aus der Liste selbst.
+  // Im öffentlichen Zuschnitt nur die baubaren Produkte (helpers.js, baubar); im Kanon beide.
+  const SUB_PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['pro-de', h.KERN_URL_PRO_DE]].filter(([s]) => h.baubar(s));
   for (const [slug, url] of SUB_PRODUKTE) {
     test(`[Linien·Sub-Depot] ${slug}: das geöffnete Sub-Depot trägt seine Farbe als Fläche, ohne Balken und Rand, tags und nachts genau im Deckel`, async ({ page }) => {
       test.setTimeout(120000);
@@ -294,7 +296,7 @@ test.describe('Fläche statt Linien', () => {
   });
 
   test('[Fokus·Überschrift·WebKit] dieselbe Regel in WebKit: Maus kein Rand, Tastatur Rand', async () => {
-    const browser = await webkit.launch();
+    const browser = await webkit.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const page = await browser.newPage();
       const [a, b] = await umschau(page);

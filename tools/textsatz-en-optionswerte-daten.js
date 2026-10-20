@@ -20,7 +20,7 @@
 
    Ergibt zusammen mit tools/textsatz-en-daten.js (893 Sektor-Texte) den
    vollstaendigen `texte`-Inhalt fuer ein andockbares Sprachmodul, gebaut von
-   tools/textsatz-en-modul-erzeugen.js.
+   ein nicht öffentliches Werkzeug.
    ════════════════════════════════════════════════════════════════════════════ */
 const TEXTSATZ_EN_OPTIONSWERTE = {
   "identity.gender/m.label": "male",

@@ -29,6 +29,14 @@
    Verzeichnis-Präfix erklärt ist, sobald der Diff dort eine Datei NEU anlegt (auch umbenannt). Anlass: ein Commit brachte ein
    neues Werkzeug ohne Zuschnitt-Entscheidung; die Probe des Ausschluss-Wächters ist langsam und lief im pre-commit nicht,
    das Rot kam erst am Zugkopf.
+   (e) BAUMWEIT (17.10.2026, Befund SCHNELLSTUFE-OHNE-BAUMWEITE-PROBE): eine langsame Probe, die den ganzen Bestand durchsucht,
+   wird von jeder Datei rot — (a)–(d) sehen das nicht, weil sie die geänderte Datei nicht nennt. Anlass: v931 wurde erst auf
+   dem Prüfrechner rot (eine Ausnahme der Repo-Adress-Probe zeigte nach einem Commit auf die falsche Zeile). Darum kann die
+   Liste je Probe unter `baumweit` einen TEILAUFRUF erklären: { werkzeug, argumente, teil } — dasselbe Werkzeug und dieselbe
+   Prüffunktion über die geänderten Dateien des Commits, in Sekunden. Holt (a)–(d) die Probe ohnehin zurück, entfällt er.
+   Was sich nicht auf Dateien zerlegen lässt (Querbezüge, Ratschen über Gesamtzahlen, Bau des ganzen Zuschnitts), steht
+   mit Grund unter `baumweit_nicht` und bleibt beim Anlass oben; der volle Lauf bleibt im pre-push. Klassenwächter:
+   jede langsame Probe, auf die BAUMWEIT_MUSTER passt, steht in einem der beiden Felder (baumweitBefunde).
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -110,6 +118,19 @@ function listePruefen(liste, testDateienListe) {
       if (!Array.isArray(praefixe) || !praefixe.length || praefixe.some((p) => typeof p !== 'string' || !p.endsWith('/'))) f.push('bei_neuer_datei ohne Verzeichnis-Präfixe (mit „/“ am Ende): ' + d);
     }
   }
+  const bw = liste.baumweit || {};
+  const nicht = liste.baumweit_nicht || {};
+  for (const [d, e] of Object.entries(bw)) {
+    if (!liste.langsam.includes(d)) f.push('baumweit nennt eine Datei, die nicht langsam ist: ' + d);
+    if (!e || typeof e.werkzeug !== 'string' || !e.werkzeug.endsWith('.js')) f.push('baumweit ohne Werkzeug: ' + d);
+    if (!e || typeof e.teil !== 'string' || e.teil.length < 20) f.push('baumweit ohne Erklärung des Teilaufrufs (teil): ' + d);
+    if (e && e.argumente !== undefined && !Array.isArray(e.argumente)) f.push('baumweit: argumente ist keine Liste: ' + d);
+    if (nicht[d]) f.push('steht in baumweit UND baumweit_nicht: ' + d);
+  }
+  for (const [d, g] of Object.entries(nicht)) {
+    if (!liste.langsam.includes(d)) f.push('baumweit_nicht nennt eine Datei, die nicht langsam ist: ' + d);
+    if (typeof g !== 'string' || g.length < 20) f.push('baumweit_nicht ohne Grund: ' + d);
+  }
   const sortiert = [...liste.langsam].sort();
   if (sortiert.join('\n') !== liste.langsam.join('\n')) f.push('nicht sortiert');
   return f;
@@ -151,6 +172,30 @@ function anlassDateien(liste, geaendert, lesen, neu = []) {
 /* Spiegelt eine Probe einen Hook? (i) sie enthält eine kennzeichnende Zeile des Hooks wörtlich (≥ 30 Zeichen, kein Kommentar,
    keine bloße Klammer- oder Kontrollzeile), oder (ii) sie nennt den Ordner hooks und den Hook-Namen als Zeichenkette. */
 const KONTROLLE = /^(?:fi|then|else|esac|done|do|;;|\{|\}|exit \d+|set -e)$/;
+/* Ein Durchlauf über den Bestand: git ls-files, ein Baum- oder Zuschnitt-Durchlauf. */
+const BAUMWEIT_MUSTER = /pruefeBaum\(|ls-files|vollerBestand\(|zuschnittDateien\(|alleDateien\(/;
+
+/** Teilaufrufe der baumweiten Proben, die nicht schon als Ganzes laufen: [{ probe, befehl: [werkzeug, ...argumente, ...dateien], teil }]. */
+function baumweitSchritte(liste, geaendert, imPlan) {
+  const bw = (liste && liste.baumweit) || {};
+  if (!geaendert || !geaendert.length) return [];
+  return Object.entries(bw).filter(([probe]) => !imPlan.includes(probe))
+    .map(([probe, e]) => ({ probe, befehl: [e.werkzeug, ...(e.argumente || []), ...geaendert], dateien: geaendert.length, teil: e.teil }));
+}
+
+/** Klassenwächter: jede langsame Probe mit Bestands-Durchlauf steht unter baumweit oder baumweit_nicht. */
+function baumweitBefunde(liste, lesen) {
+  const f = [];
+  const bw = liste.baumweit || {};
+  const nicht = liste.baumweit_nicht || {};
+  for (const d of liste.langsam || []) {
+    let q = '';
+    try { q = lesen(d); } catch (_) { continue; }
+    if (BAUMWEIT_MUSTER.test(q) && !bw[d] && !nicht[d]) f.push('langsam mit Bestands-Durchlauf, weder baumweit noch baumweit_nicht: ' + d);
+  }
+  return f;
+}
+
 function kennzeichnendeZeilen(hookText) {
   return [...new Set(String(hookText).split('\n').map((z) => z.trim())
     .filter((z) => z.length >= 30 && !z.startsWith('#') && !KONTROLLE.test(z) && !/^echo\s/.test(z)))];
@@ -194,4 +239,4 @@ function testDateien(repo) {
     .filter((d, i, a) => a.indexOf(d) === i).sort();
 }
 
-module.exports = { ohneGitUmgebung, GRENZE_MS, DATEINAME, zeitenPfad, zeitenLesen, zusammenfuehren, langsamAusZeiten, listeLesen, listePruefen, schnelleDateien, testDateien, nenntPfad, anlassDateien, kennzeichnendeZeilen, spiegeltHook, spiegelBefunde };
+module.exports = { ohneGitUmgebung, GRENZE_MS, DATEINAME, zeitenPfad, zeitenLesen, zusammenfuehren, langsamAusZeiten, listeLesen, listePruefen, schnelleDateien, testDateien, nenntPfad, anlassDateien, BAUMWEIT_MUSTER, baumweitSchritte, baumweitBefunde, kennzeichnendeZeilen, spiegeltHook, spiegelBefunde };

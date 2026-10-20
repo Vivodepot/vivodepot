@@ -3,7 +3,7 @@
    Bereichsdefinition, deren Inhalt beim Öffnen als ausgeliefert festgestellt wurde. Proben, die mit einem ERFUNDENEN Bereich die
    Rangfolge, die Reihenfolge oder die Sicherheitsgrenze der Saat halten (nicht die Herkunft), stellen ihre Definitionen hiermit
    ausdrücklich so, als hätte die Inhaltsprüfung sie erkannt. Das steht für das ERGEBNIS der Prüfung; die Prüfung selbst und der
-   Fall „nicht ausgeliefert“ stehen in tests/mitschrift-bereich-nach-inhalt.test.js. Was eine Probe danach zeigt, gilt darum für
+   Fall „nicht ausgeliefert“ stehen in einer nicht öffentlichen Probe. Was eine Probe danach zeigt, gilt darum für
    eine ausgelieferte Definition — genau der Fall, in dem die Mitschrift weiter greifen soll. */
 function mitschriftAlsAusgeliefert(V, d) {
   const ms = d && d.abWerkMitschrift;

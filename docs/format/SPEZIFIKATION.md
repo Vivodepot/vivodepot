@@ -107,7 +107,7 @@ Eine Datei mit beiden Formen oder keiner ist ungültig, ebenso eine Form, die ni
   - `adressen` ist das **Verzeichnis** der Adressen, die dieser Eintrag öffnet. Weil es verschlüsselt ist, kann niemand eine Einheit samt Umschlag entfernen, ohne dass es auffällt.
   - `giltBis` (Datum `JJJJ-MM-TT`, nur an einem Fach): danach öffnet das Fach nicht mehr (U2-ADR-452).
   - `ortGebunden` und `fremdHash`: die Klartext-Bindung (Abschnitt 8.3).
-  - `polster` (Punkte) füllt alle Geheimteile einer Datei auf dieselbe Länge. Die Anwendung wählt die Ziel-Länge als Vielfaches von `geheimPolsterZeichen` und schreibt den JSON-Text heute ein Zeichen länger als dieses Vielfache. Für einen Leser zählt nur: **Alle Geheimteile einer Datei MÜSSEN als Chiffrat gleich lang sein**, gemessen in Bytes des UTF-8-Klartexts. Sonst verriete die Länge, welcher Eintrag welche Angaben trägt, etwa einen Kreisnamen mit Umlaut (`VDF-POLSTER`).
+  - `polster` (Punkte) füllt alle Geheimteile einer Datei auf dieselbe Länge. Die Anwendung misst in Bytes des UTF-8-Texts und wählt die Ziel-Länge als Vielfaches von `geheimPolsterZeichen`: mindestens so groß, dass ein Name von 120 und ein Ort-Hinweis von 200 ASCII-Zeichen hineinpassen, und größer für alle Einträge zugleich, wenn ein echter Geheimteil der Datei länger ist. Den JSON-Text schreibt sie ein Byte länger als dieses Vielfache. Für einen Leser zählt nur: **Alle Geheimteile einer Datei MÜSSEN als Chiffrat gleich lang sein**, gemessen in Bytes des UTF-8-Klartexts. Sonst verriete die Länge, welcher Eintrag welche Angaben trägt, etwa einen Kreisnamen mit Umlaut (`VDF-POLSTER`).
 
 ## 4 · Schlüssel
 

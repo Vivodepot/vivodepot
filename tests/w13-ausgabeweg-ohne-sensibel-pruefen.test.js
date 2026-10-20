@@ -34,7 +34,7 @@ test('[W-13] echter Kern: kein neuer Fund gegen die Grundlinie, die diese nicht 
 test('[W-13] echter Kern: acht der zehn EXPORT_FORMATE-Wege sind über feldIstSensibel/baueAusMapping strukturell abgedeckt', () => {
   const { html } = ladeKern();
   const funde = ermittleFunde(html).filter((f) => f.carrier === 'EXPORT_FORMATE');
-  // 11 -> 10 (U2-ADR-NNN, 18.09.2026): 'json' aus EXPORT_FORMAT_IDS entfernt — der offene
+  // 11 -> 10 (U2-ADR-508, 18.09.2026): 'json' aus EXPORT_FORMAT_IDS entfernt — der offene
   // JSON-Vollexport ist aus EXPORT_FORMATE entfernt, kein Ausgabeweg mehr, den diese Probe
   // dort finden könnte (vollExportJSON bleibt internes Meßinstrument, unverändert geprüft
   // über tests/u2-adr-102-vollexport-weitergabe-filtert.test.js u. a.).

@@ -5,7 +5,8 @@
    ────────────────────────────────────────────────────────────────────────────
    Schreibt docs/format/korpus/*.vivodepot und korpus.json. Jede GÜLTIGE Datei
    schreibt der echte Kern (tests/load-kern.js, depotSerialisieren &Co.). Jede
-   UNGÜLTIGE entsteht aus einer gültigen durch einen benannten Eingriff; wo der
+   UNGÜLTIGE entsteht aus einer gültigen durch einen benannten Eingriff (`eingefroren`: eine Datei einer früheren Fassung,
+   nie neu geschrieben); wo der
    Eingriff neu verschlüsseln muss, tut er es mit den Krypto-Funktionen des Kerns
    (VdCrypto), nie mit eigenem Code.
 
@@ -95,10 +96,10 @@ const FAELLE = [
     passwort: PW, erwartet: { urteil: 'gueltig', codes: [] },
     bauen: async (V) => { await grunddepot(V); return mitKopf(await V.depotSerialisierenV3()); } },
   { datei: 'g04-fach-inhaberin.vivodepot', beschreibung: 'Gültig: Datei mit einem Fach, geöffnet mit dem Passwort der Inhaberin.',
-    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ATTRAPPE'] },
+    passwort: PW, erwartet: { urteil: 'gueltig', codes: [] },
     bauen: async (V) => { await grunddepot(V, { fach: true }); return mitKopf(await V.depotSerialisieren()); } },
   { datei: 'g05-fach-empfaenger.vivodepot', beschreibung: 'Gültig: dieselbe Form, geöffnet mit dem Passwort des Fachs (nur dessen Ausschnitt).',
-    passwort: PW_FACH, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ATTRAPPE'] },
+    passwort: PW_FACH, erwartet: { urteil: 'gueltig', codes: [] },
     bauen: async (V) => { await grunddepot(V, { fach: true }); return mitKopf(await V.depotSerialisieren()); } },
   { datei: 'g06-wiederherstellung.vivodepot', beschreibung: 'Gültig: mit Hülle für den Wiederherstellungs-Code (U2-ADR-430). Der Code selbst ist nicht beigelegt; die Hülle wird nur auf Form geprüft.',
     passwort: PW, erwartet: { urteil: 'gueltig', codes: [] },
@@ -116,22 +117,34 @@ const FAELLE = [
     passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-FREMDFELD', 'VDF-BINDUNG-FREMD'] },
     bauen: async (V) => { await grunddepot(V); const u = await V.depotSerialisieren(); u.korpusZusatz = 'eingefügt'; return mitKopf(u); } },
   { datei: 'g11-ort-veraendert.vivodepot', beschreibung: 'Gültig mit Hinweis: der Ort-Hinweis im Klartext wurde verändert.',
-    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ATTRAPPE', 'VDF-BINDUNG-ORT'] },
+    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-BINDUNG-ORT'] },
     bauen: async (V) => { await grunddepot(V, { fach: true }); const u = await V.depotSerialisieren(); u.angehoerigenOrt = 'Schublade im Keller'; return mitKopf(u); } },
   { datei: 'g12-adresse-name.vivodepot', beschreibung: 'Gültig mit Hinweis: eine Einheit trägt einen anderen Namen als ihre Adresse.',
     passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ADRESSE-NAME'] },
     bauen: async (V) => { await grunddepot(V); const u = await V.depotSerialisieren(); const a = await adresseVon(u, 'identity.birthDate');
       await einheitErsetzen(u, a, { name: 'identity.familyName', wert: 'Beispiel' }); return mitKopf(u); } },
   { datei: 'g13-polster-ungleich.vivodepot', beschreibung: 'Gültig mit Hinweis: der Geheimteil des Ankers ist kürzer als der des Fachs.',
-    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ATTRAPPE', 'VDF-POLSTER'] },
+    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-POLSTER'] },
     bauen: async (V) => { await grunddepot(V, { fach: true }); const u = await V.depotSerialisieren();
       const { V: V2, anker } = await offeneSitzung(u);
       const g = await V2.VdCrypto.decryptDepot(u.umschlagTabelle[0].geheim, anker, V2.VdCrypto.aadEinheit(u.depotUUID, u.umschlagTabelle[0].kennung));
       delete g.polster; await geheimErsetzen(u, 0, g); return mitKopf(u); } },
 
-  { datei: 'g14-kreisname-umlaut.vivodepot', beschreibung: 'Gültig mit Hinweisen: ein Fach, dessen Kreisname einen Umlaut trägt; der Geheimteil des Fachs ist länger als der des Ankers.',
-    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ATTRAPPE', 'VDF-POLSTER'] },
+  { datei: 'g14-kreisname-umlaut.vivodepot', beschreibung: 'Gültig: ein Fach, dessen Kreisname einen Umlaut trägt; alle Geheimteile gleich lang (seit dem Fix POLSTER-UTF8).',
+    passwort: PW, erwartet: { urteil: 'gueltig', codes: [] },
     bauen: async (V) => { await grunddepot(V, { fach: true, kreisName: 'Tante B\u00e4rbel' }); return mitKopf(await V.depotSerialisieren()); } },
+
+  { datei: 'a01-attrappe-vor-fix.vivodepot', beschreibung: 'Gültig mit Hinweis: eingefroren, geschrieben von einer Fassung vor dem Fix ATTRAPPE-LAENGE (Korpus g04 im Commit 69dea4d14). Die Attrappen sind 63 Byte lang, echte Umschläge 62; ohne Passwort ist erkennbar, welche Einheiten das Fach öffnet.',
+    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ATTRAPPE'] }, eingefroren: true },
+
+  { datei: 'a02-polster-vor-fix.vivodepot', beschreibung: 'Gültig mit Hinweisen: eingefroren, geschrieben von einer Fassung vor den Fixes ATTRAPPE-LAENGE und POLSTER-UTF8 (Korpus g14 im Commit 69dea4d14). Der Geheimteil des Fachs mit dem Kreisnamen „Tante Bärbel“ ist länger als der des Ankers.',
+    passwort: PW, erwartet: { urteil: 'gueltig-mit-hinweisen', codes: ['VDF-ATTRAPPE', 'VDF-POLSTER'] }, eingefroren: true },
+  { datei: 'g15-kreisname-emoji.vivodepot', beschreibung: 'Gültig: zwei Fächer, Kreisnamen mit Emoji (4 Byte in UTF-8) und Umlaut; alle Geheimteile und Umschläge gleich lang.',
+    passwort: PW, erwartet: { urteil: 'gueltig', codes: [] },
+    bauen: async (V) => { await grunddepot(V, { fach: true, kreisName: 'Tante B\u00e4rbel' });
+      await V.empfaengerkreisSetzen({ name: '\u{1F475} Oma', bausteine: ['notfall'] });
+      await V.empfaengerkreisFachEinrichten(V.empfaengerkreiseListe()[1], 'korpus-test-fach-zwei', 'Ordner im B\u00fccherregal');
+      return mitKopf(await V.depotSerialisieren()); } },
 
   { datei: 'n01-ohne-passwort.vivodepot', beschreibung: 'Nicht vollständig geprüft: ohne Passwort endet die Prüfung nach Stufe 1.',
     passwort: null, erwartet: { urteil: 'nicht-geprueft', codes: [] },
@@ -140,7 +153,7 @@ const FAELLE = [
     passwort: PW_FALSCH, erwartet: { urteil: 'nicht-geprueft', codes: ['VDF-PASSWORT'] },
     bauen: async (V) => { await grunddepot(V); return mitKopf(await V.depotSerialisieren()); } },
   { datei: 'n03-fach-abgelaufen.vivodepot', beschreibung: 'Nicht vollständig geprüft: das Fach ist abgelaufen (U2-ADR-452).',
-    passwort: PW_FACH, erwartet: { urteil: 'nicht-geprueft', codes: ['VDF-ATTRAPPE', 'VDF-FACH-ABGELAUFEN'] },
+    passwort: PW_FACH, erwartet: { urteil: 'nicht-geprueft', codes: ['VDF-FACH-ABGELAUFEN'] },
     bauen: async (V) => { await grunddepot(V, { fach: true, giltBis: '2026-01-31' }); return mitKopf(await V.depotSerialisieren()); } },
 
   { datei: 'u01-kein-json.vivodepot', beschreibung: 'Ungültig: nach dem Kopf folgt abgeschnittenes JSON.',
@@ -221,9 +234,14 @@ async function erzeugen(ziel = ZIEL_STANDARD, nur = null) {
   const faelle = [];
   for (const f of FAELLE) {
     if (nur && !nur.includes(f.datei)) continue;
-    const { V } = ladeKern();
-    const text = await f.bauen(V);
-    fs.writeFileSync(path.join(ziel, f.datei), text, 'utf8');
+    let text;
+    if (f.eingefroren) {   // eine Datei einer früheren Fassung: sie wird nie neu geschrieben, nur ihr Verhalten neu gemessen
+      text = fs.readFileSync(path.join(ziel, f.datei), 'utf8');
+    } else {
+      const { V } = ladeKern();
+      text = await f.bauen(V);
+      fs.writeFileSync(path.join(ziel, f.datei), text, 'utf8');
+    }
     const kern = await kernVerhalten(text, f.passwort);
     const zeile = { datei: f.datei, beschreibung: f.beschreibung, passwort: f.passwort, erwartet: f.erwartet, kern };
     if (f.strenger) zeile.strenger = f.strenger;

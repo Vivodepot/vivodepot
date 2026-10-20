@@ -76,7 +76,7 @@ async function schliessen(page) {
   if (await page.locator('#m-ok').isVisible().catch(() => false)) await page.click('#m-ok');
   await page.click('#tb-marke');
   if (await page.locator('#m-ok').isVisible().catch(() => false)) await page.click('#m-ok');
-  await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 10000 });
+  await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 10000 });
 }
 
 async function axeHart(page, name) {
@@ -243,5 +243,9 @@ async function buergerweg(page, browser, slug, url, testInfo) {
 
 test('[Bürgerweg·privat-de] anlegen, füllen, sichern, öffnen, ausgeben, Lese-App, axe', async ({ page, browser }, ti) => { await buergerweg(page, browser, 'privat-de', KERN_URL_PRIVAT_DE, ti); });
 test('[Bürgerweg·privat-en] anlegen, füllen, sichern, öffnen, ausgeben, Lese-App, axe', async ({ page, browser }, ti) => { await buergerweg(page, browser, 'privat-en', KERN_URL_PRIVAT_EN, ti); });
+if (require('./helpers').baubar('pro-de')) {
 test('[Bürgerweg·pro-de] anlegen, füllen, sichern, öffnen, ausgeben, Lese-App, axe', async ({ page, browser }, ti) => { await buergerweg(page, browser, 'pro-de', KERN_URL_PRO_DE, ti); });
+}
+if (require('./helpers').baubar('pro-en')) {
 test('[Bürgerweg·pro-en] anlegen, füllen, sichern, öffnen, ausgeben, Lese-App, axe', async ({ page, browser }, ti) => { await buergerweg(page, browser, 'pro-en', KERN_URL_PRO_EN, ti); });
+}

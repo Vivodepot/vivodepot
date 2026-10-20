@@ -69,9 +69,11 @@ test.describe('T-CROSS-20 die Herkunft eines Moduls übersteht die Datei', () =>
     const marke = b.locator('#herkunft-marke');
     await expect(marke).toBeVisible();
     await expect(marke).toHaveClass(/herkunft-marke--offen/);
-    await expect(marke).toContainText('without a checked origin');
-    await expect(marke).toContainText('[English]');
-    await expect(marke).not.toContainText('Their origin has been checked');
+    /* LESE-APP-MODULE-OHNE-WAHL (17.10.2026): das unsignierte fr-Modul wirkt in der Lese-App nicht mehr, sie bleibt in ihrer eingebauten
+       Sprache. Die Marke zählt es weiter als ungeprüft, und die Zeile darunter nennt es. */
+    await expect(marke).toContainText('ohne geprüfte Herkunft');
+    await expect(marke).not.toContainText('Deren Herkunft ist geprüft');
+    await expect(b.locator('#modul-nicht-angewandt li')).not.toHaveCount(0);
 
     /* Und der Empfänger sieht sie, ohne etwas aufzuklappen: sie steht im ersten
        Bildschirm, nicht hinter einem Knopf. Ein Hinweis, den man suchen muss,

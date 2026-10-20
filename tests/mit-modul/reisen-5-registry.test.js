@@ -50,7 +50,7 @@ test('[Reise-5·Probe 1] die Registry führt reise-5-renate mit 14 Schritten (S0
 test('[Reise-5·Probe 2] `erb_konten` ist in der passwortlosen Vorschau (S2) nicht editierbar, nach Passwort-Setzen (S6) schon',
   { timeout: 60000 }, async () => {
     const { chromium } = require('playwright');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const seiteVorschau = await browser.newPage({ viewport: REISE_5.viewport, hasTouch: true, isMobile: true });
       // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der
@@ -98,7 +98,7 @@ test('[Reise-5·Probe 2] `erb_konten` ist in der passwortlosen Vorschau (S2) nic
 test('[Reise-5·Probe 3] „Erbe — Kurzübersicht" zeigt vor dem Eintrag den Leer-Zustand, danach den Namen — keine zusätzliche Option erscheint',
   { timeout: 60000 }, async () => {
     const { chromium } = require('playwright');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const seite = await browser.newPage({ viewport: REISE_5.viewport, hasTouch: true, isMobile: true });
       // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der
@@ -107,12 +107,12 @@ test('[Reise-5·Probe 3] „Erbe — Kurzübersicht" zeigt vor dem Eintrag den L
       // GEÄNDERT („die pauschale file://-Flagge weicht der Probe", 12.09.2026):
       // IndexedDB VOR der Navigation ebenfalls entfernt. Diese Probe navigiert dieselbe Seite
       // ZWEIMAL zu HTML_URL (unten) und erwartet beide Male den frischen Willkommensschirm
-      // (#w-anlass) — vorher garantiert, weil file:// den Datei-Modus erzwang (kein interner
+      // (#w-anlegen) — vorher garantiert, weil file:// den Datei-Modus erzwang (kein interner
       // Stand). Seit dem Wegfall der pauschalen Ursprungs-Flagge funktioniert echte IndexedDB
       // unter file:// (gemessen, s. Bericht sichern-je-browser-je-lauf-2026-09-12.md) und
       // übersteht eine Neu-Navigation in demselben Browser-Kontext — der zweite `goto` fände
       // sonst den vom ERSTEN Lauf still gesicherten internen Stand und zeigte den
-      // Passwort-Wiedereinstieg (#co-pw) statt #w-anlass. Diese Reise prüft die
+      // Passwort-Wiedereinstieg (#co-pw) statt #w-anlegen. Diese Reise prüft die
       // Kurzübersicht-Anzeige, nicht die Speicher-Persistenz — IndexedDB bleibt darum aus,
       // damit jeder der beiden Läufe wie beabsichtigt bei null beginnt.
       await seite.addInitScript(() => {

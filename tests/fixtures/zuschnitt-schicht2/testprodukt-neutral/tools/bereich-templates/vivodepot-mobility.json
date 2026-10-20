@@ -1,0 +1,234 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/mobility",
+  "fassung": 1,
+  "bereiche": {
+    "mobility": {
+      "id": "mobility",
+      "format": "GENERISCH",
+      "icon": "car",
+      "standardDokumente": [
+        {
+          "typ": "passport",
+          "name": "Testtext 1",
+          "empfRhythmusMonate": null,
+          "hinweis": "Testtext 2",
+          "felder": [
+            {
+              "sektorId": "mobility",
+              "feldId": "passportValidUntil"
+            }
+          ]
+        },
+        {
+          "typ": "driving-licence",
+          "name": "Testtext 3",
+          "empfRhythmusMonate": null,
+          "hinweis": "Testtext 4",
+          "felder": [
+            {
+              "sektorId": "mobility",
+              "feldId": "drivingLicenceValidUntil"
+            }
+          ]
+        },
+        {
+          "typ": "elefand",
+          "name": "Testtext 5",
+          "empfRhythmusMonate": null,
+          "hinweis": "Testtext 6",
+          "felder": [
+            {
+              "sektorId": "mobility",
+              "feldId": "elefandRegistrations",
+              "unterfeldId": "validUntil"
+            }
+          ]
+        }
+      ],
+      "sektionen": [
+        {
+          "id": "fahrzeuge-fuehrerschein",
+          "felder": [
+            {
+              "id": "vehicles",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "registrationPlate",
+                  "typ": "text"
+                },
+                {
+                  "id": "vehicleRegistrationDocument",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "leaseAgreementStorageLocation",
+                  "sensibel": true,
+                  "typ": "text"
+                }
+              ]
+            },
+            {
+              "id": "carInsurance",
+              "typ": "ref",
+              "entitaet": "institution",
+              "verweisZweck": "geschaeftlich"
+            },
+            {
+              "id": "policyNumber",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "drivingLicenceClasses",
+              "sensibel": true,
+              "typ": "mehrfachauswahl",
+              "optionen": [
+                {
+                  "wert": "AM"
+                },
+                {
+                  "wert": "A1"
+                },
+                {
+                  "wert": "A2"
+                },
+                {
+                  "wert": "A"
+                },
+                {
+                  "wert": "B"
+                },
+                {
+                  "wert": "BE"
+                },
+                {
+                  "wert": "C1"
+                },
+                {
+                  "wert": "C1E"
+                },
+                {
+                  "wert": "C"
+                },
+                {
+                  "wert": "CE"
+                },
+                {
+                  "wert": "D1"
+                },
+                {
+                  "wert": "D1E"
+                },
+                {
+                  "wert": "D"
+                },
+                {
+                  "wert": "DE"
+                },
+                {
+                  "wert": "L"
+                },
+                {
+                  "wert": "T"
+                }
+              ]
+            },
+            {
+              "id": "drivingLicenceStorageLocation",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "drivingLicenceEarlierEntry",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "drivingLicenceValidUntil",
+              "marken": [
+                "laeuftAb"
+              ],
+              "sensibel": true,
+              "typ": "datum"
+            },
+            {
+              "id": "deutschlandticketPublic",
+              "typ": "text"
+            },
+            {
+              "id": "passportNo",
+              "sensibel": true,
+              "typ": "text"
+            },
+            {
+              "id": "passportIssuedOn",
+              "marken": [
+                "giltAb"
+              ],
+              "sensibel": true,
+              "typ": "datum"
+            },
+            {
+              "id": "passportValidUntil",
+              "marken": [
+                "laeuftAb"
+              ],
+              "gueltigkeitVorschlag": {
+                "ausFeld": "passportIssuedOn",
+                "regel": "ausweisdauer"
+              },
+              "sensibel": true,
+              "typ": "datum"
+            },
+            {
+              "id": "elefandRegistrations",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "system",
+                  "typ": "text"
+                },
+                {
+                  "id": "registrationNo",
+                  "sensibel": true,
+                  "typ": "text"
+                },
+                {
+                  "id": "countries",
+                  "typ": "text",
+                  "vorschlaege": [
+                    "Testtext 7",
+                    "Testtext 8",
+                    "Testtext 9",
+                    "Testtext 10",
+                    "Testtext 11",
+                    "Testtext 12",
+                    "Testtext 13",
+                    "Testtext 14"
+                  ]
+                },
+                {
+                  "id": "validUntil",
+                  "sensibel": true,
+                  "typ": "datum"
+                }
+              ]
+            },
+            {
+              "id": "embassyContact",
+              "typ": "ref",
+              "entitaet": "institution",
+              "verweisZweck": "krisenvorsorge"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

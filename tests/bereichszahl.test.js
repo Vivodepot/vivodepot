@@ -7,7 +7,7 @@
    Institution liest, und in drei Schema-Beschreibungen.
 
    Was hier NICHT geprüft wird: dass die Bereichs-LISTEN übereinstimmen —
-   das ist W-16 (`tests/bereichsliste-eine-quelle.test.js`). Dieser Wächter
+   das ist W-16 (`eine nicht öffentliche Probe`). Dieser Wächter
    liegt eine Ebene tiefer: nicht die Daten, sondern das, was über sie
    behauptet wird.
    ════════════════════════════════════════════════════════════════════════ */

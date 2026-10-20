@@ -1,7 +1,7 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════
    Messauftrag (19.09.2026) — echter Klick-Test des Kern-Verschlusses
-   (U2-ADR-NNN, 18.09.2026) auf L1-HEAD 6c17a7b0.
+   (U2-ADR-509, 18.09.2026) auf L1-HEAD 6c17a7b0.
 
    DIESE DATEI IST DIE ABNAHME FÜR PRO1 (DoD-Punkt 1, 19.09.2026):
    der Fund hier (pro-de/pro-en stürzen beim Wiederöffnen mit TypeError in
@@ -108,6 +108,7 @@ async function subDepotAnlegenUndBetreten(page, { vorname, pw }) {
 }
 
 for (const [slug, url] of Object.entries({ 'privat-en': KERN_URL_PRIVAT_EN, 'pro-de': KERN_URL_PRO_DE, 'pro-en': KERN_URL_PRO_EN })) {
+  if (!require('./helpers').baubar(slug)) continue;   // im öffentlichen Zuschnitt gibt es nur die baubaren Produkte
   test('[Klicktest·Lücke·' + slug + '] Feld, Speichern, Neu öffnen, PDF, Sub-Depot — dieselben Klickpfade wie privat-de, hier zum ersten Mal', async ({ page }) => {
     const konsoleFehler = konsoleFehlerSammeln(page);
     // Datei-Modus erzwungen (wie durchstich-buergerweg.spec.js Zeile 181f.) — seit U2-ADR-237
@@ -170,7 +171,7 @@ for (const [slug, url] of Object.entries({ 'privat-en': KERN_URL_PRIVAT_EN, 'pro
     fs.writeFileSync(tmp, bytes, 'utf8');
     try {
       await page.reload();
-      await page.waitForSelector('#w-anlass', { state: 'visible' });
+      await page.waitForSelector('#w-anlegen', { state: 'visible' });
       await page.click('#w-datei');
       await page.setInputFiles('#co-datei', tmp);
       await page.fill('#co-pw', PW);

@@ -7,7 +7,7 @@
 const { test, expect } = require('@playwright/test');
 const h = require('./helpers.js');
 
-const PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_PRIVAT_EN], ['pro-de', h.KERN_URL_PRO_DE], ['pro-en', h.KERN_URL_PRO_EN]];
+const PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_PRIVAT_EN], ['pro-de', h.KERN_URL_PRO_DE], ['pro-en', h.KERN_URL_PRO_EN]].filter(([slug]) => h.baubar(slug));
 const BREITEN = [[1280, 800], [390, 844]];
 
 async function umschauFeldKlicken(page) {

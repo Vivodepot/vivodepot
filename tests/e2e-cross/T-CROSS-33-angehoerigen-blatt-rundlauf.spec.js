@@ -66,15 +66,15 @@ test.describe('T-CROSS-33 Angehörigen-Blatt: Generator → Kern → Lese-App', 
     // eines per Position aus der Palette gezogenen Feldes) blieb draußen — nicht nachprüfbar
     // ohne einen echten Lauf, und keine der beiden Zusicherungen hängt an ihr.
     const { b, bctx, alle, blatt } = await reise(browser, tmp);
-    // Die Lese-App zeigt neben den Blättern ab Werk auch das mitgebrachte: das eigene wird am Titel gefunden, und es steht genau einmal da.
-    await expect(blatt).toHaveCount(1);
-    expect(await alle.count(), 'das mitgebrachte Blatt kommt zu denen ab Werk dazu, es ersetzt sie nicht').toBeGreaterThan(1);
-    await blatt.click();
-    await expect(b.locator('#content')).toContainText(BLATT.titel);
-    await expect(b.locator('#content')).toContainText('Deutschland');             // „Gilt für: Deutschland“ steht in der Vorlage
-    await expect(b.locator('#content')).toContainText('Aufnahme und Aufenthalt.');
-    await expect(b.locator('#content')).toContainText('Marlies');                 // die Werte der Eigentümerin, über den Zeiger aufgelöst
-    await expect(b.locator('#content')).toContainText('Muster');
+    /* LESE-APP-MODULE-OHNE-WAHL (17.10.2026): Der Kern liest hier nur das Modul ein, ohne die Signatur des Generators; es reist
+       unsigniert in der Datei. In der Lese-App wirkt ein solches Modul nicht (es liest eine Stelle). Das Blatt erscheint darum nicht,
+       die Zeile unter der Herkunftsangabe nennt die Erweiterung, und die Werte der Eigentümerin stehen weiter im Depot. Der Rundlauf
+       eines SIGNIERTEN Blatts bis in die Lese-App steht als Abnahme bei LESE-APP-SIGNIERTE-VORLAGE-ERSETZT-NICHT. */
+    await expect(alle.first()).toBeVisible();          // die Blätter ab Werk sind da — die Probe misst also etwas
+    await expect(blatt).toHaveCount(0);
+    await expect(b.locator('#modul-nicht-angewandt li')).not.toHaveCount(0);
+    await b.click('[data-sektor="identity"]');
+    await expect(b.locator('#content')).toContainText('Marlies');
     await bctx.close();
   });
 
@@ -86,7 +86,9 @@ test.describe('T-CROSS-33 Angehörigen-Blatt: Generator → Kern → Lese-App', 
     await bctx.close();
   });
 
-  test('[Rot-Beweis] mit anderen Namen im Depot zeigt dasselbe Blatt diese Namen — die Werte kommen aus dem Depot', async ({ browser }) => {
+  // Ruht, bis der Rundlauf ein signiertes Blatt mit Beleg in die Lese-App trägt (Befund-Ratsche, Abnahme des Eintrags).
+  // FIXME-ID: LESE-APP-SIGNIERTE-VORLAGE-ERSETZT-NICHT
+  test.fixme('[Rot-Beweis] mit anderen Namen im Depot zeigt dasselbe Blatt diese Namen — die Werte kommen aus dem Depot', async ({ browser }) => {
     test.setTimeout(180000);
     const { b, bctx, blatt } = await reise(browser, tmp, { werte: false });
     await expect(blatt).toHaveCount(1);

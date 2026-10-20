@@ -39,10 +39,14 @@ test('[QR-Übergabe] echtes URL-Format, kein eigenes Rahmenformat (Kernbefund ge
   assert.equal(u.hash.length > 1, true, 'die Nutzlast liegt im Fragment (#), nicht in Query/Pfad');
 });
 
-test('[QR-Übergabe] Passwort-Mindestlänge ist die der Empfänger-Datei (8), nicht b16s vierstellige PIN', async () => {
+// 18.10.2026 (Passwortregeln offline nach BSI): 8 → 12. Die 11 Zeichen unten sind die schärfere Grenzprobe; die alte mit
+// '1234' hätte auch eine Untergrenze von 5 bestanden.
+test('[QR-Übergabe] Passwort-Mindestlänge ist die der Empfänger-Datei (12), nicht b16s vierstellige PIN', async () => {
   const { V, kreis } = await depotMitKreis(['notfall']);
-  assert.equal(V.EMPFAENGER_PW_MIN, 8);
-  await assert.rejects(() => V.empfaengerQrPayloadBauen(kreis, '1234'), /mindestens 8 Zeichen/);
+  assert.equal(V.EMPFAENGER_PW_MIN, 12);
+  await assert.rejects(() => V.empfaengerQrPayloadBauen(kreis, '1234'), /mindestens 12 Zeichen/);
+  await assert.rejects(() => V.empfaengerQrPayloadBauen(kreis, 'elf-zeichen'), /mindestens 12 Zeichen/);
+  await assert.doesNotReject(() => V.empfaengerQrPayloadBauen(kreis, 'zwoelf-zeich'));
 });
 
 test('[QR-Übergabe] die Feldauswahl ist dieselbe wie die Datei — ein Kreis gibt an beiden Wegen dasselbe frei', async () => {

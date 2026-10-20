@@ -417,6 +417,9 @@
         "--fw-bold": {
           "$ref": "#/$defs/zahl"
         },
+        "--dialog-deckkraft": {
+          "$ref": "#/$defs/zahl"
+        },
         "--label-schreibung": {
           "type": "string",
           "enum": [

@@ -52,7 +52,7 @@ const G = Object.freeze({
   MITSCHRIFT_PRUEFUNG: 'die Inhaltsprüfung selbst (Fingerabdruck) bzw. die Herkunftszählung, die nicht erkannte Einträge zählt',
   MITSCHRIFT_SPRACHE: 'die Sprache der Mitschrift wählt nur die Anzeigesprache; Vertrauen für Zusicherungen allein aus dem Beleg (bleibt unvertraut)',
   MITSCHRIFT_UMZUG: 'räumt nach dem Umzug der Pro-Identität die leere Definition `pro-identitaet` aus dem Fach bereichsErsatz; nimmt nur heraus, entscheidet kein Vertrauen',
-  BAU_REGION: 'liest herkunft nur an der Bau-Region AB_WERK_BRANDING_PRODUKT (eine Konstante, die der Konfektionierer füllt, nie Datei oder Einlass); die eigene Vivodepot-Marke färbt nicht (tests/white-label-ab-werk-partner.test.js, U2-ADR-297-Nachtrag); Wort der Gegenlesung 05.10.2026',
+  BAU_REGION: 'liest herkunft nur an der Bau-Region AB_WERK_BRANDING_PRODUKT (eine Konstante, die der Konfektionierer füllt, nie Datei oder Einlass); die eigene Vivodepot-Marke färbt nicht (einer nicht öffentlichen Probe, U2-ADR-297-Nachtrag); Wort der Gegenlesung 05.10.2026',
   MITSCHRIFT_LESE_ANZEIGE: 'die Lese-App zeigt Logikmodule der Mitschrift; nicht erkannte zählt modulHerkunftBerechnen als Erweiterung',
 });
 
@@ -64,7 +64,7 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "_logikModulAbWerkSeed", "try { if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.logikModul)) quelle = _mitschriftNachInhalt(d.abWerkMitschrift.logikModul); } catch (_) {                                            }", G.MITSCHRIFT_NACH_INHALT],
   ["kern", "textsatzSpracheAktiv", "const ms = data.abWerkMitschrift && data.abWerkMitschrift.sprache;", G.MITSCHRIFT_SPRACHE],
   /* Bereich und Bereichsersatz der Mitschrift (11.10.2026, Befund MITSCHRIFT-AB-WERK-NACH-POSITION geschlossen): je Bereichsdefinition nach Inhalt
-     (tests/mitschrift-bereich-nach-inhalt.test.js); Stufe 5 schreibt das Fach aus der eingebackenen Region des Produkts. */
+     (eine nicht öffentliche Probe); Stufe 5 schreibt das Fach aus der eingebackenen Region des Produkts. */
   ["kern", "_bereichModulAbWerkSeed", "if (d && Array.isArray(d.abWerkMitschrift && d.abWerkMitschrift.bereich)) mitschrift = _mitschriftBereicheFuerSaat(d.abWerkMitschrift.bereich, mitschriftAusDatei);", G.MITSCHRIFT_NACH_INHALT],
   ["kern", "_bereichModulAbWerkSeed", "const e = d && d.abWerkMitschrift && d.abWerkMitschrift.bereichsErsatz;", G.MITSCHRIFT_NACH_INHALT],
   ["kern", "_bereichModulAbWerkSeed", "const s = d.abWerkMitschrift.sprache;", G.MITSCHRIFT_SPRACHE],
@@ -79,10 +79,10 @@ const POSITIVLISTE = Object.freeze([
   ["kern", "_abWerkStrukturInsDepot", "d.abWerkMitschrift.logikModul = m.logikModul;", G.MITSCHRIFT_SCHREIBER],
   ["kern", "_abWerkStrukturInsDepot", "d.abWerkMitschrift.sprache = m.sprache;", G.MITSCHRIFT_SCHREIBER],
   /* Pro-Stapel (06.10.2026, Wort der Gegenlesung je Stelle): Nachtragen hängt nur Sektionen und Felder aus den eigenen Konstanten des
-     Produkts an (_abWerkMitschriftErzeugen), ändert nichts Vorhandenes (tests/mitschrift-felder-nachtragen.test.js, „Nur aus dem Produkt“). */
+     Produkts an (_abWerkMitschriftErzeugen), ändert nichts Vorhandenes (eine nicht öffentliche Probe, „Nur aus dem Produkt“). */
   ["kern", "_abWerkMitschriftFelderNachtragen", "if (!reinesObjekt(d) || !reinesObjekt(d.abWerkMitschrift) || !Array.isArray(d.abWerkMitschrift.bereich)) return nachgetragen;", G.MITSCHRIFT_SCHREIBER],
   ["kern", "_abWerkMitschriftFelderNachtragen", "const mitschrift = d.abWerkMitschrift.bereich;", G.MITSCHRIFT_SCHREIBER],
-  /* Geweckt wird nur nach Inhalt (tests/anlass-kacheln-rezept.test.js, „Wecken·Rot-Beweis“). */
+  /* Geweckt wird nur nach Inhalt (eine nicht öffentliche Probe, „Wecken·Rot-Beweis“). */
   ["kern", "_ruhendeSituationenWecken", "const mitschrift = (d && d.abWerkMitschrift && Array.isArray(d.abWerkMitschrift.situationen)) ? _mitschriftNachInhalt(d.abWerkMitschrift.situationen, SITUATIONEN_MODUL_VERWORFEN) : [];", G.MITSCHRIFT_NACH_INHALT],
   /* „geprüft“ erst, wenn jedes Bündel die Ladeprüfung bestanden hat (tests/modul-buendel-liste-einlassen.test.js, „keine Teilannahme“). */
   ["kern", "modulBuendelListeEinlassenGeprueft", "raus.ungeprueft = false;", G.ZURUECKGABEWERT],
@@ -270,6 +270,9 @@ const POSITIVLISTE = Object.freeze([
   ["lesen", "logikModulPruefstandBerechnen", "try { r = await verifiziereTemplateKette(m.beleg.providerCredentialJws, m.beleg.modulSignaturJws, opts); }", G.BELEG_AN_PRUEFUNG],
   ["lesen", "_EINLASS_META_FELDER", "const _EINLASS_META_FELDER = Object.freeze(['ungeprueft', 'eingelassenAm', 'anbieterIdGeprueft', 'beleg', 'abWerk', 'pruefstufe', 'anbieterId']);", G.SCHLUESSEL],
   ["lesen", "_textsatzModuleBelegPruefen", "const b = m && m.beleg;", G.BELEG_AN_PRUEFUNG],
+  // Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026): die Ladeprüfung aller Register, Spiegel der zwei Kern-Zeilen oben.
+  ["lesen", "_modulBelegNachpruefenLesen", "const k = await _belegKettePruefenLesen(m.beleg, opts);", G.BELEG_AN_PRUEFUNG],
+  ["lesen", "_depotModuleBelegPruefenLesen", "if (!m || typeof m !== 'object' || !m.beleg) continue;", G.BELEG_AN_PRUEFUNG],
   ["lesen", "textsatzModulPruefen", "if (_istZusicherungsKennung(kennung) && vertrauenswuerdig !== 'signiert') { verworfene.push({ kennung, grund: 'zusicherung' }); continue; }", G.OPTION],
   ["lesen", "_textsatzModuleAusDepotAnmelden", "try { geprueft = textsatzModulPruefen(m, Object.assign(vertrauen ? { vertrauenswuerdig: 'signiert' } : {}, { schutzVertraut: _textsatzSchutzVertraut(m) })); } catch (e) { geprueft = null; }", G.OPTION],
   ["lesen", "_textsatzZusicherungMitHerkunft", "return text + ' [' + (h.pruefstufe === 'intern' ? 'intern' : 'pruefer') + (h.anbieterId ? ' · ' + h.anbieterId : '') + ']';", G.BELEG_ERGEBNIS],

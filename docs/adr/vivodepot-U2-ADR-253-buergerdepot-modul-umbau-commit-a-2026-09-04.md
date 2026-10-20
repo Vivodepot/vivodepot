@@ -76,7 +76,7 @@ kam nach der Kommentierung dazu). Dieselbe veraltete Zahl steht noch in zwei Tes
 (`tests/bereichssatz-auswahl-anlage.test.js`, `tests/etappe2g-bereichssatz-dateieigenschaft.test.js`)
 — dort NICHT korrigiert (außerhalb dessen, was dieser Commit ohnehin anfasst).
 
-**W-16-Register nachgezogen:** `tools/bereichslisten-pruefen.js` erkannte
+**W-16-Register nachgezogen:** ein nicht öffentliches Werkzeug erkannte
 `BEREICH_IDS_EINGEBAUT`s neues Literal korrekt als potenzielle zweite Bereichsliste. Eintrag mit
 Begründung ergänzt: kein Duplikat der lebenden Liste, sondern ein bewusst eingefrorener
 reservierter Namensraum, der aus genau dem Grund nicht mehr von `SEKTOREN` abgeleitet werden
@@ -308,7 +308,7 @@ Listen gegen den früheren abgeleiteten Stand geprüft, `*Alle()` ohne Modul == 
 (der Refactor-Beleg), die neue `reserviert`-Sperre bei `ereignisAchseModulPruefen` (positiv,
 negativ, Rangfolge vor `doppelt-im-modul`).
 
-`tools/bereichslisten-pruefen.js` (W-16) und `tests/ereignis-achse-modul-andockbar.test.js`
+ein nicht öffentliches Werkzeug (W-16) und `tests/ereignis-achse-modul-andockbar.test.js`
 (Testkopf) nachgezogen, s. §2.
 
 Vollsuite `npm test` plus E2E (`npm run test:e2e`) plus Konformitäts-Gate: s. Commit-Text für

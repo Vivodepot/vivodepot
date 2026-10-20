@@ -3,7 +3,7 @@
    Test — Angehörigen-Blätter: fünf Situationsblätter (ADR-061v3 · Freigabe 05.07.)
    ────────────────────────────────────────────────────────────────────────
    (Der Modus, in dem sie einst gerendert wurden, ist seit ANG1, 19.09.2026, entfernt; die Ansicht
-   steht in tests/angehoerigen-blatt-ansicht.test.js — hier bleibt der INHALT der Blätter.)
+   steht in eine nicht öffentliche Probe — hier bleibt der INHALT der Blätter.)
    Genau FÜNF Blätter (Krankenhaus, Pflegeheim-Aufnahme,
    Beerdigung und Nachlass, Behörden und Nachlass, Meine Menschen). „Notarzt"
    ist entfallen (liegt im Notfall-Modus), kein `arzt`. Jedes gezogene Feld

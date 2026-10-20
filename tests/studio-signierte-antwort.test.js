@@ -10,7 +10,7 @@
      · eine gültige signierte Antwort öffnet über den echten Weg „Antworten öffnen“, die Karte zeigt denselben Inhalt wie ohne
        Signatur und die Zeile „Unverändert seit dem Signieren · Schlüssel … · Signiert für …“;
      · ein gekipptes Byte und eine Antwort für einen anderen Vorgang werden abgewiesen, mit einem Satz ohne Code;
-     · eine Antwort ohne Signatur öffnet wie bisher, mit „nicht signiert (ältere Fassung)“.
+     · eine Antwort ohne Signatur öffnet wie bisher, mit dem Satz, dass ihre Fassung noch keine Antworten signiert.
    Rot-Beweis: ein Studio ohne die Signaturprüfung öffnet die signierte Antwort nicht (der JWS ist kein JSON). */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -113,7 +113,7 @@ test('[Studio·Signatur] eine signierte Antwort öffnet über „Antworten öffn
   assert.equal(ohne.sig, null);
   const zeile = V.antwortSignaturZeile(mit.sig);
   assert.match(zeile, /^Unverändert seit dem Signieren · Schlüssel \S+ · Signiert für heim\/sonnenhof$/);
-  assert.equal(V.antwortSignaturZeile(null), 'Diese Antwort ist nicht signiert (ältere Fassung).');
+  assert.equal(V.antwortSignaturZeile(null), 'Diese Antwort ist nicht signiert. Die Fassung, mit der sie erstellt wurde, signiert noch keine Antworten.');
   for (const t of [zeile, V.antwortSignaturZeile(null)]) assert.doesNotMatch(t, /geprüft|verifiziert|\becht\b/i);
 });
 

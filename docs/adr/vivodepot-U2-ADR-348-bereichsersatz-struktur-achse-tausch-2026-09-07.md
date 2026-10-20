@@ -12,8 +12,8 @@ zur Ladezeit aus einem fertigen Produkt herausgenommen/ersetzt. Die STRUKTUR-Zus
 `tests/pro-modul-eingebaute-bereichs-grenze.test.js`. Die RUHENDE-BEREICHE-Zusicherung (ein
 ersetzter nativer Bereich mit Werten in der Datei bleibt lesbar) gilt ebenfalls weiter, seit
 19.09.2026 über `BEREICHE_NATIV_KATALOG` + `_sektorIndexNeuBauen()` statt über die im Bündel
-verbliebene Definition — lebende Deckung: `tests/pro-ruhende-bereiche.test.js`,
-`tests/pro-geweckter-bereich-beschriftet.test.js`. Der dynamische Ladeweg-Prüfer selbst
+verbliebene Definition — lebende Deckung: eine nicht öffentliche Probe,
+eine nicht öffentliche Probe. Der dynamische Ladeweg-Prüfer selbst
 (`_bereichsErsatzPruefen`, validate-then-commit, Fremd-Bündel-Sperre) ist ohne Nachfolger — kein
 Produkt lädt ein Modul, das native Bereiche zur Laufzeit ersetzt;
 `tests/bereichsersatz-struktur-achse-u2-adr-348.test.js` ist darum ersatzlos entfernt. Kein

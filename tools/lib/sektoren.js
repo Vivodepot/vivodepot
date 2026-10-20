@@ -34,7 +34,7 @@ function echteSektorenListe() {
   return V.bereicheAlle().map((s) => s.id);
 }
 
-/* Dieselbe Quelle, mit der Beschriftung daneben — für `tools/build-bereiche.js`,
+/* Dieselbe Quelle, mit der Beschriftung daneben — für `ein nicht öffentliches Werkzeug`,
    das die Bereichsliste in die drei übrigen Anwendungen trägt (Zug 1, 17.08.2026).
    Eine eigene Leseart im Bau-Werkzeug wäre die zweite Kopie gewesen, gegen die
    dieser Auftrag gebaut ist; darum steht sie hier, neben der ersten.

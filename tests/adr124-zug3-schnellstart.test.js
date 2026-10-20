@@ -12,12 +12,14 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
+// Schritt 4 und 5 kommen seit U2-ADR-474 aus dem Speichermodell (speicherSatz), je nach Modus;
+// im Harness gilt der Datei-Modus.
 test('[Zug3] alle fünf Schritte stehen im Einstellungen-Dialog', () => {
   const { V } = ladeKern();
   const html = V.einstellungenHTML();
   assert.match(html, /Schnellstart/);
   for (const s of [V.STRINGS.schnellstartSchritt1, V.STRINGS.schnellstartSchritt2,
-    V.STRINGS.schnellstartSchritt3, V.STRINGS.schnellstartSchritt4, V.STRINGS.schnellstartSchritt5]) {
+    V.STRINGS.schnellstartSchritt3, V.speicherSatz('schnellstartEintragen'), V.speicherSatz('schnellstartSichern')]) {
     assert.ok(html.includes(s), 'fehlt im Dialog: ' + s);
   }
 });
@@ -43,7 +45,8 @@ test('[Zug3] Schnellstart steht VOR „Über Vivodepot" im Dialog (Reihenfolge a
 test('[Zug3] U2-ADR-033: keine Empfehlung, kein Rat-Vokabular in den fünf Schritten', () => {
   const { V } = ladeKern();
   const text = [V.STRINGS.schnellstartSchritt1, V.STRINGS.schnellstartSchritt2, V.STRINGS.schnellstartSchritt3,
-    V.STRINGS.schnellstartSchritt4, V.STRINGS.schnellstartSchritt5].join(' ');
+    V.STRINGS.schnellstartSchritt4, V.STRINGS.schnellstartSchritt5,
+    V.STRINGS.schnellstartSchritt4Datei, V.STRINGS.schnellstartSchritt5Datei].join(' ');
   assert.doesNotMatch(text, /am besten/i);
   assert.doesNotMatch(text, /wir empfehlen/i);
   assert.doesNotMatch(text, /sinnvollerweise/i);

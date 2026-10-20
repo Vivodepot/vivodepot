@@ -28,7 +28,7 @@
      node tools/fim-modul-erzeugen.mjs --json-schema <pfad> --zuordnung <pfad> --ziel <modul.json>
      node tools/fim-modul-erzeugen.mjs            (erfundene Leistung S99000001, Ausgabe nach stdout)
    Exit 0 = Modul geschrieben (Lücken stehen in der Ausgabe), 1 = Fehler, 2 = Aufruf falsch.
-   Probe: tests/fim-modul-erzeugen.test.js
+   Probe: eine nicht öffentliche Probe
    ════════════════════════════════════════════════════════════════════════════ */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,7 +46,7 @@ export const FIXTURE_JSON = Object.freeze({
 });
 
 /* Die Rollen und Personenfelder des Kerns (FORMAT_ANHANG_ROLLEN, FORMAT_VERTRETER_FELDER) — Gleichlauf hält
-   tests/fim-modul-erzeugen.test.js. */
+   eine nicht öffentliche Probe. */
 export const ANHANG_ROLLEN = Object.freeze(['bescheid', 'vollmacht-nachweis', 'lichtbild']);
 export const VERTRETER_FELDER = Object.freeze(['familyName', 'givenName', 'street', 'houseNumber', 'postalCode', 'city']);
 

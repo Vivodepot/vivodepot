@@ -19,6 +19,7 @@
    AUFRUF:  node tools/sehr-volles-depot-messen.mjs [--stufen 1,10,40]
    ════════════════════════════════════════════════════════════════════════════ */
 import { chromium } from 'playwright';
+import netzSperre from './lib/netz-sperre.js';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -92,7 +93,7 @@ function aufbauCode(faktor) {
        Der Schluessel heisst menschen, nicht personen: die Schreibfunktion heisst
        personHinzufuegen, der Slot heisst anders. Der erste Anlauf brach daran ab
        — mein Messmodell, nicht der Kern. */
-    // U2-ADR-NNN-Nachtrag (18.09.2026, Kern-Verschluss): data selbst bleibt bewusst
+    // U2-ADR-509, Nachtrag (18.09.2026, Kern-Verschluss): data selbst bleibt bewusst
     // ausserhalb von window.__vdOeffentlich (kompletter Live-Depot-Zustand, s. Kommentar
     // am Export-Block) — Personen/Institutionen/Dokumente sind hier ohnehin aus den
     // Schleifen oben bekannt (F*3/F/F), kein Grund, den Bestand zurückzulesen. Die
@@ -122,7 +123,7 @@ function aufbauCode(faktor) {
     V.depotNormalisieren();
     t.migrationMs = uhr() - t0;
 
-    // DATENSATZ-Messung (t.datensatzMs/t.datensatzZeichen) entfernt (U2-ADR-NNN, 18.09.2026):
+    // DATENSATZ-Messung (t.datensatzMs/t.datensatzZeichen) entfernt (U2-ADR-508, 18.09.2026):
     // maß Dauer/Größe von vollExportJSON() — einer Fähigkeit, die das Produkt nicht mehr
     // anbietet (offener JSON-Vollexport entfernt). Der Umschlag (oben, speichernMs/
     // umschlagZeichen) ist der Gegenstand, den eine Bürgerin tatsächlich weitergibt.
@@ -171,7 +172,7 @@ const QR_CODE = `(() => {
   const t = {};
   const V = window.__vdOeffentlich;
   try {
-    // t.nutzlastZeichen (vormals aus vollExportJSON()) entfernt (U2-ADR-NNN, 18.09.2026) —
+    // t.nutzlastZeichen (vormals aus vollExportJSON()) entfernt (U2-ADR-508, 18.09.2026) —
     // war ohnehin nur ein informativer Nebenwert, die eigentliche Chunking-Messung unten
     // läuft an einer synthetischen Füllzeichenkette, nicht an echten Nutzdaten.
     t.qrTeilMax = V.QR_TEIL_MAX;
@@ -188,7 +189,7 @@ const QR_CODE = `(() => {
   return t;
 })()`;
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(netzSperre.mitSperre());
 const ergebnisse = [];
 for (const faktor of STUFEN) {
   const page = await browser.newPage();
@@ -218,7 +219,7 @@ for (const t of ergebnisse) {
        + '   Felder: ' + Z(t.felderGefuellt)));
   if (t.pdfFehler) console.log('       PDF-FEHLER: ' + t.pdfFehler);
 }
-// U2-ADR-NNN-Nachtrag (18.09.2026): keine "Datensatz der groessten Stufe"-Zeile mehr — sie
+// U2-ADR-508-Nachtrag (18.09.2026): keine "Datensatz der groessten Stufe"-Zeile mehr — sie
 // bezog sich auf nutzlastZeichen (vollExportJSON(), entfernt). Die QR-Chunking-Messung läuft
 // seither an einer synthetischen Füllzeichenkette fester Größen (200..60000), nicht am echten
 // Datensatz — die teile_*-Werte unten sind bereits die vollständige, aussagekräftige Ausgabe.

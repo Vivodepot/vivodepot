@@ -54,7 +54,7 @@ async function depotEinrichten(seite) {
   await seite.waitForSelector('#w-anfangen', { timeout: 15000 });
   await seite.click('#w-anfangen', { timeout: 5000 });
   await seite.waitForTimeout(400);
-  await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+  await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
   await seite.waitForTimeout(400);
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'],
     ['#id-pw', PW], ['#id-pw2', PW]]) await seite.fill(sel, wert, { timeout: 5000 });
@@ -139,7 +139,7 @@ async function messen(html, { dialogSchliessen: zu = false, eingriff = null } = 
     fs.writeFileSync(tempDatei, html);
     datei = tempDatei;
   }
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage({ viewport: { width: 390, height: 900 } });
     // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation registrieren

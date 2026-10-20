@@ -6,7 +6,7 @@ Zug 1/1a).
 **Bezug:** U2-ADR-123 (Sub-Depot-Selbstbestimmung statt Re-Key-Ceremony) · U2-ADR-081 Komponente 2
 Weg 1 (Anker-zu-Sub-Wandlung, weiterhin **nicht** Gegenstand dieser ADR) · Klärung 11 (eigenes
 Passwort pro Sub-Depot) · Gleichwertigkeits-Produktklarstellung (03.08.2026) ·
-`depot-gleichwertigkeit-erhebung-2026-08-04.md` · `depot-umpacken-zug0-aufwand-und-fragen-2026-08-04.md`.
+zwei interne Berichte vom 04.08.2026.
 **Status heute:** gilt — Beleg `tests/adr-124-huelle-umpacken-zug2.test.js#[U2-124·Zug2·2] die entpackte Datei öffnet über depotLaden — Inhalt byte-identisch zum Sub-Depot-Weg`.
 
 ---
@@ -103,7 +103,8 @@ kein fehlendes Stück dieses Modells.
 ## Zug 2 — gebaut 04.08.2026
 
 `umschlagEntpacken(roh)` (`vivodepot.html:7842`) hebt eine Blackbox-Hülle auf die oberste Ebene;
-verdrahtet in `cryptoOverlayOeffnen` und `angehoerigenEintritt`, direkt nach dem JSON-Parse, vor
+verdrahtet in `cryptoOverlayOeffnen` und `angehoerigenEintritt` (Letztere seither aus dem Code entfernt,
+Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js` — Ersatz nicht recherchiert), direkt nach dem JSON-Parse, vor
 `istGueltigerUmschlag`. Acht Proben in `tests/adr-124-huelle-umpacken-zug2.test.js`: Datei durch
 beide Wege geführt, Inhalt byte-identisch · altes Passwort öffnet, falsches wird abgewiesen · eine
 manipulierte Datei wird über den GCM-Auth-Tag abgewiesen · die unveränderte Blackbox-Hülle bleibt
@@ -167,7 +168,7 @@ Die Konzeptseite aus dem texte-Zug 2 (`renderSubDepotKonzept`) wurde am 04.08. v
 Zustandstafel (fünf Aussagen, Allein/Eingehängt/Wieder gelöst) auf eine Reise mit vier Stationen
 (Anlegen · Aufbewahren · Übergeben · Allein) umgestellt, weil die Zustandsform nicht zeigte, dass
 Datei und Schlüssel bei verschiedenen Personen liegen — Prüfung der gebauten Seite.
-Wortlaut-Quelle: `subdepot-konzeptseite-reise-entwurf-2026-08-04.md`, Fassung 2. Die Architektur
+Wortlaut-Quelle: interner Bericht vom 04.08.2026, Fassung 2. Die Architektur
 ändert sich nicht, nur die Darstellung — kein neuer ADR. Neun Proben in
 `tests/adr124-zug2-konzeptseite.test.js` (vorher sieben, keine entfallen).
 

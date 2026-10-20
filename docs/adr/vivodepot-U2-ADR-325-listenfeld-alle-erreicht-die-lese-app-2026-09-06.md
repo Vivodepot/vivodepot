@@ -58,7 +58,7 @@ also wirklich, was sie zu bewachen behauptet.
 
 ## Warum ein Erzeuger und kein Wächter
 
-Dieselbe Antwort, die das Repo für die Bereiche schon gibt (`tools/build-bereiche.js`): eine
+Dieselbe Antwort, die das Repo für die Bereiche schon gibt (ein nicht öffentliches Werkzeug): eine
 Quelle, generierte Region zwischen Markern, `--check` im Gate. Ein Wächter hätte zwei Listen
 verglichen; ein Erzeuger lässt die zweite gar nicht erst entstehen.
 
@@ -112,7 +112,7 @@ konformitaet:
   - aussage: >-
       Die Datenlesen-Typen der Lese-App sind die des Kerns und werden erzeugt, nicht gepflegt.
     zustand: erfuellt
-    herkunft: U2-ADR-325 (06.09.2026), Muster von tools/build-bereiche.js
+    herkunft: U2-ADR-325 (06.09.2026), Muster von ein nicht öffentliches Werkzeug
     pruefung:
       - tests/u2-adr-325-listenfeld-alle-lese-app.test.js
         "[U2-ADR-325·eine Quelle] die Typliste der Lese-App ist die des Kerns"

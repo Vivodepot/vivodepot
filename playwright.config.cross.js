@@ -47,6 +47,7 @@ module.exports = defineConfig({
   globalTeardown: require.resolve('./tests/e2e/global-teardown.js'),
   outputDir: path.join(__dirname, 'tests', 'e2e-cross', '.artifacts'),
   use: {
+    launchOptions: require('./tools/lib/netz-sperre.js').mitSperre(),   // harte Netzsperre: nur lokal (tools/lib/netz-sperre.js)
     offline: true,                // Sicherheits-Anforderung: kein Netz (file:// genügt).
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',

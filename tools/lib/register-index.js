@@ -1,7 +1,7 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════════
    register-index.js — der gemeinsame Katalog-Index-Mechanismus (Register-Katalog-
-   Plan §6 Schritt 3/4, 14.09.2026), aus tools/feldregister-bauen.js gezogen.
+   Plan §6 Schritt 3/4, 14.09.2026), aus ein nicht öffentliches Werkzeug gezogen.
    ────────────────────────────────────────────────────────────────────────────
    EIN Weg, nicht so viele wie Achsen — dieselbe Disziplin wie `_einbettenMitFassung`
    im Kern (A437/U2-ADR-145-Nachtrag): jeder Achsen-Erzeuger (Feld/Rechtsraum/

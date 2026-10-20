@@ -10,7 +10,7 @@
      2 · Vollständigkeit: jede Funktion des Kerns, die anschriftFuerAusgabe ruft, steht in AUSGABEN — eine neue Ausgabe
          ohne Zeile hier ist rot. Rot-Beweis: ein erfundener Aufrufer wird gefunden, eine Ausgabe ohne Zeile ebenso.
    ═════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');

@@ -39,7 +39,7 @@ function testfassungBauen(slug) {
 /* Öffnet die Datei, wartet auf den Eingangsschirm und misst im Seitenkontext. Ohne den Eingangsschirm wäre die Messung eine
    über eine leere Seite; darum wirft der Vorlauf, statt weiterzumessen. */
 async function inDerSeite(datei, messen, argument) {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage();
     const fehler = [];

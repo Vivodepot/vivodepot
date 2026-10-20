@@ -30,7 +30,7 @@ Der Persistenz-Befund (21.06.) hat belegt: im internen/gehosteten Modus meinte �
 
 ## Konsequenzen
 
-- Die frühere einheitliche „Gespeichert ✓"/„Depot gesichert."-Sprache für reinen Cache entfällt. `saveStatusGespeichert`/`gespeichertGeteilt` bleiben als STRINGS erhalten, aber der Cache-Pfad nutzt sie nicht mehr.
+- Die frühere einheitliche „Gespeichert ✓"/„Depot gesichert."-Sprache für reinen Cache entfällt. `saveStatusGespeichert`/`gespeichertGeteilt` blieben zunächst als STRINGS erhalten, sind inzwischen aber ganz aus dem Code entfernt (Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js`) — der Cache-Pfad hatte sie schon damals nicht mehr genutzt.
 - Der Pillen-Knopf ist nicht mehr auf `kernAPI.speichern` (= IDB im internen Modus), sondern auf die **ehrliche Datei-Aktion** verdrahtet. Der zugehörige Standtest (`topbar-sichern-einzeln-d46`) wurde auf die neue Verdrahtung nachgezogen.
 - Browser-verifiziert (echte Sitzung, interner IDB-Modus): alle drei Zustände rendern korrekt, keine Konsolenfehler; Datei-Save → Häkchen, Edit → Rücksprung. Test: `tests/persistenz-status.test.js` (PS1-1..3).
 - **Bewusst nicht hier:** die Plattform-Mechanik des Datei-Speicherns (Chromium in-place-Überschreiben vs. iOS geführt) — das ist Stück 3. Block-Pin `8d31c678…` unberührt.
@@ -230,8 +230,9 @@ Unterscheidung noch gebraucht wird.
   Sie noch kein Passwort gesetzt hatten, waren Ihre Eingaben nur vorübergehend — bitte beginnen
   Sie neu und legen Sie diesmal ein Passwort fest."
 
-**Benannter, nicht behobener Rest:** der Vertrauensperson-Eintritt (U2-ADR-062) läuft cache-only
-über `angehoerigenEintritt()`, NICHT über `depotLaden()` — `_hatteEchteSitzung` bliebe dort `false`,
+**Benannter, nicht behobener Rest (Stand 21.06.2026):** der Vertrauensperson-Eintritt (U2-ADR-062) lief cache-only
+über `angehoerigenEintritt()` — diese Funktion ist inzwischen aus dem Code entfernt (Fund 20.09.2026,
+`tools/adr-code-stellen-pruefen.js`, Ersatz nicht recherchiert). Damals: NICHT über `depotLaden()` — `_hatteEchteSitzung` bliebe dort `false`,
 obwohl konzeptuell eine Datei existiert. Eingeschätzt als geringes Risiko: die Notfall-/Angehörigen-
 Sicht ist reine Lese-Ansicht, keiner der 26 Schreibschutz-Wächter sollte von dort aus überhaupt
 erreichbar sein. Nicht verifiziert (kein Bau in diesem Zug) — benannt, damit es nicht als
@@ -660,7 +661,7 @@ U2-ADR-015 (D43 Zwei-Ebenen-Persistenz: IDB-Cache ↔ `.vivodepot`-Datei, durch 
 bestätigt), U2-ADR-011 (Auto-Save / Speicher-Status), U2-ADR-097 (produkttragende Zusicherungen,
 §-Zusage „kein Konto, keine Anmeldung", Stück 9), U2-ADR-125 (Browser-Testfähigkeit als
 Voraussetzung für Änderungen am Speicher-/Statusweg — Stück 12 ist ihr erster Nachweisfall nach
-Stück 11). Befund: `befund-generationen-persistenz-2026-06-21.md` (intern).
+Stück 11). Befund: interner Bericht vom 21.06.2026.
 
 ## Nachtrag 06.10.2026 — Stück 4 auf WebKit im Tab
 

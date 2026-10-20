@@ -88,14 +88,25 @@ test('[Zug1·b] gespeichert ist die SPRACHE, ein aktiver Rechtsraum hat gar kein
    kein literales 'DE', zählt also nie mit. Die funktionale Probe, dass der variable Wert auch
    wirklich eine andere Berechnung auslöst (nicht nur ankommt), steht in
    tests/u2-adr-254-rechtsraum-vorbelegung.test.js — hier bleibt nur die Literal-Zählung. */
-test('[Zug1·b·GEGENPROBE] drei von fünf ECHTEN Aufrufen bleiben bewusst literal, zwei sind seit U2-ADR-254 variabel', () => {
+/* R1 (U2-ADR-504 § 3, Punkt 2): die drei literal-'DE'-Stellen waren die Gerüst-Tabellen (VORSORGE_MODULE ×2,
+   LISTEN_AUSWAHLFORM). Sie lesen jetzt über `_rechtsraumKatalogDerZusammenstellung(typ, …)` den Rechtsraum der
+   Zusammenstellung — aus dem Ab-Werk-Modul, nie fest „DE“. Darum fallen sie aus dem Roh-Zähler von
+   `_rechtsraumKatalogLesen(` heraus (8 → 6: vier variable Aufrufe, die Definitionszeile und der eine Aufruf IN der neuen
+   Hilfsfunktion), und die Literal-Zählung kippt von 3 auf 0. Die Zusicherung bleibt dieselbe, nur umgedreht: es gibt
+   keinen Katalog-Aufruf mit festem Rechtsraum mehr, und die drei Stellen sind über die Hilfsfunktion weiter da. */
+test('[Zug1·b·GEGENPROBE] kein Katalog-Aufruf liest mehr einen festen Rechtsraum; die drei früheren Literal-Stellen lesen den der Zusammenstellung', () => {
   const m = mess();
-  // 6 → 8 (02.10.2026, v857, U2-ADR-466): zwei neue Aufrufe für die Rechtsgrundlage im IPS-Abschnitt Advance Directives, beide variabel
-  // (Rechtsraum des Eintrags bzw. Vorschlagswert des Depots), kein literales 'DE' — die Literal-Zählung unten bleibt bei drei.
-  assert.equal(m.b.katalogAufrufe, 8, 'die Zahl der Roh-Treffer (7 Aufrufe + 1 Definitionszeile) hat sich verändert — Messmodell neu prüfen: ' + m.b.katalogAufrufe);
-  assert.equal(m.b.davonMitDeLiteral, 3,
-    'erwartet: drei Katalog-Metadaten-Stellen bleiben literal DE, zwei sind variabel (U2-ADR-254), die Definitionszeile zählt nie mit: '
-    + m.b.davonMitDeLiteral + ' von ' + m.b.katalogAufrufe);
+  // 6 → 8 (02.10.2026, v857, U2-ADR-466): zwei neue Aufrufe für die Rechtsgrundlage im IPS-Abschnitt Advance Directives, beide variabel.
+  // 8 → 6 (R1, U2-ADR-504 § 3): die drei Literal-Stellen ziehen in `_rechtsraumKatalogDerZusammenstellung`, deren Rumpf einmal mitzählt.
+  assert.equal(m.b.katalogAufrufe, 6, 'die Zahl der Roh-Treffer (5 Aufrufe + 1 Definitionszeile) hat sich verändert — Messmodell neu prüfen: ' + m.b.katalogAufrufe);
+  assert.equal(m.b.davonMitDeLiteral, 0,
+    'R1: kein Katalog-Aufruf darf den Rechtsraum fest als \'DE\' tragen: ' + m.b.davonMitDeLiteral + ' von ' + m.b.katalogAufrufe);
+  const text = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'vivodepot.html'), 'utf8');
+  const zusammenstellung = (text.match(/_rechtsraumKatalogDerZusammenstellung\('[^']+'/g) || []).length;
+  assert.equal(zusammenstellung, 3,
+    'die drei Gerüst-Tabellen-Stellen (living-will, ki-verfuegung, will) lesen über den Rechtsraum der Zusammenstellung: ' + zusammenstellung);
+  assert.equal((text.match(/_rechtsraumKatalogDerZusammenstellung\([^)]*'DE'/g) || []).length, 0,
+    'die Hilfsfunktion bekommt keinen Rechtsraum hineingereicht');
 });
 
 /* ══ c · Der Gültigkeits-Eintrag ══════════════════════════════════════════ */

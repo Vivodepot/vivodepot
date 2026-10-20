@@ -3,7 +3,7 @@
 **Status:** Akzeptiert
 **Datum:** 23.06.2026
 **Kategorie:** ARCHITEKTUR, ONBOARDING, PROVENIENZ
-**Grundlage:** Erstnutzer-Befund (intern, `befund-erstnutzer-onboarding-akteur-timing-2026-06-22.md`) + Produktentscheidung „Setup-first". Folge-Entscheidung zu U2-ADR-034 (Wiedereintritts-Akteur) — dieselbe Wurzel (Akteur-Timing), Lage: Erstnutzer.
+**Grundlage:** Erstnutzer-Befund (interner Bericht vom 22.06.2026) + Produktentscheidung „Setup-first". Folge-Entscheidung zu U2-ADR-034 (Wiedereintritts-Akteur) — dieselbe Wurzel (Akteur-Timing), Lage: Erstnutzer.
 **Drei-Anker:**
 - **Code-Stelle:** `vivodepot.html` — `Modus.darfBearbeiten()` (jetzt akteur-abhängig); `anlegenDialogTitel`/`anlegenPrimaerLabel` (Vorschau-„Sichern"-Weiche entfällt → „Depot anlegen"/„Anlegen"); `wizardLauf` + `flowListenEintragHinzufuegen` (Vorschau → `flowDepotAnlegen` statt totem Pfad); Warntext `modalAnlegenPwWarnung` VOR dem Passwort-Feld in `_depotIdentitaetUndPasswortAbfragen` + `flowPasswortSetzen`; `d1TopbarHinweis`/`d1TopbarCta` (Vorschau-CTA „Einrichten →" → `flowDepotAnlegen`). Tests `tests/setup-first-akteur.test.js` (SF-1..4).
 - **Sprint-Commit:** `e03ce42` (lokal, kein Push).

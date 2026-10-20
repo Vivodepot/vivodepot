@@ -6,7 +6,7 @@
 **Linie:** U2
 **Drei-Anker:**
 - **Code-Stelle:** `tools/lib/vier-produkte-orte.js` (neu, die Messung + die namentliche Liste),
-  `tests/vier-produkte-orte.test.js` (neu, der umgedrehte Wächter, roter Beweis gegen eine
+  eine nicht öffentliche Probe (neu, der umgedrehte Wächter, roter Beweis gegen eine
   Fixture UND gegen den echten Baum verifiziert).
 - **ADR-Bezug:** U2-ADR-383 (die Fünf-Achsen-Tabelle — dort wurde die Drei-Orte-Zahl zuerst
   gemessen), U2-ADR-378 (dieselbe Bauform: umgedrehter Wächter, grün heute), U2-ADR-369 (e2s

@@ -122,7 +122,7 @@ Commits: `b89910a` + `27cba50` + `486f36b` (Branch `ci-probe-2026-07-02`, kein P
 Die 29 PV-Festlegungen bleiben nicht wizard-intern: Sie sind seither Felder des Bereichs Vorsorge (Sektion
 `living-will-decisions`), damit eine Anfrage, etwa einer Klinik, sie erfragen kann. Der Grund dieses Punkts bleibt gehalten:
 Die Sektion entsteht ausschließlich zur Laufzeit aus `PV_BMJ.steps`. Es gibt keine zweite, gepflegte Definition, und der
-Generator liest weiter direkt. Probe: `tests/w5-wizard-instrument-zeile-pruefen.test.js` („[W-5·TeilA]“ und Rot-Beweis).
+Generator liest weiter direkt. Probe: eine nicht öffentliche Probe („[W-5·TeilA]“ und Rot-Beweis).
 KI_KORPUS bleibt wizard-intern.
 
 ---

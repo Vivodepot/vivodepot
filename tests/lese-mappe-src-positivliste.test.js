@@ -8,7 +8,7 @@
    (Typ, Protokoll), nicht nur als Attributwert gelesen.
 
    Wortgleicher Spiegel des Kern-Fixes (vivodepot.html, _mappeInhaltAlsQuelle,
-   U2-ADR-Sicherheit 16.09.2026, s. tests/fremde-datei-reiner-text.test.js):
+   U2-ADR-Sicherheit 16.09.2026, s. eine nicht öffentliche Probe):
    eine Positivliste statt einer Verneinungsliste. Zugelassen ist nur eine
    data:-URL mit erlaubtem Bildtyp und reiner Base64-Zeichenmenge; alles
    andere ergibt null, und die Stelle zeigt ihr Symbol statt eines Bildes.

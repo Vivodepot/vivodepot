@@ -6,7 +6,7 @@
 **Linie:** U2
 **U2-Bezug:** U2-ADR-102 (die zurückgezogene Kennzeichnungs-Frage; die Antwort ist dieser
 Wechselmoment) · U2-ADR-108 (Governance-Wächter als Form) · U2-ADR-109 (elf der 41 Kandidaten)
-**Anker:** Report `wechselmoment-und-import-grenze-report-2026-07-26.md` · Bilanz-Posten 4 und 5
+**Anker:** interner Bericht vom 26.07.2026 · Bilanz-Posten 4 und 5
 **Status heute:** gilt — Beleg `tests/wechselmoment.test.js`, `tests/fhir-export-gate-identitaet.test.js`.
 
 ---

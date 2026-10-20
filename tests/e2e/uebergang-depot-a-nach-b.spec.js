@@ -70,7 +70,7 @@ async function depotSchliessenUndBytesHolen(page) {
   const bestaetigen = page.locator('#m-ok');
   const kamModal = await bestaetigen.waitFor({ state: 'visible', timeout: 2000 }).then(() => true).catch(() => false);
   if (kamModal) await bestaetigen.click();
-  await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 10000 });
+  await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 10000 });
   const bytes = await page.evaluate(() => window.__uebergangBytes);
   expect(bytes, 'FSA-Attrappe muss beim Schließen geschrieben haben').toBeTruthy();
   return bytes;
@@ -134,7 +134,7 @@ test('[Übergang 1] Depot A schließen → Depot B öffnen, derselbe Tab, kein R
     await page.click('#tb-marke');
     const modalA = page.locator('#m-ok');
     if (await modalA.waitFor({ state: 'visible', timeout: 2000 }).then(() => true).catch(() => false)) await modalA.click();
-    await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 10000 });
+    await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 10000 });
 
     await depotOeffnenOhneReload(page, dateiB, DEPOT_B.pw);
 

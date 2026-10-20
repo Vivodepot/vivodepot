@@ -20,8 +20,8 @@ test('[Nr.1] Anlege-Dialog zeigt den Speicherort-Hinweis vor dem Datei-Dialog', 
   });
   await oeffneApp(page);
   await page.click('#w-anfangen');
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');
+  await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
+  await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await page.waitForSelector('#id-pw', { state: 'visible' });
   await expect(page.locator('#modal-inhalt')).toContainText('Wir empfehlen Ihren Stick');
 });
@@ -93,7 +93,7 @@ test('[Nr.6] interner Modus: die U2-ADR-211-Erinnerung erscheint über den still
     });
     const port = srv.address().port;
     await page.goto(`http://localhost:${port}/vivodepot.html`);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     const modus = await page.evaluate(() => window.__vdOeffentlich.internerSpeicherModus());
     expect(modus, 'Vorbedingung: interner Modus').toBe(true);
     // U2-ADR-237-Nachzug (04.09.2026): der bisherige Weg über den Schließen-Dialog (#tb-schliessen

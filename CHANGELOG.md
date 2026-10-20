@@ -15,6 +15,124 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.933] – 2026-10-19
+
+### Behoben
+- Ein Passwort mit Umlaut oder ß öffnet die Depot-Datei jetzt in der Anwendung und in der Lese-App, gleich in welcher
+  Zeichenform es ankommt. Bisher konnte ein Passwort, das etwa beim Einfügen mit zerlegtem Umlaut ankam, die Datei in der
+  Anwendung öffnen und in der Lese-App nicht. Dasselbe gilt für Sub-Depots und für das Einmalpasswort einer Antwort, auch im Studio.
+- Wer eine Vorsorgevollmacht und eine Bankvollmacht eingetragen hat, dem nannte die „Notfallkarte“ unter Umständen die Person der
+  Bankvollmacht als Bevollmächtigte für den Notfall, dazu den Ablageort der Bankvollmacht. Jetzt nennt die Karte nur die Person einer
+  Vollmacht, die für die Behandlung gilt. Dieselbe Regel gilt für die Vertretung in Format-Ausgaben, für die Angabe zur
+  Vorsorgevollmacht auf den Blättern (sie sagte bei nur einer Bankvollmacht „ja“) und für die Notfallkarte in der Lese-App.
+- In der Lese-App wirkten Erweiterungen, die eine geöffnete Datei mitbrachte, ohne dass jemand sie gewählt hatte, etwa Texte,
+  Bereiche oder eine Marke. Jetzt wirkt eine solche Erweiterung dort nur, wenn sie ab Werk ist oder einen nachgeprüften Beleg trägt.
+  Unter der Herkunftsangabe steht dann „Diese Datei bringt Erweiterungen mit, die hier nicht angewandt werden:“ mit Name und Wirkung
+  jeder solchen Erweiterung. Ein Bereich, den nur eine solche Erweiterung beschreibt, steht neutral in der Ansicht, je Feld mit
+  Kennung und Inhalt; keine Angabe geht verloren.
+- Die Texte zum Speichern widersprachen sich: An einer Stelle hieß es, ein Feld speichere sich von selbst, an einer anderen, die
+  Eingaben seien erst nach dem Sichern gesichert, und eine Fehlermeldung nannte einen Knopf, den es nicht gibt. Jetzt sagt jede
+  Stelle dasselbe, passend dazu, ob dieser Browser selbst auf dem Gerät speichert oder nur die Datei bleibt, und die Fehlermeldung
+  nennt „Jetzt als Datei sichern“. Der Knopf „Sicherungskopie erstellen“ steht unter Einstellungen → „Sichern & Wiederherstellen“
+  jetzt in beiden Fällen, nicht nur, wenn der Browser selbst speichert.
+- Der amtliche Titel eines Codes brach nicht um. Auf einem schmalen Bildschirm wurde ein Bereich mit langem amtlichem Titel
+  dadurch breiter als der Bildschirm und ließ sich seitlich verschieben. Der Titel bricht jetzt um. In einer Vorführung steht
+  die Notiz nach einem Wechsel der Seite wieder an der Ansicht, statt mit der Zwischenkarte zu verschwinden.
+
+### Sicherheit
+- VD-SEC-024 (hoch): Behoben in v933.
+  Worum es geht: Ein Fach verschließt die Angaben, die ein Empfängerkreis öffnen darf. Für die übrigen Angaben legt die
+  Depot-Datei Platzhalter an, damit von außen nicht zu sehen ist, was zu einem Fach gehört. Diese Platzhalter waren ein Byte
+  länger als die echten Schlüsselumschläge. Wer eine Depot-Datei mit eingerichtetem Fach ohne Passwort untersuchte, konnte
+  daran ablesen, wie viele Angaben ein Fach öffnet und welche verschlüsselten Teile dazugehören. Inhalte, Feldnamen und die
+  Namen der Kreise blieben verschlossen.
+  Was jetzt gilt: Platzhalter und echte Schlüsselumschläge sind gleich lang, und die Anwendung speichert nicht, wenn sie es
+  nicht sind.
+  Betroffen: die ausgelieferten Fassungen v670 bis v931, Depot-Dateien mit mindestens einem eingerichteten Fach, auch
+  Teil-Depots mit eigenem Fach und deren Exporte; nicht der Ausschnitt für einen Empfänger.
+  Was zu tun ist: auf v933 aktualisieren und die Depot-Datei einmal speichern; ein Teil-Depot mit eigenem Fach dazu einmal
+  mit seinem eigenen Passwort öffnen und speichern; über ein Fach geöffnet, wird es nicht neu geschrieben. Kopien, die vorher gespeichert oder weitergegeben wurden, bleiben, wie sie sind, und zeigen weiter,
+  welche Einheiten zu einem Fach gehören.
+- VD-SEC-025 (mittel): Behoben in v933.
+  Worum es geht: Der verschlüsselte Teil eines Fachs wird auf eine einheitliche Länge aufgefüllt. Gemessen wurde in Zeichen,
+  verschlüsselt in Bytes. Trug der Name eines Empfängerkreises einen Umlaut oder ein anderes Zeichen außerhalb von ASCII,
+  wurde der verschlüsselte Teil seines Fachs länger als die anderen. Ohne Passwort war daran zu erkennen, dass der Name solche
+  Zeichen trägt, und grob wie viele; den Namen selbst nicht.
+  Was jetzt gilt: Aufgefüllt wird in Bytes; die verschlüsselten Teile aller Fächer einer Datei sind gleich lang, und die
+  Anwendung speichert nicht, wenn sie es nicht sind.
+  Betroffen: die ausgelieferten Fassungen v670 bis v931, Fächer mit einem solchen Kreisnamen.
+  Was zu tun ist: wie bei VD-SEC-024.
+- VD-SEC-023 (hoch): Behoben, Hinweis nachgetragen mit v933.
+  Worum es geht: Öffnete ein Produkt eine Datei mit Bereichen, die Vivodepot nicht ausgeliefert hat (etwa aus einem anderen
+  Produkt), behandelten Anwendung und
+  Lese-App jeden dieser Bereiche wie einen von Vivodepot ausgelieferten, mit allen Eigenschaften und ohne Spur in der
+  Herkunftsangabe. Ein Feld eines solchen Bereichs konnte so einen Termin in die Prüftermine des Depots setzen.
+  Was jetzt gilt: Alle Bereiche werden weiter gezeigt. Als ausgeliefert gilt eine Beschreibung nur nach ihrem Inhalt; sonst
+  behält sie nur, was anzeigt, Eingaben annimmt oder einschränkt, und steht in der Herkunft als Erweiterung ohne geprüfte
+  Herkunft.
+  Betroffen: die vor v927 ausgelieferten Fassungen (zuletzt v923).
+  Was zu tun ist: Ein PDF, das vor v927 aus einer solchen Datei erzeugt wurde, nennt diese Bereiche in der Herkunft nicht; es mit
+  der aktuellen Fassung neu erzeugen.
+- VD-SEC-010 (hoch): Behoben, Hinweis nachgetragen mit v933.
+  Worum es geht: Die Lese-App zeigte die Vorlage eines Anbieters, der widerrufen und zugleich abgelaufen war, als „abgelaufen“
+  und nicht als widerrufen. Ausgelöst werden konnte das nicht, denn bis heute wurde kein Widerruf ausgeliefert.
+  Was jetzt gilt: Die Lese-App prüft den Widerruf vor dem Ablauf, wie die Anwendung. Eine nicht leere Widerrufsliste geht nur
+  mit grüner Prüfung dieses Falls in eine Auslieferung.
+  Betroffen: die Lese-App in den vor v917 ausgelieferten Fassungen (zuletzt v857).
+  Was zu tun ist: nichts; seit v917 gilt die Korrektur.
+- VD-SEC-013 (hoch): Behoben, Hinweis nachgetragen mit v933.
+  Worum es geht: Las jemand eine fremde Sicherung (JSON) vollständig in das eigene Depot ein, kamen die Schlüssel der Fächer aus
+  der fremden Datei mit. Danach verschloss das eigene Depot Angaben eines Fachs unter einem Schlüssel, den der Ersteller dieser
+  Sicherung kennen konnte.
+  Was jetzt gilt: Ein Import bringt kein Fach-Material mehr mit. Der Empfängerkreis kommt mit, das Fach nicht; die Anwendung
+  sagt beim Einlesen, dass es neu einzurichten ist.
+  Betroffen: die vor v918 ausgelieferten Fassungen mit Fächern (zuletzt v917).
+  Was zu tun ist: Wer mit einer Fassung bis v917 eine fremde Sicherung vollständig eingelesen hat, muss selbst handeln, denn die
+  Anwendung erkennt ein so übernommenes Fach nicht: das Fach entfernen, speichern und neu einrichten. Ältere Kopien der Datei
+  bleiben unter dem alten Schlüssel lesbar.
+
+### Hinzugefügt
+- Eine Antwort an eine Stelle wird jetzt signiert. Lese-App und Studio zeigen beim Öffnen „Unverändert seit dem Signieren“ und
+  den Schlüssel, mit dem signiert wurde. Kann der Browser nicht signieren, geht die Antwort trotzdem verschlüsselt hinaus; die
+  Anwendung sagt das vorher, und Lese-App und Studio zeigen „Diese Antwort ist nicht signiert (Browser ohne Ed25519).“ Eine
+  unsignierte Antwort aus einer früheren Fassung trägt den Satz „Diese Antwort ist nicht signiert. Die Fassung, mit der sie
+  erstellt wurde, signiert noch keine Antworten.“
+- Die zwei Auszüge zur Vorbereitung eines Antrags bei Gericht, Beratungshilfe und Erbschein, sind unter dem Namen „Zugang zum
+  Recht“ auffindbar. Die Suche findet sie unter „Zugang zum Recht“, „Beratungshilfe“ oder „Erbschein“ und öffnet den Auszug. Ihre
+  Knöpfe heißen „Beratungshilfe-Auszug ansehen“ und „Erbschein-Auszug ansehen“, und die Hilfe hat ein Thema „Zugang zum Recht:
+  Beratungshilfe und Erbschein“.
+- Bevor die Anwendung eine Antwort mit einem Einmalpasswort unter 16 Zeichen verschlüsselt, erscheint der Hinweis „Kurzes
+  Passwort“: Ein kurzes Passwort lässt sich leichter erraten, und man kann die anfragende Stelle um ein längeres bitten. Mit
+  „Trotzdem verschlüsseln“ geht es weiter, mit „Abbrechen“ zurück zur Eingabe.
+- Bei deutschem Rechtsraum nennt der Fuß eines Dokuments, etwa einer Patientenverfügung, dass die Dokumentart nach deutschem Recht
+  gedacht ist, vorerst nur in deutschsprachigen Dokumenten. Der Rechtsraum kommt dabei aus der mitgelieferten Erweiterung für den Rechtsraum, nicht mehr aus einer festen
+  Annahme der Anwendung.
+
+### Geändert
+- Für eine Datei oder einen QR-Code für eine Person („Datei für diese Person erzeugen“, „QR-Code für diese Person erzeugen“) und
+  für das Passwort einer Schlüsseldatei („Passwort (mindestens 12 Zeichen)“ im Studio, ebenso in den übrigen Werkzeugen, die
+  Schlüsseldateien schreiben) gelten jetzt mindestens 12 statt 8 Zeichen.
+  Dateien mit kürzerem Passwort aus früheren Fassungen öffnen weiter. Enthält ein Passwort Umlaute, ß oder €, rät die Stärkeanzeige,
+  sie besser wegzulassen, weil Tastatur und Zeichenkodierung auf einem anderen Gerät manchmal anders sind.
+- Beim Umsehen ohne Depot steht je Ansicht nur noch eine Aufforderung zum Anlegen: Zeigt die Ansicht schon die Karte „Sie sehen sich
+  gerade um.“ oder den Knopf in „Sub-Depots“, weicht der Hinweis oben. Alle diese Stellen heißen „Depot anlegen“. Auf dem
+  Willkommensschirm ist „Depot anlegen“ der Hauptknopf, daneben steht „Erst umsehen, ohne zu speichern“; der Hinweis, dass
+  automatisches Speichern auf dem Gerät nicht verfügbar ist, steht dort im Text statt als kurz eingeblendete Meldung. Untertitel
+  und Unterzeile des Willkommensschirms sind neu gefasst. In „Meine Vorsorge auf einen Blick“ steht bei einem Dokument ohne
+  Eintrag nicht mehr „keine“.
+  „Vermögen und Einkommen“ hat einen Einführungstext, die Einführungen von „Meine Menschen“ und „Gesundheit“ sagen, wofür der
+  Bereich im Alltag da ist, „Gesundheit“ trägt in der Navigation die Unterzeile „Ärzte, Medikamente, Befunde“, und unter „Persönliches“ steht in der Navigation „Erinnerungen und Wünsche“.
+- Studio: Nach „Sicherung speichern“ entsteht mit „Antragsdatei erstellen“ die Datei, die mit dem Antragsformular an Vivodepot
+  geht. Sie enthält den öffentlichen Schlüssel und einen Nachweis, dass man den privaten Schlüssel besitzt; dafür trägt man die
+  „Antragsnummer (steht im Antragsformular von Vivodepot)“ ein. Die einzelne Datei mit dem öffentlichen Schlüssel entfällt.
+  Für das Angehörigen-Blatt braucht es die Antragsdatei nicht.
+- Eine Erweiterung für das Erscheinungsbild ohne Signatur kann die Schrift nicht mehr beliebig klein setzen: Es gelten dieselben
+  Untergrenzen wie für ein Erscheinungsbild, 10 px je Schriftrolle und 14 px für den Fließtext. Ein kleinerer Wert wird verworfen.
+- Im öffentlichen Feldregister sind die drei Zwischenspeicher des Geburts-Assistenten als „deprecated“ markiert: Sie
+  waren kein Datenfeld einer Person. Ihre Kennungen bleiben bestehen und auflösbar; welche es sind, nennt das Register.
+- Im öffentlichen Feldregister tragen 114 Kennungen eine Entsprechung zu den SEMIC Core Vocabularies der EU (exakt, nah oder
+  weiter gefasst); die Grade sind die Auslegung von Vivodepot.
+
 ## [v1.0.931] – 2026-10-17
 
 ### Behoben

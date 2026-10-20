@@ -99,7 +99,7 @@ test('[Standards·Bestand] Register und Manifest des Repos sind stimmig; FHIR st
   assert.equal(fhir.inhalt.adapter, 'hl7-fhir-validator');
   // + kbv-mio-pka (29.09.2026, v835): der Weglauf-Code aus dem KBV-CodeSystem, Status teilweise.
   // + eu-lab (01.10.2026): der Import fhir-lab steht im Register, mit Kandidat statt Prüfer.
-  // + isik-dokumente (03.10.2026): der Export isik (U2-ADR-468), Prüfer tools/isik-validieren.js, Status teilweise.
+  // + isik-dokumente (03.10.2026): der Export isik (U2-ADR-468), Status teilweise; Prüfer seit 16.10.2026 der Konformitätslauf (tests/konformitaet/externe-validatoren.mjs).
   // + smart-health-links (16.10.2026): der SHL-Weg (U2-ADR-047), kein Eintrag in EXPORT_FORMATE, mit Kandidat statt Prüfer.
   // + verwahrungsnachweis (16.10.2026): die Hülle (U2-ADR-444), Prüfer der Konformitätslauf (Fälle verwahrung-*).
   assert.deepEqual(fhir.inhalt.standards.map((s) => s.id).sort(), ['eu-eps', 'eu-lab', 'ips', 'isik-dokumente', 'kbv-mio-pka', 'smart-health-links', 'verwahrungsnachweis']);

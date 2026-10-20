@@ -195,9 +195,9 @@ async function bildschirmMessen(browser, datei, bildschirm, breite) {
   }
 }
 
-// Eine Datei ohne App (#w-anlass) wird nur als Seite gemessen: ein Bildschirm „seite“.
+// Eine Datei ohne App (#w-anlegen) wird nur als Seite gemessen: ein Bildschirm „seite“.
 async function dateiMessen(browser, datei) {
-  const istApp = /id=["']w-anlass["']/.test(fs.readFileSync(datei, 'utf8'));
+  const istApp = /id=["']w-anlegen["']/.test(fs.readFileSync(datei, 'utf8'));
   const ergebnis = {};
   for (const breite of BREITEN) {
     if (!istApp) {
@@ -240,7 +240,7 @@ async function main() {
   }
   const chromium = chromiumLaden();
   if (!chromium) { console.error('[ruhe-messen] Chromium fehlt (node_modules/playwright) — nichts gemessen.'); process.exitCode = 2; return; }
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   try {
     const a = await dateiMessen(browser, datei);
     const b = vergleich ? await dateiMessen(browser, vergleich) : null;

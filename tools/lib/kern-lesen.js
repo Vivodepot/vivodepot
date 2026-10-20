@@ -12,7 +12,7 @@
 
    GEFUNDEN, AN DIESEM TAG, DREIMAL: die E2E-Strecke (-80), neun Wächter-
    Anker in tools/waechter-register.js (-6c), und die beiden Werkzeuge,
-   deren Fix diese Datei trägt (tools/nativ-bestand-aenderungen-erheben.js,
+   deren Fix diese Datei trägt (ein nicht öffentliches Werkzeug,
    tools/anzeigetexte-orten.js). Kein Zufall — derselbe blinde Standard.
 
    DIE UMKEHRUNG: `kernGebackenLesen()` ist der bequeme, empfohlene Weg —

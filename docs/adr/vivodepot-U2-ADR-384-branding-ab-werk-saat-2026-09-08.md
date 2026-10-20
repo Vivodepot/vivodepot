@@ -27,7 +27,7 @@ Vier unabhängige Messungen, alle gegen den echten Bestand, nicht angenommen:
   kein `brandingModulPfad`. Der Erzeuger druckt für jedes Produkt selbst „(keins — nativer
   Rückfall)".
 - **`VIVODEPOT_BRANDING` war reines Test-Artefakt.** Einzige Konsumenten (vor diesem Zug):
-  `tests/vivodepot-branding-inhalt.test.js`, `tests/pruefstand-bindung.test.js`,
+  `tests/vivodepot-branding-inhalt.test.js`, eine nicht öffentliche Probe,
   `tests/e2e/marke-e2e-abnahme.spec.js`. Keine Produktionsdatei las sie — dasselbe Muster wie die
   Pro-Achse (eine Konstante, die nur existiert, damit Proben grün sind).
 - **Der „zweite, kürzere Weg" existierte tatsächlich, im eigenen U2-ADR-362-Code:**
@@ -43,9 +43,9 @@ Vier unabhängige Messungen, alle gegen den echten Bestand, nicht angenommen:
   Fallback und geladenem `VIVODEPOT_BRANDING` über den echten signierten Weg — aber
   `signiertesBuendelBauen()` erzeugt dafür ein EPHEMERES Test-Schlüsselpaar, keinen echten Anker.
 
-**Nicht Teil der Lücke, geprüft und ausgeschlossen:** `tools/buergermodul/vd-branding.json` (nur
+**Nicht Teil der Lücke, geprüft und ausgeschlossen:** eine nicht öffentliche Datei (nur
 `name`, keine Farben/Schrift/Logo) ist kein zweites, konkurrierendes Artefakt zu
-`VIVODEPOT_BRANDING` — `tests/erzeuger-deckung-sprache-rechtsraum-marke.test.js` dokumentiert das
+`VIVODEPOT_BRANDING` — eine nicht öffentliche Probe dokumentiert das
 bereits ausdrücklich als Absicht: Farben/Schrift/Logo liegen im Kern nur als CSS-Variable, keine
 Datenwerte, die der freie Bürgerapp-Schnitt ziehen könnte. Zwei verschiedene Zwecke (freies
 Bürgerapp-Bündel vs. Vivodepots eigenes geprüftes Branding), kein Widerspruch.
@@ -119,7 +119,7 @@ Modul, keine Sonderregel für den eigenen Fall.
 
 **`tools/vivodepot-branding-inhalt.js` gemessen, nicht mehr zweimal gesetzt.** Bis zu diesem Zug
 stand dort eine von Hand getippte zweite Fassung derselben Werte — derselbe Fehler, den
-`tools/buergermodul-schnitt.js` für den Markennamen bereits ausschließt („DER MARKENNAME WIRD
+ein nicht öffentliches Werkzeug für den Markennamen bereits ausschließt („DER MARKENNAME WIRD
 GEMESSEN, NICHT GESETZT"). Das Werkzeug liest `V.AB_WERK_BRANDING` jetzt über `ladeKern()` — eine
 Abweichung zwischen Kern und Werkzeug ist damit strukturell ausgeschlossen, nicht nur durch eine
 Probe verboten.
@@ -147,7 +147,7 @@ liest tatsächlich über die geprüfte Saat, nicht über ein bloßes Literal) un
 Isolations-Probe (kein Aufrufer im `modulEinlassen`-Bereich).
 
 65 gegengeprüfte Bestandsproben ohne Regression: `tests/marke-anzeige-anwenden.test.js` (10),
-`tests/pruefstand-bindung.test.js` (11, inkl. der eigenen `[U2-ADR-296]`-Proben gegen
+eine nicht öffentliche Probe (11, inkl. der eigenen `[U2-ADR-296]`-Proben gegen
 `VIVODEPOT_BRANDING`), `tests/vivodepot-branding-inhalt.test.js` (4, jetzt gegen den aus dem Kern
 gemessenen Wert), `tests/konfektion-nativ-vergleichen.test.js`/`manifest-konfektionieren.test.js`/
 `produkt-konfektionieren.test.js`/`vier-produkte.test.js` (40 — unangetastet, `produkt-

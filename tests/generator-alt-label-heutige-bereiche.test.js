@@ -4,7 +4,7 @@
    ───────────────────────────────────────────────────────────
    `normBereich` im Template-Generator liest eine alte Einreichung oder ein CSV, das den Bereich
    noch als deutsche Beschriftung trägt. Zuerst gegen die heutige Beschriftung, dann gegen das
-   Archiv `BEREICH_ALT_LABEL` (erzeugt aus tools/build-bereiche.js). Nach dem Kennungs-Umbau zeigte
+   Archiv `BEREICH_ALT_LABEL` (erzeugt aus ein nicht öffentliches Werkzeug). Nach dem Kennungs-Umbau zeigte
    das Archiv noch auf die deutschen IDs: jede Beschriftung, die es nur dort gibt („Menschen",
    „Identität", „Vorsorge" …), landete auf einem Bereich, den der Generator nicht kennt.
    Der Kern (`_BEREICH_ALT_LABEL`) war schon englisch — beide müssen dasselbe liefern.

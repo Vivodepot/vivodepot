@@ -42,9 +42,13 @@ test('[Zuschnitt-Weiche·Rot-Beweis] dieselbe Kanon-Wurzel mit der öffentlichen
 
 const STELLEN = Object.freeze({
   'tests/kern-testflaeche.test.js': 2,          // Ratsche (Zahl der Specs), Klasse (Tiefe der Helfer)
-  'tests/navicon-alle-seiten.test.js': 1,       // Zahl der Wurzel-Seiten
-  'tests/pro-zuschnitte.test.js': 1,            // Werkzeuge der Auslieferungskette, die der Zuschnitt zurückhält
-  'tests/suite-rot-zusammenfassung.test.js': 1, // beide Hook-Proben (die Hooks sind zurückgehalten)
+  'tests/navicon-alle-seiten.test.js': 1,       // Zahl der Wurzel-Seiten (zuschnitt-privat: öffentlich zurückgehalten)
+  'tests/pro-zuschnitte.test.js': 1,            // Werkzeuge der Auslieferungskette, die der Zuschnitt zurückhält (zuschnitt-privat: öffentlich zurückgehalten)
+  'tests/e2e/eine-anlege-aufforderung-je-ansicht.spec.js': 1, // öffentlich kein Pro-Produkt (20.10.2026, Grund je Weiche: tests/e2e-oeffentlich-weichen.test.js)
+  'tests/e2e/fix-6-trefferflaechen.spec.js': 1,                 // öffentlich ohne die zurückgehaltenen Vorlagen (20.10.2026, gemessen: mit den Vorlagen grün)
+  'tests/e2e/f8-dokument-oeffner-abnahme.spec.js': 1,           // öffentlich ohne die zurückgehaltenen Vorlagen (20.10.2026)
+  'tests/e2e/nachlese-f8-m1-zug4-abnahme.spec.js': 1,           // öffentlich ohne die zurückgehaltenen Vorlagen (20.10.2026)
+  'tests/suite-rot-zusammenfassung.test.js': 1, // beide Hook-Proben (die Hooks sind zurückgehalten; zuschnitt-privat)
 });
 
 test('[Zuschnitt-Weiche·Positivliste] genau diese Proben rufen die Weiche, je mit dieser Zahl von Stellen', () => {
@@ -59,5 +63,7 @@ test('[Zuschnitt-Weiche·Positivliste] genau diese Proben rufen die Weiche, je m
     }
   };
   lauf('tests');
-  assert.deepEqual(gefunden, STELLEN);
+  // Im öffentlichen Zuschnitt fehlen die zurückgehaltenen Proben (Schicht 2); dort zählen nur die vorhandenen. Im Kanon gilt die ganze Liste.
+  const erwartet = W.imOeffentlichenZuschnitt(REPO) ? Object.fromEntries(Object.entries(STELLEN).filter(([d]) => fs.existsSync(path.join(REPO, d)))) : STELLEN;
+  assert.deepEqual(gefunden, erwartet);
 });

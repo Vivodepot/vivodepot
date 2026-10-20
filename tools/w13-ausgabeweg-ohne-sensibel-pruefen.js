@@ -72,7 +72,7 @@ function bauZielFunktion(html, formatId) {
   return m ? m[1] : null;
 }
 
-// 'json' entfernt (U2-ADR-NNN, 18.09.2026): der offene JSON-Vollexport ist aus EXPORT_FORMATE
+// 'json' entfernt (U2-ADR-508, 18.09.2026): der offene JSON-Vollexport ist aus EXPORT_FORMATE
 // entfernt — kein `id: 'json' ... baue:`-Eintrag mehr aufzulösen. Die Funktion selbst
 // (vollExportJSON) bleibt internes Meßinstrument, ist aber kein Ausgabeweg über diese Registry
 // mehr, s. docs/adr/…-offener-json-vollexport-entfernt-2026-09-17.md.

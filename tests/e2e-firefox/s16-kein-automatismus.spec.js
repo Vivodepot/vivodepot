@@ -21,7 +21,7 @@ const PW = 's16-firefox-abnahme-741';
 
 async function oeffneAppOhneFsa(page) {
   await page.goto(KERN_URL);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
 }
 
 async function feldSetzenMitEchtemBlur(page, feldId, wert) {

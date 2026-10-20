@@ -14,7 +14,7 @@
 
    KORREKTUR AN DER ERSTEN FASSUNG DIESES AUFTRAGS (die Produktentscheidung über,
    07.09.2026): Schritt eins — deutschen Text aus dem Kern herausziehen — ist
-   LÄNGST getan. Gemessen (`tools/inline-texte-messen.js`): 270 Felder tragen
+   LÄNGST getan. Gemessen (mit einem nicht öffentlichen Werkzeug): 270 Felder tragen
    praktisch keinen Inline-Text mehr (12 gesamt), die zentrale Schicht steht
    als `_STRINGS_EINGEBAUT` (1190 Einträge, vivodepot.html:4426) hinter dem
    `STRINGS`-Proxy (vivodepot.html:11049, „Textsatz zuerst, sonst der eingebaute
@@ -56,7 +56,7 @@
    dafür bereits einen zweiten, aufruferlosen Prüfweg gebaut —
    `_textsatzModulPruefenGeruest` (identisch zu `textsatzModulPruefen`, bis auf die eine
    Zeile, die 'de' zulässt) — GENAU für diesen Fall, mit einer Ratsche
-   (`tests/u2-adr-285-textsatz-geruest-modul.test.js`), die nur den KERN-Quelltext
+   (eine nicht öffentliche Probe), die nur den KERN-Quelltext
    scannt: ein Aufruf von HIER AUSSEN (ein Tool-Skript, niemals Teil von
    `vivodepot.html`) berührt sie nicht. Dieser Erzeuger nutzt sie darum für die eigene
    Validierung vor dem Schreiben — der EINLASSWEG selbst (`EINLASS_REGISTER`,
@@ -99,12 +99,12 @@
    über `deTexte()`, nicht mehr über den flachen Bezeichner. Der Bau-Zweck
    dieses Werkzeugs (ein eigenständiges, andockbares JSON-Modul erzeugen) ist davon unberührt.
 
-   DER WÄCHTER, DER DIESEN ZUG TRÄGT (tests/textsatz-de-modul-erzeugen.test.js):
+   DER WÄCHTER, DER DIESEN ZUG TRÄGT (eine nicht öffentliche Probe):
    DE- und EN-Modul tragen DIESELBE Kennungsmenge. Eine Prüfung, die nur „das
    DE-Modul ist wohlgeformt" fragt, bewacht nichts — die GLEICHHEIT der beiden
    Mengen ist die Eigenschaft, an der die vier Produkte hängen. Rot-Beweis dort:
    eine Kennung im DE-Modul fehlt → der Wächter wird rot, nicht nur „ungewöhnlich".
-   ZWEITER WÄCHTER (tests/textsatz-offen-juristisch-paritaet.test.js): die 151
+   ZWEITER WÄCHTER (eine nicht öffentliche Probe): die 151
    OFFEN_JURISTISCH-Kennungen sind in BEIDEN Modulen vorhanden und byte-gleich zum
    deutschen amtlichen Original — Rot-Beweis: eine davon im EN-Modul übersetzen → rot.
 
@@ -139,8 +139,8 @@ function baueModul() {
   // sie zur Laufzeit je liest. Der `Object.assign` unten bleibt trotzdem bestehen (keine
   // zweite Quelle mehr, nur ein no-op-Überschreiben mit identischem Wert) — die eine benannte
   // Quelle für den Wortlaut sind weiterhin diese beiden Dateien, nicht der Kern.
-  const { TEXTSATZ_DE_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-de-pro-bereich-daten.js'));
-  const { TEXTSATZ_DE_PRO_FELDER } = require(path.join(__dirname, 'textsatz-de-pro-felder-daten.js'));
+  const { TEXTSATZ_DE_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-de-pro-bereich-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+  const { TEXTSATZ_DE_PRO_FELDER } = require(path.join(__dirname, 'textsatz-de-pro-felder-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   Object.assign(texte, TEXTSATZ_DE_PRO_BEREICH, TEXTSATZ_DE_PRO_FELDER);
 
   // U2-ADR-440: die Festlegungen der Patientenverfügung tragen als Felder denselben Wortlaut wie im Assistenten — abgeleitet, nicht gepflegt.
@@ -200,7 +200,7 @@ function main() {
   // ist heute NICHT über den normalen Bürgerinnen-Weg einlassbar — s. Kopf-Kommentar.
   // _textsatzModulPruefenGeruest ist der dafür gebaute, aufruferlose Prüfweg (identisch
   // bis auf die 'de'-Zeile); ein Aufruf von hier außen (Tool-Skript, nie vivodepot.html)
-  // rührt die Ratsche in tests/u2-adr-285-textsatz-geruest-modul.test.js nicht an.
+  // rührt die Ratsche einer nicht öffentlichen Probe nicht an.
   // { vertrauenswuerdig: true }: dieses Modul IST die eingebackene Ab-Werk-Saat (der Kern nimmt es
   // mit demselben Argument an); ohne es verwirft die Prüfung die Zusicherungs-Kennungen.
   const r = V._textsatzModulPruefenGeruest(modul, { vertrauenswuerdig: true });

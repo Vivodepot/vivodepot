@@ -47,7 +47,7 @@ Diese Entscheidung stand bis zum 22.07.2026 **ausschließlich als Code-Kommentar
 | --- | --- | --- |
 | 1 | Sechs Gate-Querverweise in den fünf Angehörigen-Blättern (`_ANG_SITUATIONEN`) + `angehoerigenCacheModell` | abgeleitete Instrument-Zeile; Cache schneidet die Quellfelder mit |
 | 2 | Neun Querverweise in den Kern-`SITUATIONEN` + neun in `vivodepot-lesen.html` + drei `vollmachten`-Waisen in der Lese-App | Ableitung; Lese-App-Spiegel der Typ→Gate-Brücke (geschlossen); Click-Through landet auf der Liste |
-| 3 | `modulKarteStatus` (Nicht-`mehrfach`-Zweig, die einzige `gateFeld`-Lesestelle) · `crossRef.pruef` Betreuungsverfügung | Record-ODER-Gate; Regal-Karte und PV-Dokument |
+| 3 | `modulKarteStatus` (Nicht-`mehrfach`-Zweig, die einzige `gateFeld`-Lesestelle — `gateFeld` selbst später per U2-ADR-096 Block H entfernt, „Alle sechs Gate-Felder sind entfallen") · `crossRef.pruef` Betreuungsverfügung | Record-ODER-Gate; Regal-Karte und PV-Dokument |
 | 4 | Import-Alias (`B16_FELD_MAPPING`) | Gate-Aliase behalten, fehlenden `betreuungsverfuegung` ergänzt — s. §5 |
 
 **Die Lese-App ist ein eigenständiger Konsument** mit eigenen Kopien von `crossRefFeldUndRoh`/`akutZeileHTML`. Block 1 hatte sie nicht mitgezogen — das war die Wurzel der Regression `aa15787`. Block 2 spiegelt die Ableitung eigens (`_INSTRUMENT_GATE_LESEN`, `instrumentZeileModellLesen`) und weist sie eigens nach.

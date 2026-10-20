@@ -32,7 +32,7 @@ Das `data-einlesen-zentral`-Attribut trägt keinen Bereich mehr (neutraler Marke
 
 ## Umsetzung
 
-- `vivodepot.html`: STRINGS `einlesenWohinTitel`/`einlesenWohinHinweis`/`einlesenWohinAuto`; neue Funktion `flowEinlesenZentral()`; Sidebar-Tür `data-einlesen-zentral="1"` + Verdrahtung auf `flowEinlesenZentral`; abgrenzender Kommentar an der Herausgeben-Tür.
+- `vivodepot.html`: STRINGS `einlesenWohinTitel`/`einlesenWohinHinweis` und (Stand 05.07.2026) `einlesenWohinAuto` — Letztere aus dem heutigen Code entfernt (Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js` — Ersatz nicht recherchiert); neue Funktion `flowEinlesenZentral()`; Sidebar-Tür `data-einlesen-zentral="1"` + Verdrahtung auf `flowEinlesenZentral`; abgrenzender Kommentar an der Herausgeben-Tür.
 - `tests/load-kern.js`: `flowEinlesenZentral` im Verify-Hook.
 - Tests: `tests/einlesen-zentral-neutral.test.js` (neu, 6 — Picker-Struktur, Ziel-Menge = Sektor-Format-Bereiche, kein Gesundheits-Routing, Ziel-Flows, strukturelle Verdrahtung). `tests/rein-raus-durchstich.test.js` + `tests/knopf-einlese-dichte.test.js` (C4) auf das neutrale Verhalten nachgezogen.
 - Browser-Preview: zentrale Tür → „Wohin einlesen?" (8 Bereiche + Auto), Klick „Finanzen" → Finanz-Chooser — verifiziert.

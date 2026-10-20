@@ -66,7 +66,7 @@ for (const { name, pfad } of TRAEGER) {
 
   describe(`[Rahmen-Schutz] ${name}`, () => {
     test('ungerahmt (Regelfall): der Inhalt wird sichtbar', async () => {
-      const browser = await chromium.launch();
+      const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
       try {
         const page = await browser.newPage();
         await page.goto(traegerUrl, { waitUntil: 'domcontentloaded', timeout: 15_000 });
@@ -79,7 +79,7 @@ for (const { name, pfad } of TRAEGER) {
     });
 
     test('Rot-Beweis: gerahmt, Umleitung gelingt — das Rahmen-Fenster verlässt den Rahmen', async () => {
-      const browser = await chromium.launch();
+      const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
       try {
         const wrapperPfad = wrapperSchreiben(traegerUrl, null);
         const page = await browser.newPage();
@@ -92,7 +92,7 @@ for (const { name, pfad } of TRAEGER) {
     });
 
     test('schärfste Probe: gerahmt, Sandbox verhindert die Umleitung — der Inhalt bleibt verborgen', async () => {
-      const browser = await chromium.launch();
+      const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
       try {
         // allow-scripts OHNE allow-top-navigation: das Skript im Rahmen-Inhalt läuft,
         // `top.location` SETZEN wird vom Browser verweigert — genau das Werkzeug eines

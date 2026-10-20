@@ -178,6 +178,10 @@ const REGISTRY = [
   { label: 'MODUL_HERKUNFT_FORMAT', art: 'wert',
     original: { datei: 'vivodepot.html', name: 'MODUL_HERKUNFT_FORMAT' },
     kopien: [{ datei: 'vivodepot-lesen.html', name: 'MODUL_HERKUNFT_FORMAT' }] },
+  // NOTFALLKARTE-VOLLMACHTART (18.10.2026): die Lese-App wählt die Bevollmächtigte nach derselben Regel wie der Kern.
+  { label: 'IPS_VORSORGE_ARTEN_AUSGENOMMEN', art: 'liste',
+    original: { datei: 'vivodepot.html', name: 'IPS_VORSORGE_ARTEN_AUSGENOMMEN' },
+    kopien: [{ datei: 'vivodepot-lesen.html', name: 'IPS_VORSORGE_ARTEN_AUSGENOMMEN' }] },
   { label: 'NOTFALL_KERN_FELDER', art: 'liste-von-objekten',
     original: { datei: 'vivodepot.html', name: 'NOTFALL_KERN_FELDER' },
     kopien: [{ datei: 'vivodepot-lesen.html', name: 'NOTFALL_KERN_FELDER' }] },

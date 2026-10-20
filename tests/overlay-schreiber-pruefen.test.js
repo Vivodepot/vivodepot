@@ -19,9 +19,10 @@ test('[Overlay·Wächter] jeder Aufruf eines Overlay-Schreibers holt das Overlay
 });
 
 // Deckel: die Positivliste darf nur schrumpfen — 15 Stellen über 14 Einträge (zwei Boot-Aufrufe teilen einen), 01.10.2026.
+// 17.10.2026: 14 Stellen über 13 Einträge — der Knopf „Weiter“ (#w-anlass) auf dem Startschirm entfällt mit „Einstieg nach Zustand“.
 // Ein neuer Eintrag oder eine neue Stelle hebt den Deckel nur mit Wort der Gegenlesung.
-const DECKEL_STELLEN = 15;
-const DECKEL_EINTRAEGE = 14;
+const DECKEL_STELLEN = 14;
+const DECKEL_EINTRAEGE = 13;
 test('[Overlay·Wächter·Deckel] die Positivliste wächst nicht über ihren Deckel', () => {
   const ueberListe = pruefen(KERN).stellen.filter((s) => !s.gedeckt && s.grund).length;
   assert.ok(ueberListe <= DECKEL_STELLEN, 'Stellen über die Positivliste: ' + ueberListe + ' > ' + DECKEL_STELLEN);

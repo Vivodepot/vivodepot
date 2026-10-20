@@ -16,7 +16,7 @@ unverdrahtet"), U2-ADR-285 ('de'-Ladeweg, dieselbe Grundform unabhängig gebaut)
 existierte. Der Grund, den ADR-282 selbst nennt: *„Es gibt noch keinen Ladeweg für ein eigenes
 Inhaltsmodul."* Gleichzeitig gilt: `SEKTOREN` ist `const` + `Object.freeze`, und
 `data.feldDefinitionen[]` — der einzige bestehende Feld-Weg — gehört der einzelnen Bürgerin, nicht
-einem Modul (eigene Messung, `bereich-modul-feldstruktur-entwurf-2026-09-05.md`).
+einem Modul (eigene Messung, interner Bericht vom 05.09.2026).
 
 **Gemessen, nicht angenommen:** `Object.freeze(SEKTOREN)` sperrt nur die ÄUSSERE Array-Ebene.
 Jedes Sektor-Objekt und sein `.sektionen` bleiben mutierbar — `Object.isFrozen(SEKTOREN[i])` und

@@ -11,7 +11,7 @@
    einzigen vier Testdateien gefahren, die die Funktionsnamen überhaupt
    erwähnen (tests/erbschein-modul-mechanik.test.js, tests/regal-sprungziele.
    test.js, tests/bild-c-regal-projektion.test.js, tests/bereich-stellen-
-   register.test.js) plus tests/textsatz-en-ueberall.test.js und tests/
+   register.test.js) plus eine nicht öffentliche Probe und tests/
    textsatz-en-modul-erzeugen.test.js — 66 von 66 bleiben grün. Der Befund war
    am 18.09.2026 noch offen, nicht nur am 16.09. Diese Datei ist der
    nachgetragene Wächter.

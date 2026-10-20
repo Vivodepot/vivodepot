@@ -216,7 +216,7 @@ async function main() {
   merke('Kern: ' + kernPfad + (weg === 'direkt' ? '' : '  (Kopie mit Freigabeweg ' + weg + ', s. wegEinsetzen)'));
   merke('Dokument: ' + dokument + (dokument === FIXTURE_VORGABE ? '  (Fixture — profil-agnostisch, KEIN Konformitäts-Beleg)' : ''));
 
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   /* Hohes Fenster, aber HERUNTERSKALIERT statt vergrößert: der Beleg für Schritt 10 muss
      Vorname, Nachname UND E-Mail in EINEM Bild zeigen — der Schritt-10-Kommentar sagt das
      ausdrücklich zu. Bei 900 Pixel Höhe fiel die E-Mail-Zeile unter den Rand (gemessen

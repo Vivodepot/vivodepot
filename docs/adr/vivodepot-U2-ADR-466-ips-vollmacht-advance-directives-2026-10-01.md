@@ -67,7 +67,7 @@ Die Standards geben den Platz vor (Weg zum Nachsehen: `~/.fhir/packages/<paket>/
    (`nichtMitgeben`) erscheint ohne Name, Erreichbarkeit und Beziehung, nur mit ihrer Rolle — Zahl und Reihenfolge der
    Vertretung bleiben richtig.
 6. **Narrative in jeder Exportsprache** über das Begleittext-Modul (U2-ADR-458): 26 neue Kennungen in
-   `tools/ips-begleittext-modul.json`, in allen 24 Sprachen. Die Übersetzungen sind eigene, mit Rückübersetzung und
+   eine nicht öffentliche Datei, in allen 24 Sprachen. Die Übersetzungen sind eigene, mit Rückübersetzung und
    Fachbegriffsabgleich durch eine zweite Instanz (keine Bedeutungsabweichung gefunden), muttersprachlich nicht geprüft —
    der Vermerk der ungeprüften Übersetzung gilt unverändert. Der Sektionstitel steht in `IPS_BEGRIFFE.sektionen.vorsorge`
    (`code-listen/terminologie/ips-nfd.json`).

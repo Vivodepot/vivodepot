@@ -49,7 +49,7 @@ test('U2-ADR-185: nach dem Wipe zeigt der Schirm das Passwortfeld (Sperrschirm),
   V._hintergrundWipeVielleicht();
   const html = document.getElementById('overlay-inhalt').innerHTML;
   assert.ok(html.includes('id="co-pw"'), 'Sperrschirm muss das Passwortfeld zeigen');
-  assert.ok(!html.includes('id="w-anlass"'), 'NICHT der Erstbesucher-Schirm (Startseite)');
+  assert.ok(!html.includes('id="w-anlegen"'), 'NICHT der Erstbesucher-Schirm (Startseite)');
 });
 
 test('U2-ADR-185: der erklärende Satz steht NUR nach dem Wipe, mit dem abgenommenen Wortlaut', async () => {

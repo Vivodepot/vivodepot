@@ -14,7 +14,7 @@
    Abweichung im Rezept macht diesen Test wertlos, darum steht das Rezept
    hier UND nicht nur im Bericht.
    ════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');

@@ -53,8 +53,8 @@ und das Datum 01.10.2026, damit er nicht zeitlos falsch wird, sobald die Verordn
 
 ## Konsequenzen
 
-`tools/buergermodul/vd-privat.json` (der geschnittene VD-Privat-Bestand, U2-ADR-291/299) wurde
-neu erzeugt (`node tools/buergermodul-schnitt.js`) — trägt jetzt 457 statt 454
+eine nicht öffentliche Datei (der geschnittene VD-Privat-Bestand, U2-ADR-291/299) wurde
+neu erzeugt (der Aufruf eines nicht öffentlichen Werkzeugs) — trägt jetzt 457 statt 454
 Feld-Definitionen (270 Top-Level + 187 statt 184 Unterfelder). `tools/bestand-zuwachs-seit-
 einfrieren.js` (U2-ADR-326) führt die drei Stellen als benannten Zuwachs, sonst risse der
 Ratschen-Beweis in `tests/buergermodul-bereich-erzeugen-u2-adr-319.test.js`.

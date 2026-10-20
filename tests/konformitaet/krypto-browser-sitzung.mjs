@@ -10,6 +10,7 @@
    kein Duplikat.
    ════════════════════════════════════════════════════════════════════════ */
 import { chromium } from 'playwright';
+import netzSperre from '../../tools/lib/netz-sperre.js';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -29,7 +30,7 @@ const FILE_URL = pathToFileURL(HTML_PFAD).href;
    vorher — jeder bestehende Aufruf in `krypto-vektoren.mjs` bleibt
    unveraendert. */
 export async function neueBrowserSitzung({ verbogen } = {}) {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(netzSperre.mitSperre());
   const context = await browser.newContext();
   if (verbogen) {
     // Bricht `importKey` fuer JEDEN Vektor-Typ gleichermassen — kein gezielter

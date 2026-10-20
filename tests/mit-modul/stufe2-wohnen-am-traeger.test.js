@@ -1,7 +1,7 @@
 'use strict';
 /* Hinweis (11.10.2026, Befund MITSCHRIFT-AB-WERK-NACH-POSITION): Diese Datei hält Rangfolge, Reihenfolge und Sicherheitsgrenze der Saat an
    Bereichsdefinitionen, die für die Probe ausdrücklich ALS ERKANNT GESTELLT sind (mitschriftAlsAusgeliefert, tests/helfer). Ob eine
-   Definition erkannt wird und dass eine erfundene, nicht gestellte verworfen wird, hält tests/mitschrift-bereich-nach-inhalt.test.js
+   Definition erkannt wird und dass eine erfundene, nicht gestellte verworfen wird, hält eine nicht öffentliche Probe
    über den echten Weg. */
 /* ════════════════════════════════════════════════════════════════════════════
    Stufe 2 — `wohnen` verlässt das Bündel und kommt über eine EINGEBAUTE Quelle

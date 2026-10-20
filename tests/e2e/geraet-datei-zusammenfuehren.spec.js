@@ -35,7 +35,7 @@ async function schliessenUndBytes(page) {
   await page.click('#tb-marke');
   const ok = page.locator('#m-ok');
   if (await ok.waitFor({ state: 'visible', timeout: 2000 }).then(() => true).catch(() => false)) await ok.click();
-  await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 10000 });
+  await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 10000 });
   const bytes = await page.evaluate(() => window.__zusammenBytes);
   expect(bytes).toBeTruthy();
   return bytes;

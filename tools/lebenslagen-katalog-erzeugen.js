@@ -6,15 +6,15 @@
    GERÜST-SCHNITT S9 (Zielkonflikt-Fund: der Paragraphen-Schnitt ließ `eimer.satz` des Gerüst-
    Wächters über seinen Deckel wachsen, weil der Lebenslagen-Katalog (`BAUSTEINE`, 29 Lagen) seit
    T5 als Literal direkt im Kern stand — derselbe Grund, aus dem S7 den nativen Bereichs-Katalog
-   auslagerte). Der Katalog steht jetzt in `tools/lebenslagen-katalog-modul.json`
+   auslagerte). Der Katalog steht jetzt in der Moduldatei des Lebenslagen-Katalogs (nicht öffentlich)
    (`modulTyp: 'lebenslagen'`) und wird über die Region `LEBENSLAGEN_KATALOG` in alle vier
    Produkte gebacken, byte-gleich — produktunabhängig, dieselbe Bauart wie
-   `tools/bereiche-nativ-katalog-erzeugen.js`/`BEREICHE_NATIV_KATALOG`.
+   ein nicht öffentliches Werkzeug/`BEREICHE_NATIV_KATALOG`.
 
    DIESES WERKZEUG SCHREIBT DEN KATALOG NICHT — anders als bereiche-nativ-katalog-erzeugen.js
    (das dreizehn externe Quelldateien zu EINER Moduldatei zusammenfasst) hat der Lebenslagen-
-   Katalog keine weitere Quelle: `tools/lebenslagen-katalog-modul.json` IST die Quelle, von Hand
-   gepflegt (wie `tools/textsatz-de-modul.json`, `tools/dokument-module/vivodepot-dokumente-de.json`).
+   Katalog keine weitere Quelle: der Moduldatei des Lebenslagen-Katalogs (nicht öffentlich) IST die Quelle, von Hand
+   gepflegt (wie `tools/textsatz-de-modul.json`, die Moduldatei der Dokumente (nicht öffentlich)).
    Das Werkzeug PRÜFT nur: liest die Datei über denselben Weg wie der Konfektionierer
    (`textsatzModulPruefen`-Verwandte gibt es für `lebenslagen` nicht — die Form ist einfach genug
    für eine eigene, kleine Prüfung hier), verlangt eindeutige `id`s und die Felder, die der Kern
@@ -28,7 +28,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const DATEI_STANDARD = path.join(REPO, 'tools', 'lebenslagen-katalog-modul.json');
+const DATEI_STANDARD = path.join(REPO, 'tools', 'lebenslagen-katalog-modul.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
 
 function katalogPruefen(datei = DATEI_STANDARD) {
   const probleme = [];

@@ -20,7 +20,7 @@ const QUELLEN = path.join(REPO, 'tools', 'schrift-pdf-quellen');
    an ihnen; und jedes Zeichen, das NUR im Wortlaut der Vorlagen steht (das weiche Trennzeichen, ein C1-Steuerzeichen) —
    den zeichnet kein PDF-Erzeuger, die Gegenprobe unten hält genau das fest. Die Formular-Kästchen ☐ ☑ ☒ (PDF_KAESTCHEN)
    gelten als gedeckt: sie werden seit 25.09.2026 als Vektor gezeichnet, nicht geschrieben (Befund VOLLMACHT-PDF-KAESTCHEN,
-   tests/pdf-kaestchen-vektor.test.js). Weitere Ausnahmen nur benannt in AUSNAHMEN. */
+   eine nicht öffentliche Probe). Weitere Ausnahmen nur benannt in AUSNAHMEN. */
 const AUSNAHMEN = new Map();
 
 function moduldateien() {

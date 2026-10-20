@@ -148,7 +148,7 @@ async function durchklicken({ produkt, sprache, ausgabe, personaId, screenshotMo
   fs.mkdirSync(ausgabe, { recursive: true });
   const modus = screenshotModus || 'immer';
   const { depotAnlegen, fsaStandardAttrappeEinrichten, einmalDialogeSchliessen } = require(path.join(REPO, 'tests', 'e2e', 'helpers.js'));
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre({ headless: true }));
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const fehler = [];
   page.on('pageerror', (e) => fehler.push(String(e && e.message || e)));
@@ -156,7 +156,7 @@ async function durchklicken({ produkt, sprache, ausgabe, personaId, screenshotMo
   try {
     await fsaStandardAttrappeEinrichten(page);
     await page.goto('file://' + path.resolve(produkt));
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await sichtAufnehmen(page, 'start', ausgabe, sichten, 'body', modus, sprache);
     await depotAnlegen(page, { name: sprache === 'en' ? 'Mary Example' : 'Maria Mustermann' });
     if (typeof einmalDialogeSchliessen === 'function') await einmalDialogeSchliessen(page).catch(() => {});
@@ -270,12 +270,12 @@ async function durchklicken({ produkt, sprache, ausgabe, personaId, screenshotMo
 // unabhängig von durchklicken(), damit ein Fehlschlag hier den Screenshot-Spaziergang nicht mitreißt.
 async function sichtenAchseMessen({ produkt, sprache, personaId }) {
   const { depotAnlegen, fsaStandardAttrappeEinrichten } = require(path.join(REPO, 'tests', 'e2e', 'helpers.js'));
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre({ headless: true }));
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   try {
     await fsaStandardAttrappeEinrichten(page);
     await page.goto('file://' + path.resolve(produkt));
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await depotAnlegen(page, { name: sprache === 'en' ? 'Mary Example' : 'Maria Mustermann' });
     if (personaId) await personaDepotAufbauen(page, personaId);
     const { alle, nichtErreichbar, anzahl } = await sichtenErmitteln(page, { alleInternen: true });
@@ -298,7 +298,7 @@ async function sichtenAchseMessen({ produkt, sprache, personaId }) {
 async function geburtsdatumSchreibwegeMessen({ produkt, sprache }) {
   const { oeffneApp, depotAnlegen } = require(path.join(REPO, 'tests', 'e2e', 'helpers.js'));
   const { registerFormularGeburtsdatumWeg, gebwizGeburtsdatumWeg } = require(path.join(REPO, 'tests', 'e2e', 'durchklick-abnahme-helpers.js'));
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre({ headless: true }));
   // ZWEI eigene Pages, nicht eine wiederverwendete (Fund bei der ersten Konsolidierungs-Probe,
   // 23.09.2026): ein zweiter `page.goto()` auf DERSELBEN Page nach einem ungespeicherten,
   // befüllten Depot hängt — vermutlich `beforeunload`, das Headless-Chromium hier nicht wie im
@@ -336,13 +336,13 @@ const ANGEHOERIGEN_MINDESTLAENGE = 200;
 
 async function angehoerigenQuellenPruefen({ produkt, sprache }) {
   const { depotAnlegen, fsaStandardAttrappeEinrichten } = require(path.join(REPO, 'tests', 'e2e', 'helpers.js'));
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre({ headless: true }));
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const ergebnisse = [];
   try {
     await fsaStandardAttrappeEinrichten(page);
     await page.goto('file://' + path.resolve(produkt));
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await depotAnlegen(page, { name: sprache === 'en' ? 'Mary Example' : 'Maria Mustermann' });
     for (const { id, titel } of ANGEHOERIGEN_BLAETTER_TODESFALL) {
       const r = await sichtOeffnen(page, 'angSituation:' + id);
@@ -368,13 +368,13 @@ async function notfallkartePdfQrPruefen({ produkt, sprache, personaId }) {
   const os = require('node:os');
   const { execFileSync } = require('node:child_process');
   const { depotAnlegen, fsaStandardAttrappeEinrichten } = require(path.join(REPO, 'tests', 'e2e', 'helpers.js'));
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre({ headless: true }));
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const ergebnis = { produkt, sprache, persona: personaId || null };
   try {
     await fsaStandardAttrappeEinrichten(page);
     await page.goto('file://' + path.resolve(produkt));
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await depotAnlegen(page, { name: sprache === 'en' ? 'Mary Example' : 'Maria Mustermann' });
     if (personaId) await personaDepotAufbauen(page, personaId);
 

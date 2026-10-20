@@ -659,12 +659,31 @@ const LEER_NAME = ab('NEUER_ANDOCKPUNKT_QUELLEN');
 const leer = (name = LEER_NAME) => konstantenMessen(ECHT + '\n/* ' + name + ':BEGIN */\nconst ' + name + ' = Object.freeze([]);\n/* ' + name + ':END */\n');
 const GRUND_ANDOCKPUNKT = 'Neuer leerer Andockpunkt für die Quellen des Sprachangebots: ein Loch im Lochbild, das die Konfektionierung füllt — kein Inhalt im Gerüst.';
 
+/* Vorbedingung der Schwellen-Messung: beide Gruppen besetzt. Seit R1 (U2-ADR-504 § 3) hat die Gruppe „mit Inhalt“ zwei Mitglieder;
+   die Untergrenze ist darum zwei statt drei. Mit nur einer oder keiner Konstante mit Inhalt trüge die Messung keine Trennung mehr —
+   dann schlägt sie an (Rot-Beweis unten). */
+function andockpunktGruppenBesetzt(mit, ohne) {
+  assert.ok(mit.length >= 10 && ohne.length >= 2, 'beide Gruppen sind besetzt: ' + mit.length + ' / ' + ohne.length);
+}
+
 test('[Gerüst-Wächter·Andockpunkt·Messung] die Schwelle trägt die Trennung: alle heutigen Andockpunkte darunter, alle Konstanten mit Inhalt darüber', () => {
   const mit = GRUNDLINIE.konstanten.filter((k) => k.marker).map((k) => k.bytes);
   const ohne = GRUNDLINIE.konstanten.filter((k) => !k.marker).map((k) => k.bytes);
-  assert.ok(mit.length >= 10 && ohne.length >= 3, 'beide Gruppen sind besetzt: ' + mit.length + ' / ' + ohne.length);
+  /* R1 (U2-ADR-504 § 3): die kleinste Konstante mit Inhalt, `AB_WERK_RECHTSRAUM_DE` (157 Byte), ist aus dem Gerüst entfallen —
+     der deutsche Rechtsraum kommt als Moduldatei. Die Gruppe „mit Inhalt“ hat seitdem zwei Mitglieder (241, 352 Byte); die
+     Vorbedingung zählt darum mindestens zwei statt drei. Die Trennung selbst (Schwelle dazwischen) bleibt unverändert geprüft. */
+  assert.equal(GRUNDLINIE.konstanten.some((k) => k.name === 'AB_WERK_RECHTSRAUM_DE'), false, 'R1: der feste deutsche Rechtsraum steht nicht mehr im Gerüst');
+  andockpunktGruppenBesetzt(mit, ohne);
   assert.ok(Math.max(...mit) <= ANDOCKPUNKT_HOECHSTENS, 'der größte leere Andockpunkt (' + Math.max(...mit) + ' Byte) liegt unter der Schwelle ' + ANDOCKPUNKT_HOECHSTENS);
   assert.ok(Math.min(...ohne) > ANDOCKPUNKT_HOECHSTENS, 'die kleinste Konstante mit Inhalt (' + Math.min(...ohne) + ' Byte) liegt über der Schwelle');
+});
+
+test('[Gerüst-Wächter·Andockpunkt·Messung·Rot-Beweis] mit nur einer oder keiner Konstante mit Inhalt schlägt die Vorbedingung an', () => {
+  const mit = GRUNDLINIE.konstanten.filter((k) => k.marker).map((k) => k.bytes);
+  const ohne = GRUNDLINIE.konstanten.filter((k) => !k.marker).map((k) => k.bytes);
+  assert.doesNotThrow(() => andockpunktGruppenBesetzt(mit, ohne), 'Vorbedingung: der echte Stand ist besetzt');
+  assert.throws(() => andockpunktGruppenBesetzt(mit, ohne.slice(0, 1)), /beide Gruppen sind besetzt/, 'eine Konstante mit Inhalt');
+  assert.throws(() => andockpunktGruppenBesetzt(mit, []), /beide Gruppen sind besetzt/, 'keine Konstante mit Inhalt');
 });
 
 test('[Gerüst-Wächter·Andockpunkt·Messung] die Namenslänge steckt in den Bytes: das Statement ist Name plus 12–29 Byte, die Schwelle trägt Namen bis 67 Zeichen — der längste heutige hat 36', () => {

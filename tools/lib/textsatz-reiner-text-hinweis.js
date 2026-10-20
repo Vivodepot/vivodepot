@@ -3,7 +3,7 @@
    kein reiner Text ist (Grund `kein-reiner-text`) — ein Tag, eine Zeichenreferenz oder ein ASCII-
    Anführungszeichen. Wer ein Modul erzeugt, soll das beim Erstellen sehen, mit dem Grund und dem
    Vorschlag, nicht erst als abgelehnte Kennung beim Einlass. Gemeinsam genutzt von
-   tools/textsatz-de-modul-erzeugen.js und tools/textsatz-en-modul-erzeugen.js. */
+   ein nicht öffentliches Werkzeug und ein nicht öffentliches Werkzeug. */
 const VORSCHLAG = Object.freeze({ de: '„…“', en: '“…”' });
 
 function reinerTextHinweise(verworfene, texte, sprache) {

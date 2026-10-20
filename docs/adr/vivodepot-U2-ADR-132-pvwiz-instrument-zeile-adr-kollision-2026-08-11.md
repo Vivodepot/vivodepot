@@ -84,5 +84,5 @@ nur die eine Kollision.
 ## Verifikation
 
 Volle Suite, Konformität, Kampagne Ebene 4/4b gegen Zug 0 grün. W-5 auf 0, strukturell
-(keine Ausnahme-Liste mehr, s. `tools/w5-wizard-instrument-zeile-pruefen.js`).
+(keine Ausnahme-Liste mehr, s. ein nicht öffentliches Werkzeug).
 `tools/adr-konformitaet-pruefen.js` 0 rot.

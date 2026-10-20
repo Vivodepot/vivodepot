@@ -28,12 +28,10 @@ Optional per area: `label`, `icon` (a built-in icon name; unknown names become `
 - Two modules from the same publisher need their own `kennung` each; otherwise the newer version
   replaces the older one.
 
-## Working examples in the repository
+## Working example
 
-- [`tools/behandlungsweg-bereich-modul.json`](../../tools/behandlungsweg-bereich-modul.json), built
-  by `tools/behandlungsweg-modul-erzeugen.js`;
-- [`tools/buergermodul/vd-privat.json`](../../tools/buergermodul/vd-privat.json), the thirteen
-  areas of the private product, built by `tools/buergermodul-erzeugen.js`.
+- [`examples/bereich.example.json`](examples/bereich.example.json). Vivodepot's own area templates are
+  not part of the public repository.
 
 ## Check and take in
 

@@ -29,7 +29,7 @@ test('Sektor 2 Meine Menschen: zwei Listen (menschen = Register, U2-ADR-022; kin
   const s = V.SEKTOR_BY_ID['people'];
   assert.ok(s, 'Sektor existiert');
   assert.equal(s.format, V.SEKTOR_FORMATE.GENERISCH);
-  assert.match(s.einfuehrungstext, /Menschen, die Ihnen wichtig sind/);
+  assert.match(s.einfuehrungstext, /wer Ihnen wichtig ist/);   // Wortlaut seit der Anlege-Aufforderung je Ansicht (18.10.2026)
   const listenIds = s.sektionen.flatMap(sek => sek.felder).filter(f => f.typ === 'liste').map(f => f.id);
   // U2-ADR-022: das frühere 'menschen'-Listenfeld ist entfallen (Bereich 2 rendert das Register).
   // U2-ADR-023: kinder + erwachsene_kinder zu EINER kinder-Liste vereinheitlicht (Minderjährigkeit = Filter).
@@ -44,7 +44,7 @@ test('Sektor 2 Meine Menschen: zwei Listen (menschen = Register, U2-ADR-022; kin
 test('Sektor 2: Render läuft durch + zeigt Cross-Sektor-Block (Bezugspersonen sind Cross-Refs)', async () => {
   const { html, V } = await render('people');
   assert.ok(html.includes('Meine Menschen'));
-  assert.ok(html.includes('Menschen, die Ihnen wichtig sind'));
+  assert.ok(html.includes('wer Ihnen wichtig ist'));
   // Cross-Sektor-Block sollte präsent sein (hauptpflegeperson + seelsorger + abhaengige_personen)
   assert.ok(html.includes(V.STRINGS.crossSektorTitel), 'Cross-Sektor-Lese-Sicht im Render');
 });

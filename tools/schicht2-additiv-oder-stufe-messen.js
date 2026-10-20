@@ -54,7 +54,7 @@ async function messen(V, ladeKern) {
      mehr im Kern-Rohtext (weder als JS-Literal noch als eingebettetes Bündel-JSON, U2-ADR-320s
      Fall) — beide dortigen Substitutionen fänden heute nichts mehr, `umgestellt` bliebe falsch,
      ohne dass der Gegenstand unverändert wäre: die Probe misst dann nur ihre eigene
-     Meßvorrichtung. Die Datei selbst (`tools/bereich-templates/vivodepot-identity.json`) wird
+     Meßvorrichtung. Die Datei selbst (`eine nicht öffentliche Datei`) wird
      darum in eine Wegwerf-Kopie kopiert, dort das `birthDate`-Feld auf `typ:'text'` gesetzt, und
      `ladeKern({ bereichTemplateVerzeichnis })` (18.09.2026, bisher von keinem Aufrufer genutzt)
      lädt den Kern mit GENAU dieser einen Datei ausgetauscht — derselbe Weg, den ein echtes

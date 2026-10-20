@@ -173,13 +173,13 @@ wurde ein Ersatz durch ■/□ (in Inter vorhanden).
   selbst bleibt ein eigener Befund mit anderer Wurzel.
 
 **Proben:**
-- `tests/pdf-kaestchen-vektor.test.js`:
+- eine nicht öffentliche Probe:
   - Generator-Code: jedes Nicht-ASCII-Literal ist zugesagt oder Vektor;
   - alle Dokument-Module × alle Auswahlwerte ohne Lücke;
   - Engstelle;
   - Maße aus der aktiven Schrift, auch einer Fixture-Metrik;
   - Rot-Beweis: Inter trägt die Kästchen nicht.
-- `tests/e2e/pdf-kaestchen-vektor.spec.js`:
+- eine nicht öffentliche E2E-Probe:
   - das echte Vollmacht-Modul im echten jsPDF;
   - Rahmen-Geometrie aus dem Inhaltsstrom;
   - Bildvergleich (pdftoppm) gegen `tests/fixtures/pdf-kaestchen-vollmacht-referenz.pgm`;

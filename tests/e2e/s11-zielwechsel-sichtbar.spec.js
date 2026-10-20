@@ -87,7 +87,7 @@ test('[S11·http://] echte Nutzergeste: Berechtigung verloren → Ansage-Modal, 
   const port = srv.address().port;
   try {
     await page.goto(`http://localhost:${port}/vivodepot.html`);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await fsaAttrappeMitBerechtigungEinrichten(page);
     const modus = await page.evaluate(() => window.__vdOeffentlich.internerSpeicherModus());
     expect(modus, 'Vorbedingung: interner Speicher-Modus (die meisten awaits vor dem Datei-Schreiben)').toBe(true);
@@ -120,7 +120,7 @@ test('[S11·http://] Berechtigung "prompt" + echte Freigabe: stille Erholung, KE
   const port = srv.address().port;
   try {
     await page.goto(`http://localhost:${port}/vivodepot.html`);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await fsaAttrappeMitBerechtigungEinrichten(page);
     await depotAnlegen(page, { pw: PW });
     await eintragenUndSpeichern(page, 'Erste Sicherung');

@@ -251,7 +251,7 @@ eines Textfelds. Was die Anwendung als Text zeigt, steht weiter darin. Für „S
 Format „Nur HTML“, für Safari und Firefox ist es nicht gemessen.
 
 Weg zum Nachsehen: der Block `rahmen-schutz` im Kopf von `vivodepot.html` setzt beim Start die Marke `data-vd-lauf`; die
-Proben `tests/rahmen-schutz-ohne-header.test.js` und `tests/e2e/gesicherte-kopie.spec.js` halten das Verhalten; für die
+Proben `tests/mit-modul/rahmen-schutz-ohne-header.test.js` und `tests/e2e/gesicherte-kopie.spec.js` halten das Verhalten; für die
 Eingabefelder die Fälle `[Gesicherte Kopie·Datei]`, `[Gesicherte Kopie·Klasse]` mit Rot-Beweis, `[Gesicherte Kopie·Dokument]`
 und `[Gesicherte Kopie·Chromium]` in derselben Datei.
 
@@ -260,6 +260,14 @@ und `[Gesicherte Kopie·Chromium]` in derselben Datei.
 Dieses Dokument ist verbindlich für die in Vivodepot v1.0 ausgelieferten Anwendungen. Updates erfolgen über das Repository und die Homepage. Wer auf einer Vivodepot-Version arbeitet, deren `SECURITY.md` älter als 12 Monate ist, sollte den aktuellen Stand prüfen.
 
 Die `SECURITY.md` ist Bestandteil der Vivodepot-Distribution. Bei Stick-Auslieferung wird sie als gedruckte Beilage oder als Datei-Begleitung mit ausgeliefert.
+
+### 7.1 Ausfuhrkontrolle (Dual-Use)
+
+Der öffentliche Quelltext dieses Repositorys steht unter EUPL-1.2 und ist allgemein zugänglich im Sinne von Anhang I der
+Verordnung (EU) 2021/821, Fassung der Delegierten Verordnung (EU) 2025/2003, in Kraft seit 15.11.2025. Nach der Allgemeinen
+Software-Anmerkung, Buchstabe b, ist er nicht von Anhang I erfasst. Der Ausschluss für Kategorie 5 Teil 2 in derselben
+Anmerkung betrifft nur die Buchstaben a und c.
+Fundstellen: `http://data.europa.eu/eli/reg/2021/821/oj`, `http://data.europa.eu/eli/reg_del/2025/2003/oj`.
 
 ---
 
@@ -286,6 +294,15 @@ Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile d
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v933 | 2026-10-19 | privat-de | `b3cf33de46229c3016bb7975b82d97e1b3867577eb3ca84e02596e54e2175b5a` |
+| v933 | 2026-10-19 | privat-en | `b406a1a06f02661cb95a665673126e2613adc4ffbfacd5acd49e1a501aff7c39` |
+| v933 | 2026-10-19 | pro-de | `1505562065bdd1c302d8b8af093703edf79a00885f152bf0e67cf31036e3b04d` |
+| v933 | 2026-10-19 | pro-en | `f251cf0a081607bf2f732f75200f29cfbafb1bd21d1eb3332ea34596b9d404b9` |
+| v933 | 2026-10-19 | pro-de-kanzlei | `1659e492d2faad4ccfcdb3e53356a0f099268c9c4f71cc7320c704d058eafaa8` |
+| v933 | 2026-10-19 | pro-en-kanzlei | `8d47cddfd32f1b5afe16b08acfa0a772f04c3627a8f3dead2b55d349800dbcc3` |
+| v933 | 2026-10-19 | pro-de-steuerberatung | `d08a49f160b7ff0a954d31ee08e7c6b23c9e9ed5f222ad4d31a7ec1435eb1344` |
+| v933 | 2026-10-19 | pro-en-steuerberatung | `b33ca7b01455ce51a6a7cfa3889751dd0aab33ec60a14fe11a45a5615abd7d1a` |
+| v933 | 2026-10-19 | service-worker | `9bd5c76ea6b5d4aaef63e992ebafec0fbca2741621958c1bb03d5b298628dd8e` |
 | v931 | 2026-10-17 | privat-de | `a70d0c51129b662300dc80ceb618f53986035dc25dc795416fac111e4d1ec477` |
 | v931 | 2026-10-17 | privat-en | `1dcc54b96b0b325157e91a0adb680b5a16582c65917ae13b15c967a4c45fdc58` |
 | v931 | 2026-10-17 | pro-de | `16aa33307da25c90bd8550f49e599ea02e82421cfaa33be62b54b6933714785a` |

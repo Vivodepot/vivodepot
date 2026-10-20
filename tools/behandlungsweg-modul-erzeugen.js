@@ -35,10 +35,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const REPO = path.join(__dirname, '..');
-const QUELLE_VERZ = path.join(__dirname, 'behandlungsweg');
-const Q_SITUATIONEN = path.join(QUELLE_VERZ, 'situationen.json');
-const Q_FELDER = path.join(QUELLE_VERZ, 'felder.json');
-const Q_TEXTSATZ_EN = path.join(QUELLE_VERZ, 'textsatz-en.json');
+const QUELLE_VERZ = path.join(__dirname, 'behandlungsweg'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+const Q_SITUATIONEN = path.join(QUELLE_VERZ, 'situationen.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+const Q_FELDER = path.join(QUELLE_VERZ, 'felder.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+const Q_TEXTSATZ_EN = path.join(QUELLE_VERZ, 'textsatz-en.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
 
 function lese(pfad) {
   return JSON.parse(fs.readFileSync(pfad, 'utf8'));
@@ -214,8 +214,8 @@ function main() {
 
   const ausgabeIdx = process.argv.indexOf('--ausgabe');
   const ausgabeVerz = ausgabeIdx > 0 ? process.argv[ausgabeIdx + 1] : __dirname;
-  const zielSituationen = path.join(ausgabeVerz, 'behandlungsweg-situationen-modul.json');
-  const zielTextsatz = path.join(ausgabeVerz, 'behandlungsweg-textsatz-en-modul.json');
+  const zielSituationen = path.join(ausgabeVerz, 'behandlungsweg-situationen-modul.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+  const zielTextsatz = path.join(ausgabeVerz, 'behandlungsweg-textsatz-en-modul.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
 
   fs.writeFileSync(zielSituationen, fs.readFileSync(Q_SITUATIONEN, 'utf8'), 'utf8');
   fs.writeFileSync(zielTextsatz, fs.readFileSync(Q_TEXTSATZ_EN, 'utf8'), 'utf8');
@@ -235,7 +235,7 @@ function main() {
       for (const v of (br.verworfene || []).slice(0, 20)) console.error('  ' + JSON.stringify(v));
       process.exit(1);
     }
-    const zielBereich = path.join(ausgabeVerz, 'behandlungsweg-bereich-modul.json');
+    const zielBereich = path.join(ausgabeVerz, 'behandlungsweg-bereich-modul.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
     fs.writeFileSync(zielBereich, JSON.stringify(felderQuelle.bereich, null, 2) + '\n', 'utf8');
     console.log('Bereichs-Modul geschrieben: ' + path.relative(REPO, zielBereich)
       + ' (Rubrik ' + Object.keys(felderQuelle.bereich.bereiche).join(', ') + ').');
@@ -271,7 +271,7 @@ function main() {
     console.error('ABBRUCH Vorlage: validateTemplate meldet: ' + grund);
     process.exit(1);
   }
-  const zielVorlage = path.join(ausgabeVerz, 'behandlungsweg-vorlage.json');
+  const zielVorlage = path.join(ausgabeVerz, 'behandlungsweg-vorlage.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   fs.writeFileSync(zielVorlage, JSON.stringify(tpl, null, 2) + '\n', 'utf8');
   console.log('Vorlage geschrieben: ' + path.relative(REPO, zielVorlage) + ' (' + felder.length + ' Felder).');
 }

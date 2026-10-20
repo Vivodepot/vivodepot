@@ -119,7 +119,7 @@ eine bereits bestehende Zusicherung davor, später versehentlich aufgeweicht zu 
   (Schritt 3 unten) ist NICHT mitgezogen — dieselbe „eigenständige Anzeigefunktion, Design-/
   Platzierungsfrage" wie im Abschnitt „Ausdrücklich nicht behandelt" oben, weiterhin offen.
   Beleg: `tests/migration-mig3-bereiche-verwaiste-retten-lesen.test.js`.
-- Die Zertifikats-/Widerruf-Ebene aus `rat-gekauftes-modul-bleibt-2026-09-01.md` — separates
+- Die Zertifikats-/Widerruf-Ebene aus einem internen Bericht vom 01.09.2026 — separates
   Thema, s. U2-Bezug oben.
 
 ## Konsequenzen

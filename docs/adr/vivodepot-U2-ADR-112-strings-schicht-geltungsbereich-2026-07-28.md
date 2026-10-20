@@ -10,7 +10,7 @@ U2-ADR-025/031/034/062/093 (nennen einzelne STRINGS-Schlüssel, setzen aber kein
 27.07., Zusicherung 7 · Bauauftrag Prüfarchitektur, Block 3
 **Status heute:** ungeprüft — der einzige Konformitäts-Block trägt `zustand: offen`; laut Nachtrag
 04.08.2026 ist die Bedingung inhaltlich erfüllt, aber EP7 lebt nur als Eigenschaftsprüfung in
-`tools/eigenschaften.js` ohne die von `tests/pruefstand-bindung.test.js` (U2-ADR-099) verlangte
+`tools/eigenschaften.js` ohne die von eine nicht öffentliche Probe (U2-ADR-099) verlangte
 Bindung an einen benannten Testtitel.
 
 ---

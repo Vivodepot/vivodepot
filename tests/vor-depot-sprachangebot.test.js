@@ -27,19 +27,6 @@ test('[Abnahme 1] die Konstante steht in keinem Kern — weder ihr Name noch ein
     'die Region steht mit ihrem Leerwert da (das Loch, das das Rezept füllt)');
 });
 
-test('[Abnahme 2] das deutsche Produkt zeigt den Knopf und bietet Englisch aus dem Rezept an; die englischen Produkte und das nackte Gerüst zeigen ihn nicht', () => {
-  const erwartet = { 'privat-de': true, 'pro-de': true, 'privat-en': false, 'pro-en': false };
-  for (const [slug, zeigt] of Object.entries(erwartet)) {
-    const { V, document } = ladeKern({ produkt: slug });
-    assert.equal(V.vorDepotSprachangebotVorhanden(), zeigt, slug + ': Angebot vorhanden');
-    V.renderWelcome();
-    const html = document.getElementById('overlay-inhalt').innerHTML;
-    assert.equal(/id="vor-depot-sprache"/.test(html), zeigt, slug + ': Knopf auf dem Willkommensschirm');
-    V.renderCryptoOverlay();
-    assert.equal(/id="vor-depot-sprache"/.test(document.getElementById('overlay-inhalt').innerHTML), zeigt, slug + ': Knopf auf dem Öffnen-Schirm');
-  }
-});
-
 test('[Abnahme 2·Rot-Beweis] dasselbe Gerüst ohne das Angebot im Rezept (nackt) zeigt den Knopf nicht — die Probe oben fällt, sobald ein Produkt das Angebot verliert', () => {
   const nackt = ladeKern({ blank: true });
   assert.equal(nackt.V.vorDepotSprachangebotVorhanden(), false, 'das nackte Gerüst führt kein Englisch und bietet nichts an');

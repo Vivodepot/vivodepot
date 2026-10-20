@@ -255,11 +255,19 @@ test('[Öffentlicher Lauf·Auswertung] rote Namen aus node --test und aus dem Pl
    „Klon nicht sauber“ (node_modules ohne Ausschluss), einmal Exit 1 ohne rote Probe (npm test ohne vererbten Suite-Platz),
    und die Ausgabe dazu fiel weg. Geprüft an einem echten Klon, npm und Playwright eingesetzt. */
 const { ohneGitUmgebung: ohneGit } = require('../tools/lib/ohne-git-umgebung.js');
-function kandidatenKlon() {
+/* Ein Klon mit dem Nötigsten, das der Lauf vor dem Start liest: Workflow-Job e2e-reisen mit seiner Installationszeile,
+   playwright.config.js und eine Spec (Standard: alles chromium, wie die CI es installiert). */
+function kandidatenKlon({ installiert = 'chromium', spec = "test('x', async ({ page }) => {});\n" } = {}) {
   const k = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-lauf-klon-'));
   const env = { ...ohneGit(), GIT_AUTHOR_NAME: 'Probe', GIT_AUTHOR_EMAIL: PRINZIPAL, GIT_COMMITTER_NAME: 'Probe', GIT_COMMITTER_EMAIL: PRINZIPAL };
   const g = (...a) => execFileSync('git', ['-C', k, ...a], { env, encoding: 'utf8' }).trim();
-  g('init', '-q'); fs.writeFileSync(path.join(k, 'a'), 'a'); g('add', 'a'); g('commit', '-q', '-m', 'a');
+  fs.mkdirSync(path.join(k, '.github', 'workflows'), { recursive: true });
+  fs.writeFileSync(path.join(k, '.github', 'workflows', 'e2e.yml'), 'jobs:\n  e2e-reisen:\n    runs-on: ubuntu-latest\n    steps:\n'
+    + '      - run: npx playwright install --with-deps ' + installiert + '\n      - run: npm run test:e2e\n');
+  fs.writeFileSync(path.join(k, 'playwright.config.js'), "module.exports = { testDir: 'tests/e2e', projects: [{ name: 'chromium', use: { browserName: 'chromium' } }] };\n");
+  fs.mkdirSync(path.join(k, 'tests', 'e2e'), { recursive: true });
+  fs.writeFileSync(path.join(k, 'tests', 'e2e', 'x.spec.js'), spec);
+  g('init', '-q'); fs.writeFileSync(path.join(k, 'a'), 'a'); g('add', '-A'); g('commit', '-q', '-m', 'a');
   fs.mkdirSync(path.join(k, 'node_modules', 'x'), { recursive: true }); fs.writeFileSync(path.join(k, 'node_modules', 'x', 'i.js'), '');
   return { k, baum: g('rev-parse', 'HEAD^{tree}'), status: () => g('status', '--porcelain'), weg: () => fs.rmSync(k, { recursive: true, force: true }) };
 }
@@ -301,4 +309,24 @@ test('[Öffentlicher Lauf·Platz·Rot-Beweis] npm test ohne Platz nennt die Ursa
       assert.match(aus.join('').trim().split('\n').pop(), muster);
     } finally { l.weg(); }
   }
+});
+
+/* DIESELBEN BROWSER WIE DIE CI (17.10.2026): von v928 bis v931 war e2e-reisen öffentlich rot (WebKit nicht installiert), der
+   lokale Lauf desselben Baums grün, weil WebKit hier im Cache liegt. Der Lauf hält jetzt vor dem Start an. */
+test('[Öffentlicher Lauf·CI-Browser·Rot-Beweis] startet eine Spec einen Browser, den die CI nicht installiert, läuft nichts', () => {
+  const rot = kandidatenKlon({ installiert: 'chromium', spec: "const b = await webkit.launch();\n" });
+  const gestartet = [];
+  try {
+    const aus = [];
+    assert.equal(lauf.laufen(rot.k, (t) => aus.push(t), { spawn: (bin) => { gestartet.push(bin); return { status: 0, stdout: '', stderr: '' }; } }), 1);
+    assert.match(aus.join(''), /installiert webkit nicht/);
+    assert.deepEqual(gestartet, [], 'weder npm test noch E2E laufen an');
+  } finally { rot.weg(); }
+  const gruen = kandidatenKlon({ installiert: 'chromium webkit', spec: "const b = await webkit.launch();\n" });
+  try {
+    const aus = [];
+    assert.equal(lauf.laufen(gruen.k, (t) => aus.push(t), { spawn: stub({ status: 0, stdout: 'ok', stderr: '' }) }), 0, aus.join(''));
+    const beleg = lauf.belegLesen(gruen.k, gruen.baum);
+    assert.deepEqual(beleg.umgebung, { plattform: process.platform, ciRunner: 'ubuntu-latest', browser: ['chromium', 'webkit'] });
+  } finally { gruen.weg(); }
 });

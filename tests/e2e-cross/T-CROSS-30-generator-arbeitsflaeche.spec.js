@@ -85,7 +85,12 @@ for (const sprache of ['de', 'en']) {
       await p.click('#sd-weiter');
       await expect(p.locator('#pr-submit')).toBeDisabled();   // vor der geprüften Sicherung gesperrt (16.10.2026)
       await H.sicherungSpeichernUndPruefen(p);
-      await expect(p.locator('#sk-pub')).toBeHidden();   // aus bis zum Besitznachweis-Wagen /2; der öffentliche Schlüssel reist in der Einreichung
+      // Die Antragsdatei (öffentlicher Schlüssel mit Besitznachweis) entsteht in Schritt 2 nach der Sicherung, solange der
+      // Schlüssel im Speicher ist; ohne sie bleibt die Einreichung gesperrt. Das nackte .public.jwk gibt es nicht mehr.
+      await expect(p.locator('#sk-pub')).toHaveCount(0);
+      await expect(p.locator('#pr-submit')).toBeDisabled();
+      await p.fill('#sk-antragsnummer', '0123456789abcdef0123456789abcdef');   // Antragsnummer aus dem Antragsformular (erfunden)
+      await Promise.all([ p.waitForEvent('download'), p.click('#sk-antrag') ]);
       await expect(p.locator('#pr-submit')).toBeEnabled();
       const datei = await H.downloadNachTmp(p, tmp, () => p.click('#pr-submit'));
 

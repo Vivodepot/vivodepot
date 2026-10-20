@@ -24,8 +24,8 @@ does not apply them yet.
 
 Start from a complete module and translate its texts:
 [`tools/textsatz-en-modul.json`](../../tools/textsatz-en-modul.json) is the English module with
-every identifier the app uses. It is built by `tools/textsatz-en-modul-erzeugen.js` from the data
-files next to it. An identifier the app does not know is dropped and named (`unbekannt`).
+every identifier the app uses. It is built by `tools/textsatz-en-modul-erzeugen.js` from data
+files; the ones that carry the texts of Vivodepot's own templates are not part of the public repository. An identifier the app does not know is dropped and named (`unbekannt`).
 
 ## Rules the app enforces
 

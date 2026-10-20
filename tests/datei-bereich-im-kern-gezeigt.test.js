@@ -3,7 +3,7 @@
 
    Jede Datei öffnet in jedem Produkt (U2-ADR-160, U2-ADR-398): was eine Datei an Bereichen und Angaben trägt, wird gezeigt.
    Sichtbarkeit und Rechte sind zwei Dinge; die Selbst-Einlass-Sperre bewacht Vorrechte, nicht das Lesen. Für die Mitschrift hält
-   das tests/mitschrift-bereich-nach-inhalt.test.js (Abschnitt 5). Für ein Bereichsmodul im Fach `bereichsModule` gilt es im Kern
+   das eine nicht öffentliche Probe (Abschnitt 5). Für ein Bereichsmodul im Fach `bereichsModule` gilt es im Kern
    noch nicht: ein nicht ab Werk geliefertes, nicht kettengeprüftes Modul wird als Ganzes nicht angemeldet, und der Bereich fehlt
    mit seinen Angaben. Die Lese-App zeigt denselben Bereich. Die erste Probe ist der offene Rot-Beweis; die zweite hält die
    Lese-App; die letzte meldet, sobald die Lücke geschlossen ist. Teil C steht weiter unten. */
@@ -41,11 +41,16 @@ test('[Datei-Bereich·Kern·Rot-Beweis] ein Bereich aus bereichsModule der Datei
     assert.ok(r.html.includes('Regal 7'), 'die Angabe steht da');
   });
 
+/* Befund LESE-APP-MODULE-OHNE-WAHL (HOCH, 17.10.2026, entschieden: „lesen ja, gelten nein“). Ein unsigniertes Bereichsmodul der Datei
+   wird in der Lese-App nicht angewandt; der Bereich mit seinen Angaben steht trotzdem in einer Ansicht — neutral, je Feld Kennung und
+   Wert, gekennzeichnet als aus einer nicht angewandten Erweiterung (tests/lese-app-module-ohne-wahl.test.js). Gemessen an der echten
+   Lese-App. */
 test('[Datei-Bereich·Lese-App] die Lese-App zeigt denselben Bereich mit seinen Angaben', async () => {
   const { V } = ladeLesen({ ohneSaat: true });
   V.setData(await V._depotUebernehmenGeprueft({ sektoren: { 'partner-werkstatt': { regal: 'Regal 7' } }, bereichsModule: [kopie(MODUL)] }));
-  assert.ok(V.SEKTOR_BY_ID['partner-werkstatt'], 'angemeldet');
+  assert.match(V.sidebarHTML(), /data-sektor="partner-werkstatt"/, 'der Bereich steht in der Navigation');
   assert.ok(String(V.sektorHTML('partner-werkstatt')).includes('Regal 7'), 'die Angabe steht da');
+  assert.equal(V.SEKTOR_BY_ID['partner-werkstatt'], undefined, 'das Modul selbst wirkt nicht');
 });
 
 /* Teil C — die Lese-App und das Stellen-Register. Aus einem Datei-Bereich übernimmt der Prüfer der Lese-App nur Kennung,
@@ -56,8 +61,13 @@ const STELLEN_MODUL = Object.freeze({ modulTyp: 'bereich', moduleVersion: 1, her
   bereiche: { 'partner-kontakte': { id: 'partner-kontakte', icon: 'users', label: 'Partner-Kontakte', merkmale: ['stellenRegister'],
     rollen: { stellenListe: 'institutionen', stellenSektion: 'stellen' },
     sektionen: [{ id: 'stellen', label: 'Stellen', felder: [{ id: 'notiz', typ: 'text', label: 'Notiz' }] }] } } });
+/* Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026): in der echten Lese-App wirkt das unsignierte Modul nicht, der Bereich stünde dann
+   nie da und dieser Stolperdraht schlüge nie an. Teil C fragt nach dem Stellen-Register eines angemeldeten Bereichs; gemessen wird
+   darum an einer Lese-App ohne den Markierungsaufruf. */
+const LESE_OHNE_MARKIERUNG = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'vivodepot-lesen.html'), 'utf8')
+  .replace('  _depotModuleNichtAngewandtMarkierenLesen(obj);\n', '');
 async function stelleInDerLeseApp() {
-  const { V } = ladeLesen({ ohneSaat: true });
+  const { V } = ladeLesen({ ohneSaat: true, html: LESE_OHNE_MARKIERUNG });
   V.setData(await V._depotUebernehmenGeprueft({ sektoren: { 'partner-kontakte': { notiz: 'Notiz' } }, bereichsModule: [kopie(STELLEN_MODUL)],
     institutionen: [{ id: 'i-probe', name: 'Stadtwerke Stellenzeile' }] }));
   return Object.keys(V.SEKTOR_BY_ID).filter((id) => String(V.sektorHTML(id)).includes('Stadtwerke Stellenzeile'));

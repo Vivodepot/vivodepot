@@ -99,10 +99,10 @@ async function frischesDepot(browser, { ordner, enModulAndocken, mitScreens }) {
 
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
+  await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
   if (mitScreens) await schnappschuss(page, ordner, 'a2-vorschau', 'Nach "Anfangen", vor Passwort — passwortlose Vorschau');
 
-  await page.click('#tb-pw-hinweis');
+  await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await page.waitForSelector('#id-pw', { state: 'visible' });
   await page.fill('#id-vorname', 'Test');
   await page.fill('#id-nachname', 'Beispiel');
@@ -200,7 +200,7 @@ async function reiseA(browser, { flow, ordner, enModulAndocken }) {
 }
 
 // ── Reise B: Anlass → Situationsblatt ──
-// Der frühere dritte Schritt (JSON-Export aus den Einstellungen) ist entfallen: U2-ADR-NNN
+// Der frühere dritte Schritt (JSON-Export aus den Einstellungen) ist entfallen: U2-ADR-508
 // (17.09.2026) entfernt den offenen JSON-Vollexport ersatzlos, s. docs/adr/…-offener-json-
 // vollexport-entfernt-2026-09-17.md. Eine echte Weitergabe zeigt seither Reise E.
 async function reiseB(browser, { flow, ordner, enModulAndocken }) {
@@ -484,7 +484,7 @@ async function fuerSprache(browser, sprache, enModulAndocken) {
 
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre({ headless: true }));
   await fuerSprache(browser, 'de', false);
   await fuerSprache(browser, 'en', true);
   await browser.close();

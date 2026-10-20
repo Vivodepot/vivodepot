@@ -92,7 +92,7 @@ async function wegGehen(seite) {
 
 test('[Weg 5] ein Fach einrichten — Passwort, Ort, Bestaetigung', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite, fehler } = await seiteMitDepot(browser, PW);
     const protokoll = await wegGehen(seite);
@@ -104,7 +104,7 @@ test('[Weg 5] ein Fach einrichten — Passwort, Ort, Bestaetigung', async () => 
 
 test('[Weg 5·Positivkontrolle] ohne den Dialog bricht der Weg mit der erwarteten Meldung', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => { window.__vdOeffentlich.flowEmpfaengerkreisFach = () => {}; });
@@ -120,7 +120,7 @@ test('[Weg 5·Positivkontrolle] ein Ortsfeld OHNE zugaenglichen Namen wird gemel
   /* Nicht die Abwesenheit des Feldes, sondern der Verlust seines Namens: für
      eine Vorleserin ist ein namenloses Textfeld dasselbe wie kein Feld. */
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => {
@@ -142,7 +142,7 @@ test('[Weg 5·Positivkontrolle] ein Ortsfeld OHNE zugaenglichen Namen wird gemel
 
 test('[Weg 5·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });

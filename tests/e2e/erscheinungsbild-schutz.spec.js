@@ -61,7 +61,7 @@ test('[Schutz·Rot-Beweis] `* { display: none }` → Rückfall; die Sicherungsan
   await page.goto(produktMit('* { display: none }'));
   await expect.poll(async () => (await zustand(page)).attr, { timeout: 5000 }).toBe('rueckfall');
   expect((await zustand(page)).gruende).toContain('html:seite-versteckt');
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await depotAnlegen(page, { name: 'Maria Mustermann' });
   await expect(page.locator('#tb-save-status')).toBeVisible();
 });
@@ -71,6 +71,7 @@ test('[Schutz·Rot-Beweis] ein breiter Selektor auf die Kopfzeile → die gesch�
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
   // Schutz-CSS: der Passwort-Hinweis (data-schutz) bleibt sichtbar und deckend trotz `visibility: hidden; opacity: 0` am Selektor.
+  await page.evaluate(() => { document.getElementById('tb-pw-hinweis').hidden = false; });   /* die Umschau zeigt hier die Karte, der Hinweis ist ausgeblendet: zum Messen sichtbar gemacht */
   await expect(page.locator('#tb-pw-hinweis')).toBeVisible();
   expect(await page.locator('#tb-pw-hinweis').evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
   // Sein Text war durchsichtig, der Notfall-Eintrag nicht gerendert — die Probe fällt zurück, und alles ist wieder da.

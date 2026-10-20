@@ -172,7 +172,7 @@ test('§5 v845 Rot-Beweis: ohne den Allowlist-Eintrag steht der Ablageort der Vo
   const os = require('node:os');
   const path = require('node:path');
   const PRODUKT = require('./produkt-html-erzeugen.js');
-  const zeile = "  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:storageLocation' },\n";
+  const zeile = "  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:storageLocation', nur: 'behandlung' },\n";
   const text = fs.readFileSync(PRODUKT.produktHtml('privat-de'), 'utf8');
   assert.equal(text.split(zeile).length - 1, 1, 'Vorbedingung: das Produkt trägt den Eintrag genau einmal');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'notfall-v845-rot-'));

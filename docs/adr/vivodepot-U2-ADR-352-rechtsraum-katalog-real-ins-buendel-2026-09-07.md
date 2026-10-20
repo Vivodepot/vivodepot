@@ -9,8 +9,8 @@
 
 ## 1 · Was dieser ADR NICHT ist — vorweg, weil der Auftrag drei Teile hatte
 
-Der Auftrag ("Rechtsraum DE aus dem Gerüst — der Teil, der sofort geht", die Messung eines parallelen Strangs
-`e1-de-rechtsraum-im-geruest-messung-2026-09-07.md`) benannte drei Zuschnitte:
+Der Auftrag ("Rechtsraum DE aus dem Gerüst — der Teil, der sofort geht", die Messung eines parallelen Strangs,
+interner Bericht vom 07.09.2026) benannte drei Zuschnitte:
 
 1. `RECHTSRAUM_KATALOG` hinter das Bündel — **gebaut, dieser ADR**.
 2. Der Einlass-Riegel für "DE" soll für einen geprüften Weg fallen — **NICHT gebaut**.

@@ -16,7 +16,7 @@
    VORGÄNGER (nur für den Slug „englisch", 31.08.2026 vormittags): 
    „wir brauchen das für alle Module" — ein Modul-App-Slug kann MEHRERE
    signierte Module tragen (Betriebssatz z. B. ein Bereichs-Modul DE + ein
-   Textsatz-Overlay EN, s. tools/betriebssatz-aufbereiten.js), darum
+   Textsatz-Overlay EN, s. ein nicht öffentliches Werkzeug), darum
    `--modul` wiederholbar statt fest verdrahtet auf genau eins.
 
    Was WEITERHIN nicht automatisiert wird und nicht automatisiert werden

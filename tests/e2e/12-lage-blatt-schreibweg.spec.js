@@ -82,7 +82,7 @@ test('[A68·Rotmachbarkeit] ohne die Lage-Weiche landet alles im aktiven Bereich
   try {
     await fsaAttrappeVorMutantNavigation(page);
     await page.goto('file://' + mutant);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await depotAnlegen(page);
     const r = await fuelleLageDrei(page);
     // Der Streufehler: die Heimat-Bereiche bleiben LEER, der Wert landet im aktiven Bereich.
@@ -140,7 +140,7 @@ test('[A68·Liste·Rotmachbarkeit] wird die Liste mit dem aktiven statt dem Heim
   try {
     await fsaAttrappeVorMutantNavigation(page);
     await page.goto('file://' + mutant);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await depotAnlegen(page);
     const r = await legeInstrumentAn(page);
     expect(r.heimat, 'Streufehler: die Heimat-Liste (vorsorge) bleibt leer').toEqual([]);

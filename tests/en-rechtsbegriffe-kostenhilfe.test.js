@@ -1,12 +1,14 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════════
-   EN-Rechtsbegriffe der Kostenhilfe: Beratungshilfe ist „advice assistance“, „legal aid“ ist Prozess- bzw.
+   EN-Rechtsbegriffe der Kostenhilfe: Beratungshilfe ist „advisory assistance“, „legal aid“ ist Prozess- bzw.
    Verfahrenskostenhilfe (05.10.2026)
    ────────────────────────────────────────────────────────────────────────────
+   „advisory assistance“ ist der Begriff der amtlichen englischen Fassung des Beratungshilfegesetzes („Advisory Assistance
+   Act“, gesetze-im-internet.de/englisch_berathig, abgerufen am 12.10.2026); bis dahin stand hier „advice assistance“.
    Die beiden Hilfen haben verschiedene Voraussetzungen und verschiedene Antragswege. Ein englischer Satz, der für die
    Beratungshilfe „legal aid“ sagt, schickt die Person zum falschen Antrag. Die Probe vergleicht je Kennung den deutschen
    und den englischen Text des eigenen Textsatzes: nennt der deutsche die Beratungshilfe, nennt der englische
-   „advice assistance“; sagt der englische „legal aid“, nennt der deutsche Prozess- oder Verfahrenskostenhilfe.
+   „advisory assistance“; sagt der englische „legal aid“, nennt der deutsche Prozess- oder Verfahrenskostenhilfe.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -24,13 +26,13 @@ function kostenhilfeFunde(de, en) {
     if (typeof d !== 'string' || typeof e !== 'string') continue;
     const beratung = /Beratungshilfe/.test(d);
     const prozess = /Prozesskostenhilfe|Verfahrenskostenhilfe/.test(d);
-    if (beratung && !/advice assistance/i.test(e)) funde.push(k + ': Beratungshilfe ohne „advice assistance“');
+    if (beratung && !/advisory assistance/i.test(e)) funde.push(k + ': Beratungshilfe ohne „advisory assistance“');
     if (/legal aid/i.test(e) && !prozess) funde.push(k + ': „legal aid“ ohne Prozess- oder Verfahrenskostenhilfe im Deutschen');
   }
   return funde;
 }
 
-test('[EN-Kostenhilfe] Beratungshilfe heißt „advice assistance“, „legal aid“ steht nur für Prozess- oder Verfahrenskostenhilfe', () => {
+test('[EN-Kostenhilfe] Beratungshilfe heißt „advisory assistance“, „legal aid“ steht nur für Prozess- oder Verfahrenskostenhilfe', () => {
   const de = lies('textsatz-de-modul.json');
   const en = lies('textsatz-en-modul.json');
   assert.ok(Object.keys(de).filter((k) => /Beratungshilfe/.test(de[k])).length > 0, 'die Probe hat Gegenstand');
@@ -42,7 +44,7 @@ test('[EN-Kostenhilfe·Rot-Beweis] „legal aid“ für die Beratungshilfe ist e
     a: 'Den Antrag auf Beratungshilfe stellen Sie beim Amtsgericht.',
     b: 'Beratungshilfe oder Prozesskostenhilfe beantragen',
   };
-  assert.deepEqual(kostenhilfeFunde(de, { a: 'You apply for legal aid at the local court.', b: 'Applying for advice assistance or legal aid' }),
-    ['a: Beratungshilfe ohne „advice assistance“', 'a: „legal aid“ ohne Prozess- oder Verfahrenskostenhilfe im Deutschen']);
-  assert.deepEqual(kostenhilfeFunde(de, { a: 'You apply for advice assistance at the local court.', b: 'Applying for advice assistance or legal aid' }), []);
+  assert.deepEqual(kostenhilfeFunde(de, { a: 'You apply for legal aid at the local court.', b: 'Applying for advisory assistance or legal aid' }),
+    ['a: Beratungshilfe ohne „advisory assistance“', 'a: „legal aid“ ohne Prozess- oder Verfahrenskostenhilfe im Deutschen']);
+  assert.deepEqual(kostenhilfeFunde(de, { a: 'You apply for advisory assistance at the local court.', b: 'Applying for advisory assistance or legal aid' }), []);
 });

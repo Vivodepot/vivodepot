@@ -25,7 +25,7 @@ function bauen(slug, extra = {}) {
 const aufraeumen = (ordner) => fs.rmSync(ordner, { recursive: true, force: true });
 
 async function flaecheImBrowser(url) {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage();
     const fehler = [];
@@ -39,7 +39,8 @@ async function flaecheImBrowser(url) {
   } finally { await browser.close(); }
 }
 
-for (const slug of ['privat-de', 'pro-en']) {
+// Im öffentlichen Zuschnitt nur die baubaren Produkte (tools/lib/vier-produkte.js, PRODUKTE); im Kanon beide.
+for (const slug of ['privat-de', 'pro-en'].filter((s) => PRODUKTE.some((p) => p.slug === s))) {
   test(`[Kern-Testfläche·Browser] ${slug}: das ausgelieferte Produkt hat keine Fläche und läuft ohne Seitenfehler in die App`, async () => {
     const { datei, ordner } = bauen(slug);
     try {

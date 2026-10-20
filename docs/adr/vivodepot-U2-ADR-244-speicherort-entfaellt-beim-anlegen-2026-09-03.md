@@ -126,7 +126,7 @@ herkunft: KORRIGIERT (Fund, 12.09.2026): stand vorher auf "file://-Herkunft" als
           Behauptung, nur das Fehlen eines Mocks. file:// allein erzwingt seit dem Wegfall der
           pauschalen Ursprungs-Flagge (`internerSpeicherModus()`, „die pauschale
           file://-Flagge weicht der Probe") KEINEN Datei-Modus mehr — live gemessen, IndexedDB
-          funktioniert unter file:// (Bericht sichern-je-browser-je-lauf-2026-09-12.md). Die
+          funktioniert unter file:// (interner Bericht vom 12.09.2026). Die
           echte Ursache ist jetzt korrekt geprüft: eine tatsächlich gescheiterte Funktionsprobe.
 pruefung: tests/adr-244-anlegen-ohne-speicherort.test.js#[U2-ADR-244·Gegenprobe] Fallback-Fall (kein interner Speicher möglich, ECHT geprüft) fragt weiterhin ein Dateiziel
 ```

@@ -1,7 +1,7 @@
 'use strict';
 /* Befund LESE-APP-PARTNERMARKE-AB-WERK (MITTEL), 05.10.2026.
    Ein Partnerprodukt mit Branding in der Bau-Region AB_WERK_BRANDING_PRODUKT (U2-ADR-384) zeigt im Kern Logo,
-   Kopfzeilenfarbe und Palette des Partners (U2-ADR-297-Nachtrag, tests/white-label-ab-werk-partner.test.js). Die
+   Kopfzeilenfarbe und Palette des Partners (U2-ADR-297-Nachtrag, eine nicht öffentliche Probe). Die
    Lese-App liest die Marke dagegen allein aus `data.brandingModule` der geöffneten Datei — und ein Depot aus dem
    Partnerprodukt trägt dort nichts: die Bau-Region wird nie in die Datei mitgeschrieben. Gemessen: Name und Farbe
    des Partners kommen in der Datei nicht vor, die Lese-App zeigt Vivodepot. Nach der White-Label-Entscheidung vom

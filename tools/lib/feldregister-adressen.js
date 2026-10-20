@@ -96,8 +96,17 @@ function begriff(f, kennungen) {
   if (t) k['skos:broader'] = { '@id': adresse(t) };
   if (f.status !== 'permanent') k['owl:deprecated'] = true;
   if (f.nachfolger) k['dct:isReplacedBy'] = { '@id': adresse(f.nachfolger) };
+  // Entsprechungen (der Erzeuger des Feldregisters, entsprechungenAnhaengen): je Grad der SKOS-Bezug, nur die IRI der Gegenseite.
+  for (const e of f.entsprechungen || []) {
+    const rel = SKOS_BEZUG[e.grad];
+    if (!rel) throw new Error('feldregister-adressen: unbekannter Grad ' + e.grad + ' an ' + f.kennung);
+    const wert = { '@id': e.ziel };
+    k[rel] = k[rel] ? [].concat(k[rel], wert) : wert;
+  }
   return k;
 }
+/* Grad → SKOS-Bezug, dieselbe Zuordnung wie tools/bezuege-erheben.js (SKOS). */
+const SKOS_BEZUG = Object.freeze({ exakt: 'skos:exactMatch', naeherung: 'skos:closeMatch', eng: 'skos:narrowMatch', weit: 'skos:broadMatch' });
 
 function begriffJsonld(f, kennungen) {
   return JSON.stringify({ '@context': SKOS_KONTEXT, ...begriff(f, kennungen), 'dct:license': { '@id': LIZENZ.url } }, null, 2) + '\n';
@@ -150,6 +159,10 @@ function begriffSeite(f) {
   z.push('    <dt>Status</dt><dd>' + htmlText(f.status)
     + (f.nachfolger ? ' → <a href="' + htmlText(adresse(f.nachfolger)) + '"><code>' + htmlText(f.nachfolger) + '</code></a>' : '')
     + '</dd>');
+  if ((f.entsprechungen || []).length) {
+    z.push('    <dt>Entsprechungen · Mappings</dt><dd>' + f.entsprechungen.map((e) => '<code>' + htmlText(SKOS_BEZUG[e.grad]) + '</code> '
+      + '<a href="' + htmlText(e.ziel) + '"><code>' + htmlText(e.ziel) + '</code></a>').join('<br>') + '</dd>');
+  }
   z.push('    <dt>Adresse · Address</dt><dd><code>' + htmlText(adresse(f.kennung)) + '</code></dd>');
   z.push('    <dt>Maschinenlesbar · Machine-readable</dt><dd><a href="' + JSONLD + '">JSON-LD (SKOS)</a></dd>');
   z.push('  </dl>');
@@ -246,5 +259,5 @@ function adressDateien(felder) {
 module.exports = {
   ADRESS_BASIS, ORDNER, SEITE, JSONLD, HTACCESS, HTACCESS_INHALT, SCHEMA_JSONLD_DATEI,
   LIZENZ, HERAUSGEBER, QUELLENHINWEIS, SKOS_KONTEXT,
-  adresse, adressenPruefen, htaccessBefunde, schemaKopf, schemaSeite, begriff, begriffJsonld, schemaJsonld, begriffSeite, adressDateien,
+  SKOS_BEZUG, adresse, adressenPruefen, htaccessBefunde, schemaKopf, schemaSeite, begriff, begriffJsonld, schemaJsonld, begriffSeite, adressDateien,
 };

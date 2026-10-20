@@ -64,7 +64,7 @@ Die Spec (ADR-061v3, Option A) verlangt ein **separates, physisch hinterlegtes V
 
 ## Betroffene Stellen
 
-- `vivodepot.html`: `data`-Default (2 Felder) + Migration 26→27 + `B16_IGNORE`; Krypto/Cache-Bauer (`_angDeriveKey`, `_angWaehleIterationen`, `angehoerigenCacheVerschluesseln/Entschluesseln/AusUmschlag`, `angehoerigenCacheModell`); `depotSerialisieren` (+`angehoerigenCache`); `cryptoOverlayOeffnen` (Option-B-Zweig entfernt) + `angehoerigenEintritt`/`angehoerigenAusUmschlag`/`_internerUmschlagRoh`; Owner-Setup (`vertrauensperson*` + `flowVertrauensperson*`), Einstellungen-Abschnitt; STRINGS.
+- `vivodepot.html`: `data`-Default (2 Felder) + Migration 26→27 + `B16_IGNORE`; Krypto/Cache-Bauer (`_angDeriveKey`, `angehoerigenCacheVerschluesseln/Entschluesseln/AusUmschlag`, `angehoerigenCacheModell`); `depotSerialisieren` (+`angehoerigenCache`); `cryptoOverlayOeffnen` (Option-B-Zweig entfernt) + `angehoerigenAusUmschlag`/`_internerUmschlagRoh`; Owner-Setup (`vertrauensperson*` + `flowVertrauensperson*`), Einstellungen-Abschnitt; STRINGS. Aus dem heutigen Kern entfernt sind `_angWaehleIterationen`, `angehoerigenEintritt`, `angehoerigenAusUmschlag`, `angehoerigenCacheVerschluesseln/Entschluesseln/AusUmschlag` und `flowVertrauenspersonEinrichten`/`flowVertrauenspersonEntfernen` (21.08.2026) sowie `_angDeriveKey` (05.10.2026); `angehoerigenCacheModell`, `_internerUmschlagRoh` und der Datenschlüssel `angehoerigenCache` leben (Fund 20.09.2026 und 18.10.2026, `tools/adr-code-stellen-pruefen.js`; nachzusehen mit `git grep -n _angDeriveKey -- vivodepot.html`, nur noch Kommentare).
 - `tests/load-kern.js` (Exporte); `sw.js` (v10→v11); `vivodepot.html.sha256`.
 
 ## Nachlauf

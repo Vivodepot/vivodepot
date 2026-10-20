@@ -64,7 +64,7 @@ function erreichbareWege({ flaeche, namen }) {
 /* Öffnet die Datei, wartet auf den Eingangsschirm und misst. Ohne den Eingangsschirm wäre die Messung eine über eine leere
    Seite; darum wirft der Vorlauf, statt weiterzumessen. */
 async function wegeInDerSeite(datei) {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage();
     await seite.goto('file://' + datei);

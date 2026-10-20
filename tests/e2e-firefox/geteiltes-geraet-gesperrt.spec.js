@@ -52,7 +52,7 @@ test('[Geteiltes Gerät] zweiter Tab und Neuladen zeigen nur „bitte entsperren
   const ctx = await browser.newContext({ acceptDownloads: true });
   const a = await ctx.newPage();
   await a.goto(KERN_URL);
-  await a.waitForSelector('#w-anlass', { state: 'visible' });
+  await a.waitForSelector('#w-anlegen', { state: 'visible' });
   await depotAnlegen(a, { name: 'Maria ' + GEHEIMNAME, pw: 'geheim-pw-4711' });
   await oeffneSektor(a, 'identity');
   await setzeFeld(a, 'street', GEHEIMWERT);
@@ -90,7 +90,7 @@ test('[Geteiltes Gerät·Positivkontrolle] der Rohspeicher-Leser findet einen Kl
   const ctx = await browser.newContext();
   const p = await ctx.newPage();
   await p.goto(KERN_URL);
-  await p.waitForSelector('#w-anlass', { state: 'visible' });
+  await p.waitForSelector('#w-anlegen', { state: 'visible' });
   await p.evaluate(async () => {
     await new Promise((res, rej) => {
       const r = indexedDB.open('positivkontrolle', 1);

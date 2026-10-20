@@ -89,7 +89,7 @@ test('[A4] refmNamen ist für alle vier Motoren dieselbe geteilte Funktion — k
   assert.deepEqual(bv.refmNamen([person]), ausPv);
 });
 
-/* U2-ADR-NNN2 (17.09.2026): der vorige Test hier prüfte _standardVorlageAusBuendelErzeugen —
+/* U2-ADR-505 (17.09.2026): der vorige Test hier prüfte _standardVorlageAusBuendelErzeugen —
    entfernt, weil A253 sie als unerreichbar fand (nur über den Test-Export erreichbar, im
    Produkt nirgends aufgerufen). STANDARD_VORLAGEN trägt id/templateJws seither direkt aus
    AB_WERK_BASISTEMPLATE_DE, kein "roh"-Objekt wird mehr materialisiert. Ersatzprobe: der

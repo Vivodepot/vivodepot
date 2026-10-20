@@ -34,41 +34,6 @@ test('[Altbestand·Gegenprobe] die Vorführdatei von vor dem Umbau öffnet in al
   assert.deepEqual(r.funde, []);
 });
 
-test('[Altbestand·Waise·Rot-Beweis] unbekannter Schlüssel, verlorener und verschobener Wert, Dokument ohne Zeile, verlorenes Modul', async () => {
-  const k = await T.oeffnen('pro-de', { art: 'umschlag', umschlag: JSON.parse(require('node:fs').readFileSync(DEMO_DE.pfad, 'utf8').replace(/^[^{]*/, '')), passwort: DEMO_DE.passwort });
-  const d = k.V.getData();
-  assert.deepEqual(T.waisen(k.V), [], 'Ausgangslage: ohne Pflanzung keine Waise');
-  d.sektoren.identity.gibtEsNicht = 'x';
-  d.sektoren.advanceCare = d.sektoren.advanceCare || {};
-  d.sektoren.advanceCare.provisionInstruments = [
-    { id: 'z1', instrument: 'enduring-power-of-attorney' },
-    { id: 'z2', instrument: 'living-will', unbekanntesUnterfeld: 'y' },
-  ];
-  d.dokumente = (d.dokumente || []).concat([{ id: 'doc-probe', typ: 'living-will',
-    felder: [{ sektorId: 'advanceCare', feldId: 'provisionInstruments' }] }]);
-  d.ablageDraussen = 'ALTBESTAND·verschoben';
-  const w = T.waisen(k.V, ['ALTBESTAND·verloren', 'ALTBESTAND·verschoben'], ['logikModule:gibt-es-nicht']);
-  assert.ok(w.includes('Schlüssel identity.gibtEsNicht'), w.join(' | '));
-  assert.ok(w.includes('Schlüssel advanceCare.provisionInstruments/unbekanntesUnterfeld'), w.join(' | '));
-  assert.ok(w.includes('Wert verloren verloren'), w.join(' | '));
-  assert.ok(w.includes('Wert nur an unbekannter Stelle verschoben'), w.join(' | '));
-  assert.ok(w.some((x) => x.startsWith('Dokument doc-probe → advanceCare.provisionInstruments ohne Zeile')), w.join(' | '));
-  assert.ok(w.includes('Modul verloren logikModule:gibt-es-nicht'), w.join(' | '));
-  d.dokumente[d.dokumente.length - 1].felder[0].zeilenId = 'z2';
-  assert.ok(!T.waisen(k.V).some((x) => x.startsWith('Dokument doc-probe')), 'mit Zeile gebunden ist das Dokument keine Waise');
-});
-
-test('[Altbestand·Pro erreichbar·Rot-Beweis] ein Wert aus Privat, den Pro nicht trägt oder nicht deklariert, wird gemeldet', async () => {
-  const k = await T.oeffnen('pro-de', { art: 'umschlag', umschlag: JSON.parse(require('node:fs').readFileSync(DEMO_DE.pfad, 'utf8').replace(/^[^{]*/, '')), passwort: DEMO_DE.passwort });
-  const stellen = Object.entries(k.V.getData().sektoren).flatMap(([b, i]) => Object.keys(i || {}).map((f) => b + '.' + f));
-  assert.ok(stellen.length > 5);
-  assert.deepEqual(T.proErreichbar(stellen.filter((s) => T.modellSchluessel(k.V).has(s)), k.V), []);
-  assert.deepEqual(T.proErreichbar(['identity.gibtEsNicht', 'finance.nieGesetzt'], k.V),
-    ['identity.gibtEsNicht: Wert fehlt', 'finance.nieGesetzt: Wert fehlt']);
-  k.V.getData().sektoren.identity.gibtEsNicht = 'x';
-  assert.deepEqual(T.proErreichbar(['identity.gibtEsNicht'], k.V), ['identity.gibtEsNicht: im Katalog nicht deklariert']);
-});
-
 test('[Altbestand·rohe Kennung] Kennungsform und Feld-ID werden erkannt, Text nicht', () => {
   for (const roh of ['identity.givenName.label', 'identity.label', 'advanceCare.provisionInstruments.instrument.label', '']) {
     assert.equal(T.istRoheKennung(roh, 'givenName'), true, roh);

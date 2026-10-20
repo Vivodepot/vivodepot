@@ -60,7 +60,7 @@ Genitiv.
 
 Beide Sätze nennen „Vivodepot" nicht als Eigenname, sondern als Synonym für „das eigene Depot" —
 Wechsle die Marke, was bleibt, ist immer noch ein Depot (derselbe Prüfstein wie in
-`tools/buergermodul-schnitt.js`: „Wechsle die Sprache/den Rechtsraum, was sich ändert/bleibt").
+ein nicht öffentliches Werkzeug: „Wechsle die Sprache/den Rechtsraum, was sich ändert/bleibt").
 Das native Vokabular kennt „Depot" bereits als markenunabhängiges Substantiv — 879 Vorkommen im
 Kern, davon zwei bereits in genau derselben Genitiv-Form (`strings:pwWechselKopienTitel.text`,
 `strings:mappeDepotGroesse.text`: „Ihres Depots"). Beide Sätze werden auf diese bestehende Form
@@ -96,11 +96,11 @@ Ein Wortlaut, vier Träger, alle vier angepasst:
 - Zwei Aufnahme-Fixturen neu geschrieben (`RENDER_AUFNAHME_NEU=1`, kein Handedit):
   `tests/fixtures/render-aufnahme/{leer,befuellt}__identitaet.html`
 
-**Bewusst NICHT angefasst:** `tools/buergermodul/vd-de-sprache.json` (Ausgabe von
-`tools/buergermodul-schnitt.js`, aus dem laufenden Kern erzeugt). Ein Regenerieren hätte
+**Bewusst NICHT angefasst:** eine nicht öffentliche Datei (Ausgabe von
+ein nicht öffentliches Werkzeug, aus dem laufenden Kern erzeugt). Ein Regenerieren hätte
 zusätzlich unabhängige, bereits vorher bestehende Drift nachgezogen (zehn neue `vermoegen.*`/
 `verwaltung.*`-Kennungen, die eine andere Sitzung seit dem letzten Schnitt ergänzt hat) — außerhalb
-dieses Zuges. Geprüft, dass das folgenlos ist: `tests/buergermodul-ab-parity-u2-adr-299.test.js`
+dieses Zuges. Geprüft, dass das folgenlos ist: eine nicht öffentliche Probe
 Zeile 105 belegt ausdrücklich, dass das Bündel selbst KEIN `label`/keinen Text trägt — die
 Beschriftung kommt beim Andocken erneut aus dem Textsatz-Lauf (`_bereichAusBuendelErzeugen` →
 `_textsatzAufSektorenAnwenden`), nie aus der Bündel-Datei. Die Datei bleibt darum ohne
@@ -173,8 +173,8 @@ zweiten Wächter zu unterhalten.
 `tests/buergermodul-bereich-erzeugen-u2-adr-319.test.js`, `tests/fixture-felder-im-modell.test.js`,
 `tests/marke-anzeige-anwenden.test.js`, `tests/u2-adr-322-jeder-traeger-loest-auf.test.js`,
 `tests/pre-depot-en-sync.test.js`, `tests/textsatz-mechanismus.test.js`,
-`tests/erzeuger-deckung-sprache-rechtsraum-marke.test.js`,
-`tests/buergermodul-ab-parity-u2-adr-299.test.js`. Zusätzlich `tools/textsatz-en-platzhalter-pruefen.js`
+eine nicht öffentliche Probe,
+eine nicht öffentliche Probe. Zusätzlich `tools/textsatz-en-platzhalter-pruefen.js`
 (Exit 0) und `tests/render-charakterisierung.test.js` (9/9, `RENDER_AUFNAHME_NEU=1` zum
 Neuschreiben der zwei betroffenen Aufnahmen). SCHALEN_STAND v623 → v624.
 

@@ -1,6 +1,6 @@
 'use strict';
 /* Lädt EIN gebackenes Produkt (privat-de/-en, pro-de/-en) als Kern für einen Node-Test — dieselbe
-   Apparatur wie tests/angehoerigen-vorlage-de-feldverlust.test.js, herausgezogen, damit mehrere
+   Apparatur wie eine nicht öffentliche Probe, herausgezogen, damit mehrere
    Proben sie teilen. Backt in ein Wegwerf-Verzeichnis und räumt es wieder weg. */
 const fs = require('node:fs');
 const os = require('node:os');

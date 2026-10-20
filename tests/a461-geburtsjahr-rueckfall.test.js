@@ -14,7 +14,7 @@
    `menschen[]`, wo der Rückfall ebenfalls nicht in den medizinischen Export
    reicht.
    ════════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 

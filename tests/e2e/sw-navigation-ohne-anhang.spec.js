@@ -97,7 +97,7 @@ async function releaseDurchspielen(browser, optionen) {
     const vorher = zustand.seitenabrufe;
     const zweite = await context.newPage();
     await zweite.goto(adresse);
-    await zweite.waitForSelector('#w-anlass', { state: 'visible' });
+    await zweite.waitForSelector('#w-anlegen', { state: 'visible' });
     return zustand.seitenabrufe - vorher;
   } finally {
     await context.close();

@@ -73,7 +73,7 @@ async function wegGehen(seite, dateipfad) {
 
 test('[Weg 7] Wiederfinden — Datei oeffnen, nach dem Passwort gefragt werden', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   let datei = null;
   try {
     datei = await depotDatei();
@@ -90,7 +90,7 @@ test('[Weg 7] Wiederfinden — Datei oeffnen, nach dem Passwort gefragt werden',
 
 test('[Weg 7·Positivkontrolle] ohne den Knopf bricht der Weg mit der erwarteten Meldung', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   let datei = null;
   try {
     datei = await depotDatei();
@@ -112,7 +112,7 @@ test('[Weg 7·Positivkontrolle] ein Depot ohne Passwortfrage waere ein Bruch', a
      Depot geht ohne Passwort auf. Die Prüfung muss ihn sehen — sonst wäre sie
      von einer, die nur „Datei angekommen" misst, nicht zu unterscheiden. */
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   let datei = null;
   try {
     datei = await depotDatei();
@@ -135,7 +135,7 @@ test('[Weg 7·Positivkontrolle] ein Depot ohne Passwortfrage waere ein Bruch', a
 
 test('[Weg 7·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   let datei = null;
   try {
     datei = await depotDatei();

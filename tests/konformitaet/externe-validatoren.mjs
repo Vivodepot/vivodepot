@@ -54,12 +54,41 @@ const { urteilsZuordnung } = require('../../tools/lib/fhir-urteil-zuordnung.js')
 const { registerLesen, kaputtListe } = require('../../tools/standards-register-pruefen.js');
 const { vorsorgeDepotAnlegen } = require('../../tools/lib/ips-vorsorge-beispiel.js');
 const { ohneActorRolle } = require('../../tools/ips-vorsorge-validieren.js');
-const { kvnr } = require('../../tools/isik-validieren.js');
+const { kvnr, IG: ISIK_IG, paketeFehlen: isikPaketeFehlen, isikDokumenteBauen } = require('../../tools/isik-validieren.js');
 import { javaPfad } from './adapter/_umgebung.mjs';
 import { ladeAdapter } from './adapter/_lader.mjs';
 import { urteileHolen } from './adapter/_urteile.mjs';
 
 const ARBEIT = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-extval-'));
+
+/* ── Pakete JE FALL (16.10.2026, ISiK) ──────────────────────────────────────────
+   Der Grundlauf lädt IPS, EU-EPS und KBV-PKA. ISiK (de.gematik.isik#6.0.0) zieht de.basisprofil.r4#1.6.0 und weitere
+   deutsche Pakete nach, KBV-PKA über kbv.basis eine ältere Fassung desselben Basisprofils — in EINEM Lauf geladen, könnten
+   sich die Urteile der vorhandenen Fälle still verschieben. Darum urteilt ein Fall mit Eintrag in PAKETE_JE_PFAD in einem
+   eigenen Sammelaufruf nur mit seinen Paketen (wie tools/isik-validieren.js: nur -ig de.gematik.isik#6.0.0); alle anderen
+   Fälle sehen genau die Paketliste von vorher. Kostet einen JVM-Start mehr, nicht einen je Datei. */
+const PAKETE_GRUNDLAUF = Object.freeze(['hl7.fhir.uv.ips#2.0.0', 'hl7.fhir.eu.eps#1.0.0-ballot', 'kbv.mio.patientenkurzakte#1.0.0']);
+const PAKETE_JE_PFAD = new Map();
+/* ISiK braucht die amtlichen Anzeigetexte von KDL und IHE-D, die nur zur Laufzeit aus dem lokalen Paket-Cache kommen
+   (U2-ADR-468, entschieden 01.10.2026). Fehlt dort ein Paket, sind die ISiK-Fälle UNGEMESSEN (todo, mit Grund), nie grün.
+   Die Fall-Dateien und ihr OperationOutcome tragen diese Texte — sie liegen in einem eigenen Unterordner; nach dem Lauf wird
+   das ganze Arbeitsverzeichnis gelöscht (vorher blieb es liegen). */
+const FHIR_CACHE = path.join(os.homedir(), '.fhir', 'packages');
+const ISIK_ARBEIT = path.join(ARBEIT, 'isik');
+const ISIK_FEHLT = isikPaketeFehlen(FHIR_CACHE);
+const ISIK_GRUND = ISIK_FEHLT.length ? 'fehlt im Paket-Cache ' + FHIR_CACHE + ': ' + ISIK_FEHLT.join(', ') : null;
+test.after(() => { fs.rmSync(ARBEIT, { recursive: true, force: true }); });
+const igArgs = (pakete) => pakete.flatMap((p) => ['-ig', p]);
+let sammelNr = 0;
+function hl7Sammellauf(umgebung, dateiPfade, pakete) {
+  const aus = path.join(path.dirname(dateiPfade[0]), 'sammel-' + dateiPfade.length + '-' + Date.now() + '-' + (sammelNr++) + '.outcome.json');
+  try {
+    execFileSync(umgebung.java, ['-jar', umgebung.jar, ...dateiPfade, '-version', '4.0.1', ...igArgs(pakete),
+      '-tx', 'n/a', '-output', aus], { stdio: 'ignore', timeout: 600000 });
+  } catch (_) { /* Rückgabecode ≠ 0 ist bei Validierungsfehlern normal — es zählt das OperationOutcome */ }
+  if (!fs.existsSync(aus)) return new Map(dateiPfade.map((p) => [p, { gelesen: false, fehler: ['Validator lieferte kein OperationOutcome'] }]));
+  return urteilsZuordnung(JSON.parse(fs.readFileSync(aus, 'utf8')), dateiPfade);
+}
 
 /* ── Java finden: seit der Standards-Schnittstelle (28.09.2026) in adapter/_umgebung.mjs, dieselbe Suche
    (JAVA_HOME, PATH, Homebrew-Orte); ohne Argument genau das Verhalten von vorher. */
@@ -72,9 +101,9 @@ export const VALIDATOREN = [
     id: 'hl7-fhir-validator',
     sammelPflicht: true,   // eine JVM je Datei sprengt die Zeitgrenze des Gates — nur der Sammelaufruf (adapter/_urteile.mjs)
     autoritaet: 'HL7 International — offizieller FHIR-Validator (org.hl7.fhir.core)',
-    prueft: 'FHIR-R4-Bundles gegen die Profile hl7.fhir.uv.ips, hl7.fhir.eu.eps und kbv.mio.patientenkurzakte',
+    prueft: 'FHIR-R4-Bundles gegen die Profile hl7.fhir.uv.ips, hl7.fhir.eu.eps und kbv.mio.patientenkurzakte; DocumentReferences gegen de.gematik.isik (eigener Sammelaufruf)',
     werkzeugVersion: '6.9.12',
-    pakete: ['hl7.fhir.uv.ips#2.0.0', 'hl7.fhir.eu.eps#1.0.0-ballot', 'kbv.mio.patientenkurzakte#1.0.0'],
+    pakete: [...PAKETE_GRUNDLAUF, ISIK_IG],
     // `-tx n/a`: OHNE Terminologie-Server. Am 26.07. gemessen — das Urteil ist identisch,
     // UND die ValueSet-Negativkontrolle (Code außerhalb des ValueSets) greift weiterhin aus
     // den lokalen Terminologie-Paketen. Damit ist der Lauf offline und reproduzierbar,
@@ -99,20 +128,23 @@ export const VALIDATOREN = [
        über die Extension operationoutcome-file (den Pfad), NIE über die Reihenfolge — tools/lib/fhir-urteil-zuordnung.js, mit
        eigener Probe. */
     urteileAlle: (umgebung, dateiPfade) => {
-      const aus = path.join(ARBEIT, 'sammel-' + dateiPfade.length + '-' + Date.now() + '.outcome.json');
-      try {
-        execFileSync(umgebung.java, ['-jar', umgebung.jar, ...dateiPfade, '-version', '4.0.1',
-          '-ig', 'hl7.fhir.uv.ips#2.0.0', '-ig', 'hl7.fhir.eu.eps#1.0.0-ballot', '-ig', 'kbv.mio.patientenkurzakte#1.0.0',
-          '-tx', 'n/a', '-output', aus], { stdio: 'ignore', timeout: 600000 });
-      } catch (_) { /* Rückgabecode ≠ 0 ist bei Validierungsfehlern normal — es zählt das OperationOutcome */ }
-      if (!fs.existsSync(aus)) return new Map(dateiPfade.map((p) => [p, { gelesen: false, fehler: ['Validator lieferte kein OperationOutcome'] }]));
-      return urteilsZuordnung(JSON.parse(fs.readFileSync(aus, 'utf8')), dateiPfade);
+      // Ein Sammelaufruf je Paketgruppe (s. PAKETE_JE_PFAD oben); ohne ISiK-Fälle genau ein Aufruf wie vorher.
+      const gruppen = new Map();
+      for (const p of dateiPfade) {
+        const pakete = PAKETE_JE_PFAD.get(p) || PAKETE_GRUNDLAUF;
+        const k = pakete.join(' ');
+        if (!gruppen.has(k)) gruppen.set(k, { pakete, pfade: [] });
+        gruppen.get(k).pfade.push(p);
+      }
+      const alle = new Map();
+      for (const { pakete, pfade } of gruppen.values()) for (const [p, u] of hl7Sammellauf(umgebung, pfade, pakete)) alle.set(p, u);
+      return alle;
     },
     urteile: (umgebung, dateiPfad) => {
-      const aus = path.join(ARBEIT, path.basename(dateiPfad) + '.outcome.json');
+      const aus = path.join(path.dirname(dateiPfad), path.basename(dateiPfad) + '.outcome.json');
       try {
         execFileSync(umgebung.java, ['-jar', umgebung.jar, dateiPfad, '-version', '4.0.1',
-          '-ig', 'hl7.fhir.uv.ips#2.0.0', '-ig', 'hl7.fhir.eu.eps#1.0.0-ballot', '-ig', 'kbv.mio.patientenkurzakte#1.0.0',
+          ...igArgs(PAKETE_JE_PFAD.get(dateiPfad) || PAKETE_GRUNDLAUF),
           '-tx', 'n/a', '-output', aus], { stdio: 'ignore', timeout: 600000 });
       } catch (_) { /* Rückgabecode ≠ 0 ist bei Validierungsfehlern normal — es zählt das OperationOutcome */ }
       if (!fs.existsSync(aus)) return { gelesen: false, fehler: ['Validator lieferte kein OperationOutcome'] };
@@ -296,6 +328,29 @@ export const VALIDATOREN = [
       await bauPka('kbv-pka-ablageort-als-text', 'ungueltig',
         'KBV_PR_MIO_NFDxDPE_Address: text max 0, line/city/postalCode Pflicht — ein Ablageort als freier Text muss fallen',
         (b) => { b.entry.find((x) => x.resource.provision).resource.sourceReference._display.extension[0].valueAddress = { text: 'Rennweg 35, 56626 Andernach' }; });
+      /* U2-ADR-468: die ISiK-Ausgabe — zwei DocumentReferences nach ISiKDokumentenMetadaten (Stufe 6) aus demselben Depot wie
+         tools/isik-validieren.js (erfundene Person mit KVNR, Allergie, Vollmacht mit Scan als Urschrift; sensibel freigegeben,
+         die amtlichen Anzeigetexte zur Laufzeit aus dem Cache). Urteil im eigenen Sammelaufruf nur mit de.gematik.isik#6.0.0.
+         Zwei Gegenstücke: ohne status (1..1 schon im Grundprofil) und ohne das KDL-Coding (type.coding:KDL 1..1 — fällt nur,
+         wenn das ISiK-Profil wirklich urteilt). Fehlt ein Paket im Cache: keine ISiK-Fälle hier, der Test
+         „[Extern·ISiK] …“ steht dann als UNGEMESSEN (todo) da. */
+      if (!ISIK_GRUND) {
+        fs.mkdirSync(ISIK_ARBEIT, { recursive: true });
+        const dr = await isikDokumenteBauen(FHIR_CACHE);
+        const isik = (name, erwartet, warum, res) => {
+          const p = path.join(ISIK_ARBEIT, name + '.json');
+          fs.writeFileSync(p, JSON.stringify(res, null, 1));
+          PAKETE_JE_PFAD.set(p, [ISIK_IG]);
+          faelle.push({ name, pfad: p, erwartet, warum });
+        };
+        const kopie = (x) => JSON.parse(JSON.stringify(x));
+        isik('isik-vollmacht-urschrift', 'gueltig', 'U2-ADR-468: DR 1, die Vollmacht mit der Urschrift als Scan (KDL, XDS-Typ und -Klasse, KVNR)', dr.vollmacht);
+        isik('isik-ips', 'gueltig', 'U2-ADR-468: DR 2, die IPS als patienteneigenes Dokument', dr.ips);
+        const ohneStatus = kopie(dr.vollmacht); delete ohneStatus.status;
+        isik('isik-ohne-status', 'ungueltig', 'DocumentReference.status ist 1..1 — eine DR ohne Status muss fallen', ohneStatus);
+        const ohneKdl = kopie(dr.vollmacht); ohneKdl.type.coding.shift();
+        isik('isik-ohne-kdl', 'ungueltig', 'ISiKDokumentenMetadaten: type.coding:KDL ist Pflicht — ohne KDL-Coding muss die DR fallen', ohneKdl);
+      }
       return faelle;
     },
     /* Die KAPUTT-Probe: ein absichtlich beschädigtes Erzeugnis MUSS abgelehnt werden.
@@ -354,6 +409,12 @@ test('[Extern] jedes Werkzeug der Registry ist da (eigenständiges Werkzeug, nic
       .map(v => v.id + ' (echt: ' + ECHT_AM_ADAPTER.get(v.id).join(', ') + ') — ' + UMGEBUNGEN.get(v.id).grund);
     assert.deepEqual(echtUngemessen, [], 'Gate: ein Standard mit status echt ist UNGEMESSEN — rot, nicht still ok:\n    ' + echtUngemessen.join('\n    '));
   }
+});
+
+test('[Extern·ISiK] die ISiK-Pakete liegen im lokalen Paket-Cache (sonst sind die ISiK-Faelle UNGEMESSEN)', (t) => {
+  if (!ISIK_GRUND) return;
+  console.log('\n  ⚠ UNGEMESSEN — ISiK-Faelle: ' + ISIK_GRUND + '\n');
+  t.todo('UNGEMESSEN — ' + ISIK_GRUND + ' (zaehlt NICHT als bestanden)');
 });
 
 test('[Extern] jedes Erzeugnis des Generators traegt sein erwartetes Urteil', async (t) => {

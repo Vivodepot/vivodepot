@@ -1,0 +1,342 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/patientenverfuegung",
+  "fassung": 1,
+  "dokumentModule": {
+    "patientenverfuegung": {
+      "motor": "pv",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "Testtext 1",
+          "bloecke": [
+            {
+              "typ": "mehrfachauswahl",
+              "feldId": "applicableSituations",
+              "einleitungAus": {
+                "dokument": "pvBmj",
+                "feld": "applicableSituations",
+                "teil": "dokEinleitung"
+              },
+              "bulletPrefix": "Testtext 2",
+              "freitextFeld": "ownAdditionalSituation",
+              "einleitung": "Wenn"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 3",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "lifeSustainingMeasures",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "painAndSymptomTreatment",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "acceptsLifeShorteningFromPain",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "artificialNutritionAndHydration",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "resuscitationInDescribedSituations",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "emergencyDoctorNotified",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "resuscitationInAllCases",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "artificialVentilation",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "dialysis",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "antibiotics",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "bloodAndBloodProducts",
+              "bezugAusStep": true,
+              "sentinelSkip": true
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 4",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "placeOfTreatmentOrDeath",
+              "prefix": "Testtext 5",
+              "sentinelSkip": true
+            },
+            {
+              "typ": "refMehrfach",
+              "feldId": "supportFromThesePersons",
+              "satz": "Testtext 6"
+            },
+            {
+              "typ": "freitextSatz",
+              "feldId": "supportFromChurchOrCommunity",
+              "satz": "Testtext 7"
+            },
+            {
+              "typ": "auswahlFest",
+              "feldId": "hospiceSupport",
+              "wert": "ja",
+              "text": "Testtext 8"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 9",
+          "bloecke": [
+            {
+              "typ": "refMehrfach",
+              "feldId": "confidentialityWaiverFor",
+              "satz": "Testtext 10"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 11",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "pvBmj",
+                "teil": "verbindlichkeitKlauseln"
+              },
+              "texte": [
+                "Testtext 12",
+                "Testtext 13"
+              ]
+            },
+            {
+              "typ": "rollePerson",
+              "feldId": "whoseViewMattersIfUnregulated",
+              "andereFeld": "whoseViewMattersOtherPersonName",
+              "einleitungAus": {
+                "dokument": "pvBmj",
+                "teil": "reichweiteEinleitung"
+              },
+              "bulletPrefix": "Testtext 2",
+              "einleitung": "Testtext 14"
+            },
+            {
+              "typ": "rollePerson",
+              "feldId": "whoseViewMattersIfDeviatingWill",
+              "andereFeld": "whoseViewMattersIfDeviatingOther",
+              "einleitungAus": {
+                "dokument": "pvBmj",
+                "teil": "widerrufEinleitung"
+              },
+              "bulletPrefix": "Testtext 2",
+              "einleitung": "Testtext 15"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 16",
+          "bloecke": []
+        },
+        {
+          "titel": "Testtext 17",
+          "bloecke": [
+            {
+              "typ": "instrumentPersonVerweis",
+              "instrumentTyp": "enduring-power-of-attorney",
+              "feldId": "authorizedPersons",
+              "bedingung": {
+                "typ": "oder",
+                "bedingungen": [
+                  {
+                    "typ": "listeEnthaeltTyp",
+                    "feld": "provisionInstruments",
+                    "wertFeld": "instrument",
+                    "wert": "enduring-power-of-attorney"
+                  },
+                  {
+                    "typ": "feldGleich",
+                    "feld": "vollmacht_vorhanden",
+                    "wert": "ja"
+                  }
+                ]
+              },
+              "nurWennBesprochen": true,
+              "besprochenFeldId": "contentOfTheAdvanceDirective",
+              "einleitung": "Testtext 18",
+              "rollenLabel": "Testtext 19",
+              "texte": [
+                "Testtext 20",
+                "Testtext 21",
+                "Testtext 22"
+              ],
+              "angabenAus": [
+                [
+                  "name"
+                ],
+                [
+                  "adresse"
+                ],
+                [
+                  "tel",
+                  "email"
+                ]
+              ],
+              "luecke": "..."
+            },
+            {
+              "typ": "instrumentPersonVerweis",
+              "instrumentTyp": "custodianship-declaration",
+              "feldId": "proposedPerson",
+              "bedingung": {
+                "typ": "oder",
+                "bedingungen": [
+                  {
+                    "typ": "listeEnthaeltTyp",
+                    "feld": "provisionInstruments",
+                    "wertFeld": "instrument",
+                    "wert": "custodianship-declaration"
+                  },
+                  {
+                    "typ": "feldGleich",
+                    "feld": "betreuungsverfuegung",
+                    "wert": "ja"
+                  }
+                ]
+              },
+              "besprochenFeldId": "contentOfTheAdvanceDirective2",
+              "einleitung": "Testtext 23",
+              "besprochenEinleitung": "Testtext 24",
+              "rollenLabel": "Testtext 25",
+              "texte": [
+                "Testtext 20",
+                "Testtext 21"
+              ],
+              "angabenAus": [
+                [
+                  "name"
+                ],
+                [
+                  "adresse"
+                ]
+              ],
+              "luecke": "..."
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 26",
+          "bloecke": [
+            {
+              "typ": "freitext",
+              "feldId": "personalValuesOrFurtherDocuments"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 27",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "organDonationDecision"
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "priorityIfOrganDonationConflict",
+              "sichtbarWenn": {
+                "feld": "organDonationDecision",
+                "wert": "zustimmung"
+              }
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 28",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "waivesFurtherMedicalInformation",
+              "sentinelSkip": true
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "pvBmj",
+                "teil": "schlussbemerkungen"
+              },
+              "texte": [
+                "Testtext 29",
+                "Testtext 30",
+                "Testtext 31",
+                "Testtext 32"
+              ]
+            },
+            {
+              "typ": "freitextSatz",
+              "feldId": "informationOrCounsellingReceived",
+              "satz": "Testtext 33",
+              "feldId2": "counsellingBy",
+              "luecke": "..."
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 34",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "validityDuration",
+              "fuellByWert": {
+                "befristet": {
+                  "platzhalter": "(Zeitangabe)",
+                  "feld": "validityDurationDeadline"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -26,7 +26,7 @@ Der `.vivodepot`-Datei wird ein **fester Format-Präfix** vorangestellt: die 9-Z
 
 ## Umsetzung
 
-- **vivodepot.html:** `DATEI_MAGIC`/`dateiMitMagic`/`magicStrippen` (2. Block, außerhalb des Krypto-Kerns). `depotHerunterladen` prefixt; **alle fünf Depot-Lesestellen** strippen: Notfall (`datei.text()`), Overlay-Öffnen, `flowDepotOeffnen`, Sub-Depot-Einhängen (`reader.result`). IndexedDB unberührt.
+- **vivodepot.html:** `DATEI_MAGIC`/`dateiMitMagic`/`magicStrippen` (2. Block, außerhalb des Krypto-Kerns). `depotHerunterladen` prefixt; **alle fünf Depot-Lesestellen** strippen (Stand 02.07.2026): Notfall (`datei.text()`), Overlay-Öffnen, `flowDepotOeffnen` (aus dem heutigen Code entfernt, Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js` — Ersatz nicht recherchiert), Sub-Depot-Einhängen (`reader.result`). IndexedDB unberührt.
 - **vivodepot-lesen.html:** `magicStrippen` (read-only, identische Semantik); der eine Datei-Lesepfad strippt → deckt den **passwortlosen Notfall-Blick** ab.
 - **Tests (`tests/datei-magic.test.js`, vier über beide Apps):** (1) Magic-Round-Trip (schreiben→strippen→entschlüsseln), (2) Alt-Datei bare-JSON lädt weiter, (3) **Notfall-Cache passwortlos aus Magic-Datei — Bürger UND Lese-App**, (4) Strip-Semantik identisch (Magic/Legacy/leer). Plus `d43-etappe5-konflikt` nachgezogen (Download trägt die Kennung, positiv geprüft).
 

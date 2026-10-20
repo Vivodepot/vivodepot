@@ -43,14 +43,14 @@
    Dieses Werkzeug validiert diese eine Quelle über den echten
    `logikModulPruefen`-Pfad (denselben, den `modulEinlassen()` beim Import
    nimmt) und schreibt sie unverändert als reales, ausgeliefertes Artefakt.
-   `tests/erbschein-modul-tools-byte-gleichheit.test.js` hält beide Dateien
+   eine nicht öffentliche Probe hält beide Dateien
    dauerhaft byte-identisch — zwei leicht abweichende Bündel wären die
    schlimmere Fassung von „gebaut, nie verdrahtet": gebaut, zweimal, leicht
    verschieden.
 
    Aufruf:
      node tools/erbschein-vorbereitung-modul-erzeugen.js [ausgabepfad.json]
-     (Standard-Ausgabepfad: tools/erbschein-vorbereitung-modul.json)
+     (Standard-Ausgabepfad: die Moduldatei neben diesem Werkzeug, nicht öffentlich)
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -96,7 +96,7 @@ function main() {
   }
 
   const roh = fs.readFileSync(QUELLE, 'utf8');
-  const ausgabepfad = process.argv[2] || path.join(__dirname, 'erbschein-vorbereitung-modul.json');
+  const ausgabepfad = process.argv[2] || path.join(__dirname, 'erbschein-vorbereitung-modul.json'); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   fs.writeFileSync(ausgabepfad, roh, 'utf8');
 
   console.log('Modul geschrieben: ' + ausgabepfad);

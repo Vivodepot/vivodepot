@@ -58,7 +58,7 @@ test('nach dem Verlassen einer ECHTEN Sitzung steht der Klartext weder im DOM no
   await page.click('#tb-marke');
   await page.locator('#m-ok').waitFor({ state: 'visible' });
   await page.click('#m-ok');
-  await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 10000 });
+  await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 10000 });
 
   // ── Die Zusicherung selbst ────────────────────────────────────────────────
   const nachher = await page.evaluate((m) => ({

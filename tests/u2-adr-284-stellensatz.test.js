@@ -16,9 +16,11 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
-test('[U2-ADR-284] STELLENSATZ_RECHTSRAUM_EINGEBAUT ist DE, wie bei Textsatz/Rechtsraum-Modul', () => {
-  const { V } = ladeKern();
-  assert.equal(V.STELLENSATZ_RECHTSRAUM_EINGEBAUT, 'DE');
+/* R1 (09.10.2026): umgestellt von der festen Konstante STELLENSATZ_RECHTSRAUM_EINGEBAUT auf die allgemeine Reservierung. */
+test('[U2-ADR-284·R1] reserviert ist der Code des Ab-Werk-Rechtsraums: im DE-Produkt „DE“, im nackten Gerüst keiner', () => {
+  const modul = { rechtsraum: 'DE', moduleVersion: 1, stellen: {} };
+  assert.equal(ladeKern().V.stellensatzModulPruefen(modul).grund, 'reserviert');
+  assert.notEqual(ladeKern({ blank: true }).V.stellensatzModulPruefen(modul).grund, 'reserviert', 'Rot-Beweis: kein fester Code im Gerüst');
 });
 
 test('[U2-ADR-284] STELLENSATZ_EINGEBAUT ist leer — Struktur vor Inhalt, kein erfundener Rechtsinhalt', () => {

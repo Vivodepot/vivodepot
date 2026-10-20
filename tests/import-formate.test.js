@@ -27,7 +27,7 @@ function felder(V, sektorId, ids) {
   return out;
 }
 // Export-Text eines Format-Builders (Objekt → JSON-Text; String bleibt String).
-// 'json' ist U2-ADR-NNN (18.09.2026) NUR NOCH Import (kernAPI.exportiere('json') wirft daher
+// 'json' ist U2-ADR-508 (18.09.2026) NUR NOCH Import (kernAPI.exportiere('json') wirft daher
 // "nicht angedockt") — der Round-Trip-Beweis hier gilt trotzdem, über das interne
 // Meßinstrument vollExportJSON() direkt, s. auch tests/round-trip-wirkung.test.js.
 function exportText(V, formatId, opt) {

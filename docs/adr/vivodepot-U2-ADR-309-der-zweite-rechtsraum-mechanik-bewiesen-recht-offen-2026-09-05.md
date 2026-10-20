@@ -4,7 +4,7 @@
 **Datum:** 05.09.2026
 **Betrifft:** `tests/rechtsraum-ab-beweis.test.js`,
 `tests/fixtures/rechtsraum-PRUEFFIXTURE-keine-rechtsaussage.json`,
-`tools/buergermodul/vd-uk-rechtsraum-LEER-RECHERCHE-NOETIG.json`
+eine nicht öffentliche Datei
 
 - **Status heute:** gilt — der A/B-Beweis aus U2-ADR-307 ist von „vorbereitet" auf **erbracht**
   gehoben: fünf der sechs Rechtsregeln wechseln nachweislich mit einem geladenen Modul, beide

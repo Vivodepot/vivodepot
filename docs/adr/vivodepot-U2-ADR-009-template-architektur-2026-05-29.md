@@ -3,7 +3,7 @@
 **Status:** Akzeptiert
 **Datum:** 29.05.2026
 **Kategorie:** ARCHITEKTUR, UX, DATENMODELL
-**Cross-Referenz (v1-RC / Produktiv):** `ladeTemplate()`, `VIVODEPOT_STANDARD_TEMPLATES`, `geladene-templates`-Liste, `pruefeTemplateLifecycle()`, ADR-065 (Trust Authority, JWS-Signatur).
+**Cross-Referenz (v1-RC / Produktiv):** `ladeTemplate()`, `VIVODEPOT_STANDARD_TEMPLATES`, `geladene-templates`-Liste, `pruefeTemplateLifecycle()`, ADR-065 (Trust Authority, JWS-Signatur). `ladeTemplate()` und `pruefeTemplateLifecycle()` sind Namen aus dem v1-RC-Code; im U2-Kern standen sie nie (Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js`; nachzusehen mit `git log -S ladeTemplate -- vivodepot.html`).
 **U2-Bezug:** U2-ADR-006 (Andock-Architektur, Code-Slot), U2-ADR-008 (Propagation).
 **Status heute:** gilt — Beleg `tests/konformitaet/offline-garantie.mjs` und `tests/netz-verbote.test.js#u2-009-kein-url-abruf-im-code`.
 

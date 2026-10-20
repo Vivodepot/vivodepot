@@ -107,7 +107,7 @@ test('Eine kaputte Mitschrift bricht das Öffnen nicht', () => {
 
 /* Seit 11.10.2026 (Befund MITSCHRIFT-AB-WERK-NACH-POSITION) meldet die Lese-App aus der Mitschrift nur eine Bereichsdefinition an, die
    Vivodepot so ausgeliefert hat. Die Proben hier nehmen darum die ausgelieferte Definition (die Region „Bereiche aller
-   Vivodepot-Produkte“), keine erfundene; dass eine erfundene verworfen wird, hält tests/mitschrift-bereich-nach-inhalt.test.js. */
+   Vivodepot-Produkte“), keine erfundene; dass eine erfundene verworfen wird, hält eine nicht öffentliche Probe. */
 const AUSGELIEFERT = () => JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'tools', 'vivodepot-bereiche-bekannt.json'), 'utf8')).neu;
 const ERSTES_TEXTFELD = (def) => def.sektionen.flatMap((s) => s.felder).find((f) => f.typ === 'text' || f.typ === 'textarea');
 

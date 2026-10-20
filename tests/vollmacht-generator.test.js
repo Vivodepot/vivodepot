@@ -22,7 +22,7 @@
    Absätze. Das deckt den echten Umfang der Zusicherung, nicht nur den
    Namen der Datenstruktur.
    ════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 

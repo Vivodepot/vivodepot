@@ -111,7 +111,7 @@ html:not(.dark-mode):not(.high-contrast) #app .sidebar { background: rgba(255,25
 html:not(.dark-mode):not(.high-contrast) #app .app-fuss { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
 html:not(.dark-mode):not(.high-contrast) #app .sektion, html:not(.dark-mode):not(.high-contrast) #app .feldgruppen-karte, html:not(.dark-mode):not(.high-contrast) #app .karte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck { background: rgba(28,42,30,.22); -webkit-backdrop-filter: blur(8px) saturate(1.2); backdrop-filter: blur(8px) saturate(1.2); }
-html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,.72); border: 1px solid transparent; box-shadow: 0 18px 50px rgba(79,101,57,.14); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: 24px; }
+html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal { background: rgba(255,255,255,var(--dialog-deckkraft)); border: 1px solid transparent; box-shadow: 0 18px 50px rgba(79,101,57,.14); -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); border-radius: 24px; }
 html:not(.dark-mode):not(.high-contrast) #modal-rueck .modal .modal-aktionen { background: transparent; }
 html:not(.dark-mode):not(.high-contrast) .vorfuehrung-spalte { background: rgba(255,255,255,.62); -webkit-backdrop-filter: blur(20px) saturate(1.4); backdrop-filter: blur(20px) saturate(1.4); }
 html.dark-mode:not(.high-contrast) .topbar, html.dark-mode:not(.high-contrast) #app .sidebar, html.dark-mode:not(.high-contrast) #app .app-fuss { background: rgba(26,28,31,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
@@ -248,7 +248,7 @@ html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #vorlese-sicht {
 border: 0; background: none; box-shadow: none; color: var(--ink2); padding: 4px; text-decoration: underline; text-underline-offset: 3px; font-size: 14px;
 }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-aktionen { margin-top: 26px; }
-html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anlass {
+html:not(.dark-mode):not(.high-contrast) #overlay-inhalt #w-anlegen {
 border-radius: var(--radius-pill); padding: 15px 26px; font-size: 16px; font-weight: 600; box-shadow: 0 10px 24px rgba(79,101,57,.18);
 }
 html:not(.dark-mode):not(.high-contrast) #overlay-inhalt .welcome-sekundaer { gap: 10px; margin-top: 12px; }

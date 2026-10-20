@@ -14,7 +14,7 @@ function datenBefund(dateien, hinaus, bestand, lesen, ausnahmen = new Map()) {
   const drinnen = new Set(bestand.filter((f) => !hinaus.has(f)));
   const funde = [];
   for (const d of dateien.filter((f) => hinaus.has(f) && DATEN.test(f))) {
-    const genannt = new Set([...lesen(d).matchAll(/[A-Za-z0-9_.\/-]+\.[A-Za-z0-9]+/g)].map((m) => m[0]).filter((x) => drinnen.has(x) && ausnahmen.get(d) !== x));
+    const genannt = new Set([...lesen(d).matchAll(/[A-Za-z0-9_.\/-]+\.[A-Za-z0-9]+/g)].map((m) => m[0]).filter((x) => drinnen.has(x) && ![].concat(ausnahmen.get(d) || []).includes(x)));
     if (genannt.size) funde.push(d + ' nennt ' + genannt.size + ' zurückgehaltene Pfade, z. B. ' + [...genannt].slice(0, 2).join(', '));
   }
   return funde;

@@ -19,7 +19,7 @@
    die beiden Teilsätze EINZELN gegen den Wortlaut, nicht den zusammen-
    gesetzten Satz als Ganzes.
    ════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 

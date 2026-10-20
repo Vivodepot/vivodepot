@@ -12,7 +12,7 @@
    dieser Form gelandet. `git grep` gegen `origin/u2-kanon` findet weder die
    Datei noch den zitierten Testnamen „[Sprache·Einlass]" noch einen
    Nachfolgetest, den ein früherer Bericht als Ersatzdeckung nannte:
-   `tests/pro-vorlage-buergerbereich.test.js` existiert nicht.
+   `eine nicht öffentliche Probe` existiert nicht.
    Der Gegenstand des Befunds ist weg, nicht behoben.
 
    Diese Probe hält NUR fest, dass er weg bleibt — nicht, dass er nie

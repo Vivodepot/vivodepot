@@ -45,7 +45,7 @@
    Minuten): Drei Tests lagen im Messlauf über 100000 ms und tragen jetzt eine EIGENE, benannte
    { timeout: N } direkt am Test (wird von diesem Modul nie überschrieben, nur ein FEHLENDES
    timeout wird ergänzt) — pruefstand-jede-probe-wird-vom-waechter-benutzt (229195.58 ms,
-   tests/pruefstand-bindung.test.js), „[Stufe 2] 30 von 32 Kandidaten sind scharf" (102063.92 ms,
+   eine nicht öffentliche Probe), „[Stufe 2] 30 von 32 Kandidaten sind scharf" (102063.92 ms,
    trug schon vorher { timeout: 300000 }) und „[Aufräum-Probe] die modul-fixtur-Läufe…"
    (101540.73 ms, beide in tests/klausel-proben-schaerfe-stufe2.test.js). Alle drei sind echte
    Arbeit (Wächter-Instrumentierung bzw. wiederholte Modul-Fixtur-Läufe), kein Hänger. Eine neue,

@@ -16,6 +16,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import netzSperre from '../../tools/lib/netz-sperre.js';
 import AxeBuilder from '@axe-core/playwright';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -43,7 +44,7 @@ async function scan(page, name, alle) {
 }
 
 test('[Konformität] axe-core WCAG 2.2 AA über alle V1-Sichten', async (t) => {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(netzSperre.mitSperre());
   try {
     const context = await browser.newContext();
     const page = await context.newPage();

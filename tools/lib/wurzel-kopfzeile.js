@@ -45,4 +45,12 @@ function imOeffentlichenZuschnitt(wurzel) {
 }
 const IM_ZUSCHNITT_GRUND = 'im öffentlichen Zuschnitt: die Probe zählt bzw. liest den Kanon-Baum (zurückgehaltene Dateien)';
 
-module.exports = { WURZEL_KOPFZEILE, wurzelKopfzeileOeffentlich, wurzelKopfzeileSetzen, wurzelKopfzeileZuruecksetzen, imOeffentlichenZuschnitt, IM_ZUSCHNITT_GRUND };
+/* Steht die öffentliche Zeile in der Wurzeldatei von `repo`? Das Merkmal schreibt nur der Zuschnitt (wurzelKopfzeileSetzen); der
+   Kanon trägt die Quellzeile, keine Umgebungsvariable und keine fehlende Datei entscheidet. Wer „öffentlicher Baum“ wissen will,
+   um einen Ersatz zuzulassen, fragt hier (tools/lib/vorlage-aufloesen.js). Fehlt die Wurzeldatei oder lässt sie sich nicht lesen:
+   false, also kein Ersatz. */
+function wurzelIstOeffentlich(repo) {
+  try { return OEFFENTLICH_MUSTER.test(require('node:fs').readFileSync(require('node:path').join(repo, WURZEL_KOPFZEILE.datei), 'utf8')); } catch (_) { return false; }
+}
+
+module.exports = { WURZEL_KOPFZEILE, wurzelKopfzeileOeffentlich, wurzelKopfzeileSetzen, wurzelKopfzeileZuruecksetzen, imOeffentlichenZuschnitt, IM_ZUSCHNITT_GRUND, wurzelIstOeffentlich };

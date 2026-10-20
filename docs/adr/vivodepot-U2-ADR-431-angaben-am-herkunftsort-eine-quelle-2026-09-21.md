@@ -1,11 +1,11 @@
 # U2-ADR-431: Die unersetzbaren Angaben am Herkunftsort stehen in EINER Quelle — erzeugter Block, Platzhalter, Abweisen beim Erzeugen, Ergänzen beim Anzeigen
 
 **Status:** entschieden, gelandet.
-**Status heute:** gilt — Beleg `tests/herkunftsort-invariante.test.js` und `tests/herkunftsort-angaben-gleich.test.js`.
+**Status heute:** gilt — Beleg: eine nicht öffentliche Probe und `tests/herkunftsort-angaben-gleich.test.js`.
 **Datum:** 21.09.2026
 **Kategorie:** ARCHITEKTUR, HERKUNFT, WHITE-LABEL
 **Linie:** U2
-**Betrifft:** `vivodepot.html` (`HERKUNFTSORT_ANGABEN`, `_herkunftsortSchluessel`, `_markePlatzhalterAufloesen`, `_herkunftsortAngabeFehlt`, `_textsatzTexteUebernehmen`, `_herkunftsortAusgabe`), `vivodepot-lesen.html` (`HERKUNFTSORT_ANGABEN`, `URHEBER_LESEN`), `tools/herkunftsort-angaben.json`, `tools/herkunftsort-angaben-schreiben.js`, `tools/lib/herkunftsort-angaben.js`, `tools/lib/produkt-text-erzeugen.js`, `tools/herkunftsort-pruefen.js`, `tools/textsatz-de-modul.json`, `tools/textsatz-en-vollabdeckung-daten.js`
+**Betrifft:** `vivodepot.html` (`HERKUNFTSORT_ANGABEN`, `_herkunftsortSchluessel`, `_markePlatzhalterAufloesen`, `_herkunftsortAngabeFehlt`, `_textsatzTexteUebernehmen`, `_herkunftsortAusgabe`), `vivodepot-lesen.html` (`HERKUNFTSORT_ANGABEN`, `URHEBER_LESEN`), `tools/herkunftsort-angaben.json`, `tools/herkunftsort-angaben-schreiben.js`, `tools/lib/herkunftsort-angaben.js`, `tools/lib/produkt-text-erzeugen.js`, `tools/herkunftsort-pruefen.js`, `tools/textsatz-de-modul.json`, ein nicht öffentliches Werkzeug
 **Bezug:** Spezifikation 34.7 (Kennzeichen; Urheberschaft am Herkunftsort, Fassung md5 aa468bfa und folgende), 30.3, 36.1, 36.4, 25.8 · U2-ADR-400 (White Label bis ins PDF, Herkunftsort), U2-ADR-331 (Zusicherungen nicht überschreibbar), U2-ADR-384 (Marke als Ab-Werk-Saat, ohne Signatur), U2-ADR-249 und U2-ADR-230 (die eine PBKDF2-Stelle)
 
 ## Befund
@@ -36,7 +36,7 @@ Die Anwesenheitsregel und der Formcheck auf `'signiert'` sichern die ANWESENHEIT
 
 ## Was diese Entscheidung nicht leistet
 
-- Sie trägt den Herkunftsort nicht in den Vorlagen-Erzeuger und den VC-Issuer (30.3): `tools/herkunftsort-offen.json` führt sie mit Eigentümer und Frage; die Zahl kann nur sinken.
+- Sie trägt den Herkunftsort nicht in den Vorlagen-Erzeuger und den VC-Issuer (30.3): eine nicht öffentliche Datei führt sie mit Eigentümer und Frage; die Zahl kann nur sinken.
 - Sie deckt nur den Sprachmodul-Weg (`true`, `'signiert'`) und die Marken-Achse ab. Ein anderer Modultyp, der eine Herkunftsort-Kennung erreichen könnte, wäre eine weitere Wirkungsprobe, kein Zähler auf das Wort `vertrauenswuerdig` (19 Stellen im Kern, zwei Mechanismen, einer davon berührt eine Invariante).
 - Sie entscheidet die Krypto-Stärkegrößen (PBKDF2-Iterationen) nicht; dieselbe Bauform ist dort der nächste Fall.
 
@@ -44,11 +44,11 @@ Die Anwesenheitsregel und der Formcheck auf `'signiert'` sichern die ANWESENHEIT
 
 Der produktive Konfektionierer ist die Kopie von `produktTextErzeugen` im Schwesterrepo (Worker). Die Abweisung beim Erzeugen (Ziffer 6) steht darum IM kopierten Abschnitt von `tools/lib/produkt-text-erzeugen.js`, nicht an einem der zwei Aufrufer: ein Aufrufer-Riegel ließe den Worker-Weg offen und müsste an beiden Aufrufern stehen. Sie ist selbstenthalten (kein `require`, kein `fs`), damit die Kopie ohne zweite Datei läuft; `tools/lib/herkunftsort-angaben.js` führt dieselben Funktionen unter ihren Namen für Erzeuger, Prüfung und Tests weiter, eine Umsetzung, nicht zwei.
 
-Die Prüfsumme des Abschnitts ist bewusst angehoben. Die Kopie im Schwesterrepo trägt den neuen Abschnitt noch nicht (sie trägt auch die Region `sprachangebot` noch nicht); der Nachzug ist ein Auftrag mit zwei Stücken (Abschnitt byte-gleich samt Pin, Rezept-Fixtures), keine neue Datei. Bis dahin ist der Abgleich `tests/produkt-text-erzeugen-cross-repo-abgleich.test.js` nicht still, sondern deckt genau den bekannten Vorstand des Schwesterrepos, befristet bis 2026-09-26; ein anderer Stand dort ist wieder ein Fund, und die Frist selbst wird unabhängig vom Schwesterrepo geprüft. Abnahme: der Abgleich ist grün ohne die Ausnahme, und die Suite des Schwesterrepos ist grün mit dem neuen Pin.
+Die Prüfsumme des Abschnitts ist bewusst angehoben. Die Kopie im Schwesterrepo trägt den neuen Abschnitt noch nicht (sie trägt auch die Region `sprachangebot` noch nicht); der Nachzug ist ein Auftrag mit zwei Stücken (Abschnitt byte-gleich samt Pin, Rezept-Fixtures), keine neue Datei. Bis dahin ist der Abgleich eine nicht öffentliche Probe nicht still, sondern deckt genau den bekannten Vorstand des Schwesterrepos, befristet bis 2026-09-26; ein anderer Stand dort ist wieder ein Fund, und die Frist selbst wird unabhängig vom Schwesterrepo geprüft. Abnahme: der Abgleich ist grün ohne die Ausnahme, und die Suite des Schwesterrepos ist grün mit dem neuen Pin.
 
 ## Folgen für Bindungen
 
-Eine `pruefung:`-Zeile bindet an einen TESTTITEL — an einen Namen, den jeder frei ändern darf. Sie bricht bei jeder Umbenennung, aber sie bricht LAUT (`pruefstand-bindung`), im Unterschied zu einer Prüfung, die grün bleibt, weil ihr Gegenstand fehlt. Wer einen Titel ändert (wie „genau vier“ → „genau fünf“ in `tests/herkunftsort.test.js`), zieht die Bindung in derselben Änderung nach.
+Eine `pruefung:`-Zeile bindet an einen TESTTITEL — an einen Namen, den jeder frei ändern darf. Sie bricht bei jeder Umbenennung, aber sie bricht LAUT (`pruefstand-bindung`), im Unterschied zu einer Prüfung, die grün bleibt, weil ihr Gegenstand fehlt. Wer einen Titel ändert (wie „genau vier“ → „genau fünf“ in eine nicht öffentliche Probe), zieht die Bindung in derselben Änderung nach.
 
 ```yaml
 konformitaet:

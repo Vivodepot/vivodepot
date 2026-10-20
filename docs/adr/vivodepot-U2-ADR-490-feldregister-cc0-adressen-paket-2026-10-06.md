@@ -111,5 +111,5 @@ konformitaet:
     frist: 2026-11-08
     bedingung: >-
       Das Register ist mit feld/ ausgeliefert (eigenes Wort der Gegenlesung vor dem ersten Ausliefern) und
-      `node tools/dod-v1-feldregister-ausgeliefert-pruefen.js --live` ist grün.
+      der Aufruf eines nicht öffentlichen Werkzeugs ist grün.
 ```

@@ -92,6 +92,26 @@ const NAMENTLICH = Object.freeze([
   'strings:modulWirkungBranding.text',
   'strings:modulWirkungLogikModul.text',
   'strings:modulWirkungErscheinung.text',   // was eine Erweiterung ändert, Teil der Wahl (VD-SEC-009 S5, 16.10.2026)
+  // Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026): die Zeile über nicht angewandte Module, die Kennzeichnung eines neutral gezeigten
+  // Bereichs und die Namen der Modularten — ein Modul darf nicht verbergen oder umbenennen, was nicht angewandt wird.
+  'strings:moduleNichtAngewandtZeile.text',
+  'strings:bereichNichtAngewandtText.text',
+  'strings:feldNichtAngewandtMarke.text',
+  'strings:modulArtTextsatz.text',
+  'strings:modulArtStellensatz.text',
+  'strings:modulArtRechtsraum.text',
+  'strings:modulArtInstitutionsArt.text',
+  'strings:modulArtBlattformat.text',
+  'strings:modulArtBedingungskatalog.text',
+  'strings:modulArtFormat.text',
+  'strings:modulArtBereich.text',
+  'strings:modulArtSituation.text',
+  'strings:modulArtWizard.text',
+  'strings:modulArtEreignisAchse.text',
+  'strings:modulArtAngehoerigenVorlage.text',
+  'strings:modulArtBranding.text',
+  'strings:modulArtLogikModul.text',
+  'strings:modulArtErscheinung.text',
   'strings:abWerkFassungErsetztTitel.text',
   'strings:abWerkFassungErsetztText.text',
   'strings:klartextBindungTitel.text',
@@ -99,6 +119,9 @@ const NAMENTLICH = Object.freeze([
   'strings:klartextBindungOrtKeinText.text',
   'strings:klartextBindungFremdText.text',
   'strings:pdfOhneSchriftHinweis.text',
+  'strings:antwortPasswortKurzTitel.text',     // der Hinweis bei kurzem Einmalpasswort: eine Sicherheitsaussage, die kein Modul
+  'strings:antwortPasswortKurzText.text',      // abschwächen oder leeren darf (ANTWORT-EINMALPASSWORT-OHNE-MINDESTLAENGE, 17.10.2026)
+  'strings:antwortPasswortKurzTrotzdem.text',
 ]);
 
 function korpusWurzeln(kern) {

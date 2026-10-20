@@ -81,13 +81,3 @@ test('[PDF-Rückfall·Rot-Beweis Bau] ein Erscheinungsbild mit Profilschrift, ab
   assert.throws(() => erscheinungsbildSchriftenVorBacken(KERN, [{ roh: Object.assign({}, HEUTE, { schriften: nurProfil }) }]), /pdf-inter-fehlt/);
   assert.doesNotThrow(() => erscheinungsbildSchriftenVorBacken(KERN, [{ roh: HEUTE }]), 'Gegenprobe: „heute“ baut');
 });
-
-test('[PDF-Rückfall·Inter-Wächter] jedes der vier Produkte trägt die Ab-Werk-Inter als PDF-Schrift', () => {
-  assert.equal(PRODUKTE.length >= 4, true);
-  for (const p of PRODUKTE) {
-    const eb = modulDateienFuer(p).map((f) => JSON.parse(fs.readFileSync(f, 'utf8'))).find((m) => m.modulTyp === 'erscheinungsbild');
-    assert.ok(eb, p.slug + ': kein Erscheinungsbild im Rezept');
-    assert.ok((eb.schriften || []).some((s) => s.pdf === true && s.stil === 'normal' && s.familie === 'Inter'), p.slug + ': keine Ab-Werk-Inter');
-    assert.doesNotThrow(() => erscheinungsbildSchriftenVorBacken(KERN, [{ roh: eb }]), p.slug);
-  }
-});

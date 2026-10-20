@@ -25,7 +25,7 @@ const { ladeLesen } = require('./load-lesen.js');
 
 const KERN_PFAD = path.join(__dirname, '..', 'vivodepot.html');
 const KERN = fs.readFileSync(KERN_PFAD, 'utf8');
-const SCHALTER_AUS = 'const ANTWORT_SIGNIEREN = false;';
+const SCHALTER_AN = 'const ANTWORT_SIGNIEREN = true;';
 const PW = 'antwort-signieren-probe-2026';
 const PW_NEU = 'antwort-signieren-probe-neu-2026';
 const EINMAL = 'Einmal-Probe-V4-7fQ2-kP9x';
@@ -34,18 +34,24 @@ const VORGANG = 'AUF-2026-1016';
 const b64u = (b) => Buffer.from(b).toString('base64url');
 const kopie = (o) => JSON.parse(JSON.stringify(o));
 
-/* Der Kern mit umgelegtem Schalter: eine Kopie der Quelle in einem Wegwerf-Verzeichnis, gebacken wie das Standard-Produkt. */
-let _anPfad = null;
-function kernMitSchalter() {
-  if (!_anPfad) {
-    assert.equal(KERN.split(SCHALTER_AUS).length, 2, 'Vorbedingung: der Schalter steht genau einmal und aus');
+/* Seit dem Umlege-Wagen (v931) steht der Schalter an. Varianten des Kerns (Schalter aus, Browser ohne Ed25519) entstehen als Kopie
+   der Quelle in einem Wegwerf-Verzeichnis, gebacken wie das Standard-Produkt. */
+const _varianten = new Map();
+function kernVariante(name, ersetzen) {
+  if (!_varianten.has(name)) {
+    let html = KERN;
+    for (const [alt, neu] of ersetzen) { assert.equal(html.split(alt).length, 2, 'Vorbedingung: genau einmal: ' + alt); html = html.replace(alt, neu); }
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-antwort-signieren-'));
-    _anPfad = path.join(dir, 'vivodepot.html');
-    fs.writeFileSync(_anPfad, KERN.replace(SCHALTER_AUS, 'const ANTWORT_SIGNIEREN = true;'));
+    const p = path.join(dir, 'vivodepot.html');
+    fs.writeFileSync(p, html);
     process.on('exit', () => { try { fs.rmSync(dir, { recursive: true, force: true }); } catch (_) {} });
+    _varianten.set(name, p);
   }
-  return ladeKern({ htmlPfad: _anPfad, backen: true }).V;
+  return ladeKern({ htmlPfad: _varianten.get(name), backen: true }).V;
 }
+const kernMitSchalter = () => ladeKern().V;
+const kernSchalterAus = () => kernVariante('aus', [[SCHALTER_AN, 'const ANTWORT_SIGNIEREN = false;']]);
+const kernOhneEd25519 = () => kernVariante('ohne-ed25519', [['async function ed25519Verfuegbar() {', 'async function ed25519Verfuegbar() { return false;']]);
 async function mitDepot(V) {
   await V.depotAnlegen(PW);
   V.akteurSelbstErklaeren('Hedwig Brandt');
@@ -139,13 +145,16 @@ async function empfangsPaar() {
 }
 const kopfVon = (jwe) => JSON.parse(Buffer.from(jwe.split('.')[0], 'base64url').toString('utf8'));
 
-test('[Antwort-Signatur·Schalter aus] ab Werk bleibt die Antwort unsigniert (cty json), wie vor dem Wagen', async () => {
-  const { V } = ladeKern();
+test('[Antwort-Signatur·Schalter aus] mit Schalter aus bleibt die Antwort unsigniert (cty json), wie vor dem Wagen, ohne Kennzeichen', async () => {
+  const V = kernSchalterAus();
   assert.equal(V.ANTWORT_SIGNIEREN, false);
   await mitDepot(V);
   const a = anfrage({ art: 'einmalpasswort' });
   const jwe = await V.antwortVerschluesseln(V.anfrageAntwortDatensatz(a, { sensibel: false }), a, { passwort: EINMAL });
   assert.equal(kopfVon(jwe).cty, 'json');
+  const r = await ladeLesen().V.antwortOeffnenMitSignatur({ jwe }, { passwort: EINMAL });
+  assert.equal(r.signatur.zustand, 'ohne');
+  assert.equal(r.datensatz.unsigniert, undefined);
 });
 
 test('[Antwort-Signatur·an] Schlüsselpaar und Einmalpasswort: die Lese-App öffnet die Antwort des Kerns als signiert, mit demselben Datensatz', async () => {
@@ -217,7 +226,7 @@ function wegFunde(quelle) {
   const f = [];
   if (aufrufe('antwortJweSchluessel') !== 1 || !/return antwortJweSchluessel\(klartext,/.test(einstieg)) f.push('antwortJweSchluessel ausserhalb des Einstiegs');
   if (aufrufe('antwortJwePasswort') !== 1 || !/return antwortJwePasswort\(klartext,/.test(einstieg)) f.push('antwortJwePasswort ausserhalb des Einstiegs');
-  if (!/const jws = ANTWORT_SIGNIEREN \? await antwortSignieren\(/.test(einstieg) || !/const klartext = jws \|\| JSON\.stringify\(datensatz\);/.test(einstieg)) f.push('Einstieg ohne Signieren');
+  if (!/const jws = ANTWORT_SIGNIEREN \? await antwortSignieren\(/.test(einstieg) || !/const klartext = jws \|\| JSON\.stringify\(ANTWORT_SIGNIEREN \? Object\.assign\(\{\}, datensatz, \{ unsigniert: 'browser' \}\) : datensatz\);/.test(einstieg)) f.push('Einstieg ohne Signieren');
   return f;
 }
 test('[Antwort-Signatur·Weg] jeder Weg zu antwortJwe* läuft über den einen Einstieg, und der signiert hinter dem Schalter', () => {
@@ -226,7 +235,40 @@ test('[Antwort-Signatur·Weg] jeder Weg zu antwortJwe* läuft über den einen Ei
 test('[Antwort-Signatur·Weg·Rot-Beweis] ein zweiter Weg ohne Signieren und ein Einstieg ohne Signieren werden gefunden', () => {
   const zweiter = KERN.replace('async function antwortVerschluesseln(', 'async function nebenweg(t, p) { return antwortJwePasswort(t, p, {}); }\nasync function antwortVerschluesseln(');
   assert.deepEqual(wegFunde(zweiter), ['antwortJwePasswort ausserhalb des Einstiegs']);
-  const ohne = KERN.replace('const klartext = jws || JSON.stringify(datensatz);', 'const klartext = JSON.stringify(datensatz);');
+  const ohne = KERN.replace("const klartext = jws || JSON.stringify(ANTWORT_SIGNIEREN ? Object.assign({}, datensatz, { unsigniert: 'browser' }) : datensatz);", 'const klartext = JSON.stringify(datensatz);');
   assert.notEqual(ohne, KERN);
   assert.deepEqual(wegFunde(ohne), ['Einstieg ohne Signieren']);
+});
+
+/* ══ Umlege-Wagen: Browser ohne Ed25519 (U2-ADR-501 Punkt 30); die Fassungsprobe zu Punkt 13 steht in einer eigenen Datei ══ */
+
+test('[Antwort-Signatur·ohne Ed25519] die Antwort bleibt unsigniert, trägt das Kennzeichen, und Lese-App und Studio sagen es', async () => {
+  const V = kernOhneEd25519();
+  await mitDepot(V);
+  const a = anfrage({ art: 'einmalpasswort' });
+  const ds = V.anfrageAntwortDatensatz(a, { sensibel: false });
+  const jwe = await V.antwortVerschluesseln(ds, a, { passwort: EINMAL });
+  assert.equal(kopfVon(jwe).cty, 'json', 'nicht signiert');
+  const L = ladeLesen().V;
+  const r = await L.antwortOeffnenMitSignatur(L.antwortJweAlsUmschlag(jwe), { passwort: EINMAL });
+  assert.equal(r.signatur.zustand, 'ohne-browser');
+  assert.equal(r.datensatz.unsigniert, undefined, 'das Kennzeichen gehört nicht zum Datensatz');
+  assert.deepEqual(kopie(r.datensatz), kopie(ds));
+  assert.match(L.antwortSignaturHTML(r.signatur), /data-signatur="ohne-browser"/);
+  // Unterscheidbar: weder die Zeile der älteren Fassungen noch einer der beiden Zustände einer signierten Antwort.
+  assert.notEqual(L.antwortSignaturHTML(r.signatur), L.antwortSignaturHTML({ zustand: 'ohne' }));
+  assert.doesNotMatch(L.antwortSignaturHTML(r.signatur), /data-signatur="(neuer|bekannter)-schluessel"/);
+  assert.equal(L.STRINGS.antwortUnsigniertBrowser, 'Diese Antwort ist nicht signiert (Browser ohne Ed25519).');
+  const S = require('./load-generator.js').ladeGenerator().V;
+  assert.equal(S.antwortSignaturZeile('browser'), 'Diese Antwort ist nicht signiert (Browser ohne Ed25519).');
+  for (const t of [L.STRINGS.antwortUnsigniertBrowser, S.antwortSignaturZeile('browser'), V.STRINGS.antwortUnsigniertBrowser]) {
+    assert.doesNotMatch(t, /geprüft|verifiziert|\becht\b|ältere Fassung/i);
+  }
+});
+test('[Antwort-Signatur·ohne Ed25519] der Satz steht vor dem Senden im Herausgeben-Weg', () => {
+  const a = KERN.indexOf('function _anfrageAntwortSchreiben('), e = KERN.indexOf('\n}\n', a);
+  const weg = KERN.slice(a, e);
+  assert.match(weg, /if \(ANTWORT_SIGNIEREN && !\(opt && opt\.ohneSignaturBestaetigt\)\)/);
+  assert.match(weg, /STRINGS\.antwortUnsigniertBrowser/);
+  assert.ok(weg.indexOf('STRINGS.antwortUnsigniertBrowser') < weg.indexOf('antwortVerschluesseln('), 'der Satz kommt vor dem Verschlüsseln');
 });

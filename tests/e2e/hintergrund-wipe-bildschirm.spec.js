@@ -121,13 +121,13 @@ test('[U2-ADR-184] nach dem Hintergrund-Wipe steht nirgends im Dokument mehr ein
   // Zusaetzlich, konkret benannt statt nur ueber die Marken-Schleife: ein Schirm muss
   // tatsaechlich sichtbar sein, nicht nur #content leer hinter einer weiterhin sichtbaren Huelle
   // (der urspruengliche zweite Befund neben der reinen DOM-Lücke).
-  // U2-ADR-185 (01.09.2026): NICHT MEHR #w-anlass (Erstbesucher-Schirm) — depotAnlegen() hat
+  // U2-ADR-185 (01.09.2026): NICHT MEHR #w-anlegen (Erstbesucher-Schirm) — depotAnlegen() hat
   // bereits real gesichert (FSA-Attrappe), der gehaltene Umschlag ist gesetzt, darum zeigt der
   // Wipe jetzt den Sperrschirm (renderCryptoOverlay, internModus). Derselbe Befund, den dieser
   // Test ursprünglich hatte ("ein Schirm muss sichtbar sein"), gilt unverändert — nur der
   // KONKRETE Schirm ist jetzt der richtige.
   await expect(page.locator('#co-pw')).toBeVisible();
-  await expect(page.locator('#w-anlass')).not.toBeVisible();
+  await expect(page.locator('#w-anlegen')).not.toBeVisible();
 });
 
 // Auflage 2 ( 2, 31.08.2026): derselbe Wipe, aber WAEHREND die Buergerin im Sub-Kontext
@@ -194,7 +194,7 @@ test('[U2-ADR-184] dasselbe gilt im Sub-Kontext — Anker-Marken UND Sub-Marken 
   // U2-ADR-185: derselbe Grund wie im ersten Test — der Anker wurde real gesichert
   // (depotAnlegen), der Sperrschirm ersetzt den Erstbesucher-Schirm.
   await expect(page.locator('#co-pw')).toBeVisible();
-  await expect(page.locator('#w-anlass')).not.toBeVisible();
+  await expect(page.locator('#w-anlegen')).not.toBeVisible();
   await expect(page.locator('#app')).not.toHaveClass(/modus-vollmacht/);
 });
 
@@ -238,6 +238,6 @@ test('[U2-ADR-184] Vorschau verwerfen räumt denselben Bildschirm auf (zweiter A
   const nach = await dokumentScan(page);
   const nachText = alsText(nach);
   expect(nachText, 'die Marke darf NACH dem Verwerfen NIRGENDS mehr im Dokument stehen').not.toContain(MARK_VORSCHAU_TELEFON);
-  await expect(page.locator('#w-anlass')).toBeVisible();
+  await expect(page.locator('#w-anlegen')).toBeVisible();
   await expect(page.locator('#app')).not.toHaveClass(/\ban\b/);
 });

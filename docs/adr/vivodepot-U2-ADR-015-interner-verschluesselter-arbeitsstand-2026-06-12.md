@@ -5,9 +5,7 @@
 **Status:** Angenommen (Produktentscheidung, 12.06.2026) · Umsetzung an Bau-Reihenfolge gebunden (nach B2/U2-ADR-016) ·
 laut den zugehörigen Testdateien (`tests/d43-etappe0-capability.test.js` bis
 `tests/d43-etappe8-serviceworker.test.js`) umgesetzt
-**Quelle dieser Nachdokumentation:** ausschließlich `docs/cc-d43-finalisierung-2026-06-12.md`,
-`docs/cc-d43-portierungs-inventar-stufe1-2026-06-12.md` und
-`docs/cc-produktiv-kanon-adr015-abgleich-2026-06-11.md` (alle drei interne Arbeitsdokumente, nie ins Repo überführt)
+**Quelle dieser Nachdokumentation:** ausschließlich drei interne Berichte vom 11. und 12.06.2026 (alle drei interne Arbeitsdokumente, nie ins Repo überführt)
 sowie die neun `tests/d43-etappe*`-Dateien. Nichts rekonstruiert, nichts ergänzt, nichts neu
 entschieden — wo das Quellmaterial offenlässt, bleibt es hier offen.
 **Bezug:** Produktiv-`ADR-114` (interner verschlüsselter Speicher, Bau 1) · Produktiv-`ADR-085`/`ADR-106`
@@ -45,7 +43,7 @@ Schreib-Disziplin, Threat-Model (Produktiv-ADR-114). Die clean-rebuild-Neuimplem
 übernahm diese Fundament-Eigenschaft **nicht**; A-i (06.06.2026) erklärte die Lücke nachträglich
 zur Entscheidung („keine lokale Persistenz") — unter der inzwischen **empirisch widerlegten**
 Annahme, der Datei-Workflow sei auf iOS tragbar (die Datei öffnet dort nur als tote
-Quick-Look-Vorschau, belegt in `cc-d43-indexeddb-file-origin-2026-06-11.md`).
+Quick-Look-Vorschau, belegt in einem internen Bericht vom 11.06.2026).
 
 ## 2 · Die Entscheidung: Rück-Angleichung, nicht Umkehr
 
@@ -131,7 +129,7 @@ Präfix `B16-` hier ergänzt, da diese Nachdokumentation nach der Präfix-Regel 
 - **ADR-004-Test-Nachzug:** „Keine Klartext-Persistenz" bleibt Klasse-A-Invariante, gilt jetzt
   auch gegen IndexedDB-Inhalt. „Keine Storage-Nutzung" entfällt — IndexedDB wird bewusst genutzt.
 
-Laut `cc-produktiv-kanon-adr015-abgleich-2026-06-11.md` supersedet U2-ADR-015 **keinen einzigen**
+Laut internem Bericht vom 11.06.2026 supersedet U2-ADR-015 **keinen einzigen**
 Produktiv-ADR — die beiden dort als „KONFLIKT" eingestuften Fälle (B16-ADR-066 gegen den
 SW-Install-Fetch; B16-ADR-114 gegen den Senken-Wechsel localStorage→IndexedDB) werden durch die
 Amendments in diesem Abschnitt aufgelöst, nicht durch Ablösung der jeweiligen ADR.
@@ -156,7 +154,7 @@ Vorschau-Invariante (3) · `persist()` + Eviction-Härtung (4) · Konflikt-Aufl�
 `gespeichert_am`-Zeitmarkenvergleich, kein stilles Überschreiben in keine Richtung (5) · CSP als
 eigene, frühe Etappe vor dem Service Worker (6) · Manifest finalisieren (7) · Service Worker,
 cached ausschließlich die App-Schale, nie Daten (8). Details, Testkriterien und
-Pflicht-Stops je Etappe: `docs/cc-d43-finalisierung-2026-06-12.md`, Teil 2.
+Pflicht-Stops je Etappe: interner Bericht vom 12.06.2026, Teil 2.
 
 ## 9 · Offen (laut Quellmaterial nicht beantwortet — hier nicht nachgeholt)
 

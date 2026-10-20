@@ -22,7 +22,7 @@ test('App lädt über file:// und zeigt den Welcome-Screen ohne Konsolen-Fehler'
 
   await expect(page.locator('.welcome-brand')).toBeVisible();
   // Lage A (Strang 2 Commit A): drei ADR-Eingänge — Wizard, „Hier anfangen", Datei-Pfad.
-  await expect(page.locator('#w-anlass')).toBeVisible();
+  await expect(page.locator('#w-anlegen')).toBeVisible();
   await expect(page.locator('#w-anfangen')).toBeVisible();
   await expect(page.locator('#w-datei')).toBeVisible();
   // U2-ADR-078 (12.07.2026): die passwortlose Notfall-Tür (#w-notfall) wurde ersatzlos entfernt

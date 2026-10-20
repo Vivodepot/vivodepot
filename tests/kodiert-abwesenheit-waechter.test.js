@@ -21,15 +21,7 @@ const SUBJ = /\b(roh|umschlag|jwe|chiffrat|serialisierung|kompakt|ciphertext|ct)
 const ENTPACKT = /lesbar\(|jweLesbarerTeil\(|entpackt\(|entferneChiffrate\(|ohneChiffrate\(/;
 
 // Angesehen am 01.10.2026: Klartext, kein kodierter Inhalt — darum trägt die Suche.
-const GRUNDLINIE = new Map([
-  ['tests/e2e/lese-app-englisch.spec.js', 'Klartext-Kopf der Depotdatei; geprüft wird gerade, dass dort kein Sprachhinweis steht'],
-  ['tests/export-sensibel-subkontext-bereich.test.js', 'roh = JSON.stringify(vollExportJSON) — Klartext-JSON'],
-  ['tests/fixtures/persona-p8.js', 'roh = JSON.stringify(d.sektoren) — entschlüsselte Daten'],
-  ['tests/m1-gueltigkeit-aufloesung-rohwert.test.js', 'sucht im Quelltext des Kerns, nicht in einer Ausgabe'],
-  ['tests/modul-app-signieren-und-packen.test.js', 'roh = die Merkdatei im Klartext'],
-  ['tests/schema-88-personenregister-englisch.test.js', 'roh = JSON.stringify(d.menschen) — entschlüsselte Daten'],
-  ['tests/uebergabe-protokoll.test.js', 'Klartext-Gerüst des Umschlags (Leck-Probe); die entschlüsselten Daten prüft die Zeile davor'],
-]);
+const GRUNDLINIE = new Map(Object.entries(require('../tools/lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(path.join(__dirname, 'kodiert-abwesenheit-grundlinie.json'))));
 
 function funde(wurzel) {
   const raus = [];

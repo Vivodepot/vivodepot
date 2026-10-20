@@ -109,7 +109,7 @@ async function main(argv, opt = {}) {   // opt nur für Proben: ohneCsp, zusatzS
   const jsqr = _arg(argv, '--jsqr'); const zx = _arg(argv, '--zxing'); const zxw = _arg(argv, '--zxing-wasm');
   if (!jsqr && !zx && !nurGeruest) throw new Error('mindestens --jsqr oder --zxing angeben (Pfade zu den Decodern, außerhalb des Repos) — oder --nur-geruest');
   const decoder = [];
-  const browser = await pw.chromium.launch();
+  const browser = await pw.chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   const netz = [];
   try {
     const page = await browser.newPage();

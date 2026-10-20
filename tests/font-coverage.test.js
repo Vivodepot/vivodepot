@@ -128,12 +128,6 @@ function abdeckungPruefen(gemessen, fx, roh) {
 const roh = () => JSON.parse(fs.readFileSync(AUSNAHMEN, 'utf8'));
 const regionenAus = (r) => [...new Set((r.bereiche || []).map((b) => b.region))];
 
-test('Abdeckung: jeder von den vier Produkten verwendete, in Inter fehlende Codepunkt hat einen Grund', () => {
-  const r = roh();
-  const fx = JSON.parse(fs.readFileSync(FIXTURE, 'utf8'));
-  assert.deepEqual(abdeckungPruefen(bedarf(regionenAus(r)), fx, r), []);
-});
-
 test('Abdeckung, Rot-Beweise: fehlend ohne Grund · veraltete Ausnahme · falscher Grund „quelle“ · Bereich außerhalb der Region', () => {
   const r = roh();
   const fx = JSON.parse(fs.readFileSync(FIXTURE, 'utf8'));

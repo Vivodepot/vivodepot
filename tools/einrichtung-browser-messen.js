@@ -57,7 +57,7 @@ const START = {
 };
 
 async function einmal(engine, profil, url, modus) {
-  const ctx = await pw[engine].launchPersistentContext(profil, Object.assign({ headless: true, timeout: 30000 }, START[engine]));
+  const ctx = await pw[engine].launchPersistentContext(profil, require('./lib/netz-sperre.js').mitSperre(Object.assign({ headless: true, timeout: 30000 }, START[engine])));
   ctx.setDefaultTimeout(20000);
   const netz = [];
   ctx.on('request', (q) => { if (!q.url().startsWith(url.split('#')[0])) netz.push(q.url()); });
@@ -108,7 +108,7 @@ async function main(argv) {
   const ergebnis = { werkzeug: 'tools/einrichtung-browser-messen.js', versionen: {}, messungen: [] };
   try {
     for (const e of liste) {
-      try { const b = await pw[e].launch(); ergebnis.versionen[e] = b.version(); await b.close(); } catch (x) { ergebnis.versionen[e] = 'nicht startbar: ' + String(x.message).split('\n')[0]; continue; }
+      try { const b = await pw[e].launch(require('./lib/netz-sperre.js').mitSperre()); ergebnis.versionen[e] = b.version(); await b.close(); } catch (x) { ergebnis.versionen[e] = 'nicht startbar: ' + String(x.message).split('\n')[0]; continue; }
       ergebnis.messungen.push(await engineMessen(e, { datei, httpUrl }));
     }
   } finally { server.close(); fs.rmSync(ordner, { recursive: true, force: true }); }

@@ -58,7 +58,15 @@ function kvnr(buchstabe, acht) {
   return buchstabe + acht + (s % 10);
 }
 
-async function erzeugnisse(cache, aus) {
+// Welche Pakete fehlen im Cache (das IG und die beiden Quellen der Anzeigetexte) — leer heißt: alles da.
+// Auch der Konformitätslauf (tests/konformitaet/externe-validatoren.mjs) fragt hier, bevor er die ISiK-Fälle baut.
+function paketeFehlen(cache) {
+  return [[IG], ...QUELLEN].map(([p]) => p).filter((p) => !fs.existsSync(path.join(cache, p, 'package')));
+}
+
+// Die beiden DocumentReferences aus dem echten Generator, mit den Anzeigetexten aus dem Cache (nur im Speicher).
+// Geteilt mit dem Konformitätslauf, damit Werkzeug und Suite dasselbe Depot prüfen.
+async function isikDokumenteBauen(cache) {
   const { V } = ladeKern();
   await V.depotAnlegen('isik-validator-2026!');
   // Die echte KDL-Datei aus dem Cache durch denselben Einlass wie bei der Person („KDL selbst laden“, U2-ADR-468, Nachtrag):
@@ -83,14 +91,19 @@ async function erzeugnisse(cache, aus) {
   const anzeigetexte = anzeigetexteLesen(cache, codes);
   const r = V.isikDokumente('2026-10-01T12:00:00Z', { sensibel: true, urschriftBestaetigt: mappeId, anzeigetexte });
   if (!r.bundle || r.gruende.length) throw new Error('Generator lieferte nicht beide DocumentReferences: ' + r.gruende.join(', '));
+  const nach = (code) => r.bundle.entry.map((e) => e.resource).find((d) => d.resourceType === 'DocumentReference' && d.type.coding[0].code === code);
+  return { vollmacht: nach(T.kdlVollmacht.code), ips: nach(T.kdlPatienteneigen.code) };
+}
+
+async function erzeugnisse(cache, aus) {
+  const dr = await isikDokumenteBauen(cache);
   const faelle = [];
   const schreiben = (name, res, erwartet) => { const p = path.join(aus, name + '.json'); fs.writeFileSync(p, JSON.stringify(res, null, 1)); faelle.push({ name, pfad: p, erwartet }); };
-  const nach = (code) => r.bundle.entry.map((e) => e.resource).find((d) => d.resourceType === 'DocumentReference' && d.type.coding[0].code === code);
-  schreiben('dr1-vollmacht-urschrift', nach(T.kdlVollmacht.code), 'gueltig');
-  schreiben('dr2-ips', nach(T.kdlPatienteneigen.code), 'gueltig');
-  const ohneKdl = JSON.parse(JSON.stringify(nach(T.kdlVollmacht.code))); ohneKdl.type.coding.shift();
+  schreiben('dr1-vollmacht-urschrift', dr.vollmacht, 'gueltig');
+  schreiben('dr2-ips', dr.ips, 'gueltig');
+  const ohneKdl = JSON.parse(JSON.stringify(dr.vollmacht)); ohneKdl.type.coding.shift();
   schreiben('rot-ohne-kdl', ohneKdl, 'ungueltig');
-  const eigenerText = JSON.parse(JSON.stringify(nach(T.kdlVollmacht.code))); eigenerText.type.coding[0].display = 'Vollmacht für die Vorsorge';
+  const eigenerText = JSON.parse(JSON.stringify(dr.vollmacht)); eigenerText.type.coding[0].display = 'Vollmacht für die Vorsorge';
   schreiben('rot-eigener-kdl-text', eigenerText, 'ungueltig');
   return faelle;
 }
@@ -104,7 +117,8 @@ async function main() {
   try { validator = VB.jarFassung(jar); } catch (e) { console.error('Abbruch: ' + e.message); return 2; }
   console.log('  Validator: ' + validator.name + ' ' + validator.fassung + (validator.gepinnt ? ' (gepinnt)' : ' (NICHT gepinnt — freies Jar, Fassung aus dem Jar gelesen)'));
   const cache = arg('--cache') || path.join(os.homedir(), '.fhir', 'packages');
-  if (!fs.existsSync(path.join(cache, IG, 'package'))) { console.error('Abbruch: ' + IG + ' fehlt im Paket-Cache ' + cache); return 2; }
+  const fehlt = paketeFehlen(cache);
+  if (fehlt.length) { console.error('Abbruch: fehlt im Paket-Cache ' + cache + ': ' + fehlt.join(', ')); return 2; }
   const wegwerf = !arg('--aus');
   const aus = arg('--aus') || fs.mkdtempSync(path.join(os.tmpdir(), 'isik-validator-'));
   fs.mkdirSync(aus, { recursive: true });
@@ -137,4 +151,4 @@ async function main() {
 }
 
 if (require.main === module) main().then((c) => process.exit(c), (e) => { console.error(e.message || e); process.exit(2); });
-module.exports = { anzeigetexteLesen, kvnr };
+module.exports = { IG, anzeigetexteLesen, kvnr, paketeFehlen, isikDokumenteBauen };

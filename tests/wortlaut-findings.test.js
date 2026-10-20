@@ -12,7 +12,9 @@ const { ladeKern } = require('./load-kern.js');
 
 test('[Finding 1] Speichernachricht: „Fenster offen" + ehrlich, dass RAM nicht die Datei ist', () => {
   const { V } = ladeKern();
-  const s = V.STRINGS.pausenErlaubnis;
+  // Seit U2-ADR-474 (B-01) gilt der „Fenster offen"-Satz nur im Datei-Modus (pausenErlaubnisDatei); im internen
+  // Modus speichert jede Änderung auf dem Gerät, das hält tests/speichermodell-ein-wortlaut.test.js.
+  const s = V.STRINGS.pausenErlaubnisDatei;
   assert.match(s, /Solange dieses Fenster offen ist/, 'ehrlich: Sitzung ≠ Datei');
   // Nr. 3 (Wortlaute zur Freigabe, 09.08.2026): KEIN Knopfname mehr im Text — er würde bei jeder
   // Umbenennung falsch. Ersetzt durch eine knopf-neutrale Aussage ("gesichert sind sie erst, wenn…").

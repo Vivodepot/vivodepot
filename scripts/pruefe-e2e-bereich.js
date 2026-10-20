@@ -82,9 +82,12 @@ const FIREFOX_TRAEGER = ['vivodepot.html', 'vivodepot-lesen.html', 'playwright.c
    WebKit; Datei-Weg und Browser-Kopie). Sie läuft nach den Firefox-Proben; WebKit fährt sonst kein Weg. */
 const E2E_DREI_BROWSER_PFAD = 'tests/e2e-drei-browser/';
 /* DAS STUDIO AM IPAD (14.10.2026): Die Drei-Browser-Reise trägt die iPad-Probe des Studios (studio-ipad.spec.js, nur WebKit).
-   Eine reine Studio-Änderung gab bis hierher keinen Anlass für sie; WebKit fährt sonst kein Weg. Die Studio-Datei gibt darum
-   denselben Anlass wie die Oberflächen oben. Folge: ein Studio-Push fährt auch die Firefox-Proben (ein Anlass für beide). */
-const DREI_BROWSER_TRAEGER = ['vivodepot-studio.html'];
+   Eine reine Studio-Änderung gab bis hierher keinen Anlass für sie; WebKit fährt sonst kein Weg. Folge: ein Studio-Push fährt
+   auch die Firefox-Proben (ein Anlass für beide).
+   ERHOBEN STATT GEFÜHRT (17.10.2026): Nicht eine feste Liste nennt die Oberflächen, sondern dieselbe Erhebung wie für Chromium und
+   Cross (oberflaechenMitProbe), über die Specs unter tests/e2e-firefox/ und tests/e2e-drei-browser/. Eine neue Oberfläche mit
+   einer Probe dort gibt Anlass, ohne dass jemand eine Liste nachzieht. */
+function dreiBrowserTraeger(repo = REPO_WURZEL) { return oberflaechenMitProbe(repo, [E2E_FIREFOX_PFAD, E2E_DREI_BROWSER_PFAD]); }
 /* Das gebackene Produkt, das die Reisen öffnen, entsteht nicht allein aus vivodepot.html: Backweg und Moduldateien jedes
    der vier Produkte tragen den Speicherweg mit (Gegenlesung 05.10.2026). Genau diese Dateien, zur Laufzeit erhoben,
    nicht ganze Ordner (tools/, tests/fixtures/ wären zu breit). */
@@ -106,7 +109,7 @@ function produktTraeger() {
    tests/e2e-cross/ nennt (auch über support/helpers.js). Erhoben, nicht geführt: eine neue Oberfläche mit Probe
    gibt Anlass, ohne dass jemand eine Liste nachzieht. Ohne git, damit keine GIT_*-Umgebung hineinspielt. */
 const REPO_WURZEL = require('node:path').join(__dirname, '..');
-function oberflaechenMitProbe(repo = REPO_WURZEL) {
+function oberflaechenMitProbe(repo = REPO_WURZEL, verzeichnisse = [E2E_PFAD, E2E_CROSS_PFAD]) {
   const fs = require('node:fs'); const path = require('node:path');
   let html;
   try { html = fs.readdirSync(repo).filter((f) => f.endsWith('.html')); } catch (_) { return []; }
@@ -119,9 +122,15 @@ function oberflaechenMitProbe(repo = REPO_WURZEL) {
       else if (/\.(m?js|ts)$/.test(x.name)) { try { texte.push(fs.readFileSync(p, 'utf8')); } catch (_) { /* weg */ } }
     }
   };
-  lesen(path.join(repo, E2E_PFAD)); lesen(path.join(repo, E2E_CROSS_PFAD));
+  for (const v of verzeichnisse) lesen(path.join(repo, v));
   return html.filter((h) => !DATEISATZ.includes(h) && texte.some((q) => q.includes(h))).sort();
 }
+
+/* DEMO-SZENARIEN (16.10.2026, Befund DEMO-SZENARIO-OHNE-E2E-ANLASS): eine E2E-Probe baut jede Demo aus ihrem Szenario und
+   klickt sie durch. Eine reine Änderung an einem Szenario (Schritttext, Beispiel-Depot, Dokument) gab trotzdem keinen Lauf, weil
+   die Regel nur Oberflächen und Proben kannte. Der Ordner zählt ganz, auch die Depots und Erzeuger darin. Dass jedes Szenario mit
+   Schritten in der Probe steht, hält ein Klassenwächter über den Szenarienordner. */
+const DEMO_SZENARIEN_PFADE = ['tools/demo-szenarien/'];
 
 function git(...args) {
   return execFileSync('git', args, { encoding: 'utf8' });
@@ -160,20 +169,23 @@ function anlassEntscheiden(dateien) {
   return { anlass: anlassGegeben(dateien), firefox: firefoxAnlassGegeben(dateien) };
 }
 
-function firefoxAnlassGegeben(dateien) {
+function firefoxAnlassGegeben(dateien, flaechen = null) {
   if (dateien === null) return { ja: true, grund: 'neuer Zweig oder kein messbarer Bereich' };
   const produkt = produktTraeger();
-  const t = dateien.filter((d) => FIREFOX_TRAEGER.includes(d) || DREI_BROWSER_TRAEGER.includes(d) || d.startsWith(E2E_FIREFOX_PFAD) || d.startsWith(E2E_DREI_BROWSER_PFAD) || produkt.has(d));
+  const drei = flaechen || dreiBrowserTraeger();
+  const t = dateien.filter((d) => FIREFOX_TRAEGER.includes(d) || drei.includes(d) || d.startsWith(E2E_FIREFOX_PFAD) || d.startsWith(E2E_DREI_BROWSER_PFAD) || produkt.has(d));
   return t.length ? { ja: true, grund: 'Firefox-relevant geändert: ' + t.join(', ') } : { ja: false, grund: 'weder Oberfläche noch Firefox-Probe im Bereich' };
 }
 
-function anlassGegeben(dateien, oberflaechen = null) {
+function anlassGegeben(dateien, oberflaechen = null, szenarienPfade = DEMO_SZENARIEN_PFADE) {
   if (dateien === null) return { ja: true, grund: 'neuer Zweig oder kein messbarer Bereich' };
   const traeger = dateien.filter((d) => DATEISATZ.includes(d));
   if (traeger.length) return { ja: true, grund: 'Trägerdatei geändert: ' + traeger.join(', ') };
   const mitProbe = oberflaechen || oberflaechenMitProbe();
   const flaechen = dateien.filter((d) => mitProbe.includes(d));
   if (flaechen.length) return { ja: true, grund: 'Oberfläche mit E2E-Probe geändert: ' + flaechen.join(', ') };
+  const szenarien = dateien.filter((d) => szenarienPfade.some((p) => d.startsWith(p)));
+  if (szenarien.length) return { ja: true, grund: 'Demo-Szenario geändert: ' + szenarien.join(', ') };
   const proben = dateien.filter((d) => d.startsWith(E2E_PFAD));
   if (proben.length) return { ja: true, grund: proben.length + ' E2E-Probe(n) geändert' };
   const cross = dateien.filter((d) => d.startsWith(E2E_CROSS_PFAD) || d === 'playwright.config.cross.js');
@@ -241,6 +253,45 @@ function main() {
   return laeufeFahren(anlass, firefox, { hauptVomRunner, ohneHaupt, nurHaupt });
 }
 
+/* ROTE REISEN BEIM NAMEN (17.10.2026). Bis hierher endete ein roter Lauf nur mit „die Cross-Reisen sind rot“, und welche Reise
+   rot war, stand irgendwo weiter oben in der Ausgabe von Playwright. Der voreingestellte Start hängt darum den JSON-Bericht an
+   (Reporter list,json, Datei über PLAYWRIGHT_JSON_OUTPUT_NAME), liest danach die roten Reisen als „<datei> › <titel>“ und gibt
+   sie als `rot` zurück; der Abbruch nennt sie. Unter CI bleiben die Reporter der Konfiguration unberührt. Eine Probe, die ihren
+   eigenen Start einsetzt, sieht die Befehlszeile unverändert. Probe: tests/e2e-rot-namen.test.js. */
+function roteReisenAus(bericht) {
+  const raus = new Set();
+  const gehen = (suite, datei) => {
+    const d = suite.file || datei;
+    for (const s of suite.specs || []) if (s.ok === false) raus.add((s.file || d) + ' › ' + s.title);
+    for (const u of suite.suites || []) gehen(u, d);
+  };
+  for (const s of (bericht && bericht.suites) || []) gehen(s, s.file);
+  return [...raus].sort();
+}
+function mitBericht(befehl, args) {
+  if (befehl === 'npx') return [...args, '--reporter=list,json'];
+  return args.includes('--') ? [...args, '--reporter=list,json'] : [...args, '--', '--reporter=list,json'];
+}
+function spawnMitBericht(befehl, args, opts = {}, { innen = spawnSync, env = process.env } = {}) {
+  if (env.CI) return innen(befehl, args, opts);
+  const fs = require('node:fs');
+  const ordner = fs.mkdtempSync(require('node:path').join(os.tmpdir(), 'vd-e2e-bericht-'));
+  const datei = require('node:path').join(ordner, 'bericht.json');
+  try {
+    const r = innen(befehl, mitBericht(befehl, args), { ...opts, env: { ...(opts.env || env), PLAYWRIGHT_JSON_OUTPUT_NAME: datei } });
+    let rot = [];
+    try { rot = roteReisenAus(JSON.parse(fs.readFileSync(datei, 'utf8'))); } catch (_) { /* kein Bericht: Abbruch vor den Reisen */ }
+    return { ...r, rot };
+  } finally { fs.rmSync(ordner, { recursive: true, force: true }); }
+}
+const ROT_NAMEN_HOECHSTENS = 15;
+function rotZeilen(r) {
+  const rot = (r && r.rot) || [];
+  if (!rot.length) return '';
+  return '\n' + rot.slice(0, ROT_NAMEN_HOECHSTENS).map((n) => '               rot: ' + n).join('\n')
+    + (rot.length > ROT_NAMEN_HOECHSTENS ? '\n               … und ' + (rot.length - ROT_NAMEN_HOECHSTENS) + ' weitere' : '');
+}
+
 // spawn/bereit/last einsetzbar (04.10.2026): die Probe prüft, WELCHE Läufe starten, ohne einen Browser zu starten.
 /* Die Specs nach `--spec` (wiederholbar). */
 function specsAusArgv(argv) {
@@ -249,7 +300,7 @@ function specsAusArgv(argv) {
   return specs;
 }
 
-function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = false, nurHaupt = false, lueckenSpecs = [], spawn = spawnSync, bereit = playwrightBereit,
+function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = false, nurHaupt = false, lueckenSpecs = [], spawn = spawnMitBericht, bereit = playwrightBereit,
   last = lastMehrfach, existiert = (p) => require('node:fs').existsSync(require('node:path').join(__dirname, '..', p)) } = {}) {
   if (!anlass.ja && !firefox.ja) {
     console.log('[e2e-bereich] kein Anlass — ' + anlass.grund + '. Nicht gefahren.');
@@ -290,14 +341,14 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = fal
       if (lueckenSpecs.length) {
         const r = spawn('npx', ['playwright', 'test', ...lueckenSpecs, '--workers=1'], { stdio: 'inherit' });
         if (r.status !== 0) {
-          console.error('[e2e-bereich] ABBRUCH: die Specs der Hauptkonfiguration sind rot.');
+          console.error('[e2e-bereich] ABBRUCH: die Specs der Hauptkonfiguration sind rot.' + rotZeilen(r));
           return 1;
         }
       }
     } else {
       const r = spawn('npm', ['run', 'test:e2e'], { stdio: 'inherit' });
       if (r.status !== 0) {
-        console.error('[e2e-bereich] ABBRUCH: die E2E-Suite ist rot.');
+        console.error('[e2e-bereich] ABBRUCH: die E2E-Suite ist rot.' + rotZeilen(r));
         return 1;
       }
       if (nurHaupt) { console.log('[e2e-bereich] Hauptlauf grün (--nur-haupt; den Rest fuhr der Lauf davor).'); return 0; }
@@ -305,7 +356,7 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = fal
     }
     const c = spawn('npm', ['run', 'test:e2e:cross', '--', '--workers=1'], { stdio: 'inherit' });
     if (c.status !== 0) {
-      console.error('[e2e-bereich] ABBRUCH: die Cross-Reisen sind rot.');
+      console.error('[e2e-bereich] ABBRUCH: die Cross-Reisen sind rot.' + rotZeilen(c));
       return 1;
     }
   }
@@ -314,14 +365,14 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = fal
     console.log('[e2e-bereich] Firefox-Proben …');
     const f = spawn('npm', ['run', 'test:e2e:firefox', '--', '--workers=1'], { stdio: 'inherit' });
     if (f.status !== 0) {
-      console.error('[e2e-bereich] ABBRUCH: die Firefox-Proben sind rot — oder das Firefox-Binary fehlt (kein Überspringen).');
+      console.error('[e2e-bereich] ABBRUCH: die Firefox-Proben sind rot — oder das Firefox-Binary fehlt (kein Überspringen).' + rotZeilen(f));
       console.error('              Beheben mit: npx playwright install firefox  (oder node tools/arbeitsbaum-einsatzbereit-machen.js)');
       return 1;
     }
     console.log('[e2e-bereich] Speichern in drei Browsern …');
     const d = spawn('npm', ['run', 'test:e2e:drei-browser', '--', '--workers=1'], { stdio: 'inherit' });
     if (d.status !== 0) {
-      console.error('[e2e-bereich] ABBRUCH: Speichern in drei Browsern ist rot — oder ein Browser-Binary fehlt (kein Überspringen).');
+      console.error('[e2e-bereich] ABBRUCH: Speichern in drei Browsern ist rot — oder ein Browser-Binary fehlt (kein Überspringen).' + rotZeilen(d));
       console.error('              Beheben mit: npx playwright install chromium firefox webkit');
       return 1;
     }
@@ -330,6 +381,6 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = fal
   return 0;
 }
 
-module.exports = { specsAusArgv, oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
+module.exports = { dreiBrowserTraeger, DEMO_SZENARIEN_PFADE, roteReisenAus, mitBericht, spawnMitBericht, rotZeilen, specsAusArgv, oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
 
 if (require.main === module) process.exit(main());

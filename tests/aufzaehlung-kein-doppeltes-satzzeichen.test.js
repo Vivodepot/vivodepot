@@ -5,7 +5,7 @@
    Die amtlichen Optionstexte enden selbst auf ein Komma (Glieder eines Satzes); die Aufzählung der Mehrfachauswahl setzte ein
    zweites. Gefunden in der Abnahme gegen das Nativ, als die Festlegungen Felder wurden (U2-ADR-440).
    Wächter gegen die ganze Klasse: JEDE Mehrfachauswahl des Kerns und der Lese-App, mit allen Optionen gewählt, ergibt eine
-   Aufzählung ohne „,,", „;," oder „, ,". Die Probe am Einzelfall steht in tests/pv-festlegungen-kennungen.test.js [PV·Aufzählung].
+   Aufzählung ohne „,,", „;," oder „, ,". Die Probe am Einzelfall steht in eine nicht öffentliche Probe [PV·Aufzählung].
    ═════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');

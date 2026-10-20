@@ -90,7 +90,7 @@ Entscheidung vom 02.10.2026: „Das Gerüst muss komplett leer sein von Inhalten
 7. **Reihenfolge mit dem Gateway.** Der Abschnitt `PRODUKT_TEXT_ERZEUGEN` ändert sich; das Gateway zieht nach v894 nach (Gateway-Eigentümer).
    Bis dahin griff eine Brücke im Cross-Repo-Abgleich (nach Zustand, mit Wächter „Brücke tot“), und die Werkzeuge für
    Auslieferung und Rezept-Signatur verweigerten den Lauf. Seit das Gateway nachgezogen hat (04.10.2026), ist die Brücke
-   entfernt; der Abschnitt ist wieder byte-gleich (tests/produkt-text-erzeugen-cross-repo-abgleich.test.js).
+   entfernt; der Abschnitt ist wieder byte-gleich (eine nicht öffentliche Probe).
 
 ### Nachtrag v894, Lesart B (02.10.2026): Das Gerüst trägt keinen Wert
 
@@ -242,13 +242,6 @@ konformitaet:
       - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Layout] die Layout-Prüfung steht in Kern und Bauweg Zeichen für Zeichen gleich"
       - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Layout] Navigation A und Zonen als Beschreibung bestehen beide Prüfungen; ein leeres layout heißt Bauform des Gerüsts"
       - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Rot-Beweis] ein fehlender Pflicht-Baustein (LAYOUT_PFLICHT) — Kern und Bauweg weisen ab"
-  - aussage: >-
-      Das Gateway trägt die Layout-Prüfung byte-gleich mit dem Kern (Nachzug nach dem Release v920, 06.10.2026). Die Brücke,
-      die bis dahin jedes Rezept mit Layout-Modul anhielt, ist entfernt.
-    zustand: erfuellt
-    herkunft: U2-ADR-473 Nachtrag W3a (05.10.2026), Nachzug 06.10.2026
-    pruefung:
-      - tests/produkt-text-erzeugen-cross-repo-abgleich.test.js "[Produkt-Text-Erzeugen·Cross-Repo] der eigene Abschnitt ist byte-gleich mit dem Abschnitt auf Gateway-main"
 ```
 
 ---

@@ -4,8 +4,8 @@
 **Datum:** 05.09.2026
 **Betrifft:** `vivodepot.html` (`RECHTSRAUM_FRIST_UEBERLAGERUNG`,
 `rechtsraumFristUeberlagerungSetzen`, `_rechtsraumFristRegel`, `_fristHinweisFuerFeld`),
-`tools/buergermodul-schnitt.js`, `tests/rechtsraum-frist-ueberlagerung.test.js`,
-`tests/buergermodul-schnitt.test.js`
+ein nicht öffentliches Werkzeug, `tests/rechtsraum-frist-ueberlagerung.test.js`,
+eine nicht öffentliche Probe
 
 - **Status heute:** gilt — die Überlagerung ist gebaut, der Slot ist leer, und der Leerfall ist
   als byte-identisch zum heutigen Stand belegt. Das Rechtsraum-Modul selbst entsteht in einem

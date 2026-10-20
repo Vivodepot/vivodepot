@@ -4,7 +4,7 @@
    Ablehnungs-Codes, und wo ihr JSON-Schema liegt. Zwei Nutzer:
    - als Werkzeug: `node tools/modul-schemas-messen.js [--kern <pfad>] [--aus <datei>]` schreibt die
      Messtabelle (nur Lesen, nichts bauen);
-   - als Bibliothek: die Klassenwache `tests/modul-schemas-klasse.test.js` und der Gleichlauf-Helfer
+   - als Bibliothek: die Klassenwache `eine nicht öffentliche Probe` und der Gleichlauf-Helfer
      `tests/mit-modul/helfer/modul-schema-gleichlauf.js` lesen Typen und Ablehnungs-Codes von HIER, damit
      Messung und Wache dieselbe Menge sehen.
    Die Menge der Modultypen = die Einträge in `EINLASS_REGISTER` ∪ jede `function …ModulPruefen(`

@@ -73,7 +73,7 @@ async function mitMutierterKopie(ersetzeVon, ersetzeZu, lauf) {
 
 async function bisDialogOeffnen(htmlUrl) {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage({ viewport: REISE_1.viewport, hasTouch: true, isMobile: true });
     // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der
@@ -167,7 +167,7 @@ test('[Reisen·Beleg §2] eine Erfassung, die nur Selektor-Existenz prüft, sieh
 
     const { chromium } = require('playwright');
     const messen = async (htmlUrl) => {
-      const browser = await chromium.launch();
+      const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
       try {
         const seite = await browser.newPage({ viewport: REISE_1.viewport });
         // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der
@@ -184,7 +184,7 @@ test('[Reisen·Beleg §2] eine Erfassung, die nur Selektor-Existenz prüft, sieh
         });
         await seite.goto(htmlUrl);
         await seite.click('#w-anfangen', { timeout: 5000 });
-        await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+        await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
         await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
         return await seite.evaluate(nurSelektor);
       } finally { await browser.close(); }
@@ -518,20 +518,20 @@ function reiseNotfallkartePdfProbe() {
         id: 'S0', titel: 'Landing', veraendernd: false,
         aktion: async (seite, htmlUrl) => {
           await seite.goto(htmlUrl);
-          await seite.waitForSelector('#w-anlass', { state: 'visible', timeout: 15000 });
+          await seite.waitForSelector('#w-anlegen', { state: 'visible', timeout: 15000 });
         },
       },
       {
         id: 'S1', titel: 'Einstieg', veraendernd: false,
         aktion: async (seite) => {
           await seite.click('#w-anfangen', { timeout: 5000 });
-          await seite.waitForSelector('#tb-pw-hinweis', { state: 'visible', timeout: 10000 });
+          await seite.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached', timeout: 10000 });
         },
       },
       {
         id: 'S2', titel: 'Anlege-Dialog öffnen', veraendernd: false,
         aktion: async (seite) => {
-          await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+          await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
           await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
         },
       },
@@ -609,7 +609,7 @@ function reiseNotfallkartePdfProbe() {
 
 async function notfallkartePdfSchritt(htmlUrl) {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage({ viewport: { width: 390, height: 844 } });
     // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der

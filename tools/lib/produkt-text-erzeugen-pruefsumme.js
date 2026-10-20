@@ -43,7 +43,7 @@ function codePruefsumme(text) {
 // Erweiterungen zusammengeführt, Prüfsumme frisch über den ZUSAMMENGEFÜHRTEN Abschnitt gemessen
 // (node -e mit kopierterAbschnitt/codePruefsumme dieser Datei), nicht aus einer der beiden
 // Zwischenfassungen übernommen. Muss von Hand im Schwesterrepo nachgezogen werden (s. o.).
-// 19.09.2026 (U2-ADR-NNN, „Angehörigen-Blätter sind Template, kein Gerüst") — neue Region
+// 19.09.2026 (U2-ADR-435, „Angehörigen-Blätter sind Template, kein Gerüst") — neue Region
 // AB_WERK_ANGEHOERIGEN_QUELLEN (modulTyp angehoerigenVorlage), istListenTyp erweitert. NOCH
 // NICHT im Schwesterrepo nachgezogen (kein Zugriff aus dieser Sitzung) — offen ist,
 // wer den Copy+Prüfsumme-Zug im Gateway-Repo übernimmt.

@@ -10,7 +10,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { NUR_PRIVAT, DECKEL, GIT, BESTAND, ZUSCHNITT, testMitPrivat } = require('./helfer/nur-privat.js');
+const { NUR_PRIVAT, DECKEL, GIT, BESTAND, ZUSCHNITT, testMitPrivat, VORLAGEN } = require('./helfer/nur-privat.js');
 
 const REPO = path.join(__dirname, '..');
 
@@ -20,7 +20,7 @@ function pruefen(liste, deckel) {
     const abs = path.join(REPO, datei);
     if (!fs.existsSync(abs)) { fehler.push(datei + ': gibt es nicht'); continue; }
     if (!fs.readFileSync(abs, 'utf8').includes('testMitPrivat(__filename)')) fehler.push(datei + ': bindet den Helfer nicht ein');
-    if (![GIT, BESTAND, ZUSCHNITT].includes(e.grund)) fehler.push(datei + ': Grund nicht benannt');
+    if (![GIT, BESTAND, ZUSCHNITT, VORLAGEN].includes(e.grund)) fehler.push(datei + ': Grund nicht benannt');
     if (!e.tests || !e.tests.length) fehler.push(datei + ': ohne Tests');
     for (const t of e.tests || []) if (Array.isArray(t) && ![GIT, BESTAND, ZUSCHNITT].includes(t[1])) fehler.push(datei + ': Grund bei „' + t[0] + '" nicht benannt');
   }

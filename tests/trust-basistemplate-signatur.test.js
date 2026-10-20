@@ -12,7 +12,7 @@
    Der Render-Guard ist in Schritt 1 tolerant; getestet wird die Guard-LOGIK
    (`_basisVorlageSichtbar`) für beide Phasen, ohne die Produktiv-Konstante zu mutieren.
    ════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const { ladeKern, webcrypto } = require('./load-kern.js');
 const { ladeGenerator } = require('./load-generator.js');

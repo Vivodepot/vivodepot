@@ -36,6 +36,7 @@ module.exports = defineConfig({
   workers: 1,
   reporter: 'list',
   use: {
+    launchOptions: require('./tools/lib/netz-sperre.js').mitSperre(),   // harte Netzsperre: nur lokal (tools/lib/netz-sperre.js)
     acceptDownloads: true,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',

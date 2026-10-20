@@ -93,6 +93,85 @@
           "freigabestatus": "in Bearbeitung — nicht fest"
         }
       ]
+    },
+    {
+      "datensatz": "semic-core-vocabularies",
+      "paket": "SEMIC Core Vocabularies (SEMICeu auf GitHub, Release-Ordner je Fassung): Vokabular-TTL und SHACL-Formen",
+      "fassung": "2026-10-17",
+      "bezugsort": "_quellen-bezuege/semic (außerhalb des Repos; Adresse und Commit je Datei unter url)",
+      "lizenz": "CC-BY 4.0 (SEMIC); gelesen werden nur IRIs",
+      "dateien": [
+        {
+          "pfad": "semic/Core-Person-Vocabulary-2.1.2/core-person-ap.ttl",
+          "sha256": "dcab0a5f35c71ffb14b7f6d392a9416b6446744e9f121e98c5611963677a1542",
+          "vokabular": "Core Person",
+          "fassung": "2.1.2",
+          "url": "https://raw.githubusercontent.com/SEMICeu/Core-Person-Vocabulary/a1b13f2bed9fd97b28420b0cef7f0032da08d148/releases/2.1.2/voc/core-person-ap.ttl"
+        },
+        {
+          "pfad": "semic/Core-Person-Vocabulary-2.1.2/core-person-ap-SHACL.ttl",
+          "sha256": "303c82d8f321dad1b3dc8675a112f490d57de9b8cfde3cd844916995cbdde53f",
+          "vokabular": "Core Person",
+          "fassung": "2.1.2",
+          "url": "https://raw.githubusercontent.com/SEMICeu/Core-Person-Vocabulary/a1b13f2bed9fd97b28420b0cef7f0032da08d148/releases/2.1.2/shacl/core-person-ap-SHACL.ttl"
+        },
+        {
+          "pfad": "semic/Core-Location-Vocabulary-2.1.1/core-location-ap.ttl",
+          "sha256": "624fc8263fc08d55251b17fc026248e10ec2f326644f79b500f24399a5f162db",
+          "vokabular": "Core Location",
+          "fassung": "2.1.1",
+          "url": "https://raw.githubusercontent.com/SEMICeu/Core-Location-Vocabulary/e3b429bc4f554183f5989d9284740ea84005faf9/releases/2.1.1/voc/core-location-ap.ttl"
+        },
+        {
+          "pfad": "semic/Core-Location-Vocabulary-2.1.1/core-location-ap-SHACL.ttl",
+          "sha256": "5d4c403bab2f8c74aa57cf590ef6966c037dd317ed392d58bc9839c95ce4e6bf",
+          "vokabular": "Core Location",
+          "fassung": "2.1.1",
+          "url": "https://raw.githubusercontent.com/SEMICeu/Core-Location-Vocabulary/e3b429bc4f554183f5989d9284740ea84005faf9/releases/2.1.1/shacl/core-location-ap-SHACL.ttl"
+        },
+        {
+          "pfad": "semic/Core-Business-Vocabulary-2.3.0/core-business-ap.ttl",
+          "sha256": "873ee3147b257a34580e1c84551a1cf52f44cab54e0461563258d4a4ddecc4b3",
+          "vokabular": "Core Business",
+          "fassung": "2.3.0",
+          "url": "https://raw.githubusercontent.com/SEMICeu/Core-Business-Vocabulary/ad3ecd0ac3348dc67a3020e5d1eb409af0449642/releases/2.3.0/voc/core-business-ap.ttl"
+        },
+        {
+          "pfad": "semic/Core-Business-Vocabulary-2.3.0/core-business-ap-SHACL.ttl",
+          "sha256": "a3621fedf770c7cf004bfeec46ab677d32f92ef8d60618e3666046ff6345fa9e",
+          "vokabular": "Core Business",
+          "fassung": "2.3.0",
+          "url": "https://raw.githubusercontent.com/SEMICeu/Core-Business-Vocabulary/ad3ecd0ac3348dc67a3020e5d1eb409af0449642/releases/2.3.0/shacl/core-business-ap-SHACL.ttl"
+        },
+        {
+          "pfad": "semic/CPOV-2.1.2/core-public-organisation-ap.ttl",
+          "sha256": "7c0ce33c5a03638b8a4d7e6d6a9bfc42f24b3e9b94b5efc5ec53fe41caf6fe35",
+          "vokabular": "CPOV",
+          "fassung": "2.1.2",
+          "url": "https://raw.githubusercontent.com/SEMICeu/CPOV/23dd550cfe57a48d3a809671bd6d15d2a253e874/releases/2.1.2/voc/core-public-organisation-ap.ttl"
+        },
+        {
+          "pfad": "semic/CPOV-2.1.2/core-public-organisation-ap-SHACL.ttl",
+          "sha256": "3a8ffb4e29f18c49233b84fec8f998872e66c95594dd8189384278f32bcad0f6",
+          "vokabular": "CPOV",
+          "fassung": "2.1.2",
+          "url": "https://raw.githubusercontent.com/SEMICeu/CPOV/23dd550cfe57a48d3a809671bd6d15d2a253e874/releases/2.1.2/shacl/core-public-organisation-ap-SHACL.ttl"
+        },
+        {
+          "pfad": "semic/CPSV-AP-3.2.0/cpsv-ap.ttl",
+          "sha256": "f4cbd307f30449a5ebbf507e91b3aa24cf80f9b18c491a44ff04659484e0bc3f",
+          "vokabular": "CPSV-AP",
+          "fassung": "3.2.0",
+          "url": "https://raw.githubusercontent.com/SEMICeu/CPSV-AP/e5b6f0662984887027d141c3f7a239a34da5db3f/releases/3.2.0/rdf/cpsv-ap.ttl"
+        },
+        {
+          "pfad": "semic/CPSV-AP-3.2.0/cpsv-ap-SHACL.ttl",
+          "sha256": "a314fa6bf8e1b613af7ed75fb9f4423d30a16b6fb93b4d3f05168f697bc37b30",
+          "vokabular": "CPSV-AP",
+          "fassung": "3.2.0",
+          "url": "https://raw.githubusercontent.com/SEMICeu/CPSV-AP/e5b6f0662984887027d141c3f7a239a34da5db3f/releases/3.2.0/shacl/cpsv-ap-SHACL.ttl"
+        }
+      ]
     }
   ]
 }

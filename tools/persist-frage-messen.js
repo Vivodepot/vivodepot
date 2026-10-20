@@ -26,7 +26,7 @@ async function messen(pw = require('playwright')) {
     for (const name of ['chromium', 'firefox', 'webkit']) {
       let b;
       try {
-        b = await pw[name].launch({ timeout: 30000 });
+        b = await pw[name].launch(require('./lib/netz-sperre.js').mitSperre({ timeout: 30000 }));
         const p = await (await b.newContext()).newPage();
         await p.goto(url, { timeout: 20000 });
         aus[name] = Object.assign({ version: b.version() }, await p.evaluate(async () => {

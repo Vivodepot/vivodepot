@@ -146,6 +146,10 @@ test('[Glied 8] KEIN Rechtsraum-Hinweistext — der Wortlaut ist eine Produktent
     rechtsraumModule: [{ rechtsraum: 'AT', moduleVersion: 1, sprache: 'de', typen: {} }] });
   // Der Empfänger stellt das Modul bereit und sagt darüber NICHTS. Diese Probe hält fest,
   // dass hier keine Formulierung entstanden ist — sie wird rot, sobald eine dazukommt.
-  const texte = Object.keys(L.STRINGS).map(k => String(L.STRINGS[k])).join(' ');
+  /* Ausgenommen (Befund LESE-APP-MODULE-OHNE-WAHL, 17.10.2026): Art und Wirkung eines NICHT angewandten Moduls, wortgleich mit dem
+     entschiedenen Wortlaut der Wahl im Kern (`modulArtRechtsraum`, `modulWirkungRechtsraum`). Sie nennen die Art der Erweiterung,
+     keinen Rechtsraum, der gilt; ein Hinweis über das bereitgestellte Modul bleibt verboten. */
+  const AUSGENOMMEN = ['modulArtRechtsraum', 'modulWirkungRechtsraum'];
+  const texte = Object.keys(L.STRINGS).filter((k) => AUSGENOMMEN.indexOf(k) < 0).map(k => String(L.STRINGS[k])).join(' ');
   assert.equal(/[Rr]echtsraum/.test(texte), false, 'keine Zeichenkette der Lese-App nennt einen Rechtsraum');
 });

@@ -67,12 +67,16 @@ test('[U2-ADR-285] ein korrekt gegen den Test-Anker signiertes DE-Modul wird üb
   assert.deepEqual(V.getRechtsraumGeruestRegistry().DE.tpl_erbvertrag_sonderfall.zweck, ['nachlass']);
 });
 
-test('[U2-ADR-285] validateRechtsraumModul lehnt "DE" ohne das Flag ab, solange das Gerüst-Fach belegt ist (Gerüst-Schnitt S3: an die Prämisse gebunden)', () => {
-  const V = require('./load-kern-de-belegt.js').ladeKernDeBelegt();
+/* R1 (09.10.2026): das Gerüst-Fach und das Flag `erlaubtGeruestEigenesDE` sind entfallen. Umgestellt auf den echten Weg: die
+   Strukturprüfung reserviert nichts mehr; reserviert ist am Einlass der Code des Ab-Werk-Moduls (im DE-Produkt „DE“). */
+test('[U2-ADR-285·R1] die Strukturprüfung reserviert nichts; im DE-Produkt weist der Einlass ein selbst eingelassenes DE-Modul ab', () => {
+  const { V } = ladeKern();
   const m = deModul();
-  assert.match(V.validateRechtsraumModul(m), /reserviert/);
-  assert.equal(V.validateRechtsraumModul(m, { erlaubtGeruestEigenesDE: true }), '',
-    'MIT dem Flag (das nur der Gerüst-Ladeweg selbst setzt) validiert dasselbe Modul');
+  assert.equal(V.validateRechtsraumModul(m), '', 'die Strukturprüfung (auch für die Ab-Werk-Saat) kennt keinen reservierten Code');
+  V.setData(V.leeresDepot());
+  const r = V.modulEinlassen(JSON.stringify(Object.assign({ modulTyp: 'rechtsraum' }, m)), V.getData());
+  assert.equal(r.angenommen, false);
+  assert.equal(r.grund, 'reserviert', 'der Code des eingebauten Moduls ist am Einlass reserviert');
 });
 
 /* ── 2 · Negativkontrolle / Rotmachbarkeit — ein fremdes Modul erreicht "DE" nicht ── */

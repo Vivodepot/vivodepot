@@ -110,14 +110,14 @@ test('[Sprung] modulKarteStatus liest kein entfallenes Gate-Feld mehr', () => {
   } }, menschen: [] });
   const status = {};
   for (const m of V.VORSORGE_MODULE || []) status[m.id] = V.modulKarteStatus(m);
-  assert.equal(status['testament-erbe'], 'keine',
+  assert.equal(status['testament-erbe'], '',
     'Ein Flachfeld-Rest darf die Karte nicht auf „vorhanden" stellen — die Buergerin koennte ihn '
     + 'nirgends mehr aendern');
   assert.notEqual(status['living-will'], 'in Vorbereitung',
     '„in Vorbereitung" ist mit den Gates entfallen (U2-ADR-096 E2) und darf nicht wiederauftauchen');
 });
 
-test('[Sprung] der Status kommt aus dem Record — mit Eintrag „vorhanden", ohne „keine"', () => {
+test('[Sprung] der Status kommt aus dem Record — mit Eintrag „vorhanden", ohne Eintrag steht nichts', () => {
   const { V } = ladeKern();
   V.setData({ schemaVersion: 40, sektoren: { advanceCare: { provisionInstruments: [
     { id: 't1', instrument: 'will', storageLocation: 'beim Notar' },
@@ -125,8 +125,8 @@ test('[Sprung] der Status kommt aus dem Record — mit Eintrag „vorhanden", oh
   const s = {};
   for (const m of V.VORSORGE_MODULE || []) s[m.id] = V.modulKarteStatus(m);
   assert.equal(s['testament-erbe'], 'vorhanden', 'mit Record');
-  assert.equal(s['patientenverfuegung'], 'keine', 'ohne Record');   // Schlüssel = Modul-Id
-  assert.equal(s['sorgerechtsverfuegung'], 'keine', 'ohne Record');
+  assert.equal(s['patientenverfuegung'], '', 'ohne Record steht nichts');   // Schlüssel = Modul-Id; „keine“ entfiel (Depot freiwillig, 09.10.2026)
+  assert.equal(s['sorgerechtsverfuegung'], '', 'ohne Record steht nichts');
 });
 
 /* ── Die leere Sektion und die Kollision ─────────────────────────────────────────────── */

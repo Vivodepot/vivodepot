@@ -116,13 +116,16 @@ test('[T5] Sub-Depot: NFC-versiegelt+NFD-entsiegelt oeffnet; Legacy-NFD-Sub+NFD 
   assert.ok(re, 'neuer Sub-Umschlag oeffnet mit NFC-Eingabe');
 });
 
-test('[B1 Inventur] alle vier Leaf-Funktionen normalisieren; L2/L4 mit Guard pw!=NFC', () => {
+test('[B1 Inventur] alle vier Leaf-Funktionen normalisieren; L2/L4 mit genau einem NFD-Versuch, wenn NFD != NFC', () => {
   const { src } = ladeKern();
   // Etappe 2g (U2-ADR-160): depotAnlegen traegt seither ein optionales zweites Argument
   // (`opts.bereichssatz`) — die Norm-Zeile bleibt trotzdem die ERSTE Anweisung, ungebrancht.
   assert.ok(/async function depotAnlegen\(password, opts\) \{\s*\n\s*password = normalizePassword\(password\);/.test(src), 'L1 normalisiert');
   assert.ok(/async function subDepotVersiegeln\(inhalt, subPasswort\) \{\s*\n\s*subPasswort = normalizePassword\(subPasswort\);/.test(src), 'L3 normalisiert');
-  // L2/L4 Fallback-Guard: nur wenn pw != NFC, GENAU ein NFD-Versuch.
-  assert.equal((src.match(/if \(typeof \w+ !== 'string' \|\| \w+ === nfc\) throw e1;/g) || []).length, 2, 'L2+L4: Guard pw!=NFC');
+  // L2/L4 Fallback-Guard (Wort Krypto 2, 18.10.2026): GENAU ein NFD-Versuch, wenn NFD != NFC — gleich, in welcher Form getippt
+  // wurde. Die frühere Bedingung „nur wenn die Eingabe nicht schon NFC ist“ ist entfallen (tests/passwort-nfc-klasse.test.js).
+  assert.equal((src.match(/if \(typeof \w+ !== 'string'\) throw e1;/g) || []).length, 2, 'L2+L4: nur der Typ-Guard vor dem NFD-Versuch');
+  assert.equal((src.match(/if \(nfd === nfc\) throw e1;/g) || []).length, 2, 'L2+L4: kein Versuch, wenn NFD und NFC gleich sind');
+  assert.equal(/\w+ === nfc\) throw e1;/.test(src.replace(/nfd === nfc\) throw e1;/g, '')), false, 'die alte Bedingung pw === nfc ist weg');
   assert.equal((src.match(/\.normalize\('NFD'\)/g) || []).length >= 2, true, 'L2+L4: NFD-Zweitversuch');
 });

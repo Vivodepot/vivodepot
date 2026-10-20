@@ -69,7 +69,7 @@ Bestand geändert hat. Ein Commit kann drei Felder anfassen und keines inhaltlic
 anderer benennt in einer Zeile ein Label um.
 
 **Darum ein Werkzeug, das den BESTAND selbst fragt:**
-`tools/nativ-bestand-aenderungen-erheben.js` lädt beide Stände über den echten Kern-Ladeweg
+ein nicht öffentliches Werkzeug lädt beide Stände über den echten Kern-Ladeweg
 (`tests/load-kern.js`, `KERN_HTML_PATH` — je Stand ein eigener Kindprozess) und vergleicht alle
 sechs Register, die ein Bürgermodul führt. Funktionswerte (`verborgenWenn`) reisen als
 `«fn:<Quelltext>»` mit, statt in `JSON.stringify` lautlos zu verschwinden.
@@ -124,7 +124,7 @@ unverändert grün bleibt — **und es ist keine Tautologie:** die A-Seite (v501
 `BUERGERMODUL_BUENDEL` (gemessen: null Vorkommen) und baut ihre Bereiche aus dem nativen Literal.
 Verglichen wird nativ gegen Bündel, nicht Bündel gegen Bündel.
 
-Das Werkzeug hat eine eigene Positivkontrolle (`tools/nativ-bestand-aenderungen-erheben.test.js`):
+Das Werkzeug hat eine eigene Positivkontrolle (ein nicht öffentliches Werkzeug):
 dieselbe `vivodepot.html` gegen eine Kopie mit **genau einer** eingebauten Änderung. Ihr Anker
 sitzt seit dem Befund oben **im eingebetteten Bündel, nicht im nativen Literal**, und sie prüft ihn
 **zweifach: einmal auf Eindeutigkeit im Text, einmal auf Wirkung im Ergebnis**. Ein Anker, der zwar

@@ -77,7 +77,7 @@ async function wiederOeffnen(page, datei) {
     try { Object.defineProperty(window, 'indexedDB', { configurable: true, value: undefined }); } catch (_) {}
   });
   await page.reload();
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.click('#w-datei');
   await page.setInputFiles('#co-datei', datei);
   await page.fill('#co-pw', SUB_PW);

@@ -46,6 +46,7 @@ function mitKopf(jwe, aendern) {
 }
 
 const { jweLesbarerTeil } = require('./helfer/jwe-lesbar.js');
+const { datensatzAusJwe } = require('./helfer/antwort-datensatz.js');
 
 test('[Antwort·JWE] Schlüsselpaar: der Kern schreibt eine JWE, die Lese-App öffnet sie zum selben Datensatz', async () => {
   const V = await depot();
@@ -62,8 +63,7 @@ test('[Antwort·JWE] Schlüsselpaar: der Kern schreibt eine JWE, die Lese-App ö
   assert.equal(Buffer.from(k.apv, 'base64url').toString(), VORGANG, 'der Vorgang ist in die Schlüsselableitung gebunden');
   assert.equal(jwe.split('.')[1], '', 'ECDH-ES direkt: kein verpackter Schlüssel');
   const L = ladeLesen().V;
-  const offen = await L.antwortJweOeffnen(jwe, { privateJwk: paar.priv });
-  assert.deepEqual(JSON.parse(offen.klartext), JSON.parse(JSON.stringify(ds)));
+  assert.deepEqual(await datensatzAusJwe(L, jwe, { privateJwk: paar.priv }), JSON.parse(JSON.stringify(ds)));
 });
 
 test('[Antwort·JWE] Einmalpasswort: das Studio öffnet dieselbe Antwort wie die Lese-App, ein falsches Passwort nicht', async () => {
@@ -72,7 +72,7 @@ test('[Antwort·JWE] Einmalpasswort: das Studio öffnet dieselbe Antwort wie die
   const ds = V.anfrageAntwortDatensatz(a, { sensibel: false });
   const jwe = await V.antwortVerschluesseln(ds, a, { passwort: EINMAL });
   const S = require('./load-generator.js').ladeGenerator().V;
-  assert.deepEqual(JSON.parse((await S.antwortJweOeffnen(jwe, { passwort: EINMAL })).klartext), JSON.parse(JSON.stringify(ds)));
+  assert.deepEqual(await datensatzAusJwe(S, jwe, { passwort: EINMAL }), JSON.parse(JSON.stringify(ds)));
   await assert.rejects(S.antwortJweOeffnen(jwe, { passwort: 'falsch' }), 'ein falsches Passwort öffnet nicht');
 });
 test('[Antwort·JWE] Einmalpasswort: PBES2-HS512+A256KW mit festem p2c, die Lese-App öffnet', async () => {
@@ -84,7 +84,7 @@ test('[Antwort·JWE] Einmalpasswort: PBES2-HS512+A256KW mit festem p2c, die Lese
   assert.equal(k.alg, 'PBES2-HS512+A256KW');
   assert.equal(k.p2c, 600000);
   const L = ladeLesen().V;
-  assert.deepEqual(JSON.parse((await L.antwortJweOeffnen(jwe, { passwort: EINMAL })).klartext), JSON.parse(JSON.stringify(ds)));
+  assert.deepEqual(await datensatzAusJwe(L, jwe, { passwort: EINMAL }), JSON.parse(JSON.stringify(ds)));
   await assert.rejects(L.antwortJweOeffnen(jwe, { passwort: 'falsch' }), 'ein falsches Passwort öffnet nicht');
 });
 

@@ -101,7 +101,7 @@ test('ics-vorsorge: NACHHER — Dialog wird übersprungen, Download läuft ehrli
   await page.screenshot({ path: path.join(ARTIFACTS, 'herausgabe-ics-vorsorge-nachher-direktdownload.png'), fullPage: true });
 });
 
-// U2-ADR-NNN (17.09.2026): der offene JSON-Vollexport ("json"-Format) ist entfernt — eine
+// U2-ADR-508 (17.09.2026): der offene JSON-Vollexport ("json"-Format) ist entfernt — eine
 // unverschlüsselte Volldatei war von einer Weitergabe nicht zu unterscheiden. Der hier geprüfte
 // Sensibel-Opt-in für menschen/institutionen/bevollmaechtigte gilt für `vollExportJSON()`
 // unverändert weiter (die Funktion bleibt internes Meßinstrument, s.

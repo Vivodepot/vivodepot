@@ -24,7 +24,7 @@
    ZWEITE ACHSE, DIESELBE URSACHE (Fund 19.09.2026, 145 Proben): Code, der eine Zuweisung an
    `BUERGERMODUL_BUENDEL.<feld>` schreibt (z. B. `.bereichsErsatz = …`), setzt ein Bündel voraus, das seit dem
    Schnitt `null` ist — „Cannot set properties of null". Vier Stellen waren betroffen (pro-geplante-uebergabe-
-   vorlage, tools/pro-vorlage-en-kennungen-erzeugen.js, das Bekannt-Bereiche-Werkzeug, pro-vorlage-weg-messen).
+   vorlage, ein nicht öffentliches Werkzeug, das Bekannt-Bereiche-Werkzeug, pro-vorlage-weg-messen).
    Gemessen wird je Datei in tests/ (ohne e2e, fixtures) und tools/ (rekursiv): eine Zeile mit dieser Zuweisung, vor
    der auf derselben Zeile KEIN Anführungszeichen steht (Text in einem Literal ist kein Schreibzugriff).
    Grenze: zeilenweise Heuristik, mehrzeilige Literale werden nicht erkannt.
@@ -105,7 +105,8 @@ function messen() {
   };
 }
 
-function grundlinieLesen() { return JSON.parse(fs.readFileSync(GRUNDLINIE_PFAD, 'utf8')); }
+// Öffentlicher Teil und interne Ergänzung (tools/lib/mit-interner-ergaenzung.js): die Ergänzung führt Zeilen für Werkzeuge, die der öffentliche Zuschnitt nicht trägt.
+function grundlinieLesen() { return require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(GRUNDLINIE_PFAD); }
 
 function achseUrteil(gemessen, grundlinie, name, befunde) {
   if (gemessen.summe > grundlinie.summe) befunde.push(name + ': Summe steigt: ' + grundlinie.summe + ' → ' + gemessen.summe);

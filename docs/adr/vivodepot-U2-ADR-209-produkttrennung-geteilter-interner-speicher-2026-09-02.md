@@ -17,7 +17,7 @@ Rot-Beweis + Gegenprobe Altbestand, s. Konformität unten).
 
 ## Kontext
 
-Ein Zug-0-Bericht (`geteilter-interner-speicher-module-2026-09-02.md`) maß empirisch (Firefox,
+Ein Zug-0-Bericht (interner Bericht vom 02.09.2026 zum geteilten Speicher) maß empirisch (Firefox,
 echter gehosteter Klon): Wurzel-App (Deutsch) und jede Modul-App (`module-apps/<slug>/`, z. B.
 Englisch, Betriebssatz) laufen unter DERSELBEN Origin (`tools/modul-app-packen.js` kopiert
 `vivodepot.html` byte-identisch in jeden Modul-Ordner desselben GitHub-Pages-Repos) — und damit
@@ -109,7 +109,7 @@ nicht Teil dieses Baus (02.09.2026).
 **Betriebssatz einzeln geprüft, nicht nur strukturell angenommen** — drei-Wege-Isolation (Wurzel,
 Englisch, Betriebssatz gleichzeitig gegeneinander) ist Teil der Testsuite.
 
-**Löst NICHT das Sicherungsproblem der Nacht** (`speicherverhalten-messung-2026-09-02.md`) — dort
+**Löst NICHT das Sicherungsproblem der Nacht** (interner Bericht vom 02.09.2026 zum Speicherverhalten) — dort
 schreibt der Feld-Blur ohnehin nie automatisch, mit oder ohne Produkt-Trennung. Diese Entscheidung
 ist aber VORAUSSETZUNG für einen künftigen internen Auto-Speicher-Automatismus: ohne sie würde ein
 solcher Automatismus die hier behobene Kollision nicht nur bei einem expliziten Sichern, sondern
@@ -140,7 +140,7 @@ aussage:  Ein intern gesichertes Depot eines Produkts erscheint NICHT als intern
           anderen Produkts (Wurzel vs. Modul-App, verschiedene module-apps-Slugs untereinander).
 zustand:  geprüft
 herkunft: gemessen, 02.09.2026 (Firefox, echter gehosteter Klon) — s.
-          geteilter-interner-speicher-module-2026-09-02.md
+          interner Bericht vom 02.09.2026 zum geteilten Speicher
 pruefung: tests/geteilter-speicher-produkttrennung.test.js#[Produkttrennung·Rot-Beweis] Wurzel-Depot erscheint NICHT mehr als interner Stand der englischen Modul-App
 pruefung: tests/geteilter-speicher-produkttrennung.test.js#[Produkttrennung] volles Szenario: Depot A (Wurzel) bleibt beim nächsten Wiedereinstieg der Wurzel, trotz später erstelltem Depot B (Englisch)
 pruefung: tests/geteilter-speicher-produkttrennung.test.js#[Produkttrennung] Betriebssatz-Modul-App ist ebenso von Wurzel UND Englisch isoliert
@@ -158,7 +158,7 @@ pruefung: tests/geteilter-speicher-produkttrennung.test.js#[Produkttrennung] Geg
 aussage:  Depots verschiedener Produkte liegen nebeneinander im selben Store — keins überschreibt
           das andere.
 zustand:  geprüft
-herkunft: gemessen, 02.09.2026 — s. geteilter-interner-speicher-module-2026-09-02.md
+herkunft: gemessen, 02.09.2026 — s. interner Bericht vom 02.09.2026 zum geteilten Speicher
 pruefung: tests/geteilter-speicher-produkttrennung.test.js#[Produkttrennung] volles Szenario: Depot A (Wurzel) bleibt beim nächsten Wiedereinstieg der Wurzel, trotz später erstelltem Depot B (Englisch)
 ```
 

@@ -1,5 +1,5 @@
 {
-  "_beschreibung": "Namentlich gefuehrte, BLEIBENDE Vorkommen je alter Kennung (tools/kennung-vorkommen-finden.js). Ein Eintrag = Datei + Zeilentext-Ausschnitt + Grund. Der Pruefer sieht diese Stellen weiter (Ausgabe 'gefuehrt'); ein Eintrag, der nichts mehr trifft, ist ein Fund. Uebersetzungstabellen sind KEINE Ausnahme im Pruefer, sie stehen hier mit Namen (20.09.2026, Entscheidung: Alt-Seite einer Uebersetzungstabelle wird gefuehrt, nicht wegdefiniert).",
+  "_beschreibung": "Namentlich gefuehrte, BLEIBENDE Vorkommen je alter Kennung (ein nicht öffentliches Werkzeug). Ein Eintrag = Datei + Zeilentext-Ausschnitt + Grund. Der Pruefer sieht diese Stellen weiter (Ausgabe 'gefuehrt'); ein Eintrag, der nichts mehr trifft, ist ein Fund. Uebersetzungstabellen sind KEINE Ausnahme im Pruefer, sie stehen hier mit Namen (20.09.2026, Entscheidung: Alt-Seite einer Uebersetzungstabelle wird gefuehrt, nicht wegdefiniert).",
   "testament": [
     {
       "datei": "vivodepot.html",
@@ -266,51 +266,6 @@
       "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
     },
     {
-      "datei": "tools/bereich-templates/vivodepot-people.json",
-      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
-    },
-    {
-      "datei": "tools/buergermodul/vd-de-sprache.json",
-      "enthaelt": "basisOfRepresentation/vorsorgevollmacht.label",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
-    },
-    {
-      "datei": "tools/buergermodul/vd-privat.json",
-      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-dokumentmodul-vorsorgevollmacht.json",
-      "enthaelt": "vivodepot/vorsorgevollmacht",
-      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-dokumentmodul-vorsorgevollmacht.json",
-      "enthaelt": "\"vorsorgevollmacht\": {",
-      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-vorsorgevollmacht.json",
-      "enthaelt": "vivodepot/vorsorgevollmacht",
-      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-vorsorgevollmacht.json",
-      "enthaelt": "\"vorsorgevollmacht\": {",
-      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-vorsorgevollmacht.json",
-      "enthaelt": "\"id\": \"vorsorgevollmacht\"",
-      "grund": "Modul-/Vorlagen-/Sektions-Id (eigene Id-Achse)"
-    },
-    {
-      "datei": "tools/vd-privat-struktur-bundle.json",
-      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
-    },
-    {
       "datei": "tools/textsatz-de-modul.json",
       "enthaelt": "basisOfRepresentation/vorsorgevollmacht.label",
       "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
@@ -449,11 +404,6 @@
       "datei": "tests/fixtures/vor-umzug-depot-instrumente-breit-anton-reindl.json",
       "enthaelt": "*",
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
-    },
-    {
-      "datei": "tools/bereiche-nativ-katalog-modul.json",
-      "enthaelt": "\"wert\": \"vorsorgevollmacht\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Katalog der nativen Bereiche (seit Gerüst-Schnitt S7 in dieser Moduldatei, vorher im Kern), anderes Vokabular als der Typ-Code"
     },
     {
       "datei": "vivodepot-lesen.html",
@@ -838,31 +788,6 @@
       "grund": "_MODUL_KARTE ist nach Modul-Id (m.id) geschluesselt, nicht nach Typ-Code"
     },
     {
-      "datei": "tools/dokument-module/vivodepot-dokumentmodul-patientenverfuegung.json",
-      "enthaelt": "vivodepot/patientenverfuegung",
-      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-dokumentmodul-patientenverfuegung.json",
-      "enthaelt": "\"patientenverfuegung\": {",
-      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-patientenverfuegung.json",
-      "enthaelt": "vivodepot/patientenverfuegung",
-      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-patientenverfuegung.json",
-      "enthaelt": "\"patientenverfuegung\": {",
-      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-patientenverfuegung.json",
-      "enthaelt": "\"id\": \"patientenverfuegung\"",
-      "grund": "Modul-/Vorlagen-/Sektions-Id (eigene Id-Achse)"
-    },
-    {
       "datei": "tools/textsatz-de-modul.json",
       "enthaelt": "priorityIfOrganDonationConflict/patientenverfuegung.label",
       "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code"
@@ -876,11 +801,6 @@
       "datei": "vivodepot-lesen.html",
       "enthaelt": "\"wert\": \"patientenverfuegung\"",
       "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code — erzeugter Lese-App-Spiegel der Festlegungen (U2-ADR-440)"
-    },
-    {
-      "datei": "tools/vd-privat-struktur-bundle.json",
-      "enthaelt": "\"wert\": \"patientenverfuegung\"",
-      "grund": "Auswahlwert eines anderen Feldes (Vorrang bei Organspende), nicht der Typ-Code — erzeugtes Struktur-Bündel, Sektion living-will-decisions (U2-ADR-440)"
     },
     {
       "datei": "tools/textsatz-de-modul.json",
@@ -1036,11 +956,6 @@
       "datei": "tests/fixtures/vor-umzug-depot-instrumente-breit-anton-reindl.json",
       "enthaelt": "*",
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-dokumente-de.json",
-      "enthaelt": "\"wert\": \"patientenverfuegung\"",
-      "grund": "Auswahlwert eines anderen Feldes im PV-Wizard (Vorrang bei Organspende), nicht der Typ-Code; der Inhalt steht seit dem Gerüst-Schnitt (S6) in der Moduldatei statt im Kern"
     },
     {
       "datei": "vivodepot-lesen.html",
@@ -1485,36 +1400,6 @@
       "grund": "Gate-Feld des alten Flachfelds beim Falten alter Dateien (Doppelname), nicht der Typ-Code"
     },
     {
-      "datei": "tools/dokument-module/vivodepot-dokumentmodul-betreuungsverfuegung.json",
-      "enthaelt": "vivodepot/betreuungsverfuegung",
-      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-dokumentmodul-betreuungsverfuegung.json",
-      "enthaelt": "\"betreuungsverfuegung\": {",
-      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-dokumentmodul-patientenverfuegung.json",
-      "enthaelt": "\"feld\": \"betreuungsverfuegung\"",
-      "grund": "Gate-Feld-Id in einer Bedingung (Flachfeld, nicht der Typ-Code)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-betreuungsverfuegung.json",
-      "enthaelt": "vivodepot/betreuungsverfuegung",
-      "grund": "Dokumentmodul-Kennung (signierte Buendel-Kennung, eigener Eingriff)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-betreuungsverfuegung.json",
-      "enthaelt": "\"betreuungsverfuegung\": {",
-      "grund": "Modul-Id-Schluessel im Dokumentmodul (eigene Id-Achse, signierte Buendel-Kennung)"
-    },
-    {
-      "datei": "tools/dokument-module/vivodepot-standardvorlage-betreuungsverfuegung.json",
-      "enthaelt": "\"id\": \"betreuungsverfuegung\"",
-      "grund": "Modul-/Vorlagen-/Sektions-Id (eigene Id-Achse)"
-    },
-    {
       "datei": "tools/textsatz-de-modul.json",
       "enthaelt": "dok:betreuungsverfuegung",
       "grund": "Dokumentmodul-Textsatz-Namensraum (Modul-Id, eigene Id-Achse, signierte Buendel-Kennung)"
@@ -1836,26 +1721,6 @@
       "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
     },
     {
-      "datei": "tools/bereich-templates/vivodepot-people.json",
-      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
-    },
-    {
-      "datei": "tools/buergermodul/vd-de-sprache.json",
-      "enthaelt": "basisOfRepresentation/ehegattennotvertretung.label",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
-    },
-    {
-      "datei": "tools/buergermodul/vd-privat.json",
-      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
-    },
-    {
-      "datei": "tools/vd-privat-struktur-bundle.json",
-      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im People-Template und dessen erzeugten Buendeln, anderes Vokabular als der Typ-Code"
-    },
-    {
       "datei": "tools/textsatz-de-modul.json",
       "enthaelt": "basisOfRepresentation/ehegattennotvertretung.label",
       "grund": "Option der Vertretungsgrundlage (basisOfRepresentation), anderes Vokabular als der Typ-Code"
@@ -1879,11 +1744,6 @@
       "datei": "tests/fixtures/sektoren-EINGEFROREN-nativer-bestand-debcb406.json",
       "enthaelt": "*",
       "grund": "eingefrorener Beleg (Vor-Zustand/Alt-Schema), bleibt unangetastet; der Vergleichstest uebersetzt"
-    },
-    {
-      "datei": "tools/bereiche-nativ-katalog-modul.json",
-      "enthaelt": "\"wert\": \"ehegattennotvertretung\"",
-      "grund": "Option der Vertretungsgrundlage (basisOfRepresentation) im Katalog der nativen Bereiche (seit Gerüst-Schnitt S7 in dieser Moduldatei, vorher im Kern), anderes Vokabular als der Typ-Code"
     },
     {
       "datei": "tests/fixtures/mitschrift-fruehere-fassung-v918-textsatz-de.json",

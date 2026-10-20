@@ -3,7 +3,7 @@
 **Status:** Akzeptiert
 **Datum:** 30.06.2026
 **Kategorie:** ARCHITEKTUR, UX, DATENMODELL
-**Status heute:** gilt — Beleg `tools/bereichslisten-pruefen.js --positionen`, Wächter
+**Status heute:** gilt — Beleg: der Aufruf eines nicht öffentlichen Werkzeugs, Wächter
 `W-17-bereichs-positionen` mit eigenem Rot-Beleg, für Kern UND Lese-App.
 
 **Berichtigung vom 18.08.2026.** Hier stand bis heute „überholt, nicht ausdrücklich abgelöst".

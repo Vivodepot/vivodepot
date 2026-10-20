@@ -91,7 +91,7 @@ test('5) Abbruch-Rückweg: wizardAbbrechen führt zur Welcome, Sicht-Zustand zur
   assert.equal(V.getViewState().aktiveAnsicht, 'wizard');
   V.wizardAbbrechen();
   const overlay = document.getElementById('overlay-inhalt').innerHTML;
-  assert.ok(overlay.includes(V.STRINGS.welcomeWeiter) || overlay.includes(V.STRINGS.appName),
+  assert.ok(overlay.includes(V.STRINGS.welcomeDepotAnlegen) || overlay.includes(V.STRINGS.appName),
     'Welcome frisch gerendert');
   const vs = V.getViewState();
   assert.equal(vs.aktiveAnsicht, 'sektor');

@@ -51,9 +51,12 @@ const ALT_NEU = [
     altTeil: 'Speichern-Schritt',
   },
   {
-    schluessel: 'pausenErlaubnis',
-    alt: 'Solange dieses Fenster offen ist, bleiben Ihre Eingaben erhalten. Gesichert sind sie erst, wenn Sie Ihr Depot gespeichert haben.',
-    neu: 'Solange dieses Fenster offen ist, bleiben Ihre Eingaben erhalten. Gesichert sind sie erst, wenn Sie Ihr Depot gesichert haben.',
+    // U2-ADR-474 (B-01): der Satz gilt nur noch im Datei-Modus und nennt den Handgriff als Beschriftung.
+    schluessel: 'pausenErlaubnisDatei',
+    // Alt (S4): „… Gesichert sind sie erst, wenn Sie Ihr Depot gespeichert haben."
+    alt: null,
+    neuTeil: 'Gesichert sind sie erst, wenn Sie',
+    altTeil: 'Ihr Depot gespeichert haben',
   },
   {
     schluessel: 'vorschauVerlassenText',

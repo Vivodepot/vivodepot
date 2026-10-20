@@ -126,7 +126,7 @@ Jeder Eintrag trägt `kennung`, `bereich`, `status` und `label`. Das Feld `fassu
 Register gebaut ist, und `anzahl` die Zahl der Einträge. Lesen Sie die Zahl dort ab, statt sich auf eine Zahl in einem
 Dokument zu verlassen.
 
-Im Repository ist die Quelle [`bereiche/feldkatalog.json`](../bereiche/feldkatalog.json). `tools/feldregister-bauen.js`
+Im Repository ist die Quelle [`bereiche/feldkatalog.json`](../bereiche/feldkatalog.json). ein nicht öffentliches Werkzeug
 baut daraus das veröffentlichte Register. Beide haben dieselbe Liste `felder[].kennung`; eine Prüfung ohne Netz kann
 also jede der beiden nehmen.
 
@@ -176,6 +176,11 @@ Medientyp `application/jose`. `enc` ist immer `A256GCM`. `antwort.art` in der An
   (`apv`).
 - Die Antwort wird auf feste Größenstufen aufgefüllt und nicht komprimiert. Ein Empfänger sollte `zip` ablehnen.
 - Nehmen Sie nur `p2c` = 600000 an. Ein gefälschter Kopf mit sehr großem Wert legte sonst die Empfängerseite lahm.
+- Bei `einmalpasswort` muss das Passwort zufällig erzeugt sein und mindestens 16 Zeichen haben, Bindestriche und Leerzeichen nicht
+  mitgezählt. Empfohlen ist die Form des Studios: 16 Zeichen aus `ABCDEFGHJKLMNPQRSTUVWXYZ23456789` in Vierergruppen,
+  `XXXX-XXXX-XXXX-XXXX` (80 Bit). PBES2 bremst das Durchprobieren nur linear; einen kurzen PIN findet offline
+  schnell, wer die Antwortdatei abfängt. Ist das Passwort kürzer, sagt die Anwendung es der Person mit einem Hinweis und
+  lässt sie trotzdem verschlüsseln oder abbrechen.
 - Eine übliche JOSE-Bibliothek kann die Antwort öffnen; gegengeprüft ist sie mit `jose`. Bei `jose` setzen Sie `maxPBES2Count` auf mindestens 600000. Für eine
   Gegenprobe mit `jose`: `node tools/antwort-jwe-messen.js --jose <Pfad zu jose>`.
 - Eine Antwort kann unvollständig sein. Dann ist `vollstaendig` gleich `false`, und `fehlend` und `unbekannt` nennen, was fehlt;

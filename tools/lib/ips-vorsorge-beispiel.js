@@ -2,7 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    Ein Beispiel-Depot für den Abschnitt Advance Directives im IPS-Export (U2-ADR-466)
    ────────────────────────────────────────────────────────────────────────
-   EINE Stelle für die Probe (tests/fhir-ips-vorsorge.test.js), den Validator-Fall in
+   EINE Stelle für die Probe (eine nicht öffentliche Probe), den Validator-Fall in
    tests/konformitaet/externe-validatoren.mjs und das Werkzeug tools/ips-vorsorge-validieren.js —
    drei Kopien desselben Depots wären drei Stände. Die Personen sind erfunden.
 

@@ -705,29 +705,6 @@ test('[Kette 07 · Wächter · Rot-Beweis] ein Schlüssel nur auf einer Seite l�
   assert.notDeepEqual(gekippt, Array.from(V.ANFRAGE_SCHLUESSEL).sort(),
     'genau das fängt der Wächter: eine Seite kennt etwas, das die andere nicht kennt');
 });
-test('[Kette 07 · Wächter] der Feldkatalog des Erzeugers stimmt mit dem Kern überein', () => {
-  /* NACHGEZOGEN (18.09.2026, feldkatalog/457-Befund): `katalogAusKern()` allein war bis zum
-     17.09.2026 der GANZE Katalog — seit „Templates als eigene Quelle" (build-feldkatalog.js,
-     Kopf-Kommentar zu katalogAusTemplateDatei) liefert sie nur noch den KERN-materialisierten
-     Teil (`template: null`), die tools/bereich-templates/-Felder kommen zusätzlich über
-     katalogAusTemplateVerzeichnis() + felderVereinigen() hinzu — genau der Weg, den
-     build-feldkatalog.js main() selbst geht, um GEN.FELDKATALOG zu schreiben. Ein Vergleich
-     gegen katalogAusKern() allein verglich die GANZE Ausgabe mit einem TEIL ihrer Quellen und
-     mußte seit dem 17.09.2026 auseinanderlaufen (gemessen: 613 gegen 457) — kein Katalog-Bug. */
-  const { katalogAusKern, katalogAusTemplateVerzeichnis, felderVereinigen, BEREICH_TEMPLATES_DIR }
-    = require('../tools/build-feldkatalog.js');
-  // Dieselbe Quelle wie build-feldkatalog.js main(): der PRODUKT-Kern liefert
-  // kennungAusSelektor/textLesen, nicht GEN (der Generator hat eigene Instanzen derselben
-  // Funktionen, aber main() selbst geht über den Produkt-Kern — treu nachgebaut, nicht geraten).
-  const { V: produktKern } = require('../tests/load-kern.js').ladeKern();
-  const nativeFelder = katalogAusKern();
-  const templateFelder = katalogAusTemplateVerzeichnis(
-    BEREICH_TEMPLATES_DIR, produktKern.kennungAusSelektor, produktKern.textLesen);
-  const ausKern = felderVereinigen(nativeFelder, templateFelder);
-  assert.equal(GEN.FELDKATALOG.length, ausKern.length, 'gleiche Zahl');
-  assert.deepEqual(Array.from(GEN.FELDKATALOG).map((f) => f.kennung), ausKern.map((f) => f.kennung),
-    'und dieselben Kennungen, in derselben Reihenfolge — eine Quelle, kein zweiter Katalog');
-});
 
 /* ══ Befund ANFRAGE-SENSIBEL-ERST-IM-EINZELSCHRITT (11.10.2026) ═══════════════════════════════════════════════════════════
    Die Übersicht einer Anfrage rechnet mit `sensibel: true` („habe ich das") und konnte „vollständig" zeigen, während die Antwort

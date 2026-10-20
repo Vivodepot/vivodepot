@@ -6,7 +6,7 @@
 **Grundlage:** Laufzettel „Nacht 22./23.08.2026", Posten 8 — löst A479 (v1: ja, Produktentscheidung 22.08.2026, Bündel 2). Baut auf U2-ADR-141 (Textsatz-Module erreichen die Lese-Seite)
 und der Parität-Entscheidung (internes Entscheidungsdokument vom 19.08.2026)
 ("die Lese-App zeigt, was die Anwendung ihr zeigen will").
-- **Code-Stelle:** `vivodepot-lesen.html` — `TEXTSATZ_REGELN_EINGEBAUT`/`_ERLAUBT`/`_FORM`,
+- **Code-Stelle:** `vivodepot-lesen.html` — `TEXTSATZ_REGELN_EINGEBAUT`/`TEXTSATZ_REGELN_ERLAUBT`/`TEXTSATZ_REGEL_FORM`,
   `_textsatzRegelnPruefen`, `textsatzModulPruefen` (erweitert), `_textsatzModuleAusDepotAnmelden`
   (erweitert), `textsatzRegeln`, `textsatzSchreibrichtungAnwenden`,
   `textsatzSprachkennungAnwenden` (alle vier neu) — verdrahtet im EINEN Trichter

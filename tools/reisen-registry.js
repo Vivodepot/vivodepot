@@ -116,7 +116,7 @@ const REISE_1_MARLIES = {
       veraendernd: false,
       aktion: async (seite, htmlUrl) => {
         await seite.goto(htmlUrl);
-        await seite.waitForSelector('#w-anlass', { state: 'visible', timeout: 15000 });
+        await seite.waitForSelector('#w-anlegen', { state: 'visible', timeout: 15000 });
       },
     },
     {
@@ -126,7 +126,7 @@ const REISE_1_MARLIES = {
       aktion: async (seite) => {
         await seite.click('#w-anfangen', { timeout: 5000 });
         await seite.waitForSelector('#app.an', { state: 'attached', timeout: 10000 });
-        await seite.waitForSelector('#tb-pw-hinweis', { state: 'visible', timeout: 10000 });
+        await seite.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached', timeout: 10000 });
       },
     },
     {
@@ -134,7 +134,7 @@ const REISE_1_MARLIES = {
       titel: 'Klick auf den Passwort-Hinweis in der Kopfzeile',
       veraendernd: false,
       aktion: async (seite) => {
-        await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+        await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
         await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
       },
     },
@@ -257,7 +257,7 @@ const REISE_2_PETRA = {
       veraendernd: false,
       aktion: async (seite, htmlUrl) => {
         await seite.goto(htmlUrl);
-        await seite.waitForSelector('#w-anlass', { state: 'visible', timeout: 15000 });
+        await seite.waitForSelector('#w-anlegen', { state: 'visible', timeout: 15000 });
       },
     },
     {
@@ -267,7 +267,7 @@ const REISE_2_PETRA = {
       aktion: async (seite) => {
         await seite.click('#w-anfangen', { timeout: 5000 });
         await seite.waitForSelector('#app.an', { state: 'attached', timeout: 10000 });
-        await seite.waitForSelector('#tb-pw-hinweis', { state: 'visible', timeout: 10000 });
+        await seite.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached', timeout: 10000 });
       },
     },
     {
@@ -275,7 +275,7 @@ const REISE_2_PETRA = {
       titel: 'Klick auf den Passwort-Hinweis in der Kopfzeile',
       veraendernd: false,
       aktion: async (seite) => {
-        await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+        await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
         await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
       },
     },
@@ -454,7 +454,7 @@ const REISE_3_ANJA = {
         // echten Plattformen.
         await seite.addInitScript(() => { try { delete window.showSaveFilePicker; } catch (_) { window.showSaveFilePicker = undefined; } });
         await seite.goto(htmlUrl);
-        await seite.waitForSelector('#w-anlass', { state: 'visible', timeout: 15000 });
+        await seite.waitForSelector('#w-anlegen', { state: 'visible', timeout: 15000 });
       },
     },
     {
@@ -464,7 +464,7 @@ const REISE_3_ANJA = {
       aktion: async (seite) => {
         await seite.click('#w-anfangen', { timeout: 5000 });
         await seite.waitForSelector('#app.an', { state: 'attached', timeout: 10000 });
-        await seite.waitForSelector('#tb-pw-hinweis', { state: 'visible', timeout: 10000 });
+        await seite.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached', timeout: 10000 });
       },
     },
     {
@@ -472,7 +472,7 @@ const REISE_3_ANJA = {
       titel: 'Klick auf den Passwort-Hinweis in der Kopfzeile',
       veraendernd: false,
       aktion: async (seite) => {
-        await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+        await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
         await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
       },
     },
@@ -636,7 +636,7 @@ const REISE_3_ANJA = {
       veraendernd: false,
       aktion: async (seite, htmlUrl) => {
         await seite.goto(htmlUrl);
-        await seite.waitForSelector('#w-anlass', { state: 'visible', timeout: 15000 });
+        await seite.waitForSelector('#w-anlegen', { state: 'visible', timeout: 15000 });
       },
     },
     {
@@ -704,7 +704,7 @@ const REISE_4_THOMAS = {
       veraendernd: false,
       aktion: async (seite, htmlUrl) => {
         await seite.goto(htmlUrl);
-        await seite.waitForSelector('#w-anlass', { state: 'visible', timeout: 15000 });
+        await seite.waitForSelector('#w-anlegen', { state: 'visible', timeout: 15000 });
       },
     },
     {
@@ -714,7 +714,7 @@ const REISE_4_THOMAS = {
       aktion: async (seite) => {
         await seite.click('#w-anfangen', { timeout: 5000 });
         await seite.waitForSelector('#app.an', { state: 'attached', timeout: 10000 });
-        await seite.waitForSelector('#tb-pw-hinweis', { state: 'visible', timeout: 10000 });
+        await seite.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached', timeout: 10000 });
       },
     },
     {
@@ -722,7 +722,7 @@ const REISE_4_THOMAS = {
       titel: 'Klick auf den Passwort-Hinweis in der Kopfzeile',
       veraendernd: false,
       aktion: async (seite) => {
-        await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+        await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
         await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
       },
     },
@@ -826,11 +826,11 @@ const REISE_4_THOMAS = {
    PERSONA: P4 aus dem Testerrunde-Zuschnitt vom 28.07. („Vorsorge ohne Anlass"). Auflage aus dem
    Zuschnitt, nicht Farbgebung: „die einzige Einzelperson, niemand öffnet ihr die Tür, sie klickt
    selbst" — kein begleiteter Einstieg, kein vorbereitetes Depot. Reise beginnt darum auf der
-   Startseite wie Reise 1/2/4, aber über `#w-anlass` statt `#w-anfangen` — DAS ist der Unterschied,
+   Startseite wie Reise 1/2/4, aber über `#w-anlegen` statt `#w-anfangen` — DAS ist der Unterschied,
    der unten die Mechanik verkompliziert (nicht der Klick selbst, s. u.).
 
    GEMESSEN (03.08.2026, gegen den echten Quelltext, bevor gebaut wurde — s. Zug-0-Bericht):
-   `#w-anlass` UND `#w-anfangen` laufen auf denselben Boden-Mechanismus hinaus —
+   `#w-anlegen` UND `#w-anfangen` laufen auf denselben Boden-Mechanismus hinaus —
    `vorschauDepotErzeugen()`, ein passwortloses, `_vorschau`-markiertes Depot ohne Sitzungs-Akteur.
    `Modus.darfBearbeiten()` verlangt zwingend einen Sitzungs-Akteur (`vivodepot.html:7421`) — in der
    Vorschau ist er `null`, jede Eintrags-Affordanz rendert read-only. Klickt Renate direkt auf die
@@ -867,7 +867,7 @@ const REISE_5_RENATE = {
       veraendernd: false,
       aktion: async (seite, htmlUrl) => {
         await seite.goto(htmlUrl);
-        await seite.waitForSelector('#w-anlass', { state: 'visible', timeout: 15000 });
+        await seite.waitForSelector('#w-anlegen', { state: 'visible', timeout: 15000 });
       },
     },
     {
@@ -875,7 +875,10 @@ const REISE_5_RENATE = {
       titel: 'Klick „Was bringt Sie heute hierher?" (kein „Hier anfangen" — Renate hat einen Anlass)',
       veraendernd: false,
       aktion: async (seite) => {
-        await seite.click('#w-anlass', { timeout: 5000 });
+        // Einstieg nach Zustand (13.10.2026): die Anlass-Liste steht nicht mehr auf dem Willkommensschirm, sondern in der Sidebar
+        // („Was möchten Sie erledigen?"); Renate sieht sich zuerst um und öffnet sie dort.
+        await seite.click('#w-anfangen', { timeout: 5000 });
+        await oeffneAnlassAuswahlMobil(seite);   // auf dem Handy liegt der Eintrag im geschlossenen Menü (Hamburger)
         await seite.waitForSelector('[data-anlass="todesfall"]', { state: 'visible', timeout: 10000 });
       },
     },
@@ -886,7 +889,7 @@ const REISE_5_RENATE = {
       aktion: async (seite) => {
         await oeffneErbfallUeberZwischenfrage(seite);
         await seite.waitForSelector('#content .bereich-kopf', { timeout: 5000 });
-        await seite.waitForSelector('#tb-pw-hinweis', { state: 'visible', timeout: 5000 });
+        await seite.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached', timeout: 5000 });
       },
     },
     {
@@ -894,7 +897,7 @@ const REISE_5_RENATE = {
       titel: 'Passwort-Hinweis in der Kopfzeile — Name + Passwort setzen (macht das Depot real)',
       veraendernd: true,
       aktion: async (seite) => {
-        await seite.click('#tb-pw-hinweis', { timeout: 5000 });
+        await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 5000 });
         await seite.waitForSelector('#id-pw', { state: 'visible', timeout: 5000 });
         await seite.fill('#id-vorname', 'Renate', { timeout: 5000 });
         await seite.fill('#id-nachname', 'Beispiel', { timeout: 5000 });

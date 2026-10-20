@@ -58,6 +58,11 @@ The reply is a JWE in Compact Serialization (RFC 7516), saved as a file ending i
   The header is readable and names no value. For `ECDH-ES` the case number also goes into the key derivation (`apv`).
 - The reply is padded to fixed size steps and is not compressed. A receiver should refuse `zip`.
 - Accept only `p2c` = 600000. A forged header with a very large count would otherwise stall the receiving side.
+- With `einmalpasswort`, the password must be randomly generated and have at least 16 characters, not counting hyphens
+  and spaces. The recommended form is the one the Studio produces: 16 characters from `ABCDEFGHJKLMNPQRSTUVWXYZ23456789`
+  in groups of four, `XXXX-XXXX-XXXX-XXXX` (80 bits). PBES2 slows down guessing only linearly; a short PIN is
+  found offline quickly by anyone who intercepts the reply file. If the password is shorter, the app tells the person so
+  and lets them encrypt anyway or cancel.
 - A standard JOSE library can open the reply; it was cross-checked against `jose`. With `jose`, set `maxPBES2Count` to at least 600000. For a cross-check against
   `jose`, run `node tools/antwort-jwe-messen.js --jose <path to jose>`.
 - A reply can be partial. In that case `vollstaendig` is `false`, and `fehlend` and `unbekannt` name what is missing, and

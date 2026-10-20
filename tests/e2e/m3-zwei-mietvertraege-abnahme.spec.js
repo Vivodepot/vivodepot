@@ -106,7 +106,7 @@ test('[A162·Rot-Beleg] ohne die Unterzeile sind die zwei Mietverträge im Brows
   try {
     await fsaAttrappeVorMutantNavigation(page);
     await page.goto('file://' + mutant);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await depotAnlegen(page);
     await oeffneSektor(page, 'housing');
     await zweiMietvertraegeAnlegen(page);

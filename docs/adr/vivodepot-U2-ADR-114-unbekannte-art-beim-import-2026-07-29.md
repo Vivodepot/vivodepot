@@ -7,7 +7,7 @@
 **U2-Bezug:** U2-ADR-111 (der Wechselmoment — der Nachbarfall, und warum er hier nicht trägt) ·
 U2-ADR-109 (das negative Gate `verborgenWenn`, und warum ein FEHLENDER Wert kein Fund ist) ·
 U2-ADR-096 (`listenZeilenWaehlen` — der Selektor, der die Zeile nie trifft)
-**Anker:** Bilanz-Posten 5 (Rang 1) · interner Bericht `bilanz-05-import-unbekannte-art-2026-07-29.md`
+**Anker:** Bilanz-Posten 5 (Rang 1) · interner Bericht vom 29.07.2026
 **Status heute:** gilt — Beleg `tests/fix-bilanz5-import-unbekannte-art.test.js`.
 
 ---

@@ -3,7 +3,7 @@
 **Status:** Akzeptiert
 **Datum:** 06.09.2026
 **Betrifft:** `vivodepot.html` (`_vorschlaegeTextsatz`, `feldInputHTML`, `listenEintragInputsHTML`,
-TEXTSATZ_EINGEBAUT), `tools/buergermodul-schnitt.js`, `tools/textsatz-en-vollabdeckung-daten.js`
+TEXTSATZ_EINGEBAUT), ein nicht öffentliches Werkzeug, `tools/textsatz-en-vollabdeckung-daten.js`
 
 - **Status heute:** gilt — Beleg `tests/textsatz-vorschlaege-traegerkette-u2-adr-399.test.js`
   (fünf Proben, zwei Rot-Beweise gegen den echten Konsumenten bzw. den echten Docking-Weg),
@@ -65,18 +65,18 @@ EN-Moduls wird ungültig oder umbenannt.
 - `TEXTSATZ_EINGEBAUT` — zwei neue Einträge (`feld.unterhalt/art.vorschlaege`,
   `feld.konten/art.vorschlaege`), die alte, mehrdeutige `feld.art.vorschlaege` existierte nie
   (sie war die benannte Lücke) und bleibt weiter ungenutzt.
-- `tools/buergermodul-schnitt.js`: `feldSchneiden` sammelt `vorschlaege`-Kandidaten
+- ein nicht öffentliches Werkzeug: `feldSchneiden` sammelt `vorschlaege`-Kandidaten
   (`{feldId, traeger, wert}`) statt sofort zu schlüsseln; `vorschlaegeKennungenZuweisen` (neu)
   entscheidet danach je Feld-ID gegen den ganzen Katalog.
 - `tools/textsatz-en-vollabdeckung-daten.js` + `tools/textsatz-en-modul.json` (neu erzeugt) —
   zwei neue EN-Übersetzungen, gleiche Reihenfolge und Anzahl der Einträge wie im Original.
-- `tests/buergermodul-schnitt.test.js`: `BEKANNTE_LUECKEN` ist jetzt eine leere Ratsche (der
+- eine nicht öffentliche Probe: `BEKANNTE_LUECKEN` ist jetzt eine leere Ratsche (der
   Fund ist behoben, nicht die Probe entschärft).
 - `tests/textsatz-mechanismus.test.js`: der Erreichbarkeits-Wächter sagt jetzt dieselbe
   Präferenz voraus wie der echte Konsument (trägerqualifiziert zuerst, sonst flach) — sonst
   hätte er die beiden neu aufgelösten Kennungen als tot gemeldet.
 - `tests/textsatz-en-modul-erzeugen.test.js`: 3196 → 3198, gegen `baueModul()` nachgerechnet.
-- `tests/erzeuger-deckung-sprache-rechtsraum-marke.test.js` (U2-ADR-318): `SPRACHE_BEKANNTE_LUECKEN`
+- eine nicht öffentliche Probe (U2-ADR-318): `SPRACHE_BEKANNTE_LUECKEN`
   ist jetzt leer — derselbe Fund, von derselben Probe als behoben erkannt.
 
 ## Was bewiesen ist

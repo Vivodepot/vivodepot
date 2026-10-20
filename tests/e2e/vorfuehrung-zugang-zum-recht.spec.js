@@ -62,7 +62,7 @@ async function vorfuehrlauf(page, { depotDatei, spracheLabel, schrittPrefix, pro
   // 2c · Wahl beim Öffnen (Schutz-Wagen; vorher die Sperre v885): die Vorführ-Depots sind im Produkt ihrer Sprache ab Werk gebaut
   // und tragen kein Modul im Einlass-Fach — es erscheint keine Wahl (vorher trug die englische Datei ein Sprachmodul eines
   // Zwischenstands, und der Hinweis lag auf einem langsamen Rechner über dem Knopf). Jede Fixture-Depotdatei hält das in Node:
-  // tests/fixture-depots-ab-werk.test.js. Der Fall `zurWahl`: eine Altdatei mit absichtlich eingelassenem Modul — die Wahl wird
+  // eine nicht öffentliche Probe. Der Fall `zurWahl`: eine Altdatei mit absichtlich eingelassenem Modul — die Wahl wird
   // erwartet, ihr Inhalt geprüft, und sie wird ohne das Modul geschlossen, nicht abgewartet.
   if (zurWahl) {
     const wahl = page.locator('#erweiterung-wahl-liste');
@@ -121,7 +121,7 @@ test('Beratungshilfe-Auszug — EN: derselbe Weg geht auf Englisch genauso durch
   // EN-Sprachmoduls (tools/textsatz-en-modul.json). Die umgebende App-Oberfläche (Toolbar-
   // Knöpfe „Drucken"/„Als PDF sichern"/„Schließen", der Werkzeugleisten-Hinweis oben) bleibt
   // Deutsch — das ist kein Fund, sondern der geprüfte Geltungsbereich (s. Bericht).
-  await expect(overlay).toContainText('Advice assistance — preparatory extract');
+  await expect(overlay).toContainText('Advisory assistance — preparatory extract');
   await expect(overlay).toContainText('About the applicant');   // Abschnittstitel seit 253a899c3 (vorher „Part 0 — the person“)
   await expect(overlay).toContainText('First name? Elisabeth');
   await expect(overlay).toContainText('Surname? Wredenhagen Sonnenschein');
@@ -163,6 +163,6 @@ test('Beratungshilfe-Auszug — DE ohne Depot-Kopie: ein frisch angelegtes Depot
 
 test('Beratungshilfe-Auszug — EN ohne Depot-Kopie: ein frisch angelegtes Depot in privat-en zeigt ihn englisch', async ({ page }) => {
   const overlay = await auszugImFrischenDepot(page, KERN_URL_PRIVAT_EN);
-  await expect(overlay).toContainText('Advice assistance — preparatory extract');
+  await expect(overlay).toContainText('Advisory assistance — preparatory extract');
   await expect(overlay).toContainText('About the applicant');
 });

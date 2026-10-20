@@ -21,14 +21,14 @@ cryptography and the rendering, but no language texts and no subject areas. Thos
 Opened on its own, the scaffold shows only the word mark.
 
 The runnable application is the **product**: the scaffold with its modules baked in, as one
-self-contained HTML file. Four products are built from the same scaffold:
+self-contained HTML file. From this repository two products are built from the same scaffold. Vivodepot's own
+templates are not part of the public repository; the build uses invented stand-in templates in their place
+(`tests/fixtures/zuschnitt-schicht2/testprodukt-neutral/`):
 
 | Product | Language | Path after building |
 |---|---|---|
 | privat-de | German | `produkte/privat-de/vivodepot.html` |
 | privat-en | English | `produkte/privat-en/vivodepot.html` |
-| pro-de | German | `produkte/pro-de/vivodepot.html` |
-| pro-en | English | `produkte/pro-en/vivodepot.html` |
 
 ## Build
 
@@ -38,7 +38,7 @@ cd vivodepot
 node tools/vier-produkte-erzeugen.js
 ```
 
-The four products are written to `produkte/` (ignored by git). `--ziel <folder>` writes them
+The products are written to `produkte/` (ignored by git). `--ziel <folder>` writes them
 elsewhere. Which modules go into which product is defined in `tools/lib/vier-produkte.js`.
 
 ## Open the application locally
@@ -59,23 +59,6 @@ while online; for offline use, open the downloaded file directly. The official a
 [https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github) and
 [https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github) ship a service worker (`sw.js`)
 and also work offline once installed.
-
-## Reproduce the published checksums
-
-`SECURITY.md` (section 8) lists the SHA-256 of every delivered version of each product and of its `sw.js`. Not every
-delivered version has a public tag. To check a version against the source, check out its public tag and build the
-products as they are delivered, with the service worker:
-
-```
-git checkout v1.0.<version>
-node tools/vier-produkte-erzeugen.js --wie-ausgeliefert --ziel <folder>
-shasum -a 256 <folder>/*/vivodepot.html <folder>/privat-de/sw.js
-```
-
-`--wie-ausgeliefert` sets `window.__abWerkServiceWorkerVorhanden = true` and places the repository's `sw.js` next to
-each product; without it the build is the single-file product described above and its checksum differs in exactly that
-line. Tags up to `v1.0.818` predate the option: build without it, change that one line from `false` to `true`, and the
-checksum matches the published one; compare the `sw.js` of the checkout itself.
 
 ## Tests
 

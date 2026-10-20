@@ -19,8 +19,8 @@ im Code zitierte 7. Auflage (2019) längst durch eine neue Veröffentlichung ers
 `krisenvorsorgeBedarfQuelle` (`vivodepot.html:8610`) behauptete wörtlich, die Empfehlung sei
 „unverändert seit der 7. Auflage (2019)" — und stützte das mit einem Prüfdatum (10.08.2026), das
 Vertrauen einlädt gerade weil der Folgesatz sagt, Vivodepot füge „keine eigene Einschätzung
-darüber hinaus" hinzu. Live geprüft (`bbk.bund.de/vorsorge`, 01.09.2026, Zug-0-Bericht
-`bbk-quellenangabe-zug0-2026-09-01.md`) hat sich die Empfehlung seither STRUKTURELL geändert
+darüber hinaus" hinzu. Live geprüft (`bbk.bund.de/vorsorge`, 01.09.2026, Zug-0-Bericht,
+interner Bericht vom 01.09.2026) hat sich die Empfehlung seither STRUKTURELL geändert
 (s. u.). **Die Behauptung „unverändert" war zum Zeitpunkt der Prüfnotiz bereits falsch.**
 
 **Der Mechanismus dahinter:** die Prüfung vom 10.08.2026 sah sich die ZAHL an, fand sie

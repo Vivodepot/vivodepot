@@ -52,7 +52,7 @@ im Kern schon gehen.
 
 ## 3 · Beleg
 
-**Persistiert:** `tests/vorsorge-instrumente-ueber-rolle.test.js` — läuft im Bau dieses ADRs
+**Persistiert:** eine nicht öffentliche Probe — läuft im Bau dieses ADRs
 selbst als Rot-Probe an einem echten, damals noch nicht existierenden Anker vorbei (die
 `rollen`-Zeile hatte sich zwischen `ba826350` und `eccda35e` durch A1s eigene
 `instrumentTypUnterfeld`-Ergänzung von ein- auf zweizeilig verändert — die Probe hat den

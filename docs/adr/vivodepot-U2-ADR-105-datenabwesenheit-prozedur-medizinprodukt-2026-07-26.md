@@ -6,7 +6,7 @@
 **Linie:** U2
 **U2-Bezug:** U2-ADR-104 (Skalar→Liste, erzeugte den Procedure-Defekt) · U2-ADR-076 (FHIR-Renderer) ·
 U2-ADR-098/099 (Klausel-Format, Prüfstand)
-**Anker:** Messung `dataabsentreason-validator-messung-2026-07-26.md` — offizieller HL7-Validator
+**Anker:** Messung (interner Bericht vom 26.07.2026) — offizieller HL7-Validator
 **6.9.12**, lokal und offline, mit `hl7.fhir.uv.ips#2.0.0` + `hl7.fhir.eu.eps#1.0.0-ballot`
 **Status heute:** gilt — Beleg `tests/fhir-daten-abwesend.test.js`, `tests/n2-zug1-ips-nilknown-waechter.test.js`.
 

@@ -64,12 +64,14 @@ function bakeProdukt(html, slug, opts) {
   return testProduktText(html, { slug, ohneBereiche: !!(opts && opts.ohneBereiche) });
 }
 
-const ALLE_GEBACKENEN_PFADE = () => [...Object.values(GEBACKENE_PRODUKT_PFADE), GEBACKENES_PRIVAT_DE_OHNE_BEREICHE_PFAD];
+// Im öffentlichen Zuschnitt besteht PRODUKTE nur aus den baubaren Produkten (tools/lib/vier-produkte.js); gebacken wird, was es dort gibt. Im Kanon sind es alle vier.
+const baubar = (slug) => require(path.join(REPO, 'tools', 'lib', 'vier-produkte.js')).PRODUKTE.some((p) => p.slug === slug);
+const ALLE_GEBACKENEN_PFADE = () => [...Object.entries(GEBACKENE_PRODUKT_PFADE).filter(([slug]) => baubar(slug)).map(([, pfad]) => pfad), GEBACKENES_PRIVAT_DE_OHNE_BEREICHE_PFAD];
 
 // Schreibt die fünf gebackenen Dateien — synchron und atomar (erst daneben schreiben, dann umbenennen): zwei Prozesse, die zugleich backen, sehen nie eine halbe Datei.
 function gebackeneProdukteSchreiben() {
   const html = fs.readFileSync(HTML_PFAD, 'utf8');
-  const ziele = Object.entries(GEBACKENE_PRODUKT_PFADE).map(([slug, pfad]) => [pfad, bakeProdukt(html, slug)]);
+  const ziele = Object.entries(GEBACKENE_PRODUKT_PFADE).filter(([slug]) => baubar(slug)).map(([slug, pfad]) => [pfad, bakeProdukt(html, slug)]);
   ziele.push([GEBACKENES_PRIVAT_DE_OHNE_BEREICHE_PFAD, bakeProdukt(html, 'privat-de', { ohneBereiche: true })]);
   for (const [pfad, text] of ziele) {
     const daneben = pfad + '.' + process.pid + '.tmp';

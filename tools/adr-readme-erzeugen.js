@@ -134,6 +134,8 @@ function erzeugeMarkdown(zeilen) {
 
 Zwei disjunkte Nummernräume, unterschieden durch Präfix: **\`B16-ADR-NNN\`** (alte Linie, im
 früheren internen Repo, beendet und eingefroren) und **\`U2-ADR-NNN\`** (diese Linie, aktiv).
+Die B16-Linie ist eingefroren, beschreibt den Vorgänger-Code und wird nicht gemessen
+(\`tools/adr-code-stellen-pruefen.js\` prüft nur U2-ADRs).
 
 Eine unpräfigierte Referenz in einem vor dem 20.07.2026 entstandenen Dokument meint B16 — U2
 ist jünger, die Zuordnung ist damit eindeutig. Neue Referenzen tragen ab sofort immer ein

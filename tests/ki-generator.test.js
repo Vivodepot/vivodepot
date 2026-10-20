@@ -7,7 +7,7 @@
    das Eingangs-Gate (Untersagung → Felder 2–5 entfallen) greift, und die
    Platzhalter ((Namen)/(Name)/(Jahre)/(Zeitpunkt)) gefüllt werden.
    ════════════════════════════════════════════════════════════════════════ */
-const test = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
@@ -122,7 +122,7 @@ test('Angehörigen-Pfad (keine benannten Personen): Bausteine ohne Namensplatzha
 
 test('Testament-Anlage: HTML trägt Kopf, Herkunftsanzeige und § 2247-Formhinweis', () => {
   /* Auftrag „Paragraphen raus" (22.09.2026, Nr. 57/60/58, bestätigt) — der Titel
-     bleibt wörtlich stehen, weil docs/adr/vivodepot-U2-ADR-NNN-korpus-zuordnung-rechtsraum-und-
+     bleibt wörtlich stehen, weil docs/adr/vivodepot-U2-ADR-507-korpus-zuordnung-rechtsraum-und-
      template-2026-09-17.md ihn als `pruefung:`-Anker führt (Konformitäts-Wächter); die Prüfung
      selbst zieht nach unten: § 2247 BGB wird nicht mehr zitiert, der Formhinweis bleibt inhaltlich
      (Entwurf-Charakter), nur ohne Paragraph. */

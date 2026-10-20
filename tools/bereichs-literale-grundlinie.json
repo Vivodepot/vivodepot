@@ -1,5 +1,5 @@
 {
- "zweck": "Deckel je Datei und Gruppe für Bereichskennungen als Literal außerhalb der Gerüst-Regionen (tools/bereichs-literale-pruefen.js). Sinkt nur; Ziel 0 außer den benannten Ausnahmen.",
+ "zweck": "Deckel je Datei und Gruppe für Bereichskennungen als Literal außerhalb der Gerüst-Regionen (ein nicht öffentliches Werkzeug). Sinkt nur; Ziel 0 außer den benannten Ausnahmen.",
  "datum": "2026-10-07",
  "summe": {
   "kern": 345,

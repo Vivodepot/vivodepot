@@ -20,7 +20,7 @@ Bestätigungsschritt statt Warnhinweis) und zu Ablauf und Widerruf (Variante C: 
   U2-ADR-149 (dieselbe Bauart „eine Stufe, nicht zwei").
 - **Status heute:** gilt — gebaut und belegt in `tests/kette-07-die-anfrage.test.js` und
   `tests/e2e/kette07-anfrage.spec.js`; Wächter `W-feldkatalog-drift`
-  (`tools/build-feldkatalog.js`), Stufeneintrag `nach: 68` in `tests/fixtures/migrations-stufen.js`.
+  (ein nicht öffentliches Werkzeug), Stufeneintrag `nach: 68` in `tests/fixtures/migrations-stufen.js`.
 
 ---
 
@@ -116,7 +116,7 @@ Programm baut, pflegt zwei: zwei Stammdaten-Masken, zwei Schlüsselschritte, zwe
 Signatur verschieden falsch zu machen.
 
 Die Feldauswahl läuft über die **Suche** — bei 261 Feldern ist eine Liste keine Auswahl. Der
-Feldkatalog wird **aus dem Kern erzeugt** (`tools/build-feldkatalog.js`, Bauart wie
+Feldkatalog wird **aus dem Kern erzeugt** (ein nicht öffentliches Werkzeug, Bauart wie
 `build-bereiche.js`); eine von Hand gepflegte Liste liefe genau dann auseinander, wenn es weh tut.
 
 **10 · Die Anfrage ist ein Einstieg.**

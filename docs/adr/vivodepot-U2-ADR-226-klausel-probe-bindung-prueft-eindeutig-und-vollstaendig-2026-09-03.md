@@ -13,7 +13,7 @@ Kürzel-Namen wie eine bereits gelandete (U2-ADR-222), für etwas völlig andere
 ob das der einzige Fall war, fand sich ein zweiter, bereits EINGETRETENER Fehler an derselben
 Codestelle — kein hypothetischer mehr.
 **Status heute:** gilt — Beleg `tests/adr-konformitaet-pruefen.test.js`,
-`tests/klausel-proben-schaerfe-pruefer.test.js`, `tests/pruefstand-bindung.test.js`.
+`tests/klausel-proben-schaerfe-pruefer.test.js`, eine nicht öffentliche Probe.
 
 ---
 
@@ -77,7 +77,7 @@ Dokument-Ausgaben. Keine Bewertung, ob das die einzig denkbare Auflösung ist �
 dem jeweiligen `aussage:`-Text selbst folgt, nachvollziehbar für jede künftige Leserin.
 
 **5 — Sechs (tatsächlich sieben) Kommentare umgeschrieben.** „…kein Titel doppelt referenziert"
-in `tests/pruefstand-bindung.test.js` behauptete bislang eine einmalig von Hand geprüfte
+in eine nicht öffentliche Probe behauptete bislang eine einmalig von Hand geprüfte
 Eigenschaft — jetzt ist es eine bei jedem Lauf durch Fehlerklasse A geprüfte. Ein Kommentar, der
 eine geprüfte Sache behauptet, ist etwas anderes als einer, der eine ungeprüfte behauptet.
 

@@ -23,7 +23,7 @@
       beider Dateien.
 
    Wechsel-Mechanik: derselbe Weg wie tests/e2e/zug5-persistenz-rauchtest.spec.js
-   ("Sichern und schließen" über #tb-marke → #m-ok → zurück zu #w-anlass, dann
+   ("Sichern und schließen" über #tb-marke → #m-ok → zurück zu #w-anlegen, dann
    #w-datei/#co-datei/#co-pw/#w-oeffnen für den Wiedereinstieg). EIN Tab, EINE
    Page-Instanz für den ganzen Test — genau das bildet ab, was eine Betreuerin
    am eigenen Rechner tatsächlich tut (Datei zu, andere Datei auf), nicht zwei
@@ -105,7 +105,7 @@ async function depotSchliessen(page) {
   const bestaetigen = page.locator('#m-ok');
   const kamModal = await bestaetigen.waitFor({ state: 'visible', timeout: 2000 }).then(() => true).catch(() => false);
   if (kamModal) await bestaetigen.click();
-  await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 10000 });
+  await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 10000 });
 }
 
 async function depotSchliessenUndBytesHolen(page) {

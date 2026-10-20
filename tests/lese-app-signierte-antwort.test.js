@@ -6,7 +6,7 @@
    Was gehalten wird:
      · eine gültige signierte Antwort öffnet sich, und ihr Inhalt ist derselbe wie auf dem Weg ohne Signatur;
      · ein gekipptes Byte, ein fremdes `aud`, eine andere Anfrage, `alg` ES256/none/HS256, ein falsches `typ`: abgewiesen, mit Satz;
-     · eine Antwort ohne Signatur öffnet sich wie bisher, mit dem Sachsatz „nicht signiert (ältere Fassung)“, ohne Warnstil;
+     · eine Antwort ohne Signatur öffnet sich wie bisher, mit dem Sachsatz, dass ihre Fassung noch keine Antworten signiert, ohne Warnstil;
      · kein Text des Signaturstands sagt „geprüft“, „verifiziert“ oder „echt“; „neuer Schlüssel“ ist neutral; eine fehlende PID ist
        kein Mangel (sie wird nicht genannt).
    Rot-Beweis zum fremden `aud` (Auflage der Krypto-Gegenlesung): eine Lese-App ohne den Abgleich nähme die Antwort an.
@@ -293,7 +293,7 @@ test('[Signierte Antwort·Übergang] eine Antwort ohne Signatur öffnet sich wie
   assert.ok(html.includes('Hedwig'), 'der Inhalt steht da');
 });
 
-test('[Signierte Antwort·Übergang] eine Antwort des heutigen Kerns (ohne Signatur) öffnet sich über denselben Weg', async () => {
+test('[Signierte Antwort·Kern] eine Antwort des heutigen Kerns öffnet sich über denselben Weg, seit v931 signiert', async () => {
   const { ladeKern } = require('./load-kern.js');
   const { V } = ladeKern();
   await V.depotAnlegen('Signierte-Antwort-Probe-2026!');
@@ -307,7 +307,7 @@ test('[Signierte Antwort·Übergang] eine Antwort des heutigen Kerns (ohne Signa
   const jwe = await V.antwortVerschluesseln(ds, a, {});
   const L = ladeLesen().V;
   const r = await oeffne(L, jwe, empf.priv);
-  assert.equal(r.signatur.zustand, 'ohne');
+  assert.equal(r.signatur.zustand, V.ANTWORT_SIGNIEREN ? 'signatur' : 'ohne', 'der Schalter des Kerns bestimmt, ob signiert wird');
   assert.deepEqual(json(r.datensatz), json(ds));
 });
 
@@ -389,4 +389,29 @@ test('[Signierte Antwort·ohne Zertifikat] aud in der Domäne unsigniert: trägt
   assert.equal(mit.signatur.ausZertifikat, true);
   L.renderAntwort(mit.datensatz, {}, mit.signatur);
   assert.ok(!document.getElementById('app').innerHTML.includes('antwort-signatur-ohne-zertifikat'), 'bei signiert: steht der Satz nicht');
+});
+
+/* Befund LESEAPP-UNSIGNIERT-AELTERE-FASSUNG-FALSCH (16.10.2026): Unter einer unsignierten Antwort stand „ältere Fassung“, auch
+   unter einer Antwort aus v930, der ersten Fassung mit dem Lesen, deren Kern aber noch nicht signiert. Die Antwort unten hat der Kern
+   von v930 geschrieben (Einmalpasswort, erfundene Angaben; Kanon 354beed2d, ladeKern mit htmlPfad auf dessen vivodepot.html). */
+const ANTWORT_V930 = 'eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJ0eXAiOiJ2aXZvZGVwb3QtYW50d29ydCtqd2UiLCJjdHkiOiJqc29uIiwiZW5jIjoiQTI1NkdDTSIsInZvcmdhbmciOiJWOTMwLVBST0JFLTEiLCJwMnMiOiI2akplVGNycVAxMGFLRWdHTW0wRm1nIiwicDJjIjo2MDAwMDAsInBhZCI6Ii4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4ifQ.6NFvnavatVXeIgmegrm0HH5h48fwEbhACzDY24ODv2uQbQZ-E12bKw.mNO30OK-Ig43BXWC.pVZPg9K3lfkb8UHO095e0PNoV7V0syewc7f0ii2jeBkrzMEm35QGYbPTVViAXr-EAmpzzcRpogH8eTKEMEAevIqu-ONhqagp3ApHaO-CW5-BeCebaNOEgmC75B3PCJqNXJPkJ0iERPmlQ-mPyv3tP3POPr4DCwlazdJLvM5awQHh-7Rguw-R7tXYEgX2aNpZQdEOno4YFJBLQa3AvJFKug41Lc1N-u-66FUI1_o1-ISnbEpqwfkViwEG1Emumi_MPScM5YbVslUhoXc1mmkfXmJbC6VqQbpMgtE6KaoN-FQVRy8N8frSdyxdox1g1K2_gdLgg7pfhRipz08bLqjxICXext3ZucwNcQ581w8kzk6VtGMG1aBpjf2aAHsSijAM83ilNUN5lmSRAtB8VCbV71p_X2ws8DmBNlH7Uw4YGJqvGXoeh_M6r52kTu0kz7S8fJkzg4lc4HPf_wqMttRYeLvvjK9u3Mmh4lpHdqnizDoUcJ416jMx4m1UJD_5idseBzX5PLI9jfcMRk_2Tm0ErAR2paOQPsCsI_w66-4rTX1SNJE1MDKw1u-OaKTgBfGiJPVjRfpmA2JNP-4pm4MGZFN3nS408GJbmKPOuJj9H6Lf9tzEsr4UvHbe7EhWOHHkxFeDv6MD1AnSP99Prgi1cw1YS9GPJpy8_aKjOt7LFOTmXHvZa1mI6vf7DnFsdazsyntHFiFDtrWnZAU_v2FBJeFkf6S0la05meAzqjpKDrxU2y_NGQFdPIkXe4PxDnD46R527feq0Db8ciYSO6DaMLQIYKC1fG7qPTv4PMPvvCqOO_j0SYGmiKpMWQwjXStdap6SxpTXEShcLBDrj8UmoKZIaLdHEiWd4lE_3Zift6VAJnawcumPW3BB7vY48ElqV_WPA620dZuMGRjfwP2ujuh2USatLk1IfIpRyxp_OOhFSGoPygR0ZTXj2trTWTQ78D61-rt3whyBilEXCOczMveZoGfBAvo_geC6O47r0jrM_sD4fquaDcLEAURV3JxXzFmnvJXGVuyIde5W8YBAsxc0vHxCEpuhQ-ex9NR2q5HK-LmMUg.ZH3v-Jb0-D3BaD9wmjKj8g';
+const ANTWORT_V930_SHA256 = '425af45cac2175e93d6e32f0d5ad9e9d3ea509b847b94144bfe96939ca0227b5';
+test('[Signierte Antwort·v930] eine Antwort aus v930 öffnet mit dem Satz, dass ihre Fassung noch keine Antworten signiert', async () => {
+  assert.equal(nodeCrypto.createHash('sha256').update(ANTWORT_V930 + '\n').digest('hex'), ANTWORT_V930_SHA256, 'die eingefrorene v930-Antwort');
+  const { V: L, document } = ladeLesen();
+  const r = await L.antwortOeffnenMitSignatur(L.antwortJweAlsUmschlag(ANTWORT_V930), { passwort: 'v930-antwort-einmal-2026' });
+  assert.equal(r.signatur.zustand, 'ohne');
+  assert.equal(r.datensatz.anfrage.vorgang, 'V930-PROBE-1');
+  const html = L.antwortSignaturHTML(r.signatur);
+  assert.ok(html.includes(L.STRINGS.antwortOhneSignatur));
+  assert.equal(L.STRINGS.antwortOhneSignatur, 'Diese Antwort ist nicht signiert. Die Fassung, mit der sie erstellt wurde, signiert noch keine Antworten.');
+  void document;
+});
+test('[Signierte Antwort·v930·Rot-Beweis] die Wendung „ältere Fassung“ steht in keinem Satz zur Signatur, in Lese-App, Studio und Beispiel', () => {
+  const fs = require('node:fs'), path = require('node:path');
+  const quellen = ['vivodepot-lesen.html', 'vivodepot-studio.html', 'examples/anfrage-antwort/antwort-oeffnen.js']
+    .map((d) => fs.readFileSync(path.join(__dirname, '..', d), 'utf8'));
+  const funde = (texte) => texte.filter((t) => /nicht signiert \(ältere Fassung\)|not signed \(earlier version\)/.test(t)).length;
+  assert.equal(funde(quellen), 0);
+  assert.equal(funde(['Diese Antwort ist nicht signiert (ältere Fassung).']), 1, 'die Suche findet die alte Wendung');
 });

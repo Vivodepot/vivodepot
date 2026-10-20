@@ -49,8 +49,8 @@ async function anlegenBisAngebot(page) {
   await oeffneApp(page);
   await dateiAttrappe(page);
   await page.click('#w-anfangen');
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');
+  await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
+  await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await page.waitForSelector('#id-pw', { state: 'visible' });
   await page.fill('#id-vorname', 'Ayse');
   await page.fill('#id-nachname', 'Beispiel');

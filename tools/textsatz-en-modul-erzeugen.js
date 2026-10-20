@@ -13,7 +13,7 @@
 
    DREI QUELLEN (Strang 3, 27.08.2026, „volle Abdeckung"): `tools/textsatz-en-
    daten.js` (Sektor-Texte), `tools/textsatz-en-optionswerte-daten.js`
-   (Optionswerte), `tools/textsatz-en-vollabdeckung-daten.js` (restliche
+   (Optionswerte), eine nicht öffentliche Datendatei (restliche
    Kennungen: STRINGS-Bedienfluss-Text, Situationsblätter, Wizards,
    institutionsArt/institutionsFeld/menschenRegister/anlass/angSituation) —
    zusammen alle Kennungen aus AB_WERK_TEXTSATZ_DE.texte, kein benannter Rest mehr.
@@ -46,10 +46,10 @@ function baueModul() {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
   const { TEXTSATZ_EN_TEXTE } = require(path.join(__dirname, 'textsatz-en-daten.js'));
   const { TEXTSATZ_EN_OPTIONSWERTE } = require(path.join(__dirname, 'textsatz-en-optionswerte-daten.js'));
-  const { TEXTSATZ_EN_VOLLABDECKUNG } = require(path.join(__dirname, 'textsatz-en-vollabdeckung-daten.js'));
+  const { TEXTSATZ_EN_VOLLABDECKUNG } = require(path.join(__dirname, 'textsatz-en-vollabdeckung-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   const { OFFEN_JURISTISCH } = require(path.join(__dirname, 'textsatz-en-juristisch-offen.js'));
-  const { TEXTSATZ_EN_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-en-pro-bereich-daten.js'));
-  const { TEXTSATZ_EN_PRO_FELDER } = require(path.join(__dirname, 'textsatz-en-pro-felder-daten.js'));
+  const { TEXTSATZ_EN_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-en-pro-bereich-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+  const { TEXTSATZ_EN_PRO_FELDER } = require(path.join(__dirname, 'textsatz-en-pro-felder-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
 
   const quellen = { sektorTexte: TEXTSATZ_EN_TEXTE, optionswerte: TEXTSATZ_EN_OPTIONSWERTE, vollabdeckung: TEXTSATZ_EN_VOLLABDECKUNG,
     proBereich: TEXTSATZ_EN_PRO_BEREICH, proFelder: TEXTSATZ_EN_PRO_FELDER };
@@ -123,7 +123,7 @@ function baueModul() {
 
        WAEHRUNG ABSICHTLICH AUSGELASSEN: sie haengt am RECHTSRAUM, nicht an der Sprache
        (dieselbe Achse, an der `es`/Ecuador vs. `es`/Spanien bereits EUR/USD unterscheiden,
-       Schnitt Glied 4, A469 — s. tests/persona-p19-p20.test.js). Dieses Modul traegt keinen
+       Schnitt Glied 4, A469 — s. eine nicht öffentliche Probe). Dieses Modul traegt keinen
        `rechtsraum` (der Normalfall fuer einen Anbieter, der genau einen Rechtsraum bedient,
        s. Kommentar an textsatzRechtsraumAktiv) und landet damit im rechtsraumlosen `''`-Fach
        — es bleibt beim eingebauten `EUR`, korrekt fuer eine englischsprachige Buergerin, die
@@ -184,10 +184,10 @@ function main() {
   // dieselben drei Quellen wie baueModul() erneut angefordert (require() cached), nur zum Zählen.
   const { TEXTSATZ_EN_TEXTE } = require(path.join(__dirname, 'textsatz-en-daten.js'));
   const { TEXTSATZ_EN_OPTIONSWERTE } = require(path.join(__dirname, 'textsatz-en-optionswerte-daten.js'));
-  const { TEXTSATZ_EN_VOLLABDECKUNG } = require(path.join(__dirname, 'textsatz-en-vollabdeckung-daten.js'));
+  const { TEXTSATZ_EN_VOLLABDECKUNG } = require(path.join(__dirname, 'textsatz-en-vollabdeckung-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   const { OFFEN_JURISTISCH } = require(path.join(__dirname, 'textsatz-en-juristisch-offen.js'));
-  const { TEXTSATZ_EN_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-en-pro-bereich-daten.js'));
-  const { TEXTSATZ_EN_PRO_FELDER } = require(path.join(__dirname, 'textsatz-en-pro-felder-daten.js'));
+  const { TEXTSATZ_EN_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-en-pro-bereich-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+  const { TEXTSATZ_EN_PRO_FELDER } = require(path.join(__dirname, 'textsatz-en-pro-felder-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   console.log('Kennungen: ' + Object.keys(modul.texte).length + ' (' + Object.keys(TEXTSATZ_EN_TEXTE).length
     + ' Sektor-Texte + ' + Object.keys(TEXTSATZ_EN_OPTIONSWERTE).length + ' Optionswerte + '
     + Object.keys(TEXTSATZ_EN_VOLLABDECKUNG).length + ' Vollabdeckung + ' + Object.keys(TEXTSATZ_EN_PRO_BEREICH).length

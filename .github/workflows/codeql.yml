@@ -1,0 +1,41 @@
+# ════════════════════════════════════════════════════════════════════════════
+# CodeQL — statische Analyse des JavaScript-Codes, auch der Skripte in den HTML-Dateien (17.10.2026)
+# ----------------------------------------------------------------------------
+# Läuft nur im öffentlichen Repo, bei Push auf main und einmal in der Woche. Die Funde stehen als
+# Code-Scanning-Alarme im Repo. Dafür braucht genau der Job `analyze` das Recht `security-events: write`;
+# es erlaubt nur das Schreiben dieser Alarme, nicht von Code. Die Ausnahme hält der Workflow-Wächter des
+# Zuschnitts namentlich fest; jedes andere Schreibrecht bleibt dort ein Fund.
+# Die Action ist auf ihren Commit gepinnt (v4.38.3).
+# ════════════════════════════════════════════════════════════════════════════
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 4 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    if: github.repository == 'vivodepot/vivodepot'   # nur öffentlich: im privaten Repo verbraucht kein Job GitHub-Minuten
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
+
+      - name: CodeQL einrichten
+        uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d  # v4.38.3
+        with:
+          languages: javascript-typescript
+          build-mode: none
+
+      - name: CodeQL-Analyse
+        uses: github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d  # v4.38.3
+        with:
+          category: '/language:javascript-typescript'

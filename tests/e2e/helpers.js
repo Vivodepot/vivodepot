@@ -3,7 +3,7 @@
    E2E-Helfer (Teil 7) — gemeinsame Reise-Bausteine
    ────────────────────────────────────────────────────────────────────────
    Selektoren stammen 1:1 aus dem clean-rebuild (statisches Shell + Render-IDs):
-   Welcome Lage A #w-anlass/#w-anfangen/#w-datei/#w-notfall · Lage B (crypto-overlay)
+   Welcome Lage A #w-anlegen/#w-anfangen/#w-datei/#w-notfall · Lage B (crypto-overlay)
    #co-pw/#w-oeffnen/#co-angehoerige/#co-notfall · Depot-Anlage seit Strang 2 Commit A
    über Vorschau (#w-anfangen) → Topbar-Passwort-Hinweis (#tb-pw-hinweis → flowPasswortSetzen)
    → name-loser Verankerungs-Dialog (U2-ADR-017; A1/D46: der alte #tb-speichern-Knopf ist entfernt)
@@ -66,10 +66,12 @@ async function fsaStandardAttrappeEinrichten(page) {
 // heutigen Kanon in einem zweiten Kontext geladen wird — der native Bestand im Arbeitsbaum
 // verschwindet mit dem Schnitt, die A-Seite muss darum von aussen kommen. Rueckwaertskompatibel:
 // jeder bestehende Aufruf `oeffneApp(page)` bleibt unveraendert.
-async function oeffneApp(page, { url = KERN_URL } = {}) {
+async function oeffneApp(page, { url = KERN_URL, willkommen = '#w-anlegen' } = {}) {
   await fsaStandardAttrappeEinrichten(page);
   await page.goto(url);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  // Kanon: „Depot anlegen“ (#w-anlegen) ist der Hauptknopf. Ausgelieferte Altstände (die A-Seite der A/B-Abnahmen) tragen noch
+  // „Was möchten Sie erledigen?“ (#w-anlass); wer einen Altstand öffnet, sagt das mit willkommen: WILLKOMMEN_ALTSTAND. Nie beides zugleich.
+  await page.waitForSelector(willkommen, { state: 'visible' });
 }
 
 // Neues Depot anlegen. Seit Strang 2 Commit A gibt es keinen „Depot anlegen"-Knopf mehr
@@ -81,14 +83,34 @@ async function oeffneApp(page, { url = KERN_URL } = {}) {
 // (Früher: name-loses flowPasswortSetzen mit #pw-neu/#pw-neu2. Dieser Helfer wurde am 2026-07-02
 //  nachgezogen, nachdem die erste CI-Probe die veraltete Selektor-Erwartung als 11 Timeouts
 //  sichtbar machte — kein App-Fehler, nur der Test hing dem Umbau hinterher.)
+/* Die Anlege-Aufforderung: der obere Hinweis (`data-anlegen-weg`) ODER die Karte „Sie sehen sich gerade um" im Inhalt (ihr Knopf). Je Ansicht steht genau eine.
+   `#tb-pw-hinweis` steht daneben für ausgelieferte Altstände (die A-Seite der nativ-A/B-Abnahmen, v501): dort trägt der Hinweis noch kein
+   `data-anlegen-weg`. Am Kanon ist es dasselbe Element, die Zählung „genau eine" ändert sich nicht. */
+const ANLEGE_WEG_KANON = ':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen])';
+// Ältere ausgelieferte Stände: der Hinweis oben ohne `data-anlegen-weg`. Er ist nur dann der Weg, wenn der Stand keinen der Kanon-Wege zeigt;
+// Zwischenstände tragen Hinweis UND Karte, dort gilt weiter die Karte (wie vor dieser Ergänzung).
+const ANLEGE_WEG_ALTSTAND = '#tb-pw-hinweis';
+const ANLEGE_WEG = ':is([data-anlegen-weg], #tb-pw-hinweis, [data-bereich-leer="vorschau"] [data-umschau-eintragen])';
+// Eigene Frist für das Warten auf die Aufforderung: ohne sie wartet der Schritt bis zur Testgrenze (in den A/B-Abnahmen 900 s) und nennt den Grund nicht.
+// Großzügig bemessen, damit sie unter Last nicht reißt; gewöhnliche Proben begrenzt weiter ihre eigene Testgrenze.
+const ANLEGE_WEG_FRIST_MS = 60_000;
+// Der Willkommensschirm ausgelieferter Altstände (vor „Einstieg nach Zustand“, 13.10.2026): Hauptknopf „Was möchten Sie erledigen?“.
+const WILLKOMMEN_ALTSTAND = '#w-anlass';
 async function depotAnlegen(page, { name = 'Maria Mustermann', pw = 'e2e-passwort-123' } = {}) {
   const teile = String(name).trim().split(/\s+/);
   const vorname = teile[0] || 'Maria';
   const nachname = teile.slice(1).join(' ') || 'Mustermann';        // Anker verlangt Nachname (Pflicht)
   await page.click('#w-anfangen');                                  // Lage A → Vorschau (passwortlos)
   await page.waitForSelector('#app.an', { state: 'attached' });
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');                               // Vorschau → Anker-Dialog (flowDepotAnlegen)
+  // :visible, sonst nähme der Wartepunkt den ersten Treffer, den verborgenen Hinweis
+  await page.waitForSelector(ANLEGE_WEG + ':visible', { state: 'attached', timeout: ANLEGE_WEG_FRIST_MS }).catch((e) => {
+    throw new Error('depotAnlegen: Anlege-Aufforderung nicht gefunden: weder #tb-pw-hinweis noch data-anlegen-weg noch die Umschau-Karte, nach '
+      + (ANLEGE_WEG_FRIST_MS / 1000) + ' s; Stand der Seite: ' + page.url() + ' (' + String((e && e.message) || e).split('\n')[0] + ')');
+  });
+  // Genau EINE Anlege-Aufforderung je Ansicht (Hinweis oben ODER Karte im Inhalt): so prüft jede Reise die Regel nebenbei mit.
+  const wege = await page.locator(ANLEGE_WEG_KANON + ':visible').count();
+  if (wege > 1) throw new Error('Anlege-Aufforderungen in dieser Ansicht: ' + wege + ' (erwartet: genau eine)');
+  await page.click((wege === 1 ? ANLEGE_WEG_KANON : ANLEGE_WEG_ALTSTAND) + ':visible');                   // Vorschau → Anker-Dialog (flowDepotAnlegen)
   await page.waitForSelector('#id-pw', { state: 'visible' });
   await page.fill('#id-vorname', vorname);
   await page.fill('#id-nachname', nachname);
@@ -469,10 +491,14 @@ async function erweiterungenWaehlen(page, { timeout = 15000 } = {}) {
   await liste.waitFor({ state: 'detached' });
 }
 
-module.exports = { inLeisteKlicken, listenDialogOeffnen,
+/* Im öffentlichen Zuschnitt gibt es nur die baubaren Produkte (tools/lib/vier-produkte.js, PRODUKTE); eine Spec, die über alle vier läuft, läuft dort über die vorhandenen.
+   Im Kanon sind es alle vier. */
+const baubar = (slug) => require(path.join(REPO_ROOT, 'tools', 'lib', 'vier-produkte.js')).PRODUKTE.some((p) => p.slug === slug);
+
+module.exports = { baubar, inLeisteKlicken, listenDialogOeffnen,
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
-  oeffneApp, depotAnlegen, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
+  oeffneApp, depotAnlegen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,
   fsaStandardAttrappeEinrichten, wizardStarten, feldgruppenKartenOeffnen, einstellungenAbschnittOeffnen,
   erweiterungEinlesenBestaetigen, erweiterungenWaehlen,
   starteLokalenServer,

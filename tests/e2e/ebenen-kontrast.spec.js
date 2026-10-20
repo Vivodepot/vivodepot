@@ -2,7 +2,7 @@
 /* Kontrast in Hell, Nacht und Hochkontrast, in Ruhe und in jedem Zustand — der Finder (Befund 04.10.2026)
    ─────────────────────────────────────────────────────────────────
    Der Fund: Schrift unter 4,5:1 außerhalb der Hell-Ebene und in Zuständen — Notfall in der Nacht (1,08:1), Fehlermeldung nachts,
-   Knopf-Hover (3,15:1 schon in Hell), Kopfzeile in Hover und Nacht, Verweise ohne eigene Regel (Nacht 1,65:1), „Einrichten →".
+   Knopf-Hover (3,15:1 schon in Hell), Kopfzeile in Hover und Nacht, Verweise ohne eigene Regel (Nacht 1,65:1), „Depot anlegen".
    Der Wächter misst im Browser, in jeder Ansicht, in allen drei Ebenen, in Ruhe und in :hover, :focus-visible, :active, [aria-invalid]
    (Einzelheiten und Regel: tests/e2e/lib/ebenen-kontrast.js). Eine neue Ansicht oder ein neuer Zustand ist ein weiterer Test in der Reihe unten.
    Rot-Beweise unten: ein Textpaar unter 4,5:1 macht ihn rot (Fläche UND Zustand), ein Element ohne Text wird nicht geprüft, ein
@@ -22,16 +22,16 @@ test('[Ebenen-Kontrast] Willkommen: Schrift ≥ 4,5:1 und Feldrand ≥ 3:1 in He
   expect(await ansichtPruefen(page)).toEqual([]);
 });
 
-test('[Ebenen-Kontrast] Vorschau (Kopfzeile mit „Einrichten →"): Schrift ≥ 4,5:1 und Feldrand ≥ 3:1 in Hell, Nacht, Hochkontrast, in Ruhe und allen Zuständen', async ({ page }) => {
+test('[Ebenen-Kontrast] Vorschau (Kopfzeile mit „Depot anlegen"): Schrift ≥ 4,5:1 und Feldrand ≥ 3:1 in Hell, Nacht, Hochkontrast, in Ruhe und allen Zuständen', async ({ page }) => {
   test.setTimeout(240000);
-  await (async (page) => { await oeffneApp(page); await page.click('#w-anfangen'); await page.waitForSelector('#tb-pw-hinweis'); })(page);
+  await (async (page) => { await oeffneApp(page); await page.click('#w-anfangen'); await page.evaluate(() => { document.getElementById('tb-pw-hinweis').hidden = false; }); await page.waitForSelector('#tb-pw-hinweis'); })(page);
   expect(await ansichtPruefen(page)).toEqual([]);
 });
 
 test('[Ebenen-Kontrast] Depot anlegen, Fehlermeldung am Feld: Schrift ≥ 4,5:1 und Feldrand ≥ 3:1 in Hell, Nacht, Hochkontrast, in Ruhe und allen Zuständen', async ({ page }) => {
   test.setTimeout(240000);
   await (async (page) => {
-    await oeffneApp(page); await page.click('#w-anfangen'); await page.waitForSelector('#tb-pw-hinweis'); await page.click('#tb-pw-hinweis');
+    await oeffneApp(page); await page.click('#w-anfangen'); await page.evaluate(() => { document.getElementById('tb-pw-hinweis').hidden = false; }); await page.waitForSelector('#tb-pw-hinweis'); await page.click('#tb-pw-hinweis');
     await page.waitForSelector('#id-pw'); await page.fill('#id-vorname', 'A'); await page.fill('#id-nachname', 'B');
     await page.fill('#id-pw', 'x'); await page.fill('#id-pw2', 'y'); await page.click('#m-ok'); await page.waitForTimeout(300);
   })(page);

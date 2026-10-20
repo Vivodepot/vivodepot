@@ -63,6 +63,7 @@ async function bytesAttrappe(page) {
 }
 
 for (const slug of ['privat-de', 'privat-en', 'pro-de', 'pro-en']) {
+  if (!h.baubar(slug)) continue;   // im öffentlichen Zuschnitt gibt es nur die baubaren Produkte
   test(`[Safari-Tab·Hülle] ${slug} · WebKit-Tab: „Später“ im Datei-Schritt führt genau einmal zum Code-Angebot, und der Code öffnet das Depot`, async ({ page, browser }) => {
     await page.addInitScript(() => {
       const echt = CSS.supports.bind(CSS);

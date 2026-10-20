@@ -102,7 +102,7 @@ test('ein bereits geladener Tab stellt nach dem Laden keine same-origin-Anfrage 
     });
 
     await page.goto(`http://localhost:${port}/vivodepot.html`);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
 
     // Erst-Erwerb der SW-Kontrolle abwarten — per Spezifikation harmlos (keine offenen Clients
     // vorher). Danach gilt der Tab als „bereits geladen", genau der Zustand aus der Frage.
@@ -125,8 +125,8 @@ test('ein bereits geladener Tab stellt nach dem Laden keine same-origin-Anfrage 
     /* ── Breite Sitzung: anlegen, navigieren, PDF, Export, Sub-Depot rein+raus ── */
     await page.click('#w-anfangen');
     await page.waitForSelector('#app.an', { state: 'attached' });
-    await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-    await page.click('#tb-pw-hinweis');
+    await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
+    await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
     await page.waitForSelector('#id-pw', { state: 'visible' });
     await page.fill('#id-vorname', 'Marlies');
     await page.fill('#id-nachname', 'Sonnenschein');
@@ -146,7 +146,7 @@ test('ein bereits geladener Tab stellt nach dem Laden keine same-origin-Anfrage 
     // Dokument erzeugen — der wahrscheinlichste Kandidat für eine späte Anfrage (jsPDF-Pfad).
     await mitDatei(page, () => window.__vdOeffentlich.flowVollDepotPdf({})).catch((e) => { throw new Error('PDF-Erzeugung: ' + e.message); });
     await uebergabeModalWegklicken(page);
-    // Export. Testvehikel 'json' -> 'fhir-ips' (U2-ADR-NNN, 17.09.2026: der offene JSON-Vollexport
+    // Export. Testvehikel 'json' -> 'fhir-ips' (U2-ADR-508, 17.09.2026: der offene JSON-Vollexport
     // ist entfernt) — dieselbe Zusicherung (kein same-origin-Netzaufruf bei der Erzeugung), ein
     // anderes, weiterhin bestehendes Sektor-Format; 'health' steht bereits offen (s. o.).
     await mitDatei(page, () => window.__vdOeffentlich.flowFormatExport('fhir-ips', {})).catch((e) => { throw new Error('Export: ' + e.message); });
@@ -217,7 +217,7 @@ test('[Negativprobe] eine same-origin-Anfrage NACH dem Laden wird gefunden — d
     context.on('request', (req) => { alleRequests.push({ t: Date.now(), url: req.url() }); });
 
     await page.goto(`http://localhost:${port}/vivodepot.html`);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await page.waitForFunction(async () => {
       if (!('serviceWorker' in navigator)) return true;
       const reg = await navigator.serviceWorker.getRegistration();

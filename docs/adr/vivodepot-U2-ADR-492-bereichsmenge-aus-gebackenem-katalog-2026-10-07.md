@@ -31,7 +31,7 @@ als geweckte Bereiche aus dem Katalog. Woher soll der Kern künftig wissen, welc
 4. **Altdateien (Zusicherung 9).** Werte in einem Bereich, den ein Rezept nicht mehr nennt, gehen nicht verloren: ein
    nativer Bereich wird geweckt, ein unbekannter nach `data.bereicheVerwaist` gerettet (U2-ADR-187); beide bleiben in der
    Lese-App sichtbar und im Vollexport enthalten.
-5. **Bereichskennungen als Literal im Kern haben einen Deckel, der nur sinkt.** `tools/bereichs-literale-pruefen.js` zählt
+5. **Bereichskennungen als Literal im Kern haben einen Deckel, der nur sinkt.** ein nicht öffentliches Werkzeug zählt
    sie außerhalb der benannten Gerüst-Regionen, gruppiert je Funktion oder Konstante; die Kennungen kommen aus den
    Bereichs-Templates, nicht aus einer Liste im Wächter. Ziel ist 0 außer den benannten Ausnahmen: die Migrations-Register
    (alte Dateien müssen lesbar bleiben) und die eingefrorenen Krypto-Listen, je mit Grund, Wort der Gegenlesung und

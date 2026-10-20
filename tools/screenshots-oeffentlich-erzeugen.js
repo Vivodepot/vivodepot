@@ -24,7 +24,7 @@ const argWert = (argv, n) => { const i = argv.indexOf(n); return i >= 0 ? argv[i
 async function erzeugen({ produkt, ziel }) {
   const { chromium } = require('playwright');
   fs.mkdirSync(ziel, { recursive: true });
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage({ viewport: { width: 1280, height: 800 } });
     for (const b of BILDER) {

@@ -45,12 +45,12 @@ const MARKER_DAUERHAFT = Object.freeze({
   'ABWERK-FRUEHERE-FASSUNGEN-KERN': { art: 'mechanik', grund: 'Fingerabdrücke früher ausgelieferter Ab-Werk-Logikmodule, erzeugt aus den ausgelieferten Ständen; daran erkennt der Kern eine alte Ab-Werk-Kopie, die er beim Öffnen ersetzt (E4, 04.10.2026).' },
   'BEREICHSSTRUKTUREN-AUSGELIEFERT-KERN': { art: 'mechanik', grund: 'Abdrücke der Strukturen ausgelieferter Bereichsdefinitionen, erhoben aus den ausgelieferten Ständen; daran erkennt der Kern, ob ein Bereich aus der Mitschrift einer Datei so ausgeliefert wurde (11.10.2026).' },
   'BEREICHSTEXTE-AUSGELIEFERT-KERN': { art: 'mechanik', grund: 'Abdrücke der Texte ausgelieferter Bereichsdefinitionen, je an Bereich, Stelle und Eigenschaft gebunden, erhoben aus den ausgelieferten Ständen (11.10.2026).' },
-  'REZEPT-FINGERABDRUECKE-KERN': { art: 'mechanik', grund: 'Fingerabdrücke der Nutzlasten aller Vivodepot-Rezepte, erzeugt von tools/rezept-fingerabdruecke-erheben.js; daran erkennt der Kern Ab-Werk-Inhalt (04.10.2026).' },
+  'REZEPT-FINGERABDRUECKE-KERN': { art: 'mechanik', grund: 'Fingerabdrücke der Nutzlasten aller Vivodepot-Rezepte, erzeugt von einem nicht öffentlichen Werkzeug; daran erkennt der Kern Ab-Werk-Inhalt (04.10.2026).' },
   'AB_WERK_VOR_DEPOT_KONFIGURATION': { art: 'leer', grund: 'HTML-Backplatz: window.__vorDepotKonfiguration = null; produktTextErzeugen füllt ihn beim Bau. W0 kennt nur JS-Konstanten (Befund W0-BLIND, Achsen-Ratsche v892).' },
   'AB_WERK_SERVICE_WORKER_VORHANDEN': { art: 'leer', grund: 'HTML-Backplatz: window.__abWerkServiceWorkerVorhanden = null; produktTextErzeugen setzt ihn beim Bau. W0 kennt nur JS-Konstanten (Befund W0-BLIND, Achsen-Ratsche v892).' },
   'AB_WERK_BEREICHS_ERSATZ': { art: 'leer', grund: 'Backplatz des Bereichsersatzes in Zuweisungsform, im Gerüst ohne Zeile; W0 sieht ihn als Konstante nicht (Befund W0-BLIND, Achsen-Ratsche v892).' },
-  'BEREICHE_NATIV_KATALOG': { art: 'leer', grund: 'Backplatz des nativen Bereichskatalogs (= null), gefüllt aus tools/bereiche-nativ-katalog-modul.json; Region ohne AB_WERK-Präfix (Befund W0-BLIND, Achsen-Ratsche v892).' },
-  'LEBENSLAGEN_KATALOG': { art: 'leer', grund: 'Backplatz des Lebenslagen-Katalogs (= null), gefüllt aus tools/lebenslagen-katalog-modul.json; Region ohne AB_WERK-Präfix (Befund W0-BLIND, Achsen-Ratsche v892).' },
+  'BEREICHE_NATIV_KATALOG': { art: 'leer', grund: 'Backplatz des nativen Bereichskatalogs (= null), gefüllt aus einem nicht öffentlichen Katalogmodul; Region ohne AB_WERK-Präfix (Befund W0-BLIND, Achsen-Ratsche v892).' },
+  'LEBENSLAGEN_KATALOG': { art: 'leer', grund: 'Backplatz des Lebenslagen-Katalogs (= null), gefüllt aus einem nicht öffentlichen Katalogmodul; Region ohne AB_WERK-Präfix (Befund W0-BLIND, Achsen-Ratsche v892).' },
 });
 const MARKER_UEBERGANG = Object.freeze({
   'KENNUNG-MAPPING': 'Trägt Inhalt der Achse Felder (97 KB) — Abbaupfad bei der Achsen-Ratsche (Achsen-Ratsche tools/geruest-achsen-halter.json, ab v892).',

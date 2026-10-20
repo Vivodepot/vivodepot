@@ -21,8 +21,8 @@ sheet needs `titel`). All text is plain text.
 - It cannot widen access: a building block that would also release fields marked as sensitive
   (`baustein.weit`) is switched off for an unsigned template.
 
-Working examples: [`tools/angehoerigen-vorlagen/`](../../tools/angehoerigen-vorlagen/) (German and
-English sheets of the products).
+Working example: [`examples/angehoerigen-vorlage.example.json`](examples/angehoerigen-vorlage.example.json).
+Vivodepot's own sheets for relatives are not part of the public repository.
 
 ## Provider templates (forms with fields), signed only
 

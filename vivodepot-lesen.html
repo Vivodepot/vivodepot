@@ -252,6 +252,14 @@
       display: block; margin: 0; padding: 9px 22px; font-size: .88rem; line-height: 1.5;
       background: var(--flaeche-warm); color: var(--tinte); border-bottom: 1px solid var(--linie);
     }
+    /* Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026) — Module der Datei, die hier nicht angewandt werden. Gedämpft wie
+       herkunft-marke--offen, keine Warnfarbe: eine Angabe, kein Alarm; die Aussage steht im Text. */
+    .modul-nicht-angewandt {
+      display: block; margin: 0; padding: 9px 22px; font-size: .88rem; line-height: 1.5;
+      background: var(--flaeche-warm); color: var(--tinte); border-bottom: 1px solid var(--linie); border-left: 4px solid var(--tinte-weich);
+    }
+    .modul-nicht-angewandt p { margin: 0; }
+    .modul-nicht-angewandt ul { margin: 4px 0 0 0; padding-left: 18px; }
     .shell-body { flex: 1; display: flex; min-height: 0; }
     .shell-einzel { justify-content: center; }
     .sidebar {
@@ -281,6 +289,8 @@
        Depot einen Rahmen. KEIN Text daneben — ein angedockter Bereich soll sein wie ein eigener,
        nicht wie einer mit Beipackzettel (stehende Regel, 06.09.2026). */
     .bereich--angedockt { border-left: 3px solid var(--tinte-weich); padding-left: 16px; }
+    /* Nachbau C (LESE-APP-MODULE-OHNE-WAHL): ein neutral gezeigter Bereich eines nicht angewandten Moduls, gedämpft, keine Warnfarbe. */
+    .bereich--nicht-angewandt { border-left: 3px dashed var(--tinte-weich); padding-left: 16px; }
     .bereich-kopf h2 { margin: 0 0 4px; font-size: 1.4rem; }
     .bereich-intro { color: var(--tinte-weich); margin: 0 0 20px; }
     .sektion { margin-bottom: 26px; }
@@ -1717,7 +1727,8 @@ const _STRINGS_EINGEBAUT = ({
   antwortSignaturZeileBekannt: 'Unverändert seit dem Signieren · Schlüssel {abdruck} · bei dieser Stelle zuerst am {datum}',
   antwortSignaturZeileNeu: 'Unverändert seit dem Signieren · neuer Schlüssel · {abdruck}',
   antwortSignaturSachsatz: 'Signiert für {stelle}. Die Signatur zeigt, dass die Angaben seit dem Signieren unverändert sind und mit welchem Schlüssel signiert wurde. Wer antwortet, zeigt sie nicht. Schlüssel merkt sich die Lese-App nur, solange sie geöffnet ist.',
-  antwortOhneSignatur: 'Diese Antwort ist nicht signiert (ältere Fassung).',
+  antwortOhneSignatur: 'Diese Antwort ist nicht signiert. Die Fassung, mit der sie erstellt wurde, signiert noch keine Antworten.',
+  antwortUnsigniertBrowser: 'Diese Antwort ist nicht signiert (Browser ohne Ed25519).',
   // Wortlaut der Gegenlesung (15.10.2026), wörtlich; steht bei einer Antwort, deren aud in der Domäne unsigniert: liegt.
   antwortSignaturOhneZertifikat: 'Die Anfrage trug kein Zertifikat; wer sie gestellt hat und wer die Antwort gelesen hat, ist nicht geprüft.',
   antwortSignaturUngueltig: 'Die Signatur passt nicht zum Inhalt der Antwort. Die Antwort wird nicht angezeigt.',
@@ -1810,6 +1821,42 @@ const _STRINGS_EINGEBAUT = ({
      Feld-Definition mitbringt. Eigener Satz, an die beiden oben angehängt, nicht ein vierter
      Kombinationssatz — sonst verdoppelt jede weitere Quelle die Zahl der Sätze. */
   lueckenSatzFelder: 'In {k} Bereich(en) trägt diese Datei {f} Angabe(n), die diese Anwendung nicht kennt und die darum nicht dargestellt werden: {liste}. Sie bleiben in der Datei erhalten.',
+  /* Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026) — die Zeile unter der Herkunftsangabe, wenn die Datei Module mitbringt, die
+     hier nicht angewandt werden. Name und Wirkung je Art wortgleich mit dem Kern (`modulArt*`, `modulWirkung*` im deutschen
+     Textsatz des Kerns); die `modulWirkung*`-Sätze stehen in der Schutzliste (SCHUTZ_SCHLUESSEL_LESEN). */
+  moduleNichtAngewandtZeile: 'Diese Datei bringt Erweiterungen mit, die hier nicht angewandt werden:',
+  bereichNichtAngewandtText: 'Diese Angaben stehen in der Datei. Die Erweiterung, die den Bereich beschreibt, wird hier nicht angewandt. Gezeigt werden Kennung und Wert so, wie sie in der Datei stehen.',
+  feldNichtAngewandtMarke: 'aus einer nicht angewandten Erweiterung',
+  modulArtTextsatz: 'Beschriftungen',
+  modulArtStellensatz: 'Zuständige Stellen',
+  modulArtRechtsraum: 'Rechtsraum',
+  modulArtInstitutionsArt: 'Arten von Einrichtungen',
+  modulArtBlattformat: 'Blattformat',
+  modulArtBedingungskatalog: 'Bedingungen',
+  modulArtFormat: 'Austauschformat',
+  modulArtBereich: 'Bereich',
+  modulArtSituation: 'Lebenslagen',
+  modulArtWizard: 'Geführter Weg',
+  modulArtEreignisAchse: 'Ereignisse',
+  modulArtAngehoerigenVorlage: 'Blatt für Angehörige',
+  modulArtBranding: 'Erscheinungsbild der Marke',
+  modulArtLogikModul: 'Dokumentvorlage',
+  modulArtErscheinung: 'Erscheinungsbild',
+  modulWirkungTextsatz: 'Ändert Beschriftungen und Texte der Anwendung.',
+  modulWirkungStellensatz: 'Ändert, welche Stellen als zuständig genannt werden.',
+  modulWirkungRechtsraum: 'Bringt Dokumentarten eines anderen Rechtsraums mit.',
+  modulWirkungInstitutionsArt: 'Bringt weitere Arten von Einrichtungen zur Auswahl mit.',
+  modulWirkungBlattformat: 'Ändert das Format gedruckter Blätter.',
+  modulWirkungBedingungskatalog: 'Ersetzt die Auswahl der Bedingungen, unter denen Sie etwas herausgeben können.',
+  modulWirkungFormat: 'Bringt ein weiteres Format zum Austausch von Daten mit.',
+  modulWirkungBereich: 'Bringt weitere Bereiche mit.',
+  modulWirkungSituation: 'Bringt Lebenslagen mit.',
+  modulWirkungWizard: 'Bringt einen geführten Weg mit, der Sie durch Fragen führt.',
+  modulWirkungEreignisAchse: 'Ändert, welche Angaben auf Ereignisse wie Geburt, Familienstand oder Tod reagieren.',
+  modulWirkungAngehoerigenVorlage: 'Bringt ein Blatt für Angehörige mit.',
+  modulWirkungBranding: 'Ändert Name, Logo und Farben, die die Anwendung zeigt.',
+  modulWirkungLogikModul: 'Bringt eine Vorlage mit, die aus Ihren Angaben ein Dokument zusammenstellt.',
+  modulWirkungErscheinung: 'Ändert die Schriftgrößen von Beschriftungen, Werten, Gruppen, Abschnitten und Titeln.',
 });
 
 /* ── Der Textsatz erreicht den Empfänger (Glied 8 · U2-ADR-141 auf der Lese-Seite) ──────
@@ -2113,6 +2160,10 @@ const SCHUTZ_SCHLUESSEL_LESEN = new Set([
   "pvBmj#whoseViewMattersOtherPersonName.sektion",
   "strings:abWerkFassungErsetztText.text",
   "strings:abWerkFassungErsetztTitel.text",
+  "strings:antwortPasswortKurzText.text",
+  "strings:antwortPasswortKurzTitel.text",
+  "strings:antwortPasswortKurzTrotzdem.text",
+  "strings:bereichNichtAngewandtText.text",
   "strings:dokFussHaftung.text",
   "strings:erweiterungHinzufuegenFrage.text",
   "strings:erweiterungHinzufuegenJa.text",
@@ -2126,11 +2177,27 @@ const SCHUTZ_SCHLUESSEL_LESEN = new Set([
   "strings:erweiterungWahlText.text",
   "strings:erweiterungWahlTitel.text",
   "strings:erweiterungWahlZeile.text",
+  "strings:feldNichtAngewandtMarke.text",
   "strings:fussHaftung.text",
   "strings:klartextBindungFremdText.text",
   "strings:klartextBindungOrtKeinText.text",
   "strings:klartextBindungOrtText.text",
   "strings:klartextBindungTitel.text",
+  "strings:modulArtAngehoerigenVorlage.text",
+  "strings:modulArtBedingungskatalog.text",
+  "strings:modulArtBereich.text",
+  "strings:modulArtBlattformat.text",
+  "strings:modulArtBranding.text",
+  "strings:modulArtEreignisAchse.text",
+  "strings:modulArtErscheinung.text",
+  "strings:modulArtFormat.text",
+  "strings:modulArtInstitutionsArt.text",
+  "strings:modulArtLogikModul.text",
+  "strings:modulArtRechtsraum.text",
+  "strings:modulArtSituation.text",
+  "strings:modulArtStellensatz.text",
+  "strings:modulArtTextsatz.text",
+  "strings:modulArtWizard.text",
   "strings:modulWirkungAngehoerigenVorlage.text",
   "strings:modulWirkungBedingungskatalog.text",
   "strings:modulWirkungBereich.text",
@@ -2146,6 +2213,7 @@ const SCHUTZ_SCHLUESSEL_LESEN = new Set([
   "strings:modulWirkungStellensatz.text",
   "strings:modulWirkungTextsatz.text",
   "strings:modulWirkungWizard.text",
+  "strings:moduleNichtAngewandtZeile.text",
   "strings:pdfOhneSchriftHinweis.text",
   "strings:rueckfallSprachangabe.text",
   "vollmachtBmj#acceptPaymentsAndValuables.frage",
@@ -2210,26 +2278,26 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:0f01455aa7ca63e9cb44e0861ea466b9a1c6f1dee81fbc9d73cfbc958d0cdbb8",
   "sha256:0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
   "sha256:10277e2dd1c9ae51cbc473c4dc496a3063b83cdfb24d4918da0a676f17ffe64c",
+  "sha256:162a578753c73fa46d7b3705c8f25d9a71a9736621e96b472af15108c9d91f3b",
   "sha256:1c8d8e8c2194f7fa43ecec269f62a2cc244d5e8a99debc9e3680fc67e98909f7",
   "sha256:2685b2331a675c920d9272f1c6ce819fa34b3153cc1ec58a654a5a1fa26d4bbf",
   "sha256:2ed1acce49b700471e62beddf17a7262e88b3ff73753f220f44af3d5739f26c6",
   "sha256:2ffa1fee03cdb283b3d1634245b018132736607e2866d87bee7e7b9334320f94",
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
+  "sha256:3b28f194ef780cf14f822d0d6d7c381bcfe1d25405bb4b79628a9bae1ff6b102",
   "sha256:48eecf50d5bda7dbe67e03ef2f76088788100d6e818f5ed24d1dab06bd10fb94",
   "sha256:525d92f3334b2cb544ee89d1a541c661dfda1411ad187e067fef42e2eaf1ee64",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
   "sha256:67533c21c1d79f9a342f32a9e5372d8b951a6aa74f34579da136884991fb54d6",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
-  "sha256:77b11e967a59b7d0c7095dcf5a46464c41ad5723ca157d334a5b6572fff4731c",
   "sha256:787df8719d33a354b198901c75e4af3093439922f99f2c009045539c67212185",
   "sha256:7a6d29f8509d928a3af8e6c4e6f83b9ee8d8ef205bc0b9274cc5b9e395dc9c22",
   "sha256:7b79b98f9580e1db1582fa5d26ae10aaae25879357a0996f438b006f178d3098",
   "sha256:7d69d04b0157f28833e9bc549ba7a5beedbef9c3dc19340b836c5388a974df08",
   "sha256:81ffd0453d77d68d56b48747c1514a94126cd0b3911034e7f7af60112f17eecb",
   "sha256:8211701bc1860c8baddf1258e90aa5e4e450e5adf15073df60c0188db4326055",
-  "sha256:839b432fd2c9ec0221b281cd2ab6ac0588a9ccd183dfcb7118c849c6e611af94",
   "sha256:923f9e59ebcee0efaf47a3d2102efe8fa1b511d00ebf0f911307eca597741028",
   "sha256:9a01109354bbf33e180ddf0da88a573a0e31a091692f73ee7b6bdd2cc7f72a2b",
   "sha256:9ec1b079ddeb40ef42f4e8e3e33627a7b1bdc5e5d7b523f7e194728f2346970b",
@@ -2237,17 +2305,17 @@ const REZEPT_FINGERABDRUECKE_LESEN = new Set([
   "sha256:a076ff45e5b4156e0b3f0e2fc1b0510ccd34cb3c4816e00f04373143da2a59de",
   "sha256:a23b61e455773b6983c2b158b3aabba7ccd1b6ba5e912f95745ca157bb3992d2",
   "sha256:a349e68d1d95c99b7f4d8813cc22470fb1d6716a8175ac5c8f7c0647966a6b54",
-  "sha256:a70db1bd03f2e2379505548cb48e34fa76a8ed4511bc73e317e9b6a0af6667bf",
   "sha256:b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
   "sha256:c00302bfe2638cbf65dd79f56822046de7910d6ba6647a5f5d2ba3c07f6edcf9",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
-  "sha256:c9a008c4699827452c1c5e395c0b38efd8db44bdc0657ea9283ec1493eb03baa",
-  "sha256:da32ed8bb6afc5de4b3062fb8af6b4793625f5c30a30c8c3ee511879e899ebb9",
+  "sha256:c65b1e49717830345ebc6f4d865e4e498e430cb2640b57093a5f9914626c4998",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
   "sha256:e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
   "sha256:e8af4c9308a1cc2b3018c66b914b8f7f598007d557016bb10037ebec2fa2837c",
+  "sha256:f61d71827807c73bece1186d31ea3b645c4f2e8b9215fd95603b17c4f0f2a4e1",
   "sha256:fbef7f1831d1a8bb8a3a055c0b70df9d51e57c1e037244be54f395bea72c9ba8",
+  "sha256:fd8e2bb79d28b80ed003ee6e944078a0efea2c7bec83c02adf6a9e5455169351",
   "sha256:feb419a2bf7efa68348d922c4748978e5649c22d93888305b6d9139247a3e69b",
   "sha256:ff155c8832dbdf8d2394862185fbf5199a5ba4c32dc990bfbd5a4c4415de0004"
 ]);
@@ -2268,6 +2336,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:1228935368d4b2d7b2862c5d951700eaecea366520aa9f3f95444d155db7ccbd",
   "sha256:1325be7201bda1e4b147a97157c3911c98d5463d92f9875a90c7cba80c18bdf7",
   "sha256:1a0b18c37ce583b608790e55148334e2f2a324b3547e99a5fae7d7b210ee5f8c",
+  "sha256:1c8d8e8c2194f7fa43ecec269f62a2cc244d5e8a99debc9e3680fc67e98909f7",
   "sha256:1cc70be29ecb51dd95125876a9d64bc552393278ec73a3b6001425e81c08c028",
   "sha256:1cdc32ee692baea74d883b7cf82c750255c6b5eaadb12a8be3b47bf493bc178c",
   "sha256:21097d3de63f6675423c226be663762555c6ec52403a338754f5c2faeb653dbd",
@@ -2322,8 +2391,10 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:72dfa91887fdf70e5b33eefb0c5532e508d95bf9cd2a667b6a4bb37a3b483557",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
   "sha256:7369c899e58e72f31208e3a85a93fe274a123b0e2cba0b1b099d5caa6c10b632",
+  "sha256:77b11e967a59b7d0c7095dcf5a46464c41ad5723ca157d334a5b6572fff4731c",
   "sha256:7826bf7cdbd9bb7caefc02b74c7656628c62eac26abb554a9543847f5cd87079",
   "sha256:787df8719d33a354b198901c75e4af3093439922f99f2c009045539c67212185",
+  "sha256:7a6d29f8509d928a3af8e6c4e6f83b9ee8d8ef205bc0b9274cc5b9e395dc9c22",
   "sha256:7ace15761552c60824583d5e43be14465571b25391e847d3a80db5b04bcb2a85",
   "sha256:7b79b98f9580e1db1582fa5d26ae10aaae25879357a0996f438b006f178d3098",
   "sha256:7d69d04b0157f28833e9bc549ba7a5beedbef9c3dc19340b836c5388a974df08",
@@ -2357,6 +2428,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:a252081f0ff2407745522e01a607b366b54891ddecbd33e2470e6adba6433024",
   "sha256:a349e68d1d95c99b7f4d8813cc22470fb1d6716a8175ac5c8f7c0647966a6b54",
   "sha256:a505d35786820273ab27f58748ce5dda2f00470c089f5a04212a881633732926",
+  "sha256:a70db1bd03f2e2379505548cb48e34fa76a8ed4511bc73e317e9b6a0af6667bf",
   "sha256:aa1b06a5ff8bb190465c1912508b5af5518aec11aabe76b95177338d1357d8ce",
   "sha256:ac14b1367100968c9eb2860889363de067c769b65e1d2520ec5477405223b84e",
   "sha256:adf3f3de7da57b9a4f735002c03b4cc5b8ad17770a22300cb81f9222b3b9d8d6",
@@ -2371,12 +2443,14 @@ const ABWERK_FRUEHERE_FASSUNGEN_LESEN = new Set([
   "sha256:bece85cef62ff71ed2d874f0e71b1080052bd4c69022f2c707f99cf70507ee44",
   "sha256:c00302bfe2638cbf65dd79f56822046de7910d6ba6647a5f5d2ba3c07f6edcf9",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
+  "sha256:c9a008c4699827452c1c5e395c0b38efd8db44bdc0657ea9283ec1493eb03baa",
   "sha256:c9cec5ef5844c6434399c4699fdac97c7c41501a692920f80f5092de20dbf454",
   "sha256:cb91ac9f67ff925892c82e39e5fbf2dd939965200f8a1cfb3b5e813b84472827",
   "sha256:ce53661e870401960cc7cac7676949018a51f19140a3c5a95c0907013e295c6b",
   "sha256:d00dbad645e2a31f6caceef876dc191c6d106a51ee00e8461932eec085fb81d5",
   "sha256:d42fa3924e205e777486ada3ee78c1671309b81ab64136ef961f962659f46baa",
   "sha256:d9fb94d3337cf033dee1b1076d0a700b690f9ac898e72b3e04970a19dd001ea6",
+  "sha256:da32ed8bb6afc5de4b3062fb8af6b4793625f5c30a30c8c3ee511879e899ebb9",
   "sha256:dce646d0f3488d9274c798f9134b19508381e514bd4a0d36562a87d07c35e82c",
   "sha256:ddcfe5f5189ede9745f18c15273e233e82f6119c63f336361bc217ef9c42c9fe",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
@@ -6269,34 +6343,40 @@ const BEREICHSTEXTE_AUSGELIEFERT_LESEN = new Set([
 /* BEREICHSTEXTE-AUSGELIEFERT-LESEN:END */
 /* ABWERK-SCHUTZ-ZURUECKGEZOGEN-LESEN:BEGIN — generierter Bereich (Rücknahme-Wächter der früher ausgelieferten Schutztexte) */
 const ABWERK_SCHUTZ_ZURUECKGEZOGEN_LESEN = new Map([
-  ["sha256:1325be7201bda1e4b147a97157c3911c98d5463d92f9875a90c7cba80c18bdf7",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:21b9d470296dbbc6ea0e136889279af595835a43bd478c2e147b0cfcc66d5d9e",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:1228935368d4b2d7b2862c5d951700eaecea366520aa9f3f95444d155db7ccbd",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis"]],
+  ["sha256:1325be7201bda1e4b147a97157c3911c98d5463d92f9875a90c7cba80c18bdf7",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:21b9d470296dbbc6ea0e136889279af595835a43bd478c2e147b0cfcc66d5d9e",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:26626948b0e8678a0bfe0052833b5ee9f69b48047910ad1fc359decf5cd2c6f6",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:27ede9ca0b177c5844ff6f837ef2a4c440f84f6996ed8e63383ae56f197932ba",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:27ede9ca0b177c5844ff6f837ef2a4c440f84f6996ed8e63383ae56f197932ba",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:2b675ddc33ccc7c67d511e773b1e808877e84d9c3f516529eaf517dfa5caeae5",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:35bb24ef2f3d1bb8e9e63103667809d466c477069b0d8f6d0d0942b5fdd7df0e",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:434fb5d6198176873d30ffb32cf83722ba3be3e00152ba1159469cee2de11d07",["strings:moduleUngeprueftZeile.text"]],
-  ["sha256:4a4bcb2730dcd546edca37f6705caa856e58f95c2ff4fac1cb8b1505aa531dca",["strings:moduleUngeprueftZeile.text"]],
+  ["sha256:35bb24ef2f3d1bb8e9e63103667809d466c477069b0d8f6d0d0942b5fdd7df0e",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:434fb5d6198176873d30ffb32cf83722ba3be3e00152ba1159469cee2de11d07",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text"]],
+  ["sha256:4a4bcb2730dcd546edca37f6705caa856e58f95c2ff4fac1cb8b1505aa531dca",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text"]],
   ["sha256:4d573e297e2b170d5303b1c4fd6b1a0edce40c1cb7bef9249f765fdccf15a276",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:72dfa91887fdf70e5b33eefb0c5532e508d95bf9cd2a667b6a4bb37a3b483557",["strings:moduleUngeprueftZeile.text"]],
-  ["sha256:7ace15761552c60824583d5e43be14465571b25391e847d3a80db5b04bcb2a85",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:7dc44d53750c0d0ede205bcd34bac0bbe45533c6be1f3cd594df74ee04bd25e9",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis"]],
+  ["sha256:72dfa91887fdf70e5b33eefb0c5532e508d95bf9cd2a667b6a4bb37a3b483557",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text"]],
+  ["sha256:7ace15761552c60824583d5e43be14465571b25391e847d3a80db5b04bcb2a85",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:7dc44d53750c0d0ede205bcd34bac0bbe45533c6be1f3cd594df74ee04bd25e9",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:820ddffae04bd5d922bbba4d49d9677bca441aee83351b7c1b65a8b76124ebd7",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:823cdeb67d33cb4d2e1cbec70db0bdffa22f3dbc22ee1b9ca602f9a2d08eac41",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:8459c1a9536e90f01348d53d857e87d7e857bc7ead98f06385f307cb21695767",["strings:moduleUngeprueftZeile.text"]],
-  ["sha256:8caabec0ddc01851757675eb58c7a683ecc1c6c9551924ed0308b1ba45967b12",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:87c411606241e5868cbe05647aa30dff616d334a6eab848dea9a211d39a1a80a",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis"]],
+  ["sha256:8caabec0ddc01851757675eb58c7a683ecc1c6c9551924ed0308b1ba45967b12",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:915983a9a4da3077d9430ec5a9435806003fb0d6795f7dfa22a31e0551e4c7b5",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:954bb3f50bbbd97e7a8dd61aac58ed92fdfcd94e44e07e7fd46338520c48ae5b",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:989af3cd946d56af72c88fc1367c814310cb49b88b5d0a17fa3eb44041ebf8cc",["strings:moduleUngeprueftZeile.text"]],
-  ["sha256:a0024d9aaea0066ff63117b9bb749d64aec6dd9fc53551928189273aedaf592d",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:989af3cd946d56af72c88fc1367c814310cb49b88b5d0a17fa3eb44041ebf8cc",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text"]],
+  ["sha256:a0024d9aaea0066ff63117b9bb749d64aec6dd9fc53551928189273aedaf592d",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:a70db1bd03f2e2379505548cb48e34fa76a8ed4511bc73e317e9b6a0af6667bf",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis"]],
   ["sha256:b5d4af17fff8e1b4917df02c1c6995fbe7c9abd530a0e6df13cf9b9ac9ceca76",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:b60f319caff438f4288e954b9415e7076f8491eb65fee946ee3cbf68f7141448",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:b943bf9d65b5ca636486ef7ad7fe18955defd34c4ccdc3979087bceda82daa4f",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
-  ["sha256:d42fa3924e205e777486ada3ee78c1671309b81ab64136ef961f962659f46baa",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:b943bf9d65b5ca636486ef7ad7fe18955defd34c4ccdc3979087bceda82daa4f",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:d42fa3924e205e777486ada3ee78c1671309b81ab64136ef961f962659f46baa",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
   ["sha256:d9fb94d3337cf033dee1b1076d0a700b690f9ac898e72b3e04970a19dd001ea6",["strings:moduleUngeprueftZeile.text"]],
+  ["sha256:ddcfe5f5189ede9745f18c15273e233e82f6119c63f336361bc217ef9c42c9fe",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis"]],
   ["sha256:e5458f9a32855890b81d967ebc0a9b6e56555c88f7c3c2a889f261ed57f5cecd",["strings:moduleUngeprueftZeile.text"]],
   ["sha256:ec0979eca20bdf2ec93fef2208281c1beb1a956b5bc78d61dddc2e6a2909bfd8",["strings:moduleUngeprueftZeile.text"]],
-  ["sha256:ec9c03c30e230dc1b5ed3ce16dbbe70ff693364f8bb4e88e8e4c42d899f01bf3",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]]
+  ["sha256:ec9c03c30e230dc1b5ed3ce16dbbe70ff693364f8bb4e88e8e4c42d899f01bf3",["dok:patientenverfuegung#1/applicableSituations.einleitung","dok:patientenverfuegung#10/informationOrCounsellingReceived.satz","dok:patientenverfuegung#3/hospiceSupport.text","dok:patientenverfuegung#3/supportFromChurchOrCommunity.satz","dok:patientenverfuegung#3/supportFromThesePersons.satz","dok:patientenverfuegung#4/confidentialityWaiverFor.satz","dok:patientenverfuegung#5/0.texte[0]","dok:patientenverfuegung#7/authorizedPersons.einleitung","dok:patientenverfuegung#7/authorizedPersons.rollenLabel","dok:patientenverfuegung#7/proposedPerson.rollenLabel","strings:moduleUngeprueftZeile.text","vollmachtBmj#healthCareMedicalProcedures.frage"]],
+  ["sha256:eda559dab476d53a6d18ef7b54b9266f2b096b58b3320484ea3e4012a6c689fa",["dok:zugang-zum-recht-beratungshilfe#1/0.texte[0]","dok:zugang-zum-recht-beratungshilfe.h1","dok:zugang-zum-recht-beratungshilfe.unterschriftErsatzHinweis"]]
 ]);
 /* ABWERK-SCHUTZ-ZURUECKGEZOGEN-LESEN:END */
 
@@ -6382,6 +6462,40 @@ const ZUSICHERUNG_TEXTE_EN = Object.freeze({
    Stellen wie im deutschen Satz. Gilt nur bei Textsprache `en`; ein Modul oder die Mitschrift der Datei gewinnt davor
    (anders als die Zusicherungssätze oben — das sind gewöhnliche Beschriftungen). Vollständigkeit: tests/lese-app-oberflaeche-en.test.js. */
 const LESE_TEXTE_EN = Object.freeze({
+  // Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026): die Zeile unter der Herkunftsangabe; Namen und Wirkung wortgleich mit dem englischen Textsatz des Kerns.
+  moduleNichtAngewandtZeile: 'This file brings extensions that are not applied here:',
+  bereichNichtAngewandtText: 'These entries are in the file. The extension that describes this area is not applied here. Each entry is shown with its identifier and value as they appear in the file.',
+  feldNichtAngewandtMarke: 'from an extension that is not applied',
+  modulArtTextsatz: 'Labels',
+  modulArtStellensatz: 'Responsible offices',
+  modulArtRechtsraum: 'Legal system',
+  modulArtInstitutionsArt: 'Types of institution',
+  modulArtBlattformat: 'Sheet format',
+  modulArtBedingungskatalog: 'Conditions',
+  modulArtFormat: 'Exchange format',
+  modulArtBereich: 'Area',
+  modulArtSituation: 'Life situations',
+  modulArtWizard: 'Guided path',
+  modulArtEreignisAchse: 'Events',
+  modulArtAngehoerigenVorlage: 'Sheet for relatives',
+  modulArtBranding: 'Brand appearance',
+  modulArtLogikModul: 'Document template',
+  modulArtErscheinung: 'Appearance',
+  modulWirkungTextsatz: 'Changes the labels and texts of the application.',
+  modulWirkungStellensatz: 'Changes which authorities are named as responsible.',
+  modulWirkungRechtsraum: 'Adds document types of another jurisdiction.',
+  modulWirkungInstitutionsArt: 'Adds further types of institutions to choose from.',
+  modulWirkungBlattformat: 'Changes the format of printed sheets.',
+  modulWirkungBedingungskatalog: 'Replaces the choice of terms under which you can share something.',
+  modulWirkungFormat: 'Adds another format for exchanging data.',
+  modulWirkungBereich: 'Adds further areas.',
+  modulWirkungSituation: 'Adds life situations.',
+  modulWirkungWizard: 'Adds a guided path that takes you through questions.',
+  modulWirkungEreignisAchse: 'Changes which entries respond to events such as birth, marital status or death.',
+  modulWirkungAngehoerigenVorlage: 'Adds a sheet for relatives.',
+  modulWirkungBranding: 'Changes the name, logo and colours the application shows.',
+  modulWirkungLogikModul: 'Adds a template that puts together a document from your entries.',
+  modulWirkungErscheinung: 'Changes the font sizes of labels, values, groups, sections and titles.',
   navAngehoerigenBlaetter: "Sheets for relatives",
   hilfeEmpfaengerinTitel: "Help",
   herkunftUrheberin: "Copyright holder",
@@ -6482,7 +6596,8 @@ const LESE_TEXTE_EN = Object.freeze({
   antwortSignaturZeileBekannt: "Unchanged since signing · key {abdruck} · first seen here on {datum}",
   antwortSignaturZeileNeu: "Unchanged since signing · new key · {abdruck}",
   antwortSignaturSachsatz: "Signed for {stelle}. The signature shows that the entries are unchanged since signing and which key signed them. It does not show who is replying. The reader app remembers keys only while it is open.",
-  antwortOhneSignatur: "This reply is not signed (earlier version).",
+  antwortOhneSignatur: "This reply is not signed. The version that created it does not sign replies yet.",
+  antwortUnsigniertBrowser: "This reply is not signed (browser without Ed25519).",
   antwortSignaturOhneZertifikat: "The request carried no certificate; who made it and who read the reply is not verified.",
   antwortSignaturUngueltig: "The signature does not match the content of the reply. The reply is not shown.",
   antwortSignaturVerfahren: "The reply is signed with a method this reader app does not accept. The reply is not shown.",
@@ -6752,7 +6867,7 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "people.careLeaveFamilyCareLeave.label": "Pflegezeit / Familienpflegezeit",
   "people#partnerschaft-sek.label": "Ehe- / Lebenspartnerschaft",
   "people.spouseOrCivilPartner.label": "Ehepartnerin/Ehepartner oder Lebenspartnerin/Lebenspartner",
-  "people.einfuehrungstext": "Die Menschen, die Ihnen wichtig sind — und die im Ernstfall erreichbar sein sollten. Auch jene, die sonst niemand kennt.",
+  "people.einfuehrungstext": "Familie, Freunde, Ansprechpersonen — wer Ihnen wichtig ist und wie man sie erreicht. Auch jene, die sonst niemand kennt.",
   "mobility.label": "Mobilität & Reise",
   "mobility#fahrzeuge-fuehrerschein.label": "Fahrzeuge und Führerschein",
   "mobility.vehicles.label": "Fahrzeuge",
@@ -6870,6 +6985,7 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "assets.maintenanceObligations.label": "Unterhaltsverpflichtungen",
   "assets.incomeOfOtherPeopleInThe.label": "Einkommen weiterer Personen im Haushalt",
   "assets.monthlyCommitments.label": "Monatliche Belastungen",
+  "assets.einfuehrungstext": "Einkommen, Wohnkosten, Belastungen — was hereinkommt und was laufend abgeht.",
   "health.label": "Gesundheit",
   "health#notfall-aerzte.label": "Notfall, Ärzte, Impfungen, Befunde",
   "health.generalPractitioner.label": "Hausärztin / Hausarzt",
@@ -6933,7 +7049,7 @@ const TEXTSATZ_EINGEBAUT_LESEN = Object.freeze({
   "health.familyMedicalHistory/familyMember.label": "Angehörige / Angehöriger",
   "health.familyMedicalHistory/condition.label": "Erkrankung",
   "health.familyMedicalHistory/ageAtDiagnosis.label": "Alter bei Erkrankung",
-  "health.einfuehrungstext": "Allergien, Medikamente, Blutgruppe — im Notfall sofort zur Hand.",
+  "health.einfuehrungstext": "Ärzte, Medikamente, Allergien, Befunde — beisammen für den nächsten Termin und für den Notfall.",
   "education.label": "Bildung & Beruf",
   "education#ausbildung-beruf.label": "Ausbildung, Beruf, Einkommen, Zeugnisse",
   "education.schoolLeavingQualification.label": "Schulabschluss",
@@ -7723,7 +7839,7 @@ function _textsatzRegelnPruefen(roh, verworfene) {
 }
 
 /* REIN/testbar. Dieselbe Ergebnisform wie im Kern (gueltig/grund/texte/regeln/verworfene). Wirft nie. */
-/* SIGNIERTE SPRACHMODULE DÜRFEN ZUSICHERUNGSSÄTZE ÜBERSETZEN (Spiegel des Kerns, Entwurf U2-ADR-425, 19.09.2026). Vertrauen kommt NUR aus
+/* SIGNIERTE SPRACHMODULE DÜRFEN ZUSICHERUNGSSÄTZE ÜBERSETZEN (Spiegel des Kerns, U2-ADR-423, 19.09.2026). Vertrauen kommt NUR aus
    einer beim Öffnen erneut geprüften Signaturkette (`_textsatzModuleBelegPruefen`), nie aus einem Marker in der Datei; gemerkt wird der
    Fingerabdruck der geprüften Nutzlast. Prüfstufe nur `intern` und `extern-geprueft:pruefer`; Deutsch und Englisch bleiben app-eigen. */
 const TEXTSATZ_ZUSICHERUNG_PRUEFSTUFEN = Object.freeze(['intern', 'extern-geprueft:pruefer']);
@@ -7743,8 +7859,18 @@ function _textsatzBelegtEintragen(nutzlast, pruefstufe, anbieterId) {
     : ((nutzlast && typeof nutzlast.anbieterId === 'string' && nutzlast.anbieterId.trim()) ? nutzlast.anbieterId.trim().toLowerCase() : null);
   _TEXTSATZ_BELEGT.set(fp, { pruefstufe, anbieterId: anbieter });
   /* Für die Schutzliste zählt der GANZE Inhalt der signierten Nutzlast, nicht der Zusicherungs-Fingerabdruck (Spiegel des Kerns). */
-  if (pruefstufe === 'intern') { const voll = _modulFingerabdruck(nutzlast); if (voll) _TEXTSATZ_INTERN_VOLL.add(voll); }
+  const voll = _modulFingerabdruck(nutzlast);
+  if (voll) {
+    _TEXTSATZ_SIGNIERT_VOLL_LESEN.add(voll);   // Befund LESE-APP-MODULE-OHNE-WAHL: wirkt ohne Wahl, Spiegel von _TEXTSATZ_SIGNIERT_VOLL im Kern
+    if (pruefstufe === 'intern') _TEXTSATZ_INTERN_VOLL.add(voll);
+  }
   return true;
+}
+/* Volle Inhalts-Fingerabdrücke der beim Öffnen nachgeprüften Sprachmodul-Nutzlasten (Spiegel des Kerns): ein Sprachmodul der Datei
+   mit genau diesem Inhalt wird angewandt (`_depotModuleNichtAngewandtMarkierenLesen`). */
+const _TEXTSATZ_SIGNIERT_VOLL_LESEN = new Set();
+function _textsatzSigniertVollGleichLesen(m) {
+  try { const voll = _modulFingerabdruck(m); return !!(voll && _TEXTSATZ_SIGNIERT_VOLL_LESEN.has(voll)); } catch (_) { return false; }
 }
 function _textsatzModulBelegtInfo(m) {
   if (!m || typeof m !== 'object' || m.sprache === TEXTSATZ_SPRACHE_EINGEBAUT || m.sprache === 'en') return null;
@@ -7936,6 +8062,7 @@ function _istSchutzKennung(kennung) {
 async function _textsatzModuleBelegPruefen(d, opts) {
   _TEXTSATZ_BELEGT.clear();
   _TEXTSATZ_INTERN_VOLL.clear();
+  _TEXTSATZ_SIGNIERT_VOLL_LESEN.clear();
   const liste = (d && Array.isArray(d.textsatzModule)) ? d.textsatzModule : [];
   let summen = null;   // einmal je Öffnen gerechnet, erst wenn ein Modul einen Beleg trägt
   for (const m of liste) {
@@ -8000,7 +8127,7 @@ function textsatzModulPruefen(modul, opt) {
 function _textsatzModuleAusDepotAnmelden(d) {
   _verwurfSpurZuruecksetzenLesen(['sprache', 'sprache-mitschrift', 'sprache-eingebaut', 'sprache-text']);
   const ziel = (d && typeof d === 'object') ? d : (typeof data !== 'undefined' ? data : null);
-  const liste = (ziel && Array.isArray(ziel.textsatzModule)) ? ziel.textsatzModule : [];
+  const liste = _depotModuleWirksamLesen((ziel && Array.isArray(ziel.textsatzModule)) ? ziel.textsatzModule : []);   // LESE-APP-MODULE-OHNE-WAHL
   const registry = Object.create(null);
   const regelnRegistry = Object.create(null);
   /* Die eingebackene englische Basis (B3-EN-BASIS, 19.09.2026) ist seit S1 leer (null): Englisch hängt ausschließlich an der Mitschrift und an
@@ -8293,7 +8420,7 @@ function sprachfassungHinweisHTML() {
 let _RECHTSRAUM_MODUL_REGISTRY = Object.create(null);
 function _rechtsraumModuleAusDepotAnmelden(d) {
   const ziel = (d && typeof d === 'object') ? d : (typeof data !== 'undefined' ? data : null);
-  const liste = (ziel && Array.isArray(ziel.rechtsraumModule)) ? ziel.rechtsraumModule : [];
+  const liste = _depotModuleWirksamLesen((ziel && Array.isArray(ziel.rechtsraumModule)) ? ziel.rechtsraumModule : []);   // LESE-APP-MODULE-OHNE-WAHL
   const registry = Object.create(null);
   let n = 0;
   for (const m of liste) {
@@ -8483,6 +8610,182 @@ function herkunftBlockHTML(h) {
   return '<div class="herkunft-marke herkunft-marke--' + stand + '" id="herkunft-marke">' +
     '<strong>' + escapeHTML(STRINGS.herkunftTitel) + '</strong> ' +
     escapeHTML(modulHerkunftSatz(h)) + '</div>';
+}
+
+/* ══ MODULE DER DATEI WIRKEN NUR NACH DEN AUSNAHMEN DES KERNS (Befund LESE-APP-MODULE-OHNE-WAHL, 17.10.2026) ══════
+   DER BEFUND: der Kern lässt ein Modul, das eine geöffnete Datei mitbringt, nur wirken, wenn es ab Werk ist, mit der eigenen
+   Auslieferung kam, nachgeprüft signiert ist oder die Person es in dieser Sitzung wählt (`_depotModuleNichtGewaehltMarkieren`,
+   „Wahl statt Schalter“). Die Lese-App meldete jedes Modul der Datei an — ein Absender, der die Datei in der Hand hat,
+   bestimmte damit Marke, Beschriftungen, Bereiche, Blätter und Dokumentvorlagen beim Empfänger.
+
+   DIE ENTSCHEIDUNG: in der Lese-App wirkt ein Modul der Datei nur, wenn es unter dieselben Ausnahmen fällt wie im Kern.
+   Alle anderen wirken nicht, und die Lese-App bietet KEINE Wahl an: sie liest eine fremde Datei, die Empfängerin hat keinen
+   Grund und keine Grundlage, einem Modul daraus zu trauen. Sichtbar wird eine Zeile unter der Herkunftsangabe, die die nicht
+   angewandten Module mit Name und Wirkung nennt (`moduleNichtAngewandtZeileHTML`). Die Werte der Datei bleiben unberührt.
+
+   DIE AUSNAHMEN, je mit dem Gegenstück im Kern:
+     - ab Werk nach Inhalt (`_abWerkHerkunftLesen`, Kern `_abWerkHerkunft`), festgestellt in `_depotModuleAbWerkPruefenLesen`;
+     - ein Sprachmodul, dessen Inhalt einer beim Öffnen nachgeprüften Nutzlast gleicht (`_textsatzSigniertVollGleichLesen`,
+       Kern `_textsatzSigniertVollGleich`) oder das über die eigene Treuhand kam (`_textsatzPruefstufeFuerSchutz`);
+     - jedes Modul mit einem Beleg, den die Ladeprüfung unten nachgeprüft hat (`modulBelegGeprueftLesen`, Kern
+       `modulBelegGeprueft`).
+   ENTFÄLLT: `_vorDepotGleich` des Kerns. Dort ist es die Vor-Depot-Konfiguration einer Institution, die mit DIESER Anwendung
+   ausgeliefert und beim Start gegen den Anker geprüft wurde. Die Lese-App hat keine Vor-Depot-Auslieferung (sie wird nicht
+   konfektioniert, s. `_markeName`; dieselbe Lücke benennt `_waehrungNurAusSaatLesen`) — es gibt nichts, dem ein Modul der
+   Datei gleichen könnte.
+   Wer entscheidet, ob ein Modul wirkt, fragt `_depotModuleWirksamLesen(liste)`; ein Feld im Modul liest dafür niemand. */
+
+/* Das Register jedes Fachs, Spiegel der Paare `typ`/`slot` in EINLASS_REGISTER des Kerns. Die Ladeprüfung verlangt wie dort,
+   dass die signierte Nutzlast zu dem Fach passt, in dem das Modul steht. Gleichheit mit dem Kern hält
+   tests/lese-app-module-ohne-wahl.test.js. */
+const MODUL_SLOT_TYP_LESEN = Object.freeze({
+  textsatzModule: 'textsatz', stellensatzModule: 'stellensatz', rechtsraumModule: 'rechtsraum', institutionsArten: 'institutionsArt',
+  blattformatModule: 'blattformat', bedingungskatalogModule: 'bedingungskatalog', formatModule: 'format', bereichsModule: 'bereich',
+  situationsModule: 'situation', wizardsModule: 'wizard', ereignisAchseModule: 'ereignisAchse',
+  angehoerigenVorlagenModule: 'angehoerigenVorlage', brandingModule: 'branding', logikModule: 'logikModul', erscheinungsModule: 'erscheinung',
+});
+/* LADEPRÜFUNG FÜR ALLE REGISTER (Spiegel von `_belegKettePruefen`/`_modulBelegNachpruefen`/`_depotModuleBelegPruefen` im Kern).
+   Derselbe Kettenweg wie die Sprachmodule oben (verifiziereProviderCredential mit Widerrufsliste, _verifiziereTemplateSignatur,
+   _pruefstufeFuerModul) — kein zweiter Prüfweg, keine eigene Kryptographie. Gilt nur, wenn die signierte Nutzlast zum Fach passt und
+   INHALTSGLEICH mit dem gespeicherten Modul ist (_modulFingerabdruck ohne die Einlass-Felder). Das Ergebnis lebt nur im
+   Arbeitsspeicher, je Modul-Objekt und gebunden an den Fingerabdruck zur Prüfzeit; ein Feld im Modul (`ungeprueft`, `pruefstufe`,
+   `signiert` …) liest dafür niemand. Abweichung vom Kern, wie bei den Sprachmodulen oben: die Lese-App lehnt nach der Prüfstufe
+   nichts ab, sie hält nur fest, was nachgeprüft ist. */
+let _MODUL_BELEG_GEPRUEFT_LESEN = new WeakMap();
+let _MODUL_BELEG_FP_LESEN = new WeakMap();
+async function _belegKettePruefenLesen(beleg, opts) {
+  const b = beleg;
+  if (!b || typeof b !== 'object' || typeof b.providerCredentialJws !== 'string' || typeof b.modulSignaturJws !== 'string') return null;
+  const o = Object.assign({}, opts, typeof b.ausstellerZertifikatJws === 'string' ? { ausstellerZertifikatJws: b.ausstellerZertifikatJws } : {});
+  const certRes = await verifiziereProviderCredential(b.providerCredentialJws, o);
+  if (!certRes || !certRes.gueltig) return null;
+  const tv = await _verifiziereTemplateSignatur(certRes.nutzlast, b.modulSignaturJws, o);
+  if (!tv || !tv.gueltig || !tv.nutzlast || typeof tv.nutzlast !== 'object') return null;
+  return { certRes, tv };
+}
+async function _modulBelegNachpruefenLesen(m, slot, opts, summen) {
+  if (!m || typeof m !== 'object' || !MODUL_SLOT_TYP_LESEN[slot]) return null;
+  const k = await _belegKettePruefenLesen(m.beleg, opts);
+  if (!k || k.tv.nutzlast.modulTyp !== MODUL_SLOT_TYP_LESEN[slot]) return null;
+  const fp = _modulFingerabdruck(m);
+  if (!fp || fp !== _modulFingerabdruck(k.tv.nutzlast)) return null;
+  const stufe = _pruefstufeFuerModul(k.certRes, k.tv.nutzlast, summen);
+  return { stufe: (stufe && stufe.stufe) || null, anbieterId: (k.tv.anbieter || {}).anbieterId || null, fp };
+}
+async function _depotModuleBelegPruefenLesen(d, opts) {
+  _MODUL_BELEG_GEPRUEFT_LESEN = new WeakMap();
+  _MODUL_BELEG_FP_LESEN = new WeakMap();
+  if (!d || typeof d !== 'object') return 0;
+  let n = 0, summen = null;   // die Summen der Originalsätze einmal je Öffnen, erst wenn ein Modul einen Beleg trägt
+  for (const slot of MODUL_SLOTS) {
+    for (const m of (Array.isArray(d[slot]) ? d[slot] : [])) {
+      if (!m || typeof m !== 'object' || !m.beleg) continue;
+      try {
+        if (!summen) summen = await _originaleSummenLesen();
+        const r = await _modulBelegNachpruefenLesen(m, slot, opts, summen);
+        if (r) { _MODUL_BELEG_GEPRUEFT_LESEN.set(m, Object.freeze({ stufe: r.stufe, anbieterId: r.anbieterId })); _MODUL_BELEG_FP_LESEN.set(m, r.fp); n++; }
+      } catch (_) { /* nicht prüfbar: ohne Beleg */ }
+    }
+  }
+  return n;
+}
+function modulBelegGeprueftLesen(m) {
+  const r = (m && typeof m === 'object' && _MODUL_BELEG_GEPRUEFT_LESEN.get(m)) || null;
+  if (!r) return null;
+  try { return (_MODUL_BELEG_FP_LESEN.get(m) === _modulFingerabdruck(m)) ? r : null; } catch (_) { return null; }
+}
+/* Die Markierung, einmal je Öffnen, NACH Ab-Werk- und Belegprüfung und VOR dem Falten (`_depotUebernehmenGeprueft`): kein Register
+   meldet ein Modul an, bevor feststeht, ob es wirkt. Gemerkt wird das Modul-Objekt. Wer ein Modul-Objekt danach durch eine Kopie
+   ersetzt, überträgt die Markierung (`_foldVollmachtenLesen`, Umschreibung der Logik-Module). */
+let _DEPOT_NICHT_ANGEWANDT_LESEN = new WeakSet();
+function _depotModuleNichtAngewandtMarkierenLesen(d) {
+  _DEPOT_NICHT_ANGEWANDT_LESEN = new WeakSet();
+  if (!d || typeof d !== 'object') return 0;
+  let n = 0;
+  for (const slot of MODUL_SLOTS) {
+    for (const m of (Array.isArray(d[slot]) ? d[slot] : [])) {
+      if (!m || typeof m !== 'object') continue;
+      if (slot === 'textsatzModule' && _textsatzSigniertVollGleichLesen(m)) continue;
+      if (slot === 'textsatzModule' && _textsatzPruefstufeFuerSchutz(m)) continue;
+      if (_abWerkHerkunftLesen(m)) continue;
+      if (modulBelegGeprueftLesen(m)) continue;
+      _DEPOT_NICHT_ANGEWANDT_LESEN.add(m);
+      n++;
+    }
+  }
+  return n;
+}
+function _depotModulNichtAngewandtLesen(m) {
+  return !!m && typeof m === 'object' && _DEPOT_NICHT_ANGEWANDT_LESEN.has(m);
+}
+/* Die EINE Stelle, an der jede Lesestelle eines Modul-Fachs filtert: was nicht angewandt wird, kommt nicht an. */
+function _depotModuleWirksamLesen(liste) {
+  if (!Array.isArray(liste)) return [];
+  return liste.filter((m) => !_depotModulNichtAngewandtLesen(m));
+}
+/* Name und Wirkung, Spiegel von `_modulAnzeigeName`/`_modulWirkung` im Kern: nie Typ oder Kennung in der Benutzersicht. */
+function _modulAnzeigeNameLesen(typ, m) {
+  const text = (x) => {
+    if (typeof x === 'string') return x;
+    if (x && typeof x === 'object' && !Array.isArray(x)) return Object.values(x).find((v) => typeof v === 'string' && v.trim()) || '';
+    return '';
+  };
+  const art = ({
+    textsatz: STRINGS.modulArtTextsatz, stellensatz: STRINGS.modulArtStellensatz, rechtsraum: STRINGS.modulArtRechtsraum,
+    institutionsArt: STRINGS.modulArtInstitutionsArt, blattformat: STRINGS.modulArtBlattformat, bedingungskatalog: STRINGS.modulArtBedingungskatalog,
+    format: STRINGS.modulArtFormat, bereich: STRINGS.modulArtBereich, situation: STRINGS.modulArtSituation, wizard: STRINGS.modulArtWizard,
+    ereignisAchse: STRINGS.modulArtEreignisAchse, angehoerigenVorlage: STRINGS.modulArtAngehoerigenVorlage, branding: STRINGS.modulArtBranding,
+    logikModul: STRINGS.modulArtLogikModul, erscheinung: STRINGS.modulArtErscheinung,
+  })[typ];
+  const eigen = m ? text(m.titel || m.name || m.label) : '';
+  if (eigen && String(eigen).trim()) return art + ' · ' + String(eigen).trim();
+  if (typ === 'bereich' && m && m.bereiche && typeof m.bereiche === 'object') {
+    const namen = Object.values(m.bereiche).map((b) => b && text(b.label)).filter((x) => x && String(x).trim());
+    if (namen.length) return art + ' · ' + namen.join(', ');
+  }
+  if (typ === 'textsatz' && m && typeof m.sprache === 'string') {
+    try {
+      const sprache = new Intl.DisplayNames([m.sprache], { type: 'language' }).of(m.sprache);
+      if (sprache && sprache !== m.sprache) return art + ' · ' + sprache;
+    } catch (e) { /* Sprache unbekannt: die Art allein */ }
+  }
+  return art;
+}
+function _modulWirkungLesen(typ) {
+  return ({
+    textsatz: STRINGS.modulWirkungTextsatz, stellensatz: STRINGS.modulWirkungStellensatz, rechtsraum: STRINGS.modulWirkungRechtsraum,
+    institutionsArt: STRINGS.modulWirkungInstitutionsArt, blattformat: STRINGS.modulWirkungBlattformat, bedingungskatalog: STRINGS.modulWirkungBedingungskatalog,
+    format: STRINGS.modulWirkungFormat, bereich: STRINGS.modulWirkungBereich, situation: STRINGS.modulWirkungSituation, wizard: STRINGS.modulWirkungWizard,
+    ereignisAchse: STRINGS.modulWirkungEreignisAchse, angehoerigenVorlage: STRINGS.modulWirkungAngehoerigenVorlage, branding: STRINGS.modulWirkungBranding,
+    logikModul: STRINGS.modulWirkungLogikModul, erscheinung: STRINGS.modulWirkungErscheinung,
+  })[typ];
+}
+/* Die nicht angewandten Module des Depots, je mit Name und Wirkung (Spiegel von `nichtGewaehlteDepotModule` im Kern). */
+function moduleNichtAngewandtLesen(depot) {
+  const raus = [];
+  try {
+    const d = (depot && typeof depot === 'object') ? depot : (typeof data !== 'undefined' ? data : null);
+    if (!d) return raus;
+    for (const slot of MODUL_SLOTS) {
+      const typ = MODUL_SLOT_TYP_LESEN[slot];
+      for (const m of (Array.isArray(d[slot]) ? d[slot] : [])) {
+        if (!_depotModulNichtAngewandtLesen(m)) continue;
+        raus.push({ typ, name: _modulAnzeigeNameLesen(typ, m), wirkung: _modulWirkungLesen(typ) });
+      }
+    }
+  } catch (e) { /* defensiv — eine Angabe darf dem Empfänger nie sein Depot nehmen */ }
+  return raus;
+}
+/* Die Zeile unter der Herkunftsangabe. BEDINGT, anders als herkunft-marke/stand-marke: sie erscheint nur, wenn die Datei ein
+   Modul mitbringt, das hier nicht angewandt wird (U2-ADR-145: ein Hinweis ohne Anlass ist Rauschen). Ruhig gesetzt wie
+   herkunft-marke--offen, keine Warnfarbe: die Aussage steht im Text. Jeder Wert über escapeHTML. */
+function moduleNichtAngewandtZeileHTML(depot) {
+  const liste = moduleNichtAngewandtLesen(depot);
+  if (!liste.length) return '';
+  let h = '<div class="modul-nicht-angewandt" id="modul-nicht-angewandt"><p>' + escapeHTML(STRINGS.moduleNichtAngewandtZeile) + '</p><ul>';
+  for (const g of liste) h += '<li>' + escapeHTML(g.name + ' · ' + g.wirkung) + '</li>';
+  h += '</ul></div>';
+  return h;
 }
 
 /* ══ U2-ADR-259 — DIE ZWEITE ANGABE AUF DEMSELBEN WEG ══════════════════════════════════════
@@ -9143,7 +9446,7 @@ const SEKTOREN = Object.freeze([
     "label": "Meine Menschen",
     "format": "GENERISCH",
     "icon": "users",
-    "einfuehrungstext": "Die Menschen, die Ihnen wichtig sind — und die im Ernstfall erreichbar sein sollten. Auch jene, die sonst niemand kennt.",
+    "einfuehrungstext": "Familie, Freunde, Ansprechpersonen — wer Ihnen wichtig ist und wie man sie erreicht. Auch jene, die sonst niemand kennt.",
     "exporte": [
       {
         "format": "vcard-menschen",
@@ -10273,6 +10576,7 @@ const SEKTOREN = Object.freeze([
     "label": "Vermögen und Einkommen",
     "format": "GENERISCH",
     "icon": "landmark",
+    "einfuehrungstext": "Einkommen, Wohnkosten, Belastungen — was hereinkommt und was laufend abgeht.",
     "rollen": {},
     "sektionen": [
       {
@@ -10428,7 +10732,7 @@ const SEKTOREN = Object.freeze([
     "label": "Gesundheit",
     "format": "FHIR_IPS",
     "icon": "heartPulse",
-    "einfuehrungstext": "Allergien, Medikamente, Blutgruppe — im Notfall sofort zur Hand.",
+    "einfuehrungstext": "Ärzte, Medikamente, Allergien, Befunde — beisammen für den nächsten Termin und für den Notfall.",
     "exporte": [
       {
         "format": "fhir-ips",
@@ -15187,7 +15491,7 @@ function _mitschriftBereichsQuellenLesen(ziel) {
 function _bereichsModuleAusDepotAnmeldenLesen(d) {
   let ziel = null;
   try { ziel = d || data; } catch (_) { ziel = d || null; }
-  const eigene = (ziel && Array.isArray(ziel.bereichsModule)) ? ziel.bereichsModule : [];
+  const eigene = _depotModuleWirksamLesen((ziel && Array.isArray(ziel.bereichsModule)) ? ziel.bereichsModule : []);   // LESE-APP-MODULE-OHNE-WAHL
   /* Depot-eigene Module zuerst, die Mitschrift danach: der `gesehen`-Riegel weiter unten
      laesst die erste ID gewinnen — dieselbe Rangfolge wie im Kern. */
   const liste = eigene.concat(_mitschriftBereichsQuellenLesen(ziel));
@@ -15308,7 +15612,7 @@ function _angehoerigenVorlagenAusDepotAnmeldenLesen(d) {
   try { ziel = d || data; } catch (_) { ziel = d || null; }
   let mitschrift = [];
   try { if (ziel && ziel.abWerkMitschrift && Array.isArray(ziel.abWerkMitschrift.angehoerigen)) mitschrift = ziel.abWerkMitschrift.angehoerigen; } catch (_) { mitschrift = []; }
-  const vonDatei = (ziel && Array.isArray(ziel.angehoerigenVorlagenModule)) ? ziel.angehoerigenVorlagenModule : [];
+  const vonDatei = _depotModuleWirksamLesen((ziel && Array.isArray(ziel.angehoerigenVorlagenModule)) ? ziel.angehoerigenVorlagenModule : []);   // LESE-APP-MODULE-OHNE-WAHL
   const registry = [];
   const gesehen = Object.create(null);
   ANGEHOERIGEN_VORLAGEN_VERWORFEN_LESEN.length = 0;
@@ -15404,7 +15708,7 @@ function _situationenAusDepotAnmeldenLesen(d) {
   try { ziel = d || data; } catch (_) { ziel = d || null; }
   let mitschrift = [];
   try { if (ziel && ziel.abWerkMitschrift && Array.isArray(ziel.abWerkMitschrift.situationen)) mitschrift = ziel.abWerkMitschrift.situationen; } catch (_) { mitschrift = []; }
-  const vonDatei = (ziel && Array.isArray(ziel.situationsModule)) ? ziel.situationsModule : [];
+  const vonDatei = _depotModuleWirksamLesen((ziel && Array.isArray(ziel.situationsModule)) ? ziel.situationsModule : []);   // LESE-APP-MODULE-OHNE-WAHL
   const liste = mitschrift.concat(vonDatei);
   const registry = [];
   const gesehen = Object.create(null);
@@ -16609,6 +16913,16 @@ const LISTEN_AUSWAHLFORM = Object.freeze({
 });
 const LISTEN_AUSWAHLFORM_STANDARD = 'alle';
 const LISTEN_UNTERFELD_PRAEFIX = 'liste:';
+/* NOTFALLKARTE-VOLLMACHTART (18.10.2026): dieselbe Regel wie im Kern — eine Bankvollmacht nennt nie die Person, die über die eigene
+   Behandlung entscheidet. Handkopie von IPS_VORSORGE_ARTEN_AUSGENOMMEN aus vivodepot.html, geführt in
+   tools/handkopien-gegen-original-pruefen.js. */
+const IPS_VORSORGE_ARTEN_AUSGENOMMEN = Object.freeze([
+  'bank',                    // Bankvollmacht, auf Bankgeschäfte beschränkt
+]);
+function vollmachtFuerBehandlung(z) {
+  return !!z && z.instrument === 'enduring-power-of-attorney' && IPS_VORSORGE_ARTEN_AUSGENOMMEN.indexOf(z.typeOfPowerOfAttorney) < 0;
+}
+const LISTEN_ZEILEN_FILTER = Object.freeze({ behandlung: vollmachtFuerBehandlung });
 function listenZeilenWaehlen(sektorId, listeId, typWert, opt) {
   const o = opt || {};
   // Umbauplan „Englisch vor v1" (14.09.2026): die Diskriminante von provisionInstruments heisst
@@ -16619,7 +16933,9 @@ function listenZeilenWaehlen(sektorId, listeId, typWert, opt) {
   const disk = o.diskriminante || 'instrument';
   const alle = ((data && data.sektoren && data.sektoren[sektorId]) || {})[listeId];
   if (!Array.isArray(alle)) return [];
-  const treffer = alle.filter(r => r && r[disk] === typWert);
+  const filter = (o.nur && Object.prototype.hasOwnProperty.call(LISTEN_ZEILEN_FILTER, o.nur)) ? LISTEN_ZEILEN_FILTER[o.nur] : null;
+  if (o.nur && !filter) throw new Error('listen-filter-unbekannt:' + o.nur);
+  const treffer = alle.filter(r => r && r[disk] === typWert && (!filter || filter(r)));
   if (treffer.length <= 1) return treffer;
   const form = o.genauEine ? 'neueste'
     : (((LISTEN_AUSWAHLFORM[listeId] || {})[typWert]) || LISTEN_AUSWAHLFORM_STANDARD);
@@ -17020,6 +17336,9 @@ function _foldVollmachtenLesen(obj) {
   }
   // Dieselbe Tabelle für Gültigkeit, Sensibel-Schalter, Codes & Co. — sonst zeigte eine alte Datei
   // ein zurückgehaltenes Feld, weil `sensibelFelder` noch unter dem alten Namen steht.
+  /* Befund LESE-APP-MODULE-OHNE-WAHL: die Umschreibung der Logik-Module (hier und in `_nebenablagenKennungenUmschreiben`) liefert bei
+     einer Änderung eine NEUE Kopie an derselben Stelle. Ohne Übertragung stünde die Kopie nicht in der Markierung und wirkte. */
+  const _logikNichtAngewandt = (obj && Array.isArray(obj.logikModule)) ? obj.logikModule.map(_depotModulNichtAngewandtLesen) : [];
   _nebenablagenKennungenUmschreiben(obj, KENNUNG_MAPPING);
   // B8: dieselbe Reihenfolge wie der Kern — Stufe 85 und Korb 1 laufen auf den englischen Kennungen.
   _foldDokumenttypenLesen(obj);
@@ -17028,6 +17347,7 @@ function _foldVollmachtenLesen(obj) {
   if (obj && Array.isArray(obj.logikModule)) {
     obj.logikModule = obj.logikModule.map((m) => _logikModulKennungenUmschreiben(m, KENNUNG_MAPPING));
   }
+  if (obj && Array.isArray(obj.logikModule)) obj.logikModule.forEach((m, i) => { if (_logikNichtAngewandt[i] && m && typeof m === 'object') _DEPOT_NICHT_ANGEWANDT_LESEN.add(m); });
   return obj;
 }
 let data = null;                 // entschlüsseltes Depot (read-only)
@@ -17060,7 +17380,7 @@ function escapeHTML(s) {
    Marke des vorigen Depots am nächsten hängen, s. _markeAnzeigeAnwenden()/entladen() unten). */
 function _markeName() {
   try {
-    const liste = (data && Array.isArray(data.brandingModule)) ? data.brandingModule : [];
+    const liste = _depotModuleWirksamLesen((data && Array.isArray(data.brandingModule)) ? data.brandingModule : []);   // LESE-APP-MODULE-OHNE-WAHL
     const letztes = liste.length ? liste[liste.length - 1] : null;
     if (letztes && typeof letztes.name === 'string' && letztes.name.trim()) return letztes.name.trim();
   } catch (e) { /* kein offenes Depot — Rueckfall gilt */ }
@@ -17077,7 +17397,7 @@ function _markeName() {
    `_markeDomain` hat hier denselben Rückfall wie `_markeName`: den nativen Wert. */
 function _markeDomain() {
   try {
-    const liste = (data && Array.isArray(data.brandingModule)) ? data.brandingModule : [];
+    const liste = _depotModuleWirksamLesen((data && Array.isArray(data.brandingModule)) ? data.brandingModule : []);   // LESE-APP-MODULE-OHNE-WAHL
     const letztes = liste.length ? liste[liste.length - 1] : null;
     if (letztes && typeof letztes.domain === 'string' && letztes.domain.trim()) return letztes.domain.trim();
   } catch (e) { /* kein offenes Depot — Rueckfall gilt */ }
@@ -17159,7 +17479,7 @@ function _markeFarbeAnwenden() {
   const r = (typeof document !== 'undefined') ? document.documentElement : null;
   if (!r || !r.style) return;
   try {
-    const liste = (data && Array.isArray(data.brandingModule)) ? data.brandingModule : [];
+    const liste = _depotModuleWirksamLesen((data && Array.isArray(data.brandingModule)) ? data.brandingModule : []);   // LESE-APP-MODULE-OHNE-WAHL
     const letztes = liste.length ? liste[liste.length - 1] : null;
     const primaerRoh = (letztes && typeof letztes.farbePrimaer === 'string') ? letztes.farbePrimaer : null;
     const primaer = (primaerRoh && _BRANDING_HEX_MUSTER.test(primaerRoh)) ? primaerRoh : null;
@@ -17302,7 +17622,7 @@ function _markePaletteAnwenden() {
     }
   };
   try {
-    const liste = (data && Array.isArray(data.brandingModule)) ? data.brandingModule : [];
+    const liste = _depotModuleWirksamLesen((data && Array.isArray(data.brandingModule)) ? data.brandingModule : []);   // LESE-APP-MODULE-OHNE-WAHL
     const letztes = liste.length ? liste[liste.length - 1] : null;
     const primaerRoh = (letztes && typeof letztes.farbePrimaer === 'string') ? letztes.farbePrimaer : null;
     if (!primaerRoh || !_BRANDING_HEX_MUSTER.test(primaerRoh)) { raeumen(); return; }
@@ -17929,9 +18249,10 @@ const NOTFALL_KERN_FELDER = Object.freeze([
   { sektor: 'health', feld: 'healthInsurance' },      // Krankenkasse
   { sektor: 'health', feld: 'insuranceNumber' },   // Versichertennummer
   { sektor: 'health', feld: 'generalPractitioner' },
-  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:authorizedPersons' },
+  // NOTFALLKARTE-VOLLMACHTART (17.10.2026): nur eine Vollmacht für die eigene Behandlung, nie eine Bankvollmacht.
+  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:authorizedPersons', nur: 'behandlung' },
   // v845 (01.10.2026): Handkopie des Kerns — Ablageort der Vorsorgevollmacht (Nachtrag U2-ADR-096 §5).
-  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:storageLocation' },
+  { sektor: 'advanceCare',   feld: 'liste:provisionInstruments:enduring-power-of-attorney:storageLocation', nur: 'behandlung' },
   // U2-ADR-433 (25.09.2026): Notvertretung durch Ehegatten — nur bei „ja“ auf die Karte, die Eintragung nur mit der Ablehnung.
   { sektor: 'advanceCare', feld: 'spousalRepresentationObjection', nurWenn: 'ja' },
   { sektor: 'advanceCare', feld: 'spousalObjectionRegistered', nurWenn: 'ja', nurMit: { feld: 'spousalRepresentationObjection', wert: 'ja' } },
@@ -17959,7 +18280,7 @@ function notfallKernModell() {
     let feld, roh;
     if (sel) {
       feld = _listenUnterfeldDef(e.sektor, sel.listeId, sel.unterfeldId);
-      roh = listenUnterfeldRoh(e.sektor, sel.listeId, sel.typWert, sel.unterfeldId, { genauEine: true })[0];
+      roh = listenUnterfeldRoh(e.sektor, sel.listeId, sel.typWert, sel.unterfeldId, { genauEine: true, nur: e.nur })[0];
     } else {
       feld = sek && sek.sektionen.flatMap(s => s.felder || []).find(f => f.id === e.feld);
       roh = ((data && data.sektoren[e.sektor]) || {})[e.feld];
@@ -18025,7 +18346,8 @@ async function antwortEntschluesselnPasswort(umschlag, passwort) {
   if (!umschlag || umschlag.verfahren !== 'einmalpasswort' || typeof umschlag.salt !== 'string') {
     throw new Error('Kein Einmalpasswort-Umschlag.');
   }
-  const key = await _angDeriveKey(passwort, base64ToBytes(umschlag.salt));
+  // NFC wie jedes Passwort vor einer Ableitung; inline statt normalizePassword, weil die Prüfstellen-Vektoren diese Funktion einzeln bauen.
+  const key = await _angDeriveKey(String(passwort).normalize('NFC'), base64ToBytes(umschlag.salt));
   return _antwortOeffnen(umschlag, key);
 }
 async function _antwortEcdhImportPrivate(jwk) {
@@ -18127,7 +18449,7 @@ function _jweStufe(laenge) {
 async function _jwePbes2Schluessel(passwort, p2s, p2c) {
   const alg = new TextEncoder().encode(ANTWORT_JWE_PBES2);
   const salt = _jweVerbinden([alg, new Uint8Array([0]), p2s]);
-  const pw = new TextEncoder().encode(String(passwort));
+  const pw = new TextEncoder().encode(String(passwort).normalize('NFC'));   // NFC wie jedes Passwort vor einer Ableitung (tests/passwort-nfc-klasse.test.js)
   try {
     const basis = await crypto.subtle.importKey('raw', pw, { name: 'PBKDF2' }, false, ['deriveKey']);
     return await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: p2c, hash: 'SHA-512' },
@@ -18422,7 +18744,16 @@ async function antwortOeffnenMitSignatur(umschlag, schluessel, opts) {
     // Die Bindung der Schlüsseldatei an ihre Anfrage zuerst: eine Datei, deren Teile nicht zusammenpassen, öffnet nichts.
     const bindung = await schluesselAnfrageBindung(schluessel, opts);
     const offen = await antwortJweOeffnen(umschlag.jwe, schluessel);
-    if (!antwortJweTraegtJws(offen.kopf)) return { datensatz: JSON.parse(offen.klartext), signatur: { zustand: 'ohne' } };
+    if (!antwortJweTraegtJws(offen.kopf)) {
+      /* Unsigniert, weil der Browser der Person kein Ed25519 kann (U2-ADR-501 Punkt 30): der Kern kennzeichnet das im verschlüsselten
+         Teil. Das Kennzeichen gehört nicht zum Datensatz und wird hier abgenommen; das Blatt sagt es als Sachsatz. */
+      const ds = JSON.parse(offen.klartext);
+      if (ds && typeof ds === 'object' && ds.unsigniert === 'browser') {
+        delete ds.unsigniert;
+        return { datensatz: ds, signatur: { zustand: 'ohne-browser' } };
+      }
+      return { datensatz: ds, signatur: { zustand: 'ohne' } };
+    }
     /* `aud` wird NUR gegen eine GEBUNDENE Kennung gehalten (Gegenlesung 15.10.2026): die `anbieterId` aus dem signierten Zertifikat
        der Anfrage, die die Schlüsseldatei trägt (schluesselAnfrageBindung, Kette Anker → Anbieter-Zertifikat → signierte Anfrage →
        Schlüssel). Ein Feld `anbieterId` im JWK wird nie gelesen — wer es findet, hat es von Hand gesetzt. Ohne gebundene Kennung
@@ -18441,6 +18772,9 @@ async function antwortOeffnenMitSignatur(umschlag, schluessel, opts) {
 /* Die Zeile auf dem Blatt: Sachangaben, kein Warnstil (Klasse `hint`), nie „geprüft“. */
 function antwortSignaturHTML(sig) {
   if (!sig) return '';
+  if (sig.zustand === 'ohne-browser') {
+    return '<p class="hint antwort-signatur" id="antwort-signatur" data-signatur="ohne-browser">' + escapeHTML(STRINGS.antwortUnsigniertBrowser) + '</p>';
+  }
   if (sig.zustand !== 'signatur') {
     return '<p class="hint antwort-signatur" id="antwort-signatur" data-signatur="ohne">' + escapeHTML(STRINGS.antwortOhneSignatur) + '</p>';
   }
@@ -18698,17 +19032,42 @@ async function _zerfallLesenLeseApp(umschlag, ankerKey) {
   return _zerfallZusammensetzenLesen(gelesen);
 }
 
+/* ── Passwort vor jeder Ableitung auf NFC (Befund LESE-APP-PASSWORT-OHNE-NFC, 18.10.2026) ─────────────────
+   Dieselbe Hüllen-Funktion wie im Kern (`normalizePassword`, B1 NFC), außerhalb des VdCrypto-Blocks. Der Kern legt jede Datei
+   mit NFC an; die Lese-App leitete mit dem rohen Feldwert ab, und ein Umlaut-Passwort, das als NFD ankam (u + U+0308, etwa
+   eingefügt), öffnete die Datei nicht. Beim Öffnen spiegelt die Lese-App den Kern (depotLaden, subDepotEntsiegeln): erst NFC,
+   dann bei einem Fehler GENAU EINMAL NFD, wenn sich NFD und NFC unterscheiden — für Bestände von vor der NFC-Einführung, die mit
+   der getippten Form abgeleitet sind. Die Lese-App ist hier nie strenger als der Kern (Wort Krypto 2, 18.10.2026). Wie im Kern
+   hängt der zweite Versuch nicht daran, in welcher Form getippt wurde: ein NFD-Bestand öffnet auch mit einer NFC-Eingabe.
+   Probe und Klassenwächter: tests/passwort-nfc-klasse.test.js. */
+function normalizePassword(pw) {
+  return (typeof pw === 'string') ? pw.normalize('NFC') : pw;
+}
+// Erst NFC, dann genau einmal NFD, wenn sich die beiden unterscheiden. `oeffne(pw)` wirft bei falschem Passwort (GCM).
+async function _mitNfcDannNfd(passwort, oeffne) {
+  const nfc = normalizePassword(passwort);
+  try {
+    return await oeffne(nfc);                                   // Versuch 1 (NFC)
+  } catch (e1) {
+    if (typeof passwort !== 'string') throw e1;
+    const nfd = passwort.normalize('NFD');
+    if (nfd === nfc) throw e1;                                  // ASCII oder ohne zerlegbare Zeichen: nichts zu gewinnen
+    return oeffne(nfd);                                         // Versuch 2 (NFD) — wirft bei echtem Falschpasswort
+  }
+}
+
 /* ── Entschlüsselung Vollexport-Depot (read-only Spiegel von depotLaden) ───── */
 async function leseDepotUmschlag(umschlag, password) {
   _versionsGate(umschlag);                                  // VOR jeder Ableitung (B3)
   const pbkdf2Salt = base64ToBytes(umschlag.pbkdf2.salt);
   const depotSalt  = base64ToBytes(umschlag.depotSalt);
   const depotUUID  = umschlag.depotUUID;
-  await VdCrypto.setupSession(password, pbkdf2Salt);        // falsches Passwort → GCM-Fehler beim Entschlüsseln
-  const subKey = await VdCrypto.depotSchluessel(depotSalt, depotUUID);
-  if (umschlag.kryptoVersion === 4) return _zerfallLesenLeseApp(umschlag, subKey);
-  const obj = await VdCrypto.decryptDepot({ iv: umschlag.iv, ct: umschlag.ct }, subKey, _AAD_DEPOT_V2);
-  return obj;
+  return _mitNfcDannNfd(password, async (pw) => {
+    await VdCrypto.setupSession(pw, pbkdf2Salt);            // falsches Passwort → GCM-Fehler beim Entschlüsseln
+    const subKey = await VdCrypto.depotSchluessel(depotSalt, depotUUID);
+    if (umschlag.kryptoVersion === 4) return _zerfallLesenLeseApp(umschlag, subKey);
+    return VdCrypto.decryptDepot({ iv: umschlag.iv, ct: umschlag.ct }, subKey, _AAD_DEPOT_V2);
+  });
 }
 
 /* ── Entschlüsselung Sub-Depot-Blackbox (read-only Spiegel von subDepotEntsiegeln) ── */
@@ -18722,13 +19081,14 @@ async function leseSubUmschlag(umschlag, subPasswort) {
   _versionsGate(umschlag);                                  // VOR jeder Ableitung (B3)
   const pbkdf2Salt = base64ToBytes(umschlag.pbkdf2.salt);
   const depotSalt  = base64ToBytes(umschlag.depotSalt);
-  const masterKey  = await depotMasterHkdfKey(subPasswort, pbkdf2Salt);
-  const subKey     = await deriveDepotKeyV2(masterKey, depotSalt, umschlag.depotUUID);
-  // Ein Sub-Depot ist ein Depot wie jedes andere (U2-ADR-002, S1, 23.09.2026): V4 liest derselbe Weg wie beim Öffnen
-  // jeder Depot-Datei. Bis heute las dieser Pfad nur V3 — eine V4-Blackbox (z. B. ein eingehängtes Depot) blieb zu.
-  if (umschlag.kryptoVersion === 4) return _zerfallLesenLeseApp(umschlag, subKey);
-  const inhalt     = await VdCrypto.decryptDepot({ iv: umschlag.iv, ct: umschlag.ct }, subKey, _AAD_DEPOT_V2);
-  return inhalt;
+  return _mitNfcDannNfd(subPasswort, async (pw) => {
+    const masterKey  = await depotMasterHkdfKey(pw, pbkdf2Salt);
+    const subKey     = await deriveDepotKeyV2(masterKey, depotSalt, umschlag.depotUUID);
+    // Ein Sub-Depot ist ein Depot wie jedes andere (U2-ADR-002, S1, 23.09.2026): V4 liest derselbe Weg wie beim Öffnen
+    // jeder Depot-Datei. Bis heute las dieser Pfad nur V3 — eine V4-Blackbox (z. B. ein eingehängtes Depot) blieb zu.
+    if (umschlag.kryptoVersion === 4) return _zerfallLesenLeseApp(umschlag, subKey);
+    return VdCrypto.decryptDepot({ iv: umschlag.iv, ct: umschlag.ct }, subKey, _AAD_DEPOT_V2);
+  });
 }
 
 /* ── Datei-Magic-Bytes (U2-ADR-043) — Lese-Seite ────────────────────────────
@@ -18997,7 +19357,10 @@ function onDateiGewaehlt(ev) {
    überspränge die Prüfung — tests/lese-app-depot-einstieg-geprueft.test.js hält das fest. Die Prüfung darf das Öffnen nie brechen. */
 async function _depotUebernehmenGeprueft(obj, opts) {
   try { await _textsatzModuleBelegPruefen(obj, opts); } catch (e) { /* ohne Beleg gilt das Modul als unsigniert */ }
+  try { await _depotModuleBelegPruefenLesen(obj, opts); } catch (e) { /* ohne nachgeprüften Beleg gilt kein Modul als signiert */ }
   try { await _depotModuleAbWerkPruefenLesen(obj); } catch (e) { /* ohne Fingerabdruck gilt kein Modul als ab Werk */ }
+  /* Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026): vor dem Falten, damit kein Register ein Modul anmeldet, das nicht wirkt. */
+  _depotModuleNichtAngewandtMarkierenLesen(obj);
   return _foldVollmachtenLesen(obj);
 }
 
@@ -19170,6 +19533,7 @@ function renderVollExport() {
     // U2-ADR-258: der erste Satz nach dem Banner sagt, WORAUS der Inhalt besteht. Unbedingt,
     // ohne Bedingung, ohne Schalter — auch im Fall „keine Erweiterung" (dann sagt er genau das).
     herkunftBlockHTML(modulHerkunftBerechnen(data)) +
+    moduleNichtAngewandtZeileHTML(data) +   // LESE-APP-MODULE-OHNE-WAHL: nur, wenn etwas nicht angewandt wird
     standBlockHTML(moduleStandBerechnen(data)) +
     (klartextWarnung ? '<div class="klartext-warn">' + escapeHTML(STRINGS.klartextHinweis) + '</div>' : '') +
     '<div class="shell-body">' +
@@ -19201,6 +19565,7 @@ function _darstellungsLuecken(depot) {
     const sekt = d && d.sektoren;
     const bekannt = Object.create(null);
     for (const s of bereicheAlleLesen()) bekannt[s.id] = true;
+    for (const b of _bereicheNichtAngewandtLesen(d)) bekannt[b.id] = true;   // Nachbau C: neutral gezeigt, also darstellbar
     /* Zwei Orte, an denen ein unbekannter Bereich liegen kann: noch in `sektoren` (Datei einer neueren Anwendung,
        bevor der Fold läuft) und — seit MIG3 (U2-ADR-187, Verwaiste retten) — in `bereicheVerwaist`, wohin der Fold
        einen Bereich stellt, den diese Anwendung nicht kennt und nicht zurückholen kann. */
@@ -19332,6 +19697,10 @@ function sidebarHTML() {
     '<button class="nav-item' + (s.id === aktiverSektorId ? ' aktiv' : '') + '" data-sektor="' + escapeHTML(s.id) + '">' +
       escapeHTML(s.label) +
     '</button>'
+  ).join('') +
+  // Nachbau C (LESE-APP-MODULE-OHNE-WAHL): Bereiche eines nicht angewandten Moduls, unter ihrer Kennung, in der Reihenfolge der Datei
+  _bereicheNichtAngewandtLesen(data).map((b) =>
+    '<button class="nav-item' + (b.id === aktiverSektorId ? ' aktiv' : '') + '" data-sektor="' + escapeHTML(b.id) + '">' + escapeHTML(b.id) + '</button>'
   ).join('') +
   // Situationsblätter als zusätzliche Navigation
   '<div class="nav-trenner">' + escapeHTML(STRINGS.sichtSituation) + '</div>' +
@@ -19857,7 +20226,7 @@ function _logikModulTexteAufloesenLesen(logik) {
    Sichtbarkeit und Beleg sind zwei Fragen; diese Zeile beantwortet nur die erste. */
 function _logikModuleAlleLesen(d) {
   const ziel = d || (typeof data !== 'undefined' ? data : null);
-  const eigene = ((ziel && Array.isArray(ziel.logikModule)) ? ziel.logikModule : []).filter((m) => !_ALTE_ABWERK_KOPIEN_LESEN.has(m));   // E4
+  const eigene = _depotModuleWirksamLesen((ziel && Array.isArray(ziel.logikModule)) ? ziel.logikModule : []).filter((m) => !_ALTE_ABWERK_KOPIEN_LESEN.has(m));   // E4; LESE-APP-MODULE-OHNE-WAHL
   let ausMitschrift = [];
   try {
     const m = ziel && ziel.abWerkMitschrift;
@@ -19976,9 +20345,70 @@ function _personSchluesselNeu(m) {
   }
   return p;
 }
+/* ══ LESEN JA, GELTEN NEIN (Befund LESE-APP-MODULE-OHNE-WAHL, Nachbau C, 17.10.2026) ═══════════════════════════════════
+   Ein Bereich mit Werten, den nur ein NICHT angewandtes Bereichsmodul der Datei beschreibt, erscheint neutral: je Feld die Kennung
+   und ihr Wert, so wie sie in der Datei stehen, gekennzeichnet als aus einer nicht angewandten Erweiterung. Die Erweiterung bestimmt
+   dabei weder Label noch Typ noch Reihenfolge: Titel ist die Kennung des Bereichs, die Felder stehen in der Reihenfolge der Werte in
+   der Datei, jeder Wert wird lesbar flach gezeigt (Listen und verschachtelte Werte vollständig) und nur HTML-sicher maskiert.
+   EINE Ausnahme, und sie nimmt nur weg: ein Feld, das die Person (`sensibelFelder`) oder das Modul als sensibel führt, wird wie überall
+   in der Lese-App zurückgehalten (Kennung und „hinterlegt“, nie der Wert). Ein Modul kann damit nichts zeigen, nur verbergen, was es
+   ohnehin selbst beschreibt. */
+function _bereicheNichtAngewandtLesen(depot) {
+  const raus = [];
+  try {
+    const d = (depot && typeof depot === 'object') ? depot : (typeof data !== 'undefined' ? data : null);
+    const sekt = d && d.sektoren;
+    if (!sekt || typeof sekt !== 'object') return raus;
+    const beschrieben = Object.create(null);
+    for (const m of (Array.isArray(d.bereichsModule) ? d.bereichsModule : [])) {
+      if (!_depotModulNichtAngewandtLesen(m) || !m.bereiche || typeof m.bereiche !== 'object' || Array.isArray(m.bereiche)) continue;
+      for (const id of Object.keys(m.bereiche)) {
+        if (!beschrieben[id]) beschrieben[id] = new Set();
+        const def = m.bereiche[id];
+        for (const se of ((def && Array.isArray(def.sektionen)) ? def.sektionen : [])) {
+          for (const f of ((se && Array.isArray(se.felder)) ? se.felder : [])) if (f && typeof f.id === 'string' && f.sensibel === true) beschrieben[id].add(f.id);
+        }
+      }
+    }
+    for (const id of Object.keys(sekt)) {
+      if (!beschrieben[id] || SEKTOR_BY_ID[id]) continue;
+      const werte = sekt[id];
+      if (!werte || typeof werte !== 'object' || Array.isArray(werte) || !Object.keys(werte).length) continue;
+      raus.push({ id, werte, sensibelAusModul: beschrieben[id] });
+    }
+  } catch (e) { /* defensiv — eine Ansicht darf dem Empfänger nie sein Depot nehmen */ }
+  return raus;
+}
+/* Ein Wert lesbar und flach: Text, Zahl und Wahrheitswert wie sie sind; eine Liste Eintrag für Eintrag (`; `); ein Objekt als
+   `Schlüssel: Wert` (`, `), verschachtelt in Klammern. Nichts wird weggelassen. */
+function _wertFlachLesen(w) {
+  if (w === null || w === undefined) return '';
+  if (Array.isArray(w)) return w.map((x) => (x && typeof x === 'object') ? '(' + _wertFlachLesen(x) + ')' : _wertFlachLesen(x)).join('; ');
+  if (typeof w === 'object') {
+    return Object.keys(w).map((k) => {
+      const v = w[k];
+      return k + ': ' + ((v && typeof v === 'object') ? '(' + _wertFlachLesen(v) + ')' : _wertFlachLesen(v));
+    }).join(', ');
+  }
+  return String(w);
+}
+function _bereichNichtAngewandtHTML(sektorId) {
+  const b = _bereicheNichtAngewandtLesen(data).find((x) => x.id === sektorId);
+  if (!b) return '';
+  let html = '<div class="bereich bereich--nicht-angewandt"><div class="bereich-kopf"><h1>' + escapeHTML(b.id) + '</h1></div>' +
+    '<p class="bereich-intro">' + escapeHTML(STRINGS.bereichNichtAngewandtText) + '</p><div class="sektion">';
+  for (const k of Object.keys(b.werte)) {
+    const sensibel = feldIstSensibel({ id: k, sensibel: b.sensibelAusModul.has(k) }, b.id);
+    if (sensibel) { html += zurueckgehaltenLabelZeileHTML(k, STRINGS.feldNichtAngewandtMarke); continue; }
+    html += '<div class="feld-zeile"><div class="feld-label">' + escapeHTML(k) + '<span class="feld-quelle"> · ' + escapeHTML(STRINGS.feldNichtAngewandtMarke) + '</span></div>' +
+      '<div class="feld-wert">' + escapeHTML(_wertFlachLesen(b.werte[k])) + '</div></div>';
+  }
+  html += '</div></div>';
+  return html;
+}
 function sektorHTML(sektorId) {
   const sek = SEKTOR_BY_ID[sektorId];
-  if (!sek) return '';
+  if (!sek) return _bereichNichtAngewandtHTML(sektorId);   // Nachbau C: lesen ja, gelten nein
   // U2-ADR-323: ein angedockter Bereich traegt seinen Rand und nennt seine Herkunft.
   const _angedockt = !!sek.angedockt;
   let html = '<div class="bereich' + (_angedockt ? ' bereich--angedockt' : '') + '">' +
@@ -20137,6 +20567,7 @@ function renderSituationOnly(sitId) {
   // Fall schlüpft, den sie sichtbar machen soll.
   wrap.innerHTML = topbarHTML(STRINGS.sichtSituation, true) + subBannerHTML() +
     herkunftBlockHTML(modulHerkunftBerechnen(data)) +
+    moduleNichtAngewandtZeileHTML(data) +   // LESE-APP-MODULE-OHNE-WAHL: nur, wenn etwas nicht angewandt wird
     standBlockHTML(moduleStandBerechnen(data)) +
     '<div class="shell-body shell-einzel"><main class="content">' + situationContentHTML(sitId) + '</main></div>';
   wireTopbar();
@@ -20156,6 +20587,7 @@ function renderNotfall() {
      sichtbar machen soll. „Nicht abschaltbar" heißt auch: nicht dort weglassen, wo es unbequem ist. */
   let html = topbarHTML(STRINGS.notfallTitel, true) +
     herkunftBlockHTML(modulHerkunftBerechnen(data)) +
+    moduleNichtAngewandtZeileHTML(data) +   // LESE-APP-MODULE-OHNE-WAHL: nur, wenn etwas nicht angewandt wird
     standBlockHTML(moduleStandBerechnen(data)) +
     '<div class="shell-body shell-einzel"><main class="content"><div class="bereich notfall-rahmen">' +
     '<div class="bereich-kopf"><h1>' + escapeHTML(STRINGS.notfallTitel) + '</h1></div>' +
@@ -20262,7 +20694,7 @@ function _aadFuerSchluesselhuelle(w) {
 async function schuetzeSchluesselJwk(jwk, passphrase) {
   if (!passphrase) throw new Error('Passphrase fehlt.');
   const salt = crypto.getRandomValues(new Uint8Array(16));
-  const key = await deriveKey(passphrase, salt);
+  const key = await deriveKey(String(passphrase).normalize('NFC'), salt);   // NFC wie jedes Passwort vor einer Ableitung
   const kopfdaten = { kdf: 'pbkdf2-sha256', iterationen: PBKDF2_ITERATIONS };
   const { iv, ct } = await encryptData(jwk, key, _aadFuerSchluesselhuelle(kopfdaten));
   return {
@@ -20287,12 +20719,17 @@ async function entschluesseleSchluesselJwk(wrapper, passphrase) {
   // Ab hier: Fassung 1 (heute die einzige in der Allowlist) — Ableitung und AAD unverändert.
   let salt;
   try { salt = base64ToBytes(wrapper.salt); } catch (e) { throw new Error('Geschützte Datei ist beschädigt (Salt nicht lesbar).'); }
-  const key = await deriveKey(passphrase, salt);
-  try {
-    return await decryptData({ iv: wrapper.iv, ct: wrapper.ct }, key, _aadFuerSchluesselhuelle(wrapper));
-  } catch (e) {
-    throw new Error('Falsche Passphrase oder beschädigte Datei.');
+  // Erst NFC, wie beim Schützen. Eine Hülle von vor der Normalisierung (18.10.2026) trägt die Passphrase so, wie sie getippt
+  // war; darum genau ein zweiter Versuch mit der rohen Eingabe, wenn sie sich von NFC unterscheidet. Ausnahme im Klassenwächter
+  // tests/passwort-nfc-klasse.test.js. Die Meldung bleibt dieselbe, ob ein oder zwei Versuche liefen.
+  const nfc = String(passphrase).normalize('NFC');
+  for (const p of (nfc === passphrase ? [nfc] : [nfc, passphrase])) {
+    const key = await deriveKey(p, salt);
+    try {
+      return await decryptData({ iv: wrapper.iv, ct: wrapper.ct }, key, _aadFuerSchluesselhuelle(wrapper));
+    } catch (e) { /* nächster Versuch oder die Meldung unten */ }
   }
+  throw new Error('Falsche Passphrase oder beschädigte Datei.');
 }
 function istGeschuetzteSchluesseldatei(geparst) {
   return !!(geparst && typeof geparst === 'object' && PROTECTED_KEY_VERSION_ALLOWLIST.includes(geparst.vivodepotProtectedKey));
@@ -20702,6 +21139,7 @@ function entladen() {
   _TEXTSATZ_MODUL_REGISTRY = Object.create(null);
   _TEXTSATZ_MODUL_SPRACHE = null;
   _RECHTSRAUM_MODUL_REGISTRY = Object.create(null);
+  _DEPOT_NICHT_ANGEWANDT_LESEN = new WeakSet();   // LESE-APP-MODULE-OHNE-WAHL: keine Markierung übers Schliessen hinaus
   /* A318 Zug 2: derselbe Grund wie eine Zeile darüber — ein Prüfstand, der nach dem
      Schliessen stehen bliebe, markierte die Felder des NÄCHSTEN Depots mit dem Urteil
      über das vorige. */

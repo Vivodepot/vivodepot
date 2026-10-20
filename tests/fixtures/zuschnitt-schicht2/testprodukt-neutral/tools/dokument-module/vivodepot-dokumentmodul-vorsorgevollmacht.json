@@ -1,0 +1,228 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/vorsorgevollmacht",
+  "fassung": 1,
+  "dokumentModule": {
+    "vorsorgevollmacht": {
+      "motor": "vm",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "Testtext 1",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "healthCareGeneralDecision",
+              "text": "Testtext 2"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "healthCareMedicalProcedures",
+              "text": "Testtext 3"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "healthCareMedicalRecords",
+              "text": "Testtext 4"
+            },
+            {
+              "typ": "auswahlPaarGruppe",
+              "einleitung": "Testtext 5",
+              "abschluss": "entscheiden.",
+              "punkte": [
+                {
+                  "feldId": "healthCarePlacementDepriving",
+                  "text": "Testtext 6"
+                },
+                {
+                  "feldId": "healthCareMeasuresDepriving",
+                  "text": "Testtext 7"
+                },
+                {
+                  "feldId": "healthCareCompulsoryMedical",
+                  "text": "Testtext 8"
+                },
+                {
+                  "feldId": "healthCareAdmissionToHospital",
+                  "text": "Testtext 9"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 10",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "determinePlaceOfResidence",
+              "text": "Testtext 11"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "manageAnExistingTenancyWindUp",
+              "text": "Testtext 12"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "concludeAndTerminateANew",
+              "text": "Testtext 13"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "concludeAndTerminateHousingAnd",
+              "text": "Testtext 14"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 15",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "representationWithAuthorities",
+              "text": "Testtext 16"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 17",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "assetManagementGeneral",
+              "text": "Testtext 18"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "disposeOfAssets",
+              "text": "Testtext 19"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "acceptPaymentsAndValuables",
+              "text": "Testtext 20"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "enterIntoLiabilities",
+              "text": "Testtext 21"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "accountsCustodyAccountsSafes",
+              "text": "Testtext 22"
+            },
+            {
+              "typ": "auswahlPaar",
+              "feldId": "customaryGiftsWithinWhatCare",
+              "text": "Testtext 23"
+            },
+            {
+              "typ": "freitextSatz",
+              "feldId": "transactionsExpresslyExcluded",
+              "satz": "Testtext 24"
+            },
+            {
+              "typ": "crossRef",
+              "text": "Testtext 25",
+              "bedingung": {
+                "typ": "oder",
+                "bedingungen": [
+                  {
+                    "typ": "feldIn",
+                    "feld": "disposeOfAssets",
+                    "werte": [
+                      "ja",
+                      "nein"
+                    ]
+                  },
+                  {
+                    "typ": "feldIn",
+                    "feld": "enterIntoLiabilities",
+                    "werte": [
+                      "ja",
+                      "nein"
+                    ]
+                  },
+                  {
+                    "typ": "feldIn",
+                    "feld": "accountsCustodyAccountsSafes",
+                    "werte": [
+                      "ja",
+                      "nein"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 26",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "mailAndTelecommunications",
+              "text": "Testtext 27"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 28",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "representationInCourt",
+              "text": "Testtext 29"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 30",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "mayGrantASubPowerOfAttorney",
+              "text": "Testtext 31"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 32",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "alsoProposeTheAuthorizedPerson",
+              "text": "Testtext 33"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 34",
+          "bloecke": [
+            {
+              "typ": "auswahlPaar",
+              "feldId": "appliesBeyondDeath",
+              "text": "Testtext 35"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 36",
+          "bloecke": [
+            {
+              "typ": "freitext",
+              "feldId": "furtherProvisions"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

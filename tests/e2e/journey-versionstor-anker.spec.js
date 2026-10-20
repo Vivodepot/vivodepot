@@ -71,7 +71,7 @@ async function journey(page, url) {
   if (await page.locator('#m-ok').isVisible().catch(() => false)) await page.click('#m-ok');
   await page.click('#tb-marke');
   if (await page.locator('#m-ok').isVisible().catch(() => false)) await page.click('#m-ok');
-  await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 10000 });
+  await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 10000 });
   await zaehlendeAttrappe(page);
   await page.click('#w-datei');
   await page.setInputFiles('#co-datei', datei);

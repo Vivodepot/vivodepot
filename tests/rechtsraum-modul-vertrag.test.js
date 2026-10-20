@@ -40,10 +40,17 @@ test('[Rechtsraum-Modul] ein vollständiges Modul validiert (leerer String = gü
   assert.equal(V.validateRechtsraumModul(gueltigesModul()), '');
 });
 
-test('[Rechtsraum-Modul] rechtsraum "DE" ist reserviert, solange das Gerüst-Fach belegt ist', () => {
-  const V = require('./load-kern-de-belegt.js').ladeKernDeBelegt();
-  const m = Object.assign({}, gueltigesModul(), { rechtsraum: 'DE' });
-  assert.match(V.validateRechtsraumModul(m), /reserviert/);
+/* R1 (09.10.2026): umgestellt vom künstlich belegten Gerüst-Fach auf den echten Weg über AB_WERK_RECHTSRAUM_PRODUKT. */
+test('[Rechtsraum-Modul·R1] reserviert ist am Einlass der Code des Ab-Werk-Moduls: im DE-Produkt „DE“, im nackten Gerüst keiner', () => {
+  const m = Object.assign({ modulTyp: 'rechtsraum' }, gueltigesModul(), { rechtsraum: 'DE' });
+  const { V } = ladeKern();
+  V.setData(V.leeresDepot());
+  const imProdukt = V.modulEinlassen(JSON.stringify(m), V.getData());
+  assert.equal(imProdukt.grund, 'reserviert');
+  const nackt = ladeKern({ blank: true }).V;
+  nackt.setData(nackt.leeresDepot());
+  const imGeruest = nackt.modulEinlassen(JSON.stringify(m), nackt.getData());
+  assert.notEqual(imGeruest.grund, 'reserviert', 'Rot-Beweis: im nackten Gerüst ist kein Code fest reserviert');
 });
 
 test('[Rechtsraum-Modul] fehlende/ungültige moduleVersion wird abgelehnt', () => {

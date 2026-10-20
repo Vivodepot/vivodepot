@@ -49,7 +49,8 @@ async function kopieOeffnen(browser, html, fn) {
   } finally { await kontext.close(); fs.rmSync(datei, { force: true }); }
 }
 
-for (const [slug, url] of [['privat-de', h.KERN_URL_PRIVAT_DE], ['pro-de', h.KERN_URL_PRO_DE]]) {
+// Im öffentlichen Zuschnitt nur die baubaren Produkte (helpers.js, baubar); im Kanon beide.
+for (const [slug, url] of [['privat-de', h.KERN_URL_PRIVAT_DE], ['pro-de', h.KERN_URL_PRO_DE]].filter(([s]) => h.baubar(s))) {
   test(`[Gesicherte Kopie] ${slug} · bei offenem Depot gesichert: die Kopie zeigt nur den Hinweis, kein Depot, keinen Wert, kein Eingabefeld`, async ({ page, browser }) => {
     test.setTimeout(120000);
     const html = await offeneSeiteSichern(page, url);
@@ -75,11 +76,11 @@ test('[Gesicherte Kopie·Rot-Beweis] ein normaler Start wird nie als Kopie erkan
   await expect(page.locator('#vd-gesicherte-kopie'), 'frisch geladen').toBeHidden();
   expect(await page.evaluate(() => document.documentElement.getAttribute('data-vd-lauf')), 'der Start setzt die Marke').toBe('1');
   await page.reload();
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await expect(page.locator('#vd-gesicherte-kopie'), 'neu geladen').toBeHidden();
   await page.goto('about:blank');
   await page.goBack();
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await expect(page.locator('#vd-gesicherte-kopie'), 'nach „Zurück“').toBeHidden();
 });
 

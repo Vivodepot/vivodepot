@@ -1,0 +1,260 @@
+{
+  "modulTyp": "logikModul",
+  "id": "erbschein-vorbereitung",
+  "titel": "Testtext 1",
+  "sektor": "advanceCare",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "datenSchema": {
+    "staatsangehoerigkeit": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "nationality",
+      "sensibelErlaubt": true
+    },
+    "lebensmittelpunkt": {
+      "typ": "verbinden",
+      "teile": [
+        {
+          "sektor": "identity",
+          "feld": "streetAddress"
+        },
+        {
+          "sektor": "identity",
+          "feld": "postcodeCity"
+        }
+      ],
+      "trenner": "Testtext 2"
+    },
+    "testament_form": {
+      "typ": "listenfeld",
+      "sektor": "advanceCare",
+      "feld": "provisionInstruments",
+      "diskriminante": {
+        "feld": "instrument",
+        "wert": "will"
+      },
+      "unterfeld": "form"
+    },
+    "familienstand": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "maritalStatus"
+    },
+    "kinder_namen": {
+      "typ": "personenNamen",
+      "sektor": "people",
+      "feld": "childrenAndDependants",
+      "unterfeld": "person"
+    },
+    "testament_bedachte_namen": {
+      "typ": "listenfeldPersonenNamen",
+      "sektor": "advanceCare",
+      "feld": "provisionInstruments",
+      "diskriminante": {
+        "feld": "instrument",
+        "wert": "will"
+      },
+      "unterfeld": "personsNamedInTheWill"
+    },
+    "erben_namen": {
+      "typ": "personenNamen",
+      "sektor": "advanceCare",
+      "feld": "heirsBriefOverview"
+    },
+    "geburtsurkunde_ort": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "birthCertificateStorage",
+      "sensibelErlaubt": true
+    },
+    "eheurkunde_ort": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "marriageCertificateStorage",
+      "sensibelErlaubt": true
+    },
+    "stammbuch_ort": {
+      "typ": "feld",
+      "sektor": "identity",
+      "feld": "familyRegisterBookStorage",
+      "sensibelErlaubt": true
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "Testtext 3",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 4"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "staatsangehoerigkeit",
+          "frage": "Testtext 5",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "lebensmittelpunkt",
+          "frage": "Testtext 6",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "testament_form",
+          "frage": "Testtext 7",
+          "format": {
+            "typ": "codeListeLabel",
+            "praefix": "Testtext 8",
+            "sektor": "advanceCare",
+            "feld": "provisionInstruments",
+            "unterfeld": "form"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 9"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "grundeigentum",
+          "frage": "Testtext 10",
+          "luecke": "Testtext 11"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "unternehmen",
+          "frage": "Testtext 12",
+          "luecke": "Testtext 11"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "bank_verlangt",
+          "frage": "Testtext 13",
+          "luecke": "Testtext 14"
+        }
+      ]
+    },
+    {
+      "titel": "Testtext 15",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 16"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "familienstand",
+          "frage": "Testtext 17",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "identity",
+            "feld": "maritalStatus"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "kinder_namen",
+          "frage": "Testtext 18",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 19"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "testament_bedachte_namen",
+          "frage": "Testtext 20",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "erben_namen",
+          "frage": "Testtext 21",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        }
+      ]
+    },
+    {
+      "titel": "Testtext 22",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 23"
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "geburtsurkunde_ort",
+          "frage": "Testtext 24",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "eheurkunde_ort",
+          "frage": "Testtext 25",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "stammbuch_ort",
+          "frage": "Testtext 26",
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Testtext 27",
+            "Testtext 28"
+          ]
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Testtext 1",
+    "klasse": "erbschein-dok",
+    "herkunftText": "Testtext 29",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "Testtext 30",
+    "fussText": "Testtext 31",
+    "knopfAttr": "erbschein-dokument",
+    "dateiBasis": "Erbschein-Vorbereitung",
+    "toolbarHinweis": "Testtext 32",
+    "karte": {
+      "klasse": "erbschein-auszug-karte",
+      "hinweisKennung": "erbscheinAuszugHint",
+      "knopfKennung": "erbscheinAuszugKnopf",
+      "zusatzKnoepfe": [
+        {
+          "attr": "erbschein-xml",
+          "kennung": "erbscheinAuszugXmlKnopf",
+          "klasse": "btn-sek"
+        }
+      ]
+    }
+  }
+}

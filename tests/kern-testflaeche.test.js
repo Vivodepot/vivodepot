@@ -195,8 +195,10 @@ test('[Kern-Testfläche·Wege·Rot-Beweis] je Weg: ein Erzeugnis, das die Fläch
   assert.ok(P.testflaecheImErzeugnis(P.produktTextErzeugen(ohneMarken, OPTIONEN_LEER_MIT_BILD).text), 'der Backschritt allein ließe sie stehen');
   assert.throws(() => PE.produktFuerPages('privat-de', { kernText: ohneMarken }), /trägt die Test-Fläche/);
   assert.throws(() => PE.geruestMitErscheinungsbild({ kernText: ohneMarken }), /trägt die Test-Fläche/);
-  assert.throws(() => gebaut('pro-de', { kernQuelle: ohneMarken }), /trägt die Test-Fläche/);
-  assert.doesNotThrow(() => gebaut('pro-de', { kernQuelle: ohneMarken, mitTestflaeche: true }), 'die Testfassung darf sie tragen');
+  // Im Kanon pro-de; im öffentlichen Zuschnitt, wo Pro nicht baubar ist, das erste baubare Produkt (tools/lib/vier-produkte.js, PRODUKTE).
+  const einProdukt = VP.PRODUKTE.some((p) => p.slug === 'pro-de') ? 'pro-de' : VP.PRODUKTE[0].slug;
+  assert.throws(() => gebaut(einProdukt, { kernQuelle: ohneMarken }), /trägt die Test-Fläche/);
+  assert.doesNotThrow(() => gebaut(einProdukt, { kernQuelle: ohneMarken, mitTestflaeche: true }), 'die Testfassung darf sie tragen');
   // … und die Testfassung, als Erzeugnis genommen, ist rot.
   assert.ok(erzeugnisFunde(AUSGELIEFERT.get('privat-de').testfassung).includes('trägt __vdOeffentlich'));
   // WEG_B: dieselbe Datei ohne die beiden Schnitte (so baute Weg B bis zum 09.10.2026) ist rot.

@@ -18,7 +18,7 @@
    Zweitweg dafür gebaut, wie angeordnet.
 
    EN UND DAS PRO-MODUL SIND UNSIGNIERT, ABSICHTLICH — wörtlich der Weg, für
-   den `tools/textsatz-en-modul-erzeugen.js` sein Modul baut ("UNSIGNIERT,
+   den `ein nicht öffentliches Werkzeug` sein Modul baut ("UNSIGNIERT,
    BEWUSST … kein nurGeprueft"): Vivodepots eigene Module, kein Fremdmodul,
    kein Zertifikatsweg nötig. Ausgeliefert als Begleitdatei neben dem Gerüst
    (tools/produkt-konfektionieren.js, `unsignierteModulDateien`) — die
@@ -27,6 +27,7 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
+const { vorlageAufloesen } = require('./vorlage-aufloesen.js');
 
 const REPO = path.join(__dirname, '..', '..');
 
@@ -35,14 +36,14 @@ const DE_MODUL_PFAD = path.join(REPO, 'tools', 'textsatz-de-modul.json');
 // Das Vor-Depot-Sprachangebot (U2-ADR-428): die Kennungen der Schirme vor dem Depot in der zweiten Sprache. Das deutsche Produkt trägt es (der „English“-Knopf); ein
 // englisches Produkt hat Englisch als seine Sprache und braucht es nicht. modulTyp `sprachangebot`, Region AB_WERK_SPRACHANGEBOT_QUELLEN.
 const SPRACHANGEBOT_EN_PFAD = path.join(REPO, 'tools', 'sprachangebot-en-vordepot-modul.json');
-const PRO_MODUL_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul.json');
+const PRO_MODUL_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // "Pro-Achse englisch" (08.09.2026): pro-en zeigte bislang die deutsche Prosa des
 // Logikmoduls, weil derselbe PRO_MODUL_PFAD wie pro-de gedockt wurde — kein EN-Zwilling
 // existierte. Behalten über die U2-ADR-421-Umstellung hinweg (.09.2026):
 // die Rubriken-Labels der sechs pro-*-Sektoren laufen weiterhin über den additiven EN-Sprachweg
 // (die sechs `<bereichId>.label`-Schlüssel in EN_MODUL_PFAD), nur ihre STRUKTUR kommt jetzt über
 // bereichsErsatz statt über ein separates Bereichs-Modul (s. u.).
-const PRO_MODUL_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul-en.json');
+const PRO_MODUL_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul-en.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // U2-ADR-421-Nachtrag (08.09.2026, „Pro-Produkt ersetzt statt ergänzt") — LÖST AB,
 // NICHT ERGÄNZT: ein früheres `PRO_BEREICH_MODUL_PFAD` (normales `bereich`-Modul, das die sechs
 // pro-*-Sektoren NEBEN den 13 privaten einließ, s. git-Historie) ist entfallen. Der Befund, der
@@ -51,19 +52,19 @@ const PRO_MODUL_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-g
 // Pro-Logikmodul referenziert weiterhin eigene Sektor-IDs (z. B. 'pro-vertretung-vollmachten') —
 // die stehen jetzt über `PRO_BEREICHS_ERSATZ_PFAD` in SEKTOR_BY_ID, nicht mehr über ein
 // separates Bereichs-Modul.
-const PRO_BEREICHS_ERSATZ_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-bereichsersatz.json');
+const PRO_BEREICHS_ERSATZ_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-bereichsersatz.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // U2-ADR-421-Nachtrag (08.09.2026) — die echten Feldinhalte (tools/betriebssatz-inhalte.js),
 // über die achte Ab-Werk-Saat (AB_WERK_VORLAGEN_QUELLEN) eingebacken, je Sprache eine Datei.
-const PRO_VORLAGE_DE_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-de.json');
-const PRO_VORLAGE_EN_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-en.json');
+const PRO_VORLAGE_DE_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-de.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
+const PRO_VORLAGE_EN_PFAD = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-geschaeftsfuehrerin-notfallmappe-vorlage-en.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // Das Template NOTAR im Pro-Modul (DoD: „das Pro-Modul in beiden Sprachen, dort das Template Notar“; U2-ADR-287, § 39–45 BNotO): ein
 // `logikModul` (Listen-Typ, steht neben dem Geschäftsführerin-Logikmodul). Je Sprache eine Datei (pro-de: deutsch, pro-en: englisch).
 // Ein TEMPLATE steht im Rezept in `templates`, nicht in `bereichsmodule` (U2-ADR-427): darum das eigene Feld `templatePfade` am Produkt,
 // nicht `modulPfade`. Die Kennung `notar` steht im Dateinamen, so erkennt sie tools/dod-v1-rezepte-pruefen.js.
-const PRO_NOTAR_TEMPLATE_PFAD_DE = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-notar-kanzleivertretung-logikmodul.json');
-const PRO_NOTAR_TEMPLATE_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-notar-kanzleivertretung-logikmodul-en.json');
+const PRO_NOTAR_TEMPLATE_PFAD_DE = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-notar-kanzleivertretung-logikmodul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
+const PRO_NOTAR_TEMPLATE_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-notar-kanzleivertretung-logikmodul-en.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // Entscheidung 16.09.2026 (U2-ADR-398): die Bereiche aller Vivodepot-Produkte, in JEDES Produkt
-// gebacken — erzeugt aus den Bereichsersätzen unten (tools/vivodepot-bereiche-bekannt-erzeugen.js).
+// gebacken — erzeugt aus den Bereichsersätzen unten (ein nicht öffentliches Werkzeug).
 const BEREICHE_BEKANNT_PFAD = path.join(REPO, 'tools', 'vivodepot-bereiche-bekannt.json');
 
 // Schnitt-Vorbereitung (17.09.2026, DoD-Register-Umbau, U2-ADR-345-Familie): AB_WERK_BEREICH_QUELLEN
@@ -74,7 +75,7 @@ const BEREICHE_BEKANNT_PFAD = path.join(REPO, 'tools', 'vivodepot-bereiche-bekan
 // bereiche + BEREICH_QUELLEN_EINGEBAUT/„wohnen"), Pro bekommt NUR die sechs Firmen-Bereiche
 // (-96, gegengeprüft) — „VD Pro" zeigt sechs Bereiche, keine dreizehn (s. PRO_BEREICHS_ERSATZ_PFAD-
 // Kommentar oben); `bereichsErsatzPfad` wird für Pro damit überflüssig (null unten).
-const BEREICH_TEMPLATE_VERZEICHNIS = path.join(REPO, 'tools', 'bereich-templates');
+const BEREICH_TEMPLATE_VERZEICHNIS = path.join(REPO, 'tools', 'bereich-templates'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 const BEREICH_TEMPLATE_PFADE_PRIVAT_13 = Object.freeze([
   'vivodepot-administration.json', 'vivodepot-advanceCare.json', 'vivodepot-assets.json',
   'vivodepot-education.json', 'vivodepot-emergencyPreparedness.json', 'vivodepot-finance.json',
@@ -93,13 +94,13 @@ const BEREICH_TEMPLATE_PFADE_PRO_6 = Object.freeze([
 // alte `pro-identitaet`-Übernahme lief über PRO_BEREICHS_ERSATZ_PFAD, das seit dem Schnitt
 // für Pro nie eingebunden wird (bereichsErsatzPfad: null unten). Nur DIESE eine der 13
 // nativen Dateien, nicht die restlichen zwölf — Pro zeigt sieben Bereiche, keine neunzehn.
-const BEREICH_TEMPLATE_PFAD_IDENTITY = path.join(BEREICH_TEMPLATE_VERZEICHNIS, 'vivodepot-identity.json');
+const BEREICH_TEMPLATE_PFAD_IDENTITY = path.join(BEREICH_TEMPLATE_VERZEICHNIS, 'vivodepot-identity.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 
 // Schnitt-Vorbereitung (17.09.2026) — Gegenstück für `dokumentModule`: dieselben vier amtlichen
 // Dokumentmodule (PV/KI/Vollmacht/Betreuung) in JEDEM Produkt, sprach-/produktunabhängig wie
 // AB_WERK_BASISTEMPLATE_DE. Die vier `vivodepot-standardvorlage-*.json`-Dateien im selben
 // Verzeichnis sind seit dem Gerüst-Schnitt S4 verdrahtet (STANDARD_VORLAGEN_PFADE_4 unten).
-const DOKUMENT_MODUL_VERZEICHNIS = path.join(REPO, 'tools', 'dokument-module');
+const DOKUMENT_MODUL_VERZEICHNIS = path.join(REPO, 'tools', 'dokument-module'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 /* Gerüst-Schnitt S4 (21.09.2026): die vier amtlichen Standardvorlagen (AB_WERK_BASISTEMPLATE_DE ist im Gerüst leer) stehen als
    `standardVorlage`-Moduldateien im Rezept jedes Produkts. DIE REIHENFOLGE IST FEST und ist Inhalt, kein Zufall: die Vorlagen-Listung
    im Kern folgt der Reihenfolge, in der die Region gebacken wird (patientenverfuegung, betreuungsverfuegung, vorsorgevollmacht,
@@ -107,7 +108,7 @@ const DOKUMENT_MODUL_VERZEICHNIS = path.join(REPO, 'tools', 'dokument-module');
    gemessen: mit dieser Reihenfolge ist STANDARD_VORLAGEN deepStrictEqual zu dem Stand vor dem Schnitt. Wer sie sortiert, ändert, was
    die Bürgerin in welcher Reihenfolge sieht. */
 const STANDARD_VORLAGEN_PFADE_4 = Object.freeze(['patientenverfuegung', 'betreuungsverfuegung', 'vorsorgevollmacht', 'organspende']
-  .map((name) => path.join(REPO, 'tools', 'dokument-module', 'vivodepot-standardvorlage-' + name + '.json')));
+  .map((name) => path.join(REPO, 'tools', 'dokument-module', 'vivodepot-standardvorlage-' + name + '.json'))); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 
 const DOKUMENT_MODUL_PFADE_4 = Object.freeze([
   'vivodepot-dokumentmodul-patientenverfuegung.json', 'vivodepot-dokumentmodul-ki-verfuegung.json',
@@ -127,10 +128,10 @@ const ERSCHEINUNGSBILD_HEUTE_PFAD = path.join(REPO, 'tools', 'erscheinung', 'ers
    Ein anderes Ab-Werk-Bild ist genau diese eine Zeile: das Gerüst kennt keinen Profilnamen. */
 const ERSCHEINUNGSBILD_AB_WERK_PFAD = path.join(REPO, 'tools', 'erscheinung', 'erscheinungsbild-salbei-glas-modul.json');
 // Gerüst-Schnitt S7: die dreizehn nativen Bereichs-Definitionen (Grundlage der ruhenden Bereiche, B12), erzeugt aus den 13 Bereichs-Templates
-// (tools/bereiche-nativ-katalog-erzeugen.js). Produktunabhängig: dieselbe Datei in jedem der vier Produkte.
-const BEREICHE_NATIV_KATALOG_PFAD = path.join(REPO, 'tools', 'bereiche-nativ-katalog-modul.json');
+// (ein nicht öffentliches Werkzeug). Produktunabhängig: dieselbe Datei in jedem der vier Produkte.
+const BEREICHE_NATIV_KATALOG_PFAD = path.join(REPO, 'tools', 'bereiche-nativ-katalog-modul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // S9 (22.09.2026): der Lebenslagen-Katalog (29 Lagen, seit T5 im Kern) — jetzt Region, dieselbe Bauart wie BEREICHE_NATIV_KATALOG_PFAD.
-const LEBENSLAGEN_KATALOG_PFAD = path.join(REPO, 'tools', 'lebenslagen-katalog-modul.json');
+const LEBENSLAGEN_KATALOG_PFAD = path.join(REPO, 'tools', 'lebenslagen-katalog-modul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 
 // Schnitt-Nachtrag (17.09.2026, -40): dieselbe Atomaritätslücke wie oben, für situationen/
 // wizards/logikModule — ohne diese vier Fixtures trägt WIZARD_BY_ID nur noch pvwiz/kiwiz (die
@@ -141,12 +142,12 @@ const AB_WERK_FIXTURE_PFADE_4 = Object.freeze([
   'buergermodul-situationen-ab-werk.json', 'buergermodul-wizards-ab-werk.json',
 ].map((datei) => path.join(AB_WERK_FIXTURE_VERZEICHNIS, datei)));
 
-// U2-ADR-NNN (19.09.2026, „Angehörigen-Blätter sind Template, kein Gerüst"): die fünf früher
+// U2-ADR-435 (19.09.2026, „Angehörigen-Blätter sind Template, kein Gerüst"): die fünf früher
 // hartkodierten Angehörigen-Blätter (bis ANG1 die Konstante `_ANG_SITUATIONEN`) als Rechtsraum-DE-Vorlage —
 // in ALLEN vier Produkten (Rechtsraum DE, nicht Produktstufe: Privat UND Pro tragen sie), deutsch in den
 // deutschen, englisch in den englischen (ANGEHOERIGEN_VORLAGE_PFAD_EN). Von Hand gepflegt (kein Generator mehr): tools/angehoerigen-vorlagen/, Grundlinie tests/fixtures/angehoerigen-blaetter-vor-abriss-2026-09-19.json.
-const ANGEHOERIGEN_VORLAGE_PFAD_DE = path.join(REPO, 'tools', 'angehoerigen-vorlagen', 'vivodepot-angehoerigen-de.json');
-const ANGEHOERIGEN_VORLAGE_PFAD_EN = path.join(REPO, 'tools', 'angehoerigen-vorlagen', 'vivodepot-angehoerigen-en.json');
+const ANGEHOERIGEN_VORLAGE_PFAD_DE = path.join(REPO, 'tools', 'angehoerigen-vorlagen', 'vivodepot-angehoerigen-de.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
+const ANGEHOERIGEN_VORLAGE_PFAD_EN = path.join(REPO, 'tools', 'angehoerigen-vorlagen', 'vivodepot-angehoerigen-en.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 
 /* Pro ohne Vorlage (Entscheidung 17.09.2026, P1): der Bereichsersatz trägt die 54 Felder seit dem
    10.09.2026 selbst; die zusätzlich gebackene Vorlage verdoppelte die Sektionen, in pro-en unter
@@ -156,31 +157,39 @@ const ANGEHOERIGEN_VORLAGE_PFAD_EN = path.join(REPO, 'tools', 'angehoerigen-vorl
 const ZUGANG_RECHT_TEMPLATE_PFAD = path.join(AB_WERK_FIXTURE_VERZEICHNIS, 'zugang-zum-recht-beratungshilfe-logikmodul.json');
 // Schema 87 (21.09.2026): der Erbschein-Vorbereitungsauszug ist wie der Zugang-Auszug ein Template im Rezept, kein Kern-Auszug mehr.
 // Seit 04.10.2026 (Entscheidung der Geschäftsführung) tragen auch die Pro-Produkte beide ab Werk; Probe tests/pro-traegt-erbschein-zugang-ab-werk.test.js.
-const ERBSCHEIN_TEMPLATE_PFAD = path.join(AB_WERK_FIXTURE_VERZEICHNIS, 'erbschein-vorbereitung-logikmodul.json');
+const ERBSCHEIN_TEMPLATE_PFAD = path.join(AB_WERK_FIXTURE_VERZEICHNIS, 'erbschein-vorbereitung-logikmodul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // IPS-Begleittext (U2-ADR-458): die festen Sätze des FHIR-IPS-Exports je Exportsprache — jedes Produkt trägt dasselbe Modul,
 // die Exportsprache wählt die Bürgerin beim Export, unabhängig von der Produktsprache. In `modulPfade`, damit das Rezept
 // (tools/kern-ausliefern.js, _rezeptBauen) es führt und Mess- und Auslieferweg dasselbe Produkt bauen.
-const IPS_BEGLEITTEXT_PFAD = path.join(REPO, 'tools', 'ips-begleittext-modul.json');
+const IPS_BEGLEITTEXT_PFAD = path.join(REPO, 'tools', 'ips-begleittext-modul.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 // Amtliche Vorlagen ohne Hinweis auf aktive Inhalte (16.10.2026): in jedes Produkt, das Gerüst trägt keine.
 const AMTLICHE_VORLAGEN_PFAD = path.join(REPO, 'tools', 'amtliche-vorlagen.json');
 /* Pro trägt eigene Situationen (U2-ADR-243 Teil 2, entschieden 02.10.2026): Vertretung, Übergabe, Einarbeitung, Nachfolge,
    je Sprache eine Datei. Die zehn privaten Situationen (AB_WERK_FIXTURE_PFADE_4[0]) stehen in Pro nicht mehr im Angebot; Einträge
-   einer älteren Pro-Datei darin gehen nicht verloren (tests/pro-situationen.test.js). */
-const PRO_SITUATIONEN_PFAD_DE = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-situationen-de.json');
-const PRO_SITUATIONEN_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-situationen-en.json');
+   einer älteren Pro-Datei darin gehen nicht verloren (eine nicht öffentliche Probe). */
+const PRO_SITUATIONEN_PFAD_DE = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-situationen-de.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
+const PRO_SITUATIONEN_PFAD_EN = path.join(REPO, 'tools', 'templates', 'vivodepot-pro-situationen-en.json'); // zuschnitt-privat: nur der Produktbau liest diesen Pfad; öffentlich tritt das erfundene Gegenstück ein (tools/lib/vorlage-aufloesen.js)
 /* Kachel-Schnitt (02.10.2026): Pro trägt weder den Lebenslagen-Katalog (und damit die Anlass-Kacheln ohne eigene Situation, die
    darin stehen) noch die fünf privaten Assistenten (gebwiz, anamwiz, pflwiz, heirwiz, umzwiz); pvwiz/kiwiz kommen aus dem
    Dokumentmodul und bleiben. Werte, die eine ältere Pro-Datei darüber schon trägt, liegen in Bereichen und Situationen und bleiben
-   über die ruhenden Bereiche und Situationen lesbar (tests/anlass-kacheln-rezept.test.js). */
+   über die ruhenden Bereiche und Situationen lesbar (eine nicht öffentliche Probe). */
 /* Notar in Pro RUHT (Nachtrag U2-ADR-427, Entscheidung der Geschäftsführung 07.10.2026): das Notariatsmodul (Kanzleivertretung)
    kommt für den Erstverkauf nicht ab Werk in pro-de/pro-en; es kehrt mit der Berufsmodul-Wahl beim Kauf zurück (ADR 489). Die
    Moduldateien bleiben im Bestand (PRO_NOTAR_TEMPLATE_PFAD_DE/EN oben). Das Verbot steht im DoD-Werkzeug (TEMPLATES_VERBOTEN_JE_SLUG). */
-const PRODUKTE = Object.freeze([
+const PRODUKTE_ALLE = Object.freeze([
   Object.freeze({ slug: 'privat-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
   Object.freeze({ slug: 'privat-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: null, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRIVAT_13.concat(DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD, LEBENSLAGEN_KATALOG_PFAD], AB_WERK_FIXTURE_PFADE_4, [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
   Object.freeze({ slug: 'pro-de', sprache: 'de', sprachModulPfad: DE_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: PRO_MODUL_PFAD, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD], [PRO_SITUATIONEN_PFAD_DE], [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_DE], [SPRACHANGEBOT_EN_PFAD]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
   Object.freeze({ slug: 'pro-en', sprache: 'en', sprachModulPfad: EN_MODUL_PFAD, erscheinungsbildModulPfad: ERSCHEINUNGSBILD_AB_WERK_PFAD, proModulPfad: PRO_MODUL_PFAD_EN, bereichsErsatzPfad: null, vorlagenPfad: null, bereicheBekanntPfad: BEREICHE_BEKANNT_PFAD, modulPfade: BEREICH_TEMPLATE_PFADE_PRO_6.concat([BEREICH_TEMPLATE_PFAD_IDENTITY], DOKUMENT_MODUL_PFADE_4, [DOKUMENTE_DE_PFAD, RECHTSRAUM_DE_PFAD], STANDARD_VORLAGEN_PFADE_4, [BEREICHE_NATIV_KATALOG_PFAD], [PRO_SITUATIONEN_PFAD_EN], [IPS_BEGLEITTEXT_PFAD], [AMTLICHE_VORLAGEN_PFAD], [ANGEHOERIGEN_VORLAGE_PFAD_EN]), templatePfade: Object.freeze([ZUGANG_RECHT_TEMPLATE_PFAD, ERBSCHEIN_TEMPLATE_PFAD]) }),
 ]);
+/* Im öffentlichen Zuschnitt fehlen die Vorlagen der zweiten Schicht (Pro und andere) und haben kein erfundenes Gegenstück: dort besteht PRODUKTE nur aus den Produkten, die
+   sich bauen lassen. Jeder Aufrufer, der alle Produkte durchläuft (der Bauweg, die E2E-Vorbereitung, die Gates), sieht damit die baubaren und bricht nicht an einem
+   Produkt, das es dort nicht gibt. Im Kanon bleibt es bei allen vier: fehlt dort eine Vorlage, wirft vorlageAufloesen beim Gebrauch (kein stilles Weglassen, tools/lib/vorlage-aufloesen.js). */
+const PRODUKTE = require('./wurzel-kopfzeile.js').wurzelIstOeffentlich(REPO)
+  ? Object.freeze(PRODUKTE_ALLE.filter((p) => {
+    try { modulDateienFuer(p); return true; } catch (e) { if (e && e.code === 'VORLAGE_NICHT_OEFFENTLICH') return false; throw e; }
+  }))
+  : PRODUKTE_ALLE;
 
 /* Die unsignierten Moduldateien, die ein Produkt eingebacken bekommt — EINE Stelle statt einer
    Liste je Aufrufer. Die bekannten Vivodepot-Bereiche (`bereicheBekanntPfad`) trägt jedes Produkt.
@@ -207,14 +216,16 @@ const PRODUKTE = Object.freeze([
 
    `opts.textsatzDeModulPfad` (S8, 21.09.2026) — dasselbe Muster ein drittes Mal: biegt NUR den Pfad des deutschen Sprachmoduls auf eine Kopie um. Seit S8
    steht der deutsche Satz nicht mehr im Kern, sondern in `tools/textsatz-de-modul.json`; wer eine Textänderung gegen eine Wegwerf-Kopie pflanzen will
-   (tools/nativ-bestand-aenderungen-erheben.test.js), mutiert diese Kopie, nicht die geteilte Datei im Arbeitsbaum. */
+   (ein nicht öffentliches Werkzeug), mutiert diese Kopie, nicht die geteilte Datei im Arbeitsbaum. */
 function modulDateienFuer(p, opts) {
   const basis = [p.sprachModulPfad, p.erscheinungsbildModulPfad, p.bereichsErsatzPfad, p.vorlagenPfad, p.proModulPfad, p.bereicheBekanntPfad, ...(p.modulPfade || []), ...(p.templatePfade || [])].filter(Boolean);
   const bereichsUeberschreibung = opts && opts.bereichTemplateVerzeichnis;
   const fixtureUeberschreibung = opts && opts.abWerkFixtureVerzeichnis;
   const standardVorlagenUeberschreibung = opts && opts.standardVorlagenVerzeichnis;   // Gerüst-Schnitt S4: die Zeremonie misst ihre Wegwerf-Kopie
   const textsatzDeUeberschreibung = opts && opts.textsatzDeModulPfad;   // S8: der deutsche Satz ist ein Modul; die Positivkontrolle der Bestandserhebung mutiert eine Kopie
-  if (!bereichsUeberschreibung && !fixtureUeberschreibung && !standardVorlagenUeberschreibung && !textsatzDeUeberschreibung) return basis;
+  // Fehlt eine Vorlage der zweiten Schicht, greift im öffentlichen Zuschnitt ihr erfundenes Gegenstück, im Kanon wirft es (tools/lib/vorlage-aufloesen.js).
+  const aufloesen = (pfad) => vorlageAufloesen(REPO, pfad);
+  if (!bereichsUeberschreibung && !fixtureUeberschreibung && !standardVorlagenUeberschreibung && !textsatzDeUeberschreibung) return basis.map(aufloesen);
   return basis.map((pfad) => {
     if (bereichsUeberschreibung && path.dirname(pfad) === BEREICH_TEMPLATE_VERZEICHNIS) {
       return path.join(bereichsUeberschreibung, path.basename(pfad));
@@ -226,7 +237,7 @@ function modulDateienFuer(p, opts) {
       return path.join(standardVorlagenUeberschreibung, path.basename(pfad));
     }
     if (textsatzDeUeberschreibung && pfad === DE_MODUL_PFAD) return textsatzDeUeberschreibung;
-    return pfad;
+    return aufloesen(pfad);
   });
 }
 
@@ -240,8 +251,8 @@ function modulDateienFuer(p, opts) {
 const REZEPT_KOEPFE = Object.freeze({
   'privat-de': Object.freeze({ zugangsart: 'frei', odooProduktVorlageId: null, anzeigename: Object.freeze({ de: 'VD Privat — Deutsch', en: 'VD Privat — German' }) }),
   'privat-en': Object.freeze({ zugangsart: 'frei', odooProduktVorlageId: null, anzeigename: Object.freeze({ de: 'VD Privat — Englisch', en: 'VD Privat — English' }) }),
-  'pro-de': Object.freeze({ zugangsart: 'verkauft', odooProduktVorlageId: 36, anzeigename: Object.freeze({ de: 'VD Pro — Deutsch', en: 'VD Pro — German' }) }),
-  'pro-en': Object.freeze({ zugangsart: 'verkauft', odooProduktVorlageId: 37, anzeigename: Object.freeze({ de: 'VD Pro — Englisch', en: 'VD Pro — English' }) }),
+  'pro-de': Object.freeze({ zugangsart: 'verkauft', odooProduktVorlageId: 51, anzeigename: Object.freeze({ de: 'VD Pro — Deutsch', en: 'VD Pro — German' }) }),
+  'pro-en': Object.freeze({ zugangsart: 'verkauft', odooProduktVorlageId: 52, anzeigename: Object.freeze({ de: 'VD Pro — Englisch', en: 'VD Pro — English' }) }),
 });
 
 /* PRODUKT-ZUSCHNITTE: Pro mit einem Berufsmodul ab Werk (U2-ADR-489, Pro-Konzept C2 vom 06.10.2026, gebaut 12.10.2026)
@@ -254,11 +265,11 @@ const REZEPT_KOEPFE = Object.freeze({
    WELCHE BERUFE ES GIBT, steht nicht hier, sondern im Verzeichnis tools/berufsmodule/: jedes Berufsmodul, das dort mit beiden
    Teilen in einer Sprache liegt, ergibt den Zuschnitt dieser Sprache. Ein neues Berufsmodul braucht hier keine Zeile.
    NICHT IN DER GEMEINSAMEN ABDRUCK-LISTE: die Abdrücke der Berufsmodule stehen NICHT in REZEPT_FINGERABDRUECKE_KERN
-   (tools/rezept-fingerabdruecke-erheben.js liest allein PRODUKTE). Diese Liste gilt im Kern für jedes Produkt; stünde ein
+   (ein nicht öffentliches Werkzeug liest allein PRODUKTE). Diese Liste gilt im Kern für jedes Produkt; stünde ein
    Berufsmodul darin, gälte es als Datei in einem gewöhnlichen Pro oder Privat als ab Werk, und die Selbst-Einlass-Sperre
-   ließe das gekaufte Modul ohne Kauf durch (gemessen 12.10.2026: tests/pro-berufsmodule.test.js wurde rot). Ein Zuschnitt
+   ließe das gekaufte Modul ohne Kauf durch (gemessen 12.10.2026: eine nicht öffentliche Probe wurde rot). Ein Zuschnitt
    erkennt sein Modul über die eigene Saat des Produkts. */
-const BERUFSMODUL_VERZEICHNIS = path.join(REPO, 'tools', 'berufsmodule');
+const BERUFSMODUL_VERZEICHNIS = path.join(REPO, 'tools', 'berufsmodule'); // zuschnitt-privat: öffentlich fehlt der Ordner, berufsmoduleImBestand gibt dann keine Zuschnitte
 const BERUFSMODUL_TEILE = Object.freeze(['bereich', 'logikmodul']);
 const ZUSCHNITT_KENNUNG = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/;
 const berufsmodulPfad = (beruf, teil, sprache, verzeichnis = BERUFSMODUL_VERZEICHNIS) => path.join(verzeichnis, 'vivodepot-pro-' + beruf + '-' + teil + '-' + sprache + '.json');
@@ -304,7 +315,15 @@ const ZUSCHNITT_ODOO_PRODUKT_VORLAGE = Object.freeze({
    sagt sein Feld `abgleich`. */
 const ZUSCHNITT_ARTIKEL_BELEG_PFAD = path.join(__dirname, '..', 'zuschnitt-artikel-beleg.json');
 function zuschnittArtikelBelegLesen(pfad = ZUSCHNITT_ARTIKEL_BELEG_PFAD) { return JSON.parse(fs.readFileSync(pfad, 'utf8')); }
-function zuschnittArtikelAbweichungen(tabelle = ZUSCHNITT_ODOO_PRODUKT_VORLAGE, beleg = zuschnittArtikelBelegLesen()) {
+/* Alle verkauften Artikel mit ihrer Artikelnummer: die Grundprodukte mit Zugangsart „verkauft“ (REZEPT_KOEPFE) und die Zuschnitte.
+   Seit 17.10.2026 steht auch das Basis-Pro je Sprache als eigener Artikel im Shop (51, 52; die früheren 36/37 tragen nur noch
+   Testbestellungen). Der Beleg hält jede dieser Zeilen; eine Grundprodukt-Zeile, die nur an einer Stelle geändert wird, fällt auf. */
+function verkaufteArtikelTabelle(koepfe = REZEPT_KOEPFE, zuschnitte = ZUSCHNITT_ODOO_PRODUKT_VORLAGE) {
+  const aus = {};
+  for (const [slug, k] of Object.entries(koepfe)) if (k.zugangsart === 'verkauft' && Number.isInteger(k.odooProduktVorlageId)) aus[slug] = k.odooProduktVorlageId;
+  return Object.assign(aus, zuschnitte);
+}
+function zuschnittArtikelAbweichungen(tabelle = verkaufteArtikelTabelle(), beleg = zuschnittArtikelBelegLesen()) {
   const funde = [];
   const zeilen = Array.isArray(beleg && beleg.artikel) ? beleg.artikel : [];
   const jeKennung = new Map();
@@ -355,7 +374,7 @@ function zuschnittZurueckhaltung(odooVorlagen = ZUSCHNITT_ODOO_PRODUKT_VORLAGE, 
   if (Number.isNaN(zeit) || new Date(zeit).toISOString().slice(0, 10) !== tag) {   // auch der 30. Februar ist kein Datum
     return 'Die Zuschnitte gehen nicht hinaus: ihre Artikelnummern sind noch nicht gegen den Shop abgeglichen (Feld „abgleich“ im Beleg trägt kein Datum).';
   }
-  const abweichungen = zuschnittArtikelAbweichungen(odooVorlagen, b);
+  const abweichungen = zuschnittArtikelAbweichungen(verkaufteArtikelTabelle(REZEPT_KOEPFE, odooVorlagen), b);
   if (abweichungen.length) return 'Die Zuschnitte gehen nicht hinaus: Tabelle und Beleg der Artikelnummern weichen ab (' + abweichungen.join('; ') + ').';
   return null;
 }
@@ -403,6 +422,7 @@ function deutscheZeilenImEnglischenProdukt(V, deTexte, enModul) {
 }
 
 module.exports = {
+  verkaufteArtikelTabelle,
   REPO, EN_MODUL_PFAD, DE_MODUL_PFAD, SPRACHANGEBOT_EN_PFAD, PRO_MODUL_PFAD, PRO_MODUL_PFAD_EN,
   PRO_BEREICHS_ERSATZ_PFAD, PRO_VORLAGE_DE_PFAD, PRO_VORLAGE_EN_PFAD, PRO_SITUATIONEN_PFAD_DE, PRO_SITUATIONEN_PFAD_EN, PRO_NOTAR_TEMPLATE_PFAD_DE, PRO_NOTAR_TEMPLATE_PFAD_EN, PRODUKTE, REZEPT_KOEPFE,
   BEREICHE_BEKANNT_PFAD, ERSCHEINUNGSBILD_HEUTE_PFAD, ERSCHEINUNGSBILD_AB_WERK_PFAD, modulDateienFuer,

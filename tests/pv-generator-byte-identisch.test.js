@@ -13,7 +13,7 @@
    Prototypen) — verglichen wird über JSON (Struktur) + reine Strings (HTML),
    nie über deepStrictEqual auf vm-Objekten.
    ════════════════════════════════════════════════════════════════════════ */
-const test = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');

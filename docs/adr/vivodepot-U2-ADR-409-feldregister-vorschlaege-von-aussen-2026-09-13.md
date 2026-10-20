@@ -10,7 +10,7 @@ Schutzbedarf, Vertretungsregel und der Auslieferungsweg des Generators (s. „Wa
 **U2-Bezug:** U2-ADR-299 (Bündel-Parität), U2-ADR-319/320 (Bündel erzeugt Bereiche, Zuwachs-Ratsche),
 U2-ADR-348 (`bereichsErsatz` tauscht statt ergänzt), U2-ADR-404 ff. (Konfektionierung).
 **Status heute:** gilt — entschieden in zehn Punkten am 13.09.2026. Gebaut ist davon der Feldkatalog (270 → 457 Kennungen), das Ausgabe-Artefakt, aus Punkt 10 der Status je Kennung (`permanent`/`deprecated`/`obsoleted`, Nachfolger-Pflicht bei `obsoleted`) und — nachgezogen 13.09.2026 — der Eingangsweg selbst: das Submission-Schema trägt `kennungVorschlaege` als eigenen Schlüssel neben `templates` (Punkt 3, an allen drei gepinnten Orten), der Template-Generator bietet „eine fehlende Kennung vorschlagen" mit Ausgabe als JSON-Datei und vorbereiteter E-Mail an `register@vivodepot.de` (Punkt 9: kein eigener Server), und `tools/kennung-vorschlag-pruefen.js` leistet die mechanische Prüfung (Schema, Dublette gegen den Katalog, Dublette gegen bereits deaktivierte Kennungen) gegen eine eingereichte Datei. Offen bleibt allein die Freigabe selbst (Punkt 6: Sache der Vivodepot GmbH im Postfach, absichtlich ohne Werkzeug) und der Auslieferungsweg des Generators auf die Subdomain (s. „Was offen ist").
-**Redaktioneller Nachtrag (26.09.2026):** Wortwahl angeglichen — wo diese ADR „inaktiviert“/„Inaktivierung“ sagte, steht jetzt „deaktiviert“/„Deaktivierung“, wie im Register (tools/feldregister-bauen.js) und in dessen Seite. Die Entscheidung ist unverändert; Bezeichner im Code (`inaktiviert` als Parameter, `INAKTIVIERT`) bleiben.
+**Redaktioneller Nachtrag (26.09.2026):** Wortwahl angeglichen — wo diese ADR „inaktiviert“/„Inaktivierung“ sagte, steht jetzt „deaktiviert“/„Deaktivierung“, wie im Register (ein nicht öffentliches Werkzeug) und in dessen Seite. Die Entscheidung ist unverändert; Bezeichner im Code (`inaktiviert` als Parameter, `INAKTIVIERT`) bleiben.
 **Nachtrag (06.10.2026):** Lizenz (CC0 1.0 für das Eigene), eine feste Adresse je Kennung (`https://register.vivodepot.de/feld/<kennung>`, Seite und JSON-LD), das Verzeichnis der Fassungen und das npm-Paket `@vivodepot/feldregister` regelt U2-ADR-490. Diese ADR bleibt unverändert.
 
 **Anker — veröffentlicht, nicht rekonstruiert:** `https://register.vivodepot.de` steht seit
@@ -45,18 +45,18 @@ Der Kern führt **fünf** Mechanismen, die Feld-Kennungen festhalten. Alle fünf
 
 | Mechanismus | Was er hält | Fundstelle |
 |---|---|---|
-| Paritätsliste | Bündel und nativer Bestand nennen dieselben Kennungen | `tests/buergermodul-ab-parity-u2-adr-299.test.js` |
+| Paritätsliste | Bündel und nativer Bestand nennen dieselben Kennungen | eine nicht öffentliche Probe |
 | Zuwachs-Ratsche | jeder Zuwachs gegenüber dem eingefrorenen Bestand steht in der Zuwachsliste | `tests/buergermodul-bereich-erzeugen-u2-adr-319.test.js` |
 | Entscheidungszeile | jedes Feld im Gegenstand trägt eine Zeile — „ein Feld ohne Zeile ist nicht ‚kein Fall', sondern eine ungestellte Frage" | `tests/anfaenge-falsch-abgelegt.test.js` |
 | Aussagen-Gate | Grundlinie statt Nulltoleranz | `tests/aussagen-register-und-waechter.test.js` |
 | Kern-Lese-Parität | die Lese-App deklariert dieselben Felder wie der Kern, **Unterfelder eingeschlossen** | `tests/paritaet-kern-lese.test.js` |
 
 Dazu der erzeugte **Feldkatalog**: `bereiche/feldkatalog.json`, **270 Einträge**, erzeugt von
-`tools/build-feldkatalog.js`. Seine Reichweite steht im Bericht vom 20.08.2026: „erzeugt aus dem
+ein nicht öffentliches Werkzeug. Seine Reichweite steht im Bericht vom 20.08.2026: „erzeugt aus dem
 Kern · **nur der Erzeuger** — er ist der einzige, der ihn braucht · ja, `pre-commit`".
 
-**Weg zum Nachsehen:** `node tools/build-feldkatalog.js` (meldet die Zahl) ·
-`node --test tests/buergermodul-ab-parity-u2-adr-299.test.js` · ein neues Feld anlegen und
+**Weg zum Nachsehen:** der Aufruf eines nicht öffentlichen Werkzeugs (meldet die Zahl) ·
+der Aufruf einer nicht öffentlichen Probe · ein neues Feld anlegen und
 committen — die Wächter melden sich namentlich.
 
 **Dass es fünf sind und nicht vier, ist selbst ein Befund.** Am 13.09.2026 wurden drei Felder
@@ -80,7 +80,7 @@ Eine Liste zählte als **ein** Feld; ihre Unterfelder gar nicht — allein `vors
 trägt 75. Ein Register, gegen das jemand ein Vorsorge-Template bauen soll, das aber `zvr_nummer`
 nicht führt, verfehlt seinen Zweck.
 
-**Behoben:** `tools/build-feldkatalog.js` sammelt Unterfelder rekursiv; der Katalog wuchs von
+**Behoben:** ein nicht öffentliches Werkzeug sammelt Unterfelder rekursiv; der Katalog wuchs von
 **270 auf 457** Einträge (+187 aus 26 Listenfeldern), ohne dass ein alter Eintrag verschwand oder
 sich in Bereich oder Label änderte. Die Kennungsform ist belegt, nicht erfunden:
 `<bereich>.<listenfeld>/<unterfeld>`, wie sie `_textsatzFeldFuellen` im Kern schon baut. Eine
@@ -110,7 +110,8 @@ bleibt ein geschlossenes Tor: **ein Modul erfindet kein Feld** (`grund: 'feld-un
 Feld braucht, das es nicht gibt, schlägt es vor — er nimmt es sich nicht.
 
 **Eine Kennung bedeutet für immer dasselbe.** Sie ist der einzige Wert, den ein Register hat, und
-darum grundsätzlich nicht zu öffnen.
+darum grundsätzlich nicht zu öffnen. (Nachtrag 06.10.2026: vor v1 eingeschränkt durch U2-ADR-487 — Änderung nur mit Migration,
+Abbildungstabelle und Altdatei-Probe.)
 
 ### 1a · Lesen ohne Anmeldung, Einreichen mit Identität
 
@@ -513,14 +514,14 @@ nichts, wohin verwiesen werden müsste. `obsoleted` muss einen tragen, und der m
 Kennung sein, die im Register existiert (sonst verweist die Ablösung ins Leere). `deprecated` steht
 dazwischen: meist schon absehbar, wohin es geht, aber nicht immer — der Nachfolger bleibt optional.
 
-**Gebaut:** `tools/feldregister-bauen.js` führt die Deaktivierungs-Tabelle `INAKTIVIERT` — heute
+**Gebaut:** ein nicht öffentliches Werkzeug führt die Deaktivierungs-Tabelle `INAKTIVIERT` — heute
 leer, weil noch keine Kennung deaktiviert wurde — und prüft beim Bauen genau diese Regel: ein
 unbekanntes Statuswort, ein `obsoleted` ohne Nachfolger, ein Nachfolger, der nicht existiert, oder
 ein `permanent` mit Nachfolger lassen den Lauf werfen, statt still ein falsches Register zu
 erzeugen. Jeder Eintrag im veröffentlichten Register trägt seinen Status sichtbar; eine
 deaktivierte Kennung bleibt gelistet, wie Punkt 6 es verlangt.
 
-**Weg zum Nachsehen:** `node --test tests/feldregister-bauen.test.js` — die Tests
+**Weg zum Nachsehen:** der Aufruf einer nicht öffentlichen Probe — die Tests
 „[Feldregister·Status] …" prüfen jede der vier Abweisungen einzeln und dass eine deaktivierte
 Kennung in Liste und Seite stehen bleibt.
 
@@ -568,6 +569,10 @@ die Prüfsumme der Liste — und die ist es vollständig. Beides gehört untersc
 damit niemand das eine für das andere hält.
 
 ### 12 · Sprachfrei: die Kennung ist undurchsichtig, die Bedeutung steht in den Beschriftungen
+
+> **Nachtrag 06.10.2026: Punkt 12 ersetzt durch U2-ADR-487.** Vor v1 wurden die Kennungen übersetzt (Freigabe vom 13.09.2026),
+> mit Migration, Abbildungstabelle und Altdatei-Probe; ab v1 gilt Punkt 1 ohne Einschränkung. Der Text unten bleibt als Stand
+> vom 13.09.2026 stehen.
 
 **Anlaß (13.09.2026):** „die Felder sind doch alle deutsch?" — und darauf: „wie machen wir das,
 dass das sprachagnostisch ist?"

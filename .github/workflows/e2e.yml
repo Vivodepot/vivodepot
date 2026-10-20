@@ -91,8 +91,12 @@ jobs:
         # konformitaet.yml.
         run: npm ci
 
-      - name: Playwright-Browser (chromium) installieren
-        run: npx playwright install --with-deps chromium
+      # chromium für das Projekt, webkit und firefox für die Specs, die einen Browser selbst starten (Safari-Wege, Fokus in
+      # WebKit, ein Neustart in Firefox). Bis v931 stand hier nur chromium, und die WebKit-Specs waren öffentlich rot
+      # („Executable doesn't exist … webkit“, v928 bis v930). Welche Browser die Konfiguration braucht, hält eine Probe gegen
+      # diese Zeile, über alle Specs, nicht nur die heute öffentlichen — sonst würde der Lauf rot, sobald eine weitere hinausgeht.
+      - name: Playwright-Browser (chromium, webkit, firefox) installieren
+        run: npx playwright install --with-deps chromium webkit firefox
 
       - name: Fremdwerkzeuge für die Artefakt-Proben (pdftotext, pdfinfo, xmllint)
         run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils libxml2-utils

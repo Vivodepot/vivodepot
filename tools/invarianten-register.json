@@ -64,7 +64,7 @@
       "proben": [],
       "grund": "Keine geöffnete Probe hält einen der zwei Sätze. Gesucht (Dateinamen, Testtitel, AB_WERK_REGIONEN-Verwender in tests/): nichts, das für JEDE Andockstelle belegt, dass der Konfektionierer sie erreicht (8.4), und nichts, das für jeden Inhalt nach 7.2 eine Andockstelle verlangt. Die Schnitt-Proben (tests/geruest-schnitt-*.test.js) halten je EINEN Schnitt, nicht die Invariante.",
       "hinweise": [
-        "tests/geruest-schnitt-bereiche-nativ-katalog.test.js, tests/geruest-schnitt-dokumente-leer-produkt-voll.test.js: je ein Schnitt, geöffnet nur im Umfang der eigenen Arbeit, nicht gegen den Satz gelesen."
+        "eine nicht öffentliche Probe, tests/geruest-schnitt-dokumente-leer-produkt-voll.test.js: je ein Schnitt, geöffnet nur im Umfang der eigenen Arbeit, nicht gegen den Satz gelesen."
       ]
     },
     {

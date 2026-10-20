@@ -25,6 +25,7 @@ module.exports = defineConfig({
   retries: 0,
   reporter: 'list',
   use: {
+    launchOptions: require('./tools/lib/netz-sperre.js').mitSperre(),   // harte Netzsperre: nur lokal (tools/lib/netz-sperre.js)
     viewport: { width: 1440, height: 900 },
   },
   projects: [

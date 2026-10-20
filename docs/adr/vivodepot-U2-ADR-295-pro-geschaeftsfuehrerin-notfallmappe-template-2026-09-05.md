@@ -38,7 +38,7 @@ existiert).
 ## 2 · Entscheidung
 
 **Template: „Geschäftsführerin — Vertretung, Nachfolge, Notfall"**
-(`tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul.json`), `id:
+(eine nicht öffentliche Datei), `id:
 pro-geschaeftsfuehrerin-notfallmappe`, `sektor: 'pro-vertretung-vollmachten'` (Heimat-Bereich,
 gleiche Konvention wie die Notarin). Liest elf `datenSchema`-Einträge über VIER der sechs
 Pro-Bereiche (`pro-vertretung-vollmachten`, `pro-gesellschaft-nachfolge`,
@@ -140,7 +140,7 @@ Absatz als Fehler lesen und „reparieren" wollen, säße sie einer falschen Pr�
 
 ## 6 · Rot-Beweis
 
-`tests/pro-geschaeftsfuehrerin-notfallmappe-u2-adr-295.test.js` (Node-Kern, sechs Proben):
+eine nicht öffentliche Probe (Node-Kern, sechs Proben):
 
 - Das volle Bundle wird angenommen, ohne einen verworfenen Schlüssel — über den echten
   Fremdmodul-Einlass.
@@ -155,7 +155,7 @@ Absatz als Fehler lesen und „reparieren" wollen, säße sie einer falschen Pr�
   Vertretung", „Teil B — Nachfolge", „Teil C — Notfall" — bricht rot, sollte dieser Zuschnitt
   künftig verwässert werden.
 
-`tests/e2e/pro-geschaeftsfuehrerin-notfallmappe-abnahme.spec.js` (Playwright, zwei Proben, echter
+eine nicht öffentliche Probe (Playwright, zwei Proben, echter
 Browser, echter Datei-Upload für BEIDE Dateien — die vier Pro-Bereiche und das Bundle):
 
 - Karte erscheint NICHT vor dem Einlass, ERST danach, öffnet den Auszug per Klick — leeres Depot
@@ -197,4 +197,4 @@ Notar-Template (U2-ADR-287): „Teil A — wer handelt, wenn die Notarin vertret
 
 **Kennungen bleiben** (`pro-geschaeftsfuehrerin-notfallmappe`, `klasse`, `knopfAttr`, Dateinamen im Repo): niemand
 sieht sie, und sie sind in Rezepten, Proben und der Mitschrift bestehender Dateien verankert. Der Titel dieses ADR
-bleibt als Name des Entscheids stehen. Wächter: `tests/pro-texte-ohne-notfall.test.js`.
+bleibt als Name des Entscheids stehen. Wächter: eine nicht öffentliche Probe.

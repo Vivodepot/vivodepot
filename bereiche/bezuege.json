@@ -1,5 +1,5 @@
 {
-  "hinweis": "Abbildungen der Feldkennungen auf internationale Datensätze (IPS, eu-eps, openEHR; ePA/MIO zusätzlich). Nur Abbildung, keine Umbenennung (U2-ADR-409). Grade: exakt, naeherung, eng, weit (SKOS). Keine Zeile heißt: keine Entsprechung. Geprüft und gezählt von tools/bezuege-erheben.js. FIM-Zeilen (datensatz fim-baukasten) tragen zusätzlich fassung und status; Feldnamen der FIM-Bausteine stehen hier NICHT (Feld name bleibt leer, bis die Zustimmung der FITKO in fimNamenFreigabe belegt ist).",
+  "hinweis": "Abbildungen der Feldkennungen auf internationale Datensätze (IPS, eu-eps, openEHR; ePA/MIO zusätzlich). Nur Abbildung, keine Umbenennung (U2-ADR-409). Grade: exakt, naeherung, eng, weit (SKOS). Keine Zeile heißt: keine Entsprechung. Geprüft und gezählt von tools/bezuege-erheben.js. FIM-Zeilen (datensatz fim-baukasten) tragen zusätzlich fassung und status; Feldnamen der FIM-Bausteine stehen hier NICHT (Feld name bleibt leer, bis die Zustimmung der FITKO in fimNamenFreigabe belegt ist). SEMIC-Zeilen (datensatz semic-core-vocabularies, 17.10.2026) tragen vokabular und fassung; das Ziel ist die volle IRI eines Terms der SEMIC Core Vocabularies. Nur IRIs, keine Labels oder Definitionen von SEMIC (CC-BY 4.0); die Grade sind die Auslegung von Vivodepot. Sie stehen im öffentlichen Feldregister, die FIM-Zeilen nicht.",
   "zeilen": [
     {
       "kennung": "identity.familyName",
@@ -103,6 +103,918 @@
       "ziel": "F06006636",
       "fassung": "0.1",
       "status": "in Bearbeitung — nicht fest",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "administration.bundid/bundidEmailAddress",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/email",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "administration.furtherEmailAddress",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/email",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "administration.mainEmailAddress",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/email",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/authority",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/hasCompetentAuthority",
+      "vokabular": "CPSV-AP",
+      "fassung": "3.2.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/currency",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/currency",
+      "vokabular": "CPSV-AP",
+      "fassung": "3.2.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/fileReferenceNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/identifier",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "administration.ongoingAdministrativeCases/frequency",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/frequency",
+      "vokabular": "CPOV",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/fileReferenceNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/identifier",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storageCity",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#postName",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storageHouseNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#locatorDesignator",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storagePostalCode",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#postCode",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "advanceCare.provisionInstruments/storageStreet",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#thoroughfare",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "education.employerAddress",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#address",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "finance.financialAdvisorNameContact",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "finance.taxAdvisorContact",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "finance.taxIdsTaxNumbers",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/adms#Identifier",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "finance.taxIdsTaxNumbers/system",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/conformsTo",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "finance.taxIdsTaxNumbers/taxNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/2004/02/skos/core#notation",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "health.dentistNameContact",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "health.emergencyContacts",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "health.familyMedicalHistory/familyMember",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#Person",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "health.insuranceNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/2004/02/skos/core#notation",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "housing.currency",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/currency",
+      "vokabular": "CPSV-AP",
+      "fassung": "3.2.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "housing.furtherHomes/landlordEmail",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/email",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "housing.furtherHomes/landlordPhone",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/telephone",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "housing.landlordEmail",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/email",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "housing.landlordPhone",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/telephone",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.birthDate",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/birthDate",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.birthName",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#birthName",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.birthPlace",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#placeOfBirth",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.city",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#postName",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.email",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/email",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.familyName",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/familyName",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.formerNames",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/alternative",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.formerNames/name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/alternative",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.gender",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/gender",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.givenName",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/givenName",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.houseNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#locatorDesignator",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.idDocuments",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/Document",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.idDocuments/documentNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/2004/02/skos/core#notation",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.idDocuments/issuedOn",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/issued",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.idDocuments/system",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/conformsTo",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.nationality",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#citizenship",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.pets/emergencyCarePersonContact",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.pets/vetNameContact",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.postalCode",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#postCode",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.residencePermit",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/Document",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.residencePermit/fileReferenceNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/identifier",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.residencePermit/issuedOn",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/issued",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.residencePermit/number",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/2004/02/skos/core#notation",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.residencePermit/system",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/conformsTo",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.secondLastName",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/familyName",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "identity.street",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#thoroughfare",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "identity.telephone",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/telephone",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "identity.yearOfBirthIfTheExactDayIs",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/birthDate",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "mobility.embassyContact",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "mobility.passportIssuedOn",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/issued",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "mobility.passportNo",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/2004/02/skos/core#notation",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "people.childrenAndDependants",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#Person",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "people.childrenAndDependants/fileReferenceNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/identifier",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "people.childrenAndDependants/person",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#Person",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "people.guidedBirthEntryChildsNameNot",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "people.guidedBirthEntryDateOfBirthNot",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/birthDate",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/currency",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/currency",
+      "vokabular": "CPSV-AP",
+      "fassung": "3.2.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/frequency",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/frequency",
+      "vokabular": "CPOV",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "people.maintenanceObligationsAnd/person",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#Person",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "people.spouseOrCivilPartner",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#Person",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/title",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern/tpl_erreichbarkeit",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_administration_intern_extern/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/title",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_business_identification_number",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/adms#identifier",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_employer_number",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/adms#identifier",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_immobilie_im_eigentum/tpl_adresse",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/locn#address",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_annual_accounts",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/AccountingDocument",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-finanzen-verbindlichkeiten.tpl_bankverbindung/tpl_vollmacht_inhaber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/authorises",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_beneficial_owners/tpl_nationality",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/person#citizenship",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_date_of_birth",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/birthDate",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_place_of_residence",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/domicile",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung/tpl_erreichbarkeit",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_benannte_person_wunsch_keine_bestellung/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_domestic_business_address",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/registeredAddress",
+      "vokabular": "Core Location",
+      "fassung": "2.1.1",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht/tpl_wer",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/authorises",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_handlungsvollmacht/tpl_wofuer",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/scopeOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_date_of_birth",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/birthDate",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_place_of_residence",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/domicile",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_power_of_attorney_original",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura/tpl_wer",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/authorises",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_prokura_scope",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/scopeOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_registernummer",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/legal#legalIdentifier",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_authorised_person",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/authorises",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_scope",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/scopeOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/title",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_unternehmervollmacht",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vertretungsregelung",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/type",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/a4g/ontology#PowerOfAttorney",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_vollmacht_ueber_den_tod_hinaus/tpl_bevollmaechtigter",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/authorises",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_weitere_geschaeftsfuehrer_vorstaende/tpl_erreichbarkeit",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "pro-vertretung-vollmachten.tpl_weitere_geschaeftsfuehrer_vorstaende/tpl_name",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://xmlns.com/foaf/0.1/name",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "exakt"
+    },
+    {
+      "kennung": "socialInsurance.homeCareServiceNameContact",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/ContactPoint",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "weit"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundNumbers",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/adms#Identifier",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundNumbers/longTermCareFundNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/2004/02/skos/core#notation",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundNumbers/system",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/conformsTo",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "socialInsurance.longTermCareFundPhone",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://data.europa.eu/m8g/telephone",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "socialInsurance.pensionInsuranceNumbers",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/ns/adms#Identifier",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "socialInsurance.pensionInsuranceNumbers/pensionInsuranceNumber",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://www.w3.org/2004/02/skos/core#notation",
+      "vokabular": "Core Person",
+      "fassung": "2.1.2",
+      "grad": "naeherung"
+    },
+    {
+      "kennung": "socialInsurance.pensionInsuranceNumbers/system",
+      "datensatz": "semic-core-vocabularies",
+      "ziel": "http://purl.org/dc/terms/conformsTo",
+      "vokabular": "Core Business",
+      "fassung": "2.3.0",
       "grad": "naeherung"
     }
   ],

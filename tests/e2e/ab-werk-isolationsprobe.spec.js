@@ -76,6 +76,7 @@ test('[Isolationsprobe] privat-en: die isolierte Datei startet NICHT englisch (h
   expect(sidebarText, 'die isolierte privat-en-Datei zeigt englischen Text in der Sidebar — Ab-Werk-Backen wirkt bereits').toMatch(/Identity|Mobility|Finances/);
 });
 
+if (PRODUKTE.some((x) => x.slug === 'pro-de')) {
 test('[Isolationsprobe] pro-de: die isolierte Datei trägt das Pro-Modul NICHT (heute rot — kein Ab-Werk-Backen)', async ({ page }) => {
   const p = PRODUKTE.find((x) => x.slug === 'pro-de');
   const url = isolierteProduktDatei('pro-de', p);
@@ -92,7 +93,9 @@ test('[Isolationsprobe] pro-de: die isolierte Datei trägt das Pro-Modul NICHT (
   });
   expect(hatProModul, 'die isolierte pro-de-Datei trägt das Pro-Modul ab Werk — Backen wirkt bereits').toBe(true);
 });
+}
 
+if (PRODUKTE.some((x) => x.slug === 'pro-en')) {
 test('[Isolationsprobe] pro-en: die isolierte Datei trägt WEDER das Pro-Modul NOCH Englisch (heute rot — kein Ab-Werk-Backen)', async ({ page }) => {
   const p = PRODUKTE.find((x) => x.slug === 'pro-en');
   const url = isolierteProduktDatei('pro-en', p);
@@ -110,3 +113,4 @@ test('[Isolationsprobe] pro-en: die isolierte Datei trägt WEDER das Pro-Modul N
   expect(zustand.hatProModul, 'Pro-Modul fehlt ab Werk').toBe(true);
   expect(sidebarText, 'Sidebar ist nicht englisch').toMatch(/Identity|Mobility|Finances/);
 });
+}

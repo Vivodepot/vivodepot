@@ -3,7 +3,7 @@
  "deckel": 2,
  "zeilen": [
   {
-   "adr": "U2-ADR-NNN",
+   "adr": "U2-ADR-507",
    "aussage": "Der neue Schrittform-Bauplan (PV/Vollmacht) liegt im Rechtsr",
    "art": "abgelaufen",
    "grund": "Bedingung zu 1/5 erfuellt (Schema-Feld bauplan steht); die restlichen vier sind eine Migration der .steps in den Rechtsraum-Katalog plus eine eigene Template-Datei fuer KI_KORPUS — ein Zug, kein Nachzug, nicht in v1. Gemessen: git grep '\\.bauplan\\b' vivodepot.html findet null Treffer, der Kern liest es nirgends. Datum wie NNN2, weil beide die Dokumentmodul-Schicht betreffen und zusammen geplant gehoeren. Auftrag: intern, noch zu schreiben.",

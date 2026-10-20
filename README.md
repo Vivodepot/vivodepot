@@ -37,11 +37,6 @@ installiert sie; dann läuft sie auch offline. Die Anwendung legt beim ersten St
 passwortgeschütztes Depot an und speichert es als eigene Datei. Schritt für Schritt:
 [`QUICKSTART.md`](QUICKSTART.md).
 
-Eine eigene Einzeldatei aus diesem Repository: `node tools/vier-produkte-erzeugen.js` ausführen und
-`produkte/privat-de/vivodepot.html` öffnen — die `vivodepot.html` im Wurzelverzeichnis ist das Gerüst
-ohne Sprach- und Bereichsmodule. Bauen, prüfen, selbst betreiben (englisch):
-[`DEVELOPING.md`](DEVELOPING.md).
-
 Die Prüfebene liegt zum größten Teil bei: Proben in `tests/`, Werkzeuge in `tools/`, Workflows
 in `.github/`. Zurück bleiben Proben, die interne Abläufe oder zurückgehaltene Testdaten nennen;
 [`docs/pruefebene.md`](docs/pruefebene.md) beschreibt, wie geprüft wird und nach welcher Regel
@@ -90,4 +85,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Stand
 
-Fassung v931.
+Fassung v933.

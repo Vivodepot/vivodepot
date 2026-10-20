@@ -7,6 +7,8 @@
    — sie sind Mechanik (Laufzeit-Überschreibung bzw. eigener Schreibweg, DESIGN_TOKEN_RESERVIERT) und bleiben im Gerüst. */
 
 :root {
+  /* Deckkraft der Dialogfläche: heute deckend (1); das Glas-Profil setzt seinen eigenen Wert. Gehört zum Vokabular des Gerüsts. */
+  --dialog-deckkraft: 1;
   /* 4.6 Farben — LOGO-GRÜNS (nicht mehr geraten!)
      Direkt aus dem Logo-SVG (<symbol id="vd-logo">) gezogen, damit Logo und App
      endlich zusammenpassen. Schild-Grün-Verlauf: #696E4A (oliv) → #45593F (mitte)

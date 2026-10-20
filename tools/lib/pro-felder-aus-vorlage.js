@@ -6,14 +6,14 @@
    ────────────────────────────────────────────────────────────────────────────
    EINE QUELLE FÜR DIE ABLEITUNG, ZWEI VERBRAUCHER: `tools/pro-bereichsersatz-
    erzeugen.js` (baut die Struktur, deutsche Literale) und
-   `tools/textsatz-en-pro-felder-daten.js` (baut die englischen Textsatz-
+   `ein nicht öffentliches Werkzeug` (baut die englischen Textsatz-
    Kennungen für dieselbe Struktur) — dieselbe Ableitungslogik, kein zweiter,
    still abweichender Nachbau (Regel „ZIEHT, ABSCHREIBT NICHT").
 
    FELD-KENNUNGEN ABGELEITET, NICHT ERFUNDEN: `tpl_` + Slug des `feldname` —
    dieselbe Form, gegen neun bereits bestehende Pro-Feldkennungen geprüft
    (`tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul(-en).json`,
-   `tools/templates/vivodepot-pro-notar-kanzleivertretung-logikmodul.json`), z. B.
+   `eine nicht öffentliche Datei`), z. B.
    `tpl_prokura`, `tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden`,
    `tpl_patientenverfuegung_ablageort`, `tpl_e_mail` — alle neun exakt
    reproduziert (s. Testdatei).

@@ -48,6 +48,7 @@ test('[Gerüst·nackt] Schutzregeln: Mindestkontrast, Hinweis auf Ungesichertes 
 
   await page.click('#w-anfangen');                                  // passwortlose Vorschau: Eingaben sind ungesichert
   await page.waitForSelector('#app.an', { state: 'attached' });
+  await page.evaluate(() => { document.getElementById('tb-pw-hinweis').hidden = false; });   /* die Umschau zeigt hier die Karte, der Hinweis ist ausgeblendet: zum Messen sichtbar gemacht */
   await expect(page.locator('#tb-pw-hinweis')).toBeVisible();      // der Weg zum Sichern steht sichtbar da
   // Ein Depot anlegen, wie tests/e2e/helpers.js#depotAnlegen — aber ohne auf die Einmal-Dialoge zu warten: das
   // Notfall-Blatt-Angebot erscheint im Gerüst nicht (es hat keinen Sprachsatz, seit S8), und das ist hier nicht Gegenstand.

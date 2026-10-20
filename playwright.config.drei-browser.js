@@ -17,7 +17,10 @@ module.exports = defineConfig({
   fullyParallel: true,
   workers: require('./tools/lib/test-parallel.js').pwWorker(),
   reporter: 'list',
-  use: { trace: 'retain-on-failure', screenshot: 'only-on-failure', acceptDownloads: true },
+  use: {
+    launchOptions: require('./tools/lib/netz-sperre.js').mitSperre(),   // harte Netzsperre: nur lokal (tools/lib/netz-sperre.js)
+    trace: 'retain-on-failure', screenshot: 'only-on-failure', acceptDownloads: true,
+  },
   outputDir: path.join(__dirname, 'tests', 'e2e-drei-browser', '.artifacts'),
   // Die iPad-Probe des Studios ist nur WebKit (das Gerät iPad ist WebKit); in den anderen Projekten läuft sie nicht,
   // statt sich dort auszusetzen.

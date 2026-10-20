@@ -79,7 +79,7 @@ sondern ein Antragsformular an Vivodepot.
 **Entschieden (05.09.2026): Form (b).** Das Modul trägt die konkrete Dauer, der Kern
 rechnet nur — dasselbe Muster, das `fristRegel` (`{dauer, quelle}`) bereits vorführt, nicht ein
 neues. Die zehn/sechs Jahre für den deutschen Ausweis sind deutsches Recht, kein Gerüst — sie
-gehören in `tools/buergermodul/vd-de-rechtsraum.json`, mit Quelle, so wie die dreizehn Bereiche ins
+gehören in eine nicht öffentliche Datei, mit Quelle, so wie die dreizehn Bereiche ins
 Struktur-Modul gehören (dieselbe Bewegung wie ADR-292/303, nur auf der Rechtsraum-Achse).
 
 **Auflagen, unverhandelbar:**

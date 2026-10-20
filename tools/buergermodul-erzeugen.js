@@ -9,7 +9,7 @@
    wichtigste Ergebnis dieses Werkzeugs, nicht die Nutzlast. Jede Zeile darauf
    ist die Behauptung „das braucht das Bürgermodul nicht", und jede muss stimmen.
 
-   MUSTER: tools/textsatz-en-modul-erzeugen.js (27.08.2026), der einzige
+   MUSTER: ein nicht öffentliches Werkzeug (27.08.2026), der einzige
    bestehende Inhalts-Erzeuger. Übernommen sind seine drei tragenden Züge:
    Bau aus Daten, Prüfung über den ECHTEN Kern-Weg statt einer Nachbildung, und
    keine hartkodierten Zahlen (sie drifteten dort lautlos — Fund 28.08.2026).
@@ -400,7 +400,7 @@ function main() {
      Werkzeugs ist rund 1,6 MB und niemand liest sie — sein Ergebnis ist das URTEIL der
      echten Prüfer und die Auslassungsliste, die es AUSGIBT. Eine Datei entsteht nur auf
      ausdrücklichen Wunsch; ein Erzeugnis, das keiner verbraucht, gehört nicht ins Repo.
-     Das eigentliche Bau-Erzeugnis liefert tools/buergermodul-schnitt.js. */
+     Das eigentliche Bau-Erzeugnis liefert ein nicht öffentliches Werkzeug. */
   const ausgabepfad = process.argv[2] || null;
   /* KEIN Zeitstempel in der Ausgabe: er drehte die Datei bei jedem Lauf und
      brächte die Prüfsummen-Gates zum Ausschlagen, ohne dass sich Inhalt änderte

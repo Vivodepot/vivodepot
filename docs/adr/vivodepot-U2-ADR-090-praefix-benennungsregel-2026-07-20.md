@@ -6,7 +6,7 @@
 folgt ihm); §8 Index-Vollständigkeitsprüfung bleibt laut eigenem Klausel-Feld offen, unverändert.
 **Bezug:** interner Aufräumplan vom 17.07.2026 (nennt die Nummerierungs-Klärung „der eine
 Knoten, an dem fast alles hängt") · Erhebung ADR-Nummernraum (20.07.2026) ·
-`adr-index-u2-linie-2026-07-19.md` · `adr-gueltigkeits-liste-2026-07-19.md` ·
+zwei interne Berichte vom 19.07.2026 ·
 U2-ADR-015 (nachdokumentiert 20.07.2026, korrigiert die ursprüngliche Einordnung hier)
 
 ---
@@ -30,7 +30,7 @@ Keine bestehende Datei wird umbenannt, umnummeriert oder verschoben. `B16-ADR-07
 Entscheidungen.
 
 **B16 ist beendet und eingefroren.** Es entstehen keine neuen B16-Nummern. Die 18 dort noch
-offenen, unentschiedenen Fragen (`adr-gueltigkeits-liste-2026-07-19.md`, Abschnitt B5) bleiben
+offenen, unentschiedenen Fragen (interner Bericht vom 19.07.2026) bleiben
 stehen, wo der Aufräumplan sie sequenziert hat — nach der App-Fertigstellung, nicht Teil dieser
 Entscheidung.
 
@@ -67,8 +67,8 @@ Erwogen und verworfen, aus drei Gründen:
   werden können — würde übersetzungsbedürftig. Die Präfix-Lösung braucht das nicht: keine
   bestehende Referenz wird ungültig.
 - **Erzwungene Einzelentscheidung für 39 stillgelegte ADRs.** Von den 115 B16-Entscheidungen
-  sind 27 durch eine U2-ADR abgelöst und 12 zurückgenommen (`adr-gueltigkeits-liste-2026-07-19.md`,
-  B2/B3) — macht 39 stillgelegte Fälle, für die eine durchlaufende Nummerierung jeweils
+  sind 27 durch eine U2-ADR abgelöst und 12 zurückgenommen (interner Bericht vom
+  19.07.2026) — macht 39 stillgelegte Fälle, für die eine durchlaufende Nummerierung jeweils
   einzeln entscheiden müsste, ob sie überhaupt eine neue Nummer verdienen. Jede dieser 39
   Einzelentscheidungen hätte ein schlechtes Aufwand-Nutzen-Verhältnis.
 - **Die Mapping-Tabelle wäre selbst ein pflegebedürftiges Dokument.** Über zwei Repos hinweg
@@ -98,8 +98,7 @@ kryptoVersion-3-ADR die 016 bekam. Datei: `vivodepot-U2-ADR-007-gesundheits-sekt
 plus sechs Cross-Referenz-Stellen im Meta-Index) zitieren „U2-ADR-015 (D43
 Zwei-Ebenen-Persistenz)". Diese Zitate waren korrekt: die Entscheidung wurde am 12.06.2026
 angenommen, ist in drei internen Arbeitsdokumenten vollständig beschrieben
-(`cc-d43-finalisierung-2026-06-12.md`, `cc-d43-portierungs-inventar-stufe1-2026-06-12.md`,
-`cc-produktiv-kanon-adr015-abgleich-2026-06-11.md`) und mit neun `d43-etappeN`-Testdateien
+(drei interne Berichte vom 11. und 12.06.2026) und mit neun `d43-etappeN`-Testdateien
 umgesetzt. Was fünf Wochen fehlte, war ausschließlich die kanonische Einzeldatei in
 `docs/adr/` — kein unentschiedener Fall, sondern ein nie vollzogener
 Veröffentlichungsschritt. Nachgetragen am 20.07.2026:

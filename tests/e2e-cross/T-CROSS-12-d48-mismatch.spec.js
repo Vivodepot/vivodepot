@@ -26,10 +26,10 @@ async function fsaAttrappeEinrichten(page) {
 async function modalOeffnen(page) {
   await fsaAttrappeEinrichten(page);
   await page.goto(KERN_URL);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.click('#w-anfangen');                                  // Vorschau
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');                               // → flowDepotAnlegen-Modal (Setup-first)
+  await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
+  await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');                               // → flowDepotAnlegen-Modal (Setup-first)
   await page.waitForSelector('#id-pw', { state: 'visible' });       // Mismatch-Prüfung lebt jetzt auf #id-pw/#id-pw2
 }
 

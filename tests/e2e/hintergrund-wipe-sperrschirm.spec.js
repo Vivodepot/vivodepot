@@ -83,7 +83,7 @@ test('[U2-ADR-185] echtes visibilitychange über die Frist hinaus zeigt den Sper
 
   // Sperrschirm, nicht Startseite: das Passwortfeld muss da sein, der Erstbesucher-Knopf nicht.
   await expect(page.locator('#co-pw')).toBeVisible();
-  await expect(page.locator('#w-anlass')).not.toBeVisible();
+  await expect(page.locator('#w-anlegen')).not.toBeVisible();
   await expect(page.locator('#co-wipe-hinweis')).toBeVisible();
 
   const nach = await dokumentScan(page);

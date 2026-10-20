@@ -13,7 +13,7 @@
    TECHNISCHE BEZEICHNER BLEIBEN UNVERÄNDERT (datenSchema-Schlüssel, `id`,
    `sektor`, `feldtyp`, `icon`, `cluster`) — sie sind Registry-/Struktur-Angaben,
    keine Geschäftsprosa; nur Inhalts-Strings (Auflage oben) werden erfunden.
-   Probe, die das hält: tests/pro-testschablone-keine-echten-bezeichner.test.js.
+   Probe, die das hält: eine nicht öffentliche Probe.
 
    Aufruf: node tools/erfundene-testfixture-erzeugen.js <echte-datei> <ziel-datei> <vorlage|logikmodul|bereich> */
 const fs = require('node:fs');

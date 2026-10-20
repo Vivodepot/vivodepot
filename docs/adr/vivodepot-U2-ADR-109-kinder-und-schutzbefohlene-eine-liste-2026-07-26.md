@@ -7,7 +7,7 @@
 **U2-Bezug:** U2-ADR-036 (Kind-Beziehung, Sorgerecht entdoppelt, Roll-up) · U2-ADR-100 §8
 (migrationsfreies Fenster) · U2-ADR-102 (negatives Gate) · U2-ADR-023 (abgeleitete Werte nie
 gespeichert) · U2-ADR-108 (jeder Sprung bringt seine Probe mit)
-**Anker:** Bilanz-Posten 6, Rang 1 · Report `kinder-und-schutzbefohlene-report-2026-07-26.md`
+**Anker:** Bilanz-Posten 6, Rang 1 · interner Bericht vom 26.07.2026
 (intern, nicht Teil dieses Repos)
 **Status heute:** gilt — Beleg `tests/kinder-und-schutzbefohlene.test.js`.
 

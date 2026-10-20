@@ -77,16 +77,6 @@
    "marker": true
   },
   {
-   "name": "AB_WERK_RECHTSRAUM_DE",
-   "bytes": 157,
-   "marker": false
-  },
-  {
-   "name": "AB_WERK_RECHTSRAUM_KATALOG_QUELLE",
-   "bytes": 60,
-   "marker": true
-  },
-  {
    "name": "AB_WERK_RECHTSRAUM_PRODUKT",
    "bytes": 38,
    "marker": true
@@ -134,10 +124,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 264871
+   "bytes": 266068
   },
   "satz": {
-   "bytes": 28740
+   "bytes": 28688
   }
  },
  "fremdcode": [
@@ -1702,6 +1692,127 @@
    "auf": 264272,
    "daneben": {},
    "grund": "J4 QR-Adresse lesbar: Host und Pfad unter dem Code im Fenster für einen Empfängerkreis",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 263037,
+   "auf": 263077,
+   "daneben": {},
+   "grund": "Token --dialog-deckkraft im Vokabular des Gerüsts und in DESIGN_TOKEN_KATEGORIE (zahl): Deckkraft der Dialogfläche je Profil statt fest in App und Studio",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 264226,
+   "auf": 264275,
+   "daneben": {},
+   "grund": "U2-ADR-501 Punkt 30: Hinweis vor dem Senden ohne Ed25519 (Kennzeichen unsigniert:'browser', Element antwort-ohne-signatur-browser, ohneSignaturBestaetigt), +49 Byte relativ zu b125488f4; Wort der Gegenlesung 17.10., einzeln",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 264871,
+   "auf": 265061,
+   "daneben": {},
+   "grund": "Link senden für jeden Auszug (v932): geschlossene Typliste, Funktionen auszugLinkTeile/_shlTeile, Fehlerkennung",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 265150,
+   "auf": 265178,
+   "daneben": {},
+   "grund": "Einmalpasswort-Mindestlänge: Prüfung der Länge und Hinweis vor dem Verschlüsseln (ANTWORT-EINMALPASSWORT-OHNE-MINDESTLAENGE), +28 relativ zu 184cbe5a0",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 265150,
+   "auf": 265209,
+   "daneben": {},
+   "grund": "ATTRAPPE-LAENGE/POLSTER-UTF8: Attrappe aus der Byte-Länge des Vorbilds, Polster in UTF-8-Bytes, fail-closed-Längenprüfung (+59 B)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 265237,
+   "auf": 265277,
+   "daneben": {},
+   "grund": "NOTFALLKARTE-VOLLMACHTART: Filter nur:'behandlung' an zwei Vollmacht-Zeilen von NOTFALL_KERN_FELDER und Kennung listen-filter-unbekannt",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 265237,
+   "auf": 265315,
+   "daneben": {},
+   "grund": "Eine Anlege-Aufforderung je Ansicht und Einstieg nach Zustand: Hinweise im Fluss, ein Hauptknopf je Ansicht (entschieden 09.10./13.10.)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 265277,
+   "auf": 265393,
+   "daneben": {},
+   "grund": "Zugang zum Recht auffindbar: Suchbegriffe und Gruppe der zwei Vorbereitungsauszüge, Kennungen der Knopftexte und des Hilfe-Themas",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 265355,
+   "auf": 265362,
+   "daneben": {},
+   "grund": "Passwort-NFC in der Lese-App und Passwortgrenzen 12 (LESE-APP-PASSWORT-OHNE-NFC), +7 relativ zu f84e03169",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 265478,
+   "auf": 266080,
+   "daneben": {},
+   "grund": "U2-ADR-474 ein Speichermodell (W28): Satz-Tabelle SPEICHERMODELL_SAETZE, Hilfe-Schlüssel, Fehlermeldung; +602 relativ zu f7577ed60 (unter dem Wort +694: −13 entfernte Dublette sicherungskopieErstellen, −79 zusammengeführter Einstellungen-Knopf)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266080,
+   "auf": 266112,
+   "daneben": {},
+   "grund": "Mindestschrift im unsignierten Erscheinungs-Weg (Grund mindestgroesse, Ersetzungsmuster, --fs-base, wert); +32 relativ zu 9a736295f",
    "laengste": {
     "einzel": 0,
     "lauf": 64

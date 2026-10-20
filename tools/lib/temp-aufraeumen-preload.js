@@ -82,6 +82,11 @@ if (wach && !fs.mkdtempSync.__vdTempAufraeumen) {
   fs.mkdtempSync.__vdTempAufraeumen = true;
   syncBuiltinESMExports();
 
+  // Chromium schreibt unter Linux eigene Reste in sein TMPDIR (.org.chromium.Chromium.*), aus einem Kindprozess, den kein
+  // mkdtemp hier erfasst. Darum bekommt jeder Chromium-Start dieses Prozesses ein eigenes mkdtemp-Verzeichnis
+  // (tools/lib/browser-eigenes-tmp.js); die Wache um den Lauf bleibt unverändert.
+  require('./browser-eigenes-tmp.js').beimLadenPatchen();
+
   process.on('exit', () => {
     for (const p of angelegt) { try { fs.rmSync(p, { recursive: true, force: true }); } catch (_) { /* weg oder gesperrt */ } }
   });

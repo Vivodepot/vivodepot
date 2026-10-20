@@ -48,7 +48,7 @@ test('[Reisen-3-4·Probe 1] Reise 3 — Allowlist hält an der echten UI: Blutgr
   { timeout: 90000 }, async () => {
     const { chromium } = require('playwright');
     const reise = REISEN.find((r) => r.id === 'reise-3-anja');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const seite = await browser.newPage({ viewport: reise.viewport, hasTouch: true, isMobile: true });
       // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der
@@ -108,7 +108,7 @@ test('[Reisen-3-4·Probe 1·Entschärfungs-Kontrolle] ein Kontrollwert, der NICH
   { timeout: 90000 }, async () => {
     const { chromium } = require('playwright');
     const reise = REISEN.find((r) => r.id === 'reise-3-anja');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const seite = await browser.newPage({ viewport: reise.viewport, hasTouch: true, isMobile: true });
       // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der
@@ -148,7 +148,7 @@ test('[Reisen-3-4·Probe 2] Reise 4 — Sub-Kontext für Heinrich trägt ein ech
   { timeout: 90000 }, async () => {
     const { chromium } = require('playwright');
     const reise = REISEN.find((r) => r.id === 'reise-4-thomas');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const seite = await browser.newPage({ viewport: reise.viewport, hasTouch: true, isMobile: true });
       // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der

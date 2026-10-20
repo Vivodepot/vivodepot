@@ -285,7 +285,7 @@ function ausProbeListe(text, { datum, kanonCommit }) {
   return zeilen;
 }
 
-// ~/Vivodepot-Rezeptsicherung/<zeit>/ (tools/lib/rezept-rueckweg.js): die gesicherten Rezepte tragen
+// ~/Vivodepot-Rezeptsicherung/<zeit>/ (ein nicht öffentliches Werkzeug): die gesicherten Rezepte tragen
 // produktPfad und die ZURÜCKGELESENE produktPruefsumme. Datum: die Sicherungszeit ist NICHT das
 // Auslieferungsdatum — es kommt aus docs/auslieferung-stand.md (Zeile derselben Fassung), sonst wirft es.
 function ausSicherung(ordner, verlaufText) {

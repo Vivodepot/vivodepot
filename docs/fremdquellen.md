@@ -59,6 +59,11 @@ nächsten Prüfer nicht, WORAUF er achten soll. Ein benannter Anlass tut das.
   Landing-Page ändert sich). **Achtung bei einer Korrektur:** `wortlautQuelle` ist Teil des
   signierten `templateJws` — eine Änderung braucht eine echte Neu-Signatur
   (mit einem eigenen Signierwerkzeug), kein einfacher Commit.
+- **Hinterlegte Ausgabe:** `tests/fixtures/bmj/vorsorgevollmacht-deutsch.pdf` (das PDF unter der Adresse
+  oben, sha256 `88c2c5fa…d176`) mit Extraktion `.txt`. Das Datum allein reicht nicht: Unter demselben
+  „Stand: Januar 2023“ hat die zweisprachige Ausgabe eine andere Schenkungen-Klausel als dieses Formular.
+  Den Wortlaut gegen diese Ausgabe prüft ein nicht öffentliches Werkzeug. Lädt man ein neues PDF, werden Prüfsumme und
+  Extraktion dort erneuert.
 
 ### `bmj-betreuungsverfuegung`
 
@@ -71,6 +76,8 @@ nächsten Prüfer nicht, WORAUF er achten soll. Ein benannter Anlass tut das.
   sichtbarem „Datum"-Feld weiter, keine PDF-Metadaten nötig.
 - **Wo verwendet:** `STANDARD_VORLAGEN['betreuungsverfuegung']`, `basistemplate-inhalte.json`
 - **Anlass:** wie bei `bmj-vollmacht` — neue Fassung ODER Signatur-Ablauf.
+- **Hinterlegte Ausgabe:** `tests/fixtures/bmj/betreuungsverfuegung-deutsch.pdf` (sha256 `939ada0c…26a0`) mit
+  Extraktion `.txt`; Wortlaut-Prüfweg wie bei `bmj-vollmacht`.
 
 ### `bmj-patientenverfuegung-textbausteine`
 

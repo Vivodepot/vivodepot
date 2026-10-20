@@ -47,7 +47,7 @@ function mitTemporaerVeraendertemKern(transform, tun) {
   }
 }
 
-// U2-ADR-NNN2-NACHTRAG (17.09.2026): dieselbe Verschiebung wie bei buendelDokumenteEntfernen
+// U2-ADR-505-NACHTRAG (17.09.2026): dieselbe Verschiebung wie bei buendelDokumenteEntfernen
 // oben — `dokumente` lebt in AB_WERK_DOKUMENTE_DE, nicht mehr im Bündel. Ein neues `dokumente`-
 // Objekt wird jetzt über dieselbe Konstante eingespielt, per Textanker statt Bündel-Mutation.
 function buendelErsetzen(quelle, neuesDokumenteObjekt) {
@@ -90,7 +90,7 @@ test('[U2-ADR-344·Rot-Beweis a] leeres Buendel ("dokumente" fehlt) — Kern lä
    viele Marker wirklich da sind (0 statt 14 — genau der Fund, der A4s Landung zunächst rot
    färbte). Ersetzt durch einen strukturellen Eingriff über die geparste Bündel-API — überlebt
    den nächsten Umzug, ein Textmuster nicht (dieselbe Lehre wie in U2-ADR-345 selbst). */
-// U2-ADR-NNN2-NACHTRAG (17.09.2026): dieselbe Verschiebung wie bei buendelErsetzen oben —
+// U2-ADR-505-NACHTRAG (17.09.2026): dieselbe Verschiebung wie bei buendelErsetzen oben —
 // `dokumentModule` lebt seit dem Schnitt in AB_WERK_DOKUMENT_MODULE (LISTEN-Typ: ein Array von
 // Datei-Objekten `{dokumentModule: {<id>: {...}}}`, nicht mehr ein einzelnes Bündel-Sub-Objekt).
 function buendelDokumentModuleMarkerEntfernen(quelle) {
@@ -177,7 +177,7 @@ test('[U2-ADR-344·Rot-Beweis c] vollständiges Bündel — Generator-Ausgabe by
    das native Skelett GENAU seinen Leer-Zustand zeigen — und die vier bewusst nativen KI_KORPUS-
    Felder (anlageTitel/herkunft/eingangsformel/formhinweis, s. §3: lazy Getter lesen sie weiter)
    muessen dabei NICHT leer sein, sonst waeren sie heimlich migriert worden. */
-/* U2-ADR-NNN2-NACHTRAG (17.09.2026): `.dokumente` lebt seither NICHT mehr im Bündel, sondern in
+/* U2-ADR-505-NACHTRAG (17.09.2026): `.dokumente` lebt seither NICHT mehr im Bündel, sondern in
    der eigenen Ab-Werk-Konstante `AB_WERK_DOKUMENTE_DE` (Muster AB_WERK_RECHTSRAUM_DE, dieselbe
    Bewegung wie U2-ADR-382 für den Rechtsraum-Katalog). Ein `delete buendel.dokumente` hätte darum
    keine Wirkung mehr — `_BUENDEL_DOKUMENTE` liest nicht mehr vom Bündel-Parameter, sondern
@@ -209,7 +209,7 @@ const KI_KORPUS_SCHLUESSEL = ['anlageTitel', 'herkunft', 'eingangsformel', 'zwec
   'grundverbot', 'widerruf', 'optoutKonflikt', 'schlussformel', 'formhinweis'];
 const KI_KORPUS_BEWUSST_NATIV = ['anlageTitel', 'herkunft', 'eingangsformel', 'formhinweis'];
 
-// Diskriminante fuer den Pruefstand (operating-manual §7.5, tests/pruefstand-bindung.test.js):
+// Diskriminante fuer den Pruefstand (operating-manual §7.5, eine nicht öffentliche Probe):
 // erhebt, wirft aber selbst NICHT — die aufrufende Probe vergleicht das ERGEBNIS gegen einen
 // benannten Erwartungswert. Eine Funktion, die intern assert.* aufruft, laesst sich nicht per
 // Rueckgabewert-Mutation binden (der Aufruf-Nachweis ersetzt den Funktionsrumpf durch eine feste

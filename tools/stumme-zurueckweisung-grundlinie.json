@@ -1,5 +1,5 @@
 {
- "beschreibung": "Grundlinie für tools/stumme-zurueckweisung-pruefen.js (22.09.2026): jede Stelle der Form „if (…gueltig…) continue;“ in vivodepot-lesen.html und vivodepot.html, mit Sorte (spur, ausnahme, offen). Ausnahmen tragen Grund und Probe; die Zahl der offenen (offenDeckel) ist exakt und kann nur sinken. Ort ist die umgebende Funktion, nie eine Zeilennummer.",
+ "beschreibung": "Grundlinie für ein nicht öffentliches Werkzeug (22.09.2026): jede Stelle der Form „if (…gueltig…) continue;“ in vivodepot-lesen.html und vivodepot.html, mit Sorte (spur, ausnahme, offen). Ausnahmen tragen Grund und Probe; die Zahl der offenen (offenDeckel) ist exakt und kann nur sinken. Ort ist die umgebende Funktion, nie eine Zeilennummer.",
  "spurFunktionen": [
   "_verwurfSpurLesen(",
   "_VERWORFEN_LESEN.push(",

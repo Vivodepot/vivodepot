@@ -24,22 +24,6 @@ Ort ablegen, den man wiederfindet — einem USB-Stick, einem verschlüsselten Or
 nach eigener Wahl. Vivodepot selbst legt nichts irgendwo ab; das ist die eigene Aufgabe der
 Nutzerin.
 
-## Oder: eine eigene Datei aus dem Quelltext bauen
-
-Die `vivodepot.html` im Repository ist das Gerüst ohne Sprach- und Bereichsmodule; allein geöffnet
-zeigt sie nur den Schriftzug. Die fertige Einzeldatei entsteht mit einem Befehl (Node.js genügt,
-kein `npm install`):
-
-```
-git clone https://github.com/vivodepot/vivodepot.git
-cd vivodepot
-node tools/vier-produkte-erzeugen.js
-```
-
-Danach liegt die fertige Anwendung unter `produkte/privat-de/vivodepot.html` (englisch:
-`produkte/privat-en/vivodepot.html`). Diese Datei per Doppelklick im Browser öffnen — kein Server,
-keine Internetverbindung nötig. Einzelheiten stehen in [`DEVELOPING.md`](DEVELOPING.md).
-
 ## Danach
 
 - [`README.md`](README.md) — was Vivodepot ist und für wen

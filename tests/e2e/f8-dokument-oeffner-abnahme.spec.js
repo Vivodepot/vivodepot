@@ -20,6 +20,9 @@
    echten Browser — genau das prüft diese Datei.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+// Öffentlicher Zuschnitt (20.10.2026, öffentlicher Lauf v933): erkannt an der öffentlichen Kopfzeile der Wurzeldatei; Weichen je Test mit Grund, gedeckelt
+// in tests/e2e-oeffentlich-weichen.test.js.
+const OEFFENTLICHER_ZUSCHNITT = require('../../tools/lib/wurzel-kopfzeile.js').imOeffentlichenZuschnitt(require('node:path').join(__dirname, '..', '..'));
 const { oeffneApp, depotAnlegen } = require('./helpers');
 
 const VOLLSTAENDIGE_IDENTITAET = {
@@ -56,6 +59,8 @@ async function fuegeBetreuungZeileHinzu(page) {
 
 test.describe('F8-Nachlese: Patientenverfügung (kernGate + lueckenFelder=["adresse"])', () => {
   test('vollständige Identität → das Blatt entsteht', async ({ page }) => {
+    // FIXME-ID: OEFFENTLICH-VORLAGEN-F8-OEFFNER
+    test.skip(OEFFENTLICHER_ZUSCHNITT, 'öffentlich ohne die zurückgehaltenen Vorlagen');
     await oeffneApp(page);
     await depotAnlegen(page);
     await setzeIdentitaet(page, VOLLSTAENDIGE_IDENTITAET);

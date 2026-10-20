@@ -6,7 +6,7 @@
 **Linie:** U2
 **U2-Bezug:** U2-ADR-105 (der Anlass) · U2-ADR-099 (Prüfstand, Klausel-Bindung) ·
 operating-manual §7.5 (kein Wächter ohne gekoppelte Probe), §3.5b (Positiv- und Negativkontrolle)
-**Anker:** Bilanz Achse 6 · Messung `dataabsentreason-validator-messung-2026-07-26.md`
+**Anker:** Bilanz Achse 6 · Messung (interner Bericht vom 26.07.2026)
 **Status heute:** gilt — Beleg `tests/konformitaet/externe-validatoren.mjs`, `tests/zusagen-in-kommentaren.test.js`.
 
 ---

@@ -96,19 +96,6 @@ test('[Rot-Beweis·nativer Zweig] Wächter deaktiviert → identity dupliziert w
     'mit deaktiviertem nativen Wächter MUSS mindestens eine native ID doppelt erscheinen — sonst hält der Wächter nicht das, was er zu halten behauptet');
 });
 
-test('[Rot-Beweis·fremder Zweig] Wächter deaktiviert → eine Pro-ID dupliziert wieder', () => {
-  const html = fs.readFileSync(KERN_PFAD, 'utf8');
-  const treffer = html.split(FREMDER_WAECHTER).length - 1;
-  assert.equal(treffer, 1, 'der fremde Wächter-Text muss genau einmal im Kern stehen — sonst prüft dieser Rot-Beweis den falschen Text');
-  const kaputt = html.replace(FREMDER_WAECHTER, 'if (false) continue; /* [ROT-BEWEIS-TEMP] */');
-  const { V } = ladeGebautesKern(kaputt, 'pro-de');
-  const alle = V.bereicheAlle().map((s) => s.id);
-  assert.ok(keineDubletten(alle).length > 0,
-    'mit deaktiviertem fremden Wächter MUSS mindestens eine Pro-ID doppelt erscheinen — sonst hält der Wächter nicht das, was er zu halten behauptet');
-});
-
-/* ══ Teil 3 · Zusatztemplates sind kein Sonderfall — derselbe fremd-Zweig über die Anmeldung ══ */
-
 test('[Zusatztemplate] ein selbst geladenes Bereichs-Modul erscheint genau einmal, auch nach zweiter Anmeldung', () => {
   const { V } = ladeGebautesKern(undefined, 'privat-de');
   const modul = {

@@ -15,7 +15,7 @@
 
    WAS GEPRÜFT WIRD: jeder String-Wert in `tools/textsatz-de-modul.json`
    (dem „echten, andockbaren deutschen Sprachmodul", s.
-   tools/textsatz-de-modul-erzeugen.js) — außer den vier Metadaten-Schlüsseln
+   ein nicht öffentliches Werkzeug) — außer den vier Metadaten-Schlüsseln
    auf oberster Ebene (`modulTyp`/`sprache`/`moduleVersion`/`anbieterId`, interne
    Kennungen, keine bürgersichtbaren Texte). Rekursiv über `texte` UND `regeln`,
    nicht nur `texte` — generisch über den GANZEN sichtbaren Bestand, nicht nur

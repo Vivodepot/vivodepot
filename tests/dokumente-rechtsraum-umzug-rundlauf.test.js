@@ -1,5 +1,5 @@
 'use strict';
-/* U2-ADR-NNN2 — Rundlauf-Fidelity fuer den Umzug von `.dokumente` und `.rechtsraumKatalog` aus
+/* U2-ADR-505 — Rundlauf-Fidelity fuer den Umzug von `.dokumente` und `.rechtsraumKatalog` aus
    BUERGERMODUL_BUENDEL in eigene Ab-Werk-Slots (AB_WERK_DOKUMENTE_DE /
    AB_WERK_RECHTSRAUM_KATALOG_QUELLE) — Muster wie `-6c`s dokumentmodule-fidelity-pruefen.js:
    Register aus dem alten Bündel-Stand lesen, gegen den neuen Ab-Werk-Slot vergleichen, IDENTISCH,
@@ -56,7 +56,7 @@ function altenKernLesen(lesen) {
   }
 }
 
-test('[U2-ADR-NNN2·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhalt des DE-Moduls tools/rechtsraum-de-modul.json (Gerüst-Schnitt S3)', () => {
+test('[U2-ADR-505·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhalt des DE-Moduls tools/rechtsraum-de-modul.json (Gerüst-Schnitt S3)', () => {
   const altesRechtsraumKatalog = altenKernLesen((V) => {
     assert.ok(V.BUERGERMODUL_BUENDEL.rechtsraumKatalog, 'Vergleichsbasis ungültig: alter Kanon trägt rechtsraumKatalog nicht mehr im Bündel');
     return V.BUERGERMODUL_BUENDEL.rechtsraumKatalog;
@@ -78,7 +78,8 @@ test('[U2-ADR-NNN2·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhal
     fristenVorrang: e.DE.fristenVorrang === undefined ? null : e.DE.fristenVorrang,
     zweck: Array.isArray(e.zweck) ? e.zweck : null,
   }]));
-  assert.deepEqual(neu.AB_WERK_RECHTSRAUM_KATALOG_QUELLE, {}, 'das Gerüst trägt den Katalog nicht mehr');
+  // R1 „Rechtsraum als Modul im Kern“: die (seit S3 leere) Region ist ganz entfallen.
+  assert.equal(neu.AB_WERK_RECHTSRAUM_KATALOG_QUELLE, undefined, 'das Gerüst trägt den Katalog nicht mehr');
   /* Zuwachs nach dem Schnitt, benannt (02.10.2026, v857, U2-ADR-466): `rechtsgrundlage` (Paragraf und Adresse der Norm) für die
      drei im IPS abgebildeten Instrumente und den Widerspruch gegen die Ehegatten-Notvertretung. Herausgenommen wird GENAU dieses Feld
      an GENAU diesen Typen — ein anderer neuer Schlüssel oder ein fünfter Typ mit Rechtsgrundlage bleibt ein Befund. */
@@ -88,8 +89,13 @@ test('[U2-ADR-NNN2·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhal
     const r = deModul.typen[t].rechtsgrundlage;
     assert.ok(typeof r.paragraf === 'string' && /^https:\/\/www\.gesetze-im-internet\.de\//.test(r.uri) && Object.keys(r).length === 2, t);
   }
+  /* R1 (U2-ADR-504 § 3, Punkt 2): der Rechtsraum-Satz im Dokument-Fuß kommt aus dem Modul. Am Typ trägt ihn GENAU
+     `ki-verfuegung` (`hinweise`, Anlage zu einem Testament); herausgenommen wird genau dieses Feld an genau diesem Typ —
+     ein `hinweise` an einem weiteren Typ bleibt ein Befund. */
+  const MIT_HINWEISEN = ['ki-verfuegung'];
+  assert.deepEqual(Object.keys(deModul.typen).filter((t) => deModul.typen[t].hinweise).sort(), MIT_HINWEISEN);
   const deModulVorZuwachs = Object.fromEntries(Object.entries(deModul.typen).map(([t, e]) => {
-    const { rechtsgrundlage, ...rest } = e; return [t, rest]; }));
+    const { rechtsgrundlage, hinweise, ...rest } = e; return [t, rest]; }));
   assert.deepEqual(deModulVorZuwachs, altAlsModulTypen,
     'Register geleert (BUERGERMODUL_BUENDEL.rechtsraumKatalog === undefined nach dem Umzug) und aus dem neuen Ab-Werk-Slot geladen — Inhalt muss identisch zum alten Bündel-Stand sein.');
   // Seit dem Schnitt (18.09.2026) ist das Bündel nicht nur um dieses eine Feld erleichtert,
@@ -101,7 +107,7 @@ test('[U2-ADR-NNN2·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhal
 
 /* TOR-IN-DER-DEFINITION (27.09.2026, v808): vier PV-Folgefragen tragen seither ihr `verborgenWenn` am Feld im Dokumentmodul (vorher
    als Tabelle im Kern). Ein Zuwachs gegenüber dem alten Kanon, kein Verlust — herausgenommen wird GENAU dieses Tor mit GENAU diesem Wert,
-   alles andere wird weiter exakt verglichen. Probe der Tore: tests/tor-in-der-definition.test.js. */
+   alles andere wird weiter exakt verglichen. Probe der Tore: eine nicht öffentliche Probe. */
 const PV_TORE_SEIT_V808 = Object.freeze({
   whoseViewMattersOtherPersonName: { feld: 'whoseViewMattersIfUnregulated', wert: ['bevollmaechtigt', 'betreuer', 'arzt'] },
   whoseViewMattersIfDeviatingOther: { feld: 'whoseViewMattersIfDeviatingWill', wert: ['bevollmaechtigt', 'betreuer', 'arzt'] },
@@ -148,7 +154,7 @@ function vorBmjWortlaut459(pvBmj) {
   return raus;
 }
 
-test('[U2-ADR-NNN2·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_DOKUMENTE_DE-Inhalt (beide voll gebootet)', () => {
+test('[U2-ADR-505·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_DOKUMENTE_DE-Inhalt (beide voll gebootet)', () => {
   const altesDokumente = altenKernLesen((V) => {
     assert.ok(V.BUERGERMODUL_BUENDEL.dokumente, 'Vergleichsbasis ungültig: alter Kanon trägt dokumente nicht mehr im Bündel');
     return V.BUERGERMODUL_BUENDEL.dokumente;
@@ -167,7 +173,7 @@ test('[U2-ADR-NNN2·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK
     'Das Bündel ist seit dem Schnitt vollständig entfernt — das Register kann darin nicht mehr liegen.');
 });
 
-test('[U2-ADR-NNN2·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/KI_KORPUS) tragen nach der Materialisierung dieselben Schritte wie am alten Kanon', () => {
+test('[U2-ADR-505·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/KI_KORPUS) tragen nach der Materialisierung dieselben Schritte wie am alten Kanon', () => {
   const altesteps = altenKernLesen((V) => ({
     pv: V.PV_BMJ.steps, vollmacht: V.VOLLMACHT_BMJ.steps, ki: V.KI_KORPUS.steps,
   }));
@@ -185,7 +191,7 @@ test('[U2-ADR-NNN2·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/
    „nichts abweicht" und „nichts verglichen" liefern sonst dieselbe grüne Ausgabe. Diese Probe
    verändert den NEUEN Stand künstlich und beweist, dass die obigen Vergleiche eine echte
    Abweichung tatsächlich fangen würden. */
-test('[U2-ADR-NNN2·Rundlauf·Rot-Beweis] eine künstliche Abweichung wird von deepEqual gefunden — der Vergleich prüft wirklich', () => {
+test('[U2-ADR-505·Rundlauf·Rot-Beweis] eine künstliche Abweichung wird von deepEqual gefunden — der Vergleich prüft wirklich', () => {
   const { ladeKern } = require('./load-kern.js');
   const { V } = ladeKern();
   const echt = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'rechtsraum-de-modul.json'), 'utf8')).typen;
@@ -195,7 +201,7 @@ test('[U2-ADR-NNN2·Rundlauf·Rot-Beweis] eine künstliche Abweichung wird von d
     'eine künstliche Abweichung MUSS die deepEqual-Probe brechen — sonst prüft sie nichts');
 });
 
-test('[U2-ADR-NNN2·Rundlauf·Rot-Beweis] eine berichtigte eigene Frage deckt nur genau ihren neuen Wortlaut an genau ihrem Schritt', () => {
+test('[U2-ADR-505·Rundlauf·Rot-Beweis] eine berichtigte eigene Frage deckt nur genau ihren neuen Wortlaut an genau ihrem Schritt', () => {
   const e = EIGENE_FRAGEN_ERSETZT[0];
   const alt = [{ feld: { id: e.schritt }, [e.feld]: e.alt }, { feld: { id: 'anderer' }, [e.feld]: e.alt }];
   const nachgefuehrt = alteSchritteNachgefuehrt(alt);

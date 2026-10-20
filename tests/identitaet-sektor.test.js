@@ -225,7 +225,8 @@ test('6) Render: Einführungstext + Pausen-Zeile; ToC ab drei Sektionen (seit �
   V.renderSektor('identity');
   const html = document.getElementById('content').innerHTML;
   assert.match(html, /Name, Foto, Kontakt — das Deckblatt Ihres Depots\./, 'Einführungstext');
-  assert.ok(html.includes('<p class="pause-erlaubnis">' + V.STRINGS.pausenErlaubnis + '</p>'), 'Pausen-Zeile');
+  // Seit U2-ADR-474 kommt die Zeile aus dem Speichermodell (speicherSatz), je nach Modus.
+  assert.ok(html.includes('<p class="pause-erlaubnis">' + V.speicherSatz('bereichsende') + '</p>'), 'Pausen-Zeile');
   assert.ok(html.includes(V.STRINGS.tocTitel), 'ToC ab drei Sektionen (person/fruehere-namen/haustiere)');
   // Alle drei Sektion-Labels und ausgewählte Feld-Labels sichtbar
   assert.ok(html.includes('Person'));

@@ -91,8 +91,8 @@
      "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
     },
     "sign": {
-     "anzahl": 3,
-     "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026"
+     "anzahl": 4,
+     "grund": "Bestand vor dem Prüfvermerk der Signierstelle, erhoben 11.10.2026 · Besitznachweis /2 der Antragsdatei (art=zertifikat): eine Ed25519-Signatur über die sieben Zeilen der Antragsdatei (gemeinsame Rechenregeln), nur auf echten Klick am Knopf sk-antrag, mit dem nicht herausholbaren Schlüssel des Tresors; Befund STUDIO-SCHLUESSEL-PASST-NICHT-ZUM-ANTRAG"
     }
    }
   },

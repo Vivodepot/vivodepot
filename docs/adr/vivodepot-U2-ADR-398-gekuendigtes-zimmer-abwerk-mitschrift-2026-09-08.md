@@ -143,16 +143,16 @@ Der parallele Strang — heute die eigene ADR U2-ADR-421 („VD Pro ersetzt stat
 
 Dazu, an echt konfektionierten Produkten, deutsch und englisch: eine Pro-Datei ohne viertes Fach
 zeigt in Privat ihre Werte, nichts verwaist, rot ohne die Region; ohne Pro-Werte erscheint kein
-Pro-Bereich; die Region entspricht den Bereichsersätzen (`tests/pro-bereiche-in-privat.test.js`).
+Pro-Bereich; die Region entspricht den Bereichsersätzen (eine nicht öffentliche Probe).
 Alle Pro-Beschriftungen einer pro-en-Datei stimmen in privat-en mit pro-en überein, und die Lese-App
-liest Feld und Option aus dem Sprachmodul (`tests/angedockte-feldtexte-folgen-der-sprache.test.js`).
+liest Feld und Option aus dem Sprachmodul (eine nicht öffentliche Probe).
 
 Die Namen reisen mit, an allen vier Produkten: jede Datei aus privat-de, privat-en, pro-de und
 pro-en wird in der Lese-App geöffnet, und jeder Bereich darin hat einen echten Namen, ebenso jede
 Sektion, jedes Feld und jedes Unterfeld (`tests/lese-app-zeigt-jeden-bereich-beschriftet.test.js`;
 rot für pro-de, sobald die Mitschrift nur den Bereichsnamen trägt). Die Werte erscheinen
 (`tests/lese-app-golden-master-vier-produkte.test.js`), und die Mitschrift trägt keinen Bereich
-ohne Namen (`tests/abwerk-mitschrift-bereichsnamen.test.js`).
+ohne Namen (eine nicht öffentliche Probe).
 
 Und: der Verteiler selbst (`_abWerkStrukturInsDepot`) schreibt die volle Form auch im nativen
 Gerüst (leer, nicht fehlend), bricht nicht, wenn dessen Funktion (noch) nicht existiert, und
@@ -247,13 +247,13 @@ Punkt 4 als „aus der Datei“, schlicht und mit allen Angaben; im eigenen Prod
 **Korrektur vor der Landung (11.10.2026).** Die erste Fassung dieses Nachtrags säte nur erkannte Definitionen und nannte die
 übrigen in einem Hinweis. Das hätte Bereiche ausgeblendet, die jede Fassung davor gezeigt hat, und stand gegen U2-ADR-160 und
 gegen die Zusicherung dieses ADR. Der Befund MITSCHRIFT-AB-WERK-NACH-POSITION schließt darum über die Herkunft, nicht über das
-Ausblenden. Proben: `tests/mitschrift-bereich-nach-inhalt.test.js`, Abschnitt 5.
+Ausblenden. Proben: eine nicht öffentliche Probe, Abschnitt 5.
 
 **Zwei Fächer ohne Leser.** Die Fächer Rechtsraum-Katalog und Dokumente der Mitschrift werden geschrieben und im Vollexport
 zurückgehalten, aber von keinem Code gelesen. Für sie gibt es keine Inhaltsprüfung; eine Probe wird rot, sobald ein Leser
 dazukommt.
 
-**Proben:** `tests/mitschrift-bereich-nach-inhalt.test.js` (Rundreise Pro → Privat → Pro → Privat ohne Verlust und ohne Verwurf;
+**Proben:** eine nicht öffentliche Probe (Rundreise Pro → Privat → Pro → Privat ohne Verlust und ohne Verwurf;
 untergeschobene und um ein Zeichen geänderte Definition in beiden Fächern; dieselbe Definition unter anderer Kennung; je Angriff
 aus Punkt 2 eine Probe; das Öffnen einer fremden Datei lässt ihre Mitschrift byte-gleich; Hinweis mit einem Namen, der Markup
 enthält; Lese-App; je mit Rot-Beweis), `tests/vertrauen-nie-aus-selbstauskunft.test.js` (keine Lesestelle der Mitschrift ist

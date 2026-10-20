@@ -1,9 +1,9 @@
 'use strict';
 /* ════════════════════════════════════════════════════════════════════════
-   Test — JSON-Voll-Export (Teil 3, Schnitt 3.1; U2-ADR-NNN, 17.09.2026)
+   Test — JSON-Voll-Export (Teil 3, Schnitt 3.1; U2-ADR-508, 17.09.2026)
    ────────────────────────────────────────────────────────────────────────
    Der Bürgerweg zu dieser Funktion ("Alle Daten als Datei (JSON)", Einstellungen
-   → Sichern & Wiederherstellen) ist ENTFERNT (U2-ADR-NNN, s.
+   → Sichern & Wiederherstellen) ist ENTFERNT (U2-ADR-508, s.
    docs/adr/…-offener-json-vollexport-entfernt-2026-09-17.md): eine
    unverschlüsselte Volldatei war von einer Weitergabe nicht zu unterscheiden,
    egal wie die Einstellungen-Sektion hieß (Fund am U2-ADR-102-Untersagungs-Gate

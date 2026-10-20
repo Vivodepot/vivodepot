@@ -8,7 +8,7 @@
    Registry-Definition, KEIN neuer Maschinen-Code — sie füllt das bereits
    existierende Situationsblatt 'geburt'.
    ════════════════════════════════════════════════════════════════════════ */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');

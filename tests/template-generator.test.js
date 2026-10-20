@@ -969,11 +969,16 @@ test('[RR-03·Rot-Beweis] ohne Rechtsraum blockiert die Prüfung', () => {
   assert.deepEqual(rein(p.blocker), ['Der Rechtsraum (z. B. ein Ländercode) fehlt.']);
 });
 
-test('[RR-04·Rot-Beweis] "DE" ist reserviert und blockiert', () => {
+/* R1 (U2-ADR-504 § 3, Punkt 4): alte Annahme „das Studio reserviert DE“ → neue Annahme „reserviert ist der Code jedes
+   Ab-Werk-Moduls, am Einlass des Produkts; das Studio (keine Ab-Werk-Saat) baut auch ein DE-Modul“. Der Rot-Beweis zieht
+   mit: die Reservierung greift im DE-Produkt am Einlass — genau das Modul, das die Maske jetzt baut, wird dort abgewiesen. */
+test('[RR-04·Rot-Beweis] "DE" blockiert die Maske nicht mehr; reserviert ist es am Einlass des DE-Produkts', () => {
   const { V } = ladeGenerator();
   const state = { rechtsraum: { rechtsraum: 'DE', moduleVersion: 1, sprache: '', typen: [{ typ: 'will', katalogVersion: 1, wortlaut: '', formvorschriften: '', fristenVorrang: '', zweck: '' }] } };
   const p = V.pruefeRechtsraum(state);
-  assert.match(p.blocker[0], /reserviert/);
+  assert.deepEqual(rein(p.blocker), [], 'das Studio baut Module auch für das deutsche Produkt');
+  const { V: KERN } = require('./load-kern.js').ladeKern();   // privat-de: das DE-Modul ab Werk
+  assert.equal(kernRechtsraumPruefen(KERN, rein(p.modul)).grund, 'reserviert', 'im DE-Produkt ist DE am Einlass reserviert');
 });
 
 test('[RR-05·Rot-Beweis] ohne einen einzigen gültigen Typ blockiert die Prüfung mit „typen"', () => {
@@ -1036,7 +1041,10 @@ test('[RR-10] ohne Private-Key entsteht additiv ein unsignierter Umschlag, kein 
 
 test('[RR-11] Grund-Parität mit dem echten (inline) Kern-Prüfer für jeden Ablehnungsfall der Maske', () => {
   const { V: GEN } = ladeGenerator();
-  const { V: KERN } = require('./load-kern.js').ladeKern();
+  /* R1 (U2-ADR-504 § 3, Punkt 4): Parität mit dem Kern OHNE Ab-Werk-Saat (nacktes Gerüst) — wie das Studio reserviert er keinen
+     Code. Die Reservierung im DE-Produkt hält [RR-04·Rot-Beweis]. */
+  const { V: KERN } = require('./load-kern.js').ladeKern({ blank: true });
+  assert.deepEqual(Object.keys(KERN._rechtsraumAbWerkRegistrySeed()), [], 'Vorbedingung: der Vergleichskern hat keine Ab-Werk-Saat');
   const faelle = [
     { modulTyp: 'rechtsraum', rechtsraum: '', moduleVersion: 1, typen: { will: { katalogVersion: 1 } } },
     { modulTyp: 'rechtsraum', rechtsraum: 'DE', moduleVersion: 1, typen: { will: { katalogVersion: 1 } } },

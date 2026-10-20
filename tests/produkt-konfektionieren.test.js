@@ -149,18 +149,6 @@ test('[Produkt-Konfektionieren] gültige Vorbedingungen liefern keine Funde', ()
   assert.deepEqual(modulauswahl, []);
 });
 
-/* (10.09.2026), gemessen am laufenden Bestand: `node
-   tools/produkt-konfektionieren.js --slug <privat-de|privat-en|pro-de|pro-en> --bundle
-   <leer.json> --ziel <ordner>` lief für alle vier Slugs durch und schrieb `diff -rq`-
-   identische Ordner — `unsignierteModulDateien` wurde nie aus PRODUKTE (tools/lib/
-   vier-produkte.js) aufgelöst, obwohl konfektionieren() den Parameter längst kennt. */
-test('[Produkt-Konfektionieren·Rot-Beweis] vorbedingungenPruefen() liefert das PRODUKTE-Objekt für einen bekannten Slug', () => {
-  const { funde, produkt } = vorbedingungenPruefen({ slug: 'pro-en', bundlePfad: path.join(FIXTURES, 'leer.json') });
-  assert.deepEqual(funde, []);
-  assert.equal(produkt.slug, 'pro-en');
-  assert.ok(produkt.proModulPfad, 'pro-en muss ein proModulPfad aus PRODUKTE tragen');
-});
-
 test('[Produkt-Konfektionieren·Rot-Beweis] ein formal gültiger, aber unbekannter Slug wird benannt abgelehnt', () => {
   const { funde, produkt } = vorbedingungenPruefen({ slug: 'unbekannt-de', bundlePfad: path.join(FIXTURES, 'leer.json') });
   assert.ok(funde.some((f) => f.includes('Unbekannter Slug')), 'Funde: ' + JSON.stringify(funde));
@@ -307,56 +295,6 @@ test('[Produkt-Konfektionieren·Ende-zu-Ende] vier Konfektionen (privat-de/priva
     const zielDepot = await KERN.vorDepotKonfigurationAnwenden(zurueckgelesen, null, OPTS);
     assert.equal(zielDepot.brandingModule.length, 1, 'das Pro-Zusatzmodul muss über den echten Weg landen');
     assert.equal(zielDepot.brandingModule[0].herkunft, 'vd-pro-demo');
-  } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
-});
-
-/* ── CLI-Ende-zu-Ende (10.09.2026) — DER EIGENTLICHE ROT-BEWEIS ──────────
-   Das Ende-zu-Ende oben ruft `konfektionieren()` direkt als Bibliothek und kam am Fund
-   VORBEI, weil es genau das tut, was die echte Ladenautomatik NICHT tut: `unsignierteModulDateien`
-   von Hand mitgeben. Der Fund lag in `main()` selbst — dem `--slug`-CLI-Einstieg. Baut darum
-   über den ECHTEN Prozess (execFileSync gegen `node tools/produkt-konfektionieren.js`), nicht
-   über die Bibliotheksfunktion. Beide Richtungen im selben Test, wie verlangt hat:
-   der Kern bleibt außerhalb der AB_WERK-Regionen byte-gleich (gerüstByteGleich, derselbe
-   Wächter wie oben) UND die vier Ergebnisse unterscheiden sich TATSÄCHLICH (`diff -rq`,
-   nicht nur eine Zusicherung). */
-test('[Produkt-Konfektionieren·CLI·Rot-Beweis] vier `--slug`-Aufrufe über die echte CLI: Kern bleibt gleich, Ergebnis unterscheidet sich tatsächlich', () => {
-  const { execFileSync } = require('node:child_process');
-  const ziel = tmpOrdner('produkt-konfektionieren-cli-vier');
-  const bundlePfad = path.join(ziel, 'leer.json');
-  fs.writeFileSync(bundlePfad, '[]\n', 'utf8');
-  try {
-    const slugs = ['privat-de', 'privat-en', 'pro-de', 'pro-en'];
-    for (const slug of slugs) {
-      execFileSync('node',
-        ['tools/produkt-konfektionieren.js', '--slug', slug, '--bundle', bundlePfad, '--ziel', ziel],
-        { cwd: REPO, stdio: 'pipe' });
-    }
-
-    // Richtung 1 — der Kern (DATEISATZ, außerhalb der AB_WERK-Regionen) bleibt über alle
-    // sechs Paare byte-gleich. Das ist die Zusage, kein Nebeneffekt (: "prüf, welcher
-    // Wächter das ist" — es ist derselbe gerüstByteGleich() wie im Ende-zu-Ende oben).
-    for (let i = 0; i < slugs.length; i++) {
-      for (let j = i + 1; j < slugs.length; j++) {
-        const w = gerüstByteGleich(path.join(ziel, slugs[i]), path.join(ziel, slugs[j]));
-        assert.equal(w.gleich, true,
-          slugs[i] + ' vs ' + slugs[j] + ' (Gerüst außerhalb AB_WERK muss gleich bleiben): ' + w.abweichungen.join(','));
-      }
-    }
-
-    // Richtung 2 — die vier Ergebnisordner unterscheiden sich TATSÄCHLICH. `diff -rq`, nicht
-    // eine Zusicherung: das ist der Fund, den dieser ganze Auftrag behebt. VORHER (ohne die
-    // PRODUKTE-Auflösung in main()) waren alle sechs Paare hier identisch.
-    const ungleichePaare = [];
-    for (let i = 0; i < slugs.length; i++) {
-      for (let j = i + 1; j < slugs.length; j++) {
-        try {
-          execFileSync('diff', ['-rq', path.join(ziel, slugs[i]), path.join(ziel, slugs[j])], { stdio: 'pipe' });
-        } catch (_) { ungleichePaare.push(slugs[i] + '/' + slugs[j]); }
-      }
-    }
-    assert.equal(ungleichePaare.length, 6,
-      'alle sechs Paare müssen sich unterscheiden (`diff -rq` meldet einen Unterschied) — '
-      + 'gefunden: ' + ungleichePaare.length + ' von 6 (' + ungleichePaare.join(', ') + ')');
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });
 

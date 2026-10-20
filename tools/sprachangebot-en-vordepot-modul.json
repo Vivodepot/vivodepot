@@ -4,10 +4,10 @@
  "moduleVersion": 1,
  "anbieterId": "vivodepot",
  "texte": {
-  "strings:appTagline.text": "Your digital depot — offline, encrypted, in your hands.",
-  "strings:welcomeUnterzeile.text": "Contacts, health, finances and provisions — kept with you, accessible to you and, in an emergency, to family or your doctor.",
+  "strings:appTagline.text": "Everything important in one place: from family and finances to housing, work and health.",
+  "strings:welcomeUnterzeile.text": "Offline, encrypted, no account. For the doctor's appointment, the move, the emergency: put together what is needed right now.",
   "strings:welcomeWeiter.text": "What would you like to do?",
-  "strings:welcomeHierAnfangen.text": "Look around first",
+  "strings:welcomeHierAnfangen.text": "Look around first, without saving",
   "strings:welcomeDepotAnlegen.text": "Create depot",
   "strings:welcomeDateiOeffnen.text": "Already have a depot? Open file",
   "strings:anlegenFehler.text": "The depot could not be created. Please try again.",

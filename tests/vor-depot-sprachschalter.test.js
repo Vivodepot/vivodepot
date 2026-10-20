@@ -18,7 +18,7 @@ const { ladeKern } = require('./load-kern.js');
 
 test('[Vor-Depot-Schalter] Standard ist Deutsch — kein Depot, keine Umschaltung, kein localStorage', () => {
   const { V } = ladeKern();
-  assert.equal(V.vorDepotText('welcomeWeiter'), V.STRINGS.welcomeWeiter, 'ohne Umschalten liefert vorDepotText denselben (deutschen) Text wie STRINGS');
+  assert.equal(V.vorDepotText('welcomeDepotAnlegen'), V.STRINGS.welcomeDepotAnlegen, 'ohne Umschalten liefert vorDepotText denselben (deutschen) Text wie STRINGS');
 });
 
 test('[Vor-Depot-Schalter·Rot] renderWelcome() zeigt nach dem Umschalten Englisch, und zurück wieder Deutsch', () => {
@@ -26,7 +26,10 @@ test('[Vor-Depot-Schalter·Rot] renderWelcome() zeigt nach dem Umschalten Englis
   V.renderWelcome();
   const vorher = document.getElementById('overlay-inhalt').innerHTML;
   assert.match(vorher, />English</, 'Standard: Umschalt-Knopf bietet "English" an (aktuell Deutsch)');
-  assert.doesNotMatch(vorher, /Your digital depot/);
+  // Der englische Slogan, wie ihn das Vor-Depot-Sprachangebot trägt (seit 13.10.2026 „Everything important in one place …“).
+  const SLOGAN_EN = JSON.parse(require('node:fs').readFileSync(require('../tools/lib/vier-produkte.js').SPRACHANGEBOT_EN_PFAD, 'utf8')).texte['strings:appTagline.text'];
+  assert.ok(SLOGAN_EN && SLOGAN_EN.length > 10, 'Vorbedingung: das Sprachangebot trägt einen englischen Slogan');
+  assert.ok(!vorher.includes(SLOGAN_EN), 'Standard Deutsch: der englische Slogan steht noch nicht da');
 
   V.vorDepotSpracheUmschalten();
   V.renderWelcome();
@@ -34,13 +37,13 @@ test('[Vor-Depot-Schalter·Rot] renderWelcome() zeigt nach dem Umschalten Englis
   // "vault" → "depot" (01.09.2026, U2-ADR-195): die Produktentscheidung kehrte die Wortwahl um —
   // "depot, wenn es in der jeweiligen Sprache funktioniert". PRE_DEPOT_EN trägt seither
   // "depot", diese Probe folgt dem echten Bestand statt einer überholten Fassung.
-  assert.match(danach, /Your digital depot — offline, encrypted, in your hands\./);
+  assert.ok(danach.includes(SLOGAN_EN), 'nach dem Umschalten steht der englische Slogan da');
   assert.match(danach, />Deutsch</, 'Umschalt-Knopf bietet jetzt "Deutsch" an (aktuell Englisch)');
 
   V.vorDepotSpracheUmschalten();
   V.renderWelcome();
   const wieder = document.getElementById('overlay-inhalt').innerHTML;
-  assert.doesNotMatch(wieder, /Your digital depot/, 'der Rückweg gibt den eingebauten deutschen Text frei');
+  assert.ok(!wieder.includes(SLOGAN_EN), 'der Rückweg gibt den eingebauten deutschen Text frei');
 });
 
 test('[Vor-Depot-Schalter] renderCryptoOverlay() schaltet mit derselben Schalter-Variable', () => {
@@ -78,7 +81,7 @@ test('[Vor-Depot-Schalter·Gegenprobe] der Schalter wirkt NICHT in ein bereits g
   // Englisch umschalten — nur der eigene, im Kern fest hinterlegte Vor-Depot-Ersatz (vorDepotText)
   // greift ein, STRINGS selbst bleibt allein am Depot-Textsatz hängen.
   V.vorDepotSpracheUmschalten();
-  assert.equal(V.vorDepotText('welcomeWeiter'), 'What would you like to do?', 'Testvoraussetzung: Schalter steht auf Englisch');
+  assert.equal(V.vorDepotText('welcomeDepotAnlegen'), 'Create depot', 'Testvoraussetzung: Schalter steht auf Englisch');
   assert.equal(V.STRINGS.geoeffnet, 'Depot entschlüsselt und geöffnet.',
     'STRINGS bleibt am Depot-Textsatz hängen, nicht am Vor-Depot-Schalter');
   V.vorDepotSpracheUmschalten();

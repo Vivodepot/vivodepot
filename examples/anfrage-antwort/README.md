@@ -48,6 +48,13 @@ can pass your own copy with `--register`.
 
 A standard JOSE library opens the reply; it was cross-checked against `jose`. With `jose`, set `maxPBES2Count` to at least 600000. `antwort-oeffnen.js` does the same
 by hand with WebCrypto, so every step is visible. It refuses `zip`, any other `alg` and any other `p2c`.
+
+**Signed replies.** From version v931 the content of the JWE is a JWS Compact (`cty` `JWT`), signed by the person with an
+Ed25519 key that exists only for your organisation (`docs/adr/vivodepot-U2-ADR-501-signierte-antwort-und-zertifikat-der-stelle-2026-10-15.md`).
+`antwort-oeffnen.js` checks it (`typ`, `alg`, the public key in the header, `kid`, the signature, `iat`, `aud`, the case number)
+and prints the data set without the signature claims. The signature shows that the entries are unchanged since signing and which
+key signed them; it does not prove who the person is. A reply that is unsigned because the person's browser cannot sign carries
+`unsigniert: "browser"` and is reported as such. Unsigned replies from versions that do not sign yet open as before.
 Background: `docs/adr/vivodepot-U2-ADR-449-antwort-als-jwe-2026-09-29.md`. To measure replies of your own, run
 `tools/antwort-jwe-messen.js`.
 

@@ -1,0 +1,62 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/betreuungsverfuegung",
+  "fassung": 1,
+  "dokumentModule": {
+    "betreuungsverfuegung": {
+      "motor": "bv",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "Testtext 1",
+          "bloecke": [
+            {
+              "typ": "refMehrfachVoll",
+              "feldId": "proposedPerson",
+              "satz": "Testtext 2"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 3",
+          "bloecke": [
+            {
+              "typ": "refMehrfachVoll",
+              "feldId": "alternatePerson",
+              "satz": "Testtext 4"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 5",
+          "bloecke": [
+            {
+              "typ": "refMehrfachVoll",
+              "feldId": "whoShouldNotBeAppointed",
+              "satz": "Testtext 6"
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 7",
+          "bloecke": [
+            {
+              "typ": "freitextSatz",
+              "feldId": "whatTheCareArrangementShould",
+              "satz": "Testtext 8"
+            },
+            {
+              "typ": "freitext",
+              "feldId": "whatTheCareArrangementShould2"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -70,7 +70,7 @@ const WORTLAUT = [
   'data-en="The backup file stays with you. Keep it in two places, for example on a USB stick and in encrypted storage."',
   '>Frei, sobald Ihre Schlüsselsicherung geprüft und bestätigt ist.</p>',
   'data-en="Available as soon as your key backup is checked and confirmed."',
-  'data-en="Save backup">Sicherung speichern</button>', '>Passwort (mindestens 8 Zeichen)</label>', '>Passwort wiederholen</label>',
+  'data-en="Save backup">Sicherung speichern</button>', '>Passwort (mindestens 12 Zeichen)</label>', '>Passwort wiederholen</label>',
   "L('Die Datei lässt sich mit Ihrem Passwort öffnen.'",
   "L('Sie gehört zu diesem Schlüsselpaar. Legen Sie sie an zwei Orten ab. Vivodepot hat keine Kopie.'",
   "L('Die Datei ließ sich nicht öffnen.'",
@@ -201,7 +201,13 @@ test('[Studio·Sicherung·Schritt] „✓ Sicherung geprüft, heruntergeladen“
   await require('node:vm').runInContext('ladePrivate()', sandbox);
   assert.ok(datei, 'die Sicherung ist heruntergeladen');
   assert.equal(el('sk-priv-status').textContent, '✓ Sicherung geprüft, heruntergeladen');
-  assert.equal(V.einreichungFrei(), true, 'nach Probe und Download ist die Einreichung frei');
+  // Seit dem Besitznachweis /2 gehört die Antragsdatei dazu: erst mit ihr ist die Einreichung frei.
+  assert.equal(V.einreichungFrei(), false, 'nach Probe und Download allein fehlt noch die Antragsdatei');
+  V.STATE.anbieter = V.baueAnbieter({ anbieterName: 'Testheim e.V.', rechtsform: 'e.V.', strasse: 'Weg 1', plz: '10115', ort: 'Berlin', land: 'Deutschland',
+    kontaktName: 'A B', kontaktEmail: 'a@b.example.de' });   // frei erfunden
+  el('sk-antragsnummer').value = '0123456789abcdef0123456789abcdef';
+  assert.ok(await V.antragsdateiErstellen({ isTrusted: true, currentTarget: { id: 'sk-antrag' }, timeStamp: performance.now() }), 'die Antragsdatei ist entstanden');
+  assert.equal(V.einreichungFrei(), true, 'nach Probe, Download und Antragsdatei ist die Einreichung frei');
   assert.equal(el('pr-sperre-hinweis').hidden, true);
 
   // Die freiwillige Prüfung der gespeicherten Datei: falsches Passwort meldet, ändert das Tor nicht; richtiges bestätigt.

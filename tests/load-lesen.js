@@ -206,6 +206,17 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   nichtUebersetzteZeigenSetzenLesen: (typeof nichtUebersetzteZeigenSetzenLesen !== 'undefined' ? nichtUebersetzteZeigenSetzenLesen : undefined),
   _depotUebernehmenGeprueft: (typeof _depotUebernehmenGeprueft !== 'undefined' ? _depotUebernehmenGeprueft : undefined),
   _abWerkGleichLesen: (typeof _abWerkGleichLesen !== 'undefined' ? _abWerkGleichLesen : undefined),
+  /* Befund LESE-APP-MODULE-OHNE-WAHL (17.10.2026): Module der Datei wirken nur nach den Ausnahmen des Kerns. */
+  MODUL_SLOT_TYP_LESEN: (typeof MODUL_SLOT_TYP_LESEN !== 'undefined' ? MODUL_SLOT_TYP_LESEN : undefined),
+  _depotModuleBelegPruefenLesen: (typeof _depotModuleBelegPruefenLesen !== 'undefined' ? _depotModuleBelegPruefenLesen : undefined),
+  modulBelegGeprueftLesen: (typeof modulBelegGeprueftLesen !== 'undefined' ? modulBelegGeprueftLesen : undefined),
+  _depotModuleNichtAngewandtMarkierenLesen: (typeof _depotModuleNichtAngewandtMarkierenLesen !== 'undefined' ? _depotModuleNichtAngewandtMarkierenLesen : undefined),
+  _depotModulNichtAngewandtLesen: (typeof _depotModulNichtAngewandtLesen !== 'undefined' ? _depotModulNichtAngewandtLesen : undefined),
+  _depotModuleWirksamLesen: (typeof _depotModuleWirksamLesen !== 'undefined' ? _depotModuleWirksamLesen : undefined),
+  _modulAnzeigeNameLesen: (typeof _modulAnzeigeNameLesen !== 'undefined' ? _modulAnzeigeNameLesen : undefined),
+  _modulWirkungLesen: (typeof _modulWirkungLesen !== 'undefined' ? _modulWirkungLesen : undefined),
+  moduleNichtAngewandtLesen: (typeof moduleNichtAngewandtLesen !== 'undefined' ? moduleNichtAngewandtLesen : undefined),
+  moduleNichtAngewandtZeileHTML: (typeof moduleNichtAngewandtZeileHTML !== 'undefined' ? moduleNichtAngewandtZeileHTML : undefined),
   _abWerkHerkunftLesen: (typeof _abWerkHerkunftLesen !== 'undefined' ? _abWerkHerkunftLesen : undefined),
   _modulRezeptFingerabdruck: (typeof _modulRezeptFingerabdruck !== 'undefined' ? _modulRezeptFingerabdruck : undefined),
   _istSchutzKennung: (typeof _istSchutzKennung !== 'undefined' ? _istSchutzKennung : undefined),
@@ -257,7 +268,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
      derselbe Vergleich in synchroner Form. Der Lader ruft dafuer die Funktionen der Lese-App selbst (_bereichsDefinitionFormen fuer
      Zerlegung und Formen, _bereichsDefinitionUrteil fuer das Urteil, dem er die zwei Mengen der Lese-App uebergibt) und ersetzt allein den SHA-256 (Node
      statt WebCrypto); er traegt keine eigene Kopie der Prueflogik. Nichts wird pauschal als ausgeliefert gemerkt: eine erfundene Definition bleibt
-     verworfen. Dass beide Wege gleich urteilen, haelt tests/mitschrift-bereich-nach-inhalt.test.js. */
+     verworfen. Dass beide Wege gleich urteilen, haelt eine nicht oeffentliche Probe. */
   _bereichsDefinitionenPruefenSynchronLesen: __bereichsDefinitionenPruefenSynchron,
   _bereichsDefinitionAusgeliefertLesen: (typeof _bereichsDefinitionAusgeliefertLesen !== 'undefined' ? _bereichsDefinitionAusgeliefertLesen : undefined),
   _foldVollmachtenLesen: (d) => { __bereichsDefinitionenPruefenSynchron(d); return _foldVollmachtenLesen(d); },

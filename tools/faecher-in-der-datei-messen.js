@@ -240,7 +240,7 @@ async function kurvePunkt(bauen, n, etikett) {
    probiert alle davor durch) und der Weg der Inhaberin. */
 async function browserOeffnungszeit(punkte) {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   const seite = await browser.newPage();
   await seite.goto('file://' + path.join(__dirname, '..', 'vivodepot.html'));
   const raus = [];

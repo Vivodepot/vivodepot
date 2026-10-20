@@ -41,7 +41,7 @@ test('[S1] Download ohne FSA (kein Picker): Signal steht NICHT — ehrlich unbes
   // Klasse-B-Fund 19.09.2026 (e2e-37-rote-klassen-2026-09-19.md): gebackener privat-de statt
   // der rohen Datei, s. Kopf-Kommentar tests/e2e/helpers.js.
   await page.goto(KERN_URL_PRIVAT_DE);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   // Kein FSA — der Nicht-Picker-Weg (Namens-Dialog #datei-name, Download).
   await page.evaluate(() => { try { delete window.showSaveFilePicker; } catch (_) {} });
 
@@ -80,7 +80,7 @@ test('[S1] frisch aus Datei geöffnet: Signal steht sofort, ohne jede Eingabe', 
   // Klasse-B-Fund 19.09.2026 (e2e-37-rote-klassen-2026-09-19.md): gebackener privat-de statt
   // der rohen Datei, s. Kopf-Kommentar tests/e2e/helpers.js.
   await page.goto(KERN_URL_PRIVAT_DE);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await depotAnlegen(page, { pw: 's1-open-pw-741' });
 
   const dateiText = await page.evaluate(() => window.__s1Datei);
@@ -89,7 +89,7 @@ test('[S1] frisch aus Datei geöffnet: Signal steht sofort, ohne jede Eingabe', 
   // Frisch laden (neuer Tab-Zustand), die abgegriffene Datei über den Öffnen-Weg einlesen.
   await page.evaluate(() => { try { delete window.data; } catch (_) {} });
   await page.reload();
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.click('#w-datei');
   await page.waitForSelector('#co-pw', { state: 'visible' });
   await page.evaluate((inhalt) => {

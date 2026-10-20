@@ -15,7 +15,8 @@ const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 const { vorDepotAusliefern } = require('./helfer/vor-depot-ausliefern.js');
 
-const PRODUKTE = ['privat-de', 'privat-en', 'pro-de', 'pro-en'];
+// Im Kanon alle vier; im öffentlichen Zuschnitt nur die baubaren (tools/lib/vier-produkte.js, PRODUKTE).
+const PRODUKTE = require('../tools/lib/vier-produkte.js').PRODUKTE.map((p) => p.slug);
 const PW = 'waehrung-nur-aus-saat-pw-2026';
 const sprachTag = (produkt) => (produkt.endsWith('-en') ? 'en' : 'fr');
 /* Was „keine Währung aus dem Modul“ heißt: die Währung ist danach dieselbe wie vor dem Öffnen im selben Produkt. Gemessen wird an

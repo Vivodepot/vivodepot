@@ -3,7 +3,7 @@
 **Status:** Akzeptiert
 **Datum:** 25.08.2026
 **Kategorie:** SICHERHEIT, PROZESS
-**Status heute:** gilt — Werkzeug (`tools/widerruf-notfall-veroeffentlichen.js`) und sieben Tests
+**Status heute:** gilt — Werkzeug (ein nicht öffentliches Werkzeug) und sieben Tests
 liegen in diesem Commit bereits vor, nicht erst als Ankündigung.
 
 **Grundlage:** U2-ADR-009 (Vivodepot greift nie selbst auf eine URL zu — absolut, geprüft),

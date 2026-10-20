@@ -1,6 +1,6 @@
 'use strict';
 /* Befund HAFTUNG-SPRACHGRENZE (HOCH, 06.10.2026), Weg B mit Einzelwort der Gegenlesung — die Bedingungen des Worts, je mit Rot-Beweis.
-   Die Abnahme selbst (Hinweis über die Sprachgrenze, beide Richtungen, Klasse) hält tests/haftung-sprachgrenze.test.js; hier steht, was
+   Die Abnahme selbst (Hinweis über die Sprachgrenze, beide Richtungen, Klasse) hält eine nicht öffentliche Probe; hier steht, was
    Weg B NICHT darf und wie Weg A aussieht:
      1 nur der VOLLE Abdruck einer früheren Fassung trägt Schutztexte — ein geändertes Byte, auch außerhalb der Schutztexte, nicht;
      2 hat das Produkt für die Sprache ein eigenes Modul, gewinnt es (in beide Richtungen);
@@ -105,16 +105,6 @@ test('[Weg B·F3] ein Schutztext, den die Mitschrift nicht trägt, steht im Rüc
     const angezeigt = V.STRINGS.pdfOhneSchriftHinweis;
     assert.equal(angezeigt, LAUFEND(andere(sprache)).texte[NEU_SEIT_V918] + ' [' + ENDONYM[andere(sprache)] + ']', sprache + ': gemessen ' + JSON.stringify(angezeigt));
   }
-});
-
-test('[Weg B·F3] die Sprachangabe steht im Textsatz: Schutzliste, jedes Produkt-Sprachmodul, mit {sprache}', () => {
-  for (const produkt of ['privat-de', 'privat-en', 'pro-de', 'pro-en']) {
-    const { V } = ladeKern({ produkt });
-    assert.ok(V._istSchutzKennung(ANGABE), produkt + ': auf der Schutzliste — ein Modul darf sie nicht ersetzen');
-    const t = V.AB_WERK_SPRACHE_PRODUKT && V.AB_WERK_SPRACHE_PRODUKT.texte[ANGABE];
-    assert.ok(typeof t === 'string' && t.includes('{sprache}'), produkt + ': im Produkt-Sprachmodul, mit Platzhalter');
-  }
-  for (const sprache of ['de', 'en']) assert.ok(LAUFEND(sprache).texte[ANGABE].includes('{sprache}'), sprache + '-Modul');
 });
 
 test('[Weg B·F3·Rot] ein Modul im Fach kann die Sprachangabe nicht setzen', () => {
@@ -230,4 +220,3 @@ test('[Weg B·Lese-App] die englische v918-Mitschrift trägt ihre Schutztexte; e
   assert.equal(E.V.textLesen(eine), null, 'die zurückgezogene Kennung gilt nicht');
   assert.deepEqual(E.schutz.filter((k) => k !== eine && !zurueck.includes(k) && E.V.textLesen(k) !== FIXTURE('en').texte[k]), [], 'je Kennung: die übrigen Schutztexte gelten weiter');
 });
-

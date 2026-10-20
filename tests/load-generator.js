@@ -142,6 +142,10 @@ const EXPORT_HOOK = `
   STUDIO_RECHTSRAEUME, rechtsraumEintrag, rechtsraumAnzeige, rechtsformenFuer, rechtsformFuerArt, VD_CODE_LISTEN, BEREICH_CODESYSTEME, BEISPIEL_TEMPLATES,
   codeSystemeFuerBereich, uuidV4, isoJetzt, slug, landKuerzel,
   erzeugeSchluesselpaarRoh, publicJwkFuerSubmission,
+  // 16.10.2026 — die Antragsdatei des Herausgeber-Diensts mit Besitznachweis /2 (wortgleicher Block der gemeinsamen Rechenregeln)
+  ANGABEN_KENNUNG, NACHWEIS_KENNUNG, FORM, FormFehler, kontoAus, angabenZeilen, nachweisZeilen, sha256Hex, istKalendertag,
+  ANTRAGSDATEI_FORMAT, baueAntragsdatei, antragsdateiMitNachweis, antragsdateiErstellen, antragsdateiDateiname,
+  SCHLUESSEL_NACHWEIS_KNOPF, SCHLUESSEL_NACHWEIS_EINGABE,
   csvZuFelder, normalisiereFeld, baueAnbieter,
   // A351 (19.08.2026) — die Meldepflicht. Die Befund-Fassungen sind mit ausgegeben,
   // damit die Probe die MELDUNG prueft und nicht eine zweite, danebenlaufende Fassung

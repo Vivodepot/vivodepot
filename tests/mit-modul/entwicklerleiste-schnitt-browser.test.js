@@ -23,7 +23,7 @@ function bauen(slug, extra = {}) {
 const aufraeumen = (ordner) => fs.rmSync(ordner, { recursive: true, force: true });
 
 async function leisteImBrowser(url, { anfangen }) {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage();
     const fehler = [];

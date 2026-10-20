@@ -311,7 +311,7 @@ const TEXTSATZ_EN_TEXTE = {
   'personal.notesOnFamilyCircumstances.beispiel': 'no contact with brother for years; half-sister from father’s first marriage',
   'personal.notesOnFamilyCircumstances.label': 'Notes on family circumstances',
   'personal.label': 'Personal',
-  'personal.navUnterzeile': 'Memories and farewell',
+  'personal.navUnterzeile': 'Memories and wishes',
   'personal.personalLettersWordsToPeople.hint': 'Words for individual people — one entry per person. The scenario letters above (emergency doctor / hospital / care home / death) stay separate.',
   'personal.personalLettersWordsToPeople.label': 'Personal letters / words to people',
   'personal.personalLettersWordsToPeople/toWhom.beispiel': 'my daughter Anna',
@@ -565,7 +565,7 @@ const TEXTSATZ_EN_TEXTE = {
   'people#unterhalt-sek.label': 'Maintenance',
   'people.spouseOrCivilPartner.hint': 'Add directly via “Add new person”. Marital status itself is recorded in the Identity area.',
   'people.spouseOrCivilPartner.label': 'Spouse or civil partner',
-  'people.einfuehrungstext': 'The people who matter to you — and who should be reachable in an emergency. Including those no one else knows about.',
+  'people.einfuehrungstext': 'Family, friends, contacts — who matters to you and how to reach them. Including those no one else knows about.',
   'people.guidedBirthEntryRelationship.label': 'Guided birth entry — relationship (not yet transferred)',
   'people.guidedBirthEntryDateOfBirthNot.label': 'Guided birth entry — date of birth (not yet transferred)',
   'people.guidedBirthEntryChildsNameNot.beispiel': 'Mia Musterfrau',
@@ -702,7 +702,7 @@ const TEXTSATZ_EN_TEXTE = {
   'education.universityDegreeCertificate.label': 'University degree certificate (storage location)',
 
   // ── gesundheit ────────────────────────────────────────────────────────────
-  'health#notfall-aerzte.hint': 'Allergies, medication, blood type — at hand instantly in an emergency.',
+  'health#notfall-aerzte.hint': 'Allergies, medication, blood type — at hand for appointments and in an emergency.',
   'health#notfall-aerzte.label': 'Emergency, doctors, vaccinations, findings',
   'health.alcohol.label': 'Alcohol',
   'health.allergiesMedicationFoodOther.beispiel': 'Penicillin',
@@ -717,7 +717,7 @@ const TEXTSATZ_EN_TEXTE = {
   'health.ehicCardEuropeanHealth.beispiel': 'EHIC number on the back of the health insurance card',
   'health.ehicCardEuropeanHealth.hint': 'Validity is tracked together with the field “Health insurance card (incl. EHIC) — valid until” — the same physical card, one date.',
   'health.ehicCardEuropeanHealth.label': 'EHIC card (European Health Insurance Card)',
-  'health.einfuehrungstext': 'Allergies, medication, blood type — at hand instantly in an emergency.',
+  'health.einfuehrungstext': 'Doctors, medication, allergies, results — together for your next appointment and for emergencies.',
   'health.specialistDoctors.hint': 'Your treating specialist in oncology, cardiology, neurology or another specialty you visit regularly — one person with their specialty per entry.',
   'health.specialistDoctors.label': 'Specialist doctors',
   'health.specialistDoctors/specialistDoctor.label': 'Specialist doctor',
@@ -778,7 +778,7 @@ const TEXTSATZ_EN_TEXTE = {
   'health.supplementaryInsurance.hint': 'Suggestions are for convenience, not a limit — free entry stays possible.',
   'health.supplementaryInsurance.label': 'Supplementary insurance',
   'health.label': 'Health',
-  'health.navUnterzeile': 'Doctors and medication',
+  'health.navUnterzeile': 'Doctors, medication, results',
   'health.medicationOngoing.beispiel': 'ramipril 5 mg in the morning',
   'health.medicationOngoing.label': 'Medication (ongoing)',
   'health.emergencyCardPatientId.beispiel': 'Wallet, behind the ID card',
@@ -795,6 +795,7 @@ const TEXTSATZ_EN_TEXTE = {
 
   // ── vermoegen ─────────────────────────────────────────────────────────────
   'assets.label': 'Assets and income',
+  'assets.einfuehrungstext': 'Income, housing costs, outgoings — what comes in and what goes out regularly.',
   'assets.navUnterzeile': 'Housing costs and outgoings',
   'assets#einkommen-wohnsituation.label': 'Income and living situation',
   'assets.additionalTypesOfIncome.label': 'Additional types of income',

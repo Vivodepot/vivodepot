@@ -35,8 +35,6 @@
   },
   "buendel": {
     "summe": 1,
-    "jeDatei": {
-      "tools/pro-vorlage-weg-messen.js": 1
-    }
+    "jeDatei": {}
   }
 }

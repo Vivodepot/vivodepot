@@ -22,7 +22,10 @@
    QUELLFORMATE: FHIR (StructureDefinition-JSON, snapshot.element; Ziel `<name>#<element-id>`), openEHR (Web-Template-JSON;
    Ziel `<templateId>#<pfad der ids>`) und FIM-Baukasten (XDatenfelder-3-XML je Datenfeld bzw. Datenfeldgruppe; Ziel ist die
    Kennung, z. B. `F60000227`, U2-ADR-456). Aus einer XDF-Datei liest das Werkzeug NUR Kennung, Fassung und Art — keine Namen,
-   Beschreibungen oder Wertelisten (bis zur Zustimmung der FITKO steht davon nichts im Repo).
+   Beschreibungen oder Wertelisten (bis zur Zustimmung der FITKO steht davon nichts im Repo). Dazu RDF/Turtle (17.10.2026, SEMIC Core
+   Vocabularies): Ziel ist die volle IRI; gelesen werden NUR die IRIs, die eine Datei nennt (Vokabular-TTL und SHACL-Formen — erst die
+   SHACL-Formen nennen die wiederverwendeten Terme wie foaf:givenName), keine Labels oder Definitionen (CC-BY 4.0). Die Lock-Datei
+   trägt je Datei `vokabular` und `fassung`; eine Zeile mit `vokabular` muss ihr Ziel in genau diesem Vokabular dieser Fassung finden.
    FIM-ZEILEN tragen zusätzlich `fassung` und `status`: die Fassung muss der gepinnten Datei entsprechen, der Status dem Freigabe-
    status, den die Lock-Datei je Datei festhält (der Portal-Stand beim Abruf — die XDF-Dateien tragen ihn nicht einheitlich). Eine
    Fassung, die nicht fest ist („in Bearbeitung"), darf höchstens `naeherung` sein und steht sichtbar als nicht fest da.
@@ -76,7 +79,27 @@ function xdfElemente(xml) {
   if (!m) throw new Error('kein XDatenfelder-Baustein erkannt');
   return { fassung: m[3].trim(), elemente: { [m[2].trim()]: { kurz: '', definition: '', min: undefined, max: undefined, typ: m[1], fassung: m[3].trim() } } };
 }
+/* Die IRIs einer Turtle-Datei: volle IRIs in <…> und Präfix-Namen mit einem erklärten @prefix bzw. PREFIX. Nur Namen, keine
+   Literale; ein Name ohne erklärtes Präfix zählt nicht. */
+function turtleIris(text) {
+  const pre = {};
+  for (const m of text.matchAll(/@prefix\s+([A-Za-z0-9_-]*):\s*<([^>]+)>/g)) pre[m[1]] = m[2];
+  for (const m of text.matchAll(/PREFIX\s+([A-Za-z0-9_-]*):\s*<([^>]+)>/gi)) pre[m[1]] = m[2];
+  const ohneLiterale = text.replace(/"""[\s\S]*?"""|"(?:[^"\\\n]|\\.)*"/g, '""');
+  const s = new Set();
+  for (const m of ohneLiterale.matchAll(/<(https?:[^>\s]+)>/g)) s.add(m[1]);
+  for (const m of ohneLiterale.matchAll(/(?<![\w"<#\/])([A-Za-z][A-Za-z0-9_-]*):([A-Za-z_](?:[A-Za-z0-9_.-]*[A-Za-z0-9_])?)/g)) {
+    if (pre[m[1]] !== undefined) s.add(pre[m[1]] + m[2]);
+  }
+  return s;
+}
+
 function quelleLesen(datei) {
+  if (/\.ttl$/i.test(datei)) {
+    const elemente = {};
+    for (const iri of turtleIris(fs.readFileSync(datei, 'utf8'))) elemente[iri] = {};
+    return { format: 'turtle', fassung: undefined, elemente };
+  }
   if (/\.xml$/i.test(datei)) {
     const x = xdfElemente(fs.readFileSync(datei, 'utf8'));
     return { format: 'xdf', fassung: x.fassung, elemente: x.elemente };
@@ -97,6 +120,13 @@ function datensatzLesen(eintrag, quellOrdner) {
     const gelesen = quelleLesen(voll).elemente;
     // Freigabestatus je Datei aus der Lock-Datei (FIM): an das Element gehängt, damit die Zeilenprüfung ihn sieht.
     if (d.freigabestatus !== undefined) for (const e of Object.values(gelesen)) e.freigabestatus = d.freigabestatus;
+    // Vokabular und Fassung je Datei (Turtle): ein Term kann in mehreren Vokabularen stehen, darum gesammelt statt überschrieben.
+    if (d.vokabular !== undefined) {
+      for (const [iri, e] of Object.entries(gelesen)) {
+        const alt = elemente[iri];
+        e.vokabulare = [...new Set([...((alt && alt.vokabulare) || []), d.vokabular + ' ' + d.fassung])].sort();
+      }
+    }
     Object.assign(elemente, gelesen);
   }
   return { elemente, abweichend };
@@ -121,6 +151,9 @@ function erheben({ register, tabelle, lock, quellOrdner }) {
     if (!ds) { befunde.push({ art: 'datensatz-nicht-gepinnt', text: ort }); continue; }
     if (!Object.prototype.hasOwnProperty.call(ds.elemente, z.ziel)) { befunde.push({ art: 'totes-ziel', text: ort + ' fehlt in Fassung ' + ds.fassung }); continue; }
     const el = ds.elemente[z.ziel];
+    if (z.vokabular !== undefined && !(el.vokabulare || []).includes(z.vokabular + ' ' + z.fassung)) {
+      befunde.push({ art: 'vokabular-weicht-ab', text: ort + ' steht nicht in ' + z.vokabular + ' ' + z.fassung + ' (gepinnt: ' + ((el.vokabulare || []).join(', ') || 'keines') + ')' }); continue;
+    }
     if (z.fassung !== undefined && el.fassung !== undefined && String(z.fassung) !== String(el.fassung)) {
       befunde.push({ art: 'fassung-weicht-ab', text: ort + ' Fassung ' + z.fassung + ', gepinnt ' + el.fassung }); continue;
     }
@@ -215,7 +248,7 @@ function eingaben(argv) {
     lock: lesenJson(path.join(FIXTURE, 'bezuege-quellen.json')), quellOrdner: path.join(FIXTURE, 'quellen') };
 }
 
-module.exports = { GRADE, SKOS, fhirElemente, openehrElemente, xdfElemente, nichtFest, freigabestatusCode, FREIGABESTATUS_LISTE, quelleLesen, datensatzLesen, erheben, fassungenVergleichen, vorschlaege, eingaben, sha256, FIXTURE };
+module.exports = { GRADE, SKOS, turtleIris, fhirElemente, openehrElemente, xdfElemente, nichtFest, freigabestatusCode, FREIGABESTATUS_LISTE, quelleLesen, datensatzLesen, erheben, fassungenVergleichen, vorschlaege, eingaben, sha256, FIXTURE };
 
 if (require.main === module) {
   const argv = process.argv.slice(2);

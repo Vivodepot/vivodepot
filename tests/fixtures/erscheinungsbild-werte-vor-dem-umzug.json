@@ -1,7 +1,7 @@
 {
- "zweck": "Die Token-Werte des Erscheinungsbilds je Ebene, wie sie VOR dem Umzug im Stylesheet des Kerns standen (:root, html.high-contrast, html.dark-mode). Erhoben aus dem Stand b759b7a4b, wörtlich verglichen (242 von 242 gleich); dazu --vorfuehrung-fs-pruefung aus der Regel .vorfuehrung-pruefung des Kanons e04f89d27 (0.85rem), beim Aufsetzen als Token gefasst. Eine gewollte Änderung eines Werts zieht diese Datei bewusst nach. NACHGEZOGEN 04.10.2026 (Befund Kontrast der Ebenen und Zustände): zwei Werte geändert (--chrome-feld-hover, --feld-rahmen-dialog) und achtzehn Werte hinzugefügt (--notfall-schrift, --auf-warnung, --btn-hover, --link je Ebene, --menue-hover, --papier-ink*, --papier-salbei-light, Nacht-Werte für --notfall-flaeche, --fehler-flaeche, --feld-fehler-schrift, --btn-sek-hover, --vollmacht-pause); gewollt, Schrift unter 4,5:1. NACHGEZOGEN 05.10.2026 (Produktentscheidung keine Serifen, 03.10.2026): ein Wert geändert (--font-narrativ von Georgia/Palatino/serif auf var(--font-inter)); Wächter tools/serifen-pruefen.js.",
+ "zweck": "Die Token-Werte des Erscheinungsbilds je Ebene, wie sie VOR dem Umzug im Stylesheet des Kerns standen (:root, html.high-contrast, html.dark-mode). Erhoben aus dem Stand b759b7a4b, wörtlich verglichen (242 von 242 gleich); dazu --vorfuehrung-fs-pruefung aus der Regel .vorfuehrung-pruefung des Kanons e04f89d27 (0.85rem), beim Aufsetzen als Token gefasst. Eine gewollte Änderung eines Werts zieht diese Datei bewusst nach. NACHGEZOGEN 04.10.2026 (Befund Kontrast der Ebenen und Zustände): zwei Werte geändert (--chrome-feld-hover, --feld-rahmen-dialog) und achtzehn Werte hinzugefügt (--notfall-schrift, --auf-warnung, --btn-hover, --link je Ebene, --menue-hover, --papier-ink*, --papier-salbei-light, Nacht-Werte für --notfall-flaeche, --fehler-flaeche, --feld-fehler-schrift, --btn-sek-hover, --vollmacht-pause); gewollt, Schrift unter 4,5:1. NACHGEZOGEN 05.10.2026 (Produktentscheidung keine Serifen, 03.10.2026): ein Wert geändert (--font-narrativ von Georgia/Palatino/serif auf var(--font-inter)); Wächter tools/serifen-pruefen.js. Nachgezogen 17.10.2026: basis --dialog-deckkraft 1 (neues Token, „heute“ deckend; kein Wert vor dem Umzug verschoben).",
  "quelle": "b759b7a4b",
- "pruefsumme": "ec554c77f7b32807395be836511470d2ce78f99aed9b34c7f6902cd49a6720d4",
+ "pruefsumme": "c0bb794446217c27762da2058aee5f7a8568dc7c26fc6950f26d641ae1f38567",
  "basis": {
   "--salbei-dunkel": "#4F6539",
   "--salbei-mid": "#7B9A6A",
@@ -243,7 +243,8 @@
   "--papier-ink": "#1c2a1e",
   "--papier-ink2": "#4a5e4f",
   "--papier-ink3": "#637568",
-  "--papier-salbei-light": "#eef2e8"
+  "--papier-salbei-light": "#eef2e8",
+  "--dialog-deckkraft": "1"
  },
  "hochkontrast": {
   "--ink": "#000000",

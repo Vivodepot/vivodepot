@@ -230,3 +230,36 @@ pruefung: tests/krypto-verbote.test.js#[Krypto a–d · Positivkontrolle] das ec
 pruefung: tests/krypto-verbote.test.js#[Krypto b · Rot-Beweis] generateKey/importKey mit privater Verwendung und extractable=true; false und verify bleiben grün
 pruefung: tests/krypto-verbote.test.js#[Krypto c · Rot-Beweis] exportKey eines privaten Schlüssels ohne Eintrag; ein öffentlicher bleibt grün
 ```
+
+## Nachtrag (16.10.2026) — „ein sign je Laden“ bekommt eine zweite, benannte Stelle: `nachweisZeichnen`
+
+**Anlass:** Befund STUDIO-SCHLUESSEL-PASST-NICHT-ZUM-ANTRAG (Teilbefund art=zertifikat von STUDIO-EINREICHUNG-ZWEI-FORMATE). Die
+Annahme des Herausgeber-Diensts nimmt für ein Zertifikat eine Antragsdatei mit öffentlichem Schlüssel und Besitznachweis /2; den
+Nachweis kann nur bilden, wer den privaten Schlüssel hält, und den hält allein der Tresor dieses Studios. Bis hierher gab der Tresor
+genau einen Griff her, `signiereEinmal`, und verbrauchte den Schlüssel dabei. Ein Nachweis in Schritt 2 hätte den Schlüssel für das
+Paket genommen.
+
+**Entscheidung:** Der Tresor bekommt genau eine weitere Methode, `nachweisZeichnen(ereignis, eingabe)`:
+- nur auf einen echten, frischen Klick am Knopf `sk-antrag` (`SCHLUESSEL_NACHWEIS_KNOPF`), mit derselben Prüfung von `isTrusted` und
+  Frist wie `signiereEinmal`; der Knopf steht bewusst nicht in `SCHLUESSEL_ERLAUBTE_KNOEPFE`, und `pr-submit` zeichnet keinen Nachweis;
+- höchstens einmal je geladenem Schlüssel (danach wirft sie), genau ein `sign`;
+- gezeichnet werden die sieben Zeilen aus `nachweisZeilen` (wortgleich aus der gemeinsamen Quelle der Rechenregeln der Antragsdatei). Zeile 1 (die Kennung
+  `vivodepot-herausgeber-besitznachweis/2`, zugleich die Trennung von jedem anderen Zweck; ein JWS-Signiereingang kennt weder
+  Zeilenvorschub noch Schrägstrich) und Zeile 3 (der RFC-7638-Fingerabdruck des gehaltenen Schlüssels) setzt der Tresor selbst. Der
+  Aufrufer gibt nur `art`, `antragId`, `angabenFingerabdruck`, `konto`, `ausstelltag`; ein Text, ein weiteres Feld oder eine andere
+  Art kommen gar nicht erst zum `sign`. Kein zusätzliches Präfix (Krypto-Wort 16.10.2026);
+- danach bleibt der Schlüssel im Speicher, aber nur für das eine Paket (`signiereEinmal` verbraucht ihn wie bisher); Zeitlimit und
+  Verwerfen bleiben unverändert. Zurück gehen die Signatur und der Fingerabdruck, nie der Schlüssel.
+
+Die Zahl der `sign`-Stellen im Studio steigt damit benannt von 3 auf 4 (`tools/krypto-aufrufer-grundlinie.json`,
+`weitereDateien["vivodepot-studio.html"].sign`).
+
+```konformitaet
+aussage:  Der Tresor zeichnet den Besitznachweis /2 genau einmal je geladenem Schlüssel, nur auf einen echten frischen Klick am Knopf
+          sk-antrag; Zeile 1 und den Fingerabdruck setzt er selbst, ein Text oder fremde Felder kommen nicht zum sign; danach bleibt
+          der Schlüssel nur für ein Paket.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/studio-tresor-nachweis-zeichnen.test.js#[Studio·Tresor·Nachweis] einmal je Schlüssel, nur echter frischer Klick an sk-antrag, nie fremde Zeile 1; danach genau ein Paket
+pruefung: tests/studio-tresor-nachweis-zeichnen.test.js#[Studio·Tresor·Nachweis·Rot-Beweis] eine Fassung ohne Sperre gegen den zweiten Aufruf zeichnet zweimal und fällt auf
+```

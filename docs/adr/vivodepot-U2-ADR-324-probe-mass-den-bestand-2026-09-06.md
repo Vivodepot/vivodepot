@@ -2,7 +2,7 @@
 
 **Status:** Akzeptiert
 **Datum:** 06.09.2026
-**Betrifft:** `tests/e2e/e4-buendel-wizard-interaktion-abnahme-u2-adr-313.spec.js` (Probe 3 neu
+**Betrifft:** eine nicht öffentliche Probe (Probe 3 neu
 geschnitten, Rot-Beweis ergänzt)
 
 - **Status heute:** gilt — **kein Produktcode geändert.** Ein reiner Proben-Zug.

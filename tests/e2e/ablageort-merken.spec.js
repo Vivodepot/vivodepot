@@ -31,7 +31,7 @@ test('[Ablageort] merken nur mit Zustimmung, nach dem Neustart ohne Dateidialog 
   const url = `http://localhost:${srv.address().port}/vivodepot.html`;
   try {
     await page.goto(url);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await opfsPicker(page);
     await depotAnlegen(page, { name: 'Anna Ablage', pw: PW });
 

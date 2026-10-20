@@ -115,7 +115,7 @@ UI-Chrome-Kennungen kollidierten mit freiem Fixture-Text (z. B. "Privat"/"und" t
 Bank Privat- und Geschäftskunden AG") — mit Beleg ausgeschlossen, nicht auf Verdacht.
 
 **Sechs neue Pro-Bereiche**, aus dem jetzt verdrahteten Pro-Bereichsmodul
-(`tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-bereich.json`, Konvoi 12) — betrifft nur
+(eine nicht öffentliche Datei, Konvoi 12) — betrifft nur
 pro-de/pro-en, unabhängig von Sprache.
 
 **Zwei echte, NICHT erklärte Befunde**, benannt statt stillschweigend übergangen: (1) das Feld

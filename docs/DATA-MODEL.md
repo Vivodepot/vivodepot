@@ -45,7 +45,7 @@ was built from, and `anzahl` gives the number of entries. Read the count from th
 a document.
 
 In the repository, the source is [`bereiche/feldkatalog.json`](../bereiche/feldkatalog.json), and
-`tools/feldregister-bauen.js` builds the published register from it. Both have the same `felder[].kennung` list, so
+A tool that is not part of the public repository builds the published register from it. Both have the same `felder[].kennung` list, so
 an offline check can use either.
 
 ## 4 · Where the schemas are

@@ -1,0 +1,247 @@
+{
+  "modulTyp": "dokumentModul",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/ki-verfuegung",
+  "fassung": 1,
+  "dokumentModule": {
+    "ki-verfuegung": {
+      "motor": "ki",
+      "abschnitte": [
+        {
+          "eingangsformel": true
+        },
+        {
+          "titel": "Testtext 1",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "basicDecision"
+            },
+            {
+              "typ": "mehrfachauswahl",
+              "feldId": "purpose",
+              "einleitungAus": {
+                "dokument": "kiKorpus",
+                "teil": "zweckEinleitung"
+              },
+              "bulletPrefix": "Testtext 2",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "einleitung": "Testtext 3"
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "ausschluss"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Testtext 4"
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 5",
+          "bloecke": [
+            {
+              "typ": "auswahl",
+              "feldId": "authorizedParties",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "refByWert": {
+                "benannte": {
+                  "platzhalter": "(Namen)",
+                  "feld": "namedIndividuals"
+                }
+              }
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "scope",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "alterVertraulichkeit"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Testtext 6",
+                "Testtext 7"
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 8",
+          "bloecke": [
+            {
+              "typ": "mehrfachauswahl",
+              "feldId": "permittedDataTypes",
+              "bulletPrefix": "Testtext 2",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "quellenbegrenzung"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Testtext 9"
+              ]
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "timeLimit",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "fuellByWert": {
+                "jahre": {
+                  "platzhalter": "(Jahre)",
+                  "feld": "numberOfYears"
+                },
+                "zeitpunkt": {
+                  "platzhalter": "(Zeitpunkt)",
+                  "feld": "date"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 10",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "kennzeichnung"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Testtext 11"
+              ]
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "behaviouralLimit",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "grundverbot"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Testtext 12"
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 13",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "widerruf"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Testtext 14"
+              ]
+            },
+            {
+              "typ": "auswahl",
+              "feldId": "digitalEstateAdministration",
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "refByWert": {
+                "benannt": {
+                  "platzhalter": "(Name)",
+                  "feld": "digitalEstateAdministration2"
+                }
+              }
+            },
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "optoutKonflikt"
+              },
+              "sichtbarWenn": {
+                "feld": "basicDecision",
+                "wert": "erlaubnis"
+              },
+              "texte": [
+                "Testtext 15",
+                "Testtext 16"
+              ]
+            }
+          ]
+        },
+        {
+          "titel": "Testtext 17",
+          "bloecke": [
+            {
+              "typ": "immer",
+              "texteAus": {
+                "dokument": "kiKorpus",
+                "teil": "schlussformel"
+              },
+              "texte": [
+                "Testtext 18"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

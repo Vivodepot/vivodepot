@@ -41,7 +41,7 @@ test('[LA1] ein verworfenes Bereichs-Modul erzeugt einen sichtbaren Hinweis', ()
   V.setData({ sektoren: { identitaet: {} }, bereichsModule: [
     /* moduleVersion 0 ist ungültig, und das Modul TRÄGT einen Bereich: es geht etwas verloren. (Bis 22.09.2026 stand hier
        `bereiche: {}`, ein leeres Modul; das ist nach der Grenze „nur Verluste zählen" kein Anlass mehr, s.
-       tests/lese-app-stumme-zurueckweisung.test.js.) */
+       eine nicht öffentliche Probe.) */
     { modulTyp: 'bereich', moduleVersion: 0, herkunft: 'kaputt', bereiche: { 'x-bereich': { label: 'X' } } },
   ] });
   V._foldVollmachtenLesen(V.getData());

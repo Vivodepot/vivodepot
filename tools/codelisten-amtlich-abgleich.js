@@ -28,7 +28,11 @@ const path = require('node:path');
 const REPO = path.join(__dirname, '..');
 const EQF_DQR = path.join(REPO, 'tools', 'codelisten-amtlich', 'eqf-dqr.json');
 const FIXTURE = path.join(REPO, 'tests', 'fixtures', 'codelisten-abgleich-erfunden');
-const VORLAGEN = [path.join(REPO, 'tools', 'bereich-templates'), path.join(REPO, 'tools', 'buergermodul')];
+// Die Vorlagen liegen im Kanon; der öffentliche Zuschnitt trägt nur ihre erfundenen Gegenstücke (tools/lib/vorlage-aufloesen.js). Die Währungs-Optionen
+// (`wert`) sind technische Bezeichner und bleiben dort erhalten, der Abgleich gegen ISO 4217 prüft also auch dort.
+const { vorlagenOrdnerAufloesen } = require('./lib/vorlage-aufloesen.js');
+const VORLAGEN = [path.join(REPO, 'tools', 'bereich-templates'), path.join(REPO, 'tools', 'buergermodul')]   // zuschnitt-privat: öffentlich liest das Werkzeug die erfundenen Gegenstücke (vorlagenOrdnerAufloesen)
+  .map((ordner) => vorlagenOrdnerAufloesen(REPO, ordner)).filter(Boolean);
 const NACHWEISE = path.join(REPO, 'tests', 'fixtures');
 
 function dateienUnter(dir, muster) {

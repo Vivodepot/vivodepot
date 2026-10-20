@@ -79,14 +79,14 @@ test('[Zug0] Blackbox-Export öffnet über den gewöhnlichen Datei-Einstieg in e
     // GEÄNDERT (Auftrag, 12.09.2026): seit internerSpeicherModus() unter file:// echt
     // greift, hat der Anker-Anlegen-Schritt (Zeile 59) den Stand bereits still gesichert
     // (ADR-237) — der Reload zeigt darum den Wiedereinstieg-Bildschirm statt der leeren Landung
-    // #w-anlass, auf die diese Probe wartet (derselbe Fund wie tests/konformitaet/offline-
+    // #w-anlegen, auf die diese Probe wartet (derselbe Fund wie tests/konformitaet/offline-
     // garantie.mjs Schritt 8, Commit 8fd58ac3). Der Kommentar oben sagt selbst, was gewollt ist
     // — „kein interner Zustand" — darum für GENAU diese Navigation erzwungen, nicht angenommen.
     await page.addInitScript(() => {
       try { Object.defineProperty(window, 'indexedDB', { configurable: true, value: undefined }); } catch (_) {}
     });
     await page.reload();
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
 
     // Gewöhnlicher Datei-Einstieg — derselbe Weg, den eine Anker-Datei nimmt.
     await page.click('#w-datei');

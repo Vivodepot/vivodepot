@@ -106,7 +106,7 @@ async function main() {
 
   const { server, port } = await seiteAusliefern(ordner);
   const basis = `http://127.0.0.1:${port}/empfangen.html`;
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   /* acceptDownloads ausdrücklich: die Probe prüft, dass die Bürgerin das Dokument wirklich
      SPEICHERN kann. Ohne diesen Schalter verwirft der Kontext das Herunterladen stumm, und
      die Probe misst etwas anderes als sie behauptet. */

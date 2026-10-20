@@ -42,7 +42,7 @@ const { test, expect } = require('@playwright/test');
 const { oeffneApp, depotAnlegen } = require('./helpers.js');
 const { echtesProduktUrl, registerFormularGeburtsdatumWeg, gebwizGeburtsdatumWeg } = require('./durchklick-abnahme-helpers.js');
 
-const SLUGS = ['privat-de', 'privat-en', 'pro-de', 'pro-en'];
+const SLUGS = ['privat-de', 'privat-en', 'pro-de', 'pro-en'].filter((s) => require('./helpers.js').baubar(s));
 const WEGE = {
   'register-formular': registerFormularGeburtsdatumWeg,
   gebwiz: gebwizGeburtsdatumWeg,

@@ -31,11 +31,6 @@ installation, no registration. Optionally add it to your home screen or install 
 offline. On first start the application creates a new, password-protected depot and stores it as its
 own file. Step by step: [`QUICKSTART_en.md`](QUICKSTART_en.md).
 
-To build your own single file from this repository, run `node tools/vier-produkte-erzeugen.js` and
-open `produkte/privat-en/vivodepot.html` — the `vivodepot.html` in the root is the scaffold without
-language and area modules. Building, testing and running your own copy:
-[`DEVELOPING.md`](DEVELOPING.md).
-
 Most of the test layer is included: probes in `tests/`, tooling in `tools/`, workflows in
 `.github/`. Probes that name internal processes or withheld test data stay out;
 [`docs/pruefebene.md`](docs/pruefebene.md) (German) describes how testing works and by which rule
@@ -79,4 +74,4 @@ Responsibility for, review of and approval of every change lie with Vivodepot Gm
 
 ## Version
 
-Version v931.
+Version v933.

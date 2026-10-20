@@ -7,7 +7,7 @@
 **U2-Bezug:** U2-ADR-097 (produkttragende Zusicherungen) · U2-ADR-098 (Klausel-Format) ·
 U2-ADR-099 (Prüfstand) · U2-ADR-064 (Sub-Depots als Liste-Record)
 **Anker:** Vollerhebung 26.07.2026, Rang-1-Posten „RAM-Wipe Sub-Depot-Schlüssel" ·
-Report `ram-wipe-politik-a-report-2026-07-26.md` (read-only gegen `12132f1`)
+interner Bericht vom 26.07.2026 (read-only gegen `12132f1`)
 **Status heute:** teilweise überholt durch U2-ADR-184 — die Politik-A-Zeitfrage (Teil 2: sofort
 vs. mit 30-Minuten-Gnadenfrist) ist dort iteriert, siehe Nachtrag am Ende dieser Datei. Teil 1
 (Teardown-Reihenfolge/-Vollständigkeit: `data` zuerst lösen, dann `sessionSubKeys`/`_ankerData`/

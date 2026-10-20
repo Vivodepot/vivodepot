@@ -9,7 +9,7 @@ belegt, an `cb`s "Vier reservierte Klassennamen" gefallen, 342 freigegeben)
 **Bezug:** U2-ADR-181 (`modulEinlassen`/`pruefstufe`) · U2-ADR-258 (Herkunft beim Empfänger) ·
 U2-ADR-335 (die Lese-App liest, sie prüft nicht — die harte Auflage für Teil 2) ·
 U2-ADR-040 (`_plan.beleg`, das Vorbild bei `importierteVorlagen`) · A467 (die erzwungene Gruppe,
-`anbieterIdGeprueft`) · Befund `lese-app-liest-statt-prueft-2026-09-06.md` §6
+`anbieterIdGeprueft`) · Befund (interner Bericht vom 06.09.2026) §6
 
 ---
 

@@ -233,7 +233,7 @@ function bereichFiltern(b) {
 }
 
 /* Die Liste aus dem laufenden Kern — kein Depot nötig (dieselbe Bauart wie
-   tools/build-bereiche.js): die Struktur hängt nicht am Depot-Zustand, nur
+   ein nicht öffentliches Werkzeug): die Struktur hängt nicht am Depot-Zustand, nur
    die Textsatz-Anwendung beim Booten, und die läuft immer. */
 function sektorenAusKern() {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));

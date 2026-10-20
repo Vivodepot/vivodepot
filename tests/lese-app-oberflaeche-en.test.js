@@ -2,7 +2,7 @@
 /* ═══════════════════════════════════════════════════════
    Lese-App: jeder Text der eigenen Oberfläche hat eine englische Fassung (B3-Nachtrag, 19.09.2026)
    ───────────────────────────────────────────────────────
-   Befund aus dem echten Browser (tests/e2e/lese-app-englisch.spec.js): 70 der 102 Texte der Lese-App gibt es nur dort (Willkommen,
+   Befund aus dem echten Browser (eine nicht öffentliche Probe): 70 der 102 Texte der Lese-App gibt es nur dort (Willkommen,
    Passwort, Banner, Notfall-Blatt, Antwort, Kamera, Fehler). Der Kern kennt sie nicht, ihre englische Fassung fehlte überall: eine
    englische Datei erschien mit deutscher Oberfläche. Jetzt: LESE_TEXTE_EN (App-eigen) + ZUSICHERUNG_TEXTE_EN (Zusicherungen) decken jeden
    Schlüssel. Ein neuer deutscher Text ohne Englisch ist rot. S1 (21.09.2026): bis dahin deckte die Region AB_WERK_TEXTSATZ_EN (Kern-gleiche

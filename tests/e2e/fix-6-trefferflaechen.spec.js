@@ -44,6 +44,9 @@
    — hier ist keiner.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+// Öffentlicher Zuschnitt (20.10.2026, öffentlicher Lauf v933): erkannt an der öffentlichen Kopfzeile der Wurzeldatei; Weichen je Test mit Grund, gedeckelt
+// in tests/e2e-oeffentlich-weichen.test.js.
+const OEFFENTLICHER_ZUSCHNITT = require('../../tools/lib/wurzel-kopfzeile.js').imOeffentlichenZuschnitt(require('node:path').join(__dirname, '..', '..'));
 const path = require('node:path');
 const { oeffneApp, depotAnlegen } = require('./helpers');
 
@@ -141,6 +144,8 @@ test.describe('Fixliste Nr. 6 — Trefferflächen', () => {
      draussen bleiben — sonst fiele die Ausnahme eines Tages still weg oder
      wüchse still an. */
   test('Negativkontrolle: Links im Fliesstext bleiben ausgenommen — und es gibt sie wirklich', async ({ page }) => {
+    // FIXME-ID: OEFFENTLICH-VORLAGEN-FIX6
+    test.skip(OEFFENTLICHER_ZUSCHNITT, 'öffentlich ohne die zurückgehaltenen Vorlagen');   // gemessen 20.10.2026: mit den Vorlagen grün
     await page.setViewportSize(HANDY);
     await oeffneApp(page);
     await depotAnlegen(page);

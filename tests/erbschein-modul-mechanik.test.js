@@ -167,11 +167,11 @@ test('[Erbschein-Regal] modulKarteStatus: ein immerVerfuegbar-Modul zeigt NICHT 
   assert.notEqual(status, 'keine');
 });
 
-test('[Erbschein-Regal] modulKarteStatus: Bestandsmodule (kein immerVerfuegbar) bleiben unverändert bei "keine"', async () => {
+test('[Erbschein-Regal] modulKarteStatus: Bestandsmodule (kein immerVerfuegbar) zeigen ohne Eintrag nichts (Depot freiwillig, „keine“ entfiel 09.10.2026)', async () => {
   const { V } = await ladeKern();
   await V.depotAnlegen('Erbschein-Regal-2026!');
   const status = V.modulKarteStatus(V.VORSORGE_MODUL_BY_ID['sorgerechtsverfuegung']);
-  assert.equal(status, 'keine');
+  assert.equal(status, '');
 });
 
 test('[Erbschein-Daten] Testament ohne form-Angabe: testament_form bleibt Lücke, kein Absturz', async () => {

@@ -11,7 +11,7 @@
 
    GEMESSEN, NICHT MEHR ZWEIMAL GESETZT (U2-ADR-384, 08.09.2026): bis dahin
    stand hier eine von Hand getippte zweite Fassung derselben Werte — derselbe
-   Fehler, den `tools/buergermodul-schnitt.js` für den Markennamen schon
+   Fehler, den `ein nicht öffentliches Werkzeug` für den Markennamen schon
    ausschließt („DER MARKENNAME WIRD GEMESSEN, NICHT GESETZT"). Seit U2-ADR-384
    ist `AB_WERK_BRANDING` ein echter Kern-Wert (`vivodepot.html`, direkt vor
    `_markeName`) — Vivodepots eigene Marke läuft dort ab Werk durch dieselbe

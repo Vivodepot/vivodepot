@@ -8,8 +8,8 @@ const { oeffneApp } = require('./helpers');
 test('[PW-Vorschlag] vorschlagen, übernehmen, anlegen — der Hinweis gilt nur dem eigenen Passwort', async ({ page }) => {
   await oeffneApp(page);
   await page.click('#w-anfangen');
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');
+  await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
+  await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await page.waitForSelector('#id-pw', { state: 'visible' });
   await page.fill('#id-vorname', 'Maria');
   await page.fill('#id-nachname', 'Mustermann');

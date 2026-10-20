@@ -2,7 +2,7 @@
 
 **Status:** Akzeptiert
 **Datum:** 06.09.2026
-**Betrifft:** `tests/erzeuger-deckung-wizards-katalog.test.js`
+**Betrifft:** eine nicht öffentliche Probe
 
 - **Status heute:** gilt — jeder Katalogverweis aus `WIZARDS` und jeder feldbezogene Verweis
   **innerhalb** des Bündels ist gegen beide Träger geprüft, mit Rot-Beweisen für beide Klassen.
@@ -68,7 +68,7 @@ Option weniger. **Ein Assistenten-Schritt mit halbem Angebot, ohne dass irgendet
 `WIZARDS` einbaut, ist automatisch gedeckt. Eine gepflegte Liste wäre genau der Wächter, der den
 nächsten Fall nicht kennt — dieselbe Lehre wie bei der Rechtsraum-Ratsche (U2-ADR-307).
 
-**Beide Träger, nicht einer.** Die Prüfung läuft gegen `tools/vd-privat-struktur-bundle.json`
+**Beide Träger, nicht einer.** Die Prüfung läuft gegen eine nicht öffentliche Datei
 **und** gegen das im Kern eingebettete `BUERGERMODUL_BUENDEL` — 87s Form aus U2-ADR-310 Probe 3.
 Ausgeliefert wird das eingebettete; die Platte allein zu prüfen genügte nicht.
 

@@ -12,7 +12,7 @@
      node tools/navicon-einsetzen.js --quelle <kern> …       anderer Kern, etwa der eines Partnerprodukts (White Label)
      node tools/navicon-einsetzen.js --wurzel <dir> …        anderes Verzeichnis mit Seiten (Vorgabe: das Repo)
 
-   Probe: tests/navicon-alle-seiten.test.js
+   Probe: eine nicht öffentliche Probe
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');

@@ -4,9 +4,9 @@
    (`advanceCare.<id>`). Ihr Wortlaut steht aber schon im Satz des Assistenten (`wizard:pvwiz.<id>.label`,
    `wizard:pvwiz.<id>/<wert>.label`), bei den Optionen als amtlicher Wortlaut des BMJ.
    Diese Funktion ERFINDET KEINEN TEXT: sie liest je Sprachmodul die Kennung des Assistenten und legt denselben
-   Wortlaut unter die Feld-Kennung. Beide Erzeuger (tools/textsatz-de-modul-erzeugen.js,
-   tools/textsatz-en-modul-erzeugen.js) rufen sie auf; so gibt es weiter nur eine gepflegte Fassung.
-   Probe: tests/pv-festlegungen-kennungen.test.js "[PV·Textsatz]". */
+   Wortlaut unter die Feld-Kennung. Beide Erzeuger (ein nicht öffentliches Werkzeug,
+   ein nicht öffentliches Werkzeug) rufen sie auf; so gibt es weiter nur eine gepflegte Fassung.
+   Probe: eine nicht öffentliche Probe "[PV·Textsatz]". */
 
 function pvFestlegungenTexte(texte, pvIds) {
   const raus = {};

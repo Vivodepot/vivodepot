@@ -3,7 +3,7 @@
    neben dem Anzeigetext `wert` den Rohwert `roh`. Bei einer Liste ist `roh` die ganze Liste — und damit ging hinaus, was die
    Anzeige zurückhält:
    · die Bedingungen einer KI-Verfügung, nachdem die Grundentscheidung auf „untersagung“ umgestellt wurde (dieselbe Klasse wie
-     U2-ADR-NNN vom 17.09.2026, „offener JSON-Vollexport entfernt“, nur an einem anderen Ausgang);
+     U2-ADR-508 vom 17.09.2026, „offener JSON-Vollexport entfernt“, nur an einem anderen Ausgang);
    · ein sensibles Unterfeld (die Eintragungsnummer im Zentralen Vorsorgeregister) ohne Opt-in der Inhaberin.
    Gemessen am Kanon 2cfee5ea8: zusammenstellungDatensatz und anlassDatensatz('krankenhausakut') trugen beides, ohne Opt-in;
    die Dateien dazu schreiben flowZusammenstellungHerausgeben und flowAnlassExport unverschlüsselt.

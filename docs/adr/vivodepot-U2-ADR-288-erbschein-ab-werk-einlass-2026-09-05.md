@@ -8,8 +8,8 @@ Depot. Die Konstante, `_abWerkAuszugPflicht` (der Boot-Wurf, der ein leeres Ger�
 Nachlieferung der Schema-Stufe 79 entfallen; Stufe 87 räumt eine alte Kopie aus dem Depot. Was der Entscheid wollte, die Bürgerin sieht den
 Auszug ohne Einlass, hält `tests/erbschein-ab-werk-einlass.test.js` jetzt am gebauten Produkt. Der Text unten beschreibt den Weg
 vor Schema 87. Betroffen waren `vivodepot.html` (`depotAnlegen()`, `depotNormalisieren()` Schema 78→79, `.modal`/`.modal-koerper`/`.modal-aktionen`),
-`tools/erbschein-vorbereitung-modul-erzeugen.js` → `tools/erbschein-vorbereitung-modul.json`,
-`tests/erbschein-ab-werk-einlass.test.js`, `tests/erbschein-modul-tools-byte-gleichheit.test.js`,
+`tools/erbschein-vorbereitung-modul-erzeugen.js` → eine nicht öffentliche Datei,
+`tests/erbschein-ab-werk-einlass.test.js`, eine nicht öffentliche Probe,
 `tests/weg-hilfen.js` und sechs weitere Dateien mit demselben `closest()`-Nachtrag (s. §Nachtrag).
 **Bezug:** Definition of Done, Posten „in Bürgerdepot eingelassenes Juratemplate (Erbschein)" ·
 Siebtes-Register-Auftrag (27.08.2026, führte den Fremdmodul-Einlass für Erbschein ein) ·
@@ -144,12 +144,12 @@ Zertifikats-Ausstellung") — das genaue Gegenteil eines über `EINLASS_REGISTER
 `tools/textsatz-en-modul.json` (dasselbe Muster: Vivodepots eigenes, unsigniertes Modul, real
 ausgeliefert statt nur getestet): **`tools/erbschein-vorbereitung-modul-erzeugen.js`** liest die
 eine Quelle, validiert sie über den echten `logikModulPruefen`-Pfad und schreibt
-**`tools/erbschein-vorbereitung-modul.json`** — ein reales, herunterladbares Erzeugnis für den
+**eine nicht öffentliche Datei** — ein reales, herunterladbares Erzeugnis für den
 Weg (b) (Institutions-/Website-Distribution), falls dieser später zusätzlich gebaut wird.
 
 **Drei Kopien, ein Wächter.** Dieselbe Modul-Nutzlast liegt jetzt an drei Stellen — Quelle
 (`tests/fixtures/…json`), Erzeugnis (`tools/…json`), eingebettete Konstante
-(`vivodepot.html`). `tests/erbschein-modul-tools-byte-gleichheit.test.js` hält Quelle und
+(`vivodepot.html`). eine nicht öffentliche Probe hält Quelle und
 Tools-Erzeugnis byte-identisch (mit Rot-Beweis); `tests/erbschein-ab-werk-einlass.test.js` hält
 die eingebettete Konstante inhaltsgleich zur Quelle (`assert.deepEqual` nach `JSON.parse` — die
 Konstante ist minifiziert, kein Byte-Vergleich möglich, aber derselbe Anspruch).
@@ -165,7 +165,7 @@ Konstante ist minifiziert, kein Byte-Vergleich möglich, aber derselbe Anspruch)
   `ungeprueft:true`-Nachweis.
 - `tests/e2e/erbschein-vorbereitungsauszug-abnahme.spec.js`: derselbe Beweis im echten Browser,
   ohne jeden Datei-Upload.
-- `tests/erbschein-modul-tools-byte-gleichheit.test.js`: Quelle und Tools-Erzeugnis bleiben
+- eine nicht öffentliche Probe: Quelle und Tools-Erzeugnis bleiben
   byte-gleich, mit Rot-Beweis.
 
 ## Angepasste Bestandsproben — Testfix, kein Produktfix

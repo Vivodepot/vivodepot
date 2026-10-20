@@ -5,7 +5,7 @@
 **Bezug:** internes Architekturdokument vom 23.07.2026,
 internes Dokument zu Fehlerklassen vom 22.07.2026, U2-ADR-098 (Format)
 **Linie:** U2
-**Status heute:** gilt — Beleg `tests/pruefstand-bindung.test.js`.
+**Status heute:** gilt — Beleg eine nicht öffentliche Probe.
 
 ---
 

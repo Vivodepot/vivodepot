@@ -3,7 +3,7 @@
 **Status:** Akzeptiert
 **Datum:** 22.06.2026
 **Kategorie:** ARCHITEKTUR, PROVENIENZ, BUGFIX
-**Grundlage:** Rückkehrer-Datenverlust-Befund (intern, `befund-rueckkehrer-akteur-speichern-tot-2026-06-22.md`) + Produktentscheidung „Option A". Folge-Entscheidung zu U2-ADR-005 (Urheberschaft/Provenienz).
+**Grundlage:** Rückkehrer-Datenverlust-Befund (interner Bericht vom 22.06.2026) + Produktentscheidung „Option A". Folge-Entscheidung zu U2-ADR-005 (Urheberschaft/Provenienz).
 **Drei-Anker:**
 - **Code-Stelle:** `vivodepot.html` — `inhaberAkteurEtablieren` / `_inhaberPersonIdFinden` (Drei-Stufen-Wiederfindung), Hook in `betreteApp()` (`if (!sitzungsAkteur && !imVorschau()) …`), additives Feld `data.inhaberPersonId` (in `leeresDepot` + beim Anlegen in `_depotAusPasswortFinalisieren` gesetzt), Sicherheitsnetz im `ui.modal`-Catch (`console.error` + `STRINGS.aktionFehlgeschlagen`-Toast); Tests `tests/wiedereintritt-akteur.test.js` (WA-1..11).
 - **Sprint-Commit:** `e78f6db` (lokal, kein Push).

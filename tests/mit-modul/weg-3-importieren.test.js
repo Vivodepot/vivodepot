@@ -58,7 +58,7 @@ async function seiteMitDepot(browser) {
   seite.setDefaultTimeout(2000);
   await seite.click('#w-anfangen');
   await seite.waitForTimeout(300);
-  await seite.click('#tb-pw-hinweis');
+  await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   await seite.waitForTimeout(300);
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'], ['#id-pw', PW], ['#id-pw2', PW]]) {
     await seite.fill(sel, wert);
@@ -179,7 +179,7 @@ async function wegGehen(seite, dateipfad) {
 
 test('[Weg 3] Importieren — Datei waehlen, Vorschau lesen', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   let datei = null;
   try {
     const { seite, fehler } = await seiteMitDepot(browser);
@@ -199,7 +199,7 @@ test('[Weg 3] Importieren — Datei waehlen, Vorschau lesen', async () => {
 /* ── POSITIVKONTROLLE (§3.5b) ─────────────────────────────────────────────── */
 test('[Weg 3·Positivkontrolle] ohne Datei-Feld bricht der Weg mit der erwarteten Meldung', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   let datei = null;
   try {
     const { seite } = await seiteMitDepot(browser);
@@ -219,7 +219,7 @@ test('[Weg 3·Positivkontrolle] ohne Datei-Feld bricht der Weg mit der erwartete
 /* ── NEGATIVKONTROLLE (§3.5d) ─────────────────────────────────────────────── */
 test('[Weg 3·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   let datei = null;
   try {
     const { seite } = await seiteMitDepot(browser);

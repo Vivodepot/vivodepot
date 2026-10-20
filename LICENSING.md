@@ -50,7 +50,7 @@ Was das bedeutet:
 - Die EUPL-1.2 ist reziprok — abgeleitete Werke müssen wieder unter EUPL-1.2 (oder einer
   kompatiblen Lizenz) verfügbar sein.
 
-Wer unsignierte Module, eigene Vorlagen oder Produkte baut, findet die Werkzeuge dafür in diesem
+Wer unsignierte Module oder eigene Vorlagen baut, findet die Werkzeuge dafür in diesem
 Repository. Eine Signatur unter dem Vivodepot-Anker stellt der Ausgabebetrieb aus; er ist ein
 Dienst, kein Teil der Software. Die Anwendung kennzeichnet unsignierte Module als unsigniert.
 
@@ -80,7 +80,7 @@ Lizenz und Verfügbarkeit sind zwei Fragen. Unter EUPL-1.2 steht alles, was zum 
 - Der Nachweis-Aussteller (VC-Issuer): im öffentlichen Repository
 - Das Schlüssel-Teilen: im öffentlichen Repository
 - Der Konfektionierer: im öffentlichen Repository
-- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (3 von 13 zurückgehalten)
+- Die Signier- und Zertifikatswerkzeuge: teilweise im öffentlichen Repository (7 von 13 zurückgehalten)
 - Die Modul- und Vorlagen-Erzeuger: im öffentlichen Repository
 <!-- VERFUEGBARKEIT:END de -->
 
@@ -124,8 +124,8 @@ Not part of the open project: the signing and issuing service, that is
 the keys and the procedure by which Vivodepot issues certificates and
 signs modules, templates and recipes. Anything from it that has already
 been published under the EUPL-1.2 stays under the EUPL-1.2. The tools
-for building unsigned modules, your own templates or products are in
-this repository. A signature under the Vivodepot anchor is issued by the
+for building unsigned modules or your own templates are in this
+repository. A signature under the Vivodepot anchor is issued by the
 issuing service; it is a service, not part of the software. The
 application marks unsigned modules as unsigned.
 
@@ -181,7 +181,7 @@ Licence and availability are two questions. Everything in the open project is un
 - The credential issuer (VC issuer): in the public repository
 - Key sharing: in the public repository
 - The product assembler: in the public repository
-- The signing and certificate tools: partly in the public repository (3 of 13 held back)
+- The signing and certificate tools: partly in the public repository (7 of 13 held back)
 - The module and template builders: in the public repository
 <!-- VERFUEGBARKEIT:END en -->
 

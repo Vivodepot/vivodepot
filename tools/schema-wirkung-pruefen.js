@@ -55,7 +55,7 @@ const AUSNAHMEN = Object.freeze({
   templatesJws:        'Dieselbe Sammel-Struktur, für die Signaturen. Ersetzt das vormals einzelne templateJws (dieses wirkte im Kern über STANDARD_VORLAGEN — ein anderer Pfad, andere Herkunft, keine Wirkungs-Verwandtschaft mit diesem Feld).',
   // U2-ADR-409 Punkt 3/5 (13.09.2026): ein Kennungs-Vorschlag. Beide Felder wirken ABSICHTLICH
   // nicht im Kern/Depot — sie sind an die Freigabe im Postfach gerichtet, nie an ein Depot-Feld.
-  // Erst NACH Freigabe entsteht (über `tools/build-feldkatalog.js`/`tools/feldregister-bauen.js`)
+  // Erst NACH Freigabe entsteht (über `ein nicht öffentliches Werkzeug`/`ein nicht öffentliches Werkzeug`)
   // eine Kennung, die dann wie jede andere im Kern wirkt; bis dahin ist sie ein Vorschlag, kein
   // Feld. Dieselbe Klasse wie `useCase` — Freitext für die Prüfstelle, nicht für den Kern.
   kennungVorschlaege:  'Ein Kennungs-Vorschlag ist an die Freigabe im Postfach gerichtet (U2-ADR-409), nicht an ein Depot-Feld — erst eine freigegebene Kennung wirkt, dann über den Feldkatalog wie jede andere.',

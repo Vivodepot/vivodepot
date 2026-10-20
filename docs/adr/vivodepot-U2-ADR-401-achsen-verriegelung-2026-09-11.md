@@ -9,8 +9,8 @@
 Rückfall/-Reichweite).
 **Anker:** Entscheidung vom 11.09.2026, wörtlich: „Welche Achsen der Zusammensetzung können
 zwei Werte gleichzeitig tragen, und welche schließen sich aus?" — beantwortet durch eine Erhebung
-gegen die Datenstruktur (Bericht `achsen-exklusiv-oder-additiv-2026-09-11.md`), dann gegen einen
-Vorbau-Auftrag „report before build" (`achsen-schutz-luecken-vor-dem-bau-2026-09-11.md`).
+gegen die Datenstruktur (interner Bericht vom 11.09.2026), dann gegen einen
+Vorbau-Auftrag „report before build" (interner Bericht vom 11.09.2026).
 **Status heute:** gilt — drei Fixes gebaut, Rot-Beweise grün.
 
 ---

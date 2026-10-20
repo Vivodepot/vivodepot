@@ -230,7 +230,8 @@ test('5) Pausen-Zeile als Abschluss pro Bereich', async () => {
   await V.depotAnlegen(PW);
   V.renderSektor(testSektor());
   const html = document.getElementById('content').innerHTML;
-  assert.ok(html.includes('<p class="pause-erlaubnis">' + V.STRINGS.pausenErlaubnis + '</p>'),
+  // Seit U2-ADR-474 kommt die Zeile aus dem Speichermodell (speicherSatz), je nach Modus.
+  assert.ok(html.includes('<p class="pause-erlaubnis">' + V.speicherSatz('bereichsende') + '</p>'),
     'Pausen-Erlaubnis-Phrase mit Sie-Form');
 });
 
@@ -243,8 +244,8 @@ test('5) Keine Emoji im Markup; Sie-Form (Pflicht-Marker per ARIA, nicht „Du")
   // Sie-Form: das einzige Maschine-Wort ist die Pausen-/Speicher-Zusage (Finding 1 04.07. umformuliert —
   // Bezug auf die String-Konstante, nicht auf den konkreten Wortlaut, damit die Sie-Form-Prüfung
   // Umformulierungen übersteht).
-  assert.ok(html.includes(V.STRINGS.pausenErlaubnis), 'Pausen-/Speicher-Zusage gerendert');
-  assert.ok(/\bIhre?\b/.test(V.STRINGS.pausenErlaubnis), 'Sie-Form (Ihr/Ihre) in der Zusage');
+  assert.ok(html.includes(V.speicherSatz('bereichsende')), 'Pausen-/Speicher-Zusage gerendert');
+  assert.ok(/\bIhre?\b/.test(V.speicherSatz('bereichsende')), 'Sie-Form (Ihr/Ihre) in der Zusage');
   // Keine Du-Form in Maschine-erzeugten Texten.
   assert.equal(/\bdu\b|\bdein(e|er|en|em)?\b|\bdir\b|\bdich\b/i.test(html), false,
     'keine Du-Form in der Maschine');

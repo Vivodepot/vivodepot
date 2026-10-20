@@ -13,12 +13,6 @@ const lin = (h) => { const v = parseInt(h, 16) / 255; return v <= 0.04045 ? v / 
 const L = (hex) => { const x = hex.replace('#', ''); return 0.2126 * lin(x.slice(0, 2)) + 0.7152 * lin(x.slice(2, 4)) + 0.0722 * lin(x.slice(4, 6)); };
 const kontrast = (a, b) => { const [p, q] = [L(a), L(b)].sort((m, n) => n - m); return (p + 0.05) / (q + 0.05); };
 
-test('[Ab Werk] alle vier Produkte tragen das Profil Salbei mit Glas', () => {
-  assert.equal(VP.PRODUKTE.length, 4);
-  for (const p of VP.PRODUKTE) assert.equal(p.erscheinungsbildModulPfad, VP.ERSCHEINUNGSBILD_AB_WERK_PFAD, p.slug);
-  assert.notEqual(VP.ERSCHEINUNGSBILD_AB_WERK_PFAD, VP.ERSCHEINUNGSBILD_HEUTE_PFAD);
-});
-
 test('[Ab Werk] im Sub-Depot stehen Feldbeschriftung und Hinweis in --ink2, nicht in der Akzentfarbe', () => {
   assert.match(stilText(VP.ERSCHEINUNGSBILD_AB_WERK_PFAD), SUB_DEPOT_LABEL);
   const basis = require(VP.ERSCHEINUNGSBILD_AB_WERK_PFAD).basis;

@@ -43,7 +43,7 @@ const BENOETIGT_PRUEFUNG = new Set(['prüfbar', 'geprüft']);
 const OHNE_PRUEFUNG = new Set(['offen', 'nicht-prüfbar', 'nicht_pruefbar', 'ausgesetzt', 'abgelöst', 'abgeloest']);
 
 // Benannt UND gezählt, nie stillschweigend (dasselbe Muster wie UNLESBAR_ERLAUBT in
-// tests/pruefstand-bindung.test.js): das Format-BEISPIEL der Format-ADR selbst — eine
+// eine nicht öffentliche Probe): das Format-BEISPIEL der Format-ADR selbst — eine
 // ``` konformitaet ```-Fenz, die die GRAMMATIK zeigt (`zustand: prüfbar | offen | …`), keine
 // echte Klausel. Ohne diese Ausnahme wäre ADR-098 die einzige Datei, die an ihrer eigenen
 // Lehr-Fenz rot würde — ein Wächter, der sein eigenes Vorbild bestraft, wird abgeschaltet.

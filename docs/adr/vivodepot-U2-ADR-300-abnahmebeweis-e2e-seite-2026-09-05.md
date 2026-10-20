@@ -6,7 +6,7 @@
 Sprache/Rechtsraum/Branding (s. §4, Grenze benannt)
 **Bezug:** das Produktabnahmekriterium (03.09.2026, wörtlich: „Am Ende möchte ich ‚mein'
 Bürgerdepot haben. Als wäre nichts gewesen") · U2-ADR-292 (Ladeweg auf die Erste-Partei-Zone,
-`buergermodulSektorErsetzen`) · U2-ADR-291 (Vier-Module-Schnitt, `tools/buergermodul/vd-privat.json`)
+`buergermodulSektorErsetzen`) · U2-ADR-291 (Vier-Module-Schnitt, eine nicht öffentliche Datei)
 · U2-ADR-276 (Golden Master Ausgabewege — Wege übernommen, nicht sein Urteil) · U2-ADR-298
 (nie über Indizes vergleichen) · U2-ADR-299 (7as Kern-Seite, dieselbe Aufteilung, dieselbe
 Korrektur „gegen das echte Bündel, nicht gegen sich selbst")
@@ -29,7 +29,7 @@ eine geöffnete Datei). Keine Seite kann die andere ersetzen.
 **A** = nativ an, kein Modul — der heutige, ausgelieferte Zustand.
 **B** = nativ aus, Modul geladen — `buergermodulSektorErsetzen` (U2-ADR-292) ersetzt jeden der
 dreizehn nativen Sektoren durch das ECHTE, ausgelieferte Bündel
-(`tools/buergermodul/vd-privat.json`, U2-ADR-291).
+(eine nicht öffentliche Datei, U2-ADR-291).
 
 ---
 
@@ -41,7 +41,7 @@ Modul-Definitionen zurück (dieselbe Technik wie U2-ADR-292s eigener Beweis,
 (U2-ADR-299 §1): eine Selbstreferenz beweist nur, dass der Kern sich selbst gleicht — nie, dass
 die tatsächlich AUSGELIEFERTE Bündel-Datei veraltet, anders sortiert oder fehlerhaft sein könnte.
 
-**Hier übernommen, nicht neu erfunden:** diese Datei lädt `tools/buergermodul/vd-privat.json`
+**Hier übernommen, nicht neu erfunden:** diese Datei lädt eine nicht öffentliche Datei
 real von der Platte, wandelt seine Schnitt-Ausgabeform (`{bereiche:{sektorId:{sektionen:[{id,
 felder:[{id,…,unterFelder}]}]}}}`) über eine reine Hüllen-Umwandlung in die flache Erzeuger-Form
 um, die `buergermodulSektorErsetzen` verlangt (`{sektorId, sektionId, feldId, unterVon, feld}`) —

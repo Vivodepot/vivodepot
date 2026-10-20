@@ -161,7 +161,7 @@ test('[Zug3.1·DIE GEGENPROBE] PDF, Datensatz und QR tragen unverändert — kei
   assert.deepEqual(neu.pdf, alt.pdf, 'das PDF trägt nach der Streichung andere Zeilen');
   /* Klärung 17.09.2026 — unrelated zur Streichung: `_zurueckgehalten` ist ein NEUER
      Top-Level-Umschlag-Schlüssel, seit vollExportJSON() alle sieben Ab-Werk-Mitschrift-Fächer
-     ehrlich zählt statt drei davon zu übersehen (Migrationsbeleg-Klärung, U2-ADR-NNN3) — ein
+     vollständig zählt statt drei davon zu übersehen (Migrationsbeleg-Klärung, U2-ADR-506) — ein
      reiner Umschlag-Zuwachs seit dem Vergleichsstand VOR_DER_STREICHUNG, kein durch die
      docx-Streichung verschwundenes oder verändertes Feld. Am Vergleichsstand nachgetragen, damit
      diese Probe weiterhin genau das prüft, wofür sie gebaut ist (kein Feldverlust durch die

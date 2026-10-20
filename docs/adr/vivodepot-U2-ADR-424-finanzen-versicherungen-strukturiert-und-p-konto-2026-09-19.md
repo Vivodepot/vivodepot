@@ -4,7 +4,7 @@
 **Status heute:** gilt
 **Datum:** 19.09.2026
 **Bezug:** U2-ADR-126 (Sensibel-Default), U2-ADR-399 (Vorschläge-Trägerkette)
-**Betrifft:** `tools/bereich-templates/vivodepot-finance.json`, `tests/fixtures/buergermodul-situationen-ab-werk.json` (die Ab-Werk-Situationen), `depotNormalisieren` (Schema 84→85), Textsatz DE/EN
+**Betrifft:** eine nicht öffentliche Datei, `tests/fixtures/buergermodul-situationen-ab-werk.json` (die Ab-Werk-Situationen), `depotNormalisieren` (Schema 84→85), Textsatz DE/EN
 
 ## Befund
 

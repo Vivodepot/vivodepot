@@ -22,6 +22,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import netzSperre from './lib/netz-sperre.js';
 
 const require = createRequire(import.meta.url);
 const REPO = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -36,7 +37,7 @@ export async function kernPdfsErzeugen({ ziel, kern = null } = {}) {
   fs.mkdirSync(ziel, { recursive: true });
   // Ohne --kern das ausgelieferte Produkt privat-de, gebacken wie für die E2E-Gates (tests/e2e/global-setup.js).
   if (!kern) { gebackeneProdukteSicherstellen(); kern = GEBACKENE_PRODUKT_PFADE['privat-de']; }
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(netzSperre.mitSperre());
   try {
     const page = await browser.newPage();
     await oeffneApp(page, { url: 'file://' + path.resolve(kern) });

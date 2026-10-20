@@ -3,7 +3,7 @@
 
    ANLASS: eine Zählung sichtbarer deutscher Sätze in privat-en ordnete Treffer per Textgleichheit dem Schlüsselraum
    `wizard:pvwiz.*` zu. Dieselben amtlichen Sätze stehen aber auch im Wortlaut der Standardvorlagen — sichtbar kamen sie von
-   dort (eigene, behobene Klasse: tests/standardvorlage-sprache-luecke.test.js), nicht aus dem Assistenten. Gemessen über
+   dort (eigene, behobene Klasse: eine nicht öffentliche Probe), nicht aus dem Assistenten. Gemessen über
    textLesen: alle pvwiz-Kennungen liefern im englischen Produkt Englisch. Diese Probe belegt die Herkunft über den
    Anzeigeweg statt über Textgleichheit: am GERENDERTEN Assistenten, Schritt für Schritt bis zum Ende.
 

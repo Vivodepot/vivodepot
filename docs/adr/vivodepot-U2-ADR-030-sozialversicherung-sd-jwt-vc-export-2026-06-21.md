@@ -40,7 +40,7 @@ Der Sektor erhält einen **SD-JWT-VC-Selbstauskunft-Export**, gebaut wie Identit
 
 ## Nachtrag 21.06.2026 — zwei optionale Ablauf-Felder (Feldzahl 15 → 17)
 
-Grundlage: `datenmodell-nachtrag-entscheid-sozialversicherung-2026-06-21.md` (alle vier Entscheide freigegeben). Additiv zur Variante-A-Arbeit, dieselbe uncommittete Sammlung. **Drei-Anker:**
+Grundlage: interner Bericht vom 21.06.2026 (alle vier Entscheide freigegeben). Additiv zur Variante-A-Arbeit, dieselbe uncommittete Sammlung. **Drei-Anker:**
 - **Code-Stelle:** Sektor `sozialversicherung` — neue Felder `pflegegrad_befristet_bis` (`typ:'datum'`, nach `pflegegrad_seit`) und `gdb_nachpruefung` (`typ:'datum'`, nach `gdb_merkmale`); beide reine Datumsfelder (Bürger-Freitext, **kein Code**), optional, leer = gültig. `VC_SOZIALVERSICHERUNG_MAPPING` ergänzt um `pflegegrad_befristet_bis → care_level_valid_until` und `gdb_nachpruefung → disability_review_due`, beide `sd:true`, **kein `sensibel`**. Import-Spiegelbild zieht automatisch nach (`_sdJwtSozialversicherungFelder` über `_ausMappingZurueck` auf demselben Mapping). Zieltest `tests/sozialversicherung-export.test.js` Soz-6 ergänzt.
 - **Sprint-Commit:** diese (noch uncommittete) Sammlung.
 - **ADR-Bezug:** dieser ADR (U2-ADR-030), Nachtrag.
@@ -63,4 +63,4 @@ Grundlage: Provenienz-Befund + Distinguishability-Befund (21.06., intern). Produ
 **Entscheidung 21.06.: `vollmachtsGrundlage` wird NICHT ins Credential getragen.** Code-Prüfung ergab: der Provenance-Stempel führt als `vollmachtsGrundlage` ausschließlich die **Sub-Depot-UUID** (`setzeSitzungsAkteur` ← `depotUUID`), keinen menschenlesbaren Vollmacht-Typ. Ein roher interner Krypto-/Schlüssel-Bezeichner gehört nicht an einen fremden Empfänger (Datensparsamkeit). Der `_eingabe`-Block trägt daher nur `{feld, durch}` (Name-Snapshot der vertretenden Person) — „unter Vollmacht durch [Name]" ist wahr und vollständig genug; ein Typ wird **nicht erfunden**. Gegenprüfung am Code: kein weiterer Builder serialisiert einen internen Bezeichner in ein Credential-Feld; ein Zieltest verankert, dass die UUID in der serialisierten Datei nirgends erscheint.
 
 ## Cross-Referenz
-U2-ADR-016 (Schlüsseltrennung v3 / Voll-Verschlüsselung), U2-ADR-018 (Pflegegrad → Sozialversicherung), U2-ADR-019 (Pflegedienst/Pflegegeld → Sozialversicherung), U2-ADR-005 (Provenienz). Befund-Doku: `befund-sozialversicherung-sektor-7-2026-06-21.md` (intern).
+U2-ADR-016 (Schlüsseltrennung v3 / Voll-Verschlüsselung), U2-ADR-018 (Pflegegrad → Sozialversicherung), U2-ADR-019 (Pflegedienst/Pflegegeld → Sozialversicherung), U2-ADR-005 (Provenienz). Befund-Doku: interner Bericht vom 21.06.2026.

@@ -68,7 +68,7 @@ Anker in totem Code, hier ist die Stichprobe einfarbig.
 
 ## 4 · Der Wächter
 
-`tests/regal-zeigt-jedes-logikmodul-u2-adr-332.test.js` prüft nicht Kennungen, sondern die
+eine nicht öffentliche Probe prüft nicht Kennungen, sondern die
 **Invariante**: was in `data.logikModule` steht, hat eine Karte im Regal — unabhängig von seinem
 `sektor`. Damit fällt jeder künftige Filter auf, an welchem Feld auch immer er ansetzt.
 

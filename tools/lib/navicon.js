@@ -12,7 +12,7 @@
      3. fehlt beides, Abbruch — es gibt kein Ersatzbild hier.
    Wer das Icon trägt, sagt die Inhaltssicherheitsrichtlinie (CSP) der Seite: `cspErlaubtIcon` hält die Form des Links
    (data: oder eigener Pfad) gegen img-src bzw. default-src. Sonst stünde rel="icon" im HTML und lüde doch nicht.
-   Proben: tests/navicon-alle-seiten.test.js
+   Proben: eine nicht öffentliche Probe
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');

@@ -176,7 +176,7 @@ export default {
   },
 
   // Ein lesbares, aber nicht konformes PDF: das synthetische Fixture ohne OutputIntent und XMP. veraPDF muss es lesen
-  // (der Extern-Lauf verlangt ein Urteil) und ablehnen. Die abgeschnittene Datei (nicht lesbar) prüft tests/verapdf-lauf.test.js.
+  // (der Extern-Lauf verlangt ein Urteil) und ablehnen. Die abgeschnittene Datei (nicht lesbar) prüft eine nicht öffentliche Probe.
   async kaputt() {
     const pfad = path.join(arbeit(), 'kandidat-pdf-a-3b.pdf');
     fs.copyFileSync(path.join(REPO, 'tests', 'fixtures', 'verapdf-kandidat.pdf'), pfad);

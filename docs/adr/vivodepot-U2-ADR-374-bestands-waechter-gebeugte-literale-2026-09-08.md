@@ -128,8 +128,8 @@ Wächter deckt NUR diese drei ausgelieferten Oberflächen — was die Bürgerin 
 gebeugtes Literal an folgenden Orten fällt ihm NICHT auf:
 
 - **Erzeugungswerkzeuge** (`tools/*.js`) — nie ausgeliefert, laufen nur beim Bauen.
-- **Generierte JSON-Module** (`tools/textsatz-de-modul.json`, `tools/buergermodul/vd-de-sprache.json`,
-  `tools/erbschein-vorbereitung-modul.json`, u. a.) — DERIVATE aus genau den drei überwachten
+- **Generierte JSON-Module** (`tools/textsatz-de-modul.json`, eine nicht öffentliche Datei,
+  eine nicht öffentliche Datei, u. a.) — DERIVATE aus genau den drei überwachten
   Dateien. Ein gebeugtes Literal dort ist ein Symptom, keine eigene Quelle: der Fix gehört an die
   Quelle, die generierten Kopien ziehen beim nächsten Erzeuger-Lauf automatisch nach (wie in
   U2-ADR-371 Abschnitt 4 für `textsatz-de-modul.json`/`textsatz-en-modul.json` geschehen).

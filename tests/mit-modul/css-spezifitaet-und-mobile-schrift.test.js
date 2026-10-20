@@ -60,7 +60,7 @@ const SCHRIFT_TOKEN = ['--fs-base', '--fs-lg', '--fs-xl', '--fs-2xl'];
 
 async function schriftGroessen(html, breite) {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   const seite = await browser.newPage({ viewport: { width: breite, height: 800 } });
   const tmpDir = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'vd-schrift-'));
   const tmp = path.join(tmpDir, `${breite}-${html.length}.html`);

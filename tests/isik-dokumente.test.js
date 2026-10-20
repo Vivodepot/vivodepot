@@ -12,7 +12,7 @@
      4. Gates: ohne KVNR und ohne Freigabe der sensiblen Felder keine Datei, der Grund steht da.
    Der Kern kennt von der KDL genau die zwei Codes und die System-URL (KDL_GEBRAUCHT, KDL_SYSTEM), keinen Text.
    Die amtlichen Anzeigetexte stehen hier NICHT — die Probe setzt Platzhalter ein; gegen den Validator mit den echten Texten
-   prüft tools/isik-validieren.js, das sie zur Laufzeit aus dem lokalen Paket-Cache liest.
+   prüfen tools/isik-validieren.js und tests/konformitaet/externe-validatoren.mjs, die sie zur Laufzeit aus dem lokalen Paket-Cache lesen.
    ═══════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -194,6 +194,6 @@ test('[ISiK·Texte] jeder Grund ohne Datei wird wirklich erzeugt, und der Dialog
   const html = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
   assert.ok(html.includes("_eigenerWert(STRINGS, 'isikGrund_' + g.replace(/-/g, '_'))"), 'der Dialog liest isikGrund_<grund>');
   for (const g of erwartet) assert.ok(a.V.STRINGS['isikGrund_' + g.replace(/-/g, '_')], 'Text zu ' + g);
-  const katalog = fs.readFileSync(path.join(__dirname, '..', 'tools', 'bereiche-nativ-katalog-modul.json'), 'utf8');
+  const katalog = fs.readFileSync(require('../tools/lib/vorlage-aufloesen.js').vorlageAufloesen(path.join(__dirname, '..'), path.join(__dirname, '..', 'tools', 'bereiche-nativ-katalog-modul.json')), 'utf8')   // zuschnitt-privat: öffentlich liest die Probe das erfundene Gegenstück;
   assert.ok(katalog.includes('"labelSchluessel": "isikExportKurz"') && a.V.STRINGS.isikExportKurz, 'isikExportKurz: über labelSchluessel gelesen, mit Text');
 });

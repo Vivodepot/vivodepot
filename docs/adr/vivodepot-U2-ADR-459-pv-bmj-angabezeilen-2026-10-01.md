@@ -4,7 +4,7 @@
 **Datum:** 01.10.2026
 **Kategorie:** INHALT, STANDARDS
 **Status heute:** gilt
-**Betrifft:** `tools/dokument-module/vivodepot-dokumentmodul-patientenverfuegung.json` (Abschnitte 2.1–2.12), `tools/dokument-module/vivodepot-dokumente-de.json` (`PV_BMJ.steps`, neue Festlegung `counsellingBy`), `tools/textsatz-de-modul.json`, `tools/textsatz-en-modul.json`, `vivodepot.html` (Block-Handler `freitextSatz`, `instrumentPersonVerweis`, `_pvPersonAngaben`, `_aufzaehlungVerbinden`), `vivodepot-lesen.html` (`_aufzaehlungVerbinden`), `tools/pv-festlegungen-bmj-beleg.js`, `tests/fixtures/bmj-patientenverfuegung-textbausteine.txt`.
+**Betrifft:** das Dokumentmodul der Patientenverfügung (Abschnitte 2.1–2.12, nicht öffentlich), die Moduldatei der Dokumente (`PV_BMJ.steps`, neue Festlegung `counsellingBy`, nicht öffentlich), `tools/textsatz-de-modul.json`, `tools/textsatz-en-modul.json`, `vivodepot.html` (Block-Handler `freitextSatz`, `instrumentPersonVerweis`, `_pvPersonAngaben`, `_aufzaehlungVerbinden`), `vivodepot-lesen.html` (`_aufzaehlungVerbinden`), ein nicht öffentliches Werkzeug, `tests/fixtures/bmj-patientenverfuegung-textbausteine.txt`.
 **Bezug:** U2-ADR-440 (Festlegungen aus PV_BMJ.steps), U2-ADR-066 (Platzhalter „Baustein nicht gewählt“), Regel „offizielle Inhalte vor eigenen“.
 
 ## Frage
@@ -16,7 +16,7 @@ Steht die erzeugte Patientenverfügung Wort für Wort in den „Textbausteinen f
 1. **Jede Zeile stammt zeichengleich aus den Bausteinen.** Referenz ist die Textfassung des BMJ-PDF (`tests/fixtures/bmj-patientenverfuegung-textbausteine.txt`, amtliches Werk nach § 5 UrhG). Eine Zeile wird an den Eingaben der Person geteilt; jedes übrige Stück ist ein zusammenhängendes Stück des amtlichen Textes oder ein Bezugssatz, der vor einem Aufzählungspunkt endet, gefolgt von einem Baustein, der nach einem Aufzählungspunkt beginnt — so setzt das BMJ selbst zusammen. Die frühere eigene Überleitung der Anwendungssituationen und die Kurzsätze in Eingangsformel, Beistand, Schweigepflicht und Verbindlichkeit entfallen.
 2. **Angabezeilen nach dem Formular (2.7, 2.12).** In 2.7 stehen bevollmächtigte und betreuende Person als Kopfzeile mit „Name:“, „Anschrift:“, „Telefon“/„Telefax“, „E-Mail:“, wie im Formular. Der „(ggf.: …)“-Teil zur Besprechung steht nur, wenn die Besprechung bejaht ist; eine Besprechung wird nie erfunden. 2.12 hat zwei Lücken: „informiert bei/durch …“ und „beraten lassen durch …“. Dafür gibt es die dreißigste Festlegung `counsellingBy`.
 3. **Eine fehlende Angabe bleibt „...“.** Wie im amtlichen Formular steht an einer leeren Lücke die Auslassung zum handschriftlichen Ausfüllen, nicht ein erfundener Ersatz. Eine Aufzählung verbindet „...“ ohne zusätzliches Satzzeichen.
-4. **Jede Festlegung ist belegt.** `tools/pv-festlegungen-bmj-beleg.js` sucht jeden Optionstext und Einleitungssatz der 30 Festlegungen wörtlich im amtlichen Text und nennt den Abschnitt. Platzhalter „(kein …)“ tragen keinen Baustein.
+4. **Jede Festlegung ist belegt.** Ein nicht öffentliches Werkzeug sucht jeden Optionstext und Einleitungssatz der 30 Festlegungen wörtlich im amtlichen Text und nennt den Abschnitt. Platzhalter „(kein …)“ tragen keinen Baustein.
 
 ## Was diese Entscheidung nicht leistet
 

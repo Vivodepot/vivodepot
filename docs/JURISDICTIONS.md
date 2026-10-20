@@ -73,8 +73,9 @@ content.
 3. **Using them:** a signed module is listed as verified, an unsigned one as unsigned. Adding
    modules through the interface is switched off at the moment; see
    [modules/README.md](modules/README.md#3--take-in).
-4. **A product of your own:** `node tools/vier-produkte-erzeugen.js` builds the four products from
-   the framework and the modules listed in `tools/lib/vier-produkte.js`. A product of your own
+4. **A product of your own:** `node tools/vier-produkte-erzeugen.js` builds the products from
+   the framework and the modules listed in `tools/lib/vier-produkte.js` (from this repository
+   privat-de and privat-en, with invented stand-in templates). A product of your own
    means changing that list. See [`DEVELOPING.md`](../DEVELOPING.md).
 
 ## Open questions

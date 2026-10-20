@@ -1,0 +1,539 @@
+{
+  "modulTyp": "lebenslagen",
+  "anbieterId": "vivodepot",
+  "moduleVersion": 1,
+  "bausteine": [
+    {
+      "id": "pflegebeduerftigkeit",
+      "sorte": "zustand",
+      "name": "Testtext 1",
+      "unterlagen": "Testtext 2",
+      "felder": [
+        "socialInsurance.careLevel",
+        "socialInsurance.careLevelSinceYear",
+        "socialInsurance.careLevelTimeLimitedUntil",
+        "socialInsurance.noticeDated",
+        "socialInsurance.longTermCareAllowanceTypeOf",
+        "socialInsurance.careHomeAssistedLiving",
+        "socialInsurance.careContractStorageLocation",
+        "advanceCare.personalCareDignity",
+        "advanceCare.dietSpecialRequirements",
+        "advanceCare.dailyRoutineActivities",
+        "advanceCare.aidsEGWalkerHearingAid",
+        "advanceCare.provisionDocumentsCheckedIn",
+        "people.careLeaveFamilyCareLeave"
+      ]
+    },
+    {
+      "id": "behinderung",
+      "sorte": "zustand",
+      "name": "Testtext 3",
+      "unterlagen": "Testtext 4",
+      "felder": [
+        "socialInsurance.degreeOfDisabilityGdb",
+        "socialInsurance.markers",
+        "socialInsurance.gdbReviewReAssessmentDate",
+        "socialInsurance.severeDisabilityCards"
+      ]
+    },
+    {
+      "id": "miete",
+      "sorte": "zustand",
+      "name": "Testtext 5",
+      "unterlagen": "Testtext 6",
+      "felder": [
+        "housing.ownedOrRented",
+        "housing.monthlyRentServiceCharges",
+        "housing.rentalDepositBankAmount",
+        "housing.tenancyAgreementStorage",
+        "housing.tenancyAgreementFixedTermUntil",
+        "housing.landlordPropertyManagement",
+        "housing.landlordPhone",
+        "housing.landlordEmail",
+        "housing.specialLivingSituation"
+      ]
+    },
+    {
+      "id": "wohneigentum",
+      "sorte": "zustand",
+      "name": "Testtext 7",
+      "unterlagen": "Testtext 8",
+      "felder": [
+        "housing.ownedOrRented",
+        "housing.specialLivingSituation"
+      ]
+    },
+    {
+      "id": "auslandsaufenthalt",
+      "sorte": "zustand",
+      "name": "Testtext 9",
+      "unterlagen": "Testtext 10",
+      "felder": [
+        "mobility.elefandRegistrations",
+        "mobility.embassyContact",
+        "health.ehicCardEuropeanHealth"
+      ]
+    },
+    {
+      "id": "chronische-erkrankung",
+      "sorte": "zustand",
+      "name": "Testtext 11",
+      "unterlagen": "Testtext 12",
+      "felder": [
+        "health.chronicConditionsDiagnoses",
+        "health.medicationOngoing",
+        "health.allergiesMedicationFoodOther",
+        "health.findingsOnAUsbStick",
+        "health.ongoingTreatmentNext",
+        "health.implantsProsthesesPacemakers",
+        "health.emergencyCardPatientId",
+        "health.operationsProcedures"
+      ]
+    },
+    {
+      "id": "lange-krankheit",
+      "sorte": "zustand",
+      "name": "Testtext 13",
+      "unterlagen": "Testtext 14",
+      "felder": [
+        "health.healthInsurance",
+        "health.insuranceNumber",
+        "health.ongoingTreatmentNext",
+        "education.employer",
+        "education.typeOfIncome",
+        "assets.additionalTypesOfIncome",
+        "socialInsurance.registeredAsUnemployedOn",
+        "socialInsurance.pensionInsuranceNumbers"
+      ]
+    },
+    {
+      "id": "berufstaetigkeit",
+      "sorte": "zustand",
+      "name": "Testtext 15",
+      "unterlagen": "Testtext 16",
+      "felder": [
+        "education.occupationRole",
+        "education.vocationalTraining",
+        "education.typeOfIncome",
+        "education.grossMonthlyIncome",
+        "education.netMonthlyIncome",
+        "education.payslipStorageLocation",
+        "education.trainingCertificateStorage",
+        "education.employmentReferenceStorage",
+        "education.qualifications",
+        "education.employmentContractFixedTerm"
+      ]
+    },
+    {
+      "id": "ruhestand",
+      "sorte": "zustand",
+      "name": "Testtext 17",
+      "unterlagen": "Testtext 18",
+      "felder": [
+        "finance.privatePensionProvision",
+        "finance.policyContractNumber",
+        "finance.privatePensionProvisionAgreed",
+        "finance.companyPensionSchemeBav",
+        "finance.companyPensionPolicyNumber",
+        "finance.companyPensionAgreedStartDate",
+        "socialInsurance.pensionInsuranceNumbers"
+      ]
+    },
+    {
+      "id": "elternschaft-minderjaehrig",
+      "sorte": "zustand",
+      "name": "Testtext 19",
+      "unterlagen": "Testtext 20",
+      "felder": [
+        "people.childrenAndDependants"
+      ]
+    },
+    {
+      "id": "ehe-partnerschaft",
+      "sorte": "zustand",
+      "name": "Testtext 21",
+      "unterlagen": "Testtext 22",
+      "felder": [
+        "identity.maritalStatus",
+        "identity.maritalPropertyRegime",
+        "identity.choiceOfNameAfterMarriage",
+        "people.spouseOrCivilPartner"
+      ]
+    },
+    {
+      "id": "umzug",
+      "sorte": "ereignis",
+      "name": "Testtext 23",
+      "unterlagen": "Testtext 24",
+      "felder": [
+        "identity.reRegistrationWithTheResidents",
+        "administration.changingUtilityProviders",
+        "housing.tenancyTerminationHandover",
+        "housing.noticeDate",
+        "housing.moveOutDate",
+        "housing.handoverDateNewHome"
+      ]
+    },
+    {
+      "id": "eigene-vorsorge",
+      "sorte": "ereignis",
+      "name": "Testtext 25",
+      "unterlagen": "Testtext 26",
+      "felder": [
+        "advanceCare.provisionInstruments",
+        "advanceCare.heirsBriefOverview",
+        "personal.typeOfFuneral",
+        "personal.funeralAlreadyPlannedInAdvance",
+        "personal.funeralHome",
+        "personal.preferredLocationGraveUrnSite",
+        "personal.preArrangementContractStorage"
+      ]
+    },
+    {
+      "id": "erbfall-abwickeln",
+      "sorte": "ereignis",
+      "name": "Testtext 27",
+      "unterlagen": "Testtext 28",
+      "felder": [
+        "finance.assetsForTheEstate",
+        "finance.outstandingClaimsGuarantees"
+      ]
+    },
+    {
+      "id": "trennung-scheidung",
+      "sorte": "ereignis",
+      "name": "Testtext 29",
+      "unterlagen": "Testtext 30",
+      "felder": [
+        "identity.dateOfSeparation",
+        "identity.maritalPropertyRegime",
+        "identity.formerNames",
+        "advanceCare.provisionInstruments"
+      ],
+      "hinweise": [
+        "Testtext 31",
+        "Testtext 32",
+        "Testtext 33",
+        "Testtext 34",
+        "Testtext 35"
+      ]
+    },
+    {
+      "id": "verwitwung",
+      "sorte": "ereignis",
+      "name": "Testtext 36",
+      "unterlagen": "Testtext 37",
+      "felder": [
+        "finance.assetsForTheEstate",
+        "advanceCare.provisionInstruments"
+      ],
+      "verwandteSituation": "todesfall-uebernahme",
+      "hinweise": [
+        "Testtext 38",
+        "Testtext 39",
+        "Testtext 40",
+        "Testtext 41",
+        "Testtext 42",
+        "Testtext 43"
+      ]
+    },
+    {
+      "id": "arbeitslosigkeit",
+      "sorte": "ereignis",
+      "name": "Testtext 44",
+      "unterlagen": "Testtext 45",
+      "felder": [
+        "socialInsurance.terminationDate",
+        "socialInsurance.registeredAsJobSeekingOn",
+        "socialInsurance.registeredAsUnemployedOn",
+        "socialInsurance.noticeFromTheAgenturFRArbeit"
+      ],
+      "hinweise": [
+        "Testtext 46",
+        "Testtext 47",
+        "Testtext 48"
+      ]
+    },
+    {
+      "id": "rechtliche-betreuung",
+      "sorte": "ereignis",
+      "name": "Testtext 49",
+      "unterlagen": "Testtext 50",
+      "felder": [
+        "advanceCare.provisionInstruments",
+        "people.childrenAndDependants"
+      ],
+      "hinweise": [
+        "Testtext 51",
+        "Testtext 52"
+      ]
+    },
+    {
+      "id": "zugang-zum-recht",
+      "sorte": "zustand",
+      "name": "Testtext 53",
+      "unterlagen": "Testtext 54",
+      "felder": [
+        "assets.additionalTypesOfIncome",
+        "assets.livingSituation",
+        "assets.homeSize",
+        "assets.housingCostsBorneAlone",
+        "assets.numberOfPeopleInTheHome",
+        "assets.housingCostsTotal",
+        "assets.housingCostsOwnShare"
+      ]
+    },
+    {
+      "id": "ausst-krankenversicherung",
+      "sorte": "ausstattung",
+      "name": "Testtext 55",
+      "unterlagen": "Testtext 56",
+      "felder": [
+        "health.healthInsurance",
+        "health.insuranceNumber",
+        "health.insuredThrough",
+        "health.supplementaryInsurance",
+        "health.healthInsuranceCards",
+        "health.ehicCardEuropeanHealth",
+        "health.dentalBonusBookletStorage"
+      ]
+    },
+    {
+      "id": "ausst-aerztliche-versorgung",
+      "sorte": "ausstattung",
+      "name": "Testtext 57",
+      "unterlagen": "Testtext 58",
+      "felder": [
+        "health.generalPractitioner",
+        "health.dentistNameContact",
+        "health.specialistDoctors",
+        "health.emergencyContacts"
+      ]
+    },
+    {
+      "id": "ausst-bankverbindung",
+      "sorte": "ausstattung",
+      "name": "Testtext 59",
+      "unterlagen": "Testtext 60",
+      "felder": [
+        "finance.accounts",
+        "finance.creditCards",
+        "finance.digitalBalances",
+        "administration.bankSafeDepositBoxBankBranch",
+        "administration.keyStorageLocation"
+      ]
+    },
+    {
+      "id": "ausst-pflegekasse-dienst",
+      "sorte": "ausstattung",
+      "name": "Testtext 61",
+      "unterlagen": "Testtext 62",
+      "felder": [
+        "socialInsurance.longTermCareFund",
+        "socialInsurance.longTermCareFundNumbers",
+        "socialInsurance.longTermCareFundPhone",
+        "socialInsurance.homeCareServiceNameContact",
+        "socialInsurance.careHomeAssistedLiving",
+        "socialInsurance.careContractStorageLocation",
+        "people.whoProvidesThePrimaryCare"
+      ]
+    },
+    {
+      "id": "ausst-arbeitgeber",
+      "sorte": "ausstattung",
+      "name": "Testtext 63",
+      "unterlagen": "Testtext 64",
+      "felder": [
+        "education.employer",
+        "education.employerAddress",
+        "education.lastEmployer"
+      ]
+    },
+    {
+      "id": "ausst-vermieter",
+      "sorte": "ausstattung",
+      "name": "Testtext 65",
+      "unterlagen": "Testtext 66",
+      "felder": [
+        "housing.landlordPropertyManagement",
+        "housing.landlordPhone",
+        "housing.landlordEmail",
+        "housing.rentalDepositBankAmount",
+        "housing.furtherHomes"
+      ]
+    },
+    {
+      "id": "ausst-digitale-zugaenge",
+      "sorte": "ausstattung",
+      "name": "Testtext 67",
+      "unterlagen": "Testtext 68",
+      "felder": [
+        "administration.bundid",
+        "administration.bundidVerificationLevel",
+        "administration.mainEmailAddress",
+        "administration.furtherEmailAddress",
+        "administration.protonMailEncryptedEmail",
+        "administration.passwordManager",
+        "administration.masterPasswordStorageLocation",
+        "administration.passwordBackupStorageLocation",
+        "administration.computerPasswordStorage",
+        "administration.smartphonePinStorageLocation",
+        "administration.cloudServices",
+        "administration.socialMedia",
+        "administration.computerDevices",
+        "administration.smartphone",
+        "administration.cryptoWalletsOverview",
+        "administration.seedPhraseStorageLocation",
+        "administration.hardwareWallet",
+        "administration.olderInheritedCryptoAccess"
+      ]
+    },
+    {
+      "id": "ausst-mobilitaet",
+      "sorte": "ausstattung",
+      "name": "Testtext 69",
+      "unterlagen": "Testtext 70",
+      "felder": [
+        "mobility.vehicles",
+        "mobility.carInsurance",
+        "mobility.deutschlandticketPublic",
+        "mobility.drivingLicenceClasses"
+      ]
+    },
+    {
+      "id": "ausst-beratung",
+      "sorte": "ausstattung",
+      "name": "Testtext 71",
+      "unterlagen": "Testtext 72",
+      "felder": [
+        "finance.taxAdvisor",
+        "finance.taxAdvisorContact",
+        "finance.financialAdvisorNameContact",
+        "finance.taxSoftware",
+        "finance.latestTaxReturnStorageLocation",
+        "finance.taxIdsTaxNumbers"
+      ]
+    },
+    {
+      "id": "ausst-schluessel-zutritt",
+      "sorte": "ausstattung",
+      "name": "Testtext 73",
+      "unterlagen": "Testtext 74",
+      "felder": [
+        "administration.homeKeyWhoHoldsOne",
+        "administration.safeLocation",
+        "administration.safeCodeStorageLocation",
+        "administration.alarmSystemCodeStorageLocation"
+      ]
+    },
+    {
+      "id": "ausst-krisenvorsorge",
+      "sorte": "ausstattung",
+      "name": "Testtext 75",
+      "unterlagen": "Testtext 76",
+      "felder": [
+        "emergencyPreparedness.drinkingWaterSupplyAmount",
+        "emergencyPreparedness.drinkingWaterSupplyStorage",
+        "emergencyPreparedness.drinkingWaterSupplyCheckShelf",
+        "emergencyPreparedness.foodSuppliesWhatIsStored",
+        "emergencyPreparedness.foodSuppliesStorageLocation",
+        "emergencyPreparedness.foodSuppliesCheckShelfLifeBy",
+        "emergencyPreparedness.torch",
+        "emergencyPreparedness.candles",
+        "emergencyPreparedness.batteriesSupply",
+        "emergencyPreparedness.crankBatteryRadio",
+        "emergencyPreparedness.powerBank",
+        "emergencyPreparedness.emergencyHeatingOption",
+        "emergencyPreparedness.firstAidKitStorageLocation",
+        "emergencyPreparedness.firstAidKitLastChecked",
+        "emergencyPreparedness.medicationSupply",
+        "emergencyPreparedness.emergencyBackpackInPlace",
+        "emergencyPreparedness.emergencyBackpackStorage",
+        "emergencyPreparedness.emergencyBackpackContents",
+        "emergencyPreparedness.folderWithImportantDocumentsIn",
+        "emergencyPreparedness.documentFolderStorageLocation",
+        "emergencyPreparedness.cashReserveInPlace",
+        "emergencyPreparedness.cashReserveStorageLocation",
+        "emergencyPreparedness.hygieneSuppliesWhatIsStored",
+        "emergencyPreparedness.hygieneSuppliesStorageLocation",
+        "emergencyPreparedness.meetingPointFamily",
+        "emergencyPreparedness.escapeRouteFromTheHome",
+        "emergencyPreparedness.fallbackLocation2ndStage",
+        "emergencyPreparedness.neighbourForEmergencies",
+        "emergencyPreparedness.specialSituation",
+        "emergencyPreparedness.noteForEmergencyResponders"
+      ]
+    }
+  ],
+  "anlaesse": [
+    {
+      "id": "umzug",
+      "klasse": 1,
+      "icon": "home",
+      "ziel": {
+        "wizard": "umzwiz"
+      }
+    },
+    {
+      "id": "krisenvorsorge",
+      "klasse": 1,
+      "icon": "package",
+      "ziel": {
+        "lage": "ausst-krisenvorsorge"
+      }
+    },
+    {
+      "id": "trennung-scheidung",
+      "klasse": 1,
+      "icon": "users",
+      "ziel": {
+        "lage": "trennung-scheidung"
+      }
+    },
+    {
+      "id": "arbeitslosigkeit",
+      "klasse": 1,
+      "icon": "wallet",
+      "ziel": {
+        "lage": "arbeitslosigkeit"
+      }
+    },
+    {
+      "id": "rechtliche-betreuung",
+      "klasse": 2,
+      "icon": "shield",
+      "ziel": {
+        "lage": "rechtliche-betreuung"
+      }
+    },
+    {
+      "id": "todesfall",
+      "klasse": 3,
+      "icon": "fileText",
+      "ziel": {
+        "zwischenfrage": [
+          "erbfall",
+          "todesfall-uebernahme",
+          "verwitwung"
+        ]
+      }
+    },
+    {
+      "id": "verwitwung",
+      "klasse": 3,
+      "icon": "fileText",
+      "versteckt": true,
+      "ziel": {
+        "lage": "verwitwung"
+      }
+    },
+    {
+      "id": "eigene-vorsorge",
+      "klasse": 3,
+      "icon": "shield",
+      "ziel": {
+        "lage": "eigene-vorsorge"
+      }
+    }
+  ]
+}

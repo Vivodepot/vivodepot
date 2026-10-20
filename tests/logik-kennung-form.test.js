@@ -99,9 +99,13 @@ test('[Logik-Kennung] die ausgelieferten Logikmodule tragen eine Kennung in der 
     if (o.dokAusgabe && typeof o.dokAusgabe === 'object' && typeof o.id === 'string') { n++; assert.match(o.id, MUSTER, datei + ': ' + o.id); }
     for (const v of Object.values(o)) lauf(v, datei);
   };
-  for (const ordner of ['tools', path.join('tools', 'templates'), path.join('tests', 'fixtures')]) {
-    for (const d of fs.readdirSync(path.join(REPO, ordner)).filter((x) => x.endsWith('.json'))) {
-      const text = fs.readFileSync(path.join(REPO, ordner, d), 'utf8');
+  // Der Ordner der Pro-Vorlagen gehört zur zweiten Schicht: im öffentlichen Zuschnitt fehlt er und wird übersprungen, im Kanon wirft sein
+  // Fehlen (tools/lib/vorlage-aufloesen.js, vorlagenOrdnerAufloesen).
+  const { vorlagenOrdnerAufloesen } = require('../tools/lib/vorlage-aufloesen.js');
+  const ordnerListe = [path.join(REPO, 'tools'), vorlagenOrdnerAufloesen(REPO, path.join(REPO, 'tools', 'templates')), path.join(REPO, 'tests', 'fixtures')].filter(Boolean); // zuschnitt-privat: öffentlich übersprungen (vorlagenOrdnerAufloesen)
+  for (const ordner of ordnerListe) {
+    for (const d of fs.readdirSync(ordner).filter((x) => x.endsWith('.json'))) {
+      const text = fs.readFileSync(path.join(ordner, d), 'utf8');
       if (!text.includes('"dokAusgabe"')) continue;
       let j = null; try { j = JSON.parse(text); } catch (e) { continue; }
       lauf(j, d);

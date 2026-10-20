@@ -34,7 +34,7 @@ Rezept, Herkunft und Prüfsummen: `tools/schrift-pdf-quellen/README.md`. Seit v8
 **Probe-Schrift (nur Test-Fixture, wird nicht ausgeliefert)** — `tests/fixtures/pdf-schrift-probe-klein.ttf`, abgeleitet aus Inter 4.1
 (dieselbe Quelle wie oben), Regular-Instanz auf U+0020–U+007E und U+00A0 zugeschnitten, Versalhöhe (OS/2 sCapHeight) von 1490
 auf 1100 gesetzt, umbenannt in „VivodepotProbeKlein" — SIL Open Font License 1.1, Volltext siehe `OFL.txt`. Zweck: der
-Nachweis, dass die PDF-Kästchen der Metrik der aktiven Schrift folgen (tests/e2e/pdf-kaestchen-vektor.spec.js).
+Nachweis, dass die PDF-Kästchen der Metrik der aktiven Schrift folgen (eine nicht öffentliche Probe).
 
 **Probe-Schriften mit Kyrillisch und Griechisch (nur Test-Fixtures, werden nicht ausgeliefert)** —
 `tests/fixtures/pdf-schrift/kyrillisch-griechisch.ttf` und `…-bold.ttf`, aus `extras/ttf/Inter-Regular.ttf` bzw. `Inter-Bold.ttf`

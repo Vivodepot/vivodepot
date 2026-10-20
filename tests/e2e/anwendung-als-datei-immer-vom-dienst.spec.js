@@ -37,6 +37,7 @@ const http = require('node:http');
 const { test, expect } = require('@playwright/test');
 const { GEBACKENE_PRODUKT_PFADE } = require('./global-setup.js');
 const { einstellungenAbschnittOeffnen, einmalDialogeSchliessen } = require('./helpers.js');
+const h = require('./helpers.js');
 const { _serviceWorkerVorhandenAufText } = require('../../tools/lib/produkt-text-erzeugen.js');
 
 const REPO_ROOT = path.join(__dirname, '..', '..');
@@ -90,11 +91,11 @@ async function bisZumEintrag(page, port) {
       value: async () => ({ name: 'probe.vivodepot', createWritable: async () => ({ write: async () => {}, close: async () => {} }) }) });
   });
   await page.goto(`http://127.0.0.1:${port}/vivodepot.html`);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.evaluate(() => navigator.serviceWorker.ready);
   // Ein neu geladener Tab wird vom aktiven Service Worker bedient — der Zustand der installierten Anwendung.
   await page.reload();
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.waitForFunction(() => !!navigator.serviceWorker.controller, null, { timeout: 20_000 }).catch(async () => {
     const lage = await page.evaluate(async () => {
       const regs = await navigator.serviceWorker.getRegistrations();
@@ -106,8 +107,9 @@ async function bisZumEintrag(page, port) {
 
   await page.click('#w-anfangen');
   await page.waitForSelector('#app.an', { state: 'attached' });
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');
+  // Der sichtbare Weg zum Anlegen: der Hinweis oben ODER die Karte im Inhalt (eine Anlege-Aufforderung je Ansicht).
+  await page.waitForSelector(h.ANLEGE_WEG_KANON + ':visible', { state: 'attached' });
+  await page.click(h.ANLEGE_WEG_KANON + ':visible');
   await page.waitForSelector('#id-pw', { state: 'visible' });
   await page.fill('#id-vorname', 'Marlies');
   await page.fill('#id-nachname', 'Sonnenschein');

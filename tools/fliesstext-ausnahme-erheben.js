@@ -99,13 +99,13 @@ function vorlegen({ texte }) {
 
 async function main() {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   const seite = await browser.newPage({ viewport: { width: BREITE, height: 900 } });
   await seite.goto(HTML);
   await seite.waitForSelector('#w-anfangen', { timeout: 8000 });
   await seite.click('#w-anfangen', { timeout: 3000 });
   await seite.waitForTimeout(400);
-  await seite.click('#tb-pw-hinweis', { timeout: 3000 }).catch(() => {});
+  await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 3000 }).catch(() => {});
   await seite.waitForTimeout(400);
   for (const [sel, wert] of [['#id-vorname', 'Marlies'], ['#id-nachname', 'Beispiel'], ['#id-pw', PW], ['#id-pw2', PW]]) {
     await seite.fill(sel, wert, { timeout: 3000 }).catch(() => {});

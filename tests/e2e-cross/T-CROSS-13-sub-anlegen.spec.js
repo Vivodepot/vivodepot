@@ -29,10 +29,10 @@ async function fsaAttrappeEinrichten(page) {
 async function ankerAnlegen(page) {
   await fsaAttrappeEinrichten(page);
   await page.goto(KERN_URL);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.click('#w-anfangen');
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');
+  await page.waitForSelector(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { state: 'attached' });
+  await page.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible');
   // Setup-first (vivodepot.html:12636): flowDepotAnlegen → Vorname + Nachname (Pflicht) + Passwort.
   await page.waitForSelector('#id-pw', { state: 'visible' });
   await page.fill('#id-vorname', 'Anker');

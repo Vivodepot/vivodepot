@@ -17,7 +17,7 @@
 
    Es war keine falsche Zeile, sondern eine zweite Liste. Darum ein Erzeuger und
    kein Wächter: dieselbe Antwort, die das Repo für die Bereiche schon gibt
-   (`tools/build-bereiche.js`) — eine Quelle, generierte Region zwischen
+   (`ein nicht öffentliches Werkzeug`) — eine Quelle, generierte Region zwischen
    Markern, `--check` im Gate.
 
    ── UND ER SCHREIBT NICHT BLIND AB ──────────────────────────────────────────

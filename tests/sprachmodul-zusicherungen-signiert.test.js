@@ -1,5 +1,5 @@
 'use strict';
-/* Signierte Sprachmodule dürfen Zusicherungssätze übersetzen (Entwurf U2-ADR-NNN, 19.09.2026).
+/* Signierte Sprachmodule dürfen Zusicherungssätze übersetzen (U2-ADR-423, 19.09.2026).
    Vertrauen kommt NUR aus der beim Öffnen erneut geprüften Signaturkette, nie aus dem Marker im Depot; Deutsch und Englisch bleiben
    app-eigen; ein Satz mit falscher Form fällt einzeln heraus; ein fehlender Satz fällt zurück (Modulsprache → Englisch → Deutsch),
    ein Zusicherungssatz trägt seine Ersatzsprache sichtbar mit. Wegwerf-Anker und -Schlüssel wie in pruefstufe-eigene-treuhand-kette. */

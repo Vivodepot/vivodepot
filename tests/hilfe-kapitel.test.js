@@ -16,9 +16,10 @@ const { kernMitHeute } = require('./helfer/kern-mit-erscheinungsbild.js');
 const CSS_QUELLE = kernMitHeute(KERN_QUELLE);   // v894: das Stylesheet kommt mit dem Erscheinungsbild „heute".
 const ZEHN_THEMEN = ['depot-anlegen-passwort', 'speichern-sicherung', 'eintragen-dokumente', 'weitergeben-empfaengerin',
   'sensibel-zurueckhalten-freigeben', 'notfallkarte', 'module-templates-echtheit', 'datei-ist-das-depot', 'was-vivodepot-nicht-sieht',
-  'sub-depot', 'lese-app-empfaengerin', 'daten-hereinholen', 'daten-herausgeben'];   // die letzten drei: Themen 12 bis 14 (04.10.2026)
+  'sub-depot', 'lese-app-empfaengerin', 'daten-hereinholen', 'daten-herausgeben',   // Themen 12 bis 14 (04.10.2026)
+  'vorbereitungsauszuege'];   // 12.10.2026: wo die Vorbereitungsauszüge stehen (Beratungshilfe, Erbschein) und unter welchem Namen man sie findet
 
-test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die dreizehn vereinbarten Themen, keine Nutzerdaten', () => {
+test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die vierzehn vereinbarten Themen, keine Nutzerdaten', () => {
   const { V } = ladeKern({ blank: true });
   assert.deepEqual(V.HILFE_THEMEN.map((t) => t.id), ZEHN_THEMEN);
   for (const t of V.HILFE_THEMEN) assert.ok(Object.keys(t).every((k) => ['id', 'anzahlAbschnitte'].includes(k)), t.id + ' trägt ein unerwartetes Feld');
@@ -89,7 +90,7 @@ test('[Hilfe·Inhalt] mit den gelieferten Abschnitten trägt das Modell Einleitu
   for (const a of modell.abschnitte) assert.ok(a.length > 0, 'kein Abschnitt bleibt leer');
 });
 
-test('[Hilfe·Übersicht] listet alle dreizehn Titel in der HILFE_THEMEN-Reihenfolge', () => {
+test('[Hilfe·Übersicht] listet alle vierzehn Titel in der HILFE_THEMEN-Reihenfolge', () => {
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
   assert.deepEqual(V.hilfeUebersichtModell().map((t) => t.id), ZEHN_THEMEN);

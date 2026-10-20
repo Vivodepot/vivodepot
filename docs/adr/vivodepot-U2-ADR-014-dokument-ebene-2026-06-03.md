@@ -93,9 +93,9 @@ Das spätere Ablösen der zwei verbliebenen Bereichs-Datumsfelder (Konsequenz 5)
 
 Die ADR-Bezüge sind vollständig geprüft und bestätigt:
 
-- **ADR-Deckung:** Die Recherche (03.06.2026), unabhängig gegengeprüft, hat belegt: Kein Vorgänger-ADR deckt das Erinnerungs-/Prüftermine-Modell — es gibt nichts abzulösen. (`docs/cc-adr-deckung-erinnerung-antwort-2026-06-03.md`, Gegenprüfung `docs/cc-adr-deckung-erinnerung-PRUEFUNG-2026-06-03.md`.)
-- **Alter ADR-Kanon:** Die Geltungsklärung (03.06.2026) hat belegt: Der nackte `ADR-NNN`-Kanon bindet den Rebuild nicht direkt (U2-ADR-001: „Kandidatin, nicht beschlossene Ablösung"); alte ADRs wirken nur dort hinein, wo eine U2-ADR sie übernimmt. Keine alte ADR berührt die Dokument-Ebene. Gegen den alten Kanon ist nichts zu prüfen. (`docs/cc-verhaeltnis-adr-kanon-antwort-2026-06-03.md`.)
-- **Kohärenz U2-ADR-009 / 010:** Kein Widerspruch (Feld-Architektur, Template/Wizard). (`docs/cc-kohaerenz-dokument-ebene-antwort-2026-06-03.md`.)
-- **Kohärenz U2-ADR-008 / 012 / 013:** Kein Widerspruch (Referenz-Modell, Situationsblatt, Mappe). Die Dokument-Ebene klinkt sich additiv in die Kette 008 → 013 → 012 ein. (`docs/cc-kohaerenz-dokument-ebene-nachbarn-antwort-2026-06-03.md`.)
+- **ADR-Deckung:** Die Recherche (03.06.2026), unabhängig gegengeprüft, hat belegt: Kein Vorgänger-ADR deckt das Erinnerungs-/Prüftermine-Modell — es gibt nichts abzulösen. (interner Bericht vom 03.06.2026 mit interner Gegenprüfung.)
+- **Alter ADR-Kanon:** Die Geltungsklärung (03.06.2026) hat belegt: Der nackte `ADR-NNN`-Kanon bindet den Rebuild nicht direkt (U2-ADR-001: „Kandidatin, nicht beschlossene Ablösung"); alte ADRs wirken nur dort hinein, wo eine U2-ADR sie übernimmt. Keine alte ADR berührt die Dokument-Ebene. Gegen den alten Kanon ist nichts zu prüfen. (interner Bericht vom 03.06.2026.)
+- **Kohärenz U2-ADR-009 / 010:** Kein Widerspruch (Feld-Architektur, Template/Wizard). (interner Bericht vom 03.06.2026.)
+- **Kohärenz U2-ADR-008 / 012 / 013:** Kein Widerspruch (Referenz-Modell, Situationsblatt, Mappe). Die Dokument-Ebene klinkt sich additiv in die Kette 008 → 013 → 012 ein. (interner Bericht vom 03.06.2026.)
 
 Alle aus den Prüfungen herausgearbeiteten additiven Auflagen sind als Konsequenzen 7 bis 11 in diesen ADR eingearbeitet. Damit war der ADR ohne Vorbehalt abnahmebereit. Die finale Nummer ist vergeben: **U2-ADR-014** (Nummer 007 bleibt für den Gesundheits-Sektor reserviert). **Status am 03.06.2026 auf „Akzeptiert" freigegeben** (Produktentscheidung); die Umsetzung (Datenmodell `data.dokumente[]`, Migration aus `data.erinnerungen`, Auflagen 7–11) folgt im Anschluss.

@@ -18,7 +18,7 @@ const PW = 's1-firefox-abnahme-852';
 
 async function oeffneAppOhneFsa(page) {
   await page.goto(KERN_URL);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
 }
 
 async function klasse(page) {
@@ -60,7 +60,7 @@ test('[S1·Firefox] Sicherungskopie in frischem Kontext geöffnet: Signal steht 
   const ctxA = await browser.newContext({ acceptDownloads: true });
   const a = await ctxA.newPage();
   await a.goto(KERN_URL);
-  await a.waitForSelector('#w-anlass', { state: 'visible' });
+  await a.waitForSelector('#w-anlegen', { state: 'visible' });
   await depotAnlegen(a, { pw: PW });
   const download = await sicherungskopieHerunterladen(a);
   const tmpPfad = path.join(os.tmpdir(), 's1-firefox-open-' + testInfo.workerIndex + '.vivodepot');
@@ -72,7 +72,7 @@ test('[S1·Firefox] Sicherungskopie in frischem Kontext geöffnet: Signal steht 
   const ctxB = await browser.newContext();
   const page = await ctxB.newPage();
   await page.goto(KERN_URL);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.click('#w-datei');
   await page.waitForSelector('#co-pw', { state: 'visible' });
   await page.setInputFiles('#co-datei', tmpPfad);

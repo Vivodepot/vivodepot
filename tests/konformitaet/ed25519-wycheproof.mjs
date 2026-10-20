@@ -44,6 +44,7 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import netzSperre from '../../tools/lib/netz-sperre.js';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -65,7 +66,7 @@ const VEKTOR_PFAD = join(HIER, 'vectors', 'ed25519_test.json');
 const wycheproof = JSON.parse(readFileSync(VEKTOR_PFAD, 'utf8'));
 
 async function neueBrowserSitzung() {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(netzSperre.mitSperre());
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto(FILE_URL, { waitUntil: 'domcontentloaded', timeout: 15_000 });

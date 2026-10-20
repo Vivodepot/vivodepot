@@ -59,7 +59,7 @@ test('[E2E-Artefakt·Träge·Gegenprobe] ohne Klick auf die Leiste: derselbe Pro
   const { datei, ordner } = ausgeliefert('privat-de');
   const testDatei = path.join(ordner, 'test-artefakt.html');
   fs.writeFileSync(testDatei, testProduktText(KERN, { slug: 'privat-de' }));
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     for (const anfangen of [false, true]) {
       const a = await zustand(browser, 'file://' + datei, { anfangen });

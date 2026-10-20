@@ -169,7 +169,7 @@ test('[Vorlagen-Rückweg·P5] die Antwort geht als JWE hinaus, die Lese-App öff
   const ds = await V.anfrageAntwortDatensatzGeprueft(await umschlag(V, sA, a), { sensibel: false, pruefOpts: PRUEF });
   const jwe = await V.antwortVerschluesseln(ds, a, { passwort: EINMAL });
   const L = ladeLesen().V;
-  const offen = JSON.parse((await L.antwortJweOeffnen(jwe, { passwort: EINMAL })).klartext);
+  const offen = await require('./helfer/antwort-datensatz.js').datensatzAusJwe(L, jwe, { passwort: EINMAL });
   assert.deepEqual(offen, JSON.parse(JSON.stringify(ds)));
   assert.equal(offen.antwortAuf[0].antworten[ANB(A)].wert, 'Praxis Dr. Muster');
 });

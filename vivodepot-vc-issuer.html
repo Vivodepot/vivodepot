@@ -2894,7 +2894,7 @@ function _aadFuerSchluesselhuelle(w) {
 async function schuetzeSchluesselJwk(jwk, passphrase) {
   if (!passphrase) throw new Error('Passphrase fehlt.');
   const salt = crypto.getRandomValues(new Uint8Array(16));
-  const key = await deriveKey(passphrase, salt);
+  const key = await deriveKey(String(passphrase).normalize('NFC'), salt);   // NFC wie jedes Passwort vor einer Ableitung
   const kopfdaten = { kdf: 'pbkdf2-sha256', iterationen: PBKDF2_ITERATIONS };
   const { iv, ct } = await encryptData(jwk, key, _aadFuerSchluesselhuelle(kopfdaten));
   return {
@@ -2924,12 +2924,17 @@ async function entschluesseleSchluesselJwk(wrapper, passphrase) {
   // Ab hier: Fassung 1 (heute die einzige in der Allowlist) — Ableitung und AAD unverändert.
   let salt;
   try { salt = base64ToBytes(wrapper.salt); } catch (e) { throw new Error('Geschützte Datei ist beschädigt (Salt nicht lesbar).'); }
-  const key = await deriveKey(passphrase, salt);
-  try {
-    return await decryptData({ iv: wrapper.iv, ct: wrapper.ct }, key, _aadFuerSchluesselhuelle(wrapper));
-  } catch (e) {
-    throw new Error('Falsche Passphrase oder beschädigte Datei.');
+  // Erst NFC, wie beim Schützen. Eine Hülle von vor der Normalisierung (18.10.2026) trägt die Passphrase so, wie sie getippt
+  // war; darum genau ein zweiter Versuch mit der rohen Eingabe, wenn sie sich von NFC unterscheidet. Ausnahme im Klassenwächter
+  // tests/passwort-nfc-klasse.test.js. Die Meldung bleibt dieselbe, ob ein oder zwei Versuche liefen.
+  const nfc = String(passphrase).normalize('NFC');
+  for (const p of (nfc === passphrase ? [nfc] : [nfc, passphrase])) {
+    const key = await deriveKey(p, salt);
+    try {
+      return await decryptData({ iv: wrapper.iv, ct: wrapper.ct }, key, _aadFuerSchluesselhuelle(wrapper));
+    } catch (e) { /* nächster Versuch oder die Meldung unten */ }
   }
+  throw new Error('Falsche Passphrase oder beschädigte Datei.');
 }
 
 // RFC 7638 §3.2 — JWK-Thumbprint: nur die REQUIRED Members des Key-Typs, in fester
@@ -2956,6 +2961,11 @@ async function jwkThumbprintRfc7638(jwk) {
 // Operator, kein Massenmarkt) — NICHT die volle PW_BLOCKLISTE aus dem Bürger-Kern (90
 // Einträge). Dasselbe Bewertungs-Verfahren wie dort (passwortStaerke), damit die Einstufung
 // nicht zufällig abweicht — kein zweites Verfahren, nur eine kleinere, hier passende Liste.
+/* Mindestlänge des Passworts einer Schlüsseldatei (.vdkey), nur beim Setzen. 18.10.2026: 8 → 12 (Entscheidung vom 18.10.2026
+   als Folge der Passwortregeln offline nach BSI): eine .vdkey-Datei wird wie jede Vivodepot-Datei offline geraten und hat keinen
+   zweiten Faktor; darum nie schwächer als das eigene Depot-Passwort (PW_MIN_EIGEN im Kern). Das Öffnen prüft keine Länge — eine
+   Datei mit 8 bis 11 Zeichen aus einer früheren Fassung geht weiter auf. Wächter: tests/passwort-nfc-klasse.test.js. */
+const SCHLUESSEL_PASSWORT_MINDESTLAENGE = 12;
 const ISSUER_PW_BLOCKLISTE = ['passwort', 'password', 'passwort123', 'password123', 'qwertz', 'qwerty', '123456', '12345678', 'trustauthority', 'vivodepot', 'geheim', 'admin', 'letmein', 'welcome', 'changeme'];
 function passphraseStaerke(pw) {
   pw = String(pw == null ? '' : pw);
@@ -2969,7 +2979,7 @@ function passphraseStaerke(pw) {
   if (/[A-ZÄÖÜ]/.test(pw)) klassen++;
   if (/[0-9]/.test(pw)) klassen++;
   if (/[^A-Za-z0-9äöüßÄÖÜ]/.test(pw)) klassen++;
-  if (pw.length < 8 || bekannt) return { stufe: 'schwach', bekannt };
+  if (pw.length < SCHLUESSEL_PASSWORT_MINDESTLAENGE || bekannt) return { stufe: 'schwach', bekannt };
   let score = 0;
   if (pw.length >= 8) score++;
   if (pw.length >= 12) score++;
@@ -3798,7 +3808,7 @@ async function onSchluesselErzeugen() {
   if (!zweck) return;
   const pw1El = $('keygenPw1'), pw2El = $('keygenPw2');
   const pw1 = pw1El ? pw1El.value : '', pw2 = pw2El ? pw2El.value : '';
-  if (!pw1 || pw1.length < 8) { _keygenStatus('Passwort zu kurz (mindestens 8 Zeichen).', 'err'); return; }
+  if (!pw1 || pw1.length < SCHLUESSEL_PASSWORT_MINDESTLAENGE) { _keygenStatus('Passwort zu kurz (mindestens ' + SCHLUESSEL_PASSWORT_MINDESTLAENGE + ' Zeichen).', 'err'); return; }
   if (pw1 !== pw2) { _keygenStatus('Die beiden Passwort-Eingaben stimmen nicht überein.', 'err'); return; }
 
   let ergebnis;
@@ -3826,7 +3836,7 @@ async function onBestandsschluesselSchuetzen() {
   if (!file) { _keygenStatus('Keine Bestandsschlüssel-Datei gewählt.', 'err'); return; }
   const pw1El = $('keygenPw1'), pw2El = $('keygenPw2');
   const pw1 = pw1El ? pw1El.value : '', pw2 = pw2El ? pw2El.value : '';
-  if (!pw1 || pw1.length < 8) { _keygenStatus('Passwort zu kurz (mindestens 8 Zeichen).', 'err'); return; }
+  if (!pw1 || pw1.length < SCHLUESSEL_PASSWORT_MINDESTLAENGE) { _keygenStatus('Passwort zu kurz (mindestens ' + SCHLUESSEL_PASSWORT_MINDESTLAENGE + ' Zeichen).', 'err'); return; }
   if (pw1 !== pw2) { _keygenStatus('Die beiden Passwort-Eingaben stimmen nicht überein.', 'err'); return; }
 
   let jwk;

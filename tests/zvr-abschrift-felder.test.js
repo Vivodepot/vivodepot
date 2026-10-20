@@ -144,7 +144,7 @@ test('[ZVR-Abschrift] derselbe Satz existiert auf Englisch — sonst ist das EN-
    PFLICHT — Notariat und zugelassene Stelle (§ 2 Abs. 1, § 3 Abs. 2 VRegV), nicht die Person selbst,
      Ärzte nur bei dringender Behandlung (§ 78b Abs. 1 BNotO) und der Satz, dass das Register die
      Gültigkeit nicht zeigt (§ 3 Abs. 4 Satz 3 VRegV). Das Format (PDF/A oder TIFF, § 1 Abs. 5 VRegV) nennt
-     der Hinweis nicht: „PDF/A“ ist ein geschützter Standardname (tests/standardnamen-schutz.test.js).
+     der Hinweis nicht: „PDF/A“ ist ein geschützter Standardname (eine nicht öffentliche Probe).
    VERBOT — eine Zeitbindung, Ärztin/Arzt/doctor ohne „dringend“/„urgent“ im selben Satz, eine positive
      Gültigkeitsaussage („zeigt“/„shows“ mit „gilt“/„gültig“/„valid“ ohne „nicht“/„not“ im selben Satz)
      und das Notariat als zugelassene Stelle (Notare bedürfen keiner Zulassung). */

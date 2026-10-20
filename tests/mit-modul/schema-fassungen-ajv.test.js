@@ -2,7 +2,7 @@
 /* Jede ausgelieferte Schema-Fassung lässt sich mit Ajv 2020 im Strict-Modus übersetzen (U2-ADR-488, 06.10.2026).
    Anlass: ein Annotationsfeld im Schema („x-vivodepot-fassung“) hätte Ajv 8 schon in der Standard-Einstellung
    gebrochen („strict mode: unknown keyword“) — unsere Proben und jeden Integrator. Diese Klasse soll nicht wiederkommen. */
-const { test } = require('node:test');
+const test = require('../helfer/nur-privat.js').testMitPrivat(__filename);   // GIT: ältere Fassungen liegen als Blobs in der privaten Geschichte
 const assert = require('node:assert/strict');
 const Ajv2020 = require('ajv/dist/2020');
 const S = require('../../tools/schema-fassungen.js');

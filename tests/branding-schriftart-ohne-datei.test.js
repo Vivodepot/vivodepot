@@ -12,7 +12,7 @@
      (b) brandingAnwenden setzt einen Stapel, der IMMER auf `sans-serif` endet, und setzt für eine Familie ohne Datei
          (etwa aus einem früher eingelassenen, gespeicherten Modul) gar nichts.
    Die Lese-App wendet keine Marken-Schrift an; ihr eigener Stapel endet auf sans-serif (letzte Probe).
-   Wächter gegen die Klasse: tools/serifen-pruefen.js, Modulweg (tests/serifen-pruefen.test.js).
+   Wächter gegen die Klasse: tools/serifen-pruefen.js, Modulweg (eine nicht öffentliche Probe).
    ════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');

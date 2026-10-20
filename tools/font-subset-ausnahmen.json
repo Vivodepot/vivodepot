@@ -222,7 +222,7 @@
    "bis": "U+04FF",
    "grund": "nur-export",
    "region": "AB_WERK_IPS_BEGLEITTEXT",
-   "notiz": "Griechisch und Kyrillisch der IPS-Begleittexte in 24 EU-Sprachen (tools/ips-begleittext-modul.json). Sie gehen nur als FHIR-Narrativ in die Exportdatei; die App zeichnet sie nicht mit ihrer Schrift. Geprüft: kein Zeichen dieses Bereichs kommt in einem der vier Produkte außerhalb der Region vor — einzeln gelistete Codepunkte (β) gehen vor."
+   "notiz": "Griechisch und Kyrillisch der IPS-Begleittexte in 24 EU-Sprachen (eine nicht öffentliche Datei). Sie gehen nur als FHIR-Narrativ in die Exportdatei; die App zeichnet sie nicht mit ihrer Schrift. Geprüft: kein Zeichen dieses Bereichs kommt in einem der vier Produkte außerhalb der Region vor — einzeln gelistete Codepunkte (β) gehen vor."
   }
  ]
 }

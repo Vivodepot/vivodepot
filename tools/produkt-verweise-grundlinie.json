@@ -1,5 +1,5 @@
 {
- "zweck": "Verweise ins Leere, die es am 07.10.2026 in gebauten Produkten gab (Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH). Positivliste, darf nur sinken; ein neuer Eintrag braucht Rot-Beweis und Wort der Gegenlesung. Jede Zeile heißt: Ziel fehlt, Entscheidung offen. Eigentümer: Pro-Strang. Gemessen mit tools/lib/produkt-verweise-pruefen.js (produktVerweiseMessen), gehalten von tests/produkt-verweise-aufloesen.test.js.",
+ "zweck": "Verweise ins Leere, die es am 07.10.2026 in gebauten Produkten gab (Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH). Positivliste, darf nur sinken; ein neuer Eintrag braucht Rot-Beweis und Wort der Gegenlesung. Jede Zeile heißt: Ziel fehlt, Entscheidung offen. Eigentümer: Pro-Strang. Gemessen mit tools/lib/produkt-verweise-pruefen.js (produktVerweiseMessen), gehalten von eine nicht öffentliche Probe.",
  "eintraege": [
   {
    "produkt": "pro-de",

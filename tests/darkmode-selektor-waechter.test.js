@@ -22,7 +22,7 @@ const { luecken: _luecken, messen } = require('../tools/lib/darkmode-selektor-me
 const KERN = path.join(__dirname, '..', 'vivodepot.html');
 
 /* Lokaler Durchreicher, NICHT nur ein Re-Export: der Aufruf-Nachweis (operating-manual §7.5,
-   tests/pruefstand-bindung.test.js) sucht die Diskriminante als `function NAME(...)`/`const
+   eine nicht öffentliche Probe) sucht die Diskriminante als `function NAME(...)`/`const
    NAME = (...) => {...}` IN DIESER DATEI — eine reine `require`-Bindung aus tools/lib
    fände er nicht. */
 function luecken(html, ausnahmen) { return _luecken(html, ausnahmen); }

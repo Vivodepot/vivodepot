@@ -62,7 +62,7 @@ async function wegGehen(seite) {
 
 test('[Weg 4] Exportieren — Bereich waehlen, Umfang sehen', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite, fehler } = await seiteMitDepot(browser, PW);
     const protokoll = await wegGehen(seite);
@@ -74,7 +74,7 @@ test('[Weg 4] Exportieren — Bereich waehlen, Umfang sehen', async () => {
 
 test('[Weg 4·Positivkontrolle] ohne den Auswahl-Schirm bricht der Weg mit der erwarteten Meldung', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => { window.__vdOeffentlich.flowHerausgebenZentral = () => {}; });
@@ -88,7 +88,7 @@ test('[Weg 4·Positivkontrolle] ohne den Auswahl-Schirm bricht der Weg mit der e
 
 test('[Weg 4·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });

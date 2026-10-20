@@ -75,7 +75,7 @@ unbemerkt, weil ein Pin die Kaskade ersetzt hätte. **Verlustbehaftete Transform
 Reshape.**
 
 **Der genau parallele Befund derselben Nacht, an der Branding-Achse (U2-ADR-384):** 56 prüfte für
-Branding dieselbe Frage und schloss `tools/buergermodul/vd-branding.json` (nur `name`, keine
+Branding dieselbe Frage und schloss eine nicht öffentliche Datei (nur `name`, keine
 Farben/Schrift/Logo) ausdrücklich NICHT als Lücke ein — „Farben/Schrift/Logo liegen im Kern nur
 als CSS-Variable, keine Datenwerte, die der freie Bürgerapp-Schnitt ziehen könnte." Der
 Unterschied zu `AB_WERK_BRANDING` selbst: Branding-FARBEN (`--salbei-dunkel: #4F6539`) SIND

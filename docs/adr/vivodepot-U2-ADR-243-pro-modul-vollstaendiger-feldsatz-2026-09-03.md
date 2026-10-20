@@ -4,8 +4,8 @@
 **Status:** Gilt für Teil 1 · Teil 2 entschieden und gebaut (Nachtrag 02.10.2026)
 **Status heute:** gilt
 **Bezug:** interne Feldsatz-Spezifikation vom 03.09.2026 (Auftrag vom 03.09.2026) ·
-`vivodepot-pro-zusammensetzung-entwurf-2026-09-03.md` §3 (Feld→Bereich-Zuordnung, dieselbe Ablage) ·
-`pro-modul-betriebsuebergabe-kammer-checklisten-abgleich-2026-09-02.md` (18 Fehlstellen, Quelle
+interner Bericht vom 03.09.2026 §3 (Feld→Bereich-Zuordnung, dieselbe Ablage) ·
+interner Bericht vom 02.09.2026 (18 Fehlstellen, Quelle
 der neuen Felder) · Auftrag „Betriebssatz — echtes Pro-App-Paar D/E" (30.08.2026, die
 bisherigen 36 Felder)
 
@@ -73,7 +73,7 @@ vertretungsplan`) folgen dem Bereichs-ID-Format (`/^[a-z][a-z0-9-]{1,39}$/` — 
 Unterstrich).
 
 **36 Bestandsfelder, 1:1 nach ihrem heutigen `gruppe`-Wert verteilt** (Block 1→Bereich 1 …
-Block 5→Bereich 5, aus `vivodepot-pro-zusammensetzung-entwurf-2026-09-03.md` §3 hergeleitet und
+Block 5→Bereich 5, aus dem internen Bericht vom 03.09.2026 (§3) hergeleitet und
 dort tabelliert) — keine Umsortierung, nur ein Formwechsel. Bereich 6 hatte kein Altfeld.
 
 **18 neue Felder** (Spezifikation Teil B1), nach Mehrfachbau-Prüfung gegen den Kern (Teil A5 der
@@ -150,7 +150,7 @@ Inhaberin bleibt), **Übergabe** (eine Aufgabe oder ein Bereich geht dauerhaft a
 Nachfolgerin). „Notfall" entfällt als Situation und als Anlass in Pro-Texten. Damit ist die Liste aus §2
 (Notfall · Vertretung · Übergabe · Nachfolge) überholt.
 
-**Bauform:** ein Situations-Modul je Sprache (`tools/templates/vivodepot-pro-situationen-de.json`, `-en.json`), im
+**Bauform:** ein Situations-Modul je Sprache (eine nicht öffentliche Datei, `-en.json`), im
 Rezept `pro-de`/`pro-en` an Stelle der zehn privaten Situationen (`tools/lib/vier-produkte.js`). Nur Züge
 `{quelle, feld}` aus den sechs Pro-Bereichen und `identity`, keine eigenen Felder (die kommen mit den Pro-Feldern).
 Je Situation eine Kachel und Suchbegriffe im Template. Privat bleibt unverändert. Die privaten Assistenten und der
@@ -167,10 +167,10 @@ Datei, die Situation war unsichtbar.
 Nachfüllen greift nur bei fehlendem oder leerem Fach, `tests/schema-84-mitschrift-nachfuellen.test.js`); die Lese-App
 zeigt sie dort nicht. Pro-Dateien in fremder Hand gab es zum Zeitpunkt der Entscheidung nicht.
 
-**Proben:** `tests/pro-situationen.test.js` (Angebot je Sprache, Züge lösen auf, jeder Pro-Bereich erreicht, Privat
+**Proben:** eine nicht öffentliche Probe (Angebot je Sprache, Züge lösen auf, jeder Pro-Bereich erreicht, Privat
 unverändert, Lese-App, alte Datei öffnen → speichern → wieder öffnen ohne Verlust, kein Übergriff über die
 Mitschrift). Rot-Beweis: ohne den Weck-Schritt scheitert die Verlust-Probe an „lesbar: notar". Wächter
-`tests/pro-texte-ohne-notfall.test.js` (keine Pro-Zeichenkette mit Notfall oder Ausfall; eine benannte Ausnahme bis
+eine nicht öffentliche Probe (keine Pro-Zeichenkette mit Notfall oder Ausfall; eine benannte Ausnahme bis
 zu den Pro-Feldern, als Ratsche).
 
 
@@ -184,7 +184,7 @@ Vorsorge), der Lebenslagen-Katalog und die fünf privaten Assistenten (gebwiz, a
 Patientenverfügung und KI-Verfügung (pvwiz, kiwiz) bleiben, die persönliche Vorsorge der Inhaberin gilt auch in Pro.
 
 **Bauform:** Die acht Kacheln standen als Konstante `ANLAESSE` im Kern und erschienen darum in jedem Produkt. Sie sind
-jetzt Rezept-Inhalt: Sie stehen im Lebenslagen-Katalog (`tools/lebenslagen-katalog-modul.json`, Schlüssel `anlaesse`), den nur
+jetzt Rezept-Inhalt: Sie stehen im Lebenslagen-Katalog (eine nicht öffentliche Datei, Schlüssel `anlaesse`), den nur
 die Privat-Rezepte tragen; sechs der acht öffnen ohnehin eine Lebenslage. Eine eigene Region wurde verworfen, weil der
 Region-Erzeuger (`tools/lib/produkt-text-erzeugen.js`) byte-gleich mit dem Gateway-Repo bleiben muss. Im Kern bleibt nur die produktneutrale Vorschau-Kachel. Privat ist unverändert: Die
 Startseite DE und EN, ohne und mit Depot, ist zeichengleich mit dem Stand davor
@@ -192,7 +192,7 @@ Startseite DE und EN, ohne und mit Depot, ist zeichengleich mit dem Stand davor
 
 **Kein Verlust:** Assistenten und Lebenslagen haben keinen eigenen Speicher; sie schreiben in Bereiche und Situationen.
 Werte einer älteren Pro-Datei bleiben über die ruhenden Bereiche und die ruhenden Situationen (§5) lesbar und
-exportierbar. Probe `tests/anlass-kacheln-rezept.test.js` (öffnen → speichern → wieder öffnen mit Werten aus gebwiz,
+exportierbar. Probe eine nicht öffentliche Probe (öffnen → speichern → wieder öffnen mit Werten aus gebwiz,
 anamwiz und der Lage „eigene Vorsorge“); Rot-Beweis: Ohne den Weck-Schritt scheitert sie an „lesbar: geburt“.
 
 
@@ -206,11 +206,11 @@ Fünf weitere „teilweise" sind schon durch diese Felder oder durch das Rechnun
 (Vertretung bei Verhinderung, Notar-, Praxis-, Kammer-Vertretung) gehören in die Berufsmodule. Die Zuordnung steht je
 Feld in der Quelle (`deckt`, `anderweitigGedeckt`, `berufsrechtlichNachP2`).
 
-**Quelle und Bauform:** `tools/pro-felder-erweiterung.json` trägt je Feld Bereich, Sektion, vorgegebene Kennung, Typ,
+**Quelle und Bauform:** eine nicht öffentliche Datei trägt je Feld Bereich, Sektion, vorgegebene Kennung, Typ,
 Optionen, Unterfelder, `sensibel`, die interne Fundstelle (Norm, `quelle`) sowie Beschriftung und Hinweis DE/EN.
-`tools/lib/pro-felder-erweiterung.js` speist zwei Verbraucher: die von Hand gepflegten Bereichs-Templates
-(`tools/pro-felder-erweiterung-einbauen.js [--check]`, nur anhängen: neue Sektionen vor „Allgemein", Felder ans Ende ihrer
-Sektion) und die Sprachmodule (über `tools/textsatz-de-pro-felder-daten.js` und `tools/textsatz-en-pro-felder-daten.js`). Dazu kommt ein Satz je Pro-Bereich
+ein nicht öffentliches Werkzeug speist zwei Verbraucher: die von Hand gepflegten Bereichs-Templates
+(der Aufruf eines nicht öffentlichen Werkzeugs, nur anhängen: neue Sektionen vor „Allgemein", Felder ans Ende ihrer
+Sektion) und die Sprachmodule (über ein nicht öffentliches Werkzeug und ein nicht öffentliches Werkzeug). Dazu kommt ein Satz je Pro-Bereich
 (`<bereich>.einfuehrungstext`): „Hier halten Sie fest, was es in Ihrem Unternehmen gibt und wo es liegt. Ob etwas fehlt,
 prüft {marke} nicht." Er sagt etwas über das Produkt, nicht über das Recht. Die Beschriftung „Versorgungslage der Familie
 im Ausfall" heißt jetzt „Versorgungslage der Familie"; ihre Kennung bleibt.
@@ -239,13 +239,13 @@ führt, wird ganz durch die Form des Produkts ersetzt. Jede andere bleibt unver�
 weiter aus der Datei. Was v922 und v923 angehängt haben, bleibt lesbar: Diese Strukturen sind aus den ausgelieferten
 Ständen erhoben und stehen in der Menge der ausgelieferten Bereichsstrukturen. Der zweite Satz oben (ein fehlender Bereich kommt nur
 mit Werten hinzu) gilt unverändert.
-Proben: `tests/mitschrift-felder-nachtragen.test.js` (echte frühere Pro-Mitschrift als Vorlage; erkannte Definition wird
-ersetzt, eine von Hand geänderte bleibt byte-gleich), `tests/mitschrift-bereich-nach-inhalt.test.js` (die drei Sperren, mit Rot-Beweis).
+Proben: eine nicht öffentliche Probe (echte frühere Pro-Mitschrift als Vorlage; erkannte Definition wird
+ersetzt, eine von Hand geänderte bleibt byte-gleich), eine nicht öffentliche Probe (die drei Sperren, mit Rot-Beweis).
 
-**Proben:** `tests/pro-felder-erweiterung.test.js` (Quelle mit Fundstelle, keine Pflicht in einer Kennung, kein Feld fragt
+**Proben:** eine nicht öffentliche Probe (Quelle mit Fundstelle, keine Pflicht in einer Kennung, kein Feld fragt
 nach PIN oder Passwort, `sensibel` bei sechs benannten Feldern, Templates gleich der Quelle, Altbestand byte-gleich gegen
-`tests/fixtures/pro-bereiche-vor-feld-erweiterung-2026-10-02.json`, Beschriftung, Hinweis und Einführungssatz je Sprache
-im gebauten Produkt); `tests/mitschrift-felder-nachtragen.test.js` (Posten 54, vor dem Bau rot); `tests/pro-texte-ohne-notfall.test.js`
+eine nicht öffentliche Testdatei, Beschriftung, Hinweis und Einführungssatz je Sprache
+im gebauten Produkt); eine nicht öffentliche Probe (Posten 54, vor dem Bau rot); eine nicht öffentliche Probe
 jetzt ohne Ausnahme.
 
 
@@ -289,7 +289,7 @@ ein eigener Schritt außerhalb jeder Sitzung. Die Proben signieren mit Wegwerf-A
 - `tests/modul-buendel-liste-einlassen.test.js`: Regelfall; gleicher Prüfweg wie einzeln; Rot-Proben gemischte Liste,
   fremde Signatur, über der Grenze, Abbruch-Rückstand in Depot und Merkliste, Abbruch-Rückstand im Bereichs-Register.
   Rot-Beweis: Schreibt der Einlass direkt ins Depot oder setzt er das Register nicht zurück, werden genau diese Proben rot.
-- `tests/pro-berufsmodule.test.js` (beide Module): Quelle je Feld, kein Zugangsgeheimnis, kein Notfall-Wort, DE gleich EN;
+- eine nicht öffentliche Probe (beide Module): Quelle je Feld, kein Zugangsgeheimnis, kein Notfall-Wort, DE gleich EN;
   in pro-de und pro-en angenommen, Bereich und Auszug sichtbar; Rundlauf ohne Verlust.
 
 ---

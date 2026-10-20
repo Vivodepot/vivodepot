@@ -18,7 +18,7 @@
         password-abgeleiteten masterHkdfKey — das ist zugleich die Stelle,
         die A-Zug 2 zur Rotmachbarkeit unten mutiert.
 
-   U2-ADR-NNN-Nachtrag (18.09.2026, Kern-Verschluss): lief bis hierher über
+   U2-ADR-509, Nachtrag (18.09.2026, Kern-Verschluss): lief bis hierher über
    Playwright/Chromium gegen die reale Seite — `data`, `sessionHkdfKey`,
    `sessionKey`, `VdCrypto`, `deriveDepotKeyV2` u. a. sind Krypto-/Zustands-
    Namen, die der Verschluss ABSICHTLICH nicht auf `window.__vdOeffentlich`

@@ -50,20 +50,18 @@ test('[L1/L3·Rot-Beweis] modulKarteStatus: Zweig "mehrfach/listeId" (n erteilt)
   assert.notEqual(de, en, 'ein zurückgedrehtes Literal wäre in DE und EN identisch deutsch');
 });
 
-test('[L1/L3·Rot-Beweis] modulKarteStatus: Zweig "kein Record" (instrumentKeine) unterscheidet sich DE/EN', async () => {
+test('[L1/L3] modulKarteStatus: Zweig "kein Record" zeigt in DE und EN nichts (Depot freiwillig, keine Lücken-Anzeige, 09.10.2026)', async () => {
   const modul = { id: '_test', sektor: 'vorsorge', instrumentTyp: 'nichtVorhandenesInstrument' };
   const { de, en } = await deEn(null, (V) => V.modulKarteStatus(modul));
-  assert.equal(de, 'keine');
-  assert.equal(en, 'none');
-  assert.notEqual(de, en);
+  assert.equal(de, '');
+  assert.equal(en, '');
 });
 
-test('[L1/L3·Rot-Beweis] modulKarteStatus: Zweig "ki-verfuegung ohne Record" (instrumentFestgelegt) unterscheidet sich DE/EN', async () => {
+test('[L1/L3·Rot-Beweis] modulKarteStatus: Zweig "ki-verfuegung ohne Record" zeigt nichts (instrumentFestgelegt nur mit Record)', async () => {
   const modul = { id: 'ki-verfuegung', sektor: 'vorsorge', instrumentTyp: 'kiVerfuegungDieEsNichtGibt' };
   const { de: deKeine, en: enKeine } = await deEn(null, (V) => V.modulKarteStatus(modul));
-  assert.equal(deKeine, 'keine');
-  assert.equal(enKeine, 'none');
-  assert.notEqual(deKeine, enKeine);
+  assert.equal(deKeine, '');
+  assert.equal(enKeine, '');
 });
 
 test('[L1/L3·Rot-Beweis] modulKarteStatus: Zweig "Record vorhanden" (instrumentVorhanden) unterscheidet sich DE/EN', async () => {

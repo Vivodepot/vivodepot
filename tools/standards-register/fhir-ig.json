@@ -148,8 +148,8 @@
       ],
       "importwege": [],
       "bezuege": null,
-      "grund": "Der Kern schreibt zwei DocumentReferences nach ISiKDokumentenMetadaten (U2-ADR-468, v863). Validator-Lauf gegen de.gematik.isik#6.0.0 mit tools/isik-validieren.js (validator_cli, offline, mit Suite-Platz); nicht in der Suite, weil die amtlichen Anzeigetexte nur zur Laufzeit aus dem lokalen Paket-Cache kommen. Interne Probe: tests/isik-dokumente.test.js.",
-      "pruefer": "tools/isik-validieren.js"
+      "grund": "Der Kern schreibt zwei DocumentReferences nach ISiKDokumentenMetadaten (U2-ADR-468, v863). Validator-Lauf gegen de.gematik.isik#6.0.0 im Konformitätslauf tests/konformitaet/externe-validatoren.mjs (validator_cli, offline, eigener Sammelaufruf nur mit dem ISiK-Paket), Fälle isik-vollmacht-urschrift und isik-ips (gültig), isik-ohne-status und isik-ohne-kdl (ungültig); dazu einzeln tools/isik-validieren.js. Die amtlichen Anzeigetexte kommen nur zur Laufzeit aus dem lokalen Paket-Cache — fehlt dort ein Paket, sind die ISiK-Fälle UNGEMESSEN. Darum teilweise, nicht echt: ohne Cache ist das Urteil nicht reproduzierbar beschaffbar. Interne Probe: tests/isik-dokumente.test.js.",
+      "pruefer": "tests/konformitaet/externe-validatoren.mjs"
     },
     {
       "id": "smart-health-links",

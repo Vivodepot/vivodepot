@@ -64,6 +64,46 @@
       "type": "integer",
       "minimum": 1
     },
+    "name": {
+      "description": "U2-ADR-495: der Name des Rechtsraums je Sprache (ISO 639-1), wie die Bürgerin ihn liest („Deutschland“). Freiwillig; ohne Namen zeigt der Kern den Code. Gelesen u. a. vom Lebenslagen-Hinweis (Land je Sprache).",
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z]{2}$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rechtsformen": {
+      "description": "U2-ADR-495: die Rechtsformen dieses Rechtsraums, aus denen Studio und Vorlagen die Rechtsform einer Stelle wählen. Freiwillig. `kennung` ist der Wert, der in Angaben steht; `label`/`labelEn` die Anzeige; `art` ordnet sie einer Sorte zu (z. B. `verein`, `unternehmen`, `behoerde`).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kennung"
+        ],
+        "properties": {
+          "kennung": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "labelEn": {
+            "type": "string",
+            "minLength": 1
+          },
+          "art": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          }
+        }
+      }
+    },
     "typen": {
       "description": "Rechtsraumspezifischer Inhalt je Instrument-Typ. Ein Schluessel, den der eingebaute Katalog bereits kennt (z. B. 'vorsorgevollmacht'), fuegt DIESEM Rechtsraum eigenen Inhalt hinzu (kein Ueberschreiben — der Slot liegt ohnehin nach {typ, rechtsraum} getrennt). Ein NEUER Typ (den der eingebaute Katalog nicht kennt, Punkt 4 'Instrument ohne deutsches Gegenstueck') MUSS den tpl_-Namensraum tragen (Namensraum-Schutz, U2-ADR-037-Muster) — sonst koennte ein kuenftiger eingebauter Typ mit demselben Namen von einem alten Modul beschattet werden.",
       "type": "object",
@@ -88,7 +128,7 @@
             ]
           },
           "bauplan": {
-            "description": "Die Anweisung, wie dieses Instrument in diesem Rechtsraum entsteht — Wortlaut, Reihenfolge und Bedingungen zusammen, fuer Instrumente mit mehrschrittigem Bauplan (z. B. Patientenverfuegung/Vollmacht, U2-ADR-NNN Korpus-Zuordnung). null, wenn dieser Typ keinen mehrschrittigen Bauplan hat (nur `wortlaut`, oder keins von beiden). Jeder Schritt traegt die gemeinsame Wurzel {feld, verborgenWenn?} plus die Korpus-Erweiterung {dokEinleitung?, bezug?, hilfetext?, frage?} — dieselbe Wurzel wie die Wizard-Erweiterung {feld, verborgenWenn?, ziel?} in BUERGERMODUL_BUENDEL.wizards, aber mit den Korpus-eigenen statt den Wizard-eigenen Zusatzfeldern.",
+            "description": "Die Anweisung, wie dieses Instrument in diesem Rechtsraum entsteht — Wortlaut, Reihenfolge und Bedingungen zusammen, fuer Instrumente mit mehrschrittigem Bauplan (z. B. Patientenverfuegung/Vollmacht, U2-ADR-507 Korpus-Zuordnung). null, wenn dieser Typ keinen mehrschrittigen Bauplan hat (nur `wortlaut`, oder keins von beiden). Jeder Schritt traegt die gemeinsame Wurzel {feld, verborgenWenn?} plus die Korpus-Erweiterung {dokEinleitung?, bezug?, hilfetext?, frage?} — dieselbe Wurzel wie die Wizard-Erweiterung {feld, verborgenWenn?, ziel?} in BUERGERMODUL_BUENDEL.wizards, aber mit den Korpus-eigenen statt den Wizard-eigenen Zusatzfeldern.",
             "type": [
               "array",
               "null"
@@ -165,8 +205,74 @@
               "type": "string",
               "minLength": 1
             }
+          },
+          "hinweise": {
+            "description": "R1: Hinweise je Sprache für diesen Dokumenttyp; überschreiben `hinweise` des Moduls (z. B. KI: Anlage zu einem Testament).",
+            "type": "object",
+            "propertyNames": {
+              "pattern": "^[a-z]{2}$"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "fuss": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "vorschlag": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "rechtsgrundlage": {
+            "description": "U2-ADR-466: die Rechtsgrundlage des Instruments in diesem Rechtsraum, Paragraf und Adresse der Norm. Der IPS-Export nennt `uri` als Consent.policy. Freiwillig; ohne `uri` liest der Kern den Eintrag nicht.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "uri"
+            ],
+            "properties": {
+              "paragraf": {
+                "type": "string"
+              },
+              "uri": {
+                "type": "string",
+                "pattern": "^https://"
+              }
+            }
           }
         }
+      }
+    },
+    "hinweise": {
+      "description": "R1 (09.10.2026): Hinweise dieses Rechtsraums je Sprache (ISO 639-1). `fuss` ist der Rechtsraum-Satz im Dokument-Fuß (Befund DEUTSCHES-RECHT-UNSICHTBAR). `vorschlag: true` heißt: noch nicht freigegeben, der Kern zeigt den Satz nicht.",
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z]{2}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fuss": {
+            "type": "string",
+            "minLength": 1
+          },
+          "vorschlag": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "formate": {
+      "description": "R1 (09.10.2026): die rechtsraumgebundenen Ausgabeformate dieses Rechtsraums (Kennungen aus EXPORT_FORMATE mit `rechtsraumGebunden`, z. B. xoev-verwaltung, fim-json). Ein solches Format bietet der Kern nur an, wenn das Modul der Zusammenstellung es hier nennt.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
       }
     },
     "sprache": {

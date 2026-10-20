@@ -145,6 +145,12 @@ const AUSNAHMEN = new Map([
     'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
   ['docs/format/korpus/u19-inhalt.vivodepot',
     'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
+  ['docs/format/korpus/a01-attrappe-vor-fix.vivodepot',
+    'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
+  ['docs/format/korpus/a02-polster-vor-fix.vivodepot',
+    'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
+  ['docs/format/korpus/g15-kreisname-emoji.vivodepot',
+    'U2-ADR-043: VIVODEPOT-Kopf mit Versions-Byte, Testkorpus des Formats (docs/format/SPEZIFIKATION.md), kein Fund.'],
   // Klasse D — Steuerzeichen aus PDF-Textextraktion amtlicher Formulare (0x83 Bullet-
   // Artefakt, 0x08/0x0c/0x07 Fett-Overstrike/Seitenwechsel). UNGEPRÜFT, ob es wirklich
   // wortgetreuer amtlicher Text ist (Meßbericht, §„Nicht gemessen") — nur Muster/Zweck sprechen

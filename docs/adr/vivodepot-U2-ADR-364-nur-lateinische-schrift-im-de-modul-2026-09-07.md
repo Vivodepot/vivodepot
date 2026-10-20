@@ -27,8 +27,8 @@ liegt heute im Kern.** Das DE-Sprachmodul (`tools/textsatz-de-modul.json`,
 abgeleitete** Kopie — sein eigener Kopf-Kommentar sagt es selbst: „das DE-Modul ERFINDET
 NICHTS — es liest jede Kennung direkt aus TEXTSATZ_EINGEBAUT im Kern." Ein Handedit am Modul
 allein wäre beim nächsten Erzeuger-Lauf verschwunden; der Text hätte in Wahrheit weiter am
-Kern gehangen. Ebenso `tools/buergermodul/vd-de-sprache.json`
-(`tools/buergermodul-schnitt.js`, `schneiden(V)` liest direkt aus dem gebooteten Kern).
+Kern gehangen. Ebenso eine nicht öffentliche Datei
+(ein nicht öffentliches Werkzeug, `schneiden(V)` liest direkt aus dem gebooteten Kern).
 
 **Fünf Fundorte insgesamt, drei Behandlungen:**
 
@@ -38,7 +38,7 @@ vivodepot.html:7339 (TEXTSATZ_EINGEBAUT)      — VON HAND geändert (der Kern I
 vivodepot-lesen.html (nativer Spiegel)        — VON HAND geändert (derselbe zweite Ort, der
                                                   diese Nacht schon einmal getroffen hat)
 tools/textsatz-de-modul.json                  — mit dem Erzeuger NEU GEBAUT, nicht angefasst
-tools/buergermodul/vd-de-sprache.json         — ebenso, mit buergermodul-schnitt.js
+eine nicht öffentliche Datei         — ebenso, mit buergermodul-schnitt.js
 tests/fixtures/sektoren-EINGEFROREN-…json     — eingefrorener Schnappschuss, UNANGETASTET
 ```
 
@@ -124,7 +124,7 @@ anzuhäufen. `node --test tests/buergermodul-bereich-erzeugen-u2-adr-319.test.js
 Keine Reparatur des „DE-Modul wird mechanisch aus dem Kern abgeleitet"-Zustands — das ist 3f's
 eigener, laufender Zug. Keine Hand-Override-Tabelle für DE (ausdrücklich abgelehnt: „Sie
 wäre eine zweite Quelle für denselben Text — und genau das, was 3f's Folgezug auflösen soll").
-Keine Änderung an `tools/buergermodul/vd-privat.json` — der Erzeuger-Lauf brachte dort eine
+Keine Änderung an eine nicht öffentliche Datei — der Erzeuger-Lauf brachte dort eine
 Abweichung vom eingecheckten Stand zutage, außerhalb des Auftrags, bewusst NICHT mitgenommen
 (`git checkout` auf den eingecheckten Stand), um die Kollisionsfläche mit `3f`/`56`s zeitgleicher
 Arbeit klein zu halten. Genau gemessen (Auflage): DEEP-EQUAL zwischen eingecheckter und

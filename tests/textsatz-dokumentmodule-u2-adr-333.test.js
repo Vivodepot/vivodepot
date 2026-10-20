@@ -29,7 +29,7 @@
    WAR. Der Kern trug die Antwort auf Fehler 1 bereits: `_textsatzTunAssistent`
    bildet BEIDE Richtungen ab, mit dem Kommentar "damit kein Aufrufer die Grenze
    umgeht". */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // VORLAGEN: öffentlich ohne die zurückgehaltenen Vorlagen
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 const { fingerabdruck, vergleiche } = require('../tools/dokumentmodul-folge-fingerabdruck.js');
@@ -96,7 +96,7 @@ test('[ADR-333·Ausbeute] der Gang erreicht die Dokument-Module ueberhaupt', () 
 });
 
 /* --- 2. DIE PROBE, DIE ZAEHLT: EIN SPRACHMODUL AENDERT DEN WORTLAUT -------- */
-test('[ADR-333] ein Sprachmodul aendert einen Dokument-Wortlaut — ohne eine Zeile im Kern', () => {
+test('[U2-ADR-333] ein Sprachmodul aendert einen Dokument-Wortlaut — ohne eine Zeile im Kern', () => {
   const { V } = ladeKern();
   const m = V.BETREUUNG_MODUL;
   const vorherTitel = m.abschnitte[1].titel;
@@ -136,7 +136,7 @@ test('[U2-ADR-333·Sperre] ein Sprachmodul aus der Depot-Datei aendert den Dokum
    indizierte Kennung waere `texte[1]` unerreichbar, waehrend `texte[0]`
    erreichbar AUSSAEHE — die Luecke faellt dann nur auf, wenn jemand zufaellig
    das zweite Element prueft. */
-test('[ADR-333·rot] ein Array-Element wechselt, und zwar NICHT das erste', () => {
+test('[U2-ADR-333·rot] ein Array-Element wechselt, und zwar NICHT das erste', () => {
   const { V } = ladeKern();
   const block = V.PV_MODUL.abschnitte[10].bloecke[1];
   assert.ok(Array.isArray(block.texte) && block.texte.length >= 4,

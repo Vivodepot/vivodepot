@@ -37,7 +37,8 @@ gewählt: der Grund für den Umzug ist inhaltlich (falscher Nachbar), nicht baul
 eigener Commit mit grüner voller Suite:
 
 **Zug 1 — der Bereich entsteht leer.** Nur die Hülle: `SEKTOREN`-Eintrag, Icon,
-`_BEREICH_SEKTOR`-Map. Sidebar, Suche, Export-Mappings, W-10 und die Konformitätsprüfung
+`_BEREICH_SEKTOR`-Map (Stand 10.08.2026 — Letztere inzwischen aus dem Code entfernt, Fund
+20.09.2026, `tools/adr-code-stellen-pruefen.js`, Ersatz nicht recherchiert). Sidebar, Suche, Export-Mappings, W-10 und die Konformitätsprüfung
 ziehen automatisch mit (dynamische `SEKTOREN`-Iteration, T11-Muster vom 31.07.2026 —
 `tools/lib/sektoren.js`). Vier Tests mit hart verdrahteter Sektor-Zahl auf zwölf
 nachgezogen.

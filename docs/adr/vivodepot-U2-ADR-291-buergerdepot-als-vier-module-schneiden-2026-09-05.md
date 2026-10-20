@@ -2,8 +2,8 @@
 
 **Status:** Akzeptiert
 **Datum:** 05.09.2026
-**Betrifft:** `tools/buergermodul-schnitt.js`, `tools/buergermodul-erzeugen.js`,
-`tools/buergermodul/*.json`, `tests/buergermodul-schnitt.test.js`
+**Betrifft:** ein nicht öffentliches Werkzeug, `tools/buergermodul-erzeugen.js`,
+`tools/buergermodul/*.json`, eine nicht öffentliche Probe
 
 - **Status heute:** gilt — der Schnitt läuft gegen v557, die Gegenprobe steht auf 0 (kein Text
   mehr in der Struktur), und die neun ungedeckten Texte sind als Ratsche in der Suite gebunden.
@@ -126,7 +126,7 @@ Unterhaltsfeld ist schlimmer als ein deutscher Text im englischen Feld** — dar
 Lücke offen, statt sie falsch zu schließen. Die Form müsste die Trägerkette aufnehmen; das ist
 eine Kern-Änderung mit eigener Entscheidung, kein Nachtrag.
 
-Der Rest steht als **Ratsche** in `tests/buergermodul-schnitt.test.js`: die Liste darf
+Der Rest steht als **Ratsche** in eine nicht öffentliche Probe: die Liste darf
 schrumpfen, nie wachsen. Wächst sie, ist ein neuer Text eingebaut worden, den keine Sprache
 erreicht — **und genau das würde die Bürgerin bemerken.** Eine zweite Probe hält die
 Gegenrichtung: nichts Erledigtes darf in der Liste stehen bleiben.

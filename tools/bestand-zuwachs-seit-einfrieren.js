@@ -82,7 +82,7 @@ const ZUWACHS = Object.freeze([
   { bereich: 'vorsorge', sektion: 'spousal-representation', feld: 'spousalObjectionRegistered', unterfeld: null, art: 'feld', adr: 'U2-ADR-433' },
   { bereich: 'vorsorge', sektion: 'spousal-representation', feld: 'spousalObjectionRegisterNumber', unterfeld: null, art: 'feld', adr: 'U2-ADR-433' },
   // Personenstandsurkunden (27.09.2026, Stufe 89): die Ablageorte, bisher eigene Felder der Situation Erbfall, als Kennungen
-  // (tests/schema-89-personenstandsurkunden.test.js).
+  // (eine nicht öffentliche Probe).
   { bereich: 'identitaet', sektion: 'civil-status-certificates', feld: 'birthCertificateStorage', unterfeld: null, art: 'feld', adr: 'U2-ADR-439' },
   { bereich: 'identitaet', sektion: 'civil-status-certificates', feld: 'marriageCertificateStorage', unterfeld: null, art: 'feld', adr: 'U2-ADR-439' },
   { bereich: 'identitaet', sektion: 'civil-status-certificates', feld: 'familyRegisterBookStorage', unterfeld: null, art: 'feld', adr: 'U2-ADR-439' },
@@ -100,7 +100,7 @@ const ZUWACHS = Object.freeze([
   { bereich: 'gesundheit', sektion: 'notfall-aerzte', feld: 'wanderingRisk', unterfeld: null, art: 'feld', adr: 'U2-ADR-455' },
   { bereich: 'gesundheit', sektion: 'notfall-aerzte', feld: 'wanderingRiskDetails', unterfeld: null, art: 'feld', adr: 'U2-ADR-455' },
   // Festlegungen der Patientenverfügung (28.09.2026): die Schritte des Assistenten als Felder, abgeleitet aus PV_BMJ.steps
-  // (tests/pv-festlegungen-kennungen.test.js).
+  // (eine nicht öffentliche Probe).
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'applicableSituations', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'ownAdditionalSituation', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },
   { bereich: 'vorsorge', sektion: 'living-will-decisions', feld: 'lifeSustainingMeasures', unterfeld: null, art: 'feld', adr: 'U2-ADR-440' },

@@ -3,7 +3,7 @@
 **Status:** Akzeptiert
 **Datum:** 30.05.2026
 **Kategorie:** ARCHITEKTUR, DATENMODELL, UX
-**Cross-Referenz (v1-RC / Produktiv):** `mehr()`-Blöcke, `sucheCodes`/`CODELIST_REGISTRY`, `_SBL_SITUATIONEN`, `erb_*`-Felder; ADR-077 v3 (KI-Verfügung).
+**Cross-Referenz (v1-RC / Produktiv):** `mehr()`-Blöcke, `sucheCodes`/`CODELIST_REGISTRY`, `_SBL_SITUATIONEN`, `erb_*`-Felder; ADR-077 v3 (KI-Verfügung). `sucheCodes` und `_SBL_SITUATIONEN` sind Namen aus dem v1-RC-Code; im U2-Kern standen sie nie (Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js`; nachzusehen mit `git log -S sucheCodes -- vivodepot.html`).
 **U2-Bezug:** U2-ADR-006 (Andock-Architektur, Code-Slot), U2-ADR-008 (Propagation), U2-ADR-009 (Template-Architektur), Architektur-Anker (zwei Feld-Schichten).
 **Status heute:** gilt — Drei-Ebenen/Zwei-Schichten-Modell und die Listen-Render-Schicht im Kern nachweisbar (`feldWertHTML`/`listenEintragZusammenfassung`/`feldInputHTML` ab `vivodepot.html:29881` ff., `codeSlotSicherstellen` `:17845`).
 

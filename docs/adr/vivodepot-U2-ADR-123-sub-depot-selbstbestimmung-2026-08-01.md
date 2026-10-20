@@ -7,7 +7,7 @@ lückenlos). Der Beschluss lag zwischen dem 01.08. und dem 03.08. nur als Entwur
 Repos und als Kommentar im Quelltext vor; der Bau ist ihm vorausgegangen. Das ist
 die Lücke, die diese Nummer schließt.
 **Fassung:** zweite, ersetzt die erste Fassung vom 01.08. (Re-Key-Ceremony-Ansatz) vollständig.
-**Amendiert:** `adr-tranche-1-2026-05-24.md` (ADR-103) und die eigene erste Fassung.
+**Amendiert:** die interne ADR-Sammlung „Tranche 1“ vom 24.05.2026 (ADR-103) und die eigene erste Fassung.
 **Bezug:** ADR-081 Komponente 2 Weg 1 · Krypto-Architektur, Abschnitte Re-Key beim
 Verselbstständigen und Blackbox-Übergabe · Klärung 11 (eigenes Passwort pro Sub-Depot) ·
 U2-ADR-095 (Anker-Passwort-Wechsel) · interne Liste offener Punkte (T2.1 Volljährigkeit).

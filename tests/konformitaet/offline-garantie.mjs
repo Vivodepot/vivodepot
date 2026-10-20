@@ -18,7 +18,7 @@
  *   B (Laufzeit) — der blockierte Lauf fährt Gesamt-PDF, Bereichs-PDF,
  *      Notfallkarte (jsPDF + QR-Erzeuger) und FHIR-IPS-Export mit. (Nachtrag
  *      19.09.2026: der offene Voll-JSON-Export war hier ebenfalls vorgesehen —
- *      per U2-ADR-NNN, 18.09.2026, ist er absichtlich entfernt, „Wiederherstellen
+ *      per U2-ADR-508, 18.09.2026, ist er absichtlich entfernt, „Wiederherstellen
  *      ≠ Weitergeben"; s. Kommentar an Schritt 5 unten.)
  *   B (statisch) — der jsPDF-XHR-Pfad ist aus dem EIGENEN Code gar nicht
  *      erreichbar: kein addFont/addFileToVFS/loadFile, genau EIN addImage, und
@@ -43,6 +43,7 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import netzSperre from '../../tools/lib/netz-sperre.js';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
@@ -138,7 +139,7 @@ const KLARTEXT_PROBE = Object.freeze([
 describe('Offline-Garantie V1 — 0 externe Requests (Playwright)', () => {
 
   test('App lädt + rendert ohne Netzwerk, kein Crash', async () => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(netzSperre.mitSperre());
     try {
       const context = await browser.newContext();
       await context.route(/^https?:\/\//, route => route.abort('failed'));   // Netz hart blocken
@@ -152,7 +153,7 @@ describe('Offline-Garantie V1 — 0 externe Requests (Playwright)', () => {
   });
 
   test('NULL externe HTTP/S-Requests bei Laden + Nutzung', async () => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(netzSperre.mitSperre());
     try {
       const context = await browser.newContext();
       const externeRequests = [];
@@ -175,7 +176,7 @@ describe('Offline-Garantie V1 — 0 externe Requests (Playwright)', () => {
   });
 
   test('Keine WebSocket-Verbindungen', async () => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(netzSperre.mitSperre());
     try {
       const context = await browser.newContext();
       const page = await context.newPage();
@@ -475,7 +476,7 @@ async function vollerAblauf() {
   };
 
   const tmp = H.frischerTmp('offline-nachweis');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(netzSperre.mitSperre());
   try {
     const context = await browser.newContext({ acceptDownloads: true });
 
@@ -551,7 +552,7 @@ async function vollerAblauf() {
        Fund (19.09.2026): der Schritt „export-json" (flowFormatExport('json', …))
        stand hier seit dem 23.07.2026er Ausbau. Gemessen: `exportFormatFuerId('json')`
        liefert seither `undefined` — die Kennung 'json' trägt in EXPORT_FORMATE seit
-       U2-ADR-NNN (18.09.2026, IMPORT_FORMATE-Kommentar an derselben Kennung) KEINEN
+       U2-ADR-508 (18.09.2026, IMPORT_FORMATE-Kommentar an derselben Kennung) KEINEN
        Export-Eintrag mehr, nur noch einen Import-Eintrag (`nurImport: true`): „der offene
        JSON-VOLLEXPORT ist entfernt — Erzeugen neuer offener Dateien entfällt, das
        Zurücklesen einer bereits vorhandenen bleibt bewusst bestehen (Wiederherstellen ≠
@@ -620,7 +621,7 @@ async function vollerAblauf() {
        IndexedDB dieses Kontexts liegen — GEMESSEN: derselbe Abbruch tritt auch OHNE
        jeden expliziten Speichern-Aufruf auf, spätestens 4s nach dem Feld-Edit. Die
        erneute Navigation zeigt darum den Wiedereinstieg-Bildschirm („Ihr Vivodepot
-       ist auf diesem Gerät gespeichert…") statt der leeren Landung `#w-anlass`, auf
+       ist auf diesem Gerät gespeichert…") statt der leeren Landung `#w-anlegen`, auf
        die `H.kern.oeffnen()` fest wartet.
        Das ist NICHT der Bug — Schritt C will ausdrücklich die GESCHRIEBENE DATEI
        prüfen (nicht die fortgesetzte interne Sitzung), darum wird für GENAU diese
@@ -808,7 +809,7 @@ describe('Offline-Garantie V1 — Kernabläufe im blockierten Lauf (B/C/D/E)', (
     const pdfs  = P.dateien.filter(n => n.toLowerCase().endsWith('.pdf'));
     const jsons = P.dateien.filter(n => n.toLowerCase().endsWith('.json'));
     assert.equal(pdfs.length, 3, `Erwartet 3 PDFs (Gesamt, Bereich, Notfallkarte), erzeugt: ${P.dateien.join(', ')}`);
-    // 1, nicht 2: der offene Voll-JSON-Export ist entfernt (U2-ADR-NNN, 18.09.2026, s.
+    // 1, nicht 2: der offene Voll-JSON-Export ist entfernt (U2-ADR-508, 18.09.2026, s.
     // Kommentar an Schritt 5) — nur FHIR-IPS bleibt als JSON-Ausgabe.
     assert.equal(jsons.length, 1, `Erwartet 1 JSON-Export (FHIR-IPS), erzeugt: ${P.dateien.join(', ')}`);
     assert.equal(P.qrGelaufen, true, 'Der QR-Erzeuger lief NICHT mit (kein anrufbarer Notfallkontakt) — Nachweis unvollständig');

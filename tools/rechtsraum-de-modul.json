@@ -38,6 +38,19 @@
       "labelEn": "Other corporate body"
     }
   ],
+  "formate": [
+    "xoev-verwaltung",
+    "fim-json"
+  ],
+  "hinweise": {
+    "de": {
+      "fuss": "Dokumentart nach deutschem Recht."
+    },
+    "en": {
+      "fuss": "Document type under German law.",
+      "vorschlag": true
+    }
+  },
   "typen": {
     "enduring-power-of-attorney": {
       "katalogVersion": 1,
@@ -102,7 +115,16 @@
       },
       "zweck": [
         "postmortalespersoenlichkeitsrecht"
-      ]
+      ],
+      "hinweise": {
+        "de": {
+          "fuss": "Gedacht als Anlage zu einem Testament nach deutschem Recht."
+        },
+        "en": {
+          "fuss": "Intended as an annex to a will under German law.",
+          "vorschlag": true
+        }
+      }
     },
     "will": {
       "katalogVersion": 1,

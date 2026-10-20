@@ -27,7 +27,7 @@ const DEPOTS = [
 
 async function neuLaden(page, url) {
   await page.goto(url);
-  await page.waitForSelector('#w-anlass, #co-pw', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen, #co-pw', { state: 'visible' });
 }
 async function sperrschirm(page, url) {
   await neuLaden(page, url);
@@ -47,14 +47,14 @@ async function identitaetMarker(page) {
    Willkommensschirm dabei den Hinweis (b) trug. */
 async function dreiDepotsAnlegen(page, url) {
   await page.goto(url);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   const hinweise = [];
   for (let i = 0; i < DEPOTS.length; i++) {
     const d = DEPOTS[i];
     if (i > 0) {
       await sperrschirm(page, url);
       await page.click('#co-neu');
-      await page.waitForSelector('#w-anlass', { state: 'visible' });
+      await page.waitForSelector('#w-anlegen', { state: 'visible' });
       await page.waitForTimeout(500);
       hinweise.push(await page.locator('#w-intern-hinweis').count());
     }
@@ -129,7 +129,7 @@ test('[Mehrere Depots·Hinweis] der Satz auf dem Willkommensschirm steht auf Deu
   const ctx = await browser.newContext({ acceptDownloads: true });
   const page = await ctx.newPage();
   await page.goto(KERN_URL);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.waitForTimeout(500);
   expect(await page.locator('#w-intern-hinweis').count(), 'ohne Depot im Gerätespeicher steht kein Hinweis da').toBe(0);
   await depotAnlegen(page, { name: 'Anna Alt', pw: 'pw-anna-1111' });

@@ -13,7 +13,7 @@
    Entscheidung offen“); die Liste darf nur sinken. Ein neuer Verweis ins Leere ist rot.
 
    Aufrufer: der Auslieferungsweg und tools/vier-produkte-erzeugen.js (bricht den Bau ab), Probe
-   tests/produkt-verweise-aufloesen.test.js (am geladenen Kern, mit den Verweisen, die nur der Kern kennt).
+   eine nicht öffentliche Probe (am geladenen Kern, mit den Verweisen, die nur der Kern kennt).
    ═════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');

@@ -7,7 +7,7 @@ Vermerk bei ungeprüfter Übersetzung) abgestimmt am 30.09./01.10.2026
 **Linie:** U2
 **U2-Bezug:** Baut auf dem Stand von `acae26f90` (28.08.2026) auf: der IPS-Export war fest englisch, weil ein Empfänger im
 Ausland den deutschen Inhalt nicht lesen konnte. Englisch bleibt die Voreinstellung; neu ist die Wahl.
-**Status heute:** gilt — Beleg `tests/fhir-ips-exportsprache.test.js`.
+**Status heute:** gilt — Beleg eine nicht öffentliche Probe.
 
 ---
 
@@ -21,7 +21,7 @@ stehen alle EU-Amtssprachen und weitere, Voreinstellung bleibt Englisch.
 
 ## Die Entscheidung
 
-1. **Ein Datenmodul, kein Text im Gerüst.** Die Sätze stehen in `tools/ips-begleittext-modul.json` (modulTyp
+1. **Ein Datenmodul, kein Text im Gerüst.** Die Sätze stehen in eine nicht öffentliche Datei (modulTyp
    `ips-begleittext`), je Sprache ein Fach mit allen Kennungen, mit Herkunft und Prüfstand. Der Produktbau setzt das Modul
    in die Region `AB_WERK_IPS_BEGLEITTEXT` jedes Produkts; im Gerüst ist sie `null`. Die Region steht im geteilten Abschnitt
    von `tools/lib/produkt-text-erzeugen.js`; die Kopie im Download-Gateway zieht mit (gepinnte Prüfsumme, U2-ADR-406).

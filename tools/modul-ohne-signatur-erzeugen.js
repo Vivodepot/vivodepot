@@ -31,7 +31,7 @@
      node tools/modul-ohne-signatur-erzeugen.js
        ohne Argument: Selbsttest — baut jedes Beispiel unter docs/modules/angaben/ und meldet je Typ das Ergebnis.
    Ein Sprachmodul (textsatz) entsteht nicht aus einem Formular, sondern als Übersetzung eines vollständigen Satzes;
-   Vorbild ist tools/textsatz-en-modul-erzeugen.js.
+   Vorbild ist ein nicht öffentliches Werkzeug.
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');

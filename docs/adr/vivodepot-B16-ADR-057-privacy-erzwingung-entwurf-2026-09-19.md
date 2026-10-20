@@ -18,7 +18,7 @@ Alle Stellen beziehen sich auf den Stand vom 19.09.2026 (Zeilenangaben können s
 - Ausgaben in HTML werden maskiert: `escapeHTML` in `vivodepot.html:61451` ersetzt `&`, `<`, `>`, `"` und `'`; `escapeAttr` direkt darunter für Attributwerte.
 - Unmaskierte Verkettung in Attributen findet `tools/attribut-verkettung-pruefen.js`.
 - Die Proben liegen in `tests/d43-etappe6-csp.test.js` (Richtlinie) und `tests/g11-offline-garantie-proben-unabhaengig.test.js` (Offline-Garantie).
-- Der Rahmen-Schutz ohne Response-Header steht als Skript-Block in `vivodepot.html` (Kommentar unmittelbar unter dem Meta-Tag der Richtlinie); die im Kommentar genannte Probe `tests/rahmen-schutz-ohne-header.test.js` existiert in diesem Stand nicht.
+- Der Rahmen-Schutz ohne Response-Header steht als Skript-Block in `vivodepot.html` (Kommentar unmittelbar unter dem Meta-Tag der Richtlinie); die im Kommentar genannte Probe eine nicht öffentliche Probe existiert in diesem Stand nicht.
 
 ## Verwandte Entscheidungen
 
@@ -35,4 +35,4 @@ Die Gründe für die Skizze selbst sind nirgends überliefert; die Gründe der g
 
 ## Offen
 
-- Die im Kern-Kommentar genannte Rahmen-Schutz-Probe (`tests/rahmen-schutz-ohne-header.test.js`) fehlt im Bestand. Sie ist als eigener offener Posten geführt (Befund-Ratsche RAHMEN-SCHUTZ-PROBE), nicht als Teil dieser abgelehnten Entscheidung.
+- Die im Kern-Kommentar genannte Rahmen-Schutz-Probe (eine nicht öffentliche Probe) fehlt im Bestand. Sie ist als eigener offener Posten geführt (Befund-Ratsche RAHMEN-SCHUTZ-PROBE), nicht als Teil dieser abgelehnten Entscheidung.

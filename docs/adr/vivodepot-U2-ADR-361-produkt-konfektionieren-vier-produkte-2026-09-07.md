@@ -194,7 +194,7 @@ Build-Ausgabe): je ~5,3–5,6 MB, vollständiger `DATEISATZ` + `index.html` + di
 Modul-Begleitdateien. Kopie des ECHTEN `vivodepot.html` (dieselbe Datei, die die volle Suite
 gerade geprüft hat) — kein neuer, ungeprüfter Code-Pfad.
 
-**Suite:** `tests/vier-produkte.test.js`, 10/10 — prüft die MECHANIK (Zusammensetzung,
+**Suite:** eine nicht öffentliche Probe, 10/10 — prüft die MECHANIK (Zusammensetzung,
 Gerüst-Gleichheit, Rot-Beweis + Gegenprobe der Leck-Messung an synthetischen Daten) und dass
 die REALE Zahl ermittelbar ist, hält sie aber NICHT hart gegen 0 (das wäre ein permanenter,
 falscher Rot-Zustand dieser Suite bis Zug 2 landet) — die reale Zahl wird hier im ADR gemeldet,

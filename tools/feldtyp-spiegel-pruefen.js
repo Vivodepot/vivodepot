@@ -15,7 +15,7 @@
    weg. Eine Kammer liefert an zweitausend Mitglieder aus, und niemand merkt,
    dass nichts ankommt.
 
-   STRUKTURELL GESUCHT STATT GEPFLEGT, Bauart wie `tools/build-feldkatalog.js`.
+   STRUKTURELL GESUCHT STATT GEPFLEGT, Bauart wie `ein nicht öffentliches Werkzeug`.
    Eine Handkopie-Liste IN DIESEM WÄCHTER wäre dieselbe Fehlerklasse in Grün:
    sie kennt nur, was schon einmal gefunden wurde. Beide Seiten werden aus ihrem
    eigenen Quelltext gelesen — der Erzeuger über `FELDTYPEN`, der Kern über

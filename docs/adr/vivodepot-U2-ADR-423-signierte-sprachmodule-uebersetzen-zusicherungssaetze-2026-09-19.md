@@ -1,4 +1,4 @@
-# U2-ADR-423 (Nummer beim Landen zu bestätigen) · Signierte Sprachmodule übersetzen Zusicherungssätze
+# U2-ADR-423 · Signierte Sprachmodule übersetzen Zusicherungssätze
 
 **Status:** Angenommen
 **Datum:** 19.09.2026
@@ -27,7 +27,7 @@ Ein Sprachmodul darf Zusicherungssätze setzen, wenn seine Signaturkette beim Ö
 6. **Rückfall, für alle Texte:** Modulsprache, dann Englisch, dann Deutsch. Das löst „nie eine andere Sprache" aus U2-ADR-363 ab. Ein Zusicherungssatz trägt seine Ersatzsprache sichtbar mit („[English]", „[Deutsch]"); für alle übrigen Lücken steht einmal je Ansicht der Hinweis „Diese Sprachfassung ist unvollständig".
 7. **Herkunft sichtbar.** Ein Zusicherungssatz aus einem belegten Modul nennt, wer die Übersetzung geprüft hat (Prüfstufe und Anbieter, aus der Belegprüfung, nicht aus dem Marker).
 8. **Die Lücke fällt beim Erstellen auf.** Die gemeinsame Deckungsprüfung für Sprachbündel verlangt für Sprachen ohne App-eigene Fassung die Zusicherungssätze von Kern und Lese-App: fehlt einer, sperrt das Vorbereiten, Signieren und Packen ohne Ausnahme; fehlen andere Texte, sperrt es, außer die Signierende bestätigt die Lücke ausdrücklich (`--unvollstaendig-bestaetigt`), dann steht sie als Warnung da.
-9. **Was ein Modul mitbringt und die Lese-App zeigt, kommt aus dem Modul.** Ein Lauf der Lese-App (`tools/modul-text-lese-app-ausgabe-messen.js`) misst, welche Kennungen sie anfragt: jede angefragte Kennung muss sie annehmen und der Kern muss sie kennen; ein Text, den sie zeigt, muss über die Anfrage laufen (Auswahl-Optionen, Beschriftungen ja/nein-Unterfelder und Einführungstexte der Bereiche sind es seither); was sie nie zeigt (Hinweise und Beispiele der Eingabemaske, Assistenten, Dokumentgenerator, Vollmacht-Formular u. a.), steht mit Grund in einer nur sinkenden Grundlinie je Gruppe. Die Situationsblätter stehen als eigene Gruppe darin, bis sie über die Anfrage laufen.
+9. **Was ein Modul mitbringt und die Lese-App zeigt, kommt aus dem Modul.** Ein Lauf der Lese-App (ein nicht öffentliches Werkzeug) misst, welche Kennungen sie anfragt: jede angefragte Kennung muss sie annehmen und der Kern muss sie kennen; ein Text, den sie zeigt, muss über die Anfrage laufen (Auswahl-Optionen, Beschriftungen ja/nein-Unterfelder und Einführungstexte der Bereiche sind es seither); was sie nie zeigt (Hinweise und Beispiele der Eingabemaske, Assistenten, Dokumentgenerator, Vollmacht-Formular u. a.), steht mit Grund in einer nur sinkenden Grundlinie je Gruppe. Die Situationsblätter stehen als eigene Gruppe darin, bis sie über die Anfrage laufen.
 10. **Ein Einstieg für jedes Depot der Lese-App.** Voll, Sub, Klartext, Klartext-roh und Empfänger-QR laufen durch `_depotUebernehmenGeprueft`, das die Belegprüfung vor dem Falten macht; ein Wächter verlangt, dass `_foldVollmachtenLesen` nur dort aufgerufen wird.
 
 11. **Nicht übersetzte Bereiche und Situationen werden ausgeblendet, nie verloren.** In einer teilübersetzten Sprache verschwindet ein Bereich oder eine Situation aus der Anwahl (Navigation, Karten, Anlass-Kacheln, Suche; in der Lese-App die Seitenleiste), wenn seine Bezeichnungen nicht alle übersetzt sind und nichts darin steht; Hinweise und Beispiele zählen nicht. Steht etwas darin, bleibt er mit Rückfall und Hinweis. „Nicht übersetzte Bereiche zeigen" bringt ihn zurück. Export, Herausgabe und Notfall lesen weiter alle Bereiche. Deutsch und Englisch blenden nichts aus. Name und Unterzeile eines eingebauten Bereichs zählen nicht zur Forderung, weil sie nur ein geprüftes Modul setzen kann. Situationsblätter der Lese-App folgen, sobald sie ihre Texte über `textLesen` beziehen.
@@ -108,12 +108,6 @@ konformitaet:
     zustand: erfuellt
     herkunft: U2-ADR-423 (19.09.2026)
     pruefung:
-      - tests/modul-app-packen-sprachdeckung.test.js
-        "[Sprachdeckung·Zusicherung] eine Sprache ohne App-Fassung ohne Zusicherungssätze: hart, keine Ausnahme — auch mit Bestätigung"
-      - tests/modul-app-packen-sprachdeckung.test.js
-        "[Sprachdeckung·Zusicherung] mit allen Zusicherungssätzen ist die Sprache gedeckt; fehlen nur andere Texte: Sperre ohne Bestätigung, Warnung mit"
-      - tests/modul-app-packen-sprachdeckung.test.js
-        "[Sprachdeckung·Zusicherung] Englisch braucht keine Zusicherungssätze im Modul — die trägt die Anwendung selbst"
 
   - aussage: >-
       Jeder Text, den die Lese-App zeigt und den der Kern aus einem Sprachmodul kennt, kommt in der Lese-App aus dem Modul: sie fragt jede Kennung an, nimmt jede angefragte an, fragt keine an, die der Kern nicht hat, und was sie nie zeigt, steht mit Grund in einer nur sinkenden Grundlinie je Gruppe.

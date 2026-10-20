@@ -173,7 +173,8 @@ Wahrheit" — seit A1/A1b/A2 trifft das mehr als SEKTOREN allein:
 
 - `tests/e4-buergermodul-buendel-abnahmebeweis-u2-adr-310.test.js`s `sektorenLeeren` und
   `tests/sektoren-leer-ueberlebt.test.js`s `_ohneEingebettetesBuendel` — auf gezieltes
-  `bereiche: {}` im Bündel-JSON umgestellt statt das ganze Bündel zu nullen.
+  `bereiche: {}` im Bündel-JSON umgestellt statt das ganze Bündel zu nullen. (`sektorenLeeren` und
+  `_ohneEingebettetesBuendel` stehen seit 19.09.2026 nicht mehr in den Tests, die erste Datei gibt es nicht mehr (Fund 18.10.2026, `tools/adr-code-stellen-pruefen.js`).)
 - `tests/fixtures/buergermodul-buendel-varianten.js`s `ohneBuendel()` — bewusst UNVERÄNDERT
   gelassen (geteilte Fixture, „kein Bündel" ist dort die korrekte, generische Bedeutung); der
   eigentliche Fix saß im KERN (§5, `wizardsAngewandt`-Gate), nicht in der Fixture.
@@ -259,7 +260,7 @@ Ein zweiter Commit-Versuch (voller `npm test`-Lauf, nicht nur der Gate-Ausschnit
 weitere Brüche — die achte und neunte Erscheinung des Abends, aber die neunte gehört zu einer
 Unterklasse, die §7/§8 noch nicht kannten.
 
-**`tests/erzeuger-deckung-wizards-katalog.test.js` (achte Erscheinung, gewöhnlich).**
+**eine nicht öffentliche Probe (achte Erscheinung, gewöhnlich).**
 `katalogVerweiseAusQuelle()` scannte den ROHEN `WIZARDS`-Quelltext per Regex nach
 `_katalogOptionen(...)`-Aufrufen — genau die acht Aufrufe, die §5 in `katalogOptionenAus`-JSON-
 Referenzen verwandelt hat. Der Anker (`const WIZARDS`) fand nichts mehr, UND selbst mit `let`

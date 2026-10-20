@@ -4,7 +4,7 @@
 **Datum:** 01.10.2026
 **Kategorie:** DATENMODELL, STANDARDS
 **Status heute:** gilt
-**Betrifft:** `vivodepot.html` (`SCHEMA_VERSION_AKTUELL`, Stufe 90 → 91 in `depotNormalisieren`, `ANSCHRIFT_TEILE`, `_anschriftTeileNachRegel`, `anschriftFuerAusgabe`, `anschriftVorschlag*`, `personFormVorbereiten`, `anschriftVorschlagKarteHTML`, `MENSCHEN_REGISTER_FELD`, `personHinzufuegen`, `personAktualisieren`, `personLoeschen`, `sektorFeldSetzen`, FHIR `_fhirPatientAusIdentitaet`/`fhirIpsBundle`, `vcardIdentitaet`, `vcardMenschen`, `sdJwtVcIdentitaet`, die vCard-, SD-JWT- und XMeld-Rückwege, die Dokumentsätze, `flowKindSubDepotAnlegen`), `tools/bereich-templates/vivodepot-identity.json`, `tools/build-sektoren-lesen.js`, `vivodepot-lesen.html` (erzeugte Regionen), Textsatz DE/EN.
+**Betrifft:** `vivodepot.html` (`SCHEMA_VERSION_AKTUELL`, Stufe 90 → 91 in `depotNormalisieren`, `ANSCHRIFT_TEILE`, `_anschriftTeileNachRegel`, `anschriftFuerAusgabe`, `anschriftVorschlag*`, `personFormVorbereiten`, `anschriftVorschlagKarteHTML`, `MENSCHEN_REGISTER_FELD`, `personHinzufuegen`, `personAktualisieren`, `personLoeschen`, `sektorFeldSetzen`, FHIR `_fhirPatientAusIdentitaet`/`fhirIpsBundle`, `vcardIdentitaet`, `vcardMenschen`, `sdJwtVcIdentitaet`, die vCard-, SD-JWT- und XMeld-Rückwege, die Dokumentsätze, `flowKindSubDepotAnlegen`), eine nicht öffentliche Datei, `tools/build-sektoren-lesen.js`, `vivodepot-lesen.html` (erzeugte Regionen), Textsatz DE/EN.
 **Bezug:** U2-ADR-022 (ein Personenregister), U2-ADR-017 (Anker-Name aus der Identität), U2-ADR-439 (das Produkt zerlegt keinen Freitext), U2-ADR-440 (`nurMitWert`/`nurAnzeige`), U2-ADR-100 (Migrationen), U2-ADR-456 (FIM-Bezüge).
 
 ## Frage

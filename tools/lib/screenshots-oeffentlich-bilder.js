@@ -5,8 +5,8 @@
    Schicht 1 lesen kann (tests/schicht-1-ohne-lieferkette.test.js). */
 const BILDER = Object.freeze([
   { datei: 'vivodepot-start.png', klicks: [] },
-  { datei: 'vivodepot-anlaesse.png', klicks: ['Was möchten Sie erledigen?'] },
-  { datei: 'vivodepot-beispielansicht.png', klicks: ['Was möchten Sie erledigen?', 'Ich schaue mich erst einmal um'] },
+  { datei: 'vivodepot-anlaesse.png', klicks: ['Erst umsehen, ohne zu speichern', 'Was möchten Sie erledigen?'] },
+  { datei: 'vivodepot-beispielansicht.png', klicks: ['Erst umsehen, ohne zu speichern'] },
 ]);
 
 module.exports = { BILDER };

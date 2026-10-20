@@ -84,7 +84,7 @@ async function wegGehen(seite) {
 
 test('[Weg 6] Depot fuer jemand anderen — Rueckfrage, Grundlage, Formular', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite, fehler } = await seiteMitDepot(browser, PW);
     const protokoll = await wegGehen(seite);
@@ -96,7 +96,7 @@ test('[Weg 6] Depot fuer jemand anderen — Rueckfrage, Grundlage, Formular', as
 
 test('[Weg 6·Positivkontrolle] ohne die Rueckfrage bricht der Weg mit der erwarteten Meldung', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => { window.__vdOeffentlich.flowSubDepotNachAnker = () => {}; });
@@ -113,7 +113,7 @@ test('[Weg 6·Positivkontrolle] eine Grundlagen-Auswahl OHNE Grundlagen wird gem
      der nur noch der Platzhalter steht. Die Bürgerin sähe ein Pflichtfeld ohne
      wählbaren Inhalt. */
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => {
@@ -132,7 +132,7 @@ test('[Weg 6·Positivkontrolle] eine Grundlagen-Auswahl OHNE Grundlagen wird gem
 
 test('[Weg 6·Negativkontrolle] eine unbeteiligte Aenderung bricht den Weg nicht', async () => {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const { seite } = await seiteMitDepot(browser, PW);
     await seite.evaluate(() => { const f = document.querySelector('.app-fuss'); if (f) f.remove(); });

@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-17 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-18 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -86,9 +86,9 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
-- E2E (Playwright): 670 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 57 aus Schleifen über CPU-Drosselungen = **727 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
-- Wächter-Register (intern): 145
-- Schema-Version: 92 · SCHALEN_STAND: v931 · Build-Version: v1.0
+- E2E (Playwright): 674 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 139 aus Schleifen über CPU-Drosselungen = **813 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 146
+- Schema-Version: 92 · SCHALEN_STAND: v933 · Build-Version: v1.0
 
 ---
 
@@ -297,7 +297,6 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-199 | Organspende-Register — ein Feld für die Eintragungs-ID, kein Hinweistext |
 | U2-ADR-201 | Datengestalten — die E2E-Suite lebt die Vertretungswege, nicht nur die Standardgestalt |
 | U2-ADR-202 | Die Live-Sichtbarkeits-Verdrahtung im Listen-Eintrag-Modal kennt `verborgenWenn` |
-| U2-ADR-206 | Das Signier-Werkzeug merkt sich die zwei stehenden Pfade — nie den Inhalt, nie die Passphrase |
 | U2-ADR-207 | Ein Vor-Depot-Sprachmodul übersteht ein fremdes Depot |
 | U2-ADR-208 | Eine Sprachkennung ohne eigene Modul-Regel fällt auf die aktive Sprache zurück, nicht auf Deutsch |
 | U2-ADR-209 | Produkt-Trennung im geteilten internen Speicher (Record-Kennung, nicht Datenbankname) |
@@ -367,7 +366,6 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-285 | "DE"/'de' bleiben für Fremde reserviert — ein Gerüst-eigener Ladeweg darf sie tragen |
 | U2-ADR-287 | Was ein Template ist — und der erste Fall auf dem Pro-Modul |
 | U2-ADR-288 | Byte-Gleichheit war bewiesen, Erreichbarkeit nie — der Erbschein-Vorbereitungsauszug wird ab Werk eingelassen |
-| U2-ADR-289 | Vivodepot Pro ist angedockt und provisioniert; signierfertig braucht ein eigenes Werkzeug, nicht das der Fremden |
 | U2-ADR-290 | Ein Modul darf sein eigenes Feld nicht nur benennen, sondern auch erklären |
 | U2-ADR-291 | Das Bürgerdepot wird in vier Module geschnitten — Struktur, Sprache, Recht, Marke |
 | U2-ADR-292 | Der Ladeweg auf die Erste-Partei-Zone — Struktur ersetzbar, alle dreizehn Sektoren bewiesen |
@@ -377,9 +375,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-296 | Vivodepots eigene Marke wird ein Datenwert; ein fremder Beitrag im Bürgerdepot trägt einen Rand |
 | U2-ADR-297 | Ein Produkt mit Vor-Depot-Konfiguration füllt die Kopfzeile mit der Institutionsfarbe — Fall 2 aus U2-ADR-296 |
 | U2-ADR-298 | Zwei vorbestehende E2E-Rotläufe, beide Nachwirkung von U2-ADR-288 |
-| U2-ADR-299 | Der Produktabnahmebeweis, Kern-Seite — Struktur/Feld-Definitionen/Textsatz gegen das ECHTE Bündel |
 | U2-ADR-300 | Der Produktabnahmebeweis, E2E-Seite — PDF-Modelle/Exportkanäle/Datei-Rundlauf gegen das ECHTE Bündel, im echten Browser |
-| U2-ADR-301 | Der Erzeuger um Situationen und Assistenten erweitert — und ein Riegel gefunden, der bei Sektoren nicht steht |
 | U2-ADR-302 | Der Produktabnahmebeweis, Branding-Achse — E2E, im echten Browser |
 | U2-ADR-303 | Der Aufrufer statt des Riegels — das mitgelieferte Bündel kommt über das Gerüst, nicht über den Einlass |
 | U2-ADR-304 | Die Landkarte vor E4 — was umfällt, wenn `SEKTOREN` quelltextlich leer ist |
@@ -452,12 +448,9 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-374 | Bestands-Wächter statt Muster-Wächter — gebeugte Marke-Literale |
 | U2-ADR-375 | der zweite Einlass zieht das Intervall nach — außer die Bürgerin hat abgeschaltet |
 | U2-ADR-377 | sprechende Dateinamen für die vier Produkte + die vierzeilige Erklärdatei |
-| U2-ADR-378 | der Sichtbarkeitswächter für die vier Produkte — umgedreht, damit er niemanden sperrt |
-| U2-ADR-379 | das Pro-Bereichs-Modul wird ein ausgeliefertes Artefakt — "Modul Pro" war zwei Module, nicht eins |
 | U2-ADR-380 | Tote Ausnahmen sind ein Befund, kein Ordnungsfimmel |
 | U2-ADR-381 | xShare in der v515-Vier-Produkte-Abnahme nachgeholt |
 | U2-ADR-382 | Rechtsraum Deutschland wird ein Modul, wie Sprache |
-| U2-ADR-383 | der Baukasten bekommt eine Abnahme seiner eigenen Zusammensetzung — die Modul-Tabelle als Daten, nicht als Code |
 | U2-ADR-384 | Vivodepots eigene Marke wird Ab-Werk-Saat — konfektionieren ist nicht einlassen |
 | U2-ADR-385 | Grundlinie: die vier Produkte gegen Lese-App und VC-Issuer |
 | U2-ADR-386 | "ein fünftes Produkt ist eine Zeile an einem Ort" wird ein Mechanismus, kein Satz im ADR |
@@ -474,11 +467,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-410 | ZVR-Abschrift — das Register nimmt ab 01.10.2026 den Text selbst |
 | U2-ADR-412 | Jede Herausgabe bekommt auch ein PDF — drei Chiffrat-Ausnahmen |
 | U2-ADR-415 | Vom Stick geöffnet — beim Schließen auf den Stick, danach die Browser-Kopie räumen |
-| U2-ADR-419 | U2-ADR-419 (Nummer beim Landen zu bestätigen) · Manifest-Konfektionierung — Bibliothek + Wächter (Block D) |
 | U2-ADR-420 | U2-ADR-420 (Nummer beim Landen zu bestätigen) · Doppelt vergebene ADR-Nummern: gefunden, benannt, eine sofort behoben |
 | U2-ADR-421 | U2-ADR-421 (Nummer beim Landen zu bestätigen) · VD Pro ersetzt statt ergänzt |
 | U2-ADR-422 | U2-ADR-422 (Nummer beim Landen zu bestätigen) · Die YAML-Form der Konformitätsklausel ist gleichrangig zur eingezäunten Form |
-| U2-ADR-423 | U2-ADR-423 (Nummer beim Landen zu bestätigen) · Signierte Sprachmodule übersetzen Zusicherungssätze |
+| U2-ADR-423 | Signierte Sprachmodule übersetzen Zusicherungssätze |
 | U2-ADR-424 | Private Sachversicherungen strukturiert, Basiskonto und P-Konto als Kontomerkmal |
 | U2-ADR-425 | Hilfe in der Datei — Bedienungsanleitung als Kern-Inhalt |
 | U2-ADR-426 | Das Gerüst trägt keinen vollen Sprachsatz — Englisch kommt als Modul |
@@ -517,8 +509,10 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-468 | ISiK Stufe 6 — Vollmacht und IPS als DocumentReference für das Krankenhaus |
 | U2-ADR-471 | KBV-Patientenkurzakte — die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis |
 | U2-ADR-473 | Erscheinungsbild im Branding-Modul — Token-Vollständigkeit, Profile, Steckplatz Navigation |
+| U2-ADR-474 | Ein Speichermodell, eine Quelle für jede Aussage darüber |
 | U2-ADR-483 | Vorprüfung im Studio — dieselben Einlass-Regeln wie der Kern, ein Urteil in Klartext, Angaben erst zur Signatur |
 | U2-ADR-486 | Post-Quanten-Übergang — Anker-Agilität zuerst, dann hybride Verfahren |
+| U2-ADR-487 | Kennungen ändern sich nur vor v1, mit Migration und Abbildungstabelle — ersetzt U2-ADR-409 Punkt 12 |
 | U2-ADR-488 | Schema-Adressen — die Kennung löst auf, jede Fassung bleibt |
 | U2-ADR-489 | Ein verkauftes Produkt mit Zuschnitt hat eine Kennung, ein Rezept und eine Adresse |
 | U2-ADR-490 | Feldregister — CC0, eine feste Adresse je Kennung, Fassungen, npm-Paket |
@@ -531,6 +525,12 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-497 | Die Beschriftung eines Felds in Ausgaben ist getrennt von seiner Beschriftung in der Eingabe |
 | U2-ADR-498 | Automatische Signatur einer Einreichung — die Signierstelle holt ab, die Annahmestelle hält keinen Schlüssel |
 | U2-ADR-501 | Die signierte Antwort und das Zertifikat der Stelle — für die Datei-Antwort und die direkte Übergabe |
+| U2-ADR-504 | Rechtsraum DE ist ein Modul wie jedes andere — Nachfolge zu U2-ADR-285 |
+| U2-ADR-505 | Ende des eigenen Vorlagen-Formats: STANDARD_VORLAGEN wird Basistemplate |
+| U2-ADR-506 | Migrationsbeleg kennt benannte additive Schlüssel auch auf oberster Ebene |
+| U2-ADR-507 | Korpus-Zuordnung: amtlicher Wortlaut ins Rechtsraum-Modul, eigene Formulierung ins Template |
+| U2-ADR-508 | Der offene JSON-Vollexport wird entfernt, nicht gefiltert |
+| U2-ADR-509 | Kern-Verschluss — Script 2 als IIFE, nur eine benannte Fläche |
 
 ---
 
@@ -541,14 +541,14 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
 | `.btn` | 37 | 236 |
-| `.btn-sek` | 15 | 109 |
-| `.btn-dezent` | 5 | 12 |
+| `.btn-sek` | 15 | 107 |
+| `.btn-dezent` | 5 | 11 |
 | `.btn-klein` | 3 | 15 |
 | `.btn-notfall` | 2 | 0 |
 | `.btn-mini` | 10 | 37 |
-| `.karte` | 6 | 68 |
-| `.modal` | 19 | 179 |
-| `.toast` | 9 | 307 |
+| `.karte` | 6 | 69 |
+| `.modal` | 19 | 181 |
+| `.toast` | 9 | 305 |
 | `.banner-stapel` | 3 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 14 | 5 |

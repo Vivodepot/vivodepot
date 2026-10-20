@@ -1,5 +1,5 @@
 {
-  "hinweis": "ERZEUGT von tools/build-bereiche.js aus vivodepot.html SEKTOREN. Nicht von Hand bearbeiten — der Kern ist die Quelle. Die drei übrigen Anwendungen lesen von hier.",
+  "hinweis": "ERZEUGT von einem nicht öffentlichen Werkzeug aus vivodepot.html SEKTOREN. Nicht von Hand bearbeiten — der Kern ist die Quelle. Die drei übrigen Anwendungen lesen von hier.",
   "schluesselraum": "id",
   "altLabelNurZumLesen": {
     "Identität": "identity",

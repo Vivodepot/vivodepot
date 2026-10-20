@@ -36,7 +36,7 @@
      - ein eingefrorener Datenstand (JSON mit `schemaVersion` und `sektoren`, kein Umschlag) — der
        heutige Kern legt einen Umschlag darum, geöffnet wird über `depotLaden`. Nicht geprüft ist,
        dass ein Kern von damals denselben Umschlag geschrieben hätte (Bauart wie
-       tests/pro-migration-ki-stufe.test.js).
+       eine nicht öffentliche Probe).
      - ein Bündel-Stapel (`vorabkonfiguration.js` oder JSON-Array) — über
        `vorDepotKonfigurationAnwenden`, den Weg einer Modul-App beim Start, danach ein neues Depot.
 

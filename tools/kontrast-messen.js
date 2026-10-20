@@ -174,7 +174,7 @@ async function depotEinrichten(seite) {
 
 async function main() {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   const stellen = [];
   try {
     const seite = await browser.newPage({ viewport: { width: 390, height: 900 } });

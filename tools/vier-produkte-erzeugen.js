@@ -66,8 +66,15 @@ function main() {
   const ISSUER = ladeIssuer().V;
 
   const ergebnisse = {};
+  const uebersprungen = [];
   for (const p of PRODUKTE) {
-    const unsignierteModulDateien = modulDateienFuer(p);
+    let unsignierteModulDateien;
+    try { unsignierteModulDateien = modulDateienFuer(p); } catch (e) {
+      // Im öffentlichen Zuschnitt fehlen die Vorlagen der zweiten Schicht und haben kein erfundenes Gegenstück: dieses Produkt gehört nicht dazu.
+      // Im Kanon wirft die Auflösung anders (kein Code) und der Bau bricht ab — ein fehlendes Produkt wird dort nie stillschweigend übersprungen.
+      if (e && e.code === 'VORLAGE_NICHT_OEFFENTLICH') { uebersprungen.push(p.slug); process.stdout.write('übersprungen: ' + p.slug + ' — ' + e.message + '\n'); continue; }
+      throw e;
+    }
     // Befund PRO-ASSISTENT-ZIEL-OHNE-BEREICH (07.10.2026): jeder Verweis des Produkts löst auf, sonst bricht der Bau ab.
     require('./lib/produkt-verweise-pruefen.js').produktVerweiseSichern(p.slug, unsignierteModulDateien.map((f) => ({
       roh: JSON.parse(fs.readFileSync(f, 'utf8')), basisname: path.basename(f) })));
@@ -94,7 +101,8 @@ function main() {
   }
 
   process.stdout.write('\n── Wächter 1: Gerüst byte-gleich über alle vier ──\n');
-  const slugs = PRODUKTE.map((p) => p.slug);
+  const gebaut = PRODUKTE.filter((p) => ergebnisse[p.slug]);
+  const slugs = gebaut.map((p) => p.slug);
   let gerüstOk = true;
   for (let i = 0; i < slugs.length; i++) {
     for (let j = i + 1; j < slugs.length; j++) {
@@ -102,17 +110,18 @@ function main() {
       if (!w.gleich) { gerüstOk = false; process.stdout.write('  ✗ ' + slugs[i] + ' vs ' + slugs[j] + ': ' + w.abweichungen.join(',') + '\n'); }
     }
   }
-  process.stdout.write(gerüstOk ? '  ✓ alle sechs Paare byte-gleich\n' : '  ROT — s. o.\n');
+  process.stdout.write(gerüstOk ? '  ✓ alle ' + (slugs.length === 4 ? 'sechs' : slugs.length * (slugs.length - 1) / 2) + ' Paare byte-gleich\n' : '  ROT — s. o.\n');
 
   process.stdout.write('\n── Wächter 2: je Produkt genau ein Sprachmodul ──\n');
-  const urteile = PRODUKTE.map((p) => sprachmodulUrteil(p.slug, ergebnisse[p.slug].unsignierteModule));
+  const urteile = gebaut.map((p) => sprachmodulUrteil(p.slug, ergebnisse[p.slug].unsignierteModule));
   for (const u of urteile) {
     process.stdout.write('  ' + (u.ok ? '✓' : '✗') + ' ' + u.slug + ': ' + u.anzahl + ' Sprachmodul-Datei(en) (erwartet ' + u.erwartet + ')\n');
   }
 
   process.stdout.write('\nDeutsch-Leck im EN-Produkt: node tools/deutsch-leck-pruefen.js (die scharfe Abnahme, U2-ADR-369).\n');
   const ok = gerüstOk && urteile.every((u) => u.ok);
-  process.stdout.write('\nErgebnis: ' + (ok ? '4 Produkte erzeugt unter ' + ziel : 'ROT — 4 Produkte erzeugt unter ' + ziel + ', aber ein Wächter hat angeschlagen (Exit 1)') + '\n');
+  const zahl = gebaut.length + (uebersprungen.length ? ' von ' + PRODUKTE.length : '');
+  process.stdout.write('\nErgebnis: ' + (ok ? zahl + ' Produkte erzeugt unter ' + ziel : 'ROT — ' + zahl + ' Produkte erzeugt unter ' + ziel + ', aber ein Wächter hat angeschlagen (Exit 1)') + '\n');
   return { ok };
 }
 

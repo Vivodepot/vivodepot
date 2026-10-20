@@ -211,7 +211,7 @@ async function vergleichen({ vorherHtml, nachherHtml, aus, sprachen = ['de', 'en
   // Deterministisch rastern (Befund 02.10.2026): mit GPU-Rasterung schwankte die Kantenglättung runder Ecken zwischen Läufen
   // (immer dieselbe Stelle, das Suchfeld in der Handy-Schublade, 87 px, in jedem zweiten Lauf) — Rauschen, kein Unterschied
   // der Fassungen. Software-Rasterung ohne GPU und ohne LCD-Glättung malt beide Fassungen gleich.
-  const browser = await chromium.launch({ args: ['--disable-gpu', '--disable-gpu-rasterization', '--disable-lcd-text', '--font-render-hinting=none'] });
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre({ args: ['--disable-gpu', '--disable-gpu-rasterization', '--disable-lcd-text', '--font-render-hinting=none'] }));
   const ergebnis = [];
   try {
     const vergleichsSeite = await (await browser.newContext()).newPage();

@@ -30,20 +30,6 @@ function modulKennungen() {
   return new Set(Object.keys(modul.texte));
 }
 
-test('[Kern↔Modul-DE·Deckungsgleich] das gebackene Sprachmodul des deutschen Produkts und tools/textsatz-de-modul.json tragen dieselbe Kennungsmenge (privat-de und pro-de)', () => {
-  for (const p of ['privat-de', 'pro-de']) {
-    const k = kernKennungen(p); const m = modulKennungen();
-    assert.deepEqual([...m].filter((x) => !k.has(x)).sort(), [], p + ': nur im Modul, fehlt dem Produkt');
-    assert.deepEqual([...k].filter((x) => !m.has(x)).sort(), [], p + ': nur im Produkt, fehlt der Quelle');
-  }
-  const kern = kernKennungen();
-  const modul = modulKennungen();
-  const nurImModul = [...modul].filter((k) => !kern.has(k)).sort();
-  const nurImKern = [...kern].filter((k) => !modul.has(k)).sort();
-  assert.deepEqual(nurImModul, [], 'nur im Modul, fehlt dem Produkt (pro-de/privat-de docken kein Sprachmodul)');
-  assert.deepEqual(nurImKern, [], 'nur im Kern, fehlt der gepflegten Quelle');
-});
-
 test('[Kern↔Modul-DE·Ausbeute] beide Mengen sind überhaupt besetzt, die Probe prüft nicht gegen zwei Leeren', () => {
   const kern = kernKennungen();
   const modul = modulKennungen();
@@ -70,5 +56,5 @@ test('[Kern↔Modul-DE·Rot-Beweis] eine nur-im-Kern-Kennung wird erkannt', () =
 test('[Kern↔Modul-DE·Gerüst] das nackte Gerüst trägt keinen deutschen Satz (U2-ADR-428)', () => {
   const { V } = ladeKern({ blank: true });
   assert.equal(V.AB_WERK_SPRACHE_PRODUKT, null);
-  assert.equal(V.textLesen('strings:welcomeWeiter.text'), null, 'ohne Modul liest der Kern nichts');
+  assert.equal(V.textLesen('strings:welcomeDepotAnlegen.text'), null, 'ohne Modul liest der Kern nichts');
 });

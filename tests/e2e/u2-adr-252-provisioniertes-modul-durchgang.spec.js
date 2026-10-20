@@ -98,7 +98,7 @@ test('[U2-ADR-252·Abnahme] ein provisioniertes Modul erscheint im frisch angele
   // Klasse-B-Fund 19.09.2026 (e2e-37-rote-klassen-2026-09-19.md): gebackener privat-de statt
   // der rohen Datei, s. Kopf-Kommentar tests/e2e/helpers.js.
   await page.goto(KERN_URL_PRIVAT_DE);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
 
   // Die echte Funktion, im echten Browser, mit dem sanktionierten Test-Anker — genau der Weg,
   // den vorDepotKonfigurationAnwenden() für Tests selbst vorsieht (opts.ankerJwk).
@@ -119,11 +119,11 @@ test('[U2-ADR-252·Abnahme] ein provisioniertes Modul erscheint im frisch angele
 
   // 2 · Schicht A, gespeichert: echtes Neuladen (kein depotLaden()-Funktionsaufruf, kein
   // internerSpeicherModus() — file:// hat beides nicht) — der eigentliche Beweis, an dem die
-  // Geister-Lücke erkennbar war. Neu laden bringt eine komplett frische Seite (#w-anlass), dann
+  // Geister-Lücke erkennbar war. Neu laden bringt eine komplett frische Seite (#w-anlegen), dann
   // über den echten Datei-Öffnen-Weg die abgegriffene Datei zurückspielen.
   await page.evaluate(() => { try { delete window.data; } catch (_) {} });
   await page.reload();
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   await page.click('#w-datei');
   await page.waitForSelector('#co-pw', { state: 'visible' });
   await page.evaluate((inhalt) => {

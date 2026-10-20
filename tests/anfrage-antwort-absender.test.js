@@ -107,7 +107,7 @@ test('[Absender] steht im verschlüsselten Datensatz, nicht im Klartext des Umsc
   const lesbar = jweLesbarerTeil(u);
   assert.equal(lesbar.includes('absender'), false, 'kein Absender-Schlüssel im Kopf');
   assert.equal(lesbar.includes('Anna'), false, 'kein Name im Kopf, auch nicht in apu/apv');
-  const zurueck = JSON.parse((await L.antwortJweOeffnen(u, { passwort: 'einmal-1' })).klartext);
+  const zurueck = await require('./helfer/antwort-datensatz.js').datensatzAusJwe(L, u, { passwort: 'einmal-1' });
   assert.equal(zurueck.absender.name, 'Anna Mustermann');
   assert.equal(zurueck.absender.rolle, 'bevollmaechtigt');
 });

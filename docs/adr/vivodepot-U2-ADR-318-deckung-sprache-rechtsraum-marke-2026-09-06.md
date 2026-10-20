@@ -2,7 +2,7 @@
 
 **Status:** Akzeptiert
 **Datum:** 06.09.2026
-**Betrifft:** `tests/erzeuger-deckung-sprache-rechtsraum-marke.test.js`
+**Betrifft:** eine nicht öffentliche Probe
 
 - **Status heute:** gilt — jeder Verweis aus `vd-de-sprache.json`, `vd-de-rechtsraum.json`
   und `vd-branding.json` ist gegen den lebenden Kern geprüft, mit Rot-Beweisen für jede
@@ -18,7 +18,7 @@ Recht ∪ Marke = nativer Bestand) war damit **eine** beantwortet. Dieser ADR be
 übrigen drei — mit derselben Frage: **welche Verweise löst die Achse auf, und was passiert, wenn
 einer ins Leere zeigt?**
 
-**Vier Dateien, ein Erzeuger.** `tools/buergermodul-schnitt.js` schneidet den nativen Bestand in
+**Vier Dateien, ein Erzeuger.** ein nicht öffentliches Werkzeug schneidet den nativen Bestand in
 EINEM Lauf in `tools/buergermodul/{vd-privat,vd-de-sprache,vd-de-rechtsraum,vd-branding}.json`.
 Anders als bei der Struktur-Achse trägt keine der drei hier gemessenen Dateien eine im Kern
 **eingebettete** Zweitfassung (kein `BUERGERMODUL_BUENDEL`-Äquivalent) — geprüft wird darum gegen
@@ -60,7 +60,7 @@ nicht mehr.
 Meldung — die leiseste der drei Klassen, „liefert weniger". Heute ohne Auswirkung: die Datei wird
 gar nicht gedockt (s. o.).
 
-**Zwei Symptome, eine Ursache — nicht zweimal derselbe Fund.** `tests/buergermodul-schnitt.test.js`
+**Zwei Symptome, eine Ursache — nicht zweimal derselbe Fund.** eine nicht öffentliche Probe
 führt `feld.art.vorschlaege` bereits in seiner eigenen `BEKANNTE_LUECKEN`-Ratsche, dort auf der
 SCHNITT-Seite: von den zwei katalogweit gleichnamigen `art`-Feldern
 (`meine-menschen/unterhalt/art` — Unterhaltsarten, `finanzen/konten/art` — Kontoarten) kann die
@@ -96,7 +96,7 @@ die Probe an; wird eine behoben, muss die Liste nachgezogen werden (dieselbe Bau
 
 ### Marke: keine Verweise — gemessen, nicht angenommen
 
-`tools/buergermodul-schnitt.js` füllt `marke` an **genau einer** Stelle (Zeile ~237): dem
+ein nicht öffentliches Werkzeug füllt `marke` an **genau einer** Stelle (Zeile ~237): dem
 Produktnamen aus dem Dokument-Katalog (`persoenliches.standardDokumente[].typ === 'vivodepot'`).
 Farben, Logo, Schriftart sind **benannt, nicht geschnitten** (`BRANDING_NICHT_GESCHNITTEN`) — sie
 liegen als CSS/Inline-SVG im Gerüst, nicht als Datenwert. Es gibt darum heute **keinen** feldbezogenen

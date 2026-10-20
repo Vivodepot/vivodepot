@@ -10,6 +10,9 @@
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const { oeffneApp, depotAnlegen } = require('./helpers');
+// Öffentlicher Zuschnitt (20.10.2026, öffentlicher Lauf v933): erkannt an der öffentlichen Kopfzeile der Wurzeldatei; Weichen je Test mit Grund, gedeckelt
+// in tests/e2e-oeffentlich-weichen.test.js.
+const OEFFENTLICHER_ZUSCHNITT = require('../../tools/lib/wurzel-kopfzeile.js').imOeffentlichenZuschnitt(require('node:path').join(__dirname, '..', '..'));
 
 const IDENTITAET = {
   givenName: 'Elisabeth', familyName: 'Beispiel', birthDate: '1958-03-14',
@@ -27,6 +30,8 @@ async function bauteZeile(page, zeile) {
 }
 
 test('Freiheitsentzug-Punkt auf "nein" gesetzt → das Blatt zeigt "nein" explizit', async ({ page }) => {
+  // FIXME-ID: OEFFENTLICH-VORLAGEN-NACHLESE-F8
+  test.skip(OEFFENTLICHER_ZUSCHNITT, 'öffentlich ohne die zurückgehaltenen Vorlagen');
   await oeffneApp(page);
   await depotAnlegen(page);
   await bauteZeile(page, { healthCarePlacementDepriving: 'nein' });

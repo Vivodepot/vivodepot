@@ -1,6 +1,6 @@
 {
   "stand": "19.09.2026",
-  "messweg": "node tools/modul-text-lese-app-ausgabe-messen.js --grundlinie-schreiben",
+  "messweg": "node ein nicht öffentliches Werkzeug --grundlinie-schreiben",
   "hinweis": "Je Gruppe: so viele Kern-Kennungen erscheinen in der Lese-App nie, mit Grund. Die Zahl darf nur sinken; eine Kennung ohne Gruppe ist rot.",
   "gruppen": {
     "seitenleiste": {
@@ -8,7 +8,7 @@
       "grund": "Unterzeile der Kern-Seitenleiste"
     },
     "katalog-kern": {
-      "anzahl": 77,
+      "anzahl": 81,
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
     },
     "hinweis-beispiel": {
@@ -60,7 +60,7 @@
       "grund": "Textart eines Logikmoduls, die die Lese-App nie liest (Einleitung, Unterschrift-Hinweis, Fußtext, Toolbar-Hinweis)"
     },
     "hilfe-themen": {
-      "anzahl": 61,
+      "anzahl": 66,
       "grund": "Hilfe-Themen des Kerns (Hilfe-Overlay, U2-ADR-425); die Lese-App führt für die Empfängerin eine eigene kurze Hilfe aus strings: und zeigt diese Themen nie"
     }
   }

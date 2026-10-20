@@ -30,7 +30,7 @@ const BEGIN = '/* STUDIO-ERSCHEINUNG:BEGIN — erzeugt von tools/studio-erschein
 const ENDE = '/* STUDIO-ERSCHEINUNG:END */';
 
 /* Die Grund-Tokens, die das Studio aus der Ebene `basis` übernimmt. */
-const TOKENS = Object.freeze(['--ink', '--ink2', '--ink3', '--salbei-dunkel', '--salbei-mid', '--salbei-light', '--cream', '--white', '--line', '--gold', '--gold-soft', '--error', '--info']);
+const TOKENS = Object.freeze(['--ink', '--ink2', '--ink3', '--salbei-dunkel', '--salbei-mid', '--salbei-light', '--cream', '--white', '--line', '--gold', '--gold-soft', '--error', '--info', '--dialog-deckkraft']);
 
 /* Die Flächen: welche Fläche der App (Selektor im Modul, ohne den Modus-Vorsatz) welcher Fläche des Studios entspricht. */
 const MODUS = 'html:not(.dark-mode):not(.high-contrast) ';

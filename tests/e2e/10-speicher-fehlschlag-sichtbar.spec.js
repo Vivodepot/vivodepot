@@ -79,7 +79,7 @@ test('Fall B (interner Weg): IndexedDB VORHANDEN, Schreibversuch scheitert (open
   const port = srv.address().port;
   try {
     await page.goto(`http://localhost:${port}/vivodepot.html`);
-    await page.waitForSelector('#w-anlass', { state: 'visible' });
+    await page.waitForSelector('#w-anlegen', { state: 'visible' });
     await depotAnlegen(page, { name: 'Interner Fehlschlag' });
 
     // Vorbedingung fürs Messziel: internerSpeicherModus() muss hier TRUE sein (http://, IndexedDB

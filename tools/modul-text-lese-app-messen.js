@@ -5,7 +5,7 @@
    Lese-App verwirft, kommt im Kern an und fehlt beim Empfänger. Die Kennungen kommen aus `tools/textsatz-de-modul.json` (die Kernquelle), gruppiert
    nach FAMILIE (Form der Kennung ohne die konkreten Namen). Die `strings:`-Sätze des Kerns (Bedienfluss der Anwendung) sind kein Gegenstand: die
    Lese-App hat eine eigene, kleinere Oberfläche und eigene Zusicherungssätze, geprüft in tests/sprachmodul-zusicherungen-lese-app.test.js.
-   Bausteine (Familie, Annahme-Probe) für tools/modul-text-lese-app-ausgabe-messen.js, das die Ausgabe der Lese-App misst und die Grundlinie führt. */
+   Bausteine (Familie, Annahme-Probe) für ein nicht öffentliches Werkzeug, das die Ausgabe der Lese-App misst und die Grundlinie führt. */
 const fs = require('node:fs');
 const path = require('node:path');
 

@@ -1,9 +1,9 @@
 # Quelle: Bundesministerium der Justiz (BMJ), „Textbausteine Patientenverfügung“
 # Fundstelle: https://www.bmj.de/SharedDocs/Downloads/DE/Service/Formulare/Patientenverfuegung_Textbausteine_pdf.pdf
-# Stand: Textstand 17. September 2021 (wortlautQuelle in tools/dokument-module/vivodepot-standardvorlage-patientenverfuegung.json);
+# Stand: Textstand 17. September 2021 (wortlautQuelle in der Standardvorlage Patientenverfügung, nicht öffentlich);
 #   PDF erstellt 17.01.2023, Textfassung mit pdftotext -layout, gegengeprüft am 01.10.2026.
 # Rechtsstatus: amtliches Werk nach § 5 UrhG, unverändert übernommen. Dieser Kopf (Zeilen mit #) gehört nicht zum Text;
-#   tools/pv-festlegungen-bmj-beleg.js überspringt ihn.
+#   das Beleg-Werkzeug (nicht öffentlich) überspringt ihn.
 Textbausteine
 Patientenverfügung
 

@@ -192,6 +192,12 @@ geschärft, nicht gebaut, auch nicht vorbereitend.
 7. **Tests**: Spiegel von `tests/bereich-identitaet-verwaist.test.js` + der
    Verschwinden-und-Rückkehr-Probe in `tests/bereichs-module-einlass.test.js`.
 
+**Zu den Namen in Punkt 1–5** (Fund 20.09.2026, `tools/adr-code-stellen-pruefen.js`):
+`situationenVerwaist`, `situationFeldDefinitionenVerwaist`, `situationenVerwaistIdentitaet`,
+`situationsIdentitaeten`, `_situationenVerwaisteRetten` und `situationenVerwaisteAlle` sind
+Vorschläge dieser Vorlage, im Kern nie gebaut (nachzusehen mit
+`git log -S situationenVerwaisteAlle -- vivodepot.html`). Die Zeilennummern gelten für den Stand 04.09.2026.
+
 **Aufwand:** kein neuer Entwurf, reine Übertragung mit zwei Namens-Anpassungen (`titel` statt
 `label`, `situationId` statt `sektorId`) — realistisch in derselben Größenordnung wie dieser Bau
 selbst (Kern + Migrationsstufe + Tests + ADR).

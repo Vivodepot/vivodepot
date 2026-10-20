@@ -67,7 +67,7 @@ const ABLESEN = () => {
 async function main() {
   const { chromium } = require('playwright');
   const { depotEinrichten } = require(path.join(__dirname, 'kampagne.js'));
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   const seite = await browser.newPage({ viewport: { width: BREITEN[0], height: 900 } });
   const bereit = await depotEinrichten(seite);
   if (!bereit) {

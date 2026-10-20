@@ -61,7 +61,7 @@ test('[Aufrufer·E4] Slot tot, Funktion lebt — der Boot-Aufruf verarbeitet wei
      buergermodulBuendelAnwenden() SELBST ist trotzdem KEIN No-op (gemessen, nicht angenommen):
      der Boot-Aufruf `buergermodulBuendelAnwenden(BUERGERMODUL_BUENDEL)` erhält zwar `null`, aber
      `dokumente` wird UNABHÄNGIG vom Bündel-Parameter aus dem nativen Slot AB_WERK_DOKUMENTE_DE
-     gespeist (U2-ADR-NNN2) — der Bericht zeigt darum `angewandt:true` und echte `dokumente`-Zahl,
+     gespeist (U2-ADR-505) — der Bericht zeigt darum `angewandt:true` und echte `dokumente`-Zahl,
      nicht den "kein-buendel"-Kurzschluss. Zusicherung „der eingebaute Bestand ist vollständig,
      mit den richtigen Feld-/Bereichszahlen" ist zu bereicheAlle() gewandert (unten, unverändert,
      bereits vorher grün) — bereiche/felder/unterFelder aus DIESEM Bericht sind seit dem Schnitt

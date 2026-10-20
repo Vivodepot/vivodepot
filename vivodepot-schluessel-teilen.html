@@ -2118,7 +2118,7 @@ function _aadFuerSchluesselhuelle(w) {
 async function schuetzeSchluesselJwk(jwk, passphrase) {
   if (!passphrase) throw new Error('Passphrase fehlt.');
   const salt = crypto.getRandomValues(new Uint8Array(16));
-  const key = await deriveKey(passphrase, salt);
+  const key = await deriveKey(String(passphrase).normalize('NFC'), salt);   // NFC wie jedes Passwort vor einer Ableitung
   const kopfdaten = { kdf: 'pbkdf2-sha256', iterationen: PBKDF2_ITERATIONS };
   const { iv, ct } = await encryptData(jwk, key, _aadFuerSchluesselhuelle(kopfdaten));
   return {
@@ -2132,6 +2132,11 @@ async function schuetzeSchluesselJwk(jwk, passphrase) {
 
 // Dieselbe Bewertung wie im Zertifikator (Trust-Authority-Passphrase-Kontext, ein Operator,
 // kein Massenmarkt) — eigene, kleinere Blockliste statt der vollen PW_BLOCKLISTE des Kerns.
+/* Mindestlänge des Passworts einer Schlüsseldatei (.vdkey), nur beim Setzen. 18.10.2026: 8 → 12 (Entscheidung vom 18.10.2026
+   als Folge der Passwortregeln offline nach BSI): eine .vdkey-Datei wird wie jede Vivodepot-Datei offline geraten und hat keinen
+   zweiten Faktor; darum nie schwächer als das eigene Depot-Passwort (PW_MIN_EIGEN im Kern). Das Öffnen prüft keine Länge — eine
+   Datei mit 8 bis 11 Zeichen aus einer früheren Fassung geht weiter auf. Wächter: tests/passwort-nfc-klasse.test.js. */
+const SCHLUESSEL_PASSWORT_MINDESTLAENGE = 12;
 const TEILER_PW_BLOCKLISTE = ['passwort', 'password', 'passwort123', 'password123', 'qwertz', 'qwerty', '123456', '12345678', 'trustauthority', 'vivodepot', 'geheim', 'admin', 'letmein', 'welcome', 'changeme'];
 function passphraseStaerke(pw) {
   pw = String(pw == null ? '' : pw);
@@ -2145,7 +2150,7 @@ function passphraseStaerke(pw) {
   if (/[A-ZÄÖÜ]/.test(pw)) klassen++;
   if (/[0-9]/.test(pw)) klassen++;
   if (/[^A-Za-z0-9äöüßÄÖÜ]/.test(pw)) klassen++;
-  if (pw.length < 8 || bekannt) return { stufe: 'schwach', bekannt };
+  if (pw.length < SCHLUESSEL_PASSWORT_MINDESTLAENGE || bekannt) return { stufe: 'schwach', bekannt };
   let score = 0;
   if (pw.length >= 8) score++;
   if (pw.length >= 12) score++;
@@ -2184,7 +2189,7 @@ async function onGeschuetztSichern() {
     const zweckEl = document.getElementById('schuetzen-zweck');
     const zweck = _zweckSlug(zweckEl ? zweckEl.value : '');
     if (!zweck) { setzeLage('zusammen-lage', 'Zweck fehlt — er steht danach im Dateinamen.', 'fehler'); return; }
-    if (!pw1 || pw1.length < 8) { setzeLage('zusammen-lage', 'Passwort zu kurz (mindestens 8 Zeichen).', 'fehler'); return; }
+    if (!pw1 || pw1.length < SCHLUESSEL_PASSWORT_MINDESTLAENGE) { setzeLage('zusammen-lage', 'Passwort zu kurz (mindestens ' + SCHLUESSEL_PASSWORT_MINDESTLAENGE + ' Zeichen).', 'fehler'); return; }
     if (pw1 !== pw2) { setzeLage('zusammen-lage', 'Die beiden Passwort-Eingaben stimmen nicht überein.', 'fehler'); return; }
     let geschuetzt;
     try { geschuetzt = await schuetzeSchluesselJwk(_letzterSchluessel.jwk, pw1); }

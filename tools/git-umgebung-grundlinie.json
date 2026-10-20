@@ -12,7 +12,6 @@
   "tests/dokumente-rechtsraum-umzug-rundlauf.test.js",
   "tests/handkopien-gegen-original.test.js",
   "tests/hooks-laufen-wirklich.test.js",
-  "tests/modul-app-signieren-und-packen.test.js",
   "tests/u2-adr-257-format-schreiber.test.js",
   "tests/wizard-optionen-aus-materialisieren-u2-adr-341.test.js",
   "tools/adr-commit-hashes-pruefen.js",
@@ -20,9 +19,6 @@
   "tools/baeume-aufraeumen-erheben.js",
   "tools/dokument-vor-umzug-fixture-ziehen.js",
   "tools/faktenbasis-erzeugen.js",
-  "tools/kontrakt-faktenuebersicht-erzeugen.js",
-  "tools/nativ-bestand-aenderungen-erheben.js",
-  "tools/pro-vorlage-en-kennungen-erzeugen.js",
   "tools/standzahl-frei-pruefen.js"
  ],
  "repoOhneEnv_stand": "2026-09-19",

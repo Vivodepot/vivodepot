@@ -269,8 +269,10 @@ test('T-CROSS-18 der QR wird als BILD gelesen — echte QR-Grafik, echter Browse
     }
     const z = qrTeileZusammensetzen(gelesen);
     if (!z.fertig) return { fertig: false, grund: z.grund, fehlend: z.fehlend, gelesen: gelesen.length };
-    const ds = JSON.parse((await antwortJweOeffnen(z.text, { passwort: pw })).klartext);
-    return { fertig: true, gelesen: gelesen.length, felder: ds.felder.length, wert: ds.felder[0].wert, vorgang: ds.anfrage.vorgang };
+    // Seit ANTWORT_SIGNIEREN an ist, trägt der Klartext eine signierte Antwort (U2-ADR-501): geöffnet wird über den Weg der Lese-App.
+    const offen = await antwortOeffnenMitSignatur(antwortJweAlsUmschlag(z.text), { passwort: pw });
+    const ds = offen.datensatz;
+    return { fertig: true, gelesen: gelesen.length, felder: ds.felder.length, wert: ds.felder[0].wert, vorgang: ds.anfrage.vorgang, signatur: offen.signatur.zustand };
   }, [bilder, EINMAL_PW]);
 
   expect(ergebnis.uebersprungen, 'dieser Browser trägt den QR-Leser').toBeUndefined();
@@ -279,5 +281,6 @@ test('T-CROSS-18 der QR wird als BILD gelesen — echte QR-Grafik, echter Browse
   expect(ergebnis.felder).toBe(1);
   expect(ergebnis.wert).toBe('Hedwig');
   expect(ergebnis.vorgang).toBe('AUF-2026-0815');
+  expect(ergebnis.signatur, 'die Antwort kommt signiert über den QR').toBe('signatur');
   await institution.close();
 });

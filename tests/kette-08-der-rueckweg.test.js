@@ -82,8 +82,9 @@ function heimAnfrage(ueber) {
 /* Seit U2-ADR-449 (v833) schreibt der Kern die Antwort als JWE; die Lese-App öffnet sie mit antwortJweOeffnen und die
    Antworten aus der Zeit davor (Umschlag v1) weiter mit den v1-Funktionen. Die Proben unten halten dieselben Zusagen wie
    vorher — jetzt an der JWE. */
-async function oeffnePw(L, jwe, pw) { return JSON.parse((await L.antwortJweOeffnen(jwe, { passwort: pw })).klartext); }
-async function oeffneKey(L, jwe, priv) { return JSON.parse((await L.antwortJweOeffnen(jwe, { privateJwk: priv })).klartext); }
+const { datensatzAusJwe } = require('./helfer/antwort-datensatz.js');
+async function oeffnePw(L, jwe, pw) { return datensatzAusJwe(L, jwe, { passwort: pw }); }
+async function oeffneKey(L, jwe, priv) { return datensatzAusJwe(L, jwe, { privateJwk: priv }); }
 const jweKopf = (jwe) => JSON.parse(Buffer.from(String(jwe).split('.')[0], 'base64url').toString('utf8'));
 function jweMitKopf(jwe, aendern) {
   const t = String(jwe).split('.');

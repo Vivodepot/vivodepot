@@ -170,7 +170,7 @@ test('[Ab-Werk-Saat·Koexistenz] ein zweiter, echter Rechtsraum über Weg A komm
 test('[Boot] _rechtsraumGeruestModulBooten() ist verdrahtet, bleibt aber ein Leerlauf ohne echte Nutzlast', async () => {
   const { V } = ladeKern();
   assert.equal(typeof V._rechtsraumGeruestModulBooten, 'function', 'die Boot-Funktion existiert und ist aufrufbar');
-  assert.equal(V._RECHTSRAUM_GERUEST_MODUL_VIVODEPOT_DE_JWS, null,
+  assert.equal(V._RECHTSRAUM_GERUEST_MODUL_JWS, null,
     'Platzhalter bis zur echten Ausstellung — wie templateJws:null bei STANDARD_VORLAGEN');
   const r = await V._rechtsraumGeruestModulBooten();
   assert.equal(r.geladen, false);

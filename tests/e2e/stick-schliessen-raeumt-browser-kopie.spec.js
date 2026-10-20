@@ -53,7 +53,7 @@ async function fsaAttrappe(page) {
 
 async function depotAnlegenUndFuellen(page, url) {
   await page.goto(url);
-  await page.waitForSelector('#w-anlass', { state: 'visible', timeout: 30000 });
+  await page.waitForSelector('#w-anlegen', { state: 'visible', timeout: 30000 });
   await page.evaluate(async (pw) => {
     await window.__vdOeffentlich.depotAnlegen(pw);
     window.__vdOeffentlich.akteurSelbstErklaeren('Probe');

@@ -37,6 +37,7 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : require('./tools/lib/test-parallel.js').pwWorker(),
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
+    launchOptions: require('./tools/lib/netz-sperre.js').mitSperre(),   // harte Netzsperre: nur lokal (tools/lib/netz-sperre.js)
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },

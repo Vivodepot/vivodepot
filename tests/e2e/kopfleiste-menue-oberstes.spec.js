@@ -12,7 +12,7 @@
 const { test, expect } = require('@playwright/test');
 const h = require('./helpers.js');
 
-const PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_PRIVAT_EN], ['pro-de', h.KERN_URL_PRO_DE], ['pro-en', h.KERN_URL_PRO_EN]];
+const PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_PRIVAT_EN], ['pro-de', h.KERN_URL_PRO_DE], ['pro-en', h.KERN_URL_PRO_EN]].filter(([slug]) => h.baubar(slug));
 const BREITEN = [[1280, 800], [390, 844]];
 const PILLE = '#tb-depot-pille';
 const MENUE = '#tb-depot-menue';
@@ -137,7 +137,9 @@ async function personenAuswahlOeffnen(page) {
   return { eingabe, liste };
 }
 
-for (const [slug, url] of PRODUKTE.filter(([p]) => p.startsWith('privat-'))) {
+// Als Literal (dieselben zwei Einträge wie PRODUKTE.filter(privat-)): die E2E-Zählung (A423) liest die Länge aus der Liste selbst.
+const PRIVAT_PRODUKTE = [['privat-de', h.KERN_URL_PRIVAT_DE], ['privat-en', h.KERN_URL_PRIVAT_EN]];
+for (const [slug, url] of PRIVAT_PRODUKTE) {
   for (const [breite, hoehe] of BREITEN) {
     test(`[Glas·Personen-Auswahl] ${slug} · ${breite} px: die Vorschläge liegen unter dem Feld und am Klickpunkt oben`, async ({ page }) => {
       await page.setViewportSize({ width: breite, height: hoehe });

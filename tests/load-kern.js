@@ -270,7 +270,7 @@ function makeDocument() {
 }
 
 /* ── Kontext bauen, Blöcke laden, interne Bindings exportieren ───────────── */
-// Kern-Verschluss (18.09.2026, U2-ADR-494): EXPORT_HOOK selbst muss jetzt INNERHALB des
+// Kern-Verschluss (18.09.2026, U2-ADR-509): EXPORT_HOOK selbst muss jetzt INNERHALB des
 // Kern-IIFE laufen (s. spliceVorKernVerschluss), sonst sieht es keinen der eingeschlossenen
 // Namen. Ein `return` dort würde nur aus DIESEM IIFE zurückkehren, nicht aus der äußeren
 // new Function() — sein Ergebnis ginge verloren (V wäre `undefined`). Darum schreibt der Hook
@@ -329,6 +329,9 @@ const EXPORT_HOOK = `
   _bytesAlsBinaerstring,   // S17 („Die Base64-Grenzen", 09.08.2026)
   importMasterAesKey, deriveKey, _AAD_UEBERGABE_V2, CRYPTO_VERSION_AKTUELL, KRYPTO_VERSION_ALLOWLIST,
   depotAnlegen, depotSerialisieren, depotLaden, depotDateiname, istGueltigerUmschlag, umschlagEntpacken,
+  // NOTFALLKARTE-VOLLMACHTART (17.10.2026): typeof, weil ältere Kerne (opts.htmlPfad) sie nicht tragen.
+  formatVertreterAufloesen: (typeof formatVertreterAufloesen === 'function' ? formatVertreterAufloesen : undefined),
+  vollmachtFuerBehandlung: (typeof vollmachtFuerBehandlung === 'function' ? vollmachtFuerBehandlung : undefined),
   oeffnenAbweisungText: (typeof oeffnenAbweisungText === 'function' ? oeffnenAbweisungText : undefined),   // Klassenwächter: jede Abweisung beim Öffnen nennt ihren echten Grund (seit v929; ältere Kerne kennen sie nicht)
   subDepotVersiegeln, subDepotEntsiegeln, subDepotAnlegen, flowKindSubDepotAnlegen,
   subDepotVertrauenOeffnen, subDepotVertrauenSchliessen,
@@ -490,6 +493,9 @@ const EXPORT_HOOK = `
   antwortVerschluesseln,
   qrTeileZusammensetzen, anfrageAusTeilen, anfrageAusEingabe,
   _anfrageAntwortAusgeben, _anfrageAntwortSchreiben,
+  // Mindestlänge des Einmalpassworts (17.10.2026) — ältere Kerne kennen sie nicht
+  _einmalpasswortKurz: (typeof _einmalpasswortKurz === 'function' ? _einmalpasswortKurz : undefined),
+  EINMALPASSWORT_MIN_ZEICHEN: (typeof EINMALPASSWORT_MIN_ZEICHEN !== 'undefined' ? EINMALPASSWORT_MIN_ZEICHEN : undefined),
   modulFassungEntscheiden, _vorlageAbgelaufen, _vorlageDokAusgabe,
   qrTeilePacken, _qrRahmenParsen, _qrGruppenId, QR_TEIL_MAX,
   // An EUDI-Wallet übergeben (Best-Effort SD-JWT-VC-Serialisierung, vorläufig)
@@ -574,6 +580,12 @@ const EXPORT_HOOK = `
   _fhirObservationHTML, _fhirDokumentAnsichtHTML,     // U2-ADR-076 Nachtrag: Observation-Darstellung + kombiniert
   // U2-ADR-047 — SHL-Provider (Offline-Teil): JWE + shlink:/-Payload; Upload = offener Stub
   _jweCompactDir, shlProviderPayload, shlUriBauen, shlDateiHochladen, shlProviderErzeugen, SHL_URI_PRAEFIX,
+  // „Link senden“ für jeden Auszug (v932): typeof-abgesichert, weil Proben auch ältere Kernfassungen laden
+  _shlTeile: (typeof _shlTeile !== 'undefined' ? _shlTeile : undefined),
+  auszugLinkTeile: (typeof auszugLinkTeile !== 'undefined' ? auszugLinkTeile : undefined),
+  LINK_SENDEN_FUER_AUSZUEGE: (typeof LINK_SENDEN_FUER_AUSZUEGE !== 'undefined' ? LINK_SENDEN_FUER_AUSZUEGE : undefined),
+  AUSZUG_INHALTSTYPEN: (typeof AUSZUG_INHALTSTYPEN !== 'undefined' ? AUSZUG_INHALTSTYPEN : undefined),
+  _auszugInhaltstyp: (typeof _auszugInhaltstyp !== 'undefined' ? _auszugInhaltstyp : undefined),
   // Befund SHL-ABLAGE-URL-UNGEPRUEFT (07.10.2026): Prüfung der Ablage-Adresse und Bestätigung des Hosts
   shlAblageUrlPruefen: (typeof shlAblageUrlPruefen !== 'undefined' ? shlAblageUrlPruefen : undefined),
   _shlHostBestaetigungZeigen: (typeof _shlHostBestaetigungZeigen !== 'undefined' ? _shlHostBestaetigungZeigen : undefined),
@@ -642,7 +654,7 @@ const EXPORT_HOOK = `
   // U2-ADR-263 — reine, in Node ohne window.jspdf testbare Funktionen der Schriftdeckung-Pruefung.
   pdfZeichenOhneDeckung: (typeof pdfZeichenOhneDeckung === 'function' ? pdfZeichenOhneDeckung : undefined),
   _pdfSchriftPruefungInstallieren: (typeof _pdfSchriftPruefungInstallieren === 'function' ? _pdfSchriftPruefungInstallieren : undefined),
-  // PDF-Kästchen als Vektor (25.09.2026) — tolerant wie oben (versionsgebunden), s. tests/pdf-kaestchen-vektor.test.js.
+  // PDF-Kästchen als Vektor (25.09.2026) — tolerant wie oben (versionsgebunden), s. eine nicht öffentliche Probe.
   PDF_KAESTCHEN: (typeof PDF_KAESTCHEN !== 'undefined' ? PDF_KAESTCHEN : undefined),
   _pdfKaestchenMass: (typeof _pdfKaestchenMass === 'function' ? _pdfKaestchenMass : undefined),
   _pdfSchriftLueckenBuendeln: (typeof _pdfSchriftLueckenBuendeln === 'function' ? _pdfSchriftLueckenBuendeln : undefined),
@@ -710,7 +722,7 @@ const EXPORT_HOOK = `
   // (KERN_HTML_PATH) diese Namen noch nicht kennt.
   DOKUMENT_MODUL_MOTOREN_ERLAUBT: (typeof DOKUMENT_MODUL_MOTOREN_ERLAUBT !== 'undefined' ? DOKUMENT_MODUL_MOTOREN_ERLAUBT : undefined),
   _dokumentModulAusBuendelErzeugen: (typeof _dokumentModulAusBuendelErzeugen !== 'undefined' ? _dokumentModulAusBuendelErzeugen : undefined),
-  // U2-ADR-NNN2 (17.09.2026): _standardVorlageAusBuendelErzeugen entfernt (A253 fand sie
+  // U2-ADR-505 (17.09.2026): _standardVorlageAusBuendelErzeugen entfernt (A253 fand sie
   // unerreichbar — STANDARD_VORLAGEN kommt seither direkt aus AB_WERK_BASISTEMPLATE_DE, kein
   // "roh"-Objekt mehr zu materialisieren). Kein Export mehr, keine typeof-Rückwärtskompatibilität
   // nötig — kein Test lud einen historischen Kern dafür.
@@ -806,12 +818,12 @@ const EXPORT_HOOK = `
   _verifiziereTemplateSignatur, STANDARD_VORLAGEN_CERTS,
   _modulPruefstufeAusZertifikat: (typeof _modulPruefstufeAusZertifikat === 'function' ? _modulPruefstufeAusZertifikat : undefined),
   _kanonischJSON, _basisInhalt, _basisInhaltMatcht, STANDARD_VORLAGEN,
-  // U2-ADR-NNN2 — STANDARD_VORLAGEN materialisiert sich jetzt aus einem eigenen Ab-Werk-Slot
+  // U2-ADR-505 — STANDARD_VORLAGEN materialisiert sich jetzt aus einem eigenen Ab-Werk-Slot
   // (Muster AB_WERK_RECHTSRAUM_DE/U2-ADR-382), nicht mehr aus BUERGERMODUL_BUENDEL.standardVorlagen.
   // typeof-Waechter wie beim Rechtsraum-Vorbild: historische Kerne vor diesem Zug kennen den
   // Namen nicht.
   AB_WERK_BASISTEMPLATE_DE: (typeof AB_WERK_BASISTEMPLATE_DE !== 'undefined' ? AB_WERK_BASISTEMPLATE_DE : undefined),
-  // U2-ADR-NNN2 — dieselbe Bewegung wie oben, für .dokumente und .rechtsraumKatalog (dritter/
+  // U2-ADR-505 — dieselbe Bewegung wie oben, für .dokumente und .rechtsraumKatalog (dritter/
   // vierter Register-Umzug desselben Zugs). typeof-Waechter aus demselben Grund.
   AB_WERK_DOKUMENTE_DE: (typeof AB_WERK_DOKUMENTE_DE !== 'undefined' ? AB_WERK_DOKUMENTE_DE : undefined),
   AB_WERK_RECHTSRAUM_KATALOG_QUELLE: (typeof AB_WERK_RECHTSRAUM_KATALOG_QUELLE !== 'undefined' ? AB_WERK_RECHTSRAUM_KATALOG_QUELLE : undefined),
@@ -828,6 +840,13 @@ const EXPORT_HOOK = `
   // (3df1b23, vor diesem Zusatz) mit demselben EXPORT_HOOK — eine nackte Referenz würfe dort
   // ReferenceError statt den Vergleich zu Ende zu führen.
   _rechtsraumVorschlagswert: (typeof _rechtsraumVorschlagswert === 'function' ? _rechtsraumVorschlagswert : undefined),
+  // R1 „Rechtsraum als Modul im Kern“ (09.10.2026)
+  _rechtsraumCodeAbWerk: (typeof _rechtsraumCodeAbWerk === 'function' ? _rechtsraumCodeAbWerk : undefined),
+  _rechtsraumDerZusammenstellung: (typeof _rechtsraumDerZusammenstellung === 'function' ? _rechtsraumDerZusammenstellung : undefined),
+  _rechtsraumModulDerZusammenstellung: (typeof _rechtsraumModulDerZusammenstellung === 'function' ? _rechtsraumModulDerZusammenstellung : undefined),
+  _rechtsraumKatalogDerZusammenstellung: (typeof _rechtsraumKatalogDerZusammenstellung === 'function' ? _rechtsraumKatalogDerZusammenstellung : undefined),
+  _formatRechtsraumPasst: (typeof _formatRechtsraumPasst === 'function' ? _formatRechtsraumPasst : undefined),
+  _dokFussRechtsraum: (typeof _dokFussRechtsraum === 'function' ? _dokFussRechtsraum : undefined),
   // U2-ADR-121 Posten 8 (Zug 6) — Rechtsraum-Modul-Payload-Vertrag
   validateRechtsraumModul, _rechtsraumModulUebersetzen, _rechtsraumModulEinbetten,
   _rechtsraumModuleAusDepotAnmelden, _rechtsraumTypBekannt,
@@ -843,7 +862,7 @@ const EXPORT_HOOK = `
   _RECHTSRAUM_GERUEST_MODUL_CERTS: (typeof _RECHTSRAUM_GERUEST_MODUL_CERTS !== 'undefined' ? _RECHTSRAUM_GERUEST_MODUL_CERTS : undefined),
   // Auftrag „Rechtsraum DE als Modul" (07.09.2026) — Boot-Verdrahtung von Weg A
   _rechtsraumGeruestModulBooten: (typeof _rechtsraumGeruestModulBooten === 'function' ? _rechtsraumGeruestModulBooten : undefined),
-  _RECHTSRAUM_GERUEST_MODUL_VIVODEPOT_DE_JWS: (typeof _RECHTSRAUM_GERUEST_MODUL_VIVODEPOT_DE_JWS !== 'undefined' ? _RECHTSRAUM_GERUEST_MODUL_VIVODEPOT_DE_JWS : undefined),
+  _RECHTSRAUM_GERUEST_MODUL_JWS: (typeof _RECHTSRAUM_GERUEST_MODUL_JWS !== 'undefined' ? _RECHTSRAUM_GERUEST_MODUL_JWS : undefined),
   // 1F Cert-Trennung (U2-ADR-038-Nachtrag/U2-ADR-040): Widerruf + Schonfrist + Ablauf-Vorwarnung
   _jwkThumbprint, WIDERRUFS_LISTE, _veralteteBasisVorlagen, _basisAblaufFaellig, _basisAblaufFruehWert,
   // 1B Bürger-App-Import-UI — Bundle-Aufteilung
@@ -1114,6 +1133,10 @@ const EXPORT_HOOK = `
   // U2-ADR-244: fähigkeitsabhängiger Anlege-Hinweis (typeof-Guard: existiert nicht in älteren
   // geladenen Ständen, z. B. tests/docx-streichung-gegenprobe.test.js gegen einen historischen Commit).
   anlegenSpeicherHinweis: (typeof anlegenSpeicherHinweis !== 'undefined' ? anlegenSpeicherHinweis : undefined),
+  // U2-ADR-474: das Speichermodell, eine Quelle für jede Aussage zum Speichern (typeof-Guard für historische Stände).
+  speicherSatz: (typeof speicherSatz !== 'undefined' ? speicherSatz : undefined),
+  speicherModellSicht: (typeof speicherModellSicht !== 'undefined' ? speicherModellSicht : undefined),
+  sicherungskopieErstellen: (typeof sicherungskopieErstellen !== 'undefined' ? sicherungskopieErstellen : undefined),
   // Auftrag „Erfolg ohne Wirkung" (08.08.2026), Zug 2 — Test-Zugriff, um den stillen No-Op-Zustand
   // (sessionHkdfKey gesetzt, aktuelleDepotUUID leer) gezielt zu stellen, ohne auf ein zufälliges
   // Timing im echten Lade-Pfad angewiesen zu sein.
@@ -1144,6 +1167,7 @@ const EXPORT_HOOK = `
   VERTRETUNG_ROLECODES: (typeof VERTRETUNG_ROLECODES !== 'undefined' ? VERTRETUNG_ROLECODES : undefined),
   _ortHinweisFuerUmschlag,   // F5 Zug 1 (21.08.2026): der Torwaechter des Ort-Hinweises
   _empfaengerFaecherFuerSchreibweg, _zerfallAttrappe, _zerfallEintragLesen,
+  _zerfallLaengenPruefen: (typeof _zerfallLaengenPruefen === 'function' ? _zerfallLaengenPruefen : undefined),
   flowEmpfaengerkreisBearbeiten, flowEmpfaengerkreisDatei, flowEmpfaengerkreisEntfernen,
   flowEmpfaengerkreisFach, flowEmpfaengerkreisFachEntfernen,
   // QR-Übergabe (b16-Wiedereinbau, Krisenvorsorge-Auftrag 24.08.2026, Zug 3c) — typeof-
@@ -1226,6 +1250,8 @@ const EXPORT_HOOK = `
   flowPasswortSetzen, _depotAusPasswortFinalisieren, flowDepotAnlegen,
   // Sicherheit Block B (Krypto-Gutachten-Befund 1.7) — Passphrase-Stärke + harte Grund-Schranke
   passwortStaerke, pwGrundFehler, pwStaerkeAnzeigeVerdrahten, PW_BLOCKLISTE,
+  // Passwortregeln offline nach BSI (18.10.2026) — der Umlaut-Hinweis der Stärkeanzeige
+  pwHatWechselndeZeichen: (typeof pwHatWechselndeZeichen === 'function' ? pwHatWechselndeZeichen : undefined),
   // U2-ADR-463 (1) — Passwort-Vorschlag aus sechs zufälligen Wörtern
   passwortVorschlag: (typeof passwortVorschlag === 'function' ? passwortVorschlag : undefined),
   passwortWortliste: (typeof passwortWortliste === 'function' ? passwortWortliste : undefined),
@@ -1469,7 +1495,7 @@ const EXPORT_HOOK = `
   hilfeUebersichtHTML: (typeof hilfeUebersichtHTML !== 'undefined') ? hilfeUebersichtHTML : undefined,
   hilfeOverlayHTML: (typeof hilfeOverlayHTML !== 'undefined') ? hilfeOverlayHTML : undefined,
   _situationIndexNeuBauen: (typeof _situationIndexNeuBauen !== 'undefined') ? _situationIndexNeuBauen : undefined,
-  // U2-ADR-NNN (19.09.2026) — Angehörigen-Vorlagen, wörtlicher Spiegel der Situationen-Zeilen
+  // U2-ADR-435 (19.09.2026) — Angehörigen-Vorlagen, wörtlicher Spiegel der Situationen-Zeilen
   // direkt oberhalb. typeof-abgesichert wie dort: der Harnisch lädt auch ältere Commits.
   angehoerigenVorlagePruefen: (typeof angehoerigenVorlagePruefen !== 'undefined') ? angehoerigenVorlagePruefen : undefined,
   _angehoerigenVorlagenAusDepotAnmelden: (typeof _angehoerigenVorlagenAusDepotAnmelden !== 'undefined') ? _angehoerigenVorlagenAusDepotAnmelden : undefined,
@@ -1937,7 +1963,7 @@ const EXPORT_HOOK = `
 };
 `;
 
-// Kern-Verschluss (18.09.2026, U2-ADR-494): Script 2 schließt seither mit einem IIFE, das
+// Kern-Verschluss (18.09.2026, U2-ADR-509): Script 2 schließt seither mit einem IIFE, das
 // alle Top-Level-Namen bis auf eine benannte, kleine Fläche einschließt (Marker in
 // vivodepot.html: `@vd-kern-verschluss-ende`, direkt vor der schließenden Klammer). Sowohl
 // EXPORT_HOOK als auch die Codelisten-Blöcke unten rufen Kern-Namen BARE auf — sie müssen
@@ -2357,7 +2383,7 @@ function ladeKern(opts) {
   const exportHook = zusatz.length
     ? EXPORT_HOOK.replace(';__LOAD_KERN_EXPORT__ = {', ';__LOAD_KERN_EXPORT__ = { __zusatz: {' + zusatz.map((n) => n + ': (typeof ' + n + " !== 'undefined' ? " + n + ' : undefined)').join(', ') + '},')
     : EXPORT_HOOK;
-  // Kern-Verschluss (18.09.2026, U2-ADR-494): Script 2 endet seither auf ein IIFE, das fast
+  // Kern-Verschluss (18.09.2026, U2-ADR-509): Script 2 endet seither auf ein IIFE, das fast
   // alle Top-Level-Namen einschließt (vorher lagen 1581 offen auf `window`). EXPORT_HOOK und
   // die Codelisten rufen aber genau solche Namen bare auf (codeListeAnmelden, Dutzende Exporte)
   // — vor dem Verschluss hing das am selben flachen Geltungsbereich wie der Rest des Kerns,

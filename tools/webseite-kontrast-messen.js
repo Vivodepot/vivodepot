@@ -73,7 +73,7 @@ async function main() {
   if (!seiten.length) { console.error('Keine .html-Seiten in ' + ORDNER); process.exit(2); }
 
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const bericht = { erzeugt: new Date().toISOString(), ordner: ORDNER, seiten: [] };
 

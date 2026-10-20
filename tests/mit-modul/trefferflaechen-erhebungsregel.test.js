@@ -65,7 +65,7 @@ const SEITE = `
 
 async function erhebung() {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const seite = await browser.newPage({ viewport: { width: 390, height: 900 } });
     await seite.setContent(SEITE);

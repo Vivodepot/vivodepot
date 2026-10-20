@@ -243,6 +243,7 @@ function pruefebeneZahlen(htmlText, { mitSuite = false } = {}) {
   }
   let e2eZahl = 0;
   let e2eSchleifenZuwachs = 0;
+  const { dateiZaehlen } = require(path.join(REPO, 'tools', 'lib', 'e2e-schleifen-zaehlen.js'));
   const e2eDir = path.join(REPO, 'tests', 'e2e');
   // U2-ADR-372 (08.09.2026): eine Schleife kann auch über einen BENANNTEN Import laufen statt
   // über ein Inline-Array (`for (const p of PRODUKTE)`, keine `[...]`-Literale im Schleifenkopf).
@@ -263,25 +264,9 @@ function pruefebeneZahlen(htmlText, { mitSuite = false } = {}) {
          konstant und erklärbar. Sie wird hier MITGEZÄHLT und in der Zeile ausgewiesen, damit die
          zwei Zahlen nicht als Widerspruch weiterwandern (§7.6 — wer zwei Zahlen nebeneinander
          stellt, sagt, dass beide dasselbe zählen). */
-      // Klammerbalance statt Spalten-0-Anker (U2-ADR-372, 08.09.2026): eine Schleife kann
-      // eingerückt in einem describe()-Block stehen, nicht nur auf oberster Ebene.
-      const kopfRegex = /^\s*for \([^)]*\)\s*\{/gm;
-      let kopfTreffer;
-      while ((kopfTreffer = kopfRegex.exec(text))) {
-        const kopf = kopfTreffer[0];
-        const inlineWerte = (kopf.match(/\[([^\]]*)\]/) || [])[1];
-        const n = inlineWerte ? inlineWerte.split(',').length
-          : (/of\s+PRODUKTE\s*\)/.test(kopf) ? produkteLaenge : null);
-        if (!n) continue;
-        let tiefe = 1;
-        let i = kopfTreffer.index + kopf.length;
-        while (tiefe > 0 && i < text.length) {
-          if (text[i] === '{') tiefe++; else if (text[i] === '}') tiefe--;
-          i++;
-        }
-        const drin = text.slice(kopfTreffer.index + kopf.length, i - 1);
-        e2eSchleifenZuwachs += ((drin.match(/^\s*test\(/gm) || []).length) * (n - 1);
-      }
+      // Die Schleifen zählt EINE Fassung (tools/lib/e2e-schleifen-zaehlen.js, Befund A423-DESTRUKTURIERTE-SCHLEIFENKOEPFE, 17.10.2026):
+      // Werte aus dem Ausdruck nach `of`, verschachtelte Schleifen multipliziert, unbekannte Quellen gemeldet (Probe A423).
+      e2eSchleifenZuwachs += dateiZaehlen(text, { verzeichnis: path.dirname(datei), produkteLaenge }).zuwachs;
     }
   }
   let waechterZahl = 0;

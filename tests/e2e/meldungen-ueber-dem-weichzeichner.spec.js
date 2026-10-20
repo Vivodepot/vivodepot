@@ -19,8 +19,9 @@ async function oeffnen(page, breite) {
   await page.setViewportSize({ width: breite, height: 860 });
   await h.oeffneApp(page, { url: h.KERN_URL_PRIVAT_DE });
   await page.click('#w-anfangen');
-  await page.waitForSelector('#tb-pw-hinweis', { state: 'visible' });
-  await page.click('#tb-pw-hinweis');                                   // öffnet den Anlege-Dialog (#modal-rueck.an)
+  // Der sichtbare Weg zum Anlegen: der Hinweis oben ODER die Karte im Inhalt (eine Anlege-Aufforderung je Ansicht).
+  await page.waitForSelector(h.ANLEGE_WEG_KANON + ':visible', { state: 'attached' });
+  await page.click(h.ANLEGE_WEG_KANON + ':visible');                                   // öffnet den Anlege-Dialog (#modal-rueck.an)
   await page.waitForSelector('#modal-rueck.an #id-pw', { state: 'visible' });
 }
 async function messen(page, art) {

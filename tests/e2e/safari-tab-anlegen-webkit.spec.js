@@ -34,7 +34,7 @@ async function ueberWebAdresse(page, slug) {
 
 /* Ein eigener WebKit-Browser je Fall; er wird in jedem Ausgang geschlossen. */
 async function inWebkit(kontext, fn) {
-  const browser = await webkit.launch();
+  const browser = await webkit.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
   try {
     const k = await browser.newContext(Object.assign({ locale: 'de-DE' }, kontext));
     await fn(await k.newPage());
@@ -84,7 +84,8 @@ async function bisZumAnlegeDialog(page) {
   return mitAngebot;
 }
 
-for (const slug of ['privat-de', 'privat-en', 'pro-de', 'pro-en']) {
+// Im öffentlichen Zuschnitt nur die baubaren Produkte (helpers.js, baubar); im Kanon alle vier.
+for (const slug of ['privat-de', 'privat-en', 'pro-de', 'pro-en'].filter(h.baubar)) {
   test(`[Safari-Tab·WebKit] ${slug} · Schreibtisch-Safari ohne nachgestelltes Signal: Anlegen, Datei-Schritt, Code-Angebot` + (slug.endsWith('-de') ? ', neu laden, wieder öffnen' : ''), async () => {
     test.setTimeout(180000);
     await inWebkit({ viewport: { width: 1280, height: 800 } }, async (page) => {

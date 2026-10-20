@@ -164,7 +164,8 @@ const NUTZT_HELFER = /test-lauf|VD_TEST_LAUF|NODE_OPTIONS|playwrightLaufBeginnen
 
 test('[Test-Lauf·Signierwege] Release-, Auslieferungs-, Signier-, Schlüsselbund- und Token-Wege laden den Helfer nicht, auch nicht über ein geladenes Modul', () => {
   const wege = signierwege();
-  for (const erwartet of ['tools/lib/enclave-signierer.js', 'tools/lib/schluesselbund.js', 'tools/basistemplate-neu-signieren.js', 'tools/oeffentlich-tag-signieren.js']) {
+  // Die Vorbedingung nennt nur Signierwege, die auch im öffentlichen Zuschnitt liegen; die zurückgehaltenen (Schicht 2) erfasst die Klasse im Kanon trotzdem.
+  for (const erwartet of ['tools/lib/schluesselbund.js', 'tools/basistemplate-neu-signieren.js', 'tools/oeffentlich-tag-signieren.js']) {
     assert.ok(wege.includes(erwartet), 'Vorbedingung: die Klasse trifft ' + erwartet + ' — gefunden: ' + wege.join(', '));
   }
   assert.ok(wege.length >= 6, 'Vorbedingung: die Klasse ist besetzt (' + wege.length + ')');

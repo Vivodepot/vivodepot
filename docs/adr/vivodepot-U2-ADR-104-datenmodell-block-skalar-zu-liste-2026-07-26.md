@@ -8,7 +8,7 @@
 Listen-Aggregation im b16-Import) · U2-ADR-096 (erbwiz entfernt) · U2-ADR-098/099 (Klausel-Format,
 Prüfstand) · U2-ADR-023 (abgeleitete Werte nie gespeichert)
 **Anker:** Vollerhebung 26.07.2026 (Rang-1-Datenmodell-Posten) ·
-Report `datenmodell-block-migrations-delta-report-2026-07-26.md` (intern, nicht Teil dieses Repos)
+interner Bericht vom 26.07.2026 (nicht Teil dieses Repos)
 **Status heute:** gilt — Beleg `tests/datenmodell-block-41.test.js`.
 
 ---

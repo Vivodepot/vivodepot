@@ -12,7 +12,7 @@
    Anwendung nicht, und einen Anker einzuschleusen hiesse, genau die Prüfung zu
    umgehen, um die es geht. Der Gegenbeweis („bei einer geprüften erscheint der
    Schritt NICHT") läuft darum am Modell, in
-   `tests/kette-07-die-anfrage.test.js`.
+   `eine nicht öffentliche Probe`.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
 const { inLeisteKlicken, oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten, KERN_URL_PRIVAT_DE } = require('./helpers');

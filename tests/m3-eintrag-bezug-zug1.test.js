@@ -204,7 +204,7 @@ test('[M3·Zug1] dokumentAusErkennung löst die Zeile über denselben Diskrimina
    nicht, dass Weg (a) — der Diskriminant — unter den alten Kennungen in keinem Produkt griff.
    Jetzt wörtlich in der alten Form: `vorsorge.vorsorge_instrumente`, `finanzen.konten`.
 
-   HERAUSGENOMMEN, weil tests/migration-59-alte-kennung.test.js sie in der echten Form und in zwei
+   HERAUSGENOMMEN, weil eine nicht öffentliche Probe sie in der echten Form und in zwei
    Produkten prüft: „Diskriminant löst eine Alt-Referenz auf" (dort mit ZWEI Zeilen, damit Weg (b)
    nicht mitrettet — hier mit einer Zeile hätte der Fall nie zwischen (a) und (b) unterschieden) und
    „zwei Zeilen ohne Diskriminant-Treffer → kein Raten" (dort die Gegenprobe). */

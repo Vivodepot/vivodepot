@@ -49,7 +49,7 @@ const KAPPUNG = process.argv.includes('--ohne-kappung') ? Infinity : 260;
 
 async function main() {
   const { chromium } = require('playwright');
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   try {
     for (const breite of [390, 1200]) {
       const seite = await browser.newPage({ viewport: { width: breite, height: 900 } });
@@ -70,7 +70,7 @@ async function main() {
       /* DEPOT EINRICHTEN — ueber die Oberflaeche, wie eine Buergerin.
          Ohne diesen Schritt misst der Lauf den Zustand VOR der Einrichtung, in dem
          nichts erfassbar ist. Der erste Durchlauf tat genau das. */
-      await seite.click('#tb-pw-hinweis', { timeout: 3000 }).catch(() => {});
+      await seite.click(':is([data-anlegen-weg], [data-bereich-leer="vorschau"] [data-umschau-eintragen]):visible', { timeout: 3000 }).catch(() => {});
       await seite.waitForTimeout(400);
       const pwDa = await seite.evaluate(() => {
         const e = document.querySelector('#id-pw');

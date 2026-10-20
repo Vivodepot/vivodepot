@@ -9,14 +9,14 @@ neu erhoben (`tools/bereichs-ids-erheben.js`).
 **Drei-Anker:**
 - **Code-Stelle:** `vivodepot.html` — `SEKTOREN` (die Quelle), `_BEREICH_ALT_LABEL` +
   `_bereichZuSektorId` (der Rückweg für alte Einreichungen);
-  `tools/build-bereiche.js` (erzeugt die abgeleiteten Listen), `bereiche/bereiche.json`
-  (der erzeugte Transport), `tools/bereichslisten-pruefen.js` (W-16),
+  ein nicht öffentliches Werkzeug (erzeugt die abgeleiteten Listen), `bereiche/bereiche.json`
+  (der erzeugte Transport), ein nicht öffentliches Werkzeug (W-16),
   `vivodepot-template-generator.html` — die erzeugte Region zwischen `BEREICHE:BEGIN`/`:END`.
 - **ADR-Bezug:** U2-ADR-141 (Anzeigetexte andockbar — der Grund, warum eine Beschriftung kein
   Schlüssel mehr sein kann), U2-ADR-130 (`krisenvorsorge` als zwölfter Bereich — der Anlass),
   U2-ADR-041 (Reihenfolge; **offen**, s. u.), U2-ADR-040 (Signatur-Architektur — die Grenze,
   an der der Rückweg unverzichtbar wird), U2-ADR-051 (Registry-Anmeldemuster).
-- **Status heute:** gilt — Beleg `tests/bereichsliste-eine-quelle.test.js` (10 Proben, davon
+- **Status heute:** gilt — Beleg eine nicht öffentliche Probe (10 Proben, davon
   drei Rot-Belege und eine Gegenprobe) und `tools/waechter-selbsttest.js` (`W-16`,
   `W-bereiche-drift`, beide rot⇄grün belegt).
 
@@ -33,6 +33,9 @@ Die Liste der Vivodepot-Bereiche lag in **zwei Schlüsselräumen** und an **neun
 | `vivodepot.html` `_BEREICH_SEKTOR` | Beschriftung | 12 |
 | `vivodepot-template-generator.html` `BEREICHE` | Beschriftung | **11** |
 | `bereich`-enum × 2 × drei Schema-Kopien | Beschriftung | **11** |
+
+Die Tabelle zeigt den Stand vor diesem ADR: `_BEREICH_SEKTOR` und `vivodepot-template-generator.html`
+stehen heute nicht mehr im Repo (Fund 18.10.2026, `tools/adr-code-stellen-pruefen.js`).
 
 **Zwei Fehler waren die Folge, beide gemessen, keiner vermutet.**
 
@@ -56,7 +59,7 @@ U2-ADR-141 kann ein Textsatz-Modul jeden Bereichsnamen ersetzen. Ein Vergleich g
 Sektionen und Feldern. Eine daneben liegende Bereichsdatei wäre die Kopie gewesen, gegen die
 dieser Umbau gebaut ist.
 
-**2 · Alles Übrige wird ERZEUGT.** `tools/build-bereiche.js` schreibt aus dem Kern:
+**2 · Alles Übrige wird ERZEUGT.** ein nicht öffentliches Werkzeug schreibt aus dem Kern:
 `bereiche/bereiche.json` (Transport), die Region zwischen `BEREICHE:BEGIN`/`:END` im
 Template-Generator und die sechs `bereich`-enums. `--check` meldet Drift und hängt im
 `pre-commit` — Bauart wie `tools/build-code-listen.js`.
@@ -118,7 +121,7 @@ und neu ausgeben. **Der Kern selbst validiert nie gegen dieses Schema** (gemesse
 Aufruf), darum sind die signierten Basis-Vorlagen davon nicht betroffen.
 
 **Ein neuer Bereich kostet ab jetzt einen Lauf**, nicht neun Nachpflegen: `SEKTOREN` ergänzen,
-`node tools/build-bereiche.js`, fertig. Der `pre-commit` meldet, wenn der Lauf vergessen wurde.
+der Aufruf eines nicht öffentlichen Werkzeugs, fertig. Der `pre-commit` meldet, wenn der Lauf vergessen wurde.
 
 **Die Fremdschlüssel-Prüfung für `data.feldDefinitionen[].sektorId` ist NICHT Gegenstand dieses
 ADR** — sie gehört zu Zug 4 und ist dort gemessen (drei Stellen: `vivodepot.html:16479`,
@@ -126,8 +129,8 @@ ADR** — sie gehört zu Zug 4 und ist dort gemessen (drei Stellen: `vivodepot.h
 
 ## Cross-Referenz
 
-`tools/build-bereiche.js` · `tools/bereichslisten-pruefen.js` (W-16) ·
+ein nicht öffentliches Werkzeug · ein nicht öffentliches Werkzeug (W-16) ·
 `tools/bereichs-ids-erheben.js` · `bereiche/bereiche.json` ·
-`tests/bereichsliste-eine-quelle.test.js` · `hooks/pre-commit` (zwei neue Gates) ·
+eine nicht öffentliche Probe · `hooks/pre-commit` (zwei neue Gates) ·
 `tools/waechter-register.js` (`W-16-zweite-bereichsliste`, `W-bereiche-drift`,
 `W-worktree-geteilt`).

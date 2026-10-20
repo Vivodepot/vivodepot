@@ -10,20 +10,23 @@
    Nachweis niemand sonst bilden. Mit dem Studio lässt sich darum keine Datei erzeugen, die der Antragsweg annimmt.
 
    WAS DIE PROBE FÄHRT: den echten Studio-Code (tests/load-generator.js), ein echtes Schlüsselpaar, und den Weg, auf dem
-   das Studio Dateien hinausgibt (`blobDownload`). Aufgefangen wird, was der Knopf „öffentlichen Schlüssel
-   herunterladen“ wirklich hinausgäbe; nichts davon ist von Hand gebaut.
+   das Studio Dateien hinausgibt (`blobDownload`). Aufgefangen wird, was der Knopf in Schritt 2 (bis
+   16.10.2026 „öffentlichen Schlüssel herunterladen“, seitdem „Antragsdatei erstellen“) wirklich hinausgibt; nichts davon ist
+   von Hand gebaut.
 
    WAS SIE NICHT FÄHRT: die Annahme selbst (sie liegt in einem anderen Repository) und den Inhalt des Nachweises (über
    welche Bytes er gebildet wird, legt das Schema des Antrags fest und prüft die Signierstelle). Hier steht nur die
    Mindestform, an der die Annahme eine Datei schon abweist. Der ganze Weg (Studio-Einreichung wird angenommen, im
    Browser) ist die Abnahme des Befunds, nicht diese Probe.
 
-   ROT BIS ZUM FIX: die erste Probe trägt `todo`. Der Stolperdraht darunter hält den heutigen Zustand fest und fällt,
-   sobald das Studio die Schlüsseldatei erzeugt; dann wird im selben Commit das `todo` entfernt.
+   GESCHLOSSEN FÜR art=zertifikat (16.10.2026, Teilbefund STUDIO-SCHLUESSEL-PASST-NICHT-ZUM-ANTRAG): Schritt 2 gibt statt des
+   nackten JWK die Antragsdatei mit Besitznachweis /2 hinaus; das `todo` und der Stolperdraht sind entfernt. Die Regeln des
+   Tresors hält tests/studio-tresor-nachweis-zeichnen.test.js; die Bytes des Nachweises und die Annahme am Gateway hält eine
+   Probe, die mit den Rechenregeln der Antragsdatei hinausgeht. Offen bleibt der Befund
+   STUDIO-EINREICHUNG-ZWEI-FORMATE für den Vorlagen-Antrag und den Durchstich im Browser.
    ═══════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const vm = require('node:vm');
 const { ladeGenerator } = require('./load-generator.js');
 
 /* Die Mindestform einer Schlüsseldatei, wie der Antragsweg sie annimmt. Rückgabe: Liste der Mängel (leer = Form stimmt). */
@@ -39,36 +42,28 @@ function maengelDerSchluesseldatei(text) {
   return maengel;
 }
 
-/* Echtes Studio, echtes Schlüsselpaar; gibt zurück, was „öffentlichen Schlüssel herunterladen“ hinausgäbe:
-   [{ text }] je Datei. Aufgefangen wird am Blob, den `blobDownload` baut. */
+/* Echtes Studio, echtes Schlüsselpaar im Tresor; gibt zurück, was der Knopf „Antragsdatei erstellen“ in Schritt 2 hinausgibt:
+   [{ text }] je Datei. Aufgefangen wird am Blob, den `blobDownload` baut. Die Angaben sind erfunden. */
 async function oeffentlicheSchluesselDownloads() {
   const gen = ladeGenerator();
-  const paar = await gen.V.erzeugeSchluesselpaarRoh();
+  const r = await gen.V.SCHLUESSEL_TRESOR.erzeugen({ passwort: 'probe-passwort-ein-format' });
   const dateien = [];
   gen.sandbox.Blob = function (teile) { dateien.push({ text: teile.map(String).join('') }); };
-  gen.sandbox.__probeJwk = paar.publicJwk;
-  vm.runInContext('STATE.publicKeyJwk = __probeJwk; ladePublic();', gen.sandbox);
-  return { dateien, publicJwk: paar.publicJwk };
+  gen.V.STATE.publicKeyJwk = r.publicJwk;
+  gen.V.STATE.anbieter = gen.V.baueAnbieter({ anbieterName: 'Stadtwerke Musterstadt', rechtsform: 'GmbH', strasse: 'Am Markt 1', plz: '12345',
+    ort: 'Musterstadt', land: 'Deutschland', kontaktName: 'Erika Beispiel', kontaktEmail: 'register@beispiel-einrichtung.example' });
+  gen.document.getElementById('sk-antragsnummer').value = '0123456789abcdef0123456789abcdef';
+  await gen.V.antragsdateiErstellen({ isTrusted: true, currentTarget: { id: gen.V.SCHLUESSEL_NACHWEIS_KNOPF }, timeStamp: performance.now() });
+  return { dateien, publicJwk: r.publicJwk };
 }
 
 test('[Studio·Einreichung·ein Format] das Studio gibt eine Schlüsseldatei hinaus, die der Antragsweg annimmt: öffentlicher Schlüssel und Besitznachweis',
-  { todo: 'STUDIO-EINREICHUNG-ZWEI-FORMATE (HOCH): das Studio gibt den öffentlichen Schlüssel als nacktes JWK hinaus und bildet keinen Besitznachweis; Rückkehr mit dem Wagen, der Studio-Einreichung und Antragsweg auf ein Format bringt' },
   async () => {
     const { dateien } = await oeffentlicheSchluesselDownloads();
     assert.ok(dateien.length >= 1, 'das Studio gibt keine Datei hinaus');
     const passend = dateien.filter((d) => maengelDerSchluesseldatei(d.text).length === 0);
     assert.equal(passend.length, 1, 'keine der hinausgegebenen Dateien ist eine Schlüsseldatei: ' + dateien.map((d) => maengelDerSchluesseldatei(d.text).join(' + ')).join(' | '));
   });
-
-/* Stolperdraht: ein todo-Test, der grün wird, meldet das sonst nirgends. Erzeugt das Studio die Schlüsseldatei, fällt
-   DIESE Probe; dann oben das todo entfernen und diese Probe streichen. */
-test('[Studio·Einreichung·ein Format·Stolperdraht] solange das todo steht: genau eine Datei, ein nacktes JWK ohne Besitznachweis', async () => {
-  const { dateien, publicJwk } = await oeffentlicheSchluesselDownloads();
-  assert.equal(dateien.length, 1);
-  assert.deepEqual(JSON.parse(dateien[0].text), JSON.parse(JSON.stringify(publicJwk)), 'hinaus geht das nackte JWK des erzeugten Schlüssels');
-  assert.deepEqual(maengelDerSchluesseldatei(dateien[0].text), ['kein Feld jwk mit öffentlichem Schlüssel', 'kein Besitznachweis']);
-  assert.ok(!PRIVATE_TEILE.some((t) => Object.prototype.hasOwnProperty.call(publicJwk, t)), 'der öffentliche Schlüssel trägt keinen privaten Teil');
-});
 
 test('[Studio·Einreichung·ein Format·Rot-Beweis] die Mindestform erkennt eine richtige Schlüsseldatei und jede der drei falschen', () => {
   const jwk = { kty: 'OKP', crv: 'Ed25519', x: 'x'.repeat(43) };

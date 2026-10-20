@@ -13,7 +13,7 @@ test('[Dauerspeicher·Firefox] beim ersten Sichern kommt die Vorwarnung, genau e
     }).observe(document, { childList: true, subtree: true });
   });
   await page.goto(KERN_URL);
-  await page.waitForSelector('#w-anlass', { state: 'visible' });
+  await page.waitForSelector('#w-anlegen', { state: 'visible' });
   expect(await page.evaluate(() => CSS.supports('-moz-appearance', 'none')), 'Vorbedingung: der Lauf ist Gecko').toBe(true);
   await depotAnlegen(page, { pw: 'dauerspeicher-firefox-735' });
   await expect.poll(() => page.evaluate(() => window.__hinweise.join(' | ')), { timeout: 10000 }).toContain('dauerhaften Speicher speichern darf');

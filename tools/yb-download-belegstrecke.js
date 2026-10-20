@@ -84,7 +84,7 @@ async function main() {
   const merke = (zeile) => { protokoll.push(zeile); console.log(zeile); };
   const original = fs.readFileSync(FIXTURE, 'utf8');
 
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(require('./lib/netz-sperre.js').mitSperre());
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 }, acceptDownloads: true });
   const schuss = async (name) => {
     const p = path.join(ziel, praefix + '_' + name + '.png');

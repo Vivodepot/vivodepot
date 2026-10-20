@@ -49,14 +49,19 @@ test('[U2-ADR-326] das generische Tor gibt für den Erbschein-Auszug zeichenglei
   const { V } = ladeKern();
   await V.depotAnlegen('Auszugs-Tor-Bytegleich-2026!');
   const e = V.escapeHTML, S = V.STRINGS;
+  // 12.10.2026: über dem Hinweis steht die Zeile aus dem Textsatz, die sagt, wozu der Auszug gehört (`dokument.<id>.gruppe`).
+  // Sie ist die eine gewollte Abweichung vom festen Renderer von damals; alles andere bleibt Zeichen für Zeichen.
+  const gruppe = V.textLesen('dokument.erbschein-vorbereitung.gruppe');
+  assert.ok(typeof gruppe === 'string' && gruppe.trim(), 'Vorbedingung: der Textsatz führt die Zeile');
   const erwartet = '<div class="erbschein-auszug-karte">'
+    + '<p class="sektion-hint auszug-karte-gruppe"><strong>' + e(gruppe) + '</strong></p>'
     + '<p class="sektion-hint">' + e(S.erbscheinAuszugHint) + '</p>'
     + '<button type="button" class="btn" data-erbschein-dokument>' + e(S.erbscheinAuszugKnopf) + '</button>'
     + ' <button type="button" class="btn btn-sek" data-erbschein-xml>' + e(S.erbscheinAuszugXmlKnopf) + '</button>'
     + '</div>';
   const ist = V.logikModulAuszugKartenHTML('advanceCare');
   assert.equal(ist, erwartet,
-    'der Umbau auf das generische Tor darf am ausgelieferten Erbschein-Kärtchen kein Zeichen ändern');
+    'der Umbau auf das generische Tor darf am ausgelieferten Erbschein-Kärtchen kein Zeichen ändern, außer der Zeile aus dem Textsatz');
 });
 
 test('[U2-ADR-326] zwanzig Auszüge kommen alle zwanzig an — und in bestimmter, einlass-unabhängiger Reihenfolge', async () => {

@@ -23,7 +23,7 @@
    DIESES WERKZEUG: liest beide Fixtures, schreibt sie WORTGETREU (JSON.stringify, Einrückung 2)
    als natives `Object.freeze([...])`-Array-Literal zwischen die Marker
    AB_WERK_LOGIK_MODUL_AUSZUEGE_QUELLEN:BEGIN/END — derselbe Regionen-Austausch-Weg wie
-   `tools/build-feldkatalog.js`/`tools/wizards-template-erzeugen.js`, kein Textersatz in einer
+   `ein nicht öffentliches Werkzeug`/`ein nicht öffentliches Werkzeug`, kein Textersatz in einer
    200-KB-Zeile.
 
    Aufruf:

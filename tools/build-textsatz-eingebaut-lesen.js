@@ -78,7 +78,7 @@ const ENDE = '/* TEXTSATZ_EINGEBAUT_LESEN:END */';
 
 /* Die drei Kennung-Formen, die die Lese-App tatsächlich rendert — wörtlich dieselbe Form wie
    im Kern (AB_WERK_TEXTSATZ_DE.texte), nur die LABEL-Zeilen daraus. `kennungAusSelektor` ist derselbe
-   Kern-Helfer, den auch tools/build-feldkatalog.js schon verwendet — kein zweiter Kennungs-Bauer. */
+   Kern-Helfer, den auch ein nicht öffentliches Werkzeug schon verwendet — kein zweiter Kennungs-Bauer. */
 function kennungenAusKern() {
   const { ladeKern } = require(path.join(REPO, 'tests', 'load-kern.js'));
   const { V } = ladeKern();

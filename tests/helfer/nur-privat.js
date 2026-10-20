@@ -27,8 +27,23 @@ const REPO = path.join(__dirname, '..', '..');
 const GIT = 'liest Refs oder Commits des privaten Repos';
 const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
+const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 59;   // 58 → 59 am 15.10.2026 (Wort der Gegenlesung, einzeln, Wagen V2a Antwort-Seed): antwort-seed-sicherbarkeit, nur die
+const DECKEL = 64;   // 63 → 64 am 20.10.2026 (Wort der Gegenlesung): modul-app-signieren-und-packen [Merkdatei], bis zum Fix von MERKDATEI-NICHT-IGNORIERT-OEFFENTLICH.
+                     // 61 → 63 am 20.10.2026 (Wort der Gegenlesung): rechtsraum-reservierung-vier-produkte und laenderannahme-pruefen, BESTAND (öffentlich nur zwei Privat-Produkte).
+                     // 59 → 61 am 20.10.2026 (Wort der Gegenlesung): schema-fassungen und schema-fassungen-ajv, GIT, öffentlicher Lauf v933.
+                     // 47 → 59 am 20.10.2026 (Wort der Gegenlesung, Befund VORLAGEN-PORT-PROBEN-OHNE-HEIMAT): zwölf Dateien der
+                     //   Kategorie VORLAGEN, je Name gemessen (öffentlich rot, mit den Vorlagen grün, privat grün).
+                     // 47 war:   // 51 → 47 am 17.10.2026 (Verschärfung, öffentlicher Lauf, Portierung auf den Kanon): vier Dateien (marke-fremd-rand-sektor,
+                     //   modul-schemas-klasse, vier-produkte-orte, stumme-zurueckweisung-waechter) gehen ganz zurück, weil sie Pro oder alle vier
+                     //   Produkte voraussetzen (ZURUECK_SCHICHT2).
+                     // 60 → 51 am 17.10.2026 (Verschärfung, Stufe 2 der Schicht-2-Grenze, Portierung auf den Kanon): neun Einträge zeigten auf Proben,
+                     //   die nun ganz zurückgehalten werden (tools/veroeffentlichung-zuschnitt.js, ZURUECK_SCHICHT2) oder deren Datei der Zuschnitt aus
+                     //   anderem Grund nicht trägt.
+                     // 59 → 60 am 17.10.2026 (Portierung Schicht 2 auf den Kanon, Gegenlesung 09.10.2026): marke-fremd-rand-sektor, nur der Fall,
+                     //   der die Berufsmodul-Datei der Schicht 2 liest (dazu ein Fall in der schon geführten Datei pro-struktur-wie-privat);
+                     //   gefunden vom öffentlichen Lauf-Beleg v923 (BESTAND).
+                     // 58 → 59 am 15.10.2026 (Wort der Gegenlesung, einzeln, Wagen V2a Antwort-Seed): antwort-seed-sicherbarkeit, nur die
                      //   Probe mit dem Kern von vor dem Wagen; sie liest ihn mit git show 4d9d3b9c3 aus der privaten Geschichte (GIT).
                      // 57 → 58 am 07.10.2026 (Gegenlesung erteilt, Befund FAKTENBASIS-SUITE-ZAHL-FORTGESCHRIEBEN): faktenbasis-suite-herkunft,
                      //   nur der Rot-Beweis; er fährt faktenbasis-erzeugen --ohne-suite, das das zurückgehaltene Wächter-Register lädt (BESTAND).
@@ -61,6 +76,87 @@ const DECKEL = 59;   // 58 → 59 am 15.10.2026 (Wort der Gegenlesung, einzeln, 
                      //   Der Befund ZUSCHNITT-TRAEGER-AUSSERHALB holt den Deckel auf 50 zurück.
 
 const NUR_PRIVAT = {
+  // 20.10.2026 (Wort der Gegenlesung): das öffentliche Repo hat keine .gitignore (die private bleibt drinnen). Bis zum Fix, einer festen
+  // öffentlichen .gitignore als Positivliste, läuft die Probe nur privat. Befund MERKDATEI-NICHT-IGNORIERT-OEFFENTLICH (offen).
+  "tests/modul-app-signieren-und-packen.test.js": { grund: BESTAND, tests: [
+    "[Merkdatei] die echte MERKDATEI ist gitignored",
+  ] },
+  // 20.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v933): öffentlich gibt es nur die zwei Privat-Produkte; Pro bleibt drinnen,
+  // wie bei den vier Pro-Dateien vom 17.10.2026 (BESTAND). Öffentlich: „Vorbedingung: vier Produkte, 2 !== 4“ bzw. „mindestens ein Pro-Modul ist geführt“.
+  "tests/rechtsraum-reservierung-vier-produkte.test.js": { grund: BESTAND, tests: [
+    "[R1·Reservierung·a] in allen vier Produkten ist jeder Ab-Werk-Rechtsraum-Code am Selbst-Einlass reserviert",
+  ] },
+  "tests/laenderannahme-pruefen.test.js": { grund: BESTAND, tests: [
+    "[Länderannahme · R1] geführt sind auch der Kern und jedes Pro-Modul der vier Produkte, jede Datei mit Grundlinie",
+  ] },
+  // 20.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v933): die Fassungen der Schemas liegen als Blobs in der privaten Geschichte
+  // (GIT); öffentlich: „git cat-file blob 79306b8e…: bad file“ bzw. „design-modul/1: Blob 5e075d57… nicht im Repo“.
+  "tests/schema-fassungen.test.js": { grund: GIT, tests: [
+    "[Schema-Fassungen] jedes Schema mit $id unter vivodepot.de/schemas ist verzeichnet, jede Fassung wiederherstellbar",
+    "[Schema-Fassungen] die ausgelieferte Fassung weicht vom Kanon nur im $id ab, mit eigener Adresse",
+    "[Schema-Fassungen] index.json nennt nur Name, Fassung, Adresse und Prüfsumme",
+    "[Schema-Fassungen] --ordner schreibt genau den geprüften Inhalt",
+  ] },
+  "tests/mit-modul/schema-fassungen-ajv.test.js": { grund: GIT, tests: [
+    "[Schema-Fassungen·Ajv strict] jede ausgelieferte Datei übersetzt mit Ajv 2020, strict",
+    "[Schema-Fassungen·Ajv strict·Rot-Beweis] ein unbekanntes Schlüsselwort im Schema bricht die Übersetzung",
+  ] },
+  // 20.10.2026 (Wort der Gegenlesung, Befund VORLAGEN-PORT-PROBEN-OHNE-HEIMAT): Kategorie VORLAGEN. Je Datei die Namen, die
+  // ein internes Messwerkzeug öffentlich rot, mit den gemessenen Vorlagen grün und privat grün misst. Welche Vorlagen, steht in
+  // der Messung, die drinnen bleibt; ein interner Wächter hält jeden Eintrag gegen sie.
+  "tests/vollmacht-generator.test.js": { grund: VORLAGEN, tests: [
+    "[Vollmacht·3] auswahlPaarGruppe — Einleitung + gewählte Punkte (je mit ja/nein-Kästchen) + Schlusswort, nur bei mindestens einer Wahl",
+    "[Vollmacht·Konsistenz] JEDER auswahlPaar/mehrfachauswahl/freitextSatz-Text ist eine exakte Teilzeichenkette des signierten Wortlauts",
+    "[Vollmacht·Konsistenz] die festen Eingangsformel-Absätze sind exakte Teilzeichenketten des Wortlauts",
+    "[Vollmacht·Zug5] jede im Wortlaut referenzierte Hinweis-Nummer hat einen tatsächlich ausgegebenen Baustein",
+    "[Vollmacht·Zug5·Gegenprobe] ohne den Hinweis-Baustein wird die Probe tatsächlich rot (kein stummer Wächter)",
+  ] },
+  "tests/anker-und-certs-echte-kette.test.js": { grund: VORLAGEN, tests: [
+    "[A352·Gegenprobe] derselbe Lauf mit dem ECHTEN Anker liefert wieder alle vier",
+    "[A352·Melder] die vier amtlichen Vorlagen bestehen die echte Kette — echter Anker, echte Zertifikate",
+    "[A352·Stolperdraht] der Boot-Lauf füllt das Set — wer mit injiziertem Anker misst, muss leeren",
+    "[A352·Stolperdraht·Rot-Beweis] ohne Leeren wäre der Anker-Rot-Beweis stumpf",
+  ] },
+  "tests/k8-byte-gleichheit.test.js": { grund: VORLAGEN, tests: [
+    "[K8·1] dokumentHTML() ist direkt über den Modul-Namen aufrufbar, nicht nur über die vier Alt-Namen",
+    "[K8·Byte-Gleichheit] KI — dokumentHTML('ki-verfuegung') == altes kiDokumentHTML() (Zug-0-Fixture)",
+    "[K8·Byte-Gleichheit] PV — dokumentHTML('patientenverfuegung') == altes pvDokumentHTML() (Zug-0-Fixture)",
+  ] },
+  "tests/betreuungsverfuegung-generator.test.js": { grund: VORLAGEN, tests: [
+    "[Betreuung·Konsistenz] JEDER refMehrfach(Voll)-/freitextSatz-Rahmensatz ist eine exakte Teilzeichenkette des signierten Wortlauts",
+    "[Betreuung·Konsistenz] der Ersatzperson-Satz ist — je Teilsatz, PDF-Zeilenumbruch-Artefakt getrennt geprüft — im Wortlaut enthalten",
+    "[Betreuung·Konsistenz] die feste Eingangsformel ist — je Teilsatz, PDF-Zeilenumbruch-Artefakt getrennt geprüft — im Wortlaut enthalten",
+  ] },
+  "tests/wizard-pvwiz.test.js": { grund: VORLAGEN, tests: [
+    "3c) Dokument-Generator ist Zusammensteller: gewählte Bausteine 1:1, Bezugssatz, Sentinel raus",
+    "3f) Eingangsformel-Prefill aus Personendaten (Bereich 1), Platzhalter als Fallback",
+  ] },
+  "tests/textsatz-dokumentmodule-u2-adr-333.test.js": { grund: VORLAGEN, tests: [
+    "[U2-ADR-333] ein Sprachmodul aendert einen Dokument-Wortlaut — ohne eine Zeile im Kern",
+    "[U2-ADR-333·rot] ein Array-Element wechselt, und zwar NICHT das erste",
+  ] },
+  "tests/pv-generator-byte-identisch.test.js": { grund: VORLAGEN, tests: [
+    "PV-Gate: pvDokumentAbschnitte byte-identisch zur Golden-Fixture (42 Fälle)",
+    "PV-Gate: pvDokumentHTML byte-identisch zur Golden-Fixture (42 Fälle)",
+  ] },
+  "tests/ki-generator.test.js": { grund: VORLAGEN, tests: [
+    "Erlaubnis-voll: alle sieben Abschnitte, feste Bausteine, Platzhalter gefüllt",
+    "Untersagung ist der Eingang: nur Eingangsformel + Grundentscheidung + Schlussformel",
+  ] },
+  "tests/anschrift-ausgaben-spiegel.test.js": { grund: VORLAGEN, tests: [
+    "[Anschrift·Spiegel] alle Teile eingetragen: jede Ausgabe nimmt die Teile",
+    "[Anschrift·Spiegel] nur der Ort eingetragen: keine Ausgabe verliert die bisherige Zeile",
+  ] },
+  "tests/a461-geburtsjahr-rueckfall.test.js": { grund: VORLAGEN, tests: [
+    "[A461] Vollmacht-Eingangsformel nennt das Geburtsjahr, wenn kein volles Datum vorliegt",
+    "[A461] volles Geburtsdatum sticht das Geburtsjahr (kein Widerspruch, wenn beide gesetzt sind)",
+  ] },
+  "tests/trust-basistemplate-signatur.test.js": { grund: VORLAGEN, tests: [
+    "1b Wächter: basistemplate-inhalte.json === STANDARD_VORLAGEN (kanonisch, pro id)",
+  ] },
+  "tests/a460-zweiter-nachname.test.js": { grund: VORLAGEN, tests: [
+    "[A460] Vollmacht-Eingangsformel nennt beide Nachnamen",
+  ] },
   // 04.10.2026 (Gegenlesung erteilt): das Fassungsregister ist intern; der Rest der Datei (Auswahl, Rot-Beweise, benannter Abbruch) bleibt öffentlich.
   "tests/altkern-referenz.test.js": { grund: BESTAND, tests: [
     "[Altkern-Referenz] das echte Register liefert eine Referenz",
@@ -95,15 +191,6 @@ const NUR_PRIVAT = {
   ] },
   "tests/workflow-uebersprungen-sichtbar.test.js": { grund: BESTAND, tests: [
     "[Workflow·übersprungen·e2e-cross] beide Jobs von e2e-cross haben den Zweig",
-  ] },
-  "tests/platzhalter-ausgeliefert.test.js": { grund: BESTAND, tests: [
-    "[Platzhalter·Generator] der Template-Generator gehört zum geprüften Bestand",
-  ] },
-  "tests/modul-schemas-klasse.test.js": { grund: BESTAND, tests: [
-    "[Modul-Schemas·Klasse·Positivliste] jedes Modul-Schema steht auf der Positivliste des Zuschnitts",
-  ] },
-  "tests/modulpruefung-posten4-kontrakt-faktenuebersicht.test.js": { grund: ZUSCHNITT, tests: [
-    "[Posten4] --check ist grün gegen die echte, committete Datei",
   ] },
   "tests/adr-commit-hashes-waechter.test.js": { grund: BESTAND, tests: [
     "[ADR-Hash-Wächter] die echten ADR-Dateien tragen heute keine tote Commit-Hash-Referenz",
@@ -151,23 +238,13 @@ const NUR_PRIVAT = {
     "[Zug3.1·Rot-Beleg am Gegenstand] der Kern VOR der Streichung liest window.docx, der heutige nicht",
     "[Zug3.1·DIE GEGENPROBE] PDF, Datensatz und QR tragen unverändert — kein Feld verschwindet",
   ] },
-  "tests/dod-v1-rezept-zu-artefakt-pruefen.test.js": { grund: BESTAND, tests: [
-    "[Rezept-zu-Artefakt·privat-de] das AUS DEM REZEPT gebaute Produkt trägt alle 13 nativen Bereiche",
-    "[Rezept-zu-Artefakt·privat-en] das AUS DEM REZEPT gebaute Produkt trägt alle 13 nativen Bereiche",
-    "[Rezept-zu-Artefakt·pro-de] das AUS DEM REZEPT gebaute Produkt trägt genau die sieben Pro-Bereiche",
-    "[Rezept-zu-Artefakt·pro-en] das AUS DEM REZEPT gebaute Produkt trägt genau die sieben Pro-Bereiche",
-    "[Rezept-zu-Artefakt·Rot-Beweis] eine verschobene Zutaten-Prüfsumme im Rezept wird abgewiesen",
-  ] },
   "tests/dokumente-rechtsraum-umzug-rundlauf.test.js": { grund: GIT, tests: [
-    "[U2-ADR-NNN2·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhalt des DE-Moduls tools/rechtsraum-de-modul.json (Gerüst-Schnitt S3)",
-    "[U2-ADR-NNN2·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_DOKUMENTE_DE-Inhalt (beide voll gebootet)",
-    "[U2-ADR-NNN2·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/KI_KORPUS) tragen nach der Materialisierung dieselben Schritte wie am alten Kanon",
+    "[U2-ADR-505·Rundlauf] .rechtsraumKatalog: alter Bündel-Inhalt === Inhalt des DE-Moduls tools/rechtsraum-de-modul.json (Gerüst-Schnitt S3)",
+    "[U2-ADR-505·Rundlauf] .dokumente: alter Bündel-Inhalt === neuer AB_WERK_DOKUMENTE_DE-Inhalt (beide voll gebootet)",
+    "[U2-ADR-505·Rundlauf] die drei Motoren-Konstanten (PV_BMJ/VOLLMACHT_BMJ/KI_KORPUS) tragen nach der Materialisierung dieselben Schritte wie am alten Kanon",
   ] },
   "tests/druckt-rot-ohne-exit-klasse.test.js": { grund: BESTAND, tests: [
     "[Klasse·druckt ✗/ROT·Positivkontrolle] der Suchraum ist besetzt, und die Positivliste führt nur noch Werkzeuge, die es gibt und die diese Bauform wirklich tragen",
-  ] },
-  "tests/englische-kennungen-regionen-ausnahmen-lebendig.test.js": { grund: BESTAND, tests: [
-    "[Regionen-Lebendigkeit·Ratsche] jeder heute tote/wirkungslose Anker steht namentlich in der Grundlinie — kein neuer, keiner heimlich verschwunden",
   ] },
   "tests/faktenbasis-aktualitaet.test.js": { grund: BESTAND, tests: [
     "[Wächter] node tools/faktenbasis-erzeugen.js --check ist heute grün (Exit 0) — gegen die echte docs/faktenbasis.md",
@@ -231,9 +308,6 @@ const NUR_PRIVAT = {
   "tests/kdl-selbst-laden.test.js": { grund: BESTAND, tests: [
     "[KDL·Ausgabewege] kein Registry-Format, nicht das IPS und nicht der Erbschein-Auszug tragen die eingelesene KDL",
   ] },
-  "tests/kennung-vorkommen-finden.test.js": { grund: BESTAND, tests: [
-    "[Bestand] alle umbenannten Codes: jeder Treffer ist geführt, keine Grundlinie veraltet",
-  ] },
   "tests/kern-html-path-absicht.test.js": { grund: BESTAND, tests: [
     "[Absicht·Ratsche] die Grundlinie führt nur Dateien, die es noch gibt und die weiter ohne Absicht sind — Abgänge werden gestrichen",
   ] },
@@ -249,47 +323,22 @@ const NUR_PRIVAT = {
   "tests/mit-modul/fremdparser-fehlt-wird-rot.test.js": { grund: BESTAND, tests: [
     "[Fremdmodul·Ausbeute] die Suche findet die bekannten Fremdparser und ihre Nutzer",
   ] },
-  "tests/modul-app-signieren-und-packen.test.js": { grund: BESTAND, tests: [
-    "[Merkdatei] die echte MERKDATEI ist gitignored",
-  ] },
   // 05.10.2026 (Gegenlesung erteilt): `git rev-parse <commit>^` am letzten Commit von itb-shacl.mjs. Öffentlich grün nur, wenn die
   // Datei nach dem ersten Veröffentlichungs-Commit noch einmal geändert wurde; das hängt von der öffentlichen Geschichte ab
   // (überholt den Beschluss vom 01.10.2026, der den Test draußen ließ).
   "tests/pruefe-standards-echt-gate.test.js": { grund: GIT, tests: [
     "[Standards-echt-Gate·Werkzeug fehlt] ohne Werkzeug: eigener Exit und „KEIN roter Prüfbefund\" — am echten Skript, über einen Bereich mit Anlass",
   ] },
-    "tests/pro-struktur-wie-privat.test.js": { grund: GIT, tests: [
-    "[B1·Tabelle] die Tabelle ist frisch aus ihren Quellen erzeugt und reist in der eingebackenen Region mit",
-  ] },
-  "tests/pruefstand-bindung.test.js": { grund: BESTAND, tests: [
-    "pruefstand-jede-klausel-zeile-ist-lesbar",
-    "pruefstand-jeder-waechter-hat-eine-probe",
-    "pruefstand-klassen-werden-bei-jedem-lauf-gerechnet",
-    "pruefstand-jede-probe-wird-vom-waechter-benutzt",
-    "[Negativprobe] Meta A: blinder Waechter -> Zaehler 0 -> Pruefstand rot (und zurueck gruen)",
-    "[Negativprobe] Meta B: Probe zeigt auf eine fremde Funktion -> Pruefstand rot",
-  ] },
   "tests/register-zahl-nicht-gepinnt.test.js": { grund: BESTAND, tests: [
     "[Register-Zahl] kein Test pinnt die Zahl der Register, und die Beispielliste steht nur in tests/helfer/register-beispiele.js",
-  ] },
-  "tests/rezepte-schnitt-kern-heben-check.test.js": { grund: BESTAND, tests: [
-    "[Rezept-Fixtures·Check] der eingecheckte Stand passt zum Kern (Exit 0)",
   ] },
   "tests/rohe-steuerzeichen-pruefen.test.js": { grund: GIT, tests: [
     "[Steuerzeichen-Ratsche] --arbeitsstand: der Arbeitsbaum fügt gegen den Vorfahren mit origin/u2-kanon keine neue Zeile mit rohem Steuerzeichen hinzu",
     "[Steuerzeichen-Ratsche] Basis nach einem Rebase: alter Remote-Stand kein Vorfahr → Vorfahr mit dem Kanon",
   ] },
-  "tests/stumme-zurueckweisung-waechter.test.js": { grund: BESTAND, tests: [
-    "[Klassenwächter] der echte Bestand entspricht der Grundlinie: jede Stelle hat eine Spur oder steht mit Grund da",
-    "[Klassenwächter·Rot-Beweis] die Vergleichsgrundlage ist grün (sonst beweisen die roten Fälle nichts)",
-    "[Klassenwächter·CLI] ohne Argument grün gegen das Repo; --wurzel mit einer stummen Stelle Exit 1 und der Ort im Fund",
-  ] },
   "tests/u2-adr-257-format-schreiber.test.js": { grund: GIT, tests: [
     "[U2-ADR-257·A] ein Bestandsmodul OHNE schreiber erzeugt byte-identisch denselben Text wie vor dem Zug",
     "[U2-ADR-257·A] der Kern von vorher kennt den Schlüssel `schreiber` NICHT — sonst misst Gruppe A nichts",
-  ] },
-  "tests/vier-produkte-orte.test.js": { grund: BESTAND, tests: [
-    "[U2-ADR-386] HEUTE: genau die drei namentlich genannten Orte tragen die Zusammensetzung — nicht mehr, nicht weniger",
   ] },
   "tests/wahrhaftigkeit-fristen.test.js": { grund: BESTAND, tests: [
     "[Block5] Negativkontrolle: die unveränderte Kopie lässt das Gate grün",
@@ -340,4 +389,4 @@ function testMitPrivat(datei, { repo = REPO, nodeTest, nachher } = {}) {
   return Object.assign(huelle, nodeTest);
 }
 
-module.exports = { testMitPrivat, nichtAngemeldet, istOeffentlich, NUR_PRIVAT, DECKEL, MARKE, GIT, BESTAND, ZUSCHNITT };
+module.exports = { testMitPrivat, nichtAngemeldet, istOeffentlich, NUR_PRIVAT, DECKEL, MARKE, GIT, BESTAND, ZUSCHNITT, VORLAGEN };

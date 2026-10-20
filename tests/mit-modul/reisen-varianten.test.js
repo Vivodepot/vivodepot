@@ -56,7 +56,7 @@ test('[Reisen-Varianten·Probe 2] die Notfallblatt-angenommen-Variante nutzt die
 test('[Reisen-Varianten·Probe 3] die Variante erreicht die Notfallblatt-Druckansicht — angenommen statt abgelehnt',
   { timeout: 60000 }, async () => {
     const { chromium } = require('playwright');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const seite = await browser.newPage({ viewport: NOTFALLBLATT_ANGENOMMEN.viewport, hasTouch: true, isMobile: true });
       // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der
@@ -87,7 +87,7 @@ test('[Reisen-Varianten·Probe 3] die Variante erreicht die Notfallblatt-Druckan
 test('[Reisen-Varianten·Probe 3·Negativkontrolle] dieselben S0-S3-Schritte OHNE den Annahme-Schritt zeigen die Druckansicht nicht',
   { timeout: 60000 }, async () => {
     const { chromium } = require('playwright');
-    const browser = await chromium.launch();
+    const browser = await chromium.launch(require('../../tools/lib/netz-sperre.js').mitSperre());
     try {
       const seite = await browser.newPage({ viewport: NOTFALLBLATT_ANGENOMMEN.viewport, hasTouch: true, isMobile: true });
       // Zug 1 (Auftrag „Depot ist Datei", 08.08.2026): FSA-Attrappe VOR der Navigation — der

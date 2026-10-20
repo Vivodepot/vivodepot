@@ -24,7 +24,6 @@ const NUR_START = 'nur beim Start';
 const POSITIV = Object.freeze({
   '_ablageortOeffnen · renderCryptoOverlay': NUR_SICHTBAR + ' (Knopf eines gemerkten Orts auf dem Startschirm)',
   'renderWelcome · renderWelcome @ if (spracheKnopf) spracheKnopf.onclick = () =>': NUR_SICHTBAR + ' (Sprachschalter auf dem Startschirm)',
-  "renderWelcome · renderAnlassAuswahl @ verdrahteEintritt('w-anlass', () =>": NUR_SICHTBAR + ' (Knopf „Weiter“ auf dem Startschirm)',
   'renderWelcome · renderCryptoOverlay': NUR_SICHTBAR + ' (Knopf „Datei öffnen“ auf dem Startschirm)',
   "renderCryptoOverlay · renderCryptoOverlay @ w('vor-depot-sprache', () =>": NUR_SICHTBAR + ' (Sprachschalter im Öffnen-Schirm)',
   "renderCryptoOverlay · renderCodeOeffnen @ w('co-code', () =>": NUR_SICHTBAR + ' (Link „Mit Wiederherstellungs-Code öffnen“)',
