@@ -152,6 +152,7 @@
             "administration",
             "housing",
             "emergencyPreparedness",
+            "pets",
             "personal",
             "pro-vertretung-vollmachten",
             "pro-gesellschaft-nachfolge",
@@ -341,6 +342,7 @@
                     "administration",
                     "housing",
                     "emergencyPreparedness",
+                    "pets",
                     "personal",
                     "pro-vertretung-vollmachten",
                     "pro-gesellschaft-nachfolge",
@@ -1248,6 +1250,31 @@
               "url": {
                 "type": "string",
                 "minLength": 1
+              }
+            }
+          },
+          "lizenz": {
+            "description": "U2-ADR-514: Lizenz der Vorlage als Ganzes, im templateJws mitsigniert. Geschlossene Liste (tools/vorlagen-lizenzen.json): Standardlizenzen oder der kurze Hinweis LicenseRef-Vivodepot-Vorlagen; rechteinhaber nennt, wessen Werk bzw. Hinweis es ist. Amtlicher Wortlaut bleibt über wortlautQuelle. Der Kern lädt eine Vorlage ohne oder mit unbekannter Angabe und sagt sichtbar „Lizenz nicht erkannt“ (Register, kein Tor, U2-ADR-258). Pflicht wird das Feld mit der Studio-Eingabe.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "spdx",
+              "rechteinhaber"
+            ],
+            "properties": {
+              "spdx": {
+                "enum": [
+                  "LicenseRef-Vivodepot-Vorlagen",
+                  "CC-BY-4.0",
+                  "CC-BY-ND-4.0",
+                  "CC0-1.0",
+                  "EUPL-1.2"
+                ]
+              },
+              "rechteinhaber": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
               }
             }
           },

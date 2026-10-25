@@ -88,7 +88,14 @@ Der Druck erfolgt unter Verwendung der maschinenlesbaren Fassung des Bundesinsti
 **LOINC** — Regenstrief Institute, Inc., LOINC-Lizenz:
 This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.
 
+**ISO 4217 (Währungscodes)** — Codes einer internationalen Norm, nur die von Vorlagen verwendeten Codes (EUR, USD, GBP, CHF) mit eigener Bezeichnung; die vollständige Liste lädt die Person selbst:
+Währungscodes nach ISO 4217. Die Codeliste pflegt die SIX Group als Maintenance Agency im Auftrag der ISO. Vivodepot übernimmt nur die verwendeten Codes, mit eigener Bezeichnung, keine Inhalte der Liste.
+Quelle der vollständigen Liste (List One, XML): https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html
+
 **SNOMED CT (Global Patient Set)** — Enthält Bestandteile des SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, lizenziert unter der Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0, https://creativecommons.org/licenses/by-nd/4.0/), bezogen über https://www.snomed.org/gps. SNOMED® und SNOMED CT® sind eingetragene Marken der International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists. Hinweis auf den Gewährleistungsausschluss: Das Material wird ohne Gewähr bereitgestellt; es gilt Abschnitt 5 der CC BY-ND 4.0 (Gewährleistungsausschluss und Haftungsbeschränkung). GPS-Release: 20260101. Genutzt werden ausgewählte Konzepte mit ihrem unveränderten Begriff; deutsche Bezeichnungen daneben sind eigene Bezeichnungen von Vivodepot, keine SNOMED-Begriffe. Einzelheiten in `THIRD_PARTY_LICENSES`.
+
+**Staatsangehörigkeit (DESTATIS), Fassung 2026-08-05** — im Template des deutschen Rechtsraums, nicht im Gerüst. Statistisches Bundesamt (Destatis), Staats- und Gebietssystematik, bezogen über XRepository (urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit). Nutzung nach der Grundregel des DESTATIS-Impressums, im Wortlaut:
+© Statistisches Bundesamt (Destatis), 2026 Vervielfältigung und Verbreitung, auch auszugsweise, mit Quellennachweis gestattet.
 
 ## Eingebettete Wortlisten (Passwort-Vorschlag)
 

@@ -2,7 +2,7 @@
  "zweck": "Deckel je Datei und Gruppe für Bereichskennungen als Literal außerhalb der Gerüst-Regionen (ein nicht öffentliches Werkzeug). Sinkt nur; Ziel 0 außer den benannten Ausnahmen.",
  "datum": "2026-10-07",
  "summe": {
-  "kern": 345,
+  "kern": 342,
   "lese-app": 45
  },
  "ausnahmen": {
@@ -49,7 +49,7 @@
  },
  "deckel": {
   "kern": {
-   "_b16Felder": 33,
+   "_b16Felder": 31,
    "_BEREICH_IDS_RUHEND_IMPORT": 1,
    "_bereicheKanonischOrdnen": 1,
    "_bereichModulAbWerkSeed": 3,
@@ -75,7 +75,7 @@
    "_identitaetPersonalienSatz": 1,
    "_instrumentTypLabel": 1,
    "_instrumentUnterfeldDef": 1,
-   "_ipsVorsorgeEintraege": 6,
+   "_ipsVorsorgeEintraege": 3,
    "_kiEingangsformel": 1,
    "_KORB1_GRUPPEN": 9,
    "_krisenvorsorgeBedarfPersonenzahl": 1,
@@ -104,7 +104,7 @@
    "anschriftVorschlagErledigen": 1,
    "anschriftVorschlagKarteHTML": 4,
    "anschriftVorschlagUebernehmen": 2,
-   "BEREICH_IDS_EINGEBAUT": 14,
+   "BEREICH_IDS_EINGEBAUT": 15,
    "bereichsModulPruefen": 2,
    "crossSektorAnmelden": 23,
    "depotAnlegen": 2,
@@ -112,12 +112,12 @@
    "dokumentOeffnen": 2,
    "edciBildung": 1,
    "empfaengerZuschnittModell": 2,
-   "EREIGNIS_ACHSE_FELDER": 32,
+   "EREIGNIS_ACHSE_FELDER": 34,
    "ERKENNUNG_LEITFELDER": 16,
    "EXPORT_FORMATE": 12,
    "feldDurchTeileErsetzt": 1,
    "feldZeileHTML": 1,
-   "fhirIpsBundle": 7,
+   "fhirIpsBundle": 6,
    "fimVerwaltung": 1,
    "flowD37NamenErgaenzen": 1,
    "flowDokumentInMappeAblegen": 1,

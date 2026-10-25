@@ -21,6 +21,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const P = require('./produkt-text-erzeugen.js');
+const { cspNachBau } = require('./csp-nach-bau.js');
 const { PRODUKTE, modulDateienFuer, ERSCHEINUNGSBILD_AB_WERK_PFAD } = require('./vier-produkte.js');
 
 const REPO = path.join(__dirname, '..', '..');
@@ -40,7 +41,8 @@ function produktFuerPages(slug = 'privat-de', { kernText = fs.readFileSync(KERN_
     unsignierteModule: modulDateienFuer(p).map(_modulLesen),
     serviceWorkerVorhanden: true,
   });
-  return P.testflaecheVerweigern(text, 'pages ' + slug);   // U2-ADR-494
+  // U2-ADR-470: zuletzt die CSP-Hashes der eingesetzten Blöcke (tools/lib/csp-nach-bau.js).
+  return cspNachBau(P.testflaecheVerweigern(text, 'pages ' + slug));   // U2-ADR-494
 }
 
 function geruestMitErscheinungsbild({ kernText = fs.readFileSync(KERN_PFAD, 'utf8'), modulPfad = ERSCHEINUNGSBILD_AB_WERK_PFAD } = {}) {
@@ -52,7 +54,7 @@ function geruestMitErscheinungsbild({ kernText = fs.readFileSync(KERN_PFAD, 'utf
      produktTextErzeugen, mit denselben Funktionen. Den Nachlade-Zweig der Vor-Depot-Konfiguration behält Weg B: er trägt sein
      Produkt zur Laufzeit in der Begleitdatei (U2-ADR-182). */
   const ohneTestteile = P._kernTestflaecheSchneiden(P._entwicklerleisteSchneiden(kernText, 'vivodepot.html'), 'vivodepot.html');
-  return P.testflaecheVerweigern(P._regionNutzlastSetzen(ohneTestteile, region, modul.roh, 'vivodepot.html'), 'pages weg-b');   // U2-ADR-494
+  return cspNachBau(P.testflaecheVerweigern(P._regionNutzlastSetzen(ohneTestteile, region, modul.roh, 'vivodepot.html'), 'pages weg-b'));   // U2-ADR-494, U2-ADR-470
 }
 
 module.exports = { produktFuerPages, geruestMitErscheinungsbild };

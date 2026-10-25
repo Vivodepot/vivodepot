@@ -18,7 +18,7 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { jweLesbarerTeil } = require('../helfer/jwe-lesbar.js');
-const { KERN_URL_PRIVAT_DE, oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten, inLeisteKlicken } = require('./helpers.js');
+const { KERN_URL_PRIVAT_DE, oeffneApp, depotAnlegen, fsaStandardAttrappeEinrichten, inLeisteKlicken, ausgabeWegHerunterladen } = require('./helpers.js');
 
 const ANKER_PW = 'anker-todesfall-pw-2026';
 const FACH_PW = 'fach-erbe-pw-2026';
@@ -122,6 +122,7 @@ test('[Journey c·Todesfall] Angehörige öffnet die Fach-Datei, findet „Behö
     await ang.fill('#antwort-pw', ANTWORT_PW);
     const d = ang.waitForEvent('download', { timeout: 15000 });
     await ang.click('#m-ok');
+    await ausgabeWegHerunterladen(ang);   // signierte Antwort: erst die Wahl (L1b)
     const download = await d;
     expect(download.suggestedFilename()).toMatch(/_Antwort_SB-2026-0001\.jwe$/);   // U2-ADR-449: die Antwort ist eine JWE
     const text = fs.readFileSync(await download.path(), 'utf8');

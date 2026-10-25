@@ -12,6 +12,7 @@ gleichlaufProben({
   typ: 'erscheinung',
   positiv: [
     ['eine Rolle', basis],
+    ['Grenzwerte 10px und 0.875rem (Fließtext)', mit({ label: '10px', gruppe: '0.625em', wert: '0.875rem' })],
     ['alle fünf Rollen, alle Einheiten', mit({ wert: '1.125rem', gruppe: '0.9em', abschnitt: '18px', titel: '2.5rem' })],
     ['andere Rolle gesetzt, label null', { moduleVersion: 3, titel: '24px', label: null }],
     ['mit Einlass-Marken', mit({ appVersion: 'v1', ungeprueft: true, eingelassenAm: '2026-09-26T00:00:00Z',
@@ -27,5 +28,8 @@ gleichlaufProben({
     ['alle Rollen null', mit({ label: null, titel: null }), 'nichts-gueltiges-gesetzt'],
     ['einzige Rolle mit ungültigem Maß', mit({ label: 'calc(1px + 1px)' }), 'nichts-gueltiges-gesetzt'],
     ['einzige Rolle ohne Einheit', mit({ label: '16' }), 'nichts-gueltiges-gesetzt'],
+    ['einzige Rolle unter der Mindestschrift', mit({ label: '9.9px' }), 'nichts-gueltiges-gesetzt'],
+    ['einzige Rolle unter der Mindestschrift in rem', mit({ label: '0.6rem' }), 'nichts-gueltiges-gesetzt'],
+    ['Fließtext unter 14 px', { moduleVersion: 1, wert: '13.9px' }, 'nichts-gueltiges-gesetzt'],
   ],
 });

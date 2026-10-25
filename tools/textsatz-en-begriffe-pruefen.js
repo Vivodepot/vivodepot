@@ -242,7 +242,11 @@ const GLOSSAR = Object.freeze([
     ],
   },
   {
-    wort: 'Patientenverfügung', kanonisch: ['advance directive'],
+    wort: 'Patientenverfügung', kanonisch: ['living will'],
+    // 03.10.2026 entschieden, umgesetzt 18.10.2026: „living will“ statt „advance directive“ —
+    // amtlich nach der Bundesnotarkammer, die das Zentrale Vorsorgeregister führt (bnotk.de/en, Institutions: „…
+    // enduring powers of attorney, care directives and living wills …“) und nach § 1901a der amtlichen BGB-Übersetzung.
+    // Amtliche Begriffe gehen eigenen vor; die Festlegung vom 01.09.2026 ist damit abgelöst.
     // U2-ADR-343 (06.09.2026): Zitat aus dem amtlichen BMJ-Formular, s. Kommentar an
     // 'Vollmacht' oben — „advance healthcare directive" ist die Formulierung des Herausgebers,
     // nicht Vivodepots eigene.

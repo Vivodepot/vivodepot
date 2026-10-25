@@ -318,12 +318,35 @@ async function entschluesseln(jwe, keyB64u) {
 /* Nur zur Anzeige: was für ein Dokument ist das? Keine Auslegung, keine Umformung —
    es wird gelesen, was dasteht, und sonst nichts. */
 function artErkennen(bytes) {
+  const binaer = binaerDatei(bytes);
+  if (binaer) return 'Binary · ' + binaer.typ;
   try {
     const o = JSON.parse(new TextDecoder().decode(bytes));
     const profil = o && o.meta && Array.isArray(o.meta.profile) ? o.meta.profile[0] : '';
     if (o && o.resourceType) return profil ? o.resourceType + ' · ' + profil : o.resourceType;
   } catch (e) { /* kein JSON — dann eben nicht */ }
   return '—';
+}
+
+/* Ein Auszug, der kein FHIR ist, reist im Link als FHIR-Ressource Binary (Kern: auszugLinkTeile). Gespeichert wird dann die Datei
+   selbst, nicht die Hülle: eine PDF als .pdf, die Antwort an eine Stelle als .jwe (L1b, 19.10.2026). Der Typ kommt nur aus dieser
+   geschlossenen Liste, nie frei aus der Datei; ein unbekannter bleibt die Hülle. Die Antwort an eine Stelle ist für die Stelle
+   verschlüsselt: diese Seite öffnet sie NIE (sie hat den Schlüssel nicht), sie gibt sie unverändert weiter. */
+const BINAER_ENDUNGEN = Object.freeze({
+  'application/jose': 'jwe', 'application/pdf': 'pdf', 'application/json': 'json', 'text/vcard': 'vcf',
+  'text/calendar': 'ics', 'application/xml': 'xml', 'text/xml': 'xml', 'text/plain': 'txt',
+});
+function binaerDatei(bytes) {
+  let o;
+  try { o = JSON.parse(new TextDecoder().decode(bytes)); } catch (e) { return null; }
+  if (!o || o.resourceType !== 'Binary' || typeof o.data !== 'string' || typeof o.contentType !== 'string') return null;
+  const typ = o.contentType.split(';')[0].trim().toLowerCase();
+  if (!Object.prototype.hasOwnProperty.call(BINAER_ENDUNGEN, typ)) return null;
+  let roh;
+  try { roh = atob(o.data); } catch (e) { return null; }
+  const inhalt = new Uint8Array(roh.length);
+  for (let i = 0; i < roh.length; i++) inhalt[i] = roh.charCodeAt(i);
+  return { inhalt, typ, endung: BINAER_ENDUNGEN[typ] };
 }
 
 function ergebnisZeigen() {
@@ -393,6 +416,11 @@ function dateiGeben(inhalt, name, typ) {
 
 speichernKnopf.addEventListener('click', () => {
   if (!klartext) return;
+  const binaer = binaerDatei(klartext);
+  if (binaer) {
+    dateiGeben(binaer.inhalt, 'freigabe-' + new Date().toISOString().slice(0, 10) + '.' + binaer.endung, binaer.typ);
+    return;
+  }
   dateiGeben(klartext, 'freigabe-' + new Date().toISOString().slice(0, 10) + '.json',
     'application/fhir+json');
 });

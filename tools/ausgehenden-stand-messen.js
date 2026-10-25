@@ -40,6 +40,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { mitTestLauf } = require('./lib/test-lauf.js');
+const { testParallel } = require('./lib/test-parallel.js');   // dieselbe Parallelgrenze wie die Suite (Befund FAKTENBASIS-OHNE-PARALLELGRENZE)
 
 const REPO = path.join(__dirname, '..');
 const argv = process.argv.slice(2);
@@ -152,7 +153,7 @@ console.log('');
 
 /* ── 5. Die Gates — im ausgepackten Stand, nicht im Baum ──────────────────── */
 const gates = [
-  { name: 'Behavior-Suite', cmd: 'node', args: ['--test'] },
+  { name: 'Behavior-Suite', cmd: 'node', args: ['--no-sparkplug', '--test-concurrency=' + testParallel(), '--test'] },
   { name: 'Kampagne-Gate', cmd: 'node',
     args: ['tools/kampagne.js', '--ebenen', '5,8b,8d,9b,12b,13a,13b,16,5rest', '--gate'] },
 ];

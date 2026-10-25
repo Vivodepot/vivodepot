@@ -57,9 +57,10 @@ Der Kalender-Export ist bewusst ein Einbahnweg. Welche Formate es gibt, steht in
 
 ## Was ist, wenn es Vivodepot als Firma nicht mehr gibt?
 
-Die Datei läuft weiter. Sie braucht keinen Server, keinen Lizenzschlüssel und keinen Abruf. Der
-gesamte Software steht unter EUPL-1.2, ist also offen und darf weiterentwickelt werden
-([`LICENSING.md`](LICENSING.md)).
+Die Datei läuft weiter. Sie braucht keinen Server, keinen Lizenzschlüssel und keinen Abruf. Das
+Programm steht unter EUPL-1.2 und darf weiterentwickelt werden; im öffentlichen Repository liegt der
+Kern, Vivodepots eigene Vorlagen liegen dort nicht ([`DEVELOPING.md`](DEVELOPING.md), „The scaffold
+and the product“).
 
 ## Was ist mit alten Depots aus früheren Fassungen?
 
@@ -86,8 +87,8 @@ ihn bei der Herausgabe zurück.
 
 ## Kann ich Vivodepot mit Sehbehinderung oder am Telefon bedienen?
 
-Die Anwendung wird gegen WCAG 2.2 AA geprüft, mit axe-core über 35 Sichten der Hauptanwendung und
-15 der Lese-App — jeweils ohne Verstoß. Es gibt eine Schriftgrößen-Reihe, einen Kontrast- und
+Die Anwendung wird gegen WCAG 2.2 AA geprüft, mit axe-core über 39 Sichten der Hauptanwendung und
+17 der Lese-App — jeweils ohne Verstoß (Liste der Sichten: `tools/axe-sichten.json`). Es gibt eine Schriftgrößen-Reihe, einen Kontrast- und
 einen Nachtmodus sowie eine Vorlesefunktion.
 
 ## Was kostet Vivodepot?

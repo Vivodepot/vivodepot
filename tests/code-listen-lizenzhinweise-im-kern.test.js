@@ -32,6 +32,8 @@ function fehlendeHinweise(region, wortlautRegion = WORTLAUT_REGION) {
   for (const datei of LISTEN) {
     const liste = JSON.parse(fs.readFileSync(path.join(REPO, 'code-listen', datei), 'utf8'));
     if (typeof liste.lizenz !== 'string' || !liste.lizenz.trim() || !(liste.daten || []).length) continue;
+    // hinweispflicht: false — der Lizenzgeber verlangt keinen Hinweis im Exemplar (benannte Ausnahme, s. Probe unten).
+    if (liste.hinweispflicht === false) continue;
     geprueft += 1;
     const da = liste.lizenzWortlaut
       ? region.includes('lizenzWortlaut: ' + JSON.stringify(liste.systemId) + ',') && wortlautRegion.includes(JSON.stringify(liste.lizenz).slice(1, -1))
@@ -61,4 +63,18 @@ test('[CODE-LISTEN·Lizenz·Rot-Beweis] wird ein Hinweis weggeschnitten, schläg
 
 test('[CODE-LISTEN·Lizenz] der WIdO-Urheberhinweis zur ATC-GM steht im Kern (Region LIZENZ-WORTLAUT)', () => {
   assert.ok(WORTLAUT_REGION.includes('Das Wissenschaftliche Institut der AOK (WIdO) ist Urheber der ATC-GM'), 'WIdO-Hinweis fehlt');
+});
+
+/* Ausnahme ohne Hinweis im Kern (U2-ADR-480, Gegenlesung 04.10.2026, Befund WAEHRUNG-FEST-EUR, Option iii): nur iso4217 — SIX
+   verlangt keinen Hinweis im weitergegebenen Exemplar, die Quellenangabe steht in NOTICE.md und THIRD_PARTY_LICENSES. Jede
+   weitere Liste mit `hinweispflicht: false` braucht ein eigenes Wort; darum eine Positivliste. */
+test('[CODE-LISTEN·Lizenz] hinweispflicht: false trägt nur die benannte Liste, und ihre Quellenangabe steht in NOTICE und THIRD_PARTY_LICENSES', () => {
+  const ohne = LISTEN.filter((d) => JSON.parse(fs.readFileSync(path.join(REPO, 'code-listen', d), 'utf8')).hinweispflicht === false);
+  assert.deepEqual(ohne, ['iso4217.json']);
+  const iso = JSON.parse(fs.readFileSync(path.join(REPO, 'code-listen', 'iso4217.json'), 'utf8'));
+  for (const datei of ['NOTICE.md', 'THIRD_PARTY_LICENSES']) {
+    const text = fs.readFileSync(path.join(REPO, datei), 'utf8').replace(/\s+/g, ' ');
+    assert.ok(text.includes(iso.lizenz), 'die Quellenangabe von iso4217 steht in ' + datei);
+  }
+  assert.ok(!REGION.includes(iso.lizenz), 'die Lizenzzeile steht nicht in der Region');
 });

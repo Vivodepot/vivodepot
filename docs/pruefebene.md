@@ -31,8 +31,8 @@ Datei-Downloads.
 Pre-Push-Gates.** Kryptografische Testvektoren (RFC 5869, NIST CAVP, Ed25519/Wycheproof),
 die Offline-Garantie (kein Byte verlässt das Gerät — geprüft über einen vollständig blockierten
 Netzwerk-Kontext), der Kein-Master-Key-Beweis, eine Inventur, dass kein geheimer Schlüssel
-`extractable:true` trägt, und WCAG 2.2 AA über `axe-core` — über alle 35 Sichten des Kerns und
-alle 15 Sichten der Lese-App, 0 Verstöße im letzten Lauf. Ein externer HL7-FHIR-Validator läuft
+`extractable:true` trägt, und WCAG 2.2 AA über `axe-core` — über alle 39 Sichten des Kerns und
+alle 17 Sichten der Lese-App (Liste: `tools/axe-sichten.json`), 0 Verstöße im letzten Lauf. Ein externer HL7-FHIR-Validator läuft
 zusätzlich, aber nur dort, wo eine Java-Runtime verfügbar ist (in CI).
 
 **4. Die Wächter — 60 im Register (intern).** Ein Wächter ist eine

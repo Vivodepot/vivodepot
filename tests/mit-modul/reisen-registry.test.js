@@ -18,6 +18,8 @@ const path = require('node:path');
 const fs = require('node:fs');
 const os = require('node:os');
 const crypto = require('node:crypto');
+// Ein geänderter Block braucht seinen Hash, sonst sperrt die CSP ihn und die Probe stirbt am Zeitlimit (U2-ADR-470).
+const { cspNachBau } = require('../../tools/lib/csp-nach-bau.js');
 const { konfektionieren } = require('../../tools/produkt-konfektionieren.js');
 const { PRODUKTE, modulDateienFuer } = require('../../tools/lib/vier-produkte.js');
 
@@ -61,7 +63,7 @@ async function mitMutierterKopie(ersetzeVon, ersetzeZu, lauf) {
     'ABBRUCH: der Anker für die Mutation ist nicht (mehr) genau einmal im Quelltext — Probe passt nicht mehr.');
   const mutiert = original.replace(ersetzeVon, ersetzeZu);
   const tempDatei = path.join(path.dirname(HTML_PFAD), '.reisen-probe-' + process.pid + '-' + Date.now() + '.html');
-  fs.writeFileSync(tempDatei, mutiert);
+  fs.writeFileSync(tempDatei, cspNachBau(mutiert));
   try {
     return await lauf('file://' + tempDatei);
   } finally {
@@ -199,7 +201,7 @@ test('[Reisen·Beleg §2] eine Erfassung, die nur Selektor-Existenz prüft, sieh
     assert.equal((alterOriginal.match(new RegExp(von.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))) || []).length, 1);
     const mutiert = alterOriginal.replace(von, zu);
     const tempDatei = path.join(path.dirname(HTML_PFAD), '.reisen-probe-selektor-' + process.pid + '-' + Date.now() + '.html');
-    fs.writeFileSync(tempDatei, mutiert);
+    fs.writeFileSync(tempDatei, cspNachBau(mutiert));
     try {
       mutiertErgebnis = await messen('file://' + tempDatei);
     } finally {

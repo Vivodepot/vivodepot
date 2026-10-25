@@ -165,8 +165,11 @@ test('[Glied 7] die Form drückt sd-jwt-vc-identitaet VERLUSTFREI aus — Feld f
     richtung: 'import', sektor: 'identity', label: 'Nachbau als Beschreibung',
     leser: 'json', quelle: 'claims', quelleWurzelFallback: true,
     erkennen: [{ pfad: 'vct', gleich: 'urn:vivodepot:identitaet' }],
+    // U2-ADR-482: die Staatsangehörigkeit (die Zeile mit `ausRohwert`) ist ein Rechtsraum-Codefeld — `codeliste: true`, sonst
+    // läse der Nachbau den Code als Freitext. Die übrigen Listen-Zeilen bleiben `alsListe`.
     zuordnung: V.VC_IDENTITAET_MAPPING.map(m => (
-      m.rueck ? { feld: m.feld, ziel: m.ziel, alsListe: true } : { feld: m.feld, ziel: m.ziel }
+      m.ausRohwert ? { feld: m.feld, ziel: m.ziel, codeliste: true }
+        : m.rueck ? { feld: m.feld, ziel: m.ziel, alsListe: true } : { feld: m.feld, ziel: m.ziel }
     )).concat([
       { feld: 'streetAddress', ziel: 'address.street_address' },
       { feld: 'postcodeCity', ziel: 'address.locality' },
@@ -330,4 +333,112 @@ test('[Glied 7] die Marke reist am Modul mit — der eingelassene Kanal steht im
   const offen = V.eingelasseneModule();
   assert.ok(offen.some(m => m.typ === 'format' && m.kennung === 'pid-fremd'),
     'das vierte Register wird vom EINEN Hinweis mitgezählt, ohne eigenen Weg');
+});
+
+/* ══ U2-ADR-482 (06.10.2026, Wort der Gegenlesung, Variante A) · `codeliste: true` — ein Rechtsraum-Codefeld in einer Beschreibung ══
+   Das Modul nennt nur das Merkmal; die Abbildung ist DIESELBE wie die des eingebauten PID-Kanals (staatsangehoerigkeitAusPid /
+   staatsangehoerigkeitFuerPid), keine zweite. Alle oder keine, kein Raten. Ein einlesendes Modul, das ein Codefeld ohne
+   `codeliste` zuordnet, wird verworfen — sonst schriebe es den Text des Dokuments als Freitext in das Feld. */
+const fsCl = require('node:fs');
+const pathCl = require('node:path');
+const KERN_CL = fsCl.readFileSync(pathCl.join(__dirname, '..', 'vivodepot.html'), 'utf8');
+const ZCL = ['_rechtsraumCodefeldAbbildung', 'staatsangehoerigkeitAusPid', 'staatsangehoerigkeitFuerPid', 'rechtsraumFeldBindung'];
+const LCL = 'destatis-staatsangehoerigkeit';
+const pidImport = (zeile) => ({
+  modulTyp: 'format', sprache: 'de', moduleVersion: 1, format: 'pid-codeliste', richtung: 'import', sektor: 'identity',
+  label: 'PID mit Staatsangehörigkeit', leser: 'json', quelle: 'claims',
+  zuordnung: [{ feld: 'givenName', ziel: 'given_name' }, Object.assign({ feld: 'nationality', ziel: 'nationalities' }, zeile)],
+});
+const pidDok = (nat) => JSON.stringify({ claims: { given_name: 'Mira', nationalities: nat } });
+function nationalitaetGelesen(V, nat, zeile) {
+  const kanal = V.formatModulZuImportKanal(pidImport(zeile || { codeliste: true }));
+  assert.ok(kanal, 'die Beschreibung trägt');
+  const f = kanal.parse(pidDok(nat)).felder.find((x) => x.feldId === 'nationality');
+  return f ? f.wert : undefined;
+}
+function codelisteFunde(V) {
+  const funde = [];
+  const fall = (name, nat, erwartet) => {
+    const ist = nationalitaetGelesen(V, nat);
+    if (JSON.stringify(ist) !== JSON.stringify(erwartet)) funde.push(name + ': ' + JSON.stringify(ist));
+  };
+  fall('bekannt', ['DE', 'TR'], [{ liste: LCL, code: '000' }, { liste: LCL, code: '163' }]);
+  fall('unbekannter Wert', ['XX'], undefined);
+  fall('Teilmenge', ['DE', 'XX'], undefined);
+  fall('PID-Sonderwert', ['QS'], [{ liste: LCL, code: '997' }]);
+  return funde;
+}
+test('[Glied 7·codeliste] Import über dieselbe Abbildung wie die PID: bekannt, unbekannt, Teilmenge, Sonderwert', () => {
+  const { V } = ladeKern({ zusatzBindungen: ZCL });
+  assert.ok(V.__zusatz.rechtsraumFeldBindung('identity.nationality'), 'Vorbedingung: die Zusammenstellung bindet die Liste');
+  assert.deepEqual(codelisteFunde(V), []);
+});
+test('[Glied 7·codeliste·Rot-Beweis] ohne die Abbildung landete der PID-Code als Text im Feld — alle drei Fälle fielen', () => {
+  const zeile = "  const mapping = k.zuordnung.map((z, i) => (z.codeliste ? { feld: z.feld, ziel: String(i), rueck: _rechtsraumCodefeldAbbildung(k.sektor + '.' + z.feld).aus }";
+  assert.ok(KERN_CL.includes(zeile), 'Vorbedingung: die Zeile steht im Kern');
+  const pfad = pathCl.join(require('node:os').tmpdir(), 'glied7-codeliste-rot-' + process.pid + '.html');
+  fsCl.writeFileSync(pfad, KERN_CL.replace(zeile, "  const mapping = k.zuordnung.map((z, i) => (z.codeliste ? { feld: z.feld, ziel: String(i), alsListe: true }"));
+  try {
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true, zusatzBindungen: ZCL });
+    assert.deepEqual(codelisteFunde(V).map((f) => f.slice(0, f.indexOf(':'))), ['bekannt', 'unbekannter Wert', 'Teilmenge', 'PID-Sonderwert']);
+  } finally { fsCl.rmSync(pfad, { force: true }); }
+});
+test('[Glied 7·codeliste] die Abbildung ist die des eingebauten Kanals — und jede Kennung aus RECHTSRAUM_CODEFELDER hat eine', () => {
+  const { V } = ladeKern({ zusatzBindungen: ZCL });
+  const abb = V.__zusatz._rechtsraumCodefeldAbbildung('identity.nationality');
+  assert.equal(abb.aus, V.__zusatz.staatsangehoerigkeitAusPid);
+  assert.equal(abb.fuer, V.__zusatz.staatsangehoerigkeitFuerPid);
+  const nat = V.VC_IDENTITAET_MAPPING.find((m) => m.feld === 'nationality');
+  assert.match(String(nat.rueck), /staatsangehoerigkeitAusPid/, 'der eingebaute Kanal nutzt dieselbe Funktion');
+  const codefelder = JSON.parse(/const RECHTSRAUM_CODEFELDER = Object\.freeze\((\[[^\]]*\])\)/.exec(KERN_CL)[1].replace(/'/g, '"'));
+  for (const k of codefelder) assert.ok(V.__zusatz._rechtsraumCodefeldAbbildung(k), k + ' ohne Abbildung');
+  assert.equal(V.__zusatz._rechtsraumCodefeldAbbildung('identity.birthPlace'), null);
+});
+test('[Glied 7·codeliste] benannt verworfen: ohne Codefeld, falscher Wert, Kombination mit alsListe/werte', () => {
+  const V = frisch();
+  const grund = (zeile, richtung) => {
+    const m = pidImport({}); m.zuordnung[1] = Object.assign({ ziel: 'x' }, zeile);
+    if (richtung) m.richtung = richtung;
+    return V.formatModulPruefen(m).verworfene.map((v) => v.grund);
+  };
+  assert.deepEqual(grund({ feld: 'birthPlace', codeliste: true }), ['codeliste-ohne-codefeld']);
+  assert.deepEqual(grund({ feld: 'nationality', codeliste: 'ja' }), ['zuordnung-codeliste']);
+  assert.deepEqual(grund({ feld: 'nationality', codeliste: true, alsListe: true }), ['zuordnung-codeliste-kombination']);
+  assert.deepEqual(grund({ feld: 'nationality', codeliste: true, werte: { a: 'b' } }, 'export'), ['zuordnung-codeliste-kombination']);
+});
+test('[Glied 7·codeliste] ein einlesendes Modul, das das Codefeld OHNE codeliste zuordnet, wird verworfen — die Ausgabe darf es', () => {
+  const V = frisch();
+  for (const zeile of [{}, { alsListe: true }]) {
+    const g = V.formatModulPruefen(pidImport(zeile));
+    assert.ok(g.verworfene.some((v) => v.feld === 'nationality' && v.grund === 'codefeld-ohne-codeliste'), JSON.stringify(g.verworfene));
+    assert.ok(!g.kanal.zuordnung.some((z) => z.feld === 'nationality'));
+  }
+  const aus = pidImport({}); aus.richtung = 'export';
+  assert.ok(V.formatModulPruefen(aus).kanal.zuordnung.some((z) => z.feld === 'nationality'), 'Gegenprobe: die Ausgabe als Text bleibt erlaubt');
+});
+test('[Glied 7·codeliste·Rot-Beweis] ohne die Verschärfung schriebe ein Modul den Text „deutsch“ in das Codefeld', () => {
+  const zeile = "    if (_cfAbb && z.codeliste !== true && richtung === 'import') { verworfene.push({ feld: z.feld, grund: 'codefeld-ohne-codeliste' }); continue; }\n";
+  assert.ok(KERN_CL.includes(zeile), 'Vorbedingung: die Zeile steht im Kern');
+  const pfad = pathCl.join(require('node:os').tmpdir(), 'glied7-codefeld-rot-' + process.pid + '.html');
+  fsCl.writeFileSync(pfad, KERN_CL.replace(zeile, ''));
+  try {
+    const { V } = ladeKern({ htmlPfad: pfad, backen: true, zusatzBindungen: ZCL });
+    assert.equal(nationalitaetGelesen(V, 'deutsch', {}), 'deutsch');
+  } finally { fsCl.rmSync(pfad, { force: true }); }
+});
+test('[Glied 7·codeliste] die Ausgabe trägt dieselben Codes wie die PID — alle oder keine', () => {
+  const V = frisch();
+  const m = { modulTyp: 'format', sprache: 'de', moduleVersion: 1, format: 'pid-codeliste-aus', richtung: 'export', sektor: 'identity',
+    label: 'Ausgabe', leser: 'json', quelle: 'claims', zuordnung: [{ feld: 'givenName', ziel: 'given_name' }, { feld: 'nationality', ziel: 'nationalities', codeliste: true }] };
+  const r = V.modulEinlassen(JSON.stringify(m));
+  assert.equal(r.angenommen, true, r.grund || '');
+  V.akteurSelbstErklaeren('Tester');
+  const baue = (wert) => {
+    V.sektorFeldSetzen('identity', 'givenName', 'Mira');
+    V.sektorFeldSetzen('identity', 'nationality', wert);
+    return JSON.parse(V.exportFormatFuerId('pid-codeliste-aus').baue({ sensibel: true })).claims.nationalities;
+  };
+  assert.deepEqual(baue([{ liste: LCL, code: '000' }, { liste: LCL, code: '163' }]), ['DE', 'TR']);
+  assert.deepEqual(baue([{ liste: LCL, code: '997' }]), ['QS']);
+  assert.equal(baue('deutsch'), undefined, 'ein Altwert geht nie hinaus');
 });

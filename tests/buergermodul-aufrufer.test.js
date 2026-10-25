@@ -81,7 +81,7 @@ test('[Aufrufer·E4] Slot tot, Funktion lebt — der Boot-Aufruf verarbeitet wei
     'DAS ist der lebende Teil der Funktion: dokumente kommt unabhängig vom Bündel-Parameter aus '
     + 'AB_WERK_DOKUMENTE_DE — Slot tot, Funktion lebt, an dieser Zahl gemessen statt behauptet');
   assert.deepEqual(b.verworfen, [], 'nichts verworfen');
-  assert.equal(V.bereicheAlle().length, 13,
+  assert.equal(V.bereicheAlle().length, 14,   // 13 → 14 (U2-ADR-479: Tiere als vierzehnter Bereich, 05.10.2026)
     'der eingebaute Bestand hat weiterhin dreizehn Bereiche — seit Stufe 2 aus ZWEI Quellen '
     + '(Bündel und BEREICH_QUELLEN_EINGEBAUT), darum über bereicheAlle() gezählt und nicht '
     + 'über die Bündel-Liste allein');

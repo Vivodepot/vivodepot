@@ -10,7 +10,7 @@
    derselben Zeichenfunktion (`zeichneVollDepotPdf`) wie das Gesamt-/Bereichs-PDF.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
-const { oeffneApp, depotAnlegen } = require('./helpers');
+const { oeffneApp, depotAnlegen, ausgabeWegHerunterladen } = require('./helpers');
 
 const PW = 'e2e-passwort-123';
 
@@ -59,6 +59,7 @@ test('Anlass-Export liefert JSON UND PDF', async ({ page }) => {
   await page.evaluate((id) => { window.__vdOeffentlich.flowAnlassExport(id); }, anlassId);
   await page.waitForTimeout(300);
   await uebersichtBestaetigen(page);
+  await ausgabeWegHerunterladen(page);
   await page.waitForTimeout(600);
 
   const namen = downloads.map((d) => d.suggestedFilename());

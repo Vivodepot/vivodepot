@@ -47,6 +47,7 @@ const STELLEN = Object.freeze([
   Object.freeze({ datei: 'vivodepot.html', funktion: '_empfaengerQrErgebnisModal', sorte: 'adresse', host: 'marke', anzeige: '_empfaengerQrErgebnisModal',
     inhalt: 'Adresse der Lese-Seite (MARKEN_ADRESSEN.empfaengerQrLesen), der verschlüsselte Inhalt im Fragment' }),
   Object.freeze({ datei: 'vivodepot.html', funktion: '_eudiwAusgeben', sorte: 'keine-adresse', inhalt: 'Datenrahmen der mehrteiligen Ausgabe' }),
+  Object.freeze({ datei: 'vivodepot.html', funktion: '_shlLinkKopierenUndQr', sorte: 'keine-adresse', inhalt: 'shlink:/-Link (SMART Health Link): base64url-Nutzlast mit der Ablage-Adresse, deren Host die Halterin bestätigt hat, und dem Schlüssel' }),
   Object.freeze({ datei: 'vivodepot-studio.html', funktion: 'kurzlinkAushangBild', sorte: 'adresse', host: 'stelle', anzeige: 'anfrageQrTeilAnhaengen', bild: 'kurzlinkAushangBild',
     inhalt: 'dieselbe kurze Adresse, als Bild für den Aushang mit der Adresse als Text im Bild' }),
   Object.freeze({ datei: 'vivodepot-studio.html', funktion: 'kurzlinkQrDataUrl', sorte: 'adresse', host: 'stelle', anzeige: 'anfrageQrTeilAnhaengen', bild: 'kurzlinkAushangBild',

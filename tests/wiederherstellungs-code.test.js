@@ -426,7 +426,14 @@ test('[WHC·#12] die Einstellungen sagen in einem Satz, ob ein Code besteht; Ent
 });
 
 // ── #15 Außentexte: kein „kein Weg zurück" ohne den Zusatz ──────────────────────────────────────
-const KEIN_WEG = /nicht mehr (zu )?öffnen|kein(en)? Weg zurück|Kein Rückweg|no way back|can no longer be opened|cannot be opened again/i;
+/* Erweitert am 21.10.2026 (Befund SOUVERAENITAET-KEIN-ZWEITSCHLUESSEL): der Schluss-Satz der Vorführung („Ist das Passwort
+   verloren, ist das Depot verloren") und QUICKSTART („ohne Passwort kein Zugriff") kamen durch — das Muster kannte weder die
+   Form „verloren … verloren" noch „ohne Passwort kein Zugriff", und die Vorführung las niemand. */
+const KEIN_WEG = new RegExp([
+  /nicht mehr (zu )?öffnen|kein(en)? Weg zurück|Kein Rückweg|no way back|can no longer be opened|cannot be opened again/.source,
+  /(passwort|password)[^.]{0,60}\b(verloren|weg|lost|gone)\b[^.]{0,60}\b(verloren|weg|lost|gone)\b/.source,
+  /ohne\s+(das\s+|Ihr\s+)?Passwort[^.]{0,20}kein(en)?\s+Zugriff|without\s+(it|the\s+password|your\s+password)[^.]{0,20}\bno\s+access/.source,  // Zeilenumbruch zählt als Leerraum (Markdown)
+].join('|'), 'i');
 const MIT_ZUSATZ = /Wiederherstellungs-Code|recovery code/i;
 
 function aussentextFunde(texte) {
@@ -476,4 +483,35 @@ test('[WHC·#15·Hilfe] der Hilfetext „Depot und Passwort“ nennt den Code sc
 test('[WHC·#15·Rot-Beweis] der alte Satz des Notfall-Blatt-Angebots wird gefunden, der neue nicht', () => {
   const alt = 'Wenn Sie Ihr Passwort vergessen, ist Ihr Depot sonst nicht mehr zu öffnen — auch nicht von uns.';
   assert.deepEqual(aussentextFunde({ alt, neu: alt.replace('nicht mehr zu öffnen', 'nur noch mit einem Wiederherstellungs-Code zu öffnen') }), ['alt']);
+});
+
+/* Die Vorführung geht als Außentext vor Publikum (21.10.2026): jede Zeichenkette jeder JSON-Datei unter tools/vorfuehrung/,
+   in allen Sprachen. */
+function zeichenketten(wert, pfad, aus) {
+  if (typeof wert === 'string') aus[pfad] = wert;
+  else if (wert && typeof wert === 'object') for (const [k, v] of Object.entries(wert)) zeichenketten(v, pfad + '.' + k, aus);
+  return aus;
+}
+
+test('[WHC·#15·Vorführung] keine Zeichenkette der Vorführungen sagt „kein Weg zurück“, ohne den Wiederherstellungs-Code zu nennen', () => {
+  const wurzel = path.join(__dirname, '..', 'tools', 'vorfuehrung');
+  const dateien = fs.readdirSync(wurzel, { recursive: true }).map((d) => d.split(path.sep).join('/')).filter((d) => d.endsWith('.json'));
+  assert.ok(dateien.includes('showcase-szenen.json'), 'die Datei des Befunds ist dabei');
+  const texte = {};
+  for (const d of dateien) zeichenketten(JSON.parse(fs.readFileSync(path.join(wurzel, d), 'utf8')), d, texte);
+  assert.deepEqual(aussentextFunde(texte), []);
+});
+
+test('[WHC·#15·Rot-Beweis] die alten Sätze aus Vorführung und QUICKSTART werden gefunden, die neuen nicht', () => {
+  const alt = {
+    szeneDe: 'Die Anwendung baut keine Netzverbindung auf. Ist das Passwort verloren, ist das Depot verloren, auch für uns.',
+    szeneEn: 'The application opens no network connection. If the password is lost, the depot is lost, for us as well.',
+    startDe: 'Beim ersten Start ein Passwort setzen. Das Passwort verschlüsselt das Depot — ohne Passwort kein\nZugriff, auch nicht für Vivodepot selbst.',
+    startEn: 'On first start, set a password. The password encrypts the depot — without it there is no access, not\neven for Vivodepot itself.',
+  };
+  assert.deepEqual(aussentextFunde(alt), ['szeneDe', 'szeneEn', 'startDe', 'startEn']);
+  const lies = (d) => fs.readFileSync(path.join(__dirname, '..', d), 'utf8');
+  const szene = JSON.parse(lies('tools/vorfuehrung/showcase-szenen.json'));
+  const neu = { ...zeichenketten(szene, 'szene', {}), start: lies('QUICKSTART.md'), startEn: lies('QUICKSTART_en.md') };
+  assert.deepEqual(aussentextFunde(neu), []);
 });

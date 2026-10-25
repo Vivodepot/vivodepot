@@ -1,0 +1,105 @@
+{
+ "zweck": "Stellen in den HTML-Anwendungen, die eine gewählte Datei ohne vorherige Größenprüfung ganz einlesen (tools/lib/datei-lesen-stellen.js). Liste nur schrumpfend: eine neue Stelle ohne Grenze ist rot, eine behobene wird hier gestrichen. Befund DATEI-LESEN-OHNE-GROESSENGRENZE, offen; angelegt 20.10.2026.",
+ "stellen": [
+  {
+   "datei": "vivodepot.html",
+   "text": "if (/json|text|xml|calendar|vcard/.test(typ) && blob.text) text = await blob.text();"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "else if (typ === 'application/jose' && blob.text) text = vorfuehrungJweAuszug(await blob.text()) || '';"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "const bytes = new Uint8Array(await blob.arrayBuffer());"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "var roh = JSON.parse(magicStrippen(await datei.text()).json);"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "const r = await kdlEinlesen(f.name, new Uint8Array(await f.arrayBuffer()));"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "const bytes = new Uint8Array(await blob.arrayBuffer());"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "const buf = await datei.arrayBuffer();"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "const buf = await datei.arrayBuffer();"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "text = await f.text();"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "if (!roh.trim() && datei && datei.files && datei.files[0]) roh = await datei.files[0].text();"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "try { roh = JSON.parse(magicStrippen(await datei.text()).json); } catch (_) { verstecken(); return; }"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "try { umschlag = JSON.parse(magicStrippen(await datei.text()).json); } catch (_) { verstecken(); return; }"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "try { umschlag = JSON.parse(magicStrippen(await datei.text()).json); } catch (e) { zeigeFehler(vorDepotText('dateiNichtLesbar')); return; }"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "if (datei) umschlag = umschlagEntpacken(JSON.parse(magicStrippen(await datei.text()).json));"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "leser.readAsText(f);"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "const bytes = new Uint8Array(await blob.arrayBuffer());"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "r.readAsDataURL(file);"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "try { roh = JSON.parse(magicStrippen(await datei.text()).json); }"
+  },
+  {
+   "datei": "vivodepot.html",
+   "text": "reader.readAsText(f);"
+  },
+  {
+   "datei": "vivodepot-lesen.html",
+   "text": "reader.readAsText(datei);"
+  },
+  {
+   "datei": "vivodepot-lesen.html",
+   "text": "reader.readAsText(datei);"
+  },
+  {
+   "datei": "vivodepot-studio.html",
+   "text": "reader.readAsText(datei, 'utf-8');"
+  },
+  {
+   "datei": "vivodepot-studio.html",
+   "text": "reader.readAsText(datei);"
+  },
+  {
+   "datei": "vivodepot-studio.html",
+   "text": "reader.readAsText(datei, 'utf-8');"
+  },
+  {
+   "datei": "vivodepot-studio.html",
+   "text": "try { const text = await datei.text(); return roh ? text : JSON.parse(text); } catch (e) { return undefined; }"
+  }
+ ]
+}

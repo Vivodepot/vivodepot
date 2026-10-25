@@ -855,7 +855,7 @@
           ]
         },
         "format": {
-          "description": "Freiwillig; `null` heißt: keine Formatierung. Weitere Schlüssel (praefix, sektor, feld, unterfeld) offen.",
+          "description": "Freiwillig; `null` heißt: keine Formatierung. Weitere Schlüssel (praefix, sektor, feld, unterfeld; bei `zeilen` beschriftungen und trenner) offen.",
           "anyOf": [
             {
               "type": "null"
@@ -869,7 +869,8 @@
                 "typ": {
                   "enum": [
                     "liste",
-                    "codeListeLabel"
+                    "codeListeLabel",
+                    "zeilen"
                   ]
                 }
               }
@@ -929,7 +930,8 @@
             "listenfeld",
             "personenNamen",
             "listenfeldPersonenNamen",
-            "listenfeldAlle"
+            "listenfeldAlle",
+            "listenfeldAlleVerbunden"
           ]
         },
         "sektor": {
@@ -942,6 +944,15 @@
         },
         "unterfeld": {
           "type": "string"
+        },
+        "unterfelder": {
+          "description": "Bei `listenfeldAlleVerbunden`: die Unterfelder, die je Zeile zusammen gelesen werden, in dieser Folge.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "trenner": {
           "type": "string"
@@ -1043,6 +1054,28 @@
             ],
             "properties": {
               "diskriminante": true
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": [
+              "typ"
+            ],
+            "properties": {
+              "typ": {
+                "const": "listenfeldAlleVerbunden"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "required": [
+              "unterfelder"
+            ],
+            "properties": {
+              "unterfelder": true
             }
           }
         }

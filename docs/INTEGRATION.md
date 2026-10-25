@@ -47,6 +47,13 @@ module contains no code. It is data that the app interprets, so it cannot run an
 person's browser. How modules are built, checked and taken in is described in
 [`docs/modules/`](modules/README.md).
 
+**Checking a file before you submit it.** The rules by which the app accepts or rejects a module, a template or a request, and
+the rules for a submission package, are published, readable in [`docs/pruefregeln/pruefregeln.md`](pruefregeln/pruefregeln.md) (in German)
+and machine-readable in [`docs/pruefregeln/pruefregeln.json`](pruefregeln/pruefregeln.json). To check your own file, run
+`npm ci` and then `node tools/vorlage-pruefen.js --dokument <file.json>`: for a module, a template or a request the verdict comes
+from the same checks the app runs when it takes a file in; a submission package is checked against its published schema, and
+each template in it as in the app. The verdict says nothing about whether the content is correct or who the file comes from.
+
 ## 4 · Asking a person for data: the request
 
 An institution can send a person a **request** (which fields, for what purpose). A request signed

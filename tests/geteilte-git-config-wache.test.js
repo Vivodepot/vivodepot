@@ -174,3 +174,18 @@ test('[geteilteConfigPfad] ausserhalb eines Git-Arbeitsbaums: null, kein Wurf', 
     assert.equal(geteilteConfigPfad(fremd), null);
   } finally { fs.rmSync(fremd, { recursive: true, force: true }); }
 });
+
+/* FESTAUFWAND JE DATEI (19.10.2026, Befund SUITE-DAUER-WAECHST): die Wache nennt nach dem Lauf jede Datei, deren Prozess mehr als
+   FESTAUFWAND_HINWEIS_MS über ihrer Testzeit lag. Noch ohne Abbruch; die Auswahl selbst ist hier geprüft. */
+test('[Wache·Festaufwand] genannt wird nur, wer mehr als die Grenze über seiner Testzeit liegt; ohne zugeordnete Testzeit nicht', () => {
+  const W = require('../tools/geteilte-git-config-wache.js');
+  const wand = {
+    'a.test.js': { wand_ms: 3400, tests_ms: 300 },   // 3,1 s offen — der Fall des Rückfall-Zeitgebers
+    'b.test.js': { wand_ms: 900, tests_ms: 700 },
+    'c.test.js': { wand_ms: 22000, tests_ms: 0 },    // Tests über einen Helfer, ihm zugeordnet
+    'd.test.js': { wand_ms: 2600, tests_ms: 500 },
+  };
+  assert.deepEqual(W.festaufwandUeber(wand, W.FESTAUFWAND_HINWEIS_MS).map((f) => f.datei), ['a.test.js', 'd.test.js']);
+  assert.deepEqual(W.festaufwandUeber(wand, 5000), [], 'Rot-Beweis: über einer höheren Grenze bleibt nichts');
+  assert.equal(W.FESTAUFWAND_HINWEIS_MS, 2000);
+});

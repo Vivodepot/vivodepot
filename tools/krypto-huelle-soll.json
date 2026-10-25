@@ -86,15 +86,26 @@
   ],
   "verifiziereProviderCredential": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_verifiziereZertifikatGegenSchluessel": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_verifiziereTemplateSignatur": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "_anfrageZertifikatZumTag": [
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "schluesselAnfrageBindung": [
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "verifiziereTemplateKette": [
    "vivodepot.html",
@@ -149,19 +160,67 @@
   ],
   "_ankerWaehlen": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "ANKER_OHNE_KID": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "ANKER_SATZ": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "ANKER_WIDERRUFEN": [
    "vivodepot.html",
-   "vivodepot-lesen.html"
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "TRUST_AUTHORITY_PUBLIC_JWK": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "WIDERRUFS_LISTE": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "TEST_SENTINEL_ISSUER": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html",
+   "vivodepot-vc-issuer.html"
+  ],
+  "AUSGABESTELLE_ANBIETERTYP": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html",
+   "vivodepot-vc-issuer.html"
+  ],
+  "VIVODEPOT_PRUEFSTELLE_ANBIETERTYP": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html",
+   "vivodepot-vc-issuer.html"
+  ],
+  "VIVODEPOT_KERN_ANBIETERTYP": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html",
+   "vivodepot-vc-issuer.html"
+  ],
+  "VIVODEPOT_INSTITUTION_ANBIETERTYP": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
+  ],
+  "ZWISCHENSTUFEN_ANBIETERTYPEN": [
+   "vivodepot.html",
+   "vivodepot-lesen.html",
+   "vivodepot-studio.html"
   ],
   "_fingerabdruckBekannt": [
    "vivodepot.html",
@@ -188,6 +247,10 @@
    "vivodepot-lesen.html"
   ],
   "_fingerabdruckHexGueltig": [
+   "vivodepot.html",
+   "vivodepot-lesen.html"
+  ],
+  "_fachSchluesselAusRoh": [
    "vivodepot.html",
    "vivodepot-lesen.html"
   ]

@@ -50,9 +50,10 @@ function baueModul() {
   const { OFFEN_JURISTISCH } = require(path.join(__dirname, 'textsatz-en-juristisch-offen.js'));
   const { TEXTSATZ_EN_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-en-pro-bereich-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   const { TEXTSATZ_EN_PRO_FELDER } = require(path.join(__dirname, 'textsatz-en-pro-felder-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
+  const { TEXTSATZ_EN_CODELISTEN } = require(path.join(__dirname, 'textsatz-codelisten-daten.js'));
 
   const quellen = { sektorTexte: TEXTSATZ_EN_TEXTE, optionswerte: TEXTSATZ_EN_OPTIONSWERTE, vollabdeckung: TEXTSATZ_EN_VOLLABDECKUNG,
-    proBereich: TEXTSATZ_EN_PRO_BEREICH, proFelder: TEXTSATZ_EN_PRO_FELDER };
+    proBereich: TEXTSATZ_EN_PRO_BEREICH, proFelder: TEXTSATZ_EN_PRO_FELDER, codelisten: TEXTSATZ_EN_CODELISTEN };
   const gesehen = new Map();
   for (const [name, obj] of Object.entries(quellen)) {
     for (const k of Object.keys(obj)) {
@@ -94,7 +95,7 @@ function baueModul() {
     }
   }
 
-  const texte = Object.assign({}, TEXTSATZ_EN_TEXTE, TEXTSATZ_EN_OPTIONSWERTE, TEXTSATZ_EN_VOLLABDECKUNG, TEXTSATZ_EN_PRO_BEREICH, TEXTSATZ_EN_PRO_FELDER, amtlicherWortlautDe);
+  const texte = Object.assign({}, TEXTSATZ_EN_TEXTE, TEXTSATZ_EN_OPTIONSWERTE, TEXTSATZ_EN_VOLLABDECKUNG, TEXTSATZ_EN_PRO_BEREICH, TEXTSATZ_EN_PRO_FELDER, TEXTSATZ_EN_CODELISTEN, amtlicherWortlautDe);
   // U2-ADR-440: die Festlegungen der Patientenverfügung tragen als Felder denselben Wortlaut wie im Assistenten — abgeleitet, nicht gepflegt
   // (bei den amtlichen Optionen also das deutsche Original, wie oben).
   {
@@ -170,11 +171,13 @@ function main() {
 
   const roh = JSON.stringify(modul);
   const bytes = Buffer.byteLength(roh, 'utf8');
-  const MAX = 512 * 1024; // _MODUL_EINLASS_MAX_BYTES, vivodepot.html
+  const MAX = 1024 * 1024; // _TEXTSATZ_MODUL_MAX_BYTES, vivodepot.html (U2-ADR-513)
   if (bytes > MAX) {
     console.error('ABBRUCH: ' + bytes + ' Bytes überschreitet die Einlass-Obergrenze (' + MAX + ' Bytes).');
     process.exit(1);
   }
+  // Ab 80 % der Grenze warnt der Erzeuger, bevor eine längere Übersetzung sie reißt (U2-ADR-513).
+  if (bytes > MAX * 0.8) console.warn('WARNUNG: ' + bytes + ' Bytes sind mehr als 80 % der Einlass-Obergrenze (' + MAX + ' Bytes).');
 
   const ausgabepfad = process.argv[2] || path.join(__dirname, 'textsatz-en-modul.json');
   fs.writeFileSync(ausgabepfad, JSON.stringify(modul, null, 2) + '\n', 'utf8');

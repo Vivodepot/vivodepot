@@ -2,6 +2,7 @@
   "erklaerung": "Codezeilen in vivodepot.html, die .sensibel lesen, mit Grund. Wächter: tools/sensibel-direktlesung-pruefen.js. Nur sinkend.",
   "offenMax": 0,
   "erlaubt": {
+    "subset.mappe = subset.mappe.filter((m) => !(m && m.sensibel === true));": "Mappe-Eintrag: eigenes Flag am Eintrag; Ausgangsfilter des engen Zuschnitts, nur einengend (VD-SEC-029)",
     "if (felddefs.some((f) => f && f.sensibel === true)) {": "Modulprüfung: Vorgabe des Schemas, kein Ausgabeweg",
     "if (g && g.sensibel === true) def.sensibel = true;": "Schema-Aufbau aus dem Bündel (übernimmt die Vorgabe)",
     "if (u && u.sensibel === true) uf.sensibel = true;": "Schema-Aufbau aus dem Bündel (übernimmt die Vorgabe)",

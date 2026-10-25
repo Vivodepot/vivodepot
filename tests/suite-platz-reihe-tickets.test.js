@@ -108,6 +108,7 @@ test('[Reihe·Art·Rot-Beweis] ohne die Art-Regel liefe ein Browserlauf neben de
   try {
     const datei = path.join(ordner, 'suite-platz.js');
     fs.writeFileSync(datei, quelle.replace(alt, 'const kannNehmen = () => true;'));
+    fs.copyFileSync(path.join(__dirname, '..', 'tools', 'lib', 'atomar-anlegen.js'), path.join(ordner, 'atomar-anlegen.js'));   // lädt die Kopie mit
     const ohneArt = require(datei);
     const a = aufbau();
     try {

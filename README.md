@@ -9,17 +9,17 @@ Vivodepot ist ein verschlüsseltes Dokumentendepot für das eigene Leben — Ide
 Finanzen, Vorsorge und mehr, unter der eigenen Kontrolle. Die Anwendung ist eine
 einzelne HTML-Datei, die vollständig im Browser läuft.
 
-## Für wen
+## Zielgruppen
 
 Für Bürgerinnen und Bürger, die ihre eigenen Unterlagen und Erklärungen halten
 wollen — ohne dass ein Anbieter mitliest. Für Institutionen und Entwicklerinnen, die eigene
 Themenbereiche über eigene Vorlagen ergänzen wollen: der Kern kennt kein einzelnes Thema, Module tragen den Inhalt.
 
-## Was es kostet
+## Kosten
 
 Für Bürgerinnen und Bürger ist Vivodepot Privat kostenlos.
 
-## Wie es funktioniert
+## Funktionsweise
 
 - **Offline.** Die Depot-Datei liegt bei der Nutzerin, verschlüsselt. Kein Server hält sie, keine
   Cloud sichert sie im Hintergrund.
@@ -28,7 +28,7 @@ Für Bürgerinnen und Bürger ist Vivodepot Privat kostenlos.
 - **Fünf Jahre Sicherheitsaktualisierungen je Fassung**, ab dem Tag, an dem sie herauskommt; jede
   Aktualisierung bleibt danach mindestens zehn Jahre abrufbar (s. [`SECURITY.md`](SECURITY.md)).
 
-## Wie man anfängt
+## Einstieg
 
 [https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github) (englisch:
 [https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github)) in einem aktuellen Browser öffnen —
@@ -42,7 +42,7 @@ in `.github/`. Zurück bleiben Proben, die interne Abläufe oder zurückgehalten
 [`docs/pruefebene.md`](docs/pruefebene.md) beschreibt, wie geprüft wird und nach welcher Regel
 eine Datei veröffentlicht wird.
 
-## Wie man prüft, dass es hält, was es sagt
+## Überprüfung
 
 Jede Zahl in [`STANDARDS.md`](STANDARDS.md) stammt aus [`docs/faktenbasis.md`](docs/faktenbasis.md)
 — einer Datei, die `tools/faktenbasis-erzeugen.js` mechanisch aus dem geladenen Kern und dem
@@ -72,7 +72,7 @@ This material contains content from LOINC (http://loinc.org). LOINC is copyright
 
 Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, licensed under the Creative Commons Attribution-NoDerivatives 4.0 International License (https://creativecommons.org/licenses/by-nd/4.0/), obtained from https://www.snomed.org/gps, International Edition 20260101. SNOMED® and SNOMED CT® are registered trademarks of the International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists.
 
-## Wo es weitergeht
+## Weiterführende Dokumente
 
 - [`PRINCIPLES.md`](PRINCIPLES.md) — die Grundsätze, an denen jeder Beitrag gemessen wird
 - [`SECURITY.md`](SECURITY.md) — Sicherheitsmeldungen, Verifikation der kryptografischen Kette
@@ -85,4 +85,4 @@ Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED Int
 
 ## Stand
 
-Fassung v933.
+Fassung v952.

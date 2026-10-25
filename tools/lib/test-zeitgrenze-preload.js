@@ -64,13 +64,27 @@ function istTestLauf(execArgv) {
   return execArgv.some((a) => a === '--test' || a.startsWith('--test='));
 }
 
-function neuStarten() {
-  const argv = [...process.execArgv, '--test-timeout=' + VORGABE_MS, ...process.argv.slice(1)];
+/* FORCE-EXIT (23.10.2026, Befund KLEIN-LAEUFE-UNGEZAEHLT, Teil b): die Zeitgrenze je Test allein beendet keinen Hänger. Hält ein
+   Test einen Handle offen (ein Intervall, ein Socket), meldet der Runner den Test nach der Grenze als „timed out“, wartet dann
+   aber ohne Ende darauf, dass der Prozess der Testdatei ausläuft (gemessen 23.10.2026, node 24: 2 s Grenze, nach 30 s noch
+   offen). So hielt ein Lauf der Faktenbasis Platz 1 vier Stunden. `--test-force-exit` beendet den Lauf, sobald alle Tests fertig
+   sind; mit beiden Flags endete derselbe Hänger nach rund 2 s. Beide Flags sind in NODE_OPTIONS nicht erlaubt (Exit 9), darum
+   der Neustart hier. Fehlt eines, wird es ergänzt; ein ausdrückliches --test-timeout=0 bleibt eine bewusste Wahl.
+   Probe: tests/test-zeitgrenze-preload.test.js, [Rot-Beweis·Handle]. */
+function fehlendeGrenzen(execArgv) {
+  const fehlt = [];
+  if (!schonGesetzt(execArgv)) fehlt.push('--test-timeout=' + VORGABE_MS);
+  if (!execArgv.includes('--test-force-exit')) fehlt.push('--test-force-exit');
+  return fehlt;
+}
+
+function neuStarten(fehlt) {
+  const argv = [...process.execArgv, ...fehlt, ...process.argv.slice(1)];
   const r = spawnSync(process.execPath, argv, { stdio: 'inherit' });
   if (r.error) throw r.error;
   process.exit(r.status === null ? 1 : r.status);
 }
 
-if (istTestLauf(process.execArgv) && !schonGesetzt(process.execArgv)) neuStarten();
+if (istTestLauf(process.execArgv) && fehlendeGrenzen(process.execArgv).length) neuStarten(fehlendeGrenzen(process.execArgv));
 
-module.exports = { VORGABE_MS, schonGesetzt, istTestLauf };
+module.exports = { VORGABE_MS, schonGesetzt, istTestLauf, fehlendeGrenzen };

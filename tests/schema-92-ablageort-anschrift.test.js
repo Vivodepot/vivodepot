@@ -51,7 +51,7 @@ test('[Stufe 92·b] ein Depot auf 92 mit eingetragener Anschrift bleibt unverän
   const teile = () => d.sektoren.advanceCare.provisionInstruments.map((z) => JSON.stringify([z.storageLocation, ...V.KBV_PKA_ANSCHRIFT.map((k) => z[k])]));
   const vorher = teile();
   V.depotNormalisieren(d);
-  // Mindestens 92: spätere Stufen (93 ff.) heben weiter; was diese Probe hält, sind die 92-Felder darunter.
+  // Mindestens 92: spätere Stufen (93 ff., U2-ADR-482) heben weiter; was diese Probe hält, sind die 92-Felder darunter.
   assert.ok(d.schemaVersion >= 92, 'Stufe 92 erreicht oder überschritten');
   assert.deepEqual(teile(), vorher, 'Freitext und Anschriftteile unverändert (andere Stufen stempeln z. B. den Rechtsraum)');
 });

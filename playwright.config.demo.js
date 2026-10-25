@@ -9,6 +9,8 @@
    Bezug: „Playwright-Rohaufnahme der beiden Demo-Clips" (04.08.2026).
    ════════════════════════════════════════════════════════════════════════ */
 const { defineConfig } = require('@playwright/test');
+// U2-ADR-470: geschriebene HTML-Kopien (Rot-Beweise) tragen die passenden CSP-Hashes — s. tools/lib/csp-beim-schreiben.js.
+require('./tools/lib/csp-beim-schreiben.js').einhaengen();
 const path = require('node:path');
 // Eigenes TMPDIR samt Temp-Netz für den ganzen Lauf (Befund TEMP-RESTE-WIEDER): BEIM LADEN gesetzt, nicht erst im globalSetup —
 // tests/e2e/global-setup.js rechnet seine Pfade unter os.tmpdir() schon beim Laden aus, und die Specs laden es beim Sammeln.

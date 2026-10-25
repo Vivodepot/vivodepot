@@ -5,7 +5,7 @@ Die Vivodepot Bürger-App ist EUPL-1.2 lizenziert (siehe LICENSE / SPDX-Header i
 der HTML-Datei). Sie bettet Drittsoftware INLINE und OFFLINE ein. Diese Datei führt
 den TATSÄCHLICHEN Stand: aktuell sind jsPDF (mit pako als Bestandteil), qrcode-generator und
 noble-ed25519 wirklich eingebettet. Der SBOM
-(vivodepot.sbom.cdx.json, CycloneDX 1.4) spiegelt denselben Stand.
+(vivodepot.sbom.cdx.json, CycloneDX 1.6) spiegelt denselben Stand.
 
 -------------------------------------------------------------------------------
 1) jsPDF 4.2.1 — STATUS: inline (3. Skript-Block)
@@ -13,8 +13,11 @@ noble-ed25519 wirklich eingebettet. Der SBOM
    Bezug: https://github.com/parallax/jsPDF
    purl:  pkg:npm/jspdf@4.2.1
    SPDX-License-Identifier: MIT
-   SHA-256 (inline-Block): 0bd87ba718f9d4ecbd3fba86bdb86ac4e0fdf2b1e2203c87a4ecc130d4bed379
-   (nachgerechnet 03.10.2026 mit tools/third-party-hashes-pruefen.js; der vorige Wert stammte vom Juni und passte nicht mehr)
+   SHA-256 (inline-Block): 2a6e2849becf9f71dde408e1d7980734dec040787fc3c8a27326bee2a2a23fc0
+   (nachgerechnet 06.10.2026 mit tools/third-party-hashes-pruefen.js, nach dem Patch unten)
+   GEÄNDERT gegenüber jsPDF 4.2.1 (05.10.2026): ein Ausdruck in putFont (src/modules/utf8.js) schreibt für die
+   Kodierungen Identity-H/-V die Zeichensammlung /Ordering (Identity) statt des CMap-Namens. Der Eingriff steht im Kern
+   als Kommentar VIVODEPOT-PATCH unmittelbar davor; alles Übrige ist unverändert.
 
    MIT License
 
@@ -361,6 +364,14 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Nicht verwendet: ICD-O-3.
     URI: http://fhir.de/CodeSystem/bfarm/icd-10-gm
 
+  • ISO 4217 (systemId=iso4217) — STATUS: SEED, Version SEED-ISO-4217-2026-09-17
+    Nur die Codes, die ausgelieferte Templates verwenden (EUR, USD, GBP, CHF), mit eigener
+    Bezeichnung. Pflichthinweis im Wortlaut:
+    Währungscodes nach ISO 4217. Die Codeliste pflegt die SIX Group als Maintenance
+    Agency im Auftrag der ISO. Vivodepot übernimmt nur die
+    verwendeten Codes, mit eigener Bezeichnung, keine Inhalte der Liste.
+    URI: urn:iso:std:iso:4217
+
   • LOINC (systemId=loinc) — STATUS: SEED, Version SEED-2026-05
     Regenstrief Institute, Inc. — kostenlos unter der LOINC-Lizenz, kommerzielle Nutzung
     erlaubt. Pflichthinweis im Wortlaut:
@@ -464,6 +475,23 @@ Quellen + tools/build-code-listen.js nachziehen, dann SBOM/Version aktualisieren
     Herausgeber BLK-AG IT-Standards in der Justiz), bezogen über XRepository (KoSIT).
     Die Nutzungsbedingungen verlangen die Genehmigung des Herausgebers; sie ist angefragt,
     bis dahin trägt die Liste keine Daten.
+
+  • Staatsangehörigkeit (systemId=destatis-staatsangehoerigkeit) — STATUS: vollständig
+    (211 Einträge), Fassung 2026-08-05. NICHT als @vd-codeliste-Block im Gerüst, sondern im
+    Template des deutschen Rechtsraums (tools/rechtsraum-de-modul.json, `codeListen`), das jedes
+    der vier Produkte trägt; erzeugt von tools/staatsangehoerigkeit-codeliste-erzeugen.js aus der
+    unveränderten Genericode-Datei (Fixture tests/fixtures/destatis-staatsangehoerigkeit-
+    2026-08-05.gc.xml, SHA-256 1903e422…). Übernommen sind Schlüssel, Bezeichnung (Adjektiv),
+    ISO-3166-1-Code, Hinweis und Existenz-bis, wörtlich.
+    Herausgeber: Statistisches Bundesamt (Destatis), Staats- und Gebietssystematik,
+    bezogen über XRepository, URN urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:
+    staatsangehoerigkeit. Das XRepository-Feld „Lizenz“ ist leer, der Bezugsort
+    (destatis.de/DE/Methoden/Klassifikationen/Staat-Gebietsystematik/staatsangehoerigkeit-
+    gebietsschluessel.html) nennt keine eigene Lizenz; es gilt die Grundregel des DESTATIS-
+    Impressums (destatis.de/DE/Service/Impressum, abgerufen 04.10.2026), im Wortlaut:
+    „© Statistisches Bundesamt (Destatis), 2026 Vervielfältigung und Verbreitung, auch
+    auszugsweise, mit Quellennachweis gestattet.“
+    Ob die Auswahl der Spalten eine Bearbeitung ist, klärt die ND-Analyse.
 
 -------------------------------------------------------------------------------
 PROGRAMMZEICHEN — STATUS: inline (data:-URI, YB_ZEICHEN im Kern)

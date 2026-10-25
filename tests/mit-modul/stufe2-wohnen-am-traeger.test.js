@@ -95,7 +95,7 @@ describe('[Stufe 2·Boot] dreizehn Bereiche, bevor je ein Depot geöffnet wurde'
   test('bereicheAlle() liefert dreizehn ohne Depot, mit `wohnen`', () => {
     const { V } = ladeKern();
     const ids = V.bereicheAlle().map((b) => b.id);
-    assert.equal(ids.length, 13, 'gefunden: ' + ids.join(' '));
+    assert.equal(ids.length, V.BEREICH_IDS_EINGEBAUT.length, 'gefunden: ' + ids.join(' '));   // 13, seit U2-ADR-479 14
     assert.ok(ids.includes('housing'));
   });
 
@@ -149,7 +149,7 @@ describe('[Stufe 2·Reihenfolge] der gesäte Bereich steht an seinem kanonischen
     const ids = V.bereicheAlle().map((b) => b.id);
     assert.equal(ids[ids.length - 1], 'zzz-fremder-bereich',
       'ein fremder Bereich gehört ans Ende: ' + ids.join(' '));
-    assert.deepEqual(ids.slice(0, 13), [...V.BEREICH_IDS_EINGEBAUT]);
+    assert.deepEqual(ids.slice(0, V.BEREICH_IDS_EINGEBAUT.length), [...V.BEREICH_IDS_EINGEBAUT]);
   });
 
   test('[Warum nicht an der Anzeige] die Cluster-Ansicht ist bei `wohnen` nur noch TEILWEISE blind (Bereichsschnitt 09.09.2026)', () => {
@@ -185,9 +185,10 @@ describe('[Stufe 2·Reihenfolge] der gesäte Bereich steht an seinem kanonischen
     }
     const alltagHeute = gHeute.find((g) => g.c === 'alltag').ids;
     const alltagHintenAn = gHintenAn.find((g) => g.c === 'alltag').ids;
-    assert.deepEqual(alltagHeute, ['mobility', 'housing', 'emergencyPreparedness'],
+    // Seit U2-ADR-479 (23.10.2026) steht pets als Rang 13 am Ende von alltag; an der Aussage über wohnen ändert das nichts.
+    assert.deepEqual(alltagHeute, ['mobility', 'housing', 'emergencyPreparedness', 'pets'],
       'natürliche Reihenfolge: wohnen (Rang 11) vor krisenvorsorge (Rang 12)');
-    assert.deepEqual(alltagHintenAn, ['mobility', 'emergencyPreparedness', 'housing'],
+    assert.deepEqual(alltagHintenAn, ['mobility', 'emergencyPreparedness', 'pets', 'housing'],
       'mit wohnen an letzter Stelle der Gesamtliste kippt NUR die interne Reihenfolge von alltag — '
       + 'krisenvorsorge ist seit dem Bereichsschnitt der tatsächliche Cluster-Schlusslicht, nicht mehr wohnen');
   });

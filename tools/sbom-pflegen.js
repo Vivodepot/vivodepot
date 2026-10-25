@@ -326,7 +326,47 @@ const REFERENZ = {
     dateinamen: ['code-listen/snomedAllergen.json'],
     klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
   },
+  // 23.10.2026 (SBOM-CODELISTE-FEHLT): die drei Codelisten, die bis dahin nur im Kern und in NOTICE.md standen.
+  'code-liste-iso4217': {
+    // Die Liste pflegt die SIX Group als Maintenance Agency im Auftrag der ISO (code-listen/iso4217.json, lizenz); URL wie NOTICE.md.
+    supplier: { name: 'SIX Group (ISO 4217 Maintenance Agency)', url: ['https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html'] },
+    beschreibung: 'Währungscodes nach ISO 4217, nur die von Vorlagen verwendeten Codes mit eigener Bezeichnung (U2-ADR-480); die vollständige Liste lädt die Person selbst. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES.',
+    dateinamen: ['code-listen/iso4217.json'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
+  'code-liste-esco': {
+    supplier: { name: 'Europäische Kommission (ESCO)', url: ['https://esco.ec.europa.eu'] },
+    beschreibung: 'ESCO-Klassifikation, eingebetteter Block ohne Einträge (STUB); geführt, weil der Block im Kern steht.',
+    dateinamen: ['code-listen/esco.json'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
+  'code-liste-xoev-rollencode': {
+    supplier: { name: 'BLK-AG IT-Standards in der Justiz (über XRepository)', url: ['https://www.xrepository.de'] },
+    beschreibung: 'Vorgesehen: XÖV-Codeliste GDS.Rollenbezeichnung; eingebetteter Block ohne Einträge (STUB), bis der Herausgeber die Nutzung genehmigt.',
+    dateinamen: ['code-listen/xoev-rollencode.json'],
+    klasse: { executable: 'non-executable', archive: 'no archive', structured: 'structured' },
+  },
 };
+
+/* ── Jede eingebundene Codeliste steht in der SBOM (23.10.2026, Befund SBOM-CODELISTE-FEHLT) ──────────────
+   Bis hierher nannte eine feste Liste vier Codelisten; ISO 4217, ESCO und XÖV-Rollencode standen im Kern
+   (`@vd-codeliste`) und in NOTICE.md, nicht in der SBOM. Jetzt wird jede Quelle unter code-listen/ zur Komponente;
+   eine neue Quelle ohne Eintrag hier bricht die Erzeugung ab, statt still zu fehlen. Leere Listen (STUB) stehen mit,
+   weil ihr Block eingebettet ist. Probe: tests/sbom-codelisten-vollstaendig.test.js. */
+const CODE_KOMPONENTEN = Object.freeze({
+  atc: 'code-liste-atc', icd10: 'code-liste-icd10gm', loinc: 'code-liste-loinc', snomedAllergen: 'code-liste-snomed-allergen',
+  iso4217: 'code-liste-iso4217', esco: 'code-liste-esco', 'xoev-rollencode': 'code-liste-xoev-rollencode',
+});
+function codeListenKomponenten(quellen) {
+  const paare = [];
+  for (const l of [...quellen].sort((a, b) => (a.systemId < b.systemId ? -1 : 1))) {
+    if (!Object.prototype.hasOwnProperty.call(CODE_KOMPONENTEN, l.systemId)) {
+      throw new Error(`Codeliste ${l.systemId} (code-listen/${l.systemId}.json) hat keine SBOM-Komponente — in CODE_KOMPONENTEN und REFERENZ eintragen.`);
+    }
+    paare.push([l.systemId, CODE_KOMPONENTEN[l.systemId]]);
+  }
+  return paare;
+}
 
 function eigenschaften(name) {
   const r = REFERENZ[name];
@@ -437,6 +477,24 @@ function zusaetzlicheTraeger(name, kernHtml, repo = REPO) {
 }
 
 /* ── Die vollständige SBOM aus den Quellen erzeugen ──────────────────────── */
+/* Formatversion (Befund SBOM-CYCLONEDX-UNTER-1-6): BSI TR-03183-2 v2.1.0 §4 verlangt für eine neu erzeugte oder
+   aktualisierte SBOM CycloneDX 1.6 oder höher. Die Fassung steht hier und nicht in der alten Datei — bis 23.10.2026
+   wurde `specVersion` aus der vorhandenen SBOM übernommen, und die trug 1.4, obwohl Komponenten vom Typ `data` und
+   `annotations` erst ab 1.5 gültig sind. Geprüft wird gegen das Schema in tests/mit-modul/sbom-formatversion.test.js. */
+const CYCLONEDX_VERSION = '1.6';
+const CYCLONEDX_SCHEMA = 'http://cyclonedx.org/schema/bom-1.6.schema.json';
+
+/* CycloneDX 1.6 verlangt je Anmerkung `annotator` und `timestamp`. Die Anmerkungen hier schreibt die Herstellerin
+   selbst; der Zeitpunkt wird einmal gesetzt (der SBOM-Zeitstempel beim Umstieg) und danach mitgeführt. */
+function annotationNach16(a, zeitpunkt) {
+  return {
+    subjects: a.subjects,
+    annotator: a.annotator || { organization: { name: 'Vivodepot GmbH' } },
+    timestamp: a.timestamp || zeitpunkt,
+    text: a.text,
+  };
+}
+
 function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
   const libs = new Map(vdLibsInline(html).map((l) => [l.name, l]));
   const kompNamen = [];
@@ -540,14 +598,11 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
   }
 
   // Code-Listen — Version/Lizenz aus der JSON-Quelle, Hash aus demselben generierten
-  // Blocktext, den build-code-listen.js auch inline schreibt.
-  const CODE_KOMPONENTEN = {
-    atc: 'code-liste-atc', icd10: 'code-liste-icd10gm', loinc: 'code-liste-loinc', snomedAllergen: 'code-liste-snomed-allergen',
-  };
+  // Blocktext, den build-code-listen.js auch inline schreibt. Jede Quelle unter code-listen/ wird
+  // eine Komponente; eine ohne Eintrag in CODE_KOMPONENTEN bricht die Erzeugung ab (SBOM-CODELISTE-FEHLT).
   const quellen = new Map(ladeCodeListenQuellen().map((l) => [l.systemId, l]));
-  for (const [systemId, kompName] of Object.entries(CODE_KOMPONENTEN)) {
+  for (const [systemId, kompName] of codeListenKomponenten([...quellen.values()])) {
     const liste = quellen.get(systemId);
-    if (!liste) throw new Error(`Keine Quelle code-listen/${systemId}.json gefunden für „${kompName}".`);
     const alt = bisherigesSbom.components.find((c) => c.name === kompName) || {};
     const blockText = codeListenBlockText(liste);
     komponenten.push({
@@ -555,7 +610,7 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
       type: 'file',
       name: kompName,
       version: liste.version,
-      description: alt.description || '',
+      description: alt.description || REFERENZ[kompName].beschreibung || '',
       supplier: REFERENZ[kompName].supplier,
       licenses: [{ license: { name: liste.lizenz } }],
       hashes: hashes(blockText),
@@ -662,8 +717,9 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
   ];
 
   return {
-    bomFormat: bisherigesSbom.bomFormat,
-    specVersion: bisherigesSbom.specVersion,
+    $schema: CYCLONEDX_SCHEMA,
+    bomFormat: 'CycloneDX',
+    specVersion: CYCLONEDX_VERSION,
     version: bisherigesSbom.version,
     metadata: {
       timestamp: bisherigesSbom.metadata.timestamp,
@@ -673,7 +729,7 @@ function erzeugeSBOM(html, bisherigesSbom, repo = REPO) {
     },
     components: alle,
     dependencies,
-    annotations: bisherigesSbom.annotations,
+    annotations: (bisherigesSbom.annotations || []).map((a) => annotationNach16(a, bisherigesSbom.metadata.timestamp)),
   };
 }
 
@@ -700,6 +756,8 @@ function drifteListe(alt, neu) {
   if (!alt.metadata.authors) drift.push('metadata.authors ergänzt (Vivodepot GmbH)');
   if (!alt.metadata.supplier) drift.push('metadata.supplier ergänzt (Vivodepot GmbH)');
   if (!alt.dependencies) drift.push('dependencies (oberste Ebene) ergänzt');
+  if (alt.specVersion !== neu.specVersion || alt.$schema !== neu.$schema) drift.push(`Formatversion CycloneDX ${alt.specVersion} → ${neu.specVersion}`);
+  if (JSON.stringify(alt.annotations || []) !== JSON.stringify(neu.annotations || [])) drift.push('annotations weichen ab (annotator/timestamp nach CycloneDX 1.6)');
   return drift;
 }
 
@@ -751,4 +809,5 @@ if (require.main === module) main();
 module.exports = {
   lucideIconsBlock,
   hl7SystemeImKern, HL7_THO_CC0, HL7_THO_OFFEN, terminologieBlock, wortlisteAusModul,
-  zusaetzlicheTraeger, HANDGEPFLEGT, hashesAusDateien, vdLibsInline, ersetzeEindeutig, ersetzeAlle, pruefeUndPflege, erzeugeSBOM, skriptInhaltNachMarker, fontInterHashesUndDateien, codeListenBlockText };
+  zusaetzlicheTraeger, HANDGEPFLEGT, hashesAusDateien, vdLibsInline, ersetzeEindeutig, ersetzeAlle, pruefeUndPflege, erzeugeSBOM, skriptInhaltNachMarker, fontInterHashesUndDateien, codeListenBlockText,
+  CODE_KOMPONENTEN, codeListenKomponenten, ladeCodeListenQuellen, CYCLONEDX_VERSION, CYCLONEDX_SCHEMA, annotationNach16 };

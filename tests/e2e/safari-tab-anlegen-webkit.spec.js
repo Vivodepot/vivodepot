@@ -16,11 +16,14 @@
    Die Annahme, das Feld gebe es nur auf dem iPhone, stimmt für dieses WebKit nicht; darum wird hier nichts gesetzt, und
    der erste Fall hält fest, was WebKit liefert. Ob das Schreibtisch-Safari eines Macs dasselbe liefert, zeigt diese Probe
    nicht; das hält das Release-Blatt als Sichtprüfung am Gerät.
-   WebKit wird selbst gestartet, weil die Hauptkonfiguration nur Chromium als Projekt führt. */
+   WebKit wird selbst gestartet, weil die Hauptkonfiguration nur Chromium als Projekt führt.
+   PLATTFORM (21.10.2026): Diese Werte liefert WebKit nur auf macOS. Unter Linux (öffentlicher Workflow) fehlen beide Signale;
+   dort hält der erste Fall die Linux-Werte fest, und die Safari-Wege werden ausgelassen (tests/e2e/webkit-plattform.js). */
 const { test, expect, webkit, devices } = require('@playwright/test');
 const fs = require('node:fs');
 const h = require('./helpers.js');
 const { GEBACKENE_PRODUKT_PFADE } = require('./global-setup.js');
+const { safariSignaleVomWebkit, GRUND_OHNE_SAFARI_SIGNALE } = require('./webkit-plattform.js');
 
 const PW = 'e2e-passwort-123';
 /* Safari lädt das Produkt von einer Web-Adresse, nie aus einer Datei. Das gebackene Produkt kommt über page.route, kein Netz. */
@@ -64,9 +67,15 @@ test('[Safari-Tab·WebKit] die Signale, wie WebKit sie von sich aus liefert, mit
     await inWebkit(kontext, async (page) => {
       const s = await signale(page);
       console.log('[Safari-Tab·WebKit] gemessen, ' + name + ': ' + JSON.stringify(s));
-      expect(s.systemschrift, name + ': das Systemschrift-Signal kommt von WebKit selbst').toBe(true);
-      // Gemessen 11.10.2026: das Feld ist da. Fällt dieser Fall, hat sich WebKit geändert, und die zwei Fälle darunter gehören neu gelesen.
-      expect(s.standaloneVorhanden, name + ': navigator.standalone ist in Playwright-WebKit vorhanden').toBe(true);
+      if (safariSignaleVomWebkit()) {
+        expect(s.systemschrift, name + ': das Systemschrift-Signal kommt von WebKit selbst').toBe(true);
+        // Gemessen 11.10.2026: das Feld ist da. Fällt dieser Fall, hat sich WebKit geändert, und die zwei Fälle darunter gehören neu gelesen.
+        expect(s.standaloneVorhanden, name + ': navigator.standalone ist in Playwright-WebKit vorhanden').toBe(true);
+      } else {
+        // Gemessen 20.10.2026 unter Linux. Fällt dieser Zweig, liefert WebKit dort die Signale inzwischen, und die Weiche gehört neu gelesen.
+        expect(s.systemschrift, name + ' auf ' + process.platform + ': WebKit kennt das Systemschrift-Schlüsselwort nicht').toBe(false);
+        expect(s.standaloneVorhanden, name + ' auf ' + process.platform + ': navigator.standalone fehlt').toBe(false);
+      }
       expect(s.zeigerFrage, name + ': WebKit nimmt (pointer:coarse) ohne Leerzeichen als gültige Medienabfrage an').not.toBe('not all');
     });
   }
@@ -84,79 +93,85 @@ async function bisZumAnlegeDialog(page) {
   return mitAngebot;
 }
 
-// Im öffentlichen Zuschnitt nur die baubaren Produkte (helpers.js, baubar); im Kanon alle vier.
-for (const slug of ['privat-de', 'privat-en', 'pro-de', 'pro-en'].filter(h.baubar)) {
-  test(`[Safari-Tab·WebKit] ${slug} · Schreibtisch-Safari ohne nachgestelltes Signal: Anlegen, Datei-Schritt, Code-Angebot` + (slug.endsWith('-de') ? ', neu laden, wieder öffnen' : ''), async () => {
-    test.setTimeout(180000);
+/* Die Safari-Wege: nur wo WebKit die Safari-Signale liefert (macOS). Sonst ausgelassen, siehe tests/e2e/webkit-plattform.js. */
+test.describe('[Safari-Tab·WebKit] Safari-Wege', () => {
+  // FIXME-ID: OEFFENTLICH-WEBKIT-NUR-MACOS
+  test.skip(!safariSignaleVomWebkit(), GRUND_OHNE_SAFARI_SIGNALE);
+
+  // Im öffentlichen Zuschnitt nur die baubaren Produkte (helpers.js, baubar); im Kanon alle vier.
+  for (const slug of ['privat-de', 'privat-en', 'pro-de', 'pro-en'].filter(h.baubar)) {
+    test(`[Safari-Tab·WebKit] ${slug} · Schreibtisch-Safari ohne nachgestelltes Signal: Anlegen, Datei-Schritt, Code-Angebot` + (slug.endsWith('-de') ? ', neu laden, wieder öffnen' : ''), async () => {
+      test.setTimeout(180000);
+      await inWebkit({ viewport: { width: 1280, height: 800 } }, async (page) => {
+        const fehler = [];
+        page.on('pageerror', (e) => fehler.push(e.message));
+        await ueberWebAdresse(page, slug);
+        await h.oeffneApp(page, { url: ADRESSE });
+        const mitAngebot = await bisZumAnlegeDialog(page);
+        console.log('[Safari-Tab·WebKit] gemessen, ' + slug + ' am Schreibtisch: App-Angebot vor dem Anlegen = ' + mitAngebot);
+        await ankerDialogAusfuellen(page);
+        await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen'), 'der Datei-Schritt nach dem Anlegen').toBeVisible({ timeout: 20000 });
+        await page.click('#m-zweit');                                       // „Später“
+        const ende = Date.now() + 20000;
+        while (Date.now() < ende && !(await page.locator('#whc-angebot').isVisible().catch(() => false))) {
+          if (await page.locator('#wiedereinstieg-hinweis').isVisible().catch(() => false)) await page.click('#m-ok');
+          await page.waitForTimeout(100);
+        }
+        await expect(page.locator('#whc-angebot'), 'das Code-Angebot folgt auf „Später“').toBeVisible();
+        if (!slug.endsWith('-de')) { expect(fehler, 'kein Seitenfehler: ' + fehler.join(' | ')).toEqual([]); return; }
+
+        await page.click('#m-ok');                                          // Code einrichten
+        const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
+        await page.fill('#whc-kontrolle', code);
+        await page.click('#m-ok');
+        // Danach folgen Notfall-Blatt bzw. sein Angebot: an den festen Griffen schließen.
+        const frist = Date.now() + 15000;
+        while (Date.now() < frist) {
+          if (await page.locator('#nfb-schliessen').isVisible().catch(() => false)) await page.click('#nfb-schliessen');
+          else if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) await page.click('#m-zweit');
+          else if (!(await page.locator('#modal-rueck.an').count()) && !(await page.locator('#notfallblatt-overlay:visible').count())) break;
+          await page.waitForTimeout(100);
+        }
+        await expect(page.locator('#app.an'), 'das Depot ist offen').toHaveCount(1);
+
+        // Neu laden: das Depot liegt im Gerätespeicher dieser Web-Adresse und öffnet mit dem Passwort.
+        await page.reload();
+        const pwFeld = page.locator('input[type="password"]:visible').first();
+        await pwFeld.waitFor({ state: 'visible', timeout: 20000 });
+        await expect(page.getByText('Ihr Depot ist auf diesem Gerät gespeichert'), 'der Gerätespeicher trägt das Depot').toBeVisible();
+        await pwFeld.fill(PW);
+        await page.getByRole('button', { name: 'Mein Depot öffnen' }).click();
+        await page.waitForSelector('#app.an', { state: 'attached', timeout: 20000 });
+        expect(fehler, 'kein Seitenfehler: ' + fehler.join(' | ')).toEqual([]);
+      });
+    });
+  }
+
+  test('[Safari-Tab·WebKit] Schreibtisch-Safari: „Depot anlegen“ bietet kein Anlegen in der App an, der Datei-Schritt bleibt', async () => {
+    // Befund SAFARI-ERKENNUNG-TRIFFT-SCHREIBTISCH-WEBKIT (HOCH, geschlossen 13.10.2026): am Schreibtisch erschien das Angebot „In der App anlegen“,
+    // das nur für iPhone und iPad gilt. GEMESSEN 11.10.2026 in Playwright-WebKit (privat-de, pro-de) und 12.10.2026 an einem
+    // Mac mit Safari: navigator.standalone ist vorhanden und false, maxTouchPoints 0. Geschlossen mit iosNichtInstalliert, das zusätzlich
+    // Berührungspunkte verlangt (tests/ios-nicht-installiert-handgeraet.test.js).
+    test.setTimeout(120000);
     await inWebkit({ viewport: { width: 1280, height: 800 } }, async (page) => {
-      const fehler = [];
-      page.on('pageerror', (e) => fehler.push(e.message));
-      await ueberWebAdresse(page, slug);
+      await ueberWebAdresse(page, 'privat-de');
       await h.oeffneApp(page, { url: ADRESSE });
       const mitAngebot = await bisZumAnlegeDialog(page);
-      console.log('[Safari-Tab·WebKit] gemessen, ' + slug + ' am Schreibtisch: App-Angebot vor dem Anlegen = ' + mitAngebot);
+      expect(mitAngebot, 'am Schreibtisch erscheint das Angebot „In der App anlegen“ nicht').toBe(false);
       await ankerDialogAusfuellen(page);
-      await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen'), 'der Datei-Schritt nach dem Anlegen').toBeVisible({ timeout: 20000 });
-      await page.click('#m-zweit');                                       // „Später“
-      const ende = Date.now() + 20000;
-      while (Date.now() < ende && !(await page.locator('#whc-angebot').isVisible().catch(() => false))) {
-        if (await page.locator('#wiedereinstieg-hinweis').isVisible().catch(() => false)) await page.click('#m-ok');
-        await page.waitForTimeout(100);
-      }
-      await expect(page.locator('#whc-angebot'), 'das Code-Angebot folgt auf „Später“').toBeVisible();
-      if (!slug.endsWith('-de')) { expect(fehler, 'kein Seitenfehler: ' + fehler.join(' | ')).toEqual([]); return; }
-
-      await page.click('#m-ok');                                          // Code einrichten
-      const code = (await page.locator('#whc-code').textContent()).replace(/\s/g, '').match(/.{1,4}/g).join('-');
-      await page.fill('#whc-kontrolle', code);
-      await page.click('#m-ok');
-      // Danach folgen Notfall-Blatt bzw. sein Angebot: an den festen Griffen schließen.
-      const frist = Date.now() + 15000;
-      while (Date.now() < frist) {
-        if (await page.locator('#nfb-schliessen').isVisible().catch(() => false)) await page.click('#nfb-schliessen');
-        else if (await page.locator('#nfb-angebot').isVisible().catch(() => false)) await page.click('#m-zweit');
-        else if (!(await page.locator('#modal-rueck.an').count()) && !(await page.locator('#notfallblatt-overlay:visible').count())) break;
-        await page.waitForTimeout(100);
-      }
-      await expect(page.locator('#app.an'), 'das Depot ist offen').toHaveCount(1);
-
-      // Neu laden: das Depot liegt im Gerätespeicher dieser Web-Adresse und öffnet mit dem Passwort.
-      await page.reload();
-      const pwFeld = page.locator('input[type="password"]:visible').first();
-      await pwFeld.waitFor({ state: 'visible', timeout: 20000 });
-      await expect(page.getByText('Ihr Depot ist auf diesem Gerät gespeichert'), 'der Gerätespeicher trägt das Depot').toBeVisible();
-      await pwFeld.fill(PW);
-      await page.getByRole('button', { name: 'Mein Depot öffnen' }).click();
-      await page.waitForSelector('#app.an', { state: 'attached', timeout: 20000 });
-      expect(fehler, 'kein Seitenfehler: ' + fehler.join(' | ')).toEqual([]);
+      await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen'), 'der Datei-Schritt nach dem Anlegen bleibt').toBeVisible({ timeout: 20000 });
     });
   });
-}
 
-test('[Safari-Tab·WebKit] Schreibtisch-Safari: „Depot anlegen“ bietet kein Anlegen in der App an, der Datei-Schritt bleibt', async () => {
-  // Befund SAFARI-ERKENNUNG-TRIFFT-SCHREIBTISCH-WEBKIT (HOCH, geschlossen 13.10.2026): am Schreibtisch erschien das Angebot „In der App anlegen“,
-  // das nur für iPhone und iPad gilt. GEMESSEN 11.10.2026 in Playwright-WebKit (privat-de, pro-de) und 12.10.2026 an einem
-  // Mac mit Safari: navigator.standalone ist vorhanden und false, maxTouchPoints 0. Geschlossen mit iosNichtInstalliert, das zusätzlich
-  // Berührungspunkte verlangt (tests/ios-nicht-installiert-handgeraet.test.js).
-  test.setTimeout(120000);
-  await inWebkit({ viewport: { width: 1280, height: 800 } }, async (page) => {
-    await ueberWebAdresse(page, 'privat-de');
-    await h.oeffneApp(page, { url: ADRESSE });
-    const mitAngebot = await bisZumAnlegeDialog(page);
-    expect(mitAngebot, 'am Schreibtisch erscheint das Angebot „In der App anlegen“ nicht').toBe(false);
-    await ankerDialogAusfuellen(page);
-    await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen'), 'der Datei-Schritt nach dem Anlegen bleibt').toBeVisible({ timeout: 20000 });
-  });
-});
-
-test('[Safari-Tab·WebKit] iPhone im Tab: „Depot anlegen“ bietet zuerst das Anlegen in der App an, im Browser danach den Datei-Schritt', async () => {
-  test.setTimeout(120000);
-  await inWebkit(devices['iPhone 13'], async (page) => {
-    await ueberWebAdresse(page, 'privat-de');
-    await h.oeffneApp(page, { url: ADRESSE });
-    const mitAngebot = await bisZumAnlegeDialog(page);
-    expect(mitAngebot, 'das Angebot „In der App anlegen“ erscheint, ohne dass ein Wert gesetzt wurde').toBe(true);
-    await ankerDialogAusfuellen(page);
-    await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen'), 'der Datei-Schritt nach dem Anlegen').toBeVisible({ timeout: 20000 });
+  test('[Safari-Tab·WebKit] iPhone im Tab: „Depot anlegen“ bietet zuerst das Anlegen in der App an, im Browser danach den Datei-Schritt', async () => {
+    test.setTimeout(120000);
+    await inWebkit(devices['iPhone 13'], async (page) => {
+      await ueberWebAdresse(page, 'privat-de');
+      await h.oeffneApp(page, { url: ADRESSE });
+      const mitAngebot = await bisZumAnlegeDialog(page);
+      expect(mitAngebot, 'das Angebot „In der App anlegen“ erscheint, ohne dass ein Wert gesetzt wurde').toBe(true);
+      await ankerDialogAusfuellen(page);
+      await expect(page.locator('#modal-rueck.an #safari-datei-nach-anlegen'), 'der Datei-Schritt nach dem Anlegen').toBeVisible({ timeout: 20000 });
+    });
   });
 });

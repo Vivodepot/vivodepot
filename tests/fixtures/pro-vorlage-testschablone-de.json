@@ -760,18 +760,6 @@
       ]
     },
     {
-      "feldname": "Testfeld 193",
-      "feldtyp": "text",
-      "bereich": "pro-vertretung-vollmachten",
-      "gruppe": "Testgruppe 194"
-    },
-    {
-      "feldname": "Testfeld 195",
-      "feldtyp": "text",
-      "bereich": "pro-vertretung-vollmachten",
-      "gruppe": "Testgruppe 196"
-    },
-    {
       "feldname": "Testfeld 197",
       "feldtyp": "text",
       "bereich": "pro-gesellschaft-nachfolge",
@@ -782,12 +770,6 @@
       "feldtyp": "text",
       "bereich": "pro-gesellschaft-nachfolge",
       "gruppe": "Testgruppe 200"
-    },
-    {
-      "feldname": "Testfeld 201",
-      "feldtyp": "text",
-      "bereich": "pro-finanzen-verbindlichkeiten",
-      "gruppe": "Testgruppe 202"
     },
     {
       "feldname": "Testfeld 203",

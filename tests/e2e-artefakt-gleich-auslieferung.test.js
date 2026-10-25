@@ -13,6 +13,7 @@ const { PRODUKTE, modulDateienFuer } = require('../tools/lib/vier-produkte.js');
 const { _entwicklerleisteSchneiden, ENTWICKLERLEISTE_MARKEN, _kernTestflaecheSchneiden } = require('../tools/lib/produkt-text-erzeugen.js');
 const { ladeIssuer } = require('./load-issuer.js');
 const { testProduktText } = require('./produkt-test-backen.js');
+const { cspNachBau } = require('../tools/lib/csp-nach-bau.js');
 
 // Im öffentlichen Zuschnitt trägt die Wurzeldatei eine eigene Kopfzeile; das Produkt trägt die Quellzeile (WURZEL_KOPFZEILE).
 const KERN_ROH = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
@@ -35,7 +36,8 @@ for (const p of PRODUKTE) {
       const auslieferung = fs.readFileSync(datei, 'utf8');
       const testArtefakt = testProduktText(KERN, { slug: p.slug });
       assert.notEqual(testArtefakt, auslieferung, 'Vorbedingung: das Test-Artefakt trägt die Leiste');
-      assert.equal(_kernTestflaecheSchneiden(_entwicklerleisteSchneiden(testArtefakt, 'vivodepot.html'), 'vivodepot.html'), auslieferung,
+      // U2-ADR-470: die CSP-Hashes folgen den geschnittenen Blöcken — nach dem Schnitt neu gezogen, wie im Bau.
+      assert.equal(cspNachBau(_kernTestflaecheSchneiden(_entwicklerleisteSchneiden(testArtefakt, 'vivodepot.html'), 'vivodepot.html')), auslieferung,
         'jede Abweichung außerhalb der Leisten- und der Testflächen-Region ist ein Fund');
     } finally { fs.rmSync(ordner, { recursive: true, force: true }); }
   });

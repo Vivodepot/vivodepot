@@ -75,7 +75,7 @@ test('[2b · Gegenprobe] echte Katalogfelder aus mehreren Sektoren bleiben grün
   const { V } = ladeKern();
   for (const [sektorId, feldId] of [
     ['health', 'allergiesMedicationFoodOther'], ['finance', 'accounts'], ['mobility', 'vehicles'],
-    ['identity', 'pets'], ['personal', 'whoDependsOnMe'], ['housing', 'landlordPhone'],
+    ['pets', 'pets'], ['personal', 'whoDependsOnMe'], ['housing', 'landlordPhone'],
   ]) {
     assert.equal(V._b16ZielExistiert(sektorId, feldId), true, sektorId + '.' + feldId + ' sollte existieren');
   }

@@ -187,4 +187,25 @@ JS-Kommentar. Kein Produktcode betroffen, keine Verhaltensänderung — reine Ba
 
 ---
 
+## 7 · Nachtrag 24.10.2026 — Zeilen-Zusammenführung gebaut (Pro E3)
+
+Die in §6 benannte Lücke ist geschlossen. Zwei getrennt gelesene Unterfelder einer Liste
+verrutschten im Ausdruck, sobald eine Zeile ein Unterfeld leer ließ: `listenfeldAlle` lässt
+leere Werte weg, die nächste Angabe rückte nach und stand bei der falschen Zeile.
+
+- **Primitiv `listenfeldAlleVerbunden`** (Kern und Lese-App): `unterfelder` ist eine Liste von
+  Unterfeld-Kennungen. Je Zeile entsteht ein Array der Werte in dieser Folge; eine leere oder
+  je Zeile zurückgehaltene Angabe bleibt als Lücke stehen, eine Zeile ohne jede Angabe entfällt.
+  Ein Datum steht geformt, eine Auswahl mit ihrer Beschriftung. Die Sensibel-Schranke prüft jedes
+  Unterfeld.
+- **Format `zeilen`**: `beschriftungen` (eine je Unterfeld, `null` für keine) und `trenner`. Die
+  Wörter stehen im Block, nicht im Datenschema, damit DE und EN dasselbe Datenschema tragen.
+- **Wächter**: kein Pro-Auszug liest zwei Unterfelder derselben Liste getrennt, und kein
+  Datums-Unterfeld wird ungeformt gelesen (eine Probe über alle Pro-Auszüge, mit
+  Rot-Beweisen).
+- Das Template dieses ADR liest Zulassung und Vertretungsplan seither verbunden; der Hinweis auf
+  die getrennten Listen ist aus dem Ausdruck entfernt.
+
+---
+
 *Vivodepot GmbH · Berlin · 05.09.2026*

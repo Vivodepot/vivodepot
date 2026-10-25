@@ -17,7 +17,37 @@ const SENKE = /(\.(?:innerHTML|outerHTML)\s*\+?=(?!=)|\.insertAdjacentHTML\s*\(|
 // Ein fester Text ohne Einsetzung, danach endet die Anweisung (nicht: eine Zeile, die mit + weitergeht).
 const FESTER_TEXT = /^\s*(?:'(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`(?:[^`\\$]|\\.)*`)\s*(?:[;)]|\n(?!\s*[+.?:|&,]))/;
 
-/** Kommentare durch Leerzeichen ersetzen (Zeilen bleiben erhalten), Zeichenketten unberührt. */
+/* REGEX-LITERALE (Befund ZERLEGER-OHNE-REGEX-LITERALE, geschlossen 24.10.2026): ein `/` beginnt ein Regex-Literal, wenn davor
+   (ohne Leerraum) ein Operator, Trenner, Zeilen- oder Textanfang steht oder eines der Schlüsselwörter, nach denen ein Ausdruck
+   folgt. Sonst ist es eine Division. Das Literal endet am nächsten `/` außerhalb einer Zeichenklasse und vor dem Zeilenende;
+   Anführungszeichen, Backticks und Klammern darin sind Inhalt, nicht Code. Ohne diese Regel öffnete ein `"` in einem Literal
+   für den Zerleger eine Zeichenkette, und ab dort lasen beide Wächter Kommentare als Code und Code als Text. */
+const REGEX_NACH_ZEICHEN = new Set(['(', ',', '=', ':', '[', '!', '&', '|', '?', '{', '}', ';', '+', '-', '*', '%', '^', '~', '<', '>', '\n']);
+const REGEX_NACH_WORT = /(?:^|[^\w$.])(?:return|typeof|instanceof|in|of|new|delete|void|throw|case|do|else|yield|await)$/;
+/** Darf an Stelle i von t ein Regex-Literal beginnen? `vorher` ist der Text vor i (nur das Ende zählt). */
+function regexDarf(t, i) {
+  let j = i - 1;
+  while (j >= 0 && (t[j] === ' ' || t[j] === '\t' || t[j] === '\r')) j--;
+  if (j < 0) return true;
+  if (REGEX_NACH_ZEICHEN.has(t[j])) return true;
+  return REGEX_NACH_WORT.test(t.slice(Math.max(0, j - 11), j + 1));
+}
+/** Ende (exklusiv, mit Flags) des Regex-Literals ab dem `/` an Stelle i, oder -1, wenn dort keines steht. */
+function regexEnde(t, i) {
+  if (t[i] !== '/' || t[i + 1] === '/' || t[i + 1] === '*' || !regexDarf(t, i)) return -1;
+  let klasse = false;
+  for (let j = i + 1; j < t.length; j++) {
+    const c = t[j];
+    if (c === '\n') return -1;
+    if (c === '\\') { j++; continue; }
+    if (c === '[') klasse = true;
+    else if (c === ']') klasse = false;
+    else if (c === '/' && !klasse) { let k = j + 1; while (k < t.length && /[a-z]/i.test(t[k])) k++; return k; }
+  }
+  return -1;
+}
+
+/** Kommentare durch Leerzeichen ersetzen (Zeilen bleiben erhalten), Zeichenketten und Regex-Literale unberührt. */
 function ohneKommentare(t) {
   let aus = ''; let q = null;
   for (let i = 0; i < t.length; i++) {
@@ -29,6 +59,7 @@ function ohneKommentare(t) {
       const e = t.indexOf('*/', i + 2); const ende = e < 0 ? t.length : e + 2;
       aus += t.slice(i, ende).replace(/[^\n]/g, ' '); i = ende - 1; continue;
     }
+    if (c === '/') { const e = regexEnde(t, i); if (e > 0) { aus += t.slice(i, e); i = e - 1; continue; } }
     aus += c;
   }
   return aus;
@@ -134,4 +165,4 @@ function abgleichen(ist, grundlinie) {
   return { neu, weg, ohneGrund };
 }
 
-module.exports = { senken, senkenIn, skripte, abdruck, normal, ohneKommentare, grundlinieLesen, abgleichen, schluessel, OFFEN };
+module.exports = { senken, senkenIn, skripte, abdruck, normal, ohneKommentare, regexEnde, grundlinieLesen, abgleichen, schluessel, OFFEN };

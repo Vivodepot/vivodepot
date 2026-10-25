@@ -79,7 +79,7 @@ describe('[Zug 0·Boot] die Ab-Werk-Saat läuft beim Booten, nicht erst zur Depo
     /* Die Probe, die den Zug gefahrlos macht: solange nichts gesät ist, ist der Aufruf
        folgenlos. Wäre er es nicht, verschöbe Zug 0 stillschweigend Produktverhalten. */
     const { V } = ladeKern();
-    assert.equal(V.bereicheAlle().length, 13);
+    assert.equal(V.bereicheAlle().length, 14);   // 13 → 14 (U2-ADR-479: Tiere)
     assert.deepEqual(V.bereicheAlle().map((b) => b.id), [...V.BEREICH_IDS_EINGEBAUT]);
   });
 

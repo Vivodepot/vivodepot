@@ -56,14 +56,14 @@ test('[S1·1 POSITIVKONTROLLE] dieselbe Form mit EIGENER Kennung geht durch — 
   assert.equal(m.eigeneArtKamAn, 'Eigene Art', 'und die eigene Institutions-Art ist wirklich angekommen');
 });
 
-test('[S1·2] ZUSAGE (verdrahtet 23.08.2026): 512 KB halten, darunter geht ein Modul durch', async () => {
+test('[S1·2] ZUSAGE (verdrahtet 23.08.2026, Sprachmodul 1 MiB seit U2-ADR-513): die Grenze hält, darunter geht ein Modul durch', async () => {
   const { m } = await gemessen();
   for (const g of m.groesse) {
     if (g.mb < 0.5) {
       assert.equal(g.angenommen, true, g.mb + ' MB liegen unter der Grenze und werden angenommen');
       assert.equal(g.grund, null);
     } else {
-      assert.equal(g.angenommen, false, g.mb + ' MB liegen über der 512-KB-Grenze und werden abgewiesen');
+      assert.equal(g.angenommen, false, g.mb + ' MB liegen über der Grenze für Sprachmodule und werden abgewiesen');
       assert.equal(g.grund, 'zu-gross');
     }
   }

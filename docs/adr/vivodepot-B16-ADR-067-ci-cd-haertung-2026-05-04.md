@@ -134,3 +134,9 @@ Die Entscheidung wurde in neun Einzel-Klärungen der ADR-Sitzung vom 04.05.2026 
 ## Nachtrag 04.10.2026
 
 Die Ankündigungen zu NLnet und anwaltlicher Begleitung in dieser ADR gelten nicht mehr. Stand: Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden. Gestrichen ist in „Zum NLnet-Antrag (01.06.2026)“ das Datum, weil es nicht das Datum der Einreichung ist.
+
+## Nachtrag 22.10.2026
+
+Seit v1.0.933 gilt die Verifikation gegen den Repository-Stand für den Kern (Zeile „kern“ in `SECURITY.md`, Abschnitt 8),
+nicht für die Produkte: Vivodepots eigene Vorlagen liegen nicht im öffentlichen Repository. Die ausgelieferten Produkte prüft man
+über ihre Prüfsummen in `SECURITY.md`, Abschnitt 8.

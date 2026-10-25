@@ -108,7 +108,8 @@
         "text": "CC0-1.0, Feld license in package.json des Pakets hl7.fhir.eu.laboratory#2.0.0 (packages.fhir.org, nachgesehen 01.10.2026)."
       },
       "richtung": [
-        "lesen"
+        "lesen",
+        "schreiben"
       ],
       "bereich": "gesundheit",
       "status": "teilweise",
@@ -118,11 +119,8 @@
         "fhir-lab"
       ],
       "bezuege": null,
-      "grund": "Der Kern liest Laborbefunde nach diesem IG (FHIR_LAB_DOC_IG); die eingehende Datei wird nicht gegen das IG validiert.",
-      "kandidat": {
-        "werkzeug": "HL7 FHIR Validator (validator_cli, Apache-2.0; im Manifest 6.9.12) mit -ig hl7.fhir.eu.laboratory#2.0.0",
-        "quelle": "https://github.com/hapifhir/org.hl7.fhir.core/releases"
-      }
+      "grund": "Der Kern liest Laborbefunde nach diesem IG (FHIR_LAB_DOC_IG); die eingehende Datei wird nicht gegen das IG validiert. Herausgegeben wird ein eingelesener Laborbefund zusätzlich als eigenes EU-Labordokument der Person (euLabDokumentDerPerson, flowMappeEuLabDerPersonHerunterladen; K18, Nachtrag U2-ADR-444); kein Eintrag in EXPORT_FORMATE. Geprüft im Konformitätslauf mit dem HL7-Validator gegen Bundle-eu-lab 2.0.0: Fall eu-lab-dokument-der-person gültig, eu-lab-dokument-ohne-befund ungültig. Läuft nicht in npm test, nur mit beschafftem Validator und dem Paket im lokalen Cache.",
+      "pruefer": "tests/konformitaet/externe-validatoren.mjs"
     },
     {
       "id": "isik-dokumente",

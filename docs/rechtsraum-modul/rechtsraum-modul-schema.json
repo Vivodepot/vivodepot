@@ -52,10 +52,27 @@
       "const": "rechtsraum"
     },
     "rechtsraum": {
-      "description": "Der Rechtsraum-Code, den dieses Modul beliefert (z. B. 'FR', 'AT'). Der Kern normalisiert den Code (Leerraum am Rand fällt weg, Großschreibung); 'DE' ist auf dem allgemeinen Einlass-Weg in jeder Schreibung reserviert; nur der gesonderte, TA-signaturgeprüfte Gerüst-Ladeweg darf ein Modul mit 'DE' annehmen — ihn beschreibt dieses Schema nicht.",
-      "type": "string",
-      "pattern": "\\S",
+      "description": "Der Geltungsbereich des Moduls: ein Rechtsraum-Code (z. B. 'FR', 'AT') ODER eine Liste solcher Codes, wenn ein Rechtsraum aus mehreren Unterteilungen besteht (U2-ADR-477, z. B. [\"GB-ENG\", \"GB-WLS\"] für England und Wales). Der Kern normalisiert (Leerraum am Rand fällt weg, Großschreibung) und bildet aus einer Liste den Registry-Schlüssel: Einträge sortiert, mit Komma verbunden ('GB-ENG,GB-WLS'). Ein Code 'UK' wird als 'GB' gelesen (ISO 3166-1/RFC 5646), gespeichert bleibt er unverändert. Ein Listeneintrag hat die Form eines ISO-3166-1-Codes (zwei Buchstaben) oder eines ISO-3166-2-Codes (dazu Bindestrich und bis zu drei Zeichen); doppelte Einträge (auch nach Normalisierung) weist der Kern ab. 'DE' ist auf dem allgemeinen Einlass-Weg in jeder Schreibung reserviert, als Code und als Listeneintrag (Regel `not` und `items.not`); der Kern reserviert am Einlass den Code jedes Moduls, das ab Werk im Produkt steckt (U2-ADR-504 § 3) — das kann dieses Schema nicht wissen. Den gesonderten Gerüst-Ladeweg beschreibt dieses Schema nicht.",
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^\\s*[A-Za-z]{2}(-[A-Za-z0-9]{1,3})?\\s*$",
+            "not": {
+              "pattern": "^\\s*[dD][eE]\\s*$"
+            }
+          }
+        }
+      ],
       "not": {
+        "type": "string",
         "pattern": "^\\s*[dD][eE]\\s*$"
       }
     },
@@ -73,6 +90,33 @@
       "additionalProperties": {
         "type": "string",
         "minLength": 1
+      }
+    },
+    "quelle": {
+      "description": "Herkunft und Lizenz eines übernommenen amtlichen Texts (U2-ADR-477), nach dem Muster von `wortlautQuelle` einer Vorlage: behoerde, titel und lizenz sind Pflicht, sobald das Feld da ist; url ist frei, aber nicht leer, wenn sie da ist; weitere Angaben (stand, lizenzAdresse, abgerufen) sind frei.",
+      "type": "object",
+      "required": [
+        "behoerde",
+        "titel",
+        "lizenz"
+      ],
+      "properties": {
+        "behoerde": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "titel": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "lizenz": {
+          "type": "string",
+          "pattern": "\\S"
+        }
       }
     },
     "rechtsformen": {
@@ -247,7 +291,7 @@
       }
     },
     "hinweise": {
-      "description": "R1 (09.10.2026): Hinweise dieses Rechtsraums je Sprache (ISO 639-1). `fuss` ist der Rechtsraum-Satz im Dokument-Fuß (Befund DEUTSCHES-RECHT-UNSICHTBAR). `vorschlag: true` heißt: noch nicht freigegeben, der Kern zeigt den Satz nicht.",
+      "description": "Hinweise dieses Rechtsraums je Sprache (ISO 639-1), Befund DEUTSCHES-RECHT-UNSICHTBAR. `anlegen` ist der Satz am Anlege-Ort der Instrumente (Liste mit der Rolle instrumenteListe), `fuss` der Rechtsraum-Satz im Dokument-Fuß. `vorschlag: true` heißt: noch nicht freigegeben, der Kern zeigt keinen der Sätze dieser Sprache.",
       "type": "object",
       "propertyNames": {
         "pattern": "^[a-z]{2}$"
@@ -256,6 +300,10 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "anlegen": {
+            "type": "string",
+            "minLength": 1
+          },
           "fuss": {
             "type": "string",
             "minLength": 1
@@ -273,6 +321,118 @@
       "items": {
         "type": "string",
         "minLength": 1
+      }
+    },
+    "codeListen": {
+      "description": "Codelisten dieses Rechtsraums (Template, nicht Gerüst): amtliche Wertelisten, an die ein Feld über `felder` gebunden wird, z. B. die DESTATIS-Staatsangehörigkeitsliste im deutschen Modul. Dieselben Feldnamen wie code-listen/*.json. `systemId` ist innerhalb des Moduls eindeutig; jeder Eintrag in `daten` trägt `code` und `anzeigeName`. Wirksam nur aus einem Ab-Werk-Modul der Zusammenstellung (Selbst-Einlass-Sperre); ein eingelassenes Modul ändert weder Auswahl noch Ausgabe.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "systemId",
+          "daten"
+        ],
+        "properties": {
+          "systemId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uri": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "kuerzel": {
+            "type": "string"
+          },
+          "lizenz": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "hinweis": {
+            "type": "string"
+          },
+          "daten": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "code",
+                "anzeigeName"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "anzeigeName": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "iso3166Alpha2": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{2}$"
+                },
+                "hinweis": {
+                  "type": "string"
+                },
+                "gueltigBis": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                },
+                "pidSonderwert": {
+                  "description": "Der Sonderwert der EUDI-PID für diesen Listeneintrag (PID-Rulebook v1.7 §2.2, Tabelle Z. 105): 'QS' ohne Staatsangehörigkeit, 'QU' unbekannt. Geschlossene Menge; welcher Eintrag ihn trägt, weiß nur das Template.",
+                  "enum": [
+                    "QS",
+                    "QU"
+                  ]
+                },
+                "lesehilfeSchluessel": {
+                  "description": "STRINGS-Schlüssel der Lesehilfe, die ein Nicht-de-Produkt neben der amtlichen Bezeichnung zeigt (Text im Sprachmodul). Für einen geltenden ISO-Code ohne gueltigBis kommt die Lesehilfe aus CLDR und das Feld fehlt; ein Eintrag ohne Buchstaben braucht keine.",
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "felder": {
+      "description": "Feldbindungen dieses Rechtsraums: Kennung `<bereich>.<feld>` → die Codeliste DIESES Moduls, aus der das Feld seine Werte wählt. Geschlossen: nur `codeListe` und `mehrfach`. Eine `codeListe`, die nicht in `codeListen` desselben Moduls steht, weist das ganze Modul ab.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "codeListe"
+        ],
+        "properties": {
+          "codeListe": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mehrfach": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "regeln": {
+      "description": "Regeln dieses Rechtsraums (Template, nicht Gerüst), U2-ADR-480. Heute genau eine: `waehrung`, der Code nach ISO 4217 der Beträge in diesem Rechtsraum (DE: EUR). Gelesen allein von `textsatzWaehrung()`, und nur aus einem Ab-Werk-Modul; ein eingelassenes Modul ändert die Währung nicht. Ein anderer Schlüssel oder eine andere Form weist das ganze Modul ab.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "waehrung": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        }
       }
     },
     "sprache": {

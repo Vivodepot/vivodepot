@@ -10,15 +10,15 @@
  },
  "produkte": {
   "privat-de": {
-   "bereich|leer": 13,
-   "bereich|reserviert": 13,
-   "bereich|unbekannt": 26,
+   "bereich|leer": 14,
+   "bereich|reserviert": 14,
+   "bereich|unbekannt": 28,
    "sprache-mitschrift|reserviert": 1
   },
   "privat-en": {
-   "bereich|leer": 13,
-   "bereich|reserviert": 13,
-   "bereich|unbekannt": 26,
+   "bereich|leer": 14,
+   "bereich|reserviert": 14,
+   "bereich|unbekannt": 28,
    "sprache-text|unbekannt": 1,
    "sprache-text|zusicherung": 1
   },

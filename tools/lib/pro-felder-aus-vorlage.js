@@ -15,7 +15,7 @@
    (`tools/templates/vivodepot-pro-geschaeftsfuehrerin-notfallmappe-logikmodul(-en).json`,
    `eine nicht öffentliche Datei`), z. B.
    `tpl_prokura`, `tpl_nachfolgeklausel_im_gesellschaftsvertrag_vorhanden`,
-   `tpl_patientenverfuegung_ablageort`, `tpl_e_mail` — alle neun exakt
+   `tpl_patientenverfuegung_ablageort` (entfallen mit Pro P2, 23.10.2026), `tpl_e_mail` — alle neun exakt
    reproduziert (s. Testdatei).
 
    `_MODULFELD_KENNUNG` im Kern (vivodepot.html) VERLANGT den `tpl_`-Präfix

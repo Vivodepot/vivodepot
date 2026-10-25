@@ -137,23 +137,46 @@ test('[Klassenprobe] jede verwerfende Stelle nennt eine Prüfstelle, die es gibt
 });
 
 /* Art K für die Stellen des Einlass-Bereichs (EINLASS-REGELN, aus dem Kern erzeugt), etwa _brandingStapelTeile: ihr Ergebnis fließt in
-   kein Modul und keine Datei. Das Studio liest die Urteile des Bereichs an genau einer Stelle, einlassUrteil, und nimmt davon nur
-   gueltig, grund und verworfene für die Anzeige der Vorprüfung — nie den geprüften Inhalt (`branding`, `typen` …). */
+   kein Modul und keine Datei. Das Studio liest die Urteile des Bereichs an genau einer Stelle, einlassUrteil, und nimmt davon
+   gueltig, grund und verworfene für die Anzeige der Vorprüfung — vom geprüften Inhalt nie mehr als für die Anzeige nötig.
+   Branding v2 (U2-ADR-473 W2, 21.10.2026): einlassUrteil liest zusätzlich r.branding.name und r.branding.domain und gibt sie als
+   `marke` zurück, damit die Vorprüfung Name und Marke des Partners zeigt. Geprüft, nicht nur die Erwartung erweitert: `marke` liest
+   allein einlassUrteilZeigen als Text (u.marke), und das Urteil (`einlass`) nutzen die Aufrufer nur über .urteil und
+   einlassUrteilZeigen — die Datei bauen sie aus dem State (baue…Signiert), nie aus dem Urteil. Beides hält die Probe fest; ein
+   weiteres Feld des geprüften Inhalts (etwa r.branding.logo) oder ein anderer Weg des Urteils fällt auf. */
 function einlassLeser(quelle) {
   const stellen = [...quelle.matchAll(/STUDIO_EINLASS_PRUEFEN/g)].length;
   const a = quelle.indexOf('function einlassUrteil(');
   const e = quelle.indexOf('\nfunction ', a + 1);
   const koerper = a >= 0 ? quelle.slice(a, e) : '';
-  const gelesen = [...koerper.matchAll(/\br\.([A-Za-z_$][\w$]*)/g)].map((m) => m[1]);
-  return { stellen, gelesen: [...new Set(gelesen)].sort() };
+  const gelesen = [];
+  for (const m of koerper.matchAll(/\br\.([A-Za-z_$][\w$]*)(?:\.([A-Za-z_$][\w$]*))?/g)) { gelesen.push(m[1]); if (m[2]) gelesen.push(m[1] + '.' + m[2]); }
+  // Wohin `marke` geht: jede Lesestelle mit ihrer Funktion.
+  const marke = [];
+  for (const m of quelle.matchAll(/\b(\w+)\.marke\b/g)) {
+    const fn = [...quelle.slice(0, m.index).matchAll(/\n(?:async )?function (\w+)\(/g)].pop();
+    marke.push((fn ? fn[1] : '?') + ':' + m[1]);
+  }
+  // Wie die Aufrufer das Urteil nutzen: außer der Zuweisung nur .urteil und einlassUrteilZeigen(…, einlass).
+  const nutzung = [...quelle.matchAll(/(?<![\w'])einlass(?![\w'])(\.\w+)?/g)]
+    .map((m) => { const vor = quelle.slice(Math.max(0, m.index - 40), m.index); return /const $/.test(vor) ? 'const' : /einlassUrteilZeigen\(\w+, $/.test(vor) ? 'zeigen' : (m[1] || '(roh)'); });
+  return { stellen, gelesen: [...new Set(gelesen)].sort(), marke: [...new Set(marke)].sort(), nutzung: [...new Set(nutzung)].sort() };
 }
 test('[Klassenprobe·Art K] die Urteile des Einlass-Bereichs fließen nur als Anzeige ins Studio, nie in ein Modul oder eine Datei', () => {
   const l = einlassLeser(STUDIO);
   assert.equal(l.stellen, 3, 'genau: Definition, typeof-Prüfung und Aufruf in einlassUrteil');
-  assert.deepEqual(l.gelesen, ['grund', 'gueltig', 'verworfene']);
+  assert.deepEqual(l.gelesen, ['branding', 'branding.domain', 'branding.name', 'grund', 'gueltig', 'verworfene']);
+  assert.deepEqual(l.marke, ['einlassUrteil:aus', 'einlassUrteilZeigen:u'], 'marke entsteht in einlassUrteil und wird nur angezeigt');
+  assert.deepEqual(l.nutzung, ['.urteil', 'const', 'zeigen'], 'das Urteil geht nur in die Anzeige');
 });
-test('[Klassenprobe·Art K·Rot-Beweis] liest einlassUrteil den geprüften Inhalt, fällt die Probe', () => {
-  const mutiert = STUDIO.replace('if (!r.gueltig) zeilen.push(', 'if (r.branding) zeilen.push(r.branding); if (!r.gueltig) zeilen.push(');
-  assert.notEqual(mutiert, STUDIO, 'Vorbedingung: die Stelle steht im Studio');
-  assert.ok(einlassLeser(mutiert).gelesen.includes('branding'));
+test('[Klassenprobe·Art K·Rot-Beweis] liest einlassUrteil mehr vom geprüften Inhalt oder geht das Urteil in eine Datei, fällt die Probe', () => {
+  const mehr = STUDIO.replace('aus.marke = { name: r.branding.name,', 'aus.marke = { logo: r.branding.logo, name: r.branding.name,');
+  assert.notEqual(mehr, STUDIO, 'Vorbedingung: die Stelle steht im Studio');
+  assert.ok(einlassLeser(mehr).gelesen.includes('branding.logo'));
+  const datei = STUDIO.replace('(k) => baueBrandingSigniert(state, k)', '(k) => baueBrandingSigniert(Object.assign({}, state, einlass.marke), k)');
+  assert.notEqual(datei, STUDIO, 'Vorbedingung: der Signierweg steht im Studio');
+  assert.ok(einlassLeser(datei).nutzung.includes('.marke'));
+  const alt = STUDIO.replace('if (!r.gueltig) zeilen.push(', 'if (r.typen) zeilen.push(r.typen); if (!r.gueltig) zeilen.push(');
+  assert.notEqual(alt, STUDIO, 'Vorbedingung: die Stelle steht im Studio');
+  assert.ok(einlassLeser(alt).gelesen.includes('typen'));
 });

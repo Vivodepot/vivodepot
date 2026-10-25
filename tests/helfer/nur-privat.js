@@ -29,7 +29,9 @@ const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 64;   // 63 → 64 am 20.10.2026 (Wort der Gegenlesung): modul-app-signieren-und-packen [Merkdatei], bis zum Fix von MERKDATEI-NICHT-IGNORIERT-OEFFENTLICH.
+const DECKEL = 71;   // 64 → 71 am 25.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v952): sechs Proben BESTAND (öffentlich nur zwei Privat-Produkte)
+                     //   und zwei Tests aus abgeschaffte-begriffe, die das zurückgehaltene IPS-Begleittext-Modul lesen; je mit eigenem Grund.
+                     // 63 → 64 am 20.10.2026 (Wort der Gegenlesung): modul-app-signieren-und-packen [Merkdatei], bis zum Fix von MERKDATEI-NICHT-IGNORIERT-OEFFENTLICH.
                      // 61 → 63 am 20.10.2026 (Wort der Gegenlesung): rechtsraum-reservierung-vier-produkte und laenderannahme-pruefen, BESTAND (öffentlich nur zwei Privat-Produkte).
                      // 59 → 61 am 20.10.2026 (Wort der Gegenlesung): schema-fassungen und schema-fassungen-ajv, GIT, öffentlicher Lauf v933.
                      // 47 → 59 am 20.10.2026 (Wort der Gegenlesung, Befund VORLAGEN-PORT-PROBEN-OHNE-HEIMAT): zwölf Dateien der
@@ -184,7 +186,9 @@ const NUR_PRIVAT = {
     "[FHIR·display·Rot-Beweis] die LOINC-Liste von c30128b6a und der eigene Name als display fallen",   // git show c30128b6a
   ] },
   "tests/antwort-seed-sicherbarkeit.test.js": { grund: GIT, tests: [
-    "[Sicherbarkeit·Kern vor dem Wagen] der Kern von vor dem Wagen öffnet eine Sicherung mit Seed, und seine nächste Sicherung trägt ihn weiter",   // git show 4d9d3b9c3
+    "[Sicherbarkeit·Kern vor dem Wagen] der Kern von vor dem Wagen öffnet eine Sicherung mit Seed; über einen Schemasprung schreibt er nichts, sonst trägt seine nächste Sicherung den Seed weiter",   // git show 4d9d3b9c3
+    "[Sicherbarkeit·Kern vor dem Wagen·gleiches Schema] auf derselben Schemastufe trägt die nächste Sicherung des alten Kerns den Seed weiter",   // git show 4d9d3b9c3
+    "[Sicherbarkeit·Kern vor dem Wagen·Rot-Beweis] ohne Versionstor schriebe er über den Sprung; auf gleicher Stufe fiele ein verlorener Seed auf",   // git show 4d9d3b9c3
   ] },
   "tests/wiederherstellungs-code.test.js": { grund: GIT, tests: [
     "[WHC·#3] der Kern von vor dem Bau öffnet eine Datei mit Hülle mit dem Passwort; eine Datei mit kaputtem Pflichtfeld nicht",   // git show 875d31856
@@ -347,6 +351,37 @@ const NUR_PRIVAT = {
   ] },
   "tests/wizard-optionen-aus-materialisieren-u2-adr-341.test.js": { grund: GIT, tests: [
     "[U2-ADR-341 · Rot-Beweis 1] A1b real vollzogen: Optionen byte-gleich zum Kern VOR dem Umzug (Commit-Vergleich)",
+  ] },
+  // liest das IPS-Begleittext-Modul, das zurückgehalten wird; die übrigen fünf Tests der Datei laufen öffentlich
+  "tests/abgeschaffte-begriffe.test.js": { grund: BESTAND, tests: [
+    "[Abgeschafft·IPS] der englische IPS-Begleittext trägt keinen alten Vorsorgebegriff (Sektionstitel „Advance Directives“ ist der IPS-Name)",
+    "[Abgeschafft·Geltung] das Register liest nur Vivodepots eigenen Wortlaut, kein Modul eines anderen Rechtsraums",
+  ] },
+  // 25.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v952): seit v933 neue Proben, die Pro, alle vier Produkte oder
+  // zurückgehaltene Werkzeuge voraussetzen; je Test der eigene Grund.
+  // setzt beide Pro-Produkte voraus; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/geruest-schnitt-dokumente-leer-produkt-voll.test.js": { grund: BESTAND, tests: [
+    "[Gerüst-Schnitt S2+S6·Pro] Pro trägt nur die Schritte der Patientenverfügung, kein Dokumentmodul, keinen Korpus, keine Vollmacht",
+  ] },
+  // öffnet pro-de und pro-en; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/haustiere-eigener-bereich.test.js": { grund: BESTAND, tests: [
+    "[Tiere·Pro] ein Pro-Depot mit Tieren von heute findet sie unter pets, ohne Verlust (DE und EN); Privat wie bisher",
+  ] },
+  // verlangt alle vier Produkte; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/staatsangehoerigkeit-rechtsraum.test.js": { grund: BESTAND, tests: [
+    "[Staatsangehörigkeit·PID] in allen vier Produkten trägt nationalities ISO-Codes aus der Liste, nie die Bezeichnung",
+  ] },
+  // baut einen Pro-Kern; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/fach-ganze-einheiten.test.js": { grund: BESTAND, tests: [
+    "[Fach·Definitionseinheit] die Mitschrift ab Werk im Fach trägt keine Bürgerdaten",
+  ] },
+  // USD verwenden nur zurückgehaltene Produkte; öffentlich steht der Code unbenutzt in der Liste, das schadet niemandem
+  "tests/codeliste-iso4217.test.js": { grund: BESTAND, tests: [
+    "[ISO 4217·Nur verwendete Codes] jeder Code der Liste wird von einem ausgelieferten Template verwendet",
+  ] },
+  // die Positivkontrolle verlangt mindestens zehn schreibende Werkzeuge mit Testlauf; öffentlich sind es vier, die übrigen bleiben zurück
+  "tests/schalter-pruefen.test.js": { grund: BESTAND, tests: [
+    "[Schalter·Klasse] jedes schreibende Werkzeug mit Testlauf ruft schalterPruefen(module), bevor es etwas tut",
   ] },
 };
 

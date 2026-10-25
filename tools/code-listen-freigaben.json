@@ -47,6 +47,12 @@
         "begruendung": "Übergang: die Standard-Liste ist angefragt; bis zur Genehmigung trägt die Liste keine Daten und eine eigene Kennung im Namensraum urn:vivodepot (der Namensraum urn:xoev-de gehört der KoSIT und wird von Vivodepot nicht belegt). Mit der Genehmigung wechselt sie auf die Kennung der Standard-Liste.",
         "gepruefteStandards": ["urn:xoev-de:xjustiz:codeliste:gds.rollenbezeichnung"]
       }
+    },
+    "iso4217": {
+      "status": "geprueft",
+      "lizenzQuelle": { "url": "https://www.six-group.com/en/services/legal/terms-and-conditions/terms-of-use.html", "fassung": "SIX Terms of Use und Data Standards (list-one.xml, Pblshd 2026-09-17): Listen „available online and free of charge“, Weitergabe nicht geregelt — weitergegeben wird nur der verwendete Code, mit eigener Bezeichnung", "abgerufen": "2026-10-03" },
+      "pflichthinweis": "Währungscodes nach ISO 4217. Die Codeliste pflegt die SIX Group als Maintenance Agency im Auftrag der ISO. Vivodepot übernimmt nur die verwendeten Codes, mit eigener Bezeichnung, keine Inhalte der Liste.",
+      "standard": { "art": "standard" }
     }
   }
 }

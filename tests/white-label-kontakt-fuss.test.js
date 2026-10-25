@@ -58,10 +58,15 @@ function kontaktPrueferVerstoesse(V) {
 function kontaktFussVerstoesse(ergebnis, erwartet, sprache) {
   const { V, fuss, herkunft } = ergebnis;
   const v = [];
-  const sichtbar = fuss.replace(/<[^>]*>/g, ' ');
+  /* Der benannte Hinweisort „powered by“ (U2-ADR-400 Nachtrag 18.10.2026) steht auch unter einer Partnermarke im Fuß: genau dieser
+     eine Anker ist ausgenommen, er muss dastehen und darf den Partner nicht nennen. Jedes weitere „Vivodepot“ im Fuß bleibt ein Verstoß. */
+  const hinweis = fuss.match(/<span class="ff-powered" data-herkunft-hinweis="app">([^<]*)<\/span>/);
+  if (!hinweis) v.push('Hinweisort „powered by“ fehlt im Fuß');
+  else if (hinweis[1].includes(PARTNER.name)) v.push('Hinweisort nennt den Partner: ' + hinweis[1]);
+  const sichtbar = (hinweis ? fuss.replace(hinweis[0], ' ') : fuss).replace(/<[^>]*>/g, ' ');
   if (erwartet && !fuss.includes('mailto:' + erwartet)) v.push('Adresse ' + erwartet + ' fehlt im Fuß: ' + sichtbar);
   if (!erwartet && fuss.includes('mailto:')) v.push('Adresse im Fuß: ' + sichtbar);
-  if (/vivodepot/i.test(sichtbar)) v.push('Vivodepot steht sichtbar im Fuß: ' + sichtbar);
+  if (/vivodepot/i.test(sichtbar)) v.push('Vivodepot steht sichtbar im Fuß außerhalb des Hinweisorts: ' + sichtbar);
   if (sprache === 'en' && /strings:/.test(sichtbar)) v.push('englischer Fuß nicht vollständig übersetzt');
   if (!herkunft.includes('mailto:' + V.STRINGS.fussKontakt)) v.push('Herkunftsort verliert die Herkunftsadresse');
   return v;

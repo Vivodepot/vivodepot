@@ -220,8 +220,9 @@ function pruefungen(assert) {
         /* P19 traf es an Spanien/Ecuador, P17 an Deutschland/Österreich, P13 an
            Irland/UK/USA/Australien. Dreimal derselbe Schlüssel mit der falschen
            Dimension — und das ist kein Zufall mehr, sondern ein Muster. */
+        // U2-ADR-480: die eingebaute Regel trägt keine Währung mehr; sie kommt aus dem Template (DE-Template: EUR).
         const regeln = V.TEXTSATZ_REGELN_EINGEBAUT;
-        assert.equal(regeln.waehrung, 'EUR', 'die eingebaute Regel steht auf EUR');
+        assert.equal(regeln.waehrung, undefined, 'die eingebaute Regel trägt keine Währung');
         const satz = { modulTyp: 'textsatz', sprache: 'en-GB', moduleVersion: 1,
           texte: {}, regeln: { waehrung: 'GBP' } };
         const geprueft = V.textsatzModulPruefen(satz);

@@ -15,7 +15,8 @@ test('Normalweg zeigt keine Kästchen, Rückhalte-Weg toggelt per Knopf, Zählze
   await oeffneSektor(page, 'identity');
   await setzeFeld(page, 'givenName', 'Maria');
   await setzeFeld(page, 'familyName', 'Mustermann');
-  await setzeFeld(page, 'nationality', 'deutsch');   // schema-sensibel — startet zurückgehalten
+  // U2-ADR-482: die Staatsangehörigkeit ist ein Code aus der Liste des Rechtsraum-Templates, kein Freitext
+  await page.evaluate(() => { window.__vdOeffentlich.sektorFeldSetzen('identity', 'nationality', [{ liste: 'destatis-staatsangehoerigkeit', code: '000' }]); window.__vdOeffentlich.renderContent(); });   // schema-sensibel — startet zurückgehalten
 
   await page.evaluate(() => {
     window._testErgebnis = null;
@@ -81,7 +82,8 @@ test('Ephemer: eine „doch mitgeben"-Freigabe im Rückhalte-Weg überlebt das e
   await depotAnlegen(page);
   await oeffneSektor(page, 'identity');
   await setzeFeld(page, 'givenName', 'Maria');
-  await setzeFeld(page, 'nationality', 'deutsch');   // schema-sensibel — startet zurückgehalten
+  // U2-ADR-482: die Staatsangehörigkeit ist ein Code aus der Liste des Rechtsraum-Templates, kein Freitext
+  await page.evaluate(() => { window.__vdOeffentlich.sektorFeldSetzen('identity', 'nationality', [{ liste: 'destatis-staatsangehoerigkeit', code: '000' }]); window.__vdOeffentlich.renderContent(); });   // schema-sensibel — startet zurückgehalten
 
   const oeffneDialog = () => page.evaluate(() => {
     window.__vdOeffentlich.flowExportUebersicht({ sektorId: 'identity', titel: 'Test', aufFortfahren: () => {} });

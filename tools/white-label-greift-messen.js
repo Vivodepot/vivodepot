@@ -52,6 +52,14 @@ const HERKUNFTSORT_KENNUNGEN = Object.freeze([
   'strings:herkunftImpressumLink.text', 'strings:herkunftDatenschutzLink.text', 'strings:einstAnbieter.text', 'strings:fussKontakt.text',
 ]);
 
+/* Die zwei benannten HINWEISORTE (U2-ADR-400 Nachtrag 18.10.2026, U2-ADR-496 Nr. 6): außer am Herkunftsort steht die Software
+   genau hier, auch unter einer Partnermarke — „powered by“ in der App-Fußzeile (Anker `data-herkunft-hinweis="app"`, Schlüssel
+   herkunftPoweredBy, oben schon Herkunftsort) und „Erstellt mit der Software …“ im Fuß jeder Ausgabe (der Schlüssel unten). Die
+   Messung nimmt aus Fuß und PDF GENAU den aufgelösten Satz dieser Schlüssel heraus, sonst nichts: ein zweites „Vivodepot“ daneben
+   bleibt rot. */
+const HINWEISORT_KENNUNGEN = Object.freeze(['strings:ausgabeErstelltMit.text']);
+const HINWEIS_APP = /<span class="ff-powered" data-herkunft-hinweis="app">([^<]*)<\/span>/g;
+
 /* Bewusst bleibende Stellen — jede mit Grund (Freigabe 3c, 16.09.2026). Eine neue Stelle
    kommt nur mit Entscheidung auf diese Liste, nie, damit die Messung grün wird. */
 const BLEIBT_BEWUSST = Object.freeze({
@@ -68,8 +76,9 @@ function wortmarkeEinordnen(kennungen) {
   const bewusstGilt = (k) => Object.prototype.hasOwnProperty.call(BLEIBT_BEWUSST, k);
   return {
     herkunft: kennungen.filter((k) => HERKUNFTSORT_KENNUNGEN.includes(k)),
+    hinweis: kennungen.filter((k) => HINWEISORT_KENNUNGEN.includes(k)),
     bewusst: kennungen.filter(bewusstGilt),
-    ausserhalb: kennungen.filter((k) => !HERKUNFTSORT_KENNUNGEN.includes(k) && !bewusstGilt(k)),
+    ausserhalb: kennungen.filter((k) => !HERKUNFTSORT_KENNUNGEN.includes(k) && !HINWEISORT_KENNUNGEN.includes(k) && !bewusstGilt(k)),
   };
 }
 
@@ -173,7 +182,12 @@ async function messen(modulPfad, optionen) {
   }
   if (pdfTexte.length) {
     const tragtMarke = pdfTexte.some((t) => t.indexOf(modul.name) >= 0 || t.indexOf(String(modul.name).toUpperCase()) >= 0);
-    const tragtVivodepot = pdfTexte.filter((t) => /vivodepot/i.test(t));
+    // Der benannte Hinweisort: genau der aufgelöste Satz, über denselben Weg wie der Kern (Herkunftsort-Schlüssel, nie das Branding).
+    const erstelltMit = V._herkunftsortAusgabe('ausgabeErstelltMit', V.STRINGS.ausgabeErstelltMit);
+    const tragtErstelltMit = pdfTexte.some((t) => t.indexOf(erstelltMit) >= 0);
+    punkt('pdf-erstellt-mit', tragtErstelltMit && !String(erstelltMit).includes(modul.name),
+      'PDF: „' + erstelltMit + '“ ' + (tragtErstelltMit ? 'steht drauf' : 'FEHLT'));
+    const tragtVivodepot = pdfTexte.filter((t) => /vivodepot/i.test(t.split(erstelltMit).join('')));
     punkt('pdf', tragtMarke && tragtVivodepot.length === 0,
       'PDF: Marke ' + (tragtMarke ? 'steht drauf' : 'FEHLT') + '; „Vivodepot" ' + (tragtVivodepot.length ? tragtVivodepot.length + '× — ' + tragtVivodepot.slice(0, 3).join(' | ') : 'nirgends'));
     const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(',');
@@ -192,9 +206,9 @@ async function messen(modulPfad, optionen) {
     try { t = V.textLesen(kennung); } catch (_) { t = null; }
     if (typeof t === 'string' && /vivodepot/i.test(t)) mitWortmarke.push(kennung);
   }
-  const { herkunft, bewusst, ausserhalb } = wortmarkeEinordnen(mitWortmarke);
+  const { herkunft, hinweis, bewusst, ausserhalb } = wortmarkeEinordnen(mitWortmarke);
   punkt('wortmarke-nur-herkunft', ausserhalb.length === 0,
-    '„Vivodepot" im Textsatz: ' + herkunft.length + '× am Herkunftsort, ' + bewusst.length + '× bewusst (benannte Liste), '
+    '„Vivodepot" im Textsatz: ' + herkunft.length + '× am Herkunftsort, ' + hinweis.length + '× am Hinweisort, ' + bewusst.length + '× bewusst (benannte Liste), '
     + ausserhalb.length + '× außerhalb' + (ausserhalb.length ? ' — ' + ausserhalb.join(', ') : ''));
   befund.wortmarkeAusserhalb = ausserhalb;
 
@@ -203,7 +217,13 @@ async function messen(modulPfad, optionen) {
   try {
     V.betreteApp();
     V.renderFooter();
-    const fuss = document.getElementById('app-fuss').innerHTML;
+    const fussRoh = document.getElementById('app-fuss').innerHTML;
+    // Der benannte Hinweisort der App: genau EIN Anker, sein Text ist der aufgelöste herkunftPoweredBy — nur er wird herausgenommen.
+    const hinweise = [...fussRoh.matchAll(HINWEIS_APP)];
+    const poweredBy = V.escapeHTML(V._herkunftsortAusgabe('herkunftPoweredBy', V.STRINGS.herkunftPoweredBy));
+    punkt('ansicht-fuss-powered', hinweise.length === 1 && hinweise[0][1] === poweredBy && !poweredBy.includes(modul.name),
+      'App-Fuß, Hinweisort: ' + (hinweise.length === 1 ? '„' + hinweise[0][1] + '“' : hinweise.length + ' Anker'));
+    const fuss = fussRoh.replace(HINWEIS_APP, (m, text) => (text === poweredBy ? '' : m));
     const kontaktOk = modul.kontakt ? fuss.includes('mailto:' + modul.kontakt) : !fuss.includes('mailto:');
     const links = fuss.match(/href="https:[^"]*"/g) || [];
     const linkOk = modul.aktualisierungen ? links.includes('href="' + modul.aktualisierungen + '"') : links.length === 0;
@@ -245,4 +265,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch((e) => { console.error(e && e.stack || e); process.exit(2); });
-module.exports = { messen, wortmarkeEinordnen, SENTINEL_PRIVATE_JWK, HERKUNFTSORT_KENNUNGEN, BLEIBT_BEWUSST, VORGABE };
+module.exports = { messen, wortmarkeEinordnen, SENTINEL_PRIVATE_JWK, HERKUNFTSORT_KENNUNGEN, HINWEISORT_KENNUNGEN, BLEIBT_BEWUSST, VORGABE };

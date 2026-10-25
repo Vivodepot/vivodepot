@@ -13,6 +13,7 @@
 
 const PLATZ_MUSTER = Object.freeze([
   /^VD_SUITE_PLATZ/,                       // Platz-Ordner, geerbter Platz, Wartezeit
+  /^VD_KLEIN_/,                            // Klein-Plätze: geerbter Klein-Platz (23.10.2026)
   /^VD_[A-Z_]*PLAETZE$/,                   // Zahl der Plätze je Platzart
   /^VD_KETTEN/,                            // Kettenwagen-Schalter und seine Familie
   /^VD_AIR(?:_|$)/,                        // Prüfrechner: Weiche und Marken

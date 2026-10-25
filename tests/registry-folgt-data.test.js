@@ -139,15 +139,16 @@ test('[U2-ADR-188·Paar B] ein NEUES, unbeteiligtes Depot zeigt nicht die Bereic
   const V = kern();
   // Beleg gegen die Kollektor-Form unten (assert.deepEqual(…, [])): eine gepinnte, NICHT-leere
   // Zahl beweist im selben Testkörper, dass der Mechanismus nicht vom Start weg leer zählt.
-  // 13 eingebaute Bereiche zum Zeitpunkt dieses Fixes (01.09.2026) — driftet die Zahl, meldet
-  // sich die Vorbedingung zuerst, mit klarem Grund, statt die Zeile darunter stillschweigend zu verfälschen.
-  assert.equal(V.bereicheAlle().length, 13, 'Vorbedingung: 13 eingebaute Bereiche vor jedem Andocken');
+  // 13 eingebaute Bereiche zum Zeitpunkt dieses Fixes (01.09.2026), 14 seit U2-ADR-479 (23.10.2026, Tiere als eigener
+  // Bereich in Privat) — driftet die Zahl, meldet sich die Vorbedingung zuerst, mit klarem Grund, statt die Zeile darunter
+  // stillschweigend zu verfälschen.
+  assert.equal(V.bereicheAlle().length, 14, 'Vorbedingung: 14 eingebaute Bereiche vor jedem Andocken');
   await ankerMitSubAnlegen(V, 'depot-a-sektor', 'Depot-A-Sektor');
   // NICHT subKontextVerlassen(): Paar B prüft das Schliessen aus dem OFFENEN Sub-Kontext
   // heraus — genauso live nachgestellt (01.09.2026) — nicht nur den bereits von
   // Paar A abgedeckten Weg über den Anker zurück.
   assert.ok(V.bereicheAlle().some((s) => s.id === 'depot-a-sektor'), 'Vorbedingung: der Sektor wirkt, solange der Sub offen ist');
-  assert.equal(V.bereicheAlle().length, 14, 'Vorbedingung: genau ein Sektor kam durch das Andocken dazu (13+1)');
+  assert.equal(V.bereicheAlle().length, 15, 'Vorbedingung: genau ein Sektor kam durch das Andocken dazu (14+1)');
 
   V._depotSpeicherZuruecksetzen();   // „Depot schliessen" — dieselbe Stelle wie brandingAnwenden(null)
   assert.equal(V.getData(), null, 'Vorbedingung: der Reset hat data genullt');

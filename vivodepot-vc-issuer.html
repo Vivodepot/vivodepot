@@ -21,9 +21,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Offline-Disziplin: keinerlei externe Ressourcen. connect-src 'none' verbietet
      fetch/XHR/WebSocket; default-src 'self' deckt den Rest; 'unsafe-inline' nur für
-     die inline-Skripte/Styles dieser Single-File-App. -->
+     die inline-Styles dieser Single-File-App. Die Inline-Skripte stehen seit U2-ADR-470
+     (Entwurf, 17.10.2026) je mit ihrem sha256 in script-src, geschrieben von
+     tools/csp-bauen.js; dazu Trusted Types (Block „vertrauensregel“). -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+      content="default-src 'self'; script-src 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-yE8SPFlSO6TXBn032cPuHvKTdqlQ8HxxuWeLBdemoNE='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; require-trusted-types-for 'script'; trusted-types default">
+<script id="vertrauensregel">
+(function vertrauensregelEinrichten() {
+  if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
+  // Elemente, die nie aus einer Zeichenkette entstehen: sie führen aus, laden fremd oder ändern die Regeln der Seite.
+  var VERBOTEN = { script: 1, iframe: 1, frame: 1, frameset: 1, object: 1, embed: 1, applet: 1, base: 1, meta: 1, link: 1,
+    portal: 1, noscript: 1, noembed: 1, noframes: 1, xmp: 1, plaintext: 1 };
+  // Rohtext: für HTML kein Markup, für SVG/MathML schon. Ein Tag darin ist darum in jeder Lesart ein Fund.
+  var ROHTEXT = { style: 1, textarea: 1, title: 1 };
+  var ADRESSEN = { href: 1, src: 1, action: 1, formaction: 1, 'xlink:href': 1, data: 1, poster: 1, background: 1,
+    codebase: 1, cite: 1, ping: 1, values: 1, to: 1, from: 1, by: 1 };
+  var ZEICHEN = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", colon: ':', tab: '\t', newline: '\n', nbsp: ' ',
+    sol: '/', bsol: '\\', semi: ';', lpar: '(', rpar: ')', period: '.', comma: ',', equals: '=', num: '#', excl: '!',
+    quest: '?', percnt: '%', plus: '+' };
+  var SKRIPT_ADRESSEN = { 'sw.js': 1, './vorabkonfiguration.js': 1 };
+
+  // Ablehnungen als Kennung, nicht als Satz: der Block steht im Gerüst jeder Anwendung, und Sätze gehören ins Produkt
+  // (tools/geruest-waechter-pruefen.js, Eimer satz). Die Meldung liest nur, wer die Konsole öffnet.
+  function ablehnen(was) { throw new TypeError('vertrauensregel-abgelehnt:' + was); }
+  function leer(c) { return c === ' ' || c === '\t' || c === '\n' || c === '\r' || c === '\f'; }
+  function buchstabe(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'); }
+
+  // Eine Adresse, wie der Browser sie liest: Zeichenreferenzen entschlüsselt, Steuer- und Leerzeichen entfernt.
+  function adresseGefaehrlich(name, roh) {
+    var w = String(roh)
+      .replace(/&#x([0-9a-f]+);?/gi, function (_, h) { var n = parseInt(h, 16); return n > 0xffff ? '�' : String.fromCharCode(n); })
+      .replace(/&#([0-9]+);?/g, function (_, d) { var n = parseInt(d, 10); return n > 0xffff ? '�' : String.fromCharCode(n); })
+      .replace(/&([a-z]+);/gi, function (g, n) { var z = ZEICHEN[n.toLowerCase()]; return z === undefined ? g : z; });
+    if (/&[a-z0-9]+;/i.test(w)) return true;   // eine unbekannte benannte Referenz: nicht raten
+    w = w.replace(/[\u0000- \u007f]+/g, '').toLowerCase();
+    var teile = name === 'values' ? w.split(';') : [w];
+    for (var i = 0; i < teile.length; i++) {
+      if (teile[i].indexOf('javascript:') === 0 || teile[i].indexOf('vbscript:') === 0) return true;
+    }
+    return false;
+  }
+
+  function pruefen(s) {
+    var n = s.length;
+    var i = 0;
+    while (i < n) {
+      var lt = s.indexOf('<', i);
+      if (lt < 0) return;
+      var c = s.charAt(lt + 1);
+      if (s.slice(lt + 1, lt + 4) === '!--') {
+        // Kommentar: endet am frühesten möglichen Ende (zwei Striche und '>', zwei Striche, '!' und '>', oder sofort,
+        // wenn direkt nach dem Öffner ein '>' oder '->' folgt).
+        var ende = -1;
+        if (s.charAt(lt + 4) === '>') ende = lt + 5;
+        else if (s.slice(lt + 4, lt + 6) === '->') ende = lt + 6;
+        else {
+          var a = s.indexOf('-->', lt + 4);
+          var b = s.indexOf('--!>', lt + 4);
+          if (a >= 0) ende = a + 3;
+          if (b >= 0 && (ende < 0 || b + 4 < ende)) ende = b + 4;
+        }
+        if (ende < 0) return;
+        i = ende;
+      } else if (c === '!' || c === '?' || (c === '/' && !buchstabe(s.charAt(lt + 2)))) {
+        // Doctype, CDATA, Verarbeitungsanweisung, falsches Endtag: für HTML ein Kommentar bis zum nächsten '>'.
+        var g = s.indexOf('>', lt + 2);
+        if (g < 0) return;
+        i = g + 1;
+      } else if (buchstabe(c) || (c === '/' && buchstabe(s.charAt(lt + 2)))) {
+        var endtag = c === '/';
+        var j = lt + (endtag ? 2 : 1);
+        var name = '';
+        while (j < n && !leer(s.charAt(j)) && s.charAt(j) !== '/' && s.charAt(j) !== '>') { name += s.charAt(j); j++; }
+        name = name.toLowerCase();
+        if (!endtag && VERBOTEN[name] === 1) ablehnen('element:' + name);
+        while (j < n) {
+          var z = s.charAt(j);
+          if (leer(z) || z === '/') { j++; continue; }
+          if (z === '>') { j++; break; }
+          var an = '';
+          do { an += s.charAt(j); j++; } while (j < n && !leer(s.charAt(j)) && s.charAt(j) !== '/' && s.charAt(j) !== '>' && s.charAt(j) !== '=');
+          while (j < n && leer(s.charAt(j))) j++;
+          var wert = null;
+          if (s.charAt(j) === '=') {
+            j++;
+            while (j < n && leer(s.charAt(j))) j++;
+            var q = s.charAt(j);
+            if (q === '"' || q === "'") {
+              var zu = s.indexOf(q, j + 1);
+              if (zu < 0) { wert = s.slice(j + 1); j = n; } else { wert = s.slice(j + 1, zu); j = zu + 1; }
+            } else if (q !== '>') {
+              var k = j;
+              while (k < n && !leer(s.charAt(k)) && s.charAt(k) !== '>') k++;
+              wert = s.slice(j, k);
+              j = k;
+            }
+          }
+          if (!endtag) {
+            var al = an.toLowerCase();
+            if (al.indexOf('on') === 0) ablehnen('ereignis-attribut:' + al);
+            if (al === 'srcdoc') ablehnen('srcdoc');
+            if (wert !== null && ADRESSEN[al] === 1 && adresseGefaehrlich(al, wert)) ablehnen('skript-adresse-in:' + al);
+          }
+        }
+        i = j;
+        if (!endtag && ROHTEXT[name] === 1) {
+          var schluss = s.toLowerCase().indexOf('<' + '/' + name, i);
+          var inhalt = schluss < 0 ? s.slice(i) : s.slice(i, schluss);
+          for (var p = inhalt.indexOf('<'); p >= 0; p = inhalt.indexOf('<', p + 1)) {
+            var d = inhalt.charAt(p + 1);
+            if (buchstabe(d) || (d === '/' && buchstabe(inhalt.charAt(p + 2)))) ablehnen('markup-im-rohtext:' + name);
+          }
+          if (schluss < 0) return;
+          i = schluss;
+        }
+      } else {
+        i = lt + 1;
+      }
+    }
+  }
+
+  window.trustedTypes.createPolicy('default', {
+    createHTML: function (s) { s = String(s); pruefen(s); return s; },
+    createScriptURL: function (u) {
+      if (Object.prototype.hasOwnProperty.call(SKRIPT_ADRESSEN, String(u))) return String(u);
+      ablehnen('skript-adresse:' + String(u).slice(0, 40));
+    },
+    createScript: function () { ablehnen('skript-aus-text'); }
+  });
+})();
+</script>
 <!-- Rahmen-Schutz (B16-ADR-066, 26.09.2026): dieselbe Form wie im Kern und in der Lese-App. frame-ancestors wirkt nur als
      HTTP-Header, und der Webspace setzt keinen — die Seite zeigt sich darum nur als oberstes Fenster; in einem fremden Rahmen
      leitet sie um oder bleibt verborgen. `id` ist Pflicht: tools/krypto-block-propagation-pruefen.js findet den gepinnten
@@ -1462,6 +1589,7 @@ const SUBMISSION_SCHEMA = {
             "administration",
             "housing",
             "emergencyPreparedness",
+            "pets",
             "personal",
             "pro-vertretung-vollmachten",
             "pro-gesellschaft-nachfolge",
@@ -1651,6 +1779,7 @@ const SUBMISSION_SCHEMA = {
                     "administration",
                     "housing",
                     "emergencyPreparedness",
+                    "pets",
                     "personal",
                     "pro-vertretung-vollmachten",
                     "pro-gesellschaft-nachfolge",
@@ -2558,6 +2687,31 @@ const SUBMISSION_SCHEMA = {
               "url": {
                 "type": "string",
                 "minLength": 1
+              }
+            }
+          },
+          "lizenz": {
+            "description": "U2-ADR-514: Lizenz der Vorlage als Ganzes, im templateJws mitsigniert. Geschlossene Liste (tools/vorlagen-lizenzen.json): Standardlizenzen oder der kurze Hinweis LicenseRef-Vivodepot-Vorlagen; rechteinhaber nennt, wessen Werk bzw. Hinweis es ist. Amtlicher Wortlaut bleibt über wortlautQuelle. Der Kern lädt eine Vorlage ohne oder mit unbekannter Angabe und sagt sichtbar „Lizenz nicht erkannt“ (Register, kein Tor, U2-ADR-258). Pflicht wird das Feld mit der Studio-Eingabe.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "spdx",
+              "rechteinhaber"
+            ],
+            "properties": {
+              "spdx": {
+                "enum": [
+                  "LicenseRef-Vivodepot-Vorlagen",
+                  "CC-BY-4.0",
+                  "CC-BY-ND-4.0",
+                  "CC0-1.0",
+                  "EUPL-1.2"
+                ]
+              },
+              "rechteinhaber": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
               }
             }
           },

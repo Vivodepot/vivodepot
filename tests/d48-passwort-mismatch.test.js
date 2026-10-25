@@ -46,6 +46,7 @@ test('[D49] Sub-/Anker-Anlege-Modal: Inline-Fehler je Feld + KEIN stilles Blocki
 test('[D48/D49] Feld-Markierung + scrollIntoView über bestehendes --error-Token', () => {
   const { src, html } = ladeKern();
   assert.ok(/input\.feld-fehler \{ border-color: var\(--error\)/.test(html), 'rote Feld-Ränder via --error');
-  assert.ok(/classList\.toggle\('feld-fehler', ungleich\)/.test(src), 'beide PW-Felder markiert');
+  // FELD-FEHLER-NICHT-ZUGEORDNET (23.10.2026): markiert wird über den gemeinsamen Helfer, der aria-invalid und den Verweis mitsetzt.
+  assert.ok(/feldFehlerSetzen\(f2, STRINGS\.pwSetzenUngleich, \{ meldung: inl \}\);\s*feldFehlerSetzen\(f1, null, \{ meldung: inl \}\);/.test(src), 'beide PW-Felder markiert');
   assert.ok(/scrollIntoView\(\{ block: 'center' \}\)/.test(src), 'scrollIntoView bei offener Tastatur');
 });

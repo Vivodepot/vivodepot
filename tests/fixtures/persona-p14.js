@@ -176,7 +176,8 @@ function pruefungen(assert) {
         /* Sie WÄRE eine: „Familienname zuerst" ist genauso eine Darstellungsregel
            wie das Datumsformat. Der Satz führt sie nicht — und das ist die Sorte
            Lücke, die man erst sieht, wenn jemand sie braucht. */
-        const regeln = Object.keys(V.TEXTSATZ_REGELN_EINGEBAUT);
+        // U2-ADR-480: gezählt an den ERLAUBTEN Regeln — `waehrung` hat keinen eingebauten Wert mehr, bleibt aber eine Regel.
+        const regeln = Object.keys(V.TEXTSATZ_REGELN_ERLAUBT);
         assert.equal(regeln.length, 6, 'sechs Regeln, gemessen: ' + regeln.join(', '));
         assert.ok(!regeln.some((r) => /name/i.test(r)),
           'keine Regel für die Namensfolge — obwohl sie dieselbe Art Regel wäre wie das Datumsformat');

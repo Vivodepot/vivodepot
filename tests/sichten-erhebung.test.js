@@ -39,7 +39,7 @@ test('[Sichten] keine der Sichten ist bereichsgenau — jede nennt Bereiche NUR 
 
 test('[Sichten] die dreizehn Bereichs-IDs kommen aus der EINEN Quelle, nicht aus einer Kopie im Werkzeug', () => {
   const ids = bereichsIds();
-  assert.equal(ids.length, 13);
+  assert.equal(ids.length, 14);   // 13 → 14 (U2-ADR-479: Tiere)
   for (const id of ['identity', 'health', 'advanceCare', 'emergencyPreparedness']) {
     assert.ok(ids.includes(id), id + ' steht in bereiche/bereiche.json');
   }

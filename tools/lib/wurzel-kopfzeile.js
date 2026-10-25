@@ -2,8 +2,8 @@
 /* Die EINE Zeile, die der Zuschnitt in einer Datei umschreibt (07.10.2026, Befund aus einer Prüfung von außen: die
    Wurzeldatei des öffentlichen Repositorys galt als Produkt, die Fassung war nicht zu erkennen). Genau eine Datei, genau eine
    Zeile: die erste Zeile des Kopfkommentars von vivodepot.html. Öffentlich nennt sie Fassung, Rolle und Prüfweg; in der
-   Quelle und in jedem Produkt steht die Quellzeile, denn ein Produkt trägt keinen Hinweis auf eine gemeinsame Grundlage
-   (White Label ab Werk). Beide Richtungen sind rein und deterministisch: der Zuschnitt aus einem Quell-Commit bleibt
+   Quelle und in jedem Produkt steht die Quellzeile, denn diese Kopfzeile ist kein Ort für den Hinweis auf die Grundlage: der
+   steht seit dem U2-ADR-400-Nachtrag vom 18.10.2026 an benannten Stellen (Herkunftsort, App-Fußzeile, Fuß jeder Ausgabe). Beide Richtungen sind rein und deterministisch: der Zuschnitt aus einem Quell-Commit bleibt
    byte-gleich nachbaubar, und ein Produkt, das jemand aus dem öffentlichen Stand konfektioniert, bekommt dieselben Bytes wie
    das ausgelieferte (tools/produkt-konfektionieren.js setzt die Zeile zurück). Eigene Datei, weil der Konfektionierer sie
    braucht; die Liste der benannten Zuschnitt-Ausnahmen führt den Eintrag und lädt ihn von hier. */

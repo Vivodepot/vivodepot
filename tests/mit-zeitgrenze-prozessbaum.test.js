@@ -37,7 +37,7 @@ test('[Zeitgrenze·Prozessbaum·Rot-Beweis] ohne das Sichern (die Fassung davor)
   try {
     const text = fs.readFileSync(WERKZEUG, 'utf8');
     assert.ok(text.includes('prozessbaum_sichern(); gruppe_beenden();'));
-    fs.writeFileSync(kopie, text.replace('prozessbaum_sichern(); gruppe_beenden();', 'gruppe_beenden();'));
+    fs.writeFileSync(kopie, text.replaceAll('prozessbaum_sichern(); gruppe_beenden();', 'gruppe_beenden();'));   // Wecker und eigene Uhr
     const { r, dateien } = laufen(kopie);
     assert.equal(r.status, 142);
     assert.equal(dateien.length, 0);

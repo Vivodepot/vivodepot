@@ -8,8 +8,8 @@
    Geprüft wird mit einer unabhängigen Entschlüsselung (Node, RFC 7516): heraus kommen dieselben Bytes, auch bei einer
    Datei, die kein Text ist (PDF).
 
-   Der Schalter LINK_SENDEN_FUER_AUSZUEGE bleibt aus, bis die Oberfläche nach dem Blick auf die Vorschau gebaut ist; die
-   Probe hält das fest, damit er nicht still angeht.
+   Der Schalter LINK_SENDEN_FUER_AUSZUEGE steht seit L1b (19.10.2026) an: die Oberfläche ist nach der Vorschau gebaut, der
+   Validator-Beleg liegt im Repo. Die Probe hält fest, wer auszugLinkTeile ruft, damit kein Weg still dazukommt.
    Rot-Beweis: ein Weg, der die Datei als Text liest und wieder kodiert, veränderte eine PDF — die Gleichheitsprobe fiele.
    ════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
@@ -97,11 +97,12 @@ test('[Link senden·Auszug] der Weg des importierten Originals bleibt: _jweCompa
   assert.equal(bytes.toString('utf8'), '{"resourceType":"Bundle"}');
 });
 
-test('[Link senden·Auszug] der Schalter für die Oberfläche bleibt aus, bis sie nach der Vorschau gebaut ist', () => {
+test('[Link senden·Auszug] der Schalter steht seit L1b an; auszugLinkTeile rufen nur die Antwort und der Anlass-Auszug', () => {
   const { V } = ladeKern();
-  assert.equal(V.LINK_SENDEN_FUER_AUSZUEGE, false);
+  assert.equal(V.LINK_SENDEN_FUER_AUSZUEGE, true);   // L1b, 19.10.2026: Oberfläche gebaut, Vorschau freigegeben, Beleg im Repo
   const kern = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  assert.equal((kern.match(/auszugLinkTeile\(/g) || []).length, 1, 'auszugLinkTeile wird im Kern noch nirgends aufgerufen');
+  // die Definition, antwortLinkTeile und der Anlass-Auszug (tests/link-senden-antwort.test.js)
+  assert.equal((kern.match(/auszugLinkTeile\(/g) || []).length, 3, 'auszugLinkTeile hat einen Aufrufer mehr als geprüft');
 });
 
 test('[Link senden·Auszug·Rot-Beweis] ein Text-Umweg veränderte eine PDF: die Gleichheitsprobe fiele', () => {

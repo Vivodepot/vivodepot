@@ -42,8 +42,10 @@ test('[A479·Vorbedingung] Gegenprobe: der Kern selbst liest datumsformat/dezima
     assert.ok(!new RegExp('\\.' + regel + '\\b').test(KERN_QUELLE),
       'der Kern liest `.' + regel + '` jetzt doch — die A479-Grenze ist überholt');
   }
-  assert.ok(!/textsatzRegeln\(\)\.waehrung/.test(KERN_QUELLE),
-    'der Kern liest `textsatzRegeln().waehrung` jetzt doch — die A479-Grenze ist überholt');
+  // U2-ADR-480: der Kern liest die Währung an GENAU einer Stelle, `textsatzWaehrung()` — die Lese-App kennt keine
+  // Zusammenstellung und liest keine Währung. Jeder andere Leser ist rot (dasselbe Werkzeug wie tests/waehrung-fest.test.js).
+  assert.deepEqual(require('../tools/waehrung-fest-erheben.js').leserFinden(KERN_QUELLE), [],
+    'der Kern liest `textsatzRegeln().waehrung` außerhalb von textsatzWaehrung() — die A479-Grenze ist überholt');
 });
 
 /* ══ Die Verdrahtung — am selben Trichter wie der Kern am selben Ladeschritt ══ */
@@ -92,7 +94,7 @@ test('[A479·Rot 2] textsatzRegeln() liefert die Modul-Regel gemischt mit dem ei
   const regeln = L.textsatzRegeln();
   assert.equal(regeln.sprachkennung, 'fr-FR', 'die Modul-Regel gewinnt');
   assert.equal(regeln.schreibrichtung, 'ltr', 'ungenannte Regeln bleiben eingebaut');
-  assert.equal(regeln.waehrung, 'EUR', 'auch die vier wirkungslosen Regeln bleiben im Objekt (wie im Kern)');
+  assert.equal(regeln.waehrung, undefined, 'der eingebaute Satz trägt keine Währung mehr (U2-ADR-480, wie im Kern)');
 });
 
 test('[A479] eine ungültige regeln-Zeile verwirft NUR sich selbst, nicht das Modul', () => {

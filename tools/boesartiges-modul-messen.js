@@ -80,7 +80,8 @@ function messen(V, d) {
   /* ══ 2 · NUTZLAST AN UND ÜBER DER GRÖSSENGRENZE ════════════════════════════
      23.08.2026 (Posten 2, „Modulprüfung schließen"): die Grenze ist verdrahtet, 512 KB. Die
      drei Angriffswerte (1/8/32 MB) liegen alle darüber und dienen jetzt als Zusage, nicht mehr
-     als offene Messung; `0.1` MB (~100 KB) ist die Positivkontrolle darunter. */
+     als offene Messung; `0.1` MB (~100 KB) ist die Positivkontrolle darunter. Seit U2-ADR-513
+     (22.10.2026) gilt für Sprachmodule 1 MiB; 1 MB Text plus Hülle liegt knapp darüber. */
   raus.groesse = [];
   for (const mb of [0.1, 1, 8, 32]) {
     const r = ein({ modulTyp: 'textsatz', moduleVersion: 1, sprache: 'g' + mb,

@@ -482,6 +482,6 @@ function ausgabeZeilen(r, { nurFehlt, nurAusgenommen, zweigAusgenommen, arbeitsb
 if (require.main === module) main();
 
 module.exports = {
-  git, GIT_ZEITGRENZE_MS, pruefen, einordnen, patchIds, ausnahmenLesen, zukunftsZweigeLesen,
+  git, GIT_ZEITGRENZE_MS, pruefen, einordnen, patchIds, dateienRueckwaerts, zeilenAnteil, ausnahmenLesen, zukunftsZweigeLesen,
   schnappschussSchreiben, schnappschussLesen, KANDIDAT_MUSTER, ausgabeZeilen, ursachenZeile, arbeitsbaeumeJeZweig, zweigHinweis, zweigPruefen, LANDEZIELE, APP_ARBEITSBAUM, URTEILE,
 };

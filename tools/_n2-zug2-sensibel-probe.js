@@ -18,7 +18,8 @@ const { ladeKern } = require(path.join(__dirname, '..', 'tests', 'load-kern.js')
 (async () => {
   let inhalt = null;
   function FakeBlob(parts) { inhalt = (parts || []).join(''); }
-  const { V, document } = ladeKern({ Blob: FakeBlob });
+  // backen: auch über KERN_HTML_PATH (der Mutant) das Standard-Produkt — das nackte Gerüst zeigt keinen Bereich und baut keinen Gesundheitsexport.
+  const { V, document } = ladeKern({ Blob: FakeBlob, backen: true });
   await V.depotAnlegen('probe-pw');
   V.akteurSelbstErklaeren('Probe');
   V.sektorFeldSetzen('identity', 'givenName', 'Probe');

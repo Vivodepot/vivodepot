@@ -1,0 +1,95 @@
+{
+  "modulTyp": "rechtsraum",
+  "rechtsraum": [
+    "GB-ENG",
+    "GB-WLS"
+  ],
+  "name": {
+    "de": "England und Wales",
+    "en": "England and Wales"
+  },
+  "moduleVersion": 1,
+  "sprache": "en",
+  "anbieterId": "vivodepot",
+  "quelle": {
+    "behoerde": "Office of the Public Guardian",
+    "titel": "LP1F Lasting power of attorney: property and financial affairs (08.25); LP1H Lasting power of attorney: health and welfare (08.25)",
+    "lizenz": "Open Government Licence v3.0",
+    "lizenzAdresse": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+    "url": "https://www.gov.uk/government/publications/lasting-power-of-attorney-forms",
+    "stand": "08.25",
+    "abgerufen": "2026-10-18"
+  },
+  "typen": {
+    "enduring-power-of-attorney": {
+      "katalogVersion": 1,
+      "wortlaut": null,
+      "formvorschriften": {
+        "paragraf": "Mental Capacity Act 2005, Schedule 1 paragraph 1(1)(a)",
+        "formulare": [
+          "LP1F",
+          "LP1H"
+        ],
+        "onlineDienst": "https://www.lastingpowerofattorney.service.gov.uk",
+        "regeln": [
+          {
+            "text": "Sections 9, 10 and 11 were signed in order. Section 9 must have been signed first, then section 10, then section 11.",
+            "fundstelle": "LP1F/LP1H, checklist"
+          },
+          {
+            "text": "The witness must not be an attorney or replacement attorney appointed under this LPA, and must be aged 18 or over.",
+            "fundstelle": "LP1F/LP1H, section 9"
+          },
+          {
+            "text": "A certificate provider can’t be one of the attorneys.",
+            "fundstelle": "LP1F/LP1H, section 10"
+          },
+          {
+            "text": "Before the LPA can be used, it must be registered by the Office of the Public Guardian (OPG).",
+            "fundstelle": "LP1F/LP1H, Register your LPA"
+          },
+          {
+            "text": "Applying to register an LPA costs £92 unless you get a reduction or exemption.",
+            "fundstelle": "https://www.gov.uk/power-of-attorney",
+            "abgerufen": "2026-10-18"
+          },
+          {
+            "text": "You’ll need to fill in form LPA120 and include it with your application.",
+            "fundstelle": "LP1F/LP1H, section 14",
+            "formularAdresse": "https://assets.publishing.service.gov.uk/media/69e6434584ac36aaf2cc9307/20260420-lpa120-get-help-with-paying-lpa-fees.pdf",
+            "formularFassung": "2026-04-20",
+            "abgerufen": "2026-10-18"
+          },
+          {
+            "text": "A lasting power of attorney is not created unless— … (b) an instrument conferring authority of the kind mentioned in subsection (1) is made and registered in accordance with Schedule 1",
+            "fundstelle": "Mental Capacity Act 2005, section 9(2)(b)",
+            "uri": "https://www.legislation.gov.uk/ukpga/2005/9/section/9",
+            "abgerufen": "2026-10-18"
+          },
+          {
+            "text": "An instrument which— (a) purports to create a lasting power of attorney, but (b) does not comply with this section, section 10 or Schedule 1, confers no authority.",
+            "fundstelle": "Mental Capacity Act 2005, section 9(3)",
+            "uri": "https://www.legislation.gov.uk/ukpga/2005/9/section/9",
+            "abgerufen": "2026-10-18"
+          },
+          {
+            "text": "Where a lasting power of attorney authorises the donee (or, if more than one, any of them) to make decisions about P's personal welfare, the authority— (a) does not extend to making such decisions in circumstances other than those where P lacks, or the donee reasonably believes that P lacks, capacity",
+            "fundstelle": "Mental Capacity Act 2005, section 11(7)(a)",
+            "uri": "https://www.legislation.gov.uk/ukpga/2005/9/section/11",
+            "abgerufen": "2026-10-18",
+            "formular": "LP1H"
+          }
+        ]
+      },
+      "fristenVorrang": null,
+      "zweck": [
+        "vermoegenssorge",
+        "gesundheitssorge"
+      ],
+      "rechtsgrundlage": {
+        "paragraf": "Mental Capacity Act 2005, section 9",
+        "uri": "https://www.legislation.gov.uk/ukpga/2005/9/section/9"
+      }
+    }
+  }
+}

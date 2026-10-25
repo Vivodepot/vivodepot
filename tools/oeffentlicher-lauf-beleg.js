@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./lib/schalter-pruefen.js').schalterPruefen(module);   // --help und unbekannte Schalter halten an, bevor etwas läuft (22.10.2026)
 /* ═════════════════════════════════════════════════════════════════
    oeffentlicher-lauf-beleg.js — die öffentliche CI, vorher im öffentlichen Klon gefahren, als Beleg je Baum (05.10.2026)
    ─────────────────────────────────────────────────────────────────

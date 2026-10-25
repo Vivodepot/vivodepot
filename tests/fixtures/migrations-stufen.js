@@ -165,7 +165,7 @@ const STUFEN = [
     nachher: (d) => d.sektoren.mobility.vehicles[0].registrationPlate === 'VW Golf'
                  && !('auto1' in d.sektoren.mobility)
                  && d.sektoren.finance.creditCards[0].providerLast4Digits === 'Visa Sparkasse'
-                 && d.sektoren.identity.pets[0].petNameSpecies === 'Felix, Katze'
+                 && d.sektoren.pets.pets[0].petNameSpecies === 'Felix, Katze'   // der Umzug U2-ADR-479 läuft nach allen Stufen: Ziel ist pets.pets
                  && d.sektoren.personal.personalLettersWordsToPeople[0].words === 'Liebe Anna, …'
                  && d.sektoren.housing.furtherHomes[0].streetHouseNumber === 'Seestraße 12' },
 
@@ -1122,6 +1122,19 @@ const STUFEN = [
                  && d.sektoren.advanceCare.provisionInstruments[0].storageLocation === 'beim Notar, Hauptstraße 5, 80331 München'
                  && !('storageStreet' in d.sektoren.advanceCare.provisionInstruments[0])
                  && !('storageCity' in d.sektoren.advanceCare.provisionInstruments[0]) },
+  { nach: 93, was: 'Staatsangehörigkeit aus der amtlichen Liste des Rechtsraum-Templates (U2-ADR-482, 04.10.2026): neue '
+                 + 'Datenform [{liste, code}]; die Stufe schreibt nichts, ein Freitext bleibt wörtlich stehen und wird nie '
+                 + 'abgebildet. Ausführlich: tests/schema-93-staatsangehoerigkeit.test.js.',
+    baue: () => basis(92, sek('identity', { givenName: 'Erika', nationality: 'deutsch, türkisch' })),
+    vorher:  (d) => d.sektoren.identity.nationality === 'deutsch, türkisch',
+    nachher: (d) => d.schemaVersion >= 93 && d.sektoren.identity.nationality === 'deutsch, türkisch' },
+  { nach: 94, was: 'Tiere als eigener Bereich pets im Cluster Alltag (U2-ADR-479, 18.10.2026): die Liste identity.pets zieht samt '
+                 + 'Registern nach pets.pets, Einträge bytegleich; Kreise mit identity bekommen pets dazu. Ausführlich: tests/haustiere-eigener-bereich.test.js.',
+    baue: () => basis(93, sek('identity', { pets: [{ id: 't1', petNameSpecies: 'Mira, Katze' }] })),
+    vorher:  (d) => d.sektoren.identity.pets[0].petNameSpecies === 'Mira, Katze',
+    nachher: (d) => d.schemaVersion >= 94
+                 && d.sektoren.pets.pets[0].petNameSpecies === 'Mira, Katze'
+                 && !('pets' in d.sektoren.identity) },
 ];
 
 module.exports = { STUFEN, basis };

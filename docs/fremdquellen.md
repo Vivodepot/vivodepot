@@ -275,6 +275,66 @@ nächsten Prüfer nicht, WORAUF er achten soll. Ein benannter Anlass tut das.
   — ODER wenn Nutzungsbedingungen für das Zeichen erscheinen (auf der Programmseite, im Vertrag oder
   als Datei im Kit). Heute stehen keine fest; die Frage nach Werbung außerhalb des Produkts ist offen.
 
+### `opg-lpa-formulare-lp1f-lp1h`
+
+- **Titel:** LP1F Lasting power of attorney: property and financial affairs; LP1H Lasting power of
+  attorney: health and welfare (je mit Registrierungsteil, Abschnitte 1–15)
+- **Herausgeber:** Office of the Public Guardian (OPG), England und Wales
+- **Adresse:** Publikationsseite https://www.gov.uk/government/publications/lasting-power-of-attorney-forms (seit
+  20.04.2026; die frühere Adresse …/make-a-lasting-power-of-attorney leitet nur noch weiter, Weg:
+  `curl -s https://www.gov.uk/api/content/government/publications/make-a-lasting-power-of-attorney` → `document_type: redirect`);
+  die PDFs:
+  https://assets.publishing.service.gov.uk/media/68e51ea8dadf7616351e4ee4/102025-LP1F-Lasting-power-of-attorney-financial-decisions.pdf
+  und
+  https://assets.publishing.service.gov.uk/media/68a83d5d3a052c9c504c8d8f/20250822-LP1H-create-and-register-your-lasting-power-of-attorney.pdf
+- **Erfasster Stand:** Formularfassung 08.25 (Fußzeile jeder Seite), abgerufen 02.10.2026, am 18.10.2026 unter denselben
+  Adressen byte-gleich bestätigt (Weg: `curl -s https://www.gov.uk/api/content/government/publications/lasting-power-of-attorney-forms`
+  → `details.attachments`, dann `shasum -a 256` der PDFs gegen die Pins). SHA-256 der PDFs:
+  LP1F `fcc3ffb8d041d8bff67fb073733549b07dd9fa6a29ee69abc9797f49c30b1f71`,
+  LP1H `2978620918617478a7501b9cee99dd9be7d4b806a51d0e8ab5ff42671a17f599`.
+- **Lizenz:** Open Government Licence v3.0 (gov.uk; die PDFs tragen keinen eigenen Hinweis). Pflicht ist die
+  Nennung, wörtlich: „Contains public sector information licensed under the Open Government Licence v3.0.“ Sie
+  steht in jeder erzeugten Übertragungsliste. Kein Anschein amtlichen Status, keine Logos.
+- **Prüfweg (nicht die PDF-Metadaten):** die PDF unter der Adresse oben herunterladen und
+  `node tools/lpa-formular-wortlaut-pruefen.js --dokument <pdf>` fahren: die SHA-256 muss den Pin treffen und der
+  extrahierte Text gleich `tests/fixtures/opg/LP1F-08-25.txt` bzw. `LP1H-08-25.txt` sein. Im Repo liegen nur
+  diese Texte, die PDFs nicht.
+- **Wo verwendet:** `tools/lpa-england-wales/` (Rechtsraum-Modul, Bereich, Übertragungsliste; erzeugt von
+  `tools/lpa-england-wales-erzeugen.js`), der Wortlaut-Wächter `tools/lpa-formular-wortlaut-pruefen.js`
+  (`LPA_FORMULARE`), U2-ADR-477. In keinem der vier Produkte ab Werk; andockbar über den Einlassweg (Selbst-Einlass).
+- **Dazu, ohne gepinnte Kopie:** die Gebühr „Applying to register an LPA costs £92 unless you get a reduction or
+  exemption." von https://www.gov.uk/power-of-attorney, abgerufen 18.10.2026 — steht im Modul nur mit Adresse und
+  Abrufdatum. Das Formular LPA120 (Fassung 20.04.2026), auf das Abschnitt 14 verweist, nur mit Adresse:
+  https://assets.publishing.service.gov.uk/media/69e6434584ac36aaf2cc9307/20260420-lpa120-get-help-with-paying-lpa-fees.pdf
+  (abgerufen 18.10.2026, kein Zitat daraus). Drei Sätze aus dem Mental Capacity Act 2005 (s. 9(2)(b), s. 9(3),
+  s. 11(7)(a)) von legislation.gov.uk, je mit Adresse der Norm und Abrufdatum 18.10.2026 (Open Government Licence).
+  Keine Zahl für die Wartefrist nach LP3: die amtlichen Texte nennen drei und vier Wochen.
+- **Anlass:** wenn OPG eine neue Fassung von LP1F oder LP1H veröffentlicht (neue Fassungsangabe in der Fußzeile,
+  neue PDF-Adresse auf der Publikationsseite) — dann ist der Pin umzusetzen, nachdem jemand die neue Fassung
+  gelesen hat. Außerdem: das Inkrafttreten von s. 1 Powers of Attorney Act 2023 (Klausel mit Frist in
+  U2-ADR-477).
+
+---
+
+### `destatis-staatsangehoerigkeit`
+
+- **Titel:** Staatsangehörigkeit (Schlüssel der Staats- und Gebietssystematik)
+- **Herausgeber:** Statistisches Bundesamt (Destatis); Bezeichnungen nach dem Länderverzeichnis des Auswärtigen Amts
+- **Adresse:** XRepository, `urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit`;
+  Bezug: `curl -sL https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit_2026-08-05:technischerBestandteilGenericode`
+- **Erfasster Stand:** Fassung 2026-08-05, 211 Einträge, SHA-256 der Genericode-Datei gepinnt in
+  `tools/staatsangehoerigkeit-codeliste-erzeugen.js` (abgerufen 04.10.2026). Die Fixture
+  `tests/fixtures/destatis-staatsangehoerigkeit-2026-08-05.gc.xml` ist diese Datei byte-gleich (am 05.10.2026 erneut über die
+  Bezugs-URL geladen: derselbe SHA-256, 249 296 Bytes); die Probe in `tests/staatsangehoerigkeit-codeliste.test.js` hält den Pin.
+- **Lizenz:** XRepository-Feld leer, Bezugsort ohne eigene Angabe; Grundregel des DESTATIS-Impressums:
+  „© Statistisches Bundesamt (Destatis), 2026 Vervielfältigung und Verbreitung, auch auszugsweise, mit
+  Quellennachweis gestattet.“ (destatis.de/DE/Service/Impressum, abgerufen 04.10.2026)
+- **Wo verwendet:** `tools/rechtsraum-de-modul.json` (`codeListen`, Bindung `felder['identity.nationality']`) —
+  das Template des deutschen Rechtsraums, nicht das Gerüst. Nachsehen:
+  `node tools/staatsangehoerigkeit-codeliste-erzeugen.js --check`
+- **Anlass:** wenn XRepository eine neue Fassung der Codeliste veröffentlicht (neues Datum im URN-Suffix) —
+  dann Pin nachziehen und neu erzeugen. Ebenso, wenn DESTATIS eine eigene Lizenz an Liste oder Bezugsort setzt.
+
 ---
 
 ## Was NICHT in diesem Register steht, mit Begründung

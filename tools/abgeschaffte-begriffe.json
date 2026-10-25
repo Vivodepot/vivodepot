@@ -1,0 +1,66 @@
+{
+ "zweck": "Funktionen und Begriffe, die es in der Anwendung nicht mehr gibt. Kein Text im DE- oder EN-Textsatz und keine Render-Aufnahme darf auf sie verweisen; wer eine Funktion abschafft, trägt sie hier ein. Geprüft von tests/abgeschaffte-begriffe.test.js. Muster als Regex (Flag i), je Eintrag mit Datum der Abschaffung und Grund. Ein Eintrag kann `ausserWenn` (Regex) tragen: trifft es den ganzen Text, gilt er nicht als Verweis; `ausserWennKennung` (Regex) nimmt Schlüssel aus (zitierter amtlicher Wortlaut); `nurEnglisch` prüft nur den englischen Satz. Ausnahmen je Text stehen gebunden an Schlüssel UND exakten Wortlaut in `ausnahmen`.",
+ "geltung": "Vivodepots eigener Wortlaut: das Gerüst und die Übersetzung deutscher Instrumente, also der DE- und EN-Textsatz, der IPS-Begleittext und die Render-Aufnahmen. Module eines anderen Rechtsraums liest das Register nicht (gehalten von tests/abgeschaffte-begriffe.test.js, [Abgeschafft·Geltung]): dort ist ein Eigenname wie „Lasting Power of Attorney“ (England und Wales, Mental Capacity Act 2005) richtig, auch wenn derselbe Ausdruck als Übersetzung der deutschen Vorsorgevollmacht abgeschafft ist.",
+ "begriffe": [
+  {
+   "begriff": "Bearbeiten-Modus / Lesemodus",
+   "seit": "2026-06-06",
+   "grund": "Umbau „Lesemodus abschaffen, immer editierbar“: jeder Bereich ist immer bearbeitbar, es gibt keinen Modus mehr, in den man wechselt.",
+   "muster": [
+    "\\bBearbeit(?:en|ungs)[- ]?[Mm]odus",
+    "\\bLese[- ]?[Mm]odus",
+    "\\bedit(?:ing)?[- ]mode\\b",
+    "\\bread(?:ing)?[- ]mode\\b",
+    "\\bread[- ]only[- ]mode\\b"
+   ],
+   "rot": [
+    "Legen Sie in einem Bereich ein Dokument an (z. B. im Bearbeiten-Modus unter „Dokumente“), dann erscheint es hier mit seinem Stand.",
+    "Add a document in any area (for example in edit mode under “Documents”), and it will appear here with its status."
+   ]
+  },
+  {
+   "begriff": "alte englische Vorsorgebegriffe",
+   "seit": "2026-10-18",
+   "grund": "Amtlich nach der Bundesnotarkammer (Zentrales Vorsorgeregister): enduring power of attorney, care directive, living will; Gericht nach der amtlichen BGB-Übersetzung: custodianship court. Entschieden am 03.10.2026, umgesetzt am 18.10.2026. Ausgenommen sind der zitierte BMJ-Wortlaut (U2-ADR-343) und der Eigenname des Registers („Central Register of Lasting Powers of Attorney“, Mehrzahl, trifft kein Muster).",
+   "nurEnglisch": true,
+   "muster": [
+    "\\badvance (?:healthcare )?directive\\b",
+    "\\blasting power of attorney\\b",
+    "\\bguardianship directive\\b",
+    "\\bcustodianship directive\\b",
+    "\\bcare court\\b"
+   ],
+   "ausserWennKennung": "^dok:(vorsorgevollmacht|betreuungsverfuegung)",
+   "rot": [
+    "Content of the advance directive discussed with the authorized person",
+    "A lasting power of attorney can make this appointment unnecessary.",
+    "8. Guardianship directive",
+    "Custodianship directive (Betreuungsverfügung)",
+    "Care court"
+   ],
+   "ausnahmen": [
+    {
+     "schluessel": "pro-vertretung-vollmachten.tpl_patientenverfuegung_ablageort.label",
+     "satz": "Advance healthcare directive — filing location",
+     "grund": "Feldname der Pro-Vorlage (tools/templates/…-vorlage-en.json); aus dem Feldnamen entsteht die Kennung, eine Änderung gehört in einen eigenen Vorlagen-Posten mit Zeremonie."
+    }
+   ]
+  },
+  {
+   "begriff": "deutscher Vorsorgebegriff in Klammern im englischen Text",
+   "seit": "2026-10-18",
+   "grund": "Ein deutscher Rechtsbegriff im englischen Produkttext legt das Gerüst auf ein Land fest. Die englischen amtlichen Bezeichnungen (living will, enduring power of attorney, care directive, custodianship court) stehen allein, ohne den deutschen Namen in Klammern.",
+   "nurEnglisch": true,
+   "muster": [
+    "\\((?:Patientenverfügung|Betreuungsverfügung|Vorsorgevollmacht|Betreuungsgericht)\\)"
+   ],
+   "ausserWennKennung": "^dok:(vorsorgevollmacht|betreuungsverfuegung)",
+   "rot": [
+    "Living will (Patientenverfügung)",
+    "Enduring power of attorney (Vorsorgevollmacht)",
+    "Care directive (Betreuungsverfügung)",
+    "Custodianship court (Betreuungsgericht)"
+   ]
+  }
+ ]
+}

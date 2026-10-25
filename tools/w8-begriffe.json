@@ -1,0 +1,15 @@
+{
+ "_zweck": "Begriffsliste für W-8, Signal (c) „sinngleiche Beschriftung“ (tools/w8-doppelerfassung-pruefen.js, Befund W8-NUR-GLEICHE-BESCHRIFTUNG, 24.10.2026). `synonyme`: Wortformen gleicher Bedeutung je Begriff. `umfasst`: ein Oberbegriff und die Wortformen, die er einschließt; ein Fund entsteht zwischen Ober- und Unterbegriff, nicht zwischen zwei Unterbegriffen (Kunden neben Lieferanten ist keine Doppelerfassung). Ein Stern steht für beliebige Buchstaben am Anfang oder Ende eines Wortes. Ein Begriff gehört nur hierher, wenn zwei Felder mit ihm in einem Bereich denselben Sachverhalt erfassen können.",
+ "synonyme": {
+  "benachrichtigen": ["benachrichtig*", "informier*"],
+  "post": ["post", "postfach", "postfächer", "briefpost"],
+  "kommunikation": ["telefon*", "kommunikation*"],
+  "kammer": ["*kammer", "*kammern"]
+ },
+ "umfasst": {
+  "geschaeftspartner": {
+   "ober": ["geschäftspartner*"],
+   "unter": ["kunde", "kunden", "kundin*", "lieferant*", "dienstleister*", "kooperationspartner*"]
+  }
+ }
+}

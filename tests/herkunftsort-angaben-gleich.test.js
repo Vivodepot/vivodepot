@@ -72,7 +72,8 @@ test('[Herkunftsort-Angaben] der Konfektionierer liest DIESELBE Schlüsselmenge 
   const kern = lese('vivodepot.html');
   const a = L.angabenLesen(kern);
   assert.ok(a, 'der Kern trägt den erzeugten Block HERKUNFTSORT_ANGABEN nicht');
-  assert.deepEqual(Object.keys(a.schluessel).sort(), ['herkunftLizenzhinweis', 'herkunftPoweredBy']);
+  // ausgabeErstelltMit seit dem U2-ADR-400-Nachtrag vom 18.10.2026: „Erstellt mit der Software {urheberin}“ auf jeder Ausgabe.
+  assert.deepEqual(Object.keys(a.schluessel).sort(), ['ausgabeErstelltMit', 'herkunftLizenzhinweis', 'herkunftPoweredBy']);
   const modul = (texte) => [{ modulTyp: 'textsatz', sprache: 'xx', texte }];
   assert.deepEqual(L.rezeptPruefen(kern, modul({ 'strings:herkunftPoweredBy.text': 'Made by {urheberin}' })), []);
   assert.equal(L.rezeptPruefen(kern, modul({ 'strings:herkunftPoweredBy.text': 'Made by someone' })).length, 1);

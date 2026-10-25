@@ -95,6 +95,12 @@ function waehrungenImProdukt() {
   }
   const textsatz = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'textsatz-de-modul.json'), 'utf8'));
   if (textsatz.regeln && textsatz.regeln.waehrung) raus.push({ wo: 'tools/textsatz-de-modul.json regeln.waehrung', code: textsatz.regeln.waehrung });
+  // U2-ADR-480: die Währung steht im Rechtsraum-Template, nicht mehr im Gerüst.
+  const rechtsraum = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'rechtsraum-de-modul.json'), 'utf8'));
+  if (rechtsraum.regeln && rechtsraum.regeln.waehrung) raus.push({ wo: 'tools/rechtsraum-de-modul.json regeln.waehrung', code: rechtsraum.regeln.waehrung });
+  // Die Codeliste iso4217 (Befund WAEHRUNG-FEST-EUR): jeder Code, den sie weitergibt.
+  const codeliste = JSON.parse(fs.readFileSync(path.join(REPO, 'code-listen', 'iso4217.json'), 'utf8'));
+  for (const d of codeliste.daten || []) raus.push({ wo: 'code-listen/iso4217.json', code: d.code });
   for (const datei of dateienUnter(NACHWEISE, /camt.*\.xml$/i)) {
     for (const m of fs.readFileSync(datei, 'utf8').matchAll(/Ccy="([^"]*)"|<Ccy>([^<]*)<\/Ccy>/g)) raus.push({ wo: path.relative(REPO, datei) + ' Ccy', code: m[1] || m[2] });
   }

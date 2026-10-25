@@ -66,7 +66,8 @@ test('Zug 6: eine Anfrage kommt an ihrem Ort an — mit Grundlage vor der Antwor
   // Was fehlt, ist benannt — und an Ort und Stelle füllbar.
   const fehlend = page.locator('[data-anfrage-fehlt]');
   expect(await fehlend.count(), 'die verlangten Angaben fehlen im frischen Depot').toBeGreaterThan(0);
-  await page.fill('[data-anfrage-fuellen="health.insuranceNumber"]', 'A123456780');
+  // Seit dem Befund ANFRAGE-NACHTRAGEN-CODELISTE trägt der Rahmen die Kennung und darin steht der Editor des Feldtyps.
+  await page.fill('[data-anfrage-fuellen="health.insuranceNumber"] [data-edit]', 'A123456780');
   await page.keyboard.press('Tab');
   await page.waitForTimeout(250);
   await expect(page.locator('[data-anfrage-fehlt="health.insuranceNumber"]'),
@@ -100,9 +101,10 @@ test('Zug 7: eine Anfrage in einer frischen Anwendung führt IN ein Depot und du
   await fsaStandardAttrappeEinrichten(page);
   await page.goto(alsLink());
 
-  // Die Anfrage steht vor dem Depot — und sagt, wie viele Angaben sie verlangt.
-  await page.waitForSelector('#anfrage-einstieg-zahl', { state: 'visible' });
-  await expect(page.locator('#anfrage-einstieg-zahl'), 'drei Angaben, nicht 178').toHaveText('3');
+  // Die Anfrage steht vor dem Depot — sie nennt die Stelle und die Angaben mit Namen (Studio W3), nicht als nackte Zahl.
+  await page.waitForSelector('#anfrage-einstieg-angaben', { state: 'visible' });
+  await expect(page.locator('#anfrage-einstieg-angaben li'), 'drei Angaben, nicht 178').toHaveCount(3);
+  await expect(page.locator('#modal-inhalt')).toContainText('Pflegeheim Sonnenhof');
   await page.click('#m-ok');
 
   // Von hier der GEWÖHNLICHE Anlege-Weg — kein zweiter.

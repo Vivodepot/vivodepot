@@ -4,7 +4,7 @@
   "werte": {
     "dateiKennung": { "wert": "VIVODEPOT", "kern": "DATEI_MAGIC" },
     "dateiKopfVersionen": { "wert": [1], "kern": "DATEI_MAGIC_VERSION" },
-    "schemaVersionAktuell": { "wert": 92, "kern": "SCHEMA_VERSION_AKTUELL" },
+    "schemaVersionAktuell": { "wert": 94, "kern": "SCHEMA_VERSION_AKTUELL" },
     "einheitStufeBytes": { "wert": 1024, "kern": "EINHEIT_STUFE_BYTES" },
     "geheimPolsterZeichen": { "wert": 512, "kern": "ZERFALL_GEHEIM_POLSTER" },
     "umschlagFelderBasis": { "wert": ["kryptoVersion", "depotUUID", "pbkdf2", "depotSalt", "iv", "ct", "einheiten", "umschlagTabelle", "angehoerigenOrt", "wiederherstellung", "stand_marke", "gespeichert_am"], "kern": "UMSCHLAG_FELDER_BASIS" },

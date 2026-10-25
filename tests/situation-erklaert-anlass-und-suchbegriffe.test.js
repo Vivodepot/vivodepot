@@ -11,6 +11,17 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { ladeKern } = require('./load-kern.js');
+/* Gesamtsicht der Alltagswörter für diese Probe (19.10.2026): der Kern liest je Kennung über _sucheAlltag; die Liste der Kennungen
+   kommt aus dem Sprachmodul des Produkts (_sprachBasis). Keine Lesehilfe im Kern, die nur Proben erreichen (A253). */
+const alltagGesamt = (V) => {
+  const raus = {};
+  for (const k of Object.keys(V._sprachBasis())) {
+    if (!k.startsWith('suche:alltag.')) continue;
+    const w = V._sucheAlltag(k.slice('suche:alltag.'.length));
+    if (w) raus[k.slice('suche:alltag.'.length)] = w;
+  }
+  return raus;
+};
 
 const GRUND = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'anlaesse-vor-umzug-2026-09-19.json'), 'utf8')).kacheln;
 const ZEHN = ['geburt', 'volljaehrig', 'hauskauf', 'notar', 'arzt', 'einfach-so', 'krankenhaus', 'pflegeheim', 'erbfall', 'todesfall-uebernahme'];
@@ -68,9 +79,10 @@ test('[Template → Kern] die Suchbegriffe einer Situation stehen im Template, n
   const notar = P._sucheKatalogAufbauen().find((x) => x.quelle === 'situation' && /Notar/.test(x.label));
   assert.deepEqual(Array.from(notar.alltag), ['Testament']);
   // … und der Kern führt keinen Eintrag für eine Situations-ID mehr.
-  const quelle = fs.readFileSync(path.join(__dirname, '..', 'vivodepot.html'), 'utf8');
-  const woerterbuch = quelle.slice(quelle.indexOf('const SUCHE_ALLTAGSBEGRIFFE = Object.freeze({'), quelle.indexOf('});', quelle.indexOf('const SUCHE_ALLTAGSBEGRIFFE = Object.freeze({')));
-  for (const id of ZEHN) assert.ok(!new RegExp("'" + id + "'\\s*:").test(woerterbuch), id + ' steht nicht im Kern-Wörterbuch');
+  // Seit 18.10.2026 stehen die Alltagswörter im Textsatz (suche:alltag.<id>), nicht mehr im Kern; keine Situations-ID trägt dort welche.
+  const ids = Object.keys(alltagGesamt(P));
+  assert.ok(ids.length > 0, 'Vorbedingung: die Alltagswörter sind erreichbar');
+  for (const id of ZEHN) assert.ok(!ids.includes(id), id + ' trägt keine Alltagswörter im Textsatz');
 });
 
 test('[Gegenprobe] ungültiger anlass-Eintrag: keine Kachel — und die Situation selbst bleibt', () => {

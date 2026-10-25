@@ -209,7 +209,7 @@ describe('[Unsichtbarkeit] derselbe Inhalt über den neuen Träger', () => {
       cmp('felder', dA.map(schluessel), dB.map(schluessel));
     }
 
-    assert.equal(geprueft, 13, 'alle dreizehn nativen Bereiche müssen gemessen worden sein');
+    assert.equal(geprueft, 14, 'alle vierzehn nativen Bereiche müssen gemessen worden sein');   // 13 → 14 (U2-ADR-479: Tiere)
     assert.ok(felddefs > 450, 'die Messung muss die volle Feldmenge begangen haben, gezählt: ' + felddefs);
     assert.deepEqual(abweichungen, [],
       'DIE ZAHL, AN DER STUFE 1 HÄNGT: jede Abweichung hier heißt, dass ein migrierter Bereich '

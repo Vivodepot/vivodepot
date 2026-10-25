@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!-- Erfundener Gerüst-Ausschnitt für tools/waehrung-fest-erheben.js. Kein Produktcode; jede Zeile ist ein benannter Fall. -->
+<html lang="de">
+<script type="application/json" id="modul-nutzlast">{"waehrung":"EUR","beispiel":"480 EUR"}</script>
+<script>
+/* SEKTOREN:BEGIN */
+const SEKTOREN = [{ id: 'housing', beispiel: '650 EUR warm' }];
+/* SEKTOREN:END */
+// Ein Kommentar mit ' EUR' zählt nicht.
+const TEXTSATZ_REGELN_EINGEBAUT = Object.freeze({
+  dezimaltrenner: ',',
+  waehrung: 'EUR',
+});
+const IMPORT_FORMATE = Object.freeze([
+  { id: 'steuerformat', kategorie: 'sektor',
+    waehrung: 'EUR',
+    parse: (t) => t },
+]);
+function betragZeigen(b) {
+  return b.wert + (b.waehrung ? ' ' + b.waehrung : ' EUR');
+}
+const VORLAGE = { feldname: 'Vermögenswert (EUR)', feldtyp: 'zahl' };
+function textsatzRegeln() {
+  const raus = Object.assign({}, TEXTSATZ_REGELN_EINGEBAUT);
+  return raus;
+}
+</script>
+</html>

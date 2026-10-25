@@ -25,14 +25,20 @@ const VORNAME = 'Zwetschgenkern';
 const NACHNAME = 'Quittenmus';
 const PW = 'gesicherte-kopie-2026';
 
-/* Legt ein Depot an, zeigt den Bereich mit dem Namen und gibt den serialisierten Stand der Seite zurück. */
-async function offeneSeiteSichern(page, url) {
+/* Legt ein Depot an, zeigt den Bereich mit dem Namen und gibt den serialisierten Stand der Seite zurück. Pro zeichnet seit
+   24.10.2026 kein Deckblatt (U2-ADR-243 §9: kein Deckblatt-Foto, mit ihm entfällt der gezeichnete Name); dort steht der Name nur
+   im Feld, und die Vorbedingung prüft ihn dort. */
+async function offeneSeiteSichern(page, url, mitDeckblatt = true) {
   await h.oeffneApp(page, { url });
   await h.depotAnlegen(page, { name: VORNAME + ' ' + NACHNAME, pw: PW });
   await h.oeffneSektor(page, 'identity');
   await expect(page.locator('#app.an'), 'Vorbedingung: das Depot ist offen').toHaveCount(1);
+  if (!mitDeckblatt) {
+    const werte = await page.locator('#app input').evaluateAll((els) => els.map((e) => e.value));
+    expect(werte.includes(VORNAME), 'Vorbedingung: das Feld trägt den Namen (sonst prüft die Probe nichts)').toBe(true);
+  }
   const html = await page.content();
-  expect(html.includes(VORNAME), 'Vorbedingung: der gesicherte Stand trägt den Namen (sonst prüft die Probe nichts)').toBe(true);
+  if (mitDeckblatt) expect(html.includes(VORNAME), 'Vorbedingung: der gesicherte Stand trägt den Namen (sonst prüft die Probe nichts)').toBe(true);
   return html;
 }
 async function kopieOeffnen(browser, html, fn) {
@@ -53,7 +59,7 @@ async function kopieOeffnen(browser, html, fn) {
 for (const [slug, url] of [['privat-de', h.KERN_URL_PRIVAT_DE], ['pro-de', h.KERN_URL_PRO_DE]].filter(([s]) => h.baubar(s))) {
   test(`[Gesicherte Kopie] ${slug} · bei offenem Depot gesichert: die Kopie zeigt nur den Hinweis, kein Depot, keinen Wert, kein Eingabefeld`, async ({ page, browser }) => {
     test.setTimeout(120000);
-    const html = await offeneSeiteSichern(page, url);
+    const html = await offeneSeiteSichern(page, url, !slug.startsWith('pro-'));
     await kopieOeffnen(browser, html, async (kopie, fehler) => {
       await expect(kopie.locator('#vd-gesicherte-kopie'), 'der Hinweis steht da').toBeVisible({ timeout: 15000 });
       await expect(kopie.locator('#vd-gesicherte-kopie p[lang="de"]')).toContainText('Bitte löschen Sie diese Datei.');

@@ -46,7 +46,10 @@ test('[D43-E6] CSP-Kern: Inhalte-Netzpfad geschlossen, Marken-Härtung gesetzt',
   const csp = cspAus('vivodepot.html');
   assert.match(csp, /default-src 'none'/, 'default-src none');
   assert.match(csp, /connect-src 'none'/, 'KEIN Netz-Pfad für Inhalte/Depots/Schlüssel (ADR-066)');
-  assert.match(csp, /script-src [^;]*'unsafe-inline'/, 'inline-Skripte erlaubt (Single-File)');
+  // U2-ADR-470 (17.10.2026): Inline-Skripte nur noch per sha256, nicht mehr per 'unsafe-inline' (Exploit-Probe
+  // tests/konformitaet/csp-exploit.mjs; den genauen Abgleich Hash ↔ Block hält tests/csp-hashes-vertrauensregel.test.js).
+  assert.doesNotMatch(csp, /script-src [^;]*'unsafe-inline'/, 'kein unsafe-inline in script-src');
+  assert.match(csp, /script-src [^;]*'sha256-/, 'inline-Skripte per Hash erlaubt (Single-File)');
   assert.match(csp, /style-src [^;]*'unsafe-inline'/, 'inline-Styles erlaubt');
   assert.match(csp, /font-src [^;]*data:/, 'eingebettete data:-Schriften erlaubt');
   assert.match(csp, /img-src [^;]*data:/, 'eingebettete data:-Bilder erlaubt');

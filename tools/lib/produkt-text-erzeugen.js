@@ -133,6 +133,15 @@ const AB_WERK_REGIONEN = Object.freeze([
     nativerWert: 'null',
   },
   {
+    // 20.10.2026 (Fix b zu PRO-AUSSCHNITT-OHNE-BEREICHSDEFINITION): die Bereiche der Berufsmodule in Anzeigeform, in jedes
+    // Produkt; der Kern speist sie ein wie eine Mitschrift aus einer Datei, nie ab Werk (aus einem Ordner, der nicht hinausgeht; öffentlich fehlt die Datei).
+    modulTyp: 'bereicheBenennen',
+    kennung: 'AB_WERK_BEREICHE_BENENNEN',
+    begin: '/* AB_WERK_BEREICHE_BENENNEN:BEGIN */',
+    ende: '/* AB_WERK_BEREICHE_BENENNEN:END */',
+    nativerWert: 'null',
+  },
+  {
     modulTyp: 'branding',
     kennung: 'AB_WERK_BRANDING_PRODUKT',
     begin: '/* AB_WERK_BRANDING_PRODUKT:BEGIN */',

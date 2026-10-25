@@ -24,6 +24,10 @@ gleichlaufProben({
       formvorschriften: { paragraf: '§ 1' }, fristenVorrang: null, zweck: ['nachlass'] } } })],
     ['mit Bauplan', typ({ bauplan: [{ feld: { id: 'tpl_x', typ: 'text' }, frage: 'Frage?' }] })],
     ['mit Einlass-Marken', mit({ appVersion: 'v1', ungeprueft: true, eingelassenAm: '2026-09-26T00:00:00Z', anbieterId: 'a', anbieterIdGeprueft: false })],
+    // U2-ADR-477: der Geltungsbereich als Liste, Anzeigename (Feld `name`, U2-ADR-495) und Quelle
+    ['rechtsraum als Liste zweier Unterteilungen', mit({ rechtsraum: ['GB-ENG', 'GB-WLS'], name: { en: 'England and Wales' } })],
+    ['rechtsraum als Liste in anderer Reihenfolge und Schreibung', mit({ rechtsraum: ['GB-WLS', 'gb-eng'] })],
+    ['mit vollständiger Quelle', mit({ quelle: { behoerde: 'Office of the Public Guardian', titel: 'LP1F', url: 'https://www.gov.uk/government/publications/lasting-power-of-attorney-forms', lizenz: 'Open Government Licence v3.0', stand: '08.25' } })],
   ],
   negativ: [
     ['kein Objekt', null, 'kein-objekt'],
@@ -38,13 +42,25 @@ gleichlaufProben({
     ['typen leer', mit({ typen: {} }), 'typen'],
     ['einziger Typ ohne katalogVersion', typ({ katalogVersion: undefined }), 'typen'],
     ['Wortlaut ohne Sprache', typ({ wortlaut: 'Text' }), 'sprache'],
+    ['rechtsraum leere Liste', mit({ rechtsraum: [] }), 'rechtsraum'],
+    // Im DE-Produkt ist „DE“ auch als Listeneintrag reserviert (_rechtsraumCodeAbWerk, U2-ADR-504 § 3); das Schema verbietet es als Eintrag.
+    ['rechtsraum Liste mit DE', mit({ rechtsraum: ['DE'] }), 'reserviert'],
+    ['rechtsraum Liste mit DE neben anderem', mit({ rechtsraum: ['GB-ENG', 'de'] }), 'reserviert'],
+    ['rechtsraum Liste doppelt', mit({ rechtsraum: ['GB-ENG', 'GB-ENG'] }), 'rechtsraum'],
+    ['rechtsraum Liste mit Zahl', mit({ rechtsraum: [1] }), 'rechtsraum'],
+    ['rechtsraum Liste mit Eintrag falscher Form', mit({ rechtsraum: ['England'] }), 'rechtsraum'],
+    ['Quelle ohne Lizenz', mit({ quelle: { behoerde: 'OPG', titel: 'LP1F' } }), 'quelle'],
+    ['Quelle kein Objekt', mit({ quelle: 'OPG' }), 'quelle'],
+    ['Quelle mit leerer url', mit({ quelle: { behoerde: 'OPG', titel: 'LP1F', url: ' ', lizenz: 'OGL v3.0' } }), 'quelle'],
     ['Wortlaut, Sprache falscher Form', mit({ sprache: 'Deutsch', typen: { tpl_erbvertrag: { katalogVersion: 1, wortlaut: 'Text' } } }), 'sprache-form'],
   ],
   nurKern: {
+    rechtsraum: 'Doppelte Listeneinträge erkennt der Kern erst nach seiner Normalisierung (Großschreibung, „UK“ gelesen als „GB“); uniqueItems im Schema vergleicht die Rohwerte. Alle übrigen Ablehnungen von `rechtsraum` sieht das Schema selbst.',
     typen: 'Ob ein Typ-Schlüssel ohne tpl_-Präfix zulässig ist, entscheidet der eingebaute Katalog des jeweiligen Produkts (_rechtsraumTypBekannt) — das Schema kennt ihn nicht. Bleibt kein Typ übrig, lehnt der Kern ab.',
   },
   nurKernFaelle: [
     ['einziger Typ außerhalb von Katalog und tpl_-Namensraum', mit({ typen: { erbvertrag: { katalogVersion: 1 } } }), 'typen'],
+    ['Liste, die erst nach Normalisierung doppelt ist (UK wird GB)', mit({ rechtsraum: ['UK', 'GB'] }), 'rechtsraum'],
   ],
 });
 

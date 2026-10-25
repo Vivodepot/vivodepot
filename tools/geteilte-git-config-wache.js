@@ -52,6 +52,16 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync, spawnSync } = require('node:child_process');
 
+const FESTAUFWAND_HINWEIS_MS = 2000;
+/* Dateien, deren Prozess mehr als `grenze` ms über ihrer Testzeit lag, längste zuerst. Ohne zugeordnete Testzeit (0 ms) zählt
+   eine Datei nicht: ihre Tests entstehen über einen Helfer und werden ihm zugeordnet (Punkt 4 des Befundberichts). */
+function festaufwandUeber(wand, grenze) {
+  return Object.entries(wand || {})
+    .map(([datei, v]) => ({ datei, wand_ms: v.wand_ms, tests_ms: v.tests_ms, fest_ms: v.wand_ms - v.tests_ms }))
+    .filter((f) => f.tests_ms > 0 && f.fest_ms > grenze)
+    .sort((a, b) => b.fest_ms - a.fest_ms);
+}
+
 const REPO = path.join(__dirname, '..');
 
 /* Dieselbe Absicherung wie in jeder korrekten Aufrufstelle im Bestand
@@ -199,7 +209,12 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
   const Q = require('./lib/wackel-quarantaene.js');
   const quarantaene = temp ? Q.lesen(process.env.VD_WACKEL_QUARANTAENE) : null;
   const roteDatei = quarantaene ? path.join(require('node:os').tmpdir(), 'vd-rote-dateien-' + process.pid + '.txt') : null;
-  const envLauf = roteDatei ? { ...env, VD_ROTE_DATEIEN: roteDatei } : env;
+  /* FESTAUFWAND JE DATEI (19.10.2026, Befund SUITE-DAUER-WAECHST): der Reporter schreibt je Datei Wanduhrzeit und Testzeit
+     (tools/lib/datei-zeiten-reporter.mjs, VD_DATEI_WANDZEIT). Nach dem Lauf nennt die Wache jede Datei, deren Prozess mehr als
+     FESTAUFWAND_HINWEIS_MS über ihrer Testzeit lag — ein offener Zeitgeber oder ein schwerer Modulkopf. Noch ohne Abbruch:
+     Schwellenwert und Grundlinie folgen nach einem vollen Messlauf. Nur mit `temp` (der CLI-Aufruf um npm test). */
+  const wandDatei = temp && !env.VD_DATEI_WANDZEIT ? path.join(require('node:os').tmpdir(), 'vd-datei-wandzeit-' + process.pid + '.json') : null;
+  const envLauf = Object.assign({}, env, roteDatei ? { VD_ROTE_DATEIEN: roteDatei } : {}, wandDatei ? { VD_DATEI_WANDZEIT: wandDatei } : {});
 
   const [cmd, ...args] = befehl;
   let ergebnis;
@@ -244,6 +259,16 @@ function bewachterLauf(befehl, { repo = REPO, platz = false, temp = false, tempB
         }
       }
     }
+  }
+  if (wandDatei) {
+    try {
+      const funde = festaufwandUeber(JSON.parse(fs.readFileSync(wandDatei, 'utf8')), FESTAUFWAND_HINWEIS_MS);
+      if (funde.length) {
+        console.error('\n[festaufwand]' + kennung() + ' HINWEIS (noch kein Abbruch) — ' + funde.length + ' Datei(en) mit mehr als ' + FESTAUFWAND_HINWEIS_MS + ' ms über ihrer Testzeit:');
+        for (const f of funde) console.error('[festaufwand] ' + f.datei + ' wand ' + f.wand_ms + ' ms, tests ' + f.tests_ms + ' ms, fest ' + f.fest_ms + ' ms');
+      }
+    } catch (_) { /* Messung ist Zugabe */ }
+    try { fs.rmSync(wandDatei, { force: true }); } catch (_) { /* weg */ }
   }
   if (tempRest && tempRest.anzahl > 0) {
     const liste = Object.entries(tempRest.praefixe).sort((a, b) => b[1] - a[1]).map(([p, n]) => n + '× ' + p).join(', ');
@@ -316,4 +341,4 @@ function main() {
 }
 
 if (require.main === module) main();
-module.exports = { kennung, baumAbdruck, baumNeu, geteilteConfigPfad, inhaltLesen, geaenderteZeilen, userAbschnitt, bewachterLauf, ohneGitUmgebung };
+module.exports = { festaufwandUeber, FESTAUFWAND_HINWEIS_MS, kennung, baumAbdruck, baumNeu, geteilteConfigPfad, inhaltLesen, geaenderteZeilen, userAbschnitt, bewachterLauf, ohneGitUmgebung };

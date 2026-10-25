@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von tools/bausteinregister-bauen.js aus vivodepot.html (EINLASS_REGISTER) und tools/bausteinregister/beschriftungen.json. Nicht von Hand bearbeiten.",
   "fassung": {
-    "kern": "v933"
+    "kern": "v952"
   },
   "lizenz": {
     "spdx": "CC0-1.0",
@@ -69,8 +69,8 @@
       },
       "schema": {
         "adresse": "https://vivodepot.de/schemas/rechtsraum-modul-schema.json",
-        "fassung": 3,
-        "fassungAdresse": "https://vivodepot.de/schemas/rechtsraum-modul/3.json"
+        "fassung": 7,
+        "fassungAdresse": "https://vivodepot.de/schemas/rechtsraum-modul/7.json"
       }
     },
     {
@@ -137,8 +137,8 @@
       },
       "schema": {
         "adresse": "https://vivodepot.de/schemas/format-modul-schema.json",
-        "fassung": 3,
-        "fassungAdresse": "https://vivodepot.de/schemas/format-modul/3.json"
+        "fassung": 4,
+        "fassungAdresse": "https://vivodepot.de/schemas/format-modul/4.json"
       }
     },
     {
@@ -239,8 +239,8 @@
       },
       "schema": {
         "adresse": "https://vivodepot.de/schemas/branding-modul-schema.json",
-        "fassung": 1,
-        "fassungAdresse": "https://vivodepot.de/schemas/branding-modul/1.json"
+        "fassung": 2,
+        "fassungAdresse": "https://vivodepot.de/schemas/branding-modul/2.json"
       }
     },
     {
@@ -256,8 +256,8 @@
       },
       "schema": {
         "adresse": "https://vivodepot.de/schemas/logik-modul-schema.json",
-        "fassung": 1,
-        "fassungAdresse": "https://vivodepot.de/schemas/logik-modul/1.json"
+        "fassung": 2,
+        "fassungAdresse": "https://vivodepot.de/schemas/logik-modul/2.json"
       }
     },
     {
@@ -273,8 +273,8 @@
       },
       "schema": {
         "adresse": "https://vivodepot.de/schemas/erscheinung-modul-schema.json",
-        "fassung": 1,
-        "fassungAdresse": "https://vivodepot.de/schemas/erscheinung-modul/1.json"
+        "fassung": 2,
+        "fassungAdresse": "https://vivodepot.de/schemas/erscheinung-modul/2.json"
       }
     }
   ]

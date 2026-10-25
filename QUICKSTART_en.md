@@ -13,8 +13,9 @@ On iPhone and iPad, use the web address: iOS shows a downloaded HTML file only a
 
 ## 2. Create a depot
 
-On first start, set a password. The password encrypts the depot — without it there is no access, not
-even for Vivodepot itself.
+On first start, set a password. The password encrypts the depot. The only second way into the full depot is
+the recovery code, offered when the depot is created or later in the settings. Without the password and
+without the code there is no access to the full depot, not even for Vivodepot itself.
 
 ## 3. Save
 

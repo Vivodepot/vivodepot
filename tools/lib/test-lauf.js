@@ -38,15 +38,38 @@ const { spawnSync } = require('node:child_process');
 const T = require('./temp-aufraeumen.js');
 
 const PRELOAD = path.join(__dirname, 'temp-aufraeumen-preload.js');
+/* ZEITGRENZE ÜBER DENSELBEN WEG (23.10.2026, Befund KLEIN-LAEUFE-UNGEZAEHLT, Teil b): fast jedes Werkzeug, das den Runner startet,
+   geht über diesen Helfer, aber kaum eines setzte --test-timeout; die Faktenbasis hielt so mit einem hängenden Test Platz 1 vier
+   Stunden. Darum lädt NODE_OPTIONS auch den Zeitgrenzen-Preload: er wird nur im Runner selbst wach (--test in execArgv) und
+   ergänzt fehlendes --test-timeout und --test-force-exit (Kopf von test-zeitgrenze-preload.js). */
+const ZEITGRENZE = path.join(__dirname, 'test-zeitgrenze-preload.js');
 const UMGEBUNG_LAUF = 'VD_TEST_LAUF';
 const UMGEBUNG_BESITZER = 'VD_TEST_LAUF_BESITZER';
 
-/** NODE_OPTIONS mit dem Preload — ergänzt, nie ersetzt, nie doppelt. */
+/** NODE_OPTIONS mit beiden Preloads — ergänzt, nie ersetzt, nie doppelt. */
 function nodeOptionenMitPreload(vorhanden) {
-  const alt = String(vorhanden || '').trim();
-  if (alt.includes(PRELOAD)) return alt;
-  const req = '--require ' + (/\s/.test(PRELOAD) ? JSON.stringify(PRELOAD) : PRELOAD);
-  return alt ? alt + ' ' + req : req;
+  let aus = String(vorhanden || '').trim();
+  for (const p of [PRELOAD, ZEITGRENZE]) {
+    if (aus.includes(p)) continue;
+    const req = '--require ' + (/\s/.test(p) ? JSON.stringify(p) : p);
+    aus = aus ? aus + ' ' + req : req;
+  }
+  return aus;
+}
+
+/* PRELOAD-ERBE (24.10.2026, Befund PRELOAD-ERBE-HUELLE). NODE_OPTIONS reicht beide Preloads an jeden Enkelprozess weiter; so soll
+   es sein, das Netz und die Zeitgrenze gelten für alles, was der Lauf startet. Eine Probe, die einen Preload MISST (ein Kind mit
+   und ohne `--require <preload>`), misst unter dieser Hülle aber die Hülle mit: ihr Lauf „ohne“ trug den Preload doch. Sie baut
+   die Umgebung ihrer Kinder darum mit ohneLaufPreloads(). Erkannt wird am Dateinamen, nicht am Pfad: eine Hülle aus einem
+   anderen Arbeitsbaum trägt dort ihre eigenen Pfade. Wächter: [Preload-Erbe·Wächter]. */
+const LAUF_PRELOAD_NAMEN = [PRELOAD, ZEITGRENZE].map((p) => path.basename(p).replace(/[.]/g, '\\.')).join('|');
+const LAUF_PRELOAD_IN_OPTIONEN = new RegExp('--require\\s+(?:"[^"]*[\\\\/](?:' + LAUF_PRELOAD_NAMEN + ')"|\\S*[\\\\/](?:' + LAUF_PRELOAD_NAMEN + '))(?=\\s|$)', 'g');
+function ohneLaufPreloads(env = process.env) {
+  const aus = { ...env };
+  let o = String(aus.NODE_OPTIONS || '').replace(LAUF_PRELOAD_IN_OPTIONEN, ' ');
+  o = o.replace(/\s+/g, ' ').trim();
+  if (o) aus.NODE_OPTIONS = o; else delete aus.NODE_OPTIONS;
+  return aus;
 }
 
 /** Die Umgebung für einen Testprozess mit eigenem Laufverzeichnis. */
@@ -117,6 +140,6 @@ function main(argv = process.argv.slice(2)) {
 if (require.main === module) process.exit(main());
 
 module.exports = {
-  PRELOAD, UMGEBUNG_LAUF, UMGEBUNG_BESITZER,
-  nodeOptionenMitPreload, umgebungFuer, testLauf, mitTestLauf, playwrightLaufBeginnen, playwrightLaufBeenden, main,
+  PRELOAD, ZEITGRENZE, UMGEBUNG_LAUF, UMGEBUNG_BESITZER,
+  nodeOptionenMitPreload, ohneLaufPreloads, umgebungFuer, testLauf, mitTestLauf, playwrightLaufBeginnen, playwrightLaufBeenden, main,
 };

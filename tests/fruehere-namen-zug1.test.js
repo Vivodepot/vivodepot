@@ -10,7 +10,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { ladeKern } = require('./load-kern.js');
 
-test('[Frühere Namen·Zug1] neue Sektion in identitaet, zwischen person und pets', () => {
+test('[Frühere Namen·Zug1] neue Sektion in identitaet, zwischen person und den Personenstandsurkunden', () => {
   const { V } = ladeKern();
   const s = V.SEKTOR_BY_ID.identity;
   const sek = s.sektionen.find((x) => x.id === 'fruehere-namen');
@@ -18,7 +18,7 @@ test('[Frühere Namen·Zug1] neue Sektion in identitaet, zwischen person und pet
   assert.equal(sek.label, 'Frühere Namen');
   const idx = s.sektionen.map((x) => x.id).indexOf('fruehere-namen');
   assert.equal(s.sektionen[idx - 1].id, 'person', 'liegt nach person');
-  assert.equal(s.sektionen[idx + 1].id, 'pets', 'liegt vor pets');
+  assert.equal(s.sektionen[idx + 1].id, 'civil-status-certificates', 'liegt vor den Personenstandsurkunden (Haustiere seit U2-ADR-479 eigener Bereich)');
 });
 
 test('[Frühere Namen·Zug1] die Liste trägt genau vier Unterfelder mit den erwarteten Typen', () => {

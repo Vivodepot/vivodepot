@@ -61,7 +61,8 @@ function ausgabeBacken(quelle, art, datei) {
     throw new Error('Unbekannte Auslieferungsform „' + art + '" — erlaubt: ' + Object.keys(ARTEN).join(', '));
   }
   _spanneEindeutig(quelle, datei || '(Text)');
-  return _regionNutzlastSetzen(quelle, REGION, ARTEN[art], datei || '(Text)');
+  // U2-ADR-470: die Region liegt in einem Skriptblock — zuletzt dessen CSP-Hash (tools/lib/csp-nach-bau.js).
+  return require('./lib/csp-nach-bau.js').cspNachBau(_regionNutzlastSetzen(quelle, REGION, ARTEN[art], datei || '(Text)'));
 }
 
 function dateiBacken(pfad, art) {

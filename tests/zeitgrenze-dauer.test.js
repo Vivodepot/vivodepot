@@ -64,3 +64,19 @@ test('[Gegenprobe] ein Testlauf ohne ausdrückliche Datei schreibt nichts ins ge
   const src = fs.readFileSync(PL, 'utf8');
   assert.match(src, /return 1 if !\$datei && \$ENV\{VD_HOOK_SPERRE_JE_PID\};/);
 });
+
+/* LAST UND BELEGUNG (20.10.2026): je Lauf die 1-Minuten-Last und die Zahl der Suite-Plätze, die beim Start ein lebender Lauf
+   hielt — sonst ist nicht messbar, ob zwei Plätze mehr Durchsatz bringen und wo die Lastschwelle liegt. */
+test('[Dauer·Last und Belegung] jede Zeile trägt last_start und plaetze_belegt_start; gezählt wird nur ein lebender Halter', () => {
+  const pd = fs.mkdtempSync(path.join(os.tmpdir(), 'zeitgrenze-plaetze-'));
+  try {
+    fs.writeFileSync(path.join(pd, 'platz-1.lock'), JSON.stringify({ pid: process.pid, name: 'pre-commit' }));
+    fs.writeFileSync(path.join(pd, 'platz-2.lock'), JSON.stringify({ pid: 2 ** 22 + 12345, name: 'tot' }));   // kein lebender Prozess
+    const { r, zeilen } = lauf(10, ['true'], { VD_SUITE_PLATZ_DIR: pd });
+    assert.strictEqual(r.status, 0);
+    assert.ok(typeof zeilen[0].last_start === 'number' && zeilen[0].last_start >= 0, JSON.stringify(zeilen[0]));
+    assert.strictEqual(zeilen[0].plaetze_belegt_start, 1, 'der tote Halter zählt nicht');
+    fs.rmSync(path.join(pd, 'platz-1.lock'));
+    assert.strictEqual(lauf(10, ['true'], { VD_SUITE_PLATZ_DIR: pd }).zeilen[0].plaetze_belegt_start, 0);
+  } finally { fs.rmSync(pd, { recursive: true, force: true }); }
+});

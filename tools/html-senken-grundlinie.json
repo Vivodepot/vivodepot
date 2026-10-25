@@ -1,11 +1,11 @@
 {
  "grund": "Jede HTML-Senke mit dem Grund, warum sie sicher ist; geprüft von tests/html-senken-grundlinie.test.js. Verglichen wird über Datei und Abdruck (umschließende Funktion + Ausdruck); Zeile und Code dienen dem Wiederfinden.",
- "ohneProbeDeckel": 82,
+ "ohneProbeDeckel": 80,
  "eintraege": [
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderWelcome",
-   "zeile": 19244,
+   "zeile": 20299,
    "abdruck": "e890bbc6f1b2200e",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"welcome\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.welcomeTitel) + '</h1>' + '<div class=\"welcome-text\">' + absaetze + '</div>' + '<div class=\"",
@@ -14,7 +14,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderQrPdf",
-   "zeile": 19363,
+   "zeile": 20418,
    "abdruck": "07ac3d3cb37eb8e6",
    "anzahl": 1,
    "code": "wrap.innerHTML = html",
@@ -23,7 +23,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderQrBereich",
-   "zeile": 19391,
+   "zeile": 20446,
    "abdruck": "961d20974b9a62fe",
    "anzahl": 1,
    "code": "wrap.innerHTML = html",
@@ -32,7 +32,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderPasswort",
-   "zeile": 19403,
+   "zeile": 20458,
    "abdruck": "31499b7015c3f9d4",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.pwTitel) + '</h1>' + '<p class=\"hint\">' + escapeHTML(hint) + '</p>' + '<form id=\"pw-form\" auto",
@@ -41,11 +41,11 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderVollExport",
-   "zeile": 19465,
-   "abdruck": "5917f1c37229d278",
+   "zeile": 20526,
+   "abdruck": "919305ec93f15055",
    "anzahl": 1,
    "code": "wrap.innerHTML = topbarHTML(STRINGS.sichtVoll, true) + subBannerHTML() + herkunftBlockHTML(modulHerkunftBerechnen(data)) + moduleNichtAngewandtZeileHTML(data) + standBlockHTML(moduleStandBerechnen(dat",
-   "grund": "Sicher seit v842: der Lückenblock (_lueckenBlockHTML) maskiert seine Sätze, die aus einem Sprachmodul überschreibbar sind (Probe tests/fremdtext-senken.test.js, Lese-App). Alle übrigen Teile maskieren selbst: herkunftBlockHTML, standBlockHTML, topbarHTML, sektorHTML (Prüfung D5). Dazu seit 17.10.2026 moduleNichtAngewandtZeileHTML (LESE-APP-MODULE-OHNE-WAHL): ein STRINGS-Text und je nicht angewandtem Modul Name · Wirkung, beides über escapeHTML; Probe tests/lese-app-module-ohne-wahl.test.js.",
+   "grund": "Sicher seit v842: der Lückenblock (_lueckenBlockHTML) maskiert seine Sätze, die aus einem Sprachmodul überschreibbar sind (Probe tests/fremdtext-senken.test.js, Lese-App). Alle übrigen Teile maskieren selbst: herkunftBlockHTML, standBlockHTML, topbarHTML, sektorHTML (Prüfung D5). Dazu seit 17.10.2026 moduleNichtAngewandtZeileHTML (LESE-APP-MODULE-OHNE-WAHL): ein STRINGS-Text und je nicht angewandtem Modul Name · Wirkung, beides über escapeHTML; Probe tests/lese-app-module-ohne-wahl.test.js. Seit dem Sprunglink (WCAG 2.4.1, 23.10.2026) trägt das <main> nur id=\"content\" und tabindex=\"-1\", feste Attribute ohne Wert aus Daten.",
    "probe": [
     "tests/fremdtext-senken.test.js",
     "tests/lese-app-module-ohne-wahl.test.js"
@@ -54,7 +54,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 19657,
+   "zeile": 20718,
    "abdruck": "f2e62e7a27b4a71a",
    "anzahl": 1,
    "code": "sb.innerHTML = sidebarHTML()",
@@ -66,7 +66,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 19662,
+   "zeile": 20723,
    "abdruck": "4b9c4734e916b91d",
    "anzahl": 1,
    "code": "el('content').innerHTML = sektorHTML(aktiverSektorId)",
@@ -75,7 +75,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 19667,
+   "zeile": 20728,
    "abdruck": "88124cf73b9e3140",
    "anzahl": 1,
    "code": "el('content').innerHTML = situationContentHTML(btn.getAttribute('data-situation'))",
@@ -84,7 +84,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireSidebar",
-   "zeile": 19672,
+   "zeile": 20733,
    "abdruck": "ee868c5beca84b36",
    "anzahl": 1,
    "code": "el('content').innerHTML = angehoerigenBlattHTML(btn.getAttribute('data-angblatt'))",
@@ -93,7 +93,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "wireTopbar",
-   "zeile": 19683,
+   "zeile": 20747,
    "abdruck": "6d3192e928fe23a4",
    "anzahl": 1,
    "code": "if (c) c.innerHTML = hilfeEmpfaengerinHTML()",
@@ -102,11 +102,11 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderSituationOnly",
-   "zeile": 20503,
-   "abdruck": "26fd8168862fc009",
+   "zeile": 21567,
+   "abdruck": "5845cd06ada2bce1",
    "anzahl": 1,
    "code": "wrap.innerHTML = topbarHTML(STRINGS.sichtSituation, true) + subBannerHTML() + herkunftBlockHTML(modulHerkunftBerechnen(data)) + moduleNichtAngewandtZeileHTML(data) + standBlockHTML(moduleStandBerechne",
-   "grund": "renderSituationOnly setzt sich aus maskierenden Bausteinen zusammen: topbarHTML, subBannerHTML (escapeHTML 13130), herkunftBlockHTML, standBlockHTML und situationContentHTML. Die Seitenleiste mit dem Lückenblock fehlt hier. Dazu seit 17.10.2026 moduleNichtAngewandtZeileHTML (LESE-APP-MODULE-OHNE-WAHL): ein STRINGS-Text und je nicht angewandtem Modul Name · Wirkung, beides über escapeHTML; Probe tests/lese-app-module-ohne-wahl.test.js.",
+   "grund": "renderSituationOnly setzt sich aus maskierenden Bausteinen zusammen: topbarHTML, subBannerHTML (escapeHTML 13130), herkunftBlockHTML, standBlockHTML und situationContentHTML. Die Seitenleiste mit dem Lückenblock fehlt hier. Dazu seit 17.10.2026 moduleNichtAngewandtZeileHTML (LESE-APP-MODULE-OHNE-WAHL): ein STRINGS-Text und je nicht angewandtem Modul Name · Wirkung, beides über escapeHTML; Probe tests/lese-app-module-ohne-wahl.test.js. Seit dem Sprunglink (WCAG 2.4.1, 23.10.2026) trägt das <main> nur id=\"content\" und tabindex=\"-1\", feste Attribute ohne Wert aus Daten.",
    "probe": [
     "tests/lese-app-module-ohne-wahl.test.js"
    ]
@@ -114,7 +114,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderNotfall",
-   "zeile": 20543,
+   "zeile": 21607,
    "abdruck": "f94bc3f400c1ce49",
    "anzahl": 1,
    "code": "wrap.innerHTML = html",
@@ -123,7 +123,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderEinfuegen",
-   "zeile": 20556,
+   "zeile": 21620,
    "abdruck": "78b9a233666eb262",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.wegEinfuegen) + '</h1>' + '<p class=\"hint\">' + escapeHTML(STRINGS.wegEinfuegenHint) + '</p>' +",
@@ -132,7 +132,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderAntwortOeffnen",
-   "zeile": 20681,
+   "zeile": 21750,
    "abdruck": "10aef2dfe58dbeb2",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + '<h1>' + escapeHTML(STRINGS.antwortTitel) + '</h1>' + '<p class=\"hint\" id=\"antwort-kopf\">' + escapeHTML(STRINGS.antwortVorgang) + ' <span id=\"antwo",
@@ -144,7 +144,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderAntwort",
-   "zeile": 20885,
+   "zeile": 21954,
    "abdruck": "5b7c818089afb0b4",
    "anzahl": 1,
    "code": "wrap.innerHTML = h",
@@ -153,7 +153,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderAnlass",
-   "zeile": 20944,
+   "zeile": 22013,
    "abdruck": "94323e8605665744",
    "anzahl": 1,
    "code": "wrap.innerHTML = h",
@@ -162,7 +162,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderKamera",
-   "zeile": 20991,
+   "zeile": 22060,
    "abdruck": "b8bf539f89772282",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + '<h1>' + escapeHTML(STRINGS.kameraTitel) + '</h1>' + '<p class=\"hint\" id=\"kamera-hint\">' + escapeHTML(STRINGS.kameraSucht) + '</p>' + '<video id=\"k",
@@ -171,7 +171,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderHinweisMitZurueck",
-   "zeile": 21039,
+   "zeile": 22108,
    "abdruck": "666acc1b80580964",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\"><p class=\"hint\">' + escapeHTML(text) + '</p>' + '<div class=\"sheet-aktionen\"><button class=\"btn btn-sek\" id=\"btn-zurueck\">' + escapeHTML(STRINGS.zurueck) + '</butt",
@@ -180,7 +180,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "onSchliessen",
-   "zeile": 21054,
+   "zeile": 22123,
    "abdruck": "6dace052c15653f0",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\"><p class=\"hint\">' + escapeHTML(STRINGS.schliessenHinweis) + '</p>' + '<div class=\"sheet-aktionen\"><button class=\"btn\" id=\"btn-neu\">' + escapeHTML(STRINGS.zurueck) ",
@@ -189,7 +189,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "renderEmpfaengerQrPasswort",
-   "zeile": 21145,
+   "zeile": 22215,
    "abdruck": "09409f67db0dfce8",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet\" role=\"main\">' + sprachUmschalterHTML() + '<h1>' + escapeHTML(STRINGS.pwTitel) + '</h1>' + '<p class=\"hint\">' + escapeHTML(STRINGS.kreiseQrEmpfangHint) + '</p>' + '",
@@ -198,7 +198,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenZeigen",
-   "zeile": 21219,
+   "zeile": 22289,
    "abdruck": "4cbbbb5b91631cb1",
    "anzahl": 1,
    "code": "wrap.innerHTML = _vorfuehrungLesenAnfrageHTML(n)",
@@ -207,7 +207,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenZeigen",
-   "zeile": 21224,
+   "zeile": 22294,
    "abdruck": "4d6f48eaa2628144",
    "anzahl": 1,
    "code": "wrap.innerHTML = '<div class=\"sheet vorfuehrung-szene-blatt\" role=\"main\" id=\"vorfuehrung-szene-blatt\"><p class=\"vorfuehrung-szene\">' + escapeHTML(st.szene) + '</p></div>'",
@@ -216,7 +216,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenZeigen",
-   "zeile": 21251,
+   "zeile": 22321,
    "abdruck": "b4257f4fe6cf1474",
    "anzahl": 1,
    "code": "karte.innerHTML = _vorfuehrungLesenSpalteHTML(n, st, nr, gesamt)",
@@ -225,7 +225,7 @@
   {
    "datei": "vivodepot-lesen.html",
    "funktion": "_vorfuehrungLesenWechsel",
-   "zeile": 21333,
+   "zeile": 22403,
    "abdruck": "40c7be1a631a0966",
    "anzahl": 1,
    "code": "k.innerHTML = '<div class=\"vorfuehrung-wechsel-karte\"><p class=\"vorfuehrung-wechsel-satz\">' + escapeHTML(satz) + '</p>' + '<p class=\"vorfuehrung-rolle-text\">' + escapeHTML(st.rolle.text) + '</p>' + '<",
@@ -234,7 +234,7 @@
   {
    "datei": "vivodepot-schluessel-teilen.html",
    "funktion": "onErzeugen",
-   "zeile": 2046,
+   "zeile": 2171,
    "abdruck": "bf24002459045720",
    "anzahl": 1,
    "code": "if (ergebnisFeld) ergebnisFeld.innerHTML = erzeugungsKopfHTML(ergebnis) + teilenErgebnisHTML(ergebnis)",
@@ -243,7 +243,7 @@
   {
    "datei": "vivodepot-schluessel-teilen.html",
    "funktion": "onTeilen",
-   "zeile": 2076,
+   "zeile": 2201,
    "abdruck": "f7f3894800e05744",
    "anzahl": 1,
    "code": "sentinelFeld.innerHTML = sentinelWarnungHTML()",
@@ -252,7 +252,7 @@
   {
    "datei": "vivodepot-schluessel-teilen.html",
    "funktion": "onTeilen",
-   "zeile": 2079,
+   "zeile": 2204,
    "abdruck": "37751e3d56c8cf9e",
    "anzahl": 1,
    "code": "if (ergebnisFeld) ergebnisFeld.innerHTML = teilenErgebnisHTML(ergebnis)",
@@ -261,7 +261,7 @@
   {
    "datei": "vivodepot-schluessel-teilen.html",
    "funktion": "onZusammensetzen",
-   "zeile": 2226,
+   "zeile": 2356,
    "abdruck": "1cf938a59318c554",
    "anzahl": 1,
    "code": "ergebnisFeld.innerHTML = '<div class=\"karte\"><dl>' + '<dt>Schlüssel</dt><dd class=\"zeichen\">' + h(ergebnis.thumbprint) + '</dd>' + '<dt>Verwendete Anteile</dt><dd>' + h(ergebnis.verwendet.join(', ')) ",
@@ -270,7 +270,7 @@
   {
    "datei": "vivodepot-studio.html",
    "funktion": "el",
-   "zeile": 11456,
+   "zeile": 12332,
    "abdruck": "1953723bff696bf4",
    "anzahl": 1,
    "code": "else if (k === 'html') e.innerHTML = attrs[k]",
@@ -279,7 +279,7 @@
   {
    "datei": "vivodepot-studio.html",
    "funktion": "sprachAnwenden",
-   "zeile": 13706,
+   "zeile": 14720,
    "abdruck": "062c12db9a748313",
    "anzahl": 2,
    "code": "if (LANG === 'en') n.innerHTML = n.getAttribute('data-en-html')",
@@ -288,7 +288,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "hilfeOeffnen",
-   "zeile": 11191,
+   "zeile": 11824,
    "abdruck": "43ec850035f2f1f9",
    "anzahl": 1,
    "code": "wrapper.innerHTML = hilfeOverlayHTML(themaId)",
@@ -297,7 +297,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_brandingProduktIconAnwenden",
-   "zeile": 13669,
+   "zeile": 14486,
    "abdruck": "030cb52dfa993396",
    "anzahl": 1,
    "code": "logoMark.innerHTML = (_fall2Marke.modell === 'white-label' && bild) ? bild : bild + _VD_BILDMARKE_SVG('logo-svg')",
@@ -306,7 +306,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungKarteHandSetzen",
-   "zeile": 15781,
+   "zeile": 16610,
    "abdruck": "0b90bc14d21fc74e",
    "anzahl": 1,
    "code": "karte.innerHTML = _vorfuehrungSpalteHTML({ situation: AB_WERK_SHOWCASE.situation, rolle: station.rolle, titel: AB_WERK_SHOWCASE.schrittTitel, nr, gesamt, station, text: _vorfuehrungText, }, escapeHTML",
@@ -315,7 +315,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungWechselSetzen",
-   "zeile": 15828,
+   "zeile": 16658,
    "abdruck": "f3ca00f332a63f1f",
    "anzahl": 1,
    "code": "k.innerHTML = '<div class=\"vorfuehrung-wechsel-karte\"><p class=\"vorfuehrung-wechsel-satz\">' + escapeHTML(satz) + '</p>' + '<p class=\"vorfuehrung-rolle-text\">' + escapeHTML(station.rolle.text) + '</p>'",
@@ -324,7 +324,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_vorfuehrungWarnungZeigen",
-   "zeile": 16029,
+   "zeile": 16859,
    "abdruck": "2c5e6f70bac07633",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"vorfuehrung-karte\"><p class=\"vorfuehrung-karte-text\">' + escapeHTML(_vorfuehrungText('leerlaufHinweis')) + '</p><button type=\"button\" class=\"btn\" id=\"vorfuehrung-weiter\">' ",
@@ -333,7 +333,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageorteAufStartseiteZeigen",
-   "zeile": 18320,
+   "zeile": 19252,
    "abdruck": "f9c985b36886bf56",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortKnoepfeHTML(alle, vorDepotText('ablageortOeffnen'))",
@@ -345,7 +345,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageortEinstellungZeigen",
-   "zeile": 18345,
+   "zeile": 19277,
    "abdruck": "a6e7294ad9c60baf",
    "anzahl": 1,
    "code": "ort.innerHTML = _ablageortGemerktHTML(gemerkt.name)",
@@ -357,7 +357,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_ablageortEinstellungZeigen",
-   "zeile": 18351,
+   "zeile": 19283,
    "abdruck": "1ea086b714cab2de",
    "anzahl": 1,
    "code": "ort.innerHTML = '<p class=\"einst-hint\">' + escapeHTML(STRINGS.ablageortNichtGemerktHinweis) + '</p>' + '<button type=\"button\" class=\"btn btn-sek\" id=\"einst-ablageort-merken\">' + escapeHTML(STRINGS.abl",
@@ -366,7 +366,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderUebergabeProtokoll",
-   "zeile": 36374,
+   "zeile": 38059,
    "abdruck": "5f769ac393443b4f",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -375,7 +375,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "zeigeKernFehler",
-   "zeile": 39337,
+   "zeile": 41059,
    "abdruck": "713c65061dd4c27d",
    "anzahl": 1,
    "code": "box.innerHTML = '<h3 id=\"modal-titel\">' + (titelHTML != null ? titelHTML : escapeHTML(String(titel))) + '</h3>' + '<div class=\"modal-koerper\">' + koerperHTML + '</div>' + '<div class=\"modal-aktionen\">",
@@ -384,7 +384,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_installBlockAktualisieren",
-   "zeile": 39537,
+   "zeile": 41259,
    "abdruck": "b35fd5e8c004083b",
    "anzahl": 1,
    "code": "hosts[i].innerHTML = blockHtml",
@@ -393,7 +393,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_sucheVerdrahten",
-   "zeile": 39709,
+   "zeile": 41457,
    "abdruck": "45bbadb1adb959a6",
    "anzahl": 1,
    "code": "liste.innerHTML = '<li class=\"suche-leer\" role=\"status\">' + escapeHTML(STRINGS.sucheKeineTreffer.replace('%s', roh.trim())) + '</li>'",
@@ -402,7 +402,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_sucheVerdrahten",
-   "zeile": 39715,
+   "zeile": 41463,
    "abdruck": "db67d4c869ce824d",
    "anzahl": 1,
    "code": "liste.innerHTML = aktuelleTreffer.map((e, i) => '<li role=\"option\" data-idx=\"' + escapeAttr(i) + '\">' + '<span class=\"suche-treffer-label\">' + escapeHTML(e.label) + '</span>' + '<span class=\"suche-tre",
@@ -411,7 +411,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderWelcome",
-   "zeile": 39848,
+   "zeile": 41539,
    "abdruck": "b511ade86a333ceb",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\">' + (vorDepotSprachangebotVorhanden() ? ('<button type=\"button\" class=\"btn-dezent vor-depot-sprache\" id=\"vor-depot-sprache\">' + svgIcon(ICONS.globe, 15) + ' <",
@@ -425,7 +425,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderCryptoOverlay",
-   "zeile": 39958,
+   "zeile": 41705,
    "abdruck": "d6161b57c715c9fd",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\">' + (vorDepotSprachangebotVorhanden() ? ('<button type=\"button\" class=\"btn-dezent vor-depot-sprache\" id=\"vor-depot-sprache\">' + svgIcon(ICONS.globe, 15) + ' <",
@@ -437,7 +437,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderCodeOeffnen",
-   "zeile": 40230,
+   "zeile": 41977,
    "abdruck": "1d18c403e8eacbf8",
    "anzahl": 1,
    "code": "el.innerHTML = '<div class=\"welcome-kopf\"><h1 class=\"welcome-brand\" id=\"overlay-titel\">' + escapeHTML(vorDepotText('whcOeffnenCodeLabel')) + '</h1></div>' + '<p class=\"crypto-auff\" id=\"whc-oeffnen-auf",
@@ -446,7 +446,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderAnlassAuswahl",
-   "zeile": 40357,
+   "zeile": 42105,
    "abdruck": "f6126afc626cc64e",
    "anzahl": 1,
    "code": "el.innerHTML = html",
@@ -458,7 +458,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderBestandsAuswahl",
-   "zeile": 40494,
+   "zeile": 42242,
    "abdruck": "b22750e1db2c52be",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -467,7 +467,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "pwStaerkeAnzeigeVerdrahten",
-   "zeile": 40742,
+   "zeile": 42622,
    "abdruck": "431409dbef178a50",
    "anzahl": 1,
    "code": "a.innerHTML = '<span class=\"pw-staerke-balken\" aria-hidden=\"true\"><i></i><i></i><i></i></span>' + '<span class=\"pw-staerke-text\">' + escapeHTML(STRINGS.pwStaerkeLabel + ' ' + wort) + (tipp ? (' · ' + ",
@@ -476,7 +476,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "pwVorschlagVerdrahten",
-   "zeile": 40824,
+   "zeile": 42704,
    "abdruck": "8c9ae682866864b8",
    "anzahl": 1,
    "code": "woerterEl.innerHTML = letzter.split('-').map((w, i) => (i ? '<wbr><span>-' : '<span>') + escapeHTML(w) + '</span>').join('')",
@@ -488,7 +488,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderBlattOverlay",
-   "zeile": 41459,
+   "zeile": 43345,
    "abdruck": "d79bf3fa73c4501a",
    "anzahl": 1,
    "code": "ov.innerHTML = '<div class=\"pv-dok-toolbar\">' + '<p class=\"pv-dok-hinweis\">' + escapeHTML(hinweis) + '</p>' + '<div class=\"pv-dok-knoepfe\"><button class=\"btn\" id=\"nfb-drucken\">' + escapeHTML(knopf) + ",
@@ -497,7 +497,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "zeigeSchlussSicht",
-   "zeile": 42050,
+   "zeile": 43936,
    "abdruck": "f2da3cd5817399dc",
    "anzahl": 1,
    "code": "if (el) el.innerHTML = '<div class=\"welcome-kopf\">' + '<h1 class=\"welcome-brand\" id=\"overlay-titel\">' + _vdBildmarkeHTML('welcome-logo-mark') + '<span class=\"welcome-wort\"><span class=\"lw-vivo-d\">VIVO",
@@ -509,7 +509,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSaveStatus",
-   "zeile": 48592,
+   "zeile": 50569,
    "abdruck": "d956270a81c578e2",
    "anzahl": 1,
    "code": "if (ico) ico.innerHTML = (m.zustand === 'ungespeichert' || m.zustand === 'unbestaetigt' || m.zustand === 'fehlgeschlagen') ? svgIcon(ICONS.alertTriangle, 16) : ''",
@@ -518,7 +518,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSaveStatus",
-   "zeile": 48610,
+   "zeile": 50587,
    "abdruck": "8d340fa62f339c4e",
    "anzahl": 1,
    "code": "knopf.innerHTML = svgIcon(ICONS.save, 16) + '<span class=\"tb-save-knopf-text\">' + escapeHTML(knopfLabel) + '</span>'",
@@ -527,7 +527,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48661,
+   "zeile": 50645,
    "abdruck": "0d664774140cffe2",
    "anzahl": 1,
    "code": "if (ico && !ico.innerHTML) ico.innerHTML = svgIcon(ICONS.menu)",
@@ -536,7 +536,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48678,
+   "zeile": 50662,
    "abdruck": "6e879ed44f476518",
    "anzahl": 1,
    "code": "btEintragen.querySelector('.ico').innerHTML = svgIcon(ICONS.folder)",
@@ -545,7 +545,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48684,
+   "zeile": 50668,
    "abdruck": "62bb99d235d12bfa",
    "anzahl": 1,
    "code": "btHerausgeben.querySelector('.ico').innerHTML = svgIcon(ICONS.fileDown)",
@@ -554,7 +554,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48690,
+   "zeile": 50674,
    "abdruck": "466909caf7d0c828",
    "anzahl": 1,
    "code": "btEinlesen.querySelector('.ico').innerHTML = svgIcon(ICONS.fileText)",
@@ -563,7 +563,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48696,
+   "zeile": 50680,
    "abdruck": "dd24cb8b973544de",
    "anzahl": 1,
    "code": "btVerwaltet.querySelector('.ico').innerHTML = svgIcon(ICONS.users)",
@@ -572,7 +572,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48764,
+   "zeile": 50748,
    "abdruck": "cf44eab03bc9aac0",
    "anzahl": 1,
    "code": "kontrast.querySelector('.ico').innerHTML = svgIcon(ICONS.contrast)",
@@ -581,7 +581,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48769,
+   "zeile": 50753,
    "abdruck": "4064824e6d61d2b0",
    "anzahl": 1,
    "code": "nacht.querySelector('.ico').innerHTML = svgIcon(ICONS.moon)",
@@ -590,7 +590,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48783,
+   "zeile": 50767,
    "abdruck": "745d126c90aa1ff3",
    "anzahl": 1,
    "code": "if (ico) ico.innerHTML = svgIcon(ICONS.volume2)",
@@ -599,7 +599,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48795,
+   "zeile": 50779,
    "abdruck": "7db126404a7c716d",
    "anzahl": 1,
    "code": "einst.querySelector('.ico').innerHTML = svgIcon(ICONS.settings)",
@@ -608,7 +608,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48803,
+   "zeile": 50787,
    "abdruck": "a032fcaf300d5a37",
    "anzahl": 1,
    "code": "const ico = schliessenBtn.querySelector('.ico')",
@@ -617,7 +617,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderTopbar",
-   "zeile": 48814,
+   "zeile": 50798,
    "abdruck": "ba8be2b0c2dc3716",
    "anzahl": 1,
    "code": "const ico = pwHinweis.querySelector('.ico')",
@@ -626,16 +626,16 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderFooter",
-   "zeile": 48988,
-   "abdruck": "b275c5fb99ba01b9",
+   "zeile": 50972,
+   "abdruck": "7dde8dbfb2b10283",
    "anzahl": 1,
    "code": "el.innerHTML = '<span class=\"ff-haftung\">' + escapeHTML(STRINGS.fussHaftung) + '</span>' + t + '<span class=\"ff-lizenz\">' + escapeHTML(STRINGS.fussLizenz) + '</span>' + t + '<span class=\"ff-version\">'",
-   "grund": "renderFooter: alle STRINGS- und Build-Werte stehen in escapeHTML. QUELLCODE_LINK und AKTUALISIERUNGEN_LINK sind https-Konstanten (4578/4587). _markeKontakt und _markeAktualisierungen prüfen die Depotwerte beim Lesen erneut gegen _BRANDING_KONTAKT_MUSTER bzw. _BRANDING_AKTUALISIERUNGEN_MUSTER (^https://, 10310/10314). mailto: ist fest vorangestellt, javascript: ist damit ausgeschlossen."
+   "grund": "renderFooter: alle STRINGS- und Build-Werte stehen in escapeHTML. QUELLCODE_LINK und AKTUALISIERUNGEN_LINK sind https-Konstanten (4578/4587). _markeKontakt und _markeAktualisierungen prüfen die Depotwerte beim Lesen erneut gegen _BRANDING_KONTAKT_MUSTER bzw. _BRANDING_AKTUALISIERUNGEN_MUSTER (^https://, 10310/10314). mailto: ist fest vorangestellt, javascript: ist damit ausgeschlossen. Seit 19.10.2026 zusätzlich der Hinweisort „powered by“ (span ff-powered): _herkunftsortAusgabe('herkunftPoweredBy', …) liefert einen Text aus dem Sprachmodul, er steht in escapeHTML; Klasse und data-Attribut sind feste Literale. Seit Branding v2 steht ff-powered im Zweig !_herkunftHinweisAppAus(); der Schalter liest nur das letzte geprüfte, signierte Branding-Modul und erzeugt kein HTML aus Modulwerten, der Text bleibt in escapeHTML."
   },
   {
    "datei": "vivodepot.html",
    "funktion": "_staleCacheWarnungAnzeigen",
-   "zeile": 49070,
+   "zeile": 51058,
    "abdruck": "49b1d734ac36e541",
    "anzahl": 1,
    "code": "el.insertAdjacentHTML('beforeend', ' <span class=\"ff-trenner\">·</span> <span class=\"ff-stale-warnung\">' + svgIcon(ICONS.alertTriangle, 14) + ' ' + escapeHTML(STRINGS.fussStaleCacheWarnung) + '</span>'",
@@ -644,7 +644,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderEintragenUebersicht",
-   "zeile": 50513,
+   "zeile": 52527,
    "abdruck": "d3c6bfb52406a145",
    "anzahl": 1,
    "code": "c.innerHTML = '<div class=\"content-narrow\">' + renderEintragenKartenraster() + '</div>'",
@@ -653,7 +653,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSidebar",
-   "zeile": 50656,
+   "zeile": 52670,
    "abdruck": "1e1883d7587a639f",
    "anzahl": 1,
    "code": "sb.innerHTML = html",
@@ -662,7 +662,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "dokumentOeffnen",
-   "zeile": 53757,
+   "zeile": 55827,
    "abdruck": "07884a8930007c34",
    "anzahl": 1,
    "code": "ov.innerHTML = '<div class=\"pv-dok-toolbar\">' + da.toolbarHinweisHTML + (da.lueckenFelder ? _identitaetLueckenHinweisHTML(da.lueckenFelder) : '') + '<div class=\"pv-dok-knoepfe\"><button class=\"btn\" id=",
@@ -674,7 +674,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderWizard",
-   "zeile": 54293,
+   "zeile": 56366,
    "abdruck": "78843b92e461f2c7",
    "anzahl": 1,
    "code": "if (!def) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const idx = Math.min(Math.max(wizardSchrittIndex, 0), def.schritte.l",
@@ -683,7 +683,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderWizard",
-   "zeile": 54341,
+   "zeile": 56417,
    "abdruck": "8fb1c671b6fef07e",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -692,7 +692,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderAngehoerigenBlatt",
-   "zeile": 54976,
+   "zeile": 57063,
    "abdruck": "052daf1b3e5ed353",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -701,7 +701,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "sprachfassungHinweisAnzeigen",
-   "zeile": 55125,
+   "zeile": 57212,
    "abdruck": "d6eeebf8c8957612",
    "anzahl": 1,
    "code": "if (sprachfassungLueckenAnzahl() > 0) c.insertAdjacentHTML('afterbegin', sprachfassungHinweisHTML())",
@@ -710,7 +710,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderContent",
-   "zeile": 55170,
+   "zeile": 57259,
    "abdruck": "ab5c0c3eace6de65",
    "anzahl": 1,
    "code": "c.insertAdjacentHTML('afterbegin', vollmachtBannerHTML())",
@@ -719,7 +719,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderContent",
-   "zeile": 55180,
+   "zeile": 57269,
    "abdruck": "565df87b166f9212",
    "anzahl": 1,
    "code": "c.insertAdjacentHTML('afterbegin', namenlosHinweisHTML())",
@@ -728,7 +728,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderPrueftermine",
-   "zeile": 55532,
+   "zeile": 57621,
    "abdruck": "a6890c1d1296ae1d",
    "anzahl": 1,
    "code": "c.innerHTML = '<div class=\"content-narrow\">' + '<div class=\"bereich-kopf\"><span class=\"ico\">' + icon('clock', 24) + '</span><h2>' + escapeHTML(STRINGS.prueftermineTitel) + '</h2></div>' + vorgeschlage",
@@ -737,7 +737,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderMappe",
-   "zeile": 55641,
+   "zeile": 57730,
    "abdruck": "d6749c181bbd00f6",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -746,7 +746,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderMappe",
-   "zeile": 55651,
+   "zeile": 57740,
    "abdruck": "de0ca421dd2120f8",
    "anzahl": 1,
    "code": "host.innerHTML = mappeListeHTML(mappeSuche(eintraege, suche.value))",
@@ -754,26 +754,8 @@
   },
   {
    "datei": "vivodepot.html",
-   "funktion": "flowShlVorbereiten",
-   "zeile": 55937,
-   "abdruck": "7ff94d0f3288f183",
-   "anzahl": 1,
-   "code": "catch (err) { out.innerHTML = '<p class=\"feld-fehler\">' + escapeHTML(STRINGS.shlUrlFehler) + '</p>'; return; } out.innerHTML = '<label for=\"shl-uri\">' + escapeHTML(STRINGS.shlErgebnisLabel) + '</label",
-   "grund": "Hier steht nur escapeHTML(STRINGS.shlUrlFehler)."
-  },
-  {
-   "datei": "vivodepot.html",
-   "funktion": "flowShlVorbereiten",
-   "zeile": 55938,
-   "abdruck": "5b457b31bca14217",
-   "anzahl": 1,
-   "code": "out.innerHTML = '<label for=\"shl-uri\">' + escapeHTML(STRINGS.shlErgebnisLabel) + '</label>' + '<textarea id=\"shl-uri\" readonly rows=\"3\" style=\"width:100%;box-sizing:border-box\"></textarea>'",
-   "grund": "Das Markup ist fest und der Label-Text läuft über escapeHTML. Die aus der Nutzereingabe gebaute URI wird über ta.value gesetzt, nicht als HTML."
-  },
-  {
-   "datei": "vivodepot.html",
    "funktion": "renderSektor",
-   "zeile": 56706,
+   "zeile": 58918,
    "abdruck": "62449ecb2570ba3f",
    "anzahl": 1,
    "code": "if (!s) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const sektorDaten = (data && data.sektoren[sektorId]) || {}",
@@ -782,7 +764,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSektor",
-   "zeile": 57129,
+   "zeile": 59342,
    "abdruck": "e6ce21ad458a147e",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -791,7 +773,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSituation",
-   "zeile": 57184,
+   "zeile": 59397,
    "abdruck": "c57bc1a04dcfe611",
    "anzahl": 1,
    "code": "if (!si) { c.innerHTML = '<div class=\"content-narrow\"><div class=\"hinweis-box\">' + STRINGS.bereichLeer + '</div></div>'; return; } const sitId = si.id",
@@ -800,7 +782,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSituation",
-   "zeile": 57322,
+   "zeile": 59535,
    "abdruck": "8565e08fba948fc7",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -809,7 +791,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderAnfrage",
-   "zeile": 61326,
+   "zeile": 63744,
    "abdruck": "5332d5563a59d9a3",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -818,7 +800,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderZusammenstellen",
-   "zeile": 61618,
+   "zeile": 64248,
    "abdruck": "90aa4e9ecc43af25",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -830,7 +812,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_refSubPickerVerdrahten",
-   "zeile": 63843,
+   "zeile": 66569,
    "abdruck": "6b18a30d5287f68d",
    "anzahl": 1,
    "code": "inlineInst.innerHTML = listenEintragInputsHTML(institutionFeld, {}) + '<button type=\"button\" class=\"btn-mini\" data-neu-anlegen=\"' + escapeAttr(fid) + '\">' + STRINGS.btnHinzufuegen + '</button> ' + '<b",
@@ -839,7 +821,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_refSubPickerVerdrahten",
-   "zeile": 63888,
+   "zeile": 66614,
    "abdruck": "26529d0f184fef03",
    "anzahl": 1,
    "code": "inline.innerHTML = '<input type=\"text\" data-neu-name=\"' + escapeAttr(fid) + '\" placeholder=\"' + escapeAttr(platzhalter) + '\"> ' + geburtHTML + '<button type=\"button\" class=\"btn-mini\" data-neu-anlegen=",
@@ -848,7 +830,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_refMehrfachVerdrahten",
-   "zeile": 64047,
+   "zeile": 66773,
    "abdruck": "124754b60028b056",
    "anzahl": 1,
    "code": "liste.innerHTML = treffer.map(v => '<li role=\"option\" data-id=\"' + escapeAttr(v.id) + '\">' + escapeHTML(v.name || '') + '</li>').join('')",
@@ -857,7 +839,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_refMehrfachVerdrahten",
-   "zeile": 64131,
+   "zeile": 66857,
    "abdruck": "4d3d34324af1d48c",
    "anzahl": 1,
    "code": "tmp.innerHTML = _refmZeileHTML(feld, { ref: '', override: '' })",
@@ -866,7 +848,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "_chipFelderVerdrahten",
-   "zeile": 64185,
+   "zeile": 66911,
    "abdruck": "cfd046f4450ce204",
    "anzahl": 1,
    "code": "span.innerHTML = chipInnerHTML(chip)",
@@ -875,7 +857,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderNotfall",
-   "zeile": 65054,
+   "zeile": 67780,
    "abdruck": "6dab99aa1520f08f",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -884,7 +866,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderSubDepotKonzept",
-   "zeile": 65268,
+   "zeile": 67994,
    "abdruck": "7e31b124906f7eba",
    "anzahl": 1,
    "code": "c.innerHTML = html",
@@ -893,7 +875,7 @@
   {
    "datei": "vivodepot.html",
    "funktion": "renderVerwalteteDepots",
-   "zeile": 65321,
+   "zeile": 68049,
    "abdruck": "a3bd919b8855afe5",
    "anzahl": 2,
    "code": "c.innerHTML = html",

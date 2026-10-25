@@ -47,6 +47,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
+import crypto from 'node:crypto';
 
 const require = createRequire(import.meta.url);
 const { ladeKern } = require('../load-kern.js');
@@ -77,6 +78,35 @@ const FHIR_CACHE = path.join(os.homedir(), '.fhir', 'packages');
 const ISIK_ARBEIT = path.join(ARBEIT, 'isik');
 const ISIK_FEHLT = isikPaketeFehlen(FHIR_CACHE);
 const ISIK_GRUND = ISIK_FEHLT.length ? 'fehlt im Paket-Cache ' + FHIR_CACHE + ': ' + ISIK_FEHLT.join(', ') : null;
+/* EU-LABORDOKUMENT DER PERSON (22.10.2026, K18): urteilt in einem eigenen Sammelaufruf nur mit hl7.fhir.eu.laboratory#2.0.0 (wie ISiK,
+   damit sich die Urteile des Grundlaufs nicht verschieben). Das Paket kommt aus dem lokalen Paket-Cache; gepinnt sind die
+   Prüfsummen der beiden Profile, gegen die geurteilt wird (Bundle-eu-lab, Composition-eu-lab). Sie sind gleich denen im Paket von
+   packages.fhir.org (Archiv sha256 097aa45c6efcdbc3f25ead8b7d448fee5011b5e7ecf264aa400c5e2c69c5c488, nachgemessen 22.10.2026).
+   Fehlt das Paket oder weicht eine Prüfsumme ab, sind die Fälle UNGEMESSEN (todo, mit Grund), nie grün. Der Rest von L1
+   (Original und Hülle gegen eu-lab, eu-hdr) gehört zum Befund EU-LAB-HDR-DURCHREICHE-UNGEPRUEFT. */
+const EU_LAB_IG = 'hl7.fhir.eu.laboratory#2.0.0';
+const EU_LAB_PIN = Object.freeze({
+  'StructureDefinition-Bundle-eu-lab.json': '703735bcc3a5fb9a095d465a783595cb86a5c1a26cebb67395c24233e0accc83',
+  'StructureDefinition-Composition-eu-lab.json': 'ec2ffb6fc4c941a981b8100a668ebc4e9ba6033afa7752acba7318b3ec41981b',
+});
+function euLabPaketGrund(cache) {
+  const ordner = path.join(cache, EU_LAB_IG, 'package');
+  for (const [datei, soll] of Object.entries(EU_LAB_PIN)) {
+    const p = path.join(ordner, datei);
+    if (!fs.existsSync(p)) return 'fehlt im Paket-Cache ' + cache + ': ' + EU_LAB_IG + '/' + datei;
+    const ist = crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+    if (ist !== soll) return EU_LAB_IG + '/' + datei + ' hat sha256 ' + ist + ' statt der gepinnten ' + soll;
+  }
+  return null;
+}
+const EU_LAB_GRUND = euLabPaketGrund(FHIR_CACHE);
+/* PAKETFEHLER DES LEITFADENS (gemessen 28.09. und 22.10.2026): DiagnosticReport-eu-lab (eu-lab 2.0.0) nennt für subject das
+   Profil patient-animal-eu-core; das erklärte hl7.fhir.eu.base 2.0.0 enthält es nicht (nur 0.1.0-ballot). Offline fällt daran
+   JEDES eu-lab-Dokument, auch das Original des Labors (bei EVS am 16.10.2026 DONE_PASSED). Nur diese eine Meldung, nur an
+   DiagnosticReport.subject, nur in eu-lab-Fällen, wird übergangen — und nur solange das Original sie wirklich auslöst
+   (Fall eu-lab-original-paketfehler, sonst rot: dann ist der Leitfaden repariert und diese Zeile fällt weg).
+   Nachsehen: grep -rl patient-animal-eu-core im Paket-Cache, je Fassung von hl7.fhir.eu.base. */
+const EU_LAB_PAKETFEHLER = /DiagnosticReport\/[^*]*\*\/\.subject: .*'http:\/\/hl7\.eu\/fhir\/base\/StructureDefinition\/patient-animal-eu-core'/;
 test.after(() => { fs.rmSync(ARBEIT, { recursive: true, force: true }); });
 const igArgs = (pakete) => pakete.flatMap((p) => ['-ig', p]);
 let sammelNr = 0;
@@ -351,6 +381,33 @@ export const VALIDATOREN = [
         const ohneKdl = kopie(dr.vollmacht); ohneKdl.type.coding.shift();
         isik('isik-ohne-kdl', 'ungueltig', 'ISiKDokumentenMetadaten: type.coding:KDL ist Pflicht — ohne KDL-Coding muss die DR fallen', ohneKdl);
       }
+      /* K18: das EU-Labordokument der Person aus dem echten Generator (euLabDokumentDerPerson), Eingabe ist der Laborbefund der
+         Vorführung (am 16.10.2026 bei EVS als Original DONE_PASSED). Das Gegenstück streicht den DiagnosticReport
+         (Bundle.entry:diagnosticReport 1..1) und MUSS fallen. */
+      if (!EU_LAB_GRUND) {
+        const euLab = async (name, erwartet, warum, beschaedigen) => {
+          const { V } = ladeKern();
+          await V.depotAnlegen('pw');
+          V.akteurSelbstErklaeren('Konformitaet');
+          const bytes = fs.readFileSync(path.join(import.meta.dirname, '..', '..', 'tools', 'vorfuehrung', 'patientin', 'laborbefund-ca125.json'));
+          const id = V.importAutoritativDokument(bytes.toString('utf8'), new Uint8Array(bytes));
+          const b = beschaedigen === 'original' ? JSON.parse(bytes.toString('utf8'))
+            : JSON.parse(JSON.stringify(V.euLabDokumentDerPerson(id, new Date('2026-10-22T12:00:00Z'))));
+          if (typeof beschaedigen === 'function') beschaedigen(b);
+          const p = path.join(ARBEIT, name + '.json');
+          fs.writeFileSync(p, JSON.stringify(b, null, 1));
+          PAKETE_JE_PFAD.set(p, [EU_LAB_IG]);
+          faelle.push({ name, pfad: p, erwartet, warum, paketfehler: EU_LAB_PAKETFEHLER, paketfehlerPflicht: beschaedigen === 'original' });
+        };
+        await euLab('eu-lab-original-paketfehler', 'gueltig',
+          'das Original des Labors: genau der bekannte Paketfehler (patient-animal-eu-core), sonst nichts — hält die Ausnahme ehrlich',
+          'original');
+        await euLab('eu-lab-dokument-der-person', 'gueltig',
+          'K18: eu-lab-Dokument der Person — Autorin der Patient, Original unverändert als Binary im Abschnitt 77599-9, relatesTo transforms');
+        await euLab('eu-lab-dokument-ohne-befund', 'ungueltig',
+          'Bundle-eu-lab: entry:diagnosticReport ist 1..1 — ein Dokument ohne DiagnosticReport muss fallen',
+          (b) => { b.entry = b.entry.filter((x) => x.resource.resourceType !== 'DiagnosticReport'); });
+      }
       return faelle;
     },
     /* Die KAPUTT-Probe: ein absichtlich beschädigtes Erzeugnis MUSS abgelehnt werden.
@@ -411,6 +468,12 @@ test('[Extern] jedes Werkzeug der Registry ist da (eigenständiges Werkzeug, nic
   }
 });
 
+test('[Extern·EU-Lab] das eu-lab-Paket liegt gepinnt im lokalen Paket-Cache (sonst ist das Dokument der Person UNGEMESSEN)', (t) => {
+  if (!EU_LAB_GRUND) return;
+  console.log('\n  ⚠ UNGEMESSEN — EU-Lab-Faelle: ' + EU_LAB_GRUND + '\n');
+  t.todo('UNGEMESSEN — ' + EU_LAB_GRUND + ' (zaehlt NICHT als bestanden)');
+});
+
 test('[Extern·ISiK] die ISiK-Pakete liegen im lokalen Paket-Cache (sonst sind die ISiK-Faelle UNGEMESSEN)', (t) => {
   if (!ISIK_GRUND) return;
   console.log('\n  ⚠ UNGEMESSEN — ISiK-Faelle: ' + ISIK_GRUND + '\n');
@@ -437,7 +500,16 @@ test('[Extern] jedes Erzeugnis des Generators traegt sein erwartetes Urteil', as
     for (const f of faelle) {
       const u = urteileJe.get(f.pfad);
       if (!u.gelesen) { abweichungen.push(v.id + '/' + f.name + ': kein Urteil lesbar'); continue; }
-      const ist = u.gueltig ? 'gueltig' : 'ungueltig';
+      let ist = u.gueltig ? 'gueltig' : 'ungueltig';
+      if (f.paketfehler) {
+        // Nur der eine bekannte Paketfehler des Leitfadens (EU_LAB_PAKETFEHLER) wird übergangen; jede andere Meldung zählt.
+        const uebrig = u.fehler.filter((x) => !f.paketfehler.test(x));
+        if (f.paketfehlerPflicht && uebrig.length === u.fehler.length) {
+          abweichungen.push(v.id + '/' + f.name + ': der bekannte Paketfehler tritt nicht mehr auf — Ausnahme EU_LAB_PAKETFEHLER entfernen');
+        }
+        u.fehler = uebrig;
+        ist = uebrig.length ? 'ungueltig' : 'gueltig';
+      }
       if (ist === f.erwartet) continue;
       abweichungen.push(v.id + '/' + f.name + ': erwartet ' + f.erwartet + ', ist ' + ist
         + '\n      (' + f.warum + ')'

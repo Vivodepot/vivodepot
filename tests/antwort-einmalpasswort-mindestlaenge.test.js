@@ -50,10 +50,17 @@ async function kern(htmlPfad) {
   return { V, document: k.document, dialoge, gefangen };
 }
 const warte = (ms) => new Promise((r) => setTimeout(r, ms));
-async function warteAufDatei(gefangen, ms) {
+/* Seit „Link senden“ (L1b, 19.10.2026) fragt eine signierte Antwort erst nach dem Weg; die Probe wählt „Herunterladen“,
+   den Weg, den sie hält. */
+async function warteAufDatei(K, ms) {
   const ende = Date.now() + (ms || 15000);
-  while (!gefangen.length && Date.now() < ende) await warte(25);
-  return gefangen.length;
+  let gewaehlt = false;
+  while (!K.gefangen.length && Date.now() < ende) {
+    const d = K.dialoge.at(-1);
+    if (!gewaehlt && d && /id="ausgabe-datei"/.test(d.koerperHTML || '')) { gewaehlt = true; d.onPrimaer(() => {}); }
+    await warte(25);
+  }
+  return K.gefangen.length;
 }
 const istEingabe = (V, d) => !!d && d.titel === V.STRINGS.antwortPasswortTitel && /id="antwort-pw"/.test(d.koerperHTML);
 const istHinweis = (V, d) => !!d && d.titel === V.STRINGS.antwortPasswortKurzTitel;
@@ -107,7 +114,7 @@ test('[Einmalpasswort · Hinweis] „Trotzdem verschlüsseln“ schreibt die Ant
   assert.ok(hinweis, 'der Hinweis steht');
   assert.equal(K.gefangen.length, 0, 'vor der Wahl geht nichts hinaus');
   hinweis.onPrimaer(() => {});
-  assert.equal(await warteAufDatei(K.gefangen), 1, 'die Antwort geht hinaus');
+  assert.equal(await warteAufDatei(K), 1, 'die Antwort geht hinaus');
   assert.match(K.gefangen[0].name, /_Antwort_EP-2026-1017\.jwe$/);
   const jwe = (await K.gefangen[0].blob.text()).trim();
   assert.equal(jwe.split('.').length, 5, 'JWE Compact: fünf Teile');
@@ -121,7 +128,7 @@ for (const pw of ['ABCD-EFGH-JKLM-NPQR', 'ABCDEFGHJKLMNPQR']) {
     const K = await kern();
     const { hinweis } = eingeben(K, pw);
     assert.equal(hinweis, null, 'kein Hinweis');
-    assert.equal(await warteAufDatei(K.gefangen), 1, 'die Antwort geht hinaus');
+    assert.equal(await warteAufDatei(K), 1, 'die Antwort geht hinaus');
   });
 }
 
@@ -194,6 +201,6 @@ test('[Einmalpasswort · Rot-Beweis] ohne die Prüfung wird „4711“ ohne Hinw
     const K = await kern(k.pfad);
     const { hinweis } = eingeben(K, '4711');
     assert.equal(hinweis, null, 'genau der Befund: kein Hinweis');
-    assert.equal(await warteAufDatei(K.gefangen), 1, 'genau der Befund: die Antwort geht mit „4711“ hinaus');
+    assert.equal(await warteAufDatei(K), 1, 'genau der Befund: die Antwort geht mit „4711“ hinaus');
   } finally { k.aufraeumen(); }
 });

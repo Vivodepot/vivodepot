@@ -292,6 +292,23 @@ ein eigener Schritt außerhalb jeder Sitzung. Die Proben signieren mit Wegwerf-A
 - eine nicht öffentliche Probe (beide Module): Quelle je Feld, kein Zugangsgeheimnis, kein Notfall-Wort, DE gleich EN;
   in pro-de und pro-en angenommen, Bereich und Auszug sichtbar; Rundlauf ohne Verlust.
 
+## 9 · Nachtrag 23.10.2026 — Pro P2: Privates aus Pro
+
+Die Linie „Pro ist ein berufliches Depot“ (22.10.2026: private Angaben nur, wenn die Person sie für die Vertretung teilt, nie
+Gesundheit) löst §3a ab, soweit er die Ablageorte von Patienten- und Betreuungsverfügung „endgültig“ nannte. Grundlage sind die
+Entscheidungen vom 22.10.2026 (D1, D2, D4) und die der Geschäftsführung vom 23.10.2026 zur KI-Verfügung.
+
+- **Entfallen** in Pro: `tpl_patientenverfuegung_ablageort` und `tpl_betreuungsverfuegung_ablageort` (Vertretung und
+  Vollmachten), `tpl_versorgungslage_der_familie_im_ausfall` mit der Sektion „Private Absicherung“ (Finanzen und
+  Verbindlichkeiten), die Frage nach der Patientenverfügung im Auszug Teil C (DE und EN) und der Eintrag in der Situation.
+  Die Sektion „Vollmachten“ bleibt mit den Feldern aus §7; sie steht jetzt unter den neuen Sektionen der Feldquelle.
+- **Bleibt:** `tpl_vorsorgevollmacht_privat_ablageort` (sie entscheidet, wer bei Geschäftsunfähigkeit handeln darf) und
+  `tpl_testament_oder_erbvertrag_ablageort` (Nachfolge).
+- **Aus dem Pro-Rezept** (`tools/lib/vier-produkte.js`): die Dokumentmodule Patientenverfügung, KI-Verfügung,
+  Vorsorgevollmacht und Betreuungsverfügung, ihre Wortlaute (`dokumente`), die vier Standardvorlagen samt Organspende, der
+  IPS-Begleittext, die amtlichen Vorlagen und die Angehörigen-Vorlage. Erbschein-Vorbereitung und Zugang zum Recht bleiben.
+- **Bestand:** Werte einer älteren Pro-Datei in den entfallenen Feldern bleiben in `sektoren` stehen. Der signierte Betriebssatz-Weg (U2-ADR-421 §6) bleibt bei 54 Feldern.
+
 ---
 
 *Vivodepot GmbH · Berlin · 03.09.2026*

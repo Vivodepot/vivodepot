@@ -1,0 +1,29 @@
+{
+  "systemId": "iso4217",
+  "uri": "urn:iso:std:iso:4217",
+  "version": "SEED-ISO-4217-2026-09-17",
+  "kuerzel": "ISO 4217",
+  "anzeigeNameEigen": true,
+  "hinweispflicht": false,
+  "lizenz": "Währungscodes nach ISO 4217. Die Codeliste pflegt die SIX Group als Maintenance Agency im Auftrag der ISO. Vivodepot übernimmt nur die verwendeten Codes, mit eigener Bezeichnung, keine Inhalte der Liste.",
+  "status": "seed",
+  "hinweis": "Nur die Codes, die ausgelieferte Templates verwenden (EUR, USD, GBP, CHF; gemessen mit node -e \"console.log(require('./tools/codelisten-amtlich-abgleich.js').waehrungenImProdukt())\"). Version = Veröffentlichungsdatum der amtlichen Liste, gegen die jeder Code geprüft ist: list-one.xml, Pblshd 2026-09-17, 47491 Byte, SHA-256 33139b438657d1cee116ba737807ea71d19d6de4b90f799a09c56f0cc6a1b0ff, abgerufen 17.10.2026; Prüfung: node tools/codelisten-amtlich-abgleich.js --iso4217 <list-one.xml>. Die vollständige Liste lädt die Person selbst (Weg wie OPS, U2-ADR-480); sie liegt nicht im Repo, weil die Weitergabe an der Primärquelle nicht geregelt ist (SIX Terms of Use, 03.10.2026). Im Gerüst steht nur der Code (anzeigeName = Code); den Namen liefert das Sprachmodul unter codeliste:iso4217/<Code>.anzeige (tools/textsatz-codelisten-daten.js). hinweispflicht false: SIX verlangt keinen Hinweis im weitergegebenen Exemplar, die Quellenangabe steht in NOTICE.md und THIRD_PARTY_LICENSES; die Lizenzzeile steht darum nicht im Kern (Gegenlesung, 04.10.2026, Option iii).",
+  "daten": [
+    {
+      "code": "EUR",
+      "anzeigeName": "EUR"
+    },
+    {
+      "code": "USD",
+      "anzeigeName": "USD"
+    },
+    {
+      "code": "GBP",
+      "anzeigeName": "GBP"
+    },
+    {
+      "code": "CHF",
+      "anzeigeName": "CHF"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "kennung": "vivodepot/pets",
+  "fassung": 1,
+  "bereiche": {
+    "pets": {
+      "id": "pets",
+      "format": "GENERISCH",
+      "icon": "pawPrint",
+      "sektionen": [
+        {
+          "id": "pets",
+          "felder": [
+            {
+              "id": "pets",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "petNameSpecies",
+                  "typ": "text"
+                },
+                {
+                  "id": "emergencyCarePersonContact",
+                  "typ": "ref",
+                  "entitaet": "person"
+                },
+                {
+                  "id": "vetNameContact",
+                  "typ": "ref",
+                  "entitaet": "person"
+                },
+                {
+                  "id": "medication",
+                  "typ": "text"
+                },
+                {
+                  "id": "otherNotes",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

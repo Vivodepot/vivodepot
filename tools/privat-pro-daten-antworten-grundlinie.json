@@ -1,5 +1,6 @@
 {
-  "stand": "28.09.2026, am Kanon-Stand b136d264f (v814) neu erhoben; mit v815 (ruhende Bürger-Bereiche lesen den Katalog) ohne Fund in de und en, voll und leer. Die 174 B2-Schlüssel sind mit diesem Fix gefallen.",
-  "hinweis": "Jeder Schlüssel ist SPRACHE SZENARIO FUNKTION @ BEREICH. Ein behobener Befund macht die Probe rot, bis seine Schlüssel hier entfernt sind.",
-  "funde": {}
+  "stand": "23.10.2026, mit U2-ADR-479 (Tiere als eigener Bereich in Privat) neu erhoben, de und en leer: zwanzig Funde, alle befristet. Davor 28.09.2026 ohne Fund.",
+  "hinweis": "Jeder Schlüssel ist SPRACHE SZENARIO FUNKTION @ BEREICH. Ein behobener Befund macht die Probe rot, bis seine Schlüssel hier entfernt sind. Ein Wert, der mit BEFRISTET <frist> beginnt, ist eine benannte Ausnahme von der Produktentscheidung vom 16.09.2026; die Frist steht unter fristen und wird geprüft.",
+  "funde": {},
+  "fristen": {}
 }

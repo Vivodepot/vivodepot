@@ -6,6 +6,19 @@
     {"name":"alle Felder","urteil":"bestanden","dokument":{"modulTyp":"branding","moduleVersion":1,"herkunft":"probe","farbePrimaer":"#4F6539","farbeSekundaer":"#8a6d3a","schriftart":"Segoe UI","logo":"data:image/png;base64,iVBORw0KGgo=","name":"Sparkasse Musterstadt","domain":"example.org","kontakt":"hilfe@example.org","aktualisierungen":"https://example.org/module/"}},
     {"name":"ohne moduleVersion","urteil":"abgewiesen","regel":"branding.moduleVersion","dokument":{"modulTyp":"branding","herkunft":"probe","farbePrimaer":"#4F6539"}},
     {"name":"nichts gesetzt","urteil":"abgewiesen","regel":"branding.nichts-gueltiges-gesetzt","dokument":{"modulTyp":"branding","moduleVersion":1,"herkunft":"probe"}},
+    {"name":"erscheinung in Fassung 1","urteil":"abgewiesen","regel":"branding.erscheinung-erst-ab-fassung-2","dokument":{"modulTyp":"branding","moduleVersion":1,"herkunft":"probe","farbePrimaer":"#4F6539","erscheinung":{"tokens":{"hell":{"--akzent":"#4F6539"}}}}},
+    {"name":"erscheinung ist eine Zeichenkette","urteil":"abgewiesen","regel":"branding.erscheinung-kein-objekt","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":"x"}},
+    {"name":"erscheinung leer","urteil":"abgewiesen","regel":"branding.erscheinung-leer","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{}}},
+    {"name":"erscheinung mit unbekanntem Feld","urteil":"abgewiesen","regel":"branding.erscheinung-feld-unbekannt","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"layout":{}}}},
+    {"name":"erscheinung mit schriften","urteil":"abgewiesen","regel":"branding.erscheinung-feld-noch-nicht-unterstuetzt","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"schriften":{}}}},
+    {"name":"tokens ist eine Liste","urteil":"abgewiesen","regel":"branding.erscheinung-tokens-kein-objekt","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":[]}}},
+    {"name":"unbekannte Ebene hell","urteil":"abgewiesen","regel":"branding.erscheinung-ebene-unbekannt","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":{"hell":{"--gold":"#8a6d3a"}}}}},
+    {"name":"Ebene basis ist eine Zeichenkette","urteil":"abgewiesen","regel":"branding.erscheinung-ebene-kein-objekt","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":{"basis":"x"}}}},
+    {"name":"keine Tokens","urteil":"abgewiesen","regel":"branding.erscheinung-tokens-leer","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":{"basis":{}}}}},
+    {"name":"Warnfarbe gesetzt","urteil":"abgewiesen","regel":"branding.erscheinung-token-gesperrt","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":{"basis":{"--error":"#ff0000"}}}}},
+    {"name":"Wert mit url()","urteil":"abgewiesen","regel":"branding.erscheinung-token-verworfen","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":{"basis":{"--gold":"url(x)"}}}}},
+    {"name":"Grau auf Weiß","urteil":"abgewiesen","regel":"branding.erscheinung-kontrast","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":{"basis":{"--ink":"#999999","--cream":"#ffffff"}}}}},
+    {"name":"Zielgröße 20px","urteil":"abgewiesen","regel":"branding.erscheinung-mindestgroesse","dokument":{"modulTyp":"branding","moduleVersion":2,"herkunft":"probe","erscheinung":{"tokens":{"basis":{"--ziel":"20px"}}}}},
     {"name": "eine Zeichenkette statt eines Objekts, als branding geprüft", "urteil": "abgewiesen", "regel": "branding.kein-objekt", "erzwingeArt": "branding", "dokument": "kein Objekt"}
   ]
 }

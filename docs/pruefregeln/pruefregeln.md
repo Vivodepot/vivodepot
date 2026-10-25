@@ -47,7 +47,7 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `allgemein.nur-signiert-erlaubt` | hinweis | Module dieser Art lässt die Bürger-App nur mit geprüfter Signatur ein. Die Form wird hier trotzdem geprüft. | `nur-signiert-erlaubt` |
 | `allgemein.kein-json` | abweisung | Die Datei ist kein gültiges JSON. | `kein-json` |
 | `allgemein.kein-objekt` | abweisung | Die Datei enthält kein JSON-Objekt. | `kein-objekt` |
-| `allgemein.zu-gross` | abweisung | Das Modul ist größer als 512 KB. | `zu-gross` |
+| `allgemein.zu-gross` | abweisung | Das Modul ist größer als 512 KB, ein Sprachmodul größer als 1 MiB. | `zu-gross` |
 | `allgemein.zu-tief` | abweisung | Das Modul ist tiefer als 40 Ebenen geschachtelt. | `zu-tief` |
 | `allgemein.nicht-serialisierbar` | abweisung | Das Modul lässt sich nicht als JSON schreiben. | `nicht-serialisierbar` |
 | `allgemein.unbekannter-typ` | abweisung | Der Wert von modulTyp nennt keine Modulart, die die Bürger-App kennt. | `unbekannter-typ` |
@@ -91,6 +91,7 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `rechtsraum.kein-objekt` | abweisung | Das Modul ist kein JSON-Objekt. | `kein-objekt` |
 | `rechtsraum.rechtsraum` | abweisung | rechtsraum fehlt oder ist leer. | `rechtsraum` |
 | `rechtsraum.reserviert` | abweisung | Der Rechtsraum ist der eingebaute der App; ein Modul kann ihn nicht ersetzen. | `reserviert` |
+| `rechtsraum.quelle` | abweisung | quelle ist angegeben, aber unvollständig: Behörde, Titel und Lizenz sind je ein nicht leerer Text, die Adresse ebenso, wenn sie angegeben ist. | `quelle` |
 | `rechtsraum.moduleVersion` | abweisung | moduleVersion fehlt oder ist keine ganze Zahl ab 1. | `moduleVersion` |
 | `rechtsraum.typen` | abweisung | typen fehlt, oder nach der Prüfung bleibt kein gültiger Eintrag übrig. | `typen` |
 
@@ -222,6 +223,20 @@ Das Werkzeug kennt keinen Schlüssel und öffnet keine Verbindung. Es prüft kei
 | `branding.kein-objekt` | abweisung | Das Modul ist kein JSON-Objekt. | `kein-objekt` |
 | `branding.moduleVersion` | abweisung | moduleVersion fehlt oder ist keine ganze Zahl ab 1. | `moduleVersion` |
 | `branding.nichts-gueltiges-gesetzt` | abweisung | Keine der Angaben zum Erscheinungsbild ist gültig; mindestens eine muss es sein. | `nichts-gueltiges-gesetzt` |
+| `branding.erscheinung-erst-ab-fassung-2` | abweisung | Ein Erscheinungsbild (erscheinung) ist erst ab moduleVersion 2 zulässig; in Fassung 1 lehnt es das ganze Modul ab. | `erscheinung-erst-ab-fassung-2` |
+| `branding.erscheinung-kein-objekt` | abweisung | erscheinung ist kein JSON-Objekt. | `erscheinung-kein-objekt` |
+| `branding.erscheinung-leer` | abweisung | erscheinung ist leer; es muss mindestens ein Feld tragen. | `erscheinung-leer` |
+| `branding.erscheinung-feld-unbekannt` | abweisung | erscheinung enthält ein unbekanntes Feld; bekannt sind tokens und schriften. | `erscheinung-feld-unbekannt` |
+| `branding.erscheinung-feld-noch-nicht-unterstuetzt` | abweisung | Ein Feld in erscheinung (derzeit schriften) unterstützt diese Fassung der Anwendung noch nicht; das ganze Modul wird abgelehnt. | `erscheinung-feld-noch-nicht-unterstuetzt` |
+| `branding.erscheinung-tokens-kein-objekt` | abweisung | erscheinung.tokens ist kein JSON-Objekt. | `erscheinung-tokens-kein-objekt` |
+| `branding.erscheinung-ebene-unbekannt` | abweisung | erscheinung.tokens enthält eine unbekannte Ebene; erlaubt sind basis, hochkontrast und dunkel. | `erscheinung-ebene-unbekannt` |
+| `branding.erscheinung-ebene-kein-objekt` | abweisung | Eine Ebene in erscheinung.tokens ist kein JSON-Objekt. | `erscheinung-ebene-kein-objekt` |
+| `branding.erscheinung-tokens-leer` | abweisung | erscheinung.tokens setzt keinen einzigen Wert; mindestens eine Ebene muss einen Token tragen. | `erscheinung-tokens-leer` |
+| `branding.erscheinung-token-gesperrt` | abweisung | erscheinung.tokens setzt einen gesperrten Token mit Bedeutung (--error, --warning, --info, --success, die Fehler- und Notfallfarben, --auf-warnung, die Modusfarben --modus-*, die Ampel --ampel-* und --fuss-schrift); diese setzt nur die Anwendung selbst. | `erscheinung-token-gesperrt` |
+| `branding.erscheinung-ohne-haus` | abweisung | Die Anwendung trägt kein gültiges eigenes Erscheinungsbild, über das sich das Profil legen ließe; ohne dieses wird jedes Profil abgelehnt. | `erscheinung-ohne-haus` |
+| `branding.erscheinung-token-verworfen` | abweisung | Ein Token in erscheinung.tokens ist unbekannt, geschützt oder hat einen unzulässigen Wert; das ganze Modul wird abgelehnt. | `erscheinung-token-verworfen` |
+| `branding.erscheinung-kontrast` | abweisung | Mit dem Profil erreicht ein Farbpaar in einer Ebene den Mindestkontrast von 4,5:1 nicht oder ist nicht bestimmbar; das ganze Modul wird abgelehnt. | `erscheinung-kontrast` |
+| `branding.erscheinung-mindestgroesse` | abweisung | Mit dem Profil unterschreitet eine Größe (etwa die Zielgröße --ziel oder eine Schriftgröße) ihr Mindestmaß oder ist nicht bestimmbar; das ganze Modul wird abgelehnt. | `erscheinung-mindestgroesse` |
 
 ## logikModul
 

@@ -1,6 +1,6 @@
 'use strict';
 /* Befund SENSIBEL-FILTER-BEREICHSBAUSTEIN (HOCH, 07.10.2026). U2-ADR-156 §3: der Sensibel-Filter bindet die engen Bausteine
-   eines Fachs. Die Bereichs-Bausteine (seit 23.09.2026, betroffen v917 bis v920) sind eng, gaben aber jedes
+   eines Fachs. Die Bereichs-Bausteine (seit 23.09.2026, betroffen v787 bis v920; berichtigt 20.10.2026, zuerst stand hier v917 bis v920) sind eng, gaben aber jedes
    Bereichsfeld ins Fach — auch als sensibel markierte, in eine Datei in fremder Hand.
    Gehalten wird:
      · der Befund selbst: ein sensibles Feld eines Bereichs-Bausteins steht nicht im Zuschnitt, ein freigegebenes schon;
@@ -132,7 +132,10 @@ test('[Sensibel-Filter·Klasse] jeder enge Baustein außerhalb der Blatt-Positiv
 test('[Sensibel-Filter·Klasse·Rot-Beweis] ein enger Baustein ohne Filter fällt dem Wächter auf; das Prädikat greift für jeden neuen', async () => {
   const V = await depot(() => {});
   allesSensibel(V);
-  // Ein ungefilterter enger Baustein: das Notfall-Blatt (bewusste Ausnahme). Der Detektor muss ihn finden.
+  // Ein ungefilterter enger Baustein: das Notfall-Blatt (bewusste Ausnahme). Der Detektor muss ihn finden. Seit
+  // RUECKNAHME-ANGEHOERIGE-UND-NOTFALLKARTE (20.10.2026) nimmt das Blatt eine ausdrückliche Rücknahme der Person heraus; der
+  // Rot-Beweis misst darum ohne ausdrückliche Markierungen: was ab Werk geschützt ist, trägt das Blatt ungefiltert.
+  V.getData().sensibelFelder = {};
   assert.ok(lecks(V.empfaengerZuschnittModell({ id: 'kr', name: 'Rot', bausteine: ['notfall'] })).length > 0,
     'ohne Filter findet der Wächter sensible Werte im Zuschnitt');
   // Das Prädikat: ein neuer enger Baustein, etwa aus einem Modul, ist gefiltert — auch mit dem Namen eines Blatts als Bereich.

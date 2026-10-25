@@ -43,6 +43,7 @@ const DAR = 'http://hl7.org/fhir/StructureDefinition/data-absent-reason';
 const OHNE_EXPORTWEG = Object.freeze({
   loinc: 'nur Import (Laborbefund); kein Katalogfeld trägt die Liste',
   esco: 'Stub ohne Daten; kein Katalogfeld',
+  iso4217: 'Währungsfelder führen ihre Codes als Optionen, nicht über codeListe; die Liste hält die Codes der Templates (U2-ADR-480)',
   'xoev-rollencode': 'Stub ohne Daten; kein Katalogfeld',
 });
 

@@ -9,6 +9,9 @@ const mit = (x) => ({ ...basis, ...x });
 const ohne = (k) => { const m = { ...basis }; delete m[k]; return m; };
 const nur = (x) => ({ moduleVersion: 1, ...x });
 const LOGO = 'data:image/png;base64,iVBORw0KGgo=';
+// U2-ADR-473 W2: Branding v2 mit Erscheinungsbild (Ebenen wie im Erscheinungsbild-Modul) und dem Schalter poweredByAus.
+const v2x = (erscheinung) => ({ modulTyp: 'branding', moduleVersion: 2, herkunft: 'probe', erscheinung });
+const v2 = (basis, weitere) => v2x({ tokens: { basis, ...(weitere || {}) } });
 
 gleichlaufProben({
   typ: 'branding',
@@ -32,7 +35,14 @@ gleichlaufProben({
     ['Modell white-label', mit({ modell: 'white-label' })],
     ['Modell branding', mit({ modell: 'branding' })],
     ['mit Einlass-Marken', mit({ appVersion: 'v1', ungeprueft: false, eingelassenAm: '2026-09-26T00:00:00Z',
-      anbieterId: 'a', anbieterIdGeprueft: true })],
+      anbieterId: 'a', anbieterIdGeprueft: true })],    ['v2 nur Profil', v2({ '--radius-karte': '20px', '--label-schreibung': 'none' })],
+    ['v2 Profil neben Farbe und Name, mit Nacht', mit({ moduleVersion: 2, name: 'Musterverein', erscheinung: { tokens: {
+      basis: { '--ink': '#111111', '--cream': '#fafafa', '--shadow-soft': '0 1px 2px rgba(0,0,0,.06)' },
+      dunkel: { '--cream': '#151a16' } } } })],
+    ['v2 ohne erscheinung', mit({ moduleVersion: 2 })],
+    ['v2 erscheinung null', mit({ moduleVersion: 2, erscheinung: null })],
+    ['v2 mit Schalter poweredByAus', mit({ moduleVersion: 2, name: 'Musterverein', poweredByAus: true })],
+    ['Schalter false heißt nicht gesetzt', mit({ poweredByAus: false })],
   ],
   negativ: [
     ['kein Objekt', null, 'kein-objekt'],
@@ -52,6 +62,30 @@ gleichlaufProben({
     ['Domain ohne Punkt', nur({ domain: 'localhost' }), 'nichts-gueltiges-gesetzt'],
     ['Domain zu lang', nur({ domain: 'a'.repeat(61) + '.' + 'b'.repeat(39) }), 'nichts-gueltiges-gesetzt'],
     ['Kontakt ohne @', nur({ kontakt: 'hilfe.example.org' }), 'nichts-gueltiges-gesetzt'],
-    ['Aktualisierungen http', nur({ aktualisierungen: 'http://example.org' }), 'nichts-gueltiges-gesetzt'],
+    ['Aktualisierungen http', nur({ aktualisierungen: 'http://example.org' }), 'nichts-gueltiges-gesetzt'],    ['erscheinung in Fassung 1', mit({ erscheinung: { tokens: { basis: { '--gold': '#8a6d3a' } } } }), 'erscheinung-erst-ab-fassung-2'],
+    ['erscheinung als Liste', v2x([]), 'erscheinung-kein-objekt'],
+    ['erscheinung leer', v2x({}), 'erscheinung-leer'],
+    ['erscheinung unbekanntes Feld', v2x({ farben: {} }), 'erscheinung-feld-unbekannt'],
+    ['layout gehört ins Erscheinungsbild-Modul', v2x({ layout: {} }), 'erscheinung-feld-unbekannt'],
+    ['stil gehört ins Erscheinungsbild-Modul', v2x({ stil: {} }), 'erscheinung-feld-unbekannt'],
+    ['schriften vor W4', v2x({ schriften: {} }), 'erscheinung-feld-noch-nicht-unterstuetzt'],
+    ['tokens als Liste', v2x({ tokens: [] }), 'erscheinung-tokens-kein-objekt'],
+    ['tokens ohne Ebene', v2x({ tokens: { '--gold': '#8a6d3a' } }), 'erscheinung-ebene-unbekannt'],
+    ['Ebene als Liste', v2x({ tokens: { basis: [] } }), 'erscheinung-ebene-kein-objekt'],
+    ['alle Ebenen leer', v2({}, { dunkel: {} }), 'erscheinung-tokens-leer'],
+    ['Bedeutungs-Token', v2({ '--fehler-flaeche': '#fdecea' }), 'erscheinung-token-gesperrt'],
+    ['Bedeutungs-Token nachts', v2({ '--gold': '#8a6d3a' }, { dunkel: { '--error': '#ff6b5b' } }), 'erscheinung-token-gesperrt'],
+    ['unbekannter Token', v2({ '--frei-erfunden': '#112233' }), 'erscheinung-token-verworfen'],
+    ['Token mit url(', v2({ '--gold': 'url(x)' }), 'erscheinung-token-verworfen'],
+    ['Schreibweg der Bedienschrift', v2({ '--fs-role-label': '1rem' }), 'erscheinung-token-verworfen'],
+    ['kern-berechneter Token', v2({ '--akzent': '#112233' }), 'erscheinung-token-verworfen'],
+  ],
+  nurKern: {
+    'erscheinung-kontrast': 'Kontrast ist ein Verhältnis zweier Werte je Ebene, teils aus dem Erscheinungsbild des Produkts — ein statisches Schema sieht weder die Paare noch das Haus.',
+    'erscheinung-mindestgroesse': 'Eine Größe kann über var() auf einen Wert des Hauses verweisen; erst das Auflösen gegen das Produkt ergibt die Pixel.',
+  },
+  nurKernFaelle: [
+    ['Text #999999 auf Weiß', v2({ '--ink': '#999999', '--cream': '#ffffff' }), 'erscheinung-kontrast'],
+    ['Ziel unter 24 px', v2({ '--ziel': '20px' }), 'erscheinung-mindestgroesse'],
   ],
 });

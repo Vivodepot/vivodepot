@@ -58,6 +58,17 @@ mit dieser ADR als Hülle gebaut — neben dem Original, nicht in ihm.
 Die in „Was offen bleibt" genannte Sperre ist entschieden: Verselbstständigung ist das Abgeben (Entscheidung vom 20.09.2026);
 der Übergang „Sub-Depot wird in derselben Sitzung zum Anker" bleibt ungebaut, solange niemand ihn beschließt.
 
+## Nachtrag 22.10.2026 — ein Laborbefund geht zusätzlich als EU-Labordokument der Person hinaus
+
+**Bestand:** Hülle mit Verwahrungsnachweis (oben) und „Original herunterladen“ (U2-ADR-086 §2) gelten unverändert. Der
+Nachbau eines Laborbefunds aus Depot-Feldern bleibt abgewickelt (U2-ADR-050 E3). **Neu ist nur:** Für einen eingelesenen
+EU-Laborbefund (`hl7.fhir.eu.laboratory` 2.0.0) gibt es einen zweiten Knopf. Er erzeugt ein **neues** Dokument im selben
+Profil, mit der Person als Autorin (Patient, bei Vertretung RelatedPerson). Quelle ist allein das Original, nie ein
+Depot-Feld. Befund, Messwerte und Labor bleiben, wie sie sind. Das Original hängt **byte-gleich** als Binary im Abschnitt
+„Anhang“ (LOINC 77599-9), `relatesTo` (`transforms`) zeigt auf seine Kennung. Verwahrer und Unterschrift der Klinik
+entfallen, weil die Person sie nicht geben kann. Für den Entlassbrief gilt das nicht: eu-hdr lässt die Person nicht als
+Autorin zu, er bleibt in der Hülle. Gegen das Profil urteilt der HL7-Validator mit gepinntem Paket.
+
 ```yaml
 konformitaet:
   - aussage: >-
@@ -111,4 +122,17 @@ konformitaet:
         "[Widerspruch·Bedingung 2] Entfernen hinterlässt eine Spur; der Eintrag bleibt und ist nicht mehr offen"
       - tests/widerspruch-vertretene-person.test.js
         "[Widerspruch·Klasse] jede flow-Funktion, die für ein Sub-Depot exportiert oder aushängt, geht über die Engstelle"
+  - aussage: >-
+      Ein eingelesener EU-Laborbefund geht auf Wunsch zusätzlich als neues EU-Labordokument der Person hinaus: Autorin ist
+      die Person, Quelle allein das Original, das byte-gleich als Anhang daran hängt; ohne Verwahrer und ohne Unterschrift
+      der Klinik.
+    zustand: erfuellt
+    herkunft: Entscheidung vom 22.10.2026
+    pruefung:
+      - tests/eu-lab-dokument-der-person.test.js
+        "[EU-Lab·Person] neues Dokument, Original byte-gleich im Anhang"
+      - tests/eu-lab-dokument-der-person.test.js
+        "[EU-Lab·Person] Quelle ist nur das Original: kein Depot-Feld geht in das Dokument"
+      - tests/eu-lab-dokument-der-person.test.js
+        "[EU-Lab·Person·Rot-Beweis] ein Byte im Anhang, ein Messwert, ein Verwahrer und die Klinik als Autorin fallen"
 ```

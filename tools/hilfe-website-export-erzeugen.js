@@ -69,6 +69,8 @@ function exportErzeugen(V) {
     if (!abschnitteDe.length) continue;
     themen.push({
       id: def.id,
+      // Ein Thema, das an ein Logikmodul gebunden ist, gehört zu Pro (nur die Pro-Produkte tragen ein solches ab Werk).
+      ...(def.nurMitLogikModul ? { nurPro: true } : {}),
       de: {
         titel: _hilfeTextSprache(V, de, def.id, 'titel', def.id),
         einleitung: _hilfeTextSprache(V, de, def.id, 'einleitung', ''),

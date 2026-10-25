@@ -221,7 +221,10 @@ test('[Rechtsraum-Modul·Rot-Beweis U2-ADR-401] zwei Module desselben Codes, DER
     'das zuerst verarbeitete Modul behält den Gegenstand — kein stilles Umspringen auf das zweite');
   const konflikte = V.getRechtsraumKonflikte();
   assert.equal(konflikte.length, 1, 'ROT ERWARTET, wenn falsch: der Widerspruch bleibt unbemerkt, wie vor dem Fix');
-  assert.deepEqual(konflikte[0], { rechtsraum: 'UK', typ: 'enduring-power-of-attorney', behalten: 'anbieter-a', verworfen: 'anbieter-b' });
+  // U2-ADR-477 (03.10.2026): der Konflikt nennt den Registry-SCHLÜSSEL, und „UK" wird als „GB" gelesen.
+  // Die Module im Depot tragen weiter „UK" — gelesen, nicht umgeschrieben.
+  assert.deepEqual(konflikte[0], { rechtsraum: 'GB', typ: 'enduring-power-of-attorney', behalten: 'anbieter-a', verworfen: 'anbieter-b' });
+  assert.ok(V.getData().rechtsraumModule.every((m) => m.rechtsraum === 'UK'), 'der gespeicherte Wert bleibt „UK"');
 });
 
 test('[Rechtsraum-Modul·Gegenprobe U2-ADR-401] derselbe Anbieter, zwei Module desselben Codes: kein Widerspruch', async () => {

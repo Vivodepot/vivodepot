@@ -1,0 +1,10 @@
+{
+  "_beschreibung": "Die EINE Liste der Lizenzen, unter denen eine Vorlage stehen darf (U2-ADR-514). Geschlossen: nur Standardlizenzen und der kurze Hinweis LicenseRef-Vivodepot-Vorlagen, bei dem `rechteinhaber` sagt, wessen Hinweis es ist (Vivodepot GmbH oder die Herausgeberin). Jede Wahl erlaubt Vivodepot das Weitergeben und jeder Person die Nutzung für ihre eigenen Unterlagen. Kern (VORLAGEN_LIZENZEN), Einreich-Schema (templates[].lizenz.spdx) und Studio lesen dieselbe Menge; tests/vorlagen-lizenz.test.js hält sie gleich.",
+  "lizenzen": [
+    { "spdx": "LicenseRef-Vivodepot-Vorlagen", "url": null },
+    { "spdx": "CC-BY-4.0", "url": "https://creativecommons.org/licenses/by/4.0/legalcode" },
+    { "spdx": "CC-BY-ND-4.0", "url": "https://creativecommons.org/licenses/by-nd/4.0/legalcode" },
+    { "spdx": "CC0-1.0", "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode" },
+    { "spdx": "EUPL-1.2", "url": "https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12" }
+  ]
+}

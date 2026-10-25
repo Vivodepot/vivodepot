@@ -5,7 +5,7 @@
    Beide Regionen hängen zusammen: bei leerem DOKUMENT_MODULE und gefülltem DOKUMENTE_DE wirft
    _dokumenteAusBuendelMaterialisieren (gefunden === 0). Darum ist die Leerform von DOKUMENTE_DE `null`,
    nicht `{}`. Die Probe prüft am ERZEUGTEN Produkt (konfektioniert, dann gebootet), nicht am gestellten Zustand. */
-const { test } = require('node:test');
+const test = require('./helfer/nur-privat.js').testMitPrivat(__filename);   // nur-privat: s. tests/helfer/nur-privat.js
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -51,8 +51,12 @@ test('[Gerüst-Schnitt S2+S6] das Gerüst bootet mit leeren Regionen und trägt 
   assert.equal(V.PV_MODUL.abschnitte.length, 0);
 });
 
-test('[Gerüst-Schnitt S2+S6] jedes der vier Produkte trägt die Dokument-Inhalte aus seinen Moduldateien', () => {
-  for (const p of PRODUKTE) {
+/* Pro P2 (24.10.2026, U2-ADR-243 §9): Pro bietet keine Gesundheit an. Benannt, welche Produkte nur die Schritte der Patientenverfügung
+   tragen (die Quelle der ruhenden Festlegungen) und sonst keinen Dokument-Inhalt; alle übrigen tragen alles wie bisher. */
+const NUR_FESTLEGUNGEN = Object.freeze(['pro-de', 'pro-en']);
+
+test('[Gerüst-Schnitt S2+S6] jedes Produkt außer Pro trägt die Dokument-Inhalte aus seinen Moduldateien', () => {
+  for (const p of PRODUKTE.filter((x) => !NUR_FESTLEGUNGEN.includes(x.slug))) {
     const V = produktKernLaden(p.slug, modulDateienFuer(p));
     assert.equal(V.AB_WERK_DOKUMENT_MODULE.length, 4, p.slug + ': vier Dokumentmodule');
     assert.deepEqual(Object.keys(V.AB_WERK_DOKUMENTE_DE.dokumente).sort(), ['kiKorpus', 'pvBmj', 'vollmachtBmj'], p.slug);
@@ -60,6 +64,20 @@ test('[Gerüst-Schnitt S2+S6] jedes der vier Produkte trägt die Dokument-Inhalt
     assert.ok(V.KI_KORPUS.steps.length > 0, p.slug + ': KI_KORPUS.steps');
     assert.ok(V.VOLLMACHT_BMJ.steps.length > 0, p.slug + ': VOLLMACHT_BMJ.steps');
     assert.ok(V.PV_MODUL.abschnitte.length > 0, p.slug + ': PV_MODUL.abschnitte');
+  }
+});
+
+test('[Gerüst-Schnitt S2+S6·Pro] Pro trägt nur die Schritte der Patientenverfügung, kein Dokumentmodul, keinen Korpus, keine Vollmacht', () => {
+  const pro = PRODUKTE.filter((x) => NUR_FESTLEGUNGEN.includes(x.slug));
+  assert.deepEqual(pro.map((x) => x.slug), [...NUR_FESTLEGUNGEN], 'Voraussetzung: beide Pro-Produkte sind gebaut');
+  for (const p of pro) {
+    const V = produktKernLaden(p.slug, modulDateienFuer(p));
+    assert.equal(V.AB_WERK_DOKUMENT_MODULE.length, 0, p.slug + ': kein Dokumentmodul');
+    assert.deepEqual(Object.keys(V.AB_WERK_DOKUMENTE_DE.dokumente), ['pvBmj'], p.slug);
+    assert.ok(V.PV_BMJ.steps.length > 0, p.slug + ': PV_BMJ.steps');
+    assert.equal(V.KI_KORPUS.steps.length, 0, p.slug + ': KI_KORPUS.steps');
+    assert.equal(V.VOLLMACHT_BMJ.steps.length, 0, p.slug + ': VOLLMACHT_BMJ.steps');
+    assert.equal(V.PV_MODUL.abschnitte.length, 0, p.slug + ': PV_MODUL.abschnitte');
   }
 });
 

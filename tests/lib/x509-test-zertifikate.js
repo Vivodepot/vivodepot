@@ -100,7 +100,9 @@ function zertifikat({ aussteller, inhaber, schluessel: s, signierer, hash = 'sha
 }
 
 /* Eine Wurzel und ein Blatt darunter, auf Wunsch mit einer Zwischen-CA dazwischen (o.zwischen = { name?, erweiterungen? });
-   jede Angabe überschreibbar. Rückgabe { wurzel, zwischen?, blatt (DER), x5c (base64-Liste, Blatt zuerst), anker (Liste der DER) }. */
+   jede Angabe überschreibbar. Rückgabe { wurzel, zwischen?, blatt (DER), x5c (base64-Liste, Blatt zuerst), anker (Liste der DER),
+   blattSchluessel ({ privat, spki, kurve } des Blatts, nur im Speicher; damit signiert tests/oid4vp-anfrage-pruefen.test.js
+   ein Anfrage-Objekt) }. */
 function kette(o = {}) {
   const sW = schluessel(o.wurzelKurve || 'P-256');
   const wurzelName = o.wurzelName || name(cn('X509 Test-Wurzel'));
@@ -125,7 +127,7 @@ function kette(o = {}) {
     erweiterungen: o.blattErweiterungen || [erw.basis(false), erw.ku('digitalSignature'), erw.san('verifier.test.invalid'), erw.richtlinien(BEISPIEL_RICHTLINIE)],
   });
   const x5c = [blatt, ...(zwischen ? [zwischen] : [])].map((d) => d.toString('base64'));
-  return { wurzel, zwischen, blatt, x5c, anker: [new Uint8Array(wurzel)] };
+  return { wurzel, zwischen, blatt, x5c, anker: [new Uint8Array(wurzel)], blattSchluessel: sB };
 }
 
 module.exports = { tlv, folge, oid, name, cn, org, orgKennung, erw, schluessel, zertifikat, kette, BEISPIEL_RICHTLINIE };

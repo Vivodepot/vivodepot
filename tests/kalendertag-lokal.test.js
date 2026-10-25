@@ -156,7 +156,7 @@ test('[Kalendertag·Negativkontrolle] eine erlaubte Stelle macht ihn NICHT rot',
 });
 
 /* ── 3 · DIE KOPIE GLEICH HALTEN ──────────────────────────────────────── */
-test('[Kalendertag] heuteLokal() in vivodepot.html ist die BENANNTE Kopie aus dem Kern', () => {
+test('[Kalendertag] heuteLokal() in vivodepot.html und vivodepot-lesen.html ist die BENANNTE Kopie aus dem Kern', () => {
   // vivodepot.html ist eine Single-File-App ohne Bauschritt — sie kann
   // scripts/build-datum-kern.js nicht importieren. Die Kopie ist unvermeidbar;
   // was vermeidbar ist, ist ihr Auseinanderlaufen. Dieselbe Lage wie bei
@@ -172,6 +172,11 @@ test('[Kalendertag] heuteLokal() in vivodepot.html ist die BENANNTE Kopie aus de
   assert.equal(b, a,
     'Die zwei Fassungen von heuteLokal() sind auseinandergelaufen. Sie muessen zeichengleich ' +
     'bleiben; wer eine aendert, aendert beide.');
+  // Die Lese-App trägt seit dem ZERFALL-LESER-BLOCK (19.10.2026) dieselbe benannte Kopie: der Block prüft „gilt bis“
+  // eines Fachs gegen den lokalen Kalendertag.
+  const c = rumpf(fs.readFileSync(path.join(REPO, 'vivodepot-lesen.html'), 'utf8'));
+  assert.ok(c, 'heuteLokal() in vivodepot-lesen.html gefunden — die Kopie fehlt');
+  assert.equal(c, a, 'heuteLokal() der Lese-App ist von der Fassung im Kern-Werkzeug auseinandergelaufen.');
 });
 
 /* ── 4 · DAS FENSTER, an dem es sich entscheidet ──────────────────────── */

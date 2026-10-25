@@ -131,7 +131,8 @@ function _subdepotPaletteInsDateiSchreiben(zielPfad, palette) {
   if (anfang < 0 || ende < anfang) throw new Error('AB_WERK_SUBDEPOT_PALETTE_PRODUKT-Marker fehlt in ' + zielPfad);
   const innenStart = anfang + SUBDEPOT_PALETTE_BEGIN.length;
   const neueZeile = '\nconst AB_WERK_SUBDEPOT_PALETTE_PRODUKT = ' + JSON.stringify(palette) + ';\n';
-  fs.writeFileSync(zielPfad, html.slice(0, innenStart) + neueZeile + html.slice(ende), 'utf8');
+  // U2-ADR-470: der Block ändert sich, also seine CSP-Hashes mit (tools/lib/csp-nach-bau.js).
+  fs.writeFileSync(zielPfad, require('./lib/csp-nach-bau.js').cspNachBau(html.slice(0, innenStart) + neueZeile + html.slice(ende)), 'utf8');
 }
 
 // „Produkt ist eine Datei" (10.09.2026, Produktentscheidung: „Ein Produkt ist eine
@@ -207,6 +208,8 @@ function _ohneAbWerkNutzlast(quelle, datei) {
   // (23.09.2026): das <html lang> schreibt der Backschritt je Produkt aus dem Sprachmodul (WCAG 3.1.1) — ein
   // gebackener Wert wie die Regionen oben, darum für den Vergleich auf einen festen Platzhalter gesetzt.
   ergebnis = ergebnis.replace(/(<html\b[^>]*\blang=")[^"]*(")/, '$1*$2');
+  // U2-ADR-470: die CSP-Hashes folgen den Blöcken, also auch den Regionen oben — für den Vergleich ein Platzhalter.
+  ergebnis = require('./lib/csp-nach-bau.js').cspNeutral(ergebnis);
   return ergebnis;
 }
 
@@ -322,7 +325,8 @@ function konfektionieren({ ziel, slug, modulauswahl, vorDepotKonfigurationInhalt
   const { text, module } = produktTextErzeugen(kernText, { modulauswahl, vorDepotKonfigurationInhaltFn, unsignierteModule, serviceWorkerVorhanden, mitEntwicklerleiste, mitTestflaeche });
   // U2-ADR-494: ohne die Test-Option verlässt kein Erzeugnis mit Test-Fläche diesen Weg (auch nicht aus einem Kern ohne Marken).
   if (mitTestflaeche !== true) require('./lib/produkt-text-erzeugen.js').testflaecheVerweigern(text, 'konfektionieren ' + slug);
-  fs.writeFileSync(kernZiel, text, 'utf8');
+  // U2-ADR-470: zuletzt die CSP-Hashes der eingesetzten Blöcke (tools/lib/csp-nach-bau.js).
+  fs.writeFileSync(kernZiel, require('./lib/csp-nach-bau.js').cspNachBau(text), 'utf8');
   if (wieAusgeliefert) fs.copyFileSync(path.join(REPO, 'sw.js'), path.join(zielOrdner, 'sw.js'));
   if (subdepotPalette) {
     _subdepotPaletteInsDateiSchreiben(kernZiel, subdepotPalette);

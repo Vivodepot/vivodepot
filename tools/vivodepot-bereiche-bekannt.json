@@ -284,16 +284,6 @@
           "label": "Vollmachten",
           "felder": [
             {
-              "id": "tpl_patientenverfuegung_ablageort",
-              "typ": "text",
-              "label": "Patientenverfügung — Ablageort"
-            },
-            {
-              "id": "tpl_betreuungsverfuegung_ablageort",
-              "typ": "text",
-              "label": "Betreuungsverfügung — Ablageort"
-            },
-            {
               "id": "tpl_third_parties_notified_of_authority",
               "typ": "liste",
               "label": "Wem eine Vollmacht mitgeteilt wurde",
@@ -379,6 +369,56 @@
               "typ": "text",
               "label": "Zentrales Vorsorgeregister",
               "hint": "Falls eingetragen: wann, und welche Vollmacht?"
+            }
+          ]
+        },
+        {
+          "id": "firma",
+          "label": "Die Firma",
+          "felder": [
+            {
+              "id": "tpl_legal_form",
+              "typ": "auswahl",
+              "label": "Rechtsform",
+              "hint": "Damit sieht die Vertretung sofort, welche Regeln für Ihr Unternehmen gelten. Angaben, die für Ihre Rechtsform nicht zutreffen, lassen Sie frei.",
+              "optionen": [
+                {
+                  "wert": "einzelunternehmen",
+                  "label": "Einzelunternehmen"
+                },
+                {
+                  "wert": "freier_beruf",
+                  "label": "Freier Beruf, Praxis oder Kanzlei"
+                },
+                {
+                  "wert": "personengesellschaft",
+                  "label": "Personengesellschaft (GbR, PartG, OHG, KG)"
+                },
+                {
+                  "wert": "kapitalgesellschaft",
+                  "label": "Kapitalgesellschaft (GmbH, UG, AG)"
+                },
+                {
+                  "wert": "verein_stiftung",
+                  "label": "Verein oder Stiftung"
+                },
+                {
+                  "wert": "andere_form",
+                  "label": "Andere Form"
+                }
+              ]
+            },
+            {
+              "id": "tpl_legal_form_exact",
+              "typ": "text",
+              "label": "Genaue Bezeichnung",
+              "hint": "Etwa „GmbH & Co. KG“, „Partnerschaft mit beschränkter Berufshaftung“ oder „eingetragener Kaufmann“."
+            },
+            {
+              "id": "tpl_management_service_contract",
+              "typ": "textarea",
+              "label": "Anstellungsvertrag der Geschäftsführung",
+              "hint": "Wo der Vertrag liegt und ob er etwas für die Zeit regelt, in der Sie nicht handeln können, etwa Fortzahlung oder Kündigung."
             }
           ]
         },
@@ -517,6 +557,41 @@
                   "label": "Unterlage liegt bei"
                 }
               ]
+            },
+            {
+              "id": "tpl_voting_proxy",
+              "typ": "liste",
+              "label": "Stimmrechtsvollmacht",
+              "hint": "Wer in der Gesellschafterversammlung für Sie abstimmen darf, wofür, und wo die Urkunde liegt.",
+              "unterFelder": [
+                {
+                  "id": "tpl_proxy_holder",
+                  "typ": "text",
+                  "label": "Bevollmächtigte Person"
+                },
+                {
+                  "id": "tpl_scope",
+                  "typ": "text",
+                  "label": "Umfang"
+                },
+                {
+                  "id": "tpl_document_kept_at",
+                  "typ": "text",
+                  "label": "Urkunde liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_appointing_new_management",
+              "typ": "textarea",
+              "label": "Bestellung einer neuen Geschäftsführung",
+              "hint": "Wer eine neue Geschäftsführung bestellt, wenn Sie die Geschäftsführung allein innehaben und nicht mehr handeln können: welcher Beschluss nötig ist, mit welcher Mehrheit, und wo das im Gesellschaftsvertrag steht."
+            },
+            {
+              "id": "tpl_emergency_managing_director",
+              "typ": "textarea",
+              "label": "Notgeschäftsführung",
+              "hint": "Nur für den Fall, dass niemand eine neue Geschäftsführung bestellen kann: wer beim Registergericht eine vorübergehende Notgeschäftsführung beantragen würde und ob eine Person dafür vorgeschlagen ist. Die reguläre Bestellung steht unter „Bestellung einer neuen Geschäftsführung“."
             }
           ]
         },
@@ -528,6 +603,18 @@
               "id": "tpl_testament_oder_erbvertrag_ablageort",
               "typ": "text",
               "label": "Testament oder Erbvertrag — Ablageort"
+            },
+            {
+              "id": "tpl_continuation_by_heirs",
+              "typ": "textarea",
+              "label": "Fortführung durch die Erben",
+              "hint": "Ob Ihre Erben den Betrieb fortführen können und sollen, was sie dafür brauchen und wo das geregelt ist."
+            },
+            {
+              "id": "tpl_compulsory_share_waiver_kept_at",
+              "typ": "text",
+              "label": "Pflichtteilsverzicht: Ablageort",
+              "hint": "Falls jemand auf den Pflichtteil verzichtet hat, damit der Betrieb ungeteilt übergehen kann: wo die Urkunde liegt."
             }
           ]
         },
@@ -539,6 +626,73 @@
               "id": "tpl_jahresabschluss_wo_der_aktuelle_stand_liegt",
               "typ": "text",
               "label": "Jahresabschluss — wo der aktuelle Stand liegt"
+            },
+            {
+              "id": "tpl_sale_or_handover_wishes",
+              "typ": "textarea",
+              "label": "Wünsche für Verkauf oder Übergabe",
+              "hint": "Ob der Betrieb verkauft, übergeben oder aufgegeben werden soll, an wen am liebsten und was Ihnen dabei wichtig ist."
+            },
+            {
+              "id": "tpl_company_valuation",
+              "typ": "text",
+              "label": "Letzte Unternehmensbewertung",
+              "hint": "Von wem, zu welchem Stichtag und wo das Gutachten liegt."
+            },
+            {
+              "id": "tpl_interested_parties",
+              "typ": "liste",
+              "label": "Interessenten für eine Übernahme",
+              "hint": "Wer schon Interesse gezeigt hat, den Betrieb zu übernehmen, und wie diese Person erreichbar ist.",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_contact",
+                  "typ": "text",
+                  "label": "Erreichbarkeit"
+                },
+                {
+                  "id": "tpl_note",
+                  "typ": "text",
+                  "label": "Bemerkung"
+                }
+              ]
+            },
+            {
+              "id": "tpl_handover_form",
+              "typ": "auswahl",
+              "label": "Form der Übergabe",
+              "hint": "Wie der Betrieb übergehen soll. Was Ihnen dabei wichtig ist, steht unter „Wünsche für Verkauf oder Übergabe“.",
+              "optionen": [
+                {
+                  "wert": "anteilskauf",
+                  "label": "Verkauf der Anteile"
+                },
+                {
+                  "wert": "vermoegenskauf",
+                  "label": "Verkauf des Betriebs (Vermögen)"
+                },
+                {
+                  "wert": "schenkung",
+                  "label": "Schenkung oder vorweggenommene Erbfolge"
+                },
+                {
+                  "wert": "pacht",
+                  "label": "Verpachtung"
+                },
+                {
+                  "wert": "fremdgeschaeftsfuehrung",
+                  "label": "Fremdgeschäftsführung"
+                },
+                {
+                  "wert": "noch_offen",
+                  "label": "Noch offen"
+                }
+              ]
             }
           ]
         },
@@ -622,6 +776,52 @@
               "typ": "text",
               "label": "Nachweise der Rechtsnachfolge",
               "hint": "Wo liegen Urkunden, mit denen eine Rechtsnachfolge im Register nachgewiesen wird?"
+            },
+            {
+              "id": "tpl_company_holdings",
+              "typ": "liste",
+              "label": "Beteiligungen der Firma",
+              "hint": "An welchen anderen Unternehmen die Firma beteiligt ist, in welcher Höhe und wo die Unterlagen liegen.",
+              "unterFelder": [
+                {
+                  "id": "tpl_company",
+                  "typ": "text",
+                  "label": "Unternehmen"
+                },
+                {
+                  "id": "tpl_share",
+                  "typ": "text",
+                  "label": "Anteil"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_shareholder_meeting",
+              "typ": "liste",
+              "label": "Gesellschafterversammlung",
+              "hint": "Wer lädt ein, in welcher Form und mit welcher Frist laut Gesellschaftsvertrag, und wie die Gesellschafter erreichbar sind.",
+              "unterFelder": [
+                {
+                  "id": "tpl_convened_by",
+                  "typ": "text",
+                  "label": "Wer lädt ein"
+                },
+                {
+                  "id": "tpl_form_and_notice",
+                  "typ": "text",
+                  "label": "Form und Frist"
+                },
+                {
+                  "id": "tpl_reachable_via",
+                  "typ": "text",
+                  "label": "Wie erreichbar"
+                }
+              ]
             }
           ]
         },
@@ -777,17 +977,125 @@
                   "label": "Ansprechpartner"
                 }
               ]
-            }
-          ]
-        },
-        {
-          "id": "private-absicherung",
-          "label": "Private Absicherung",
-          "felder": [
+            },
             {
-              "id": "tpl_versorgungslage_der_familie_im_ausfall",
+              "id": "tpl_account_for_deputy",
+              "typ": "liste",
+              "label": "Konto für die Vertretung",
+              "hint": "Je Geschäftskonto: wer bei der Bank Ihr Gegenüber ist, welche Kreditlinie eingeräumt ist und wo der Zugang zum Online-Banking verwahrt ist. Tragen Sie nur ein, wo der Zugang verwahrt ist, nicht den Zugang selbst.",
+              "unterFelder": [
+                {
+                  "id": "tpl_institution",
+                  "typ": "text",
+                  "label": "Institut"
+                },
+                {
+                  "id": "tpl_contact_person",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_credit_line",
+                  "typ": "text",
+                  "label": "Kreditlinie"
+                },
+                {
+                  "id": "tpl_online_banking_access_kept_at",
+                  "typ": "text",
+                  "label": "Zugang zum Online-Banking verwahrt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_securities_account",
+              "typ": "liste",
+              "label": "Wertpapierdepot",
+              "hint": "Wertpapierdepots der Firma: bei welchem Institut, auf wen sie laufen und wer darüber verfügen darf.",
+              "unterFelder": [
+                {
+                  "id": "tpl_institution",
+                  "typ": "text",
+                  "label": "Institut"
+                },
+                {
+                  "id": "tpl_account_holder",
+                  "typ": "text",
+                  "label": "Läuft auf"
+                },
+                {
+                  "id": "tpl_authorised_person",
+                  "typ": "text",
+                  "label": "Verfügen darf"
+                }
+              ]
+            },
+            {
+              "id": "tpl_insurance_policies_kept_at",
               "typ": "text",
-              "label": "Versorgungslage der Familie"
+              "label": "Versicherungspolicen liegen bei",
+              "hint": "Wo die Policen der betrieblichen Versicherungen liegen, im Original oder als Datei."
+            },
+            {
+              "id": "tpl_online_banking_access",
+              "typ": "liste",
+              "label": "Online-Banking",
+              "hint": "Je Bank: welches Verfahren (App, Karte, Lesegerät), wer kann sich anmelden und wo liegt das Gerät. Keine Zugangsdaten.",
+              "unterFelder": [
+                {
+                  "id": "tpl_bank",
+                  "typ": "text",
+                  "label": "Bank"
+                },
+                {
+                  "id": "tpl_method",
+                  "typ": "text",
+                  "label": "Verfahren"
+                },
+                {
+                  "id": "tpl_who_has_access",
+                  "typ": "text",
+                  "label": "Wer hat Zugang"
+                },
+                {
+                  "id": "tpl_device_kept_at",
+                  "typ": "text",
+                  "label": "Gerät oder Karte liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_payment_approval_rules",
+              "typ": "textarea",
+              "label": "Freigabe von Zahlungen",
+              "hint": "Bis zu welchem Betrag gibt wer allein frei, ab wann braucht es eine zweite Person? Wo ist das festgelegt?"
+            },
+            {
+              "id": "tpl_cards_and_payment_services",
+              "typ": "liste",
+              "label": "Karten und Zahlungsdienste",
+              "hint": "Firmen- und Tankkarten, Zahlungsdienste und Kartenterminals: wer nutzt sie, wo liegen sie.",
+              "unterFelder": [
+                {
+                  "id": "tpl_kind",
+                  "typ": "text",
+                  "label": "Art"
+                },
+                {
+                  "id": "tpl_holder_or_account",
+                  "typ": "text",
+                  "label": "Inhaber oder Konto"
+                },
+                {
+                  "id": "tpl_who_may_use",
+                  "typ": "text",
+                  "label": "Wer darf nutzen"
+                },
+                {
+                  "id": "tpl_kept_at",
+                  "typ": "text",
+                  "label": "Liegt bei"
+                }
+              ]
             }
           ]
         },
@@ -1159,6 +1467,34 @@
                   "label": "Gemeldet am"
                 }
               ]
+            },
+            {
+              "id": "tpl_domain_and_online_accounts",
+              "typ": "liste",
+              "label": "Domain und Online-Konten",
+              "hint": "Domain, Website, Firmenkonten im Netz und Code-Repositorys: Anbieter, wer verwaltet sie, wo liegt der Zugang. Keine Zugangsdaten eintragen, nur wer den Zugang hat und wo er liegt.",
+              "unterFelder": [
+                {
+                  "id": "tpl_name_or_address",
+                  "typ": "text",
+                  "label": "Domain, Website oder Konto"
+                },
+                {
+                  "id": "tpl_provider",
+                  "typ": "text",
+                  "label": "Anbieter"
+                },
+                {
+                  "id": "tpl_managed_by",
+                  "typ": "text",
+                  "label": "Verwaltet von"
+                },
+                {
+                  "id": "tpl_access_kept_at",
+                  "typ": "text",
+                  "label": "Zugang liegt bei"
+                }
+              ]
             }
           ]
         },
@@ -1199,6 +1535,29 @@
                   "label": "Zugangsberechtigte"
                 }
               ]
+            },
+            {
+              "id": "tpl_alarm_and_security_service",
+              "typ": "liste",
+              "label": "Alarmanlage und Sicherheitsdienst",
+              "hint": "Wer die Anlage betreut, wen der Dienst im Alarmfall anruft und wo der Zugang verwahrt ist. Tragen Sie nur ein, wo der Zugang verwahrt ist, nicht den Zugang selbst.",
+              "unterFelder": [
+                {
+                  "id": "tpl_service",
+                  "typ": "text",
+                  "label": "Dienst"
+                },
+                {
+                  "id": "tpl_contact_person",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_access_kept_at",
+                  "typ": "text",
+                  "label": "Zugang verwahrt bei"
+                }
+              ]
             }
           ]
         },
@@ -1210,6 +1569,176 @@
               "id": "tpl_laufender_auftrags_projektstand",
               "typ": "text",
               "label": "Laufender Auftrags-/Projektstand"
+            },
+            {
+              "id": "tpl_key_customers",
+              "typ": "liste",
+              "label": "Wichtigste Kunden",
+              "hint": "Kunden, auf die der Betrieb angewiesen ist: wer dort Ihr Gegenüber ist, worauf die Zusammenarbeit beruht und wo der Vertrag liegt. Bei einem Portal nur, wer Zugang hat, keine Zugangsdaten.",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_contact_person",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_contract_basis",
+                  "typ": "text",
+                  "label": "Vertragsgrundlage"
+                },
+                {
+                  "id": "tpl_notice_period",
+                  "typ": "text",
+                  "label": "Laufzeit und Kündigungsfrist"
+                },
+                {
+                  "id": "tpl_numbers",
+                  "typ": "text",
+                  "label": "Nummern (unsere dort, ihre bei uns)"
+                },
+                {
+                  "id": "tpl_portal_access",
+                  "typ": "text",
+                  "label": "Portal und wer Zugang hat"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_key_suppliers",
+              "typ": "liste",
+              "label": "Lieferanten, Dienstleister und Kooperationspartner",
+              "hint": "Lieferanten, Dienstleister und Kooperationspartner, ohne die der Betrieb nicht weiterläuft: welcher Art die Beziehung ist, wer dort Ihr Gegenüber ist, worauf die Zusammenarbeit beruht und wo der Vertrag liegt. Software, IT-Betreuung, Auftragsverarbeitung, Archiv und Versicherungen stehen in ihren eigenen Feldern. Bei einem Portal nur, wer Zugang hat, keine Zugangsdaten.",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_kind",
+                  "typ": "text",
+                  "label": "Art (Lieferant, Dienstleister, Kooperationspartner)"
+                },
+                {
+                  "id": "tpl_contact_person",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_contract_basis",
+                  "typ": "text",
+                  "label": "Vertragsgrundlage"
+                },
+                {
+                  "id": "tpl_notice_period",
+                  "typ": "text",
+                  "label": "Laufzeit und Kündigungsfrist"
+                },
+                {
+                  "id": "tpl_numbers",
+                  "typ": "text",
+                  "label": "Nummern (unsere dort, ihre bei uns)"
+                },
+                {
+                  "id": "tpl_portal_access",
+                  "typ": "text",
+                  "label": "Portal und wer Zugang hat"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_contract_register",
+              "typ": "liste",
+              "label": "Laufende Verträge",
+              "hint": "Verträge, die weiterlaufen und übernommen oder gekündigt werden müssen, zum Beispiel Software, Wartung, Strom oder Leasing: Vertragspartner, Gegenstand, Kündigungsfrist und wo der Vertrag liegt.",
+              "unterFelder": [
+                {
+                  "id": "tpl_counterparty",
+                  "typ": "text",
+                  "label": "Vertragspartner"
+                },
+                {
+                  "id": "tpl_subject",
+                  "typ": "text",
+                  "label": "Gegenstand"
+                },
+                {
+                  "id": "tpl_notice_period",
+                  "typ": "text",
+                  "label": "Kündigungsfrist"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_verbal_agreements",
+              "typ": "liste",
+              "label": "Mündliche Absprachen",
+              "hint": "Was nur mündlich vereinbart ist und sonst niemand weiß: mit wem, worüber und was gilt.",
+              "unterFelder": [
+                {
+                  "id": "tpl_with_whom",
+                  "typ": "text",
+                  "label": "Mit wem"
+                },
+                {
+                  "id": "tpl_subject",
+                  "typ": "text",
+                  "label": "Worüber"
+                },
+                {
+                  "id": "tpl_what_applies",
+                  "typ": "text",
+                  "label": "Was gilt"
+                }
+              ]
+            },
+            {
+              "id": "tpl_offers_and_appointments",
+              "typ": "liste",
+              "label": "Offene Angebote und Termine",
+              "hint": "Wo offene Angebote mit Bindefrist, Ausschreibungen und die Termine der nächsten Wochen geführt werden, wer Zugang hat und auf welchem Stand. Nicht die Angebote selbst.",
+              "unterFelder": [
+                {
+                  "id": "tpl_what",
+                  "typ": "text",
+                  "label": "Was (Angebote, Ausschreibungen, Kalender)"
+                },
+                {
+                  "id": "tpl_kept_where",
+                  "typ": "text",
+                  "label": "Wo geführt"
+                },
+                {
+                  "id": "tpl_who_has_access",
+                  "typ": "text",
+                  "label": "Wer hat Zugang"
+                },
+                {
+                  "id": "tpl_status_date",
+                  "typ": "datum",
+                  "label": "Stand vom"
+                }
+              ]
             }
           ]
         },
@@ -1295,6 +1824,34 @@
               "typ": "text",
               "label": "Wirtschafts-Identifikationsnummer",
               "hint": "Die W-IdNr. des Unternehmens."
+            },
+            {
+              "id": "tpl_memberships",
+              "typ": "liste",
+              "label": "Kammern, Verbände und Mitgliedschaften",
+              "hint": "Kammern, Berufs- und Fachverbände, Genossenschaften oder Einkaufsgemeinschaften, denen Sie oder die Firma angehören: Mitgliedsnummer, wer dort Ihr Gegenüber ist und wo die Unterlagen liegen.",
+              "unterFelder": [
+                {
+                  "id": "tpl_organisation",
+                  "typ": "text",
+                  "label": "Kammer oder Verband"
+                },
+                {
+                  "id": "tpl_membership_number",
+                  "typ": "text",
+                  "label": "Mitgliedsnummer"
+                },
+                {
+                  "id": "tpl_contact_person",
+                  "typ": "text",
+                  "label": "Ansprechpartner"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
             }
           ]
         },
@@ -1374,6 +1931,12 @@
                   "label": "Standort"
                 }
               ]
+            },
+            {
+              "id": "tpl_ip_renewal_fees",
+              "typ": "textarea",
+              "label": "Gebühren für Schutzrechte",
+              "hint": "Wann Verlängerungsgebühren für Patente, Marken oder Designs fällig sind und wer sie bezahlt."
             }
           ]
         },
@@ -1402,6 +1965,29 @@
                   "label": "Vertretung"
                 }
               ]
+            },
+            {
+              "id": "tpl_warranties_given",
+              "typ": "liste",
+              "label": "Gewährleistungen und Garantien",
+              "hint": "Wofür die Firma noch einstehen muss: Gegenstand, gegenüber wem und bis wann.",
+              "unterFelder": [
+                {
+                  "id": "tpl_subject",
+                  "typ": "text",
+                  "label": "Gegenstand"
+                },
+                {
+                  "id": "tpl_towards",
+                  "typ": "text",
+                  "label": "Gegenüber"
+                },
+                {
+                  "id": "tpl_valid_until",
+                  "typ": "text",
+                  "label": "Bis"
+                }
+              ]
             }
           ]
         },
@@ -1413,7 +1999,7 @@
               "id": "tpl_working_time_records",
               "typ": "text",
               "label": "Arbeitszeitaufzeichnungen",
-              "hint": "Wie und wo wird die Arbeitszeit der Beschäftigten festgehalten?"
+              "hint": "Wie und wo wird die Arbeitszeit der Beschäftigten festgehalten? Das Arbeitszeitgesetz verlangt Aufzeichnungen für Arbeitszeit über acht Stunden am Werktag, das Mindestlohngesetz für Minijobs und für die Branchen nach § 2a Schwarzarbeitsbekämpfungsgesetz."
             },
             {
               "id": "tpl_risk_assessment_and_safety_staff",
@@ -1490,6 +2076,29 @@
               "typ": "textarea",
               "label": "Lohnkonten und Entgeltunterlagen",
               "hint": "Wo werden Lohnkonten und Entgeltunterlagen geführt, von wem, mit welchem Programm?"
+            },
+            {
+              "id": "tpl_payroll_run",
+              "typ": "liste",
+              "label": "Lohnlauf",
+              "hint": "Wann im Monat läuft die Abrechnung, wer bereitet sie vor, wer gibt die Überweisung frei? Wer abrechnet und mit welchem Programm, steht bei „Lohnkonten und Entgeltunterlagen“.",
+              "unterFelder": [
+                {
+                  "id": "tpl_day_in_month",
+                  "typ": "text",
+                  "label": "Termin im Monat"
+                },
+                {
+                  "id": "tpl_prepared_by",
+                  "typ": "text",
+                  "label": "Bereitet vor"
+                },
+                {
+                  "id": "tpl_payment_approved_by",
+                  "typ": "text",
+                  "label": "Zahlung gibt frei"
+                }
+              ]
             }
           ]
         },
@@ -1524,6 +2133,303 @@
                   "id": "tpl_agreement_kept_at",
                   "typ": "text",
                   "label": "Vertrag: Ablageort"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "post-und-kommunikation",
+          "label": "Post und Kommunikation",
+          "felder": [
+            {
+              "id": "tpl_mail_handling",
+              "typ": "liste",
+              "label": "Post",
+              "hint": "Wer Post für die Firma annehmen und öffnen darf, wohin sie bei Bedarf umgeleitet wird und wer sie durchsieht.",
+              "unterFelder": [
+                {
+                  "id": "tpl_postal_authority_holder",
+                  "typ": "text",
+                  "label": "Postvollmacht hat"
+                },
+                {
+                  "id": "tpl_forwarding_address",
+                  "typ": "text",
+                  "label": "Umleitung an"
+                },
+                {
+                  "id": "tpl_who_reviews",
+                  "typ": "text",
+                  "label": "Wer die Post durchsieht"
+                }
+              ]
+            },
+            {
+              "id": "tpl_communication_service",
+              "typ": "liste",
+              "label": "Postfächer, Telefon und Kommunikationsdienste",
+              "hint": "E-Mail-Postfächer und Telefone der Geschäftsführung, Telefonanlage, Domain und Website: auf wen der Vertrag läuft, wer sie verwaltet, wohin Nachrichten gehen, wenn Sie nicht da sind, wer mitlesen darf und wo der Zugang verwahrt ist. Tragen Sie nur ein, wo der Zugang verwahrt ist, nicht den Zugang selbst.",
+              "unterFelder": [
+                {
+                  "id": "tpl_service",
+                  "typ": "text",
+                  "label": "Dienst"
+                },
+                {
+                  "id": "tpl_contract_holder",
+                  "typ": "text",
+                  "label": "Vertrag läuft auf"
+                },
+                {
+                  "id": "tpl_administered_by",
+                  "typ": "text",
+                  "label": "Verwaltet von"
+                },
+                {
+                  "id": "tpl_forwarding",
+                  "typ": "text",
+                  "label": "Abwesenheitsnotiz und Weiterleitung"
+                },
+                {
+                  "id": "tpl_who_may_read",
+                  "typ": "text",
+                  "label": "Wer darf mitlesen"
+                },
+                {
+                  "id": "tpl_access_kept_at",
+                  "typ": "text",
+                  "label": "Zugang verwahrt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_device",
+              "typ": "liste",
+              "label": "Geräte",
+              "hint": "Rechner, Telefone und Tablets der Firma: wer sie nutzt und wo das Mittel zum Entsperren verwahrt ist. Tragen Sie nur ein, wo das Mittel verwahrt ist, nicht das Mittel selbst.",
+              "unterFelder": [
+                {
+                  "id": "tpl_device_name",
+                  "typ": "text",
+                  "label": "Gerät"
+                },
+                {
+                  "id": "tpl_used_by",
+                  "typ": "text",
+                  "label": "Genutzt von"
+                },
+                {
+                  "id": "tpl_unlock_kept_at",
+                  "typ": "text",
+                  "label": "Entsperren: verwahrt bei"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "register-und-kennungen",
+          "label": "Register und Kennungen",
+          "felder": [
+            {
+              "id": "tpl_eori_number",
+              "typ": "text",
+              "label": "EORI-Nummer",
+              "hint": "Nummer für Zollanmeldungen in der EU; wer hat Zugang zum Zollportal."
+            },
+            {
+              "id": "tpl_vat_identification_number",
+              "typ": "text",
+              "label": "Umsatzsteuer-Identifikationsnummer",
+              "hint": "Die USt-IdNr. für Geschäfte im EU-Binnenmarkt."
+            },
+            {
+              "id": "tpl_packaging_register_number",
+              "typ": "text",
+              "label": "Verpackungsregister (LUCID)",
+              "hint": "Registrierungsnummer im Verpackungsregister und wer den Zugang hat."
+            },
+            {
+              "id": "tpl_weee_registration_number",
+              "typ": "text",
+              "label": "Registrierung Elektrogeräte",
+              "hint": "WEEE-Registrierungsnummer bei der stiftung ear und wer den Zugang hat."
+            },
+            {
+              "id": "tpl_battery_registration",
+              "typ": "text",
+              "label": "Registrierung Batterien",
+              "hint": "Registrierungsnummer für Batterien und wer den Zugang hat."
+            },
+            {
+              "id": "tpl_einvoicing",
+              "typ": "liste",
+              "label": "E-Rechnung",
+              "hint": "Wie E-Rechnungen ankommen und hinausgehen: Postfach, Peppol-Teilnehmerkennung oder Dienstleister, und wer es betreut.",
+              "unterFelder": [
+                {
+                  "id": "tpl_channel",
+                  "typ": "text",
+                  "label": "Weg"
+                },
+                {
+                  "id": "tpl_identifier",
+                  "typ": "text",
+                  "label": "Kennung oder Postfach"
+                },
+                {
+                  "id": "tpl_handled_by",
+                  "typ": "text",
+                  "label": "Betreut von"
+                }
+              ]
+            },
+            {
+              "id": "tpl_public_customer_routing_ids",
+              "typ": "liste",
+              "label": "Leitweg-IDs öffentlicher Kunden",
+              "hint": "Für Rechnungen an Behörden: je Kunde die Leitweg-ID.",
+              "unterFelder": [
+                {
+                  "id": "tpl_customer",
+                  "typ": "text",
+                  "label": "Kunde"
+                },
+                {
+                  "id": "tpl_routing_id",
+                  "typ": "text",
+                  "label": "Leitweg-ID"
+                }
+              ]
+            },
+            {
+              "id": "tpl_gs1_numbers",
+              "typ": "text",
+              "label": "GS1-Nummern (GLN, GTIN)",
+              "hint": "Basisnummer bzw. GLN und wo die GTIN geführt werden."
+            },
+            {
+              "id": "tpl_duns_number",
+              "typ": "text",
+              "label": "D-U-N-S-Nummer",
+              "hint": "Nummer, falls Kunden oder Plattformen sie verlangen."
+            },
+            {
+              "id": "tpl_further_registrations",
+              "typ": "liste",
+              "label": "Weitere Nummern und Registrierungen",
+              "hint": "Etwa Institutionskennzeichen, Künstlersozialkasse, Verwertungsgesellschaften, Tierseuchenkasse: Stelle, Nummer, wo der Zugang liegt.",
+              "unterFelder": [
+                {
+                  "id": "tpl_body",
+                  "typ": "text",
+                  "label": "Stelle"
+                },
+                {
+                  "id": "tpl_number",
+                  "typ": "text",
+                  "label": "Nummer"
+                },
+                {
+                  "id": "tpl_access_kept_at",
+                  "typ": "text",
+                  "label": "Zugang liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_euid",
+              "typ": "text",
+              "label": "EUID (europäische einheitliche Kennung)",
+              "hint": "Falls vorhanden: die europäische einheitliche Kennung, wie sie in den Registerdaten oder bei der Unternehmenssuche im Europäischen Justizportal steht (Ländercode, Register, Nummer)."
+            },
+            {
+              "id": "tpl_lei",
+              "typ": "liste",
+              "label": "LEI (Rechtsträgerkennung)",
+              "hint": "Falls vorhanden: die Nummer, wer sie vergeben hat und wann sie zu verlängern ist.",
+              "unterFelder": [
+                {
+                  "id": "tpl_number",
+                  "typ": "text",
+                  "label": "Nummer"
+                },
+                {
+                  "id": "tpl_issued_by",
+                  "typ": "text",
+                  "label": "Vergeben von"
+                },
+                {
+                  "id": "tpl_renewal_due",
+                  "typ": "datum",
+                  "label": "Zu verlängern bis"
+                }
+              ]
+            },
+            {
+              "id": "tpl_business_wallet",
+              "typ": "liste",
+              "label": "Business-Wallet",
+              "hint": "Falls Ihr Betrieb bereits eine Wallet für Unternehmen nutzt, gleich von welchem Anbieter: Anbieter, Kennung der Wallet, wer sie verwaltet, wo das Zugangsmittel liegt.",
+              "unterFelder": [
+                {
+                  "id": "tpl_provider",
+                  "typ": "text",
+                  "label": "Anbieter"
+                },
+                {
+                  "id": "tpl_identifier",
+                  "typ": "text",
+                  "label": "Kennung der Wallet"
+                },
+                {
+                  "id": "tpl_managed_by",
+                  "typ": "text",
+                  "label": "Wer sie verwaltet"
+                },
+                {
+                  "id": "tpl_access_kept_at",
+                  "typ": "text",
+                  "label": "Zugangsmittel liegt bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_eu_power_of_attorney",
+              "typ": "liste",
+              "label": "Digitale EU-Vollmacht",
+              "hint": "Sobald die digitale EU-Vollmacht eingeführt ist und Ihre Gesellschaft eine erteilt hat: für wen, Umfang, vor welcher Stelle erstellt, eingereicht bei. Gilt für Kapital- und Personenhandelsgesellschaften, für Verfahren in einem anderen EU-Staat. Nicht dasselbe wie das Zentrale Vorsorgeregister.",
+              "unterFelder": [
+                {
+                  "id": "tpl_for_whom",
+                  "typ": "text",
+                  "label": "Für wen"
+                },
+                {
+                  "id": "tpl_scope",
+                  "typ": "text",
+                  "label": "Umfang"
+                },
+                {
+                  "id": "tpl_executed_before",
+                  "typ": "text",
+                  "label": "Erstellt vor (Notariat, Gericht oder Behörde)"
+                },
+                {
+                  "id": "tpl_filing_office",
+                  "typ": "text",
+                  "label": "Eingereicht bei (falls verlangt)"
+                },
+                {
+                  "id": "tpl_reference",
+                  "typ": "text",
+                  "label": "Kennung oder Fundstelle"
+                },
+                {
+                  "id": "tpl_valid_until",
+                  "typ": "datum",
+                  "label": "Gültig bis"
                 }
               ]
             }
@@ -1732,6 +2638,105 @@
                   "label": "Erreichbarkeit"
                 }
               ]
+            },
+            {
+              "id": "tpl_notify_first",
+              "typ": "liste",
+              "label": "Wer zuerst informiert wird, und durch wen",
+              "hint": "Wer als Erstes erfahren soll, dass Sie nicht handeln können, in welcher Reihenfolge und wer es ihnen sagt: zum Beispiel Beratung, Bank, Familie, Team, Betriebsrat, wichtige Kunden oder Gesellschafter.",
+              "unterFelder": [
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_role",
+                  "typ": "text",
+                  "label": "Rolle"
+                },
+                {
+                  "id": "tpl_contact",
+                  "typ": "text",
+                  "label": "Erreichbarkeit"
+                },
+                {
+                  "id": "tpl_order",
+                  "typ": "text",
+                  "label": "Reihenfolge"
+                },
+                {
+                  "id": "tpl_informed_by",
+                  "typ": "text",
+                  "label": "Durch wen"
+                },
+                {
+                  "id": "tpl_what_they_need_to_know",
+                  "typ": "text",
+                  "label": "Was sie wissen muss"
+                }
+              ]
+            },
+            {
+              "id": "tpl_information_plan",
+              "typ": "liste",
+              "label": "Informationsplan bei Übergabe oder Vertretung",
+              "hint": "Wer bei einer Übergabe oder einer längeren Vertretung wann, wie und durch wen informiert wird: zum Beispiel Beschäftigte, Kunden, Lieferanten oder Mandanten. Wer zuerst erfährt, dass Sie nicht handeln können, steht unter „Wer zuerst informiert wird, und durch wen“.",
+              "unterFelder": [
+                {
+                  "id": "tpl_group",
+                  "typ": "text",
+                  "label": "Wer"
+                },
+                {
+                  "id": "tpl_occasion",
+                  "typ": "text",
+                  "label": "Anlass"
+                },
+                {
+                  "id": "tpl_when",
+                  "typ": "text",
+                  "label": "Wann"
+                },
+                {
+                  "id": "tpl_how",
+                  "typ": "text",
+                  "label": "Wie"
+                },
+                {
+                  "id": "tpl_informed_by",
+                  "typ": "text",
+                  "label": "Durch wen"
+                }
+              ]
+            },
+            {
+              "id": "tpl_advisers_and_authorities",
+              "typ": "liste",
+              "label": "Beraterinnen, Berater und Stellen",
+              "hint": "Wer Sie berät und mit welchen Stellen die Firma zu tun hat: zum Beispiel Anwältin, Wirtschaftsprüfer, Bank, Versicherungsmakler, Finanzamt, Berufsgenossenschaft, Krankenkasse oder Rentenversicherung. Je Eintrag die Rolle, wie man sie erreicht und was dort liegt. Steuerberatung und Notar stehen unter „Gesellschaft und Nachfolge“, Kammern und Verbände unter „Kammern, Verbände und Mitgliedschaften“.",
+              "unterFelder": [
+                {
+                  "id": "tpl_role",
+                  "typ": "text",
+                  "label": "Rolle"
+                },
+                {
+                  "id": "tpl_name",
+                  "typ": "text",
+                  "label": "Name"
+                },
+                {
+                  "id": "tpl_contact",
+                  "typ": "text",
+                  "label": "Erreichbarkeit"
+                },
+                {
+                  "id": "tpl_what_is_kept_there",
+                  "typ": "text",
+                  "label": "Was dort liegt"
+                }
+              ]
             }
           ]
         },
@@ -1758,6 +2763,16 @@
                   "id": "tpl_vertretung_ab_wann",
                   "typ": "datum",
                   "label": "Vertretung ab wann"
+                },
+                {
+                  "id": "tpl_vertretung_bis",
+                  "typ": "datum",
+                  "label": "Vertretung bis"
+                },
+                {
+                  "id": "tpl_qualifikation",
+                  "typ": "text",
+                  "label": "Qualifikation"
                 }
               ]
             },
@@ -1772,6 +2787,29 @@
               "typ": "text",
               "label": "Stellvertretungserlaubnis",
               "hint": "Falls vorhanden: für wen, von welcher Behörde, bis wann."
+            },
+            {
+              "id": "tpl_works_council",
+              "typ": "liste",
+              "label": "Betriebsrat",
+              "hint": "Wer im Betriebsrat oder in der Mitarbeitervertretung Ansprechperson ist, wenn das Team informiert wird.",
+              "unterFelder": [
+                {
+                  "id": "tpl_body",
+                  "typ": "text",
+                  "label": "Gremium"
+                },
+                {
+                  "id": "tpl_chair",
+                  "typ": "text",
+                  "label": "Vorsitz oder Ansprechperson"
+                },
+                {
+                  "id": "tpl_how",
+                  "typ": "text",
+                  "label": "Wie erreichbar"
+                }
+              ]
             }
           ]
         },
@@ -1817,6 +2855,153 @@
                   "id": "tpl_delegated_on",
                   "typ": "datum",
                   "label": "Übertragen am"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "erste-tage",
+          "label": "Erste Tage",
+          "felder": [
+            {
+              "id": "tpl_first_steps_when_absent",
+              "typ": "liste",
+              "label": "Erste Schritte, wenn Sie verhindert sind",
+              "hint": "Was in den ersten Tagen zu tun ist, wenn Sie vorübergehend nicht handeln können: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
+              "unterFelder": [
+                {
+                  "id": "tpl_step",
+                  "typ": "text",
+                  "label": "Schritt"
+                },
+                {
+                  "id": "tpl_who",
+                  "typ": "text",
+                  "label": "Wer"
+                },
+                {
+                  "id": "tpl_by_when",
+                  "typ": "text",
+                  "label": "Bis wann"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_first_steps_after_death",
+              "typ": "liste",
+              "label": "Erste Schritte im Todesfall",
+              "hint": "Was in den ersten Tagen nach Ihrem Tod für die Firma zu tun ist: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
+              "unterFelder": [
+                {
+                  "id": "tpl_step",
+                  "typ": "text",
+                  "label": "Schritt"
+                },
+                {
+                  "id": "tpl_who",
+                  "typ": "text",
+                  "label": "Wer"
+                },
+                {
+                  "id": "tpl_by_when",
+                  "typ": "text",
+                  "label": "Bis wann"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_first_steps_long_absence",
+              "typ": "liste",
+              "label": "Erste Schritte, wenn kein Ende absehbar ist",
+              "hint": "Was zu tun ist, wenn nicht absehbar ist, wann Sie wieder handeln können: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
+              "unterFelder": [
+                {
+                  "id": "tpl_step",
+                  "typ": "text",
+                  "label": "Schritt"
+                },
+                {
+                  "id": "tpl_who",
+                  "typ": "text",
+                  "label": "Wer"
+                },
+                {
+                  "id": "tpl_by_when",
+                  "typ": "text",
+                  "label": "Bis wann"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_first_steps_sale_or_handover",
+              "typ": "liste",
+              "label": "Erste Schritte bei Verkauf oder Übergabe",
+              "hint": "Was zu tun ist, wenn der Betrieb verkauft oder übergeben wird: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
+              "unterFelder": [
+                {
+                  "id": "tpl_step",
+                  "typ": "text",
+                  "label": "Schritt"
+                },
+                {
+                  "id": "tpl_who",
+                  "typ": "text",
+                  "label": "Wer"
+                },
+                {
+                  "id": "tpl_by_when",
+                  "typ": "text",
+                  "label": "Bis wann"
+                },
+                {
+                  "id": "tpl_documents_kept_at",
+                  "typ": "text",
+                  "label": "Unterlagen liegen bei"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "einarbeitung",
+          "label": "Einarbeitung",
+          "felder": [
+            {
+              "id": "tpl_onboarding_plan",
+              "typ": "liste",
+              "label": "Einarbeitung der Nachfolge",
+              "hint": "Was eine neue Person oder Ihre Nachfolge lernen muss: das Thema, wer es zeigt und bis wann. Bei einer GmbH: Die Geschäftsführung sorgt für die ordnungsmäßige Buchführung (§ 41 GmbHG) und wendet die Sorgfalt eines ordentlichen Geschäftsmannes an (§ 43 Abs. 1 GmbHG).",
+              "unterFelder": [
+                {
+                  "id": "tpl_topic",
+                  "typ": "text",
+                  "label": "Thema"
+                },
+                {
+                  "id": "tpl_shown_by",
+                  "typ": "text",
+                  "label": "Wer zeigt es"
+                },
+                {
+                  "id": "tpl_by_when",
+                  "typ": "text",
+                  "label": "Bis wann"
                 }
               ]
             }

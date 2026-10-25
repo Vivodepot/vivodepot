@@ -45,9 +45,6 @@ mechanism.
 
 These are in the core and not yet carried by a module:
 
-- **Country code in the identity credential.** The SD-JWT VC identity export writes
-  `country_code: 'DE'` as a fixed value (`grep -n "country_code" vivodepot.html`). It does not
-  follow the legal system.
 - **Language fallback.** The page starts as `lang="de"`, and without a language module the built-in
   language tag is `de-DE` (`grep -n "TEXTSATZ_REGELN_EINGEBAUT" vivodepot.html`).
 - **Date format.** Dates in the interface are always shown as `TT.MM.JJJJ`

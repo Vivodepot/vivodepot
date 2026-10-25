@@ -15,6 +15,228 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.952] – 2026-10-25
+
+### Hinzugefügt
+- Neben einer Angabe, die aus einem geprüften Zertifikat einer Einrichtung eingelesen wurde, steht jetzt der Name der
+  Einrichtung: „eingelesen · bestätigt von <Name>“. Der Name kommt aus dem geprüften Zertifikat, nicht aus den Angaben.
+- Pod-Brücke, Stufe 1 (U2-ADR-512): eine eigene Seite `pod/bruecke.html` legt Dateien, die Vivodepot verschlüsselt gespeichert
+  hat, in einem Solid-Pod ab und holt sie wieder, für eine Stelle (nur deren WebID), als Freigabe-Link oder als eigene
+  Sicherung. Anmeldung mit Solid-OIDC und DPoP ohne Erneuerungs-Token; die Person bestätigt den Speicher vor dem ersten
+  Schreiben; bei einer Freigabe an eine Stelle liegt ein Access Grant nach dem LWS-Entwurf daneben. Die Anwendung selbst baut
+  weiter keine Verbindung auf.
+- Tiere haben in Privat einen eigenen Bereich in der Gruppe „Alltag“. Angaben zu Tieren, die bisher unter den
+  persönlichen Angaben standen, zieht die Anwendung beim Öffnen dorthin um; die Lese-App liest beide Formen.
+- Pro, die berufliche Fassung, bekommt neue Angaben: Rechtsform, laufende Verträge, Verkauf und Übergabe; die ersten Tage
+  bei Verhinderung oder im Todesfall, wichtige Geschäftsbeziehungen, Post, Kommunikation und Geräte; im Vertretungsplan
+  das Ende einer Vertretung und die Qualifikation, einen Informationsplan sowie Beraterinnen, Berater und Stellen; einen
+  Abschnitt „Einarbeitung“ und die Form der Übergabe.
+- Pro hat einen neuen Abschnitt „Register und Kennungen“ für die Kennungen des Betriebs, etwa EORI, USt-IdNr., EUID, LEI,
+  GS1 und D-U-N-S, Registrierungen für Verpackung, Elektrogeräte und Batterien, E-Rechnung und Leitweg-IDs, die
+  Business-Wallet und die digitale EU-Vollmacht. Dazu kommen Angaben zu Online-Banking und Freigaben, Lohnlauf, Domain
+  und Online-Konten, Angeboten und Terminen, Gesellschafterversammlung, Notgeschäftsführung und Betriebsrat. Die Anlässe
+  „Vertretung“, „Übergabe“, „Einarbeitung“ und „Nachfolge“ nennen die neuen Angaben.
+- Die Berufsmodule Kanzlei und Steuerberatung fragen nach Anderkonten und Fremdgeld, als sensible Angabe.
+- Pro bringt unter „Vollmachten“ drei Auszüge mit, für die Steuerberatung, die Bank und die Nachfolge, und zwei Vorlagen,
+  um Kundschaft und Belegschaft zu informieren, auf Deutsch und Englisch.
+- Die Hilfe hat in Pro ein eigenes Thema zur beruflichen Fassung.
+- Die Suche findet jetzt auch Bereiche und Abschnitte.
+- In einzeiligen Feldern eines Dialogs und im Passwortfeld beim Öffnen, auch beim Öffnen mit Code, löst die
+  Eingabetaste die Hauptaktion aus.
+- Beim Herausgeben stehen höchstens vier Anlässe offen, die mit den meisten eigenen Angaben zuerst; die übrigen stehen
+  hinter „Weitere Anlässe“.
+- Ein eingelesener EU-Laborbefund lässt sich in „Meine Dokumente“ zusätzlich als EU-Labordokument der Person ausgeben.
+  Befund und Messwerte bleiben unverändert, das Original hängt unverändert an.
+- Beim Einlesen einer Vorlage zeigt die Anwendung ihre Lizenz mit Kennung und Rechteinhaber, wenn sie eine bekannte
+  Lizenz angibt; sonst steht dort, dass die Lizenz nicht erkannt ist.
+- Eine Einrichtung kann über ihr signiertes Branding-Modul ein eigenes Erscheinungsprofil mitbringen und „powered
+  by“ in der Zeile der Anwendung abschalten, nie auf Ausgaben.
+
+### Behoben
+- In den Auszügen von Pro verrutschten Angaben einer Liste in die falsche Zeile, wenn eine Zeile ein Unterfeld leer
+  ließ, etwa eine Kontovollmacht beim falschen Institut.
+- Nimmt man eine Angabe oder ein Unterfeld zurück, geht sie jetzt auch über die Angehörigen-Blätter, die Notfallkarte
+  samt den Kontakten in ihrem QR-Code und unter „Personen, die etwas sehen dürfen“ über die Bausteine „Im Notfall
+  (Krankenhaus)“, „Bei Pflege (Heimaufnahme)“ und „Für die Bestattung“ nicht mehr hinaus. Über die Oberfläche lässt sich
+  eine solche Rücknahme weiterhin nicht dauerhaft setzen; sie kann nur aus einer Datei stammen, die sie schon trägt
+  (siehe den Hinweis zu VD-SEC-026 unter v1.0.943).
+- Fragte eine Stelle nach den Feldern ihrer eigenen Vorlage und hatte diese Vorlage keinen Wortlaut, kam keine Angabe
+  zurück. Das ist behoben.
+- Barrierefreiheit: Hinweise und Fehlermeldungen eines Felds sind dem Feld zugeordnet, Kern und Lese-App haben einen
+  Sprunglink zum Inhalt. Ein ungültiger Wert bleibt markiert im Feld stehen und wird nicht gespeichert.
+- Die Hilfe sagte, die Anwendung schicke nichts an uns. Mit „Link senden“ und „Sicher weitergeben“ lädt man aber selbst eine
+  verschlüsselte Datei auf unsere Ablage. Die Hilfe nennt jetzt beide Wege, was die Ablage sieht und wann sie löscht.
+
+### Geändert
+- Pro bietet keine privaten Angaben mehr an: die Ablageorte von Patienten- und Betreuungsverfügung, die Versorgung der
+  Familie und die private Absicherung. Den Bereich Gesundheit bietet Pro nicht mehr an, damit auch nicht die
+  Gesundheitsdaten als maschinenlesbare Datei. Trägt eine ältere Datei dort Werte, bleiben sie erhalten und sichtbar.
+- Pro bringt die Vorlagen für Patientenverfügung, Vorsorgevollmacht, Betreuungsverfügung, KI-Verfügung und Organspende
+  und die Angehörigen-Blätter nicht mehr mit.
+- Beim Einrichten eines Fachs sagt die Anwendung jetzt: „Eine Datei, die Sie einmal weitergegeben haben, können Sie nicht
+  zurückholen.“ Die maschinenlesbaren Ausgaben zu Person, Finanzen und Sozialversicherung heißen jetzt „Selbstauskunft“.
+- Die englische Fassung nennt Patientenverfügung und Vorsorgevollmacht „living will“ und „enduring power of attorney“.
+- Ein Sprachmodul darf bis 1 MiB groß sein.
+- Nachbau: Aus dem öffentlichen Quelltext lässt sich der Kern nachrechnen (SECURITY.md, Abschnitt 8). Die Produkte lassen sich
+  seit v1.0.933 nicht mehr byte-gleich nachbauen, weil Vivodepots eigene Vorlagen nicht im öffentlichen Repository liegen. Die
+  Angabe im Eintrag zu v1.0.843 gilt nur bis v1.0.931.
+- SECURITY.md nennt als Konformitätsweg nach dem Cyber Resilience Act jetzt Modul A mit harmonisierten Normen, andernfalls eine
+  notifizierte Stelle; Klasse I ist der Maßstab, die rechtliche Einstufung ist davon getrennt.
+
+### Sicherheit
+- VD-SEC-029 (hoch): Behoben in v952.
+  Worum es geht: Unter „Personen, die etwas sehen dürfen“ kann man für eine Person Bereiche markieren oder Bausteine
+  wählen. Als sensibel markierte Dokumente aus „Meine Dokumente“ gehen dabei nur mit dem Baustein „Im Todesfall (Erbe und
+  Behörden)“ mit, der mitgibt, was im Depot steht. Verwies eine Angabe, die die Person sehen darf, auf ein solches
+  Dokument, etwa das Profilfoto, ging das Dokument trotzdem mit, in die Datei und den QR-Code für diese Person und in ihr
+  Fach in Ihrer Depot-Datei.
+  Was jetzt gilt: Ein sensibel markiertes Dokument geht nur noch mit dem Baustein „Im Todesfall (Erbe und Behörden)“ mit.
+  Der Verweis bleibt stehen und zeigt beim Empfänger „nicht hinterlegt“.
+  Betroffen: Datei und QR-Code v797 bis v943, das Fach in v943 (zum Fach in früheren Fassungen siehe VD-SEC-027).
+  Was zu tun ist: auf v952 aktualisieren und eine Sicherungskopie erstellen; damit entsteht das Fach neu. Wer für eine
+  solche Person eine Datei oder einen QR-Code erzeugt hat, erzeugt sie mit v952 neu. Ältere Kopien der Depot-Datei und
+  schon weitergegebene Dateien durch die neuen ersetzen; was schon weitergegeben ist, lässt sich nicht zurückholen.
+
+## [v1.0.943] – 2026-10-21
+
+### Hinzugefügt
+- Die Antwort an eine Stelle und der Auszug zu einem Anlass lassen sich jetzt auch als Link weitergeben. Nach „Antworten“ und nach
+  „Herausgeben“ steht die Wahl „Herunterladen“ oder „Link senden“. Der Link lässt sich kopieren oder als QR-Code zeigen; die Stelle
+  holt die Datei über share.vivodepot.de ab, der Schlüssel steht nur im Link. Eine Antwort geht nur signiert über einen Link.
+- Wer eine Anfrage einer Stelle öffnet und noch kein Depot hat, sieht zuerst, wer bittet (bei einer nicht geprüften Anfrage mit
+  dem Hinweis „Nicht geprüft“), wozu und um welche Angaben, und erst danach den Satz zum eigenen Passwort. Beim Anlegen auf diesem
+  Weg bietet die Anwendung den Wiederherstellungs-Code noch nicht an. Nach dem Herunterladen der Antwort bietet der
+  Abschlussbildschirm „Depot absichern“ an; ist danach noch kein Code eingerichtet, kommt das Angebot beim nächsten Öffnen einmal
+  wieder.
+- Wird die Antwort auf eine Anfrage als Datei heruntergeladen, zeigt danach ein Abschlussbildschirm, wohin die Datei geht, dass
+  sie dort noch nicht angekommen ist und wo die Angaben im Depot liegen. Im Fenster für das Einmalpasswort steht jetzt, dass die
+  Stelle dieses Passwort getrennt gegeben hat und dass es nicht das Depot-Passwort ist.
+
+### Behoben
+- Die Lese-App öffnet jetzt das Fach eines Empfängerkreises in der Datei der Inhaberin. Bisher ging eine solche Datei in der
+  Lese-App nur mit dem Passwort der Inhaberin auf, nicht mit dem Passwort der Vertretung. Ein abgelaufenes Fach nennt sie mit
+  eigenem Satz statt als falsches Passwort. Die Lese-App liest die Datei dabei mit demselben Leser wie die Anwendung.
+- Auf schmalen Telefonen brechen die Knöpfe eines Dialogs jetzt in eine zweite Zeile um, statt am Rand abgeschnitten zu werden.
+- In der Antwort auf eine Anfrage und unter „Selbst zusammenstellen“ ließ sich eine fehlende Angabe nur als freier Text
+  nachtragen. Bei Feldern mit Codeliste wie den Allergien („Penicillin“), bei Verweisen und Listen schlug das fehl; bei
+  Auswahlfeldern landete die Angabe in einer Form, die die Anwendung nicht als eingetragen las. Jetzt hat jede fehlende Angabe das
+  Eingabefeld ihrer Art. Gibt es die erfragte Angabe in einer Liste mehrfach, etwa bei zwei Vorsorgevollmachten, führen ein Satz
+  und ein Knopf in den Bereich, statt zu raten.
+- Eine Pro-Datei ohne Beschreibung ihrer Bereiche, etwa ein Ausschnitt von vor v937 oder eine Übergabe per QR-Code, zeigt ihre
+  Pro-Bereiche jetzt auch in der Lese-App, und Vivodepot Privat und Pro benennen die Bereiche eines Berufsmoduls, wenn die Datei dort
+  Angaben trägt.
+
+### Geändert
+- Die Staatsangehörigkeit wählt man jetzt aus der amtlichen Liste (im deutschen Rechtsraum die des Statistischen Bundesamts),
+  statt sie frei einzutippen; gibt es keine Liste, bleibt das Feld leer. Der „Identitätsnachweis (maschinenlesbar)“ trägt sie nur
+  noch als geltende Ländercodes nach ISO 3166-1, für „staatenlos“ und „ungeklärt“ als die Sonderwerte des PID-Regelwerks. Lässt sich
+  eine gewählte Angabe nicht so abbilden, trägt er keine und nennt beim Erstellen, was nicht übernommen wurde. Ein früher frei
+  eingetragener Text bleibt sichtbar, geht aber nicht in den Identitätsnachweis.
+- Eine Antwort-Datei über 16 MiB erkennen die Anwendung, die Lese-App und das Studio nicht mehr als Antwort. Das Studio liest sie
+  unter „Eingegangene Antworten öffnen“ gar nicht erst ein und meldet „Die Datei ist zu groß für eine Antwort und wird nicht
+  geöffnet.“
+
+### Sicherheit
+- VD-SEC-026 (hoch): Behoben in v937, Hinweis mit v943.
+  Worum es geht: Trug ein Depot die Entscheidung, ein einzelnes Unterfeld einer Liste zurückzuhalten, galt sie in
+  einigen Ausgaben nicht, etwa für das Jahr einer Operation, die Frist oder die bevollmächtigten Personen einer
+  Vorsorgevollmacht in den Gesundheitsdaten als maschinenlesbare Datei (medizinischer Export) oder für die Art eines
+  Kontos in einem Situationsblatt. Bei einem Vorsorge-Instrument mit ebenfalls zurückgehaltener Art galt dasselbe für
+  einen Bereich, den man für eine Person unter „Personen, die etwas sehen dürfen“ markiert hat. Die Angabe ging dann
+  mit hinaus. Über die Oberfläche ließ sich eine solche Entscheidung in diesen Fassungen nicht dauerhaft setzen; sie
+  konnte nur aus einer Datei stammen, die sie schon trug.
+  Was jetzt gilt: Diese Ausgaben prüfen die Entscheidung am einzelnen Unterfeld. Die Notfallkarte, die
+  Angehörigen-Blätter und unter „Personen, die etwas sehen dürfen“ die Bausteine „Im Notfall (Krankenhaus)“, „Bei Pflege
+  (Heimaufnahme)“ und „Für die Bestattung“ wenden eine solche Entscheidung noch nicht an; das wird gesondert entschieden.
+  Der Baustein „Im Todesfall (Erbe und Behörden)“ gibt mit, was im Depot steht; ausnehmen lassen sich dort nur ganze
+  Angaben.
+  Betroffen: Situationsblätter und medizinischer Export v670 bis v933, der Vorsorge-Abschnitt im medizinischen Export
+  v857 bis v933, Datei und QR-Code für einen markierten Bereich v922 bis v933 (zum Fach siehe VD-SEC-027), der Vollexport
+  als JSON in v670 und v718.
+  Was zu tun ist: auf v943 aktualisieren. Wer eine Depot-Datei oder einen Gesamtexport mit einer solchen Entscheidung
+  geöffnet oder eingelesen und daraus eine der genannten Ausgaben erzeugt hat, erzeugt sie mit v943 neu. Eine schon
+  weitergegebene Ausgabe bleibt, wie sie ist; wer sie bekommen hat, sollte sie durch die neue ersetzen. Den Vollexport
+  als JSON bietet die Anwendung seit v787 nicht mehr an; eine solche Datei aus v670 oder v718 nicht weitergeben.
+- VD-SEC-027 (hoch): Behoben in v922 und v943, je Fall unten.
+  Worum es geht: Unter „Personen, die etwas sehen dürfen“ kann man für eine Person Bereiche markieren, die sie sehen darf.
+  Dafür enthält Ihre Depot-Datei ein Fach für diese Person, und es lassen sich eine Datei und ein QR-Code für sie erzeugen.
+  Drei Fälle:
+  (1) Fach, Datei und QR-Code enthielten auch die Felder der markierten Bereiche, die als sensibel gelten, etwa die
+  meisten Angaben im Bereich Gesundheit. Betroffen: v787 bis v920. Behoben in v922. Der Eintrag zu v922 nannte v917 bis
+  v920; das war zu eng.
+  (2) Ab v922 hielten Datei und QR-Code diese Felder zurück. Das Fach enthielt bei Listen aber weiter Angaben, die
+  zurückgehalten werden, etwa die IBAN in einer Kontenliste. Betroffen: das Fach v922 bis v937. Behoben in v943.
+  (3) Das Fach einer Person, für die Sie eines eingerichtet haben, enthielt alle Ihre Angaben zu Lebenslagen, auch wenn
+  diese Person sie nicht sehen sollte. Bei den Bausteinen „Bei Pflege (Heimaufnahme)“ und „Für die Bestattung“ und bei
+  einem markierten Bereich nannte es außerdem, welche Bereiche Ihr Depot angelegt hat (nur die Namen, keine Angaben daraus). Bei einem markierten Bereich
+  enthielt es auch alle Einträge unter „Menschen, die mir wichtig sind“ (im Bereich „Meine Menschen“). Verwies eine
+  Angabe eines markierten Bereichs auf ein Dokument, etwa das Profilfoto, enthielt das Fach außerdem alle Ihre Dokumente
+  unter „Meine Dokumente“. Betroffen: die Angaben zu Lebenslagen v670 bis v937, die Namen der Bereiche v718 bis v937, die
+  Einträge unter „Menschen, die mir wichtig sind“ v787 bis v937, die Dokumente unter „Meine Dokumente“ v797 bis v937.
+  Behoben in v943.
+  Was jetzt gilt: Ein markierter Bereich gibt Felder, die als sensibel gelten, und zurückgehaltene Angaben in Listen nicht
+  mehr mit, auch nicht im Fach. Ihre Angaben im Fach sind nur noch solche, die auch die Datei für diese Person enthält.
+  Das Fach kann weniger enthalten: Weicht eine Angabe für diese Person vom Depot ab, etwa eine Liste mit einer
+  zurückgehaltenen Angabe, fehlt sie im Fach vorerst ganz; in der Datei für diese Person steht die Liste ohne die
+  zurückgehaltene Angabe. Das Fach in Ihrer Depot-Datei wird neu gebildet, wenn Sie mit v943 eine Sicherungskopie
+  erstellen; Datei und QR-Code entstehen neu, wenn Sie sie wieder erzeugen.
+  Was zu tun ist: Mit v943 eine Sicherungskopie erstellen und die Datei für diese Person neu erzeugen. Ältere Kopien
+  Ihrer Depot-Datei und eine schon weitergegebene Datei bleiben, wie sie sind; ersetzen Sie sie durch die neuen.
+- VD-SEC-028 (hoch): Behoben in v943.
+  Worum es geht: Das PDF der Situationsblätter „Beim Notar oder bei der Bank“, „Einfach so — weil es Zeit
+  wird“ und „Im Erbfall“ (Knopf „Als PDF“) enthielt bei den Konten auch die IBAN, obwohl sie ab Werk geschützt ist.
+  Was jetzt gilt: Das PDF dieser Blätter enthält die IBAN nicht mehr. Am Bildschirm zeigt das Blatt sie weiter, so wie
+  der Bereich Finanzen selbst.
+  Betroffen: v670 bis v937.
+  Was zu tun ist: auf v943 aktualisieren. Ein solches PDF mit Konten, das mit einer dieser Fassungen erzeugt und
+  weitergegeben wurde, trägt die IBAN; erzeugen Sie es mit v943 neu und ersetzen Sie das weitergegebene.
+- VD-SEC-030 (mittel): Behoben in v943.
+  Worum es geht: Die Sicherheitsregeln der Seite (Content Security Policy) erlaubten jeden Programmcode, der direkt in
+  der Seite steht, ohne Prüfsumme, auch solchen, der erst nachträglich hineingelangt. Wäre fremdes HTML in die Seite
+  gelangt, etwa ein Bild mit einem Fehler-Handler, hätte dessen Programmcode laufen und angezeigte Angaben hinaustragen
+  können, indem er die Seite eine fremde Adresse aufrufen ließ; die Sperre für Netzverbindungen galt für einen solchen
+  Aufruf nicht. Solche Wege, fremdes HTML in die Seite zu bringen, gab es bis v927; sie sind als VD-SEC-006, -007 und
+  -016 bis -018 behoben. Für v928 bis v937 kennen wir keinen.
+  Was jetzt gilt: Programmcode in der Seite läuft nur mit hinterlegter Prüfsumme; ein Fehler-Handler in eingesetztem
+  HTML läuft gar nicht. In Browsern, die Trusted Types unterstützen, lehnt eine Vertrauensregel HTML mit ausführbarem
+  Anteil zusätzlich schon beim Einsetzen ab.
+  Betroffen: die Anwendung in den ausgelieferten Fassungen seit mindestens v670, die Lese-App und das Studio für
+  Einrichtungen seit mindestens v792, jeweils bis v937.
+  Was zu tun ist: auf v943 aktualisieren. Lese-App und Studio liefern wir unter register.vivodepot.de selbst neu aus.
+
+## [v1.0.937] – 2026-10-20
+
+### Behoben
+- Gab jemand ein Listenfeld für eine Antwort auf eine Anfrage, einen Anlass oder eine Zusammenstellung frei, fehlten in der
+  Ausgabe die Unterfelder der Liste, die von sich aus besonders geschützt sind, ohne dass es irgendwo zu sehen war. Jetzt gilt die
+  Freigabe des Felds auch für seine Unterfelder. Bleiben Unterfelder einer mitgehenden Liste zurück, nennt die Übersicht sie unter
+  „Nicht mitgeschickt“ mit Namen.
+- Vivodepot Pro mit einem Berufsmodul: Ein Ausschnitt für eine vertretende Person, über ein Fach oder als eigene Datei, nahm nur
+  die Angaben mit, nicht die Beschreibung der Bereiche des Berufsmoduls. Vivodepot Privat zeigte diese Bereiche deshalb nicht, und
+  die Lese-App zeigte aus einer solchen Datei keinen Pro-Bereich. Jetzt trägt der Ausschnitt die Beschreibung der Bereiche mit, aus
+  denen er Angaben enthält.
+- Der „Identitätsnachweis (maschinenlesbar)“ trug in der Anschrift fest das Land Deutschland, auch wenn niemand ein Land eingetragen
+  hatte. Das Depot führt kein Land der Anschrift; die Angabe fällt jetzt weg.
+- In PDFs der Anwendung trugen die eingebetteten Schriften eine falsche Angabe zu ihrer Zeichensammlung. PDF-Programme, die auf
+  poppler aufbauen, meldeten dazu einen Fehler. Die Angabe stimmt jetzt.
+
+### Hinzugefügt
+- Studio: Im Assistenten für eine Anfrage gibt es unter „Wie die Antwort zu Ihnen kommt“ den Weg „Mit dem Zertifikat Ihrer Stelle:
+  ohne Passwort für die Person“. Man lädt die Schlüsseldatei der Stelle und das Zertifikat, das Vivodepot dazu ausgestellt hat, und
+  wählt „Laden und prüfen“. Das Studio prüft das Zertifikat sofort und übernimmt es nur, wenn es gültig ist und zur geladenen
+  Schlüsseldatei gehört. Dann wird die Anfrage signiert, beim Veröffentlichen entsteht eine eigene Schlüsseldatei für diese Anfrage,
+  und die Person antwortet ohne Passwort. Mit „Antworten öffnen“ öffnet man die Antworten mit dieser Schlüsseldatei. Ohne Zertifikat
+  oder mit einem abgelaufenen oder widerrufenen bleibt es beim Einmalpasswort wie bisher.
+- Bei deutschem Rechtsraum steht in „Vorsorge & Recht“ über der Liste „Vorsorge-Instrumente“ ein Satz, dass sich die Dokumentarten
+  und Angaben dort nach deutschem Recht richten, vorerst nur auf Deutsch. Der Satz kommt aus der mitgelieferten Erweiterung für den
+  Rechtsraum.
+
+### Geändert
+- Jedes PDF der Anwendung nennt jetzt die Software, mit der sie entstanden ist: Der Fuß der PDFs, das Dokument-PDF, das PDF eines Widerrufs,
+  die „Notfallkarte“ und das Deckblatt des Gesamt-PDF tragen „Erstellt mit der Software Vivodepot“, das Deckblatt dahinter die
+  „Fassung“. Unten in der Anwendung steht „Bereitgestellt mit Vivodepot“. Beides gilt auch unter einer Partnermarke: Genannt wird
+  dann die Software, nicht der Partner.
+
 ## [v1.0.933] – 2026-10-19
 
 ### Behoben
@@ -427,8 +649,10 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
   sagt in den ersten Zeilen, dass sie das Gerüst ist.
 
 ### Behoben
-- Ein Fach mit einem Bereich als Baustein enthielt auch die als sensibel markierten Felder dieses Bereichs (v917 bis v920). Ab
-  v922 gibt ein Bereich diese Felder nicht mehr her; freigegebene Felder bleiben darin. Das Fach wird beim nächsten Speichern
+- Ein Fach mit einem Bereich als Baustein enthielt auch die als sensibel markierten Felder dieses Bereichs (v787 bis v920;
+  berichtigt am 21.10.2026, hier stand v917 bis v920; siehe VD-SEC-027 unter v943). Ab
+  v922 gibt ein Bereich diese Felder nicht mehr her; freigegebene Felder bleiben darin. Im Fach fehlt ab v943 eine Liste ganz,
+  wenn sie eine zurückgehaltene Angabe enthält; bis v937 stand sie dort mit dieser Angabe. Das Fach wird beim nächsten Speichern
   neu gebildet. Eine Datei, die schon weitergegeben wurde, bleibt, wie sie war: Wer sie weitergegeben hat, gibt die neue Datei
   weiter.
 - Der Haftungshinweis steht in jedem erzeugten Dokument, auch im PDF und auf der Notfallkarte.

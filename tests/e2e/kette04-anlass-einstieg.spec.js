@@ -68,7 +68,8 @@ test('das freie Zusammenstellen: suchen, aufnehmen, ein leeres Feld an Ort und S
   expect(await treffer.count(), 'die Suche findet über die Beschriftung').toBeGreaterThan(0);
 
   // Das Feld ist LEER — und genau dort füllbar, ohne den Bildschirm zu verlassen.
-  const fuellFeld = page.locator('[data-zus-fuellen]').first();
+  // Der Rahmen trägt die Kennung, darin der Editor des Feldtyps (Befund ANFRAGE-NACHTRAGEN-CODELISTE).
+  const fuellFeld = page.locator('[data-zus-fuellen] [data-edit]').first();
   await expect(fuellFeld, 'ein leeres Feld wird nicht versteckt, sondern angeboten').toBeVisible();
   await fuellFeld.fill('A123456780');
   await page.keyboard.press('Tab');

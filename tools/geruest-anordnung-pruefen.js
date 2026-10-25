@@ -32,7 +32,7 @@
    ═══════════════════════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
-const { ohneKommentare, skripte } = require('./lib/html-senken.js');
+const { ohneKommentare, skripte, regexEnde } = require('./lib/html-senken.js');
 
 const REPO = path.join(__dirname, '..');
 const KERN = path.join(REPO, 'vivodepot.html');
@@ -51,6 +51,7 @@ function blockEnde(t, i) {
   for (let j = i; j < t.length; j++) {
     const c = t[j];
     if (c === '"' || c === "'") { for (j++; j < t.length && t[j] !== c; j++) if (t[j] === '\\') j++; continue; }
+    if (c === '/') { const e = regexEnde(t, j); if (e > 0) { j = e - 1; continue; } }   // Regex-Literal: Inhalt, kein Code
     if (c === '`') { vorlage.push(tiefe); for (j++; j < t.length; j++) { if (t[j] === '\\') { j++; continue; } if (t[j] === '`') { vorlage.pop(); break; } if (t[j] === '$' && t[j + 1] === '{') { tiefe++; j++; break; } } continue; }
     if (c === '{') tiefe++;
     else if (c === '}') {
@@ -72,7 +73,7 @@ function funktionen(js) {
     if (auf < 0) continue;
     const zu = blockEnde(js, auf);
     if (zu < 0) continue;
-    aus.push({ name: m[1] || m[2], koerper: js.slice(auf, zu + 1) });
+    aus.push({ name: m[1] || m[2], koerper: js.slice(auf, zu + 1), anfang: m.index, ende: zu + 1 });
     re.lastIndex = zu + 1;
   }
   return aus;
@@ -143,10 +144,43 @@ function abgleichen(ist, gl) {
   return funde;
 }
 
+/* VOLLSTÄNDIGKEIT DER ZERLEGUNG (24.10.2026, Wächter gegen die Klasse ZERLEGER-OHNE-REGEX-LITERALE): unabhängig vom Zerleger
+   gezählt wird jede Funktionsdeklaration am Zeilenanfang im ROHEN Skripttext. Zwei Bedingungen:
+   (1) jede liegt in einer gelesenen Funktion der obersten Ebene (sie selbst oder ein Behälter, in dem sie verschachtelt steht) —
+       sonst hat der Zerleger sie als Kommentar oder Zeichenkette verschluckt;
+   (2) der Körper jeder gelesenen Funktion lässt sich für sich übersetzen (vm.Script, nur Syntax, nichts läuft) — sonst endet er an der
+       falschen Klammer und hat Code dahinter gefressen.
+   Beides zusammen, weil ein verschluckter Abschnitt (1) und ein gefressener (2) verschieden aussehen: am 24.10.2026 im Zug folge31
+   fehlte am Kopf nach Branding v2 die Funktion _markeAnzeigeAnwenden ganz, eine Fassung später fraß sie den Rest des Kerns. */
+function vollstaendigkeit(html, { ohne = ohneKommentare } = {}) {
+  const vm = require('node:vm');
+  const roh = skripte(html).map((s) => (typeof s === 'string' ? s : s.text || ''));
+  const js = roh.map(ohne).join('\n');
+  const gelesen = funktionen(js);
+  const fehlt = []; const unlesbar = [];
+  // ohneKommentare hält jede Stelle an ihrem Platz; die Rohstellen gelten darum im zusammengesetzten Text gleich.
+  const rohText = roh.join('\n');
+  let k = 0;
+  for (const m of rohText.matchAll(/^(?:async\s+)?function\s*\*?\s*([A-Za-z_$][\w$]*)\s*\(/gm)) {
+    while (k < gelesen.length && gelesen[k].ende <= m.index) k++;
+    if (!(k < gelesen.length && gelesen[k].anfang <= m.index)) fehlt.push(m[1]);
+  }
+  for (const f of gelesen) {
+    // nur der Körper, als Körper einer async-Generatorfunktion (erlaubt await und yield): die Hülle um IIFE und Pfeil zählt nicht.
+    try { new vm.Script('(async function* () ' + f.koerper + ')'); } catch (e) { unlesbar.push(f.name + ' (' + String(e.message).slice(0, 60) + ')'); }
+  }
+  return { roh: [...rohText.matchAll(/^(?:async\s+)?function\s*\*?\s*[A-Za-z_$]/gm)].length, gelesen: gelesen.length, fehlt, unlesbar };
+}
+
 function main(argv) {
   const ki = argv.indexOf('--kern');
   const html = fs.readFileSync(ki >= 0 ? argv[ki + 1] : KERN, 'utf8');
   const ist = messen(html);
+  const v = vollstaendigkeit(html);
+  if (v.fehlt.length || v.unlesbar.length) {
+    console.error('[geruest-anordnung] ABBRUCH: der Zerleger liest den Kern nicht vollständig — verschluckt: ' + (v.fehlt.join(', ') || '—') + '; unlesbar begrenzt: ' + (v.unlesbar.join(', ') || '—'));
+    return 1;
+  }
   if (argv.includes('--grundlinie-schreiben')) {
     const alt = fs.existsSync(GRUNDLINIE) ? JSON.parse(fs.readFileSync(GRUNDLINIE, 'utf8')) : null;
     const neu = ist.funktionen.map((f) => f.name).filter((n) => !(alt && (alt.schutz || []).some((s) => s.name === n)));
@@ -169,4 +203,4 @@ function main(argv) {
 
 if (require.main === module) process.exitCode = main(process.argv.slice(2));
 
-module.exports = { STATISCH, LAYOUT_SCHREIBER, funktionen, schreibwege, kopfMarkup, messen, abgleichen, blockEnde };
+module.exports = { STATISCH, LAYOUT_SCHREIBER, funktionen, schreibwege, kopfMarkup, messen, abgleichen, blockEnde, vollstaendigkeit };

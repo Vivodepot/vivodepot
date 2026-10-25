@@ -4,5 +4,6 @@
   "tests/fixtures/persona-p8.js": "roh = JSON.stringify(d.sektoren) — entschlüsselte Daten",
   "tests/m1-gueltigkeit-aufloesung-rohwert.test.js": "sucht im Quelltext des Kerns, nicht in einer Ausgabe",
   "tests/schema-88-personenregister-englisch.test.js": "roh = JSON.stringify(d.menschen) — entschlüsselte Daten",
-  "tests/uebergabe-protokoll.test.js": "Klartext-Gerüst des Umschlags (Leck-Probe); die entschlüsselten Daten prüft die Zeile davor"
+  "tests/uebergabe-protokoll.test.js": "Klartext-Gerüst des Umschlags (Leck-Probe); die entschlüsselten Daten prüft die Zeile davor",
+  "tests/e2e-pod/pod-bruecke.spec.js": "sucht den Chiffrat-Teil des JWE im Klartext-JSON des Grants; das Subjekt ist lesbar"
 }

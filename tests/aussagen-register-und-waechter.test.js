@@ -202,10 +202,11 @@ test('[W-aussagen · Gate] Grundlinie statt Nulltoleranz — und ein UNGEMESSENE
 test('[W-aussagen · Rot-Beweis] eine weitergewanderte Zahl lässt das Gate anschlagen', () => {
   // Anker bis 11.09.2026 in STANDARDS.md (Block „Umfang der Erhebung") — mit dem Block
   // entfallen („Standzahlen raus"). docs/konformitaet-quellen.md:29 nennt
-  // „13 Sektoren" weiterhin, als Teil der Liste gescannter Sichten, und trägt den Anker seither.
+  // die Zahl der Sektoren weiterhin, als Teil der Liste gescannter Sichten, und trägt den Anker seither. Die Zahl selbst
+  // liest die Probe aus der Datei: sie folgt dem Kern (13 bis U2-ADR-479, seither 14).
   const QUELLDATEI = path.join(REPO, 'docs', 'konformitaet-quellen.md');
   const original = fs.readFileSync(QUELLDATEI, 'utf8');
-  const anker = '13 Sektoren';
+  const anker = (original.match(/\b\d+ Sektoren\b/) || ['(kein Anker)'])[0];
   assert.equal(original.split(anker).length - 1, 1, 'Vorbedingung: der Anker kommt genau einmal vor');
   const tmp = path.join(os.tmpdir(), 'aussagen-probe-' + process.pid + '-konformitaet-quellen.md');
   fs.writeFileSync(tmp, original.replace(anker, '9 Sektoren'));

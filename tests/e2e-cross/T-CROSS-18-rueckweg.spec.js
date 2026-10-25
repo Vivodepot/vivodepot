@@ -18,6 +18,14 @@ const path = require('node:path');
 const { jweLesbarerTeil } = require('../helfer/jwe-lesbar.js');
 const { URLS, frischerTmp, tmpAufraeumen, downloadNachTmp, kern, lesen } = require('./support/helpers.js');
 
+/* Seit „Link senden“ (L1b, 19.10.2026) fragt eine signierte Antwort nach dem Einmalpasswort erst nach dem Weg: „Herunterladen“
+   (#m-ok) oder „Link senden“, im Körper #ausgabe-datei. Der Rückweg prüft die Datei, also „Herunterladen“. */
+async function antwortenUndHerunterladen(seite) {
+  await seite.click('#m-ok');
+  await seite.waitForSelector('#ausgabe-datei', { state: 'visible', timeout: 15000 });
+  await seite.click('#m-ok');
+}
+
 const ANFRAGE = {
   modulTyp: 'anfrage', anfrageVersion: 1,
   von: 'Pflegeheim Sonnenhof gGmbH',
@@ -63,7 +71,7 @@ async function antwortUeberOberflaeche(browser, tmp, anfrage, { mitNummer = true
   await b.click('#m-ok');
   await b.waitForSelector('#antwort-pw', { state: 'visible' });
   await b.fill('#antwort-pw', EINMAL_PW);
-  const antwortPfad = await downloadNachTmp(b, tmp, () => b.click('#m-ok'));
+  const antwortPfad = await downloadNachTmp(b, tmp, () => antwortenUndHerunterladen(b));
   return { antwortPfad, b, buerger };
 }
 
@@ -102,7 +110,7 @@ test('T-CROSS-18 die Bürgerin beantwortet, die Institution öffnet — verschl�
     // Der eigene Schritt für das Einmalpasswort.
     await b.waitForSelector('#antwort-pw', { state: 'visible' });
     await b.fill('#antwort-pw', EINMAL_PW);
-    const antwortPfad = await downloadNachTmp(b, tmp, () => b.click('#m-ok'));
+    const antwortPfad = await downloadNachTmp(b, tmp, () => antwortenUndHerunterladen(b));
 
     /* ── 2 · Die Datei ist ein CHIFFRAT — nichts Lesbares steht darin ─────── */
     const roh = fs.readFileSync(antwortPfad, 'utf8');

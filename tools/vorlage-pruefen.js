@@ -149,8 +149,9 @@ if (require.main === module) {
       const r = regelnGegenKern(regelnLaden().regeln, fs.readFileSync(KERN_PFAD, 'utf8'));
       for (const f of r.fehlend) console.log('ohne Regel: ' + f);
       for (const v of r.verwaist) console.log('Regel ohne Grund im Kern: ' + v);
-      console.log(`Regeln gegen Kern: ${r.fehlend.length} Gründe ohne Regel, ${r.verwaist.length} Regeln ohne Grund im Kern`);
-      process.exit(r.fehlend.length || r.verwaist.length ? 1 : 0);
+      for (const u of r.unverfolgbar) console.log('nicht verfolgbar: ' + u);
+      console.log(`Regeln gegen Kern: ${r.fehlend.length} Gründe ohne Regel, ${r.verwaist.length} Regeln ohne Grund im Kern, ${r.unverfolgbar.length} Weitergaben nicht verfolgbar`);
+      process.exit(r.fehlend.length || r.verwaist.length || r.unverfolgbar.length ? 1 : 0);
     }
     const u = umgebung();
     const dokument = arg('--dokument');

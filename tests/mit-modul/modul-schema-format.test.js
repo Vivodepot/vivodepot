@@ -33,6 +33,8 @@ gleichlaufProben({
     ['Einlass-Marken', mit({ appVersion: 'v1', ungeprueft: true, eingelassenAm: '2026-09-26T00:00:00Z' })],
     ['U2-ADR-465: xml@1 mit Werteabbildung und Datumsteil', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'Konto.art', werte: { a: 'A', b: 1 } },
       { bereich: 'identity', feld: 'birthDate', ziel: 'Person.jahr', teil: 'jahr' }] })],
+    ['U2-ADR-482: Eingabe mit codeliste am Rechtsraum-Codefeld', mit({ sektor: 'identity', zuordnung: [{ feld: 'givenName', ziel: 'given_name' },
+      { feld: 'nationality', ziel: 'nationalities', codeliste: true }] })],
     ['U2-ADR-465: xml@1 mit Wurzelnamen mit Punkten', (() => { const m = mitXml({ wurzel: 'fim.S99000001.00000001001000' }); delete m.quelle; return m; })()],
     ['U2-ADR-465 Nachtrag: xml@1 mit Anhängen, Pflicht und bevollmächtigter Person', mitXml({ zuordnung: [{ feld: 'accounts', ziel: 'Konto.nr' },
       { anhang: 'vollmacht-nachweis', ziel: 'Vertretung.nachweis' }, { vertreter: 'familyName', ziel: 'Vertretung.name' },

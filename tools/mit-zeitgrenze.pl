@@ -32,6 +32,14 @@
 # reagierte nur der eigene Wecker (SIGALRM) auf einen Ablauf, ein externes Signal beendete NUR
 # dieses Perl-Skript und liess das Kind (mitsamt seiner Prozessgruppe) verwaist zurueck. Anlass:
 # ein verwaister `npm test` (PPID 1) nach einem abgebrochenen pre-push-Hook, 19.09.2026.
+#
+# NACHTRAG 21.10.2026 (Befund ZEITGRENZE-GREIFT-NICHT): Der Wecker allein reicht nicht. Eine Schnellstufe lief 4713 s
+# unter der Grenze 1500 s, ohne Abbruch und ohne Prozessbaum; am Ende stand nur der HINWEIS (seit 29.09. elfmal so, Weg:
+# <gemeinsames Git-Verzeichnis>/vd-zeitgrenzen-dauer.ndjson, anteil > 1 ohne ergebnis "zeitgrenze"). Genau dieses Bild
+# ergibt ein SIGALRM, das gesperrt ankommt: die Signalmaske erbt sich über fork und exec, ein %SIG-Eintrag hebt sie nicht
+# auf. Darum zwei Dinge: ALRM, TERM und INT werden zu Beginn ausdrücklich entsperrt, und das Warten auf das Kind ist eine
+# Schleife, die die Grenze selbst an der Wachuhr (CLOCK_UPTIME_RAW, ohne Schlafzeit) misst und unabhängig von jedem Signal
+# abbricht. Probe: tests/zeitgrenze-ohne-signal.test.js.
 
 use strict;
 use warnings;
@@ -123,7 +131,16 @@ sub prozessbaum_sichern {
   } or print STDERR "[mit-zeitgrenze] Prozessbaum nicht gesichert: $@";
 }
 
-$SIG{ALRM} = sub { $abgelaufen = 1; prozessbaum_sichern(); gruppe_beenden(); };
+# Ist das Kind schon fertig, aber noch nicht eingesammelt (die Warteschleife fragt nur alle 0,05 s), zählt sein Ende,
+# nicht der Wecker (22.10.2026: auf dem Air fiel die Probe `sleep 1.8` unter der Grenze 2 s; so erklärt sie sich).
+my $fertig_status;
+$SIG{ALRM} = sub {
+  return if $abgelaufen || defined $fertig_status;
+  if (waitpid($kind, POSIX::WNOHANG()) == $kind) { $fertig_status = $?; return; }
+  $abgelaufen = 1; prozessbaum_sichern(); gruppe_beenden();
+};
+# Eine geerbte Signalmaske darf weder den Wecker noch den Abbruch von außen schlucken (Nachtrag 21.10.2026, Kopf).
+POSIX::sigprocmask(POSIX::SIG_UNBLOCK(), POSIX::SigSet->new(POSIX::SIGALRM(), POSIX::SIGTERM(), POSIX::SIGINT()));
 # TERM/INT von aussen: dieselbe Gruppen-Toetung, dann den eigenen Zustand vermerken, statt
 # einfach zu sterben und das Kind zurueckzulassen. `waitpid` unten faengt das reaped-Kind danach
 # regulaer ab (durch das Signal unterbrochen, EINTR, dann erneut versucht).
@@ -131,12 +148,39 @@ for my $sig (qw(TERM INT)) {
   $SIG{$sig} = sub { $extern_beendet = $sig eq 'TERM' ? 15 : 2; gruppe_beenden(); };
 }
 my $start = Time::HiRes::time();
+# LAST UND BELEGUNG ZU BEGINN (20.10.2026): ob zwei Plätze gleichzeitig mehr Durchsatz bringen und wo die
+# Lastschwelle liegt, war aus dieser Datei nicht messbar — sie führte weder Last noch Platzbelegung. Jetzt je Lauf die 1-Minuten-Last
+# (sysctl vm.loadavg) und die Zahl der Suite-Plätze, die beim Start ein lebender Lauf hielt. Ein Fehler hier ändert nichts am Lauf.
+my ($last_start, $belegt_start) = ('null', 'null');
+eval {
+  my $la = `sysctl -n vm.loadavg 2>/dev/null`;
+  $last_start = $1 if $la =~ /([0-9]+\.[0-9]+)/;
+  my $dir = $ENV{VD_SUITE_PLATZ_DIR} || (($ENV{HOME} || '') . '/.cache/vivodepot-suite-platz');
+  if (opendir(my $dh, $dir)) {
+    my $n = 0;
+    for my $f (grep { /^platz-\d+\.lock$/ } readdir($dh)) {
+      if (open(my $lf, '<', "$dir/$f")) { local $/; my $t = <$lf>; close $lf; $n++ if $t && $t =~ /"pid"\s*:\s*(\d+)/ && kill(0, $1); }
+    }
+    closedir($dh);
+    $belegt_start = $n;
+  }
+  1;
+};
 alarm($grenze);
 
-# waitpid kann vom Signal unterbrochen werden — dann weiterwarten, nicht aufgeben.
-my $weg;
-do { $weg = waitpid($kind, 0); } while ($weg == -1 && $!{EINTR});
-my $status = $?;
+# Warten mit eigener Uhr: das Signal ist der schnelle Weg, die Schleife der sichere. Sie fragt alle 0,05 s, ob das Kind
+# fertig ist, und bricht an der Grenze selbst ab, auch wenn kein SIGALRM ankommt.
+my $wachuhr = sub { my $t = eval { Time::HiRes::clock_gettime(Time::HiRes::CLOCK_UPTIME_RAW()) }; defined $t ? $t : Time::HiRes::time() };
+my $wach_start = $wachuhr->();
+my ($weg, $status);
+while (1) {
+  if (defined $fertig_status) { $status = $fertig_status; last; }
+  $weg = waitpid($kind, POSIX::WNOHANG());
+  if ($weg == $kind) { $status = $?; last; }
+  if ($weg == -1 && !$!{EINTR}) { $status = $?; last; }      # Kind schon fort (ECHILD)
+  if (!$abgelaufen && $wachuhr->() - $wach_start >= $grenze) { $abgelaufen = 1; prozessbaum_sichern(); gruppe_beenden(); }
+  select(undef, undef, undef, 0.05);
+}
 alarm(0);
 
 # DAUER JE BEGRENZTEM SCHRITT (29.09.2026): eine Zeile je Lauf in <gemeinsames Git-Verzeichnis>/vd-zeitgrenzen-dauer.ndjson
@@ -160,7 +204,7 @@ sub dauer_schreiben {
     my $zeit = POSIX::strftime('%Y-%m-%dT%H:%M:%S', localtime);
     my $anteil = $grenze > 0 ? sprintf('%.2f', $dauer / $grenze) : '0';
     open(my $fh, '>>', $datei) or return 1;
-    print $fh qq({"zeit":"$zeit","grenze_s":$grenze,"dauer_s":$dauer,"anteil":$anteil,"ergebnis":"$ergebnis","quelle":"$quelle","befehl":"$befehl"}\n);
+    print $fh qq({"zeit":"$zeit","grenze_s":$grenze,"dauer_s":$dauer,"anteil":$anteil,"ergebnis":"$ergebnis","quelle":"$quelle","last_start":$last_start,"plaetze_belegt_start":$belegt_start,"befehl":"$befehl"}\n);
     close $fh;
     if ($quelle eq 'echt' && $ergebnis ne 'zeitgrenze' && $grenze > 0 && $dauer > 0.8 * $grenze) {
       print STDERR "[mit-zeitgrenze] HINWEIS: $dauer s = " . int(100 * $dauer / $grenze) . " % der Grenze $grenze s (ueber 80 %) — Grenze messen, bevor sie reisst: $befehl\n";

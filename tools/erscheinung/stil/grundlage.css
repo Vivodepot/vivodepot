@@ -1907,6 +1907,13 @@
     line-height: 1; padding: 0; min-width: 24px; min-height: 24px; }
   .chip-eingabe-zeile { display: flex; gap: var(--space-2); align-items: center; }
   .chip-eingabe { flex: 1 1 auto; min-width: 0; }
+  /* Nachtragen in Anfrage und Zusammenstellen (Befund ANFRAGE-NACHTRAGEN-CODELISTE, 19.10.2026): dort steht der Editor des
+     Feldtyps ausserhalb einer `.feld-zeile`, und die Chip-Eingabe fiel auf die native Höhe zurück (gemessen 170 × 21 px, axe
+     target-size/target-offset, tests/e2e/d2-zusammenstellen-barrierefrei.spec.js). Dieselbe Feldform wie
+     `.feld-zeile input, .feld-zeile select` mit der 24-px-Untergrenze aus 2.5.8; das Kästchen behält seine eigene Regel. */
+  .zus-fuellen input:not([type="checkbox"]):not([type="radio"]), .zus-fuellen select, .zus-fuellen textarea {
+    font-family: inherit; padding: var(--space-2); border: var(--feld-rahmen); border-radius: var(--radius-feld);
+    background-color: var(--feld-flaeche); min-height: var(--feld-hoehe); color: var(--ink); }
   .chip-uebernehmen { color: var(--salbei-dunkel); border-color: var(--salbei-mid); background: var(--salbei-light); font-weight: var(--fw-bold); }
   .chip-uebernehmen[hidden] { display: none; }
 
@@ -2395,6 +2402,9 @@
   }
 
   @media (max-width: 460px) {
+    /* Drei Knöpfe passen in einem Dialog nicht in eine Zeile (L1b „Link senden“, Vorschau vom 19.10.2026: „Herunterladen“
+       war bei 390 px abgeschnitten). Die Knopfleiste bricht um; der Hauptknopf bleibt rechts. */
+    .modal-aktionen { flex-wrap: wrap; }
     .content { padding: var(--space-4) var(--space-3); }
     /* Wortmarke weicht auf sehr schmalen Screens — die Bildmarke bleibt als Home-Klick. */
     .topbar .logo-wort { display: none; }

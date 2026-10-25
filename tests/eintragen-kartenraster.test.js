@@ -12,13 +12,13 @@ test('[Kartenraster] rendert alle 5 Cluster mit Überschrift und alle 13 Bereich
   const clusterTreffer = html.match(/gruppe-titel-karten/g) || [];
   assert.equal(clusterTreffer.length, 5, 'fünf Cluster-Überschriften erwartet');
   const kartenTreffer = html.match(/class="bereich-karte"/g) || [];
-  assert.equal(kartenTreffer.length, 13, 'dreizehn Bereichs-Karten erwartet');
+  assert.equal(kartenTreffer.length, 14, 'vierzehn Bereichs-Karten erwartet (U2-ADR-479: Tiere als vierzehnter Bereich, 05.10.2026)');
 });
 
 test('[Kartenraster] jede Karte trägt data-sektor mit einer echten Bereichs-ID', () => {
   const { V } = ladeKern();
   const html = V.renderEintragenKartenraster();
   const ids = [...html.matchAll(/data-sektor="([a-zA-Z-]+)"/g)].map(m => m[1]);
-  assert.equal(ids.length, 13);
-  assert.equal(new Set(ids).size, 13, 'keine doppelten Bereichs-IDs');
+  assert.equal(ids.length, 14);   // 13 → 14 (U2-ADR-479: Tiere als vierzehnter Bereich, 05.10.2026)
+  assert.equal(new Set(ids).size, 14, 'keine doppelten Bereichs-IDs');
 });

@@ -1,9 +1,10 @@
 {
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
-  "specVersion": "1.4",
+  "specVersion": "1.6",
   "version": 3,
   "metadata": {
-    "timestamp": "2026-10-10T00:00:00Z",
+    "timestamp": "2026-10-24T00:00:00Z",
     "authors": [
       {
         "name": "Vivodepot GmbH"
@@ -54,11 +55,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "0bd87ba718f9d4ecbd3fba86bdb86ac4e0fdf2b1e2203c87a4ecc130d4bed379"
+          "content": "2a6e2849becf9f71dde408e1d7980734dec040787fc3c8a27326bee2a2a23fc0"
         },
         {
           "alg": "SHA-512",
-          "content": "83996a469cfae981a895b412ccba604d2f26c2ae343935be525a1cf6874d00935ca7a858448d6c6cd1e365f8337f8846f4717d9ad0cdd0a85990e7c7cb0cd8b5"
+          "content": "2690f5b6e237242e98dd4f2de6210d934ecb867918077ec613b474801e1770430f23d3ade0b0528691f94bf19512c640c1f46dabfb2c71b78cafcba3575e8e37"
         }
       ],
       "properties": [
@@ -601,11 +602,11 @@
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "d5619d708cb5e11a64a643be6c72d74754e37e922d18759958c4524f93262810"
+          "content": "6384e26fbfeaa7bc140523b6f2045bcc528296ed087dcfe6b25e58e5d3d61f53"
         },
         {
           "alg": "SHA-512",
-          "content": "caacc9479f855bd7c058fd1e8e4c05b0bea7f9fbbdc7e39af108993767d2e2eea1e7518edff2c781dc47ea14e54299b7664616223f94a650d6859bae0053a687"
+          "content": "4f6d529df7c945f8edd8cb0f918f641c88378ad625045712ebbb0e276dc6b0d6ad85b652c0ac1dd51b19409b52821bd1e7a1e9fc549f6f453b0fa03b80665569"
         }
       ],
       "properties": [
@@ -1018,6 +1019,150 @@
           "value": "unstructured"
         }
       ]
+    },
+    {
+      "bom-ref": "code-liste-esco",
+      "type": "file",
+      "name": "code-liste-esco",
+      "version": "STUB-2026-05",
+      "description": "ESCO-Klassifikation, eingebetteter Block ohne Einträge (STUB); geführt, weil der Block im Kern steht.",
+      "supplier": {
+        "name": "Europäische Kommission (ESCO)",
+        "url": [
+          "https://esco.ec.europa.eu"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "ESCO-Klassifikation der Europäischen Kommission — Weiterverwendung nach dem Beschluss 2011/833/EU der Kommission; noch keine Daten"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fc0ee3867d3fe08a197985048c52991c7adcda6efce3f4e6e59917948bc361ff"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "b6fb608cc7fdbd3e2123a4d3938b7fd83308b5abc6bebca1ac72a93b78f15b1956a230a861e8ea3ab9ea7efb5aec0b50c4e52a7a1e4ec84c0bfc3d48c9a91e7a"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "code-listen/esco.json"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "code-liste-iso4217",
+      "type": "file",
+      "name": "code-liste-iso4217",
+      "version": "SEED-ISO-4217-2026-09-17",
+      "description": "Währungscodes nach ISO 4217, nur die von Vorlagen verwendeten Codes mit eigener Bezeichnung (U2-ADR-480); die vollständige Liste lädt die Person selbst. Nachweis: NOTICE.md, THIRD_PARTY_LICENSES.",
+      "supplier": {
+        "name": "SIX Group (ISO 4217 Maintenance Agency)",
+        "url": [
+          "https://www.six-group.com/en/products-services/financial-information/market-reference-data/data-standards.html"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "Währungscodes nach ISO 4217. Die Codeliste pflegt die SIX Group als Maintenance Agency im Auftrag der ISO. Vivodepot übernimmt nur die verwendeten Codes, mit eigener Bezeichnung, keine Inhalte der Liste."
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "260ccc31c14734b294d028390f046265ddac800ff916553f0df4a2f68472ea3d"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "a9ff3354114175a602dd99763a2753d54ddc70b2f9faf07f5339fc3eb112564bcedf0e8c1ea367aae88e0d21420ada3defe2073f30a6899a63877f77b8560bd0"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "code-listen/iso4217.json"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
+    },
+    {
+      "bom-ref": "code-liste-xoev-rollencode",
+      "type": "file",
+      "name": "code-liste-xoev-rollencode",
+      "version": "STUB-2026-05",
+      "description": "Vorgesehen: XÖV-Codeliste GDS.Rollenbezeichnung; eingebetteter Block ohne Einträge (STUB), bis der Herausgeber die Nutzung genehmigt.",
+      "supplier": {
+        "name": "BLK-AG IT-Standards in der Justiz (über XRepository)",
+        "url": [
+          "https://www.xrepository.de"
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "name": "Vorgesehen: XÖV-Codeliste GDS.Rollenbezeichnung (XJustiz, Herausgeber BLK-AG IT-Standards in der Justiz), bezogen über XRepository (KoSIT); Nutzung nur mit Genehmigung des Herausgebers — angefragt, bis dahin keine Daten"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fe3fb0f8fdbd10f99e93b86273952d2f1beda8588b226172b225d76544838116"
+        },
+        {
+          "alg": "SHA-512",
+          "content": "fb53eb2471aa1abc8f6df7c6607969b93963dfdd4287d56f72eb48cdaccbe2acde89d57a0e6a67f1370c08b8fd2282500776f475d74ec2e70eff1dfd8d14f47f"
+        }
+      ],
+      "properties": [
+        {
+          "name": "bsi:component:filename",
+          "value": "code-listen/xoev-rollencode.json"
+        },
+        {
+          "name": "bsi:component:executable",
+          "value": "non-executable"
+        },
+        {
+          "name": "bsi:component:archive",
+          "value": "no archive"
+        },
+        {
+          "name": "bsi:component:structured",
+          "value": "structured"
+        }
+      ]
     }
   ],
   "dependencies": [
@@ -1040,7 +1185,10 @@
         "terminologie-hl7-tho",
         "terminologie-kbv-nfd-runaway-risk",
         "terminologie-ihe-formatcode",
-        "noble-ed25519"
+        "noble-ed25519",
+        "code-liste-esco",
+        "code-liste-iso4217",
+        "code-liste-xoev-rollencode"
       ]
     },
     {
@@ -1114,6 +1262,18 @@
       "dependsOn": []
     },
     {
+      "ref": "code-liste-esco",
+      "dependsOn": []
+    },
+    {
+      "ref": "code-liste-iso4217",
+      "dependsOn": []
+    },
+    {
+      "ref": "code-liste-xoev-rollencode",
+      "dependsOn": []
+    },
+    {
       "ref": "pako",
       "dependsOn": []
     }
@@ -1123,12 +1283,24 @@
       "subjects": [
         "vivodepot"
       ],
+      "annotator": {
+        "organization": {
+          "name": "Vivodepot GmbH"
+        }
+      },
+      "timestamp": "2026-10-22T00:00:00Z",
       "text": "Stand 16.06.2026: jsPDF 4.2.1 und qrcode-generator 1.4.4 sind tatsächlich inline eingebettet (eigene Skript-Blöcke; window.jspdf bzw. window.qrcode zur Laufzeit vorhanden). docx 8.5.0 war bis zum 21.08.2026 als pending-inline gefuehrt und NIE eingebettet (Blocker C-4 vom 26.07.2026: window.docx fuenfmal gelesen, nie zugewiesen). Man hat den Weg gestrichen statt die Bibliothek nachzuliefern; der Slot am Dateiende ist fort, und kein Ausgabeweg liest window.docx mehr. Es wird hier bewusst NICHTS als eingebettet geführt, was nicht im Code steht."
     },
     {
       "subjects": [
         "vivodepot"
       ],
+      "annotator": {
+        "organization": {
+          "name": "Vivodepot GmbH"
+        }
+      },
+      "timestamp": "2026-10-22T00:00:00Z",
       "text": "Paket 3 (text+code-Andock): Die Code-Listen liegen inline als @vd-codeliste-Blöcke (Quellen: code-listen/<systemId>.json). Stand: SEED (echte Standard-Codes, kuratierter Auszug) für atc/icd10/loinc/snomedAllergen; STUB (leer, Codes ausstehend) für esco, xoev-rollencode (von Export-Generatoren als _codeStand gelesen). snomedImpfstoff/snomedImplantat wurden ersatzlos ausgetragen (U2-ADR-051): Impf-/Implantat-Codes reisen künftig als Template-Code-Listen (data.codeListen[], tpl_-Namensraum) mit dem signierten Template — Lizenzverantwortung liegt beim Template-Anbieter. Die Volllisten werden über die JSON-Quellen + tools/build-code-listen.js nachgezogen; danach Version/Hash hier aktualisieren. SNOMED braucht eine Lizenz und wird nur als kleines Sample ausgeliefert."
     }
   ]

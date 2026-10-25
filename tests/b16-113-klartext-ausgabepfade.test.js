@@ -122,7 +122,11 @@ const NUR_CHIFFRAT = [
 // Freigabe-Übersicht (sensible Angaben nicht vorgewählt), die Torgründe, MyTerms Teil D (mitVereinbarung) und vor dem Speichern
 // der Hinweis „nicht verschlüsselt“ (klartextHinweisVorSpeichern). Kein Geheimnis, kein Schlüssel. Proben: tests/kbv-pka-vollmacht.test.js
 // [PKA·Freigabe], [PKA·Klartext-Hinweis], [PKA·Klartext-Hinweis·Rot], [PKA·Ausgabeweg].
-const ERLAUBTE_KLARTEXT_ANZAHL = 21;
+// 21 → 22 am 22.10.2026 (K18, Nachtrag U2-ADR-444): `flowMappeEuLabDerPersonHerunterladen` — der eingelesene EU-Laborbefund
+// als neues Dokument der Person. Quelle ist allein das Original (byte-gleich als Binary daran, Einträge unverändert); kein
+// Depot-Feld, kein Geheimnis, kein Schlüssel, keine neue Feld-Grenze. Eine Weitergabe: der Weg läuft durch `mitVereinbarung`.
+// Probe: tests/eu-lab-dokument-der-person.test.js [EU-Lab·Person] „Quelle ist nur das Original“.
+const ERLAUBTE_KLARTEXT_ANZAHL = 22;
 
 test('[Klausel] Bindung an ' + ADR + ' über das Fundament', () => {
   bindungPruefen(ADR, HERKUNFT, PRUEFUNGEN, __filename);

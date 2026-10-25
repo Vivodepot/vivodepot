@@ -82,7 +82,7 @@ function codePruefsumme(text) {
 // 16.10.2026 (AUSGABE-AKTIVE-INHALTE-UNGEPRUEFT): eine neue Region AB_WERK_AMTLICHE_VORLAGEN (modulTyp 'amtlicheVorlagen', genau ein
 // Modul, kein Listentyp). Pin neu gehasht (vorher 0d9639c6…). Die Gateway-Kopie hat nachgezogen (Gateway-main, 17.10.2026);
 // die Brücke, die bis dahin den Stand vorher hielt, ist entfernt.
-const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '9bbee035c7fbcae75fc241f9b806bfda6bdcf564e9c38fd32f13655596886296';
+const PRODUKT_TEXT_ERZEUGEN_PRUEFSUMME = '26b3869eabbde15414043d452e82221c9b6ce4e0abbf1d27ce7c17f4e16092bd';
 
 const PRODUKT_TEXT_ERZEUGEN_PFAD = path.join(__dirname, 'produkt-text-erzeugen.js');
 

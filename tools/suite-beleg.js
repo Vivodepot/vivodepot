@@ -55,6 +55,91 @@ function belegSchreiben(tree, hook, belegDir = belegVerzeichnis(), extra = {}) {
   fs.writeFileSync(path.join(dir, tree), JSON.stringify({ ...extra, tree, hook, stufe: 'voll', geschriebenAm: new Date().toISOString() }) + '\n');
 }
 
+/* HERKUNFT UND TEILE (24.10.2026, Befunde LV-OHNE-NODE-SUITE und AIR-BELEG-LAUF-UNGEPRUEFT): die Vorbereitung einer Landung
+   fährt für den Zugkopf genau einen Volllauf — auf dem eigenen Runner (hook `air`, Lauf bei GitHub) oder, fällt er aus, hier
+   (hook `landung`, `herkunft: 'mac'`). Der Beleg nennt, was lief (`teile`): `node-suite`, `e2e-haupt` und, nach eigenem grünen
+   Lauf, die Lücken des Runners (`luecke-hauptkonfiguration`). Ein Beleg vom Runner gilt beim Push nur, wenn GitHub den Lauf
+   JETZT bestätigt: grün, für eine SHA genau dieses Baums, auf dem eingetragenen Runner. Ist die Abfrage nicht möglich, gilt er
+   nicht, und der pre-push fährt selbst. Ein Beleg von hier gilt nur mit seinen zwei Protokollen daneben, deren Prüfsumme in
+   der Lauf-ID steht und die je ihr grünes Schlusswort tragen. Die Bestätigung beim Runner reicht der Aufrufer herein
+   (`--lauf-pruefer <modul>`, das `airBelegLaufPruefen` exportiert); ohne sie gilt kein Beleg vom Runner. Probe: die Probe zum
+   Volllauf je Zug (sie bleibt mit dem Runner drinnen). */
+const TEILE_VOLLLAUF = Object.freeze(['node-suite', 'e2e-haupt']);
+const LANDUNG_PROTOKOLLE = 'vd-landung-protokolle';
+
+function belegLesen(tree, belegDir = belegVerzeichnis()) {
+  if (!/^[0-9a-f]{40,64}$/.test(tree)) return null;
+  try { return JSON.parse(fs.readFileSync(path.join(belegDir, tree), 'utf8')); } catch (_) { return null; }
+}
+
+function protokollVerzeichnis(belegDir = belegVerzeichnis()) {
+  return path.join(path.dirname(belegDir), LANDUNG_PROTOKOLLE);
+}
+
+// Die Lauf-ID eines Volllaufs hier: Zeit und die ersten zwölf Zeichen der sha256 über beide Protokolle, in fester Reihenfolge.
+function macLaufId(protokolle, jetzt = new Date()) {
+  const h = require('node:crypto').createHash('sha256');
+  for (const t of protokolle) h.update(String(t)).update('\0');
+  return 'mac-' + jetzt.toISOString().replace(/[-:.]/g, '').slice(0, 15) + '-' + h.digest('hex').slice(0, 12);
+}
+
+// Grünes Schlusswort je Protokoll: die letzte Zeile, die die Vorbereitung nur nach Exit 0 des Teils anhängt.
+const schlusswort = (teil) => '[volllauf] ' + teil + ' grün (Exit 0)';
+const SCHLUSSWORT = Object.freeze(Object.fromEntries(TEILE_VOLLLAUF.map((t) => [t, new RegExp('^' + schlusswort(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$')])));
+
+function macBelegPruefen(b, tree, belegDir = belegVerzeichnis()) {
+  if (!b || b.herkunft !== 'mac' || b.hook !== 'landung') return { ok: false, grund: 'kein Beleg eines Volllaufs hier' };
+  if (b.tree !== tree) return { ok: false, grund: 'der Beleg nennt den Baum ' + String(b.tree || '(keinen)').slice(0, 12) + ', geprüft wird ' + String(tree).slice(0, 12) };
+  const teile = Array.isArray(b.teile) ? b.teile : [];
+  const fehlt = TEILE_VOLLLAUF.filter((t) => !teile.includes(t));
+  if (fehlt.length) return { ok: false, grund: 'dem Beleg fehlt ' + fehlt.join(', ') };
+  const m = /^mac-\d{8}T\d{6}-([0-9a-f]{12})$/.exec(String(b.laufId || ''));
+  if (!m) return { ok: false, grund: 'der Beleg nennt keine Lauf-ID dieses Rechners' };
+  const texte = [];
+  for (const t of TEILE_VOLLLAUF) {
+    let text;
+    try { text = fs.readFileSync(path.join(protokollVerzeichnis(belegDir), tree + '.' + t + '.log'), 'utf8'); } catch (_) { return { ok: false, grund: 'Protokoll ' + t + ' fehlt' }; }
+    if (!SCHLUSSWORT[t].test(text.trimEnd().split('\n').pop() || '')) return { ok: false, grund: 'Protokoll ' + t + ' endet nicht grün' };
+    texte.push(text);
+  }
+  if (macLaufId(texte).slice(-12) !== m[1]) return { ok: false, grund: 'die Protokolle passen nicht zur Lauf-ID' };
+  return { ok: true };
+}
+
+function macBelegSchreiben(tree, { protokolle, teile = TEILE_VOLLLAUF, sha = null }, belegDir = belegVerzeichnis()) {
+  const dir = protokollVerzeichnis(belegDir);
+  fs.mkdirSync(dir, { recursive: true });
+  const texte = TEILE_VOLLLAUF.map((t) => String(protokolle[t] || ''));
+  TEILE_VOLLLAUF.forEach((t, i) => fs.writeFileSync(path.join(dir, tree + '.' + t + '.log'), texte[i]));
+  const laufId = macLaufId(texte);
+  belegSchreiben(tree, 'landung', belegDir, { herkunft: 'mac', laufId, teile: [...teile], ...(sha ? { sha } : {}) });
+  return { laufId };
+}
+
+// Ein Teil, den die Vorbereitung nach dem Lauf selbst grün fuhr (die Lücken des Runners), wird dem Beleg nachgetragen.
+function teilNachtragen(tree, teil, belegDir = belegVerzeichnis()) {
+  const b = belegLesen(tree, belegDir);
+  if (!b) throw new Error('kein Beleg für ' + tree);
+  const teile = Array.isArray(b.teile) ? b.teile : [];
+  if (!teile.includes(teil)) teile.push(teil);
+  fs.writeFileSync(path.join(belegDir, tree), JSON.stringify({ ...b, teile }) + '\n');
+}
+
+/* Beim Push: ein Beleg zählt, wenn er voll ist UND — vom Runner — GitHub ihn jetzt bestätigt, — von hier — seine Protokolle
+   stimmen. Lokale Belege aus pre-commit und pre-push bleiben, wie sie sind. `laufPruefen(b, tree)` → { ok, grund }. */
+function belegAnerkannt(tree, { belegDir = belegVerzeichnis(), laufPruefen = ohneLaufPruefer } = {}) {
+  if (!belegVorhanden(tree, belegDir)) return { ok: false, grund: 'kein Beleg' };
+  const b = belegLesen(tree, belegDir) || {};
+  if (b.hook === 'air') {
+    let r;
+    try { r = laufPruefen(b, tree); } catch (e) { r = { ok: false, grund: 'ungemessen (' + String(e.message || e).split('\n')[0] + ')' }; }
+    return r && r.ok ? { ok: true } : { ok: false, grund: 'Lauf des Runners nicht bestätigt: ' + ((r && r.grund) || 'ohne Grund') };
+  }
+  if (b.hook === 'landung') return macBelegPruefen(b, tree, belegDir);
+  return { ok: true };
+}
+function ohneLaufPruefer() { return { ok: false, grund: 'kein Prüfer für Läufe des Runners genannt' }; }
+
 function arbeitsbaumSauber() {
   return git(['status', '--porcelain', '--untracked-files=no']) === '';
 }
@@ -100,16 +185,29 @@ function main() {
       if (!baeume.includes(tree)) baeume.push(tree);
     }
     const headTree = git(['rev-parse', 'HEAD^{tree}']);
-    const e = pushEntscheidung({ baeume, headTree, sauber: arbeitsbaumSauber(), belegt: (t) => belegVorhanden(t) });
+    const iP = argv.indexOf('--lauf-pruefer');
+    let laufPruefen = ohneLaufPruefer;
+    if (iP >= 0) {
+      try { laufPruefen = require(path.resolve(argv[iP + 1])).airBelegLaufPruefen; } catch (e) { laufPruefen = () => ({ ok: false, grund: 'Prüfer nicht ladbar (' + String(e.message || e).split('\n')[0] + ')' }); }
+    }
+    const abgelehnt = [];
+    const belegt = (t) => {
+      const a = belegAnerkannt(t, { laufPruefen });
+      if (!a.ok && a.grund !== 'kein Beleg') abgelehnt.push(t.slice(0, 12) + ': ' + a.grund);
+      return a.ok;
+    };
+    const e = pushEntscheidung({ baeume, headTree, sauber: arbeitsbaumSauber(), belegt });
+    for (const z of abgelehnt) process.stdout.write('[suite-beleg] Beleg nicht angenommen — ' + z + '\n');
     (e.code === 1 ? process.stderr : process.stdout).write('[suite-beleg] ' + e.grund + '\n');
     if (e.tree) process.stdout.write('TREE ' + e.tree + '\n');
     process.exitCode = e.code;
     return;
   }
-  process.stderr.write('Aufruf: suite-beleg.js --schreiben <hook> [--tree <hash>] | --push-pruefen < ref-zeilen\n');
+  process.stderr.write('Aufruf: suite-beleg.js --schreiben <hook> [--tree <hash>] | --push-pruefen [--lauf-pruefer <modul>] < ref-zeilen\n');
   process.exitCode = 2;
 }
 
 if (require.main === module) main();
 
-module.exports = { belegVerzeichnis, belegVorhanden, belegSchreiben, pushEntscheidung, arbeitsbaumSauber };
+module.exports = { belegVerzeichnis, belegVorhanden, belegSchreiben, pushEntscheidung, arbeitsbaumSauber, belegLesen, belegAnerkannt,
+  macBelegPruefen, macBelegSchreiben, macLaufId, teilNachtragen, protokollVerzeichnis, TEILE_VOLLLAUF, SCHLUSSWORT, schlusswort };

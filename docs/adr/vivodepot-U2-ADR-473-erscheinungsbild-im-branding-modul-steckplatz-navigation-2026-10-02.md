@@ -7,7 +7,7 @@
 **Bezug:** U2-ADR-339 (Design-Namensraum: Typprüfung statt Namensliste) · U2-ADR-351 (Erscheinungs-Modul, fünf Schriftgrad-Rollen) ·
 U2-ADR-384 (Ab-Werk-Saat der eigenen Marke) · U2-ADR-362 · U2-ADR-400 (Herkunftsort) · U2-ADR-408 · U2-ADR-174 (Akkordeon-Grid) ·
 U2-ADR-236 (Sub-Depot-Palette) · U2-ADR-400 (White Label)
-**Status heute:** gilt — Belege im `konformitaet`-Block unten. Gebaut ist W1; W2–W7 sind entschieden und folgen mit ihren Fassungen.
+**Status heute:** gilt — Belege im `konformitaet`-Block unten. Gebaut sind W1 und W2 (Nachtrag W2, 18.10.2026); die übrigen Teile sind entschieden und folgen mit ihren Fassungen.
 
 ## Frage
 
@@ -137,6 +137,35 @@ Der erste Teil von W3 füllt die Andockstelle aus dem Nachtrag v894, Punkt 4. Di
    `tools/erscheinung` darf eines tragen. Die Brücke entfällt mit dem Ereignis „Gateway-main trägt den Abschnitt“ (Gateway-Pin =
    Kanon-Pin). Reihenfolge: Release mit W3a, dann der Gateway-Nachzug, erst dann ein Modul mit Layout (W5).
 
+## Nachtrag W2 (18.10.2026): Branding v2 und der Schalter „powered by aus“
+
+Entscheidung 4 ist gebaut. Weil das Gerüst seit Lesart B keinen Wert trägt, liegt ein Profil über dem Erscheinungsbild des Produkts;
+eine eigene Werte-Tabelle im Kern gibt es nicht. Gegengelesen (Krypto 2, 18.10.2026) mit den Bedingungen unter 6 und 7.
+
+1. **Form.** Ein Branding-Modul ab `moduleVersion: 2` darf `erscheinung` tragen. `erscheinung.tokens` hat dieselben Ebenen wie das
+   Erscheinungsbild-Modul: `basis`, `hochkontrast`, `dunkel`. `schriften` ist benannt und bis W4 abgelehnt; `layout` und `stil` gibt es
+   im Branding-Modul nicht, sie reisen nur gebacken im Erscheinungsbild-Modul.
+2. **Dieselbe Prüfung.** Das Profil wird Ebene für Ebene über `ERSCHEINUNGSBILD` gelegt, das Ergebnis geht durch
+   `erscheinungsbildPruefen`. Die Gründe heißen nach der Art (`erscheinung-token-verworfen`, `-kontrast`, `-mindestgroesse`), die Liste
+   nennt jeden Einzelfall. Ein Verstoß lehnt das ganze Modul ab. Ohne Haus (das nackte Gerüst) wird jedes Profil abgelehnt.
+3. **Bedeutung ist keine Marke.** Warnungen, Notfall, Modusfarben, Ampel und Herkunftsort setzt nur das Haus
+   (`ERSCHEINUNG_PROFIL_GESPERRT`, 20 Namen aus dem Vokabular). Ein Profil, das einen davon in irgendeiner Ebene nennt, wird abgelehnt.
+4. **Anwenden.** `_brandingErscheinungAnwenden` prüft das Profil noch einmal und hängt ein eigenes konstruiertes Blatt hinter das
+   Erscheinungsbild des Hauses und vor das Schutz-CSS, das das letzte Blatt bleibt. Meldet die Laufzeitprobe eine verdrängte geschützte
+   Anzeige, geht das Profil, das Haus bleibt. Angewandt wird am Vor-Depot-Weg (signiertes Bündel, sonst Ab-Werk-Saat), nie am
+   In-Depot-Weg: eine Depot-Datei färbt die Anwendung nicht um.
+5. **Lese-App.** Sie überträgt die Farben der Ebene `basis` über eine feste Zuordnung auf ihre eigenen Tokens, mit Kontrast auf ihren
+   Werten. Sie wendet nur Module an, die ihre Ladeprüfung gelten lässt. Ihre Sperrliste ist eine byte-gleiche Kopie der Kern-Fassung.
+6. **Das unsignierte Erscheinungs-Modul** (U2-ADR-351) trägt nur Darstellung: die fünf Rollengrößen, keinen Namen, kein Logo, keine
+   Herkunftsaussage, kein Profil und keinen Schalter. Seine Größen gelten erst ab der Mindestschrift des Kerns (`schriftMindestPx`, für
+   die Rolle `wert` die Fließtext-Grenze), im Kern, im Schema und am Anwendeort `erscheinungAnwenden`, der die Depot-Datei liest.
+   Ein Wächter hält die Klasse: jedes unsigniert einlassbare Größenfeld lehnt unter der Grenze ab.
+7. **Schalter „powered by aus“.** Feld `poweredByAus: true` in der signierten Nutzlast ab Fassung 2. Er wirkt nur, wenn das Modul durch
+   die Signaturprüfung kam (die Vor-Depot-Liste, die allein `modulEinlassenGeprueft` füllt; ein Vertrauensfeld am Modul liest er nicht)
+   und die Marke ist, die gerade gilt. Aus einer Depot-Datei oder einem unsignierten Modul bleibt der Hinweis an. Er blendet allein die Zeile
+   `data-herkunft-hinweis="app"` in der App-Fußzeile aus, nie `ausgabeErstelltMit` auf den Ausgaben (Entscheidung 08.10.2026, U2-ADR-400).
+   Die ab Werk am Inhalt erkannte Partnermarke kommt später als Erweiterung derselben Regel hinzu, nicht als zweite.
+
 ## Was aus U2-ADR-339 aufgehoben oder erweitert wird
 
 - „Die 69 verbleibenden globalen `:root`-Tokens“: die Tabelle führt jetzt jedes gestaltende `:root`-Token; ein neues Token ohne
@@ -242,6 +271,40 @@ konformitaet:
       - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Layout] die Layout-Prüfung steht in Kern und Bauweg Zeichen für Zeichen gleich"
       - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Layout] Navigation A und Zonen als Beschreibung bestehen beide Prüfungen; ein leeres layout heißt Bauform des Gerüsts"
       - tests/erscheinungsbild-pruefung.test.js "[Erscheinungsbild·Rot-Beweis] ein fehlender Pflicht-Baustein (LAYOUT_PFLICHT) — Kern und Bauweg weisen ab"
+  - aussage: >-
+      Ein Branding-Modul v2 trägt ein Profil je Ebene; es wird über das Erscheinungsbild des Produkts gelegt und mit derselben
+      Prüfung beurteilt (Kontrast je Ebene, Mindestgrößen, Namen); ein Verstoß, ein Bedeutungs-Token oder ein fehlendes Haus lehnt
+      das ganze Modul ab; das Profil steht hinter dem Haus und vor dem Schutz-CSS.
+    zustand: erfuellt
+    herkunft: U2-ADR-473 Nachtrag W2 (18.10.2026)
+    pruefung:
+      - tests/branding-v2-erscheinung.test.js "[U2-ADR-473·W2·Rot-Beweis] Text #999999 auf Weiß wird abgelehnt, das ganze Modul, das Paar benannt"
+      - tests/branding-v2-erscheinung.test.js "[U2-ADR-473·W2·Rot-Beweis] ein Bedeutungs-Token wird abgelehnt — in jeder Ebene"
+      - tests/branding-v2-erscheinung.test.js "[U2-ADR-473·W2·Rot-Beweis] ohne Haus (das nackte Gerüst) wird jedes Profil abgelehnt"
+      - tests/branding-v2-erscheinung.test.js "[U2-ADR-473·W2·Schutz-CSS] das Profil steht hinter dem Haus und vor dem Schutz-CSS; bei einem Verstoß geht nur das Profil"
+      - tests/branding-v2-erscheinung.test.js "[U2-ADR-473·W2·Krypto 2] das unsignierte Erscheinungs-Modul trägt nur Darstellung — kein Name, kein Logo, kein Schalter, kein Profil"
+  - aussage: >-
+      Die Sperrliste der Lese-App ist byte-gleich zur Kern-Fassung.
+    zustand: erfuellt
+    herkunft: U2-ADR-473 Nachtrag W2 (18.10.2026), Bedingung der Gegenlesung Krypto 2
+    pruefung:
+      - tests/lese-app-branding-v2-erscheinung.test.js "[U2-ADR-473·Lese-App·Sperrliste] die Sperrliste der Lese-App ist byte-gleich zur Kern-Fassung"
+  - aussage: >-
+      Kein unsigniert einlassbares Größenfeld nimmt einen Wert unter der Mindestschrift des Kerns an, im Kern, im Schema und am
+      Anwendeort.
+    zustand: erfuellt
+    herkunft: U2-ADR-473 Nachtrag W2 (18.10.2026)
+    pruefung:
+      - tests/unsignierte-groessen-waechter.test.js "[Wächter·unsignierte Größen] jedes unsignierte Größenfeld lehnt unter der Mindestschrift ab — im Kern und im Schema"
+      - tests/unsignierte-groessen-waechter.test.js "[Wächter·unsignierte Größen·Anwendeort] erscheinungAnwenden setzt aus der Datei nur, was der Einlass auch annähme"
+  - aussage: >-
+      Der Schalter „powered by aus“ wirkt nur aus einem gültig signierten Modul und nur auf den Hinweis der App-Fußzeile; jede
+      PDF-Fußquelle trägt „Erstellt mit der Software Vivodepot“ weiter.
+    zustand: erfuellt
+    herkunft: U2-ADR-473 Nachtrag W2 (18.10.2026), Abstimmung 18.10.2026
+    pruefung:
+      - tests/branding-v2-powered-by-schalter.test.js "[Schalter·i] ein unsigniertes Modul mit Schalter lässt den Hinweis stehen — rohes Bündel, Depot-Datei, Einlass, Fassung 1"
+      - tests/branding-v2-powered-by-schalter.test.js "[Schalter·ii] gültig signiert: die App-Zeile fehlt, jede PDF-Fußquelle trägt „Erstellt mit der Software Vivodepot“ weiter"
 ```
 
 ---

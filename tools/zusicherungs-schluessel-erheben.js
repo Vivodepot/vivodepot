@@ -73,6 +73,8 @@ const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
   'betreuungHerkunftText', 'vollmachtHerkunftText', 'k9VorlageHerkunftText',
   'exportZustandZurueckgehalten',
   'herkunftLizenzhinweis', 'herkunftPoweredBy',
+  // U2-ADR-400 Nachtrag 18.10.2026: „Erstellt mit der Software Vivodepot“ auf jeder Ausgabe, ein Herkunftsort-Schlüssel wie herkunftPoweredBy.
+  'ausgabeErstelltMit',
   'krisenvorsorgeBedarfHerkunftAbgeleitet', 'krisenvorsorgeBedarfHerkunftUeberschrieben',
   'modulHerkunftUnbekanntHinweis', 'modulPruefstufeGeprueftZusatz', 'modulPruefstufeUngeprueftZusatz',
   'moduleUngeprueftHinweis', 'moduleUngeprueftZeile',
@@ -82,6 +84,8 @@ const ZUSTAND_SCHLUESSEL_KERN_EXPLIZIT = Object.freeze([
   'klartextNichtVerschluesselt',
   // U2-ADR-501 Punkt 30 (17.10.2026): der Satz vor dem Senden, dass die Antwort ohne Ed25519 im Browser nicht signiert wird.
   'antwortUnsigniertBrowser',
+  // Studio W3 (18.10.2026): die Sicherheitsaussage im Einmalpasswort-Fenster, woher das Passwort kommt (getrennt von der Stelle, nicht das Depot-Passwort); kein Sprachmodul darf sie umdeuten.
+  'antwortPasswortGetrennt',
   'vorlagenAbgelaufenZusatz', 'vorlagenWiderrufenZusatz', 'zurueckgehaltenVorhanden',
   // Prüfhinweis bei fremder Signatur (v930): die Aussage „diese Anwendung prüft die Signatur nicht“ und der Text für die prüfende Stelle.
   'mappeFremdPruefHinweis', 'mappePruefKopieText',

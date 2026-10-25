@@ -190,3 +190,51 @@ Frage 3 (Export) wurde durch Bestätigung des Hybrid-Vorschlags entschieden (3A 
 ## Nachtrag 04.10.2026
 
 Die Ankündigung zum NLnet-Antrag in dieser ADR gilt nicht mehr. Stand: Der NLnet-Antrag (Commons Fund) wurde am 14.05.2026 eingereicht; Stand 15.09.2026: nicht entschieden.
+
+## Nachtrag 22.10.2026: vier Sub-Depots als Empfehlung, nicht als Grenze
+
+### Anlass
+
+B16-ADR-052 nennt null bis vier Sub-Depots. Im Kern ist diese Grenze nie durchgesetzt worden: Ein Depot nimmt beliebig viele
+Sub-Depots an, beim Anlegen, beim Einhängen und beim Öffnen. Für berufliche Betreuung trägt die Vier ohnehin nicht. Und jedes Depot
+muss alles lesen können, was in ihm steckt, heute und in Jahren; eine Grenze beim Öffnen würde aus einer Empfehlung einen
+Datenverlust machen. Weg zum Nachsehen: `grep -n "^async function subDepotAnlegen\|^function subDepotEinhaengen" vivodepot.html`.
+
+### Entscheidung
+
+1. **Vier ist eine Empfehlung in Privat.** Ab dem fünften Sub-Depot darf Privat einen Hinweis zeigen, dass es übersichtlich
+   bleibt. Es weist nichts ab. Ein solcher Hinweis ist nicht gebaut; sein Wortlaut würde gesondert vorgelegt.
+2. **Keine Grenze in der Datei.** Ein Depot darf beliebig viele Sub-Depots tragen.
+3. **Keine Grenze beim Öffnen und beim Import.** Jedes Depot geht mit allen seinen Sub-Depots auf.
+4. **Pro hat keine Grenze.** Wer beruflich betreut, hat in der Regel mehr als vier Menschen zu betreuen.
+5. **Keine Kaskade bleibt.** Ein Sub-Depot trägt keine eigenen Sub-Depots; im betretenen Sub-Depot gibt es kein Anlegen und kein
+   Einhängen.
+
+Das Datenmodell in B16-ADR-052 (Feld `subDepots` mit null bis vier Einträgen, `schemaVersion: 2`) ist durch das gebaute Modell
+überholt; dieser Nachtrag ändert daran nichts, er vermerkt es nur.
+
+### Erwogen und verworfen
+
+- **Die Vier beim Anlegen und Einhängen in Privat durchsetzen, Öffnen und Import ohne Grenze:** Eine Grenze, die nur an zwei von
+  vier Wegen gilt, hätte die Bürgerin an einer Stelle abgewiesen, an der ein anderer Weg dasselbe erlaubt.
+
+```yaml
+konformitaet:
+  - aussage: >-
+      Ein Depot mit mehr als vier Sub-Depots speichert, öffnet wieder und hängt eine weitere Übergabe-Datei ein; nichts wird
+      verworfen.
+    zustand: erfuellt
+    herkunft: B16-ADR-052, Nachtrag 22.10.2026 (vier als Empfehlung)
+    pruefung:
+      - tests/sub-depot-mehr-als-vier.test.js "[Sub-Depot·mehr als vier] sechs Sub-Depots: speichern, wieder öffnen, alle sechs da und jedes öffnet mit eigenem Passwort"
+      - tests/sub-depot-mehr-als-vier.test.js "[Sub-Depot·mehr als vier] eine Übergabe-Datei wird als sechstes Sub-Depot eingehängt, nicht abgewiesen"
+      - tests/sub-depot-mehr-als-vier.test.js "[Sub-Depot·mehr als vier·Rot-Beweis] verwürfe das Öffnen ab dem fünften Sub-Depot, fiele die Probe"
+  - aussage: >-
+      Ein Sub-Depot trägt keine eigenen Sub-Depots: im betretenen Sub-Depot weisen Anlegen und Einhängen ab.
+    zustand: erfuellt
+    herkunft: B16-ADR-052, Nachtrag 22.10.2026 (vier als Empfehlung)
+    pruefung:
+      - tests/sub-depot-anlegen-nur-im-anker.test.js "[Sub-Depot·nur im Anker] im betretenen Sub-Depot weist subDepotAnlegen ab, und im Inhalt entsteht nichts"
+      - tests/sub-depot-anlegen-nur-im-anker.test.js "[Sub-Depot·nur im Anker] im betretenen Sub-Depot weist subDepotEinhaengen ab"
+      - tests/sub-depot-anlegen-nur-im-anker.test.js "[Sub-Depot·nur im Anker·Rot-Beweis] ohne die Abweisung entstünde das Sub-Depot im Inhalt des betretenen"
+```

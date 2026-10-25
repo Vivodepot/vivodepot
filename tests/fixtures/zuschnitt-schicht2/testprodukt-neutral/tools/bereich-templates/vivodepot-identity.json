@@ -160,31 +160,24 @@
             },
             {
               "id": "nationality",
+              "privat": true,
               "sensibel": true,
-              "typ": "text",
-              "vorschlaege": [
-                "Testtext 5",
-                "Testtext 6",
-                "Testtext 7",
-                "Testtext 8",
-                "Testtext 9",
-                "Testtext 10",
-                "Testtext 11",
-                "Testtext 12",
-                "Testtext 13"
-              ]
+              "typ": "text"
             },
             {
               "id": "birthName",
+              "privat": true,
               "sensibel": true,
               "typ": "text"
             },
             {
               "id": "birthPlace",
+              "privat": true,
               "typ": "text"
             },
             {
               "id": "gender",
+              "privat": true,
               "typ": "auswahl",
               "optionen": [
                 {
@@ -203,6 +196,7 @@
             },
             {
               "id": "maritalStatus",
+              "privat": true,
               "typ": "auswahl",
               "optionen": [
                 {
@@ -227,6 +221,7 @@
             },
             {
               "id": "maritalPropertyRegime",
+              "privat": true,
               "typ": "auswahl",
               "sichtbarWenn": {
                 "feld": "maritalStatus",
@@ -249,6 +244,7 @@
             },
             {
               "id": "dateOfSeparation",
+              "privat": true,
               "typ": "datum",
               "keineZukunft": true,
               "sichtbarWenn": {
@@ -261,6 +257,7 @@
             },
             {
               "id": "choiceOfNameAfterMarriage",
+              "privat": true,
               "typ": "auswahl",
               "sichtbarWenn": {
                 "feld": "maritalStatus",
@@ -286,6 +283,7 @@
             },
             {
               "id": "choiceOfNameAfterMarriage2",
+              "privat": true,
               "typ": "text",
               "sichtbarWenn": {
                 "feld": "maritalStatus",
@@ -297,6 +295,7 @@
             },
             {
               "id": "idDocuments",
+              "privat": true,
               "typ": "liste",
               "unterFelder": [
                 {
@@ -322,19 +321,21 @@
             },
             {
               "id": "residencePermitType",
+              "privat": true,
               "sensibel": true,
               "typ": "text",
               "vorschlaege": [
-                "Testtext 14",
-                "Testtext 15",
-                "Testtext 16",
-                "Testtext 17",
-                "Testtext 18",
-                "Testtext 19"
+                "Testtext 5",
+                "Testtext 6",
+                "Testtext 7",
+                "Testtext 8",
+                "Testtext 9",
+                "Testtext 10"
               ]
             },
             {
               "id": "residencePermit",
+              "privat": true,
               "typ": "liste",
               "unterFelder": [
                 {
@@ -370,6 +371,7 @@
             },
             {
               "id": "profilePhotoCoverPage",
+              "privat": true,
               "typ": "ref",
               "entitaet": "mappe"
             },
@@ -380,6 +382,7 @@
             },
             {
               "id": "taxClass",
+              "privat": true,
               "sensibel": true,
               "typ": "auswahl",
               "ebene": "modul",
@@ -409,11 +412,13 @@
             },
             {
               "id": "taxClassEarlierEntry",
+              "privat": true,
               "typ": "text",
               "ebene": "modul"
             },
             {
               "id": "reRegistrationWithTheResidents",
+              "privat": true,
               "typ": "text",
               "ebene": "modul"
             }
@@ -424,6 +429,7 @@
           "felder": [
             {
               "id": "formerNames",
+              "privat": true,
               "typ": "liste",
               "unterFelder": [
                 {
@@ -485,53 +491,23 @@
           ]
         },
         {
-          "id": "pets",
-          "felder": [
-            {
-              "id": "pets",
-              "typ": "liste",
-              "unterFelder": [
-                {
-                  "id": "petNameSpecies",
-                  "typ": "text"
-                },
-                {
-                  "id": "emergencyCarePersonContact",
-                  "typ": "ref",
-                  "entitaet": "person"
-                },
-                {
-                  "id": "vetNameContact",
-                  "typ": "ref",
-                  "entitaet": "person"
-                },
-                {
-                  "id": "medication",
-                  "typ": "text"
-                },
-                {
-                  "id": "otherNotes",
-                  "typ": "text"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "id": "civil-status-certificates",
           "felder": [
             {
               "id": "birthCertificateStorage",
+              "privat": true,
               "typ": "text",
               "sensibel": true
             },
             {
               "id": "marriageCertificateStorage",
+              "privat": true,
               "typ": "text",
               "sensibel": true
             },
             {
               "id": "familyRegisterBookStorage",
+              "privat": true,
               "typ": "text",
               "sensibel": true
             }

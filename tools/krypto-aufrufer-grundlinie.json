@@ -15,24 +15,24 @@
    "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM)"
   },
   "exportKey": {
-   "anzahl": 1,
-   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
+   "anzahl": 2,
+   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln"
   },
   "decrypt": {
    "anzahl": 0,
    "grund": "Bestand vor dem Bau · 05.10.2026: 1 → 0 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
   },
   "encrypt": {
-   "anzahl": 4,
-   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcEinwickeln (byte-gleich zu wrapKey raw, das für HKDF nicht geht); Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 5 → 4 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen)"
+   "anzahl": 5,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcEinwickeln (byte-gleich zu wrapKey raw, das für HKDF nicht geht); Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 5 → 4 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln"
   },
   "deriveBits": {
-   "anzahl": 2,
-   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 1 → 2 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF über den Seed; Wort der Gegenlesung 16.10."
+   "anzahl": 3,
+   "grund": "Bestand vor dem Bau · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 2 → 1 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 1 → 2 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF über den Seed; Wort der Gegenlesung 16.10. · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln"
   },
   "importKeyRaw": {
-   "anzahl": 9,
-   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 9 → 7 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 7 → 9 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF-Basis und der öffentliche Ed25519-Prüfschlüssel der Selbstprobe; Wort der Gegenlesung 16.10."
+   "anzahl": 10,
+   "grund": "Bestand vor dem Bau · U2-ADR-430 (27.09.2026): +1 — _whcCodeSchluessel, eine Stelle für Einwickeln und Auspacken; Wort der Gegenlesung · U2-ADR-449: Antwort als JWE (RFC 7516 Compact, ECDH-ES bzw. PBES2, A256GCM) · 05.10.2026: 9 → 7 — Antwort-Umschlag v1 aus dem Kern entfernt (ANTWORT-V1-SCHREIBER-RUECKBAU; Ist gemessen mit --messen) · U2-ADR-501, Wagen V4 (16.10.2026): 7 → 9 — der Schlüssel je Stelle aus dem Antwort-Seed (antwortSchluesselJeStelle): HKDF-Basis und der öffentliche Ed25519-Prüfschlüssel der Selbstprobe; Wort der Gegenlesung 16.10. · U2-ADR-501, Wagen H2 (23.10.2026): +1 — oid4vpAntwortJweRoh, die Antwort an die Stelle als JWE (ECDH-ES, direct_post.jwt; z und CEK im finally genullt); Wort einzeln"
   },
   "halterOeffentlichAusSeed": {
    "anzahl": 1,
@@ -127,8 +127,8 @@
      "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
     },
     "importKeyRaw": {
-     "anzahl": 8,
-     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026"
+     "anzahl": 9,
+     "grund": "Bestand bei Aufnahme der Datei, erhoben 11.10.2026 · +1 (19.10.2026, einzeln freigegeben, gemessen 8 → 9 an 886052d45): _fachSchluesselAusRoh im ZERFALL-LESER-BLOCK, zeichengleich mit dem Kern — raw, AES-GCM, nicht extrahierbar, nur encrypt/decrypt; die Lese-App öffnet das Fach eines Empfängerkreises (Befund LESEAPP-FACH-NUR-ANKER)"
     },
     "halterOeffentlichAusSeed": {
      "anzahl": 0,

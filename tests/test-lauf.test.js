@@ -25,14 +25,16 @@ const REPO = path.join(__dirname, '..');
 const eigeneBasis = () => fs.mkdtempSync(path.join(os.tmpdir(), 'test-lauf-probe-' + process.pid + '-'));
 
 test('[Test-Lauf·NODE_OPTIONS] ergänzt vorhandene Optionen, ersetzt sie nicht, und nimmt den Preload nicht doppelt auf', () => {
-  assert.equal(TL.nodeOptionenMitPreload(undefined), '--require ' + TL.PRELOAD);
-  assert.equal(TL.nodeOptionenMitPreload(''), '--require ' + TL.PRELOAD);
+  const beide = '--require ' + TL.PRELOAD + ' --require ' + TL.ZEITGRENZE;   // Zeitgrenze seit 23.10.2026 (KLEIN-LAEUFE-UNGEZAEHLT)
+  assert.equal(TL.nodeOptionenMitPreload(undefined), beide);
+  assert.equal(TL.nodeOptionenMitPreload(''), beide);
   const vorhanden = '--max-old-space-size=4096 --require /irgendwo/anderes.js';
   const ergaenzt = TL.nodeOptionenMitPreload(vorhanden);
   assert.ok(ergaenzt.startsWith(vorhanden + ' '), 'ROT vorher: vorhandene Optionen gingen verloren — ' + ergaenzt);
-  assert.ok(ergaenzt.endsWith('--require ' + TL.PRELOAD));
+  assert.ok(ergaenzt.endsWith(beide));
   assert.equal(TL.nodeOptionenMitPreload(ergaenzt), ergaenzt, 'ein zweiter Lauf im Lauf fügt den Preload nicht noch einmal an');
   assert.equal(ergaenzt.split(TL.PRELOAD).length - 1, 1);
+  assert.equal(ergaenzt.split(TL.ZEITGRENZE).length - 1, 1);
 });
 
 test('[Test-Lauf·Umgebung] eigenes TMPDIR mit Besitzer-Datei, NODE_OPTIONS ergänzt, übrige Umgebung unverändert', () => {
@@ -44,7 +46,7 @@ test('[Test-Lauf·Umgebung] eigenes TMPDIR mit Besitzer-Datei, NODE_OPTIONS erg�
     assert.equal(T.besitzerLesen(lauf.tmpdir), process.pid);
     for (const k of ['TMPDIR', 'TMP', 'TEMP', TL.UMGEBUNG_LAUF]) assert.equal(lauf.env[k], lauf.tmpdir, k);
     assert.equal(lauf.env.EIGEN, 'x');
-    assert.equal(lauf.env.NODE_OPTIONS, '--max-old-space-size=4096 --require ' + TL.PRELOAD);
+    assert.equal(lauf.env.NODE_OPTIONS, '--max-old-space-size=4096 --require ' + TL.PRELOAD + ' --require ' + TL.ZEITGRENZE);
     lauf.aufraeumen();
     lauf.aufraeumen();
     assert.deepEqual(fs.readdirSync(basis), []);

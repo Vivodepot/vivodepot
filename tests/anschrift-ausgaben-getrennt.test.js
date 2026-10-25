@@ -66,8 +66,8 @@ test('[Ausgabe·vCard·Rückweg] PLZ und Ort getrennt zurück, Namensteile aus N
 
 test('[Ausgabe·SD-JWT] postal_code und locality getrennt; ohne Teile locality = die Zeile, keine geratene PLZ', () => {
   assert.deepEqual(mit(GETRENNT).sdJwtVcIdentitaet().claims.address,
-    { country_code: 'DE', street_address: 'Lindenweg 4a', postal_code: '80331', locality: 'München' });
-  assert.deepEqual(mit(ALT).sdJwtVcIdentitaet().claims.address, { country_code: 'DE', street_address: 'Lindenweg 4a', locality: '80331 München' });
+    { street_address: 'Lindenweg 4a', postal_code: '80331', locality: 'München' });
+  assert.deepEqual(mit(ALT).sdJwtVcIdentitaet().claims.address, { street_address: 'Lindenweg 4a', locality: '80331 München' });
   const V = mit(GETRENNT);
   const felder = V._sdJwtIdentitaetFelder(V.sdJwtVcIdentitaet());
   assert.ok(felder.some((f) => f.feldId === 'postalCode' && f.wert === '80331') && felder.some((f) => f.feldId === 'city' && f.wert === 'München'));

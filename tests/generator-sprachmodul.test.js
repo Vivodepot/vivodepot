@@ -49,7 +49,7 @@ test('[Sprachmodul·Prüfung·Rot-Beweis] jeder sichere Ablehnungsgrund wird gem
   const faelle = [
     ['kein-objekt', null], ['kein-objekt', 'text'], ['kein-objekt', [1]],
     ['zu-tief', modul({ [BEKANNT]: 'x' }, { rest: tief(45) })],
-    ['zu-gross', modul({ [BEKANNT]: 'x'.repeat(520 * 1024) })],
+    ['zu-gross', modul({ [BEKANNT]: 'x'.repeat(1032 * 1024) })],
     ['unbekannter-typ', { sprache: 'fr', moduleVersion: 1, texte: { [BEKANNT]: 'x' } }],
     ['unbekannter-typ', modul({ [BEKANNT]: 'x' }, { modulTyp: 'bereich' })],
     ['sprache', modul({ [BEKANNT]: 'x' }, { sprache: '' })],
@@ -113,7 +113,7 @@ test('[Sprachmodul·Parität] dieselben Fälle, derselbe Grund im Kern: was der 
     modul({ [BEKANNT]: 'x' }, { moduleVersion: 0 }),
     { modulTyp: 'textsatz', sprache: 'fr', moduleVersion: 1 },
     modul({ [BEKANNT]: 'x' }, { modulTyp: 'unbekannt' }),
-    modul({ [BEKANNT]: 'x'.repeat(520 * 1024) }),
+    modul({ [BEKANNT]: 'x'.repeat(1032 * 1024) }),
     modul({ [BEKANNT]: '  ', 'strings:zwei.text': '' }),   // „leer": setzt den Einlass-Zug voraus
   ];
   for (const f of faelle) {
@@ -132,22 +132,33 @@ test('[Sprachmodul·Parität] ein Modul, das der Generator gültig nennt, wird v
   assert.equal(k.angenommen, true, k.grund || '');
 });
 
+/* Liefert jede Konstante, die das Studio anders führt als der Kern (aus dem Quelltext gelesen); leer = gleich. */
+function konstantenDrift(V, quelle) {
+  const bytes = /const _TEXTSATZ_MODUL_MAX_BYTES = (\d+) \* 1024;/.exec(quelle);
+  const tiefe = /const _MODUL_EINLASS_MAX_TIEFE = (\d+);/.exec(quelle);
+  const muster = /const _TAG_ODER_REFERENZ = (\/.*\/);/.exec(quelle);
+  const schluessel = /const TEXTSATZ_MODUL_SCHLUESSEL = Object\.freeze\(\[([^\]]*)\]\);/.exec(quelle);
+  if (!(bytes && tiefe && muster && schluessel)) return ['der Kern trägt nicht alle vier Konstanten'];
+  const drift = [];
+  if (V._SPRACHMODUL_MAX_BYTES !== Number(bytes[1]) * 1024) drift.push('_SPRACHMODUL_MAX_BYTES');
+  if (V._SPRACHMODUL_MAX_TIEFE !== Number(tiefe[1])) drift.push('_SPRACHMODUL_MAX_TIEFE');
+  if (String(V._SPRACHMODUL_TAG_ODER_REFERENZ) !== muster[1]) drift.push('_SPRACHMODUL_TAG_ODER_REFERENZ');
+  if (JSON.stringify([...V._SPRACHMODUL_SCHLUESSEL]) !== JSON.stringify([...schluessel[1].matchAll(/'([^']+)'/g)].map((m) => m[1]))) drift.push('_SPRACHMODUL_SCHLUESSEL');
+  return drift;
+}
+const KOPPLUNG = { PROBEN: [
+  { fuer: '[Sprachmodul·Parität·Konstanten] die gespiegelten Konstanten sind die des Kerns, gelesen aus dem Quelltext (Drift wird rot)', diskriminante: konstantenDrift },
+] };
+void KOPPLUNG;
+
 test('[Sprachmodul·Parität·Konstanten] die gespiegelten Konstanten sind die des Kerns, gelesen aus dem Quelltext (Drift wird rot)', () => {
-  const V = gen();
-  const bytes = /const _MODUL_EINLASS_MAX_BYTES = (\d+) \* 1024;/.exec(KERN_QUELLE);
-  const tiefe = /const _MODUL_EINLASS_MAX_TIEFE = (\d+);/.exec(KERN_QUELLE);
-  const muster = /const _TAG_ODER_REFERENZ = (\/.*\/);/.exec(KERN_QUELLE);
-  const schluessel = /const TEXTSATZ_MODUL_SCHLUESSEL = Object\.freeze\(\[([^\]]*)\]\);/.exec(KERN_QUELLE);
-  assert.ok(bytes && tiefe && muster && schluessel, 'Vorbedingung: der Kern trägt alle vier Konstanten');
-  assert.equal(V._SPRACHMODUL_MAX_BYTES, Number(bytes[1]) * 1024);
-  assert.equal(V._SPRACHMODUL_MAX_TIEFE, Number(tiefe[1]));
-  assert.equal(String(V._SPRACHMODUL_TAG_ODER_REFERENZ), muster[1]);
-  assert.deepEqual([...V._SPRACHMODUL_SCHLUESSEL], [...schluessel[1].matchAll(/'([^']+)'/g)].map((m) => m[1]));
+  assert.deepEqual(konstantenDrift(gen(), KERN_QUELLE), []);
 });
 
 test('[Sprachmodul·Parität·Rot-Beweis] eine gedriftete Konstante würde erkannt: der Vergleich sieht eine andere Grenze', () => {
-  const bytes = /const _MODUL_EINLASS_MAX_BYTES = (\d+) \* 1024;/.exec(KERN_QUELLE.replace('512 * 1024', '256 * 1024'));
-  assert.notEqual(Number(bytes[1]) * 1024, gen()._SPRACHMODUL_MAX_BYTES, 'ein anderer Kern-Wert unterscheidet sich vom gespiegelten');
+  const gedriftet = KERN_QUELLE.replace('const _TEXTSATZ_MODUL_MAX_BYTES = 1024 * 1024;', 'const _TEXTSATZ_MODUL_MAX_BYTES = 512 * 1024;');
+  assert.notEqual(gedriftet, KERN_QUELLE, 'Vorbedingung: die Mutation greift');
+  assert.deepEqual(konstantenDrift(gen(), gedriftet), ['_SPRACHMODUL_MAX_BYTES']);
 });
 
 /* ── (3) die benannte Grenze ──────────────────────────────────────────────────────────────── */

@@ -7,7 +7,9 @@
    Issuers, eingelassen als Vor-Depot-Bündel). Rot, sobald „Vivodepot" außerhalb des
    Herkunftsorts in einer Ansicht, im PDF oder in einem Dateinamen erscheint — deutsch und
    englisch. Die bewusst bleibenden Stellen (Freigabe 3c) stehen im Werkzeug auf der
-   benannten Liste BLEIBT_BEWUSST, jede mit Grund.
+   benannten Liste BLEIBT_BEWUSST, jede mit Grund. Seit dem U2-ADR-400-Nachtrag vom 18.10.2026
+   zusätzlich die zwei benannten Hinweisorte (App-Fuß `data-herkunft-hinweis`, PDF-Fuß
+   ausgabeErstelltMit): sie MÜSSEN stehen, und nur ihr aufgelöster Satz ist ausgenommen.
    ════════════════════════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -25,6 +27,7 @@ test('[White Label greift·de] Stadtbank-Bündel: Marke überall, Vivodepot nur 
   const rot = roteBefunde(befund);
   assert.deepEqual(rot, [], rot.join('\n'));
   assert.ok(befund.punkte.length >= 15, 'Vorbedingung: alle Messpunkte liefen (' + befund.punkte.length + ')');
+  for (const id of ['pdf-erstellt-mit', 'ansicht-fuss-powered']) assert.ok(befund.punkte.some((p) => p.id === id), 'Hinweisort nicht gemessen: ' + id);
 });
 
 test('[White Label greift·en] Stadtbank-Bündel: Marke überall, Vivodepot nur am Herkunftsort', async () => {
@@ -32,6 +35,7 @@ test('[White Label greift·en] Stadtbank-Bündel: Marke überall, Vivodepot nur 
   const rot = roteBefunde(befund);
   assert.deepEqual(rot, [], rot.join('\n'));
   assert.ok(befund.punkte.length >= 16, 'Vorbedingung: alle Messpunkte liefen (' + befund.punkte.length + ')');
+  for (const id of ['pdf-erstellt-mit', 'ansicht-fuss-powered']) assert.ok(befund.punkte.some((p) => p.id === id), 'Hinweisort nicht gemessen: ' + id);
 });
 
 test('[White Label greift] die benannte Liste trägt je einen Grund, und jede Stelle trägt die Wortmarke noch', () => {
@@ -50,6 +54,11 @@ test('[Negativprobe] die Wortmarken-Diskriminante ordnet eine unbenannte Stelle 
   const e = W.wortmarkeEinordnen(['strings:herkunftPoweredBy.text', 'strings:shlUrlHinweis.text', erfunden]);
   assert.deepEqual(e.ausserhalb, [erfunden]);
   assert.deepEqual(W.wortmarkeEinordnen(['strings:herkunftPoweredBy.text']).ausserhalb, []);
+  // Der Hinweisort ist genau eine benannte Kennung, kein Muster: ein ähnlich benannter Schlüssel bleibt außerhalb.
+  const h = W.wortmarkeEinordnen(['strings:ausgabeErstelltMit.text', 'strings:ausgabeErstelltMitPartner.text']);
+  assert.deepEqual(h.hinweis, ['strings:ausgabeErstelltMit.text']);
+  assert.deepEqual(h.ausserhalb, ['strings:ausgabeErstelltMitPartner.text']);
+  assert.deepEqual(W.HINWEISORT_KENNUNGEN, ['strings:ausgabeErstelltMit.text'], 'die Liste der Hinweisorte wächst nur mit Entscheidung');
 });
 
 test('[Rot-Beweis] ein Bündel ohne Markennamen reißt an — Name, PDF, Titel und Dateinamen werden rot', async () => {

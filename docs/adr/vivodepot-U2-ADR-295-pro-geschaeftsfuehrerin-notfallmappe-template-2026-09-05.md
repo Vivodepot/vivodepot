@@ -198,3 +198,9 @@ Notar-Template (U2-ADR-287): „Teil A — wer handelt, wenn die Notarin vertret
 **Kennungen bleiben** (`pro-geschaeftsfuehrerin-notfallmappe`, `klasse`, `knopfAttr`, Dateinamen im Repo): niemand
 sieht sie, und sie sind in Rezepten, Proben und der Mitschrift bestehender Dateien verankert. Der Titel dieses ADR
 bleibt als Name des Entscheids stehen. Wächter: eine nicht öffentliche Probe.
+
+## Nachtrag 23.10.2026 — Teil C ohne Patientenverfügung
+
+Mit U2-ADR-243 §9 entfällt das Feld `pro-vertretung-vollmachten.tpl_patientenverfuegung_ablageort` aus Pro (Privates gehört
+nach Privat). Teil C fragt nicht mehr danach, die Zeile in §3 ist Geschichte. Eine ältere Datei mit einem Wert behält ihn,
+der Auszug zeigt ihn nicht. Probe: die Probe dieses ADR (Teil C fragt nicht nach der Patientenverfügung).

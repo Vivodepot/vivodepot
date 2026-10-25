@@ -13,7 +13,18 @@ export default async function* dateiZeitenReporter(source) {
   const rot = new Set();
   const stapel = new Map();
   const repo = process.cwd();
+  /* WANDUHRZEIT JE DATEI (19.10.2026, zu SUITE-DAUER-WAECHST): die Summe der obersten Tests lässt Prozessstart, Preloads und
+     den Modulkopf einer Datei (require, ladeKern() vor dem ersten test()) aus. Der Läufer meldet je Datei ein test:complete auf
+     Ebene 0, dessen Name der Dateipfad ist; seine Dauer ist die Wanduhrzeit des ganzen Dateiprozesses. Mit
+     VD_DATEI_WANDZEIT=<datei> schreibt der Reporter je Datei { wand_ms, tests_ms } dorthin; ohne die Variable nichts.
+     Probe: [Reporter·Wanduhrzeit] in der Probe der Schnellstufe. */
+  const wand = {};
   for await (const e of source) {
+    if (e.type === 'test:complete' && e.data && e.data.nesting === 0 && e.data.file && e.data.name
+      && path.resolve(repo, e.data.name) === path.resolve(e.data.file)) {
+      const rel = path.relative(repo, e.data.file);
+      if (!rel.startsWith('..')) wand[rel] = Math.round(Number((e.data.details && e.data.details.duration_ms) || 0));
+    }
     /* Rote Tests (30.09.2026, Wackel-Quarantäne): je Blatt-Test „datei<TAB>voller Name". Ein Elterntest, der nur
        wegen eines roten Kindes rot ist (subtestsFailed), zählt nicht; todo und skip zählen nie. */
     if (e.data && e.data.file && (e.type === 'test:start' || e.type === 'test:fail')) {
@@ -29,6 +40,13 @@ export default async function* dateiZeitenReporter(source) {
       je[rel] = (je[rel] || 0) + Number((e.data.details && e.data.details.duration_ms) || 0);
     }
   }
+  try {
+    if (process.env.VD_DATEI_WANDZEIT) {
+      const aus = {};
+      for (const d of Object.keys(wand).sort()) aus[d] = { wand_ms: wand[d], tests_ms: Math.round(je[d] || 0) };
+      fs.writeFileSync(process.env.VD_DATEI_WANDZEIT, JSON.stringify(aus, null, 1) + '\n');
+    }
+  } catch (_) { /* Messung ist Zugabe, nie Bedingung */ }
   try { if (process.env.VD_ROTE_DATEIEN) fs.writeFileSync(process.env.VD_ROTE_DATEIEN, [...rot].sort().join('\n') + (rot.size ? '\n' : '')); } catch (_) { /* Zugabe */ }
   try {
     const ziel = S.zeitenPfad(repo);

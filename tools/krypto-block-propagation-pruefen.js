@@ -323,7 +323,11 @@ function traegerzahlPruefen(traegerAnzahl) {
 const HUELLE_SOLL = Object.freeze(require('./lib/mit-interner-ergaenzung.js').lesenMitErgaenzung(path.join(__dirname, 'krypto-huelle-soll.json')).soll);
 // ANKER_* (07.10.2026, U2-ADR-486 Punkt 2): der Anker-Satz ist in Kern und Lese-App wertgleich, sonst prüften beide gegen verschiedene Anker.
 // FINGERABDRUCK_KENNUNG (09.10.2026, U2-ADR-486 Punkt 7): die Hash-Kennung der Fingerabdruck-Mengen und der Rücknahme-Liste ist in Kern und Lese-App wertgleich.
-const HUELLE_KONSTANTEN = ['PROTECTED_KEY_MARKER_VERSION', 'PROTECTED_KEY_VERSION_ALLOWLIST', 'ANKER_OHNE_KID', 'ANKER_SATZ', 'ANKER_WIDERRUFEN', 'FINGERABDRUCK_KENNUNG'];
+// Anker, Sperrliste und Anbietertypen (18.10.2026, Befund ANKER-KOPIEN-OHNE-WAECHTER, Krypto-Gegenlesung): Kern, Lese-App und Studio
+// prüfen Zertifikate mit denselben Werten; vorher hielt sie kein Wächter gleich.
+const HUELLE_KONSTANTEN = ['PROTECTED_KEY_MARKER_VERSION', 'PROTECTED_KEY_VERSION_ALLOWLIST', 'ANKER_OHNE_KID', 'ANKER_SATZ', 'ANKER_WIDERRUFEN', 'FINGERABDRUCK_KENNUNG',
+  'TRUST_AUTHORITY_PUBLIC_JWK', 'WIDERRUFS_LISTE', 'TEST_SENTINEL_ISSUER', 'AUSGABESTELLE_ANBIETERTYP', 'VIVODEPOT_PRUEFSTELLE_ANBIETERTYP',
+  'VIVODEPOT_KERN_ANBIETERTYP', 'VIVODEPOT_INSTITUTION_ANBIETERTYP', 'ZWISCHENSTUFEN_ANBIETERTYPEN'];
 const HUELLE_FUNKTIONEN = Object.keys(HUELLE_SOLL).filter((n) => !HUELLE_KONSTANTEN.includes(n));
 /* Gleichnamig, gewollt verschieden — je mit Grund. Eine Ausnahme ohne Gegenstand (der Name ist nicht mehr geteilt oder
    fällt nicht mehr ins Muster) ist selbst rot, damit die Liste nicht still veraltet. */

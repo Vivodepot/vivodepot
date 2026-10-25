@@ -378,7 +378,9 @@ test('[produktTextErzeugen·Gleichheit] liefert byte-für-byte denselben Text wi
       unsignierteModule: [{ roh: JSON.parse(fs.readFileSync(abWerk, 'utf8')), basisname: path.basename(abWerk) }] });
 
     const geschrieben = fs.readFileSync(path.join(rEcht.ordner, 'vivodepot.html'), 'utf8');
-    assert.equal(rPur.text, geschrieben,
+    // U2-ADR-470: konfektionieren() zieht nach dem Backschritt die CSP-Hashes nach — derselbe Schritt hier.
+    const { cspNachBau } = require('../tools/lib/csp-nach-bau.js');
+    assert.equal(cspNachBau(rPur.text), geschrieben,
       'produktTextErzeugen() muss byte-für-byte denselben Text liefern, den konfektionieren() auf die Platte schreibt');
   } finally { fs.rmSync(ziel, { recursive: true, force: true }); }
 });

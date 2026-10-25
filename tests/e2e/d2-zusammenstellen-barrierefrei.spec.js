@@ -70,7 +70,12 @@ test('[D2·2] die AUFGENOMMENE Auswahl ist für eine Screenreader-Nutzerin ables
   await page.fill('#zus-suche', 'Versichertennummer');
   await page.waitForTimeout(250);
 
-  const treffer = await page.evaluate(() => document.querySelectorAll('#zus-treffer button').length);
+  /* GESCHÄRFT 19.10.2026 (Befund ANFRAGE-NACHTRAGEN-CODELISTE): „Treffer-Knopf“ meint den Aufnehmen-Knopf `[data-zus-nimm]`.
+     Bis dahin war er der einzige Knopf einer Treffer-Zeile, darum genügte `#zus-treffer button`. Seit leere Felder den Editor
+     ihres Feldtyps tragen, stehen davor weitere Knöpfe (Hier eintragen, Chip übernehmen, + Hinzufügen). Sie schalten nichts um
+     und tragen darum kein aria-pressed. Die Prüfung gilt unverändert jedem Aufnehmen-Knopf, ohne Ausnahme. */
+  const TREFFER_KNOPF = '#zus-treffer [data-zus-nimm]';
+  const treffer = await page.evaluate((sel) => document.querySelectorAll(sel).length, TREFFER_KNOPF);
   /* POSITIVKONTROLLE: der Bildschirm zeigt überhaupt Treffer — sonst misst diese
      Probe eine leere Seite und nennt sie barrierefrei. */
   expect(treffer, 'die Suche liefert Treffer').toBeGreaterThan(0);
@@ -80,7 +85,7 @@ test('[D2·2] die AUFGENOMMENE Auswahl ist für eine Screenreader-Nutzerin ables
      nicht die Existenz einer Einrichtung, sondern ihre Wirkung. */
   const vorher = await page.locator('#zus-live').textContent();
   expect(vorher, 'der Live-Bereich existiert und ist zunächst leer').toBe('');
-  const ersterKnopf = page.locator('#zus-treffer button').first();
+  const ersterKnopf = page.locator(TREFFER_KNOPF).first();
   expect(await ersterKnopf.getAttribute('aria-pressed'), 'noch nicht aufgenommen -> aria-pressed=false').toBe('false');
   await ersterKnopf.click();
   await page.waitForTimeout(150);
@@ -95,8 +100,8 @@ test('[D2·2] die AUFGENOMMENE Auswahl ist für eine Screenreader-Nutzerin ables
   await expect(listeKnopf).toBeVisible();
 
   // Und: JEDER Treffer-Knopf trägt aria-pressed — keine Ausnahme.
-  const ohneAriaPressed = await page.evaluate(() =>
-    [...document.querySelectorAll('#zus-treffer button')].filter((k) => !k.hasAttribute('aria-pressed')).length);
+  const ohneAriaPressed = await page.evaluate((sel) =>
+    [...document.querySelectorAll(sel)].filter((k) => !k.hasAttribute('aria-pressed')).length, TREFFER_KNOPF);
   expect(ohneAriaPressed, 'kein Treffer-Knopf ohne aria-pressed').toBe(0);
 });
 
@@ -135,4 +140,58 @@ test('[D2·3] der Weg ist mit der TASTATUR gangbar — suchen, aufnehmen, weiter
      `07-axe.spec.js` (fehlende Namen bleiben scharf). */
   expect(ohneNamen, '[D2] Bedienelemente ohne zugänglichen Namen: '
     + JSON.stringify(ohneNamen)).toEqual([]);
+});
+
+/* ── [D2·4] Nachtragen je Feldtyp: Mindestgröße in BEIDEN Ansichten (19.10.2026) ─────────────────────────────────
+   Befund ANFRAGE-NACHTRAGEN-CODELISTE: Anfrage und Zusammenstellen zeigen für ein fehlendes Feld den Editor seines Feldtyps.
+   Gefunden hat die zu kleine Chip-Eingabe (170 × 21 px) nur [D2·1], und nur im Zusammenstellen. Für die Anfrage-Ansicht gab
+   es keine Probe. Diese misst beide Ansichten mit einer Anfrage, die je einen Feldtyp verlangt: axe mit derselben Gate-Politik
+   wie [D2·1] und dazu die gerenderte Größe jedes sichtbaren Bedienelements in der Nachtrage-Klammer (`.zus-fuellen`, ≥ 24 px,
+   WCAG 2.2 AA 2.5.8). */
+const NACHTRAG_ANFRAGE = {
+  modulTyp: 'anfrage', anfrageVersion: 1, von: 'Klinik am Probenweg', zweck: 'Stationäre Aufnahme',
+  grundlage: 'Behandlungsvertrag', vorgang: 'D2-NACHTRAG', gueltigBis: '2099-12-31',
+  felder: ['health.allergiesMedicationFoodOther', 'health.generalPractitioner', 'health.insuranceNumber', 'identity.gender',
+    'mobility.drivingLicenceClasses', 'identity.displayFamilyNameFirst', 'identity.idDocuments', 'identity.birthDate',
+    'health.emergencyContacts', 'advanceCare.provisionInstruments[enduring-power-of-attorney].storageLocation']
+    .map((kennung) => ({ kennung, zweck: 'Aufnahme', pflicht: true })),
+  antwort: { art: 'einmalpasswort', an: 'aufnahme@klinik.example.invalid' },
+};
+async function nachtragGroessen(page) {
+  return page.evaluate(() => [...document.querySelectorAll('.zus-fuellen input, .zus-fuellen select, .zus-fuellen textarea, .zus-fuellen button')]
+    .map((el) => ({ el, r: el.getBoundingClientRect() }))
+    .filter(({ el, r }) => r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden')
+    .map(({ el, r }) => ({ was: el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : ''),
+      rahmen: el.closest('.zus-fuellen').getAttribute('data-anfrage-fuellen') || el.closest('.zus-fuellen').getAttribute('data-zus-fuellen'),
+      breite: Math.round(r.width), hoehe: Math.round(r.height) })));
+}
+async function axeHart(page) {
+  const ergebnis = await new AxeBuilder({ page }).withTags(WCAG).exclude('.logo-wort').exclude('.welcome-wort').analyze();
+  return ergebnis.violations.filter((v) => v.impact === 'critical' || (v.impact === 'serious' && v.id !== 'color-contrast'));
+}
+
+test('[D2·4] Nachtragen je Feldtyp: jedes Bedienelement ist in Anfrage und Zusammenstellen mindestens 24 px groß', async ({ page }) => {
+  await oeffneApp(page);
+  await depotAnlegen(page);
+  await inLeisteKlicken(page, '[data-uebergabe-protokoll]');
+  await page.waitForSelector('#anfragen-ort', { state: 'visible' });
+  await page.click('#anfrage-empfangen');
+  await page.fill('#anfrage-text', JSON.stringify(NACHTRAG_ANFRAGE));
+  await page.click('#m-ok');
+  await page.waitForSelector('#anfrage-kopf', { state: 'visible' });
+
+  const anfrage = await nachtragGroessen(page);
+  /* Positivkontrolle: die Editoren der verlangten Typen stehen da, sonst misst die Probe eine leere Ansicht. */
+  expect(anfrage.some((g) => g.was.startsWith('input.chip-eingabe')), 'Chip-Eingabe in der Anfrage').toBe(true);
+  expect(anfrage.some((g) => g.was.startsWith('select')), 'Auswahl in der Anfrage').toBe(true);
+  expect(anfrage.filter((g) => g.hoehe < 24 || g.breite < 24), '[D2·4] Anfrage: Bedienelemente unter 24 px').toEqual([]);
+  const hartAnfrage = await axeHart(page);
+  expect(hartAnfrage, '[D2·4] Anfrage, harte Verstöße: ' + hartAnfrage.map((v) => `${v.id}: ${v.help}`).join(' | ')).toEqual([]);
+
+  await inLeisteKlicken(page, '[data-weitergeben-zentral]');
+  await page.click('[data-hz-zusammenstellen]');
+  await expect(page.locator('#zus-suche')).toBeVisible();
+  const zus = await nachtragGroessen(page);
+  expect(zus.some((g) => g.was.startsWith('input.chip-eingabe')), 'Chip-Eingabe im Zusammenstellen').toBe(true);
+  expect(zus.filter((g) => g.hoehe < 24 || g.breite < 24), '[D2·4] Zusammenstellen: Bedienelemente unter 24 px').toEqual([]);
 });

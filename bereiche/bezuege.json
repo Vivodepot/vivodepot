@@ -450,7 +450,7 @@
       "grad": "naeherung"
     },
     {
-      "kennung": "identity.pets/emergencyCarePersonContact",
+      "kennung": "pets.pets/emergencyCarePersonContact",
       "datensatz": "semic-core-vocabularies",
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",
@@ -458,7 +458,7 @@
       "grad": "weit"
     },
     {
-      "kennung": "identity.pets/vetNameContact",
+      "kennung": "pets.pets/vetNameContact",
       "datensatz": "semic-core-vocabularies",
       "ziel": "http://data.europa.eu/m8g/ContactPoint",
       "vokabular": "Core Person",

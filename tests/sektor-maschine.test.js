@@ -189,7 +189,8 @@ test('3) Feld-Hint und Abschnitts-Hint rendern', async () => {
   const html = document.getElementById('content').innerHTML;
 
   assert.match(html, /<p class="sektion-hint">Abschnitts-Hinweis-Kern<\/p>/, 'Abschnitts-Hint gerendert');
-  assert.match(html, /<div class="feld-hint">Feld-Hinweis-X<\/div>/, 'Feld-Hint gerendert');
+  // FELD-HINWEIS-NICHT-VERKNUEPFT (23.10.2026): der Hinweis trägt eine id, auf die das Eingabefeld verweist.
+  assert.match(html, /<div class="feld-hint" id="fh-\d+">Feld-Hinweis-X<\/div>/, 'Feld-Hint gerendert');
 });
 
 /* ── 4) Inhaltsverzeichnis ab drei Sektionen ─────────────────────────── */

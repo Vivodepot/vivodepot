@@ -55,13 +55,16 @@ test('[Fremdquellen·sichtbar·Rot-Beweis] ein geänderter Wortlaut, eine fehlen
   assert.deepEqual(befunde('<script>const LIZENZ_WORTLAUT = { loinc: ' + JSON.stringify(WORTLAUT.loinc) + ' };</script>'), ['loinc: nicht sichtbar', 'snomedAllergen: nicht sichtbar']);
 });
 
-test('[Fremdquellen·Wortlaut] Kern, README und Release-Beschreibung tragen dieselben Bytes wie code-listen/wortlaut/', () => {
+test('[Fremdquellen·Wortlaut] Kern, beide README und Release-Beschreibung tragen dieselben Bytes wie code-listen/wortlaut/', () => {
   const kern = fs.readFileSync(path.join(REPO, 'vivodepot.html'), 'utf8');
   assert.ok(kern.includes('loinc: ' + JSON.stringify(WORTLAUT.loinc)), 'LIZENZ_WORTLAUT.loinc');
   assert.ok(kern.includes('snomedAllergen: ' + JSON.stringify(WORTLAUT.snomedAllergen)), 'LIZENZ_WORTLAUT.snomedAllergen');
-  const readme = fs.readFileSync(path.join(REPO, 'README.md'), 'utf8');
-  assert.ok(readme.includes('## LOINC\n\n' + WORTLAUT.loinc + '\n'), 'README: LOINC');
-  assert.ok(readme.includes('## SNOMED CT\n\n' + WORTLAUT.snomedAllergen + '\n'), 'README: SNOMED CT');
+  // README.md und README_en.md (seit 21.10.2026): beide liegen auf der Download-Seite, beide tragen die Pflichtwortlaute.
+  for (const datei of ['README.md', 'README_en.md']) {
+    const readme = fs.readFileSync(path.join(REPO, datei), 'utf8');
+    assert.ok(readme.includes('## LOINC\n\n' + WORTLAUT.loinc + '\n'), datei + ': LOINC');
+    assert.ok(readme.includes('## SNOMED CT\n\n' + WORTLAUT.snomedAllergen + '\n'), datei + ': SNOMED CT');
+  }
   const r = R.releaseVorbereiten({ quelle: R.FIXTURE, fassung: 'v1.0.1' });
   assert.deepEqual(r.fehler, []);
   assert.ok(r.release.description.includes('### LOINC\n\n' + WORTLAUT.loinc), 'Release: LOINC');

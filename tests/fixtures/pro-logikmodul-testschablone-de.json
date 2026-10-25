@@ -51,11 +51,6 @@
       "feld": "tpl_leuchtturm_11",
       "unterfeld": "tpl_leuchtturm_12"
     },
-    "patientenverfuegung_ablageort": {
-      "typ": "feld",
-      "sektor": "pro-vertretung-vollmachten",
-      "feld": "tpl_leuchtturm_13"
-    },
     "kontakt_telefon": {
       "typ": "feld",
       "sektor": "identity",
@@ -161,12 +156,6 @@
           "format": {
             "typ": "liste"
           }
-        },
-        {
-          "typ": "frageAntwortOderLuecke",
-          "feldId": "patientenverfuegung_ablageort",
-          "frage": "Testfrage 25",
-          "luecke": "— nicht erfasst —"
         },
         {
           "typ": "frageAntwortOderLuecke",

@@ -17,12 +17,13 @@ const CSS_QUELLE = kernMitHeute(KERN_QUELLE);   // v894: das Stylesheet kommt mi
 const ZEHN_THEMEN = ['depot-anlegen-passwort', 'speichern-sicherung', 'eintragen-dokumente', 'weitergeben-empfaengerin',
   'sensibel-zurueckhalten-freigeben', 'notfallkarte', 'module-templates-echtheit', 'datei-ist-das-depot', 'was-vivodepot-nicht-sieht',
   'sub-depot', 'lese-app-empfaengerin', 'daten-hereinholen', 'daten-herausgeben',   // Themen 12 bis 14 (04.10.2026)
-  'vorbereitungsauszuege'];   // 12.10.2026: wo die Vorbereitungsauszüge stehen (Beratungshilfe, Erbschein) und unter welchem Namen man sie findet
+  'vorbereitungsauszuege',   // 12.10.2026: wo die Vorbereitungsauszüge stehen (Beratungshilfe, Erbschein) und unter welchem Namen man sie findet
+  'pro-beruflich'];   // 24.10.2026: die berufliche Fassung, nur in Pro (Feld nurMitLogikModul; Pro selbst hält eine eigene Probe)
 
-test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die vierzehn vereinbarten Themen, keine Nutzerdaten', () => {
+test('[Hilfe·Struktur] HILFE_THEMEN trägt genau die fünfzehn vereinbarten Themen, keine Nutzerdaten', () => {
   const { V } = ladeKern({ blank: true });
   assert.deepEqual(V.HILFE_THEMEN.map((t) => t.id), ZEHN_THEMEN);
-  for (const t of V.HILFE_THEMEN) assert.ok(Object.keys(t).every((k) => ['id', 'anzahlAbschnitte'].includes(k)), t.id + ' trägt ein unerwartetes Feld');
+  for (const t of V.HILFE_THEMEN) assert.ok(Object.keys(t).every((k) => ['id', 'anzahlAbschnitte', 'nurMitLogikModul'].includes(k)), t.id + ' trägt ein unerwartetes Feld');
 });
 
 /* Ratsche gegen eine Fehlerklasse, nicht nur den Einzelfall (Fund, 20.09.2026, nach dem Fund
@@ -69,7 +70,8 @@ test('[Hilfe·Struktur] „datei-ist-das-depot" ersetzt „Umzug auf ein neues G
 test('[Hilfe·Titel] jedes Thema hat einen deutschen Titel aus dem Textsatz, kein Rückfall auf die rohe ID', () => {
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
-  for (const id of ZEHN_THEMEN) {
+  // Das Pro-Thema öffnet nur in Pro; seinen Titel hält die Pro-Probe.
+  for (const id of ZEHN_THEMEN.filter((x) => x !== 'pro-beruflich')) {
     const modell = V.hilfeThemaModell(id);
     assert.ok(modell.titel && modell.titel !== id, id + ': Titel fehlt oder ist die rohe ID');
   }
@@ -90,10 +92,11 @@ test('[Hilfe·Inhalt] mit den gelieferten Abschnitten trägt das Modell Einleitu
   for (const a of modell.abschnitte) assert.ok(a.length > 0, 'kein Abschnitt bleibt leer');
 });
 
-test('[Hilfe·Übersicht] listet alle vierzehn Titel in der HILFE_THEMEN-Reihenfolge', () => {
+test('[Hilfe·Übersicht] listet alle vierzehn Titel in der HILFE_THEMEN-Reihenfolge, ohne das Pro-Thema', () => {
   const { V } = ladeKern();
   V.setData(V.leeresDepot());
-  assert.deepEqual(V.hilfeUebersichtModell().map((t) => t.id), ZEHN_THEMEN);
+  // Ein leeres Depot trägt kein Pro-Logikmodul; das Pro-Thema fehlt (Pro selbst hält eine eigene Probe).
+  assert.deepEqual(V.hilfeUebersichtModell().map((t) => t.id), ZEHN_THEMEN.filter((id) => id !== 'pro-beruflich'));
 });
 
 test('[Hilfe·Rendering] hilfeThemaHTML zeigt Titel, Einleitung und alle vier Abschnitte', () => {

@@ -15,9 +15,9 @@ async function bereitsicht(page, sektor) {
 }
 
 test('[Dialog·Fokus] der Dialog nimmt den Fokus ins erste Feld und gibt ihn beim Abbrechen an den Auslöser zurück', async ({ page }) => {
-  await bereitsicht(page, 'identity');
+  await bereitsicht(page, 'pets');
   // Konvention „Hinzufügen“: bei leerer Liste steht der erste Eintrag inline; der Dialog öffnet über „Weiteres Tier hinzufügen“.
-  await listenDialogOeffnen(page, 'pets', { sektor: 'identity', vorbelegen: { petNameSpecies: 'Mira, Katze' } });
+  await listenDialogOeffnen(page, 'pets', { sektor: 'pets', vorbelegen: { petNameSpecies: 'Mira, Katze' } });
   await expect(page.locator('#modal-rueck.an')).toBeVisible();
   const imDialog = await page.evaluate(() => !!(document.activeElement && document.activeElement.closest && document.activeElement.closest('#modal-inhalt .liste-eintrag-form')));
   expect(imDialog, 'Fokus im ersten Feld des Dialogs').toBe(true);
@@ -27,8 +27,8 @@ test('[Dialog·Fokus] der Dialog nimmt den Fokus ins erste Feld und gibt ihn bei
 });
 
 test('[Dialog·Fokus·Person] nach dem Anlegen einer Person im Dialog steht der Fokus in der Auswahl', async ({ page }) => {
-  await bereitsicht(page, 'identity');
-  await listenDialogOeffnen(page, 'pets', { sektor: 'identity', vorbelegen: { petNameSpecies: 'Mira, Katze' } });
+  await bereitsicht(page, 'pets');
+  await listenDialogOeffnen(page, 'pets', { sektor: 'pets', vorbelegen: { petNameSpecies: 'Mira, Katze' } });
   const auswahl = page.locator('#modal-inhalt [data-edit-ref="emergencyCarePersonContact"]');
   await auswahl.selectOption('__neu__');
   await page.locator('#modal-inhalt [data-neu-name="emergencyCarePersonContact"]').fill('Dialog Fokus Eins');

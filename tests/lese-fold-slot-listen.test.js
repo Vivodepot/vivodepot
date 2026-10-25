@@ -54,7 +54,7 @@ const FAELLE = [
     alt: { facharzt_1: 'Dr. Kardio Berlin', facharzt_2: 'Dr. Augen Rostock' },
     sichtbar: [],
     zurueckgehalten: [{ unterfeld: 'arzt', wert: 'Dr. Kardio Berlin' }, { unterfeld: 'arzt', wert: 'Dr. Augen Rostock' }] },
-  { liste: 'pets',                sektor: 'identity', sektorAlt: 'identitaet',
+  { liste: 'pets',                sektor: 'pets', sektorAlt: 'identitaet',   // seit U2-ADR-479 eigener Bereich, Quelle bleibt der alte Identitätsbereich
     alt: { tier_name: 'Kater Miez', tier_tierarzt: 'Dr. Vet Rostock', tier_futter: 'morgens trocken' },
     sichtbar: ['Kater Miez', 'Dr. Vet Rostock', 'morgens trocken'],
     zurueckgehalten: [] },

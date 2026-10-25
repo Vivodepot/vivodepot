@@ -1,0 +1,5 @@
+{
+ "beschreibung": "tools/waehrung-fest-erheben.js --ausgeliefert, Feld fest: feste Währungen in ausgelieferten Ausgabewegen außerhalb von Template und Register, je Stelle. Nur sinkend. Befund WAEHRUNG-FEST-EUR (03.10.2026; damals 3 Stellen: Kern _elsterFelder zweimal, Studio-Beispiel notariat). Mit U2-ADR-480 (Währung aus dem Template) gemessen am 17.10.2026: 0. leser: Leser von TEXTSATZ_REGELN_EINGEBAUT.waehrung, 0 (der eingebaute Wert ist entfallen). Gegenlesung 17.10.2026.",
+ "fest": 0,
+ "leser": 0
+}

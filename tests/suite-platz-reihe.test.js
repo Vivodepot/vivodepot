@@ -214,3 +214,39 @@ test('[Reihe·verwaist] ein lebender Halter auf dem Air-Platz hält die Marke; e
     assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, false, 'ein toter Halter hält sie nicht');
   } finally { a.aufraeumen(); }
 });
+
+/* VORRANG-MARKE-OHNE-LAUF-HAELT-REIHE (20.10.2026): eine Marke, deren Baum nur auf dem Air-Platz lebt (air-schicken), blieb gültig —
+   richtig, sie verfällt nicht —, hielt aber auf den Suite-Plätzen einen Platz frei, den niemand aus dem Baum brauchte (14 Minuten
+   ein leerer Platz bei acht Wartenden). Jetzt hält sie nach der Schonfrist einen Suite-Platz nur frei, wenn im Baum ein Suite-Lauf
+   hält oder wartet. */
+function airHalterSchreiben(a, pid) {
+  const ad = sp.airVerzeichnis(a.dir);
+  fs.mkdirSync(ad, { recursive: true });
+  fs.writeFileSync(path.join(ad, 'platz-1.lock'), JSON.stringify({ pid, name: 'air-schicken', cwd: fs.realpathSync(a.baumDran), host: os.hostname() }));
+}
+test('[Reihe·nur Air] nach der Schonfrist hält eine Marke, deren Baum nur auf dem Air lebt, keinen Suite-Platz frei', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    airHalterSchreiben(a, a.p());
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'die Marke verfällt nicht, der Baum lebt auf dem Air');
+    assert.equal(holen(a, 'pre-commit', a.p(), a.baumAnders).geholt, true, 'der erste fremde Lauf');
+    assert.equal(holen(a, 'npm test', a.p(), a.baumAnders).geholt, true, 'der zweite fremde Lauf nimmt den Platz, den niemand aus dem Baum braucht');
+  } finally { a.aufraeumen(); }
+});
+test('[Reihe·nur Air·Rot-Beweis] wartet im Baum ein Suite-Lauf oder liegt die Marke in der Schonfrist, bleibt ein Platz frei', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    airHalterSchreiben(a, a.p());
+    sp.ticketZiehen({ name: 'pre-push', pid: a.p(), dir: a.dir, cwd: path.join(a.baumDran) });   // der Push des Baums wartet auf einen Suite-Platz
+    assert.equal(holen(a, 'pre-commit', a.p(), a.baumAnders).geholt, true);
+    assert.equal(holen(a, 'npm test', a.p(), a.baumAnders).geholt, false, 'mit wartendem Suite-Lauf im Baum: der Platz bleibt ihm');
+  } finally { a.aufraeumen(); }
+  const b = aufbau();
+  try {
+    markeSchreiben(b.dir, b.baumDran, Date.now() - 2 * 60 * 1000);   // in der Schonfrist: „Marke setzen, dann den Lauf starten“
+    assert.equal(holen(b, 'pre-commit', b.p(), b.baumAnders).geholt, true);
+    assert.equal(holen(b, 'npm test', b.p(), b.baumAnders).geholt, false, 'in der Schonfrist bleibt der Platz frei');
+  } finally { b.aufraeumen(); }
+});

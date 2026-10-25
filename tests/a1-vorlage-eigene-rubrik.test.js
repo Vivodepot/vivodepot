@@ -69,7 +69,7 @@ test('[A1·DER REST-BEFUND] Schema und Tor sagen Verschiedenes', () => {
      weiterhin nicht. Die Zahl kommt darum aus der Quelle, nicht aus einer Konstante hier. */
   const proBereiche = Object.keys(JSON.parse(require('node:fs').readFileSync(require('node:path').join(__dirname, 'fixtures',
     'pro-bereichsersatz-testschablone.json'), 'utf8')).neu).length;
-  assert.equal(m.schemaEnum, 13 + proBereiche, 'der enum hat sich verändert');
+  assert.equal(m.schemaEnum, 14 + proBereiche, 'der enum hat sich verändert');   // 13 → 14 eingebaute (U2-ADR-479: Tiere)
   assert.equal(m.schemaKenntObhut, false, 'das Schema kennt jetzt eine angedockte Kennung');
   assert.equal(m.torSagt, 'GÜLTIG',
     'das Tor weist die eigene Rubrik jetzt ab — dann ist die Drift aufgelöst und dieser Befund überholt');

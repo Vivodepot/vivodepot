@@ -81,7 +81,7 @@ async function inlinePersonAnlegen(page, name) {
 }
 
 test('[Hinzufügen·Inline·Karteileiche] Person im ersten Eintrag angelegt, Auswahl geleert, Gruppe verlassen → keine Karteileiche', async ({ page }) => {
-  await bereitsicht(page, 'identity');
+  await bereitsicht(page, 'pets');
   const name = 'Inline Leer Eins';
   const inline = await inlinePersonAnlegen(page, name);
   expect(await registerNamen(page), 'Voraussetzung: die Person steht nach dem Anlegen im Register').toContain(name);
@@ -92,7 +92,7 @@ test('[Hinzufügen·Inline·Karteileiche] Person im ersten Eintrag angelegt, Aus
 });
 
 test('[Hinzufügen·Inline·Karteileiche·Gegenprobe] wird der erste Eintrag übernommen, bleibt die angelegte Person', async ({ page }) => {
-  await bereitsicht(page, 'identity');
+  await bereitsicht(page, 'pets');
   const name = 'Inline Bleibt Zwei';
   await inlinePersonAnlegen(page, name);
   await page.evaluate(() => document.activeElement && document.activeElement.blur());

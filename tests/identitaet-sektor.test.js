@@ -62,11 +62,11 @@ test('1) Sektor-Metadaten und drei Sektionen', () => {
   // genau drei Sektionen, in Spec-Reihenfolge — „Frühere Namen" (11.08.2026)
   // fügt die dritte ein (zwischen person und pets).
   // 3 → 4 (27.09.2026, U2-ADR-439): die Personenstandsurkunden als vierte Sektion, hinter den Haustieren.
-  assert.equal(s.sektionen.length, 4);
+  // 4 → 3 (05.10.2026, U2-ADR-479): die Haustiere ziehen in den eigenen Bereich pets.
+  assert.equal(s.sektionen.length, 3);
   assert.equal(s.sektionen[0].id, 'person');
   assert.equal(s.sektionen[1].id, 'fruehere-namen');
-  assert.equal(s.sektionen[2].id, 'pets');
-  assert.equal(s.sektionen[3].id, 'civil-status-certificates');
+  assert.equal(s.sektionen[2].id, 'civil-status-certificates');
 });
 
 test('2) Person: Kern-Felder inkl. profilfoto (ref:mappe, U2-ADR-013 Schritt 6); notizen_start als Modul', () => {
@@ -178,7 +178,7 @@ test('1c) Identität: telefon trägt eingabeTyp "tel", email trägt eingabeTyp "
 
 test('4) Haustiere: EINE Liste mit fünf Unterfeldern + Abschnitts-Hint (U2-ADR-073)', () => {
   const { V } = ladeKern();
-  const ht = V.SEKTOR_BY_ID.identity.sektionen[2];
+  const ht = V.SEKTOR_BY_ID.pets.sektionen[0];   // seit U2-ADR-479 eigener Bereich (vorher identity, dritte Sektion)
   assert.equal(ht.label, 'Haustiere');
   assert.equal(ht.hint, 'Wenn Sie plötzlich ins Krankenhaus müssen oder nicht mehr nach Hause kommen — wer kümmert sich um Ihr Tier?');
   // Genau EIN Feld: die haustiere-Liste (mehrere Tiere).
@@ -227,13 +227,12 @@ test('6) Render: Einführungstext + Pausen-Zeile; ToC ab drei Sektionen (seit �
   assert.match(html, /Name, Foto, Kontakt — das Deckblatt Ihres Depots\./, 'Einführungstext');
   // Seit U2-ADR-474 kommt die Zeile aus dem Speichermodell (speicherSatz), je nach Modus.
   assert.ok(html.includes('<p class="pause-erlaubnis">' + V.speicherSatz('bereichsende') + '</p>'), 'Pausen-Zeile');
-  assert.ok(html.includes(V.STRINGS.tocTitel), 'ToC ab drei Sektionen (person/fruehere-namen/haustiere)');
+  assert.ok(html.includes(V.STRINGS.tocTitel), 'ToC ab drei Sektionen (person/fruehere-namen/personenstandsurkunden; Haustiere seit U2-ADR-479 eigener Bereich)');
   // Alle drei Sektion-Labels und ausgewählte Feld-Labels sichtbar
   assert.ok(html.includes('Person'));
   assert.ok(html.includes('Frühere Namen'));
-  assert.ok(html.includes('Haustiere'));
+  assert.ok(!html.includes('Haustiere'), 'Haustiere stehen seit U2-ADR-479 im eigenen Bereich, nicht mehr in Identität');
   assert.ok(html.includes('Vorname'));
-  assert.match(html, />Tiere</, 'Haustier-Liste-Feld „Tiere" gerendert (U2-ADR-073; Sub-Labels wie Tierarzt jetzt im Eintrags-Modal)');
   // Statuskarten (Task B.1, 26.08.2026): `person` rendert nicht mehr flach/mehr-Block, sondern als
   // fünf Cluster-Karten (SEKTION_STATUSKARTEN_CLUSTER). Modul-Feld notizen_start ("Weitere Angaben")
   // steckt jetzt in der Karte „Frühere Namen" statt im mehr-Block.

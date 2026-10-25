@@ -4,6 +4,7 @@
   "lizenz": "EUPL-1.2",
   "schluessel": {
     "herkunftPoweredBy": ["{urheberin}"],
+    "ausgabeErstelltMit": ["{urheberin}"],
     "herkunftLizenzhinweis": ["{urheberin}", "{lizenz}"]
   },
   "_schluessel": "Die Textsatz-Schlüssel, die der Herkunftsort liest und deren Sätze eine Angabe tragen, samt den Platzhaltern, die ihr Text tragen MUSS. {urheberin} löst auf urheberin.marke auf, {lizenz} auf lizenz — aus dem Block, nie aus dem Branding; {marke} und {marke_domain} sind in diesen Schlüsseln nicht zulässig."

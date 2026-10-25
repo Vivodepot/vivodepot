@@ -30,6 +30,7 @@ const ANSCHRIFT = { storageStreet: 'Rennweg', storageHouseNumber: '35', storageP
 const ERZEUGER = ['fhirIpsBundle', 'kbvPkaVollmacht', 'isikDokumente'];
 const AUSGENOMMEN = {
   verwahrungsNachweisBundle: 'reicht ein fremdes Original byte-gleich durch; die Person ist Verwahrerin, nicht Autorin (U2-ADR-444)',
+  euLabDokumentDerPerson: 'alle Einträge kommen unverändert aus dem Original des Labors; die Person ist Autorin der Composition (Composition.author), stellt aber keine Ressource bereit — eine Provenance „von der Person“ über die Befunde wäre falsch (K18, Nachtrag U2-ADR-444, 22.10.2026)',
 };
 
 /* Liefert die Ressourcen eines Bundles, die KEIN Ziel einer Autoren-Provenance der Person sind. Leer heißt: erfüllt. */

@@ -48,7 +48,7 @@ const W_END = '/* LIZENZ-WORTLAUT:END */';
 // Stabile Reihenfolge (sonst alphabetisch) — hält den Diff klein.
 // snomedImpfstoff/snomedImplantat entfernt (U2-ADR-051): Impf-/Implantat-Codes kommen künftig
 // als mitgereiste Template-Code-Listen (Reise-als-Daten), nicht als App-Stubs.
-const REIHENFOLGE = ['atc', 'snomedAllergen', 'icd10', 'loinc', 'esco', 'xoev-rollencode'];
+const REIHENFOLGE = ['atc', 'snomedAllergen', 'icd10', 'loinc', 'esco', 'xoev-rollencode', 'iso4217'];
 
 function ladeQuellen() {
   const dateien = fs.readdirSync(QUELLEN).filter(f => f.endsWith('.json'));
@@ -99,8 +99,10 @@ function blockFuer(liste) {
     // lizenzSichtbar (04.10.2026): der Lizenzgeber verlangt den Hinweis SICHTBAR dort, wo das Produkt geholt wird; die
     // Einstellungen zeigen ihn (Abschnitt Anbieter), ohne dass der Kern ein System beim Namen nennt.
     ...(liste.lizenzWortlaut && liste.lizenzSichtbar ? ['  lizenzSichtbar: true,'] : []),
+    // hinweispflicht: false (U2-ADR-480, iso4217): der Lizenzgeber verlangt keinen Hinweis im weitergegebenen Exemplar; die
+    // Quellenangabe steht in NOTICE.md/THIRD_PARTY_LICENSES, die Region CODE-LISTEN trägt dann keinen Satztext dafür.
     ...(liste.lizenzWortlaut ? [`  lizenzWortlaut: ${j(liste.systemId)},`]
-      : (liste.daten && liste.daten.length) ? [`  lizenz: ${j(liste.lizenz || '')},`] : []),
+      : (liste.daten && liste.daten.length && liste.hinweispflicht !== false) ? [`  lizenz: ${j(liste.lizenz || '')},`] : []),
     `  daten: ${datenJs}`,
     '});',
   ].join('\n');

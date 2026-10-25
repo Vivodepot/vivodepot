@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./lib/schalter-pruefen.js').schalterPruefen(module);   // --help und unbekannte Schalter halten an, bevor etwas läuft (22.10.2026)
 /* ════════════════════════════════════════════════════════════════════════════
    build-standzahlen.js — Stand-Zahlen in Aussen-Dokumenten ERZEUGEN, nicht
    von Hand eintragen
@@ -37,6 +38,8 @@
    kaputt, um es für die Maschine lesbar zu machen. Sie werden von Hand
    nachgezogen und vom Aussagen-Prüfer bewacht — der Unterschied ist, dass
    der Prüfer sie ab jetzt SIEHT, und das war vorher nicht so.
+   Die axe-Sichten bewacht seit 22.10.2026 zusätzlich `tests/axe-sichten-zahl.test.js`: dieselbe Zahl an jeder
+   Stelle, die sie nennt, gegen die Sollliste `tools/axe-sichten.json`, die beide axe-Läufe verlangen.
 
    DIE SUITE-ZAHL IST DER TEURE SLOT. Sie verlangt einen vollen `npm test`-Lauf.
    Ohne `--mit-suite` bleibt sie UNGEMESSEN und wird nicht angefasst — nie
@@ -51,6 +54,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { suiteDateien } = require('../scripts/suite-dateien-kern.js');
 const { mitTestLauf } = require('./lib/test-lauf.js');   // eigenes TMPDIR je Testlauf (Befund TEMP-RESTE-WIEDER)
+const { testParallel } = require('./lib/test-parallel.js');   // dieselbe Parallelgrenze wie die Suite (Befund FAKTENBASIS-OHNE-PARALLELGRENZE)
 
 const REPO = path.join(__dirname, '..');
 const argv = process.argv.slice(2);
@@ -96,7 +100,7 @@ function suiteMessen() {
   const { execFileSync } = require('node:child_process');
   const dateien = suiteDateien(REPO);
   let roh = '';
-  try { roh = mitTestLauf((env) => execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env })); }
+  try { roh = mitTestLauf((env) => execFileSync('node', ['--no-sparkplug', '--test-concurrency=' + testParallel(), '--test', ...dateien], { cwd: REPO, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env })); }
   catch (e) { roh = (e.stdout || '') + (e.stderr || ''); }
   const m = /^ℹ tests (\d+)$/m.exec(roh);
   return m ? Number(m[1]) : null;

@@ -4,7 +4,7 @@
   "hinweis": "Je Gruppe: so viele Kern-Kennungen erscheinen in der Lese-App nie, mit Grund. Die Zahl darf nur sinken; eine Kennung ohne Gruppe ist rot.",
   "gruppen": {
     "seitenleiste": {
-      "anzahl": 19,
+      "anzahl": 20,
       "grund": "Unterzeile der Kern-Seitenleiste"
     },
     "katalog-kern": {
@@ -12,7 +12,7 @@
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
     },
     "hinweis-beispiel": {
-      "anzahl": 511,
+      "anzahl": 570,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "unterfeld-beschriftung": {
@@ -20,7 +20,7 @@
       "grund": "Beschriftung eines sensiblen Listen-Unterfelds (selbst oder über sein Trägerfeld); die Lese-App zeigt den Wert nie, also auch nicht seine Beschriftung. Alle übrigen Unterfelder tragen ihre Beschriftung seit 05.10.2026"
     },
     "feldgruppen": {
-      "anzahl": 70,
+      "anzahl": 69,
       "grund": "Feldgruppen und Vorschlagslisten des Kerns (Eingabe)"
     },
     "feld-nur-im-kern": {
@@ -40,8 +40,12 @@
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
     },
     "eingabe-zweitknopf": {
-      "anzahl": 87,
+      "anzahl": 123,
       "grund": "Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe"
+    },
+    "suche-alltag": {
+      "anzahl": 22,
+      "grund": "Alltagswörter der Suche des Kerns (Bereiche, Abschnitte, Anlässe); die Lese-App führt keine Suche"
     },
     "lebenslagen": {
       "anzahl": 76,
@@ -60,8 +64,12 @@
       "grund": "Textart eines Logikmoduls, die die Lese-App nie liest (Einleitung, Unterschrift-Hinweis, Fußtext, Toolbar-Hinweis)"
     },
     "hilfe-themen": {
-      "anzahl": 66,
+      "anzahl": 73,
       "grund": "Hilfe-Themen des Kerns (Hilfe-Overlay, U2-ADR-425); die Lese-App führt für die Empfängerin eine eigene kurze Hilfe aus strings: und zeigt diese Themen nie"
+    },
+    "waehrung-anzeige": {
+      "anzahl": 4,
+      "grund": "Anzeigenamen der Währungen (U2-ADR-480): heute zeigt kein Betrag eine Währung, auch die Lese-App nicht; sinkt auf 0, sobald ein Betrag seine Währung zeigt"
     }
   }
 }

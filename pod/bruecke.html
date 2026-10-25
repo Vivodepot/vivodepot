@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Pod-Brücke (U2-ADR-512, Stufe 1). Dieselbe Bauform wie
+     share/empfangen.html: eigene Seite, eigene Herkunft, nicht Teil der Anwendung. vivodepot.html und vivodepot-lesen.html
+     bleiben bei connect-src 'none'. Hier als einziger Unterschied connect-src https:, weil der Pod der Person irgendwo liegt.
+     Kein Inline-Skript, keine fremden Skripte, keine fremden Inhalte: die Seite hält einen DPoP-Schlüssel, und ihre Angriffsfläche
+     ist ein Skript, das hier läuft. Ausgeliefert wird sie später mit derselben CSP als Kopfzeile und frame-ancestors 'none'. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https:; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Vivodepot — Pod-Brücke</title>
+<link rel="stylesheet" href="bruecke.css">
+</head>
+<body>
+<h1>Pod-Brücke</h1>
+<p class="hinweis">Diese Seite ist nicht Teil der Vivodepot-Anwendung. Sie legt Dateien, die Vivodepot verschlüsselt gespeichert
+  hat, in Ihrem Pod ab und holt sie wieder. Andere Dateien nimmt sie nicht an. Ihr Passwort und Ihre Schlüssel kennt sie nicht.</p>
+<p class="hinweis">Wer den Pod betreibt, sieht, wie groß die Dateien sind und wann sie abgelegt und abgerufen werden, nicht ihren
+  Inhalt. Eine Sicherung im Pod ist so stark wie Ihr Passwort.</p>
+<p id="wer"></p>
+<div id="ziel" class="kasten" hidden>
+  <p>Ihr Profil nennt diesen Speicher. Die Brücke legt nur dort ab:</p>
+  <p><output id="ziel-adresse"></output></p>
+  <p class="hinweis">Kennen Sie diese Adresse nicht, legen Sie nichts ab und melden Sie sich ab.</p>
+  <button id="ziel-ja" type="button">Ja, das ist mein Speicher</button>
+  <button id="ziel-nein" type="button">Nein, abmelden</button>
+</div>
+<p id="fehler" class="fehler" role="alert"></p>
+
+<div id="anmelden-bereich" class="kasten">
+  <label for="aussteller">Adresse Ihres Pod-Anbieters</label>
+  <input id="aussteller" type="url" autocomplete="off" spellcheck="false">
+  <button id="anmelden" type="button">Anmelden</button>
+</div>
+
+<div id="ablage-bereich" class="kasten" hidden>
+  <label for="datei">Datei aus Vivodepot</label>
+  <input id="datei" type="file">
+  <label for="art">Wofür</label>
+  <select id="art">
+    <option value="stelle">Für eine Stelle (nur sie kann abrufen)</option>
+    <option value="link">Für einen Freigabe-Link (wer den Link hat, kann abrufen)</option>
+    <option value="eigen">Eigene Sicherung (nur Sie)</option>
+  </select>
+  <div id="stelle-bereich">
+    <label for="stelle">WebID der Stelle</label>
+    <input id="stelle" type="url" autocomplete="off" spellcheck="false">
+    <label for="zweck">Zweck der Stelle (Adresse aus ihrer Anfrage, optional)</label>
+    <input id="zweck" type="url" autocomplete="off" spellcheck="false">
+    <label for="inbox">Posteingang der Stelle (aus ihrer Anfrage, optional)</label>
+    <input id="inbox" type="url" autocomplete="off" spellcheck="false">
+  </div>
+  <label for="tage">Gilt für Tage (leer: bis Sie zurücknehmen)</label>
+  <input id="tage" type="number" min="1" max="3650">
+  <p class="hinweis">Das Ablaufdatum setzt diese Seite durch, wenn Sie sie wieder öffnen; ein Pod löscht nichts von selbst. Eine
+    Rücknahme gilt für künftige Abrufe. Wer schon abgerufen hat, behält seine Kopie.</p>
+  <button id="ablegen" type="button">Im Pod ablegen</button>
+  <p>Adresse: <output id="ergebnis"></output></p>
+  <h2>Abgelegt</h2>
+  <ul id="liste"></ul>
+  <h2>Abholen</h2>
+  <label for="abhol-adresse">Adresse im Pod</label>
+  <input id="abhol-adresse" type="url" autocomplete="off" spellcheck="false">
+  <button id="abholen" type="button">Abholen</button>
+  <div id="abholung"></div>
+  <button id="abmelden" type="button">Abmelden</button>
+</div>
+
+<script src="chiffrat-pruefen.js"></script>
+<script src="lws.js"></script>
+<script src="solid-oidc.js"></script>
+<script src="bruecke.js"></script>
+</body>
+</html>

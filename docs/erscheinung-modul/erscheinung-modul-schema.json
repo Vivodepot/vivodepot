@@ -18,44 +18,44 @@
       "minimum": 1
     },
     "label": {
-      "description": "Schriftgröße der Rolle „Beschriftung eines Felds“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "description": "Schriftgröße der Rolle „Beschriftung eines Felds“: Zahl mit px, rem oder em, mindestens 10 px (rem/em zu 16 px; ERSCHEINUNGSBILD_REGELN.schriftMindestPx). null gilt als nicht gesetzt.",
       "type": [
         "string",
         "null"
       ],
-      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+      "pattern": "^(?:[1-9]\\d+(?:\\.\\d+)?px|(?:0\\.(?:62[5-9]|6[3-9]|[7-9])\\d*|[1-9]\\d*(?:\\.\\d+)?)(?:rem|em))$"
     },
     "wert": {
-      "description": "Schriftgröße der Rolle „Feldwert“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "description": "Schriftgröße der Rolle „Feldwert“: Zahl mit px, rem oder em, mindestens 14 px (rem/em zu 16 px; Fließtext, ERSCHEINUNGSBILD_REGELN.mindestPx --fs-base). null gilt als nicht gesetzt.",
       "type": [
         "string",
         "null"
       ],
-      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+      "pattern": "^(?:(?:1[4-9]|[2-9]\\d|[1-9]\\d{2,})(?:\\.\\d+)?px|(?:0\\.(?:87[5-9]|8[89]|9)\\d*|[1-9]\\d*(?:\\.\\d+)?)(?:rem|em))$"
     },
     "gruppe": {
-      "description": "Schriftgröße der Rolle „Gruppenüberschrift“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "description": "Schriftgröße der Rolle „Gruppenüberschrift“: Zahl mit px, rem oder em, mindestens 10 px (rem/em zu 16 px; ERSCHEINUNGSBILD_REGELN.schriftMindestPx). null gilt als nicht gesetzt.",
       "type": [
         "string",
         "null"
       ],
-      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+      "pattern": "^(?:[1-9]\\d+(?:\\.\\d+)?px|(?:0\\.(?:62[5-9]|6[3-9]|[7-9])\\d*|[1-9]\\d*(?:\\.\\d+)?)(?:rem|em))$"
     },
     "abschnitt": {
-      "description": "Schriftgröße der Rolle „Abschnittsüberschrift“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "description": "Schriftgröße der Rolle „Abschnittsüberschrift“: Zahl mit px, rem oder em, mindestens 10 px (rem/em zu 16 px; ERSCHEINUNGSBILD_REGELN.schriftMindestPx). null gilt als nicht gesetzt.",
       "type": [
         "string",
         "null"
       ],
-      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+      "pattern": "^(?:[1-9]\\d+(?:\\.\\d+)?px|(?:0\\.(?:62[5-9]|6[3-9]|[7-9])\\d*|[1-9]\\d*(?:\\.\\d+)?)(?:rem|em))$"
     },
     "titel": {
-      "description": "Schriftgröße der Rolle „Seitentitel“: Zahl mit px, rem oder em. null gilt als nicht gesetzt.",
+      "description": "Schriftgröße der Rolle „Seitentitel“: Zahl mit px, rem oder em, mindestens 10 px (rem/em zu 16 px; ERSCHEINUNGSBILD_REGELN.schriftMindestPx). null gilt als nicht gesetzt.",
       "type": [
         "string",
         "null"
       ],
-      "pattern": "^\\d+(\\.\\d+)?(px|rem|em)$"
+      "pattern": "^(?:[1-9]\\d+(?:\\.\\d+)?px|(?:0\\.(?:62[5-9]|6[3-9]|[7-9])\\d*|[1-9]\\d*(?:\\.\\d+)?)(?:rem|em))$"
     },
     "herkunft": {
       "description": "Wer das Modul mitbringt; Kennung beim Ersetzen einer früheren Fassung.",

@@ -280,6 +280,25 @@ Befund maß — diese Probe hier ist der Beleg dieses Commits, kein Ersatz dafü
 
 SCHALEN_STAND v642 (mit `sw.js` `CACHE` im Lockstep).
 
+## 8 · Nachtrag 23.10.2026 — identity in Pro: dieselbe Vorlage wie Privat, private Felder ruhen
+
+**Anlass:** Die Linie „Pro ist ein berufliches Depot“ (22.10.2026) nimmt Privates aus Pro. Für identity standen zwei
+Entscheidungen gegeneinander: Privat gehört nicht in Pro, und Privat und Pro sagen über dieselben Daten dasselbe
+(Entscheidung 16.09.2026). Eine eigene, schlanke Pro-Fassung von identity hätte die zweite dauerhaft gebrochen. Entschieden
+von der Geschäftsführung am 23.10.2026 („ein ganzes Produkt“), umgesetzt mit Pro P2.
+
+**Entscheidung:** §6 gilt weiter: Pro trägt den eingebauten Bereich identity. Pro liest dieselbe Vorlage wie Privat
+(die native Vorlage des Bereichs identity); die Übergangsvorlage mit den Tieren (U2-ADR-479) entfällt, die Tiere
+ruhen in Pro als Bereich `pets` und werden von ihren Werten geweckt. Die privaten Felder der Vorlage tragen die Marke
+`privat` (Familienstand, Güterstand, Steuerklasse, Staatsangehörigkeit, Ausweise, Aufenthaltstitel, Profilfoto, frühere
+Namen, Personenstandsurkunden und die übrigen Angaben zur Person außer Name, Geburtsdatum, Anschrift, Telefon, E-Mail und
+Notiz). Ein Produkt, das eingebaute Bereiche ersetzt, bietet sie nicht an: ohne Wert stehen sie nirgends, eine Sektion nur aus
+ihnen auch nicht, das Deckblatt-Foto ebenso. Trägt die Datei einen Wert, steht das Feld da (ruhende Felder, das Spiegelbild der
+ruhenden Bereiche eine Ebene tiefer). Die Definition ist in beiden Produkten dieselbe; nur die Sichtbarkeit unterscheidet sich.
+
+**Kein Produktname im Kern:** Die Regel hängt an der Marke am Feld und daran, ob das Produkt eingebaute Bereiche ersetzt
+(`feldNichtAngeboten` neben `feldNurMitWertUndLeer`).
+
 ---
 
 ## Konformität
@@ -415,6 +434,13 @@ konformitaet:
       Seit 19.09.2026 ohne Gegenstand: bereichsErsatz beschreibt das Produkt nicht mehr (Entscheidung vom 18.09.2026: Gerüst + Templates = Produkt); die Probe ist mit ihrem Gegenstand entfernt, Nachfolger für die Zusammensetzung: eine nicht öffentliche Probe.
     zustand: entfallen
     herkunft: U2-ADR-421-Nachtrag (08.09.2026), Auftrag „Pro-EN-Rubriken-Ruecknahme" — s. §7; entfallen 19.09.2026
+
+  - aussage: >-
+      Pro liest dieselbe identity-Vorlage wie Privat und bietet ihre privaten Felder nicht an; eine Datei mit einem Wert
+      darin zeigt ihn, und der Wert geht beim Öffnen nicht verloren.
+    zustand: erfuellt
+    herkunft: U2-ADR-421 §8 (Nachtrag 23.10.2026); belegt durch eine nicht öffentliche Probe, die pro-de baut (frisches Depot,
+      Datei mit Familienstand, Rot-Beweis ohne die Regel)
 ```
 
 ---

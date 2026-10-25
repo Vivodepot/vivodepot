@@ -15,7 +15,7 @@ const os = require('node:os');
 const path = require('node:path');
 const {
   KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN,
-  oeffneApp, depotAnlegen, oeffneSektor, setzeFeld,
+  oeffneApp, depotAnlegen, oeffneSektor, setzeFeld, ausgabeWegHerunterladen,
 } = require('./helpers');
 
 const PW = 'buergerweg-vier-produkte-2026';
@@ -45,7 +45,7 @@ async function fsaAttrappe(page) {
   });
 }
 
-// Ein Feld je Bereich: das erste sichtbare Text-/Textarea-Feld mit data-edit, Wert eindeutig je Produkt+Bereich.
+// Ein Feld je Bereich: das erste sichtbare Text-/Textarea-Feld mit data-edit (sonst der erste Listeneintrag), Wert eindeutig je Produkt+Bereich.
 async function alleBereicheFuellen(page, slug) {
   const ids = await page.evaluate(() => { const b = window.__vdOeffentlich.bereicheAlle(); return (Array.isArray(b) ? b : Object.values(b)).map((x) => x.id); });
   const werte = [];
@@ -54,8 +54,18 @@ async function alleBereicheFuellen(page, slug) {
     const kandidaten = await page.evaluate(() => [...document.querySelectorAll('#content [data-edit]')].filter((x) => !x.disabled && !x.readOnly && (x.type === 'text' || x.tagName === 'TEXTAREA')).map((x) => x.dataset.edit));
     let feld = null;
     for (const k of kandidaten) { if (await page.locator('[data-edit="' + k + '"]').first().isVisible()) { feld = k; break; } }
-    expect(feld, 'Bereich ' + id + ' hat kein füllbares Textfeld').toBeTruthy();
     const wert = 'KLK' + slug.replace(/-/g, '') + id.replace(/[^A-Za-z0-9]/g, '') + 'X' + werte.length;
+    if (!feld) {
+      // Ein Bereich, der nur aus einer Liste besteht (Tiere, U2-ADR-479): der erste Eintrag entsteht inline,
+      // sein erstes Textfeld trägt den Wert; Verlassen der Gruppe übernimmt den Eintrag.
+      const eintragFeld = page.locator('#content [data-liste-inline] input[data-eintrag-edit]:not([type=date]):not([type=checkbox]):not([type=hidden]), #content [data-liste-inline] textarea[data-eintrag-edit]').first();
+      expect(await eintragFeld.count(), 'Bereich ' + id + ' hat kein füllbares Textfeld').toBeGreaterThan(0);
+      await eintragFeld.fill(wert);
+      await page.evaluate(() => document.activeElement && document.activeElement.blur());
+      await expect(page.locator('#content [data-feld-liste] .liste-eintraege li').first()).toContainText(wert);
+      werte.push({ bereich: id, feld: null, wert });
+      continue;
+    }
     await setzeFeld(page, feld, wert);
     werte.push({ bereich: id, feld, wert });
   }
@@ -66,7 +76,8 @@ async function werteLesen(page, werte) {
   const gelesen = [];
   for (const w of werte) {
     await oeffneSektor(page, w.bereich);
-    gelesen.push(await page.locator('[data-edit="' + w.feld + '"]').inputValue());
+    if (w.feld) gelesen.push(await page.locator('[data-edit="' + w.feld + '"]').inputValue());
+    else gelesen.push(await page.locator('#content [data-feld-liste] .liste-eintraege li').first().innerText().then((t) => (t.includes(w.wert) ? w.wert : t)));
   }
   return gelesen;
 }
@@ -98,6 +109,7 @@ async function ausloesen(page, name, aufruf, arg) {
   for (const sel of ['#m-ok', '#exp-fortfahren']) {
     if (await page.locator(sel).first().isVisible().catch(() => false)) { await page.locator(sel).first().click().catch(() => {}); await page.waitForTimeout(700); }
   }
+  if (await ausgabeWegHerunterladen(page, { timeout: 1500 })) await page.waitForTimeout(700);
   page.off('download', h); page.off('console', f);
   return { name, fang, fehler };
 }

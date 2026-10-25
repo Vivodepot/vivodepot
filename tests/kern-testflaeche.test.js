@@ -125,6 +125,7 @@ test('[Kern-Testfläche·Region·Rot-Beweis] eine Codezeile in der Region, eine 
 const os = require('node:os');
 const VP = require('../tools/lib/vier-produkte.js');
 const { konfektionieren } = require('../tools/produkt-konfektionieren.js');
+const { cspNachBau } = require('../tools/lib/csp-nach-bau.js');
 const VOR_DEPOT_FN = require('./load-issuer.js').ladeIssuer().V.vorDepotKonfigurationDateiInhalt;
 function gebaut(slug, extra = {}) {
   const ordner = fs.mkdtempSync(path.join(os.tmpdir(), 'kern-testflaeche-'));
@@ -145,7 +146,8 @@ for (const p of VP.PRODUKTE) {
   test(`[Kern-Testfläche·Byte] ${p.slug}: Testfassung (mitTestflaeche) minus genau die Region == ausgeliefertes Produkt`, () => {
     const { ausgeliefert, testfassung } = AUSGELIEFERT.get(p.slug);
     assert.notEqual(testfassung, ausgeliefert, 'Vorbedingung: die Testfassung trägt die Fläche');
-    assert.equal(P._kernTestflaecheSchneiden(testfassung, 'vivodepot.html'), ausgeliefert, 'jede Abweichung außerhalb der Region ist ein Fund');
+    // U2-ADR-470: beide Fassungen tragen die Hashes ihrer eigenen Blöcke — nach dem Schnitt neu gezogen, wie im Bau.
+    assert.equal(cspNachBau(P._kernTestflaecheSchneiden(testfassung, 'vivodepot.html')), ausgeliefert, 'jede Abweichung außerhalb der Region ist ein Fund');
   });
 }
 
@@ -153,7 +155,7 @@ test('[Kern-Testfläche·Byte·Rot-Beweis] ein Byte außerhalb der Region unters
   const { ausgeliefert, testfassung } = AUSGELIEFERT.get('privat-de');
   const kipp = testfassung.replace('<html', '<html ');
   assert.notEqual(kipp, testfassung, 'Vorbedingung: die Stelle steht außerhalb der Region');
-  assert.notEqual(P._kernTestflaecheSchneiden(kipp, 'vivodepot.html'), ausgeliefert);
+  assert.notEqual(cspNachBau(P._kernTestflaecheSchneiden(kipp, 'vivodepot.html')), ausgeliefert);
 });
 
 /* ── Wächter über jeden Auslieferungsweg (N1, TOP-Wort 09.10.2026) ────────────────────────────────────────────────────────
@@ -256,10 +258,12 @@ function vorDepotLadenAus(produkt) {
   const pfad = /^const VOR_DEPOT_KONFIGURATION_PFAD = [^\n]*$/m.exec(produkt);
   const glob = /^const VOR_DEPOT_KONFIGURATION_GLOBAL = [^\n]*$/m.exec(produkt);
   const deckel = /^const VOR_DEPOT_NACHLADEN_DECKEL_MS = [^\n]*$/m.exec(produkt);
-  assert.ok(fn && pfad && glob && deckel, 'Vorbedingung: Funktion und Konstanten stehen im Produkt');
+  // Der Helfer, über den der Rückfall-Zeitgeber läuft (20.10.2026, _ohneProzessHalt; im Browser ohne Wirkung).
+  const halt = /^function _ohneProzessHalt\(t\) \{[^\n]*\}$/m.exec(produkt);
+  assert.ok(fn && pfad && glob && deckel && halt, 'Vorbedingung: Funktion, Helfer und Konstanten stehen im Produkt');
   const baked = /<script id="vor-depot-konfiguration">window\.__vorDepotKonfiguration = ([\s\S]*?);<\/script>/.exec(produkt);
   assert.ok(baked, 'Vorbedingung: die Konfiguration ist eingebacken');
-  return { quelle: [pfad[0], glob[0], deckel[0], fn[0]].join('\n'), wert: JSON.parse(baked[1]) };
+  return { quelle: [pfad[0], glob[0], deckel[0], halt[0], fn[0]].join('\n'), wert: JSON.parse(baked[1]) };
 }
 async function laufen(produkt) {
   const { quelle, wert } = vorDepotLadenAus(produkt);
@@ -299,7 +303,7 @@ test('[Kern-Testfläche·Ratsche] die Zahl der Specs mit Testfläche steht genau
   // Der Deckel zählt den Kanon-Baum; der öffentliche Zuschnitt hält Specs zurück (tools/lib/wurzel-kopfzeile.js).
   const W = require('../tools/lib/wurzel-kopfzeile.js');
   if (W.imOeffentlichenZuschnitt(path.join(__dirname, '..'))) { t.skip(W.IM_ZUSCHNITT_GRUND); return; }
-  assert.equal(specsMitTestflaeche().length, 138); // 15.10.2026 +1, Einzelwort der Gegenlesung: tests/e2e/gesicherte-kopie.spec.js braucht die Fläche für die Klassenprobe über alle Feld-Bauer und den Rot-Beweis (Beobachter trennen). Davor 137 (09.10.2026, Kanon 7c916762c, erhoben mit specsMitTestflaeche())
+  assert.equal(specsMitTestflaeche().length, 140); // 24.10.2026 im Zug folge31 auf den Kopf mit 139 (feld-fehler-zugeordnet.spec.js) gesetzt; 19.10.2026 +1, Einzelwort der Gegenlesung: die Browser-Abnahme der Situation „Vertretung“ setzt Merkwerte für die Felder der Bedarfsliste und öffnet die Situation „Vertretung“. Davor 138 (15.10.2026 +1, Einzelwort der Gegenlesung: tests/e2e/gesicherte-kopie.spec.js braucht die Fläche für die Klassenprobe über alle Feld-Bauer und den Rot-Beweis (Beobachter trennen). Davor 137 (09.10.2026, Kanon 7c916762c, erhoben mit specsMitTestflaeche())
 });
 
 /* ── Klasse: kein Produkt ohne Fläche wird über die Fläche bedient (Befund TESTFLAECHE-AUF-ECHTEM-PRODUKT, 10.10.2026) ────────────

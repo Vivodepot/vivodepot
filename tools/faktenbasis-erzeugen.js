@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('./lib/schalter-pruefen.js').schalterPruefen(module);   // --help und unbekannte Schalter halten an, bevor etwas läuft (22.10.2026)
 /* ════════════════════════════════════════════════════════════════════════════
    faktenbasis-erzeugen.js — „Die Faktenbasis — und STANDARDS.md als
    erstes Dokument" (13.08.2026), Zug 1.
@@ -47,6 +48,7 @@ const { cssQuelle } = require('./lib/kern-mit-erscheinungsbild.js');   // v894: 
 const { execSync, execFileSync } = require('node:child_process');
 const { suiteDateien } = require('../scripts/suite-dateien-kern.js');
 const { mitTestLauf } = require('./lib/test-lauf.js');   // eigenes TMPDIR je Testlauf (Befund TEMP-RESTE-WIEDER)
+const { testParallel } = require('./lib/test-parallel.js');   // dieselbe Parallelgrenze wie die Suite (Befund FAKTENBASIS-OHNE-PARALLELGRENZE)
 
 const REPO = path.join(__dirname, '..');
 const CHECK = process.argv.includes('--check');
@@ -232,7 +234,7 @@ function pruefebeneZahlen(htmlText, { mitSuite = false } = {}) {
     // im Arbeitsbaum mit, den ein frischer Checkout nicht kennt (s. ADR).
     const dateien = suiteDateien(REPO);
     try {
-      const out = mitTestLauf((env) => execFileSync('node', ['--no-sparkplug', '--test', ...dateien], { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env }));
+      const out = mitTestLauf((env) => execFileSync('node', ['--no-sparkplug', '--test-concurrency=' + testParallel(), '--test', ...dateien], { cwd: REPO, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, env }));
       const m = out.match(/^ℹ tests (\d+)$/m);
       if (m) suiteZahl = parseInt(m[1], 10); else suiteHinweis = 'Lauf ausgeführt, aber Summenzeile nicht gefunden';
     } catch (e) {

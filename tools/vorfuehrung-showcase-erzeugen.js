@@ -376,7 +376,8 @@ function showcaseInKernBacken(kernText, nutzlast) {
     throw new Error('AB_WERK_SHOWCASE-Marker fehlt, ist doppelt oder beschädigt — Kern-Marker verschoben? Nicht raten, nachsehen.');
   }
   const innen = '\nconst AB_WERK_SHOWCASE = ' + JSON.stringify(nutzlast) + ';\n';
-  return kernText.slice(0, a + SHOWCASE_BEGIN.length) + innen + kernText.slice(b);
+  // U2-ADR-470: der Block ändert sich, also seine CSP-Hashes mit (tools/lib/csp-nach-bau.js).
+  return require('./lib/csp-nach-bau.js').cspNachBau(kernText.slice(0, a + SHOWCASE_BEGIN.length) + innen + kernText.slice(b));
 }
 
 // Die ganze Produktdatei: das erzeugte Produkt (privat-de/-en, pro-de/-en) trägt die Vorführung als Nutzlast.
@@ -404,6 +405,8 @@ function vorfuehrungDateiErzeugen({ sprache = 'de', produktText, daten, szenen, 
   const { _serviceWorkerVorhandenAufText } = require('./lib/produkt-text-erzeugen.js');
   let text = _serviceWorkerVorhandenAufText(showcaseInKernBacken(produktText, nutzlast), true, 'dem übergebenen Produkt');
   if ((szenen || JSON.parse(fs.readFileSync(SZENEN_PFAD, 'utf8'))).noindex === true) text = _noindexEinsetzen(text);
+  // U2-ADR-470: der Service-Worker-Vermerk ändert einen Block — zuletzt die CSP-Hashes.
+  text = require('./lib/csp-nach-bau.js').cspNachBau(text);
   return { text, nutzlast };
 }
 

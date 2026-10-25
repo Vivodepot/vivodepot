@@ -222,7 +222,7 @@ const EXPORT_HOOK = `
   // W2 (09.10.2026) — Einmalpasswort und Brief
   EINMALPASSWORT_ZEICHEN, einmalpasswortErzeugen, anfrageBriefText, anfragePasswortZettel,
   // W4 (09.10.2026) — eingegangene Antworten öffnen
-  antwortJweOeffnen, antwortStudioModell, antwortFehlerText, antwortenOeffnen, antwortSignaturPruefen, antwortJweTraegtJws, antwortSignaturZeile, stellenKennung, _jwkThumbprint,
+  antwortJweOeffnen, ANTWORT_JWE_MAX_ZEICHEN, antwortStudioModell, antwortFehlerText, antwortenOeffnen, antwortSignaturPruefen, antwortJweTraegtJws, antwortSignaturZeile, stellenKennung, _jwkThumbprint,
   // Befund STUDIO-EMPFEHLUNG-OHNE-WEG (10.10.2026) — jede Meldung der Prüfung hat ein Ziel, Schritt 3 einen Knopf „Beheben“
   MELDUNG_ZIEL, meldungZiel, meldungBeheben, pruefZeile, STAMMDATEN_FEHLER_FELD,
   // Anordnung nach Bereichen (15.10.2026)
@@ -231,6 +231,9 @@ const EXPORT_HOOK = `
   anfrageVorgang, listeUnterfelder, paletteKennungKlein, brandingOhneSignaturSatz,
   paletteKennungenSetzen: (w) => { paletteKennungenZeigen = !!w; }, paletteKennungenAbWerk: () => paletteKennungenZeigen,
   feldUebernehmen, editorIndexSetzen: (i) => { editorIndex = i; },
+  // Hauptweg der Anfrage mit dem Zertifikat der Stelle (18.10.2026): Ladeweg, Vorauswahl beim Erstellen, Bindung beim Öffnen.
+  ANF_STELLE, zertifikatAusText, stelleZertifikatPruefen, anfrageAssistentHauptweg, anfrageAssistentWegZeigen, anfrageBriefTextOhnePasswort,
+  verifiziereProviderCredential, schluesselAnfrageBindung,
 };
 `;
 

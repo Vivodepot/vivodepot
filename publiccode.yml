@@ -10,8 +10,8 @@ logo: logo.png
 
 # softwareVersion und releaseDate setzt der Zuschnitt-Bau aus der zuletzt ausgelieferten Kern-Fassung, nie von Hand;
 # die Einträge je Fassung stehen in CHANGELOG.md.
-softwareVersion: "1.0.933"
-releaseDate: "2026-10-19"
+softwareVersion: "1.0.952"
+releaseDate: "2026-10-25"
 
 developmentStatus: stable
 softwareType: standalone/web
@@ -43,8 +43,10 @@ description:
 
       Vivodepot hält die Unterlagen bei der Person. Sie liegen in einer verschlüsselten Datei, die der Mensch selbst
       besitzt, für das eigene Leben. Die Anwendung ist eine einzelne HTML-Datei, läuft im Browser und braucht kein Konto.
-      Wer eine Stelle bedienen will, gibt einen Auszug heraus, in einem offenen Format wie FHIR. Die Anwendung sendet
-      keine Daten aus dem Depot an einen Server.
+      Wer eine Stelle bedienen will, gibt einen Auszug heraus, in einem offenen Format wie FHIR. Ohne Zutun der Person
+      sendet die Anwendung keine Daten aus dem Depot an einen Server. Nur wenn die Person ausdrücklich „Link senden“
+      oder „Sicher weitergeben“ wählt, entsteht eine verschlüsselte Datei für share.vivodepot.de; die Person legt sie
+      dort selbst ab, der Schlüssel steht nur im Link.
 
       Der Quelltext ist offen (EUPL-1.2).
     features:
@@ -72,7 +74,9 @@ description:
 
       Vivodepot keeps the records with the person. They sit in one encrypted file the person holds, for one's own life.
       The application is a single HTML file, runs in the browser and needs no account. To serve a recipient, the person
-      hands out an extract in an open format such as FHIR. The application sends no data from the depot to any server.
+      hands out an extract in an open format such as FHIR. Without the person's action the application sends no data from
+      the depot to any server. Only when the person explicitly chooses "Send link" or "Share securely" is an encrypted
+      file made for share.vivodepot.de; the person uploads it there themselves, and the key is only in the link.
 
       The source code is open (EUPL-1.2).
     features:

@@ -96,7 +96,9 @@ async function verletzungen(html) {
 
   /* die Hülle verwirft */
   const E = V.EMPFANGS_TRESOR;
-  if (Object.keys(E).sort().join() !== ['beimVerwerfen', 'erzeugen', 'privatHerunterladen', 'verwerfen', 'vorhanden', 'zustand'].sort().join()) v.push('gen2-huelle-hat-neue-flaeche');
+  /* `mitDatei` (18.10.2026, Hauptweg der Anfrage): öffnet eine .empfang.vdkey und gibt das JWK nur der übergebenen Arbeit;
+     danach ist es gelöscht, auch bei Fehler (Probe [Hauptweg·JWK] in tests/studio-anfrage-hauptweg-zertifikat.test.js). */
+  if (Object.keys(E).sort().join() !== ['beimVerwerfen', 'erzeugen', 'mitDatei', 'privatHerunterladen', 'verwerfen', 'vorhanden', 'zustand'].sort().join()) v.push('gen2-huelle-hat-neue-flaeche');
   E.verwerfen('bestaetigt');
   if (E.vorhanden() || E.privatHerunterladen(() => {}) !== false) v.push('gen2-bestaetigen-verwirft-nicht');
   await E.erzeugen({ passwort: PW, bauen: BAUEN }); await E.erzeugen({ passwort: PW, bauen: BAUEN });

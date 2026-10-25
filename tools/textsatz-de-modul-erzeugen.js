@@ -142,6 +142,9 @@ function baueModul() {
   const { TEXTSATZ_DE_PRO_BEREICH } = require(path.join(__dirname, 'textsatz-de-pro-bereich-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   const { TEXTSATZ_DE_PRO_FELDER } = require(path.join(__dirname, 'textsatz-de-pro-felder-daten.js')); // zuschnitt-privat: Eingabe der Klasse A, bleibt drinnen; der Erzeuger ist öffentlich
   Object.assign(texte, TEXTSATZ_DE_PRO_BEREICH, TEXTSATZ_DE_PRO_FELDER);
+  // Namen der Codelisten-Einträge (U2-ADR-480, Befund WAEHRUNG-FEST-EUR): im Gerüst steht nur der Code.
+  const { TEXTSATZ_DE_CODELISTEN } = require(path.join(__dirname, 'textsatz-codelisten-daten.js'));
+  Object.assign(texte, TEXTSATZ_DE_CODELISTEN);
 
   // U2-ADR-440: die Festlegungen der Patientenverfügung tragen als Felder denselben Wortlaut wie im Assistenten — abgeleitet, nicht gepflegt.
   const { pvFestlegungenTexte, pvFestlegungenIds } = require('./lib/pv-festlegungen-textsatz.js');
@@ -219,11 +222,13 @@ function main() {
 
   const roh = JSON.stringify(modul);
   const bytes = Buffer.byteLength(roh, 'utf8');
-  const MAX = 512 * 1024; // _MODUL_EINLASS_MAX_BYTES, vivodepot.html
+  const MAX = 1024 * 1024; // _TEXTSATZ_MODUL_MAX_BYTES, vivodepot.html (U2-ADR-513)
   if (bytes > MAX) {
     console.error('ABBRUCH: ' + bytes + ' Bytes überschreitet die Einlass-Obergrenze (' + MAX + ' Bytes).');
     process.exit(1);
   }
+  // Ab 80 % der Grenze warnt der Erzeuger, bevor eine längere Übersetzung sie reißt (U2-ADR-513).
+  if (bytes > MAX * 0.8) console.warn('WARNUNG: ' + bytes + ' Bytes sind mehr als 80 % der Einlass-Obergrenze (' + MAX + ' Bytes).');
 
   const ausgabepfad = process.argv[2] || path.join(__dirname, 'textsatz-de-modul.json');
   fs.writeFileSync(ausgabepfad, JSON.stringify(modul, null, 2) + '\n', 'utf8');

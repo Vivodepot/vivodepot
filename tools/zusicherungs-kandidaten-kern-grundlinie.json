@@ -65,6 +65,10 @@
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die die Hülle gerade selbst herunterlädt, wenn das Original nicht lesbar ist — keine Aussage, auf die sich ein Dritter verlässt (28.09.2026, Verwahrung V1)."
     },
+    "flowMappeEuLabDerPersonHerunterladen": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Fehlermeldung an die Person, die das EU-Labordokument gerade selbst herunterlädt, wenn das Original nicht lesbar ist — keine Aussage, auf die sich ein Dritter verlässt (22.10.2026, K18)."
+    },
     "flowSubDepotEinhaengen": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
@@ -84,6 +88,10 @@
     "importUngueltigNachricht": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Fehlermeldung an die Person, die den Import gerade selbst auslöst — keine Aussage, auf die sich ein Dritter verlässt."
+    },
+    "iso4217StandSatz": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Stand in den Einstellungen: welche ISO-4217-Fassung gilt und ob die Codes im Depot darin stehen (U2-ADR-480). An die Person selbst, in keiner Ausgabe; nachprüfbar über „ISO-4217-Liste selbst laden“. Einzelwort der Gegenlesung 23.10.2026."
     },
     "klartextBindungHinweisText": {
       "entscheidung": "kein-zusicherungssatz",
@@ -128,6 +136,10 @@
     "prueftermineSektionHTML": {
       "entscheidung": "kein-zusicherungssatz",
       "grund": "Frist-/Termin-Beschriftung aus den Angaben der Nutzerin selbst."
+    },
+    "rechtsraumCodefeldHTML": {
+      "entscheidung": "kein-zusicherungssatz",
+      "grund": "Beschriftung eines leeren Werts (leerZustand) im Codefeld der Staatsangehörigkeit (U2-ADR-482) — sagt nichts über Vertrauen oder Zustand der Anwendung."
     },
     "renderAnfrage": {
       "entscheidung": "kein-zusicherungssatz",

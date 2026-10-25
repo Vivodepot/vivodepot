@@ -88,7 +88,9 @@ test('[Antwort-Signatur·Vektor] info in fester Form und der öffentliche Schlü
   const s = await V.antwortSchluesselJeStelle(VEKTOR.kennung, seedZiel(VEKTOR.seed));
   assert.equal(s.jwk.x, VEKTOR.x, 'der Kern findet denselben Schlüssel');
   assert.equal(s.schluessel.extractable, false, 'privat nicht herausholbar');
-  assert.throws(() => V.antwortSchluesselInfo('sdjwt-halter', VEKTOR.kennung), /domaene/, 'sdjwt-halter ist nur vorgemerkt');
+  // Seit Wagen H2 (U2-ADR-502 Punkt 9) ist sdjwt-halter eine zweite Domäne; Vektor und Trennung hält tests/oid4vp-praesentation.test.js.
+  assert.notEqual(Buffer.from(V.antwortSchluesselInfo('sdjwt-halter', VEKTOR.kennung)).toString('hex'), VEKTOR.info, 'eigene Domäne, eigene info');
+  assert.throws(() => V.antwortSchluesselInfo('unbekannt', VEKTOR.kennung), /domaene/, 'nur die genannten Domänen');
   assert.throws(() => V.antwortSchluesselInfo('antwort', 'heim/sonnenhof'), /kennung/, 'nur eine Kennung aus stellenKennung');
 });
 
@@ -135,6 +137,24 @@ test('[Antwort-Signatur·Sicherbarkeit] Sicherung, frischer Kern, Wiederherstell
   await X.depotMitCodeLaden(kopie(datei), V.whcCodeGruppiert(code), PW_NEU);
   assert.equal((await X.antwortSchluesselJeStelle(kennung(STELLE))).jwk.x, vorher, 'nach Wiederherstellung mit neuem Passwort');
   assert.notEqual((await X.antwortSchluesselJeStelle(kennung('heim/andere'))).jwk.x, vorher);
+});
+
+// Der Halter-Schlüssel der Präsentation (U2-ADR-502 Punkt 9) hängt am selben Seed: auch er übersteht Sicherung und Wiederherstellung.
+test('[Antwort-Signatur·Sicherbarkeit·sdjwt-halter] Sicherung, frischer Kern, Wiederherstellung mit Code und neuem Passwort: derselbe Halter-Schlüssel je Stelle', async () => {
+  const MIT_HALTER = { zusatzBindungen: ['sdjwtHalterSchluessel'] };
+  const { V } = ladeKern(MIT_HALTER);
+  await mitDepot(V);
+  const vorher = (await V.__zusatz.sdjwtHalterSchluessel(kennung(STELLE))).jwk.x;
+  assert.notEqual(vorher, (await V.antwortSchluesselJeStelle(kennung(STELLE))).jwk.x, 'eigene Domäne');
+  const code = V.whcCodeErzeugen();
+  await V.whcHuelleWickeln(PW, code.slice(0, V.WHC_STELLEN));
+  const datei = kopie(await V.depotSerialisieren());
+  const W = ladeKern(MIT_HALTER).V;
+  await W.depotLaden(kopie(datei), PW);
+  assert.equal((await W.__zusatz.sdjwtHalterSchluessel(kennung(STELLE))).jwk.x, vorher, 'frisches Profil, dieselbe Sicherung');
+  const X = ladeKern(MIT_HALTER).V;
+  await X.depotMitCodeLaden(kopie(datei), V.whcCodeGruppiert(code), PW_NEU);
+  assert.equal((await X.__zusatz.sdjwtHalterSchluessel(kennung(STELLE))).jwk.x, vorher, 'nach Wiederherstellung mit neuem Passwort');
 });
 
 /* ══ Signierte Antwort, Kern → Lese-App ══ */

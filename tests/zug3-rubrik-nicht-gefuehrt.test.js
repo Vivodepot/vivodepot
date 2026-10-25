@@ -39,7 +39,8 @@ test('[Zug3·Vorbedingung] der Zustand „Rubrik nicht geführt" ist heute NICHT
     + 'Datei ist neu zu messen');
   /* Stufe 2 (09.09.2026) — die EINGEBAUTE MENGE ist weiterhin dreizehn, liegt aber seit dem
      Umzug in zwei Quellen. Über `bereicheAlle()` gezählt; `SEKTOREN` allein führt zwölf. */
-  assert.equal(V.bereicheAlle().length, 13, 'die eingebaute Menge ist nicht mehr dreizehn');
+  // 13 → 14 (05.10.2026, U2-ADR-479): die Tiere als eigener Bereich.
+  assert.equal(V.bereicheAlle().length, 14, 'die eingebaute Menge ist nicht mehr vierzehn');
   assert.ok(Object.isFrozen(V.SEKTOREN), '`SEKTOREN` ist nicht mehr eingefroren');
 });
 

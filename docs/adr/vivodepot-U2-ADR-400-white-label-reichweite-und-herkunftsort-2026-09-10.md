@@ -405,6 +405,47 @@ Die Entscheidung oben lässt den Markennamen Vivodepot nur am Herkunftsort ersch
 
 Was heute gilt: Gebaut ist die Entscheidung oben, nicht die Änderung. Die bestehende Zeile im Herkunftsort der Einstellungen („Bereitgestellt mit {urheberin}“, `herkunftPoweredBy`) bleibt davon unberührt; der Hinweis „powered by Vivodepot“ in der App und „Erstellt mit Vivodepot“ auf Ausgaben sind noch nicht gebaut. Die Klauseln dieser ADR, die „Vivodepot nur am Herkunftsort“ binden (`tests/white-label-greift.test.js`), beschreiben weiter das gebaute Verhalten. Mit dem Bau des Hinweises werden Klauseln und Proben im selben Schritt angepasst; bis dahin ist die Änderung eine Festlegung ohne Probe. Das Programmzeichen eines Standards (Nachtrag 16.09.2026) bleibt, wie es ist.
 
+## Nachtrag 18.10.2026 — powered by und Erstellt mit gebaut (U2-ADR-496)
+
+Der Nachtrag vom 10.10.2026 ist gebaut. Damit gilt die Klausel „Vivodepot nur am Herkunftsort“ in dieser Fassung: Vivodepot steht am Herkunftsort (Einstellungen → Recht) und an genau zwei benannten Hinweisorten, sonst nirgends.
+
+1. **App-Fußzeile.** `renderFooter` trägt `<span class="ff-powered" data-herkunft-hinweis="app">` mit dem vorhandenen Herkunftsort-Schlüssel `herkunftPoweredBy` (DE „Bereitgestellt mit {urheberin}“, EN „Powered by {urheberin}“), auch unter einer Partnermarke. Ein Schalter zum Abschalten ist nicht gebaut: er gehört zum signierten Branding. Bis dahin ist der Hinweis immer an, also strenger als entschieden.
+2. **Fuß jeder Ausgabe.** Ein neuer Herkunftsort-Schlüssel `ausgabeErstelltMit` (DE „Erstellt mit der Software {urheberin}“, EN „Created with {urheberin} software“), eingetragen in `tools/herkunftsort-angaben.json` mit Pflicht-Platzhalter `{urheberin}`; `{marke}` und ein leerer Satz werden abgewiesen. Gelesen über `_ausgabeErstelltMit()` (der Weg über `_herkunftsortAusgabe`, nie aus dem Branding, nicht abschaltbar) im Export-Fuß `pdfFussText` (damit jede Seite jedes Gesamt-, Situations-, Anlass- und Bereichs-PDFs, aus dem Fuß selbst und nicht aus `meta`), im Fuß der Notfallkarte, des Dokument-PDFs und des Widerruf-PDFs und auf dem Deckblatt des Gesamt-PDFs (`pdfHerkunftVersion` ist jetzt nur „Version {version}“, davor steht der Satz). `notfallKarteFuss` nennt die Marke nicht mehr („Erstellt mit {marke} · “ entfällt). Die Schriftgröße der Füße bleibt, wie sie war.
+3. **Der Partnername** steht weiter vorn im Dokument-Fuß (`_dokFussHaftungMitMarke`, §2) und im Logo.
+
+Zu 1, gleicher Tag: Der Schalter ist inzwischen gebaut, als Feld `poweredByAus` im signierten Branding v2 (U2-ADR-473 Nachtrag W2,
+Punkt 7). Er wirkt nur aus einem gültig signierten Modul und nur auf den Hinweis der App-Fußzeile, nie auf `ausgabeErstelltMit`.
+
+Nicht in diesem Schritt: Felder in den Maschinenformaten (FHIR, ISiK, KBV, XML, SD-JWT/JOSE), das Feld `erstelltMit` im Umschlag der Depot-Datei und der Hinweis in der Lese-App, die heute keine Partnermarke zeigt. Das ICS-PRODID bleibt, wie es entschieden ist.
+
+```konformitaet
+aussage:  Jede PDF-Fußquelle (pdfFussText, Notfallkarte, Dokument-PDF, Widerruf-PDF, Deckblatt) liest den
+          Herkunftsort-Schlüssel ausgabeErstelltMit; notfallKarteFuss und pdfHerkunftVersion nennen die Marke nicht.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/erstellt-mit-und-powered-by.test.js#[Erstellt mit·a] jede PDF-Fußquelle liest den Herkunftsort-Schlüssel ausgabeErstelltMit
+pruefung: tests/erstellt-mit-und-powered-by.test.js#[Erstellt mit·Klasse] jeder jsPDF-Erzeuger und jeder Fuß-Schreiber erreicht den Schlüssel
+```
+
+```konformitaet
+aussage:  Ein Sprachmodul, das in ausgabeErstelltMit {urheberin} durch {marke} ersetzt oder den Satz leert, wird abgewiesen.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/erstellt-mit-und-powered-by.test.js#[Erstellt mit·c] ein Sprachmodul mit {marke} statt {urheberin} oder ohne Text wird abgewiesen
+```
+
+```konformitaet
+aussage:  Unter einer Partnermarke steht Vivodepot genau am Herkunftsort, im Anker data-herkunft-hinweis der App-Fußzeile und im
+          Satz ausgabeErstelltMit auf den Ausgaben, sonst in keiner Ansicht, keinem PDF und keinem Dateinamen.
+zustand:  geprüft
+herkunft: invariante
+pruefung: tests/erstellt-mit-und-powered-by.test.js#[Powered by·d] die App-Fußzeile trägt den Hinweisort, auch unter der Partnermarke
+pruefung: tests/erstellt-mit-und-powered-by.test.js#[Erstellt mit·b·de] unter der Partnermarke nennt jede Ausgabe die Software, nicht den Partner
+pruefung: tests/erstellt-mit-und-powered-by.test.js#[Erstellt mit·b·en] unter der Partnermarke nennt jede Ausgabe die Software, nicht den Partner
+pruefung: tests/white-label-greift.test.js#[White Label greift·de] Stadtbank-Bündel: Marke überall, Vivodepot nur am Herkunftsort
+pruefung: tests/white-label-greift.test.js#[White Label greift·en] Stadtbank-Bündel: Marke überall, Vivodepot nur am Herkunftsort
+```
+
 ---
 
-*Vivodepot GmbH · Berlin · 10.09.2026 · Nachtrag 16.09.2026 · Nachtrag 10.10.2026*
+*Vivodepot GmbH · Berlin · 10.09.2026 · Nachtrag 16.09.2026 · Nachtrag 10.10.2026 · Nachtrag 18.10.2026*

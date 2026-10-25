@@ -4,17 +4,17 @@ Vivodepot is an encrypted document depot for one's own life — identity, health
 provisions and more, in one place, under one's own control. The application is a single HTML
 file that runs entirely in the browser.
 
-## For whom
+## Audience
 
 For citizens who want to keep their own documents and declarations in one place — without a
 provider reading along. For institutions and developers who want to dock their own subject
 areas: the core knows no single subject, modules carry the content.
 
-## What it costs
+## Cost
 
 For citizens, Vivodepot Private is free of charge.
 
-## How it works
+## Operating principle
 
 - **Offline.** The depot file stays with the user, encrypted. No server holds it, no cloud backs
   it up in the background.
@@ -23,7 +23,7 @@ For citizens, Vivodepot Private is free of charge.
 - **Five years of security updates per version**, from the day it is released; every update stays
   retrievable for at least ten years after that (see [`SECURITY.md`](SECURITY.md)).
 
-## How to get started
+## Getting started
 
 Open [https://privat-en.vivodepot.org/](https://privat-en.vivodepot.org/?von=github) (German:
 [https://privat-de.vivodepot.org/](https://privat-de.vivodepot.org/?von=github)) in any current browser — no
@@ -36,7 +36,7 @@ Most of the test layer is included: probes in `tests/`, tooling in `tools/`, wor
 [`docs/pruefebene.md`](docs/pruefebene.md) (German) describes how testing works and by which rule
 a file is published.
 
-## How to check that it holds what it says
+## Verification
 
 Every figure in [`STANDARDS.md`](STANDARDS.md) comes from
 [`docs/faktenbasis.md`](docs/faktenbasis.md) — a file that `tools/faktenbasis-erzeugen.js`
@@ -58,7 +58,15 @@ Responsibility for, review of and approval of every change lie with Vivodepot Gm
 [EUPL-1.2](LICENSE). What that means, what is excluded and what is in the public repository today:
 [`LICENSING.md`](LICENSING.md).
 
-## Where to go from here
+## LOINC
+
+This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.
+
+## SNOMED CT
+
+Contains content from the SNOMED CT Global Patient Set (GPS), © 2026 SNOMED International, licensed under the Creative Commons Attribution-NoDerivatives 4.0 International License (https://creativecommons.org/licenses/by-nd/4.0/), obtained from https://www.snomed.org/gps, International Edition 20260101. SNOMED® and SNOMED CT® are registered trademarks of the International Health Terminology Standards Development Organisation. SNOMED CT® was originally created by the College of American Pathologists.
+
+## Further documentation
 
 - [`PRINCIPLES.md`](PRINCIPLES.md) — the principles every contribution is measured against
 - [`SECURITY.md`](SECURITY.md) — security reports, verification of the cryptographic chain
@@ -74,4 +82,4 @@ Responsibility for, review of and approval of every change lie with Vivodepot Gm
 
 ## Version
 
-Version v933.
+Version v952.

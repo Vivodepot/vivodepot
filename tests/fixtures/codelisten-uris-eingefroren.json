@@ -17,6 +17,10 @@
         "http://hl7.org/fhir/sid/icd-10-gm"
       ]
     },
+    "iso4217": {
+      "uri": "urn:iso:std:iso:4217",
+      "frueher": []
+    },
     "loinc": {
       "uri": "http://loinc.org",
       "frueher": []

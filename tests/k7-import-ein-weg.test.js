@@ -95,5 +95,6 @@ test('[K7·6] flowEinlesenZentral: der Bereichs-Filter — aktuell sechs Bereich
   const ohneEigenesFormat = alle.filter((id) => !mitEigenemFormat.has(id));
   // Diese Probe hält den GEMESSENEN Zustand fest (Regel 23/18-Beleg für den Bericht), sie ist
   // KEINE Norm-Aussage darüber, dass genau diese sechs richtig oder falsch sind — s. Bericht.
-  assert.deepEqual(ohneEigenesFormat.sort(), ['emergencyPreparedness', 'mobility', 'personal', 'assets', 'advanceCare', 'housing'].sort());
+  // 23.10.2026: pets dazu (U2-ADR-479, neuer Bereich ohne eigenes Import-Format; Tiere kommen über B16 und das ganze Depot).
+  assert.deepEqual(ohneEigenesFormat.sort(), ['emergencyPreparedness', 'mobility', 'personal', 'assets', 'advanceCare', 'housing', 'pets'].sort());
 });

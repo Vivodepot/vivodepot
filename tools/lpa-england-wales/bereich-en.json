@@ -1,0 +1,1014 @@
+{
+  "modulTyp": "bereich",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "en",
+  "kennung": "vivodepot/lpa-england-wales",
+  "fassung": 1,
+  "bereiche": {
+    "lpa-england-wales": {
+      "id": "lpa-england-wales",
+      "icon": "scale",
+      "label": "LPA England and Wales",
+      "einfuehrungstext": "The OPG offers a free online service that creates the form for you. Address: https://www.lastingpowerofattorney.service.gov.uk This filling-in aid prepares: it keeps your answers in one place so that you can transfer them into the OPG online service or into the paper form LP1F or LP1H. It does not replace the service or the form. The sections follow the order of the official form. Section titles and field labels are given word for word as on the form.",
+      "sektionen": [
+        {
+          "id": "formular",
+          "label": "Form",
+          "hint": "The OPG offers a free online service that creates the form for you. Address: https://www.lastingpowerofattorney.service.gov.uk This filling-in aid prepares: it keeps your answers in one place so that you can transfer them into the OPG online service or into the paper form LP1F or LP1H. It does not replace the service or the form.",
+          "felder": [
+            {
+              "id": "tpl_lpa_formular",
+              "typ": "auswahl",
+              "label": "Form",
+              "optionen": [
+                {
+                  "wert": "lp1f",
+                  "label": "Lasting power of attorney for property and financial affairs"
+                },
+                {
+                  "wert": "lp1h",
+                  "label": "Lasting power of attorney for health and welfare"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "section-1",
+          "label": "Section 1 · The donor",
+          "felder": [
+            {
+              "id": "tpl_lpa_s1_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s1_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s1_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s1_otherNames",
+              "typ": "text",
+              "label": "Any other names you’re known by (optional – eg your married name)"
+            },
+            {
+              "id": "tpl_lpa_s1_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            },
+            {
+              "id": "tpl_lpa_s1_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s1_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s1_email",
+              "typ": "text",
+              "label": "Email address (optional)"
+            }
+          ]
+        },
+        {
+          "id": "section-2-1",
+          "label": "Section 2 · The attorneys · 1",
+          "felder": [
+            {
+              "id": "tpl_lpa_s2_1_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s2_1_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s2_1_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s2_1_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            },
+            {
+              "id": "tpl_lpa_s2_1_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s2_1_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s2_1_email",
+              "typ": "text",
+              "label": "Email address (optional)"
+            },
+            {
+              "id": "tpl_lpa_s2_1_trust",
+              "typ": "checkbox",
+              "label": "This attorney is a trust corporation.",
+              "hint": "Only on form LP1F."
+            }
+          ]
+        },
+        {
+          "id": "section-2-2",
+          "label": "Section 2 · The attorneys · 2",
+          "felder": [
+            {
+              "id": "tpl_lpa_s2_2_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s2_2_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s2_2_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s2_2_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            },
+            {
+              "id": "tpl_lpa_s2_2_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s2_2_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s2_2_email",
+              "typ": "text",
+              "label": "Email address (optional)"
+            }
+          ]
+        },
+        {
+          "id": "section-2-3",
+          "label": "Section 2 · The attorneys · 3",
+          "felder": [
+            {
+              "id": "tpl_lpa_s2_3_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s2_3_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s2_3_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s2_3_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            },
+            {
+              "id": "tpl_lpa_s2_3_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s2_3_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s2_3_email",
+              "typ": "text",
+              "label": "Email address (optional)"
+            }
+          ]
+        },
+        {
+          "id": "section-2-4",
+          "label": "Section 2 · The attorneys · 4",
+          "felder": [
+            {
+              "id": "tpl_lpa_s2_4_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s2_4_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s2_4_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s2_4_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            },
+            {
+              "id": "tpl_lpa_s2_4_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s2_4_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s2_4_email",
+              "typ": "text",
+              "label": "Email address (optional)"
+            },
+            {
+              "id": "tpl_lpa_s2_more",
+              "typ": "checkbox",
+              "label": "More attorneys – I want to appoint more than 4 attorneys. Use Continuation sheet 1."
+            }
+          ]
+        },
+        {
+          "id": "section-3",
+          "label": "Section 3 · How should your attorneys make decisions?",
+          "felder": [
+            {
+              "id": "tpl_lpa_s3_one",
+              "typ": "checkbox",
+              "label": "I only appointed one attorney (turn to section 4)"
+            },
+            {
+              "id": "tpl_lpa_s3_how",
+              "typ": "auswahl",
+              "label": "How do you want your attorneys to work together? (tick one only)",
+              "optionen": [
+                {
+                  "wert": "jointly-and-severally",
+                  "label": "Jointly and severally"
+                },
+                {
+                  "wert": "jointly",
+                  "label": "Jointly"
+                },
+                {
+                  "wert": "jointly-for-some",
+                  "label": "Jointly for some decisions, jointly and severally for other decisions"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "section-4-1",
+          "label": "Section 4 · Replacement attorneys · 1",
+          "felder": [
+            {
+              "id": "tpl_lpa_s4_1_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s4_1_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s4_1_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s4_1_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            },
+            {
+              "id": "tpl_lpa_s4_1_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s4_1_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s4_1_trust",
+              "typ": "checkbox",
+              "label": "This attorney is a trust corporation.",
+              "hint": "Only on form LP1F."
+            }
+          ]
+        },
+        {
+          "id": "section-4-2",
+          "label": "Section 4 · Replacement attorneys · 2",
+          "felder": [
+            {
+              "id": "tpl_lpa_s4_2_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s4_2_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s4_2_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s4_2_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            },
+            {
+              "id": "tpl_lpa_s4_2_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s4_2_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s4_more",
+              "typ": "checkbox",
+              "label": "More replacements – I want to appoint more than two replacements. Use Continuation sheet 1."
+            },
+            {
+              "id": "tpl_lpa_s4_change",
+              "typ": "checkbox",
+              "label": "I want to change when or how my attorneys can act (optional). Use Continuation sheet 2."
+            }
+          ]
+        },
+        {
+          "id": "section-5",
+          "label": "Section 5",
+          "felder": [
+            {
+              "id": "tpl_lpa_s5_when",
+              "typ": "auswahl",
+              "label": "When do you want your attorneys to be able to make decisions?",
+              "optionen": [
+                {
+                  "wert": "registered",
+                  "label": "As soon as my LPA has been registered (and also when I don’t have mental capacity)"
+                },
+                {
+                  "wert": "no-capacity",
+                  "label": "Only when I don’t have mental capacity"
+                }
+              ],
+              "hint": "Only on form LP1F."
+            },
+            {
+              "id": "tpl_lpa_s5_lst",
+              "typ": "auswahl",
+              "label": "Who do you want to make decisions about life-sustaining treatment? (sign only one option)",
+              "optionen": [
+                {
+                  "wert": "option-a",
+                  "label": "Option A – I give my attorneys authority to give or refuse consent to life-sustaining treatment on my behalf."
+                },
+                {
+                  "wert": "option-b",
+                  "label": "Option B – I do not give my attorneys authority to give or refuse consent to life-sustaining treatment on my behalf."
+                }
+              ],
+              "hint": "Only on form LP1H."
+            }
+          ]
+        },
+        {
+          "id": "section-6-1",
+          "label": "Section 6 · People to notify when the LPA is registered · 1",
+          "felder": [
+            {
+              "id": "tpl_lpa_s6_1_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s6_1_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s6_1_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s6_1_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s6_1_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-6-2",
+          "label": "Section 6 · People to notify when the LPA is registered · 2",
+          "felder": [
+            {
+              "id": "tpl_lpa_s6_2_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s6_2_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s6_2_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s6_2_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s6_2_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-6-3",
+          "label": "Section 6 · People to notify when the LPA is registered · 3",
+          "felder": [
+            {
+              "id": "tpl_lpa_s6_3_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s6_3_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s6_3_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s6_3_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s6_3_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-6-4",
+          "label": "Section 6 · People to notify when the LPA is registered · 4",
+          "felder": [
+            {
+              "id": "tpl_lpa_s6_4_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s6_4_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s6_4_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s6_4_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s6_4_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s6_more",
+              "typ": "checkbox",
+              "label": "I want to appoint another person to notify (maximum is 5) – use Continuation sheet 1."
+            }
+          ]
+        },
+        {
+          "id": "section-7",
+          "label": "Section 7 · Preferences and instructions",
+          "felder": [
+            {
+              "id": "tpl_lpa_s7_preferences",
+              "typ": "textarea",
+              "label": "Preferences – use words like ‘prefer’ and ‘would like’",
+              "sensibel": true
+            },
+            {
+              "id": "tpl_lpa_s7_preferences_more",
+              "typ": "checkbox",
+              "label": "I need more space – use Continuation sheet 2."
+            },
+            {
+              "id": "tpl_lpa_s7_instructions",
+              "typ": "textarea",
+              "label": "Instructions – use words like ‘must’ and ‘have to’",
+              "sensibel": true
+            },
+            {
+              "id": "tpl_lpa_s7_instructions_more",
+              "typ": "checkbox",
+              "label": "I need more space – use Continuation sheet 2."
+            }
+          ]
+        },
+        {
+          "id": "section-9",
+          "label": "Section 9 · Signature: donor",
+          "felder": [
+            {
+              "id": "tpl_lpa_s9_witness_name",
+              "typ": "text",
+              "label": "Full name of witness"
+            },
+            {
+              "id": "tpl_lpa_s9_witness_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s9_witness_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ],
+          "hint": "Signing, witnessing and certifying happen on the printed form. Vivodepot does not do these steps."
+        },
+        {
+          "id": "section-10",
+          "label": "Section 10 · Signature: certificate provider",
+          "felder": [
+            {
+              "id": "tpl_lpa_s10_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s10_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s10_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s10_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s10_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-11-1",
+          "label": "Section 11 · Signature: attorney or replacement · 1",
+          "felder": [
+            {
+              "id": "tpl_lpa_s11_1_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s11_1_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s11_1_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s11_1_witness_name",
+              "typ": "text",
+              "label": "Full names of witness"
+            },
+            {
+              "id": "tpl_lpa_s11_1_witness_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s11_1_witness_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-11-2",
+          "label": "Section 11 · Signature: attorney or replacement · 2",
+          "felder": [
+            {
+              "id": "tpl_lpa_s11_2_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s11_2_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s11_2_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s11_2_witness_name",
+              "typ": "text",
+              "label": "Full names of witness"
+            },
+            {
+              "id": "tpl_lpa_s11_2_witness_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s11_2_witness_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-11-3",
+          "label": "Section 11 · Signature: attorney or replacement · 3",
+          "felder": [
+            {
+              "id": "tpl_lpa_s11_3_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s11_3_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s11_3_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s11_3_witness_name",
+              "typ": "text",
+              "label": "Full names of witness"
+            },
+            {
+              "id": "tpl_lpa_s11_3_witness_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s11_3_witness_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-11-4",
+          "label": "Section 11 · Signature: attorney or replacement · 4",
+          "felder": [
+            {
+              "id": "tpl_lpa_s11_4_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s11_4_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s11_4_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s11_4_witness_name",
+              "typ": "text",
+              "label": "Full names of witness"
+            },
+            {
+              "id": "tpl_lpa_s11_4_witness_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s11_4_witness_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            }
+          ]
+        },
+        {
+          "id": "section-12",
+          "label": "Section 12 · The applicant",
+          "felder": [
+            {
+              "id": "tpl_lpa_s12_who",
+              "typ": "auswahl",
+              "label": "Who is applying to register the LPA? (tick one only)",
+              "optionen": [
+                {
+                  "wert": "donor",
+                  "label": "Donor"
+                },
+                {
+                  "wert": "attorneys",
+                  "label": "Attorney(s)"
+                }
+              ]
+            }
+          ],
+          "hint": "Registration is with the Office of the Public Guardian. Vivodepot does not submit anything."
+        },
+        {
+          "id": "section-12-1",
+          "label": "Section 12 · The applicant · 1",
+          "felder": [
+            {
+              "id": "tpl_lpa_s12_1_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s12_1_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s12_1_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s12_1_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            }
+          ]
+        },
+        {
+          "id": "section-12-2",
+          "label": "Section 12 · The applicant · 2",
+          "felder": [
+            {
+              "id": "tpl_lpa_s12_2_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s12_2_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s12_2_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s12_2_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            }
+          ]
+        },
+        {
+          "id": "section-12-3",
+          "label": "Section 12 · The applicant · 3",
+          "felder": [
+            {
+              "id": "tpl_lpa_s12_3_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s12_3_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s12_3_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s12_3_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            }
+          ]
+        },
+        {
+          "id": "section-12-4",
+          "label": "Section 12 · The applicant · 4",
+          "felder": [
+            {
+              "id": "tpl_lpa_s12_4_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s12_4_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s12_4_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s12_4_dob",
+              "typ": "datum",
+              "label": "Date of birth"
+            }
+          ]
+        },
+        {
+          "id": "section-13",
+          "label": "Section 13 · Who do you want to receive the LPA?",
+          "felder": [
+            {
+              "id": "tpl_lpa_s13_who",
+              "typ": "auswahl",
+              "label": "Who would you like to receive the LPA and any correspondence?",
+              "optionen": [
+                {
+                  "wert": "donor",
+                  "label": "The donor"
+                },
+                {
+                  "wert": "attorney",
+                  "label": "An attorney (write name below)"
+                },
+                {
+                  "wert": "other",
+                  "label": "Other (write name and address below)"
+                }
+              ]
+            },
+            {
+              "id": "tpl_lpa_s13_title",
+              "typ": "text",
+              "label": "Title"
+            },
+            {
+              "id": "tpl_lpa_s13_firstNames",
+              "typ": "text",
+              "label": "First names"
+            },
+            {
+              "id": "tpl_lpa_s13_lastName",
+              "typ": "text",
+              "label": "Last name"
+            },
+            {
+              "id": "tpl_lpa_s13_company",
+              "typ": "text",
+              "label": "Company (optional)"
+            },
+            {
+              "id": "tpl_lpa_s13_address",
+              "typ": "text",
+              "label": "Address"
+            },
+            {
+              "id": "tpl_lpa_s13_postcode",
+              "typ": "text",
+              "label": "Postcode"
+            },
+            {
+              "id": "tpl_lpa_s13_post",
+              "typ": "checkbox",
+              "label": "Post"
+            },
+            {
+              "id": "tpl_lpa_s13_phone",
+              "typ": "checkbox",
+              "label": "Phone"
+            },
+            {
+              "id": "tpl_lpa_s13_email",
+              "typ": "checkbox",
+              "label": "Email"
+            },
+            {
+              "id": "tpl_lpa_s13_welsh",
+              "typ": "checkbox",
+              "label": "Welsh"
+            }
+          ],
+          "hint": "How would the person above prefer to be contacted?"
+        },
+        {
+          "id": "section-14",
+          "label": "Section 14 · Application fee",
+          "felder": [
+            {
+              "id": "tpl_lpa_s14_pay",
+              "typ": "auswahl",
+              "label": "How would you like to pay?",
+              "optionen": [
+                {
+                  "wert": "card",
+                  "label": "Card"
+                },
+                {
+                  "wert": "cheque",
+                  "label": "Cheque"
+                }
+              ]
+            },
+            {
+              "id": "tpl_lpa_s14_phone",
+              "typ": "text",
+              "label": "Your phone number"
+            },
+            {
+              "id": "tpl_lpa_s14_reduced",
+              "typ": "checkbox",
+              "label": "I want to apply to pay a reduced fee"
+            },
+            {
+              "id": "tpl_lpa_s14_repeat",
+              "typ": "checkbox",
+              "label": "I’m making a repeat application"
+            },
+            {
+              "id": "tpl_lpa_s14_case",
+              "typ": "text",
+              "label": "Case number"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

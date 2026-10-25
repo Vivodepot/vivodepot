@@ -1,0 +1,1901 @@
+{
+  "modulTyp": "logikModul",
+  "id": "lpa-england-wales-uebertragungsliste",
+  "titel": "LPA England and Wales – transfer list",
+  "sektor": "lpa-england-wales",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "en",
+  "datenSchema": {
+    "tpl_lpa_formular": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_formular"
+    },
+    "tpl_lpa_s1_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_title"
+    },
+    "tpl_lpa_s1_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_firstNames"
+    },
+    "tpl_lpa_s1_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_lastName"
+    },
+    "tpl_lpa_s1_otherNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_otherNames"
+    },
+    "tpl_lpa_s1_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_dob"
+    },
+    "tpl_lpa_s1_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_address"
+    },
+    "tpl_lpa_s1_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_postcode"
+    },
+    "tpl_lpa_s1_email": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s1_email"
+    },
+    "tpl_lpa_s2_1_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_title"
+    },
+    "tpl_lpa_s2_1_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_firstNames"
+    },
+    "tpl_lpa_s2_1_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_lastName"
+    },
+    "tpl_lpa_s2_1_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_dob"
+    },
+    "tpl_lpa_s2_1_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_address"
+    },
+    "tpl_lpa_s2_1_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_postcode"
+    },
+    "tpl_lpa_s2_1_email": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_email"
+    },
+    "tpl_lpa_s2_1_trust": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_1_trust"
+    },
+    "tpl_lpa_s2_2_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_2_title"
+    },
+    "tpl_lpa_s2_2_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_2_firstNames"
+    },
+    "tpl_lpa_s2_2_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_2_lastName"
+    },
+    "tpl_lpa_s2_2_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_2_dob"
+    },
+    "tpl_lpa_s2_2_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_2_address"
+    },
+    "tpl_lpa_s2_2_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_2_postcode"
+    },
+    "tpl_lpa_s2_2_email": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_2_email"
+    },
+    "tpl_lpa_s2_3_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_3_title"
+    },
+    "tpl_lpa_s2_3_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_3_firstNames"
+    },
+    "tpl_lpa_s2_3_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_3_lastName"
+    },
+    "tpl_lpa_s2_3_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_3_dob"
+    },
+    "tpl_lpa_s2_3_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_3_address"
+    },
+    "tpl_lpa_s2_3_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_3_postcode"
+    },
+    "tpl_lpa_s2_3_email": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_3_email"
+    },
+    "tpl_lpa_s2_4_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_4_title"
+    },
+    "tpl_lpa_s2_4_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_4_firstNames"
+    },
+    "tpl_lpa_s2_4_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_4_lastName"
+    },
+    "tpl_lpa_s2_4_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_4_dob"
+    },
+    "tpl_lpa_s2_4_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_4_address"
+    },
+    "tpl_lpa_s2_4_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_4_postcode"
+    },
+    "tpl_lpa_s2_4_email": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_4_email"
+    },
+    "tpl_lpa_s2_more": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s2_more"
+    },
+    "tpl_lpa_s3_one": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s3_one"
+    },
+    "tpl_lpa_s3_how": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s3_how"
+    },
+    "tpl_lpa_s4_1_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_1_title"
+    },
+    "tpl_lpa_s4_1_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_1_firstNames"
+    },
+    "tpl_lpa_s4_1_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_1_lastName"
+    },
+    "tpl_lpa_s4_1_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_1_dob"
+    },
+    "tpl_lpa_s4_1_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_1_address"
+    },
+    "tpl_lpa_s4_1_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_1_postcode"
+    },
+    "tpl_lpa_s4_1_trust": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_1_trust"
+    },
+    "tpl_lpa_s4_2_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_2_title"
+    },
+    "tpl_lpa_s4_2_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_2_firstNames"
+    },
+    "tpl_lpa_s4_2_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_2_lastName"
+    },
+    "tpl_lpa_s4_2_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_2_dob"
+    },
+    "tpl_lpa_s4_2_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_2_address"
+    },
+    "tpl_lpa_s4_2_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_2_postcode"
+    },
+    "tpl_lpa_s4_more": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_more"
+    },
+    "tpl_lpa_s4_change": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s4_change"
+    },
+    "tpl_lpa_s5_when": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s5_when"
+    },
+    "tpl_lpa_s5_lst": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s5_lst"
+    },
+    "tpl_lpa_s6_1_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_1_title"
+    },
+    "tpl_lpa_s6_1_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_1_firstNames"
+    },
+    "tpl_lpa_s6_1_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_1_lastName"
+    },
+    "tpl_lpa_s6_1_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_1_address"
+    },
+    "tpl_lpa_s6_1_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_1_postcode"
+    },
+    "tpl_lpa_s6_2_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_2_title"
+    },
+    "tpl_lpa_s6_2_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_2_firstNames"
+    },
+    "tpl_lpa_s6_2_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_2_lastName"
+    },
+    "tpl_lpa_s6_2_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_2_address"
+    },
+    "tpl_lpa_s6_2_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_2_postcode"
+    },
+    "tpl_lpa_s6_3_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_3_title"
+    },
+    "tpl_lpa_s6_3_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_3_firstNames"
+    },
+    "tpl_lpa_s6_3_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_3_lastName"
+    },
+    "tpl_lpa_s6_3_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_3_address"
+    },
+    "tpl_lpa_s6_3_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_3_postcode"
+    },
+    "tpl_lpa_s6_4_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_4_title"
+    },
+    "tpl_lpa_s6_4_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_4_firstNames"
+    },
+    "tpl_lpa_s6_4_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_4_lastName"
+    },
+    "tpl_lpa_s6_4_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_4_address"
+    },
+    "tpl_lpa_s6_4_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_4_postcode"
+    },
+    "tpl_lpa_s6_more": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s6_more"
+    },
+    "tpl_lpa_s7_preferences": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s7_preferences",
+      "sensibelErlaubt": true
+    },
+    "tpl_lpa_s7_preferences_more": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s7_preferences_more"
+    },
+    "tpl_lpa_s7_instructions": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s7_instructions",
+      "sensibelErlaubt": true
+    },
+    "tpl_lpa_s7_instructions_more": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s7_instructions_more"
+    },
+    "tpl_lpa_s9_witness_name": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s9_witness_name"
+    },
+    "tpl_lpa_s9_witness_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s9_witness_address"
+    },
+    "tpl_lpa_s9_witness_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s9_witness_postcode"
+    },
+    "tpl_lpa_s10_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s10_title"
+    },
+    "tpl_lpa_s10_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s10_firstNames"
+    },
+    "tpl_lpa_s10_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s10_lastName"
+    },
+    "tpl_lpa_s10_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s10_address"
+    },
+    "tpl_lpa_s10_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s10_postcode"
+    },
+    "tpl_lpa_s11_1_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_1_title"
+    },
+    "tpl_lpa_s11_1_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_1_firstNames"
+    },
+    "tpl_lpa_s11_1_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_1_lastName"
+    },
+    "tpl_lpa_s11_1_witness_name": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_1_witness_name"
+    },
+    "tpl_lpa_s11_1_witness_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_1_witness_address"
+    },
+    "tpl_lpa_s11_1_witness_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_1_witness_postcode"
+    },
+    "tpl_lpa_s11_2_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_2_title"
+    },
+    "tpl_lpa_s11_2_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_2_firstNames"
+    },
+    "tpl_lpa_s11_2_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_2_lastName"
+    },
+    "tpl_lpa_s11_2_witness_name": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_2_witness_name"
+    },
+    "tpl_lpa_s11_2_witness_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_2_witness_address"
+    },
+    "tpl_lpa_s11_2_witness_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_2_witness_postcode"
+    },
+    "tpl_lpa_s11_3_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_3_title"
+    },
+    "tpl_lpa_s11_3_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_3_firstNames"
+    },
+    "tpl_lpa_s11_3_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_3_lastName"
+    },
+    "tpl_lpa_s11_3_witness_name": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_3_witness_name"
+    },
+    "tpl_lpa_s11_3_witness_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_3_witness_address"
+    },
+    "tpl_lpa_s11_3_witness_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_3_witness_postcode"
+    },
+    "tpl_lpa_s11_4_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_4_title"
+    },
+    "tpl_lpa_s11_4_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_4_firstNames"
+    },
+    "tpl_lpa_s11_4_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_4_lastName"
+    },
+    "tpl_lpa_s11_4_witness_name": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_4_witness_name"
+    },
+    "tpl_lpa_s11_4_witness_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_4_witness_address"
+    },
+    "tpl_lpa_s11_4_witness_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s11_4_witness_postcode"
+    },
+    "tpl_lpa_s12_who": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_who"
+    },
+    "tpl_lpa_s12_1_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_1_title"
+    },
+    "tpl_lpa_s12_1_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_1_firstNames"
+    },
+    "tpl_lpa_s12_1_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_1_lastName"
+    },
+    "tpl_lpa_s12_1_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_1_dob"
+    },
+    "tpl_lpa_s12_2_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_2_title"
+    },
+    "tpl_lpa_s12_2_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_2_firstNames"
+    },
+    "tpl_lpa_s12_2_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_2_lastName"
+    },
+    "tpl_lpa_s12_2_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_2_dob"
+    },
+    "tpl_lpa_s12_3_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_3_title"
+    },
+    "tpl_lpa_s12_3_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_3_firstNames"
+    },
+    "tpl_lpa_s12_3_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_3_lastName"
+    },
+    "tpl_lpa_s12_3_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_3_dob"
+    },
+    "tpl_lpa_s12_4_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_4_title"
+    },
+    "tpl_lpa_s12_4_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_4_firstNames"
+    },
+    "tpl_lpa_s12_4_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_4_lastName"
+    },
+    "tpl_lpa_s12_4_dob": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s12_4_dob"
+    },
+    "tpl_lpa_s13_who": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_who"
+    },
+    "tpl_lpa_s13_title": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_title"
+    },
+    "tpl_lpa_s13_firstNames": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_firstNames"
+    },
+    "tpl_lpa_s13_lastName": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_lastName"
+    },
+    "tpl_lpa_s13_company": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_company"
+    },
+    "tpl_lpa_s13_address": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_address"
+    },
+    "tpl_lpa_s13_postcode": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_postcode"
+    },
+    "tpl_lpa_s13_post": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_post"
+    },
+    "tpl_lpa_s13_phone": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_phone"
+    },
+    "tpl_lpa_s13_email": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_email"
+    },
+    "tpl_lpa_s13_welsh": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s13_welsh"
+    },
+    "tpl_lpa_s14_pay": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s14_pay"
+    },
+    "tpl_lpa_s14_phone": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s14_phone"
+    },
+    "tpl_lpa_s14_reduced": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s14_reduced"
+    },
+    "tpl_lpa_s14_repeat": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s14_repeat"
+    },
+    "tpl_lpa_s14_case": {
+      "typ": "feld",
+      "sektor": "lpa-england-wales",
+      "feld": "tpl_lpa_s14_case"
+    }
+  },
+  "abschnitte": [
+    {
+      "titel": "The official online service first",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "The OPG offers a free online service that creates the form for you.",
+            "Address: https://www.lastingpowerofattorney.service.gov.uk",
+            "This filling-in aid prepares: it keeps your answers in one place so that you can transfer them into the OPG online service or into the paper form LP1F or LP1H. It does not replace the service or the form.",
+            "This list is not a form and not an official document. It is not submitted anywhere.",
+            "The sections follow the order of the official form. Section titles and field labels are given word for word as on the form.",
+            "Dates are shown as year-month-day; the form asks for day, month, year."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_formular",
+          "frage": "Form:",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "lpa-england-wales",
+            "feld": "tpl_lpa_formular"
+          }
+        }
+      ]
+    },
+    {
+      "titel": "Section 1 · The donor",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_title",
+          "frage": "Title:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_firstNames",
+          "frage": "First names:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_lastName",
+          "frage": "Last name:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_otherNames",
+          "frage": "Any other names you’re known by (optional – eg your married name):",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_dob",
+          "frage": "Date of birth:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s1_email",
+          "frage": "Email address (optional):",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Section 2 · The attorneys · 1",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s2_1_title",
+          "frage": "Title:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s2_1_firstNames",
+          "frage": "First names:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s2_1_lastName",
+          "frage": "Last name:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s2_1_dob",
+          "frage": "Date of birth:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s2_1_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s2_1_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s2_1_email",
+          "frage": "Email address (optional):",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s2_1_trust",
+          "wert": true,
+          "text": "☒ This attorney is a trust corporation.",
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1f"
+          }
+        }
+      ]
+    },
+    {
+      "titel": "Section 2 · The attorneys · 2",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_2_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_2_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_2_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_2_dob",
+          "satz": "Date of birth: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_2_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_2_postcode",
+          "satz": "Postcode: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_2_email",
+          "satz": "Email address (optional): {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 2 · The attorneys · 3",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_3_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_3_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_3_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_3_dob",
+          "satz": "Date of birth: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_3_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_3_postcode",
+          "satz": "Postcode: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_3_email",
+          "satz": "Email address (optional): {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 2 · The attorneys · 4",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_4_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_4_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_4_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_4_dob",
+          "satz": "Date of birth: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_4_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_4_postcode",
+          "satz": "Postcode: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s2_4_email",
+          "satz": "Email address (optional): {text}"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s2_more",
+          "wert": true,
+          "text": "☒ More attorneys – I want to appoint more than 4 attorneys. Use Continuation sheet 1."
+        }
+      ]
+    },
+    {
+      "titel": "Section 3 · How should your attorneys make decisions?",
+      "bloecke": [
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s3_one",
+          "wert": true,
+          "text": "☒ I only appointed one attorney (turn to section 4)"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s3_how",
+          "frage": "How do you want your attorneys to work together? (tick one only):",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "lpa-england-wales",
+            "feld": "tpl_lpa_s3_how"
+          }
+        }
+      ]
+    },
+    {
+      "titel": "Section 4 · Replacement attorneys · 1",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s4_1_title",
+          "frage": "Title:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s4_1_firstNames",
+          "frage": "First names:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s4_1_lastName",
+          "frage": "Last name:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s4_1_dob",
+          "frage": "Date of birth:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s4_1_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s4_1_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s4_1_trust",
+          "wert": true,
+          "text": "☒ This attorney is a trust corporation.",
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1f"
+          }
+        }
+      ]
+    },
+    {
+      "titel": "Section 4 · Replacement attorneys · 2",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s4_2_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s4_2_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s4_2_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s4_2_dob",
+          "satz": "Date of birth: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s4_2_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s4_2_postcode",
+          "satz": "Postcode: {text}"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s4_more",
+          "wert": true,
+          "text": "☒ More replacements – I want to appoint more than two replacements. Use Continuation sheet 1."
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s4_change",
+          "wert": true,
+          "text": "☒ I want to change when or how my attorneys can act (optional). Use Continuation sheet 2."
+        }
+      ]
+    },
+    {
+      "titel": "Section 5",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "When can your attorneys make decisions?"
+          ],
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1f"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s5_when",
+          "frage": "When do you want your attorneys to be able to make decisions?:",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "lpa-england-wales",
+            "feld": "tpl_lpa_s5_when"
+          },
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1f"
+          }
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Life-sustaining treatment"
+          ],
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1h"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s5_lst",
+          "frage": "Who do you want to make decisions about life-sustaining treatment? (sign only one option):",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "lpa-england-wales",
+            "feld": "tpl_lpa_s5_lst"
+          },
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1h"
+          }
+        }
+      ]
+    },
+    {
+      "titel": "Section 6 · People to notify when the LPA is registered · 1",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s6_1_title",
+          "frage": "Title:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s6_1_firstNames",
+          "frage": "First names:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s6_1_lastName",
+          "frage": "Last name:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s6_1_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s6_1_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Section 6 · People to notify when the LPA is registered · 2",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_2_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_2_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_2_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_2_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_2_postcode",
+          "satz": "Postcode: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 6 · People to notify when the LPA is registered · 3",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_3_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_3_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_3_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_3_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_3_postcode",
+          "satz": "Postcode: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 6 · People to notify when the LPA is registered · 4",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_4_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_4_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_4_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_4_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s6_4_postcode",
+          "satz": "Postcode: {text}"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s6_more",
+          "wert": true,
+          "text": "☒ I want to appoint another person to notify (maximum is 5) – use Continuation sheet 1."
+        }
+      ]
+    },
+    {
+      "titel": "Section 7 · Preferences and instructions",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s7_preferences",
+          "frage": "Preferences – use words like ‘prefer’ and ‘would like’:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s7_preferences_more",
+          "wert": true,
+          "text": "☒ I need more space – use Continuation sheet 2."
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s7_instructions",
+          "frage": "Instructions – use words like ‘must’ and ‘have to’:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s7_instructions_more",
+          "wert": true,
+          "text": "☒ I need more space – use Continuation sheet 2."
+        }
+      ]
+    },
+    {
+      "titel": "Section 8 · Your legal rights and responsibilities",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "This section has no fields. Everyone who signs reads it on the official form."
+          ]
+        }
+      ]
+    },
+    {
+      "titel": "Section 9 · Signature: donor",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Signing, witnessing and certifying happen on the printed form. Vivodepot does not do these steps."
+          ]
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Sections 9, 10 and 11 were signed in order. Section 9 must have been signed first, then section 10, then section 11."
+          ]
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Sign this page (and any continuation sheets) before anyone signs sections 10 and 11."
+          ],
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1f"
+          }
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Sign this page and section 5 (and any continuation sheets) before anyone signs sections 10 and 11."
+          ],
+          "sichtbarWenn": {
+            "feld": "tpl_lpa_formular",
+            "wert": "lp1h"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s9_witness_name",
+          "frage": "Full name of witness:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s9_witness_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s9_witness_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Section 10 · Signature: certificate provider",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Only sign this section after the donor has signed section 9",
+            "A certificate provider can’t be one of the attorneys."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s10_title",
+          "frage": "Title:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s10_firstNames",
+          "frage": "First names:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s10_lastName",
+          "frage": "Last name:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s10_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s10_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Section 11 · Signature: attorney or replacement · 1",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Only sign this section after the certificate provider has signed section 10",
+            "All the attorneys and replacement attorneys need to sign."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s11_1_title",
+          "frage": "Title:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s11_1_firstNames",
+          "frage": "First names:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s11_1_lastName",
+          "frage": "Last name:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s11_1_witness_name",
+          "frage": "Full names of witness:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s11_1_witness_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s11_1_witness_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Section 11 · Signature: attorney or replacement · 2",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_2_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_2_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_2_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_2_witness_name",
+          "satz": "Full names of witness: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_2_witness_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_2_witness_postcode",
+          "satz": "Postcode: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 11 · Signature: attorney or replacement · 3",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_3_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_3_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_3_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_3_witness_name",
+          "satz": "Full names of witness: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_3_witness_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_3_witness_postcode",
+          "satz": "Postcode: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 11 · Signature: attorney or replacement · 4",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_4_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_4_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_4_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_4_witness_name",
+          "satz": "Full names of witness: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_4_witness_address",
+          "satz": "Address: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s11_4_witness_postcode",
+          "satz": "Postcode: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 12 · The applicant",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Registration is with the Office of the Public Guardian. Vivodepot does not submit anything."
+          ]
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Before the LPA can be used, it must be registered by the Office of the Public Guardian (OPG).",
+            "If there are any ‘people to notify’ listed in section 6, you must notify them that you are registering the LPA now.",
+            "Fill in and send each of them a copy of the form to notify people – LP3."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s12_who",
+          "frage": "Who is applying to register the LPA? (tick one only):",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "lpa-england-wales",
+            "feld": "tpl_lpa_s12_who"
+          }
+        }
+      ]
+    },
+    {
+      "titel": "Section 12 · The applicant · 1",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_1_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_1_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_1_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_1_dob",
+          "satz": "Date of birth: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 12 · The applicant · 2",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_2_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_2_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_2_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_2_dob",
+          "satz": "Date of birth: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 12 · The applicant · 3",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_3_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_3_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_3_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_3_dob",
+          "satz": "Date of birth: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 12 · The applicant · 4",
+      "bloecke": [
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_4_title",
+          "satz": "Title: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_4_firstNames",
+          "satz": "First names: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_4_lastName",
+          "satz": "Last name: {text}"
+        },
+        {
+          "typ": "freitextSatz",
+          "feldId": "tpl_lpa_s12_4_dob",
+          "satz": "Date of birth: {text}"
+        }
+      ]
+    },
+    {
+      "titel": "Section 13 · Who do you want to receive the LPA?",
+      "bloecke": [
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s13_who",
+          "frage": "Who would you like to receive the LPA and any correspondence?:",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "lpa-england-wales",
+            "feld": "tpl_lpa_s13_who"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s13_title",
+          "frage": "Title:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s13_firstNames",
+          "frage": "First names:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s13_lastName",
+          "frage": "Last name:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s13_company",
+          "frage": "Company (optional):",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s13_address",
+          "frage": "Address:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s13_postcode",
+          "frage": "Postcode:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "How would the person above prefer to be contacted?"
+          ]
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s13_post",
+          "wert": true,
+          "text": "☒ Post"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s13_phone",
+          "wert": true,
+          "text": "☒ Phone"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s13_email",
+          "wert": true,
+          "text": "☒ Email"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s13_welsh",
+          "wert": true,
+          "text": "☒ Welsh"
+        }
+      ]
+    },
+    {
+      "titel": "Section 14 · Application fee",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "For security, don’t write your credit or debit card details here.",
+            "You’ll need to fill in form LPA120 and include it with your application."
+          ]
+        },
+        {
+          "typ": "immer",
+          "texte": [
+            "Fee according to gov.uk (https://www.gov.uk/power-of-attorney, retrieved 18 October 2026):",
+            "Applying to register an LPA costs £92 unless you get a reduction or exemption."
+          ]
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s14_pay",
+          "frage": "How would you like to pay?:",
+          "luecke": "— not recorded —",
+          "format": {
+            "typ": "codeListeLabel",
+            "sektor": "lpa-england-wales",
+            "feld": "tpl_lpa_s14_pay"
+          }
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s14_phone",
+          "frage": "Your phone number:",
+          "luecke": "— not recorded —"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s14_reduced",
+          "wert": true,
+          "text": "☒ I want to apply to pay a reduced fee"
+        },
+        {
+          "typ": "auswahlFest",
+          "feldId": "tpl_lpa_s14_repeat",
+          "wert": true,
+          "text": "☒ I’m making a repeat application"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "tpl_lpa_s14_case",
+          "frage": "Case number:",
+          "luecke": "— not recorded —"
+        }
+      ]
+    },
+    {
+      "titel": "Section 15 · Signature",
+      "bloecke": [
+        {
+          "typ": "immer",
+          "texte": [
+            "Do not sign this section until after sections 9, 10 and 11 have been signed."
+          ]
+        }
+      ]
+    }
+  ],
+  "dokAusgabe": {
+    "h1": "Transfer list: Lasting power of attorney, England and Wales",
+    "herkunftText": "Made with Vivodepot. A list of your answers for transferring into the official form or into the online service of the Office of the Public Guardian.",
+    "unterschrift": false,
+    "unterschriftErsatzHinweis": "This list is not signed. The printed official form is signed.",
+    "fussText": "Section titles, field labels and quotations: Office of the Public Guardian, LP1F and LP1H (08.25). Contains public sector information licensed under the Open Government Licence v3.0.",
+    "knopfAttr": "lpa-uebertragungsliste",
+    "dateiBasis": "LPA_transfer_list",
+    "toolbarHinweis": "Not a form: transfer the answers into the OPG online service or into form LP1F or LP1H."
+  }
+}

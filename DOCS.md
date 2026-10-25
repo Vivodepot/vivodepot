@@ -1,20 +1,20 @@
-# DOCS.md — Wegweiser durch Vivodepot
+# Wegweiser zur Dokumentation
 
 **Diese Datei wird erzeugt** (`node tools/docs-md-erzeugen.js`) — nicht von Hand bearbeiten,
 eine Handänderung geht beim nächsten Lauf verloren. Der Architektur-/Migrationsabschnitt unten
 kommt unverändert aus einem Rahmentext, der mit dem Erzeuger gepflegt wird.
 
-Erzeugt aus der veröffentlichten Fassung v933.
+Erzeugt aus der veröffentlichten Fassung v952.
 
 ---
 
-## Wie Vivodepot aufgebaut ist
+## Aufbau
 
 Vivodepot besteht aus drei Schichten, die ein **Rezept** zu einem ausgelieferten Produkt
 zusammensetzt:
 
 **Gerüst.** Die Kern-Anwendung (`vivodepot.html`) — Layout, Verschlüsselung, Export-/
-Import-Formate, die 13 Lebensbereiche einer Bürgerin. Läuft offline,
+Import-Formate, die 14 Lebensbereiche einer Bürgerin. Läuft offline,
 ohne Server, eine einzige Datei.
 
 **Module.** Signierte, andockbare Bausteine, die der Kern zur Laufzeit oder beim
@@ -71,19 +71,28 @@ beschrieben — jede zeigt dasselbe Feld-Modell an einem anderen Rezept:
 Beide mit erfundenen Personen- und Institutionsnamen (Musternamen-Schema, kein echtes
 Branding). Adressen und ihr zuletzt gemessener Status: `docs/demo-verweis-ziele.json`.
 
+## Vorabprüfung von Vorlagen und Modulen
+
+Nach welchen Regeln die Bürger-App ein Modul, eine Vorlage oder eine Anfrage annimmt oder abweist, und die Regeln für ein
+Einreichungs-Paket stehen lesbar in [`docs/pruefregeln/pruefregeln.md`](docs/pruefregeln/pruefregeln.md) und maschinenlesbar in
+[`docs/pruefregeln/pruefregeln.json`](docs/pruefregeln/pruefregeln.json). Eine eigene Datei prüft der Befehl
+`node tools/vorlage-pruefen.js --dokument <datei.json>` (nach `npm ci`); für Modul, Vorlage und Anfrage fällen das Urteil
+dieselben Prüfer wie beim Einlassen in der App, ein Einreichungs-Paket wird gegen sein veröffentlichtes Schema geprüft und jede
+Vorlage darin wie in der App.
+
 ---
 
 ## Zahlen
 
-- E2E: 813 (gezählt, nicht ausgeführt) · Wächter-Register: 146
-- Schema-Version: 92 · SCHALEN_STAND: v933 · Build-Version: v1.0
-- ADR-Register: 435 Einträge
+- E2E: 874 (gezählt, nicht ausgeführt) · Wächter-Register: 152
+- Schema-Version: 94 · SCHALEN_STAND: v952 · Build-Version: v1.0
+- ADR-Register: 445 Einträge
 
-Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-18, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
+Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-25, Commit `(Arbeitsstand, ohne Hash)`. Diese Zahlen veralten mit jedem Commit — vor jeder externen Verwendung gegen den dann aktuellen `docs/faktenbasis.md` gegenlesen, nicht aus diesem Dokument abschreiben.
 
 ---
 
-## Dokumente in der Repo-Wurzel
+## Dokumente im Wurzelverzeichnis
 
 - [`CHANGELOG.md`](CHANGELOG.md) — Changelog
 - [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — Verhaltenskodex für Mitwirkende
@@ -99,13 +108,13 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-18, Commit `(Arbeitsstand, ohne H
 - [`QUICKSTART.md`](QUICKSTART.md) — Schnellstart
 - [`README_en.md`](README_en.md) — Vivodepot
 - [`README.md`](README.md) — Vivodepot
-- [`SECURITY.md`](SECURITY.md) — Vivodepot · Security-Dokument
+- [`SECURITY.md`](SECURITY.md) — Vivodepot · Sicherheit
 - [`SOVEREIGNTY.md`](SOVEREIGNTY.md) — Vivodepot — Souveränität: woran sie im Code hängt
-- [`STANDARDS.md`](STANDARDS.md) — Vivodepot — Standards, die der Code tatsächlich erzeugt und liest
+- [`STANDARDS.md`](STANDARDS.md) — Vivodepot · Standards im Code: Erzeugen und Einlesen
 - [`THIRD_PARTY_LICENSES`](THIRD_PARTY_LICENSES)
 - [`TRADEMARK.md`](TRADEMARK.md) — Vivodepot — Markenrichtlinie
 
-## Dateien direkt unter `docs/`
+## Dateien in `docs/`
 
 - [`docs/DATA-MODEL.md`](docs/DATA-MODEL.md) — DATA-MODEL.md — Areas, field IDs and the field register
 - [`docs/e2e-anleitung.md`](docs/e2e-anleitung.md) — E2E-Reise-Ebene — Anleitung
@@ -122,9 +131,9 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-18, Commit `(Arbeitsstand, ohne H
 - [`docs/standards-schnittstelle.md`](docs/standards-schnittstelle.md) — Standards-Register und Prüf-Rahmen
 - [`docs/VERIFYING-SIGNATURES.md`](docs/VERIFYING-SIGNATURES.md) — VERIFYING-SIGNATURES.md — How to check a Vivodepot signature yourself
 
-## Unterordner unter `docs/`
+## Unterordner von `docs/`
 
-- `docs/adr/` — 472 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
+- `docs/adr/` — 482 Datei(en), siehe [`docs/adr/README.md`](docs/adr/README.md)
 - `docs/angehoerigen-vorlage-modul/` — 1 Datei(en)
 - `docs/bedingungskatalog-modul/` — 1 Datei(en)
 - `docs/bereich-modul/` — 1 Datei(en)
@@ -138,16 +147,17 @@ Quelle: `docs/faktenbasis.md`, erzeugt 2026-10-18, Commit `(Arbeitsstand, ohne H
 - `docs/feldregister/` — 1 Datei(en)
 - `docs/format/` — 42 Datei(en), auch in Unterordnern
 - `docs/format-modul/` — 1 Datei(en)
+- `docs/grundschutz/` — 1 Datei(en)
 - `docs/institutions-art-modul/` — 1 Datei(en)
 - `docs/lese-app/` — 1 Datei(en), siehe [`docs/lese-app/README.md`](docs/lese-app/README.md)
 - `docs/logik-modul/` — 1 Datei(en)
 - `docs/modules/` — 18 Datei(en), auch in Unterordnern, siehe [`docs/modules/README.md`](docs/modules/README.md)
 - `docs/pruefregeln/` — 3 Datei(en)
 - `docs/rechtsraum-modul/` — 1 Datei(en)
-- `docs/release-notes/` — 1 Datei(en)
 - `docs/screenshots/` — 3 Datei(en)
 - `docs/security/` — 1 Datei(en)
 - `docs/situation-modul/` — 1 Datei(en)
+- `docs/spezifikation/` — 1 Datei(en)
 - `docs/stellensatz-modul/` — 1 Datei(en)
 - `docs/template-generator/` — 8 Datei(en), siehe [`docs/template-generator/README.md`](docs/template-generator/README.md)
 - `docs/textsatz-modul/` — 1 Datei(en)

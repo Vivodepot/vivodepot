@@ -62,7 +62,7 @@ test('[R1·Reservierung·a] in allen vier Produkten ist jeder Ab-Werk-Rechtsraum
 
 /* ── (b) Rot-Beweis ── */
 test('[R1·Reservierung·b·Rot-Beweis] ohne die Reservierung am Einlass kommt das DE-Modul im DE-Produkt durch', () => {
-  const zeile = "      if (_rechtsraumCodeAbWerk(m.rechtsraum)) return { gueltig: false, grund: 'reserviert', verworfene: _rrVerworfen };";
+  const zeile = "      if (_rechtsraumCodeAbWerk(_rrKennung)) return { gueltig: false, grund: 'reserviert', verworfene: _rrVerworfen };";
   const pfad = fehlfassung('rechtsraum-ohne-reservierung', zeile, '      /* Reservierung entfernt (Rot-Beweis) */');
   try {
     const V = ladeKern({ htmlPfad: pfad, produkt: 'privat-de', backen: true }).V;

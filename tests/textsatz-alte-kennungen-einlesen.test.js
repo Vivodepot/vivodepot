@@ -44,7 +44,7 @@ test('[Alt-Kennung] jede alte Form kommt unter der heutigen Kennung an, der Text
     'wizard:umzwiz.umzug_ummeldung.label': 'Re-registration',   // U2-ADR-467: der Straßen-Schritt ist in vier Teile aufgegangen
     'wizard:kiwiz.ki_zweck/trauer.label': 'Grief',
     'vollmacht:vm_gesundheit_entscheiden/ja.label': 'Yes',
-    'feld.nationalitaet.vorschlaege': 'German',
+    'feld.aufenthaltstitel_art.vorschlaege': 'Residence permit',
   });
   assert.deepEqual(r.verworfene, []);
   assert.deepEqual({ ...r.texte }, {
@@ -55,7 +55,7 @@ test('[Alt-Kennung] jede alte Form kommt unter der heutigen Kennung an, der Text
     'wizard:umzwiz.reRegistrationWithTheResidents.label': 'Re-registration',
     'wizard:kiwiz.purpose/trauer.label': 'Grief',
     'vollmacht:healthCareGeneralDecision/ja.label': 'Yes',
-    'feld.nationality.vorschlaege': 'German',
+    'feld.residencePermitType.vorschlaege': 'Residence permit',
   });
 });
 

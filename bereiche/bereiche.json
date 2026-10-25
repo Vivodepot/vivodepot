@@ -64,6 +64,10 @@
       "label": "Krisenvorsorge"
     },
     {
+      "id": "pets",
+      "label": "Tiere"
+    },
+    {
       "id": "personal",
       "label": "Persönliches"
     }

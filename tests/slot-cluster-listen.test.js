@@ -32,7 +32,7 @@ test('Feld-Defs: fünf Listen mit den erwarteten Unterfeldern; Alt-Slots weg', (
   const erwartet = {
     vehicles: ['mobility', 'registrationPlate,vehicleRegistrationDocument,leaseAgreementStorageLocation'],
     creditCards: ['finance', 'providerLast4Digits,validUntil'],
-    pets: ['identity', 'petNameSpecies,emergencyCarePersonContact,vetNameContact,medication,otherNotes'],
+    pets: ['pets', 'petNameSpecies,emergencyCarePersonContact,vetNameContact,medication,otherNotes'],
     personalLettersWordsToPeople: ['personal', 'toWhom,words'],
     furtherHomes: ['housing', 'streetHouseNumber,postcodeCity,ownedOrRented,propertyManagement,landlordPhone,landlordEmail,serviceCharges,rentalDepositBankAmount,tenancyAgreementStorage,tenancyAgreementFixedTermUntil,specialLivingSituation'],
   };
@@ -94,7 +94,7 @@ test('Migration: Kreditkarten/Briefe — leere Slots fallen weg', () => {
 test('Migration: Haustiere — der eine tier_*-Satz → ein Eintrag; leere Felder weg', () => {
   const { V } = ladeKern();
   const d = migriere(V, { identitaet: { tier_name: 'Felix, Katze', tier_futter: 'trocken 2x', tier_betreuung: '' } });
-  const liste = d.sektoren.identity.pets;
+  const liste = d.sektoren.pets.pets;   // U2-ADR-479: eigener Bereich
   assert.equal(liste.length, 1);
   assert.equal(liste[0].petNameSpecies, 'Felix, Katze');
   assert.equal(liste[0].medication, 'trocken 2x');
@@ -140,7 +140,7 @@ test('B16-Import: auto*/tier_* → Fahrzeug-/Haustier-Liste; kein Skalar, nichts
   assert.ok(fahr && fahr.eintraege.length === 1, 'Fahrzeug-Liste im Import');
   assert.equal(fahr.eintraege[0].registrationPlate, 'BMW, M-XY 9');
   assert.equal(fahr.eintraege[0].vehicleRegistrationDocument, 'Handschuhfach');
-  const tiere = out.listen.find(l => l.sektorId === 'identity' && l.feldId === 'pets');
+  const tiere = out.listen.find(l => l.sektorId === 'pets' && l.feldId === 'pets');
   assert.ok(tiere && tiere.eintraege.length === 1, 'Haustier-Liste im Import');
   assert.equal(tiere.eintraege[0].petNameSpecies, 'Bello, Hund');
   assert.equal(tiere.eintraege[0].vetNameContact, 'Dr. Vet');

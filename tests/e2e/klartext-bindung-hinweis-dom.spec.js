@@ -55,7 +55,13 @@ test('[Klartext-Bindung·DOM·Rot-Beweis] ohne das Escapen im Quelltext steht da
   const ziel = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-klartext-dom-rot-'));
   try {
     const datei = path.join(ziel, 'vivodepot.html');
-    fs.writeFileSync(datei, html.replace(anker, anker.replace('escapeHTML(klartextBindungHinweisText(_klartextBindungBefund))', 'klartextBindungHinweisText(_klartextBindungBefund)')), 'utf8');
+    /* U2-ADR-470: ohne Escapen lehnt die zweite Wand (Trusted Types) das img schon an der Senke ab. Der Rot-Beweis misst die
+       Escape-Schicht allein, darum trägt die Kopie die CSP ohne die Trusted-Types-Direktiven; die Hashes zieht die Testumgebung
+       beim Schreiben nach (tools/lib/csp-beim-schreiben.js). */
+    const ohneTrustedTypes = (t) => t.replace(/(<meta\s+http-equiv="Content-Security-Policy"\s+content="[^"]*?);\s*require-trusted-types-for 'script';\s*trusted-types default/, '$1');
+    const kopie = ohneTrustedTypes(html.replace(anker, anker.replace('escapeHTML(klartextBindungHinweisText(_klartextBindungBefund))', 'klartextBindungHinweisText(_klartextBindungBefund)')));
+    expect(/require-trusted-types-for/.test(kopie.match(/http-equiv="Content-Security-Policy"[^>]*/)[0]), 'die Kopie trägt keine Trusted Types').toBe(false);
+    fs.writeFileSync(datei, kopie, 'utf8');
     const r = await warnungMitBoesemFeldnamen(page, 'file://' + datei);
     expect(r.da, 'die Warnung erscheint auch hier').toBe(true);
     expect(r.imgs, 'ohne Escapen entsteht das Element: die Probe oben kann rot werden').toBeGreaterThan(0);

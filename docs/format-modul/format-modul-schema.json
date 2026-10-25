@@ -337,6 +337,10 @@
               "postalCode",
               "city"
             ]
+          },
+          "codeliste": {
+            "description": "U2-ADR-482: das Feld ist ein Rechtsraum-Codefeld (heute identity.nationality); das Ziel trägt die Codes der PID-Form (ISO 3166-1 alpha-2, QS, QU). Die Abbildung kommt aus dem Kern, dieselbe wie die des eingebauten PID-Kanals, alle oder keine. Nur an einem Codefeld (prüft der Kern); ein einlesendes Modul, das ein Codefeld ohne codeliste zuordnet, verliert diese Zuordnung.",
+            "const": true
           }
         },
         "anyOf": [
@@ -398,7 +402,8 @@
               "bereich": false,
               "alsListe": false,
               "werte": false,
-              "teil": false
+              "teil": false,
+              "codeliste": false
             }
           },
           "werte": {
@@ -414,7 +419,8 @@
               "alsListe": false,
               "werte": false,
               "teil": false,
-              "vertreter": false
+              "vertreter": false,
+              "codeliste": false
             }
           },
           "vertreter": {
@@ -426,7 +432,8 @@
               "werte": false,
               "teil": false,
               "anhang": false,
-              "pflicht": false
+              "pflicht": false,
+              "codeliste": false
             }
           },
           "pflicht": {
@@ -437,6 +444,13 @@
               "anhang": {
                 "type": "string"
               }
+            }
+          },
+          "codeliste": {
+            "properties": {
+              "alsListe": false,
+              "werte": false,
+              "teil": false
             }
           }
         }

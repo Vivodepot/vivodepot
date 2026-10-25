@@ -1,0 +1,143 @@
+{
+  "zweck": "Validator-Beleg für den Schalter LINK_SENDEN_FUER_AUSZUEGE (tests/link-senden-auszug.test.js, schalterBefund). Erzeugt mit tools/link-senden-validator-beleg.js aus auszugLinkTeile und shlUriBauen des Kerns.",
+  "datum": "2026-10-20T17:38:54.054Z",
+  "ergebnis": "gruen",
+  "kern": {
+    "datei": "vivodepot.html",
+    "sha256": "251b749ebf37636b82fa98e42914eab6dd26c87c3fe6cf387a68ace6c9a52739",
+    "wegSha256": "3dc22ab7ee7eacf209e4b8ff133c0319adf60638fa39c497f663d7befbe79bf7",
+    "wegStellen": [
+      "_jweCompactDir",
+      "_shlTeile",
+      "_auszugInhaltstyp",
+      "_bytesAlsBase64",
+      "auszugLinkTeile",
+      "shlFreigabeweg",
+      "shlUriBauen",
+      "AUSZUG_INHALTSTYPEN"
+    ]
+  },
+  "faelle": [
+    {
+      "name": "fhir-auszug-direkt",
+      "inhaltstyp": "application/fhir+json",
+      "weg": "direkt",
+      "eingang": "FHIR direkt",
+      "quelle": "auszugLinkTeile"
+    },
+    {
+      "name": "pdf-auszug-direkt",
+      "inhaltstyp": "application/pdf",
+      "weg": "direkt",
+      "eingang": "FHIR Binary",
+      "quelle": "auszugLinkTeile"
+    },
+    {
+      "name": "json-auszug-manifest",
+      "inhaltstyp": "application/json",
+      "weg": "manifest",
+      "eingang": "FHIR Binary",
+      "quelle": "auszugLinkTeile"
+    }
+  ],
+  "validatoren": [
+    {
+      "art": "shl",
+      "name": "smart-on-fhir/health-cards-dev-tools",
+      "fassung": "1.3.0-2 (Commit b9b961d9056b6bbc9371d17eeed1b5a42b9b423c)",
+      "pruefsumme": "git:b9b961d9056b6bbc9371d17eeed1b5a42b9b423c tree:fce2765aefe23b860e34fed337e34c394c8fffb4",
+      "quelle": "https://github.com/smart-on-fhir/health-cards-dev-tools.git",
+      "lizenz": "MIT",
+      "aufruf": "js/src/api.js validate.shlink/shlpayload (cascade:false), validate.shlmanifestfile (embedded) und validate.jwe mit Schlüssel; kein Netzabruf der Ablage-URL",
+      "ergebnis": "gruen",
+      "faelle": [
+        {
+          "name": "fhir-auszug-direkt",
+          "erwartet": "gueltig",
+          "inhaltstyp": "application/fhir+json",
+          "weg": "direkt",
+          "quelle": "auszugLinkTeile",
+          "ist": "gueltig",
+          "fehler": [],
+          "warnungen": []
+        },
+        {
+          "name": "pdf-auszug-direkt",
+          "erwartet": "gueltig",
+          "inhaltstyp": "application/pdf",
+          "weg": "direkt",
+          "quelle": "auszugLinkTeile",
+          "ist": "gueltig",
+          "fehler": [],
+          "warnungen": []
+        },
+        {
+          "name": "json-auszug-manifest",
+          "erwartet": "gueltig",
+          "inhaltstyp": "application/json",
+          "weg": "manifest",
+          "quelle": "auszugLinkTeile",
+          "ist": "gueltig",
+          "fehler": [],
+          "warnungen": []
+        },
+        {
+          "name": "rot-fremder-schluessel",
+          "erwartet": "ungueltig",
+          "ist": "ungueltig",
+          "fehler": [
+            "shlmanifestfile: Decryption failed (code 109)",
+            "jwe: Decryption failed (code 109)",
+            "jwe: entschlüsselter Inhalt weicht vom Klartext ab"
+          ],
+          "warnungen": []
+        },
+        {
+          "name": "rot-schluessel-zu-kurz",
+          "erwartet": "ungueltig",
+          "ist": "ungueltig",
+          "fehler": [
+            "shlpayload: Required 'key' property invalid: key must be 43 character base64urlencoded string (code 109)"
+          ],
+          "warnungen": []
+        }
+      ]
+    },
+    {
+      "art": "fhir-binary",
+      "name": "HL7 FHIR Validator (validator_cli)",
+      "fassung": "6.9.12",
+      "pruefsumme": "sha256:0e53ab1d1a6f1e35f505255c0b8ce10a35fcf27e6e96b503640f784cd07e5ad6",
+      "fhirVersion": "4.0.1",
+      "gepinnt": true,
+      "ergebnis": "gruen",
+      "faelle": [
+        {
+          "name": "pdf-auszug-direkt",
+          "erwartet": "gueltig",
+          "inhaltstyp": "application/pdf",
+          "ist": "gueltig",
+          "fehler": [],
+          "warnungen": []
+        },
+        {
+          "name": "json-auszug-manifest",
+          "erwartet": "gueltig",
+          "inhaltstyp": "application/json",
+          "ist": "gueltig",
+          "fehler": [],
+          "warnungen": []
+        },
+        {
+          "name": "rot-binary-ohne-contenttype",
+          "erwartet": "ungueltig",
+          "ist": "ungueltig",
+          "fehler": [
+            "Binary: Binary.contentType: mindestens erforderlich = 1, aber nur gefunden 0"
+          ],
+          "warnungen": []
+        }
+      ]
+    }
+  ]
+}

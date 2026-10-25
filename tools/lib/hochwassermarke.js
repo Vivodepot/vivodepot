@@ -53,14 +53,26 @@ function senken(grundlinie, feld, ist, { datum, grund }) {
   return { ok: true, von, auf: ist, grundlinie: { ...grundlinie, [feld]: ist, datum, grund: g } };
 }
 
-/** Der EINE Zähler für Testdateien: rekursiv, jede Tiefe, nur `.test.js`, node_modules bleibt außen. Liefert relative Pfade. */
-function dateienZaehlen(wurzel) {
+/** Der EINE Zähler für Testdateien: rekursiv, jede Tiefe, nur `.test.js`, node_modules bleibt außen. Liefert relative Pfade.
+    VERSCHWINDEN WÄHREND DES ZÄHLENS (20.10.2026, Befund HOCHWASSERMARKE-ENOENT-WETTLAUF): ein paralleler Test legt Wegwerf-Dateien
+    unter tests/ an und löscht sie wieder (tests/_pruefstand-tmp-<pid>-*.cjs). Verschwand eine zwischen readdir und stat, warf der
+    Zähler ENOENT, und [Suite-Umfang] wurde rot ohne Fehler im Bestand. Eine Datei oder ein Ordner, der beim Nachsehen nicht mehr da
+    ist, zählt nicht; jeder andere Fehler bleibt ein Fehler. Dieselbe Behandlung wie testDateien() in der Rot-Beweis-Pflicht.
+    `zugriff` (nur für Proben): { readdirSync, statSync }. */
+function dateienZaehlen(wurzel, zugriff = {}) {
+  const readdirSync = zugriff.readdirSync || fs.readdirSync;
+  const statSync = zugriff.statSync || fs.statSync;
+  const weg = (e) => e && e.code === 'ENOENT';
   const treffer = [];
   const gehe = (dir) => {
-    for (const name of fs.readdirSync(dir)) {
+    let namen;
+    try { namen = readdirSync(dir); } catch (e) { if (weg(e)) return; throw e; }
+    for (const name of namen) {
       if (name === 'node_modules') continue;
       const voll = path.join(dir, name);
-      if (fs.statSync(voll).isDirectory()) gehe(voll);
+      let st;
+      try { st = statSync(voll); } catch (e) { if (weg(e)) continue; throw e; }
+      if (st.isDirectory()) gehe(voll);
       else if (name.endsWith('.test.js')) treffer.push(path.relative(wurzel, voll));
     }
   };

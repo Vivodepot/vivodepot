@@ -322,8 +322,9 @@ async function main() {
 
     await seite.fill('#shl-url', ablageUrl);
     await seite.click('#shl-bauen');
-    await seite.waitForSelector('#shl-uri', { state: 'visible' });
-    const uri = await seite.inputValue('#shl-uri');
+    await seite.waitForSelector('#shl-uri', { state: 'attached' });
+    // Seit L1b steht der Link eingeklappt unter „Link anzeigen“, kein Textfeld mehr.
+    const uri = String(await seite.textContent('#shl-uri') || '').trim();
 
     /* WÄCHTER: trägt der Link wirklich den Weg, der verlangt wurde? Der Grund ist konkret —
        ein Kern, der die Weiche noch nicht kennt (etwa ein älteres konfektioniertes Produkt),
@@ -341,9 +342,8 @@ async function main() {
     merke('  Wächter: der Link trägt den verlangten Weg (' + weg + ').');
     merke('  Freigabe-Link: ' + uri.slice(0, 60) + '… (' + uri.length + ' Zeichen)');
     fs.writeFileSync(path.join(ziel, 'freigabe-link.txt'), uri, 'utf8');
-    // Das Feld steht nach dem Erzeugen am ENDE des Links (Auswahl + Fokus). Für den Beleg
-    // muss der Anfang sichtbar sein — sonst zeigt der Screenshot base64 ohne das shlink:/-Präfix.
-    await seite.evaluate(() => { const t = document.getElementById('shl-uri'); if (t) { t.scrollTop = 0; t.setSelectionRange(0, 0); } });
+    // Für den Beleg den Link aufklappen, damit der Screenshot ihn zeigt.
+    await seite.evaluate(() => { const d = document.getElementById('shl-link-anzeigen'); if (d) d.open = true; });
     await schuss('Step30b_Freigabe-Link');
 
     /* ── Empfänger-Seite (Monarch): Schritt 40/50 nachgespielt ─────────── */

@@ -41,6 +41,43 @@ test('[Prüfregeln] jeder Ablehnungsgrund der App hat eine Regel, und jede Regel
   const r = regelnGegenKern(REGELN, KERN);
   assert.deepEqual(r.fehlend, [], 'Gründe der App ohne Regel');
   assert.deepEqual(r.verwaist, [], 'Regeln, deren Grund die App nicht mehr kennt');
+  assert.deepEqual(r.unverfolgbar, [], 'weitergereichte Gründe, denen der Prüfer nicht folgen kann');
+});
+
+/* Weitergereichte Gründe (21.10.2026): an erfundenen Kernen, ein Modultyp „probe“ im Register. */
+const kernMit = (...funktionen) => "const EINLASS_REGISTER = Object.freeze([\n  { typ: 'probe', slot: 'probe', pruefen: (m) => probeModulPruefen(m), kennung: 'p' },\n]);\n"
+  + 'function _einlassRegisterFuer() {}\n' + funktionen.join('\n') + '\n';
+const OHNE = { regeln: [] };
+const regelFuer = (grund) => ({ regeln: [{ kennung: 'probe.' + grund, art: 'probe', kernGrund: grund, schwere: 'abweisung', satz: { de: 'x', en: 'x' } }] });
+
+test('[Prüfregeln·Weitergabe·Rot-Beweis] ein über einen Funktionsnamen weitergereichter Grund braucht eine Regel', () => {
+  const kern = kernMit(
+    'function probeModulPruefen(m) {\n  const e = probeTeil(m);\n  if (!e.gueltig) return { gueltig: false, grund: e.grund };\n  return { gueltig: true, grund: null };\n}',
+    "function probeTeil(x) {\n  const t = probeTeil(x.innen);\n  if (!x) return { gueltig: false, grund: 'teil-kaputt' };\n  return { gueltig: false, grund: t.grund };\n}");
+  const rot = regelnGegenKern(OHNE, kern);
+  assert.deepEqual(rot.fehlend, ['probe · teil-kaputt']);
+  assert.deepEqual(rot.unverfolgbar, []);
+  assert.deepEqual(regelnGegenKern(regelFuer('teil-kaputt'), kern).fehlend, []);
+});
+
+test('[Prüfregeln·Weitergabe·Rot-Beweis] ein über eine Tabelle weitergereichter Grund braucht eine Regel', () => {
+  const kern = kernMit(
+    'function probeModulPruefen(m) {\n  const nein = (grund, v) => ({ gueltig: false, grund, v });\n  const pruefer = _PROBE_FELDER[m.feld];\n'
+      + "  if (!pruefer) return nein('feld-fehlt');\n  const r = pruefer(m);\n  if (!r.gueltig) return nein(r.grund, r.v);\n  return { gueltig: true, grund: null };\n}",
+    'const _PROBE_FELDER = Object.freeze({\n  a: (x) => probeFeldA(x),\n  b: probeFeldB,\n  c: null,\n});',
+    "function probeFeldA(x) { return { gueltig: false, grund: 'a-kaputt' }; }",
+    "function probeFeldB(x) {\n  const nein = (grund) => ({ gueltig: false, grund });\n  return nein('b-kaputt');\n}");
+  assert.deepEqual(regelnGegenKern(OHNE, kern).fehlend, ['probe · a-kaputt', 'probe · b-kaputt', 'probe · feld-fehlt']);
+  const alle = { regeln: ['a-kaputt', 'b-kaputt', 'feld-fehlt'].flatMap((g) => regelFuer(g).regeln) };
+  const gruen = regelnGegenKern(alle, kern);
+  assert.deepEqual([gruen.fehlend, gruen.verwaist, gruen.unverfolgbar], [[], [], []]);
+});
+
+test('[Prüfregeln·Weitergabe·Rot-Beweis] eine Weitergabe, der der Prüfer nicht folgen kann, ist ein Fund', () => {
+  const kern = kernMit('function probeModulPruefen(m) {\n  const e = fremd.pruefe(m);\n  return { gueltig: false, grund: e.grund };\n}');
+  const r = regelnGegenKern(OHNE, kern);
+  assert.equal(r.unverfolgbar.length, 1);
+  assert.match(r.unverfolgbar[0], /^probeModulPruefen Z\. 7: weitergereichter Grund e\.grund nicht verfolgbar$/);
 });
 
 test('[Prüfregeln·Rot-Beweis] fehlt eine Regel, fällt der Grund auf; eine erfundene Regel fällt als verwaist auf', () => {

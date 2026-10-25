@@ -25,6 +25,9 @@ const EINGABEN = Object.freeze({
   'pr-privkey': 'Schlüsseldatei zum Signieren',
   'ts-datei': 'Sprachmodul zum Bearbeiten',
   'bd-logo': 'Logo-Bild für das Erscheinungsbild der Marke',
+  'aa-stelle-schluessel': 'Schlüsseldatei der Stelle zum Signieren der Anfrage (Assistent)',
+  'aa-stelle-zertifikat': 'Zertifikat der Stelle (kompakter JWS) zur Anfrage (Assistent)',
+  'an-schluessel': 'Empfangs-Schlüsseldatei (.vdkey) einer Anfrage, zum Öffnen der Antworten',
 });
 /* Die Modul-Fächer eines Depots (MODUL_SLOTS der Lese-App, EINLASS_REGISTER des Kerns) und die Register-Listen selbst. */
 const FAECHER = Object.freeze(['textsatzModule', 'rechtsraumModule', 'institutionsArten', 'formatModule', 'bereichsModule',

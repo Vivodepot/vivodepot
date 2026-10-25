@@ -296,6 +296,8 @@ const EXPORT_HOOK = `
   flowSubDepotBlackboxExport: (typeof flowSubDepotBlackboxExport === 'function' ? flowSubDepotBlackboxExport : undefined),
   verwahrungsNachweisBundle: (typeof verwahrungsNachweisBundle === 'function' ? verwahrungsNachweisBundle : undefined),
   flowMappeVerwahrungHerunterladen: (typeof flowMappeVerwahrungHerunterladen === 'function' ? flowMappeVerwahrungHerunterladen : undefined),
+  euLabDokumentDerPerson: (typeof euLabDokumentDerPerson === 'function' ? euLabDokumentDerPerson : undefined),
+  flowMappeEuLabDerPersonHerunterladen: (typeof flowMappeEuLabDerPersonHerunterladen === 'function' ? flowMappeEuLabDerPersonHerunterladen : undefined),
   prueftermineUebergaben: (typeof prueftermineUebergaben === 'function' ? prueftermineUebergaben : undefined),
   _volljaehrigAm: (typeof _volljaehrigAm === 'function' ? _volljaehrigAm : undefined),
   kindDateiEinrichten: (typeof kindDateiEinrichten === 'function' ? kindDateiEinrichten : undefined),
@@ -387,7 +389,11 @@ const EXPORT_HOOK = `
   _subSelbstPasswortHalter: () => _subSelbstPasswort,
   // Navigations-Suche (Auftrag Suchfunktion, 01.08.2026)
   _sucheKatalogAufbauen, _sucheTreffer, _sucheVerdrahten, _sucheOeffneSituation,
-  SUCHE_ALLTAGSBEGRIFFE, SUCHE_QUELLE_LABEL,
+  SUCHE_QUELLE_LABEL,
+  // 18.10.2026: Alltagswörter im Textsatz, Bereiche und Abschnitte in der Suche
+  _sucheAlltag: (typeof _sucheAlltag !== 'undefined' ? _sucheAlltag : undefined),
+  _sucheStamm: (typeof _sucheStamm !== 'undefined' ? _sucheStamm : undefined),
+  _sucheOeffneBereich: (typeof _sucheOeffneBereich !== 'undefined' ? _sucheOeffneBereich : undefined),
   // Strang 3 / Commit B — Sub-Depot-Akzentfarbe (Palette + Laufzeit-Variabilisierung)
   SUBDEPOT_PALETTE, subDepotAkzentToken, setzeSubDepotAkzent, entferneSubDepotAkzentOverride,
   // Strang 3 / Commit C — Auswahl-UI + pro-Farbe-Textfarbe (D28)
@@ -431,6 +437,9 @@ const EXPORT_HOOK = `
   _modulGroesseTiefePruefen: (typeof _modulGroesseTiefePruefen !== 'undefined' ? _modulGroesseTiefePruefen : undefined),
   _MODUL_EINLASS_MAX_BYTES: (typeof _MODUL_EINLASS_MAX_BYTES !== 'undefined' ? _MODUL_EINLASS_MAX_BYTES : undefined),
   _MODUL_EINLASS_MAX_TIEFE: (typeof _MODUL_EINLASS_MAX_TIEFE !== 'undefined' ? _MODUL_EINLASS_MAX_TIEFE : undefined),
+  // U2-ADR-513: die eigene Grenze der Sprachmodule und die Wahl nach Modultyp.
+  _TEXTSATZ_MODUL_MAX_BYTES: (typeof _TEXTSATZ_MODUL_MAX_BYTES !== 'undefined' ? _TEXTSATZ_MODUL_MAX_BYTES : undefined),
+  _modulEinlassMaxBytes: (typeof _modulEinlassMaxBytes !== 'undefined' ? _modulEinlassMaxBytes : undefined),
   ankerNameAusIdentitaetSpeisen,
   // „Ausdrücklich keine" (Auftrag 12.08.2026)
   ausdruecklichKeineGesetzt, ausdruecklichKeineDatum, ausdruecklichKeineSetzen,
@@ -477,6 +486,9 @@ const EXPORT_HOOK = `
   _anfrageUmschlagAusEintrag: (typeof _anfrageUmschlagAusEintrag !== 'undefined' ? _anfrageUmschlagAusEintrag : undefined),
   anfragePruefenMitVorlagen: (typeof anfragePruefenMitVorlagen !== 'undefined' ? anfragePruefenMitVorlagen : undefined),
   anfrageZustand, anfrageMerken, anfrageBeantwortetVermerken, anfrageEinstiegSchritte,
+  // Studio W3 — Endbildschirm und das einmal nachgeholte Absichern-Angebot
+  anfrageEndeModell: (typeof anfrageEndeModell === 'function' ? anfrageEndeModell : undefined),
+  _anfrageAbsichernNachholen: (typeof _anfrageAbsichernNachholen === 'function' ? _anfrageAbsichernNachholen : undefined),
   anfrageEintragFuerId, oeffneAnfrage, renderAnfrage, flowAnfrageEmpfangen, flowAnfrageAntworten,
   flowAnfrageEinstieg, anfrageAusAdresseVielleicht,
   anfrageAusKompakt: (typeof anfrageAusKompakt === 'function' ? anfrageAusKompakt : undefined),
@@ -583,6 +595,12 @@ const EXPORT_HOOK = `
   // „Link senden“ für jeden Auszug (v932): typeof-abgesichert, weil Proben auch ältere Kernfassungen laden
   _shlTeile: (typeof _shlTeile !== 'undefined' ? _shlTeile : undefined),
   auszugLinkTeile: (typeof auszugLinkTeile !== 'undefined' ? auszugLinkTeile : undefined),
+  // L1b „Link senden“ (tests/link-senden-antwort.test.js)
+  antwortTraegtSignatur: (typeof antwortTraegtSignatur !== 'undefined' ? antwortTraegtSignatur : undefined),
+  antwortLinkTeile: (typeof antwortLinkTeile !== 'undefined' ? antwortLinkTeile : undefined),
+  _ausgabeWegWaehlen: (typeof _ausgabeWegWaehlen !== 'undefined' ? _ausgabeWegWaehlen : undefined),
+  _shlDialogZeigen: (typeof _shlDialogZeigen !== 'undefined' ? _shlDialogZeigen : undefined),
+  flowLinkSenden: (typeof flowLinkSenden !== 'undefined' ? flowLinkSenden : undefined),
   LINK_SENDEN_FUER_AUSZUEGE: (typeof LINK_SENDEN_FUER_AUSZUEGE !== 'undefined' ? LINK_SENDEN_FUER_AUSZUEGE : undefined),
   AUSZUG_INHALTSTYPEN: (typeof AUSZUG_INHALTSTYPEN !== 'undefined' ? AUSZUG_INHALTSTYPEN : undefined),
   _auszugInhaltstyp: (typeof _auszugInhaltstyp !== 'undefined' ? _auszugInhaltstyp : undefined),
@@ -704,6 +722,8 @@ const EXPORT_HOOK = `
   wizardSchrittSetzen, wizardSchrittSpeichern, wizardFehlerText,
   wizardWeiter, wizardZurueck, wizardAbbrechen, wizardAbschluss,
   wizardStartHTML, waehleAnlass,
+  _wizardZielImProdukt: (typeof _wizardZielImProdukt === 'function' ? _wizardZielImProdukt : undefined),
+  get _BEREICH_IDS_RUHEND() { return _BEREICH_IDS_RUHEND; }, get _BEREICH_IDS_ERSETZT() { return _BEREICH_IDS_ERSETZT; },
   // SIT2b: die Kacheln der Situationen kommen aus dem Template — ANLAESSE ist für Proben die fertige Liste (typeof: ältere Kerne).
   get ANLAESSE() { return (typeof anlaesseAlle === 'function') ? anlaesseAlle() : ANLAESSE; },
   anlaesseAlle: (typeof anlaesseAlle === 'function' ? anlaesseAlle : undefined),
@@ -835,6 +855,9 @@ const EXPORT_HOOK = `
   // lädt genau so einen historischen Kern).
   AB_WERK_RECHTSRAUM_DE: (typeof AB_WERK_RECHTSRAUM_DE !== 'undefined' ? AB_WERK_RECHTSRAUM_DE : undefined),
   _rechtsraumKatalogLesen,
+  // U2-ADR-477 — die Normalform des Registry-Schlüssels (String oder Liste); typeof-Wächter für historische Kerne
+  rechtsraumKennung: (typeof rechtsraumKennung === 'function' ? rechtsraumKennung : undefined),
+  rechtsraumCodeNormalisieren: (typeof rechtsraumCodeNormalisieren === 'function' ? rechtsraumCodeNormalisieren : undefined),
   // U2-ADR-254 — Vorschlagswert aus angedockten Rechtsraum-Modulen (ADR-121 Punkt 2)
   // typeof-Wächter: tests/docx-streichung-gegenprobe.test.js lädt einen historischen Kern
   // (3df1b23, vor diesem Zusatz) mit demselben EXPORT_HOOK — eine nackte Referenz würfe dort
@@ -847,6 +870,8 @@ const EXPORT_HOOK = `
   _rechtsraumKatalogDerZusammenstellung: (typeof _rechtsraumKatalogDerZusammenstellung === 'function' ? _rechtsraumKatalogDerZusammenstellung : undefined),
   _formatRechtsraumPasst: (typeof _formatRechtsraumPasst === 'function' ? _formatRechtsraumPasst : undefined),
   _dokFussRechtsraum: (typeof _dokFussRechtsraum === 'function' ? _dokFussRechtsraum : undefined),
+  // DEUTSCHES-RECHT-UNSICHTBAR (17.10.2026): der Satz am Anlege-Ort
+  _rechtsraumAnlegeHinweis: (typeof _rechtsraumAnlegeHinweis === 'function' ? _rechtsraumAnlegeHinweis : undefined),
   // U2-ADR-121 Posten 8 (Zug 6) — Rechtsraum-Modul-Payload-Vertrag
   validateRechtsraumModul, _rechtsraumModulUebersetzen, _rechtsraumModulEinbetten,
   _rechtsraumModuleAusDepotAnmelden, _rechtsraumTypBekannt,
@@ -869,6 +894,9 @@ const EXPORT_HOOK = `
   _importEingabeAufteilen,
   // 1C Multi-Typ-Validator (Empfänger, additiv)
   validateTemplate,
+  // U2-ADR-514 — Lizenz der Vorlage (typeof-abgesichert: ein älterer Kern im Vergleichslauf kennt sie nicht)
+  VORLAGEN_LIZENZEN: (typeof VORLAGEN_LIZENZEN !== 'undefined' ? VORLAGEN_LIZENZEN : undefined),
+  vorlageLizenzAngabe: (typeof vorlageLizenzAngabe === 'function' ? vorlageLizenzAngabe : undefined),
   // U2-ADR-037 Stufe 2 — Vokabular-Übersetzer + Namensraum-Schutz
   _templateFelderUebersetzen, _templateFeldZuModell, _tplFeldId, _codeSystemId, _TEMPLATE_FELDID_PRAEFIX,
   // U2-ADR-290 — die Feld-/Assistenten-Rollenlisten. Die Proben halten sie gegen die
@@ -1587,7 +1615,12 @@ const EXPORT_HOOK = `
   // Auftrag „Branding anschließen" (07.09.2026) — Fund 1: name/domain waren geprüft,
   // nie angewendet. typeof-abgesichert wie die Geschwister direkt oben.
   _markeName: (typeof _markeName !== 'undefined' ? _markeName : undefined),
+  _enterLoestAus: (typeof _enterLoestAus !== 'undefined' ? _enterLoestAus : undefined),
+  _markeKnopfName: (typeof _markeKnopfName !== 'undefined' ? _markeKnopfName : undefined),
   NAV_FLACH_BIS: (typeof NAV_FLACH_BIS !== 'undefined' ? NAV_FLACH_BIS : undefined),   // Navigation A (05.10.2026)
+  _feldUmzuegeAnwenden: (typeof _feldUmzuegeAnwenden !== 'undefined' ? _feldUmzuegeAnwenden : undefined),
+  _feldUmzugKennung: (typeof _feldUmzugKennung !== 'undefined' ? _feldUmzugKennung : undefined),
+  FELD_UMZUEGE: (typeof FELD_UMZUEGE !== 'undefined' ? FELD_UMZUEGE : undefined),
   _markeDomain: (typeof _markeDomain !== 'undefined' ? _markeDomain : undefined),
   _markePlatzhalterAufloesen: (typeof _markePlatzhalterAufloesen !== 'undefined' ? _markePlatzhalterAufloesen : undefined),
   // 34.7 (Angaben am Herkunftsort): die Ergänzungen der Ausgangsprüfung sind sichtbar, keine stille Reparatur (tests/herkunftsort-invariante.test.js).
@@ -1741,6 +1774,15 @@ const EXPORT_HOOK = `
   setData: (v) => { data = v; },
   // Code-Listen-Andock (Paket 3)
   CODE_LISTEN, codeListeAnmelden, liesCodeListe, codeListeSuche, codeWertAus,
+  // U2-ADR-480 (Währung aus dem Template, ISO 4217 selbst laden) — mit typeof, damit ältere Kerne (htmlPfad) weiter laden.
+  textsatzWaehrung: (typeof textsatzWaehrung !== 'undefined' ? textsatzWaehrung : undefined),
+  _rechtsraumAbWerkModul: (typeof _rechtsraumAbWerkModul !== 'undefined' ? _rechtsraumAbWerkModul : undefined),
+  ISO4217_PIN: (typeof ISO4217_PIN !== 'undefined' ? ISO4217_PIN : undefined),
+  iso4217ListeLesen: (typeof iso4217ListeLesen !== 'undefined' ? iso4217ListeLesen : undefined),
+  iso4217Einlesen: (typeof iso4217Einlesen !== 'undefined' ? iso4217Einlesen : undefined),
+  iso4217CodesImGebrauch: (typeof iso4217CodesImGebrauch !== 'undefined' ? iso4217CodesImGebrauch : undefined),
+  iso4217Abgleich: (typeof iso4217Abgleich !== 'undefined' ? iso4217Abgleich : undefined),
+  iso4217StandSatz: (typeof iso4217StandSatz !== 'undefined' ? iso4217StandSatz : undefined),
   kanonischesCodeSystem: (typeof kanonischesCodeSystem === 'function' ? kanonischesCodeSystem : undefined),   // Schema 90 (28.09.2026)
   codingVersionPflicht: (typeof codingVersionPflicht === 'function' ? codingVersionPflicht : undefined),
   BAUSTEIN_BY_ID, lebenslageFelder,   // A58 — Katalog liegt seit T5 im Kern (BAUSTEINE)
@@ -1869,6 +1911,7 @@ const EXPORT_HOOK = `
   _sprachWahlHTML: (typeof _sprachWahlHTML !== 'undefined' ? _sprachWahlHTML : undefined),
   _textsatzModuleAusDepotAnmelden: (typeof _textsatzModuleAusDepotAnmelden !== 'undefined' ? _textsatzModuleAusDepotAnmelden : undefined),
   feldDefFuer: (typeof feldDefFuer !== 'undefined' ? feldDefFuer : undefined),
+  rechtsraumCodefeld: (typeof rechtsraumCodefeld !== 'undefined' ? rechtsraumCodefeld : undefined),   // U2-ADR-482: W-4-Form rechtsraumCode
   // U2-ADR-363 (Zug 2, 07.09.2026) — Ab-Werk-Sprachmodule: Registry als Getter/Setter (ein
   // \`let\`, von _textsatzModuleAusDepotAnmelden() zur Laufzeit neu zugewiesen — derselbe Griff
   // wie bei aktiveLageId oben), damit ein Test sie fuer den Rot-Beweis gezielt leeren kann.
@@ -1960,6 +2003,15 @@ const EXPORT_HOOK = `
   get AMTLICHE_UEBERSETZUNG_FESTSTELLUNG() { return (typeof AMTLICHE_UEBERSETZUNG_FESTSTELLUNG !== 'undefined' ? AMTLICHE_UEBERSETZUNG_FESTSTELLUNG : undefined); },
   set AMTLICHE_UEBERSETZUNG_FESTSTELLUNG(v) { AMTLICHE_UEBERSETZUNG_FESTSTELLUNG = v; },
   amtlicheUebersetzungVermerkNoetig: (typeof amtlicheUebersetzungVermerkNoetig !== 'undefined' ? amtlicheUebersetzungVermerkNoetig : undefined),
+  // Herausgeben mit Anlass (18.10.2026): Zählung der eigenen Angaben, Aufteilung offen/weitere und ihre Grenze.
+  _anlassEigeneAngaben: (typeof _anlassEigeneAngaben !== 'undefined' ? _anlassEigeneAngaben : undefined),
+  anlaesseHerausgebenAufteilen: (typeof anlaesseHerausgebenAufteilen !== 'undefined' ? anlaesseHerausgebenAufteilen : undefined),
+  HERAUSGEBEN_ANLAESSE_SICHTBAR: (typeof HERAUSGEBEN_ANLAESSE_SICHTBAR !== 'undefined' ? HERAUSGEBEN_ANLAESSE_SICHTBAR : undefined),
+  // FELD-HINWEIS-NICHT-VERKNUEPFT / FELD-FEHLER-NICHT-ZUGEORDNET (23.10.2026) — typeof-gesichert für ältere Kerne (htmlPfad).
+  feldHinweisHTML: (typeof feldHinweisHTML !== 'undefined' ? feldHinweisHTML : undefined),
+  feldFehlerSetzen: (typeof feldFehlerSetzen !== 'undefined' ? feldFehlerSetzen : undefined),
+  feldFehlerLoesen: (typeof feldFehlerLoesen !== 'undefined' ? feldFehlerLoesen : undefined),
+  feldFehlerMeldungHTML: (typeof feldFehlerMeldungHTML !== 'undefined' ? feldFehlerMeldungHTML : undefined),
 };
 `;
 

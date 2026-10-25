@@ -1,4 +1,4 @@
-# Vivodepot · Security-Dokument
+# Vivodepot · Sicherheit
 
 **Verantwortliche Stelle:** Vivodepot GmbH, Berlin
 **Anschluss:** ADR-085 mit Nachtrag vom 23.05.2026, ADR-098 (Lese-App)
@@ -13,7 +13,7 @@ Wer das Repository als Bürger, Pilotpartner, Rechtsberaterin oder Sicherheits-A
 
 ---
 
-## 1 · Vivodepot Trust-Authority — Public-Key
+## 1 · Öffentlicher Schlüssel der Trust-Authority
 
 Der öffentliche Schlüssel der Vivodepot Trust-Authority signiert alle Vivodepot-zertifizierten Templates (Säule 3 → Säule 4 → Säule 1) und alle Vivodepot-zertifizierten Anbieter-Konfigurationen (White-Label-Bereich).
 
@@ -31,7 +31,7 @@ Der öffentliche Schlüssel der Vivodepot Trust-Authority signiert alle Vivodepo
 
 ---
 
-## 2 · Verifikations-Pfade (Multi-Quelle)
+## 2 · Prüfwege über mehrere Quellen
 
 Die Authentizität des Trust-Authority-Schlüssels kann an mehreren, voneinander unabhängigen Stellen verifiziert werden. Wer den in der Vivodepot-Datei eingebetteten Public-Key gegen den hier publizierten Fingerprint quervergleicht, hat eine starke Garantie, dass die Datei nicht manipuliert wurde.
 
@@ -62,13 +62,16 @@ Wie Fassungen erscheinen und wie lange sie unterstützt werden, steht in [`docs/
 
 ### 2.2 Prüfsummen je Fassung
 
-Die Prüfsummen jeder ausgelieferten Fassung stehen in [Abschnitt 8](#8--fingerabdruck-je-fassung) dieser Datei; wie man sie aus dem Quelltext nachrechnet, steht in [`DEVELOPING.md`](DEVELOPING.md). Nachgerechnet wird am öffentlichen Tag der Fassung; nicht jede ausgelieferte Fassung hat einen.
+Die Prüfsummen jeder ausgelieferten Fassung stehen in [Abschnitt 8](#8--fingerabdruck-je-fassung) dieser Datei. Ein heruntergeladenes Produkt prüft man gegen seine Zeile dort.
+Aus dem Quelltext nachrechnen lässt sich die Zeile „kern“, die gemeinsame Programmdatei der Fassung (ab v937, für v933 nachgetragen); der Prüfweg steht in [Abschnitt 8](#8--fingerabdruck-je-fassung).
+Nachgerechnet wird am öffentlichen Tag der Fassung; nicht jede ausgelieferte Fassung hat einen.
+Die Produkte selbst lassen sich aus dem öffentlichen Repository nicht byte-gleich nachbauen: Vivodepots eigene Vorlagen gehören nicht dazu, der Bau setzt erfundene Ersatzvorlagen ein ([`DEVELOPING.md`](DEVELOPING.md), „The scaffold and the product“).
 
 ### 2.3 Handelsregister-Bezug
 
 Die Vivodepot GmbH ist beim Amtsgericht Charlottenburg (Berlin) unter **HRB 289273 B** eingetragen. Das ist kein Fingerprint-Verifikations-Pfad im Sinne von 2.1/2.2 — das Handelsregister publiziert keine kryptographischen Prüfsummen. Es ist eine davon unabhängige Instanz für eine andere Frage: dass hinter diesem Schlüssel eine real existierende, eingetragene juristische Person steht, prüfbar unabhängig davon, ob Vivodepots eigene Infrastruktur (Repository, Homepage) kompromittiert ist. Die Eintragung ist über das öffentliche Unternehmensregister (`https://www.unternehmensregister.de`) einsehbar.
 
-### 2.4 Was bei abweichendem Fingerprint zu tun ist
+### 2.4 Abweichender Fingerabdruck
 
 Wer Templates oder Anbieter-Konfigurationen sieht, die mit einem Schlüssel signiert wurden, der nicht zu diesem Fingerprint passt, meldet das an die Schwachstellen-Meldestelle (Abschnitt 4). Eine abweichende Signatur kann auf eine kompromittierte Vivodepot-Datei oder einen kompromittierten Anbieter hinweisen — beides ist sicherheits-kritisch.
 
@@ -105,7 +108,7 @@ Schwachstellen werden an folgende Stelle gemeldet:
 — **Reaktions-Zeit:** Erste Bestätigung innerhalb von 72 Stunden. Eine begründete erste Einschätzung innerhalb von 14 Tagen.
 — **Offenlegungs-Politik:** Coordinated Disclosure. Veröffentlichung der Schwachstelle nach Bereitstellung einer Mitigation, in Abstimmung mit der meldenden Person. Bei kritischer Schwachstelle ohne Mitigation: Veröffentlichung mit Warnung an Pilotpartner spätestens 90 Tage nach Meldung.
 
-### 4.1 Was als Schwachstelle gemeldet werden soll
+### 4.1 Meldefähige Schwachstellen
 
 — Manipulationen der Vivodepot-Datei, die zu fremden Trust-Authority-Schlüsseln führen
 — Unerwartete Verhaltens-Abweichungen in der Krypto-Schicht (etwa: Entschlüsselungs-Erfolge bei manipulierten Headern, JWS-Signaturen, die fälschlich akzeptiert werden)
@@ -114,13 +117,13 @@ Schwachstellen werden an folgende Stelle gemeldet:
 — Übergabe-Datei-Schwachstellen, die zu unerwarteten Daten-Lecks bei der Empfänger-Institution führen
 — SBOM-Inkonsistenzen, die auf eine nicht-deklarierte Dritt-Bibliothek hinweisen
 
-### 4.2 Was nicht in den Schwachstellen-Pfad gehört
+### 4.2 Abgrenzung
 
 Allgemeine UX-Mängel, Feature-Wünsche, Dokumentations-Verbesserungen werden im Repository als reguläre Issues geführt, nicht über den Schwachstellen-Pfad.
 
 ---
 
-## 5 · Cyber Resilience Act-Bezug
+## 5 · Cyber Resilience Act
 
 Der Cyber Resilience Act (Regulation EU 2024/2847) trägt **zwei** Anwendungsdaten, nicht eines:
 
@@ -132,14 +135,13 @@ Der Cyber Resilience Act (Regulation EU 2024/2847) trägt **zwei** Anwendungsdat
   zur Verfügung steht (bei einem schwerwiegenden Vorfall innerhalb eines Monats nach der
   Meldung). Die betroffenen Nutzer werden informiert (Art. 14 Abs. 8). Den Ablauf regelt ein
   interner Meldeprozess.
-- **11.12.2027 — Vollständige Konformitätspflicht**: Wir behandeln Vivodepot als wichtiges
-  Produkt der Klasse I (CRA Anhang III Nr. 1). Vorgesehen ist die Konformitätsbewertung nach
-  Modul A über Art. 32 Abs. 5, solange Vivodepot als freie und quelloffene Software gilt und die
-  technische Dokumentation jeder Fassung zum Zeitpunkt des Inverkehrbringens öffentlich ist.
-  Andernfalls Modul A bei vollständiger Anwendung harmonisierter Normen, gemeinsamer
-  Spezifikationen oder eines europäischen Schemas für die Cybersicherheitszertifizierung
-  mindestens der Stufe „mittel“, sonst die Module B und C oder H (Art. 32 Abs. 2).
-  CE-Kennzeichnung. Wird in einem separaten Konformitäts-Dokument vor diesem Datum ergänzt.
+- **11.12.2027 — Vollständige Konformitätspflicht**: Als Maßstab legen wir die Pflichten eines
+  wichtigen Produkts der Klasse I an; die rechtliche Einstufung ist davon getrennt. Vorgesehen ist
+  die Konformitätsbewertung nach Modul A, sofern harmonisierte Normen, deren Fundstellen im
+  Amtsblatt veröffentlicht sind, die grundlegenden Cybersicherheitsanforderungen aus Anhang I
+  abdecken und vollständig angewandt werden (Art. 27 Abs. 1, Art. 32 Abs. 2); andernfalls durch
+  eine notifizierte Stelle (Module B und C oder H, Art. 32 Abs. 2).
+  Die CE-Kennzeichnung und die Konformitätserklärung ergänzt ein eigenes Dokument vor diesem Datum.
 
 Diese `SECURITY.md` ist die strukturelle Vorbereitung der CRA-Schwachstellen-Annahme-Pflicht
 (CRA Art. 13 ff.) — der Meldeprozess selbst steht in einem internen Runbook, nicht hier.
@@ -158,11 +160,11 @@ und die Anwendung darf von Dritten weitergeführt werden. Einzelheiten:
 
 ---
 
-## 6 · Strukturelle Restrisiken der Anwendungsklasse
+## 6 · Strukturelle Restrisiken
 
 Vivodepot ist eine Single-File-Offline-Browser-Anwendung. Einige Risiken sind in dieser Anwendungsklasse strukturell nicht durch Code-Änderung lösbar. Sie werden hier explizit benannt.
 
-### 6.1 Supply-Chain-Manipulation der HTML-Datei
+### 6.1 Manipulation in der Lieferkette
 
 Browser haben keine native Code-Signing-Validierung für HTML. Wenn die `vivodepot.html` zwischen Distribution und Bürger-Einsatz manipuliert wird (kompromittierte Webseite, manipulierter Stick im Vertriebsweg, manipulierte Mail-Anlage), kann ein Angreifer den eingebetteten Trust-Authority-Pubkey austauschen. Mitigation läuft über die Verifikations-Pfade aus Abschnitt 2 (Hash-Vergleich, Multi-Quellen-Verteilung, Pilot-IT-Verifikation der Charge) plus diese SECURITY.md selbst — wer den Fingerprint hier prüft, hat einen Anker außerhalb der Datei.
 
@@ -170,15 +172,15 @@ Browser haben keine native Code-Signing-Validierung für HTML. Wenn die `vivodep
 
 Siehe Abschnitt 3.2.
 
-### 6.3 Passphrase-Stärke-Schätzung beim Erst-Setup
+### 6.3 Passwortstärke bei der Einrichtung
 
 Hart geprüft wird beim Setzen des Passworts nur die Mindestlänge von 8 Zeichen (`pwGrundFehler`). Die Stärke-Anzeige darunter ist ein Hinweis und blockiert nichts (`passwortStaerke`): Sie misst Länge (Stufen bei 8, 12 und 16 Zeichen) und Zeichenklassen und stuft eine kurze Liste verbreiteter Passwörter, reine Ziffernfolgen und ein wiederholtes einzelnes Zeichen immer als schwach ein. Ein aus sechs Listenwörtern vorgeschlagenes Passwort gilt als stark (U2-ADR-463). Eine Stärke-Schätzung wie zxcvbn ist nicht eingebettet. Das bleibt ein Restrisiko: Ein selbst gewähltes Passwort aus häufigen Wörtern, das nicht auf der Liste steht, erkennt die Anzeige nicht als schwach.
 
-### 6.4 Standard-Template-Signierung
+### 6.4 Signatur der Standardvorlagen
 
 Die vier Vivodepot-Standard-Templates (Patientenverfügung, Betreuungsverfügung, Vorsorgevollmacht, Organspende) sind **treuhänderisch durch die Trust-Authority signiert** (Privat-Schlüssel aus dem Cold-Storage) und tragen jeweils eine eingebettete Signatur. Die Bürger-App prüft jede Vorlage beim Laden gegen den eingebetteten Trust-Authority-Anker (Fingerprint aus Abschnitt 1); nur gültig signierte Vorlagen werden als amtlich geführt — unsigniert oder abweichend signierte Vorlagen werden **verworfen**. Die amtlichen Aussteller-Zertifikate (Bundesministerium der Justiz, Bundeszentrale für gesundheitliche Aufklärung) sind eingebettet.
 
-### 6.5 Memory-Hygiene in JavaScript
+### 6.5 Arbeitsspeicher in JavaScript
 
 JavaScript-Engines (V8, SpiderMonkey) erstellen intern Kopien von Strings und halten sie im Heap. Explizites Überschreiben eines Passwort-Strings (`str = '\x00'.repeat(str.length)`) hat keine kryptographische Garantie: der Garbage-Collector kann die ursprüngliche Kopie noch eine unbestimmte Zeitspanne vorhalten, und `ArrayBuffer`/`Uint8Array`-Fills (`key.fill(0)`) wirken nicht rückwirkend auf bereits erzeugte String-Kopien.
 
@@ -192,7 +194,7 @@ JavaScript-Engines (V8, SpiderMonkey) erstellen intern Kopien von Strings und ha
 
 **Mitigation für Bürgerinnen:** Browser-Tab nach Nutzung schließen. Bei besonders sensiblen Operationen (Erst-Setup, Passwort-Änderung) Browser-Tab danach neu starten.
 
-### 6.6 Was in der Depot-Datei unverschlüsselt steht
+### 6.6 Unverschlüsselte Angaben einer Depot-Datei
 
 Die Depot-Datei beginnt mit einem Dateikopf, der Kennung `VIVODEPOT` und einem Byte für die Format-Version (U2-ADR-043,
 `DATEI_MAGIC_PREFIX` in `vivodepot.html`). Danach folgt die Hülle. Unverschlüsselt stehen dort:
@@ -229,7 +231,7 @@ Passwort. Dagegen hilft keine Maßnahme in der Anwendung.
 **Mitigation für Bürgerinnen:** Öffnen Sie das Depot nur auf einem Gerät, dem Sie vertrauen, und in einem Browser ohne
 Erweiterungen, die auf alle Seiten zugreifen dürfen.
 
-### 6.8 Warnung beim Öffnen der Datei
+### 6.8 Warnhinweis beim Öffnen
 
 Eine Warnung eines Mail-Programms, Browsers oder Betriebssystems beim Öffnen einer HTML-Datei sagt nichts darüber, ob die Datei
 echt ist. Ob sie echt ist, zeigt der Vergleich des Fingerabdrucks (Abschnitt 2 und Abschnitt 8). Umgekehrt ist eine Datei,
@@ -237,7 +239,7 @@ die ohne Warnung aufgeht, damit nicht geprüft.
 
 ---
 
-### 6.9 „Seite speichern“ des Browsers ist keine Sicherung
+### 6.9 „Seite speichern“ und Sicherung
 
 Sichern Sie Ihr Depot mit „Sicherungskopie erstellen“, nicht mit „Seite speichern“ des Browsers. Speichert ein Browser den
 laufenden Stand der Seite, enthält diese Datei bei geöffnetem Depot Angaben daraus in lesbarer Form.
@@ -292,8 +294,45 @@ Der Fingerabdruck ist der SHA-256 der Datei, wie sie ausgeliefert wurde. Prüfen
 (macOS/Linux) oder `certutil -hashfile <datei> SHA256` (Windows) und mit der Zeile vergleichen.
 Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile der Anwendung (z. B. v1.0.**818**).
 
+Die Zeile „kern“ (ab v937, für v933 nachgetragen) ist kein Produkt, sondern die gemeinsame Programmdatei `vivodepot.html` der
+Fassung, wie sie ausgeliefert wurde; aus ihr und den Modulen der Fassung ist jedes Produkt gebaut. Die `vivodepot.html` im
+Wurzelverzeichnis des öffentlichen Repositorys unterscheidet sich davon nur in Zeile 5, der ersten Zeile des Kopfkommentars,
+die dort Fassung, Rolle und Prüfweg nennt. Nachrechnen (macOS/Linux) am öffentlichen Tag der Fassung:
+`sed '5s/.*/  Vivodepot — Bürger-App (Clean-Slate-Kern)/' vivodepot.html | shasum -a 256`.
+
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v952 | 2026-10-25 | kern | `7ae8b095626fb7c96676e3be5b39d5a1bc9e94b445e9129727fce918d652fb10` |
+| v952 | 2026-10-25 | privat-de | `3b908fccb037c0396cda7f64a0ca5fff0ba58dffbb437b22624b883720d88a4a` |
+| v952 | 2026-10-25 | privat-en | `edcb93ce339fa3722057905fe30466f96500f33c97d7016365d6b586115db05a` |
+| v952 | 2026-10-25 | pro-de | `4a3375f0ddd7f6ae7c0ae5e31b61116015649b1bd4db63b2f301f10cd823107a` |
+| v952 | 2026-10-25 | pro-en | `acf1f60c9f14a59dba9ca8f705d3da393247a4e2d98cc08f9f8524142a4c1a5c` |
+| v952 | 2026-10-25 | pro-de-kanzlei | `13e53a88d84f6e6e39af061d8157deac82c4f7684cb80c8066b18840668afecd` |
+| v952 | 2026-10-25 | pro-en-kanzlei | `4cb194aa57e5e34340e5a96e1cd2211a7ca07b0ef77852bee041ae9684b7a2e2` |
+| v952 | 2026-10-25 | pro-de-steuerberatung | `4eb1a31c030248217f438dcf7ca7b1953006350cd893b90535e5a96cbc24713d` |
+| v952 | 2026-10-25 | pro-en-steuerberatung | `4484023bb6b500bb8ddd8562c7f9eaa2098cdcd174c355afc498d3d9ad93e044` |
+| v952 | 2026-10-25 | service-worker | `443e3e651217e88d8ba2e416ce36e09f335b33c026558851ca64aed790c125b6` |
+| v943 | 2026-10-21 | kern | `ee0ce528129fd91fb4c95fe99eeb0c9568cb236c0198f3cba5acaeabd7553789` |
+| v943 | 2026-10-21 | privat-de | `83504686425cdb30dc879f2418b0c9a26935fa0b41a7bb509d8069580e1c5d13` |
+| v943 | 2026-10-21 | privat-en | `c3d96113ee414f700b64885271673bfe0afc1e75bd14ad67ad736512e14dfb52` |
+| v943 | 2026-10-21 | pro-de | `b85849aaeb4f8b538db1455dba0652ed26c6b7c6d26c7022640604ebc8c6df25` |
+| v943 | 2026-10-21 | pro-en | `53d11500d744a710dd2ab933fb5e12c31e753a96f98a43ac54878539f8bd89ce` |
+| v943 | 2026-10-21 | pro-de-kanzlei | `16381aadcbef0df1891b26d453350aaaef21a8d619eddc35ad0d3b5ad0cf0ca3` |
+| v943 | 2026-10-21 | pro-en-kanzlei | `57974d1c1e32fbcd029ee403670b3b7b1f5459c7f6aa14bed1a51d658baf9153` |
+| v943 | 2026-10-21 | pro-de-steuerberatung | `75380c1bbb56c765d028e8c79720a8aafe9943eff6fc3911e5ae717f7c785692` |
+| v943 | 2026-10-21 | pro-en-steuerberatung | `2efe5c2259556464d1357d5a3df334689707ccfa33f6ec1cc20a105f107ed1ca` |
+| v943 | 2026-10-21 | service-worker | `f9e69a25f48f35e4f1f92eea5879f4505b6f01c127431634d006267c05a68005` |
+| v937 | 2026-10-20 | kern | `4a57f0857501c5d2f2cc109cec0e20fd39afdb6d2137934631e5e28dcd1c9567` |
+| v937 | 2026-10-20 | privat-de | `da2f841913198e68a0a1c6bb2ab31720b6742d80a31e05bf8c7c996874ef9560` |
+| v937 | 2026-10-20 | privat-en | `9efd621647e172fc73b80266d8764bc8a684fa6eecedcb195a403eb07d607117` |
+| v937 | 2026-10-20 | pro-de | `82d78bebd8b6b15b4a1d73d316cc2c5ea176f70da92b205642b2569b5d5c07b9` |
+| v937 | 2026-10-20 | pro-en | `4bae44b3a4fd1217183db317b64f931a10938f6b270681a85b577037319dafe6` |
+| v937 | 2026-10-20 | pro-de-kanzlei | `3e91406d7defb09211073e4828ebaa2739164542bba85a96e19e26900a07d12f` |
+| v937 | 2026-10-20 | pro-en-kanzlei | `ad02c3a21e4f78ea28ed0e3e3574aa75095945bab77d9725944c0a1f1fdc7159` |
+| v937 | 2026-10-20 | pro-de-steuerberatung | `09059bda2eed1a6cad089dcd1d060e603e461b1f77fd3652a3ec3ccdbd4cffc2` |
+| v937 | 2026-10-20 | pro-en-steuerberatung | `f32ad6c2bb0959c9328d689f5d044de3dc071d8b443bb93d68390cf2604db1e6` |
+| v937 | 2026-10-20 | service-worker | `107eaf08786261d3276492bdd90e8a35c2c7c1e9ff85631b4370a53b6c5fcd3e` |
+| v933 | 2026-10-19 | kern | `b913b6fde46a28d43d5888e093ca1908bdf871cb80939ab28d54dd5b7b54ed64` |
 | v933 | 2026-10-19 | privat-de | `b3cf33de46229c3016bb7975b82d97e1b3867577eb3ca84e02596e54e2175b5a` |
 | v933 | 2026-10-19 | privat-en | `b406a1a06f02661cb95a665673126e2613adc4ffbfacd5acd49e1a501aff7c39` |
 | v933 | 2026-10-19 | pro-de | `1505562065bdd1c302d8b8af093703edf79a00885f152bf0e67cf31036e3b04d` |

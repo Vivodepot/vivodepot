@@ -73,6 +73,7 @@ const AUSNAHMEN = Object.freeze({
   stellenRegisterHTML: { art: "anzeige", grund: "Anzeige: liefert HTML oder baut DOM; darf zwischen Produkten abweichen." },
   urheberschaftZeileHTML: { art: "anzeige", grund: "Anzeige: liefert HTML oder baut DOM; darf zwischen Produkten abweichen." },
   oeffneSektor: { art: "anzeige", grund: "Anzeige: navigiert (öffnet einen Bereich oder springt zu einem Feld), liefert keine Daten-Antwort." },
+  _sucheOeffneBereich: { art: "anzeige", grund: "Anzeige: navigiert aus der Suche (öffnet einen Bereich und springt zum Abschnitt), liefert keine Daten-Antwort." },
   oeffneSektorFeld: { art: "anzeige", grund: "Anzeige: navigiert (öffnet einen Bereich oder springt zu einem Feld), liefert keine Daten-Antwort." },
   prueftermineSpringeZuFeld: { art: "anzeige", grund: "Anzeige: navigiert (öffnet einen Bereich oder springt zu einem Feld), liefert keine Daten-Antwort." },
   blattFeldHeben: { art: "schreibt", grund: "Schreibt in das Depot; ein Aufruf verändert den Stand, den der Vergleich danach liest." },

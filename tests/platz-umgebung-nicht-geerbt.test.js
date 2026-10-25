@@ -69,7 +69,7 @@ test('[Platz·Umgebung·Bereinigung] die Muster nehmen die ganze Familie heraus,
   const lauf = {
     VD_SUITE_PLAETZE: '1', VD_AIR_PLAETZE: '3', VD_KETTEN_ZUG: '1', VD_SUITE_PLATZ_GEHALTEN: 'pre-commit:1',
     VD_SUITE_PLATZ_DIR: '/x', VD_SUITE_PLATZ_WARTEN_S: '5', VD_LAST_GRENZE: '20', VD_PROBE_LAST_GRENZE: '30',
-    VD_AIR: 'aus', VD_AIR_E2E_GEFAHREN: '1', VD_NEU_PLAETZE: '9', VD_VORRANG_MARKE: 'a', VD_REIHE: 'b',
+    VD_AIR: 'aus', VD_AIR_E2E_GEFAHREN: '1', VD_NEU_PLAETZE: '9', VD_VORRANG_MARKE: 'a', VD_REIHE: 'b', VD_KLEIN_GEHALTEN: '7',
     PATH: '/bin', HOME: '/h', NODE_TEST_CONTEXT: 'child-v8', VD_PRUEFZWEIG: '1', GIT_DIR: '/g',
   };
   assert.deepEqual(ohnePlatzUmgebung(lauf), { PATH: '/bin', HOME: '/h', NODE_TEST_CONTEXT: 'child-v8', VD_PRUEFZWEIG: '1', GIT_DIR: '/g' });

@@ -1,0 +1,8 @@
+{
+  "erklaerung": "Ausgabe-Funktionen des Kerns, die Listenwerte lesen, ohne über einen Bauer zu gehen, den die Laufzeit-Probe abdeckt — je Eintrag mit Grund. Wächter: tools/ausgabe-listen-senken-pruefen.js. Ein Eintrag ohne Fund ist rot; ein neuer Fund ohne Eintrag ist rot.",
+  "ausgaben": {
+    "renderSituation": "nur Bildschirm, nur auf dem eigenen Gerät; was hinausgeht, läuft über die Verzeichnis-Bauer",
+    "renderZusammenstellen": "nur Bildschirm, nur auf dem eigenen Gerät; was hinausgeht, läuft über die Verzeichnis-Bauer"
+  },
+  "senkenOhneAusgabe": {}
+}

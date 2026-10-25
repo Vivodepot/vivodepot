@@ -32,6 +32,7 @@
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 
 const LAUF_PRAEFIX = 'vd-lauf-';
 const BESITZER_DATEI = '.vd-lauf-besitzer';
@@ -50,8 +51,14 @@ function besitzerLesen(dir) {
   return Number.isInteger(pid) && pid > 0 ? pid : null;
 }
 
-/** Räumt ein Laufverzeichnis samt Inhalt (die Wache ruft es nach jedem Lauf, in jedem Fall). */
-function laufVerzeichnisRaeumen(dir) { fs.rmSync(dir, { recursive: true, force: true }); }
+/** Räumt ein Laufverzeichnis samt Inhalt (die Wache ruft es nach jedem Lauf, in jedem Fall).
+    Auf darwin vorher chmod -RN: macOS legt in einem Home, das ein Browser im Lauf bekommt (netz-sperre, Firefox unter
+    macOS 27), Library/ mit der ACL „group:everyone deny delete“ an, und rmSync scheitert dann an ENOTEMPTY (gemessen
+    21.10.2026 im globalTeardown der E2E). Probe: tests/lauf-verzeichnis-acl.test.js. */
+function laufVerzeichnisRaeumen(dir, plattform = process.platform) {
+  if (plattform === 'darwin' && fs.existsSync(dir)) spawnSync('/bin/chmod', ['-RN', dir], { stdio: 'ignore' });
+  fs.rmSync(dir, { recursive: true, force: true });
+}
 
 /* Keine Reste, sondern Caches, die ein Lauf über Prozessgrenzen teilt und die mit dem Laufverzeichnis
    verschwinden — sie lassen nichts wachsen. Jeder Eintrag mit Grund; die Liste wächst nicht ohne einen. */

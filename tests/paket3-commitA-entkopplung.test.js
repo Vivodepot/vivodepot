@@ -35,12 +35,12 @@ const { ladeKern } = require('./load-kern.js');
 /* ══ Die vier reservierten Listen — Werte fest, gegen den bisherigen
    `<Array>.map(...)`-Stand geprüft ════════════════════════════════════ */
 
-test('[Entkopplung] BEREICH_IDS_EINGEBAUT trägt exakt die dreizehn nativen Sektor-IDs, in Datei-Reihenfolge', () => {
+test('[Entkopplung] BEREICH_IDS_EINGEBAUT trägt exakt die vierzehn nativen Sektor-IDs (U2-ADR-479: pets), in Datei-Reihenfolge', () => {
   const { V } = ladeKern();
   assert.deepEqual(V.BEREICH_IDS_EINGEBAUT, [
     'identity', 'people', 'mobility', 'finance', 'assets', 'health',
     'education', 'socialInsurance', 'advanceCare', 'administration', 'housing', 'emergencyPreparedness',
-    'personal',
+    'pets', 'personal',   // pets vor personal (U2-ADR-041: personal steht am Ende)
   ]);
 });
 
@@ -61,6 +61,7 @@ test('[Entkopplung] WIZARD_IDS_EINGEBAUT trägt exakt die sieben nativen Assiste
 test('[Entkopplung·neu] EREIGNIS_ACHSE_TRIPEL_EINGEBAUT trägt alle 33 nativen Tripel — vorher gab es diese Liste gar nicht', () => {
   const { V } = ladeKern();
   // 33 → 34 (27.09.2026, U2-ADR-438): advanceCare.supportPerson, als Kontakt ausgenommen.
+  // 34 → 36 (22.10.2026, U2-ADR-479): die zwei Tier-Kontakte standen für Pro auch unter identity; 36 → 34 (23.10.2026, Pro P2): der Übergang ist gegangen.
   assert.equal(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.length, 34);
   const ausDenFeldern = V.EREIGNIS_ACHSE_FELDER.map((e) => e.sektorId + '.' + e.feldId + '.' + (e.unterFeldId || ''));
   assert.deepEqual(V.EREIGNIS_ACHSE_TRIPEL_EINGEBAUT.slice().sort(), ausDenFeldern.slice().sort(),

@@ -1,6 +1,6 @@
 # U2-ADR-501: Die signierte Antwort und das Zertifikat der Stelle — für die Datei-Antwort und die direkte Übergabe
 
-**Status:** Angenommen (15.10.2026) — nicht gebaut
+**Status:** Angenommen (15.10.2026) — Datei-Antwort gebaut und ausgeliefert (v933), direkte Übergabe nicht gebaut
 **Datum:** 15.10.2026
 **Kategorie:** KRYPTO, STANDARDS, EUDI, RÜCKWEG
 **Linie:** U2
@@ -8,8 +8,13 @@
 wer antwortet, als Angabe der Person) · U2-ADR-449 (die Antwort als JWE) · U2-ADR-457 (Selbst-Signatur der Halterin, Ed25519) ·
 U2-ADR-080 (kein Import fremder Nachweise; bleibt) · U2-ADR-486 (Post-Quanten-Übergang, `ANKER_SATZ`) · U2-ADR-062 (externe
 Krypto-Prüfung vor Produktivschaltung)
-**Status heute:** gilt — entschieden, nicht gebaut. Jeder Bau daraus braucht ein Einzelwort der Krypto-Gegenlesung. Die offenen
-Punkte stehen als Befunde in der Ratsche (Punkt 23) und als offene Klauseln im `konformitaet`-Block.
+**Status heute:** gilt. **Gebaut und ausgeliefert** ist die Datei-Antwort: Die Lese-App liest signierte Antworten (G), der Kern
+signiert jede Antwort mit dem Schlüssel je Stelle (H); der Schalter `ANTWORT_SIGNIEREN` steht seit 1ba9ffb42 auf `true` und ist mit
+v933 ausgeliefert (Nachsehen: `git show <kanon>:vivodepot.html | grep '^const ANTWORT_SIGNIEREN'`). Im Studio ist der Hauptweg mit
+Schlüsselpaar nur mit geprüftem Zertifikat gebaut (I). **Nicht gebaut** ist die direkte Übergabe nach OpenID4VP: kein Versand ohne
+Zertifikat, und der Ankersatz „Zugang“ schließt nur mit Test-Listen (unten, „Was nicht entschieden ist“). Jeder weitere Bau braucht
+ein Einzelwort der Krypto-Gegenlesung. Die offenen Punkte stehen als Befunde in der Ratsche (Punkt 23) und als offene Klauseln im
+`konformitaet`-Block.
 
 Zeilen- und Namensangaben gelten am Kanon 4d9d3b9c3 (K = vivodepot.html, L = vivodepot-lesen.html). Maßgeblich sind die Namen.
 
@@ -255,6 +260,25 @@ Dieses ADR gilt für **beide Wege**: die Datei-Antwort auf eine Anfrage nach U2-
     „unsigniert: browser“, und die Lese-App zeigt sie als „unsigniert (Browser ohne Ed25519)“, nicht als Antwort einer älteren Fassung.
 31. **Schalter.** `ANTWORT_SIGNIEREN` steht mit diesem Wagen aus; umgelegt wird er in einem eigenen Wagen (Punkt 13).
 
+### I · Hauptweg im Assistenten: Schlüsselpaar nur mit Zertifikat geprüft (Nachtrag 18.10.2026)
+
+Entscheidung vom 18.10.2026 („Hauptweg ja“): Im Assistenten „Anfrage“ ist das Schlüsselpaar der Stelle der Weg ohne getrenntes
+Passwort; das Einmalpasswort bleibt der zweite Weg.
+
+32. **Nur mit Zertifikat geprüft.** Eine Signatur mit dem eigenen Schlüssel allein schützt die Person nicht: ohne Zertifikat ist die
+    Anfrage im Kern ungeprüft (`anfrageSignaturPruefen`: `ohne-zertifikat`), und ein vertauschter Link signiert ebenso mit einem
+    eigenen Schlüssel. Das Schlüsselpaar wird deshalb nur vorausgewählt, wenn das Zertifikat der Stelle geprüft ist. Ohne Zertifikat
+    bleibt das Einmalpasswort die Vorauswahl; dort reist das Passwort getrennt von der Anfrage.
+33. **Drei Bedingungen.** (a) Das Zertifikat wird gegen den Anker geprüft, mit derselben Funktion wie im Kern; das Studio führt
+    `verifiziereProviderCredential` und die Anker wortgleich (Soll-Liste der Krypto-Hülle). (b) Der Schlüssel im Zertifikat ist der
+    eigene Tresor-Schlüssel (RFC-7638-Abdruck gleich); ein fremdes, gültiges Zertifikat wird abgewiesen. (c) Der Weg entscheidet sich
+    beim Erstellen der Anfrage; abgelaufen oder widerrufen heißt Einmalpasswort.
+34. **Empfangspaar je Anfrage** bleibt (Punkt 24). Die Stelle sichert die Schlüsseldatei der Anfrage mit eigenem Passwort; die Person
+    braucht keines. Ein dauerhaftes Empfangspaar für alle Anfragen ist verworfen.
+35. **Öffnen im Studio.** Antworten öffnen mit der Schlüsseldatei der Anfrage; die Bindung (Punkt 26) läuft wortgleich wie in der
+    Lese-App. `aud` wird gegen die Kennung aus dem signierten Zertifikat gehalten, der Vorgang gegen die getragene Anfrage. Ohne
+    Schlüsseldatei öffnet das Einmalpasswort wie bisher, ohne Abgleich von `aud`.
+
 ## Abgrenzung
 
 - U2-ADR-080 bleibt: Vivodepot importiert und prüft keine Nachweise fremder Aussteller. Dieses ADR prüft das Zertifikat der
@@ -376,6 +400,18 @@ konformitaet:
       - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Tag] Ausstellungstag, Ablauftag und ein ganz innerhalb des Tages gültiges Zertifikat tragen; der Vortag nicht"
       - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Sicherbarkeit] die ausgelieferte Lese-App v929 öffnet mit einer neuen Schlüsseldatei eine Antwort wie bisher"
       - tests/lese-app-schluessel-anfrage-bindung.test.js "[Schlüssel·Anfrage·Rot-Beweis] ohne Weiterreichen der gebundenen Kennung ginge die fremde Antwort durch"
+  - aussage: >-
+      Im Assistenten gilt das Schlüsselpaar nur mit einem gegen den Anker geprüften Zertifikat zum eigenen Tresor-Schlüssel, und das
+      entscheidet sich beim Erstellen; ohne ein solches Zertifikat bleibt das Einmalpasswort. Eine nur mit dem Tresor signierte
+      Anfrage ohne Zertifikat ist im Kern ungeprüft. Antworten öffnen mit der Schlüsseldatei halten aud gegen die Stelle des Zertifikats.
+    zustand: erfuellt
+    herkunft: U2-ADR-501-Nachtrag (18.10.2026)
+    pruefung:
+      - tests/studio-anfrage-hauptweg-zertifikat.test.js "[Hauptweg·1·2] ein gültiges Zertifikat zum eigenen Schlüssel gilt; die Stelle kommt aus dem signierten Zertifikat"
+      - tests/studio-anfrage-hauptweg-zertifikat.test.js "[Hauptweg·2] ein gültiges Zertifikat zu einem fremden Schlüssel wird abgewiesen (Rot-Beweis: ohne Abdruckvergleich nähme es)"
+      - tests/studio-anfrage-hauptweg-zertifikat.test.js "[Hauptweg·3] ohne Zertifikat und mit abgelaufenem Zertifikat kein Schlüsselpaar; entschieden beim Erstellen (Rot-Beweis)"
+      - tests/studio-anfrage-hauptweg-zertifikat.test.js "[Hauptweg·Kern] eine nur mit dem Tresor signierte Anfrage ohne Zertifikat ist im Kern ungeprüft"
+      - tests/studio-anfrage-hauptweg-zertifikat.test.js "[Hauptweg·Öffnen] mit der Schlüsseldatei: Bindung an die Anfrage, aud gegen die Stelle des Zertifikats (Rot-Beweis: ohne Kennung)"
 ```
 
 ---

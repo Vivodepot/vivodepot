@@ -341,17 +341,37 @@ test('[Sicherbarkeit·eingefroren] die mit dem Wagen erzeugte Datei mit Seed öf
    (dieselbe Bauart wie die Probe WHC·#3 in tests/wiederherstellungs-code.test.js). Gemessen wird allein der Lese- und Schreibweg
    des Depots; der braucht kein Produkt. Alle übrigen Proben dieser Datei laufen im gebackenen Standard-Produkt (ladeKern()).
    Rückweg: wer eine ältere Fassung behält, öffnet eine neue Sicherung weiter, und deren Speichern verliert den Seed nicht;
-   läuft darum nur im privaten Repo (Eintrag in tests/helfer/nur-privat.js, Grund GIT). */
-test('[Sicherbarkeit·Kern vor dem Wagen] der Kern von vor dem Wagen öffnet eine Sicherung mit Seed, und seine nächste Sicherung trägt ihn weiter', async () => {
+   läuft darum nur im privaten Repo (Eintrag in tests/helfer/nur-privat.js, Grund GIT).
+   Über einen Schemasprung (der Kern des Wagens hat eine höhere Schemastufe als der alte, erstmals mit Schema 93, U2-ADR-482) schaltet
+   das Versionstor des alten Kerns auf „nur lesen“ (entschieden 23.09.2026, Probe zum Versionstor): er öffnet die
+   Sicherung, schreibt aber nichts — also kann er den Seed nicht verlieren. Gemessen wird dann das Tor, nicht das Wieder-Speichern.
+   Beide Zweige haben einen Rot-Beweis (Wort der Gegenlesung 20.10.2026). */
+const ALT_KERN_PFLANZEN = Object.freeze({
+  // Ohne Versionstor schriebe der alte Kern über den Schemasprung hinweg.
+  ohneVersionstor: ['function neuereFassungNurLesen() {\n', (a) => a + '  return false;\n'],
+  // Gleiche Schemastufe wie der Kern des Wagens: der bisherige Rückweg.
+  gleichesSchema: [/^const SCHEMA_VERSION_AKTUELL = \d+;/m, () => 'const SCHEMA_VERSION_AKTUELL = ' + SCHEMA_HEUTE + ';'],
+  // Der alte Kern, der den Seed beim Speichern verlöre.
+  seedVerlieren: ['async function depotSerialisieren() {\n', (a) => a + '  if (data) delete data.antwortSeed;\n'],
+});
+const SCHEMA_HEUTE = Number((KERN_QUELLE.match(/^const SCHEMA_VERSION_AKTUELL = (\d+);/m) || [])[1]);
+async function altKernRundweg(pflanzen = []) {
   const { V } = ladeKern();
   await depotMitInhalt(V);
   const seed = b64(V._antwortSeedHolen());
   const datei = kopie(await V.depotSerialisieren());
-  const ziel = path.join(os.tmpdir(), 'vivodepot-vor-antwort-seed-' + process.pid + '.html');
-  fs.writeFileSync(ziel, execFileSync('git', ['show', KANON_VOR_DEM_WAGEN + ':vivodepot.html'],
-    { cwd: path.join(__dirname, '..'), env: ohneGitUmgebung(), maxBuffer: 64 * 1024 * 1024 }));
+  let quelle = execFileSync('git', ['show', KANON_VOR_DEM_WAGEN + ':vivodepot.html'],
+    { cwd: path.join(__dirname, '..'), env: ohneGitUmgebung(), maxBuffer: 64 * 1024 * 1024, encoding: 'utf8' });
+  for (const art of pflanzen) {
+    const [anker, ersatz] = ALT_KERN_PFLANZEN[art];
+    const vorher = quelle;
+    quelle = quelle.replace(anker, (m) => ersatz(m));
+    assert.notEqual(quelle, vorher, 'Vorbedingung: der Anker steht im alten Kern: ' + art);
+  }
+  const ziel = path.join(os.tmpdir(), 'vivodepot-vor-antwort-seed-' + process.pid + '-' + pflanzen.join('-') + '.html');
+  fs.writeFileSync(ziel, quelle);
   const zuvor = process.env.KERN_HTML_PATH;
-  let zurueck;
+  let zurueck, sprung;
   try {
     process.env.KERN_HTML_PATH = ziel;
     delete require.cache[require.resolve('./load-kern.js')];
@@ -359,13 +379,30 @@ test('[Sicherbarkeit·Kern vor dem Wagen] der Kern von vor dem Wagen öffnet ein
     assert.equal(typeof alt._antwortSeedHolen, 'undefined', 'Vorbedingung: der alte Kern kennt den Seed nicht');
     await alt.depotLaden(kopie(datei), PW);
     assert.equal(alt.getData().sektoren.health.bloodType, 'A+');
-    zurueck = kopie(await alt.depotSerialisieren());
+    sprung = Number(alt.SCHEMA_VERSION_AKTUELL) < SCHEMA_HEUTE;
+    if (sprung) await assert.rejects(alt.depotSerialisieren(), { code: 'neuere-fassung-nur-lesen' }, 'über den Schemasprung schreibt der alte Kern nichts');
+    else zurueck = kopie(await alt.depotSerialisieren());
   } finally {
     if (zuvor === undefined) delete process.env.KERN_HTML_PATH; else process.env.KERN_HTML_PATH = zuvor;
     delete require.cache[require.resolve('./load-kern.js')];
     fs.unlinkSync(ziel);
   }
+  if (sprung) return { sprung };
   const W = require('./load-kern.js').ladeKern().V;
   await W.depotLaden(kopie(zurueck), PW);
   assert.equal(b64(W._antwortSeedHolen()), seed, 'der Seed hat den alten Kern überstanden');
+  return { sprung };
+}
+test('[Sicherbarkeit·Kern vor dem Wagen] der Kern von vor dem Wagen öffnet eine Sicherung mit Seed; über einen Schemasprung schreibt er nichts, sonst trägt seine nächste Sicherung den Seed weiter', async () => {
+  assert.ok(Number.isInteger(SCHEMA_HEUTE), 'Vorbedingung: die Schemastufe des Kerns ist lesbar');
+  await altKernRundweg();
+});
+test('[Sicherbarkeit·Kern vor dem Wagen·gleiches Schema] auf derselben Schemastufe trägt die nächste Sicherung des alten Kerns den Seed weiter', async () => {
+  assert.equal((await altKernRundweg(['gleichesSchema'])).sprung, false);
+});
+test('[Sicherbarkeit·Kern vor dem Wagen·Rot-Beweis] ohne Versionstor schriebe er über den Sprung; auf gleicher Stufe fiele ein verlorener Seed auf', async () => {
+  const alt = execFileSync('git', ['show', KANON_VOR_DEM_WAGEN + ':vivodepot.html'], { cwd: path.join(__dirname, '..'), env: ohneGitUmgebung(), maxBuffer: 64 * 1024 * 1024, encoding: 'utf8' });
+  const schemaAlt = Number((alt.match(/^const SCHEMA_VERSION_AKTUELL = (\d+);/m) || [])[1]);
+  if (schemaAlt < SCHEMA_HEUTE) await assert.rejects(altKernRundweg(['ohneVersionstor']), 'Schemasprung ohne Versionstor: die Probe ist rot');
+  await assert.rejects(altKernRundweg(['gleichesSchema', 'seedVerlieren']), /Seed hat den alten Kern/, 'gleiches Schema, Seed verloren: die Probe ist rot');
 });

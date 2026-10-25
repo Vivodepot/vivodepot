@@ -213,9 +213,11 @@ function pruefungen(assert) {
         }
       } },
 
-    { name: 'DIE WÄHRUNG: die Regel steht auf EUR und hängt an der Sprache, nicht am Rechtsraum',
+    { name: 'DIE WÄHRUNG: sie kommt aus dem DE-Template der Zusammenstellung (EUR), nicht aus dem Gerüst',
       fn: (V) => {
-        assert.equal(V.textsatzRegeln().waehrung, 'EUR',
+        // U2-ADR-480: das Gerüst trägt keine Währung mehr; ohne Modul gilt die des Rechtsraum-Templates.
+        assert.equal(V.textsatzRegeln().waehrung, undefined, 'keine eingebaute Währung');
+        assert.equal(V.textsatzWaehrung(), 'EUR',
           'das Depot rechnet in Euro — die Bürgerin in Quito nicht');
         /* Ein roh eingelegtes Modul wirkt mit seinen Texten, nicht mit seiner Währung. */
         const d = V.getData();

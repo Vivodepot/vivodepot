@@ -169,7 +169,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   ANTWORT_HKDF_INFO, ANG_PBKDF2_ITERATIONEN, _angDeriveKey, _antwortAad,
   antwortEntschluesselnPasswort, antwortEntschluesselnSchluessel, istAntwortUmschlag,
   antwortMitSchluesseldateiOeffnen, schuetzeSchluesselJwk, entschluesseleSchluesselJwk, istGeschuetzteSchluesseldatei,
-  antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C,
+  antwortJweOeffnen, antwortJweKopf, antwortJweAlsUmschlag, _jweConcatKdf, ANTWORT_JWE_STUFEN, ANTWORT_JWE_P2C, ANTWORT_JWE_MAX_ZEICHEN,
   // U2-ADR-501: die signierte Antwort lesen (tests/lese-app-signierte-antwort.test.js)
   antwortOeffnenMitSignatur, antwortSignaturPruefen, schluesselAnfrageBindung, empfangAnfrageAbdruck, _anfrageZertifikatZumTag, antwortSignaturHTML, antwortSchluesselVermerken, antwortOeffnenFehlerText,
   antwortJweTraegtJws, ANTWORT_JWS_TYP, ANTWORT_JWS_ALGS, _jwkThumbprint, stellenKennung, stellenKennungTeile,
@@ -244,6 +244,7 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   _datenPrimitivLesenLesen: (typeof _datenPrimitivLesenLesen !== 'undefined' ? _datenPrimitivLesenLesen : undefined),
   datenSchemaLesenLesen: (typeof datenSchemaLesenLesen !== 'undefined' ? datenSchemaLesenLesen : undefined),
   logikModulPruefenLesen: (typeof logikModulPruefenLesen !== 'undefined' ? logikModulPruefenLesen : undefined),
+  formatSchemaAnwendenLesen: (typeof formatSchemaAnwendenLesen !== 'undefined' ? formatSchemaAnwendenLesen : undefined),
   // C1 (06.09.2026, "Der Beleg bleibt im Depot") — derselbe Prüfstand wie oben (vorlagen*),
   // für logikModule. _logikModulStandSetzen spiegelt _vorlagenStandSetzen (s. dort): der
   // Stand ist eine let-Bindung, ein Setzer stellt ihn ohne die asynchrone Kette zu fahren.
@@ -312,6 +313,9 @@ function __bereichsDefinitionenPruefenSynchron(d) {
   _markeName, _markeDomain, _markePlatzhalterAufloesen, _markeAnzeigeAnwenden, escapeHTML, topbarHTML,
   // Nachtrag 13.09.2026 — derselbe Zug für die Topbar-FARBE (U2-ADR-400, vormals REST-OFFEN)
   _markeFarbeAnwenden, _brandingKontrastVerhaeltnisHex, _brandingTopbarKontrastText,
+  // U2-ADR-473 W2 — Branding v2: das Token-Profil in der Lese-App (tests/lese-app-branding-v2-erscheinung.test.js)
+  _lesenErscheinungPruefen, _markeErscheinungAnwenden, _markeErscheinungRaeumen,
+  _LESEN_ERSCHEINUNG_ZUORDNUNG, _LESEN_ERSCHEINUNG_GESPERRT, _LESEN_ERSCHEINUNG_AB_WERK,
   _VD_BRANDING_TOPBAR_CSS_EIGENSCHAFTEN,
   // Nachtrag 13.09.2026 — die fünf Palette-Tokens (Fund, direkt im Anschluss an U2-ADR-408)
   _markePaletteAnwenden, _lesenPaletteAbleiten, _brandingHexZuHsl, _brandingHslZuHex,

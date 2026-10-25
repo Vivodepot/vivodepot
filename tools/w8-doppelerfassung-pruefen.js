@@ -25,6 +25,13 @@
         (a) Gleiches normalisiertes Label, verschiedene Feld-id.
         (b) Gleiche Feld-id, an einem NACHWEISLICH anderen Speicherort
             (verschiedener Träger UND verschiedener Ort — s. `_traegerOrt`).
+        (c) Sinngleiche Beschriftung (24.10.2026, Befund W8-NUR-GLEICHE-BESCHRIFTUNG): zwei Felder
+            DESSELBEN Bereichs, deren Beschriftungen einen Begriff der Liste tools/w8-begriffe.json
+            teilen. (a) sah nur gleiche Zeichenfolgen; in Pro standen „Wer informiert wen“ neben
+            „Zuerst benachrichtigen“ und „Wichtige Geschäftspartner“ neben „Wichtigste Kunden“, und
+            keiner der vier Fälle fiel auf. Nur Felder der obersten Ebene (keine Unterfelder) und nur
+            innerhalb eines Bereichs: dort entsteht die doppelte Erfassung, und so bleibt das Signal
+            lesbar. Die Liste ist bewusst klein; ein neuer Begriff ist eine Bewertung, kein Fund.
       Der Wächter FINDET breit (hohe Recall, bewusst über-inklusiv) — die
       Einordnung je Fund (`zu beheben` · `begründete Ausnahme` · `Entscheidung
       offen`) ist Menschenarbeit (Zug 2). Ein Fund mit `begründete Ausnahme`
@@ -176,6 +183,87 @@ function aehnlichkeitsFunde(traeger) {
   return funde;
 }
 
+// ── Erkennungsweg 1 (c) — sinngleiche Beschriftung über eine Begriffsliste ──────
+const BEGRIFFE_PFAD = path.join(REPO, 'tools', 'w8-begriffe.json');
+/* Die Liste als Muster: je Wortform ein Ausdruck und eine Marke. `syn:<b>` für ein Synonym, `ober:<b>`/`unter:<b>` für die
+   beiden Seiten eines Oberbegriffs. */
+function begriffsMuster(liste) {
+  const m = [];
+  const form = (f) => new RegExp('^' + f.split('*').map((t) => t.replace(/[.+?^${}()|[\]\\]/g, '\\$&')).join('[a-zäöüß]*') + '$');
+  for (const [b, formen] of Object.entries(liste.synonyme || {})) for (const f of formen) m.push({ marke: 'syn:' + b, re: form(f) });
+  for (const [b, seiten] of Object.entries(liste.umfasst || {})) {
+    for (const f of seiten.ober || []) m.push({ marke: 'ober:' + b, re: form(f) });
+    for (const f of seiten.unter || []) m.push({ marke: 'unter:' + b, re: form(f) });
+  }
+  return m;
+}
+function begriffeVon(label, muster) {
+  const raus = new Set();
+  for (const wort of String(label || '').toLowerCase().split(/[^a-zäöüß0-9-]+/).filter(Boolean)) {
+    for (const x of muster) if (x.re.test(wort)) raus.add(x.marke);
+  }
+  return raus;
+}
+/* Teilen zwei Markenmengen einen Begriff? Synonym gegen Synonym, Oberbegriff gegen Ober- oder Unterbegriff;
+   zwei Unterbegriffe allein nicht. */
+function geteilteBegriffe(a, z) {
+  const raus = new Set();
+  for (const x of a) {
+    const [art, b] = x.split(':');
+    if (art === 'syn' && z.has(x)) raus.add(b);
+    if (art === 'ober' && (z.has('ober:' + b) || z.has('unter:' + b))) raus.add(b);
+    if (art === 'unter' && z.has('ober:' + b)) raus.add(b);
+  }
+  return [...raus].sort();
+}
+function begriffsFunde(traeger, liste = JSON.parse(fs.readFileSync(BEGRIFFE_PFAD, 'utf8'))) {
+  const muster = begriffsMuster(liste);
+  const jeOrt = new Map();
+  for (const t of traeger) {
+    if (t.carrier !== 'Sektorfeld') continue;
+    const b = begriffeVon(t.label, muster);
+    if (!b.size) continue;
+    if (!jeOrt.has(t.ort)) jeOrt.set(t.ort, []);
+    jeOrt.get(t.ort).push(Object.assign({}, t, { begriffe: b }));
+  }
+  const funde = [];
+  for (const [ort, arr] of jeOrt) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        const a = arr[i]; const z = arr[j];
+        if ((a.vergleichsId || a.id) === (z.vergleichsId || z.id)) continue;
+        if (normLabel(a.label) === normLabel(z.label)) continue;   // gleiche Beschriftung meldet (a)
+        const geteilt = geteilteBegriffe(a.begriffe, z.begriffe);
+        if (!geteilt.length) continue;
+        const ids = [a.id, z.id].sort();
+        funde.push({ art: 'aehnlichkeit', signal: 'begriff', schluessel: ort + ':' + ids.join('~'), begriffe: geteilt,
+          traeger: [a, z].map((t) => ({ carrier: t.carrier, id: t.id, ort: t.ort, label: t.label })) });
+      }
+    }
+  }
+  return funde;
+}
+
+/* Die Felder der Pro-Bereiche (24.10.2026): der Kern trägt sie nicht, darum sah W-8 sie nie. Gelesen aus den Pro-Bereichsvorlagen
+   (Dateien `vivodepot-pro-*.json` im Ordner der Bereichsvorlagen), die Beschriftung aus dem deutschen Textsatz. Fehlen die Vorlagen
+   (öffentlicher Zuschnitt), gibt es keine Pro-Felder. Nur Felder der obersten Ebene, nur für Signal (c). */
+function proTraeger(repo = REPO) {
+  const ordner = path.join(repo, 'tools', 'bereich-templates'); // zuschnitt-privat: die Pro-Bereichsvorlagen bleiben drinnen; ohne sie gibt es keine Pro-Felder
+  if (!fs.existsSync(ordner)) return [];
+  const textsatz = path.join(repo, 'tools', 'textsatz-de-modul.json');
+  const texte = fs.existsSync(textsatz) ? JSON.parse(fs.readFileSync(textsatz, 'utf8')).texte : {};
+  const traeger = [];
+  for (const n of fs.readdirSync(ordner).filter((x) => /^vivodepot-pro-.*\.json$/.test(x)).sort()) {
+    const j = JSON.parse(fs.readFileSync(path.join(ordner, n), 'utf8'));
+    for (const [sid, b] of Object.entries(j.bereiche || {})) {
+      for (const sek of b.sektionen || []) {
+        for (const f of sek.felder || []) traeger.push({ carrier: 'Sektorfeld', id: f.id, label: texte[sid + '.' + f.id + '.label'] || '', ort: sid });
+      }
+    }
+  }
+  return traeger;
+}
+
 // ── Erkennungsweg 2 — Übersetzungstabellen (vollständig entscheidbar) ────
 function uebersetzungsFunde(html) {
   const funde = [];
@@ -196,8 +284,9 @@ function schluesselFund(f) {
   return f.art === 'aehnlichkeit' ? (f.art + '|' + f.signal + '|' + f.schluessel) : (f.art + '|' + f.konstante);
 }
 
-function alleFunde(V, html) {
-  return [...aehnlichkeitsFunde(alleTraeger(V)), ...uebersetzungsFunde(html)];
+function alleFunde(V, html, pro = proTraeger()) {
+  const traeger = alleTraeger(V);
+  return [...aehnlichkeitsFunde(traeger), ...begriffsFunde(traeger), ...begriffsFunde(pro), ...uebersetzungsFunde(html)];
 }
 
 function ladeGrundlinie() {
@@ -251,4 +340,4 @@ async function main() {
 }
 
 if (require.main === module) main();
-module.exports = { alleTraeger, normLabel, aehnlichkeitsFunde, uebersetzungsFunde, schluesselFund, alleFunde, gateBewerten, ermittleFunde, GRUNDLINIE };
+module.exports = { alleTraeger, normLabel, aehnlichkeitsFunde, begriffsFunde, begriffeVon, begriffsMuster, geteilteBegriffe, proTraeger, BEGRIFFE_PFAD, uebersetzungsFunde, schluesselFund, alleFunde, gateBewerten, ermittleFunde, GRUNDLINIE };

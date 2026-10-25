@@ -41,6 +41,10 @@
       "art": "fund",
       "grund": "Wert-Text eines Feldes — Datenfrage."
     },
+    "_nachtragEditorHTML": {
+      "art": "anzeige",
+      "grund": "Nennt im Hinweis bei mehreren Listeneinträgen den Namen des Bereichs, in dem die Person ergänzen soll; nur Anzeige, keine Datenfrage."
+    },
     "_pvFestlegungenSektionAbleiten": {
       "art": "anzeige",
       "grund": "Schreibt die abgeleitete Sektion der PV-Festlegungen in das angezeigte Bereichsobjekt; ruht advanceCare in Pro, kehrt es zurück, und der B12-Weg ruft es beim Nachreichen mit dem Bereich auf (28.09.2026)."

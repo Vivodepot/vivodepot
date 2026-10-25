@@ -44,6 +44,7 @@ const { produktHtmlTestfassung } = require('../produkt-html-erzeugen.js');
 const HTML_PATH = produktHtmlTestfassung('privat-de');
 const HTML = fs.readFileSync(HTML_PATH, 'utf8');
 const AXE = require.resolve('axe-core');
+const { skriptEinspielen } = require('../../tools/lib/skript-einspielen.js');
 const SEKTOREN = ['identitaet', 'gesundheit', 'finanzen', 'wohnen', 'mobilitaet',
   'vorsorge', 'verwaltung', 'meine-menschen', 'bildung', 'sozialversicherung'];
 const PW = 'Landmark-2026!';
@@ -157,7 +158,7 @@ async function messen(html, { dialogSchliessen: zu = false, eingriff = null } = 
     await depotEinrichten(seite);
     let dialogTitel = null;
     if (zu) dialogTitel = (await dialogSchliessen(seite)).titel;
-    await seite.addScriptTag({ path: AXE });
+    await skriptEinspielen(seite, AXE);
     if (eingriff) await seite.evaluate(eingriff);
     return { funde: await regionUeberBereiche(seite, !zu), dialogTitel };
   } finally {

@@ -134,7 +134,17 @@ const REGISTRY = [
     ausnahmen: ['bereich', 'fest', 'werte', 'teil', 'anhang', 'pflicht', 'vertreter'] },
   { label: 'BRANDING_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: 'BRANDING_MODUL_SCHLUESSEL' },
-    kopien: [{ datei: 'vivodepot-studio.html', name: 'BRANDING_MODUL_SCHLUESSEL' }] },
+    kopien: [{ datei: 'vivodepot-studio.html', name: 'BRANDING_MODUL_SCHLUESSEL' }],
+    // U2-ADR-473 W2: genau diese zwei, je mit Grund. Sonst bleibt die Kopie Schlüssel für Schlüssel gleich
+    // (tests/handkopien-branding-ausnahmen.test.js, mit Rot-Beweis).
+    ausnahmen: ['erscheinung', 'poweredByAus'],
+    ausnahmeGruende: {
+      erscheinung: 'Das Profil gibt es erst ab Branding-Fassung 2. Die Handkopie prüft nur, was der Studio-Bau erzeugt (baueBrandingModul, '
+        + 'Fassung 1, ohne Profil); geprüft wird ein Profil nur gegen das Erscheinungsbild des Produkts, und das trägt das Studio nicht. '
+        + 'Die Vorprüfung im Studio (Bereich EINLASS-REGELN, wörtlich der Kern-Prüfer) kennt das Feld.',
+      poweredByAus: 'Der Schalter gibt es erst ab Branding-Fassung 2 und wirkt nur aus einem signiert geprüften Modul in der Bürger-App. '
+        + 'Der Studio-Bau setzt ihn nicht; die Handkopie hat nichts zu prüfen. Die Vorprüfung im Studio kennt das Feld.',
+    } },
   { label: '_RECHTSRAUM_MODUL_SCHLUESSEL', art: 'liste',
     original: { datei: 'vivodepot.html', name: '_RECHTSRAUM_MODUL_SCHLUESSEL' },
     kopien: [{ datei: 'vivodepot-studio.html', name: '_RECHTSRAUM_MODUL_SCHLUESSEL' }] },

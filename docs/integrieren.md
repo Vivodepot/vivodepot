@@ -40,6 +40,13 @@ ist [`docs/format-modul/format-modul-schema.json`](format-modul/format-modul-sch
 keinen Code. Es sind Daten, die die App auslegt; im Browser der Person kann es nichts ausführen. Wie Module gebaut,
 geprüft und aufgenommen werden, steht in [`docs/modules/`](modules/README.md).
 
+**Eine Datei vor dem Einreichen prüfen.** Die Regeln, nach denen die App ein Modul, eine Vorlage oder eine Anfrage annimmt
+oder abweist, und die Regeln für ein Einreichungs-Paket sind veröffentlicht: lesbar in [`docs/pruefregeln/pruefregeln.md`](pruefregeln/pruefregeln.md),
+maschinenlesbar in [`docs/pruefregeln/pruefregeln.json`](pruefregeln/pruefregeln.json). Ihre eigene Datei prüfen Sie mit
+`npm ci` und danach `node tools/vorlage-pruefen.js --dokument <datei.json>`: Für Modul, Vorlage und Anfrage fällen das Urteil
+dieselben Prüfer, die beim Einlassen in der App laufen; ein Einreichungs-Paket wird gegen sein veröffentlichtes Schema geprüft,
+jede Vorlage darin wie in der App. Ob der Inhalt richtig ist und von wem die Datei kommt, sagt das Urteil nicht.
+
 ## 4 · Eine Person um Daten bitten: die Anfrage
 
 Eine Stelle kann einer Person eine **Anfrage** schicken: welche Felder, wozu. Eine Anfrage, die zusammen mit einem

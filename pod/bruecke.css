@@ -1,0 +1,7 @@
+body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+.kasten { border: 1px solid #ccc; border-radius: 6px; padding: 1rem; margin: 1rem 0; display: grid; gap: .5rem; }
+.hinweis { color: #444; }
+.fehler { color: #a00; }
+input, select, button { font: inherit; }
+/* hidden muss gewinnen: .kasten setzt display, das überstimmte sonst das Attribut (gemessen 16.10.2026). */
+[hidden] { display: none !important; }

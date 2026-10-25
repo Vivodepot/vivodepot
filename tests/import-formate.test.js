@@ -152,7 +152,9 @@ test('7) Round-Trip vCard Meine Menschen: Einträge feldweise identisch', async 
 test('9) Round-Trip SD-JWT-VC Identität: Claims + Adresse + Nationalität identisch', async () => {
   const ids = ['givenName', 'familyName', 'birthDate', 'birthName', 'birthPlace', 'nationality', 'streetAddress', 'postcodeCity'];
   const werte = { givenName: 'Maria', familyName: 'Mustermann', birthDate: '1980-05-15', birthName: 'Müller',
-    birthPlace: 'Augsburg', nationality: 'deutsch', streetAddress: 'Lindenweg 4', postcodeCity: '80331 München' };
+    birthPlace: 'Augsburg', streetAddress: 'Lindenweg 4', postcodeCity: '80331 München',
+    // U2-ADR-482: Codes der DESTATIS-Liste; hinaus als ISO-Codes (DE, TR), zurück über genau einen geltenden Listeneintrag.
+    nationality: [{ liste: 'destatis-staatsangehoerigkeit', code: '000' }, { liste: 'destatis-staatsangehoerigkeit', code: '163' }] };
   // nationalitaet ist seit Zug 3 (Sensibel-Architektur, 09.08.2026) schema-sensibel — Opt-in.
   const { b } = await roundTrip((V) => { for (const id of ids) V.sektorFeldSetzen('identity', id, werte[id]); }, 'sd-jwt-vc-identitaet', { sensibel: true });
   assert.deepEqual(felder(b.V, 'identity', ids), werte);

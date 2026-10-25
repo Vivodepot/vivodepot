@@ -1,4 +1,4 @@
-# Vivodepot — Standards, die der Code tatsächlich erzeugt und liest
+# Vivodepot · Standards im Code: Erzeugen und Einlesen
 
 **Jede Zahl und jede Versions-/Profil-Angabe hier stammt aus [`docs/faktenbasis.md`](docs/faktenbasis.md)**
 — einer maschinell erzeugten Datei, die `tools/faktenbasis-erzeugen.js` direkt aus dem geladenen
@@ -9,7 +9,7 @@ die aktuelle `docs/faktenbasis.md`.
 
 ---
 
-## Wie man das hier liest
+## Lesehinweise
 
 Vivodepot ist ein einzelnes, im Browser laufendes, verschlüsseltes Dokumentendepot
 (`vivodepot.html`). Für jedes Datenformat unten gilt dieselbe Frage: **erzeugt oder liest der
@@ -184,7 +184,7 @@ und `VivodepotProviderCredential`.
 
 ---
 
-## Krypto
+## Kryptographie
 
 - Schlüsselableitung: PBKDF2, 600.000 Iterationen.
 - Verschlüsselung: AES-256-GCM.
@@ -198,12 +198,12 @@ und `VivodepotProviderCredential`.
 ## Interner Versionsstand
 
 <!-- STANDZAHLEN:BEGIN — erzeugt von tools/build-standzahlen.js; Quelle: vivodepot.html -->
-Schema-Version 92, `SCHALEN_STAND` v933.
+Schema-Version 94, `SCHALEN_STAND` v952.
 <!-- STANDZAHLEN:END -->
 
 ---
 
-## Was hier bewusst NICHT steht
+## Abgrenzung
 
 Vier Fähigkeiten existieren im Code nicht: FHIR-Fragebogen-/Questionnaire-Export,
 Solid-Pod-/RDF-Export, eine „Weitergabe-Datei" mit vier Profilen, und ein Companion-Schema-Editor

@@ -60,7 +60,7 @@ Der Generator versendet **nichts automatisch**. Die Institution lädt die Datei 
 
 ## Sicherheit
 
-- **Kein Netzwerk** zur Laufzeit. CSP: `default-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'none'; …`
+- **Kein Netzwerk** zur Laufzeit. CSP: `default-src 'self' data:; script-src 'self' 'sha256-…'; connect-src 'none'; …; require-trusted-types-for 'script'; trusted-types default`. Jeder Inline-Block ist per sha256 erlaubt, kein `'unsafe-inline'` für Skripte (U2-ADR-470); die Hashes schreibt `tools/csp-bauen.js`, nachsehen mit `node tools/csp-bauen.js --check`.
 - **Kein Storage**: kein `localStorage`/`sessionStorage`/`IndexedDB`/Cookies. Reload = Eingaben weg (mit `beforeunload`-Warnung).
 - **Private-Key-Disziplin**: Der Private-Key wird nur im Speicher gehalten — bis beide Dateien heruntergeladen sind und das Paket damit signiert wurde; danach wird die Variable freigegeben (`privateKeyFreigeben()`). Vor dem Umbau (GEN1) fiel die Freigabe schon beim „Weiter“ nach dem Download, und zum Signieren musste die eben heruntergeladene Datei erneut hochgeladen werden; das entfällt. Wer ein weiteres Paket erzeugen will, lädt die Schlüsseldatei („Ich habe schon eine Schlüsseldatei“). Der Schlüssel liegt nie länger im Speicher als der Dialog offen ist und das Paket noch fehlt; er wird nirgends gespeichert.
 - **Krypto**: ausschließlich Web Crypto API (Ed25519). Der **VdCrypto-Block** ist byte-identisch zur Bürger-App (SHA-256 `4cd539cd564738e3f7d165235708bde0ea1253328fd5317e144a80b9a1d4fd98`). Der **gemeinsame JWS-Block** ist byte-identisch zum Kern (Andockpunkt für spätere Anbieter-Selbst-Signatur — derzeit nicht im Scope).

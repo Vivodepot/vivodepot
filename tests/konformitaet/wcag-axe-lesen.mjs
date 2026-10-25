@@ -23,7 +23,7 @@ import netzSperre from '../../tools/lib/netz-sperre.js';
 import AxeBuilder from '@axe-core/playwright';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, rmSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { createRequire } from 'node:module';
 
@@ -35,6 +35,8 @@ const HTML_PFAD = process.env.LESEN_HTML_PATH
   ? resolve(process.env.LESEN_HTML_PATH)
   : join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'vivodepot-lesen.html');
 const FILE_URL = pathToFileURL(HTML_PFAD).href;
+// AXE-SICHTEN-STILL-UNGEPRUEFT (22.10.2026): dieselbe Sollliste wie im Kern-Lauf, Schlüssel `lese-app`.
+const SOLL = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'tools', 'axe-sichten.json'), 'utf8'));
 // EN-301-549: die axe-Regeln zu EN 301 549 V3.2.1 Kap. 9 (Web, = WCAG 2.1 AA); Registerzeile barrierefreiheit/en-301-549.
 const TAGS    = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa', 'EN-301-549'];
 const EXCLUDE = ['.logo-wort', '.vd-logo'];   // WCAG 1.4.3 Logotype-Ausnahme, wortgleich zum Kern
@@ -120,6 +122,11 @@ test('[Konformität] axe-core WCAG 2.2 AA über alle Lese-App-Sichten', async (t
     t.diagnostic(`Sichten mit Violations: ${mitViol.length}`);
     for (const v of mitViol) t.diagnostic(`  ${v.name}: ${v.violations.join(', ')}`);
 
+    const soll = SOLL['lese-app'].filter(n => !(n in SOLL.ausnahmen));
+    const ist = alle.map(v => v.name);
+    assert.deepEqual([...ist].sort(), [...soll].sort(),
+      'gescannte Lese-App-Sichten weichen von tools/axe-sichten.json ab — fehlend: ' +
+      soll.filter(n => !ist.includes(n)).join(', ') + ' · neu: ' + ist.filter(n => !soll.includes(n)).join(', '));
     assert.equal(mitViol.length, 0,
       `WCAG-Violations in ${mitViol.length}/${alle.length} Lese-App-Sichten:\n` +
       mitViol.map(v => `  ${v.name}: ${v.violations.join(', ')}`).join('\n'));

@@ -22,6 +22,13 @@ const FIXTURE = path.join(__dirname, 'fixtures', 'vorfuehrung-zugang-zum-recht',
 const PASSWORT = 'zugang-zum-recht-vorfuehrung-2026';   // steht im README der Fixture
 const AUSZUEGE = ['erbschein-vorbereitung', 'zugang-zum-recht-beratungshilfe'];
 const PRO = PRODUKTE.map((p) => p.slug).filter((s) => s.startsWith('pro-'));
+// Ein unbedingter Test auf oberster Ebene (25.10.2026): im öffentlichen Zuschnitt gibt es kein Pro-Produkt, die Schleife unten
+// legt dann keinen Test an — und eine Datei mit after() und ohne Test bricht unter --test-force-exit mit SIGABRT ab
+// (Wächter: tests/haken-ohne-unbedingten-test.test.js). Er läuft in beiden Ständen und hält zugleich fest, dass der Stand
+// entweder beide Pro-Produkte trägt oder keins — nie nur eines, von dem die Schleife dann still nur die Hälfte prüfte.
+test('[Pro·Ab-Werk·Vorbedingung] der Stand trägt beide Pro-Produkte oder keins', () => {
+  assert.ok(PRO.length === 0 || PRO.join() === 'pro-de,pro-en', 'Pro-Produkte: ' + PRO.join());
+});
 
 const gebaut = new Map();
 const TMP = fs.mkdtempSync(path.join(os.tmpdir(), 'vd-pro-abwerk-'));

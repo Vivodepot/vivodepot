@@ -60,3 +60,5 @@ derselben Lizenz steht.
 
 Die internen Arbeitsregeln des Projekts sind kein Inhalt dieses Dokuments — sie gelten für die
 Entwicklung, nicht für die Mitwirkung von außen.
+Verfahren und Zuständigkeiten nach IT-Grundschutz++ stehen in
+[`docs/grundschutz/verfahren-und-zustaendigkeiten.md`](docs/grundschutz/verfahren-und-zustaendigkeiten.md).

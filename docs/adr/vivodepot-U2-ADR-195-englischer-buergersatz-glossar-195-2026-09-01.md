@@ -259,6 +259,29 @@ herkunft: entscheidung
 pruefung: tests/pre-depot-en-sync.test.js#[Anlassfall] der echte Bestand: 0 Abweichungen zwischen dem Vor-Depot-Sprachangebot und dem EN-Modul
 ```
 
+## Nachtrag 23.10.2026 — „Patientenverfügung“ heißt „living will“
+
+Die Zeile „Patientenverfügung → advance directive“ der Tabelle oben ist abgelöst. Am 03.10.2026 wurde
+entschieden, dass amtliche Übersetzungen vor eigenen gehen; die Bundesnotarkammer, die das Zentrale
+Vorsorgeregister führt, und die amtliche Übersetzung des BGB (§ 1901a) sagen „living will“.
+
+- **Festlegung jetzt:** Patientenverfügung → „living will“, ohne deutschen Begriff in Klammern. Das
+  Glossar `tools/textsatz-en-begriffe-pruefen.js` führt `kanonisch: ['living will']`; die Begründung steht dort
+  am Eintrag.
+- **Mitgezogen:** Betreuungsgericht → „custodianship court“ (statt des deutschen Worts in Klammern) und „enduring
+  power of attorney“ im Hinweis zur Vertretungsgrundlage; der IPS-Begleittext sagt „Living will“ statt „Advance
+  directive (living will)“.
+- **Unverändert:** alle übrigen Zeilen der Tabelle, darunter „power of attorney (advance care)“ für die
+  Vorsorgevollmacht.
+
+```konformitaet
+aussage:  Der englische Textsatz nennt die Patientenverfügung durchgehend „living will“; nur das Zitat aus dem
+          amtlichen Formular („advance healthcare directive“, U2-ADR-343) steht als Ausnahme im Glossar.
+zustand:  geprüft
+herkunft: entscheidung
+pruefung: tests/textsatz-en-begriffe-pruefen.test.js#[Anlassfall·behoben] alle fünf Glossar-Begriffe (Vollmacht/Patientenverfügung/Depot/Betreuer/Bereich): 0 Verstöße gegen den echten Bestand
+```
+
 ---
 
-*Vivodepot GmbH · Berlin · 05.09.2026*
+*Vivodepot GmbH · Berlin · 05.09.2026, Nachtrag 23.10.2026*

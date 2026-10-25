@@ -507,9 +507,9 @@ test('[IA-08] institutionsArtModulPruefen im Generator ist wortgleich zum Kern-P
 test('[BM-01] ein gültiger Bereich wird gebaut und vom echten Kern-Einlassweg angenommen', async () => {
   const { V: GEN } = ladeGenerator();
   const { V: KERN } = require('./load-kern.js').ladeKern();
-  const state = { bereich: { moduleVersion: 1, sprache: 'de', herkunft: 'fr-anbieter', bereiche: [{ id: 'pets', label: 'Haustiere', icon: 'paw' }] } };
+  const state = { bereich: { moduleVersion: 1, sprache: 'de', herkunft: 'fr-anbieter', bereiche: [{ id: 'garden', label: 'Garten', icon: 'paw' }] } };   // seit U2-ADR-479 ist pets eingebaut, darum ein freier Name
   const modul = GEN.baueBereichModul(state);
-  assert.deepEqual(rein(modul), { modulTyp: 'bereich', moduleVersion: 1, herkunft: 'fr-anbieter', sprache: 'de', bereiche: { pets: { label: 'Haustiere', icon: 'paw' } } });
+  assert.deepEqual(rein(modul), { modulTyp: 'bereich', moduleVersion: 1, herkunft: 'fr-anbieter', sprache: 'de', bereiche: { garden: { label: 'Garten', icon: 'paw' } } });
 
   await KERN.depotAnlegen('test-pw-12345');
   KERN.akteurSelbstErklaeren('B');
@@ -520,10 +520,10 @@ test('[BM-01] ein gültiger Bereich wird gebaut und vom echten Kern-Einlassweg a
 
 test('[BM-02] eine reservierte ID (bestehender Sektor) wird verworfen, das Modul bleibt gültig', () => {
   const { V } = ladeGenerator();
-  const state = { bereich: { moduleVersion: 1, sprache: 'de', herkunft: 'x', bereiche: [{ id: 'pets', label: 'Haustiere' }, { id: 'health', label: 'x' }] } };
+  const state = { bereich: { moduleVersion: 1, sprache: 'de', herkunft: 'x', bereiche: [{ id: 'garden', label: 'Garten' }, { id: 'health', label: 'x' }] } };
   const p = V.pruefeBereich(state);
   assert.equal(p.blocker.length, 0);
-  assert.deepEqual(rein(p.geprueft.bereiche), { pets: { label: 'Haustiere', icon: 'folder' } });
+  assert.deepEqual(rein(p.geprueft.bereiche), { garden: { label: 'Garten', icon: 'folder' } });
   assert.equal(p.warnungen.length, 1);
   assert.match(p.warnungen[0], /health/);
 });

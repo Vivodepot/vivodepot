@@ -14,8 +14,9 @@ Vorschau an.
 
 ## 2. Depot anlegen
 
-Beim ersten Start ein Passwort setzen. Das Passwort verschlüsselt das Depot — ohne Passwort kein
-Zugriff, auch nicht für Vivodepot selbst.
+Beim ersten Start ein Passwort setzen. Das Passwort verschlüsselt das Depot. Einen zweiten Weg ins volle
+Depot gibt es nur über den Wiederherstellungs-Code, den die Anwendung beim Anlegen anbietet (oder später in
+den Einstellungen). Ohne Passwort und ohne Code kein Zugriff auf das volle Depot, auch nicht für Vivodepot selbst.
 
 ## 3. Sichern
 

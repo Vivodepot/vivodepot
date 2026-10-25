@@ -23,7 +23,8 @@ Unterstützung wird zwölf Monate im Voraus angekündigt. Die Einzelheiten stehe
 
 - **[`CHANGELOG.md`](../CHANGELOG.md):** je Fassung ein Abschnitt; behobene Schwachstellen stehen dort unter
   „Sicherheit“ mit ihrer Nummer und dem, was zu tun ist.
-- **[`SECURITY.md`](../SECURITY.md), Abschnitt 8:** der SHA-256 jeder ausgelieferten Datei je Fassung. Wie man ihn aus
-  dem Quelltext nachrechnet, steht in [`DEVELOPING.md`](../DEVELOPING.md).
+- **[`SECURITY.md`](../SECURITY.md), Abschnitt 8:** der SHA-256 jeder ausgelieferten Datei je Fassung. Aus dem Quelltext
+  nachrechnen lässt sich die Zeile „kern“ (ab v937, für v933 nachgetragen); Prüfweg und Grund, warum die Produkte selbst nicht, stehen in
+  [`SECURITY.md`](../SECURITY.md), Abschnitte 8 und 2.2.
 - **Öffentliches Repository:** jeder Stand dort trägt den annotierten Tag `v1.0.<Fassung>`; ab v1.0.857 ist er
   SSH-signiert, ältere nicht. Wie man die Signatur prüft, steht in [`SECURITY.md`](../SECURITY.md), Abschnitt 2.1.

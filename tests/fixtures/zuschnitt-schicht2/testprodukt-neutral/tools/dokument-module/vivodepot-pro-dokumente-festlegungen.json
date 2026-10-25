@@ -1,0 +1,424 @@
+{
+  "modulTyp": "dokumente",
+  "moduleVersion": 1,
+  "herkunft": "vivodepot",
+  "sprache": "de",
+  "dokumente": {
+    "pvBmj": {
+      "steps": [
+        {
+          "dokEinleitung": "Wenn",
+          "feld": {
+            "id": "applicableSituations",
+            "typ": "mehrfachauswahl",
+            "optionen": [
+              {
+                "wert": "sterbeprozess"
+              },
+              {
+                "wert": "endstadium"
+              },
+              {
+                "wert": "gehirnschaedigung"
+              },
+              {
+                "wert": "hirnabbau"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "ownAdditionalSituation",
+            "typ": "textarea",
+            "beispiel": ""
+          }
+        },
+        {
+          "bezug": "Testtext 1",
+          "feld": {
+            "id": "lifeSustainingMeasures",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ausschoepfen"
+              },
+              {
+                "wert": "unterlassen"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 2",
+          "feld": {
+            "id": "painAndSymptomTreatment",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ohne_daempfung"
+              },
+              {
+                "wert": "mit_daempfung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "acceptsLifeShorteningFromPain",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 1",
+          "feld": {
+            "id": "artificialNutritionAndHydration",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "resuscitationInDescribedSituations",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "emergencyDoctorNotified",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 4",
+          "feld": {
+            "id": "resuscitationInAllCases",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ab"
+              },
+              {
+                "wert": "ab_ausser_op"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "artificialVentilation",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "dialysis",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "antibiotics",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 3",
+          "feld": {
+            "id": "bloodAndBloodProducts",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "palliativ"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "bezug": "Testtext 5",
+          "feld": {
+            "id": "placeOfTreatmentOrDeath",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "krankenhaus"
+              },
+              {
+                "wert": "zuhause"
+              },
+              {
+                "wert": "hospiz"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "supportFromThesePersons",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          }
+        },
+        {
+          "feld": {
+            "id": "supportFromChurchOrCommunity",
+            "typ": "text",
+            "beispiel": ""
+          }
+        },
+        {
+          "feld": {
+            "id": "hospiceSupport",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "confidentialityWaiverFor",
+            "typ": "refMehrfach",
+            "entitaet": "person"
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfUnregulated",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt"
+              },
+              {
+                "wert": "betreuer"
+              },
+              {
+                "wert": "arzt"
+              },
+              {
+                "wert": "andere"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersOtherPersonName",
+            "typ": "text",
+            "beispiel": "",
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfUnregulated",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfDeviatingWill",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "bevollmaechtigt"
+              },
+              {
+                "wert": "betreuer"
+              },
+              {
+                "wert": "arzt"
+              },
+              {
+                "wert": "andere"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "whoseViewMattersIfDeviatingOther",
+            "typ": "text",
+            "beispiel": "",
+            "verborgenWenn": {
+              "feld": "whoseViewMattersIfDeviatingWill",
+              "wert": [
+                "bevollmaechtigt",
+                "betreuer",
+                "arzt"
+              ]
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "personalValuesOrFurtherDocuments",
+            "typ": "textarea",
+            "beispiel": ""
+          }
+        },
+        {
+          "feld": {
+            "id": "organDonationDecision",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "zustimmung"
+              },
+              {
+                "wert": "ablehnung"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "priorityIfOrganDonationConflict",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "organspende"
+              },
+              {
+                "wert": "patientenverfuegung"
+              }
+            ],
+            "verborgenWenn": {
+              "feld": "organDonationDecision",
+              "wert": "ablehnung"
+            }
+          }
+        },
+        {
+          "feld": {
+            "id": "waivesFurtherMedicalInformation",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "ja"
+              },
+              {
+                "wert": "nein"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "informationOrCounsellingReceived",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "counsellingBy",
+            "typ": "text"
+          }
+        },
+        {
+          "feld": {
+            "id": "validityDuration",
+            "typ": "auswahl",
+            "optionen": [
+              {
+                "wert": "unbefristet"
+              },
+              {
+                "wert": "befristet"
+              }
+            ]
+          }
+        },
+        {
+          "feld": {
+            "id": "validityDurationDeadline",
+            "typ": "text",
+            "verborgenWenn": {
+              "feld": "validityDuration",
+              "wert": "unbefristet"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

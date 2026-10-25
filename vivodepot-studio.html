@@ -10,7 +10,132 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-fleJv8e3oDgndqIvgzSGapN3NZcRrv0IsrqGl/YKz9w='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<script id="vertrauensregel">
+(function vertrauensregelEinrichten() {
+  if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
+  // Elemente, die nie aus einer Zeichenkette entstehen: sie führen aus, laden fremd oder ändern die Regeln der Seite.
+  var VERBOTEN = { script: 1, iframe: 1, frame: 1, frameset: 1, object: 1, embed: 1, applet: 1, base: 1, meta: 1, link: 1,
+    portal: 1, noscript: 1, noembed: 1, noframes: 1, xmp: 1, plaintext: 1 };
+  // Rohtext: für HTML kein Markup, für SVG/MathML schon. Ein Tag darin ist darum in jeder Lesart ein Fund.
+  var ROHTEXT = { style: 1, textarea: 1, title: 1 };
+  var ADRESSEN = { href: 1, src: 1, action: 1, formaction: 1, 'xlink:href': 1, data: 1, poster: 1, background: 1,
+    codebase: 1, cite: 1, ping: 1, values: 1, to: 1, from: 1, by: 1 };
+  var ZEICHEN = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", colon: ':', tab: '\t', newline: '\n', nbsp: ' ',
+    sol: '/', bsol: '\\', semi: ';', lpar: '(', rpar: ')', period: '.', comma: ',', equals: '=', num: '#', excl: '!',
+    quest: '?', percnt: '%', plus: '+' };
+  var SKRIPT_ADRESSEN = { 'sw.js': 1, './vorabkonfiguration.js': 1 };
+
+  // Ablehnungen als Kennung, nicht als Satz: der Block steht im Gerüst jeder Anwendung, und Sätze gehören ins Produkt
+  // (tools/geruest-waechter-pruefen.js, Eimer satz). Die Meldung liest nur, wer die Konsole öffnet.
+  function ablehnen(was) { throw new TypeError('vertrauensregel-abgelehnt:' + was); }
+  function leer(c) { return c === ' ' || c === '\t' || c === '\n' || c === '\r' || c === '\f'; }
+  function buchstabe(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'); }
+
+  // Eine Adresse, wie der Browser sie liest: Zeichenreferenzen entschlüsselt, Steuer- und Leerzeichen entfernt.
+  function adresseGefaehrlich(name, roh) {
+    var w = String(roh)
+      .replace(/&#x([0-9a-f]+);?/gi, function (_, h) { var n = parseInt(h, 16); return n > 0xffff ? '�' : String.fromCharCode(n); })
+      .replace(/&#([0-9]+);?/g, function (_, d) { var n = parseInt(d, 10); return n > 0xffff ? '�' : String.fromCharCode(n); })
+      .replace(/&([a-z]+);/gi, function (g, n) { var z = ZEICHEN[n.toLowerCase()]; return z === undefined ? g : z; });
+    if (/&[a-z0-9]+;/i.test(w)) return true;   // eine unbekannte benannte Referenz: nicht raten
+    w = w.replace(/[\u0000- \u007f]+/g, '').toLowerCase();
+    var teile = name === 'values' ? w.split(';') : [w];
+    for (var i = 0; i < teile.length; i++) {
+      if (teile[i].indexOf('javascript:') === 0 || teile[i].indexOf('vbscript:') === 0) return true;
+    }
+    return false;
+  }
+
+  function pruefen(s) {
+    var n = s.length;
+    var i = 0;
+    while (i < n) {
+      var lt = s.indexOf('<', i);
+      if (lt < 0) return;
+      var c = s.charAt(lt + 1);
+      if (s.slice(lt + 1, lt + 4) === '!--') {
+        // Kommentar: endet am frühesten möglichen Ende (zwei Striche und '>', zwei Striche, '!' und '>', oder sofort,
+        // wenn direkt nach dem Öffner ein '>' oder '->' folgt).
+        var ende = -1;
+        if (s.charAt(lt + 4) === '>') ende = lt + 5;
+        else if (s.slice(lt + 4, lt + 6) === '->') ende = lt + 6;
+        else {
+          var a = s.indexOf('-->', lt + 4);
+          var b = s.indexOf('--!>', lt + 4);
+          if (a >= 0) ende = a + 3;
+          if (b >= 0 && (ende < 0 || b + 4 < ende)) ende = b + 4;
+        }
+        if (ende < 0) return;
+        i = ende;
+      } else if (c === '!' || c === '?' || (c === '/' && !buchstabe(s.charAt(lt + 2)))) {
+        // Doctype, CDATA, Verarbeitungsanweisung, falsches Endtag: für HTML ein Kommentar bis zum nächsten '>'.
+        var g = s.indexOf('>', lt + 2);
+        if (g < 0) return;
+        i = g + 1;
+      } else if (buchstabe(c) || (c === '/' && buchstabe(s.charAt(lt + 2)))) {
+        var endtag = c === '/';
+        var j = lt + (endtag ? 2 : 1);
+        var name = '';
+        while (j < n && !leer(s.charAt(j)) && s.charAt(j) !== '/' && s.charAt(j) !== '>') { name += s.charAt(j); j++; }
+        name = name.toLowerCase();
+        if (!endtag && VERBOTEN[name] === 1) ablehnen('element:' + name);
+        while (j < n) {
+          var z = s.charAt(j);
+          if (leer(z) || z === '/') { j++; continue; }
+          if (z === '>') { j++; break; }
+          var an = '';
+          do { an += s.charAt(j); j++; } while (j < n && !leer(s.charAt(j)) && s.charAt(j) !== '/' && s.charAt(j) !== '>' && s.charAt(j) !== '=');
+          while (j < n && leer(s.charAt(j))) j++;
+          var wert = null;
+          if (s.charAt(j) === '=') {
+            j++;
+            while (j < n && leer(s.charAt(j))) j++;
+            var q = s.charAt(j);
+            if (q === '"' || q === "'") {
+              var zu = s.indexOf(q, j + 1);
+              if (zu < 0) { wert = s.slice(j + 1); j = n; } else { wert = s.slice(j + 1, zu); j = zu + 1; }
+            } else if (q !== '>') {
+              var k = j;
+              while (k < n && !leer(s.charAt(k)) && s.charAt(k) !== '>') k++;
+              wert = s.slice(j, k);
+              j = k;
+            }
+          }
+          if (!endtag) {
+            var al = an.toLowerCase();
+            if (al.indexOf('on') === 0) ablehnen('ereignis-attribut:' + al);
+            if (al === 'srcdoc') ablehnen('srcdoc');
+            if (wert !== null && ADRESSEN[al] === 1 && adresseGefaehrlich(al, wert)) ablehnen('skript-adresse-in:' + al);
+          }
+        }
+        i = j;
+        if (!endtag && ROHTEXT[name] === 1) {
+          var schluss = s.toLowerCase().indexOf('<' + '/' + name, i);
+          var inhalt = schluss < 0 ? s.slice(i) : s.slice(i, schluss);
+          for (var p = inhalt.indexOf('<'); p >= 0; p = inhalt.indexOf('<', p + 1)) {
+            var d = inhalt.charAt(p + 1);
+            if (buchstabe(d) || (d === '/' && buchstabe(inhalt.charAt(p + 2)))) ablehnen('markup-im-rohtext:' + name);
+          }
+          if (schluss < 0) return;
+          i = schluss;
+        }
+      } else {
+        i = lt + 1;
+      }
+    }
+  }
+
+  window.trustedTypes.createPolicy('default', {
+    createHTML: function (s) { s = String(s); pruefen(s); return s; },
+    createScriptURL: function (u) {
+      if (Object.prototype.hasOwnProperty.call(SKRIPT_ADRESSEN, String(u))) return String(u);
+      ablehnen('skript-adresse:' + String(u).slice(0, 40));
+    },
+    createScript: function () { ablehnen('skript-aus-text'); }
+  });
+})();
+</script>
 <!-- Rahmen-Schutz (B16-ADR-066, 26.09.2026): dieselbe Form wie im Kern und in der Lese-App. frame-ancestors wirkt nur als
      HTTP-Header, und der Webspace setzt keinen — die Seite zeigt sich darum nur als oberstes Fenster; in einem fremden Rahmen
      leitet sie um oder bleibt verborgen. `id` ist Pflicht: tools/krypto-block-propagation-pruefen.js findet den gepinnten
@@ -1378,10 +1503,12 @@ label.as-feld { margin: 0; }
   <div class="aa-antworten">
     <p class="eingang-aug" data-en="Replies">Antworten</p>
     <h1 class="as-titel" data-en="Open replies you have received">Eingegangene Antworten öffnen</h1>
-    <p class="as-lead" data-en="Choose the reply files that people sent you, and enter the password of the request. Nothing is stored; when you close the page, the replies are gone from here.">Wählen Sie die Antwort-Dateien, die Ihnen Personen geschickt haben, und geben Sie das Passwort der Anfrage ein. Nichts wird gespeichert; schließen Sie die Seite, sind die Antworten hier wieder fort.</p>
+    <p class="as-lead" data-en="Choose the reply files that people sent you. For a request with a password, enter that password; for a request signed with your certificate, choose its key file and enter the key file’s password. Nothing is stored; when you close the page, the replies are gone from here.">Wählen Sie die Antwort-Dateien, die Ihnen Personen geschickt haben. Zu einer Anfrage mit Passwort geben Sie dieses Passwort ein; zu einer Anfrage, die mit Ihrem Zertifikat signiert war, wählen Sie ihre Schlüsseldatei und geben deren Passwort ein. Nichts wird gespeichert; schließen Sie die Seite, sind die Antworten hier wieder fort.</p>
     <label class="as-feld" for="an-dateien"><span data-en="Reply files (.jwe)">Antwort-Dateien (.jwe)</span></label>
     <input type="file" id="an-dateien" class="as-eingabe" accept=".jwe,application/jose" multiple>
-    <label class="as-feld" for="an-passwort"><span data-en="Password of the request">Passwort der Anfrage</span></label>
+    <label class="as-feld" for="an-schluessel"><span data-en="Key file of the request (.vdkey), if the request was signed with your certificate">Schlüsseldatei der Anfrage (.vdkey), wenn die Anfrage mit Ihrem Zertifikat signiert war</span></label>
+    <input type="file" id="an-schluessel" class="as-eingabe" accept=".vdkey,.json,application/json">
+    <label class="as-feld" for="an-passwort"><span data-en="Password of the request, or of the key file">Passwort der Anfrage oder der Schlüsseldatei</span></label>
     <input type="password" id="an-passwort" class="as-eingabe" autocomplete="off">
     <div class="as-knoepfe"><button type="button" class="as-knopf" id="an-oeffnen" data-en="Open replies">Antworten öffnen</button>
       <button type="button" class="link-knopf" id="an-zurueck" data-en="Back to the choice">Zurück zur Auswahl</button></div>
@@ -1516,10 +1643,22 @@ label.as-feld { margin: 0; }
 
       <div id="aa-schritt-4" hidden>
         <h1 class="as-titel" data-en="How the reply reaches you">Wie die Antwort zu Ihnen kommt</h1>
-        <p class="as-lead" data-en="The person saves the reply as a locked file and sends it to you. You open it with a password that you give the person together with the request.">Die Person speichert die Antwort als verschlossene Datei und schickt sie Ihnen. Sie öffnen sie mit einem Passwort, das Sie der Person zusammen mit der Anfrage geben.</p>
+        <p class="as-lead" id="aa-weg-lead"></p>
         <label class="as-feld" for="aa-an"><span data-en="To which e-mail address should the person send the reply?">An welche E-Mail-Adresse soll die Person ihre Antwort schicken?</span></label>
         <input type="text" id="aa-an" class="as-eingabe" autocomplete="email" placeholder="z. B. termine@musterstadt.de" data-en-ph="e.g. appointments@exampletown.org">
         <p class="as-hilfe" data-en="Instead of an address, a place also works, for example your counter. The person sees it before replying.">Statt einer Adresse geht auch ein Ort, etwa Ihr Schalter. Die Person sieht es, bevor sie antwortet.</p>
+        <details class="as-feld" id="aa-stelle-block">
+          <summary data-en="With your organisation’s certificate: no password for the person">Mit dem Zertifikat Ihrer Stelle: ohne Passwort für die Person</summary>
+          <p class="as-hilfe" data-en="Load your organisation’s key file and the certificate Vivodepot issued for it. The request is then signed and verified, and the person replies without a password.">Laden Sie die Schlüsseldatei Ihrer Stelle und das Zertifikat, das Vivodepot dazu ausgestellt hat. Dann ist die Anfrage signiert und geprüft, und die Person antwortet ohne Passwort.</p>
+          <label class="as-feld" for="aa-stelle-schluessel"><span data-en="Key file of your organisation (.vdkey)">Schlüsseldatei Ihrer Stelle (.vdkey)</span></label>
+          <input type="file" id="aa-stelle-schluessel" class="as-eingabe" accept=".vdkey,.json,application/json">
+          <label class="as-feld" for="aa-stelle-pw"><span data-en="Password of the key file">Passwort der Schlüsseldatei</span></label>
+          <input type="password" id="aa-stelle-pw" class="as-eingabe" autocomplete="off">
+          <label class="as-feld" for="aa-stelle-zertifikat"><span data-en="Certificate of your organisation">Zertifikat Ihrer Stelle</span></label>
+          <input type="file" id="aa-stelle-zertifikat" class="as-eingabe" accept=".jwt,.json,.txt,application/json,text/plain">
+          <div class="as-knoepfe"><button type="button" class="as-knopf klein" id="aa-stelle-laden" data-en="Load and check">Laden und prüfen</button></div>
+          <p class="as-hilfe" id="aa-stelle-status" role="status"></p>
+        </details>
         <p class="as-meldung" id="aa-meldung-4" role="alert" hidden></p>
         <div class="as-knoepfe"><button type="button" class="as-knopf" id="aa-weiter-4" data-en="Next →">Weiter →</button>
           <button type="button" class="link-knopf" id="aa-zurueck-4" data-en="Back">Zurück</button></div>
@@ -1536,7 +1675,15 @@ label.as-feld { margin: 0; }
 
       <div id="aa-schritt-6" hidden>
         <h1 class="as-titel" data-en="Publish">Veröffentlichen</h1>
-        <p class="as-lead" data-en="You get the request as a link, as a file and as a ready-made letter, plus a password that the person gets by another route. You open the replies with that password.">Sie bekommen die Anfrage als Link, als Datei und als fertigen Brief, dazu ein Passwort, das die Person auf einem anderen Weg bekommt. Mit diesem Passwort öffnen Sie die Antworten.</p>
+        <p class="as-lead" id="aa-erzeugen-lead"></p>
+        <div id="aa-empfang" hidden>
+          <p class="as-hilfe" data-en="For this request, Vivodepot creates a key file with which you open the replies. Protect it with a password; keep the file and the password separately.">Für diese Anfrage legt Vivodepot eine Schlüsseldatei an, mit der Sie die Antworten öffnen. Schützen Sie sie mit einem Passwort; bewahren Sie Datei und Passwort getrennt auf.</p>
+          <label class="as-feld" for="aa-pw1"><span data-en="Password for the key file">Passwort für die Schlüsseldatei</span></label>
+          <input type="password" id="aa-pw1" class="as-eingabe" autocomplete="new-password">
+          <label class="as-feld" for="aa-pw2"><span data-en="Repeat password">Passwort wiederholen</span></label>
+          <input type="password" id="aa-pw2" class="as-eingabe" autocomplete="new-password">
+          <p class="as-meldung" id="aa-pw-meldung" role="alert"></p>
+        </div>
         <div class="as-knoepfe"><button type="button" class="as-knopf" id="aa-erzeugen" data-en="Create the request">Anfrage erstellen</button>
           <button type="button" class="link-knopf" id="aa-zurueck-6" data-en="Back">Zurück</button></div>
         <div id="aa-ergebnis" aria-live="polite" hidden></div>
@@ -2452,7 +2599,7 @@ label.as-feld { margin: 0; }
     <p data-en="Nothing leaves your browser until you send the finished file yourself. There is no automatic sending and no storage on a server.">Nichts verlässt Ihren Browser, bis Sie die fertige Datei selbst versenden. Es gibt keinen automatischen Versand und keine Speicherung auf einem Server.</p>
     <h3 data-en="Glossary">Glossar</h3>
     <dl class="glossar">
-      <dt data-en="Area">Bereich</dt><dd data-en="One of the thirteen Vivodepot categories (for example health, finance, advance care).">Eine der dreizehn Vivodepot-Kategorien (z. B. Gesundheit, Finanzen, Vorsorge).</dd>
+      <dt data-en="Area">Bereich</dt><dd data-en="One of the fourteen Vivodepot categories (for example health, finance, advance care).">Eine der vierzehn Vivodepot-Kategorien (z. B. Gesundheit, Finanzen, Vorsorge).</dd>
       <dt data-en="Code system">Code-System</dt><dd data-en="A standardised catalogue of codes (for example LOINC for measurements, ICD-10 for diagnoses).">Ein standardisierter Katalog von Codes (z. B. LOINC für Messwerte, ICD-10 für Diagnosen).</dd>
       <dt data-en="Trust authority">Trust-Authority</dt><dd data-en="The Vivodepot body that certifies templates. It confirms who a template comes from, not whether its content is right.">Die Stelle bei Vivodepot, die Vorlagen zertifiziert. Sie bestätigt, von wem eine Vorlage kommt, nicht ob ihr Inhalt richtig ist.</dd>
       <dt data-en="Certificate">Zertifikat</dt><dd data-en="Confirms who a template comes from. It says nothing about whether the content is right.">Bestätigt, von wem eine Vorlage kommt. Eine Aussage darüber, ob der Inhalt richtig ist, ist es nicht.</dd>
@@ -5485,6 +5632,311 @@ async function _verifyJWS(jwsCompact, publicKey, opts) {
 }
 // >>> VIVODEPOT-JWS-BLOCK END <<<
 
+/* Zertifikat der Stelle prüfen (18.10.2026, Hauptweg der Anfrage): derselbe Anker- und Prüfweg wie im Kern,
+   wortgleich übernommen und von tools/krypto-block-propagation-pruefen.js gehalten (krypto-huelle-soll.json nennt das Studio).
+   `_jwkThumbprint` steht im Studio schon wortgleich und fehlt darum hier. Keine zweite Fassung. */
+
+/* ====================================================================
+   TRUST-AUTHORITY-ANKER (produktiv) + TEST-SENTINEL (nur Test-Injektion)
+   --------------------------------------------------------------------
+   Die Buerger-App verifiziert ein VivodepotProviderCredential (W3C VC)
+   zur LAUFZEIT gegen den produktiven Trust-Authority-Public-Key unten.
+   Der zugehoerige PRIVATE-Key liegt im Cold-Storage, NIE im Code/Tests.
+
+   ANKER-ROTATION 23.08.2026 (A285/A353): der vorige Anker
+   (kid vivodepot-trust-authority-v1-11052026, Thumbprint
+   yJ17sZID3aGXFdfwC_zj9DtAxYr_QqsYsI41CX2rI2E) galt als kompromittiert
+   (Wort vom 17.08.2026). Durchgang A (22.08., neuer Anker erzeugt
+   und in vier Anteile geteilt) und Durchgang B (23.08., Treuhand-Paar,
+   zwei neue Behoerden-Zertifikate, vier neue Basisvorlagen-Signaturen)
+   sind beide gefahren. Anker, Zertifikate (STANDARD_VORLAGEN_CERTS) und
+   Vorlagen-Signaturen (STANDARD_VORLAGEN[*].templateJws) wurden in einem
+   Commit gemeinsam ausgetauscht -- vor dem Einbetten kryptografisch
+   gegeneinander geprueft (Zertifikate gegen den neuen Anker, alle vier
+   templateJws gegen den im Zertifikat genannten Treuhand-Schluessel).
+
+   JWK-Thumbprint (RFC 7638), bestaetigt 23.08.2026:
+     5gB8k3ITpqvDwldkESy9vewQU03F6ddv8UHx3bOAVOs
+
+   TESTS verifizieren stattdessen gegen den Test-Sentinel, injiziert ueber
+   opts.ankerJwk -- dessen Private-Key existiert nur in der Testsuite. Der
+   Sentinel ist NICHT der Laufzeit-Anker; er bleibt nur als Test-Anker und
+   als Stolperdraht im VC-Issuer (rote Markierung) erhalten.
+   ==================================================================== */
+// KORREKTUR 18.09.2026 (Fund an Produktion, workerd lehnte ab): `alg` trug fälschlich den
+// Kurvennamen 'Ed25519' statt des JOSE-Algorithmus-Bezeichners. Nach RFC 8037 heißt der
+// Algorithmus für Ed25519-Signaturen 'EdDSA' — der Kurvenname gehört ausschließlich in `crv`.
+// Node/lokale Tests nahmen die Inkonsistenz klaglos hin, `crypto.subtle` unter Cloudflares
+// workerd-Laufzeit nicht. Seit Commit 842d53a (15.09.2026, Gateway-Schwesterrepo) im Code,
+// aber erst sichtbar, seit die Auslieferungskette bis zur Anker-Prüfung durchkommt.
+const TRUST_AUTHORITY_PUBLIC_JWK = Object.freeze({
+  kty: 'OKP',
+  crv: 'Ed25519',
+  alg: 'EdDSA',
+  x: 'YTLr-GfRPpyM8d_Ldal1_ankpgFyOwT9ly_G-QyJCZc',
+  kid: 'vivodepot-trust-authority-v2-22082026',
+});
+
+/* ── Anker-Satz (U2-ADR-486 Punkt 2, 07.10.2026) ─────────────────────────────────────────────
+   Statt eines einzigen Ankers ein Satz, je Eintrag kid, Algorithmus und Laufzeit. Ein Zertifikat
+   wird gegen den Anker geprüft, den der kid in seinem Header nennt; ein unbekannter kid ist
+   abgelehnt, ohne Rückfall. Der Algorithmus kommt aus dem Eintrag: weicht der Header ab, ist das
+   Zertifikat abgelehnt, bevor eine Signatur geprüft wird.
+
+   OHNE kid gilt genau EIN Anker, der v2-Anker (ANKER_OHNE_KID), als eingefrorene Ausnahme für die
+   heute ausgelieferten Zertifikate, die keinen kid tragen. Jeder künftige Anker verlangt einen kid;
+   ein Zertifikat ohne kid wird nie gegen einen anderen Anker geprüft. Wird v2 widerrufen, fallen
+   damit alle kid-losen Zertifikate — gewollt, die Neuausstellung folgt dann unter einem neuen Anker.
+
+   ZEITBEZUG: nurPruefenBis gilt gegen die lokale Uhr (offline nicht anders lösbar). gueltigBis
+   gilt gegen das issuanceDate des Zertifikats; das ist eine Angabe des Signierenden. Die Prüfung
+   fängt Versehen und offen späte Signaturen, aber keinen kompromittierten alten Schlüssel, der
+   rückdatiert. Dagegen hilft allein ANKER_WIDERRUFEN, und der greift unabhängig von jedem Datum.
+   Test-Injektion über opts.ankerSatz / opts.ankerWiderrufen, app-kontrolliert wie opts.ankerJwk. */
+const ANKER_OHNE_KID = 'vivodepot-trust-authority-v2-22082026';
+const ANKER_SATZ = Object.freeze([
+  Object.freeze({ kid: 'vivodepot-trust-authority-v2-22082026', alg: 'EdDSA', jwk: TRUST_AUTHORITY_PUBLIC_JWK,
+    gueltigAb: '2026-08-23', gueltigBis: null, nurPruefenBis: null }),
+]);
+const ANKER_WIDERRUFEN = Object.freeze([]);   // kids widerrufener Anker; schlägt jedes Datum
+// Test-Sentinel: NUR fuer Test-Injektion (opts.ankerJwk), NICHT der Laufzeit-Anker.
+// Der zugehoerige Private-Key liegt ausschliesslich in der Testsuite.
+const TEST_SENTINEL_PUBLIC_JWK = Object.freeze({
+  kty: 'OKP',
+  crv: 'Ed25519',
+  alg: 'Ed25519',
+  x: 'kmz5gD4oi4pZe0CdR7FhXahRnjZqrAkKCe0VNskNf60',
+  kid: 'vivodepot-test-sentinel-do-not-use-in-production',
+});
+// Issuer-Identifier, den ein Test-VC traegt (Doku-Kontext, nicht produktiv).
+const TEST_SENTINEL_ISSUER = 'did:web:vivodepot.de';
+
+/* ── 1F Widerruf (U2-ADR-038 Option D / U2-ADR-040): eingebettete Sperrliste ──────────────
+   Ablaufbasiertes Vertrauen (U2-ADR-038) bleibt der Normalfall; diese Liste ist der zusaetzliche
+   Notfall-Widerruf fuer den akuten Fall (kompromittierter Anbieter VOR Cert-Ablauf). Eingebettet
+   (offline-rein, kein CRL-Server) und LEER — der Mechanismus steht, die Befuellung kommt mit dem
+   ersten externen Anbieter. Identifier: RFC-7638-JWK-Thumbprint des Anbieter-Schluessels
+   (schluesseltyp-unabhaengig, stabil ueber Kurven-Wechsel). Greift im gemeinsamen Trichter
+   verifiziereProviderCredential -> deckt Basis UND extern in einer Stelle. */
+const WIDERRUFS_LISTE = Object.freeze([]);   // RFC-7638-Thumbprints widerrufener Anbieter-Schluessel
+
+/* ── Zwischenstufe (U2-ADR-172, 23.08.2026, "Zertifikatsbetrieb"): der Anker
+   zertifiziert einen Ausgabe-Schluessel, der Ausgabe-Schluessel zertifiziert die Kunden.
+   `anbieterTyp` dieses einen Wertes markiert ein Ausgabestellen-Zertifikat -- die einzige
+   Kennung, die verifiziereProviderCredential als Aussteller-Stufe akzeptiert (Schutz gegen
+   Rechte-Erweiterung: ein gewoehnliches Institutions-/Behoerden-Zertifikat darf sich nicht
+   selbst zur Ausgabestelle erklaeren). Widerruf laeuft ueber DIESELBE WIDERRUFS_LISTE wie bei
+   jedem Anbieter -- der Thumbprint des Ausgabe-Schluessels ist kein anderer Mechanismus. */
+const AUSGABESTELLE_ANBIETERTYP = 'vivodepot/ausgabestelle';
+/* U2-ADR-181 (27.08.2026, Markenneutralitäts-/Prüfstellen-Ausbau): dieselbe Kette wie oben,
+   ZWEI weitere anbieterTyp-Werte statt eines Parallelmechanismus.
+   `VIVODEPOT_PRUEFSTELLE_ANBIETERTYP` läuft als ZWISCHENSTUFE genau wie AUSGABESTELLE
+   (ZWISCHENSTUFEN_ANBIETERTYPEN unten fasst beide für die Mengenprüfung zusammen).
+   `VIVODEPOT_KERN_ANBIETERTYP` ist KEINE Zwischenstufe — ein vivodepot/kern-Zertifikat
+   verifiziert direkt gegen den Anker, wie jedes Bestandszertifikat; es taucht in
+   ZWISCHENSTUFEN_ANBIETERTYPEN absichtlich NICHT auf, sonst könnte sich ein Kern-Zertifikat
+   selbst zur Zwischenstufe erklären (derselbe Rechte-Erweiterungs-Schutz wie bei jedem
+   gewöhnlichen Zertifikat). */
+const VIVODEPOT_PRUEFSTELLE_ANBIETERTYP = 'vivodepot/pruefstelle';
+const VIVODEPOT_KERN_ANBIETERTYP = 'vivodepot/kern';
+/* U2-ADR-181-Nachtrag (27.08.2026, Behörden-Briefing): ein DRITTER Zwischenstufen-Typ, rein
+   technisch — eine Behörde kann damit genauso andocken wie jede Ausgabestelle heute. Das
+   Geschäftsmodell (Vertrag/Bezahlung/Kooperation, ob/wann ein solches Zertifikat je ausgestellt
+   wird) ist AUSDRÜCKLICH NICHT Teil dieser Ergänzung und bleibt eine Produktentscheidung — der Code
+   trifft keine Zulassungsentscheidung, er hält nur denselben Mechanismus für einen dritten Typ
+   offen. Keine Sonderbehandlung: fällt wie AUSGABESTELLE/PRUEFSTELLE unter ZWISCHENSTUFEN_
+   ANBIETERTYPEN und damit unter `pruefstufe: 'extern-geprueft:<rolle>'`. */
+const VIVODEPOT_INSTITUTION_ANBIETERTYP = 'vivodepot/institution';
+const ZWISCHENSTUFEN_ANBIETERTYPEN = Object.freeze([AUSGABESTELLE_ANBIETERTYP, VIVODEPOT_PRUEFSTELLE_ANBIETERTYP, VIVODEPOT_INSTITUTION_ANBIETERTYP]);
+// RFC 7638: SHA-256 ueber die kanonisch (lexikographisch) sortierten Pflicht-Member des JWK, base64url.
+// Nutzt _kanonischJSON (sortiert, hoisted) + den vorhandenen JWS-Block-Encoder (read-use, KEIN Block-Touch).
+
+// Kernpruefung: ein Zertifikat (JWS Compact) gegen EINEN gegebenen oeffentlichen Schluessel,
+// plus Widerrufspruefung. Ausgelagert aus verifiziereProviderCredential (23.08.2026, Zwischen-
+// stufe), damit dieselbe Pruefung sowohl direkt gegen den Anker als auch gegen den aus einem
+// Ausgabestellen-Zertifikat gewonnenen Schluessel laeuft -- eine Pruefung, zwei Aufrufer.
+async function _verifiziereZertifikatGegenSchluessel(jwsCompact, pubJwk, opts) {
+  const schluesselKey = await _jwsImportVerifyKey(pubJwk);
+  const res = await _verifyJWS(jwsCompact, schluesselKey, opts);
+  res.istTestAnker = (pubJwk.x === TEST_SENTINEL_PUBLIC_JWK.x);   // true nur bei injiziertem Test-Sentinel
+  // 1F Widerruf: Anbieter-Schluessel gegen die Sperrliste. Laeuft auch bei abgelaufenen Certs
+  // (Signatur war gueltig — _verifyJWS prueft Signatur VOR Ablauf), damit ein widerrufenes UND
+  // abgelaufenes Cert nicht ueber die b2-Schonfrist zurueckkommt: Widerruf schlaegt Schonfrist.
+  // opts.widerrufsListe ist app-kontrolliert (wie opts.ankerJwk, nie aus dem Credential) — Test-Injektion.
+  const _wListe = (opts && opts.widerrufsListe) || WIDERRUFS_LISTE;
+  if (_wListe.length && (res.gueltig || res.abgelaufen) && res.nutzlast) {
+    const cs = res.nutzlast.credentialSubject || (res.nutzlast.vc && res.nutzlast.vc.credentialSubject) || {};
+    if (cs.publicKeyJwk) {
+      const tp = await _jwkThumbprint(cs.publicKeyJwk);
+      if (tp && _wListe.indexOf(tp) !== -1) { res.gueltig = false; res.widerrufen = true; res.grund = 'JWS: Anbieter widerrufen'; }
+    }
+  }
+  return res;
+}
+
+// Wählt den Anker für einen Zertifikats-Header aus dem Anker-Satz (U2-ADR-486 Punkt 2), oder nennt als Kennung, warum keiner gilt.
+function _ankerWaehlen(header, o) {
+  const satz = o.ankerSatz || ANKER_SATZ;
+  const widerrufen = o.ankerWiderrufen || ANKER_WIDERRUFEN;
+  const jetzt = o.jetzt ? new Date(o.jetzt) : new Date();
+  const kid = (header && typeof header.kid === 'string') ? header.kid : null;
+  const eintrag = satz.find((a) => a.kid === (kid || ANKER_OHNE_KID));
+  if (!eintrag) return { grund: kid ? 'anker-unbekannt' : 'anker-ohne-kid-fehlt' };
+  if (widerrufen.indexOf(eintrag.kid) !== -1) return { grund: 'anker-widerrufen', widerrufen: true };
+  if (!header || header.alg !== eintrag.alg) {
+    return { grund: 'anker-alg' };
+  }
+  if (eintrag.nurPruefenBis && jetzt.getTime() > new Date(eintrag.nurPruefenBis).getTime()) {
+    return { grund: 'anker-nur-pruefend-abgelaufen', ankerAbgelaufen: true };
+  }
+  return { eintrag };
+}
+
+/* Verifiziert ein Anbieter-Zertifikat (JWS Compact) gegen den Trust-Authority-Anker — oder,
+   ueber die Zwischenstufe, gegen ein Ausgabestellen-Zertifikat, das seinerseits gegen den Anker
+   verifiziert. Laufzeit-Default: TRUST_AUTHORITY_PUBLIC_JWK. Tests injizieren den Sentinel via
+   opts.ankerJwk (opts ist app-kontrolliert, nie aus dem Credential -> kein Anker-Injection-Angriff).
+
+   opts.ausstellerZertifikatJws (23.08.2026, U2-ADR-172): reist MIT dem Kundenzertifikat (die
+   Zwischenstufe ist nicht im Kern eingebettet, anders als der Anker) und wird zuerst selbst
+   direkt gegen den Anker geprueft -- inklusive Ablauf und Widerruf. Nur wenn das gelingt UND
+   sein credentialSubject.anbieterTyp exakt AUSGABESTELLE_ANBIETERTYP nennt (sonst koennte JEDES
+   Institutions-Zertifikat sich selbst zur Ausgabestelle erklaeren), wird das Kundenzertifikat
+   gegen den darin genannten publicKeyJwk geprueft statt gegen den Anker direkt.
+
+   KASKADIERENDER WIDERRUF DURCH KONSTRUKTION, keine zweite Buchfuehrung: laeuft der Ausgabe-
+   Schluessel ab oder wird er widerrufen, scheitert die Aussteller-Pruefung bei JEDER kuenftigen
+   Kundenzertifikat-Pruefung erneut -- ein Kundenzertifikat ist nie guenstiger als sein
+   Aussteller im Moment der Pruefung. Ein Bestandszertifikat (Behoerde), das direkt vom Anker
+   signiert ist, durchlaeuft diesen Zweig nie -- "kein Bruch mit dem Bestand". */
+async function verifiziereProviderCredential(jwsCompact, opts) {
+  const o = opts || {};
+  if (o.ausstellerZertifikatJws) {
+    const ausstellerOpts = { ankerJwk: o.ankerJwk, ankerSatz: o.ankerSatz, ankerWiderrufen: o.ankerWiderrufen, widerrufsListe: o.widerrufsListe, jetzt: o.jetzt };
+    const ausstellerRes = await verifiziereProviderCredential(o.ausstellerZertifikatJws, ausstellerOpts);
+    const cs = ausstellerRes.nutzlast && (ausstellerRes.nutzlast.credentialSubject ||
+      (ausstellerRes.nutzlast.vc && ausstellerRes.nutzlast.vc.credentialSubject));
+    if (!ausstellerRes.gueltig || !cs || !ZWISCHENSTUFEN_ANBIETERTYPEN.includes(cs.anbieterTyp) || !cs.publicKeyJwk) {
+      return {
+        gueltig: false,
+        grund: 'Ausgabestellen-Zertifikat ungültig: ' + (ausstellerRes.grund || 'kein Ausgabestellen-Zertifikat'),
+        abgelaufen: !!ausstellerRes.abgelaufen, widerrufen: !!ausstellerRes.widerrufen,
+      };
+    }
+    const blattRes = await _verifiziereZertifikatGegenSchluessel(jwsCompact, cs.publicKeyJwk, o);
+    // U2-ADR-181 (27.08.2026): reicht den Zwischenstufen-Typ + seine `rolle` durch — der
+    // einzige Ort, an dem beide je zusammen bekannt sind (die Aussteller-Nutzlast wird nach
+    // dieser Funktion nicht mehr gehalten). modulEinlassenGeprueft leitet `pruefstufe` daraus
+    // ab, ohne selbst je ein JWS zu parsen.
+    if (blattRes.gueltig) { blattRes.ausstellerAnbieterTyp = cs.anbieterTyp; blattRes.ausstellerRolle = cs.rolle || null; blattRes.ausstellerAnbieterId = cs.anbieterId || null; blattRes.ausstellerGeltung = cs.geltung || null; }
+    return blattRes;
+  }
+  if (o.ankerJwk) return _verifiziereZertifikatGegenSchluessel(jwsCompact, o.ankerJwk, o);   // Test-Injektion, wie bisher
+  // Kein String oder kein lesbarer Header: die Grundprüfung meldet das selbst, ohne dass eine Signatur geprüft wird.
+  let header = null;
+  try { header = JSON.parse(_jwsB64uToString(String(jwsCompact).split('.')[0])); } catch (e) { header = null; }
+  if (typeof jwsCompact !== 'string' || !header) return _verifiziereZertifikatGegenSchluessel(jwsCompact, TRUST_AUTHORITY_PUBLIC_JWK, o);
+  const wahl = _ankerWaehlen(header, o);
+  if (!wahl.eintrag) {
+    return { gueltig: false, grund: wahl.grund, widerrufen: !!wahl.widerrufen, ankerAbgelaufen: !!wahl.ankerAbgelaufen, header, nutzlast: null };
+  }
+  const res = await _verifiziereZertifikatGegenSchluessel(jwsCompact, wahl.eintrag.jwk, o);
+  res.ankerKid = wahl.eintrag.kid;
+  // gueltigBis gegen das issuanceDate (eine Angabe des Signierenden, s. Anker-Satz oben): wer nach dem
+  // Ende eines Ankers unter ihm signiert, ist abgelehnt; ohne Ausstelldatum ebenso.
+  if (res.gueltig && wahl.eintrag.gueltigBis) {
+    const n = res.nutzlast || {};
+    const ausgestellt = n.issuanceDate || (typeof n.iat === 'number' ? new Date(n.iat * 1000).toISOString() : null);
+    if (!ausgestellt || !(new Date(ausgestellt).getTime() <= new Date(wahl.eintrag.gueltigBis).getTime())) {
+      res.gueltig = false;
+      res.grund = 'anker-nach-ende-ausgestellt';
+    }
+  }
+  return res;
+}
+/* Aus der Lese-App wortgleich (U2-ADR-501 §26): die Prüfung der Anfrage-Signatur gegen den Schlüssel im Zertifikat und die
+   Bindung einer Empfangs-Schlüsseldatei an ihre Anfrage. Gehalten von tools/krypto-block-propagation-pruefen.js. */
+async function _verifiziereTemplateSignatur(certNutzlast, templateJws, opts) {
+  const cs = (certNutzlast && (certNutzlast.credentialSubject || (certNutzlast.vc && certNutzlast.vc.credentialSubject))) || {};
+  const anbieterJwk = cs.publicKeyJwk;
+  if (!anbieterJwk) return { gueltig: false, grund: 'Template signiert, aber kein Anbieter-Key (publicKeyJwk) im Zertifikat' };
+  let tRes;
+  try {
+    const anbieterKey = await _jwsImportVerifyKey(anbieterJwk);
+    tRes = await _verifyJWS(templateJws, anbieterKey, opts);
+  } catch (e) {
+    return { gueltig: false, grund: 'Template-Prüf-Fehler: ' + e.message };
+  }
+  if (!tRes || !tRes.gueltig) {
+    return { gueltig: false, grund: 'Template-Signatur ungültig: ' + ((tRes && tRes.grund) || '') };
+  }
+  return { gueltig: true, nutzlast: tRes.nutzlast, anbieter: cs };
+}
+/* DIE BINDUNG DER SCHLÜSSELDATEI AN IHRE ANFRAGE (U2-ADR-501, Wagen V3b). Seit V3b trägt eine Empfangs-Schlüsseldatei aus dem Studio
+   die Anfrage, für die ihr Paar entstand: ungeschützt als Text (`anfrage`) und mit ihrem Abdruck im verschlüsselten JWK
+   (`anfrageAbdruck`). Die Kette, in dieser Reihenfolge; jeder Bruch ist eine Abweisung mit Satz, und dann wird nichts gezeigt:
+     1. Abdruck: der Abdruck des Texts ist der im JWK (das JWK ist mit dem Passwort geschützt, der Text nicht).
+     2. Schlüssel: der öffentliche Teil des JWK ist der Empfangsschlüssel, den die Anfrage nennt (`antwort.publicKeyJwk`).
+     3. Stelle: Zertifikat und Anfrage-Signatur geprüft wie im Kern (anfrageSignaturPruefen), zum Tag `gestelltAm` der signierten
+        Anfrage. Dann ist `anbieterId` aus dem SIGNIERTEN Zertifikat die Kennung, gegen die `aud` gehalten wird.
+   Ohne Zertifikat (oder wenn es nicht trägt) ist die Stelle nicht gebunden: kein Abgleich von `aud`, wie vorher. Der Vorgang kommt
+   aber in jedem Fall aus der Anfrage, nicht mehr aus dem JWE-Kopf (das schließt die Grenze aus V3).
+   TAGESREGEL (Wort der Gegenlesung 15.10.2026): Das Zertifikat trägt, wenn es zu irgendeinem Zeitpunkt des Tages `gestelltAm` (UTC)
+   gültig war, also notBefore ≤ Tagesende und notAfter ≥ Tagesanfang. GRENZE: den Tag setzt die Stelle selbst; mit einem abgelaufenen
+   oder zurückgezogenen Schlüssel kann sie zurückdatieren, offline gibt es keinen vertrauenswürdigen Zeitstempel. Ein Widerruf
+   (Sperrliste, Anker) schlägt jedes Datum.
+   Eine Schlüsseldatei ohne Anfrage (älter als V3b) öffnet wie bisher: `null`. Probe: tests/lese-app-schluessel-anfrage-bindung.test.js. */
+const _TAG_MS = 24 * 60 * 60 * 1000;
+async function _anfrageZertifikatZumTag(zertifikat, tag, opts) {
+  if (typeof tag !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(tag)) return null;
+  const anfang = Date.parse(tag + 'T00:00:00.000Z');
+  if (isNaN(anfang)) return null;
+  const ende = anfang + _TAG_MS - 1;
+  const mit = (t) => Object.assign({}, opts || {}, { jetzt: new Date(t).toISOString() });
+  const amAnfang = await verifiziereProviderCredential(zertifikat, mit(anfang));
+  if (amAnfang && amAnfang.gueltig) return { cert: amAnfang, jetzt: mit(anfang) };
+  if (!amAnfang || !amAnfang.vorGueltigkeit) return null;
+  const amEnde = await verifiziereProviderCredential(zertifikat, mit(ende));
+  if (amEnde && amEnde.gueltig) return { cert: amEnde, jetzt: mit(ende) };
+  /* Ganz innerhalb des Tages gültig (am Anfang noch nicht, am Ende nicht mehr): noch einmal voll geprüft, zum Beginn der Gültigkeit
+     aus dem Zertifikat — so laufen Anker, Sperrliste und Ankerfrist auch in diesem Fall, statt ein „abgelaufen“ umzudeuten. */
+  const n = (amEnde && amEnde.abgelaufen && amEnde.nutzlast) || null;
+  const beginn = n ? (n.validFrom ? Date.parse(n.validFrom) : (typeof n.nbf === 'number' ? n.nbf * 1000 : NaN)) : NaN;
+  if (!isNaN(beginn) && beginn >= anfang && beginn <= ende) {
+    const amBeginn = await verifiziereProviderCredential(zertifikat, mit(beginn));
+    if (amBeginn && amBeginn.gueltig) return { cert: amBeginn, jetzt: mit(beginn) };
+  }
+  return null;
+}
+async function schluesselAnfrageBindung(schluessel, opts) {
+  const s = schluessel || {};
+  const jwk = s.privateJwk;
+  const hatText = typeof s.anfrageText === 'string';
+  const hatAbdruck = !!(jwk && typeof jwk === 'object' && jwk.anfrageAbdruck !== undefined);
+  if (!hatText && !hatAbdruck) return null;
+  if (!hatText || !hatAbdruck || typeof jwk.anfrageAbdruck !== 'string') throw _antwortSignaturFehler('antwortSchluesselAnfrageBruch', 'teil');
+  if (await empfangAnfrageAbdruck(s.anfrageText) !== jwk.anfrageAbdruck) throw _antwortSignaturFehler('antwortSchluesselAnfrageBruch', 'abdruck');
+  let u;
+  try { u = JSON.parse(s.anfrageText); } catch (x) { throw _antwortSignaturFehler('antwortSchluesselAnfrageBruch', 'text'); }
+  const a = (u && typeof u === 'object' && u.anfrage && typeof u.anfrage === 'object') ? u.anfrage : null;
+  const pk = a && a.antwort && a.antwort.publicKeyJwk;
+  if (!pk || pk.kty !== 'EC' || pk.crv !== jwk.crv || pk.x !== jwk.x || pk.y !== jwk.y) throw _antwortSignaturFehler('antwortSchluesselAnfrageBruch', 'schluessel');
+  if (typeof a.vorgang !== 'string' || !a.vorgang) throw _antwortSignaturFehler('antwortSchluesselAnfrageBruch', 'vorgang');
+  let anbieterId = '';
+  if (u.zertifikat && u.anfrageJws) {
+    const zert = await _anfrageZertifikatZumTag(String(u.zertifikat), a.gestelltAm, opts);
+    if (zert) {
+      let tv = null;
+      try { tv = await _verifiziereTemplateSignatur(zert.cert.nutzlast, String(u.anfrageJws), zert.jetzt); } catch (x) { tv = null; }
+      // Die LESBARE Anfrage muss die SIGNIERTE sein (wie im Kern); die Kennung kommt aus dem signierten Zertifikat.
+      if (tv && tv.gueltig && _kanonischJSON(tv.nutzlast) === _kanonischJSON(a) && tv.anbieter && typeof tv.anbieter.anbieterId === 'string') {
+        anbieterId = tv.anbieter.anbieterId;
+      }
+    }
+  }
+  return { vorgang: a.vorgang, gestelltAm: typeof a.gestelltAm === 'string' ? a.gestelltAm : '', anbieterId: anbieterId };
+}
+
 /* ── Der Textsatz erreicht auch dieses Werkzeug (Glied 10, U2-ADR-141) ──────────────────
    DIE FORM, NICHT DER INHALT. Gehoben ist EIN Text — der, der den Weg beweist. Das Heben
    der übrigen ist Gegenstand der Tranchen und nicht dieses Glieds.
@@ -5636,7 +6088,7 @@ function institutionsArtModulPruefen(modul) {
    `ankerNameFelder`) — kein Feld, das ein externer Herausgeber sinnvoll setzen kann, darum
    in der Maske nicht angeboten. Der Kern-Prüfer akzeptiert ein Modul ohne beides genauso
    (beide optional); dieser Mirror prüft entsprechend nur, was die Maske tatsächlich baut. */
-// Reserviert = die eingebauten dreizehn Bereiche. Reuse von `BEREICHE` (Zeile 2233, bereits
+// Reserviert = die eingebauten Bereiche. Reuse von `BEREICHE` (Zeile 2233, bereits
 // die registrierte, generierte Bereichsliste dieser Datei) statt einer zweiten, eigenen
 // Aufzählung — sonst meldet der Bereichslisten-Prüfer zu Recht Drift (W-16).
 // camelCase seit Umbau „Englisch vor v1" (14.09.2026) -- s. dieselbe Begründung/denselben
@@ -5692,7 +6144,7 @@ const SPRACHMODUL_GRENZE_DE = 'Was dieses Werkzeug NICHT prüft: ob die Kennunge
 const SPRACHMODUL_GRENZE_EN = 'What this tool does NOT check: whether the identifiers of your texts are known to the product. The product’s intake checks that when the module is let in — it '
   + 'discards unknown identifiers one by one, rejects a module of which no identifier is taken over, and reports when part of it is lost. '
   + 'Also checked only there: whether a text is an assurance sentence, the module’s rules and the exceptions for paragraph HTML.';
-const _SPRACHMODUL_MAX_BYTES = 512 * 1024;   // wortgleich zu _MODUL_EINLASS_MAX_BYTES im Kern (tests/generator-sprachmodul.test.js hält beide gleich)
+const _SPRACHMODUL_MAX_BYTES = 1024 * 1024;   // wortgleich zu _TEXTSATZ_MODUL_MAX_BYTES im Kern, U2-ADR-513 (tests/generator-sprachmodul.test.js hält beide gleich)
 const _SPRACHMODUL_MAX_TIEFE = 40;           // wortgleich zu _MODUL_EINLASS_MAX_TIEFE im Kern
 const _SPRACHMODUL_TAG_ODER_REFERENZ = /<[A-Za-z\/!?]|&(?:#|[A-Za-z][A-Za-z0-9]*;)|"/;   // wortgleich zu _TAG_ODER_REFERENZ im Kern
 const _SPRACHMODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'sprache', 'moduleVersion', 'appVersion',
@@ -5990,20 +6442,46 @@ function _rechtsraumKollision(wert) {
   const norm = String(wert).trim().toUpperCase();
   return RECHTSRAUM_BEKANNT.find((bekannt) => bekannt.toUpperCase() === norm && bekannt !== wert) || null;
 }
-// U2-ADR-495: `name` und `rechtsformen` freiwillig; R1: `hinweise`, `formate` (Spiegel des Kerns).
+// U2-ADR-495: `name` und `rechtsformen` freiwillig; R1: `hinweise`, `formate`; U2-ADR-482: `codeListen`, `felder`; U2-ADR-480:
+// `regeln` (Spiegel des Kerns).
 const _RECHTSRAUM_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'rechtsraum', 'moduleVersion', 'typen', 'name', 'rechtsformen',
-  'hinweise', 'formate',
+  'hinweise', 'formate', 'codeListen', 'felder', 'regeln',
+  // U2-ADR-477: die Herkunft des übernommenen amtlichen Texts, nach dem Muster von `wortlautQuelle`.
+  'quelle',
   'sprache', 'appVersion', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft']);
+/* U2-ADR-477: der Geltungsbereich darf eine Liste sein (z. B. ["GB-ENG", "GB-WLS"] für England und Wales). Geprüft wird
+   die FORM jedes Eintrags, dieselbe wie im Kern (`rechtsraumKennung`): zwei Buchstaben, wahlweise Bindestrich und bis zu
+   drei Zeichen; „UK" gelesen als „GB"; kein Doppel nach der Normalisierung. Kein Code ist hier reserviert (R1): das
+   entscheidet erst der Einlass eines Produkts. Gegen ISO 3166/CLDR wird hier noch NICHT geprüft — das kommt mit dem
+   Codelisten-Modul, im Kern und hier an derselben Stelle. */
+const RECHTSRAUM_TEIL_FORM = /^[A-Z]{2}(-[A-Z0-9]{1,3})?$/;
+function _rechtsraumListeGrund(liste) {
+  if (!liste.length) return 'rechtsraum';
+  const gesehen = [];
+  for (const roh of liste) {
+    if (typeof roh !== 'string') return 'rechtsraum';
+    let teil = roh.trim().toUpperCase();
+    if (teil === 'UK') teil = 'GB';
+    if (!RECHTSRAUM_TEIL_FORM.test(teil) || gesehen.indexOf(teil) >= 0) return 'rechtsraum';
+    gesehen.push(teil);
+  }
+  return null;
+}
 function rechtsraumModulPruefen(modul) {
   if (!modul || typeof modul !== 'object') return { gueltig: false, grund: 'kein-objekt', verworfene: [] };
   const verworfene = [];
   for (const k of Object.keys(modul)) {
     if (_RECHTSRAUM_MODUL_SCHLUESSEL.indexOf(k) < 0) verworfene.push({ schluessel: k, grund: 'unbekannt' });
   }
-  if (typeof modul.rechtsraum !== 'string' || !modul.rechtsraum.trim()) return { gueltig: false, grund: 'rechtsraum', verworfene };
-  // R1 (09.10.2026): kein fester reservierter Code — das Studio baut Module für jedes Produkt, auch das deutsche. Reserviert ist
-  // erst am Einlass eines Produkts der Code seiner Ab-Werk-Module (Kern: _rechtsraumCodeAbWerk).
-  if (_rechtsraumKollision(modul.rechtsraum)) return { gueltig: false, grund: 'namensraum', verworfene };
+  if (Array.isArray(modul.rechtsraum)) {
+    const listeGrund = _rechtsraumListeGrund(modul.rechtsraum);   // U2-ADR-477
+    if (listeGrund) return { gueltig: false, grund: listeGrund, verworfene };
+  } else {
+    if (typeof modul.rechtsraum !== 'string' || !modul.rechtsraum.trim()) return { gueltig: false, grund: 'rechtsraum', verworfene };
+    // R1 (09.10.2026): kein fester reservierter Code — das Studio baut Module für jedes Produkt, auch das deutsche. Reserviert ist
+    // erst am Einlass eines Produkts der Code seiner Ab-Werk-Module (Kern: _rechtsraumCodeAbWerk).
+    if (_rechtsraumKollision(modul.rechtsraum)) return { gueltig: false, grund: 'namensraum', verworfene };
+  }
   if (!Number.isInteger(modul.moduleVersion) || modul.moduleVersion < 1) return { gueltig: false, grund: 'moduleVersion', verworfene };
   const u = _rechtsraumModulUebersetzenMirror(modul);
   if (!u || !u.typen || !Object.keys(u.typen).length) {
@@ -6025,7 +6503,7 @@ function rechtsraumModulPruefen(modul) {
    BEWUSST NICHT MITGESPIEGELT: die Prüfung auf reservierte Format-Kennungen (IMPORT_/
    EXPORT_FORMAT_BY_ID, ~25 eingebaute IDs). Eine dritte Kopie dieser Liste hier trüge
    genau das Drift-Risiko, das `BEREICH_IDS_EINGEBAUT` eben erst war (W-16) — und anders
-   als bei den dreizehn Bereichen gibt es für die Format-IDs keinen Wächter, der eine Kopie
+   als bei den eingebauten Bereichen gibt es für die Format-IDs keinen Wächter, der eine Kopie
    ohnehin fände. Der echte Kern bleibt die einzige Instanz, die „reserviert" meldet, beim
    tatsächlichen Einlass — eine Runde später als bei den anderen Prüfungen, aber ohne neue
    ungeführte Aufzählung. */
@@ -6051,7 +6529,7 @@ const FORMAT_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'app
   'label', 'sprache', 'akzeptiert', 'leser', 'quelle', 'quelleWurzelFallback', 'erkennen', 'zuordnung',
   'ungeprueft', 'eingelassenAm', 'rechtsraum']);
 const FORMAT_ERKENNER_SCHLUESSEL = Object.freeze(['pfad', 'gleich', 'vorhanden', 'istObjekt']);
-const FORMAT_ZUORDNUNG_SCHLUESSEL = Object.freeze(['feld', 'ziel', 'alsListe']);
+const FORMAT_ZUORDNUNG_SCHLUESSEL = Object.freeze(['feld', 'ziel', 'alsListe', 'codeliste']);   // codeliste: U2-ADR-482 — ob das Feld ein Codefeld ist, prüft der Kern beim Einlass
 const _FORMAT_PFAD_VERBOTEN = Object.freeze(['__proto__', 'constructor', 'prototype']);
 function _formatPfadTeileMirror(pfad) {
   if (typeof pfad !== 'string' || !pfad.trim()) return null;
@@ -6124,7 +6602,9 @@ function formatModulPruefen(modul) {
     if (typeof z.feld !== 'string' || !z.feld.trim()) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-feld' }); continue; }
     if (!_formatPfadTeileMirror(z.ziel)) { verworfene.push({ feld: z.feld, grund: 'zuordnung-ziel' }); continue; }
     if (!anfrageFeldkatalogKennt(modul.sektor + '.' + z.feld)) { verworfene.push({ feld: z.feld, grund: 'feld-unbekannt' }); continue; }
-    zuordnung.push({ feld: z.feld, ziel: z.ziel, alsListe: z.alsListe === true });
+    if (z.codeliste != null && z.codeliste !== true) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-codeliste' }); continue; }
+    if (z.codeliste === true && z.alsListe != null) { verworfene.push({ ziel: z.ziel, grund: 'zuordnung-codeliste-kombination' }); continue; }
+    zuordnung.push(z.codeliste === true ? { feld: z.feld, ziel: z.ziel, codeliste: true } : { feld: z.feld, ziel: z.ziel, alsListe: z.alsListe === true });
   }
   if (!zuordnung.length) return nein('zuordnung-leer');
 
@@ -6408,6 +6888,7 @@ const SUBMISSION_SCHEMA = {
             "administration",
             "housing",
             "emergencyPreparedness",
+            "pets",
             "personal",
             "pro-vertretung-vollmachten",
             "pro-gesellschaft-nachfolge",
@@ -6597,6 +7078,7 @@ const SUBMISSION_SCHEMA = {
                     "administration",
                     "housing",
                     "emergencyPreparedness",
+                    "pets",
                     "personal",
                     "pro-vertretung-vollmachten",
                     "pro-gesellschaft-nachfolge",
@@ -7507,6 +7989,31 @@ const SUBMISSION_SCHEMA = {
               }
             }
           },
+          "lizenz": {
+            "description": "U2-ADR-514: Lizenz der Vorlage als Ganzes, im templateJws mitsigniert. Geschlossene Liste (tools/vorlagen-lizenzen.json): Standardlizenzen oder der kurze Hinweis LicenseRef-Vivodepot-Vorlagen; rechteinhaber nennt, wessen Werk bzw. Hinweis es ist. Amtlicher Wortlaut bleibt über wortlautQuelle. Der Kern lädt eine Vorlage ohne oder mit unbekannter Angabe und sagt sichtbar „Lizenz nicht erkannt“ (Register, kein Tor, U2-ADR-258). Pflicht wird das Feld mit der Studio-Eingabe.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "spdx",
+              "rechteinhaber"
+            ],
+            "properties": {
+              "spdx": {
+                "enum": [
+                  "LicenseRef-Vivodepot-Vorlagen",
+                  "CC-BY-4.0",
+                  "CC-BY-ND-4.0",
+                  "CC0-1.0",
+                  "EUPL-1.2"
+                ]
+              },
+              "rechteinhaber": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            }
+          },
           "nutzlastTyp": {
             "description": "Sagt in der signierten Nutzlast, dass dies eine Vorlage ist. Das Studio schreibt den Wert in jede neue Vorlage; bereits signierte Vorlagen tragen ihn nicht und bleiben gueltig. Ein Modul traegt dieses Feld nie.",
             "const": "vivodepot-vorlage"
@@ -7782,7 +8289,7 @@ const GENERATOR_VERSION = 'v1.0';
    `normBereich` über BEREICH_ALT_LABEL weiter. */
 const BEREICHE = Object.freeze([
   'identity', 'people', 'mobility', 'finance', 'assets', 'health', 'education', 'socialInsurance',
-  'advanceCare', 'administration', 'housing', 'emergencyPreparedness', 'personal'
+  'advanceCare', 'administration', 'housing', 'emergencyPreparedness', 'pets', 'personal'
 ]);
 const BEREICH_LABEL = Object.freeze({
   "identity": "Identität & Person",
@@ -7797,6 +8304,7 @@ const BEREICH_LABEL = Object.freeze({
   "administration": "Verwaltung & Behörden",
   "housing": "Wohnen & Eigentum",
   "emergencyPreparedness": "Krisenvorsorge",
+  "pets": "Tiere",
   "personal": "Persönliches",
 });
 const BEREICH_ALT_LABEL = Object.freeze({
@@ -7865,7 +8373,7 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.whoseViewMattersIfDeviatingOther","advanceCare","Andere Person (Name)","Other person (name)"],
   ["advanceCare.personalValuesOrFurtherDocuments","advanceCare","Wertvorstellungen / sonstige Unterlagen","Values / other documents"],
   ["advanceCare.organDonationDecision","advanceCare","Organspende","Organ donation"],
-  ["advanceCare.priorityIfOrganDonationConflict","advanceCare","Vorrang bei Konflikt (Organspende vs. Patientenverfügung)","Priority in case of conflict (organ donation vs. advance directive)"],
+  ["advanceCare.priorityIfOrganDonationConflict","advanceCare","Vorrang bei Konflikt (Organspende vs. Patientenverfügung)","Priority in case of conflict (organ donation vs. living will)"],
   ["advanceCare.waivesFurtherMedicalInformation","advanceCare","Verzicht auf weitere ärztliche Aufklärung","Waiver of further medical disclosure"],
   ["advanceCare.informationOrCounsellingReceived","advanceCare","Informiert bei/durch","Informed at/by"],
   ["advanceCare.counsellingBy","advanceCare","Beraten lassen durch","Advised by"],
@@ -7992,7 +8500,7 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.provisionInstruments/digitalEstateAdministration2","advanceCare","Digitale Nachlassverwaltung — Person","Digital estate administration — person"],
   ["advanceCare.provisionInstruments/whoWasAppointedAsCourt","advanceCare","Wer wurde als Betreuer/in bestellt?","Who was appointed as court-appointed representative?"],
   ["advanceCare.provisionInstruments/areasOfResponsibility","advanceCare","Aufgabenbereiche","Areas of responsibility"],
-  ["advanceCare.provisionInstruments/careCourt","advanceCare","Betreuungsgericht","Care court"],
+  ["advanceCare.provisionInstruments/careCourt","advanceCare","Betreuungsgericht","Custodianship court"],
   ["advanceCare.provisionInstruments/fileReferenceNumber","advanceCare","Aktenzeichen","File reference number"],
   ["advanceCare.provisionInstruments/appointedSince","advanceCare","Bestellt seit","Appointed since"],
   ["advanceCare.provisionInstruments/nextCourtReviewDateIfKnown","advanceCare","Nächster gerichtlicher Überprüfungstermin (falls bekannt)","Next court review date (if known)"],
@@ -8006,8 +8514,8 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.dailyRoutineActivities","advanceCare","Alltag & Aktivitäten","Daily routine & activities"],
   ["advanceCare.otherWishesNotes","advanceCare","Sonstige Wünsche & Hinweise","Other wishes & notes"],
   ["advanceCare.aidsEGWalkerHearingAid","advanceCare","Hilfsmittel (z. B. Rollator, Hörgerät, Rollstuhl)","Aids (e.g. walker, hearing aid, wheelchair)"],
-  ["advanceCare.contentOfTheAdvanceDirective","advanceCare","Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?","Content of the advance directive discussed with the authorized person?"],
-  ["advanceCare.contentOfTheAdvanceDirective2","advanceCare","Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?","Content of the advance directive discussed with the proposed court-appointed representative?"],
+  ["advanceCare.contentOfTheAdvanceDirective","advanceCare","Inhalt der Patientenverfügung mit der bevollmächtigten Person besprochen?","Content of the living will discussed with the authorized person?"],
+  ["advanceCare.contentOfTheAdvanceDirective2","advanceCare","Inhalt der Patientenverfügung mit der vorgeschlagenen Betreuerin oder dem Betreuer besprochen?","Content of the living will discussed with the proposed court-appointed representative?"],
   ["advanceCare.provisionDocumentsCheckedIn","advanceCare","Vorsorgedokumente bei Pflegebedarf geprüft?","Provision documents checked in case care becomes needed?"],
   ["advanceCare.communicationLanguage","advanceCare","Sprache, in der man sich am besten mit Ihnen verständigt","Language in which you communicate best"],
   ["advanceCare.communicationSupport","advanceCare","Unterstützung bei der Verständigung","Support with communication"],
@@ -8244,12 +8752,6 @@ const FELDKATALOG = Object.freeze([
   ["identity.formerNames/reason","identity","Anlass","Reason"],
   ["identity.formerNames/note","identity","Hinweis","Note"],
   ["identity.formerNames/proofStorageLocation","identity","Nachweis — Ablageort","Proof — storage location"],
-  ["identity.pets","identity","Tiere","Pets"],
-  ["identity.pets/petNameSpecies","identity","Tier — Name & Art","Pet — name & species"],
-  ["identity.pets/emergencyCarePersonContact","identity","Betreuung im Notfall — Person & Kontakt","Emergency care — person & contact"],
-  ["identity.pets/vetNameContact","identity","Tierarzt — Name & Kontakt","Vet — name & contact"],
-  ["identity.pets/medication","identity","Futter / Besonderheiten / Medikamente","Food / special needs / medication"],
-  ["identity.pets/otherNotes","identity","Weitere Hinweise","Other notes"],
   ["identity.birthCertificateStorage","identity","Eigene Geburtsurkunde — Ablageort","Own birth certificate — where kept"],
   ["identity.marriageCertificateStorage","identity","Ehe- oder Lebenspartnerschaftsurkunde — Ablageort","Marriage or life partnership certificate — where kept"],
   ["identity.familyRegisterBookStorage","identity","Familienstammbuch — Ablageort","Family register book (Familienstammbuch) — where kept"],
@@ -8286,7 +8788,7 @@ const FELDKATALOG = Object.freeze([
   ["people.childrenAndDependants/birthCertificateStorage","people","Geburtsurkunde — Ablageort","Birth certificate — storage location"],
   ["people.childrenAndDependants/basisOfRepresentation","people","Grundlage der Vertretung","Basis of representation"],
   ["people.childrenAndDependants/areasOfResponsibility","people","Aufgabenbereiche","Areas of responsibility"],
-  ["people.childrenAndDependants/careCourt","people","Betreuungsgericht","Care court"],
+  ["people.childrenAndDependants/careCourt","people","Betreuungsgericht","Custodianship court"],
   ["people.childrenAndDependants/fileReferenceNumber","people","Aktenzeichen","File reference number"],
   ["people.childrenAndDependants/validSince","people","Bestellt / gültig seit","Appointed / valid since"],
   ["people.guidedBirthEntryChildsNameNot","people","Geburts-Assistent — Name des Kindes (noch nicht übernommen)","Guided birth entry — child’s name (not yet transferred)"],
@@ -8331,6 +8833,12 @@ const FELDKATALOG = Object.freeze([
   ["personal.funeralHome","personal","Bestattungsunternehmen","Funeral home"],
   ["personal.preferredLocationGraveUrnSite","personal","Gewünschter Ort / Grab / Urnenstätte / Friedhof","Preferred location / grave / urn site / cemetery"],
   ["personal.preArrangementContractStorage","personal","Vorsorgevertrag — Ablageort","Pre-arrangement contract — storage location"],
+  ["pets.pets","pets","Tiere","Pets"],
+  ["pets.pets/petNameSpecies","pets","Tier — Name & Art","Pet — name & species"],
+  ["pets.pets/emergencyCarePersonContact","pets","Betreuung im Notfall — Person & Kontakt","Emergency care — person & contact"],
+  ["pets.pets/vetNameContact","pets","Tierarzt — Name & Kontakt","Vet — name & contact"],
+  ["pets.pets/medication","pets","Futter / Besonderheiten / Medikamente","Food / special needs / medication"],
+  ["pets.pets/otherNotes","pets","Weitere Hinweise","Other notes"],
   ["pro-aufbewahrung-ordnung.tpl_geschaeftsunterlagen","pro-aufbewahrung-ordnung","Geschäftsunterlagen","Business records"],
   ["pro-aufbewahrung-ordnung.tpl_geschaeftsunterlagen/tpl_ort","pro-aufbewahrung-ordnung","Ort","Location"],
   ["pro-aufbewahrung-ordnung.tpl_geschaeftsunterlagen/tpl_systematik","pro-aufbewahrung-ordnung","Systematik","Filing system"],
@@ -8381,13 +8889,53 @@ const FELDKATALOG = Object.freeze([
   ["pro-betrieb-zugaenge.tpl_electronic_record_keeping_systems/tpl_system","pro-betrieb-zugaenge","System","System"],
   ["pro-betrieb-zugaenge.tpl_electronic_record_keeping_systems/tpl_security_device","pro-betrieb-zugaenge","Sicherheitseinrichtung","Security device"],
   ["pro-betrieb-zugaenge.tpl_electronic_record_keeping_systems/tpl_notified_on","pro-betrieb-zugaenge","Gemeldet am","Notified on"],
+  ["pro-betrieb-zugaenge.tpl_domain_and_online_accounts","pro-betrieb-zugaenge","Domain und Online-Konten","Domain and online accounts"],
+  ["pro-betrieb-zugaenge.tpl_domain_and_online_accounts/tpl_name_or_address","pro-betrieb-zugaenge","Domain, Website oder Konto","Domain, website or account"],
+  ["pro-betrieb-zugaenge.tpl_domain_and_online_accounts/tpl_provider","pro-betrieb-zugaenge","Anbieter","Provider"],
+  ["pro-betrieb-zugaenge.tpl_domain_and_online_accounts/tpl_managed_by","pro-betrieb-zugaenge","Verwaltet von","Managed by"],
+  ["pro-betrieb-zugaenge.tpl_domain_and_online_accounts/tpl_access_kept_at","pro-betrieb-zugaenge","Zugang liegt bei","Access kept at"],
   ["pro-betrieb-zugaenge.tpl_schluessel_und_schliessanlage","pro-betrieb-zugaenge","Schlüssel und Schließanlage","Keys and lock system"],
   ["pro-betrieb-zugaenge.tpl_schluessel_und_schliessanlage/tpl_bezeichnung","pro-betrieb-zugaenge","Bezeichnung","Description"],
   ["pro-betrieb-zugaenge.tpl_schluessel_und_schliessanlage/tpl_verwahrort","pro-betrieb-zugaenge","Verwahrort","Storage location"],
   ["pro-betrieb-zugaenge.tpl_tresor_und_bankschliessfach","pro-betrieb-zugaenge","Tresor und Bankschließfach","Safe and bank deposit box"],
   ["pro-betrieb-zugaenge.tpl_tresor_und_bankschliessfach/tpl_ort","pro-betrieb-zugaenge","Ort","Location"],
   ["pro-betrieb-zugaenge.tpl_tresor_und_bankschliessfach/tpl_zugangsberechtigte","pro-betrieb-zugaenge","Zugangsberechtigte","Authorized persons"],
+  ["pro-betrieb-zugaenge.tpl_alarm_and_security_service","pro-betrieb-zugaenge","Alarmanlage und Sicherheitsdienst","Alarm system and security service"],
+  ["pro-betrieb-zugaenge.tpl_alarm_and_security_service/tpl_service","pro-betrieb-zugaenge","Dienst","Service"],
+  ["pro-betrieb-zugaenge.tpl_alarm_and_security_service/tpl_contact_person","pro-betrieb-zugaenge","Ansprechpartner","Contact person"],
+  ["pro-betrieb-zugaenge.tpl_alarm_and_security_service/tpl_access_kept_at","pro-betrieb-zugaenge","Zugang verwahrt bei","Access kept at"],
   ["pro-betrieb-zugaenge.tpl_laufender_auftrags_projektstand","pro-betrieb-zugaenge","Laufender Auftrags-/Projektstand","Current order/project status"],
+  ["pro-betrieb-zugaenge.tpl_key_customers","pro-betrieb-zugaenge","Wichtigste Kunden","Key customers"],
+  ["pro-betrieb-zugaenge.tpl_key_customers/tpl_name","pro-betrieb-zugaenge","Name","Name"],
+  ["pro-betrieb-zugaenge.tpl_key_customers/tpl_contact_person","pro-betrieb-zugaenge","Ansprechpartner","Contact person"],
+  ["pro-betrieb-zugaenge.tpl_key_customers/tpl_contract_basis","pro-betrieb-zugaenge","Vertragsgrundlage","Contract basis"],
+  ["pro-betrieb-zugaenge.tpl_key_customers/tpl_notice_period","pro-betrieb-zugaenge","Laufzeit und Kündigungsfrist","Term and notice period"],
+  ["pro-betrieb-zugaenge.tpl_key_customers/tpl_numbers","pro-betrieb-zugaenge","Nummern (unsere dort, ihre bei uns)","Account numbers (ours with them, theirs with us)"],
+  ["pro-betrieb-zugaenge.tpl_key_customers/tpl_portal_access","pro-betrieb-zugaenge","Portal und wer Zugang hat","Portal and who has access"],
+  ["pro-betrieb-zugaenge.tpl_key_customers/tpl_documents_kept_at","pro-betrieb-zugaenge","Unterlagen liegen bei","Documents kept at"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers","pro-betrieb-zugaenge","Lieferanten, Dienstleister und Kooperationspartner","Suppliers, service providers and cooperation partners"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_name","pro-betrieb-zugaenge","Name","Name"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_kind","pro-betrieb-zugaenge","Art (Lieferant, Dienstleister, Kooperationspartner)","Kind (supplier, service provider, cooperation partner)"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_contact_person","pro-betrieb-zugaenge","Ansprechpartner","Contact person"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_contract_basis","pro-betrieb-zugaenge","Vertragsgrundlage","Contract basis"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_notice_period","pro-betrieb-zugaenge","Laufzeit und Kündigungsfrist","Term and notice period"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_numbers","pro-betrieb-zugaenge","Nummern (unsere dort, ihre bei uns)","Account numbers (ours with them, theirs with us)"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_portal_access","pro-betrieb-zugaenge","Portal und wer Zugang hat","Portal and who has access"],
+  ["pro-betrieb-zugaenge.tpl_key_suppliers/tpl_documents_kept_at","pro-betrieb-zugaenge","Unterlagen liegen bei","Documents kept at"],
+  ["pro-betrieb-zugaenge.tpl_contract_register","pro-betrieb-zugaenge","Laufende Verträge","Ongoing contracts"],
+  ["pro-betrieb-zugaenge.tpl_contract_register/tpl_counterparty","pro-betrieb-zugaenge","Vertragspartner","Counterparty"],
+  ["pro-betrieb-zugaenge.tpl_contract_register/tpl_subject","pro-betrieb-zugaenge","Gegenstand","Subject"],
+  ["pro-betrieb-zugaenge.tpl_contract_register/tpl_notice_period","pro-betrieb-zugaenge","Kündigungsfrist","Notice period"],
+  ["pro-betrieb-zugaenge.tpl_contract_register/tpl_documents_kept_at","pro-betrieb-zugaenge","Unterlagen liegen bei","Documents kept at"],
+  ["pro-betrieb-zugaenge.tpl_verbal_agreements","pro-betrieb-zugaenge","Mündliche Absprachen","Verbal agreements"],
+  ["pro-betrieb-zugaenge.tpl_verbal_agreements/tpl_with_whom","pro-betrieb-zugaenge","Mit wem","With whom"],
+  ["pro-betrieb-zugaenge.tpl_verbal_agreements/tpl_subject","pro-betrieb-zugaenge","Worüber","About"],
+  ["pro-betrieb-zugaenge.tpl_verbal_agreements/tpl_what_applies","pro-betrieb-zugaenge","Was gilt","What applies"],
+  ["pro-betrieb-zugaenge.tpl_offers_and_appointments","pro-betrieb-zugaenge","Offene Angebote und Termine","Open offers and appointments"],
+  ["pro-betrieb-zugaenge.tpl_offers_and_appointments/tpl_what","pro-betrieb-zugaenge","Was (Angebote, Ausschreibungen, Kalender)","What (offers, tenders, calendar)"],
+  ["pro-betrieb-zugaenge.tpl_offers_and_appointments/tpl_kept_where","pro-betrieb-zugaenge","Wo geführt","Kept where"],
+  ["pro-betrieb-zugaenge.tpl_offers_and_appointments/tpl_who_has_access","pro-betrieb-zugaenge","Wer hat Zugang","Who has access"],
+  ["pro-betrieb-zugaenge.tpl_offers_and_appointments/tpl_status_date","pro-betrieb-zugaenge","Stand vom","As of"],
   ["pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung","pro-betrieb-zugaenge","Genehmigung oder berufsrechtliche Zulassung","Licence or professional authorisation"],
   ["pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung/tpl_bezeichnung","pro-betrieb-zugaenge","Bezeichnung","Description"],
   ["pro-betrieb-zugaenge.tpl_genehmigung_oder_berufsrechtliche_zulassung/tpl_inhaber","pro-betrieb-zugaenge","Inhaber","Holder"],
@@ -8402,6 +8950,11 @@ const FELDKATALOG = Object.freeze([
   ["pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notified_on","pro-betrieb-zugaenge","Angezeigt am","Notified on"],
   ["pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office","pro-betrieb-zugaenge","Finanzamt","Tax office"],
   ["pro-betrieb-zugaenge.tpl_business_identification_number","pro-betrieb-zugaenge","Wirtschafts-Identifikationsnummer","Business identification number"],
+  ["pro-betrieb-zugaenge.tpl_memberships","pro-betrieb-zugaenge","Kammern, Verbände und Mitgliedschaften","Chambers, associations and memberships"],
+  ["pro-betrieb-zugaenge.tpl_memberships/tpl_organisation","pro-betrieb-zugaenge","Kammer oder Verband","Chamber or association"],
+  ["pro-betrieb-zugaenge.tpl_memberships/tpl_membership_number","pro-betrieb-zugaenge","Mitgliedsnummer","Membership number"],
+  ["pro-betrieb-zugaenge.tpl_memberships/tpl_contact_person","pro-betrieb-zugaenge","Ansprechpartner","Contact person"],
+  ["pro-betrieb-zugaenge.tpl_memberships/tpl_documents_kept_at","pro-betrieb-zugaenge","Unterlagen liegen bei","Documents kept at"],
   ["pro-betrieb-zugaenge.tpl_immobilie_im_eigentum","pro-betrieb-zugaenge","Immobilie im Eigentum","Property in ownership"],
   ["pro-betrieb-zugaenge.tpl_immobilie_im_eigentum/tpl_adresse","pro-betrieb-zugaenge","Adresse","Address"],
   ["pro-betrieb-zugaenge.tpl_immobilie_im_eigentum/tpl_grundbuchblatt","pro-betrieb-zugaenge","Grundbuchblatt","Land register entry"],
@@ -8415,10 +8968,15 @@ const FELDKATALOG = Object.freeze([
   ["pro-betrieb-zugaenge.tpl_maschine_oder_betriebsausstattung","pro-betrieb-zugaenge","Maschine oder Betriebsausstattung","Machine or operating equipment"],
   ["pro-betrieb-zugaenge.tpl_maschine_oder_betriebsausstattung/tpl_bezeichnung","pro-betrieb-zugaenge","Bezeichnung","Description"],
   ["pro-betrieb-zugaenge.tpl_maschine_oder_betriebsausstattung/tpl_standort","pro-betrieb-zugaenge","Standort","Location"],
+  ["pro-betrieb-zugaenge.tpl_ip_renewal_fees","pro-betrieb-zugaenge","Gebühren für Schutzrechte","Fees for intellectual property rights"],
   ["pro-betrieb-zugaenge.tpl_laufender_rechtsstreit","pro-betrieb-zugaenge","Laufender Rechtsstreit","Ongoing legal dispute"],
   ["pro-betrieb-zugaenge.tpl_laufender_rechtsstreit/tpl_gegenstand","pro-betrieb-zugaenge","Gegenstand","Subject"],
   ["pro-betrieb-zugaenge.tpl_laufender_rechtsstreit/tpl_frist","pro-betrieb-zugaenge","Frist","Deadline"],
   ["pro-betrieb-zugaenge.tpl_laufender_rechtsstreit/tpl_vertretung","pro-betrieb-zugaenge","Vertretung","Representation"],
+  ["pro-betrieb-zugaenge.tpl_warranties_given","pro-betrieb-zugaenge","Gewährleistungen und Garantien","Warranties and guarantees given"],
+  ["pro-betrieb-zugaenge.tpl_warranties_given/tpl_subject","pro-betrieb-zugaenge","Gegenstand","Subject"],
+  ["pro-betrieb-zugaenge.tpl_warranties_given/tpl_towards","pro-betrieb-zugaenge","Gegenüber","To whom"],
+  ["pro-betrieb-zugaenge.tpl_warranties_given/tpl_valid_until","pro-betrieb-zugaenge","Bis","Until"],
   ["pro-betrieb-zugaenge.tpl_working_time_records","pro-betrieb-zugaenge","Arbeitszeitaufzeichnungen","Working-time records"],
   ["pro-betrieb-zugaenge.tpl_risk_assessment_and_safety_staff","pro-betrieb-zugaenge","Arbeitsschutz","Occupational safety"],
   ["pro-betrieb-zugaenge.tpl_risk_assessment_and_safety_staff/tpl_risk_assessment_kept_at","pro-betrieb-zugaenge","Gefährdungsbeurteilung: Ablageort","Risk assessment: kept at"],
@@ -8433,11 +8991,65 @@ const FELDKATALOG = Object.freeze([
   ["pro-betrieb-zugaenge.tpl_social_security_contributions/tpl_collecting_agency","pro-betrieb-zugaenge","Einzugsstelle","Collecting agency"],
   ["pro-betrieb-zugaenge.tpl_social_security_contributions/tpl_statements_submitted_by","pro-betrieb-zugaenge","Beitragsnachweis durch","Statements submitted by"],
   ["pro-betrieb-zugaenge.tpl_payroll_records","pro-betrieb-zugaenge","Lohnkonten und Entgeltunterlagen","Payroll accounts and pay records"],
+  ["pro-betrieb-zugaenge.tpl_payroll_run","pro-betrieb-zugaenge","Lohnlauf","Payroll run"],
+  ["pro-betrieb-zugaenge.tpl_payroll_run/tpl_day_in_month","pro-betrieb-zugaenge","Termin im Monat","Day in the month"],
+  ["pro-betrieb-zugaenge.tpl_payroll_run/tpl_prepared_by","pro-betrieb-zugaenge","Bereitet vor","Prepared by"],
+  ["pro-betrieb-zugaenge.tpl_payroll_run/tpl_payment_approved_by","pro-betrieb-zugaenge","Zahlung gibt frei","Payment approved by"],
   ["pro-betrieb-zugaenge.tpl_record_of_processing","pro-betrieb-zugaenge","Verzeichnis der Verarbeitungstätigkeiten","Record of processing activities"],
   ["pro-betrieb-zugaenge.tpl_data_protection_officer","pro-betrieb-zugaenge","Datenschutzbeauftragte","Data protection officer"],
   ["pro-betrieb-zugaenge.tpl_data_processing_agreements","pro-betrieb-zugaenge","Verträge zur Auftragsverarbeitung","Data processing agreements"],
   ["pro-betrieb-zugaenge.tpl_data_processing_agreements/tpl_service_provider","pro-betrieb-zugaenge","Dienstleister","Service provider"],
   ["pro-betrieb-zugaenge.tpl_data_processing_agreements/tpl_agreement_kept_at","pro-betrieb-zugaenge","Vertrag: Ablageort","Agreement kept at"],
+  ["pro-betrieb-zugaenge.tpl_mail_handling","pro-betrieb-zugaenge","Post","Mail"],
+  ["pro-betrieb-zugaenge.tpl_mail_handling/tpl_postal_authority_holder","pro-betrieb-zugaenge","Postvollmacht hat","Postal authority held by"],
+  ["pro-betrieb-zugaenge.tpl_mail_handling/tpl_forwarding_address","pro-betrieb-zugaenge","Umleitung an","Redirect to"],
+  ["pro-betrieb-zugaenge.tpl_mail_handling/tpl_who_reviews","pro-betrieb-zugaenge","Wer die Post durchsieht","Who goes through the mail"],
+  ["pro-betrieb-zugaenge.tpl_communication_service","pro-betrieb-zugaenge","Postfächer, Telefon und Kommunikationsdienste","Mailboxes, phone and communication services"],
+  ["pro-betrieb-zugaenge.tpl_communication_service/tpl_service","pro-betrieb-zugaenge","Dienst","Service"],
+  ["pro-betrieb-zugaenge.tpl_communication_service/tpl_contract_holder","pro-betrieb-zugaenge","Vertrag läuft auf","Contract in the name of"],
+  ["pro-betrieb-zugaenge.tpl_communication_service/tpl_administered_by","pro-betrieb-zugaenge","Verwaltet von","Run by"],
+  ["pro-betrieb-zugaenge.tpl_communication_service/tpl_forwarding","pro-betrieb-zugaenge","Abwesenheitsnotiz und Weiterleitung","Out-of-office and forwarding"],
+  ["pro-betrieb-zugaenge.tpl_communication_service/tpl_who_may_read","pro-betrieb-zugaenge","Wer darf mitlesen","Who may read along"],
+  ["pro-betrieb-zugaenge.tpl_communication_service/tpl_access_kept_at","pro-betrieb-zugaenge","Zugang verwahrt bei","Access kept at"],
+  ["pro-betrieb-zugaenge.tpl_device","pro-betrieb-zugaenge","Geräte","Devices"],
+  ["pro-betrieb-zugaenge.tpl_device/tpl_device_name","pro-betrieb-zugaenge","Gerät","Device"],
+  ["pro-betrieb-zugaenge.tpl_device/tpl_used_by","pro-betrieb-zugaenge","Genutzt von","Used by"],
+  ["pro-betrieb-zugaenge.tpl_device/tpl_unlock_kept_at","pro-betrieb-zugaenge","Entsperren: verwahrt bei","Means to unlock kept at"],
+  ["pro-betrieb-zugaenge.tpl_eori_number","pro-betrieb-zugaenge","EORI-Nummer","EORI number"],
+  ["pro-betrieb-zugaenge.tpl_vat_identification_number","pro-betrieb-zugaenge","Umsatzsteuer-Identifikationsnummer","VAT identification number"],
+  ["pro-betrieb-zugaenge.tpl_packaging_register_number","pro-betrieb-zugaenge","Verpackungsregister (LUCID)","Packaging register (LUCID)"],
+  ["pro-betrieb-zugaenge.tpl_weee_registration_number","pro-betrieb-zugaenge","Registrierung Elektrogeräte","Electrical equipment registration"],
+  ["pro-betrieb-zugaenge.tpl_battery_registration","pro-betrieb-zugaenge","Registrierung Batterien","Battery registration"],
+  ["pro-betrieb-zugaenge.tpl_einvoicing","pro-betrieb-zugaenge","E-Rechnung","E-invoicing"],
+  ["pro-betrieb-zugaenge.tpl_einvoicing/tpl_channel","pro-betrieb-zugaenge","Weg","Channel"],
+  ["pro-betrieb-zugaenge.tpl_einvoicing/tpl_identifier","pro-betrieb-zugaenge","Kennung oder Postfach","Identifier or mailbox"],
+  ["pro-betrieb-zugaenge.tpl_einvoicing/tpl_handled_by","pro-betrieb-zugaenge","Betreut von","Handled by"],
+  ["pro-betrieb-zugaenge.tpl_public_customer_routing_ids","pro-betrieb-zugaenge","Leitweg-IDs öffentlicher Kunden","Routing IDs of public-sector customers"],
+  ["pro-betrieb-zugaenge.tpl_public_customer_routing_ids/tpl_customer","pro-betrieb-zugaenge","Kunde","Customer"],
+  ["pro-betrieb-zugaenge.tpl_public_customer_routing_ids/tpl_routing_id","pro-betrieb-zugaenge","Leitweg-ID","Routing ID"],
+  ["pro-betrieb-zugaenge.tpl_gs1_numbers","pro-betrieb-zugaenge","GS1-Nummern (GLN, GTIN)","GS1 numbers (GLN, GTIN)"],
+  ["pro-betrieb-zugaenge.tpl_duns_number","pro-betrieb-zugaenge","D-U-N-S-Nummer","D-U-N-S number"],
+  ["pro-betrieb-zugaenge.tpl_further_registrations","pro-betrieb-zugaenge","Weitere Nummern und Registrierungen","Further numbers and registrations"],
+  ["pro-betrieb-zugaenge.tpl_further_registrations/tpl_body","pro-betrieb-zugaenge","Stelle","Body"],
+  ["pro-betrieb-zugaenge.tpl_further_registrations/tpl_number","pro-betrieb-zugaenge","Nummer","Number"],
+  ["pro-betrieb-zugaenge.tpl_further_registrations/tpl_access_kept_at","pro-betrieb-zugaenge","Zugang liegt bei","Access kept at"],
+  ["pro-betrieb-zugaenge.tpl_euid","pro-betrieb-zugaenge","EUID (europäische einheitliche Kennung)","EUID (European unique identifier)"],
+  ["pro-betrieb-zugaenge.tpl_lei","pro-betrieb-zugaenge","LEI (Rechtsträgerkennung)","LEI (Legal Entity Identifier)"],
+  ["pro-betrieb-zugaenge.tpl_lei/tpl_number","pro-betrieb-zugaenge","Nummer","Number"],
+  ["pro-betrieb-zugaenge.tpl_lei/tpl_issued_by","pro-betrieb-zugaenge","Vergeben von","Issued by"],
+  ["pro-betrieb-zugaenge.tpl_lei/tpl_renewal_due","pro-betrieb-zugaenge","Zu verlängern bis","Renewal due"],
+  ["pro-betrieb-zugaenge.tpl_business_wallet","pro-betrieb-zugaenge","Business-Wallet","Business wallet"],
+  ["pro-betrieb-zugaenge.tpl_business_wallet/tpl_provider","pro-betrieb-zugaenge","Anbieter","Provider"],
+  ["pro-betrieb-zugaenge.tpl_business_wallet/tpl_identifier","pro-betrieb-zugaenge","Kennung der Wallet","Wallet identifier"],
+  ["pro-betrieb-zugaenge.tpl_business_wallet/tpl_managed_by","pro-betrieb-zugaenge","Wer sie verwaltet","Managed by"],
+  ["pro-betrieb-zugaenge.tpl_business_wallet/tpl_access_kept_at","pro-betrieb-zugaenge","Zugangsmittel liegt bei","Access device kept at"],
+  ["pro-betrieb-zugaenge.tpl_eu_power_of_attorney","pro-betrieb-zugaenge","Digitale EU-Vollmacht","Digital EU power of attorney"],
+  ["pro-betrieb-zugaenge.tpl_eu_power_of_attorney/tpl_for_whom","pro-betrieb-zugaenge","Für wen","For whom"],
+  ["pro-betrieb-zugaenge.tpl_eu_power_of_attorney/tpl_scope","pro-betrieb-zugaenge","Umfang","Scope"],
+  ["pro-betrieb-zugaenge.tpl_eu_power_of_attorney/tpl_executed_before","pro-betrieb-zugaenge","Erstellt vor (Notariat, Gericht oder Behörde)","Executed before (notary, court or authority)"],
+  ["pro-betrieb-zugaenge.tpl_eu_power_of_attorney/tpl_filing_office","pro-betrieb-zugaenge","Eingereicht bei (falls verlangt)","Filed with (if required)"],
+  ["pro-betrieb-zugaenge.tpl_eu_power_of_attorney/tpl_reference","pro-betrieb-zugaenge","Kennung oder Fundstelle","Identifier or reference"],
+  ["pro-betrieb-zugaenge.tpl_eu_power_of_attorney/tpl_valid_until","pro-betrieb-zugaenge","Gültig bis","Valid until"],
   ["pro-betrieb-zugaenge.notiz","pro-betrieb-zugaenge","Notiz","Note"],
   ["pro-finanzen-verbindlichkeiten.tpl_bankverbindung","pro-finanzen-verbindlichkeiten","Bankverbindung","Bank account"],
   ["pro-finanzen-verbindlichkeiten.tpl_bankverbindung/tpl_institut","pro-finanzen-verbindlichkeiten","Institut","Institution"],
@@ -8462,7 +9074,27 @@ const FELDKATALOG = Object.freeze([
   ["pro-finanzen-verbindlichkeiten.tpl_vertrag_mit_kontrollwechsel_klausel","pro-finanzen-verbindlichkeiten","Vertrag mit Kontrollwechsel-Klausel","Contract with change-of-control clause"],
   ["pro-finanzen-verbindlichkeiten.tpl_vertrag_mit_kontrollwechsel_klausel/tpl_vertrag","pro-finanzen-verbindlichkeiten","Vertrag","Contract"],
   ["pro-finanzen-verbindlichkeiten.tpl_vertrag_mit_kontrollwechsel_klausel/tpl_ansprechpartner","pro-finanzen-verbindlichkeiten","Ansprechpartner","Contact person"],
-  ["pro-finanzen-verbindlichkeiten.tpl_versorgungslage_der_familie_im_ausfall","pro-finanzen-verbindlichkeiten","Versorgungslage der Familie","Family's financial situation if the owner is absent"],
+  ["pro-finanzen-verbindlichkeiten.tpl_account_for_deputy","pro-finanzen-verbindlichkeiten","Konto für die Vertretung","Account for your deputy"],
+  ["pro-finanzen-verbindlichkeiten.tpl_account_for_deputy/tpl_institution","pro-finanzen-verbindlichkeiten","Institut","Bank"],
+  ["pro-finanzen-verbindlichkeiten.tpl_account_for_deputy/tpl_contact_person","pro-finanzen-verbindlichkeiten","Ansprechpartner","Contact person"],
+  ["pro-finanzen-verbindlichkeiten.tpl_account_for_deputy/tpl_credit_line","pro-finanzen-verbindlichkeiten","Kreditlinie","Credit line"],
+  ["pro-finanzen-verbindlichkeiten.tpl_account_for_deputy/tpl_online_banking_access_kept_at","pro-finanzen-verbindlichkeiten","Zugang zum Online-Banking verwahrt bei","Online banking access kept at"],
+  ["pro-finanzen-verbindlichkeiten.tpl_securities_account","pro-finanzen-verbindlichkeiten","Wertpapierdepot","Securities account"],
+  ["pro-finanzen-verbindlichkeiten.tpl_securities_account/tpl_institution","pro-finanzen-verbindlichkeiten","Institut","Institution"],
+  ["pro-finanzen-verbindlichkeiten.tpl_securities_account/tpl_account_holder","pro-finanzen-verbindlichkeiten","Läuft auf","In the name of"],
+  ["pro-finanzen-verbindlichkeiten.tpl_securities_account/tpl_authorised_person","pro-finanzen-verbindlichkeiten","Verfügen darf","May dispose"],
+  ["pro-finanzen-verbindlichkeiten.tpl_insurance_policies_kept_at","pro-finanzen-verbindlichkeiten","Versicherungspolicen liegen bei","Insurance policies kept at"],
+  ["pro-finanzen-verbindlichkeiten.tpl_online_banking_access","pro-finanzen-verbindlichkeiten","Online-Banking","Online banking"],
+  ["pro-finanzen-verbindlichkeiten.tpl_online_banking_access/tpl_bank","pro-finanzen-verbindlichkeiten","Bank","Bank name"],
+  ["pro-finanzen-verbindlichkeiten.tpl_online_banking_access/tpl_method","pro-finanzen-verbindlichkeiten","Verfahren","Method"],
+  ["pro-finanzen-verbindlichkeiten.tpl_online_banking_access/tpl_who_has_access","pro-finanzen-verbindlichkeiten","Wer hat Zugang","Who has access"],
+  ["pro-finanzen-verbindlichkeiten.tpl_online_banking_access/tpl_device_kept_at","pro-finanzen-verbindlichkeiten","Gerät oder Karte liegt bei","Device or card kept at"],
+  ["pro-finanzen-verbindlichkeiten.tpl_payment_approval_rules","pro-finanzen-verbindlichkeiten","Freigabe von Zahlungen","Payment approval"],
+  ["pro-finanzen-verbindlichkeiten.tpl_cards_and_payment_services","pro-finanzen-verbindlichkeiten","Karten und Zahlungsdienste","Cards and payment services"],
+  ["pro-finanzen-verbindlichkeiten.tpl_cards_and_payment_services/tpl_kind","pro-finanzen-verbindlichkeiten","Art","Kind"],
+  ["pro-finanzen-verbindlichkeiten.tpl_cards_and_payment_services/tpl_holder_or_account","pro-finanzen-verbindlichkeiten","Inhaber oder Konto","Holder or account"],
+  ["pro-finanzen-verbindlichkeiten.tpl_cards_and_payment_services/tpl_who_may_use","pro-finanzen-verbindlichkeiten","Wer darf nutzen","Who may use it"],
+  ["pro-finanzen-verbindlichkeiten.tpl_cards_and_payment_services/tpl_kept_at","pro-finanzen-verbindlichkeiten","Liegt bei","Kept at"],
   ["pro-finanzen-verbindlichkeiten.tpl_bookkeeping_type","pro-finanzen-verbindlichkeiten","Art der Buchführung","Type of bookkeeping"],
   ["pro-finanzen-verbindlichkeiten.tpl_annual_accounts","pro-finanzen-verbindlichkeiten","Jahresabschlüsse","Annual financial statements"],
   ["pro-finanzen-verbindlichkeiten.tpl_annual_accounts/tpl_financial_year","pro-finanzen-verbindlichkeiten","Geschäftsjahr","Financial year"],
@@ -8506,8 +9138,23 @@ const FELDKATALOG = Object.freeze([
   ["pro-gesellschaft-nachfolge.tpl_erbregelung_auf_die_gesellschaft_abgestimmt","pro-gesellschaft-nachfolge","Erbregelung auf die Gesellschaft abgestimmt","Estate plan coordinated with the company"],
   ["pro-gesellschaft-nachfolge.tpl_erbregelung_auf_die_gesellschaft_abgestimmt/tpl_abgestimmt","pro-gesellschaft-nachfolge","Abgestimmt","Coordinated"],
   ["pro-gesellschaft-nachfolge.tpl_erbregelung_auf_die_gesellschaft_abgestimmt/tpl_unterlage_liegt_bei","pro-gesellschaft-nachfolge","Unterlage liegt bei","Document held at"],
+  ["pro-gesellschaft-nachfolge.tpl_voting_proxy","pro-gesellschaft-nachfolge","Stimmrechtsvollmacht","Power of attorney for voting"],
+  ["pro-gesellschaft-nachfolge.tpl_voting_proxy/tpl_proxy_holder","pro-gesellschaft-nachfolge","Bevollmächtigte Person","Authorised person"],
+  ["pro-gesellschaft-nachfolge.tpl_voting_proxy/tpl_scope","pro-gesellschaft-nachfolge","Umfang","Scope"],
+  ["pro-gesellschaft-nachfolge.tpl_voting_proxy/tpl_document_kept_at","pro-gesellschaft-nachfolge","Urkunde liegt bei","Document kept at"],
+  ["pro-gesellschaft-nachfolge.tpl_appointing_new_management","pro-gesellschaft-nachfolge","Bestellung einer neuen Geschäftsführung","Appointing new management"],
+  ["pro-gesellschaft-nachfolge.tpl_emergency_managing_director","pro-gesellschaft-nachfolge","Notgeschäftsführung","Court-appointed managing director"],
   ["pro-gesellschaft-nachfolge.tpl_testament_oder_erbvertrag_ablageort","pro-gesellschaft-nachfolge","Testament oder Erbvertrag — Ablageort","Will or inheritance contract — filing location"],
+  ["pro-gesellschaft-nachfolge.tpl_continuation_by_heirs","pro-gesellschaft-nachfolge","Fortführung durch die Erben","Continuation by your heirs"],
+  ["pro-gesellschaft-nachfolge.tpl_compulsory_share_waiver_kept_at","pro-gesellschaft-nachfolge","Pflichtteilsverzicht: Ablageort","Waiver of compulsory share: where it is kept"],
   ["pro-gesellschaft-nachfolge.tpl_jahresabschluss_wo_der_aktuelle_stand_liegt","pro-gesellschaft-nachfolge","Jahresabschluss — wo der aktuelle Stand liegt","Annual financial statements — where the current version is kept"],
+  ["pro-gesellschaft-nachfolge.tpl_sale_or_handover_wishes","pro-gesellschaft-nachfolge","Wünsche für Verkauf oder Übergabe","Wishes for sale or handover"],
+  ["pro-gesellschaft-nachfolge.tpl_company_valuation","pro-gesellschaft-nachfolge","Letzte Unternehmensbewertung","Most recent business valuation"],
+  ["pro-gesellschaft-nachfolge.tpl_interested_parties","pro-gesellschaft-nachfolge","Interessenten für eine Übernahme","Parties interested in a takeover"],
+  ["pro-gesellschaft-nachfolge.tpl_interested_parties/tpl_name","pro-gesellschaft-nachfolge","Name","Name"],
+  ["pro-gesellschaft-nachfolge.tpl_interested_parties/tpl_contact","pro-gesellschaft-nachfolge","Erreichbarkeit","Contact"],
+  ["pro-gesellschaft-nachfolge.tpl_interested_parties/tpl_note","pro-gesellschaft-nachfolge","Bemerkung","Note"],
+  ["pro-gesellschaft-nachfolge.tpl_handover_form","pro-gesellschaft-nachfolge","Form der Übergabe","Form of handover"],
   ["pro-gesellschaft-nachfolge.tpl_outstanding_capital_contributions","pro-gesellschaft-nachfolge","Offene Einlagen","Outstanding capital contributions"],
   ["pro-gesellschaft-nachfolge.tpl_partner_personal_details","pro-gesellschaft-nachfolge","Gesellschafterinnen und Gesellschafter","Partners"],
   ["pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_name","pro-gesellschaft-nachfolge","Name","Name"],
@@ -8521,16 +9168,48 @@ const FELDKATALOG = Object.freeze([
   ["pro-gesellschaft-nachfolge.tpl_settlement_on_leaving","pro-gesellschaft-nachfolge","Abfindung beim Ausscheiden","Settlement when a partner leaves"],
   ["pro-gesellschaft-nachfolge.tpl_share_transfer_and_redemption","pro-gesellschaft-nachfolge","Übertragung und Einziehung von Anteilen","Transfer and redemption of shares"],
   ["pro-gesellschaft-nachfolge.tpl_succession_evidence_documents","pro-gesellschaft-nachfolge","Nachweise der Rechtsnachfolge","Evidence of legal succession"],
+  ["pro-gesellschaft-nachfolge.tpl_company_holdings","pro-gesellschaft-nachfolge","Beteiligungen der Firma","Holdings of the business"],
+  ["pro-gesellschaft-nachfolge.tpl_company_holdings/tpl_company","pro-gesellschaft-nachfolge","Unternehmen","Business"],
+  ["pro-gesellschaft-nachfolge.tpl_company_holdings/tpl_share","pro-gesellschaft-nachfolge","Anteil","Share"],
+  ["pro-gesellschaft-nachfolge.tpl_company_holdings/tpl_documents_kept_at","pro-gesellschaft-nachfolge","Unterlagen liegen bei","Documents kept at"],
+  ["pro-gesellschaft-nachfolge.tpl_shareholder_meeting","pro-gesellschaft-nachfolge","Gesellschafterversammlung","Shareholders' meeting"],
+  ["pro-gesellschaft-nachfolge.tpl_shareholder_meeting/tpl_convened_by","pro-gesellschaft-nachfolge","Wer lädt ein","Convened by"],
+  ["pro-gesellschaft-nachfolge.tpl_shareholder_meeting/tpl_form_and_notice","pro-gesellschaft-nachfolge","Form und Frist","Form and notice"],
+  ["pro-gesellschaft-nachfolge.tpl_shareholder_meeting/tpl_reachable_via","pro-gesellschaft-nachfolge","Wie erreichbar","How to reach"],
   ["pro-gesellschaft-nachfolge.notiz","pro-gesellschaft-nachfolge","Notiz","Note"],
   ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen","pro-kontakte-vertretungsplan","Nicht zu benachrichtigende Personen","People who must not be notified"],
   ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_name","pro-kontakte-vertretungsplan","Name","Name"],
   ["pro-kontakte-vertretungsplan.tpl_nicht_zu_benachrichtigende_personen/tpl_erreichbarkeit","pro-kontakte-vertretungsplan","Erreichbarkeit","Contact details"],
+  ["pro-kontakte-vertretungsplan.tpl_notify_first","pro-kontakte-vertretungsplan","Wer zuerst informiert wird, und durch wen","Who is informed first, and by whom"],
+  ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_name","pro-kontakte-vertretungsplan","Name","Name"],
+  ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_role","pro-kontakte-vertretungsplan","Rolle","Role"],
+  ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_contact","pro-kontakte-vertretungsplan","Erreichbarkeit","How to reach"],
+  ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_order","pro-kontakte-vertretungsplan","Reihenfolge","Order"],
+  ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_informed_by","pro-kontakte-vertretungsplan","Durch wen","By whom"],
+  ["pro-kontakte-vertretungsplan.tpl_notify_first/tpl_what_they_need_to_know","pro-kontakte-vertretungsplan","Was sie wissen muss","What they need to know"],
+  ["pro-kontakte-vertretungsplan.tpl_information_plan","pro-kontakte-vertretungsplan","Informationsplan bei Übergabe oder Vertretung","Information plan for handover or cover"],
+  ["pro-kontakte-vertretungsplan.tpl_information_plan/tpl_group","pro-kontakte-vertretungsplan","Wer","Who"],
+  ["pro-kontakte-vertretungsplan.tpl_information_plan/tpl_occasion","pro-kontakte-vertretungsplan","Anlass","Occasion"],
+  ["pro-kontakte-vertretungsplan.tpl_information_plan/tpl_when","pro-kontakte-vertretungsplan","Wann","When"],
+  ["pro-kontakte-vertretungsplan.tpl_information_plan/tpl_how","pro-kontakte-vertretungsplan","Wie","How"],
+  ["pro-kontakte-vertretungsplan.tpl_information_plan/tpl_informed_by","pro-kontakte-vertretungsplan","Durch wen","By whom"],
+  ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities","pro-kontakte-vertretungsplan","Beraterinnen, Berater und Stellen","Advisers and authorities"],
+  ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_role","pro-kontakte-vertretungsplan","Rolle","Role"],
+  ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_name","pro-kontakte-vertretungsplan","Name","Name"],
+  ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_contact","pro-kontakte-vertretungsplan","Erreichbarkeit","How to reach"],
+  ["pro-kontakte-vertretungsplan.tpl_advisers_and_authorities/tpl_what_is_kept_there","pro-kontakte-vertretungsplan","Was dort liegt","What they hold"],
   ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe","pro-kontakte-vertretungsplan","Wer übernimmt welche Aufgabe","Who takes over which task"],
   ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_aufgabe","pro-kontakte-vertretungsplan","Aufgabe","Task"],
   ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_person","pro-kontakte-vertretungsplan","Person","Person"],
   ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_vertretung_ab_wann","pro-kontakte-vertretungsplan","Vertretung ab wann","Takes over from"],
+  ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_vertretung_bis","pro-kontakte-vertretungsplan","Vertretung bis","Takes over until"],
+  ["pro-kontakte-vertretungsplan.tpl_wer_uebernimmt_welche_aufgabe/tpl_qualifikation","pro-kontakte-vertretungsplan","Qualifikation","Qualification"],
   ["pro-kontakte-vertretungsplan.tpl_substitute_technical_manager","pro-kontakte-vertretungsplan","Ersatz-Betriebsleitung","Substitute technical manager"],
   ["pro-kontakte-vertretungsplan.tpl_deputy_permit","pro-kontakte-vertretungsplan","Stellvertretungserlaubnis","Deputy permit"],
+  ["pro-kontakte-vertretungsplan.tpl_works_council","pro-kontakte-vertretungsplan","Betriebsrat","Works council"],
+  ["pro-kontakte-vertretungsplan.tpl_works_council/tpl_body","pro-kontakte-vertretungsplan","Gremium","Body"],
+  ["pro-kontakte-vertretungsplan.tpl_works_council/tpl_chair","pro-kontakte-vertretungsplan","Vorsitz oder Ansprechperson","Chair or contact person"],
+  ["pro-kontakte-vertretungsplan.tpl_works_council/tpl_how","pro-kontakte-vertretungsplan","Wie erreichbar","How to reach"],
   ["pro-kontakte-vertretungsplan.tpl_first_aid_fire_evacuation_staff","pro-kontakte-vertretungsplan","Erste Hilfe, Brandschutz, Räumung","First aid, fire safety, evacuation"],
   ["pro-kontakte-vertretungsplan.tpl_first_aid_fire_evacuation_staff/tpl_task","pro-kontakte-vertretungsplan","Aufgabe","Task"],
   ["pro-kontakte-vertretungsplan.tpl_first_aid_fire_evacuation_staff/tpl_person","pro-kontakte-vertretungsplan","Person","Person"],
@@ -8538,6 +9217,30 @@ const FELDKATALOG = Object.freeze([
   ["pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_task","pro-kontakte-vertretungsplan","Aufgabe","Task"],
   ["pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_person","pro-kontakte-vertretungsplan","Person","Person"],
   ["pro-kontakte-vertretungsplan.tpl_delegated_safety_duties/tpl_delegated_on","pro-kontakte-vertretungsplan","Übertragen am","Delegated on"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent","pro-kontakte-vertretungsplan","Erste Schritte, wenn Sie verhindert sind","First steps if you are unable to act"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_step","pro-kontakte-vertretungsplan","Schritt","Step"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_who","pro-kontakte-vertretungsplan","Wer","Who"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_documents_kept_at","pro-kontakte-vertretungsplan","Unterlagen liegen bei","Documents kept at"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death","pro-kontakte-vertretungsplan","Erste Schritte im Todesfall","First steps after your death"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_step","pro-kontakte-vertretungsplan","Schritt","Step"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_who","pro-kontakte-vertretungsplan","Wer","Who"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_documents_kept_at","pro-kontakte-vertretungsplan","Unterlagen liegen bei","Documents kept at"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence","pro-kontakte-vertretungsplan","Erste Schritte, wenn kein Ende absehbar ist","First steps if no end is in sight"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_step","pro-kontakte-vertretungsplan","Schritt","Step"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_who","pro-kontakte-vertretungsplan","Wer","Who"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_documents_kept_at","pro-kontakte-vertretungsplan","Unterlagen liegen bei","Documents kept at"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover","pro-kontakte-vertretungsplan","Erste Schritte bei Verkauf oder Übergabe","First steps on sale or handover"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_step","pro-kontakte-vertretungsplan","Schritt","Step"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_who","pro-kontakte-vertretungsplan","Wer","Who"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
+  ["pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_documents_kept_at","pro-kontakte-vertretungsplan","Unterlagen liegen bei","Documents kept at"],
+  ["pro-kontakte-vertretungsplan.tpl_onboarding_plan","pro-kontakte-vertretungsplan","Einarbeitung der Nachfolge","Onboarding the successor"],
+  ["pro-kontakte-vertretungsplan.tpl_onboarding_plan/tpl_topic","pro-kontakte-vertretungsplan","Thema","Topic"],
+  ["pro-kontakte-vertretungsplan.tpl_onboarding_plan/tpl_shown_by","pro-kontakte-vertretungsplan","Wer zeigt es","Shown by"],
+  ["pro-kontakte-vertretungsplan.tpl_onboarding_plan/tpl_by_when","pro-kontakte-vertretungsplan","Bis wann","By when"],
   ["pro-kontakte-vertretungsplan.notiz","pro-kontakte-vertretungsplan","Notiz","Note"],
   ["pro-vertretung-vollmachten.tpl_weitere_vertretungsberechtigte_person_vorhanden","pro-vertretung-vollmachten","Weitere vertretungsberechtigte Person vorhanden","Additional authorized representative exists"],
   ["pro-vertretung-vollmachten.tpl_vertretungsregelung","pro-vertretung-vollmachten","Vertretungsregelung","Representation rule"],
@@ -8579,8 +9282,6 @@ const FELDKATALOG = Object.freeze([
   ["pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_date_of_birth","pro-vertretung-vollmachten","Geburtsdatum","Date of birth"],
   ["pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_place_of_residence","pro-vertretung-vollmachten","Wohnort","Place of residence"],
   ["pro-vertretung-vollmachten.tpl_managing_director_register_details/tpl_power_of_representation","pro-vertretung-vollmachten","Vertretungsbefugnis","Power of representation"],
-  ["pro-vertretung-vollmachten.tpl_patientenverfuegung_ablageort","pro-vertretung-vollmachten","Patientenverfügung — Ablageort","Advance healthcare directive — filing location"],
-  ["pro-vertretung-vollmachten.tpl_betreuungsverfuegung_ablageort","pro-vertretung-vollmachten","Betreuungsverfügung — Ablageort","Care directive — filing location"],
   ["pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority","pro-vertretung-vollmachten","Wem eine Vollmacht mitgeteilt wurde","Who has been told of a power of attorney"],
   ["pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_name","pro-vertretung-vollmachten","Name","Name"],
   ["pro-vertretung-vollmachten.tpl_third_parties_notified_of_authority/tpl_power_of_attorney","pro-vertretung-vollmachten","Vollmacht","Power of attorney"],
@@ -8596,6 +9297,9 @@ const FELDKATALOG = Object.freeze([
   ["pro-vertretung-vollmachten.tpl_tax_authority_power_of_attorney/tpl_tax_office","pro-vertretung-vollmachten","Finanzamt","Tax office"],
   ["pro-vertretung-vollmachten.tpl_prokura_scope","pro-vertretung-vollmachten","Umfang der Prokura","Scope of Prokura"],
   ["pro-vertretung-vollmachten.tpl_central_register_of_powers","pro-vertretung-vollmachten","Zentrales Vorsorgeregister","Central Register of Powers of Attorney"],
+  ["pro-vertretung-vollmachten.tpl_legal_form","pro-vertretung-vollmachten","Rechtsform","Legal form"],
+  ["pro-vertretung-vollmachten.tpl_legal_form_exact","pro-vertretung-vollmachten","Genaue Bezeichnung","Exact designation"],
+  ["pro-vertretung-vollmachten.tpl_management_service_contract","pro-vertretung-vollmachten","Anstellungsvertrag der Geschäftsführung","Managing director’s service contract"],
   ["pro-vertretung-vollmachten.notiz","pro-vertretung-vollmachten","Notiz","Note"],
   ["socialInsurance.pensionInsuranceNumbers","socialInsurance","Rentenversicherungsnummern","Pension insurance numbers"],
   ["socialInsurance.pensionInsuranceNumbers/system","socialInsurance","Land / System","Country / system"],
@@ -8635,7 +9339,7 @@ const FELDKATALOG = Object.freeze([
    prüft und nicht gegen das eigene Vokabular (A5). Gekapselt, damit keine Kennung des
    Erzeugers überschrieben wird: erreichbar allein über `KERN_TORWAECHTER`. */
 const KERN_TORWAECHTER = (function () {
-  const _GEFUEHRTE_URIS = new Set(["http://data.europa.eu/esco","http://fhir.de/CodeSystem/bfarm/atc","http://fhir.de/CodeSystem/bfarm/icd-10-gm","http://loinc.org","http://snomed.info/sct","urn:vivodepot:codeliste:rollencode"]);
+  const _GEFUEHRTE_URIS = new Set(["http://data.europa.eu/esco","http://fhir.de/CodeSystem/bfarm/atc","http://fhir.de/CodeSystem/bfarm/icd-10-gm","http://loinc.org","http://snomed.info/sct","urn:iso:std:iso:4217","urn:vivodepot:codeliste:rollencode"]);
   function _GEFUEHRTE_TERMINOLOGIE_URIS() { return _GEFUEHRTE_URIS; }
   const _aliasUris = new Map([["http://hl7.org/fhir/sid/icd-10-gm","http://fhir.de/CodeSystem/bfarm/icd-10-gm"],["http://www.whocc.no/atc","http://fhir.de/CodeSystem/bfarm/atc"],["urn:xoev-de:vivodepot:codeliste:rollencode","urn:vivodepot:codeliste:rollencode"]]);
   function kanonischesCodeSystem(uri) { return (typeof uri === 'string' && _aliasUris.get(uri.trim())) || uri; }
@@ -8925,7 +9629,25 @@ const KERN_TORWAECHTER = (function () {
 /* EINLASS-REGELN:BEGIN — erzeugt vom Erheber der Einlass-Regeln aus vivodepot.html, nicht von Hand ändern */
 const STUDIO_EINLASS_PRUEFEN = (() => {
   const ERSCHEINUNGSBILD = Object.freeze({"gueltig":true,"schriften":[{"familie":"Inter","woff2":"ab-werk"}],"ebenen":{"basis":{"--font-inter":"\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"}}});
+function _eigenerWert(map, schluessel) {
+  return Object.prototype.hasOwnProperty.call(map, schluessel) ? map[schluessel] : undefined;
+}
 function rechtsraumCodeNormalisieren(r) { return (typeof r === 'string') ? r.trim().toUpperCase() : ''; }
+const RECHTSRAUM_ALIAS = Object.freeze({ UK: 'GB' });
+const RECHTSRAUM_TEIL_FORM = /^[A-Z]{2}(-[A-Z0-9]{1,3})?$/;
+function _rechtsraumAliasLesen(code) { return _eigenerWert(RECHTSRAUM_ALIAS, code) || code; }
+function rechtsraumKennung(wert) {
+  if (typeof wert === 'string') return _rechtsraumAliasLesen(rechtsraumCodeNormalisieren(wert));
+  if (!Array.isArray(wert) || !wert.length) return '';
+  const teile = [];
+  for (const roh of wert) {
+    if (typeof roh !== 'string') return '';
+    const teil = _rechtsraumAliasLesen(rechtsraumCodeNormalisieren(roh));
+    if (!RECHTSRAUM_TEIL_FORM.test(teil) || teile.indexOf(teil) >= 0) return '';
+    teile.push(teil);
+  }
+  return teile.sort().join(',');
+}
 const _TAG_ODER_REFERENZ = /<[A-Za-z\/!?]|&(?:#|[A-Za-z][A-Za-z0-9]*;)|"/;
 function _istReinerText(wert) { return typeof wert === 'string' && !_TAG_ODER_REFERENZ.test(wert); }
 const _MODUL_SPRACHE_FORM = /^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/;
@@ -8995,7 +9717,7 @@ function institutionsArtModulPruefen(modul) {
   }
   return { gueltig: true, grund: null, arten, verworfene };
 }
-const BRANDING_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'farbePrimaer', 'farbeSekundaer', 'modell',
+const BRANDING_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'moduleVersion', 'farbePrimaer', 'farbeSekundaer', 'modell', 'erscheinung', 'poweredByAus',
   'schriftart', 'logo', 'name', 'domain', 'kontakt', 'aktualisierungen', 'herkunft', 'appVersion', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft']);
 const _BRANDING_LOGO_MAX_BYTES = 200 * 1024;
 const _BRANDING_LOGO_MUSTER = /^data:image\/(png|jpeg);base64,[A-Za-z0-9+/]+=*$/;
@@ -9092,29 +9814,94 @@ function brandingModulPruefen(modul) {
     if (a && a.length <= _BRANDING_AKTUALISIERUNGEN_MAX_LAENGE && _BRANDING_AKTUALISIERUNGEN_MUSTER.test(a)) aktualisierungen = a;
     else verworfene.push({ schluessel: 'aktualisierungen', grund: 'ungueltige-aktualisierungen' });
   }
-  if (farbePrimaer == null && farbeSekundaer == null && schriftart == null && logo == null && name == null && domain == null && kontakt == null && aktualisierungen == null) {
+  /* U2-ADR-473 W2: `erscheinung` erst ab Fassung 2, und ein Verstoß lehnt das GANZE Modul ab — ein halb angewandtes Profil
+     risse Kontrastpaare auseinander (s. brandingErscheinungPruefen). Das Feld steht in der signierten Nutzlast: das Register
+     ist `nurGeprueft`, ein unsigniertes Modul erreicht diese Prüfung im Einlass nie. */
+  let erscheinung = null;
+  if (modul.erscheinung != null) {
+    if (modul.moduleVersion < 2) return { gueltig: false, grund: 'erscheinung-erst-ab-fassung-2', branding: null, verworfene };
+    const e = brandingErscheinungPruefen(modul.erscheinung);
+    if (!e.gueltig) return { gueltig: false, grund: e.grund, branding: null, verworfene, verstoesse: e.verstoesse };
+    erscheinung = e.erscheinung;
+  }
+  /* Schalter „powered by aus“ (U2-ADR-473 W2, U2-ADR-400 §1): nur `true` ab Fassung 2 schaltet; `false` heißt nicht gesetzt.
+     Er trägt kein Gewicht für „nichts gültiges gesetzt“ und wirkt allein über `_herkunftHinweisAppAus` (geprüfte Signatur). */
+  let poweredByAus = null;
+  if (modul.poweredByAus === true && modul.moduleVersion >= 2) poweredByAus = true;
+  else if (modul.poweredByAus != null && modul.poweredByAus !== false) verworfene.push({ schluessel: 'poweredByAus', grund: 'powered-by-aus-ungueltig' });
+  if (farbePrimaer == null && farbeSekundaer == null && schriftart == null && logo == null && name == null && domain == null && kontakt == null && aktualisierungen == null && erscheinung == null) {
     return { gueltig: false, grund: 'nichts-gueltiges-gesetzt', branding: null, verworfene };
   }
-  return { gueltig: true, grund: null, branding: { farbePrimaer, farbeSekundaer, schriftart, logo, name, domain, kontakt, aktualisierungen }, verworfene };
+  return { gueltig: true, grund: null, branding: { farbePrimaer, farbeSekundaer, schriftart, logo, name, domain, kontakt, aktualisierungen, erscheinung, poweredByAus }, verworfene };
 }
 const _RECHTSRAUM_MODUL_MAX_BYTES = 200 * 1024;
 const _RECHTSRAUM_TYP_SCHLUESSEL = Object.freeze(['enduring-power-of-attorney', 'custodianship-declaration', 'living-will', 'ki-verfuegung', 'will', 'spousal-emergency-representation']);
 function _rechtsraumTypBekannt(typ) { return _RECHTSRAUM_TYP_SCHLUESSEL.indexOf(typ) >= 0; }
 function _rechtsraumCodeAbWerk(roh) {
-  const code = rechtsraumCodeNormalisieren(roh);
-  return !!code && Object.prototype.hasOwnProperty.call(_rechtsraumAbWerkRegistrySeed(), code);
+  const code = rechtsraumKennung(roh);
+  if (!code) return false;
+  const saat = _rechtsraumAbWerkRegistrySeed();
+  if (Object.prototype.hasOwnProperty.call(saat, code)) return true;
+  const belegt = Object.keys(saat).join(',').split(',');
+  return code.split(',').some((teil) => belegt.indexOf(teil) >= 0);
+}
+function _rechtsraumQuelleGueltig(q) {
+  if (!q || typeof q !== 'object' || Array.isArray(q)) return false;
+  const pflicht = [q.behoerde, q.titel, q.lizenz].concat(q.url == null ? [] : [q.url]);   // url nur, wenn sie da ist
+  return pflicht.every((w) => typeof w === 'string' && w.trim() !== '');
 }
 function validateRechtsraumModul(modul) {
   if (!modul || typeof modul !== 'object') return 'kein Modul-Objekt';
   let groesse;
   try { groesse = new TextEncoder().encode(JSON.stringify(modul)).length; } catch (e) { return 'Modul nicht serialisierbar'; }
   if (groesse > _RECHTSRAUM_MODUL_MAX_BYTES) return 'Modul zu groß (' + groesse + ' Byte)';
-  if (typeof modul.rechtsraum !== 'string' || !modul.rechtsraum.trim()) return 'rechtsraum fehlt';
+  if (!rechtsraumKennung(modul.rechtsraum)) return 'rechtsraum fehlt';   // U2-ADR-477: String oder gültige Liste
   /* R1 (09.10.2026): keine Reservierung mehr an dieser Stelle. Die Ab-Werk-Saat prüft hier ihre eigenen Moduldateien — auch das
      deutsche; reserviert wird am Einlass (EINLASS_REGISTER, `_rechtsraumCodeAbWerk`). */
   if (!Number.isInteger(modul.moduleVersion) || modul.moduleVersion < 1) return 'moduleVersion fehlt oder ist keine positive ganze Zahl';
   if (!modul.typen || typeof modul.typen !== 'object' || Array.isArray(modul.typen)) return 'typen fehlt oder ist kein Objekt';
   if (!Object.keys(modul.typen).length) return 'typen ist leer';
+  const listenGrund = _rechtsraumListenGrund(modul);
+  if (listenGrund) return listenGrund;   // die Kennung des verletzten Schlüssels ('codeListen' | 'felder')
+  if (_rechtsraumRegelnGrund(modul)) return 'regeln';
+  return '';
+}
+const _RR_LISTE_SCHLUESSEL = Object.freeze(['systemId', 'uri', 'version', 'kuerzel', 'lizenz', 'status', 'hinweis', 'daten']);
+const _RR_LISTENEINTRAG_SCHLUESSEL = Object.freeze(['code', 'anzeigeName', 'iso3166Alpha2', 'hinweis', 'gueltigBis', 'pidSonderwert', 'lesehilfeSchluessel']);
+const PID_STAATSANGEHOERIGKEIT_SONDERWERTE = Object.freeze(['QS', 'QU']);
+const _RR_BINDUNG_SCHLUESSEL = Object.freeze(['codeListe', 'mehrfach']);
+function _rechtsraumListenGrund(modul) {
+  const nichtLeer = (x) => typeof x === 'string' && x.trim() !== '';
+  const nurBekannte = (o, erlaubt) => Object.keys(o).every((k) => erlaubt.indexOf(k) >= 0);
+  const ids = [];
+  if (modul.codeListen !== undefined) {
+    if (!Array.isArray(modul.codeListen)) return 'codeListen';
+    for (const l of modul.codeListen) {
+      if (!l || typeof l !== 'object' || Array.isArray(l) || !nurBekannte(l, _RR_LISTE_SCHLUESSEL)) return 'codeListen';
+      if (!nichtLeer(l.systemId) || ids.indexOf(l.systemId) >= 0) return 'codeListen';
+      for (const k of ['uri', 'version', 'kuerzel', 'lizenz', 'status', 'hinweis']) if (l[k] !== undefined && typeof l[k] !== 'string') return 'codeListen';
+      if (!Array.isArray(l.daten) || !l.daten.length) return 'codeListen';
+      for (const e of l.daten) {
+        if (!e || typeof e !== 'object' || Array.isArray(e) || !nurBekannte(e, _RR_LISTENEINTRAG_SCHLUESSEL)) return 'codeListen';
+        if (!nichtLeer(e.code) || !nichtLeer(e.anzeigeName)) return 'codeListen';
+        if (e.iso3166Alpha2 !== undefined && !(typeof e.iso3166Alpha2 === 'string' && /^[A-Z]{2}$/.test(e.iso3166Alpha2))) return 'codeListen';
+        if (e.hinweis !== undefined && typeof e.hinweis !== 'string') return 'codeListen';
+        if (e.gueltigBis !== undefined && !(typeof e.gueltigBis === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(e.gueltigBis))) return 'codeListen';
+        if (e.pidSonderwert !== undefined && PID_STAATSANGEHOERIGKEIT_SONDERWERTE.indexOf(e.pidSonderwert) < 0) return 'codeListen';
+        if (e.lesehilfeSchluessel !== undefined && !(typeof e.lesehilfeSchluessel === 'string' && /^[A-Za-z][A-Za-z0-9]*$/.test(e.lesehilfeSchluessel))) return 'codeListen';
+      }
+      ids.push(l.systemId);
+    }
+  }
+  if (modul.felder !== undefined) {
+    if (!modul.felder || typeof modul.felder !== 'object' || Array.isArray(modul.felder)) return 'felder';
+    for (const kennung of Object.keys(modul.felder)) {
+      const b = modul.felder[kennung];
+      if (!b || typeof b !== 'object' || Array.isArray(b) || !nurBekannte(b, _RR_BINDUNG_SCHLUESSEL)) return 'felder';
+      if (!nichtLeer(b.codeListe) || ids.indexOf(b.codeListe) < 0) return 'felder';   // nur eine Liste DIESES Moduls
+      if (b.mehrfach !== undefined && typeof b.mehrfach !== 'boolean') return 'felder';
+    }
+  }
   return '';
 }
 function _rechtsraumModulUebersetzen(modul) {
@@ -9143,7 +9930,9 @@ function _rechtsraumModulUebersetzen(modul) {
   return { typen, verworfeneTypen };
 }
 const _RECHTSRAUM_MODUL_SCHLUESSEL = Object.freeze(['modulTyp', 'rechtsraum', 'moduleVersion', 'typen', 'name', 'rechtsformen',
-  'hinweise', 'formate',
+  'hinweise', 'formate', 'codeListen', 'felder', 'regeln',
+  // U2-ADR-477: die Herkunft des übernommenen amtlichen Texts, nach dem Muster von `wortlautQuelle`.
+  'quelle',
   'sprache', 'appVersion', 'ungeprueft', 'eingelassenAm', 'anbieterId', 'anbieterIdGeprueft']);
 const AB_WERK_RECHTSRAUM_PRODUKT = [];
 function _rechtsraumAbWerkRegistrySeed() {
@@ -9154,7 +9943,7 @@ function _rechtsraumAbWerkRegistrySeed() {
     const produktFehler = validateRechtsraumModul(modul);
     if (produktFehler) continue;
     const { typen: produktTypen } = _rechtsraumModulUebersetzen(modul);
-    if (Object.keys(produktTypen).length) registry[modul.rechtsraum] = produktTypen;
+    if (Object.keys(produktTypen).length) registry[rechtsraumKennung(modul.rechtsraum)] = produktTypen;   // U2-ADR-477
   }
   return registry;
 }
@@ -9165,11 +9954,15 @@ function _rechtsraumAbWerkRegistrySeed() {
         for (const k of Object.keys(m)) {
           if (_RECHTSRAUM_MODUL_SCHLUESSEL.indexOf(k) < 0) _rrVerworfen.push({ schluessel: k, grund: 'unbekannt' });
         }
-        if (typeof m.rechtsraum !== 'string' || !m.rechtsraum.trim()) return { gueltig: false, grund: 'rechtsraum', verworfene: _rrVerworfen };
-        if (_rechtsraumCodeAbWerk(m.rechtsraum)) return { gueltig: false, grund: 'reserviert', verworfene: _rrVerworfen };
+        const _rrKennung = rechtsraumKennung(m.rechtsraum);   // U2-ADR-477: String oder Liste
+        if (!_rrKennung) return { gueltig: false, grund: 'rechtsraum', verworfene: _rrVerworfen };
+        if (_rechtsraumCodeAbWerk(_rrKennung)) return { gueltig: false, grund: 'reserviert', verworfene: _rrVerworfen };
+        if (m.quelle != null && !_rechtsraumQuelleGueltig(m.quelle)) return { gueltig: false, grund: 'quelle', verworfene: _rrVerworfen };
         if (!Number.isInteger(m.moduleVersion) || m.moduleVersion < 1) return { gueltig: false, grund: 'moduleVersion', verworfene: _rrVerworfen };
         const u = _rechtsraumModulUebersetzen(m);
         if (!u || !u.typen || !Object.keys(u.typen).length) return { gueltig: false, grund: 'typen', verworfene: _rrVerworfen.concat((u && u.verworfeneTypen) || []) };
+        const listenGrund = _rechtsraumListenGrund(m);
+        if (listenGrund) return { gueltig: false, grund: listenGrund, verworfene: _rrVerworfen.concat(u.verworfeneTypen || []) };
         /* 1.0a: ein `wortlaut` ist der laengste Text, den ein Modul mitbringt — er
            gehoert erst recht in eine benannte Sprache. */
         const sprGrund = _modulSpracheGrund(m);
@@ -9302,6 +10095,19 @@ const VD_CODE_LISTEN = Object.freeze({
     kuerzel: 'ESCO', uri: 'http://data.europa.eu/esco', version: 'SEED-2026-05',
     lizenz: 'ESCO — Europäische Kommission (Stub)',
     daten: [],
+  },
+  // Befund WAEHRUNG-FEST-EUR (U2-ADR-480): Währungscodes nur der verwendeten Templates, als Anzeige der Code selbst — die
+  // Weitergabe der vollständigen Liste ist an der Primärquelle nicht geregelt. Quelle code-listen/iso4217.json, Drift:
+  // tests/codeliste-iso4217.test.js.
+  iso4217: {
+    kuerzel: 'ISO 4217', uri: 'urn:iso:std:iso:4217', version: 'SEED-ISO-4217-2026-09-17',
+    lizenz: 'Währungscodes nach ISO 4217. Die Codeliste pflegt die SIX Group als Maintenance Agency im Auftrag der ISO. Vivodepot übernimmt nur die verwendeten Codes, mit eigener Bezeichnung, keine Inhalte der Liste.',
+    daten: [
+      { code: 'EUR', anzeige: 'EUR' },
+      { code: 'USD', anzeige: 'USD' },
+      { code: 'GBP', anzeige: 'GBP' },
+      { code: 'CHF', anzeige: 'CHF' },
+    ],
   },
 });
 
@@ -10480,10 +11286,37 @@ function _anfrageSuchForm(x) {
     .replace(/\u00e4/g, 'ae').replace(/\u00f6/g, 'oe').replace(/\u00fc/g, 'ue').replace(/\u00df/g, 'ss')
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
-function anfrageFelderSuchen(suchtext) {
+/* DIE EIGENEN VORLAGENFELDER (22.10.2026, Rückweg einer Vorlage, U2-ADR-366 Nachtrag). Eine Stelle darf in ihrer signierten
+   Anfrage die Felder ihrer eigenen Vorlage nennen, als `bereich.<anbieterId>:tpl_<slug>`. Der Slug ist der des Kerns
+   (`_tplSlug`: Umlaute ausgeschrieben, alles andere zu `_`), nicht `slug()` dieser Datei (Bindestriche). Ohne `anbieterId`
+   gibt es keine solche Kennung. Der Assistent Anfrage bekommt sie nicht: seine Anfrage ist unsigniert, und eine unsignierte
+   Anfrage löst kein Vorlagenfeld auf. */
+function _anfrageTplSlug(text) {
+  return String(text == null ? '' : text).toLowerCase()
+    .replace(/[\u00e4\u00f6\u00fc\u00df]/g, (m) => ({ '\u00e4': 'ae', '\u00f6': 'oe', '\u00fc': 'ue', '\u00df': 'ss' }[m]))
+    .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+}
+function anfrageVorlagenFelder(state) {
+  const anbieterId = (state && state.anbieter && state.anbieter.anbieterId) ? String(state.anbieter.anbieterId) : '';
+  if (!anbieterId) return [];
+  // Ein Feld ohne Namen oder ohne Bereich des Katalogs ergibt keine Kennung; das meldet die Vorlagenprüfung, nicht die Suche.
+  const gesehen = new Set(), liste = [];
+  for (const f of (Array.isArray(state.felder) ? state.felder : [])) {
+    const name = String((f && f.feldname) || '').trim();
+    const slugTeil = _anfrageTplSlug(name);
+    if (!slugTeil || FELD_ZIEL_BEREICHE.indexOf(f.bereich) < 0) continue;
+    const kennung = f.bereich + '.' + anbieterId + ':tpl_' + slugTeil;
+    if (gesehen.has(kennung)) continue;
+    gesehen.add(kennung);
+    liste.push({ kennung, bereich: f.bereich, label: name, labelEn: name, vorlage: true });
+  }
+  return liste;
+}
+function anfrageFelderSuchen(suchtext, state) {
+  const alle = anfrageVorlagenFelder(state).concat(FELDKATALOG);
   const q = _anfrageSuchForm(suchtext).trim();
-  if (!q) return FELDKATALOG.slice();
-  return FELDKATALOG.filter((f) => _anfrageSuchForm(f.label).indexOf(q) >= 0
+  if (!q) return alle;
+  return alle.filter((f) => _anfrageSuchForm(f.label).indexOf(q) >= 0
     || _anfrageSuchForm(bereichLabel(f.bereich)).indexOf(q) >= 0
     || _anfrageSuchForm(f.kennung).indexOf(q) >= 0);
 }
@@ -10493,9 +11326,10 @@ function anfrageFelderSuchen(suchtext) {
    `vorsorge.instrumente` gibt. Eine Warnung an dieser Stelle wäre falsch: der Kern löst sie
    auf (`kennungPruefen`), und eine Warnung, die nicht stimmt, wird beim nächsten Mal
    überlesen. */
-function anfrageFeldkatalogKennt(kennung) {
+function anfrageFeldkatalogKennt(kennung, state) {
   const k = String(kennung == null ? '' : kennung);
   if (FELDKATALOG.some((f) => f.kennung === k)) return true;
+  if (state && anfrageVorlagenFelder(state).some((f) => f.kennung === k)) return true;
   const m = /^([a-zA-Z0-9-]+)\.([^.\[\]]+)\[[^\]\[]+\]\.[^.\[\]]+$/.exec(k);
   return !!(m && FELDKATALOG.some((f) => f.kennung === m[1] + '.' + m[2]));
 }
@@ -10559,7 +11393,7 @@ function pruefeAnfrage(state, optionen) {
       + 'Es entsteht beim Erzeugen der Anfrage in der Fachebene.');
   }
   for (const f of anfrage.felder) {
-    if (!anfrageFeldkatalogKennt(f.kennung)) {
+    if (!anfrageFeldkatalogKennt(f.kennung, state)) {
       warnungen.push('Die Kennung \u201e' + f.kennung + '\u201c steht nicht im Feldkatalog dieser '
         + 'Vivodepot-Fassung. Die Bürgerin bekommt sie als unbekannt angezeigt.');
     }
@@ -11539,7 +12373,7 @@ const BEISPIEL_TEMPLATES = Object.freeze({
       { feldname: 'Beurkundungsdatum', feldtyp: 'datum', pflicht: true, bereich: 'Verwaltung', gruppe: 'Vorgang' },
       { feldname: 'Vorsorgevollmacht erteilt', feldtyp: 'jaNein', pflicht: false, bereich: 'Vorsorge', gruppe: 'Inhalt' },
       { feldname: 'Bevollmächtigte Person', feldtyp: 'text', pflicht: false, bereich: 'Vorsorge', gruppe: 'Inhalt' },
-      { feldname: 'Vermögenswert (EUR)', feldtyp: 'zahl', pflicht: false, bereich: 'Finanzen', gruppe: 'Finanzen' },
+      { feldname: 'Vermögenswert', feldtyp: 'zahl', pflicht: false, bereich: 'Finanzen', gruppe: 'Finanzen', codeSystem: 'urn:iso:std:iso:4217', codeWerte: [{ code: 'EUR', anzeige: 'Euro' }] },
     ],
   },
 });
@@ -12260,16 +13094,35 @@ const EINLASS_GRUND_TEXT = {
   'rechtsraum': ['Rechtsraum fehlt', 'legal area missing'],
   'typen': ['keine gültigen Typen', 'no valid types'],
   'arten': ['keine Arten', 'no types'],
+  'erscheinung-bei-vivodepot': ['das Erscheinungsbild prüft Vivodepot gegen das Erscheinungsbild des Produkts (Kontrast, Mindestgrößen); das Studio prüft es nicht vorab', 'Vivodepot checks the appearance against the product appearance (contrast, minimum sizes); the studio does not pre-check it'],
 };
+/* Branding v2 (U2-ADR-473 W2): das Profil `erscheinung` lässt sich nur gegen das Erscheinungsbild des Produkts prüfen, und das trägt
+   das Studio nicht (der Bereich EINLASS-REGELN hat davon nur die Schriften). Darum prüft das Studio das Modul OHNE das Profil mit
+   der Prüfung der Bürger-App, zeigt Name und Marke des Partners und nennt das Profil als Punkt, den Vivodepot prüft — es wirft
+   nicht und fällt nicht auf „bei-vivodepot“ zurück. „bestanden“ heißt es mit Profil nie: das wäre ein Urteil ohne Prüfung. */
+function _einlassOhneErscheinung(typ, modul) {
+  if (typ !== 'branding' || !modul || typeof modul !== 'object' || Array.isArray(modul) || modul.erscheinung == null) return null;
+  const ohne = Object.assign({}, modul);
+  delete ohne.erscheinung;
+  return ohne;
+}
 function einlassUrteil(typ, modul) {
   const pruefen = (typeof STUDIO_EINLASS_PRUEFEN !== 'undefined') ? STUDIO_EINLASS_PRUEFEN[typ] : null;
   if (!pruefen) return { urteil: 'bei-vivodepot', zeilen: [] };
+  const ohneErscheinung = _einlassOhneErscheinung(typ, modul);
   let r;
-  try { r = pruefen(modul); } catch (e) { return { urteil: 'bei-vivodepot', zeilen: [] }; }
+  try { r = pruefen(ohneErscheinung || modul); } catch (e) { return { urteil: 'bei-vivodepot', zeilen: [] }; }
   if (!r || typeof r.gueltig !== 'boolean') return { urteil: 'bei-vivodepot', zeilen: [] };
   const zeilen = (r.verworfene || []).map((v) => ({ grund: v.grund, fundstelle: v.schluessel || v.kennung || v.id || v.pfad || v.ziel || v.feld || null, schwere: 'gemeldet', quelle: 'einlass' }));
+  // Trägt das Modul NUR das Profil, fehlt ohne es jedes gültige Feld; das entscheidet dann allein die Prüfung des Profils bei Vivodepot.
+  if (ohneErscheinung && !r.gueltig && r.grund === 'nichts-gueltiges-gesetzt' && Number.isInteger(modul.moduleVersion)) r = { gueltig: true, grund: null, branding: r.branding, verworfene: r.verworfene };
+  // Dieselbe Regel wie in der Bürger-App: ein Profil gibt es erst ab Fassung 2.
+  if (ohneErscheinung && r.gueltig && !(modul.moduleVersion >= 2)) return { urteil: 'abgewiesen', zeilen: zeilen.concat([{ grund: 'erscheinung-erst-ab-fassung-2', fundstelle: 'erscheinung', schwere: 'abgewiesen', quelle: 'einlass' }]) };
+  if (ohneErscheinung && r.gueltig) zeilen.push({ grund: 'erscheinung-bei-vivodepot', fundstelle: 'erscheinung', schwere: 'gemeldet', quelle: 'einlass' });
   if (!r.gueltig) zeilen.push({ grund: r.grund, fundstelle: null, schwere: 'abgewiesen', quelle: 'einlass' });
-  return { urteil: !r.gueltig ? 'abgewiesen' : (zeilen.length ? 'gemeldet' : 'bestanden'), zeilen };
+  const aus = { urteil: !r.gueltig ? 'abgewiesen' : (zeilen.length ? 'gemeldet' : 'bestanden'), zeilen };
+  if (typ === 'branding' && r.gueltig && r.branding && r.branding.name) aus.marke = { name: r.branding.name, domain: r.branding.domain || null };
+  return aus;
 }
 function einlassZeileText(z) {
   const t = EINLASS_GRUND_TEXT[z.grund];
@@ -12286,6 +13139,7 @@ function einlassUrteilZeigen(box, u) {
   const k = URTEIL_KOPF[u.urteil];
   const teil = el('div', { class: 'vorpruefung vorpruefung-' + u.urteil });
   teil.appendChild(el('p', { text: L(k[0], k[1]) }));
+  if (u.marke && u.marke.name) teil.appendChild(el('p', { class: 'vorpruefung-marke', text: L('Marke: ', 'Brand: ') + u.marke.name + (u.marke.domain ? ' · ' + u.marke.domain : '') }));
   if (u.zeilen.length) { const ul = el('ul', {}); u.zeilen.forEach((z) => ul.appendChild(el('li', { text: einlassZeileText(z) }))); teil.appendChild(ul); }
   box.appendChild(teil);
 }
@@ -12492,7 +13346,7 @@ function anfrageTrefferRendern() {
   if (!host) return;
   leeren(host);
   const drin = new Set(STATE.anfrage.felder.map((f) => f.kennung));
-  const treffer = anfrageFelderSuchen(STATE.anfrageSuche).slice(0, 40);
+  const treffer = anfrageFelderSuchen(STATE.anfrageSuche, STATE).slice(0, 40);
   for (const t of treffer) {
     const zeile = el('div', { class: 'feld-zeile' });
     zeile.appendChild(el('span', { text: t.label + ' — ' + bereichLabel(t.bereich) }));
@@ -12514,7 +13368,7 @@ function anfrageGewaehltRendern() {
   leeren(host);
   $('anf-anzahl') && ($('anf-anzahl').textContent = String(STATE.anfrage.felder.length));
   STATE.anfrage.felder.forEach((f, i) => {
-    const kat = FELDKATALOG.find((k) => k.kennung === f.kennung);
+    const kat = FELDKATALOG.find((k) => k.kennung === f.kennung) || anfrageVorlagenFelder(STATE).find((k) => k.kennung === f.kennung);
     const zeile = el('div', { class: 'karte-innen' });
     zeile.appendChild(el('strong', { text: (kat && kat.label) || f.kennung }));
     zeile.appendChild(el('code', { text: f.kennung }));
@@ -13724,7 +14578,7 @@ const SCHLUESSEL_NACHWEIS_KNOPF = 'sk-antrag';
 /* Die Felder, die der Aufrufer an nachweisZeichnen gibt. Die Kennung (Zeile 1) und den Fingerabdruck des Schlüssels (Zeile 3) setzt
    der Tresor selbst; ein Aufrufer kann sie nicht mitgeben. */
 const SCHLUESSEL_NACHWEIS_EINGABE = Object.freeze(['art', 'antragId', 'angabenFingerabdruck', 'konto', 'ausstelltag']);
-const SCHLUESSEL_ERLAUBTE_KNOEPFE = Object.freeze(['pr-submit', 'anf-erzeugen', 'vb-annehmen', 'vb-ablehnen', 'ia-erzeugen', 'bm-erzeugen', 'rr-erzeugen', 'fm-erzeugen', 'bd-erzeugen', 'ab-erzeugen', 'wm-erzeugen', 'lm-erzeugen', 'ts-erzeugen']);
+const SCHLUESSEL_ERLAUBTE_KNOEPFE = Object.freeze(['pr-submit', 'anf-erzeugen', 'aa-erzeugen', 'vb-annehmen', 'vb-ablehnen', 'ia-erzeugen', 'bm-erzeugen', 'rr-erzeugen', 'fm-erzeugen', 'bd-erzeugen', 'ab-erzeugen', 'wm-erzeugen', 'lm-erzeugen', 'ts-erzeugen']);
 const SCHLUESSEL_TRESOR = (function () {
   let signKey = null;     // CryptoKey, extractable:false — die einzige Dauerform des Schlüssels
   let huelleText = null;  // die VERSCHLÜSSELTE Schlüsseldatei (.vdkey), NUR bis „beide Dateien gesichert“ — nie Klartext
@@ -13830,6 +14684,9 @@ const SCHLUESSEL_TRESOR = (function () {
     /* Nach der geprüften Sicherung (sicherungPruefen): ab hier gibt es auch die Hülle nicht mehr, nur den Schlüssel. */
     huelleVerwerfen() { const war = !!huelleText; huelleText = null; return war; },
     vorhanden() { return !!signKey; },
+    /* Der öffentliche Fingerabdruck (RFC 7638) des gehaltenen Schlüssels, nie der Schlüssel. Mit ihm prüft der Ladeweg, ob ein
+       Zertifikat zu DIESEM Schlüssel gehört (Hauptweg der Anfrage, Bedingung 2 der Krypto-Gegenlesung 18.10.2026). */
+    abdruck() { return signKey ? abdruck : null; },
     /* Auskunft, kein Griff: Art und Zustand, nie der Schlüssel. */
     zustand() {
       return { vorhanden: !!signKey, extractable: signKey ? signKey.extractable : null,
@@ -13955,6 +14812,24 @@ const EMPFANGS_TRESOR = (function () {
       if (!huelleText) return false;
       senke(huelleText);
       return true;
+    },
+    /* Eine gesicherte Empfangs-Schlüsseldatei zum Öffnen von Antworten (Hauptweg der Anfrage, 18.10.2026). Hält nichts und ersetzt
+       nichts. Das geöffnete JWK lebt nur während `arbeit(schluessel)` und wird danach gelöscht, auch bei einem Fehler: kein Aufrufer
+       muss daran denken, es zu verwerfen (Auflage der Krypto-Gegenlesung 18.10.2026). Die Bindung an die Anfrage, die die Datei
+       trägt, prüft `schluesselAnfrageBindung` (wortgleich mit der Lese-App). */
+    async mitDatei(inhalt, passwort, arbeit) {
+      if (!istGeschuetzteSchluesseldatei(inhalt)) throw new Error('empfang-keine-huelle');
+      if (typeof passwort !== 'string' || !passwort) throw new Error('passwort-fehlt');
+      if (typeof arbeit !== 'function') throw new Error('empfang-arbeit-fehlt');
+      let jwk = await entschluesseleSchluesselJwk(inhalt, passwort);
+      const schluessel = { privateJwk: jwk, anfrageText: typeof inhalt.anfrage === 'string' ? inhalt.anfrage : undefined };
+      try {
+        if (!jwk || jwk.kty !== 'EC' || jwk.crv !== 'P-256' || !jwk.d || !jwk.x || !jwk.y) throw new Error('empfang-kein-schluessel');
+        return await arbeit(schluessel);
+      } finally {
+        if (jwk && typeof jwk === 'object') { delete jwk.d; }
+        jwk = null; schluessel.privateJwk = null;
+      }
     },
     vorhanden() { return !!(empfangKey || huelleText); },
     zustand() { return { vorhanden: !!(empfangKey || huelleText), extractable: empfangKey ? empfangKey.extractable : null,
@@ -14749,12 +15624,13 @@ function schluesselDateiGewaehlt() {
   if (st) st.textContent = ''; if (kt) kt.hidden = true;
 }
 /* `feldId`: das Dateifeld, aus dem gelesen wird. Ohne Angabe das Feld der vorhandenen Schlüsseldatei; „Sicherung prüfen“
-   nennt sein eigenes. Gelesen wird eine Schlüsseldatei nur hier. */
-async function _schluesselDateiLesen(feldId) {
+   nennt sein eigenes. Gelesen wird eine Schlüsseldatei nur hier. `roh` (18.10.2026, Hauptweg der Anfrage): der Text ungeparst,
+   für die Zertifikatsdatei der Stelle, die ein kompakter JWS sein kann; auch sie wird nur hier gelesen. */
+async function _schluesselDateiLesen(feldId, roh) {
   const inp = feldId ? $(feldId) : $('pr-privkey');
   const datei = inp && inp.files && inp.files[0];
   if (!datei) return null;
-  try { return JSON.parse(await datei.text()); } catch (e) { return undefined; }
+  try { const text = await datei.text(); return roh ? text : JSON.parse(text); } catch (e) { return undefined; }
 }
 async function schluesselDateiLaden() {
   const st = $('pr-privkey-status'), kt = $('pr-klartext'), pwFeld = $('pr-privkey-pw');
@@ -14847,7 +15723,7 @@ const BEREICH_LABEL_EN = Object.freeze({
   identity: 'Identity & person', people: 'My people', mobility: 'Mobility & travel', finance: 'Finances & payments',
   assets: 'Assets and income', health: 'Health', education: 'Education & career', socialInsurance: 'Social insurance',
   advanceCare: 'Provisions & legal', administration: 'Administration & authorities', housing: 'Home & property',
-  emergencyPreparedness: 'Crisis preparedness', personal: 'Personal',
+  emergencyPreparedness: 'Crisis preparedness', pets: 'Pets', personal: 'Personal',
   'pro-vertretung-vollmachten': 'Representation and powers of attorney', 'pro-gesellschaft-nachfolge': 'Company and succession',
   'pro-finanzen-verbindlichkeiten': 'Finances and liabilities', 'pro-betrieb-zugaenge': 'Operations and access',
   'pro-aufbewahrung-ordnung': 'Storage and order', 'pro-kontakte-vertretungsplan': 'Contacts and cover plan',
@@ -15596,6 +16472,13 @@ function assistentBinden(an) {
 const ANTWORT_JWE_TYP = 'vivodepot-antwort+jwe';
 const ANTWORT_JWE_STUFEN = Object.freeze([1024, 2048, 3072, 4096, 6144, 8192, 12288, 16384]);
 const ANTWORT_JWE_P2C = 600000;
+/* GRÖSSE: Über ANTWORT_JWE_MAX_ZEICHEN erkennen antwortJweKopf und antwortJweOeffnen keine Antwort und rechnen nichts; eine
+   präparierte Riesendatei legt die Empfangsseite sonst lahm. Vor dem Lesen der Datei prüft heute nur das Studio die Größe
+   (antwortenOeffnen); wo eine Anwendung eine Datei noch ohne Grenze einliest, steht in tools/datei-lesen-ohne-grenze-grundlinie.json.
+   Die Antwort selbst hat keine feste Obergrenze (über der letzten Stufe in 4096er-Schritten); eine Anfrage über alle Felder
+   des Katalogs ergibt etwa 1 MB (geschätzt am 20.10.2026 aus dem Aufbau des Datensatzes). Die Grenze liegt weit darüber, damit
+   sie keine echte Antwort abweist. */
+const ANTWORT_JWE_MAX_ZEICHEN = 16 * 1024 * 1024;
 const ANTWORT_JWE_PBES2 = 'PBES2-HS512+A256KW';
 function _jweB64u(bytes) {
   let s = '';
@@ -15628,8 +16511,14 @@ async function _jweConcatKdf(z, algName, apu, apv, bits) {
   const alg = new TextEncoder().encode(algName);
   const other = _jweVerbinden([_jweLaenge32(alg.length), alg, _jweLaenge32(apu.length), apu,
     _jweLaenge32(apv.length), apv, _jweLaenge32(bits)]);
-  const h = new Uint8Array(await crypto.subtle.digest('SHA-256', _jweVerbinden([_jweLaenge32(1), z, other])));
-  return h.slice(0, bits / 8);
+  // Eingabe (Zähler ‖ Z ‖ OtherInfo) und voller Hash tragen Schlüsselmaterial: beide im finally überschreiben, zurück geht
+  // nur die Kopie, die der Aufrufer nullt (Befund JWE-KDF-ZWISCHENPUFFER).
+  const eingabe = _jweVerbinden([_jweLaenge32(1), z, other]);
+  let h = null;
+  try {
+    h = new Uint8Array(await crypto.subtle.digest('SHA-256', eingabe));
+    return h.slice(0, bits / 8);
+  } finally { eingabe.fill(0); if (h) h.fill(0); }
 }
 function _jweStufe(laenge) {
   return ANTWORT_JWE_STUFEN.find((s) => s >= laenge) || (Math.ceil(laenge / 4096) * 4096);
@@ -15648,6 +16537,7 @@ async function _jwePbes2Schluessel(passwort, p2s, p2c) {
 }
 /* Rein/testbar: ist dieser Text eine Antwort-JWE? Nur die Form und der Kopf, ohne Entschlüsseln. */
 function antwortJweKopf(text) {
+  if (text != null && String(text).length > ANTWORT_JWE_MAX_ZEICHEN) return null;   // vor split und Regex über den ganzen Text
   const t = String(text == null ? '' : text).trim();
   const teile = t.split('.');
   if (teile.length !== 5 || !/^[A-Za-z0-9_.-]+$/.test(t)) return null;
@@ -15659,6 +16549,7 @@ function antwortJweKopf(text) {
 /* ══ ENDE ANTWORT-JWE-BLOCK ══ */
 /* ══ ANTWORT-JWE ÖFFNEN (U2-ADR-449) — nur in der Lese-App; der gemeinsame Teil steht im ANTWORT-JWE-BLOCK ══ */
 async function antwortJweOeffnen(text, schluessel) {
+  if (text != null && String(text).length > ANTWORT_JWE_MAX_ZEICHEN) throw new Error('jwe-zu-gross');
   const t = String(text == null ? '' : text).trim();
   const kopf = antwortJweKopf(t);
   if (!kopf) throw new Error('jwe-keine-antwort');
@@ -15852,9 +16743,11 @@ const ANTWORT_FEHLER_TEXT = Object.freeze({
   'jwe-zip-nicht-unterstuetzt': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
   'jwe-p2c': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
   'jwe-alg': ['Diese Antwort kann diese Fassung nicht öffnen.', 'This version cannot open this reply.'],
+  'jwe-zu-gross': ['Die Datei ist zu groß für eine Antwort und wird nicht geöffnet.', 'The file is too large for a reply and is not opened.'],
 });
 /* Die Sätze zu einer abgewiesenen Signatur (ANTWORT-SIGNATUR-BLOCK, `antwortTextSchluessel`), wortgleich mit der Lese-App. Nie ein Code. */
 const ANTWORT_SIGNATUR_TEXT = Object.freeze({
+  antwortSchluesselAnfrageBruch: ['Die Schlüsseldatei passt nicht zu der Anfrage, die sie trägt. Die Antwort wird nicht angezeigt.', 'The key file does not match the request it carries. The reply is not shown.'],
   antwortSignaturUngueltig: ['Die Signatur passt nicht zum Inhalt der Antwort. Die Antwort wird nicht angezeigt.', 'The signature does not match the content of the reply. The reply is not shown.'],
   antwortSignaturVerfahren: ['Die Antwort ist mit einem Verfahren signiert, das das Studio nicht annimmt. Die Antwort wird nicht angezeigt.', 'The reply is signed with a method the studio does not accept. The reply is not shown.'],
   antwortSignaturArt: ['Die Signatur ist nicht als Antwort auf eine Anfrage gekennzeichnet. Die Antwort wird nicht angezeigt.', 'The signature is not marked as a reply to a request. The reply is not shown.'],
@@ -15922,15 +16815,22 @@ async function antwortenOeffnen() {
   let passwort = feld ? feld.value : '';
   const dateien = ($('an-dateien') && $('an-dateien').files) ? Array.from($('an-dateien').files) : [];
   if (!dateien.length) { box.appendChild(el('p', { class: 'as-meldung', role: 'alert', text: L('Bitte wählen Sie mindestens eine Antwort-Datei.', 'Please choose at least one reply file.') })); return; }
-  try {
+  /* Mit der Schlüsseldatei der Anfrage (Hauptweg, 18.10.2026): geöffnet wird sie mit ihrem Passwort im Empfangs-Tresor, gebunden an
+     die Anfrage, die sie trägt (schluesselAnfrageBindung, wortgleich mit der Lese-App). Dann wird `aud` gegen die Kennung aus dem
+     SIGNIERTEN Zertifikat gehalten und der Vorgang gegen den der Anfrage. Das JWK lebt nur innerhalb von `mitDatei`. Ohne
+     Schlüsseldatei: das Einmalpasswort wie bisher, ohne Abgleich von `aud`. */
+  const alleOeffnen = async (schluessel, bindung) => {
     for (const datei of dateien) {
-      let text;
-      try { text = await datei.text(); } catch (e) { text = ''; }
+      let text = '';
       try {
-        const geoeffnet = await antwortJweOeffnen(text, { passwort });
-        // Eine signierte Antwort (cty JWT) wird geprüft, bevor etwas gezeigt wird; ohne Abgleich von aud (siehe Kopf oben).
+        // Die Größe vor dem Lesen: eine Riesendatei wird gar nicht erst in den Speicher geholt (ANTWORT_JWE_MAX_ZEICHEN).
+        if (Number(datei.size) > ANTWORT_JWE_MAX_ZEICHEN) throw new Error('jwe-zu-gross');
+        try { text = await datei.text(); } catch (e) { text = ''; }
+        const geoeffnet = await antwortJweOeffnen(text, schluessel || { passwort });
+        // Eine signierte Antwort (cty JWT) wird geprüft, bevor etwas gezeigt wird; `aud` nur gegen eine gebundene Kennung.
         if (antwortJweTraegtJws(geoeffnet.kopf)) {
-          const erg = await antwortSignaturPruefen(geoeffnet.klartext, { anbieterId: '', vorgang: String(geoeffnet.kopf.vorgang || '') });
+          const erwartet = bindung ? { anbieterId: bindung.anbieterId, vorgang: bindung.vorgang } : { anbieterId: '', vorgang: String(geoeffnet.kopf.vorgang || '') };
+          const erg = await antwortSignaturPruefen(geoeffnet.klartext, erwartet);
           box.appendChild(antwortKarte(datei.name, antwortStudioModell(erg.datensatz), erg.signatur));
         } else {
           const ds = JSON.parse(geoeffnet.klartext);
@@ -15942,6 +16842,13 @@ async function antwortenOeffnen() {
         box.appendChild(el('section', { class: 'aa-antwort' }, [el('h2', { class: 'aa-antwort-titel', text: datei.name }), el('p', { class: 'as-meldung', role: 'alert', text: antwortFehlerText(e) })]));
       }
     }
+  };
+  try {
+    const inhalt = await _schluesselDateiLesen('an-schluessel');
+    if (inhalt === null) { await alleOeffnen(null, null); return; }
+    await EMPFANGS_TRESOR.mitDatei(inhalt, passwort, async (schluessel) => alleOeffnen(schluessel, await schluesselAnfrageBindung(schluessel)));
+  } catch (e) {
+    box.appendChild(el('p', { class: 'as-meldung', role: 'alert', text: e && e.antwortTextSchluessel ? antwortFehlerText(e) : SCHLUESSEL_FALSCHES_PASSWORT() }));
   } finally {
     passwort = null;
     if (feld) feld.value = '';
@@ -16020,6 +16927,116 @@ function anfrageAssistentState() {
     gestelltAm: ANF_AS.gestelltAm || _aaHeute(), gueltigBis: ANF_AS.gueltigBis, antwortArt: 'einmalpasswort', antwortAn: ANF_AS.antwortAn.trim(),
     felder: ANF_AS.felder.map((f) => ({ kennung: f.kennung, zweck: String(f.zweck || '').trim(), pflicht: f.pflicht !== false })), empfangPublicJwk: null } };
 }
+/* ══ Hauptweg der Anfrage: Schlüsselpaar mit dem Zertifikat der Stelle (18.10.2026) ══════════════════════════════════════
+   Entscheidung vom 18.10.2026 („Hauptweg ja“): Im Assistenten ist das Schlüsselpaar der Weg ohne getrenntes Passwort, das
+   Einmalpasswort bleibt der zweite Weg. Wort der Krypto-Gegenlesung mit drei Bedingungen:
+     1. Das Zertifikat wird beim Laden gegen den Anker geprüft, mit derselben Funktion wie im Kern (verifiziereProviderCredential,
+        wortgleich oben). Ein ungültiges wird nicht gehalten.
+     2. Der Schlüssel im Zertifikat ist der eigene: sein Fingerabdruck ist der des Schlüssels im Tresor. Ein fremdes, gültiges
+        Zertifikat wird abgewiesen.
+     3. Ob das Schlüsselpaar gilt, entscheidet sich beim Erstellen, nicht daran, dass ein Zertifikat da ist: abgelaufen, widerrufen
+        oder ohne den Schlüssel im Tresor heißt Einmalpasswort.
+   Warum nicht ohne Zertifikat: Eine Anfrage ohne Zertifikat ist im Kern ungeprüft (anfrageSignaturPruefen: 'ohne-zertifikat'), und
+   ein vertauschter Link trüge dann einen fremden Empfangsschlüssel. Beim Einmalpasswort reist das Passwort getrennt; das schützt
+   mehr als ein unsigniertes Paar. Das Empfangspaar entsteht je Anfrage (U2-ADR-501 §G24). Proben:
+   tests/studio-anfrage-hauptweg-zertifikat.test.js. */
+const ANF_STELLE = { zertifikatJws: null, anbieterId: '', anbieterName: '', publicKeyJwk: null };
+/* Die Zertifikatsdatei: der kompakte JWS selbst oder ein JSON, das ihn unter `zertifikat` trägt. REIN/testbar. */
+function zertifikatAusText(text) {
+  const t = String(text == null ? '' : text).trim();
+  if (/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(t)) return t;
+  try {
+    const j = JSON.parse(t);
+    const z = j && typeof j === 'object' && (typeof j.zertifikat === 'string' ? j.zertifikat : (typeof j.jws === 'string' ? j.jws : null));
+    return z && /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(z.trim()) ? z.trim() : null;
+  } catch (e) { return null; }
+}
+/* Bedingungen 1 und 2, zum Zeitpunkt des Aufrufs. Liefert die Stelle aus dem SIGNIERTEN Zertifikat oder den Grund. */
+async function stelleZertifikatPruefen(jws, opts) {
+  if (typeof jws !== 'string' || !jws) return { gueltig: false, grund: 'kein-zertifikat' };
+  let res;
+  try { res = await verifiziereProviderCredential(jws, opts || {}); } catch (e) { res = null; }
+  if (!res || !res.gueltig) return { gueltig: false, grund: (res && res.abgelaufen) ? 'abgelaufen' : ((res && res.widerrufen) ? 'widerrufen' : 'ungueltig') };
+  const n = res.nutzlast || {};
+  const cs = n.credentialSubject || (n.vc && n.vc.credentialSubject) || {};
+  const pk = cs.publicKeyJwk;
+  if (!pk || pk.kty !== 'OKP' || pk.crv !== 'Ed25519' || typeof pk.x !== 'string' || typeof cs.anbieterId !== 'string' || !cs.anbieterId) {
+    return { gueltig: false, grund: 'ohne-schluessel' };
+  }
+  const eigener = SCHLUESSEL_TRESOR.abdruck();
+  if (!eigener) return { gueltig: false, grund: 'kein-eigener-schluessel' };
+  if (await _jwkThumbprint({ kty: 'OKP', crv: 'Ed25519', x: pk.x }) !== eigener) return { gueltig: false, grund: 'fremder-schluessel' };
+  return { gueltig: true, anbieterId: cs.anbieterId, anbieterName: typeof cs.anbieterName === 'string' ? cs.anbieterName : '',
+    publicKeyJwk: { kty: 'OKP', crv: 'Ed25519', x: pk.x } };
+}
+const ANF_STELLE_GRUND = Object.freeze({
+  'kein-zertifikat': ['Bitte wählen Sie das Zertifikat Ihrer Stelle.', 'Please choose your organisation’s certificate.'],
+  abgelaufen: ['Das Zertifikat ist abgelaufen. Die Anfrage geht mit Einmalpasswort hinaus.', 'The certificate has expired. The request goes out with a one-time password.'],
+  widerrufen: ['Das Zertifikat ist widerrufen. Die Anfrage geht mit Einmalpasswort hinaus.', 'The certificate has been revoked. The request goes out with a one-time password.'],
+  ungueltig: ['Das Zertifikat lässt sich nicht bestätigen. Es wird nicht übernommen.', 'The certificate cannot be confirmed. It is not taken over.'],
+  'ohne-schluessel': ['Das Zertifikat nennt keinen Schlüssel einer Stelle. Es wird nicht übernommen.', 'The certificate names no organisation key. It is not taken over.'],
+  'kein-eigener-schluessel': ['Bitte laden Sie zuerst die Schlüsseldatei Ihrer Stelle.', 'Please load your organisation’s key file first.'],
+  'fremder-schluessel': ['Das Zertifikat gehört zu einem anderen Schlüssel als dem geladenen. Es wird nicht übernommen.', 'The certificate belongs to a different key than the one loaded. It is not taken over.'],
+});
+function anfrageStelleGrundText(grund) { const t = ANF_STELLE_GRUND[grund] || ANF_STELLE_GRUND.ungueltig; return L(t[0], t[1]); }
+function anfrageStelleVergessen() { ANF_STELLE.zertifikatJws = null; ANF_STELLE.anbieterId = ''; ANF_STELLE.anbieterName = ''; ANF_STELLE.publicKeyJwk = null; }
+async function anfrageAssistentStelleLaden() {
+  const st = $('aa-stelle-status'), pwFeld = $('aa-stelle-pw');
+  let passwort = pwFeld ? pwFeld.value : '';
+  if (pwFeld) pwFeld.value = '';
+  const zeige = (t) => { if (st) st.textContent = t; anfrageAssistentWegZeigen(); };
+  anfrageStelleVergessen();
+  try {
+    const inhalt = await _schluesselDateiLesen('aa-stelle-schluessel');
+    if (inhalt === null && !SCHLUESSEL_TRESOR.vorhanden()) return zeige(anfrageStelleGrundText('kein-eigener-schluessel'));
+    if (inhalt === undefined) return zeige(L('Datei nicht lesbar (kein privater Schlüssel).', 'File not readable (not a private key).'));
+    if (inhalt) {
+      try { await SCHLUESSEL_TRESOR.ausDatei(inhalt, passwort); }
+      catch (e) { return zeige(e && e.message === 'passwort-fehlt' ? L('Passwort der Schlüsseldatei', 'Key file password') : SCHLUESSEL_FALSCHES_PASSWORT()); }
+    }
+    const zText = await _schluesselDateiLesen('aa-stelle-zertifikat', true);
+    const jws = typeof zText === 'string' ? zertifikatAusText(zText) : null;
+    const r = await stelleZertifikatPruefen(jws);
+    if (!r.gueltig) return zeige(anfrageStelleGrundText(r.grund));
+    ANF_STELLE.zertifikatJws = jws; ANF_STELLE.anbieterId = r.anbieterId; ANF_STELLE.anbieterName = r.anbieterName; ANF_STELLE.publicKeyJwk = r.publicKeyJwk;
+    zeige('✓ ' + L('Zertifikat geprüft: ', 'Certificate verified: ') + (r.anbieterName || r.anbieterId));
+  } finally {
+    passwort = null;
+  }
+}
+/* Bedingung 3: jetzt, beim Erstellen. `null` heißt Einmalpasswort. */
+async function anfrageAssistentHauptweg(opts) {
+  if (!ANF_STELLE.zertifikatJws || !SCHLUESSEL_TRESOR.vorhanden()) return null;
+  const r = await stelleZertifikatPruefen(ANF_STELLE.zertifikatJws, opts);
+  return r.gueltig ? r : null;
+}
+/* Was die Stelle in Schritt 4 und 6 liest: der Weg, der gilt, solange Schlüssel und Zertifikat da sind. Entschieden wird beim Erstellen. */
+function anfrageAssistentWegZeigen() {
+  const mitPaar = !!(ANF_STELLE.zertifikatJws && SCHLUESSEL_TRESOR.vorhanden());
+  const lead4 = $('aa-weg-lead'), lead6 = $('aa-erzeugen-lead'), empfang = $('aa-empfang');
+  if (lead4) lead4.textContent = mitPaar
+    ? L('Die Person speichert die Antwort als verschlossene Datei und schickt sie Ihnen. Nur Sie öffnen sie, mit der Schlüsseldatei dieser Anfrage. Die Person braucht kein Passwort.',
+        'The person saves the reply as a locked file and sends it to you. Only you open it, with the key file of this request. The person needs no password.')
+    : L('Die Person speichert die Antwort als verschlossene Datei und schickt sie Ihnen. Sie öffnen sie mit einem Passwort, das Sie der Person zusammen mit der Anfrage geben.',
+        'The person saves the reply as a locked file and sends it to you. You open it with a password that you give the person together with the request.');
+  if (lead6) lead6.textContent = mitPaar
+    ? L('Sie bekommen die Anfrage als Link, als Datei und als fertigen Brief, signiert mit dem Zertifikat Ihrer Stelle, dazu die Schlüsseldatei, mit der Sie die Antworten öffnen.',
+        'You get the request as a link, as a file and as a ready-made letter, signed with your organisation’s certificate, plus the key file with which you open the replies.')
+    : L('Sie bekommen die Anfrage als Link, als Datei und als fertigen Brief, dazu ein Passwort, das die Person auf einem anderen Weg bekommt. Mit diesem Passwort öffnen Sie die Antworten.',
+        'You get the request as a link, as a file and as a ready-made letter, plus a password that the person gets by another route. You open the replies with that password.');
+  if (empfang) empfang.hidden = !mitPaar;
+}
+function anfrageBriefTextOhnePasswort(a, link) {
+  const felder = a.felder.map((f) => '– ' + _aaLabel(f.kennung)).join('\n');
+  return L('Guten Tag,\n\n' + a.von + ' bittet Sie um einige Angaben. Wofür: ' + a.zweck + '.\n\n' + felder + '\n\n'
+    + 'Öffnen Sie die Anfrage mit diesem Link in Vivodepot. Dort sehen Sie, wofür wir jede Angabe brauchen, und entscheiden selbst, was Sie uns geben:\n'
+    + link + '\n\nVivodepot speichert Ihre Antwort als verschlossene Datei, die nur wir öffnen können. Ein Passwort brauchen Sie dafür nicht.\n\n'
+    + 'Schicken Sie die Datei an: ' + a.antwort.an + '\n\nDie Anfrage gilt bis ' + _aaDatum(a.gueltigBis) + '. Unser Zeichen: ' + a.vorgang + '\n',
+    'Hello,\n\n' + a.von + ' asks you for a few details. What for: ' + a.zweck + '.\n\n' + felder + '\n\n'
+    + 'Open the request with this link in Vivodepot. There you see why we need each detail, and you decide what to give us:\n'
+    + link + '\n\nVivodepot saves your reply as a locked file that only we can open. You do not need a password for it.\n\n'
+    + 'Send the file to: ' + a.antwort.an + '\n\nThe request is valid until ' + _aaDatum(a.gueltigBis) + '. Our reference: ' + a.vorgang + '\n');
+}
 /* Was einem Schritt noch fehlt, in Alltagssprache. Der Vertrag selbst (pruefeAnfrage) läuft in Schritt 5 und vor dem Erstellen. */
 function anfrageAssistentLuecken(schritt) {
   const l = [];
@@ -16071,6 +17088,7 @@ function anfrageAssistentZeigen() {
   anfrageAssistentFelderZeigen();
   anfrageAssistentTrefferZeigen();
   if (ANF_AS.schritt === 5) anfrageAssistentPruefungZeigen();
+  anfrageAssistentWegZeigen();
   anfrageAssistentVorschau();
 }
 function anfrageAssistentFelderZeigen() {
@@ -16162,9 +17180,12 @@ function anfragePasswortZettel(a, passwort) {
   return L(a.von + ', Zeichen ' + a.vorgang + '\n\nIhr Passwort für die Antwort:\n' + passwort + '\n\nGeben Sie es ein, wenn Vivodepot beim Speichern Ihrer Antwort danach fragt.\n',
     a.von + ', reference ' + a.vorgang + '\n\nYour password for the reply:\n' + passwort + '\n\nEnter it when Vivodepot asks for it while saving your reply.\n');
 }
-async function anfrageAssistentErzeugen() {
+async function anfrageAssistentErzeugen(ev) {
   const box = $('aa-ergebnis'); if (!box) return;
   leeren(box); box.hidden = false;
+  // Bedingung 3 (Krypto-Gegenlesung 18.10.2026): der Weg entscheidet sich jetzt, nicht beim Laden des Zertifikats.
+  const haupt = await anfrageAssistentHauptweg();
+  if (haupt) return anfrageAssistentErzeugenMitPaar(ev, box, haupt);
   const state = anfrageAssistentState();
   const p = pruefeAnfrage(state);
   if (p.blocker.length) {
@@ -16206,6 +17227,70 @@ async function anfrageAssistentErzeugen() {
     el('span', { text: L('Die Person sieht „Nicht geprüft“. Mit einer Signatur über Ihren von Vivodepot bestätigten Schlüssel wird daraus „Geprüft“, und Sie bekommen einen QR-Code für Aushänge.',
       'The person sees “Not verified”. Signed with your key confirmed by Vivodepot, it shows “Verified”, and you get a QR code for notices.') })]));
 }
+/* Der Hauptweg: signiert mit dem Tresor-Schlüssel, das Zertifikat im Umschlag, ein Empfangspaar für genau diese Anfrage (U2-ADR-501
+   §G24). Der Ablauf ist der der Fachebene (anfrageErzeugen): erst die Anfrage mit dem neuen öffentlichen Teil signieren, dann die
+   Schlüsseldatei schreiben. Kein Passwort-Zettel: die Person antwortet ohne Passwort. */
+async function anfrageAssistentErzeugenMitPaar(ev, box, haupt) {
+  const state = anfrageAssistentState();
+  state.anbieter = { anbieterId: haupt.anbieterId, anbieterName: '' };
+  state.publicKeyJwk = haupt.publicKeyJwk;
+  state.zertifikatJws = ANF_STELLE.zertifikatJws;
+  state.anfrage.antwortArt = 'schluesselpaar';
+  const p = pruefeAnfrage(state, { empfangFolgt: true });
+  if (p.blocker.length) {
+    box.className = 'meldung fehler';
+    box.appendChild(el('strong', { text: L('Die Anfrage ist noch nicht vollständig:', 'The request is not complete yet:') }));
+    const ul = el('ul', {}); p.blocker.forEach((b) => ul.appendChild(el('li', { text: b }))); box.appendChild(ul);
+    return;
+  }
+  let passwort = passwortAusFeldern('aa-pw1', 'aa-pw2', 'aa-pw-meldung');
+  if (!passwort) {
+    box.className = 'meldung fehler';
+    box.appendChild(el('strong', { text: L('Bitte vergeben Sie zuerst ein Passwort für die Schlüsseldatei.', 'Please set a password for the key file first.') }));
+    return;
+  }
+  let paar;
+  try {
+    paar = await EMPFANGS_TRESOR.erzeugen({ passwort: passwort, bauen: async (publicJwk) => {
+      state.anfrage.empfangPublicJwk = publicJwk;
+      const u = await SCHLUESSEL_TRESOR.signiereEinmal(ev, (k) => baueAnfrageSigniert(state, k));
+      return { umschlag: u, text: anfrageAlsText(u), vorgang: u.anfrage.vorgang, gestelltAm: u.anfrage.gestelltAm };
+    } });
+  } catch (e) {
+    box.className = 'meldung fehler';
+    box.appendChild(el('strong', { text: (e && e.message) || L('Signieren fehlgeschlagen.', 'Signing failed.') }));
+    return;
+  } finally {
+    passwort = null;
+    anfrageAssistentWegZeigen();   // der Tresor-Schlüssel ist nach dem Signieren fort
+  }
+  const umschlag = paar.anfrage.umschlag;
+  STATE.anfrage.empfangFuer = { vorgang: umschlag.anfrage.vorgang, gestelltAm: umschlag.anfrage.gestelltAm };
+  const link = anfrageAlsLink(umschlag);
+  const brief = anfrageBriefTextOhnePasswort(umschlag.anfrage, link);
+  const dateiname = anfrageDateiname(haupt.anbieterId, umschlag.anfrage.vorgang);
+  box.className = 'aa-ergebnis';
+  box.appendChild(el('h2', { class: 'aa-erg-titel', text: L('Ihre Anfrage ist fertig.', 'Your request is ready.') }));
+  box.appendChild(el('h3', { text: L('1. Die Schlüsseldatei (für Sie)', '1. The key file (for you)') }));
+  box.appendChild(el('p', { class: 'as-hilfe', text: L('Mit ihr und ihrem Passwort öffnen Sie die Antworten auf diese Anfrage. Legen Sie sie an zwei Orten ab. Vivodepot hat keine Kopie.',
+    'With it and its password you open the replies to this request. Keep it in two places. Vivodepot has no copy.') }));
+  box.appendChild(el('div', { class: 'as-knoepfe' }, [el('button', { type: 'button', class: 'as-knopf klein', id: 'aa-empfang-laden',
+    onclick: () => { EMPFANGS_TRESOR.privatHerunterladen((text) => blobDownload(empfangDateiname(), text)); } }, [L('Schlüsseldatei speichern', 'Save key file')])]));
+  box.appendChild(el('h3', { text: L('2. Der Brief für die Person', '2. The letter for the person') }));
+  box.appendChild(el('p', { class: 'as-hilfe', text: L('Schicken Sie ihn per Post oder E-Mail. Ein Passwort gibt es bei diesem Weg nicht.',
+    'Send it by post or e-mail. There is no password on this route.') }));
+  const ta = el('textarea', { class: 'as-eingabe aa-brief', id: 'aa-brief', rows: '12', readonly: '', 'aria-label': L('Brieftext', 'Letter') });
+  ta.value = brief; box.appendChild(ta);
+  box.appendChild(el('div', { class: 'as-knoepfe' }, [
+    el('button', { type: 'button', class: 'as-knopf klein', id: 'aa-brief-laden', onclick: () => blobDownload(dateiname.replace(/\.json$/, '-brief.txt'), brief, 'text/plain') }, [L('Brief speichern (Text, für die Person)', 'Save letter (text, for the person)')]),
+    el('button', { type: 'button', class: 'link-knopf', id: 'aa-datei-laden', onclick: () => blobDownload(dateiname, anfrageAlsText(umschlag)) }, [L('Anfrage als Datei speichern (für die Person, zum Anhängen)', 'Save request as a file (for the person, to attach)')])]));
+  box.appendChild(el('p', { class: 'as-hilfe', id: 'aa-ablage-hinweis', text: L('Die Dateien liegen danach auf Ihrem Gerät im Ordner „Downloads“.', 'After saving, the files are in your device’s “Downloads” folder.') }));
+  box.appendChild(el('h3', { text: L('3. Der Link allein, etwa für Ihre Website', '3. The link on its own, for example for your website') }));
+  box.appendChild(el('code', { class: 'sub-id', id: 'aa-link', text: link }));
+  box.appendChild(el('p', { class: 'herkunft-satz' }, [el('span', { class: 'herkunft-i', 'aria-hidden': 'true', text: 'i' }),
+    el('span', { text: L('Die Anfrage ist mit dem Zertifikat Ihrer Stelle signiert. Die Person sieht sie als geprüft.',
+      'The request is signed with your organisation’s certificate. The person sees it as verified.') })]));
+}
 function anfrageAssistentBinden(an) {
   const feld = (id, k, nachher) => an(id, 'input', () => { ANF_AS[k] = $(id).value; if (nachher) nachher(); anfrageAssistentVorschau(); });
   feld('aa-von', 'von'); feld('aa-vorgang', 'vorgang'); feld('aa-zweck', 'zweck'); feld('aa-grundlage', 'grundlage'); feld('aa-an', 'antwortAn');
@@ -16218,7 +17303,8 @@ function anfrageAssistentBinden(an) {
   [2, 3, 4, 5, 6].forEach((n) => an('aa-zurueck-' + n, 'click', () => { ANF_AS.schritt = n - 1; anfrageAssistentZeigen(); }));
   // Das Schlüsselpaar-Verfahren bleibt in der Fachebene (W5); was hier schon steht, geht dorthin mit.
   an('aa-fachebene', 'click', () => { Object.assign(STATE.anfrage, anfrageAssistentState().anfrage, { antwortArt: 'schluesselpaar' }); zeigeSchritt('fachebene'); modulOeffnen('anf'); anfrageFelderInFachebene(); });
-  an('aa-erzeugen', 'click', () => { anfrageAssistentErzeugen().catch(() => {}); });
+  an('aa-erzeugen', 'click', (ev) => { anfrageAssistentErzeugen(ev).catch(() => {}); });
+  an('aa-stelle-laden', 'click', () => { anfrageAssistentStelleLaden().catch(() => {}); });
 }
 /* Die Felder des Anfrage-Blocks aus STATE.anfrage füllen (die Fachebene liest sie in anfrageStateLesen wieder ein). */
 function anfrageFelderInFachebene() {

@@ -495,7 +495,17 @@ async function erweiterungenWaehlen(page, { timeout = 15000 } = {}) {
    Im Kanon sind es alle vier. */
 const baubar = (slug) => require(path.join(REPO_ROOT, 'tools', 'lib', 'vier-produkte.js')).PRODUKTE.some((p) => p.slug === slug);
 
-module.exports = { baubar, inLeisteKlicken, listenDialogOeffnen,
+/* Seit „Link senden“ (L1b, 19.10.2026) fragt die Anwendung nach „Herausgeben“ eines Anlasses und nach einer signierten Antwort
+   erst nach dem Weg: „Herunterladen“ (#m-ok) oder „Link senden“ (#m-zweit), im Körper #ausgabe-datei. Ein Weg, der den Download
+   prüft, wählt hier „Herunterladen“. → true, wenn die Wahl stand. */
+async function ausgabeWegHerunterladen(page, opt = {}) {
+  const wahl = page.locator('#ausgabe-datei');
+  try { await wahl.waitFor({ state: 'visible', timeout: opt.timeout || 5000 }); } catch (_) { return false; }
+  await page.locator('#m-ok').click();
+  return true;
+}
+
+module.exports = { baubar, inLeisteKlicken, listenDialogOeffnen, ausgabeWegHerunterladen,
   unterDerNotiz, notizVerborgen, streifenUeberdeckt,
   KERN_URL, KERN_URL_NACKT, KERN_URL_PRIVAT_DE, KERN_URL_PRIVAT_EN, KERN_URL_PRO_DE, KERN_URL_PRO_EN, KERN_URL_PRIVAT_DE_OHNE_BEREICHE,
   oeffneApp, depotAnlegen, ANLEGE_WEG, ANLEGE_WEG_KANON, WILLKOMMEN_ALTSTAND, einmalDialogeSchliessen, oeffneSektor, setzeFeld, setzeModus,

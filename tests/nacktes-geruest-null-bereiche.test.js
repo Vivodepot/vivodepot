@@ -22,6 +22,6 @@ test('[Rot-Beweis] das nackte Gerüst (blank:true) trägt null Bereiche', () => 
 
 test('[Gegenprobe] ladeKern() OHNE blank liefert das befüllte Standard-Produkt, nicht das nackte Gerüst', () => {
   const { V } = ladeKern();
-  assert.equal(V.bereicheAlle().length, 13,
+  assert.equal(V.bereicheAlle().length, 14,   // 13 → 14 (U2-ADR-479: Tiere als vierzehnter Bereich, 05.10.2026)
     'ohne blank:true muss privat-de (dreizehn native Templates) gebacken sein — sonst prüft die restliche Suite wieder unbemerkt das nackte Gerüst');
 });

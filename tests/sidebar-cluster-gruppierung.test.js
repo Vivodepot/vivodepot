@@ -18,7 +18,7 @@ const { ladeKern } = require('./load-kern.js');
 const ALLE_DREIZEHN = [
   'identity', 'people', 'mobility', 'finance', 'health', 'education',
   'socialInsurance', 'advanceCare', 'administration', 'housing', 'emergencyPreparedness', 'personal',
-  'assets',
+  'assets', 'pets',   // pets: U2-ADR-479 (05.10.2026), Cluster alltag
 ];
 
 describe('[BEREICH_CLUSTER_ZUORDNUNG] alle dreizehn eingebauten Bereiche gehören zu einem der FÜNF festen Cluster', () => {
@@ -69,10 +69,10 @@ describe('[BEREICH_CLUSTER_ZUORDNUNG] Persönliches gehört zu Ich & Mensch (Kor
    `mobility`/`housing` in `alltag` und `socialInsurance` in `geld-absicherung`; diese
    Probe hier prüft beide neuen vollständigen Mengen, nicht nur die Abwesenheit der alten. */
 describe('[BEREICH_CLUSTER_ZUORDNUNG] Bereichsschnitt 09.09.2026: krisenvorsorge → alltag, sozialversicherung → gesundheit-krisen', () => {
-  test('Cluster alltag trägt krisenvorsorge, mobilitaet, wohnen — genau diese drei', () => {
+  test('Cluster alltag trägt krisenvorsorge, mobilitaet, wohnen, tiere — genau diese vier (tiere seit U2-ADR-479)', () => {
     const { V } = ladeKern();
     const belegt = Object.entries(V.BEREICH_CLUSTER_ZUORDNUNG).filter(([, c]) => c === 'alltag').map(([id]) => id);
-    assert.deepEqual(belegt.sort(), ['emergencyPreparedness', 'housing', 'mobility']);
+    assert.deepEqual(belegt.sort(), ['emergencyPreparedness', 'housing', 'mobility', 'pets']);
   });
 
   test('Cluster geld-absicherung trägt finanzen, vermoegen, vorsorge — genau diese drei, sozialversicherung nicht mehr', () => {

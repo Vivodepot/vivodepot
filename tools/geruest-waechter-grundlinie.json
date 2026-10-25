@@ -37,6 +37,11 @@
    "marker": true
   },
   {
+   "name": "AB_WERK_BEREICHE_BENENNEN",
+   "bytes": 39,
+   "marker": true
+  },
+  {
    "name": "AB_WERK_BRANDING",
    "bytes": 241,
    "marker": false
@@ -124,10 +129,10 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 266068
+   "bytes": 272803
   },
   "satz": {
-   "bytes": 28688
+   "bytes": 28495
   }
  },
  "fremdcode": [
@@ -138,7 +143,7 @@
    "erkennung": {
     "lizenzKopf": "jsPDF - PDF Document creation from JavaScript"
    },
-   "bytes": 47142
+   "bytes": 47170
   },
   {
    "name": "qrcode",
@@ -1813,6 +1818,277 @@
    "auf": 266112,
    "daneben": {},
    "grund": "Mindestschrift im unsignierten Erscheinungs-Weg (Grund mindestgroesse, Ersetzungsmuster, --fs-base, wert); +32 relativ zu 9a736295f",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266068,
+   "auf": 266138,
+   "daneben": {},
+   "grund": "Anlege-Hinweis DEUTSCHES-RECHT-UNSICHTBAR: Markup des Satzes am Kopf der Instrumentenliste und seine Lesestelle _rechtsraumAnlegeHinweis (Einzelwort der Gegenlesung 19.10.2026, +70 relativ zu add8db676)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "fremdcode:jsPDF",
+   "von": 47142,
+   "auf": 47170,
+   "daneben": {},
+   "grund": "VIVODEPOT-PATCH: eingebettete Schriften tragen /Ordering (Identity) statt des CMap-Namens (PDF-CIDSYSTEMINFO-ORDERING), +28 Byte; Wort der Gegenlesung 19.10.2026"
+  },
+  {
+   "ziel": "struktur",
+   "von": 266134,
+   "auf": 266239,
+   "daneben": {},
+   "grund": "Erstellt-mit/powered by (Teil A): App-Anker ff-powered, Schlüssel ausgabeErstelltMit und herkunftPoweredBy, Trenner Notfallkarte und Deckblatt (+105 Byte, relativ zu 886052d45)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266160,
+   "auf": 266168,
+   "daneben": {},
+   "grund": "unref() am Rückfall-Zeitgeber der Vor-Depot-Konfiguration (SUITE-DAUER-WAECHST); +8 relativ zu 3e9198307; Wort der Gegenlesung 20.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266168,
+   "auf": 266170,
+   "daneben": {},
+   "grund": "Fach-Filter gegen zurückgehaltene Unterfelder einer Liste: zwei Punkt-Literale zum Trennen von Bereich und Feld (20.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266170,
+   "auf": 266463,
+   "daneben": {},
+   "grund": "U2-ADR-470 Vertrauensregel (Trusted-Types-Default-Policy) als erstes Skript des Kerns: Elementnamen, Attributnamen, Zeichenreferenzen und Ablehnungs-Kennungen ohne Satz (tools/lib/vertrauensregel-block.js), +293 relativ zu 20ded8121",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266463,
+   "auf": 266666,
+   "daneben": {},
+   "grund": "Link senden (L1b): Wahl Herunterladen oder Link senden, Ergebnis ohne Feld, application/jose und zwei Fehlerkennungen; +203 Byte relativ zu 20ded8121, einzeln freigegeben 20.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266666,
+   "auf": 266680,
+   "daneben": {},
+   "grund": "Fach-Einheiten (20.10.2026): das Literal abWerkMitschrift der einzigen Ausnahme im Fach (+16), die zwei Punkt-Literale der Namensweiche fallen weg (−2); Wort der Gegenlesung 20.10.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 266680,
+   "auf": 267132,
+   "daneben": {},
+   "grund": "Nachtragen im Antwortweg mit dem Editor des Feldtyps (Befund ANFRAGE-NACHTRAGEN-CODELISTE), relativ zu a6220cdad",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 267132,
+   "auf": 267549,
+   "daneben": {},
+   "grund": "W32 Studio W3 Ankunft; +417 Byte relativ zu a6220cdad",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "AB_WERK_BEREICHE_BENENNEN",
+   "von": 0,
+   "auf": 39,
+   "daneben": {},
+   "grund": "Andockpunkt der Zutat bereicheBenennen (20.10.2026, Fix b zu PRO-AUSSCHNITT-OHNE-BEREICHSDEFINITION): die Bereiche der Berufsmodule in Anzeigeform, null im nativen Gerüst, der Produktbau füllt sie; Wort vom 20.10.2026."
+  },
+  {
+   "ziel": "struktur",
+   "von": 267549,
+   "auf": 269154,
+   "daneben": {},
+   "grund": "Staatsangehörigkeit als {liste, code} aus der Liste des Rechtsraum-Templates (U2-ADR-482): Codefelder, Lesehilfe und PID-Abbildung (Einzelwort der Gegenlesung 19.10.2026, +1605, gemessen auf DRU über add8db676, auf 043d0997a umgesetzt)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 269154,
+   "auf": 269607,
+   "daneben": {},
+   "grund": "neuer Ausgabeweg EU-Labordokument der Person (Nachtrag U2-ADR-444): Kennungen und Profil-Adressen des Dokuments; Einzelwort der Gegenlesung 2026-10-22",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 269607,
+   "auf": 269755,
+   "daneben": {},
+   "grund": "W11b Herausgeben mit Anlass: Knopf-Vorlage data-hz-weitere, hidden, birthDate/yearOfBirthIfTheExactDayIs, Zählfunktion (+148 Byte, im Zug folge29 auf K18 gesetzt: 269607 → 269755)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 269755,
+   "auf": 270256,
+   "daneben": {
+    "satz": -13
+   },
+   "grund": "U2-ADR-479: Tiere als vierzehnter eingebauter Bereich (nur Privat) — Bereichs-ID, Feld-Umzug identity.pets nach pets.pets, Ereignis-Achse mit Übergang Pro bis P2; Struktur, auf die der Kern verzweigt, kein Inhalt.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 270256,
+   "auf": 270465,
+   "daneben": {},
+   "grund": "Lizenz der Vorlage lesen und zeigen (U2-ADR-514 Teil 1): VORLAGEN_LIZENZEN, vorlageLizenzAngabe, Lizenzzeile der Import-Vorschau (gemessen im Zug folge30 relativ zum Zugkopf nach W10; der Wagen trug das Einzelwort der Gegenlesung 23.10.2026 für +209 relativ zu 2cf267d90)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 269964,
+   "auf": 270658,
+   "daneben": {},
+   "grund": "Währung aus dem Template (U2-ADR-480): Betragsfeld mit Währung aus der Vorlage, ISO-4217-Liste selbst laden (+694, gemessen relativ zu 0ef009e88; Einzelwort der Gegenlesung 23.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 269755,
+   "auf": 270167,
+   "daneben": {},
+   "grund": "OpenID4VP-Anfrageprüfung und Präsentation (U2-ADR-502, v950): Grundcodes und Protokollwörter, 23.10.2026, Wort einzeln",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 269755,
+   "auf": 270614,
+   "daneben": {},
+   "grund": "Branding v2 W13: Erscheinungsprofil, Sperrliste und Gründe, Schalter poweredByAus, Anwendeort-Prüfung (+859 Byte relativ zu 2cf267d90)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 270465,
+   "auf": 270651,
+   "daneben": {},
+   "grund": "Barrierefreiheit (WCAG 1.3.1, 3.3.1, 2.4.1): Helfer feldHinweisHTML, _eingabenBeschreiben, feldFehlerSetzen/-Loesen/-MeldungHTML und der Sprunglink; Kennungen, Attributnamen und Markup, kein Satz; Einzelwort 23.10.2026.",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 270465,
+   "auf": 270528,
+   "daneben": {
+    "satz": -173
+   },
+   "grund": "W11a UX heute: Enter-Feldtypen und IDs, Marken-Knopf-Trenner, Suche nach Bereichen und Abschnitten, Notfall-Kern-Satz in den Textsatz; relativ zu 011dea57e gemessen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 272520,
+   "auf": 272570,
+   "daneben": {},
+   "grund": "Rücknahme gilt auch für Angehörigen-Blätter und Notfallkarte (RUECKNAHME-ANGEHOERIGE-UND-NOTFALLKARTE): die eine Prüfung angabeZurueckgenommen/unterfeldZurueckgenommen/_wertOhneZurueckgenommene (+50, gemessen relativ zu 011dea57e und erneut relativ zu 0bcedfcf8; Einzelwort der Gegenlesung 20.10.2026 für +50, bestätigt 24.10.2026)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 272570,
+   "auf": 272767,
+   "daneben": {},
+   "grund": "Pro E3: Primitiv listenfeldAlleVerbunden und Format zeilen (+197, im Zug folge32 nach E9)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 272767,
+   "auf": 272772,
+   "daneben": {},
+   "grund": "bestaetigtVon-Stempel: Schlüssel anbieterId/anbieterName und Zeile urheberBestaetigtVon im Kern (U2-ADR-005-Nachtrag), +5 relativ zum Vorwagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 272754,
+   "auf": 272803,
+   "daneben": {},
+   "grund": "Hilfe-Thema Pro (E16): Eintrag pro-beruflich in HILFE_THEMEN mit nurMitLogikModul und die Kennung des Pro-Logikmoduls; +49 Byte relativ zum Vorwagen",
    "laengste": {
     "einzel": 0,
     "lauf": 64

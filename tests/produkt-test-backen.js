@@ -25,14 +25,16 @@ function testProduktText(html, { slug = 'privat-de', ohneBereiche = false, ...mo
   if (!html.includes('/* AB_WERK_ERSCHEINUNGSBILD_PRODUKT:BEGIN */')) module = module.filter((k) => k.region.modulTyp !== 'erscheinungsbild');
   if (!_vorDepotFn) _vorDepotFn = require(path.join(REPO, 'tests', 'load-issuer.js')).ladeIssuer().V.vorDepotKonfigurationDateiInhalt;
   erscheinungsbildSchriftenVorBacken(html, module);   // v896 — wie konfektionieren, vor produktTextErzeugen
-  return produktTextErzeugen(html, {
+  // U2-ADR-470: wie im Auslieferungs-Bau zuletzt die CSP-Hashes der eingesetzten Blöcke (tools/lib/csp-nach-bau.js).
+  const { cspNachBau } = require(path.join(REPO, 'tools', 'lib', 'csp-nach-bau.js'));
+  return cspNachBau(produktTextErzeugen(html, {
     modulauswahl: [],
     vorDepotKonfigurationInhaltFn: _vorDepotFn,
     unsignierteModule: module,
     serviceWorkerVorhanden: PRODUKT_DATEISATZ.includes('sw.js'),
     mitEntwicklerleiste: true,
     mitTestflaeche: true,
-  }).text;
+  }).text);
 }
 
 module.exports = { testProduktText };

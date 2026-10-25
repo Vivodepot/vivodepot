@@ -42,3 +42,9 @@ Die Feldinventur (04.07.) zeigte drei Versprechen↔Realität-Lücken im Gesundh
 - **Neu** `tests/schema-25-migration.test.js` (3 Tests): Defensiv-Flachlegung (impfungen/implantate flachen, `krankheiten` bleibt codiert); Verwaisungs-Regel (laborwerte-Altbestand überlebt `depotNormalisieren` unverändert + idempotent, keine Felddefinition mehr); Export-Format weg / **Import-Weg lebt** / anamwiz-Schritt ohne Stub.
 - `tests/sektoren-spec.test.js` nachgezogen: Gesundheit **eine** Sektion, E1/E2/E3-Pins (kein BMI-Hint, drei statt fünf codeListe-Felder, kein `laborwerte`); `tests/wizard-anamwiz.test.js`-Kopf nachgezogen; `tests/load-kern.js` ohne Lab-Symbole; Schema-Pins 24→25 in 8 Testdateien.
 - Node-Suite **1121/1121, 0 fail, 0 skipped** (vorher 1119 + 1 Validator-Skip). **Block-Pin `8d31c678…` unberührt** (unabhängiger Harness 24 grün/0 rot). `vivodepot.html.sha256` nachgezogen. Kein Push.
+
+## Nachtrag 22.10.2026 — E3 und das EU-Labordokument der Person
+
+E3 gilt unverändert: Kein Laborbefund wird aus Depot-Feldern gebaut. Das EU-Labordokument der Person (U2-ADR-444, Nachtrag
+22.10.2026) ist kein solcher Nachbau. Quelle ist allein ein eingelesenes eu-lab-Original, das unverändert daran hängt; ohne
+Original gibt es keinen Knopf.

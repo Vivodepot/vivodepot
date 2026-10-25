@@ -4,6 +4,9 @@
   "moduleVersion": 1,
   "sprache": "de",
   "anbieterId": "vivodepot",
+  "regeln": {
+    "waehrung": "EUR"
+  },
   "name": {
     "de": "Deutschland",
     "en": "Germany"
@@ -44,9 +47,11 @@
   ],
   "hinweise": {
     "de": {
+      "anlegen": "Die Dokumentarten und Angaben hier richten sich nach deutschem Recht.",
       "fuss": "Dokumentart nach deutschem Recht."
     },
     "en": {
+      "anlegen": "The document types and details here follow German law.",
       "fuss": "Document type under German law.",
       "vorschlag": true
     }
@@ -185,5 +190,1303 @@
         "norm": "§ 51 SGB V"
       }
     ]
+  },
+  "codeListen": [
+    {
+      "systemId": "destatis-staatsangehoerigkeit",
+      "uri": "urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit",
+      "version": "2026-08-05",
+      "kuerzel": "Staatsangehörigkeit (DESTATIS)",
+      "lizenz": "© Statistisches Bundesamt (Destatis), 2026. Vervielfältigung und Verbreitung, auch auszugsweise, mit Quellennachweis gestattet (DESTATIS-Impressum, Grundregel; die XRepository-Angabe „Lizenz“ ist leer, der Bezugsort weist nichts anderes aus).",
+      "status": "aktiv",
+      "hinweis": "Quelle: Statistisches Bundesamt (Destatis), Codeliste Staatsangehörigkeit der Staats- und Gebietssystematik, Fassung 2026-08-05, bezogen über XRepository (urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:staatsangehoerigkeit). Gespeichert wird der DESTATIS-Schlüssel; iso3166Alpha2 nur, wo die Liste ihn führt. Gehört ins Template des deutschen Rechtsraums.",
+      "daten": [
+        {
+          "code": "000",
+          "anzeigeName": "deutsch",
+          "iso3166Alpha2": "DE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "120",
+          "anzeigeName": "jugoslawisch",
+          "iso3166Alpha2": "YU",
+          "hinweis": "ehemaliger Staat",
+          "gueltigBis": "1992-04-26",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe120"
+        },
+        {
+          "code": "121",
+          "anzeigeName": "albanisch",
+          "iso3166Alpha2": "AL",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "122",
+          "anzeigeName": "bosnisch-herzegowinisch",
+          "iso3166Alpha2": "BA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "123",
+          "anzeigeName": "andorranisch",
+          "iso3166Alpha2": "AD",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "124",
+          "anzeigeName": "belgisch",
+          "iso3166Alpha2": "BE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "125",
+          "anzeigeName": "bulgarisch",
+          "iso3166Alpha2": "BG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "126",
+          "anzeigeName": "dänisch",
+          "iso3166Alpha2": "DK",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "127",
+          "anzeigeName": "estnisch",
+          "iso3166Alpha2": "EE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "128",
+          "anzeigeName": "finnisch",
+          "iso3166Alpha2": "FI",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "129",
+          "anzeigeName": "französisch",
+          "iso3166Alpha2": "FR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "130",
+          "anzeigeName": "kroatisch",
+          "iso3166Alpha2": "HR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "131",
+          "anzeigeName": "slowenisch",
+          "iso3166Alpha2": "SI",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "132",
+          "anzeigeName": "von Serbien und Montenegro",
+          "iso3166Alpha2": "CS",
+          "hinweis": "ehemaliger Staat",
+          "gueltigBis": "2006-06-02",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe132"
+        },
+        {
+          "code": "133",
+          "anzeigeName": "serbisch",
+          "iso3166Alpha2": "RS",
+          "hinweis": "ehemaliger Staat",
+          "gueltigBis": "2008-02-16",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe133"
+        },
+        {
+          "code": "134",
+          "anzeigeName": "griechisch",
+          "iso3166Alpha2": "GR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "135",
+          "anzeigeName": "irisch",
+          "iso3166Alpha2": "IE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "136",
+          "anzeigeName": "isländisch",
+          "iso3166Alpha2": "IS",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "137",
+          "anzeigeName": "italienisch",
+          "iso3166Alpha2": "IT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "138",
+          "anzeigeName": "jugoslawisch",
+          "iso3166Alpha2": "YU",
+          "hinweis": "ehemaliger Staat",
+          "gueltigBis": "2003-02-04",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe138"
+        },
+        {
+          "code": "139",
+          "anzeigeName": "lettisch",
+          "iso3166Alpha2": "LV",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "140",
+          "anzeigeName": "montenegrinisch",
+          "iso3166Alpha2": "ME",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "141",
+          "anzeigeName": "liechtensteinisch",
+          "iso3166Alpha2": "LI",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "142",
+          "anzeigeName": "litauisch",
+          "iso3166Alpha2": "LT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "143",
+          "anzeigeName": "luxemburgisch",
+          "iso3166Alpha2": "LU",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "144",
+          "anzeigeName": "mazedonisch/Bürger der Republik Nordmazedonien",
+          "iso3166Alpha2": "MK",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "145",
+          "anzeigeName": "maltesisch",
+          "iso3166Alpha2": "MT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "146",
+          "anzeigeName": "moldauisch",
+          "iso3166Alpha2": "MD",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "147",
+          "anzeigeName": "monegassisch",
+          "iso3166Alpha2": "MC",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "148",
+          "anzeigeName": "niederländisch",
+          "iso3166Alpha2": "NL",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "149",
+          "anzeigeName": "norwegisch",
+          "iso3166Alpha2": "NO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "150",
+          "anzeigeName": "kosovarisch",
+          "iso3166Alpha2": "XK",
+          "hinweis": "Staat",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe150"
+        },
+        {
+          "code": "151",
+          "anzeigeName": "österreichisch",
+          "iso3166Alpha2": "AT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "152",
+          "anzeigeName": "polnisch",
+          "iso3166Alpha2": "PL",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "153",
+          "anzeigeName": "portugiesisch",
+          "iso3166Alpha2": "PT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "154",
+          "anzeigeName": "rumänisch",
+          "iso3166Alpha2": "RO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "155",
+          "anzeigeName": "slowakisch",
+          "iso3166Alpha2": "SK",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "156",
+          "anzeigeName": "san-marinesisch",
+          "iso3166Alpha2": "SM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "157",
+          "anzeigeName": "schwedisch",
+          "iso3166Alpha2": "SE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "158",
+          "anzeigeName": "schweizerisch",
+          "iso3166Alpha2": "CH",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "159",
+          "anzeigeName": "sowjetisch",
+          "iso3166Alpha2": "SU",
+          "hinweis": "ehemaliger Staat",
+          "gueltigBis": "1991-12-25",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe159"
+        },
+        {
+          "code": "160",
+          "anzeigeName": "russisch",
+          "iso3166Alpha2": "RU",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "161",
+          "anzeigeName": "spanisch",
+          "iso3166Alpha2": "ES",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "162",
+          "anzeigeName": "tschechoslowakisch",
+          "iso3166Alpha2": "CS",
+          "hinweis": "ehemaliger Staat‡",
+          "gueltigBis": "1992-12-31",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe162"
+        },
+        {
+          "code": "163",
+          "anzeigeName": "türkisch",
+          "iso3166Alpha2": "TR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "164",
+          "anzeigeName": "tschechisch",
+          "iso3166Alpha2": "CZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "165",
+          "anzeigeName": "ungarisch",
+          "iso3166Alpha2": "HU",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "166",
+          "anzeigeName": "ukrainisch",
+          "iso3166Alpha2": "UA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "167",
+          "anzeigeName": "vatikanisch",
+          "iso3166Alpha2": "VA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "168",
+          "anzeigeName": "britisch",
+          "iso3166Alpha2": "GB",
+          "hinweis": "Staat5"
+        },
+        {
+          "code": "169",
+          "anzeigeName": "belarussisch",
+          "iso3166Alpha2": "BY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "170",
+          "anzeigeName": "serbisch",
+          "iso3166Alpha2": "RS",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "181",
+          "anzeigeName": "zyprisch",
+          "iso3166Alpha2": "CY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "185",
+          "anzeigeName": "britisch (BOTC)",
+          "hinweis": "eigene Pässe6",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe185"
+        },
+        {
+          "code": "221",
+          "anzeigeName": "algerisch",
+          "iso3166Alpha2": "DZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "223",
+          "anzeigeName": "angolanisch",
+          "iso3166Alpha2": "AO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "224",
+          "anzeigeName": "eritreisch",
+          "iso3166Alpha2": "ER",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "225",
+          "anzeigeName": "äthiopisch",
+          "iso3166Alpha2": "ET",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "226",
+          "anzeigeName": "lesothisch",
+          "iso3166Alpha2": "LS",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "227",
+          "anzeigeName": "botsuanisch",
+          "iso3166Alpha2": "BW",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "229",
+          "anzeigeName": "beninisch",
+          "iso3166Alpha2": "BJ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "230",
+          "anzeigeName": "dschibutisch",
+          "iso3166Alpha2": "DJ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "231",
+          "anzeigeName": "ivorisch",
+          "iso3166Alpha2": "CI",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "232",
+          "anzeigeName": "nigerianisch",
+          "iso3166Alpha2": "NG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "233",
+          "anzeigeName": "simbabwisch",
+          "iso3166Alpha2": "ZW",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "236",
+          "anzeigeName": "gabunisch",
+          "iso3166Alpha2": "GA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "237",
+          "anzeigeName": "gambisch",
+          "iso3166Alpha2": "GM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "238",
+          "anzeigeName": "ghanaisch",
+          "iso3166Alpha2": "GH",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "239",
+          "anzeigeName": "mauretanisch",
+          "iso3166Alpha2": "MR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "242",
+          "anzeigeName": "cabo-verdisch",
+          "iso3166Alpha2": "CV",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "243",
+          "anzeigeName": "kenianisch",
+          "iso3166Alpha2": "KE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "244",
+          "anzeigeName": "komorisch",
+          "iso3166Alpha2": "KM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "245",
+          "anzeigeName": "kongolesisch",
+          "iso3166Alpha2": "CG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "246",
+          "anzeigeName": "der Demokratischen Republik Kongo",
+          "iso3166Alpha2": "CD",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "247",
+          "anzeigeName": "liberianisch",
+          "iso3166Alpha2": "LR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "248",
+          "anzeigeName": "libysch",
+          "iso3166Alpha2": "LY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "249",
+          "anzeigeName": "madagassisch",
+          "iso3166Alpha2": "MG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "251",
+          "anzeigeName": "malisch",
+          "iso3166Alpha2": "ML",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "252",
+          "anzeigeName": "marokkanisch",
+          "iso3166Alpha2": "MA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "253",
+          "anzeigeName": "mauritisch",
+          "iso3166Alpha2": "MU",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "254",
+          "anzeigeName": "mosambikanisch",
+          "iso3166Alpha2": "MZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "255",
+          "anzeigeName": "nigrisch",
+          "iso3166Alpha2": "NE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "256",
+          "anzeigeName": "malawisch",
+          "iso3166Alpha2": "MW",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "257",
+          "anzeigeName": "sambisch",
+          "iso3166Alpha2": "ZM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "258",
+          "anzeigeName": "burkinisch",
+          "iso3166Alpha2": "BF",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "259",
+          "anzeigeName": "guinea-bissauisch",
+          "iso3166Alpha2": "GW",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "261",
+          "anzeigeName": "guineisch",
+          "iso3166Alpha2": "GN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "262",
+          "anzeigeName": "kamerunisch",
+          "iso3166Alpha2": "CM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "263",
+          "anzeigeName": "südafrikanisch",
+          "iso3166Alpha2": "ZA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "265",
+          "anzeigeName": "ruandisch",
+          "iso3166Alpha2": "RW",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "267",
+          "anzeigeName": "namibisch",
+          "iso3166Alpha2": "NA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "268",
+          "anzeigeName": "são-toméisch",
+          "iso3166Alpha2": "ST",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "269",
+          "anzeigeName": "senegalesisch",
+          "iso3166Alpha2": "SN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "271",
+          "anzeigeName": "seychellisch",
+          "iso3166Alpha2": "SC",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "272",
+          "anzeigeName": "sierra-leonisch",
+          "iso3166Alpha2": "SL",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "273",
+          "anzeigeName": "somalisch",
+          "iso3166Alpha2": "SO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "274",
+          "anzeigeName": "äquatorialguineisch",
+          "iso3166Alpha2": "GQ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "276",
+          "anzeigeName": "sudanesisch",
+          "iso3166Alpha2": "SD",
+          "hinweis": "ehemaliger Staat",
+          "gueltigBis": "2011-07-08",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe276"
+        },
+        {
+          "code": "277",
+          "anzeigeName": "sudanesisch",
+          "iso3166Alpha2": "SD",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "278",
+          "anzeigeName": "südsudanesisch",
+          "iso3166Alpha2": "SS",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "281",
+          "anzeigeName": "eswatinisch",
+          "iso3166Alpha2": "SZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "282",
+          "anzeigeName": "tansanisch",
+          "iso3166Alpha2": "TZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "283",
+          "anzeigeName": "togoisch",
+          "iso3166Alpha2": "TG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "284",
+          "anzeigeName": "tschadisch",
+          "iso3166Alpha2": "TD",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "285",
+          "anzeigeName": "tunesisch",
+          "iso3166Alpha2": "TN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "286",
+          "anzeigeName": "ugandisch",
+          "iso3166Alpha2": "UG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "287",
+          "anzeigeName": "ägyptisch",
+          "iso3166Alpha2": "EG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "289",
+          "anzeigeName": "zentralafrikanisch",
+          "iso3166Alpha2": "CF",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "291",
+          "anzeigeName": "burundisch",
+          "iso3166Alpha2": "BI",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "320",
+          "anzeigeName": "antiguanisch",
+          "iso3166Alpha2": "AG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "322",
+          "anzeigeName": "barbadisch",
+          "iso3166Alpha2": "BB",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "323",
+          "anzeigeName": "argentinisch",
+          "iso3166Alpha2": "AR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "324",
+          "anzeigeName": "bahamaisch",
+          "iso3166Alpha2": "BS",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "326",
+          "anzeigeName": "bolivianisch",
+          "iso3166Alpha2": "BO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "327",
+          "anzeigeName": "brasilianisch",
+          "iso3166Alpha2": "BR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "328",
+          "anzeigeName": "guyanisch",
+          "iso3166Alpha2": "GY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "330",
+          "anzeigeName": "belizisch",
+          "iso3166Alpha2": "BZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "332",
+          "anzeigeName": "chilenisch",
+          "iso3166Alpha2": "CL",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "333",
+          "anzeigeName": "dominicanisch",
+          "iso3166Alpha2": "DM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "334",
+          "anzeigeName": "costa-ricanisch",
+          "iso3166Alpha2": "CR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "335",
+          "anzeigeName": "dominikanisch",
+          "iso3166Alpha2": "DO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "336",
+          "anzeigeName": "ecuadorianisch",
+          "iso3166Alpha2": "EC",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "337",
+          "anzeigeName": "salvadorianisch",
+          "iso3166Alpha2": "SV",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "340",
+          "anzeigeName": "grenadisch",
+          "iso3166Alpha2": "GD",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "345",
+          "anzeigeName": "guatemaltekisch",
+          "iso3166Alpha2": "GT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "346",
+          "anzeigeName": "haitianisch",
+          "iso3166Alpha2": "HT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "347",
+          "anzeigeName": "honduranisch",
+          "iso3166Alpha2": "HN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "348",
+          "anzeigeName": "kanadisch",
+          "iso3166Alpha2": "CA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "349",
+          "anzeigeName": "kolumbianisch",
+          "iso3166Alpha2": "CO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "351",
+          "anzeigeName": "kubanisch",
+          "iso3166Alpha2": "CU",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "353",
+          "anzeigeName": "mexikanisch",
+          "iso3166Alpha2": "MX",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "354",
+          "anzeigeName": "nicaraguanisch",
+          "iso3166Alpha2": "NI",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "355",
+          "anzeigeName": "jamaikanisch",
+          "iso3166Alpha2": "JM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "357",
+          "anzeigeName": "panamaisch",
+          "iso3166Alpha2": "PA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "359",
+          "anzeigeName": "paraguayisch",
+          "iso3166Alpha2": "PY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "361",
+          "anzeigeName": "peruanisch",
+          "iso3166Alpha2": "PE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "364",
+          "anzeigeName": "surinamisch",
+          "iso3166Alpha2": "SR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "365",
+          "anzeigeName": "uruguayisch",
+          "iso3166Alpha2": "UY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "366",
+          "anzeigeName": "lucianisch",
+          "iso3166Alpha2": "LC",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "367",
+          "anzeigeName": "venezolanisch",
+          "iso3166Alpha2": "VE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "368",
+          "anzeigeName": "amerikanisch",
+          "iso3166Alpha2": "US",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "369",
+          "anzeigeName": "vincentisch",
+          "iso3166Alpha2": "VC",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "370",
+          "anzeigeName": "von St. Kitts und Nevis",
+          "iso3166Alpha2": "KN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "371",
+          "anzeigeName": "von Trinidad und Tobago",
+          "iso3166Alpha2": "TT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "411",
+          "anzeigeName": "chinesisch (Hongkong)",
+          "iso3166Alpha2": "HK",
+          "hinweis": "eigener Pass"
+        },
+        {
+          "code": "412",
+          "anzeigeName": "chinesisch (Macau)",
+          "iso3166Alpha2": "MO",
+          "hinweis": "eigener Pass"
+        },
+        {
+          "code": "421",
+          "anzeigeName": "jemenitisch",
+          "iso3166Alpha2": "YE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "422",
+          "anzeigeName": "armenisch",
+          "iso3166Alpha2": "AM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "423",
+          "anzeigeName": "afghanisch",
+          "iso3166Alpha2": "AF",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "424",
+          "anzeigeName": "bahrainisch",
+          "iso3166Alpha2": "BH",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "425",
+          "anzeigeName": "aserbaidschanisch",
+          "iso3166Alpha2": "AZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "426",
+          "anzeigeName": "bhutanisch",
+          "iso3166Alpha2": "BT",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "427",
+          "anzeigeName": "myanmarisch",
+          "iso3166Alpha2": "MM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "429",
+          "anzeigeName": "bruneiisch",
+          "iso3166Alpha2": "BN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "430",
+          "anzeigeName": "georgisch",
+          "iso3166Alpha2": "GE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "431",
+          "anzeigeName": "sri-lankisch",
+          "iso3166Alpha2": "LK",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "432",
+          "anzeigeName": "vietnamesisch",
+          "iso3166Alpha2": "VN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "434",
+          "anzeigeName": "der Demokratischen Volksrepublik Korea",
+          "iso3166Alpha2": "KP",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "436",
+          "anzeigeName": "indisch",
+          "iso3166Alpha2": "IN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "437",
+          "anzeigeName": "indonesisch",
+          "iso3166Alpha2": "ID",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "438",
+          "anzeigeName": "irakisch",
+          "iso3166Alpha2": "IQ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "439",
+          "anzeigeName": "iranisch",
+          "iso3166Alpha2": "IR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "441",
+          "anzeigeName": "israelisch",
+          "iso3166Alpha2": "IL",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "442",
+          "anzeigeName": "japanisch",
+          "iso3166Alpha2": "JP",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "444",
+          "anzeigeName": "kasachisch",
+          "iso3166Alpha2": "KZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "445",
+          "anzeigeName": "jordanisch",
+          "iso3166Alpha2": "JO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "446",
+          "anzeigeName": "kambodschanisch",
+          "iso3166Alpha2": "KH",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "447",
+          "anzeigeName": "katarisch",
+          "iso3166Alpha2": "QA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "448",
+          "anzeigeName": "kuwaitisch",
+          "iso3166Alpha2": "KW",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "449",
+          "anzeigeName": "laotisch",
+          "iso3166Alpha2": "LA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "450",
+          "anzeigeName": "kirgisisch",
+          "iso3166Alpha2": "KG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "451",
+          "anzeigeName": "libanesisch",
+          "iso3166Alpha2": "LB",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "454",
+          "anzeigeName": "maledivisch",
+          "iso3166Alpha2": "MV",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "456",
+          "anzeigeName": "omanisch",
+          "iso3166Alpha2": "OM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "457",
+          "anzeigeName": "mongolisch",
+          "iso3166Alpha2": "MN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "458",
+          "anzeigeName": "nepalesisch",
+          "iso3166Alpha2": "NP",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "459",
+          "anzeigeName": "Palästinensische Gebiete",
+          "hinweis": "keinem Staat zugeordnet 7",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe459"
+        },
+        {
+          "code": "460",
+          "anzeigeName": "bangladeschisch",
+          "iso3166Alpha2": "BD",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "461",
+          "anzeigeName": "pakistanisch",
+          "iso3166Alpha2": "PK",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "462",
+          "anzeigeName": "philippinisch",
+          "iso3166Alpha2": "PH",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "465",
+          "anzeigeName": "taiwanisch",
+          "iso3166Alpha2": "TW",
+          "hinweis": "eigener Pass"
+        },
+        {
+          "code": "467",
+          "anzeigeName": "der Republik Korea",
+          "iso3166Alpha2": "KR",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "469",
+          "anzeigeName": "der Vereinigten Arabischen Emirate",
+          "iso3166Alpha2": "AE",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "470",
+          "anzeigeName": "tadschikisch",
+          "iso3166Alpha2": "TJ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "471",
+          "anzeigeName": "turkmenisch",
+          "iso3166Alpha2": "TM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "472",
+          "anzeigeName": "saudi-arabisch",
+          "iso3166Alpha2": "SA",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "474",
+          "anzeigeName": "singapurisch",
+          "iso3166Alpha2": "SG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "475",
+          "anzeigeName": "syrisch",
+          "iso3166Alpha2": "SY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "476",
+          "anzeigeName": "thailändisch",
+          "iso3166Alpha2": "TH",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "477",
+          "anzeigeName": "usbekisch",
+          "iso3166Alpha2": "UZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "479",
+          "anzeigeName": "chinesisch",
+          "iso3166Alpha2": "CN",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "482",
+          "anzeigeName": "malaysisch",
+          "iso3166Alpha2": "MY",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "483",
+          "anzeigeName": "von Timor-Leste",
+          "iso3166Alpha2": "TL",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "523",
+          "anzeigeName": "australisch",
+          "iso3166Alpha2": "AU",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "524",
+          "anzeigeName": "salomonisch",
+          "iso3166Alpha2": "SB",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "526",
+          "anzeigeName": "fidschianisch",
+          "iso3166Alpha2": "FJ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "530",
+          "anzeigeName": "kiribatisch",
+          "iso3166Alpha2": "KI",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "531",
+          "anzeigeName": "von Naoero",
+          "iso3166Alpha2": "NR",
+          "hinweis": "Staat; In der terminologischen Datenbank der Vereinten Nationen gibt es bislang in keiner Sprache eine Angabe zur Staatsangehörigkeit."
+        },
+        {
+          "code": "532",
+          "anzeigeName": "vanuatuisch",
+          "iso3166Alpha2": "VU",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "536",
+          "anzeigeName": "neuseeländisch",
+          "iso3166Alpha2": "NZ",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "537",
+          "anzeigeName": "palauisch",
+          "iso3166Alpha2": "PW",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "538",
+          "anzeigeName": "papua-neuguineisch",
+          "iso3166Alpha2": "PG",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "540",
+          "anzeigeName": "tuvaluisch",
+          "iso3166Alpha2": "TV",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "541",
+          "anzeigeName": "tongaisch",
+          "iso3166Alpha2": "TO",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "543",
+          "anzeigeName": "samoanisch",
+          "iso3166Alpha2": "WS",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "544",
+          "anzeigeName": "marshallisch",
+          "iso3166Alpha2": "MH",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "545",
+          "anzeigeName": "mikronesisch",
+          "iso3166Alpha2": "FM",
+          "hinweis": "Staat"
+        },
+        {
+          "code": "910",
+          "anzeigeName": "–"
+        },
+        {
+          "code": "997",
+          "anzeigeName": "staatenlos",
+          "iso3166Alpha2": "XA",
+          "pidSonderwert": "QS",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe997"
+        },
+        {
+          "code": "998",
+          "anzeigeName": "ungeklärt",
+          "pidSonderwert": "QU",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe998"
+        },
+        {
+          "code": "999",
+          "anzeigeName": "ohne Angabe",
+          "lesehilfeSchluessel": "staatsangehoerigkeitLesehilfe999"
+        }
+      ]
+    }
+  ],
+  "felder": {
+    "identity.nationality": {
+      "codeListe": "destatis-staatsangehoerigkeit",
+      "mehrfach": true
+    }
   }
 }

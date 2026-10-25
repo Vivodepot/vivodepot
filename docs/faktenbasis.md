@@ -1,6 +1,6 @@
 # Faktenbasis — maschinell erzeugt, nicht von Hand gepflegt
 
-**Erzeugt am:** 2026-10-18 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
+**Erzeugt am:** 2026-10-25 · **Commit:** `(Arbeitsstand, ohne Hash)` · **Werkzeug:** `tools/faktenbasis-erzeugen.js`
 
 Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-kern.js`) oder direkt aus dem Quelltext — nicht aus einem Kommentar, nicht aus dem Gedächtnis. Bei Abweichung schlägt `tests/faktenbasis-aktualitaet.test.js` an (`node tools/faktenbasis-erzeugen.js --check`).
 
@@ -52,11 +52,11 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 
 ## Sektoren, Felder, Unterfelder
 
-**13 Sektoren, 321 Felder, 198 Unterfelder gesamt.**
+**14 Sektoren, 321 Felder, 198 Unterfelder gesamt.**
 
 | Sektor | Label | Felder | Unterfelder |
 |---|---|---|---|
-| `identity` | Identität & Person | 36 | 20 |
+| `identity` | Identität & Person | 35 | 15 |
 | `people` | Meine Menschen | 8 | 24 |
 | `mobility` | Mobilität & Reise | 13 | 7 |
 | `finance` | Finanzen & Zahlungen | 22 | 18 |
@@ -68,6 +68,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | `administration` | Verwaltung & Behörden | 27 | 18 |
 | `housing` | Wohnen & Eigentum | 15 | 11 |
 | `emergencyPreparedness` | Krisenvorsorge | 33 | 0 |
+| `pets` | Tiere | 1 | 5 |
 | `personal` | Persönliches | 22 | 4 |
 
 **Anlässe:** 19 · **Assistenten (Wizards):** 7 · **Situationen:** 10
@@ -86,13 +87,13 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 ## Prüfebene
 
 - Suite (Node-Tests, `node --test`): nicht neu gemessen (letzte Messung 2026-09-27, c30128b6a)
-- E2E (Playwright): 674 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 139 aus Schleifen über CPU-Drosselungen = **813 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
-- Wächter-Register (intern): 146
-- Schema-Version: 92 · SCHALEN_STAND: v933 · Build-Version: v1.0
+- E2E (Playwright): 687 `test(`-Aufrufe in `tests/e2e/*.spec.js` + 187 aus Schleifen über CPU-Drosselungen = **874 Tests je Lauf** (mechanisch aus dem Quelltext gezählt, kein Lauf — die Differenz ist konstant)
+- Wächter-Register (intern): 152
+- Schema-Version: 94 · SCHALEN_STAND: v952 · Build-Version: v1.0
 
 ---
 
-## ADR-Register (435)
+## ADR-Register (445)
 
 | Nummer | Titel |
 |---|---|
@@ -100,6 +101,7 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-002 | Vereinheitlichter HKDF-pro-Depot-Pfad für den Anker |
 | U2-ADR-003 | Sub-Depot-Passwort-Architektur und Vertrauens-Modus |
 | U2-ADR-004 | Teststrategie — stehende Suite statt Wegwerf-Harness |
+| U2-ADR-005 | Neben einer eingelesenen, geprüften Angabe steht die Stelle, die sie bestätigt hat |
 | U2-ADR-005 | Urheberschaft pro Eintrag (Vollmachts-Kette) |
 | U2-ADR-006 | Andock-Architektur — Übergabe rein und raus |
 | U2-ADR-007 | Gesundheits-Sektor — schlank, FHIR über Template |
@@ -507,9 +509,14 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-466 | Vollmacht und Patientenverfügung im IPS/EPS-Export |
 | U2-ADR-467 | Getrennte Namens- und Anschriftsfelder, ohne Raten |
 | U2-ADR-468 | ISiK Stufe 6 — Vollmacht und IPS als DocumentReference für das Krankenhaus |
+| U2-ADR-470 | Skripte nur noch per Hash: CSP ohne 'unsafe-inline', Trusted Types als zweite Wand |
 | U2-ADR-471 | KBV-Patientenkurzakte — die Vorsorgevollmacht als DPE-Bundle für die Arztpraxis |
 | U2-ADR-473 | Erscheinungsbild im Branding-Modul — Token-Vollständigkeit, Profile, Steckplatz Navigation |
 | U2-ADR-474 | Ein Speichermodell, eine Quelle für jede Aussage darüber |
+| U2-ADR-477 | Geltungsbereich als Liste, „UK" als Alias, und die LPA-Ausfüllhilfe für England und Wales (Stufe 1) |
+| U2-ADR-479 | Tiere als eigener Bereich im Cluster Alltag |
+| U2-ADR-480 | Währung aus dem Template |
+| U2-ADR-482 | Staatsangehörigkeit aus der Liste des Rechtsraum-Templates |
 | U2-ADR-483 | Vorprüfung im Studio — dieselben Einlass-Regeln wie der Kern, ein Urteil in Klartext, Angaben erst zur Signatur |
 | U2-ADR-486 | Post-Quanten-Übergang — Anker-Agilität zuerst, dann hybride Verfahren |
 | U2-ADR-487 | Kennungen ändern sich nur vor v1, mit Migration und Abbildungstabelle — ersetzt U2-ADR-409 Punkt 12 |
@@ -525,12 +532,16 @@ Jede Zahl hier stammt aus dem geladenen Kern (`vivodepot.html` via `tests/load-k
 | U2-ADR-497 | Die Beschriftung eines Felds in Ausgaben ist getrennt von seiner Beschriftung in der Eingabe |
 | U2-ADR-498 | Automatische Signatur einer Einreichung — die Signierstelle holt ab, die Annahmestelle hält keinen Schlüssel |
 | U2-ADR-501 | Die signierte Antwort und das Zertifikat der Stelle — für die Datei-Antwort und die direkte Übergabe |
+| U2-ADR-502 | Die OpenID4VP-Präsentation aus der Datei — Anfrage prüfen, KB-JWT, Antwort an die Stelle |
 | U2-ADR-504 | Rechtsraum DE ist ein Modul wie jedes andere — Nachfolge zu U2-ADR-285 |
 | U2-ADR-505 | Ende des eigenen Vorlagen-Formats: STANDARD_VORLAGEN wird Basistemplate |
 | U2-ADR-506 | Migrationsbeleg kennt benannte additive Schlüssel auch auf oberster Ebene |
 | U2-ADR-507 | Korpus-Zuordnung: amtlicher Wortlaut ins Rechtsraum-Modul, eigene Formulierung ins Template |
 | U2-ADR-508 | Der offene JSON-Vollexport wird entfernt, nicht gefiltert |
 | U2-ADR-509 | Kern-Verschluss — Script 2 als IIFE, nur eine benannte Fläche |
+| U2-ADR-512 | Pod-Anbindung über eine Brückenseite — Stufe 1 (Datei), der Kern bleibt ohne Netz |
+| U2-ADR-513 | Eigene Einlassgrenze für Sprachmodule |
+| U2-ADR-514 | Lizenz der Vorlagen — kurzer eigener Hinweis, geschlossene Lizenzliste für fremde |
 
 ---
 
@@ -540,18 +551,18 @@ Handkuratierte Namensliste (`DESIGN_KLASSEN` in `tools/faktenbasis-erzeugen.js`)
 
 | Klasse | Regeln im Stylesheet | Verwendung außerhalb des Stylesheets |
 |---|---|---|
-| `.btn` | 37 | 236 |
-| `.btn-sek` | 15 | 107 |
+| `.btn` | 37 | 239 |
+| `.btn-sek` | 15 | 110 |
 | `.btn-dezent` | 5 | 11 |
 | `.btn-klein` | 3 | 15 |
 | `.btn-notfall` | 2 | 0 |
-| `.btn-mini` | 10 | 37 |
+| `.btn-mini` | 10 | 39 |
 | `.karte` | 6 | 69 |
-| `.modal` | 19 | 181 |
-| `.toast` | 9 | 305 |
+| `.modal` | 19 | 188 |
+| `.toast` | 9 | 309 |
 | `.banner-stapel` | 3 | 2 |
 | `.topbar` | 37 | 2 |
 | `.sidebar` | 14 | 5 |
-| `.leer` | 3 | 313 |
+| `.leer` | 3 | 337 |
 | `.pause-erlaubnis` | 2 | 3 |
 | `.hinweis-box` | 7 | 32 |

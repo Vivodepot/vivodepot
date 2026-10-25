@@ -37,6 +37,8 @@
      node tools/fassungen-register.js --check                 Block/JSON veraltet oder ein Sicherheitshinweis fehlt → Exit 1
      node tools/fassungen-register.js --nachtragen --aus-probe-liste <bericht> --datum JJJJ-MM-TT [--kanon <commit>]
      node tools/fassungen-register.js --nachtragen --aus-sicherung <~/Vivodepot-Rezeptsicherung/<zeit>>
+     node tools/fassungen-register.js --nachtragen --kern-aus-commit <commit> --fassung v<n> --datum JJJJ-MM-TT
+                                                                    Kern-Zeile (ab v937 Pflicht, KERN_PFLICHT_AB)
      node tools/fassungen-register.js --live <url> --produkt <slug>   lädt eine öffentliche Datei (Netz, von Hand —
                                                                     nicht in der Suite) und hält sie gegen das Register
      --repo <pfad> lenkt Register, SECURITY.md und docs/ gemeinsam um (Fixturen, Tests).
@@ -111,11 +113,23 @@ const standZahl = (fassung) => Number(String(fassung).replace(/^v/, ''));
 // 26.09.2026: die signierte Zutat `sw.js` steht als eigene Zeile neben den vier Produkten (tools/kern-ausliefern.js), damit
 // sich die ganze Auslieferung nachprüfen lässt. Sie sortiert nach den Produkten.
 const SERVICE_WORKER_ZEILE = 'service-worker';
+// 20.10.2026 (Entscheidung): die gemeinsame Programmdatei (Kern) steht je Fassung öffentlich neben den Produkten, ab v937,
+// v933 nachgetragen. Sie sortiert vor die Produkte, weil jedes Produkt aus ihr gebaut ist. Die Versionsseite (docs/fassungen.json)
+// führt sie nicht: dort stehen nur die Dateien, die jemand herunterlädt.
+const KERN_ZEILE = 'kern';
+const KERN_PFLICHT_AB = 937;
+const KERN_ABSATZ = [
+  'Die Zeile „kern“ (ab v937, für v933 nachgetragen) ist kein Produkt, sondern die gemeinsame Programmdatei `vivodepot.html` der',
+  'Fassung, wie sie ausgeliefert wurde; aus ihr und den Modulen der Fassung ist jedes Produkt gebaut. Die `vivodepot.html` im',
+  'Wurzelverzeichnis des öffentlichen Repositorys unterscheidet sich davon nur in Zeile 5, der ersten Zeile des Kopfkommentars,',
+  'die dort Fassung, Rolle und Prüfweg nennt. Nachrechnen (macOS/Linux) am öffentlichen Tag der Fassung:',
+  '`sed \'5s/.*/  Vivodepot — Bürger-App (Clean-Slate-Kern)/\' vivodepot.html | shasum -a 256`.',
+];
 // Reihenfolge der Produkte: die aus tools/lib/vier-produkte.js — die Zusammensetzung steht an ihren Orten
 // (U2-ADR-386), nicht als weitere Liste hier.
 let _reihenfolge = null;
 const produktReihenfolge = () => (_reihenfolge || (_reihenfolge = require('./lib/vier-produkte.js').auslieferbareProdukte().map((p) => p.slug)));   // Grundprodukte zuerst, dann die Zuschnitte (U2-ADR-489)
-const produktRang = (p) => { const r = produktReihenfolge(); const i = r.indexOf(p); return i < 0 ? r.length : i; };
+const produktRang = (p) => { if (p === KERN_ZEILE) return -1; const r = produktReihenfolge(); const i = r.indexOf(p); return i < 0 ? r.length : i; };
 
 /* Neueste Fassung zuerst, Produkte in fester Folge. */
 function sortiert(zeilen) {
@@ -132,6 +146,7 @@ function blockText(register) {
     'Fassung = die Zahl nach dem letzten Punkt der Versionsanzeige in der Fußzeile der Anwendung (z. B. v1.0.**818**).',
     '',
   ];
+  if (register.zeilen.some((z) => z.produkt === KERN_ZEILE)) kopf.push(...KERN_ABSATZ, '');
   if (!register.zeilen.length) return [...kopf, '*Noch keine Fassung eingetragen.*', '', ENDE].join('\n');
   const zeilen = ['| Fassung | Datum | Produkt | SHA-256 |', '|---|---|---|---|'];
   for (const z of sortiert(register.zeilen)) zeilen.push('| ' + z.fassung + ' | ' + z.datum + ' | ' + z.produkt + ' | `' + z.sha256 + '` |');
@@ -234,6 +249,7 @@ function sicherheitPruefen(changelogText, schwachstellenText) {
 function fassungenJson(register, hinweise) {
   const nachFassung = new Map();
   for (const z of sortiert(register.zeilen)) {
+    if (z.produkt === KERN_ZEILE) continue;
     if (!nachFassung.has(z.fassung)) nachFassung.set(z.fassung, { fassung: z.fassung, datum: z.datum, produkte: [], sicherheitshinweise: hinweise.get(z.fassung) || [] });
     const f = nachFassung.get(z.fassung);
     if (z.datum < f.datum) f.datum = z.datum;
@@ -257,7 +273,32 @@ function pruefen(repo, { securityPfad = null } = {}) {
   if (soll !== undefined && soll !== dok) befunde.push(SECURITY_DATEI + ': der Fingerabdruck-Block entspricht nicht dem Register — node tools/fassungen-register.js --build');
   if (dateiOderLeer(repo, FASSUNGEN_JSON) !== fassungenJsonText(repo)) befunde.push(FASSUNGEN_JSON + ' entspricht nicht Register + CHANGELOG — node tools/fassungen-register.js --build');
   befunde.push(...sicherheitPruefen(dateiOderLeer(repo, CHANGELOG_DATEI), dateiOderLeer(repo, SCHWACHSTELLEN_DATEI)));
+  befunde.push(...kernPflichtPruefen(register));
   return befunde;
+}
+
+/* Wächter (20.10.2026): jede Fassung ab v937 mit eingetragenen Produkten trägt auch die Kern-Zeile. Fehlt sie, ist --check rot —
+   die Zusage in SECURITY.md (Kern je Fassung) kann nicht still ausbleiben. */
+function kernPflichtPruefen(register) {
+  const mitProdukt = new Set(register.zeilen.filter((z) => z.produkt !== KERN_ZEILE && z.produkt !== SERVICE_WORKER_ZEILE
+    && standZahl(z.fassung) >= KERN_PFLICHT_AB).map((z) => z.fassung));
+  const mitKern = new Set(register.zeilen.filter((z) => z.produkt === KERN_ZEILE).map((z) => z.fassung));
+  return [...mitProdukt].filter((f) => !mitKern.has(f)).sort()
+    .map((f) => REGISTER_DATEI + ': ' + f + ' hat Produkte, aber keine Zeile „' + KERN_ZEILE + '“ — node tools/fassungen-register.js --nachtragen --kern-aus-commit <ausgelieferter Kanon-Commit> --fassung ' + f + ' --datum <tag>');
+}
+
+/* Die Kern-Zeile aus dem ausgelieferten Kanon-Commit: SHA-256 von `git show <commit>:vivodepot.html`. Der Kern im Commit muss die
+   genannte Fassung tragen (SCHALEN_STAND), sonst wirft es — so landet keine Prüfsumme bei der falschen Fassung. */
+function kernAusCommit(repo, commit, { fassung, datum }) {
+  const { execFileSync } = require('node:child_process');
+  const crypto = require('node:crypto');
+  const { ohneGitUmgebung } = require('./lib/ohne-git-umgebung.js');
+  const roh = execFileSync('git', ['-C', repo, 'show', commit + ':vivodepot.html'], { maxBuffer: 1 << 30, env: ohneGitUmgebung() });
+  const s = /const SCHALEN_STAND = '(v[0-9]+)'/.exec(roh.toString('utf8'));
+  if (!s || s[1] !== fassung) throw new Error('fassungen-register: ' + commit + ' trägt Kern ' + (s ? s[1] : '(ohne SCHALEN_STAND)') + ', nicht ' + fassung);
+  const kurz = execFileSync('git', ['-C', repo, 'rev-parse', '--short=9', commit + '^{commit}'], { env: ohneGitUmgebung() }).toString().trim();
+  return [{ fassung, produkt: KERN_ZEILE, datum, kanonCommit: kurz, sha256: crypto.createHash('sha256').update(roh).digest('hex'),
+    herkunft: 'git show ' + kurz + ':vivodepot.html (ausgelieferter Kern, kern/' + fassung + '.html)' }];
 }
 
 /* Live-Probe: stimmt eine öffentlich abrufbare Datei mit einer eingetragenen Fassung überein? Liefert die
@@ -339,7 +380,10 @@ function main() {
       zeilen = ausProbeListe(fs.readFileSync(wert('--aus-probe-liste'), 'utf8'), { datum: wert('--datum'), kanonCommit: wert('--kanon') });
     } else if (wert('--aus-sicherung')) {
       zeilen = ausSicherung(path.resolve(wert('--aus-sicherung')), fs.readFileSync(path.join(repo, 'docs', 'auslieferung-stand.md'), 'utf8'));
-    } else throw new Error('--nachtragen braucht --aus-probe-liste oder --aus-sicherung');
+    } else if (wert('--kern-aus-commit')) {
+      if (!wert('--fassung') || !wert('--datum')) throw new Error('--kern-aus-commit braucht --fassung v<n> und --datum JJJJ-MM-TT');
+      zeilen = kernAusCommit(repo, wert('--kern-aus-commit'), { fassung: wert('--fassung'), datum: wert('--datum') });
+    } else throw new Error('--nachtragen braucht --aus-probe-liste, --aus-sicherung oder --kern-aus-commit');
     const { neu, vorhanden } = zeilenAnhaengen(repo, zeilen);
     console.log('fassungen-register: ' + neu.length + ' Zeile(n) angehängt, ' + vorhanden.length + ' schon vorhanden.');
     for (const z of neu) console.log('  + ' + z.fassung + ' ' + z.produkt + ' ' + z.sha256.slice(0, 12) + '…');
@@ -371,4 +415,5 @@ module.exports = {
   registerLesen, zeilenAnhaengen, zeilePruefen, sortiert, blockText, blockEinsetzen, pruefen,
   ausProbeListe, ausSicherung, livePruefen, fassungAusVersion, changelogSicherheit, schwachstellenKorrigiert,
   sicherheitPruefen, schwachstellenFormPruefen, SCHWACHSTELLEN_STATUS, fassungenJson, fassungenJsonText, FASSUNGEN_JSON, ANFANG, ENDE, REGISTER_DATEI, SERVICE_WORKER_ZEILE,
+  KERN_ZEILE, KERN_PFLICHT_AB, KERN_ABSATZ, kernPflichtPruefen, kernAusCommit,
 };

@@ -62,5 +62,21 @@ Grundlage: Provenienz-Befund + Distinguishability-Befund (21.06., intern). Produ
 
 **Entscheidung 21.06.: `vollmachtsGrundlage` wird NICHT ins Credential getragen.** Code-Prüfung ergab: der Provenance-Stempel führt als `vollmachtsGrundlage` ausschließlich die **Sub-Depot-UUID** (`setzeSitzungsAkteur` ← `depotUUID`), keinen menschenlesbaren Vollmacht-Typ. Ein roher interner Krypto-/Schlüssel-Bezeichner gehört nicht an einen fremden Empfänger (Datensparsamkeit). Der `_eingabe`-Block trägt daher nur `{feld, durch}` (Name-Snapshot der vertretenden Person) — „unter Vollmacht durch [Name]" ist wahr und vollständig genug; ein Typ wird **nicht erfunden**. Gegenprüfung am Code: kein weiterer Builder serialisiert einen internen Bezeichner in ein Credential-Feld; ein Zieltest verankert, dass die UUID in der serialisierten Datei nirgends erscheint.
 
+## Nachtrag 22.10.2026 — die EUDIW-Übergabe ruht hinter `EUDIW_SICHTBAR = false`
+
+Die Konsequenz oben nennt für Bereich 7 einen Export-Knopf **und** die EUDIW-Übergabe. Erreichbar ist heute nur der erste Teil:
+- **Export-Knopf: erreichbar.** Der Eintrag `sd-jwt-vc-sozialversicherung` in `EXPORT_FORMATE` erscheint im Herausgeben-Dialog des
+  Bereichs als maschinelles Format.
+- **EUDIW-Übergabe: gebaut, nicht erreichbar.** Der Knopf „An EUDI-Wallet übergeben“ steht im Herausgeben-Dialog hinter
+  `if (EUDIW_SICHTBAR && eudiwDefFuerSektor(sektorId))`, und `EUDIW_SICHTBAR` ist `false`. Der Übergabe-Code (Serialisierung, Ablauf,
+  Proben) bleibt erhalten; es fehlt nur der Knopf, solange keine EUDI-Wallet den Ausschnitt annimmt.
+- **Reaktivierung:** `EUDIW_SICHTBAR` auf `true`, erst wenn eine EU Digital Identity Wallet produktiv verfügbar ist und die
+  Kompatibilität mit einer Ziel-Wallet bestätigt ist (Kommentar am Schalter). Dieselbe Ruhestellung nennen U2-ADR-080, U2-ADR-082 und
+  U2-ADR-085.
+- **Status heute** bleibt „gilt“ für den Export und den Wahrheits-Filter. Für die EUDIW-Übergabe gilt „gebaut, nicht erreichbar“.
+  Ob „Status heute“ im ganzen ADR-Bestand Erreichbarkeit statt Existenz bedeuten soll, ist hier nicht entschieden; das kommt erst nach
+  einer Messung des Bestands.
+- **Nachsehen:** `git grep -n "EUDIW_SICHTBAR" -- vivodepot.html` (Schalter und Bedingung am Knopf).
+
 ## Cross-Referenz
 U2-ADR-016 (Schlüsseltrennung v3 / Voll-Verschlüsselung), U2-ADR-018 (Pflegegrad → Sozialversicherung), U2-ADR-019 (Pflegedienst/Pflegegeld → Sozialversicherung), U2-ADR-005 (Provenienz). Befund-Doku: interner Bericht vom 21.06.2026.

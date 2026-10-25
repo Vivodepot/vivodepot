@@ -2,7 +2,7 @@
 /* ════════════════════════════════════════════════════════════════════════
    Test — Compliance-Härtung (Teil 6, Schnitt 6.2)
    ────────────────────────────────────────────────────────────────────────
-   EUPL-1.2-Header, @vd-lib-Annotationen, SBOM (CycloneDX 1.4) und
+   EUPL-1.2-Header, @vd-lib-Annotationen, SBOM (CycloneDX 1.6) und
    THIRD_PARTY_LICENSES müssen den TATSÄCHLICHEN Stand abbilden: jsPDF 4.2.1 und
    qrcode-generator 1.4.4 sind inline; docx ist NICHT eingebettet (status=pending-inline).
    Es darf nichts als eingebettet geführt werden, was nicht im Code steht.
@@ -66,9 +66,9 @@ function hatZulaessigenListenstand(component) {
   return /\bamtlich\b/i.test(version) && /\b(19|20)\d{2}\b/.test(version);
 }
 
-test('4) SBOM ist CycloneDX 1.4; jsPDF, noble-ed25519 + qrcode-generator als Libraries; Code-Listen als file-Komponenten', () => {
+test('4) SBOM ist CycloneDX 1.6; jsPDF, noble-ed25519 + qrcode-generator als Libraries; Code-Listen als file-Komponenten', () => {
   assert.equal(SBOM.bomFormat, 'CycloneDX');
-  assert.equal(SBOM.specVersion, '1.4');
+  assert.equal(SBOM.specVersion, '1.6');
   const libs = (SBOM.components || []).filter(c => c.type === 'library').map(c => c.name);
   assert.deepEqual(libs.slice().sort(), ['jspdf', 'noble-ed25519', 'qrcode-generator'], 'jsPDF, noble-ed25519 (v865, U2-ADR-457) + qrcode-generator als eingebettete Libraries');
   const jspdf = SBOM.components.find(c => c.name === 'jspdf');

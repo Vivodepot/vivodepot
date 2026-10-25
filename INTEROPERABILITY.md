@@ -105,8 +105,8 @@ Konformitäts-Gate (`npm run test:konformitaet`) und laufen vor jedem Push.
 | AES-GCM Randfälle | Wycheproof | 39 gültig, 27 ungültig |
 | HKDF-SHA-256 | RFC 5869 | 3 Testvektoren |
 | HKDF Randfälle | Wycheproof | 83 gültig, 3 ungültig |
-| Barrierefreiheit, Haupt-App | axe-core, WCAG 2.2 AA | 35 Sichten, 0 Verstöße |
-| Barrierefreiheit, Lese-App | axe-core, WCAG 2.2 AA | 15 Sichten, 0 Verstöße |
+| Barrierefreiheit, Haupt-App | axe-core, WCAG 2.2 AA | 39 Sichten, 0 Verstöße (Liste: `tools/axe-sichten.json`) |
+| Barrierefreiheit, Lese-App | axe-core, WCAG 2.2 AA | 17 Sichten, 0 Verstöße |
 | Offline-Garantie | Playwright, echter Netzwerk-Mitschnitt | 0 externe Requests über den ganzen Ablauf |
 
 **SMART Health Links** (Senden und Abholen, `STANDARDS.md`) wurden in der xShare-Validierung auf

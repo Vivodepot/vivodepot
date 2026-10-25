@@ -159,31 +159,24 @@
             },
             {
               "id": "nationality",
+              "privat": true,
               "sensibel": true,
-              "typ": "text",
-              "vorschlaege": [
-                "Testtext 5",
-                "Testtext 6",
-                "Testtext 7",
-                "Testtext 8",
-                "Testtext 9",
-                "Testtext 10",
-                "Testtext 11",
-                "Testtext 12",
-                "Testtext 13"
-              ]
+              "typ": "text"
             },
             {
               "id": "birthName",
+              "privat": true,
               "sensibel": true,
               "typ": "text"
             },
             {
               "id": "birthPlace",
+              "privat": true,
               "typ": "text"
             },
             {
               "id": "gender",
+              "privat": true,
               "typ": "auswahl",
               "optionen": [
                 {
@@ -202,6 +195,7 @@
             },
             {
               "id": "maritalStatus",
+              "privat": true,
               "typ": "auswahl",
               "optionen": [
                 {
@@ -226,6 +220,7 @@
             },
             {
               "id": "maritalPropertyRegime",
+              "privat": true,
               "typ": "auswahl",
               "sichtbarWenn": {
                 "feld": "maritalStatus",
@@ -248,6 +243,7 @@
             },
             {
               "id": "dateOfSeparation",
+              "privat": true,
               "typ": "datum",
               "keineZukunft": true,
               "sichtbarWenn": {
@@ -260,6 +256,7 @@
             },
             {
               "id": "choiceOfNameAfterMarriage",
+              "privat": true,
               "typ": "auswahl",
               "sichtbarWenn": {
                 "feld": "maritalStatus",
@@ -285,6 +282,7 @@
             },
             {
               "id": "choiceOfNameAfterMarriage2",
+              "privat": true,
               "typ": "text",
               "sichtbarWenn": {
                 "feld": "maritalStatus",
@@ -296,6 +294,7 @@
             },
             {
               "id": "idDocuments",
+              "privat": true,
               "typ": "liste",
               "unterFelder": [
                 {
@@ -321,19 +320,21 @@
             },
             {
               "id": "residencePermitType",
+              "privat": true,
               "sensibel": true,
               "typ": "text",
               "vorschlaege": [
-                "Testtext 14",
-                "Testtext 15",
-                "Testtext 16",
-                "Testtext 17",
-                "Testtext 18",
-                "Testtext 19"
+                "Testtext 5",
+                "Testtext 6",
+                "Testtext 7",
+                "Testtext 8",
+                "Testtext 9",
+                "Testtext 10"
               ]
             },
             {
               "id": "residencePermit",
+              "privat": true,
               "typ": "liste",
               "unterFelder": [
                 {
@@ -369,6 +370,7 @@
             },
             {
               "id": "profilePhotoCoverPage",
+              "privat": true,
               "typ": "ref",
               "entitaet": "mappe"
             },
@@ -379,6 +381,7 @@
             },
             {
               "id": "taxClass",
+              "privat": true,
               "sensibel": true,
               "typ": "auswahl",
               "ebene": "modul",
@@ -408,11 +411,13 @@
             },
             {
               "id": "taxClassEarlierEntry",
+              "privat": true,
               "typ": "text",
               "ebene": "modul"
             },
             {
               "id": "reRegistrationWithTheResidents",
+              "privat": true,
               "typ": "text",
               "ebene": "modul"
             }
@@ -423,6 +428,7 @@
           "felder": [
             {
               "id": "formerNames",
+              "privat": true,
               "typ": "liste",
               "unterFelder": [
                 {
@@ -484,53 +490,23 @@
           ]
         },
         {
-          "id": "pets",
-          "felder": [
-            {
-              "id": "pets",
-              "typ": "liste",
-              "unterFelder": [
-                {
-                  "id": "petNameSpecies",
-                  "typ": "text"
-                },
-                {
-                  "id": "emergencyCarePersonContact",
-                  "typ": "ref",
-                  "entitaet": "person"
-                },
-                {
-                  "id": "vetNameContact",
-                  "typ": "ref",
-                  "entitaet": "person"
-                },
-                {
-                  "id": "medication",
-                  "typ": "text"
-                },
-                {
-                  "id": "otherNotes",
-                  "typ": "text"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "id": "civil-status-certificates",
           "felder": [
             {
               "id": "birthCertificateStorage",
+              "privat": true,
               "typ": "text",
               "sensibel": true
             },
             {
               "id": "marriageCertificateStorage",
+              "privat": true,
               "typ": "text",
               "sensibel": true
             },
             {
               "id": "familyRegisterBookStorage",
+              "privat": true,
               "typ": "text",
               "sensibel": true
             }
@@ -647,11 +623,11 @@
                   "id": "custodyArrangement",
                   "typ": "text",
                   "vorschlaege": [
-                    "Testtext 20",
-                    "Testtext 21",
-                    "Testtext 22",
-                    "Testtext 23",
-                    "Testtext 24"
+                    "Testtext 11",
+                    "Testtext 12",
+                    "Testtext 13",
+                    "Testtext 14",
+                    "Testtext 15"
                   ],
                   "verborgenWenn": {
                     "feld": "type",
@@ -833,11 +809,11 @@
                   "id": "type",
                   "typ": "text",
                   "vorschlaege": [
-                    "Testtext 25",
-                    "Testtext 26",
-                    "Testtext 27",
-                    "Testtext 28",
-                    "Testtext 29"
+                    "Testtext 16",
+                    "Testtext 17",
+                    "Testtext 18",
+                    "Testtext 19",
+                    "Testtext 20"
                   ]
                 },
                 {
@@ -953,7 +929,7 @@
       "standardDokumente": [
         {
           "typ": "passport",
-          "name": "Testtext 30",
+          "name": "Testtext 21",
           "empfRhythmusMonate": null,
           "hinweis": "Testtext 2",
           "felder": [
@@ -965,9 +941,9 @@
         },
         {
           "typ": "driving-licence",
-          "name": "Testtext 31",
+          "name": "Testtext 22",
           "empfRhythmusMonate": null,
-          "hinweis": "Testtext 32",
+          "hinweis": "Testtext 23",
           "felder": [
             {
               "sektorId": "mobility",
@@ -977,9 +953,9 @@
         },
         {
           "typ": "elefand",
-          "name": "Testtext 33",
+          "name": "Testtext 24",
           "empfRhythmusMonate": null,
-          "hinweis": "Testtext 34",
+          "hinweis": "Testtext 25",
           "felder": [
             {
               "sektorId": "mobility",
@@ -1143,14 +1119,14 @@
                   "id": "countries",
                   "typ": "text",
                   "vorschlaege": [
-                    "Testtext 35",
-                    "Testtext 36",
-                    "Testtext 37",
-                    "Testtext 38",
-                    "Testtext 39",
-                    "Testtext 40",
-                    "Testtext 41",
-                    "Testtext 42"
+                    "Testtext 26",
+                    "Testtext 27",
+                    "Testtext 28",
+                    "Testtext 29",
+                    "Testtext 30",
+                    "Testtext 31",
+                    "Testtext 32",
+                    "Testtext 33"
                   ]
                 },
                 {
@@ -1184,7 +1160,7 @@
       "standardDokumente": [
         {
           "typ": "bank-power-of-attorney",
-          "name": "Testtext 43",
+          "name": "Testtext 34",
           "empfRhythmusMonate": 12,
           "felder": [
             {
@@ -1274,12 +1250,12 @@
                   "id": "insuranceType",
                   "typ": "text",
                   "vorschlaege": [
-                    "Testtext 44",
-                    "Testtext 45",
-                    "Testtext 46",
-                    "Testtext 47",
-                    "Testtext 48",
-                    "Testtext 49"
+                    "Testtext 35",
+                    "Testtext 36",
+                    "Testtext 37",
+                    "Testtext 38",
+                    "Testtext 39",
+                    "Testtext 40"
                   ]
                 },
                 {
@@ -1321,15 +1297,15 @@
                   "id": "accountType",
                   "typ": "text",
                   "vorschlaege": [
-                    "Testtext 50",
-                    "Testtext 51",
-                    "Testtext 52",
-                    "Testtext 53",
-                    "Testtext 54",
-                    "Testtext 55",
-                    "Testtext 56",
-                    "Testtext 57",
-                    "Testtext 58"
+                    "Testtext 41",
+                    "Testtext 42",
+                    "Testtext 43",
+                    "Testtext 44",
+                    "Testtext 45",
+                    "Testtext 46",
+                    "Testtext 47",
+                    "Testtext 48",
+                    "Testtext 49"
                   ]
                 },
                 {
@@ -1606,9 +1582,9 @@
       "standardDokumente": [
         {
           "typ": "health-insurance-card",
-          "name": "Testtext 59",
+          "name": "Testtext 50",
           "empfRhythmusMonate": null,
-          "hinweis": "Testtext 60",
+          "hinweis": "Testtext 51",
           "felder": [
             {
               "sektorId": "health",
@@ -1649,18 +1625,18 @@
                   "sensibel": true,
                   "typ": "text",
                   "vorschlaege": [
+                    "Testtext 52",
+                    "Testtext 53",
+                    "Testtext 54",
+                    "Testtext 55",
+                    "Testtext 56",
+                    "Testtext 57",
+                    "Testtext 58",
+                    "Testtext 59",
+                    "Testtext 60",
                     "Testtext 61",
                     "Testtext 62",
-                    "Testtext 63",
-                    "Testtext 64",
-                    "Testtext 65",
-                    "Testtext 66",
-                    "Testtext 67",
-                    "Testtext 68",
-                    "Testtext 69",
-                    "Testtext 70",
-                    "Testtext 71",
-                    "Testtext 72"
+                    "Testtext 63"
                   ]
                 }
               ]
@@ -1815,12 +1791,12 @@
               "typ": "text",
               "ebene": "modul",
               "vorschlaege": [
-                "Testtext 73",
-                "Testtext 74",
-                "Testtext 75",
-                "Testtext 76",
-                "Testtext 77",
-                "Testtext 78"
+                "Testtext 64",
+                "Testtext 65",
+                "Testtext 66",
+                "Testtext 67",
+                "Testtext 68",
+                "Testtext 69"
               ]
             },
             {
@@ -1896,20 +1872,20 @@
               "typ": "text",
               "ebene": "modul",
               "vorschlaege": [
+                "Testtext 70",
+                "Testtext 71",
+                "Testtext 72",
+                "Testtext 73",
+                "Testtext 74",
+                "Testtext 75",
+                "Testtext 76",
+                "Testtext 77",
+                "Testtext 78",
                 "Testtext 79",
                 "Testtext 80",
                 "Testtext 81",
                 "Testtext 82",
-                "Testtext 83",
-                "Testtext 84",
-                "Testtext 85",
-                "Testtext 86",
-                "Testtext 87",
-                "Testtext 88",
-                "Testtext 89",
-                "Testtext 90",
-                "Testtext 91",
-                "Testtext 92"
+                "Testtext 83"
               ]
             },
             {
@@ -2135,13 +2111,13 @@
               "id": "occupationRole",
               "typ": "text",
               "vorschlaege": [
-                "Testtext 93",
-                "Testtext 94",
-                "Testtext 95",
-                "Testtext 96",
-                "Testtext 97",
-                "Testtext 98",
-                "Testtext 99"
+                "Testtext 84",
+                "Testtext 85",
+                "Testtext 86",
+                "Testtext 87",
+                "Testtext 88",
+                "Testtext 89",
+                "Testtext 90"
               ]
             },
             {
@@ -2264,9 +2240,9 @@
       "standardDokumente": [
         {
           "typ": "severe-disability-card",
-          "name": "Testtext 100",
+          "name": "Testtext 91",
           "empfRhythmusMonate": null,
-          "hinweis": "Testtext 101",
+          "hinweis": "Testtext 92",
           "felder": [
             {
               "sektorId": "socialInsurance",
@@ -2370,7 +2346,7 @@
               ],
               "fristRegel": {
                 "dauer": "P1M",
-                "quelle": "Testtext 102"
+                "quelle": "Testtext 93"
               },
               "sichtbarWenn": {
                 "feld": "careLevel",
@@ -2535,7 +2511,7 @@
               ],
               "fristRegel": {
                 "dauer": "P3W",
-                "quelle": "Testtext 103"
+                "quelle": "Testtext 94"
               }
             },
             {
@@ -2592,9 +2568,9 @@
       "standardDokumente": [
         {
           "typ": "enduring-power-of-attorney",
-          "name": "Testtext 104",
+          "name": "Testtext 95",
           "empfRhythmusMonate": 12,
-          "hinweis": "Testtext 105",
+          "hinweis": "Testtext 96",
           "felder": [
             {
               "sektorId": "advanceCare",
@@ -2604,9 +2580,9 @@
         },
         {
           "typ": "living-will",
-          "name": "Testtext 106",
+          "name": "Testtext 97",
           "empfRhythmusMonate": 12,
-          "hinweis": "Testtext 107",
+          "hinweis": "Testtext 98",
           "felder": [
             {
               "sektorId": "advanceCare",
@@ -2616,7 +2592,7 @@
         },
         {
           "typ": "custodianship-declaration",
-          "name": "Testtext 108",
+          "name": "Testtext 99",
           "empfRhythmusMonate": 12,
           "felder": [
             {
@@ -2627,7 +2603,7 @@
         },
         {
           "typ": "guardian-nomination",
-          "name": "Testtext 109",
+          "name": "Testtext 100",
           "empfRhythmusMonate": 12,
           "felder": [
             {
@@ -2638,7 +2614,7 @@
         },
         {
           "typ": "ki-verfuegung",
-          "name": "Testtext 110",
+          "name": "Testtext 101",
           "empfRhythmusMonate": 12,
           "felder": [
             {
@@ -2649,9 +2625,9 @@
         },
         {
           "typ": "will",
-          "name": "Testtext 111",
+          "name": "Testtext 102",
           "empfRhythmusMonate": null,
-          "hinweis": "Testtext 112",
+          "hinweis": "Testtext 103",
           "felder": [
             {
               "sektorId": "advanceCare",
@@ -4054,14 +4030,14 @@
                   "id": "typeOfCase",
                   "typ": "text",
                   "vorschlaege": [
-                    "Testtext 113",
-                    "Testtext 114",
-                    "Testtext 115",
-                    "Testtext 116",
-                    "Testtext 117",
-                    "Testtext 118",
-                    "Testtext 119",
-                    "Testtext 100"
+                    "Testtext 104",
+                    "Testtext 105",
+                    "Testtext 106",
+                    "Testtext 107",
+                    "Testtext 108",
+                    "Testtext 109",
+                    "Testtext 110",
+                    "Testtext 91"
                   ]
                 },
                 {
@@ -4197,14 +4173,14 @@
               "sensibel": true,
               "typ": "text",
               "vorschlaege": [
-                "Testtext 120",
-                "Testtext 121",
-                "Testtext 122",
-                "Testtext 123",
-                "Testtext 124",
-                "Testtext 125",
-                "Testtext 126",
-                "Testtext 127"
+                "Testtext 111",
+                "Testtext 112",
+                "Testtext 113",
+                "Testtext 114",
+                "Testtext 115",
+                "Testtext 116",
+                "Testtext 117",
+                "Testtext 118"
               ]
             },
             {
@@ -4737,6 +4713,46 @@
         }
       ]
     },
+    "pets": {
+      "id": "pets",
+      "format": "GENERISCH",
+      "icon": "pawPrint",
+      "sektionen": [
+        {
+          "id": "pets",
+          "felder": [
+            {
+              "id": "pets",
+              "typ": "liste",
+              "unterFelder": [
+                {
+                  "id": "petNameSpecies",
+                  "typ": "text"
+                },
+                {
+                  "id": "emergencyCarePersonContact",
+                  "typ": "ref",
+                  "entitaet": "person"
+                },
+                {
+                  "id": "vetNameContact",
+                  "typ": "ref",
+                  "entitaet": "person"
+                },
+                {
+                  "id": "medication",
+                  "typ": "text"
+                },
+                {
+                  "id": "otherNotes",
+                  "typ": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     "personal": {
       "id": "personal",
       "format": "GENERISCH",
@@ -4744,9 +4760,9 @@
       "standardDokumente": [
         {
           "typ": "vivodepot",
-          "name": "Testtext 128",
+          "name": "Testtext 119",
           "empfRhythmusMonate": 12,
-          "hinweis": "Testtext 129"
+          "hinweis": "Testtext 120"
         }
       ],
       "sektionen": [
@@ -4802,14 +4818,14 @@
               "sensibel": true,
               "typ": "text",
               "vorschlaege": [
-                "Testtext 130",
-                "Testtext 131",
-                "Testtext 132",
-                "Testtext 133",
-                "Testtext 134",
-                "Testtext 135",
-                "Testtext 136",
-                "Testtext 137"
+                "Testtext 121",
+                "Testtext 122",
+                "Testtext 123",
+                "Testtext 124",
+                "Testtext 125",
+                "Testtext 126",
+                "Testtext 127",
+                "Testtext 128"
               ]
             },
             {
