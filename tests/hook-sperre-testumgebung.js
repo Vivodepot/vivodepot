@@ -10,4 +10,8 @@ process.env.VD_SCHLUESSELBUND_GESPERRT = '1';
    damit kein Hook-Ausschnitt, den ein Test startet, die echte Schlange unter ~/.cache/vivodepot-suite-platz erreicht. Ohne
    diesen Preload (Einzellauf `node --test`) setzt die Testdatei es selbst (tests/helfer/platz-isoliert.js), und
    tools/lib/suite-platz.js verweigert den echten Pfad im Testläufer ohnehin. */
+/* Und die Variablen des äußeren Laufs (26.10.2026): eine Testdatei erbt sie nicht (tools/lib/lauf-umgebung.js). Nur in der
+   Testdatei — der Testläufer selbst lädt diese Datei auch, und sein Reporter braucht sie. Vor platzIsolieren: ohne geerbten
+   Platz hält eine Probe in ihrem eigenen Platz-Verzeichnis. */
+{ const L = require('../tools/lib/lauf-umgebung.js'); if (L.istTestdatei()) L.laufVariablenAblegen(); }
 require('./helfer/platz-isoliert.js').platzIsolieren();

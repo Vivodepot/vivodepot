@@ -8,8 +8,8 @@
 gebaut) · U2-ADR-427 (Templates im Rezept; das Notariatsmodul ruht bis zur Wahl des Berufsmoduls) · U2-ADR-488 (eine Kennung
 löst auf, jede Fassung bleibt)
 **Status heute:** gilt — das Produktverzeichnis kennt die Zuschnitte, und die Auslieferung legt für jeden Zuschnitt mit
-eigener, gegen den Shop abgeglichener Artikelnummer ein Rezept ab (heute: noch keiner abgeglichen); die feste Adresse je Kennung ist im Download-Dienst gebaut; die eigene Adresse je Kennung
-im Browser ist nicht gebaut. Die Zeilen im `konformitaet`-Block nennen den Stand je Aussage.
+eigener, gegen den Shop abgeglichener Artikelnummer ein Rezept ab (heute: noch keiner abgeglichen); die feste Adresse je Kennung ist im Download-Dienst gebaut; der eigene Ursprung je Kennung
+ist im Download-Dienst gebaut (Nachtrag 25.10.2026), die Namen der Hosts und die Auslieferung stehen aus. Die Zeilen im `konformitaet`-Block nennen den Stand je Aussage.
 
 ## Frage
 
@@ -37,7 +37,8 @@ ein Zuschnitt benannt wird, wer ihn zusammenstellt, und unter welcher Adresse er
 5. **Im Browser geöffnet: ein eigener Ursprung je Kennung.** Jede Kennung erhält einen eigenen Namen nach dem bestehenden
    Muster der freien Produkte, damit jedes Produkt seinen eigenen Speicher im Browser hat. Die Anwendung nimmt den Zufallsteil
    nach dem ersten Laden aus ihrer Adresse und hält ihn im eigenen Speicher für spätere Abrufe; er öffnet nur den Abruf
-   neuer Fassungen, nie ein Depot. Bis das gebaut ist, lädt die Kauf-Adresse als Datei.
+   neuer Fassungen, nie ein Depot. Bis das gebaut ist, lädt die Kauf-Adresse als Datei. (Wo der Zufallsteil liegt, regelt
+   seit dem 25.10.2026 der Nachtrag unten.)
 6. **Ein Zeitraum gehört an die Adresse, nie an die Kennung.** Soll eine Adresse nur für einen Zeitraum neue Fassungen
    liefern, bekommt die Kennung mehrere Adressen, jede mit ihrem Zeitraum. Die Kennung und damit der Ursprung im Browser
    bleiben dieselben; sonst sähe eine Käuferin nach einer Verlängerung ihre Daten nicht mehr. Wie der Zeitraum durchgesetzt
@@ -72,6 +73,31 @@ ein Zuschnitt benannt wird, wer ihn zusammenstellt, und unter welcher Adresse er
   trifft alle zugleich. Solange eine Adresse ohne Ende gilt, liefert sie jede künftige Fassung.
 - Die Berechtigung hängt daran, dass der Shop die Adresse erst nach der Zahlung zeigt. Das wird bei jeder Auslieferung des
   Dienstes von außen geprüft.
+
+## Nachtrag 25.10.2026: Der Zufallsteil liegt in einem Cookie des Ursprungs, nicht in der Anwendung
+
+**Anlass.** Nr. 5 legt den Zufallsteil in den Speicher der Anwendung. Das verlangt einen Bau im Kern und im Service Worker,
+der den Pfad mit dem Zufallsteil sonst als Schlüssel im Zwischenspeicher ablegt. Derselbe Zweck ist ohne Eingriff in den
+Kern erreichbar.
+
+**Entscheidung.** Abweichend vom Wortlaut von Nr. 5 hält nicht die Anwendung den Zufallsteil, sondern der Browser in einem
+Cookie des Ursprungs der Kennung:
+1. Die Kauf-Adresse prüft den Prüfwert wie bisher und leitet bei gültigem Zufallsteil auf den Namen der Kennung um. Dieser
+   prüft noch einmal, setzt das Cookie und leitet auf seine Wurzel um. Ab da steht der Zufallsteil nicht mehr in der
+   Adresszeile, im Verlauf oder in einem Referer.
+2. Das Cookie trägt das Präfix `__Host-`, ist `Secure`, `HttpOnly`, `SameSite=Lax` und hat kein Domain-Attribut. Nur dieser
+   Ursprung bekommt es, nicht der Download-Dienst und kein anderer Pro-Ursprung. Kein Skript kann es lesen, auch eine
+   eingeschleuste Zeile nicht.
+3. Die Laufzeit ist höchstens 400 Tage und gleitet: jede gültige Antwort der Wurzel setzt das Cookie neu.
+4. Ohne gültiges Cookie antwortet die Wurzel mit „nicht gefunden“ und einem Satz, wie der Link aus der Bestellung den Zugang
+   zurückbringt.
+5. Die Antworten dieses Ursprungs setzen keine Opener-Sperre (Cross-Origin-Opener-Policy), weil der Knopf „Im Pod ablegen“
+   den Griff auf das geöffnete Fenster braucht.
+
+Der Kern und der Service Worker ändern sich nicht. Das Cookie hält das Geheimnis aus Skripten, Adresszeile, Verlauf und
+Referer heraus. Gegen die Wiederverwendung des Kauf-Links schützt es nicht und soll es nicht: wer die Adresse hat, kommt
+hinein (Nr. 4). Löscht die Person die Website-Daten, ist mit dem Depot im Browser auch das Cookie weg; der Link aus der
+Bestellung bringt den Zugang zurück. Abgestimmt mit der Kryptographie am 25.10.2026.
 
 ```yaml
 konformitaet:
@@ -134,13 +160,15 @@ konformitaet:
       die Prüfung von außen im Auslieferungs-Vermerk steht.
   - aussage: >-
       Im Browser geöffnet hat jede Kennung einen eigenen Ursprung, und der Zufallsteil steht nach dem ersten Laden nicht mehr
-      in der Adresse.
+      in der Adresse; er liegt in einem Cookie mit Präfix __Host-, das nur dieser Ursprung bekommt und kein Skript lesen kann.
     zustand: offen
     frist: 2026-12-31
     bedingung: >-
-      Bau im Download-Dienst (Name je Kennung aus der Liste) und im Kern (Zufallsteil aus der Adresse nehmen, im eigenen
-      Speicher halten), mit Abstimmung zur Kryptographie; Probe im Browser mit Rot-Beweis
-    herkunft: U2-ADR-489 (12.10.2026)
+      Im Download-Dienst gebaut und dort geprüft (Umleitung nur bei gültigem Prüfwert, Cookie-Attribute, gleitende Laufzeit
+      mit Rot-Beweis, nur dieser Ursprung, Satz bei verlorenem Zugang, keine Opener-Sperre, der Zufallsteil in keiner Antwort
+      außer der ersten Umleitung); aus diesem Repository ist die Probe nicht ausführbar. Erfüllt, sobald die Namen der Hosts
+      eingetragen sind, der Dienst ausgeliefert ist und das Öffnen einmal am Telefon gemessen im Auslieferungs-Vermerk steht.
+    herkunft: U2-ADR-489 (12.10.2026), Nachtrag 25.10.2026
   - aussage: >-
       Ein Zeitraum steht an der Adresse und nie in der Kennung: die Kennung eines gekauften Produkts ändert sich durch eine
       Verlängerung nicht.

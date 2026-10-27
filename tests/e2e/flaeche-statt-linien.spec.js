@@ -79,14 +79,69 @@ function LINIEN(opt) {
   return aus;
 }
 
-/* Feldgrenze am Bild: Unterkante gegen die Fläche darunter, 1-%-Perzentil über die Breite. */
-async function feldgrenzen(page) {
-  const felder = await page.evaluate(() => [...document.querySelectorAll('#content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]), #content select, #content textarea')]
+/* Feldgrenze am Bild: Unterkante gegen die Fläche darunter, 1-%-Perzentil über die Breite.
+   FUSSLEISTE (26.10.2026, Wort der Gegenlesung): Bis dahin galt jedes Feld als messbar, dessen Unterkante kurz über dem Fensterrand lag
+   und an dessen Unterkante −2 px das Feld selbst stand. Ein Feld, das mit seiner Linie unter der festen Fußleiste lag
+   (pro-en/pro-vertretung-vollmachten, select[tpl_vertretungsregelung], y 787,2), wurde so an der Fußleiste gemessen: 1,1 statt seines
+   Kontrasts. Jetzt muss für die Messung die ganze Linie samt der Fläche 3 px darunter im Inhalt liegen. Ein Feld im Bild, bei dem das
+   nicht zutrifft, wird nicht übersprungen. Die Probe scrollt es einzeln in die Mitte, misst es dort und stellt die Scrollstellung danach
+   wieder her. Liegt es auch dann nicht frei, meldet sie es mit 0 als nicht messbar.
+   `{ alterFilter: true }` misst wie bis zum 25.10.2026, nur für den Rot-Beweis [Linien·Feldgrenze·Fußleiste]. */
+function FELDER_IM_BILD(alterFilter) {
+  const imInhalt = (x, y) => { const o = document.elementFromPoint(x, y); return !!o && !!o.closest('#content'); };
+  const name = (el, r) => { const cs = getComputedStyle(el); return el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : '') + (el.getAttribute('data-edit') ? '[' + el.getAttribute('data-edit') + ']' : '') + ' {' + cs.borderBottomWidth + ' ' + cs.borderBottomStyle + ' ' + cs.borderBottomColor + ' · ' + cs.backgroundColor + ' · y ' + r.bottom.toFixed(1) + '}'; };
+  const frei = (el, r) => { const x = r.left + r.width / 2; const o = document.elementFromPoint(x, r.bottom - 2); return !!o && (o === el || el.contains(o)) && imInhalt(x, r.bottom - 4) && r.bottom + 4 < innerHeight && imInhalt(x, r.bottom + 3); };
+  const alle = [...document.querySelectorAll('#content input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]), #content select, #content textarea')]
     .filter((el) => el.checkVisibility({ visibilityProperty: true }))
-    .map((el) => ({ el, r: el.getBoundingClientRect() })).filter(({ r }) => r.width > 40 && r.top > 0 && r.bottom < innerHeight - 6)
-    // nur Felder, deren Unterkante wirklich zu sehen ist (nicht unter Kopf- oder Fußleiste)
-    .filter(({ el, r }) => { const o = document.elementFromPoint(r.left + r.width / 2, r.bottom - 2); return !!o && (o === el || el.contains(o)); })
-    .map(({ el, r }) => { const cs = getComputedStyle(el); return { x: r.left, y: r.bottom, w: r.width, name: el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : '') + (el.getAttribute('data-edit') ? '[' + el.getAttribute('data-edit') + ']' : '') + ' {' + cs.borderBottomWidth + ' ' + cs.borderBottomStyle + ' ' + cs.borderBottomColor + ' · ' + cs.backgroundColor + ' · y ' + r.bottom.toFixed(1) + '}' }; }));
+    .map((el) => ({ el, r: el.getBoundingClientRect() })).filter(({ r }) => r.width > 40);
+  if (alterFilter) {
+    return { frei: alle.filter(({ r }) => r.top > 0 && r.bottom < innerHeight - 6)
+      .filter(({ el, r }) => { const o = document.elementFromPoint(r.left + r.width / 2, r.bottom - 2); return !!o && (o === el || el.contains(o)); })
+      .map(({ el, r }) => ({ x: r.left, y: r.bottom, w: r.width, name: name(el, r) })), verdeckt: [] };
+  }
+  // Im Bild heißt: das Feld schneidet das Fenster, auch wo Kopf- oder Fußleiste es ganz verdecken.
+  const imBild = alle.filter(({ r }) => r.bottom > 0 && r.top < innerHeight);
+  document.querySelectorAll('[data-fg-verdeckt]').forEach((el) => el.removeAttribute('data-fg-verdeckt'));
+  const verdeckt = [];
+  const freiListe = [];
+  for (const { el, r } of imBild) {
+    if (frei(el, r)) freiListe.push({ x: r.left, y: r.bottom, w: r.width, name: name(el, r) });
+    else { el.setAttribute('data-fg-verdeckt', String(verdeckt.length)); verdeckt.push(verdeckt.length); }
+  }
+  return { frei: freiListe, verdeckt };
+}
+
+async function feldgrenzen(page, opt) {
+  const { alterFilter = false } = opt || {};
+  const { frei, verdeckt } = await page.evaluate(FELDER_IM_BILD, alterFilter);
+  const ergebnis = await feldgrenzenMessen(page, frei);
+  for (const i of verdeckt) {
+    // Einzeln in die Mitte scrollen, messen, Scrollstellung aller Vorfahren zurück.
+    await page.evaluate((n) => {
+      const el = document.querySelector('[data-fg-verdeckt="' + n + '"]');
+      const stand = []; for (let e = el.parentElement; e; e = e.parentElement) stand.push([e, e.scrollTop]);
+      window.__fgStand = { stand, y: window.scrollY };
+      el.scrollIntoView({ block: 'center', behavior: 'instant' });
+    }, i);
+    await page.waitForTimeout(100);
+    const g = await page.evaluate((n) => {
+      const el = document.querySelector('[data-fg-verdeckt="' + n + '"]'); const r = el.getBoundingClientRect();
+      const x = r.left + r.width / 2; const o = document.elementFromPoint(x, r.bottom - 2); const u = document.elementFromPoint(x, r.bottom + 3);
+      const cs = getComputedStyle(el);
+      const nm = el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : '') + (el.getAttribute('data-edit') ? '[' + el.getAttribute('data-edit') + ']' : '') + ' {' + cs.borderBottomWidth + ' ' + cs.borderBottomStyle + ' ' + cs.borderBottomColor + ' · ' + cs.backgroundColor + ' · gescrollt}';
+      const ok = !!o && (o === el || el.contains(o)) && !!u && !!u.closest('#content') && r.bottom + 4 < innerHeight;
+      return { ok, f: { x: r.left, y: r.bottom, w: r.width, name: nm } };
+    }, i);
+    if (g.ok) ergebnis.push(...(await feldgrenzenMessen(page, [g.f])));
+    else ergebnis.push({ k: 0, name: g.f.name + ' nicht messbar: auch gescrollt nicht frei im Inhalt' });
+    await page.evaluate(() => { const s = window.__fgStand; for (const [e, t] of s.stand) e.scrollTop = t; window.scrollTo(0, s.y); delete window.__fgStand; });
+    await page.waitForTimeout(50);
+  }
+  return ergebnis;
+}
+
+async function feldgrenzenMessen(page, felder) {
+  if (!felder.length) return [];
   const bild = (await page.screenshot()).toString('base64');
   return page.evaluate(async ([b64, felder]) => {
     const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
@@ -149,6 +204,47 @@ test.describe('Fläche statt Linien', () => {
     await page.waitForTimeout(150);
     expect((await page.evaluate(LINIEN)).length, 'die Linie über dem Abschnitt wird gezählt').toBeGreaterThan(vorher);
     expect(Math.min(...(await feldgrenzen(page)).map((x) => x.k)), 'eine blasse Unterkante fällt unter 3:1').toBeLessThan(3);
+  });
+
+  /* Fußleiste: das Feld, dessen Linie unter der festen Fußleiste liegt, wird gescrollt gemessen, nicht an der Fußleiste. */
+  const unterDieFussleiste = (page, kennung) => page.evaluate((k) => {
+    const el = document.querySelector('#content [data-edit="' + k + '"]');
+    let leiste = document.elementFromPoint(innerWidth / 2, innerHeight - 3);
+    for (let e = leiste; e; e = e.parentElement) if (getComputedStyle(e).position === 'fixed') leiste = e;
+    const oben = leiste.getBoundingClientRect().top;
+    window.scrollBy({ top: el.getBoundingClientRect().bottom - (oben + 4), behavior: 'instant' });
+    return { leisteOben: oben, unterkante: el.getBoundingClientRect().bottom, inhalt: !!leiste.closest('#content') };
+  }, kennung);
+  const FUSSFELD = 'tpl_vertretungsregelung';
+
+  (h.baubar('pro-en') ? test : test.skip)('[Linien·Feldgrenze·Fußleiste] Rot-Beweis: der alte Filter misst unter der Fußleiste die Leiste, der neue das gescrollte Feld', async ({ page }) => {
+    test.setTimeout(120000);
+    await oeffnen(page, h.KERN_URL_PRO_EN);
+    await bereich(page, 'pro-vertretung-vollmachten');
+    const lage = await unterDieFussleiste(page, FUSSFELD);
+    expect(lage.inhalt, 'Voraussetzung: unten steht eine feste Leiste außerhalb des Inhalts').toBe(false);
+    expect(lage.unterkante, 'Voraussetzung: die Feldlinie liegt unter der Oberkante der Fußleiste').toBeGreaterThan(lage.leisteOben);
+    await page.waitForTimeout(150);
+    const alt = (await feldgrenzen(page, { alterFilter: true })).filter((x) => x.name.includes(FUSSFELD));
+    expect(alt.length, 'der alte Filter nimmt das Feld unter der Leiste als messbar').toBe(1);
+    expect(alt[0].k, 'und misst dabei die Fußleiste: ' + alt[0].name).toBeLessThan(FELDREGEL.mindestKontrast);
+    const neu = (await feldgrenzen(page)).filter((x) => x.name.includes(FUSSFELD));
+    expect(neu.length, 'der neue Filter misst das Feld genau einmal').toBe(1);
+    expect(neu[0].name, 'gescrollt, nicht an der Leiste').toContain('gescrollt');
+    expect(neu[0].k, 'die Feldlinie selbst hält 3:1: ' + neu[0].name).toBeGreaterThanOrEqual(FELDREGEL.mindestKontrast);
+  });
+
+  (h.baubar('pro-en') ? test : test.skip)('[Linien·Feldgrenze·Fußleiste] Gegenprobe: ein blasses Feld unter der Fußleiste bleibt rot', async ({ page }) => {
+    test.setTimeout(120000);
+    await oeffnen(page, h.KERN_URL_PRO_EN);
+    await bereich(page, 'pro-vertretung-vollmachten');
+    await page.evaluate((k) => { const s = new CSSStyleSheet(); s.replaceSync('#content [data-edit="' + k + '"] { border-bottom: 1px solid rgba(0,0,0,.05) !important; }'); document.adoptedStyleSheets = [...document.adoptedStyleSheets, s]; }, FUSSFELD);
+    const lage = await unterDieFussleiste(page, FUSSFELD);
+    expect(lage.unterkante, 'Voraussetzung: die Feldlinie liegt unter der Oberkante der Fußleiste').toBeGreaterThan(lage.leisteOben);
+    await page.waitForTimeout(150);
+    const neu = (await feldgrenzen(page)).filter((x) => x.name.includes(FUSSFELD));
+    expect(neu.length, 'das Feld wird gemessen, nicht übersprungen').toBe(1);
+    expect(neu[0].k, 'die blasse Linie fällt unter 3:1: ' + neu[0].name).toBeLessThan(FELDREGEL.mindestKontrast);
   });
 
   /* 5 · Außerhalb des Inhalts. Gezählt wird, was die Bürgerin sieht, bevor und während sie im Inhalt arbeitet. */

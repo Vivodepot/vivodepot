@@ -252,7 +252,7 @@
               "id": "tpl_managing_director_register_details",
               "typ": "liste",
               "label": "Geschäftsführung laut Register",
-              "hint": "Die im Handelsregister eingetragenen Angaben jeder Geschäftsführerin und Stellvertreterin.",
+              "hint": "Die im Handelsregister eingetragenen Angaben jeder Geschäftsführerin und Stellvertreterin. Wie diese Personen erreichbar sind, steht unter „Weitere Geschäftsführer/Vorstände“.",
               "sensibel": true,
               "unterFelder": [
                 {
@@ -687,6 +687,50 @@
                 {
                   "wert": "fremdgeschaeftsfuehrung",
                   "label": "Fremdgeschäftsführung"
+                },
+                {
+                  "wert": "noch_offen",
+                  "label": "Noch offen"
+                }
+              ]
+            },
+            {
+              "id": "tpl_purchase_price",
+              "typ": "text",
+              "label": "Kaufpreis",
+              "hint": "Der vereinbarte oder angestrebte Preis, ob er fest ist oder sich später noch anpasst, und wo der Vertrag liegt."
+            },
+            {
+              "id": "tpl_transfer_effective_date",
+              "typ": "datum",
+              "label": "Stichtag der Übergabe",
+              "hint": "Ab welchem Tag der Betrieb mit Nutzen und Lasten übergeht."
+            },
+            {
+              "id": "tpl_payment_terms",
+              "typ": "auswahl",
+              "label": "Zahlungsweise",
+              "hint": "Wie der Kaufpreis gezahlt wird. Die Einzelheiten stehen unter „Kaufpreis“.",
+              "optionen": [
+                {
+                  "wert": "einmal",
+                  "label": "Einmalzahlung"
+                },
+                {
+                  "wert": "raten",
+                  "label": "In Raten"
+                },
+                {
+                  "wert": "wiederkehrend",
+                  "label": "Wiederkehrende Bezüge oder Rente"
+                },
+                {
+                  "wert": "erfolgsabhaengig",
+                  "label": "Teilweise erfolgsabhängig"
+                },
+                {
+                  "wert": "verkaeuferdarlehen",
+                  "label": "Mit Darlehen der Verkäuferseite"
                 },
                 {
                   "wert": "noch_offen",
@@ -1449,7 +1493,7 @@
               "id": "tpl_electronic_record_keeping_systems",
               "typ": "liste",
               "label": "Elektronische Aufzeichnungssysteme",
-              "hint": "Kassen und ähnliche Systeme: welches System, welche Sicherheitseinrichtung, wann dem Finanzamt gemeldet?",
+              "hint": "Nur wenn Ihr Betrieb eine elektronische Kasse oder ein ähnliches System nutzt: welches System, welche Sicherheitseinrichtung, wann dem Finanzamt gemeldet?",
               "unterFelder": [
                 {
                   "id": "tpl_system",
@@ -1772,7 +1816,7 @@
               "id": "tpl_crafts_register",
               "typ": "liste",
               "label": "Handwerksrolle",
-              "hint": "Eintrag, Betriebsleitung, Handwerkskarte und zuständige Kammer.",
+              "hint": "Nur wenn Ihr Betrieb in die Handwerksrolle eingetragen ist: Eintrag, Betriebsleitung, Handwerkskarte und zuständige Kammer.",
               "unterFelder": [
                 {
                   "id": "tpl_entry",
@@ -2543,6 +2587,34 @@
               "typ": "textarea",
               "label": "Hinweise zu den Unterlagen",
               "hint": "Verwendete Abkürzungen, Kennzeichen oder Sprachen, die ein Dritter kennen muss."
+            },
+            {
+              "id": "tpl_invoice_archive",
+              "typ": "liste",
+              "label": "Rechnungsarchiv",
+              "hint": "Wo eingehende und ausgehende Rechnungen archiviert sind und in welchem Format: als E-Rechnung (etwa XRechnung oder ZUGFeRD/Factur-X) oder als sonstige Rechnung (PDF, Papier). Bei einer empfangenen E-Rechnung zählt der XML-Datensatz; er wird unverändert in dem Format aufbewahrt, in dem er gekommen ist.",
+              "unterFelder": [
+                {
+                  "id": "tpl_invoice_kind",
+                  "typ": "text",
+                  "label": "Welche Rechnungen"
+                },
+                {
+                  "id": "tpl_invoice_format",
+                  "typ": "text",
+                  "label": "Format"
+                },
+                {
+                  "id": "tpl_invoice_location",
+                  "typ": "text",
+                  "label": "Wo abgelegt"
+                },
+                {
+                  "id": "tpl_invoice_kept_until",
+                  "typ": "datum",
+                  "label": "Aufbewahren bis (frühestens)"
+                }
+              ]
             }
           ]
         },
@@ -2780,13 +2852,13 @@
               "id": "tpl_substitute_technical_manager",
               "typ": "text",
               "label": "Ersatz-Betriebsleitung",
-              "hint": "Wer könnte die Betriebsleitung übernehmen?"
+              "hint": "Nur wenn Ihr Betrieb eine fachlich qualifizierte Betriebsleitung braucht, etwa im Handwerk: Wer könnte sie übernehmen?"
             },
             {
               "id": "tpl_deputy_permit",
               "typ": "text",
               "label": "Stellvertretungserlaubnis",
-              "hint": "Falls vorhanden: für wen, von welcher Behörde, bis wann."
+              "hint": "Nur wenn Ihr Betrieb eine Erlaubnis braucht, für die eine Stellvertretung eigens erlaubt sein muss, etwa eine Gaststättenerlaubnis: für wen, von welcher Behörde, bis wann."
             },
             {
               "id": "tpl_works_council",

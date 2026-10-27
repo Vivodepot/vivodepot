@@ -23,6 +23,7 @@ const KLASSEN = Object.freeze(['weitergabe', 'eigene-sicherung', 'notfall', 'ver
 
 const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   dateiAusgeben: { klasse: 'kein-ausgabeweg', grund: 'die gemeinsame Senke (Teilen oder Download); eingeordnet werden ihre Aufrufer' },
+  podAblegen: { klasse: 'kein-ausgabeweg', grund: 'die gemeinsame Senke „Im Pod ablegen“ (Nachtrag zu U2-ADR-512): dieselben Bytes wie der Datei-Weg an die feste Herkunft der Pod-Brücke; eingeordnet werden ihre Aufrufer (_shlDialogZeigen, empfaengerDateiHerausgeben) wie bei dateiAusgeben' },
   _vereinbarungAngebotZeigen: { klasse: 'vereinbarung', grund: 'das Angebot an die Stelle als QR-Code; trägt nur Kennungen, Quellen und Prüfsummen, kein Depot-Feld' },
   _vereinbarungAngebotSichern: { klasse: 'vereinbarung', grund: 'das Angebot an die Stelle; trägt keine Depot-Daten und ist der Weg zur Vereinbarung selbst' },
   _vereinbarungBegleitdateiSichern: { klasse: 'vereinbarung', grund: 'die Vereinbarung als Begleitdatei zum Auszug; trägt nur Kennungen, Prüfsummen und den Stand, kein Depot-Feld' },

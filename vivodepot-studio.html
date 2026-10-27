@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-fleJv8e3oDgndqIvgzSGapN3NZcRrv0IsrqGl/YKz9w='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-p3At/7rpmUXShGd1PMTyiTbn1dY10LowoIgCFnx1DHw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -8854,6 +8854,11 @@ const FELDKATALOG = Object.freeze([
   ["pro-aufbewahrung-ordnung.tpl_branchenpflicht/tpl_frist","pro-aufbewahrung-ordnung","Frist","Deadline"],
   ["pro-aufbewahrung-ordnung.tpl_storage_form_and_reader","pro-aufbewahrung-ordnung","Form der Aufbewahrung","How records are kept"],
   ["pro-aufbewahrung-ordnung.tpl_records_integrity_notes","pro-aufbewahrung-ordnung","Hinweise zu den Unterlagen","Notes on the records"],
+  ["pro-aufbewahrung-ordnung.tpl_invoice_archive","pro-aufbewahrung-ordnung","Rechnungsarchiv","Invoice archive"],
+  ["pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_kind","pro-aufbewahrung-ordnung","Welche Rechnungen","Which invoices"],
+  ["pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_format","pro-aufbewahrung-ordnung","Format","Invoice format"],
+  ["pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_location","pro-aufbewahrung-ordnung","Wo abgelegt","Where kept"],
+  ["pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_kept_until","pro-aufbewahrung-ordnung","Aufbewahren bis (frühestens)","Keep until (at the earliest)"],
   ["pro-aufbewahrung-ordnung.tpl_depot_zuletzt_durchgesehen_am","pro-aufbewahrung-ordnung","Depot zuletzt durchgesehen am","Depot last reviewed on"],
   ["pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss","pro-aufbewahrung-ordnung","Wer von diesem Depot weiß","Who knows this depot exists"],
   ["pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_name","pro-aufbewahrung-ordnung","Name","Name"],
@@ -9155,6 +9160,9 @@ const FELDKATALOG = Object.freeze([
   ["pro-gesellschaft-nachfolge.tpl_interested_parties/tpl_contact","pro-gesellschaft-nachfolge","Erreichbarkeit","Contact"],
   ["pro-gesellschaft-nachfolge.tpl_interested_parties/tpl_note","pro-gesellschaft-nachfolge","Bemerkung","Note"],
   ["pro-gesellschaft-nachfolge.tpl_handover_form","pro-gesellschaft-nachfolge","Form der Übergabe","Form of handover"],
+  ["pro-gesellschaft-nachfolge.tpl_purchase_price","pro-gesellschaft-nachfolge","Kaufpreis","Purchase price"],
+  ["pro-gesellschaft-nachfolge.tpl_transfer_effective_date","pro-gesellschaft-nachfolge","Stichtag der Übergabe","Effective date of transfer"],
+  ["pro-gesellschaft-nachfolge.tpl_payment_terms","pro-gesellschaft-nachfolge","Zahlungsweise","Payment terms"],
   ["pro-gesellschaft-nachfolge.tpl_outstanding_capital_contributions","pro-gesellschaft-nachfolge","Offene Einlagen","Outstanding capital contributions"],
   ["pro-gesellschaft-nachfolge.tpl_partner_personal_details","pro-gesellschaft-nachfolge","Gesellschafterinnen und Gesellschafter","Partners"],
   ["pro-gesellschaft-nachfolge.tpl_partner_personal_details/tpl_name","pro-gesellschaft-nachfolge","Name","Name"],

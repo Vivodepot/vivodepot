@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Pod-Brücke (U2-ADR-512, Stufe 1). Dieselbe Bauform wie
+<!-- Pod-Brücke (U2-ADR-512, Stufe 1 und Stufe 2 nach dem Nachtrag). Dieselbe Bauform wie
      share/empfangen.html: eigene Seite, eigene Herkunft, nicht Teil der Anwendung. vivodepot.html und vivodepot-lesen.html
      bleiben bei connect-src 'none'. Hier als einziger Unterschied connect-src https:, weil der Pod der Person irgendwo liegt.
      Kein Inline-Skript, keine fremden Skripte, keine fremden Inhalte: die Seite hält einen DPoP-Schlüssel, und ihre Angriffsfläche
@@ -28,6 +28,11 @@
   <button id="ziel-nein" type="button">Nein, abmelden</button>
 </div>
 <p id="fehler" class="fehler" role="alert"></p>
+<div id="auftrag" class="kasten" hidden>
+  <p id="auftrag-satz"></p>
+  <button id="auftrag-ja" type="button">Ablegen</button>
+  <button id="auftrag-nein" type="button">Nicht ablegen</button>
+</div>
 
 <div id="anmelden-bereich" class="kasten">
   <label for="aussteller">Adresse Ihres Pod-Anbieters</label>
@@ -68,6 +73,7 @@
   <button id="abmelden" type="button">Abmelden</button>
 </div>
 
+<script src="konfiguration.js"></script>
 <script src="chiffrat-pruefen.js"></script>
 <script src="lws.js"></script>
 <script src="solid-oidc.js"></script>

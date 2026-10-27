@@ -21,8 +21,13 @@
      7. Rücknahme und Ablauf: danach ist die Ressource weg; der Ablauf greift nach neuer Anmeldung und Bestätigung.
      8. Die Tür: Klartext wird abgewiesen, und es geht keine Schreibanfrage an den Pod.
      9. Abmelden löscht alles lokal; alle Anfragen gehen nur an die beiden lokalen Herkünfte.
+    10. Stufe 2 (Nachtrag zu U2-ADR-512): der Kern unter seiner Herkunft öffnet die Brücke unter pod.vivodepot.de und übergibt
+        die Sicherung per postMessage; die Person bestätigt, die Adresse kommt zurück; abgeholt, ohne Anmeldung nicht lesbar;
+        ein Freigabe-Link daneben ist lesbar und nach der Rücknahme nicht mehr. Kern und Brücke liefert eine Route des
+        Browser-Kontexts aus den Dateien des Repos aus; der Kern selbst stellt keine Anfrage.
    ════════════════════════════════════════════════════════════════════════ */
 const { test, expect } = require('@playwright/test');
+const { oeffneApp, depotAnlegen, einstellungenAbschnittOeffnen } = require('../e2e/helpers.js');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -115,10 +120,12 @@ function anfragenZaehlen(page) {
 
 const schreibend = (r) => r.method() !== 'GET' && r.method() !== 'HEAD' && r.url().startsWith(POD) && !/\/\.(oidc|account)\//.test(r.url());
 async function anmelden(page, konto, o = {}) {
-  if (!o.wieder) anfragenZaehlen(page);
+  // o.br: die Brücke ist schon offen (Stufe 2, vom Kern geöffnet) und liegt unter dieser Adresse.
+  const br = o.br || BR;
+  if (!o.wieder && !o.br) anfragenZaehlen(page);
   // Nur für den Haken der Ablauf-Probe (_probe); der Pod läuft über https, der http-Teil des Schalters wird nicht gebraucht.
-  if (!o.wieder) await page.addInitScript(() => { self.VD_POD_SPIKE = true; });
-  await page.goto(BR);
+  if (!o.wieder && !o.br) await page.addInitScript(() => { self.VD_POD_SPIKE = true; });
+  if (!o.br) await page.goto(BR);
   await page.fill('#aussteller', POD);
   await page.click('#anmelden');
   await page.waitForURL((u) => u.origin === new URL(POD).origin, { timeout: 20000 });
@@ -132,7 +139,7 @@ async function anmelden(page, konto, o = {}) {
     await page.locator('button[name="submit"]').click();
   }
   await page.locator('#authorize:not([disabled])').click({ timeout: 20000 });
-  await page.waitForURL((u) => u.href.startsWith(BR), { timeout: 20000 });
+  await page.waitForURL((u) => u.href.startsWith(br), { timeout: 20000 });
   await expect(page.locator('#wer')).toContainText('Angemeldet als ', { timeout: 20000 });
   await expect(page.locator('#ziel')).toBeVisible({ timeout: 20000 });
   if (o.bestaetigen !== false) { await page.click('#ziel-ja'); await expect(page.locator('#ablage-bereich')).toBeVisible(); }
@@ -312,6 +319,89 @@ test('[Pod·Grant] Freigabe an eine Stelle legt einen Access Grant ab, benachric
   expect(post[0]).not.toContain(jwe.split('.')[3]);
   await person.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), adresse);
   for (const z of [adresse, eintrag.grant]) expect(await person.evaluate((a) => self.vdPodAnmeldung.podFetch(a).then((r) => r.status), z)).toBe(404);
+  await ctx.close();
+});
+
+/* Stufe 2: Kern und Brücke unter ihren festen Herkünften, ausgeliefert von einer Route dieses Kontexts aus den Dateien des
+   Repos (der gebackene Kern wie in der E2E-Strecke, tests/e2e/global-setup.js). Nichts davon geht ins Netz. */
+const KERN_HERKUNFT = 'https://privat-de.vivodepot.org';
+const BRUECKE_STUFE2 = 'https://pod.vivodepot.de/bruecke.html';
+async function stufe2Kontext(browser) {
+  const { gebackeneProdukteSicherstellen, GEBACKENE_PRODUKT_PFADE } = require('../e2e/global-setup.js');
+  gebackeneProdukteSicherstellen();
+  const ctx = await browser.newContext({ ignoreHTTPSErrors: true });
+  // Der lokale Pod steht für den echten Pod der Person: pod.vivodepot.de darf ihn hier wie einen öffentlichen Host erreichen
+  // (Chromium sperrt sonst den Zugriff einer öffentlichen Herkunft auf localhost, Local Network Access).
+  if (browser.browserType().name() === 'chromium') await ctx.grantPermissions(['local-network-access']);
+  await ctx.route('https://pod.vivodepot.de/**', (r) => {
+    const name = new URL(r.request().url()).pathname.replace(/^\//, '');
+    const datei = path.join(W, 'pod', name);
+    if (!/^[a-z-]+\.(html|js|css)$/.test(name) || !fs.existsSync(datei)) return r.fulfill({ status: 404, body: '' });
+    const typ = { html: 'text/html; charset=utf-8', js: 'text/javascript', css: 'text/css' }[name.split('.').pop()];
+    return r.fulfill({ status: 200, contentType: typ, body: fs.readFileSync(datei) });
+  });
+  // Eine Route sieht keine Anfrage, die einer Weiterleitung folgt; der Rücksprung des Pods zur Brücke wäre eine. Darum wird jede
+  // Weiterleitung einer Seite des lokalen Pods hier zu einer Seite, die per Meta-Refresh weitergeht, und so wieder geroutet.
+  await ctx.route((u) => u.origin === new URL(POD).origin, async (r) => {
+    if (!r.request().isNavigationRequest()) return r.fallback();
+    const a = await r.fetch({ maxRedirects: 0 });
+    const ziel = a.headers().location;
+    if (a.status() < 300 || a.status() >= 400 || !ziel) return r.fulfill({ response: a });
+    const kopf = Object.assign({}, a.headers(), { 'content-type': 'text/html; charset=utf-8' });
+    delete kopf.location; delete kopf['content-length']; delete kopf['content-encoding'];
+    const nach = new URL(ziel, r.request().url()).href.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    return r.fulfill({ status: 200, headers: kopf, body: '<meta http-equiv="refresh" content="0;url=' + nach + '">' });
+  });
+  await ctx.route(KERN_HERKUNFT + '/**', (r) => (new URL(r.request().url()).pathname === '/'
+    ? r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: fs.readFileSync(GEBACKENE_PRODUKT_PFADE['privat-de']) })
+    : r.fulfill({ status: 404, body: '' })));
+  return ctx;
+}
+
+test('[Pod·Stufe2] aus dem Kern: abgelegt nach Bestätigung, Adresse zurück, abgeholt, ohne Anmeldung nicht lesbar; Freigabe nach Rücknahme weg', async ({ browser, request }) => {
+  test.setTimeout(180000);
+  const ctx = await stufe2Kontext(browser);
+  const kern = await ctx.newPage();
+  const kernAnfragen = []; kern.on('request', (r) => kernAnfragen.push(r.url()));
+  await oeffneApp(kern, { url: KERN_HERKUNFT + '/' });
+  await depotAnlegen(kern);
+  await kern.click('#tb-einstellungen');
+  await einstellungenAbschnittOeffnen(kern, '#einst-pod-sicherung');
+  const [bruecke] = await Promise.all([ctx.waitForEvent('page'), kern.click('#einst-pod-sicherung')]);
+  await bruecke.waitForLoadState();
+  bruecke.on('console', (m) => console.log('[pod-e2e] stufe2 konsole', m.type(), m.text().slice(0, 300)));
+  bruecke.on('requestfailed', (r) => console.log('[pod-e2e] stufe2 gescheitert', r.method(), r.url(), r.failure() && r.failure().errorText));
+  bruecke.on('framenavigated', (f) => { if (f === bruecke.mainFrame()) console.log('[pod-e2e] stufe2 nav', f.url().slice(0, 200)); });
+  expect(bruecke.url()).toBe(BRUECKE_STUFE2);
+  await anmelden(bruecke, KONTEN[0], { br: BRUECKE_STUFE2 });
+  await expect(bruecke.locator('#auftrag')).toBeVisible({ timeout: 20000 });
+  await expect(bruecke.locator('#auftrag-satz')).toHaveText(/^Vivodepot möchte eine verschlüsselte Sicherung/);
+  await bruecke.waitForTimeout(1000);   // Klicksperre der Brücke nach dem Erscheinen des Auftrags
+  await bruecke.click('#auftrag-ja');
+  await expect(bruecke.locator('#ergebnis')).toHaveText(/^https:\/\/localhost:\d+\/person\/vivodepot\/sicherungen\/[A-Za-z0-9_-]{22}$/, { timeout: 15000 });
+  const adresse = (await bruecke.locator('#ergebnis').textContent()).trim();
+  await expect(kern.locator('.toast').filter({ hasText: 'Im Pod abgelegt bei localhost' })).toBeVisible({ timeout: 15000 });
+  const abgeholt = await bruecke.evaluate((a) => self.vdPodBruecke.abholen(a), adresse);
+  expect(abgeholt.startsWith('VIVODEPOT\u0001')).toBe(true);
+  expect(Object.keys(JSON.parse(abgeholt.slice('VIVODEPOT\u0001'.length)))).toEqual(expect.arrayContaining(['kryptoVersion', 'depotUUID', 'einheiten']));
+  expect(abgeholt, 'nur Chiffrat: der Name aus dem Anker steht nicht darin').not.toContain('Mustermann');
+  const ohne = (await request.get(adresse)).status();
+  expect(ohne === 401 || ohne === 403, 'ohne Anmeldung nicht lesbar: ' + ohne).toBe(true);
+  // Freigeben, abholen, zurücknehmen: danach antwortet der Pod ohne Anmeldung nicht mehr mit dem Chiffrat.
+  const { jwe } = shlJwe('{}');
+  const link = await dateiAblegen(bruecke, jwe, 'link', { tage: 1 });
+  const vorher = await request.get(link);
+  expect(vorher.status()).toBe(200);
+  expect(await vorher.text()).toBe(jwe);
+  await bruecke.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), link);
+  // Nach der Rücknahme: verweigert (gemessen 401) und kein Teil des Chiffrats im Rumpf, nicht nur ein anderer Status.
+  const nachher = await request.get(link);
+  const rumpf = await nachher.text();
+  console.log('[pod-e2e] Stufe 2: Freigabe nach Rücknahme ohne Anmeldung', nachher.status());
+  expect([401, 403], 'verweigert, gemessen 25.10.2026: 401').toContain(nachher.status());
+  for (const teil of jwe.split('.').filter((t) => t.length >= 8)) expect(rumpf, 'kein Teil des Chiffrats im Rumpf').not.toContain(teil);
+  await bruecke.evaluate((a) => self.vdPodBruecke.zuruecknehmen(a), adresse);
+  expect(kernAnfragen.filter((u) => !u.startsWith(KERN_HERKUNFT + '/') && !/^(data|blob):/.test(u)), 'der Kern stellt keine Anfrage').toEqual([]);
   await ctx.close();
 });
 

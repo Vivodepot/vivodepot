@@ -215,6 +215,26 @@ test('[Reihe·verwaist] ein lebender Halter auf dem Air-Platz hält die Marke; e
   } finally { a.aufraeumen(); }
 });
 
+/* KLEIN HÄLT DIE MARKE (25.10.2026, Befund VORRANG-MARKE-OHNE-KLEIN): ein Zug, der im Klein-Platz vorprüft, hält die Marke.
+   Rot-Beweis: mit der Bibliothek davor (SUITE_PLATZ_LIB auf `git show <davor>:tools/lib/suite-platz.js`) fällt die erste
+   Zusicherung — der lebende Klein-Halter zählte nicht, die Marke verwaiste. */
+test('[Reihe·verwaist·Klein] ein lebender Klein-Halter oder ein Klein-Ticket im Baum hält die Marke; ein toter nicht', () => {
+  const a = aufbau();
+  try {
+    markeSchreiben(a.dir, a.baumDran, Date.now() - ELF_MIN);
+    const kd = path.join(a.dir, 'klein');
+    fs.mkdirSync(kd, { recursive: true });
+    const eintrag = (pid) => JSON.stringify({ pid, name: 'vor-pre-commit', cwd: fs.realpathSync(a.baumDran), host: os.hostname() });
+    fs.writeFileSync(path.join(kd, 'platz-1.lock'), eintrag(a.p()));
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'der Klein-Lauf im Baum hält die Marke');
+    fs.writeFileSync(path.join(kd, 'platz-1.lock'), eintrag(2 ** 22 + 12345));
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, false, 'ein toter Klein-Halter hält sie nicht');
+    fs.rmSync(path.join(kd, 'platz-1.lock'));
+    sp.ticketZiehen({ name: 'vor-pre-commit', pid: a.p(), dir: kd, cwd: a.baumDran });
+    assert.equal(sp.reiheLesen({ dir: a.dir }).gueltig, true, 'ein wartender Klein-Lauf im Baum hält sie auch');
+  } finally { a.aufraeumen(); }
+});
+
 /* VORRANG-MARKE-OHNE-LAUF-HAELT-REIHE (20.10.2026): eine Marke, deren Baum nur auf dem Air-Platz lebt (air-schicken), blieb gültig —
    richtig, sie verfällt nicht —, hielt aber auf den Suite-Plätzen einen Platz frei, den niemand aus dem Baum brauchte (14 Minuten
    ein leerer Platz bei acht Wartenden). Jetzt hält sie nach der Schonfrist einen Suite-Platz nur frei, wenn im Baum ein Suite-Lauf

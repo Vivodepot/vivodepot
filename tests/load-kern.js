@@ -600,6 +600,12 @@ const EXPORT_HOOK = `
   antwortLinkTeile: (typeof antwortLinkTeile !== 'undefined' ? antwortLinkTeile : undefined),
   _ausgabeWegWaehlen: (typeof _ausgabeWegWaehlen !== 'undefined' ? _ausgabeWegWaehlen : undefined),
   _shlDialogZeigen: (typeof _shlDialogZeigen !== 'undefined' ? _shlDialogZeigen : undefined),
+  // Im Pod ablegen (Nachtrag zu U2-ADR-512, Stufe 2; tests/pod-ablegen-kern.test.js): typeof-abgesichert wie oben
+  podAblegen: (typeof podAblegen !== 'undefined' ? podAblegen : undefined),
+  podAdressePruefen: (typeof podAdressePruefen !== 'undefined' ? podAdressePruefen : undefined),
+  podSicherungAblegen: (typeof podSicherungAblegen !== 'undefined' ? podSicherungAblegen : undefined),
+  POD_BRUECKE_URL: (typeof POD_BRUECKE_URL !== 'undefined' ? POD_BRUECKE_URL : undefined),
+  POD_BRUECKE_HERKUNFT: (typeof POD_BRUECKE_HERKUNFT !== 'undefined' ? POD_BRUECKE_HERKUNFT : undefined),
   flowLinkSenden: (typeof flowLinkSenden !== 'undefined' ? flowLinkSenden : undefined),
   LINK_SENDEN_FUER_AUSZUEGE: (typeof LINK_SENDEN_FUER_AUSZUEGE !== 'undefined' ? LINK_SENDEN_FUER_AUSZUEGE : undefined),
   AUSZUG_INHALTSTYPEN: (typeof AUSZUG_INHALTSTYPEN !== 'undefined' ? AUSZUG_INHALTSTYPEN : undefined),

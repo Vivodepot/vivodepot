@@ -126,7 +126,7 @@ gehören diese Posten zum Produkt. Sie stehen mit ihrer Kennung in der Liste `of
 
 | Kennung | Posten | Quelle |
 |---|---|---|
-| E1 | Anlässe mit Leitfragen; doppelte Felder zusammenlegen; berufsfremde Felder nur im Berufsmodul | Prüfung des Pro-Inhalts, 21.10.2026 |
+| E1 | Anlässe mit Leitfragen; Felder, die dieselben Personen zu verschiedenem Zweck erfassen, zeigen im Hinweis aufeinander; Felder einzelner Branchen bleiben im Grund-Pro und nennen ihre Bedingung im Hinweis (Abschnitt 2; Entscheidung 23.10.2026: kein Handwerksmodul, eine generische berufliche Fassung) | Prüfung des Pro-Inhalts, 21.10.2026 |
 | E2 | Vorlagen „Vollmacht für den Betrieb“ und „Übergabeprotokoll“ | Prüfung des Pro-Inhalts, 21.10.2026 |
 | E3 | Behebung sichtbarer Fehler im Auszug | Prüfung des Pro-Inhalts, 21.10.2026 |
 | E4 | Die Vorschrift hinter einem Feld in der Oberfläche zeigen; jede angezeigte Quelle unabhängig geprüft | Vorbilder-Abgleich, 17.10.2026 |
@@ -296,17 +296,15 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
     ]
   },
   "offen": [
-    {"kennung":"E1","posten":"Anlässe, Leitfragen, Felder zusammenlegen"},
     {"kennung":"E2","posten":"Vorlagen Vollmacht für den Betrieb und Übergabeprotokoll"},
     {"kennung":"E4","posten":"Vorschrift am Feld anzeigen"},
-    {"kennung":"E5","posten":"Unternehmenskauf: Kaufpreis, Stichtag, Zahlungsweise"},
     {"kennung":"E6","posten":"Unterrichtung der Beschäftigten, § 613a BGB"},
     {"kennung":"E7","posten":"Meldungen als Feldgruppe"},
-    {"kennung":"E10","posten":"Rechnungsarchiv und E-Rechnung im Übergabe-Auszug"},
     {"kennung":"E14","posten":"vorbefüllte Listen im Fahrplan der ersten Tage"},
     {"kennung":"E17","posten":"Lieferseite: Kauf, Auslieferung, Aktualisierungen"}
   ],
   "gebaut": [
+    {"kennung":"E10","posten":"Rechnungsarchiv und E-Rechnung im Übergabe-Auszug"},
     {"kennung":"E8","posten":"Vertretung mit Qualifikation und Zeitraum"},
     {"kennung":"E3","posten":"sichtbare Fehler im Auszug"},
     {"kennung":"E13","posten":"fünf weitere Auszüge (Steuerberatung, Bank, Nachfolge, Kunden informieren, Belegschaft informieren), DE und EN"},
@@ -318,7 +316,9 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
     {"kennung":"P6-3","posten":"Einarbeitung der Nachfolge"},
     {"kennung":"P6-4","posten":"Form der Übergabe"},
     {"kennung":"E15","posten":"die Vertretung als eigener Ausschnitt"},
-    {"kennung":"E16","posten":"Hilfe-Thema Pro"}
+    {"kennung":"E16","posten":"Hilfe-Thema Pro"},
+    {"kennung":"E1","posten":"Anlässe mit Leitfragen, Felder getrennt mit Hinweisen, Branchenfelder mit Bedingung"},
+    {"kennung":"E5","posten":"Kaufpreis, Stichtag der Übergabe und Zahlungsweise unter Gesellschaft und Nachfolge"}
   ]
 }
 ```

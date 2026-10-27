@@ -15,6 +15,50 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.955] – 2026-10-27
+
+### Hinzugefügt
+- Mit „Im Pod ablegen“ geht eine Datei statt auf das Gerät in den eigenen Solid-Pod: bei „Sicher weitergeben“ und „Link
+  senden“, bei der Datei für eine Person unter „Personen, die etwas sehen dürfen“ und als Sicherungskopie in den
+  Einstellungen. Die Anwendung baut dafür selbst keine Verbindung auf; sie öffnet die Brücke unter pod.vivodepot.de als
+  eigenes Fenster und reicht ihr die schon verschlüsselte Datei. Die Brücke zeigt, für wen die Datei lesbar wird, und legt
+  erst nach einem Klick ab.
+- Pro hat im Bereich „Unterlagen“ ein Rechnungsarchiv: welche Rechnungen, in welchem Format, wo abgelegt und bis wann
+  frühestens aufzubewahren. Der Hinweis unterscheidet E-Rechnung und sonstige Rechnung. Die Auszüge für die Nachfolge und
+  für die Steuerberatung zeigen das Archiv zusammen mit der E-Rechnung.
+- Pro fragt unter „Gesellschaft und Nachfolge“ für den Verkauf des Betriebs nach Kaufpreis, Stichtag der Übergabe und
+  Zahlungsweise. Die Anlässe „Übergabe“ und „Nachfolge“ nennen die drei Angaben.
+- Die vier Anlässe in Pro (Vertretung, Übergabe, Einarbeitung, Nachfolge) führen je Abschnitt mit Leitfragen, auf Deutsch
+  und Englisch. Jede Angabe der Grundbereiche von Pro, zu der es einen Hinweis gibt, steht in mindestens einem Anlass.
+
+### Behoben
+- In den Anlässen von Pro standen die Überschriften der Abschnitte leer da.
+- Die Hilfe „Was Vivodepot nicht sieht“ sagte, die Netzadresse werde höchstens sieben Tage gespeichert. Für „Link senden“
+  und „Sicher weitergeben“ sagt sie jetzt: Der Server sieht sie wie bei jedem Seitenaufruf; beim Hochladen wird sie nur als
+  Prüfwert gespeichert und mit der ersten Bereinigung nach 25 Stunden gelöscht, beim Abruf nicht gespeichert; in den
+  Zugriffsprotokollen des Anbieters steht sie anonymisiert, bis zu acht Wochen.
+
+### Geändert
+- Das Feldregister unter register.vivodepot.de wiederholt keine Erläuterung mehr. Die Bereiche von Pro heißen dort wie in
+  der Anwendung, mit „Pro:“ davor, statt mit ihrer Kennung.
+
+### Sicherheit
+- VD-SEC-031 (hoch): Behoben in v955.
+  Fehler: Seit v952 hält eine enge Auswahl unter „Personen, die etwas sehen dürfen“ ein als sensibel markiertes
+  Dokument zurück, auch wenn eine Angabe darauf verweist (VD-SEC-029). Ein Gesundheitsdokument, das mit einer Fassung vor
+  v843 geprüft eingelesen wurde (Laborbefund, Entlassbrief oder Patientenkurzakte), trug diese Markierung nicht. Hatte die
+  Person genau ein solches Dokument als Profilfoto (oder in einem Verweisfeld aus dem Modul einer Einrichtung) gewählt
+  und mit v952 für eine Person mit einer engen Auswahl, die dieses Feld enthält, eine Datei oder einen QR-Code erzeugt
+  oder ihr Fach gespeichert, ging das Dokument mit: in die Datei, wenn es sehr klein war, in den QR-Code, und in das Fach
+  der Person in Ihrer Depot-Datei. Alle drei Bedingungen mussten zusammenkommen. Ein QR-Code fasst höchstens 1800 Zeichen; ein Befund passt praktisch nie hinein.
+  Behebung: Beim Öffnen markiert die Anwendung ein so eingelesenes Gesundheitsdokument als sensibel; es geht nur
+  noch mit dem Baustein „Im Todesfall (Erbe und Behörden)“ mit. Ein selbst abgelegtes Dokument behält die Wahl der Person.
+  Betroffen: v952.
+  Abhilfe: auf v955 aktualisieren, die Depot-Datei öffnen und eine Sicherungskopie erstellen; damit entsteht das
+  Fach neu. Wer mit v952 für eine solche Person eine Datei oder einen QR-Code erzeugt hat, erzeugt sie mit v955 neu.
+  Ältere Kopien der Depot-Datei und schon weitergegebene Dateien durch die neuen ersetzen; was schon weitergegeben ist,
+  lässt sich nicht zurückholen.
+
 ## [v1.0.952] – 2026-10-25
 
 ### Hinzugefügt
@@ -85,15 +129,15 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ### Sicherheit
 - VD-SEC-029 (hoch): Behoben in v952.
-  Worum es geht: Unter „Personen, die etwas sehen dürfen“ kann man für eine Person Bereiche markieren oder Bausteine
+  Fehler: Unter „Personen, die etwas sehen dürfen“ kann man für eine Person Bereiche markieren oder Bausteine
   wählen. Als sensibel markierte Dokumente aus „Meine Dokumente“ gehen dabei nur mit dem Baustein „Im Todesfall (Erbe und
   Behörden)“ mit, der mitgibt, was im Depot steht. Verwies eine Angabe, die die Person sehen darf, auf ein solches
   Dokument, etwa das Profilfoto, ging das Dokument trotzdem mit, in die Datei und den QR-Code für diese Person und in ihr
   Fach in Ihrer Depot-Datei.
-  Was jetzt gilt: Ein sensibel markiertes Dokument geht nur noch mit dem Baustein „Im Todesfall (Erbe und Behörden)“ mit.
+  Behebung: Ein sensibel markiertes Dokument geht nur noch mit dem Baustein „Im Todesfall (Erbe und Behörden)“ mit.
   Der Verweis bleibt stehen und zeigt beim Empfänger „nicht hinterlegt“.
   Betroffen: Datei und QR-Code v797 bis v943, das Fach in v943 (zum Fach in früheren Fassungen siehe VD-SEC-027).
-  Was zu tun ist: auf v952 aktualisieren und eine Sicherungskopie erstellen; damit entsteht das Fach neu. Wer für eine
+  Abhilfe: auf v952 aktualisieren und eine Sicherungskopie erstellen; damit entsteht das Fach neu. Wer für eine
   solche Person eine Datei oder einen QR-Code erzeugt hat, erzeugt sie mit v952 neu. Ältere Kopien der Depot-Datei und
   schon weitergegebene Dateien durch die neuen ersetzen; was schon weitergegeben ist, lässt sich nicht zurückholen.
 
@@ -138,14 +182,14 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ### Sicherheit
 - VD-SEC-026 (hoch): Behoben in v937, Hinweis mit v943.
-  Worum es geht: Trug ein Depot die Entscheidung, ein einzelnes Unterfeld einer Liste zurückzuhalten, galt sie in
+  Fehler: Trug ein Depot die Entscheidung, ein einzelnes Unterfeld einer Liste zurückzuhalten, galt sie in
   einigen Ausgaben nicht, etwa für das Jahr einer Operation, die Frist oder die bevollmächtigten Personen einer
   Vorsorgevollmacht in den Gesundheitsdaten als maschinenlesbare Datei (medizinischer Export) oder für die Art eines
   Kontos in einem Situationsblatt. Bei einem Vorsorge-Instrument mit ebenfalls zurückgehaltener Art galt dasselbe für
   einen Bereich, den man für eine Person unter „Personen, die etwas sehen dürfen“ markiert hat. Die Angabe ging dann
   mit hinaus. Über die Oberfläche ließ sich eine solche Entscheidung in diesen Fassungen nicht dauerhaft setzen; sie
   konnte nur aus einer Datei stammen, die sie schon trug.
-  Was jetzt gilt: Diese Ausgaben prüfen die Entscheidung am einzelnen Unterfeld. Die Notfallkarte, die
+  Behebung: Diese Ausgaben prüfen die Entscheidung am einzelnen Unterfeld. Die Notfallkarte, die
   Angehörigen-Blätter und unter „Personen, die etwas sehen dürfen“ die Bausteine „Im Notfall (Krankenhaus)“, „Bei Pflege
   (Heimaufnahme)“ und „Für die Bestattung“ wenden eine solche Entscheidung noch nicht an; das wird gesondert entschieden.
   Der Baustein „Im Todesfall (Erbe und Behörden)“ gibt mit, was im Depot steht; ausnehmen lassen sich dort nur ganze
@@ -153,12 +197,12 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   Betroffen: Situationsblätter und medizinischer Export v670 bis v933, der Vorsorge-Abschnitt im medizinischen Export
   v857 bis v933, Datei und QR-Code für einen markierten Bereich v922 bis v933 (zum Fach siehe VD-SEC-027), der Vollexport
   als JSON in v670 und v718.
-  Was zu tun ist: auf v943 aktualisieren. Wer eine Depot-Datei oder einen Gesamtexport mit einer solchen Entscheidung
+  Abhilfe: auf v943 aktualisieren. Wer eine Depot-Datei oder einen Gesamtexport mit einer solchen Entscheidung
   geöffnet oder eingelesen und daraus eine der genannten Ausgaben erzeugt hat, erzeugt sie mit v943 neu. Eine schon
   weitergegebene Ausgabe bleibt, wie sie ist; wer sie bekommen hat, sollte sie durch die neue ersetzen. Den Vollexport
   als JSON bietet die Anwendung seit v787 nicht mehr an; eine solche Datei aus v670 oder v718 nicht weitergeben.
 - VD-SEC-027 (hoch): Behoben in v922 und v943, je Fall unten.
-  Worum es geht: Unter „Personen, die etwas sehen dürfen“ kann man für eine Person Bereiche markieren, die sie sehen darf.
+  Fehler: Unter „Personen, die etwas sehen dürfen“ kann man für eine Person Bereiche markieren, die sie sehen darf.
   Dafür enthält Ihre Depot-Datei ein Fach für diese Person, und es lassen sich eine Datei und ein QR-Code für sie erzeugen.
   Drei Fälle:
   (1) Fach, Datei und QR-Code enthielten auch die Felder der markierten Bereiche, die als sensibel gelten, etwa die
@@ -174,35 +218,35 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   unter „Meine Dokumente“. Betroffen: die Angaben zu Lebenslagen v670 bis v937, die Namen der Bereiche v718 bis v937, die
   Einträge unter „Menschen, die mir wichtig sind“ v787 bis v937, die Dokumente unter „Meine Dokumente“ v797 bis v937.
   Behoben in v943.
-  Was jetzt gilt: Ein markierter Bereich gibt Felder, die als sensibel gelten, und zurückgehaltene Angaben in Listen nicht
+  Behebung: Ein markierter Bereich gibt Felder, die als sensibel gelten, und zurückgehaltene Angaben in Listen nicht
   mehr mit, auch nicht im Fach. Ihre Angaben im Fach sind nur noch solche, die auch die Datei für diese Person enthält.
   Das Fach kann weniger enthalten: Weicht eine Angabe für diese Person vom Depot ab, etwa eine Liste mit einer
   zurückgehaltenen Angabe, fehlt sie im Fach vorerst ganz; in der Datei für diese Person steht die Liste ohne die
   zurückgehaltene Angabe. Das Fach in Ihrer Depot-Datei wird neu gebildet, wenn Sie mit v943 eine Sicherungskopie
   erstellen; Datei und QR-Code entstehen neu, wenn Sie sie wieder erzeugen.
-  Was zu tun ist: Mit v943 eine Sicherungskopie erstellen und die Datei für diese Person neu erzeugen. Ältere Kopien
+  Abhilfe: Mit v943 eine Sicherungskopie erstellen und die Datei für diese Person neu erzeugen. Ältere Kopien
   Ihrer Depot-Datei und eine schon weitergegebene Datei bleiben, wie sie sind; ersetzen Sie sie durch die neuen.
 - VD-SEC-028 (hoch): Behoben in v943.
-  Worum es geht: Das PDF der Situationsblätter „Beim Notar oder bei der Bank“, „Einfach so — weil es Zeit
+  Fehler: Das PDF der Situationsblätter „Beim Notar oder bei der Bank“, „Einfach so — weil es Zeit
   wird“ und „Im Erbfall“ (Knopf „Als PDF“) enthielt bei den Konten auch die IBAN, obwohl sie ab Werk geschützt ist.
-  Was jetzt gilt: Das PDF dieser Blätter enthält die IBAN nicht mehr. Am Bildschirm zeigt das Blatt sie weiter, so wie
+  Behebung: Das PDF dieser Blätter enthält die IBAN nicht mehr. Am Bildschirm zeigt das Blatt sie weiter, so wie
   der Bereich Finanzen selbst.
   Betroffen: v670 bis v937.
-  Was zu tun ist: auf v943 aktualisieren. Ein solches PDF mit Konten, das mit einer dieser Fassungen erzeugt und
+  Abhilfe: auf v943 aktualisieren. Ein solches PDF mit Konten, das mit einer dieser Fassungen erzeugt und
   weitergegeben wurde, trägt die IBAN; erzeugen Sie es mit v943 neu und ersetzen Sie das weitergegebene.
 - VD-SEC-030 (mittel): Behoben in v943.
-  Worum es geht: Die Sicherheitsregeln der Seite (Content Security Policy) erlaubten jeden Programmcode, der direkt in
+  Fehler: Die Sicherheitsregeln der Seite (Content Security Policy) erlaubten jeden Programmcode, der direkt in
   der Seite steht, ohne Prüfsumme, auch solchen, der erst nachträglich hineingelangt. Wäre fremdes HTML in die Seite
   gelangt, etwa ein Bild mit einem Fehler-Handler, hätte dessen Programmcode laufen und angezeigte Angaben hinaustragen
   können, indem er die Seite eine fremde Adresse aufrufen ließ; die Sperre für Netzverbindungen galt für einen solchen
   Aufruf nicht. Solche Wege, fremdes HTML in die Seite zu bringen, gab es bis v927; sie sind als VD-SEC-006, -007 und
   -016 bis -018 behoben. Für v928 bis v937 kennen wir keinen.
-  Was jetzt gilt: Programmcode in der Seite läuft nur mit hinterlegter Prüfsumme; ein Fehler-Handler in eingesetztem
+  Behebung: Programmcode in der Seite läuft nur mit hinterlegter Prüfsumme; ein Fehler-Handler in eingesetztem
   HTML läuft gar nicht. In Browsern, die Trusted Types unterstützen, lehnt eine Vertrauensregel HTML mit ausführbarem
   Anteil zusätzlich schon beim Einsetzen ab.
   Betroffen: die Anwendung in den ausgelieferten Fassungen seit mindestens v670, die Lese-App und das Studio für
   Einrichtungen seit mindestens v792, jeweils bis v937.
-  Was zu tun ist: auf v943 aktualisieren. Lese-App und Studio liefern wir unter register.vivodepot.de selbst neu aus.
+  Abhilfe: auf v943 aktualisieren. Lese-App und Studio liefern wir unter register.vivodepot.de selbst neu aus.
 
 ## [v1.0.937] – 2026-10-20
 
@@ -263,53 +307,53 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ### Sicherheit
 - VD-SEC-024 (hoch): Behoben in v933.
-  Worum es geht: Ein Fach verschließt die Angaben, die ein Empfängerkreis öffnen darf. Für die übrigen Angaben legt die
+  Fehler: Ein Fach verschließt die Angaben, die ein Empfängerkreis öffnen darf. Für die übrigen Angaben legt die
   Depot-Datei Platzhalter an, damit von außen nicht zu sehen ist, was zu einem Fach gehört. Diese Platzhalter waren ein Byte
   länger als die echten Schlüsselumschläge. Wer eine Depot-Datei mit eingerichtetem Fach ohne Passwort untersuchte, konnte
   daran ablesen, wie viele Angaben ein Fach öffnet und welche verschlüsselten Teile dazugehören. Inhalte, Feldnamen und die
   Namen der Kreise blieben verschlossen.
-  Was jetzt gilt: Platzhalter und echte Schlüsselumschläge sind gleich lang, und die Anwendung speichert nicht, wenn sie es
+  Behebung: Platzhalter und echte Schlüsselumschläge sind gleich lang, und die Anwendung speichert nicht, wenn sie es
   nicht sind.
   Betroffen: die ausgelieferten Fassungen v670 bis v931, Depot-Dateien mit mindestens einem eingerichteten Fach, auch
   Teil-Depots mit eigenem Fach und deren Exporte; nicht der Ausschnitt für einen Empfänger.
-  Was zu tun ist: auf v933 aktualisieren und die Depot-Datei einmal speichern; ein Teil-Depot mit eigenem Fach dazu einmal
+  Abhilfe: auf v933 aktualisieren und die Depot-Datei einmal speichern; ein Teil-Depot mit eigenem Fach dazu einmal
   mit seinem eigenen Passwort öffnen und speichern; über ein Fach geöffnet, wird es nicht neu geschrieben. Kopien, die vorher gespeichert oder weitergegeben wurden, bleiben, wie sie sind, und zeigen weiter,
   welche Einheiten zu einem Fach gehören.
 - VD-SEC-025 (mittel): Behoben in v933.
-  Worum es geht: Der verschlüsselte Teil eines Fachs wird auf eine einheitliche Länge aufgefüllt. Gemessen wurde in Zeichen,
+  Fehler: Der verschlüsselte Teil eines Fachs wird auf eine einheitliche Länge aufgefüllt. Gemessen wurde in Zeichen,
   verschlüsselt in Bytes. Trug der Name eines Empfängerkreises einen Umlaut oder ein anderes Zeichen außerhalb von ASCII,
   wurde der verschlüsselte Teil seines Fachs länger als die anderen. Ohne Passwort war daran zu erkennen, dass der Name solche
   Zeichen trägt, und grob wie viele; den Namen selbst nicht.
-  Was jetzt gilt: Aufgefüllt wird in Bytes; die verschlüsselten Teile aller Fächer einer Datei sind gleich lang, und die
+  Behebung: Aufgefüllt wird in Bytes; die verschlüsselten Teile aller Fächer einer Datei sind gleich lang, und die
   Anwendung speichert nicht, wenn sie es nicht sind.
   Betroffen: die ausgelieferten Fassungen v670 bis v931, Fächer mit einem solchen Kreisnamen.
-  Was zu tun ist: wie bei VD-SEC-024.
+  Abhilfe: wie bei VD-SEC-024.
 - VD-SEC-023 (hoch): Behoben, Hinweis nachgetragen mit v933.
-  Worum es geht: Öffnete ein Produkt eine Datei mit Bereichen, die Vivodepot nicht ausgeliefert hat (etwa aus einem anderen
+  Fehler: Öffnete ein Produkt eine Datei mit Bereichen, die Vivodepot nicht ausgeliefert hat (etwa aus einem anderen
   Produkt), behandelten Anwendung und
   Lese-App jeden dieser Bereiche wie einen von Vivodepot ausgelieferten, mit allen Eigenschaften und ohne Spur in der
   Herkunftsangabe. Ein Feld eines solchen Bereichs konnte so einen Termin in die Prüftermine des Depots setzen.
-  Was jetzt gilt: Alle Bereiche werden weiter gezeigt. Als ausgeliefert gilt eine Beschreibung nur nach ihrem Inhalt; sonst
+  Behebung: Alle Bereiche werden weiter gezeigt. Als ausgeliefert gilt eine Beschreibung nur nach ihrem Inhalt; sonst
   behält sie nur, was anzeigt, Eingaben annimmt oder einschränkt, und steht in der Herkunft als Erweiterung ohne geprüfte
   Herkunft.
   Betroffen: die vor v927 ausgelieferten Fassungen (zuletzt v923).
-  Was zu tun ist: Ein PDF, das vor v927 aus einer solchen Datei erzeugt wurde, nennt diese Bereiche in der Herkunft nicht; es mit
+  Abhilfe: Ein PDF, das vor v927 aus einer solchen Datei erzeugt wurde, nennt diese Bereiche in der Herkunft nicht; es mit
   der aktuellen Fassung neu erzeugen.
 - VD-SEC-010 (hoch): Behoben, Hinweis nachgetragen mit v933.
-  Worum es geht: Die Lese-App zeigte die Vorlage eines Anbieters, der widerrufen und zugleich abgelaufen war, als „abgelaufen“
+  Fehler: Die Lese-App zeigte die Vorlage eines Anbieters, der widerrufen und zugleich abgelaufen war, als „abgelaufen“
   und nicht als widerrufen. Ausgelöst werden konnte das nicht, denn bis heute wurde kein Widerruf ausgeliefert.
-  Was jetzt gilt: Die Lese-App prüft den Widerruf vor dem Ablauf, wie die Anwendung. Eine nicht leere Widerrufsliste geht nur
+  Behebung: Die Lese-App prüft den Widerruf vor dem Ablauf, wie die Anwendung. Eine nicht leere Widerrufsliste geht nur
   mit grüner Prüfung dieses Falls in eine Auslieferung.
   Betroffen: die Lese-App in den vor v917 ausgelieferten Fassungen (zuletzt v857).
-  Was zu tun ist: nichts; seit v917 gilt die Korrektur.
+  Abhilfe: nichts; seit v917 gilt die Korrektur.
 - VD-SEC-013 (hoch): Behoben, Hinweis nachgetragen mit v933.
-  Worum es geht: Las jemand eine fremde Sicherung (JSON) vollständig in das eigene Depot ein, kamen die Schlüssel der Fächer aus
+  Fehler: Las jemand eine fremde Sicherung (JSON) vollständig in das eigene Depot ein, kamen die Schlüssel der Fächer aus
   der fremden Datei mit. Danach verschloss das eigene Depot Angaben eines Fachs unter einem Schlüssel, den der Ersteller dieser
   Sicherung kennen konnte.
-  Was jetzt gilt: Ein Import bringt kein Fach-Material mehr mit. Der Empfängerkreis kommt mit, das Fach nicht; die Anwendung
+  Behebung: Ein Import bringt kein Fach-Material mehr mit. Der Empfängerkreis kommt mit, das Fach nicht; die Anwendung
   sagt beim Einlesen, dass es neu einzurichten ist.
   Betroffen: die vor v918 ausgelieferten Fassungen mit Fächern (zuletzt v917).
-  Was zu tun ist: Wer mit einer Fassung bis v917 eine fremde Sicherung vollständig eingelesen hat, muss selbst handeln, denn die
+  Abhilfe: Wer mit einer Fassung bis v917 eine fremde Sicherung vollständig eingelesen hat, muss selbst handeln, denn die
   Anwendung erkennt ein so übernommenes Fach nicht: das Fach entfernen, speichern und neu einrichten. Ältere Kopien der Datei
   bleiben unter dem alten Schlüssel lesbar.
 
@@ -369,15 +413,15 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ### Sicherheit
 - VD-SEC-009 (hoch): Behoben in v931.
-  Worum es geht: Vivodepot lässt sich um Erweiterungen ergänzen, das sind Zusatzmodule etwa für Sprache, Rechtsraum oder
+  Fehler: Vivodepot lässt sich um Erweiterungen ergänzen, das sind Zusatzmodule etwa für Sprache, Rechtsraum oder
   Vorlagen. In Fassungen vor v917 konnte eine Erweiterung ohne Signatur Texte der Anwendung austauschen, auch amtliche Wortlaute
   und die Haftungshinweise in der Anwendung und auf jedem PDF. Sie kam über die Einstellungen oder in einer fremden Depot-Datei,
   die man mit ihrem Passwort öffnete. Angezeigt wurde nur, dass eine ungeprüfte Erweiterung aktiv ist.
-  Was jetzt gilt: Von v917 bis v930 waren solche Erweiterungen gesperrt. Seit v931 wirkt eine Erweiterung, die beim Öffnen einer
+  Behebung: Von v917 bis v930 waren solche Erweiterungen gesperrt. Seit v931 wirkt eine Erweiterung, die beim Öffnen einer
   Depot-Datei mitkommt oder in den Einstellungen eingelesen wird, erst, wenn man sie wählt, und die Anwendung sagt dabei, was sie
   ändert. Amtliche Wortlaute und Haftungshinweise kann eine Erweiterung ohne Signatur auch dann nicht ersetzen.
   Betroffen: die vor v917 ausgelieferten Fassungen (zuletzt v857).
-  Was zu tun ist: auf v931 aktualisieren und keine Erweiterung aus einer Datei wählen, die man nicht selbst angelegt hat.
+  Abhilfe: auf v931 aktualisieren und keine Erweiterung aus einer Datei wählen, die man nicht selbst angelegt hat.
 
 ### Hinzugefügt
 - Neue Lebenslage „Längere Krankheit“. Sie nennt die Unterlagen, die meist dazugehören (Krankschreibungen, Schreiben der
@@ -429,7 +473,7 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   Gemessen in Chromium am serialisierten Stand der Seite und an der MHTML-Erfassung; der Speicherweg des Browser-Menüs, Safari und
   Firefox sind nicht gemessen. Betroffen: die ausgelieferten Fassungen bis v929 (das Öffnen ohne Passwort: bis v928); die
   Untergrenze ist nicht je Fassung geprüft.
-  Was zu tun ist: auf v930 aktualisieren, mit „Seite speichern“ gesicherte Dateien löschen und zum Sichern „Sicherungskopie
+  Abhilfe: auf v930 aktualisieren, mit „Seite speichern“ gesicherte Dateien löschen und zum Sichern „Sicherungskopie
   erstellen“ verwenden.
 
 ### Hinzugefügt
@@ -483,13 +527,13 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 - VD-SEC-020 (mittel): Behoben in v929: Der Schutz gegen das Einbetten in eine fremde Seite hing an einem Element, das eine mit
   „Seite speichern“ gesicherte Kopie nicht mehr trägt. Er verbirgt die Seite jetzt unabhängig davon. Betroffen: Kopien aus den
   ausgelieferten Fassungen seit v787 bis v928; die ausgelieferte Anwendung selbst nicht.
-  Was zu tun ist: auf v929 aktualisieren und die bisher so gesicherten Kopien löschen; der Schutz gilt nur für Kopien, die ab
+  Abhilfe: auf v929 aktualisieren und die bisher so gesicherten Kopien löschen; der Schutz gilt nur für Kopien, die ab
   v929 gesichert werden.
 - VD-SEC-021 (hoch): Behoben in v929: Die Lese-App gab einem signierten Sprachmodul die Prüfer-Stufe allein nach dem Zertifikat
   der Prüfstelle, ohne deren Geltungsbereich (Modultyp, Sprache) und die Bindung an die Originalsätze zu prüfen. Ein solches
   Modul durfte dort Zusicherungssätze übersetzen, die Sätze, die eine empfangende Stelle über den Zustand eines Dokuments liest;
   im Kern galt dasselbe Modul als ungeprüft. Betroffen: die ausgelieferten Fassungen seit v843 bis v928.
-  Was zu tun ist: auf v929 aktualisieren. Ab v929 prüft die Lese-App Geltung und Originalsätze wie der Kern; ein Sprachmodul
+  Abhilfe: auf v929 aktualisieren. Ab v929 prüft die Lese-App Geltung und Originalsätze wie der Kern; ein Sprachmodul
   einer Prüfstelle bekommt dort die Stufe erst, wenn es die Summen der Originalsätze der Lese-App für Deutsch und Englisch trägt.
 
 ### Hinzugefügt
@@ -520,19 +564,19 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   weder die Anwendung noch die Zusammenstellung des Produkts den Titel auf reinen Text; eine solche Situation hätte Programmcode im
   Fenster der Anwendung ausführen können. Eine fremde Depot-Datei war kein Weg dazu. Betroffen: die ausgelieferten Fassungen seit
   v922 bis v927.
-  Was zu tun ist: auf v928 aktualisieren. Ab v928 zeigt die Kachel den Titel als Text, und die
+  Abhilfe: auf v928 aktualisieren. Ab v928 zeigt die Kachel den Titel als Text, und die
   Zusammenstellung nimmt Beschriftungen von Situationen und Assistenten nur als reinen Text an.
 - VD-SEC-017 (kritisch): Behoben in v928: Aus der Kennung eines Logikmoduls entstand ein Attribut am Knopf seiner Karte, und die
   Kennung wurde nur auf ihre Länge geprüft. Ein Modul, das mit einem Produkt ausgeliefert oder mit einer Signatur versehen war,
   deren Kette gegen den eingebauten Anker prüft, hätte über seine Kennung Programmcode im Fenster der Anwendung ausführen können.
   Betroffen: die ausgelieferten Fassungen seit mindestens v670 bis v927.
-  Was zu tun ist: auf v928 aktualisieren. Ab v928 hat die Kennung beim Einlass eine feste Form (Buchstaben,
+  Abhilfe: auf v928 aktualisieren. Ab v928 hat die Kennung beim Einlass eine feste Form (Buchstaben,
   Ziffern, Bindestrich, Unterstrich), und die Karte entsteht nur mit einem Attributnamen in dieser Form.
 - VD-SEC-018 (kritisch): Behoben in v928: Texte eines Sprachmoduls wurden beim Einlass auf reinen Text geprüft, die Platzhalter für
   die Marke und für eine andere Beschriftung aber erst danach eingesetzt, ohne erneute Prüfung. Ein Sprachmodul, das mit einem
   Produkt ausgeliefert oder mit geprüfter Kette signiert war, hätte so Programmcode im Fenster der Anwendung ausführen können.
   Betroffen: die ausgelieferten Fassungen seit v787 bis v927.
-  Was zu tun ist: auf v928 aktualisieren. Ab v928 gilt die Prüfung für den Text nach dem Einsetzen.
+  Abhilfe: auf v928 aktualisieren. Ab v928 gilt die Prüfung für den Text nach dem Einsetzen.
 - Werte in den Eingabemasken (Beispieltext und Optionswert aus der Beschreibung eines Bereichs oder einer Vorlage, Verweis auf
   eine Person oder Stelle aus der Datei) werden in Attributen vollständig maskiert, bisher nur am Anführungszeichen.
 
@@ -554,7 +598,7 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   lassen und ein Erscheinungsbild unter einer erfundenen Anbieterkennung als geprüft einlassen. Ab dieser Fassung fehlt die
   Schnittstelle in allen ausgelieferten Produkten; jeder Auslieferungsweg weist ein Produkt ab, das sie trägt. Betroffen: die
   ausgelieferten Fassungen v787 bis v923.
-  Was zu tun ist: auf v927 aktualisieren.
+  Abhilfe: auf v927 aktualisieren.
 
 ### Behoben
 - Öffnete ein Produkt eine Datei, die mit einem anderen Vivodepot-Produkt angelegt war, schrieb es seine eigenen Beschriftungen
@@ -605,14 +649,14 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
   Seite „Freigabe abholen“ nur auf den Anfang „https://“. Beim Erzeugen wurden Adressen mit anderem Anfang, mit Zugangsdaten
   oder mit Leer- und Steuerzeichen angenommen, und die Person sah den Host nicht, bevor der Link entstand. Betroffen: der Freigabe-Link in den ausgelieferten
   Fassungen seit mindestens v670 bis v922, die Seite „Freigabe abholen“ von v803 bis v922.
-  Was zu tun ist: auf v923 aktualisieren. Ab v923 prüft der Dialog die Adresse, nennt den Host vor dem Link
+  Abhilfe: auf v923 aktualisieren. Ab v923 prüft der Dialog die Adresse, nennt den Host vor dem Link
   und weist auf eine andere als die voreingestellte Ablage hin; bei Zweifel an der Ablage-Adresse eines früher erzeugten Links den
   Link neu erzeugen.
 - VD-SEC-015 (mittel): Behoben in v923: Eine Anfrage konnte Felder aus der Vorlage einer Einrichtung über die interne Schreibweise des Felds ansprechen, ohne dass geprüft wurde, ob die
   anfragende Stelle diese Vorlage ausgestellt hat; das galt auch für eine unsignierte Anfrage. Die Antwort konnte so Angaben aus
   der Vorlage einer anderen Stelle zur Freigabe anbieten, und schon die Zeile unter „Diese Angaben gibt es in Vivodepot nicht:“ zeigte, dass die
   Person eine Vorlage dieser Stelle hat. Betroffen: die ausgelieferten Fassungen seit mindestens v670 bis v922.
-  Was zu tun ist: auf v923 aktualisieren. Ab v923 löst ein Vorlagenfeld nur für die geprüfte Stelle auf, der
+  Abhilfe: auf v923 aktualisieren. Ab v923 löst ein Vorlagenfeld nur für die geprüfte Stelle auf, der
   die Vorlage gehört; eine bereits herausgegebene Antwort bleibt, wie sie war.
 
 ### Behoben
@@ -725,7 +769,7 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
   veränderte, konnte einen falschen Hinweis anzeigen lassen oder ein Feld hinzufügen, das beim nächsten Speichern mitging. Der
   verschlüsselte Inhalt war nicht betroffen. Betroffen: die ausgelieferten Fassungen seit v670 bis v917 (das Hinzufügen eines
   Felds seit v787).
-  Was zu tun ist: auf v918 aktualisieren und die Datei einmal öffnen und speichern. Danach sind diese Angaben an den verschlüsselten
+  Abhilfe: auf v918 aktualisieren und die Datei einmal öffnen und speichern. Danach sind diese Angaben an den verschlüsselten
   Inhalt gebunden; eine Änderung meldet die Anwendung nach der Passworteingabe, veränderte fremde Felder verwirft sie.
 
 ### Hinzugefügt
@@ -900,15 +944,15 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 - VD-SEC-006 (kritisch): Behoben in v842: Ein fremdes Logikmodul konnte beim Öffnen seines Dokuments Programmcode in der
   Anwendung ausführen und damit angezeigte Depotdaten an eine fremde Adresse schicken — ohne Signatur eingelassen oder in
   einer fremden Depotdatei mitgebracht. Betroffen: Fassungen bis v841.
-  Was zu tun ist: auf v842 aktualisieren; Module und fremde Depotdateien nur aus bekannter Quelle.
+  Abhilfe: auf v842 aktualisieren; Module und fremde Depotdateien nur aus bekannter Quelle.
 - VD-SEC-007 (kritisch): Behoben in v842: Eine fremde Depotdatei konnte über den Namen ihrer Marke, den Anbieternamen einer
   Vorlage oder die Liste einer Zusammenstellung Programmcode in der Anwendung ausführen und Daten aus der geöffneten Datei
   an eine fremde Adresse bringen. Betroffen: Fassungen bis v841.
-  Was zu tun ist: auf v842 aktualisieren; fremde Depotdateien nur öffnen, wenn man der Absenderin
+  Abhilfe: auf v842 aktualisieren; fremde Depotdateien nur öffnen, wenn man der Absenderin
   vertraut.
 - VD-SEC-008 (kritisch): Behoben in v842: Im Ausstellungswerkzeug der Trust Authority konnte eine präparierte Einreichung
   über ihre Anbieter-Kennung Programmcode ausführen. Betroffen: Schalen-Fassungen bis v841.
-  Was zu tun ist: nichts für Nutzerinnen; Einreichungen werden nur mit v842 oder später ausgestellt.
+  Abhilfe: nichts für Nutzerinnen; Einreichungen werden nur mit v842 oder später ausgestellt.
 
 ### Behoben
 - Härtung: Im Studio setzt die Antwort auf das Vereinbarungs-Angebot einer Person einen Verweis „Quelle“ nur noch
@@ -942,7 +986,7 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
   (Übergabe-Datei eines Sub-Depots, Export-Dateien, Datei eines Empfängerkreises; bis v830 auch der Export an die
   EUDI-Wallet). Ein Dateiname liegt außerhalb der Verschlüsselung. Betroffen: alle Wege bis v811, der Export an die
   EUDI-Wallet bis v818.
-  Was zu tun ist: auf v830 aktualisieren; ältere Dateien bei Bedarf umbenennen.
+  Abhilfe: auf v830 aktualisieren; ältere Dateien bei Bedarf umbenennen.
 
 ### Behoben
 - FHIR-Export: `display` ist nur noch der offizielle Begriff des Codesystems oder fehlt; der eigene deutsche Name steht
@@ -961,11 +1005,11 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 ### Sicherheit
 - VD-SEC-003 (hoch): Behoben: Felder, die ein Assistent unter einer Bedingung ausblendet, zeigten Listen-Editor,
   Bereichsansicht, PDF und Vorlesen trotzdem. Betroffen: Fassungen bis v806.
-  Was zu tun ist: auf v810 aktualisieren. Früher erzeugte PDFs können die ausgeblendeten Felder
+  Abhilfe: auf v810 aktualisieren. Früher erzeugte PDFs können die ausgeblendeten Felder
   enthalten; bei Bedarf neu erzeugen und die alten nicht weitergeben.
 - VD-SEC-005 (hoch): Behoben: Hatte die Person eine Bedingung für die Weitergabe festgelegt, ging der Auszug eines
   Empfängerkreises als QR-Code ohne die Vereinbarung hinaus, als Datei nicht. Betroffen: Fassungen bis v806.
-  Was zu tun ist: auf v810 aktualisieren.
+  Abhilfe: auf v810 aktualisieren.
 
 ### Hinzugefügt
 - JSON-Schemas (2020-12) für alle Modultypen unter `docs/<typ>-modul/`, je mit einer Probe, die Schema und
@@ -1004,7 +1048,7 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 
 ### Sicherheit
 - VD-SEC-001 (hoch): Behoben: Abgewählte Angaben aus Listen wurden beim Beantworten einer Anfrage trotzdem übermittelt.
-  Was zu tun ist: auf v805 aktualisieren.
+  Abhilfe: auf v805 aktualisieren.
 
 ## [v1.0.803] – 2026-09-26
 
@@ -1033,7 +1077,7 @@ Enthält die nicht einzeln ausgelieferte Fassung v921.
 ### Sicherheit
 - VD-SEC-002 (hoch): Behoben: Beim Herausgeben einer Zusammenstellung, eines Anlass-Auszugs oder einer Antwort trug der
   Rohwert einer Liste auch zurückgehaltene Angaben hinaus. Betroffen: Fassungen bis v797.
-  Was zu tun ist: auf v799 aktualisieren. Früher erzeugte Zusammenstellungs- oder
+  Abhilfe: auf v799 aktualisieren. Früher erzeugte Zusammenstellungs- oder
   Anlass-Dateien können die zurückgehaltenen Angaben enthalten; bei Bedarf neu erzeugen und die alten nicht weitergeben.
 
 ## [v1.0.797] – 2026-09-25

@@ -41,3 +41,14 @@ hook_log_schreiben() {
   printf '{"zeit":"%s","start":"%s","hook":"%s","ziel":"%s","rc":"%s","quelle":"%s"}\n' "$_ts" "${_hook_start_ts:-}" "$_hook" "$_ziel" "$_rc" "$_quelle" >> "hook-log.ndjson" 2>/dev/null
   unset _hook _rc _ziel _ts _quelle
 }
+
+# EREIGNIS-ZEILE (26.10.2026): ein Vorfall INNERHALB eines Hook-Laufs, der sonst nur auf stderr stünde (z. B. der Rückfall
+# vom Air auf diesen Rechner). Eigener hook-Name, damit die Zählung je Hook im Messwerkzeug des Testbetriebs die Läufe nicht
+# doppelt zählt; der Grund ohne Anführungszeichen und Backslashes, damit die Zeile gültiges JSON bleibt.
+hook_log_ereignis() {
+  _ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  _grund="$(printf '%s' "$3" | tr -d '"\\')"
+  if [ -n "${VD_HOOK_SPERRE_JE_PID:-}" ]; then _quelle=test; else _quelle=echt; fi
+  printf '{"zeit":"%s","start":"%s","hook":"%s","ziel":"%s","rc":"%s","grund":"%s","quelle":"%s"}\n' "$_ts" "${_hook_start_ts:-}" "$1" "$(git rev-parse HEAD 2>/dev/null || echo unbekannt)" "$2" "$_grund" "$_quelle" >> "hook-log.ndjson" 2>/dev/null
+  unset _ts _grund _quelle
+}

@@ -337,6 +337,13 @@ function main() {
     console.error(`[test-parallel] ${n} parallele Testdateien von ${P.kernZahl()} Kernen`
       + (process.env.VD_TEST_PARALLEL ? ' (VD_TEST_PARALLEL)' : ' (Hälfte der Kerne; übersteuerbar mit VD_TEST_PARALLEL)'));
   }
+  /* W1 (26.10.2026, Testkonzept §3.7): kein Volllauf außerhalb Stufe B. `npm test` läuft nur im Platz eines Hooks oder des
+     Zugkopfs (geerbt), auf dem eigenen Runner oder als Probe mit eigenem Platz-Verzeichnis — nie mit einem eigenen Platz.
+     Nur im Kanon-Baum: der öffentliche Zuschnitt trägt keine Hooks und keine Stufen. Probe: [W1·Volllauf]. */
+  if (fs.existsSync(path.join(repo, 'hooks', 'pre-push'))) {
+    const w1 = require('./lib/suite-platz.js').volllaufPruefen({ env: process.env });
+    if (!w1.ok) { console.error('[geteilte-git-config-wache] ABBRUCH: ' + w1.grund); process.exit(1); }
+  }
   process.exit(bewachterLauf(befehl, { repo, platz: true, temp: true }));
 }
 

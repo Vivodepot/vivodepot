@@ -32,7 +32,13 @@ export default async function* dateiZeitenReporter(source) {
       const st = stapel.get(r) || []; stapel.set(r, st);
       st[e.data.nesting] = e.data.name; st.length = e.data.nesting + 1;
       const art = e.data.details && e.data.details.error && e.data.details.error.failureType;
-      if (e.type === 'test:fail' && !e.data.todo && !e.data.skip && art !== 'subtestsFailed' && !r.startsWith('..')) rot.add(r + '\t' + st.join(' > '));
+      if (e.type === 'test:fail' && !e.data.todo && !e.data.skip && art !== 'subtestsFailed' && !r.startsWith('..')) {
+        const zeile = r + '\t' + st.join(' > ');
+        rot.add(zeile);
+        /* FRÜHES ROT (26.10.2026, Testkonzept Punkt 2): sofort, nicht erst am Ende — der Zugkopf liest die Datei im Takt und
+           beendet die andere Seite beim ersten Rot. Probe: die Zugkopf-Probe [Zugkopf·Frührot]. */
+        try { if (process.env.VD_ERSTES_ROT) fs.appendFileSync(process.env.VD_ERSTES_ROT, zeile + '\n'); } catch (_) { /* Zugabe */ }
+      }
     }
     if ((e.type === 'test:pass' || e.type === 'test:fail') && e.data && e.data.nesting === 0 && e.data.file) {
       const rel = path.relative(repo, e.data.file);
@@ -51,7 +57,7 @@ export default async function* dateiZeitenReporter(source) {
   try {
     const ziel = S.zeitenPfad(repo);
     if (ziel && Object.keys(je).length) {
-      const gerundet = Object.fromEntries(Object.entries(je).map(([k, v]) => [k, Math.round(v)]));
+      const gerundet = S.dateiZeitenZuordnen(je, wand);
       const tmp = ziel + '.' + process.pid + '.tmp';
       fs.writeFileSync(tmp, JSON.stringify(S.zusammenfuehren(S.zeitenLesen(ziel), gerundet), null, 1) + '\n');
       fs.renameSync(tmp, ziel);

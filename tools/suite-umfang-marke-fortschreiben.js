@@ -17,7 +17,15 @@
    AUFRUF
      node tools/suite-umfang-marke-fortschreiben.js                     Marke hoch, wenn der Baum mehr trägt; sonst nichts geschrieben
      node tools/suite-umfang-marke-fortschreiben.js --senkung --grund "…"   benannte Senkung (Grund ab 40 Zeichen, datiert)
+     node tools/suite-umfang-marke-fortschreiben.js --pruefen           nur prüfen (Baum ≥ Marke), nie schreiben — am Zugkopf
      [--datei <grundlinie.json>] [--wurzel <ordner>]     für Proben an Wegwerf-Kopien
+
+   VOR DEM LAUF, NICHT NACH GRÜN (26.10.2026): am Zugkopf schrieb dieser Schritt die Marke hoch, nachdem der Zug grün war —
+   jeder Zug brauchte dafür einen eigenen Commit („Marke auf die Testdateien des Zugkopfs fortgeschrieben“) und der Push
+   einen zweiten Beleg. Jetzt schreibt die Vorprüfung vor dem Commit (--baum) die Marke vor dem Commit (Wagen und Zugkopf), und
+   tools/landung-vorbereiten.js prüft am Zugkopf nur noch mit --pruefen: weniger Testdateien als die Marke ist rot, mehr ist
+   grün. Die Marke hinkt damit höchstens um die Testdateien der übrigen Wagen eines Zugs nach; der nächste Wagen auf dem
+   gelandeten Stand holt sie ein. Probe: [Zähler·vor dem Lauf] in der Probe der Hochwassermarke.
 
    AUSGÄNGE (drei, wie die stehende Regel es will): 0 eingehalten (Marke gestiegen oder unverändert) · 1 verletzt (Baum trägt
    WENIGER als die Marke: nichts geschrieben, die Meldung nennt den benannten Weg) · 1 nicht messbar (Marke oder Zählung keine Zahl).
@@ -45,6 +53,12 @@ function main(argv, { datum = heute() } = {}) {
   }
 
   const p = M.pruefen(g, FELD, ist);
+  if (argv.includes('--pruefen')) {
+    if (!p.messbar) { console.error('[suite-umfang-marke] NICHT MESSBAR — Marke ' + p.marke + ', Zählung ' + p.ist + '.'); return 1; }
+    if (!p.ok) { console.error('[suite-umfang-marke] ROT — der Baum trägt ' + p.ist + ' Testdateien, die Marke steht auf ' + p.marke + ': ' + p.fehlt + ' Datei(en) fehlen.'); return 1; }
+    console.log('[suite-umfang-marke] geprüft: ' + p.ist + ' Testdateien, Marke ' + p.marke + ' — nichts geschrieben (vor-pre-commit schreibt sie).');
+    return 0;
+  }
   if (!p.messbar) { console.error('[suite-umfang-marke] NICHT MESSBAR — Marke ' + p.marke + ', Zählung ' + p.ist + ' (keine ganze Zahl). Nichts geschrieben.'); return 1; }
   if (!p.ok) {
     console.error('[suite-umfang-marke] ROT — der Baum trägt ' + p.ist + ' Testdateien, die Marke steht auf ' + p.marke + ': ' + p.fehlt + ' Datei(en) fehlen. Nichts geschrieben.');

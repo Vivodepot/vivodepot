@@ -115,9 +115,60 @@ function themeBlock(html, sel) {
    Bis dahin hieß dieser Abschnitt „Die Kopfzeile bleibt Salbei, in allen drei Themes“ und verbot jeden Selektor auf die Topbar im
    Vollmacht-Modus. Weiter verboten: --vm-chrome und jede Füllung, die kein Anteil von --akzent ist, in allen drei Themes. */
 
+/* Die Regeln mit dem Selektor `#app.modus-vollmacht .topbar` (26.10.2026). Bis dahin ein einziger regulärer Ausdruck, der mit
+   `[^{}]*` begann: an jeder Stelle des Kerns lief er bis zur nächsten Klammer zurück, quadratisch in der Länge — 325 s für diesen
+   einen Test, 99 % der Datei. Jetzt linear: jede Fundstelle des Selektors, davon zurück bis zur letzten Klammer, vorwärts bis zum
+   Ende des Blocks. Dieselben Treffer wie der alte Ausdruck; das hält [Aufnahmekriterium·Topbar-Regeln·Rot-Beweis] unten fest. */
+const ALTER_AUSDRUCK = /[^{}]*#app\.modus-vollmacht\s+\.topbar\s*[{,][^{}]*\{[^}]*\}|[^{}]*#app\.modus-vollmacht\s+\.topbar\s*\{[^}]*\}/g;
+function topbarRegeln(html) {
+  const regeln = [];
+  const sel = /#app\.modus-vollmacht\s+\.topbar\s*([{,])/g;
+  let weiter = 0;
+  for (let m = sel.exec(html); m; m = sel.exec(html)) {
+    if (m.index < weiter) continue;
+    const anfang = Math.max(html.lastIndexOf('{', m.index), html.lastIndexOf('}', m.index)) + 1;
+    const nachSel = m.index + m[0].length;
+    let auf = nachSel - 1;
+    if (m[1] === ',') {
+      // nach einem Komma: bis zur nächsten öffnenden Klammer ohne schließende dazwischen, sonst keine Regel
+      auf = html.indexOf('{', nachSel);
+      const zu = html.indexOf('}', nachSel);
+      if (auf < 0 || (zu >= 0 && zu < auf)) continue;
+    } else {
+      // direkt eine Klammer: der alte Ausdruck versuchte zuerst eine zweite Klammer ohne Klammer dazwischen (Zweig 1)
+      const zweite = html.indexOf('{', nachSel);
+      const zu = html.indexOf('}', nachSel);
+      if (zweite >= 0 && (zu < 0 || zweite < zu)) auf = zweite;
+    }
+    const ende = html.indexOf('}', auf);
+    if (ende < 0) continue;
+    regeln.push(html.slice(anfang, ende + 1));
+    weiter = ende + 1;
+    sel.lastIndex = weiter;
+  }
+  return regeln;
+}
+
+test('[Aufnahmekriterium·Topbar-Regeln·Rot-Beweis] die lineare Suche findet dieselben Regeln wie der alte Ausdruck', () => {
+  const css = [
+    'a { color: red; }',
+    '#app.modus-vollmacht .topbar { background: var(--vm-chrome); }',
+    'html.dark-mode #app.modus-vollmacht .topbar, .x .y { background: color-mix(in srgb, var(--akzent) 30%, #1c2a1e); }',
+    '.b{} #app.modus-vollmacht .topbar , #app.modus-vollmacht .andere { color: blue }',
+    '#app.modus-vollmacht .topbar-titel { color: x; }',
+    '@media (x) { html.high-contrast #app.modus-vollmacht .topbar { background: #000; } }',
+    '#app.modus-vollmacht  .topbar\n{ background: none }',
+  ].join('\n');
+  const alt = [...css.matchAll(ALTER_AUSDRUCK)].map((m) => m[0]);
+  assert.ok(alt.length >= 5, 'Vorbedingung: der alte Ausdruck trifft die Beispiele: ' + alt.length);
+  assert.deepEqual(topbarRegeln(css), alt);
+  const kaputt = (h) => [...h.matchAll(/#app\.modus-vollmacht\s+\.topbar\s*\{[^}]*\}/g)].map((m) => m[0]);
+  assert.notDeepEqual(kaputt(css), alt, 'ein Ausdruck ohne Selektorliste davor fände andere Regeln — die Probe unterscheidet');
+});
+
 test('[Aufnahmekriterium] Kopfzeile: kein Theme setzt die Topbar-Fläche im Sub-Kontext auf --vm-chrome oder eine feste Farbe', () => {
   const html = kernMitHeute(ladeKern().html);
-  const regeln = [...html.matchAll(/[^{}]*#app\.modus-vollmacht\s+\.topbar\s*[{,][^{}]*\{[^}]*\}|[^{}]*#app\.modus-vollmacht\s+\.topbar\s*\{[^}]*\}/g)].map((m) => m[0]);
+  const regeln = topbarRegeln(html);
   const flaeche = (r) => (r.match(/background(?:-color)?\s*:\s*([^;}]+)/) || [])[1];
   const falsch = regeln.filter((r) => { const f = flaeche(r); return f && (/--vm-chrome/.test(f) || !/^color-mix\(in srgb, var\(--akzent\) \d+%, #[0-9a-f]{6}\)\s*$/i.test(f.trim())); });
   assert.deepEqual(falsch, [], 'die Kopfzeile trägt im Sub-Kontext nur einen Anteil von --akzent');

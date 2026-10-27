@@ -8,6 +8,8 @@
 eigener Herkunft, `share/empfangen.html`) · U2-ADR-156 1b (eigene zugeschnittene Datei je Empfänger) · U2-ADR-449 (Antwort als
 JWE) · U2-ADR-464 (aufgefüllte Einheiten) · U2-ADR-501 (Zertifikat der Stelle)
 **Status heute:** gilt — Belege im `konformitaet`-Block unten; die Strecke gegen einen lokalen Pod ist dort offen geführt.
+**Nachtrag 25.10.2026:** Stufe 2 (`postMessage` aus dem Kern) ist entschieden in
+`vivodepot-U2-ADR-512-nachtrag-stufe-2-postmessage-aus-dem-kern-2026-10-25.md`.
 
 ## Frage
 

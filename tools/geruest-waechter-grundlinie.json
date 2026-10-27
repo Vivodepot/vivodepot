@@ -129,7 +129,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 272803
+   "bytes": 273414
   },
   "satz": {
    "bytes": 28495
@@ -2089,6 +2089,28 @@
    "auf": 272803,
    "daneben": {},
    "grund": "Hilfe-Thema Pro (E16): Eintrag pro-beruflich in HILFE_THEMEN mit nurMitLogikModul und die Kennung des Pro-Logikmoduls; +49 Byte relativ zum Vorwagen",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 272803,
+   "auf": 273381,
+   "daneben": {},
+   "grund": "Pod Stufe 2: podAblegen per postMessage an die Brücke (Nachtrag U2-ADR-512), +578 Byte, 25.10.2026",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 273381,
+   "auf": 273414,
+   "daneben": {},
+   "grund": "Block-Überschrift aus Modul, wo der Textsatz keinen Slot führt (Befund PRO-ANLASS-BLOCKTITEL-LEER)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

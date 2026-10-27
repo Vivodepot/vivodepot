@@ -10,8 +10,8 @@ logo: logo.png
 
 # softwareVersion und releaseDate setzt der Zuschnitt-Bau aus der zuletzt ausgelieferten Kern-Fassung, nie von Hand;
 # die Einträge je Fassung stehen in CHANGELOG.md.
-softwareVersion: "1.0.952"
-releaseDate: "2026-10-25"
+softwareVersion: "1.0.955"
+releaseDate: "2026-10-27"
 
 developmentStatus: stable
 softwareType: standalone/web

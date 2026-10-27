@@ -29,7 +29,9 @@ const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 71;   // 64 → 71 am 25.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v952): sechs Proben BESTAND (öffentlich nur zwei Privat-Produkte)
+const DECKEL = 73;   // 71 → 73 am 27.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v955): pro-e1-anlaesse und situation-blocktitel-ab-werk,
+                     //   BESTAND (öffentlich nur zwei Privat-Produkte); die Privat-Tests der zweiten Datei laufen öffentlich weiter.
+                     // 64 → 71 am 25.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v952): sechs Proben BESTAND (öffentlich nur zwei Privat-Produkte)
                      //   und zwei Tests aus abgeschaffte-begriffe, die das zurückgehaltene IPS-Begleittext-Modul lesen; je mit eigenem Grund.
                      // 63 → 64 am 20.10.2026 (Wort der Gegenlesung): modul-app-signieren-und-packen [Merkdatei], bis zum Fix von MERKDATEI-NICHT-IGNORIERT-OEFFENTLICH.
                      // 61 → 63 am 20.10.2026 (Wort der Gegenlesung): rechtsraum-reservierung-vier-produkte und laenderannahme-pruefen, BESTAND (öffentlich nur zwei Privat-Produkte).
@@ -382,6 +384,27 @@ const NUR_PRIVAT = {
   // die Positivkontrolle verlangt mindestens zehn schreibende Werkzeuge mit Testlauf; öffentlich sind es vier, die übrigen bleiben zurück
   "tests/schalter-pruefen.test.js": { grund: BESTAND, tests: [
     "[Schalter·Klasse] jedes schreibende Werkzeug mit Testlauf ruft schalterPruefen(module), bevor es etwas tut",
+  ] },
+  // 27.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v955): Proben seit v952, die die Pro-Produkte bauen.
+  // baut pro-de und pro-en; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/pro-e1-anlaesse.test.js": { grund: BESTAND, tests: [
+    "[Pro·E1] pro-de: jeder Block der vier Anlässe trägt Leitfragen",
+    "[Pro·E1] pro-de: jedes Feld mit Hinweis steht in einem Anlass",
+    "[Pro·E1] pro-de: Branchenfelder bleiben im Grund-Pro und nennen ihre Bedingung",
+    "[Pro·E1] pro-de: Kontakte und Registerangaben bleiben getrennt und nennen einander",
+    "[Pro·E1] pro-en: jeder Block der vier Anlässe trägt Leitfragen",
+    "[Pro·E1] pro-en: jedes Feld mit Hinweis steht in einem Anlass",
+    "[Pro·E1] pro-en: Branchenfelder bleiben im Grund-Pro und nennen ihre Bedingung",
+    "[Pro·E1] pro-en: Kontakte und Registerangaben bleiben getrennt und nennen einander",
+    "[Pro·E1] pro-de: jeder Block eines Anlasses zeigt seine Überschrift und seine Leitfragen",
+    "[Pro·E1] pro-en: jeder Block eines Anlasses zeigt seine Überschrift und seine Leitfragen",
+    "[Pro·E1] deutsch und englisch tragen die Leitfragen in denselben Blöcken",
+  ] },
+  // baut pro-de und pro-en; die Tests für privat-de und privat-en laufen öffentlich weiter
+  "tests/situation-blocktitel-ab-werk.test.js": { grund: BESTAND, tests: [
+    "[Blocktitel] pro-de: jeder Block jeder Situation ab Werk zeigt seine Überschrift",
+    "[Blocktitel] pro-en: jeder Block jeder Situation ab Werk zeigt seine Überschrift",
+    "[Blocktitel] pro-de und pro-en: die Pro-Anlässe tragen ihre Block-Überschriften aus dem Modul",
   ] },
 };
 

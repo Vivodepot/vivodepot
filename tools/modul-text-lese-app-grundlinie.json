@@ -12,7 +12,7 @@
       "grund": "Kern-Kataloge: Institutionen, Anlässe, Dokumentliste"
     },
     "hinweis-beispiel": {
-      "anzahl": 570,
+      "anzahl": 576,
       "grund": "Hinweis und Beispiel gehören zur Eingabemaske; die Lese-App zeigt sie nie"
     },
     "unterfeld-beschriftung": {
@@ -40,7 +40,7 @@
       "grund": "Assistenten des Kerns; die Lese-App hat keine Eingabe"
     },
     "eingabe-zweitknopf": {
-      "anzahl": 123,
+      "anzahl": 124,
       "grund": "Zweitknopf „Weitere … hinzufügen“ unter einer Liste der Eingabemaske; die Lese-App hat keine Eingabe"
     },
     "suche-alltag": {

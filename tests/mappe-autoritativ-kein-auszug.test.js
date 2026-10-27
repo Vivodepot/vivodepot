@@ -88,8 +88,10 @@ test('[Mappe·autoritativ·Rot-Beweis] ohne die Voreinstellung im Import trägt 
 const LESER_GEMESSEN = Object.freeze({
   mappeEintragHinzufuegen: 'schreibt das Flag beim Anlegen (Voreinstellung), liest es nicht für eine Ausgabe',
   mappeListeHTML: 'zeigt die Markierung in der Mappe-Liste an, gibt nichts heraus',
-  // 21.10.2026, VD-SEC-029: Altbestand vor v832 mit sensibel:false deckt der Filter nicht; die Migration ist ein eigener Befund.
+  // 21.10.2026, VD-SEC-029: Altbestand vor v832 mit sensibel:false deckt der Filter nicht; die Migration ist ein eigener Befund (Leser darunter).
   empfaengerZuschnittModell: 'filtert am Ausgang des engen Zuschnitts nur zurück (engt ein), gibt nichts zusätzlich heraus; Altbestand sensibel:false unverändert',
+  // 21.10.2026: die Migration des Altbestands selbst (tests/mappe-gesundheit-sensibel-migration.test.js).
+  _mappeGesundheitSensibelMigrieren: 'schreibt das Flag an autoritativen Gesundheitsdokumenten (Migration des Altbestands), gibt nichts heraus',
 });
 function kommentareLeeren(src) {
   return src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))

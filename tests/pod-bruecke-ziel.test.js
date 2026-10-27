@@ -47,6 +47,7 @@ async function seite(quelle = QUELLE) {
   const kontext = {
     vdPodAnmeldung: A, vdPodChiffrat: C, vdPodLws: require('../pod/lws.js'),
     document: { readyState: 'complete', getElementById: el, createElement: () => el('neu-' + Math.random()) },
+    window: { opener: null, addEventListener() {} },
     fetch: async () => ({ ok: true, text: async () => '<#me> <http://www.w3.org/ns/pim/space#storage> <' + SPEICHER + '>.\n' }),
     crypto: webcrypto, btoa: (s) => Buffer.from(s, 'binary').toString('base64'), Blob, URL, Promise, Date, Number, String, Error, Uint8Array, JSON
   };

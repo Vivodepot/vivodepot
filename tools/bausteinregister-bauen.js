@@ -211,8 +211,9 @@ function seiteHtml(bausteine, kernStand, hash, iconLinks) {
     '  .klein { font-size: 0.85rem; color: var(--ink2); }',
     '  footer { border-top: 1px solid var(--line); margin-top: 3rem; padding-top: 1rem; font-size: 0.85rem; color: var(--ink2); }',
     '  a { color: var(--salbei); }', '</style>', '</head>', '<body>', '<main>');
-  z.push('  <h1>Bausteine</h1>', '  <p>' + h(EINLEITUNG.de) + '</p>',
-    '  <p class="lang-en" lang="en"><strong>Building blocks.</strong> ' + h(EINLEITUNG.en) + '</p>');
+  z.push('  <h1>Bausteine</h1>', '  <p>' + h(EINLEITUNG.de).replace('Kennungen des Feldregisters', 'Kennungen des <a href="./">Feldregisters</a>') + '</p>',
+    '  <p class="lang-en" lang="en"><strong>Building blocks.</strong> '
+      + h(EINLEITUNG.en).replace('identifiers of the field register', 'identifiers of the <a href="./">field register</a>') + '</p>');
   z.push('  <h2>Stand</h2>',
     '  <p>Fassung ' + h(kernStand) + ' · ' + bausteine.length + ' Modularten · <a href="' + JSON_DATEI + '">' + JSON_DATEI + '</a> · '
       + 'Prüfsumme <a href="' + PRUEFSUMMEN_DATEI + '">' + PRUEFSUMMEN_DATEI + '</a></p>',
@@ -226,15 +227,14 @@ function seiteHtml(bausteine, kernStand, hash, iconLinks) {
       : '<br><span class="klein">angekündigt am ' + h(b.angekuendigtAm) + ', ab ' + h(b.eingestelltAb) + ' nicht mehr bereitgestellt · '
         + '<span lang="en">announced ' + h(b.angekuendigtAm) + ', discontinued from ' + h(b.eingestelltAb) + '</span></span>';
     z.push('    <li id="' + h(b.typ) + '"><span class="name">' + h(b.label.de) + '</span> · <span lang="en">' + h(b.label.en) + '</span>'
-      + '<span class="status status-' + h(b.status) + '">' + h(st.de) + ' · <span lang="en">' + h(st.en) + '</span></span>'
+      // Der Status steht nur, wenn er vom Regelfall abweicht (25.10.2026: „bereitgestellt“ an jeder Zeile unterschied nichts).
+      + (b.status === 'bereitgestellt' ? '' : '<span class="status status-' + h(b.status) + '">' + h(st.de) + ' · <span lang="en">' + h(st.en) + '</span></span>')
       + '<br>' + h(b.zweck.de) + '<br><span class="lang-en" lang="en">' + h(b.zweck.en) + '</span>'
       + '<br><span class="klein"><code>' + h(b.typ) + '</code> · Schema <a href="' + h(b.schema.adresse) + '">' + h(b.schema.adresse) + '</a>'
       + ' (Fassung ' + h(b.schema.fassung) + ')</span>' + daten + '</li>');
   }
   z.push('  </ul>');
-  z.push('  <h2>Feldkennungen · Field identifiers</h2>',
-    '  <p>Die Kennungen des <a href="./">Feldregisters</a> derselben Fassung sind Bausteine: Vorlagen bestehen aus ihnen. '
-      + '<span lang="en" class="lang-en">The identifiers of the <a href="./">field register</a> of the same edition are building blocks: templates consist of them.</span></p>');
+  // Der Abschnitt „Feldkennungen“ ist entfallen (25.10.2026): die Einleitung nennt die Kennungen und verweist auf das Feldregister.
   z.push('  <footer>', '    <p>Diese Liste ist unter <a href="' + LIZENZ.url + '">CC0 1.0</a> freigegeben. · ' + h(HERAUSGEBER)
     + ' · <a href="https://vivodepot.de">vivodepot.de</a></p>', '  </footer>', '</main>', '</body>', '</html>');
   return z.join('\n') + '\n';

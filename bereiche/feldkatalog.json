@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von einem nicht öffentlichen Werkzeug aus vivodepot.html SEKTOREN und den nicht öffentlichen Bereichs-Vorlagen. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 981,
+  "anzahl": 989,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -3034,6 +3034,36 @@
       "template": "vivodepot-pro-aufbewahrung-ordnung.json"
     },
     {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_invoice_archive",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Rechnungsarchiv",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_kind",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Welche Rechnungen",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_format",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Format",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_location",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Wo abgelegt",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
+      "kennung": "pro-aufbewahrung-ordnung.tpl_invoice_archive/tpl_invoice_kept_until",
+      "bereich": "pro-aufbewahrung-ordnung",
+      "label": "Aufbewahren bis (frühestens)",
+      "template": "vivodepot-pro-aufbewahrung-ordnung.json"
+    },
+    {
       "kennung": "pro-aufbewahrung-ordnung.tpl_depot_zuletzt_durchgesehen_am",
       "bereich": "pro-aufbewahrung-ordnung",
       "label": "Depot zuletzt durchgesehen am",
@@ -4837,6 +4867,24 @@
       "kennung": "pro-gesellschaft-nachfolge.tpl_handover_form",
       "bereich": "pro-gesellschaft-nachfolge",
       "label": "Form der Übergabe",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_purchase_price",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Kaufpreis",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_transfer_effective_date",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Stichtag der Übergabe",
+      "template": "vivodepot-pro-gesellschaft-nachfolge.json"
+    },
+    {
+      "kennung": "pro-gesellschaft-nachfolge.tpl_payment_terms",
+      "bereich": "pro-gesellschaft-nachfolge",
+      "label": "Zahlungsweise",
       "template": "vivodepot-pro-gesellschaft-nachfolge.json"
     },
     {

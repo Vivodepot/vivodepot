@@ -66,9 +66,24 @@ function zeitenLesen(pfad) {
   catch (_) { return null; }
 }
 
-/** Neue Messung in die alte einarbeiten: gemessene Dateien überschreiben, ungemessene bleiben. */
+/* ZEIT JE TESTDATEI, NICHT JE AUFRUFORT (26.10.2026). Der Läufer meldet je Test die Datei, in der test() aufgerufen wurde.
+   Rufen Testdateien test() über einen Helfer auf (am 26.10.2026: 99 Dateien über einen Helfer für Tests, die nur privat laufen), landete die Zeit aller dieser
+   Tests beim Helfer: er stand mit 308 s als drittlangsamste „Testdatei“ in der Messung, die Dateien selbst fehlten.
+   Jetzt zählt nur, was eine Testdatei ist (*.test.js); eine Datei ohne eigene Testzeit bekommt ihre Wanduhrzeit aus dem
+   Dateiereignis des Läufers. Alte Einträge, die keine Testdatei sind, fallen beim Zusammenführen heraus.
+   Probe: [Reporter·Aufrufort] in der Probe der Schnellstufe. */
+const IST_TESTDATEI = /\.test\.js$/;
+function dateiZeitenZuordnen(je = {}, wand = {}) {
+  const aus = {};
+  for (const [k, v] of Object.entries(je)) if (IST_TESTDATEI.test(k)) aus[k] = Math.round(v);
+  for (const [k, v] of Object.entries(wand)) if (IST_TESTDATEI.test(k) && !(k in aus)) aus[k] = Math.round(v);
+  return aus;
+}
+/** Neue Messung in die alte einarbeiten: gemessene Dateien überschreiben, ungemessene bleiben; nur Testdateien. */
 function zusammenfuehren(alt, neu, jetzt = new Date().toISOString()) {
-  return { erhoben: jetzt, zeiten: { ...((alt && alt.zeiten) || {}), ...neu } };
+  const zeiten = { ...((alt && alt.zeiten) || {}), ...neu };
+  for (const k of Object.keys(zeiten)) if (!IST_TESTDATEI.test(k)) delete zeiten[k];
+  return { erhoben: jetzt, zeiten };
 }
 
 /** Aus einer Messung die Liste der langsamen Dateien (sortiert, nur getrackte Testdateien). */
@@ -239,4 +254,4 @@ function testDateien(repo) {
     .filter((d, i, a) => a.indexOf(d) === i).sort();
 }
 
-module.exports = { ohneGitUmgebung, GRENZE_MS, DATEINAME, zeitenPfad, zeitenLesen, zusammenfuehren, langsamAusZeiten, listeLesen, listePruefen, schnelleDateien, testDateien, nenntPfad, anlassDateien, BAUMWEIT_MUSTER, baumweitSchritte, baumweitBefunde, kennzeichnendeZeilen, spiegeltHook, spiegelBefunde };
+module.exports = { ohneGitUmgebung, GRENZE_MS, DATEINAME, zeitenPfad, zeitenLesen, zusammenfuehren, dateiZeitenZuordnen, IST_TESTDATEI, langsamAusZeiten, listeLesen, listePruefen, schnelleDateien, testDateien, nenntPfad, anlassDateien, BAUMWEIT_MUSTER, baumweitSchritte, baumweitBefunde, kennzeichnendeZeilen, spiegeltHook, spiegelBefunde };

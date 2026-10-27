@@ -154,7 +154,8 @@ function begriffSeite(f) {
   z.push('  <h1><code>' + htmlText(f.kennung) + '</code></h1>');
   z.push('  <dl>');
   z.push('    <dt>Beschriftung</dt><dd>' + htmlText(f.label.de) + '</dd>');
-  z.push('    <dt lang="en">Label</dt><dd class="lang-en" lang="en">' + htmlText(f.label.en) + '</dd>');
+  // Die englische Zeile entfällt, wenn sie dieselbe Zeichenfolge trägt (25.10.2026; z. B. „BundID“); das JSON-LD nennt beide.
+  if (f.label.en !== f.label.de) z.push('    <dt lang="en">Label</dt><dd class="lang-en" lang="en">' + htmlText(f.label.en) + '</dd>');
   z.push('    <dt>Bereich · Area</dt><dd><code>' + htmlText(f.bereich) + '</code></dd>');
   z.push('    <dt>Status</dt><dd>' + htmlText(f.status)
     + (f.nachfolger ? ' → <a href="' + htmlText(adresse(f.nachfolger)) + '"><code>' + htmlText(f.nachfolger) + '</code></a>' : '')

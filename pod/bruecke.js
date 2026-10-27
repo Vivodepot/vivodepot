@@ -1,5 +1,5 @@
 'use strict';
-/* Pod-Brücke, Stufe 1 (Datei) — U2-ADR-512.
+/* Pod-Brücke, Stufe 1 (Datei) — U2-ADR-512; Stufe 2 (Übergabe aus der Anwendung) — Nachtrag zu U2-ADR-512.
 
    Diese Seite ist nicht Teil der Anwendung. vivodepot.html und vivodepot-lesen.html behalten connect-src 'none'; die einzige
    Verbindung zum Pod läuft hier. Die Person wählt eine Datei, die der Kern verschlüsselt gespeichert hat; was die Tür in
@@ -15,7 +15,9 @@
    Bevor die Brücke dort irgendetwas schreibt oder löscht, sieht die Person die Adresse und bestätigt sie; ohne Bestätigung
    lehnt ablegen() ab. Die Bestätigung gilt für diese Seite und diese Adresse, nicht über das Schließen hinaus.
 
-   Eine Übergabe aus der Anwendung per postMessage (Stufe 2) gibt es hier nicht; sie ist eine eigene Entscheidung. */
+   STUFE 2 (Nachtrag zu U2-ADR-512): Die Anwendung öffnet diese Seite und schickt per postMessage genau die Bytes, die sie sonst
+   als Datei ausgibt. Angenommen wird nur vom Fenster, das diese Seite geöffnet hat; die Tür prüft je Art wie beim Datei-Weg.
+   Abgelegt wird erst nach dem Klick der Person, ein Auftrag je Klick. Zurück geht nur die Adresse, an genau dieses Fenster. */
 
 (function () {
   var A = self.vdPodAnmeldung;
@@ -131,6 +133,8 @@
     if (art === 'link' && befund.art !== 'shl') return Promise.reject(new Error('link-nur-fuer-shl'));
     if (art === 'eigen' && befund.art !== 'depot') return Promise.reject(new Error('eigen-nur-fuer-depot'));
     if (!C.passtZurArt(text, art, new Blob([text]).size)) return Promise.reject(new Error('passt-nicht-zur-art'));
+    // Die WebID der Stelle vor jedem Schreiben: sonst läge die Ressource schon im Pod, ohne Regel, Verzeichnis und Ablauf.
+    if (art === 'stelle') { try { iri(stelleWebid); } catch (x) { return Promise.reject(new Error('stelle-webid')); } }
     return A.sitzung().then(function (s) {
       if (!s) throw new Error('nicht-angemeldet');
       return speicherOrt(s.webid).then(function (wurzel) {
@@ -222,10 +226,75 @@
   /* Erst nach der Bestätigung: abgelaufene Ablagen löschen (ein Schreiben im Pod) und das Verzeichnis zeigen. */
   function zielGezeigt() {
     $('ablage-bereich').hidden = false;
-    return abgelaufeneLoeschen().then(verzeichnisZeigen);
+    return abgelaufeneLoeschen().then(verzeichnisZeigen).then(bereitMelden);
+  }
+
+  /* ── Stufe 2: Übergabe aus der Anwendung per postMessage ──────────────────────────────────────────────────────────────────
+     Angenommen werden nur die bekannten Herkünfte aus konfiguration.js und 'null'. Die Herkunft 'null' haben ein Kern vom Stick,
+     aber ebenso jede sandbox- oder data:-Seite: darum sagt der Satz dann, dass die Herkunft nicht erkennbar ist, und warnt.
+     Jede andere Herkunft hat keinen echten Aufrufer und wird verworfen. Je Laden der Seite ein Auftrag; ein zweiter wird
+     verworfen, damit niemand den gezeigten Auftrag unter dem Klick tauscht. Nach `bis` (vom Kern, kurz vor seiner Frist) legt
+     die Seite nicht mehr ab. Die Antwort geht an die Herkunft des Auftrags; bei 'null' bleibt nur '*': dann erfährt die
+     öffnende Seite die Adresse (Grenze im Nachtrag zu U2-ADR-512). */
+  var auftrag = null;
+  var auftragGenommen = false;
+  // Ein Klick so kurz nach dem Erscheinen des Auftrags gilt nicht: der Öffner bestimmt den Zeitpunkt, ein Doppelklick auf
+  // „Ja, das ist mein Speicher“ soll nicht auf „Ablegen“ landen.
+  var KLICK_SPERRE_MS = 800;
+  var ID_MUSTER = /^[A-Za-z0-9_-]{22}$/;
+  var NACHRICHT_FELDER = ['typ', 'fassung', 'id', 'art', 'bis', 'daten'];
+  var WAS = {
+    eigen: 'eine verschlüsselte Sicherung (nur für Sie lesbar)',
+    link: 'eine verschlüsselte Datei als Freigabe-Link (für jeden lesbar, der den Link hat)',
+    stelle: 'eine verschlüsselte Datei für eine Stelle (nur für die WebID lesbar, die Sie unten eintragen)'
+  };
+  function groesse(n) { return n < 1024 * 1024 ? Math.max(1, Math.round(n / 1024)) + ' KB' : (n / (1024 * 1024)).toFixed(1).replace('.', ',') + ' MB'; }
+
+  function nachrichtAnnehmen(e) {
+    var d = e.data;
+    if (!window.opener || e.source !== window.opener) return;
+    if (!zielBestaetigt || auftragGenommen) return;   // bereit meldet sich die Seite erst mit bestätigtem Ziel; ein Auftrag je Laden
+    var bekannt = ((self.VD_POD_KONFIG && self.VD_POD_KONFIG.herkuenfte) || []).indexOf(e.origin) >= 0;
+    if (!bekannt && e.origin !== 'null') return;
+    if (!d || typeof d !== 'object' || d.typ !== 'vd-pod-ablegen' || d.fassung !== 1) return;
+    if (Object.keys(d).some(function (k) { return NACHRICHT_FELDER.indexOf(k) < 0; })) return;
+    if (!ID_MUSTER.test(d.id || '') || !WAS[d.art] || !(d.daten instanceof ArrayBuffer)) return;
+    if (typeof d.bis !== 'number' || !isFinite(d.bis) || d.bis <= Date.now()) return;
+    var text;
+    try { text = new TextDecoder('utf-8', { fatal: true }).decode(d.daten); } catch (_) { return; }
+    if (!C.passtZurArt(text, d.art, d.daten.byteLength)) return;
+    auftragGenommen = true;
+    auftrag = { id: d.id, art: d.art, bis: d.bis, text: text, quelle: e.source, herkunft: e.origin, gezeigt: Date.now() };
+    zeigen('auftrag-satz', (bekannt ? 'Vivodepot möchte ' : 'Eine Anwendung ohne erkennbare Herkunft (zum Beispiel Vivodepot vom Stick) möchte ') +
+      WAS[d.art] + ' (' + groesse(d.daten.byteLength) + ') in Ihrem Pod ablegen.' +
+      (bekannt ? '' : ' Haben Sie nicht gerade selbst in Vivodepot „Im Pod ablegen“ gewählt, legen Sie nichts ab.'));
+    $('art').value = d.art; $('stelle-bereich').hidden = d.art !== 'stelle';
+    $('auftrag').hidden = false;
+  }
+
+  function auftragAusfuehren() {
+    if (!auftrag || Date.now() - auftrag.gezeigt < KLICK_SPERRE_MS) return;
+    var a = auftrag; auftrag = null; $('auftrag').hidden = true;
+    fehler(''); zeigen('ergebnis', '');
+    if (Date.now() > a.bis) { fehler('auftrag-abgelaufen'); return; }
+    ablegen(a.text, a.art, $('stelle').value, Number($('tage').value) || null, { zweck: $('zweck').value || null, inbox: $('inbox').value || null })
+      .then(function (adresse) {
+        zeigen('ergebnis', adresse);
+        a.quelle.postMessage({ typ: 'vd-pod-abgelegt', fassung: 1, id: a.id, adresse: adresse }, a.herkunft === 'null' ? '*' : a.herkunft);
+        return verzeichnisZeigen();
+      })
+      .catch(function (x) { fehler(x.message); });
+  }
+
+  function bereitMelden() {
+    // Erst nach Anmeldung und bestätigtem Ziel: eine Anmeldung verlässt die Seite, ein Auftrag ginge dabei verloren.
+    if (window.opener && zielBestaetigt) window.opener.postMessage({ typ: 'vd-pod-bereit', fassung: 1 }, '*');
   }
 
   function start() {
+    window.addEventListener('message', nachrichtAnnehmen);
+    $('auftrag-ja').onclick = auftragAusfuehren;
+    $('auftrag-nein').onclick = function () { auftrag = null; $('auftrag').hidden = true; };
     $('ziel-nein').onclick = function () { $('abmelden').onclick(); };
     $('anmelden').onclick = function () { fehler(''); A.anmelden($('aussteller').value).catch(function (e) { fehler(e.message); }); };
     $('abmelden').onclick = function () {
@@ -250,6 +319,6 @@
       .catch(function (e) { fehler(e.message); angemeldetZeigen(null); });
   }
 
-  self.vdPodBruecke = { ablegen: ablegen, abholen: abholen, zuruecknehmen: zuruecknehmen, verzeichnis: verzeichnis };
+  self.vdPodBruecke = { ablegen: ablegen, abholen: abholen, zuruecknehmen: zuruecknehmen, verzeichnis: verzeichnis, nachrichtAnnehmen: nachrichtAnnehmen };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();

@@ -325,7 +325,12 @@ function markeHatLauf(baum, { dir = verzeichnis(), host = os.hostname() } = {}) 
   const lebt = (e) => e && (!e.host || e.host === host) && prozessLebt(e.pid) && imBaum(baum, e.cwd);
   const ad = airVerzeichnis(dir);
   const air = fs.existsSync(ad) ? [...halter({ dir: ad, n: anzahlAir() }), ...wartende({ dir: ad })] : [];
-  return [...halter({ dir }), ...wartende({ dir }), ...air].some(lebt);
+  /* KLEIN HÄLT DIE MARKE (25.10.2026, Befund VORRANG-MARKE-OHNE-KLEIN): ein Zug, der im Klein-Platz vorprüft (vor-pre-commit),
+     hielt die Marke nicht — sie verwaiste nach der Schonfrist, während der Lauf lebte. Klein-Halter und -Tickets zählen jetzt mit.
+     Probe: tests/suite-platz-reihe.test.js, [Reihe·verwaist·Klein]. */
+  const kd = kleinVerzeichnis(dir);
+  const klein = fs.existsSync(kd) ? [...halter({ dir: kd, n: kleinPlaetzeHoechstens(process.env, dir) }), ...wartende({ dir: kd })] : [];
+  return [...halter({ dir }), ...wartende({ dir }), ...air, ...klein].some(lebt);
 }
 /* WARTEZEIT AUF DEN PLATZ (16.10.2026). Vorgabe für jeden Lauf, der einen Platz holt und dabei wartet (Hooks, Landung, die Wache von
    npm test, das CLI): 7200 s. Bis hierher 600 s — sind beide Plätze mit langen Läufen belegt, brach ein Push oder Commit nach zehn
@@ -564,33 +569,95 @@ function anzahlKlein(env = process.env, dir = null) {
   const v = Number(env.VD_KLEIN_PLAETZE);
   return Number.isInteger(v) && v >= 1 ? v : 2;
 }
-/** Räumt Klein-Plätze toter Halter; Ergebnis: die geräumten Einträge. Tickets toter Prozesse räumt wartende(). */
-function kleinTotRaeumen({ dir = verzeichnis(), n } = {}) {
+/* KLEINPLÄTZE DYNAMISCH (26.10.2026, kleine Läufe warteten bei freiem Rechner). Gemessen:
+   5–8 Klein-Läufe warteten, während beide vollen Plätze frei waren und die Last bei 5–9 lag. Jetzt gelten KLEIN_PLAETZE_DYNAMISCH
+   Klein-Plätze, solange kein voller Platz belegt ist und die 1-Minuten-Last unter KLEIN_DYNAMISCH_LAST liegt; sonst die feste Zahl
+   aus anzahlKlein() (Vorgabe 2). Die Zahl gilt beim Nehmen eines Platzes; wer schon läuft, behält seinen Platz, wenn die Zahl
+   wieder sinkt. Gezählt, geräumt und freigegeben wird darum immer über kleinPlaetzeHoechstens() Plätze, damit ein Halter auf
+   Platz 3 oder 4 sichtbar bleibt. Beide Zahlen stehen im Register der Gegenlesung (jede Anhebung braucht ein Wort).
+   Probe: [Klein·Dynamisch] in der Probe der Klein-Läufe. */
+const KLEIN_PLAETZE_DYNAMISCH = 4;
+const KLEIN_DYNAMISCH_LAST = 12;
+/** Die dynamische Zahl; VD_KLEIN_DYNAMISCH setzt sie (0 schaltet ab — Proben, die die feste Zahl prüfen). */
+function kleinDynamisch(env = process.env) {
+  const n = Number(env.VD_KLEIN_DYNAMISCH);
+  return env.VD_KLEIN_DYNAMISCH !== undefined && env.VD_KLEIN_DYNAMISCH !== '' && Number.isInteger(n) && n >= 0 ? n : KLEIN_PLAETZE_DYNAMISCH;
+}
+function kleinPlaetzeHoechstens(env = process.env, dir = null) { return Math.max(anzahlKlein(env, dir), kleinDynamisch(env)); }
+/** Wie viele Klein-Plätze jetzt genommen werden dürfen: die dynamische Zahl ohne vollen Halter und unter der Last, sonst die feste. */
+function kleinPlaetzeWirksam({ env = process.env, dir = null, last = () => os.loadavg()[0], vollHalter = null } = {}) {
+  const fest = anzahlKlein(env, dir);
+  const d = dir || verzeichnis(env);
+  const voll = vollHalter || halter({ dir: d, n: anzahl(env, d) });
+  if (voll.length) return fest;
+  return last() < KLEIN_DYNAMISCH_LAST ? Math.max(fest, kleinDynamisch(env)) : fest;
+}
+/* KLEIN-WAISEN (25.10.2026, Befund KLEIN-LAUF-WAISEN). Ein beendeter Klein-Lauf ließ seine Kinder ohne Platz weiterlaufen
+   (gemessen: ein Enkel mit ppid 1 über eine Stunde, nur mit SIGKILL zu beenden). Die Klein-Hülle startet ihren Befehl darum in
+   einer EIGENEN, neu angelegten Prozessgruppe (detached) und trägt deren Nummer als `gruppe` in ihren Platz ein. Eine solche
+   Gruppe enthält nur den Befehl und seine Nachkommen, nie den Aufrufer (anders als eine geerbte Gruppe, s. EIGENEN LAUF
+   BEENDEN). Die Hülle beendet die Gruppe, wenn der Befehl endet und wenn sie selbst ein Signal bekommt; stirbt sie ohne
+   Signal (SIGKILL), beendet kleinTotRaeumen() die Gruppe des toten Halters auf diesem Rechner. Restrisiko, benannt: ist die
+   Gruppe schon leer und ihre Nummer neu vergeben, träfe das Signal eine fremde Gruppe — dafür müsste ein neuer Prozess genau
+   diese PID bekommen und eine eigene Gruppe gründen, bevor der tote Platz geräumt ist.
+   Probe: [Klein-Waisen], [Klein-Waisen·Tot]. */
+function gruppeLebt(g) {
+  if (!Number.isInteger(g) || g <= 1) return false;
+  try { process.kill(-g, 0); return true; } catch (e) { return e.code === 'EPERM'; }
+}
+/** SIGTERM an die Gruppe, nach der Frist SIGKILL an die Überlebenden. Ergebnis: ob die Gruppe noch bestand. */
+function gruppeBeenden(g, { fristMs = 5000 } = {}) {
+  if (!gruppeLebt(g)) return false;
+  try { process.kill(-g, 'SIGTERM'); } catch (_) { /* schon weg */ }
+  const ende = Date.now() + fristMs;
+  while (Date.now() < ende && gruppeLebt(g)) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100);
+  if (gruppeLebt(g)) { try { process.kill(-g, 'SIGKILL'); } catch (_) { /* schon weg */ } }
+  return true;
+}
+/** Trägt die Prozessgruppe des Befehls in den Klein-Platz des Halters ein. */
+function kleinGruppeEintragen({ pid = process.pid, gruppe, dir = verzeichnis(), env = process.env } = {}) {
+  const kd = kleinVerzeichnis(dir);
+  for (let k = 1; k <= kleinPlaetzeHoechstens(env, dir); k++) {
+    const pfad = platzPfad(kd, k);
+    const e = lesen(pfad);
+    if (e && e.pid === pid) { fs.writeFileSync(pfad, JSON.stringify({ ...e, gruppe })); return true; }
+  }
+  return false;
+}
+/** Räumt Klein-Plätze toter Halter und beendet deren Gruppe (KLEIN-WAISEN); Ergebnis: die geräumten Einträge. Tickets toter
+    Prozesse räumt wartende(). */
+function kleinTotRaeumen({ dir = verzeichnis(), n, host = os.hostname() } = {}) {
   const kd = kleinVerzeichnis(dir);
   const geraeumt = [];
-  for (let k = 1; k <= (n || anzahlKlein(process.env, dir)); k++) {
+  for (let k = 1; k <= (n || kleinPlaetzeHoechstens(process.env, dir)); k++) {
     const pfad = platzPfad(kd, k);
     if (!fs.existsSync(pfad)) continue;
     const e = lesen(pfad);
     if (e && prozessLebt(e.pid)) continue;
+    if (e && Number.isInteger(e.gruppe) && (!e.host || e.host === host)) gruppeBeenden(e.gruppe, { fristMs: 2000 });
     try { fs.unlinkSync(pfad); geraeumt.push({ platz: k, ...(e || { pid: null, name: 'unlesbar' }) }); } catch (_) { /* schon weg */ }
   }
   wartende({ dir: kd });
   return geraeumt;
 }
 /** Versucht einmal, einen Klein-Platz zu holen (Ergebnis wie platzHolen). Ohne Ticket steht der Aufrufer hinter allen Wartenden. */
-function kleinPlatzHolen({ name = 'klein', pid = process.pid, dir = verzeichnis(), n, cwd = process.cwd(), ticket = null, env = process.env } = {}) {
+function kleinPlatzHolen({ name = 'klein', pid = process.pid, dir = verzeichnis(), n, cwd = process.cwd(), ticket = null, env = process.env,
+  wirksam = null } = {}) {
   if (env[UMGEBUNG_KLEIN] || env[UMGEBUNG_GEHALTEN]) return geerbterPlatz({ env, art: 'klein' });
   const erbe = geerbterPlatz({ env, pid, dir, art: 'klein' });
   if (erbe) return erbe;
   const kd = kleinVerzeichnis(dir);
-  const nk = n || anzahlKlein(env, dir);
+  /* KLEINPLÄTZE DYNAMISCH: `hoechst` Plätze werden gezählt, `nk` dürfen belegt sein. Ein ausdrückliches `n` (Proben) setzt beide. */
+  const hoechst = n || kleinPlaetzeHoechstens(env, dir);
+  const nk = n || (wirksam !== null ? wirksam : kleinPlaetzeWirksam({ env, dir }));
   fs.mkdirSync(kd, { recursive: true });
-  kleinTotRaeumen({ dir, n: nk });
+  kleinTotRaeumen({ dir, n: hoechst });
   const schlange = wartende({ dir: kd });
+  const belegt = halter({ dir: kd, n: hoechst });
   const eigenerRang = ticket ? schlange.findIndex((t) => t.pfad === ticket) : schlange.length;
-  if (eigenerRang > 0 && nk - halter({ dir: kd, n: nk }).length <= eigenerRang) return { geholt: false, halter: halter({ dir: kd, n: nk }), wartende: schlange };
-  return platzNehmen({ name, pid, dir: kd, n: nk, cwd, schlange });
+  if (belegt.length >= nk) return { geholt: false, halter: belegt, wartende: schlange, wirksam: nk };
+  if (eigenerRang > 0 && nk - belegt.length <= eigenerRang) return { geholt: false, halter: belegt, wartende: schlange, wirksam: nk };
+  return { ...platzNehmen({ name, pid, dir: kd, n: hoechst, cwd, schlange }), wirksam: nk };
 }
 /* KLEIN WARTET AUF VOLLE PLÄTZE (24.10.2026). Am 24.10.2026 um 17:33 lag die Last bei 34,8: zwei volle Plätze
    und zwei Klein-Läufe liefen zugleich, die Klein-Läufe waren 12 s vor einem vollen Lauf gestartet. Der Klein-Weg prüfte nur
@@ -622,7 +689,7 @@ function kleinStartFrei({ env = process.env, dir = null, n = null, nk = null, gr
   const voll = halter({ dir: d, n: nv });
   if (voll.length >= nv) return { frei: false, geprueft: true, voll: true, halter: voll, grenze };
   const jung = (h) => jetzt - Date.parse(h.gestartetAm || 0) < ZUSCHLAG_FRIST_MS;
-  const klein = halter({ dir: kleinVerzeichnis(d), n: nk || anzahlKlein(env, d) });
+  const klein = halter({ dir: kleinVerzeichnis(d), n: nk || kleinPlaetzeHoechstens(env, d) });
   const zuschlag = voll.filter(jung).length * ZUSCHLAG_VOLL + klein.filter(jung).length * ZUSCHLAG_KLEIN;
   const l = last();
   return { frei: l + zuschlag < grenze, geprueft: true, voll: false, last: l, zuschlag, voranschlag: l + zuschlag, grenze };
@@ -635,7 +702,7 @@ function kleinPlatzHolenMitWarten(opts = {}, { wartenS = 0, pauseS = 10, melden 
   const dir = opts.dir || verzeichnis();
   const erbe = geerbterPlatz({ env, pid: opts.pid, dir, art: 'klein' });   // vor der Last: ein Erbe wartet nicht
   if (erbe) return erbe;
-  const anDerLast = () => ({ geholt: false, last: true, halter: halter({ dir: kleinVerzeichnis(dir), n: opts.n || anzahlKlein(opts.env, dir) }) });
+  const anDerLast = () => ({ geholt: false, last: true, halter: halter({ dir: kleinVerzeichnis(dir), n: opts.n || kleinPlaetzeHoechstens(opts.env, dir) }) });
   let r = lastFrei() ? kleinPlatzHolen({ ...opts, dir }) : anDerLast();
   if (r.geholt || wartenS <= 0) return r;
   const ende = Date.now() + wartenS * 1000;
@@ -654,7 +721,7 @@ function kleinPlatzHolenMitWarten(opts = {}, { wartenS = 0, pauseS = 10, melden 
   } finally { abgeben(); process.removeListener('exit', abgeben); }
 }
 function kleinPlatzFreigeben({ pid = process.pid, dir = verzeichnis(), env = process.env } = {}) {
-  return platzFreigeben({ pid, dir: kleinVerzeichnis(dir), n: anzahlKlein(env, dir) });
+  return platzFreigeben({ pid, dir: kleinVerzeichnis(dir), n: kleinPlaetzeHoechstens(env, dir) });
 }
 
 /** Gibt nur die EIGENEN Plätze frei (PID-Abgleich) — nie den eines anderen. */
@@ -695,7 +762,7 @@ function eigeneLaeufe({ cwd = process.cwd(), dir = verzeichnis(), n = anzahl(), 
   const airWartende = fs.existsSync(ad) ? wartende({ dir: ad }).filter(passt).map((t) => ({ ...t, air: true })) : [];
   // Klein-Plätze (23.10.2026, KLEIN-LAEUFE-UNGEZAEHLT): ein kleiner Lauf der Sitzung endet mit --beenden wie die übrigen.
   const kd = kleinVerzeichnis(dir);
-  for (let k = 1; k <= anzahlKlein(process.env, dir); k++) {
+  for (let k = 1; k <= kleinPlaetzeHoechstens(process.env, dir); k++) {
     const e = lesen(platzPfad(kd, k));
     if (passt(e)) plaetze.push({ platz: 'Klein ' + k, klein: true, ...e });
     else if (eigen(e)) tot.push({ platz: 'Klein ' + k, pfad: platzPfad(kd, k), ...e });
@@ -760,7 +827,7 @@ function geerbterPlatz({ env = process.env, pid = process.pid, dir, n, art = 'vo
   if (art === 'klein' && env[UMGEBUNG_KLEIN]) return { geholt: true, geerbt: true, von: 'klein:' + env[UMGEBUNG_KLEIN] };
   const d = dir || verzeichnis(env);
   const liste = [...halter({ dir: d, n: n || anzahl(env, d) }).map((h) => ({ ...h, art: 'voll' })),
-    ...halter({ dir: kleinVerzeichnis(d), n: anzahlKlein(env, d) }).map((h) => ({ ...h, art: 'klein' }))];
+    ...halter({ dir: kleinVerzeichnis(d), n: kleinPlaetzeHoechstens(env, d) }).map((h) => ({ ...h, art: 'klein' }))];
   const h = vorfahrHaelt({ pid, halterListe: liste, psText: liste.length ? psZeilen() : '' });
   return h ? { geholt: true, geerbt: true, von: h.art + ':' + h.name + ':' + h.pid } : null;
 }
@@ -824,7 +891,7 @@ function testlaeufe({ dir = verzeichnis(), env = process.env } = {}) {
   const eintraege = [
     ...halter({ dir, n: anzahl(env, dir) }).map((h) => ({ ...h, art: 'Platz' })),
     ...wartende({ dir }).map((t) => ({ ...t, art: 'wartend' })),
-    ...halter({ dir: kleinVerzeichnis(dir), n: anzahlKlein(env, dir) }).map((h) => ({ ...h, art: 'Klein' })),
+    ...halter({ dir: kleinVerzeichnis(dir), n: kleinPlaetzeHoechstens(env, dir) }).map((h) => ({ ...h, art: 'Klein' })),
     ...wartende({ dir: kleinVerzeichnis(dir) }).map((t) => ({ ...t, art: 'Klein wartend' })),
     ...halter({ dir: airVerzeichnis(dir), n: anzahlAir(env) }).map((h) => ({ ...h, art: 'Air' })),
   ];
@@ -851,14 +918,26 @@ function meldungBelegt(r) {
     + '. Warten, bis einer frei wird; nicht mit --no-verify umgehen (die Plätze schützen die Maschine, nicht den Code).';
 }
 
+/* VOLLLAUF NUR IN STUFE B (26.10.2026, Testkonzept W1): die volle Suite läuft nur im Platz eines Hooks oder des Zugkopfs
+   (geerbt), auf dem eigenen Runner oder in einer Probe mit eigenem Platz-Verzeichnis (die startet die Wache gegen eine
+   Attrappe, nie die Suite). Ein Klein-Platz erbt keinen Volllauf. Die Wache vor `npm test` fragt hier, im Kanon-Baum. */
+function volllaufPruefen({ env = process.env } = {}) {
+  if (env[UMGEBUNG_GEHALTEN]) return { ok: true, wie: 'geerbt' };
+  if (env.GITHUB_ACTIONS === 'true') return { ok: true, wie: 'runner' };
+  if (env.VD_SUITE_PLATZ_DIR) return { ok: true, wie: 'isoliert' };
+  return { ok: false, grund: 'W1: Volllauf außerhalb Stufe B — die volle Suite fährt nur der Zugkopf oder ein Hook. '
+    + 'Gezielt: einzelne Testdateien auf einem Klein-Platz.' };
+}
+
 module.exports = {
+  volllaufPruefen,
   UMGEBUNG_GEHALTEN, TESTLAEUFER_MERKMALE, testlaeuferMerkmale, verzeichnis, anzahl, prozessLebt, halter, lastGrenze, lastAbwarten,
   platzHolen, platzHolenMitWarten, platzFreigeben, meldungBelegt,
   wartende, ticketZiehen, ticketAbgeben, vorrang, EXKLUSIV, artVon,
   eigeneLaeufe, toteSperreRaeumen, prozessBaum, vorfahren, vorfahrHaelt, geerbterPlatz, pushPauseSetzen, pushPauseEnden, fremderPush,
   reiheLesen, reiheSetzen, reiheLoeschen, imBaum, markeHatLauf, REIHE_GUELTIG_MS, REIHE_SCHONFRIST_MS, WARTEN_S_VORGABE, wartenS,
   airVerzeichnis, anzahlAir, airPlatzHolen, airPlatzHolenMitWarten, airPlatzFreigeben, gleicheSitzung,
-  UMGEBUNG_KLEIN, kleinVerzeichnis, anzahlKlein, kleinTotRaeumen, kleinPlatzHolen, kleinPlatzHolenMitWarten, kleinPlatzFreigeben,
+  UMGEBUNG_KLEIN, kleinVerzeichnis, anzahlKlein, KLEIN_PLAETZE_DYNAMISCH, KLEIN_DYNAMISCH_LAST, kleinPlaetzeHoechstens, kleinPlaetzeWirksam, kleinTotRaeumen, kleinGruppeEintragen, gruppeLebt, gruppeBeenden, kleinPlatzHolen, kleinPlatzHolenMitWarten, kleinPlatzFreigeben,
   kleinStartFrei, lastGrenzeVoll, lastGrenzeKlein, ZUSCHLAG_VOLL, ZUSCHLAG_KLEIN, ZUSCHLAG_FRIST_MS,
   istTestlauf, testlaeufeBewerten, testlaeufe,
   AUSLAGERBAR_NAMEN, PLAETZE_DATEI, plaetzeZentral, plaetzeSetzen, auslagerbar, wirklichAuslagerbar, pushtSelbst, airLeerlaufWarnung,

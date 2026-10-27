@@ -9,7 +9,7 @@
    Zwei Regeln, über die ganze Datei:
      1. Jede eingerückte Fortsetzungszeile steht unter einem Listenpunkt (nicht nach einer Leerzeile oder Überschrift),
         und keine Überschrift „### …“ steht in einem Abschnitt zweimal.
-     2. Jeder Sicherheitshinweis „- VD-SEC-nnn …“ im Abschnitt einer Fassung trägt seine Zeile „Was zu tun ist:“.
+     2. Jeder Sicherheitshinweis „- VD-SEC-nnn …“ im Abschnitt einer Fassung trägt seine Zeile „Abhilfe:“ (bis 27.10.2026 „Was zu tun ist:“).
    ═══════════════════════════════════════════════════════════ */
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -50,7 +50,7 @@ function handlungszeileFehlt(text) {
     if (/\[Unreleased\]/.test(kopf)) continue;
     for (const p of a.split(/^(?=- )/m)) {
       const nr = /^- (VD-SEC-\d{3})\b/.exec(p);
-      if (nr && !p.includes('Was zu tun ist:')) raus.push(kopf.slice(3) + ' · ' + nr[1]);
+      if (nr && !p.includes('Abhilfe:')) raus.push(kopf.slice(3) + ' · ' + nr[1]);
     }
   }
   return raus;
@@ -71,8 +71,8 @@ test('[CHANGELOG·Sicherheit] jeder Sicherheitshinweis einer Fassung trägt sein
 // Rot-Beweis: die Form des Schadens vom 14.10.2026, nachgebaut.
 const BESCHAEDIGT = [
   '## [Unreleased]', '', '### Behoben', '- Eine Modul-App startet ohne Netz.', '',
-  '  Was zu tun ist: auf v928 aktualisieren. Ab v928 zeigt die Kachel den Titel als Text, und die',
-  '  Was zu tun ist: auf v923 aktualisieren.',
+  '  Abhilfe: auf v928 aktualisieren. Ab v928 zeigt die Kachel den Titel als Text, und die',
+  '  Abhilfe: auf v923 aktualisieren.',
   '### Behoben', '- Der Lauf bricht nicht mehr ab.', '',
   '## [v1.0.928] – 2026-10-13', '', '### Sicherheit',
   '- VD-SEC-016 (kritisch): Behoben in v928: Eine Kachel setzte ihren Titel roh.',
@@ -81,7 +81,7 @@ const BESCHAEDIGT = [
 
 test('[CHANGELOG·Rot-Beweis] abgerissene Handlungszeilen unter [Unreleased] und ein Hinweis ohne Handlungszeile fallen auf', () => {
   const b = ganzeEintraegeBefunde(BESCHAEDIGT);
-  assert.ok(b.some((x) => /ohne Listenpunkt: Was zu tun ist: auf v928/.test(x)), b.join(' | '));
+  assert.ok(b.some((x) => /ohne Listenpunkt: Abhilfe: auf v928/.test(x)), b.join(' | '));
   assert.ok(b.some((x) => /doppelte Überschrift ### Behoben/.test(x)), b.join(' | '));
   assert.deepEqual(handlungszeileFehlt(BESCHAEDIGT), ['[v1.0.928] – 2026-10-13 · VD-SEC-016']);
 });
