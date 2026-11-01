@@ -257,6 +257,8 @@ test('[Daten] das volle Erbschein-Schema, gegen dasselbe Depot wie der bestehend
     familienstand: { typ: 'feld', sektor: 'identity', feld: 'maritalStatus' },
     kinder_namen: { typ: 'personenNamen', sektor: 'people', feld: 'childrenAndDependants', unterfeld: 'person' },
     testament_bedachte_namen: { typ: 'listenfeldPersonenNamen', sektor: 'advanceCare', feld: 'provisionInstruments', diskriminante: { feld: 'instrument', wert: 'will' }, unterfeld: 'personsNamedInTheWill' },
+    // Erbvertrag (25.10.2026): eigene Instrument-Art, dieselbe Lesart wie beim Testament.
+    erbvertrag_bedachte_namen: { typ: 'listenfeldPersonenNamen', sektor: 'advanceCare', feld: 'provisionInstruments', diskriminante: { feld: 'instrument', wert: 'contract-of-inheritance' }, unterfeld: 'personsNamedInTheWill' },
     erben_namen: { typ: 'personenNamen', sektor: 'advanceCare', feld: 'heirsBriefOverview' },
   };
   const ausSchema = V.datenSchemaLesen(schema, V.getData());

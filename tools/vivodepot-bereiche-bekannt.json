@@ -1843,8 +1843,8 @@
             {
               "id": "tpl_tax_registration_of_business",
               "typ": "liste",
-              "label": "Anzeigen an Gemeinde und Finanzamt",
-              "hint": "Eröffnung, Verlegung oder Aufgabe, wann angezeigt.",
+              "label": "Meldungen bei Vertretung, Übergabe oder Aufgabe",
+              "hint": "Welche Stellen je nach Beruf und Betrieb erfahren müssen, dass jemand Sie vertritt, dass Sie den Betrieb übergeben oder aufgeben: etwa Gewerbeamt, Finanzamt, Handelsregister, Agentur für Arbeit, Berufsgenossenschaft, Kassenärztliche oder Kassenzahnärztliche Vereinigung und Zulassungsausschuss, Kammer und Versorgungswerk je nach Berufsordnung bzw. Satzung. Je Meldung: Stelle, Anlass, bis wann und wann gemeldet.",
               "unterFelder": [
                 {
                   "id": "tpl_occasion",
@@ -1859,7 +1859,12 @@
                 {
                   "id": "tpl_tax_office",
                   "typ": "text",
-                  "label": "Finanzamt"
+                  "label": "Stelle"
+                },
+                {
+                  "id": "tpl_notify_by",
+                  "typ": "datum",
+                  "label": "Zu melden bis"
                 }
               ]
             },
@@ -2141,6 +2146,39 @@
                   "id": "tpl_payment_approved_by",
                   "typ": "text",
                   "label": "Zahlung gibt frei"
+                }
+              ]
+            },
+            {
+              "id": "tpl_staff_transfer_notification",
+              "typ": "liste",
+              "label": "Unterrichtung der Beschäftigten beim Betriebsübergang",
+              "hint": "Nur wenn der Betrieb oder ein Betriebsteil durch Rechtsgeschäft auf einen neuen Inhaber übergeht, etwa durch Verkauf; nicht beim Kauf von Anteilen und nicht im Erbfall. Die Beschäftigten werden vor dem Übergang in Textform unterrichtet, durch den bisherigen Arbeitgeber oder den neuen Inhaber. Hier: wann, durch wen, wer betroffen ist, wo die Unterrichtung liegt und ob jemand widersprochen hat.",
+              "unterFelder": [
+                {
+                  "id": "tpl_informed_on",
+                  "typ": "datum",
+                  "label": "Unterrichtet am"
+                },
+                {
+                  "id": "tpl_informed_by",
+                  "typ": "text",
+                  "label": "Unterrichtet durch"
+                },
+                {
+                  "id": "tpl_affected_staff",
+                  "typ": "text",
+                  "label": "Betroffene Beschäftigte"
+                },
+                {
+                  "id": "tpl_notice_kept_at",
+                  "typ": "text",
+                  "label": "Unterrichtung liegt bei"
+                },
+                {
+                  "id": "tpl_objections",
+                  "typ": "text",
+                  "label": "Widersprüche"
                 }
               ]
             }
@@ -2962,7 +3000,8 @@
                   "typ": "text",
                   "label": "Unterlagen liegen bei"
                 }
-              ]
+              ],
+              "vorschlaegeAbWerk": 10
             },
             {
               "id": "tpl_first_steps_after_death",
@@ -2990,7 +3029,8 @@
                   "typ": "text",
                   "label": "Unterlagen liegen bei"
                 }
-              ]
+              ],
+              "vorschlaegeAbWerk": 11
             },
             {
               "id": "tpl_first_steps_long_absence",
@@ -3018,7 +3058,8 @@
                   "typ": "text",
                   "label": "Unterlagen liegen bei"
                 }
-              ]
+              ],
+              "vorschlaegeAbWerk": 8
             },
             {
               "id": "tpl_first_steps_sale_or_handover",
@@ -3046,7 +3087,8 @@
                   "typ": "text",
                   "label": "Unterlagen liegen bei"
                 }
-              ]
+              ],
+              "vorschlaegeAbWerk": 9
             }
           ]
         },

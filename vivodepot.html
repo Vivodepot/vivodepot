@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <!--
-  Vivodepot — Fassung v1.0.955. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
+  Vivodepot — Fassung v1.0.956. Diese Datei im Wurzelverzeichnis des Repositorys ist die gemeinsame Grundlage ohne Sprach- und Bereichsmodule, kein Produkt. Produkte: vivodepot.de. Prüfsummen der Produkte je Fassung: SECURITY.md, Abschnitt 8. vivodepot.html.sha256 gilt für diese veröffentlichte Datei; sie unterscheidet sich von der Quelldatei nur in dieser Zeile.
   SPDX-License-Identifier: EUPL-1.2
   Copyright (c) 2026 Vivodepot GmbH, Berlin.
 
@@ -32,7 +32,7 @@
      Header) könnte sie je durchsetzen. Bleibt stehen, falls künftig ein Header-setzender Weg
      dazukommt; s. tests/d43-etappe6-csp.test.js für die Probe, die das festhält. -->
 <meta http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-WZhV5A6q3eWg/bLM4iH8nb6w2EuAJzjrGh5yolzLjkY=' 'sha256-NrnYGqW98bVaNv578MlwDJFzPnoPL/IJQiGRN2RVkFo=' 'sha256-RHzPusAXF3f5wlE7ivqVAI5fvPdWeTMxq/uMwXBYU4g=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Ia4FQWi21e/BQK4hz3Q2AWN924BZBcrr/PrQhoKqSLU=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-fHMPWuFrETtFgwS3SLv0xAHsZ/aFPDC2hFUCG8aXGQs=' 'sha256-rPv5v5rWPoUaj0SNydo35LrX/n7vTKmlxmtYpSiMW2I=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; connect-src 'none'; worker-src 'self'; manifest-src 'self' data:; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
+      content="default-src 'none'; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-WZhV5A6q3eWg/bLM4iH8nb6w2EuAJzjrGh5yolzLjkY=' 'sha256-NrnYGqW98bVaNv578MlwDJFzPnoPL/IJQiGRN2RVkFo=' 'sha256-RHzPusAXF3f5wlE7ivqVAI5fvPdWeTMxq/uMwXBYU4g=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-9GAORns5WBtYHJdZH+8v1oDISQjS0xmhHz9ohme8nIw=' 'sha256-Km4oSb7Pn3Hd5Ajh15gHNN7AQHh/w8iicya+4qKiP8A=' 'sha256-fHMPWuFrETtFgwS3SLv0xAHsZ/aFPDC2hFUCG8aXGQs=' 'sha256-rPv5v5rWPoUaj0SNydo35LrX/n7vTKmlxmtYpSiMW2I=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; connect-src 'none'; worker-src 'self'; manifest-src 'self' data:; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -2639,7 +2639,7 @@ const APP_VERSION = 1;
 // aus, zeigt der Fuß-Stempel den ALTEN Stand — der SW-Cache-Stale-Fehler wird in einer Sekunde
 // sichtbar (mehrfach am 12./13.07. aufgetreten). Zusammen mit dem live gelesenen SW-Cache-Namen
 // beantwortet der Stempel: welche Bytes sind geladen (SCHALEN_STAND) und was hält der SW (SW-Cache).
-const SCHALEN_STAND = 'v955';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v955 (Zug zug-folge36): Schalenstand des Zugs folge36; ein vor v843 eingelesenes Gesundheitsdokument gilt beim Öffnen als sensibel, wie jedes seitdem eingelesene; die Hilfe „Was Vivodepot nicht sieht“ sagt zu „Link senden“, wie mit der Netzadresse umgegangen wird: beim Hochladen nur als Prüfwert gespeichert, gelöscht mit der ersten Bereinigung nach 25 Stunden, beim Abruf nicht gespeichert, in den Zugriffsprotokollen des Anbieters anonymisiert bis zu acht Wochen — v954 (Zug zug-folge35): Pro: jeder Block eines Anlasses zeigt seine Überschrift aus dem Modul, wo der Textsatz keine führt (PRO-ANLASS-BLOCKTITEL-LEER); die Hilfe „Was Vivodepot nicht sieht“ sagt zu „Link senden“, wie mit der Netzadresse umgegangen wird: beim Hochladen nur als Prüfwert gespeichert, gelöscht mit der ersten Bereinigung nach 25 Stunden, beim Abruf nicht gespeichert, in den Zugriffsprotokollen des Anbieters anonymisiert bis zu acht Wochen — v953 (Zug zug-folge34): „Im Pod ablegen“ aus der Anwendung: Freigabe-Link, Ausschnitt für einen Empfängerkreis und Sicherungskopie gehen verschlüsselt über die Pod-Brücke in den eigenen Pod, nach Bestätigung der Person dort, nie aus der Vorschau oder Vorführung (Nachtrag zu U2-ADR-512, Stufe 2); die Belege der früheren Fassungen und der ausgelieferten Bereichsdefinitionen führen die ausgelieferte Fassung v952; ein vor v843 eingelesenes Gesundheitsdokument gilt beim Öffnen als sensibel, wie jedes seitdem eingelesene — v952 (Zug zug-folge33): neben einer geprüft eingelesenen Angabe steht die Stelle, die sie bestätigt hat; ein Rechtsraum-Modul kann für mehrere Rechtsräume zugleich gelten (England und Wales: GB-ENG und GB-WLS), „UK“ wird als „GB“ gelesen und nie umgeschrieben, und ein Modul nennt Behörde, Titel und Lizenz eines übernommenen amtlichen Texts; darauf dockt die Ausfüllhilfe für die Lasting Power of Attorney an (U2-ADR-477) — v951 (Zug zug-folge32): ein leerer Wert wird beim Sichern einer Bereichsseite nie gespeichert, ob das Feld angezeigt wird oder nicht; eine Angabe, die die Person zurückgenommen hat, geht auch über die Angehörigen-Blätter, die Notfallkarte samt QR-Kontakten und die Kreis-Blätter nicht mehr hinaus; eine benannte Vertretung trägt Qualifikation und Zeitraum (Pro E8); Pro-Auszüge lesen Listenzeilen verbunden, eine leere Angabe lässt nichts nachrücken, ein Datum steht geformt; keine Entwicklernotiz und kein „Pro-Modul“ mehr auf dem Blatt — v950 (Zug zug-folge31): die Währung kommt aus dem Rechtsraum-Template, nicht mehr aus dem Gerüst (U2-ADR-480); die signierte Präsentationsanfrage einer Stelle wird vor jeder Anzeige geprüft (Zertifikatskette bis zu einem eingetragenen Anker, Signatur, Felder), und die Präsentation aus der Datei bindet den Halter-Schlüssel des SD-JWT; die Antwort geht verschlüsselt zurück (U2-ADR-502); eine Einrichtung kann über ihr signiertes Branding-Modul ein Erscheinungsprofil mitbringen und „powered by“ in der App-Zeile abschalten, nie auf Ausgaben; kein unsigniertes Größenfeld nimmt eine Schrift unter der Mindestgröße an; Feldhinweise und Feldfehler sind dem Feld zugeordnet (aria-describedby, aria-invalid), ein ungültiger Wert bleibt sichtbar und wird nie gespeichert; Sprunglink in Kern und Lese-App (WCAG 1.3.1, 3.3.1, 2.4.1); Pro bietet nichts Privates und keine Gesundheit mehr an (ohne Ablageorte von Patienten- und Betreuungsverfügung, ohne Versorgungslage der Familie, ohne Tiere unter der Person); eine ältere Datei mit solchen Angaben bleibt in Pro lesbar, ein Assistent dorthin wird nicht angeboten; die Suche findet Bereiche und Abschnitte, auch über Alltagswörter wie „Hund“ oder „Stromausfall“; Enter sendet in Dialogen und Passwortfeldern ab; der Marken-Knopf nennt seinen sichtbaren Text; die Prüftermine sprechen nicht mehr vom „Bearbeiten-Modus“; englische Vorsorgebegriffe folgen der amtlichen Übersetzung („living will“, „enduring power of attorney“); Pro: die Situation „Vertretung“ deckt jeden Posten der Abnahme, dazu Register und Kennungen des Betriebs (EORI, USt-IdNr., Verpackung, Elektrogeräte, Batterien, E-Rechnung, Leitweg-IDs); Pro trägt fünf Auszüge je Empfänger (Steuerberatung, Bank, Nachfolge, Kundschaft und Belegschaft informieren), DE und EN; die Fingerabdrücke der Rezepte folgen. — v949 (Zug zug-folge30): der Speicher-Status in der Kopfleiste ist eine benannte Gruppe, in der schmalen Ansicht fehlerfrei nach WCAG; axe prüft alle 38 Sichten der Hauptanwendung, keine fällt mehr still heraus; die Tiere stehen als eigener Bereich „Tiere“ im Cluster Alltag (Privat), Umzug aus identity mit Schema 94 (U2-ADR-479); eine Vorlage nennt ihre Lizenz in der Import-Vorschau, oder dass sie nicht erkannt ist (U2-ADR-514); Pro fragt nach der Rechtsform, ohne etwas auszublenden, und hat Felder für laufende Verträge, mündliche Absprachen, Verkauf und Übergabe, Beteiligungen, Mitgliedschaften, Wertpapierdepots und zwei weitere Listen für die ersten Tage; Zwischenpuffer mit Schlüsselmaterial werden nach dem Gebrauch überschrieben (Antwort-JWE, Fachschlüssel, Antwort-Seed, ECDH in der Lese-App, Inhaltsschlüssel beim Speichern auch im Fehlerfall) — v948 (Zug zug-folge29): „Herausgeben“ bietet alle Anlässe mit eigenen Angaben an, die mit den meisten Angaben zuerst, höchstens vier offen und die übrigen hinter „Weitere Anlässe“; ein eingelesener EU-Laborbefund geht über einen zweiten Knopf in der Mappe zusätzlich als EU-Labordokument der Person hinaus, das Original hängt byte-gleich daran — v947 (Zug zug-folge28): ein Sprachmodul darf bis 1 MiB groß sein, jedes andere Modul bleibt bei 512 KB (U2-ADR-513) — v946 (Zug zug-folge27): beim Einrichten eines Fachs sagt der Text, dass sich eine weitergegebene Datei nicht zurückholen lässt; die maschinenlesbaren Ausgaben zu Person, Finanzen und Sozialversicherung heißen Selbstauskunft, nicht Nachweis — v945 (Zug zug-folge26): ein enger Zuschnitt für einen Empfängerkreis trägt keine als sensibel markierte Datei mehr mit, auch nicht über den Verweis eines Datensatzes auf sie — v944 (Zug zug-folge25): die Belege der früheren Fassungen und der ausgelieferten Bereichsdefinitionen führen die ausgelieferte Fassung v943; v943 (Zug zug-folge24): Pro: eine Pro-Datei ohne Beschreibung ihrer Bereiche zeigt ihre Pro-Bereiche jetzt auch in der Lese-App, und Privat und Pro benennen die Bereiche eines Berufsmoduls, wenn eine Datei dort Werte trägt (gerahmt, nie als eigene); ein Situationsblatt trägt die IBAN nur mit Freigabe am Unterfeld (SITUATIONSBLATT-IBAN-OHNE-FREIGABE); die Staatsangehörigkeit ist ein Code aus der Liste des Rechtsraum-Templates, der Identitätsnachweis (SD-JWT) trägt nur geltende ISO-Codes (U2-ADR-482, Schema 93) — v942 (Zug zug-folge23): in der Antwort auf eine Anfrage und beim Zusammenstellen lassen sich fehlende Angaben mit demselben Eingabefeld nachtragen wie im Assistenten, auch Allergien, Verweise auf Personen und Listen; gibt es von einer Angabe mehrere Einträge, führt ein Knopf in den Bereich; wer über eine Anfrage ankommt, sieht zuerst, wer um welche Angaben bittet, legt ein eigenes Depot an und bekommt am Ende gesagt, wohin die Antwortdatei geht, bei Schlüsselpaar und Einmalpasswort gleich; das Einmalpasswort geht getrennt von der Datei; den Wiederherstellungs-Code bietet das Depot beim nächsten Öffnen an; v941 (Zug zug-folge22): das Fach eines Empfängerkreises öffnet nur noch Einheiten, die der Zuschnitt gleich trägt; Air-Gleichwertigkeit am gesendeten Commit, pre-push stellt sich an. Vorige: v940 (Zug zug-folge21): die Anwendungen führen nur noch ihre eigenen, mit Prüfsumme eingetragenen Skripte aus; eine Antwort-Datei über der Größengrenze wird vor dem Lesen abgewiesen; zentrale Platzzahl, Last je Lauf, Vorrang-Marke nur mit Suite-Lauf; an der Antwort und am Anlass-Auszug steht die Wahl „Herunterladen“ oder „Link senden“, mit „Link kopieren“ und QR.
+const SCHALEN_STAND = 'v956';   // ⚠ mit sw.js CACHE gemeinsam hochzählen — v956 (Zug zug-folge37): Schalenstand des Zugs folge37; Pro E6 Unterrichtung der Beschäftigten beim Betriebsübergang, Pro E2 Vorlagen „Vollmacht für den Betrieb“ und „Übergabeprotokoll“; Pro E4 die Vorschrift am Feld nur nach unabhängiger Prüfung, Pro E14 Vorschläge ab Werk im Fahrplan der ersten Tage; englische Betreuungsbegriffe folgen der amtlichen BGB-Übersetzung („custodianship“, „custodianship court“), die englische Angehörigen-Vorlage sagt „living will“, Studio nennt „Living will“ und „Enduring power of attorney“; Pro E7 ein Pro-Feld sammelt die Meldungen an Kammer, KV/KZV, Versorgungswerk, BG, Gewerbeamt und Finanzamt bei Vertretung, Übergabe oder Aufgabe; jeder Weg, auf dem ein Auszug an eine Stelle geht, fragt danach freiwillig nach einem Eintrag in „Herausgegeben“, vorbelegt, wo die App Empfänger und Umfang kennt; die Notfall-Wege fragen nie; ein Empfängerkreis hält den Verlauf seiner Ausgaben, die Zeile zeigt die früheren eingeklappt — v955 (Zug zug-folge36): ein vor v843 eingelesenes Gesundheitsdokument gilt beim Öffnen als sensibel, wie jedes seitdem eingelesene; die Hilfe „Was Vivodepot nicht sieht“ sagt zu „Link senden“, wie mit der Netzadresse umgegangen wird: beim Hochladen nur als Prüfwert gespeichert, gelöscht mit der ersten Bereinigung nach 25 Stunden, beim Abruf nicht gespeichert, in den Zugriffsprotokollen des Anbieters anonymisiert bis zu acht Wochen — v954 (Zug zug-folge35): Pro: jeder Block eines Anlasses zeigt seine Überschrift aus dem Modul, wo der Textsatz keine führt (PRO-ANLASS-BLOCKTITEL-LEER); die Hilfe „Was Vivodepot nicht sieht“ sagt zu „Link senden“, wie mit der Netzadresse umgegangen wird: beim Hochladen nur als Prüfwert gespeichert, gelöscht mit der ersten Bereinigung nach 25 Stunden, beim Abruf nicht gespeichert, in den Zugriffsprotokollen des Anbieters anonymisiert bis zu acht Wochen — v953 (Zug zug-folge34): „Im Pod ablegen“ aus der Anwendung: Freigabe-Link, Ausschnitt für einen Empfängerkreis und Sicherungskopie gehen verschlüsselt über die Pod-Brücke in den eigenen Pod, nach Bestätigung der Person dort, nie aus der Vorschau oder Vorführung (Nachtrag zu U2-ADR-512, Stufe 2); die Belege der früheren Fassungen und der ausgelieferten Bereichsdefinitionen führen die ausgelieferte Fassung v952; ein vor v843 eingelesenes Gesundheitsdokument gilt beim Öffnen als sensibel, wie jedes seitdem eingelesene — v952 (Zug zug-folge33): neben einer geprüft eingelesenen Angabe steht die Stelle, die sie bestätigt hat; ein Rechtsraum-Modul kann für mehrere Rechtsräume zugleich gelten (England und Wales: GB-ENG und GB-WLS), „UK“ wird als „GB“ gelesen und nie umgeschrieben, und ein Modul nennt Behörde, Titel und Lizenz eines übernommenen amtlichen Texts; darauf dockt die Ausfüllhilfe für die Lasting Power of Attorney an (U2-ADR-477) — v951 (Zug zug-folge32): ein leerer Wert wird beim Sichern einer Bereichsseite nie gespeichert, ob das Feld angezeigt wird oder nicht; eine Angabe, die die Person zurückgenommen hat, geht auch über die Angehörigen-Blätter, die Notfallkarte samt QR-Kontakten und die Kreis-Blätter nicht mehr hinaus; eine benannte Vertretung trägt Qualifikation und Zeitraum (Pro E8); Pro-Auszüge lesen Listenzeilen verbunden, eine leere Angabe lässt nichts nachrücken, ein Datum steht geformt; keine Entwicklernotiz und kein „Pro-Modul“ mehr auf dem Blatt — v950 (Zug zug-folge31): die Währung kommt aus dem Rechtsraum-Template, nicht mehr aus dem Gerüst (U2-ADR-480); die signierte Präsentationsanfrage einer Stelle wird vor jeder Anzeige geprüft (Zertifikatskette bis zu einem eingetragenen Anker, Signatur, Felder), und die Präsentation aus der Datei bindet den Halter-Schlüssel des SD-JWT; die Antwort geht verschlüsselt zurück (U2-ADR-502); eine Einrichtung kann über ihr signiertes Branding-Modul ein Erscheinungsprofil mitbringen und „powered by“ in der App-Zeile abschalten, nie auf Ausgaben; kein unsigniertes Größenfeld nimmt eine Schrift unter der Mindestgröße an; Feldhinweise und Feldfehler sind dem Feld zugeordnet (aria-describedby, aria-invalid), ein ungültiger Wert bleibt sichtbar und wird nie gespeichert; Sprunglink in Kern und Lese-App (WCAG 1.3.1, 3.3.1, 2.4.1); Pro bietet nichts Privates und keine Gesundheit mehr an (ohne Ablageorte von Patienten- und Betreuungsverfügung, ohne Versorgungslage der Familie, ohne Tiere unter der Person); eine ältere Datei mit solchen Angaben bleibt in Pro lesbar, ein Assistent dorthin wird nicht angeboten; die Suche findet Bereiche und Abschnitte, auch über Alltagswörter wie „Hund“ oder „Stromausfall“; Enter sendet in Dialogen und Passwortfeldern ab; der Marken-Knopf nennt seinen sichtbaren Text; die Prüftermine sprechen nicht mehr vom „Bearbeiten-Modus“; englische Vorsorgebegriffe folgen der amtlichen Übersetzung („living will“, „enduring power of attorney“); Pro: die Situation „Vertretung“ deckt jeden Posten der Abnahme, dazu Register und Kennungen des Betriebs (EORI, USt-IdNr., Verpackung, Elektrogeräte, Batterien, E-Rechnung, Leitweg-IDs); Pro trägt fünf Auszüge je Empfänger (Steuerberatung, Bank, Nachfolge, Kundschaft und Belegschaft informieren), DE und EN; die Fingerabdrücke der Rezepte folgen. — v949 (Zug zug-folge30): der Speicher-Status in der Kopfleiste ist eine benannte Gruppe, in der schmalen Ansicht fehlerfrei nach WCAG; axe prüft alle 38 Sichten der Hauptanwendung, keine fällt mehr still heraus; die Tiere stehen als eigener Bereich „Tiere“ im Cluster Alltag (Privat), Umzug aus identity mit Schema 94 (U2-ADR-479); eine Vorlage nennt ihre Lizenz in der Import-Vorschau, oder dass sie nicht erkannt ist (U2-ADR-514); Pro fragt nach der Rechtsform, ohne etwas auszublenden, und hat Felder für laufende Verträge, mündliche Absprachen, Verkauf und Übergabe, Beteiligungen, Mitgliedschaften, Wertpapierdepots und zwei weitere Listen für die ersten Tage; Zwischenpuffer mit Schlüsselmaterial werden nach dem Gebrauch überschrieben (Antwort-JWE, Fachschlüssel, Antwort-Seed, ECDH in der Lese-App, Inhaltsschlüssel beim Speichern auch im Fehlerfall) — v948 (Zug zug-folge29): „Herausgeben“ bietet alle Anlässe mit eigenen Angaben an, die mit den meisten Angaben zuerst, höchstens vier offen und die übrigen hinter „Weitere Anlässe“; ein eingelesener EU-Laborbefund geht über einen zweiten Knopf in der Mappe zusätzlich als EU-Labordokument der Person hinaus, das Original hängt byte-gleich daran — v947 (Zug zug-folge28): ein Sprachmodul darf bis 1 MiB groß sein, jedes andere Modul bleibt bei 512 KB (U2-ADR-513) — v946 (Zug zug-folge27): beim Einrichten eines Fachs sagt der Text, dass sich eine weitergegebene Datei nicht zurückholen lässt; die maschinenlesbaren Ausgaben zu Person, Finanzen und Sozialversicherung heißen Selbstauskunft, nicht Nachweis — v945 (Zug zug-folge26): ein enger Zuschnitt für einen Empfängerkreis trägt keine als sensibel markierte Datei mehr mit, auch nicht über den Verweis eines Datensatzes auf sie — v944 (Zug zug-folge25): die Belege der früheren Fassungen und der ausgelieferten Bereichsdefinitionen führen die ausgelieferte Fassung v943; v943 (Zug zug-folge24): Pro: eine Pro-Datei ohne Beschreibung ihrer Bereiche zeigt ihre Pro-Bereiche jetzt auch in der Lese-App, und Privat und Pro benennen die Bereiche eines Berufsmoduls, wenn eine Datei dort Werte trägt (gerahmt, nie als eigene); ein Situationsblatt trägt die IBAN nur mit Freigabe am Unterfeld (SITUATIONSBLATT-IBAN-OHNE-FREIGABE); die Staatsangehörigkeit ist ein Code aus der Liste des Rechtsraum-Templates, der Identitätsnachweis (SD-JWT) trägt nur geltende ISO-Codes (U2-ADR-482, Schema 93) — v942 (Zug zug-folge23): in der Antwort auf eine Anfrage und beim Zusammenstellen lassen sich fehlende Angaben mit demselben Eingabefeld nachtragen wie im Assistenten, auch Allergien, Verweise auf Personen und Listen; gibt es von einer Angabe mehrere Einträge, führt ein Knopf in den Bereich; wer über eine Anfrage ankommt, sieht zuerst, wer um welche Angaben bittet, legt ein eigenes Depot an und bekommt am Ende gesagt, wohin die Antwortdatei geht, bei Schlüsselpaar und Einmalpasswort gleich; das Einmalpasswort geht getrennt von der Datei; den Wiederherstellungs-Code bietet das Depot beim nächsten Öffnen an; v941 (Zug zug-folge22): das Fach eines Empfängerkreises öffnet nur noch Einheiten, die der Zuschnitt gleich trägt; Air-Gleichwertigkeit am gesendeten Commit, pre-push stellt sich an. Vorige: v940 (Zug zug-folge21): die Anwendungen führen nur noch ihre eigenen, mit Prüfsumme eingetragenen Skripte aus; eine Antwort-Datei über der Größengrenze wird vor dem Lesen abgewiesen; zentrale Platzzahl, Last je Lauf, Vorrang-Marke nur mit Suite-Lauf; an der Antwort und am Anlass-Auszug steht die Wahl „Herunterladen“ oder „Link senden“, mit „Link kopieren“ und QR.
 // (18.09.2026): beide Linien brachten ihre eigene Erhöhung unabhängig voneinander (Schnitt v734,
 // Verschluss v743) — hier zur gemeinsamen v744 zusammengeführt, Zuteilung.
 // Vorige (Schnitt-Linie, v734): v731 doppelt vergeben (vdm4-lese-app-trennung-2026-09-17), hier
@@ -2746,7 +2746,7 @@ function heuteLokal(d = new Date()) {
 // Konstanten waren nie aneinander gebunden. Jetzt erzwungen: tests/build-datum-lockstep.test.js
 // vergleicht diese Zeile gegen die vorige Commit-Fassung und schlägt fehl, wenn SCHALEN_STAND
 // sich geändert hat, ohne dass BUILD_DATUM ebenfalls angefasst wurde. IMMER gemeinsam bumpen.
-const BUILD_DATUM = '2026-10-26';
+const BUILD_DATUM = '2026-10-28';
 // Schwelle (Tage), ab der der Versions-Hinweis erscheint. ~6 Monate.
 const VERSION_HINWEIS_SCHWELLE_TAGE = 183;
 /* Die Marken-Stelle des Kerns (v847, Befund STUDIO-MARKE, U2-ADR-362): jede Adresse der Marke steht hier und sonst nirgends —
@@ -3564,6 +3564,9 @@ const TEXTSATZ_ARTEN = Object.freeze(['label', 'hint', 'beispiel', 'platzhalter'
   // Konvention „Hinzufügen“ (Produktentscheidung 07.10.2026): der Zweitknopf unter einer Listenzeile, „Weitere(s) <Einzelname>
   // hinzufügen“ — der ganze Satz je Liste, weil das Deutsche das Beiwort nach dem Geschlecht beugt. Gelesen in feldInputHTML (liste).
   'weitererEintrag',
+  // Vorschläge ab Werk (Pro E14, 25.10.2026): an einem Unterfeld einer Liste mit `vorschlaegeAbWerk` je vorgeschlagenem Eintrag eine Zeile,
+  // in der Reihenfolge der Vorschläge. Gelesen von listenVorschlaegeAbWerk(); nie als Eigenschaft auf den Knoten gefüllt.
+  'vorschlag',
   // Beschriftung in Ausgaben (09.10.2026): wo die Eingabe-Beschriftung ein Hinweis zur Eingabe ist („Name im Depot“), trägt ein Feld
   // für Notfallblatt, PDF und Lese-App eine eigene. Gelesen über feldAusgabeBeschriftung(); fehlt sie, gilt `label`.
   'ausgabeLabel']);
@@ -3892,7 +3895,7 @@ const TEXTSATZ_ARTEN_ASSISTENT = Object.freeze(['frage', 'hilfetext', 'einleitun
 const TEXTSATZ_ARTEN_FELD = Object.freeze(TEXTSATZ_ARTEN.filter((a) => !TEXTSATZ_ARTEN_ASSISTENT.includes(a)));
 /* Textarten, die nur beim Zeichnen gelesen werden (textLesen), nie als Eigenschaft auf den Knoten gefüllt: die Felddefinition bleibt so,
    wie die Bereichs-Templates sie tragen (Umzug-Rundlauf, eingefrorener nativer Bestand U2-ADR-320). `weitererEintrag` liest feldInputHTML. */
-const TEXTSATZ_ARTEN_NUR_GELESEN = Object.freeze(['weitererEintrag']);
+const TEXTSATZ_ARTEN_NUR_GELESEN = Object.freeze(['weitererEintrag', 'vorschlag']);
 /* `_BEREICH_ID_FORM`/`BEREICH_IDS_EINGEBAUT` standen ursprünglich rund 2500 Zeilen weiter unten,
    mit der Annahme „eine Funktion wird erst beim Aufruf ausgewertet, und der liegt weit hinter der
    vollständigen Initialisierung des Skripts" — FALSCH für GENAU EINEN Aufrufer: der TOP-LEVEL-
@@ -4297,9 +4300,10 @@ const SCHUTZ_SCHLUESSEL_KERN = new Set([
   "dok:betreuungsverfuegung#4/whatTheCareArrangementShould.satz",
   "dok:erbschein-vorbereitung#0.titel",
   "dok:erbschein-vorbereitung#0/0.texte[0]",
-  "dok:erbschein-vorbereitung#0/4.texte[0]",
   "dok:erbschein-vorbereitung#0/bank_verlangt.frage",
   "dok:erbschein-vorbereitung#0/bank_verlangt.luecke",
+  "dok:erbschein-vorbereitung#0/erbvertrag_form.frage",
+  "dok:erbschein-vorbereitung#0/erbvertrag_form.luecke",
   "dok:erbschein-vorbereitung#0/grundeigentum.frage",
   "dok:erbschein-vorbereitung#0/grundeigentum.luecke",
   "dok:erbschein-vorbereitung#0/lebensmittelpunkt.frage",
@@ -4308,6 +4312,7 @@ const SCHUTZ_SCHLUESSEL_KERN = new Set([
   "dok:erbschein-vorbereitung#0/staatsangehoerigkeit.luecke",
   "dok:erbschein-vorbereitung#0/testament_form.frage",
   "dok:erbschein-vorbereitung#0/testament_form.luecke",
+  "dok:erbschein-vorbereitung#0/testament_form.pruefen",
   "dok:erbschein-vorbereitung#0/unternehmen.frage",
   "dok:erbschein-vorbereitung#0/unternehmen.luecke",
   "dok:erbschein-vorbereitung#1.titel",
@@ -4315,6 +4320,8 @@ const SCHUTZ_SCHLUESSEL_KERN = new Set([
   "dok:erbschein-vorbereitung#1/3.texte[0]",
   "dok:erbschein-vorbereitung#1/erben_namen.frage",
   "dok:erbschein-vorbereitung#1/erben_namen.luecke",
+  "dok:erbschein-vorbereitung#1/erbvertrag_bedachte_namen.frage",
+  "dok:erbschein-vorbereitung#1/erbvertrag_bedachte_namen.luecke",
   "dok:erbschein-vorbereitung#1/familienstand.frage",
   "dok:erbschein-vorbereitung#1/familienstand.luecke",
   "dok:erbschein-vorbereitung#1/kinder_namen.frage",
@@ -4620,8 +4627,8 @@ const SCHUTZ_SCHLUESSEL_KERN = new Set([
 /* SCHUTZ-SCHLUESSEL-KERN:END */
 /* REZEPT-FINGERABDRUECKE-KERN:BEGIN — generierter Bereich (tools/rezept-fingerabdruecke-erheben.js) */
 const REZEPT_FINGERABDRUECKE_KERN = new Set([
+  "sha256:012e3e3a23dfeb26cccbfe40b82f7c2cc233fff2489e1860fd862b3cb42c92be",
   "sha256:0657cf8f07a60347f91e4bf900287092c945807333348c04d79ccf5b39521d68",
-  "sha256:0994ec3d41a8518a2bc4c7e774d48595331b45bfa5e7b9ad55eeab0ed69102d9",
   "sha256:0b2ca7acad36fea986ac01c06037c6118746465f51c54fc838b0996361332f5c",
   "sha256:0d8605a8bc42b0c2796e2d9f5d6dde4f79563d245e67f7f4c665e3669600b2d2",
   "sha256:0f63c153805949dafd46a67c85fab10e35ec9737df887a10562b489e540f0ab7",
@@ -4631,56 +4638,60 @@ const REZEPT_FINGERABDRUECKE_KERN = new Set([
   "sha256:27a37b7f2da8eb000d7dbaaebef11d07793c5b5b7c44427a0ef2764eec7c8593",
   "sha256:2be22b9db400991a34e2544b192a105023d1f2ffbff360dbd78050684a3f9df5",
   "sha256:2ed1acce49b700471e62beddf17a7262e88b3ff73753f220f44af3d5739f26c6",
-  "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
-  "sha256:351a0cd1b905059035b5dd9bd6db8b1501fc8516af07b75da771a0c34f1e5353",
+  "sha256:3366e7bd707b2fcc8f731d6d09fe373bedf261423696288789334fe5a014ba6d",
   "sha256:397a6120f3bf79d74c6130ce12d9d76c29aaf6e6b0b447cc1f631e67a0d6d6d9",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
+  "sha256:3b7813a37e0140a7767630314c7e81adcbb5e78d076ef55898fc9a13f5e4c3ac",
+  "sha256:3c907297290cc839456ffd577d74afd7321fa69efe72365da7c07cb8852fa297",
+  "sha256:3eed17fea7b823887d4fc68b69b57417da1ccb278a216fc0a4d58a4387217a12",
+  "sha256:40e63823efbdc60a36623281dd79c87de245e94ffc9f94c9eb5d35a11444bfe7",
   "sha256:4222f38226c7b78ffb6ce20db9dd31cefe2d971e462d95526e6015195a77092f",
+  "sha256:4cff290e574dab4e8fc152460178f2a9ff777b7a5ce4eb178b67d2b86be8afb5",
+  "sha256:4e09a4a718c8f366875ced7888a2025d88bbb3188675320e46d070c8b1845812",
   "sha256:51ac013377f52f68aedb5f65a08e9ee9240769b82215b2d3a4bdbbb0bd82389c",
-  "sha256:553dfc2d2f9aeec50517b7a564a5fad2f0145af8590dddbc3797631aae2c683c",
   "sha256:5bc5dbbb806248a5c5761982c961c97c99d47c0e52b68a7e6050581624d3c670",
+  "sha256:5c804d4d8514dd89a7bc00cdea8937b713c63f7742fbe54f59b2576695942643",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
-  "sha256:5fc0819b0f490239069822f30bb7d5b73133b32c96ed1495ba1483ac42297f4c",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
-  "sha256:6a994aef0b01f9ffa9505063c698669cf85b6d8da8f0765c82001bfd9c0305e4",
+  "sha256:6d504e90e4bacef7605d2e4c0c783aaa083cb7a93e86cbe2639dad22ebc0bc48",
   "sha256:6e17e1991029d39aa101a363f0afe2ed8a2e1069396d2f7f813643196c297c9b",
   "sha256:70d8b2765d51d42136e99e8317e7bede9066e360fae269f88004cd0b97bf8637",
   "sha256:7300c58d79247cdaeeafd859e81e23b0a3d5ac0a375f757cc6060f8843ef1e0d",
-  "sha256:789d9b1817a8a0e8e8b0a9c46c88d2fe4672a0f03c3502b0705393d0dc40060b",
+  "sha256:75eb4818029d0e0e0c8d9a403783f441880d0ebebb82352229ab49b56c3900fc",
+  "sha256:77e89a367c30b12f4f250546a43c2bae68a2a2bf63325dee8b2568c562d7a323",
   "sha256:7a6d29f8509d928a3af8e6c4e6f83b9ee8d8ef205bc0b9274cc5b9e395dc9c22",
   "sha256:7b79b98f9580e1db1582fa5d26ae10aaae25879357a0996f438b006f178d3098",
+  "sha256:81f4ae88a605bf7fbed357a40283e9e643e6197c09099d9277e8cee3f395efa2",
   "sha256:8211701bc1860c8baddf1258e90aa5e4e450e5adf15073df60c0188db4326055",
   "sha256:8a28def9657f02c931fcf6e0636059f28579652a564a207861ace7c97b045692",
   "sha256:8da29a666f938b9dd57afccf906d828c10269c59bdbb6008ccec41bb53f519fb",
   "sha256:923f9e59ebcee0efaf47a3d2102efe8fa1b511d00ebf0f911307eca597741028",
-  "sha256:92caa79ec7ef2f429e56c1b0086e7222c54fcd340b721a8802b305effc96757b",
   "sha256:93dec6e67e486c5f8c057c3b35e773d42cbda04bf4a6b18ace664bf93e7c14cf",
   "sha256:995d1c0ce07f8ec226b732822bd99775b1a467d1965fb548cfbeaf9f52eba467",
   "sha256:9a01109354bbf33e180ddf0da88a573a0e31a091692f73ee7b6bdd2cc7f72a2b",
-  "sha256:9b0f5674b39a7a33ee241ef5e651b7962c0f4b54d9154569983d8693ec915418",
   "sha256:9ec1b079ddeb40ef42f4e8e3e33627a7b1bdc5e5d7b523f7e194728f2346970b",
   "sha256:9f41faf3d8b167a407568436b1138d9e842081351786b13144e1935352293bc6",
   "sha256:a349e68d1d95c99b7f4d8813cc22470fb1d6716a8175ac5c8f7c0647966a6b54",
   "sha256:a7fa4c684354c29facca4008034177bb96e598f9bcb5b0d5d886c76f1c91b30d",
+  "sha256:b46c509fe0ac6648db1b4f7f327d6fea27c1e9925aefee61ea0812f836fc244d",
+  "sha256:b504cfa4b188cdfa373fc9e0e463e1148cc1d52de330bc8234352f2ed4e1806b",
   "sha256:b694d4fb9dae604af530ec7c11049f75b2f684b2779605140284b5f952020da2",
-  "sha256:b8d259496e04bd628e49025a595a3d6ae8ab6508b7935b27acba7cfde8144205",
+  "sha256:b8bec4ed765502cd39cc6b9fc0fd03291757f49ffdba81bf14c5e7f0f0727075",
   "sha256:c16044fa33506aa5d41dc1d855b5261b525b70ea9c0624892e4ce5ce3fb207c8",
-  "sha256:ce350d318ebbd4dfca697e3b01545ca29a772b031662940d88267baad2776db7",
-  "sha256:ced007593db51d9a85ec1137b68b5d662bafcddf6c6e538d0dc92bd20658251b",
-  "sha256:cff28428329d491918eebef0323034a605c8cd8d1a017865d0bf327ac3494a7f",
+  "sha256:c7480022eeaa10f9a0c9bfaa19d81132a8c7665f57759d858892027a859b5aed",
+  "sha256:ccc8a8b91c01db6598737b18d1f9512e0ee410d0a141f25b4843fdeecb51b09b",
   "sha256:d03c8abb578c20c2594035c757be8176f4193fe7a7d2d0d2820a0991dd350464",
+  "sha256:d98aaf825628de15b59a02d83b44720c25cbf2bfd9a238fa684c5a39f81bccd8",
   "sha256:dd820a763618b777daf6cfe5abf2d2386fb4c528e990051282a386c6be9d6927",
-  "sha256:dea524a4b091f5c8121ac45e210f10f3362e757148accc781412288566c191b1",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
   "sha256:e4cec1026e6e9d26abdebc25f7e98144296e9bf13a5d28addd542748afea3890",
-  "sha256:e7ea60a582d9130c144fed78b3d0c98b3942007f96d1a5300a1f8847c33f91be",
+  "sha256:e92e8beb8e38f1a0c20253bdb775f129f7a483f0a33f35bec18a2e7981f6b342",
   "sha256:eef7c6369adf6609257416b8e3214347656583aeec78dcd3221425803711cda2",
   "sha256:f276021729c7c7c35778be8726ffb1ea7b48308914f4bdb0fa12794fe0d59a38",
   "sha256:f61d71827807c73bece1186d31ea3b645c4f2e8b9215fd95603b17c4f0f2a4e1",
   "sha256:fb71b8b13f8508bc35f95e3b07d93771c04c34050e634a60d56a9cc584fb6e18",
-  "sha256:fbef7f1831d1a8bb8a3a055c0b70df9d51e57c1e037244be54f395bea72c9ba8",
   "sha256:feb419a2bf7efa68348d922c4748978e5649c22d93888305b6d9139247a3e69b",
-  "sha256:ff155c8832dbdf8d2394862185fbf5199a5ba4c32dc990bfbd5a4c4415de0004"
+  "sha256:ff4b40188190de226b54b846ce55c3e806e2211e8aceff7b9ec26c4962818447"
 ]);
 /* REZEPT-FINGERABDRUECKE-KERN:END */
 /* ABWERK-FRUEHERE-FASSUNGEN-KERN:BEGIN — generierter Bereich (Erzeuger der früher ausgelieferten Fassungen) */
@@ -4712,6 +4723,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:21b9d470296dbbc6ea0e136889279af595835a43bd478c2e147b0cfcc66d5d9e",
   "sha256:26626948b0e8678a0bfe0052833b5ee9f69b48047910ad1fc359decf5cd2c6f6",
   "sha256:2685b2331a675c920d9272f1c6ce819fa34b3153cc1ec58a654a5a1fa26d4bbf",
+  "sha256:27a37b7f2da8eb000d7dbaaebef11d07793c5b5b7c44427a0ef2764eec7c8593",
   "sha256:27ede9ca0b177c5844ff6f837ef2a4c440f84f6996ed8e63383ae56f197932ba",
   "sha256:28ec727bd7918acbf04fdbe6062937752058b5fbee18d0a7237d07b5fb53a083",
   "sha256:2b675ddc33ccc7c67d511e773b1e808877e84d9c3f516529eaf517dfa5caeae5",
@@ -4724,6 +4736,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:3062deea833a73c3c52ec3fd403cf05e8d6a4548d956f52c909ee830e6732f37",
   "sha256:32895d90e7e48d2f263858f9f5481996e35ff25dd033eb987818eee7120aeecc",
   "sha256:33dc52e9bf9051dff339b805f824ab30637ea79a303c3a5f5fdd2800b48bc21b",
+  "sha256:351a0cd1b905059035b5dd9bd6db8b1501fc8516af07b75da771a0c34f1e5353",
   "sha256:35bb24ef2f3d1bb8e9e63103667809d466c477069b0d8f6d0d0942b5fdd7df0e",
   "sha256:397a6120f3bf79d74c6130ce12d9d76c29aaf6e6b0b447cc1f631e67a0d6d6d9",
   "sha256:3a976ee9bb11875aa07824e1c0b5728ec956a32279dcf41b9a94c0d5c95e144b",
@@ -4759,6 +4772,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:5c5e7287af886961549d353866f38f7bfdf3e63367666b81a50e667d419653ce",
   "sha256:5c838fb9ba05d85aeca64aca811c1b7b70f2d25d8ab81aab5a0a06ce56fc4295",
   "sha256:5eee8766490e5169a3e2f3c6e6cb16b7c31ec53ad506468dc6abdc52fe1abd4c",
+  "sha256:5fc0819b0f490239069822f30bb7d5b73133b32c96ed1495ba1483ac42297f4c",
   "sha256:614d2f48ed00ae14f2d1dc4a7ff85631fd2204a7b1157695a58e2a933aec831a",
   "sha256:63264d86f18f44e8e1a9fe4959c371d4b3e9d20eb9abc0ff5024726760a33254",
   "sha256:64302c25f12f6dc823606ca6eb7d198422b139323c089c689c25e915c4e00d24",
@@ -4769,6 +4783,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:687b3f3b3aa5c32869aaba17e9f5a4418328d930e81ebdb9ce4a8770f8b5c359",
   "sha256:6a994aef0b01f9ffa9505063c698669cf85b6d8da8f0765c82001bfd9c0305e4",
   "sha256:6d7e0f206305ed3c0a9380868d1b860da5f0b9643e67592071af1f8480262e69",
+  "sha256:6e17e1991029d39aa101a363f0afe2ed8a2e1069396d2f7f813643196c297c9b",
   "sha256:6e53d7917f9465c4f8088b2638815e42c4dac4817d8e6ec47e06b2d59a2b889b",
   "sha256:70d8b2765d51d42136e99e8317e7bede9066e360fae269f88004cd0b97bf8637",
   "sha256:71b61cf87b961fae4c76f4440518df30a49e5dcdec57ed284f83c4ae1f7e4238",
@@ -4792,6 +4807,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:839b432fd2c9ec0221b281cd2ab6ac0588a9ccd183dfcb7118c849c6e611af94",
   "sha256:8459c1a9536e90f01348d53d857e87d7e857bc7ead98f06385f307cb21695767",
   "sha256:87c411606241e5868cbe05647aa30dff616d334a6eab848dea9a211d39a1a80a",
+  "sha256:8a28def9657f02c931fcf6e0636059f28579652a564a207861ace7c97b045692",
   "sha256:8b1cef408d063d7336c45c1a78095454652c57cd267f021a8c6d73157ee4c7b5",
   "sha256:8caabec0ddc01851757675eb58c7a683ecc1c6c9551924ed0308b1ba45967b12",
   "sha256:8da29a666f938b9dd57afccf906d828c10269c59bdbb6008ccec41bb53f519fb",
@@ -4799,6 +4815,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:923f9e59ebcee0efaf47a3d2102efe8fa1b511d00ebf0f911307eca597741028",
   "sha256:926b4c6ef2268cc6091942a69e4ba89712ff06f7793238f75d4f1c014c6a9ca7",
   "sha256:92c3230ae93365ca353cd24c3bbdce01f4e572b6959466b05f2afc739c1ad044",
+  "sha256:92caa79ec7ef2f429e56c1b0086e7222c54fcd340b721a8802b305effc96757b",
   "sha256:934772ec38dfc85199b0e35c49f6ad40387e1a748e79992f6fc6ed00c0886bbc",
   "sha256:93dec6e67e486c5f8c057c3b35e773d42cbda04bf4a6b18ace664bf93e7c14cf",
   "sha256:9511f1151d448e0bdcf8c40c6e4216c434d10b925cfa133f030575b2abde0717",
@@ -4811,6 +4828,7 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:98df1da45043df597a335ee31c17c91e082871a18baed7fc22ab56a8dc798459",
   "sha256:995d1c0ce07f8ec226b732822bd99775b1a467d1965fb548cfbeaf9f52eba467",
   "sha256:9a01109354bbf33e180ddf0da88a573a0e31a091692f73ee7b6bdd2cc7f72a2b",
+  "sha256:9b0f5674b39a7a33ee241ef5e651b7962c0f4b54d9154569983d8693ec915418",
   "sha256:9ec1b079ddeb40ef42f4e8e3e33627a7b1bdc5e5d7b523f7e194728f2346970b",
   "sha256:9f41faf3d8b167a407568436b1138d9e842081351786b13144e1935352293bc6",
   "sha256:a0024d9aaea0066ff63117b9bb749d64aec6dd9fc53551928189273aedaf592d",
@@ -4845,13 +4863,17 @@ const ABWERK_FRUEHERE_FASSUNGEN_KERN = new Set([
   "sha256:c9a008c4699827452c1c5e395c0b38efd8db44bdc0657ea9283ec1493eb03baa",
   "sha256:c9cec5ef5844c6434399c4699fdac97c7c41501a692920f80f5092de20dbf454",
   "sha256:cb91ac9f67ff925892c82e39e5fbf2dd939965200f8a1cfb3b5e813b84472827",
+  "sha256:ce350d318ebbd4dfca697e3b01545ca29a772b031662940d88267baad2776db7",
   "sha256:ce53661e870401960cc7cac7676949018a51f19140a3c5a95c0907013e295c6b",
+  "sha256:ced007593db51d9a85ec1137b68b5d662bafcddf6c6e538d0dc92bd20658251b",
+  "sha256:cff28428329d491918eebef0323034a605c8cd8d1a017865d0bf327ac3494a7f",
   "sha256:d00dbad645e2a31f6caceef876dc191c6d106a51ee00e8461932eec085fb81d5",
   "sha256:d03c8abb578c20c2594035c757be8176f4193fe7a7d2d0d2820a0991dd350464",
   "sha256:d42fa3924e205e777486ada3ee78c1671309b81ab64136ef961f962659f46baa",
   "sha256:d9fb94d3337cf033dee1b1076d0a700b690f9ac898e72b3e04970a19dd001ea6",
   "sha256:da32ed8bb6afc5de4b3062fb8af6b4793625f5c30a30c8c3ee511879e899ebb9",
   "sha256:dce646d0f3488d9274c798f9134b19508381e514bd4a0d36562a87d07c35e82c",
+  "sha256:dd820a763618b777daf6cfe5abf2d2386fb4c528e990051282a386c6be9d6927",
   "sha256:ddcfe5f5189ede9745f18c15273e233e82f6119c63f336361bc217ef9c42c9fe",
   "sha256:dea524a4b091f5c8121ac45e210f10f3362e757148accc781412288566c191b1",
   "sha256:e2d9abd9cb64ebd06d4229f95ef711cb8a918ba9a97ee4a51e9700bb48efb353",
@@ -4916,14 +4938,18 @@ const BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN = new Set([
   "sha256:52a51fbc4fc308c82525d656567297810ae5f6c81be1cf6071bdf251d4887bc4",
   "sha256:55a7d8a260253682a3cc2396d223ac3afdd5e4e36be6554e40ab5f187bf71bf5",
   "sha256:56e218ae10f7ded094688ec7f9acc2a77d5f56f6a598a78796932dceb3c468c4",
+  "sha256:5a314779844227719e54e523ceeb568e4cd4dadce0e282e057711620aad87b61",
   "sha256:5b669aa2b0beeaca0652e03cc678c806f8c2a97d02b42bbc928f91d8c9b88df8",
   "sha256:5c3b60f0d1d6fc17290d6e11ba1ba95481e3f82b370b7743cf49a33fcc1afc6f",
   "sha256:5cd74fc246fa76c26a9635f5f637d93158dad4a358cde5dbf934863a66cc9e90",
   "sha256:5d3c20366346e83e637f7321787fed940ebdc29dc8b78aae05d76f79e9e5a220",
   "sha256:5e7038f338dfb180ee4619b17d9ebe23b9338940068b71fcac7d33437a6e66ec",
+  "sha256:5ef81e4f2ffaa4f0c56abf8eb34329f77fdf146226b2c2d146fa9e1fb12c20b4",
   "sha256:5f999610dfb5e2e26c753a75a04ad9fa872f54afe0b21e90448266104afcb460",
   "sha256:6005bb829d4409a9a44c7ef53610a8dd27e7c0433c41dab467c288909606ccc6",
+  "sha256:605454454a17accb657c96998c6830651a1da68f59bcd942449ffaf56be3c763",
   "sha256:6441bb2723e779d1243876240ae15e5fde23cf60218c66b2a52e9008a982e651",
+  "sha256:64ad0b036bded583763b13f84d10c22c2b128e09b8d96b7ebd90ca34d1ffff12",
   "sha256:6a0e9382a50ed0baa5425701529ff8e561d9aca852e58f49d5a1f7726f9bb8b5",
   "sha256:6cc5ebeca9fa91c88be69d2f7a87aea55771deae55113fbd8cfd8c6b5ef5f505",
   "sha256:6e40e398dcf50a2a1851191f973443223580ad27532f2b21d9cde3c991090de3",
@@ -4931,9 +4957,11 @@ const BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN = new Set([
   "sha256:70f724b9947356d06637842909fb011e8fc1eef9a0cd5f342567805ad0b80ff8",
   "sha256:74509c37a01bbe3702dfb3eede41f2b721f3f3ad1323d592e7aeb5a7f638c456",
   "sha256:7d5d58ff75d0b959f3e7fbc6972c8fbd187a347e6d38f7c54de458d64762ea4f",
+  "sha256:7d89a52115796d6399807192f686c4cb3821e070d4d227052f931ace54ae7c4e",
   "sha256:7ea50c4b177c26eaddf4960069a9ab7b12f9c1a7b868135d5ae41e650182fcec",
   "sha256:80bc74d8cc3d65e50f2fcdfc475673a7714c54679515c002af9f69c119fd3d60",
   "sha256:892adc12f264ec9825f05dde58779d17fc06f951adfadbec415f5cd05676baad",
+  "sha256:8bc5947f3f82b97e6d6c4f090453fab810f034417bd3c3fb7ac03300851c0c95",
   "sha256:8c27f2ee897c04defb4ea479615641991dd3e6ddd3e3c6a3d653a620cc6fdc5b",
   "sha256:8cc26dc75f18efb50e06129f3d979cb0b2c9fe46e31f6619cfabdd37bb1be0d1",
   "sha256:9015b6f6a909af0af193a478d65344f1d6bbb9b8c5e083d01da97b1b15d93bf0",
@@ -4941,6 +4969,8 @@ const BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN = new Set([
   "sha256:9111e38892da5df5a6d618df009d3d5048496d11be3be42668443e9fb636fef7",
   "sha256:9121901df4190a28ea69ff8bea7849510ffbc5271d6df820375c4cc03e1e2381",
   "sha256:916a89ca0e55a095549723c20c77e20dc426e8e81d17716d7e95f8bd0b46297d",
+  "sha256:919ad08df8c11814508b43556aedb2f569719eac4f97b8a9fdb4a1bf600ba9b1",
+  "sha256:9320e9546641e36633a3f1ec81d673d03514b330915dcee9e8b0b4fffb748220",
   "sha256:94f66019ecb9cddc816b9cdc1bc4ae2623c2126f40908cc9e3a3d9128fed739b",
   "sha256:96d7abd65b01a02e9d23ee223d5642df2b8103d2d69d8c72537f43e589b366fb",
   "sha256:971d08a6b3c6b7531d4bde9f5c753f97c13298ecd7a8f55230b0049935f2d0fc",
@@ -4949,9 +4979,11 @@ const BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN = new Set([
   "sha256:9f06c87689786c670c9006bbf31118e4f5d3828907d1a80e0ab191bc5181c8fd",
   "sha256:a085984fb613139b20e98971a6829c736273ad7254b62dbefe5d11a2801f6d9c",
   "sha256:a0d81b2b241f3a6ea14e1de0818122f570ab71699f8bb6731f723e338b752657",
+  "sha256:aa3ef197e785cf17c53cd88181196b73ed86a7aff9cf0eb7e394fe902a965758",
   "sha256:ac9d38ae1ee18c725a81363e11e539ad4ed347b7442df7709b00674993741c25",
   "sha256:aee422d551aae83ce8cc31bebd897f135521510c04d04f15c7425b5b8f63d365",
   "sha256:b20dee9dac45b242c43e6fab1a50bca98e50ce288a4e643c50277256349fd8a8",
+  "sha256:b2a5b3ee8c99623948b089bd974dff24b9911e909a6c02710b02c6fd5dd3bb28",
   "sha256:b6c6d1e1863ed0f457cf0789e18c6349533fa5de8992e3c1b90afcac49be35e9",
   "sha256:bbcc5bd02bfe97fa9d47634f4cc0066e8d6231aea436c530e4517beecd276980",
   "sha256:bff8cc758d5dcd7f9b4d635554574ba2268a50b8b82d46afd3cd0f4be248f231",
@@ -4959,6 +4991,7 @@ const BEREICHSSTRUKTUREN_AUSGELIEFERT_KERN = new Set([
   "sha256:c6ff0fdcf8963a43d5505c7a9288a0170554890c9cb5aa14e6c7066139396226",
   "sha256:cc2bbc3040617975ccab5405385a83decda7d92e34a069cf24c42556bb50e276",
   "sha256:d51ea6f528621f8b46615c1039e3026fea66d3890b2d19f80523212a808bd315",
+  "sha256:d533812ae287ca87c2bb55250bb935f2f34801ec4ac61e975080d966ce88b856",
   "sha256:de9b84491ee28b3d2a8f3f47fc8370f8c72fcd4d993060b9558a11338f7fbd98",
   "sha256:e358b77296df73f1e055d8401e21a4e56da46cd5830b463a96e664ad0b9a34fe",
   "sha256:e4f254350f0263607f35e781f86219ce976b5f53232e08a09f5e5e9ad8d2ba92",
@@ -4992,9 +5025,11 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:00b20637afd833779aba80d5685260a52006569d97ff0e58a3758621a2741982",
   "sha256:00c45a541f175e2952ccdb4be22eb5600eb9fec4bc993801588a16245ae8f00e",
   "sha256:00cee86851b80b97cbd4da738654f6d04f481e17ec79479f28e42443fc7bd444",
+  "sha256:00d9521c8f50b07fc67e14a9e68d179a85d20535bd54b827152d7e3e4179baf5",
   "sha256:00dbe7c63ac20bb94c32ecad19aa3394aef7cf920d403c1cd2a70ea72f6a77dc",
   "sha256:00de13647b6e59446b25260ba403515cfd9aeb98a64bf36abc51886fa76d23ea",
   "sha256:00e84924d40807dd862c6387203740ebf6fe4d3aff7e7737ae1f1bce7648c43b",
+  "sha256:0127edd735154390ab8604c64cf2386defaa7a46d2c1ef460777f9a150685810",
   "sha256:014015eaa6292988d3fc07b8c5a766ba8e85c28fc662f0ce285def909f4f26a6",
   "sha256:01444caede6e5a244114e13deacdfe90481c62d0a3bc30bb015afad272edbf23",
   "sha256:014bc8dd8c070de3b5252bbaf75a7cb2a56d231a2993922bea9950d8690df79c",
@@ -5226,6 +5261,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:0d970530c5f78a56b0a6f8801d9c8921121469f86ebf1818dfbe59a8c51331b8",
   "sha256:0d9766c126fb5b6126957609e9276f1237ba37da102a80c6e275656d26b595e4",
   "sha256:0d9ac1eab929433e1d7e6a37f94c3c8b34db0e215d1807641f801d33846754b2",
+  "sha256:0dbac390a4b2b2244f037700197b0b3c0b874ca0dcece6753252c1baaf73ff6a",
   "sha256:0dbe6132126d57baa3c7a9fab446e32424bfabfcc3371f9791b748512c227cb3",
   "sha256:0dc7c41e2ca8de23c76e3ce673400a82dd4094cbd1e3135f04d86eb68b1a0d6b",
   "sha256:0dd75584ed69c2e1a243e6a041eb3ac475ddba652b802b5f31e6ba00bd10d5f1",
@@ -5238,6 +5274,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:0e289ae92fd9615002a0926c3ba63cb64c7110dcbae7cb26355ad24e9b60dcb1",
   "sha256:0e3251f0fe9c83ed4ee178fd6e848400e7ec64fad454c7b334e629cb04adf52c",
   "sha256:0e4dc4541359f78e453bfaf121ba17437021fe756f8568ed52223bbaf080671d",
+  "sha256:0e61990fc99b8eae0dacf4245926606044339409786b9c5cd602f0a02cf97a77",
   "sha256:0e6ac39553b76906208b5308d0cc6bddf8bae20e348ad7cee21231b30de74e6f",
   "sha256:0e71030946974db431e6cfa4fb97b9aeb53aebbdb2ed24949d7546150fcfafe5",
   "sha256:0e7e7533af8d3f1630e9078f951273af8e8752d60215e12925c457e5628e052d",
@@ -5302,6 +5339,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:126bef07e081a812b46ff7313ce5ee8ba6cff85febf5fc266e89d2f4dab87f5a",
   "sha256:1273f030a1c3e0e71c38df5e3cd7a75a6f0d2376d6d27b5b967e710969bc058d",
   "sha256:1283f9f08272fddd5d66b3469443a9047ad45d395e761ac0291a7f1e97e2ba87",
+  "sha256:128716622e5657c2d020431133a09004310392a775e6913ecb6423475cdf7afa",
   "sha256:128a651f4bf5c674553f05717904d5c172a6d9bb444722c43f12ff48a15054cb",
   "sha256:12b61aca69b36ef3fd52028eda5d3d4128247ea5ce497ac8ebd5f3ef80214a16",
   "sha256:12bb306289a81e27c43b7448359fa9defa03313004fd33962761b58dc82285eb",
@@ -5462,6 +5500,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:1ad3438c4b35824e54a3f72835c805e4b5cd7e07bc9b2e7c62f654b2b063d6fa",
   "sha256:1adf9ea723729f322b34aef04ae1ac0e3f40387d18fdef9f578d96bd7719a8e5",
   "sha256:1ae1a56b69d18a41671fb62007497e12c1b84addf69f9d6f2a14f3347b8ab700",
+  "sha256:1aed8cbd37db410863366b43353f7bebf038d79fcaa4d4ca007dc76316430fec",
   "sha256:1af645c8eaa38e3e21b8fbcc12f58f6026ba139051cc017158c0d679c55fcf4d",
   "sha256:1afbf7795b6c5f52675dcc6898c17e80711966ebd6f10539d906ea404866fdb1",
   "sha256:1b3b5e424f5ce306c6051267546091955a4aa5b76f0b880261046875bbdace16",
@@ -5489,6 +5528,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:1c3c8c9e09d8ed5fe6bc9c6af4b4c8cb52a6dc03a37fd8c2fe4d152b2a87d291",
   "sha256:1c4071640b075942b6d1146701bd104f931bf14b8c90a36bf5786579bf616193",
   "sha256:1c4da900452048d575ccc1fb54112902d29bbdebf451217beac25e159ab87654",
+  "sha256:1c61a49aeb64cf87418dedc3dee3bc993a0ac9137eeb0e7602dd1bbcb8fed651",
   "sha256:1c677e95abed24f3732cea9f2e7d0f06b09c86e984c036ea9764050c88a75a75",
   "sha256:1c7b93400a6d419252d9d098282bff3769dc498b1cbb4189d089d8ef6d875866",
   "sha256:1c807e24795db09d98a5fde355022255ab968b410e17d5d9099cc80a489c02d4",
@@ -5545,6 +5585,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:1eb29b36f948be82c8773c56e727eb36d4dc34b6def775cf9a5cdab3f0da280c",
   "sha256:1eb6b29c1ed14c92ef7598f2f5e20d52b5aa1e1b67c27a8cccc84ba156746386",
   "sha256:1eb89ec7361ccd57ffe54976e76b15ee316f6e851761794d2068aeb56c846955",
+  "sha256:1ec1d3e339caa2401fd03a00fa02eb7af8099539aebbcea669e55f54e4c93dc9",
   "sha256:1ec90848156236f6e4a8baf197e878df386ab8ea0d2023af2cf8a5d4c27bb2c5",
   "sha256:1ee85d3d2166bc95f102cf35984660364875e3e801eb6e4f65047c2b90632e9b",
   "sha256:1ee90e40e57bb1cacc47393eebd002cba1c2e257708e08ecd1d78048913943f9",
@@ -5617,6 +5658,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:2259b196e7b9576be88d0d2641533301d02ffc7a83f5d0ffb3f44980198bfabf",
   "sha256:2265b2afb8bcae89e8194cf2247248d983540052fba82fbb617cff50b26dc9d6",
   "sha256:2270f87e32ab62e0830b7ddd173c67948ba64b9734766c2123948a34df7b5636",
+  "sha256:22850edc17caebdb5f0220e6538c67a3c282c84ff8f959d19a0618bb6aa0f3ba",
   "sha256:228fd13bdf7004d123b9ce7f07ce2559f290ef5dee47019be4b3e221f481d443",
   "sha256:2296de25f375bd0a2a57f2a77fe77428eb66928096e02637538afedad6556d69",
   "sha256:2296de9877e20a130ff8c34da70e0449d9abb3f5e838bcae410f91dfaeb6ef56",
@@ -5647,6 +5689,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:242442432bf33f171ee27a3696b94d85eb055fc7f0931f43e66e7e1a444cf9bd",
   "sha256:242d06fe12b0ce438988cfd73c477cf72a043b759bf13f68189d874dc6d0462b",
   "sha256:242d7b815685d59c3f977a353f2c48d07bafffcb2e0423a1dc96263fccbe3ddf",
+  "sha256:2432a6450037142133e53a80b2b046ddc9999bd1c2d6f811cb6240e6140556f3",
   "sha256:24405a4e4bb32ac98cf4830f6340ba89fdd7caebe9370922a2adb32c98d80f28",
   "sha256:2456a346e3a6054b3e284a9e70e5f6781ac4a3863ebc39a98f1d898b29bfbfc7",
   "sha256:2470a154c24c7d2e80185cb17fb6200afb8bf4eb937069a929ed76eac46b1d43",
@@ -5732,6 +5775,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:28abb40d717c5c338b01aede61056eff8930bfddec10aac72e7f7578a997ee12",
   "sha256:28bc8d53fc76f1684b5ef7abc58c4bc5cc06c67034692f56f468152f808f456a",
   "sha256:28c04014ef5b71b7814548cd637d22dce942679d663a9c851b8f82f55e009404",
+  "sha256:28c16e162d6e88e5c463adf4b73ac04de6c8eb5ce1f387d86c7523e9de522283",
   "sha256:28ca486a4a8485c68c7b5198efb39b77b2918c30beaa188806a3a5b128c38b0a",
   "sha256:290052b87045b9833dfbc2f9b69e183e32d0e19f290db5a0d16b2d611994d942",
   "sha256:29112aded513f3963c17fa03f1ca995981e125b9160df4abbf56eb504a15b4a3",
@@ -5805,6 +5849,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:2cc903aeba743f5364b29399a9f2bbf79a579949b225a2d43b29044550d064b4",
   "sha256:2cfda338337afb8f44d771147fe96efc1c023a78fc9692b9b79c930a05599855",
   "sha256:2d1ef4e615cbd6ab555cc26b3eeb6dd58ab49f205ee32fc2c3d83a25f750dd28",
+  "sha256:2d28cbb0f9e397f214eda374e5f5c3e29a0437ea45d37402fe05f000158317c2",
   "sha256:2d2996439c3d4c18dcabd8069ff90d791e7f71d94087a35316cc2cd3740221b5",
   "sha256:2d361db2972b666dde63f0fa27363edbc5f888f29358fd450401ae08ced1fff8",
   "sha256:2d3764cb3b7979936979f38f00faaae0bfa017f29cd51ea6560df7f6a6c6bde8",
@@ -5935,6 +5980,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:340d1129289861918744a7c401b9383b2bce7db0ec408dc64c8365d3592717be",
   "sha256:341a5b5c3ba24492e6d68eb300f58be2af0d9853eb82ac9aa8e5cc867ac4fa0e",
   "sha256:3420af4d75e2408b1a172487b13dcd2c7b8d73f60b32d93ec196c04ccf2be495",
+  "sha256:3424229348c62e709a1c5d06095be333591b58682fa77757c40880639285e207",
   "sha256:3430226c520e4966b009a5549b61e5ab1bdb4e4327f38d0bbeea15d88b6c896b",
   "sha256:343ca119844b93a38da5b4413bcea786faf5be5e9bfcf926c2c13da603d85ec0",
   "sha256:3446617a3473c3906ac10618c4810c7f03c3251c2711475ef7e3bea3a687be54",
@@ -6084,6 +6130,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:3ba71dd96f9e4f8b3d275a2eb68e940ea6a02a8102892707a27e7399706ac60d",
   "sha256:3bb1e02f35bfbef82d7e472a36ca6bc008e27a18491c384cc1b85d391120d213",
   "sha256:3bb2ed5e1805faa74637155ca780ef3673ff218fd779181434f26776621517d2",
+  "sha256:3bd21bf916f5bb3f2772bbc346ef9ec28ffbe4361ba1d710e952c520f29b2bdc",
   "sha256:3bd7684150b847db7bb36a881694fe45771e0c88604822c052bbaf2d6ae22807",
   "sha256:3bdcbe42eacbf89efb2b3c2ed89c11ce8de4eeadf08b1cb88c064aa049544519",
   "sha256:3bf2d19adc3d6b2ddcef7202fa244fed39da0b603f1c9e40fb942c3852d9da5f",
@@ -6127,6 +6174,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:3dcaf8b190b681d6668548d4cb56a6271187fb7bf548fd1bdf9f0ceb0dbdd0e1",
   "sha256:3df48ea9d36360a0ec405652e4411ea5482d7f29d01b3c29e12c5a53dc1f6682",
   "sha256:3df6f1c2b1cc37438d5cfeb12471d6a781b17acb5c86bf514e34f4d88c07718c",
+  "sha256:3e0288ba71b38f2e9e64c7026ca4cb050bd42f1dd211e10e01d61b5de4ba7604",
   "sha256:3e11a59971e4a104262ce4ed0150941f6c161e4f62eb4c28dcf0e461400eb2c4",
   "sha256:3e2946ed7df1de7e77cc6d26e77e2ad1c0799f15049861afe70890e79639a3be",
   "sha256:3e385327c2effe8cdb5600e77d12d4999b0a2a33c21e573af4deb59ba8ac24f4",
@@ -6160,6 +6208,8 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:401358ff1c051ebce78acf8b9a5377080919bd86cf906e65638983472a746b9d",
   "sha256:401afc6e698314a8bb30c331bd97237c56bedd287c43863ca5742a921b5887c9",
   "sha256:401e02db08814f4f11e9eadd9bd7b6c17425327d97c98f712612942fcd975da0",
+  "sha256:402bae6876653f2518b128ec09a351039cbe9d0f81b3e0d4527d8facda6a1f53",
+  "sha256:402f03b250c658195c441cb3cf72dbe91f4088f5551ed57c33efd2e7d3b024c5",
   "sha256:4031179c4b881f9c458e2c736bbc22df30c7fbb424f430db656525006cf0572e",
   "sha256:4039f92b365486cfc36bddc397da3c87ecf1d7a18ccc148e293ab132f771851b",
   "sha256:4041a1cd635a475e8ea571abbcc9c0d029bd19f725015c8aedf376bcfaa82c0a",
@@ -6216,6 +6266,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:42c313aad84e9757d144bfed4b937f1022f74bb85e93fa22aaf444120656f1d0",
   "sha256:42c7c7c79e47edb4484c8154ebf015b4a602cff14e0ca2d35a508bb6d17f5a8f",
   "sha256:42c835928b9444601158fa00ff4cfc8b7a1cc41f6b619aeb9516a4a5022cc295",
+  "sha256:42d04f5c7b0632156f5849551460ed9aaf2486d73c9593bc17b395df209c9c07",
   "sha256:42d6c4308cc1684d4815d2e7db681789db308460cea5ec5133ea7ba8fe7c028d",
   "sha256:42e381991e299d2e3a7fdb2b4005f1d18ae8b4eaddb2e2ad90750438fe27dcb9",
   "sha256:42f3af204bea47c4f0670322807d3a648d757b94a3e092ee599595a4f462bf56",
@@ -6315,6 +6366,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:485a1cf1242bd1534029bdb4e75c0b40d55c46808d4814afba1272c9022fb9b2",
   "sha256:486231b9c9ea49e55cfdadf9684eac8db5e738ba486342e74d16a9b12ab1cc05",
   "sha256:487209cda7084817cc34dd19ea3fa3b75784673cb32016db5a5c07465906c644",
+  "sha256:487e63f08054c7e09c2ad4b856bdbaf134ac37c401f4737c3acb01323a944de2",
   "sha256:4885f73d6946461742241d4b3ef947cd009a62249b1cd50f3b2ed0d07196ed55",
   "sha256:489400389c10742f47b960e14ded9a8226bd8980ce06b9330af0ff796cc82b04",
   "sha256:48955ebf70127c8d005db573c349464ff646dc3b40454895439fb942e0e8d040",
@@ -6464,6 +6516,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:4ffc1d61d1b3654320ad6d6b562c77d1375d4ab32ede86093986826784a0d5f3",
   "sha256:50003f8e5893ac03658e0ee5af1cbe129730f6401b74906e963208b30a968338",
   "sha256:500ba7f961d9992bef721cd06cbc67a28aaf78703d38af546f6619584ef7cfd2",
+  "sha256:500bc690289f95f6ba9acdd969e61fe2517b527b5ad9f56bf08d864bf16b2796",
   "sha256:500f17ceb5b2c0a2efa286f3bb28056bb9e72bd0c367f663bd0b6bc7c08e09b9",
   "sha256:501959fbd3f5313b5181a529a1447fd9262a21fbcdfb0aaacb4ff3646036e593",
   "sha256:502390be125303fcc595d88ed4a117cc297807f6d0fb2d991ad39df90a6d77de",
@@ -6485,6 +6538,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:50c6c60cdc3bc75a26e58c156a616fecba0d9176140f072387c4202d915d6b61",
   "sha256:50c8af44d15d74eca59f4349096fa2475c48425e1e541cfad65aeb4781d491af",
   "sha256:50da5357c650e6f861c1fe5961d74a93fae2e3de069fcd5d982d3ba7952b3b6b",
+  "sha256:50e3a057f220a0e84f4a31e2c34221002e9f38140c4996858b28ec10877d878f",
   "sha256:50eee2a6cff4879af6d6d45fdc1be1b5863d2b7264456892b0b30c0f89b99918",
   "sha256:510ac2b6788d617fb053d49ff9d781f111aa958c5337ba233453d16d9f08ea82",
   "sha256:510f9fe5ca310569d53e1dd5226420d2d14249dca7e778a2b840db998c48b284",
@@ -6592,9 +6646,11 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:56944e35dcd1e520bbe47c77f38ae67f224414af800731498cb8ca22a284b035",
   "sha256:5696d068dca3d1814fda056d3a8f0db4724970bf65f1b506fdac340a54c6046e",
   "sha256:56a897a78f8292f4cc707a14363cbfc5e3b677e4e4efa0d0ab79b29f35f70a53",
+  "sha256:56ad4c7713ffe5e2f5e4fcc4883e11f199cf3793e803d9347cc45ce8706cbf9f",
   "sha256:56b0f8d4b5c4bbdae454125230f4d6c1d3d8f81380f537f814452934e165e621",
   "sha256:56c5e88bd18218a56de57a608ec46a407bdde3f90dfa059c9b4bec447eb1677d",
   "sha256:56cf954d48bb5aca3333df6712b4161860964c1b6786598bfe40705bd543c19e",
+  "sha256:56d5a5176499c440ed88d1dc04d21f96c9404bcb061a433092dcad7fc9b327cf",
   "sha256:56d98bfbc68a31e7cdf82a7d9abbdaea669f964a5e0c86f752b074bff862e909",
   "sha256:56dbd4a99d5757201430e6a94848b60b5539aec767bc96cfd3c3876100f88878",
   "sha256:56e3832e09c91544b6cf8a86d9400f99a9a206b35a3875c2639f1896681bac33",
@@ -6632,6 +6688,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:591d48105276591eb4733f3568dfb24b4ed3051353145f690e06a2515a38689a",
   "sha256:591e49c69d2c526207e50018ef02be2a478dbbf1b973b6163f72d34e0fcf2299",
   "sha256:5929381273a6198244464dfb57a101d22b993feed4b8ecce19443021c8da22b5",
+  "sha256:593811142efee1682c1b48906ddeb1079a502cf5ca9baf0b54b6b4daa8509b34",
   "sha256:59393a7def64a22e343687f270de447d61c37148b893f92c9b953661084cdc3c",
   "sha256:594ab0033fe09d79dc7daa3bb41ce7a853d089b8f3ebb1c3606cdc80aa24067d",
   "sha256:594b1b2bb74fb745587d2729754f97d9516c6bf92bfb226f5637ebbe3eff0c63",
@@ -6777,9 +6834,11 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:6084e9b59d60db0b3d2e921016e6287f3c9e82626e5f0f9234fbcecbb847bfbb",
   "sha256:6085161d0be8646bc971717d450d9f5329fb632d8b6c4b008fa799aeba78762e",
   "sha256:60887828faf9c18585a4ac6ea55ed09a42a0d064e458339f2cf1807aca4962d1",
+  "sha256:608d159a5c2ef3fe75f1e4a17c1a2225499580d6a6866058aac473f6ab765330",
   "sha256:60aa6f7f67e55a07fb9f222e04f9931e42fd55eb20bd6129de3d486539c567c7",
   "sha256:60c57357866b4ceed4f8f826131d101062c6d56b43452ab7fe1e0fb6f07edefa",
   "sha256:60debe274474e358a935aba398387065c898c825bcbfd4f6ed7f20f64e5773c7",
+  "sha256:60f2aa5513d6fd4e62398082cb3c65fe8c46171a75476f11b3b276bae9cb8dc3",
   "sha256:60fde1700932ab8a4e1c20f0b10d91337c35446cf70fd8a08e3f0d78760396aa",
   "sha256:610c945f6ca5928c39a77ea8c33b483e53b5c1d68a7c3c461258c2bcaf4d033c",
   "sha256:610f255d48fb63045845f2976900528648042329ff71b2dfae17fd08334287be",
@@ -6890,6 +6949,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:67599f408efde49ffde70e38e8b864486f2592f570897775eec015a4f7cd05c1",
   "sha256:676154470496b070ee5c462bb70a06373145f01952d2e8bed6a5ee5b01f6a5cc",
   "sha256:676a2286881a397a6da1a740d6a5cf099dd5a3ef22f58e3ae32ffebd6cf013b4",
+  "sha256:676a5938b2c1a80ad7e3b64f2f65f0721fc810e7a189665413634b029894399a",
   "sha256:676c349ccc72201eaef874adebd51974350c8c6633f2be2425b50b2d9bbfc902",
   "sha256:677414d189dbb0e250f41e3be9be72d550918ae93257b275ccfdae9c865a25ff",
   "sha256:67896e5991e0dc865080c92e5832b2b1b6bba81ca5f7a89a999b23fafdea5237",
@@ -6996,6 +7056,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:6d8112ff926222dc818346425e432ddb09fe838fef209bc26d563dbeaf7cc3dd",
   "sha256:6d8c44e86a1f10ae25ef612c569532bfe86c26fb14c51407a621854a89fc9484",
   "sha256:6d8e8c93823f6a51a2e803a94984cbc36c3955bd28da5c236e38a4dc5f26d7db",
+  "sha256:6d939da0fd8ac11377390f8e892c52d765ecb0db44b62ae2f2235818278bd9e2",
   "sha256:6d99a15f8ceba9282f58cca06e81d27977dada375948da45d6390710a59f1eb1",
   "sha256:6d9abc4c9f74a8e7941ec2c6924fb1328346d9262c6492a0db971781a0bdac8c",
   "sha256:6da7f3b783b8c0766cea0e8f86dc3bd194a0a71b1a4e1fd709ed8d9d4e20fc38",
@@ -7149,6 +7210,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:75f2a955f0b109dc3bab5beceadc2f1a8eb9dc10c7c2094e0944ab1ff0f1b4f5",
   "sha256:75f3708c71be302d576a9573f9605e30ab9a00c2eae52b99d0df3cb0a7798865",
   "sha256:75f60184e1b6b8eb1bb4944611109fa2bd9cdd22a8ca072cbbd2f4aa7e8a8269",
+  "sha256:7601e2f89ff3206cf6031d0ebb8c550c0e35c85d96b9e3314cd5e3b01fdb8eff",
   "sha256:7609a3b50424fe6ef2a52a7845f103483304b8d1389c743ce88d65a963dd8374",
   "sha256:763dd27215bf9e736d4fc2c38f03d3bb77921f3a1b1fd4ea345e5b7cc2eaec4c",
   "sha256:7646747c0714d20bae1677adce021a0b4732436e38b1337d0a803e740b430a7e",
@@ -7509,6 +7571,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:89684abf5ffb25defebf025c5bba9389d5a0fcbeff2b51acac82ed0a46116c8f",
   "sha256:896e788e153e7acebb34d294698fb794754bb5976036589d529545024cbf2b30",
   "sha256:8980175c34bfd163514050a94616a052f80661ac14883ec57015397c83d64427",
+  "sha256:8985ab90d89417e16077847797810176823654e29a2127eaefc7485c1bbfbbc8",
   "sha256:8985bad4cffa773e2d074f675c87c527a57c4ff932d87709ec016225eacaa8a7",
   "sha256:89b0de7f4f1a9f565b753c6f29f25bd8ddab563076877267fe9eb843d1b90e8e",
   "sha256:89c4cccf5d26e11f48f56075f3dcc47eba6f28f2691b547bc4536b8f8709f0ac",
@@ -7571,6 +7634,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:8d13180880b5608d0ca0c8ed3e94f99155e4f56f57ed4f5f4089104ad340007f",
   "sha256:8d20be694933861c8162c937ba382a3c7adb12705d3b6772a7d934e1f81fdd64",
   "sha256:8d20c65b85670befc98efdeb6abb6d2ba32ddac1a85039c319b4a154ae1005a5",
+  "sha256:8d5ccfc7e80d690f3e21b46ffe10ae6a5496bbe084a341db84f9944a377baa2e",
   "sha256:8d8fc417f4e6be53f87c54a2991d0c7cc7e9cb632b7e3978f66d7a982f23bf2c",
   "sha256:8d98adad511a6e903bfbf9cf7b4f31c66ea1d3dd9efb0ace692508bb354762a7",
   "sha256:8dae511b5a639eb9d051b10367d018588191c7ea6975c0c21ba5bcb7200a27a0",
@@ -7694,6 +7758,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:93863e7609069e1bfef50b2ac10e7a5f3582a0021afa5f29f05f163ecddf919c",
   "sha256:938d12ec87b5819deb5df4c5d5f4a2b2fd669439f9ae34ceaffb2cb8881272cd",
   "sha256:93a2705dd6ee149340814804e827a6fcbcc19be44cd67e92de016e62fd12d33f",
+  "sha256:93c185157d90ec7f3c31ed686ad033e7c8e5ac17def0d7618cc2aef81c30e43a",
   "sha256:93c1bfc46a9b327135aae6bfb857bfb31783f708ff3a968aa30b4eba637fd5ed",
   "sha256:93c510168601f2dc7ff0c77e8336d1416c3fc0ec111a6b244da9c71821c62cc0",
   "sha256:93e2e2df449bda93e6f790908e2c7e30f6778d417fe426bfa5a016b1d40065ab",
@@ -7871,6 +7936,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:9d259420784b655bb30f186dd07436845fda1453eed3c70dc33e472911118021",
   "sha256:9d2b00382803e21534a83f53ee430d9736b23cec90caff7cc9d6123f568eb426",
   "sha256:9d31b72e1edd2ef86423026fe01a3611f9b5cce2c0122a4052b044a2d41a1ea6",
+  "sha256:9d435a4f541babbddb8ec312a0fe1f83413a7f74dfc6d5f1bf9ab34fb422624d",
   "sha256:9d4666305d8f59a66d9d03d5a5bc07867e392dcc191731ec1912cee5aa4b5afb",
   "sha256:9d5ed59f2c8da388bd94938245d3e6c3db3fbbbaa3cf46d17cb7ae4d9da90f76",
   "sha256:9d720ef5a0bcc12a15bf225d98f2cd14d3b7f901ea9755a9742d544a3ad65689",
@@ -7897,6 +7963,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:9ebd0c33c4ff0297aecb1f823b0f7c14cd7a4381f9d32dff1f278d4f89d7a848",
   "sha256:9ebe7ac2da0a39225bf425bd9095b15ce4e1a59147bfe1be588bb7be8791b98b",
   "sha256:9ec1b941dcf5fd6befff17212b143cc7ba21ca5b33153a3baf92b836568cfa1a",
+  "sha256:9ec26c47c70cb740ae5f62c0991e608729c5e323f919962dc6d085ccb8d9172c",
   "sha256:9ec2954d819c9cc05340294d37ad4e8da23cab35db7cf6c4f40fed02bbcfe224",
   "sha256:9ec90527765ccecdbc2e7437cc9543816b53ac8ee531565b2ad2d2d19cb1cc75",
   "sha256:9ee4310435f3f1b81ba2bd5a4cc53b04c2fd3956cf9dda094bb0209681c1f627",
@@ -7918,6 +7985,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:9fe5ef4e7b7951423e1f657cd5616304a6cae4c8d7799db7c23e6645209865bd",
   "sha256:9ff7cc00a2f2e9f2989ccc935a1b02fa7b7e19202070347e3db7c726f877785c",
   "sha256:9ffa10763d6463d035052008708175bf471ee6c6ceabb26985e8f8b0df2522a1",
+  "sha256:a0172eef2d88e9c42f429f67fb2633136943a468218491309203592f9002c27a",
   "sha256:a01bbd075665b280a05f3a055d065a75eaf0c1aa06caefdd68a419d936d67033",
   "sha256:a02a94f9b92a9c9ae6daf4a0f10cfafdae3c991550d959e98a46b34a73a2df24",
   "sha256:a03b992cc9df50f8d6767100d156583350de9eda9095fa2708f644d426521a3b",
@@ -7992,6 +8060,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:a3cb669e0a376347d44707dec954ee6c308eb15a0beb59b1ce59ed1a0c92cfc9",
   "sha256:a3d59604826938c0f2be6dddb4a94e1c3c966696266134a702b83d61e470cd7d",
   "sha256:a3dc7092a7617e7fdbbad233ebcedc2a9ed1550526f369887fb8cb2cb3dbd5b1",
+  "sha256:a3df1ff873d59dd3faf8ce7081287752e3afcbe6555ae4bd02e488a96a4f9de2",
   "sha256:a3ff72d0f02300cb914584987e037203a01d925d11da75f63d5e51298c358f43",
   "sha256:a40abe17062150967369ba5a180c849be48d40ca7e91a3c68d056891ae90e4e8",
   "sha256:a40d61f266adbf13ec3c2a2dfac0aee5ed0d36332ecfcbbd323a8b80a2777da2",
@@ -8144,6 +8213,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:abe4ff68a7da2befccad3971f24be62f713d74dbf5e2999d52bceca15d254284",
   "sha256:abf6fcc304d6f5c1bb0c8b0c0a8a48fedf98fcee9376b35069859f7bdfeef628",
   "sha256:abff760e533bba2e2cdaf4a7ced1883b1b4d80f5cda2030ddeb0dce6ae8b9814",
+  "sha256:ac01f572ca7c7750c71b995bc853e77b61e025b3772b498ab468ae8c340ffb9f",
   "sha256:ac19c39f31a9c06ef92c875c1c13b6f1fe9c837a21c3d9c88abb98a138d0bb9a",
   "sha256:ac1d60a015857841a3f5d7c2e519e8a34c91a8235f963606469e1d4fb53e1b69",
   "sha256:ac211156e4d60fcd6e15e0fff83cd7ef4f0421b12c7d07ce77c55085c471e930",
@@ -8376,6 +8446,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:b74911b13603205944584005ec1033dab3d261bb15b1da3aff13f7bb68acb651",
   "sha256:b76985591c412033c051822585fb51ad7a96597a9ec84a5eab9cd2f0a58786b0",
   "sha256:b76bb537217a8ecadc4925eddf7960c2e0a5741654f12f62394380393d831f78",
+  "sha256:b77600adbffcf141a90f31a6f836766951ec23e3a7f3bc63eb21c7e229dfb5b4",
   "sha256:b79b86908e8bc52f5870efaa48361bf6719839c73213eabb4d35f8ede6d113ec",
   "sha256:b7ab5ef99418b53b331404e40a2c34bb5efbbdaa2dd08f4c26f1cd624eb88714",
   "sha256:b7b8dcc4e286d8cc119ca52749c198ceb48ef74269a772967824b4a43e2769f3",
@@ -8388,8 +8459,10 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:b7e9f8a42a3f602b81f203db0762ad0a7004ad73c62e2dbdf05637fb49277165",
   "sha256:b7f7ba257a18620ebf213eadc0031cabb9716e46d83966e50acad28b3548d0da",
   "sha256:b7fafafac079aa2ed443a9e1e4db58b15edc26376b3608fffca8e0a490ea85bb",
+  "sha256:b817e3c6f20f3d8c94628074d4908bb5be535f6739dbc6404556563f412c8055",
   "sha256:b818a1712e337bd4c993c5993c9a7e1ae73068d7169adcb245773cfb35202d25",
   "sha256:b81bb655e042bc22d6592dc2d8c379988e41c0dee085d4d7ea2d7388be17735a",
+  "sha256:b83b5e5464c6f4fbfb1dca9e56a1774a8dc476f94c5c861b9d362282a74110da",
   "sha256:b83db569faaa06f70a087474d7ba49d347e6b7902263e299b3118e15c0a9493c",
   "sha256:b84554efd687501b27dacf8c4c4fd940716168061e7974a0d7aa051abc41e7e6",
   "sha256:b84d0959ae4a9552f105b60959a93674f1b5d920fda82ee1a5ac8356879a792c",
@@ -8539,6 +8612,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:bf9c8af3e19ade44ed14abaad188778bfd1b41b4187a5e3aa228879554d13b24",
   "sha256:bf9f135a79b8de2d32945181d2bb5e40bc21e3563873056228ca9c97bc2484fc",
   "sha256:bfa797f85e119501d8eb53d2d519133f9e29a9fa2be80648070c001975a1bc72",
+  "sha256:bfaa473b6f72331015dd2d7cbc4b4fc0c28bb3239b33af2debc297484d443c1c",
   "sha256:bfcc93e379e0a616e72e2bdb8c29d0009b317fbf506095be753e989b1ef8702b",
   "sha256:bfdb82364380ff1511c9d3b84265955f8775fa2100968b78e6120c348d122e45",
   "sha256:bff45f4628dd3d24261482e7cfccf50b90b1f8c8d41d009d79d08426350f8d13",
@@ -8578,6 +8652,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:c20e310fc44c4fd47d2deba13c58bfb923f236fc62bea71e0b15367ca35234b4",
   "sha256:c20fab1dd0840f256ccfd8f3605697dbf675a91d952be5ea6a4e7c3075b4372f",
   "sha256:c242f932c08fd062f36d26f6d7eb059c766e0cf2d462fd1ec4f6248223b87228",
+  "sha256:c24acc49b6740be9eedcbcd880daeeb665885d87d82d2f95dd976d7aa4e9af0a",
   "sha256:c24b77315ca876f8ffbc6ef703e3a8bdb4ff43cb7cfeb07e6fd88c6c528b2d54",
   "sha256:c2741a4e330c228aa7d6098e2e6f1a9631f56f0801bd2143bb1b59c08cd19591",
   "sha256:c275948efdf85d8d7f3ed40c40e7bf571926353edeb7e9e844b4a24ffed952ca",
@@ -8663,6 +8738,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:c6c14b3d138116df5d3524b0fc8d45163333cacbac6ba80d18de0a5ecd3f40ce",
   "sha256:c6c8a6e30818d6adad17c9cbf43d5db1d5c8c4df06ff78d1c2cc2f993cace183",
   "sha256:c6ec4bdb8d4f87fcd2c2ce2ce76569fe92b010f96ca9e522ad8af9406f4af8a9",
+  "sha256:c6fe5d972dbb797ce2b6b8ca56bdbbff18ba2e9c720e2ec89b1974e9c00fd300",
   "sha256:c7025e8358c2f0124d0f123cdd22db7001a6f5c970e3b504d02c5859f1fd9f16",
   "sha256:c7109e61eff5f1a3771e7c3f78a97a995faa7462a5aeadb4d3f6d3f1c7cf83fb",
   "sha256:c711330371e028f28400c67e6b4dc8b57fdf61d283217161e0b1da6c75479a4f",
@@ -8729,6 +8805,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:cb6611dc0aedbf6b0f782824dfae8f4b70483c2d7bb08ca1ab98e11072c08168",
   "sha256:cb6c8de381cbcebd92d8590bc0cc2b66105030a850cb93a2d91c2f278520c536",
   "sha256:cb74c5d49cef1d0df7208e040348f89d293ea3c48be782018613ae3bfc364714",
+  "sha256:cb824271c333ffcf86b987d2770da69607a7d73438f3202eb42c03d1c7fa1dfd",
   "sha256:cb8d839c52c6550f1b736613bb042b0825dcfaa403505e1405962ace4deb44a4",
   "sha256:cb8fcc5d540cb5c9c8a09f67e130fd7df0fc6a2c254e401988646f06d42f5ed6",
   "sha256:cb9c1addedd6a328107ff9d7e37ae5885038c3d9c48e5231b18a523be70fd4df",
@@ -8923,6 +9000,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:d6524dfd6128d59062bc2b8ba449d4d5d8f947b86daa5af8ae13f3b3e020282c",
   "sha256:d67d7ee60bfa597fa6e0b8e8af256841605b709ea665d44bdd7b5a845a79c572",
   "sha256:d68100ce6535e71b791486a88e61bb0a7e3624effeb90620d8b3a1e111b70d51",
+  "sha256:d685d295daa34887f629d5a0c65877b1005238fbf07e19e5ceddec1fd974157e",
   "sha256:d68b7e1afe90855d9b31ba902fea1932eb5c90a00cdd63d906fe08357c204964",
   "sha256:d6ada2762316042d8c81c016c7866ad9253c79a0fe08bb8298920546c2efc058",
   "sha256:d6b10f99aa85cf0b32c13e749728d6f95649849d16a95d98a9fe2d2325c480a7",
@@ -9043,6 +9121,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:dcc8e50c9997f74d4716d9ca46d36d5f6d7f07c3b30f0749d2939600028648cb",
   "sha256:dcd926d86842b4a589de4bdc23695dcfc4d24a10f60bc83abd6aa66e80e048b9",
   "sha256:dcda5ecd8518f5055e0288024026f7d4b33ec027098282f411882ff8bcb18acd",
+  "sha256:dcde644a4493130222a51dc1567532eb3f9643ce0c2305aa1174d2460d80d0f2",
   "sha256:dce072d421485295c712d44265ccadb664011dd2e00952d21769fcdd8e8762b3",
   "sha256:dce7af16f3ef124e24bc249c908894f2e8821705dbad2d90d4cadb9e0603ac6b",
   "sha256:dcee697c4681ca527033b03304119de37a14f82893fbb0ab341e6fadfc8dc2ba",
@@ -9131,6 +9210,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:e152f6f47b46876f469478127e8e0f0e466089a1f263f7a420af798c0b62e4c5",
   "sha256:e161b56eb8c3f6f70e37398e05e6856c0ece0ab164a59969b22b99e6f07fbca5",
   "sha256:e1709a906b4836e082a77e75059bb859da9cb2d926ad8c8c4cb962827428c451",
+  "sha256:e173cef139a5af4aa3cf0ea8d9aaa827cbcc5bb0b7a2314a1449839ff58a1e1a",
   "sha256:e19d6cb5ba260b52982a2a0d7a5038e10d879c16d5636ceb061e0baf2812197c",
   "sha256:e1a067b4452290a585b59d5fa376e1a1be5f4aa3c79d2cd01c1ad9894ecdd2a4",
   "sha256:e1d8f696d419af7eb89dcfad5b17e97b0fce281d2103b56b1d57f48bcb7bc83e",
@@ -9345,6 +9425,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:ec4996cc7b0f559209ba7817c616a9fb355c3fe50c26887f5f83a397cd632503",
   "sha256:ec55d4797b7cb3d9cd2221e471318ee3642b29c37239987f89e2ac075c35f91f",
   "sha256:ec73c777188a011d045620b0c99cd1007868f9a10fc01eb7ca5b569cfaba6e18",
+  "sha256:ec7eb5a7b3d37b854807a57fa5a6439f6cffdda7a5e8f8e2b1ff301cf5a5b7db",
   "sha256:ec8f45fe47845bc50d9a3ec4a1e197105c94b957d5406de5ac0492ba0827c706",
   "sha256:ec8ffd117137f90533244b943aa7e370277eb2601195c953b93356eb7654b053",
   "sha256:ec9d4f45c8937f10154b435f5dfa09bc6f91f644e121ae69d6a998a0db055bd8",
@@ -9406,6 +9487,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:eee2441dc041c5dbe45de8116a05eb1bd314527fb60f051c2d40e900294b856a",
   "sha256:eeeea137d43cc5e99f178c9f097e5540063f951c110bac3af73b6f3d72d01780",
   "sha256:eefd5c182fa21babe4912deb9f7270c0b1d1717688b07a99a1cc2ee5b7d99ecf",
+  "sha256:eefe9a242001ff0640cf3341134ee2d699e471d17f09a592ecd4841d708c40f0",
   "sha256:eeffc8208fe63575b89bb8aa3ddf69dfb2417372ae9ed1f6272c05f1a6bbbe43",
   "sha256:ef1e4efd6c256db637718ac0a3d5f4f5b50a4b9e3a5b30163b6c3116ce7b777d",
   "sha256:ef2c421414b8402b6aeb93c6b71af99377992122f7581e1c29150e28bf8030bf",
@@ -9592,6 +9674,7 @@ const BEREICHSTEXTE_AUSGELIEFERT_KERN = new Set([
   "sha256:f8a81c07bc8a6e123d001d106547c1491ae6ddceff794a3872fef864feb85503",
   "sha256:f8aeb77df6ba57022169cb3c00e7f63a3a1ef7303d34c8e6de7423f5a860335e",
   "sha256:f8aec2bd082093cea15e384ad208d9c35c791c508085158e63f935e349c02c1f",
+  "sha256:f8b2d20967ff65f48c95b234b242b0eadf2c7040c268e29b7522da1c2edc07c4",
   "sha256:f8c6568ab730881f6e21122b729880786bfb97de9c7ad822e141d85e9f74777e",
   "sha256:f8c901e7ec9a0d727b72f2d699b5a2b42406c6a3629493f8649bdb0dfb4c66f0",
   "sha256:f8d01d2cf2dd8f04566e069f7d8ca7f54807602880597ea829e8ccdf2385de64",
@@ -11323,7 +11406,9 @@ const TEXTSATZ_ARTEN_DOKUMENT = Object.freeze([].concat(
     // Beratungshilfe) tragen einen Lücken-Text, wenn die Frage unbeantwortet bleibt — dieselbe
     // Art Anzeigetext wie `frage` daneben, bisher im Vokabular schlicht vergessen. Ein
     // Vokabular, das den halben Knoten kennt, übersetzt den halben Knoten (Kommentar oben).
-    'luecke']));
+    'luecke',
+    // 26.10.2026 (Formangabe beim Testament): der Prüfhinweis, wenn der gespeicherte Wert in seiner Zeile nicht vorgesehen ist.
+    'pruefen']));
 const TEXTSATZ_ARTEN_DOKUMENT_LISTE = Object.freeze(['texte']);
 
 /* WAS AUSDRUECKLICH NICHT AUFGENOMMEN WURDE, und warum das zum Vokabular gehoert:
@@ -11788,7 +11873,7 @@ function _pvFestlegungenNachreichen(bereich) {
   _pvFestlegungenSektionAbleiten(bereich);
 }
 function _sektorIndexNeuBauen() {
-  _BEREICH_IDS_RUHEND = Object.freeze([...new Set(_ruhendeBereichIds(data).concat(_BEREICH_IDS_RUHEND_IMPORT))]);   // vor bereicheAlle(), s. Kopf dort
+  _BEREICH_IDS_RUHEND = Object.freeze([...new Set(_ruhendeBereichIds(data).concat(_BEREICH_IDS_RUHEND_IMPORT, _BEREICH_IDS_RUHEND_SITZUNG))]);   // vor bereicheAlle(), s. Kopf dort
   /* B12-Reparatur (19.09.2026) — s. ausführlichen Kommentar an `_BEREICH_IDS_RUHEND` weiter
      oben. Eine geweckte ID (`_BEREICH_IDS_RUHEND`) braucht ein Definitionsobjekt, das
      `bereicheAlle()`s Filter ein-/ausblenden kann; ein Produkt wie Pro bäckt es für zwölf der
@@ -12114,6 +12199,9 @@ let _BEREICH_IDS_ERSETZT = Object.freeze([]);
    Bereiche einer eingelesenen Datei bis zum nächsten Depot-Übergang, damit Vorschau und
    `importAnwenden` sie über `SEKTOR_BY_ID` finden, bevor `data` sie trägt. */
 let _BEREICH_IDS_RUHEND = Object.freeze([]);
+/* VORLAGEN ERGÄNZEN (26.10.2026, Befund PRO-VORLAGEN-UNERREICHBAR): ein ruhender Bereich, den „ergänzen“ an der Karte einer Vorlage
+   geöffnet hat, bleibt bis zum nächsten Depot-Übergang da, auch bevor er einen Wert trägt (s. `vorlageAngabenErgaenzen`). */
+let _BEREICH_IDS_RUHEND_SITZUNG = Object.freeze([]);
 let _BEREICH_IDS_RUHEND_IMPORT = Object.freeze([]);
 /* B12-Reparatur (Auftrag, 19.09.2026) — DIE ANNAHME OBEN STIMMT SEIT DEM
    ADDITIVEN MODELL (Nachtrag 18.09.2026 an `_BEREICH_IDS_ERSETZT` weiter unten) NICHT MEHR
@@ -18880,13 +18968,14 @@ function _empfaengerZuschnittFelderZaehlen(zuschnitt) {
 async function empfaengerQrHerausgeben(kreis, passwort) {
   /* EMPFAENGER-QR-OHNE-SPERRE (26.09.2026): derselbe Auszug wie empfaengerDateiHerausgeben, darum dasselbe Tor mit demselben Weg-Namen —
      bis hierher ging der QR-Code an „erst vereinbaren, dann der Auszug" vorbei. Probe: tests/empfaenger-qr-vereinbarungssperre.test.js */
-  if ((await vereinbarungFreigabeHolen('empfaengerkreis')) === false) return { abgebrochen: true };   // MyTerms Teil D
+  const vb = await vereinbarungFreigabeHolen('empfaengerkreis');   // MyTerms Teil D
+  if (vb === false) return { abgebrochen: true };
   const { payloadB64, ablauf, inhalt, zuGross } = await empfaengerQrPayloadBauen(kreis, passwort);
   if (zuGross) return { zuGross: true };
   const url = EMPFAENGER_QR_LESE_URL + '#' + EMPFAENGER_QR_HASH_PRAEFIX + payloadB64;
   const felder = _empfaengerZuschnittFelderZaehlen(inhalt);
-  await empfaengerkreisAusgabeVermerken(kreis.id, felder);
-  return { zuGross: false, url, ablauf, felder };
+  await empfaengerkreisAusgabeVermerken(kreis.id, felder, 'qr');
+  return { zuGross: false, url, ablauf, felder, vb };
 }
 
 /* ══ ZERFALL-LESER-BLOCK — in vivodepot.html und vivodepot-lesen.html zeichengleich ══
@@ -22109,9 +22198,11 @@ function flowMappeVerwahrungHerunterladen(id) {
   let bundle;
   try { bundle = verwahrungsNachweisBundle(id); } catch (_) { if (ui && ui.toast) ui.toast(STRINGS.importUngueltig, 'fehler'); return undefined; }
   nachweisGueltigkeitMelden(mappeNachweisGueltigkeit(mappeEintrag(id)));   // v867
-  return mitVereinbarung('verwahrungsnachweis', () => {
+  const umfang = (mappeEintrag(id) || {}).beschriftung;
+  return mitVereinbarung('verwahrungsnachweis', (vb) => {
     const blob = new Blob([JSON.stringify(bundle, null, 1)], { type: 'application/fhir+json' });
-    return dateiAusgeben(blob, _dateiNamePraefix() + '_Verwahrungsnachweis_' + heuteLokal() + '.json', 'application/fhir+json');
+    return dateiAusgeben(blob, _dateiNamePraefix() + '_Verwahrungsnachweis_' + heuteLokal() + '.json', 'application/fhir+json')
+      .then((weg) => { _nachWeitergabeNachfragen('verwahrungsnachweis', weg, vb, { umfang }); return weg; });   // Herausgegeben (25.10.2026)
   });
 }
 
@@ -22165,9 +22256,11 @@ function flowMappeEuLabDerPersonHerunterladen(id) {
   let bundle;
   try { bundle = euLabDokumentDerPerson(id); } catch (_) { if (ui && ui.toast) ui.toast(STRINGS.importUngueltig, 'fehler'); return undefined; }
   nachweisGueltigkeitMelden(mappeNachweisGueltigkeit(mappeEintrag(id)));
-  return mitVereinbarung('eu-labordokument-der-person', () => {
+  const umfang = (mappeEintrag(id) || {}).beschriftung;
+  return mitVereinbarung('eu-labordokument-der-person', (vb) => {
     const blob = new Blob([JSON.stringify(bundle, null, 1)], { type: 'application/fhir+json' });
-    return dateiAusgeben(blob, _dateiNamePraefix() + '_EU-Labordokument_' + heuteLokal() + '.json', 'application/fhir+json');
+    return dateiAusgeben(blob, _dateiNamePraefix() + '_EU-Labordokument_' + heuteLokal() + '.json', 'application/fhir+json')
+      .then((weg) => { _nachWeitergabeNachfragen('eu-labordokument-der-person', weg, vb, { umfang }); return weg; });   // Herausgegeben (25.10.2026)
   });
 }
 
@@ -22185,6 +22278,7 @@ const IPS_VORSORGE_ABBILDUNG = Object.freeze({
 });
 const IPS_VORSORGE_AUSGENOMMEN = Object.freeze([
   'will',                    // Testament, keine Verfügung über die eigene Behandlung
+  'contract-of-inheritance', // Erbvertrag, ebenso
   'guardian-nomination',     // Sorgerechtsverfügung, sie betrifft die Sorge für Kinder
   'ki-verfuegung',           // Verfügung zur digitalen Nachbildung, keine Gesundheitsvorsorge
   'custodian-appointment',   // gerichtliche Betreuerbestellung, eine Entscheidung des Gerichts und keine Verfügung der Person
@@ -23075,9 +23169,10 @@ function flowIsikExport(optionen) {
     if (!r.bundle) { _isikGruendeSagen(r.gruende); return 'ohne-datei'; }
     if (r.gruende.length) _isikGruendeSagen(r.gruende);
     // Eine Weitergabe an das Krankenhaus: MyTerms Teil D wie beim IPS-Auszug — erst vereinbaren, dann die Datei.
-    mitVereinbarung('isik', () => {
+    mitVereinbarung('isik', (vb) => {
       const blob = new Blob([JSON.stringify(r.bundle, null, 2)], { type: 'application/fhir+json' });
-      return dateiAusgeben(blob, _dateiNamePraefix() + '_ISiK_Dokumente_' + heuteLokal() + '.json', 'application/fhir+json');
+      return dateiAusgeben(blob, _dateiNamePraefix() + '_ISiK_Dokumente_' + heuteLokal() + '.json', 'application/fhir+json')
+        .then((weg) => { _nachWeitergabeNachfragen('isik', weg, vb, { umfang: STRINGS.isikExportLabel }); return weg; });   // Herausgegeben (25.10.2026)
     });
     return 'datei';
   };
@@ -23258,11 +23353,16 @@ function flowKbvPkaExport(optionen) {
     if (r.gruende.length) _kbvPkaGruendeSagen(r.gruende);
     if (!r.bundles.length) return 'ohne-datei';
     // Eine Weitergabe an die Praxis: MyTerms Teil D wie beim IPS-Auszug — erst vereinbaren, dann die Dateien, eine nach der anderen.
-    const speichern = () => mitVereinbarung('kbv-pka', () => r.bundles.reduce((kette, b, i) => kette.then(() => {
-      const blob = new Blob([JSON.stringify(b, null, 2)], { type: 'application/fhir+json' });
-      const nr = r.bundles.length > 1 ? '_' + (i + 1) : '';
-      return dateiAusgeben(blob, _dateiNamePraefix() + '_KBV_PKA_Vorsorgevollmacht' + nr + '_' + heuteLokal() + '.json', 'application/fhir+json');
-    }), Promise.resolve()));
+    // Herausgegeben (25.10.2026): eine Nachfrage für die ganze Kette, wenn mindestens eine Datei hinausging.
+    const speichern = () => mitVereinbarung('kbv-pka', (vb) => {
+      let hinaus = null;
+      return r.bundles.reduce((kette, b, i) => kette.then(() => {
+        const blob = new Blob([JSON.stringify(b, null, 2)], { type: 'application/fhir+json' });
+        const nr = r.bundles.length > 1 ? '_' + (i + 1) : '';
+        return dateiAusgeben(blob, _dateiNamePraefix() + '_KBV_PKA_Vorsorgevollmacht' + nr + '_' + heuteLokal() + '.json', 'application/fhir+json')
+          .then((weg) => { if (weg !== 'abgebrochen' && weg !== 'vorschau') hinaus = weg; return weg; });
+      }), Promise.resolve()).then((letzter) => { _nachWeitergabeNachfragen('kbv-pka', hinaus, vb, { umfang: STRINGS.kbvPkaExportLabel }); return letzter; });
+    });
     if (!mitHinweis) { speichern(); return 'datei'; }
     return klartextHinweisVorSpeichern(STRINGS.kbvPkaExportLabel, speichern);
   };
@@ -23296,7 +23396,7 @@ function flowGesundheitFhirExport(optionen) {
         // U2-ADR-120 — rein additiv: kein Eingriff in kernAPI.exportiere/fhirIpsBundle (Guardrail
         // xShare Deliverable 4, IPS-Export mit Provenance :8114). Der Eintrag entsteht NACH dem
         // bereits abgeschlossenen, unveränderten Export.
-        if (!vb) uebergabeProtokollNachExportErfassen('fhir-ips');   // mit Vereinbarung steht der Eintrag schon
+        _nachWeitergabeNachfragen('fhir-ips', weg, vb, { umfang: STRINGS.fhirExportLabel });   // mit Vereinbarung steht der Eintrag schon
       }
     });
   }), optionen);
@@ -24002,7 +24102,7 @@ function _formatExportDownload(def, optionen) {
     }
     // U2-ADR-120 — deckt Voll-Export-JSON UND jedes Format-Registry-Format (dieselbe Funktion,
     // s. B20-Messung); additiv, kein Eingriff in def.baue/Serialisierung.
-    if (!vb) uebergabeProtokollNachExportErfassen(def.id);   // mit Vereinbarung steht der Eintrag schon
+    _nachWeitergabeNachfragen(def.id, weg, vb, { umfang: def.label });   // mit Vereinbarung steht der Eintrag schon
   });
   });
 }
@@ -24039,7 +24139,7 @@ function flowFormatExport(formatId, optionen) {
 function flowAnlassExport(anlassId, optionen) {
   const def = anlassDef(anlassId);
   if (!def) { if (ui && ui.toast) ui.toast(STRINGS.modulFolgt, 'info'); return; }
-  const bauen = (opt) => mitVereinbarung('anlass:' + def.id, () => {   // MyTerms Teil D
+  const bauen = (opt) => mitVereinbarung('anlass:' + def.id, (vb) => {   // MyTerms Teil D
     const a = anlassAusgaben(anlassId, opt);
     if (!a) return;
     const dateiBasis = _dateiNamePraefix() + '_' + String(def.id).replace(/[^\p{L}\p{N}_-]+/gu, '-');
@@ -24051,8 +24151,9 @@ function flowAnlassExport(anlassId, optionen) {
     /* L1b: nach „Herausgeben“ die Wahl. „Herunterladen“ gibt wie bisher JSON und PDF aus, „Link senden“ die JSON-Datei. Die Wahl
        öffnet erst nach dem Schließen der Übersicht (sonst schlösse deren Schließen sie gleich wieder). */
     const herunterladen = () => {
+    let jsonFertig = Promise.resolve(null);
     if (blob && typeof dateiAusgeben === 'function') {
-      dateiAusgeben(blob, dateiBasis + '.json', 'application/json').then((weg) => {
+      jsonFertig = dateiAusgeben(blob, dateiBasis + '.json', 'application/json').then((weg) => {
         if (weg !== 'abgebrochen' && weg !== 'vorschau' && ui && ui.toast) {
           // Was zurückgehalten wurde und was fehlt, wird GESAGT — nicht nur im Datensatz vermerkt.
           const teile = [];
@@ -24061,15 +24162,19 @@ function flowAnlassExport(anlassId, optionen) {
             ? STRINGS.anlassAusgabeFertigMitZurueck.replace('{n}', teile[0])
             : STRINGS.anlassAusgabeFertig, 'ok');
         }
+        return weg;
       });
     }
     // Auftrag 14.09.2026 (Herausgabe-Vollständigkeit): jede Herausgabe bekommt AUCH ein PDF,
     // aus demselben Datensatz — bislang wurde `a.pdfModell` berechnet und nie gezeichnet.
-    anlassPdfAusgeben(a.datensatz, dateiBasis);
+    const pdfFertig = anlassPdfAusgeben(a.datensatz, dateiBasis);
+    // Herausgegeben (25.10.2026): EINE Nachfrage für beide Dateien, wenn mindestens eine hinausging.
+    _nachAuszugNachfragen('anlass:' + def.id, [jsonFertig, pdfFertig], vb, { umfang: def.titel || def.id });
     };
     if (LINK_SENDEN_FUER_AUSZUEGE && blob && optionen === undefined) {
       _ohneProzessHalt(setTimeout(() => _ausgabeWegWaehlen(def.titel || def.id, dateiBasis + '.json', herunterladen,
-        () => flowLinkSenden((o) => auszugLinkTeile(blob, Object.assign({ mime: 'application/json' }, o)), def.titel || def.id)), 0));
+        () => flowLinkSenden((o) => auszugLinkTeile(blob, Object.assign({ mime: 'application/json' }, o)), def.titel || def.id,
+          { nachfrage: { weg: 'anlass:' + def.id, vorbelegung: { umfang: def.titel || def.id } } })), 0));
     } else herunterladen();
     return a;
   });
@@ -28856,6 +28961,9 @@ const _ANG_CACHE_ERLAUBT = (() => {
   'beerdigung|personal|letterForTheDeathScenario',
   'behoerden_nachlass|advanceCare|instrument:will',
   'behoerden_nachlass|advanceCare|liste:provisionInstruments:will:storageLocation',
+  // Erbvertrag (18.10.2026, entschieden 26.09.2026): dieselben zwei Zeilen wie beim Testament.
+  'behoerden_nachlass|advanceCare|instrument:contract-of-inheritance',
+  'behoerden_nachlass|advanceCare|liste:provisionInstruments:contract-of-inheritance:storageLocation',
   'behoerden_nachlass|advanceCare|heirsBriefOverview',
   'behoerden_nachlass|advanceCare|liste:provisionInstruments:enduring-power-of-attorney:centralRegisterOfPowersOf',
   'behoerden_nachlass|advanceCare|instrument:enduring-power-of-attorney',
@@ -37174,6 +37282,7 @@ function _alleModulRegisterAusDepotAnmelden(d) {
   // Liefe die Logikmodul-Saat zuerst, fiele ein Pro-Modul durch einen Sektor, den es selbst
   // mitbringt — geprüft, nicht angenommen (s. tests/logikmodul-ab-werk-rangfolge.test.js).
   _BEREICH_IDS_RUHEND_IMPORT = Object.freeze([]);   // RUHENDE BEREICHE: Einlese-Rest endet am Depot-Übergang
+  _BEREICH_IDS_RUHEND_SITZUNG = Object.freeze([]);   // VORLAGEN ERGÄNZEN: endet ebenso
   try { _bereichsModuleAusDepotAnmelden(d); } catch (e) { /* Registry-Aufbau darf den Kontextwechsel nie brechen */ }
   try { _abWerkLogikModule = _logikModulAbWerkSeed(d); } catch (e) { /* dito */ }
   try { _situationsModuleAusDepotAnmelden(d); } catch (e) { /* Registry-Aufbau darf den Kontextwechsel nie brechen — U2-ADR-246 */ }
@@ -38621,15 +38730,19 @@ function uebergabeProtokollEintragen({ empfaenger, zweck, umfang, herkunft, vere
 // Kein Zwangsprotokoll (ADR-120 §4 gilt spiegelbildlich schon hier: kein Datum, das sie nicht
 // selbst eingegeben hat).
 // Geteiltes Eingabe-HTML (Zug 2 Export-Erfassung UND Zug 3 manueller Nachtrag, EINE Quelle).
-function _uebergabeFelderHTML() {
+// `vorbelegung` ({ empfaenger, umfang }, optional): was die App vom Weg her schon kennt, steht im Feld und bleibt änderbar.
+// Gespeichert wird erst auf „Speichern“ — die Person bestätigt jedes Wort selbst (U2-ADR-120 §4).
+function _uebergabeFelderHTML(vorbelegung) {
+  const v = vorbelegung || {};
+  const wert = (x) => (x ? ' value="' + escapeHTML(String(x)) + '"' : '');
   return '<p class="einst-hint">' + escapeHTML(STRINGS.uebergabeVermerkErklaerung) + '</p>' +
     '<div class="feld"><label for="up-empfaenger">' + escapeHTML(STRINGS.uebergabeEmpfaengerLabel) + '</label>' +
-    '<input id="up-empfaenger" class="eingabe" type="text" autocomplete="off">' +
+    '<input id="up-empfaenger" class="eingabe" type="text" autocomplete="off"' + wert(v.empfaenger) + '>' +
     '<div id="up-empfaenger-fehler" class="feld-inline-fehler" role="alert" hidden></div></div>' +
     // F5 Posten 4 („F4 und F5", 09.08.2026): der Umfang — WAS herausgegeben
     // wurde — fehlte als eigenes Feld; nur Empfänger und Zweck (wofür) standen zur Wahl.
     '<div class="feld"><label for="up-umfang">' + escapeHTML(STRINGS.uebergabeUmfangLabel) + '</label>' +
-    '<input id="up-umfang" class="eingabe" type="text" autocomplete="off">' +
+    '<input id="up-umfang" class="eingabe" type="text" autocomplete="off"' + wert(v.umfang) + '>' +
     '<div id="up-umfang-fehler" class="feld-inline-fehler" role="alert" hidden></div></div>' +
     '<div class="feld"><label for="up-zweck">' + escapeHTML(STRINGS.uebergabeZweckLabel) + '</label>' +
     '<input id="up-zweck" class="eingabe" type="text" autocomplete="off">' +
@@ -38647,11 +38760,11 @@ function _uebergabeFelderPruefen() {
   if (!zweck) { modalFeldFehlerZeigen('up-zweck', 'up-zweck-fehler', STRINGS.uebergabeZweckPflicht, true); return null; }
   return { empfaenger, zweck, umfang };
 }
-function uebergabeProtokollNachExportErfassen(weg) {
+function uebergabeProtokollNachExportErfassen(weg, vorbelegung) {
   if (typeof ui === 'undefined' || !ui.modal) return;
   ui.modal({
     titel: STRINGS.uebergabeProtokollTitel,
-    koerperHTML: '<p class="einst-hint">' + escapeHTML(STRINGS.uebergabeProtokollHinweis) + '</p>' + _uebergabeFelderHTML(),
+    koerperHTML: '<p class="einst-hint">' + escapeHTML(STRINGS.uebergabeProtokollHinweis) + '</p>' + _uebergabeFelderHTML(vorbelegung),
     primaerLabel: STRINGS.uebergabeSpeichernCta,
     onPrimaer: (schliessen) => {
       const felder = _uebergabeFelderPruefen();
@@ -38660,6 +38773,28 @@ function uebergabeProtokollNachExportErfassen(weg) {
       if (typeof schliessen === 'function') schliessen();
     },
     zweitAktion: { label: STRINGS.uebergabeSpaeterCta, handler: (schliessen) => { if (typeof schliessen === 'function') schliessen(); } },
+  });
+}
+
+// Nach einer geglückten Weitergabe die freiwillige Nachfrage für „Herausgegeben“ (25.10.2026, Pro: Herausgegeben auf
+// allen Wegen). EINE Stelle für die Bedingung, damit jeder Weg gleich fragt: nicht nach Abbruch oder in der Vorschau,
+// nicht in der Vorführung, und nicht, wenn die Vereinbarung (`vb`) den Eintrag schon angelegt hat. Welcher Weg hierher
+// ruft, steht als `nachfrage` in der Einordnung der Ausgabewege; ihr Wächter hält beide Richtungen. Die Notfall-Wege
+// rufen nie hierher — sie dürfen im Ernstfall nicht aufhalten.
+function _nachWeitergabeNachfragen(weg, ergebnis, vb, vorbelegung) {
+  if (ergebnis === 'abgebrochen' || ergebnis === 'vorschau' || ergebnis == null) return;
+  if (vb) return;
+  if (imVorfuehrung() || imVorschau()) return;
+  uebergabeProtokollNachExportErfassen(weg, vorbelegung);
+}
+// Ein Auszug aus JSON und PDF (Anlass, Zusammenstellung): gefragt wird einmal, sobald beide Ausgaben feststehen und
+// mindestens eine hinausging. Meldet das PDF eine Schriftlücke, steht deren Hinweis offen — dann keine Nachfrage
+// darüber (ein Fenster überdeckte das andere); der Nachtrag von Hand bleibt.
+function _nachAuszugNachfragen(weg, ausgaben, vb, vorbelegung) {
+  return Promise.all((ausgaben || []).map((p) => Promise.resolve(p).catch(() => null))).then((ergebnisse) => {
+    if (ergebnisse.includes('schrift-luecke')) return;
+    const hinaus = ergebnisse.find((w) => typeof w === 'string' && !['abgebrochen', 'vorschau', 'kein-jspdf', 'kein-modell'].includes(w));
+    _nachWeitergabeNachfragen(weg, hinaus || null, vb, vorbelegung);
   });
 }
 
@@ -52103,10 +52238,19 @@ function _empfaengerFaecherFuerSchreibweg(d, depotUUID) {
   return raus;
 }
 
-async function empfaengerkreisAusgabeVermerken(id, felder) {
+/* Kreis-Verlauf (25.10.2026, U2-ADR-120): `letzteAusgabe` allein überschrieb jede frühere Ausgabe. `verlauf` hält die letzten
+   KREIS_VERLAUF_MAX, neueste zuerst — WANN, WIEVIEL und ob als Datei oder QR-Code, nie was und nie an wen. Der Kreis verlässt
+   das Gerät nie (zurückgehalten, s. die Liste der zurückgehaltenen Schlüssel); kein Schemasprung, ein älteres Depot hat
+   einfach noch keinen Verlauf. Probe: tests/empfaengerkreis-ausgabe-verlauf.test.js */
+const KREIS_VERLAUF_MAX = 10;
+const KREIS_VERLAUF_ZEILEN = 5;   // so viele frühere zeigt die Zeile
+async function empfaengerkreisAusgabeVermerken(id, felder, art) {
   const k = empfaengerkreisFinden(id);
   if (!k) return;
-  k.letzteAusgabe = { stand: new Date().toISOString(), felder: felder | 0 };
+  const stand = new Date().toISOString();
+  k.letzteAusgabe = { stand, felder: felder | 0 };
+  k.verlauf = [{ stand, felder: felder | 0, art: art === 'qr' ? 'qr' : 'datei' }]
+    .concat(Array.isArray(k.verlauf) ? k.verlauf : []).slice(0, KREIS_VERLAUF_MAX);
   markiereUngespeichert(1);
   await depotPersistieren();
 }
@@ -52114,18 +52258,20 @@ async function empfaengerkreisAusgabeVermerken(id, felder) {
 // Die Datei entsteht, wird ausgegeben und ist damit aus der Hand. Der Vermerk im Depot hält
 // fest, WANN — nicht was und nicht an welche Adresse; beides wüsste die Datei ohnehin besser.
 async function empfaengerDateiHerausgeben(kreis, passwort, opt) {
-  if ((await vereinbarungFreigabeHolen('empfaengerkreis')) === false) return { weg: 'abgebrochen', felder: 0, dateiname: null };   // MyTerms Teil D
+  const vb = await vereinbarungFreigabeHolen('empfaengerkreis');   // MyTerms Teil D
+  if (vb === false) return { weg: 'abgebrochen', felder: 0, dateiname: null };
   const { umschlag, dateiname, felder } = await empfaengerDateiErzeugen(kreis, passwort);
   // Im Pod ablegen (Nachtrag zu U2-ADR-512): dieselben Bytes wie die Datei, an die Brücke statt auf die Platte.
   if (opt && opt.pod) {
     const r = await podAblegenMitHinweis('stelle', dateiMitMagic(JSON.stringify(umschlag)));
     if (r) await empfaengerkreisAusgabeVermerken(kreis.id, felder);
-    return { weg: r ? 'pod' : 'abgebrochen', felder, dateiname };
+    return { weg: r ? 'pod' : 'abgebrochen', felder, dateiname, vb };
   }
   const blob = new Blob([dateiMitMagic(JSON.stringify(umschlag))], { type: 'application/octet-stream' });
   const weg = await dateiAusgeben(blob, dateiname, 'application/octet-stream');
-  if (weg !== 'vorschau' && weg !== 'abgebrochen') await empfaengerkreisAusgabeVermerken(kreis.id, felder);
-  return { weg, felder, dateiname };
+  if (weg !== 'vorschau' && weg !== 'abgebrochen') await empfaengerkreisAusgabeVermerken(kreis.id, felder, 'datei');
+  // `vb` geht an den Aufrufer: er fragt nach „Herausgegeben“, wenn sein Fenster geschlossen ist (25.10.2026).
+  return { weg, felder, dateiname, vb };
 }
 
 // Die Bereiche so, wie die Seitenleiste sie zeigt (bereicheNachClusterSichtbar) — dazu jeder schon gewählte, auch wenn die
@@ -52207,10 +52353,11 @@ function flowEmpfaengerkreisDatei(id) {
       if (pw.length < EMPFAENGER_PW_MIN) { zeig(STRINGS.kreiseFehlerPwKurz); return; }
       if (pw !== pw2) { zeig(STRINGS.kreiseFehlerPwUngleich); return; }
       const pod = !!(document.getElementById('kreis-pod') || {}).checked;
-      await empfaengerDateiHerausgeben(kreis, pw, { pod });
+      const r = await empfaengerDateiHerausgeben(kreis, pw, { pod });
       schliessen();
       if (ui.toast && !pod) ui.toast(STRINGS.kreiseDateiFertigToast, 'ok');
       flowEinstellungen();
+      _nachWeitergabeNachfragen('empfaengerkreis', r && r.weg, r && r.vb, { empfaenger: kreis.name });   // Herausgegeben (25.10.2026)
     },
   });
   pwStaerkeAnzeigeVerdrahten('kreis-pw', 'kreis-pw-staerke');
@@ -52248,14 +52395,15 @@ function flowEmpfaengerkreisQr(id) {
       if (ergebnis.abgebrochen) { schliessen(); return; }   // keine Freigabe im Vereinbarungs-Dialog — nichts geht hinaus
       if (ergebnis.zuGross) { zeig(STRINGS.kreiseQrZuGross); return; }
       schliessen();
-      _empfaengerQrErgebnisModal(ergebnis.url, ergebnis.ablauf);
+      _empfaengerQrErgebnisModal(ergebnis.url, ergebnis.ablauf,   // Herausgegeben (25.10.2026): gefragt wird nach dem Schließen des QR
+        () => _nachWeitergabeNachfragen('empfaengerkreis', 'gezeigt', ergebnis.vb, { empfaenger: kreis.name }));
     },
   });
   pwStaerkeAnzeigeVerdrahten('kreis-qr-pw', 'kreis-qr-pw-staerke');
   pwVorschlagVerdrahten('kreis-qr-pw');   // U2-ADR-463: Vorschlag aus sechs Wörtern, Hinweis bei eigenem Passwort
 }
 
-function _empfaengerQrErgebnisModal(url, ablauf) {
+function _empfaengerQrErgebnisModal(url, ablauf, danach) {
   const hatLib = (typeof window !== 'undefined' && typeof window.qrcode === 'function');
   let imgTag = '';
   if (hatLib) {
@@ -52277,7 +52425,7 @@ function _empfaengerQrErgebnisModal(url, ablauf) {
   ui.modal({
     titel: STRINGS.kreiseQrErgebnisTitel,
     koerperHTML: koerper,
-    primaerLabel: STRINGS.btnSchliessen, onPrimaer: (s) => s(), ohneAbbrechen: true,
+    primaerLabel: STRINGS.btnSchliessen, onPrimaer: (s) => { s(); if (typeof danach === 'function') danach(); }, ohneAbbrechen: true,
   });
 }
 
@@ -52407,6 +52555,16 @@ function _kreisZeileHTML(kreis) {
           ? ' · ' + STRINGS.kreiseFelderZahl.replace('{zahl}', String(kreis.letzteAusgabe.felder))
           : '')
     : STRINGS.kreiseStandNie;
+  // Die früheren Ausgaben, eingeklappt: der erste Eintrag des Verlaufs ist die letzte Ausgabe darüber, darum ab dem zweiten.
+  const frueher = (Array.isArray(kreis.verlauf) ? kreis.verlauf : []).slice(1, 1 + KREIS_VERLAUF_ZEILEN);
+  // Jede Verlaufszeile ist reiner Text: Datum und Zahl stammen aus der Depotdatei und gehen maskiert in den Textknoten.
+  const verlaufZeile = (v) => (v && v.art === 'qr' ? STRINGS.kreiseVerlaufQr : STRINGS.kreiseVerlaufDatei)
+    .replace('{datum}', datumKurz(v && v.stand)).replace('{zahl}', String((v && v.felder) | 0));
+  const verlaufHTML = frueher.length
+    ? '<details class="einst-hint"><summary>' + escapeHTML(STRINGS.kreiseVerlaufTitel) + '</summary><ul>' +
+        frueher.map((v) => '<li>' + escapeHTML(verlaufZeile(v)) + '</li>').join('') +
+      '</ul></details>'
+    : '';
   const hatFach = empfaengerkreisHatFach(kreis);
   const fachText = hatFach ? STRINGS.kreiseFachAktiv
     : (empfaengerkreisFachVerwaist(kreis) ? STRINGS.kreiseFachVerwaist : STRINGS.kreiseFachInaktiv);
@@ -52414,7 +52572,7 @@ function _kreisZeileHTML(kreis) {
     '<div class="kreis-kopf"><strong>' + escapeHTML(kreis.name) + '</strong></div>' +
     '<p class="einst-hint">' + escapeHTML(bausteine.join(' · ')) + '</p>' +
     '<p class="einst-hint">' + escapeHTML(fachText) + '</p>' +
-    '<p class="einst-hint">' + escapeHTML(stand) + '</p>' +
+    '<p class="einst-hint">' + escapeHTML(stand) + '</p>' + verlaufHTML +
     '<div class="kreis-knoepfe">' +
       (hatFach
         ? '<button type="button" class="btn btn-sek" data-kreis-fach-weg="' + escapeHTML(kreis.id) + '">' +
@@ -55046,8 +55204,12 @@ const MODUL_BLOCK_HANDLER = {
   // (Schema) ist der deklarative Weg für ein Bundle, über denselben Interpreter (`formatSchemaAnwenden`).
   frageAntwortOderLuecke(blk, ctx) {
     const w = ctx.d[blk.feldId];
-    const leer = w == null || w === '' || (Array.isArray(w) && w.length === 0);
-    const antwort = !leer
+    // 26.10.2026: ein gespeicherter Wert, den seine Zeile nicht (mehr) anbietet (`_NICHT_VORGESEHEN`), wird nie als Tatsache
+    // gedruckt; der Block nennt seinen Prüfhinweis, sonst steht die Lücke.
+    const pruefen = _istNichtVorgesehen(w) && typeof blk.pruefen === 'string' && blk.pruefen;
+    const leer = _istNichtVorgesehen(w) || w == null || w === '' || (Array.isArray(w) && w.length === 0);
+    const antwort = pruefen ? ((blk.format && typeof blk.format.praefix === 'string') ? blk.format.praefix : '') + pruefen
+      : !leer
       ? (blk.formatWert ? blk.formatWert(w, ctx) : (blk.format ? formatSchemaAnwenden(blk.format, w) : String(w)))
       : (blk.luecke || 'Lücke');
     return [blk.frage + ' ' + antwort];
@@ -55369,12 +55531,35 @@ function formatSchemaAnwenden(schema, wert) {
 function _unterfelderGueltig(unterfelder) {
   return Array.isArray(unterfelder) && unterfelder.length > 0 && unterfelder.every((u) => typeof u === 'string' && !!u);
 }
+/* Option je Zeile im Blatt (26.10.2026, Formangabe beim Testament): ein gespeicherter Auswahlwert, den diese Zeile nicht
+   (mehr) anbietet, druckt keine Beschriftung. Das Formular sagt dazu „hier nicht vorgesehen“ und nennt den Hinweis des Unterfelds;
+   ein Blatt für Gericht oder Notar darf die alte Formangabe nicht als Tatsache weitergeben. Der Einzelwert (`listenfeld`) trägt
+   dafür die Marke `_NICHT_VORGESEHEN`, die der Block in seinen Prüfhinweis übersetzt; in Listen bleibt eine Lücke. Der Wert in der
+   Datei bleibt unverändert stehen, keine Migration. */
+// Der Bereich, der eine Liste trägt (kein Bereichs-Literal am Aufrufer). Eine Datenfrage: gefragt wird der Katalog, nicht der
+// Anzeige-Index — in Pro ruht advanceCare und fehlt dort (27.10.2026, Befund TESTAMENTSFORM-PRUEFUNG-OHNE-KATALOG).
+function _sektorIdDerListe(listeId) {
+  // dieselben Quellen in derselben Reihenfolge wie _sektorAusKatalog, ohne den Anzeige-Index
+  const kandidaten = [...(Array.isArray(SEKTOREN) ? SEKTOREN : []), ...(Array.isArray(_BEREICHS_MODUL_REGISTRY) ? _BEREICHS_MODUL_REGISTRY : []),
+    ...Object.values(_BEREICHE_NATIV_DEFINITIONEN || {})];
+  const treffer = kandidaten.find((sek) => sek && (sek.sektionen || []).some((s) => (s.felder || []).some((f) => f.id === listeId)));
+  return treffer ? treffer.id : undefined;
+}
+const _NICHT_VORGESEHEN = Object.freeze({ nichtVorgesehen: true });
+function _istNichtVorgesehen(w) { return !!(w && typeof w === 'object' && !Array.isArray(w) && w.nichtVorgesehen === true); }
+function _wertInZeileVorgesehen(sektorId, listeId, unterfeldId, zeile, roh) {
+  const uf = _listenUnterfeldDef(sektorId, listeId, unterfeldId);
+  if (!uf || uf.typ !== 'auswahl') return true;
+  const o = (uf.optionen || []).find((x) => x && x.wert === roh);
+  return !o || optionSichtbar(o, zeile);
+}
 function _zeileVerbinden(def, zeile, zurueckgehalten) {
   if (!zeile || typeof zeile !== 'object') return null;
   let gefuellt = false;
   const werte = def.unterfelder.map((u) => {
     const uf = _listenUnterfeldDef(def.sektor, def.feld, u);
-    const roh = zurueckgehalten(uf) ? null : zeile[u];
+    const roh0 = zurueckgehalten(uf) ? null : zeile[u];
+    const roh = _wertInZeileVorgesehen(def.sektor, def.feld, u, zeile, roh0) ? roh0 : null;
     if (roh === undefined || roh === null || roh === '') return null;
     gefuellt = true;
     if (uf && uf.typ === 'datum') return datumKurz(roh) || String(roh);
@@ -55403,7 +55588,8 @@ function _datenPrimitivLesen(def, data) {
     case 'listenfeld': {
       const liste = Array.isArray(sek[def.feld]) ? sek[def.feld] : [];
       const treffer = liste.find((r) => r && r[def.diskriminante.feld] === def.diskriminante.wert);
-      return treffer ? treffer[def.unterfeld] : undefined;
+      if (!treffer) return undefined;
+      return _wertInZeileVorgesehen(def.sektor, def.feld, def.unterfeld, treffer, treffer[def.unterfeld]) ? treffer[def.unterfeld] : _NICHT_VORGESEHEN;
     }
     case 'personenNamen': {
       const liste = Array.isArray(sek[def.feld]) ? sek[def.feld] : [];
@@ -55417,7 +55603,8 @@ function _datenPrimitivLesen(def, data) {
     }
     case 'listenfeldAlle': {
       const liste = Array.isArray(sek[def.feld]) ? sek[def.feld] : [];
-      return liste.map((r) => r && r[def.unterfeld]).filter((w) => w !== undefined && w !== null && w !== '');
+      return liste.map((r) => (r && _wertInZeileVorgesehen(def.sektor, def.feld, def.unterfeld, r, r[def.unterfeld]) ? r[def.unterfeld] : undefined))
+        .filter((w) => w !== undefined && w !== null && w !== '');
     }
     case 'listenfeldAlleVerbunden': {
       if (!_unterfelderGueltig(def.unterfelder)) return undefined;
@@ -55470,6 +55657,8 @@ function _antwortZeileFuerSchluessel(def, data, freigegeben, feldBekannt) {
   if (!freigegeben) return { zustand: 'zurueckgehalten' };
   if (!(feldBekannt || _datenSchemaFelderBekannt)(def)) return { zustand: 'unbekannt' };
   const wert = _datenPrimitivLesen(def, data);
+  // Ein in seiner Zeile nicht vorgesehener Wert geht nicht als Antwort hinaus (26.10.2026, `_NICHT_VORGESEHEN`).
+  if (_istNichtVorgesehen(wert)) return { zustand: 'leer' };
   const hatWert = Array.isArray(wert) ? wert.length > 0 : (wert !== undefined && wert !== '');
   return hatWert ? { zustand: 'wert', wert } : { zustand: 'leer' };
 }
@@ -55524,6 +55713,7 @@ function _erbscheinSektorDaten() {
   const vs = (data && data.sektoren && data.sektoren.advanceCare) || {};
   const liste = Array.isArray(vs.provisionInstruments) ? vs.provisionInstruments : [];
   const testamentRec = liste.find(r => r && r.instrument === 'will');
+  const erbvertragRec = liste.find(r => r && r.instrument === 'contract-of-inheritance');   // Erbvertrag (entschieden 26.09.2026)
   const wohnort = anschriftFuerAusgabe('identity', { sektoren: { identity: id } }).zeile;   // U2-ADR-467
   // U2-ADR-248: `childrenAndDependants` lebt im Sektor 'people' (feldDefFuer geprüft, am echten
   // Geburts-Wizard gemessen — s. ADR-Text), nicht 'identity'. Bis 04.09.2026 stand hier
@@ -55534,6 +55724,7 @@ function _erbscheinSektorDaten() {
     .map(k => k && k.person && personName(k.person)).filter(Boolean);
   const out = { kinder_namen: kinderNamen,
     testament_bedachte_namen: testamentRec ? _pvRefmNamen(testamentRec.personsNamedInTheWill) : [],
+    erbvertrag_bedachte_namen: erbvertragRec ? _pvRefmNamen(erbvertragRec.personsNamedInTheWill) : [],
     erben_namen: _pvRefmNamen(vs.heirsBriefOverview) };
   /* U2-ADR-482: seit Schema 93 ist der Wert [{liste, code}]. In den Auszug geht die amtliche Bezeichnung aus der Liste (ein
      Dokument nach deutschem Recht, unabhängig von der Oberflächensprache, darum ohne Lesehilfe); ein Altwert (Freitext) bleibt,
@@ -55543,7 +55734,12 @@ function _erbscheinSektorDaten() {
     if (namen.length) out.staatsangehoerigkeit = namen.join(', ');
   } else if (typeof id.nationality === 'string' && id.nationality.trim()) out.staatsangehoerigkeit = id.nationality;
   if (wohnort) out.lebensmittelpunkt = wohnort;
-  if (testamentRec && testamentRec.form) out.testament_form = testamentRec.form;
+  // Eine Form, die die Zeile nicht anbietet, geht nicht in den Auszug (26.10.2026, wie `_wertInZeileVorgesehen`).
+  const formVorgesehen = (rec) => _wertInZeileVorgesehen(_sektorIdDerListe('provisionInstruments'), 'provisionInstruments', 'form', rec, rec.form);
+  if (testamentRec && testamentRec.form && formVorgesehen(testamentRec)) out.testament_form = testamentRec.form;
+  // Die XML zeigt dann weiter, dass ein Testament eingetragen ist (erfasst="pruefen"), ohne die Formangabe weiterzugeben.
+  else if (testamentRec && testamentRec.form) out.testament_form_pruefen = true;
+  if (erbvertragRec && erbvertragRec.form && formVorgesehen(erbvertragRec)) out.erbvertrag_form = erbvertragRec.form;
   if (id.maritalStatus) out.familienstand = id.maritalStatus;
   // Teil C (U2-ADR-439, 27.09.2026): die Ablageorte der Personenstandsurkunden — derselbe Stand wie datenSchema im Modul.
   if (id.birthCertificateStorage) out.geburtsurkunde_ort = id.birthCertificateStorage;
@@ -55604,6 +55800,65 @@ function _logikKarteText(kennung) {
   if (!Object.prototype.hasOwnProperty.call(STRINGS, kennung)) return '';
   return (typeof STRINGS[kennung] === 'string') ? STRINGS[kennung] : '';
 }
+/* VORLAGEN ERGÄNZEN (26.10.2026, Befund PRO-VORLAGEN-UNERREICHBAR; Produktentscheidung: es öffnen sich nur die Felder, die die
+   Vorlage liest). Ein Produkt, das eingebaute Bereiche ersetzt (heute Pro), trägt Vorlagen, die aus diesen Bereichen lesen
+   (Erbschein, Zugang zum Recht). Drei Stücke, keine Bereichs- oder Vorlagenkennung hier:
+   · Heimat: die Karte einer Vorlage, deren eigener Bereich ersetzt ist, steht im ersten angezeigten Bereich mit der Rolle
+     `auszugSektion`, dessen eigene Vorlagen nicht ersetzt sind (`_vorlagenHeimatBereich`); in Privat gibt es keine solche Vorlage.
+   · Ergänzen: an der Karte je ersetztem Bereich, aus dem sie liest, ein Knopf; er weckt den Bereich für die Sitzung und öffnet ihn.
+   · Feldfilter: ein ersetzter Bereich zeigt nur Felder, die eine Vorlage des Produkts liest oder die einen Wert tragen — nach dem
+     Ergänzen, nach dem Wiederöffnen und bei einer Datei aus Privat gleich (`_feldImRuhendenBereichAngeboten`).
+   Probe: eine nicht öffentliche Probe baut pro-de und pro-en (Karte, Knöpfe, Felder, Rundlauf, Gegenprobe Privat, Rot-Beweis). */
+function _vorlagenLeseFelder(id) {
+  const felder = new Set();
+  let saat = [];
+  try { saat = _logikModulAbWerkSeed(); } catch (_) { saat = []; }
+  for (const m of saat) {
+    for (const d of Object.values((m && m.datenSchema) || {})) {
+      if (d && d.sektor === id && typeof d.feld === 'string') felder.add(d.feld);
+      for (const t of (d && Array.isArray(d.teile)) ? d.teile : []) if (t && t.sektor === id && typeof t.feld === 'string') felder.add(t.feld);
+    }
+  }
+  return felder;
+}
+function _feldImRuhendenBereichAngeboten(id, feld, daten) {
+  if (!feld || !_BEREICH_IDS_ERSETZT.includes(id)) return true;
+  return _vorlagenLeseFelder(id).has(feld.id) || feldEingetragen(feld, daten ? daten[feld.id] : undefined);
+}
+function _vorlagenHeimatBereich() {
+  for (const b of bereicheAlle()) {
+    if (_BEREICH_IDS_ERSETZT.includes(b.id)) continue;
+    const r = bereichRolle(b.id, 'auszugSektion');
+    if (typeof r === 'string' && r) return b.id;
+  }
+  return null;
+}
+function _vorlageErgaenzenHTML(logik) {
+  if (!_BEREICH_IDS_ERSETZT.includes(logik.sektor)) return '';
+  const bereiche = [];
+  for (const d of Object.values(logik.datenSchema || {})) {
+    for (const q of [d].concat((d && Array.isArray(d.teile)) ? d.teile : [])) {
+      if (q && _BEREICH_IDS_ERSETZT.includes(q.sektor) && !bereiche.includes(q.sektor)) bereiche.push(q.sektor);
+    }
+  }
+  if (!bereiche.length) return '';
+  let html = '<p class="sektion-hint">' + escapeHTML(STRINGS.vorlageErgaenzenHinweis) + '</p><div class="bereich-aktionen">';
+  for (const b of bereiche.sort()) {
+    html += '<button type="button" class="btn btn-sek" data-vorlage-ergaenzen="' + escapeAttr(b) + '" data-vorlage="' + escapeAttr(logik.id) + '">'
+      + escapeHTML(String(STRINGS.vorlageErgaenzenKnopf).replace('{name}', _bereichNameFuerFeld(b))) + '</button> ';
+  }
+  return html + '</div>';
+}
+function vorlageAngabenErgaenzen(vorlageId, sektorId) {
+  if (!_BEREICH_IDS_ERSETZT.includes(sektorId) || !_sektorAusKatalog(sektorId)) return false;
+  if (!_BEREICH_IDS_RUHEND_SITZUNG.includes(sektorId)) {
+    _BEREICH_IDS_RUHEND_SITZUNG = Object.freeze(_BEREICH_IDS_RUHEND_SITZUNG.concat([sektorId]));
+    _sektorIndexNeuBauen();
+  }
+  try { if (typeof renderSidebar === 'function') renderSidebar(); } catch (_) { /* Seitenleiste darf das Öffnen nie brechen */ }
+  oeffneSektor(sektorId);
+  return true;
+}
 function logikModulAuszugKartenHTML(sektorId) {
   const liste = _logikModuleAlle(data);
   /* N TEMPLATES, NICHT ZWEI, UND IN BESTIMMTER REIHENFOLGE. Mehrere Templates gleichzeitig auf
@@ -55612,11 +55867,15 @@ function logikModulAuszugKartenHTML(sektorId) {
      Sortiert wird nach der KENNUNG, nicht nach der Einlass-Reihenfolge: sonst saehe dieselbe
      Buergerin nach einem erneuten Einlass eine andere Seite, ohne dass sich etwas geaendert hat. */
   const auszuege = [];
+  const heimatlosHier = _vorlagenHeimatBereich() === sektorId;
   for (const roh of liste) {
     const geprueft = logikModulPruefen(roh);
     if (!geprueft.gueltig) continue;                       // abgewiesenes Modul rendert NICHTS
     const logik = geprueft.logik;
-    if (logik.sektor !== sektorId) continue;
+    // VORLAGEN OHNE HEIMAT (26.10.2026): führt das Produkt den eigenen Bereich einer Vorlage nicht (ersetzt, höchstens ruhend
+    // geweckt), steht ihre Karte im Bereich, der die Heimatlosen aufnimmt — und nur dort, auch wenn der eigene Bereich geweckt ist.
+    const heimatlos = _BEREICH_IDS_ERSETZT.includes(logik.sektor);
+    if (heimatlos ? !heimatlosHier : logik.sektor !== sektorId) continue;
     if (!logik.dokAusgabe.karte) continue;                  // ein Auszug ohne Kaertchen ist kein Fehler
     if (!LOGIK_KENNUNG_MUSTER.test(logik.dokAusgabe.knopfAttr)) continue;   // ein Attributname lässt sich nicht maskieren: nur im Muster, sonst keine Karte
     auszuege.push(logik);
@@ -55638,6 +55897,7 @@ function logikModulAuszugKartenHTML(sektorId) {
       html += ' <button type="button" class="btn' + (z.klasse ? ' ' + z.klasse : '') + '" data-' + z.attr + '>'
         + escapeHTML(_logikKarteText(z.kennung)) + '</button>';
     }
+    html += _vorlageErgaenzenHTML(logik);
     html += '</div>';
   }
   return html;
@@ -55656,6 +55916,9 @@ function logikModulAuszugKartenHTML(sektorId) {
 function _erbscheinXmlEscape(wert) {
   return String(wert).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
+// Das Attribut `erfasst` (urn:vivodepot:erbschein-vorbereitung:v1) trägt drei Werte: „ja“ (der Wert steht im Element), „nein“
+// (nichts eingetragen) und, seit 26.10.2026 nur an testamentForm, „pruefen“: Ein Testament ist eingetragen, seine gespeicherte
+// Form ist für das Testament aber nicht vorgesehen; das Element bleibt leer, weil keine gültige Formangabe vorliegt.
 function _erbscheinXmlFeld(tag, wert) {
   const erfasst = wert != null && wert !== '';
   return '<' + tag + ' erfasst="' + (erfasst ? 'ja' : 'nein') + '">' + (erfasst ? _erbscheinXmlEscape(wert) : '') + '</' + tag + '>';
@@ -55674,7 +55937,7 @@ function erbscheinAuszugXML() {
     + '<wegweiser>'
     + _erbscheinXmlFeld('staatsangehoerigkeit', d.staatsangehoerigkeit)
     + _erbscheinXmlFeld('lebensmittelpunkt', d.lebensmittelpunkt)
-    + _erbscheinXmlFeld('testamentForm', d.testament_form)
+    + (d.testament_form_pruefen ? '<testamentForm erfasst="pruefen"></testamentForm>' : _erbscheinXmlFeld('testamentForm', d.testament_form))
     + _erbscheinXmlFeld('grundeigentum', undefined)
     + _erbscheinXmlFeld('unternehmen', undefined)
     + _erbscheinXmlFeld('bankVerlangt', undefined)
@@ -55695,10 +55958,12 @@ function erbscheinAuszugXML() {
 // Als Datei sichern — derselbe Weg wie jeder andere Export (dateiAusgeben), aber ohne
 // jsPDF-Abhängigkeit (reiner Text, kein PDF-Rendern nötig).
 async function flowErbscheinXmlSichern() {
-  if ((await vereinbarungFreigabeHolen('erbschein-xml')) === false) return 'abgebrochen';   // MyTerms Teil D
+  const vb = await vereinbarungFreigabeHolen('erbschein-xml');   // MyTerms Teil D
+  if (vb === false) return 'abgebrochen';
   const blob = new Blob([erbscheinAuszugXML()], { type: 'application/xml' });
   const weg = await dateiAusgeben(blob, _dokumentDateiname('erbschein-vorbereitung', 'xml'), 'application/xml');
   if (weg !== 'abgebrochen' && weg !== 'vorschau' && typeof ui !== 'undefined' && ui.toast) ui.toast(STRINGS.exportFertig, 'ok');
+  _nachWeitergabeNachfragen('erbschein-xml', weg, vb);   // Herausgegeben (25.10.2026)
   return weg;
 }
 // U2-ADR-288 (05.09.2026): der Ab-Werk-Einlass des Erbschein-Vorbereitungsauszugs, minifiziert,
@@ -56470,6 +56735,7 @@ function _logikModulTexteAufloesen(bundle) {
       const patch = {};
       if (typeof blk.frage === 'string') patch.frage = _textLesenOderRueckfall(bK + '.frage', blk.frage);
       if (typeof blk.luecke === 'string') patch.luecke = _textLesenOderRueckfall(bK + '.luecke', blk.luecke);
+      if (typeof blk.pruefen === 'string') patch.pruefen = _textLesenOderRueckfall(bK + '.pruefen', blk.pruefen);
       if (Array.isArray(blk.texte)) {
         patch.texte = blk.texte.map((t, ti) => (typeof t === 'string') ? (_textLesenOderRueckfall(bK + '.texte[' + ti + ']', t)) : t);
       }
@@ -58973,7 +59239,7 @@ async function flowShlVorbereiten(id) {
       '<p class="einst-hint">' + escapeHTML(STRINGS.shlEinfuehrung) + '</p>',
     gueltigBis: STRINGS.shlGueltigBis,
     linkGebaut: () => { _shlUriGebaut = true; },
-    geschlossen: () => { if (_shlUriGebaut && !vb) uebergabeProtokollNachExportErfassen('shl'); },
+    geschlossen: () => { if (_shlUriGebaut) _nachWeitergabeNachfragen('shl', 'gesendet', vb, { umfang: e.beschriftung }); },
   });
 }
 
@@ -59125,10 +59391,15 @@ async function flowLinkSenden(teileBauen, beschriftung, opt) {
   let teile;
   try { teile = await teileBauen({ label: String(beschriftung || '').slice(0, 80) }); }
   catch (err) { ui.toast(STRINGS.importUngueltig, 'fehler'); return; }
+  // Herausgegeben (25.10.2026): wie bei „Sicher weitergeben“ erst NACH dem Schließen fragen, und nur, wenn ein Link entstand.
+  // `opt.nachfrage` ({ weg, vorbelegung }) nennt der Aufrufer; Weg-Name wie in seiner Sperre.
+  const n = (opt && opt.nachfrage) || { weg: 'link-senden' };
+  let linkEntstanden = false;
   _shlDialogZeigen(teile, {
     titel: STRINGS.linkSendenKnopf,
     gueltigBis: STRINGS.linkSendenGueltigBis,
-    linkGebaut: (opt && opt.linkGebaut) || null,
+    linkGebaut: (uri) => { linkEntstanden = true; if (opt && typeof opt.linkGebaut === 'function') opt.linkGebaut(uri); },
+    geschlossen: () => { if (linkEntstanden) _nachWeitergabeNachfragen(n.weg, 'gesendet', vb, n.vorbelegung); },
   });
 }
 
@@ -59607,6 +59878,9 @@ function verdrahteSektorAktionen(c, sektorId, s, darf) {
     const karte = c.querySelector('[data-modul-karte="' + roh.id + '"]');
     if (karte) karte.onclick = () => dokumentOeffnen(roh.id);
   }
+  c.querySelectorAll('[data-vorlage-ergaenzen]').forEach((b) => {   // VORLAGEN ERGÄNZEN, s. dort
+    b.onclick = () => vorlageAngabenErgaenzen(b.getAttribute('data-vorlage'), b.getAttribute('data-vorlage-ergaenzen'));
+  });
   // Vollmacht (mehrfach:true, 01.08.2026): zeilenscharf — jede Zeile trägt ihre eigene
   // Record-id im data-vm-dokument-Attribut, kein gemeinsamer „die eine Vollmacht"-Aufruf wie bei PV/KI.
   c.querySelectorAll('[data-vm-dokument]').forEach(b => {
@@ -59874,6 +60148,13 @@ function verdrahteSektorEingaben(c, sektorId, s, darf) {
         }, 0);
       });
     });
+    c.querySelectorAll('[data-liste-vorschlaege-uebernehmen]').forEach((btn) => {
+      btn.onclick = () => {
+        const feld = findeFeld(btn.getAttribute('data-liste-vorschlaege-uebernehmen'));
+        if (!feld) return;
+        try { if (listenVorschlaegeUebernehmen(sektorId, feld)) renderContent(); } catch (e) { zeigeKernFehler(e); }
+      };
+    });
     c.querySelectorAll('[data-eintrag-alle-angaben]').forEach((btn) => {
       btn.onclick = () => {
         const feld = findeFeld(btn.getAttribute('data-eintrag-alle-angaben'));
@@ -60130,7 +60411,8 @@ function renderSektor(sektorOrId) {
   // Sonderfall Vorsorge (U2-ADR-071-Nachtrag): dort ersetzt das REGAL die generische TOC — jede Regal-
   // Karte ist selbst Sprungmarke auf ihren Abschnitt. Die übrigen TOC-Sektoren (meine-menschen, verwaltung)
   // behalten die generische TOC.
-  const _sektionenAngeboten = s.sektionen.filter((sek) => !sektionNichtAngeboten(sek, sektorDaten));   // RUHENDE FELDER
+  const _sektionenAngeboten = s.sektionen.filter((sek) => !sektionNichtAngeboten(sek, sektorDaten)
+    && !(_BEREICH_IDS_ERSETZT.includes(sektorId) && !(sek.felder || []).some((f) => _feldImRuhendenBereichAngeboten(sektorId, f, sektorDaten))));   // RUHENDE FELDER, VORLAGEN ERGÄNZEN
   if (!bereichKann(sektorId, 'vorsorgeRegal') && (_sektionenAngeboten.length + tplAbschnitte.length >= 3)) {
     html += '<nav class="toc" aria-label="' + escapeAttr(STRINGS.tocTitel) + '">' +
       '<div class="toc-titel">' + STRINGS.tocTitel + '</div>' +
@@ -60154,7 +60436,7 @@ function renderSektor(sektorOrId) {
   for (const sek of _sektionenAngeboten) {
     // Conditional fields per sichtbarWenn-Hook ausblenden (z. B. KI-Verfügung Fragen 2–4
     // nur, wenn Grundsatz = ja). Filter wirkt vor der Kern-/Modul-Trennung.
-    const sichtbareFelder = (sek.felder || []).filter(f => feldSichtbar(f, sektorDaten));
+    const sichtbareFelder = (sek.felder || []).filter(f => feldSichtbar(f, sektorDaten) && _feldImRuhendenBereichAngeboten(sektorId, f, sektorDaten));
     const _dbFoto = s.deckblatt && s.deckblatt.fotoFeld;   // Foto-Feld oben als Deckblatt, nicht als Zeile
     const kernFelder  = sichtbareFelder.filter(f => (f.ebene || 'kern') === 'kern' && f.id !== _dbFoto);
     const modulFelder = sichtbareFelder.filter(f => f.ebene === 'modul');
@@ -61520,7 +61802,7 @@ function flowSituationPdf(sitOrId) {
   if (typeof window === 'undefined' || !window.jspdf || !window.jspdf.jsPDF) return;   // Headless/Test
   // Befund 2 (s. Kommentar bei flowNotfallkartePdf) — skaliert auf genau die Bereichs-Cross-Refs,
   // die dieses Situationsblatt tatsächlich zieht (_situationUnstimmigePaare).
-  mitVereinbarung('situation-pdf', () => _unstimmigWarnenMitFundenDannFortfahren(_unstimmigeFelderAusPaaren(_situationUnstimmigePaare(sitOrId)), () => {   // MyTerms Teil D
+  mitVereinbarung('situation-pdf', (vb) => _unstimmigWarnenMitFundenDannFortfahren(_unstimmigeFelderAusPaaren(_situationUnstimmigePaare(sitOrId)), () => {   // MyTerms Teil D
     const meta = situationPdfMeta(sitOrId);
     const doc = new window.jspdf.jsPDF({ unit: 'pt', format: blattformat() });
     doc.setProperties({ title: String(meta.anlass || _markeName()) });   // Dokumenttitel (18.09.2026)
@@ -61533,7 +61815,8 @@ function flowSituationPdf(sitOrId) {
     vereinbarungPdfAnhang(doc);   // MyTerms Teil C: die Bedingung reist mit
     _pdfSchriftDeckungPruefenUndFortfahren(doc, () => {
       const safe = (String(modell.titel || 'Anlass').replace(/[^\p{L}\p{N}_-]+/gu, '-').replace(/^-+|-+$/g, '')) || 'Anlass';
-      dateiAusgeben(pdfBlobGeprueft(doc), _dateiNamePraefix() + '_' + safe + '_' + meta.datum.replace(/\./g, '') + '.pdf', 'application/pdf');
+      dateiAusgeben(pdfBlobGeprueft(doc), _dateiNamePraefix() + '_' + safe + '_' + meta.datum.replace(/\./g, '') + '.pdf', 'application/pdf')
+        .then((weg) => _nachWeitergabeNachfragen('situation-pdf', weg, vb, { umfang: modell.titel }));   // Herausgegeben (25.10.2026)
     });
   }));
 }
@@ -62881,7 +63164,7 @@ function flowBereichPdf(sektorId, optionen) {
   if (typeof window === 'undefined' || !window.jspdf || !window.jspdf.jsPDF) {
     if (ui && ui.toast) ui.toast(STRINGS.exportGesamtPdfFehlt, 'info'); return;
   }
-  const bauen = (opt) => mitVereinbarung('bereich-pdf:' + sektorId, () => {   // MyTerms Teil D
+  const bauen = (opt) => mitVereinbarung('bereich-pdf:' + sektorId, (vb) => {   // MyTerms Teil D
     const modell = bereichVollModell(sektorId, opt);
     if (!modell) return;
     const meta = vollDepotPdfMeta();    // gleiche Provenienz/Sub-Fuß-Logik wie das Gesamt-PDF
@@ -62900,6 +63183,7 @@ function flowBereichPdf(sektorId, optionen) {
       const safe = (String(modell.titel || 'Bereich').replace(/[^\p{L}\p{N}_-]+/gu, '-').replace(/^-+|-+$/g, '')) || 'Bereich';
       dateiAusgeben(pdfBlobGeprueft(doc), _dateiNamePraefix() + '_' + safe + '_' + meta.datum.replace(/\./g, '') + '.pdf', 'application/pdf').then((weg) => {
         if (weg !== 'abgebrochen' && weg !== 'vorschau' && ui && ui.toast) ui.toast(_bereichPdfToastText(modell), 'ok');
+        _nachWeitergabeNachfragen('bereich-pdf:' + sektorId, weg, vb, { umfang: modell.titel });   // Herausgegeben (25.10.2026)
       });
     });
   });
@@ -63131,7 +63415,8 @@ function flowEudiwUebergabe(sektorId) {
 async function _eudiwAusgeben(sektorId, optionen) {
   const def = eudiwDefFuerSektor(sektorId);
   if (!def) return;
-  if ((await vereinbarungFreigabeHolen('eudiw')) === false) return;   // MyTerms Teil D
+  const ausgabeWeg = 'eudiw', vb = await vereinbarungFreigabeHolen(ausgabeWeg);   // MyTerms Teil D; derselbe Weg für „Herausgegeben“
+  if (vb === false) return;
   let vc;
   try { vc = def.baue(optionen || {}); } catch (e) { vc = null; }
   if (!vc || !vc.claims || !Object.keys(vc.claims).length) {
@@ -63144,6 +63429,9 @@ async function _eudiwAusgeben(sektorId, optionen) {
   // QR-Teile (mehrteilig, vorhandene Logik). Das Zeichnen ist auf window.qrcode gegatet.
   const teile = qrTeilePacken(res.serialisierung);
   const hatLib = (typeof window !== 'undefined' && typeof window.qrcode === 'function');
+  // Herausgegeben (25.10.2026): der QR im Fenster ist schon eine Weitergabe, eine Datei aus den Knöpfen auch. Gefragt wird
+  // EINMAL beim Schließen — nicht nach jeder Datei, sonst deckte die Nachfrage das Fenster mit dem QR zu.
+  let hinaus = null;
   let qrHTML = '';
   if (hatLib) {
     let bilder = '';
@@ -63157,6 +63445,7 @@ async function _eudiwAusgeben(sektorId, optionen) {
     }
     qrHTML = '<p class="einst-hint">' + escapeHTML(STRINGS.eudiwQrHinweis) + '</p>' +
       '<div class="qr-teile">' + bilder + '</div>';
+    hinaus = 'gezeigt';
   } else {
     qrHTML = '<p class="einst-hint">' + escapeHTML(STRINGS.eudiwQrFehlt) + '</p>';
   }
@@ -63178,7 +63467,8 @@ async function _eudiwAusgeben(sektorId, optionen) {
   ui.modal({
     titel: STRINGS.eudiwTitel + ' — ' + def.label,
     koerperHTML: koerper,
-    primaerLabel: STRINGS.btnSchliessen, onPrimaer: (s) => s(), ohneAbbrechen: true,
+    primaerLabel: STRINGS.btnSchliessen, ohneAbbrechen: true,
+    onPrimaer: (s) => { s(); _nachWeitergabeNachfragen(ausgabeWeg, hinaus, vb, { umfang: def.label }); },
   });
 
   // Download-Knöpfe verdrahten (im headless Harness no-op). Datei = reine SD-JWT-VC-
@@ -63192,7 +63482,7 @@ async function _eudiwAusgeben(sektorId, optionen) {
       const blob = new Blob([res.serialisierung], { type: mime });
       // „White Label bis ins PDF" (10.09.2026): derselbe Präfix-Tausch wie in exportDateiname().
       dateiAusgeben(blob, _eudiwDateiname(def.dateibasis.replace(/^Vivodepot_/, () => _dateiNamePraefix() + '_') + '_EUDIW', res.signiert ? 'sd-jwt' : 'jwt'), mime).then((weg) => {
-        if (weg !== 'abgebrochen' && weg !== 'vorschau' && ui && ui.toast) ui.toast(STRINGS.eudiwDateiFertig, 'ok');
+        if (weg !== 'abgebrochen' && weg !== 'vorschau') { hinaus = weg; if (ui && ui.toast) ui.toast(STRINGS.eudiwDateiFertig, 'ok'); }
       });
     };
     const bWrap = box.querySelector('[data-eudiw-wrapper]');
@@ -63200,7 +63490,7 @@ async function _eudiwAusgeben(sektorId, optionen) {
       const wrapper = eudiwOid4vpWrapper(res.serialisierung, res.jwtPayload.vct);
       const blob = new Blob([JSON.stringify(wrapper, null, 2)], { type: 'application/json' });
       dateiAusgeben(blob, _eudiwDateiname(def.dateibasis.replace(/^Vivodepot_/, () => _dateiNamePraefix() + '_') + '_EUDIW_Abruf', 'json'), 'application/json').then((weg) => {
-        if (weg !== 'abgebrochen' && weg !== 'vorschau' && ui && ui.toast) ui.toast(STRINGS.eudiwWrapperFertig, 'ok');
+        if (weg !== 'abgebrochen' && weg !== 'vorschau') { hinaus = weg; if (ui && ui.toast) ui.toast(STRINGS.eudiwWrapperFertig, 'ok'); }
       });
     };
   }
@@ -64777,7 +65067,8 @@ function anfrageEndeModell(eintrag, dateiname, ds) {
     absichern: !(typeof whcHuelleVorhanden === 'function' && whcHuelleVorhanden()),
   };
 }
-function anfrageEndeZeigen(eintrag, dateiname, ds) {
+// `danach` (optional): läuft, wenn die Person mit „Fertig“ schließt — dort fragt die Antwort nach „Herausgegeben“.
+function anfrageEndeZeigen(eintrag, dateiname, ds, danach) {
   const m = anfrageEndeModell(eintrag, dateiname, ds);
   if (!ui || !ui.modal) { if (ui && ui.toast) ui.toast(m.titel, 'ok'); return; }
   const absichern = (schliessen) => {
@@ -64791,7 +65082,7 @@ function anfrageEndeZeigen(eintrag, dateiname, ds) {
       + '<p id="anfrage-ende-schicken">' + escapeHTML(m.schicken) + '</p>'
       + (m.depot ? '<p id="anfrage-ende-depot">' + escapeHTML(m.depot) + '</p>' : ''),
     primaerLabel: STRINGS.anfrageEndeFertig,
-    onPrimaer: (schliessen) => schliessen(),
+    onPrimaer: (schliessen) => { schliessen(); if (typeof danach === 'function') danach(); },
     zweitAktion: m.absichern ? { label: STRINGS.anfrageEndeAbsichern, handler: absichern } : undefined,
     ohneAbbrechen: true,
   });
@@ -65066,10 +65357,13 @@ function _anfrageAntwortSchreiben(eintrag, ds, opt) {
     const blob = (typeof Blob === 'function') ? new Blob([jwe], { type: 'application/jose' }) : null;
     if (!blob || typeof dateiAusgeben !== 'function') return;
     const name = _dateiNamePraefix() + '_Antwort_' + String(eintrag.anfrage.vorgang || 'Vorgang').replace(/[^\p{L}\p{N}_-]+/gu, '-') + '.jwe';
+    // Herausgegeben (25.10.2026): wer gefragt hat und wofür, kennt die Anfrage — vorbelegt, änderbar.
+    const vorbelegung = { empfaenger: eintrag.von, umfang: eintrag.anfrage.zweck || eintrag.anfrage.vorgang };
     const herunterladen = () => dateiAusgeben(blob, name, 'application/jose').then((weg) => {
       if (weg !== 'abgebrochen' && weg !== 'vorschau') {
         anfrageBeantwortetVermerken(eintrag.anfrage.vorgang, eintrag.anbieterId);
-        anfrageEndeZeigen(eintrag, name, ds);   // Studio W3: ein Bildschirm, der stehen bleibt, statt eines Toasts
+        anfrageEndeZeigen(eintrag, name, ds,   // Studio W3: ein Bildschirm, der stehen bleibt, statt eines Toasts
+          () => _nachWeitergabeNachfragen('anfrage-antwort', weg, vb, vorbelegung));   // Herausgegeben (25.10.2026), erst nach „Fertig“
       }
     });
     /* L1b: die Wahl „Herunterladen“ oder „Link senden“. Den Link gibt es nur für eine signierte Antwort (K1); beantwortet ist die
@@ -65078,6 +65372,7 @@ function _anfrageAntwortSchreiben(eintrag, ds, opt) {
     _ausgabeWegWaehlen(STRINGS.anfrageAntwortenCta, name, herunterladen,
       () => flowLinkSenden((o) => antwortLinkTeile(jwe, o), eintrag.anfrage.zweck || eintrag.anfrage.vorgang || '', {
         linkGebaut: () => anfrageBeantwortetVermerken(eintrag.anfrage.vorgang, eintrag.anbieterId),
+        nachfrage: { weg: 'anfrage-antwort', vorbelegung },
       }));
   })).catch((e) => {
     if (ui && ui.toast) ui.toast(STRINGS.antwortFehlgeschlagen, 'warn');
@@ -65309,18 +65604,21 @@ function flowZusammenstellungHerausgeben(kennungenOpt, nameOpt) {
   flowExportUebersicht({
     kennungen,
     titel: name,
-    aufFortfahren: (o) => mitVereinbarung('zusammenstellung', () => {   // MyTerms Teil D
+    aufFortfahren: (o) => mitVereinbarung('zusammenstellung', (vb) => {   // MyTerms Teil D
       const ds = zusammenstellungDatensatz(kennungen, { id: 'zusammenstellung', titel: name }, o);
       const dateiBasis = _dateiNamePraefix() + '_Zusammenstellung';
       const blob = (typeof Blob === 'function') ? new Blob([JSON.stringify(ds, null, 2)], { type: 'application/json' }) : null;
+      let jsonFertig = Promise.resolve(null);
       if (blob && typeof dateiAusgeben === 'function') {
-        dateiAusgeben(blob, dateiBasis + '.json', 'application/json').then((weg) => {
+        jsonFertig = dateiAusgeben(blob, dateiBasis + '.json', 'application/json').then((weg) => {
           if (weg !== 'abgebrochen' && weg !== 'vorschau' && ui && ui.toast) ui.toast(STRINGS.anlassAusgabeFertig, 'ok');
+          return weg;
         });
       }
       // Auftrag 14.09.2026 (Herausgabe-Vollständigkeit): dieselbe Regel wie beim Anlass-Export —
       // jede Herausgabe bekommt AUCH ein PDF, aus demselben Datensatz.
-      anlassPdfAusgeben(ds, dateiBasis);
+      const pdfFertig = anlassPdfAusgeben(ds, dateiBasis);
+      _nachAuszugNachfragen('zusammenstellung', [jsonFertig, pdfFertig], vb, { umfang: name });   // Herausgegeben (25.10.2026)
       return ds;
     }),
   });
@@ -66392,7 +66690,7 @@ function _zeilenPfeileHTML(index, laenge) {
 
 // Input-Renderer pro Feldtyp — wird im Edit-Modus gerendert. `roh` ist der aktuelle Wert. Liefert
 // nur das Input-Element-HTML; das umgebende .feld-zeile/.feld-wert kommt aus dem Sektion-Renderer.
-function feldInputHTML(feld, roh, traeger, sektorId) {
+function feldInputHTML(feld, roh, traeger, sektorId, zeile) {
   const fid = feld.id;
   // 16.09.2026: roh — maskiert wird an jeder Senke über escapeAttr (vorher hier nur das ", dort nichts).
   const v = (roh != null && typeof roh !== 'object') ? String(roh) : '';
@@ -66474,12 +66772,21 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
     case 'auswahl': {
       const optionen = Array.isArray(feld.optionen) ? feld.optionen : [];
       let h = '<select data-edit="' + escapeAttr(fid) + '" data-typ="auswahl"' + al + '><option value="">' + escapeHTML(STRINGS.subGrundlageLeer) + '</option>';
+      let nichtVorgesehenGewaehlt = false;
       for (const o of optionen) {
         const sel = (o.wert === roh) ? ' selected' : '';
+        // Option je Zeile (18.10.2026, Formen des Testaments): eine Option mit eigenem `sichtbarWenn` erscheint nur, wo sie gilt.
+        // Ist sie schon gespeichert, bleibt sie stehen und sagt, dass sie hier nicht vorgesehen ist — nie still fort.
+        const sichtbar = optionSichtbar(o, zeile || (sektorId && data && data.sektoren ? data.sektoren[sektorId] : null));
+        if (!sichtbar && !sel) continue;
+        if (!sichtbar) nichtVorgesehenGewaehlt = true;
         h += '<option value="' + escapeAttr(o.wert) + '"' + sel + '>' +
-          escapeHTML(String(o.label)) + '</option>';
+          escapeHTML(String(o.label) + (sichtbar ? '' : ' — ' + STRINGS.optionHierNichtVorgesehen)) + '</option>';
       }
-      return h + '</select>';
+      h += '</select>';
+      // 26.10.2026: das Unterfeld kann einen eigenen Hinweis nennen (`hinweisNichtVorgesehen`, ein STRINGS-Text), der sagt, worauf es ankommt.
+      const hinweisText = (nichtVorgesehenGewaehlt && typeof feld.hinweisNichtVorgesehen === 'string') ? STRINGS[feld.hinweisNichtVorgesehen] : '';
+      return hinweisText ? h + '<p class="hinweis-box">' + escapeHTML(String(hinweisText)) + '</p>' : h;
     }
     case 'mehrfachauswahl': {
       // Screenshot-Review Befund C (27.08.2026): Checkbox-Zeilen ersetzt durch antippbare
@@ -66584,7 +66891,7 @@ function feldInputHTML(feld, roh, traeger, sektorId) {
       // Hinzufügen (Produktentscheidung 07.10.2026): bei leerer Liste stehen die Eingaben des ersten Eintrags direkt im Bereich, hinterlegt
       // wie jedes Feld; ab einem Eintrag darunter „Weitere(s) … hinzufügen“. Einträge mit mehr als LISTE_INLINE_HOECHSTENS Teilen zeigen nur
       // den benennenden Teil und leise „Alle Angaben“. Nur, wo der Bereich bekannt ist (die Verdrahtung schreibt in ihn); sonst der Dialog.
-      if (!liste.length && sektorId) return h + _listeInlineHTML(feld) + '</div>';
+      if (!liste.length && sektorId) return h + listenVorschlaegeHTML(sektorId, feld) + _listeInlineHTML(feld) + '</div>';
       h += '<ul class="liste-eintraege">';
       for (let i = 0; i < liste.length; i++) {
         const zusammen = listenEintragZusammenfassung(feld, liste[i]);
@@ -66696,6 +67003,50 @@ function _eintragNamensraum(html) {
     .replace(/(\s)data-(edit(?:-ref|-override|-multi)?)="/g, (m, ws, art) => ws + 'data-eintrag-' + art + '="')
     .replace(/(\s)(id|list)="(vs|cl)-/g, (m, ws, attr, art) => ws + attr + '="' + art + '-eintrag-');
 }
+/* VORSCHLÄGE AB WERK (Pro E14, 25.10.2026): eine Liste mit `vorschlaegeAbWerk: n` bringt n vorgeschlagene Einträge mit, je Unterfeld
+   als Text der Art `vorschlag` (`<bereich>.<feld>/<unterfeld>.vorschlag`, eine Zeile je Vorschlag). Solange die Liste leer ist, stehen
+   sie als Vorschlag über dem ersten Eintrag, mit „Vorgeschlagene Schritte übernehmen“. Übernommen wird nur auf Klick und nur in eine
+   leere Liste: nichts überschreibt einen Eintrag, nichts entsteht ohne Zutun der Person. Gespeichert wird erst beim Übernehmen, darum
+   braucht eine ältere Datei keine Migration. Passt die Zahl der Zeilen eines Unterfelds nicht zu n, gibt es keinen Vorschlag.
+   Ein Bereich aus einer fremden Datei verliert die Eigenschaft beim Einlass. Wächter: die Pro-Probe zu den Vorschlägen ab Werk. */
+function listenVorschlaegeAbWerk(sektorId, feld) {
+  const n = feld && feld.vorschlaegeAbWerk;
+  if (!sektorId || !Number.isInteger(n) || n < 1 || !Array.isArray(feld.unterFelder)) return [];
+  const spalten = [];
+  for (const uf of feld.unterFelder) {
+    let t = null;
+    try { t = textLesen(sektorId + '.' + feld.id + '/' + uf.id + '.' + TEXTSATZ_ARTEN_NUR_GELESEN[1]); } catch (_) { t = null; }   // die Art vorschlag
+    if (typeof t !== 'string' || !t.trim()) continue;
+    const zeilen = t.split('\n');
+    if (zeilen.length !== n) return [];
+    spalten.push({ id: uf.id, zeilen });
+  }
+  if (!spalten.length) return [];
+  const raus = [];
+  for (let i = 0; i < n; i++) {
+    const e = {};
+    for (const sp of spalten) if (sp.zeilen[i].trim()) e[sp.id] = sp.zeilen[i].trim();
+    raus.push(e);
+  }
+  return raus;
+}
+function listenVorschlaegeHTML(sektorId, feld) {
+  const vorschlaege = listenVorschlaegeAbWerk(sektorId, feld);
+  if (!vorschlaege.length) return '';
+  let h = '<div class="hinweis-box liste-vorschlaege" data-liste-vorschlaege="' + escapeAttr(feld.id) + '"><p>' + escapeHTML(STRINGS.listeVorschlaegeHinweis) + '</p><ol>';
+  for (const e of vorschlaege) h += '<li>' + escapeHTML(listenEintragZusammenfassung(feld, e)) + '</li>';
+  return h + '</ol><button type="button" class="btn btn-sek" data-liste-vorschlaege-uebernehmen="' + escapeAttr(feld.id) + '">'
+    + escapeHTML(STRINGS.listeVorschlaegeUebernehmen) + '</button></div>';
+}
+/* Übernimmt die Vorschläge als Einträge, aber nur in eine leere Liste. Gibt die Zahl der angelegten Einträge zurück. */
+function listenVorschlaegeUebernehmen(sektorId, feld) {
+  const sd = data && data.sektoren && data.sektoren[sektorId];
+  const roh = sd ? sd[feld.id] : undefined;
+  if (Array.isArray(roh) && roh.length) return 0;
+  const vorschlaege = listenVorschlaegeAbWerk(sektorId, feld);
+  for (const e of vorschlaege) listenEintragHinzufuegen(sektorId, feld.id, e);
+  return vorschlaege.length;
+}
 function _listeInlineHTML(feld) {
   const teil = _listeInlineFeld(feld);
   let h = '<div class="liste-inline" data-liste-inline="' + escapeAttr(feld.id) + '">' + _eintragNamensraum(listenEintragInputsHTML(teil, {}));
@@ -66749,7 +67100,7 @@ function listenEintragInputsHTML(feld, eintrag) {
     const ufHinweis = uf.hint ? feldHinweisHTML(uf.hint) : null;
     h += '<div class="feld-wert">' + (uf.nurAnzeige === true
       ? feldWertHTML(uf, eintrag ? eintrag[uf.id] : undefined)
-      : _eingabenBeschreiben(feldInputHTML(uf, eintrag ? eintrag[uf.id] : undefined, feld.id), ufHinweis && ufHinweis.id)) + '</div>';
+      : _eingabenBeschreiben(feldInputHTML(uf, eintrag ? eintrag[uf.id] : undefined, feld.id, undefined, eintrag), ufHinweis && ufHinweis.id)) + '</div>';
     if (ufHinweis) h += ufHinweis.html;
     h += '</div>';
   }
@@ -66809,6 +67160,13 @@ function sektionNichtAngeboten(sek, sektorDaten) {
   return felder.length > 0 && felder.every((f) => feldNichtAngeboten(f) && !feldEingetragen(f, sektorDaten ? sektorDaten[f.id] : undefined));
 }
 
+/* Option je Zeile (18.10.2026): eine Auswahl-Option darf ein `sichtbarWenn` tragen, in derselben Form wie ein Feld; ausgewertet wird
+   gegen die Zeile (Listen-Unterfelder) bzw. die Sektor-Daten. Ohne `sichtbarWenn` ist jede Option sichtbar. Gerüst-Mechanismus:
+   welche Option wo gilt, steht im Template. Die Probe dazu liest die Bereichs-Templates und läuft im Kanon. */
+function optionSichtbar(o, daten) {
+  if (!o || typeof o !== 'object' || !o.sichtbarWenn) return true;
+  return feldSichtbar({ sichtbarWenn: o.sichtbarWenn }, daten || {});
+}
 function feldSichtbar(feld, sektorDaten) {
   if (!feld) return true;
   if (feldNurMitWertUndLeer(feld, sektorDaten ? sektorDaten[feld.id] : undefined)) return false;
@@ -66922,6 +67280,12 @@ function feldZeileHTML(feld, roh, sektorId, darf, schreibwegVerdrahtet) {
   }
   const _hinweis = feld.hint ? feldHinweisHTML(feld.hint) : null;
   if (_hinweis) _hinweisIds.push(_hinweis.id);
+  /* Pro E4 (25.10.2026): die Vorschrift hinter dem Feld, als Text unter dem Hinweis und in aria-describedby. `vorschrift` setzt
+     nur das Einbau-Werkzeug aus einer Positivliste unabhängig geprüfter Paare; die interne `quelle` erscheint nie. Ein Bereich
+     aus einer fremden Datei verliert die Eigenschaft beim Einlass. Die Norm bleibt deutsch. Wächter: die Pro-Probe zur Vorschrift am Feld. */
+  const _vorschrift = (typeof feld.vorschrift === 'string' && feld.vorschrift.trim() && typeof STRINGS.feldVorschrift === 'string')
+    ? feldHinweisHTML(STRINGS.feldVorschrift.replace('{norm}', feld.vorschrift.trim()), { klasse: 'feld-vorschrift' }) : null;
+  if (_vorschrift) _hinweisIds.push(_vorschrift.id);
   // Fall 1 (Entscheidung 24.08.2026, Neugestaltung „Gültigkeit hinterlegen"): an einem
   // `laeuftAb`-Feld VERSCHMILZT die „gilt ab"-Eingabe MIT dem Feld — eine zusammengehörige
   // Eingabe im selben `.feld-wert`, keine zwei getrennten Widgets. Überall sonst (Fall 2/3/4)
@@ -66956,6 +67320,7 @@ function feldZeileHTML(feld, roh, sektorId, darf, schreibwegVerdrahtet) {
   h += '</div>';
   // UX-Spec V „weiche Einladungen": Feld-Hint direkt unter dem Feld.
   if (_hinweis) h += _hinweis.html;
+  if (_vorschrift) h += _vorschrift.html;
   // U2-ADR-005: Urheberschafts-Beleg (Provenienz) immer dezent unter dem Feldwert.
   if (sektorId) h += urheberschaftZeileHTML(sektorId, feld.id);
   // U2-ADR-456, Nachtrag 07.10.2026 (Entscheidung „keine technischen Markierungen in der Benutzersicht“): der FIM-Bezug steht

@@ -206,13 +206,21 @@ test.describe('Fläche statt Linien', () => {
     expect(Math.min(...(await feldgrenzen(page)).map((x) => x.k)), 'eine blasse Unterkante fällt unter 3:1').toBeLessThan(3);
   });
 
-  /* Fußleiste: das Feld, dessen Linie unter der festen Fußleiste liegt, wird gescrollt gemessen, nicht an der Fußleiste. */
+  /* Fußleiste: das Feld, dessen Linie unter der festen Fußleiste liegt, wird gescrollt gemessen, nicht an der Fußleiste.
+     Die Unterkante kommt knapp unter die Oberkante der Leiste (höchstens 1 px; gescrollt wird in ganzen Pixeln): 2 px darüber
+     steht noch das Feld (so nahm es der alte Filter als messbar), die Linie selbst liegt in der Leiste. Gescrollt wird der Bereich, der wirklich scrollt (#content), nicht das
+     Fenster, das hier nicht scrollt; vorher stand das Feld nur zufällig an dieser Stelle, und die Vorschrift unter den Feldern
+     (Posten E4) schob es aus dem Bild. Ein Hinweis (`.toast`), der unten über dem Feld liegt, kommt vor der Messung weg: er ist
+     keine Feldlinie, und ob er gerade steht, hängt an der Zeit (26.10.2026 gemessen: die Sicherungs-Erinnerung lag über dem Feld). */
   const unterDieFussleiste = (page, kennung) => page.evaluate((k) => {
+    document.querySelectorAll('.toast').forEach((t) => t.remove());
     const el = document.querySelector('#content [data-edit="' + k + '"]');
     let leiste = document.elementFromPoint(innerWidth / 2, innerHeight - 3);
     for (let e = leiste; e; e = e.parentElement) if (getComputedStyle(e).position === 'fixed') leiste = e;
     const oben = leiste.getBoundingClientRect().top;
-    window.scrollBy({ top: el.getBoundingClientRect().bottom - (oben + 4), behavior: 'instant' });
+    let roller = null;
+    for (let e = el.parentElement; e && !roller; e = e.parentElement) if (e.scrollHeight > e.clientHeight && /(auto|scroll)/.test(getComputedStyle(e).overflowY)) roller = e;
+    (roller || document.scrollingElement).scrollTop += Math.ceil(el.getBoundingClientRect().bottom - oben) - 1;
     return { leisteOben: oben, unterkante: el.getBoundingClientRect().bottom, inhalt: !!leiste.closest('#content') };
   }, kennung);
   const FUSSFELD = 'tpl_vertretungsregelung';

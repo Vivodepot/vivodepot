@@ -308,6 +308,9 @@ const EXPORT_HOOK = `
   kindDateiOrtVorschlag: (typeof kindDateiOrtVorschlag === 'function' ? kindDateiOrtVorschlag : undefined),
   prueftermineKindDateien: (typeof prueftermineKindDateien === 'function' ? prueftermineKindDateien : undefined),
   flowKindDateiEinrichten: (typeof flowKindDateiEinrichten === 'function' ? flowKindDateiEinrichten : undefined),
+  listenVorschlaegeAbWerk: (typeof listenVorschlaegeAbWerk !== 'undefined' ? listenVorschlaegeAbWerk : undefined),   // Pro E14 (25.10.2026)
+  listenVorschlaegeUebernehmen: (typeof listenVorschlaegeUebernehmen !== 'undefined' ? listenVorschlaegeUebernehmen : undefined),
+  listenVorschlaegeHTML: (typeof listenVorschlaegeHTML !== 'undefined' ? listenVorschlaegeHTML : undefined),
   KIND_DATEI_ORTE: (typeof KIND_DATEI_ORTE !== 'undefined' ? KIND_DATEI_ORTE : undefined),
   _kindDateiSitzungsZiele: (typeof _kindDateiSitzungsZiele !== 'undefined' ? _kindDateiSitzungsZiele : undefined),
   VOLLIMPORT_MITNEHMEN_SCHLUESSEL: (typeof VOLLIMPORT_MITNEHMEN_SCHLUESSEL !== 'undefined' ? VOLLIMPORT_MITNEHMEN_SCHLUESSEL : undefined),
@@ -334,12 +337,19 @@ const EXPORT_HOOK = `
   // NOTFALLKARTE-VOLLMACHTART (17.10.2026): typeof, weil ältere Kerne (opts.htmlPfad) sie nicht tragen.
   formatVertreterAufloesen: (typeof formatVertreterAufloesen === 'function' ? formatVertreterAufloesen : undefined),
   vollmachtFuerBehandlung: (typeof vollmachtFuerBehandlung === 'function' ? vollmachtFuerBehandlung : undefined),
+  // Option je Zeile (18.10.2026): typeof, weil ältere Kerne (opts.htmlPfad) den fünften Parameter nicht kennen.
+  feldInputHTML: (typeof feldInputHTML === 'function' ? feldInputHTML : undefined),
+  optionSichtbar: (typeof optionSichtbar === 'function' ? optionSichtbar : undefined),
   oeffnenAbweisungText: (typeof oeffnenAbweisungText === 'function' ? oeffnenAbweisungText : undefined),   // Klassenwächter: jede Abweisung beim Öffnen nennt ihren echten Grund (seit v929; ältere Kerne kennen sie nicht)
   subDepotVersiegeln, subDepotEntsiegeln, subDepotAnlegen, flowKindSubDepotAnlegen,
   subDepotVertrauenOeffnen, subDepotVertrauenSchliessen,
   subDepotBlackboxExportieren, blackboxDateiAusUmschlag,
   subDepotAushaengen, subDepotReaktivieren, verwaltungAktiv,
   uebergabeProtokollEintragen, uebergabeProtokollLoeschen,
+  // Herausgegeben auf allen Wegen (25.10.2026): die gemeinsame Nachfrage nach einer Weitergabe. typeof-abgesichert (ältere Kerne).
+  uebergabeProtokollNachExportErfassen: (typeof uebergabeProtokollNachExportErfassen === 'function' ? uebergabeProtokollNachExportErfassen : undefined),
+  _nachWeitergabeNachfragen: (typeof _nachWeitergabeNachfragen === 'function' ? _nachWeitergabeNachfragen : undefined),
+  _nachAuszugNachfragen: (typeof _nachAuszugNachfragen === 'function' ? _nachAuszugNachfragen : undefined),
   // Schema 82 (MyTerms v1-Schnitt): Bedingung und Annahme am Übergabe-Eintrag
   uebergabeBedingungNormalisieren: (typeof uebergabeBedingungNormalisieren !== 'undefined' ? uebergabeBedingungNormalisieren : undefined),
   uebergabeAnnahmeNormalisieren: (typeof uebergabeAnnahmeNormalisieren !== 'undefined' ? uebergabeAnnahmeNormalisieren : undefined),
@@ -770,6 +780,8 @@ const EXPORT_HOOK = `
   // Erbschein-Vorbereitungsauszug (Auftrag 27.08.2026) — Zug 1
   ERBSCHEIN_MODUL: (typeof ERBSCHEIN_MODUL !== 'undefined' ? ERBSCHEIN_MODUL : undefined),
   _erbscheinSektorDaten: (typeof _erbscheinSektorDaten !== 'undefined' ? _erbscheinSektorDaten : undefined),
+  // Vorlagen ergänzen (26.10.2026): „ergänzen“ an der Karte einer Vorlage, deren Bereich das Produkt ersetzt; typeof-Wächter für historische Kerne
+  vorlageAngabenErgaenzen: (typeof vorlageAngabenErgaenzen === 'function' ? vorlageAngabenErgaenzen : undefined),
   erbscheinAuszugSektionHTML: (typeof erbscheinAuszugSektionHTML !== 'undefined' ? erbscheinAuszugSektionHTML : undefined),
   erbscheinAuszugXML: (typeof erbscheinAuszugXML !== 'undefined' ? erbscheinAuszugXML : undefined),
   flowErbscheinXmlSichern: (typeof flowErbscheinXmlSichern !== 'undefined' ? flowErbscheinXmlSichern : undefined),

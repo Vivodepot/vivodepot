@@ -408,6 +408,14 @@
             },
             {
               "quelle": "advanceCare",
+              "feld": "instrument:contract-of-inheritance"
+            },
+            {
+              "quelle": "advanceCare",
+              "feld": "liste:provisionInstruments:contract-of-inheritance:storageLocation"
+            },
+            {
+              "quelle": "advanceCare",
               "feld": "heirsBriefOverview"
             },
             {
@@ -569,6 +577,7 @@
       ],
       "dokumenttypen": [
         "will",
+        "contract-of-inheritance",
         "enduring-power-of-attorney"
       ],
       "dokumenttypenVorschlag": true

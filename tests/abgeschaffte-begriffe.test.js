@@ -35,12 +35,32 @@ function treffer(text, schluessel, englisch = true) {
 // Rechtsraums: dort sind Eigennamen wie „Lasting Power of Attorney“ (England und Wales) richtig.
 const TEXTSATZ_QUELLEN = ['textsatz-de-modul.json', 'textsatz-en-modul.json'];
 const IPS_QUELLE = 'ips-begleittext-modul.json';
+// Dazu die Ab-Werk-Vorlage für Angehörige (EN) und die englischen Instrumentnamen in Studio (BLATT_INSTRUMENTE), seit 25.10.2026.
+const ANGEHOERIGE_EN = path.join('angehoerigen-vorlagen', 'vivodepot-angehoerigen-en.json');
+const STUDIO = path.join(REPO, 'vivodepot-studio.html');
 // Ein Modul gehört einem anderen Rechtsraum, wenn es selbst einen Rechtsraum außer DE nennt (oberste Ebene oder Kopf).
 function fremderRechtsraum(modul) {
   const r = modul && (modul.rechtsraum || (modul.kopf && modul.kopf.rechtsraum));
   return typeof r === 'string' && !/^DE\b/.test(r);
 }
 const textsatz = (datei) => JSON.parse(fs.readFileSync(path.join(REPO, 'tools', datei), 'utf8')).texte;
+// Jeder Text einer Vorlage mit seinem Pfad als Schlüssel.
+function vorlagenTexte(knoten, pfad = '', raus = []) {
+  if (typeof knoten === 'string') raus.push([pfad, knoten]);
+  else if (knoten && typeof knoten === 'object') for (const [k, v] of Object.entries(knoten)) vorlagenTexte(v, pfad ? pfad + '.' + k : k, raus);
+  return raus;
+}
+function vorlagenTreffer(vorlage) {
+  return vorlagenTexte(vorlage).filter(([k, v]) => treffer(v, 'angehoerige:' + k).length).map(([k]) => k);
+}
+// Die englischen Namen aus BLATT_INSTRUMENTE (['typ', 'Deutsch', 'English']) und die Typen, deren Name einen abgeschafften Begriff trägt.
+function studioInstrumente(html) {
+  const m = /const BLATT_INSTRUMENTE = Object\.freeze\(\[([\s\S]*?)\]\);/.exec(html);
+  return m ? [...m[1].matchAll(/\['([^']+)', '([^']+)', '([^']+)'\]/g)].map((x) => ({ typ: x[1], de: x[2], en: x[3] })) : [];
+}
+function studioTreffer(html) {
+  return studioInstrumente(html).filter((i) => treffer(i.en, 'studio:instrument.' + i.typ).length).map((i) => i.typ);
+}
 const sichtbar = (html) => html.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ');
 
 // Diskriminante des Register-Wächters: die Einträge und Ausnahmen, denen Datum, Grund, Muster oder Rot-Fälle fehlen.
@@ -77,8 +97,18 @@ test('[Abgeschafft·Rot-Beweis] jeder Rot-Fall des Registers wird erkannt, darun
     'strings:kbvPkaExportiert.text': 'Lasting power of attorney saved as a patient summary file.',
     'people.childrenAndDependants/careCourt.label': 'Care court',
     'dokument.living-will.name#zwischenstand': 'Living will (Patientenverfügung)',
+    'pro-vertretung-vollmachten.tpl_court_approval_for_business.hint': 'If a legal guardianship exists: is there an approval by the guardianship court for the business or for a Prokura? File number, date.',
   };
   for (const [k, v] of Object.entries(alt)) assert.ok(treffer(v, k).length, 'alte Fassung nicht erkannt: ' + k);
+  // die Muster vom 25.10.2026 je für sich: jeder Satz trifft genau sein Muster
+  const b = REGISTER.begriffe.find((x) => x.begriff === 'alte englische Vorsorgebegriffe');
+  for (const [muster, satz] of [['\\blegal guardianship\\b', 'A power of attorney for health care takes precedence over a legal guardianship.'],
+    ['\\bguardianship court\\b', 'Is there an approval by the guardianship court? File number, date.']]) {
+    assert.ok(b.muster.includes(muster), 'Muster fehlt: ' + muster);
+    assert.deepEqual(b.muster.filter((m) => new RegExp(m, 'i').test(satz)), [muster], 'Satz trifft nicht genau sein Muster: ' + satz);
+    assert.ok(b.rot.includes(satz), 'Rot-Satz fehlt: ' + satz);
+  }
+  assert.deepEqual(treffer('If legal guardianship is necessary despite the existence of this LPA', 'dok:vorsorgevollmacht#8/x.text'), [], 'BMJ-Wortlaut bleibt ausgenommen');
 });
 
 test('[Abgeschafft·Textsatz] kein Text im DE- und EN-Textsatz verweist auf einen abgeschafften Begriff', () => {
@@ -104,6 +134,24 @@ test('[Abgeschafft·Render] keine Render-Aufnahme zeigt einen Verweis auf einen 
   assert.deepEqual(funde, []);
 });
 
+test('[Abgeschafft·Angehörige] die englische Angehörigen-Vorlage trägt keinen abgeschafften Begriff', () => {
+  const vorlage = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', ANGEHOERIGE_EN), 'utf8'));
+  assert.ok(vorlagenTexte(vorlage).length > 50, 'die Vorlage wird gelesen');
+  assert.deepEqual(vorlagenTreffer(vorlage), []);
+  // Rot-Beweis: der Hinweis vor dem 25.10.2026
+  assert.deepEqual(vorlagenTreffer({ situationen: { krankenhausakut: { baustein: { hint: 'Blood type, allergies, conditions, medications, insurance, advance directive, your contacts.' } } } }),
+    ['situationen.krankenhausakut.baustein.hint']);
+});
+
+test('[Abgeschafft·Studio] die englischen Instrumentnamen in Studio tragen keinen abgeschafften Begriff', () => {
+  const html = fs.readFileSync(STUDIO, 'utf8');
+  assert.ok(studioInstrumente(html).length >= 4, 'BLATT_INSTRUMENTE wird gelesen');
+  assert.deepEqual(studioTreffer(html), []);
+  // Rot-Beweis: die Zeile vor dem 25.10.2026
+  const alt = "const BLATT_INSTRUMENTE = Object.freeze([\n  ['living-will', 'Patientenverfügung', 'Advance directive'], ['enduring-power-of-attorney', 'Vorsorgevollmacht', 'Power of attorney (advance care)'],\n  ['custodianship-declaration', 'Betreuungsverfügung', 'Care directive'], ['will', 'Testament', 'Will']]);";
+  assert.deepEqual(studioTreffer(alt), ['living-will']);
+});
+
 /* ── Proben-Deklaration (U2-ADR-099): je Wächter die Diskriminante, die er ruft und deren Liste er leer verlangt.
    Textsatz, IPS und Render teilen die eine Diskriminante `treffer`. Ausnahmen und Rot-Beweis sind Konstruktions-Form. */
 module.exports = {
@@ -112,12 +160,14 @@ module.exports = {
     { fuer: '[Abgeschafft·Textsatz] kein Text im DE- und EN-Textsatz verweist auf einen abgeschafften Begriff', diskriminante: treffer },
     { fuer: '[Abgeschafft·IPS] der englische IPS-Begleittext trägt keinen alten Vorsorgebegriff (Sektionstitel „Advance Directives“ ist der IPS-Name)', diskriminante: treffer },
     { fuer: '[Abgeschafft·Render] keine Render-Aufnahme zeigt einen Verweis auf einen abgeschafften Begriff', diskriminante: treffer },
+    { fuer: '[Abgeschafft·Angehörige] die englische Angehörigen-Vorlage trägt keinen abgeschafften Begriff', diskriminante: vorlagenTreffer },
+    { fuer: '[Abgeschafft·Studio] die englischen Instrumentnamen in Studio tragen keinen abgeschafften Begriff', diskriminante: studioTreffer },
   ],
 };
 
 test('[Abgeschafft·Geltung] das Register liest nur Vivodepots eigenen Wortlaut, kein Modul eines anderen Rechtsraums', () => {
   assert.match(REGISTER.geltung || '', /anderen Rechtsraums/, 'der Eintrag „geltung“ sagt es ausdrücklich');
-  for (const datei of [...TEXTSATZ_QUELLEN, IPS_QUELLE]) {
+  for (const datei of [...TEXTSATZ_QUELLEN, IPS_QUELLE, ANGEHOERIGE_EN]) {
     const m = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', datei), 'utf8'));
     assert.equal(fremderRechtsraum(m), false, datei + ' gehört keinem anderen Rechtsraum');
   }

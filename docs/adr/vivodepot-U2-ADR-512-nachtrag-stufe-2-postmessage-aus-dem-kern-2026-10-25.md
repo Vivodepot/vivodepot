@@ -7,8 +7,8 @@
 **Bezug:** U2-ADR-512 Punkt 4 (Stufe 2 bekommt eine eigene Entscheidung mit eigener Sicherheitsprüfung) · U2-ADR-047 (SHL) ·
 U2-ADR-156 1b (Ausschnitt je Empfänger) · U2-ADR-449 (Antwort als JWE)
 
-**Status heute:** gilt. Die Belege stehen im `konformitaet`-Block unten; die Strecke im Browser ist dort offen geführt, weil
-sie in der Suite übersprungen wird.
+**Status heute:** gilt. Die Belege stehen im `konformitaet`-Block unten; die Strecke im Browser ist seit 27.10.2026 belegt
+(am Runner und im pre-push; in der Suite wird sie übersprungen).
 
 ---
 
@@ -122,8 +122,12 @@ konformitaet:
       Im Browser gegen einen lokalen Community Solid Server: aus dem Kern ablegen, freigeben, abholen, zurücknehmen; nach der
       Rücknahme verweigert der Pod den Abruf ohne Anmeldung (401 oder 403, gemessen 401), und der Rumpf trägt keinen Teil des
       Chiffrats; der Kern stellt dabei keine Anfrage. In Chromium, Firefox und WebKit.
-    zustand: offen
-    frist: 2026-10-30
-    bedingung: tests/e2e-pod/pod-bruecke.spec.js grün in Chromium, Firefox und WebKit mit installiertem Server (npm run test:e2e:pod); die Strecke überspringt sich ohne VD_POD_CSS und zählt darum nicht als Beleg in der Suite
-    herkunft: U2-ADR-512-Nachtrag Stufe 2 (25.10.2026)
+    zustand: erfuellt
+    herkunft: U2-ADR-512-Nachtrag Stufe 2 (25.10.2026); geschlossen am 27.10.2026 — die Strecke lief am Kanon 21fa79220 in Chromium, Firefox und
+      WebKit grün, jede Probe in jedem Browser, mit dem gepinnten Community Solid Server. Sie läuft am
+      eigenen Runner (Chromium, WebKit) und im pre-push (Firefox) weiter; in der Suite überspringt sie sich ohne VD_POD_CSS.
+    pruefung:
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Stufe2] aus dem Kern: abgelegt nach Bestätigung, Adresse zurück, abgeholt, ohne Anmeldung nicht lesbar; Freigabe nach Rücknahme weg"
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Rücknahme] Zurücknehmen und Ablauf löschen die Ressource im Pod"
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Netz] alle Anfragen gingen nur an den lokalen Pod und die Brücke"
 ```

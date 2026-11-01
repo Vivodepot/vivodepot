@@ -256,7 +256,7 @@ test('Sektor 8 Vorsorge: Detailfelder haengen am `typ` der Instrument-Zeile (U2-
   const sw = (id) => { const f = uf(id); const b = f && f.sichtbarWenn; return b ? b.feld + ':' + (Array.isArray(b.wert) ? b.wert.join(',') : b.wert) : '—'; };
   assert.equal(sw('proposedPerson'), 'instrument:custodianship-declaration');
   assert.equal(sw('proposedPerson2'), 'instrument:guardian-nomination');
-  assert.equal(sw('statutorySuccessionOr'), 'instrument:will');
+  assert.equal(sw('statutorySuccessionOr'), 'instrument:will,contract-of-inheritance');   // Erbvertrag (25.10.2026): dieselbe Frage wie beim Testament
   assert.equal(sw('organDonation'), 'instrument:living-will');
   // Die beiden heimatlosen Flachfelder sind hier verortet (E4 / E1), nicht verloren.
   assert.equal(sw('centralRegisterOfPowersOf'), 'instrument:enduring-power-of-attorney', 'ZVR-Nummer: das einzige „letzte Tor"');

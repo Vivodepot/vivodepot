@@ -5568,6 +5568,10 @@
                                 "label": "Testament"
                               },
                               {
+                                "wert": "contract-of-inheritance",
+                                "label": "Erbvertrag"
+                              },
+                              {
                                 "wert": "custodianship-declaration",
                                 "label": "Betreuungsverfügung"
                               },
@@ -5589,12 +5593,14 @@
                           {
                             "id": "form",
                             "typ": "auswahl",
+                            "hinweisNichtVorgesehen": "formNichtVorgesehenHinweis",
                             "sichtbarWenn": {
                               "feld": "instrument",
                               "wert": [
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung"
@@ -5602,11 +5608,39 @@
                             },
                             "optionen": [
                               {
+                                "wert": "eigenhaendig",
+                                "sichtbarWenn": {
+                                  "feld": "instrument",
+                                  "wert": [
+                                    "will",
+                                    "guardian-nomination",
+                                    "ki-verfuegung"
+                                  ]
+                                },
+                                "label": "vollständig von Hand geschrieben und unterschrieben"
+                              },
+                              {
                                 "wert": "privat",
+                                "sichtbarWenn": {
+                                  "feld": "instrument",
+                                  "wert": [
+                                    "enduring-power-of-attorney",
+                                    "living-will",
+                                    "custodianship-declaration"
+                                  ]
+                                },
                                 "label": "privatschriftlich (selbst verfasst)"
                               },
                               {
                                 "wert": "beglaubigt",
+                                "sichtbarWenn": {
+                                  "feld": "instrument",
+                                  "wert": [
+                                    "enduring-power-of-attorney",
+                                    "living-will",
+                                    "custodianship-declaration"
+                                  ]
+                                },
                                 "label": "amtlich / notariell beglaubigt"
                               },
                               {
@@ -5639,6 +5673,7 @@
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung",
@@ -5710,6 +5745,7 @@
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung"
@@ -5770,6 +5806,7 @@
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung"
@@ -6412,7 +6449,10 @@
                             "typ": "auswahl",
                             "sichtbarWenn": {
                               "feld": "instrument",
-                              "wert": "will"
+                              "wert": [
+                                "will",
+                                "contract-of-inheritance"
+                              ]
                             },
                             "optionen": [
                               {
@@ -6437,10 +6477,13 @@
                             "sensibel": true,
                             "sichtbarWenn": {
                               "feld": "instrument",
-                              "wert": "will"
+                              "wert": [
+                                "will",
+                                "contract-of-inheritance"
+                              ]
                             },
-                            "label": "Im Testament bedachte Person(en)",
-                            "hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament anzusehen. Der Inhalt des Testaments bleibt außerhalb von {marke}."
+                            "label": "Bedachte Person(en)",
+                            "hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament oder den Erbvertrag anzusehen. Der Inhalt bleibt außerhalb von {marke}."
                           },
                           {
                             "id": "aboutTheWill",
@@ -6450,14 +6493,17 @@
                               "wert": "will"
                             },
                             "label": "Zum Testament",
-                            "hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}, sondern bei einer Notarin, einem Notar oder in anwaltlicher Beratung."
+                            "hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}: entweder eigenhändig, vollständig von Hand geschrieben und unterschrieben, oder zur Niederschrift einer Notarin oder eines Notars; beraten lassen kann man sich anwaltlich."
                           },
                           {
                             "id": "personalNotesOnThis",
                             "typ": "textarea",
                             "sichtbarWenn": {
                               "feld": "instrument",
-                              "wert": "will"
+                              "wert": [
+                                "will",
+                                "contract-of-inheritance"
+                              ]
                             },
                             "label": "Persönliche Notizen dazu",
                             "hint": "Was Sie hier notieren, sind Ihre Aufzeichnungen; ein Testament wird daraus nicht.",
@@ -11550,6 +11596,7 @@
             "pro-gesellschaft-nachfolge#finanzieller-ueberblick.label": "Finanzieller Überblick",
             "pro-gesellschaft-nachfolge.tpl_jahresabschluss_wo_der_aktuelle_stand_liegt.label": "Jahresabschluss — wo der aktuelle Stand liegt",
             "pro-aufbewahrung-ordnung#ueber-dieses-depot.label": "Über dieses Depot",
+            "pro-aufbewahrung-ordnung#vorbereitungsauszuege.label": "Vorbereitungsauszüge",
             "pro-aufbewahrung-ordnung.tpl_depot_zuletzt_durchgesehen_am.label": "Depot zuletzt durchgesehen am",
             "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss.label": "Wer von diesem Depot weiß",
             "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_name.label": "Name",
@@ -12512,10 +12559,10 @@
             "advanceCare.provisionInstruments/organDonationRegister.label": "Organspende-Register — Erklärungs-ID",
             "advanceCare.provisionInstruments/organDonationRegister.beispiel": "A3K7B9X",
             "advanceCare.provisionInstruments/statutorySuccessionOr.label": "Gesetzliche Erbfolge oder abweichender Wille?",
-            "advanceCare.provisionInstruments/personsNamedInTheWill.label": "Im Testament bedachte Person(en)",
-            "advanceCare.provisionInstruments/personsNamedInTheWill.hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament anzusehen. Der Inhalt des Testaments bleibt außerhalb von {marke}.",
+            "advanceCare.provisionInstruments/personsNamedInTheWill.label": "Bedachte Person(en)",
+            "advanceCare.provisionInstruments/personsNamedInTheWill.hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament oder den Erbvertrag anzusehen. Der Inhalt bleibt außerhalb von {marke}.",
             "advanceCare.provisionInstruments/aboutTheWill.label": "Zum Testament",
-            "advanceCare.provisionInstruments/aboutTheWill.hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}, sondern bei einer Notarin, einem Notar oder in anwaltlicher Beratung.",
+            "advanceCare.provisionInstruments/aboutTheWill.hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}: entweder eigenhändig, vollständig von Hand geschrieben und unterschrieben, oder zur Niederschrift einer Notarin oder eines Notars; beraten lassen kann man sich anwaltlich.",
             "advanceCare.provisionInstruments/personalNotesOnThis.label": "Persönliche Notizen dazu",
             "advanceCare.provisionInstruments/personalNotesOnThis.hint": "Was Sie hier notieren, sind Ihre Aufzeichnungen; ein Testament wird daraus nicht.",
             "advanceCare.provisionInstruments/personalNotesOnThis.beispiel": "Gedanken und offene Fragen, die ich festhalten möchte",
@@ -12967,7 +13014,7 @@
             "wizard:gebwiz.guidedBirthEntryRelationship.frage": "In welchem Verhältnis steht das Kind zu Ihnen?",
             "wizard:gebwiz.guidedBirthEntryRelationship.hilfetext": "Voreingestellt ist „leibliches Kind“ — bei Adoption, Pflege- oder Stiefkind wählen Sie die passende Angabe.",
             "wizard:pvwiz.abschluss.toast": "Ihre Angaben sind gespeichert. {marke} stellt jetzt Ihr Dokument zusammen — zum Ausdrucken und Unterschreiben.",
-            "wizard:kiwiz.abschluss.toast": "Ihre Angaben sind gespeichert. {marke} stellt jetzt Ihren Entwurf zusammen — zum Ausdrucken, eigenhändigen Unterschreiben und Beilegen zum Testament.",
+            "wizard:kiwiz.abschluss.toast": "Ihre Angaben sind gespeichert. {marke} stellt jetzt Ihren Entwurf zusammen. Damit Ihre Festlegungen als Teil Ihres Testaments gelten, schreiben Sie sie vollständig von Hand ab und unterschreiben, oder Sie lassen sie notariell beurkunden.",
             "wizard:anamwiz.abschluss.toast": "Ihre Anamnese ist im Bereich „Gesundheit“ gespeichert.",
             "wizard:anamwiz.chronicConditionsDiagnoses.frage": "Welche chronischen Erkrankungen oder Diagnosen haben Sie?",
             "wizard:anamwiz.chronicConditionsDiagnoses.hilfetext": "Tippen Sie einen Begriff — passende Diagnosen werden Ihnen vorgeschlagen. Freitext ist ebenfalls möglich.",
@@ -13356,6 +13403,8 @@
             "strings:gueltigkeitNochNicht.text": "gilt noch nicht",
             "strings:anschriftVorschlagHinweis.text": "Vorschlag aus der bisherigen Anschrift, bitte prüfen. Erst wenn Sie ihn übernehmen oder speichern, steht er in den Feldern.",
             "strings:anschriftVorschlagUebernehmen.text": "Vorschlag übernehmen",
+            "strings:listeVorschlaegeHinweis.text": "Ein Vorschlag für den Anfang. Erst wenn Sie ihn übernehmen, steht er in Ihrer Liste; danach ändern oder streichen Sie jeden Schritt wie einen eigenen.",
+            "strings:listeVorschlaegeUebernehmen.text": "Vorgeschlagene Schritte übernehmen",
             "strings:anschriftVorschlagVerwerfen.text": "Vorschlag verwerfen",
             "strings:personNameGetrenntHinweis.text": "Bitte Familienname und Vornamen eintragen. Formulare und Ämter verlangen sie getrennt; aus dem Namen oben wird nichts abgeleitet.",
             "strings:gueltigkeitBis.text": "gilt bis",
@@ -13481,6 +13530,8 @@
             "strings:dateiNameLabel.text": "Wie soll Ihre Sicherungsdatei heißen?",
             "strings:dateiNameHinweis.text": "Jede Sicherung legt eine neue Datei an. Ältere dürfen Sie danach löschen.",
             "strings:dateiNamePrimaer.text": "Sichern",
+            "strings:optionHierNichtVorgesehen.text": "hier nicht vorgesehen, bitte prüfen",
+            "strings:formNichtVorgesehenHinweis.text": "Form bitte prüfen: Wirksam ist die Verfügung nur, wenn sie ganz von Hand geschrieben und unterschrieben oder notariell beurkundet ist.",
             "strings:saveStatusDateiToast.text": "Ihre Sicherung wurde als Datei gesichert.",
             "strings:zielwechselTitel.text": "Ihre Sicherung liegt an einem anderen Ort",
             "strings:zielwechselText.text": "Der Ort, den Sie zuletzt gewählt hatten — zum Beispiel Ihr Stick —, war gerade nicht erreichbar. {marke} hat Ihre Sicherung stattdessen dorthin gelegt, wo Ihr Browser Downloads ablegt. Der vorherige Ort ist damit nicht mehr aktuell. Wählen Sie beim nächsten Sichern wieder Ihren Stick, damit er wieder auf dem neuesten Stand ist.",
@@ -13724,6 +13775,11 @@
             "strings:kreiseEntferntToast.text": "Eintrag entfernt.",
             "strings:kreiseStandNie.text": "Noch keine Datei erzeugt.",
             "strings:kreiseStandAusgabe.text": "Datei zuletzt erzeugt: {datum}",
+            "strings:kreiseVerlaufTitel.text": "Frühere Ausgaben",
+            "strings:kreiseVerlaufDatei.text": "{datum} · {zahl} Angaben, als Datei",
+            "strings:kreiseVerlaufQr.text": "{datum} · {zahl} Angaben, als QR-Code",
+            "strings:vorlageErgaenzenHinweis.text": "Ein Teil der Angaben für diesen Auszug gehört in Bereiche, die hier sonst nicht angezeigt werden. Hier tragen Sie sie ein; es öffnen sich nur die Felder, die der Auszug liest.",
+            "strings:vorlageErgaenzenKnopf.text": "{name} ergänzen",
             "strings:kreiseFelderZahl.text": "{zahl} Angaben in der Datei.",
             "strings:kreiseZweiWegeHinweis.text": "Zwei Wege, und sie schliessen sich nicht aus: Ein Fach in Ihrer eigenen Datei wirkt, wenn jemand Ihre Datei in der Hand hat — im Notfall, im Todesfall. Eine eigene Datei geben Sie jemandem bewusst mit.",
             "strings:kreiseFachKnopf.text": "Fach in meiner Datei einrichten",
@@ -13975,6 +14031,7 @@
             "strings:vorschauVerlassenBestaetigen.text": "Vorschau verlassen",
             "strings:vorschauUebernahmeHinweis.text": "Ihre Eingaben aus der Vorschau wurden übernommen.",
             "strings:umschauFeldEintragenFuer.text": "{feld} eintragen",
+            "strings:feldVorschrift.text": "Vorschrift: {norm}",
             "identity.idDocuments.weitererEintrag": "Weiteres Ausweisdokument hinzufügen",
             "identity.residencePermit.weitererEintrag": "Weiteren Aufenthaltstitel hinzufügen",
             "identity.formerNames.weitererEintrag": "Weiteren früheren Namen hinzufügen",
@@ -14525,8 +14582,8 @@
             "strings:herausgebenKnopf.text": "Herausgeben",
             "strings:herausgebenTitel.text": "Herausgeben",
             "strings:pvDokumentKnopf.text": "Patientenverfügung als Dokument ansehen / drucken",
-            "strings:kiDokumentKnopf.text": "Verfügung zur digitalen Nachbildung als Testament-Anlage ansehen / drucken",
-            "strings:kiAnlageTitel.text": "Anlage zu meinem Testament — Verfügung über die KI-gestützte Nachbildung meiner Person",
+            "strings:kiDokumentKnopf.text": "Verfügung zur digitalen Nachbildung als Entwurf für Ihr Testament ansehen / drucken",
+            "strings:kiAnlageTitel.text": "Verfügung über die KI-gestützte Nachbildung meiner Person — Ergänzung zu meinem Testament",
             "strings:kiHerkunft.text": "Forschungssynthese (Edilife/Cambridge/Zürich), keine amtliche Vorlage.",
             "strings:kiEingangsformel.text": "Ich (Name, Vorname, geboren am, wohnhaft in) treffe für den Fall meines Todes die folgende Verfügung über eine KI-gestützte Nachbildung meiner Person:",
             "strings:kiEingangsformelPlatzhalter.text": "(Name, Vorname, geboren am, wohnhaft in)",
@@ -14534,8 +14591,8 @@
             "strings:kiGeborenPraefix.text": "geboren",
             "strings:kiWohnhaftInPraefix.text": "wohnhaft in",
             "strings:kiFormhinweis.text": "{marke} erzeugt nur einen Entwurf zum Ausdrucken und Unterschreiben, nie eine wirksame Verfügung. Wie Sie daraus eine wirksame Verfügung machen, lassen Sie sich am besten anwaltlich oder notariell beraten.",
-            "strings:kiFussText.text": " · Entwurf einer Testament-Anlage · forschungsgestützte Formulierungshilfen, kein amtlicher Standard",
-            "strings:kiToolbarHinweis.text": "<p class=\"pv-dok-hinweis\"><strong>Ausdrucken und prüfen lassen:</strong> Dies ist ein Entwurf. Drucken Sie ihn aus, ergänzen Sie <strong>Ort und Datum</strong> und unterschreiben Sie <strong>eigenhändig</strong>. Wie er Ihrem Testament am besten beigefügt wird, lassen Sie sich anwaltlich oder notariell beraten. {marke} hat nur Ihre gewählten Bausteine zusammengestellt — dies ist keine amtliche Vorlage.</p>",
+            "strings:kiFussText.text": " · Entwurf für Ihr Testament · forschungsgestützte Formulierungshilfen, kein amtlicher Standard",
+            "strings:kiToolbarHinweis.text": "<p class=\"pv-dok-hinweis\"><strong>Entwurf für Ihr Testament:</strong> Ein ausgedrucktes Blatt, das Sie nur unterschreiben und beilegen, wird nicht Teil Ihres Testaments. Damit Ihre Festlegungen gelten, schreiben Sie sie vollständig von Hand ab, mit <strong>Ort, Datum und Unterschrift</strong>, oder Sie lassen sie von einer Notarin oder einem Notar beurkunden. Was in Ihrem Fall trägt, klären Sie am besten anwaltlich oder notariell. {marke} hat nur Ihre gewählten Bausteine zusammengestellt — dies ist keine amtliche Vorlage.</p>",
             "strings:vmDokumentKnopf.text": "Vollmacht als Dokument ansehen / drucken",
             "strings:bvDokumentKnopf.text": "Betreuungsverfügung als Dokument ansehen / drucken",
             "strings:identitaetKernFehltHinweis.text": "Für dieses Dokument fehlen in Ihren Identitätsangaben Name und/oder Geburtsdatum — ohne diese Angaben verliert das Blatt seine Aussage. Bitte ergänzen Sie sie unter „Identität & Person“, dann können Sie das Dokument erzeugen.",
@@ -15200,11 +15257,13 @@
             "advanceCare.provisionInstruments/instrument/enduring-power-of-attorney.label": "Vorsorgevollmacht",
             "advanceCare.provisionInstruments/instrument/living-will.label": "Patientenverfügung",
             "advanceCare.provisionInstruments/instrument/will.label": "Testament",
+            "advanceCare.provisionInstruments/instrument/contract-of-inheritance.label": "Erbvertrag",
             "advanceCare.provisionInstruments/instrument/custodianship-declaration.label": "Betreuungsverfügung",
             "advanceCare.provisionInstruments/instrument/guardian-nomination.label": "Sorgerechtsverfügung",
             "advanceCare.provisionInstruments/instrument/ki-verfuegung.label": "Verfügung zur digitalen Nachbildung",
             "advanceCare.provisionInstruments/instrument/custodian-appointment.label": "Betreuerbestellung (bereits bestellter Betreuer)",
             "advanceCare.provisionInstruments/form/privat.label": "privatschriftlich (selbst verfasst)",
+            "advanceCare.provisionInstruments/form/eigenhaendig.label": "vollständig von Hand geschrieben und unterschrieben",
             "advanceCare.provisionInstruments/form/beglaubigt.label": "amtlich / notariell beglaubigt",
             "advanceCare.provisionInstruments/form/beurkundet.label": "notariell beurkundet",
             "advanceCare.provisionInstruments/typeOfPowerOfAttorney/vorsorge.label": "Vorsorgevollmacht",
@@ -15772,7 +15831,9 @@
             "dok:erbschein-vorbereitung#0/lebensmittelpunkt.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#0/testament_form.frage": "Gibt es ein Testament oder einen Erbvertrag?",
             "dok:erbschein-vorbereitung#0/testament_form.luecke": "— nicht erfasst —",
-            "dok:erbschein-vorbereitung#0/4.texte[0]": "Hinweis: Diese Anwendung kennt heute keinen eigenen Erbvertrag-Typ — ein vorhandener Erbvertrag lässt sich hier nicht strukturiert eintragen und erscheint darum immer als Lücke, auch wenn tatsächlich einer besteht.",
+            "dok:erbschein-vorbereitung#0/testament_form.pruefen": "Form bitte prüfen: Ein Testament ist nur wirksam, wenn es ganz von Hand geschrieben und unterschrieben oder notariell beurkundet ist.",
+            "dok:erbschein-vorbereitung#0/erbvertrag_form.frage": "Gibt es daneben einen Erbvertrag?",
+            "dok:erbschein-vorbereitung#0/erbvertrag_form.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#0/grundeigentum.frage": "Ist Grundeigentum im Erbe enthalten?",
             "dok:erbschein-vorbereitung#0/grundeigentum.luecke": "— nicht erfasst, bitte im Erbfall selbst prüfen —",
             "dok:erbschein-vorbereitung#0/unternehmen.frage": "Ist ein im Handelsregister eingetragenes Unternehmen im Erbe enthalten?",
@@ -15788,6 +15849,8 @@
             "dok:erbschein-vorbereitung#1/3.texte[0]": "Enkel, Urenkel sowie Eltern/Voreltern der Erblasserin kennt das Datenmodell dieser Anwendung heute nicht strukturiert — diese Angaben bleiben grundsätzlich Lücke, unabhängig vom Pflegestand des Depots.",
             "dok:erbschein-vorbereitung#1/testament_bedachte_namen.frage": "Im Testament bedachte Person(en)?",
             "dok:erbschein-vorbereitung#1/testament_bedachte_namen.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#1/erbvertrag_bedachte_namen.frage": "Im Erbvertrag bedachte Person(en)?",
+            "dok:erbschein-vorbereitung#1/erbvertrag_bedachte_namen.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#1/erben_namen.frage": "Vorgesehene Erb(inn)en?",
             "dok:erbschein-vorbereitung#1/erben_namen.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#2.titel": "Teil C — Urkunden für den Nachweis",
@@ -16108,11 +16171,11 @@
             "pro-betrieb-zugaenge.tpl_crafts_register/tpl_technical_manager.label": "Betriebsleitung",
             "pro-betrieb-zugaenge.tpl_crafts_register/tpl_craft_card.label": "Handwerkskarte",
             "pro-betrieb-zugaenge.tpl_crafts_register/tpl_chamber.label": "Kammer",
-            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.label": "Anzeigen an Gemeinde und Finanzamt",
-            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.hint": "Eröffnung, Verlegung oder Aufgabe, wann angezeigt.",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.label": "Meldungen bei Vertretung, Übergabe oder Aufgabe",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.hint": "Welche Stellen je nach Beruf und Betrieb erfahren müssen, dass jemand Sie vertritt, dass Sie den Betrieb übergeben oder aufgeben: etwa Gewerbeamt, Finanzamt, Handelsregister, Agentur für Arbeit, Berufsgenossenschaft, Kassenärztliche oder Kassenzahnärztliche Vereinigung und Zulassungsausschuss, Kammer und Versorgungswerk je nach Berufsordnung bzw. Satzung. Je Meldung: Stelle, Anlass, bis wann und wann gemeldet.",
             "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_occasion.label": "Anlass",
             "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notified_on.label": "Angezeigt am",
-            "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office.label": "Finanzamt",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office.label": "Stelle",
             "pro-betrieb-zugaenge.tpl_business_identification_number.label": "Wirtschafts-Identifikationsnummer",
             "pro-betrieb-zugaenge.tpl_business_identification_number.hint": "Die W-IdNr. des Unternehmens.",
             "pro-betrieb-zugaenge.tpl_working_time_records.label": "Arbeitszeitaufzeichnungen",
@@ -16207,6 +16270,14 @@
             "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_who.label": "Wer",
             "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_by_when.label": "Bis wann",
             "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_documents_kept_at.label": "Unterlagen liegen bei",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_step.vorschlag": "Klären, wer jetzt rechtlich für die Firma handeln kann (weitere Geschäftsführung, Prokura allein oder nur gemeinsam, Vollmachten), und die Urkunden bereitlegen.\nIst niemand mit eigener Vertretungsmacht da: bei der GmbH eine weitere Geschäftsführung bestellen lassen, durch die Gesellschafter oder, wenn die Inhaberin einzige Gesellschafterin ist, durch ihre Stimmrechts- oder Vorsorgebevollmächtigte, wie unter „Gesellschaft und Nachfolge“ beschrieben; fehlt beides, eine Betreuung anregen oder eine Pflegschaft für ihre Vermögensangelegenheiten (§ 1884 BGB), wenn ihr Aufenthalt unbekannt ist oder sie an der Rückkehr und an der Erledigung ihrer Geschäfte gehindert ist, etwa durch Festhalten im Ausland, oder in dringenden Fällen beim Registergericht eine Bestellung beantragen. Beim Einzelunternehmen handelt, wer eine Vorsorge- oder Generalvollmacht für Vermögens- und Geschäftsangelegenheiten hat; fehlt sie, beim Betreuungsgericht eine Betreuung anregen oder eine Pflegschaft für ihre Vermögensangelegenheiten (§ 1884 BGB), wenn ihr Aufenthalt unbekannt ist oder sie an der Rückkehr und an der Erledigung ihrer Geschäfte gehindert ist, etwa durch Festhalten im Ausland.\nDie Personen aus der Liste „Wer zuerst informiert wird“ in der dort genannten Reihenfolge informieren.\nDie Beschäftigten informieren, wer jetzt entscheidet und an wen sie sich wenden, ohne Angaben zum Grund der Verhinderung.\nTermine und Fristen der nächsten zwei Wochen durchgehen: was wahrgenommen, verschoben oder abgesagt wird, und wo eine Fristverlängerung zu beantragen ist.\nPost und E-Mail sichern: festlegen, wer täglich durchsieht; persönlich adressierte Post nur mit Postvollmacht öffnen; bei unbesetzter Anschrift umleiten; Behördenpostfächer einbeziehen; Abwesenheitsnachricht einrichten.\nFällige Zahlungen prüfen (Löhne, Sozialversicherungsbeiträge, Steuern, Miete, Lieferanten) und bei Bedarf mit der Bank sprechen.\nWichtige Kunden und Lieferanten informieren, ohne Angaben zum Grund, und laufende Aufträge absichern.\nKlären, wo Schlüssel und Zugangsmittel verwahrt sind und wer sie in der Vertretung braucht.\nFesthalten, ab wann vertreten wird und welche Entscheidungen in dieser Zeit getroffen werden.",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_by_when.vorschlag": "erster Tag\nerster Tag\nerster Tag\nerster Tag\nerste Tage\nerste Tage\nerste Woche\nerste Woche\nerste Woche\nlaufend",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_step.vorschlag": "Klären, wer jetzt für die Firma handeln kann: weitere Geschäftsführung, Prokura (allein oder nur gemeinsam), Vollmachten der Firma; dazu persönliche Vollmachten der Verstorbenen über den Tod hinaus, etwa für ihre Anteile.\nDie Personen aus der Liste „Wer zuerst informiert wird“ informieren, darunter Steuerberatung und Notariat.\nDie Beschäftigten informieren: wer bis auf Weiteres entscheidet.\nGmbH, wenn keine Geschäftsführung mehr im Amt ist: die Bestellung einer neuen Geschäftsführung durch die Gesellschafter einleiten, wie unter „Gesellschaft und Nachfolge“ beschrieben; sind Erben Gesellschafter, Erbnachweis und Gesellschafterliste klären; in dringenden Fällen eine Bestellung beim Registergericht beantragen. Einzelunternehmen: mit den Erben klären, ob und von wem der Betrieb fortgeführt wird; die Frist für eine Ausschlagung der Erbschaft beachten (sechs Wochen ab Kenntnis, sechs Monate, wenn die Verstorbene nur im Ausland wohnte oder der Erbe sich bei Fristbeginn im Ausland aufhält) und, wenn der Betrieb ein kaufmännisches Gewerbe ist (im Handelsregister eingetragen oder nach Art und Umfang kaufmännisch eingerichtet), die Frist von drei Monaten ab Kenntnis vom Erbfall, in der eine Einstellung des Betriebs die unbeschränkte Haftung nach Handelsrecht für frühere Geschäftsschulden vermeidet; die Haftung als Erbe für Nachlassschulden bleibt davon unberührt.\nTestament oder Erbvertrag heraussuchen und unverzüglich beim Nachlassgericht abliefern; den Erbnachweis klären (Erbschein oder notarielles Testament bzw. notarieller Erbvertrag mit Eröffnungsniederschrift); bei der GmbH die Nachfolgeregelung im Gesellschaftsvertrag prüfen lassen.\nFällige Zahlungen prüfen (Löhne, Sozialversicherungsbeiträge, Steuern, Miete) und klären, wer sie freigeben kann.\nBanken informieren und klären, wer über die Konten verfügen darf.\nVersicherungen mit Meldefrist benachrichtigen und laufende Fristen (Steuern, Verträge, Gerichtsverfahren) sichern.\nWichtige Kunden und Lieferanten informieren und laufende Aufträge absichern.\nPost, E-Mail, Zugänge und Datensicherung so sichern, dass der Betrieb weiterlaufen kann.\nÄnderungen über das Notariat beim Handelsregister anmelden: bei der GmbH das Ausscheiden der Verstorbenen, wenn sie Geschäftsführerin war, und die neue Geschäftsführung (§ 39 GmbHG); die Geschäftsführung reicht eine neue Gesellschafterliste mit den Erben ein (§ 40 Abs. 1 GmbHG). Beim Einzelunternehmen, falls eingetragen: die Erben als neue Inhaber, mit Erbnachweis, oder, wenn der Betrieb eingestellt wird, das Erlöschen der Firma (§ 31 HGB). Dazu das Transparenzregister (GmbH), das Gewerbeamt (vor allem beim Einzelunternehmen) und beim zulassungspflichtigen Handwerk (Meisterpflicht) die Handwerkskammer (Handwerksrolle); war die Verstorbene die Betriebsleiterin, unverzüglich eine neue fachlich qualifizierte Betriebsleitung bestellen und der Handwerkskammer anzeigen (§ 4, § 16 Abs. 2 HwO).",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_by_when.vorschlag": "erster Tag\nerster Tag\nerste Tage\nerste Tage\nerste Tage\nerste Tage\nerste Tage\nerste Woche\nerste Woche\nerste Woche\nerste Wochen",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_step.vorschlag": "Prüfen, ob die Vertretung auf Dauer trägt: Umfang und Befristung der Vollmachten, Prokura und der Einträge unter „Kontakte und Vertretung“; wo nötig erweitern oder verlängern lassen, durch die Inhaberin, solange sie selbst handeln kann, sonst bei der GmbH durch Geschäftsführung oder Gesellschafter (Schritt 2), beim Einzelunternehmen durch eine Betreuerin oder Pflegerin (Schritt 3); eine Prokura kann eine Bevollmächtigte nicht erteilen (§ 48 Abs. 1 HGB), eine Betreuerin oder Pflegerin nur mit Genehmigung des Betreuungsgerichts (§ 1852 Nr. 3 BGB).\nGmbH: entscheiden, ob die Gesellschafter eine weitere Geschäftsführung bestellen, wie unter „Gesellschaft und Nachfolge“ beschrieben; die Bestellung über das Notariat beim Handelsregister anmelden.\nFehlt eine Vollmacht für Vermögens- und Geschäftsangelegenheiten (Einzelunternehmen) oder für die Gesellschafterrechte (GmbH, wenn ohne die Stimme der Inhaberin keine Geschäftsführung bestellt werden kann): beim Betreuungsgericht eine Betreuung anregen oder eine Pflegschaft für ihre Vermögensangelegenheiten (§ 1884 BGB), wenn ihr Aufenthalt unbekannt ist oder sie an der Rückkehr und an der Erledigung ihrer Geschäfte gehindert ist.\nBeschäftigte, wichtige Kunden und Lieferanten informieren, wer auf längere Zeit entscheidet, ohne Angaben zum Grund.\nMit Bank und Steuerberatung Kontovollmachten, Zahlungsfreigaben und Steuertermine auf die Vertretung abstimmen.\nVersicherungen prüfen, die bei längerer Verhinderung leisten können (etwa eine Betriebsunterbrechungsversicherung, die auch bei Krankheit der Inhaberin leistet, Krankentagegeld oder Berufsunfähigkeit), und deren Meldefristen einhalten.\nLaufende Verträge, Aufträge und Fristen durchsehen: was weitergeführt, übertragen oder beendet wird.\nMit der Beratung klären, ob ein Verkauf, eine Übergabe oder eine Verpachtung vorbereitet werden soll; dafür die Liste „Erste Schritte bei Verkauf oder Übergabe“ heranziehen. Handelt eine Betreuung, braucht ein Verkauf oder eine Verpachtung des Betriebs die Genehmigung des Betreuungsgerichts.",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_by_when.vorschlag": "erste Woche\nerste Wochen\nerste Woche\nerste Wochen\nerste Wochen\nerste Wochen\nerster Monat\nlaufend",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_step.vorschlag": "Die Form der Übergabe festhalten (Anteils- oder Vermögenskauf, Schenkung, Pacht), wie unter „Gesellschaft und Nachfolge“ beschrieben, und Steuerberatung und Notariat früh einbinden.\nDie Unterlagen für die Prüfung durch die Gegenseite zusammenstellen: Registerauszug, Jahresabschlüsse, wesentliche Verträge, Genehmigungen, bei der GmbH Gesellschaftsvertrag und Gesellschafterliste; vorher eine Vertraulichkeitsvereinbarung schließen. Angaben zu Beschäftigten zunächst nur zusammengefasst herausgeben, Angaben zu einzelnen Personen erst kurz vor dem Abschluss und nur, soweit sie dafür nötig sind.\nZustimmungen klären: Gesellschafter (bei der GmbH auch, ob der Gesellschaftsvertrag die Abtretung an eine Genehmigung knüpft), Vermietung, Vertragspartner mit Klausel für einen Inhaberwechsel, Bank; beim Vermögenskauf, welche Verträge einzeln übertragen werden müssen, und für die Fortführung der Firma die ausdrückliche Einwilligung des bisherigen Inhabers; bei Verheirateten im gesetzlichen Güterstand die Einwilligung des Ehegatten, wenn der Betrieb oder die Anteile nahezu das ganze Vermögen ausmachen.\nGeht der Betrieb oder ein Betriebsteil durch Vertrag auf einen neuen Inhaber über (Vermögenskauf, Schenkung oder Pacht, nicht beim Anteilskauf): die betroffenen Beschäftigten vorher in Textform unterrichten, durch die bisherige Arbeitgeberin oder den neuen Inhaber, über Zeitpunkt, Grund, Folgen und geplante Maßnahmen (§ 613a Abs. 5 BGB); sie können innerhalb eines Monats nach Zugang der Unterrichtung schriftlich widersprechen (§ 613a Abs. 6 BGB).\nKaufpreis, Stichtag und Zahlungsweise im Vertrag festhalten; bei GmbH-Anteilen den Vertrag (Kauf oder Schenkung) und die Abtretung notariell beurkunden lassen (§ 15 Abs. 3 und 4 GmbHG); beim Vermögenskauf mit Grundstück ebenso (§ 311b Abs. 1 BGB) und, auch ohne Grundstück, wenn sich die Verkäuferseite verpflichtet, ihr ganzes gegenwärtiges Vermögen oder einen Bruchteil davon zu übertragen (§ 311b Abs. 3 BGB).\nZum Stichtag Konten, Vollmachten, Zugänge und Schlüssel übergeben oder widerrufen und festhalten, was übergeben wurde.\nÄnderungen anmelden: beim Anteilskauf reicht das Notariat die neue Gesellschafterliste ein (§ 40 Abs. 2 GmbHG); eine neue Geschäftsführung und das Erlöschen einer Prokura über das Notariat beim Handelsregister anmelden (§ 39 GmbHG, § 53 Abs. 2 HGB); dazu das Transparenzregister. Beim Vermögenskauf oder der Übergabe des Einzelunternehmens, falls eingetragen, den Inhaberwechsel oder das Erlöschen der Firma beim Handelsregister (§ 31 HGB); das Gewerbe ab- und anmelden (§ 14 GewO) und das Finanzamt informieren; beim Handwerksbetrieb die Handwerksrolle.\nKunden und Lieferanten über den neuen Inhaber informieren (beim Anteilskauf: über die neuen Gesellschafter oder die neue Geschäftsführung). Beim Vermögenskauf eines kaufmännischen Betriebs mit Fortführung der Firma haftet der Erwerber für die früheren Geschäftsverbindlichkeiten (§ 25 Abs. 1 HGB); ein vereinbarter Ausschluss wirkt gegenüber Dritten nur, wenn er im Handelsregister eingetragen und bekanntgemacht oder ihnen mitgeteilt ist (§ 25 Abs. 2 HGB), daher im Vertrag vereinbaren und zum Stichtag anmelden. Unabhängig von der Firma haftet der Erwerber eines ganzen Betriebs für betriebliche Steuern seit Beginn des Vorjahres, beschränkt auf das übernommene Vermögen (§ 75 AO).\nKlären, wer die Geschäftsunterlagen nach der Übergabe aufbewahrt und wie lange (§ 257 HGB, § 147 AO).",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_by_when.vorschlag": "vor der Übergabe\nvor der Übergabe\nvor der Übergabe\nvor dem Übergang\nzum Vertrag\nStichtag\nnach dem Stichtag\nnach dem Stichtag\nnach dem Stichtag",
             "pro-kontakte-vertretungsplan.tpl_first_steps_after_death.label": "Erste Schritte im Todesfall",
             "pro-kontakte-vertretungsplan.tpl_first_steps_after_death.hint": "Was in den ersten Tagen nach Ihrem Tod für die Firma zu tun ist: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
             "pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_step.label": "Schritt",
@@ -16551,7 +16622,16 @@
             "pro-gesellschaft-nachfolge.tpl_payment_terms/wiederkehrend.label": "Wiederkehrende Bezüge oder Rente",
             "pro-gesellschaft-nachfolge.tpl_payment_terms/erfolgsabhaengig.label": "Teilweise erfolgsabhängig",
             "pro-gesellschaft-nachfolge.tpl_payment_terms/verkaeuferdarlehen.label": "Mit Darlehen der Verkäuferseite",
-            "pro-gesellschaft-nachfolge.tpl_payment_terms/noch_offen.label": "Noch offen"
+            "pro-gesellschaft-nachfolge.tpl_payment_terms/noch_offen.label": "Noch offen",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification.label": "Unterrichtung der Beschäftigten beim Betriebsübergang",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification.hint": "Nur wenn der Betrieb oder ein Betriebsteil durch Rechtsgeschäft auf einen neuen Inhaber übergeht, etwa durch Verkauf; nicht beim Kauf von Anteilen und nicht im Erbfall. Die Beschäftigten werden vor dem Übergang in Textform unterrichtet, durch den bisherigen Arbeitgeber oder den neuen Inhaber. Hier: wann, durch wen, wer betroffen ist, wo die Unterrichtung liegt und ob jemand widersprochen hat.",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_on.label": "Unterrichtet am",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_by.label": "Unterrichtet durch",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_affected_staff.label": "Betroffene Beschäftigte",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_notice_kept_at.label": "Unterrichtung liegt bei",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_objections.label": "Widersprüche",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification.weitererEintrag": "Weitere Unterrichtung hinzufügen",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notify_by.label": "Zu melden bis"
           },
           "regeln": {
             "datumsformat": "TT.MM.JJJJ",
@@ -16956,6 +17036,26 @@
                 },
                 "unterfeld": "personsNamedInTheWill"
               },
+              "erbvertrag_form": {
+                "typ": "listenfeld",
+                "sektor": "advanceCare",
+                "feld": "provisionInstruments",
+                "diskriminante": {
+                  "feld": "instrument",
+                  "wert": "contract-of-inheritance"
+                },
+                "unterfeld": "form"
+              },
+              "erbvertrag_bedachte_namen": {
+                "typ": "listenfeldPersonenNamen",
+                "sektor": "advanceCare",
+                "feld": "provisionInstruments",
+                "diskriminante": {
+                  "feld": "instrument",
+                  "wert": "contract-of-inheritance"
+                },
+                "unterfeld": "personsNamedInTheWill"
+              },
               "erben_namen": {
                 "typ": "personenNamen",
                 "sektor": "advanceCare",
@@ -17013,13 +17113,21 @@
                       "feld": "provisionInstruments",
                       "unterfeld": "form"
                     },
-                    "luecke": "— nicht erfasst —"
+                    "luecke": "— nicht erfasst —",
+                    "pruefen": "Form bitte prüfen: Ein Testament ist nur wirksam, wenn es ganz von Hand geschrieben und unterschrieben oder notariell beurkundet ist."
                   },
                   {
-                    "typ": "immer",
-                    "texte": [
-                      "Hinweis: Diese Anwendung kennt heute keinen eigenen Erbvertrag-Typ — ein vorhandener Erbvertrag lässt sich hier nicht strukturiert eintragen und erscheint darum immer als Lücke, auch wenn tatsächlich einer besteht."
-                    ]
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "erbvertrag_form",
+                    "frage": "Gibt es daneben einen Erbvertrag?",
+                    "format": {
+                      "typ": "codeListeLabel",
+                      "praefix": "Erbvertrag, ",
+                      "sektor": "advanceCare",
+                      "feld": "provisionInstruments",
+                      "unterfeld": "form"
+                    },
+                    "luecke": "— nicht erfasst —"
                   },
                   {
                     "typ": "frageAntwortOderLuecke",
@@ -17080,6 +17188,15 @@
                     "typ": "frageAntwortOderLuecke",
                     "feldId": "testament_bedachte_namen",
                     "frage": "Im Testament bedachte Person(en)?",
+                    "format": {
+                      "typ": "liste"
+                    },
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "erbvertrag_bedachte_namen",
+                    "frage": "Im Erbvertrag bedachte Person(en)?",
                     "format": {
                       "typ": "liste"
                     },
@@ -21604,6 +21721,14 @@
                       },
                       {
                         "quelle": "advanceCare",
+                        "feld": "instrument:contract-of-inheritance"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "liste:provisionInstruments:contract-of-inheritance:storageLocation"
+                      },
+                      {
+                        "quelle": "advanceCare",
                         "feld": "heirsBriefOverview"
                       },
                       {
@@ -21765,6 +21890,7 @@
                 ],
                 "dokumenttypen": [
                   "will",
+                  "contract-of-inheritance",
                   "enduring-power-of-attorney"
                 ],
                 "dokumenttypenVorschlag": true
@@ -25577,6 +25703,10 @@
                                 "label": "Testament"
                               },
                               {
+                                "wert": "contract-of-inheritance",
+                                "label": "Erbvertrag"
+                              },
+                              {
                                 "wert": "custodianship-declaration",
                                 "label": "Betreuungsverfügung"
                               },
@@ -25598,12 +25728,14 @@
                           {
                             "id": "form",
                             "typ": "auswahl",
+                            "hinweisNichtVorgesehen": "formNichtVorgesehenHinweis",
                             "sichtbarWenn": {
                               "feld": "instrument",
                               "wert": [
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung"
@@ -25611,11 +25743,39 @@
                             },
                             "optionen": [
                               {
+                                "wert": "eigenhaendig",
+                                "sichtbarWenn": {
+                                  "feld": "instrument",
+                                  "wert": [
+                                    "will",
+                                    "guardian-nomination",
+                                    "ki-verfuegung"
+                                  ]
+                                },
+                                "label": "vollständig von Hand geschrieben und unterschrieben"
+                              },
+                              {
                                 "wert": "privat",
+                                "sichtbarWenn": {
+                                  "feld": "instrument",
+                                  "wert": [
+                                    "enduring-power-of-attorney",
+                                    "living-will",
+                                    "custodianship-declaration"
+                                  ]
+                                },
                                 "label": "privatschriftlich (selbst verfasst)"
                               },
                               {
                                 "wert": "beglaubigt",
+                                "sichtbarWenn": {
+                                  "feld": "instrument",
+                                  "wert": [
+                                    "enduring-power-of-attorney",
+                                    "living-will",
+                                    "custodianship-declaration"
+                                  ]
+                                },
                                 "label": "amtlich / notariell beglaubigt"
                               },
                               {
@@ -25648,6 +25808,7 @@
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung",
@@ -25719,6 +25880,7 @@
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung"
@@ -25779,6 +25941,7 @@
                                 "enduring-power-of-attorney",
                                 "living-will",
                                 "will",
+                                "contract-of-inheritance",
                                 "custodianship-declaration",
                                 "guardian-nomination",
                                 "ki-verfuegung"
@@ -26421,7 +26584,10 @@
                             "typ": "auswahl",
                             "sichtbarWenn": {
                               "feld": "instrument",
-                              "wert": "will"
+                              "wert": [
+                                "will",
+                                "contract-of-inheritance"
+                              ]
                             },
                             "optionen": [
                               {
@@ -26446,10 +26612,13 @@
                             "sensibel": true,
                             "sichtbarWenn": {
                               "feld": "instrument",
-                              "wert": "will"
+                              "wert": [
+                                "will",
+                                "contract-of-inheritance"
+                              ]
                             },
-                            "label": "Im Testament bedachte Person(en)",
-                            "hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament anzusehen. Der Inhalt des Testaments bleibt außerhalb von {marke}."
+                            "label": "Bedachte Person(en)",
+                            "hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament oder den Erbvertrag anzusehen. Der Inhalt bleibt außerhalb von {marke}."
                           },
                           {
                             "id": "aboutTheWill",
@@ -26459,14 +26628,17 @@
                               "wert": "will"
                             },
                             "label": "Zum Testament",
-                            "hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}, sondern bei einer Notarin, einem Notar oder in anwaltlicher Beratung."
+                            "hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}: entweder eigenhändig, vollständig von Hand geschrieben und unterschrieben, oder zur Niederschrift einer Notarin oder eines Notars; beraten lassen kann man sich anwaltlich."
                           },
                           {
                             "id": "personalNotesOnThis",
                             "typ": "textarea",
                             "sichtbarWenn": {
                               "feld": "instrument",
-                              "wert": "will"
+                              "wert": [
+                                "will",
+                                "contract-of-inheritance"
+                              ]
                             },
                             "label": "Persönliche Notizen dazu",
                             "hint": "Was Sie hier notieren, sind Ihre Aufzeichnungen; ein Testament wird daraus nicht.",
@@ -31559,6 +31731,7 @@
             "pro-gesellschaft-nachfolge#finanzieller-ueberblick.label": "Finanzieller Überblick",
             "pro-gesellschaft-nachfolge.tpl_jahresabschluss_wo_der_aktuelle_stand_liegt.label": "Jahresabschluss — wo der aktuelle Stand liegt",
             "pro-aufbewahrung-ordnung#ueber-dieses-depot.label": "Über dieses Depot",
+            "pro-aufbewahrung-ordnung#vorbereitungsauszuege.label": "Vorbereitungsauszüge",
             "pro-aufbewahrung-ordnung.tpl_depot_zuletzt_durchgesehen_am.label": "Depot zuletzt durchgesehen am",
             "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss.label": "Wer von diesem Depot weiß",
             "pro-aufbewahrung-ordnung.tpl_wer_von_diesem_depot_weiss/tpl_name.label": "Name",
@@ -32521,10 +32694,10 @@
             "advanceCare.provisionInstruments/organDonationRegister.label": "Organspende-Register — Erklärungs-ID",
             "advanceCare.provisionInstruments/organDonationRegister.beispiel": "A3K7B9X",
             "advanceCare.provisionInstruments/statutorySuccessionOr.label": "Gesetzliche Erbfolge oder abweichender Wille?",
-            "advanceCare.provisionInstruments/personsNamedInTheWill.label": "Im Testament bedachte Person(en)",
-            "advanceCare.provisionInstruments/personsNamedInTheWill.hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament anzusehen. Der Inhalt des Testaments bleibt außerhalb von {marke}.",
+            "advanceCare.provisionInstruments/personsNamedInTheWill.label": "Bedachte Person(en)",
+            "advanceCare.provisionInstruments/personsNamedInTheWill.hint": "Freiwillig. Wenn Sie die Personen hier eintragen, meldet sich {marke} nach einer Heirat, Trennung oder einem Todesfall und schlägt vor, das Testament oder den Erbvertrag anzusehen. Der Inhalt bleibt außerhalb von {marke}.",
             "advanceCare.provisionInstruments/aboutTheWill.label": "Zum Testament",
-            "advanceCare.provisionInstruments/aboutTheWill.hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}, sondern bei einer Notarin, einem Notar oder in anwaltlicher Beratung.",
+            "advanceCare.provisionInstruments/aboutTheWill.hint": "Hier lässt sich festhalten, dass ein Testament vorhanden ist und wo es liegt. Aufgesetzt wird es nicht in {marke}: entweder eigenhändig, vollständig von Hand geschrieben und unterschrieben, oder zur Niederschrift einer Notarin oder eines Notars; beraten lassen kann man sich anwaltlich.",
             "advanceCare.provisionInstruments/personalNotesOnThis.label": "Persönliche Notizen dazu",
             "advanceCare.provisionInstruments/personalNotesOnThis.hint": "Was Sie hier notieren, sind Ihre Aufzeichnungen; ein Testament wird daraus nicht.",
             "advanceCare.provisionInstruments/personalNotesOnThis.beispiel": "Gedanken und offene Fragen, die ich festhalten möchte",
@@ -32976,7 +33149,7 @@
             "wizard:gebwiz.guidedBirthEntryRelationship.frage": "In welchem Verhältnis steht das Kind zu Ihnen?",
             "wizard:gebwiz.guidedBirthEntryRelationship.hilfetext": "Voreingestellt ist „leibliches Kind“ — bei Adoption, Pflege- oder Stiefkind wählen Sie die passende Angabe.",
             "wizard:pvwiz.abschluss.toast": "Ihre Angaben sind gespeichert. {marke} stellt jetzt Ihr Dokument zusammen — zum Ausdrucken und Unterschreiben.",
-            "wizard:kiwiz.abschluss.toast": "Ihre Angaben sind gespeichert. {marke} stellt jetzt Ihren Entwurf zusammen — zum Ausdrucken, eigenhändigen Unterschreiben und Beilegen zum Testament.",
+            "wizard:kiwiz.abschluss.toast": "Ihre Angaben sind gespeichert. {marke} stellt jetzt Ihren Entwurf zusammen. Damit Ihre Festlegungen als Teil Ihres Testaments gelten, schreiben Sie sie vollständig von Hand ab und unterschreiben, oder Sie lassen sie notariell beurkunden.",
             "wizard:anamwiz.abschluss.toast": "Ihre Anamnese ist im Bereich „Gesundheit“ gespeichert.",
             "wizard:anamwiz.chronicConditionsDiagnoses.frage": "Welche chronischen Erkrankungen oder Diagnosen haben Sie?",
             "wizard:anamwiz.chronicConditionsDiagnoses.hilfetext": "Tippen Sie einen Begriff — passende Diagnosen werden Ihnen vorgeschlagen. Freitext ist ebenfalls möglich.",
@@ -33365,6 +33538,8 @@
             "strings:gueltigkeitNochNicht.text": "gilt noch nicht",
             "strings:anschriftVorschlagHinweis.text": "Vorschlag aus der bisherigen Anschrift, bitte prüfen. Erst wenn Sie ihn übernehmen oder speichern, steht er in den Feldern.",
             "strings:anschriftVorschlagUebernehmen.text": "Vorschlag übernehmen",
+            "strings:listeVorschlaegeHinweis.text": "Ein Vorschlag für den Anfang. Erst wenn Sie ihn übernehmen, steht er in Ihrer Liste; danach ändern oder streichen Sie jeden Schritt wie einen eigenen.",
+            "strings:listeVorschlaegeUebernehmen.text": "Vorgeschlagene Schritte übernehmen",
             "strings:anschriftVorschlagVerwerfen.text": "Vorschlag verwerfen",
             "strings:personNameGetrenntHinweis.text": "Bitte Familienname und Vornamen eintragen. Formulare und Ämter verlangen sie getrennt; aus dem Namen oben wird nichts abgeleitet.",
             "strings:gueltigkeitBis.text": "gilt bis",
@@ -33490,6 +33665,8 @@
             "strings:dateiNameLabel.text": "Wie soll Ihre Sicherungsdatei heißen?",
             "strings:dateiNameHinweis.text": "Jede Sicherung legt eine neue Datei an. Ältere dürfen Sie danach löschen.",
             "strings:dateiNamePrimaer.text": "Sichern",
+            "strings:optionHierNichtVorgesehen.text": "hier nicht vorgesehen, bitte prüfen",
+            "strings:formNichtVorgesehenHinweis.text": "Form bitte prüfen: Wirksam ist die Verfügung nur, wenn sie ganz von Hand geschrieben und unterschrieben oder notariell beurkundet ist.",
             "strings:saveStatusDateiToast.text": "Ihre Sicherung wurde als Datei gesichert.",
             "strings:zielwechselTitel.text": "Ihre Sicherung liegt an einem anderen Ort",
             "strings:zielwechselText.text": "Der Ort, den Sie zuletzt gewählt hatten — zum Beispiel Ihr Stick —, war gerade nicht erreichbar. {marke} hat Ihre Sicherung stattdessen dorthin gelegt, wo Ihr Browser Downloads ablegt. Der vorherige Ort ist damit nicht mehr aktuell. Wählen Sie beim nächsten Sichern wieder Ihren Stick, damit er wieder auf dem neuesten Stand ist.",
@@ -33733,6 +33910,11 @@
             "strings:kreiseEntferntToast.text": "Eintrag entfernt.",
             "strings:kreiseStandNie.text": "Noch keine Datei erzeugt.",
             "strings:kreiseStandAusgabe.text": "Datei zuletzt erzeugt: {datum}",
+            "strings:kreiseVerlaufTitel.text": "Frühere Ausgaben",
+            "strings:kreiseVerlaufDatei.text": "{datum} · {zahl} Angaben, als Datei",
+            "strings:kreiseVerlaufQr.text": "{datum} · {zahl} Angaben, als QR-Code",
+            "strings:vorlageErgaenzenHinweis.text": "Ein Teil der Angaben für diesen Auszug gehört in Bereiche, die hier sonst nicht angezeigt werden. Hier tragen Sie sie ein; es öffnen sich nur die Felder, die der Auszug liest.",
+            "strings:vorlageErgaenzenKnopf.text": "{name} ergänzen",
             "strings:kreiseFelderZahl.text": "{zahl} Angaben in der Datei.",
             "strings:kreiseZweiWegeHinweis.text": "Zwei Wege, und sie schliessen sich nicht aus: Ein Fach in Ihrer eigenen Datei wirkt, wenn jemand Ihre Datei in der Hand hat — im Notfall, im Todesfall. Eine eigene Datei geben Sie jemandem bewusst mit.",
             "strings:kreiseFachKnopf.text": "Fach in meiner Datei einrichten",
@@ -33984,6 +34166,7 @@
             "strings:vorschauVerlassenBestaetigen.text": "Vorschau verlassen",
             "strings:vorschauUebernahmeHinweis.text": "Ihre Eingaben aus der Vorschau wurden übernommen.",
             "strings:umschauFeldEintragenFuer.text": "{feld} eintragen",
+            "strings:feldVorschrift.text": "Vorschrift: {norm}",
             "identity.idDocuments.weitererEintrag": "Weiteres Ausweisdokument hinzufügen",
             "identity.residencePermit.weitererEintrag": "Weiteren Aufenthaltstitel hinzufügen",
             "identity.formerNames.weitererEintrag": "Weiteren früheren Namen hinzufügen",
@@ -34534,8 +34717,8 @@
             "strings:herausgebenKnopf.text": "Herausgeben",
             "strings:herausgebenTitel.text": "Herausgeben",
             "strings:pvDokumentKnopf.text": "Patientenverfügung als Dokument ansehen / drucken",
-            "strings:kiDokumentKnopf.text": "Verfügung zur digitalen Nachbildung als Testament-Anlage ansehen / drucken",
-            "strings:kiAnlageTitel.text": "Anlage zu meinem Testament — Verfügung über die KI-gestützte Nachbildung meiner Person",
+            "strings:kiDokumentKnopf.text": "Verfügung zur digitalen Nachbildung als Entwurf für Ihr Testament ansehen / drucken",
+            "strings:kiAnlageTitel.text": "Verfügung über die KI-gestützte Nachbildung meiner Person — Ergänzung zu meinem Testament",
             "strings:kiHerkunft.text": "Forschungssynthese (Edilife/Cambridge/Zürich), keine amtliche Vorlage.",
             "strings:kiEingangsformel.text": "Ich (Name, Vorname, geboren am, wohnhaft in) treffe für den Fall meines Todes die folgende Verfügung über eine KI-gestützte Nachbildung meiner Person:",
             "strings:kiEingangsformelPlatzhalter.text": "(Name, Vorname, geboren am, wohnhaft in)",
@@ -34543,8 +34726,8 @@
             "strings:kiGeborenPraefix.text": "geboren",
             "strings:kiWohnhaftInPraefix.text": "wohnhaft in",
             "strings:kiFormhinweis.text": "{marke} erzeugt nur einen Entwurf zum Ausdrucken und Unterschreiben, nie eine wirksame Verfügung. Wie Sie daraus eine wirksame Verfügung machen, lassen Sie sich am besten anwaltlich oder notariell beraten.",
-            "strings:kiFussText.text": " · Entwurf einer Testament-Anlage · forschungsgestützte Formulierungshilfen, kein amtlicher Standard",
-            "strings:kiToolbarHinweis.text": "<p class=\"pv-dok-hinweis\"><strong>Ausdrucken und prüfen lassen:</strong> Dies ist ein Entwurf. Drucken Sie ihn aus, ergänzen Sie <strong>Ort und Datum</strong> und unterschreiben Sie <strong>eigenhändig</strong>. Wie er Ihrem Testament am besten beigefügt wird, lassen Sie sich anwaltlich oder notariell beraten. {marke} hat nur Ihre gewählten Bausteine zusammengestellt — dies ist keine amtliche Vorlage.</p>",
+            "strings:kiFussText.text": " · Entwurf für Ihr Testament · forschungsgestützte Formulierungshilfen, kein amtlicher Standard",
+            "strings:kiToolbarHinweis.text": "<p class=\"pv-dok-hinweis\"><strong>Entwurf für Ihr Testament:</strong> Ein ausgedrucktes Blatt, das Sie nur unterschreiben und beilegen, wird nicht Teil Ihres Testaments. Damit Ihre Festlegungen gelten, schreiben Sie sie vollständig von Hand ab, mit <strong>Ort, Datum und Unterschrift</strong>, oder Sie lassen sie von einer Notarin oder einem Notar beurkunden. Was in Ihrem Fall trägt, klären Sie am besten anwaltlich oder notariell. {marke} hat nur Ihre gewählten Bausteine zusammengestellt — dies ist keine amtliche Vorlage.</p>",
             "strings:vmDokumentKnopf.text": "Vollmacht als Dokument ansehen / drucken",
             "strings:bvDokumentKnopf.text": "Betreuungsverfügung als Dokument ansehen / drucken",
             "strings:identitaetKernFehltHinweis.text": "Für dieses Dokument fehlen in Ihren Identitätsangaben Name und/oder Geburtsdatum — ohne diese Angaben verliert das Blatt seine Aussage. Bitte ergänzen Sie sie unter „Identität & Person“, dann können Sie das Dokument erzeugen.",
@@ -35209,11 +35392,13 @@
             "advanceCare.provisionInstruments/instrument/enduring-power-of-attorney.label": "Vorsorgevollmacht",
             "advanceCare.provisionInstruments/instrument/living-will.label": "Patientenverfügung",
             "advanceCare.provisionInstruments/instrument/will.label": "Testament",
+            "advanceCare.provisionInstruments/instrument/contract-of-inheritance.label": "Erbvertrag",
             "advanceCare.provisionInstruments/instrument/custodianship-declaration.label": "Betreuungsverfügung",
             "advanceCare.provisionInstruments/instrument/guardian-nomination.label": "Sorgerechtsverfügung",
             "advanceCare.provisionInstruments/instrument/ki-verfuegung.label": "Verfügung zur digitalen Nachbildung",
             "advanceCare.provisionInstruments/instrument/custodian-appointment.label": "Betreuerbestellung (bereits bestellter Betreuer)",
             "advanceCare.provisionInstruments/form/privat.label": "privatschriftlich (selbst verfasst)",
+            "advanceCare.provisionInstruments/form/eigenhaendig.label": "vollständig von Hand geschrieben und unterschrieben",
             "advanceCare.provisionInstruments/form/beglaubigt.label": "amtlich / notariell beglaubigt",
             "advanceCare.provisionInstruments/form/beurkundet.label": "notariell beurkundet",
             "advanceCare.provisionInstruments/typeOfPowerOfAttorney/vorsorge.label": "Vorsorgevollmacht",
@@ -35781,7 +35966,9 @@
             "dok:erbschein-vorbereitung#0/lebensmittelpunkt.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#0/testament_form.frage": "Gibt es ein Testament oder einen Erbvertrag?",
             "dok:erbschein-vorbereitung#0/testament_form.luecke": "— nicht erfasst —",
-            "dok:erbschein-vorbereitung#0/4.texte[0]": "Hinweis: Diese Anwendung kennt heute keinen eigenen Erbvertrag-Typ — ein vorhandener Erbvertrag lässt sich hier nicht strukturiert eintragen und erscheint darum immer als Lücke, auch wenn tatsächlich einer besteht.",
+            "dok:erbschein-vorbereitung#0/testament_form.pruefen": "Form bitte prüfen: Ein Testament ist nur wirksam, wenn es ganz von Hand geschrieben und unterschrieben oder notariell beurkundet ist.",
+            "dok:erbschein-vorbereitung#0/erbvertrag_form.frage": "Gibt es daneben einen Erbvertrag?",
+            "dok:erbschein-vorbereitung#0/erbvertrag_form.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#0/grundeigentum.frage": "Ist Grundeigentum im Erbe enthalten?",
             "dok:erbschein-vorbereitung#0/grundeigentum.luecke": "— nicht erfasst, bitte im Erbfall selbst prüfen —",
             "dok:erbschein-vorbereitung#0/unternehmen.frage": "Ist ein im Handelsregister eingetragenes Unternehmen im Erbe enthalten?",
@@ -35797,6 +35984,8 @@
             "dok:erbschein-vorbereitung#1/3.texte[0]": "Enkel, Urenkel sowie Eltern/Voreltern der Erblasserin kennt das Datenmodell dieser Anwendung heute nicht strukturiert — diese Angaben bleiben grundsätzlich Lücke, unabhängig vom Pflegestand des Depots.",
             "dok:erbschein-vorbereitung#1/testament_bedachte_namen.frage": "Im Testament bedachte Person(en)?",
             "dok:erbschein-vorbereitung#1/testament_bedachte_namen.luecke": "— nicht erfasst —",
+            "dok:erbschein-vorbereitung#1/erbvertrag_bedachte_namen.frage": "Im Erbvertrag bedachte Person(en)?",
+            "dok:erbschein-vorbereitung#1/erbvertrag_bedachte_namen.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#1/erben_namen.frage": "Vorgesehene Erb(inn)en?",
             "dok:erbschein-vorbereitung#1/erben_namen.luecke": "— nicht erfasst —",
             "dok:erbschein-vorbereitung#2.titel": "Teil C — Urkunden für den Nachweis",
@@ -36117,11 +36306,11 @@
             "pro-betrieb-zugaenge.tpl_crafts_register/tpl_technical_manager.label": "Betriebsleitung",
             "pro-betrieb-zugaenge.tpl_crafts_register/tpl_craft_card.label": "Handwerkskarte",
             "pro-betrieb-zugaenge.tpl_crafts_register/tpl_chamber.label": "Kammer",
-            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.label": "Anzeigen an Gemeinde und Finanzamt",
-            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.hint": "Eröffnung, Verlegung oder Aufgabe, wann angezeigt.",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.label": "Meldungen bei Vertretung, Übergabe oder Aufgabe",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business.hint": "Welche Stellen je nach Beruf und Betrieb erfahren müssen, dass jemand Sie vertritt, dass Sie den Betrieb übergeben oder aufgeben: etwa Gewerbeamt, Finanzamt, Handelsregister, Agentur für Arbeit, Berufsgenossenschaft, Kassenärztliche oder Kassenzahnärztliche Vereinigung und Zulassungsausschuss, Kammer und Versorgungswerk je nach Berufsordnung bzw. Satzung. Je Meldung: Stelle, Anlass, bis wann und wann gemeldet.",
             "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_occasion.label": "Anlass",
             "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notified_on.label": "Angezeigt am",
-            "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office.label": "Finanzamt",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office.label": "Stelle",
             "pro-betrieb-zugaenge.tpl_business_identification_number.label": "Wirtschafts-Identifikationsnummer",
             "pro-betrieb-zugaenge.tpl_business_identification_number.hint": "Die W-IdNr. des Unternehmens.",
             "pro-betrieb-zugaenge.tpl_working_time_records.label": "Arbeitszeitaufzeichnungen",
@@ -36216,6 +36405,14 @@
             "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_who.label": "Wer",
             "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_by_when.label": "Bis wann",
             "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_documents_kept_at.label": "Unterlagen liegen bei",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_step.vorschlag": "Klären, wer jetzt rechtlich für die Firma handeln kann (weitere Geschäftsführung, Prokura allein oder nur gemeinsam, Vollmachten), und die Urkunden bereitlegen.\nIst niemand mit eigener Vertretungsmacht da: bei der GmbH eine weitere Geschäftsführung bestellen lassen, durch die Gesellschafter oder, wenn die Inhaberin einzige Gesellschafterin ist, durch ihre Stimmrechts- oder Vorsorgebevollmächtigte, wie unter „Gesellschaft und Nachfolge“ beschrieben; fehlt beides, eine Betreuung anregen oder eine Pflegschaft für ihre Vermögensangelegenheiten (§ 1884 BGB), wenn ihr Aufenthalt unbekannt ist oder sie an der Rückkehr und an der Erledigung ihrer Geschäfte gehindert ist, etwa durch Festhalten im Ausland, oder in dringenden Fällen beim Registergericht eine Bestellung beantragen. Beim Einzelunternehmen handelt, wer eine Vorsorge- oder Generalvollmacht für Vermögens- und Geschäftsangelegenheiten hat; fehlt sie, beim Betreuungsgericht eine Betreuung anregen oder eine Pflegschaft für ihre Vermögensangelegenheiten (§ 1884 BGB), wenn ihr Aufenthalt unbekannt ist oder sie an der Rückkehr und an der Erledigung ihrer Geschäfte gehindert ist, etwa durch Festhalten im Ausland.\nDie Personen aus der Liste „Wer zuerst informiert wird“ in der dort genannten Reihenfolge informieren.\nDie Beschäftigten informieren, wer jetzt entscheidet und an wen sie sich wenden, ohne Angaben zum Grund der Verhinderung.\nTermine und Fristen der nächsten zwei Wochen durchgehen: was wahrgenommen, verschoben oder abgesagt wird, und wo eine Fristverlängerung zu beantragen ist.\nPost und E-Mail sichern: festlegen, wer täglich durchsieht; persönlich adressierte Post nur mit Postvollmacht öffnen; bei unbesetzter Anschrift umleiten; Behördenpostfächer einbeziehen; Abwesenheitsnachricht einrichten.\nFällige Zahlungen prüfen (Löhne, Sozialversicherungsbeiträge, Steuern, Miete, Lieferanten) und bei Bedarf mit der Bank sprechen.\nWichtige Kunden und Lieferanten informieren, ohne Angaben zum Grund, und laufende Aufträge absichern.\nKlären, wo Schlüssel und Zugangsmittel verwahrt sind und wer sie in der Vertretung braucht.\nFesthalten, ab wann vertreten wird und welche Entscheidungen in dieser Zeit getroffen werden.",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_when_absent/tpl_by_when.vorschlag": "erster Tag\nerster Tag\nerster Tag\nerster Tag\nerste Tage\nerste Tage\nerste Woche\nerste Woche\nerste Woche\nlaufend",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_step.vorschlag": "Klären, wer jetzt für die Firma handeln kann: weitere Geschäftsführung, Prokura (allein oder nur gemeinsam), Vollmachten der Firma; dazu persönliche Vollmachten der Verstorbenen über den Tod hinaus, etwa für ihre Anteile.\nDie Personen aus der Liste „Wer zuerst informiert wird“ informieren, darunter Steuerberatung und Notariat.\nDie Beschäftigten informieren: wer bis auf Weiteres entscheidet.\nGmbH, wenn keine Geschäftsführung mehr im Amt ist: die Bestellung einer neuen Geschäftsführung durch die Gesellschafter einleiten, wie unter „Gesellschaft und Nachfolge“ beschrieben; sind Erben Gesellschafter, Erbnachweis und Gesellschafterliste klären; in dringenden Fällen eine Bestellung beim Registergericht beantragen. Einzelunternehmen: mit den Erben klären, ob und von wem der Betrieb fortgeführt wird; die Frist für eine Ausschlagung der Erbschaft beachten (sechs Wochen ab Kenntnis, sechs Monate, wenn die Verstorbene nur im Ausland wohnte oder der Erbe sich bei Fristbeginn im Ausland aufhält) und, wenn der Betrieb ein kaufmännisches Gewerbe ist (im Handelsregister eingetragen oder nach Art und Umfang kaufmännisch eingerichtet), die Frist von drei Monaten ab Kenntnis vom Erbfall, in der eine Einstellung des Betriebs die unbeschränkte Haftung nach Handelsrecht für frühere Geschäftsschulden vermeidet; die Haftung als Erbe für Nachlassschulden bleibt davon unberührt.\nTestament oder Erbvertrag heraussuchen und unverzüglich beim Nachlassgericht abliefern; den Erbnachweis klären (Erbschein oder notarielles Testament bzw. notarieller Erbvertrag mit Eröffnungsniederschrift); bei der GmbH die Nachfolgeregelung im Gesellschaftsvertrag prüfen lassen.\nFällige Zahlungen prüfen (Löhne, Sozialversicherungsbeiträge, Steuern, Miete) und klären, wer sie freigeben kann.\nBanken informieren und klären, wer über die Konten verfügen darf.\nVersicherungen mit Meldefrist benachrichtigen und laufende Fristen (Steuern, Verträge, Gerichtsverfahren) sichern.\nWichtige Kunden und Lieferanten informieren und laufende Aufträge absichern.\nPost, E-Mail, Zugänge und Datensicherung so sichern, dass der Betrieb weiterlaufen kann.\nÄnderungen über das Notariat beim Handelsregister anmelden: bei der GmbH das Ausscheiden der Verstorbenen, wenn sie Geschäftsführerin war, und die neue Geschäftsführung (§ 39 GmbHG); die Geschäftsführung reicht eine neue Gesellschafterliste mit den Erben ein (§ 40 Abs. 1 GmbHG). Beim Einzelunternehmen, falls eingetragen: die Erben als neue Inhaber, mit Erbnachweis, oder, wenn der Betrieb eingestellt wird, das Erlöschen der Firma (§ 31 HGB). Dazu das Transparenzregister (GmbH), das Gewerbeamt (vor allem beim Einzelunternehmen) und beim zulassungspflichtigen Handwerk (Meisterpflicht) die Handwerkskammer (Handwerksrolle); war die Verstorbene die Betriebsleiterin, unverzüglich eine neue fachlich qualifizierte Betriebsleitung bestellen und der Handwerkskammer anzeigen (§ 4, § 16 Abs. 2 HwO).",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_by_when.vorschlag": "erster Tag\nerster Tag\nerste Tage\nerste Tage\nerste Tage\nerste Tage\nerste Tage\nerste Woche\nerste Woche\nerste Woche\nerste Wochen",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_step.vorschlag": "Prüfen, ob die Vertretung auf Dauer trägt: Umfang und Befristung der Vollmachten, Prokura und der Einträge unter „Kontakte und Vertretung“; wo nötig erweitern oder verlängern lassen, durch die Inhaberin, solange sie selbst handeln kann, sonst bei der GmbH durch Geschäftsführung oder Gesellschafter (Schritt 2), beim Einzelunternehmen durch eine Betreuerin oder Pflegerin (Schritt 3); eine Prokura kann eine Bevollmächtigte nicht erteilen (§ 48 Abs. 1 HGB), eine Betreuerin oder Pflegerin nur mit Genehmigung des Betreuungsgerichts (§ 1852 Nr. 3 BGB).\nGmbH: entscheiden, ob die Gesellschafter eine weitere Geschäftsführung bestellen, wie unter „Gesellschaft und Nachfolge“ beschrieben; die Bestellung über das Notariat beim Handelsregister anmelden.\nFehlt eine Vollmacht für Vermögens- und Geschäftsangelegenheiten (Einzelunternehmen) oder für die Gesellschafterrechte (GmbH, wenn ohne die Stimme der Inhaberin keine Geschäftsführung bestellt werden kann): beim Betreuungsgericht eine Betreuung anregen oder eine Pflegschaft für ihre Vermögensangelegenheiten (§ 1884 BGB), wenn ihr Aufenthalt unbekannt ist oder sie an der Rückkehr und an der Erledigung ihrer Geschäfte gehindert ist.\nBeschäftigte, wichtige Kunden und Lieferanten informieren, wer auf längere Zeit entscheidet, ohne Angaben zum Grund.\nMit Bank und Steuerberatung Kontovollmachten, Zahlungsfreigaben und Steuertermine auf die Vertretung abstimmen.\nVersicherungen prüfen, die bei längerer Verhinderung leisten können (etwa eine Betriebsunterbrechungsversicherung, die auch bei Krankheit der Inhaberin leistet, Krankentagegeld oder Berufsunfähigkeit), und deren Meldefristen einhalten.\nLaufende Verträge, Aufträge und Fristen durchsehen: was weitergeführt, übertragen oder beendet wird.\nMit der Beratung klären, ob ein Verkauf, eine Übergabe oder eine Verpachtung vorbereitet werden soll; dafür die Liste „Erste Schritte bei Verkauf oder Übergabe“ heranziehen. Handelt eine Betreuung, braucht ein Verkauf oder eine Verpachtung des Betriebs die Genehmigung des Betreuungsgerichts.",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_long_absence/tpl_by_when.vorschlag": "erste Woche\nerste Wochen\nerste Woche\nerste Wochen\nerste Wochen\nerste Wochen\nerster Monat\nlaufend",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_step.vorschlag": "Die Form der Übergabe festhalten (Anteils- oder Vermögenskauf, Schenkung, Pacht), wie unter „Gesellschaft und Nachfolge“ beschrieben, und Steuerberatung und Notariat früh einbinden.\nDie Unterlagen für die Prüfung durch die Gegenseite zusammenstellen: Registerauszug, Jahresabschlüsse, wesentliche Verträge, Genehmigungen, bei der GmbH Gesellschaftsvertrag und Gesellschafterliste; vorher eine Vertraulichkeitsvereinbarung schließen. Angaben zu Beschäftigten zunächst nur zusammengefasst herausgeben, Angaben zu einzelnen Personen erst kurz vor dem Abschluss und nur, soweit sie dafür nötig sind.\nZustimmungen klären: Gesellschafter (bei der GmbH auch, ob der Gesellschaftsvertrag die Abtretung an eine Genehmigung knüpft), Vermietung, Vertragspartner mit Klausel für einen Inhaberwechsel, Bank; beim Vermögenskauf, welche Verträge einzeln übertragen werden müssen, und für die Fortführung der Firma die ausdrückliche Einwilligung des bisherigen Inhabers; bei Verheirateten im gesetzlichen Güterstand die Einwilligung des Ehegatten, wenn der Betrieb oder die Anteile nahezu das ganze Vermögen ausmachen.\nGeht der Betrieb oder ein Betriebsteil durch Vertrag auf einen neuen Inhaber über (Vermögenskauf, Schenkung oder Pacht, nicht beim Anteilskauf): die betroffenen Beschäftigten vorher in Textform unterrichten, durch die bisherige Arbeitgeberin oder den neuen Inhaber, über Zeitpunkt, Grund, Folgen und geplante Maßnahmen (§ 613a Abs. 5 BGB); sie können innerhalb eines Monats nach Zugang der Unterrichtung schriftlich widersprechen (§ 613a Abs. 6 BGB).\nKaufpreis, Stichtag und Zahlungsweise im Vertrag festhalten; bei GmbH-Anteilen den Vertrag (Kauf oder Schenkung) und die Abtretung notariell beurkunden lassen (§ 15 Abs. 3 und 4 GmbHG); beim Vermögenskauf mit Grundstück ebenso (§ 311b Abs. 1 BGB) und, auch ohne Grundstück, wenn sich die Verkäuferseite verpflichtet, ihr ganzes gegenwärtiges Vermögen oder einen Bruchteil davon zu übertragen (§ 311b Abs. 3 BGB).\nZum Stichtag Konten, Vollmachten, Zugänge und Schlüssel übergeben oder widerrufen und festhalten, was übergeben wurde.\nÄnderungen anmelden: beim Anteilskauf reicht das Notariat die neue Gesellschafterliste ein (§ 40 Abs. 2 GmbHG); eine neue Geschäftsführung und das Erlöschen einer Prokura über das Notariat beim Handelsregister anmelden (§ 39 GmbHG, § 53 Abs. 2 HGB); dazu das Transparenzregister. Beim Vermögenskauf oder der Übergabe des Einzelunternehmens, falls eingetragen, den Inhaberwechsel oder das Erlöschen der Firma beim Handelsregister (§ 31 HGB); das Gewerbe ab- und anmelden (§ 14 GewO) und das Finanzamt informieren; beim Handwerksbetrieb die Handwerksrolle.\nKunden und Lieferanten über den neuen Inhaber informieren (beim Anteilskauf: über die neuen Gesellschafter oder die neue Geschäftsführung). Beim Vermögenskauf eines kaufmännischen Betriebs mit Fortführung der Firma haftet der Erwerber für die früheren Geschäftsverbindlichkeiten (§ 25 Abs. 1 HGB); ein vereinbarter Ausschluss wirkt gegenüber Dritten nur, wenn er im Handelsregister eingetragen und bekanntgemacht oder ihnen mitgeteilt ist (§ 25 Abs. 2 HGB), daher im Vertrag vereinbaren und zum Stichtag anmelden. Unabhängig von der Firma haftet der Erwerber eines ganzen Betriebs für betriebliche Steuern seit Beginn des Vorjahres, beschränkt auf das übernommene Vermögen (§ 75 AO).\nKlären, wer die Geschäftsunterlagen nach der Übergabe aufbewahrt und wie lange (§ 257 HGB, § 147 AO).",
+            "pro-kontakte-vertretungsplan.tpl_first_steps_sale_or_handover/tpl_by_when.vorschlag": "vor der Übergabe\nvor der Übergabe\nvor der Übergabe\nvor dem Übergang\nzum Vertrag\nStichtag\nnach dem Stichtag\nnach dem Stichtag\nnach dem Stichtag",
             "pro-kontakte-vertretungsplan.tpl_first_steps_after_death.label": "Erste Schritte im Todesfall",
             "pro-kontakte-vertretungsplan.tpl_first_steps_after_death.hint": "Was in den ersten Tagen nach Ihrem Tod für die Firma zu tun ist: der Schritt, wer ihn übernimmt, bis wann und wo die Unterlagen dazu liegen.",
             "pro-kontakte-vertretungsplan.tpl_first_steps_after_death/tpl_step.label": "Schritt",
@@ -36560,7 +36757,16 @@
             "pro-gesellschaft-nachfolge.tpl_payment_terms/wiederkehrend.label": "Wiederkehrende Bezüge oder Rente",
             "pro-gesellschaft-nachfolge.tpl_payment_terms/erfolgsabhaengig.label": "Teilweise erfolgsabhängig",
             "pro-gesellschaft-nachfolge.tpl_payment_terms/verkaeuferdarlehen.label": "Mit Darlehen der Verkäuferseite",
-            "pro-gesellschaft-nachfolge.tpl_payment_terms/noch_offen.label": "Noch offen"
+            "pro-gesellschaft-nachfolge.tpl_payment_terms/noch_offen.label": "Noch offen",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification.label": "Unterrichtung der Beschäftigten beim Betriebsübergang",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification.hint": "Nur wenn der Betrieb oder ein Betriebsteil durch Rechtsgeschäft auf einen neuen Inhaber übergeht, etwa durch Verkauf; nicht beim Kauf von Anteilen und nicht im Erbfall. Die Beschäftigten werden vor dem Übergang in Textform unterrichtet, durch den bisherigen Arbeitgeber oder den neuen Inhaber. Hier: wann, durch wen, wer betroffen ist, wo die Unterrichtung liegt und ob jemand widersprochen hat.",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_on.label": "Unterrichtet am",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_by.label": "Unterrichtet durch",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_affected_staff.label": "Betroffene Beschäftigte",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_notice_kept_at.label": "Unterrichtung liegt bei",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_objections.label": "Widersprüche",
+            "pro-betrieb-zugaenge.tpl_staff_transfer_notification.weitererEintrag": "Weitere Unterrichtung hinzufügen",
+            "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notify_by.label": "Zu melden bis"
           },
           "regeln": {
             "datumsformat": "TT.MM.JJJJ",
@@ -36965,6 +37171,26 @@
                 },
                 "unterfeld": "personsNamedInTheWill"
               },
+              "erbvertrag_form": {
+                "typ": "listenfeld",
+                "sektor": "advanceCare",
+                "feld": "provisionInstruments",
+                "diskriminante": {
+                  "feld": "instrument",
+                  "wert": "contract-of-inheritance"
+                },
+                "unterfeld": "form"
+              },
+              "erbvertrag_bedachte_namen": {
+                "typ": "listenfeldPersonenNamen",
+                "sektor": "advanceCare",
+                "feld": "provisionInstruments",
+                "diskriminante": {
+                  "feld": "instrument",
+                  "wert": "contract-of-inheritance"
+                },
+                "unterfeld": "personsNamedInTheWill"
+              },
               "erben_namen": {
                 "typ": "personenNamen",
                 "sektor": "advanceCare",
@@ -37022,13 +37248,21 @@
                       "feld": "provisionInstruments",
                       "unterfeld": "form"
                     },
-                    "luecke": "— nicht erfasst —"
+                    "luecke": "— nicht erfasst —",
+                    "pruefen": "Form bitte prüfen: Ein Testament ist nur wirksam, wenn es ganz von Hand geschrieben und unterschrieben oder notariell beurkundet ist."
                   },
                   {
-                    "typ": "immer",
-                    "texte": [
-                      "Hinweis: Diese Anwendung kennt heute keinen eigenen Erbvertrag-Typ — ein vorhandener Erbvertrag lässt sich hier nicht strukturiert eintragen und erscheint darum immer als Lücke, auch wenn tatsächlich einer besteht."
-                    ]
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "erbvertrag_form",
+                    "frage": "Gibt es daneben einen Erbvertrag?",
+                    "format": {
+                      "typ": "codeListeLabel",
+                      "praefix": "Erbvertrag, ",
+                      "sektor": "advanceCare",
+                      "feld": "provisionInstruments",
+                      "unterfeld": "form"
+                    },
+                    "luecke": "— nicht erfasst —"
                   },
                   {
                     "typ": "frageAntwortOderLuecke",
@@ -37089,6 +37323,15 @@
                     "typ": "frageAntwortOderLuecke",
                     "feldId": "testament_bedachte_namen",
                     "frage": "Im Testament bedachte Person(en)?",
+                    "format": {
+                      "typ": "liste"
+                    },
+                    "luecke": "— nicht erfasst —"
+                  },
+                  {
+                    "typ": "frageAntwortOderLuecke",
+                    "feldId": "erbvertrag_bedachte_namen",
+                    "frage": "Im Erbvertrag bedachte Person(en)?",
                     "format": {
                       "typ": "liste"
                     },
@@ -41613,6 +41856,14 @@
                       },
                       {
                         "quelle": "advanceCare",
+                        "feld": "instrument:contract-of-inheritance"
+                      },
+                      {
+                        "quelle": "advanceCare",
+                        "feld": "liste:provisionInstruments:contract-of-inheritance:storageLocation"
+                      },
+                      {
+                        "quelle": "advanceCare",
                         "feld": "heirsBriefOverview"
                       },
                       {
@@ -41774,6 +42025,7 @@
                 ],
                 "dokumenttypen": [
                   "will",
+                  "contract-of-inheritance",
                   "enduring-power-of-attorney"
                 ],
                 "dokumenttypenVorschlag": true

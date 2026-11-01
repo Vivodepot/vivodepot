@@ -7,7 +7,7 @@
 **Bezug:** U2-ADR-047 (SHL offline im Kern, Zone 2 für die Ablage) · U2-ADR-183 (Ablage-Host; Muster der eigenen Seite mit
 eigener Herkunft, `share/empfangen.html`) · U2-ADR-156 1b (eigene zugeschnittene Datei je Empfänger) · U2-ADR-449 (Antwort als
 JWE) · U2-ADR-464 (aufgefüllte Einheiten) · U2-ADR-501 (Zertifikat der Stelle)
-**Status heute:** gilt — Belege im `konformitaet`-Block unten; die Strecke gegen einen lokalen Pod ist dort offen geführt.
+**Status heute:** gilt — Belege im `konformitaet`-Block unten; die Strecke gegen einen lokalen Pod ist seit 27.10.2026 belegt.
 **Nachtrag 25.10.2026:** Stufe 2 (`postMessage` aus dem Kern) ist entschieden in
 `vivodepot-U2-ADR-512-nachtrag-stufe-2-postmessage-aus-dem-kern-2026-10-25.md`.
 
@@ -176,8 +176,14 @@ konformitaet:
   - aussage: >-
       Gegen einen lokalen Community Solid Server: Ablegen und Abholen byte-gleich, Container des Freigabe-Links nicht öffentlich,
       Freigabe nur für die WebID der Stelle, keine Anfrage an fremde Herkünfte.
-    zustand: offen
-    frist: 2026-10-30
-    bedingung: tests/e2e-pod/pod-bruecke.spec.js grün in Chromium, Firefox und WebKit mit installiertem Server (npm run test:e2e:pod); die Strecke überspringt sich ohne VD_POD_CSS und zählt darum nicht als Beleg in der Suite
-    herkunft: U2-ADR-512 (22.10.2026)
+    zustand: erfuellt
+    herkunft: U2-ADR-512 (22.10.2026); geschlossen am 27.10.2026 — die Strecke lief am Kanon 21fa79220 in Chromium, Firefox und
+      WebKit grün, jede Probe in jedem Browser, mit dem gepinnten Community Solid Server. Sie läuft am
+      eigenen Runner (Chromium, WebKit) und im pre-push (Firefox) weiter; in der Suite überspringt sie sich ohne VD_POD_CSS.
+    pruefung:
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Sicherung] eigene Sicherung: abgelegt, byte-gleich abgeholt, ohne Anmeldung nicht lesbar"
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Link] Freigabe-Link: Ressource öffentlich, Container nicht; entschlüsselt mit dem Schlüssel aus dem Link und über die Abholseite"
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Link·Rot-Beweis] erbt der Container eine öffentliche Regel, steht der unrätbare Pfad in der Auflistung"
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Stelle] Freigabe an eine Stelle: nur deren WebID liest, ohne Anmeldung niemand"
+      - tests/e2e-pod/pod-bruecke.spec.js "[Pod·Netz] alle Anfragen gingen nur an den lokalen Pod und die Brücke"
 ```

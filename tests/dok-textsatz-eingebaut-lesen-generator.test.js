@@ -27,7 +27,7 @@ test('[DOK-TEXTSATZ_EINGEBAUT_LESEN·Erzeuger·Drift-Wächter] die Region ist da
   assert.ok(s.includes(G.ENDE), 'END-Marker fehlt');
   const ausKern = G.kennungenAusKern();
   // 83 → 93 (27.09.2026, U2-ADR-439): Erbschein Teil C — Titel, zwei Hinweistexte, drei Fragen mit Lücke (+10).
-  assert.equal(Object.keys(ausKern).length, 93, 'Vorbedingung: 93 Kennungen (U2-ADR-357-Kopfkommentar, +10 Teil C)');
+  assert.equal(Object.keys(ausKern).length, 97, 'Vorbedingung: 97 Kennungen (U2-ADR-357-Kopfkommentar, +10 Teil C; 93 → 96 am 25.10.2026: Erbschein-Auszug mit zwei Erbvertrag-Fragen statt des Hinweises; 96 → 97 am 26.10.2026: der Prüfhinweis zur Testamentsform)');
   const region = G.region(ausKern);
   assert.ok(s.includes(region.split('\n').slice(1, -1).join('\n')),
     'vivodepot-lesen.html führt einen anderen Kennungsraum als frisch aus dem Kern erzeugt — '

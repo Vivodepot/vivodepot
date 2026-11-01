@@ -63,10 +63,11 @@ test('[A435·Rot-Beweis] an einem TESTAMENT steht er NICHT — dort wäre er fal
     'an einem Testament ist ein Satz über Vollmachten eine falsche Aussage (U2-ADR-025)');
 });
 
-test('[A435] die sechs übrigen Instrumente tragen ihn ebenfalls nicht', () => {
+test('[A435] die sieben übrigen Instrumente tragen ihn ebenfalls nicht', () => {
   const { V } = ladeKern();
   for (const typ of ['living-will', 'will', 'custodianship-declaration',
-                     'guardian-nomination', 'ki-verfuegung', 'custodian-appointment']) {
+                     'guardian-nomination', 'ki-verfuegung', 'custodian-appointment',
+                     'contract-of-inheritance']) {
     const anlaesse = depotMitInstrument(V, typ);
     assert.equal(anlaesse.length, 1, typ + ': Vorbedingung, die Zeile ist markiert');
     assert.doesNotMatch(anlaesse[0].text, /Vollmacht/, typ + ' ist keine Vollmacht');
@@ -74,13 +75,14 @@ test('[A435] die sechs übrigen Instrumente tragen ihn ebenfalls nicht', () => {
 });
 
 test('[A435] die Liste der Vollmacht-Typen ist geschlossen und nennt genau einen', () => {
-  /* Sechs der sieben Instrument-Typen sind Verfügungen oder ein Gerichtsbeschluss. Wächst die
-     Liste, ist das eine Entscheidung — und diese Probe zwingt, sie zu treffen. */
+  /* Sieben der acht Instrument-Typen sind Verfügungen oder ein Gerichtsbeschluss. Wächst die
+     Liste, ist das eine Entscheidung — und diese Probe zwingt, sie zu treffen. Der achte kam am
+     27.10.2026 mit dem Erbvertrag (§ 2276 BGB) dazu: eine Verfügung von Todes wegen, keine Vollmacht. */
   const { V } = ladeKern();
   assert.deepEqual([...V.EREIGNIS_VOLLMACHT_TYPEN], ['enduring-power-of-attorney']);
   const typFeld = V.SEKTOR_BY_ID.advanceCare.sektionen.flatMap((s) => s.felder || [])
     .find((f) => f.id === 'provisionInstruments').unterFelder.find((u) => u.id === 'instrument');
-  assert.equal(typFeld.optionen.length, 7, 'sieben Instrument-Typen — sechs davon keine Vollmacht');
+  assert.equal(typFeld.optionen.length, 8, 'acht Instrument-Typen — sieben davon keine Vollmacht');
   for (const t of V.EREIGNIS_VOLLMACHT_TYPEN) {
     assert.ok(typFeld.optionen.some((o) => o.wert === t), t + ' steht nicht in der Typenliste');
   }

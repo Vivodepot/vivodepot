@@ -78,12 +78,16 @@ function unsichtbareUnterfelder(L) {
   const fehlt = [];
   for (const u of f.unterFelder || []) {
     if (u.typ === 'hinweis') continue;                    // traegt keinen Wert
-    let wert, erwartet;
-    if (u.typ === 'auswahl') { const o = (u.optionen || [])[0]; if (!o) continue; wert = o.wert; erwartet = o.label; }
+    let wert, erwartet, zeile = {};
+    if (u.typ === 'auswahl') {
+      const o = (u.optionen || [])[0]; if (!o) continue; wert = o.wert; erwartet = o.label;
+      // Option je Zeile (26.10.2026): eine Option mit eigenem sichtbarWenn bekommt eine Zeile, in der sie angeboten wird.
+      if (o.sichtbarWenn && o.sichtbarWenn.feld) zeile = { [o.sichtbarWenn.feld]: [].concat(o.sichtbarWenn.wert)[0] };
+    }
     else if (u.typ === 'datum') { wert = '2026-01-01'; erwartet = '01.01.2026'; }   // seit 30.09.2026 deutsch und beschriftet (tests/listen-zusammenfassung-datum.test.js)
     else if (u.typ === 'ref' || u.typ === 'refMehrfach') continue;   // brauchen ein Register
     else { wert = 'Probe-' + u.id; erwartet = wert; }
-    const z = L.listenEintragZusammenfassung(f, { id: 'x', [u.id]: wert });
+    const z = L.listenEintragZusammenfassung(f, Object.assign({ id: 'x' }, zeile, { [u.id]: wert }));
     if (!z.includes(erwartet)) fehlt.push(u.id);
   }
   return fehlt;

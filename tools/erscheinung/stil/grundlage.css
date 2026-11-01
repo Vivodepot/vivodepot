@@ -1033,6 +1033,8 @@
      Urheberschafts-Zeile nach dem Hint) — dadurch sprang der Abstand sichtbar zwischen Feldern.
      Der Hint traegt seinen Abstand jetzt selbst, unabhaengig vom Kontext drumherum. */
   .feld-hint { grid-column: 1 / -1; color: var(--ink); font-family: var(--font-inter); font-style: normal; font-size: var(--fs-xs); margin: var(--space-1) 0 var(--space-2); }
+  /* Pro E4: die Vorschrift hinter dem Feld steht dicht unter dem Hinweis, als Fundstelle, nicht als zweiter Hinweis. */
+  .feld-hint.feld-vorschrift { margin-top: 0; }
   /* Urheberschaft-Zeile (U2-ADR-005) — sehr klein und zurückhaltend; der Stempel
      ist eine Fußnote am Feld, nicht der Inhalt. (Volle Sicht später im Export/Druck.) */
   .feld-urheber { color: var(--ink3); font-size: var(--fs-urheber); opacity: 0.8; margin-top: 2px; line-height: 1.3; }

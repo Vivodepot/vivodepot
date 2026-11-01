@@ -29,7 +29,9 @@ const BESTAND = 'misst den ganzen privaten Bestand gegen eine Grundlinie';
 const ZUSCHNITT = 'prüft eine erzeugte Datei, deren Stempel der Zuschnitt durch die Fassung ersetzt';
 const VORLAGEN = 'braucht zurückgehaltene Vorlagen (Klassen A bis C); öffentlich greift ihr erfundenes Gegenstück (je Name gemessen, privat geführt)';
 const MARKE = path.join('tools', 'befund-ratsche.json');
-const DECKEL = 73;   // 71 → 73 am 27.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v955): pro-e1-anlaesse und situation-blocktitel-ab-werk,
+const DECKEL = 75;   // 74 → 75 am 01.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v956): pro-meldungen-deckung, BESTAND (öffentlich nur zwei Privat-Produkte).
+                     // 73 → 74 am 28.10.2026 (Wort der Gegenlesung): testamentsform-pro-katalog, BESTAND (öffentlich nur zwei Privat-Produkte).
+                     // 71 → 73 am 27.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v955): pro-e1-anlaesse und situation-blocktitel-ab-werk,
                      //   BESTAND (öffentlich nur zwei Privat-Produkte); die Privat-Tests der zweiten Datei laufen öffentlich weiter.
                      // 64 → 71 am 25.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v952): sechs Proben BESTAND (öffentlich nur zwei Privat-Produkte)
                      //   und zwei Tests aus abgeschaffte-begriffe, die das zurückgehaltene IPS-Begleittext-Modul lesen; je mit eigenem Grund.
@@ -354,10 +356,13 @@ const NUR_PRIVAT = {
   "tests/wizard-optionen-aus-materialisieren-u2-adr-341.test.js": { grund: GIT, tests: [
     "[U2-ADR-341 · Rot-Beweis 1] A1b real vollzogen: Optionen byte-gleich zum Kern VOR dem Umzug (Commit-Vergleich)",
   ] },
-  // liest das IPS-Begleittext-Modul, das zurückgehalten wird; die übrigen fünf Tests der Datei laufen öffentlich
+  // liest das IPS-Begleittext-Modul, das zurückgehalten wird; die übrigen sechs Tests der Datei laufen öffentlich.
+  // 01.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v956): dazu die Probe über die englische Angehörigen-Vorlage,
+  // die ab Werk drinnen bleibt (Zuschnitt, Klassen A bis C); öffentlich fehlte die Datei (ENOENT).
   "tests/abgeschaffte-begriffe.test.js": { grund: BESTAND, tests: [
     "[Abgeschafft·IPS] der englische IPS-Begleittext trägt keinen alten Vorsorgebegriff (Sektionstitel „Advance Directives“ ist der IPS-Name)",
     "[Abgeschafft·Geltung] das Register liest nur Vivodepots eigenen Wortlaut, kein Modul eines anderen Rechtsraums",
+    "[Abgeschafft·Angehörige] die englische Angehörigen-Vorlage trägt keinen abgeschafften Begriff",
   ] },
   // 25.10.2026 (Wort der Gegenlesung, öffentlicher Lauf v952): seit v933 neue Proben, die Pro, alle vier Produkte oder
   // zurückgehaltene Werkzeuge voraussetzen; je Test der eigene Grund.
@@ -405,6 +410,21 @@ const NUR_PRIVAT = {
     "[Blocktitel] pro-de: jeder Block jeder Situation ab Werk zeigt seine Überschrift",
     "[Blocktitel] pro-en: jeder Block jeder Situation ab Werk zeigt seine Überschrift",
     "[Blocktitel] pro-de und pro-en: die Pro-Anlässe tragen ihre Block-Überschriften aus dem Modul",
+  ] },
+  // 28.10.2026 (Wort der Gegenlesung): baut pro-de und pro-en; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/testamentsform-pro-katalog.test.js": { grund: BESTAND, tests: [
+    "[Testamentsform·Pro] pro-de: eine Form, die die Zeile nicht anbietet, geht nicht in den Erbschein-Auszug",
+    "[Testamentsform·Pro] pro-en: eine Form, die die Zeile nicht anbietet, geht nicht in den Erbschein-Auszug",
+    "[Testamentsform·Pro] pro-de: eine vorgesehene Form geht weiter in den Auszug",
+  ] },
+  // 01.11.2026 (Wort der Gegenlesung, öffentlicher Lauf v956): baut pro-de und pro-en; öffentlich gehen nur die zwei Privat-Produkte hinaus
+  "tests/pro-meldungen-deckung.test.js": { grund: BESTAND, tests: [
+    "[Pro·E7] pro-de: eine Gruppe für die Meldungen an alle Stellen, mit Stelle, Anlass, Gemeldet am und Zu melden bis",
+    "[Pro·E7·Werterhalt] pro-de: ein eingetragenes Finanzamt steht nach dem Öffnen unverändert unter „Stelle“",
+    "[Pro·E7·eine Gruppe] pro-de: kein zweites Pro-Feld erfasst eine Meldung an diese Stellen bei Vertretung, Übergabe oder Aufgabe",
+    "[Pro·E7] pro-en: eine Gruppe für die Meldungen an alle Stellen, mit Stelle, Anlass, Gemeldet am und Zu melden bis",
+    "[Pro·E7·Werterhalt] pro-en: ein eingetragenes Finanzamt steht nach dem Öffnen unverändert unter „Stelle“",
+    "[Pro·E7·eine Gruppe] pro-en: kein zweites Pro-Feld erfasst eine Meldung an diese Stellen bei Vertretung, Übergabe oder Aufgabe",
   ] },
 };
 

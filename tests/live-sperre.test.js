@@ -135,3 +135,79 @@ test('[Menschen-Nachweis·Spur·Rot-Beweis] ohne `werkzeug` keine Zeile; eine Ze
   const falsch = { zeit: 'x', hook: 'mensch-nachweis', werkzeug: 'w', nachweis: 'ja', passphrase: 'x' };
   assert.notDeepEqual(Object.keys(falsch).sort(), [...SPUR_SCHLUESSEL].sort());
 });
+
+/* Befund MENSCH-NACHWEIS-WARTET-NICHT (28.10.2026): der Zugriff auf process.stdin.isTTY in echtesTerminal() öffnet stdin als
+   Strom und stellt fd 0 auf O_NONBLOCK. readSync warf darauf sofort EAGAIN, das catch machte '' daraus — die Frage wartete nie
+   auf die Antwort, der Auslieferungslauf brach zweimal in Schritt 0 ab. Gelesen wird jetzt über zeileVonStdin: EAGAIN heißt
+   „noch nichts getippt“, also warten und neu lesen; EOF und jeder andere Fehler bleiben '' und die Sperre zu. */
+const { zeileVonStdin, FRIST_MS } = require('../tools/lib/live-sperre.js');
+
+function leser(folge) {
+  let i = 0;
+  return (puffer) => {
+    const schritt = folge[i++];
+    if (schritt instanceof Error) throw schritt;
+    return puffer.write(schritt);
+  };
+}
+const fehler = (code) => Object.assign(new Error(code), { code });
+
+test('[Menschen-Nachweis·Warten] EAGAIN heißt warten: nach zweimal EAGAIN kommt das „ja“ an', () => {
+  let gewartet = 0;
+  assert.equal(zeileVonStdin(leser([fehler('EAGAIN'), fehler('EAGAIN'), 'ja\n']), () => { gewartet++; }), 'ja');
+  assert.equal(gewartet, 2, 'je EAGAIN eine Pause, kein Dauerlauf');
+});
+
+test('[Menschen-Nachweis·Warten] EOF und jeder andere Fehler bleiben leer — die Sperre bleibt zu', () => {
+  const nieWarten = () => assert.fail('nur EAGAIN wartet');
+  assert.equal(zeileVonStdin(leser(['']), nieWarten), '');
+  assert.equal(zeileVonStdin(leser([fehler('EIO')]), nieWarten), '');
+  assert.equal(zeileVonStdin(leser([fehler('EAGAIN'), fehler('EIO')]), () => {}), '');
+  assert.equal(entscheidungMit(''), 'am Terminal nicht mit „ja“ bestätigt');
+});
+
+test('[Menschen-Nachweis·Frist] steht niemand am Terminal, endet das Warten nach der Frist leer — die Sperre bleibt zu', () => {
+  let uhr = 0;
+  const immerEagain = () => { throw fehler('EAGAIN'); };
+  assert.equal(zeileVonStdin(immerEagain, (ms) => { uhr += ms; }, () => uhr), '');
+  assert.ok(uhr >= FRIST_MS && uhr < FRIST_MS + 100, 'gewartet wird bis zur Frist, nicht länger');
+});
+
+function entscheidungMit(antwort) {
+  return menschNachweis({}, { istTTY: true, bestaetigen: () => antwort });
+}
+
+/* Wächter gegen die Klasse: jedes synchrone Lesen von stdin unter tools/ und hooks/ läuft über zeileVonStdin. Eine zweite Stelle
+   mit readSync(0 …) hätte denselben Fehler, sobald irgendwer vorher process.stdin anfasst. */
+const STDIN_SYNC = /readSync\(\s*(?:0\b|process\.stdin\.fd\b|['"]\/dev\/stdin['"])/;
+function stdinSyncFunde(dateien, lesen) {
+  const aus = [];
+  for (const datei of dateien) {
+    const text = lesen(datei);
+    if (text === null) continue;
+    text.split('\n').forEach((zeile, i) => {
+      if (!STDIN_SYNC.test(zeile)) return;
+      if (datei === 'tools/lib/live-sperre.js' && /^function zeileVonStdin\(lesen = \(puffer\) => fs\.readSync\(0, /.test(zeile)) return;
+      aus.push(datei + ':' + (i + 1) + '  ' + zeile.trim().slice(0, 120));
+    });
+  }
+  return aus;
+}
+
+test('[Menschen-Nachweis·Wächter] stdin wird unter tools/ und hooks/ nur über zeileVonStdin synchron gelesen', () => {
+  const { execFileSync } = require('node:child_process');
+  const { ohneGitUmgebung } = require('../tools/lib/ohne-git-umgebung.js');
+  const dateien = execFileSync('git', ['ls-files', 'tools', 'hooks'], { cwd: REPO, encoding: 'utf8', env: ohneGitUmgebung() })
+    .split('\n').filter((d) => d && (d.endsWith('.js') || d.endsWith('.mjs') || d.startsWith('hooks/')));
+  const lesenRepo = (d) => { try { return fs.readFileSync(path.join(REPO, d), 'utf8'); } catch (_) { return null; } };
+  assert.deepEqual(stdinSyncFunde(dateien, lesenRepo), []);
+});
+
+test('[Menschen-Nachweis·Wächter·Rot-Beweis] ein eigenes readSync(0 …) außerhalb von zeileVonStdin fällt', () => {
+  const texte = {
+    'tools/x.js': "try { n = fs.readSync(0, puffer, 0, 256, null); } catch (_) { return ''; }",
+    'tools/y.js': 'fs.readSync(process.stdin.fd, b)',
+    'tools/lib/live-sperre.js': "      try { n = fs.readSync(0, puffer, 0, puffer.length, null); } catch (_) { return ''; }",
+  };
+  assert.equal(stdinSyncFunde(Object.keys(texte), (d) => texte[d]).length, 3);
+});

@@ -79,22 +79,17 @@
    ════════════════════════════════════════════════════════════════════════════ */
 const fs = require('node:fs');
 const path = require('node:path');
+const { dateienUnter } = require('./lib/baum-gehen.js');
 
 const REPO = path.join(__dirname, '..');
 
 /* Erreicht jede `.js`-Datei unter jedem übergebenen Wurzelverzeichnis,
    rekursiv (die Suite-Differenz vom 11.08./A155 lehrte: ein flacher Glob
-   lässt Unterordner still aus). */
+   lässt Unterordner still aus). Ein Eintrag, der während des Gangs verschwindet
+   (eine Fixtur einer parallelen Probe), wird übersprungen — Befund
+   BAUMSCAN-STAT-WETTLAUF, 27.10.2026, tools/lib/baum-gehen.js. */
 function jsDateien(wurzel) {
-  const raus = [];
-  (function ab(d) {
-    for (const n of fs.readdirSync(d).sort()) {
-      const p = path.join(d, n);
-      if (fs.statSync(p).isDirectory()) ab(p);
-      else if (n.endsWith('.js')) raus.push(p);
-    }
-  })(wurzel);
-  return raus;
+  return dateienUnter(wurzel, (n) => n.endsWith('.js'));
 }
 
 const AUFRUF_MUSTER = /\b(execSync|execFileSync|spawnSync|spawn)\s*\(/g;

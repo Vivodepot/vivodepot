@@ -1,7 +1,7 @@
 {
   "hinweis": "ERZEUGT von einem nicht öffentlichen Werkzeug aus vivodepot.html SEKTOREN und den nicht öffentlichen Bereichs-Vorlagen. Nicht von Hand bearbeiten — Kern und Template-Dateien sind die Quelle. Der Template-Generator liest von hier, damit eine Anfrage nur Kennungen nennen kann, die es gibt. `template` nennt die Herkunftsdatei, `null` heißt: kommt noch aus dem Kern, nicht aus einem eigenen Template.",
   "schluesselraum": "kennung",
-  "anzahl": 989,
+  "anzahl": 996,
   "felder": [
     {
       "kennung": "advanceCare.applicableSituations",
@@ -762,7 +762,7 @@
     {
       "kennung": "advanceCare.provisionInstruments/personsNamedInTheWill",
       "bereich": "advanceCare",
-      "label": "Im Testament bedachte Person(en)",
+      "label": "Bedachte Person(en)",
       "template": "vivodepot-advanceCare.json"
     },
     {
@@ -3612,7 +3612,7 @@
     {
       "kennung": "pro-betrieb-zugaenge.tpl_tax_registration_of_business",
       "bereich": "pro-betrieb-zugaenge",
-      "label": "Anzeigen an Gemeinde und Finanzamt",
+      "label": "Meldungen bei Vertretung, Übergabe oder Aufgabe",
       "template": "vivodepot-pro-betrieb-zugaenge.json"
     },
     {
@@ -3630,7 +3630,13 @@
     {
       "kennung": "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office",
       "bereich": "pro-betrieb-zugaenge",
-      "label": "Finanzamt",
+      "label": "Stelle",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notify_by",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Zu melden bis",
       "template": "vivodepot-pro-betrieb-zugaenge.json"
     },
     {
@@ -3907,6 +3913,42 @@
       "kennung": "pro-betrieb-zugaenge.tpl_payroll_run/tpl_payment_approved_by",
       "bereich": "pro-betrieb-zugaenge",
       "label": "Zahlung gibt frei",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_staff_transfer_notification",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Unterrichtung der Beschäftigten beim Betriebsübergang",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_on",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Unterrichtet am",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_by",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Unterrichtet durch",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_affected_staff",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Betroffene Beschäftigte",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_notice_kept_at",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Unterrichtung liegt bei",
+      "template": "vivodepot-pro-betrieb-zugaenge.json"
+    },
+    {
+      "kennung": "pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_objections",
+      "bereich": "pro-betrieb-zugaenge",
+      "label": "Widersprüche",
       "template": "vivodepot-pro-betrieb-zugaenge.json"
     },
     {

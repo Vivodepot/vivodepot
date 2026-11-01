@@ -47,7 +47,8 @@ test('Record: vorsorge_instrumente ist eine liste, Vollmacht-Unterfelder {art, b
   }
   // F3 Zug 3 (09.08.2026): gesundheit/general sind kein art-Wert mehr (Umfang statt Instrument).
   assert.equal(sub(V, 'typeOfPowerOfAttorney').optionen.map(o => o.wert).join(','), 'vorsorge,bank,betreuung');
-  assert.equal(sub(V, 'form').optionen.map(o => o.wert).join(','), 'privat,beglaubigt,beurkundet');
+  // 26.10.2026 (Testamentsform, § 2247 BGB): „eigenhaendig“ kommt dazu; welche Form je Instrument gilt, prüft die Probe zur Testamentsform.
+  assert.equal(sub(V, 'form').optionen.map(o => o.wert).join(','), 'eigenhaendig,privat,beglaubigt,beurkundet');
   assert.equal(sub(V, 'authorizedPersons').typ, 'refMehrfach');   // U2-ADR-065: Personen-Mehrfachpick
   assert.equal(sub(V, 'instrument').pflicht, true, 'Diskriminante ist Pflicht (ADR-089)');
   assert.equal(sub(V, 'typeOfPowerOfAttorney').pflicht, true, 'art ist seit ADR-089 Pflicht (Einzigartigkeits-Prüfung braucht sie)');

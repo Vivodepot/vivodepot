@@ -144,6 +144,9 @@
                       "wert": "will"
                     },
                     {
+                      "wert": "contract-of-inheritance"
+                    },
+                    {
                       "wert": "custodianship-declaration"
                     },
                     {
@@ -160,12 +163,14 @@
                 {
                   "id": "form",
                   "typ": "auswahl",
+                  "hinweisNichtVorgesehen": "formNichtVorgesehenHinweis",
                   "sichtbarWenn": {
                     "feld": "instrument",
                     "wert": [
                       "enduring-power-of-attorney",
                       "living-will",
                       "will",
+                      "contract-of-inheritance",
                       "custodianship-declaration",
                       "guardian-nomination",
                       "ki-verfuegung"
@@ -173,10 +178,37 @@
                   },
                   "optionen": [
                     {
-                      "wert": "privat"
+                      "wert": "eigenhaendig",
+                      "sichtbarWenn": {
+                        "feld": "instrument",
+                        "wert": [
+                          "will",
+                          "guardian-nomination",
+                          "ki-verfuegung"
+                        ]
+                      }
                     },
                     {
-                      "wert": "beglaubigt"
+                      "wert": "privat",
+                      "sichtbarWenn": {
+                        "feld": "instrument",
+                        "wert": [
+                          "enduring-power-of-attorney",
+                          "living-will",
+                          "custodianship-declaration"
+                        ]
+                      }
+                    },
+                    {
+                      "wert": "beglaubigt",
+                      "sichtbarWenn": {
+                        "feld": "instrument",
+                        "wert": [
+                          "enduring-power-of-attorney",
+                          "living-will",
+                          "custodianship-declaration"
+                        ]
+                      }
                     },
                     {
                       "wert": "beurkundet"
@@ -204,6 +236,7 @@
                       "enduring-power-of-attorney",
                       "living-will",
                       "will",
+                      "contract-of-inheritance",
                       "custodianship-declaration",
                       "guardian-nomination",
                       "ki-verfuegung",
@@ -265,6 +298,7 @@
                       "enduring-power-of-attorney",
                       "living-will",
                       "will",
+                      "contract-of-inheritance",
                       "custodianship-declaration",
                       "guardian-nomination",
                       "ki-verfuegung"
@@ -316,6 +350,7 @@
                       "enduring-power-of-attorney",
                       "living-will",
                       "will",
+                      "contract-of-inheritance",
                       "custodianship-declaration",
                       "guardian-nomination",
                       "ki-verfuegung"
@@ -858,7 +893,10 @@
                   "typ": "auswahl",
                   "sichtbarWenn": {
                     "feld": "instrument",
-                    "wert": "will"
+                    "wert": [
+                      "will",
+                      "contract-of-inheritance"
+                    ]
                   },
                   "optionen": [
                     {
@@ -879,7 +917,10 @@
                   "sensibel": true,
                   "sichtbarWenn": {
                     "feld": "instrument",
-                    "wert": "will"
+                    "wert": [
+                      "will",
+                      "contract-of-inheritance"
+                    ]
                   }
                 },
                 {
@@ -895,7 +936,10 @@
                   "typ": "textarea",
                   "sichtbarWenn": {
                     "feld": "instrument",
-                    "wert": "will"
+                    "wert": [
+                      "will",
+                      "contract-of-inheritance"
+                    ]
                   }
                 },
                 {

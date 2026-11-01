@@ -57,6 +57,26 @@
       },
       "unterfeld": "personsNamedInTheWill"
     },
+    "erbvertrag_form": {
+      "typ": "listenfeld",
+      "sektor": "advanceCare",
+      "feld": "provisionInstruments",
+      "diskriminante": {
+        "feld": "instrument",
+        "wert": "contract-of-inheritance"
+      },
+      "unterfeld": "form"
+    },
+    "erbvertrag_bedachte_namen": {
+      "typ": "listenfeldPersonenNamen",
+      "sektor": "advanceCare",
+      "feld": "provisionInstruments",
+      "diskriminante": {
+        "feld": "instrument",
+        "wert": "contract-of-inheritance"
+      },
+      "unterfeld": "personsNamedInTheWill"
+    },
     "erben_namen": {
       "typ": "personenNamen",
       "sektor": "advanceCare",
@@ -114,47 +134,55 @@
             "feld": "provisionInstruments",
             "unterfeld": "form"
           },
-          "luecke": "— nicht erfasst —"
+          "luecke": "— nicht erfasst —",
+          "pruefen": "Testtext 9"
         },
         {
-          "typ": "immer",
-          "texte": [
-            "Testtext 9"
-          ]
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "erbvertrag_form",
+          "frage": "Testtext 10",
+          "format": {
+            "typ": "codeListeLabel",
+            "praefix": "Testtext 11",
+            "sektor": "advanceCare",
+            "feld": "provisionInstruments",
+            "unterfeld": "form"
+          },
+          "luecke": "— nicht erfasst —"
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "grundeigentum",
-          "frage": "Testtext 10",
-          "luecke": "Testtext 11"
+          "frage": "Testtext 12",
+          "luecke": "Testtext 13"
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "unternehmen",
-          "frage": "Testtext 12",
-          "luecke": "Testtext 11"
+          "frage": "Testtext 14",
+          "luecke": "Testtext 13"
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "bank_verlangt",
-          "frage": "Testtext 13",
-          "luecke": "Testtext 14"
+          "frage": "Testtext 15",
+          "luecke": "Testtext 16"
         }
       ]
     },
     {
-      "titel": "Testtext 15",
+      "titel": "Testtext 17",
       "bloecke": [
         {
           "typ": "immer",
           "texte": [
-            "Testtext 16"
+            "Testtext 18"
           ]
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "familienstand",
-          "frage": "Testtext 17",
+          "frage": "Testtext 19",
           "format": {
             "typ": "codeListeLabel",
             "sektor": "identity",
@@ -165,7 +193,7 @@
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "kinder_namen",
-          "frage": "Testtext 18",
+          "frage": "Testtext 20",
           "format": {
             "typ": "liste"
           },
@@ -174,13 +202,22 @@
         {
           "typ": "immer",
           "texte": [
-            "Testtext 19"
+            "Testtext 21"
           ]
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "testament_bedachte_namen",
-          "frage": "Testtext 20",
+          "frage": "Testtext 22",
+          "format": {
+            "typ": "liste"
+          },
+          "luecke": "— nicht erfasst —"
+        },
+        {
+          "typ": "frageAntwortOderLuecke",
+          "feldId": "erbvertrag_bedachte_namen",
+          "frage": "Testtext 23",
           "format": {
             "typ": "liste"
           },
@@ -189,7 +226,7 @@
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "erben_namen",
-          "frage": "Testtext 21",
+          "frage": "Testtext 24",
           "format": {
             "typ": "liste"
           },
@@ -198,37 +235,37 @@
       ]
     },
     {
-      "titel": "Testtext 22",
+      "titel": "Testtext 25",
       "bloecke": [
         {
           "typ": "immer",
           "texte": [
-            "Testtext 23"
+            "Testtext 26"
           ]
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "geburtsurkunde_ort",
-          "frage": "Testtext 24",
+          "frage": "Testtext 27",
           "luecke": "— nicht erfasst —"
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "eheurkunde_ort",
-          "frage": "Testtext 25",
+          "frage": "Testtext 28",
           "luecke": "— nicht erfasst —"
         },
         {
           "typ": "frageAntwortOderLuecke",
           "feldId": "stammbuch_ort",
-          "frage": "Testtext 26",
+          "frage": "Testtext 29",
           "luecke": "— nicht erfasst —"
         },
         {
           "typ": "immer",
           "texte": [
-            "Testtext 27",
-            "Testtext 28"
+            "Testtext 30",
+            "Testtext 31"
           ]
         }
       ]
@@ -237,13 +274,13 @@
   "dokAusgabe": {
     "h1": "Testtext 1",
     "klasse": "erbschein-dok",
-    "herkunftText": "Testtext 29",
+    "herkunftText": "Testtext 32",
     "unterschrift": false,
-    "unterschriftErsatzHinweis": "Testtext 30",
-    "fussText": "Testtext 31",
+    "unterschriftErsatzHinweis": "Testtext 33",
+    "fussText": "Testtext 34",
     "knopfAttr": "erbschein-dokument",
     "dateiBasis": "Erbschein-Vorbereitung",
-    "toolbarHinweis": "Testtext 32",
+    "toolbarHinweis": "Testtext 35",
     "karte": {
       "klasse": "erbschein-auszug-karte",
       "hinweisKennung": "erbscheinAuszugHint",

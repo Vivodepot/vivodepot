@@ -302,6 +302,16 @@ die dort Fassung, Rolle und Prüfweg nennt. Nachrechnen (macOS/Linux) am öffent
 
 | Fassung | Datum | Produkt | SHA-256 |
 |---|---|---|---|
+| v956 | 2026-10-28 | kern | `b8df75c22ca5392ea1d059d4648b103ec04d49e46727b13f4dbcbcacea40e49e` |
+| v956 | 2026-10-28 | privat-de | `ceed42da540319967b84b7539bef2a2d78e472838594c4cba17e60a3c44620b9` |
+| v956 | 2026-10-28 | privat-en | `5a94ce54c204d609b74cb18ae5c54c3cd28354c8485b90589eb6ee9e7d184277` |
+| v956 | 2026-10-28 | pro-de | `f879cac2da10a08d6bd9cbc600b54e1f78f78a496c5107c5ceb0a04479ca8ead` |
+| v956 | 2026-10-28 | pro-en | `b7c174fb60541e8b5a57acb759385becf1be0adb3a61a6d64e6e517ec0504508` |
+| v956 | 2026-10-28 | pro-de-kanzlei | `5141c94f6e9481a3645adc5b0c489f322d6968d2356bedc946ac39b8109f799c` |
+| v956 | 2026-10-28 | pro-en-kanzlei | `7e5e90cb14e33d704d6de662ce55198ea112771b18cf71ade5477eebd5435a72` |
+| v956 | 2026-10-28 | pro-de-steuerberatung | `0632993bef06f510a48bf1a1ce898e34dfea0d5b738694684c29a44de101007a` |
+| v956 | 2026-10-28 | pro-en-steuerberatung | `97704cb71d78f4d8c066bafb3ed09c9b4a2af802ebc5079b516ed258e8228e9f` |
+| v956 | 2026-10-28 | service-worker | `a2d1770ca10c9d30f66c7f568e217a3d8f0e236ddd6b4509b9f85f87192285bb` |
 | v955 | 2026-10-27 | kern | `6ba31b051532a1047687901f2fa0a26e2dfd5ee45ae84504d1fe70e209c9440b` |
 | v955 | 2026-10-27 | privat-de | `fa2a6e19f3d4cd1423c98bb33f3ef0b599abaef7b6c4bfbcf68356931cc336e0` |
 | v955 | 2026-10-27 | privat-en | `cda885e969d4c724a662401efb79a7c61dcf532fc61ec2bb1baa0da295f9f599` |

@@ -64,7 +64,7 @@ const REPO = path.join(__dirname, '..');
 const TEXT_ROLLEN = Object.freeze([
   'label', 'hint', 'beispiel', 'frage', 'hilfetext', 'titel', 'text',
   'einfuehrungstext', 'navUnterzeile', 'name', 'vorschlaege', 'hinweis',
-  'satz', 'toast', 'luecke', 'einleitung', 'sektion', 'einfuehrung',
+  'satz', 'toast', 'luecke', 'pruefen', 'einleitung', 'sektion', 'einfuehrung',
 ]);
 
 // Kennungs-Praefixe der quer liegenden 65% (Sprachachse-Befund 17.09.2026) —

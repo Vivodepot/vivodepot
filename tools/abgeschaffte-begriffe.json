@@ -21,14 +21,16 @@
   {
    "begriff": "alte englische Vorsorgebegriffe",
    "seit": "2026-10-18",
-   "grund": "Amtlich nach der Bundesnotarkammer (Zentrales Vorsorgeregister): enduring power of attorney, care directive, living will; Gericht nach der amtlichen BGB-Übersetzung: custodianship court. Entschieden am 03.10.2026, umgesetzt am 18.10.2026. Ausgenommen sind der zitierte BMJ-Wortlaut (U2-ADR-343) und der Eigenname des Registers („Central Register of Lasting Powers of Attorney“, Mehrzahl, trifft kein Muster).",
+   "grund": "Amtlich nach der Bundesnotarkammer (Zentrales Vorsorgeregister): enduring power of attorney, care directive, living will; Gericht nach der amtlichen BGB-Übersetzung: custodianship court; die Betreuung selbst heißt dort custodianship (nachgetragen am 25.10.2026: „legal guardianship“, „guardianship court“). Entschieden am 03.10.2026, umgesetzt am 18.10.2026. Ausgenommen sind der zitierte BMJ-Wortlaut (U2-ADR-343) und der Eigenname des Registers („Central Register of Lasting Powers of Attorney“, Mehrzahl, trifft kein Muster).",
    "nurEnglisch": true,
    "muster": [
     "\\badvance (?:healthcare )?directive\\b",
     "\\blasting power of attorney\\b",
     "\\bguardianship directive\\b",
     "\\bcustodianship directive\\b",
-    "\\bcare court\\b"
+    "\\bcare court\\b",
+    "\\blegal guardianship\\b",
+    "\\bguardianship court\\b"
    ],
    "ausserWennKennung": "^dok:(vorsorgevollmacht|betreuungsverfuegung)",
    "rot": [
@@ -36,7 +38,9 @@
     "A lasting power of attorney can make this appointment unnecessary.",
     "8. Guardianship directive",
     "Custodianship directive (Betreuungsverfügung)",
-    "Care court"
+    "Care court",
+    "A power of attorney for health care takes precedence over a legal guardianship.",
+    "Is there an approval by the guardianship court? File number, date."
    ],
    "ausnahmen": [
     {

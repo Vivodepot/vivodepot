@@ -10,7 +10,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const QUELLE = path.join(__dirname, 'textsatz-de-modul.json');
-const NAMEN = ['label', 'hint', 'beispiel', 'einfuehrungstext', 'navUnterzeile', 'titel', 'frage', 'luecke', 'h1', 'herkunftText', 'text'];
+const NAMEN = ['label', 'hint', 'beispiel', 'einfuehrungstext', 'navUnterzeile', 'titel', 'frage', 'luecke', 'pruefen', 'h1', 'herkunftText', 'text'];
 
 function familie(kennung) {
   return kennung

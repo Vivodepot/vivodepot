@@ -9,7 +9,9 @@
    trägt. Gilt für jedes Produkt, auch White Label und künftige.
 
    Die Bereiche des Produkts sind die der gebackenen `bereich`-Module (seit dem Schnitt kommen auch die dreizehn nativen über
-   die Ab-Werk-Region). Was heute schon ins Leere zeigt, steht einzeln in tools/produkt-verweise-grundlinie.json („Ziel fehlt,
+   die Ab-Werk-Region). Eine Vorlage (`logikModul`) LIEST nur; ihre Verweise lösen auch über den Katalog der nativen Bereiche
+   auf (Modul `bereicheNativ`), den ein Produkt ruhend trägt, ohne ihn anzuzeigen — so prüft auch der Kern ihr datenSchema
+   (Katalog, nicht Anzeige). Wer schreibt (ein Assistent), braucht einen angezeigten Bereich (26.10.2026). Was heute schon ins Leere zeigt, steht einzeln in tools/produkt-verweise-grundlinie.json („Ziel fehlt,
    Entscheidung offen“); die Liste darf nur sinken. Ein neuer Verweis ins Leere ist rot.
 
    Aufrufer: der Auslieferungsweg und tools/vier-produkte-erzeugen.js (bricht den Bau ab), Probe
@@ -31,6 +33,19 @@ function bereicheAusModulen(roheModule) {
   return bereiche;
 }
 
+/* Der Katalog der nativen Bereiche, den ein Produkt ruhend trägt: Kennung → Definition. */
+function katalogAusModulen(roheModule) {
+  const katalog = new Map();
+  for (const m of roheModule || []) {
+    if (m && m.modulTyp === 'bereicheNativ' && m.bereiche && typeof m.bereiche === 'object') {
+      for (const [id, def] of Object.entries(m.bereiche)) if (!katalog.has(id)) katalog.set(id, def);
+    }
+  }
+  return katalog;
+}
+/* Nur eine Vorlage liest; alles andere (Assistent, Dokument, Auszug mit Ziel) braucht den angezeigten Bereich. */
+const LESENDE_MODULTYPEN = Object.freeze(['logikModul']);
+
 /* Jeder Verweis in einem Modul: ein Objekt mit `sektor` (Zeichenkette), dazu `liste`/`listeId`/`feld`, falls genannt. */
 function verweiseSammeln(roh, modulName) {
   const raus = [];
@@ -38,7 +53,7 @@ function verweiseSammeln(roh, modulName) {
     if (Array.isArray(o)) { o.forEach((x, i) => gehe(x, pfad + '[' + i + ']')); return; }
     if (!o || typeof o !== 'object') return;
     if (typeof o.sektor === 'string') {
-      raus.push({ modul: modulName, pfad: pfad || '.', sektor: o.sektor,
+      raus.push({ modul: modulName, pfad: pfad || '.', sektor: o.sektor, liest: LESENDE_MODULTYPEN.includes(roh.modulTyp),
         liste: typeof o.liste === 'string' ? o.liste : (typeof o.listeId === 'string' ? o.listeId : null),
         feld: typeof o.feld === 'string' ? o.feld : null });
     }
@@ -57,10 +72,10 @@ function _feldIds(def) {
 }
 
 /* Prüft Verweise gegen die Bereiche. Liefert je Verstoß einen stabilen Schlüssel „produkt|modul|pfad|art:ziel“. */
-function verweisePruefen({ produkt, verweise, bereiche }) {
+function verweisePruefen({ produkt, verweise, bereiche, katalog }) {
   const verstoesse = [];
   for (const v of verweise) {
-    const def = bereiche.get(v.sektor);
+    const def = bereiche.get(v.sektor) || (v.liest && katalog ? katalog.get(v.sektor) : undefined);
     if (!def) { verstoesse.push({ produkt, modul: v.modul, pfad: v.pfad, art: 'bereich-fehlt', ziel: v.sektor }); continue; }
     const felder = _feldIds(def);
     if (v.liste && felder.size && !felder.has(v.liste)) verstoesse.push({ produkt, modul: v.modul, pfad: v.pfad, art: 'liste-fehlt', ziel: v.sektor + '.' + v.liste });
@@ -82,7 +97,7 @@ function produktVerweiseMessen(produkt, module) {
   const roh = (module || []).map((m) => m.roh);
   const verweise = [];
   for (const m of module || []) verweise.push(...verweiseSammeln(m.roh, m.basisname));
-  return verweisePruefen({ produkt, verweise, bereiche: bereicheAusModulen(roh) });
+  return verweisePruefen({ produkt, verweise, bereiche: bereicheAusModulen(roh), katalog: katalogAusModulen(roh) });
 }
 function produktVerweiseSichern(produkt, module, opts = {}) {
   const verstoesse = produktVerweiseMessen(produkt, module);
@@ -98,4 +113,4 @@ function produktVerweiseSichern(produkt, module, opts = {}) {
   return verstoesse;
 }
 
-module.exports = { bereicheAusModulen, verweiseSammeln, verweisePruefen, schluessel, grundlinieLesen, produktVerweiseMessen, produktVerweiseSichern, GRUNDLINIE_PFAD };
+module.exports = { bereicheAusModulen, katalogAusModulen, verweiseSammeln, verweisePruefen, schluessel, grundlinieLesen, produktVerweiseMessen, produktVerweiseSichern, GRUNDLINIE_PFAD };

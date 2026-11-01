@@ -16,6 +16,10 @@
    `sperreIn` (nur weitergabe): die Funktion(en), die die Sperre tragen, wenn der Fund selbst ein innerer
    Baustein ist, der von gesperrten Wegen gerufen wird. Ohne Angabe trägt die Funktion sie selbst.
 
+   `nachfrage` (nur weitergabe, 25.10.2026, Pro: „Herausgegeben“ auf allen Wegen): wo die freiwillige Nachfrage nach einem
+   Eintrag in „Herausgegeben“ steht — 'selbst' oder { in: [Einstiege] } wie bei `sperreIn`, oder { ohne: Grund } als
+   Ausnahme mit Wort. Die Notfall-Wege fragen nie.
+
    Alle Zeilen bestätigt (16.09.2026). Der Wächter (tools/ausgabewege-pruefen.js) prüft beide Richtungen: ein Fund ohne
    Zeile ist rot, eine Zeile ohne Fund ist rot.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -47,25 +51,25 @@ const AUSGABEWEGE_EINORDNUNG = Object.freeze({
   hilfeOeffnen: { klasse: 'kein-ausgabeweg', grund: 'Bedienungsanleitung zum Ansehen und Drucken (U2-ADR-425): reiner Anleitungstext, kein Depot-Feld, kein Auszug an eine Stelle' },
   blackboxHerunterladen: { klasse: 'notfall', grund: 'versiegeltes Sub-Depot an die Vertretung, ohne es zu öffnen; Vertretung im Ernstfall' },
 
-  flowGesundheitFhirExport: { klasse: 'weitergabe', grund: 'FHIR-IPS-Auszug an eine Stelle' },
-  flowIsikExport: { klasse: 'weitergabe', grund: 'Vollmacht (Urschrift) und IPS als ISiK-DocumentReferences an ein Krankenhaus; hinter dem Tor der Anzeigetexte (U2-ADR-468)' },
-  flowKbvPkaExport: { klasse: 'weitergabe', grund: 'Vorsorgevollmacht als DPE-Bundle der KBV-Patientenkurzakte an eine Arztpraxis; Freigabe der sensiblen Felder und MyTerms vor der Datei (U2-ADR-471)' },
-  flowMappeVerwahrungHerunterladen: { klasse: 'weitergabe', grund: 'das Original mit Verwahrungsnachweis an eine Stelle; die Hülle trägt Name und Kennung der Person (U2-ADR-444)' },
-  flowMappeEuLabDerPersonHerunterladen: { klasse: 'weitergabe', grund: 'ein eingelesener EU-Laborbefund als eigenes EU-Labordokument der Person an eine Stelle; trägt den Befund (K18, Nachtrag U2-ADR-444)' },
-  _formatExportDownload: { klasse: 'weitergabe', grund: 'Auszug in einem Registry-Format (vCard, ICS, JSON …)' },
-  flowAnlassExport: { klasse: 'weitergabe', grund: 'Anlass-Auszug' },
-  anlassPdfAusgeben: { klasse: 'weitergabe', sperreIn: ['flowAnlassExport', 'flowZusammenstellungHerausgeben'], grund: 'Anlass-Auszug als PDF, innerer Baustein beider Herausgabe-Wege' },
-  flowZusammenstellungHerausgeben: { klasse: 'weitergabe', grund: 'eigene Zusammenstellung herausgeben' },
-  flowBereichPdf: { klasse: 'weitergabe', grund: 'Bereichs-Auszug als PDF' },
-  flowSituationPdf: { klasse: 'weitergabe', grund: 'Situationsblatt als PDF für Beteiligte' },
-  _shlDialogZeigen: { klasse: 'weitergabe', sperreIn: ['flowShlVorbereiten', 'flowLinkSenden'], grund: 'SMART Health Link und „Link senden“ (L1b): die JWE-Datei oder der Link, ein Dialog für beide Aufrufer' },
-  _shlLinkKopierenUndQr: { klasse: 'weitergabe', sperreIn: ['flowShlVorbereiten', 'flowLinkSenden'], grund: '„Link kopieren“ (Zwischenablage, nur auf Klick) und der QR desselben Links, innerer Baustein des Dialogs' },
-  _eudiwAusgeben: { klasse: 'weitergabe', grund: 'SD-JWT VC für eine Wallet oder Stelle' },
-  _anfrageAntwortSchreiben: { klasse: 'weitergabe', grund: 'Antwort auf die Anfrage einer Stelle' },
-  empfaengerDateiHerausgeben: { klasse: 'weitergabe', grund: 'Ausschnitt-Datei für einen Empfängerkreis' },
+  flowGesundheitFhirExport: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'FHIR-IPS-Auszug an eine Stelle' },
+  flowIsikExport: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Vollmacht (Urschrift) und IPS als ISiK-DocumentReferences an ein Krankenhaus; hinter dem Tor der Anzeigetexte (U2-ADR-468)' },
+  flowKbvPkaExport: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Vorsorgevollmacht als DPE-Bundle der KBV-Patientenkurzakte an eine Arztpraxis; Freigabe der sensiblen Felder und MyTerms vor der Datei (U2-ADR-471)' },
+  flowMappeVerwahrungHerunterladen: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'das Original mit Verwahrungsnachweis an eine Stelle; die Hülle trägt Name und Kennung der Person (U2-ADR-444)' },
+  flowMappeEuLabDerPersonHerunterladen: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'ein eingelesener EU-Laborbefund als eigenes EU-Labordokument der Person an eine Stelle; trägt den Befund (K18, Nachtrag U2-ADR-444)' },
+  _formatExportDownload: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Auszug in einem Registry-Format (vCard, ICS, JSON …)' },
+  flowAnlassExport: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Anlass-Auszug' },
+  anlassPdfAusgeben: { klasse: 'weitergabe', nachfrage: { in: ['flowAnlassExport', 'flowZusammenstellungHerausgeben'] }, sperreIn: ['flowAnlassExport', 'flowZusammenstellungHerausgeben'], grund: 'Anlass-Auszug als PDF, innerer Baustein beider Herausgabe-Wege' },
+  flowZusammenstellungHerausgeben: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'eigene Zusammenstellung herausgeben' },
+  flowBereichPdf: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Bereichs-Auszug als PDF' },
+  flowSituationPdf: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Situationsblatt als PDF für Beteiligte' },
+  _shlDialogZeigen: { klasse: 'weitergabe', nachfrage: { in: ['flowShlVorbereiten', 'flowLinkSenden'] }, sperreIn: ['flowShlVorbereiten', 'flowLinkSenden'], grund: 'SMART Health Link und „Link senden“ (L1b): die JWE-Datei oder der Link, ein Dialog für beide Aufrufer' },
+  _shlLinkKopierenUndQr: { klasse: 'weitergabe', nachfrage: { in: ['flowShlVorbereiten', 'flowLinkSenden'] }, sperreIn: ['flowShlVorbereiten', 'flowLinkSenden'], grund: '„Link kopieren“ (Zwischenablage, nur auf Klick) und der QR desselben Links, innerer Baustein des Dialogs' },
+  _eudiwAusgeben: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'SD-JWT VC für eine Wallet oder Stelle' },
+  _anfrageAntwortSchreiben: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Antwort auf die Anfrage einer Stelle' },
+  empfaengerDateiHerausgeben: { klasse: 'weitergabe', nachfrage: { in: ['flowEmpfaengerkreisDatei'] }, grund: 'Ausschnitt-Datei für einen Empfängerkreis' },
   // G2 (TOR-IN-DER-DEFINITION, 26.09.2026): QR-Code, Zwischenablage und postMessage sind Senken; diese vier Funde kamen dazu.
-  _empfaengerQrErgebnisModal: { klasse: 'weitergabe', grund: 'derselbe Empfängerkreis-Ausschnitt wie die Datei, als QR-Code mit Lese-URL', sperreIn: ['empfaengerQrHerausgeben'] },
-  flowErbscheinXmlSichern: { klasse: 'weitergabe', grund: 'Erbschein-Vorbereitung für das Nachlassgericht' },
+  _empfaengerQrErgebnisModal: { klasse: 'weitergabe', nachfrage: { in: ['flowEmpfaengerkreisQr'] }, grund: 'derselbe Empfängerkreis-Ausschnitt wie die Datei, als QR-Code mit Lese-URL', sperreIn: ['empfaengerQrHerausgeben'] },
+  flowErbscheinXmlSichern: { klasse: 'weitergabe', nachfrage: 'selbst', grund: 'Erbschein-Vorbereitung für das Nachlassgericht' },
 });
 
 module.exports = { KLASSEN, AUSGABEWEGE_EINORDNUNG };

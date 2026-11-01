@@ -10,7 +10,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-p3At/7rpmUXShGd1PMTyiTbn1dY10LowoIgCFnx1DHw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; script-src 'self' 'sha256-h97DbOc4HckztXtttHiGLUp8Rl5T2mE0yMUcHUNw3VY=' 'sha256-FPtWPx3B/7tKEuLi4EYAUf6zEXBv3lYVrbIAZqhIrLU=' 'sha256-SLN3XQrIgWyOIkSDrPYtQnGtl/CYk+ilNUx0N+56GS0=' 'sha256-Wsya+3tgKYamL3nkaVbN5xcW0BmBb0S3s/kwOci2s0U=' 'sha256-8UONujO9Mt5PHY523tgMRwyzJzbFy5UNntGPFGN9GHc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types default">
 <script id="vertrauensregel">
 (function vertrauensregelEinrichten() {
   if (!window.trustedTypes || typeof window.trustedTypes.createPolicy !== 'function') return;
@@ -8475,7 +8475,7 @@ const FELDKATALOG = Object.freeze([
   ["advanceCare.provisionInstruments/whatRestriction","advanceCare","Welche Einschränkung?","What restriction?"],
   ["advanceCare.provisionInstruments/organDonationRegister","advanceCare","Organspende-Register — Erklärungs-ID","Organ Donation Register — declaration ID"],
   ["advanceCare.provisionInstruments/statutorySuccessionOr","advanceCare","Gesetzliche Erbfolge oder abweichender Wille?","Statutory succession or a different wish?"],
-  ["advanceCare.provisionInstruments/personsNamedInTheWill","advanceCare","Im Testament bedachte Person(en)","Person(s) named in the will"],
+  ["advanceCare.provisionInstruments/personsNamedInTheWill","advanceCare","Bedachte Person(en)","Beneficiaries"],
   ["advanceCare.provisionInstruments/aboutTheWill","advanceCare","Zum Testament","About the will"],
   ["advanceCare.provisionInstruments/personalNotesOnThis","advanceCare","Persönliche Notizen dazu","Personal notes on this"],
   ["advanceCare.provisionInstruments/proposedPerson","advanceCare","Vorgeschlagene Person","Proposed person"],
@@ -8950,10 +8950,11 @@ const FELDKATALOG = Object.freeze([
   ["pro-betrieb-zugaenge.tpl_crafts_register/tpl_technical_manager","pro-betrieb-zugaenge","Betriebsleitung","Technical manager"],
   ["pro-betrieb-zugaenge.tpl_crafts_register/tpl_craft_card","pro-betrieb-zugaenge","Handwerkskarte","Craft card"],
   ["pro-betrieb-zugaenge.tpl_crafts_register/tpl_chamber","pro-betrieb-zugaenge","Kammer","Chamber"],
-  ["pro-betrieb-zugaenge.tpl_tax_registration_of_business","pro-betrieb-zugaenge","Anzeigen an Gemeinde und Finanzamt","Notifications to municipality and tax office"],
+  ["pro-betrieb-zugaenge.tpl_tax_registration_of_business","pro-betrieb-zugaenge","Meldungen bei Vertretung, Übergabe oder Aufgabe","Notifications on deputising, handover or closure"],
   ["pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_occasion","pro-betrieb-zugaenge","Anlass","Occasion"],
   ["pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notified_on","pro-betrieb-zugaenge","Angezeigt am","Notified on"],
-  ["pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office","pro-betrieb-zugaenge","Finanzamt","Tax office"],
+  ["pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_tax_office","pro-betrieb-zugaenge","Stelle","Body"],
+  ["pro-betrieb-zugaenge.tpl_tax_registration_of_business/tpl_notify_by","pro-betrieb-zugaenge","Zu melden bis","To be notified by"],
   ["pro-betrieb-zugaenge.tpl_business_identification_number","pro-betrieb-zugaenge","Wirtschafts-Identifikationsnummer","Business identification number"],
   ["pro-betrieb-zugaenge.tpl_memberships","pro-betrieb-zugaenge","Kammern, Verbände und Mitgliedschaften","Chambers, associations and memberships"],
   ["pro-betrieb-zugaenge.tpl_memberships/tpl_organisation","pro-betrieb-zugaenge","Kammer oder Verband","Chamber or association"],
@@ -9000,6 +9001,12 @@ const FELDKATALOG = Object.freeze([
   ["pro-betrieb-zugaenge.tpl_payroll_run/tpl_day_in_month","pro-betrieb-zugaenge","Termin im Monat","Day in the month"],
   ["pro-betrieb-zugaenge.tpl_payroll_run/tpl_prepared_by","pro-betrieb-zugaenge","Bereitet vor","Prepared by"],
   ["pro-betrieb-zugaenge.tpl_payroll_run/tpl_payment_approved_by","pro-betrieb-zugaenge","Zahlung gibt frei","Payment approved by"],
+  ["pro-betrieb-zugaenge.tpl_staff_transfer_notification","pro-betrieb-zugaenge","Unterrichtung der Beschäftigten beim Betriebsübergang","Informing employees of a transfer of undertaking"],
+  ["pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_on","pro-betrieb-zugaenge","Unterrichtet am","Informed on"],
+  ["pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_informed_by","pro-betrieb-zugaenge","Unterrichtet durch","Informed by"],
+  ["pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_affected_staff","pro-betrieb-zugaenge","Betroffene Beschäftigte","Employees affected"],
+  ["pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_notice_kept_at","pro-betrieb-zugaenge","Unterrichtung liegt bei","Notice kept at"],
+  ["pro-betrieb-zugaenge.tpl_staff_transfer_notification/tpl_objections","pro-betrieb-zugaenge","Widersprüche","Objections"],
   ["pro-betrieb-zugaenge.tpl_record_of_processing","pro-betrieb-zugaenge","Verzeichnis der Verarbeitungstätigkeiten","Record of processing activities"],
   ["pro-betrieb-zugaenge.tpl_data_protection_officer","pro-betrieb-zugaenge","Datenschutzbeauftragte","Data protection officer"],
   ["pro-betrieb-zugaenge.tpl_data_processing_agreements","pro-betrieb-zugaenge","Verträge zur Auftragsverarbeitung","Data processing agreements"],
@@ -15822,7 +15829,7 @@ const BLATT_ICON_NAMEN = Object.freeze({ users: ['Menschen', 'People'], heartPul
   package: ['Unterlagen', 'Papers'], alertTriangle: ['Wichtig', 'Important'], star: ['Stern', 'Star'], globe: ['Welt', 'World'], folder: ['Ordner', 'Folder'] });
 /* Zeiger, die nicht im Feldkatalog stehen, der Kern aber auflöst: das Register der Menschen und die Vorsorge-Instrumente. */
 const BLATT_INSTRUMENTE = Object.freeze([
-  ['living-will', 'Patientenverfügung', 'Advance directive'], ['enduring-power-of-attorney', 'Vorsorgevollmacht', 'Power of attorney (advance care)'],
+  ['living-will', 'Patientenverfügung', 'Living will'], ['enduring-power-of-attorney', 'Vorsorgevollmacht', 'Enduring power of attorney'],
   ['custodianship-declaration', 'Betreuungsverfügung', 'Care directive'], ['will', 'Testament', 'Will']]);
 function blattSonderzeiger() {
   const z = [{ quelle: 'people', feld: 'menschen', de: 'Meine Menschen (Register)', en: 'My people (register)' }];

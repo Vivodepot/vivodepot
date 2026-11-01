@@ -41,7 +41,28 @@ const FRAGE_MENSCH = 'Dieser Lauf signiert oder öffnet den Schlüsselbund. Sitz
 const STANDARD_LOG = path.join(__dirname, '..', '..', 'hook-log.ndjson');
 const SPUR_SCHLUESSEL = Object.freeze(['zeit', 'hook', 'werkzeug', 'nachweis']);
 
-/* Das echte Terminal des Prozesses. `bestaetigen` liest blockierend eine Zeile von stdin; nur aufgerufen, wenn beide
+const wartenMs = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
+/* Eine Zeile von stdin, wartend (Befund MENSCH-NACHWEIS-WARTET-NICHT, 28.10.2026). Der Zugriff auf process.stdin.isTTY in
+   echtesTerminal() öffnet stdin als Strom und stellt fd 0 auf O_NONBLOCK; readSync wirft dann EAGAIN, solange nichts getippt
+   ist. EAGAIN heißt darum warten und neu lesen, höchstens FRIST_MS lang (steht niemand am Terminal, hält der Lauf sonst
+   seinen Platz unbegrenzt). EOF, jeder andere Fehler und die abgelaufene Frist geben '' — die Sperre bleibt zu. Das einzige
+   synchrone Lesen von stdin unter tools/ und hooks/ (ein Wächter der Probe hält das fest). */
+const FRIST_MS = 15 * 60 * 1000;
+function zeileVonStdin(lesen = (puffer) => fs.readSync(0, puffer, 0, puffer.length, null), warten = wartenMs, jetzt = Date.now) {
+  const puffer = Buffer.alloc(256);
+  const ende = jetzt() + FRIST_MS;
+  for (;;) {
+    let n;
+    try { n = lesen(puffer); } catch (e) {
+      if (e && e.code === 'EAGAIN' && jetzt() < ende) { warten(50); continue; }
+      return '';
+    }
+    return puffer.subarray(0, n).toString('utf8').trim();
+  }
+}
+
+/* Das echte Terminal des Prozesses. `bestaetigen` liest wartend eine Zeile von stdin; nur aufgerufen, wenn beide
    Seiten ein TTY sind. */
 function echtesTerminal() {
   return {
@@ -49,10 +70,7 @@ function echtesTerminal() {
     istTTY: Boolean(process.stdin.isTTY && process.stdout.isTTY),
     bestaetigen(frage) {
       fs.writeSync(1, frage);
-      const puffer = Buffer.alloc(256);
-      let n = 0;
-      try { n = fs.readSync(0, puffer, 0, puffer.length, null); } catch (_) { return ''; }
-      return puffer.subarray(0, n).toString('utf8').trim();
+      return zeileVonStdin();
     },
   };
 }
@@ -103,4 +121,4 @@ function liveSperreDurchsetzen(werkzeug, env = process.env, terminal) {
   process.exit(2);
 }
 
-module.exports = { menschNachweis, liveSperre, liveSperreDurchsetzen, echtesTerminal, FRAGE, FRAGE_MENSCH, SPUR_SCHLUESSEL };
+module.exports = { menschNachweis, liveSperre, liveSperreDurchsetzen, echtesTerminal, zeileVonStdin, FRIST_MS, FRAGE, FRAGE_MENSCH, SPUR_SCHLUESSEL };

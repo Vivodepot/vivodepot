@@ -151,7 +151,7 @@ test('[W3 · Ende] der Endbildschirm nennt: noch nicht bei der Stelle, Datei und
   assert.equal(V.anfrageEndeModell(eintrag, 'Antwort_A-1.jwe').depot, '', 'ohne Datensatz ebenso');
   assert.doesNotMatch(rumpf('function anfrageEndeModell('), /kennungZuSelektor|SEKTOR_BY_ID|\ba\.felder\b/, 'keine eigene Auflösung, kein Griff in den Anzeige-Index');
   assert.equal(m.absichern, true, 'ohne Code wird „Depot absichern“ angeboten');
-  assert.match(rumpf('function _anfrageAntwortSchreiben('), /anfrageEndeZeigen\(eintrag, name, ds\);/);
+  assert.match(rumpf('function _anfrageAntwortSchreiben('), /anfrageEndeZeigen\(eintrag, name, ds,\s+(?:\/\/[^\n]*\n\s*)?\(\) => _nachWeitergabeNachfragen\('anfrage-antwort'/);
   assert.doesNotMatch(rumpf('function _anfrageAntwortSchreiben('), /ui\.toast\(STRINGS\.anfrageAntwortFertig/);
 });
 
@@ -196,7 +196,7 @@ test('[W3 · Ende · Signierung] der Endbildschirm kommt erst nach Signieren, Ve
   assert.equal(r.split('anfrageEndeZeigen(').length - 1, 1, 'genau eine Aufrufstelle');
   assert.ok(i('ed25519Verfuegbar()') < i('antwortVerschluesseln(') && i('antwortVerschluesseln(') < i('dateiAusgeben(blob, name')
     && i('dateiAusgeben(blob, name') < i("weg !== 'abgebrochen' && weg !== 'vorschau'")
-    && i("weg !== 'abgebrochen' && weg !== 'vorschau'") < i('anfrageEndeZeigen(eintrag, name, ds)'), 'Reihenfolge');
+    && i("weg !== 'abgebrochen' && weg !== 'vorschau'") < i('anfrageEndeZeigen(eintrag, name, ds,'), 'Reihenfolge');
   assert.doesNotMatch(r, /anfrageEndeZeigen\([^)]*\b(o|opt|passwort|pw)\b/, 'der Endbildschirm bekommt weder Optionen noch Passwort');
 });
 

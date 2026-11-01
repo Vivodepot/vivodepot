@@ -286,3 +286,31 @@ test('[U2-ADR-232·dritte-Pruefung] repoAufrufeOhneEnvInDatei liefert die Zeile 
     assert.deepEqual(repoAufrufeOhneEnvInDatei(f), []);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
+
+/* Befund BAUMSCAN-STAT-WETTLAUF (27.10.2026): im Hook rot nach 19 ms, allein grün. Der Wächter-Selbsttest legt seine Fixturen kurz
+   in den Baum (tests/e2e, tools/) und löscht sie wieder; fiel das zwischen readdirSync und statSync, warf der Gang ENOENT. Ein
+   hängender Link stellt dasselbe fest nach: er steht im Verzeichnis, aber statSync findet ihn nicht. */
+test('[U2-ADR-232·Wettlauf] ein Eintrag, der während des Gangs verschwindet, wird übersprungen, nicht geworfen', () => {
+  fixture("execFileSync('git', ['status'], { cwd: dir, env: ohneGitUmgebung() });\n", (wurzeln) => {
+    fs.symlinkSync(path.join(wurzeln[0], 'gibt-es-nicht.js'), path.join(wurzeln[0], 'zz-weg.js'));
+    const dateien = jsDateien(wurzeln[0]).map((p) => path.basename(p));
+    assert.deepEqual(dateien, ['probe.js']);
+    assert.deepEqual(pruefe(wurzeln, { ungeschuetzt: [], repoOhneEnv: [] }).neu, []);
+  });
+});
+test('[U2-ADR-232·Wettlauf·Rot-Beweis] der Gang von vorher (readdirSync, dann statSync ohne Fang) wirft am hängenden Link', () => {
+  const vorher = (wurzel) => {
+    const raus = [];
+    (function ab(d) {
+      for (const n of fs.readdirSync(d).sort()) {
+        const p = path.join(d, n);
+        if (fs.statSync(p).isDirectory()) ab(p); else if (n.endsWith('.js')) raus.push(p);
+      }
+    })(wurzel);
+    return raus;
+  };
+  fixture('// leer\n', (wurzeln) => {
+    fs.symlinkSync(path.join(wurzeln[0], 'gibt-es-nicht.js'), path.join(wurzeln[0], 'zz-weg.js'));
+    assert.throws(() => vorher(wurzeln[0]), { code: 'ENOENT' });
+  });
+});

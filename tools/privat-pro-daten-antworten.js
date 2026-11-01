@@ -75,6 +75,7 @@ const AUSNAHMEN = Object.freeze({
   oeffneSektor: { art: "anzeige", grund: "Anzeige: navigiert (öffnet einen Bereich oder springt zu einem Feld), liefert keine Daten-Antwort." },
   _sucheOeffneBereich: { art: "anzeige", grund: "Anzeige: navigiert aus der Suche (öffnet einen Bereich und springt zum Abschnitt), liefert keine Daten-Antwort." },
   oeffneSektorFeld: { art: "anzeige", grund: "Anzeige: navigiert (öffnet einen Bereich oder springt zu einem Feld), liefert keine Daten-Antwort." },
+  vorlageAngabenErgaenzen: { art: "anzeige", grund: "Anzeige: weckt einen ruhenden Bereich für die Sitzung und öffnet ihn (26.10.2026); schreibt nicht ins Depot, ändert aber, welche Bereiche angezeigt werden — mitgelaufen erschien das als Schwanken späterer Funktionen." },
   prueftermineSpringeZuFeld: { art: "anzeige", grund: "Anzeige: navigiert (öffnet einen Bereich oder springt zu einem Feld), liefert keine Daten-Antwort." },
   blattFeldHeben: { art: "schreibt", grund: "Schreibt in das Depot; ein Aufruf verändert den Stand, den der Vergleich danach liest." },
   blattFeldSenken: { art: "schreibt", grund: "Schreibt in das Depot; ein Aufruf verändert den Stand, den der Vergleich danach liest." },

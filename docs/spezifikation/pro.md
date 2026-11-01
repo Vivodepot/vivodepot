@@ -34,6 +34,12 @@ Pro **ersetzt** die Bereiche von Privat, statt sie zu ergänzen (U2-ADR-421): Ei
 nicht die privaten. Einträge einer älteren Datei in Bereichen oder Situationen, die Pro nicht anbietet, bleiben lesbar
 (ruhende Bereiche und Situationen, U2-ADR-243 §5).
 
+Die einzige Quelle für Gesundheit im Pro-Rezept ist eine schlanke Dokumente-Datei mit den Schritten der
+Patientenverfügung, aus der Dokumente-Datei aller Produkte geschnitten (im Soll als `dokumente`). Sie dient nur dem
+Lesen vorhandener Festlegungen: Ein frisches Pro zeigt keine Gesundheit, und kein Assistent wird für einen nur ruhend
+geweckten Bereich angeboten. Ein Dokumentmodul, eine Standardvorlage, ein KI-Korpus oder der Wortlaut einer Vollmacht
+stehen nicht im Pro-Rezept.
+
 ## 4. Bereiche
 
 Sechs Bereiche, je Sprache dieselben (Felder: U2-ADR-243):
@@ -170,6 +176,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
+      {"modulTyp":"dokumente"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -182,7 +189,9 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"logikModul","kennung":"pro-auszug-bank"},
       {"modulTyp":"logikModul","kennung":"pro-auszug-nachfolge"},
       {"modulTyp":"logikModul","kennung":"pro-vorlage-kunden-informieren"},
-      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"}
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-vollmacht-betrieb"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-uebergabeprotokoll"}
     ],
     "pro-en": [
       {"modulTyp":"bereich","kennung":"pro-aufbewahrung-ordnung"},
@@ -191,6 +200,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
+      {"modulTyp":"dokumente"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -202,7 +212,9 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"logikModul","kennung":"pro-auszug-bank"},
       {"modulTyp":"logikModul","kennung":"pro-auszug-nachfolge"},
       {"modulTyp":"logikModul","kennung":"pro-vorlage-kunden-informieren"},
-      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"}
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-vollmacht-betrieb"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-uebergabeprotokoll"}
     ],
     "pro-de-kanzlei": [
       {"modulTyp":"bereich","kennung":"pro-aufbewahrung-ordnung"},
@@ -211,6 +223,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
+      {"modulTyp":"dokumente"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -225,7 +238,9 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"logikModul","kennung":"pro-auszug-bank"},
       {"modulTyp":"logikModul","kennung":"pro-auszug-nachfolge"},
       {"modulTyp":"logikModul","kennung":"pro-vorlage-kunden-informieren"},
-      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"}
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-vollmacht-betrieb"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-uebergabeprotokoll"}
     ],
     "pro-en-kanzlei": [
       {"modulTyp":"bereich","kennung":"pro-aufbewahrung-ordnung"},
@@ -234,6 +249,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
+      {"modulTyp":"dokumente"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -247,7 +263,9 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"logikModul","kennung":"pro-auszug-bank"},
       {"modulTyp":"logikModul","kennung":"pro-auszug-nachfolge"},
       {"modulTyp":"logikModul","kennung":"pro-vorlage-kunden-informieren"},
-      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"}
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-vollmacht-betrieb"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-uebergabeprotokoll"}
     ],
     "pro-de-steuerberatung": [
       {"modulTyp":"bereich","kennung":"pro-aufbewahrung-ordnung"},
@@ -256,6 +274,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
+      {"modulTyp":"dokumente"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -270,7 +289,9 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"logikModul","kennung":"pro-auszug-bank"},
       {"modulTyp":"logikModul","kennung":"pro-auszug-nachfolge"},
       {"modulTyp":"logikModul","kennung":"pro-vorlage-kunden-informieren"},
-      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"}
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-vollmacht-betrieb"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-uebergabeprotokoll"}
     ],
     "pro-en-steuerberatung": [
       {"modulTyp":"bereich","kennung":"pro-aufbewahrung-ordnung"},
@@ -279,6 +300,7 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"bereich","kennung":"pro-gesellschaft-nachfolge"},
       {"modulTyp":"bereich","kennung":"pro-kontakte-vertretungsplan"},
       {"modulTyp":"bereich","kennung":"pro-vertretung-vollmachten"},
+      {"modulTyp":"dokumente"},
       {"modulTyp":"rechtsraum","kennung":"vivodepot"},
       {"modulTyp":"bereicheNativ","kennung":"vivodepot/bereiche-nativ"},
       {"modulTyp":"situation"},
@@ -292,15 +314,12 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
       {"modulTyp":"logikModul","kennung":"pro-auszug-bank"},
       {"modulTyp":"logikModul","kennung":"pro-auszug-nachfolge"},
       {"modulTyp":"logikModul","kennung":"pro-vorlage-kunden-informieren"},
-      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"}
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-belegschaft-informieren"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-vollmacht-betrieb"},
+      {"modulTyp":"logikModul","kennung":"pro-vorlage-uebergabeprotokoll"}
     ]
   },
   "offen": [
-    {"kennung":"E2","posten":"Vorlagen Vollmacht für den Betrieb und Übergabeprotokoll"},
-    {"kennung":"E4","posten":"Vorschrift am Feld anzeigen"},
-    {"kennung":"E6","posten":"Unterrichtung der Beschäftigten, § 613a BGB"},
-    {"kennung":"E7","posten":"Meldungen als Feldgruppe"},
-    {"kennung":"E14","posten":"vorbefüllte Listen im Fahrplan der ersten Tage"},
     {"kennung":"E17","posten":"Lieferseite: Kauf, Auslieferung, Aktualisierungen"}
   ],
   "gebaut": [
@@ -318,7 +337,12 @@ Liste der Prüfung. Diese Liste kann nur schrumpfen; ein Eintrag ohne Gegenstüc
     {"kennung":"E15","posten":"die Vertretung als eigener Ausschnitt"},
     {"kennung":"E16","posten":"Hilfe-Thema Pro"},
     {"kennung":"E1","posten":"Anlässe mit Leitfragen, Felder getrennt mit Hinweisen, Branchenfelder mit Bedingung"},
-    {"kennung":"E5","posten":"Kaufpreis, Stichtag der Übergabe und Zahlungsweise unter Gesellschaft und Nachfolge"}
+    {"kennung":"E5","posten":"Kaufpreis, Stichtag der Übergabe und Zahlungsweise unter Gesellschaft und Nachfolge"},
+    {"kennung":"E6","posten":"Unterrichtung der Beschäftigten, § 613a BGB"},
+    {"kennung":"E2","posten":"Vorlagen Vollmacht für den Betrieb und Übergabeprotokoll"},
+    {"kennung":"E4","posten":"Vorschrift am Feld anzeigen"},
+    {"kennung":"E14","posten":"vorbefüllte Listen im Fahrplan der ersten Tage"},
+    {"kennung":"E7","posten":"Meldungen bei Vertretung, Übergabe oder Aufgabe als eine Feldgruppe"}
   ]
 }
 ```

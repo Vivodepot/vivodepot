@@ -129,7 +129,7 @@
  ],
  "eimer": {
   "struktur": {
-   "bytes": 273414
+   "bytes": 274854
   },
   "satz": {
    "bytes": 28495
@@ -2111,6 +2111,72 @@
    "auf": 273414,
    "daneben": {},
    "grund": "Block-Überschrift aus Modul, wo der Textsatz keinen Slot führt (Befund PRO-ANLASS-BLOCKTITEL-LEER)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 273414,
+   "auf": 273735,
+   "daneben": {},
+   "grund": "Pro E4 und E14 im Zug folge36: Bedingung, Klasse feld-vorschrift und Textsatz-Kennung der Vorschrift am Feld (+33); Textart vorschlag, Vorschlagskarte, Übernehmen nur in eine leere Liste (+288)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 273735,
+   "auf": 274092,
+   "daneben": {},
+   "grund": "Herausgegeben (Befund WEITERGABE-OHNE-NACHFRAGE): Weg-Kennungen der Nachfrage je Weitergabe-Weg (abgebrochen, empfaengerkreis, anfrage-antwort u. a.), +357 gemessen auf 12a759eff",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 274092,
+   "auf": 274198,
+   "daneben": {},
+   "grund": "Kreis-Verlauf: das eingeklappte Gerüst (details/summary/ul/li) der früheren Ausgaben eines Empfängerkreises, +106 gemessen auf 7a232b67b",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 274198,
+   "auf": 274459,
+   "daneben": {},
+   "grund": "Pro Vorlagen erreichbar (folge37): Karte „Vorlage ergänzen“ im Bereich Unterlagen mit Hinweis und Knopf je Vorlage (+261).",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 274459,
+   "auf": 274678,
+   "daneben": {},
+   "grund": "Option je Zeile (§ 2231 BGB) und Erbvertrag als eigene Dokumentart (§ 2276 BGB) samt Erbschein-Auszug (+219)",
+   "laengste": {
+    "einzel": 0,
+    "lauf": 64
+   }
+  },
+  {
+   "ziel": "struktur",
+   "von": 274678,
+   "auf": 274854,
+   "daneben": {},
+   "grund": "TESTAMENT-FORM-EIGENHAENDIG: Marke für eine in ihrer Zeile nicht vorgesehene Auswahl, Prüfhinweis im Erbschein-Auszug, Hinweis unter der Auswahl, XML erfasst=\"pruefen\" (+176)",
    "laengste": {
     "einzel": 0,
     "lauf": 64

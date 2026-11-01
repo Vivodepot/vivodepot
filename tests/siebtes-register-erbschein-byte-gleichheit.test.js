@@ -46,6 +46,19 @@ function fussWieVorher(html, C) {
   assert.equal(segmente[segmente.length - 1], C, 'Haftung C steht als letztes Segment im Fuß');
   return html.replace(FUSS_NEU, '<footer class="pv-dok-fuss">' + segmente.slice(0, -1).join('') + '</footer>');
 }
+/* Erbvertrag (18.10.2026, entschieden 26.09.2026) ist ebenfalls ein GEWOLLTER Eingriff: der eingefrorene Stand trug den Hinweis, die
+   Anwendung kenne keinen Erbvertrag-Typ — das ist mit dem Instrument `contract-of-inheritance` falsch geworden und fällt weg. An seine
+   Stelle tritt die Frage nach dem Erbvertrag, in Teil B kommen seine bedachten Personen dazu. Zurückgeführt wird genau das: beide
+   neuen Absätze müssen dastehen und der alte Satz darf nicht mehr vorkommen, sonst wäre das Zurückführen eine stille Lücke. */
+const ERBVERTRAG_HINWEIS_VORHER = '<p>Hinweis: Diese Anwendung kennt heute keinen eigenen Erbvertrag-Typ — ein vorhandener Erbvertrag lässt sich hier nicht strukturiert eintragen und erscheint darum immer als Lücke, auch wenn tatsächlich einer besteht.</p>';
+const ERBVERTRAG_FRAGE = /<p>Gibt es daneben einen Erbvertrag\? [^<]*<\/p>/;
+const ERBVERTRAG_BEDACHTE = /<p>Im Erbvertrag bedachte Person\(en\)\? [^<]*<\/p>/;
+function erbvertragWieVorher(html) {
+  assert.ok(!html.includes('keinen eigenen Erbvertrag-Typ'), 'der überholte Erbvertrag-Hinweis steht noch im Auszug');
+  assert.match(html, ERBVERTRAG_FRAGE, 'die Frage nach dem Erbvertrag fehlt im Auszug');
+  assert.match(html, ERBVERTRAG_BEDACHTE, 'die im Erbvertrag bedachten Personen fehlen im Auszug');
+  return html.replace(ERBVERTRAG_FRAGE, ERBVERTRAG_HINWEIS_VORHER).replace(ERBVERTRAG_BEDACHTE, '');
+}
 function anfuehrungszeichenGleich(html) {
   // Dazu seit 16.09.2026 die typografische Umstellung der eigenen Sätze (tools/lib/anfuehrung-gleich.js).
   return require('../tools/lib/anfuehrung-gleich.js').anfuehrungGleich(html.replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
@@ -98,14 +111,14 @@ test('[Siebtes-Register·Byte-Gleichheit] leeres Depot — das Bundle ueber den 
   const { V } = await ladeKern();
   await leeresDepotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(html), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-leer')));
+  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(erbvertragWieVorher(html)), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-leer')));
 });
 
 test('[Siebtes-Register·Byte-Gleichheit] volles Depot — das Bundle ueber den echten Einlassweg liefert BYTE-GLEICH dasselbe wie die vorher fest verdrahtete ERBSCHEIN_MODUL', async () => {
   const { V } = await ladeKern();
   await volles_depotMitBundle(V);
   const html = V.dokumentHTML('erbschein-vorbereitung');
-  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(html), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-voll')));
+  assert.equal(anfuehrungszeichenGleich(fussWieVorher(ohneTeilC(erbvertragWieVorher(html)), V.escapeHTML(V._dokFussHaftungMitMarke()))), anfuehrungszeichenGleich(golden('erbschein-voll')));
 });
 
 test('[Siebtes-Register] das Bundle wird ANGENOMMEN, ohne einen einzigen verworfenen Schluessel', async () => {
@@ -153,4 +166,13 @@ test('[Siebtes-Register·Rot-Beweis] OHNE Einlass ist das Modul nicht ueber doku
   V._abWerkLogikModule = [];
   assert.equal(V._modulOderVorlage('erbschein-vorbereitung'), null,
     'ohne Einlass darf das Modul nicht auffindbar sein — sonst waere es weiterhin fest verdrahtet');
+});
+
+test('[Siebtes-Register·Erbvertrag·Rot-Beweis] kommt der überholte Hinweis zurück oder fehlt eine der neuen Fragen, ist die Rückführung rot', () => {
+  const frage = '<p>Gibt es daneben einen Erbvertrag? — nicht erfasst —</p>';
+  const bedachte = '<p>Im Erbvertrag bedachte Person(en)? — nicht erfasst —</p>';
+  assert.throws(() => erbvertragWieVorher(frage + bedachte + ERBVERTRAG_HINWEIS_VORHER), /überholte Erbvertrag-Hinweis/);
+  assert.throws(() => erbvertragWieVorher(bedachte), /Frage nach dem Erbvertrag fehlt/);
+  assert.throws(() => erbvertragWieVorher(frage), /bedachten Personen fehlen/);
+  assert.equal(erbvertragWieVorher(frage + bedachte), ERBVERTRAG_HINWEIS_VORHER, 'Gegenprobe: beide neuen Absätze da, der alte Satz fort — die Rückführung gelingt');
 });

@@ -212,18 +212,28 @@ function lastMehrfach(anzahl = LAST_MESSUNGEN, abstandMs = LAST_ABSTAND_MS) {
   return werte;
 }
 
+/* Im pre-push kommt die Teilung über VD_E2E_TEIL (ohne-haupt | nur-haupt), damit die Aufrufzeile die eine Form behält,
+   die die Proben des Hooks lesen (`node <skript> < "$STDIN_REFS"`); auf der Kommandozeile gelten die Schalter.
+   NUR-HAUPT AUCH IM ARBEITSBAUM (27.10.2026): Bringt der eigene Prüfrechner kein Urteil, fährt der Zugkopf den Hauptlauf
+   hier mit --arbeitsbaum und VD_E2E_TEIL=nur-haupt (den Rest fuhr er schon). Seit a33b102b4 wies main() genau diese
+   Verbindung ab („gilt nur im pre-push“); jeder solche Zugkopf endete rot, ohne dass ein Browser lief.
+   Probe: tests/e2e-bereich-nur-haupt-arbeitsbaum.test.js. */
+function teilungLesen(argv, env) {
+  const teil = env.VD_E2E_TEIL || '';
+  if (teil && teil !== 'ohne-haupt' && teil !== 'nur-haupt') return { fehler: 'VD_E2E_TEIL=' + teil + ' ist unbekannt.' };
+  const ohneHaupt = argv.includes('--ohne-haupt') || teil === 'ohne-haupt';
+  const nurHaupt = argv.includes('--nur-haupt') || teil === 'nur-haupt';
+  if (ohneHaupt && nurHaupt) return { fehler: '--ohne-haupt und --nur-haupt schließen einander aus.' };
+  return { ohneHaupt, nurHaupt, arbeitsbaum: argv.includes('--arbeitsbaum') };
+}
+
 function main() {
-  // Im pre-push kommt die Teilung über VD_E2E_TEIL (ohne-haupt | nur-haupt), damit die Aufrufzeile die eine Form behält,
-  // die die Proben des Hooks lesen (`node <skript> < "$STDIN_REFS"`); auf der Kommandozeile gelten die Schalter.
-  const teil = process.env.VD_E2E_TEIL || '';
-  if (teil && teil !== 'ohne-haupt' && teil !== 'nur-haupt') { console.error('[e2e-bereich] ABBRUCH: VD_E2E_TEIL=' + teil + ' ist unbekannt.'); return 1; }
-  const ohneHaupt = process.argv.includes('--ohne-haupt') || teil === 'ohne-haupt';
-  const nurHaupt = process.argv.includes('--nur-haupt') || teil === 'nur-haupt';
-  if (ohneHaupt && nurHaupt) { console.error('[e2e-bereich] ABBRUCH: --ohne-haupt und --nur-haupt schließen einander aus.'); return 1; }
-  if (process.argv.includes('--arbeitsbaum')) {
-    if (nurHaupt) { console.error('[e2e-bereich] ABBRUCH: --nur-haupt gilt nur im pre-push.'); return 1; }
+  const t = teilungLesen(process.argv, process.env);
+  if (t.fehler) { console.error('[e2e-bereich] ABBRUCH: ' + t.fehler); return 1; }
+  const { ohneHaupt, nurHaupt } = t;
+  if (t.arbeitsbaum) {
     const e = anlassEntscheiden(geaenderteDateienArbeitsbaum());
-    return laeufeFahren(e.anlass, e.firefox, { ohneHaupt, lueckenSpecs: specsAusArgv(process.argv) });
+    return laeufeFahren(e.anlass, e.firefox, { ohneHaupt, nurHaupt, lueckenSpecs: specsAusArgv(process.argv) });
   }
   const roh = require('node:fs').readFileSync(0, 'utf8').trim();
   if (!roh) { console.log('[e2e-bereich] nichts zu pushen'); return 0; }
@@ -381,6 +391,6 @@ function laeufeFahren(anlass, firefox, { hauptVomRunner = false, ohneHaupt = fal
   return 0;
 }
 
-module.exports = { dreiBrowserTraeger, DEMO_SZENARIEN_PFADE, roteReisenAus, mitBericht, spawnMitBericht, rotZeilen, specsAusArgv, oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
+module.exports = { teilungLesen, dreiBrowserTraeger, DEMO_SZENARIEN_PFADE, roteReisenAus, mitBericht, spawnMitBericht, rotZeilen, specsAusArgv, oberflaechenMitProbe, anlassGegeben, anlassEntscheiden, geaenderteDateien, geaenderteDateienArbeitsbaum, laeufeFahren, lastMehrfach, LAST_SCHRANKE, LAST_MESSUNGEN, E2E_PFAD, E2E_CROSS_PFAD, E2E_FIREFOX_PFAD, firefoxAnlassGegeben };
 
 if (require.main === module) process.exit(main());

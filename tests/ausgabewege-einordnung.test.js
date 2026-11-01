@@ -81,7 +81,7 @@ test('[Sperre·Rot-Beweis] eine Weitergabe ohne Sperre würde bemerkt', () => {
 test('[Sperre·Rot-Beweis C-2] eine Sperre, die nur noch im Kommentar steht, zählt nicht', () => {
   const k = funktionsKoerper('flowBereichPdf');
   assert.ok(traegtSperre(k), 'Vorbedingung: das Bereichs-PDF trägt die Sperre');
-  const umgebaut = k.replace("mitVereinbarung('bereich-pdf:' + sektorId, () => {", "((f) => f())(() => {   // war: mitVereinbarung('bereich-pdf:' + sektorId, …)");
+  const umgebaut = k.replace("mitVereinbarung('bereich-pdf:' + sektorId, (vb) => {", "((f) => f())(() => {   // war: mitVereinbarung('bereich-pdf:' + sektorId, …)");
   assert.notEqual(umgebaut, k, 'die Ersetzung muss greifen');
   assert.equal(traegtSperre(umgebaut), false, 'Zeilenkommentar');
   assert.equal(traegtSperre('function f() { /* mitVereinbarung( */ dateiAusgeben(x); }'), false, 'Blockkommentar');

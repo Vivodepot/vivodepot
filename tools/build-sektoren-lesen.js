@@ -66,7 +66,8 @@ const FELD_SCHLUESSEL = Object.freeze([
   'ebene', 'entitaet', 'marken', 'eingabeTyp', 'pflicht', 'minAnzahl', 'keineZukunft',
   'verweisZweck', 'verweisKontextFeld', 'codeListe', 'art', 'feld', 'unterFelder',
 ]);
-const OPTION_SCHLUESSEL = Object.freeze(['wert', 'label']);
+// 'sichtbarWenn' (26.10.2026, Option je Zeile): ohne es druckte die Lese-App eine Formangabe, die ihre Zeile nicht anbietet.
+const OPTION_SCHLUESSEL = Object.freeze(['wert', 'label', 'sichtbarWenn']);
 
 function nurErlaubt(o, schluessel) {
   const raus = {};

@@ -10,6 +10,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const F = require('../tools/adr-fristen-pruefen.js');
+const { bezugsdatum } = require('./helfer/bezugsdatum.js');
 
 const WERKZEUG = path.join(__dirname, '..', 'tools', 'adr-fristen-pruefen.js');
 const GRUNDLINIE = JSON.parse(fs.readFileSync(F.GRUNDLINIE_STANDARD, 'utf8'));
@@ -27,8 +28,9 @@ test('[Fristen·Bestand] jede abgelaufene oder frist-lose offene Klausel des ech
   const e = F.fristenErheben(K);
   assert.ok(e.klauselnGesamt > 100, 'Positivkontrolle: der Bestand ist gelesen (' + e.klauselnGesamt + ' Klauseln)');
   assert.ok(e.klauseln.length > 0, 'Positivkontrolle: es gibt offene Klauseln, sonst prüfte diese Probe nichts');
-  const heute = new Date().toISOString().slice(0, 10);
-  assert.deepEqual(F.fristenPruefen(e, GRUNDLINIE, heute).fehler, []);
+  // Gemessen gegen den Bezugstag: heute, an einem ausgelieferten Stand der Tag seiner Auslieferung (tests/helfer/bezugsdatum.js).
+  const { datum } = bezugsdatum();
+  assert.deepEqual(F.fristenPruefen(e, GRUNDLINIE, datum).fehler, []);
 });
 
 /* ── (2) Rot-Beweise auf der reinen Funktion ──────────────────────────────────────────────── */

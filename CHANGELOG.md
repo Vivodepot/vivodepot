@@ -15,6 +15,8 @@ Sicherheitshinweise der Versionsseite (aus dem internen Versionsregister); `tool
 
 ## [Unreleased]
 
+## [v1.0.956] – 2026-10-28
+
 ## [v1.0.955] – 2026-10-27
 
 ### Hinzugefügt
